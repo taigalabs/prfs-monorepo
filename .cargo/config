@@ -5,4 +5,4 @@ rustflags = ["-C", "target-feature=+atomics,+bulk-memory,+mutable-globals", "-C"
 build-std = ["panic_abort", "std"]
 
 [build]
-target = "x86_64-apple-darwin"
+target = "x86_64-unknown-linux-gnu"
