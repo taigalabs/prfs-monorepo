@@ -13,6 +13,8 @@ import {
 import * as path from "path";
 
 const benchPubKeyMembership = async () => {
+  console.log('benchPubKeyMembership()');
+
   const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
   const msg = Buffer.from("harry potter");
   const msgHash = hashPersonalMessage(msg);
@@ -23,7 +25,10 @@ const benchPubKeyMembership = async () => {
 
   // Init the Poseidon hash
   const poseidon = new Poseidon();
+  console.log('new Poseidon()');
+
   await poseidon.initWasm();
+  console.log('initWasm()');
 
   const treeDepth = 20;
   const tree = new Tree(treeDepth, poseidon);

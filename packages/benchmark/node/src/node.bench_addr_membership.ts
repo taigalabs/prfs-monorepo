@@ -12,6 +12,8 @@ import {
 import * as path from "path";
 
 const benchAddrMembership = async () => {
+  console.log('bench addr membership');
+
   const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
   const msg = Buffer.from("harry potter");
   const msgHash = hashPersonalMessage(msg);
@@ -38,9 +40,9 @@ const benchAddrMembership = async () => {
   for (const member of ["🕵️", "🥷", "👩‍🔬"]) {
     const address = BigInt(
       "0x" +
-        privateToAddress(
-          Buffer.from("".padStart(16, member), "utf16le")
-        ).toString("hex")
+      privateToAddress(
+        Buffer.from("".padStart(16, member), "utf16le")
+      ).toString("hex")
     );
     tree.insert(address);
   }
