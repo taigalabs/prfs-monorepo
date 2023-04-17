@@ -19,6 +19,8 @@ pub fn init_panic_hook() {
 #[wasm_bindgen]
 pub fn prove(circuit: &[u8], vars: &[u8], public_inputs: &[u8]) -> Result<Vec<u8>, JsValue> {
     let witness = load_witness_from_bin_reader::<F1, _>(vars).unwrap();
+    println!("witness len: {}", witness.len());
+
     let witness_bytes = witness
         .iter()
         .map(|w| w.to_repr().into())
@@ -31,6 +33,11 @@ pub fn prove(circuit: &[u8], vars: &[u8], public_inputs: &[u8]) -> Result<Vec<u8
     let num_vars = circuit.inst.get_num_vars();
     let num_inputs = circuit.inst.get_num_inputs();
 
+    println!(
+        "#cons: {}, #vars: {}, #inputs: {}",
+        num_cons, num_vars, num_inputs,
+    );
+
     // produce public parameters
     let gens = NIZKGens::new(num_cons, num_vars, num_inputs);
 
@@ -38,6 +45,8 @@ pub fn prove(circuit: &[u8], vars: &[u8], public_inputs: &[u8]) -> Result<Vec<u8
     for i in 0..num_inputs {
         input.push(public_inputs[(i * 32)..((i + 1) * 32)].try_into().unwrap());
     }
+    println!("input len: {}", input.len());
+
     let input = Assignment::new(&input).unwrap();
 
     let mut prover_transcript = Transcript::new(b"nizk_example");
@@ -116,46 +125,69 @@ pub fn load_witness_from_bin_reader<Fr: PrimeField, R: Read>(
         // ruby -e 'p "wtns".bytes' => [119, 116, 110, 115]
         panic!("invalid file header");
     }
+    println!("wtns_header: {:?}", wtns_header);
+
     let version = reader.read_u32::<LittleEndian>()?;
     // println!("wtns version {}", version);
     if version > 2 {
         panic!("unsupported file version");
     }
+    println!("version: {}", version);
+
     let num_sections = reader.read_u32::<LittleEndian>()?;
     if num_sections != 2 {
         panic!("invalid num sections");
     }
+    println!("num_sections: {:?}", num_sections);
+
     // read the first section
     let sec_type = reader.read_u32::<LittleEndian>()?;
     if sec_type != 1 {
         panic!("invalid section type");
     }
+    println!("sec_type: {:?}", sec_type);
+
     let sec_size = reader.read_u64::<LittleEndian>()?;
     if sec_size != 4 + 32 + 4 {
         panic!("invalid section len")
     }
+    println!("sec_size: {:?}", sec_size);
+
     let field_size = reader.read_u32::<LittleEndian>()?;
     if field_size != 32 {
         panic!("invalid field byte size");
     }
+    println!("field_size: {:?}", field_size);
+
     let mut prime = vec![0u8; field_size as usize];
     reader.read_exact(&mut prime)?;
+    println!("prime: {:?}", prime);
+
     // if prime != hex!("010000f093f5e1439170b97948e833285d588181b64550b829a031e1724e6430") {
     //     bail!("invalid curve prime {:?}", prime);
     // }
+
     let witness_len = reader.read_u32::<LittleEndian>()?;
-    // println!("witness len {}", witness_len);
+    println!("witness len {}", witness_len);
+
     let sec_type = reader.read_u32::<LittleEndian>()?;
     if sec_type != 2 {
         panic!("invalid section type");
     }
+    println!("sec_type: {:?}", sec_type);
+
     let sec_size = reader.read_u64::<LittleEndian>()?;
     if sec_size != (witness_len * field_size) as u64 {
         panic!("invalid witness section size {}", sec_size);
     }
+    println!("sec_size: {:?}", sec_size);
+
     let mut result = Vec::with_capacity(witness_len as usize);
-    for _ in 0..witness_len {
-        result.push(read_field::<&mut R, Fr>(&mut reader)?);
+    for idx in 0..witness_len {
+        let wts = read_field::<&mut R, Fr>(&mut reader)?;
+        println!("witness ({}): {:?}", idx, wts);
+
+        result.push(wts);
     }
     Ok(result)
 }
@@ -167,15 +199,20 @@ mod test {
 
     #[test]
     fn check_nizk() {
+        println!("check_nizk()");
+
         let root = current_dir().unwrap();
         let circuit = fs::read(root.join("test_circuit/test_circuit.circuit")).unwrap();
         let vars = fs::read(root.join("test_circuit/witness.wtns")).unwrap();
+        println!("vars: {:?}", vars);
 
         let public_inputs = [F1::from(1u64), F1::from(1u64), F1::from(1u64)]
             .iter()
             .map(|w| w.to_repr())
             .flatten()
             .collect::<Vec<u8>>();
+
+        println!("\npublic_inputs: {:?}", public_inputs);
 
         let proof = prove(
             circuit.as_slice(),
@@ -184,11 +221,15 @@ mod test {
         )
         .unwrap();
 
+        // println!("\nproof: {:?}", proof);
+
         let result = verify(
             circuit.as_slice(),
             proof.as_slice(),
             public_inputs.as_slice(),
         );
+
+        println!("\nresult: {:?}", result);
 
         assert!(result.unwrap());
     }
