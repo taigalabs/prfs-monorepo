@@ -86,6 +86,7 @@ export class MembershipProver extends Profiler implements IProver {
     console.log('publicInput: %o', publicInput);
 
     const witnessGenInput = {
+      r,
       s,
       ...merkleProof,
       ...effEcdsaPubInput
