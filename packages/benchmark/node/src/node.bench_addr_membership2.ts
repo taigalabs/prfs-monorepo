@@ -7,12 +7,13 @@ import {
   Tree,
   Poseidon,
   MembershipProver,
+  MembershipProver2,
   MembershipVerifier
 } from "@personaelabs/spartan-ecdsa";
 import * as path from "path";
 
 const benchAddrMembership2 = async () => {
-  console.log('bench addr membership');
+  console.log('bench addr membership2');
 
   const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
   const msg = Buffer.from("harry potter");
@@ -79,7 +80,7 @@ const benchAddrMembership2 = async () => {
 
 
   // Init the prover
-  const prover = new MembershipProver(proverConfig);
+  const prover = new MembershipProver2(proverConfig);
   await prover.initWasm();
 
   // Prove membership

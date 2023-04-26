@@ -1,6 +1,7 @@
 pragma circom 2.1.2;
 
 include "./eff_ecdsa.circom";
+include "./ecdsa.circom";
 include "./tree.circom";
 include "./to_address/zk-identity/eth.circom";
 
@@ -16,7 +17,12 @@ include "./to_address/zk-identity/eth.circom";
  *  hashing the public key in PubkeyToAddress().
  */
 template AddrMembership2(nLevels) {
-    signal input r;
+    //
+    /* signal input r; */
+    /* signal input r2; */
+    signal input m;
+    signal input mInv;
+
     signal input s;
     signal input root;
     signal input Tx; 
@@ -26,18 +32,22 @@ template AddrMembership2(nLevels) {
     signal input pathIndices[nLevels];
     signal input siblings[nLevels];
 
-    component effEcdsa = EfficientECDSA();
-    effEcdsa.Tx <== Tx;
-    effEcdsa.Ty <== Ty;
-    effEcdsa.Ux <== Ux;
-    effEcdsa.Uy <== Uy;
-    effEcdsa.s <== s;
+    component ecdsa = ECDSA();
+    ecdsa.Tx <== Tx;
+    ecdsa.Ty <== Ty;
+    ecdsa.Ux <== Ux;
+    ecdsa.Uy <== Uy;
+    ecdsa.s <== s;
+    /* ecdsa.m <== m; */
+
+    m === m;
+
 
     component pubKeyXBits = Num2Bits(256);
-    pubKeyXBits.in <== effEcdsa.pubKeyX;
+    pubKeyXBits.in <== ecdsa.pubKeyX;
 
     component pubKeyYBits = Num2Bits(256);
-    pubKeyYBits.in <== effEcdsa.pubKeyY;
+    pubKeyYBits.in <== ecdsa.pubKeyY;
 
     component pubToAddr = PubkeyToAddress();
 

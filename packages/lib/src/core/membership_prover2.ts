@@ -4,7 +4,8 @@ import { loadCircuit, fromSig, snarkJsWitnessGen } from "../helpers/utils";
 import {
   PublicInput,
   computeEffEcdsaPubInput,
-  CircuitPubInput
+  CircuitPubInput,
+  SECP256K1_N,
 } from "../helpers/public_input";
 import wasm, { init } from "../wasm";
 import {
@@ -12,10 +13,12 @@ import {
   defaultAddressMembershipPConfig
 } from "../config";
 
+import BN from "bn.js";
+
 /**
  * ECDSA Membership Prover
  */
-export class MembershipProver extends Profiler implements IProver {
+export class MembershipProver2 extends Profiler implements IProver {
   circuit: string;
   witnessGenWasm: string;
 
@@ -85,12 +88,18 @@ export class MembershipProver extends Profiler implements IProver {
     const publicInput = new PublicInput(r, v, msgHash, circuitPubInput);
     console.log('publicInput: %o', publicInput);
 
+    const m = new BN(msgHash);
+    const mInv = m.invm(SECP256K1_N);
+
     const witnessGenInput = {
-      r,
+      // r,
       s,
+      m: BigInt(m.toString()),
+      mInv: BigInt(mInv.toString()),
       ...merkleProof,
       ...effEcdsaPubInput
     };
+    console.log('witnessGenInput: %o', witnessGenInput);
 
     this.time("Generate witness");
     const witness = await snarkJsWitnessGen(
@@ -98,8 +107,6 @@ export class MembershipProver extends Profiler implements IProver {
       this.witnessGenWasm
     );
     this.timeEnd("Generate witness");
-
-    console.log('witness: %o', witness);
 
     this.time("Load circuit");
     const circuitBin = await loadCircuit(this.circuit);

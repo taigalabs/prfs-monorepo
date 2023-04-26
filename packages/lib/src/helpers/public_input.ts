@@ -6,7 +6,7 @@ import { EffECDSAPubInput } from "../types";
 
 const ec = new EC("secp256k1");
 
-const SECP256K1_N = new BN(
+export const SECP256K1_N = new BN(
   "fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141",
   16
 );
@@ -137,7 +137,9 @@ export const computeEffEcdsaPubInput = (
     Tx: BigInt(T.getX().toString()),
     Ty: BigInt(T.getY().toString()),
     Ux: BigInt(U.getX().toString()),
-    Uy: BigInt(U.getY().toString())
+    Uy: BigInt(U.getY().toString()),
+
+    // r2: BigInt(rInv.toString()),
   };
 };
 

@@ -13,6 +13,8 @@ export interface EffECDSAPubInput {
   Ty: bigint;
   Ux: bigint;
   Uy: bigint;
+
+  // r2: any;
 }
 
 export interface NIZK {

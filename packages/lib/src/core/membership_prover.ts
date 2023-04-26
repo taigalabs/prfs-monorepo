@@ -68,10 +68,10 @@ export class MembershipProver extends Profiler implements IProver {
 
     const { r, s, v } = fromSig(sig);
 
-    console.log("r: %s, s: %s, v: %s", r, s, v);
+    // console.log("r: %s, s: %s, v: %s", r, s, v);
 
     const effEcdsaPubInput = computeEffEcdsaPubInput(r, v, msgHash);
-    console.log("effEcdsaPubInput: {}", effEcdsaPubInput);
+    // console.log("effEcdsaPubInput: {}", effEcdsaPubInput);
 
     const circuitPubInput = new CircuitPubInput(
       merkleProof.root,
@@ -80,10 +80,10 @@ export class MembershipProver extends Profiler implements IProver {
       effEcdsaPubInput.Ux,
       effEcdsaPubInput.Uy
     );
-    console.log("circuitPubInput3: %o", effEcdsaPubInput);
+    // console.log("circuitPubInput3: %o", effEcdsaPubInput);
 
     const publicInput = new PublicInput(r, v, msgHash, circuitPubInput);
-    console.log('publicInput: %o', publicInput);
+    // console.log('publicInput: %o', publicInput);
 
     const witnessGenInput = {
       s,
@@ -98,7 +98,7 @@ export class MembershipProver extends Profiler implements IProver {
     );
     this.timeEnd("Generate witness");
 
-    console.log('witness: %o', witness);
+    // console.log('witness: %o', witness);
 
     this.time("Load circuit");
     const circuitBin = await loadCircuit(this.circuit);
