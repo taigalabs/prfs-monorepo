@@ -1,5 +1,5 @@
 var EC = require("elliptic").ec;
-const BN = require("bn.js");
+import BN from "bn.js";
 
 import { bytesToBigInt, bigIntToBytes } from "./utils";
 import { EffECDSAPubInput } from "../types";
@@ -118,12 +118,12 @@ export const computeEffEcdsaPubInput = (
 ): EffECDSAPubInput => {
   const isYOdd = (v - BigInt(27)) % BigInt(2);
   const rPoint = ec.keyFromPublic(
-    ec.curve.pointFromX(new BN(r), isYOdd).encode("hex"),
+    ec.curve.pointFromX(new BN(r as any), isYOdd).encode("hex"),
     "hex"
   );
 
   // Get the group element: -(m * r^−1 * G)
-  const rInv = new BN(r).invm(SECP256K1_N);
+  const rInv = new BN(r as any).invm(SECP256K1_N);
 
   // w = -(r^-1 * msg)
   const w = rInv.mul(new BN(msgHash)).neg().umod(SECP256K1_N);

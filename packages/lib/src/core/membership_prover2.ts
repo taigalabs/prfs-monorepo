@@ -14,6 +14,7 @@ import {
 } from "../config";
 
 import BN from "bn.js";
+import { SECP256K1_ORDER } from "@ethereumjs/util";
 
 /**
  * ECDSA Membership Prover
@@ -88,8 +89,21 @@ export class MembershipProver2 extends Profiler implements IProver {
     const publicInput = new PublicInput(r, v, msgHash, circuitPubInput);
     console.log('publicInput: %o', publicInput);
 
-    const m = new BN(msgHash);
+    console.log('secp256k1 p: %s', SECP256K1_N);
+
+    const m = new BN(msgHash).mod(SECP256K1_N);
     const mInv = m.invm(SECP256K1_N);
+
+    const y = new BN(2).toString();
+    console.log(123, y);
+
+    const y2 = new BN(2).invm(SECP256K1_N).toString();
+    console.log(234, y2);
+
+    // 57896044618658097711785492504343953926418782139537452191302581570759080747169
+    // 57896044618658097711785492504343953926634992332820282019728792003954417335832
+    // FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F
+    // FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141
 
     const witnessGenInput = {
       // r,

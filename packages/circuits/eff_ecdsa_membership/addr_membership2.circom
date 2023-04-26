@@ -40,7 +40,19 @@ template AddrMembership2(nLevels) {
     ecdsa.s <== s;
     /* ecdsa.m <== m; */
 
-    m === m;
+
+    signal x;
+    x <-- 1/mInv;
+    log(mInv);
+    log(x);
+    log(m);
+
+    signal y;
+    y <-- 2;
+
+    log(y);
+    log(1/y);
+
 
 
     component pubKeyXBits = Num2Bits(256);
