@@ -7,8 +7,8 @@ import { EffECDSAPubInput } from "../types";
 const ec = new EC("secp256k1");
 
 export const SECP256K1_P = new BN(
-  // "fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f",
-  "fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141",
+  "fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f",
+  // "fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141",
   16
 );
 
@@ -139,9 +139,6 @@ export const computeEffEcdsaPubInput = (
   console.log("w: %s", w.toString());
   // mod p: 57175082242613167108367609388690816721171194946855225214829074442491704002756
 
-  const w2 = rInv.mul(new BN(msgHash)).neg().mod(SECP256K1_P);
-  console.log("w2: %s", w2.toString());
-  // mod p: -58617006994703028315203375619997091132098789718785338824628509565417130668907
 
   // U = -(w * G) = -(r^-1 * msg * G)
   const U = ec.curve.g.mul(w);
@@ -150,7 +147,8 @@ export const computeEffEcdsaPubInput = (
   const T = rPoint.getPublic().mul(rInv);
 
   if (s !== undefined) {
-    let sBn = new BN(s as any).mod(SECP256K1_P);
+    let sBn = new BN(s as any);
+    console.log('sBn: %s', sBn.toString());
 
     let sMulT = T.mul(sBn);
     let q = sMulT.add(U);
@@ -158,10 +156,73 @@ export const computeEffEcdsaPubInput = (
     let qy = q.getY().toString();
 
     console.log('qx: %s', qx);
-    // 73703d822b3a4bf694d7c29e9200e6e20ba00068a33886cb393a7a908012e1b3
+    // mod n: 73703d822b3a4bf694d7c29e9200e6e20ba00068a33886cb393a7a908012e1b3
+    // mod p: 73baf5ff292e37be428c9dfa5aa9123c4145796c13bbb749d84913efedf5a8c8
 
     console.log('qy: %s', qy);
-    // fd9467081aa964663cb75e399fa545ba1932dbebae97da9fdd841994df77e69c
+    // mod n: fd9467081aa964663cb75e399fa545ba1932dbebae97da9fdd841994df77e69c
+    // mod p: c17412d21f92fbd229a1f3beb0aae3e5df2bce71e8b422febc53c755de94e36d
+  }
+
+  return {
+    Tx: BigInt(T.getX().toString()),
+    Ty: BigInt(T.getY().toString()),
+    Ux: BigInt(U.getX().toString()),
+    Uy: BigInt(U.getY().toString()),
+
+    // r2: BigInt(rInv.toString()),
+  };
+};
+
+/**
+ * Compute the group elements T and U for efficient ecdsa
+ * https://personaelabs.org/posts/efficient-ecdsa-1/
+ */
+export const computeEffEcdsaPubInput2 = (
+  r: bigint,
+  v: bigint,
+  msgHash: Buffer,
+  s: bigint,
+): EffECDSAPubInput => {
+  const isYOdd = (v - BigInt(27)) % BigInt(2);
+  const rPoint = ec.keyFromPublic(
+    ec.curve.pointFromX(new BN(r as any), isYOdd).encode("hex"),
+    "hex"
+  );
+
+  // Get the group element: -(m * r^−1 * G)
+  const rInv = new BN(r as any).invm(SECP256K1_P);
+  console.log("rInv: %s", rInv.toString());
+  // mod p: 16422318760896786956730317114097881585994440145463608900482311659390706192225
+
+  // w = -(r^-1 * msg)
+  const w = rInv.mul(new BN(msgHash)).neg().umod(SECP256K1_P);
+  console.log("w: %s", w.toString());
+  // mod p: 57175082242613167108367609388690816721171194946855225214829074442491704002756
+
+
+  // U = -(w * G) = -(r^-1 * msg * G)
+  const U = ec.curve.g.mul(w);
+
+  // T = r^-1 * R
+  const T = rPoint.getPublic().mul(rInv);
+
+  if (s !== undefined) {
+    let sBn = new BN(s as any);
+    console.log('sBn: %s', sBn.toString());
+
+    let sMulT = T.mul(sBn);
+    let q = sMulT.add(U);
+    let qx = q.getX().toString();
+    let qy = q.getY().toString();
+
+    console.log('qx: %s', qx);
+    // mod n: 73703d822b3a4bf694d7c29e9200e6e20ba00068a33886cb393a7a908012e1b3
+    // mod p: 73baf5ff292e37be428c9dfa5aa9123c4145796c13bbb749d84913efedf5a8c8
+
+    console.log('qy: %s', qy);
+    // mod n: fd9467081aa964663cb75e399fa545ba1932dbebae97da9fdd841994df77e69c
+    // mod p: c17412d21f92fbd229a1f3beb0aae3e5df2bce71e8b422febc53c755de94e36d
   }
 
   return {
