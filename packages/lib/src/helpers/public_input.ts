@@ -6,6 +6,12 @@ import { EffECDSAPubInput } from "../types";
 
 const ec = new EC("secp256k1");
 
+export const SECP256K1_P = new BN(
+  // "fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f",
+  "fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141",
+  16
+);
+
 export const SECP256K1_N = new BN(
   "fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141",
   16
@@ -123,10 +129,20 @@ export const computeEffEcdsaPubInput = (
   );
 
   // Get the group element: -(m * r^−1 * G)
-  const rInv = new BN(r as any).invm(SECP256K1_N);
+  const rInv = new BN(r as any).invm(SECP256K1_P);
+  console.log("rInv: %s", rInv.toString());
+  // mod p: 16422318760896786956730317114097881585994440145463608900482311659390706192225
 
   // w = -(r^-1 * msg)
-  const w = rInv.mul(new BN(msgHash)).neg().umod(SECP256K1_N);
+  const w = rInv.mul(new BN(msgHash)).neg().umod(SECP256K1_P);
+  console.log("w: %s", w.toString());
+  // mod p: 57175082242613167108367609388690816721171194946855225214829074442491704002756
+
+  const w2 = rInv.mul(new BN(msgHash)).neg().mod(SECP256K1_P);
+  console.log("w2: %s", w2.toString());
+  // mod p: -58617006994703028315203375619997091132098789718785338824628509565417130668907
+
+
   // U = -(w * G) = -(r^-1 * msg * G)
   const U = ec.curve.g.mul(w);
 

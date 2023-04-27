@@ -40,20 +40,13 @@ template AddrMembership2(nLevels) {
     ecdsa.s <== s;
     /* ecdsa.m <== m; */
 
+    /* signal y; */
+    /* y <-- 2; */
 
-    signal x;
-    x <-- 1/mInv;
-    log(mInv);
-    log(x);
-    log(m);
-
-    signal y;
-    y <-- 2;
-
-    log(y);
-    log(1/y);
-
-
+    /* log(y); */
+    /* log(1/y); */
+    log("ecdsa pubKeyX", ecdsa.pubKeyX);
+    log("ecdsa pubKeyY", ecdsa.pubKeyY);
 
     component pubKeyXBits = Num2Bits(256);
     pubKeyXBits.in <== ecdsa.pubKeyX;
@@ -68,6 +61,8 @@ template AddrMembership2(nLevels) {
         pubToAddr.pubkeyBits[i + 256] <== pubKeyXBits.out[i];
     }
 
+    log("public addr (leaf)", pubToAddr.address);
+
     component merkleProof = MerkleTreeInclusionProof(nLevels);
     merkleProof.leaf <== pubToAddr.address;
 
@@ -75,6 +70,9 @@ template AddrMembership2(nLevels) {
         merkleProof.pathIndices[i] <== pathIndices[i];
         merkleProof.siblings[i] <== siblings[i];
     }
+
+    log("root (given)", root); 
+    log("merkleProof root", merkleProof.root);
 
     root === merkleProof.root;
 }

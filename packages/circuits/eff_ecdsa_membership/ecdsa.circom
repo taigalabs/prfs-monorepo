@@ -26,7 +26,6 @@ template ECDSA() {
     signal output pubKeyX;
     signal output pubKeyY;
   
-    log(123123);
     /* var x; */
     /* x = 1 / r2; */
 

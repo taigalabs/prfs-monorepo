@@ -1,6 +1,7 @@
 import {
   hashPersonalMessage,
   privateToAddress,
+  privateToPublic,
   ecsign
 } from "@ethereumjs/util";
 import {
@@ -33,12 +34,23 @@ const benchAddrMembership2 = async () => {
   const tree = new Tree(treeDepth, poseidon);
   console.log('treeDepth: %s', treeDepth);
 
+  let pubKey = privateToPublic(privKey).toString("hex");
+  console.log('pubKey: %s', pubKey);
+
   // Get the prover public key hash
   const proverAddress = BigInt(
     "0x" + privateToAddress(privKey).toString("hex")
   );
 
   console.log('proverAddress: %s', proverAddress);
+
+  // privkey: 3ed8d9dd3ed8d9dd3ed8d9dd3ed8d9dd3ed8d9dd3ed8d9dd3ed8d9dd3ed8d9dd
+  // addr: 498879796456181921449738817404732008511032487588
+  // msgHash: 8e05c70f46dbc3dda34547fc23ac835d728001bac55db9bd122d77d10d294431
+  //
+  // pubKey: 73703d822b3a4bf694d7c29e9200e6e20ba00068a33886cb393a7a908012e1b3fd9467081aa964663cb75e399fa545ba1932dbebae97da9fdd841994df77e69c
+  // ecdsa pubKeyX 52214288974203445087818892579159062048801683954983338503936671052416851042739 
+  // ecdsa pubKeyY 114697355155514693390991434304085458074577096167918068468089360774221643900572
 
   // Insert prover public key hash into the tree
   tree.insert(proverAddress);
@@ -77,7 +89,6 @@ const benchAddrMembership2 = async () => {
 
   const merkleProof = tree.createProof(index);
   console.log('merkleProof: %s', merkleProof);
-
 
   // Init the prover
   const prover = new MembershipProver2(proverConfig);
