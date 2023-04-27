@@ -81,7 +81,7 @@ export class MembershipProver2 extends Profiler implements IProver {
     // s: 32197108209346059174958080597055114338206976670975960640130758584474334912254n 
     // v: 27n
 
-    const effEcdsaPubInput = computeEffEcdsaPubInput(r, v, msgHash);
+    const effEcdsaPubInput = computeEffEcdsaPubInput(r, v, msgHash, s);
     console.log("effEcdsaPubInput: {}", effEcdsaPubInput);
 
     // Tx: 56754023476089034639240321610912533879986019623733800898227959423104157313253n,

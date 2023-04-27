@@ -7,8 +7,8 @@ import { EffECDSAPubInput } from "../types";
 const ec = new EC("secp256k1");
 
 export const SECP256K1_P = new BN(
-  "fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f",
-  // "fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141",
+  // "fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f",
+  "fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141",
   16
 );
 
@@ -120,14 +120,14 @@ export class PublicInput {
 export const computeEffEcdsaPubInput = (
   r: bigint,
   v: bigint,
-  msgHash: Buffer
+  msgHash: Buffer,
+  s?: bigint,
 ): EffECDSAPubInput => {
   const isYOdd = (v - BigInt(27)) % BigInt(2);
   const rPoint = ec.keyFromPublic(
     ec.curve.pointFromX(new BN(r as any), isYOdd).encode("hex"),
     "hex"
   );
-  console.log("rPoint: %o", rPoint);
 
   // Get the group element: -(m * r^−1 * G)
   const rInv = new BN(r as any).invm(SECP256K1_P);
@@ -148,6 +148,21 @@ export const computeEffEcdsaPubInput = (
 
   // T = r^-1 * R
   const T = rPoint.getPublic().mul(rInv);
+
+  if (s !== undefined) {
+    let sBn = new BN(s as any).mod(SECP256K1_P);
+
+    let sMulT = T.mul(sBn);
+    let q = sMulT.add(U);
+    let qx = q.getX().toString();
+    let qy = q.getY().toString();
+
+    console.log('qx: %s', qx);
+    // 73703d822b3a4bf694d7c29e9200e6e20ba00068a33886cb393a7a908012e1b3
+
+    console.log('qy: %s', qy);
+    // fd9467081aa964663cb75e399fa545ba1932dbebae97da9fdd841994df77e69c
+  }
 
   return {
     Tx: BigInt(T.getX().toString()),
