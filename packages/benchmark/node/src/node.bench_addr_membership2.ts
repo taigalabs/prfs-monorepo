@@ -1,4 +1,5 @@
 import {
+  ecrecover,
   hashPersonalMessage,
   privateToAddress,
   privateToPublic,
@@ -23,8 +24,12 @@ const benchAddrMembership2 = async () => {
   console.log('privKey: %s, msgHash: %s', privKey.toString('hex'), msgHash.toString('hex'));
 
   const { v, r, s } = ecsign(msgHash, privKey);
+
   const sig = `0x${r.toString("hex")}${s.toString("hex")}${v.toString(16)}`;
   console.log('sig: %s', sig);
+
+  const recoveredPubkey = ecrecover(msgHash, v, r, s);
+  console.log('recoveredPubKey: %s', recoveredPubkey.toString("hex"));
 
   // Init the Poseidon hash
   const poseidon = new Poseidon();
@@ -47,6 +52,7 @@ const benchAddrMembership2 = async () => {
   // privkey: 3ed8d9dd3ed8d9dd3ed8d9dd3ed8d9dd3ed8d9dd3ed8d9dd3ed8d9dd3ed8d9dd
   // addr: 498879796456181921449738817404732008511032487588
   // msgHash: 8e05c70f46dbc3dda34547fc23ac835d728001bac55db9bd122d77d10d294431
+  //
   //
   // pubKey: 73703d822b3a4bf694d7c29e9200e6e20ba00068a33886cb393a7a908012e1b3fd9467081aa964663cb75e399fa545ba1932dbebae97da9fdd841994df77e69c
   // ecdsa pubKeyX 52214288974203445087818892579159062048801683954983338503936671052416851042739 

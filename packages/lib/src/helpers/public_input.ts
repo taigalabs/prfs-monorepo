@@ -1,4 +1,4 @@
-var EC = require("elliptic").ec;
+import { ec as EC } from "elliptic";
 import BN from "bn.js";
 
 import { bytesToBigInt, bigIntToBytes } from "./utils";
@@ -7,8 +7,8 @@ import { EffECDSAPubInput } from "../types";
 const ec = new EC("secp256k1");
 
 export const SECP256K1_P = new BN(
-  // "fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f",
-  "fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141",
+  "fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f",
+  // "fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141",
   16
 );
 
@@ -127,6 +127,7 @@ export const computeEffEcdsaPubInput = (
     ec.curve.pointFromX(new BN(r as any), isYOdd).encode("hex"),
     "hex"
   );
+  console.log("rPoint: %o", rPoint);
 
   // Get the group element: -(m * r^−1 * G)
   const rInv = new BN(r as any).invm(SECP256K1_P);
@@ -141,7 +142,6 @@ export const computeEffEcdsaPubInput = (
   const w2 = rInv.mul(new BN(msgHash)).neg().mod(SECP256K1_P);
   console.log("w2: %s", w2.toString());
   // mod p: -58617006994703028315203375619997091132098789718785338824628509565417130668907
-
 
   // U = -(w * G) = -(r^-1 * msg * G)
   const U = ec.curve.g.mul(w);

@@ -80,7 +80,6 @@ export class MembershipProver extends Profiler implements IProver {
       effEcdsaPubInput.Ux,
       effEcdsaPubInput.Uy
     );
-    // console.log("circuitPubInput3: %o", effEcdsaPubInput);
 
     const publicInput = new PublicInput(r, v, msgHash, circuitPubInput);
     // console.log('publicInput: %o', publicInput);
