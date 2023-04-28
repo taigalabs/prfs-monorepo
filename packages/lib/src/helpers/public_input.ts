@@ -8,7 +8,6 @@ const ec = new EC("secp256k1");
 
 export const SECP256K1_P = new BN(
   "fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f",
-  // "fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141",
   16
 );
 
@@ -130,12 +129,12 @@ export const computeEffEcdsaPubInput = (
   );
 
   // Get the group element: -(m * r^−1 * G)
-  const rInv = new BN(r as any).invm(SECP256K1_P);
+  const rInv = new BN(r as any).invm(SECP256K1_N);
   console.log("rInv: %s", rInv.toString());
   // mod p: 16422318760896786956730317114097881585994440145463608900482311659390706192225
 
   // w = -(r^-1 * msg)
-  const w = rInv.mul(new BN(msgHash)).neg().umod(SECP256K1_P);
+  const w = rInv.mul(new BN(msgHash)).neg().umod(SECP256K1_N);
   console.log("w: %s", w.toString());
   // mod p: 57175082242613167108367609388690816721171194946855225214829074442491704002756
 
@@ -184,19 +183,23 @@ export const computeEffEcdsaPubInput2 = (
   msgHash: Buffer,
   s: bigint,
 ): EffECDSAPubInput => {
+  console.log('computeEffEcdsaPubInput2()');
+
   const isYOdd = (v - BigInt(27)) % BigInt(2);
   const rPoint = ec.keyFromPublic(
     ec.curve.pointFromX(new BN(r as any), isYOdd).encode("hex"),
     "hex"
   );
 
+  const m = new BN(msgHash);
+
   // Get the group element: -(m * r^−1 * G)
-  const rInv = new BN(r as any).invm(SECP256K1_P);
+  const rInv = new BN(r as any).invm(SECP256K1_N);
   console.log("rInv: %s", rInv.toString());
   // mod p: 16422318760896786956730317114097881585994440145463608900482311659390706192225
 
   // w = -(r^-1 * msg)
-  const w = rInv.mul(new BN(msgHash)).neg().umod(SECP256K1_P);
+  const w = rInv.mul(new BN(msgHash)).neg().umod(SECP256K1_N);
   console.log("w: %s", w.toString());
   // mod p: 57175082242613167108367609388690816721171194946855225214829074442491704002756
 
@@ -223,6 +226,15 @@ export const computeEffEcdsaPubInput2 = (
     console.log('qy: %s', qy);
     // mod n: fd9467081aa964663cb75e399fa545ba1932dbebae97da9fdd841994df77e69c
     // mod p: c17412d21f92fbd229a1f3beb0aae3e5df2bce71e8b422febc53c755de94e36d
+
+    const sInv = new BN(s as any).invm(SECP256K1_N);
+    const u1 = m.mul(sInv).mod(SECP256K1_N);
+    const u2 = new BN(r as any).mul(sInv).mod(SECP256K1_N);
+    let p1 = ec.curve.g.mul(u1);
+    let p2 = q.mul(u2);
+    let p3 = p1.add(p2);
+    // let xx = p3.getX();
+    console.log('p3.x: %s', p3.getX().toString());
   }
 
   return {
