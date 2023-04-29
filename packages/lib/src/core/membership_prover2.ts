@@ -104,7 +104,7 @@ export class MembershipProver2 extends Profiler implements IProver {
     console.log('secp256k1 p: %s', SECP256K1_P);
 
     const m = new BN(msgHash).mod(SECP256K1_P);
-    const mInv = m.invm(SECP256K1_P);
+    // const mInv = m.invm(SECP256K1_P);
 
     // const y = new BN(2).toString();
     // console.log('y: %s', y);
@@ -117,12 +117,14 @@ export class MembershipProver2 extends Profiler implements IProver {
     // FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F
     // FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141
 
+    let s_array: bigint[] = bigint_to_array(64, 4, s);
 
     const witnessGenInput = {
-      // r,
+      r,
       s,
+      s2: s_array,
       m: BigInt(m.toString()),
-      mInv: BigInt(mInv.toString()),
+      // mInv: BigInt(mInv.toString()),
       ...merkleProof,
       ...effEcdsaPubInput
     };
@@ -152,4 +154,39 @@ export class MembershipProver2 extends Profiler implements IProver {
       publicInput
     };
   }
+}
+
+// // bigendian
+// function bigint_to_Uint8Array(x: bigint) {
+//   var ret: Uint8Array = new Uint8Array(32);
+//   for (var idx = 31; idx >= 0; idx--) {
+//     ret[idx] = Number(x % 256n);
+//     x = x / 256n;
+//   }
+//   return ret;
+// }
+
+// // bigendian
+// function Uint8Array_to_bigint(x: Uint8Array) {
+//   var ret: bigint = 0n;
+//   for (var idx = 0; idx < x.length; idx++) {
+//     ret = ret * 256n;
+//     ret = ret + BigInt(x[idx]);
+//   }
+//   return ret;
+// }
+
+function bigint_to_array(n: number, k: number, x: bigint) {
+  let mod: bigint = 1n;
+  for (var idx = 0; idx < n; idx++) {
+    mod = mod * 2n;
+  }
+
+  let ret: bigint[] = [];
+  var x_temp: bigint = x;
+  for (var idx = 0; idx < k; idx++) {
+    ret.push(x_temp % mod);
+    x_temp = x_temp / mod;
+  }
+  return ret;
 }

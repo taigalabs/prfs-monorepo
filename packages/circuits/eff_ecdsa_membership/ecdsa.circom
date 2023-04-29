@@ -12,8 +12,7 @@ template ECDSA() {
     var bits = 256;
 
     //
-    /* signal input r; */
-    /* signal input r2; */
+    signal input r;
 
     /* signal input m; */
     signal input s;
@@ -26,8 +25,13 @@ template ECDSA() {
     signal output pubKeyX;
     signal output pubKeyY;
   
-    /* var x; */
-    /* x = 1 / r2; */
+    signal x;
+    x <-- 1/r;
+    log("x", x);
+
+    signal x2;
+    x2 <-- r % 115792089237316195423570985008687907852837564279074904382605163141518161494337;
+    log("x2", x2);
 
     // sMultT = s * T
     component sMultT = Secp256k1Mul();

@@ -197,6 +197,9 @@ export const computeEffEcdsaPubInput2 = (
   const rInv = new BN(r as any).invm(SECP256K1_N);
   console.log("rInv: %s", rInv.toString());
   // mod p: 16422318760896786956730317114097881585994440145463608900482311659390706192225
+  //
+  const rInv2 = new BN(r as any).invm(SECP256K1_P);
+  console.log("rInv2: %s", rInv2.toString());
 
   // w = -(r^-1 * msg)
   const w = rInv.mul(new BN(msgHash)).neg().umod(SECP256K1_N);

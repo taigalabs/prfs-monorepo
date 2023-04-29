@@ -5,6 +5,9 @@ include "./ecdsa.circom";
 include "./tree.circom";
 include "./to_address/zk-identity/eth.circom";
 
+include "./bigint.circom";
+include "./secp256k1_func.circom";
+
 /**
  *  AddrMembership
  *  ==============
@@ -16,12 +19,10 @@ include "./to_address/zk-identity/eth.circom";
  *  ECDSA signature in EfficientECDSA(), and converted to an address by Keccak
  *  hashing the public key in PubkeyToAddress().
  */
-template AddrMembership2(nLevels) {
-    //
-    /* signal input r; */
-    /* signal input r2; */
+template AddrMembership2(nLevels, n, k) {
     signal input m;
-    signal input mInv;
+    signal input r;
+    signal input s2[k];
 
     signal input s;
     signal input root;
@@ -38,6 +39,7 @@ template AddrMembership2(nLevels) {
     ecdsa.Ux <== Ux;
     ecdsa.Uy <== Uy;
     ecdsa.s <== s;
+    ecdsa.r <== r;
     /* ecdsa.m <== m; */
 
     /* signal y; */
@@ -47,6 +49,20 @@ template AddrMembership2(nLevels) {
     /* log(1/y); */
     log("ecdsa pubKeyX", ecdsa.pubKeyX);
     log("ecdsa pubKeyY", ecdsa.pubKeyY);
+
+    var p[100] = get_secp256k1_prime(n, k);
+    var order[100] = get_secp256k1_order(n, k);
+
+    for (var i = 0; i < 100; i +=1) {
+      log("p i: ", i, "val: ", p[i]);
+      log("order i: ", i, "val: ", order[i]);
+    }
+
+    // compute multiplicative inverse of s mod n
+    var sinv_comp[100] = mod_inv(n, k, s2, order);
+    for (var i = 0; i < 100; i +=1) {
+      log("sinv i: ", i, "val: ", sinv_comp[i]);
+    }
 
     component pubKeyXBits = Num2Bits(256);
     pubKeyXBits.in <== ecdsa.pubKeyX;
