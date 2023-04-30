@@ -7,7 +7,7 @@ import {
   CircuitPubInput,
   SECP256K1_N,
   SECP256K1_P,
-  computeEffEcdsaPubInput2,
+  computeEffEcdsaPubInput2
 } from "../helpers/public_input";
 import wasm, { init } from "../wasm";
 import {
@@ -31,7 +31,7 @@ export class MembershipProver2 extends Profiler implements IProver {
     if (
       options.circuit === defaultPubkeyMembershipPConfig.circuit ||
       options.witnessGenWasm ===
-      defaultPubkeyMembershipPConfig.witnessGenWasm ||
+        defaultPubkeyMembershipPConfig.witnessGenWasm ||
       options.circuit === defaultAddressMembershipPConfig.circuit ||
       options.witnessGenWasm === defaultAddressMembershipPConfig.witnessGenWasm
     ) {
@@ -79,7 +79,7 @@ export class MembershipProver2 extends Profiler implements IProver {
     console.log("v: %s", v);
 
     // r: 88399259275250167512606436233880855124482651221968106964167275752101991752468n
-    // s: 32197108209346059174958080597055114338206976670975960640130758584474334912254n 
+    // s: 32197108209346059174958080597055114338206976670975960640130758584474334912254n
     // v: 27n
 
     const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash, s);
@@ -99,9 +99,9 @@ export class MembershipProver2 extends Profiler implements IProver {
     );
 
     const publicInput = new PublicInput(r, v, msgHash, circuitPubInput);
-    console.log('publicInput: %o', publicInput);
+    console.log("publicInput: %o", publicInput);
 
-    console.log('secp256k1 p: %s', SECP256K1_P);
+    console.log("secp256k1 p: %s", SECP256K1_P);
 
     const m = new BN(msgHash).mod(SECP256K1_P);
     // const mInv = m.invm(SECP256K1_P);
@@ -116,9 +116,15 @@ export class MembershipProver2 extends Profiler implements IProver {
     // 57896044618658097711785492504343953926634992332820282019728792003954417335832
     // FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F
     // FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141
+    //
+    let sInv = new BN(s as any).invm(SECP256K1_N);
+    console.log("sInv: %s", sInv.toString());
 
     let s_array: bigint[] = bigint_to_array(64, 4, s);
-    console.log('s_array: %o', s_array);
+    console.log("s_array: %o", s_array);
+
+    let sInv_array: bigint[] = bigint_to_array(64, 4, BigInt(sInv.toString()));
+    console.log("sInv_array: %o", sInv_array);
 
     const witnessGenInput = {
       r,
@@ -129,7 +135,7 @@ export class MembershipProver2 extends Profiler implements IProver {
       ...merkleProof,
       ...effEcdsaPubInput
     };
-    console.log('witnessGenInput: %o', witnessGenInput);
+    console.log("witnessGenInput: %o", witnessGenInput);
 
     this.time("Generate witness");
     const witness = await snarkJsWitnessGen(
@@ -182,6 +188,7 @@ function bigint_to_array(n: number, k: number, x: bigint) {
   for (var idx = 0; idx < n; idx++) {
     mod = mod * 2n;
   }
+  console.log("mod: %s", mod);
 
   let ret: bigint[] = [];
   var x_temp: bigint = x;

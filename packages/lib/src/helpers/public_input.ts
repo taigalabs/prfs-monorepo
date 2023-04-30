@@ -120,7 +120,7 @@ export const computeEffEcdsaPubInput = (
   r: bigint,
   v: bigint,
   msgHash: Buffer,
-  s?: bigint,
+  s?: bigint
 ): EffECDSAPubInput => {
   const isYOdd = (v - BigInt(27)) % BigInt(2);
   const rPoint = ec.keyFromPublic(
@@ -138,7 +138,6 @@ export const computeEffEcdsaPubInput = (
   console.log("w: %s", w.toString());
   // mod p: 57175082242613167108367609388690816721171194946855225214829074442491704002756
 
-
   // U = -(w * G) = -(r^-1 * msg * G)
   const U = ec.curve.g.mul(w);
 
@@ -147,18 +146,18 @@ export const computeEffEcdsaPubInput = (
 
   if (s !== undefined) {
     let sBn = new BN(s as any);
-    console.log('sBn: %s', sBn.toString());
+    console.log("sBn: %s", sBn.toString());
 
     let sMulT = T.mul(sBn);
     let q = sMulT.add(U);
     let qx = q.getX().toString();
     let qy = q.getY().toString();
 
-    console.log('qx: %s', qx);
+    console.log("qx: %s", qx);
     // mod n: 73703d822b3a4bf694d7c29e9200e6e20ba00068a33886cb393a7a908012e1b3
     // mod p: 73baf5ff292e37be428c9dfa5aa9123c4145796c13bbb749d84913efedf5a8c8
 
-    console.log('qy: %s', qy);
+    console.log("qy: %s", qy);
     // mod n: fd9467081aa964663cb75e399fa545ba1932dbebae97da9fdd841994df77e69c
     // mod p: c17412d21f92fbd229a1f3beb0aae3e5df2bce71e8b422febc53c755de94e36d
   }
@@ -167,7 +166,7 @@ export const computeEffEcdsaPubInput = (
     Tx: BigInt(T.getX().toString()),
     Ty: BigInt(T.getY().toString()),
     Ux: BigInt(U.getX().toString()),
-    Uy: BigInt(U.getY().toString()),
+    Uy: BigInt(U.getY().toString())
 
     // r2: BigInt(rInv.toString()),
   };
@@ -181,9 +180,9 @@ export const computeEffEcdsaPubInput2 = (
   r: bigint,
   v: bigint,
   msgHash: Buffer,
-  s: bigint,
+  s: bigint
 ): EffECDSAPubInput => {
-  console.log('computeEffEcdsaPubInput2()');
+  console.log("computeEffEcdsaPubInput2()");
 
   const isYOdd = (v - BigInt(27)) % BigInt(2);
   const rPoint = ec.keyFromPublic(
@@ -206,7 +205,6 @@ export const computeEffEcdsaPubInput2 = (
   console.log("w: %s", w.toString());
   // mod p: 57175082242613167108367609388690816721171194946855225214829074442491704002756
 
-
   // U = -(w * G) = -(r^-1 * msg * G)
   const U = ec.curve.g.mul(w);
 
@@ -215,18 +213,18 @@ export const computeEffEcdsaPubInput2 = (
 
   if (s !== undefined) {
     let sBn = new BN(s as any);
-    console.log('sBn: %s', sBn.toString());
+    console.log("sBn: %s", sBn.toString());
 
     let sMulT = T.mul(sBn);
     let q = sMulT.add(U);
     let qx = q.getX().toString();
     let qy = q.getY().toString();
 
-    console.log('qx: %s', qx);
+    console.log("qx: %s", qx);
     // mod n: 73703d822b3a4bf694d7c29e9200e6e20ba00068a33886cb393a7a908012e1b3
     // mod p: 73baf5ff292e37be428c9dfa5aa9123c4145796c13bbb749d84913efedf5a8c8
 
-    console.log('qy: %s', qy);
+    console.log("qy: %s", qy);
     // mod n: fd9467081aa964663cb75e399fa545ba1932dbebae97da9fdd841994df77e69c
     // mod p: c17412d21f92fbd229a1f3beb0aae3e5df2bce71e8b422febc53c755de94e36d
 
@@ -237,14 +235,14 @@ export const computeEffEcdsaPubInput2 = (
     let p2 = q.mul(u2);
     let p3 = p1.add(p2);
     // let xx = p3.getX();
-    console.log('p3.x: %s', p3.getX().toString());
+    console.log("p3.x: %s", p3.getX().toString());
   }
 
   return {
     Tx: BigInt(T.getX().toString()),
     Ty: BigInt(T.getY().toString()),
     Ux: BigInt(U.getX().toString()),
-    Uy: BigInt(U.getY().toString()),
+    Uy: BigInt(U.getY().toString())
 
     // r2: BigInt(rInv.toString()),
   };
