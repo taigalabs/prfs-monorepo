@@ -59,6 +59,8 @@ template AddrMembership2(nLevels, n, k) {
     }
 
     // compute multiplicative inverse of s mod n
+    log("s", s);
+
     var sinv_comp[100] = mod_inv(n, k, s2, order);
     for (var i = 0; i < 100; i +=1) {
       log("sinv i: ", i, "val: ", sinv_comp[i]);

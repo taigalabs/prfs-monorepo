@@ -118,6 +118,7 @@ export class MembershipProver2 extends Profiler implements IProver {
     // FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141
 
     let s_array: bigint[] = bigint_to_array(64, 4, s);
+    console.log('s_array: %o', s_array);
 
     const witnessGenInput = {
       r,
