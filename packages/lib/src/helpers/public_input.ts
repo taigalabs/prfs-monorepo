@@ -2,7 +2,7 @@ import { ec as EC } from "elliptic";
 import BN from "bn.js";
 
 import { bytesToBigInt, bigIntToBytes } from "./utils";
-import { EffECDSAPubInput } from "../types";
+import { EffECDSAPubInput, EffECDSAPubInput2 } from "../types";
 
 const ec = new EC("secp256k1");
 
@@ -167,8 +167,6 @@ export const computeEffEcdsaPubInput = (
     Ty: BigInt(T.getY().toString()),
     Ux: BigInt(U.getX().toString()),
     Uy: BigInt(U.getY().toString())
-
-    // r2: BigInt(rInv.toString()),
   };
 };
 
@@ -181,7 +179,7 @@ export const computeEffEcdsaPubInput2 = (
   v: bigint,
   msgHash: Buffer,
   s: bigint
-): EffECDSAPubInput => {
+): EffECDSAPubInput2 => {
   console.log("computeEffEcdsaPubInput2()");
 
   const isYOdd = (v - BigInt(27)) % BigInt(2);
@@ -191,6 +189,7 @@ export const computeEffEcdsaPubInput2 = (
   );
 
   const m = new BN(msgHash);
+  console.log("m: %s", m.toString());
 
   // Get the group element: -(m * r^−1 * G)
   const rInv = new BN(r as any).invm(SECP256K1_N);
@@ -211,40 +210,45 @@ export const computeEffEcdsaPubInput2 = (
   // T = r^-1 * R
   const T = rPoint.getPublic().mul(rInv);
 
-  if (s !== undefined) {
-    let sBn = new BN(s as any);
-    console.log("sBn: %s", sBn.toString());
+  let sBn = new BN(s as any);
+  console.log("sBn: %s", sBn.toString());
 
-    let sMulT = T.mul(sBn);
-    let q = sMulT.add(U);
-    let qx = q.getX().toString();
-    let qy = q.getY().toString();
+  let sMulT = T.mul(sBn);
+  let q = sMulT.add(U);
+  let qx = q.getX().toString();
+  let qy = q.getY().toString();
 
-    console.log("qx: %s", qx);
-    // mod n: 73703d822b3a4bf694d7c29e9200e6e20ba00068a33886cb393a7a908012e1b3
-    // mod p: 73baf5ff292e37be428c9dfa5aa9123c4145796c13bbb749d84913efedf5a8c8
+  console.log("qx: %s", qx);
+  // mod n: 73703d822b3a4bf694d7c29e9200e6e20ba00068a33886cb393a7a908012e1b3
+  // mod p: 73baf5ff292e37be428c9dfa5aa9123c4145796c13bbb749d84913efedf5a8c8
 
-    console.log("qy: %s", qy);
-    // mod n: fd9467081aa964663cb75e399fa545ba1932dbebae97da9fdd841994df77e69c
-    // mod p: c17412d21f92fbd229a1f3beb0aae3e5df2bce71e8b422febc53c755de94e36d
+  console.log("qy: %s", qy);
+  // mod n: fd9467081aa964663cb75e399fa545ba1932dbebae97da9fdd841994df77e69c
+  // mod p: c17412d21f92fbd229a1f3beb0aae3e5df2bce71e8b422febc53c755de94e36d
 
-    const sInv = new BN(s as any).invm(SECP256K1_N);
-    const u1 = m.mul(sInv).mod(SECP256K1_N);
-    const u2 = new BN(r as any).mul(sInv).mod(SECP256K1_N);
-    let p1 = ec.curve.g.mul(u1);
-    let p2 = q.mul(u2);
-    let p3 = p1.add(p2);
-    // let xx = p3.getX();
-    console.log("p3.x: %s", p3.getX().toString());
-  }
+  const sInv = new BN(s as any).invm(SECP256K1_N);
+  const u1 = m.mul(sInv).mod(SECP256K1_N);
+  console.log("u1: %s", u1.toString());
+
+  const u2 = new BN(r as any).mul(sInv).mod(SECP256K1_N);
+  console.log("u2: %s", u2.toString());
+
+  let a1 = ec.curve.g.mul(u1);
+  console.log("a1.x: %s", a1.getX().toString());
+
+  let a2 = q.mul(u2);
+  console.log("a2.x: %s", a2.getX().toString());
+
+  let a3 = a1.add(a2);
+  // let xx = p3.getX();
+  console.log("p3.x: %s", a3.getX().toString());
 
   return {
     Tx: BigInt(T.getX().toString()),
     Ty: BigInt(T.getY().toString()),
     Ux: BigInt(U.getX().toString()),
-    Uy: BigInt(U.getY().toString())
-
-    // r2: BigInt(rInv.toString()),
+    Uy: BigInt(U.getY().toString()),
+    sInv: BigInt(sInv.toString()),
   };
 };
 

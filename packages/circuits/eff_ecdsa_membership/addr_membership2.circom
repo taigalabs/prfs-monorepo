@@ -23,6 +23,7 @@ template AddrMembership2(nLevels, n, k) {
     signal input m;
     signal input r;
     signal input s2[k];
+    signal input sInv;
 
     signal input s;
     signal input root;
@@ -40,34 +41,11 @@ template AddrMembership2(nLevels, n, k) {
     ecdsa.Uy <== Uy;
     ecdsa.s <== s;
     ecdsa.r <== r;
-    /* ecdsa.m <== m; */
+    ecdsa.sInv <== sInv;
+    ecdsa.m <== m;
 
-    /* signal y; */
-    /* y <-- 2; */
-
-    /* log(y); */
-    /* log(1/y); */
-    log("ecdsa pubKeyX", ecdsa.pubKeyX);
-    log("ecdsa pubKeyY", ecdsa.pubKeyY);
-
-    var p[100] = get_secp256k1_prime(n, k);
-    var order[100] = get_secp256k1_order(n, k);
-
-    for (var i = 0; i < 100; i +=1) {
-      log("p i: ", i, "val: ", p[i]);
-      log("order i: ", i, "val: ", order[i]);
-    }
-
-    // compute multiplicative inverse of s mod n
-    log("s", s);
-    for (var i = 0; i < k; i += 1) {
-      log("s2 i: ", i, "val: ", s2[i]);
-    }
-
-    var sinv_comp[100] = mod_inv(n, k, s2, order);
-    for (var i = 0; i < 100; i +=1) {
-      log("sinv i: ", i, "val: ", sinv_comp[i]);
-    }
+    /* log("ecdsa pubKeyX", ecdsa.pubKeyX); */
+    /* log("ecdsa pubKeyY", ecdsa.pubKeyY); */
 
     component pubKeyXBits = Num2Bits(256);
     pubKeyXBits.in <== ecdsa.pubKeyX;
