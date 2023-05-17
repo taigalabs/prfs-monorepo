@@ -26,6 +26,8 @@
     "packages/lib",
     "packages/benchmark/web",
     "packages/benchmark/node",
-    "packages/circuits"
+    "packages/circuits",
+    "source/prfs_js",
+    "source/prfs_circuits",
   ]
 }
