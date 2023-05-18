@@ -1,13 +1,13 @@
 {
   "private": true,
-  "name": "spartan-ecdsa-monorepo",
-  "version": "1.0.0",
+  "name": "prfs-js-monorepo",
+  "version": "0.0.1",
   "main": "index.js",
   "repository": "https://github.com/DanTehrani/spartan-wasm.git",
   "author": "Daniel Tehrani <contact@dantehrani.com>",
   "scripts": {
     "build": "sh ./scripts/build.sh && lerna run build --stream",
-    "build2": "sh ./scripts/build2.sh && lerna run build",
+    "build2": "sh ./scripts/build2.sh && lerna run build --stream --concurrency 1",
     "exp": "yarn build2 && cd packages/benchmark/node && yarn bench",
     "build-wasm": "sh ./scripts/build_wasm.sh && lerna run build",
     "test": "sh ./scripts/test.sh"
@@ -29,5 +29,8 @@
     "packages/circuits",
     "source/prfs_js",
     "source/prfs_circuits",
+    "source/prfs_spartan",
+    "source/e2e_test/web",
+    "source/e2e_test/node"
   ]
 }

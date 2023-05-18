@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import path from 'path';
 
 /**
  * Load the wasm file and output a typescript file with the wasm bytes embedded
@@ -6,7 +7,7 @@ import * as fs from "fs";
 const embedWasmBytes = async () => {
   console.log('embedWasmBytes()');
 
-  let js = fs.readFileSync("../spartan_wasm/build/spartan_wasm.js");
+  let js = fs.readFileSync("../prfs_spartan/build/prfs_spartan.js");
   let jsStr = js.toString();
 
   let initFuncHeader = 'async function init(input) {';
@@ -22,7 +23,7 @@ const embedWasmBytes = async () => {
   let str = `${str1}/*${str2}*/${str3}`;
   fs.writeFileSync("./src/wasm/wasm.js", str);
 
-  let wasm = fs.readFileSync("../spartan_wasm/build/spartan_wasm_bg.wasm");
+  let wasm = fs.readFileSync("../prfs_spartan/build/prfs_spartan_bg.wasm");
 
   let bytes = new Uint8Array(wasm.buffer);
 
@@ -30,7 +31,10 @@ const embedWasmBytes = async () => {
     export const wasmBytes = new Uint8Array([${bytes.toString()}]);
   `;
 
-  fs.writeFileSync("./src/wasm/wasm_bytes.ts", file);
+  const wasmBytesPath = path.resolve('./src/wasm/wasm_bytes.ts');
+  fs.writeFileSync(wasmBytesPath, file);
+
+  console.log('embedWasmBytes() completed, path: %s', wasmBytesPath);
 };
 
 embedWasmBytes();
