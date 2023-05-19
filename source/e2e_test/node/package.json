@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
-    "@personaelabs/spartan-ecdsa": "*",
     "@taigalabs/prfs-js": "*"
   },
   "devDependencies": {
