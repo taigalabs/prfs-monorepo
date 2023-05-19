@@ -1,0 +1,6 @@
+wasm_bytes.ts
+
+src/circuits/**
+!src/circuits/.gitkeep
+
+example/

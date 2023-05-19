@@ -79,17 +79,15 @@ const benchAddrMembership2 = async () => {
   const index = tree.indexOf(proverAddress);
   console.log('index: %s', index);
 
+  const addrMembershipCircuitPath = path.resolve('../../../packages/circuits/build/addr_membership2/addr_membership2.circuit');
+  const witnessGenWasmPath = path.resolve('../../../packages/circuits/build/addr_membership2/addr_membership2_js/addr_membership2.wasm');
+
+  console.log('addrMembershipCircuitPath: %s', addrMembershipCircuitPath);
+  console.log('witnessGenWasmPath: %s', witnessGenWasmPath);
+
   const proverConfig = {
-    circuit: path.join(
-      __dirname,
-      // "../../../circuits/build/addr_membership/addr_membership.circuit"
-      "../../../circuits/build/addr_membership2/addr_membership2.circuit",
-    ),
-    witnessGenWasm: path.join(
-      __dirname,
-      // "../../../circuits/build/addr_membership/addr_membership_js/addr_membership.wasm"
-      "../../../circuits/build/addr_membership2/addr_membership2_js/addr_membership2.wasm"
-    ),
+    circuit: addrMembershipCircuitPath,
+    witnessGenWasm: witnessGenWasmPath,
     enableProfiler: true
   };
 

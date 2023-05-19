@@ -8,4 +8,5 @@ members = [
 
     # prfs
     "source/prfs_spartan",
+    "scripts",
 ]
