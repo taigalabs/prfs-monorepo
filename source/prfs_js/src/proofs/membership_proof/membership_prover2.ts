@@ -138,10 +138,10 @@ export class MembershipProof extends Profiler {
 
     this.time("Generate witness");
 
-    const witness = await snarkJsWitnessGen(
-      witnessGenInput,
-      this.witnessGenWasm
-    );
+    // const witness = await snarkJsWitnessGen(
+    //   witnessGenInput,
+    //   this.witnessGenWasm
+    // );
     //
     // const witness = await generateWitness();
     this.timeEnd("Generate witness");
