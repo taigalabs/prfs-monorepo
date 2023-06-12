@@ -9,7 +9,7 @@ const embedWasmBytes = async () => {
   let js = fs.readFileSync("../spartan_wasm/build/spartan_wasm.js");
   let jsStr = js.toString();
 
-  let initFuncHeader = 'async function init(input, maybe_memory) {';
+  let initFuncHeader = 'async function init(input) {';
   let getImportsStmt = 'const imports = getImports()';
 
   let initFuncHeaderIdx = jsStr.indexOf(initFuncHeader);

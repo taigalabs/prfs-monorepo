@@ -8,7 +8,7 @@ import {
 import {
   Tree,
   Poseidon,
-  MembershipProver,
+  // MembershipProver,
   MembershipProver2,
   MembershipVerifier
 } from "@taigalabs/prfs-js";
