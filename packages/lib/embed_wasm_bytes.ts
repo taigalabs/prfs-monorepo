@@ -15,9 +15,6 @@ const embedWasmBytes = async () => {
   let initFuncHeaderIdx = jsStr.indexOf(initFuncHeader);
   let getImportsStmtIdx = jsStr.indexOf(getImportsStmt, initFuncHeaderIdx);
 
-  console.log(1, initFuncHeaderIdx);
-  console.log(2, getImportsStmtIdx);
-
   let str1 = jsStr.substring(0, initFuncHeaderIdx + initFuncHeader.length);
   let str2 = jsStr.substring(initFuncHeaderIdx + initFuncHeader.length, getImportsStmtIdx);
   let str3 = jsStr.substring(getImportsStmtIdx);
