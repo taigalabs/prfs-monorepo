@@ -79,8 +79,8 @@ const benchAddrMembership2 = async () => {
   const index = tree.indexOf(proverAddress);
   console.log('index: %s', index);
 
-  const addrMembershipCircuitPath = path.resolve('../../../packages/circuits/build/addr_membership2/addr_membership2.circuit');
-  const witnessGenWasmPath = path.resolve('../../../packages/circuits/build/addr_membership2/addr_membership2_js/addr_membership2.wasm');
+  const addrMembershipCircuitPath = path.resolve('../../prfs_circuits/build/addr_membership2/addr_membership2.circuit');
+  const witnessGenWasmPath = path.resolve('../../prfs_circuits/build/addr_membership2/addr_membership2_js/addr_membership2.wasm');
 
   console.log('addrMembershipCircuitPath: %s', addrMembershipCircuitPath);
   console.log('witnessGenWasmPath: %s', witnessGenWasmPath);

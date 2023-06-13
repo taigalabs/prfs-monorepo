@@ -70,7 +70,7 @@ export class MembershipProver2 extends Profiler implements IProver {
     msgHash: Buffer,
     merkleProof: MerkleProof
   ): Promise<NIZK> {
-    console.log("\nprove()");
+    console.log("\nMembershipProver2.prove()");
 
     const { r, s, v } = fromSig(sig);
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {
-  MembershipProver,
+  // MembershipProver,
+  MembershipProver2,
   MembershipVerifier,
   Tree,
   Poseidon,
@@ -8,7 +9,7 @@ import {
   defaultPubkeyMembershipPConfig,
   defaultPubkeyMembershipVConfig,
   defaultAddressMembershipVConfig
-} from "@personaelabs/spartan-ecdsa";
+} from "@taigalabs/prfs-js";
 import {
   ecrecover,
   ecsign,
@@ -52,7 +53,7 @@ export default function Home() {
     console.log("Proving...");
     console.time("Full proving time");
 
-    const prover = new MembershipProver({
+    const prover = new MembershipProver2({
       ...defaultPubkeyMembershipPConfig,
       enableProfiler: true
     });
@@ -124,7 +125,7 @@ export default function Home() {
     console.log("Proving...");
     console.time("Full proving time");
 
-    const prover = new MembershipProver({
+    const prover = new MembershipProver2({
       ...defaultAddressMembershipPConfig,
       enableProfiler: true
     });
