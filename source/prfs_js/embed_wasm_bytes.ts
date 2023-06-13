@@ -37,4 +37,4 @@ const embedWasmBytes = async () => {
   console.log('embedWasmBytes() completed, path: %s', wasmBytesPath);
 };
 
-embedWasmBytes();
+// embedWasmBytes();

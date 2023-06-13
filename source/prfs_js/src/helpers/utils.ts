@@ -29,6 +29,7 @@ export const loadCircuit = async (pathOrUrl: string): Promise<Uint8Array> => {
 
 const readCircuitFromFs = async (path: string): Promise<Uint8Array> => {
   const bytes = fs.readFileSync(path);
+  console.log(33, path, bytes);
   return new Uint8Array(bytes);
 };
 

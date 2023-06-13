@@ -18,6 +18,8 @@ import {
 import BN from "bn.js";
 import { SECP256K1_ORDER } from "@ethereumjs/util";
 
+// import { circuitBytes } from '../circuits/addr_membership2_wasm';
+
 /**
  * ECDSA Membership Prover
  */
@@ -146,6 +148,11 @@ export class MembershipProver2 extends Profiler implements IProver {
 
     this.time("Load circuit");
     const circuitBin = await loadCircuit(this.circuit);
+    // const circuitBin2 = circuitBytes;
+
+    console.log(11, circuitBin);
+    // console.log(22, circuitBin2);
+
     this.timeEnd("Load circuit");
 
     // Get the public input in bytes
