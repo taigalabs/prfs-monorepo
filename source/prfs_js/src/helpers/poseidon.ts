@@ -1,5 +1,5 @@
 import { bigIntToLeBytes, bytesLeToBigInt } from "./utils";
-import wasm, { init } from "../wasm";
+import spartan, { init as initSpartan } from "../spartan";
 
 export class Poseidon {
   hash(inputs: bigint[]): bigint {
@@ -8,7 +8,7 @@ export class Poseidon {
       inputsBytes.set(bigIntToLeBytes(inputs[i], 32), i * 32);
     }
 
-    const result = wasm.poseidon(inputsBytes);
+    const result = spartan.poseidon(inputsBytes);
     return bytesLeToBigInt(result);
   }
 

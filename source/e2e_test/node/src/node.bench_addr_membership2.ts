@@ -96,7 +96,7 @@ const benchAddrMembership2 = async () => {
 
   // Init the prover
   const prover = new MembershipProver2(proverConfig);
-  await prover.initWasm();
+  await prover.init();
 
   // Prove membership
   const { proof, publicInput } = await prover.prove(sig, msgHash, merkleProof);

@@ -7,6 +7,6 @@ members = [
     "packages/circuit_reader",
 
     # prfs
-    "source/prfs_spartan",
+    "source/prfs_wasm",
     "scripts",
 ]

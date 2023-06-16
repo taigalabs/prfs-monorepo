@@ -9,16 +9,13 @@ import {
   SECP256K1_P,
   computeEffEcdsaPubInput2
 } from "../helpers/public_input";
-import wasm, { init } from "../wasm";
+import spartan, { init } from "../prfs_wasm_embedded";
 import {
   defaultPubkeyMembershipPConfig,
   defaultAddressMembershipPConfig
 } from "../config";
 
 import BN from "bn.js";
-import { SECP256K1_ORDER } from "@ethereumjs/util";
-
-// import { circuitBytes } from '../circuits/addr_membership2_wasm';
 
 /**
  * ECDSA Membership Prover
@@ -62,11 +59,10 @@ export class MembershipProver2 extends Profiler implements IProver {
     this.witnessGenWasm = options.witnessGenWasm;
   }
 
-  async initWasm() {
+  async init() {
     await init();
   }
 
-  // @ts-ignore
   async prove(
     sig: string,
     msgHash: Buffer,
@@ -160,7 +156,7 @@ export class MembershipProver2 extends Profiler implements IProver {
       publicInput.circuitPubInput.serialize();
 
     this.time("Prove");
-    let proof = wasm.prove(circuitBin, witness.data, circuitPublicInput);
+    let proof = spartan.prove(circuitBin, witness.data, circuitPublicInput);
     this.timeEnd("Prove");
 
     return {

@@ -5,7 +5,7 @@ import {
 import { Profiler } from "../helpers/profiler";
 import { loadCircuit } from "../helpers/utils";
 import { IVerifier, VerifyConfig } from "../types";
-import wasm, { init } from "../wasm";
+import spartan, { init } from "../prfs_wasm_embedded";
 import { PublicInput, verifyEffEcdsaPubInput } from "../helpers/public_input";
 
 /**
@@ -32,7 +32,7 @@ export class MembershipVerifier extends Profiler implements IVerifier {
     this.circuit = options.circuit;
   }
 
-  async initWasm() {
+  async init() {
     await init();
   }
 
@@ -52,7 +52,7 @@ export class MembershipVerifier extends Profiler implements IVerifier {
     this.time("Verify proof");
     let isProofValid;
     try {
-      isProofValid = await wasm.verify(
+      isProofValid = await spartan.verify(
         circuitBin,
         proof,
         publicInput.circuitPubInput.serialize()

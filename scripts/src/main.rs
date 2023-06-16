@@ -15,10 +15,10 @@ fn build() {
 
 fn embed_spartan_wasm() {
     {
-        let spartan_js_path = PathBuf::from("source/prfs_spartan/build/prfs_spartan.js");
+        let spartan_js_path = PathBuf::from("source/prfs_wasm/build/prfs_wasm.js");
 
-        let js_str = fs::read_to_string(spartan_js_path)
-            .expect("prfs_spartan js needs to have been generated");
+        let js_str =
+            fs::read_to_string(spartan_js_path).expect("prfs_wasm js needs to have been generated");
 
         let init_func_header = "async function init(input) {";
         let get_imports_stmt = "const imports = getImports()";
@@ -38,16 +38,16 @@ fn embed_spartan_wasm() {
         let str3 = &js_str[get_imports_stmt_idx..];
 
         let commented_out_code = format!("{}/*{}*/{}", str1, str2, str3);
-        let wasm_js_path = PathBuf::from("source/prfs_js/src/wasm/wasm.js");
-        fs::write(&wasm_js_path, commented_out_code).expect("wasm.js should be written");
-        println!("wasm.js is written, path: {:?}", wasm_js_path);
+        let wasm_js_path = PathBuf::from("source/prfs_js/src/prfs_wasm_embedded/prfs_wasm.js");
+        fs::write(&wasm_js_path, commented_out_code).expect("prfs_wasm.js should be written");
+        println!("File is written, path: {:?}", wasm_js_path);
     }
 
     {
-        let spartan_wasm_path = PathBuf::from("source/prfs_spartan/build/prfs_spartan_bg.wasm");
+        let prfs_wasm_path = PathBuf::from("source/prfs_wasm/build/prfs_wasm_bg.wasm");
 
         let wasm_bytes =
-            fs::read(spartan_wasm_path).expect("prfs_spartan wasm needs to have been generated");
+            fs::read(prfs_wasm_path).expect("prfs_wasm_bg.wasm needs to have been generated");
         let wasm_bytes: Vec<String> = wasm_bytes.iter().map(|b| b.to_string()).collect();
 
         let wasm_bytes_code = format!(
@@ -55,10 +55,11 @@ fn embed_spartan_wasm() {
             wasm_bytes.join(",")
         );
 
-        let wasm_bytes_js_path = PathBuf::from("source/prfs_js/src/wasm/wasm_bytes.ts");
+        let wasm_bytes_js_path =
+            PathBuf::from("source/prfs_js/src/prfs_wasm_embedded/prfs_wasm_bytes.ts");
 
         fs::write(&wasm_bytes_js_path, wasm_bytes_code)
-            .expect("prfs_spartan wasm_bytes.ts needs to written");
+            .expect("prfs_wasm_bytes.ts needs to written");
         println!("wasm_bytes_code is written, path: {:?}", wasm_bytes_js_path);
     }
 }

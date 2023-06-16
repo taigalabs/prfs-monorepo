@@ -31,7 +31,7 @@
     "source/prfs_js",
     "source/prfs_circuits",
     "source/prfs_circuit_server",
-    "source/prfs_spartan",
+    "source/prfs_wasm",
     "source/e2e_test/web",
     "source/e2e_test/node"
   ]

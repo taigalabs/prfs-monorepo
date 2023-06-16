@@ -1,5 +1,5 @@
-rm -rf ./source/prfs_spartan/build &&
+rm -rf ./source/prfs_wasm/build &&
 
-cd ./source/prfs_spartan &&
+cd ./source/prfs_wasm &&
 
-wasm-pack build --target web --out-dir ../prfs_spartan/build
+wasm-pack build --target web --out-dir ../prfs_wasm/build
