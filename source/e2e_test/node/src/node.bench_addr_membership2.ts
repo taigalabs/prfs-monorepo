@@ -108,7 +108,7 @@ const benchAddrMembership2 = async () => {
 
   // Init verifier
   const verifier = new MembershipVerifier(verifierConfig);
-  await verifier.initWasm();
+  await verifier.init();
 
   // Verify proof
   await verifier.verify(proof, publicInput.serialize());

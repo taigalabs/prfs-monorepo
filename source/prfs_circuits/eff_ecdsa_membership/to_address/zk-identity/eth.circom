@@ -76,6 +76,15 @@ template PubkeyToAddress() {
       }
     }
 
+    /* log("Keccak 1"); */
+    /* component keccak2 = Keccak(512, 256); */
+    /* for (var i = 0; i < 512 / 8; i += 1) { */
+    /*   for (var j = 0; j < 8; j++) { */
+    /*     keccak2.in[8*i + j] <== reverse[8*i + (7-j)]; */
+    /*   } */
+    /* } */
+    /* log("Keccak 2"); */
+
     // convert the last 160 bits (20 bytes) into the number corresponding to address
     // the output of keccak is 32 bytes. bytes are arranged from largest to smallest
     // but bytes themselves are little-endian bitstrings of 8 bits

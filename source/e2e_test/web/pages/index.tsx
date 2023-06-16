@@ -58,7 +58,7 @@ export default function Home() {
       enableProfiler: true
     });
 
-    await prover.initWasm();
+    await prover.init();
 
     const { proof, publicInput } = await prover.prove(
       sig,
@@ -78,7 +78,7 @@ export default function Home() {
       ...defaultPubkeyMembershipVConfig,
       enableProfiler: true
     });
-    await verifier.initWasm();
+    await verifier.init();
 
     console.time("Verification time");
     const result = await verifier.verify(proof, publicInput.serialize());
@@ -130,7 +130,7 @@ export default function Home() {
       enableProfiler: true
     });
 
-    await prover.initWasm();
+    await prover.init();
 
     const { proof, publicInput } = await prover.prove(
       sig,
@@ -150,7 +150,7 @@ export default function Home() {
       ...defaultAddressMembershipVConfig,
       enableProfiler: true
     });
-    await verifier.initWasm();
+    await verifier.init();
 
     console.time("Verification time");
     const result = await verifier.verify(proof, publicInput.serialize());
