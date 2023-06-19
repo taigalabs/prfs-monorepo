@@ -9,24 +9,16 @@ pub fn embed_prfs_wasm() {
         let js_str =
             fs::read_to_string(spartan_js_path).expect("prfs_wasm js needs to have been generated");
 
-        let init_func_header = "async function init(input) {";
-        let get_imports_stmt = "const imports = getImports()";
+        let url_stmt = "input = new URL('prfs_wasm_bg.wasm', import.meta.url)";
+        let url_stmt_idx = js_str.find(url_stmt).expect("get_imports_stmt must exist");
 
-        let init_func_header_idx = js_str
-            .find(init_func_header)
-            .expect("init_func_header must exist");
+        println!("url_stmt_idx: {}", url_stmt_idx);
 
-        let mut get_imports_stmt_idx = js_str[init_func_header_idx..]
-            .find(get_imports_stmt)
-            .expect("get_imports_stmt must exist");
+        let str1 = &js_str[0..url_stmt_idx];
+        let str2 = &js_str[url_stmt_idx..];
 
-        get_imports_stmt_idx += init_func_header_idx;
+        let commented_out_code = format!("{}//{}", str1, str2);
 
-        let str1 = &js_str[0..init_func_header_idx + init_func_header.len()];
-        let str2 = &js_str[init_func_header_idx + init_func_header.len()..get_imports_stmt_idx];
-        let str3 = &js_str[get_imports_stmt_idx..];
-
-        let commented_out_code = format!("{}/*{}*/{}", str1, str2, str3);
         let wasm_js_path = curr_dir.join("source/prfs_js/src/prfs_wasm_embedded/prfs_wasm.js");
         fs::write(&wasm_js_path, commented_out_code).expect("prfs_wasm.js should be written");
         println!("File is written, path: {:?}", wasm_js_path);
