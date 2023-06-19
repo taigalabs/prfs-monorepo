@@ -28,5 +28,5 @@ fn main() {
         .write_all(sparta_inst_bytes.as_slice())
         .unwrap();
 
-    println!("Written Spartan circuit to {}", output_path);
+    println!("Success writing spartan circuit to {}", output_path);
 }
