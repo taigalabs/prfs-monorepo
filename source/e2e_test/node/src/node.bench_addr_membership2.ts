@@ -49,6 +49,7 @@ const benchAddrMembership2 = async () => {
 
   console.log('proverAddress: %s', proverAddress);
 
+
   // privkey: 3ed8d9dd3ed8d9dd3ed8d9dd3ed8d9dd3ed8d9dd3ed8d9dd3ed8d9dd3ed8d9dd
   // addr: 498879796456181921449738817404732008511032487588
   // msgHash: 8e05c70f46dbc3dda34547fc23ac835d728001bac55db9bd122d77d10d294431
