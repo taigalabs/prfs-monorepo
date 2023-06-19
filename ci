@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -e
+
+curr_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+declare -A extern_bins=(
+    [rustc]="rustc --version"\
+    [cargo]="cargo --version"\
+);
+
+printf "ci starting...\n"
+
+for key in "${!extern_bins[@]}";
+do
+    if command -v $key &> /dev/null
+    then
+        version=$(${extern_bins[$key]});
+        printf "Found %s, version: %s\n" $key "$version"
+    else
+        printf "%s is not installed, exiting the program\n" "$key"
+        exit 1
+    fi
+done
+
+ci_cargo="$curr_dir/internals/ci/Cargo.toml"
+PROJECT_ROOT=$curr_dir cargo run --manifest-path=$ci_cargo -- "$@"

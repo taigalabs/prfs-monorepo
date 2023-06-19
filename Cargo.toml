@@ -8,5 +8,5 @@ members = [
 
     # prfs
     "source/prfs_wasm",
-    "scripts",
+    "internals/ci",
 ]

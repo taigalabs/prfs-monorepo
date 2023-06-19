@@ -7,8 +7,8 @@
   "author": "Daniel Tehrani <contact@dantehrani.com>",
   "scripts": {
     "build": "sh ./scripts/build.sh && lerna run build --stream",
-    "build2": "sh ./scripts/build2.sh && cargo run --bin scripts && lerna run build --stream --concurrency 1",
-    "exp": "cargo run --bin scripts && cd source/e2e_test/node && yarn bench",
+    "build2": "cargo run --bin scripts",
+    "exp": "yarn run build2 && cd source/e2e_test/node && yarn bench",
     "build-wasm": "sh ./scripts/build_wasm.sh && lerna run build",
     "test": "sh ./scripts/test.sh"
   },
