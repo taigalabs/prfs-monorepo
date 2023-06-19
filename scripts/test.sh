@@ -1,2 +1,2 @@
 cargo test --release &&
-yarn lerna run test
+lerna run test

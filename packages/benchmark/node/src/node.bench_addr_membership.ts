@@ -12,12 +12,17 @@ import {
 import * as path from "path";
 
 const benchAddrMembership = async () => {
+  console.log('bench addr membership');
+
   const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
   const msg = Buffer.from("harry potter");
   const msgHash = hashPersonalMessage(msg);
 
+  console.log('privKey: %s, msgHash: %s', privKey.toString('hex'), msgHash.toString('hex'));
+
   const { v, r, s } = ecsign(msgHash, privKey);
   const sig = `0x${r.toString("hex")}${s.toString("hex")}${v.toString(16)}`;
+  console.log('sig: %s', sig);
 
   // Init the Poseidon hash
   const poseidon = new Poseidon();
@@ -25,11 +30,14 @@ const benchAddrMembership = async () => {
 
   const treeDepth = 20;
   const tree = new Tree(treeDepth, poseidon);
+  console.log('treeDepth: %s', treeDepth);
 
   // Get the prover public key hash
   const proverAddress = BigInt(
     "0x" + privateToAddress(privKey).toString("hex")
   );
+
+  console.log('proverAddress: %s', proverAddress);
 
   // Insert prover public key hash into the tree
   tree.insert(proverAddress);
@@ -38,15 +46,19 @@ const benchAddrMembership = async () => {
   for (const member of ["🕵️", "🥷", "👩‍🔬"]) {
     const address = BigInt(
       "0x" +
-        privateToAddress(
-          Buffer.from("".padStart(16, member), "utf16le")
-        ).toString("hex")
+      privateToAddress(
+        Buffer.from("".padStart(16, member), "utf16le")
+      ).toString("hex")
     );
+
+    console.log("tree member: %s", address);
+
     tree.insert(address);
   }
 
   // Compute the merkle proof
   const index = tree.indexOf(proverAddress);
+  console.log('index: %s', index);
 
   const proverConfig = {
     circuit: path.join(
@@ -59,7 +71,10 @@ const benchAddrMembership = async () => {
     ),
     enableProfiler: true
   };
+
   const merkleProof = tree.createProof(index);
+  console.log('merkleProof: %s', merkleProof);
+
 
   // Init the prover
   const prover = new MembershipProver(proverConfig);

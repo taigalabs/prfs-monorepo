@@ -1,17 +1,21 @@
 {
   "private": true,
-  "name": "spartan-ecdsa-monorepo",
-  "version": "1.0.0",
+  "name": "prfs-js-monorepo",
+  "version": "0.0.1",
   "main": "index.js",
   "repository": "https://github.com/DanTehrani/spartan-wasm.git",
   "author": "Daniel Tehrani <contact@dantehrani.com>",
   "scripts": {
-    "build": "sh ./scripts/build.sh && lerna run build",
+    "build": "sh ./scripts/build.sh && lerna run build --stream",
+    "build2": "cargo run --bin scripts",
+    "exp": "yarn run build2 && cd source/e2e_test/node && yarn bench",
+    "build-wasm": "sh ./scripts/build_wasm.sh && lerna run build",
     "test": "sh ./scripts/test.sh"
   },
   "devDependencies": {
     "@types/jest": "^29.2.4",
     "@typescript-eslint/eslint-plugin": "5.49.0",
+    "@typescript-eslint/parser": "^5.59.9",
     "eslint": "8.32.0",
     "eslint-plugin-react": "7.32.1",
     "eslint-plugin-react-hooks": "4.6.0",
@@ -23,6 +27,12 @@
     "packages/lib",
     "packages/benchmark/web",
     "packages/benchmark/node",
-    "packages/circuits"
+    "packages/circuits",
+    "source/prfs_js",
+    "source/prfs_circuits",
+    "source/prfs_circuit_server",
+    "source/prfs_wasm",
+    "source/e2e_test/web",
+    "source/e2e_test/node"
   ]
 }

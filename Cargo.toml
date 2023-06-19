@@ -5,4 +5,8 @@ members = [
     "packages/poseidon",
     "packages/Spartan-secq",
     "packages/circuit_reader",
+
+    # prfs
+    "source/prfs_wasm",
+    "internals/ci",
 ]

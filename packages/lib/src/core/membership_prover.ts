@@ -25,7 +25,7 @@ export class MembershipProver extends Profiler implements IProver {
     if (
       options.circuit === defaultPubkeyMembershipPConfig.circuit ||
       options.witnessGenWasm ===
-        defaultPubkeyMembershipPConfig.witnessGenWasm ||
+      defaultPubkeyMembershipPConfig.witnessGenWasm ||
       options.circuit === defaultAddressMembershipPConfig.circuit ||
       options.witnessGenWasm === defaultAddressMembershipPConfig.witnessGenWasm
     ) {
@@ -64,9 +64,15 @@ export class MembershipProver extends Profiler implements IProver {
     msgHash: Buffer,
     merkleProof: MerkleProof
   ): Promise<NIZK> {
+    console.log("\nprove()");
+
     const { r, s, v } = fromSig(sig);
 
+    // console.log("r: %s, s: %s, v: %s", r, s, v);
+
     const effEcdsaPubInput = computeEffEcdsaPubInput(r, v, msgHash);
+    // console.log("effEcdsaPubInput: {}", effEcdsaPubInput);
+
     const circuitPubInput = new CircuitPubInput(
       merkleProof.root,
       effEcdsaPubInput.Tx,
@@ -74,7 +80,9 @@ export class MembershipProver extends Profiler implements IProver {
       effEcdsaPubInput.Ux,
       effEcdsaPubInput.Uy
     );
+
     const publicInput = new PublicInput(r, v, msgHash, circuitPubInput);
+    // console.log('publicInput: %o', publicInput);
 
     const witnessGenInput = {
       s,
@@ -88,6 +96,8 @@ export class MembershipProver extends Profiler implements IProver {
       this.witnessGenWasm
     );
     this.timeEnd("Generate witness");
+
+    // console.log('witness: %o', witness);
 
     this.time("Load circuit");
     const circuitBin = await loadCircuit(this.circuit);

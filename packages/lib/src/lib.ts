@@ -6,3 +6,6 @@ export * from "./helpers/tree";
 export * from "./helpers/poseidon";
 export * from "./wasm/index";
 export * from "./config";
+
+//
+export * from "./core/membership_prover2";
