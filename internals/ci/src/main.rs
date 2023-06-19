@@ -1,4 +1,5 @@
 mod build_project;
+mod e2e_node;
 
 use clap::{command, Arg, ArgAction};
 use std::{env, fs, path::PathBuf};
@@ -13,6 +14,9 @@ fn main() {
     match op.as_str() {
         "build" => {
             build_project::run();
+        }
+        "e2e_node" => {
+            e2e_node::run();
         }
         _ => {
             panic!(
