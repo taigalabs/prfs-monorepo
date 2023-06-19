@@ -1,4 +1,5 @@
 mod build_project;
+mod dev_prfs_web;
 mod e2e_node;
 
 use clap::{command, Arg, ArgAction};
@@ -17,6 +18,9 @@ fn main() {
         }
         "e2e_node" => {
             e2e_node::run();
+        }
+        "dev_prfs_web" => {
+            dev_prfs_web::run();
         }
         _ => {
             panic!(

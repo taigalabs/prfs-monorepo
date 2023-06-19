@@ -28,7 +28,7 @@ pub fn compile_circuits() {
             circuit_build_path.to_str().unwrap(),
         ])
         .status()
-        .expect("rm command failed to start");
+        .expect("circom-secq command failed to start");
 
     assert!(status.success());
 
@@ -46,7 +46,7 @@ pub fn compile_circuits() {
             &num_pub_inputs.to_string(),
         ])
         .status()
-        .expect("rm command failed to start");
+        .expect("cargo command failed to start");
 
     assert!(status.success());
 }
