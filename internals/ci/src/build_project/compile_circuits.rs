@@ -49,4 +49,15 @@ pub fn compile_circuits() {
         .expect("cargo command failed to start");
 
     assert!(status.success());
+
+    let circuit_compiled_serve_path = curr_dir.join(format!(
+        "source/prfs_circuit_server/circuits/{}.circuit",
+        circuit_name,
+    ));
+    println!(
+        "circuit_compiled_serve_path: {:?}",
+        circuit_compiled_serve_path
+    );
+
+    fs::copy(circuit_compiled_path, circuit_compiled_serve_path).unwrap();
 }
