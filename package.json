@@ -8,7 +8,6 @@
   "scripts": {
     "build": "sh ./scripts/build.sh && lerna run build --stream",
     "build2": "cargo run --bin scripts",
-    "exp": "yarn run build2 && cd source/e2e_test/node && yarn bench",
     "build-wasm": "sh ./scripts/build_wasm.sh && lerna run build",
     "test": "sh ./scripts/test.sh"
   },
