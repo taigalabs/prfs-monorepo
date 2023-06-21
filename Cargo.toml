@@ -8,5 +8,6 @@ members = [
 
     # prfs
     "source/prfs_wasm",
+    "source/prfs_circuit_server",
     "internals/ci",
 ]

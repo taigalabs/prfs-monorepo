@@ -1,4 +1,5 @@
 mod build_project;
+mod dev_circuit_server;
 mod dev_prfs_web;
 mod e2e_test_node;
 
@@ -18,6 +19,9 @@ fn main() {
         }
         "e2e_test_node" => {
             e2e_test_node::run();
+        }
+        "dev_circuit_server" => {
+            dev_circuit_server::run();
         }
         "dev_prfs_web" => {
             dev_prfs_web::run();
