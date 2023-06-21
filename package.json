@@ -7,7 +7,6 @@
   "author": "Daniel Tehrani <contact@dantehrani.com>",
   "scripts": {
     "build": "sh ./scripts/build.sh && lerna run build --stream",
-    "build2": "cargo run --bin scripts",
     "build-wasm": "sh ./scripts/build_wasm.sh && lerna run build",
     "test": "sh ./scripts/test.sh"
   },
@@ -31,7 +30,7 @@
     "source/prfs_circuits",
     "source/prfs_circuit_server",
     "source/prfs_wasm",
-    "source/e2e_test/web",
-    "source/e2e_test/node"
+    "source/e2e_test_node",
+    "source/e2e_test_web"
   ]
 }

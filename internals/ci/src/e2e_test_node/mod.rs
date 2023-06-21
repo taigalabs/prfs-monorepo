@@ -6,7 +6,7 @@ pub fn run() {
     let curr_dir = std::env::current_dir().unwrap();
     println!("curr_dir: {:?}", curr_dir);
 
-    let e2e_test_node_path = curr_dir.join("source/e2e_test/node");
+    let e2e_test_node_path = curr_dir.join("source/e2e_test_node");
     println!("e2e_test_node_path: {:?}", e2e_test_node_path);
 
     let status = Command::new("yarn")

@@ -5,7 +5,6 @@ use hyper::{Request, Response};
 use hyper_staticfile::{Body, Static};
 use std::io::Error as IoError;
 use std::net::SocketAddr;
-use std::path::Path;
 use tokio::net::TcpListener;
 
 async fn handle_request<B>(req: Request<B>, static_: Static) -> Result<Response<Body>, IoError> {
@@ -32,25 +31,6 @@ async fn main() {
     assert!(circuits_path
         .try_exists()
         .expect("circuits path should exist in the file system"));
-
-    // // Create a resolver. This can be cheaply cloned.
-    // let resolver = hyper_staticfile::Resolver::new(circuits_path);
-
-    // // A dummy request, but normally obtained from Hyper.
-    // let request = hyper::http::Request::get("/foo/bar.txt").body(()).unwrap();
-
-    // // First, resolve the request. Returns a future for a `ResolveResult`.
-    // let result = resolver.resolve_request(&request).await.unwrap();
-
-    // // // Then, build a response based on the result.
-    // // // The `ResponseBuilder` is typically a short-lived, per-request instance.
-    // let response = hyper_staticfile::ResponseBuilder::new()
-    //     .request(&request)
-    //     .build(result)
-    //     .unwrap();
-
-    // // println!("response: {}", response.into_body());
-    // //
 
     let static_ = Static::new(circuits_path);
 
