@@ -14,7 +14,6 @@ import {
   defaultPubkeyMembershipPConfig,
   defaultAddressMembershipPConfig
 } from "../config";
-
 import BN from "bn.js";
 
 /**
@@ -42,18 +41,18 @@ export class MembershipProver2 extends Profiler implements IProver {
       `);
     }
 
-    const isNode = typeof window === "undefined";
-    if (isNode) {
-      if (
-        options.circuit.includes("http") ||
-        options.witnessGenWasm.includes("http")
-      ) {
-        throw new Error(
-          `An URL was given for circuit/witnessGenWasm in Node.js environment. Please specify a local path.
-          `
-        );
-      }
-    }
+    // const isNode = typeof window === "undefined";
+    // if (isNode) {
+    //   if (
+    //     options.circuit.includes("http") ||
+    //     options.witnessGenWasm.includes("http")
+    //   ) {
+    //     throw new Error(
+    //       `An URL was given for circuit/witnessGenWasm in Node.js environment. Please specify a local path.
+    //       `
+    //     );
+    //   }
+    // }
 
     this.circuit = options.circuit;
     this.witnessGenWasm = options.witnessGenWasm;
@@ -136,6 +135,9 @@ export class MembershipProver2 extends Profiler implements IProver {
     console.log("witnessGenInput: %o", witnessGenInput);
 
     this.time("Generate witness");
+
+    console.log('wasm11: %s', this.witnessGenWasm);
+
     const witness = await snarkJsWitnessGen(
       witnessGenInput,
       this.witnessGenWasm
@@ -165,26 +167,6 @@ export class MembershipProver2 extends Profiler implements IProver {
     };
   }
 }
-
-// // bigendian
-// function bigint_to_Uint8Array(x: bigint) {
-//   var ret: Uint8Array = new Uint8Array(32);
-//   for (var idx = 31; idx >= 0; idx--) {
-//     ret[idx] = Number(x % 256n);
-//     x = x / 256n;
-//   }
-//   return ret;
-// }
-
-// // bigendian
-// function Uint8Array_to_bigint(x: Uint8Array) {
-//   var ret: bigint = 0n;
-//   for (var idx = 0; idx < x.length; idx++) {
-//     ret = ret * 256n;
-//     ret = ret + BigInt(x[idx]);
-//   }
-//   return ret;
-// }
 
 function bigint_to_array(n: number, k: number, x: bigint) {
   let mod: bigint = 1n;

@@ -60,4 +60,16 @@ pub fn compile_circuits() {
     );
 
     fs::copy(circuit_compiled_path, circuit_compiled_serve_path).unwrap();
+
+    let wtns_gen_path =
+        circuit_build_path.join(format!("{}_js/{}.wasm", circuit_name, circuit_name));
+    println!("wtns_gen_path: {:?}", wtns_gen_path);
+
+    let wtns_gen_serve_path = curr_dir.join(format!(
+        "source/prfs_circuit_server/circuits/{}.wasm",
+        circuit_name,
+    ));
+    println!("wtns_gen_serve_path: {:?}", wtns_gen_serve_path);
+
+    fs::copy(wtns_gen_path, wtns_gen_serve_path).unwrap();
 }

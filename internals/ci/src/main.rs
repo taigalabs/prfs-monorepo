@@ -2,6 +2,7 @@ mod build_project;
 mod dev_circuit_server;
 mod dev_prfs_web;
 mod e2e_test_node;
+mod e2e_test_web;
 
 use clap::{command, Arg, ArgAction};
 use std::{env, fs, path::PathBuf};
@@ -19,6 +20,9 @@ fn main() {
         }
         "e2e_test_node" => {
             e2e_test_node::run();
+        }
+        "e2e_test_web" => {
+            e2e_test_web::run();
         }
         "dev_circuit_server" => {
             dev_circuit_server::run();

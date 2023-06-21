@@ -17,6 +17,8 @@ import * as path from "path";
 const benchAddrMembership2 = async () => {
   console.log('bench addr membership2');
 
+  const circuitName = 'addr_membership2';
+
   const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
   const msg = Buffer.from("harry potter");
   const msgHash = hashPersonalMessage(msg);
@@ -80,7 +82,8 @@ const benchAddrMembership2 = async () => {
   console.log('index: %s', index);
 
   const addrMembershipCircuitPath = path.resolve('../prfs_circuits/build/addr_membership2/addr_membership2.circuit');
-  const witnessGenWasmPath = path.resolve('../prfs_circuits/build/addr_membership2/addr_membership2_js/addr_membership2.wasm');
+  // const witnessGenWasmPath = path.resolve('../prfs_circuits/build/addr_membership2/addr_membership2_js/addr_membership2.wasm');
+  const witnessGenWasmPath = `http://localhost:3000/${circuitName}.wasm`;
 
   console.log('addrMembershipCircuitPath: %s', addrMembershipCircuitPath);
   console.log('witnessGenWasmPath: %s', witnessGenWasmPath);

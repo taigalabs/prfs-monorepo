@@ -1,7 +1,7 @@
 use std::{env, fs, path::PathBuf, process::Command};
 
 pub fn run() {
-    println!("[ci] Start executing e2e_node...");
+    println!("[ci] Start executing e2e_test_node...");
 
     let curr_dir = std::env::current_dir().unwrap();
     println!("curr_dir: {:?}", curr_dir);
