@@ -1,2 +1,2 @@
-src/circuits/**
-!src/circuits/.gitkeep
+circuits/**
+!circuits/.gitkeep
