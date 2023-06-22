@@ -25,21 +25,26 @@ use tokio::net::TcpListener;
 // }
 
 // Define an app state to share it across the route handlers and middlewares.
-struct State(u64);
+struct State {
+    static_serve: Static,
+}
 
 // A handler for "/" page.
 async fn home_handler(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     // Access the app state.
     let state = req.data::<State>().unwrap();
-    println!("State value: {}", state.0);
+
+    // println!("State value: {}", state.0);
 
     Ok(Response::new(Body::from("Home page")))
 }
 
-// A handler for "/users/:userId" page.
-async fn user_handler(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let user_id = req.param("userId").unwrap();
-    Ok(Response::new(Body::from(format!("Hello {}", user_id))))
+async fn circuit_handler(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+    let state = req.data::<State>().unwrap();
+
+    let circuit_name = req.param("circuitName").unwrap();
+
+    Ok(Response::new(Body::from(format!("Hello {}", circuit_name))))
 }
 
 // A middleware which logs an http request.
@@ -50,6 +55,7 @@ async fn logger(req: Request<Body>) -> Result<Request<Body>, Infallible> {
         req.method(),
         req.uri().path()
     );
+
     Ok(req)
 }
 
@@ -57,6 +63,7 @@ async fn logger(req: Request<Body>) -> Result<Request<Body>, Infallible> {
 // and the request information and generates an appropriate response.
 async fn error_handler(err: routerify::RouteError, _: RequestInfo) -> Response<Body> {
     eprintln!("{}", err);
+
     Response::builder()
         .status(StatusCode::INTERNAL_SERVER_ERROR)
         .body(Body::from(format!("Something went wrong: {}", err)))
@@ -76,18 +83,15 @@ fn router() -> Router<Body, Infallible> {
         .try_exists()
         .expect("circuits path should exist in the file system"));
 
-    let static_ = Static::new(circuits_path);
+    let static_serve = Static::new(circuits_path);
 
-    // Create a router and specify the logger middleware and the handlers.
-    // Here, "Middleware::pre" means we're adding a pre middleware which will be executed
-    // before any route handlers.
+    let state = State { static_serve };
+
     Router::builder()
-        // Specify the state data which will be available to every route handlers,
-        // error handler and middlewares.
-        .data(State(100))
+        .data(state)
         .middleware(Middleware::pre(logger))
         .get("/", home_handler)
-        .get("/users/:userId", user_handler)
+        .get("/circuits/:circuitName", circuit_handler)
         .err_handler_with_info(error_handler)
         .build()
         .unwrap()
