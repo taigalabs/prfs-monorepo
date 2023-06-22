@@ -32,7 +32,7 @@ struct State {
 // A handler for "/" page.
 async fn home_handler(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     // Access the app state.
-    let state = req.data::<State>().unwrap();
+    // let state = req.data::<State>().unwrap();
 
     // println!("State value: {}", state.0);
 
@@ -44,7 +44,25 @@ async fn circuit_handler(req: Request<Body>) -> Result<Response<Body>, Infallibl
 
     let circuit_name = req.param("circuitName").unwrap();
 
-    Ok(Response::new(Body::from(format!("Hello {}", circuit_name))))
+    println!("11, circuit_name: {}", circuit_name);
+
+    // A dummy request, but normally obtained from Hyper.
+    let request = Request::get("/foo/bar.txt").body(()).unwrap();
+
+    match state.static_serve.clone().serve(req).await {
+        Ok(r) => return Ok(r),
+        Err(err) => {
+            println!("22");
+            return Ok(Response::new(Body::from(format!(
+                "Error occurred: {}",
+                err
+            ))));
+        }
+    };
+
+    // let circuit_name = req.param("circuitName").unwrap();
+
+    // Ok(Response::new(Body::from(format!("Hello {}", circuit_name))))
 }
 
 // A middleware which logs an http request.
