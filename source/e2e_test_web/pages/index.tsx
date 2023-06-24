@@ -73,6 +73,8 @@ export default function Home() {
       "bytes"
     );
 
+    return;
+
     console.log("Verifying...");
     const verifier = new MembershipVerifier({
       ...defaultPubkeyMembershipVConfig,

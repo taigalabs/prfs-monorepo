@@ -17,9 +17,9 @@ export const defaultAddressMembershipPConfig: ProverConfig = {
   // witnessGenWasm:
   //   "https://storage.googleapis.com/personae-proving-keys/membership/addr_membership.wasm",
   witnessGenWasm:
-    "http://localhost:4010/addr_membership2.wasm",
+    "http://localhost:4010/circuits/addr_membership2.wasm",
   circuit:
-    "http://localhost:4010/addr_membership2.circuit",
+    "http://localhost:4010/circuits/addr_membership2.circuit",
 };
 
 export const defaultAddressMembershipVConfig: VerifyConfig = {
