@@ -43,16 +43,13 @@ async fn circuit_handler(req: Request<Body>) -> Result<Response<Body>, Infallibl
     let state = req.data::<State>().unwrap();
 
     let circuit_name = req.param("circuitName").unwrap();
+    println!("Resolved circuit_name: {}", circuit_name);
 
-    println!("11, circuit_name: {}", circuit_name);
+    let request = Request::get(format!("/{}", circuit_name)).body(()).unwrap();
 
-    // A dummy request, but normally obtained from Hyper.
-    let request = Request::get("/foo/bar.txt").body(()).unwrap();
-
-    match state.static_serve.clone().serve(req).await {
+    match state.static_serve.clone().serve(request).await {
         Ok(r) => return Ok(r),
         Err(err) => {
-            println!("22");
             return Ok(Response::new(Body::from(format!(
                 "Error occurred: {}",
                 err
