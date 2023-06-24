@@ -8,5 +8,6 @@ edition = "2021"
 [dependencies]
 tokio = { version = "1.28", features = ["full"] }
 routerify = "3"
+routerify-cors = "3"
 hyper = "0.14"
 hyper-staticfile = "0.9.5"

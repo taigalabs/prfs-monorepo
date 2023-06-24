@@ -1,28 +1,15 @@
+use hyper::http::response::Builder as ResponseBuilder;
 use hyper::service::service_fn;
 use hyper::{Body, Request, Response, Server, StatusCode};
-// use futures_util::future;
-use hyper::http::response::Builder as ResponseBuilder;
 use hyper_staticfile::Static;
 use routerify::prelude::*;
 use routerify::{Middleware, RequestInfo, Router, RouterService};
+use routerify_cors::enable_cors_all;
 use std::convert::Infallible;
 use std::io::Error as IoError;
 use std::net::SocketAddr;
 use std::path::Path;
 use tokio::net::TcpListener;
-
-// async fn handle_request<B>(req: Request<B>, static_: Static) -> Result<Response<Body>, IoError> {
-//     if req.uri().path() == "/" {
-//         let res = ResponseBuilder::new()
-//             .status(StatusCode::MOVED_PERMANENTLY)
-//             .header(header::LOCATION, "/hyper_staticfile/")
-//             .body(Body::Empty)
-//             .expect("unable to build response");
-//         Ok(res)
-//     } else {
-//         static_.clone().serve(req).await
-//     }
-// }
 
 // Define an app state to share it across the route handlers and middlewares.
 struct State {
@@ -105,6 +92,7 @@ fn router() -> Router<Body, Infallible> {
     Router::builder()
         .data(state)
         .middleware(Middleware::pre(logger))
+        .middleware(enable_cors_all())
         .get("/", home_handler)
         .get("/circuits/:circuitName", circuit_handler)
         .err_handler_with_info(error_handler)
