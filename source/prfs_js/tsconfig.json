@@ -1,22 +1,11 @@
 {
-  "include": [
-    "./src/**/*",
-    "./src/**/*.wasm"
-  ],
-  "exclude": [
-    "./jest.config.js",
-    "./node_modules",
-    "./tests",
-    "./build"
-  ],
+  "include": ["./src/**/*", "./src/**/*.wasm"],
+  "exclude": ["./jest.config.js", "./node_modules", "./tests", "./build"],
   "compilerOptions": {
-    "lib": [
-      "es2020",
-      "DOM"
-    ],
+    "lib": ["es2020", "DOM"],
     "declaration": true,
     "target": "es2020",
-    "module": "CommonJS",
+    "module": "es2020",
     "rootDir": "./src",
     "moduleResolution": "node",
     "allowJs": true,

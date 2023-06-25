@@ -19,7 +19,7 @@ pub fn embed_prfs_wasm() {
 
         let commented_out_code = format!("{}//{}", str1, str2);
 
-        let wasm_js_path = curr_dir.join("source/prfs_js/src/prfs_wasm_embedded/prfs_wasm.js");
+        let wasm_js_path = curr_dir.join("source/prfs_js/src/wasm_wrapper_web/prfs_wasm.js");
         fs::write(&wasm_js_path, commented_out_code).expect("prfs_wasm.js should be written");
         println!("File is written, path: {:?}", wasm_js_path);
     }
@@ -37,7 +37,7 @@ pub fn embed_prfs_wasm() {
         );
 
         let wasm_bytes_js_path =
-            curr_dir.join("source/prfs_js/src/prfs_wasm_embedded/prfs_wasm_bytes.ts");
+            curr_dir.join("source/prfs_js/src/wasm_wrapper_web/prfs_wasm_bytes.ts");
 
         fs::write(&wasm_bytes_js_path, wasm_bytes_code)
             .expect("prfs_wasm_bytes.ts needs to written");
