@@ -4,4 +4,7 @@ src/prfs_wasm_embedded/prfs_wasm.js
 src/circuits/**
 !src/circuits/.gitkeep
 
+src/wasm_build/**
+!src/wasm_build/.gitkeep
+
 example/

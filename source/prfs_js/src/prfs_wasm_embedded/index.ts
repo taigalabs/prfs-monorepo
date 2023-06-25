@@ -1,15 +1,19 @@
-import * as wasm from "./prfs_wasm";
+// import * as wasm from "./prfs_wasm";
 
-import { wasmBytes } from "./prfs_wasm_bytes";
+// import { wasmBytes } from "./prfs_wasm_bytes";
+//
 
 export const init = async () => {
-  console.log('prfs_wasm_embed init()');
+  console.log('prfs_wasm_embed init() 111');
 
-  wasm.initSync(wasmBytes.buffer);
-  wasm.init_panic_hook();
+  let a = await fetch('http://localhost:4010/circuits/build/prfs_wasm.js');
+  console.log(22, a);
+
+  // wasm.initSync(wasmBytes.buffer);
+  // wasm.init_panic_hook();
   //
   // await wasm.default('http://localhost:4010/circuits/addr_membership2.wasm');
 
 };
 
-export default wasm;
+// export default wasm;

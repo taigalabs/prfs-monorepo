@@ -29,6 +29,21 @@ pub fn build_wasm() {
         ])
         .status()
         .expect("wasm-pack command failed to start");
+    assert!(status.success());
 
+    println!("curr_dir: {:?}", curr_dir);
+
+    let prfs_js_wasm_build_path = curr_dir.join("source/prfs_js/src/wasm_build");
+    let prfs_js_wasm_build_path = prfs_js_wasm_build_path.to_str().unwrap();
+
+    let status = Command::new("cp")
+        .current_dir(prfs_wasm_path)
+        .args([
+            "-R",
+            &format!("{}/.", prfs_wasm_build_path),
+            &prfs_js_wasm_build_path,
+        ])
+        .status()
+        .expect("cp command failed to start");
     assert!(status.success());
 }

@@ -9,7 +9,7 @@ import {
   SECP256K1_P,
   computeEffEcdsaPubInput2
 } from "../helpers/public_input";
-import spartan, { init } from "../prfs_wasm_embedded";
+import { init } from "../prfs_wasm_embedded";
 import {
   defaultPubkeyMembershipPConfig,
   defaultAddressMembershipPConfig
@@ -157,12 +157,13 @@ export class MembershipProver2 extends Profiler implements IProver {
     const circuitPublicInput: Uint8Array =
       publicInput.circuitPubInput.serialize();
 
-    this.time("Prove");
-    let proof = spartan.prove(circuitBin, witness.data, circuitPublicInput);
-    this.timeEnd("Prove");
+    // this.time("Prove");
+    // let proof = spartan.prove(circuitBin, witness.data, circuitPublicInput);
+    // this.timeEnd("Prove");
+    //
 
     return {
-      proof,
+      proof: new Uint8Array([0]),
       publicInput
     };
   }

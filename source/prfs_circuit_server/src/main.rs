@@ -29,10 +29,12 @@ async fn home_handler(req: Request<Body>) -> Result<Response<Body>, Infallible> 
 async fn circuit_handler(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     let state = req.data::<State>().unwrap();
 
-    let circuit_name = req.param("circuitName").unwrap();
-    println!("Resolved circuit_name: {}", circuit_name);
+    let uri_segment = req.uri().path();
+    println!("url_sigment: {}", uri_segment);
 
-    let request = Request::get(format!("/{}", circuit_name)).body(()).unwrap();
+    let uri_segment = uri_segment.strip_prefix("/circuits").unwrap();
+
+    let request = Request::get(format!("/{}", uri_segment)).body(()).unwrap();
 
     match state.static_serve.clone().serve(request).await {
         Ok(r) => return Ok(r),
@@ -94,7 +96,7 @@ fn router() -> Router<Body, Infallible> {
         .middleware(Middleware::pre(logger))
         .middleware(enable_cors_all())
         .get("/", home_handler)
-        .get("/circuits/:circuitName", circuit_handler)
+        .get("/circuits/*", circuit_handler)
         .err_handler_with_info(error_handler)
         .build()
         .unwrap()
