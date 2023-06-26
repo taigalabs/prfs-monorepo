@@ -1,96 +1,184 @@
+'use client';
+
 import Image from 'next/image'
 import styles from './page.module.css'
+import { useState } from "react";
+import {
+  init,
+  MembershipProver2,
+  MembershipVerifier,
+  Tree,
+  Poseidon,
+  defaultAddressMembershipPConfig,
+  defaultPubkeyMembershipPConfig,
+  defaultPubkeyMembershipVConfig,
+  defaultAddressMembershipVConfig
+} from "@taigalabs/prfs-js";
+import {
+  ecrecover,
+  ecsign,
+  hashPersonalMessage,
+  privateToAddress,
+  privateToPublic,
+  pubToAddress
+} from "@ethereumjs/util";
 
 export default function Home() {
+  const proverAddressMembership = async () => {
+    const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
+    const msg = Buffer.from("harry potter");
+    const msgHash = hashPersonalMessage(msg);
+
+    const { v, r, s } = ecsign(msgHash, privKey);
+    const sig = `0x${r.toString("hex")}${s.toString("hex")}${v.toString(16)}`;
+
+    await init();
+    console.log(22);
+    // const poseidon = new Poseidon();
+    // await poseidon.initWasm();
+
+    //   const treeDepth = 20;
+    //   const addressTree = new Tree(treeDepth, poseidon);
+
+    //   const proverAddress = BigInt(
+    //     "0x" + privateToAddress(privKey).toString("hex")
+    //   );
+    //   addressTree.insert(proverAddress);
+
+    //   // Insert other members into the tree
+    //   for (const member of ["🕵️", "🥷", "👩‍🔬"]) {
+    //     const pubKey = privateToPublic(
+    //       Buffer.from("".padStart(16, member), "utf16le")
+    //     );
+    //     const address = BigInt("0x" + pubToAddress(pubKey).toString("hex"));
+    //     addressTree.insert(address);
+    //   }
+
+    //   const index = addressTree.indexOf(proverAddress);
+    //   const merkleProof = addressTree.createProof(index);
+
+    //   console.log("Proving...");
+    //   console.time("Full proving time");
+
+    //   const prover = new MembershipProver2({
+    //     ...defaultAddressMembershipPConfig,
+    //     enableProfiler: true
+    //   });
+
+    //   await prover.init();
+
+    //   const { proof, publicInput } = await prover.prove(
+    //     sig,
+    //     msgHash,
+    //     merkleProof
+    //   );
+
+    //   console.timeEnd("Full proving time");
+    //   console.log(
+    //     "Raw proof size (excluding public input)",
+    //     proof.length,
+    //     "bytes"
+    //   );
+
+    //   console.log("Verifying...");
+    //   const verifier = new MembershipVerifier({
+    //     ...defaultAddressMembershipVConfig,
+    //     enableProfiler: true
+    //   });
+    //   await verifier.init();
+
+    //   console.time("Verification time");
+    //   const result = await verifier.verify(proof, publicInput.serialize());
+    //   console.timeEnd("Verification time");
+
+    //   if (result) {
+    //     console.log("Successfully verified proof!");
+    //   } else {
+    //     console.log("Failed to verify proof :(");
+    //   }
+  };
+
   return (
-    <main className={styles.main}>
-      3333333333333333333333333333333333333
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+    <div>
+      {/* <button onClick={provePubKeyMembership}> */}
+      {/*   Prove Public Key Membership */}
+      {/* </button> */}
+      <button onClick={proverAddressMembership}>
+        Prove Address Membership
+      </button>
+    </div>
+  );
 }
+
+  // const provePubKeyMembership = async () => {
+  //   const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
+  //   const msg = Buffer.from("harry potter");
+  //   const msgHash = hashPersonalMessage(msg);
+
+  //   const { v, r, s } = ecsign(msgHash, privKey);
+  //   const pubKey = ecrecover(msgHash, v, r, s);
+  //   const sig = `0x${r.toString("hex")}${s.toString("hex")}${v.toString(16)}`;
+
+  //   const poseidon = new Poseidon();
+  //   await poseidon.initWasm();
+
+  //   const treeDepth = 20;
+  //   const pubKeyTree = new Tree(treeDepth, poseidon);
+
+  //   const proverPubKeyHash = poseidon.hashPubKey(pubKey);
+
+  //   pubKeyTree.insert(proverPubKeyHash);
+
+  //   // Insert other members into the tree
+  //   for (const member of ["🕵️", "🥷", "👩‍🔬"]) {
+  //     const pubKey = privateToPublic(
+  //       Buffer.from("".padStart(16, member), "utf16le")
+  //     );
+  //     pubKeyTree.insert(poseidon.hashPubKey(pubKey));
+  //   }
+
+  //   const index = pubKeyTree.indexOf(proverPubKeyHash);
+  //   const merkleProof = pubKeyTree.createProof(index);
+
+  //   console.log("Proving...");
+  //   console.time("Full proving time");
+
+  //   const prover = new MembershipProver2({
+  //     ...defaultPubkeyMembershipPConfig,
+  //     enableProfiler: true
+  //   });
+
+  //   await prover.init();
+
+  //   const { proof, publicInput } = await prover.prove(
+  //     sig,
+  //     msgHash,
+  //     merkleProof
+  //   );
+
+  //   console.timeEnd("Full proving time");
+  //   console.log(
+  //     "Raw proof size (excluding public input)",
+  //     proof.length,
+  //     "bytes"
+  //   );
+
+  //   return;
+
+  //   console.log("Verifying...");
+  //   const verifier = new MembershipVerifier({
+  //     ...defaultPubkeyMembershipVConfig,
+  //     enableProfiler: true
+  //   });
+  //   await verifier.init();
+
+  //   console.time("Verification time");
+  //   const result = await verifier.verify(proof, publicInput.serialize());
+  //   console.timeEnd("Verification time");
+
+  //   if (result) {
+  //     console.log("Successfully verified proof!");
+  //   } else {
+  //     console.log("Failed to verify proof :(");
+  //   }
+  // };
