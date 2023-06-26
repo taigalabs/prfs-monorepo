@@ -22,10 +22,10 @@
     "snarkjs": "^0.5.0"
   },
   "workspaces": [
-    "packages/lib",
-    "packages/benchmark/web",
-    "packages/benchmark/node",
-    "packages/circuits",
+    "externals/lib",
+    "externals/benchmark/web",
+    "externals/benchmark/node",
+    "externals/circuits",
     "source/prfs_js",
     "source/prfs_circuits",
     "source/prfs_circuit_server",

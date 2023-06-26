@@ -30,8 +30,8 @@ getrandom = { version = "0.2.8", features = ["js"] }
 itertools = "0.9.0"
 group = "0.12.0"
 
-poseidon = { path = "../../packages/poseidon" }
-spartan = { path = "../../packages/Spartan-secq" }
-secq256k1 = { path = "../../packages/secq256k1" }
+poseidon = { path = "../../externals/poseidon" }
+spartan = { path = "../../externals/Spartan-secq" }
+secq256k1 = { path = "../../externals/secq256k1" }
 
 

@@ -31,13 +31,13 @@ build/
 *.sym
 !test_circuit.r1cs
 
-packages/prover/test_circuit/test_circuit_js/
+externals/prover/test_circuit/test_circuit_js/
 #input files
-packages/prover/test_circuit/*.json 
+externals/prover/test_circuit/*.json 
 
 
 wasm_bytes.ts
 **/sage/*.sage.py
-packages/lib/src/circuits/
+externals/lib/src/circuits/
 
-packages/lib/example/
+externals/lib/example/
