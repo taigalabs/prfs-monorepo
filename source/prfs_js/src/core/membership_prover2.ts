@@ -29,7 +29,7 @@ export class MembershipProver2 extends Profiler implements IProver {
     if (
       options.circuit === defaultPubkeyMembershipPConfig.circuit ||
       options.witnessGenWasm ===
-        defaultPubkeyMembershipPConfig.witnessGenWasm ||
+      defaultPubkeyMembershipPConfig.witnessGenWasm ||
       options.circuit === defaultAddressMembershipPConfig.circuit ||
       options.witnessGenWasm === defaultAddressMembershipPConfig.witnessGenWasm
     ) {
