@@ -2,7 +2,6 @@
 
 // import { wasmBytes } from "./prfs_wasm_bytes";
 //
-//
 // import wasm from "../wasm_build/prfs_wasm";
 
 export const init = async () => {

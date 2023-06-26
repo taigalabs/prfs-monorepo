@@ -1,4 +1,4 @@
-import("../wasm_build/prfs_wasm").then(w => console.log(3, w));
+import * as wasm from "../wasm_build/prfs_wasm";
 
 self.onmessage = ({ data }) => {
   console.log(44, data);
