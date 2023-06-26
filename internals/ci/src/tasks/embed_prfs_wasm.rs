@@ -17,13 +17,16 @@ pub fn embed_prfs_wasm() {
             .expect("prfs_wasm js needs to have been generated");
 
         let url_stmt = "input = new URL('prfs_wasm_bg.wasm', import.meta.url)";
-        let url_stmt_idx = js_str.find(url_stmt).expect("get_imports_stmt must exist");
-        println!("url_stmt_idx: {}", url_stmt_idx);
+        let url_stmt2 =
+            "input = new URL('http://localhost:4010/circuits/prfs_wasm_bg.wasm', import.meta.url)";
+        let commented_out_code = js_str.replace(url_stmt, url_stmt2);
+        // let url_stmt_idx = js_str.find(url_stmt).expect("get_imports_stmt must exist");
+        // println!("url_stmt_idx: {}", url_stmt_idx);
 
-        let str1 = &js_str[0..url_stmt_idx];
-        let str2 = &js_str[url_stmt_idx..];
+        // let str1 = &js_str[0..url_stmt_idx];
+        // let str2 = &js_str[url_stmt_idx..];
 
-        let commented_out_code = format!("{}//{}", str1, str2);
+        // let commented_out_code = format!("{}//{}", str1, str2);
 
         let wasm_js_path = curr_dir.join("source/prfs_js/src/wasm_build/prfs_wasm.js");
         fs::write(&wasm_js_path, commented_out_code).expect("prfs_wasm.js should be written");

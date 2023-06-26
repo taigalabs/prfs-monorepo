@@ -1,6 +1,4 @@
 import { bigIntToLeBytes, bytesLeToBigInt } from "./utils";
-// import spartan, { init } from "../prfs_wasm_embedded";
-// import { init } from "../wasm_wrapper";
 
 export class Poseidon {
   hash(inputs: bigint[]): bigint {
@@ -12,10 +10,6 @@ export class Poseidon {
     // const result = spartan.poseidon(inputsBytes);
     const result = new Uint8Array([]);
     return bytesLeToBigInt(result);
-  }
-
-  async initWasm() {
-    // await init();
   }
 
   hashPubKey(pubKey: Buffer): bigint {

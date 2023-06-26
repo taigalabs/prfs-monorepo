@@ -16,4 +16,12 @@ export class Prfs {
     await initWasm();
     this.isInitilized = true;
   }
+
+  newTree() {
+
+  }
+
+  newPoseidon() {
+
+  }
 }
