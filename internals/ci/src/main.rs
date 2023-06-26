@@ -1,9 +1,4 @@
 mod tasks;
-// mod build_project;
-// mod dev_circuit_server;
-// mod dev_prfs_web;
-// mod e2e_test_node;
-// mod e2e_test_web;
 
 use clap::{command, Arg, ArgAction};
 use std::{env, fs, path::PathBuf};

@@ -1,11 +1,29 @@
 use std::{env, fs, path::PathBuf, process::Command};
 
+const WASM_PACK_VERSION: &str = "wasm-pack 0.12.0";
+
 pub fn build_wasm() {
     let curr_dir = std::env::current_dir().unwrap();
     println!("curr_dir: {:?}", curr_dir);
 
     let prfs_wasm_build_path = curr_dir.join("source/prfs_wasm/build");
     println!("prfs_wasm_build_path: {:?}", prfs_wasm_build_path);
+
+    {
+        let output = Command::new("wasm-pack")
+            .args(["--version"])
+            .output()
+            .expect("wasm-pack command failed to start");
+
+        let wasm_pack_version = String::from_utf8(output.stdout).unwrap();
+        if WASM_PACK_VERSION != wasm_pack_version.trim() {
+            panic!(
+                "wasm-pack wrong version, expected: {}, has: {}",
+                WASM_PACK_VERSION,
+                wasm_pack_version.trim()
+            );
+        }
+    }
 
     {
         let prfs_wasm_build_path = prfs_wasm_build_path.to_str().unwrap();

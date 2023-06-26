@@ -34,14 +34,8 @@ poseidon = { path = "../../externals/poseidon" }
 spartan = { path = "../../externals/Spartan-secq" }
 secq256k1 = { path = "../../externals/secq256k1" }
 
-[package.metadata.wasm-pack.dev]
-# Should `wasm-opt` be used to further optimize the wasm binary generated after
-# the Rust compiler has finished? Using `wasm-opt` can often further decrease
-# binary size or do clever tricks that haven't made their way into LLVM yet.
-#
-# Configuration is set to `false` by default for the dev profile, but it can
-# be set to an array of strings which are explicit arguments to pass to
-# `wasm-opt`. For example `['-Os']` would optimize for size while `['-O4']`
-# would execute very expensive optimizations passes
-# omit-default-module-path = true
-debug-js-glue = true
+[package.metadata.wasm-pack.profile.dev.wasm-bindgen]
+omit-default-module-path = true
+
+[package.metadata.wasm-pack.profile.release.wasm-bindgen]
+omit-default-module-path = true
