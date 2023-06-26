@@ -5,6 +5,7 @@ self.onmessage = ({ data }) => {
 
   switch (kind) {
     case "INIT_WASM": {
+      console.log(22, payload)
       wasm.initSync(payload);
 
       self.postMessage({ type: "INIT_WASM_SUCCESS" });
@@ -16,4 +17,4 @@ self.onmessage = ({ data }) => {
   }
 };
 
-self.postMessage({ kind: "FETCH_WASM" });
+self.postMessage({ kind: "LOAD_SUCCESS" });

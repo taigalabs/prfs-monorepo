@@ -9,7 +9,7 @@ import {
   SECP256K1_P,
   computeEffEcdsaPubInput2
 } from "../helpers/public_input";
-import { init } from "../wasm_wrapper";
+// import { init } from "../wasm_wrapper";
 import {
   defaultPubkeyMembershipPConfig,
   defaultAddressMembershipPConfig
@@ -59,7 +59,7 @@ export class MembershipProver2 extends Profiler implements IProver {
   }
 
   async init() {
-    await init();
+    // await init();
   }
 
   async prove(

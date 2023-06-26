@@ -1,8 +1,9 @@
-mod build_project;
-mod dev_circuit_server;
-mod dev_prfs_web;
-mod e2e_test_node;
-mod e2e_test_web;
+mod tasks;
+// mod build_project;
+// mod dev_circuit_server;
+// mod dev_prfs_web;
+// mod e2e_test_node;
+// mod e2e_test_web;
 
 use clap::{command, Arg, ArgAction};
 use std::{env, fs, path::PathBuf};
@@ -16,19 +17,20 @@ fn main() {
 
     match op.as_str() {
         "build" => {
-            build_project::run();
+            tasks::build_wasm::build_wasm();
+            tasks::compile_circuits::compile_circuits();
+            tasks::embed_prfs_wasm::embed_prfs_wasm();
+            tasks::build_prfs_js::build_prfs_js();
         }
         "e2e_test_node" => {
-            e2e_test_node::run();
-        }
-        "e2e_test_web" => {
-            e2e_test_web::run();
-        }
-        "dev_circuit_server" => {
-            dev_circuit_server::run();
+            tasks::e2e_test_node::run();
         }
         "dev_prfs_web" => {
-            dev_prfs_web::run();
+            tasks::build_prfs_js::build_prfs_js();
+            tasks::dev_prfs_web::run();
+        }
+        "dev_circuit_server" => {
+            tasks::dev_circuit_server::run();
         }
         _ => {
             panic!(

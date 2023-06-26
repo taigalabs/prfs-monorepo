@@ -9,13 +9,13 @@ pub fn run() {
     let e2e_test_web_path = curr_dir.join("source/e2e_test_web");
     println!("e2e_test_web: {:?}", e2e_test_web_path);
 
-    let status = Command::new("yarn")
-        .current_dir(&e2e_test_web_path)
-        .args(["run", "build"])
-        .status()
-        .expect("yarn command failed to start");
+    // let status = Command::new("yarn")
+    //     .current_dir(&e2e_test_web_path)
+    //     .args(["run", "build"])
+    //     .status()
+    //     .expect("yarn command failed to start");
 
-    assert!(status.success());
+    // assert!(status.success());
 
     let status = Command::new("yarn")
         .current_dir(&e2e_test_web_path)

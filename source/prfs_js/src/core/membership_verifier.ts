@@ -6,7 +6,7 @@ import { Profiler } from "../helpers/profiler";
 import { loadCircuit } from "../helpers/utils";
 import { IVerifier, VerifyConfig } from "../types";
 // import spartan, { init } from "../prfs_wasm_embedded";
-import { init } from "../wasm_wrapper";
+// import { init } from "../wasm_wrapper";
 import { PublicInput, verifyEffEcdsaPubInput } from "../helpers/public_input";
 
 /**
@@ -34,7 +34,7 @@ export class MembershipVerifier extends Profiler implements IVerifier {
   }
 
   async init() {
-    await init();
+    // await init();
   }
 
   async verify(
