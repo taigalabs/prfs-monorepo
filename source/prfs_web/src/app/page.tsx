@@ -4,6 +4,7 @@ import Image from 'next/image'
 import styles from './page.module.css'
 import { useState } from "react";
 import {
+  Prfs,
   init,
   MembershipProver2,
   MembershipVerifier,
@@ -32,7 +33,10 @@ export default function Home() {
     const { v, r, s } = ecsign(msgHash, privKey);
     const sig = `0x${r.toString("hex")}${s.toString("hex")}${v.toString(16)}`;
 
-    await init();
+    let prfs = new Prfs();
+    await prfs.init();
+
+    // await init();
     console.log(22);
     // const poseidon = new Poseidon();
     // await poseidon.initWasm();
