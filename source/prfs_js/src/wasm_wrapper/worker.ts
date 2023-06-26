@@ -16,4 +16,4 @@ self.onmessage = ({ data }) => {
   }
 };
 
-// self.postMessage({ kind: "FETCH_WASM" });
+self.postMessage({ kind: "FETCH_WASM" });

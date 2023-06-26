@@ -11,6 +11,49 @@ export const init = async () => {
   let res = await fetch("http://localhost:4010/circuits/prfs_wasm_bg.wasm");
   let wasm_bytes = await res.arrayBuffer();
 
+  const worker = new Worker(new URL("./worker.js?module", import.meta.url), {
+    type: "module"
+  });
+
+  worker.onmessage = async ({ data }) => {
+    console.log(22, data);
+
+    const { kind, payload } = data;
+    switch (kind) {
+      case "FETCH_WASM": {
+        try {
+          let res = await fetch("http://localhost:4010/circuits/prfs_wasm_bg.wasm");
+          let wasm_bytes = await res.arrayBuffer();
+
+          worker.postMessage({
+            kind: 'INIT_WASM',
+            payload: [wasm_bytes],
+          });
+        } catch (err) {
+          console.error(err);
+        }
+        break;
+      }
+      case "INIT_WASM_SUCCESS": {
+        console.log(123123);
+        break;
+      }
+      case "EXEC_RESULT": {
+        for (let listener of subscribers) {
+          listener(payload);
+        }
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  };
+
+  worker.onmessage = async ({ data }) => {
+    console.log(5555);
+  }
+
   worker.postMessage({
     kind: 'INIT_WASM',
     payload: [wasm_bytes],
@@ -26,41 +69,3 @@ export function subscribe(listener: Function) {
   subscribers.push(listener);
 }
 
-const worker = new Worker(new URL("./worker.js?module", import.meta.url), {
-  type: "module"
-});
-
-worker.onmessage = async ({ data }) => {
-  console.log(22, data);
-
-  const { kind, payload } = data;
-  switch (kind) {
-    case "FETCH_WASM": {
-      try {
-        let res = await fetch("http://localhost:4010/circuits/prfs_wasm_bg.wasm");
-        let wasm_bytes = await res.arrayBuffer();
-
-        worker.postMessage({
-          kind: 'INIT_WASM',
-          payload: [wasm_bytes],
-        });
-      } catch (err) {
-        console.error(err);
-      }
-      break;
-    }
-    case "INIT_WASM_SUCCESS": {
-      console.log(123123);
-      break;
-    }
-    case "EXEC_RESULT": {
-      for (let listener of subscribers) {
-        listener(payload);
-      }
-      break;
-    }
-    default: {
-      break;
-    }
-  }
-};
