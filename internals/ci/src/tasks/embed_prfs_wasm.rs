@@ -11,26 +11,21 @@ pub fn embed_prfs_wasm() {
     println!("prfs_wasm_embedded_path: {:?}", prfs_wasm_embedded_path);
 
     {
-        let prfs_wasm_js_path = prfs_wasm_build_path.join("prfs_wasm.js");
+        // This became unnecessary as we use "omit-default-module-path"
+        // See https://github.com/rustwasm/wasm-pack/pull/1272
+        // let prfs_wasm_js_path = prfs_wasm_build_path.join("prfs_wasm.js");
 
-        let js_str = fs::read_to_string(prfs_wasm_js_path)
-            .expect("prfs_wasm js needs to have been generated");
+        // let js_str = fs::read_to_string(prfs_wasm_js_path)
+        //     .expect("prfs_wasm js needs to have been generated");
 
-        let url_stmt = "input = new URL('prfs_wasm_bg.wasm', import.meta.url)";
-        let url_stmt2 =
-            "input = new URL('http://localhost:4010/circuits/prfs_wasm_bg.wasm', import.meta.url)";
-        let commented_out_code = js_str.replace(url_stmt, url_stmt2);
-        // let url_stmt_idx = js_str.find(url_stmt).expect("get_imports_stmt must exist");
-        // println!("url_stmt_idx: {}", url_stmt_idx);
+        // let url_stmt = "input = new URL('prfs_wasm_bg.wasm', import.meta.url)";
+        // let url_stmt2 =
+        //     "input = new URL('http://localhost:4010/circuits/prfs_wasm_bg.wasm', import.meta.url)";
+        // let commented_out_code = js_str.replace(url_stmt, url_stmt2);
 
-        // let str1 = &js_str[0..url_stmt_idx];
-        // let str2 = &js_str[url_stmt_idx..];
-
-        // let commented_out_code = format!("{}//{}", str1, str2);
-
-        let wasm_js_path = curr_dir.join("source/prfs_js/src/wasm_build/prfs_wasm.js");
-        fs::write(&wasm_js_path, commented_out_code).expect("prfs_wasm.js should be written");
-        println!("File is written, path: {:?}", wasm_js_path);
+        // let wasm_js_path = curr_dir.join("source/prfs_js/src/wasm_build/prfs_wasm.js");
+        // fs::write(&wasm_js_path, commented_out_code).expect("prfs_wasm.js should be written");
+        // println!("File is written, path: {:?}", wasm_js_path);
     }
 
     {

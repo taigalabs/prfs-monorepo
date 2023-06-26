@@ -42,7 +42,6 @@ pub fn build_wasm() {
         let status = Command::new("wasm-pack")
             .current_dir(prfs_wasm_path)
             .args([
-                // "--omit-default-module-path",
                 "build",
                 "--target",
                 "web",

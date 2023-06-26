@@ -1,12 +1,11 @@
-import wasm from "../wasm_build/prfs_wasm";
+import prfsWasm from "../wasm_build/prfs_wasm";
 
-let subscribers: Function[] = [];
-
-export const initWasm = async () => {
+export const initPrfsWasm = async () => {
   console.log("prfs_wasm_embed init()");
 
-  let a = await wasm();
-  console.log(22, a);
+  let wasm = await prfsWasm("http://localhost:4010/circuits/prfs_wasm_bg.wasm");
+
+  return wasm;
 
   // let res = await fetch("http://localhost:4010/circuits/prfs_wasm_bg.wasm");
   // let wasm_bytes = await res.arrayBuffer();
@@ -59,11 +58,8 @@ export const initWasm = async () => {
   // await promise;
 };
 
-export function callProve() {
+// export function callProve() {}
 
-}
-
-export function subscribe(listener: Function) {
-  subscribers.push(listener);
-}
-
+// export function subscribe(listener: Function) {
+//   subscribers.push(listener);
+// }
