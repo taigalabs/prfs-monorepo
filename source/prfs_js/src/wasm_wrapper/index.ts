@@ -11,6 +11,12 @@ export const init = async () => {
     type: "module"
   });
 
+  // fetch("/pkg/synchronous_instantiation_bg.wasm")
+  //   .then(response => response.arrayBuffer())
+  //   .then(bytes => {
+  //     worker.postMessage(bytes, [bytes]);
+  //   });
+
   worker.onmessage = ({ data }) => {
     console.log(22, data);
     // const { type } = data;

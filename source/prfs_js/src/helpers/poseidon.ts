@@ -1,6 +1,6 @@
 import { bigIntToLeBytes, bytesLeToBigInt } from "./utils";
 // import spartan, { init } from "../prfs_wasm_embedded";
-import { init } from "../prfs_wasm_embedded";
+import { init } from "../wasm_wrapper";
 
 export class Poseidon {
   hash(inputs: bigint[]): bigint {

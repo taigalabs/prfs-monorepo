@@ -1,5 +1,5 @@
-src/wasm_wrapper_web/prfs_wasm_bytes.ts
-src/wasm_wrapper_web/prfs_wasm.js
+src/wasm_wrapper/prfs_wasm_bytes.ts
+src/wasm_wrapper/prfs_wasm.js
 
 src/circuits/**
 !src/circuits/.gitkeep

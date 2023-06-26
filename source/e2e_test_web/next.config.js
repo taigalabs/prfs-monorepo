@@ -4,7 +4,7 @@ const nextConfig = {
   swcMinify: true,
   webpack: (config, { isServer, dev }) => {
     config.resolve.fallback = { fs: false };
-    config.experiments = { asyncWebAssembly: true };
+    config.experiments = { ...config.experiments, asyncWebAssembly: true };
     config.output.webassemblyModuleFilename =
       isServer && !dev
         ? "../static/wasm/[modulehash].wasm"

@@ -46,4 +46,16 @@ pub fn build_wasm() {
         .status()
         .expect("cp command failed to start");
     assert!(status.success());
+
+    let prfs_wasm_file_path = format!("{}/prfs_wasm_bg.wasm", prfs_wasm_build_path);
+    println!("prfs_wasm_file_path: {}", prfs_wasm_file_path);
+
+    let circuit_serve_path = curr_dir.join("source/prfs_circuit_server/circuits");
+    println!("circuit_serve_path: {}", prfs_wasm_file_path);
+
+    let status = Command::new("cp")
+        .args([&prfs_wasm_file_path, circuit_serve_path.to_str().unwrap()])
+        .status()
+        .expect("cp command failed to start");
+    assert!(status.success());
 }

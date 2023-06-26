@@ -9,7 +9,7 @@ import {
   SECP256K1_P,
   computeEffEcdsaPubInput2
 } from "../helpers/public_input";
-import { init } from "../prfs_wasm_embedded";
+import { init } from "../wasm_wrapper";
 import {
   defaultPubkeyMembershipPConfig,
   defaultAddressMembershipPConfig
@@ -29,7 +29,7 @@ export class MembershipProver2 extends Profiler implements IProver {
     if (
       options.circuit === defaultPubkeyMembershipPConfig.circuit ||
       options.witnessGenWasm ===
-      defaultPubkeyMembershipPConfig.witnessGenWasm ||
+        defaultPubkeyMembershipPConfig.witnessGenWasm ||
       options.circuit === defaultAddressMembershipPConfig.circuit ||
       options.witnessGenWasm === defaultAddressMembershipPConfig.witnessGenWasm
     ) {
@@ -136,7 +136,7 @@ export class MembershipProver2 extends Profiler implements IProver {
 
     this.time("Generate witness");
 
-    console.log('wasm11: %s', this.witnessGenWasm);
+    console.log("wasm11: %s", this.witnessGenWasm);
 
     const witness = await snarkJsWitnessGen(
       witnessGenInput,
