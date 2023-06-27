@@ -34,14 +34,14 @@ export default function Home() {
     const sig = `0x${r.toString("hex")}${s.toString("hex")}${v.toString(16)}`;
 
     let prfs = await Prfs.newInstance();
-
-    // await init();
     console.log(22, prfs);
-    // const poseidon = new Poseidon();
-    // await poseidon.initWasm();
 
-    //   const treeDepth = 20;
-    //   const addressTree = new Tree(treeDepth, poseidon);
+    const poseidon = prfs.newPoseidon();
+
+    const treeDepth = 20;
+    // const addressTree = new Tree(treeDepth, poseidon);
+    const addressTree = prfs.newTree(treeDepth, poseidon);
+    console.log(44, addressTree);
 
     //   const proverAddress = BigInt(
     //     "0x" + privateToAddress(privKey).toString("hex")

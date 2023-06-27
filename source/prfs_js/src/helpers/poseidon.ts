@@ -1,5 +1,4 @@
 import { bigIntToLeBytes, bytesLeToBigInt } from "./utils";
-import * as prfsWasm from '../wasm_build/prfs_wasm';
 import { PrfsWasmType } from '../wasm_wrapper/types';
 
 export class Poseidon {

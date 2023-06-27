@@ -28,9 +28,11 @@ export class Prfs {
     return p;
   }
 
-  newTree() { }
+  newTree(depth: number, poseidon: Poseidon): Tree {
+    return new Tree(depth, poseidon);
+  }
 
-  newPoseidon() {
-    // return new Poseidon();
+  newPoseidon(): Poseidon {
+    return new Poseidon(prfsWasm);
   }
 }
