@@ -31,7 +31,7 @@ itertools = "0.9.0"
 group = "0.12.0"
 
 poseidon = { path = "../../externals/poseidon" }
-spartan = { path = "../../externals/Spartan-secq" }
+spartan = { path = "../../externals/Spartan-secq", features=["multicore"] }
 secq256k1 = { path = "../../externals/secq256k1" }
 
 [package.metadata.wasm-pack.profile.dev.wasm-bindgen]
