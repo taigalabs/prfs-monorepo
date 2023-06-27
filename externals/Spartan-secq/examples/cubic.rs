@@ -15,6 +15,8 @@ use rand_core::OsRng;
 use secq256k1::elliptic_curve::Field;
 use secq256k1::Scalar;
 
+use std::time::{Duration, Instant};
+
 #[allow(non_snake_case)]
 fn produce_r1cs() -> (
   usize,
@@ -109,6 +111,8 @@ fn produce_r1cs() -> (
 }
 
 fn main() {
+  println!("start");
+
   // produce an R1CS instance
   let (
     num_cons,
@@ -119,6 +123,8 @@ fn main() {
     assignment_vars,
     assignment_inputs,
   ) = produce_r1cs();
+
+  let start = Instant::now();
 
   // produce public parameters
   let gens = SNARKGens::new(num_cons, num_vars, num_inputs, num_non_zero_entries);
@@ -144,4 +150,7 @@ fn main() {
     .verify(&comm, &assignment_inputs, &mut verifier_transcript, &gens)
     .is_ok());
   println!("proof verification successful!");
+
+  let duration = start.elapsed();
+  println!("Time elapsed in expensive_function() is: {:?}", duration);
 }

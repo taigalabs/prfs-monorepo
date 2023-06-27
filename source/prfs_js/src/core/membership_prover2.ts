@@ -9,12 +9,12 @@ import {
   SECP256K1_P,
   computeEffEcdsaPubInput2
 } from "../helpers/public_input";
-// import { init } from "../wasm_wrapper";
 import {
   defaultPubkeyMembershipPConfig,
   defaultAddressMembershipPConfig
 } from "../config";
 import BN from "bn.js";
+import { PrfsWasmType } from "../wasm_wrapper/types";
 
 /**
  * ECDSA Membership Prover
@@ -22,24 +22,25 @@ import BN from "bn.js";
 export class MembershipProver2 extends Profiler implements IProver {
   circuit: string;
   witnessGenWasm: string;
+  prfsWasm: PrfsWasmType
 
-  constructor(options: ProverConfig) {
+  constructor(options: ProverConfig, prfsWasm: PrfsWasmType) {
     super({ enabled: options?.enableProfiler });
 
-    if (
-      options.circuit === defaultPubkeyMembershipPConfig.circuit ||
-      options.witnessGenWasm ===
-      defaultPubkeyMembershipPConfig.witnessGenWasm ||
-      options.circuit === defaultAddressMembershipPConfig.circuit ||
-      options.witnessGenWasm === defaultAddressMembershipPConfig.witnessGenWasm
-    ) {
-      console.warn(`
-      Spartan-ecdsa default config warning:
-      We recommend using defaultPubkeyMembershipPConfig/defaultPubkeyMembershipVConfig only for testing purposes.
-      Please host and specify the circuit and witnessGenWasm files on your own server for sovereign control.
-      Download files: https://github.com/personaelabs/spartan-ecdsa/blob/main/packages/lib/README.md#circuit-downloads
-      `);
-    }
+    // if (
+    //   options.circuit === defaultPubkeyMembershipPConfig.circuit ||
+    //   options.witnessGenWasm ===
+    //   defaultPubkeyMembershipPConfig.witnessGenWasm ||
+    //   options.circuit === defaultAddressMembershipPConfig.circuit ||
+    //   options.witnessGenWasm === defaultAddressMembershipPConfig.witnessGenWasm
+    // ) {
+    //   console.warn(`
+    //   Spartan-ecdsa default config warning:
+    //   We recommend using defaultPubkeyMembershipPConfig/defaultPubkeyMembershipVConfig only for testing purposes.
+    //   Please host and specify the circuit and witnessGenWasm files on your own server for sovereign control.
+    //   Download files: https://github.com/personaelabs/spartan-ecdsa/blob/main/packages/lib/README.md#circuit-downloads
+    //   `);
+    // }
 
     // const isNode = typeof window === "undefined";
     // if (isNode) {
@@ -56,10 +57,8 @@ export class MembershipProver2 extends Profiler implements IProver {
 
     this.circuit = options.circuit;
     this.witnessGenWasm = options.witnessGenWasm;
-  }
 
-  async init() {
-    // await init();
+    this.prfsWasm = prfsWasm;
   }
 
   async prove(
@@ -157,13 +156,14 @@ export class MembershipProver2 extends Profiler implements IProver {
     const circuitPublicInput: Uint8Array =
       publicInput.circuitPubInput.serialize();
 
-    // this.time("Prove");
-    // let proof = spartan.prove(circuitBin, witness.data, circuitPublicInput);
-    // this.timeEnd("Prove");
+    this.time("Prove");
+    let proof = this.prfsWasm.prove(circuitBin, witness.data, circuitPublicInput);
+    this.timeEnd("Prove");
     //
 
     return {
-      proof: new Uint8Array([0]),
+      proof,
+      // proof: new Uint8Array([0]),
       publicInput
     };
   }

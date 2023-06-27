@@ -1,4 +1,4 @@
-export * from "./types";
+// export * from "./types";
 export * from "./helpers/public_input";
 export * from "./core/membership_verifier";
 export * from "./config";
@@ -8,8 +8,8 @@ import { initPrfsWasm } from "./wasm_wrapper";
 import { Tree } from "./helpers/tree";
 import * as prfsWasm from "./wasm_build/prfs_wasm";
 import { Poseidon } from "./helpers/poseidon";
-
-export * from "./core/membership_prover2";
+import { MembershipProver2 } from "./core/membership_prover2";
+import { IProver, MerkleProof, NIZK, ProverConfig } from "./types";
 
 // declare type Foo = typeof import("./wasm_build/prfs_wasm");
 
@@ -34,5 +34,9 @@ export class Prfs {
 
   newPoseidon(): Poseidon {
     return new Poseidon(prfsWasm);
+  }
+
+  newMembershipProver(options: ProverConfig) {
+    return new MembershipProver2(options, prfsWasm);
   }
 }

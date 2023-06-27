@@ -4,16 +4,16 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import { useState } from "react";
 import {
-  Prfs
+  Prfs,
   // init,
   // MembershipProver2,
   // MembershipVerifier,
   // Tree,
   // Poseidon,
-  // defaultAddressMembershipPConfig,
-  // defaultPubkeyMembershipPConfig,
-  // defaultPubkeyMembershipVConfig,
-  // defaultAddressMembershipVConfig
+  defaultAddressMembershipPConfig,
+  defaultPubkeyMembershipPConfig,
+  defaultPubkeyMembershipVConfig,
+  defaultAddressMembershipVConfig,
 } from "@taigalabs/prfs-js";
 import {
   ecrecover,
@@ -43,45 +43,45 @@ export default function Home() {
     const addressTree = prfs.newTree(treeDepth, poseidon);
     console.log(44, addressTree);
 
-    //   const proverAddress = BigInt(
-    //     "0x" + privateToAddress(privKey).toString("hex")
-    //   );
-    //   addressTree.insert(proverAddress);
+    const proverAddress = BigInt(
+      "0x" + privateToAddress(privKey).toString("hex")
+    );
+    addressTree.insert(proverAddress);
 
-    //   // Insert other members into the tree
-    //   for (const member of ["🕵️", "🥷", "👩‍🔬"]) {
-    //     const pubKey = privateToPublic(
-    //       Buffer.from("".padStart(16, member), "utf16le")
-    //     );
-    //     const address = BigInt("0x" + pubToAddress(pubKey).toString("hex"));
-    //     addressTree.insert(address);
-    //   }
+    // Insert other members into the tree
+    for (const member of ["🕵️", "🥷", "👩‍🔬"]) {
+      const pubKey = privateToPublic(
+        Buffer.from("".padStart(16, member), "utf16le")
+      );
+      const address = BigInt("0x" + pubToAddress(pubKey).toString("hex"));
+      addressTree.insert(address);
+    }
 
-    //   const index = addressTree.indexOf(proverAddress);
-    //   const merkleProof = addressTree.createProof(index);
+    const index = addressTree.indexOf(proverAddress);
+    const merkleProof = addressTree.createProof(index);
 
-    //   console.log("Proving...");
-    //   console.time("Full proving time");
+    console.log("Proving...");
+    console.time("Full proving time");
 
-    //   const prover = new MembershipProver2({
-    //     ...defaultAddressMembershipPConfig,
-    //     enableProfiler: true
-    //   });
+    const prover = prfs.newMembershipProver({
+      ...defaultAddressMembershipPConfig,
+      enableProfiler: true
+    });
+    console.log(11, prover);
 
-    //   await prover.init();
+    const { proof, publicInput } = await prover.prove(
+      sig,
+      msgHash,
+      merkleProof
+    );
 
-    //   const { proof, publicInput } = await prover.prove(
-    //     sig,
-    //     msgHash,
-    //     merkleProof
-    //   );
-
-    //   console.timeEnd("Full proving time");
-    //   console.log(
-    //     "Raw proof size (excluding public input)",
-    //     proof.length,
-    //     "bytes"
-    //   );
+    console.log(33, proof, publicInput);
+    console.timeEnd("Full proving time");
+    console.log(
+      "Raw proof size (excluding public input)",
+      proof.length,
+      "bytes"
+    );
 
     //   console.log("Verifying...");
     //   const verifier = new MembershipVerifier({

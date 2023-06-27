@@ -199,7 +199,7 @@ mod test {
 
     #[test]
     fn check_nizk() {
-        // println!("check_nizk()");
+        println!("check_nizk()");
 
         let root = current_dir().unwrap();
         let circuit = fs::read(root.join("test_circuit/test_circuit.circuit")).unwrap();
@@ -212,7 +212,7 @@ mod test {
             .flatten()
             .collect::<Vec<u8>>();
 
-        // println!("\npublic_inputs: {:?}", public_inputs);
+        println!("\npublic_inputs: {:?}", public_inputs);
 
         let proof = prove(
             circuit.as_slice(),
@@ -221,7 +221,7 @@ mod test {
         )
         .unwrap();
 
-        // println!("\nproof: {:?}", proof);
+        println!("\nproof: {:?}", proof);
 
         let result = verify(
             circuit.as_slice(),
@@ -229,7 +229,7 @@ mod test {
             public_inputs.as_slice(),
         );
 
-        // println!("\nresult: {:?}", result);
+        println!("\nresult: {:?}", result);
 
         assert!(result.unwrap());
     }
