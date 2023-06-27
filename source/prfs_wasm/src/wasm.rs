@@ -12,11 +12,6 @@ pub type G1 = secq256k1::AffinePoint;
 pub type F1 = <G1 as Group>::Scalar;
 
 #[wasm_bindgen]
-pub fn aa() -> usize {
-    3 + 3
-}
-
-#[wasm_bindgen]
 pub fn init_panic_hook() {
     console_error_panic_hook::set_once();
 }

@@ -1,21 +1,23 @@
 export * from "./types";
 export * from "./helpers/public_input";
 export * from "./core/membership_verifier";
-export * from "./helpers/poseidon";
 export * from "./config";
 
+import { PrfsWasmType } from "./wasm_wrapper/types";
 import { initPrfsWasm } from "./wasm_wrapper";
 import { Tree } from "./helpers/tree";
 import * as prfsWasm from "./wasm_build/prfs_wasm";
-// import * as pr from "prfsWasm";
+import { Poseidon } from "./helpers/poseidon";
 
 export * from "./core/membership_prover2";
 
+// declare type Foo = typeof import("./wasm_build/prfs_wasm");
+
 export class Prfs {
   isInitilized: boolean;
-  wasm: prfsWasm.InitOutput;
+  wasm: PrfsWasmType;
 
-  private constructor(wasm: prfsWasm.InitOutput) {
+  private constructor(wasm: PrfsWasmType) {
     this.isInitilized = true;
     this.wasm = wasm;
   }
@@ -26,7 +28,9 @@ export class Prfs {
     return p;
   }
 
-  newTree() {}
+  newTree() { }
 
-  newPoseidon() {}
+  newPoseidon() {
+    // return new Poseidon();
+  }
 }

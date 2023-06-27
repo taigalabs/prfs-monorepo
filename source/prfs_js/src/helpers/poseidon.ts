@@ -1,14 +1,21 @@
 import { bigIntToLeBytes, bytesLeToBigInt } from "./utils";
+import * as prfsWasm from '../wasm_build/prfs_wasm';
+import { PrfsWasmType } from '../wasm_wrapper/types';
 
 export class Poseidon {
+  wasm: PrfsWasmType;
+
+  constructor(wasm: PrfsWasmType) {
+    this.wasm = wasm;
+  }
+
   hash(inputs: bigint[]): bigint {
     const inputsBytes = new Uint8Array(32 * inputs.length);
     for (let i = 0; i < inputs.length; i++) {
       inputsBytes.set(bigIntToLeBytes(inputs[i], 32), i * 32);
     }
 
-    // const result = spartan.poseidon(inputsBytes);
-    const result = new Uint8Array([]);
+    const result = this.wasm.poseidon(inputsBytes);
     return bytesLeToBigInt(result);
   }
 
