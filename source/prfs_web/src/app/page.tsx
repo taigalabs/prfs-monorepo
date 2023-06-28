@@ -1,7 +1,9 @@
 "use client";
 
+import React from 'react';
 import Image from "next/image";
 import styles from "./page.module.css";
+import rayon from './rayon';
 import { useState } from "react";
 import {
   Prfs,
@@ -25,7 +27,12 @@ import {
 } from "@ethereumjs/util";
 
 export default function Home() {
+  React.useEffect(() => {
+    rayon().then(() => { });
+  }, []);
+
   const proverAddressMembership = async () => {
+
     const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
     const msg = Buffer.from("harry potter");
     const msgHash = hashPersonalMessage(msg);
@@ -109,6 +116,33 @@ export default function Home() {
       <button onClick={proverAddressMembership}>
         Prove Address Membership
       </button>
+
+      <p>
+        This is a demo for
+        <a href="https://github.com/GoogleChromeLabs/wasm-bindgen-rayon"
+        >wasm-bindgen-rayon</a
+        >, generating a
+        <a href="https://en.wikipedia.org/wiki/Mandelbrot_set"
+        >Mandelbrot fractal</a
+        >
+        with WebAssembly threads.
+      </p>
+      <input
+        type="button"
+        id="singleThread"
+        value="Draw using a single thread"
+        disabled
+      />
+      <input
+        type="button"
+        id="multiThread"
+        value="Draw using all available threads"
+        disabled
+      />
+      <output id="time"></output>
+      <br />
+      <canvas id="canvas" width="700" height="700"></canvas>
+      {/* <script type="module" src="index.js"></script> */}
     </div>
   );
 }
