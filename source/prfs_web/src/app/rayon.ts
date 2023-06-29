@@ -13,9 +13,7 @@
 
 import * as Comlink from "comlink";
 
-
 export default async function init() {
-
   const maxIterations = 1000;
 
   const canvas = document.getElementById("canvas") as any;
@@ -28,7 +26,7 @@ export default async function init() {
   // Create a separate thread from wasm-worker.js and get a proxy to its handlers.
   let handlers = await (
     Comlink.wrap(
-      new Worker(new URL("./wasm-worker.ts", import.meta.url), {
+      new Worker(new URL("./wasm-worker2.ts", import.meta.url), {
         type: "module",
       })
     ) as any
@@ -43,16 +41,29 @@ export default async function init() {
     // If handler doesn't exist, it's not supported.
     if (!handler) return;
     // Assign onclick handler + enable the button.
+    // Object.assign(document.getElementById(id) as any, {
+    //   async onclick() {
+    //     let { rawImageData, time } = await handler({
+    //       width,
+    //       height,
+    //       maxIterations,
+    //     });
+    //     timeOutput.value = `${time.toFixed(2)} ms`;
+    //     const imgData = new ImageData(rawImageData, width, height);
+    //     ctx.putImageData(imgData, 0, 0);
+    //   },
+    //   disabled: false,
+    // });
+
     Object.assign(document.getElementById(id) as any, {
       async onclick() {
-        let { rawImageData, time } = await handler({
-          width,
-          height,
-          maxIterations,
-        });
-        timeOutput.value = `${time.toFixed(2)} ms`;
-        const imgData = new ImageData(rawImageData, width, height);
-        ctx.putImageData(imgData, 0, 0);
+        let data = await handler(
+
+        );
+        // timeOutput.value = `${time.toFixed(2)} ms`;
+        // const imgData = new ImageData(rawImageData, width, height);
+        // ctx.putImageData(imgData, 0, 0);
+        console.log(11, data);
       },
       disabled: false,
     });
@@ -60,8 +71,9 @@ export default async function init() {
 
   // setupBtn("singleThread");
   if (await handlers.supportsThreads) {
-    console.log(123123);
     setupBtn("multiThread");
   }
+
+  return handlers["multiThread"];
 };
 

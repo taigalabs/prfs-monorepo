@@ -26,68 +26,95 @@ import {
   pubToAddress
 } from "@ethereumjs/util";
 
+import * as Comlink from "comlink";
+
 export default function Home() {
-  React.useEffect(() => {
-    rayon().then(() => { });
-  }, []);
+  // React.useEffect(() => {
+  //   rayon().then(() => { });
 
-  const proverAddressMembership = async () => {
-    const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
-    const msg = Buffer.from("harry potter");
-    const msgHash = hashPersonalMessage(msg);
+  //   // Create a separate thread from wasm-worker.js and get a proxy to its handlers.
+  //   let handlers = await(
+  //     Comlink.wrap(
+  //       new Worker(new URL("./wasm-worker2.ts", import.meta.url), {
+  //         type: "module",
+  //       })
+  //     ) as any
+  //   ).handlers;
 
-    const { v, r, s } = ecsign(msgHash, privKey);
-    const sig = `0x${r.toString("hex")}${s.toString("hex")}${v.toString(16)}`;
+  //   console.log("init() 22", await handlers);
+  //   console.log("init() 33", await handlers.supportsThreads);
+  // }, []);
 
-    let prfs = await Prfs.newInstance();
-    console.log(22, prfs);
+  const proverAddressMembership = React.useCallback(() => {
+    async function fn() {
+      let handlers = await (
+        Comlink.wrap(
+          new Worker(new URL("./wasm-worker2.ts", import.meta.url), {
+            type: "module",
+          })
+        ) as any
+      ).handlers;
 
-    const poseidon = prfs.newPoseidon();
+      console.log("init() 22", await handlers);
+      console.log("init() 33", await handlers.supportsThreads);
 
-    const treeDepth = 20;
-    // const addressTree = new Tree(treeDepth, poseidon);
-    const addressTree = prfs.newTree(treeDepth, poseidon);
-    console.log(44, addressTree);
+      const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
+      const msg = Buffer.from("harry potter");
+      const msgHash = hashPersonalMessage(msg);
 
-    const proverAddress = BigInt(
-      "0x" + privateToAddress(privKey).toString("hex")
-    );
-    addressTree.insert(proverAddress);
+      const { v, r, s } = ecsign(msgHash, privKey);
+      const sig = `0x${r.toString("hex")}${s.toString("hex")}${v.toString(16)}`;
 
-    // Insert other members into the tree
-    for (const member of ["🕵️", "🥷", "👩‍🔬"]) {
-      const pubKey = privateToPublic(
-        Buffer.from("".padStart(16, member), "utf16le")
+      let prfs = await Prfs.newInstance();
+      console.log(22, prfs);
+
+      const poseidon = prfs.newPoseidon();
+
+      const treeDepth = 20;
+      // const addressTree = new Tree(treeDepth, poseidon);
+      const addressTree = prfs.newTree(treeDepth, poseidon);
+      console.log(44, addressTree);
+
+      const proverAddress = BigInt(
+        "0x" + privateToAddress(privKey).toString("hex")
       );
-      const address = BigInt("0x" + pubToAddress(pubKey).toString("hex"));
-      addressTree.insert(address);
+      addressTree.insert(proverAddress);
+
+      // Insert other members into the tree
+      for (const member of ["🕵️", "🥷", "👩‍🔬"]) {
+        const pubKey = privateToPublic(
+          Buffer.from("".padStart(16, member), "utf16le")
+        );
+        const address = BigInt("0x" + pubToAddress(pubKey).toString("hex"));
+        addressTree.insert(address);
+      }
+
+      const index = addressTree.indexOf(proverAddress);
+      const merkleProof = addressTree.createProof(index);
+
+      console.log("Proving...");
+      console.time("Full proving time");
+
+      const prover = prfs.newMembershipProver({
+        ...defaultAddressMembershipPConfig,
+        enableProfiler: true
+      });
+      console.log(11, prover);
+
+      const { proof, publicInput } = await prover.prove(
+        sig,
+        msgHash,
+        merkleProof
+      );
+
+      console.log(33, proof, publicInput);
+      console.timeEnd("Full proving time");
+      console.log(
+        "Raw proof size (excluding public input)",
+        proof.length,
+        "bytes"
+      );
     }
-
-    const index = addressTree.indexOf(proverAddress);
-    const merkleProof = addressTree.createProof(index);
-
-    console.log("Proving...");
-    console.time("Full proving time");
-
-    const prover = prfs.newMembershipProver({
-      ...defaultAddressMembershipPConfig,
-      enableProfiler: true
-    });
-    console.log(11, prover);
-
-    const { proof, publicInput } = await prover.prove(
-      sig,
-      msgHash,
-      merkleProof
-    );
-
-    console.log(33, proof, publicInput);
-    console.timeEnd("Full proving time");
-    console.log(
-      "Raw proof size (excluding public input)",
-      proof.length,
-      "bytes"
-    );
 
     //   console.log("Verifying...");
     //   const verifier = new MembershipVerifier({
@@ -105,7 +132,8 @@ export default function Home() {
     //   } else {
     //     console.log("Failed to verify proof :(");
     //   }
-  };
+    fn().then(() => { });
+  }, []);
 
   return (
     <div>
