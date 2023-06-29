@@ -13,26 +13,25 @@
 
 import * as Comlink from "comlink";
 
-export default async function init() {
+
+async function init() {
+  console.log('init()');
+
   const maxIterations = 1000;
 
   const canvas = document.getElementById("canvas") as any;
-  const { width, height } = canvas as any;
+  const { width, height } = canvas;
   const ctx = canvas.getContext("2d") as any;
   const timeOutput = document.getElementById("time") as any;
 
-  console.log('init rayon');
-
   // Create a separate thread from wasm-worker.js and get a proxy to its handlers.
-  let handlers = await (
-    Comlink.wrap(
-      new Worker(new URL("./wasm-worker2.ts", import.meta.url), {
-        type: "module",
-      })
-    ) as any
-  ).handlers;
+  let handlers = (await Comlink.wrap(
+    new Worker(new URL("./wasm-worker.ts", import.meta.url), {
+      type: "module",
+    })
+  ) as any).handlers;
 
-  console.log("init() 22", await handlers);
+  console.log("init() 22", handlers);
   console.log("init() 33", await handlers.supportsThreads);
 
   function setupBtn(id: any) {
@@ -41,39 +40,26 @@ export default async function init() {
     // If handler doesn't exist, it's not supported.
     if (!handler) return;
     // Assign onclick handler + enable the button.
-    // Object.assign(document.getElementById(id) as any, {
-    //   async onclick() {
-    //     let { rawImageData, time } = await handler({
-    //       width,
-    //       height,
-    //       maxIterations,
-    //     });
-    //     timeOutput.value = `${time.toFixed(2)} ms`;
-    //     const imgData = new ImageData(rawImageData, width, height);
-    //     ctx.putImageData(imgData, 0, 0);
-    //   },
-    //   disabled: false,
-    // });
-
-    Object.assign(document.getElementById(id) as any, {
+    Object.assign(document.getElementById(id), {
       async onclick() {
-        let data = await handler(
-
-        );
-        // timeOutput.value = `${time.toFixed(2)} ms`;
-        // const imgData = new ImageData(rawImageData, width, height);
-        // ctx.putImageData(imgData, 0, 0);
-        console.log(11, data);
+        let { rawImageData, time } = await handler({
+          width,
+          height,
+          maxIterations,
+        });
+        timeOutput.value = `${time.toFixed(2)} ms`;
+        const imgData = new ImageData(rawImageData, width, height);
+        ctx.putImageData(imgData, 0, 0);
       },
       disabled: false,
     });
   }
 
-  // setupBtn("singleThread");
+  setupBtn("singleThread");
   if (await handlers.supportsThreads) {
+    console.log(123123);
     setupBtn("multiThread");
   }
-
-  return handlers["multiThread"];
 };
 
+export default init;

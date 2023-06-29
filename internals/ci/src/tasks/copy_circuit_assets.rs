@@ -1,6 +1,8 @@
 use std::{env, fs, path::PathBuf, process::Command};
 
 pub fn copy_circuit_assets() {
+    println!("\nCopying circuit assets...");
+
     let curr_dir = env::current_dir().unwrap();
     println!("curr_dir: {:?}", curr_dir);
 

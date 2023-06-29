@@ -1,1 +1,1 @@
-export declare type PrfsWasmType = typeof import('../wasm_build/prfs_wasm');
+export declare type PrfsWasmType = typeof import('../wasm_build/build/prfs_wasm');
