@@ -13,9 +13,16 @@
 
 import * as Comlink from "comlink";
 
-
 async function init() {
-  console.log('init()');
+  console.log("init()");
+
+  let handlers = (
+    Comlink.wrap(
+      new Worker(new URL("./wasm-worker.ts", import.meta.url), {
+        type: "module"
+      })
+    ) as any
+  ).handlers;
 
   const maxIterations = 1000;
 
@@ -25,14 +32,9 @@ async function init() {
   const timeOutput = document.getElementById("time") as any;
 
   // Create a separate thread from wasm-worker.js and get a proxy to its handlers.
-  let handlers = (await Comlink.wrap(
-    new Worker(new URL("./wasm-worker.ts", import.meta.url), {
-      type: "module",
-    })
-  ) as any).handlers;
 
   console.log("init() 22", handlers);
-  console.log("init() 33", await handlers.supportsThreads);
+  console.log("init() 33", handlers.supportsThreads);
 
   function setupBtn(id: any) {
     // Handlers are named in the same way as buttons.
@@ -45,21 +47,23 @@ async function init() {
         let { rawImageData, time } = await handler({
           width,
           height,
-          maxIterations,
+          maxIterations
         });
         timeOutput.value = `${time.toFixed(2)} ms`;
         const imgData = new ImageData(rawImageData, width, height);
         ctx.putImageData(imgData, 0, 0);
       },
-      disabled: false,
+      disabled: false
     });
   }
 
+  console.log("init exiting single");
   setupBtn("singleThread");
   if (await handlers.supportsThreads) {
-    console.log(123123);
+    console.log("init exiting multi");
+
     setupBtn("multiThread");
   }
-};
+}
 
 export default init;

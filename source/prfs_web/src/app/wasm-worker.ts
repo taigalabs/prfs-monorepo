@@ -22,6 +22,8 @@ async function initHandlers() {
 
   let [singleThread, multiThread] = await Promise.all([
     (async () => {
+      console.log("initHandlers(): importing single");
+
       const singleThread = await import(
         "../../demo/pkg/wasm_bindgen_rayon_demo.js"
       );
@@ -30,6 +32,7 @@ async function initHandlers() {
     })(),
     (async () => {
       console.log("initHandlers(): importing multi");
+
       // If threads are unsupported in this browser, skip this handler.
       if (!(await threads())) return;
       const multiThread = await import(
@@ -44,7 +47,7 @@ async function initHandlers() {
     })()
   ]);
 
-  console.log(55, multiThread);
+  console.log("multithread", !!multiThread);
 
   return Comlink.proxy({
     singleThread,
@@ -53,6 +56,10 @@ async function initHandlers() {
   });
 }
 
+const handlers = await initHandlers();
+
+console.log(55);
+
 Comlink.expose({
-  handlers: initHandlers()
+  handlers
 });
