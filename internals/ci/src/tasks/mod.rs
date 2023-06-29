@@ -1,6 +1,7 @@
 pub mod build_prfs_js;
 pub mod build_wasm;
 pub mod compile_circuits;
+pub mod copy_circuit_assets;
 pub mod dev_circuit_server;
 pub mod dev_prfs_web;
 pub mod e2e_test_node;

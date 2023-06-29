@@ -13,6 +13,7 @@ fn main() {
     match op.as_str() {
         "build" => {
             tasks::build_wasm::build_wasm();
+            tasks::copy_circuit_assets::copy_circuit_assets();
             tasks::compile_circuits::compile_circuits();
             tasks::embed_prfs_wasm::embed_prfs_wasm();
             tasks::build_prfs_js::build_prfs_js();
