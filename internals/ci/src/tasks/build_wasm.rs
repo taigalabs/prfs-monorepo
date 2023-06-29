@@ -45,7 +45,7 @@ pub fn build_wasm() {
             .current_dir(prfs_wasm_path)
             .args([
                 "run",
-                "nightly",
+                "nightly-2023-05-22-x86_64-unknown-linux-gnu",
                 "wasm-pack",
                 "build",
                 "--target",
@@ -55,6 +55,7 @@ pub fn build_wasm() {
             ])
             .status()
             .expect("wasm-pack command failed to start");
+
         assert!(status.success());
     }
 }

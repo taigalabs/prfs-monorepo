@@ -12,7 +12,7 @@ function wrapExports({ generate }) {
     return {
       // Little perf boost to transfer data to the main thread w/o copying.
       rawImageData: Comlink.transfer(rawImageData, [rawImageData.buffer]),
-      time,
+      time
     };
   };
 }
@@ -39,7 +39,7 @@ async function initHandlers() {
       await multiThread.default();
       await multiThread.initThreadPool(navigator.hardwareConcurrency);
       return wrapExports(multiThread);
-    })(),
+    })()
   ]);
 
   console.log(55, multiThread);
@@ -47,10 +47,10 @@ async function initHandlers() {
   return Comlink.proxy({
     singleThread,
     supportsThreads: !!multiThread,
-    multiThread,
+    multiThread
   });
 }
 
 Comlink.expose({
-  handlers: initHandlers(),
+  handlers: initHandlers()
 });
