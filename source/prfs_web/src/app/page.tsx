@@ -1,9 +1,9 @@
 "use client";
 
-import React from 'react';
+import React from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
-import rayon from './rayon';
+import rayon from "./rayon";
 import { useState } from "react";
 import {
   Prfs,
@@ -15,7 +15,7 @@ import {
   defaultAddressMembershipPConfig,
   defaultPubkeyMembershipPConfig,
   defaultPubkeyMembershipVConfig,
-  defaultAddressMembershipVConfig,
+  defaultAddressMembershipVConfig
 } from "@taigalabs/prfs-js";
 import {
   ecrecover,
@@ -28,11 +28,10 @@ import {
 
 export default function Home() {
   React.useEffect(() => {
-    rayon().then(() => { });
+    rayon().then(() => {});
   }, []);
 
   const proverAddressMembership = async () => {
-
     const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
     const msg = Buffer.from("harry potter");
     const msgHash = hashPersonalMessage(msg);
@@ -119,12 +118,13 @@ export default function Home() {
 
       <p>
         This is a demo for
-        <a href="https://github.com/GoogleChromeLabs/wasm-bindgen-rayon"
-        >wasm-bindgen-rayon</a
-        >, generating a
-        <a href="https://en.wikipedia.org/wiki/Mandelbrot_set"
-        >Mandelbrot fractal</a
-        >
+        <a href="https://github.com/GoogleChromeLabs/wasm-bindgen-rayon">
+          wasm-bindgen-rayon
+        </a>
+        , generating a
+        <a href="https://en.wikipedia.org/wiki/Mandelbrot_set">
+          Mandelbrot fractal
+        </a>
         with WebAssembly threads.
       </p>
       <input
