@@ -39,9 +39,12 @@ pub fn build_wasm() {
         let prfs_wasm_path = prfs_wasm_path.to_str().unwrap();
         println!("prfs_wasm_path: {}", prfs_wasm_path);
 
-        let status = Command::new("wasm-pack")
+        let status = Command::new("rustup")
             .current_dir(prfs_wasm_path)
             .args([
+                "run",
+                "nightly",
+                "wasm-pack",
                 "build",
                 "--target",
                 "web",

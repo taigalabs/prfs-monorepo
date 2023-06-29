@@ -28,7 +28,7 @@ import {
 
 export default function Home() {
   React.useEffect(() => {
-    rayon().then(() => {});
+    rayon().then(() => { });
   }, []);
 
   const proverAddressMembership = async () => {

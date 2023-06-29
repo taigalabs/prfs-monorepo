@@ -22,12 +22,28 @@ function wrapExports({ generate }) {
 async function initHandlers() {
   console.log("wasm-worker, initHandlers()");
 
-  let [singleThread, multiThread] = await Promise.all([
-    (async () => {
-      const singleThread = await import("./pkg/wasm_bindgen_rayon_demo.js");
-      await singleThread.default();
-      return wrapExports(singleThread);
-    })(),
+  // let [singleThread, multiThread] = await Promise.all([
+  //   (async () => {
+  //     const singleThread = await import("./pkg/wasm_bindgen_rayon_demo.js");
+  //     await singleThread.default();
+  //     return wrapExports(singleThread);
+  //   })(),
+  //   (async () => {
+  //     console.log("initHandlers(): importing multi");
+  //     // If threads are unsupported in this browser, skip this handler.
+  //     if (!(await threads())) return;
+  //     const multiThread = await import(
+  //       "./pkg-parallel/wasm_bindgen_rayon_demo.js"
+  //     );
+
+  //     console.log("initHandlers(): multiThreadImported");
+  //     await multiThread.default();
+  //     await multiThread.initThreadPool(navigator.hardwareConcurrency);
+  //     return wrapExports(multiThread);
+  //   })(),
+  // ]);
+
+  let multiThread = await Promise.resolve(
     (async () => {
       console.log("initHandlers(): importing multi");
       // If threads are unsupported in this browser, skip this handler.
@@ -41,10 +57,10 @@ async function initHandlers() {
       await multiThread.initThreadPool(navigator.hardwareConcurrency);
       return wrapExports(multiThread);
     })(),
-  ]);
+  );
 
   return Comlink.proxy({
-    singleThread,
+    // singleThread,
     supportsThreads: !!multiThread,
     multiThread,
   });

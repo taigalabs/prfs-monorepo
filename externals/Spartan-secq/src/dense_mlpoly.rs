@@ -165,8 +165,6 @@ impl DensePolynomial {
 
   #[cfg(not(feature = "multicore"))]
   fn commit_inner(&self, blinds: &[Scalar], gens: &MultiCommitGens) -> PolyCommitment {
-    println!("333");
-
     let L_size = blinds.len();
     let R_size = self.Z.len() / L_size;
     assert_eq!(L_size * R_size, self.Z.len());

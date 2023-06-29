@@ -28,7 +28,7 @@ export default async function init() {
   // Create a separate thread from wasm-worker.js and get a proxy to its handlers.
   let handlers = await (
     Comlink.wrap(
-      new Worker(new URL("./wasm-worker.js", import.meta.url), {
+      new Worker(new URL("./wasm-worker.ts", import.meta.url), {
         type: "module",
       })
     ) as any
@@ -58,7 +58,7 @@ export default async function init() {
     });
   }
 
-  setupBtn("singleThread");
+  // setupBtn("singleThread");
   if (await handlers.supportsThreads) {
     console.log(123123);
     setupBtn("multiThread");
