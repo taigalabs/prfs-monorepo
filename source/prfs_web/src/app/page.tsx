@@ -5,18 +5,18 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import rayon from "./rayon";
 import { useState } from "react";
-import {
-  Prfs,
-  // init,
-  // MembershipProver2,
-  // MembershipVerifier,
-  // Tree,
-  // Poseidon,
-  defaultAddressMembershipPConfig,
-  defaultPubkeyMembershipPConfig,
-  defaultPubkeyMembershipVConfig,
-  defaultAddressMembershipVConfig
-} from "@taigalabs/prfs-js";
+// import {
+//   Prfs,
+//   // init,
+//   // MembershipProver2,
+//   // MembershipVerifier,
+//   // Tree,
+//   // Poseidon,
+//   defaultAddressMembershipPConfig,
+//   defaultPubkeyMembershipPConfig,
+//   defaultPubkeyMembershipVConfig,
+//   defaultAddressMembershipVConfig
+// } from "@taigalabs/prfs-js";
 import {
   ecrecover,
   ecsign,
@@ -29,21 +29,21 @@ import {
 import * as Comlink from "comlink";
 
 export default function Home() {
-  // React.useEffect(() => {
-  //   rayon().then(() => { });
+  React.useEffect(() => {
+    rayon().then(() => { });
 
-  //   // Create a separate thread from wasm-worker.js and get a proxy to its handlers.
-  //   let handlers = await(
-  //     Comlink.wrap(
-  //       new Worker(new URL("./wasm-worker2.ts", import.meta.url), {
-  //         type: "module",
-  //       })
-  //     ) as any
-  //   ).handlers;
+    // Create a separate thread from wasm-worker.js and get a proxy to its handlers.
+    // let handlers = await(
+    //   Comlink.wrap(
+    //     new Worker(new URL("./wasm-worker2.ts", import.meta.url), {
+    //       type: "module",
+    //     })
+    //   ) as any
+    // ).handlers;
 
-  //   console.log("init() 22", await handlers);
-  //   console.log("init() 33", await handlers.supportsThreads);
-  // }, []);
+    // console.log("init() 22", await handlers);
+    // console.log("init() 33", await handlers.supportsThreads);
+  }, []);
 
   const proverAddressMembership = React.useCallback(() => {
     async function fn() {

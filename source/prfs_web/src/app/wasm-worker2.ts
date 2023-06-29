@@ -63,9 +63,9 @@ async function initHandlers() {
       console.log("initHandlers(): importing multi");
       // If threads are unsupported in this browser, skip this handler.
       if (!(await threads())) return;
-      // const multiThread = await import(
-      //   "./pkg-parallel/wasm_bindgen_rayon_demo.js"
-      // );
+      const multiThread = await import(
+        "./pkg-parallel/wasm_bindgen_rayon_demo.js"
+      );
 
       console.log("initHandlers(): multiThreadImported");
       await multiThread.default();
