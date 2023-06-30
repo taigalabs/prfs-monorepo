@@ -52,7 +52,7 @@ async function initHandlers() {
   // If threads are unsupported in this browser, skip this handler.
   if (!(await threads())) return;
   const multiThread = await import(
-    "@taigalabs/prfs-js/build/wasm_build/build/prfs_wasm"
+    "@taigalabs/prfs-js/build/wasm_wrapper/build/prfs_wasm"
   );
 
   console.log("initHandlers(): multiThreadImported");

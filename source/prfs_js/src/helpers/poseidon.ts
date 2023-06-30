@@ -1,11 +1,10 @@
 import { bigIntToLeBytes, bytesLeToBigInt } from "./utils";
-import { PrfsWasmType } from '../wasm_wrapper/types';
+import { PrfsWasmType } from "../wasm_wrapper/types";
 
 export class Poseidon {
   wasm: PrfsWasmType;
 
   constructor(wasm: PrfsWasmType) {
-    console.log('Poseidon()', wasm);
     this.wasm = wasm;
   }
 

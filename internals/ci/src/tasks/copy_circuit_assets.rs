@@ -1,4 +1,4 @@
-use std::{env, fs, path::PathBuf, process::Command};
+use std::{env, fs};
 
 pub fn copy_circuit_assets() {
     println!("\nCopying circuit assets...");

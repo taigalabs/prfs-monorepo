@@ -1,4 +1,4 @@
-import * as prfsWasm from "../wasm_build/build/prfs_wasm";
+import * as prfsWasm from "./build/prfs_wasm";
 
 export const initPrfsWasm = async () => {
   console.log("prfs_wasm_embed init()");
@@ -7,4 +7,3 @@ export const initPrfsWasm = async () => {
 
   return prfsWasm;
 };
-

@@ -7,7 +7,7 @@ pub fn embed_prfs_wasm() {
     let prfs_wasm_build_path = curr_dir.join("source/prfs_wasm/build");
     println!("prfs_wasm_build_path: {:?}", prfs_wasm_build_path);
 
-    let prfs_wasm_embedded_path = curr_dir.join("source/prfs_js/src/wasm_build/build");
+    let prfs_wasm_embedded_path = curr_dir.join("source/prfs_js/src/wasm_wrapper/build");
     println!("prfs_wasm_embedded_path: {:?}", prfs_wasm_embedded_path);
 
     {
@@ -37,7 +37,7 @@ pub fn embed_prfs_wasm() {
         let status = Command::new("cp")
             .args([
                 "-R",
-                &format!("{}", prfs_wasm_build_path.to_str().unwrap()),
+                prfs_wasm_build_path.to_str().unwrap(),
                 prfs_wasm_embedded_path.to_str().unwrap(),
             ])
             .status()

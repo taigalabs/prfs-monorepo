@@ -1,4 +1,4 @@
-use std::{env, fs, path::PathBuf, process::Command};
+use std::process::Command;
 
 pub fn run() {
     println!("[ci] Start executing dev_prfs_circuit_server...");

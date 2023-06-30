@@ -3,7 +3,6 @@
 import React from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
-// import rayon from "./rayon";
 import { useState } from "react";
 import {
   Prfs,
@@ -28,6 +27,7 @@ import {
 
 import * as Comlink from "comlink";
 import { rayon3 } from "@taigalabs/prfs-js";
+// import rayon3 from "./rayon";
 
 export default function Home() {
   React.useEffect(() => {
@@ -36,25 +36,23 @@ export default function Home() {
 
   const proverAddressMembership = React.useCallback(() => {
     async function fn() {
-      console.log('calling rayon3');
-      let obj = await rayon3();
-      console.log(22, obj);
-
+      console.log("calling rayon3");
+      let prfs = await rayon3();
+      console.log(22, prfs);
       return;
 
       const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
       const msg = Buffer.from("harry potter");
       const msgHash = hashPersonalMessage(msg);
       const { v, r, s } = ecsign(msgHash, privKey);
-
       const sig = `0x${r.toString("hex")}${s.toString("hex")}${v.toString(16)}`;
-      // let prfs = await Prfs.newInstance();
-      let prfs = new Prfs(prfsWasm);
-      //
-      const poseidon = prfs.newPoseidon();
+
+      // let prfs = new Prfs(prfsWasm);
+      // const poseidon = prfs.newPoseidon();
       const treeDepth = 20;
+
       // const addressTree = new Tree(treeDepth, poseidon);
-      const addressTree = prfs.newTree(treeDepth, poseidon);
+      const addressTree = prfs.newTree(treeDepth);
       console.log(44, addressTree);
       const proverAddress = BigInt(
         "0x" + privateToAddress(privKey).toString("hex")
@@ -108,7 +106,7 @@ export default function Home() {
     //   console.log("Failed to verify proof :(");
     // }
 
-    fn().then(() => { });
+    fn().then(() => {});
   }, []);
 
   return (

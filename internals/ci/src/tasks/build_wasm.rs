@@ -1,4 +1,4 @@
-use std::{env, fs, path::PathBuf, process::Command};
+use std::process::Command;
 
 const WASM_PACK_VERSION: &str = "wasm-pack 0.12.0";
 

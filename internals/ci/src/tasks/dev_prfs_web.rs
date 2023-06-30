@@ -1,4 +1,4 @@
-use std::{env, fs, path::PathBuf, process::Command};
+use std::process::Command;
 
 pub fn run() {
     println!("[ci] Start executing e2e_test_web...");
@@ -8,14 +8,6 @@ pub fn run() {
 
     let prfs_web_path = curr_dir.join("source/prfs_web");
     println!("prfs_web_path: {:?}", prfs_web_path);
-
-    // let status = Command::new("yarn")
-    //     .current_dir(&e2e_test_web_path)
-    //     .args(["run", "build"])
-    //     .status()
-    //     .expect("yarn command failed to start");
-
-    // assert!(status.success());
 
     let status = Command::new("yarn")
         .current_dir(&prfs_web_path)

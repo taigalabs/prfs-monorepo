@@ -42,6 +42,8 @@ async function init() {
     // If handler doesn't exist, it's not supported.
     if (!handler) return;
     // Assign onclick handler + enable the button.
+    //
+    console.log("handler", handler);
     Object.assign(document.getElementById(id), {
       async onclick() {
         let { rawImageData, time } = await handler({
@@ -64,6 +66,8 @@ async function init() {
 
     setupBtn("multiThread");
   }
+
+  return handlers;
 }
 
 export default init;

@@ -1,4 +1,4 @@
-use std::{env, fs, path::PathBuf, process::Command};
+use std::{env, fs, process::Command};
 
 pub fn compile_circuits() {
     let curr_dir = env::current_dir().unwrap();

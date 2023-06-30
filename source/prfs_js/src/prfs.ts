@@ -26,12 +26,6 @@ export class Prfs {
     this.wasm = wasm;
   }
 
-  // static async newInstance() {
-  //   let wasm = await initPrfsWasm();
-  //   let p = new Prfs(wasm);
-  //   return p;
-  // }
-
   newTree(depth: number, poseidon: Poseidon): Tree {
     return new Tree(depth, poseidon);
   }

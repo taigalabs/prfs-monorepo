@@ -1,4 +1,4 @@
-use std::{env, fs, path::PathBuf, process::Command};
+use std::process::Command;
 
 pub fn build_prfs_js() {
     let curr_dir = std::env::current_dir().unwrap();
