@@ -22,7 +22,7 @@ import { PrfsWasmType } from "../wasm_wrapper/types";
 export class MembershipProver2 extends Profiler implements IProver {
   circuit: string;
   witnessGenWasm: string;
-  prfsWasm: PrfsWasmType
+  prfsWasm: PrfsWasmType;
 
   constructor(options: ProverConfig, prfsWasm: PrfsWasmType) {
     super({ enabled: options?.enableProfiler });
@@ -113,53 +113,56 @@ export class MembershipProver2 extends Profiler implements IProver {
     // FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F
     // FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141
     //
-    let sInv = new BN(s as any).invm(SECP256K1_N);
-    console.log("sInv: %s", sInv.toString());
+    // let sInv = new BN(s as any).invm(SECP256K1_N);
+    // console.log("sInv: %s", sInv.toString());
 
-    let s_array: bigint[] = bigint_to_array(64, 4, s);
-    console.log("s_array: %o", s_array);
+    // let s_array: bigint[] = bigint_to_array(64, 4, s);
+    // console.log("s_array: %o", s_array);
 
-    let sInv_array: bigint[] = bigint_to_array(64, 4, BigInt(sInv.toString()));
-    console.log("sInv_array: %o", sInv_array);
+    // let sInv_array: bigint[] = bigint_to_array(64, 4, BigInt(sInv.toString()));
+    // console.log("sInv_array: %o", sInv_array);
 
-    const witnessGenInput = {
-      r,
-      s,
-      s2: s_array,
-      m: BigInt(m.toString()),
+    // const witnessGenInput = {
+    //   r,
+    //   s,
+    //   s2: s_array,
+    //   m: BigInt(m.toString()),
 
-      ...merkleProof,
-      ...effEcdsaPubInput
-    };
-    console.log("witnessGenInput: %o", witnessGenInput);
+    //   ...merkleProof,
+    //   ...effEcdsaPubInput
+    // };
+    // console.log("witnessGenInput: %o", witnessGenInput);
 
-    this.time("Generate witness");
+    // this.time("Generate witness");
 
-    console.log("wasm11: %s", this.witnessGenWasm);
+    // console.log("wasm11: %s", this.witnessGenWasm);
 
-    const witness = await snarkJsWitnessGen(
-      witnessGenInput,
-      this.witnessGenWasm
-    );
-    this.timeEnd("Generate witness");
+    // const witness = await snarkJsWitnessGen(
+    //   witnessGenInput,
+    //   this.witnessGenWasm
+    // );
+    // this.timeEnd("Generate witness");
 
-    this.time("Load circuit");
-    const circuitBin = await loadCircuit(this.circuit);
-    // const circuitBin2 = circuitBytes;
+    // this.time("Load circuit");
+    // const circuitBin = await loadCircuit(this.circuit);
+    // // const circuitBin2 = circuitBytes;
 
-    console.log(11, circuitBin);
-    // console.log(22, circuitBin2);
+    // console.log(11, circuitBin);
+    // // console.log(22, circuitBin2);
 
-    this.timeEnd("Load circuit");
+    // this.timeEnd("Load circuit");
 
-    // Get the public input in bytes
-    const circuitPublicInput: Uint8Array =
-      publicInput.circuitPubInput.serialize();
+    // // Get the public input in bytes
+    // const circuitPublicInput: Uint8Array =
+    //   publicInput.circuitPubInput.serialize();
 
-    this.time("Prove");
-    let proof = this.prfsWasm.prove(circuitBin, witness.data, circuitPublicInput);
-    this.timeEnd("Prove");
+    // this.time("Prove");
+    // let proof = this.prfsWasm.prove(circuitBin, witness.data, circuitPublicInput);
+    // this.timeEnd("Prove");
     //
+    //
+
+    let proof = new Uint8Array();
 
     return {
       proof,

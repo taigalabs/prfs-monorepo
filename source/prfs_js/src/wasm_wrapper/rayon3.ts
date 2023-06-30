@@ -3,16 +3,20 @@ import * as Comlink from "comlink";
 async function init() {
   console.log("init()");
 
-  const wrapped = Comlink.wrap(
-    new Worker(new URL("./wasm_worker.js", import.meta.url), {
-      type: "module"
-    })
-  ) as any;
+  const handlers = await (
+    Comlink.wrap(
+      new Worker(new URL("./wasm_worker.js", import.meta.url), {
+        type: "module"
+      })
+    ) as any
+  ).handlers;
 
-  const handlers = wrapped.handlers;
-  await handlers;
+  console.log("init() 22", handlers);
 
-  if (!handlers) return;
+  if (!handlers) {
+    console.log("handlers not found");
+    return;
+  }
 
   console.log("init() 22", handlers);
 

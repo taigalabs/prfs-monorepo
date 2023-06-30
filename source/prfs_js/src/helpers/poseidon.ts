@@ -14,8 +14,9 @@ export class Poseidon {
       inputsBytes.set(bigIntToLeBytes(inputs[i], 32), i * 32);
     }
 
-    const result = this.wasm.poseidon(inputsBytes);
-    return bytesLeToBigInt(result);
+    // const result = this.wasm.poseidon(inputsBytes);
+    // return bytesLeToBigInt(result);
+    return BigInt(33);
   }
 
   hashPubKey(pubKey: Buffer): bigint {

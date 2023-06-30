@@ -78,9 +78,18 @@ async function initHandlers() {
 
   // console.log("initHandlers(): importing multi");
 
-  // const prfsWasm = await import("./build/prfs_wasm");
-  // await prfsWasm.default("http://localhost:4010/circuits/prfs_wasm_bg.wasm");
-  // await prfsWasm.initThreadPool(navigator.hardwareConcurrency);
+  const prfsWasm = await import("./build/prfs_wasm");
+  let p = await prfsWasm.default(
+    "http://localhost:4010/circuits/prfs_wasm_bg.wasm"
+  );
+
+  console.log(2323);
+
+  await prfsWasm.initThreadPool(navigator.hardwareConcurrency);
+
+  console.log(123123);
+
+  // console.log(5555, p);
   // let prfs = new Prfs(prfsWasm);
   // console.log(66, prfs);
 
@@ -110,7 +119,15 @@ async function initHandlers() {
   //     return wrapExports(multiThread);
   //   })()
   // ]);
-  let multiThread = wrapExports();
+  // let multiThread = wrapExports();
+  let multiThread = () => {
+    return prfsWasm.aa();
+  };
+  // let multiThread = () => {
+  //   console.log(5555555);
+
+  //   return 111;
+  // };
 
   // console.log("multithread", !!multiThread);
 
@@ -121,7 +138,7 @@ async function initHandlers() {
   });
 }
 
-const handlers = await initHandlers();
+const handlers = initHandlers();
 
 console.log(55);
 
