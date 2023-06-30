@@ -50,12 +50,12 @@ async function initHandlers() {
   });
 }
 
-const handler = await initHandlers();
+// const handler = await initHandlers();
 
 console.log(55);
 
 Comlink.expose({
-  handler
+  handler: initHandlers(),
 });
 
 // export default () => {};

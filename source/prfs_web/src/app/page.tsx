@@ -40,7 +40,7 @@ export default function Home() {
 
   const proverAddressMembership = React.useCallback(() => {
     async function fn() {
-      await rayon3();
+      // await rayon3();
 
       //   const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
       //   const msg = Buffer.from("harry potter");
