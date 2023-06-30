@@ -21,16 +21,16 @@ export class Prfs {
   isInitilized: boolean;
   wasm: PrfsWasmType;
 
-  private constructor(wasm: PrfsWasmType) {
+  public constructor(wasm: PrfsWasmType) {
     this.isInitilized = true;
     this.wasm = wasm;
   }
 
-  static async newInstance() {
-    let wasm = await initPrfsWasm();
-    let p = new Prfs(wasm);
-    return p;
-  }
+  // static async newInstance() {
+  //   let wasm = await initPrfsWasm();
+  //   let p = new Prfs(wasm);
+  //   return p;
+  // }
 
   newTree(depth: number, poseidon: Poseidon): Tree {
     return new Tree(depth, poseidon);
