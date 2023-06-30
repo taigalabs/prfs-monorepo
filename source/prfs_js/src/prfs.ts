@@ -22,8 +22,6 @@ export class Prfs {
   wasm: PrfsWasmType;
 
   public constructor(wasm: PrfsWasmType) {
-    console.log('Prfs()', wasm);
-
     this.isInitilized = true;
     this.wasm = wasm;
   }
