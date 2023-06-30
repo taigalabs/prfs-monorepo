@@ -23,7 +23,6 @@ async function initHandlers() {
   console.log(123, prfs);
 
   return Comlink.proxy({
-    // singleThread,
     supportsThreads: !!prfsWasm,
     prfs,
   });
