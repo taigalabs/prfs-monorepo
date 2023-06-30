@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
-import rayon from "./rayon";
+// import rayon from "./rayon";
 import { useState } from "react";
 // import {
 //   Prfs,
@@ -27,26 +27,15 @@ import {
 } from "@ethereumjs/util";
 
 import * as Comlink from "comlink";
+import { rayon3 } from "@taigalabs/prfs-js";
 
 export default function Home() {
   React.useEffect(() => {
     console.log("Home()");
 
-    rayon().then(() => {
+    rayon3().then(() => {
       console.log("Home() 222");
     });
-
-    // Create a separate thread from wasm-worker.js and get a proxy to its handlers.
-    // let handlers = await(
-    //   Comlink.wrap(
-    //     new Worker(new URL("./wasm-worker2.ts", import.meta.url), {
-    //       type: "module",
-    //     })
-    //   ) as any
-    // ).handlers;
-
-    // console.log("init() 22", await handlers);
-    // console.log("init() 33", await handlers.supportsThreads);
   }, []);
 
   const proverAddressMembership = React.useCallback(() => {

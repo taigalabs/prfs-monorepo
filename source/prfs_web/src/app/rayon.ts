@@ -59,7 +59,7 @@ async function init() {
 
   console.log("init exiting single");
   setupBtn("singleThread");
-  if (await handlers.supportsThreads) {
+  if (handlers.supportsThreads) {
     console.log("init exiting multi");
 
     setupBtn("multiThread");
