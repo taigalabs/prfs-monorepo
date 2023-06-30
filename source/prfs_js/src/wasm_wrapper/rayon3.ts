@@ -11,19 +11,17 @@ async function init() {
     ) as any
   ).handler;
 
-  // console.log("init() 22", handler);
-  // console.log("init() 33", handler.supportsThreads);
+  console.log("init() 22", handler);
+  console.log("init() 33", handler.supportsThreads);
 
-  // if (!handler) return;
+  if (!handler) return;
 
-  // await handler;
+  await handler;
 
-  // let prfsWasm = handler["prfsWasm"];
-  // console.log("prfsWasm init()", prfsWasm);
-  // Handlers are named in the same way as buttons.
-  // let handler = handlers[id];
-  // If handler doesn't exist, it's not supported.
+  let prfsWasm = handler["prfsWasm"];
+  console.log("prfsWasm init()", prfsWasm);
 
+  return prfsWasm;
 }
 
 export default init;
