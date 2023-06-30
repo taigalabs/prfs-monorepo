@@ -35,29 +35,27 @@ async function initHandlers() {
 
   // If threads are unsupported in this browser, skip this handler.
   if (!(await threads())) return;
-  const multiThread = await import("../wasm_build/build/prfs_wasm");
+  const prfsWasm = await import("../wasm_build/build/prfs_wasm");
 
-  console.log("initHandlers(): multiThreadImported");
-
-  // await multiThread.default();
-  // await multiThread.initThreadPool(navigator.hardwareConcurrency);
+  await prfsWasm.default("http://localhost:4010/circuits/prfs_wasm_bg.wasm");
+  await prfsWasm.initThreadPool(navigator.hardwareConcurrency);
   // return wrapExports(multiThread);
 
-  console.log("multithread", !!multiThread);
+  console.log("prfsWasm", !!prfsWasm);
 
   return Comlink.proxy({
     // singleThread,
-    supportsThreads: !!multiThread,
-    multiThread
+    supportsThreads: !!prfsWasm,
+    prfsWasm
   });
 }
 
-const handlers = await initHandlers();
+const handler = await initHandlers();
 
 console.log(55);
 
 Comlink.expose({
-  handlers
+  handler
 });
 
-export default () => {};
+// export default () => {};

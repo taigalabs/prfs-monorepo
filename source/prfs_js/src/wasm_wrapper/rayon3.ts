@@ -16,49 +16,40 @@ import * as Comlink from "comlink";
 async function init() {
   console.log("init()");
 
-  let handlers = (
+  let handler = (
     Comlink.wrap(
       new Worker(new URL("./wasm-worker.js", import.meta.url), {
         type: "module"
       })
     ) as any
-  ).handlers;
+  ).handler;
 
-  // const maxIterations = 1000;
+  console.log("init() 22", handler);
+  console.log("init() 33", handler.supportsThreads);
 
-  // const canvas = document.getElementById("canvas") as any;
-  // const { width, height } = canvas;
-  // const ctx = canvas.getContext("2d") as any;
-  // const timeOutput = document.getElementById("time") as any;
+  function setupBtn(id: any) {
+    let prfsWasm = handler["prfsWasm"];
+    console.log("prfsWasm init()", prfsWasm);
+    // Handlers are named in the same way as buttons.
+    // let handler = handlers[id];
+    // If handler doesn't exist, it's not supported.
+    if (!handler) return;
 
-  // Create a separate thread from wasm-worker.js and get a proxy to its handlers.
-
-  console.log("init() 22", handlers);
-  console.log("init() 33", handlers.supportsThreads);
-
-  // function setupBtn(id: any) {
-  //   // Handlers are named in the same way as buttons.
-  //   let handler = handlers[id];
-  //   // If handler doesn't exist, it's not supported.
-  //   if (!handler) return;
-  //   // Assign onclick handler + enable the button.
-  //   Object.assign(document.getElementById(id), {
-  //     async onclick() {
-  //       let { rawImageData, time } = await handler({
-  //         width,
-  //         height,
-  //         maxIterations
-  //       });
-  //       timeOutput.value = `${time.toFixed(2)} ms`;
-  //       const imgData = new ImageData(rawImageData, width, height);
-  //       ctx.putImageData(imgData, 0, 0);
-  //     },
-  //     disabled: false
-  //   });
-  // }
+    // Assign onclick handler + enable the button.
+    Object.assign(document.getElementById(id) as any, {
+      async onclick() {
+        await prfsWasm.prove();
+        // let a = await prfsWasm.default(
+        //   "http://localhost:4010/circuits/prfs_wasm_bg.wasm"
+        // );
+        // console.log(22, a);
+      },
+      disabled: false
+    });
+  }
 
   // console.log("init exiting single");
-  // setupBtn("singleThread");
+  setupBtn("singleThread");
   // if (handlers.supportsThreads) {
   //   console.log("init exiting multi");
 
