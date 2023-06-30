@@ -3,25 +3,26 @@ import * as Comlink from "comlink";
 async function init() {
   console.log("init()");
 
-  let handler = (
+  const wrapped = (
     Comlink.wrap(
       new Worker(new URL("./wasm-worker.js", import.meta.url), {
         type: "module"
       })
     ) as any
-  ).handler;
+  );
+
+  const handler = wrapped.handler;
+  await handler;
+
+  if (!handler) return;
 
   console.log("init() 22", handler);
   console.log("init() 33", handler.supportsThreads);
 
-  if (!handler) return;
+  let prfs = handler["prfs"];
+  console.log("prfsWasm init()", prfs);
 
-  await handler;
-
-  let prfsWasm = handler["prfsWasm"];
-  console.log("prfsWasm init()", prfsWasm);
-
-  return prfsWasm;
+  return prfs;
 }
 
 export default init;

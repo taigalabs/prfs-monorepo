@@ -5,6 +5,7 @@ export class Poseidon {
   wasm: PrfsWasmType;
 
   constructor(wasm: PrfsWasmType) {
+    console.log('Poseidon()', wasm);
     this.wasm = wasm;
   }
 

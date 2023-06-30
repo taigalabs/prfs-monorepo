@@ -19,6 +19,11 @@ pub fn init_panic_hook() {
 }
 
 #[wasm_bindgen]
+pub fn aa() -> usize {
+    3
+}
+
+#[wasm_bindgen]
 pub fn prove(circuit: &[u8], vars: &[u8], public_inputs: &[u8]) -> Result<Vec<u8>, JsValue> {
     let witness = load_witness_from_bin_reader::<F1, _>(vars).unwrap();
     // println!("witness len: {}", witness.len());

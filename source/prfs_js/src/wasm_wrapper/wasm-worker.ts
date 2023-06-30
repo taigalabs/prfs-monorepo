@@ -1,40 +1,16 @@
 import { threads } from "wasm-feature-detect";
 import * as Comlink from "comlink";
 
+import { Prfs } from '../prfs';
+
 async function initHandlers() {
   console.log("wasm-worker, initHandlers()");
 
-  // let [singleThread, multiThread] = await Promise.resolve([
-  //   (async () => {
-  //     console.log("initHandlers(): importing single");
-
-  //     const singleThread = await import(
-  //       "../../demo/pkg/wasm_bindgen_rayon_demo.js"
-  //     );
-  //     await singleThread.default();
-  //     return wrapExports(singleThread);
-  //   })(),
-  //   (async () => {
-  //     console.log("initHandlers(): importing multi");
-
-  //     // If threads are unsupported in this browser, skip this handler.
-  //     if (!(await threads())) return;
-  //     const multiThread = await import(
-  //       "../../demo/pkg-parallel/wasm_bindgen_rayon_demo.js"
-  //     );
-
-  //     console.log("initHandlers(): multiThreadImported");
-
-  //     await multiThread.default();
-  //     await multiThread.initThreadPool(navigator.hardwareConcurrency);
-  //     return wrapExports(multiThread);
-  //   })()
-  // ]);
+  // If threads are unsupported in this browser, skip this handler.
+  if (!(await threads())) return;
 
   console.log("initHandlers(): importing multi");
 
-  // If threads are unsupported in this browser, skip this handler.
-  if (!(await threads())) return;
   const prfsWasm = await import("../wasm_build/build/prfs_wasm");
 
   await prfsWasm.default("http://localhost:4010/circuits/prfs_wasm_bg.wasm");
@@ -43,19 +19,18 @@ async function initHandlers() {
 
   console.log("prfsWasm", !!prfsWasm);
 
+  let prfs = new Prfs(prfsWasm);
+  console.log(123, prfs);
+
   return Comlink.proxy({
     // singleThread,
     supportsThreads: !!prfsWasm,
-    prfsWasm
+    prfs,
   });
 }
-
-// const handler = await initHandlers();
 
 console.log(55);
 
 Comlink.expose({
   handler: initHandlers(),
 });
-
-// export default () => {};
