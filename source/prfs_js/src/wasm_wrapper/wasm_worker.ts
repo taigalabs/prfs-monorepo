@@ -1,28 +1,52 @@
 import { threads } from "wasm-feature-detect";
 import * as Comlink from "comlink";
-import { Prfs, defaultPubkeyMembershipPConfig } from "../prfs";
+import { Prfs } from "../prfs";
 import { PrfsWasmType, WrappedPrfs } from "./types";
+import { bigIntToLeBytes, bytesLeToBigInt } from "../helpers/utils";
 
 function wrapExports(prfsWasm: PrfsWasmType) {
   console.log("wasm-worker, wrapExports()");
 
   let multiThread = () => {
-    return prfsWasm.aa();
+    let val = prfsWasm.aa(new Uint8Array([1]));
+    console.log(11, val.buffer);
+
+    return 34;
   };
 
-  //   return {
-  //     poseidonHash(inputs: bigint[]) {
-  //       let val = poseidon.hash(inputs);
-  //       console.log("val", val);
-  //       return 0;
-  //     }
-  //     // newTree(depth: number) {
-  //     //   return prfs.newTree(depth, poseidon);
-  //     // },
-  //     // membershshipProve() {
-  //     //   return prfs.newMembershipProver(defaultPubkeyMembershipPConfig);
-  //     // }
-  //   };
+  // let prfs = new Prfs(prfsWasm);
+  // let poseidon = prfs.newPoseidon();
+
+  return {
+    supportsThreads: true,
+
+    // poseidonHash(inputs: bigint[]) {
+    //   // let val = poseidon.hash(inputs);
+    //   // return val;
+
+    //   const inputsBytes = new Uint8Array(32 * inputs.length);
+    //   for (let i = 0; i < inputs.length; i++) {
+    //     inputsBytes.set(bigIntToLeBytes(inputs[i], 32), i * 32);
+    //   }
+
+    //   const result = prfsWasm.poseidon(inputsBytes);
+    //   return bytesLeToBigInt(result);
+    // },
+    //
+    generate(width: any, height: any, maxIterations: any) {
+      console.log(555);
+      // let val = prfsWasm.generate(width, height, maxIterations);
+      // console.log(123123, val);
+    },
+
+    multiThread,
+    // newTree(depth: number) {
+    //   return prfs.newTree(depth, poseidon);
+    // },
+    // membershshipProve() {
+    //   return prfs.newMembershipProver(defaultPubkeyMembershipPConfig);
+    // }
+  };
 
   // return () => {
   //   const start = performance.now();
@@ -36,10 +60,10 @@ function wrapExports(prfsWasm: PrfsWasmType) {
   // };
   //
 
-  return {
-    supportsThreads: !!multiThread,
-    multiThread
-  };
+  // return {
+  //   supportsThreads: true,
+  //   multiThread
+  // };
 }
 
 async function initHandlers() {
@@ -51,6 +75,12 @@ async function initHandlers() {
   const prfsWasm = await import("./build/prfs_wasm");
   await prfsWasm.default("http://localhost:4010/circuits/prfs_wasm_bg.wasm");
   await prfsWasm.initThreadPool(navigator.hardwareConcurrency);
+
+  let aa = prfsWasm.aa(new Uint8Array());
+  console.log(33, aa);
+
+  let bb = prfsWasm.bb();
+  console.log(44, bb);
 
   let wrapped = wrapExports(prfsWasm);
 

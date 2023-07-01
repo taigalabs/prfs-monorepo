@@ -5,7 +5,8 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import { useState } from "react";
 import {
-  Prfs,
+  initWasm,
+  // Prfs,
   // init,
   // MembershipProver2,
   // MembershipVerifier,
@@ -26,7 +27,7 @@ import {
 } from "@ethereumjs/util";
 
 import * as Comlink from "comlink";
-import { rayon3 } from "@taigalabs/prfs-js";
+// import { rayon3 } from "@taigalabs/prfs-js";
 // import rayon3 from "./rayon";
 
 export default function Home() {
@@ -37,7 +38,7 @@ export default function Home() {
   const proverAddressMembership = React.useCallback(() => {
     async function fn() {
       console.log("calling rayon3");
-      let prfs = await rayon3();
+      let prfs = await initWasm();
       console.log(22, prfs);
       return;
 
@@ -106,7 +107,7 @@ export default function Home() {
     //   console.log("Failed to verify proof :(");
     // }
 
-    fn().then(() => {});
+    fn().then(() => { });
   }, []);
 
   return (

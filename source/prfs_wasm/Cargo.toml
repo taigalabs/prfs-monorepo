@@ -35,6 +35,12 @@ poseidon = { path = "../../externals/poseidon" }
 spartan = { path = "../../externals/Spartan-secq", features=["multicore"] }
 secq256k1 = { path = "../../externals/secq256k1" }
 
+num-complex = "0.4.0"
+once_cell = "1.7.2"
+rand = "0.8.3"
+hsl = "0.1.1"
+rayon = { version = "1.5" }
+
 [package.metadata.wasm-pack.profile.dev.wasm-bindgen]
 omit-default-module-path = true
 

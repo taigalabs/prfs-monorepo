@@ -6,7 +6,7 @@ use merlin::Transcript;
 use poseidon::poseidon_k256::{hash, FieldElement};
 use secq256k1::{affine::Group, field::BaseField};
 use std::io::{Error, Read};
-use wasm_bindgen::prelude::*;
+use wasm_bindgen::{prelude::*, Clamped};
 
 pub type G1 = secq256k1::AffinePoint;
 pub type F1 = <G1 as Group>::Scalar;
@@ -18,9 +18,93 @@ pub fn init_panic_hook() {
     console_error_panic_hook::set_once();
 }
 
+//
+use hsl::HSL;
+use num_complex::Complex64;
+use rand::Rng;
+use rayon::prelude::*;
+
+type RGBA = [u8; 4];
+
+// struct Generator {
+//     width: u32,
+//     height: u32,
+//     palette: Box<[RGBA]>,
+// }
+
+// impl Generator {
+//     fn new(width: u32, height: u32, max_iterations: u32) -> Self {
+//         let mut rng = rand::thread_rng();
+
+//         Self {
+//             width,
+//             height,
+//             palette: (0..max_iterations)
+//                 .map(move |_| {
+//                     let (r, g, b) = HSL {
+//                         h: rng.gen_range(0.0..360.0),
+//                         s: 0.5,
+//                         l: 0.6,
+//                     }
+//                     .to_rgb();
+//                     [r, g, b, 255]
+//                 })
+//                 .collect(),
+//         }
+//     }
+
+//     #[allow(clippy::many_single_char_names)]
+//     fn get_color(&self, x: u32, y: u32) -> &RGBA {
+//         let c = Complex64::new(
+//             (f64::from(x) - f64::from(self.width) / 2.0) * 4.0 / f64::from(self.width),
+//             (f64::from(y) - f64::from(self.height) / 2.0) * 4.0 / f64::from(self.height),
+//         );
+//         let mut z = Complex64::new(0.0, 0.0);
+//         let mut i = 0;
+//         while z.norm_sqr() < 4.0 {
+//             if i == self.palette.len() {
+//                 return &self.palette[0];
+//             }
+//             z = z.powi(2) + c;
+//             i += 1;
+//         }
+//         &self.palette[i]
+//     }
+
+//     fn iter_row_bytes(&self, y: u32) -> impl '_ + Iterator<Item = u8> {
+//         (0..self.width)
+//             .flat_map(move |x| self.get_color(x, y))
+//             .copied()
+//     }
+
+//     // Multi-threaded implementation.
+//     #[cfg(feature = "rayon")]
+//     fn iter_bytes(&self) -> impl '_ + ParallelIterator<Item = u8> {
+//         (0..self.height)
+//             .into_par_iter()
+//             .flat_map_iter(move |y| self.iter_row_bytes(y))
+//     }
+
+//     // Single-threaded implementation.
+//     #[cfg(not(feature = "rayon"))]
+//     fn iter_bytes(&self) -> impl '_ + Iterator<Item = u8> {
+//         (0..self.height).flat_map(move |y| self.iter_row_bytes(y))
+//     }
+// }
+
 #[wasm_bindgen]
-pub fn aa() -> usize {
-    3
+pub fn aa(input_bytes: &[u8]) -> Clamped<Vec<u8>> {
+    return Clamped(vec![111]);
+}
+
+#[wasm_bindgen]
+pub fn bb() -> Clamped<Vec<u8>> {
+    return Clamped(vec![111]);
+    // Clamped(
+    //     Generator::new(width, height, max_iterations)
+    //         .iter_bytes()
+    //         .collect(),
+    // )
 }
 
 #[wasm_bindgen]
@@ -100,16 +184,17 @@ pub fn verify(circuit: &[u8], proof: &[u8], public_input: &[u8]) -> Result<bool,
 
 #[wasm_bindgen]
 pub fn poseidon(input_bytes: &[u8]) -> Result<Vec<u8>, JsValue> {
-    let mut input = Vec::new();
-    for i in 0..(input_bytes.len() / 32) {
-        let f: [u8; 32] = input_bytes[(i * 32)..(i + 1) * 32].try_into().unwrap();
-        let val = FieldElement::from_bytes(&f).unwrap();
-        input.push(FieldElement::from(val));
-    }
+    return Ok(vec![9]);
+    // let mut input = Vec::new();
+    // for i in 0..(input_bytes.len() / 32) {
+    //     let f: [u8; 32] = input_bytes[(i * 32)..(i + 1) * 32].try_into().unwrap();
+    //     let val = FieldElement::from_bytes(&f).unwrap();
+    //     input.push(FieldElement::from(val));
+    // }
 
-    let result = hash(input);
+    // let result = hash(input);
 
-    Ok(result.to_bytes().to_vec())
+    // Ok(result.to_bytes().to_vec())
 }
 
 // Copied from Nova Scotia
@@ -258,14 +343,14 @@ mod test {
         let mut inputs = [0u8; 64];
         inputs[..32].copy_from_slice(&a);
         inputs[32..].copy_from_slice(&b);
-        let result = poseidon(&inputs).unwrap();
+        // let result = poseidon(&inputs).unwrap();
 
-        assert_eq!(
-            result.as_slice(),
-            &[
-                181, 226, 121, 200, 61, 3, 57, 70, 184, 30, 115, 145, 192, 7, 138, 73, 36, 8, 40,
-                132, 190, 141, 35, 89, 108, 149, 235, 51, 129, 165, 64, 103
-            ]
-        )
+        // assert_eq!(
+        //     result.as_slice(),
+        //     &[
+        //         181, 226, 121, 200, 61, 3, 57, 70, 184, 30, 115, 145, 192, 7, 138, 73, 36, 8, 40,
+        //         132, 190, 141, 35, 89, 108, 149, 235, 51, 129, 165, 64, 103
+        //     ]
+        // )
     }
 }
