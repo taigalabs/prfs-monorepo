@@ -1,25 +1,17 @@
 import { threads } from "wasm-feature-detect";
 import * as Comlink from "comlink";
 import { Prfs } from "../prfs";
-import { PrfsWasmType, WrappedPrfs } from "./types";
+import { PrfsWasmType, PrfsHandlers } from "../types";
 import { bigIntToLeBytes, bytesLeToBigInt } from "../helpers/utils";
 
-function wrapExports(prfsWasm: PrfsWasmType) {
+function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
   console.log("wasm-worker, wrapExports()");
 
   return {
     supportsThreads: true,
-    poseidonHash(inputs: bigint[]) {
-      // let val = poseidon.hash(inputs);
-      // return val;
-
-      const inputsBytes = new Uint8Array(32 * inputs.length);
-      for (let i = 0; i < inputs.length; i++) {
-        inputsBytes.set(bigIntToLeBytes(inputs[i], 32), i * 32);
-      }
-
-      const result = prfsWasm.poseidon(inputsBytes);
-      return bytesLeToBigInt(result);
+    async poseidonHash(inputs: Uint8Array) {
+      const res = prfsWasm.poseidon(inputs);
+      return res;
     }
     // newTree(depth: number) {
     //   return prfs.newTree(depth, poseidon);

@@ -14,7 +14,7 @@ import {
   defaultAddressMembershipPConfig
 } from "../config";
 import BN from "bn.js";
-import { PrfsWasmType } from "../wasm_wrapper/types";
+import { PrfsWasmType } from "../types";
 
 /**
  * ECDSA Membership Prover

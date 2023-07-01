@@ -12,8 +12,6 @@ export async function initWasm() {
     ) as any
   ).handlers;
 
-  console.log("init() 22", handlers);
-
   if (!handlers) {
     console.log("handlers not found");
     return;

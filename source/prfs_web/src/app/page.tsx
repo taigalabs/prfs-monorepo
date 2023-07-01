@@ -39,8 +39,11 @@ export default function Home() {
     async function fn() {
       console.log("calling rayon3");
       let prfs = await Prfs.newInstance();
-      console.log(1, prfs);
-      return;
+
+      let poseidon = prfs.newPoseidon();
+      let inputs: bigint[] = [BigInt(2)];
+      let res = await poseidon.hash(inputs);
+      console.log(22, res);
 
       const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
       const msg = Buffer.from("harry potter");
@@ -54,6 +57,9 @@ export default function Home() {
 
       // const addressTree = new Tree(treeDepth, poseidon);
       const addressTree = prfs.newTree(treeDepth);
+
+      return;
+
       console.log(44, addressTree);
       const proverAddress = BigInt(
         "0x" + privateToAddress(privKey).toString("hex")
@@ -70,6 +76,7 @@ export default function Home() {
       }
       const index = addressTree.indexOf(proverAddress);
       const merkleProof = addressTree.createProof(index);
+
       console.log("Proving...");
       console.time("Full proving time");
       const prover = prfs.newMembershipProver({
