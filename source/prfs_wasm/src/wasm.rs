@@ -93,13 +93,9 @@ type RGBA = [u8; 4];
 // }
 
 #[wasm_bindgen]
-pub fn aa(input_bytes: &[u8]) -> Clamped<Vec<u8>> {
-    return Clamped(vec![111]);
-}
-
-#[wasm_bindgen]
-pub fn bb() -> Clamped<Vec<u8>> {
-    return Clamped(vec![111]);
+pub fn bb() -> Result<Vec<u8>, JsValue> {
+    return Ok(vec![111]);
+    // return Err(JsValue::from_str("aaa"));
     // Clamped(
     //     Generator::new(width, height, max_iterations)
     //         .iter_bytes()
@@ -184,17 +180,16 @@ pub fn verify(circuit: &[u8], proof: &[u8], public_input: &[u8]) -> Result<bool,
 
 #[wasm_bindgen]
 pub fn poseidon(input_bytes: &[u8]) -> Result<Vec<u8>, JsValue> {
-    return Ok(vec![9]);
-    // let mut input = Vec::new();
-    // for i in 0..(input_bytes.len() / 32) {
-    //     let f: [u8; 32] = input_bytes[(i * 32)..(i + 1) * 32].try_into().unwrap();
-    //     let val = FieldElement::from_bytes(&f).unwrap();
-    //     input.push(FieldElement::from(val));
-    // }
+    let mut input = Vec::new();
+    for i in 0..(input_bytes.len() / 32) {
+        let f: [u8; 32] = input_bytes[(i * 32)..(i + 1) * 32].try_into().unwrap();
+        let val = FieldElement::from_bytes(&f).unwrap();
+        input.push(FieldElement::from(val));
+    }
 
-    // let result = hash(input);
+    let result = hash(input);
 
-    // Ok(result.to_bytes().to_vec())
+    Ok(result.to_bytes().to_vec())
 }
 
 // Copied from Nova Scotia

@@ -52,3 +52,5 @@ export interface IVerifier {
 
   verify(proof: Uint8Array, publicInput: Uint8Array): Promise<boolean>;
 }
+
+export interface PrfsHandlers {}

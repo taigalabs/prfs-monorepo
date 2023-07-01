@@ -7,39 +7,20 @@ import { bigIntToLeBytes, bytesLeToBigInt } from "../helpers/utils";
 function wrapExports(prfsWasm: PrfsWasmType) {
   console.log("wasm-worker, wrapExports()");
 
-  let multiThread = () => {
-    let val = prfsWasm.aa(new Uint8Array([1]));
-    console.log(11, val.buffer);
-
-    return 34;
-  };
-
-  // let prfs = new Prfs(prfsWasm);
-  // let poseidon = prfs.newPoseidon();
-
   return {
     supportsThreads: true,
+    poseidonHash(inputs: bigint[]) {
+      // let val = poseidon.hash(inputs);
+      // return val;
 
-    // poseidonHash(inputs: bigint[]) {
-    //   // let val = poseidon.hash(inputs);
-    //   // return val;
+      const inputsBytes = new Uint8Array(32 * inputs.length);
+      for (let i = 0; i < inputs.length; i++) {
+        inputsBytes.set(bigIntToLeBytes(inputs[i], 32), i * 32);
+      }
 
-    //   const inputsBytes = new Uint8Array(32 * inputs.length);
-    //   for (let i = 0; i < inputs.length; i++) {
-    //     inputsBytes.set(bigIntToLeBytes(inputs[i], 32), i * 32);
-    //   }
-
-    //   const result = prfsWasm.poseidon(inputsBytes);
-    //   return bytesLeToBigInt(result);
-    // },
-    //
-    generate(width: any, height: any, maxIterations: any) {
-      console.log(555);
-      // let val = prfsWasm.generate(width, height, maxIterations);
-      // console.log(123123, val);
-    },
-
-    multiThread,
+      const result = prfsWasm.poseidon(inputsBytes);
+      return bytesLeToBigInt(result);
+    }
     // newTree(depth: number) {
     //   return prfs.newTree(depth, poseidon);
     // },
@@ -76,11 +57,11 @@ async function initHandlers() {
   await prfsWasm.default("http://localhost:4010/circuits/prfs_wasm_bg.wasm");
   await prfsWasm.initThreadPool(navigator.hardwareConcurrency);
 
-  let aa = prfsWasm.aa(new Uint8Array());
-  console.log(33, aa);
+  // let aa = prfsWasm.aa(new Uint8Array());
+  // console.log(33, aa);
 
-  let bb = prfsWasm.bb();
-  console.log(44, bb);
+  // let bb = prfsWasm.bb();
+  // console.log(44, bb);
 
   let wrapped = wrapExports(prfsWasm);
 

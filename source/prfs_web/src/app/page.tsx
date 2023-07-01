@@ -5,8 +5,8 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import { useState } from "react";
 import {
-  initWasm,
-  // Prfs,
+  // initPrfs
+  Prfs,
   // init,
   // MembershipProver2,
   // MembershipVerifier,
@@ -38,8 +38,8 @@ export default function Home() {
   const proverAddressMembership = React.useCallback(() => {
     async function fn() {
       console.log("calling rayon3");
-      let prfs = await initWasm();
-      console.log(22, prfs);
+      let prfs = await Prfs.newInstance();
+      console.log(1, prfs);
       return;
 
       const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
@@ -107,7 +107,7 @@ export default function Home() {
     //   console.log("Failed to verify proof :(");
     // }
 
-    fn().then(() => { });
+    fn().then(() => {});
   }, []);
 
   return (
