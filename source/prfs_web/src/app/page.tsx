@@ -35,7 +35,6 @@ export default function Home() {
 
   const proverAddressMembership = React.useCallback(() => {
     async function fn() {
-      console.log("calling rayon3");
       let prfs = await Prfs.newInstance();
 
       let poseidon = prfs.newPoseidon();
@@ -52,7 +51,6 @@ export default function Home() {
       const treeDepth = 20;
       const addressTree = await prfs.newTree(treeDepth, poseidon);
 
-      console.log(44, addressTree);
       const proverAddress = BigInt(
         "0x" + privateToAddress(privKey).toString("hex")
       );
@@ -64,13 +62,12 @@ export default function Home() {
           Buffer.from("".padStart(16, member), "utf16le")
         );
         const address = BigInt("0x" + pubToAddress(pubKey).toString("hex"));
-        let node = await addressTree.insert(address);
-        console.log('insert', node);
+        await addressTree.insert(address);
       }
       const index = addressTree.indexOf(proverAddress);
       const merkleProof = addressTree.createProof(index);
 
-      console.log(22, merkleProof);
+      console.log('merkleProof', merkleProof);
       return;
 
       console.log("Proving...");

@@ -11,9 +11,6 @@ export default function createProof(
 ): MerkleProof {
   checkParameter(index, "index", "number")
 
-  console.log('nodes', nodes);
-  console.log('zeroes', zeroes);
-
   if (index < 0 || index >= nodes[0].length) {
     throw new Error("The leaf does not exist in this tree")
   }

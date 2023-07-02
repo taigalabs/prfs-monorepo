@@ -35,7 +35,6 @@ export default async function asyncInsert(
     }
 
     node = await hash(children)
-    console.log('asyncInsert', node);
     index = Math.floor(index / arity)
   }
 

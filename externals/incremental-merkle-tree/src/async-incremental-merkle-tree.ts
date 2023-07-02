@@ -22,13 +22,11 @@ export default class AsyncIncrementalMerkleTree {
   private readonly _depth: number
   private readonly _arity: number
 
-  constructor(
+  private constructor(
     hash: AsyncHashFunction,
     depth: number,
-    // zeroValue: Node,
     zeroes: Node[],
     arity: number,
-    // leaves: Node[] = [],
     nodes: Node[][],
   ) {
     this._hash = hash

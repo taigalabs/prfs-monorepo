@@ -5,18 +5,11 @@ import { bytesToBigInt } from "./utils";
 
 export class Tree {
   depth: number;
-  // poseidon: Poseidon;
   private treeInner!: AsyncIncrementalMerkleTree;
 
   private constructor(depth: number, treeInner: AsyncIncrementalMerkleTree) {
     this.depth = depth;
     this.treeInner = treeInner;
-
-    // this.treeInner = await AsyncIncrementalMerkleTree.newInstance(
-    //   hashFunction,
-    //   this.depth,
-    //   BigInt(0)
-    // );
   }
 
   public static async newInstance(depth: number, hashFunction: AsyncHashFn): Promise<Tree> {
@@ -53,8 +46,6 @@ export class Tree {
     const proof = this.treeInner.createProof(index);
 
     const siblings = proof.siblings.map((s: any) => {
-      console.log(111, s);
-
       return typeof s[0] === "bigint" ? s : bytesToBigInt(s[0])
     });
 
