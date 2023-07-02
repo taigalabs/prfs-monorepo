@@ -1,6 +1,8 @@
 use std::{env, fs, process::Command};
 
 pub fn embed_prfs_wasm() {
+    println!("\nEmbedding prfs wasm...");
+
     let curr_dir = env::current_dir().unwrap();
     println!("curr_dir: {:?}", curr_dir);
 

@@ -1,6 +1,8 @@
 use std::{env, fs, process::Command};
 
 pub fn compile_circuits() {
+    println!("\nCompiling circuits...");
+
     let curr_dir = env::current_dir().unwrap();
     println!("curr_dir: {:?}", curr_dir);
 

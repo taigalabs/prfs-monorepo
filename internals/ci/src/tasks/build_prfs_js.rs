@@ -1,6 +1,8 @@
 use std::process::Command;
 
 pub fn build_prfs_js() {
+    println!("\nBuilding prfs.js...");
+
     let curr_dir = std::env::current_dir().unwrap();
     println!("curr_dir: {:?}", curr_dir);
 
@@ -8,7 +10,8 @@ pub fn build_prfs_js() {
     println!("prfs_js_path: {:?}", prfs_js_path);
 
     let status = Command::new("yarn")
-        .args(["lerna", "run", "build-pkg"])
+        .current_dir(prfs_js_path)
+        .args(["run", "build-pkg"])
         .status()
         .expect("yarn command failed to start");
 
