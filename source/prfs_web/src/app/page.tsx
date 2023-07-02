@@ -68,7 +68,6 @@ export default function Home() {
       const merkleProof = addressTree.createProof(index);
 
       console.log('merkleProof', merkleProof);
-      return;
 
       console.log("Proving...");
       console.time("Full proving time");

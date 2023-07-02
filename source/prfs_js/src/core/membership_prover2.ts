@@ -14,7 +14,7 @@ import {
   defaultAddressMembershipPConfig
 } from "../config";
 import BN from "bn.js";
-import { PrfsWasmType } from "../types";
+import { PrfsHandlers } from "../types";
 
 /**
  * ECDSA Membership Prover
@@ -22,9 +22,10 @@ import { PrfsWasmType } from "../types";
 export class MembershipProver2 extends Profiler implements IProver {
   circuit: string;
   witnessGenWasm: string;
-  prfsWasm: PrfsWasmType;
+  // prfsWasm: PrfsWasmType;
+  handlers: PrfsHandlers;
 
-  constructor(options: ProverConfig, prfsWasm: PrfsWasmType) {
+  constructor(options: ProverConfig, prfsHandlers: PrfsHandlers) {
     super({ enabled: options?.enableProfiler });
 
     // if (
@@ -57,8 +58,7 @@ export class MembershipProver2 extends Profiler implements IProver {
 
     this.circuit = options.circuit;
     this.witnessGenWasm = options.witnessGenWasm;
-
-    this.prfsWasm = prfsWasm;
+    this.handlers = prfsHandlers;
   }
 
   async prove(
@@ -100,48 +100,48 @@ export class MembershipProver2 extends Profiler implements IProver {
     console.log("secp256k1 p: %s", SECP256K1_P);
 
     const m = new BN(msgHash).mod(SECP256K1_P);
-    // const mInv = m.invm(SECP256K1_P);
+    const mInv = m.invm(SECP256K1_P);
 
-    // const y = new BN(2).toString();
-    // console.log('y: %s', y);
+    const y = new BN(2).toString();
+    console.log('y: %s', y);
 
-    // const y2 = new BN(2).invm(SECP256K1_P).toString();
-    // console.log('y2: %s', y2);
+    const y2 = new BN(2).invm(SECP256K1_P).toString();
+    console.log('y2: %s', y2);
 
     // 57896044618658097711785492504343953926418782139537452191302581570759080747169
     // 57896044618658097711785492504343953926634992332820282019728792003954417335832
     // FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F
     // FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141
     //
-    // let sInv = new BN(s as any).invm(SECP256K1_N);
-    // console.log("sInv: %s", sInv.toString());
+    let sInv = new BN(s as any).invm(SECP256K1_N);
+    console.log("sInv: %s", sInv.toString());
 
-    // let s_array: bigint[] = bigint_to_array(64, 4, s);
-    // console.log("s_array: %o", s_array);
+    let s_array: bigint[] = bigint_to_array(64, 4, s);
+    console.log("s_array: %o", s_array);
 
-    // let sInv_array: bigint[] = bigint_to_array(64, 4, BigInt(sInv.toString()));
-    // console.log("sInv_array: %o", sInv_array);
+    let sInv_array: bigint[] = bigint_to_array(64, 4, BigInt(sInv.toString()));
+    console.log("sInv_array: %o", sInv_array);
 
-    // const witnessGenInput = {
-    //   r,
-    //   s,
-    //   s2: s_array,
-    //   m: BigInt(m.toString()),
+    const witnessGenInput = {
+      r,
+      s,
+      s2: s_array,
+      m: BigInt(m.toString()),
 
-    //   ...merkleProof,
-    //   ...effEcdsaPubInput
-    // };
-    // console.log("witnessGenInput: %o", witnessGenInput);
+      ...merkleProof,
+      ...effEcdsaPubInput
+    };
+    console.log("witnessGenInput: %o", witnessGenInput);
 
-    // this.time("Generate witness");
+    this.time("Generate witness");
 
-    // console.log("wasm11: %s", this.witnessGenWasm);
+    console.log("wasm11: %s", this.witnessGenWasm);
 
-    // const witness = await snarkJsWitnessGen(
-    //   witnessGenInput,
-    //   this.witnessGenWasm
-    // );
-    // this.timeEnd("Generate witness");
+    const witness = await snarkJsWitnessGen(
+      witnessGenInput,
+      this.witnessGenWasm
+    );
+    this.timeEnd("Generate witness");
 
     // this.time("Load circuit");
     // const circuitBin = await loadCircuit(this.circuit);

@@ -29,7 +29,7 @@ export class Prfs {
     return await Tree.newInstance(depth, hash);
   }
 
-  // newMembershipProver(options: ProverConfig) {
-  //   return new MembershipProver2(options, this.wasm);
-  // }
+  newMembershipProver(options: ProverConfig) {
+    return new MembershipProver2(options, this.handlers);
+  }
 }
