@@ -5,21 +5,14 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import { useState } from "react";
 import {
-  // initPrfs
   Prfs,
-  // makePoseidon,
-  // init,
-  // MembershipProver2,
-  // MembershipVerifier,
-  // Tree,
-  // Poseidon,
   defaultAddressMembershipPConfig,
   defaultPubkeyMembershipPConfig,
   defaultPubkeyMembershipVConfig,
   defaultAddressMembershipVConfig
 } from "@taigalabs/prfs-js";
 import {
-  ecrecover,
+  // ecrecover,
   ecsign,
   hashPersonalMessage,
   privateToAddress,
