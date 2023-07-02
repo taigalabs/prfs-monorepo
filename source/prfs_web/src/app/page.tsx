@@ -7,6 +7,7 @@ import { useState } from "react";
 import {
   // initPrfs
   Prfs,
+  makePoseidon,
   // init,
   // MembershipProver2,
   // MembershipVerifier,
@@ -40,10 +41,10 @@ export default function Home() {
       console.log("calling rayon3");
       let prfs = await Prfs.newInstance();
 
-      let poseidon = prfs.newPoseidon();
+      let poseidon = makePoseidon(prfs.handlers);
       let inputs: bigint[] = [BigInt(2)];
-      let res = await poseidon.hash(inputs);
-      console.log(22, res);
+      let res = await poseidon(inputs);
+      console.log("poseidon result", res);
 
       const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
       const msg = Buffer.from("harry potter");
@@ -56,7 +57,7 @@ export default function Home() {
       const treeDepth = 20;
 
       // const addressTree = new Tree(treeDepth, poseidon);
-      const addressTree = prfs.newTree(treeDepth);
+      const addressTree = prfs.newTree(treeDepth, poseidon);
 
       return;
 

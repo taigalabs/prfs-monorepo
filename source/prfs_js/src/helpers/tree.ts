@@ -1,19 +1,24 @@
 import { IncrementalMerkleTree } from "@zk-kit/incremental-merkle-tree";
 import { Poseidon } from "./poseidon";
-import { MerkleProof } from "../types";
+import { MerkleProof, HashFn } from "../types";
 import { bytesToBigInt } from "./utils";
 
 export class Tree {
   depth: number;
-  poseidon: Poseidon;
+  // poseidon: Poseidon;
   private treeInner!: IncrementalMerkleTree;
 
-  constructor(depth: number, poseidon: Poseidon) {
+  constructor(depth: number, hashFunction: HashFn) {
     this.depth = depth;
 
-    this.poseidon = poseidon;
-    const hash = poseidon.hash.bind(poseidon);
-    this.treeInner = new IncrementalMerkleTree(hash, this.depth, BigInt(0));
+    // this.poseidon = poseidon;
+    // const hash = poseidon.hash.bind(poseidon);
+
+    this.treeInner = new IncrementalMerkleTree(
+      hashFunction,
+      this.depth,
+      BigInt(0)
+    );
   }
 
   insert(leaf: bigint) {

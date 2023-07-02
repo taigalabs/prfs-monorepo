@@ -12,15 +12,13 @@ export class Poseidon {
 
   async hash(inputs: bigint[]): Promise<bigint> {
     const inputsBytes = new Uint8Array(32 * inputs.length);
+
     for (let i = 0; i < inputs.length; i++) {
       inputsBytes.set(bigIntToLeBytes(inputs[i], 32), i * 32);
     }
+
     const result = await this.handlers.poseidonHash(inputsBytes);
-    console.log(3333, result);
-    // // const result = this.wasm.poseidon(inputsBytes);
-    // return bytesLeToBigInt(result);
-    //
-    return BigInt(3);
+    return bytesLeToBigInt(result);
   }
 
   async hashPubKey(pubKey: Buffer): Promise<bigint> {
@@ -30,4 +28,33 @@ export class Poseidon {
     const pubKeyHash = await this.hash([pubKeyX, pubKeyY]);
     return pubKeyHash;
   }
+}
+
+export function makePoseidon(handlers: PrfsHandlers) {
+  async function poseidon(inputs: bigint[]): Promise<bigint> {
+    const inputsBytes = new Uint8Array(32 * inputs.length);
+
+    for (let i = 0; i < inputs.length; i++) {
+      inputsBytes.set(bigIntToLeBytes(inputs[i], 32), i * 32);
+    }
+
+    const result = await handlers.poseidonHash(inputsBytes);
+    return bytesLeToBigInt(result);
+  }
+
+  return poseidon;
+}
+
+export function makePoseidonPubKey(handlers: PrfsHandlers) {
+  let poseidon = makePoseidon(handlers);
+
+  async function poseidonPubKey(pubKey: Buffer): Promise<bigint> {
+    const pubKeyX = BigInt("0x" + pubKey.toString("hex").slice(0, 64));
+    const pubKeyY = BigInt("0x" + pubKey.toString("hex").slice(64, 128));
+
+    const pubKeyHash = await poseidon([pubKeyX, pubKeyY]);
+    return pubKeyHash;
+  }
+
+  return poseidonPubKey;
 }

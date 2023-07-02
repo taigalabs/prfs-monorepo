@@ -69,3 +69,5 @@ export interface WrappedPrfs {
   newTree(depth: number): Tree;
   membershshipProve: Promise<NIZK>;
 }
+
+export type HashFn = (inputs: bigint[]) => Promise<bigint>;
