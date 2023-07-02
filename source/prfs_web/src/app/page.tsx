@@ -50,7 +50,7 @@ export default function Home() {
       const sig = `0x${r.toString("hex")}${s.toString("hex")}${v.toString(16)}`;
 
       const treeDepth = 20;
-      const addressTree = prfs.newTree(treeDepth, poseidon);
+      const addressTree = await prfs.newTree(treeDepth, poseidon);
 
       console.log(44, addressTree);
       const proverAddress = BigInt(

@@ -70,4 +70,6 @@ export interface WrappedPrfs {
   membershshipProve: Promise<NIZK>;
 }
 
-export type HashFn = (inputs: bigint[]) => Promise<bigint>;
+export type HashFn = (inputs: bigint[]) => bigint;
+
+export type AsyncHashFn = (inputs: bigint[]) => Promise<bigint>;

@@ -1,6 +1,6 @@
 import { AsyncIncrementalMerkleTree } from "@zk-kit/incremental-merkle-tree";
 import { Poseidon } from "./poseidon";
-import { MerkleProof, HashFn } from "../types";
+import { MerkleProof, AsyncHashFn } from "../types";
 import { bytesToBigInt } from "./utils";
 
 export class Tree {
@@ -8,17 +8,25 @@ export class Tree {
   // poseidon: Poseidon;
   private treeInner!: AsyncIncrementalMerkleTree;
 
-  constructor(depth: number, hashFunction: HashFn) {
+  private constructor(depth: number, treeInner: AsyncIncrementalMerkleTree) {
     this.depth = depth;
+    this.treeInner = treeInner;
 
-    // this.poseidon = poseidon;
-    // const hash = poseidon.hash.bind(poseidon);
+    // this.treeInner = await AsyncIncrementalMerkleTree.newInstance(
+    //   hashFunction,
+    //   this.depth,
+    //   BigInt(0)
+    // );
+  }
 
-    this.treeInner = AsyncIncrementalMerkleTree.newInstance(
+  public static async newInstance(depth: number, hashFunction: AsyncHashFn): Promise<Tree> {
+    let treeInner = await AsyncIncrementalMerkleTree.newInstance(
       hashFunction,
-      this.depth,
+      depth,
       BigInt(0)
     );
+
+    return new Tree(depth, treeInner);
   }
 
   async insert(leaf: bigint) {

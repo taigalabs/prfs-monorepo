@@ -1,7 +1,7 @@
 import { Tree } from "./helpers/tree";
 import { Poseidon, makePoseidon } from "./helpers/poseidon";
 import { MembershipProver2 } from "./core/membership_prover2";
-import { ProverConfig, PrfsHandlers, PrfsWasmType, HashFn } from "./types";
+import { ProverConfig, PrfsHandlers, PrfsWasmType, AsyncHashFn } from "./types";
 import { initWasm } from "./wasm_wrapper";
 
 export class Prfs {
@@ -25,8 +25,8 @@ export class Prfs {
     // return new Poseidon(this.handlers);
   }
 
-  newTree(depth: number, hash: HashFn): Tree {
-    return new Tree(depth, hash);
+  async newTree(depth: number, hash: AsyncHashFn): Promise<Tree> {
+    return await Tree.newInstance(depth, hash);
   }
 
   // newMembershipProver(options: ProverConfig) {

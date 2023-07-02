@@ -47,7 +47,7 @@ export default class AsyncIncrementalMerkleTree {
    * @param arity The number of children for each node.
    * @param leaves The list of initial leaves.
    */
-  public static newInstance(hash: AsyncHashFunction, depth: number, zeroValue: Node, arity = 2, leaves: Node[] = []): AsyncIncrementalMerkleTree {
+  public static async newInstance(hash: AsyncHashFunction, depth: number, zeroValue: Node, arity = 2, leaves: Node[] = []): Promise<AsyncIncrementalMerkleTree> {
     checkParameter(hash, "hash", "function")
     checkParameter(depth, "depth", "number")
     checkParameter(zeroValue, "zeroValue", "number", "string", "bigint")
@@ -73,7 +73,7 @@ export default class AsyncIncrementalMerkleTree {
       _zeroes.push(zeroValue)
       _nodes[level] = []
       // There must be a zero value for each tree level (except the root).
-      zeroValue = hash(Array(_arity).fill(zeroValue))
+      zeroValue = await hash(Array(_arity).fill(zeroValue))
     }
 
     _nodes[depth] = []
@@ -171,7 +171,7 @@ export default class AsyncIncrementalMerkleTree {
    * @param index Index of the leaf to be deleted.
    */
   public async delete(index: number) {
-    this._nodes[this.depth][0] = _asyncUpdate(
+    this._nodes[this.depth][0] = await _asyncUpdate(
       index,
       this.zeroes[0],
       this.depth,
