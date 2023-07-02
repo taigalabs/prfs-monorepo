@@ -3,8 +3,7 @@ import { MembershipProver2 } from "./core/membership_prover2";
 import { Poseidon } from "./helpers/poseidon";
 import { Tree } from "./helpers/tree";
 
-export declare type PrfsWasmType =
-  typeof import("./wasm_wrapper/build/prfs_wasm");
+export declare type PrfsWasmType = typeof import("./wasm_wrapper/build/prfs_wasm");
 
 // The same structure as MerkleProof in @zk-kit/incremental-merkle-tree.
 // Not directly using MerkleProof defined in @zk-kit/incremental-merkle-tree so
@@ -62,11 +61,8 @@ export interface IVerifier {
 export interface PrfsHandlers {
   supportsThreads: boolean;
   poseidonHash(input: Uint8Array): Promise<Uint8Array>;
-  prove(
-    circuit: Uint8Array,
-    vars: Uint8Array,
-    public_inputs: Uint8Array
-  ): Promise<Uint8Array>;
+  prove(circuit: Uint8Array, vars: Uint8Array, public_inputs: Uint8Array): Promise<Uint8Array>;
+  verify(circuit: Uint8Array, proof: Uint8Array, public_inputs: Uint8Array): Promise<boolean>;
 }
 
 export interface WrappedPrfs {

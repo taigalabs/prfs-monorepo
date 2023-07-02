@@ -1,6 +1,7 @@
 import { Tree } from "./helpers/tree";
 import { makePoseidon } from "./helpers/poseidon";
 import { MembershipProver2 } from "./core/membership_prover2";
+import { MembershipVerifier } from "./core/membership_verifier";
 import { ProverConfig, PrfsHandlers, AsyncHashFn } from "./types";
 import { initWasm } from "./wasm_wrapper";
 
@@ -28,5 +29,9 @@ export class Prfs {
 
   newMembershipProver(options: ProverConfig) {
     return new MembershipProver2(options, this.handlers);
+  }
+
+  newMembershipVerifier(options: ProverConfig) {
+    return new MembershipVerifier(options, this.handlers);
   }
 }

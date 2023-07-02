@@ -13,12 +13,12 @@ function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
       const res = prfsWasm.poseidon(inputs);
       return res;
     },
-    async prove(
-      circuit: Uint8Array,
-      vars: Uint8Array,
-      public_inputs: Uint8Array
-    ) {
+    async prove(circuit: Uint8Array, vars: Uint8Array, public_inputs: Uint8Array) {
       const res = prfsWasm.prove(circuit, vars, public_inputs);
+      return res;
+    },
+    async verify(circuit: Uint8Array, proof: Uint8Array, public_inputs: Uint8Array) {
+      const res = prfsWasm.verify(circuit, proof, public_inputs);
       return res;
     }
   };
@@ -34,11 +34,6 @@ function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
   //   };
   // };
   //
-
-  // return {
-  //   supportsThreads: true,
-  //   multiThread
-  // };
 }
 
 async function initHandlers() {

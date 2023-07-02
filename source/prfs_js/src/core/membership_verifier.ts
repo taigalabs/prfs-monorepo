@@ -2,17 +2,17 @@ import { defaultAddressMembershipVConfig, defaultPubkeyMembershipVConfig } from 
 import { Profiler } from "../helpers/profiler";
 import { loadCircuit } from "../helpers/utils";
 import { IVerifier, VerifyConfig } from "../types";
-// import spartan, { init } from "../prfs_wasm_embedded";
-// import { init } from "../wasm_wrapper";
 import { PublicInput, verifyEffEcdsaPubInput } from "../helpers/public_input";
+import { PrfsHandlers } from "../types";
 
 /**
  * ECDSA Membership Verifier
  */
 export class MembershipVerifier extends Profiler implements IVerifier {
   circuit: string;
+  handlers: PrfsHandlers;
 
-  constructor(options: VerifyConfig) {
+  constructor(options: VerifyConfig, prfsHandlers: PrfsHandlers) {
     super({ enabled: options?.enableProfiler });
 
     if (
@@ -28,10 +28,7 @@ export class MembershipVerifier extends Profiler implements IVerifier {
     }
 
     this.circuit = options.circuit;
-  }
-
-  async init() {
-    // await init();
+    this.handlers = prfsHandlers;
   }
 
   async verify(proof: Uint8Array, publicInputSer: Uint8Array): Promise<boolean> {
@@ -48,11 +45,11 @@ export class MembershipVerifier extends Profiler implements IVerifier {
     this.time("Verify proof");
     let isProofValid;
     try {
-      // isProofValid = await spartan.verify(
-      //   circuitBin,
-      //   proof,
-      //   publicInput.circuitPubInput.serialize()
-      // );
+      isProofValid = await this.handlers.verify(
+        circuitBin,
+        proof,
+        publicInput.circuitPubInput.serialize()
+      );
     } catch (_e) {
       isProofValid = false;
     }
