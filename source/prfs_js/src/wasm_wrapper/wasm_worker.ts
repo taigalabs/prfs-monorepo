@@ -10,7 +10,9 @@ function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
   return {
     supportsThreads: true,
     async poseidonHash(inputs: Uint8Array) {
+      console.log('poseidonHash inputs', inputs);
       const res = prfsWasm.poseidon(inputs);
+      console.log('poseidonHash result', res);
       return res;
     }
     // newTree(depth: number) {

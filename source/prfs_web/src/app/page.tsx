@@ -26,10 +26,7 @@ import {
   privateToPublic,
   pubToAddress
 } from "@ethereumjs/util";
-
 import * as Comlink from "comlink";
-// import { rayon3 } from "@taigalabs/prfs-js";
-// import rayon3 from "./rayon";
 
 export default function Home() {
   React.useEffect(() => {
@@ -60,14 +57,15 @@ export default function Home() {
         "0x" + privateToAddress(privKey).toString("hex")
       );
 
-      addressTree.insert(proverAddress);
+      await addressTree.insert(proverAddress);
       // Insert other members into the tree
       for (const member of ["🕵️", "🥷", "👩‍🔬"]) {
         const pubKey = privateToPublic(
           Buffer.from("".padStart(16, member), "utf16le")
         );
         const address = BigInt("0x" + pubToAddress(pubKey).toString("hex"));
-        addressTree.insert(address);
+        let node = await addressTree.insert(address);
+        console.log('insert', node);
       }
       const index = addressTree.indexOf(proverAddress);
       const merkleProof = addressTree.createProof(index);
@@ -112,7 +110,7 @@ export default function Home() {
     //   console.log("Failed to verify proof :(");
     // }
 
-    fn().then(() => {});
+    fn().then(() => { });
   }, []);
 
   return (

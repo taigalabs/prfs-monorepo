@@ -1,47 +1,42 @@
 import checkParameter from "./checkParameter"
-import { MerkleProof, Node } from "./types"
+import { AsyncHashFunction, Node } from "./types"
 
-export default function createProof(
+export default async function asyncUpdate(
   index: number,
+  value: Node,
   depth: number,
   arity: number,
   nodes: Node[][],
   zeroes: Node[],
-  root: Node
-): MerkleProof {
+  hash: AsyncHashFunction
+): Promise<Node> {
   checkParameter(index, "index", "number")
-
-  console.log('nodes', nodes);
-  console.log('zeroes', zeroes);
 
   if (index < 0 || index >= nodes[0].length) {
     throw new Error("The leaf does not exist in this tree")
   }
 
-  const siblings: Node[][] = []
-  const pathIndices: number[] = []
-  const leafIndex = index
+  let node = value
 
   for (let level = 0; level < depth; level += 1) {
     const position = index % arity
     const levelStartIndex = index - position
     const levelEndIndex = levelStartIndex + arity
 
-    pathIndices[level] = position
-    siblings[level] = []
+    const children = []
+    nodes[level][index] = node
 
     for (let i = levelStartIndex; i < levelEndIndex; i += 1) {
-      if (i !== index) {
-        if (i < nodes[level].length) {
-          siblings[level].push(nodes[level][i])
-        } else {
-          siblings[level].push(zeroes[level])
-        }
+      if (i < nodes[level].length) {
+        children.push(nodes[level][i])
+      } else {
+        children.push(zeroes[level])
       }
     }
 
+    node = await hash(children)
     index = Math.floor(index / arity)
   }
 
-  return { root, leaf: nodes[0][leafIndex], pathIndices, siblings, leafIndex }
+  return node
 }

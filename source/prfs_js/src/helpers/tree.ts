@@ -1,4 +1,4 @@
-import { IncrementalMerkleTree } from "@zk-kit/incremental-merkle-tree";
+import { AsyncIncrementalMerkleTree } from "@zk-kit/incremental-merkle-tree";
 import { Poseidon } from "./poseidon";
 import { MerkleProof, HashFn } from "../types";
 import { bytesToBigInt } from "./utils";
@@ -6,7 +6,7 @@ import { bytesToBigInt } from "./utils";
 export class Tree {
   depth: number;
   // poseidon: Poseidon;
-  private treeInner!: IncrementalMerkleTree;
+  private treeInner!: AsyncIncrementalMerkleTree;
 
   constructor(depth: number, hashFunction: HashFn) {
     this.depth = depth;
@@ -14,19 +14,19 @@ export class Tree {
     // this.poseidon = poseidon;
     // const hash = poseidon.hash.bind(poseidon);
 
-    this.treeInner = new IncrementalMerkleTree(
+    this.treeInner = AsyncIncrementalMerkleTree.newInstance(
       hashFunction,
       this.depth,
       BigInt(0)
     );
   }
 
-  insert(leaf: bigint) {
-    this.treeInner.insert(leaf);
+  async insert(leaf: bigint) {
+    await this.treeInner.insert(leaf);
   }
 
-  delete(index: number) {
-    this.treeInner.delete(index);
+  async delete(index: number) {
+    await this.treeInner.delete(index);
   }
 
   leaves(): bigint[] {
@@ -44,9 +44,11 @@ export class Tree {
   createProof(index: number): MerkleProof {
     const proof = this.treeInner.createProof(index);
 
-    const siblings = proof.siblings.map(s =>
-      typeof s[0] === "bigint" ? s : bytesToBigInt(s[0])
-    );
+    const siblings = proof.siblings.map((s: any) => {
+      console.log(111, s);
+
+      return typeof s[0] === "bigint" ? s : bytesToBigInt(s[0])
+    });
 
     return {
       siblings,
