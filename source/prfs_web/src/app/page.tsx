@@ -7,7 +7,7 @@ import { useState } from "react";
 import {
   // initPrfs
   Prfs,
-  makePoseidon,
+  // makePoseidon,
   // init,
   // MembershipProver2,
   // MembershipVerifier,
@@ -41,7 +41,7 @@ export default function Home() {
       console.log("calling rayon3");
       let prfs = await Prfs.newInstance();
 
-      let poseidon = makePoseidon(prfs.handlers);
+      let poseidon = prfs.newPoseidon();
       let inputs: bigint[] = [BigInt(2)];
       let res = await poseidon(inputs);
       console.log("poseidon result", res);
@@ -52,14 +52,8 @@ export default function Home() {
       const { v, r, s } = ecsign(msgHash, privKey);
       const sig = `0x${r.toString("hex")}${s.toString("hex")}${v.toString(16)}`;
 
-      // let prfs = new Prfs(prfsWasm);
-      // const poseidon = prfs.newPoseidon();
       const treeDepth = 20;
-
-      // const addressTree = new Tree(treeDepth, poseidon);
       const addressTree = prfs.newTree(treeDepth, poseidon);
-
-      return;
 
       console.log(44, addressTree);
       const proverAddress = BigInt(
@@ -77,6 +71,9 @@ export default function Home() {
       }
       const index = addressTree.indexOf(proverAddress);
       const merkleProof = addressTree.createProof(index);
+
+      console.log(22, merkleProof);
+      return;
 
       console.log("Proving...");
       console.time("Full proving time");
