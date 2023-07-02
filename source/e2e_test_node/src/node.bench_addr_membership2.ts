@@ -7,10 +7,10 @@
 //   ecsign
 // } from "@ethereumjs/util";
 // import prfs from "@taigalabs/prfs-js"; // } //   defaultAddressMembershipVConfig //   defaultAddressMembershipPConfig, //   Prfs, // {
-
 // import * as path from "path";
 
-const { Prfs } = require("@taigalabs/prfs-js");
+// const { Prfs } = require("@taigalabs/prfs-js");
+import { Prfs } from "@taigalabs/prfs-js";
 
 const benchAddrMembership2 = async () => {
   console.log("bench addr membership2");
@@ -76,4 +76,4 @@ const benchAddrMembership2 = async () => {
   // }
 };
 
-exports.default = benchAddrMembership2;
+export default benchAddrMembership2;

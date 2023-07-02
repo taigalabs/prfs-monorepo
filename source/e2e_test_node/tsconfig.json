@@ -2,7 +2,7 @@
   "include": ["./src/**/*"],
   "exclude": ["./node_modules", "./build"],
   "compilerOptions": {
-    "module": "esnext",
+    "module": "commonjs",
     "target": "es2022",
     "rootDir": "./src",
     "moduleResolution": "node",

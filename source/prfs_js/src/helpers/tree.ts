@@ -11,15 +11,8 @@ export class Tree {
     this.treeInner = treeInner;
   }
 
-  public static async newInstance(
-    depth: number,
-    hashFunction: AsyncHashFn
-  ): Promise<Tree> {
-    let treeInner = await AsyncIncrementalMerkleTree.newInstance(
-      hashFunction,
-      depth,
-      BigInt(0)
-    );
+  public static async newInstance(depth: number, hashFunction: AsyncHashFn): Promise<Tree> {
+    let treeInner = await AsyncIncrementalMerkleTree.newInstance(hashFunction, depth, BigInt(0));
 
     return new Tree(depth, treeInner);
   }
