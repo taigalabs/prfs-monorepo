@@ -31,17 +31,13 @@ export default function Home() {
       let prfs = await Prfs.newInstance();
 
       let poseidon = prfs.newPoseidon();
-      let inputs: bigint[] = [BigInt(2)];
-      let res = await poseidon(inputs);
-      console.log("poseidon result", res);
-
       const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
       const msg = Buffer.from("harry potter");
       const msgHash = hashPersonalMessage(msg);
       const { v, r, s } = ecsign(msgHash, privKey);
       const sig = `0x${r.toString("hex")}${s.toString("hex")}${v.toString(16)}`;
 
-      const treeDepth = 20;
+      const treeDepth = 32;
       const addressTree = await prfs.newTree(treeDepth, poseidon);
 
       const proverAddress = BigInt("0x" + privateToAddress(privKey).toString("hex"));
@@ -64,7 +60,6 @@ export default function Home() {
         ...defaultAddressMembershipPConfig,
         enableProfiler: true
       });
-      console.log(11, prover);
       const { proof, publicInput } = await prover.prove(sig, msgHash, merkleProof);
 
       console.log(33, proof, publicInput);
