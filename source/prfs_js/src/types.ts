@@ -62,6 +62,11 @@ export interface IVerifier {
 export interface PrfsHandlers {
   supportsThreads: boolean;
   poseidonHash(input: Uint8Array): Promise<Uint8Array>;
+  prove(
+    circuit: Uint8Array,
+    vars: Uint8Array,
+    public_inputs: Uint8Array
+  ): Promise<Uint8Array>;
 }
 
 export interface WrappedPrfs {

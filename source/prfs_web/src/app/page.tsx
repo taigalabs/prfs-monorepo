@@ -67,7 +67,7 @@ export default function Home() {
       const index = addressTree.indexOf(proverAddress);
       const merkleProof = addressTree.createProof(index);
 
-      console.log('merkleProof', merkleProof);
+      console.log("merkleProof", merkleProof);
 
       console.log("Proving...");
       console.time("Full proving time");
@@ -106,7 +106,7 @@ export default function Home() {
     //   console.log("Failed to verify proof :(");
     // }
 
-    fn().then(() => { });
+    fn().then(() => {});
   }, []);
 
   return (

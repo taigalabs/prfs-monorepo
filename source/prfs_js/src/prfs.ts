@@ -22,7 +22,6 @@ export class Prfs {
 
   newPoseidon() {
     return makePoseidon(this.handlers);
-    // return new Poseidon(this.handlers);
   }
 
   async newTree(depth: number, hash: AsyncHashFn): Promise<Tree> {

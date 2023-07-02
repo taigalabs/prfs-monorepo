@@ -12,13 +12,15 @@ function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
     async poseidonHash(inputs: Uint8Array) {
       const res = prfsWasm.poseidon(inputs);
       return res;
+    },
+    async prove(
+      circuit: Uint8Array,
+      vars: Uint8Array,
+      public_inputs: Uint8Array
+    ) {
+      const res = prfsWasm.prove(circuit, vars, public_inputs);
+      return res;
     }
-    // newTree(depth: number) {
-    //   return prfs.newTree(depth, poseidon);
-    // },
-    // membershshipProve() {
-    //   return prfs.newMembershipProver(defaultPubkeyMembershipPConfig);
-    // }
   };
 
   // return () => {
@@ -48,12 +50,6 @@ async function initHandlers() {
   const prfsWasm = await import("./build/prfs_wasm");
   await prfsWasm.default("http://localhost:4010/circuits/prfs_wasm_bg.wasm");
   await prfsWasm.initThreadPool(navigator.hardwareConcurrency);
-
-  // let aa = prfsWasm.aa(new Uint8Array());
-  // console.log(33, aa);
-
-  // let bb = prfsWasm.bb();
-  // console.log(44, bb);
 
   let wrapped = wrapExports(prfsWasm);
 

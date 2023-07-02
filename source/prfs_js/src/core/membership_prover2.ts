@@ -103,10 +103,10 @@ export class MembershipProver2 extends Profiler implements IProver {
     const mInv = m.invm(SECP256K1_P);
 
     const y = new BN(2).toString();
-    console.log('y: %s', y);
+    console.log("y: %s", y);
 
     const y2 = new BN(2).invm(SECP256K1_P).toString();
-    console.log('y2: %s', y2);
+    console.log("y2: %s", y2);
 
     // 57896044618658097711785492504343953926418782139537452191302581570759080747169
     // 57896044618658097711785492504343953926634992332820282019728792003954417335832
@@ -143,26 +143,27 @@ export class MembershipProver2 extends Profiler implements IProver {
     );
     this.timeEnd("Generate witness");
 
-    // this.time("Load circuit");
-    // const circuitBin = await loadCircuit(this.circuit);
-    // // const circuitBin2 = circuitBytes;
+    this.time("Load circuit");
+    const circuitBin = await loadCircuit(this.circuit);
 
-    // console.log(11, circuitBin);
-    // // console.log(22, circuitBin2);
-
-    // this.timeEnd("Load circuit");
+    console.log(11, circuitBin);
+    this.timeEnd("Load circuit");
 
     // // Get the public input in bytes
-    // const circuitPublicInput: Uint8Array =
-    //   publicInput.circuitPubInput.serialize();
+    const circuitPublicInput: Uint8Array =
+      publicInput.circuitPubInput.serialize();
 
-    // this.time("Prove");
-    // let proof = this.prfsWasm.prove(circuitBin, witness.data, circuitPublicInput);
-    // this.timeEnd("Prove");
+    this.time("Prove");
+    let proof = await this.handlers.prove(
+      circuitBin,
+      witness.data,
+      circuitPublicInput
+    );
+    this.timeEnd("Prove");
     //
     //
 
-    let proof = new Uint8Array();
+    // let proof = new Uint8Array();
 
     return {
       proof,
