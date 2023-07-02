@@ -8,3 +8,5 @@ src/wasm_build/**
 !src/wasm_build/.gitkeep
 
 example/
+
+build_cjs/

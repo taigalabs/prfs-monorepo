@@ -9,7 +9,7 @@
     "rootDir": "./src",
     "moduleResolution": "node",
     "allowJs": true,
-    "outDir": "./build",
+    "outDir": "./build_cjs",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
