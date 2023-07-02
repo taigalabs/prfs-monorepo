@@ -1,17 +1,15 @@
 import { Tree } from "./helpers/tree";
-import { Poseidon, makePoseidon } from "./helpers/poseidon";
+import { makePoseidon } from "./helpers/poseidon";
 import { MembershipProver2 } from "./core/membership_prover2";
-import { ProverConfig, PrfsHandlers, PrfsWasmType, AsyncHashFn } from "./types";
+import { ProverConfig, PrfsHandlers, AsyncHashFn } from "./types";
 import { initWasm } from "./wasm_wrapper";
 
 export class Prfs {
   isInitilized: boolean;
-  // wasm: PrfsWasmType;
   handlers: PrfsHandlers;
 
   constructor(handlers: PrfsHandlers) {
     this.isInitilized = true;
-    // this.wasm = wasm;
     this.handlers = handlers;
   }
 

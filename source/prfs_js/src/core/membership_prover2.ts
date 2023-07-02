@@ -9,10 +9,7 @@ import {
   SECP256K1_P,
   computeEffEcdsaPubInput2
 } from "../helpers/public_input";
-import {
-  defaultPubkeyMembershipPConfig,
-  defaultAddressMembershipPConfig
-} from "../config";
+import { defaultPubkeyMembershipPConfig, defaultAddressMembershipPConfig } from "../config";
 import BN from "bn.js";
 import { PrfsHandlers } from "../types";
 
@@ -22,7 +19,6 @@ import { PrfsHandlers } from "../types";
 export class MembershipProver2 extends Profiler implements IProver {
   circuit: string;
   witnessGenWasm: string;
-  // prfsWasm: PrfsWasmType;
   handlers: PrfsHandlers;
 
   constructor(options: ProverConfig, prfsHandlers: PrfsHandlers) {
@@ -61,11 +57,7 @@ export class MembershipProver2 extends Profiler implements IProver {
     this.handlers = prfsHandlers;
   }
 
-  async prove(
-    sig: string,
-    msgHash: Buffer,
-    merkleProof: MerkleProof
-  ): Promise<NIZK> {
+  async prove(sig: string, msgHash: Buffer, merkleProof: MerkleProof): Promise<NIZK> {
     console.log("\nMembershipProver2.prove()");
 
     const { r, s, v } = fromSig(sig);
@@ -100,7 +92,7 @@ export class MembershipProver2 extends Profiler implements IProver {
     console.log("secp256k1 p: %s", SECP256K1_P);
 
     const m = new BN(msgHash).mod(SECP256K1_P);
-    const mInv = m.invm(SECP256K1_P);
+    // const mInv = m.invm(SECP256K1_P);
 
     const y = new BN(2).toString();
     console.log("y: %s", y);
@@ -137,10 +129,7 @@ export class MembershipProver2 extends Profiler implements IProver {
 
     console.log("wasm11: %s", this.witnessGenWasm);
 
-    const witness = await snarkJsWitnessGen(
-      witnessGenInput,
-      this.witnessGenWasm
-    );
+    const witness = await snarkJsWitnessGen(witnessGenInput, this.witnessGenWasm);
     this.timeEnd("Generate witness");
 
     this.time("Load circuit");
@@ -150,24 +139,16 @@ export class MembershipProver2 extends Profiler implements IProver {
     this.timeEnd("Load circuit");
 
     // // Get the public input in bytes
-    const circuitPublicInput: Uint8Array =
-      publicInput.circuitPubInput.serialize();
+    const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
 
     this.time("Prove");
-    let proof = await this.handlers.prove(
-      circuitBin,
-      witness.data,
-      circuitPublicInput
-    );
+    let proof = await this.handlers.prove(circuitBin, witness.data, circuitPublicInput);
     this.timeEnd("Prove");
-    //
-    //
 
     // let proof = new Uint8Array();
 
     return {
       proof,
-      // proof: new Uint8Array([0]),
       publicInput
     };
   }

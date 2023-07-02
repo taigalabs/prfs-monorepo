@@ -1,7 +1,4 @@
-import {
-  defaultAddressMembershipVConfig,
-  defaultPubkeyMembershipVConfig
-} from "../config";
+import { defaultAddressMembershipVConfig, defaultPubkeyMembershipVConfig } from "../config";
 import { Profiler } from "../helpers/profiler";
 import { loadCircuit } from "../helpers/utils";
 import { IVerifier, VerifyConfig } from "../types";
@@ -37,11 +34,9 @@ export class MembershipVerifier extends Profiler implements IVerifier {
     // await init();
   }
 
-  async verify(
-    proof: Uint8Array,
-    publicInputSer: Uint8Array
-  ): Promise<boolean> {
+  async verify(proof: Uint8Array, publicInputSer: Uint8Array): Promise<boolean> {
     this.time("Load circuit");
+
     const circuitBin = await loadCircuit(this.circuit);
     this.timeEnd("Load circuit");
 
