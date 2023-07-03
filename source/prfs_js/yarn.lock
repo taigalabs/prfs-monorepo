@@ -1869,7 +1869,7 @@ __metadata:
     "@types/bn.js": ^5.1.1
     "@types/elliptic": ^6.4.14
     "@types/jest": ^29.2.5
-    "@zk-kit/incremental-merkle-tree": "*"
+    "@zk-kit/incremental-merkle-tree": ^1.1.0
     bn.js: ^5.2.1
     elliptic: ^6.5.4
     jest: ^29.3.1
@@ -2026,7 +2026,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zk-kit/incremental-merkle-tree@npm:*":
+"@zk-kit/incremental-merkle-tree@npm:^1.1.0":
   version: 1.1.0
   resolution: "@zk-kit/incremental-merkle-tree@npm:1.1.0"
   checksum: 5f2d6dd2a4898aa75f72d5b3811ab965c369f0a51561250313849fb9a6a1163064c4887da3bea298d25e80a4bc79b3c6997edf6492a6a8fc157512bc3fcb5e23

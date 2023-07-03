@@ -23,18 +23,20 @@
     "rimraf": "^3.0.2",
     "snarkjs": "^0.5.0"
   },
-  "workspaces": [
-    "externals/lib",
-    "externals/benchmark/web",
-    "externals/benchmark/node",
-    "externals/circuits",
-    "externals/incremental-merkle-tree",
-    "source/prfs_js",
-    "source/prfs_circuits",
-    "source/prfs_circuit_server",
-    "source/prfs_web",
-    "source/prfs_wasm",
-    "source/e2e_test_node"
-  ],
+  "workspaces": {
+    "packages": [
+      "externals/lib",
+      "externals/benchmark/web",
+      "externals/benchmark/node",
+      "externals/circuits",
+      "externals/incremental-merkle-tree",
+      "source/prfs_js",
+      "source/prfs_circuits",
+      "source/prfs_circuit_server",
+      "source/prfs_web",
+      "source/prfs_wasm",
+      "source/e2e_test_node"
+    ]
+  },
   "packageManager": "yarn@3.6.1"
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@zk-kit/incremental-merkle-tree",
+  "name": "incremental-merkle-tree2",
   "version": "1.1.0",
   "description": "Incremental Merkle tree implementation in TypeScript.",
   "license": "MIT",
@@ -26,7 +26,7 @@
   },
   "scripts": {
     "build:watch": "rollup -c rollup.config.ts -w --configPlugin typescript",
-    "build-pkg": "rimraf dist && rollup -c rollup.config.ts --configPlugin typescript",
+    "build-pkg": "rm -rf dist && rollup -c rollup.config.ts --configPlugin typescript",
     "prepublishOnly": "yarn build-pkg",
     "docs": "typedoc src/index.ts --out ../../docs/incremental-merkle-tree"
   },

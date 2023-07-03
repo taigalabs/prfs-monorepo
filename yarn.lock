@@ -4294,7 +4294,7 @@ __metadata:
   dependencies:
     "@ethereumjs/util": ^8.0.3
     "@personaelabs/spartan-ecdsa": "*"
-    "@zk-kit/incremental-merkle-tree": ^1.0.0
+    "@zk-kit/incremental-merkle-tree": "*"
     bn.js: ^5.2.1
     circom_tester: ^0.0.19
     circomlib: ^2.0.5
@@ -4318,9 +4318,9 @@ __metadata:
     "@types/bn.js": ^5.1.1
     "@types/elliptic": ^6.4.14
     "@types/jest": ^29.2.5
-    "@zk-kit/incremental-merkle-tree": "*"
     bn.js: ^5.2.1
     elliptic: ^6.5.4
+    incremental-merkle-tree2: "workspace:*"
     jest: ^29.3.1
     snarkjs: ^0.5.0
     ts-jest: ^29.0.3
@@ -5058,24 +5058,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zk-kit/incremental-merkle-tree@*, @zk-kit/incremental-merkle-tree@^1.0.0, @zk-kit/incremental-merkle-tree@workspace:externals/incremental-merkle-tree":
-  version: 0.0.0-use.local
-  resolution: "@zk-kit/incremental-merkle-tree@workspace:externals/incremental-merkle-tree"
-  dependencies:
-    "@rollup/plugin-typescript": ^8.3.3
-    "@types/jest": ^29.5.2
-    circomlibjs: ^0.0.8
-    incrementalquintree: ^1.0.9
-    jest: ^27.4.1
-    jest-config: ^27.4.7
-    rollup: ^2.64.0
-    rollup-plugin-cleanup: ^3.2.1
-    rollup-plugin-terser: ^7.0.2
-    rollup-plugin-typescript2: ^0.32.1
-    ts-jest: ^29.1.1
-    typedoc: ^0.22.11
-  languageName: unknown
-  linkType: soft
+"@zk-kit/incremental-merkle-tree@npm:*, @zk-kit/incremental-merkle-tree@npm:^1.0.0":
+  version: 1.1.0
+  resolution: "@zk-kit/incremental-merkle-tree@npm:1.1.0"
+  checksum: 5f2d6dd2a4898aa75f72d5b3811ab965c369f0a51561250313849fb9a6a1163064c4887da3bea298d25e80a4bc79b3c6997edf6492a6a8fc157512bc3fcb5e23
+  languageName: node
+  linkType: hard
 
 "@zkochan/js-yaml@npm:0.0.6":
   version: 0.0.6
@@ -11451,6 +11439,25 @@ __metadata:
   checksum: 7cae75c8cd9a50f57dadd77482359f659eaebac0319dd9368bcd1714f55e65badd6929ca58569da2b6494ef13fdd5598cd700b1eba23f8b79c5f19d195a3ecf7
   languageName: node
   linkType: hard
+
+"incremental-merkle-tree2@workspace:*, incremental-merkle-tree2@workspace:externals/incremental-merkle-tree":
+  version: 0.0.0-use.local
+  resolution: "incremental-merkle-tree2@workspace:externals/incremental-merkle-tree"
+  dependencies:
+    "@rollup/plugin-typescript": ^8.3.3
+    "@types/jest": ^29.5.2
+    circomlibjs: ^0.0.8
+    incrementalquintree: ^1.0.9
+    jest: ^27.4.1
+    jest-config: ^27.4.7
+    rollup: ^2.64.0
+    rollup-plugin-cleanup: ^3.2.1
+    rollup-plugin-terser: ^7.0.2
+    rollup-plugin-typescript2: ^0.32.1
+    ts-jest: ^29.1.1
+    typedoc: ^0.22.11
+  languageName: unknown
+  linkType: soft
 
 "incrementalquintree@npm:^1.0.9":
   version: 1.0.9

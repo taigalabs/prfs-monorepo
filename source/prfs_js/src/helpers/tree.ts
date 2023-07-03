@@ -1,4 +1,4 @@
-import { AsyncIncrementalMerkleTree } from "@zk-kit/incremental-merkle-tree";
+import { AsyncIncrementalMerkleTree } from "incremental-merkle-tree2";
 import { MerkleProof, AsyncHashFn } from "../types";
 import { bytesToBigInt } from "./utils";
 

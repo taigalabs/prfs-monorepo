@@ -27,9 +27,9 @@
   },
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
-    "@zk-kit/incremental-merkle-tree": "*",
     "bn.js": "^5.2.1",
     "elliptic": "^6.5.4",
+    "incremental-merkle-tree2": "workspace:*",
     "snarkjs": "^0.5.0"
   }
 }
