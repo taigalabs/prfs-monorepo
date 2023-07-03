@@ -11,8 +11,8 @@
     "test": "sh ./scripts/test.sh"
   },
   "devDependencies": {
-    "@types/node": "^17.0.9",
     "@types/jest": "^29.2.4",
+    "@types/node": "^17.0.9",
     "@typescript-eslint/eslint-plugin": "5.49.0",
     "@typescript-eslint/parser": "^5.59.9",
     "eslint": "8.32.0",
@@ -35,5 +35,6 @@
     "source/prfs_web",
     "source/prfs_wasm",
     "source/e2e_test_node"
-  ]
+  ],
+  "packageManager": "yarn@3.6.1"
 }
