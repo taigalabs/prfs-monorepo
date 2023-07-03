@@ -12,14 +12,10 @@
     "allowSyntheticDefaultImports": true,
     "declarationDir": "dist/types",
     "typeRoots": [
+      "../../node_modules/@types",
       "node_modules/@types",
       "types"
     ],
-    "paths": {
-      "@zk-kit/*": [
-        "packages/*/src"
-      ]
-    }
   },
   "ts-node": {
     "compilerOptions": {
