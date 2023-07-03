@@ -1,15 +1,15 @@
 use super::SetType;
 use crate::{apis::set::grow, constants::TREE_DEPTH, TreeMakerError};
 use ff::PrimeField;
-use halo2_gadgets::{
-    poseidon::{
-        self,
-        primitives::{ConstantLength, P128Pow5T3, Spec},
-        Hash,
-    },
-    utilities::UtilitiesInstructions,
-};
-use halo2_proofs::halo2curves::{pasta::Fp as PastaFp, serde::SerdeObject};
+// use halo2_gadgets::{
+//     poseidon::{
+//         self,
+//         primitives::{ConstantLength, P128Pow5T3, Spec},
+//         Hash,
+//     },
+//     utilities::UtilitiesInstructions,
+// };
+// use halo2_proofs::halo2curves::{pasta::Fp as PastaFp, serde::SerdeObject};
 use prfs_db_interface::{Database, Node};
 use rust_decimal::{prelude::ToPrimitive, Decimal};
 
@@ -52,7 +52,7 @@ pub async fn grow_tree(db: &Database, set_type: &SetType) -> Result<(), TreeMake
 
     let leaf_nodes = leaf_nodes?;
 
-    let nodes = populate_tree(leaf_nodes, set_type)?;
+    // let nodes = populate_tree(leaf_nodes, set_type)?;
 
     // for h in 1..nodes.len() {
     //     let nodes_at_h = &nodes[h];
@@ -61,83 +61,83 @@ pub async fn grow_tree(db: &Database, set_type: &SetType) -> Result<(), TreeMake
     //     }
     // }
 
-    let nodes_flattened: Vec<Node> = nodes.into_iter().flatten().collect();
+    // let nodes_flattened: Vec<Node> = nodes.into_iter().flatten().collect();
 
-    let rows_affected = db
-        .insert_nodes(set_type.set_id.to_string(), nodes_flattened, true)
-        .await?;
+    // let rows_affected = db
+    //     .insert_nodes(set_type.set_id.to_string(), nodes_flattened, true)
+    //     .await?;
 
-    println!("grow(): rows affected: {}", rows_affected);
+    // println!("grow(): rows affected: {}", rows_affected);
 
     Ok(())
 }
 
-fn populate_tree(
-    leaf_nodes: Vec<Node>,
-    set_type: &SetType,
-) -> Result<Vec<Vec<Node>>, TreeMakerError> {
-    let mut nodes: Vec<Vec<Node>> = vec![];
+// fn populate_tree(
+//     leaf_nodes: Vec<Node>,
+//     set_type: &SetType,
+// ) -> Result<Vec<Vec<Node>>, TreeMakerError> {
+//     let mut nodes: Vec<Vec<Node>> = vec![];
 
-    nodes.push(leaf_nodes);
+//     nodes.push(leaf_nodes);
 
-    for h in 1..TREE_DEPTH {
-        let curr_nodes = &nodes[h as usize - 1];
-        // println!("h: {}, curr_nodes: {:?}", h, curr_nodes);
+//     for h in 1..TREE_DEPTH {
+//         let curr_nodes = &nodes[h as usize - 1];
+//         // println!("h: {}, curr_nodes: {:?}", h, curr_nodes);
 
-        let mut next_nodes = vec![];
-        for idx in (0..curr_nodes.len()).step_by(2) {
-            // println!("h: {}, idx: {}", h, idx);
+//         let mut next_nodes = vec![];
+//         for idx in (0..curr_nodes.len()).step_by(2) {
+//             // println!("h: {}, idx: {}", h, idx);
 
-            let left = match curr_nodes.get(idx as usize) {
-                Some(n) => {
-                    let mut node_vec = hex::decode(&n.val[2..]).unwrap();
-                    node_vec.reverse();
+//             let left = match curr_nodes.get(idx as usize) {
+//                 Some(n) => {
+//                     let mut node_vec = hex::decode(&n.val[2..]).unwrap();
+//                     node_vec.reverse();
 
-                    let node_arr: [u8; 32] = node_vec.try_into().unwrap();
-                    PastaFp::from_repr(node_arr).unwrap()
-                }
-                None => {
-                    return Err("Left node should always exist".into());
-                }
-            };
+//                     let node_arr: [u8; 32] = node_vec.try_into().unwrap();
+//                     PastaFp::from_repr(node_arr).unwrap()
+//                 }
+//                 None => {
+//                     return Err("Left node should always exist".into());
+//                 }
+//             };
 
-            let right = match curr_nodes.get(idx as usize + 1) {
-                Some(n) => {
-                    let mut node_vec = hex::decode(&n.val[2..]).unwrap();
-                    node_vec.reverse();
+//             let right = match curr_nodes.get(idx as usize + 1) {
+//                 Some(n) => {
+//                     let mut node_vec = hex::decode(&n.val[2..]).unwrap();
+//                     node_vec.reverse();
 
-                    let node_arr: [u8; 32] = node_vec.try_into().unwrap();
-                    PastaFp::from_repr(node_arr).unwrap()
-                }
-                None => PastaFp::zero(),
-            };
+//                     let node_arr: [u8; 32] = node_vec.try_into().unwrap();
+//                     PastaFp::from_repr(node_arr).unwrap()
+//                 }
+//                 None => PastaFp::zero(),
+//             };
 
-            let msg = [left, right];
-            let parent_val =
-                poseidon::primitives::Hash::<PastaFp, P128Pow5T3, ConstantLength<2>, 3, 2>::init()
-                    .hash(msg);
-            let mut parent_arr = parent_val.to_repr();
-            parent_arr.reverse();
+//             let msg = [left, right];
+//             let parent_val =
+//                 poseidon::primitives::Hash::<PastaFp, P128Pow5T3, ConstantLength<2>, 3, 2>::init()
+//                     .hash(msg);
+//             let mut parent_arr = parent_val.to_repr();
+//             parent_arr.reverse();
 
-            let parent_hex = format!("0x{}", hex::encode(parent_arr));
-            let h: i32 = h.try_into().unwrap();
+//             let parent_hex = format!("0x{}", hex::encode(parent_arr));
+//             let h: i32 = h.try_into().unwrap();
 
-            let parent_node = Node {
-                pos_w: Decimal::from(idx / 2),
-                pos_h: h,
-                val: parent_hex,
-                set_id: set_type.set_id.to_string(),
-            };
+//             let parent_node = Node {
+//                 pos_w: Decimal::from(idx / 2),
+//                 pos_h: h,
+//                 val: parent_hex,
+//                 set_id: set_type.set_id.to_string(),
+//             };
 
-            // println!("h: {}, idx: {}, parent node: {:?}", h, idx, parent_node);
-            next_nodes.push(parent_node);
-        }
+//             // println!("h: {}, idx: {}, parent node: {:?}", h, idx, parent_node);
+//             next_nodes.push(parent_node);
+//         }
 
-        nodes.push(next_nodes);
-    }
+//         nodes.push(next_nodes);
+//     }
 
-    return Ok(nodes);
-}
+//     return Ok(nodes);
+// }
 
 #[test]
 pub fn test_grow_1() {
@@ -215,5 +215,5 @@ pub fn test_grow_1() {
 
     let leaf_nodes = leaf_nodes.unwrap();
 
-    populate_tree(leaf_nodes, &set_type).unwrap();
+    // populate_tree(leaf_nodes, &set_type).unwrap();
 }

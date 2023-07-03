@@ -109,6 +109,7 @@ async fn main() -> Result<(), TreeMakerError> {
         hyper_client,
         geth_endpoint,
     };
+
     let db = Database::connect().await?;
 
     accounts::get_accounts(geth_client, db).await?;

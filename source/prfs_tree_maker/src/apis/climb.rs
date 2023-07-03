@@ -1,20 +1,17 @@
-use crate::{
-    hexutils::{convert_fp_to_string, convert_string_into_fp},
-    TreeMakerError,
-};
+use crate::TreeMakerError;
 use aws_config::meta::region::RegionProviderChain;
 use aws_sdk_dynamodb::{client::fluent_builders, model::AttributeValue, Client as DynamoClient};
 use ff::PrimeField;
 use futures_util::pin_mut;
 use futures_util::TryStreamExt;
-use halo2_gadgets::{
-    poseidon::{
-        primitives::{self as poseidon, ConstantLength, P128Pow5T3 as OrchardNullifier, Spec},
-        Hash,
-    },
-    utilities::UtilitiesInstructions,
-};
-use halo2_proofs::halo2curves::{pasta::Fp, serde::SerdeObject};
+// use halo2_gadgets::{
+//     poseidon::{
+//         primitives::{self as poseidon, ConstantLength, P128Pow5T3 as OrchardNullifier, Spec},
+//         Hash,
+//     },
+//     utilities::UtilitiesInstructions,
+// };
+// use halo2_proofs::halo2curves::{pasta::Fp, serde::SerdeObject};
 use std::{collections::HashMap, sync::Arc};
 use tokio_postgres::{Client as PgClient, Error, GenericClient, NoTls};
 
@@ -32,91 +29,91 @@ pub async fn climb_up() -> Result<(), TreeMakerError> {
         }
     });
 
-    let addr = "0x33d10Ab178924ECb7aD52f4c0C8062C3066607ec".to_lowercase();
+    // let addr = "0x33d10Ab178924ECb7aD52f4c0C8062C3066607ec".to_lowercase();
 
-    let addr = pg_client
-        .query_one(
-            "SELECT pos, table_id, val FROM nodes WHERE addr=$1",
-            &[&addr],
-        )
-        .await
-        .expect("addr should be found");
+    // let addr = pg_client
+    //     .query_one(
+    //         "SELECT pos, table_id, val FROM nodes WHERE addr=$1",
+    //         &[&addr],
+    //     )
+    //     .await
+    //     .expect("addr should be found");
 
-    let addr: &str = addr.get("val");
+    // let addr: &str = addr.get("val");
 
-    let addr_val = convert_string_into_fp(addr);
+    // let addr_val = convert_string_into_fp(addr);
 
-    println!("STARTING addr: {}, addr_val (fp): {:?}", addr, addr_val);
+    // println!("STARTING addr: {}, addr_val (fp): {:?}", addr, addr_val);
 
-    let auth_paths = generate_auth_paths(385);
+    // let auth_paths = generate_auth_paths(385);
 
-    let mut curr = addr_val;
+    // let mut curr = addr_val;
 
-    for (height, path) in auth_paths.iter().enumerate() {
-        println!("");
-        let curr_idx = path.idx;
-        let pos = &path.node_loc;
+    // for (height, path) in auth_paths.iter().enumerate() {
+    //     println!("");
+    //     let curr_idx = path.idx;
+    //     let pos = &path.node_loc;
 
-        let node = match pg_client
-            .query_one("SELECT pos, table_id, val FROM nodes WHERE pos=$1", &[&pos])
-            .await
-        {
-            Ok(row) => {
-                let val: &str = row.get("val");
-                let pos: &str = row.get("pos");
+    //     let node = match pg_client
+    //         .query_one("SELECT pos, table_id, val FROM nodes WHERE pos=$1", &[&pos])
+    //         .await
+    //     {
+    //         Ok(row) => {
+    //             let val: &str = row.get("val");
+    //             let pos: &str = row.get("pos");
 
-                println!("sibling node, pos: {}, val: {}", pos, val);
+    //             println!("sibling node, pos: {}, val: {}", pos, val);
 
-                let node = convert_string_into_fp(val);
+    //             let node = convert_string_into_fp(val);
 
-                node
-            }
-            Err(err) => {
-                println!("value doesn't exist, pos: {}", pos,);
+    //             node
+    //         }
+    //         Err(err) => {
+    //             println!("value doesn't exist, pos: {}", pos,);
 
-                let node = Fp::zero();
-                node
-            }
-        };
+    //             let node = Fp::zero();
+    //             node
+    //         }
+    //     };
 
-        if path.direction {
-            let l = convert_fp_to_string(node);
-            let r = convert_fp_to_string(curr);
+    //     if path.direction {
+    //         let l = convert_fp_to_string(node);
+    //         let r = convert_fp_to_string(curr);
 
-            println!("l (fp): {:?}, r (fp): {:?}", node, curr);
-            println!("l : {:?}, r : {:?}", l, r);
+    //         println!("l (fp): {:?}, r (fp): {:?}", node, curr);
+    //         println!("l : {:?}, r : {:?}", l, r);
 
-            let hash = poseidon::Hash::<_, OrchardNullifier, ConstantLength<2>, 3, 2>::init()
-                .hash([node, curr]);
+    //         let hash = poseidon::Hash::<_, OrchardNullifier, ConstantLength<2>, 3, 2>::init()
+    //             .hash([node, curr]);
 
-            curr = hash;
-        } else {
-            let l = convert_fp_to_string(curr);
-            let r = convert_fp_to_string(node);
+    //         curr = hash;
+    //     } else {
+    //         let l = convert_fp_to_string(curr);
+    //         let r = convert_fp_to_string(node);
 
-            // println!("l: {:?}, r: {:?}", l, r);
-            println!("l (fp): {:?}, r (fp): {:?}", curr, node);
-            println!("l: {:?}, r : {:?}", l, r);
-            let hash = poseidon::Hash::<_, OrchardNullifier, ConstantLength<2>, 3, 2>::init()
-                .hash([curr, node]);
+    //         // println!("l: {:?}, r: {:?}", l, r);
+    //         println!("l (fp): {:?}, r (fp): {:?}", curr, node);
+    //         println!("l: {:?}, r : {:?}", l, r);
+    //         let hash = poseidon::Hash::<_, OrchardNullifier, ConstantLength<2>, 3, 2>::init()
+    //             .hash([curr, node]);
 
-            curr = hash;
-        }
+    //         curr = hash;
+    //     }
 
-        let c = convert_fp_to_string(curr);
+    //     let c = convert_fp_to_string(curr);
 
-        println!(
-            "curr (fp): {:?}, string: {}, parent_pos: {}",
-            curr,
-            c,
-            format!("{}_{}", height + 1, curr_idx / 2)
-        );
-    }
+    //     println!(
+    //         "curr (fp): {:?}, string: {}, parent_pos: {}",
+    //         curr,
+    //         c,
+    //         format!("{}_{}", height + 1, curr_idx / 2)
+    //     );
+    // }
 
-    let c = convert_fp_to_string(curr);
+    // let c = convert_fp_to_string(curr);
 
-    println!("finally curr: {:?}", curr,);
-    println!("c: {:?}", c);
+    // println!("finally curr: {:?}", curr,);
+    // println!("c: {:?}", c);
 
     Ok(())
 }

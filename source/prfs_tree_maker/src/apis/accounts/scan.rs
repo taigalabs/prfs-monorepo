@@ -8,11 +8,46 @@ use rust_decimal::Decimal;
 use std::collections::BTreeMap;
 use std::time::Duration;
 
-const MAX_BALANCE_COUNT_TO_WRITE: usize = 600;
 const MAX_CONSEQ_ERR_COUNT: usize = 10;
 
 pub async fn run(geth_client: GethClient, db: Database) -> Result<(), TreeMakerError> {
-    scan_ledger_accounts(geth_client, db, false).await?;
+    let balance_bucket_capacity = {
+        let s: usize = std::env::var("SCAN_BALANCE_BUCKET_CAPACITY")
+            .expect("env var SCAN_BALANCE_BUCKET_CAPACITY missing")
+            .parse()
+            .unwrap();
+        s
+    };
+
+    let scan_update_on_conflict = {
+        let s: String = std::env::var("SCAN_UPDATE_ON_CONFLICT")
+            .expect("env var SCAN_UPDATE_ON_CONFLICT missing")
+            .parse()
+            .unwrap();
+
+        match s.as_str() {
+            "true" => true,
+            "false" => false,
+            _ => panic!("Invalid POSTGRES_UPDATE_ON_CONFLICT"),
+        }
+    };
+
+    let scan_interval = {
+        let s: u64 = std::env::var("SCAN_INTERVAL")
+            .expect("env var SCAN_INTERVAL missing")
+            .parse()
+            .unwrap();
+        s
+    };
+
+    scan_ledger_accounts(
+        geth_client,
+        db,
+        scan_update_on_conflict,
+        scan_interval,
+        balance_bucket_capacity,
+    )
+    .await?;
 
     Ok(())
 }
@@ -21,6 +56,8 @@ async fn scan_ledger_accounts(
     geth_client: GethClient,
     db: Database,
     update_on_conflict: bool,
+    scan_interval: u64,
+    balance_bucket_capacity: usize,
 ) -> Result<(), TreeMakerError> {
     let (start_block, end_block) = {
         let sb: u64 = std::env::var("START_BLOCK")
@@ -35,6 +72,12 @@ async fn scan_ledger_accounts(
         (sb, eb)
     };
 
+    println!(
+        "Scanning ledger accounts, start_block: {}, end_block: {}, scan_interval: {}, \
+        update_on_conflict: {}",
+        start_block, end_block, scan_interval, update_on_conflict,
+    );
+
     let mut balances = BTreeMap::<String, Account>::new();
 
     let mut conseq_err_count = 0;
@@ -48,13 +91,13 @@ async fn scan_ledger_accounts(
             return Ok(());
         }
 
-        if no % 50 == 0 {
+        if no % 30 == 0 {
             tracing::info!(
                 "Block processing now at: {}, sleeping for short duration to resume",
                 no
             );
 
-            tokio::time::sleep(Duration::from_millis(2000)).await;
+            tokio::time::sleep(Duration::from_millis(scan_interval)).await;
         }
 
         let b_no = format!("0x{:x}", no);
@@ -157,7 +200,7 @@ async fn scan_ledger_accounts(
         }
 
         let balances_count = balances.len();
-        if balances.len() >= MAX_BALANCE_COUNT_TO_WRITE {
+        if balances.len() >= balance_bucket_capacity {
             match db.insert_accounts(balances, update_on_conflict).await {
                 Ok(r) => {
                     tracing::info!(
