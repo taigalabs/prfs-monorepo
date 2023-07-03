@@ -30,6 +30,7 @@
       "externals/benchmark/node",
       "externals/circuits",
       "externals/incremental-merkle-tree",
+      "externals/incremental-merkle-tree2",
       "source/prfs_js",
       "source/prfs_circuits",
       "source/prfs_circuit_server",

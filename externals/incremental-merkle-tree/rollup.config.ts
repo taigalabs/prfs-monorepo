@@ -1,4 +1,4 @@
-import typescript from "rollup-plugin-typescript2"
+import typescript from "@rollup/plugin-typescript"
 import fs from "fs"
 import cleanup from "rollup-plugin-cleanup"
 import { terser } from "rollup-plugin-terser"

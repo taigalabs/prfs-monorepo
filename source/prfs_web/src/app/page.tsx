@@ -80,7 +80,7 @@ export default function Home() {
       }
     }
 
-    fn().then(() => {});
+    fn().then(() => { });
   }, []);
 
   return (
