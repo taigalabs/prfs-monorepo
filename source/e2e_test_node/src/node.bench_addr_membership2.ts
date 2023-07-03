@@ -10,17 +10,17 @@
 // import * as path from "path";
 
 // const { Prfs } = require("@taigalabs/prfs-js");
-import prfs from "@taigalabs/prfs-js";
-// import { initWasm } from '@taigalabs/prfs-js/build_cjs/index.js';
+import { Prfs } from "@taigalabs/prfs-js";
+import { initWasm } from '@taigalabs/prfs-js/build_cjs/wasm_wrapper/load_cjs';
 
 const benchAddrMembership2 = async () => {
   console.log("bench addr membership2");
 
-  console.log(33, prfs);
-  // console.log(34, initWasm);
+  // console.log(33, Prfs);
+  console.log(34, initWasm);
 
-  // let handlers = await initWasm();
-  // console.log(22, handlers)
+  let handlers = await initWasm();
+  console.log(22, handlers)
 
   // let prfs = await Prfs.newInstance();
   // console.log(11, prfs);

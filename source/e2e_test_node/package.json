@@ -2,15 +2,18 @@
   "name": "e2e-test-node",
   "version": "1.0.0",
   "license": "MIT",
-  "type": "module",
   "scripts": {
     "clean": "rimraf ./build",
     "build": "yarn clean && tsc",
-    "bench": "yarn run build && node ./build/node.bench.js"
+    "bench": "yarn run build && node ./build/node.bench.js",
+    "foo": "node src/app.mjs"
   },
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
-    "@taigalabs/prfs-js": "*"
+    "@taigalabs/prfs-js": "*",
+    "comlink": "^4.3.1",
+    "puppeteer": "^20.7.4",
+    "wasm-feature-detect": "^1.2.11"
   },
   "devDependencies": {
     "@types/node": "20.3.1",

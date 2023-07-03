@@ -47,7 +47,6 @@ async function initHandlers() {
   await prfsWasm.initThreadPool(navigator.hardwareConcurrency);
 
   let wrapped = wrapExports(prfsWasm);
-
   return Comlink.proxy(wrapped);
 }
 

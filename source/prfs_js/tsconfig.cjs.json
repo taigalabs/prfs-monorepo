@@ -9,7 +9,8 @@
     "./node_modules",
     "./tests",
     "./build",
-    "./src/wasm_wrapper/load_es.ts"
+    "./src/wasm_wrapper/load_es.ts",
+    "./src/wasm_wrapper/load_cjs.mjs"
   ],
   "compilerOptions": {
     "lib": [
@@ -18,9 +19,9 @@
     ],
     "declaration": true,
     "target": "es2022",
-    "module": "esnext",
+    "module": "commonjs",
     "rootDir": "./src",
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "allowJs": true,
     "outDir": "./build_cjs",
     "esModuleInterop": true,

@@ -1,24 +1,13 @@
+import { PrfsHandlers } from "../types";
 import * as Comlink from "comlink";
-import path from 'path';
-import { Worker } from 'worker_threads';
-import nodeEndpoint from "comlink/dist/umd/node-adapter";
 
-export async function initWasm() {
+export async function initWasm(): Promise<void> {
   console.log("init()");
 
-  let filename = path.resolve(__dirname, './wasm_worker.js');
-  let worker = new Worker(filename);
 
-  // const handlers = await (
-  //   Comlink.wrap(nodeEndpoint(worker))
-  // ).handlers;
+  const prfsWasm = await import("./build/prfs_wasm");
+  // await prfsWasm.default("http://localhost:4010/circuits/prfs_wasm_bg.wasm");
+  // await prfsWasm.initThreadPool(navigator.hardwareConcurrency);
 
-  // console.log(5, handlers);
-
-  // if (!handlers) {
-  //   console.log("handlers not found");
-  //   return;
-  // }
-
-  // return handlers;
+  // console.log(22, prfsWasm);
 }

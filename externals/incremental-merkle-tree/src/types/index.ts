@@ -11,3 +11,4 @@ export type MerkleProof = {
   siblings: any[]
   pathIndices: number[]
 }
+

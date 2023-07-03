@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
     "target": "es2022",
-    "module": "node16",
+    "module": "CommonJS",
     "lib": [
       "ES2022"
     ],
-    "moduleResolution": "node16",
+    "moduleResolution": "Node",
     "rootDir": "./src",
     "outDir": "./build",
     "allowSyntheticDefaultImports": true,
@@ -15,11 +15,10 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "noImplicitAny": false,
     "noImplicitThis": false,
-    "strictNullChecks": false
+    "strictNullChecks": false,
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*",
