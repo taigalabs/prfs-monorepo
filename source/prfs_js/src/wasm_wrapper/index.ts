@@ -1,5 +1,4 @@
 import * as Comlink from "comlink";
-import * as prfsWasm from "./build/prfs_wasm";
 
 export async function initWasm() {
   console.log("init()");

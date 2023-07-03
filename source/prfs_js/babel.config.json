@@ -15,6 +15,9 @@
     ],
     [
       "@babel/preset-typescript"
-    ]
-  ]
+    ],
+  ],
+  "ignore": [
+    "**/*.d.ts"
+  ],
 }
