@@ -1,0 +1,256 @@
+use crate::geth::{
+    GetBalanceRequest, GetBlockByNumberRequest, GetBlockResponse, GetTransactionReceiptRequest,
+    GethClient,
+};
+use crate::TreeMakerError;
+use prfs_db_interface::db::{Account, Database};
+use rust_decimal::Decimal;
+use std::collections::BTreeMap;
+use std::time::Duration;
+
+const MAX_BALANCE_COUNT_TO_WRITE: usize = 600;
+const MAX_CONSEQ_ERR_COUNT: usize = 10;
+
+pub async fn run(geth_client: GethClient, db: Database) -> Result<(), TreeMakerError> {
+    scan_ledger_accounts(geth_client, db, false).await?;
+
+    Ok(())
+}
+
+async fn scan_ledger_accounts(
+    geth_client: GethClient,
+    db: Database,
+    update_on_conflict: bool,
+) -> Result<(), TreeMakerError> {
+    let (start_block, end_block) = {
+        let sb: u64 = std::env::var("START_BLOCK")
+            .expect("env var START_BLOCK missing")
+            .parse()
+            .unwrap();
+        let eb: u64 = std::env::var("END_BLOCK")
+            .expect("env var END_BLOCK missing")
+            .parse()
+            .unwrap();
+
+        (sb, eb)
+    };
+
+    let mut balances = BTreeMap::<String, Account>::new();
+
+    let mut conseq_err_count = 0;
+    for no in start_block..end_block {
+        if conseq_err_count > MAX_CONSEQ_ERR_COUNT {
+            tracing::error!(
+                "Terminating program because of too many errors, count: {}",
+                conseq_err_count
+            );
+
+            return Ok(());
+        }
+
+        if no % 50 == 0 {
+            tracing::info!(
+                "Block processing now at: {}, sleeping for short duration to resume",
+                no
+            );
+
+            tokio::time::sleep(Duration::from_millis(2000)).await;
+        }
+
+        let b_no = format!("0x{:x}", no);
+
+        tracing::info!(
+            "processing block: {} ({}), #balance in bucket: {}",
+            b_no,
+            no,
+            balances.len()
+        );
+
+        let resp = geth_client
+            .eth_getBlockByNumber(GetBlockByNumberRequest(&b_no, true))
+            .await?;
+
+        let result = if let Some(r) = resp.result {
+            r
+        } else {
+            let msg = format!("Get block response failed, block_no: {}", no);
+            tracing::error!("{}", msg);
+
+            return Err(msg.into());
+        };
+
+        // miner
+        match get_balance_and_add_item(&geth_client, &mut balances, result.miner.to_string()).await
+        {
+            Ok(_) => {
+                conseq_err_count = 0;
+            }
+            Err(_) => {
+                conseq_err_count += 1;
+                tokio::time::sleep(Duration::from_millis(1000)).await;
+            }
+        }
+
+        for tx in result.transactions {
+            // from
+            match get_balance_and_add_item(&geth_client, &mut balances, tx.from.to_string()).await {
+                Ok(_) => {
+                    conseq_err_count = 0;
+                }
+                Err(_) => {
+                    conseq_err_count += 1;
+                    tokio::time::sleep(Duration::from_millis(1000)).await;
+                }
+            }
+
+            match tx.to {
+                Some(to) => {
+                    // to
+                    match get_balance_and_add_item(&geth_client, &mut balances, to.to_string())
+                        .await
+                    {
+                        Ok(_) => {
+                            conseq_err_count = 0;
+                        }
+                        Err(_) => {
+                            conseq_err_count += 1;
+                            tokio::time::sleep(Duration::from_millis(1000)).await;
+                        }
+                    }
+                }
+                None => {
+                    match &geth_client
+                        .eth_getTransactionReceipt(GetTransactionReceiptRequest(&tx.hash))
+                        .await
+                    {
+                        Ok(resp) => {
+                            // println!("get transaction receipt resp: {:?}", resp);
+
+                            if let Some(r) = &resp.result {
+                                if let Some(contract_addr) = &r.contractAddress {
+                                    // contract
+                                    match get_balance_and_add_item(
+                                        &geth_client,
+                                        &mut balances,
+                                        contract_addr.to_string(),
+                                    )
+                                    .await
+                                    {
+                                        Ok(_) => {
+                                            conseq_err_count = 0;
+                                        }
+                                        Err(_) => {
+                                            conseq_err_count += 1;
+                                            tokio::time::sleep(Duration::from_millis(1000)).await;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        Err(_) => {
+                            conseq_err_count += 1;
+                            tokio::time::sleep(Duration::from_millis(1000)).await;
+                        }
+                    };
+                }
+            };
+        }
+
+        let balances_count = balances.len();
+        if balances.len() >= MAX_BALANCE_COUNT_TO_WRITE {
+            match db.insert_accounts(balances, update_on_conflict).await {
+                Ok(r) => {
+                    tracing::info!(
+                        "Writing balances, balances_count: {}, block_no: {}, rows_affected: {}",
+                        balances_count,
+                        no,
+                        r
+                    );
+                }
+                Err(err) => {
+                    let msg = format!("Balance insertion failed, err: {}, block_no: {}", err, no);
+                    tracing::error!(msg);
+
+                    return Err(msg.into());
+                }
+            }
+
+            balances = BTreeMap::new();
+        }
+    }
+
+    if balances.len() > 0 {
+        tracing::info!(
+            "Writing (last) remaining balances, balances_count: {}, end block_no (excl): {}",
+            balances.len(),
+            end_block
+        );
+
+        db.insert_accounts(balances, update_on_conflict).await?;
+    } else {
+        tracing::info!(
+            "Balances are empty. Closing 'scan', balances_count: {}, end block_no (excl): {}",
+            balances.len(),
+            end_block
+        );
+    }
+
+    Ok(())
+}
+
+async fn get_balance_and_add_item(
+    geth_client: &GethClient,
+    addresses: &mut BTreeMap<String, Account>,
+    addr: String,
+) -> Result<(), TreeMakerError> {
+    if addresses.contains_key(&addr) {
+        // println!("skip, {}", addr);
+
+        return Ok(());
+    } else {
+        let resp = match geth_client
+            .eth_getBalance(GetBalanceRequest(&addr, "latest"))
+            .await
+        {
+            Ok(r) => r,
+            Err(err) => {
+                let msg = format!("Geth get balance failed, err: {}, addr: {}", err, addr);
+                tracing::error!("{}", msg);
+
+                return Err(msg.into());
+            }
+        };
+
+        if let Some(r) = resp.result {
+            let wei = {
+                let wei_str = r
+                    .strip_prefix("0x")
+                    .expect("wei str should contain 0x")
+                    .to_string();
+
+                match Decimal::from_str_radix(&wei_str, 16) {
+                    Ok(u) => u,
+                    Err(err) => {
+                        let msg = format!(
+                            "u128 conversion failed, err: {}, wei_str: {}, addr: {}",
+                            err, wei_str, addr
+                        );
+
+                        tracing::error!("{}", msg);
+
+                        return Err(msg.into());
+                    }
+                }
+            };
+
+            let acc = Account {
+                addr: addr.to_string(),
+                wei,
+            };
+
+            addresses.insert(addr, acc);
+        }
+    }
+
+    Ok(())
+}

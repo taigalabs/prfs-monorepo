@@ -10,6 +10,9 @@ members = [
   # prfs
   "source/prfs_wasm",
   "source/prfs_circuit_server",
+  "source/prfs_db_interface",
+  "source/prfs_tree_maker",
+  "source/prfs_backend",
 
   # internals
   "internals/ci",
