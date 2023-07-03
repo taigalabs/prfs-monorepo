@@ -18,6 +18,7 @@ const benchAddrMembership2 = async () => {
   console.log(33, Prfs);
 
   let prfs = await Prfs.newInstance();
+  console.log(11, prfs);
 
   // let poseidon = prfs.newPoseidon();
   // let inputs: bigint[] = [BigInt(2)];
