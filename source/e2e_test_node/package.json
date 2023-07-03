@@ -1,7 +1,6 @@
 {
   "name": "e2e-test-node",
   "version": "1.0.0",
-  "type": "module",
   "license": "MIT",
   "scripts": {
     "clean": "rimraf ./build",

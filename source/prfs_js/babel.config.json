@@ -1,6 +1,9 @@
 {
   "presets": [
     [
+      "@babel/preset-typescript"
+    ],
+    [
       "@babel/preset-env",
       {
         "targets": {
@@ -13,9 +16,14 @@
         "corejs": "3.6.5"
       }
     ],
+  ],
+  "plugins": [
     [
-      "@babel/preset-typescript"
-    ],
+      "@babel/plugin-syntax-import-meta",
+      {
+        "module": "ES6"
+      }
+    ]
   ],
   "ignore": [
     "**/*.d.ts"

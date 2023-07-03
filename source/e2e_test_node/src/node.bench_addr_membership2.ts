@@ -11,14 +11,16 @@
 
 // const { Prfs } = require("@taigalabs/prfs-js");
 import { Prfs } from "@taigalabs/prfs-js";
+import { initWasm } from '@taigalabs/prfs-js/build_cjs';
 
 const benchAddrMembership2 = async () => {
   console.log("bench addr membership2");
 
   console.log(33, Prfs);
+  console.log(34, initWasm);
 
-  let prfs = await Prfs.newInstance();
-  console.log(11, prfs);
+  // let prfs = await Prfs.newInstance();
+  // console.log(11, prfs);
 
   // let poseidon = prfs.newPoseidon();
   // let inputs: bigint[] = [BigInt(2)];
