@@ -2,6 +2,7 @@
   "name": "e2e-test-node",
   "version": "1.0.0",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "clean": "rimraf ./build",
     "build": "yarn clean && tsc",

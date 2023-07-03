@@ -17,14 +17,6 @@
       }
     ],
   ],
-  "plugins": [
-    [
-      "@babel/plugin-syntax-import-meta",
-      {
-        "module": "ES6"
-      }
-    ]
-  ],
   "ignore": [
     "**/*.d.ts"
   ],

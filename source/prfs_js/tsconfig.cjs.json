@@ -1,11 +1,24 @@
 {
-  "include": ["./src/**/*", "./src/**/*.wasm", "./src/**/package.json"],
-  "exclude": ["./jest.config.js", "./node_modules", "./tests", "./build"],
+  "include": [
+    "./src/**/*",
+    "./src/**/*.wasm",
+    "./src/**/package.json"
+  ],
+  "exclude": [
+    "./jest.config.js",
+    "./node_modules",
+    "./tests",
+    "./build",
+    "./src/wasm_wrapper/load_es.ts"
+  ],
   "compilerOptions": {
-    "lib": ["es2020", "DOM"],
+    "lib": [
+      "es2020",
+      "DOM"
+    ],
     "declaration": true,
     "target": "es2022",
-    "module": "commonjs",
+    "module": "esnext",
     "rootDir": "./src",
     "moduleResolution": "node",
     "allowJs": true,
