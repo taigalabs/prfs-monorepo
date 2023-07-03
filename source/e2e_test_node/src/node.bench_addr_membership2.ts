@@ -6,21 +6,17 @@
 //   pubToAddress,
 //   ecsign
 // } from "@ethereumjs/util";
-// import prfs from "@taigalabs/prfs-js"; // } //   defaultAddressMembershipVConfig //   defaultAddressMembershipPConfig, //   Prfs, // {
-// import * as path from "path";
-
-// const { Prfs } = require("@taigalabs/prfs-js");
-import { Prfs } from "@taigalabs/prfs-js";
-import { initWasm } from '@taigalabs/prfs-js/build_cjs/wasm_wrapper/load_cjs';
+import prfs from "@taigalabs/prfs-js"; // } //   defaultAddressMembershipVConfig //   defaultAddressMembershipPConfig, //   Prfs, // {
+import * as path from "path";
 
 const benchAddrMembership2 = async () => {
   console.log("bench addr membership2");
 
   // console.log(33, Prfs);
-  console.log(34, initWasm);
+  // console.log(34, initWasm);
 
-  let handlers = await initWasm();
-  console.log(22, handlers)
+  // let handlers = await initWasm();
+  // console.log(22, handlers)
 
   // let prfs = await Prfs.newInstance();
   // console.log(11, prfs);

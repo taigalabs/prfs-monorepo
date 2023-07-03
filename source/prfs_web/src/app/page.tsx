@@ -11,6 +11,7 @@ import {
   defaultPubkeyMembershipVConfig,
   defaultAddressMembershipVConfig
 } from "@taigalabs/prfs-js";
+import { initWasm } from '@taigalabs/prfs-js/build/wasm_wrapper/load_es';
 import {
   ecsign,
   hashPersonalMessage,
@@ -26,7 +27,8 @@ export default function Home() {
 
   const proverAddressMembership = React.useCallback(() => {
     async function fn() {
-      let prfs = await Prfs.newInstance();
+      let prfsHandlers = await initWasm();
+      let prfs = new Prfs(prfsHandlers);
 
       let poseidon = prfs.newPoseidon();
       const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");

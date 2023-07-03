@@ -5,8 +5,7 @@
   "scripts": {
     "clean": "rimraf ./build",
     "build": "yarn clean && tsc",
-    "bench": "yarn run build && node ./build/node.bench.js",
-    "foo": "node src/app.mjs"
+    "bench": "node ./src/test.mjs"
   },
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
