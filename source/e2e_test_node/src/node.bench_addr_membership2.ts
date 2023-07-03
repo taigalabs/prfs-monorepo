@@ -17,7 +17,10 @@ const benchAddrMembership2 = async () => {
   console.log("bench addr membership2");
 
   console.log(33, Prfs);
-  console.log(34, initWasm);
+  // console.log(34, initWasm);
+
+  let handlers = await initWasm();
+  console.log(22, handlers)
 
   // let prfs = await Prfs.newInstance();
   // console.log(11, prfs);
