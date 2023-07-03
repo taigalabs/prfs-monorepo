@@ -9,8 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@personaelabs/spartan-ecdsa": "*",
     "@ethereumjs/util": "^8.0.3",
+    "@personaelabs/spartan-ecdsa": "*",
     "comlink": "^4.3.1",
     "elliptic": "^6.5.4",
     "ffjavascript": "^0.2.57",
