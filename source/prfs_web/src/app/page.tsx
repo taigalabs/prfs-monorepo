@@ -8,36 +8,28 @@ import { ethers } from "ethers";
 import { useState } from "react";
 import { proveMembershipMock } from '@/prfs/mock';
 import { proveMembership } from '@/prfs';
-import { MetaMaskInpageProvider } from "@metamask/providers";
+// import { MetaMaskInpageProvider } from "@metamask/providers";
 // import { PRFS_GEN_ENDPOINT } from "@/config/index";
-import detectEthereumProvider from "@metamask/detect-provider";
+// import detectEthereumProvider from "@metamask/detect-provider";
 
 const TREE_DEPTH: number = 32;
 
 export default function Home() {
-  let [account, setAccount] = React.useState<string[]>([]);
+  console.log('Home()');
 
+  let [account, setAccount] = React.useState<ethers.JsonRpcSigner>();
   React.useEffect(() => {
     console.log('Initializing app');
 
     let fn = async () => {
-      const provider = await detectEthereumProvider();
-
-      if (provider !== window.ethereum) {
-        console.error("Do you have multiple wallets installed?");
-        return;
+      if (window.ethereum == null) {
+        console.log("MetaMask not installed");
+      } else {
+        let provider = new ethers.BrowserProvider(window.ethereum);
+        let signer = await provider.getSigner();
+        console.log('signer', signer);
+        setAccount(signer);
       }
-
-      const ethersProvider = new ethers.providers.Web3Provider(
-        window.ethereum as any
-      );
-
-      window.ethers = ethersProvider;
-      console.log("Found eth provider");
-
-      let accs = await ethersProvider.listAccounts();
-      setAccount(accs);
-      console.log("Initialized acocunts: %o", accs);
     };
 
     fn().then((_res) => { });
@@ -48,8 +40,8 @@ export default function Home() {
   }, []);
 
   const proverAddressMembership = React.useCallback(() => {
-    proveMembership().then(() => { });
-  }, []);
+    proveMembership(account).then(() => { });
+  }, [account]);
 
   return (
     <div>

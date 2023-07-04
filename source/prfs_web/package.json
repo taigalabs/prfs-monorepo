@@ -10,11 +10,10 @@
   },
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
-    "@metamask/detect-provider": "^2.0.0",
-    "@metamask/providers": "^11.1.0",
     "@personaelabs/spartan-ecdsa": "*",
     "@taigalabs/prfs-js": "*",
     "elliptic": "^6.5.4",
+    "ethers": "^6.6.2",
     "ffjavascript": "^0.2.59",
     "next": "13.4.6",
     "react": "18.2.0",
