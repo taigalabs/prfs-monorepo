@@ -1,5 +1,5 @@
 use super::TestError;
-use crate::tests::utils::hex_to_str;
+use crate::tests::{poseidon::PoseidonHash, utils::hex_to_str};
 use primitive_types::U256;
 use rs_merkle::{Hasher, MerkleProof, MerkleTree};
 use sha2::{digest::FixedOutput, Digest, Sha256};
@@ -34,10 +34,17 @@ fn test_merkle_tree() -> Result<(), TestError> {
         "0x67284e6473dd2afca0782e24dae6d79f712c270f",
     ];
 
-    let leaf_values = ["a", "b", "c", "d", "e", "f"];
-    let leaves: Vec<[u8; 32]> = leaf_values
+    let leaves: Vec<[u8; 32]> = addrs
         .iter()
-        .map(|x| Sha256Algorithm::hash(x.as_bytes()))
+        .map(|l| {
+            let l = l.trim_start_matches("0x");
+            let u = U256::from_str_radix(&l, 16).unwrap();
+            println!("u: {}", u);
+
+            let mut b = [0u8; 32];
+            u.to_big_endian(&mut b);
+            return PoseidonHash::hash(&b);
+        })
         .collect();
 
     let merkle_tree = MerkleTree::<Sha256Algorithm>::from_leaves(&leaves);

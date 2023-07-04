@@ -3,6 +3,8 @@ pub mod poseidon_k256;
 
 use ff::PrimeField;
 
+pub type PoseidonError = Box<dyn std::error::Error + Sync + Send>;
+
 pub struct PoseidonConstants<F: PrimeField> {
     pub round_keys: Vec<F>,
     pub mds_matrix: Vec<Vec<F>>,

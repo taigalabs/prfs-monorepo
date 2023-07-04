@@ -1,6 +1,7 @@
-use crate::{k256_consts, Poseidon, PoseidonConstants};
+use crate::{k256_consts, Poseidon, PoseidonConstants, PoseidonError};
 use ff::PrimeField;
 pub use secq256k1::field::field_secp::FieldElement;
+use secq256k1::field::BaseField;
 
 #[allow(dead_code)]
 pub fn hash(input: Vec<FieldElement>) -> FieldElement {
@@ -29,4 +30,25 @@ pub fn hash(input: Vec<FieldElement>) -> FieldElement {
     let result = poseidon.hash(input);
 
     result
+}
+
+pub fn hash_from_bytes(input_bytes: &[u8]) -> Result<Vec<u8>, PoseidonError> {
+    let input = convert_bytes_to_field_elem_vec(input_bytes)?;
+    let result = hash(input);
+
+    Ok(result.to_bytes().to_vec())
+}
+
+#[inline]
+pub fn convert_bytes_to_field_elem_vec(
+    input_bytes: &[u8],
+) -> Result<Vec<FieldElement>, PoseidonError> {
+    let mut input = Vec::new();
+    for i in 0..(input_bytes.len() / 32) {
+        let f: [u8; 32] = input_bytes[(i * 32)..(i + 1) * 32].try_into()?;
+        let val = FieldElement::from_bytes(&f).unwrap();
+        input.push(FieldElement::from(val));
+    }
+
+    Ok(input)
 }
