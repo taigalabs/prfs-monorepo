@@ -52,6 +52,9 @@ pub fn build_wasm() {
                 "web",
                 "--out-dir",
                 prfs_wasm_build_path,
+                "--",
+                "--features",
+                "multicore",
             ])
             .status()
             .expect("wasm-pack command failed to start");
