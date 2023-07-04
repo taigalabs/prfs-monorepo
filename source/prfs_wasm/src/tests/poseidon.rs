@@ -23,14 +23,3 @@ impl Hasher for PoseidonHash {
         arr1
     }
 }
-
-// let mut input = Vec::new();
-// for i in 0..(input_bytes.len() / 32) {
-//     let f: [u8; 32] = input_bytes[(i * 32)..(i + 1) * 32].try_into().unwrap();
-//     let val = FieldElement::from_bytes(&f).unwrap();
-//     input.push(FieldElement::from(val));
-// }
-
-// let result = hash(input);
-
-// Ok(result.to_bytes().to_vec())

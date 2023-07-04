@@ -38,6 +38,8 @@ export function makePoseidon(handlers: PrfsHandlers) {
       inputsBytes.set(bigIntToLeBytes(inputs[i], 32), i * 32);
     }
 
+    console.log('poseidon inputs: %o, input bytes: %o', inputs, inputsBytes);
+
     const result = await handlers.poseidonHash(inputsBytes);
     return bytesLeToBigInt(result);
   }
