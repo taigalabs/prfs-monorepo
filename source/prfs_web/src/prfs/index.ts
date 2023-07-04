@@ -50,8 +50,6 @@ export async function proveMembership(signer: ethers.JsonRpcSigner) {
   let res = await poseidon(arr);
   console.log(11, res);
 
-  return;
-
   const treeDepth = 32;
   const addressTree = await prfs.newTree(treeDepth, poseidon);
 
