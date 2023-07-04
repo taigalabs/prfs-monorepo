@@ -5,5 +5,5 @@ pub mod compile_circuits;
 pub mod copy_circuit_assets;
 pub mod dev_circuit_server;
 pub mod dev_prfs_web;
-pub mod e2e_test_node;
+pub mod e2e_test_web;
 pub mod embed_prfs_wasm;

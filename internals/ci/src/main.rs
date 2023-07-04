@@ -22,7 +22,7 @@ fn main() {
             tasks::build_prfs_js::build_prfs_js();
         }
         "e2e_test_node" => {
-            tasks::e2e_test_node::run();
+            tasks::e2e_test_web::run();
         }
         "dev_prfs_web" => {
             tasks::build_prfs_js::build_prfs_js();
