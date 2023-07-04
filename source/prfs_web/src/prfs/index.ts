@@ -28,13 +28,19 @@ export async function proveMembership() {
   const treeDepth = 32;
   const addressTree = await prfs.newTree(treeDepth, poseidon);
 
-  const proverAddress = BigInt("0x" + privateToAddress(privKey).toString("hex"));
+  let proverAddrHex = "0x" + privateToAddress(privKey).toString("hex");
+  console.log('proverAddrHex', proverAddrHex);
+
+  const proverAddress = BigInt(proverAddrHex);
+  console.log('proverAddress', proverAddress);
 
   await addressTree.insert(proverAddress);
   // Insert other members into the tree
   for (const member of ["🕵️", "🥷", "👩‍🔬"]) {
     const pubKey = privateToPublic(Buffer.from("".padStart(16, member), "utf16le"));
     const address = BigInt("0x" + pubToAddress(pubKey).toString("hex"));
+    console.log('new address', address);
+
     await addressTree.insert(address);
   }
   const index = addressTree.indexOf(proverAddress);
