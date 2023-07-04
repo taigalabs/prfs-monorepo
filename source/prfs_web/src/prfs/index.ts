@@ -46,15 +46,9 @@ export async function proveMembership(signer: ethers.JsonRpcSigner) {
   let sig = await signer.signMessage(msgHash);
   console.log(22, sig);
 
-  // const { v, r, s } = ecsign(msgHash, privKey);
-  // const sig = `0x${r.toString("hex")}${s.toString("hex")}${v.toString(16)}`;
-
-  // 0xbcc80e72f6628821422f5f21ba2a92557eeaf412ebfa18d923edaec643e1a1ff157724f285bbccc95c5d077e83c4ac2282b6374c4a3eeac28eac05f1555114361b
-
   const treeDepth = 32;
   const addressTree = await prfs.newTree(treeDepth, poseidon);
 
-  // let proverAddrHex = "0x" + privateToAddress(privKey).toString("hex");
   let proverAddress = signer.address;
   console.log('proverAddr', proverAddress);
 
@@ -67,13 +61,6 @@ export async function proveMembership(signer: ethers.JsonRpcSigner) {
     console.log('addr: %s, address: %s', addr, address);
     await addressTree.insert(address);
   }
-  // for (const member of ["🕵️", "🥷", "👩‍🔬"]) {
-  //   const pubKey = privateToPublic(Buffer.from("".padStart(16, member), "utf16le"));
-  //   const address = BigInt("0x" + pubToAddress(pubKey).toString("hex"));
-  //   console.log('new address', address);
-
-  //   await addressTree.insert(address);
-  // }
   const index = addressTree.indexOf(proverAddr);
   const merkleProof = addressTree.createProof(index);
 
