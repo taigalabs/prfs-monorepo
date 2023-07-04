@@ -30,7 +30,6 @@ bincode = "1.3.3"
 getrandom = { version = "0.2.8", features = ["js"] }
 itertools = "0.9.0"
 group = "0.12.0"
-sha2 = "0.10.7"
 
 poseidon = { path = "../../externals/poseidon" }
 spartan = { path = "../../externals/Spartan-secq", default-features = false }
@@ -38,6 +37,8 @@ secq256k1 = { path = "../../externals/secq256k1" }
 
 [dev-dependencies]
 rs_merkle = "1.4.1"
+crypto-bigint = "0.5.2"
+sha2 = "0.10.7"
 
 [package.metadata.wasm-pack.profile.dev.wasm-bindgen]
 omit-default-module-path = true
