@@ -23,7 +23,7 @@ pub fn build_router(db: Database) -> Router<Body, Infallible> {
         .middleware(enable_cors_all())
         .get("/", status_handler)
         .post("/get_nodes", nodes::get_nodes)
-        .post("/get_proof_types", proofs::get_proof_types)
+        // .post("/get_proof_types", proofs::get_proof_types)
         .err_handler_with_info(middleware::error_handler)
         .build()
         .unwrap()
