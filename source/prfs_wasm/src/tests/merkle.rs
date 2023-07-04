@@ -1,6 +1,6 @@
 use super::TestError;
 use crate::tests::utils::hex_to_str;
-use crypto_bigint::U256;
+use primitive_types::U256;
 use rs_merkle::{Hasher, MerkleProof, MerkleTree};
 use sha2::{digest::FixedOutput, Digest, Sha256};
 
@@ -9,11 +9,9 @@ fn test_merkle_tree() -> Result<(), TestError> {
     println!("111l");
     let a = "0x33d10ab178924ecb7ad52f4c0c8062c3066607ec";
     let a = a.trim_start_matches("0x");
-    let a = format!("000000000000000000000000{}", a);
-    println!("a len: {}", a);
 
-    let u = U256::from_be_hex(&a);
-    println!("uu: {}", u);
+    let u256 = U256::from_str_radix(&a, 16)?;
+    println!("aa: {}", u256);
 
     let addrs = [
         "0x33d10ab178924ecb7ad52f4c0c8062c3066607ec",
