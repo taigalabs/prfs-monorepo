@@ -16,6 +16,8 @@ impl Hasher for PoseidonHash {
         let v = convert_bytes_to_field_elem_vec(data).unwrap();
         println!("v: {:?}", v);
 
+        let res = hash_from_bytes(data).unwrap();
+
         let res = hash(v);
         let arr1 = res.to_be_bytes();
 
