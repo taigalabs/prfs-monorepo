@@ -48,20 +48,23 @@ fn test_merkle_proof() -> Result<(), MerkleTreeError> {
 
     let leaves: Vec<[u8; 32]> = addrs
         .iter()
-        .map(|l| {
-            let l = l.trim_start_matches("0x");
-            let u = U256::from_str_radix(&l, 16).unwrap();
-            println!("u: {}", u);
+        .map(|leaf| {
+            let leaf = leaf.trim_start_matches("0x");
+            let leaf_decimal = U256::from_str_radix(&leaf, 16).unwrap();
+            // println!("leaf_decimal: {}", leaf_decimal);
 
             let mut b = [0u8; 32];
-            u.to_little_endian(&mut b);
+            leaf_decimal.to_little_endian(&mut b);
 
-            let res: [u8; 32] = hash_from_bytes(&b).unwrap().try_into().unwrap();
-            res
+            b
         })
         .collect();
 
-    println!("leaves: {:?}", leaves);
+    for leaf in leaves.iter() {
+        println!("leaf: {:?}, len: {}", leaf, leaf.len());
+    }
+
+    make_merkle_proof(leaves, 0, depth);
 
     // let sibling_path = make_merkle_proof(depth, 0);
 
