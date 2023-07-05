@@ -6,12 +6,16 @@ use sha2::{digest::FixedOutput, Digest, Sha256};
 
 #[test]
 fn test_merkle_tree() -> Result<(), TestError> {
-    println!("111l");
+    println!("test_merkle_tree()");
+
     let prover_addr = "0x33d10ab178924ecb7ad52f4c0c8062c3066607ec";
     let prover_addr = prover_addr.trim_start_matches("0x");
 
-    // let u256 = U256::from_str_radix(&prover_addr, 16)?;
-    // println!("aa: {}", u256);
+    // normalize
+    // const inputsBytes = new Uint8Array(32 * inputs.length);
+    // for (let i = 0; i < inputs.length; i++) {
+    //   inputsBytes.set(bigIntToLeBytes(inputs[i], 32), i * 32);
+    // }
 
     let addrs = [
         "0x33d10ab178924ecb7ad52f4c0c8062c3066607ec",

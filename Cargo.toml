@@ -13,7 +13,7 @@ members = [
   "source/prfs_db_interface",
   "source/prfs_tree_maker",
   "source/prfs_backend",
-  # "source/prfs_tests",
+  "source/prfs_lib",
 
   # internals
   "internals/ci",
