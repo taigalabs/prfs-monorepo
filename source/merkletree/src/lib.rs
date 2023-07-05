@@ -1,3 +1,4 @@
+mod merklepath;
 mod tree;
 
 #[cfg(test)]

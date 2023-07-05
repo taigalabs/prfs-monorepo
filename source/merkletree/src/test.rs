@@ -1,8 +1,8 @@
-// use crate::tree::generate_auth_paths;
+use crate::merklepath::{make_sibling_path, SiblingPath};
 
 #[test]
-fn tt() {
-    // let paths = generate_auth_paths(5);
+fn test_merkle_path() {
+    let sibling_path = make_sibling_path(4, 0);
 
-    // println!("111 {:?}", paths);
+    println!("sibling_path: {:?}", sibling_path);
 }
