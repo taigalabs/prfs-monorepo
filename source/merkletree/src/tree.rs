@@ -1,4 +1,4 @@
-use poseidon::poseidon_k256::hash_from_bytes;
+use poseidon::poseidon_k256::{hash_from_bytes, hash_two};
 use serde::{Deserialize, Serialize};
 
 use crate::MerkleTreeError;
@@ -12,7 +12,7 @@ use crate::MerkleTreeError;
 #[derive(Serialize, Deserialize)]
 pub struct MerkleProof {
     pub path_indices: Vec<u8>,
-    pub root: String,
+    pub root: Vec<u8>,
     pub siblings: Vec<String>,
 }
 
@@ -43,7 +43,7 @@ pub fn make_merkle_proof(
     let mut path_indices = vec![];
     let mut siblings = vec![];
     let mut nodes = Vec::with_capacity(depth + 1);
-    nodes.push(leaves);
+    nodes.push(leaves.to_vec());
 
     for d in 0..depth {
         let mut parent = vec![];
@@ -57,33 +57,43 @@ pub fn make_merkle_proof(
             let left = children.get(0).unwrap();
             let right = ZERO;
 
-            let mut input = [0u8; 64];
-            input[..32].clone_from_slice(left);
-            input[32..].clone_from_slice(&right);
-
-            let res = hash_from_bytes(&input).unwrap();
+            let res = hash_two(left, &right).unwrap();
             parent.push(res);
 
             break;
         }
 
         for i in 0..children.len() {
-            let left = children
-                .get(i)
-                .expect(&format!("left should always exist, d: {}, i: {}", d, i));
+            let left = match children.get(i) {
+                Some(l) => l,
+                None => break,
+            };
 
             let right = children.get(i + 1);
 
-            if Some(r) = right {
+            if let Some(r) = right {
+                let res = hash_two(left, r).unwrap();
+                parent.push(res);
             } else {
                 break;
             }
         }
+
+        nodes.push(parent);
     }
+
+    let root = match nodes
+        .get(depth)
+        .expect(&format!("nodes at {} should exist", depth))
+        .get(0)
+    {
+        Some(r) => r,
+        None => return Err(format!("root does not exist, depth: {}", depth).into()),
+    };
 
     let p = MerkleProof {
         path_indices,
-        root: "".to_string(),
+        root: root.to_vec(),
         siblings,
     };
 
