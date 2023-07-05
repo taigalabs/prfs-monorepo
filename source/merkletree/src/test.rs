@@ -56,7 +56,8 @@ fn test_merkle_proof() -> Result<(), MerkleTreeError> {
             let mut b = [0u8; 32];
             u.to_little_endian(&mut b);
 
-            // return PoseidonHash::hash(&b);
+            let res: [u8; 32] = hash_from_bytes(&b).unwrap().try_into().unwrap();
+            res
         })
         .collect();
 
@@ -90,9 +91,6 @@ impl Hasher for PoseidonHash {
     type Hash = [u8; 32];
 
     fn hash(data: &[u8]) -> [u8; 32] {
-        let v = convert_bytes_to_field_elem_vec(data).unwrap();
-        println!("v: {:?}", v);
-
         let res: [u8; 32] = hash_from_bytes(data).unwrap().try_into().unwrap();
         res
     }
