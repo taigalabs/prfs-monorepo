@@ -1,12 +1,20 @@
-use super::TestError;
-use crate::tests::{poseidon::PoseidonHash, utils::hex_to_str};
+use crate::{
+    tests::{poseidon::PoseidonHash, utils::hex_to_str},
+    PrfsLibError,
+};
 use poseidon::poseidon_k256::hash_from_bytes;
 use primitive_types::U256;
 use rs_merkle::{Hasher, MerkleProof, MerkleTree};
 use sha2::{digest::FixedOutput, Digest, Sha256};
 
 #[test]
-fn test_merkle_tree() -> Result<(), TestError> {
+fn test_11() -> Result<(), PrfsLibError> {
+    println!("aaa");
+    Ok(())
+}
+
+#[test]
+fn test_merkle_tree() -> Result<(), PrfsLibError> {
     println!("test_merkle_tree()");
 
     let inputs = [0u8; 64];
