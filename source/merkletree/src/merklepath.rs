@@ -13,14 +13,6 @@ pub fn make_sibling_path(depth: u32, leaf_idx: u128) -> SiblingPath {
     for _h in 0..height {
         let sibling_idx = get_sibling_idx(curr_idx);
 
-        // let p = MerklePath {
-        //     idx: sibling_idx,
-        //     direction: sibling_dir,
-        //     node_loc: format!("{}_{}", h, sibling_idx),
-        // };
-
-        // auth_path.push(p);
-
         let parent_idx = get_parent_idx(curr_idx);
         curr_idx = parent_idx;
         sibling_indices.push(sibling_idx);
