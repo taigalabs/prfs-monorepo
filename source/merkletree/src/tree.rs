@@ -1,4 +1,7 @@
-use crate::MerkleTreeError;
+use crate::{
+    merklepath::{make_sibling_path, SiblingPath},
+    MerkleTreeError,
+};
 use poseidon::poseidon_k256::{hash_from_bytes, hash_two};
 use serde::{Deserialize, Serialize};
 
@@ -32,8 +35,6 @@ pub fn make_merkle_proof(
     if leaves.len() < 1 {
         return Err("At least one leaf has to be provided".into());
     }
-
-    // let leaves: Vec<Vec<u8>> = leaves.iter().map(|l| l.to_vec()).collect();
 
     if depth < 2 {
         return Err("Depth needs to be bigger than 1".into());
@@ -94,6 +95,20 @@ pub fn make_merkle_proof(
 
     for (h, n) in nodes.iter().enumerate() {
         println!("height: {}, nodes ({}): {:?}", h, n.len(), n);
+    }
+
+    let sibling_path = make_sibling_path(depth as u32, leaf_idx);
+
+    println!("sibling_path: {:?}", sibling_path);
+
+    for (h, s_idx) in sibling_path.sibling_indices.iter().enumerate() {
+        let node = nodes
+            .get(h)
+            .expect(&format!("sibling index has to exist at depth, {}", h))
+            .get(*s_idx as usize)
+            .expect(&format!("sibling index ha sto exist at idx: {}", s_idx));
+
+        println!("node: {:?}", node);
     }
 
     let p = MerkleProof {
