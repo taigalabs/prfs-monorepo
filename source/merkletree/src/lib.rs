@@ -1,3 +1,6 @@
-pub type MerkleTreeError = Box<dyn std::error::Error + Send + Sync>;
+mod tree;
 
-pub fn a() {}
+#[cfg(test)]
+mod test;
+
+pub type MerkleTreeError = Box<dyn std::error::Error + Send + Sync>;

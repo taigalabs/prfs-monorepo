@@ -10,6 +10,7 @@ use sha2::{digest::FixedOutput, Digest, Sha256};
 #[test]
 fn test_11() -> Result<(), PrfsLibError> {
     println!("aaa");
+
     Ok(())
 }
 
