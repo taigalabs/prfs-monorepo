@@ -16,7 +16,7 @@ wasm-bindgen-rayon = { version = "1.0", optional = true }
 console_error_panic_hook = "0.1.7"
 web-sys = { version = "0.3.60", features = ["console"] }
 serde_json = "1.0.89"
-serde = "1.0.151"
+serde = "1.0"
 serde-wasm-bindgen = "0.4.5"
 
 prfs_lib = { path = "../prfs_lib" }

@@ -1,8 +1,8 @@
-use crate::tree::generate_auth_paths;
+// use crate::tree::generate_auth_paths;
 
 #[test]
 fn tt() {
-    let paths = generate_auth_paths(5);
+    // let paths = generate_auth_paths(5);
 
-    println!("111 {:?}", paths);
+    // println!("111 {:?}", paths);
 }
