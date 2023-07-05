@@ -89,7 +89,7 @@ pub fn verify(circuit: &[u8], proof: &[u8], public_input: &[u8]) -> Result<bool,
 
 pub fn poseidon(input_bytes: &[u8]) -> Result<Vec<u8>, PrfsLibError> {
     match hash_from_bytes(input_bytes) {
-        Ok(r) => Ok(r),
+        Ok(r) => Ok(r.to_vec()),
         Err(err) => {
             return Err(err.to_string().into());
         }

@@ -1,7 +1,6 @@
+use crate::MerkleTreeError;
 use poseidon::poseidon_k256::{hash_from_bytes, hash_two};
 use serde::{Deserialize, Serialize};
-
-use crate::MerkleTreeError;
 
 // pub struct MerkleTree {}
 
@@ -34,6 +33,8 @@ pub fn make_merkle_proof(
         return Err("At least one leaf has to be provided".into());
     }
 
+    let leaves: Vec<Vec<u8>> = leaves.iter().map(|l| l.to_vec()).collect();
+
     if depth < 2 {
         return Err("Depth needs to be bigger than 1".into());
     }
@@ -57,8 +58,8 @@ pub fn make_merkle_proof(
             let left = children.get(0).unwrap();
             let right = ZERO;
 
-            let res = hash_two(left, &right).unwrap();
-            parent.push(res);
+            // let res = hash_two(left, &right).unwrap();
+            // parent.push(res);
 
             break;
         }
@@ -72,8 +73,8 @@ pub fn make_merkle_proof(
             let right = children.get(i + 1);
 
             if let Some(r) = right {
-                let res = hash_two(left, r).unwrap();
-                parent.push(res);
+                // let res = hash_two(left, r).unwrap();
+                // parent.push(res);
             } else {
                 break;
             }
