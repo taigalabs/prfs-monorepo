@@ -1,5 +1,5 @@
+use crate::PrfsLibError;
 use byteorder::{LittleEndian, ReadBytesExt};
-// use console_error_panic_hook;
 use ff::PrimeField;
 use libspartan::{Assignment, Instance, NIZKGens, NIZK};
 use merlin::Transcript;
@@ -7,32 +7,13 @@ use poseidon::poseidon_k256::{hash, hash_from_bytes, FieldElement};
 use secq256k1::{affine::Group, field::BaseField};
 use std::io::{Error, Read};
 
-use crate::PrfsLibError;
-// use wasm_bindgen::{prelude::*, Clamped};
-
 pub type G1 = secq256k1::AffinePoint;
 pub type F1 = <G1 as Group>::Scalar;
 
-// #[cfg(feature = "multicore")]
-// pub use wasm_bindgen_rayon::init_thread_pool;
-
-// #[wasm_bindgen]
-// pub fn init_panic_hook() {
-//     console_error_panic_hook::set_once();
-// }
-
-// #[wasm_bindgen]
 pub fn bb() -> Result<Vec<u8>, PrfsLibError> {
     return Ok(vec![111]);
-    // return Err(JsValue::from_str("aaa"));
-    // Clamped(
-    //     Generator::new(width, height, max_iterations)
-    //         .iter_bytes()
-    //         .collect(),
-    // )
 }
 
-// #[wasm_bindgen]
 pub fn prove(circuit: &[u8], vars: &[u8], public_inputs: &[u8]) -> Result<Vec<u8>, PrfsLibError> {
     let witness = load_witness_from_bin_reader::<F1, _>(vars).unwrap();
     // println!("witness len: {}", witness.len());
@@ -79,7 +60,6 @@ pub fn prove(circuit: &[u8], vars: &[u8], public_inputs: &[u8]) -> Result<Vec<u8
     Ok(bincode::serialize(&proof).unwrap())
 }
 
-// #[wasm_bindgen]
 pub fn verify(circuit: &[u8], proof: &[u8], public_input: &[u8]) -> Result<bool, PrfsLibError> {
     let circuit: Instance = bincode::deserialize(&circuit).unwrap();
     let proof: NIZK = bincode::deserialize(&proof).unwrap();
@@ -107,7 +87,6 @@ pub fn verify(circuit: &[u8], proof: &[u8], public_input: &[u8]) -> Result<bool,
     Ok(verified)
 }
 
-// #[wasm_bindgen]
 pub fn poseidon(input_bytes: &[u8]) -> Result<Vec<u8>, PrfsLibError> {
     match hash_from_bytes(input_bytes) {
         Ok(r) => Ok(r),
