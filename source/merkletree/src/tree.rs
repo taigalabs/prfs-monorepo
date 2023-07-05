@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 //     pub fn a() {}
 // }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct MerkleProof {
     pub path_indices: Vec<u8>,
     pub root: Vec<u8>,
@@ -33,7 +33,7 @@ pub fn make_merkle_proof(
         return Err("At least one leaf has to be provided".into());
     }
 
-    let leaves: Vec<Vec<u8>> = leaves.iter().map(|l| l.to_vec()).collect();
+    // let leaves: Vec<Vec<u8>> = leaves.iter().map(|l| l.to_vec()).collect();
 
     if depth < 2 {
         return Err("Depth needs to be bigger than 1".into());
@@ -58,8 +58,8 @@ pub fn make_merkle_proof(
             let left = children.get(0).unwrap();
             let right = ZERO;
 
-            // let res = hash_two(left, &right).unwrap();
-            // parent.push(res);
+            let res = hash_two(left, &right).unwrap();
+            parent.push(res);
 
             break;
         }
@@ -73,8 +73,8 @@ pub fn make_merkle_proof(
             let right = children.get(i + 1);
 
             if let Some(r) = right {
-                // let res = hash_two(left, r).unwrap();
-                // parent.push(res);
+                let res = hash_two(left, r).unwrap();
+                parent.push(res);
             } else {
                 break;
             }
@@ -91,6 +91,10 @@ pub fn make_merkle_proof(
         Some(r) => r,
         None => return Err(format!("root does not exist, depth: {}", depth).into()),
     };
+
+    for (h, n) in nodes.iter().enumerate() {
+        println!("height: {}, nodes ({}): {:?}", h, n.len(), n);
+    }
 
     let p = MerkleProof {
         path_indices,

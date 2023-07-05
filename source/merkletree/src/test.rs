@@ -64,7 +64,8 @@ fn test_merkle_proof() -> Result<(), MerkleTreeError> {
         println!("leaf: {:?}, len: {}", leaf, leaf.len());
     }
 
-    make_merkle_proof(leaves, 0, depth).unwrap();
+    let proof = make_merkle_proof(leaves, 0, depth).unwrap();
+    println!("proof: {:?}", proof);
 
     // let sibling_path = make_merkle_proof(depth, 0);
 
