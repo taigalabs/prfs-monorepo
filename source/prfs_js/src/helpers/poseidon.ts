@@ -40,8 +40,11 @@ export function makePoseidon(handlers: PrfsHandlers) {
 
     console.log('poseidon inputs: %o, input bytes: %o', inputs, inputsBytes);
 
-    const result = await handlers.poseidonHash(inputsBytes);
-    return bytesLeToBigInt(result);
+    const hash_bytes = await handlers.poseidonHash(inputsBytes);
+
+    let ret = bytesLeToBigInt(hash_bytes);
+    console.log('poseidon num: %o, bytes: %o', ret, hash_bytes);
+    return ret;
   }
 
   return poseidon;

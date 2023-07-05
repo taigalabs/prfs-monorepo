@@ -1,5 +1,6 @@
 use super::TestError;
 use crate::tests::{poseidon::PoseidonHash, utils::hex_to_str};
+use poseidon::poseidon_k256::hash_from_bytes;
 use primitive_types::U256;
 use rs_merkle::{Hasher, MerkleProof, MerkleTree};
 use sha2::{digest::FixedOutput, Digest, Sha256};
@@ -7,6 +8,19 @@ use sha2::{digest::FixedOutput, Digest, Sha256};
 #[test]
 fn test_merkle_tree() -> Result<(), TestError> {
     println!("test_merkle_tree()");
+
+    let inputs = [0u8; 64];
+    let res = hash_from_bytes(&inputs).unwrap();
+    println!("res: {:?}", res);
+
+    let mut res2 = res.clone();
+    res2.reverse();
+
+    let a = hex::encode(res2);
+    println!("a: {}", a);
+
+    let b = U256::from_str_radix(&a, 16).unwrap();
+    println!("b: {}", b);
 
     let prover_addr = "0x33d10ab178924ecb7ad52f4c0c8062c3066607ec";
     let prover_addr = prover_addr.trim_start_matches("0x");
@@ -46,17 +60,25 @@ fn test_merkle_tree() -> Result<(), TestError> {
             println!("u: {}", u);
 
             let mut b = [0u8; 32];
-            u.to_big_endian(&mut b);
+            u.to_little_endian(&mut b);
+
             return PoseidonHash::hash(&b);
         })
         .collect();
 
     let merkle_tree = MerkleTree::<PoseidonHash>::from_leaves(&leaves);
-    println!(
-        "merkle_tree root: {:?}, root hex: {:?}",
-        merkle_tree.root(),
-        merkle_tree.root_hex()
-    );
+
+    let root = merkle_tree.root().unwrap();
+    println!("root bytes: {:?}", root);
+
+    let root = U256::from_little_endian(&root);
+    println!("root: {}", root);
+
+    // println!(
+    //     "merkle_tree root: {:?}, root hex: {:?}",
+    //     merkle_tree.root(),
+    //     merkle_tree.root_hex()
+    // );
 
     return Ok(());
 
