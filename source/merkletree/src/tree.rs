@@ -6,14 +6,12 @@ impl MerkleTree {
     pub fn a() {}
 }
 
-pub fn get_merkle_proof(leaves: &[&[u8]]) {
+pub fn make_merkle_proof(leaves: &[&[u8]], leaf_idx: u128, depth: u32) {
     for (idx, leaf) in leaves.iter().enumerate() {
         println!("idx: {}, leaf: {:?}", idx, leaf);
     }
 }
 
-// auth_path
-// }
 #[derive(Serialize, Deserialize)]
 struct MerkleProof {
     path_indices: Vec<u8>,
