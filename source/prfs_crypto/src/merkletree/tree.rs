@@ -1,6 +1,6 @@
 use super::merklepath::{make_sibling_path, SiblingPath};
-use crate::PrfsCryptoError;
-use poseidon::poseidon_k256::{hash_from_bytes, hash_two};
+use crate::{hash_two, PrfsCryptoError};
+// use poseidon::poseidon_k256::{hash_from_bytes, hash_two};
 use serde::{Deserialize, Serialize};
 
 pub const ZERO: [u8; 32] = [0u8; 32];

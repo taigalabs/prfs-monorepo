@@ -3,7 +3,7 @@ use byteorder::{LittleEndian, ReadBytesExt};
 use ff::PrimeField;
 use libspartan::{Assignment, Instance, NIZKGens, NIZK};
 use merlin::Transcript;
-use poseidon::poseidon_k256::{hash, hash_from_bytes, FieldElement};
+use prfs_crypto::hash_from_bytes;
 use secq256k1::{affine::Group, field::BaseField};
 use std::io::{Error, Read};
 
@@ -185,6 +185,8 @@ pub fn load_witness_from_bin_reader<Fr: PrimeField, R: Read>(
 
 #[cfg(test)]
 mod test {
+    use secq256k1::field::field_secq::FieldElement;
+
     use super::*;
     use std::{env::current_dir, fs};
 

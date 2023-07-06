@@ -24,7 +24,7 @@ getrandom = { version = "0.2.8", features = ["js"] }
 itertools = "0.9.0"
 group = "0.12.0"
 
-poseidon = { path = "../../externals/poseidon" }
+# poseidon = { path = "../../externals/poseidon" }
 spartan = { path = "../../externals/Spartan-secq", default-features = false }
 secq256k1 = { path = "../../externals/secq256k1" }
 prfs_crypto = { path = "../prfs_crypto" }

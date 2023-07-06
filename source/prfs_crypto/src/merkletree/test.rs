@@ -2,12 +2,8 @@ use super::{
     merklepath::{make_sibling_path, SiblingPath},
     tree::make_merkle_proof,
 };
-use crate::PrfsCryptoError;
+use crate::{hash_from_bytes, PrfsCryptoError};
 // use ff::PrimeField;
-use poseidon::{
-    self,
-    poseidon_k256::{convert_bytes_to_field_elem_vec, hash, hash_from_bytes, FieldElement},
-};
 use primitive_types::U256;
 use rs_merkle::Hasher;
 // use secq256k1::field::BaseField;
