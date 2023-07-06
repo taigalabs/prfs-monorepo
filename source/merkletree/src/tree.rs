@@ -18,7 +18,7 @@ pub struct MerkleProof {
     pub siblings: Vec<String>,
 }
 
-const ZERO: [u8; 32] = [0u8; 32];
+// const ZERO: [u8; 32] = [0u8; 32];
 
 pub fn make_merkle_proof(
     leaves: Vec<[u8; 32]>,
@@ -49,23 +49,28 @@ pub fn make_merkle_proof(
 
     for d in 0..depth {
         let mut parent = vec![];
-        let children = nodes.get(0).unwrap();
+        let children = nodes.get(d).unwrap();
 
         if children.len() < 1 {
             return Err(format!("children is len 0, d: {}", d).into());
         }
 
         if children.len() == 1 {
+            println!("A single children, d: {}", d);
+
             let left = children.get(0).unwrap();
-            let right = ZERO;
+            let right = left;
 
             let res = hash_two(left, &right).unwrap();
             parent.push(res);
+            nodes.push(parent);
 
-            break;
+            continue;
         }
 
-        for i in 0..children.len() {
+        for i in (0..children.len()).step_by(2) {
+            println!("d: {}, i: {}", d, i);
+
             let left = match children.get(i) {
                 Some(l) => l,
                 None => break,
@@ -74,13 +79,20 @@ pub fn make_merkle_proof(
             let right = children.get(i + 1);
 
             if let Some(r) = right {
+                println!("l: {:?}, r: {:?}", left, r);
+
                 let res = hash_two(left, r).unwrap();
                 parent.push(res);
             } else {
+                println!("l: {:?}, r: {:?}", left, left);
+                let res = hash_two(left, left).unwrap();
+                parent.push(res);
+
                 break;
             }
         }
 
+        println!("parent: {:?}", parent);
         nodes.push(parent);
     }
 
@@ -104,9 +116,12 @@ pub fn make_merkle_proof(
     for (h, s_idx) in sibling_path.sibling_indices.iter().enumerate() {
         let node = nodes
             .get(h)
-            .expect(&format!("sibling index has to exist at depth, {}", h))
+            .expect(&format!("sibling index should exist at depth, {}", h))
             .get(*s_idx as usize)
-            .expect(&format!("sibling index ha sto exist at idx: {}", s_idx));
+            .expect(&format!(
+                "sibling index should exist, h: {}, idx: {}",
+                h, s_idx
+            ));
 
         println!("node: {:?}", node);
     }
