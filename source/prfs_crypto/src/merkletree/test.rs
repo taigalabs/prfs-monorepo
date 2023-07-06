@@ -1,8 +1,8 @@
-use crate::{
+use super::{
     merklepath::{make_sibling_path, SiblingPath},
     tree::make_merkle_proof,
-    MerkleTreeError,
 };
+use crate::PrfsCryptoError;
 // use ff::PrimeField;
 use poseidon::{
     self,
@@ -20,7 +20,7 @@ fn test_merkle_path() {
 }
 
 #[test]
-fn test_merkle_proof() -> Result<(), MerkleTreeError> {
+fn test_merkle_proof() -> Result<(), PrfsCryptoError> {
     println!("test_merkle_proof()");
 
     let depth = 4;
