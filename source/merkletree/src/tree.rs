@@ -47,7 +47,9 @@ pub fn make_merkle_proof(
     let mut nodes = Vec::with_capacity(depth + 1);
     nodes.push(leaves.to_vec());
 
-    for d in 0..depth {
+    for d in 0..depth + 1 {
+        println!("d: {}", d);
+
         let mut parent = vec![];
         let children = nodes.get(d).unwrap();
 
@@ -106,25 +108,25 @@ pub fn make_merkle_proof(
     };
 
     for (h, n) in nodes.iter().enumerate() {
-        println!("height: {}, nodes ({}): {:?}", h, n.len(), n);
+        println!("\nNodes h: {}, nodes ({}): {:?}", h, n.len(), n);
     }
 
     let sibling_path = make_sibling_path(depth as u32, leaf_idx);
 
     println!("sibling_path: {:?}", sibling_path);
 
-    for (h, s_idx) in sibling_path.sibling_indices.iter().enumerate() {
-        let node = nodes
-            .get(h)
-            .expect(&format!("sibling index should exist at depth, {}", h))
-            .get(*s_idx as usize)
-            .expect(&format!(
-                "sibling index should exist, h: {}, idx: {}",
-                h, s_idx
-            ));
+    // for (h, s_idx) in sibling_path.sibling_indices.iter().enumerate() {
+    //     let node = nodes
+    //         .get(h)
+    //         .expect(&format!("sibling index should exist at depth, {}", h))
+    //         .get(*s_idx as usize)
+    //         .expect(&format!(
+    //             "sibling index should exist, h: {}, idx: {}",
+    //             h, s_idx
+    //         ));
 
-        println!("node: {:?}", node);
-    }
+    //     println!("node: {:?}", node);
+    // }
 
     let p = MerkleProof {
         path_indices,
@@ -134,23 +136,3 @@ pub fn make_merkle_proof(
 
     Ok(p)
 }
-
-// pub trait Hasher: Clone {
-//     /// This type is used as a hash type in the library.
-//     /// It is recommended to use fixed size u8 array as a hash type. For example,
-//     /// for sha256 the type would be `[u8; 32]`, representing 32 bytes,
-//     /// which is the size of the sha256 digest. Also, fixed sized arrays of `u8`
-//     /// by default satisfy all trait bounds required by this type.
-//     ///
-//     /// # Trait bounds
-//     /// `Copy` is required as the hash needs to be copied to be concatenated/propagated
-//     /// when constructing nodes.
-//     /// `PartialEq` is required to compare equality when verifying proof
-//     /// `Into<Vec<u8>>` is required to be able to serialize proof
-//     /// `TryFrom<Vec<u8>>` is required to parse hashes from a serialized proof
-//     type Hash: Copy + PartialEq + Into<Vec<u8>> + TryFrom<Vec<u8>>;
-
-//     /// This associated function takes a slice of bytes and returns a hash of it.
-//     /// Used by `concat_and_hash` function to build a tree from concatenated hashes
-//     fn hash(data: &[u8]) -> Self::Hash;
-// }
