@@ -10,11 +10,12 @@ pub struct Database {
 
 impl Database {
     pub async fn connect() -> Result<Database, DbInterfaceError> {
+        let postgres_endpoint = std::env::var("POSTGRES_ENDPOINT")?;
         let postgres_pw = std::env::var("POSTGRES_PW")?;
 
         let pg_config = format!(
-            "host=database-1.cstgyxdzqynn.ap-northeast-2.rds.amazonaws.com user=postgres password={}",
-            postgres_pw,
+            "host={} user=postgres password={}",
+            postgres_endpoint, postgres_pw
         );
 
         let (pg_client, connection) = tokio_postgres::connect(&pg_config, NoTls).await?;
