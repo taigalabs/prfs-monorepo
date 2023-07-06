@@ -1,3 +1,4 @@
+mod hexutils;
 mod merkletree;
 mod poseidon;
 

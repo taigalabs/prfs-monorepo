@@ -1,5 +1,5 @@
 use super::merklepath::{make_sibling_path, SiblingPath};
-use crate::{hash_two, PrfsCryptoError};
+use crate::{hash_two, hexutils::convert_bytes_into_decimal, PrfsCryptoError};
 // use poseidon::poseidon_k256::{hash_from_bytes, hash_two};
 use serde::{Deserialize, Serialize};
 
@@ -125,8 +125,9 @@ pub fn make_merkle_proof(
             )),
         };
 
+        let s = convert_bytes_into_decimal(sibling);
+        println!("\nsibling: {:?}, decimal: {}", sibling, s);
         // siblings.push(sibling);
-        println!("\nsibling: {:?}", sibling);
     }
 
     let p = MerkleProof {
