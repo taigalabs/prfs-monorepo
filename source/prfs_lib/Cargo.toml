@@ -27,7 +27,7 @@ group = "0.12.0"
 poseidon = { path = "../../externals/poseidon" }
 spartan = { path = "../../externals/Spartan-secq", default-features = false }
 secq256k1 = { path = "../../externals/secq256k1" }
-merkletree = { path = "../merkletree" }
+prfs_crypto = { path = "../prfs_crypto" }
 
 [dev-dependencies]
 rs_merkle = "1.4.1"

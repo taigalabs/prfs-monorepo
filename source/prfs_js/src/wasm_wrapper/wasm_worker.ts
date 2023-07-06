@@ -52,7 +52,7 @@ async function initHandlers() {
 
 const handlers = initHandlers();
 
-console.log(55);
+console.log('Wasm method explosed, handlers');
 
 Comlink.expose({
   handlers

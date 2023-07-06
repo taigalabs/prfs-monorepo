@@ -1,7 +1,5 @@
-use crate::{
-    merklepath::{make_sibling_path, SiblingPath},
-    MerkleTreeError,
-};
+use super::merklepath::{make_sibling_path, SiblingPath};
+use crate::PrfsCryptoError;
 use poseidon::poseidon_k256::{hash_from_bytes, hash_two};
 use serde::{Deserialize, Serialize};
 
@@ -19,7 +17,7 @@ pub fn make_merkle_proof(
     leaves: Vec<[u8; 32]>,
     leaf_idx: u128,
     depth: u32,
-) -> Result<MerkleProof, MerkleTreeError> {
+) -> Result<MerkleProof, PrfsCryptoError> {
     println!(
         "Creating merkle proof, leaves len: {}, leaf_idx: {}, depth: {}",
         leaves.len(),

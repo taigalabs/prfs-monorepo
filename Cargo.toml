@@ -14,7 +14,7 @@ members = [
   "source/prfs_tree_maker",
   "source/prfs_backend",
   "source/prfs_lib",
-  "source/merkletree",
+  "source/prfs_crypto",
 
   # internals
   "internals/ci",
