@@ -5,20 +5,15 @@ use crate::{
 use poseidon::poseidon_k256::{hash_from_bytes, hash_two};
 use serde::{Deserialize, Serialize};
 
-// pub struct MerkleTree {}
-
-// impl MerkleTree {
-//     pub fn a() {}
-// }
+pub const ZERO: [u8; 32] = [0u8; 32];
 
 #[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
 pub struct MerkleProof {
     pub path_indices: Vec<u8>,
     pub root: Vec<u8>,
     pub siblings: Vec<String>,
 }
-
-// const ZERO: [u8; 32] = [0u8; 32];
 
 pub fn make_merkle_proof(
     leaves: Vec<[u8; 32]>,
@@ -47,7 +42,7 @@ pub fn make_merkle_proof(
     let mut nodes = Vec::with_capacity(depth + 1);
     nodes.push(leaves.to_vec());
 
-    for d in 0..depth + 1 {
+    for d in 0..depth {
         println!("d: {}", d);
 
         let mut parent = vec![];
@@ -65,6 +60,8 @@ pub fn make_merkle_proof(
 
             let res = hash_two(left, &right).unwrap();
             parent.push(res);
+            println!("parent: {:?}", parent);
+
             nodes.push(parent);
 
             continue;
@@ -115,18 +112,24 @@ pub fn make_merkle_proof(
 
     println!("sibling_path: {:?}", sibling_path);
 
-    // for (h, s_idx) in sibling_path.sibling_indices.iter().enumerate() {
-    //     let node = nodes
-    //         .get(h)
-    //         .expect(&format!("sibling index should exist at depth, {}", h))
-    //         .get(*s_idx as usize)
-    //         .expect(&format!(
-    //             "sibling index should exist, h: {}, idx: {}",
-    //             h, s_idx
-    //         ));
+    for (h, s_idx) in sibling_path.sibling_indices.iter().enumerate() {
+        let nodes_at_height = nodes
+            .get(h)
+            .expect(&format!("sibling index should exist at depth, {}", h));
 
-    //     println!("node: {:?}", node);
-    // }
+        let my_idx = if s_idx % 2 == 0 { s_idx + 1 } else { s_idx - 1 };
+
+        let sibling = match nodes_at_height.get(*s_idx as usize) {
+            Some(s) => s,
+            None => nodes_at_height.get(my_idx as usize).expect(&format!(
+                "Node in merkle path should exist, h: {}, my_idx: {}",
+                h, my_idx
+            )),
+        };
+
+        // siblings.push(sibling);
+        println!("\nsibling: {:?}", sibling);
+    }
 
     let p = MerkleProof {
         path_indices,

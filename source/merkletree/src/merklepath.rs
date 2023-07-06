@@ -6,11 +6,11 @@ pub struct SiblingPath {
 }
 
 pub fn make_sibling_path(depth: u32, leaf_idx: u128) -> SiblingPath {
-    let height = depth + 1;
+    // let height = depth + 1;
     let mut sibling_indices = vec![];
     let mut curr_idx = leaf_idx;
 
-    for _h in 0..height {
+    for _h in 0..depth {
         let sibling_idx = get_sibling_idx(curr_idx);
 
         let parent_idx = get_parent_idx(curr_idx);
