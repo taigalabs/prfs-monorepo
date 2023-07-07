@@ -32,6 +32,7 @@ pub fn init_panic_hook() {
 #[wasm_bindgen]
 pub fn bb() -> Result<Vec<u8>, JsValue> {
     return Ok(vec![111]);
+
     // return Err(JsValue::from_str("aaa"));
     // Clamped(
     //     Generator::new(width, height, max_iterations)
@@ -53,14 +54,6 @@ pub struct MakeMerkleProofArgs {
     leaves: Vec<String>,
     leaf_idx: u128,
     depth: u8,
-    // #[serde(with = "serde_bytes")]
-    // leaves: Vec<Vec<u8>>,
-
-    // #[serde(with = "serde_bytes")]
-    // leaf_idx: Vec<u8>,
-
-    // #[serde(with = "serde_bytes")]
-    // depth: Vec<u8>,
 }
 
 #[wasm_bindgen]
