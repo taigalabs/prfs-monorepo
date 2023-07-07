@@ -6,6 +6,24 @@ use wasm_bindgen::{prelude::*, Clamped};
 #[cfg(feature = "multicore")]
 pub use wasm_bindgen_rayon::init_thread_pool;
 
+#[wasm_bindgen]
+extern "C" {
+    // Use `js_namespace` here to bind `console.log(..)` instead of just
+    // `log(..)`
+    #[wasm_bindgen(js_namespace = console)]
+    fn log(s: &str);
+
+    // The `console.log` is quite polymorphic, so we can bind it with multiple
+    // signatures. Note that we need to use `js_name` to ensure we always call
+    // `log` in JS.
+    #[wasm_bindgen(js_namespace = console, js_name = log)]
+    fn log_u32(a: u32);
+
+    // Multiple arguments too!
+    #[wasm_bindgen(js_namespace = console, js_name = log)]
+    fn log_many(a: &str, b: &str);
+}
+
 #[derive(Serialize, Deserialize)]
 pub struct MakeMerkleProofArgs {
     leaves: Vec<[u8; 32]>,
@@ -39,20 +57,27 @@ pub fn prove(circuit: &[u8], vars: &[u8], public_inputs: &[u8]) -> Result<Vec<u8
 
 #[wasm_bindgen]
 pub fn make_merkle_proof(
-    make_merkle_proof_args: JsValue,
+    // make_merkle_proof_args: JsValue,
     // circuit: &[u8],
     // vars: &[u8],
     // public_inputs: &[u8],
     // leaves: &[&[u8]],
     // leaf_idx: &[u8],
     // depth: u32,
+    // leaves: Vec<&[u8]>,
+    leaf_idx: &[u8],
+    depth: &[u8],
 ) -> Result<Vec<u8>, JsValue> {
-    let args: MakeMerkleProofArgs = serde_wasm_bindgen::from_value(make_merkle_proof_args)?;
+    log("popower");
+    // let args: MakeMerkleProofArgs = serde_wasm_bindgen::from_value(leaves, leaf_idx, depth)?;
 
-    let r = match prfs_lib::make_merkle_proof(args.leaves, args.leaf_idx, args.depth) {
-        Ok(p) => Ok(p),
-        Err(err) => Err(JsValue::from_str(&err.to_string())),
-    };
+    // let r = match prfs_lib::make_merkle_proof(
+    //     // args.leaves,
+    //     leaf_idx, depth,
+    // ) {
+    //     Ok(p) => Ok(p),
+    //     Err(err) => Err(JsValue::from_str(&err.to_string())),
+    // };
 
     Ok(vec![])
 }

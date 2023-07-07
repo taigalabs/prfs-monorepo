@@ -28,7 +28,8 @@ function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
       //   leaves, leaf_idx, depth,
       // };
 
-      // const res = prfsWasm.make_merkle_proof(makeMerkleProofArgs);
+      const res = await prfsWasm.make_merkle_proof(leaf_idx, depth);
+      // console.log('result', res);
       // return res;
       return new Uint8Array();
 

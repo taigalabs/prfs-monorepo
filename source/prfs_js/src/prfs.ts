@@ -27,11 +27,14 @@ export class Prfs {
   ) {
     var enc = new TextEncoder(); // always utf-8
     // console.log(enc.encode("This is a string converted to a Uint8Array"));
+
     let _leaves = leaves.map(l => enc.encode(l))
     let _leafIdx = numToUint8Array(leafIdx);
     let _depth = numToUint8Array(depth);
 
-    return this.handlers.makeMerkleProof(_leaves, _leafIdx, _depth);
+    return this.handlers.makeMerkleProof(
+      _leaves,
+      _leafIdx, _depth);
   }
 
   newPoseidon() {

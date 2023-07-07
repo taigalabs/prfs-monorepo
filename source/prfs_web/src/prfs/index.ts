@@ -43,7 +43,6 @@ export async function proveMembership(signer: ethers.JsonRpcSigner) {
   let res = await prfs.makeMerkleProof(addrs, 0, 4);
   console.log(11, res);
 
-
   // let poseidon = prfs.newPoseidon();
   // // const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
   // const msg = Buffer.from("harry potter");
@@ -70,11 +69,11 @@ export async function proveMembership(signer: ethers.JsonRpcSigner) {
   // // console.log('proverAddrHash', proverAddrHash);
 
   // await addressTree.insert(proverAddr);
-  // for (const addr of addrs) {
-  //   const address = BigInt(addr);
-  //   console.log('addr: %s, address: %s', addr, address);
-  //   await addressTree.insert(address);
-  // }
+  for (const addr of addrs) {
+    const address = BigInt(addr);
+    console.log('addr: %s, address: %s', addr, address);
+    // await addressTree.insert(address);
+  }
   // const index = addressTree.indexOf(proverAddr);
   // const merkleProof = addressTree.createProof(index);
 
@@ -110,14 +109,14 @@ export async function proveMembership(signer: ethers.JsonRpcSigner) {
   // return proof;
 }
 
-function decomposeSig(buf: string, chainId?: string) {
-  const r = Buffer.from(buf.slice(0, 32))
-  const s = Buffer.from(buf.slice(32, 64))
+// function decomposeSig(buf: string, chainId?: string) {
+//   const r = Buffer.from(buf.slice(0, 32))
+//   const s = Buffer.from(buf.slice(32, 64))
 
-  const v =
-    chainId === undefined
-      ? BigInt(sig.recovery! + 27)
-      : BigInt(sig.recovery! + 35) + BigInt(chainId) * BigInt(2)
+//   const v =
+//     chainId === undefined
+//       ? BigInt(sig.recovery! + 27)
+//       : BigInt(sig.recovery! + 35) + BigInt(chainId) * BigInt(2)
 
-  return { r, s, v }
-}
+//   return { r, s, v }
+// }
