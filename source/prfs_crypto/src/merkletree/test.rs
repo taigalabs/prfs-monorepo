@@ -39,21 +39,18 @@ fn test_merkle_proof() -> Result<(), PrfsCryptoError> {
         // "0x67284e6473dd2afca0782e24dae6d79f712c270f",
     ];
 
-    let leaves: Vec<[u8; 32]> = addrs
+    let leaves: Vec<String> = addrs
         .iter()
-        .map(|leaf| {
-            let leaf = leaf.trim_start_matches("0x");
-            let leaf_decimal = U256::from_str_radix(&leaf, 16).unwrap();
-            // println!("leaf_decimal: {}", leaf_decimal);
-
-            let mut b = [0u8; 32];
-            leaf_decimal.to_little_endian(&mut b);
-
-            b
+        .map(|addr| {
+            // let leaf = leaf.trim_start_matches("0x");
+            // let leaf_decimal = U256::from_str_radix(&leaf, 16).unwrap();
+            // let mut b = [0u8; 32];
+            // leaf_decimal.to_little_endian(&mut b);
+            addr.to_string()
         })
         .collect();
 
-    for leaf in leaves.iter() {
+    for leaf in addrs.iter() {
         println!("leaf: {:?}, len: {}", leaf, leaf.len());
     }
 

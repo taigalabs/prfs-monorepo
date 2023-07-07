@@ -97,25 +97,20 @@ pub fn poseidon(input_bytes: &[u8]) -> Result<Vec<u8>, PrfsLibError> {
 }
 
 pub fn make_merkle_proof(
-    // leaves: &[&[u8]],
-    leaf_idx: &[u8],
-    depth: &[u8],
+    leaves: Vec<String>,
+    leaf_idx: u128,
+    depth: u8,
 ) -> Result<MerkleProof, PrfsLibError> {
-    let proof = MerkleProof {
-        path_indices: vec![],
-        root: vec![],
-        siblings: vec![],
-    };
-    // println!("")
-    // let leaf_idx =
+    // let proof = MerkleProof {
+    //     path_indices: vec![],
+    //     root: vec![],
+    //     siblings: vec![],
+    // };
 
-    // match prfs_crypto::make_merkle_proof(leaves, leaf_idx, depth) {
-    //     Ok(p) => Ok(p),
-    //     Err(err) => return Err(err.to_string().into()),
-    // }
-    //
-    return Ok(proof);
-    // return Err("yet".into());
+    match prfs_crypto::make_merkle_proof(leaves, leaf_idx, depth) {
+        Ok(p) => return Ok(p),
+        Err(err) => return Err(err.to_string().into()),
+    };
 }
 
 // Copied from Nova Scotia

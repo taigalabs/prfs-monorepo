@@ -24,13 +24,6 @@ extern "C" {
     fn log_many(a: &str, b: &str);
 }
 
-#[derive(Serialize, Deserialize)]
-pub struct MakeMerkleProofArgs {
-    leaves: Vec<[u8; 32]>,
-    leaf_idx: u128,
-    depth: u32,
-}
-
 #[wasm_bindgen]
 pub fn init_panic_hook() {
     console_error_panic_hook::set_once();
@@ -55,29 +48,33 @@ pub fn prove(circuit: &[u8], vars: &[u8], public_inputs: &[u8]) -> Result<Vec<u8
     };
 }
 
-#[wasm_bindgen]
-pub fn make_merkle_proof(
-    // make_merkle_proof_args: JsValue,
-    // circuit: &[u8],
-    // vars: &[u8],
-    // public_inputs: &[u8],
-    // leaves: &[&[u8]],
-    // leaf_idx: &[u8],
-    // depth: u32,
-    // leaves: Vec<&[u8]>,
-    leaf_idx: &[u8],
-    depth: &[u8],
-) -> Result<Vec<u8>, JsValue> {
-    log("popower");
-    // let args: MakeMerkleProofArgs = serde_wasm_bindgen::from_value(leaves, leaf_idx, depth)?;
+#[derive(Serialize, Deserialize, Debug)]
+pub struct MakeMerkleProofArgs {
+    leaves: Vec<String>,
+    leaf_idx: u128,
+    depth: u8,
+    // #[serde(with = "serde_bytes")]
+    // leaves: Vec<Vec<u8>>,
 
-    // let r = match prfs_lib::make_merkle_proof(
-    //     // args.leaves,
-    //     leaf_idx, depth,
-    // ) {
-    //     Ok(p) => Ok(p),
-    //     Err(err) => Err(JsValue::from_str(&err.to_string())),
-    // };
+    // #[serde(with = "serde_bytes")]
+    // leaf_idx: Vec<u8>,
+
+    // #[serde(with = "serde_bytes")]
+    // depth: Vec<u8>,
+}
+
+#[wasm_bindgen]
+pub fn make_merkle_proof(make_merkle_proof_args: JsValue) -> Result<Vec<u8>, JsValue> {
+    let args: MakeMerkleProofArgs = serde_wasm_bindgen::from_value(make_merkle_proof_args)?;
+
+    log(&format!("merkle proof args: {:?}", args));
+
+    let proof = match prfs_lib::make_merkle_proof(args.leaves, args.leaf_idx, args.depth) {
+        Ok(p) => Ok(p),
+        Err(err) => Err(JsValue::from_str(&err.to_string())),
+    };
+
+    log(&format!("proof: {:?}", proof));
 
     Ok(vec![])
 }

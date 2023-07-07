@@ -40,7 +40,7 @@ export async function proveMembership(signer: ethers.JsonRpcSigner) {
   let prfsHandlers = await initWasm();
   let prfs = new Prfs(prfsHandlers);
 
-  let res = await prfs.makeMerkleProof(addrs, 0, 4);
+  let res = await prfs.makeMerkleProof(addrs, BigInt(0), 4);
   console.log(11, res);
 
   // let poseidon = prfs.newPoseidon();

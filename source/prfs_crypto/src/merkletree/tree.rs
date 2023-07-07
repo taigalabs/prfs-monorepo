@@ -1,5 +1,6 @@
 use super::merklepath::make_sibling_path;
 use crate::{hash_two, hexutils::convert_bytes_into_decimal, make_path_indices, PrfsCryptoError};
+use primitive_types::U256;
 // use poseidon::poseidon_k256::{hash_from_bytes, hash_two};
 use serde::{Deserialize, Serialize};
 
@@ -14,9 +15,9 @@ pub struct MerkleProof {
 }
 
 pub fn make_merkle_proof(
-    leaves: Vec<[u8; 32]>,
+    leaves: Vec<String>,
     leaf_idx: u128,
-    depth: u32,
+    depth: u8,
 ) -> Result<MerkleProof, PrfsCryptoError> {
     println!(
         "Creating merkle proof, leaves len: {}, leaf_idx: {}, depth: {}",
@@ -34,6 +35,17 @@ pub fn make_merkle_proof(
     }
 
     let depth: usize = depth.try_into().unwrap();
+
+    let leaves: Vec<[u8; 32]> = leaves
+        .iter()
+        .map(|leaf| {
+            // let leaf = leaf.trim_start_matches("0x");
+            let leaf_decimal = U256::from_str_radix(&leaf, 16).unwrap();
+            let mut b = [0u8; 32];
+            leaf_decimal.to_little_endian(&mut b);
+            b
+        })
+        .collect();
 
     let mut nodes = Vec::with_capacity(depth + 1);
     nodes.push(leaves.to_vec());
