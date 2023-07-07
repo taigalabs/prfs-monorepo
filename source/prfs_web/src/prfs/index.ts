@@ -16,6 +16,7 @@ import {
 import { ethers } from "ethers";
 
 let addrs = [
+  "0x33d10ab178924ecb7ad52f4c0c8062c3066607ec",
   "0x4f6fcaae3fc4124acaccc780c6cb0dd69ddbeff8",
   "0x50d34ee0ac40da7779c42d3d94c2072e5625395f",
   "0x51c0e162bd86b63933262d558a8953def4e30c85",
@@ -39,41 +40,45 @@ export async function proveMembership(signer: ethers.JsonRpcSigner) {
   let prfsHandlers = await initWasm();
   let prfs = new Prfs(prfsHandlers);
 
-  let poseidon = prfs.newPoseidon();
-  // const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
-  const msg = Buffer.from("harry potter");
-  const msgHash = hashPersonalMessage(msg);
-  let sig = await signer.signMessage(msgHash);
-  console.log(22, sig);
-
-  let arr = Array(2).fill(BigInt(0));
-  let res = await poseidon(arr);
+  let res = await prfs.makeMerkleProof(addrs, 0, 4);
   console.log(11, res);
 
-  const treeDepth = 4;
-  const addressTree = await prfs.newTree(treeDepth, poseidon);
 
-  console.log('root after init', addressTree.root());
+  // let poseidon = prfs.newPoseidon();
+  // // const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
+  // const msg = Buffer.from("harry potter");
+  // const msgHash = hashPersonalMessage(msg);
+  // let sig = await signer.signMessage(msgHash);
+  // console.log(22, sig);
 
-  let proverAddress = signer.address;
-  console.log('proverAddr', proverAddress);
+  // let arr = Array(2).fill(BigInt(0));
+  // let res = await poseidon(arr);
+  // console.log(11, res);
 
-  const proverAddr = BigInt(proverAddress);
-  console.log('proverAddr', proverAddr);
+  // const treeDepth = 4;
+  // const addressTree = await prfs.newTree(treeDepth, poseidon);
 
-  // const proverAddrHash = await poseidon(proverAddr);
-  // console.log('proverAddrHash', proverAddrHash);
+  // console.log('root after init', addressTree.root());
 
-  await addressTree.insert(proverAddr);
-  for (const addr of addrs) {
-    const address = BigInt(addr);
-    console.log('addr: %s, address: %s', addr, address);
-    await addressTree.insert(address);
-  }
-  const index = addressTree.indexOf(proverAddr);
-  const merkleProof = addressTree.createProof(index);
+  // let proverAddress = signer.address;
+  // console.log('proverAddr', proverAddress);
 
-  console.log("merkleProof", merkleProof);
+  // const proverAddr = BigInt(proverAddress);
+  // console.log('proverAddr', proverAddr);
+
+  // // const proverAddrHash = await poseidon(proverAddr);
+  // // console.log('proverAddrHash', proverAddrHash);
+
+  // await addressTree.insert(proverAddr);
+  // for (const addr of addrs) {
+  //   const address = BigInt(addr);
+  //   console.log('addr: %s, address: %s', addr, address);
+  //   await addressTree.insert(address);
+  // }
+  // const index = addressTree.indexOf(proverAddr);
+  // const merkleProof = addressTree.createProof(index);
+
+  // console.log("merkleProof", merkleProof);
 
   // console.log("Proving...");
   // console.time("Full proving time");

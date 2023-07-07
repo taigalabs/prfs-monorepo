@@ -66,3 +66,24 @@ export const fromSig = (sig: string): { r: bigint; s: bigint; v: bigint } => {
   const s = BigInt("0x" + _s.toString("hex"));
   return { r, s, v };
 };
+
+export function numToUint8Array(num: number): Uint8Array {
+  let arr = new Uint8Array(8);
+
+  for (let i = 0; i < 8; i++) {
+    arr[i] = num % 256;
+    num = Math.floor(num / 256);
+  }
+
+  return arr;
+}
+
+export function uint8ArrayToNum(arr: Uint8Array): number {
+  let num = 0;
+
+  for (let i = 7; i >= 0; i--) {
+    num = num * 256 + arr[i];
+  }
+
+  return num;
+}

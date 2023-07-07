@@ -21,12 +21,16 @@ function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
       const res = prfsWasm.verify(circuit, proof, public_inputs);
       return res;
     },
-    async makeMerkleProof(leaves: any, leaf_idx: any, depth: any) {
-      let makeMerkleProofArgs = {
-        leaves, leaf_idx, depth,
-      };
-      const res = prfsWasm.make_merkle_proof(makeMerkleProofArgs);
-      return res;
+    async makeMerkleProof(leaves: Uint8Array[], leaf_idx: Uint8Array, depth: Uint8Array) {
+      console.log(1111, leaves, leaf_idx, depth);
+
+      // let makeMerkleProofArgs = {
+      //   leaves, leaf_idx, depth,
+      // };
+
+      // const res = prfsWasm.make_merkle_proof(makeMerkleProofArgs);
+      // return res;
+      return new Uint8Array();
 
       // #[derive(Serialize, Deserialize)]
       // pub struct MakeMerkleProofArgs {

@@ -159,7 +159,7 @@ function bigint_to_array(n: number, k: number, x: bigint) {
   for (var idx = 0; idx < n; idx++) {
     mod = mod * 2n;
   }
-  console.log("mod: %s", mod);
+  // console.log("mod: %s", mod);
 
   let ret: bigint[] = [];
   var x_temp: bigint = x;

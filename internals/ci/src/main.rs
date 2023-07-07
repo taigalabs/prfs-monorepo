@@ -25,7 +25,7 @@ fn main() {
             tasks::e2e_test_web::run();
         }
         "dev_prfs_web" => {
-            tasks::build_prfs_js::build_prfs_js();
+            // tasks::build_prfs_js::build_prfs_js();
             tasks::dev_prfs_web::run();
         }
         "dev_circuit_server" => {
