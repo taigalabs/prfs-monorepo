@@ -1,9 +1,17 @@
 use console_error_panic_hook;
+use serde::{Deserialize, Serialize};
 use std::io::{Error, Read};
 use wasm_bindgen::{prelude::*, Clamped};
 
 #[cfg(feature = "multicore")]
 pub use wasm_bindgen_rayon::init_thread_pool;
+
+#[derive(Serialize, Deserialize)]
+pub struct MakeMerkleProofArgs {
+    leaves: Vec<[u8; 32]>,
+    leaf_idx: u128,
+    depth: u32,
+}
 
 #[wasm_bindgen]
 pub fn init_panic_hook() {
@@ -27,6 +35,26 @@ pub fn prove(circuit: &[u8], vars: &[u8], public_inputs: &[u8]) -> Result<Vec<u8
         Ok(p) => Ok(p),
         Err(err) => Err(JsValue::from_str(&err.to_string())),
     };
+}
+
+#[wasm_bindgen]
+pub fn make_merkle_proof(
+    make_merkle_proof_args: JsValue,
+    // circuit: &[u8],
+    // vars: &[u8],
+    // public_inputs: &[u8],
+    // leaves: &[&[u8]],
+    // leaf_idx: &[u8],
+    // depth: u32,
+) -> Result<Vec<u8>, JsValue> {
+    let args: MakeMerkleProofArgs = serde_wasm_bindgen::from_value(make_merkle_proof_args)?;
+
+    let r = match prfs_lib::make_merkle_proof(args.leaves, args.leaf_idx, args.depth) {
+        Ok(p) => Ok(p),
+        Err(err) => Err(JsValue::from_str(&err.to_string())),
+    };
+
+    Ok(vec![])
 }
 
 #[wasm_bindgen]

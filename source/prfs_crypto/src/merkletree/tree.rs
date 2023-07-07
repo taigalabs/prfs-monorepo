@@ -1,5 +1,5 @@
-use super::merklepath::{make_sibling_path, SiblingPath};
-use crate::{hash_two, hexutils::convert_bytes_into_decimal, PrfsCryptoError};
+use super::merklepath::make_sibling_path;
+use crate::{hash_two, hexutils::convert_bytes_into_decimal, make_path_indices, PrfsCryptoError};
 // use poseidon::poseidon_k256::{hash_from_bytes, hash_two};
 use serde::{Deserialize, Serialize};
 
@@ -8,7 +8,7 @@ pub const ZERO: [u8; 32] = [0u8; 32];
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct MerkleProof {
-    pub path_indices: Vec<u8>,
+    pub path_indices: Vec<u128>,
     pub root: Vec<u8>,
     pub siblings: Vec<String>,
 }
@@ -35,8 +35,6 @@ pub fn make_merkle_proof(
 
     let depth: usize = depth.try_into().unwrap();
 
-    let mut path_indices = vec![];
-    let mut siblings = vec![];
     let mut nodes = Vec::with_capacity(depth + 1);
     nodes.push(leaves.to_vec());
 
@@ -106,11 +104,13 @@ pub fn make_merkle_proof(
         println!("\nNodes h: {}, nodes ({}): {:?}", h, n.len(), n);
     }
 
-    let sibling_path = make_sibling_path(depth as u32, leaf_idx);
+    let sibling_indices = make_sibling_path(depth as u32, leaf_idx);
+    let path_indices = make_path_indices(depth as u32, leaf_idx);
 
-    println!("sibling_path: {:?}", sibling_path);
+    println!("sibling_indices: {:?}", sibling_indices);
 
-    for (h, s_idx) in sibling_path.sibling_indices.iter().enumerate() {
+    let mut siblings = vec![];
+    for (h, s_idx) in sibling_indices.iter().enumerate() {
         let nodes_at_height = nodes
             .get(h)
             .expect(&format!("sibling index should exist at depth, {}", h));
@@ -125,9 +125,9 @@ pub fn make_merkle_proof(
             )),
         };
 
-        let s = convert_bytes_into_decimal(sibling);
+        let s = convert_bytes_into_decimal(sibling)?;
         println!("\nsibling: {:?}, decimal: {}", sibling, s);
-        // siblings.push(sibling);
+        siblings.push(s);
     }
 
     let p = MerkleProof {

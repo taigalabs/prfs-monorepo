@@ -3,7 +3,7 @@ use byteorder::{LittleEndian, ReadBytesExt};
 use ff::PrimeField;
 use libspartan::{Assignment, Instance, NIZKGens, NIZK};
 use merlin::Transcript;
-use prfs_crypto::hash_from_bytes;
+use prfs_crypto::{hash_from_bytes, MerkleProof};
 use secq256k1::{affine::Group, field::BaseField};
 use std::io::{Error, Read};
 
@@ -93,6 +93,17 @@ pub fn poseidon(input_bytes: &[u8]) -> Result<Vec<u8>, PrfsLibError> {
         Err(err) => {
             return Err(err.to_string().into());
         }
+    }
+}
+
+pub fn make_merkle_proof(
+    leaves: Vec<[u8; 32]>,
+    leaf_idx: u128,
+    depth: u32,
+) -> Result<MerkleProof, PrfsLibError> {
+    match prfs_crypto::make_merkle_proof(leaves, leaf_idx, depth) {
+        Ok(p) => Ok(p),
+        Err(err) => return Err(err.to_string().into()),
     }
 }
 

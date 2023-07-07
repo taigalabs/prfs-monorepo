@@ -20,6 +20,20 @@ function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
     async verify(circuit: Uint8Array, proof: Uint8Array, public_inputs: Uint8Array) {
       const res = prfsWasm.verify(circuit, proof, public_inputs);
       return res;
+    },
+    async makeMerkleProof(leaves: any, leaf_idx: any, depth: any) {
+      let makeMerkleProofArgs = {
+        leaves, leaf_idx, depth,
+      };
+      const res = prfsWasm.make_merkle_proof(makeMerkleProofArgs);
+      return res;
+
+      // #[derive(Serialize, Deserialize)]
+      // pub struct MakeMerkleProofArgs {
+      //     leaves: Vec<[u8; 32]>,
+      //     leaf_idx: u128,
+      //     depth: u32,
+      // }
     }
   };
 

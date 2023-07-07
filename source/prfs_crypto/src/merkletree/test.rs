@@ -1,7 +1,4 @@
-use super::{
-    merklepath::{make_sibling_path, SiblingPath},
-    tree::make_merkle_proof,
-};
+use super::{merklepath::make_sibling_path, tree::make_merkle_proof};
 use crate::{hash_from_bytes, PrfsCryptoError};
 // use ff::PrimeField;
 use primitive_types::U256;
