@@ -1,7 +1,7 @@
 import { threads } from "wasm-feature-detect";
 import * as Comlink from "comlink";
 import { Prfs } from "../prfs";
-import { PrfsWasmType, PrfsHandlers } from "../types";
+import { PrfsWasmType, PrfsHandlers, MerkleProof } from "../types";
 import { bigIntToLeBytes, bytesLeToBigInt } from "../helpers/utils";
 
 function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
@@ -22,35 +22,16 @@ function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
       return res;
     },
     async makeMerkleProof(leaves: string[], leaf_idx: BigInt, depth: number) {
-      console.log(1111, leaves, leaf_idx, depth);
+      // console.log(1111, leaves, leaf_idx, depth);
 
-      // let makeMerkleProofArgs = {
-      //   leaves, leaf_idx, depth,
-      // };
-
-      // let obj = {
-      //   leaves: [['a']],
-      //   leaf_idx: BigInt(0),
-      //   depth: 0,
-      // };
-      //
       let obj = {
-        leaves, leaf_idx, depth
+        leaves,
+        leaf_idx,
+        depth
       };
 
-      const res = await prfsWasm.make_merkle_proof(obj);
-      console.log('res', res);
-      // const res = await prfsWasm.make_merkle_proof(leaves, leaf_idx, depth);
-      // console.log('result', res);
-      // return res;
-      return new Uint8Array();
-
-      // #[derive(Serialize, Deserialize)]
-      // pub struct MakeMerkleProofArgs {
-      //     leaves: Vec<[u8; 32]>,
-      //     leaf_idx: u128,
-      //     depth: u32,
-      // }
+      const merkle_proof: MerkleProof = await prfsWasm.make_merkle_proof(obj);
+      return merkle_proof;
     }
   };
 
@@ -83,7 +64,7 @@ async function initHandlers() {
 
 const handlers = initHandlers();
 
-console.log('Wasm method explosed, handlers');
+console.log("Wasm method explosed, handlers");
 
 Comlink.expose({
   handlers

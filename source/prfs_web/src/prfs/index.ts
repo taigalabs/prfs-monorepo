@@ -5,7 +5,7 @@ import {
   defaultPubkeyMembershipVConfig,
   defaultAddressMembershipVConfig
 } from "@taigalabs/prfs-js";
-import { initWasm } from '@taigalabs/prfs-js/build/wasm_wrapper/load_es';
+import { initWasm } from "@taigalabs/prfs-js/build/wasm_wrapper/load_es";
 import {
   ecsign,
   hashPersonalMessage,
@@ -19,7 +19,7 @@ let addrs = [
   "0x33d10ab178924ecb7ad52f4c0c8062c3066607ec",
   "0x4f6fcaae3fc4124acaccc780c6cb0dd69ddbeff8",
   "0x50d34ee0ac40da7779c42d3d94c2072e5625395f",
-  "0x51c0e162bd86b63933262d558a8953def4e30c85",
+  "0x51c0e162bd86b63933262d558a8953def4e30c85"
   // "0x5247cdfffeeff5fac15e214c6bfcca5e45a135c0",
   // "0x53c8f1af4885182eae85779833548c8f5bc5d91a",
   //
@@ -41,7 +41,7 @@ export async function proveMembership(signer: ethers.JsonRpcSigner) {
   let prfs = new Prfs(prfsHandlers);
 
   let res = await prfs.makeMerkleProof(addrs, BigInt(0), 4);
-  console.log(11, res);
+  console.log("merkle proof", res);
 
   // let poseidon = prfs.newPoseidon();
   // // const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
@@ -71,7 +71,7 @@ export async function proveMembership(signer: ethers.JsonRpcSigner) {
   // await addressTree.insert(proverAddr);
   for (const addr of addrs) {
     const address = BigInt(addr);
-    console.log('addr: %s, address: %s', addr, address);
+    console.log("addr: %s, address: %s", addr, address);
     // await addressTree.insert(address);
   }
   // const index = addressTree.indexOf(proverAddr);

@@ -4,7 +4,6 @@ import { MembershipProver2 } from "./core/membership_prover2";
 import { MembershipVerifier } from "./core/membership_verifier";
 import { ProverConfig, VerifyConfig, PrfsHandlers, AsyncHashFn, MerkleProof } from "./types";
 import { numToUint8Array } from "./helpers/utils";
-// import { initWasm } from "./wasm_wrapper";
 
 export class Prfs {
   isInitilized: boolean;
@@ -15,19 +14,8 @@ export class Prfs {
     this.handlers = handlers;
   }
 
-  // static async newInstance() {
-  //   let handlers = await initWasm();
-  //   return new Prfs(handlers);
-  // }
-
-  async makeMerkleProof(
-    leaves: string[],
-    leafIdx: BigInt,
-    depth: number,
-  ) {
-    return this.handlers.makeMerkleProof(
-      leaves,
-      leafIdx, depth);
+  async makeMerkleProof(leaves: string[], leafIdx: BigInt, depth: number) {
+    return this.handlers.makeMerkleProof(leaves, leafIdx, depth);
   }
 
   newPoseidon() {

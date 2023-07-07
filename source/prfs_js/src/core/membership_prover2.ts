@@ -134,8 +134,6 @@ export class MembershipProver2 extends Profiler implements IProver {
 
     this.time("Load circuit");
     const circuitBin = await loadCircuit(this.circuit);
-
-    console.log(11, circuitBin);
     this.timeEnd("Load circuit");
 
     // // Get the public input in bytes

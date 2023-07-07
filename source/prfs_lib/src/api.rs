@@ -101,12 +101,6 @@ pub fn make_merkle_proof(
     leaf_idx: u128,
     depth: u8,
 ) -> Result<MerkleProof, PrfsLibError> {
-    // let proof = MerkleProof {
-    //     path_indices: vec![],
-    //     root: vec![],
-    //     siblings: vec![],
-    // };
-
     match prfs_crypto::make_merkle_proof(leaves, leaf_idx, depth) {
         Ok(p) => return Ok(p),
         Err(err) => return Err(err.to_string().into()),

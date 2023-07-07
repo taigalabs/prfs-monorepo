@@ -51,25 +51,34 @@ pub fn prove(circuit: &[u8], vars: &[u8], public_inputs: &[u8]) -> Result<Vec<u8
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct MakeMerkleProofArgs {
-    leaves: Vec<String>,
-    leaf_idx: u128,
-    depth: u8,
+    pub leaves: Vec<String>,
+    pub leaf_idx: u128,
+    pub depth: u8,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct MerkleProof2 {
+    pub path_indices: Vec<u128>,
+    pub root: Vec<u8>,
+    pub siblings: Vec<String>,
 }
 
 #[wasm_bindgen]
-pub fn make_merkle_proof(make_merkle_proof_args: JsValue) -> Result<Vec<u8>, JsValue> {
+pub fn make_merkle_proof(make_merkle_proof_args: JsValue) -> Result<JsValue, JsValue> {
     let args: MakeMerkleProofArgs = serde_wasm_bindgen::from_value(make_merkle_proof_args)?;
 
     log(&format!("merkle proof args: {:?}", args));
 
     let proof = match prfs_lib::make_merkle_proof(args.leaves, args.leaf_idx, args.depth) {
-        Ok(p) => Ok(p),
-        Err(err) => Err(JsValue::from_str(&err.to_string())),
+        Ok(p) => p,
+        Err(err) => return Err(JsValue::from_str(&err.to_string())),
     };
 
-    log(&format!("proof: {:?}", proof));
-
-    Ok(vec![])
+    return match serde_wasm_bindgen::to_value(&proof) {
+        Ok(p) => Ok(p),
+        Err(err) => Err(JsValue::from(&err.to_string())),
+    };
 }
 
 #[wasm_bindgen]
