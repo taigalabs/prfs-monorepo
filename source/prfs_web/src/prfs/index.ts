@@ -17,7 +17,7 @@ import { ethers, verifyMessage } from "ethers";
 import { MerkleProof } from "@personaelabs/spartan-ecdsa";
 
 let addrs = [
-  // "0x33d10ab178924ecb7ad52f4c0c8062c3066607ec",
+  "0x33d10ab178924ecb7ad52f4c0c8062c3066607ec",
   "0x4f6fcaae3fc4124acaccc780c6cb0dd69ddbeff8",
   "0x50d34ee0ac40da7779c42d3d94c2072e5625395f",
   "0x51c0e162bd86b63933262d558a8953def4e30c85"
@@ -38,12 +38,16 @@ let addrs = [
 ];
 
 export async function proveMembership(signer: ethers.JsonRpcSigner) {
-  await f1(signer);
+  // await f1(signer);
+  await f2(signer);
 }
 
 async function f1(signer: ethers.JsonRpcSigner) {
   let prfsHandlers = await initWasm();
   let prfs = new Prfs(prfsHandlers);
+
+  let buildStatus = await prfs.getBuildStatus();
+  console.log('buildStatus: %o', buildStatus)
 
   let poseidon = prfs.newPoseidon();
   // const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
@@ -58,12 +62,11 @@ async function f1(signer: ethers.JsonRpcSigner) {
   // let sig = await provider.send('personal_sign', [ethers.hexlify(msg), proverAddrHex.toLowerCase()]);
   let sig = await signer.signMessage(msg);
   // proverAddrHex = proverAddrHex.toLowerCase();
-  //
+
   let verifyMsg = verifyMessage(msg, sig);
   console.log('verified addr', verifyMsg);
 
   console.log('sig', sig);
-  // console.log('sig2', sig2);
 
   const treeDepth = 32;
   const addressTree = await prfs.newTree(treeDepth, poseidon);
@@ -74,7 +77,7 @@ async function f1(signer: ethers.JsonRpcSigner) {
 
   console.log('proverAddrHex', proverAddrHex);
   console.log('proverAddress', proverAddress);
-  await addressTree.insert(proverAddress);
+  // await addressTree.insert(proverAddress);
 
   let addrs2 = [];
   for (const addr of addrs) {
@@ -128,22 +131,24 @@ async function f2(signer: ethers.JsonRpcSigner) {
   let prfsHandlers = await initWasm();
   let prfs = new Prfs(prfsHandlers);
 
-  // let merkleProof: MerkleProof = await prfs.makeMerkleProof(addrs, BigInt(0), 32);
-  // console.log("merkle proof", merkleProof);
+  let buildStatus = await prfs.getBuildStatus();
+  console.log('buildStatus: %o', buildStatus)
+
+  let merkleProof: MerkleProof = await prfs.makeMerkleProof(addrs, BigInt(0), 32);
+  console.log("merkle proof", merkleProof);
 
   let poseidon = prfs.newPoseidon();
   // const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
   const msg = Buffer.from("harry potter");
   const msgHash = hashPersonalMessage(msg);
-  let sig = await signer.signMessage(msgHash);
-  console.log(22, sig);
+  let sig = await signer.signMessage(msg);
+  console.log('sig', sig);
 
-  // let arr = Array(2).fill(BigInt(0));
-  // let res = await poseidon(arr);
-  // console.log(11, res);
+  let verifyMsg = verifyMessage(msg, sig);
+  console.log('verified addr', verifyMsg);
 
-  const treeDepth = 32;
-  const addressTree = await prfs.newTree(treeDepth, poseidon);
+  // const treeDepth = 32;
+  // const addressTree = await prfs.newTree(treeDepth, poseidon);
 
   // console.log('root after init', addressTree.root());
 
@@ -153,17 +158,23 @@ async function f2(signer: ethers.JsonRpcSigner) {
   const proverAddr = BigInt(proverAddress);
   console.log('proverAddr', proverAddr);
 
+  const addr1 = BigInt(addrs[1]);
+  console.log('Addr1', addr1);
+
+  let q = await poseidon([proverAddress, addrs[1]]);
+  console.log('poseidon', q);
+
   // const proverAddrHash = await poseidon(proverAddr);
   // console.log('proverAddrHash', proverAddrHash);
 
-  await addressTree.insert(proverAddr);
-  for (const addr of addrs) {
-    const address = BigInt(addr);
-    console.log("addr: %s, address: %s", addr, address);
-    await addressTree.insert(address);
-  }
-  const index = addressTree.indexOf(proverAddr);
-  const merkleProof = addressTree.createProof(index);
+  // await addressTree.insert(proverAddr);
+  // for (const addr of addrs) {
+  //   const address = BigInt(addr);
+  //   console.log("addr: %s, address: %s", addr, address);
+  //   await addressTree.insert(address);
+  // }
+  // const index = addressTree.indexOf(proverAddr);
+  // const merkleProof = addressTree.createProof(index);
 
   console.log("merkleProof", merkleProof);
 
