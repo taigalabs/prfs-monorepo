@@ -57,13 +57,14 @@ function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
 }
 
 async function initHandlers() {
-  console.log("wasm-worker, initHandlers()");
 
   // If threads are unsupported in this browser, skip this handler.
   if (!(await threads())) return;
 
   const prfsWasm = await import("./build/prfs_wasm");
   await prfsWasm.default("http://localhost:4010/circuits/prfs_wasm_bg.wasm");
+
+  console.log("Web worker: threads are available, concurrency: %o", navigator.hardwareConcurrency);
   await prfsWasm.initThreadPool(navigator.hardwareConcurrency);
 
   let wrapped = wrapExports(prfsWasm);

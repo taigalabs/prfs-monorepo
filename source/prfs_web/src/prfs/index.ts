@@ -53,9 +53,10 @@ async function f1(signer: ethers.JsonRpcSigner) {
   // const { v, r, s } = ecsign(msgHash, privKey);
   // const sig = `0x${r.toString("hex")}${s.toString("hex")}${v.toString(16)}`;
 
-  let provider = new ethers.BrowserProvider(window.ethereum);
+  // let provider = new ethers.BrowserProvider(window.ethereum);
   let proverAddrHex = signer.address;
-  let sig = await provider.send('personal_sign', [ethers.hexlify(msg), proverAddrHex.toLowerCase()]);
+  // let sig = await provider.send('personal_sign', [ethers.hexlify(msg), proverAddrHex.toLowerCase()]);
+  let sig = await signer.signMessage(msg);
   // proverAddrHex = proverAddrHex.toLowerCase();
   //
   let verifyMsg = verifyMessage(msg, sig);
@@ -97,7 +98,9 @@ async function f1(signer: ethers.JsonRpcSigner) {
     ...defaultAddressMembershipPConfig,
     enableProfiler: true
   });
+  console.log(123123);
   const { proof, publicInput } = await prover.prove(sig, msgHash, merkleProof);
+  console.log(234234);
 
   console.log(33, proof, publicInput);
   console.timeEnd("Full proving time");

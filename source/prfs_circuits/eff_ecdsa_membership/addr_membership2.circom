@@ -60,7 +60,7 @@ template AddrMembership2(nLevels, n, k) {
         pubToAddr.pubkeyBits[i + 256] <== pubKeyXBits.out[i];
     }
 
-    log("123123 public addr (leaf)", pubToAddr.address);
+    log("public addr (leaf)", pubToAddr.address);
 
     component merkleProof = MerkleTreeInclusionProof(nLevels);
     merkleProof.leaf <== pubToAddr.address;
