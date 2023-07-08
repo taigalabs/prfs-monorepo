@@ -15,7 +15,7 @@ fn main() {
             tasks::build_wasm::build_wasm();
             tasks::copy_circuit_assets::copy_circuit_assets();
 
-            // tasks::compile_circuits::compile_circuits();
+            tasks::compile_circuits::compile_circuits();
             tasks::build_js_dependencies::build_js_dependencies();
 
             tasks::embed_prfs_wasm::embed_prfs_wasm();

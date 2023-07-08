@@ -44,8 +44,8 @@ template AddrMembership2(nLevels, n, k) {
     ecdsa.sInv <== sInv;
     ecdsa.m <== m;
 
-    /* log("ecdsa pubKeyX", ecdsa.pubKeyX); */
-    /* log("ecdsa pubKeyY", ecdsa.pubKeyY); */
+    log("ecdsa pubKeyX", ecdsa.pubKeyX);
+    log("ecdsa pubKeyY", ecdsa.pubKeyY);
 
     component pubKeyXBits = Num2Bits(256);
     pubKeyXBits.in <== ecdsa.pubKeyX;
