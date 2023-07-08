@@ -49,11 +49,13 @@ async function f1(signer: ethers.JsonRpcSigner) {
   // const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
   const msg = Buffer.from("harry potter");
   const msgHash = hashPersonalMessage(msg);
+
   // const { v, r, s } = ecsign(msgHash, privKey);
   // const sig = `0x${r.toString("hex")}${s.toString("hex")}${v.toString(16)}`;
 
-  let sig = await signer.signMessage(msgHash);
+  let provider = new ethers.BrowserProvider(window.ethereum);
   let proverAddrHex = signer.address;
+  let sig = await provider.send('personal_sign', [ethers.hexlify(msg), proverAddrHex.toLowerCase()]);
   // proverAddrHex = proverAddrHex.toLowerCase();
   //
   let verifyMsg = verifyMessage(msg, sig);
