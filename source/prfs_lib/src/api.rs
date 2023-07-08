@@ -96,6 +96,10 @@ pub fn poseidon(input_bytes: &[u8]) -> Result<Vec<u8>, PrfsLibError> {
     }
 }
 
+pub fn get_build_status() -> Result<String, PrfsLibError> {
+    return Ok(libspartan::get_build_status());
+}
+
 pub fn make_merkle_proof(
     leaves: Vec<String>,
     leaf_idx: u128,

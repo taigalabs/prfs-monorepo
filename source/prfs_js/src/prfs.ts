@@ -14,6 +14,10 @@ export class Prfs {
     this.handlers = handlers;
   }
 
+  async getBuildStatus() {
+    return this.handlers.getBuildStatus();
+  }
+
   async makeMerkleProof(leaves: string[], leafIdx: BigInt, depth: number) {
     return this.handlers.makeMerkleProof(leaves, leafIdx, depth);
   }

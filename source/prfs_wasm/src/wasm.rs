@@ -32,13 +32,20 @@ pub fn init_panic_hook() {
 #[wasm_bindgen]
 pub fn bb() -> Result<Vec<u8>, JsValue> {
     return Ok(vec![111]);
-
     // return Err(JsValue::from_str("aaa"));
     // Clamped(
     //     Generator::new(width, height, max_iterations)
     //         .iter_bytes()
     //         .collect(),
     // )
+}
+
+#[wasm_bindgen]
+pub fn get_build_status() -> Result<String, JsValue> {
+    return match prfs_lib::get_build_status() {
+        Ok(s) => Ok(s),
+        Err(err) => Err(JsValue::from_str(&err.to_string())),
+    };
 }
 
 #[wasm_bindgen]

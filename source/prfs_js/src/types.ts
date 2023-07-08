@@ -66,6 +66,7 @@ export interface PrfsHandlers {
   verify(circuit: Uint8Array, proof: Uint8Array, public_inputs: Uint8Array): Promise<boolean>;
   verify(circuit: Uint8Array, proof: Uint8Array, public_inputs: Uint8Array): Promise<boolean>;
   makeMerkleProof(leaves: string[], leaf_idx: BigInt, depth: number): Promise<MerkleProof>;
+  getBuildStatus(): Promise<string>;
 }
 
 export interface WrappedPrfs {
@@ -83,3 +84,4 @@ export interface PrfsMerkleProof {
   siblings: string[];
   pathIndices: number[];
 }
+

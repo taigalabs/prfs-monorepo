@@ -540,6 +540,7 @@ impl NIZK {
     };
 
     timer_prove.stop();
+
     NIZK {
       r1cs_sat_proof,
       r: (rx, ry),
@@ -748,4 +749,16 @@ mod tests {
       .verify(&inst, &assignment_inputs, &mut verifier_transcript, &gens)
       .is_ok());
   }
+}
+
+/// get build status
+pub fn get_build_status() -> String {
+  let mut feature = "singlecore";
+
+  #[cfg(feature = "multicore")]
+  {
+    feature = "multicore";
+  }
+
+  return feature.to_string();
 }

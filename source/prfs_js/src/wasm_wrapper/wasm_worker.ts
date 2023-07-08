@@ -40,6 +40,10 @@ function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
       };
 
       return proof;
+    },
+    async getBuildStatus() {
+      let res = await prfsWasm.get_build_status();
+      return res;
     }
   };
 
@@ -57,7 +61,6 @@ function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
 }
 
 async function initHandlers() {
-
   // If threads are unsupported in this browser, skip this handler.
   if (!(await threads())) return;
 
