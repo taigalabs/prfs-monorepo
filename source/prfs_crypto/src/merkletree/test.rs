@@ -1,5 +1,5 @@
 use super::{merklepath::make_sibling_path, tree::make_merkle_proof};
-use crate::{hash_from_bytes, PrfsCryptoError};
+use crate::{hash_from_bytes, hexutils::convert_bytes_into_decimal_str, PrfsCryptoError};
 // use ff::PrimeField;
 use primitive_types::U256;
 use rs_merkle::Hasher;
@@ -39,19 +39,11 @@ fn test_merkle_proof() -> Result<(), PrfsCryptoError> {
         // "0x67284e6473dd2afca0782e24dae6d79f712c270f",
     ];
 
-    let leaves: Vec<String> = addrs
-        .iter()
-        .map(|addr| {
-            // let leaf = leaf.trim_start_matches("0x");
-            // let leaf_decimal = U256::from_str_radix(&leaf, 16).unwrap();
-            // let mut b = [0u8; 32];
-            // leaf_decimal.to_little_endian(&mut b);
-            addr.to_string()
-        })
-        .collect();
+    let leaves: Vec<String> = addrs.iter().map(|addr| addr.to_string()).collect();
 
     for leaf in addrs.iter() {
         println!("leaf: {:?}, len: {}", leaf, leaf.len());
+        // convert_bytes_into_decimal_str(bytes);
     }
 
     let proof = make_merkle_proof(leaves, 0, depth).unwrap();

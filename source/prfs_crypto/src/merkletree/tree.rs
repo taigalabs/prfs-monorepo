@@ -1,7 +1,7 @@
 use super::merklepath::make_sibling_path;
 use crate::{
     hash_two,
-    hexutils::{convert_bytes_into_decimal_str, convert_bytes_into_u128},
+    hexutils::{convert_bytes_into_decimal_str, convert_hex_into_32bytes},
     make_path_indices, PrfsCryptoError,
 };
 use primitive_types::U256;
@@ -42,15 +42,12 @@ pub fn make_merkle_proof(
     let leaves: Vec<[u8; 32]> = leaves
         .iter()
         .map(|leaf| {
-            // let leaf = leaf.trim_start_matches("0x");
-            let leaf_decimal = U256::from_str_radix(&leaf, 16).unwrap();
-            let mut b = [0u8; 32];
-            leaf_decimal.to_little_endian(&mut b);
+            let b = convert_hex_into_32bytes(leaf).unwrap();
             b
         })
         .collect();
 
-    let mut nodes = Vec::with_capacity(depth + 1);
+    let mut nodes: Vec<Vec<[u8; 32]>> = Vec::with_capacity(depth + 1);
     nodes.push(leaves.to_vec());
 
     for d in 0..depth {
@@ -140,8 +137,10 @@ pub fn make_merkle_proof(
             )),
         };
 
+        let t = hex::encode(sibling);
+        println!("t: {}", t);
         let s = convert_bytes_into_decimal_str(sibling)?;
-        println!("\nsibling: {:?}, decimal: {}", sibling, s);
+        println!("\nsibling({}, {}): {:?}, decimal: {}", h, s_idx, sibling, s);
         siblings.push(s);
     }
 
