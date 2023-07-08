@@ -60,7 +60,7 @@ pub struct MakeMerkleProofArgs {
 #[serde(rename_all = "camelCase")]
 pub struct MerkleProof2 {
     pub path_indices: Vec<u128>,
-    pub root: Vec<u8>,
+    pub root: String,
     pub siblings: Vec<String>,
 }
 

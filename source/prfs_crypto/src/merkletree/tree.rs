@@ -1,7 +1,10 @@
 use super::merklepath::make_sibling_path;
-use crate::{hash_two, hexutils::convert_bytes_into_decimal, make_path_indices, PrfsCryptoError};
+use crate::{
+    hash_two,
+    hexutils::{convert_bytes_into_decimal_str, convert_bytes_into_u128},
+    make_path_indices, PrfsCryptoError,
+};
 use primitive_types::U256;
-// use poseidon::poseidon_k256::{hash_from_bytes, hash_two};
 use serde::{Deserialize, Serialize};
 
 pub const ZERO: [u8; 32] = [0u8; 32];
@@ -10,7 +13,7 @@ pub const ZERO: [u8; 32] = [0u8; 32];
 #[serde(rename_all = "camelCase")]
 pub struct MerkleProof {
     pub path_indices: Vec<u128>,
-    pub root: Vec<u8>,
+    pub root: String,
     pub siblings: Vec<String>,
 }
 
@@ -108,7 +111,7 @@ pub fn make_merkle_proof(
         .expect(&format!("nodes at {} should exist", depth))
         .get(0)
     {
-        Some(r) => r,
+        Some(r) => convert_bytes_into_decimal_str(r)?,
         None => return Err(format!("root does not exist, depth: {}", depth).into()),
     };
 
@@ -137,14 +140,14 @@ pub fn make_merkle_proof(
             )),
         };
 
-        let s = convert_bytes_into_decimal(sibling)?;
+        let s = convert_bytes_into_decimal_str(sibling)?;
         println!("\nsibling: {:?}, decimal: {}", sibling, s);
         siblings.push(s);
     }
 
     let p = MerkleProof {
         path_indices,
-        root: root.to_vec(),
+        root,
         siblings,
     };
 

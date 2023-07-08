@@ -1,7 +1,7 @@
 import { threads } from "wasm-feature-detect";
 import * as Comlink from "comlink";
 import { Prfs } from "../prfs";
-import { PrfsWasmType, PrfsHandlers, MerkleProof } from "../types";
+import { PrfsWasmType, PrfsHandlers, MerkleProof, PrfsMerkleProof } from "../types";
 import { bigIntToLeBytes, bytesLeToBigInt } from "../helpers/utils";
 
 function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
@@ -30,8 +30,16 @@ function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
         depth
       };
 
-      const merkle_proof: MerkleProof = await prfsWasm.make_merkle_proof(obj);
-      return merkle_proof;
+      const merkleProof: PrfsMerkleProof = await prfsWasm.make_merkle_proof(obj);
+
+      let siblings = merkleProof.siblings.map(s => BigInt(s));
+      const proof = {
+        ...merkleProof,
+        root: BigInt(merkleProof.root),
+        siblings,
+      };
+
+      return proof;
     }
   };
 

@@ -13,6 +13,7 @@ export interface MerkleProof {
   siblings: bigint[];
   pathIndices: number[];
 }
+
 export interface EffECDSAPubInput {
   Tx: bigint;
   Ty: bigint;
@@ -76,3 +77,9 @@ export interface WrappedPrfs {
 export type HashFn = (inputs: bigint[]) => bigint;
 
 export type AsyncHashFn = (inputs: bigint[]) => Promise<bigint>;
+
+export interface PrfsMerkleProof {
+  root: bigint;
+  siblings: string[];
+  pathIndices: number[];
+}

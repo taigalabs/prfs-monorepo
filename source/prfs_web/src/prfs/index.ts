@@ -14,6 +14,7 @@ import {
   pubToAddress
 } from "@ethereumjs/util";
 import { ethers } from "ethers";
+import { MerkleProof } from "@personaelabs/spartan-ecdsa";
 
 let addrs = [
   "0x33d10ab178924ecb7ad52f4c0c8062c3066607ec",
@@ -40,15 +41,15 @@ export async function proveMembership(signer: ethers.JsonRpcSigner) {
   let prfsHandlers = await initWasm();
   let prfs = new Prfs(prfsHandlers);
 
-  let res = await prfs.makeMerkleProof(addrs, BigInt(0), 4);
-  console.log("merkle proof", res);
+  let merkleProof: MerkleProof = await prfs.makeMerkleProof(addrs, BigInt(0), 32);
+  console.log("merkle proof", merkleProof);
 
   // let poseidon = prfs.newPoseidon();
-  // // const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
-  // const msg = Buffer.from("harry potter");
-  // const msgHash = hashPersonalMessage(msg);
-  // let sig = await signer.signMessage(msgHash);
-  // console.log(22, sig);
+  // const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
+  const msg = Buffer.from("harry potter");
+  const msgHash = hashPersonalMessage(msg);
+  let sig = await signer.signMessage(msgHash);
+  console.log(22, sig);
 
   // let arr = Array(2).fill(BigInt(0));
   // let res = await poseidon(arr);
@@ -69,27 +70,27 @@ export async function proveMembership(signer: ethers.JsonRpcSigner) {
   // // console.log('proverAddrHash', proverAddrHash);
 
   // await addressTree.insert(proverAddr);
-  for (const addr of addrs) {
-    const address = BigInt(addr);
-    console.log("addr: %s, address: %s", addr, address);
-    // await addressTree.insert(address);
-  }
+  // for (const addr of addrs) {
+  //   const address = BigInt(addr);
+  //   console.log("addr: %s, address: %s", addr, address);
+  //   await addressTree.insert(address);
+  // }
   // const index = addressTree.indexOf(proverAddr);
   // const merkleProof = addressTree.createProof(index);
 
   // console.log("merkleProof", merkleProof);
 
   // console.log("Proving...");
-  // console.time("Full proving time");
-  // const prover = prfs.newMembershipProver({
-  //   ...defaultAddressMembershipPConfig,
-  //   enableProfiler: true
-  // });
-  // const { proof, publicInput } = await prover.prove(sig, msgHash, merkleProof);
+  console.time("Full proving time");
+  const prover = prfs.newMembershipProver({
+    ...defaultAddressMembershipPConfig,
+    enableProfiler: true
+  });
+  const { proof, publicInput } = await prover.prove(sig, msgHash, merkleProof);
 
-  // console.log(33, proof, publicInput);
-  // console.timeEnd("Full proving time");
-  // console.log("Raw proof size (excluding public input)", proof.length, "bytes");
+  console.log(33, proof, publicInput);
+  console.timeEnd("Full proving time");
+  console.log("Raw proof size (excluding public input)", proof.length, "bytes");
 
   // console.log("Verifying...");
   // const verifier = prfs.newMembershipVerifier({
