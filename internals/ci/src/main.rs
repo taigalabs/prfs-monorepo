@@ -12,7 +12,7 @@ use task::Task;
 use tasks::{
     build_js_dependencies::BuildJsDependenciesTask, build_prfs_js::BuildPrfsJsTask,
     build_wasm::BuildWasmTask, compile_circuits::CompileCircuitsTask,
-    copy_circuit_assets::CopyProofAssetsTask, embed_prfs_wasm::EmbedPrfsWasmTask,
+    embed_prfs_wasm::EmbedPrfsWasmTask,
 };
 
 pub type CiError = Box<dyn std::error::Error + Sync + Send>;
@@ -37,8 +37,7 @@ fn main() {
 
             let tasks: Vec<Box<dyn Task>> = vec![
                 Box::new(BuildWasmTask),
-                Box::new(CopyProofAssetsTask),
-                // Box::new(CompileCircuitsTask),
+                Box::new(CompileCircuitsTask),
                 // Box::new(BuildJsDependenciesTask),
                 // Box::new(EmbedPrfsWasmTask),
                 // Box::new(BuildPrfsJsTask),
@@ -71,7 +70,7 @@ fn run_tasks(
     paths: Paths,
 ) -> Result<(), CiError> {
     for t in &tasks {
-        println!("Start executing task, t: {}", t.name());
+        println!("\nStart executing task, t: {}", t.name());
 
         match t.run(&mut build_status, &paths) {
             Ok(_) => (),
@@ -87,7 +86,7 @@ fn run_tasks(
         }
     }
 
-    println!("Success building, tasks done: {}", tasks.len());
+    println!("\nSuccess building, tasks done: {}", tasks.len());
 
     Ok(())
 }

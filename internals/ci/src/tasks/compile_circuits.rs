@@ -1,5 +1,5 @@
 use crate::{build_status::BuildStatus, paths::Paths, task::Task, CiError};
-use std::{env, fs, process::Command};
+use std::{env, fs, path::PathBuf, process::Command};
 
 pub struct CompileCircuitsTask;
 
@@ -9,12 +9,14 @@ impl Task for CompileCircuitsTask {
     }
 
     fn run(&self, build_status: &mut BuildStatus, paths: &Paths) -> Result<(), CiError> {
-        println!("\nCompiling circuits...");
-
         let circuit_name = "addr_membership2";
         let num_pub_inputs = 5;
 
-        let circuit_build_path = paths.circuit_build_path.join(format!("{}", circuit_name));
+        let circuit_file_name = format!("{}_{}", circuit_name, build_status.timestamp);
+
+        let circuit_build_path = paths
+            .circuit_build_path
+            .join(format!("{}", circuit_file_name));
         println!("Creating a circuit build path: {:?}", circuit_build_path);
 
         std::fs::create_dir_all(&paths.circuit_build_path).unwrap();
@@ -62,29 +64,44 @@ impl Task for CompileCircuitsTask {
 
         assert!(status.success());
 
-        let circuit_compiled_serve_path = paths
-            .prf_asset_serve_path
-            .join(format!("{}.circuit", circuit_name,));
-
-        println!(
-            "circuit_compiled_serve_path: {:?}",
-            circuit_compiled_serve_path
+        copy_assets(
+            build_status,
+            paths,
+            circuit_compiled_path,
+            circuit_file_name,
         );
-
-        fs::copy(circuit_compiled_path, circuit_compiled_serve_path).unwrap();
-
-        let wtns_gen_path = paths
-            .circuit_build_path
-            .join(format!("{}_js/{}.wasm", circuit_name, circuit_name));
-        println!("wtns_gen_path: {:?}", wtns_gen_path);
-
-        let wtns_gen_serve_path = paths
-            .prf_asset_serve_path
-            .join(format!("{}.wasm", circuit_name,));
-        println!("wtns_gen_serve_path: {:?}", wtns_gen_serve_path);
-
-        fs::copy(wtns_gen_path, wtns_gen_serve_path).unwrap();
 
         Ok(())
     }
+}
+
+fn copy_assets(
+    build_status: &BuildStatus,
+    paths: &Paths,
+    circuit_compiled_path: PathBuf,
+    circuit_file_name: String,
+) {
+    let circuit_compiled_serve_path = paths
+        .prf_asset_serve_path
+        .join(format!("{}.circuit", circuit_file_name,));
+
+    println!(
+        "circuit_compiled_serve_path: {:?}",
+        circuit_compiled_serve_path
+    );
+
+    fs::copy(circuit_compiled_path, circuit_compiled_serve_path).unwrap();
+
+    let wtns_gen_path = paths.circuit_build_path.join(format!(
+        "{}_js/{}.wasm",
+        circuit_file_name, circuit_file_name
+    ));
+    println!("wtns_gen_path: {:?}", wtns_gen_path);
+
+    let wtns_gen_serve_path = paths
+        .prf_asset_serve_path
+        .join(format!("{}.wasm", circuit_file_name,));
+    println!("wtns_gen_serve_path: {:?}", wtns_gen_serve_path);
+
+    fs::copy(wtns_gen_path, wtns_gen_serve_path).unwrap();
 }

@@ -13,6 +13,7 @@ impl Task for BuildWasmTask {
     fn run(&self, build_status: &mut BuildStatus, paths: &Paths) -> Result<(), CiError> {
         check_version();
         build_wasm(build_status, paths);
+        copy_assets(build_status, paths);
 
         Ok(())
     }
@@ -68,6 +69,23 @@ fn build_wasm(build_status: &mut BuildStatus, paths: &Paths) {
         ])
         .status()
         .expect("wasm-pack command failed to start");
+
+    assert!(status.success());
+}
+
+fn copy_assets(build_status: &BuildStatus, paths: &Paths) {
+    let src_path = &paths.wasm_build_path;
+    let dest_path = paths.prf_asset_serve_path.join("prfs_wasm");
+    println!("Copying a file, src: {:?}, dest: {:?}", src_path, dest_path);
+
+    let status = Command::new("cp")
+        .args([
+            "-R",
+            src_path.to_str().unwrap(),
+            dest_path.to_str().unwrap(),
+        ])
+        .status()
+        .expect("cp command failed to start");
 
     assert!(status.success());
 }
