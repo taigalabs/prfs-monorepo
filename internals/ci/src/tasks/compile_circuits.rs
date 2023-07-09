@@ -145,5 +145,7 @@ fn create_build_status(build_handle: &BuildHandle, paths: &Paths) {
     }
 
     let mut fd = std::fs::File::create(&circuit_build_json_path).unwrap();
-    fd.write_all(build_json.to_string().as_bytes()).unwrap();
+    let build_json_str = serde_json::to_string_pretty(&build_json).unwrap();
+
+    fd.write_all(&build_json_str.into_bytes()).unwrap();
 }
