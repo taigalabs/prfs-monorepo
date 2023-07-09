@@ -1,10 +1,7 @@
 use super::merklepath::make_sibling_path;
 use crate::{
     hash_two,
-    hexutils::{
-        convert_32bytes_into_decimal_string, convert_bytes_into_decimal_str,
-        convert_hex_into_32bytes,
-    },
+    hexutils::{convert_32bytes_into_decimal_string, convert_hex_into_32bytes},
     make_path_indices, PrfsCryptoError,
 };
 use primitive_types::U256;
@@ -54,7 +51,7 @@ pub fn make_merkle_proof(
     nodes.push(leaves.to_vec());
 
     for d in 0..depth {
-        println!("d: {}", d);
+        println!("\nd: {}", d);
 
         let mut parent = vec![];
         let children = nodes.get(d).unwrap();
@@ -71,34 +68,45 @@ pub fn make_merkle_proof(
 
             let res = hash_two(left, &right).unwrap();
             parent.push(res);
-            println!("parent: {:?}", parent);
 
-            nodes.push(parent);
+            let l = convert_32bytes_into_decimal_string(left)?;
+            let r = convert_32bytes_into_decimal_string(right)?;
+            let res = convert_32bytes_into_decimal_string(&res)?;
+            println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
 
-            continue;
-        }
+            // continue;
+        } else {
+            for i in (0..children.len()).step_by(2) {
+                println!("d: {}, i: {}", d, i);
 
-        for i in (0..children.len()).step_by(2) {
-            println!("d: {}, i: {}", d, i);
+                let left = match children.get(i) {
+                    Some(l) => l,
+                    None => break,
+                };
 
-            let left = match children.get(i) {
-                Some(l) => l,
-                None => break,
-            };
+                let right = children.get(i + 1);
 
-            let right = children.get(i + 1);
+                if let Some(r) = right {
+                    let res = hash_two(left, r).unwrap();
+                    parent.push(res);
 
-            if let Some(r) = right {
-                println!("l: {:?}, r: {:?}", left, r);
+                    let l = convert_32bytes_into_decimal_string(left)?;
+                    let r = convert_32bytes_into_decimal_string(r)?;
+                    let res = convert_32bytes_into_decimal_string(&res)?;
 
-                let res = hash_two(left, r).unwrap();
-                parent.push(res);
-            } else {
-                println!("l: {:?}, r: {:?}", left, left);
-                let res = hash_two(left, left).unwrap();
-                parent.push(res);
+                    println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
+                } else {
+                    let res = hash_two(left, left).unwrap();
+                    parent.push(res);
 
-                break;
+                    let l = convert_32bytes_into_decimal_string(left)?;
+                    let r = convert_32bytes_into_decimal_string(left)?;
+                    let res = convert_32bytes_into_decimal_string(&res)?;
+
+                    println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
+
+                    break;
+                }
             }
         }
 
@@ -111,13 +119,13 @@ pub fn make_merkle_proof(
         .expect(&format!("nodes at {} should exist", depth))
         .get(0)
     {
-        Some(r) => convert_bytes_into_decimal_str(r)?,
+        Some(r) => convert_32bytes_into_decimal_string(r)?,
         None => return Err(format!("root does not exist, depth: {}", depth).into()),
     };
 
-    for (h, n) in nodes.iter().enumerate() {
-        println!("\nNodes h: {}, nodes ({}): {:?}", h, n.len(), n);
-    }
+    // for (h, n) in nodes.iter().enumerate() {
+    //     println!("\nNodes h: {}, nodes ({}): {:?}", h, n.len(), n);
+    // }
 
     let sibling_indices = make_sibling_path(depth as u32, leaf_idx);
     let path_indices = make_path_indices(depth as u32, leaf_idx);

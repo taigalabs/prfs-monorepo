@@ -1,5 +1,5 @@
 use super::{merklepath::make_sibling_path, tree::make_merkle_proof};
-use crate::{hash_from_bytes, hexutils::convert_bytes_into_decimal_str, PrfsCryptoError};
+use crate::{hash_from_bytes, PrfsCryptoError};
 // use ff::PrimeField;
 use primitive_types::U256;
 use rs_merkle::Hasher;
