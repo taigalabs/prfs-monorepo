@@ -40,9 +40,9 @@ fn main() {
 
             let tasks: Vec<Box<dyn Task>> = vec![
                 Box::new(BuildWasmTask),
-                // Box::new(CompileCircuitsTask),
-                // Box::new(BuildJsDependenciesTask),
-                // Box::newBuildPrfsJsTask),
+                Box::new(CompileCircuitsTask),
+                Box::new(BuildJsDependenciesTask),
+                Box::new(BuildPrfsJsTask),
             ];
 
             run_tasks(tasks, build_handle, paths).expect("Ci failed");
