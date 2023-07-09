@@ -13,7 +13,7 @@ impl Task for BuildWasmTask {
     }
 
     fn run(&self, build_handle: &mut BuildHandle, paths: &Paths) -> Result<(), CiError> {
-        let out_name = format!("prfs_wasm_{}", build_handle.timestamp);
+        // let out_name = format!("prfs_wasm_{}", build_handle.timestamp);
 
         check_version();
         build_wasm(build_handle, paths);
