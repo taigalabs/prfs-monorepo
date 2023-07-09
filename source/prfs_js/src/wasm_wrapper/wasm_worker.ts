@@ -64,7 +64,7 @@ async function initHandlers() {
   // If threads are unsupported in this browser, skip this handler.
   if (!(await threads())) return;
 
-  const prfsWasm = await import("./build/prfs_wasm");
+  const prfsWasm = await import("./build");
   await prfsWasm.default("http://localhost:4010/circuits/prfs_wasm_bg.wasm");
 
   console.log("Web worker: threads are available, concurrency: %o", navigator.hardwareConcurrency);

@@ -3,7 +3,7 @@ import { MembershipProver2 } from "./core/membership_prover2";
 import { Poseidon } from "./helpers/poseidon";
 import { Tree } from "./helpers/tree";
 
-export declare type PrfsWasmType = typeof import("./wasm_wrapper/build/prfs_wasm");
+export declare type PrfsWasmType = typeof import("./wasm_wrapper/build");
 
 // The same structure as MerkleProof in @zk-kit/incremental-merkle-tree.
 // Not directly using MerkleProof defined in @zk-kit/incremental-merkle-tree so

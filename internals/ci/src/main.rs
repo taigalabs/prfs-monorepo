@@ -30,19 +30,18 @@ fn main() {
     let op = matches.get_one::<String>("operation").unwrap().clone();
 
     let now = Utc::now();
-    println!("Ci now: {}", now);
+    let timestamp = now.timestamp_millis().to_string();
+    println!("Ci starts: {} ({})", now, timestamp);
 
     let paths = Paths::new();
 
     match op.as_str() {
         "build" => {
-            let build_handle = BuildHandle {
-                timestamp: now.timestamp_millis().to_string(),
-            };
+            let build_handle = BuildHandle { timestamp };
 
             let tasks: Vec<Box<dyn Task>> = vec![
                 Box::new(BuildWasmTask),
-                Box::new(CompileCircuitsTask),
+                // Box::new(CompileCircuitsTask),
                 // Box::new(BuildJsDependenciesTask),
                 // Box::new(EmbedPrfsWasmTask),
                 // Box::new(BuildPrfsJsTask),
