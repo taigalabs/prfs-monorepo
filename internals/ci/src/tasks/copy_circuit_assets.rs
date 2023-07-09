@@ -1,26 +1,37 @@
+use crate::{task::Task, CiError};
 use std::{env, fs};
 
-pub fn copy_circuit_assets() {
-    println!("\nCopying circuit assets...");
+pub struct CopyProofAssetsTask;
 
-    let curr_dir = env::current_dir().unwrap();
-    println!("curr_dir: {:?}", curr_dir);
+impl Task for CopyProofAssetsTask {
+    fn name(&self) -> &str {
+        "copy_circuit_assets"
+    }
 
-    let prfs_wasm_build_path = curr_dir.join("source/prfs_wasm/build");
-    println!("prfs_wasm_build_path: {:?}", prfs_wasm_build_path);
+    fn run(&self, build_status: &mut crate::build_status::BuildStatus) -> Result<(), CiError> {
+        println!("\nCopying circuit assets...");
 
-    {
-        let circuit_serve_path = curr_dir.join("source/prfs_circuit_server/circuits");
-        println!("circuit_serve_path: {:?}", circuit_serve_path);
+        let curr_dir = env::current_dir().unwrap();
+        println!("curr_dir: {:?}", curr_dir);
 
-        let files_to_serve = ["prfs_wasm_bg.wasm"];
+        let prfs_wasm_build_path = curr_dir.join("source/prfs_wasm/build");
+        println!("prfs_wasm_build_path: {:?}", prfs_wasm_build_path);
 
-        for file in files_to_serve {
-            let src_path = prfs_wasm_build_path.join(file);
-            let dest_path = circuit_serve_path.join(file);
-            println!("copying a file, src: {:?}, dest: {:?}", src_path, dest_path);
+        {
+            let prf_asset_serve_path = curr_dir.join("source/prfs_prf_asset_server/assets");
+            println!("prf_asset_serve_path: {:?}", prf_asset_serve_path);
 
-            fs::copy(&src_path, &dest_path).unwrap();
+            let files_to_serve = ["prfs_wasm_bg.wasm"];
+
+            for file in files_to_serve {
+                let src_path = prfs_wasm_build_path.join(file);
+                let dest_path = prf_asset_serve_path.join(file);
+                println!("copying a file, src: {:?}, dest: {:?}", src_path, dest_path);
+
+                fs::copy(&src_path, &dest_path).unwrap();
+            }
         }
+
+        Ok(())
     }
 }

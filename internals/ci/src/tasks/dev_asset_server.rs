@@ -8,7 +8,7 @@ pub fn run() {
 
     let bin = "cargo";
     let status = Command::new(bin)
-        .args(["run", "-p", "prfs_circuit_server"])
+        .args(["run", "-p", "prfs_prf_asset_server"])
         .status()
         .expect(&format!("{} command failed to start", bin));
 
