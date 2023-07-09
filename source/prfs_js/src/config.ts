@@ -14,12 +14,8 @@ export const defaultPubkeyMembershipVConfig: VerifyConfig = {
 
 // Default configs for address membership proving/verifyign
 export const defaultAddressMembershipPConfig: ProverConfig = {
-  // witnessGenWasm:
-  //   "https://storage.googleapis.com/personae-proving-keys/membership/addr_membership.wasm",
-  witnessGenWasm:
-    "http://localhost:4010/circuits/addr_membership2.wasm",
-  circuit:
-    "http://localhost:4010/circuits/addr_membership2.circuit",
+  witnessGenWasm: "http://localhost:4010/assets/addr_membership2_wtns_gen",
+  circuit: "http://localhost:4010/assets/addr_membership2_circuit"
 };
 
 export const defaultAddressMembershipVConfig: VerifyConfig = {

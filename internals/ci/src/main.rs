@@ -54,7 +54,7 @@ fn main() {
             // tasks::build_prfs_js::build_prfs_js();
             tasks::dev_prfs_web::run();
         }
-        "dev_circuit_server" => {
+        "dev_asset_server" => {
             tasks::dev_asset_server::run();
         }
         _ => {
