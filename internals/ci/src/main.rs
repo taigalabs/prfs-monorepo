@@ -12,7 +12,6 @@ use task::Task;
 use tasks::{
     build_js_dependencies::BuildJsDependenciesTask, build_prfs_js::BuildPrfsJsTask,
     build_wasm::BuildWasmTask, compile_circuits::CompileCircuitsTask,
-    embed_prfs_wasm::EmbedPrfsWasmTask,
 };
 
 pub type CiError = Box<dyn std::error::Error + Sync + Send>;
@@ -41,9 +40,9 @@ fn main() {
 
             let tasks: Vec<Box<dyn Task>> = vec![
                 Box::new(BuildWasmTask),
-                Box::new(CompileCircuitsTask),
-                Box::new(BuildJsDependenciesTask),
-                Box::new(BuildPrfsJsTask),
+                // Box::new(CompileCircuitsTask),
+                // Box::new(BuildJsDependenciesTask),
+                // Box::newBuildPrfsJsTask),
             ];
 
             run_tasks(tasks, build_handle, paths).expect("Ci failed");

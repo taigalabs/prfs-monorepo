@@ -1,7 +1,8 @@
 use colored::Colorize;
+use serde_json::json;
 
 use crate::{paths::Paths, task::Task, BuildHandle, CiError};
-use std::{path::PathBuf, process::Command};
+use std::{io::Write, path::PathBuf, process::Command};
 
 const WASM_PACK_VERSION: &str = "wasm-pack 0.12.0";
 
@@ -15,17 +16,18 @@ impl Task for BuildWasmTask {
     fn run(&self, build_handle: &mut BuildHandle, paths: &Paths) -> Result<(), CiError> {
         // let out_name = format!("prfs_wasm_{}", build_handle.timestamp);
 
-        check_version();
+        check_wasm_pack();
         build_wasm(build_handle, paths);
         copy_assets(build_handle, paths);
         sanity_check(build_handle, paths);
         embed_wasm(paths);
+        create_build_status(build_handle, paths);
 
         Ok(())
     }
 }
 
-fn check_version() {
+fn check_wasm_pack() {
     let output = Command::new("wasm-pack")
         .args(["--version"])
         .output()
@@ -83,8 +85,14 @@ fn copy_assets(build_handle: &BuildHandle, paths: &Paths) {
     let src_path = &paths.wasm_build_path;
     let dest_path = paths.prf_asset_serve_path.join("prfs_wasm");
 
+    if dest_path.exists() {
+        println!("Removing pre-exising path: {:?}", dest_path);
+
+        std::fs::remove_dir_all(&dest_path).unwrap();
+    }
+
     println!(
-        "{} a file, src: {:?}, dest: {:?}",
+        "{} a path, src: {:?}, dest: {:?}",
         "Copying".green(),
         src_path,
         dest_path
@@ -142,4 +150,26 @@ fn embed_wasm(paths: &Paths) {
         .expect("cp command failed to start");
 
     assert!(status.success());
+}
+
+fn create_build_status(build_handle: &BuildHandle, paths: &Paths) {
+    let build_json = json!({
+        "timestamp": build_handle.timestamp,
+    });
+
+    let build_json_path = paths.prf_asset_serve_path.join("build_prfs_wasm.json");
+    println!(
+        "{} a file, path: {:?}",
+        "Recreating".green(),
+        build_json_path,
+    );
+
+    if build_json_path.exists() {
+        std::fs::remove_file(&build_json_path).unwrap();
+    }
+
+    let mut fd = std::fs::File::create(&build_json_path).unwrap();
+    let build_json_str = serde_json::to_string_pretty(&build_json).unwrap();
+
+    fd.write_all(&build_json_str.into_bytes()).unwrap();
 }
