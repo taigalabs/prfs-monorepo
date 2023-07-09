@@ -1,6 +1,6 @@
 use colored::Colorize;
 
-use crate::{build_status::BuildStatus, paths::Paths, task::Task, CiError};
+use crate::{paths::Paths, task::Task, BuildHandle, CiError};
 use std::{path::PathBuf, process::Command};
 
 const WASM_PACK_VERSION: &str = "wasm-pack 0.12.0";
@@ -12,10 +12,10 @@ impl Task for BuildWasmTask {
         "build_wasm"
     }
 
-    fn run(&self, build_status: &mut BuildStatus, paths: &Paths) -> Result<(), CiError> {
+    fn run(&self, build_handle: &mut BuildHandle, paths: &Paths) -> Result<(), CiError> {
         check_version();
-        build_wasm(build_status, paths);
-        copy_assets(build_status, paths);
+        build_wasm(build_handle, paths);
+        copy_assets(build_handle, paths);
 
         Ok(())
     }
@@ -37,7 +37,7 @@ fn check_version() {
     }
 }
 
-fn build_wasm(build_status: &mut BuildStatus, paths: &Paths) {
+fn build_wasm(build_handle: &mut BuildHandle, paths: &Paths) {
     let prfs_wasm_build_path = paths.wasm_build_path.to_str().unwrap();
 
     let status = Command::new("rm")
@@ -50,7 +50,7 @@ fn build_wasm(build_status: &mut BuildStatus, paths: &Paths) {
     let prfs_wasm_path = paths.wasm_path.to_str().unwrap();
     println!("prfs_wasm_path: {}", prfs_wasm_path);
 
-    let out_name = format!("prfs_wasm_{}", build_status.timestamp);
+    let out_name = format!("prfs_wasm_{}", build_handle.timestamp);
 
     let status = Command::new("rustup")
         .current_dir(prfs_wasm_path)
@@ -75,7 +75,7 @@ fn build_wasm(build_status: &mut BuildStatus, paths: &Paths) {
     assert!(status.success());
 }
 
-fn copy_assets(build_status: &BuildStatus, paths: &Paths) {
+fn copy_assets(build_handle: &BuildHandle, paths: &Paths) {
     let src_path = &paths.wasm_build_path;
     let dest_path = paths.prf_asset_serve_path.join("prfs_wasm");
 

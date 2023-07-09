@@ -1,4 +1,4 @@
-use crate::{build_status::BuildStatus, paths::Paths, task::Task, CiError};
+use crate::{paths::Paths, task::Task, BuildHandle, CiError};
 use std::{env, fs, process::Command};
 
 pub struct EmbedPrfsWasmTask;
@@ -8,7 +8,7 @@ impl Task for EmbedPrfsWasmTask {
         "embed_prfs_wasm"
     }
 
-    fn run(&self, build_status: &mut BuildStatus, paths: &Paths) -> Result<(), CiError> {
+    fn run(&self, build_handle: &mut BuildHandle, paths: &Paths) -> Result<(), CiError> {
         println!("\nEmbedding prfs wasm...");
 
         let prfs_wasm_embedded_path = paths.prfs_js_path.join("src/wasm_wrapper/build");

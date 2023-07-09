@@ -1,13 +1,12 @@
-mod build_status;
 mod paths;
 mod task;
 mod tasks;
 
-use build_status::BuildStatus;
 use chrono::prelude::*;
 use clap::{command, Arg, ArgAction};
 use colored::Colorize;
 use paths::Paths;
+use serde::{Deserialize, Serialize};
 use std::env;
 use task::Task;
 use tasks::{
@@ -17,6 +16,11 @@ use tasks::{
 };
 
 pub type CiError = Box<dyn std::error::Error + Sync + Send>;
+
+#[derive(Serialize, Deserialize)]
+pub struct BuildHandle {
+    pub timestamp: String,
+}
 
 fn main() {
     let matches = command!() // requires `cargo` feature
@@ -32,7 +36,7 @@ fn main() {
 
     match op.as_str() {
         "build" => {
-            let build_status = BuildStatus {
+            let build_handle = BuildHandle {
                 timestamp: now.timestamp_millis().to_string(),
             };
 
@@ -44,7 +48,7 @@ fn main() {
                 // Box::new(BuildPrfsJsTask),
             ];
 
-            run_tasks(tasks, build_status, paths).expect("Ci failed");
+            run_tasks(tasks, build_handle, paths).expect("Ci failed");
         }
         "e2e_test_node" => {
             tasks::e2e_test_web::run();
@@ -67,7 +71,7 @@ fn main() {
 
 fn run_tasks(
     tasks: Vec<Box<dyn Task>>,
-    mut build_status: BuildStatus,
+    mut build_handle: BuildHandle,
     paths: Paths,
 ) -> Result<(), CiError> {
     for t in &tasks {
@@ -77,7 +81,7 @@ fn run_tasks(
             t.name().cyan().bold()
         );
 
-        match t.run(&mut build_status, &paths) {
+        match t.run(&mut build_handle, &paths) {
             Ok(_) => (),
             Err(err) => {
                 println!(

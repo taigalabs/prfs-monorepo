@@ -1,7 +1,7 @@
-use crate::{build_status::BuildStatus, paths::Paths, CiError};
+use crate::{paths::Paths, BuildHandle, CiError};
 
 pub trait Task {
     fn name(&self) -> &str;
 
-    fn run(&self, build_status: &mut BuildStatus, paths: &Paths) -> Result<(), CiError>;
+    fn run(&self, build_handle: &mut BuildHandle, paths: &Paths) -> Result<(), CiError>;
 }

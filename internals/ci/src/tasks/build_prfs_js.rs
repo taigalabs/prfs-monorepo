@@ -1,4 +1,4 @@
-use crate::{build_status::BuildStatus, paths::Paths, task::Task, CiError};
+use crate::{paths::Paths, task::Task, BuildHandle, CiError};
 use std::process::Command;
 
 pub struct BuildPrfsJsTask;
@@ -8,7 +8,7 @@ impl Task for BuildPrfsJsTask {
         "build_prfs_js"
     }
 
-    fn run(&self, build_status: &mut BuildStatus, paths: &Paths) -> Result<(), CiError> {
+    fn run(&self, build_handle: &mut BuildHandle, paths: &Paths) -> Result<(), CiError> {
         let status = Command::new("yarn")
             .current_dir(&paths.prfs_js_path)
             .args(["run", "build-pkg"])

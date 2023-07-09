@@ -1,6 +1,7 @@
-use crate::{build_status::BuildStatus, paths::Paths, task::Task, CiError};
+use crate::{paths::Paths, task::Task, BuildHandle, CiError};
 use colored::Colorize;
-use std::{env, fs, path::PathBuf, process::Command};
+use serde_json::json;
+use std::{env, fs, io::Write, path::PathBuf, process::Command};
 
 pub struct CompileCircuitsTask;
 
@@ -9,11 +10,11 @@ impl Task for CompileCircuitsTask {
         "compile_circuits"
     }
 
-    fn run(&self, build_status: &mut BuildStatus, paths: &Paths) -> Result<(), CiError> {
+    fn run(&self, build_handle: &mut BuildHandle, paths: &Paths) -> Result<(), CiError> {
         let circuit_name = "addr_membership2";
         let num_pub_inputs = 5;
 
-        let circuit_file_name = format!("{}_{}", circuit_name, build_status.timestamp);
+        let circuit_file_name = format!("{}_{}", circuit_name, build_handle.timestamp);
 
         let circuit_src_path = paths
             .circuits_path
@@ -42,12 +43,14 @@ impl Task for CompileCircuitsTask {
         );
 
         copy_assets(
-            build_status,
+            build_handle,
             paths,
             circuit_compiled_path,
             &circuit_name,
             &circuit_file_name,
         );
+
+        create_build_status(build_handle, paths);
 
         Ok(())
     }
@@ -79,7 +82,7 @@ fn compile_circuits(paths: &Paths, circuit_src_path: &PathBuf, circuit_build_pat
 }
 
 fn copy_assets(
-    build_status: &BuildStatus,
+    build_handle: &BuildHandle,
     paths: &Paths,
     circuit_compiled_path: PathBuf,
     circuit_name: &str,
@@ -88,10 +91,13 @@ fn copy_assets(
     let circuit_asset_path = paths.prf_asset_serve_path.join("circuits");
     println!(
         "{} a directory, path: {:?}",
-        "Creating".green(),
+        "Recreating".green(),
         circuit_asset_path,
     );
 
+    if circuit_asset_path.exists() {
+        std::fs::remove_dir_all(&circuit_asset_path).unwrap();
+    }
     std::fs::create_dir_all(&circuit_asset_path).unwrap();
 
     let circuit_compiled_serve_path =
@@ -120,4 +126,24 @@ fn copy_assets(
     );
 
     fs::copy(wtns_gen_src_path, wtns_gen_serve_path).unwrap();
+}
+
+fn create_build_status(build_handle: &BuildHandle, paths: &Paths) {
+    let build_json = json!({
+        "timestamp": build_handle.timestamp
+    });
+
+    let circuit_build_json_path = paths.prf_asset_serve_path.join("build_circuits.json");
+    println!(
+        "{} a file, path: {:?}",
+        "Recreating".green(),
+        circuit_build_json_path
+    );
+
+    if circuit_build_json_path.exists() {
+        std::fs::remove_file(&circuit_build_json_path).unwrap();
+    }
+
+    let mut fd = std::fs::File::create(&circuit_build_json_path).unwrap();
+    fd.write_all(build_json.to_string().as_bytes()).unwrap();
 }

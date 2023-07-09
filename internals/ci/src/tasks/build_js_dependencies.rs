@@ -1,4 +1,4 @@
-use crate::{paths::Paths, task::Task, CiError};
+use crate::{paths::Paths, task::Task, BuildHandle, CiError};
 use std::process::Command;
 
 pub struct BuildJsDependenciesTask;
@@ -8,11 +8,7 @@ impl Task for BuildJsDependenciesTask {
         "build_js_dependencies"
     }
 
-    fn run(
-        &self,
-        build_status: &mut crate::build_status::BuildStatus,
-        paths: &Paths,
-    ) -> Result<(), CiError> {
+    fn run(&self, build_handle: &mut BuildHandle, paths: &Paths) -> Result<(), CiError> {
         let dependencies = ["externals/incremental-merkle-tree"];
 
         for dep in dependencies {
