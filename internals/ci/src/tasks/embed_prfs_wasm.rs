@@ -11,12 +11,6 @@ impl Task for EmbedPrfsWasmTask {
     fn run(&self, build_status: &mut BuildStatus, paths: &Paths) -> Result<(), CiError> {
         println!("\nEmbedding prfs wasm...");
 
-        // let curr_dir = env::current_dir().unwrap();
-        // println!("curr_dir: {:?}", curr_dir);
-
-        // let prfs_wasm_build_path = curr_dir.join("source/prfs_wasm/build");
-        // println!("prfs_wasm_build_path: {:?}", prfs_wasm_build_path);
-
         let prfs_wasm_embedded_path = paths.prfs_js_path.join("src/wasm_wrapper/build");
         println!("prfs_wasm_embedded_path: {:?}", prfs_wasm_embedded_path);
 

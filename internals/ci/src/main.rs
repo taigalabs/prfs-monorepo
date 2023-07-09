@@ -25,22 +25,23 @@ fn main() {
     let op = matches.get_one::<String>("operation").unwrap().clone();
 
     let now = Utc::now();
+    println!("Ci now: {}", now);
 
     let paths = Paths::new();
 
     match op.as_str() {
         "build" => {
             let build_status = BuildStatus {
-                timestamp: now.to_string(),
+                timestamp: now.timestamp_millis().to_string(),
             };
 
             let tasks: Vec<Box<dyn Task>> = vec![
                 Box::new(BuildWasmTask),
                 Box::new(CopyProofAssetsTask),
-                Box::new(CompileCircuitsTask),
-                Box::new(BuildJsDependenciesTask),
-                Box::new(EmbedPrfsWasmTask),
-                Box::new(BuildPrfsJsTask),
+                // Box::new(CompileCircuitsTask),
+                // Box::new(BuildJsDependenciesTask),
+                // Box::new(EmbedPrfsWasmTask),
+                // Box::new(BuildPrfsJsTask),
             ];
 
             run_tasks(tasks, build_status, paths).expect("Ci failed");
@@ -69,7 +70,9 @@ fn run_tasks(
     mut build_status: BuildStatus,
     paths: Paths,
 ) -> Result<(), CiError> {
-    for t in tasks {
+    for t in &tasks {
+        println!("Start executing task, t: {}", t.name());
+
         match t.run(&mut build_status, &paths) {
             Ok(_) => (),
             Err(err) => {
@@ -83,6 +86,8 @@ fn run_tasks(
             }
         }
     }
+
+    println!("Success building, tasks done: {}", tasks.len());
 
     Ok(())
 }

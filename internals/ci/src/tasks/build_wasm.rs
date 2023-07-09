@@ -11,10 +11,8 @@ impl Task for BuildWasmTask {
     }
 
     fn run(&self, build_status: &mut BuildStatus, paths: &Paths) -> Result<(), CiError> {
-        println!("\nBuilding wasm...");
-
         check_version();
-        build_wasm(paths);
+        build_wasm(build_status, paths);
 
         Ok(())
     }
@@ -36,7 +34,7 @@ fn check_version() {
     }
 }
 
-fn build_wasm(paths: &Paths) {
+fn build_wasm(build_status: &mut BuildStatus, paths: &Paths) {
     let prfs_wasm_build_path = paths.wasm_build_path.to_str().unwrap();
 
     let status = Command::new("rm")
@@ -49,6 +47,8 @@ fn build_wasm(paths: &Paths) {
     let prfs_wasm_path = paths.wasm_path.to_str().unwrap();
     println!("prfs_wasm_path: {}", prfs_wasm_path);
 
+    let out_name = format!("prfs_wasm_{}", build_status.timestamp);
+
     let status = Command::new("rustup")
         .current_dir(prfs_wasm_path)
         .args([
@@ -60,6 +60,8 @@ fn build_wasm(paths: &Paths) {
             "web",
             "--out-dir",
             prfs_wasm_build_path,
+            "--out-name",
+            &out_name,
             "--",
             "--features",
             "multicore",
