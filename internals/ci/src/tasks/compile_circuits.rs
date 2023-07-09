@@ -32,9 +32,31 @@ impl Task for CompileCircuitsTask {
             .circuit_build_path
             .join(format!("{}.r1cs", &circuit_name));
 
+        let circuit_asset_path = paths.prf_asset_serve_path.join("circuits");
+
+        println!(
+            "{} a directory, path: {:?}",
+            "Recreating".green(),
+            circuit_asset_path,
+        );
+
+        if circuit_asset_path.exists() {
+            std::fs::remove_dir_all(&circuit_asset_path).unwrap();
+        }
+        std::fs::create_dir_all(&circuit_asset_path).unwrap();
+
         let circuit_compiled_path = paths
             .circuit_build_path
             .join(format!("{}_spartan.circuit", circuit_name));
+
+        let circuit_compiled_serve_path =
+            circuit_asset_path.join(format!("{}.circuit", circuit_file_name,));
+
+        let wtns_gen_src_path = paths
+            .circuit_build_path
+            .join(format!("{}_js/{}.wasm", circuit_name, circuit_name));
+
+        let wtns_gen_serve_path = circuit_asset_path.join(format!("{}.wasm", circuit_file_name));
 
         circuit_reader::make_spartan_instance(
             &circuit_r1cs_path,
@@ -46,11 +68,18 @@ impl Task for CompileCircuitsTask {
             build_handle,
             paths,
             circuit_compiled_path,
-            &circuit_name,
-            &circuit_file_name,
+            &circuit_compiled_serve_path,
+            // &circuit_asset_path,
+            &wtns_gen_src_path,
+            &wtns_gen_serve_path,
         );
 
-        create_build_status(build_handle, paths);
+        create_build_status(
+            build_handle,
+            paths,
+            &circuit_compiled_serve_path,
+            &wtns_gen_serve_path,
+        );
 
         Ok(())
     }
@@ -85,24 +114,10 @@ fn copy_assets(
     build_handle: &BuildHandle,
     paths: &Paths,
     circuit_compiled_path: PathBuf,
-    circuit_name: &str,
-    circuit_file_name: &String,
+    circuit_compiled_serve_path: &PathBuf,
+    wtns_gen_src_path: &PathBuf,
+    wtns_gen_serve_path: &PathBuf,
 ) {
-    let circuit_asset_path = paths.prf_asset_serve_path.join("circuits");
-    println!(
-        "{} a directory, path: {:?}",
-        "Recreating".green(),
-        circuit_asset_path,
-    );
-
-    if circuit_asset_path.exists() {
-        std::fs::remove_dir_all(&circuit_asset_path).unwrap();
-    }
-    std::fs::create_dir_all(&circuit_asset_path).unwrap();
-
-    let circuit_compiled_serve_path =
-        circuit_asset_path.join(format!("{}.circuit", circuit_file_name,));
-
     println!(
         "{} a file from src: {:?}, dst: {:?}",
         "Copying".green(),
@@ -111,12 +126,6 @@ fn copy_assets(
     );
 
     fs::copy(circuit_compiled_path, circuit_compiled_serve_path).unwrap();
-
-    let wtns_gen_src_path = paths
-        .circuit_build_path
-        .join(format!("{}_js/{}.wasm", circuit_name, circuit_name));
-
-    let wtns_gen_serve_path = circuit_asset_path.join(format!("{}.wasm", circuit_file_name));
 
     println!(
         "{} a file, src: {:?}, dst: {:?}",
@@ -128,9 +137,18 @@ fn copy_assets(
     fs::copy(wtns_gen_src_path, wtns_gen_serve_path).unwrap();
 }
 
-fn create_build_status(build_handle: &BuildHandle, paths: &Paths) {
+fn create_build_status(
+    build_handle: &BuildHandle,
+    paths: &Paths,
+    circuit_compiled_serve_path: &PathBuf,
+    wtns_gen_serve_path: &PathBuf,
+) {
     let build_json = json!({
-        "timestamp": build_handle.timestamp
+        "timestamp": build_handle.timestamp,
+        "files": {
+            "addr_membership2_circuit": circuit_compiled_serve_path.to_str().unwrap(),
+            "addr_membership2_wtns_gen": wtns_gen_serve_path.to_str().unwrap(),
+        }
     });
 
     let circuit_build_json_path = paths.prf_asset_serve_path.join("build_circuits.json");
