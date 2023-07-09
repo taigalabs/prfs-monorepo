@@ -17,6 +17,3 @@ itertools = "0.9.0"
 [[bin]]
 name = "gen_spartan_inst"
 path = "src/bin/gen_spartan_inst.rs"
-
-
-

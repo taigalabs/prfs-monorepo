@@ -6,6 +6,7 @@ mod tasks;
 use build_status::BuildStatus;
 use chrono::prelude::*;
 use clap::{command, Arg, ArgAction};
+use colored::Colorize;
 use paths::Paths;
 use std::env;
 use task::Task;
@@ -70,7 +71,11 @@ fn run_tasks(
     paths: Paths,
 ) -> Result<(), CiError> {
     for t in &tasks {
-        println!("\nStart executing task, t: {}", t.name());
+        println!(
+            "\n{} executing task: {}",
+            "Start".green().bold(),
+            t.name().cyan().bold()
+        );
 
         match t.run(&mut build_status, &paths) {
             Ok(_) => (),

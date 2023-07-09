@@ -9,8 +9,6 @@ impl Task for BuildPrfsJsTask {
     }
 
     fn run(&self, build_status: &mut BuildStatus, paths: &Paths) -> Result<(), CiError> {
-        println!("\nBuilding prfs.js...");
-
         let status = Command::new("yarn")
             .current_dir(&paths.prfs_js_path)
             .args(["run", "build-pkg"])

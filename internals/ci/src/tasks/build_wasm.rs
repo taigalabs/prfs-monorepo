@@ -1,3 +1,5 @@
+use colored::Colorize;
+
 use crate::{build_status::BuildStatus, paths::Paths, task::Task, CiError};
 use std::{path::PathBuf, process::Command};
 
@@ -76,7 +78,13 @@ fn build_wasm(build_status: &mut BuildStatus, paths: &Paths) {
 fn copy_assets(build_status: &BuildStatus, paths: &Paths) {
     let src_path = &paths.wasm_build_path;
     let dest_path = paths.prf_asset_serve_path.join("prfs_wasm");
-    println!("Copying a file, src: {:?}, dest: {:?}", src_path, dest_path);
+
+    println!(
+        "{} a file, src: {:?}, dest: {:?}",
+        "Copying".green(),
+        src_path,
+        dest_path
+    );
 
     let status = Command::new("cp")
         .args([

@@ -13,11 +13,6 @@ impl Task for BuildJsDependenciesTask {
         build_status: &mut crate::build_status::BuildStatus,
         paths: &Paths,
     ) -> Result<(), CiError> {
-        println!("\nBuilding JS dependencies...");
-
-        // let curr_dir = std::env::current_dir().unwrap();
-        // println!("curr_dir: {:?}", curr_dir);
-
         let dependencies = ["externals/incremental-merkle-tree"];
 
         for dep in dependencies {
