@@ -1,19 +1,24 @@
+use crate::{build_status::BuildStatus, paths::Paths, task::Task, CiError};
 use std::process::Command;
 
-pub fn build_prfs_js() {
-    println!("\nBuilding prfs.js...");
+pub struct BuildPrfsJsTask;
 
-    let curr_dir = std::env::current_dir().unwrap();
-    println!("curr_dir: {:?}", curr_dir);
+impl Task for BuildPrfsJsTask {
+    fn name(&self) -> &str {
+        "build_prfs_js"
+    }
 
-    let prfs_js_path = curr_dir.join("source/prfs_js");
-    println!("prfs_js_path: {:?}", prfs_js_path);
+    fn run(&self, build_status: &mut BuildStatus, paths: &Paths) -> Result<(), CiError> {
+        println!("\nBuilding prfs.js...");
 
-    let status = Command::new("yarn")
-        .current_dir(prfs_js_path)
-        .args(["run", "build-pkg"])
-        .status()
-        .expect("yarn command failed to start");
+        let status = Command::new("yarn")
+            .current_dir(&paths.prfs_js_path)
+            .args(["run", "build-pkg"])
+            .status()
+            .expect("yarn command failed to start");
 
-    assert!(status.success());
+        assert!(status.success());
+
+        Ok(())
+    }
 }

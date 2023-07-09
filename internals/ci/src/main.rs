@@ -6,11 +6,13 @@ mod tasks;
 use build_status::BuildStatus;
 use chrono::prelude::*;
 use clap::{command, Arg, ArgAction};
+use paths::Paths;
 use std::env;
 use task::Task;
 use tasks::{
-    build_js_dependencies::BuildJsDependenciesTask, build_wasm::BuildWasmTask,
-    compile_circuits::CompileCircuitsTask, copy_circuit_assets::CopyProofAssetsTask,
+    build_js_dependencies::BuildJsDependenciesTask, build_prfs_js::BuildPrfsJsTask,
+    build_wasm::BuildWasmTask, compile_circuits::CompileCircuitsTask,
+    copy_circuit_assets::CopyProofAssetsTask, embed_prfs_wasm::EmbedPrfsWasmTask,
 };
 
 pub type CiError = Box<dyn std::error::Error + Sync + Send>;
@@ -24,6 +26,8 @@ fn main() {
 
     let now = Utc::now();
 
+    let paths = Paths::new();
+
     match op.as_str() {
         "build" => {
             let build_status = BuildStatus {
@@ -35,20 +39,11 @@ fn main() {
                 Box::new(CopyProofAssetsTask),
                 Box::new(CompileCircuitsTask),
                 Box::new(BuildJsDependenciesTask),
-                // Box::new(Embed),
-                Box::new(BuildJsDependenciesTask),
+                Box::new(EmbedPrfsWasmTask),
+                Box::new(BuildPrfsJsTask),
             ];
 
-            run_tasks(tasks, build_status).expect("Ci failed");
-
-            // tasks::build_wasm::run(&mut build_status);
-            // tasks::copy_circuit_assets::copy_circuit_assets();
-
-            // // tasks::compile_circuits::compile_circuits();
-            // tasks::build_js_dependencies::build_js_dependencies();
-
-            // tasks::embed_prfs_wasm::embed_prfs_wasm();
-            // tasks::build_prfs_js::build_prfs_js();
+            run_tasks(tasks, build_status, paths).expect("Ci failed");
         }
         "e2e_test_node" => {
             tasks::e2e_test_web::run();
@@ -69,9 +64,13 @@ fn main() {
     }
 }
 
-fn run_tasks(tasks: Vec<Box<dyn Task>>, mut build_status: BuildStatus) -> Result<(), CiError> {
+fn run_tasks(
+    tasks: Vec<Box<dyn Task>>,
+    mut build_status: BuildStatus,
+    paths: Paths,
+) -> Result<(), CiError> {
     for t in tasks {
-        match t.run(&mut build_status) {
+        match t.run(&mut build_status, &paths) {
             Ok(_) => (),
             Err(err) => {
                 println!(

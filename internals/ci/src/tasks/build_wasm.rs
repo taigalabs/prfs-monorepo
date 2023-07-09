@@ -1,4 +1,4 @@
-use crate::{build_status::BuildStatus, task::Task, CiError};
+use crate::{build_status::BuildStatus, paths::Paths, task::Task, CiError};
 use std::{path::PathBuf, process::Command};
 
 const WASM_PACK_VERSION: &str = "wasm-pack 0.12.0";
@@ -10,17 +10,11 @@ impl Task for BuildWasmTask {
         "build_wasm"
     }
 
-    fn run(&self, build_status: &mut BuildStatus) -> Result<(), CiError> {
+    fn run(&self, build_status: &mut BuildStatus, paths: &Paths) -> Result<(), CiError> {
         println!("\nBuilding wasm...");
 
-        let curr_dir = std::env::current_dir().unwrap();
-        println!("curr_dir: {:?}", curr_dir);
-
-        let prfs_wasm_build_path = curr_dir.join("source/prfs_wasm/build");
-        println!("prfs_wasm_build_path: {:?}", prfs_wasm_build_path);
-
         check_version();
-        build_wasm(curr_dir, prfs_wasm_build_path);
+        build_wasm(paths);
 
         Ok(())
     }
@@ -42,8 +36,8 @@ fn check_version() {
     }
 }
 
-fn build_wasm(curr_dir: PathBuf, prfs_wasm_build_path: PathBuf) {
-    let prfs_wasm_build_path = prfs_wasm_build_path.to_str().unwrap();
+fn build_wasm(paths: &Paths) {
+    let prfs_wasm_build_path = paths.wasm_build_path.to_str().unwrap();
 
     let status = Command::new("rm")
         .args(["-rf", &prfs_wasm_build_path])
@@ -52,8 +46,7 @@ fn build_wasm(curr_dir: PathBuf, prfs_wasm_build_path: PathBuf) {
 
     assert!(status.success());
 
-    let prfs_wasm_path = curr_dir.join("source/prfs_wasm");
-    let prfs_wasm_path = prfs_wasm_path.to_str().unwrap();
+    let prfs_wasm_path = paths.wasm_path.to_str().unwrap();
     println!("prfs_wasm_path: {}", prfs_wasm_path);
 
     let status = Command::new("rustup")
