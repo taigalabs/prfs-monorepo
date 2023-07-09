@@ -47,7 +47,7 @@ async function f1(signer: ethers.JsonRpcSigner) {
   let prfs = new Prfs(prfsHandlers);
 
   let buildStatus = await prfs.getBuildStatus();
-  console.log('buildStatus: %o', buildStatus)
+  console.log("buildStatus: %o", buildStatus);
 
   let poseidon = prfs.newPoseidon();
   // const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
@@ -64,31 +64,30 @@ async function f1(signer: ethers.JsonRpcSigner) {
   // proverAddrHex = proverAddrHex.toLowerCase();
 
   let verifyMsg = verifyMessage(msg, sig);
-  console.log('verified addr', verifyMsg);
+  console.log("verified addr", verifyMsg);
 
-  console.log('sig', sig);
+  console.log("sig", sig);
 
   const treeDepth = 32;
   const addressTree = await prfs.newTree(treeDepth, poseidon);
 
-
   // let proverAddrHex = "0x" + privateToAddress(privKey).toString("hex");
   const proverAddress = BigInt(proverAddrHex);
 
-  console.log('proverAddrHex', proverAddrHex);
-  console.log('proverAddress', proverAddress);
+  console.log("proverAddrHex", proverAddrHex);
+  console.log("proverAddress", proverAddress);
   // await addressTree.insert(proverAddress);
 
   let addrs2 = [];
   for (const addr of addrs) {
     let a = BigInt(addr);
-    console.log('new address', a);
+    console.log("new address", a);
     addrs2.push(a);
     await addressTree.insert(a);
   }
 
   let q = await poseidon([proverAddress, addrs2[0]]);
-  console.log('poseidon', q);
+  console.log("poseidon", q);
 
   const index = addressTree.indexOf(proverAddress);
   const merkleProof = addressTree.createProof(index);
@@ -132,7 +131,9 @@ async function f2(signer: ethers.JsonRpcSigner) {
   let prfs = new Prfs(prfsHandlers);
 
   let buildStatus = await prfs.getBuildStatus();
-  console.log('buildStatus: %o', buildStatus)
+  console.log("buildStatus: %o", buildStatus);
+
+  console.log(111);
 
   let merkleProof: MerkleProof = await prfs.makeMerkleProof(addrs, BigInt(0), 32);
   console.log("merkle proof", merkleProof);
@@ -142,10 +143,10 @@ async function f2(signer: ethers.JsonRpcSigner) {
   const msg = Buffer.from("harry potter");
   const msgHash = hashPersonalMessage(msg);
   let sig = await signer.signMessage(msg);
-  console.log('sig', sig);
+  console.log("sig", sig);
 
   let verifyMsg = verifyMessage(msg, sig);
-  console.log('verified addr', verifyMsg);
+  console.log("verified addr", verifyMsg);
 
   // const treeDepth = 32;
   // const addressTree = await prfs.newTree(treeDepth, poseidon);
@@ -153,16 +154,16 @@ async function f2(signer: ethers.JsonRpcSigner) {
   // console.log('root after init', addressTree.root());
 
   let proverAddress = signer.address;
-  console.log('proverAddr', proverAddress);
+  console.log("proverAddr", proverAddress);
 
   const proverAddr = BigInt(proverAddress);
-  console.log('proverAddr', proverAddr);
+  console.log("proverAddr", proverAddr);
 
   const addr1 = BigInt(addrs[1]);
-  console.log('Addr1', addr1);
+  console.log("Addr1", addr1);
 
-  let q = await poseidon([proverAddress, addrs[1]]);
-  console.log('poseidon', q);
+  let q = await poseidon([proverAddr, addr1]);
+  console.log("poseidon", q);
 
   // const proverAddrHash = await poseidon(proverAddr);
   // console.log('proverAddrHash', proverAddrHash);
@@ -175,8 +176,7 @@ async function f2(signer: ethers.JsonRpcSigner) {
   // }
   // const index = addressTree.indexOf(proverAddr);
   // const merkleProof = addressTree.createProof(index);
-
-  console.log("merkleProof", merkleProof);
+  // console.log("merkleProof", merkleProof);
 
   console.log("Proving...");
   console.time("Full proving time");
@@ -207,6 +207,4 @@ async function f2(signer: ethers.JsonRpcSigner) {
 
   // return proof;
   //
-
 }
-

@@ -16,7 +16,7 @@ fn test_merkle_path() {
 fn test_merkle_proof() -> Result<(), PrfsCryptoError> {
     println!("test_merkle_proof()");
 
-    let depth = 4;
+    let depth = 32;
 
     let addrs = [
         "0x33d10ab178924ecb7ad52f4c0c8062c3066607ec",

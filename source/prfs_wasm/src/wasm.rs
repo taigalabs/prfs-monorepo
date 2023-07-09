@@ -75,12 +75,17 @@ pub struct MerkleProof2 {
 pub fn make_merkle_proof(make_merkle_proof_args: JsValue) -> Result<JsValue, JsValue> {
     let args: MakeMerkleProofArgs = serde_wasm_bindgen::from_value(make_merkle_proof_args)?;
 
-    log(&format!("merkle proof args: {:?}", args));
+    log(&format!("111merkle proof args: {:?}", args));
 
     let proof = match prfs_lib::make_merkle_proof(args.leaves, args.leaf_idx, args.depth) {
         Ok(p) => p,
         Err(err) => return Err(JsValue::from_str(&err.to_string())),
     };
+
+    log(&format!(
+        "merkle proof in wasm, siblings: {:?}",
+        proof.siblings
+    ));
 
     return match serde_wasm_bindgen::to_value(&proof) {
         Ok(p) => Ok(p),

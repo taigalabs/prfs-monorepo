@@ -25,7 +25,7 @@ pub fn convert_hex_into_32bytes(val: &str) -> Result<[u8; 32], PrfsCryptoError> 
     Ok(b)
 }
 
-pub fn convert_32bytes_into(val: [u8; 32]) {
-    let u = U256::from_little_endian(&val);
-    u.to_string();
+pub fn convert_32bytes_into_decimal_string(val: &[u8; 32]) -> Result<String, PrfsCryptoError> {
+    let u = U256::from_little_endian(val);
+    Ok(u.to_string())
 }

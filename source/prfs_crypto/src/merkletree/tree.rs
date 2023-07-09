@@ -1,7 +1,10 @@
 use super::merklepath::make_sibling_path;
 use crate::{
     hash_two,
-    hexutils::{convert_bytes_into_decimal_str, convert_hex_into_32bytes},
+    hexutils::{
+        convert_32bytes_into_decimal_string, convert_bytes_into_decimal_str,
+        convert_hex_into_32bytes,
+    },
     make_path_indices, PrfsCryptoError,
 };
 use primitive_types::U256;
@@ -137,10 +140,13 @@ pub fn make_merkle_proof(
             )),
         };
 
-        let t = hex::encode(sibling);
-        println!("t: {}", t);
-        let s = convert_bytes_into_decimal_str(sibling)?;
+        // let t = hex::encode(sibling);
+        // println!("t: {}", t);
+
+        // let s = convert_bytes_into_decimal_str(sibling)?;
+        let s = convert_32bytes_into_decimal_string(sibling)?;
         println!("\nsibling({}, {}): {:?}, decimal: {}", h, s_idx, sibling, s);
+
         siblings.push(s);
     }
 

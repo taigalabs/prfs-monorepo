@@ -6,8 +6,8 @@ import styles from "./page.module.css";
 import axios from "axios";
 import { ethers } from "ethers";
 import { useState } from "react";
-import { proveMembershipMock } from '@/prfs/mock';
-import { proveMembership } from '@/prfs';
+import { proveMembershipMock } from "@/prfs/mock";
+import { proveMembership } from "@/prfs";
 // import { MetaMaskInpageProvider } from "@metamask/providers";
 // import { PRFS_GEN_ENDPOINT } from "@/config/index";
 // import detectEthereumProvider from "@metamask/detect-provider";
@@ -15,11 +15,11 @@ import { proveMembership } from '@/prfs';
 const TREE_DEPTH: number = 32;
 
 export default function Home() {
-  console.log('Home()');
+  console.log("Home()");
 
   let [account, setAccount] = React.useState<ethers.JsonRpcSigner>();
   React.useEffect(() => {
-    console.log('Initializing app');
+    console.log("Initializing app");
 
     let fn = async () => {
       if (window.ethereum == null) {
@@ -27,20 +27,20 @@ export default function Home() {
       } else {
         let provider = new ethers.BrowserProvider(window.ethereum);
         let signer = await provider.getSigner();
-        console.log('signer', signer);
+        console.log("signer", signer);
         setAccount(signer);
       }
     };
 
-    fn().then((_res) => { });
+    fn().then(_res => {});
   }, [setAccount]);
 
   const proverAddressMembershipMock = React.useCallback(() => {
-    proveMembershipMock().then(() => { });
+    proveMembershipMock().then(() => {});
   }, []);
 
   const proverAddressMembership = React.useCallback(() => {
-    proveMembership(account).then(() => { });
+    proveMembership(account).then(() => {});
   }, [account]);
 
   return (
@@ -50,8 +50,6 @@ export default function Home() {
     </div>
   );
 }
-
-
 
 // const Generate: React.FC<any> = () => {
 //   const [proof, setProof] = React.useState("");
@@ -89,121 +87,22 @@ export default function Home() {
 
 // export default Generate;
 
-function getMerklePath(leafIdx: number, treeDepth: number): NodePos[] {
-  let currIdx = leafIdx;
-  let merklePath: NodePos[] = [];
-  for (let h = 0; h < treeDepth - 1; h += 1) {
-    let parentIdx = getParentIdx(currIdx);
-    let parentSiblingIdx = getSiblingIdx(parentIdx);
+// function getMerklePath(leafIdx: number, treeDepth: number): NodePos[] {
+//   let currIdx = leafIdx;
+//   let merklePath: NodePos[] = [];
+//   for (let h = 0; h < treeDepth - 1; h += 1) {
+//     let parentIdx = getParentIdx(currIdx);
+//     let parentSiblingIdx = getSiblingIdx(parentIdx);
 
-    merklePath.push({
-      posW: parentSiblingIdx,
-      posH: h,
-    });
-    currIdx = parentIdx;
-  }
+//     merklePath.push({
+//       posW: parentSiblingIdx,
+//       posH: h
+//     });
+//     currIdx = parentIdx;
+//   }
 
-  return merklePath;
-}
-
-async function fetchData(setProof: Function) {
-  console.log("fetch data");
-
-  let accounts = await window.ethers.send("eth_requestAccounts", []);
-
-  if (accounts != null && Array.isArray(accounts)) {
-    const account = accounts[0];
-    console.log("account", account);
-
-    let u = ethers.utils;
-    let signer = window.ethers.getSigner();
-
-    const ethAddress = await signer.getAddress();
-    console.log("ethAddress", ethAddress);
-
-    const messageRaw = "test";
-    const messageHash = u.hashMessage(messageRaw);
-    console.log("message hash", messageHash);
-
-    const signature = await signer.signMessage(messageRaw);
-    console.log("signature", signature, signature.length);
-
-    const digest = u.arrayify(messageHash);
-
-    const publicKey = u.recoverPublicKey(digest, signature);
-    console.log("recovered publickey", publicKey);
-
-    const computedAddress = u.computeAddress(publicKey);
-    console.log("computed address", computedAddress);
-
-    const recoveredAddress = u.recoverAddress(digest, signature);
-    console.log("recovered address", recoveredAddress);
-
-
-    // let leafIdx = 0;
-    // let merkleNodePos = getMerklePath(leafIdx, TREE_DEPTH);
-    // let setId = "1";
-
-    // let merkleNodes = await axios
-    //   .post("http://localhost:4000/get_nodes", {
-    //     setId,
-    //     pos: merkleNodePos,
-    //   })
-    //   .then((r) => r.data)
-    //   .catch((err) => {
-    //     console.log("Error fetching get merkle nodes, err: %s", err);
-    //     return;
-    //   });
-
-    // console.log("merkleNodes: {:?}", merkleNodes);
-
-    // let rootNodePos: NodePos = {
-    //   posW: 0,
-    //   posH: 31,
-    // };
-
-    // let rootNode = await axios
-    //   .post("http://localhost:4000/get_nodes", {
-    //     setId,
-    //     pos: [rootNodePos],
-    //   })
-    //   .then((r) => {
-    //     if (r.data.nodes.length === 1) {
-    //       return r.data.nodes[0];
-    //     } else {
-    //       throw new Error("root node has to be a single node");
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log("Error fetching get root node, err: %s", err);
-    //     return;
-    //   });
-
-    // let proof;
-    // try {
-    //   console.log('Requesting prfs_gen to generate proof');
-
-    //   const { data } = await axios
-    //     .post(`${PRFS_GEN_ENDPOINT}/gen_proof`, {
-    //       address: account,
-    //       publicKey,
-    //       proofType: "asset_proof_1",
-    //       signature,
-    //       merklePath: merkleNodes.nodes,
-    //       leafIdx: 0,
-    //       root: rootNode,
-    //       messageRaw,
-    //       messageHash,
-    //     });
-    //   proof = data.proof;
-    // } catch (err) {
-    //   console.log("Error fetching get_proof, err: %s", err);
-    //   return;
-    // }
-
-    // setProof(proof.join(", "));
-  }
-};
+//   return merklePath;
+// }
 
 function getSiblingIdx(idx: number): number {
   if (idx % 2 == 0) {

@@ -30,19 +30,19 @@ function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
         depth
       };
 
-      const merkleProof: PrfsMerkleProof = await prfsWasm.make_merkle_proof(obj);
+      const merkleProof: PrfsMerkleProof = prfsWasm.make_merkle_proof(obj);
 
       let siblings = merkleProof.siblings.map(s => BigInt(s));
       const proof = {
         ...merkleProof,
         root: BigInt(merkleProof.root),
-        siblings,
+        siblings
       };
 
       return proof;
     },
     async getBuildStatus() {
-      let res = await prfsWasm.get_build_status();
+      let res = prfsWasm.get_build_status();
       return res;
     }
   };
