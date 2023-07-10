@@ -1,4 +1,4 @@
-use crate::build_json::AssetBuildJson;
+use crate::asset_status::AssetStatus;
 use hyper::http::response::Builder as ResponseBuilder;
 use hyper::service::service_fn;
 use hyper::{Body, Request, Response, Server, StatusCode};
@@ -13,7 +13,7 @@ use std::path::{Path, PathBuf};
 use tokio::net::TcpListener;
 
 pub struct State {
-    build_json: AssetBuildJson,
+    asset_status: AssetStatus,
     static_serve: Static,
 }
 
@@ -67,12 +67,12 @@ async fn error_handler(err: routerify::RouteError, _: RequestInfo) -> Response<B
         .unwrap()
 }
 
-pub fn make_router(build_json: AssetBuildJson, assets_path: &PathBuf) -> Router<Body, Infallible> {
+pub fn make_router(asset_status: AssetStatus, assets_path: &PathBuf) -> Router<Body, Infallible> {
     let static_serve = Static::new(assets_path);
 
     let state = State {
         static_serve,
-        build_json,
+        asset_status,
     };
 
     Router::builder()
