@@ -2,7 +2,7 @@ use colored::Colorize;
 use serde_json::json;
 
 use crate::{paths::Paths, task::Task, BuildHandle, CiError};
-use std::{io::Write, path::PathBuf, process::Command};
+use std::{fs::File, io::Write, path::PathBuf, process::Command};
 
 const WASM_PACK_VERSION: &str = "wasm-pack 0.12.0";
 
@@ -14,13 +14,11 @@ impl Task for BuildWasmTask {
     }
 
     fn run(&self, build_handle: &mut BuildHandle, paths: &Paths) -> Result<(), CiError> {
-        // let out_name = format!("prfs_wasm_{}", build_handle.timestamp);
-
         check_wasm_pack();
         build_wasm(build_handle, paths);
-        copy_assets(build_handle, paths);
+        // copy_assets(build_handle, paths);
         sanity_check(build_handle, paths);
-        embed_wasm(paths);
+        embed_wasm(build_handle, paths);
         create_build_status(build_handle, paths);
 
         Ok(())
@@ -127,7 +125,7 @@ fn sanity_check(build_handle: &BuildHandle, paths: &Paths) {
     }
 }
 
-fn embed_wasm(paths: &Paths) {
+fn embed_wasm(build_handle: &BuildHandle, paths: &Paths) {
     let prfs_wasm_embedded_path = paths.prfs_js_path.join("src/wasm_wrapper/build");
 
     println!(
@@ -150,6 +148,24 @@ fn embed_wasm(paths: &Paths) {
         .expect("cp command failed to start");
 
     assert!(status.success());
+
+    let wasm_file_path =
+        prfs_wasm_embedded_path.join(format!("prfs_wasm_{}_bg.wasm", build_handle.timestamp));
+    let wasm_bytes = std::fs::read(wasm_file_path).unwrap();
+    let wasm_bytes_path = prfs_wasm_embedded_path.join("prfs_wasm_bytes.js");
+
+    let wasm_bytes_str = wasm_bytes
+        .iter()
+        .map(|b| b.to_string())
+        .collect::<Vec<String>>()
+        .join(",");
+
+    let contents = format!(
+        "export const wasmBytes = new Uint8Array([{}]);",
+        wasm_bytes_str,
+    );
+
+    std::fs::write(wasm_bytes_path, contents).unwrap();
 }
 
 fn create_build_status(build_handle: &BuildHandle, paths: &Paths) {

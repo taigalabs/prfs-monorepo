@@ -186,10 +186,10 @@ async function f2(signer: ethers.JsonRpcSigner) {
 
   console.log("Proving...");
   console.time("Full proving time");
-  const prover = prfs.newMembershipProver({
-    ...defaultAddressMembershipPConfig,
-    enableProfiler: true
-  });
+  const prover = prfs.newMembershipProver(
+    process.env.NEXT_PUBLIC_MEMBERSHIP_PROVER_WITNESS_GEN_WASM_URL,
+    process.env.NEXT_PUBLIC_MEMBERSHIP_PROVER_CIRCUIT_URL,
+  );
   const { proof, publicInput } = await prover.prove(sig, msgHash, merkleProof);
 
   console.log(33, proof, publicInput);

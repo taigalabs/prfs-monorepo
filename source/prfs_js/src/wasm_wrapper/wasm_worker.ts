@@ -4,6 +4,8 @@ import { Prfs } from "../prfs";
 import { PrfsWasmType, PrfsHandlers, MerkleProof, PrfsMerkleProof } from "../types";
 import { bigIntToLeBytes, bytesLeToBigInt } from "../helpers/utils";
 
+import { wasmBytes } from './build/prfs_wasm_bytes';
+
 function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
   console.log("wasm-worker, wrapExports()");
 
@@ -66,11 +68,20 @@ async function initHandlers() {
 
   const prfsWasm = await import("./build");
 
+
   // This assumes that this script is run within the environment that can replace the string
   // placeholder in the compilie time. Later when we use a bundler to pack this library,
   // the way we inject string may become changed.
-  const wasmUrl = process.env.NEXT_PUBLIC_MEMBERSHIP_PROVER_WITNESS_GEN_WASM_URL;
-  await prfsWasm.default(wasmUrl as string);
+
+  // const wasmUrl = process.env.NEXT_PUBLIC_MEMBERSHIP_PROVER_WITNESS_GEN_WASM_URL;
+  // await prfsWasm.default(wasmUrl as string);
+
+  console.log('wasmBytes', wasmBytes);
+  let a = prfsWasm.initSync(wasmBytes);
+
+  console.log('123', a);
+  console.log('234');
+
 
   console.log("Web worker: threads are available, concurrency: %o", navigator.hardwareConcurrency);
   await prfsWasm.initThreadPool(navigator.hardwareConcurrency);
