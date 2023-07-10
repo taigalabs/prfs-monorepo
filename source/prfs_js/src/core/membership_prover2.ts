@@ -9,51 +9,27 @@ import {
   SECP256K1_P,
   computeEffEcdsaPubInput2
 } from "../helpers/public_input";
-import { defaultPubkeyMembershipPConfig, defaultAddressMembershipPConfig } from "../config";
+// import { defaultPubkeyMembershipPConfig, defaultAddressMembershipPConfig } from "../config";
 import BN from "bn.js";
 import { PrfsHandlers } from "../types";
 
 /**
  * ECDSA Membership Prover
  */
-export class MembershipProver2 extends Profiler implements IProver {
+export class MembershipProver2 extends Profiler {
   circuit: string;
   witnessGenWasm: string;
   handlers: PrfsHandlers;
 
-  constructor(options: ProverConfig, prfsHandlers: PrfsHandlers) {
-    super({ enabled: options?.enableProfiler });
+  constructor(
+    witnessGenWasm: string,
+    circuit: string,
+    prfsHandlers: PrfsHandlers,
+  ) {
+    super({ enabled: true });
 
-    // if (
-    //   options.circuit === defaultPubkeyMembershipPConfig.circuit ||
-    //   options.witnessGenWasm ===
-    //   defaultPubkeyMembershipPConfig.witnessGenWasm ||
-    //   options.circuit === defaultAddressMembershipPConfig.circuit ||
-    //   options.witnessGenWasm === defaultAddressMembershipPConfig.witnessGenWasm
-    // ) {
-    //   console.warn(`
-    //   Spartan-ecdsa default config warning:
-    //   We recommend using defaultPubkeyMembershipPConfig/defaultPubkeyMembershipVConfig only for testing purposes.
-    //   Please host and specify the circuit and witnessGenWasm files on your own server for sovereign control.
-    //   Download files: https://github.com/personaelabs/spartan-ecdsa/blob/main/packages/lib/README.md#circuit-downloads
-    //   `);
-    // }
-
-    // const isNode = typeof window === "undefined";
-    // if (isNode) {
-    //   if (
-    //     options.circuit.includes("http") ||
-    //     options.witnessGenWasm.includes("http")
-    //   ) {
-    //     throw new Error(
-    //       `An URL was given for circuit/witnessGenWasm in Node.js environment. Please specify a local path.
-    //       `
-    //     );
-    //   }
-    // }
-
-    this.circuit = options.circuit;
-    this.witnessGenWasm = options.witnessGenWasm;
+    this.circuit = circuit;
+    this.witnessGenWasm = witnessGenWasm;
     this.handlers = prfsHandlers;
   }
 

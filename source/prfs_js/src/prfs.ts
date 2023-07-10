@@ -30,8 +30,15 @@ export class Prfs {
     return await Tree.newInstance(depth, hash);
   }
 
-  newMembershipProver(options: ProverConfig) {
-    return new MembershipProver2(options, this.handlers);
+  newMembershipProver(
+    witnessGenWasmUrl: string,
+    circuitUrl: string,
+  ) {
+    return new MembershipProver2(
+      witnessGenWasmUrl,
+      circuitUrl,
+      this.handlers,
+    );
   }
 
   newMembershipVerifier(options: VerifyConfig) {

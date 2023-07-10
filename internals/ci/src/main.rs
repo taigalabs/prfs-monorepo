@@ -40,7 +40,7 @@ fn main() {
 
             let tasks: Vec<Box<dyn Task>> = vec![
                 Box::new(BuildWasmTask),
-                Box::new(CompileCircuitsTask),
+                // Box::new(CompileCircuitsTask),
                 Box::new(BuildJsDependenciesTask),
                 Box::new(BuildPrfsJsTask),
             ];
