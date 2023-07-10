@@ -1,7 +1,8 @@
-use serde::{Deserialize, Serialize};
-
 use crate::AssetServerError;
-use std::path::PathBuf;
+use notify::RecursiveMode;
+use serde::{Deserialize, Serialize};
+use std::{path::PathBuf, sync::Arc};
+use tokio::sync::mpsc;
 
 pub struct AssetStatus {}
 
@@ -17,9 +18,33 @@ impl AssetStatus {
             std::fs::read(build_circuits_json_path).expect("build_circuits_json should exist");
 
         // let build_circuit_json: BuildCircuitJson = serde_json::from_slice(&build_circuit_json)?;
+        //
 
         let a = AssetStatus {};
 
         Ok(a)
+    }
+}
+
+pub struct AssetStatusWatcher;
+
+impl AssetStatusWatcher {
+    pub fn run(asset_status: Arc<Mutex<AssetStatus>>) -> Result<(), AssetServerError> {
+        // AssetStatusWatcher {}
+
+        let mut watcher = notify::recommended_watcher(move |res| match res {
+            Ok(event) => {
+                println!("ev: {:?}", event);
+
+                build_watch_tx.send(1).unwrap();
+
+                // let status = asset_status.clone().lock().await;
+            }
+            Err(err) => println!("Error: {:?}", err),
+        })?;
+
+        watcher.watch(&build_json_path, RecursiveMode::Recursive)?;
+
+        Ok(())
     }
 }

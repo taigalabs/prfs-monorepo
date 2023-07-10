@@ -10,10 +10,12 @@ use std::convert::Infallible;
 use std::io::Error as IoError;
 use std::net::SocketAddr;
 use std::path::{Path, PathBuf};
+use std::sync::Arc;
 use tokio::net::TcpListener;
+use tokio::sync::Mutex;
 
 pub struct State {
-    asset_status: AssetStatus,
+    asset_status: Arc<Mutex<AssetStatus>>,
     static_serve: Static,
 }
 
@@ -67,7 +69,10 @@ async fn error_handler(err: routerify::RouteError, _: RequestInfo) -> Response<B
         .unwrap()
 }
 
-pub fn make_router(asset_status: AssetStatus, assets_path: &PathBuf) -> Router<Body, Infallible> {
+pub fn make_router(
+    asset_status: Arc<Mutex<AssetStatus>>,
+    assets_path: &PathBuf,
+) -> Router<Body, Infallible> {
     let static_serve = Static::new(assets_path);
 
     let state = State {
