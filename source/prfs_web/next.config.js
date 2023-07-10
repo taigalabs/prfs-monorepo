@@ -12,9 +12,6 @@ const nextConfig = {
 
     return config;
   },
-  env: {
-
-  }
   async headers() {
     return [
       {

@@ -43,6 +43,7 @@ export async function proveMembership(signer: ethers.JsonRpcSigner) {
 }
 
 async function f1(signer: ethers.JsonRpcSigner) {
+
   let prfsHandlers = await initWasm();
   let prfs = new Prfs(prfsHandlers);
 
@@ -97,8 +98,8 @@ async function f1(signer: ethers.JsonRpcSigner) {
   console.log("Proving...");
   console.time("Full proving time");
   const prover = prfs.newMembershipProver(
-    process.env.MEMBERSHIP_PROVER_WITNESS_GEN_WASM_URL,
-    process.env.MEMBERSHIP_PROVER_CIRCUIT_URL,
+    process.env.NEXT_PUBLIC_MEMBERSHIP_PROVER_WITNESS_GEN_WASM_URL,
+    process.env.NEXT_PUBLIC_MEMBERSHIP_PROVER_CIRCUIT_URL,
   );
   console.log(123123);
   const { proof, publicInput } = await prover.prove(sig, msgHash, merkleProof);
@@ -127,6 +128,11 @@ async function f1(signer: ethers.JsonRpcSigner) {
 }
 
 async function f2(signer: ethers.JsonRpcSigner) {
+  const a = process.env.NEXT_PUBLIC_EMBERSHIP_PROVER_WITNESS_GEN_WASM_URL;
+  console.log(11, a);
+  process.env.PRFS_JS_WASM_URL = a;
+  console.log(22, process.env.PRFS_JS_WASM_URL);
+
   let prfsHandlers = await initWasm();
   let prfs = new Prfs(prfsHandlers);
 

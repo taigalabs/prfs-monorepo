@@ -65,7 +65,12 @@ async function initHandlers() {
   if (!(await threads())) return;
 
   const prfsWasm = await import("./build");
-  await prfsWasm.default("http://localhost:4010/circuits/prfs_wasm_bg.wasm");
+
+  // This assumes that this script is run within the environment that can replace the string
+  // placeholder in the compilie time. Later when we use a bundler to pack this library,
+  // the way we inject string may become changed.
+  const wasmUrl = process.env.NEXT_PUBLIC_MEMBERSHIP_PROVER_WITNESS_GEN_WASM_URL;
+  await prfsWasm.default(wasmUrl as string);
 
   console.log("Web worker: threads are available, concurrency: %o", navigator.hardwareConcurrency);
   await prfsWasm.initThreadPool(navigator.hardwareConcurrency);
