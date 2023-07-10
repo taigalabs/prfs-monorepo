@@ -1,35 +1,35 @@
 import { Profiler } from "../helpers/profiler";
-import { IProver, MerkleProof, NIZK, ProverConfig } from "../types";
+import { MerkleProof, NIZK } from "../types";
 import { loadCircuit, fromSig, snarkJsWitnessGen } from "../helpers/utils";
 import {
   PublicInput,
-  computeEffEcdsaPubInput,
   CircuitPubInput,
   SECP256K1_N,
   SECP256K1_P,
   computeEffEcdsaPubInput2
 } from "../helpers/public_input";
-// import { defaultPubkeyMembershipPConfig, defaultAddressMembershipPConfig } from "../config";
 import BN from "bn.js";
 import { PrfsHandlers } from "../types";
 
-/**
- * ECDSA Membership Prover
- */
 export class MembershipProver2 extends Profiler {
-  circuit: string;
-  witnessGenWasm: string;
+  circuitUrl: string;
+  witnessGenWasmUrl: string;
   handlers: PrfsHandlers;
 
   constructor(
-    witnessGenWasm: string,
-    circuit: string,
+    witnessGenWasmUrl: string,
+    circuitUrl: string,
     prfsHandlers: PrfsHandlers,
   ) {
-    super({ enabled: true });
+    console.log(
+      'Initializing membership prover2, witnesGenWasm: %o, circuitUrl: %o',
+      witnessGenWasmUrl,
+      circuitUrl,
+    );
 
-    this.circuit = circuit;
-    this.witnessGenWasm = witnessGenWasm;
+    super({ enabled: true });
+    this.circuitUrl = circuitUrl;
+    this.witnessGenWasmUrl = witnessGenWasmUrl;
     this.handlers = prfsHandlers;
   }
 
@@ -103,13 +103,13 @@ export class MembershipProver2 extends Profiler {
 
     this.time("Generate witness");
 
-    console.log("wasm11: %s", this.witnessGenWasm);
+    console.log("wasm11: %s", this.witnessGenWasmUrl);
 
-    const witness = await snarkJsWitnessGen(witnessGenInput, this.witnessGenWasm);
+    const witness = await snarkJsWitnessGen(witnessGenInput, this.witnessGenWasmUrl);
     this.timeEnd("Generate witness");
 
     this.time("Load circuit");
-    const circuitBin = await loadCircuit(this.circuit);
+    const circuitBin = await loadCircuit(this.circuitUrl);
     this.timeEnd("Load circuit");
 
     // // Get the public input in bytes

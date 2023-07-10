@@ -1,9 +1,9 @@
 import {
   Prfs,
-  defaultAddressMembershipPConfig,
-  defaultPubkeyMembershipPConfig,
-  defaultPubkeyMembershipVConfig,
-  defaultAddressMembershipVConfig
+  // defaultAddressMembershipPConfig,
+  // defaultPubkeyMembershipPConfig,
+  // defaultPubkeyMembershipVConfig,
+  // defaultAddressMembershipVConfig
 } from "@taigalabs/prfs-js";
 import { initWasm } from "@taigalabs/prfs-js/build/wasm_wrapper/load_es";
 import {
@@ -96,10 +96,10 @@ async function f1(signer: ethers.JsonRpcSigner) {
 
   console.log("Proving...");
   console.time("Full proving time");
-  const prover = prfs.newMembershipProver({
-    ...defaultAddressMembershipPConfig,
-    enableProfiler: true
-  });
+  const prover = prfs.newMembershipProver(
+    process.env.MEMBERSHIP_PROVER_WITNESS_GEN_WASM_URL,
+    process.env.MEMBERSHIP_PROVER_CIRCUIT_URL,
+  );
   console.log(123123);
   const { proof, publicInput } = await prover.prove(sig, msgHash, merkleProof);
   console.log(234234);

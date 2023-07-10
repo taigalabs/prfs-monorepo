@@ -1,31 +1,15 @@
-import { defaultAddressMembershipVConfig, defaultPubkeyMembershipVConfig } from "../config";
 import { Profiler } from "../helpers/profiler";
 import { loadCircuit } from "../helpers/utils";
 import { IVerifier, VerifyConfig } from "../types";
 import { PublicInput, verifyEffEcdsaPubInput } from "../helpers/public_input";
 import { PrfsHandlers } from "../types";
 
-/**
- * ECDSA Membership Verifier
- */
 export class MembershipVerifier extends Profiler implements IVerifier {
   circuit: string;
   handlers: PrfsHandlers;
 
   constructor(options: VerifyConfig, prfsHandlers: PrfsHandlers) {
     super({ enabled: options?.enableProfiler });
-
-    if (
-      options.circuit === defaultAddressMembershipVConfig.circuit ||
-      options.circuit === defaultPubkeyMembershipVConfig.circuit
-    ) {
-      console.warn(`
-      Spartan-ecdsa default config warning:
-      We recommend using defaultPubkeyMembershipPConfig/defaultPubkeyMembershipVConfig only for testing purposes.
-      Please host and specify the circuit and witnessGenWasm files on your own server for sovereign control.
-      Download files: https://github.com/personaelabs/spartan-ecdsa/blob/main/packages/lib/README.md#circuit-downloads
-      `);
-    }
 
     this.circuit = options.circuit;
     this.handlers = prfsHandlers;
