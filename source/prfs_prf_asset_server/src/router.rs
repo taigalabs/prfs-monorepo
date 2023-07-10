@@ -1,25 +1,16 @@
-use crate::asset_status::AssetStatus;
-use hyper::http::response::Builder as ResponseBuilder;
-use hyper::service::service_fn;
-use hyper::{Body, Request, Response, Server, StatusCode};
+use hyper::{Body, Request, Response, StatusCode};
 use hyper_staticfile::Static;
 use routerify::prelude::*;
-use routerify::{Middleware, RequestInfo, Router, RouterService};
+use routerify::{Middleware, RequestInfo, Router};
 use routerify_cors::enable_cors_all;
 use std::convert::Infallible;
-use std::io::Error as IoError;
-use std::net::SocketAddr;
-use std::path::{Path, PathBuf};
-use std::sync::Arc;
-use tokio::net::TcpListener;
-use tokio::sync::Mutex;
+use std::path::PathBuf;
 
 pub struct State {
-    asset_status: Arc<Mutex<AssetStatus>>,
     static_serve: Static,
 }
 
-async fn home_handler(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+async fn home_handler(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
     // let state = req.data::<State>().unwrap();
     Ok(Response::new(Body::from("Home page")))
 }
@@ -43,10 +34,6 @@ async fn asset_handler(req: Request<Body>) -> Result<Response<Body>, Infallible>
             ))));
         }
     };
-
-    // let circuit_name = req.param("circuitName").unwrap();
-
-    // Ok(Response::new(Body::from(format!("Hello {}", circuit_name))))
 }
 
 async fn logger(req: Request<Body>) -> Result<Request<Body>, Infallible> {
@@ -69,16 +56,10 @@ async fn error_handler(err: routerify::RouteError, _: RequestInfo) -> Response<B
         .unwrap()
 }
 
-pub fn make_router(
-    asset_status: Arc<Mutex<AssetStatus>>,
-    assets_path: &PathBuf,
-) -> Router<Body, Infallible> {
+pub fn make_router(assets_path: &PathBuf) -> Router<Body, Infallible> {
     let static_serve = Static::new(assets_path);
 
-    let state = State {
-        static_serve,
-        asset_status,
-    };
+    let state = State { static_serve };
 
     Router::builder()
         .data(state)
