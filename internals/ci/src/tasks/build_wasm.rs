@@ -1,7 +1,6 @@
+use crate::{paths::Paths, task::Task, BuildHandle, CiError};
 use colored::Colorize;
 use serde_json::json;
-
-use crate::{paths::Paths, task::Task, BuildHandle, CiError};
 use std::{fs::File, io::Write, path::PathBuf, process::Command};
 
 const WASM_PACK_VERSION: &str = "wasm-pack 0.12.0";
@@ -16,7 +15,6 @@ impl Task for BuildWasmTask {
     fn run(&self, build_handle: &mut BuildHandle, paths: &Paths) -> Result<(), CiError> {
         check_wasm_pack();
         build_wasm(build_handle, paths);
-        // copy_assets(build_handle, paths);
         sanity_check(build_handle, paths);
         embed_wasm(build_handle, paths);
         create_build_status(build_handle, paths);
@@ -75,35 +73,6 @@ fn build_wasm(build_handle: &mut BuildHandle, paths: &Paths) {
         ])
         .status()
         .expect("wasm-pack command failed to start");
-
-    assert!(status.success());
-}
-
-fn copy_assets(build_handle: &BuildHandle, paths: &Paths) {
-    let src_path = &paths.wasm_build_path;
-    let dest_path = paths.prf_asset_serve_path.join("prfs_wasm");
-
-    if dest_path.exists() {
-        println!("Removing pre-exising path: {:?}", dest_path);
-
-        std::fs::remove_dir_all(&dest_path).unwrap();
-    }
-
-    println!(
-        "{} a path, src: {:?}, dest: {:?}",
-        "Copying".green(),
-        src_path,
-        dest_path
-    );
-
-    let status = Command::new("cp")
-        .args([
-            "-R",
-            src_path.to_str().unwrap(),
-            dest_path.to_str().unwrap(),
-        ])
-        .status()
-        .expect("cp command failed to start");
 
     assert!(status.success());
 }

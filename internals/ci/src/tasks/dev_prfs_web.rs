@@ -1,16 +1,18 @@
+use crate::paths::Paths;
 use std::process::Command;
 
-pub fn run() {
+pub fn run(paths: &Paths) {
     println!("[ci] Start executing e2e_test_web...");
 
-    let curr_dir = std::env::current_dir().unwrap();
-    println!("curr_dir: {:?}", curr_dir);
+    inject_prfs_web_env(paths);
+    run_app(paths);
+}
 
-    let prfs_web_path = curr_dir.join("source/prfs_web");
-    println!("prfs_web_path: {:?}", prfs_web_path);
+fn inject_prfs_web_env(paths: &Paths) {}
 
+fn run_app(paths: &Paths) {
     let status = Command::new("yarn")
-        .current_dir(&prfs_web_path)
+        .current_dir(&paths.prfs_web)
         .args(["run", "dev"])
         .status()
         .expect("yarn command failed to start");

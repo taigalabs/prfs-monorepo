@@ -9,6 +9,7 @@ pub struct Paths {
     pub prf_asset_serve_path: PathBuf,
     pub circuits_build_path: PathBuf,
     pub prfs_js_path: PathBuf,
+    pub prfs_web: PathBuf,
 }
 
 impl Paths {
@@ -40,6 +41,9 @@ impl Paths {
         let prfs_js_path = curr_dir.join("source/prfs_js");
         println!("prfs_js_path: {:?}", prfs_js_path);
 
+        let prfs_web = curr_dir.join("source/prfs_web");
+        println!("prfs_web: {:?}", prfs_web);
+
         Paths {
             curr_dir,
             wasm_path,
@@ -49,6 +53,7 @@ impl Paths {
             prf_asset_serve_path,
             circuits_build_path,
             prfs_js_path,
+            prfs_web,
         }
     }
 }

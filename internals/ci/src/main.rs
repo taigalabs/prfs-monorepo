@@ -45,14 +45,14 @@ fn main() {
                 Box::new(BuildPrfsJsTask),
             ];
 
-            run_tasks(tasks, build_handle, paths).expect("Ci failed");
+            run_tasks(tasks, build_handle, &paths).expect("Ci failed");
         }
         "e2e_test_node" => {
             tasks::e2e_test_web::run();
         }
         "dev_prfs_web" => {
             // tasks::build_prfs_js::build_prfs_js();
-            tasks::dev_prfs_web::run();
+            tasks::dev_prfs_web::run(&paths);
         }
         "dev_asset_server" => {
             tasks::dev_asset_server::run();
@@ -69,7 +69,7 @@ fn main() {
 fn run_tasks(
     tasks: Vec<Box<dyn Task>>,
     mut build_handle: BuildHandle,
-    paths: Paths,
+    paths: &Paths,
 ) -> Result<(), CiError> {
     for t in &tasks {
         println!(
