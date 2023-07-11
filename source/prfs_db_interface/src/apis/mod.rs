@@ -1,7 +1,7 @@
 use super::models::Account;
 use crate::{
     database::Database,
-    models::{Node, ProofType},
+    models::{AccountNode, Node, ProofType},
     DbInterfaceError,
 };
 use rust_decimal::Decimal;
@@ -138,6 +138,47 @@ impl Database {
             format!(
                 "INSERT INTO {} (pos_w, pos_h, val, set_id) VALUES {} ON CONFLICT DO NOTHING",
                 Node::table_name(),
+                values.join(","),
+            )
+        };
+        // println!("stmt: {}", stmt);
+
+        let rows_updated = match self.pg_client.execute(&stmt, &[]).await {
+            Ok(r) => r,
+            Err(err) => {
+                tracing::error!("Error executing stmt, err: {}, stmt: {}", err, stmt);
+
+                return Err(err.into());
+            }
+        };
+
+        Ok(rows_updated)
+    }
+
+    pub async fn insert_account_nodes(
+        &self,
+        account_nodes: Vec<AccountNode>,
+        update_on_conflict: bool,
+    ) -> Result<u64, DbInterfaceError> {
+        let mut values = Vec::with_capacity(account_nodes.len());
+
+        for n in account_nodes {
+            let val = format!("('{}', '{}')", n.addr, n.set_id,);
+            values.push(val);
+        }
+
+        let stmt = if update_on_conflict {
+            format!(
+                "INSERT INTO {} (addr, set_id) VALUES {} ON CONFLICT \
+                    (addr, set_id) {}",
+                AccountNode::table_name(),
+                values.join(","),
+                "DO UPDATE SET addr=excluded.addr, set_id=excluded.set_id, updated_at=now()",
+            )
+        } else {
+            format!(
+                "INSERT INTO {} (addr, set_id) VALUES {} ON CONFLICT DO NOTHING",
+                AccountNode::table_name(),
                 values.join(","),
             )
         };

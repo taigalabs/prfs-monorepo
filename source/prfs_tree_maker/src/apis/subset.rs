@@ -1,5 +1,8 @@
 use crate::{geth::GethClient, paths::Paths, TreeMakerError};
-use prfs_db_interface::{database::Database, models::Node};
+use prfs_db_interface::{
+    database::Database,
+    models::{AccountNode, Node},
+};
 use rust_decimal::{prelude::FromPrimitive, Decimal};
 use serde::{Deserialize, Serialize};
 
@@ -58,18 +61,39 @@ async fn create_subset(
         );
         let accounts = db.get_accounts(&where_clause).await?;
 
-        let nodes: Vec<Node> = accounts
-            .iter()
-            .enumerate()
-            .map(|(idx, acc)| Node {
+        let mut nodes = vec![];
+        let mut account_nodes = vec![];
+
+        for (idx, account) in accounts.iter().enumerate() {
+            let node = Node {
                 pos_w: Decimal::from_u64((count + idx) as u64).unwrap(),
                 pos_h: 0,
-                val: acc.addr.to_string(),
+                val: account.addr.to_string(),
                 set_id: set_id.to_string(),
-            })
-            .collect();
+            };
+
+            let account_node = AccountNode {
+                addr: account.addr.to_string(),
+                set_id: set_id.to_string(),
+            };
+
+            nodes.push(node);
+            account_nodes.push(account_node);
+        }
+
+        // let nodes: Vec<Node> = accounts
+        //     .iter()
+        //     .enumerate()
+        //     .map(|(idx, acc)| Node {
+        //         pos_w: Decimal::from_u64((count + idx) as u64).unwrap(),
+        //         pos_h: 0,
+        //         val: acc.addr.to_string(),
+        //         set_id: set_id.to_string(),
+        //     })
+        //     .collect();
 
         db.insert_nodes(nodes, true).await?;
+        db.insert_account_nodes(account_nodes, true).await?;
 
         println!("current count: {}", count);
         // println!("accs len: {:?}", accounts);
