@@ -34,7 +34,10 @@ fn main() {
 
     let paths = Paths::new();
 
-    match op.as_str() {
+    let op_str = op.as_str();
+    println!("Operation: {}", op_str.cyan().bold());
+
+    match op_str {
         "build" => {
             let build_handle = BuildHandle { timestamp };
 
@@ -48,14 +51,14 @@ fn main() {
             run_tasks(tasks, build_handle, &paths).expect("Ci failed");
         }
         "e2e_test_node" => {
-            tasks::e2e_test_web::run();
+            tasks::e2e_test_web::run(&paths);
         }
         "dev_prfs_web" => {
             // tasks::build_prfs_js::build_prfs_js();
             tasks::dev_prfs_web::run(&paths);
         }
         "dev_asset_server" => {
-            tasks::dev_asset_server::run();
+            tasks::dev_asset_server::run(&paths);
         }
         _ => {
             panic!(

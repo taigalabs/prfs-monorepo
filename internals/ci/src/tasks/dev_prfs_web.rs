@@ -1,12 +1,9 @@
-use colored::Colorize;
-
 use super::compile_circuits::BuildCircuitJson;
 use crate::paths::Paths;
+use colored::Colorize;
 use std::process::Command;
 
 pub fn run(paths: &Paths) {
-    println!("[ci] Start executing dev_prfs_web...");
-
     inject_prfs_web_env(paths);
     run_app(paths);
 }

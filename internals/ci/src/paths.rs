@@ -10,6 +10,7 @@ pub struct Paths {
     pub circuits_build_path: PathBuf,
     pub prfs_js_path: PathBuf,
     pub prfs_web: PathBuf,
+    pub e2e_test_web: PathBuf,
 }
 
 impl Paths {
@@ -44,6 +45,9 @@ impl Paths {
         let prfs_web = curr_dir.join("source/prfs_web");
         println!("prfs_web: {:?}", prfs_web);
 
+        let e2e_test_web = curr_dir.join("source/e2e_test_web");
+        println!("e2e_test_web: {:?}", e2e_test_web);
+
         Paths {
             curr_dir,
             wasm_path,
@@ -54,6 +58,7 @@ impl Paths {
             circuits_build_path,
             prfs_js_path,
             prfs_web,
+            e2e_test_web,
         }
     }
 }

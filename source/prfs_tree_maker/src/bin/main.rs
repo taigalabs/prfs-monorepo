@@ -34,24 +34,30 @@ async fn main() -> Result<(), TreeMakerError> {
 }
 
 async fn run_cli_command() -> Result<(), TreeMakerError> {
-    let geth_client = GethClient::new()?;
-    let db = Database::connect().await?;
-
     let matches = command!() // requires `cargo` feature
         .arg(Arg::new("operation").action(ArgAction::Append))
         .get_matches();
 
-    let op = matches.get_one::<String>("operation").unwrap().clone();
+    let op = matches
+        .get_one::<String>("operation")
+        .expect("operation needs to be given")
+        .clone();
+
+    let db = Database::connect().await?;
 
     match op.as_str() {
         "scan" => {
+            let geth_client = GethClient::new()?;
+
             scan::run(geth_client, db).await?;
         }
         "genesis" => {
+            let geth_client = GethClient::new()?;
+
             genesis::run(geth_client, db).await?;
         }
         "tree" => {
-            tree::run(geth_client, db).await?;
+            tree::run(db).await?;
         }
         _ => {
             panic!("[ci] Could not find the operation. op: {}", op);
