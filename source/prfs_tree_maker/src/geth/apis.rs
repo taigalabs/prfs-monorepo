@@ -17,6 +17,20 @@ pub struct GethClient {
 
 #[allow(non_snake_case)]
 impl GethClient {
+    pub fn new() -> Result<GethClient, TreeMakerError> {
+        let geth_endpoint: String = std::env::var("GETH_ENDPOINT")
+            .expect("env var GETH_ENDPOINT missing")
+            .parse()?;
+
+        let https = HttpsConnector::new();
+        let hyper_client = HyperClient::builder().build::<_, hyper::Body>(https);
+
+        Ok(GethClient {
+            hyper_client,
+            geth_endpoint,
+        })
+    }
+
     make_request_type!(eth_getBalance, GetBalanceRequest, GetBalanceResponse);
     make_request_type!(
         eth_getBlockByNumber,

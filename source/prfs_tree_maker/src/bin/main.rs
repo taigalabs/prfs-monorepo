@@ -1,69 +1,36 @@
 use chrono::prelude::*;
 use clap::{command, Arg, ArgAction};
 use dotenv::dotenv;
-use hyper::Client as HyperClient;
-use hyper_tls::HttpsConnector;
 use prfs_db_interface::db::Database;
-use prfs_tree_maker::{
-    apis::{accounts, set},
-    geth::GethClient,
-    TreeMakerError,
-};
-use std::fs::File;
-use std::path::PathBuf;
+use prfs_tree_maker::{apis::scan, geth::GethClient, paths::Paths, TreeMakerError};
 use tracing::metadata::LevelFilter;
+use tracing_appender::non_blocking::WorkerGuard;
 use tracing_subscriber::{
     fmt::{format::Writer, time::FormatTime},
     prelude::__tracing_subscriber_SubscriberExt,
     EnvFilter, Layer,
 };
 
-pub(crate) struct MockTime;
-impl FormatTime for MockTime {
-    fn format_time(&self, w: &mut Writer<'_>) -> std::fmt::Result {
-        let time = Utc::now().format("%y-%m-%d %H:%M:%S");
-        write!(w, "{}", time)
-    }
-}
-
 #[tokio::main]
 async fn main() -> Result<(), TreeMakerError> {
     std::env::set_var("RUST_LOG", "info");
 
+    dotenv()?;
+
     let now = Utc::now();
-    println!("Tree maker starts");
-    println!("start time: {}", now);
+    println!("Tree maker starts, start time: {}", now);
 
-    {
-        let dotenv_path = dotenv()?;
-        println!(".env path: {:?}", dotenv_path);
-    }
+    let paths = Paths::new();
 
-    let project_root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    let log_files_path = project_root.join(format!("log_files"));
-    println!("log file path: {:?}", log_files_path);
+    let _guard = set_up_logger(&paths)?;
 
-    if log_files_path.exists() == false {
-        File::create(&log_files_path).unwrap();
-    }
+    run_cli_command().await?;
 
-    let _guard = {
-        set_up_logger();
-    };
+    Ok(())
+}
 
-    let geth_endpoint: String = std::env::var("GETH_ENDPOINT")
-        .expect("env var GETH_ENDPOINT missing")
-        .parse()
-        .unwrap();
-
-    let https = HttpsConnector::new();
-    let hyper_client = HyperClient::builder().build::<_, hyper::Body>(https);
-
-    let geth_client = GethClient {
-        hyper_client,
-        geth_endpoint,
-    };
-
+async fn run_cli_command() -> Result<(), TreeMakerError> {
+    let geth_client = GethClient::new()?;
     let db = Database::connect().await?;
 
     let matches = command!() // requires `cargo` feature
@@ -72,30 +39,17 @@ async fn main() -> Result<(), TreeMakerError> {
 
     let op = matches.get_one::<String>("operation").unwrap().clone();
 
-    let now = Utc::now();
-    let timestamp = now.timestamp_millis().to_string();
-    println!("Ci starts: {} ({})", now, timestamp);
-
     match op.as_str() {
-        "build" => {}
-        "e2e_test_node" => {
-            // tasks::e2e_test_web::run();
+        "scan" => {
+            // accounts::get_accounts(geth_client, db).await?;
+            scan::run(geth_client, db).await?;
         }
-        "dev_prfs_web" => {
-            // tasks::dev_prfs_web::run(&paths);
-        }
-        "dev_asset_server" => {
-            // tasks::dev_asset_server::run();
-        }
+        "tree" => {}
         _ => {
-            panic!(
-                "[ci] Could not find the operation. Did you mean 'build'?, op: {}",
-                op
-            );
+            panic!("[ci] Could not find the operation. op: {}", op);
         }
     }
 
-    accounts::get_accounts(geth_client, db).await?;
     // set::run(db).await?;
     // grow::grow_tree().await?;
     // climb::climb_up().await?;
@@ -103,29 +57,30 @@ async fn main() -> Result<(), TreeMakerError> {
     Ok(())
 }
 
-fn set_up_logger() {
+fn set_up_logger(paths: &Paths) -> Result<WorkerGuard, TreeMakerError> {
+    if paths.log_files.exists() == false {
+        std::fs::create_dir_all(&paths.log_files).unwrap();
+    }
+
     let mut layers = Vec::new();
 
     let console_log_layer = tracing_subscriber::fmt::layer()
         .with_target(false)
-        .with_timer(MockTime)
+        .with_timer(TimeFormat)
         .with_filter(EnvFilter::from_default_env())
         .with_filter(LevelFilter::INFO)
         .boxed();
 
     layers.push(console_log_layer);
 
-    let log_dir = project_root.join("log_files");
-    std::fs::create_dir_all(&log_dir)?;
+    let file_appender = tracing_appender::rolling::daily(&paths.log_files, "tree_maker.log");
 
-    let file_appender = tracing_appender::rolling::daily(&log_dir, "tree_maker.log");
-
-    let (non_blocking, _guard) = tracing_appender::non_blocking(file_appender);
+    let (non_blocking, guard) = tracing_appender::non_blocking(file_appender);
 
     let file_log_layer = tracing_subscriber::fmt::layer()
         .with_writer(non_blocking)
         .with_target(false)
-        .with_timer(MockTime)
+        .with_timer(TimeFormat)
         .with_ansi(false)
         .with_filter(EnvFilter::from_default_env())
         .with_filter(LevelFilter::ERROR)
@@ -134,8 +89,8 @@ fn set_up_logger() {
     layers.push(file_log_layer);
 
     println!(
-        "File logger is attached. Log files will be periodically rotated. log dir: {}",
-        log_dir.to_string_lossy(),
+        "File logger is attached. Log files will be periodically rotated. path: {:?}",
+        paths.log_files,
     );
 
     println!("Following log invocation will be handled by global logger");
@@ -150,5 +105,13 @@ fn set_up_logger() {
 
     tracing::info!("logging starts");
 
-    _guard
+    Ok(guard)
+}
+
+pub(crate) struct TimeFormat;
+impl FormatTime for TimeFormat {
+    fn format_time(&self, w: &mut Writer<'_>) -> std::fmt::Result {
+        let time = Utc::now().format("%y-%m-%d %H:%M:%S");
+        write!(w, "{}", time)
+    }
 }
