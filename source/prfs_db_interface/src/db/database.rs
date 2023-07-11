@@ -18,6 +18,8 @@ impl Database {
             postgres_endpoint, postgres_pw
         );
 
+        println!("Postgres pg_config: {}", pg_config);
+
         let (pg_client, connection) = tokio_postgres::connect(&pg_config, NoTls).await?;
 
         let d = Database { pg_client };

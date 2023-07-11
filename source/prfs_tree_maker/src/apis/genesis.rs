@@ -16,7 +16,10 @@ struct GenesisEntry {
     wei: String,
 }
 
-pub async fn run(geth_client: GethClient, db: Database) -> Result<(), TreeMakerError> {
+pub async fn run() -> Result<(), TreeMakerError> {
+    let geth_client = GethClient::new()?;
+    let db = Database::connect().await?;
+
     process_genesis_block_accounts(geth_client, db).await?;
 
     Ok(())

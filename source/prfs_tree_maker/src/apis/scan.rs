@@ -10,7 +10,10 @@ use std::time::Duration;
 
 const MAX_CONSEQ_ERR_COUNT: usize = 10;
 
-pub async fn run(geth_client: GethClient, db: Database) -> Result<(), TreeMakerError> {
+pub async fn run() -> Result<(), TreeMakerError> {
+    let geth_client = GethClient::new()?;
+    let db = Database::connect().await?;
+
     let balance_bucket_capacity = {
         let s: usize = std::env::var("SCAN_BALANCE_BUCKET_CAPACITY")
             .expect("env var SCAN_BALANCE_BUCKET_CAPACITY missing")

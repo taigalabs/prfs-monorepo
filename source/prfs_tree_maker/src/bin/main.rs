@@ -1,5 +1,6 @@
 use chrono::prelude::*;
 use clap::{command, Arg, ArgAction};
+use colored::Colorize;
 use dotenv::dotenv;
 use prfs_db_interface::db::Database;
 use prfs_tree_maker::{
@@ -43,21 +44,19 @@ async fn run_cli_command() -> Result<(), TreeMakerError> {
         .expect("operation needs to be given")
         .clone();
 
-    let db = Database::connect().await?;
+    let op_str = op.as_str();
+
+    println!("Operation: {}", op_str.cyan().bold());
 
     match op.as_str() {
         "scan" => {
-            let geth_client = GethClient::new()?;
-
-            scan::run(geth_client, db).await?;
+            scan::run().await?;
         }
         "genesis" => {
-            let geth_client = GethClient::new()?;
-
-            genesis::run(geth_client, db).await?;
+            genesis::run().await?;
         }
         "tree" => {
-            tree::run(db).await?;
+            tree::run().await?;
         }
         _ => {
             panic!("[ci] Could not find the operation. op: {}", op);
