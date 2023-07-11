@@ -3,7 +3,8 @@ use crate::geth::{
     GethClient,
 };
 use crate::TreeMakerError;
-use prfs_db_interface::db::{Account, Database};
+use prfs_db_interface::database::Database;
+use prfs_db_interface::models::Account;
 use rust_decimal::Decimal;
 use std::collections::BTreeMap;
 use std::time::Duration;
@@ -12,7 +13,10 @@ const MAX_CONSEQ_ERR_COUNT: usize = 10;
 
 pub async fn run() -> Result<(), TreeMakerError> {
     let geth_client = GethClient::new()?;
-    let db = Database::connect().await?;
+
+    let pg_endpoint = std::env::var("POSTGRES_ENDPOINT")?;
+    let pg_pw = std::env::var("POSTGRES_PW")?;
+    let db = Database::connect(pg_endpoint, pg_pw).await?;
 
     let balance_bucket_capacity = {
         let s: usize = std::env::var("SCAN_BALANCE_BUCKET_CAPACITY")

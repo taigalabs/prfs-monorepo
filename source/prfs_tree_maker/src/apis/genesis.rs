@@ -1,14 +1,11 @@
 use crate::geth::{GetBalanceRequest, GethClient};
-use crate::{geth, TreeMakerError};
-use hyper::client::HttpConnector;
-use hyper::{body::HttpBody as _, Client as HyperClient, Uri};
-use hyper_tls::HttpsConnector;
-use prfs_db_interface::db::{Account, Database};
+use crate::TreeMakerError;
+use prfs_db_interface::database::Database;
+use prfs_db_interface::models::Account;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
-use serde_json::{from_slice, json};
 use std::collections::{BTreeMap, HashMap};
-use std::fs::{self, File};
+use std::fs::{self};
 use std::path::PathBuf;
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -18,7 +15,11 @@ struct GenesisEntry {
 
 pub async fn run() -> Result<(), TreeMakerError> {
     let geth_client = GethClient::new()?;
-    let db = Database::connect().await?;
+
+    let pg_endpoint = std::env::var("POSTGRES_ENDPOINT")?;
+    let pg_pw = std::env::var("POSTGRES_PW")?;
+
+    let db = Database::connect(pg_endpoint, pg_pw).await?;
 
     process_genesis_block_accounts(geth_client, db).await?;
 

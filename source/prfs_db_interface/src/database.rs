@@ -1,25 +1,13 @@
-use super::models::Account;
-use crate::{
-    models::{Node, ProofType},
-    DbInterfaceError,
-};
-use rust_decimal::Decimal;
-use std::collections::BTreeMap;
-use tokio_postgres::{Client as PGClient, NoTls, Row};
+use crate::DbInterfaceError;
+use tokio_postgres::{Client as PGClient, NoTls};
 
 pub struct Database {
     pub pg_client: PGClient,
 }
 
 impl Database {
-    pub async fn connect() -> Result<Database, DbInterfaceError> {
-        let postgres_endpoint = std::env::var("POSTGRES_ENDPOINT")?;
-        let postgres_pw = std::env::var("POSTGRES_PW")?;
-
-        let pg_config = format!(
-            "host={} user=postgres password={}",
-            postgres_endpoint, postgres_pw
-        );
+    pub async fn connect(pg_endpoint: String, pg_pw: String) -> Result<Database, DbInterfaceError> {
+        let pg_config = format!("host={} user=postgres password={}", pg_endpoint, pg_pw,);
 
         println!("Postgres pg_config: {}", pg_config);
 
