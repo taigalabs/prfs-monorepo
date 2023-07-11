@@ -2,7 +2,6 @@ use chrono::prelude::*;
 use clap::{command, Arg, ArgAction};
 use colored::Colorize;
 use dotenv::dotenv;
-use prfs_db_interface::db::Database;
 use prfs_tree_maker::{
     apis::{genesis, scan, subset, tree},
     geth::GethClient,
@@ -29,12 +28,12 @@ async fn main() -> Result<(), TreeMakerError> {
 
     let _guard = set_up_logger(&paths)?;
 
-    run_cli_command().await?;
+    run_cli_command(&paths).await?;
 
     Ok(())
 }
 
-async fn run_cli_command() -> Result<(), TreeMakerError> {
+async fn run_cli_command(paths: &Paths) -> Result<(), TreeMakerError> {
     let matches = command!() // requires `cargo` feature
         .arg(Arg::new("operation").action(ArgAction::Append))
         .get_matches();
@@ -59,7 +58,7 @@ async fn run_cli_command() -> Result<(), TreeMakerError> {
             tree::run().await?;
         }
         "subset" => {
-            subset::run().await?;
+            subset::run(&paths).await?;
         }
         _ => {
             panic!("[ci] Could not find the operation. op: {}", op);
