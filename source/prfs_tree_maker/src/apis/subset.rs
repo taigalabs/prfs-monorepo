@@ -1,5 +1,6 @@
 use crate::{geth::GethClient, paths::Paths, TreeMakerError};
-use prfs_db_interface::database::Database;
+use prfs_db_interface::{database::Database, models::Node};
+use rust_decimal::{prelude::FromPrimitive, Decimal};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -14,15 +15,16 @@ pub async fn run(paths: &Paths) -> Result<(), TreeMakerError> {
     let db = Database::connect(pg_endpoint, pg_pw).await?;
 
     let subset_filename = std::env::var("SUBSET_FILENAME")?;
+    let subset_query_limit = std::env::var("SUBSET_QUERY_LIMIT")?;
 
-    read_subset_file(paths, subset_filename)?;
+    let subset_json = read_subset_file(paths, subset_filename)?;
 
-    println!("run");
+    create_subset(&db, subset_json, subset_query_limit).await?;
 
     Ok(())
 }
 
-fn read_subset_file(paths: &Paths, subset_filename: String) -> Result<(), TreeMakerError> {
+fn read_subset_file(paths: &Paths, subset_filename: String) -> Result<SubsetJson, TreeMakerError> {
     println!("subset_filename: {}", subset_filename);
 
     let subset_json_path = paths.subsets.join(subset_filename);
@@ -33,9 +35,56 @@ fn read_subset_file(paths: &Paths, subset_filename: String) -> Result<(), TreeMa
     ));
 
     let subset_json: SubsetJson = serde_json::from_slice(&subset_json_bytes).unwrap();
+
     println!("subset_json: {:?}", subset_json);
 
-    // paths.subsets;
-    //
+    Ok(subset_json)
+}
+
+async fn create_subset(
+    db: &Database,
+    subset_json: SubsetJson,
+    subset_query_limit: String,
+) -> Result<(), TreeMakerError> {
+    let set_id = subset_json.set_id;
+
+    let mut should_loop = true;
+    let mut count = 0;
+
+    while should_loop {
+        let where_clause = format!(
+            "{} offset {} limit {}",
+            subset_json.where_clause, count, subset_query_limit
+        );
+        let accounts = db.get_accounts(&where_clause).await?;
+
+        let nodes: Vec<Node> = accounts
+            .iter()
+            .enumerate()
+            .map(|(idx, acc)| Node {
+                pos_w: Decimal::from_u64((count + idx) as u64).unwrap(),
+                pos_h: 0,
+                val: acc.addr.to_string(),
+                set_id: set_id.to_string(),
+            })
+            .collect();
+
+        db.insert_nodes(nodes, true).await?;
+
+        println!("current count: {}", count);
+        // println!("accs len: {:?}", accounts);
+
+        count += accounts.len();
+
+        if accounts.len() < 1 {
+            should_loop = false;
+        }
+    }
+
+    println!(
+        "Finish creating a subset, set_id: {}, total count: {}",
+        set_id, count
+    );
+
     Ok(())
 }

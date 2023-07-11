@@ -1,4 +1,0 @@
-{
-  "set_id": "0.5eth_20230711",
-  "where_clause": "accounts.wei < 500000000000000000"
-}

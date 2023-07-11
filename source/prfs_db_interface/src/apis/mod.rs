@@ -116,14 +116,13 @@ impl Database {
 
     pub async fn insert_nodes(
         &self,
-        set_id: String,
         nodes: Vec<Node>,
         update_on_conflict: bool,
     ) -> Result<u64, DbInterfaceError> {
         let mut values = Vec::with_capacity(nodes.len());
 
         for n in nodes {
-            let val = format!("({}, {}, '{}', '{}')", n.pos_w, n.pos_h, n.val, set_id);
+            let val = format!("({}, {}, '{}', '{}')", n.pos_w, n.pos_h, n.val, n.set_id);
             values.push(val);
         }
 
