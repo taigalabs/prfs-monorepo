@@ -5,7 +5,10 @@ use prfs_db_interface::{
 };
 use rust_decimal::{prelude::FromPrimitive, Decimal};
 use serde::{Deserialize, Serialize};
-use std::time::{Duration, SystemTime};
+use std::{
+    io::Write,
+    time::{Duration, SystemTime},
+};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct SubsetJson {
@@ -22,7 +25,7 @@ pub async fn run(paths: &Paths) -> Result<(), TreeMakerError> {
 
     let subset_json = read_subset_file(paths, subset_filename)?;
 
-    create_subset(&db, subset_json).await?;
+    create_subset(&db, paths, subset_json).await?;
 
     Ok(())
 }
@@ -44,7 +47,17 @@ fn read_subset_file(paths: &Paths, subset_filename: String) -> Result<SubsetJson
     Ok(subset_json)
 }
 
-async fn create_subset(db: &Database, subset_json: SubsetJson) -> Result<(), TreeMakerError> {
+async fn create_subset(
+    db: &Database,
+    paths: &Paths,
+    subset_json: SubsetJson,
+) -> Result<(), TreeMakerError> {
+    // let p = paths.log_files.join("account_node2");
+    // let mut nodes_record = std::fs::File::create(p).unwrap();
+
+    // let p = paths.log_files.join("account_node1");
+    // let mut account_node_record = std::fs::File::create(p).unwrap();
+
     let subset_query_limit = std::env::var("SUBSET_QUERY_LIMIT")?;
 
     let subset_offset = {
@@ -73,12 +86,13 @@ async fn create_subset(db: &Database, subset_json: SubsetJson) -> Result<(), Tre
     let set_id = subset_json.set_id;
 
     let mut should_loop = true;
-    let mut count = subset_offset;
+    let mut offset = subset_offset;
+    let mut count = 0;
 
-    while should_loop {
+    loop {
         let where_clause = format!(
             "{} offset {} limit {}",
-            subset_json.where_clause, count, subset_query_limit
+            subset_json.where_clause, offset, subset_query_limit
         );
 
         let now = SystemTime::now();
@@ -93,8 +107,8 @@ async fn create_subset(db: &Database, subset_json: SubsetJson) -> Result<(), Tre
         for (idx, account) in accounts.iter().enumerate() {
             if account.addr == "0x33d10ab178924ecb7ad52f4c0c8062c3066607ec" {
                 println!(
-                    "Found! addr:{}, idx: {}, count: {}",
-                    account.addr, idx, count
+                    "Found! addr: {}, idx: {}, count: {}",
+                    account.addr, idx, offset,
                 );
             }
 
@@ -118,9 +132,26 @@ async fn create_subset(db: &Database, subset_json: SubsetJson) -> Result<(), Tre
             break;
         }
 
-        let nodes_updated = db.insert_nodes(nodes, false).await?;
-        let account_node_updated = db.insert_account_nodes(account_nodes, false).await?;
+        if nodes.len() != account_nodes.len() {
+            panic!(
+                "nodes {} and account_node {} counts are different",
+                nodes.len(),
+                account_nodes.len()
+            );
+        }
+
+        let nodes_updated = db.insert_nodes(&nodes, false).await?;
+        let account_node_updated = db.insert_account_nodes(&account_nodes, false).await?;
+
+        if nodes_updated != account_node_updated {
+            panic!(
+                "nodes {} and account_node {} update counts are different, count: {}, offset: {}",
+                nodes_updated, account_node_updated, count, offset,
+            );
+        }
+
         count += accounts.len();
+        offset += accounts.len();
 
         println!(
             "Inserted, nodes updated: {}, account_node updated: {}, current count: {}",

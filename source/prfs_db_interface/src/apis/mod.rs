@@ -5,7 +5,8 @@ use crate::{
     DbInterfaceError,
 };
 use rust_decimal::Decimal;
-use std::collections::BTreeMap;
+use std::io::Write;
+use std::{collections::BTreeMap, fs::write};
 use tokio_postgres::{Client as PGClient, Row};
 
 impl Database {
@@ -116,7 +117,7 @@ impl Database {
 
     pub async fn insert_nodes(
         &self,
-        nodes: Vec<Node>,
+        nodes: &Vec<Node>,
         update_on_conflict: bool,
     ) -> Result<u64, DbInterfaceError> {
         let mut values = Vec::with_capacity(nodes.len());
@@ -157,7 +158,7 @@ impl Database {
 
     pub async fn insert_account_nodes(
         &self,
-        account_nodes: Vec<AccountNode>,
+        account_nodes: &Vec<AccountNode>,
         update_on_conflict: bool,
     ) -> Result<u64, DbInterfaceError> {
         let mut values = Vec::with_capacity(account_nodes.len());
@@ -177,7 +178,7 @@ impl Database {
             )
         } else {
             format!(
-                "INSERT INTO {} (addr, set_id) VALUES {} ON CONFLICT DO NOTHING",
+                "INSERT INTO {} (addr, set_id) VALUES {} ON CONFLICT DO NOTHING returning addr",
                 AccountNode::table_name(),
                 values.join(","),
             )
@@ -192,6 +193,10 @@ impl Database {
                 return Err(err.into());
             }
         };
+
+        // if rows_updated as usize != account_nodes.len() {
+        //     println!("conflict stmt: {}", stmt);
+        // }
 
         Ok(rows_updated)
     }
