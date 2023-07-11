@@ -1,9 +1,5 @@
 import {
   Prfs,
-  // defaultAddressMembershipPConfig,
-  // defaultPubkeyMembershipPConfig,
-  // defaultPubkeyMembershipVConfig,
-  // defaultAddressMembershipVConfig
 } from "@taigalabs/prfs-js";
 import { initWasm } from "@taigalabs/prfs-js/build/wasm_wrapper/load_es";
 import {
@@ -15,6 +11,7 @@ import {
 } from "@ethereumjs/util";
 import { ethers, verifyMessage } from "ethers";
 import { MerkleProof } from "@personaelabs/spartan-ecdsa";
+import { getAddrMembership2CircuitUrl, getAddrMembership2WtnsGenUrl } from "./env";
 
 let addrs = [
   "0x33d10ab178924ecb7ad52f4c0c8062c3066607ec",
@@ -43,6 +40,8 @@ export async function proveMembership(signer: ethers.JsonRpcSigner) {
 }
 
 async function f1(signer: ethers.JsonRpcSigner) {
+  let addrMembership2WtnsGenUrl = getAddrMembership2WtnsGenUrl();
+  let addrMembership2CircuitUrl = getAddrMembership2CircuitUrl();
 
   let prfsHandlers = await initWasm();
   let prfs = new Prfs(prfsHandlers);
@@ -98,8 +97,8 @@ async function f1(signer: ethers.JsonRpcSigner) {
   console.log("Proving...");
   console.time("Full proving time");
   const prover = prfs.newMembershipProver(
-    process.env.NEXT_PUBLIC_MEMBERSHIP_PROVER_WITNESS_GEN_WASM_URL,
-    process.env.NEXT_PUBLIC_MEMBERSHIP_PROVER_CIRCUIT_URL,
+    addrMembership2WtnsGenUrl,
+    addrMembership2CircuitUrl,
   );
   console.log(123123);
   const { proof, publicInput } = await prover.prove(sig, msgHash, merkleProof);
@@ -128,10 +127,8 @@ async function f1(signer: ethers.JsonRpcSigner) {
 }
 
 async function f2(signer: ethers.JsonRpcSigner) {
-  const a = process.env.NEXT_PUBLIC_EMBERSHIP_PROVER_WITNESS_GEN_WASM_URL;
-  console.log(11, a);
-  process.env.PRFS_JS_WASM_URL = a;
-  console.log(22, process.env.PRFS_JS_WASM_URL);
+  let addrMembership2CircuitUrl = getAddrMembership2CircuitUrl();
+  let addrMembership2WtnsGenUrl = getAddrMembership2WtnsGenUrl();
 
   let prfsHandlers = await initWasm();
   let prfs = new Prfs(prfsHandlers);
@@ -183,12 +180,13 @@ async function f2(signer: ethers.JsonRpcSigner) {
   // const index = addressTree.indexOf(proverAddr);
   // const merkleProof = addressTree.createProof(index);
   // console.log("merkleProof", merkleProof);
+  console.log(222, process.env.NEXT_PUBLIC_MEMBERSHIP_PROVER_WITNESS_GEN_WASM_URL)
 
   console.log("Proving...");
   console.time("Full proving time");
   const prover = prfs.newMembershipProver(
-    process.env.NEXT_PUBLIC_MEMBERSHIP_PROVER_WITNESS_GEN_WASM_URL,
-    process.env.NEXT_PUBLIC_MEMBERSHIP_PROVER_CIRCUIT_URL,
+    addrMembership2WtnsGenUrl,
+    addrMembership2CircuitUrl,
   );
   const { proof, publicInput } = await prover.prove(sig, msgHash, merkleProof);
 

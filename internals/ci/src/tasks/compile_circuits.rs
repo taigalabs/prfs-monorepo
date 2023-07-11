@@ -1,9 +1,15 @@
 use crate::{paths::Paths, task::Task, BuildHandle, CiError};
 use colored::Colorize;
-use serde_json::json;
-use std::{env, fs, io::Write, path::PathBuf, process::Command};
+use serde::{Deserialize, Serialize};
+use std::{collections::HashMap, fs, io::Write, path::PathBuf, process::Command};
 
 pub struct CompileCircuitsTask;
+
+#[derive(Serialize, Deserialize)]
+pub struct BuildCircuitJson {
+    pub timestamp: String,
+    pub files: HashMap<String, String>,
+}
 
 impl Task for CompileCircuitsTask {
     fn name(&self) -> &str {
@@ -14,7 +20,7 @@ impl Task for CompileCircuitsTask {
         let circuit_name = "addr_membership2";
         let num_pub_inputs = 5;
 
-        let circuit_file_name = format!("{}_{}", circuit_name, build_handle.timestamp);
+        let circuit_id = format!("{}_{}", circuit_name, build_handle.timestamp);
 
         let circuit_src_path = paths
             .circuits_path
@@ -34,29 +40,20 @@ impl Task for CompileCircuitsTask {
 
         let circuit_asset_path = paths.prf_asset_serve_path.join("circuits");
 
-        println!(
-            "{} a directory, path: {:?}",
-            "Recreating".green(),
-            circuit_asset_path,
-        );
-
-        if circuit_asset_path.exists() {
-            std::fs::remove_dir_all(&circuit_asset_path).unwrap();
-        }
-        std::fs::create_dir_all(&circuit_asset_path).unwrap();
+        create_circuit_asset_path(&circuit_asset_path);
 
         let circuit_compiled_path = paths
             .circuit_build_path
             .join(format!("{}_spartan.circuit", circuit_name));
-
-        let circuit_compiled_serve_path =
-            circuit_asset_path.join(format!("{}.circuit", circuit_file_name,));
+        let circuit_file_name = format!("{}.circuit", circuit_id,);
+        let circuit_compiled_serve_path = circuit_asset_path.join(&circuit_file_name);
 
         let wtns_gen_src_path = paths
             .circuit_build_path
             .join(format!("{}_js/{}.wasm", circuit_name, circuit_name));
+        let wtns_gen_file_name = format!("{}.wasm", circuit_id);
 
-        let wtns_gen_serve_path = circuit_asset_path.join(format!("{}.wasm", circuit_file_name));
+        let wtns_gen_serve_path = circuit_asset_path.join(&wtns_gen_file_name);
 
         circuit_reader::make_spartan_instance(
             &circuit_r1cs_path,
@@ -69,20 +66,27 @@ impl Task for CompileCircuitsTask {
             paths,
             circuit_compiled_path,
             &circuit_compiled_serve_path,
-            // &circuit_asset_path,
             &wtns_gen_src_path,
             &wtns_gen_serve_path,
         );
 
-        create_build_status(
-            build_handle,
-            paths,
-            &circuit_compiled_serve_path,
-            &wtns_gen_serve_path,
-        );
+        create_build_json(build_handle, paths, &circuit_file_name, &wtns_gen_file_name);
 
         Ok(())
     }
+}
+
+fn create_circuit_asset_path(circuit_asset_path: &PathBuf) {
+    println!(
+        "{} a directory, path: {:?}",
+        "Recreating".green(),
+        circuit_asset_path,
+    );
+
+    if circuit_asset_path.exists() {
+        std::fs::remove_dir_all(&circuit_asset_path).unwrap();
+    }
+    std::fs::create_dir_all(&circuit_asset_path).unwrap();
 }
 
 fn compile_circuits(paths: &Paths, circuit_src_path: &PathBuf, circuit_build_path: &PathBuf) {
@@ -137,19 +141,27 @@ fn copy_assets(
     fs::copy(wtns_gen_src_path, wtns_gen_serve_path).unwrap();
 }
 
-fn create_build_status(
+fn create_build_json(
     build_handle: &BuildHandle,
     paths: &Paths,
-    circuit_compiled_serve_path: &PathBuf,
-    wtns_gen_serve_path: &PathBuf,
+    circuit_file_name: &String,
+    wtns_gen_file_name: &String,
 ) {
-    let build_json = json!({
-        "timestamp": build_handle.timestamp,
-        "files": {
-            "addr_membership2_circuit": circuit_compiled_serve_path.to_str().unwrap(),
-            "addr_membership2_wtns_gen": wtns_gen_serve_path.to_str().unwrap(),
-        }
-    });
+    let files = HashMap::from([
+        (
+            String::from("addr_membership2_circuit"),
+            format!("circuits/{}", circuit_file_name),
+        ),
+        (
+            String::from("addr_membership2_wtns_gen"),
+            format!("circuits/{}", wtns_gen_file_name),
+        ),
+    ]);
+
+    let build_json = BuildCircuitJson {
+        timestamp: build_handle.timestamp.to_string(),
+        files,
+    };
 
     let circuit_build_json_path = paths.prf_asset_serve_path.join("build_circuits.json");
     println!(
