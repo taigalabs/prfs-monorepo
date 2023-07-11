@@ -5,7 +5,7 @@ use prfs_db_interface::{
 };
 use rust_decimal::{prelude::FromPrimitive, Decimal};
 use serde::{Deserialize, Serialize};
-use std::time::Duration;
+use std::time::{Duration, SystemTime};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct SubsetJson {
@@ -47,6 +47,11 @@ fn read_subset_file(paths: &Paths, subset_filename: String) -> Result<SubsetJson
 async fn create_subset(db: &Database, subset_json: SubsetJson) -> Result<(), TreeMakerError> {
     let subset_query_limit = std::env::var("SUBSET_QUERY_LIMIT")?;
 
+    let subset_offset = {
+        let s = std::env::var("SUBSET_OFFSET")?;
+        s.parse::<usize>().unwrap()
+    };
+
     let subset_insert_interval = {
         let s: u64 = std::env::var("SUBSET_INSERT_INTERVAL")
             .expect("env var SCAN_INTERVAL missing")
@@ -56,31 +61,40 @@ async fn create_subset(db: &Database, subset_json: SubsetJson) -> Result<(), Tre
     };
 
     println!(
-        "subset_query_limit: {}, subset_insert_interval: {}",
-        subset_query_limit, subset_insert_interval
+        "subset_offset: {}, subset_query_limit: {}, subset_insert_interval: {}",
+        subset_offset, subset_query_limit, subset_insert_interval
     );
 
     let break_every = {
         let b = subset_query_limit.parse::<usize>().unwrap();
-        b * 4
+        b * 2
     };
 
     let set_id = subset_json.set_id;
 
     let mut should_loop = true;
-    let mut count = 0;
+    let mut count = subset_offset;
 
     while should_loop {
         let where_clause = format!(
             "{} offset {} limit {}",
             subset_json.where_clause, count, subset_query_limit
         );
+
+        let now = SystemTime::now();
         let accounts = db.get_accounts(&where_clause).await?;
+
+        let elapsed = now.elapsed().unwrap();
+        println!("query took {} ms", elapsed.as_millis());
 
         let mut nodes = vec![];
         let mut account_nodes = vec![];
 
         for (idx, account) in accounts.iter().enumerate() {
+            if account.addr == "0x33d10ab178924ecb7ad52f4c0c8062c3066607ec" {
+                panic!("idx: {}, count: {}", idx, count);
+            }
+
             let node = Node {
                 pos_w: Decimal::from_u64((count + idx) as u64).unwrap(),
                 pos_h: 0,
@@ -97,31 +111,28 @@ async fn create_subset(db: &Database, subset_json: SubsetJson) -> Result<(), Tre
             account_nodes.push(account_node);
         }
 
-        // let nodes: Vec<Node> = accounts
-        //     .iter()
-        //     .enumerate()
-        //     .map(|(idx, acc)| Node {
-        //         pos_w: Decimal::from_u64((count + idx) as u64).unwrap(),
-        //         pos_h: 0,
-        //         val: acc.addr.to_string(),
-        //         set_id: set_id.to_string(),
-        //     })
-        //     .collect();
+        if nodes.len() == 0 {
+            break;
+        }
 
-        db.insert_nodes(nodes, true).await?;
-        db.insert_account_nodes(account_nodes, true).await?;
+        let rows_updated = db.insert_nodes(nodes, false).await?;
+        println!("Table 'node' got updated, count: {}", rows_updated);
 
-        println!("current count: {}", count);
+        let rows_updated = db.insert_account_nodes(account_nodes, false).await?;
+        println!("Table 'account_node' got updated, count: {}", rows_updated);
+
         // println!("accs len: {:?}", accounts);
 
         count += accounts.len();
+        println!("current count: {}", count);
 
         if count % break_every == 0 {
+            println!("sleep");
             tokio::time::sleep(Duration::from_millis(subset_insert_interval)).await;
         }
 
         if accounts.len() < 1 {
-            should_loop = false;
+            break;
         }
     }
 
