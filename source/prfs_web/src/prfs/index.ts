@@ -182,7 +182,4 @@ async function f2(signer: ethers.JsonRpcSigner) {
   } else {
     console.log("Failed to verify proof :(");
   }
-
-  // return proof;
-  //
 }
