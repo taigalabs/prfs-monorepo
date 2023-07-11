@@ -120,13 +120,12 @@ async fn create_subset(db: &Database, subset_json: SubsetJson) -> Result<(), Tre
 
         let nodes_updated = db.insert_nodes(nodes, false).await?;
         let account_node_updated = db.insert_account_nodes(account_nodes, false).await?;
-        println!(
-            "Inserted, nodes updated: {}, account_node updated: {}",
-            nodes_updated, account_node_updated,
-        );
-
         count += accounts.len();
-        println!("current count: {}", count);
+
+        println!(
+            "Inserted, nodes updated: {}, account_node updated: {}, current count: {}",
+            nodes_updated, account_node_updated, count,
+        );
 
         if count % break_every == 0 {
             println!("sleep");
