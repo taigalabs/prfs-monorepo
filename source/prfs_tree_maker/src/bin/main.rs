@@ -2,7 +2,12 @@ use chrono::prelude::*;
 use clap::{command, Arg, ArgAction};
 use dotenv::dotenv;
 use prfs_db_interface::db::Database;
-use prfs_tree_maker::{apis::scan, geth::GethClient, paths::Paths, TreeMakerError};
+use prfs_tree_maker::{
+    apis::{genesis, scan, tree},
+    geth::GethClient,
+    paths::Paths,
+    TreeMakerError,
+};
 use tracing::metadata::LevelFilter;
 use tracing_appender::non_blocking::WorkerGuard;
 use tracing_subscriber::{
@@ -14,7 +19,6 @@ use tracing_subscriber::{
 #[tokio::main]
 async fn main() -> Result<(), TreeMakerError> {
     std::env::set_var("RUST_LOG", "info");
-
     dotenv()?;
 
     let now = Utc::now();
@@ -41,18 +45,18 @@ async fn run_cli_command() -> Result<(), TreeMakerError> {
 
     match op.as_str() {
         "scan" => {
-            // accounts::get_accounts(geth_client, db).await?;
             scan::run(geth_client, db).await?;
         }
-        "tree" => {}
+        "genesis" => {
+            genesis::run(geth_client, db).await?;
+        }
+        "tree" => {
+            tree::run(geth_client, db).await?;
+        }
         _ => {
             panic!("[ci] Could not find the operation. op: {}", op);
         }
     }
-
-    // set::run(db).await?;
-    // grow::grow_tree().await?;
-    // climb::climb_up().await?;
 
     Ok(())
 }
