@@ -96,31 +96,26 @@ async function f1(signer: ethers.JsonRpcSigner) {
 
   console.log("Proving...");
   console.time("Full proving time");
-  const prover = prfs.newMembershipProver(
+  const proofGen = prfs.newMembershipProofGen(
     addrMembership2WtnsGenUrl,
     addrMembership2CircuitUrl,
   );
 
-  const { proof, publicInput } = await prover.prove(sig, msgHash, merkleProof);
+  const { proof, publicInput } = await proofGen.prove(sig, msgHash, merkleProof);
 
-  console.log(33, proof, publicInput);
   console.timeEnd("Full proving time");
   console.log("Raw proof size (excluding public input)", proof.length, "bytes");
 
-  // console.log("Verifying...");
-  // const verifier = prfs.newMembershipVerifier({
-  //   ...defaultAddressMembershipVConfig,
-  //   enableProfiler: true
-  // });
+  console.log("Verifying...");
+  console.time("Verification time");
+  const result = await proofGen.verify(proof, publicInput.serialize());
+  console.timeEnd("Verification time");
 
-  // console.time("Verification time");
-  // const result = await verifier.verify(proof, publicInput.serialize());
-  // console.timeEnd("Verification time");
-  // if (result) {
-  //   console.log("Successfully verified proof!");
-  // } else {
-  //   console.log("Failed to verify proof :(");
-  // }
+  if (result) {
+    console.log("Successfully verified proof!");
+  } else {
+    console.log("Failed to verify proof :(");
+  }
 
   return proof;
 }
@@ -159,21 +154,21 @@ async function f2(signer: ethers.JsonRpcSigner) {
 
   console.log("Proving...");
   console.time("Full proving time");
-  const prover = prfs.newMembershipProofGen(
+  const proofGen = prfs.newMembershipProofGen(
     addrMembership2WtnsGenUrl,
     addrMembership2CircuitUrl,
   );
-  const { proof, publicInput } = await prover.prove(sig, msgHash, merkleProof);
+  const { proof, publicInput } = await proofGen.prove(sig, msgHash, merkleProof);
 
-  console.log(33, proof, publicInput);
   console.timeEnd("Full proving time");
   console.log("Raw proof size (excluding public input)", proof.length, "bytes");
 
   console.log("Verifying...");
 
   console.time("Verification time");
-  const result = await prover.verify(proof, publicInput.serialize());
+  const result = await proofGen.verify(proof, publicInput.serialize());
   console.timeEnd("Verification time");
+
   if (result) {
     console.log("Successfully verified proof!");
   } else {
