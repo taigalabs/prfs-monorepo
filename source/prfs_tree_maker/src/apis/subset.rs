@@ -5,6 +5,7 @@ use prfs_db_interface::{
 };
 use rust_decimal::{prelude::FromPrimitive, Decimal};
 use serde::{Deserialize, Serialize};
+use std::time::Duration;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct SubsetJson {
@@ -18,11 +19,10 @@ pub async fn run(paths: &Paths) -> Result<(), TreeMakerError> {
     let db = Database::connect(pg_endpoint, pg_pw).await?;
 
     let subset_filename = std::env::var("SUBSET_FILENAME")?;
-    let subset_query_limit = std::env::var("SUBSET_QUERY_LIMIT")?;
 
     let subset_json = read_subset_file(paths, subset_filename)?;
 
-    create_subset(&db, subset_json, subset_query_limit).await?;
+    create_subset(&db, subset_json).await?;
 
     Ok(())
 }
@@ -44,11 +44,27 @@ fn read_subset_file(paths: &Paths, subset_filename: String) -> Result<SubsetJson
     Ok(subset_json)
 }
 
-async fn create_subset(
-    db: &Database,
-    subset_json: SubsetJson,
-    subset_query_limit: String,
-) -> Result<(), TreeMakerError> {
+async fn create_subset(db: &Database, subset_json: SubsetJson) -> Result<(), TreeMakerError> {
+    let subset_query_limit = std::env::var("SUBSET_QUERY_LIMIT")?;
+
+    let subset_insert_interval = {
+        let s: u64 = std::env::var("SUBSET_INSERT_INTERVAL")
+            .expect("env var SCAN_INTERVAL missing")
+            .parse()
+            .unwrap();
+        s
+    };
+
+    println!(
+        "subset_query_limit: {}, subset_insert_interval: {}",
+        subset_query_limit, subset_insert_interval
+    );
+
+    let break_every = {
+        let b = subset_query_limit.parse::<usize>().unwrap();
+        b * 4
+    };
+
     let set_id = subset_json.set_id;
 
     let mut should_loop = true;
@@ -99,6 +115,10 @@ async fn create_subset(
         // println!("accs len: {:?}", accounts);
 
         count += accounts.len();
+
+        if count % break_every == 0 {
+            tokio::time::sleep(Duration::from_millis(subset_insert_interval)).await;
+        }
 
         if accounts.len() < 1 {
             should_loop = false;
