@@ -1,4 +1,4 @@
 {
   "set_id": "0.1eth_20230711",
-  "where_clause": "accounts.wei < 100000000000000000"
+  "where_clause": "100000000000000000 < accounts.wei AND accounts.wei < 200000000000000000"
 }
