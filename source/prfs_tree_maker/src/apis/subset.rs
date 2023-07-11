@@ -92,7 +92,10 @@ async fn create_subset(db: &Database, subset_json: SubsetJson) -> Result<(), Tre
 
         for (idx, account) in accounts.iter().enumerate() {
             if account.addr == "0x33d10ab178924ecb7ad52f4c0c8062c3066607ec" {
-                panic!("idx: {}, count: {}", idx, count);
+                println!(
+                    "Found! addr:{}, idx: {}, count: {}",
+                    account.addr, idx, count
+                );
             }
 
             let node = Node {
@@ -115,13 +118,12 @@ async fn create_subset(db: &Database, subset_json: SubsetJson) -> Result<(), Tre
             break;
         }
 
-        let rows_updated = db.insert_nodes(nodes, false).await?;
-        println!("Table 'node' got updated, count: {}", rows_updated);
-
-        let rows_updated = db.insert_account_nodes(account_nodes, false).await?;
-        println!("Table 'account_node' got updated, count: {}", rows_updated);
-
-        // println!("accs len: {:?}", accounts);
+        let nodes_updated = db.insert_nodes(nodes, false).await?;
+        let account_node_updated = db.insert_account_nodes(account_nodes, false).await?;
+        println!(
+            "Inserted, nodes updated: {}, account_node updated: {}",
+            nodes_updated, account_node_updated,
+        );
 
         count += accounts.len();
         println!("current count: {}", count);
