@@ -1,9 +1,5 @@
 import {
   Prfs,
-  // defaultAddressMembershipPConfig,
-  // defaultPubkeyMembershipPConfig,
-  // defaultPubkeyMembershipVConfig,
-  // defaultAddressMembershipVConfig
 } from "@taigalabs/prfs-js";
 import { initWasm } from '@taigalabs/prfs-js/build/wasm_wrapper/load_es';
 import {
@@ -13,8 +9,12 @@ import {
   privateToPublic,
   pubToAddress
 } from "@ethereumjs/util";
+import { getAddrMembership2CircuitUrl, getAddrMembership2WtnsGenUrl } from "./env";
 
 export async function proveMembershipMock() {
+  let addrMembership2CircuitUrl = getAddrMembership2CircuitUrl();
+  let addrMembership2WtnsGenUrl = getAddrMembership2WtnsGenUrl();
+
   let prfsHandlers = await initWasm();
   let prfs = new Prfs(prfsHandlers);
 
@@ -35,6 +35,7 @@ export async function proveMembershipMock() {
   console.log('proverAddress', proverAddress);
 
   await addressTree.insert(proverAddress);
+
   // Insert other members into the tree
   for (const member of ["🕵️", "🥷", "👩‍🔬"]) {
     const pubKey = privateToPublic(Buffer.from("".padStart(16, member), "utf16le"));
@@ -50,25 +51,20 @@ export async function proveMembershipMock() {
 
   console.log("Proving...");
   console.time("Full proving time");
-  const prover = prfs.newMembershipProver({
-    // ...defaultAddressMembershipPConfig,
-    enableProfiler: true
-  });
-  const { proof, publicInput } = await prover.prove(sig, msgHash, merkleProof);
+  const proofGen = prfs.newMembershipProofGen(
+    addrMembership2WtnsGenUrl,
+    addrMembership2CircuitUrl,
+  );
+  const { proof, publicInput } = await proofGen.prove(sig, msgHash, merkleProof);
 
-  console.log(33, proof, publicInput);
   console.timeEnd("Full proving time");
   console.log("Raw proof size (excluding public input)", proof.length, "bytes");
 
   console.log("Verifying...");
-  const verifier = prfs.newMembershipVerifier({
-    // ...defaultAddressMembershipVConfig,
-    enableProfiler: true
-  });
-
   console.time("Verification time");
-  const result = await verifier.verify(proof, publicInput.serialize());
+  const result = await proofGen.verify(proof, publicInput.serialize());
   console.timeEnd("Verification time");
+
   if (result) {
     console.log("Successfully verified proof!");
   } else {
