@@ -100,9 +100,8 @@ async function f1(signer: ethers.JsonRpcSigner) {
     addrMembership2WtnsGenUrl,
     addrMembership2CircuitUrl,
   );
-  console.log(123123);
+
   const { proof, publicInput } = await prover.prove(sig, msgHash, merkleProof);
-  console.log(234234);
 
   console.log(33, proof, publicInput);
   console.timeEnd("Full proving time");
@@ -136,25 +135,18 @@ async function f2(signer: ethers.JsonRpcSigner) {
   let buildStatus = await prfs.getBuildStatus();
   console.log("buildStatus: %o", buildStatus);
 
-  console.log(111);
-
   let merkleProof: MerkleProof = await prfs.makeMerkleProof(addrs, BigInt(0), 32);
   console.log("merkle proof", merkleProof);
 
   let poseidon = prfs.newPoseidon();
-  // const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
   const msg = Buffer.from("harry potter");
   const msgHash = hashPersonalMessage(msg);
+
   let sig = await signer.signMessage(msg);
   console.log("sig", sig);
 
   let verifyMsg = verifyMessage(msg, sig);
   console.log("verified addr", verifyMsg);
-
-  // const treeDepth = 32;
-  // const addressTree = await prfs.newTree(treeDepth, poseidon);
-
-  // console.log('root after init', addressTree.root());
 
   let proverAddress = signer.address;
   console.log("proverAddr", proverAddress);
@@ -164,23 +156,6 @@ async function f2(signer: ethers.JsonRpcSigner) {
 
   const addr1 = BigInt(addrs[1]);
   console.log("Addr1", addr1);
-
-  let q = await poseidon([proverAddr, addr1]);
-  console.log("poseidon", q);
-
-  // const proverAddrHash = await poseidon(proverAddr);
-  // console.log('proverAddrHash', proverAddrHash);
-
-  // await addressTree.insert(proverAddr);
-  // for (const addr of addrs) {
-  //   const address = BigInt(addr);
-  //   console.log("addr: %s, address: %s", addr, address);
-  //   await addressTree.insert(address);
-  // }
-  // const index = addressTree.indexOf(proverAddr);
-  // const merkleProof = addressTree.createProof(index);
-  // console.log("merkleProof", merkleProof);
-  console.log(222, process.env.NEXT_PUBLIC_MEMBERSHIP_PROVER_WITNESS_GEN_WASM_URL)
 
   console.log("Proving...");
   console.time("Full proving time");
@@ -194,20 +169,19 @@ async function f2(signer: ethers.JsonRpcSigner) {
   console.timeEnd("Full proving time");
   console.log("Raw proof size (excluding public input)", proof.length, "bytes");
 
-  // console.log("Verifying...");
-  // const verifier = prfs.newMembershipVerifier({
-  //   ...defaultAddressMembershipVConfig,
-  //   enableProfiler: true
-  // });
+  console.log("Verifying...");
+  const verifier = prfs.newMembershipVerifier({
+    enableProfiler: true
+  });
 
-  // console.time("Verification time");
-  // const result = await verifier.verify(proof, publicInput.serialize());
-  // console.timeEnd("Verification time");
-  // if (result) {
-  //   console.log("Successfully verified proof!");
-  // } else {
-  //   console.log("Failed to verify proof :(");
-  // }
+  console.time("Verification time");
+  const result = await verifier.verify(proof, publicInput.serialize());
+  console.timeEnd("Verification time");
+  if (result) {
+    console.log("Successfully verified proof!");
+  } else {
+    console.log("Failed to verify proof :(");
+  }
 
   // return proof;
   //

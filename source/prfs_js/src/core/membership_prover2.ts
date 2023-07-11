@@ -6,7 +6,8 @@ import {
   CircuitPubInput,
   SECP256K1_N,
   SECP256K1_P,
-  computeEffEcdsaPubInput2
+  computeEffEcdsaPubInput2,
+  verifyEffEcdsaPubInput,
 } from "../helpers/public_input";
 import BN from "bn.js";
 import { PrfsHandlers } from "../types";
@@ -125,6 +126,33 @@ export class MembershipProver2 extends Profiler {
       proof,
       publicInput
     };
+  }
+
+  async verify(proof: Uint8Array, publicInputSer: Uint8Array): Promise<boolean> {
+    this.time("Load circuit");
+
+    const circuitBin = await loadCircuit(this.circuitUrl);
+    this.timeEnd("Load circuit");
+
+    this.time("Verify public input");
+    const publicInput = PublicInput.deserialize(publicInputSer);
+    const isPubInputValid = verifyEffEcdsaPubInput(publicInput);
+    this.timeEnd("Verify public input");
+
+    this.time("Verify proof");
+    let isProofValid;
+    try {
+      isProofValid = await this.handlers.verify(
+        circuitBin,
+        proof,
+        publicInput.circuitPubInput.serialize()
+      );
+    } catch (_e) {
+      isProofValid = false;
+    }
+    this.timeEnd("Verify proof");
+
+    return isProofValid && isPubInputValid;
   }
 }
 

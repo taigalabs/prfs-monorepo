@@ -4,7 +4,7 @@ import { IVerifier, VerifyConfig } from "../types";
 import { PublicInput, verifyEffEcdsaPubInput } from "../helpers/public_input";
 import { PrfsHandlers } from "../types";
 
-export class MembershipVerifier extends Profiler implements IVerifier {
+export class MembershipVerifier extends Profiler {
   circuit: string;
   handlers: PrfsHandlers;
 
@@ -39,8 +39,6 @@ export class MembershipVerifier extends Profiler implements IVerifier {
     }
 
     this.timeEnd("Verify proof");
-    // return isProofValid && isPubInputValid;
-    //
-    return true;
+    return isProofValid && isPubInputValid;
   }
 }
