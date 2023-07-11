@@ -4,7 +4,7 @@ use colored::Colorize;
 use dotenv::dotenv;
 use prfs_db_interface::db::Database;
 use prfs_tree_maker::{
-    apis::{genesis, scan, tree},
+    apis::{genesis, scan, subset, tree},
     geth::GethClient,
     paths::Paths,
     TreeMakerError,
@@ -57,6 +57,9 @@ async fn run_cli_command() -> Result<(), TreeMakerError> {
         }
         "tree" => {
             tree::run().await?;
+        }
+        "subset" => {
+            subset::run().await?;
         }
         _ => {
             panic!("[ci] Could not find the operation. op: {}", op);

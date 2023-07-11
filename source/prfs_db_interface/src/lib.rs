@@ -1,7 +1,7 @@
+pub mod apis;
 pub mod config;
-pub mod db;
+pub mod database;
 pub mod hexutils;
-
-pub use db::*;
+pub mod models;
 
 pub type DbInterfaceError = Box<dyn std::error::Error + Send + Sync>;

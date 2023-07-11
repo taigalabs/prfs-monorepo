@@ -1,38 +1,123 @@
-use super::{models::Account, Node};
-use crate::{DbInterfaceError, ProofType};
+use super::models::Account;
+use crate::{
+    database::Database,
+    models::{Node, ProofType},
+    DbInterfaceError,
+};
 use rust_decimal::Decimal;
 use std::collections::BTreeMap;
 use tokio_postgres::{Client as PGClient, NoTls, Row};
 
-pub struct Database {
-    pub pg_client: PGClient,
-}
+// pub async fn get_accounts(
+//     pg_client: &PGClient,
+//     where_clause: &str,
+// ) -> Result<Vec<Account>, DbInterfaceError> {
+//     let stmt = format!(
+//         "SELECT * from {} where {}",
+//         Account::table_name(),
+//         where_clause
+//     );
+//     // println!("stmt: {}", stmt);
 
-impl Database {
-    pub async fn connect() -> Result<Database, DbInterfaceError> {
-        let postgres_endpoint = std::env::var("POSTGRES_ENDPOINT")?;
-        let postgres_pw = std::env::var("POSTGRES_PW")?;
+//     let rows = match pg_client.query(&stmt, &[]).await {
+//         Ok(r) => r,
+//         Err(err) => {
+//             tracing::error!("account retrieval failed, err: {}, stmt: {}", err, stmt);
 
-        let pg_config = format!(
-            "host={} user=postgres password={}",
-            postgres_endpoint, postgres_pw
-        );
+//             return Err(err.into());
+//         }
+//     };
 
-        println!("Postgres pg_config: {}", pg_config);
+//     let accounts: Vec<Account> = rows
+//         .iter()
+//         .map(|r| {
+//             let addr: String = r.try_get("addr").expect("addr should be present");
+//             let wei: Decimal = r.try_get("wei").expect("wei should be present");
 
-        let (pg_client, connection) = tokio_postgres::connect(&pg_config, NoTls).await?;
+//             Account { addr, wei }
+//         })
+//         .collect();
 
-        let d = Database { pg_client };
+//     Ok(accounts)
+// }
 
-        tokio::spawn(async move {
-            if let Err(e) = connection.await {
-                println!("connection error: {}", e);
-            }
-        });
+// pub async fn get_nodes(
+//     pg_client: &PGClient,
+//     where_clause: &str,
+// ) -> Result<Vec<Row>, DbInterfaceError> {
+//     let stmt = format!(
+//         "SELECT * from {} where {}",
+//         Node::table_name(),
+//         where_clause
+//     );
+//     // println!("stmt: {}", stmt);
 
-        return Ok(d);
-    }
-}
+//     let rows = match pg_client.query(&stmt, &[]).await {
+//         Ok(r) => r,
+//         Err(err) => {
+//             tracing::error!("account retrieval failed, err: {}, stmt: {}", err, stmt);
+
+//             return Err(err.into());
+//         }
+//     };
+
+//     Ok(rows)
+// }
+
+// pub async fn get_proof_types(pg_client: &PGClient) -> Result<Vec<Row>, DbInterfaceError> {
+//     let stmt = format!("SELECT * from {}", ProofType::table_name(),);
+//     // println!("stmt: {}", stmt);
+
+//     let rows = match pg_client.query(&stmt, &[]).await {
+//         Ok(r) => r,
+//         Err(err) => {
+//             tracing::error!("account retrieval failed, err: {}, stmt: {}", err, stmt);
+
+//             return Err(err.into());
+//         }
+//     };
+
+//     Ok(rows)
+// }
+
+// pub async fn insert_accounts(
+//     pg_client: &PGClient,
+//     balances: BTreeMap<String, Account>,
+//     update_on_conflict: bool,
+// ) -> Result<u64, DbInterfaceError> {
+//     let mut values = Vec::with_capacity(balances.len());
+//     for (_, acc) in balances {
+//         let val = format!("('{}', {})", acc.addr, acc.wei);
+//         values.push(val);
+//     }
+
+//     let stmt = if update_on_conflict {
+//         format!(
+//             "INSERT INTO {} (addr, wei) VALUES {} ON CONFLICT(addr) {}",
+//             Account::table_name(),
+//             values.join(","),
+//             "DO UPDATE SET wei = excluded.wei, updated_at = now()",
+//         )
+//     } else {
+//         format!(
+//             "INSERT INTO {} (addr, wei) VALUES {} ON CONFLICT DO NOTHING",
+//             Account::table_name(),
+//             values.join(",")
+//         )
+//     };
+//     // println!("stmt: {}", stmt);
+
+//     let rows_updated = match pg_client.execute(&stmt, &[]).await {
+//         Ok(r) => r,
+//         Err(err) => {
+//             tracing::error!("Error executing stmt, err: {}, stmt: {}", err, stmt);
+
+//             return Err(err.into());
+//         }
+//     };
+
+//     Ok(rows_updated)
+// }
 
 impl Database {
     pub async fn get_accounts(&self, where_clause: &str) -> Result<Vec<Account>, DbInterfaceError> {
