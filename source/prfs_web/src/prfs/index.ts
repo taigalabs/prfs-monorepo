@@ -138,7 +138,7 @@ async function f2(signer: ethers.JsonRpcSigner) {
   let merkleProof: MerkleProof = await prfs.makeMerkleProof(addrs, BigInt(0), 32);
   console.log("merkle proof", merkleProof);
 
-  let poseidon = prfs.newPoseidon();
+  // let poseidon = prfs.newPoseidon();
   const msg = Buffer.from("harry potter");
   const msgHash = hashPersonalMessage(msg);
 
@@ -159,7 +159,7 @@ async function f2(signer: ethers.JsonRpcSigner) {
 
   console.log("Proving...");
   console.time("Full proving time");
-  const prover = prfs.newMembershipProver(
+  const prover = prfs.newMembershipProofGen(
     addrMembership2WtnsGenUrl,
     addrMembership2CircuitUrl,
   );
@@ -170,12 +170,9 @@ async function f2(signer: ethers.JsonRpcSigner) {
   console.log("Raw proof size (excluding public input)", proof.length, "bytes");
 
   console.log("Verifying...");
-  const verifier = prfs.newMembershipVerifier({
-    enableProfiler: true
-  });
 
   console.time("Verification time");
-  const result = await verifier.verify(proof, publicInput.serialize());
+  const result = await prover.verify(proof, publicInput.serialize());
   console.timeEnd("Verification time");
   if (result) {
     console.log("Successfully verified proof!");

@@ -4,7 +4,6 @@ import { loadCircuit, fromSig, snarkJsWitnessGen } from "../helpers/utils";
 import {
   PublicInput,
   CircuitPubInput,
-  SECP256K1_N,
   SECP256K1_P,
   computeEffEcdsaPubInput2,
   verifyEffEcdsaPubInput,
@@ -12,7 +11,7 @@ import {
 import BN from "bn.js";
 import { PrfsHandlers } from "../types";
 
-export class MembershipProver2 extends Profiler {
+export class MembershipProofGen extends Profiler {
   circuitUrl: string;
   witnessGenWasmUrl: string;
   handlers: PrfsHandlers;
@@ -55,24 +54,10 @@ export class MembershipProver2 extends Profiler {
 
     const publicInput = new PublicInput(r, v, msgHash, circuitPubInput);
     console.log("publicInput: %o", publicInput);
-    console.log("secp256k1 p: %s", SECP256K1_P);
 
     const m = new BN(msgHash).mod(SECP256K1_P);
 
-    const y = new BN(2).toString();
-    console.log("y: %s", y);
-
-    const y2 = new BN(2).invm(SECP256K1_P).toString();
-    console.log("y2: %s", y2);
-
-    let sInv = new BN(s as any).invm(SECP256K1_N);
-    console.log("sInv: %s", sInv.toString());
-
     let s_array: bigint[] = bigint_to_array(64, 4, s);
-    console.log("s_array: %o", s_array);
-
-    let sInv_array: bigint[] = bigint_to_array(64, 4, BigInt(sInv.toString()));
-    console.log("sInv_array: %o", sInv_array);
 
     const witnessGenInput = {
       r,
@@ -114,8 +99,6 @@ export class MembershipProver2 extends Profiler {
     this.time("Verify public input");
     const publicInput = PublicInput.deserialize(publicInputSer);
     const isPubInputValid = verifyEffEcdsaPubInput(publicInput);
-    console.log(123, isPubInputValid);
-
     this.timeEnd("Verify public input");
 
     this.time("Verify proof");

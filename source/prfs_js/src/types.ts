@@ -1,6 +1,4 @@
 import { PublicInput } from "./helpers/public_input";
-import { MembershipProver2 } from "./core/membership_prover2";
-import { Poseidon } from "./helpers/poseidon";
 import { Tree } from "./helpers/tree";
 
 export declare type PrfsWasmType = typeof import("./wasm_wrapper/build");

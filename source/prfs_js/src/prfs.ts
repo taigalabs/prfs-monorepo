@@ -1,9 +1,7 @@
 import { Tree } from "./helpers/tree";
 import { makePoseidon } from "./helpers/poseidon";
-import { MembershipProver2 } from "./core/membership_prover2";
-import { MembershipVerifier } from "./core/membership_verifier";
-import { ProverConfig, VerifyConfig, PrfsHandlers, AsyncHashFn, MerkleProof } from "./types";
-import { numToUint8Array } from "./helpers/utils";
+import { MembershipProofGen } from "./proof_gen/membership_proof_gen";
+import { PrfsHandlers, AsyncHashFn } from "./types";
 
 export class Prfs {
   isInitilized: boolean;
@@ -30,18 +28,14 @@ export class Prfs {
     return await Tree.newInstance(depth, hash);
   }
 
-  newMembershipProver(
+  newMembershipProofGen(
     witnessGenWasmUrl: string,
     circuitUrl: string,
   ) {
-    return new MembershipProver2(
+    return new MembershipProofGen(
       witnessGenWasmUrl,
       circuitUrl,
       this.handlers,
     );
-  }
-
-  newMembershipVerifier(options: VerifyConfig) {
-    return new MembershipVerifier(options, this.handlers);
   }
 }
