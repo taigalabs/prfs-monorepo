@@ -9,7 +9,7 @@ impl Database {
     pub async fn connect(pg_endpoint: String, pg_pw: String) -> Result<Database, DbInterfaceError> {
         let pg_config = format!("host={} user=postgres password={}", pg_endpoint, pg_pw,);
 
-        println!("Database try connecting... pg_config: {}", pg_config);
+        println!("Try connecting to db, pg_config: {}", pg_config);
 
         let (pg_client, connection) = tokio_postgres::connect(&pg_config, NoTls).await?;
 

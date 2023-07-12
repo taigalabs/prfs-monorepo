@@ -3,7 +3,7 @@ use clap::{command, Arg, ArgAction};
 use colored::Colorize;
 use dotenv::dotenv;
 use prfs_tree_maker::{
-    apis::{genesis, scan, subset, tree},
+    apis::{climb, genesis, scan, subset, tree},
     geth::GethClient,
     paths::Paths,
     TreeMakerError,
@@ -59,6 +59,9 @@ async fn run_cli_command(paths: &Paths) -> Result<(), TreeMakerError> {
         }
         "subset" => {
             subset::run(&paths).await?;
+        }
+        "climb" => {
+            climb::run(&paths).await?;
         }
         _ => {
             panic!("[ci] Could not find the operation. op: {}", op);

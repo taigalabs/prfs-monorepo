@@ -1,3 +1,4 @@
+use super::subset::SubsetJson;
 use crate::{geth::GethClient, paths::Paths, TreeMakerError};
 use prfs_db_interface::{
     database::Database,
@@ -10,27 +11,21 @@ use std::{
     time::{Duration, SystemTime},
 };
 
-#[derive(Serialize, Deserialize, Debug)]
-pub struct ClimbJson {
-    set_id: String,
-    where_clause: String,
-}
-
 pub async fn run(paths: &Paths) -> Result<(), TreeMakerError> {
     let pg_endpoint = std::env::var("POSTGRES_ENDPOINT")?;
     let pg_pw = std::env::var("POSTGRES_PW")?;
     let db = Database::connect(pg_endpoint, pg_pw).await?;
 
-    let subset_filename = std::env::var("CLIMB_FILENAME")?;
+    let subset_filename = std::env::var("SUBSET_FILENAME")?;
 
     let subset_json = read_subset_file(paths, subset_filename)?;
 
-    // create_subset(&db, paths, subset_json).await?;
+    climb_subset(&db, paths, subset_json).await?;
 
     Ok(())
 }
 
-fn read_subset_file(paths: &Paths, subset_filename: String) -> Result<ClimbJson, TreeMakerError> {
+fn read_subset_file(paths: &Paths, subset_filename: String) -> Result<SubsetJson, TreeMakerError> {
     println!("subset_filename: {}", subset_filename);
 
     let subset_json_path = paths.data.join(subset_filename);
@@ -40,125 +35,117 @@ fn read_subset_file(paths: &Paths, subset_filename: String) -> Result<ClimbJson,
         subset_json_path,
     ));
 
-    let subset_json: ClimbJson = serde_json::from_slice(&subset_json_bytes).unwrap();
+    let subset_json: SubsetJson = serde_json::from_slice(&subset_json_bytes).unwrap();
 
     println!("subset_json: {:?}", subset_json);
 
     Ok(subset_json)
 }
 
-// async fn create_subset(
-//     db: &Database,
-//     paths: &Paths,
-//     subset_json: SubsetJson,
-// ) -> Result<(), TreeMakerError> {
-//     let subset_query_limit = std::env::var("SUBSET_QUERY_LIMIT")?;
+async fn climb_subset(
+    db: &Database,
+    paths: &Paths,
+    subset_json: SubsetJson,
+) -> Result<(), TreeMakerError> {
+    let set_id = subset_json.set_id.to_string();
 
-//     let subset_offset = {
-//         let s = std::env::var("SUBSET_OFFSET")?;
-//         s.parse::<usize>().unwrap()
-//     };
+    println!("climb_subset, set_id: {}", set_id);
 
-//     let subset_insert_interval = {
-//         let s: u64 = std::env::var("SUBSET_INSERT_INTERVAL")
-//             .expect("env var SCAN_INTERVAL missing")
-//             .parse()
-//             .unwrap();
-//         s
-//     };
+    db.get_nodes("").await;
+    // let climb_query_limit = std::env::var("CLIMB_QUERY_LIMIT")?;
 
-//     println!(
-//         "subset_offset: {}, subset_query_limit: {}, subset_insert_interval: {}",
-//         subset_offset, subset_query_limit, subset_insert_interval
-//     );
+    // println!(
+    //     "climb_query_limit: {}, subset_query_limit: {}, subset_insert_interval: {}",
+    //     subset_offset, subset_query_limit, subset_insert_interval
+    // );
 
-//     let break_every = {
-//         let b = subset_query_limit.parse::<usize>().unwrap();
-//         b * 2
-//     };
+    // let break_every = {
+    //     let b = subset_query_limit.parse::<usize>().unwrap();
+    //     b * 2
+    // };
 
-//     let set_id = subset_json.set_id;
+    // let set_id = subset_json.set_id;
 
-//     let mut should_loop = true;
-//     let mut offset = subset_offset;
-//     let mut count = 0;
+    // let mut should_loop = true;
+    // let mut offset = subset_offset;
+    // let mut count = 0;
 
-//     loop {
-//         let where_clause = format!(
-//             "{} offset {} limit {}",
-//             subset_json.where_clause, offset, subset_query_limit
-//         );
+    // loop {
+    //     let where_clause = format!(
+    //         "{} offset {} limit {}",
+    //         subset_json.where_clause, offset, subset_query_limit
+    //     );
 
-//         let now = SystemTime::now();
-//         let accounts = db.get_accounts(&where_clause).await?;
+    //     let now = SystemTime::now();
+    //     let accounts = db.get_accounts(&where_clause).await?;
 
-//         let elapsed = now.elapsed().unwrap();
-//         println!("query took {} ms", elapsed.as_millis());
+    //     let elapsed = now.elapsed().unwrap();
+    //     println!("query took {} ms", elapsed.as_millis());
 
-//         let mut nodes = vec![];
-//         let mut account_nodes = vec![];
+    //     let mut nodes = vec![];
+    //     let mut account_nodes = vec![];
 
-//         for (idx, account) in accounts.iter().enumerate() {
-//             let node = Node {
-//                 pos_w: Decimal::from_u64((count + idx) as u64).unwrap(),
-//                 pos_h: 0,
-//                 val: account.addr.to_string(),
-//                 set_id: set_id.to_string(),
-//             };
+    //     for (idx, account) in accounts.iter().enumerate() {
+    //         let node = Node {
+    //             pos_w: Decimal::from_u64((count + idx) as u64).unwrap(),
+    //             pos_h: 0,
+    //             val: account.addr.to_string(),
+    //             set_id: set_id.to_string(),
+    //         };
 
-//             let account_node = AccountNode {
-//                 addr: account.addr.to_string(),
-//                 set_id: set_id.to_string(),
-//             };
+    //         let account_node = AccountNode {
+    //             addr: account.addr.to_string(),
+    //             set_id: set_id.to_string(),
+    //         };
 
-//             nodes.push(node);
-//             account_nodes.push(account_node);
-//         }
+    //         nodes.push(node);
+    //         account_nodes.push(account_node);
+    //     }
 
-//         if nodes.len() == 0 {
-//             break;
-//         }
+    //     if nodes.len() == 0 {
+    //         break;
+    //     }
 
-//         if nodes.len() != account_nodes.len() {
-//             panic!(
-//                 "nodes {} and account_node {} counts are different",
-//                 nodes.len(),
-//                 account_nodes.len()
-//             );
-//         }
+    //     if nodes.len() != account_nodes.len() {
+    //         panic!(
+    //             "nodes {} and account_node {} counts are different",
+    //             nodes.len(),
+    //             account_nodes.len()
+    //         );
+    //     }
 
-//         let nodes_updated = db.insert_nodes(&nodes, false).await?;
-//         let account_node_updated = db.insert_account_nodes(&account_nodes, false).await?;
+    //     let nodes_updated = db.insert_nodes(&nodes, false).await?;
+    //     let account_node_updated = db.insert_account_nodes(&account_nodes, false).await?;
 
-//         if nodes_updated != account_node_updated {
-//             panic!(
-//                 "nodes {} and account_node {} update counts are different, count: {}, offset: {}",
-//                 nodes_updated, account_node_updated, count, offset,
-//             );
-//         }
+    //     if nodes_updated != account_node_updated {
+    //         panic!(
+    //             "nodes {} and account_node {} update counts are different, count: {}, offset: {}",
+    //             nodes_updated, account_node_updated, count, offset,
+    //         );
+    //     }
 
-//         count += accounts.len();
-//         offset += accounts.len();
+    //     count += accounts.len();
+    //     offset += accounts.len();
 
-//         println!(
-//             "Inserted, nodes updated: {}, account_node updated: {}, current count: {}",
-//             nodes_updated, account_node_updated, count,
-//         );
+    //     println!(
+    //         "Inserted, nodes updated: {}, account_node updated: {}, current count: {}",
+    //         nodes_updated, account_node_updated, count,
+    //     );
 
-//         if count % break_every == 0 {
-//             println!("sleep");
-//             tokio::time::sleep(Duration::from_millis(subset_insert_interval)).await;
-//         }
+    //     if count % break_every == 0 {
+    //         println!("sleep");
+    //         tokio::time::sleep(Duration::from_millis(subset_insert_interval)).await;
+    //     }
 
-//         if accounts.len() < 1 {
-//             break;
-//         }
-//     }
+    //     if accounts.len() < 1 {
+    //         break;
+    //     }
+    // }
 
-//     println!(
-//         "Finish creating a subset, set_id: {}, total count: {}",
-//         set_id, count
-//     );
+    // println!(
+    //     "Finish creating a subset, set_id: {}, total count: {}",
+    //     set_id, count
+    // );
 
-//     Ok(())
-// }
+    Ok(())
+}

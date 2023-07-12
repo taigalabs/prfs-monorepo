@@ -12,8 +12,8 @@ use std::{
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct SubsetJson {
-    set_id: String,
-    where_clause: String,
+    pub set_id: String,
+    pub where_clause: String,
 }
 
 pub async fn run(paths: &Paths) -> Result<(), TreeMakerError> {
