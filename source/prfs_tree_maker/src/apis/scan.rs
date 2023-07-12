@@ -1,6 +1,5 @@
 use crate::geth::{
-    GetBalanceRequest, GetBlockByNumberRequest, GetBlockResponse, GetTransactionReceiptRequest,
-    GethClient,
+    GetBalanceRequest, GetBlockByNumberRequest, GetTransactionReceiptRequest, GethClient,
 };
 use crate::TreeMakerError;
 use prfs_db_interface::database::Database;

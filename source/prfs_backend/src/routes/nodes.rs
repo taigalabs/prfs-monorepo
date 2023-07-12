@@ -56,35 +56,7 @@ pub async fn get_nodes(req: Request<Body>) -> Result<Response<Body>, Infallible>
 
     println!("where_clause, {}", where_clause);
 
-    let rows = db.get_nodes(&where_clause).await.expect("get nodes fail");
-
-    let nodes: Vec<Node> = get_nodes_req
-        .pos
-        .iter()
-        .enumerate()
-        .map(|(idx, mp)| match rows.get(idx) {
-            Some(r) => {
-                let pos_w: Decimal = r.try_get("pos_w").unwrap();
-                let pos_h: i32 = r.try_get("pos_h").unwrap();
-                let val: String = r.try_get("val").unwrap();
-                let set_id: String = r.try_get("set_id").unwrap();
-
-                Node {
-                    pos_w,
-                    pos_h,
-                    val,
-                    set_id,
-                }
-            }
-            None => Node {
-                pos_w: mp.pos_w,
-                pos_h: mp.pos_h,
-                val: "0x0000000000000000000000000000000000000000000000000000000000000000"
-                    .to_string(),
-                set_id: set_id.to_string(),
-            },
-        })
-        .collect();
+    let nodes = db.get_nodes(&where_clause).await.expect("get nodes fail");
 
     // println!("merkle_path: {:?}", merkle_path);
 
