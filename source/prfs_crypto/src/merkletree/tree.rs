@@ -115,7 +115,7 @@ pub fn calc_parent_nodes(children: &Vec<[u8; 32]>) -> Result<Vec<[u8; 32]>, Prfs
     }
 
     if children.len() == 1 {
-        println!("A single children");
+        // println!("A single children");
 
         let left = children.get(0).unwrap();
         let right = left;
@@ -123,15 +123,15 @@ pub fn calc_parent_nodes(children: &Vec<[u8; 32]>) -> Result<Vec<[u8; 32]>, Prfs
         let res = hash_two(left, &right).unwrap();
         parent.push(res);
 
-        let l = convert_32bytes_into_decimal_string(left)?;
-        let r = convert_32bytes_into_decimal_string(right)?;
-        let res = convert_32bytes_into_decimal_string(&res)?;
-        println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
+        // let l = convert_32bytes_into_decimal_string(left)?;
+        // let r = convert_32bytes_into_decimal_string(right)?;
+        // let res = convert_32bytes_into_decimal_string(&res)?;
+        // println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
 
         // continue;
     } else {
         for i in (0..children.len()).step_by(2) {
-            println!("i: {}", i);
+            // println!("i: {}", i);
 
             let left = match children.get(i) {
                 Some(l) => l,
@@ -141,23 +141,23 @@ pub fn calc_parent_nodes(children: &Vec<[u8; 32]>) -> Result<Vec<[u8; 32]>, Prfs
             let right = children.get(i + 1);
 
             if let Some(r) = right {
+                // left and right are both present
                 let res = hash_two(left, r).unwrap();
                 parent.push(res);
 
-                let l = convert_32bytes_into_decimal_string(left)?;
-                let r = convert_32bytes_into_decimal_string(r)?;
-                let res = convert_32bytes_into_decimal_string(&res)?;
-
-                println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
+                // let l = convert_32bytes_into_decimal_string(left)?;
+                // let r = convert_32bytes_into_decimal_string(r)?;
+                // let res = convert_32bytes_into_decimal_string(&res)?;
+                // println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
             } else {
+                // only left is present
                 let res = hash_two(left, left).unwrap();
                 parent.push(res);
 
-                let l = convert_32bytes_into_decimal_string(left)?;
-                let r = convert_32bytes_into_decimal_string(left)?;
-                let res = convert_32bytes_into_decimal_string(&res)?;
-
-                println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
+                // let l = convert_32bytes_into_decimal_string(left)?;
+                // let r = convert_32bytes_into_decimal_string(left)?;
+                // let res = convert_32bytes_into_decimal_string(&res)?;
+                // println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
 
                 break;
             }

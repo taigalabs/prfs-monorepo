@@ -14,6 +14,7 @@ use std::{
 pub struct SubsetJson {
     pub set_id: String,
     pub where_clause: String,
+    pub tree_depth: u32,
 }
 
 pub async fn run(paths: &Paths) -> Result<(), TreeMakerError> {
@@ -78,8 +79,6 @@ async fn create_subset(
     };
 
     let set_id = subset_json.set_id;
-
-    let mut should_loop = true;
     let mut offset = subset_offset;
     let mut count = 0;
 

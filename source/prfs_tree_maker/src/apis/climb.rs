@@ -1,16 +1,9 @@
 use super::subset::SubsetJson;
-use crate::{geth::GethClient, paths::Paths, TreeMakerError};
+use crate::{paths::Paths, TreeMakerError};
 use prfs_crypto::convert_hex_into_32bytes;
-use prfs_db_interface::{
-    database::Database,
-    models::{AccountNode, Node},
-};
-use rust_decimal::{prelude::FromPrimitive, Decimal};
+use prfs_db_interface::{database::Database, models::Node};
+use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
-use std::{
-    io::Write,
-    time::{Duration, SystemTime},
-};
 
 pub async fn run(paths: &Paths) -> Result<(), TreeMakerError> {
     let pg_endpoint = std::env::var("POSTGRES_ENDPOINT")?;
@@ -49,121 +42,61 @@ async fn climb_subset(
     subset_json: SubsetJson,
 ) -> Result<(), TreeMakerError> {
     let set_id = subset_json.set_id.to_string();
+    let depth = subset_json.tree_depth as usize;
 
     println!("climb_subset, set_id: {}", set_id);
 
-    let where_clause = format!("set_id='{}' order by pos_w asc limit 100", set_id);
+    let where_clause = format!("set_id='{}' order by pos_w asc", set_id);
 
     let leaves = db.get_nodes(&where_clause).await?;
 
-    println!("nodes: {:?}", leaves);
+    let leaves: Vec<[u8; 32]> = leaves
+        .iter()
+        .map(|leaf| {
+            let b = prfs_crypto::convert_hex_into_32bytes(&leaf.val).unwrap();
+            b
+        })
+        .collect();
 
-    // let leaves: Vec<[u8; 32]> = leaves
-    //     .iter()
-    //     .map(|leaf| {
-    //         let b = convert_hex_into_32bytes(leaf).unwrap();
-    //         b
-    //     })
-    //     .collect();
+    if depth < 2 {
+        return Err(format!("Cannot climb if depth is less than 2, set_id: {}", set_id).into());
+    }
 
-    // for node in nodes {
-    //     println!("node: {:?}", node);
-    // }
+    if leaves.len() < 1 {
+        return Err(format!("Cannot climb if there is no leaf, set_id: {}", set_id).into());
+    }
 
-    // let climb_query_limit = std::env::var("CLIMB_QUERY_LIMIT")?;
+    let mut children = leaves.to_vec();
 
-    // println!(
-    //     "climb_query_limit: {}, subset_query_limit: {}, subset_insert_interval: {}",
-    //     subset_offset, subset_query_limit, subset_insert_interval
-    // );
+    for d in 0..depth {
+        let parent = match prfs_crypto::calc_parent_nodes(&children) {
+            Ok(p) => p,
+            Err(err) => return Err(format!("calc parent err: {}, d: {}", err, d).into()),
+        };
 
-    // let break_every = {
-    //     let b = subset_query_limit.parse::<usize>().unwrap();
-    //     b * 2
-    // };
+        // println!("parent: {:?}", parent);
 
-    // let set_id = subset_json.set_id;
+        let mut parent_nodes = vec![];
+        for (idx, node) in parent.iter().enumerate() {
+            // println!("node: {:?}, idx: {}", node, idx);
+            let val = prfs_crypto::convert_32bytes_into_decimal_string(node).unwrap();
 
-    // let mut should_loop = true;
-    // let mut offset = subset_offset;
-    // let mut count = 0;
+            let n = Node {
+                pos_w: Decimal::from(idx),
+                pos_h: (d + 1) as i32,
+                val,
+                set_id: set_id.to_string(),
+            };
 
-    // loop {
-    //     let where_clause = format!(
-    //         "{} offset {} limit {}",
-    //         subset_json.where_clause, offset, subset_query_limit
-    //     );
+            parent_nodes.push(n);
+        }
 
-    //     let now = SystemTime::now();
-    //     let accounts = db.get_accounts(&where_clause).await?;
+        println!("d: {}, parent_nodes len: {:?}", d, parent_nodes.len());
 
-    //     let elapsed = now.elapsed().unwrap();
-    //     println!("query took {} ms", elapsed.as_millis());
-
-    //     let mut nodes = vec![];
-    //     let mut account_nodes = vec![];
-
-    //     for (idx, account) in accounts.iter().enumerate() {
-    //         let node = Node {
-    //             pos_w: Decimal::from_u64((count + idx) as u64).unwrap(),
-    //             pos_h: 0,
-    //             val: account.addr.to_string(),
-    //             set_id: set_id.to_string(),
-    //         };
-
-    //         let account_node = AccountNode {
-    //             addr: account.addr.to_string(),
-    //             set_id: set_id.to_string(),
-    //         };
-
-    //         nodes.push(node);
-    //         account_nodes.push(account_node);
-    //     }
-
-    //     if nodes.len() == 0 {
-    //         break;
-    //     }
-
-    //     if nodes.len() != account_nodes.len() {
-    //         panic!(
-    //             "nodes {} and account_node {} counts are different",
-    //             nodes.len(),
-    //             account_nodes.len()
-    //         );
-    //     }
-
-    //     let nodes_updated = db.insert_nodes(&nodes, false).await?;
-    //     let account_node_updated = db.insert_account_nodes(&account_nodes, false).await?;
-
-    //     if nodes_updated != account_node_updated {
-    //         panic!(
-    //             "nodes {} and account_node {} update counts are different, count: {}, offset: {}",
-    //             nodes_updated, account_node_updated, count, offset,
-    //         );
-    //     }
-
-    //     count += accounts.len();
-    //     offset += accounts.len();
-
-    //     println!(
-    //         "Inserted, nodes updated: {}, account_node updated: {}, current count: {}",
-    //         nodes_updated, account_node_updated, count,
-    //     );
-
-    //     if count % break_every == 0 {
-    //         println!("sleep");
-    //         tokio::time::sleep(Duration::from_millis(subset_insert_interval)).await;
-    //     }
-
-    //     if accounts.len() < 1 {
-    //         break;
-    //     }
-    // }
-
-    // println!(
-    //     "Finish creating a subset, set_id: {}, total count: {}",
-    //     set_id, count
-    // );
+        db.insert_nodes(&parent_nodes, false).await?;
+        children = parent;
+        // break;
+    }
 
     Ok(())
 }
