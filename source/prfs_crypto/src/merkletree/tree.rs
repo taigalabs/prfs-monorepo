@@ -51,69 +51,12 @@ pub fn make_merkle_proof(
     nodes.push(leaves.to_vec());
 
     for d in 0..depth {
-        // println!("\nd: {}", d);
-
-        // let mut parent = vec![];
         let children = nodes.get(d).unwrap();
 
         let parent = match calc_parent_nodes(children) {
             Ok(p) => p,
             Err(err) => return Err(format!("calc parent err: {}, d: {}", err, d).into()),
         };
-
-        // if children.len() < 1 {
-        //     return Err(format!("children is len 0, d: {}", d).into());
-        // }
-
-        // if children.len() == 1 {
-        //     println!("A single children, d: {}", d);
-
-        //     let left = children.get(0).unwrap();
-        //     let right = left;
-
-        //     let res = hash_two(left, &right).unwrap();
-        //     parent.push(res);
-
-        //     let l = convert_32bytes_into_decimal_string(left)?;
-        //     let r = convert_32bytes_into_decimal_string(right)?;
-        //     let res = convert_32bytes_into_decimal_string(&res)?;
-        //     println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
-
-        //     // continue;
-        // } else {
-        //     for i in (0..children.len()).step_by(2) {
-        //         println!("d: {}, i: {}", d, i);
-
-        //         let left = match children.get(i) {
-        //             Some(l) => l,
-        //             None => break,
-        //         };
-
-        //         let right = children.get(i + 1);
-
-        //         if let Some(r) = right {
-        //             let res = hash_two(left, r).unwrap();
-        //             parent.push(res);
-
-        //             let l = convert_32bytes_into_decimal_string(left)?;
-        //             let r = convert_32bytes_into_decimal_string(r)?;
-        //             let res = convert_32bytes_into_decimal_string(&res)?;
-
-        //             println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
-        //         } else {
-        //             let res = hash_two(left, left).unwrap();
-        //             parent.push(res);
-
-        //             let l = convert_32bytes_into_decimal_string(left)?;
-        //             let r = convert_32bytes_into_decimal_string(left)?;
-        //             let res = convert_32bytes_into_decimal_string(&res)?;
-
-        //             println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
-
-        //             break;
-        //         }
-        //     }
-        // }
 
         println!("parent: {:?}", parent);
         nodes.push(parent);
@@ -127,10 +70,6 @@ pub fn make_merkle_proof(
         Some(r) => convert_32bytes_into_decimal_string(r)?,
         None => return Err(format!("root does not exist, depth: {}", depth).into()),
     };
-
-    // for (h, n) in nodes.iter().enumerate() {
-    //     println!("\nNodes h: {}, nodes ({}): {:?}", h, n.len(), n);
-    // }
 
     let sibling_indices = make_sibling_path(depth as u32, leaf_idx);
     let path_indices = make_path_indices(depth as u32, leaf_idx);
