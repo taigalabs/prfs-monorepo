@@ -51,64 +51,69 @@ pub fn make_merkle_proof(
     nodes.push(leaves.to_vec());
 
     for d in 0..depth {
-        println!("\nd: {}", d);
+        // println!("\nd: {}", d);
 
-        let mut parent = vec![];
+        // let mut parent = vec![];
         let children = nodes.get(d).unwrap();
 
-        if children.len() < 1 {
-            return Err(format!("children is len 0, d: {}", d).into());
-        }
+        let parent = match calc_parent_nodes(children) {
+            Ok(p) => p,
+            Err(err) => return Err(format!("calc parent err: {}, d: {}", err, d).into()),
+        };
 
-        if children.len() == 1 {
-            println!("A single children, d: {}", d);
+        // if children.len() < 1 {
+        //     return Err(format!("children is len 0, d: {}", d).into());
+        // }
 
-            let left = children.get(0).unwrap();
-            let right = left;
+        // if children.len() == 1 {
+        //     println!("A single children, d: {}", d);
 
-            let res = hash_two(left, &right).unwrap();
-            parent.push(res);
+        //     let left = children.get(0).unwrap();
+        //     let right = left;
 
-            let l = convert_32bytes_into_decimal_string(left)?;
-            let r = convert_32bytes_into_decimal_string(right)?;
-            let res = convert_32bytes_into_decimal_string(&res)?;
-            println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
+        //     let res = hash_two(left, &right).unwrap();
+        //     parent.push(res);
 
-            // continue;
-        } else {
-            for i in (0..children.len()).step_by(2) {
-                println!("d: {}, i: {}", d, i);
+        //     let l = convert_32bytes_into_decimal_string(left)?;
+        //     let r = convert_32bytes_into_decimal_string(right)?;
+        //     let res = convert_32bytes_into_decimal_string(&res)?;
+        //     println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
 
-                let left = match children.get(i) {
-                    Some(l) => l,
-                    None => break,
-                };
+        //     // continue;
+        // } else {
+        //     for i in (0..children.len()).step_by(2) {
+        //         println!("d: {}, i: {}", d, i);
 
-                let right = children.get(i + 1);
+        //         let left = match children.get(i) {
+        //             Some(l) => l,
+        //             None => break,
+        //         };
 
-                if let Some(r) = right {
-                    let res = hash_two(left, r).unwrap();
-                    parent.push(res);
+        //         let right = children.get(i + 1);
 
-                    let l = convert_32bytes_into_decimal_string(left)?;
-                    let r = convert_32bytes_into_decimal_string(r)?;
-                    let res = convert_32bytes_into_decimal_string(&res)?;
+        //         if let Some(r) = right {
+        //             let res = hash_two(left, r).unwrap();
+        //             parent.push(res);
 
-                    println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
-                } else {
-                    let res = hash_two(left, left).unwrap();
-                    parent.push(res);
+        //             let l = convert_32bytes_into_decimal_string(left)?;
+        //             let r = convert_32bytes_into_decimal_string(r)?;
+        //             let res = convert_32bytes_into_decimal_string(&res)?;
 
-                    let l = convert_32bytes_into_decimal_string(left)?;
-                    let r = convert_32bytes_into_decimal_string(left)?;
-                    let res = convert_32bytes_into_decimal_string(&res)?;
+        //             println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
+        //         } else {
+        //             let res = hash_two(left, left).unwrap();
+        //             parent.push(res);
 
-                    println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
+        //             let l = convert_32bytes_into_decimal_string(left)?;
+        //             let r = convert_32bytes_into_decimal_string(left)?;
+        //             let res = convert_32bytes_into_decimal_string(&res)?;
 
-                    break;
-                }
-            }
-        }
+        //             println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
+
+        //             break;
+        //         }
+        //     }
+        // }
 
         println!("parent: {:?}", parent);
         nodes.push(parent);
@@ -165,4 +170,64 @@ pub fn make_merkle_proof(
     };
 
     Ok(p)
+}
+
+pub fn calc_parent_nodes(children: &Vec<[u8; 32]>) -> Result<Vec<[u8; 32]>, PrfsCryptoError> {
+    let mut parent = vec![];
+
+    if children.len() < 1 {
+        return Err(format!("children is len 0").into());
+    }
+
+    if children.len() == 1 {
+        println!("A single children");
+
+        let left = children.get(0).unwrap();
+        let right = left;
+
+        let res = hash_two(left, &right).unwrap();
+        parent.push(res);
+
+        let l = convert_32bytes_into_decimal_string(left)?;
+        let r = convert_32bytes_into_decimal_string(right)?;
+        let res = convert_32bytes_into_decimal_string(&res)?;
+        println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
+
+        // continue;
+    } else {
+        for i in (0..children.len()).step_by(2) {
+            println!("i: {}", i);
+
+            let left = match children.get(i) {
+                Some(l) => l,
+                None => break,
+            };
+
+            let right = children.get(i + 1);
+
+            if let Some(r) = right {
+                let res = hash_two(left, r).unwrap();
+                parent.push(res);
+
+                let l = convert_32bytes_into_decimal_string(left)?;
+                let r = convert_32bytes_into_decimal_string(r)?;
+                let res = convert_32bytes_into_decimal_string(&res)?;
+
+                println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
+            } else {
+                let res = hash_two(left, left).unwrap();
+                parent.push(res);
+
+                let l = convert_32bytes_into_decimal_string(left)?;
+                let r = convert_32bytes_into_decimal_string(left)?;
+                let res = convert_32bytes_into_decimal_string(&res)?;
+
+                println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
+
+                break;
+            }
+        }
+    }
+
+    Ok(parent)
 }
