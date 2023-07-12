@@ -1,4 +1,5 @@
-use crate::{apis::nodes, middleware, BackendError, State};
+use crate::state::ServerState;
+use crate::{apis::nodes, middleware, BackendError};
 use hyper::{body, header, Body, Request, Response};
 use prfs_db_interface::database::Database;
 use routerify::prelude::*;
@@ -9,7 +10,7 @@ use std::sync::Arc;
 
 pub fn make_router(db: Database) -> Result<Router<Body, Infallible>, BackendError> {
     let db = Arc::new(db);
-    let state = State { db };
+    let state = ServerState { db };
 
     let r = Router::builder()
         .data(state)

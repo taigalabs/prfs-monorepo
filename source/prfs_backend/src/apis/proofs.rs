@@ -1,4 +1,3 @@
-use crate::State;
 // use eth_types::sign_types::SignData;
 // use halo2_gadgets::poseidon::{
 //     self,

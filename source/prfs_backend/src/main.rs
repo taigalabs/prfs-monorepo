@@ -9,12 +9,12 @@ use std::net::SocketAddr;
 async fn main() -> Result<(), BackendError> {
     dotenv().expect("dotenv failed");
 
-    let pg_endpoint = std::env::var("POSTGRES_ENDPOINT")?;
-    let pg_pw = std::env::var("POSTGRES_PW")?;
+    let pg_endpoint = std::env::var("POSTGRES_ENDPOINT").expect("POSTGRES_ENDPOINT missing");
+    let pg_pw = std::env::var("POSTGRES_PW").expect("POSTGRES_PW missing");
     let db = Database::connect(pg_endpoint, pg_pw).await?;
 
-    let router = router::make_router(db)?;
-    let service = RouterService::new(router)?;
+    let router = router::make_router(db).expect("make_router fail");
+    let service = RouterService::new(router).expect("router service init fail");
 
     let addr = SocketAddr::from(([0, 0, 0, 0], 4000));
     let server = Server::bind(&addr).serve(service);

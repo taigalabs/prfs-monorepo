@@ -1,4 +1,4 @@
-use crate::{BackendError, State};
+use crate::{state::ServerState, BackendError};
 use hyper::{body, header, Body, Request, Response};
 use prfs_db_interface::models::Node;
 use routerify::prelude::*;
@@ -28,7 +28,7 @@ struct GetNodesResponse {
 pub async fn get_nodes(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     println!("gen proof request");
 
-    let state = req.data::<State>().unwrap();
+    let state = req.data::<ServerState>().unwrap();
     let db = state.db.clone();
 
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
