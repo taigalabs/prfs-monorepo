@@ -18,20 +18,16 @@ pub fn make_router(db: Database) -> Result<Router<Body, Infallible>, BackendErro
         .get("/", status_handler)
         .post("/get_nodes", nodes::get_nodes)
         // .post("/get_proof_types", proofs::get_proof_types)
-        .err_handler_with_info(middleware::error_handler)
+        // .err_handler_with_info(middleware::error_handler)
         .build()?;
 
     Ok(r)
 }
 
 pub async fn status_handler(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    println!("gen proof request");
+    println!("status handler!");
 
-    // let bytes = body::to_bytes(req.into_body()).await.unwrap();
-
-    println!("status!");
-
-    let data = "Success".to_string();
+    let data = "Ok".to_string();
 
     let res = Response::builder()
         .header(header::CONTENT_TYPE, "application/json")

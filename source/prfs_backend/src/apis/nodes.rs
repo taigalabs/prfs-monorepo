@@ -1,4 +1,4 @@
-use crate::State;
+use crate::{BackendError, State};
 use hyper::{body, header, Body, Request, Response};
 use prfs_db_interface::models::Node;
 use routerify::prelude::*;
