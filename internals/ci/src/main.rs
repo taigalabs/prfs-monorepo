@@ -54,11 +54,13 @@ fn main() {
             tasks::e2e_test_web::run(&paths);
         }
         "dev_prfs_web" => {
-            // tasks::build_prfs_js::build_prfs_js();
             tasks::dev_prfs_web::run(&paths);
         }
         "dev_asset_server" => {
             tasks::dev_asset_server::run(&paths);
+        }
+        "dev_backend" => {
+            tasks::dev_backend::run(&paths);
         }
         _ => {
             panic!(

@@ -7,14 +7,14 @@ use std::net::SocketAddr;
 
 #[tokio::main]
 async fn main() -> Result<(), BackendError> {
-    dotenv()?;
+    dotenv().expect("dotenv failed");
 
     let pg_endpoint = std::env::var("POSTGRES_ENDPOINT")?;
     let pg_pw = std::env::var("POSTGRES_PW")?;
     let db = Database::connect(pg_endpoint, pg_pw).await?;
 
     let router = router::make_router(db)?;
-    let service = RouterService::new(router).unwrap();
+    let service = RouterService::new(router)?;
 
     let addr = SocketAddr::from(([0, 0, 0, 0], 4000));
     let server = Server::bind(&addr).serve(service);
