@@ -33,7 +33,7 @@ pub async fn run(paths: &Paths) -> Result<(), TreeMakerError> {
 fn read_subset_file(paths: &Paths, subset_filename: String) -> Result<SubsetJson, TreeMakerError> {
     println!("subset_filename: {}", subset_filename);
 
-    let subset_json_path = paths.subsets.join(subset_filename);
+    let subset_json_path = paths.data.join(subset_filename);
 
     let subset_json_bytes = std::fs::read(&subset_json_path).expect(&format!(
         "Subset should exist, path: {:?}",

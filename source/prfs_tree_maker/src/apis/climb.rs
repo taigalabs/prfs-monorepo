@@ -1,169 +1,164 @@
-use crate::TreeMakerError;
-use aws_config::meta::region::RegionProviderChain;
-use aws_sdk_dynamodb::{client::fluent_builders, model::AttributeValue, Client as DynamoClient};
-use ff::PrimeField;
-use futures_util::pin_mut;
-use futures_util::TryStreamExt;
-// use halo2_gadgets::{
-//     poseidon::{
-//         primitives::{self as poseidon, ConstantLength, P128Pow5T3 as OrchardNullifier, Spec},
-//         Hash,
-//     },
-//     utilities::UtilitiesInstructions,
-// };
-// use halo2_proofs::halo2curves::{pasta::Fp, serde::SerdeObject};
-use std::{collections::HashMap, sync::Arc};
-use tokio_postgres::{Client as PgClient, Error, GenericClient, NoTls};
+use crate::{geth::GethClient, paths::Paths, TreeMakerError};
+use prfs_db_interface::{
+    database::Database,
+    models::{AccountNode, Node},
+};
+use rust_decimal::{prelude::FromPrimitive, Decimal};
+use serde::{Deserialize, Serialize};
+use std::{
+    io::Write,
+    time::{Duration, SystemTime},
+};
 
-pub async fn climb_up() -> Result<(), TreeMakerError> {
-    // let (pg_client, connection) = tokio_postgres::connect(
-    //     "host=database-1.cstgyxdzqynn.ap-northeast-2.rds.amazonaws.com user=postgres password=postgres",
-    //     NoTls,
-    // )
-    // .await?;
+#[derive(Serialize, Deserialize, Debug)]
+pub struct ClimbJson {
+    set_id: String,
+    where_clause: String,
+}
 
-    // let pg_client = Arc::new(pg_client);
-    // tokio::spawn(async move {
-    //     if let Err(e) = connection.await {
-    //         println!("connection error: {}", e);
-    //     }
-    // });
+pub async fn run(paths: &Paths) -> Result<(), TreeMakerError> {
+    let pg_endpoint = std::env::var("POSTGRES_ENDPOINT")?;
+    let pg_pw = std::env::var("POSTGRES_PW")?;
+    let db = Database::connect(pg_endpoint, pg_pw).await?;
 
-    // let addr = "0x33d10Ab178924ECb7aD52f4c0C8062C3066607ec".to_lowercase();
+    let subset_filename = std::env::var("CLIMB_FILENAME")?;
 
-    // let addr = pg_client
-    //     .query_one(
-    //         "SELECT pos, table_id, val FROM nodes WHERE addr=$1",
-    //         &[&addr],
-    //     )
-    //     .await
-    //     .expect("addr should be found");
+    let subset_json = read_subset_file(paths, subset_filename)?;
 
-    // let addr: &str = addr.get("val");
-
-    // let addr_val = convert_string_into_fp(addr);
-
-    // println!("STARTING addr: {}, addr_val (fp): {:?}", addr, addr_val);
-
-    // let auth_paths = generate_auth_paths(385);
-
-    // let mut curr = addr_val;
-
-    // for (height, path) in auth_paths.iter().enumerate() {
-    //     println!("");
-    //     let curr_idx = path.idx;
-    //     let pos = &path.node_loc;
-
-    //     let node = match pg_client
-    //         .query_one("SELECT pos, table_id, val FROM nodes WHERE pos=$1", &[&pos])
-    //         .await
-    //     {
-    //         Ok(row) => {
-    //             let val: &str = row.get("val");
-    //             let pos: &str = row.get("pos");
-
-    //             println!("sibling node, pos: {}, val: {}", pos, val);
-
-    //             let node = convert_string_into_fp(val);
-
-    //             node
-    //         }
-    //         Err(err) => {
-    //             println!("value doesn't exist, pos: {}", pos,);
-
-    //             let node = Fp::zero();
-    //             node
-    //         }
-    //     };
-
-    //     if path.direction {
-    //         let l = convert_fp_to_string(node);
-    //         let r = convert_fp_to_string(curr);
-
-    //         println!("l (fp): {:?}, r (fp): {:?}", node, curr);
-    //         println!("l : {:?}, r : {:?}", l, r);
-
-    //         let hash = poseidon::Hash::<_, OrchardNullifier, ConstantLength<2>, 3, 2>::init()
-    //             .hash([node, curr]);
-
-    //         curr = hash;
-    //     } else {
-    //         let l = convert_fp_to_string(curr);
-    //         let r = convert_fp_to_string(node);
-
-    //         // println!("l: {:?}, r: {:?}", l, r);
-    //         println!("l (fp): {:?}, r (fp): {:?}", curr, node);
-    //         println!("l: {:?}, r : {:?}", l, r);
-    //         let hash = poseidon::Hash::<_, OrchardNullifier, ConstantLength<2>, 3, 2>::init()
-    //             .hash([curr, node]);
-
-    //         curr = hash;
-    //     }
-
-    //     let c = convert_fp_to_string(curr);
-
-    //     println!(
-    //         "curr (fp): {:?}, string: {}, parent_pos: {}",
-    //         curr,
-    //         c,
-    //         format!("{}_{}", height + 1, curr_idx / 2)
-    //     );
-    // }
-
-    // let c = convert_fp_to_string(curr);
-
-    // println!("finally curr: {:?}", curr,);
-    // println!("c: {:?}", c);
+    // create_subset(&db, paths, subset_json).await?;
 
     Ok(())
 }
 
-// #[derive(Debug, Clone)]
-// pub struct MerklePath {
-//     // Node idx at height
-//     pub idx: u128,
+fn read_subset_file(paths: &Paths, subset_filename: String) -> Result<ClimbJson, TreeMakerError> {
+    println!("subset_filename: {}", subset_filename);
 
-//     // Relative position of sibling to curr node. e.g. 0_0 has 0_1 sibling with
-//     // direction "false"
-//     pub direction: bool,
+    let subset_json_path = paths.data.join(subset_filename);
 
-//     // Node location, e.g. 0_1 refers to the second node in the lowest height
-//     pub node_loc: String,
-// }
+    let subset_json_bytes = std::fs::read(&subset_json_path).expect(&format!(
+        "Subset should exist, path: {:?}",
+        subset_json_path,
+    ));
 
-// pub fn generate_auth_paths(idx: u128) -> Vec<MerklePath> {
-//     let height = 32;
-//     let mut auth_path = vec![];
-//     let mut curr_idx = idx;
+    let subset_json: ClimbJson = serde_json::from_slice(&subset_json_bytes).unwrap();
 
-//     for h in 0..height {
-//         let sibling_idx = get_sibling_idx(curr_idx);
+    println!("subset_json: {:?}", subset_json);
 
-//         let sibling_dir = if sibling_idx % 2 == 0 { true } else { false };
+    Ok(subset_json)
+}
 
-//         let p = MerklePath {
-//             idx: sibling_idx,
-//             direction: sibling_dir,
-//             node_loc: format!("{}_{}", h, sibling_idx),
-//         };
+// async fn create_subset(
+//     db: &Database,
+//     paths: &Paths,
+//     subset_json: SubsetJson,
+// ) -> Result<(), TreeMakerError> {
+//     let subset_query_limit = std::env::var("SUBSET_QUERY_LIMIT")?;
 
-//         auth_path.push(p);
+//     let subset_offset = {
+//         let s = std::env::var("SUBSET_OFFSET")?;
+//         s.parse::<usize>().unwrap()
+//     };
 
-//         let parent_idx = get_parent_idx(curr_idx);
-//         curr_idx = parent_idx;
+//     let subset_insert_interval = {
+//         let s: u64 = std::env::var("SUBSET_INSERT_INTERVAL")
+//             .expect("env var SCAN_INTERVAL missing")
+//             .parse()
+//             .unwrap();
+//         s
+//     };
+
+//     println!(
+//         "subset_offset: {}, subset_query_limit: {}, subset_insert_interval: {}",
+//         subset_offset, subset_query_limit, subset_insert_interval
+//     );
+
+//     let break_every = {
+//         let b = subset_query_limit.parse::<usize>().unwrap();
+//         b * 2
+//     };
+
+//     let set_id = subset_json.set_id;
+
+//     let mut should_loop = true;
+//     let mut offset = subset_offset;
+//     let mut count = 0;
+
+//     loop {
+//         let where_clause = format!(
+//             "{} offset {} limit {}",
+//             subset_json.where_clause, offset, subset_query_limit
+//         );
+
+//         let now = SystemTime::now();
+//         let accounts = db.get_accounts(&where_clause).await?;
+
+//         let elapsed = now.elapsed().unwrap();
+//         println!("query took {} ms", elapsed.as_millis());
+
+//         let mut nodes = vec![];
+//         let mut account_nodes = vec![];
+
+//         for (idx, account) in accounts.iter().enumerate() {
+//             let node = Node {
+//                 pos_w: Decimal::from_u64((count + idx) as u64).unwrap(),
+//                 pos_h: 0,
+//                 val: account.addr.to_string(),
+//                 set_id: set_id.to_string(),
+//             };
+
+//             let account_node = AccountNode {
+//                 addr: account.addr.to_string(),
+//                 set_id: set_id.to_string(),
+//             };
+
+//             nodes.push(node);
+//             account_nodes.push(account_node);
+//         }
+
+//         if nodes.len() == 0 {
+//             break;
+//         }
+
+//         if nodes.len() != account_nodes.len() {
+//             panic!(
+//                 "nodes {} and account_node {} counts are different",
+//                 nodes.len(),
+//                 account_nodes.len()
+//             );
+//         }
+
+//         let nodes_updated = db.insert_nodes(&nodes, false).await?;
+//         let account_node_updated = db.insert_account_nodes(&account_nodes, false).await?;
+
+//         if nodes_updated != account_node_updated {
+//             panic!(
+//                 "nodes {} and account_node {} update counts are different, count: {}, offset: {}",
+//                 nodes_updated, account_node_updated, count, offset,
+//             );
+//         }
+
+//         count += accounts.len();
+//         offset += accounts.len();
+
+//         println!(
+//             "Inserted, nodes updated: {}, account_node updated: {}, current count: {}",
+//             nodes_updated, account_node_updated, count,
+//         );
+
+//         if count % break_every == 0 {
+//             println!("sleep");
+//             tokio::time::sleep(Duration::from_millis(subset_insert_interval)).await;
+//         }
+
+//         if accounts.len() < 1 {
+//             break;
+//         }
 //     }
 
-//     auth_path
-// }
+//     println!(
+//         "Finish creating a subset, set_id: {}, total count: {}",
+//         set_id, count
+//     );
 
-// fn get_sibling_idx(idx: u128) -> u128 {
-//     if idx % 2 == 0 {
-//         idx + 1
-//     } else {
-//         idx - 1
-//     }
-// }
-
-// pub fn get_parent_idx(idx: u128) -> u128 {
-//     idx / 2
+//     Ok(())
 // }

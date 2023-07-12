@@ -92,10 +92,6 @@ pub fn make_merkle_proof(
             )),
         };
 
-        // let t = hex::encode(sibling);
-        // println!("t: {}", t);
-
-        // let s = convert_bytes_into_decimal_str(sibling)?;
         let s = convert_32bytes_into_decimal_string(sibling)?;
         println!("\nsibling({}, {}): {:?}, decimal: {}", h, s_idx, sibling, s);
 

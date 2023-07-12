@@ -2,7 +2,7 @@ use std::path::PathBuf;
 
 pub struct Paths {
     pub log_files: PathBuf,
-    pub subsets: PathBuf,
+    pub data: PathBuf,
 }
 
 impl Paths {
@@ -12,9 +12,9 @@ impl Paths {
         let log_files = project_root.join("log_files");
         println!("log_files: {:?}", log_files);
 
-        let subsets = project_root.join("subsets");
-        println!("subsets: {:?}", subsets);
+        let data = project_root.join("data");
+        println!("data: {:?}", data);
 
-        Paths { log_files, subsets }
+        Paths { log_files, data }
     }
 }
