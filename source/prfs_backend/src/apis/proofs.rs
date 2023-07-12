@@ -1,6 +1,5 @@
 use crate::State;
 // use eth_types::sign_types::SignData;
-use ff::PrimeField;
 // use halo2_gadgets::poseidon::{
 //     self,
 //     primitives::{ConstantLength, P128Pow5T3},

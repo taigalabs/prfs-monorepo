@@ -6,29 +6,24 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-hyper = { version = "0.14", features = ["full"] }
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-aws-config = "0.54.1"
-aws-sdk-dynamodb = "0.24.0"
-log = "0.4"
-simple-logging = "2.0"
-chrono = "0.4.23"
-hyper-tls = "0.5.0"
-tokio = { version = "1", features = ["full"] }
+tokio = { version = "1.28", features = ["full"] }
 tokio-stream = "0.1"
 tokio-postgres = "0.7.7"
-futures-util = "0.3.26"
-hex = "0.4.3"
-routerify = "3.0.0"
+hyper = "0.14"
+hyper-tls = "0.5.0"
+routerify = "3"
 routerify-cors = "3"
-rand_xorshift = "0.3"
-rand_core = { version = "0.6", default-features = false }
-group = "0.12"
-rand = "0.8"
-ff = "0.12"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+log = "0.4"
+chrono = "0.4.23"
+hex = "0.4.3"
 dotenv = "0.15.0"
 rust_decimal = { version = "1.29", features = ["db-postgres"] }
 rust_decimal_macros = "1.29"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["json", "env-filter"] }
+tracing-appender = "0.2"
 
 prfs_db_interface = { path = "../prfs_db_interface" }
+

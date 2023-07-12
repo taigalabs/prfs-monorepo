@@ -1,8 +1,8 @@
+mod apis;
 mod middleware;
-mod routes;
+pub mod router;
 
 use prfs_db_interface::database::Database;
-pub use routes::*;
 use std::sync::Arc;
 
 pub type BackendError = Box<dyn std::error::Error + Send + Sync>;

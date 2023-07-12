@@ -1,38 +1,55 @@
 use dotenv::dotenv;
 use hyper::Server;
-use prfs_backend::{build_router, BackendError};
+use prfs_backend::{router, BackendError};
 use prfs_db_interface::database::Database;
 use routerify::RouterService;
 use std::net::SocketAddr;
-use std::sync::Arc;
-use tokio_postgres::NoTls;
 
 #[tokio::main]
 async fn main() -> Result<(), BackendError> {
-    {
-        let dotenv_path = dotenv().expect("dotenv should exist");
-        println!(".env path: {:?}", dotenv_path);
-    }
+    dotenv()?;
 
     let pg_endpoint = std::env::var("POSTGRES_ENDPOINT")?;
     let pg_pw = std::env::var("POSTGRES_PW")?;
     let db = Database::connect(pg_endpoint, pg_pw).await?;
 
-    let router = build_router(db);
-
-    // Create a Service from the router above to handle incoming requests.
+    let router = router::make_router(db)?;
     let service = RouterService::new(router).unwrap();
 
-    // The address on which the server will be listening.
     let addr = SocketAddr::from(([0, 0, 0, 0], 4000));
-
-    // Create a server by passing the created service to `.serve` method.
     let server = Server::bind(&addr).serve(service);
 
-    println!("App is running on: {}", addr);
+    println!("Prfs backend is running on: {}", addr);
     if let Err(err) = server.await {
         eprintln!("Server error: {}", err);
     }
 
     Ok(())
 }
+
+// #[tokio::main]
+// async fn main() -> Result<(), AssetServerError> {
+//     let curr_dir = std::env::current_dir().unwrap();
+//     println!("curr_dir: {:?}", curr_dir);
+
+//     let assets_path = curr_dir.join("source/prfs_prf_asset_server/assets");
+//     println!("assets_path: {:?}", assets_path);
+
+//     assert!(assets_path
+//         .try_exists()
+//         .expect("assets path should exist in the file system"));
+
+//     let router = make_router(&assets_path);
+
+//     let service = RouterService::new(router).unwrap();
+//     let addr: SocketAddr = ([127, 0, 0, 1], 4010).into();
+//     let server = Server::bind(&addr).serve(service);
+
+//     println!("Server is running on: {}", addr);
+
+//     if let Err(err) = server.await {
+//         eprintln!("Server error: {}", err);
+//     }
+
+//     Ok(())
+// }

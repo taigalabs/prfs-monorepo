@@ -35,4 +35,3 @@ hex = "0.4.3"
 
 prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_crypto = { path = "../prfs_crypto" }
-

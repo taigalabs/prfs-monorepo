@@ -4,7 +4,6 @@ use colored::Colorize;
 use dotenv::dotenv;
 use prfs_tree_maker::{
     apis::{climb, genesis, scan, subset, tree},
-    geth::GethClient,
     paths::Paths,
     TreeMakerError,
 };
