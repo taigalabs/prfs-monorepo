@@ -52,12 +52,6 @@ async fn create_subset(
     paths: &Paths,
     subset_json: SubsetJson,
 ) -> Result<(), TreeMakerError> {
-    // let p = paths.log_files.join("account_node2");
-    // let mut nodes_record = std::fs::File::create(p).unwrap();
-
-    // let p = paths.log_files.join("account_node1");
-    // let mut account_node_record = std::fs::File::create(p).unwrap();
-
     let subset_query_limit = std::env::var("SUBSET_QUERY_LIMIT")?;
 
     let subset_offset = {
@@ -105,13 +99,6 @@ async fn create_subset(
         let mut account_nodes = vec![];
 
         for (idx, account) in accounts.iter().enumerate() {
-            if account.addr == "0x33d10ab178924ecb7ad52f4c0c8062c3066607ec" {
-                println!(
-                    "Found! addr: {}, idx: {}, count: {}",
-                    account.addr, idx, offset,
-                );
-            }
-
             let node = Node {
                 pos_w: Decimal::from_u64((count + idx) as u64).unwrap(),
                 pos_h: 0,

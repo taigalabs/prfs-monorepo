@@ -1,7 +1,7 @@
 use dotenv::dotenv;
 use hyper::Server;
 use prfs_backend::{build_router, BackendError};
-use prfs_db_interface::Database;
+use prfs_db_interface::database::Database;
 use routerify::RouterService;
 use std::net::SocketAddr;
 use std::sync::Arc;
@@ -14,7 +14,9 @@ async fn main() -> Result<(), BackendError> {
         println!(".env path: {:?}", dotenv_path);
     }
 
-    let db = Database::connect().await?;
+    let pg_endpoint = std::env::var("POSTGRES_ENDPOINT")?;
+    let pg_pw = std::env::var("POSTGRES_PW")?;
+    let db = Database::connect(pg_endpoint, pg_pw).await?;
 
     let router = build_router(db);
 

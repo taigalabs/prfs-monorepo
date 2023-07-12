@@ -3,13 +3,10 @@ mod proofs;
 
 use crate::{middleware, State};
 use hyper::{body, header, Body, Request, Response};
-use prfs_db_interface::db::Database;
-use prfs_db_interface::Node;
+use prfs_db_interface::database::Database;
 use routerify::prelude::*;
 use routerify::{Middleware, Router};
 use routerify_cors::enable_cors_all;
-use rust_decimal::Decimal;
-use serde::{Deserialize, Serialize};
 use std::convert::Infallible;
 use std::sync::Arc;
 

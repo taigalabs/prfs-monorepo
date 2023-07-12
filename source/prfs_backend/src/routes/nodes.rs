@@ -1,6 +1,6 @@
 use crate::State;
 use hyper::{body, header, Body, Request, Response};
-use prfs_db_interface::Node;
+use prfs_db_interface::models::Node;
 use routerify::prelude::*;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};

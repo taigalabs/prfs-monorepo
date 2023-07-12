@@ -49,35 +49,5 @@ fn test_merkle_proof() -> Result<(), PrfsCryptoError> {
     let proof = make_merkle_proof(leaves, 0, depth).unwrap();
     println!("proof: {:?}", proof);
 
-    // let sibling_path = make_merkle_proof(depth, 0);
-
-    // let inputs = [0u8; 64];
-    // let res = hash_from_bytes(&inputs).unwrap();
-    // println!("res: {:?}", res);
-
-    // let mut res2 = res.clone();
-    // res2.reverse();
-
-    // let a = hex::encode(res2);
-    // println!("a: {}", a);
-
-    // let b = U256::from_str_radix(&a, 16).unwrap();
-    // println!("b: {}", b);
-
-    // let prover_addr = "0x33d10ab178924ecb7ad52f4c0c8062c3066607ec";
-    // let prover_addr = prover_addr.trim_start_matches("0x");
-
     Ok(())
-}
-
-#[derive(Clone)]
-pub struct PoseidonHash {}
-
-impl Hasher for PoseidonHash {
-    type Hash = [u8; 32];
-
-    fn hash(data: &[u8]) -> [u8; 32] {
-        let res: [u8; 32] = hash_from_bytes(data).unwrap().try_into().unwrap();
-        res
-    }
 }

@@ -114,8 +114,6 @@ fn set_up_logger(paths: &Paths) -> Result<WorkerGuard, TreeMakerError> {
     tracing::warn!("log warn");
     tracing::error!("log error");
 
-    tracing::info!("logging starts");
-
     Ok(guard)
 }
 

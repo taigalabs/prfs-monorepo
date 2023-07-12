@@ -20,7 +20,7 @@ fn main() {
     let circom_r1cs_path = root.join(circom_r1cs_path);
     println!("circom_r1cs_path: {:?}", circom_r1cs_path);
 
-    let spartan_inst = load_as_spartan_inst(circom_r1cs_path, num_pub_inputs);
+    let spartan_inst = load_as_spartan_inst(&circom_r1cs_path, num_pub_inputs);
     let sparta_inst_bytes = bincode::serialize(&spartan_inst).unwrap();
 
     File::create(root.join(output_path.clone()))

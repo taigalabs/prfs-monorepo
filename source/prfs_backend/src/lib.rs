@@ -1,10 +1,9 @@
 mod middleware;
 mod routes;
 
-use prfs_db_interface::Database;
+use prfs_db_interface::database::Database;
 pub use routes::*;
 use std::sync::Arc;
-use tokio_postgres::Client;
 
 pub type BackendError = Box<dyn std::error::Error + Send + Sync>;
 

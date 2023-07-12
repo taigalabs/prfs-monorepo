@@ -10,7 +10,6 @@ use ff::PrimeField;
 // use halo2_proofs::halo2curves::secp256k1::{Fp as SecFp, Fq as SecFq, Secp256k1Affine};
 // use halo2_proofs::halo2curves::CurveAffine;
 use hyper::{body, header, Body, Request, Response};
-use prfs_db_interface::Node;
 // use prfs_proofs::asset_proof_1;
 // use prfs_proofs::asset_proof_1::constants::{POS_RATE, POS_WIDTH};
 // use prfs_proofs::{pk_bytes_le, pk_bytes_swap_endianness};
