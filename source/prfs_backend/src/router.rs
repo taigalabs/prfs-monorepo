@@ -1,3 +1,4 @@
+use crate::apis::proofs;
 use crate::state::ServerState;
 use crate::{apis::nodes, middleware, BackendError};
 use hyper::{body, header, Body, Request, Response};
@@ -18,7 +19,8 @@ pub fn make_router(db: Database) -> Result<Router<Body, Infallible>, BackendErro
         .middleware(enable_cors_all())
         .get("/", status_handler)
         .post("/get_nodes", nodes::get_nodes)
-        // .post("/get_proof_types", proofs::get_proof_types)
+        .post("/get_proof_types", proofs::get_proof_types)
+        // .post("/get")
         // .err_handler_with_info(middleware::error_handler)
         .build()?;
 
