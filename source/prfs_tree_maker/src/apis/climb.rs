@@ -1,9 +1,6 @@
-use super::subset::SubsetJson;
-use crate::{paths::Paths, TreeMakerError};
-use prfs_crypto::convert_hex_into_32bytes;
+use crate::{paths::Paths, proof_type_json::ProofTypeJson, TreeMakerError};
 use prfs_db_interface::{database::Database, models::Node};
 use rust_decimal::Decimal;
-use serde::{Deserialize, Serialize};
 
 pub async fn run(paths: &Paths) -> Result<(), TreeMakerError> {
     let pg_endpoint = std::env::var("POSTGRES_ENDPOINT")?;
@@ -19,7 +16,10 @@ pub async fn run(paths: &Paths) -> Result<(), TreeMakerError> {
     Ok(())
 }
 
-fn read_subset_file(paths: &Paths, subset_filename: String) -> Result<SubsetJson, TreeMakerError> {
+fn read_subset_file(
+    paths: &Paths,
+    subset_filename: String,
+) -> Result<ProofTypeJson, TreeMakerError> {
     println!("subset_filename: {}", subset_filename);
 
     let subset_json_path = paths.data.join(subset_filename);
@@ -29,7 +29,7 @@ fn read_subset_file(paths: &Paths, subset_filename: String) -> Result<SubsetJson
         subset_json_path,
     ));
 
-    let subset_json: SubsetJson = serde_json::from_slice(&subset_json_bytes).unwrap();
+    let subset_json: ProofTypeJson = serde_json::from_slice(&subset_json_bytes).unwrap();
 
     println!("subset_json: {:?}", subset_json);
 
@@ -39,10 +39,10 @@ fn read_subset_file(paths: &Paths, subset_filename: String) -> Result<SubsetJson
 async fn climb_subset(
     db: &Database,
     paths: &Paths,
-    subset_json: SubsetJson,
+    proof_type_json: ProofTypeJson,
 ) -> Result<(), TreeMakerError> {
-    let set_id = subset_json.set_id.to_string();
-    let depth = subset_json.tree_depth as usize;
+    let set_id = proof_type_json.set_id.to_string();
+    let depth = proof_type_json.tree_depth as usize;
 
     println!("climb_subset, set_id: {}", set_id);
 
