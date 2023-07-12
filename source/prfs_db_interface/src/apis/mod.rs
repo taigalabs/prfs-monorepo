@@ -40,7 +40,7 @@ impl Database {
         Ok(accounts)
     }
 
-    pub async fn get_nodes(&self, where_clause: &str) -> Result<Vec<Row>, DbInterfaceError> {
+    pub async fn get_nodes(&self, where_clause: &str) -> Result<Vec<Node>, DbInterfaceError> {
         let stmt = format!(
             "SELECT * from {} where {}",
             Node::table_name(),
@@ -57,7 +57,27 @@ impl Database {
             }
         };
 
-        Ok(rows)
+        let nodes: Vec<Node> = rows
+            .iter()
+            .map(|n| {
+                // let addr: String = n.try_get("addr").expect("addr should be present");
+                // let wei: Decimal = .try_get("wei").expect("wei should be present");
+                //
+                let pos_w = n.try_get("pos_w").expect("pos_w should exist");
+                let pos_h = n.try_get("pos_h").expect("pos_h should exist");
+                let val = n.try_get("val").expect("val should exist");
+                let set_id = n.try_get("set_id").expect("set_id should exist");
+
+                Node {
+                    pos_w,
+                    pos_h,
+                    val,
+                    set_id,
+                }
+            })
+            .collect();
+
+        Ok(nodes)
     }
 
     pub async fn get_proof_types(&self) -> Result<Vec<Row>, DbInterfaceError> {

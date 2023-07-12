@@ -1,5 +1,6 @@
 use super::subset::SubsetJson;
 use crate::{geth::GethClient, paths::Paths, TreeMakerError};
+use prfs_crypto::convert_hex_into_32bytes;
 use prfs_db_interface::{
     database::Database,
     models::{AccountNode, Node},
@@ -51,7 +52,24 @@ async fn climb_subset(
 
     println!("climb_subset, set_id: {}", set_id);
 
-    db.get_nodes("").await;
+    let where_clause = format!("set_id='{}' order by pos_w asc limit 100", set_id);
+
+    let leaves = db.get_nodes(&where_clause).await?;
+
+    println!("nodes: {:?}", leaves);
+
+    // let leaves: Vec<[u8; 32]> = leaves
+    //     .iter()
+    //     .map(|leaf| {
+    //         let b = convert_hex_into_32bytes(leaf).unwrap();
+    //         b
+    //     })
+    //     .collect();
+
+    // for node in nodes {
+    //     println!("node: {:?}", node);
+    // }
+
     // let climb_query_limit = std::env::var("CLIMB_QUERY_LIMIT")?;
 
     // println!(
