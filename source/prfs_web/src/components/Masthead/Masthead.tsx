@@ -12,7 +12,7 @@ const Logo = ({
 }) => {
   return (
     <div>{label}</div>
-  )
+  );
 };
 
 const Masthead: React.FC<any> = () => {
