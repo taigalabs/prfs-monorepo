@@ -37,6 +37,7 @@
   },
   "packageManager": "yarn@3.6.1",
   "dependencies": {
+    "@mui/icons-material": "^5.14.0",
     "@thirdweb-dev/react": "^3.14.13",
     "@thirdweb-dev/sdk": "^3.10.33",
     "ethers": "^5"
