@@ -4,6 +4,7 @@ import React from "react";
 
 import styles from "./page.module.scss";
 import { I18nContext } from "@/contexts";
+import Button from "@mui/material/Button";
 
 const SignIn: React.FC = () => {
   let i18n = React.useContext(I18nContext);
@@ -13,7 +14,7 @@ const SignIn: React.FC = () => {
       <div>
         <div className={styles.input}>
           <input type="password"></input>
-          <button>Sign in</button>
+          <Button variant="contained">Sign in</Button>
         </div>
         <div className={styles.desc}>
           <ol>
