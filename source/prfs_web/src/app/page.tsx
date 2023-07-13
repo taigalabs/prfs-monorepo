@@ -4,14 +4,14 @@ import React from "react";
 import { ethers } from "ethers";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 
-import styles from "./page.module.css";
+import styles from "./page.module.scss";
 import { proveMembershipMock } from "@/prfs/mock";
 import { proveMembership } from "@/prfs";
 import Masthead from "@/components/masthead/Masthead";
 import getSigner from "@/fns/get_signer";
 import { useAddress, useSigner } from "@thirdweb-dev/react";
 
-export default function Home() {
+const Home: React.FC = () => {
   console.log("Home()");
 
   // let [account, setAccount] = React.useState();
@@ -29,14 +29,16 @@ export default function Home() {
 
   return (
     <ThirdwebProvider activeChain="ethereum">
-      <div>
+      <div className={styles.wrapper}>
         <Masthead />
         <button onClick={proverAddressMembershipMock}>Prove Address Membership mock</button>
         <button onClick={proverAddressMembership}>Prove Address Membership</button>
       </div>
     </ThirdwebProvider>
   );
-}
+};
+
+export default Home;
 
 // function getSiblingIdx(idx: number): number {
 //   if (idx % 2 == 0) {
