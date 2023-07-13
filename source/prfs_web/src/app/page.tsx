@@ -4,11 +4,11 @@ import React from "react";
 import { ethers } from "ethers";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 
-import styles from './page.module.css';
+import styles from "./page.module.css";
 import { proveMembershipMock } from "@/prfs/mock";
 import { proveMembership } from "@/prfs";
-import Masthead from '@/components/Masthead/Masthead';
-import getSigner from '@/fns/get_signer';
+import Masthead from "@/components/masthead/Masthead";
+import getSigner from "@/fns/get_signer";
 import { useAddress, useSigner } from "@thirdweb-dev/react";
 
 export default function Home() {
@@ -20,7 +20,7 @@ export default function Home() {
   // }, [setAccount]);
 
   const proverAddressMembershipMock = React.useCallback(() => {
-    proveMembershipMock().then(() => { });
+    proveMembershipMock().then(() => {});
   }, []);
 
   const proverAddressMembership = React.useCallback(() => {

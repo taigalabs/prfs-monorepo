@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "./page.module.css";
+import styles from "./page.module.scss";
 
-export default function SignIn() {
+const SignIn: React.FC = () => {
   console.log("Home()");
 
   // let [account, setAccount] = React.useState();
@@ -11,9 +11,21 @@ export default function SignIn() {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.input}>
-        <input type="password"></input>
+      <div>
+        <div className={styles.input}>
+          <input type="password"></input>
+          <button>Sign in</button>
+        </div>
+        <div>
+          <ol>
+            <li>123</li>
+            <li>123</li>
+            <li>123</li>
+          </ol>
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default SignIn;
