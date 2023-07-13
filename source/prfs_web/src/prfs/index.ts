@@ -58,7 +58,7 @@ async function f1(signer: ethers.Signer) {
   // const sig = `0x${r.toString("hex")}${s.toString("hex")}${v.toString(16)}`;
 
   // let provider = new ethers.BrowserProvider(window.ethereum);
-  let proverAddrHex = signer.getAddress();
+  let proverAddrHex = await signer.getAddress();
   // let sig = await provider.send('personal_sign', [ethers.hexlify(msg), proverAddrHex.toLowerCase()]);
   let sig = await signer.signMessage(msg);
   // proverAddrHex = proverAddrHex.toLowerCase();
@@ -120,7 +120,7 @@ async function f1(signer: ethers.Signer) {
   return proof;
 }
 
-async function f2(signer: ethers.JsonRpcSigner) {
+async function f2(signer: ethers.Signer) {
   let addrMembership2CircuitUrl = getAddrMembership2CircuitUrl();
   let addrMembership2WtnsGenUrl = getAddrMembership2WtnsGenUrl();
 
@@ -143,7 +143,7 @@ async function f2(signer: ethers.JsonRpcSigner) {
   let verifyMsg = verifyMessage(msg, sig);
   console.log("verified addr", verifyMsg);
 
-  let proverAddress = signer.address;
+  let proverAddress = await signer.getAddress();
   console.log("proverAddr", proverAddress);
 
   const proverAddr = BigInt(proverAddress);
