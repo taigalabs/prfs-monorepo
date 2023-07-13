@@ -8,11 +8,6 @@ import { ethers } from "ethers";
 import { useState } from "react";
 import { proveMembershipMock } from "@/prfs/mock";
 import { proveMembership } from "@/prfs";
-// import { MetaMaskInpageProvider } from "@metamask/providers";
-// import { PRFS_GEN_ENDPOINT } from "@/config/index";
-// import detectEthereumProvider from "@metamask/detect-provider";
-
-const TREE_DEPTH: number = 32;
 
 export default function Home() {
   console.log("Home()");
@@ -32,15 +27,15 @@ export default function Home() {
       }
     };
 
-    fn().then(_res => {});
+    fn().then(_res => { });
   }, [setAccount]);
 
   const proverAddressMembershipMock = React.useCallback(() => {
-    proveMembershipMock().then(() => {});
+    proveMembershipMock().then(() => { });
   }, []);
 
   const proverAddressMembership = React.useCallback(() => {
-    proveMembership(account).then(() => {});
+    proveMembership(account).then(() => { });
   }, [account]);
 
   return (
