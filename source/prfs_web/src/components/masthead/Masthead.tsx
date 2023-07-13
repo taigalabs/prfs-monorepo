@@ -1,18 +1,15 @@
-import React from 'react';
+import React from "react";
 import { ConnectWallet } from "@thirdweb-dev/react";
 import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
+import Link from "next/link";
 
-import styles from './Masthead.module.css';
-import { I18nContext } from '@/contexts';
+import styles from "./Masthead.module.css";
+import { I18nContext } from "@/contexts";
 
 const metamaskConfig = metamaskWallet();
 
-const Logo = ({
-  label,
-}) => {
-  return (
-    <div>{label}</div>
-  );
+const Logo = ({ label }) => {
+  return <div>{label}</div>;
 };
 
 const Masthead: React.FC<any> = () => {
@@ -24,7 +21,7 @@ const Masthead: React.FC<any> = () => {
     const fn = async () => {
       const wallet = await connect(metamaskConfig);
 
-      console.log('wallet', wallet);
+      console.log("wallet", wallet);
     };
 
     fn().then();
@@ -33,11 +30,11 @@ const Masthead: React.FC<any> = () => {
   return (
     <div className={styles.wrapper}>
       <Logo label={i18n.logo_label} />
-      <div onClick={handleConnect}>connect</div>
-      {/* <ConnectWallet theme="dark" /> */}
+      <div onClick={handleConnect}>
+        <Link href="/signin">connect</Link>
+      </div>
     </div>
   );
 };
 
 export default Masthead;
-
