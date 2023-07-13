@@ -8,13 +8,14 @@ import styles from "./page.module.scss";
 import { proveMembershipMock } from "@/prfs/mock";
 import { proveMembership } from "@/prfs";
 import Masthead from "@/components/masthead/Masthead";
-import getSigner from "@/fns/get_signer";
+// import getSigner from "@/fns/getSigner";
 import { useAddress, useSigner } from "@thirdweb-dev/react";
 
 const Home: React.FC = () => {
   console.log("Home()");
 
   // let [account, setAccount] = React.useState();
+
   // React.useEffect(() => {
   //   getSigner().then();
   // }, [setAccount]);
