@@ -26,7 +26,6 @@
   "workspaces": {
     "packages": [
       "externals/lib",
-      "externals/circuits",
       "externals/incremental-merkle-tree",
       "source/prfs_js",
       "source/prfs_circuits",

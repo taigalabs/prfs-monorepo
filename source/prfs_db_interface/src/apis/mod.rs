@@ -1,11 +1,10 @@
 use super::models::Account;
 use crate::{
     database::Database,
-    models::{AccountNode, Node, ProofType},
+    models::{EthAccountTreeNode, EthTreeNode, ProofType},
     DbInterfaceError,
 };
 use rust_decimal::Decimal;
-use std::io::Write;
 use std::{collections::BTreeMap, fs::write};
 use tokio_postgres::{Client as PGClient, Row};
 
@@ -40,10 +39,13 @@ impl Database {
         Ok(accounts)
     }
 
-    pub async fn get_nodes(&self, where_clause: &str) -> Result<Vec<Node>, DbInterfaceError> {
+    pub async fn get_eth_tree_nodes(
+        &self,
+        where_clause: &str,
+    ) -> Result<Vec<EthTreeNode>, DbInterfaceError> {
         let stmt = format!(
             "SELECT * from {} where {}",
-            Node::table_name(),
+            EthTreeNode::table_name(),
             where_clause
         );
         // println!("stmt: {}", stmt);
@@ -57,18 +59,15 @@ impl Database {
             }
         };
 
-        let nodes: Vec<Node> = rows
+        let nodes: Vec<EthTreeNode> = rows
             .iter()
             .map(|n| {
-                // let addr: String = n.try_get("addr").expect("addr should be present");
-                // let wei: Decimal = .try_get("wei").expect("wei should be present");
-                //
                 let pos_w = n.try_get("pos_w").expect("pos_w should exist");
                 let pos_h = n.try_get("pos_h").expect("pos_h should exist");
                 let val = n.try_get("val").expect("val should exist");
                 let set_id = n.try_get("set_id").expect("set_id should exist");
 
-                Node {
+                EthTreeNode {
                     pos_w,
                     pos_h,
                     val,
@@ -135,9 +134,9 @@ impl Database {
         Ok(rows_updated)
     }
 
-    pub async fn insert_nodes(
+    pub async fn insert_eth_tree_nodes(
         &self,
-        nodes: &Vec<Node>,
+        nodes: &Vec<EthTreeNode>,
         update_on_conflict: bool,
     ) -> Result<u64, DbInterfaceError> {
         let mut values = Vec::with_capacity(nodes.len());
@@ -151,14 +150,14 @@ impl Database {
             format!(
                 "INSERT INTO {} (pos_w, pos_h, val, set_id) VALUES {} ON CONFLICT \
                     (pos_w, pos_h, set_id) {}",
-                Node::table_name(),
+                EthTreeNode::table_name(),
                 values.join(","),
                 "DO UPDATE SET val = excluded.val, updated_at = now()",
             )
         } else {
             format!(
                 "INSERT INTO {} (pos_w, pos_h, val, set_id) VALUES {} ON CONFLICT DO NOTHING",
-                Node::table_name(),
+                EthTreeNode::table_name(),
                 values.join(","),
             )
         };
@@ -176,9 +175,9 @@ impl Database {
         Ok(rows_updated)
     }
 
-    pub async fn insert_account_nodes(
+    pub async fn insert_eth_account_tree_nodes(
         &self,
-        account_nodes: &Vec<AccountNode>,
+        account_nodes: &Vec<EthAccountTreeNode>,
         update_on_conflict: bool,
     ) -> Result<u64, DbInterfaceError> {
         let mut values = Vec::with_capacity(account_nodes.len());
@@ -192,14 +191,14 @@ impl Database {
             format!(
                 "INSERT INTO {} (addr, set_id) VALUES {} ON CONFLICT \
                     (addr, set_id) {}",
-                AccountNode::table_name(),
+                EthAccountTreeNode::table_name(),
                 values.join(","),
                 "DO UPDATE SET addr=excluded.addr, set_id=excluded.set_id, updated_at=now()",
             )
         } else {
             format!(
                 "INSERT INTO {} (addr, set_id) VALUES {} ON CONFLICT DO NOTHING returning addr",
-                AccountNode::table_name(),
+                EthAccountTreeNode::table_name(),
                 values.join(","),
             )
         };

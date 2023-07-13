@@ -1,7 +1,7 @@
 use crate::{geth::GethClient, paths::Paths, proof_type_json::ProofTypeJson, TreeMakerError};
 use prfs_db_interface::{
     database::Database,
-    models::{AccountNode, Node},
+    models::{EthAccountTreeNode, EthTreeNode},
 };
 use rust_decimal::{prelude::FromPrimitive, Decimal};
 use serde::{Deserialize, Serialize};
@@ -94,14 +94,14 @@ async fn create_subset(
         let mut account_nodes = vec![];
 
         for (idx, account) in accounts.iter().enumerate() {
-            let node = Node {
+            let node = EthTreeNode {
                 pos_w: Decimal::from_u64((count + idx) as u64).unwrap(),
                 pos_h: 0,
                 val: account.addr.to_string(),
                 set_id: set_id.to_string(),
             };
 
-            let account_node = AccountNode {
+            let account_node = EthAccountTreeNode {
                 addr: account.addr.to_string(),
                 set_id: set_id.to_string(),
             };
@@ -122,8 +122,10 @@ async fn create_subset(
             );
         }
 
-        let nodes_updated = db.insert_nodes(&nodes, false).await?;
-        let account_node_updated = db.insert_account_nodes(&account_nodes, false).await?;
+        let nodes_updated = db.insert_eth_tree_nodes(&nodes, false).await?;
+        let account_node_updated = db
+            .insert_eth_account_tree_nodes(&account_nodes, false)
+            .await?;
 
         if nodes_updated != account_node_updated {
             panic!(

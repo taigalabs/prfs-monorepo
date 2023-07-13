@@ -1,7 +1,6 @@
 [workspace]
 members = [
   # externals
-  "externals/spartan_wasm",
   "externals/secq256k1",
   "externals/poseidon",
   "externals/Spartan-secq",

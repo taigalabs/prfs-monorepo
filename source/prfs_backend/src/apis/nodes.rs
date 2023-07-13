@@ -1,6 +1,6 @@
 use crate::{state::ServerState, BackendError};
 use hyper::{body, header, Body, Request, Response};
-use prfs_db_interface::models::Node;
+use prfs_db_interface::models::EthTreeNode;
 use routerify::prelude::*;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
@@ -22,7 +22,7 @@ struct GetNodesRequest<'a> {
 
 #[derive(Serialize, Deserialize, Debug)]
 struct GetNodesResponse {
-    nodes: Vec<Node>,
+    nodes: Vec<EthTreeNode>,
 }
 
 pub async fn get_nodes(req: Request<Body>) -> Result<Response<Body>, Infallible> {
@@ -56,7 +56,10 @@ pub async fn get_nodes(req: Request<Body>) -> Result<Response<Body>, Infallible>
 
     println!("where_clause, {}", where_clause);
 
-    let nodes = db.get_nodes(&where_clause).await.expect("get nodes fail");
+    let nodes = db
+        .get_eth_tree_nodes(&where_clause)
+        .await
+        .expect("get nodes fail");
 
     // println!("merkle_path: {:?}", merkle_path);
 

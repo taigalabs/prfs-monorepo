@@ -2,13 +2,13 @@ use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct AccountNode {
+pub struct EthAccountTreeNode {
     pub addr: String,
     pub set_id: String,
 }
 
-impl AccountNode {
+impl EthAccountTreeNode {
     pub fn table_name() -> &'static str {
-        "account_node"
+        "eth_account_tree_node"
     }
 }

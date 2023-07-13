@@ -1,5 +1,5 @@
 use crate::{paths::Paths, proof_type_json::ProofTypeJson, TreeMakerError};
-use prfs_db_interface::{database::Database, models::Node};
+use prfs_db_interface::{database::Database, models::EthTreeNode};
 use rust_decimal::Decimal;
 
 pub async fn run(paths: &Paths) -> Result<(), TreeMakerError> {
@@ -48,7 +48,7 @@ async fn climb_subset(
 
     let where_clause = format!("set_id='{}' order by pos_w asc", set_id);
 
-    let leaves = db.get_nodes(&where_clause).await?;
+    let leaves = db.get_eth_tree_nodes(&where_clause).await?;
 
     let leaves: Vec<[u8; 32]> = leaves
         .iter()
@@ -81,7 +81,7 @@ async fn climb_subset(
             // println!("node: {:?}, idx: {}", node, idx);
             let val = prfs_crypto::convert_32bytes_into_decimal_string(node).unwrap();
 
-            let n = Node {
+            let n = EthTreeNode {
                 pos_w: Decimal::from(idx),
                 pos_h: (d + 1) as i32,
                 val,
@@ -93,7 +93,7 @@ async fn climb_subset(
 
         println!("d: {}, parent_nodes len: {:?}", d, parent_nodes.len());
 
-        db.insert_nodes(&parent_nodes, false).await?;
+        db.insert_eth_tree_nodes(&parent_nodes, false).await?;
         children = parent;
         // break;
     }
