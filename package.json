@@ -35,5 +35,10 @@
       "source/e2e_test_node"
     ]
   },
-  "packageManager": "yarn@3.6.1"
+  "packageManager": "yarn@3.6.1",
+  "dependencies": {
+    "@thirdweb-dev/react": "^3.14.13",
+    "@thirdweb-dev/sdk": "^3.10.33",
+    "ethers": "^5"
+  }
 }

@@ -9,22 +9,23 @@ import { proveMembershipMock } from "@/prfs/mock";
 import { proveMembership } from "@/prfs";
 import Masthead from '@/components/Masthead/Masthead';
 import getSigner from '@/fns/get_signer';
+import { useAddress, useSigner } from "@thirdweb-dev/react";
 
 export default function Home() {
   console.log("Home()");
 
-  let [account, setAccount] = React.useState<ethers.JsonRpcSigner>();
-  React.useEffect(() => {
-    getSigner().then();
-  }, [setAccount]);
+  // let [account, setAccount] = React.useState();
+  // React.useEffect(() => {
+  //   getSigner().then();
+  // }, [setAccount]);
 
   const proverAddressMembershipMock = React.useCallback(() => {
     proveMembershipMock().then(() => { });
   }, []);
 
   const proverAddressMembership = React.useCallback(() => {
-    proveMembership(account).then(() => { });
-  }, [account]);
+    // proveMembership(signer).then(() => { });
+  }, []);
 
   return (
     <ThirdwebProvider activeChain="ethereum">

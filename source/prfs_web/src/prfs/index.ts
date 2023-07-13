@@ -34,12 +34,12 @@ let addrs = [
   // "0x67284e6473dd2afca0782e24dae6d79f712c270f",
 ];
 
-export async function proveMembership(signer: ethers.JsonRpcSigner) {
+export async function proveMembership(signer: ethers.Signer) {
   // await f1(signer);
   await f2(signer);
 }
 
-async function f1(signer: ethers.JsonRpcSigner) {
+async function f1(signer: ethers.Signer) {
   let addrMembership2WtnsGenUrl = getAddrMembership2WtnsGenUrl();
   let addrMembership2CircuitUrl = getAddrMembership2CircuitUrl();
 
@@ -58,7 +58,7 @@ async function f1(signer: ethers.JsonRpcSigner) {
   // const sig = `0x${r.toString("hex")}${s.toString("hex")}${v.toString(16)}`;
 
   // let provider = new ethers.BrowserProvider(window.ethereum);
-  let proverAddrHex = signer.address;
+  let proverAddrHex = signer.getAddress();
   // let sig = await provider.send('personal_sign', [ethers.hexlify(msg), proverAddrHex.toLowerCase()]);
   let sig = await signer.signMessage(msg);
   // proverAddrHex = proverAddrHex.toLowerCase();

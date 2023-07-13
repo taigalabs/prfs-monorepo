@@ -1,5 +1,6 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
+import { ThirdwebProvider } from "@thirdweb-dev/react";
 
 import { I18nContext } from '@/contexts';
 import en from '@/i18n/en.json';

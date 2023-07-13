@@ -20482,6 +20482,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "prfs-js-monorepo@workspace:."
   dependencies:
+    "@thirdweb-dev/react": ^3.14.13
+    "@thirdweb-dev/sdk": ^3.10.33
     "@types/jest": ^29.2.4
     "@types/node": ^17.0.9
     "@typescript-eslint/eslint-plugin": 5.49.0
@@ -20490,6 +20492,7 @@ __metadata:
     eslint-plugin-react: 7.32.1
     eslint-plugin-react-hooks: 4.6.0
     eslint-plugin-security: 1.7.0
+    ethers: ^5
     lerna: ^6.4.0
     rimraf: ^3.0.2
     snarkjs: ^0.5.0
