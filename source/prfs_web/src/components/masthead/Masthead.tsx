@@ -3,14 +3,11 @@ import { ConnectWallet } from "@thirdweb-dev/react";
 import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
 import Link from "next/link";
 
-import styles from "./Masthead.module.css";
+import styles from "./Masthead.module.scss";
 import { I18nContext } from "@/contexts";
+import Logo from "@/components/logo/Logo";
 
 const metamaskConfig = metamaskWallet();
-
-const Logo = ({ label }) => {
-  return <div>{label}</div>;
-};
 
 const Masthead: React.FC<any> = () => {
   const i18n = React.useContext(I18nContext);
@@ -29,7 +26,7 @@ const Masthead: React.FC<any> = () => {
 
   return (
     <div className={styles.wrapper}>
-      <Logo label={i18n.logo_label} />
+      <Logo />
       <div onClick={handleConnect}>
         <Link href="/signin">connect</Link>
       </div>
