@@ -6,12 +6,6 @@ import styles from "./page.module.scss";
 import { I18nContext } from "@/contexts";
 
 const SignIn: React.FC = () => {
-  // let [account, setAccount] = React.useState();
-  // React.useEffect(() => {
-  //   getSigner().then();
-  // }, [setAccount]);
-  //
-
   let i18n = React.useContext(I18nContext);
 
   return (

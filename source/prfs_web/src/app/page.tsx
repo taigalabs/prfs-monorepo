@@ -14,12 +14,6 @@ import { useAddress, useSigner } from "@thirdweb-dev/react";
 const Home: React.FC = () => {
   console.log("Home()");
 
-  // let [account, setAccount] = React.useState();
-
-  // React.useEffect(() => {
-  //   getSigner().then();
-  // }, [setAccount]);
-
   const proverAddressMembershipMock = React.useCallback(() => {
     proveMembershipMock().then(() => {});
   }, []);
@@ -30,7 +24,8 @@ const Home: React.FC = () => {
 
   return (
     <ThirdwebProvider activeChain="ethereum">
-      <div className={styles.wrapper}>
+      <div className={`text-3xl font-bold`}>
+        123
         <Masthead />
         <button onClick={proverAddressMembershipMock}>Prove Address Membership mock</button>
         <button onClick={proverAddressMembership}>Prove Address Membership</button>
