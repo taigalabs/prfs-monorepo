@@ -1,13 +1,12 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
-import styles from "./page.module.css";
-import axios from "axios";
 import { ethers } from "ethers";
-import { useState } from "react";
+
+import styles from './page.module.css';
 import { proveMembershipMock } from "@/prfs/mock";
 import { proveMembership } from "@/prfs";
+import Masthead from '@/components/Masthead/Masthead';
 
 export default function Home() {
   console.log("Home()");
@@ -40,78 +39,26 @@ export default function Home() {
 
   return (
     <div>
+      <Masthead />
       <button onClick={proverAddressMembershipMock}>Prove Address Membership mock</button>
       <button onClick={proverAddressMembership}>Prove Address Membership</button>
     </div>
   );
 }
 
-// const Generate: React.FC<any> = () => {
-//   const [proof, setProof] = React.useState("");
-//   const [proofTypes, setProofTypes] = React.useState([]);
-
-//   React.useEffect(() => {
-//     console.log("Fetch proof types");
-//     // setProofTypes([]);
-//   }, [setProofTypes]);
-
-//   const handleClickGenProof = React.useCallback(() => {
-//     fetchData(setProof).then((_) => { });
-//   }, [setProof]);
-
-//   return (
-//     <div className={styles.wrapper}>
-//       <div className={styles.proofType}>
-//         <div>
-//           Proof types
-//         </div>
-//         <ul className={styles.desc}>
-//           {
-//             proofTypes.map((_pt) => {
-//               return <div>proof type</div>
-//             })
-//           }
-//         </ul>
-//       </div>
-//       <div className={styles.genProofLabel}>Generate proof</div>
-//       <button onClick={handleClickGenProof}>Generate proof</button>
-//       <div className={styles.proofValue}>{proof}</div>
-//     </div>
-//   );
-// };
-
-// export default Generate;
-
-// function getMerklePath(leafIdx: number, treeDepth: number): NodePos[] {
-//   let currIdx = leafIdx;
-//   let merklePath: NodePos[] = [];
-//   for (let h = 0; h < treeDepth - 1; h += 1) {
-//     let parentIdx = getParentIdx(currIdx);
-//     let parentSiblingIdx = getSiblingIdx(parentIdx);
-
-//     merklePath.push({
-//       posW: parentSiblingIdx,
-//       posH: h
-//     });
-//     currIdx = parentIdx;
+// function getSiblingIdx(idx: number): number {
+//   if (idx % 2 == 0) {
+//     return idx + 1;
+//   } else {
+//     return idx - 1;
 //   }
-
-//   return merklePath;
 // }
 
-function getSiblingIdx(idx: number): number {
-  if (idx % 2 == 0) {
-    return idx + 1;
-  } else {
-    return idx - 1;
-  }
-}
+// function getParentIdx(idx: number): number {
+//   return idx / 2;
+// }
 
-function getParentIdx(idx: number): number {
-  return idx / 2;
-}
-
-export interface NodePos {
-  posW: number;
-  posH: number;
-}
+// export interface NodePos {
+//   posW: number;
+//   posH: number;
+// }
