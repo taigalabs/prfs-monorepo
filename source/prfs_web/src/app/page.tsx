@@ -24,7 +24,7 @@ const Home: React.FC = () => {
 
   return (
     <ThirdwebProvider activeChain="ethereum">
-      <div className={`text-3xl font-bold`}>
+      <div className={styles.wrapper}>
         123
         <Masthead />
         <button onClick={proverAddressMembershipMock}>Prove Address Membership mock</button>
