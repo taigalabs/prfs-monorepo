@@ -2,31 +2,20 @@
 
 import React from "react";
 import { ethers } from "ethers";
+import { ThirdwebProvider } from "@thirdweb-dev/react";
 
 import styles from './page.module.css';
 import { proveMembershipMock } from "@/prfs/mock";
 import { proveMembership } from "@/prfs";
 import Masthead from '@/components/Masthead/Masthead';
+import getSigner from '@/fns/get_signer';
 
 export default function Home() {
   console.log("Home()");
 
   let [account, setAccount] = React.useState<ethers.JsonRpcSigner>();
   React.useEffect(() => {
-    console.log("Initializing app");
-
-    let fn = async () => {
-      if (window.ethereum == null) {
-        console.log("MetaMask not installed");
-      } else {
-        let provider = new ethers.BrowserProvider(window.ethereum);
-        let signer = await provider.getSigner();
-        console.log("signer", signer);
-        setAccount(signer);
-      }
-    };
-
-    fn().then(_res => { });
+    getSigner().then();
   }, [setAccount]);
 
   const proverAddressMembershipMock = React.useCallback(() => {
@@ -38,11 +27,13 @@ export default function Home() {
   }, [account]);
 
   return (
-    <div>
-      <Masthead />
-      <button onClick={proverAddressMembershipMock}>Prove Address Membership mock</button>
-      <button onClick={proverAddressMembership}>Prove Address Membership</button>
-    </div>
+    <ThirdwebProvider activeChain="ethereum">
+      <div>
+        <Masthead />
+        <button onClick={proverAddressMembershipMock}>Prove Address Membership mock</button>
+        <button onClick={proverAddressMembership}>Prove Address Membership</button>
+      </div>
+    </ThirdwebProvider>
   );
 }
 
