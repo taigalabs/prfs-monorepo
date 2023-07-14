@@ -3,6 +3,9 @@
 import "./globals.css";
 import { Roboto } from "next/font/google";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
+import { Theme, ThemeProvider } from "@mui/material/styles";
+// import { createMuiTheme } from "@mui/core";
+import { makeStyles } from "@mui/styles";
 
 import { I18nContext } from "@/contexts";
 import en from "@/i18n/en.json";
@@ -11,6 +14,13 @@ const roboto = Roboto({
   weight: "400",
   subsets: ["latin"]
 });
+
+const theme = makeStyles((theme: Theme) => ({
+  root: {
+    background: "transparent",
+    spacing: theme.spacing(1)
+  }
+}));
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.11.0",
     "@ethereumjs/util": "^8.0.3",
     "@mui/material": "^5.14.0",
+    "@mui/styles": "^5.14.0",
     "@personaelabs/spartan-ecdsa": "*",
     "@taigalabs/prfs-js": "*",
     "@thirdweb-dev/react": "^3.14.13",
