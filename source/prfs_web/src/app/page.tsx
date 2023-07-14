@@ -27,9 +27,12 @@ const Home: React.FC = () => {
   return (
     <div className={styles.wrapper}>
       <Masthead />
-      <div className={styles.content}>
+      <div className={styles.bottom}>
         <LeftBar />
-        <Container></Container>
+        <div className={styles.right}>
+          <Paper className={styles.paper}>55</Paper>
+          <Paper className={styles.paper}>55</Paper>
+        </div>
       </div>
     </div>
   );
