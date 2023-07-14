@@ -10,6 +10,7 @@ import { proveMembership } from "@/prfs";
 import Masthead from "@/components/masthead/Masthead";
 // import getSigner from "@/fns/getSigner";
 import { useAddress, useSigner } from "@thirdweb-dev/react";
+import LeftBar from "@/components/leftbar/LeftBar";
 
 const Home: React.FC = () => {
   console.log("Home()");
@@ -23,14 +24,17 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <ThirdwebProvider activeChain="ethereum">
-      <div className={styles.wrapper}>
-        123
-        <Masthead />
-        <button onClick={proverAddressMembershipMock}>Prove Address Membership mock</button>
-        <button onClick={proverAddressMembership}>Prove Address Membership</button>
+    <div className={styles.wrapper}>
+      <Masthead />
+      <div className={styles.content}>
+        <LeftBar />
+        <div>
+          body
+          <button onClick={proverAddressMembershipMock}>Prove Address Membership mock</button>
+          <button onClick={proverAddressMembership}>Prove Address Membership</button>
+        </div>
       </div>
-    </ThirdwebProvider>
+    </div>
   );
 };
 

@@ -19,7 +19,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </head>
       <body className={roboto.className} suppressHydrationWarning={true}>
-        <I18nContext.Provider value={en}>{children}</I18nContext.Provider>
+        <ThirdwebProvider activeChain="ethereum">
+          <I18nContext.Provider value={en}>{children}</I18nContext.Provider>
+        </ThirdwebProvider>
       </body>
     </html>
   );

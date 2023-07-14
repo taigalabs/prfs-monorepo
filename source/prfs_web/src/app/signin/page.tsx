@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import Link from "next/link";
 
 import styles from "./page.module.scss";
 import { I18nContext } from "@/contexts";
@@ -17,7 +18,9 @@ const SignIn: React.FC = () => {
     <div className={styles.wrapper}>
       <div>
         <div>
-          <Logo />
+          <Link href="/">
+            <Logo />
+          </Link>
         </div>
         <div className={styles.input}>
           <TextField label="passcode" type="password" />
