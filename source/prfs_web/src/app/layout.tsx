@@ -5,8 +5,6 @@ import { Roboto } from "next/font/google";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import { Theme, ThemeProvider, createTheme } from "@mui/material/styles";
 
-const theme = createTheme({});
-
 import { I18nContext } from "@/contexts";
 import en from "@/i18n/en.json";
 
@@ -14,6 +12,8 @@ const roboto = Roboto({
   weight: "400",
   subsets: ["latin"]
 });
+
+const theme = createTheme({});
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

@@ -9,7 +9,7 @@ import {
   privateToPublic,
   pubToAddress
 } from "@ethereumjs/util";
-import { ethers, verifyMessage } from "ethers";
+import { ethers } from "ethers";
 import { MerkleProof } from "@personaelabs/spartan-ecdsa";
 import { getAddrMembership2CircuitUrl, getAddrMembership2WtnsGenUrl } from "./env";
 
