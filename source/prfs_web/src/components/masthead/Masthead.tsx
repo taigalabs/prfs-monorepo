@@ -26,8 +26,17 @@ const Masthead: React.FC<any> = () => {
 
   return (
     <div className={styles.wrapper}>
-      <Logo />
-      <div onClick={handleConnect}>
+      <div className={styles.leftMenu}>
+        <Link href="/">
+          <Logo />
+        </Link>
+      </div>
+      <div>
+        <ul className={styles.mainMenu}>
+          <li>{i18n.learn}</li>
+        </ul>
+      </div>
+      <div className={styles.rightMenu} onClick={handleConnect}>
         <Link href="/signin">connect</Link>
       </div>
     </div>

@@ -1,7 +1,18 @@
 .wrapper {
-  border: 1px solid black;
   color: blue;
   display: flex;
-  justify-content: space-between;
   padding: 14px 38px;
+
+  .leftMenu {
+    border: 1px solid gray;
+    width: 210px;
+  }
+
+  .mainMenu {
+    list-style: none;
+  }
+
+  .rightMenu {
+    margin-left: auto;
+  }
 }

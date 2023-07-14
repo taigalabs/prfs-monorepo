@@ -6,7 +6,7 @@ import { ThirdwebProvider } from "@thirdweb-dev/react";
 import { Theme, ThemeProvider, createTheme } from "@mui/material/styles";
 
 import { I18nContext } from "@/contexts";
-import en from "@/i18n/en.json";
+import en from "@/i18n/en";
 
 const roboto = Roboto({
   weight: "400",
