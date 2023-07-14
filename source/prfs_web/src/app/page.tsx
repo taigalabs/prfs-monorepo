@@ -13,15 +13,9 @@ import Masthead from "@/components/masthead/Masthead";
 // import getSigner from "@/fns/getSigner";
 import { useAddress, useSigner } from "@thirdweb-dev/react";
 import LeftBar from "@/components/leftbar/LeftBar";
-import { Theme, ThemeProvider } from "@mui/material/styles";
-import { makeStyles } from "@mui/styles";
+import { Theme, ThemeProvider, createTheme } from "@mui/material/styles";
 
-const theme = makeStyles((theme: Theme) => ({
-  root: {
-    background: "transparent",
-    spacing: theme.spacing(1)
-  }
-}));
+const theme = createTheme({});
 
 const Home: React.FC = () => {
   console.log("Home()");
@@ -35,21 +29,21 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
-      <div className={styles.wrapper}>
-        <Masthead />
+    <div className={styles.wrapper}>
+      <Masthead />
+      {/* <Container maxWidth="sm"> */}
+      <div className={styles.content}>
         <Container maxWidth="sm">
-          <div className={styles.content}>
-            <LeftBar />
-            <div>
-              body
-              <button onClick={proverAddressMembershipMock}>Prove Address Membership mock</button>
-              <button onClick={proverAddressMembership}>Prove Address Membership</button>
-            </div>
-          </div>
+          <LeftBar />
         </Container>
+        <div>
+          body
+          <button onClick={proverAddressMembershipMock}>Prove Address Membership mock</button>
+          <button onClick={proverAddressMembership}>Prove Address Membership</button>
+        </div>
       </div>
-    </ThemeProvider>
+      {/* </Container> */}
+    </div>
   );
 };
 

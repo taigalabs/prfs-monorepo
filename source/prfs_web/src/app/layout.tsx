@@ -3,9 +3,9 @@
 import "./globals.css";
 import { Roboto } from "next/font/google";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
-import { Theme, ThemeProvider } from "@mui/material/styles";
-// import { createMuiTheme } from "@mui/core";
-import { makeStyles } from "@mui/styles";
+import { Theme, ThemeProvider, createTheme } from "@mui/material/styles";
+
+const theme = createTheme({});
 
 import { I18nContext } from "@/contexts";
 import en from "@/i18n/en.json";
@@ -15,13 +15,6 @@ const roboto = Roboto({
   subsets: ["latin"]
 });
 
-const theme = makeStyles((theme: Theme) => ({
-  root: {
-    background: "transparent",
-    spacing: theme.spacing(1)
-  }
-}));
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -29,9 +22,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </head>
       <body className={roboto.className} suppressHydrationWarning={true}>
-        <ThirdwebProvider activeChain="ethereum">
-          <I18nContext.Provider value={en}>{children}</I18nContext.Provider>
-        </ThirdwebProvider>
+        <ThemeProvider theme={theme}>
+          <ThirdwebProvider activeChain="ethereum">
+            <I18nContext.Provider value={en}>{children}</I18nContext.Provider>
+          </ThirdwebProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
