@@ -1,6 +1,6 @@
 "use client";
 
-import "./globals.css";
+import "./globals.scss";
 import { Roboto } from "next/font/google";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import { Theme, ThemeProvider, createTheme } from "@mui/material/styles";

@@ -12,13 +12,12 @@ import Masthead from "@/components/masthead/Masthead";
 // import getSigner from "@/fns/getSigner";
 import { useAddress, useSigner } from "@thirdweb-dev/react";
 import LeftBar from "@/components/leftbar/LeftBar";
-import { Theme, ThemeProvider, createTheme } from "@mui/material/styles";
 
 const Home: React.FC = () => {
   console.log("Home()");
 
   const proverAddressMembershipMock = React.useCallback(() => {
-    proveMembershipMock().then(() => { });
+    proveMembershipMock().then(() => {});
   }, []);
 
   const proverAddressMembership = React.useCallback(() => {
@@ -29,14 +28,8 @@ const Home: React.FC = () => {
     <div className={styles.wrapper}>
       <Masthead />
       <div className={styles.content}>
-        <Container maxWidth="sm">
-          <LeftBar />
-        </Container>
-        <div>
-          body
-          <button onClick={proverAddressMembershipMock}>Prove Address Membership mock</button>
-          <button onClick={proverAddressMembership}>Prove Address Membership</button>
-        </div>
+        <LeftBar />
+        <Container></Container>
       </div>
     </div>
   );
@@ -44,6 +37,12 @@ const Home: React.FC = () => {
 
 export default Home;
 
+{
+  /* <button onClick={proverAddressMembershipMock}>Prove Address Membership mock</button> */
+}
+{
+  /* <button onClick={proverAddressMembership}>Prove Address Membership</button> */
+}
 // function getSiblingIdx(idx: number): number {
 //   if (idx % 2 == 0) {
 //     return idx + 1;
