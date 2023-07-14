@@ -7,7 +7,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 
-import styles from "./page.module.scss";
+import styles from "./SignIn.module.scss";
 import { I18nContext } from "@/contexts";
 import Logo from "@/components/logo/Logo";
 

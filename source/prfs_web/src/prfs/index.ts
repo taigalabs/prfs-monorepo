@@ -63,7 +63,7 @@ async function f1(signer: ethers.Signer) {
   let sig = await signer.signMessage(msg);
   // proverAddrHex = proverAddrHex.toLowerCase();
 
-  let verifyMsg = verifyMessage(msg, sig);
+  let verifyMsg = ethers.utils.verifyMessage(msg, sig);
   console.log("verified addr", verifyMsg);
 
   console.log("sig", sig);
@@ -140,7 +140,7 @@ async function f2(signer: ethers.Signer) {
   let sig = await signer.signMessage(msg);
   console.log("sig", sig);
 
-  let verifyMsg = verifyMessage(msg, sig);
+  let verifyMsg = ethers.utils.verifyMessage(msg, sig);
   console.log("verified addr", verifyMsg);
 
   let proverAddress = await signer.getAddress();
