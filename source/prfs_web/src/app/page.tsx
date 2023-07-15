@@ -23,7 +23,7 @@ const Home: React.FC = () => {
   console.log("Home()");
 
   const proverAddressMembershipMock = React.useCallback(() => {
-    proveMembershipMock().then(() => {});
+    proveMembershipMock().then(() => { });
   }, []);
 
   // let signer = useSigner();
@@ -39,7 +39,7 @@ const Home: React.FC = () => {
 
       console.log(44, signer);
 
-      proveMembership(signer).then(() => {});
+      proveMembership(signer).then(() => { });
     };
 
     fn().then();
