@@ -2,7 +2,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 500px;
 
   .inner {
     display: flex;
@@ -18,5 +17,9 @@
   }
 
   .desc {
+  }
+
+  .footer {
+    margin-top: 80px;
   }
 }

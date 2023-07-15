@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
 
+import SignInLayout from "@/layouts/sign_in_layout/SignInLayout";
 import Widget from "@/components/widget/Widget";
 import styles from "./SignIn.module.scss";
 import { I18nContext } from "@/contexts";
@@ -29,48 +30,50 @@ const SignIn: React.FC = () => {
   }, []);
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.inner}>
-        <div className={styles.upper}>
-          <Link href="/">
-            <Logo />
-          </Link>
-        </div>
-        <Widget label={i18n.wallet} className={styles.input}>
-          power
-        </Widget>
-        <div className={styles.upper}>sanity check</div>
-        <Widget label="power" className={styles.input}>
-          <TextField label="passcode" type="password" />
-          <Button variant="contained">Sign in</Button>
-        </Widget>
-        <div className={styles.input}>
-          <TextField label="id" disabled />
-          <TextField label="passcode" disabled />
-          <Divider />
-          <div className={styles.desc}>
-            <ul>
-              <li>
-                <Typography variant="body1" gutterBottom>
-                  {i18n.desc_1}
-                </Typography>
-              </li>
-              <li>
-                <Typography variant="body1" gutterBottom>
-                  {i18n.desc_2}
-                </Typography>
-              </li>
-              <li>
-                <Typography variant="body1" gutterBottom>
-                  {i18n.desc_3}
-                </Typography>
-              </li>
-            </ul>
+    <SignInLayout>
+      <div className={styles.wrapper}>
+        <div className={styles.inner}>
+          <div className={styles.upper}>
+            <Link href="/">
+              <Logo />
+            </Link>
           </div>
+          <Widget label={i18n.wallet} className={styles.input}>
+            power
+          </Widget>
+          <div className={styles.upper}>sanity check</div>
+          <Widget label="power" className={styles.input}>
+            <TextField label="passcode" type="password" />
+            <Button variant="contained">Sign in</Button>
+          </Widget>
+          <div className={styles.input}>
+            <TextField label="id" disabled />
+            <TextField label="passcode" disabled />
+            <Divider />
+            <div className={styles.desc}>
+              <ul>
+                <li>
+                  <Typography variant="body1" gutterBottom>
+                    {i18n.desc_1}
+                  </Typography>
+                </li>
+                <li>
+                  <Typography variant="body1" gutterBottom>
+                    {i18n.desc_2}
+                  </Typography>
+                </li>
+                <li>
+                  <Typography variant="body1" gutterBottom>
+                    {i18n.desc_3}
+                  </Typography>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className={styles.footer}>sign in Footer</div>
         </div>
-        <div>sign in Footer</div>
       </div>
-    </div>
+    </SignInLayout>
   );
 };
 

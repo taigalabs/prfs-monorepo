@@ -1,0 +1,18 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid red;
+  height: 100%;
+  padding: 80px 0;
+
+  .bottom {
+    display: flex;
+    flex-grow: 1;
+  }
+}
+
+.paper {
+  margin: 40px 60px;
+  flex-grow: 1;
+  width: 500px;
+}
