@@ -36,6 +36,9 @@ const SignIn: React.FC = () => {
             <Logo />
           </Link>
         </div>
+        <Widget label={i18n.wallet} className={styles.input}>
+          power
+        </Widget>
         <div className={styles.upper}>sanity check</div>
         <Widget label="power" className={styles.input}>
           <TextField label="passcode" type="password" />

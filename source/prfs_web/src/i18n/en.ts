@@ -10,5 +10,6 @@ export default {
   references: "References",
   sets: "Sets",
   connect: "Connect",
-  choose_proof_type: "Choose a proof type"
+  choose_proof_type: "Choose a proof type",
+  wallet: "Wallet"
 };
