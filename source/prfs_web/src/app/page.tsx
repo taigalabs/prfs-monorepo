@@ -4,6 +4,7 @@ import React from "react";
 import { ethers } from "ethers";
 import Paper from "@mui/material/Paper";
 import Container from "@mui/material/Container";
+import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
 
 import styles from "./Home.module.scss";
 import { proveMembershipMock } from "@/fns/prfsMock";
@@ -15,8 +16,6 @@ import Widget from "@/components/widget/Widget";
 import { I18nContext } from "@/contexts";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 
-import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
-
 const metamaskConfig = metamaskWallet();
 
 const Home: React.FC = () => {
@@ -24,7 +23,6 @@ const Home: React.FC = () => {
     proveMembershipMock().then(() => {});
   }, []);
 
-  // let signer = useSigner();
   const connect = useConnect();
 
   const proverAddressMembership = React.useCallback(() => {
