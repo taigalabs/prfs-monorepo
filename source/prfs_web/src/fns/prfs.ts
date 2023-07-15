@@ -9,7 +9,7 @@ import {
 } from "@ethereumjs/util";
 import { ethers } from "ethers";
 import { MerkleProof } from "@personaelabs/spartan-ecdsa";
-import { getAddrMembership2CircuitUrl, getAddrMembership2WtnsGenUrl } from "./env";
+import { getAddrMembership2CircuitUrl, getAddrMembership2WtnsGenUrl } from "@/env";
 
 let addrs = [
   "0x33d10ab178924ecb7ad52f4c0c8062c3066607ec",

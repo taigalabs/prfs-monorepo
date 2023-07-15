@@ -6,8 +6,8 @@ import Paper from "@mui/material/Paper";
 import Container from "@mui/material/Container";
 
 import styles from "./DefaultLayout.module.scss";
-import { proveMembershipMock } from "@/prfs/mock";
-import { proveMembership } from "@/prfs";
+import { proveMembershipMock } from "@/fns/prfsMock";
+import { proveMembership } from "@/fns/prfs";
 import Masthead from "@/components/masthead/Masthead";
 import { useAddress, useSigner } from "@thirdweb-dev/react";
 import LeftBar from "@/components/leftbar/LeftBar";

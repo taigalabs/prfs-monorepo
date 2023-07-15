@@ -1,7 +1,5 @@
-import {
-  Prfs,
-} from "@taigalabs/prfs-js";
-import { initWasm } from '@taigalabs/prfs-js/build/wasm_wrapper/load_es';
+import { Prfs } from "@taigalabs/prfs-js";
+import { initWasm } from "@taigalabs/prfs-js/build/wasm_wrapper/load_es";
 import {
   ecsign,
   hashPersonalMessage,
@@ -9,7 +7,7 @@ import {
   privateToPublic,
   pubToAddress
 } from "@ethereumjs/util";
-import { getAddrMembership2CircuitUrl, getAddrMembership2WtnsGenUrl } from "./env";
+import { getAddrMembership2CircuitUrl, getAddrMembership2WtnsGenUrl } from "@/env";
 
 export async function proveMembershipMock() {
   let addrMembership2CircuitUrl = getAddrMembership2CircuitUrl();
@@ -29,10 +27,10 @@ export async function proveMembershipMock() {
   const addressTree = await prfs.newTree(treeDepth, poseidon);
 
   let proverAddrHex = "0x" + privateToAddress(privKey).toString("hex");
-  console.log('proverAddrHex', proverAddrHex);
+  console.log("proverAddrHex", proverAddrHex);
 
   const proverAddress = BigInt(proverAddrHex);
-  console.log('proverAddress', proverAddress);
+  console.log("proverAddress", proverAddress);
 
   await addressTree.insert(proverAddress);
 
@@ -40,7 +38,7 @@ export async function proveMembershipMock() {
   for (const member of ["🕵️", "🥷", "👩‍🔬"]) {
     const pubKey = privateToPublic(Buffer.from("".padStart(16, member), "utf16le"));
     const address = BigInt("0x" + pubToAddress(pubKey).toString("hex"));
-    console.log('new address', address);
+    console.log("new address", address);
 
     await addressTree.insert(address);
   }
@@ -51,10 +49,7 @@ export async function proveMembershipMock() {
 
   console.log("Proving...");
   console.time("Full proving time");
-  const proofGen = prfs.newMembershipProofGen(
-    addrMembership2WtnsGenUrl,
-    addrMembership2CircuitUrl,
-  );
+  const proofGen = prfs.newMembershipProofGen(addrMembership2WtnsGenUrl, addrMembership2CircuitUrl);
   const { proof, publicInput } = await proofGen.prove(sig, msgHash, merkleProof);
 
   console.timeEnd("Full proving time");

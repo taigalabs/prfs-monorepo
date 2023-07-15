@@ -6,8 +6,8 @@ import Paper from "@mui/material/Paper";
 import Container from "@mui/material/Container";
 
 import styles from "./Home.module.scss";
-import { proveMembershipMock } from "@/prfs/mock";
-import { proveMembership } from "@/prfs";
+import { proveMembershipMock } from "@/fns/prfsMock";
+import { proveMembership } from "@/fns/prfs";
 import Masthead from "@/components/masthead/Masthead";
 import LeftBar from "@/components/leftbar/LeftBar";
 import Table from "@/components/table/Table";
@@ -21,7 +21,7 @@ const metamaskConfig = metamaskWallet();
 
 const Home: React.FC = () => {
   const proverAddressMembershipMock = React.useCallback(() => {
-    proveMembershipMock().then(() => { });
+    proveMembershipMock().then(() => {});
   }, []);
 
   // let signer = useSigner();
@@ -37,7 +37,7 @@ const Home: React.FC = () => {
 
       console.log(44, signer);
 
-      proveMembership(signer).then(() => { });
+      proveMembership(signer).then(() => {});
     };
 
     fn().then();
