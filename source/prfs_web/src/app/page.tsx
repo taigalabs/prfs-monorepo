@@ -9,12 +9,15 @@ import styles from "./Home.module.scss";
 import { proveMembershipMock } from "@/prfs/mock";
 import { proveMembership } from "@/prfs";
 import Masthead from "@/components/masthead/Masthead";
-import { useAddress, useSigner } from "@thirdweb-dev/react";
 import LeftBar from "@/components/leftbar/LeftBar";
 import Table from "@/components/table/Table";
 import Widget from "@/components/widget/Widget";
 import { I18nContext } from "@/contexts";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
+
+import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
+
+const metamaskConfig = metamaskWallet();
 
 const Home: React.FC = () => {
   console.log("Home()");
@@ -23,14 +26,30 @@ const Home: React.FC = () => {
     proveMembershipMock().then(() => {});
   }, []);
 
+  // let signer = useSigner();
+  const connect = useConnect();
+
   const proverAddressMembership = React.useCallback(() => {
-    // proveMembership(signer).then(() => { });
+    const fn = async () => {
+      console.log(555);
+      const wallet = await connect(metamaskConfig);
+
+      // console.log("wallet", wallet);
+      const signer = await wallet.getSigner();
+
+      console.log(44, signer);
+
+      proveMembership(signer).then(() => {});
+    };
+
+    fn().then();
   }, []);
 
   const i18n = React.useContext(I18nContext);
 
   return (
     <DefaultLayout>
+      <button onClick={proverAddressMembership}>btn</button>
       <Paper className={styles.paper}>
         <Widget label={i18n.proofs}>
           <Table />

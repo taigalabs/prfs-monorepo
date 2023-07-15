@@ -1,6 +1,4 @@
-import {
-  Prfs,
-} from "@taigalabs/prfs-js";
+import { Prfs } from "@taigalabs/prfs-js";
 import { initWasm } from "@taigalabs/prfs-js/build/wasm_wrapper/load_es";
 import {
   ecsign,
@@ -96,10 +94,7 @@ async function f1(signer: ethers.Signer) {
 
   console.log("Proving...");
   console.time("Full proving time");
-  const proofGen = prfs.newMembershipProofGen(
-    addrMembership2WtnsGenUrl,
-    addrMembership2CircuitUrl,
-  );
+  const proofGen = prfs.newMembershipProofGen(addrMembership2WtnsGenUrl, addrMembership2CircuitUrl);
 
   const { proof, publicInput } = await proofGen.prove(sig, msgHash, merkleProof);
 
@@ -154,10 +149,7 @@ async function f2(signer: ethers.Signer) {
 
   console.log("Proving...");
   console.time("Full proving time");
-  const proofGen = prfs.newMembershipProofGen(
-    addrMembership2WtnsGenUrl,
-    addrMembership2CircuitUrl,
-  );
+  const proofGen = prfs.newMembershipProofGen(addrMembership2WtnsGenUrl, addrMembership2CircuitUrl);
   const { proof, publicInput } = await proofGen.prove(sig, msgHash, merkleProof);
 
   console.timeEnd("Full proving time");

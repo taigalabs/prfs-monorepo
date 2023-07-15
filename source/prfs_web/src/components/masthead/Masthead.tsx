@@ -1,5 +1,4 @@
 import React from "react";
-import { ConnectWallet } from "@thirdweb-dev/react";
 import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
 import Link from "next/link";
 
