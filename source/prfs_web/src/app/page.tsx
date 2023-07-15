@@ -20,8 +20,6 @@ import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev
 const metamaskConfig = metamaskWallet();
 
 const Home: React.FC = () => {
-  console.log("Home()");
-
   const proverAddressMembershipMock = React.useCallback(() => {
     proveMembershipMock().then(() => { });
   }, []);
