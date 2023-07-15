@@ -2,3 +2,4 @@ packages:
   - "source/e2e_test_web"
   - "source/prfs_js"
   - "source/prfs_web"
+  - "externals/incremental-merkle-tree"

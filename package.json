@@ -28,10 +28,7 @@
       "externals/lib",
       "externals/incremental-merkle-tree",
       "source/prfs_js",
-      "source/prfs_circuits",
-      "source/prfs_circuit_server",
       "source/prfs_web",
-      "source/prfs_wasm",
       "source/e2e_test_node"
     ]
   },
