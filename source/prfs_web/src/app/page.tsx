@@ -12,6 +12,8 @@ import Masthead from "@/components/masthead/Masthead";
 import { useAddress, useSigner } from "@thirdweb-dev/react";
 import LeftBar from "@/components/leftbar/LeftBar";
 import Table from "@/components/table/Table";
+import Widget from "@/components/widget/Widget";
+import { I18nContext } from "@/contexts";
 
 const Home: React.FC = () => {
   console.log("Home()");
@@ -24,6 +26,8 @@ const Home: React.FC = () => {
     // proveMembership(signer).then(() => { });
   }, []);
 
+  const i18n = React.useContext(I18nContext);
+
   return (
     <div className={styles.wrapper}>
       <Masthead />
@@ -31,10 +35,14 @@ const Home: React.FC = () => {
         <LeftBar />
         <div className={styles.right}>
           <Paper className={styles.paper}>
-            <Table />
+            <Widget label={i18n.proofs}>
+              <Table />
+            </Widget>
           </Paper>
           <Paper className={styles.paper}>
-            <Table />
+            <Widget label={i18n.proof_types}>
+              <Table />
+            </Widget>
           </Paper>
         </div>
       </div>

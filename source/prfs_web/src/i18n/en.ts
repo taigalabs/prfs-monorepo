@@ -6,6 +6,7 @@ export default {
   learn: "Learn",
   generate: "Generate",
   proofs: "Proofs",
+  proof_types: "Proof types",
   references: "References",
   sets: "Sets",
   connect: "Connect"
