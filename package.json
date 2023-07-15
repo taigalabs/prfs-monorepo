@@ -35,7 +35,6 @@
       "source/e2e_test_node"
     ]
   },
-  "packageManager": "yarn@3.6.1",
   "dependencies": {
     "@mui/icons-material": "^5.14.0",
     "@thirdweb-dev/react": "^3.14.13",

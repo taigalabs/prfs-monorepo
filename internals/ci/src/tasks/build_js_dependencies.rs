@@ -1,4 +1,4 @@
-use crate::{paths::Paths, task::Task, BuildHandle, CiError};
+use crate::{paths::Paths, task::Task, tasks::JS_ENGINE, BuildHandle, CiError};
 use std::process::Command;
 
 pub struct BuildJsDependenciesTask;
@@ -15,7 +15,7 @@ impl Task for BuildJsDependenciesTask {
             let dependency_path = paths.curr_dir.join(dep);
             println!("dependency_path: {:?}", dependency_path);
 
-            let status = Command::new("yarn")
+            let status = Command::new(JS_ENGINE)
                 .current_dir(dependency_path)
                 .args(["run", "build-pkg"])
                 .status()

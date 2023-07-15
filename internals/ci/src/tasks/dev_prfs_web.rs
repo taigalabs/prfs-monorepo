@@ -1,5 +1,5 @@
 use super::compile_circuits::BuildCircuitJson;
-use crate::paths::Paths;
+use crate::{paths::Paths, tasks::JS_ENGINE};
 use colored::Colorize;
 use std::process::Command;
 
@@ -38,11 +38,11 @@ fn inject_prfs_web_env(paths: &Paths) {
 }
 
 fn run_app(paths: &Paths) {
-    let status = Command::new("yarn")
+    let status = Command::new(JS_ENGINE)
         .current_dir(&paths.prfs_web)
         .args(["run", "dev"])
         .status()
-        .expect("yarn command failed to start");
+        .expect(&format!("{} command failed to start", JS_ENGINE));
 
     assert!(status.success());
 }

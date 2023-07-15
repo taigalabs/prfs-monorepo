@@ -38,9 +38,7 @@ tree.insert(proverPubkeyHash);
 
 // Insert other members into the tree
 for (const member of ["🕵️", "🥷", "👩‍🔬"]) {
-  tree.insert(
-    poseidon.hashPubKey(Buffer.from("".padStart(16, member), "utf16le"))
-  );
+  tree.insert(poseidon.hashPubKey(Buffer.from("".padStart(16, member), "utf16le")));
 }
 
 // Compute the merkle proof
@@ -92,11 +90,7 @@ tree.insert(proverAddress);
 
 // Insert other members into the tree
 for (const member of ["🕵️", "🥷", "👩‍🔬"]) {
-  tree.insert(
-    BigInt(
-      "0x" + Buffer.from("".padStart(16, member), "utf16le").toString("hex")
-    )
-  );
+  tree.insert(BigInt("0x" + Buffer.from("".padStart(16, member), "utf16le").toString("hex")));
 }
 
 // Compute the merkle proof
@@ -143,15 +137,11 @@ Change in the tree depth doesn't significantly affect the proving time, hence we
 
 ```
 
-yarn
-
 ```
 
 ### Run tests
 
 ```
-
-yarn jest
 
 ```
 
@@ -159,6 +149,5 @@ yarn jest
 
 ```
 
-yarn build
 
 ```

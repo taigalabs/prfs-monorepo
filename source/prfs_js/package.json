@@ -11,7 +11,7 @@
   "scripts": {
     "build-pkg": "rm -rf ./build && tsc",
     "build-cjs": "rm -rf ./build_cjs && tsc --project tsconfig.cjs.json",
-    "prepublishOnly": "yarn build-pkg",
+    "prepublishOnly": "pnpm run build-pkg",
     "test": "jest"
   },
   "devDependencies": {
