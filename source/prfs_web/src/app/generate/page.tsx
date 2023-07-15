@@ -7,23 +7,50 @@ import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
+import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
 
 import Table from "@/components/table/Table";
 import styles from "./Generate.module.scss";
 import { I18nContext } from "@/contexts";
 import Widget from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
+import { proveMembershipMock } from "@/fns/prfsMock";
+import { proveMembership } from "@/fns/prfs";
+
+const metamaskConfig = metamaskWallet();
 
 const Generate: React.FC = () => {
   let i18n = React.useContext(I18nContext);
 
+  const proverAddressMembershipMock = React.useCallback(() => {
+    proveMembershipMock().then(() => {});
+  }, []);
+
+  const connect = useConnect();
+
+  const proverAddressMembership = React.useCallback(() => {
+    const fn = async () => {
+      const wallet = await connect(metamaskConfig);
+
+      // console.log("wallet", wallet);
+      const signer = await wallet.getSigner();
+
+      console.log(44, signer);
+
+      proveMembership(signer).then(() => {});
+    };
+
+    fn().then();
+  }, []);
+
   return (
     <DefaultLayout>
-      <Paper className={styles.paper}>
-        <Widget label={i18n.choose_proof_type}>
-          <Table />
-        </Widget>
-      </Paper>
+      <Widget label={i18n.choose_proof_type}>
+        <Table />
+      </Widget>
+      <div>
+        <button onClick={proverAddressMembership}>btn</button>
+      </div>
     </DefaultLayout>
   );
 };

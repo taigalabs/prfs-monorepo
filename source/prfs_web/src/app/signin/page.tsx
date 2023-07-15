@@ -38,18 +38,16 @@ const SignIn: React.FC = () => {
               <Logo />
             </Link>
           </div>
-          <Widget label={i18n.wallet} className={styles.input}>
+          <Widget label={i18n.wallet} className={styles.widget}>
             power
           </Widget>
-          <div className={styles.upper}>sanity check</div>
-          <Widget label="power" className={styles.input}>
+          <Widget label="power" className={styles.widget}>
             <TextField label="passcode" type="password" />
             <Button variant="contained">Sign in</Button>
-          </Widget>
-          <div className={styles.input}>
+            <Divider />
+
             <TextField label="id" disabled />
             <TextField label="passcode" disabled />
-            <Divider />
             <div className={styles.desc}>
               <ul>
                 <li>
@@ -69,7 +67,7 @@ const SignIn: React.FC = () => {
                 </li>
               </ul>
             </div>
-          </div>
+          </Widget>
           <div className={styles.footer}>sign in Footer</div>
         </div>
       </div>
