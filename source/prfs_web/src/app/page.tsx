@@ -9,9 +9,9 @@ import styles from "./Home.module.scss";
 import { proveMembershipMock } from "@/prfs/mock";
 import { proveMembership } from "@/prfs";
 import Masthead from "@/components/masthead/Masthead";
-// import getSigner from "@/fns/getSigner";
 import { useAddress, useSigner } from "@thirdweb-dev/react";
 import LeftBar from "@/components/leftbar/LeftBar";
+import Table from "@/components/table/Table";
 
 const Home: React.FC = () => {
   console.log("Home()");
@@ -30,8 +30,12 @@ const Home: React.FC = () => {
       <div className={styles.bottom}>
         <LeftBar />
         <div className={styles.right}>
-          <Paper className={styles.paper}>55</Paper>
-          <Paper className={styles.paper}>55</Paper>
+          <Paper className={styles.paper}>
+            <Table />
+          </Paper>
+          <Paper className={styles.paper}>
+            <Table />
+          </Paper>
         </div>
       </div>
     </div>
