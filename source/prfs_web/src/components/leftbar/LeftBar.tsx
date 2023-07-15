@@ -10,10 +10,14 @@ const Leftbar: React.FC<any> = () => {
   return (
     <div className={styles.wrapper}>
       <ul>
-        <li>{i18n.generate}</li>
+        <li>
+          <Link href="/generate">{i18n.generate}</Link>
+        </li>
         <li>{i18n.proofs}</li>
         <li>{i18n.references}</li>
-        <li>{i18n.sets}</li>
+        <li>
+          <Link href="/sets">{i18n.sets}</Link>
+        </li>
       </ul>
     </div>
   );

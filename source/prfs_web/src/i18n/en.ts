@@ -9,5 +9,6 @@ export default {
   proof_types: "Proof types",
   references: "References",
   sets: "Sets",
-  connect: "Connect"
+  connect: "Connect",
+  choose_proof_type: "Choose a proof type"
 };
