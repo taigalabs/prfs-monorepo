@@ -21,5 +21,6 @@ export default {
   sign_up: "Sign up",
   sign_up_desc: "Sign up for Prfs. To learn more about account registration, visit our upcoming blog\nOr sign in to an existing Prfs account",
   sign_in: "Sign in",
-  sign_in_desc: "Or create a new Prfs account"
+  sign_in_desc: "Or <a href='/signup'>create</a> a new Prfs account",
+  copyright: '© 2023 Prfs. All rights reserved.'
 };

@@ -43,16 +43,18 @@ const SignIn: React.FC = () => {
         <div className={styles.inner}>
           <ConnectWalletWidget className={styles.widget} />
           <Widget label={i18n.credential} className={styles.widget}>
-            <TextField label="passcode" type="password" />
             <div>
-              <p>id</p>
-              <p>id-a</p>
+              <TextField label="passcode" type="password" />
+              <div>
+                <p>id</p>
+                <p>id-a</p>
+              </div>
+              <div>
+                <p>password</p>
+                <p>pw-a</p>
+              </div>
+              <button>Sign In</button>
             </div>
-            <div>
-              <p>password</p>
-              <p>pw-a</p>
-            </div>
-            <button>Sign In</button>
           </Widget>
         </div>
       </div>

@@ -21,15 +21,17 @@ const SignInLayout: React.FC<SignInLayoutProps> = ({ children, title, desc }) =>
           <Link href="/">
             <Logo />
           </Link>
-          <div className={styles.title}>
-            <div className={styles.label}>{title}</div>
-            <div className={styles.desc}>{desc}</div>
-          </div>
         </div>
-        {children}
-        <div className={styles.footer}>sign in Footer</div>
+        <div className={styles.title}>
+          <div className={styles.label}>{title}</div>
+          <div className={styles.desc} dangerouslySetInnerHTML={{ __html: desc }}></div>
+        </div>
+        <div>
+          {children}
+        </div>
+        <div className={styles.footer}>{i18n.copyright}</div>
       </div>
-    </div>
+    </div >
   );
 };
 
