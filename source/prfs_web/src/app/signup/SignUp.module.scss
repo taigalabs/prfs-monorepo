@@ -1,0 +1,47 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .inner {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .upper {
+    margin-bottom: 45px;
+  }
+
+  .widget {
+    max-width: 610px;
+    margin-bottom: 31px;
+  }
+
+  .desc {
+  }
+
+  .radioBox {
+    border: 1px solid #9fb6bf;
+    padding: 13px 10px;
+    display: flex;
+    background-color: #f6fbf8;
+
+    > div {
+      margin-left: 12px;
+    }
+
+    .label {
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .desc {
+      font-size: 0.94em;
+      color: #4d4d4d;
+    }
+  }
+
+  .footer {
+    margin-top: 80px;
+  }
+}

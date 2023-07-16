@@ -21,7 +21,7 @@ import Logo from "@/components/logo/Logo";
 
 const metamaskConfig = metamaskWallet();
 
-const SignIn: React.FC = () => {
+const SignUp: React.FC = () => {
   let i18n = React.useContext(I18nContext);
 
   const connect = useConnect();
@@ -39,8 +39,13 @@ const SignIn: React.FC = () => {
   return (
     <SignInLayout>
       <div className={styles.wrapper}>
+        <div>Sign Up</div>
         <div className={styles.inner}>
-          <div>Sign In</div>
+          <div className={styles.upper}>
+            <Link href="/">
+              <Logo />
+            </Link>
+          </div>
           <Widget label={i18n.connect_wallet} className={styles.widget}>
             <div>
               <div className={`${styles.radioBox}`}>
@@ -82,10 +87,11 @@ const SignIn: React.FC = () => {
               </ul>
             </div>
           </Widget>
+          <div className={styles.footer}>sign in Footer</div>
         </div>
       </div>
     </SignInLayout>
   );
 };
 
-export default SignIn;
+export default SignUp;

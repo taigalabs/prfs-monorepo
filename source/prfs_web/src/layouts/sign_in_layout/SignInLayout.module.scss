@@ -6,14 +6,17 @@
   padding: 80px 0;
   background-color: #f4f4f5;
 
+  .inner {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .upper {
+    margin-bottom: 45px;
+  }
+
   .bottom {
     display: flex;
     flex-grow: 1;
   }
-}
-
-.paper {
-  margin: 40px 60px;
-  flex-grow: 1;
-  width: 500px;
 }

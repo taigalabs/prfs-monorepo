@@ -2,8 +2,10 @@
 
 import React from "react";
 import Paper from "@mui/material/Paper";
+import Link from "next/link";
 import Container from "@mui/material/Container";
 
+import Logo from "@/components/logo/Logo";
 import styles from "./SignInLayout.module.scss";
 import Masthead from "@/components/masthead/Masthead";
 import LeftBar from "@/components/leftbar/LeftBar";
@@ -14,7 +16,16 @@ const DefaultLayout: React.FC<any> = ({ children }) => {
 
   return (
     <div className={styles.wrapper}>
-      <div>{children}</div>
+      <div className={styles.inner}>
+        <div className={styles.upper}>
+          <Link href="/">
+            <Logo />
+          </Link>
+        </div>
+        <div>Sign In</div>
+        {children}
+        <div className={styles.footer}>sign in Footer</div>
+      </div>
     </div>
   );
 };
