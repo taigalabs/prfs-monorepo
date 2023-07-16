@@ -19,11 +19,14 @@ export default {
     "We currently support Metamask. Check out how you install install it if you haven't already",
   credential: "Credential",
   sign_up: "Sign up",
-  sign_up_desc: "Sign up for Prfs. To learn more about account registration, visit our upcoming blog<br />Or sign in to an existing Prfs account",
+  sign_up_desc:
+    "Sign up for Prfs. To learn more about account registration, visit our upcoming blog",
   sign_in: "Sign in",
   sign_in_desc: "Or <a href='/signup'>create</a> a new Prfs account",
-  copyright: '© 2023 Prfs. All rights reserved.',
-  wallet_addr: 'Wallet address',
-  hash: 'Hash',
-  hash_and_sign_in: 'Hash & Sign in',
+  copyright: "© 2023 Prfs. All rights reserved.",
+  wallet_addr: "Wallet address",
+  hash: "Hash",
+  hash_and_sign_in: "Hash & Sign in",
+  passcode: "Passcode",
+  passcode_confirm: "Confirm passcode"
 };

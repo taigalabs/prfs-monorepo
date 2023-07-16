@@ -79,31 +79,6 @@
     margin-top: 15px;
   }
 
-  .hashBtn {
-    border-radius: 0;
-    background-color: #c8d0ca;
-    color: #2f3139;
-    font-weight: 500;
-    padding: 8px 12px;
-
-    &:hover {
-      cursor: pointer;
-      background-color: #b5bdb7;
-    }
-  }
-
-  .signInBtn {
-    background-color: #82f7c0;
-    color: #2f3139;
-    font-weight: 500;
-    padding: 8px 12px;
-
-    &:hover {
-      background-color: #7beab6;
-      cursor: pointer;
-    }
-  }
-
   .signInAlert {
     margin-bottom: 15px;
     color: red;

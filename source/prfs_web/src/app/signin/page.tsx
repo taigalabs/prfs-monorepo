@@ -12,6 +12,8 @@ import Widget from "@/components/widget/Widget";
 import styles from "./SignIn.module.scss";
 import { I18nContext } from "@/contexts";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
+import Button1 from "@/components/button_1/Button1";
+import Button2 from "@/components/button_2/Button2";
 
 const metamaskConfig = metamaskWallet();
 
@@ -93,9 +95,7 @@ const SignIn: React.FC = () => {
                 <input type="password" onChange={handleChangePasscode} />
               </div>
               <div className={styles.hashBtnRow}>
-                <button className={styles.hashBtn} onClick={handleClickHash}>
-                  {i18n.hash}
-                </button>
+                <Button1 handleClick={handleClickHash}>{i18n.hash}</Button1>
               </div>
             </div>
             {id.length > 0 && (
@@ -115,9 +115,7 @@ const SignIn: React.FC = () => {
           </Widget>
           <div>
             {signInAlert.length > 0 && <div className={styles.signInAlert}>{signInAlert}</div>}
-            <button className={styles.signInBtn} onClick={handleClickSignIn}>
-              {i18n.sign_in}
-            </button>
+            <Button2 handleClick={handleClickSignIn}>{i18n.sign_in}</Button2>
           </div>
         </div>
       </div>

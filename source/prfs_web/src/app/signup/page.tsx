@@ -96,15 +96,18 @@ const SignUp: React.FC = () => {
     <SignInLayout title={i18n.sign_up} desc={i18n.sign_up_desc}>
       <div className={styles.wrapper}>
         <div className={styles.inner}>
+          <div>
+            <button>33</button>
+          </div>
           <ConnectWalletWidget className={styles.widget} handleConnect={handleConnect} />
           <Widget label={i18n.credential} className={styles.widget}>
             <div className={styles.widgetInner}>
               <div className={styles.passcode}>
-                <p>passcode</p>
+                <p>{i18n.passcode}</p>
                 <input type="password" />
               </div>
               <div className={styles.passcode}>
-                <p>passcode</p>
+                <p>{i18n.passcode_confirm}</p>
                 <input type="password" />
               </div>
               <div className={styles.hashBtnRow}>
