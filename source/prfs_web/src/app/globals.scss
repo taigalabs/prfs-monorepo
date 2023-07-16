@@ -120,6 +120,18 @@ ol {
   list-style: none;
 }
 
+button {
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  overflow: visible;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: normal;
+}
+
 @media (prefers-color-scheme: dark) {
   /* html { */
   /*   color-scheme: dark; */

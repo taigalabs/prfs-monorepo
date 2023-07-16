@@ -23,7 +23,7 @@ const ConnectWalletWidget: React.FC<any> = ({ className }) => {
           </div>
         </div>
         <div className={styles.connectBtnRow}>
-          <button>{i18n.connect}</button>
+          <button className={styles.connectBtn}>{i18n.connect}</button>
         </div>
       </div>
       <div className={styles.widgetInner}>
