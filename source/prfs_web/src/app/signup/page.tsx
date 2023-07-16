@@ -6,7 +6,13 @@ import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
-import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
+import {
+  useConnect,
+  useAddress,
+  useSigner,
+  metamaskWallet,
+  ConnectWallet
+} from "@thirdweb-dev/react";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -18,6 +24,7 @@ import Widget from "@/components/widget/Widget";
 import styles from "./SignIn.module.scss";
 import { I18nContext } from "@/contexts";
 import Logo from "@/components/logo/Logo";
+import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
 
 const metamaskConfig = metamaskWallet();
 
@@ -46,23 +53,7 @@ const SignUp: React.FC = () => {
               <Logo />
             </Link>
           </div>
-          <Widget label={i18n.connect_wallet} className={styles.widget}>
-            <div>
-              <div className={`${styles.radioBox}`}>
-                <div>
-                  <input type="radio" value="metamask" checked />
-                </div>
-                <div>
-                  <p className={styles.label}>{i18n.metamask}</p>
-                  <p className={styles.desc}>{i18n.metamask_desc}</p>
-                </div>
-              </div>
-            </div>
-            <div>
-              <button>{i18n.connect}</button>
-            </div>
-            <div>wallet status</div>
-          </Widget>
+          <ConnectWalletWidget />
           <Widget label={i18n.credential} className={styles.widget}>
             <TextField label="passcode" type="password" />
             <div>power</div>

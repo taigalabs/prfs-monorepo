@@ -10,4 +10,25 @@
   .content {
     padding: 21px 18px;
   }
+
+  .radioBox {
+    border: 1px solid #9fb6bf;
+    padding: 13px 10px;
+    display: flex;
+    background-color: #f6fbf8;
+
+    > div {
+      margin-left: 12px;
+    }
+
+    .label {
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .desc {
+      font-size: 0.94em;
+      color: #4d4d4d;
+    }
+  }
 }

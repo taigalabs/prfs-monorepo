@@ -21,6 +21,10 @@ const DefaultLayout: React.FC<any> = ({ children }) => {
           <Link href="/">
             <Logo />
           </Link>
+          <div className={styles.title}>
+            <div className={styles.label}>Title</div>
+            <div className={styles.desc}>desc</div>
+          </div>
         </div>
         {children}
         <div className={styles.footer}>sign in Footer</div>

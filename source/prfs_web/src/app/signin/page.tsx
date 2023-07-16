@@ -41,48 +41,22 @@ const SignIn: React.FC = () => {
     <SignInLayout>
       <div className={styles.wrapper}>
         <div className={styles.inner}>
-          <div>Sign In</div>
+          <div>
+            <p>Sign In</p>
+            <p>If you haven't signed up yet, sign up first.</p>
+          </div>
           <ConnectWalletWidget className={styles.widget} />
-          {/* <Widget label={i18n.connect_wallet} className={styles.widget}> */}
-          {/*   <div> */}
-          {/*     <div className={`${styles.radioBox}`}> */}
-          {/*       <div> */}
-          {/*         <input type="radio" value="metamask" checked /> */}
-          {/*       </div> */}
-          {/*       <div> */}
-          {/*         <p className={styles.label}>{i18n.metamask}</p> */}
-          {/*         <p className={styles.desc}>{i18n.metamask_desc}</p> */}
-          {/*       </div> */}
-          {/*     </div> */}
-          {/*   </div> */}
-          {/*   <div> */}
-          {/*     <button>{i18n.connect}</button> */}
-          {/*   </div> */}
-          {/*   <div>wallet status</div> */}
-          {/* </Widget> */}
           <Widget label={i18n.credential} className={styles.widget}>
             <TextField label="passcode" type="password" />
-            <div>power</div>
-            <div>power2</div>
-            <div className={styles.desc}>
-              <ul>
-                <li>
-                  <Typography variant="body1" gutterBottom>
-                    {i18n.desc_1}
-                  </Typography>
-                </li>
-                <li>
-                  <Typography variant="body1" gutterBottom>
-                    {i18n.desc_2}
-                  </Typography>
-                </li>
-                <li>
-                  <Typography variant="body1" gutterBottom>
-                    {i18n.desc_3}
-                  </Typography>
-                </li>
-              </ul>
+            <div>
+              <p>id</p>
+              <p>id-a</p>
             </div>
+            <div>
+              <p>password</p>
+              <p>pw-a</p>
+            </div>
+            <button>Sign In</button>
           </Widget>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Paper from "@mui/material/Paper";
+import classnames from "classnames";
 
 import styles from "./ConnectWalletWidget.module.scss";
 import { I18nContext } from "@/contexts";
@@ -10,7 +11,7 @@ const ConnectWalletWidget: React.FC<any> = ({ className }) => {
   const i18n = React.useContext(I18nContext);
 
   return (
-    <Widget label={i18n.connect_wallet} className={className}>
+    <Widget label={i18n.connect_wallet} className={classnames(styles.wrapper, className)}>
       <div>
         <div className={`${styles.radioBox}`}>
           <div>
