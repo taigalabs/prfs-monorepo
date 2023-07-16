@@ -21,7 +21,7 @@ import FormLabel from "@mui/material/FormLabel";
 
 import SignInLayout from "@/layouts/sign_in_layout/SignInLayout";
 import Widget from "@/components/widget/Widget";
-import styles from "./SignIn.module.scss";
+import styles from "./SignUp.module.scss";
 import { I18nContext } from "@/contexts";
 import Logo from "@/components/logo/Logo";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
@@ -46,13 +46,7 @@ const SignUp: React.FC = () => {
   return (
     <SignInLayout title={i18n.sign_up} desc={i18n.sign_up_desc}>
       <div className={styles.wrapper}>
-        <div>Sign Up</div>
         <div className={styles.inner}>
-          <div className={styles.upper}>
-            <Link href="/">
-              <Logo />
-            </Link>
-          </div>
           <ConnectWalletWidget />
           <Widget label={i18n.credential} className={styles.widget}>
             <TextField label="passcode" type="password" />
@@ -78,7 +72,6 @@ const SignUp: React.FC = () => {
               </ul>
             </div>
           </Widget>
-          <div className={styles.footer}>sign in Footer</div>
         </div>
       </div>
     </SignInLayout>
