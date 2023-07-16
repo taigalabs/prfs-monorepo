@@ -41,13 +41,15 @@ const SignUp: React.FC = () => {
     fn().then();
   }, []);
 
-  const [walletSelected, setWalletSelected] = React.useState("metamask");
+  const handleConnect = React.useCallback(() => {
+    console.log(11);
+  }, []);
 
   return (
     <SignInLayout title={i18n.sign_up} desc={i18n.sign_up_desc}>
       <div className={styles.wrapper}>
         <div className={styles.inner}>
-          <ConnectWalletWidget />
+          <ConnectWalletWidget handleConnect={handleConnect} />
           <Widget label={i18n.credential} className={styles.widget}>
             <TextField label="passcode" type="password" />
             <div>power</div>

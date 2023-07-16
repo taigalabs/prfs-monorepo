@@ -10,7 +10,7 @@ import Widget from "@/components/widget/Widget";
 
 const metamaskConfig = metamaskWallet();
 
-const ConnectWalletWidget: React.FC<any> = ({ className }) => {
+const ConnectWalletWidget: React.FC<ConnectWalletWidgetProps> = ({ className, handleConnect }) => {
   const i18n = React.useContext(I18nContext);
 
   const connect = useConnect();
@@ -23,6 +23,7 @@ const ConnectWalletWidget: React.FC<any> = ({ className }) => {
       let signer = await wallet.getSigner();
       let addr = await signer.getAddress();
       setWalletAddr(addr);
+      handleConnect(addr);
     }
 
     fn().then();
@@ -59,3 +60,8 @@ const ConnectWalletWidget: React.FC<any> = ({ className }) => {
 };
 
 export default ConnectWalletWidget;
+
+export interface ConnectWalletWidgetProps {
+  className?: string;
+  handleConnect: Function;
+}
