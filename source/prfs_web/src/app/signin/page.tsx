@@ -46,22 +46,26 @@ const SignIn: React.FC = () => {
             </Link>
           </div>
           <Widget label={i18n.connect_wallet} className={styles.widget}>
-            <div className={styles.radioBox}>
-              <div>
-                <input type="radio" value="female" />
-              </div>
-              <div>
-                <p className={styles.label}>{i18n.metamask}</p>
-                <p className={styles.desc}>{i18n.metamask_desc}</p>
+            <div>
+              <div className={`${styles.radioBox}`}>
+                <div>
+                  <input type="radio" value="metamask" checked />
+                </div>
+                <div>
+                  <p className={styles.label}>{i18n.metamask}</p>
+                  <p className={styles.desc}>{i18n.metamask_desc}</p>
+                </div>
               </div>
             </div>
+            <div>
+              <button>{i18n.connect}</button>
+            </div>
+            <div>wallet status</div>
           </Widget>
-          <Widget label="power" className={styles.widget}>
+          <Widget label={i18n.credential} className={styles.widget}>
             <TextField label="passcode" type="password" />
-            <Button variant="contained">Sign in</Button>
-            <Divider />
-            <TextField label="id" disabled />
-            <TextField label="passcode" disabled />
+            <div>power</div>
+            <div>power2</div>
             <div className={styles.desc}>
               <ul>
                 <li>

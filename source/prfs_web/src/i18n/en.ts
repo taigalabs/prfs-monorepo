@@ -16,5 +16,6 @@ export default {
   prfs: "prfs",
   metamask: "Metamask",
   metamask_desc:
-    "We currently support Metamask. Check out how you install install it if you haven't already"
+    "We currently support Metamask. Check out how you install install it if you haven't already",
+  credential: "Credential"
 };
