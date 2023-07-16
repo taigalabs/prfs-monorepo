@@ -17,7 +17,6 @@ const metamaskConfig = metamaskWallet();
 
 const SignIn: React.FC = () => {
   const i18n = React.useContext(I18nContext);
-
   const connect = useConnect();
 
   const [walletAddr, setWalletAddr] = React.useState("");

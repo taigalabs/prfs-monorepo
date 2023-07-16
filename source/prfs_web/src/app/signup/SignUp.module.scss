@@ -13,9 +13,16 @@
   }
 
   .widget {
-    padding: 21px 18px;
     max-width: 610px;
     margin-bottom: 31px;
+  }
+
+  .widgetInner {
+    padding: 21px 18px;
+  }
+
+  .widgetInner:not(:first-child) {
+    border-top: 1px solid #dfdfdf;
   }
 
   .desc {
@@ -39,6 +46,13 @@
     .desc {
       font-size: 0.94em;
       color: #4d4d4d;
+    }
+  }
+
+  .passcode {
+    input {
+      border: 1px solid #acaca6;
+      padding: 4px 5px;
     }
   }
 
