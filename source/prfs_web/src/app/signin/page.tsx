@@ -38,13 +38,9 @@ const SignIn: React.FC = () => {
   const [walletSelected, setWalletSelected] = React.useState("metamask");
 
   return (
-    <SignInLayout>
+    <SignInLayout title={i18n.sign_in} desc={i18n.sign_in_desc}>
       <div className={styles.wrapper}>
         <div className={styles.inner}>
-          <div>
-            <p>Sign In</p>
-            <p>If you haven't signed up yet, sign up first.</p>
-          </div>
           <ConnectWalletWidget className={styles.widget} />
           <Widget label={i18n.credential} className={styles.widget}>
             <TextField label="passcode" type="password" />

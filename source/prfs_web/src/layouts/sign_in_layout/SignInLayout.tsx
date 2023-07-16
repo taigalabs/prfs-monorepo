@@ -11,7 +11,7 @@ import Masthead from "@/components/masthead/Masthead";
 import LeftBar from "@/components/leftbar/LeftBar";
 import { I18nContext } from "@/contexts";
 
-const DefaultLayout: React.FC<any> = ({ children }) => {
+const SignInLayout: React.FC<SignInLayoutProps> = ({ children, title, desc }) => {
   const i18n = React.useContext(I18nContext);
 
   return (
@@ -22,8 +22,8 @@ const DefaultLayout: React.FC<any> = ({ children }) => {
             <Logo />
           </Link>
           <div className={styles.title}>
-            <div className={styles.label}>Title</div>
-            <div className={styles.desc}>desc</div>
+            <div className={styles.label}>{title}</div>
+            <div className={styles.desc}>{desc}</div>
           </div>
         </div>
         {children}
@@ -33,4 +33,10 @@ const DefaultLayout: React.FC<any> = ({ children }) => {
   );
 };
 
-export default DefaultLayout;
+export default SignInLayout;
+
+export interface SignInLayoutProps {
+  children: React.ReactNode,
+  title: string;
+  desc: string;
+}

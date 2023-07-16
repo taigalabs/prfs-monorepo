@@ -44,7 +44,7 @@ const SignUp: React.FC = () => {
   const [walletSelected, setWalletSelected] = React.useState("metamask");
 
   return (
-    <SignInLayout>
+    <SignInLayout title={i18n.sign_up} desc={i18n.sign_up_desc}>
       <div className={styles.wrapper}>
         <div>Sign Up</div>
         <div className={styles.inner}>
