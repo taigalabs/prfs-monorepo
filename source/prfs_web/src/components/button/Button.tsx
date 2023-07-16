@@ -3,15 +3,23 @@ import Link from "next/link";
 import Paper from "@mui/material/Paper";
 import classnames from "classnames";
 
-import styles from "./Button1.module.scss";
+import styles from "./Button.module.scss";
 import { I18nContext } from "@/contexts";
 import Widget from "@/components/widget/Widget";
 
-const Button1: React.FC<Button1Props> = ({ children, className, handleClick }) => {
+const Button1: React.FC<Button1Props> = ({ children, className, handleClick, variant }) => {
   const i18n = React.useContext(I18nContext);
 
   return (
-    <button className={classnames(styles.wrapper, className)} onClick={handleClick}>
+    <button
+      className={classnames({
+        [styles.a]: variant === "a",
+        [styles.b]: variant === "b",
+        [styles.transparent]: variant === "transparent_a",
+        [className]: true
+      })}
+      onClick={handleClick}
+    >
       {children}
     </button>
   );
@@ -20,6 +28,7 @@ const Button1: React.FC<Button1Props> = ({ children, className, handleClick }) =
 export default Button1;
 
 export interface Button1Props {
+  variant: "a" | "b" | "transparent_a";
   className?: string;
   children: React.ReactNode;
   handleClick: MouseEventHandler;

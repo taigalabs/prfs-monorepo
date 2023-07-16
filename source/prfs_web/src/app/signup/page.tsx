@@ -1,23 +1,11 @@
 "use client";
 
 import React from "react";
-import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
-import {
-  useConnect,
-  useAddress,
-  useSigner,
-  metamaskWallet,
-  ConnectWallet
-} from "@thirdweb-dev/react";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
+import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
 
 import SignInLayout from "@/layouts/sign_in_layout/SignInLayout";
 import Widget from "@/components/widget/Widget";
@@ -25,6 +13,7 @@ import styles from "./SignUp.module.scss";
 import { I18nContext } from "@/contexts";
 import Logo from "@/components/logo/Logo";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
+import Button from "@/components/button/Button";
 
 const metamaskConfig = metamaskWallet();
 
@@ -96,9 +85,7 @@ const SignUp: React.FC = () => {
     <SignInLayout title={i18n.sign_up} desc={i18n.sign_up_desc}>
       <div className={styles.wrapper}>
         <div className={styles.inner}>
-          <div>
-            <button>33</button>
-          </div>
+          <div>{/* <Button variant="t">33</Button> */}</div>
           <ConnectWalletWidget className={styles.widget} handleConnect={handleConnect} />
           <Widget label={i18n.credential} className={styles.widget}>
             <div className={styles.widgetInner}>
@@ -111,9 +98,9 @@ const SignUp: React.FC = () => {
                 <input type="password" />
               </div>
               <div className={styles.hashBtnRow}>
-                <button className={styles.hashBtn} onClick={handleClickHash}>
+                <Button variant="a" handleClick={handleClickHash}>
                   {i18n.hash}
-                </button>
+                </Button>
               </div>
             </div>
             {passhash && (
@@ -133,9 +120,9 @@ const SignUp: React.FC = () => {
           </Widget>
           <div>
             {signUpAlert.length > 0 && <div className={styles.signUpAlert}>{signUpAlert}</div>}
-            <button className={styles.signInBtn} onClick={handleClickSignUp}>
+            <Button variant="b" handleClick={handleClickSignUp}>
               {i18n.sign_up}
-            </button>
+            </Button>
           </div>
         </div>
       </div>

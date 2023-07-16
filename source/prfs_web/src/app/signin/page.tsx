@@ -1,8 +1,6 @@
 "use client";
 
 import React from "react";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
@@ -12,8 +10,7 @@ import Widget from "@/components/widget/Widget";
 import styles from "./SignIn.module.scss";
 import { I18nContext } from "@/contexts";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
-import Button1 from "@/components/button_1/Button1";
-import Button2 from "@/components/button_2/Button2";
+import Button from "@/components/button/Button";
 
 const metamaskConfig = metamaskWallet();
 
@@ -95,7 +92,9 @@ const SignIn: React.FC = () => {
                 <input type="password" onChange={handleChangePasscode} />
               </div>
               <div className={styles.hashBtnRow}>
-                <Button1 handleClick={handleClickHash}>{i18n.hash}</Button1>
+                <Button variant="a" handleClick={handleClickHash}>
+                  {i18n.hash}
+                </Button>
               </div>
             </div>
             {id.length > 0 && (
@@ -115,7 +114,9 @@ const SignIn: React.FC = () => {
           </Widget>
           <div>
             {signInAlert.length > 0 && <div className={styles.signInAlert}>{signInAlert}</div>}
-            <Button2 handleClick={handleClickSignIn}>{i18n.sign_in}</Button2>
+            <Button variant="b" handleClick={handleClickSignIn}>
+              {i18n.sign_in}
+            </Button>
           </div>
         </div>
       </div>
