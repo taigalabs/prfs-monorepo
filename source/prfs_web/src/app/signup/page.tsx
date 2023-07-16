@@ -7,14 +7,14 @@ import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev
 import SignInLayout from "@/layouts/sign_in_layout/SignInLayout";
 import Widget from "@/components/widget/Widget";
 import styles from "./SignUp.module.scss";
-import { I18nContext } from "@/contexts";
+import { i18nContext } from "@/contexts/i18n";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
 import Button from "@/components/button/Button";
 
 const metamaskConfig = metamaskWallet();
 
 const SignUp: React.FC = () => {
-  let i18n = React.useContext(I18nContext);
+  let i18n = React.useContext(i18nContext);
   const connect = useConnect();
 
   const [walletAddr, setWalletAddr] = React.useState("");

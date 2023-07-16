@@ -5,13 +5,13 @@ import classnames from "classnames";
 import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
 
 import styles from "./ConnectWalletWidget.module.scss";
-import { I18nContext } from "@/contexts";
+import { i18nContext } from "@/contexts/i18n";
 import Widget from "@/components/widget/Widget";
 
 const metamaskConfig = metamaskWallet();
 
 const ConnectWalletWidget: React.FC<ConnectWalletWidgetProps> = ({ className, handleConnect }) => {
-  const i18n = React.useContext(I18nContext);
+  const i18n = React.useContext(i18nContext);
 
   const connect = useConnect();
 

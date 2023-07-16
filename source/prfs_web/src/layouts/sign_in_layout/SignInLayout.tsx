@@ -9,10 +9,10 @@ import Logo from "@/components/logo/Logo";
 import styles from "./SignInLayout.module.scss";
 import Masthead from "@/components/masthead/Masthead";
 import LeftBar from "@/components/leftbar/LeftBar";
-import { I18nContext } from "@/contexts";
+import { i18nContext } from "@/contexts/i18n";
 
 const SignInLayout: React.FC<SignInLayoutProps> = ({ children, title, desc }) => {
-  const i18n = React.useContext(I18nContext);
+  const i18n = React.useContext(i18nContext);
 
   return (
     <div className={styles.wrapper}>
@@ -26,19 +26,17 @@ const SignInLayout: React.FC<SignInLayoutProps> = ({ children, title, desc }) =>
           <div className={styles.label}>{title}</div>
           <div className={styles.desc} dangerouslySetInnerHTML={{ __html: desc }}></div>
         </div>
-        <div>
-          {children}
-        </div>
+        <div>{children}</div>
         <div className={styles.footer}>{i18n.copyright}</div>
       </div>
-    </div >
+    </div>
   );
 };
 
 export default SignInLayout;
 
 export interface SignInLayoutProps {
-  children: React.ReactNode,
+  children: React.ReactNode;
   title: string;
   desc: string;
 }

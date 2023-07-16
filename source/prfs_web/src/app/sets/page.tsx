@@ -8,11 +8,11 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 
 import styles from "./Sets.module.scss";
-import { I18nContext } from "@/contexts";
+import { i18nContext } from "@/contexts/i18n";
 import Logo from "@/components/logo/Logo";
 
 const Sets: React.FC = () => {
-  let i18n = React.useContext(I18nContext);
+  let i18n = React.useContext(i18nContext);
 
   return (
     <div className={styles.wrapper}>

@@ -8,14 +8,14 @@ import { ethers } from "ethers";
 import SignInLayout from "@/layouts/sign_in_layout/SignInLayout";
 import Widget from "@/components/widget/Widget";
 import styles from "./SignIn.module.scss";
-import { I18nContext } from "@/contexts";
+import { i18nContext } from "@/contexts/i18n";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
 import Button from "@/components/button/Button";
 
 const metamaskConfig = metamaskWallet();
 
 const SignIn: React.FC = () => {
-  const i18n = React.useContext(I18nContext);
+  const i18n = React.useContext(i18nContext);
   const connect = useConnect();
 
   const [walletAddr, setWalletAddr] = React.useState("");

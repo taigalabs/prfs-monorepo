@@ -4,11 +4,11 @@ import Paper from "@mui/material/Paper";
 import classnames from "classnames";
 
 import styles from "./Button.module.scss";
-import { I18nContext } from "@/contexts";
+import { i18nContext } from "@/contexts/i18n";
 import Widget from "@/components/widget/Widget";
 
 const Button1: React.FC<Button1Props> = ({ children, className, handleClick, variant }) => {
-  const i18n = React.useContext(I18nContext);
+  const i18n = React.useContext(i18nContext);
 
   return (
     <button

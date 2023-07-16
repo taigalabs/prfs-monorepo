@@ -2,10 +2,10 @@ import React from "react";
 import Link from "next/link";
 
 import styles from "./LeftBar.module.scss";
-import { I18nContext } from "@/contexts";
+import { i18nContext } from "@/contexts/i18n";
 
 const Leftbar: React.FC<any> = () => {
-  const i18n = React.useContext(I18nContext);
+  const i18n = React.useContext(i18nContext);
 
   return (
     <div className={styles.wrapper}>

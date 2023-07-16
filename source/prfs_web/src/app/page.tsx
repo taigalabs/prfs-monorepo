@@ -10,11 +10,11 @@ import Masthead from "@/components/masthead/Masthead";
 import LeftBar from "@/components/leftbar/LeftBar";
 import Table from "@/components/table/Table";
 import Widget from "@/components/widget/Widget";
-import { I18nContext } from "@/contexts";
+import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 
 const Home: React.FC = () => {
-  const i18n = React.useContext(I18nContext);
+  const i18n = React.useContext(i18nContext);
 
   return (
     <DefaultLayout>

@@ -5,7 +5,8 @@ import { Roboto } from "next/font/google";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import { Theme, ThemeProvider, createTheme } from "@mui/material/styles";
 
-import { I18nContext } from "@/contexts";
+// import { I18nContext } from "@/contexts";
+import { I18nProvider } from "@/contexts/i18n";
 import en from "@/i18n/en";
 
 const roboto = Roboto({
@@ -24,7 +25,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={roboto.className} suppressHydrationWarning={true}>
         <ThemeProvider theme={theme}>
           <ThirdwebProvider activeChain="ethereum">
-            <I18nContext.Provider value={en}>{children}</I18nContext.Provider>
+            {/* <StateContext.Provider> */}
+            <I18nProvider>{children}</I18nProvider>
+            {/* </StateContext.Provider> */}
           </ThirdwebProvider>
         </ThemeProvider>
       </body>

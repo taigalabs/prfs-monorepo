@@ -11,7 +11,7 @@ import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev
 
 import Table from "@/components/table/Table";
 import styles from "./Generate.module.scss";
-import { I18nContext } from "@/contexts";
+import { i18nContext } from "@/contexts/i18n";
 import Widget from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { proveMembershipMock } from "@/fns/prfsMock";
@@ -20,7 +20,7 @@ import { proveMembership } from "@/fns/prfs";
 const metamaskConfig = metamaskWallet();
 
 const Generate: React.FC = () => {
-  let i18n = React.useContext(I18nContext);
+  let i18n = React.useContext(i18nContext);
 
   const proverAddressMembershipMock = React.useCallback(() => {
     proveMembershipMock().then(() => {});
