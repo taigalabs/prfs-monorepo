@@ -35,6 +35,20 @@ const SignIn: React.FC = () => {
     fn().then();
   }, []);
 
+  const [id, setId] = React.useState(undefined);
+  const [passhash, setPasshash] = React.useState(undefined);
+
+  let handleClickHash = React.useCallback(() => {
+    async function fn() {
+      // const wallet = await connect(metamaskConfig);
+      // let signer = await wallet.getSigner();
+      // let addr = await signer.getAddress();
+      // setWalletAddr(addr)
+    }
+
+    fn().then();
+  }, [setId, setPasshash]);
+
   const [walletSelected, setWalletSelected] = React.useState("metamask");
 
   return (
@@ -48,19 +62,23 @@ const SignIn: React.FC = () => {
                 <p className={styles.label}>Passcode</p>
                 <input type="password" />
               </div>
-              <div className={styles.btnRow}>
+              <div className={styles.hashBtnRow}>
                 <button className={styles.hashBtn}>{i18n.hash}</button>
               </div>
             </div>
+            {id && (
+              <div className={styles.widgetInner}>
+                <div className={styles.id}>
+                  <p>id</p>
+                  <p>{id}</p>
+                </div>
+                <div className={styles.passhash}>
+                  <p>passhash</p>
+                  <p>{passhash}</p>
+                </div>
+              </div>
+            )}
           </Widget>
-          <div className={styles.id}>
-            <p>id</p>
-            <p>id-a</p>
-          </div>
-          <div className={styles.passhash}>
-            <p>passhash</p>
-            <p>pw-a</p>
-          </div>
         </div>
       </div>
     </SignInLayout>

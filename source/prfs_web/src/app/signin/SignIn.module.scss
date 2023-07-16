@@ -21,7 +21,8 @@
     padding: 21px 18px;
   }
 
-  .desc {
+  .widgetInner:not(:first-child) {
+    border-top: 1px solid #dfdfdf;
   }
 
   .radioBox {
@@ -67,20 +68,20 @@
     margin-top: 80px;
   }
 
-  .btnRow {
-    margin-top: 16px;
+  .hashBtnRow {
+    margin-top: 15px;
   }
 
   .hashBtn {
     border-radius: 0;
-    background-color: #c0e6c8;
+    background-color: #c8d0ca;
     color: #2f3139;
     font-weight: 500;
     padding: 8px 12px;
 
     &:hover {
       cursor: pointer;
-      background-color: #b0d6c8;
+      background-color: #b5bdb7;
     }
   }
 }
