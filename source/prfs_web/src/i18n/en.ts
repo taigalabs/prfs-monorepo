@@ -24,5 +24,6 @@ export default {
   sign_in_desc: "Or <a href='/signup'>create</a> a new Prfs account",
   copyright: '© 2023 Prfs. All rights reserved.',
   wallet_addr: 'Wallet address',
+  hash: 'Hash',
   hash_and_sign_in: 'Hash & Sign in',
 };

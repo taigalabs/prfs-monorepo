@@ -45,6 +45,16 @@
     }
   }
 
+  .passcode {
+    .label {
+      margin-bottom: 5px;
+    }
+
+    input {
+      border: 1px solid gray;
+    }
+  }
+
   .id {
     display: flex;
   }
@@ -55,5 +65,22 @@
 
   .footer {
     margin-top: 80px;
+  }
+
+  .btnRow {
+    margin-top: 16px;
+  }
+
+  .hashBtn {
+    border-radius: 0;
+    background-color: #c0e6c8;
+    color: #2f3139;
+    font-weight: 500;
+    padding: 8px 12px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: #b0d6c8;
+    }
   }
 }
