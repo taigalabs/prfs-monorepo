@@ -38,7 +38,7 @@ const SignIn: React.FC = () => {
               <Logo />
             </Link>
           </div>
-          <Widget label={i18n.wallet} className={styles.widget}>
+          <Widget label={i18n.connect_wallet} className={styles.widget}>
             power
           </Widget>
           <Widget label="power" className={styles.widget}>

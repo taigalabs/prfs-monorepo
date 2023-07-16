@@ -11,5 +11,7 @@ export default {
   sets: "Sets",
   connect: "Connect",
   choose_proof_type: "Choose a proof type",
-  wallet: "Wallet"
+  connect_wallet: "Connect wallet of your choice",
+  wallet: "Wallet",
+  prfs: "prfs"
 };
