@@ -11,8 +11,10 @@ export default {
   sets: "Sets",
   connect: "Connect",
   choose_proof_type: "Choose a proof type",
-  connect_wallet: "Connect wallet of your choice",
+  connect_wallet: "Connect a wallet of your choice",
   wallet: "Wallet",
   prfs: "prfs",
-  metamask: "Metamask"
+  metamask: "Metamask",
+  metamask_desc:
+    "We currently support Metamask. Check out how you install install it if you haven't already"
 };

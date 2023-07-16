@@ -13,23 +13,35 @@
   }
 
   .widget {
+    max-width: 610px;
     margin-bottom: 45px;
   }
 
   .desc {
   }
 
-  .footer {
-    margin-top: 80px;
+  .radioBox {
+    border: 1px solid #6192a6;
+    padding: 13px 10px;
+    display: flex;
+    background-color: #f9f9ff;
+
+    > div {
+      margin-left: 12px;
+    }
+
+    .label {
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .desc {
+      font-size: 0.94em;
+      color: #4d4d4d;
+    }
   }
 
-  .radioBox {
-    border: 1px solid gray;
-    padding: 8px 10px;
-    display: flex;
-
-    p {
-      margin-left: 15px;
-    }
+  .footer {
+    margin-top: 80px;
   }
 }

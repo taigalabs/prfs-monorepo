@@ -34,6 +34,8 @@ const SignIn: React.FC = () => {
     fn().then();
   }, []);
 
+  const [walletSelected, setWalletSelected] = React.useState("metamask");
+
   return (
     <SignInLayout>
       <div className={styles.wrapper}>
@@ -45,15 +47,19 @@ const SignIn: React.FC = () => {
           </div>
           <Widget label={i18n.connect_wallet} className={styles.widget}>
             <div className={styles.radioBox}>
-              <input type="radio" value="female" />
-              <p>Metamask</p>
+              <div>
+                <input type="radio" value="female" />
+              </div>
+              <div>
+                <p className={styles.label}>{i18n.metamask}</p>
+                <p className={styles.desc}>{i18n.metamask_desc}</p>
+              </div>
             </div>
           </Widget>
           <Widget label="power" className={styles.widget}>
             <TextField label="passcode" type="password" />
             <Button variant="contained">Sign in</Button>
             <Divider />
-
             <TextField label="id" disabled />
             <TextField label="passcode" disabled />
             <div className={styles.desc}>
