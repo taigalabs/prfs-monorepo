@@ -18,6 +18,7 @@ import Widget from "@/components/widget/Widget";
 import styles from "./SignIn.module.scss";
 import { I18nContext } from "@/contexts";
 import Logo from "@/components/logo/Logo";
+import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
 
 const metamaskConfig = metamaskWallet();
 
@@ -41,23 +42,24 @@ const SignIn: React.FC = () => {
       <div className={styles.wrapper}>
         <div className={styles.inner}>
           <div>Sign In</div>
-          <Widget label={i18n.connect_wallet} className={styles.widget}>
-            <div>
-              <div className={`${styles.radioBox}`}>
-                <div>
-                  <input type="radio" value="metamask" checked />
-                </div>
-                <div>
-                  <p className={styles.label}>{i18n.metamask}</p>
-                  <p className={styles.desc}>{i18n.metamask_desc}</p>
-                </div>
-              </div>
-            </div>
-            <div>
-              <button>{i18n.connect}</button>
-            </div>
-            <div>wallet status</div>
-          </Widget>
+          <ConnectWalletWidget className={styles.widget} />
+          {/* <Widget label={i18n.connect_wallet} className={styles.widget}> */}
+          {/*   <div> */}
+          {/*     <div className={`${styles.radioBox}`}> */}
+          {/*       <div> */}
+          {/*         <input type="radio" value="metamask" checked /> */}
+          {/*       </div> */}
+          {/*       <div> */}
+          {/*         <p className={styles.label}>{i18n.metamask}</p> */}
+          {/*         <p className={styles.desc}>{i18n.metamask_desc}</p> */}
+          {/*       </div> */}
+          {/*     </div> */}
+          {/*   </div> */}
+          {/*   <div> */}
+          {/*     <button>{i18n.connect}</button> */}
+          {/*   </div> */}
+          {/*   <div>wallet status</div> */}
+          {/* </Widget> */}
           <Widget label={i18n.credential} className={styles.widget}>
             <TextField label="passcode" type="password" />
             <div>power</div>

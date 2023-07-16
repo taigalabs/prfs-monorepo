@@ -1,0 +1,33 @@
+import React from "react";
+import Link from "next/link";
+import Paper from "@mui/material/Paper";
+
+import styles from "./ConnectWalletWidget.module.scss";
+import { I18nContext } from "@/contexts";
+import Widget from "@/components/widget/Widget";
+
+const ConnectWalletWidget: React.FC<any> = ({ className }) => {
+  const i18n = React.useContext(I18nContext);
+
+  return (
+    <Widget label={i18n.connect_wallet} className={className}>
+      <div>
+        <div className={`${styles.radioBox}`}>
+          <div>
+            <input type="radio" value="metamask" checked />
+          </div>
+          <div>
+            <p className={styles.label}>{i18n.metamask}</p>
+            <p className={styles.desc}>{i18n.metamask_desc}</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button>{i18n.connect}</button>
+      </div>
+      <div>wallet status</div>
+    </Widget>
+  );
+};
+
+export default ConnectWalletWidget;
