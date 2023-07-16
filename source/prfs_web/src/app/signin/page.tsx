@@ -7,6 +7,11 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 
 import SignInLayout from "@/layouts/sign_in_layout/SignInLayout";
 import Widget from "@/components/widget/Widget";
@@ -39,7 +44,10 @@ const SignIn: React.FC = () => {
             </Link>
           </div>
           <Widget label={i18n.connect_wallet} className={styles.widget}>
-            power
+            <div className={styles.radioBox}>
+              <input type="radio" value="female" />
+              <p>Metamask</p>
+            </div>
           </Widget>
           <Widget label="power" className={styles.widget}>
             <TextField label="passcode" type="password" />

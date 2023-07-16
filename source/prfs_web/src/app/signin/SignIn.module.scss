@@ -22,4 +22,14 @@
   .footer {
     margin-top: 80px;
   }
+
+  .radioBox {
+    border: 1px solid gray;
+    padding: 8px 10px;
+    display: flex;
+
+    p {
+      margin-left: 15px;
+    }
+  }
 }

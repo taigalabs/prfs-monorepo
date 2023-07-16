@@ -1,20 +1,11 @@
 .wrapper {
   .upper {
     background-color: #fafafa;
-    padding: 12px 15px;
+    padding: 14px 18px;
     font-weight: 500;
   }
 
-  .leftMenu {
-    border: 1px solid gray;
-    width: 210px;
-  }
-
-  .mainMenu {
-    list-style: none;
-  }
-
-  .rightMenu {
-    margin-left: auto;
+  .content {
+    padding: 14px 18px;
   }
 }

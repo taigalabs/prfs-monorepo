@@ -13,5 +13,6 @@ export default {
   choose_proof_type: "Choose a proof type",
   connect_wallet: "Connect wallet of your choice",
   wallet: "Wallet",
-  prfs: "prfs"
+  prfs: "prfs",
+  metamask: "Metamask"
 };

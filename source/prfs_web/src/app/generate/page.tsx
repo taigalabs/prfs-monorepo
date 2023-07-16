@@ -56,3 +56,20 @@ const Generate: React.FC = () => {
 };
 
 export default Generate;
+
+// function getSiblingIdx(idx: number): number {
+//   if (idx % 2 == 0) {
+//     return idx + 1;
+//   } else {
+//     return idx - 1;
+//   }
+// }
+
+// function getParentIdx(idx: number): number {
+//   return idx / 2;
+// }
+
+// export interface NodePos {
+//   posW: number;
+//   posH: number;
+// }

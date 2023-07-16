@@ -11,7 +11,7 @@ const Widget: React.FC<WidgetProps> = ({ className, children, label }) => {
   return (
     <Paper className={`${styles.wrapper} ${className}`}>
       <div className={styles.upper}>{label}</div>
-      <div>{children}</div>
+      <div className={styles.content}>{children}</div>
     </Paper>
   );
 };

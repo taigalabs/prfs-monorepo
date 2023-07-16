@@ -33,26 +33,3 @@ const Home: React.FC = () => {
 };
 
 export default Home;
-
-{
-  /* <button onClick={proverAddressMembershipMock}>Prove Address Membership mock</button> */
-}
-{
-  /* <button onClick={proverAddressMembership}>Prove Address Membership</button> */
-}
-// function getSiblingIdx(idx: number): number {
-//   if (idx % 2 == 0) {
-//     return idx + 1;
-//   } else {
-//     return idx - 1;
-//   }
-// }
-
-// function getParentIdx(idx: number): number {
-//   return idx / 2;
-// }
-
-// export interface NodePos {
-//   posW: number;
-//   posH: number;
-// }
