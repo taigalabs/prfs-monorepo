@@ -44,16 +44,19 @@ const SignIn: React.FC = () => {
           <ConnectWalletWidget className={styles.widget} />
           <Widget label={i18n.credential} className={styles.widget}>
             <div className={styles.widgetInner}>
-              <TextField label="passcode" type="password" />
               <div>
+                <p>Passcode</p>
+                <input type="password" />
+              </div>
+              <div className={styles.id}>
                 <p>id</p>
                 <p>id-a</p>
               </div>
-              <div>
-                <p>password</p>
+              <div className={styles.passhash}>
+                <p>passhash</p>
                 <p>pw-a</p>
               </div>
-              <button>Sign In</button>
+              <button>{i18n.hash_and_sign_in}</button>
             </div>
           </Widget>
         </div>
