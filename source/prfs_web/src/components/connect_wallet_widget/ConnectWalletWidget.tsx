@@ -12,7 +12,7 @@ const ConnectWalletWidget: React.FC<any> = ({ className }) => {
 
   return (
     <Widget label={i18n.connect_wallet} className={classnames(styles.wrapper, className)}>
-      <div>
+      <div className={styles.widgetInner}>
         <div className={`${styles.radioBox}`}>
           <div>
             <input type="radio" value="metamask" checked />
@@ -22,11 +22,13 @@ const ConnectWalletWidget: React.FC<any> = ({ className }) => {
             <p className={styles.desc}>{i18n.metamask_desc}</p>
           </div>
         </div>
+        <div className={styles.connect_btn_row}>
+          <button>{i18n.connect}</button>
+        </div>
       </div>
-      <div>
-        <button>{i18n.connect}</button>
+      <div className={styles.widgetInner}>
+        <div>wallet status</div>
       </div>
-      <div>wallet status</div>
     </Widget>
   );
 };
