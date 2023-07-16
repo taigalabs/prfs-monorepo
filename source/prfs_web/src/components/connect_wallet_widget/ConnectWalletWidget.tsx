@@ -2,20 +2,38 @@ import React from "react";
 import Link from "next/link";
 import Paper from "@mui/material/Paper";
 import classnames from "classnames";
+import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
 
 import styles from "./ConnectWalletWidget.module.scss";
 import { I18nContext } from "@/contexts";
 import Widget from "@/components/widget/Widget";
 
+const metamaskConfig = metamaskWallet();
+
 const ConnectWalletWidget: React.FC<any> = ({ className }) => {
   const i18n = React.useContext(I18nContext);
+
+  const connect = useConnect();
+
+  const [walletAddr, setWalletAddr] = React.useState(undefined);
+
+  let handleClickConnect = React.useCallback(() => {
+    async function fn() {
+      const wallet = await connect(metamaskConfig);
+      let signer = await wallet.getSigner();
+      let addr = await signer.getAddress();
+      setWalletAddr(addr)
+    }
+
+    fn().then();
+  }, [setWalletAddr]);
 
   return (
     <Widget label={i18n.connect_wallet} className={classnames(styles.wrapper, className)}>
       <div className={styles.widgetInner}>
         <div className={`${styles.radioBox}`}>
           <div>
-            <input type="radio" value="metamask" checked />
+            <input type="radio" value="metamask" checked readOnly />
           </div>
           <div>
             <p className={styles.label}>{i18n.metamask}</p>
@@ -23,12 +41,17 @@ const ConnectWalletWidget: React.FC<any> = ({ className }) => {
           </div>
         </div>
         <div className={styles.connectBtnRow}>
-          <button className={styles.connectBtn}>{i18n.connect}</button>
+          <button className={styles.connectBtn} onClick={handleClickConnect}>
+            {i18n.connect}
+          </button>
         </div>
       </div>
-      <div className={styles.widgetInner}>
-        <div>wallet status</div>
-      </div>
+      {walletAddr && (
+        <div className={styles.widgetInner}>
+          <p className={styles.walletAddrLabel}>{i18n.wallet_addr}</p>
+          <p className={styles.walletAddrVal}>{walletAddr}</p>
+        </div>
+      )}
     </Widget>
   );
 };
