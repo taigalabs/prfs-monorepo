@@ -28,5 +28,6 @@ export default {
   hash: "Hash",
   hash_and_sign_in: "Hash & Sign in",
   passcode: "Passcode",
-  passcode_confirm: "Confirm passcode"
+  passcode_confirm: "Confirm passcode",
+  sign_in_to_existing: "Sign in to an existing Prfs account"
 };

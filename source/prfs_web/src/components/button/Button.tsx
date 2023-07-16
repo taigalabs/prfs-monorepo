@@ -31,5 +31,5 @@ export interface Button1Props {
   variant: "a" | "b" | "transparent_a";
   className?: string;
   children: React.ReactNode;
-  handleClick: MouseEventHandler;
+  handleClick?: MouseEventHandler;
 }

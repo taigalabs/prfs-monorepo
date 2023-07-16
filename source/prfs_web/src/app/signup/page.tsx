@@ -1,9 +1,6 @@
 "use client";
 
 import React from "react";
-import Divider from "@mui/material/Divider";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
 
@@ -11,7 +8,6 @@ import SignInLayout from "@/layouts/sign_in_layout/SignInLayout";
 import Widget from "@/components/widget/Widget";
 import styles from "./SignUp.module.scss";
 import { I18nContext } from "@/contexts";
-import Logo from "@/components/logo/Logo";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
 import Button from "@/components/button/Button";
 
@@ -85,7 +81,11 @@ const SignUp: React.FC = () => {
     <SignInLayout title={i18n.sign_up} desc={i18n.sign_up_desc}>
       <div className={styles.wrapper}>
         <div className={styles.inner}>
-          <div>{/* <Button variant="t">33</Button> */}</div>
+          <div>
+            <Button variant="transparent_a">
+              <Link href="/signin">{i18n.sign_in_to_existing}</Link>
+            </Button>
+          </div>
           <ConnectWalletWidget className={styles.widget} handleConnect={handleConnect} />
           <Widget label={i18n.credential} className={styles.widget}>
             <div className={styles.widgetInner}>
