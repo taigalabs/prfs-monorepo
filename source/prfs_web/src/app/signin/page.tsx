@@ -7,6 +7,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
+import { ethers } from "ethers";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -35,21 +36,35 @@ const SignIn: React.FC = () => {
     fn().then();
   }, []);
 
-  const [id, setId] = React.useState(undefined);
-  const [passhash, setPasshash] = React.useState(undefined);
+  const [passcode, setPasscode] = React.useState("");
+  const [id, setId] = React.useState("");
+  const [passhash, setPasshash] = React.useState("");
+  const [signInAlert, setSignInAlert] = React.useState("");
+
+  const handleChangePasscode = React.useCallback(
+    (ev: any) => {
+      setPasscode(ev.target.value);
+    },
+    [setPasscode]
+  );
 
   let handleClickHash = React.useCallback(() => {
     async function fn() {
-      // const wallet = await connect(metamaskConfig);
-      // let signer = await wallet.getSigner();
-      // let addr = await signer.getAddress();
-      // setWalletAddr(addr)
+      if (passcode.length > 0) {
+        let prfs_id_msg = `PRFS_ID_${passcode}`;
+        let prfs_pw_msg = `PRFS_PW_${passcode}`;
+
+        let id_hash = ethers.utils.hashMessage(prfs_id_msg);
+        let pw_hash = ethers.utils.hashMessage(prfs_pw_msg);
+
+        setId(id_hash);
+        setPasshash(pw_hash);
+      } else {
+      }
     }
 
     fn().then();
-  }, [setId, setPasshash]);
-
-  const [walletSelected, setWalletSelected] = React.useState("metamask");
+  }, [passcode, setId, setPasshash]);
 
   return (
     <SignInLayout title={i18n.sign_in} desc={i18n.sign_in_desc}>
@@ -60,25 +75,33 @@ const SignIn: React.FC = () => {
             <div className={styles.widgetInner}>
               <div className={styles.passcode}>
                 <p className={styles.label}>Passcode</p>
-                <input type="password" />
+                <input type="password" onChange={handleChangePasscode} />
               </div>
               <div className={styles.hashBtnRow}>
-                <button className={styles.hashBtn}>{i18n.hash}</button>
+                <button className={styles.hashBtn} onClick={handleClickHash}>
+                  {i18n.hash}
+                </button>
               </div>
             </div>
-            {id && (
+            {id.length > 0 && (
               <div className={styles.widgetInner}>
-                <div className={styles.id}>
-                  <p>id</p>
-                  <p>{id}</p>
-                </div>
-                <div className={styles.passhash}>
-                  <p>passhash</p>
-                  <p>{passhash}</p>
+                <div className={styles.hashResult}>
+                  <div className={styles.id}>
+                    <p className={styles.label}>id</p>
+                    <p className={styles.val}>{id}</p>
+                  </div>
+                  <div>
+                    <p className={styles.label}>passhash</p>
+                    <p className={styles.val}>{passhash}</p>
+                  </div>
                 </div>
               </div>
             )}
           </Widget>
+          <div>
+            {signInAlert.length > 0 && <div className={styles.signInAlert}>{signInAlert}</div>}
+            <button className={styles.signInBtn}>{i18n.sign_in}</button>
+          </div>
         </div>
       </div>
     </SignInLayout>

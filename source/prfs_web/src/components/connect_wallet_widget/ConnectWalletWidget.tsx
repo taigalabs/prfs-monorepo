@@ -22,7 +22,7 @@ const ConnectWalletWidget: React.FC<any> = ({ className }) => {
       const wallet = await connect(metamaskConfig);
       let signer = await wallet.getSigner();
       let addr = await signer.getAddress();
-      setWalletAddr(addr)
+      setWalletAddr(addr);
     }
 
     fn().then();
@@ -48,8 +48,10 @@ const ConnectWalletWidget: React.FC<any> = ({ className }) => {
       </div>
       {walletAddr && (
         <div className={styles.widgetInner}>
-          <p className={styles.walletAddrLabel}>{i18n.wallet_addr}</p>
-          <p className={styles.walletAddrVal}>{walletAddr}</p>
+          <div className={styles.walletAddr}>
+            <p className={styles.label}>{i18n.wallet_addr}</p>
+            <p className={styles.val}>{walletAddr}</p>
+          </div>
         </div>
       )}
     </Widget>

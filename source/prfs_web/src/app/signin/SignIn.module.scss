@@ -52,16 +52,23 @@
     }
 
     input {
-      border: 1px solid gray;
+      border: 1px solid #acaca6;
+      padding: 4px 5px;
     }
   }
 
-  .id {
-    display: flex;
-  }
-
-  .passhash {
-    display: flex;
+  .hashResult {
+    .id {
+      margin-bottom: 0.8em;
+    }
+    .label {
+      margin-bottom: 4px;
+      color: #272717;
+    }
+    .val {
+      font-weight: 500;
+      color: #272717;
+    }
   }
 
   .footer {
@@ -82,6 +89,18 @@
     &:hover {
       cursor: pointer;
       background-color: #b5bdb7;
+    }
+  }
+
+  .signInBtn {
+    background-color: #82f7c0;
+    color: #2f3139;
+    font-weight: 500;
+    padding: 8px 12px;
+
+    &:hover {
+      background-color: #7beab6;
+      cursor: pointer;
     }
   }
 }
