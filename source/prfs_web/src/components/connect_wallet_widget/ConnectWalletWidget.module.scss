@@ -12,15 +12,15 @@
   }
 
   .widgetInner:not(:first-child) {
-    border-top: 1px solid gray;
+    border-top: 1px solid #dfdfdf;
   }
 
   .content {
     padding: 21px 18px;
   }
 
-  .connect_btn_row {
-    margin-top: 14px;
+  .connectBtnRow {
+    margin-top: 16px;
   }
 
   .radioBox {

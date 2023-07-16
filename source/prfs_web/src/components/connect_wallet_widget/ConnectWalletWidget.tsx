@@ -22,7 +22,7 @@ const ConnectWalletWidget: React.FC<any> = ({ className }) => {
             <p className={styles.desc}>{i18n.metamask_desc}</p>
           </div>
         </div>
-        <div className={styles.connect_btn_row}>
+        <div className={styles.connectBtnRow}>
           <button>{i18n.connect}</button>
         </div>
       </div>

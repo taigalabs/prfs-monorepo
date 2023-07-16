@@ -15,6 +15,13 @@
     font-size: 1.4em;
     font-weight: 500;
     margin-bottom: 28px;
+
+    a {
+      color: inherit;
+      &:hover {
+        text-decoration: none;
+      }
+    }
   }
 
   .title {
@@ -31,6 +38,7 @@
   }
 
   .footer {
+    color: #5a5b5b;
     display: flex;
     margin-top: 52px;
     flex-grow: 1;
