@@ -1,6 +1,7 @@
 mod eth_account;
 mod eth_account_tree_node;
 mod eth_tree_node;
+mod prfs_account;
 mod proof_type;
 
 pub use eth_account::*;
