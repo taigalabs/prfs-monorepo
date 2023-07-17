@@ -77,18 +77,17 @@ const SignUp: React.FC = () => {
 
       const wallet = await connect(metamaskConfig);
       const signer = await wallet.getSigner();
-      let hash = await signer.signMessage(passhash);
+      const sig = await signer.signMessage(passhash);
 
-      console.log(55, hash);
     }
 
     fn().then();
   }, [walletAddr, passhash, setSignUpAlert]);
 
 
-  const handleConnect = React.useCallback(() => {
-    console.log(11);
-  }, []);
+  const handleConnect = React.useCallback((addr: string) => {
+    setWalletAddr(addr);
+  }, [setWalletAddr]);
 
   return (
     <SignInLayout title={i18n.sign_up} desc={i18n.sign_up_desc}>
