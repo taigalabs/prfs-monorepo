@@ -1,7 +1,6 @@
 {
   "name": "@taigalabs/prfs-circuits",
   "version": "0.1.0",
-  "main": "index.js",
   "license": "MIT",
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",

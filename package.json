@@ -25,10 +25,10 @@
   },
   "workspaces": {
     "packages": [
-      "externals/lib",
       "externals/incremental-merkle-tree",
       "source/prfs_js",
       "source/prfs_web",
+      "source/prfs_circuits",
       "source/e2e_test_node"
     ]
   },
