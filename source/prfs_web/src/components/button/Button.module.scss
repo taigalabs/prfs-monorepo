@@ -1,24 +1,38 @@
 .a {
   border-radius: 0;
-  background-color: #c8d0ca;
-  color: #2f3139;
+  background-color: var(--gray-50);
+  color: var(--blue-black-50);
   font-weight: 500;
   padding: 8px 12px;
 
   &:hover {
-    background-color: #b5bdb7;
+    background-color: var(--gray-40);
     cursor: pointer;
   }
 }
 
 .b {
-  background-color: #82f7c0;
-  color: #2f3139;
+  background-color: var(--bright-green-50);
+  color: var(--blue-black-50);
   font-weight: 500;
   padding: 8px 12px;
 
   &:hover {
-    background-color: #7beab6;
+    background-color: var(--bright-green-30);
+    cursor: pointer;
+  }
+}
+
+.transparent_a {
+  border: 1px solid gray;
+  border-radius: 1px;
+  color: var(--gray-30);
+  font-weight: 500;
+  padding: 8px 12px;
+
+  &:hover {
+    color: var(--black-20);
+    background-color: var(--bright-gray-40);
     cursor: pointer;
   }
 }

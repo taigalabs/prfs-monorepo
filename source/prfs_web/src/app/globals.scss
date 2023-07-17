@@ -1,13 +1,20 @@
 :root {
-  /* --max-width: 1100px; */
-  /* --border-radius: 12px; */
-  /* --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono', */
-  /*   'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro', */
-  /*   'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace; */
+  --black-20: #121313;
 
-  /* --foreground-rgb: 0, 0, 0; */
-  /* --background-start-rgb: 214, 219, 220; */
-  /* --background-end-rgb: 255, 255, 255; */
+  --gray-20: #373739;
+  --gray-30: #555756;
+  --gray-40: #b5bdb7;
+  --gray-50: #c8d0ca;
+
+  --bright-gray-40: #ececec;
+  --bright-gray-50: #f4f4f5;
+
+  --bright-green-30: #7beab6;
+  --bright-green-50: #82f7c0;
+
+  --green-50: #3f8386;
+
+  --blue-black-50: #2f3139;
 
   /* --primary-glow: conic-gradient( */
   /*   from 180deg at 50% 50%, */
@@ -33,19 +40,10 @@
   /*   #00000010, */
   /*   #00000080 */
   /* ); */
-
-  /* --callout-rgb: 238, 240, 241; */
-  /* --callout-border-rgb: 172, 175, 176; */
-  /* --card-rgb: 180, 185, 188; */
-  /* --card-border-rgb: 131, 134, 135; */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* --foreground-rgb: 255, 255, 255; */
-    /* --background-start-rgb: 0, 0, 0; */
-    /* --background-end-rgb: 0, 0, 0; */
-
     /* --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0)); */
     /* --secondary-glow: linear-gradient( */
     /*   to bottom right, */
@@ -89,6 +87,8 @@ body {
   overflow: auto;
   display: flex;
   flex-direction: column;
+  background-color: var(--bright-gray-50);
+  /* border: 1px solid blue; */
 }
 
 html,
@@ -98,24 +98,14 @@ body {
   font-size: 14px;
 }
 
-body {
-  /* color: rgb(var(--foreground-rgb)); */
-  /* background: linear-gradient( */
-  /*     to bottom, */
-  /*     transparent, */
-  /*     rgb(var(--background-end-rgb)) */
-  /*   ) */
-  /*   rgb(var(--background-start-rgb)); */
-  /* border: 1px solid blue; */
-}
-
 a {
-  color: #3f8386;
+  color: inherit;
+  margin:0;
+  padding:0;
+  font-size:100%;
+  vertical-align:baseline;
+  background:transparent;
   text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
 }
 
 ul,

@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
+import { ethers } from 'ethers';
 
 import SignInLayout from "@/layouts/sign_in_layout/SignInLayout";
 import Widget from "@/components/widget/Widget";
@@ -19,7 +20,6 @@ const SignUp: React.FC = () => {
 
   const [walletAddr, setWalletAddr] = React.useState("");
   const [passcode, setPasscode] = React.useState("");
-  const [id, setId] = React.useState("");
   const [passhash, setPasshash] = React.useState("");
   const [signUpAlert, setSignUpAlert] = React.useState("");
 
@@ -28,6 +28,7 @@ const SignUp: React.FC = () => {
       const wallet = await connect(metamaskConfig);
       console.log("wallet", wallet);
     }
+
     fn().then();
   }, []);
 
@@ -58,20 +59,16 @@ const SignUp: React.FC = () => {
   const handleClickHash = React.useCallback(() => {
     async function fn() {
       if (passcode.length > 0) {
-        let prfs_id_msg = `PRFS_ID_${passcode}`;
         let prfs_pw_msg = `PRFS_PW_${passcode}`;
+        let pw_hash = ethers.utils.hashMessage(prfs_pw_msg);
 
-        // let id_hash = ethers.utils.hashMessage(prfs_id_msg);
-        // let pw_hash = ethers.utils.hashMessage(prfs_pw_msg);
-
-        // setId(id_hash);
-        // setPasshash(pw_hash);
+        setPasshash(pw_hash);
       } else {
       }
     }
 
     fn().then();
-  }, [passcode, setId, setPasshash]);
+  }, [passcode, setPasshash]);
 
   const handleConnect = React.useCallback(() => {
     console.log(11);
@@ -81,7 +78,7 @@ const SignUp: React.FC = () => {
     <SignInLayout title={i18n.sign_up} desc={i18n.sign_up_desc}>
       <div className={styles.wrapper}>
         <div className={styles.inner}>
-          <div>
+          <div className={styles.signInBtnRow}>
             <Button variant="transparent_a">
               <Link href="/signin">{i18n.sign_in_to_existing}</Link>
             </Button>
@@ -106,10 +103,6 @@ const SignUp: React.FC = () => {
             {passhash && (
               <div className={styles.widgetInner}>
                 <div className={styles.hashResult}>
-                  <div className={styles.id}>
-                    <p className={styles.label}>id</p>
-                    <p className={styles.val}>{id}</p>
-                  </div>
                   <div>
                     <p className={styles.label}>passhash</p>
                     <p className={styles.val}>{passhash}</p>
