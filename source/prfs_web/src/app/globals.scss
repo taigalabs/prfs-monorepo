@@ -81,12 +81,14 @@
 
 html {
   height: 100%;
-  /* border: 1px solid red; */
+  border: 1px solid red;
 }
 
 body {
   min-height: 100%;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 html,
