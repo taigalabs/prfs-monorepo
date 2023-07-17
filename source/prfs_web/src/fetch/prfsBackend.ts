@@ -1,9 +1,11 @@
 export interface SignUpRequest {
-  sig: String,
+  sig: string,
 }
 
 export interface SignUpResponse {
-  status: String,
+  code: string,
+  error?: any,
+  result: string,
 }
 
 export async function signUpPrfsAccount(signUpReq: SignUpRequest) {
@@ -17,12 +19,8 @@ export async function signUpPrfsAccount(signUpReq: SignUpRequest) {
       body: JSON.stringify(signUpReq),
     });
 
+
     let resp: SignUpResponse = await res.json();
-
-    if (!res.ok) {
-      console.log('error fetching', res);
-    }
-
     return resp;
   } catch (err) {
     console.log('error fetching', err);

@@ -85,8 +85,10 @@ const SignUp: React.FC = () => {
       };
 
       let res = await prfsBackend.signUpPrfsAccount(signUpReq);
-      console.log(11, res);
-
+      if (res.error) {
+        setSignUpAlert(res.error);
+      } else {
+      }
     }
 
     fn().then();

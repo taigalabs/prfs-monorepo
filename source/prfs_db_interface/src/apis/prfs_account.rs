@@ -17,7 +17,7 @@ impl Database {
             PrfsAccount::table_name(),
             where_clause
         );
-        // println!("stmt: {}", stmt);
+        println!("stmt: {}", stmt);
 
         let rows = match self.pg_client.query(&stmt, &[]).await {
             Ok(r) => r,
@@ -27,6 +27,7 @@ impl Database {
                 return Err(err.into());
             }
         };
+        println!("rows: {:?}", rows);
 
         let prfs_accounts: Vec<PrfsAccount> = rows
             .iter()

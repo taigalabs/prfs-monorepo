@@ -1,6 +1,6 @@
 mod apis;
-mod errors;
 mod middleware;
+mod responses;
 pub mod router;
 mod state;
 

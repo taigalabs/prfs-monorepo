@@ -6,6 +6,7 @@
   .inner {
     display: flex;
     flex-direction: column;
+    max-width: 610px;
   }
 
   .upper {
@@ -13,7 +14,6 @@
   }
 
   .widget {
-    max-width: 610px;
     margin-bottom: 31px;
   }
 
@@ -70,7 +70,8 @@
 
   .signUpAlert {
     color: red;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    word-wrap: break-word;
   }
 
   .footer {

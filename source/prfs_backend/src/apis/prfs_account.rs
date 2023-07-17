@@ -1,4 +1,9 @@
-use crate::{apis::prfs_account, errors::ApiErrorResponse, state::ServerState, BackendError};
+use crate::{
+    apis::prfs_account,
+    responses::{ApiErrorResponse, ResponseCode},
+    state::ServerState,
+    BackendError,
+};
 use hyper::{body, header, Body, Request, Response, StatusCode};
 use prfs_db_interface::models::{EthTreeNode, PrfsAccount};
 use routerify::prelude::*;
@@ -14,6 +19,7 @@ struct SignUpRequest {
 
 #[derive(Serialize, Deserialize, Debug)]
 struct SignUpResponse {
+    code: ResponseCode,
     status: String,
 }
 
@@ -35,9 +41,11 @@ pub async fn sign_up(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     let prfs_accounts = db.get_prfs_account(&where_clause).await.unwrap();
 
     if prfs_accounts.len() > 0 {
+        println!("prfs_accounts: {:?}", prfs_accounts);
+
         let resp = ApiErrorResponse {
-            code: "".to_string(),
-            msg: format!("Account already exists, sig: {}", sign_up_req.sig),
+            code: ResponseCode::ERROR,
+            error: format!("Accout already exists, sig: {}", sign_up_req.sig),
         };
 
         let data = serde_json::to_vec(&resp).unwrap();
@@ -57,6 +65,7 @@ pub async fn sign_up(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     db.insert_prfs_account(prfs_account).await.unwrap();
 
     let res = SignUpResponse {
+        code: ResponseCode::SUCCESS,
         status: String::from("ok"),
     };
 
