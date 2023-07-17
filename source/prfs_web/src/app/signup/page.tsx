@@ -11,6 +11,7 @@ import styles from "./SignUp.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
 import Button from "@/components/button/Button";
+import * as prfsBackend from '@/fetch/prfsBackend';
 
 const metamaskConfig = metamaskWallet();
 
@@ -79,22 +80,13 @@ const SignUp: React.FC = () => {
       const signer = await wallet.getSigner();
       const sig = await signer.signMessage(passhash);
 
-      let data = {
+      let signUpReq = {
         sig,
       };
 
-      let res = await fetch('http://localhost:4000/prfs_account::sign_up', {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      let res = await prfsBackend.signUpPrfsAccount(signUpReq);
+      console.log(11, res);
 
-      let b = await res.json();
-
-      console.log(55, b);
     }
 
     fn().then();
