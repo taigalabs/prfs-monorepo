@@ -7,4 +7,5 @@ mod proof_type;
 pub use eth_account::*;
 pub use eth_account_tree_node::*;
 pub use eth_tree_node::*;
+pub use prfs_account::*;
 pub use proof_type::*;
