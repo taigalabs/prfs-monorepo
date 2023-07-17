@@ -14,8 +14,8 @@ import styles from "./Generate.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Widget from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
-import { proveMembershipMock } from "@/fns/prfsMock";
-import { proveMembership } from "@/fns/prfs";
+import { proveMembershipMock } from "@/functions/prfsMock";
+import { proveMembership } from "@/functions/prfs";
 
 const metamaskConfig = metamaskWallet();
 

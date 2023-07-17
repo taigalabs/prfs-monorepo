@@ -1,10 +1,8 @@
 .wrapper {
   display: flex;
   justify-content: center;
-  height: 100%;
   padding: 80px 0;
   background-color: #f4f4f5;
-  overflow: scroll;
 
   .inner {
     display: flex;
@@ -41,6 +39,7 @@
     color: #5a5b5b;
     display: flex;
     margin-top: 105px;
+    margin-bottom: 50px;
     flex-grow: 1;
   }
 }
