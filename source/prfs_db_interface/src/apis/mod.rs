@@ -1,4 +1,6 @@
-use super::models::Account;
+mod prfs_account;
+
+use super::models::EthAccount;
 use crate::{
     database::Database,
     models::{EthAccountTreeNode, EthTreeNode, ProofType},
@@ -9,10 +11,13 @@ use std::{collections::BTreeMap, fs::write};
 use tokio_postgres::{Client as PGClient, Row};
 
 impl Database {
-    pub async fn get_accounts(&self, where_clause: &str) -> Result<Vec<Account>, DbInterfaceError> {
+    pub async fn get_accounts(
+        &self,
+        where_clause: &str,
+    ) -> Result<Vec<EthAccount>, DbInterfaceError> {
         let stmt = format!(
             "SELECT * from {} where {}",
-            Account::table_name(),
+            EthAccount::table_name(),
             where_clause
         );
         // println!("stmt: {}", stmt);
@@ -26,13 +31,13 @@ impl Database {
             }
         };
 
-        let accounts: Vec<Account> = rows
+        let accounts: Vec<EthAccount> = rows
             .iter()
             .map(|r| {
                 let addr: String = r.try_get("addr").expect("addr should be present");
                 let wei: Decimal = r.try_get("wei").expect("wei should be present");
 
-                Account { addr, wei }
+                EthAccount { addr, wei }
             })
             .collect();
 
@@ -97,7 +102,7 @@ impl Database {
 
     pub async fn insert_accounts(
         &self,
-        balances: BTreeMap<String, Account>,
+        balances: BTreeMap<String, EthAccount>,
         update_on_conflict: bool,
     ) -> Result<u64, DbInterfaceError> {
         let mut values = Vec::with_capacity(balances.len());
@@ -109,14 +114,14 @@ impl Database {
         let stmt = if update_on_conflict {
             format!(
                 "INSERT INTO {} (addr, wei) VALUES {} ON CONFLICT(addr) {}",
-                Account::table_name(),
+                EthAccount::table_name(),
                 values.join(","),
                 "DO UPDATE SET wei = excluded.wei, updated_at = now()",
             )
         } else {
             format!(
                 "INSERT INTO {} (addr, wei) VALUES {} ON CONFLICT DO NOTHING",
-                Account::table_name(),
+                EthAccount::table_name(),
                 values.join(",")
             )
         };
