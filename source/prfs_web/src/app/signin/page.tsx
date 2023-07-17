@@ -5,14 +5,15 @@ import Link from "next/link";
 import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
 
-import { stateContext } from '@/contexts/state';
+import { stateContext } from "@/contexts/state";
 import SignInLayout from "@/layouts/sign_in_layout/SignInLayout";
 import Widget from "@/components/widget/Widget";
 import styles from "./SignIn.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
 import Button from "@/components/button/Button";
-import * as prfsBackend from '@/fetch/prfsBackend';
+import * as prfsBackend from "@/fetch/prfsBackend";
+import { SignInAction } from "@/actions/actions";
 
 const metamaskConfig = metamaskWallet();
 
@@ -75,10 +76,17 @@ const SignIn: React.FC = () => {
       try {
         let resp = await prfsBackend.signInPrfsAccount(sig);
 
+        if (resp.error) {
+          setSignInAlert(resp.error);
+          return;
+        }
 
-      } catch (err) {
+        let action: SignInAction = {
+          type: "sign_in"
+        };
 
-      }
+        dispatch(action);
+      } catch (err) {}
     }
 
     fn().then();
