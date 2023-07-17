@@ -19,23 +19,52 @@ const SignUp: React.FC = () => {
   const connect = useConnect();
 
   const [walletAddr, setWalletAddr] = React.useState("");
+  const [hashAlert, setHashAlert] = React.useState("");
   const [passcode, setPasscode] = React.useState("");
+  const [passcodeConfirm, setPasscodeConfirm] = React.useState("");
   const [passhash, setPasshash] = React.useState("");
   const [signUpAlert, setSignUpAlert] = React.useState("");
 
-  React.useEffect(() => {
+  const handleChangePasscode = React.useCallback(
+    (ev: any) => {
+      setPasscode(ev.target.value);
+    },
+    [setPasscode]
+  );
+
+  const handleChangePasscodeConfirm = React.useCallback(
+    (ev: any) => {
+      setPasscodeConfirm(ev.target.value);
+    },
+    [setPasscodeConfirm]
+  );
+
+  const handleClickHash = React.useCallback(() => {
     async function fn() {
-      const wallet = await connect(metamaskConfig);
-      console.log("wallet", wallet);
+      if (passcode.length < 0) {
+        setHashAlert("Passcode is too short");
+        setPasshash("");
+        return;
+      }
+
+      if (passcode !== passcodeConfirm) {
+        setHashAlert("Two passcodes are not identical");
+        setPasshash("");
+        return;
+      }
+
+      let prfs_pw_msg = `PRFS_PW_${passcode}`;
+      let pw_hash = ethers.utils.hashMessage(prfs_pw_msg);
+
+      setHashAlert("");
+      setPasshash(pw_hash);
     }
 
     fn().then();
-  }, []);
+  }, [passcode, passcodeConfirm, setPasshash, setHashAlert]);
 
   const handleClickSignUp = React.useCallback(() => {
     async function fn() {
-      console.log(22, walletAddr, passhash);
-
       if (walletAddr.length < 1) {
         setSignUpAlert("Connect a wallet first");
         return;
@@ -56,19 +85,6 @@ const SignUp: React.FC = () => {
     fn().then();
   }, [walletAddr, passhash, setSignUpAlert]);
 
-  const handleClickHash = React.useCallback(() => {
-    async function fn() {
-      if (passcode.length > 0) {
-        let prfs_pw_msg = `PRFS_PW_${passcode}`;
-        let pw_hash = ethers.utils.hashMessage(prfs_pw_msg);
-
-        setPasshash(pw_hash);
-      } else {
-      }
-    }
-
-    fn().then();
-  }, [passcode, setPasshash]);
 
   const handleConnect = React.useCallback(() => {
     console.log(11);
@@ -88,12 +104,17 @@ const SignUp: React.FC = () => {
             <div className={styles.widgetInner}>
               <div className={styles.passcode}>
                 <p>{i18n.passcode}</p>
-                <input type="password" />
+                <input type="password" onChange={handleChangePasscode} />
               </div>
               <div className={styles.passcode}>
                 <p>{i18n.passcode_confirm}</p>
-                <input type="password" />
+                <input type="password" onChange={handleChangePasscodeConfirm} />
               </div>
+              {hashAlert.length > 0 && (
+                <div className={styles.hashAlert}>
+                  {hashAlert}
+                </div>
+              )}
               <div className={styles.hashBtnRow}>
                 <Button variant="a" handleClick={handleClickHash}>
                   {i18n.hash}
