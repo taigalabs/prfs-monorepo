@@ -1,4 +1,5 @@
 mod apis;
+mod errors;
 mod middleware;
 pub mod router;
 mod state;

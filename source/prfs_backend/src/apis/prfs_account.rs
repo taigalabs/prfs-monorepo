@@ -1,17 +1,10 @@
-use crate::{state::ServerState, BackendError};
+use crate::{apis::prfs_account, errors::ApiErrorResponse, state::ServerState, BackendError};
 use hyper::{body, header, Body, Request, Response, StatusCode};
-use prfs_db_interface::models::EthTreeNode;
+use prfs_db_interface::models::{EthTreeNode, PrfsAccount};
 use routerify::prelude::*;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use std::convert::Infallible;
-
-#[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "camelCase")]
-struct NodePos {
-    pub pos_w: Decimal,
-    pub pos_h: i32,
-}
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
@@ -20,8 +13,8 @@ struct SignUpRequest {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-struct GetNodesResponse {
-    nodes: Vec<EthTreeNode>,
+struct SignUpResponse {
+    status: String,
 }
 
 pub async fn sign_up(req: Request<Body>) -> Result<Response<Body>, Infallible> {
@@ -42,19 +35,32 @@ pub async fn sign_up(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     let prfs_accounts = db.get_prfs_account(&where_clause).await.unwrap();
 
     if prfs_accounts.len() > 0 {
-        let msg = format!("Account already exists, sig: {}", sign_up_req.sig);
+        let resp = ApiErrorResponse {
+            code: "".to_string(),
+            msg: format!("Account already exists, sig: {}", sign_up_req.sig),
+        };
+
+        let data = serde_json::to_vec(&resp).unwrap();
+
         let res = Response::builder()
             .status(StatusCode::BAD_REQUEST)
-            .body(Body::from(msg))
+            .body(Body::from(data))
             .unwrap();
 
         return Ok(res);
     }
 
-    // let get_nodes_resp = GetNodesResponse { nodes };
-    // let data = serde_json::to_string(&get_nodes_resp).unwrap();
+    let prfs_account = PrfsAccount {
+        sig: sign_up_req.sig.to_string(),
+    };
 
-    let data = "".to_string();
+    db.insert_prfs_account(prfs_account).await.unwrap();
+
+    let res = SignUpResponse {
+        status: String::from("ok"),
+    };
+
+    let data = serde_json::to_vec(&res).unwrap();
 
     let res = Response::builder()
         .header(header::CONTENT_TYPE, "application/json")

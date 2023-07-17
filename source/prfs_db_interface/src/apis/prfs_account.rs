@@ -45,7 +45,7 @@ impl Database {
         prfs_account: PrfsAccount,
     ) -> Result<u64, DbInterfaceError> {
         let stmt = format!(
-            "INSERT INTO {} (sig) VALUES {} ON CONFLICT DO NOTHING",
+            "INSERT INTO {} (sig) VALUES ('{}') ON CONFLICT DO NOTHING",
             PrfsAccount::table_name(),
             prfs_account.sig,
         );
