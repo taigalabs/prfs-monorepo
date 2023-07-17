@@ -8,6 +8,6 @@ pub struct PrfsAccount {
 
 impl PrfsAccount {
     pub fn table_name() -> &'static str {
-        "prfs_account"
+        "prfs_accounts"
     }
 }

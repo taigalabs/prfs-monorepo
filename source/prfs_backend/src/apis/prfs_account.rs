@@ -1,5 +1,5 @@
 use crate::{state::ServerState, BackendError};
-use hyper::{body, header, Body, Request, Response};
+use hyper::{body, header, Body, Request, Response, StatusCode};
 use prfs_db_interface::models::EthTreeNode;
 use routerify::prelude::*;
 use rust_decimal::Decimal;
@@ -37,31 +37,21 @@ pub async fn sign_up(req: Request<Body>) -> Result<Response<Body>, Infallible> {
 
     println!("sign_up_req: {:?}", sign_up_req);
 
-    // let whre: Vec<String> = sign_up_req
-    //     .pos
-    //     .iter()
-    //     .map(|mp| format!("(pos_w = {} and pos_h = {})", mp.pos_w, mp.pos_h))
-    //     .collect();
+    let where_clause = format!("sig = '{}'", sign_up_req.sig);
 
-    // let whre = whre.join(" OR ");
+    let prfs_accounts = db.get_prfs_account(&where_clause).await.unwrap();
 
-    // let where_clause = format!(
-    //     "set_id = '{}' AND ({}) ORDER BY pos_h",
-    //     set_id.to_string(),
-    //     whre,
-    // );
+    if prfs_accounts.len() > 0 {
+        let msg = format!("Account already exists, sig: {}", sign_up_req.sig);
+        let res = Response::builder()
+            .status(StatusCode::BAD_REQUEST)
+            .body(Body::from(msg))
+            .unwrap();
 
-    // println!("where_clause, {}", where_clause);
-
-    // let nodes = db
-    //     .get_eth_tree_nodes(&where_clause)
-    //     .await
-    //     .expect("get nodes fail");
-
-    // // println!("merkle_path: {:?}", merkle_path);
+        return Ok(res);
+    }
 
     // let get_nodes_resp = GetNodesResponse { nodes };
-
     // let data = serde_json::to_string(&get_nodes_resp).unwrap();
 
     let data = "".to_string();
