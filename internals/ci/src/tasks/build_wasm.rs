@@ -3,6 +3,7 @@ use colored::Colorize;
 use std::{fs::File, io::Write, path::PathBuf, process::Command};
 
 const WASM_PACK_VERSION: &str = "wasm-pack 0.12.1";
+const RUST_NIGHTLY_TOOLCHAIN: &str = "nightly-2023-05-22-x86_64-unknown-linux-gnu";
 
 pub struct BuildWasmTask;
 
@@ -57,7 +58,7 @@ fn build_wasm(build_handle: &mut BuildHandle, paths: &Paths) {
         .current_dir(prfs_wasm_path)
         .args([
             "run",
-            "nightly-2023-05-22-x86_64-unknown-linux-gnu",
+            RUST_NIGHTLY_TOOLCHAIN,
             "wasm-pack",
             "build",
             "--target",
