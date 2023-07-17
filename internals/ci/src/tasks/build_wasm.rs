@@ -2,7 +2,7 @@ use crate::{paths::Paths, task::Task, BuildHandle, CiError};
 use colored::Colorize;
 use std::{fs::File, io::Write, path::PathBuf, process::Command};
 
-const WASM_PACK_VERSION: &str = "wasm-pack 0.12.0";
+const WASM_PACK_VERSION: &str = "wasm-pack 0.12.1";
 
 pub struct BuildWasmTask;
 
