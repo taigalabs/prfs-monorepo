@@ -11,6 +11,7 @@ import styles from "./SignIn.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
 import Button from "@/components/button/Button";
+import * as prfsBackend from '@/fetch/prfsBackend';
 
 const metamaskConfig = metamaskWallet();
 
@@ -67,9 +68,13 @@ const SignIn: React.FC = () => {
 
       const wallet = await connect(metamaskConfig);
       const signer = await wallet.getSigner();
-      let hash = await signer.signMessage(passhash);
+      let sig = await signer.signMessage(passhash);
 
-      console.log(55, hash);
+      try {
+        let resp = await prfsBackend.signInPrfsAccount(sig);
+      } catch (err) {
+
+      }
     }
 
     fn().then();

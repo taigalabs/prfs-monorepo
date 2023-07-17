@@ -80,14 +80,9 @@ const SignUp: React.FC = () => {
       const signer = await wallet.getSigner();
       const sig = await signer.signMessage(passhash);
 
-      let signUpReq = {
-        sig,
-      };
+      let resp = await prfsBackend.signUpPrfsAccount(sig);
 
-      let res = await prfsBackend.signUpPrfsAccount(signUpReq);
-      if (res.error) {
-        setSignUpAlert(res.error);
-      } else {
+      if (resp.error) {
       }
     }
 
