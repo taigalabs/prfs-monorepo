@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
 
+import { stateContext } from '@/contexts/state';
 import SignInLayout from "@/layouts/sign_in_layout/SignInLayout";
 import Widget from "@/components/widget/Widget";
 import styles from "./SignIn.module.scss";
@@ -19,6 +20,7 @@ const SignIn: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const connect = useConnect();
 
+  const { state, dispatch } = React.useContext(stateContext);
   const [walletAddr, setWalletAddr] = React.useState("");
   const [passcode, setPasscode] = React.useState("");
   const [passhash, setPasshash] = React.useState("");
@@ -72,6 +74,8 @@ const SignIn: React.FC = () => {
 
       try {
         let resp = await prfsBackend.signInPrfsAccount(sig);
+
+
       } catch (err) {
 
       }
