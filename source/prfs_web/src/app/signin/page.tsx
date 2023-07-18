@@ -13,7 +13,7 @@ import styles from "./SignIn.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
 import Button from "@/components/button/Button";
-import * as prfsBackend from "@/fetch/prfsBackend";
+import { signIn } from "@/functions/prfsAccount";
 
 const metamaskConfig = metamaskWallet();
 
@@ -62,27 +62,11 @@ const SignIn: React.FC = () => {
 
   const handleClickSignIn = React.useCallback(() => {
     async function fn() {
-      if (walletAddr.length < 1) {
-        setSignInAlert("Connect a wallet first");
-        return;
-      }
-
-      if (passhash.length < 1) {
-        setSignInAlert("Hash passcode first");
-        return;
-      }
-
       const wallet = await connect(metamaskConfig);
       const signer = await wallet.getSigner();
-      let sig = await signer.signMessage(passhash);
 
       try {
-        let resp = await prfsBackend.signInPrfsAccount(sig);
-
-        if (resp.error) {
-          setSignInAlert(resp.error);
-          return;
-        }
+        let resp = await signIn(walletAddr, passhash, signer);
 
         dispatch({
           type: "sign_in",
@@ -91,8 +75,7 @@ const SignIn: React.FC = () => {
 
         router.push("/");
       } catch (err) {
-        console.log(err);
-        setSignInAlert("sign in fail");
+        setSignInAlert(err);
       }
     }
 

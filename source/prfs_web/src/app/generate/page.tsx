@@ -14,21 +14,20 @@ import styles from "./Generate.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Widget from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
-import { proveMembershipMock } from "@/functions/prfsMock";
-import { proveMembership } from "@/functions/prfs";
+import { proveMembership, proveMembershipMock } from "@/functions/prfsCrypto";
 
 const metamaskConfig = metamaskWallet();
 
 const Generate: React.FC = () => {
   let i18n = React.useContext(i18nContext);
 
-  const proverAddressMembershipMock = React.useCallback(() => {
+  const proveAddressMembershipMock = React.useCallback(() => {
     proveMembershipMock().then(() => {});
   }, []);
 
   const connect = useConnect();
 
-  const proverAddressMembership = React.useCallback(() => {
+  const proveAddressMembership = React.useCallback(() => {
     const fn = async () => {
       const wallet = await connect(metamaskConfig);
 
@@ -49,7 +48,7 @@ const Generate: React.FC = () => {
         <Table />
       </Widget>
       <div>
-        <button onClick={proverAddressMembership}>btn</button>
+        <button onClick={proveAddressMembership}>btn</button>
       </div>
     </DefaultLayout>
   );

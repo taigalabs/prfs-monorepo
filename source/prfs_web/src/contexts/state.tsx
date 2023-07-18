@@ -1,3 +1,5 @@
+"use client";
+
 import { Action } from "@/state/actions";
 import React from "react";
 import reducer, { AppState } from "@/state/reducer";

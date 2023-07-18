@@ -82,4 +82,3 @@ export interface PrfsMerkleProof {
   siblings: string[];
   pathIndices: number[];
 }
-

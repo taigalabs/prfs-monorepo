@@ -15,7 +15,7 @@ export interface SignUpResponse {
   };
 }
 
-export async function signUpPrfsAccount(sig: string) {
+async function signUpPrfsAccount(sig: string) {
   let signUpReq: SignInRequest = {
     sig,
   };
@@ -50,7 +50,7 @@ export interface SignInResponse {
   };
 }
 
-export async function signInPrfsAccount(sig: string) {
+async function signInPrfsAccount(sig: string) {
   let signInReq: SignInRequest = {
     sig,
   };
@@ -71,3 +71,8 @@ export async function signInPrfsAccount(sig: string) {
     console.log("error fetching", err);
   }
 }
+
+export default {
+  signInPrfsAccount,
+  signUpPrfsAccount,
+};
