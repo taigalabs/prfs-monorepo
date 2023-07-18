@@ -22,6 +22,7 @@ export default {
   sign_up_desc:
     "Sign up for Prfs. To learn more about account registration, visit our upcoming blog",
   sign_in: "Sign in",
+  sign_out: "Sign out",
   sign_in_desc: "Or <a href='/signup'>create</a> a new Prfs account",
   copyright: "© 2023 Prfs. All rights reserved.",
   wallet_addr: "Wallet address",
@@ -29,5 +30,5 @@ export default {
   hash_and_sign_in: "Hash & Sign in",
   passcode: "Passcode",
   passcode_confirm: "Confirm passcode",
-  sign_in_to_existing: "Sign in to an existing Prfs account"
+  sign_in_to_existing: "Sign in to an existing Prfs account",
 };

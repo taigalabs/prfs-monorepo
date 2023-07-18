@@ -1,4 +1,10 @@
-import { Action, LoadPrfsAccountAction, SignInAction, SignUpAction } from "./actions";
+import {
+  Action,
+  LoadPrfsAccountAction,
+  SignInAction,
+  SignOutAction,
+  SignUpAction,
+} from "./actions";
 
 export interface PrfsAccount {
   sig: string;
@@ -7,7 +13,7 @@ export interface PrfsAccount {
 }
 
 export interface AppState {
-  prfsAccount: PrfsAccount | undefined;
+  prfsAccount: PrfsAccount | null;
 }
 
 const reducer = (state: AppState, action: Action) => {
@@ -20,6 +26,8 @@ const reducer = (state: AppState, action: Action) => {
       return handleSignUp(state, action);
     case "load_prfs_account":
       return handleLoadPrfsAccount(state, action);
+    case "sign_out":
+      return handleSignOut(state, action);
     default:
       throw new Error("no action handler");
   }
@@ -57,5 +65,12 @@ function handleLoadPrfsAccount(state: AppState, action: LoadPrfsAccountAction): 
       id: action.payload.id,
       walletAddr: action.payload.walletAddr,
     },
+  };
+}
+
+function handleSignOut(state: AppState, _action: SignOutAction): AppState {
+  return {
+    ...state,
+    prfsAccount: null,
   };
 }

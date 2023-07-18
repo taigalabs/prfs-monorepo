@@ -21,6 +21,6 @@ export async function signIn(walletAddr: string, passhash: string, signer: ether
 
     return resp;
   } catch (err) {
-    throw new Error("sign in fail, err: %s", err);
+    throw new Error(`sign in fail, err: ${err}`);
   }
 }

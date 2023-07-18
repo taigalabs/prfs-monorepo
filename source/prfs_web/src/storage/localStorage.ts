@@ -8,9 +8,10 @@ function getPrfsAccount(): PrfsAccount | null {
   let walletAddr = window.localStorage.getItem(PRFS_WALLET_ADDR);
 
   if (sig !== null && walletAddr !== null) {
+    let id = sig.substring(0, 10);
     return {
       sig,
-      id: sig.substring(0, 10),
+      id,
       walletAddr,
     };
   } else {

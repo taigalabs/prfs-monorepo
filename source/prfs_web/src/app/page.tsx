@@ -21,6 +21,7 @@ const Home: React.FC = () => {
 
   React.useEffect(() => {
     let prfsAccount = localStorage.getPrfsAccount();
+
     if (prfsAccount !== null) {
       dispatch({
         type: "load_prfs_account",

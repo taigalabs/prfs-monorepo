@@ -16,6 +16,10 @@ export type SignInAction = {
   };
 };
 
+export type SignOutAction = {
+  type: "sign_out";
+};
+
 export type SignUpAction = {
   type: "sign_up";
   payload: {
@@ -25,4 +29,4 @@ export type SignUpAction = {
   };
 };
 
-export type Action = SignInAction | SignUpAction | LoadPrfsAccountAction;
+export type Action = SignInAction | SignUpAction | LoadPrfsAccountAction | SignOutAction;

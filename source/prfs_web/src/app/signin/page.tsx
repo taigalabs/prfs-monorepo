@@ -30,7 +30,7 @@ const SignIn: React.FC = () => {
   const [signInAlert, setSignInAlert] = React.useState("");
 
   React.useEffect(() => {
-    console.log(11, state);
+    // console.log(11, state);
   }, [state]);
 
   const handleChangePasscode = React.useCallback(
@@ -82,7 +82,8 @@ const SignIn: React.FC = () => {
 
         router.push("/");
       } catch (err) {
-        setSignInAlert(err);
+        console.log(err);
+        setSignInAlert(err.toString());
       }
     }
 
