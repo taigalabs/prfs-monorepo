@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
+import { useRouter } from "next/navigation";
 
 import { stateContext } from "@/contexts/state";
 import SignInLayout from "@/layouts/sign_in_layout/SignInLayout";
@@ -13,13 +14,13 @@ import { i18nContext } from "@/contexts/i18n";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
 import Button from "@/components/button/Button";
 import * as prfsBackend from "@/fetch/prfsBackend";
-// import { signIn } from "@/actions/actionInducers";
 
 const metamaskConfig = metamaskWallet();
 
 const SignIn: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const connect = useConnect();
+  const router = useRouter();
 
   const { state, dispatch } = React.useContext(stateContext);
   const [walletAddr, setWalletAddr] = React.useState("");
@@ -83,6 +84,8 @@ const SignIn: React.FC = () => {
           type: "sign_in",
           payload: resp.payload,
         });
+
+        router.push("/");
       } catch (err) {
         console.log(err);
         setSignInAlert("sign in fail");
