@@ -35,7 +35,15 @@ const Sets: React.FC = () => {
       <div className={styles.wrapper}>
         <Paper className={styles.paper}>
           <Widget label={i18n.sets}>
-            <Table />
+            <Table
+              columns={[
+                { key: "id", label: "Id" },
+                { key: "label", label: "Label" },
+                { key: "desc", label: "Desc" },
+                { key: "created_at", label: "Created" },
+              ]}
+              onChangePage={_page => {}}
+            />
           </Widget>
         </Paper>
       </div>

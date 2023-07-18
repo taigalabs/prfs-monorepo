@@ -1,5 +1,7 @@
 .wrapper {
   display: flex;
+  flex-grow: 1;
+  flex-direction: column;
   padding: 14px 38px;
 
   .leftMenu {
