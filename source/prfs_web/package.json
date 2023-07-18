@@ -12,6 +12,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@ethereumjs/util": "^8.0.3",
+    "@floating-ui/react": "^0.24.8",
     "@mui/material": "^5.14.0",
     "@mui/styles": "^5.14.0",
     "@taigalabs/prfs-js": "*",
