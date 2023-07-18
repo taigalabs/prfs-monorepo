@@ -32,16 +32,18 @@ const Home: React.FC = () => {
 
   return (
     <DefaultLayout>
-      <Paper className={styles.paper}>
-        <Widget label={i18n.proofs}>
-          <Table />
-        </Widget>
-      </Paper>
-      <Paper className={styles.paper}>
-        <Widget label={i18n.proof_types}>
-          <Table />
-        </Widget>
-      </Paper>
+      <div className={styles.wrapper}>
+        <Paper className={styles.paper}>
+          <Widget label={i18n.proofs}>
+            <Table />
+          </Widget>
+        </Paper>
+        <Paper className={styles.paper}>
+          <Widget label={i18n.proof_types}>
+            <Table />
+          </Widget>
+        </Paper>
+      </div>
     </DefaultLayout>
   );
 };
