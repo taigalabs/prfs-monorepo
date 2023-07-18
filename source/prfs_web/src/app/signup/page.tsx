@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
+import { useRouter } from "next/navigation";
 
 import SignInLayout from "@/layouts/sign_in_layout/SignInLayout";
 import Widget from "@/components/widget/Widget";
@@ -20,6 +21,7 @@ const SignUp: React.FC = () => {
   let i18n = React.useContext(i18nContext);
   const connect = useConnect();
   const { state, dispatch } = React.useContext(stateContext);
+  const router = useRouter();
 
   const [walletAddr, setWalletAddr] = React.useState("");
   const [hashAlert, setHashAlert] = React.useState("");
@@ -89,9 +91,11 @@ const SignUp: React.FC = () => {
         }
 
         dispatch({
-          type: "sign_in",
+          type: "sign_up",
           payload: resp.payload,
         });
+
+        router.push("/");
       } catch (err) {}
     }
 

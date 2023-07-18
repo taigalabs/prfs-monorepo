@@ -43,7 +43,7 @@ impl Database {
 
     pub async fn insert_prfs_account(
         &self,
-        prfs_account: PrfsAccount,
+        prfs_account: &PrfsAccount,
     ) -> Result<u64, DbInterfaceError> {
         let stmt = format!(
             "INSERT INTO {} (sig) VALUES ('{}') ON CONFLICT DO NOTHING",

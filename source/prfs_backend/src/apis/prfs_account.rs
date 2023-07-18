@@ -37,11 +37,12 @@ pub async fn sign_up(req: Request<Body>) -> Result<Response<Body>, Infallible> {
 
     let prfs_accounts = db.get_prfs_account(&where_clause).await.unwrap();
 
-    if prfs_accounts.len() > 0 {
-        println!("prfs_accounts: {:?}", prfs_accounts);
+    println!("prfs_accounts: {:?}", prfs_accounts);
 
+    if prfs_accounts.len() > 0 {
         let resp =
             ApiResponse::new_error(format!("Accout already exists, sig: {}", sign_up_req.sig));
+
         return Ok(resp.into_hyper_response());
     }
 
@@ -49,13 +50,11 @@ pub async fn sign_up(req: Request<Body>) -> Result<Response<Body>, Infallible> {
         sig: sign_up_req.sig.to_string(),
     };
 
-    db.insert_prfs_account(prfs_account).await.unwrap();
-
-    let acc = prfs_accounts.get(0).unwrap();
+    db.insert_prfs_account(&prfs_account).await.unwrap();
 
     let resp = ApiResponse::new_success(SignUpRespPayload {
-        sig: acc.sig.to_string(),
-        id: acc.sig[..10].to_string(),
+        sig: prfs_account.sig.to_string(),
+        id: prfs_account.sig[..10].to_string(),
     });
 
     return Ok(resp.into_hyper_response());
