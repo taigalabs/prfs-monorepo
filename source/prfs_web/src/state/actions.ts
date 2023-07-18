@@ -1,3 +1,12 @@
+export type LoadPrfsAccountAction = {
+  type: "load_prfs_account";
+  payload: {
+    sig: string;
+    id: string;
+    walletAddr: string;
+  };
+};
+
 export type SignInAction = {
   type: "sign_in";
   payload: {
@@ -14,4 +23,4 @@ export type SignUpAction = {
   };
 };
 
-export type Action = SignInAction | SignUpAction;
+export type Action = SignInAction | SignUpAction | LoadPrfsAccountAction;

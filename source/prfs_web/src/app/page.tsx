@@ -13,14 +13,22 @@ import Table from "@/components/table/Table";
 import Widget from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
+import localStorage from "@/storage/localStorage";
 
 const Home: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const { state, dispatch } = React.useContext(stateContext);
 
   React.useEffect(() => {
-    console.log(22, state);
-  }, [state]);
+    console.log(33);
+    let prfsAccount = localStorage.getPrfsAccount();
+    if (prfsAccount !== null) {
+      dispatch({
+        type: "load_prfs_account",
+        payload: prfsAccount,
+      });
+    }
+  }, []);
 
   return (
     <DefaultLayout>
