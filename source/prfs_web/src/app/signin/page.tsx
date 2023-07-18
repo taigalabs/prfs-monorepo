@@ -13,7 +13,7 @@ import { i18nContext } from "@/contexts/i18n";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
 import Button from "@/components/button/Button";
 import * as prfsBackend from "@/fetch/prfsBackend";
-import { SignInAction } from "@/actions/actions";
+// import { signIn } from "@/actions/actionInducers";
 
 const metamaskConfig = metamaskWallet();
 
@@ -81,11 +81,10 @@ const SignIn: React.FC = () => {
           return;
         }
 
-        let action: SignInAction = {
-          type: "sign_in"
-        };
-
-        dispatch(action);
+        dispatch({
+          type: "sign_in",
+          payload: {},
+        });
       } catch (err) {
         console.log(err);
         setSignInAlert("sign in fail");

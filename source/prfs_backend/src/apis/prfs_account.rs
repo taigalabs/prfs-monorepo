@@ -19,6 +19,7 @@ struct SignUpRequest {
 #[derive(Serialize, Deserialize, Debug)]
 struct SignUpRespPayload {
     id: String,
+    sig: String,
 }
 
 pub async fn sign_up(req: Request<Body>) -> Result<Response<Body>, Infallible> {
@@ -53,6 +54,7 @@ pub async fn sign_up(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     let acc = prfs_accounts.get(0).unwrap();
 
     let resp = ApiResponse::new_success(SignUpRespPayload {
+        sig: acc.sig.to_string(),
         id: acc.sig[..10].to_string(),
     });
 
@@ -68,6 +70,7 @@ struct SignInRequest {
 #[derive(Serialize, Deserialize, Debug)]
 struct SignInRespPayload {
     sig: String,
+    id: String,
 }
 
 pub async fn sign_in(req: Request<Body>) -> Result<Response<Body>, Infallible> {
@@ -100,6 +103,7 @@ pub async fn sign_in(req: Request<Body>) -> Result<Response<Body>, Infallible> {
 
     let resp = ApiResponse::new_success(SignInRespPayload {
         sig: acc.sig.to_string(),
+        id: acc.sig[..10].to_string(),
     });
 
     return Ok(resp.into_hyper_response());
