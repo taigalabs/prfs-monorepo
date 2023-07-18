@@ -7,9 +7,7 @@ import reducer, { AppState } from "@/state/reducer";
 import localStorage from "@/storage/localStorage";
 
 const initialState: AppState = {
-  sig: undefined,
-  id: undefined,
-  walletAddr: undefined,
+  prfsAccount: undefined,
 };
 
 export const stateContext = React.createContext({

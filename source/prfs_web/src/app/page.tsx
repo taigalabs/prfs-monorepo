@@ -20,7 +20,6 @@ const Home: React.FC = () => {
   const { state, dispatch } = React.useContext(stateContext);
 
   React.useEffect(() => {
-    console.log(33);
     let prfsAccount = localStorage.getPrfsAccount();
     if (prfsAccount !== null) {
       dispatch({

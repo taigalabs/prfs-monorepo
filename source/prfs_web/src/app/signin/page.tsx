@@ -72,7 +72,10 @@ const SignIn: React.FC = () => {
 
         dispatch({
           type: "sign_in",
-          payload: resp.payload,
+          payload: {
+            ...resp.payload,
+            walletAddr,
+          },
         });
 
         localStorage.putPrfsAccount(resp.payload.sig, walletAddr);

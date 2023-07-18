@@ -12,7 +12,7 @@ import styles from "./SignUp.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
 import Button from "@/components/button/Button";
-import * as prfsBackend from "@/fetch/prfsBackend";
+import prfsBackend from "@/fetch/prfsBackend";
 import { stateContext } from "@/contexts/state";
 
 const metamaskConfig = metamaskWallet();
@@ -92,7 +92,10 @@ const SignUp: React.FC = () => {
 
         dispatch({
           type: "sign_up",
-          payload: resp.payload,
+          payload: {
+            ...resp.payload,
+            walletAddr,
+          },
         });
 
         router.push("/");

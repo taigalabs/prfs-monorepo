@@ -12,6 +12,7 @@ export type SignInAction = {
   payload: {
     sig: string;
     id: string;
+    walletAddr: string;
   };
 };
 
@@ -20,6 +21,7 @@ export type SignUpAction = {
   payload: {
     sig: string;
     id: string;
+    walletAddr: string;
   };
 };
 

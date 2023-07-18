@@ -1,11 +1,7 @@
+import { PrfsAccount } from "@/state/reducer";
+
 const PRFS_SIG = "prfs_sig";
 const PRFS_WALLET_ADDR = "prfs_wallet_addr";
-
-export interface PrfsAccount {
-  sig: string;
-  id: string;
-  walletAddr: string;
-}
 
 function getPrfsAccount(): PrfsAccount | null {
   let sig = window.localStorage.getItem(PRFS_SIG);

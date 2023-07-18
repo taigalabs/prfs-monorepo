@@ -1,9 +1,13 @@
 import { Action, LoadPrfsAccountAction, SignInAction, SignUpAction } from "./actions";
 
+export interface PrfsAccount {
+  sig: string;
+  id: string;
+  walletAddr: string;
+}
+
 export interface AppState {
-  sig: undefined | string;
-  id: undefined | string;
-  walletAddr: undefined | string;
+  prfsAccount: PrfsAccount | undefined;
 }
 
 const reducer = (state: AppState, action: Action) => {
@@ -26,24 +30,32 @@ export default reducer;
 function handleSignIn(state: AppState, action: SignInAction): AppState {
   return {
     ...state,
-    sig: action.payload.sig,
-    id: action.payload.id,
+    prfsAccount: {
+      sig: action.payload.sig,
+      id: action.payload.id,
+      walletAddr: action.payload.walletAddr,
+    },
   };
 }
 
-function handleSignUp(state: AppState, action: SignUpAction) {
+function handleSignUp(state: AppState, action: SignUpAction): AppState {
   return {
     ...state,
-    sig: action.payload.sig,
-    id: action.payload.id,
+    prfsAccount: {
+      sig: action.payload.sig,
+      id: action.payload.id,
+      walletAddr: action.payload.walletAddr,
+    },
   };
 }
 
-function handleLoadPrfsAccount(state: AppState, action: LoadPrfsAccountAction) {
+function handleLoadPrfsAccount(state: AppState, action: LoadPrfsAccountAction): AppState {
   return {
     ...state,
-    sig: action.payload.sig,
-    id: action.payload.id,
-    walletAddr: action.payload.walletAddr,
+    prfsAccount: {
+      sig: action.payload.sig,
+      id: action.payload.id,
+      walletAddr: action.payload.walletAddr,
+    },
   };
 }
