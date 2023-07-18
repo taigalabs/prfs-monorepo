@@ -1,5 +1,7 @@
+import { useRouter } from "next/navigation";
 import { Action } from "@/actions/actions";
 import React from "react";
+import { ActionInducer } from "@/actions/actionInducer";
 
 const initialState: AppState = {
   color: "red"
@@ -23,9 +25,13 @@ const reducer = (state: AppState, action: Action) => {
 };
 
 export const StateProvider = ({ children }) => {
+  const router = useRouter();
   const [state, dispatch] = React.useReducer(reducer, initialState);
+  const asyncDispatch = React.useCallback((actionInducer: ActionInducer) => {
+    actionInducer(dispatch, router).then();
+  }, [router, dispatch]);
 
-  return <stateContext.Provider value={{ state, dispatch }}>{children}</stateContext.Provider>;
+  return <stateContext.Provider value={{ state, dispatch: asyncDispatch }}>{children}</stateContext.Provider>;
 };
 
 export interface AppState {
