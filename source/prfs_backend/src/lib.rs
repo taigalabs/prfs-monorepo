@@ -1,4 +1,5 @@
 mod apis;
+mod macros;
 mod middleware;
 mod responses;
 pub mod router;

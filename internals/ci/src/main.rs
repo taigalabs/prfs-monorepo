@@ -3,7 +3,7 @@ mod task;
 mod tasks;
 
 use chrono::prelude::*;
-use clap::{command, Arg, ArgAction};
+use clap::{command, Arg, ArgAction, ArgMatches};
 use colored::Colorize;
 use paths::Paths;
 use serde::{Deserialize, Serialize};
@@ -23,10 +23,15 @@ pub struct BuildHandle {
 
 fn main() {
     let matches = command!() // requires `cargo` feature
-        .arg(Arg::new("operation").action(ArgAction::Append))
+        .version("v0.1")
+        .propagate_version(true)
+        .arg_required_else_help(true)
+        .subcommand(clap::Command::new("build"))
+        .subcommand(clap::Command::new("e2e_test_web"))
+        .subcommand(clap::Command::new("dev_prfs_web"))
+        .subcommand(clap::Command::new("dev_asset_server"))
+        .subcommand(clap::Command::new("dev_backend"))
         .get_matches();
-
-    let op = matches.get_one::<String>("operation").unwrap().clone();
 
     let now = Utc::now();
     let timestamp = now.timestamp_millis().to_string();
@@ -34,11 +39,8 @@ fn main() {
 
     let paths = Paths::new();
 
-    let op_str = op.as_str();
-    println!("Operation: {}", op_str.cyan().bold());
-
-    match op_str {
-        "build" => {
+    match matches.subcommand() {
+        Some(("build", sub_matches)) => {
             let build_handle = BuildHandle { timestamp };
 
             let tasks: Vec<Box<dyn Task>> = vec![
@@ -48,30 +50,26 @@ fn main() {
                 Box::new(BuildPrfsJsTask),
             ];
 
-            run_tasks(tasks, build_handle, &paths).expect("Ci failed");
+            run_tasks(sub_matches, tasks, build_handle, &paths).expect("Ci failed");
         }
-        "e2e_test_node" => {
-            tasks::e2e_test_web::run(&paths);
+        Some(("e2e_test_web", sub_matches)) => {
+            tasks::e2e_test_web::run(sub_matches, &paths);
         }
-        "dev_prfs_web" => {
-            tasks::dev_prfs_web::run(&paths);
+        Some(("dev_prfs_web", sub_matches)) => {
+            tasks::dev_prfs_web::run(sub_matches, &paths);
         }
-        "dev_asset_server" => {
-            tasks::dev_asset_server::run(&paths);
+        Some(("dev_asset_server", sub_matches)) => {
+            tasks::dev_asset_server::run(sub_matches, &paths);
         }
-        "dev_backend" => {
-            tasks::dev_backend::run(&paths);
+        Some(("dev_backend", sub_matches)) => {
+            tasks::dev_backend::run(sub_matches, &paths);
         }
-        _ => {
-            panic!(
-                "[ci] Could not find the operation. Did you mean 'build'?, op: {}",
-                op
-            );
-        }
+        _ => unreachable!("Subcommand not defined"),
     }
 }
 
 fn run_tasks(
+    _matches: &ArgMatches,
     tasks: Vec<Box<dyn Task>>,
     mut build_handle: BuildHandle,
     paths: &Paths,

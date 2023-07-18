@@ -1,4 +1,5 @@
 use crate::apis::{prfs_account, proofs};
+use crate::routes;
 use crate::state::ServerState;
 use crate::{apis::nodes, middleware, BackendError};
 use hyper::{body, header, Body, Request, Response};
@@ -10,14 +11,7 @@ use serde::{Deserialize, Serialize};
 use std::convert::Infallible;
 use std::sync::Arc;
 
-#[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "camelCase")]
-pub struct RpcRequest {
-    jsonrpc: String,
-    method: String,
-    params: Vec<String>,
-    id: String,
-}
+const PREFIX: &str = "api/v0";
 
 pub fn make_router(db: Database) -> Result<Router<Body, Infallible>, BackendError> {
     let db = Arc::new(db);
@@ -28,10 +22,19 @@ pub fn make_router(db: Database) -> Result<Router<Body, Infallible>, BackendErro
         .middleware(Middleware::pre(middleware::logger))
         .middleware(enable_cors_all())
         .get("/", status_handler)
-        .post("/prfs_account__sign_up", prfs_account::sign_up)
-        .post("/prfs_account__sign_in", prfs_account::sign_in)
-        .post("/get_nodes", nodes::get_nodes)
-        .post("/get_proof_types", proofs::get_proof_types)
+        .post(
+            format!("{}/prfs_account/sign_up", PREFIX),
+            prfs_account::sign_up,
+        )
+        .post(
+            format!("{}/prfs_account/sign_in", PREFIX),
+            prfs_account::sign_in,
+        )
+        .post(format!("{}/get_nodes", PREFIX), nodes::get_nodes)
+        .post(
+            format!("{}/get_proof_types", PREFIX),
+            proofs::get_proof_types,
+        )
         .err_handler_with_info(middleware::error_handler)
         .build()?;
 

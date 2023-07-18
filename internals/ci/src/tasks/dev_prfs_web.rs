@@ -1,9 +1,12 @@
 use super::compile_circuits::BuildCircuitJson;
 use crate::{paths::Paths, tasks::JS_ENGINE};
+use clap::ArgMatches;
 use colored::Colorize;
 use std::process::Command;
 
-pub fn run(paths: &Paths) {
+const NEXT_PREFIX: &str = "NEXT_PUBLIC";
+
+pub fn run(_matches: &ArgMatches, paths: &Paths) {
     inject_prfs_web_env(paths);
     run_app(paths);
 }
@@ -24,12 +27,23 @@ fn inject_prfs_web_env(paths: &Paths) {
     let serve_url_host = "http://localhost:4010/assets";
 
     let mut contents = vec![];
-    for (name, file_path) in build_circuits_json.files {
+
+    {
+        for (name, file_path) in build_circuits_json.files {
+            contents.push(format!(
+                "{}_{}_URL={}/{}",
+                NEXT_PREFIX,
+                name.to_uppercase(),
+                serve_url_host,
+                file_path
+            ));
+        }
+    }
+
+    {
         contents.push(format!(
-            "NEXT_PUBLIC_{}_URL={}/{}",
-            name.to_uppercase(),
-            serve_url_host,
-            file_path
+            "{}_PRFS_BACKEND_ENDPOINT={}",
+            NEXT_PREFIX, "http://localhost:4000/api/v0",
         ));
     }
 

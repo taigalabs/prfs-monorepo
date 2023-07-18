@@ -1,3 +1,7 @@
+"use client"
+
+const PRFS_BACKEND_ENDPOINT = process.env.NEXT_PUBLIC_PRFS_BACKEND_ENDPOINT;
+
 export interface SignUpRequest {
   sig: string,
 }
@@ -14,7 +18,7 @@ export async function signUpPrfsAccount(sig: string) {
   };
 
   try {
-    let res = await fetch('http://localhost:4000/prfs_account::sign_up', {
+    let res = await fetch(`${PRFS_BACKEND_ENDPOINT}/prfs_account/sign_up`, {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -47,7 +51,7 @@ export async function signInPrfsAccount(sig: string) {
   };
 
   try {
-    let res = await fetch('http://localhost:4000/prfs_account__sign_in', {
+    let res = await fetch(`${PRFS_BACKEND_ENDPOINT}/prfs_account/sign_in`, {
       method: 'POST',
       mode: 'cors',
       headers: {
