@@ -1,23 +1,45 @@
 "use client";
 
 import React from "react";
-import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import Link from "next/link";
+import { ethers } from "ethers";
+import Paper from "@mui/material/Paper";
+import Container from "@mui/material/Container";
 
 import styles from "./Sets.module.scss";
+import { stateContext } from "@/contexts/state";
+import Masthead from "@/components/masthead/Masthead";
+import LeftBar from "@/components/left_bar/LeftBar";
+import Table from "@/components/table/Table";
+import Widget from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
-import Logo from "@/components/logo/Logo";
+import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
+import localStorage from "@/storage/localStorage";
 
 const Sets: React.FC = () => {
-  let i18n = React.useContext(i18nContext);
+  const i18n = React.useContext(i18nContext);
+  const { state, dispatch } = React.useContext(stateContext);
+
+  React.useEffect(() => {
+    let prfsAccount = localStorage.getPrfsAccount();
+
+    if (prfsAccount !== null) {
+      dispatch({
+        type: "load_prfs_account",
+        payload: prfsAccount,
+      });
+    }
+  }, []);
 
   return (
-    <div className={styles.wrapper}>
-      <div>sets</div>
-    </div>
+    <DefaultLayout>
+      <div className={styles.wrapper}>
+        <Paper className={styles.paper}>
+          <Widget label={i18n.sets}>
+            <Table />
+          </Widget>
+        </Paper>
+      </div>
+    </DefaultLayout>
   );
 };
 
