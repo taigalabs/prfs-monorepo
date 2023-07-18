@@ -31,6 +31,7 @@ fn main() {
         .subcommand(clap::Command::new("dev_prfs_web"))
         .subcommand(clap::Command::new("dev_asset_server"))
         .subcommand(clap::Command::new("dev_backend"))
+        .subcommand(clap::Command::new("start_prfs_web"))
         .get_matches();
 
     let now = Utc::now();
@@ -57,6 +58,9 @@ fn main() {
         }
         Some(("dev_prfs_web", sub_matches)) => {
             tasks::dev_prfs_web::run(sub_matches, &paths);
+        }
+        Some(("start_prfs_web", sub_matches)) => {
+            tasks::start_prfs_web::run(sub_matches, &paths);
         }
         Some(("dev_asset_server", sub_matches)) => {
             tasks::dev_asset_server::run(sub_matches, &paths);
