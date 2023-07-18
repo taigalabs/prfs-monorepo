@@ -47,7 +47,7 @@ export async function signInPrfsAccount(sig: string) {
   };
 
   try {
-    let res = await fetch('http://localhost:4000/prfs_account::sign_in', {
+    let res = await fetch('http://localhost:4000/prfs_account__sign_in', {
       method: 'POST',
       mode: 'cors',
       headers: {
