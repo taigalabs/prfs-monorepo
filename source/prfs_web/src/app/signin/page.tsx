@@ -86,7 +86,10 @@ const SignIn: React.FC = () => {
         };
 
         dispatch(action);
-      } catch (err) {}
+      } catch (err) {
+        console.log(err);
+        setSignInAlert("sign in fail");
+      }
     }
 
     fn().then();
