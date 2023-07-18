@@ -5,6 +5,7 @@ import { ethers } from "ethers";
 import Paper from "@mui/material/Paper";
 import Container from "@mui/material/Container";
 
+import { stateContext } from "@/contexts/state";
 import styles from "./Home.module.scss";
 import Masthead from "@/components/masthead/Masthead";
 import LeftBar from "@/components/leftbar/LeftBar";
@@ -15,6 +16,11 @@ import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 
 const Home: React.FC = () => {
   const i18n = React.useContext(i18nContext);
+  const { state, dispatch } = React.useContext(stateContext);
+
+  React.useEffect(() => {
+    console.log(22, state);
+  }, [state]);
 
   return (
     <DefaultLayout>

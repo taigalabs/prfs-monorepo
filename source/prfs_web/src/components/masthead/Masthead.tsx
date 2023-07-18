@@ -4,9 +4,11 @@ import Link from "next/link";
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Logo from "@/components/logo/Logo";
+import { stateContext } from "@/contexts/state";
 
 const Masthead: React.FC<any> = () => {
   const i18n = React.useContext(i18nContext);
+  const { state, dispatch } = React.useContext(stateContext);
 
   return (
     <div className={styles.wrapper}>

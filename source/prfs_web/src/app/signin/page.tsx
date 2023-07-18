@@ -28,6 +28,10 @@ const SignIn: React.FC = () => {
   const [passhash, setPasshash] = React.useState("");
   const [signInAlert, setSignInAlert] = React.useState("");
 
+  React.useEffect(() => {
+    console.log(11, state);
+  }, [state]);
+
   const handleChangePasscode = React.useCallback(
     (ev: any) => {
       setPasscode(ev.target.value);
