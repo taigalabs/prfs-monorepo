@@ -1,4 +1,4 @@
-import { Action } from "./actions";
+import { Action, SignInAction, SignUpAction } from "./actions";
 
 export interface AppState {
   sig: undefined | string;
@@ -6,19 +6,14 @@ export interface AppState {
   walletAddr: undefined | string;
 }
 
-const reducer: (state: AppState, action: Action) => AppState = (
-  state: AppState,
-  action: Action
-) => {
+const reducer = (state: AppState, action: Action) => {
+  console.log("reducer, action: %o", action);
+
   switch (action.type) {
     case "sign_in":
       return handleSignIn(state, action);
-    // return {
-    //   ...state,
-    // };
     case "sign_up":
-      return state;
-
+      return handleSignUp(state, action);
     default:
       throw new Error("no action handler");
   }
@@ -26,6 +21,14 @@ const reducer: (state: AppState, action: Action) => AppState = (
 
 export default reducer;
 
-function handleSignIn(state: AppState, action: Action) {
+function handleSignIn(state: AppState, action: SignInAction): AppState {
+  return {
+    ...state,
+    sig: action.payload.sig,
+    id: action.payload.id,
+  };
+}
+
+function handleSignUp(state: AppState, action: SignUpAction) {
   return state;
 }

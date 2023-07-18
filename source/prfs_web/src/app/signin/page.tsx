@@ -57,8 +57,6 @@ const SignIn: React.FC = () => {
 
   const handleClickSignIn = React.useCallback(() => {
     async function fn() {
-      console.log(22, walletAddr, passhash);
-
       if (walletAddr.length < 1) {
         setSignInAlert("Connect a wallet first");
         return;
@@ -83,7 +81,7 @@ const SignIn: React.FC = () => {
 
         dispatch({
           type: "sign_in",
-          payload: {},
+          payload: resp.payload,
         });
       } catch (err) {
         console.log(err);

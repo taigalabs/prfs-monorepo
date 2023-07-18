@@ -7,7 +7,7 @@ pub fn run(_matches: &ArgMatches, paths: &Paths) {
         .current_dir(&paths.e2e_test_web)
         .args(["run", "bench"])
         .status()
-        .expect("yarn command failed to start");
+        .expect(&format!("{} command failed to start", JS_ENGINE));
 
     assert!(status.success());
 }

@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
-import { ethers } from 'ethers';
+import { ethers } from "ethers";
 
 import SignInLayout from "@/layouts/sign_in_layout/SignInLayout";
 import Widget from "@/components/widget/Widget";
@@ -11,13 +11,15 @@ import styles from "./SignUp.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
 import Button from "@/components/button/Button";
-import * as prfsBackend from '@/fetch/prfsBackend';
+import * as prfsBackend from "@/fetch/prfsBackend";
+import { stateContext } from "@/contexts/state";
 
 const metamaskConfig = metamaskWallet();
 
 const SignUp: React.FC = () => {
   let i18n = React.useContext(i18nContext);
   const connect = useConnect();
+  const { state, dispatch } = React.useContext(stateContext);
 
   const [walletAddr, setWalletAddr] = React.useState("");
   const [hashAlert, setHashAlert] = React.useState("");
@@ -85,18 +87,23 @@ const SignUp: React.FC = () => {
         if (resp.error) {
           return;
         }
-      } catch (err) {
 
-      }
+        dispatch({
+          type: "sign_in",
+          payload: resp.payload,
+        });
+      } catch (err) {}
     }
 
     fn().then();
   }, [walletAddr, passhash, setSignUpAlert]);
 
-
-  const handleConnect = React.useCallback((addr: string) => {
-    setWalletAddr(addr);
-  }, [setWalletAddr]);
+  const handleConnect = React.useCallback(
+    (addr: string) => {
+      setWalletAddr(addr);
+    },
+    [setWalletAddr]
+  );
 
   return (
     <SignInLayout title={i18n.sign_up} desc={i18n.sign_up_desc}>
@@ -118,11 +125,7 @@ const SignUp: React.FC = () => {
                 <p>{i18n.passcode_confirm}</p>
                 <input type="password" onChange={handleChangePasscodeConfirm} />
               </div>
-              {hashAlert.length > 0 && (
-                <div className={styles.hashAlert}>
-                  {hashAlert}
-                </div>
-              )}
+              {hashAlert.length > 0 && <div className={styles.hashAlert}>{hashAlert}</div>}
               <div className={styles.hashBtnRow}>
                 <Button variant="a" handleClick={handleClickHash}>
                   {i18n.hash}

@@ -9,7 +9,10 @@ export interface SignUpRequest {
 export interface SignUpResponse {
   code: string;
   error?: any;
-  result: string;
+  payload: {
+    sig: string;
+    id: string;
+  };
 }
 
 export async function signUpPrfsAccount(sig: string) {

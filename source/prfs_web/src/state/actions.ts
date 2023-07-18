@@ -1,11 +1,17 @@
 export type SignInAction = {
   type: "sign_in";
-  payload: {};
+  payload: {
+    sig: string;
+    id: string;
+  };
 };
 
 export type SignUpAction = {
   type: "sign_up";
-  payload: {};
+  payload: {
+    sig: string;
+    id: string;
+  };
 };
 
 export type Action = SignInAction | SignUpAction;

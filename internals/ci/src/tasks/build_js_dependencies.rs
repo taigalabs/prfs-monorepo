@@ -19,7 +19,7 @@ impl Task for BuildJsDependenciesTask {
                 .current_dir(dependency_path)
                 .args(["run", "build-pkg"])
                 .status()
-                .expect("yarn command failed to start");
+                .expect(&format!("{} command failed to start", JS_ENGINE));
 
             assert!(status.success());
         }
