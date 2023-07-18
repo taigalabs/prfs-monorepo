@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -9,12 +10,17 @@ import { PrfsAccount } from "@/state/reducer";
 
 const AccountStat: React.FC<AccountStatProps> = ({ account }) => {
   const { walletAddr, id } = account;
-  let shortWalletAddr = `${walletAddr.substring(0, 8)}...`;
+  let shortWalletAddr = `WLT ${walletAddr.substring(0, 7)}`;
 
   return (
-    <div>
-      <div>{id}</div>
-      <div>{shortWalletAddr}</div>
+    <div className={styles.accountStat}>
+      <div>
+        <div>{id}</div>
+        <div>{shortWalletAddr}</div>
+      </div>
+      <div>
+        <ArrowDropDownIcon />
+      </div>
     </div>
   );
 };
