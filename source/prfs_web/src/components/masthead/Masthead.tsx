@@ -3,15 +3,14 @@ import Link from "next/link";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import { useRouter } from "next/navigation";
+import { useFloating, useClick, useInteractions, useDismiss } from "@floating-ui/react";
+import localStorage from "@/storage/localStorage";
 
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Logo from "@/components/logo/Logo";
 import { stateContext } from "@/contexts/state";
 import { PrfsAccount } from "@/state/reducer";
-
-import { useFloating, useClick, useInteractions } from "@floating-ui/react";
-import localStorage from "@/storage/localStorage";
 
 const AccountStat: React.FC<AccountStatProps> = ({ account }) => {
   const i18n = React.useContext(i18nContext);
@@ -26,8 +25,9 @@ const AccountStat: React.FC<AccountStatProps> = ({ account }) => {
     open: isOpen,
     onOpenChange: setIsOpen,
   });
+  const dismiss = useDismiss(context);
   const click = useClick(context);
-  const { getReferenceProps, getFloatingProps } = useInteractions([click]);
+  const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
 
   const handleClickSignOut = React.useCallback(() => {
     dispatch({
