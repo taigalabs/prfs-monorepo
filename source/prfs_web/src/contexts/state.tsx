@@ -7,12 +7,14 @@ const initialState: AppState = {
 
 export const stateContext = React.createContext({
   state: initialState,
-  dispatch: (_action: Action) => {}
+  dispatch: (_action: Action) => { }
 });
 
 const reducer = (state: AppState, action: Action) => {
   switch (action.type) {
     case "sign_in":
+      return state;
+    case "sign_up":
       return state;
 
     default:

@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 use std::convert::Infallible;
 use std::sync::Arc;
 
-const PREFIX: &str = "api/v0";
+const PREFIX: &str = "/api/v0";
 
 pub fn make_router(db: Database) -> Result<Router<Body, Infallible>, BackendError> {
     let db = Arc::new(db);
