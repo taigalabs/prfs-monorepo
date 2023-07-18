@@ -39,6 +39,12 @@
     }
   }
 
+  .connectBtn {
+    padding: 0px 8px;
+    display: flex;
+    align-items: center;
+  }
+
   .dropdown {
     color: white;
     background-color: var(--dark-cyan-50);

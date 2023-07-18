@@ -34,7 +34,7 @@ const AccountStat: React.FC<AccountStatProps> = ({ account }) => {
       type: "sign_out",
     });
 
-    localStorage.putPrfsAccount("", "");
+    localStorage.removePrfsAccount();
 
     router.push("/");
   }, []);
@@ -64,6 +64,16 @@ const AccountStat: React.FC<AccountStatProps> = ({ account }) => {
   );
 };
 
+const ConnectButton = () => {
+  const i18n = React.useContext(i18nContext);
+
+  return (
+    <div className={styles.connectBtn}>
+      <Link href="/signin">{i18n.connect}</Link>
+    </div>
+  );
+};
+
 const Masthead: React.FC<any> = () => {
   const i18n = React.useContext(i18nContext);
   const { state } = React.useContext(stateContext);
@@ -77,7 +87,7 @@ const Masthead: React.FC<any> = () => {
         </Link>
       </div>
       <div className={styles.rightMenu}>
-        {prfsAccount ? <AccountStat account={prfsAccount} /> : <Link href="/signin">connect</Link>}
+        {prfsAccount ? <AccountStat account={prfsAccount} /> : <ConnectButton />}
       </div>
     </div>
   );
