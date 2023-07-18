@@ -1,11 +1,14 @@
 .wrapper {
   display: flex;
   padding: 0px 0px;
-  border: 1px solid gray;
+  // border: 1px solid gray;
+  height: 41px;
 
-  .leftMenu {
-    border: 1px solid gray;
-    width: 210px;
+  .logoArea {
+    align-items: center;
+    display: flex;
+    padding: 0 20px;
+    font-size: 1.365rem;
   }
 
   .mainMenu {
@@ -13,12 +16,18 @@
   }
 
   .rightMenu {
+    display: flex;
     margin-left: auto;
   }
 
   .accountStat {
-    padding: 4px 8px;
+    padding: 0px 8px;
     display: flex;
+    align-items: center;
+
+    &:hover {
+      cursor: pointer;
+    }
 
     .btnArea {
       align-items: center;

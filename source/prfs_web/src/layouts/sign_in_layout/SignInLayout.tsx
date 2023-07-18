@@ -1,14 +1,10 @@
 "use client";
 
 import React from "react";
-import Paper from "@mui/material/Paper";
 import Link from "next/link";
-import Container from "@mui/material/Container";
 
 import Logo from "@/components/logo/Logo";
 import styles from "./SignInLayout.module.scss";
-import Masthead from "@/components/masthead/Masthead";
-import LeftBar from "@/components/leftbar/LeftBar";
 import { i18nContext } from "@/contexts/i18n";
 
 const SignInLayout: React.FC<SignInLayoutProps> = ({ children, title, desc }) => {

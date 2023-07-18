@@ -8,7 +8,7 @@ import Container from "@mui/material/Container";
 import { stateContext } from "@/contexts/state";
 import styles from "./Home.module.scss";
 import Masthead from "@/components/masthead/Masthead";
-import LeftBar from "@/components/leftbar/LeftBar";
+import LeftBar from "@/components/left_bar/LeftBar";
 import Table from "@/components/table/Table";
 import Widget from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";

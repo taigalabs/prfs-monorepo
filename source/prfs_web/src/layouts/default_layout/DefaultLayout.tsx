@@ -6,7 +6,7 @@ import Container from "@mui/material/Container";
 
 import styles from "./DefaultLayout.module.scss";
 import Masthead from "@/components/masthead/Masthead";
-import LeftBar from "@/components/leftbar/LeftBar";
+import LeftBar from "@/components/left_bar/LeftBar";
 import { i18nContext } from "@/contexts/i18n";
 
 const DefaultLayout: React.FC<any> = ({ children }) => {

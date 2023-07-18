@@ -71,15 +71,10 @@ const Masthead: React.FC<any> = () => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.leftMenu}>
+      <div className={styles.logoArea}>
         <Link href="/">
           <Logo />
         </Link>
-      </div>
-      <div>
-        <ul className={styles.mainMenu}>
-          <li>{i18n.learn}</li>
-        </ul>
       </div>
       <div className={styles.rightMenu}>
         {prfsAccount ? <AccountStat account={prfsAccount} /> : <Link href="/signin">connect</Link>}
