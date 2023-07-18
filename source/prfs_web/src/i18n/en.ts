@@ -4,6 +4,7 @@ export default {
   desc_2: "b",
   desc_3: "c",
   learn: "Learn",
+  browse: "Browse",
   generate: "Generate",
   proofs: "Proofs",
   proof_types: "Proof types",

@@ -9,16 +9,25 @@ const Leftbar: React.FC<any> = () => {
 
   return (
     <div className={styles.wrapper}>
-      <ul>
-        <li>
-          <Link href="/generate">{i18n.generate}</Link>
-        </li>
-        <li>{i18n.proofs}</li>
-        <li>{i18n.references}</li>
-        <li>
-          <Link href="/sets">{i18n.sets}</Link>
-        </li>
-      </ul>
+      <div className={styles.section}>
+        <ul>
+          <li className={styles.category}>{i18n.browse}</li>
+          <li>{i18n.proofs}</li>
+        </ul>
+      </div>
+      <div className={styles.section}>
+        <ul>
+          <li className={styles.category}>{i18n.generate}</li>
+          <li>
+            <Link href="/generate">{i18n.generate}</Link>
+          </li>
+          <li>{i18n.proof_types}</li>
+          <li>{i18n.references}</li>
+          <li>
+            <Link href="/sets">{i18n.sets}</Link>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 };
