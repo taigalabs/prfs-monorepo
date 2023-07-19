@@ -1,8 +1,9 @@
 mod apis;
+mod paths;
 mod router;
 mod state;
 
-use crate::router::make_router;
+use crate::{paths::Paths, router::make_router};
 use hyper::Server;
 use hyper_staticfile::Static;
 use routerify::RouterService;
