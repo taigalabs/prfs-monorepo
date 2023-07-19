@@ -1,4 +1,4 @@
-use crate::{paths::Paths, task::Task, BuildHandle, CiError};
+use crate::{paths::PATHS, task::Task, BuildHandle, CiError};
 use colored::Colorize;
 use std::process::Command;
 
@@ -12,11 +12,11 @@ impl Task for BuildWasmTask {
         "build_wasm"
     }
 
-    fn run(&self, build_handle: &mut BuildHandle, paths: &Paths) -> Result<(), CiError> {
+    fn run(&self, build_handle: &mut BuildHandle) -> Result<(), CiError> {
         check_wasm_pack();
-        build_wasm(build_handle, paths);
-        sanity_check(build_handle, paths);
-        embed_wasm(build_handle, paths);
+        build_wasm(build_handle);
+        sanity_check(build_handle);
+        embed_wasm(build_handle);
 
         Ok(())
     }
@@ -38,8 +38,8 @@ fn check_wasm_pack() {
     }
 }
 
-fn build_wasm(build_handle: &mut BuildHandle, paths: &Paths) {
-    let prfs_wasm_build_path = paths.wasm_build_path.to_str().unwrap();
+fn build_wasm(build_handle: &mut BuildHandle) {
+    let prfs_wasm_build_path = PATHS.wasm_build_path.to_str().unwrap();
 
     let status = Command::new("rm")
         .args(["-rf", &prfs_wasm_build_path])
@@ -48,7 +48,7 @@ fn build_wasm(build_handle: &mut BuildHandle, paths: &Paths) {
 
     assert!(status.success());
 
-    let prfs_wasm_path = paths.wasm_path.to_str().unwrap();
+    let prfs_wasm_path = PATHS.wasm_path.to_str().unwrap();
     println!("prfs_wasm_path: {}", prfs_wasm_path);
 
     let out_name = format!("prfs_wasm_{}", build_handle.timestamp);
@@ -76,8 +76,8 @@ fn build_wasm(build_handle: &mut BuildHandle, paths: &Paths) {
     assert!(status.success());
 }
 
-fn sanity_check(build_handle: &BuildHandle, paths: &Paths) {
-    let prfs_wasm_js_path = paths
+fn sanity_check(build_handle: &BuildHandle) {
+    let prfs_wasm_js_path = PATHS
         .wasm_build_path
         .join(format!("prfs_wasm_{}.js", build_handle.timestamp));
 
@@ -93,8 +93,8 @@ fn sanity_check(build_handle: &BuildHandle, paths: &Paths) {
     }
 }
 
-fn embed_wasm(build_handle: &BuildHandle, paths: &Paths) {
-    let prfs_wasm_embedded_path = paths.prfs_js_path.join("src/wasm_wrapper/build");
+fn embed_wasm(build_handle: &BuildHandle) {
+    let prfs_wasm_embedded_path = PATHS.prfs_js_path.join("src/wasm_wrapper/build");
 
     println!(
         "{} a directory, path: {:?}",
@@ -109,7 +109,7 @@ fn embed_wasm(build_handle: &BuildHandle, paths: &Paths) {
     let status = Command::new("cp")
         .args([
             "-R",
-            paths.wasm_build_path.to_str().unwrap(),
+            PATHS.wasm_build_path.to_str().unwrap(),
             prfs_wasm_embedded_path.to_str().unwrap(),
         ])
         .status()

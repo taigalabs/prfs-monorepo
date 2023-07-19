@@ -1,4 +1,9 @@
+use lazy_static::lazy_static;
 use std::path::PathBuf;
+
+lazy_static! {
+    pub static ref PATHS: Paths = Paths::new();
+}
 
 pub struct Paths {
     pub curr_dir: PathBuf,

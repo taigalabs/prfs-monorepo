@@ -1,6 +1,9 @@
+use lazy_static::lazy_static;
 use std::path::PathBuf;
 
-use lazy_static::lazy_static;
+lazy_static! {
+    pub static ref PATHS: Paths = Paths::new();
+}
 
 pub struct Paths {
     pub project_dir: PathBuf,
@@ -24,8 +27,4 @@ impl Paths {
             assets,
         }
     }
-}
-
-lazy_static! {
-    pub static ref PATHS: Paths = Paths::new();
 }

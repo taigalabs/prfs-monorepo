@@ -1,4 +1,4 @@
-use crate::{paths::Paths, task::Task, BuildHandle, CiError};
+use crate::{paths::PATHS, task::Task, BuildHandle, CiError};
 use colored::Colorize;
 use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, fs, io::Write, path::PathBuf, process::Command};
@@ -16,39 +16,39 @@ impl Task for CompileCircuitsTask {
         "compile_circuits"
     }
 
-    fn run(&self, build_handle: &mut BuildHandle, paths: &Paths) -> Result<(), CiError> {
+    fn run(&self, build_handle: &mut BuildHandle) -> Result<(), CiError> {
         let circuit_name = "addr_membership2";
         let num_pub_inputs = 5;
 
         let circuit_id = format!("{}_{}", circuit_name, build_handle.timestamp);
 
-        let circuit_src_path = paths
+        let circuit_src_path = PATHS
             .circuits_path
             .join(format!("instances/{}.circom", circuit_name));
         println!("circuit_src_path: {:?}", circuit_src_path);
 
-        let circuit_build_path = paths
+        let circuit_build_path = PATHS
             .circuit_build_path
             .join(format!("{}.circuit", circuit_name));
         println!("circuit_build_path: {:?}", circuit_build_path);
 
-        compile_circuits(paths, &circuit_src_path, &circuit_build_path);
+        compile_circuits(&circuit_src_path, &circuit_build_path);
 
-        let circuit_r1cs_path = paths
+        let circuit_r1cs_path = PATHS
             .circuit_build_path
             .join(format!("{}.r1cs", &circuit_name));
 
-        let asset_local_path = paths.prf_asset_serve_path.join("local");
+        let asset_local_path = PATHS.prf_asset_serve_path.join("local");
 
         create_circuit_asset_path(&asset_local_path);
 
-        let circuit_compiled_path = paths
+        let circuit_compiled_path = PATHS
             .circuit_build_path
             .join(format!("{}_spartan.circuit", circuit_name));
         let circuit_file_name = format!("{}.circuit", circuit_id,);
         let circuit_compiled_serve_path = asset_local_path.join(&circuit_file_name);
 
-        let wtns_gen_src_path = paths
+        let wtns_gen_src_path = PATHS
             .circuit_build_path
             .join(format!("{}_js/{}.wasm", circuit_name, circuit_name));
         let wtns_gen_file_name = format!("{}.wasm", circuit_id);
@@ -63,7 +63,6 @@ impl Task for CompileCircuitsTask {
 
         copy_assets(
             build_handle,
-            paths,
             circuit_compiled_path,
             &circuit_compiled_serve_path,
             &wtns_gen_src_path,
@@ -72,7 +71,6 @@ impl Task for CompileCircuitsTask {
 
         create_build_json(
             build_handle,
-            paths,
             &asset_local_path,
             &circuit_file_name,
             &wtns_gen_file_name,
@@ -95,14 +93,14 @@ fn create_circuit_asset_path(circuit_asset_path: &PathBuf) {
     std::fs::create_dir_all(&circuit_asset_path).unwrap();
 }
 
-fn compile_circuits(paths: &Paths, circuit_src_path: &PathBuf, circuit_build_path: &PathBuf) {
+fn compile_circuits(circuit_src_path: &PathBuf, circuit_build_path: &PathBuf) {
     println!(
         "{} a direcotry, path: {:?}",
         "Creating".green(),
         circuit_build_path
     );
 
-    std::fs::create_dir_all(&paths.circuit_build_path).unwrap();
+    std::fs::create_dir_all(&PATHS.circuit_build_path).unwrap();
 
     let status = Command::new("circom-secq")
         .args([
@@ -112,7 +110,7 @@ fn compile_circuits(paths: &Paths, circuit_src_path: &PathBuf, circuit_build_pat
             "--prime",
             "secq256k1",
             "-o",
-            paths.circuit_build_path.to_str().unwrap(),
+            PATHS.circuit_build_path.to_str().unwrap(),
         ])
         .status()
         .expect("circom-secq command failed to start");
@@ -122,7 +120,6 @@ fn compile_circuits(paths: &Paths, circuit_src_path: &PathBuf, circuit_build_pat
 
 fn copy_assets(
     _build_handle: &BuildHandle,
-    _paths: &Paths,
     circuit_compiled_path: PathBuf,
     circuit_compiled_serve_path: &PathBuf,
     wtns_gen_src_path: &PathBuf,
@@ -149,7 +146,6 @@ fn copy_assets(
 
 fn create_build_json(
     build_handle: &BuildHandle,
-    _paths: &Paths,
     asset_local_path: &PathBuf,
     circuit_file_name: &String,
     wtns_gen_file_name: &String,

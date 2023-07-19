@@ -3,9 +3,8 @@ mod task;
 mod tasks;
 
 use chrono::prelude::*;
-use clap::{arg, command, Arg, ArgAction, ArgMatches};
+use clap::{arg, command, ArgMatches};
 use colored::Colorize;
-use paths::Paths;
 use serde::{Deserialize, Serialize};
 use std::env;
 use task::Task;
@@ -39,8 +38,6 @@ fn main() {
     let timestamp = now.timestamp_millis().to_string();
     println!("Ci starts: {} ({})", now, timestamp);
 
-    let paths = Paths::new();
-
     match matches.subcommand() {
         Some(("build", sub_matches)) => {
             let build_handle = BuildHandle { timestamp };
@@ -52,25 +49,25 @@ fn main() {
                 Box::new(BuildPrfsJsTask),
             ];
 
-            run_tasks(sub_matches, tasks, build_handle, &paths).expect("Ci failed");
+            run_tasks(sub_matches, tasks, build_handle).expect("Ci failed");
         }
         Some(("e2e_test_web", sub_matches)) => {
-            tasks::e2e_test_web::run(sub_matches, &paths);
+            tasks::e2e_test_web::run(sub_matches);
         }
         Some(("dev_prfs_web", sub_matches)) => {
-            tasks::dev_prfs_web::run(sub_matches, &paths);
+            tasks::dev_prfs_web::run(sub_matches);
         }
         Some(("start_prfs_web", sub_matches)) => {
-            tasks::start_prfs_web::run(sub_matches, &paths);
+            tasks::start_prfs_web::run(sub_matches);
         }
         Some(("dev_asset_server", sub_matches)) => {
-            tasks::dev_asset_server::run(sub_matches, &paths);
+            tasks::dev_asset_server::run(sub_matches);
         }
         Some(("dev_backend", sub_matches)) => {
-            tasks::dev_backend::run(sub_matches, &paths);
+            tasks::dev_backend::run(sub_matches);
         }
         Some(("seed_backend", sub_matches)) => {
-            tasks::seed_backend::run(sub_matches, &paths);
+            tasks::seed_backend::run(sub_matches);
         }
         _ => unreachable!("Subcommand not defined"),
     }
@@ -80,7 +77,6 @@ fn run_tasks(
     _matches: &ArgMatches,
     tasks: Vec<Box<dyn Task>>,
     mut build_handle: BuildHandle,
-    paths: &Paths,
 ) -> Result<(), CiError> {
     for t in &tasks {
         println!(
@@ -89,7 +85,7 @@ fn run_tasks(
             t.name().cyan().bold()
         );
 
-        match t.run(&mut build_handle, &paths) {
+        match t.run(&mut build_handle) {
             Ok(_) => (),
             Err(err) => {
                 println!(

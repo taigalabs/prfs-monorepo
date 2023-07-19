@@ -1,24 +1,24 @@
 use super::compile_circuits::BuildCircuitJson;
-use crate::{paths::Paths, tasks::JS_ENGINE};
+use crate::{paths::PATHS, tasks::JS_ENGINE};
 use clap::ArgMatches;
 use colored::Colorize;
 use std::process::Command;
 
 const NEXT_PREFIX: &str = "NEXT_PUBLIC";
 
-pub fn run(_matches: &ArgMatches, paths: &Paths) {
-    inject_prfs_web_env(paths);
-    build_app(paths);
-    start_app(paths);
+pub fn run(_matches: &ArgMatches) {
+    inject_prfs_web_env();
+    build_app();
+    start_app();
 }
 
-fn inject_prfs_web_env(paths: &Paths) {
-    let build_circuits_json_path = paths.prf_asset_serve_path.join("build_circuits.json");
+fn inject_prfs_web_env() {
+    let build_circuits_json_path = PATHS.prf_asset_serve_path.join("build_circuits.json");
 
     let b = std::fs::read(build_circuits_json_path).unwrap();
     let build_circuits_json: BuildCircuitJson = serde_json::from_slice(&b).unwrap();
 
-    let env_path = paths.prfs_web.join(".env");
+    let env_path = PATHS.prfs_web.join(".env");
     println!("{} a file, path: {:?}", "Recreating".green(), env_path);
 
     if env_path.exists() {
@@ -52,9 +52,9 @@ fn inject_prfs_web_env(paths: &Paths) {
     std::fs::write(&env_path, c).unwrap();
 }
 
-fn build_app(paths: &Paths) {
+fn build_app() {
     let status = Command::new(JS_ENGINE)
-        .current_dir(&paths.prfs_web)
+        .current_dir(&PATHS.prfs_web)
         .args(["run", "build"])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));
@@ -62,9 +62,9 @@ fn build_app(paths: &Paths) {
     assert!(status.success());
 }
 
-fn start_app(paths: &Paths) {
+fn start_app() {
     let status = Command::new(JS_ENGINE)
-        .current_dir(&paths.prfs_web)
+        .current_dir(&PATHS.prfs_web)
         .args(["run", "start"])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));

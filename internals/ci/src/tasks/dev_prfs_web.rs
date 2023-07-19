@@ -1,5 +1,5 @@
 use super::compile_circuits::BuildCircuitJson;
-use crate::{paths::Paths, tasks::JS_ENGINE};
+use crate::{paths::PATHS, tasks::JS_ENGINE};
 use clap::ArgMatches;
 use colored::Colorize;
 use std::process::Command;
@@ -12,7 +12,7 @@ enum Env {
     PRODUCTION,
 }
 
-pub fn run(matches: &ArgMatches, paths: &Paths) {
+pub fn run(matches: &ArgMatches) {
     let env = if let Some(e) = matches.get_one::<String>("env") {
         match e.as_str() {
             "production" => Env::PRODUCTION,
@@ -23,17 +23,17 @@ pub fn run(matches: &ArgMatches, paths: &Paths) {
     };
     println!("Start dev_prfs_web, env: {:?}", env);
 
-    inject_prfs_web_env(paths, &env);
-    run_app(paths);
+    inject_prfs_web_env(&env);
+    run_app();
 }
 
-fn inject_prfs_web_env(paths: &Paths, env: &Env) {
-    let build_circuits_json_path = paths.prf_asset_serve_path.join("build_circuits.json");
+fn inject_prfs_web_env(env: &Env) {
+    let build_circuits_json_path = PATHS.prf_asset_serve_path.join("build_circuits.json");
 
     let b = std::fs::read(build_circuits_json_path).unwrap();
     let build_circuits_json: BuildCircuitJson = serde_json::from_slice(&b).unwrap();
 
-    let env_path = paths.prfs_web.join(".env");
+    let env_path = PATHS.prfs_web.join(".env");
     println!("{} a file, path: {:?}", "Recreating".green(), env_path);
 
     if env_path.exists() {
@@ -74,9 +74,9 @@ fn inject_prfs_web_env(paths: &Paths, env: &Env) {
     std::fs::write(&env_path, c).unwrap();
 }
 
-fn run_app(paths: &Paths) {
+fn run_app() {
     let status = Command::new(JS_ENGINE)
-        .current_dir(&paths.prfs_web)
+        .current_dir(&PATHS.prfs_web)
         .args(["run", "dev"])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));
