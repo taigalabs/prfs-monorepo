@@ -31,6 +31,7 @@ fn main() {
         .subcommand(command!("dev_prfs_web").arg(arg!(--env <STR> "Environment")))
         .subcommand(command!("dev_asset_server"))
         .subcommand(command!("dev_backend"))
+        .subcommand(command!("seed_backend"))
         .subcommand(command!("start_prfs_web"))
         .get_matches();
 
@@ -67,6 +68,9 @@ fn main() {
         }
         Some(("dev_backend", sub_matches)) => {
             tasks::dev_backend::run(sub_matches, &paths);
+        }
+        Some(("seed_backend", sub_matches)) => {
+            tasks::seed_backend::run(sub_matches, &paths);
         }
         _ => unreachable!("Subcommand not defined"),
     }
