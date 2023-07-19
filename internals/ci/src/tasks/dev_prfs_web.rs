@@ -13,8 +13,6 @@ enum Env {
 }
 
 pub fn run(matches: &ArgMatches, paths: &Paths) {
-    println!("matches: {:?}", matches);
-
     let env = if let Some(e) = matches.get_one::<String>("env") {
         match e.as_str() {
             "production" => Env::PRODUCTION,
@@ -23,7 +21,7 @@ pub fn run(matches: &ArgMatches, paths: &Paths) {
     } else {
         Env::DEVELOPMENT
     };
-    println!("env: {:?}", env);
+    println!("Start dev_prfs_web, env: {:?}", env);
 
     inject_prfs_web_env(paths, &env);
     run_app(paths);
@@ -42,10 +40,8 @@ fn inject_prfs_web_env(paths: &Paths, env: &Env) {
         std::fs::remove_file(&env_path).unwrap();
     }
 
-    let asset_server_endpoint = match env {
-        Env::DEVELOPMENT => "http://localhost:4010/assets",
-        Env::PRODUCTION => "https://prfs.xyz",
-    };
+    let asset_server_endpoint = get_asset_server_endpoint(&env);
+    let backend_endpoint = get_backend_endpoint(&env);
 
     let mut contents = vec![];
 
@@ -63,7 +59,7 @@ fn inject_prfs_web_env(paths: &Paths, env: &Env) {
     {
         contents.push(format!(
             "{}_PRFS_BACKEND_ENDPOINT={}",
-            NEXT_PREFIX, "http://localhost:4000/api/v0",
+            NEXT_PREFIX, backend_endpoint,
         ));
     }
 
@@ -86,4 +82,22 @@ fn run_app(paths: &Paths) {
         .expect(&format!("{} command failed to start", JS_ENGINE));
 
     assert!(status.success());
+}
+
+fn get_asset_server_endpoint<'a>(env: &Env) -> &'a str {
+    let asset_server_endpoint = match env {
+        Env::DEVELOPMENT => "http://localhost:4010",
+        Env::PRODUCTION => "https://asset.prfs.xyz",
+    };
+
+    asset_server_endpoint
+}
+
+fn get_backend_endpoint<'a>(env: &Env) -> &'a str {
+    let backend_endpoint = match env {
+        Env::DEVELOPMENT => "http://localhost:4000",
+        Env::PRODUCTION => "https://api.prfs.xyz",
+    };
+
+    backend_endpoint
 }
