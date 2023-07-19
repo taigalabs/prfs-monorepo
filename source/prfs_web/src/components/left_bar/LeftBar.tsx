@@ -21,7 +21,9 @@ const Leftbar: React.FC<any> = () => {
           <li>
             <Link href="/generate">{i18n.generate}</Link>
           </li>
-          <li>{i18n.circuits}</li>
+          <li>
+            <Link href="/circuits">{i18n.circuits}</Link>
+          </li>
           <li>{i18n.proof_types}</li>
           <li>{i18n.references}</li>
           <li>
