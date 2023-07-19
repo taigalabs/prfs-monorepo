@@ -7,7 +7,7 @@ export async function initWasm() {
   const handlers: PrfsHandlers = await (
     Comlink.wrap(
       new Worker(new URL("./wasm_worker.js", import.meta.url), {
-        type: "module"
+        type: "module",
       })
     ) as any
   ).handlers;

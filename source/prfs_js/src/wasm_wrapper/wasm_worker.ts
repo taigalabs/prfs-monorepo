@@ -1,10 +1,10 @@
 import { threads } from "wasm-feature-detect";
 import * as Comlink from "comlink";
+
 import { Prfs } from "../prfs";
 import { PrfsWasmType, PrfsHandlers, MerkleProof, PrfsMerkleProof } from "../types";
 import { bigIntToLeBytes, bytesLeToBigInt } from "../helpers/utils";
-
-import { wasmBytes } from './build/prfs_wasm_bytes';
+import { wasmBytes } from "./build/prfs_wasm_bytes";
 
 function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
   console.log("wasm-worker, wrapExports()");
@@ -29,7 +29,7 @@ function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
       let obj = {
         leaves,
         leaf_idx,
-        depth
+        depth,
       };
 
       const merkleProof: PrfsMerkleProof = prfsWasm.make_merkle_proof(obj);
@@ -38,7 +38,7 @@ function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
       const proof = {
         ...merkleProof,
         root: BigInt(merkleProof.root),
-        siblings
+        siblings,
       };
 
       return proof;
@@ -46,7 +46,7 @@ function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
     async getBuildStatus() {
       let res = prfsWasm.get_build_status();
       return res;
-    }
+    },
   };
 
   // return () => {
@@ -70,7 +70,7 @@ async function initHandlers() {
   // const wasmUrl = process.env.NEXT_PUBLIC_MEMBERSHIP_PROVER_WITNESS_GEN_WASM_URL;
   // await prfsWasm.default(wasmUrl as string);
 
-  console.log('wasmBytes found, len: %o', wasmBytes.byteLength);
+  console.log("wasmBytes found, len: %o", wasmBytes.byteLength);
   prfsWasm.initSync(wasmBytes);
 
   console.log("Web worker: threads are available, concurrency: %o", navigator.hardwareConcurrency);
@@ -85,5 +85,5 @@ const handlers = initHandlers();
 console.log("Wasm method explosed, handlers");
 
 Comlink.expose({
-  handlers
+  handlers,
 });

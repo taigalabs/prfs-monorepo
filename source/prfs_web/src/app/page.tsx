@@ -35,12 +35,12 @@ const Home: React.FC = () => {
       <div className={styles.wrapper}>
         <Paper className={styles.paper}>
           <Widget label={i18n.proofs}>
-            <Table />
+            <Table columns={[]} onChangePage={() => {}} />
           </Widget>
         </Paper>
         <Paper className={styles.paper}>
           <Widget label={i18n.proof_types}>
-            <Table />
+            <Table columns={[]} onChangePage={() => {}} />
           </Widget>
         </Paper>
       </div>

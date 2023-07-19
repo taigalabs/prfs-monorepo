@@ -45,7 +45,7 @@ const Generate: React.FC = () => {
   return (
     <DefaultLayout>
       <Widget label={i18n.choose_proof_type}>
-        <Table />
+        <Table columns={[]} onChangePage={() => {}} />
       </Widget>
       <div>
         <button onClick={proveAddressMembership}>btn</button>
