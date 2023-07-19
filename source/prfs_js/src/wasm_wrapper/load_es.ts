@@ -14,6 +14,12 @@ export async function initWasm() {
   const url = new URL("./wasm_worker.js", import.meta.url);
   console.log("url: %o", url);
 
+  let worker = new Worker(new URL("./wasm_worker.js", import.meta.url), {
+    type: "module",
+  });
+
+  console.log("worker: %o", worker);
+
   const handlers: PrfsHandlers = await (
     Comlink.wrap(
       new Worker(new URL("./wasm_worker.js", import.meta.url), {
