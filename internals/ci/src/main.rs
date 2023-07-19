@@ -3,7 +3,7 @@ mod task;
 mod tasks;
 
 use chrono::prelude::*;
-use clap::{command, Arg, ArgAction, ArgMatches};
+use clap::{arg, command, Arg, ArgAction, ArgMatches};
 use colored::Colorize;
 use paths::Paths;
 use serde::{Deserialize, Serialize};
@@ -26,12 +26,12 @@ fn main() {
         .version("v0.1")
         .propagate_version(true)
         .arg_required_else_help(true)
-        .subcommand(clap::Command::new("build"))
-        .subcommand(clap::Command::new("e2e_test_web"))
-        .subcommand(clap::Command::new("dev_prfs_web"))
-        .subcommand(clap::Command::new("dev_asset_server"))
-        .subcommand(clap::Command::new("dev_backend"))
-        .subcommand(clap::Command::new("start_prfs_web"))
+        .subcommand(command!("build"))
+        .subcommand(command!("e2e_test_web"))
+        .subcommand(command!("dev_prfs_web").arg(arg!(--env <STR> "Environment")))
+        .subcommand(command!("dev_asset_server"))
+        .subcommand(command!("dev_backend"))
+        .subcommand(command!("start_prfs_web"))
         .get_matches();
 
     let now = Utc::now();

@@ -6,12 +6,30 @@ use std::process::Command;
 
 const NEXT_PREFIX: &str = "NEXT_PUBLIC";
 
-pub fn run(_matches: &ArgMatches, paths: &Paths) {
-    inject_prfs_web_env(paths);
+#[derive(Debug)]
+enum Env {
+    DEVELOPMENT,
+    PRODUCTION,
+}
+
+pub fn run(matches: &ArgMatches, paths: &Paths) {
+    println!("matches: {:?}", matches);
+
+    let env = if let Some(e) = matches.get_one::<String>("env") {
+        match e.as_str() {
+            "production" => Env::PRODUCTION,
+            _ => panic!("Invalid 'env' argumnent"),
+        }
+    } else {
+        Env::DEVELOPMENT
+    };
+    println!("env: {:?}", env);
+
+    inject_prfs_web_env(paths, &env);
     run_app(paths);
 }
 
-fn inject_prfs_web_env(paths: &Paths) {
+fn inject_prfs_web_env(paths: &Paths, env: &Env) {
     let build_circuits_json_path = paths.prf_asset_serve_path.join("build_circuits.json");
 
     let b = std::fs::read(build_circuits_json_path).unwrap();
@@ -24,17 +42,19 @@ fn inject_prfs_web_env(paths: &Paths) {
         std::fs::remove_file(&env_path).unwrap();
     }
 
-    let serve_url_host = "http://localhost:4010/assets";
+    let asset_server_endpoint = match env {
+        Env::DEVELOPMENT => "http://localhost:4010/assets",
+        Env::PRODUCTION => "https://prfs.xyz",
+    };
 
     let mut contents = vec![];
 
     {
         for (name, file_path) in build_circuits_json.files {
             contents.push(format!(
-                "{}_{}_URL={}/{}",
+                "{}_{}_PATH={}",
                 NEXT_PREFIX,
                 name.to_uppercase(),
-                serve_url_host,
                 file_path
             ));
         }
@@ -44,6 +64,13 @@ fn inject_prfs_web_env(paths: &Paths) {
         contents.push(format!(
             "{}_PRFS_BACKEND_ENDPOINT={}",
             NEXT_PREFIX, "http://localhost:4000/api/v0",
+        ));
+    }
+
+    {
+        contents.push(format!(
+            "{}_PRFS_ASSET_SERVER_ENDPOINT={}",
+            NEXT_PREFIX, asset_server_endpoint,
         ));
     }
 
