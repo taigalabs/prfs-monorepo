@@ -1,7 +1,5 @@
-use super::compile_circuits::BuildCircuitJson;
 use crate::paths::Paths;
 use clap::ArgMatches;
-use colored::Colorize;
 use std::process::Command;
 
 pub fn run(_matches: &ArgMatches, paths: &Paths) {

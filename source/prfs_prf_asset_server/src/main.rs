@@ -1,8 +1,12 @@
+mod apis;
 mod router;
+mod state;
 
 use crate::router::make_router;
 use hyper::Server;
+use hyper_staticfile::Static;
 use routerify::RouterService;
+use state::ServerState;
 use std::net::SocketAddr;
 
 pub type AssetServerError = Box<dyn std::error::Error + Sync + Send>;
@@ -19,7 +23,10 @@ async fn main() -> Result<(), AssetServerError> {
         .try_exists()
         .expect("assets path should exist in the file system"));
 
-    let router = make_router(&assets_path);
+    let static_serve = Static::new(assets_path);
+    let server_state = ServerState { static_serve };
+
+    let router = make_router(server_state);
 
     let service = RouterService::new(router).unwrap();
     let addr: SocketAddr = ([127, 0, 0, 1], 4010).into();
