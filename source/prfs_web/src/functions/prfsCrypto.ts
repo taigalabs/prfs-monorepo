@@ -1,5 +1,5 @@
 import { Prfs, MerkleProof } from "@taigalabs/prfs-js";
-// import { initWasm } from "@taigalabs/prfs-js/build/wasm_wrapper/load_es";
+import { initWasm } from "@taigalabs/prfs-js/build/wasm_wrapper/load_es";
 import {
   ecsign,
   hashPersonalMessage,
@@ -118,7 +118,9 @@ async function f2(signer: ethers.Signer) {
   let addrMembership2CircuitUrl = getAddrMembership2CircuitUrl();
   let addrMembership2WtnsGenUrl = getAddrMembership2WtnsGenUrl();
 
-  // let prfsHandlers = await initWasm();
+  let prfsHandlers = await initWasm();
+  console.log(11, prfsHandlers);
+
   // let prfs = new Prfs(prfsHandlers);
   let prfs = await Prfs.newInstance();
 
