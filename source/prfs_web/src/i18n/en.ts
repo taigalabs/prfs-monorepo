@@ -6,6 +6,7 @@ export default {
   learn: "Learn",
   browse: "Browse",
   generate: "Generate",
+  circuits: "Circuits",
   proofs: "Proofs",
   proof_types: "Proof types",
   references: "References",
