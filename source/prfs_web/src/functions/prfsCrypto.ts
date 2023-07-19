@@ -1,5 +1,5 @@
 import { Prfs, MerkleProof } from "@taigalabs/prfs-js";
-import { initWasm } from "@taigalabs/prfs-js/build/wasm_wrapper/load_es";
+// import { initWasm } from "@taigalabs/prfs-js/build/wasm_wrapper/load_es";
 import {
   ecsign,
   hashPersonalMessage,
@@ -40,8 +40,8 @@ async function f1(signer: ethers.Signer) {
   let addrMembership2WtnsGenUrl = getAddrMembership2WtnsGenUrl();
   let addrMembership2CircuitUrl = getAddrMembership2CircuitUrl();
 
-  let prfsHandlers = await initWasm();
-  let prfs = new Prfs(prfsHandlers);
+  // let prfsHandlers = await initWasm();
+  let prfs = await Prfs.newInstance();
 
   let buildStatus = await prfs.getBuildStatus();
   console.log("buildStatus: %o", buildStatus);
@@ -118,8 +118,9 @@ async function f2(signer: ethers.Signer) {
   let addrMembership2CircuitUrl = getAddrMembership2CircuitUrl();
   let addrMembership2WtnsGenUrl = getAddrMembership2WtnsGenUrl();
 
-  let prfsHandlers = await initWasm();
-  let prfs = new Prfs(prfsHandlers);
+  // let prfsHandlers = await initWasm();
+  // let prfs = new Prfs(prfsHandlers);
+  let prfs = await Prfs.newInstance();
 
   let buildStatus = await prfs.getBuildStatus();
   console.log("buildStatus: %o", buildStatus);
@@ -171,8 +172,10 @@ export async function proveMembershipMock() {
   let addrMembership2CircuitUrl = getAddrMembership2CircuitUrl();
   let addrMembership2WtnsGenUrl = getAddrMembership2WtnsGenUrl();
 
-  let prfsHandlers = await initWasm();
-  let prfs = new Prfs(prfsHandlers);
+  // let prfsHandlers = await initWasm();
+  // let prfs = new Prfs(prfsHandlers);
+  // let prfsHandlers = await initWasm();
+  let prfs = await Prfs.newInstance();
 
   let poseidon = prfs.newPoseidon();
   const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");

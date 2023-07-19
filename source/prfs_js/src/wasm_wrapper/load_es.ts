@@ -1,8 +1,18 @@
-import { PrfsHandlers } from "../types";
 import * as Comlink from "comlink";
+
+import { PrfsHandlers } from "../types";
 
 export async function initWasm() {
   console.log("init()");
+
+  // const blob = new Blob([inline], { type: "text/javascript" });
+  // let a = URL.createObjectURL(blob);
+  // let b = new Worker(a, {
+  //   type: "module",
+  // });
+  // console.log(b);
+  const url = new URL("./wasm_worker.js", import.meta.url);
+  console.log("url: %o", url);
 
   const handlers: PrfsHandlers = await (
     Comlink.wrap(
@@ -14,7 +24,7 @@ export async function initWasm() {
 
   if (!handlers) {
     console.log("handlers not found");
-    return;
+    throw new Error("handler not found");
   }
 
   return handlers;

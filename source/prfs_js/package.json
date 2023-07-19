@@ -9,19 +9,25 @@
     "build/**/*"
   ],
   "scripts": {
-    "build-pkg": "rm -rf ./build && tsc",
-    "build-cjs": "rm -rf ./build_cjs && tsc --project tsconfig.cjs.json",
+    "clean-build": "rm -rf ./build",
+    "clean-build-cjs": "rm -rf ./build_cjs",
+    "build-pkg": "pnpm run clean-build && tsc",
+    "build-cjs": "pnpm run clean-build-cjs && tsc --project tsconfig.cjs.json",
+    "rollup": "pnpm run clean-build && pnpm run clean-build-cjs && rollup -c rollup.config.js",
     "prepublishOnly": "pnpm run build-pkg",
     "test": "jest"
   },
   "devDependencies": {
+    "@rollup/plugin-typescript": "^8.3.3",
     "@types/bn.js": "^5.1.1",
     "@types/elliptic": "^6.4.14",
     "@types/jest": "^29.2.5",
     "core-js": "^3.31.0",
     "jest": "^29.3.1",
+    "rollup": "^2.64.0",
     "ts-jest": "^29.0.3",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "webpack": "^5.88.2"
   },
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
