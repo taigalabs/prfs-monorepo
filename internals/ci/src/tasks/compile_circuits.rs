@@ -29,7 +29,7 @@ impl Task for CompileCircuitsTask {
 
         let circuit_build_path = paths
             .circuit_build_path
-            .join(format!("{}_spartan", circuit_name));
+            .join(format!("{}.circuit", circuit_name));
         println!("circuit_build_path: {:?}", circuit_build_path);
 
         compile_circuits(paths, &circuit_src_path, &circuit_build_path);
@@ -38,22 +38,22 @@ impl Task for CompileCircuitsTask {
             .circuit_build_path
             .join(format!("{}.r1cs", &circuit_name));
 
-        let circuit_asset_path = paths.prf_asset_serve_path.join("circuits");
+        let asset_local_path = paths.prf_asset_serve_path.join("local");
 
-        create_circuit_asset_path(&circuit_asset_path);
+        create_circuit_asset_path(&asset_local_path);
 
         let circuit_compiled_path = paths
             .circuit_build_path
             .join(format!("{}_spartan.circuit", circuit_name));
         let circuit_file_name = format!("{}.circuit", circuit_id,);
-        let circuit_compiled_serve_path = circuit_asset_path.join(&circuit_file_name);
+        let circuit_compiled_serve_path = asset_local_path.join(&circuit_file_name);
 
         let wtns_gen_src_path = paths
             .circuit_build_path
             .join(format!("{}_js/{}.wasm", circuit_name, circuit_name));
         let wtns_gen_file_name = format!("{}.wasm", circuit_id);
 
-        let wtns_gen_serve_path = circuit_asset_path.join(&wtns_gen_file_name);
+        let wtns_gen_serve_path = asset_local_path.join(&wtns_gen_file_name);
 
         circuit_reader::make_spartan_instance(
             &circuit_r1cs_path,
@@ -70,7 +70,13 @@ impl Task for CompileCircuitsTask {
             &wtns_gen_serve_path,
         );
 
-        create_build_json(build_handle, paths, &circuit_file_name, &wtns_gen_file_name);
+        create_build_json(
+            build_handle,
+            paths,
+            &asset_local_path,
+            &circuit_file_name,
+            &wtns_gen_file_name,
+        );
 
         Ok(())
     }
@@ -143,18 +149,19 @@ fn copy_assets(
 
 fn create_build_json(
     build_handle: &BuildHandle,
-    paths: &Paths,
+    _paths: &Paths,
+    asset_local_path: &PathBuf,
     circuit_file_name: &String,
     wtns_gen_file_name: &String,
 ) {
     let files = HashMap::from([
         (
             String::from("addr_membership2_circuit"),
-            format!("circuits/{}", circuit_file_name),
+            format!("{}", circuit_file_name),
         ),
         (
             String::from("addr_membership2_wtns_gen"),
-            format!("circuits/{}", wtns_gen_file_name),
+            format!("{}", wtns_gen_file_name),
         ),
     ]);
 
@@ -163,7 +170,7 @@ fn create_build_json(
         files,
     };
 
-    let circuit_build_json_path = paths.prf_asset_serve_path.join("build_circuits.json");
+    let circuit_build_json_path = asset_local_path.join("build.json");
     println!(
         "{} a file, path: {:?}",
         "Recreating".green(),
