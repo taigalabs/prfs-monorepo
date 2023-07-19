@@ -1,13 +1,10 @@
 use crate::apis::{prfs_account, proofs};
-use crate::routes;
 use crate::state::ServerState;
 use crate::{apis::nodes, middleware, BackendError};
-use hyper::{body, header, Body, Request, Response};
+use hyper::{header, Body, Request, Response};
 use prfs_db_interface::database::Database;
-use routerify::prelude::*;
 use routerify::{Middleware, Router};
 use routerify_cors::enable_cors_all;
-use serde::{Deserialize, Serialize};
 use std::convert::Infallible;
 use std::sync::Arc;
 
@@ -41,7 +38,7 @@ pub fn make_router(db: Database) -> Result<Router<Body, Infallible>, BackendErro
     Ok(r)
 }
 
-pub async fn status_handler(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+pub async fn status_handler(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
     println!("status handler!");
 
     let data = "Ok".to_string();

@@ -3,7 +3,7 @@ use crate::geth::{
 };
 use crate::TreeMakerError;
 use prfs_db_interface::database::Database;
-use prfs_db_interface::models::Account;
+use prfs_db_interface::models::EthAccount;
 use rust_decimal::Decimal;
 use std::collections::BTreeMap;
 use std::time::Duration;
@@ -84,7 +84,7 @@ async fn scan_ledger_accounts(
         start_block, end_block, scan_interval, update_on_conflict,
     );
 
-    let mut balances = BTreeMap::<String, Account>::new();
+    let mut balances = BTreeMap::<String, EthAccount>::new();
 
     let mut conseq_err_count = 0;
     for no in start_block..end_block {
@@ -249,7 +249,7 @@ async fn scan_ledger_accounts(
 
 async fn get_balance_and_add_item(
     geth_client: &GethClient,
-    addresses: &mut BTreeMap<String, Account>,
+    addresses: &mut BTreeMap<String, EthAccount>,
     addr: String,
 ) -> Result<(), TreeMakerError> {
     if addresses.contains_key(&addr) {
@@ -292,7 +292,7 @@ async fn get_balance_and_add_item(
                 }
             };
 
-            let acc = Account {
+            let acc = EthAccount {
                 addr: addr.to_string(),
                 wei,
             };

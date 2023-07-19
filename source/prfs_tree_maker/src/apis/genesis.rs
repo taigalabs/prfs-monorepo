@@ -1,7 +1,7 @@
 use crate::geth::{GetBalanceRequest, GethClient};
 use crate::TreeMakerError;
 use prfs_db_interface::database::Database;
-use prfs_db_interface::models::Account;
+use prfs_db_interface::models::EthAccount;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, HashMap};
@@ -50,7 +50,7 @@ async fn process_genesis_block_accounts(
         if let Some(r) = resp.result {
             let wei_str = r.strip_prefix("0x").expect("wei should contain 0x");
             let wei = Decimal::from_str_radix(wei_str, 16).unwrap();
-            let acc = Account {
+            let acc = EthAccount {
                 addr: addr.to_string(),
                 wei,
             };
