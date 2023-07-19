@@ -64,7 +64,12 @@ function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
 
 async function initHandlers() {
   // If threads are unsupported in this browser, skip this handler.
-  if (!(await threads())) return;
+  if (!(await threads())) {
+    console.log("threads no support");
+    return;
+  } else {
+    console.log("threads are supported!");
+  }
 
   const prfsWasm = await import("./build");
   // const wasmUrl = process.env.NEXT_PUBLIC_MEMBERSHIP_PROVER_WITNESS_GEN_WASM_URL;
