@@ -17,7 +17,6 @@ impl Task for BuildWasmTask {
         build_wasm(build_handle, paths);
         sanity_check(build_handle, paths);
         embed_wasm(build_handle, paths);
-        // create_build_status(build_handle, paths);
 
         Ok(())
     }
@@ -136,25 +135,3 @@ fn embed_wasm(build_handle: &BuildHandle, paths: &Paths) {
 
     std::fs::write(wasm_bytes_path, contents).unwrap();
 }
-
-// fn create_build_status(build_handle: &BuildHandle, paths: &Paths) {
-//     let build_json = json!({
-//         "timestamp": build_handle.timestamp,
-//     });
-
-//     let build_json_path = paths.prf_asset_serve_path.join("build_prfs_wasm.json");
-//     println!(
-//         "{} a file, path: {:?}",
-//         "Recreating".green(),
-//         build_json_path,
-//     );
-
-//     if build_json_path.exists() {
-//         std::fs::remove_file(&build_json_path).unwrap();
-//     }
-
-//     let mut fd = std::fs::File::create(&build_json_path).unwrap();
-//     let build_json_str = serde_json::to_string_pretty(&build_json).unwrap();
-
-//     fd.write_all(&build_json_str.into_bytes()).unwrap();
-// }

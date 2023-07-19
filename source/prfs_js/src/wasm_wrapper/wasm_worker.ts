@@ -1,9 +1,7 @@
 import { threads } from "wasm-feature-detect";
 import * as Comlink from "comlink";
 
-import { Prfs } from "../prfs";
-import { PrfsWasmType, PrfsHandlers, MerkleProof, PrfsMerkleProof } from "../types";
-import { bigIntToLeBytes, bytesLeToBigInt } from "../helpers/utils";
+import { PrfsWasmType, PrfsHandlers, PrfsMerkleProof } from "../types";
 import { wasmBytes } from "./build/prfs_wasm_bytes";
 
 function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
@@ -63,7 +61,6 @@ function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
 }
 
 async function initHandlers() {
-  // If threads are unsupported in this browser, skip this handler.
   if (!(await threads())) {
     console.log("threads no support");
     return;
@@ -72,8 +69,6 @@ async function initHandlers() {
   }
 
   const prfsWasm = await import("./build");
-  // const wasmUrl = process.env.NEXT_PUBLIC_MEMBERSHIP_PROVER_WITNESS_GEN_WASM_URL;
-  // await prfsWasm.default(wasmUrl as string);
 
   console.log("wasmBytes found, len: %o", wasmBytes.byteLength);
   prfsWasm.initSync(wasmBytes);

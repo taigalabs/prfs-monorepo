@@ -115,8 +115,8 @@ fn compile_circuits(paths: &Paths, circuit_src_path: &PathBuf, circuit_build_pat
 }
 
 fn copy_assets(
-    build_handle: &BuildHandle,
-    paths: &Paths,
+    _build_handle: &BuildHandle,
+    _paths: &Paths,
     circuit_compiled_path: PathBuf,
     circuit_compiled_serve_path: &PathBuf,
     wtns_gen_src_path: &PathBuf,

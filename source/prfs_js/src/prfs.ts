@@ -2,8 +2,7 @@ import { Tree } from "./helpers/tree";
 import { makePoseidon } from "./helpers/poseidon";
 import { MembershipProofGen } from "./proof_gen/membership_proof_gen";
 import { PrfsHandlers, AsyncHashFn } from "./types";
-
-import { initWasm } from "./wasm_wrapper/load_es";
+import { initWasm } from "./wasm_wrapper/load_worker";
 
 export class Prfs {
   isInitilized: boolean;
