@@ -23,37 +23,36 @@ impl Task for CompileCircuitsTask {
         let circuit_id = format!("{}_{}", circuit_name, build_handle.timestamp);
 
         let circuit_src_path = PATHS
-            .circuits_path
+            .prfs_circuits
             .join(format!("instances/{}.circom", circuit_name));
         println!("circuit_src_path: {:?}", circuit_src_path);
 
         let circuit_build_path = PATHS
-            .circuit_build_path
+            .circuits_build
             .join(format!("{}.circuit", circuit_name));
         println!("circuit_build_path: {:?}", circuit_build_path);
 
         compile_circuits(&circuit_src_path, &circuit_build_path);
 
-        let circuit_r1cs_path = PATHS
-            .circuit_build_path
-            .join(format!("{}.r1cs", &circuit_name));
+        let circuit_r1cs_path = PATHS.circuits_build.join(format!("{}.r1cs", &circuit_name));
 
-        let asset_local_path = PATHS.prf_asset_serve_path.join("local");
-
-        create_circuit_asset_path(&asset_local_path);
+        create_circuit_asset_path(&PATHS.prf_asset_server_assets_local);
 
         let circuit_compiled_path = PATHS
-            .circuit_build_path
+            .circuits_build
             .join(format!("{}_spartan.circuit", circuit_name));
         let circuit_file_name = format!("{}.circuit", circuit_id,);
-        let circuit_compiled_serve_path = asset_local_path.join(&circuit_file_name);
+        let circuit_compiled_serve_path =
+            PATHS.prf_asset_server_assets_local.join(&circuit_file_name);
 
         let wtns_gen_src_path = PATHS
-            .circuit_build_path
+            .circuits_build
             .join(format!("{}_js/{}.wasm", circuit_name, circuit_name));
         let wtns_gen_file_name = format!("{}.wasm", circuit_id);
 
-        let wtns_gen_serve_path = asset_local_path.join(&wtns_gen_file_name);
+        let wtns_gen_serve_path = PATHS
+            .prf_asset_server_assets_local
+            .join(&wtns_gen_file_name);
 
         circuit_reader::make_spartan_instance(
             &circuit_r1cs_path,
@@ -69,12 +68,7 @@ impl Task for CompileCircuitsTask {
             &wtns_gen_serve_path,
         );
 
-        create_build_json(
-            build_handle,
-            &asset_local_path,
-            &circuit_file_name,
-            &wtns_gen_file_name,
-        );
+        create_build_json(build_handle, &circuit_file_name, &wtns_gen_file_name);
 
         Ok(())
     }
@@ -100,7 +94,7 @@ fn compile_circuits(circuit_src_path: &PathBuf, circuit_build_path: &PathBuf) {
         circuit_build_path
     );
 
-    std::fs::create_dir_all(&PATHS.circuit_build_path).unwrap();
+    std::fs::create_dir_all(&PATHS.circuits_build).unwrap();
 
     let status = Command::new("circom-secq")
         .args([
@@ -110,7 +104,7 @@ fn compile_circuits(circuit_src_path: &PathBuf, circuit_build_path: &PathBuf) {
             "--prime",
             "secq256k1",
             "-o",
-            PATHS.circuit_build_path.to_str().unwrap(),
+            PATHS.circuits_build.to_str().unwrap(),
         ])
         .status()
         .expect("circom-secq command failed to start");
@@ -146,7 +140,6 @@ fn copy_assets(
 
 fn create_build_json(
     build_handle: &BuildHandle,
-    asset_local_path: &PathBuf,
     circuit_file_name: &String,
     wtns_gen_file_name: &String,
 ) {
@@ -166,7 +159,7 @@ fn create_build_json(
         files,
     };
 
-    let circuit_build_json_path = asset_local_path.join("build.json");
+    let circuit_build_json_path = PATHS.prf_asset_server_assets_local.join("build.json");
     println!(
         "{} a file, path: {:?}",
         "Recreating".green(),

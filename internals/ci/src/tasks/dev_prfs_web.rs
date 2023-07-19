@@ -28,7 +28,7 @@ pub fn run(matches: &ArgMatches) {
 }
 
 fn inject_prfs_web_env(env: &Env) {
-    let build_circuits_json_path = PATHS.prf_asset_serve_path.join("build_circuits.json");
+    let build_circuits_json_path = PATHS.prf_asset_server_assets_local.join("build.json");
 
     let b = std::fs::read(build_circuits_json_path).unwrap();
     let build_circuits_json: BuildCircuitJson = serde_json::from_slice(&b).unwrap();

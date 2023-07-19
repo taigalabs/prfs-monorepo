@@ -39,7 +39,7 @@ fn check_wasm_pack() {
 }
 
 fn build_wasm(build_handle: &mut BuildHandle) {
-    let prfs_wasm_build_path = PATHS.wasm_build_path.to_str().unwrap();
+    let prfs_wasm_build_path = PATHS.wasm_build.to_str().unwrap();
 
     let status = Command::new("rm")
         .args(["-rf", &prfs_wasm_build_path])
@@ -48,7 +48,7 @@ fn build_wasm(build_handle: &mut BuildHandle) {
 
     assert!(status.success());
 
-    let prfs_wasm_path = PATHS.wasm_path.to_str().unwrap();
+    let prfs_wasm_path = PATHS.prfs_wasm.to_str().unwrap();
     println!("prfs_wasm_path: {}", prfs_wasm_path);
 
     let out_name = format!("prfs_wasm_{}", build_handle.timestamp);
@@ -78,7 +78,7 @@ fn build_wasm(build_handle: &mut BuildHandle) {
 
 fn sanity_check(build_handle: &BuildHandle) {
     let prfs_wasm_js_path = PATHS
-        .wasm_build_path
+        .wasm_build
         .join(format!("prfs_wasm_{}.js", build_handle.timestamp));
 
     let js_str = std::fs::read_to_string(prfs_wasm_js_path)
@@ -94,7 +94,7 @@ fn sanity_check(build_handle: &BuildHandle) {
 }
 
 fn embed_wasm(build_handle: &BuildHandle) {
-    let prfs_wasm_embedded_path = PATHS.prfs_js_path.join("src/wasm_wrapper/build");
+    let prfs_wasm_embedded_path = PATHS.prfs_js.join("src/wasm_wrapper/build");
 
     println!(
         "{} a directory, path: {:?}",
@@ -109,7 +109,7 @@ fn embed_wasm(build_handle: &BuildHandle) {
     let status = Command::new("cp")
         .args([
             "-R",
-            PATHS.wasm_build_path.to_str().unwrap(),
+            PATHS.wasm_build.to_str().unwrap(),
             prfs_wasm_embedded_path.to_str().unwrap(),
         ])
         .status()
