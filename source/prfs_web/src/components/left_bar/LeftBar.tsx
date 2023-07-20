@@ -26,7 +26,11 @@ const Leftbar: React.FC<any> = () => {
             <ActiveLink href="/circuits">{i18n.circuits}</ActiveLink>
           </li>
           <li>{i18n.proof_types}</li>
-          <li>{i18n.references}</li>
+        </ul>
+      </div>
+      <div className={styles.section}>
+        <ul>
+          <li className={styles.category}>{i18n.references}</li>
           <li>
             <ActiveLink href="/sets">{i18n.sets}</ActiveLink>
           </li>
