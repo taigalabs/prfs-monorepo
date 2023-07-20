@@ -1,0 +1,7 @@
+[
+  {
+    "name": "addr_membership2"
+    "instance_path": "instances/addr_membership2.circuit",
+    "num_public_inputs": 5
+  }
+]

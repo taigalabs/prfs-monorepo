@@ -14,6 +14,8 @@ pub fn make_spartan_instance(
     output_path: &PathBuf,
     num_pub_inputs: usize,
 ) {
+    // let circuit_r1cs_path = PATHS.circuits_build.join(format!("{}.r1cs", &circuit.name));
+    //
     println!("\ngen_spartan_inst()");
 
     // let circom_r1cs_path = args().nth(1).unwrap();
