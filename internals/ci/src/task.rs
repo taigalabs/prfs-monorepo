@@ -1,4 +1,4 @@
-use crate::{BuildHandle, CiError};
+use crate::{build_handle::BuildHandle, CiError};
 
 pub trait Task {
     fn name(&self) -> &str;

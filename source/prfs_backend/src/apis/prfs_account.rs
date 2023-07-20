@@ -4,7 +4,7 @@ use crate::{
     state::ServerState,
     BackendError,
 };
-use hyper::{body, header, Body, Request, Response, StatusCode};
+use hyper::{body, Body, Request, Response};
 use prfs_db_interface::models::PrfsAccount;
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};

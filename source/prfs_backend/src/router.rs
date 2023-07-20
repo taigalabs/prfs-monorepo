@@ -1,4 +1,4 @@
-use crate::apis::{prfs_account, proofs};
+use crate::apis::{circuits, prfs_account, proofs};
 use crate::state::ServerState;
 use crate::{apis::nodes, middleware, BackendError};
 use hyper::{header, Body, Request, Response};
@@ -22,6 +22,10 @@ pub fn make_router(db: Database) -> Result<Router<Body, Infallible>, BackendErro
         .post(
             format!("{}/prfs_account/sign_up", PREFIX),
             prfs_account::sign_up,
+        )
+        .post(
+            format!("{}/circuits/get_circuits", PREFIX),
+            circuits::get_circuits,
         )
         .post(
             format!("{}/prfs_account/sign_in", PREFIX),

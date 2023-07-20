@@ -1,3 +1,4 @@
+mod build_handle;
 mod paths;
 mod task;
 mod tasks;
@@ -5,7 +6,6 @@ mod tasks;
 use chrono::prelude::*;
 use clap::{arg, command, ArgMatches};
 use colored::Colorize;
-use serde::{Deserialize, Serialize};
 use std::env;
 use task::Task;
 use tasks::{
@@ -13,12 +13,9 @@ use tasks::{
     build_wasm::BuildWasmTask, compile_circuits::CompileCircuitsTask,
 };
 
-pub type CiError = Box<dyn std::error::Error + Sync + Send>;
+use crate::build_handle::BuildHandle;
 
-#[derive(Serialize, Deserialize)]
-pub struct BuildHandle {
-    pub timestamp: String,
-}
+pub type CiError = Box<dyn std::error::Error + Sync + Send>;
 
 fn main() {
     let matches = command!() // requires `cargo` feature
