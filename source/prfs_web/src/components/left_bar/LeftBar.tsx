@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import styles from "./LeftBar.module.scss";
 import { i18nContext } from "@/contexts/i18n";
+import ActiveLink from '@/components/active_link/ActiveLink';
 
 const Leftbar: React.FC<any> = () => {
   const i18n = React.useContext(i18nContext);
@@ -19,13 +20,15 @@ const Leftbar: React.FC<any> = () => {
         <ul>
           <li className={styles.category}>{i18n.generate}</li>
           <li>
-            <Link href="/generate">{i18n.generate}</Link>
+            <ActiveLink href="/generate">{i18n.generate}</ActiveLink>
           </li>
-          <li>{i18n.circuits}</li>
+          <li>
+            <ActiveLink href="/circuits">{i18n.circuits}</ActiveLink>
+          </li>
           <li>{i18n.proof_types}</li>
           <li>{i18n.references}</li>
           <li>
-            <Link href="/sets">{i18n.sets}</Link>
+            <ActiveLink href="/sets">{i18n.sets}</ActiveLink>
           </li>
         </ul>
       </div>
