@@ -3,7 +3,7 @@ mod paths;
 mod router;
 mod state;
 
-use crate::{paths::Paths, router::make_router};
+use crate::router::make_router;
 use hyper::Server;
 use hyper_staticfile::Static;
 use routerify::RouterService;
@@ -17,8 +17,8 @@ async fn main() -> Result<(), AssetServerError> {
     let curr_dir = std::env::current_dir().unwrap();
     println!("curr_dir: {:?}", curr_dir);
 
-    let assets_path = curr_dir.join("source/prfs_prf_asset_server/assets");
-    println!("assets_path: {:?}", assets_path);
+    let assets_path = curr_dir.join("source/prfs_prf_asset_server/assets/local");
+    println!("asset serve path: {:?}", assets_path);
 
     assert!(assets_path
         .try_exists()

@@ -28,13 +28,13 @@ pub fn run(matches: &ArgMatches) {
 }
 
 fn inject_prfs_web_env(env: &Env) {
-    let build_circuits_json_path = PATHS.prf_asset_server_assets_local.join("build.json");
+    let assets_json_path = PATHS.prf_asset_server_assets_local.join("assets.json");
 
-    let b = std::fs::read(build_circuits_json_path).unwrap();
+    let b = std::fs::read(assets_json_path).unwrap();
     let assets_json: AssetsJson = serde_json::from_slice(&b).unwrap();
 
     let env_path = PATHS.prfs_web.join(".env");
-    println!("{} a file, path: {:?}", "Recreating".green(), env_path);
+    println!("{} a file, path: {:?}", "Creating".green(), env_path);
 
     if env_path.exists() {
         std::fs::remove_file(&env_path).unwrap();
@@ -45,16 +45,21 @@ fn inject_prfs_web_env(env: &Env) {
 
     let mut contents = vec![];
 
-    // {
-    //     for file_path in assets_json.files {
-    //         contents.push(format!(
-    //             "{}_{}_PATH={}",
-    //             NEXT_PREFIX,
-    //             name.to_uppercase(),
-    //             file_path
-    //         ));
-    //     }
-    // }
+    {
+        for file_path in assets_json.files {
+            if file_path.ends_with(".circuit") {
+                contents.push(format!(
+                    "{}_ADDR_MEMBERSHIP_TEMP_CIRCUIT_URL={}/assets/{}",
+                    NEXT_PREFIX, asset_server_endpoint, file_path,
+                ));
+            } else {
+                contents.push(format!(
+                    "{}_ADDR_MEMBERSHIP_TEMP_WTNS_GEN_URL={}/assets/{}",
+                    NEXT_PREFIX, asset_server_endpoint, file_path,
+                ));
+            }
+        }
+    }
 
     {
         contents.push(format!(
