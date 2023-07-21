@@ -2,3 +2,4 @@ log_files/**/*
 !/log_files/.gitkeep
 .env
 !sample.env
+seed.json
