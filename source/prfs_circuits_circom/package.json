@@ -1,5 +1,5 @@
 {
-  "name": "@taigalabs/prfs-circuits",
+  "name": "@taigalabs/prfs-circuits-circom",
   "version": "0.1.0",
   "license": "MIT",
   "dependencies": {

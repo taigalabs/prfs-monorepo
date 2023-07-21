@@ -40,10 +40,10 @@ fn main() {
             let build_handle = BuildHandle { timestamp };
 
             let tasks: Vec<Box<dyn Task>> = vec![
-                Box::new(BuildWasmTask),
+                // Box::new(BuildWasmTask),
                 Box::new(CompileCircuitsTask),
-                Box::new(BuildJsDependenciesTask),
-                Box::new(BuildPrfsJsTask),
+                // Box::new(BuildJsDependenciesTask),
+                // Box::new(BuildPrfsJsTask),
             ];
 
             run_tasks(sub_matches, tasks, build_handle).expect("Ci failed");

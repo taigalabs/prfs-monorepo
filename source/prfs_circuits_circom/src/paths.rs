@@ -21,7 +21,7 @@ pub struct Paths {
 
 impl Paths {
     pub fn new() -> Paths {
-        println!("Initializing paths...");
+        println!("Initializing {} paths...", env!("CARGO_PKG_NAME"));
 
         let curr_dir = std::env::current_dir().unwrap();
         println!("curr_dir: {:?}", curr_dir);

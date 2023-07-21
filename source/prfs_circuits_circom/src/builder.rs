@@ -1,9 +1,7 @@
-use crate::{paths::PATHS, task::Task, BuildHandle, CiError};
+use crate::paths::PATHS;
 use colored::Colorize;
 use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, fs, io::Write, path::PathBuf, process::Command};
-
-pub struct CompileCircuitsTask;
 
 #[derive(Serialize, Deserialize)]
 pub struct AssetsJson {
@@ -17,52 +15,8 @@ pub struct Circuit {
     pub num_public_inputs: usize,
 }
 
-impl Task for CompileCircuitsTask {
-    fn name(&self) -> &str {
-        "compile_circuits"
-    }
-
-    fn run(&self, build_handle: &mut BuildHandle) -> Result<(), CiError> {
-        run_app();
-        // clean_build();
-
-        // let compile_json = read_compile_json();
-
-        // for circuit in compile_json {
-        //     compile_circuits(&circuit);
-        //     let circuit_spartan_path = make_spartan(&circuit);
-        //     create_local_server_asset_path();
-        //     copy_assets(&circuit, &build_handle.timestamp, &circuit_spartan_path);
-        // }
-
-        Ok(())
-    }
-}
-
-fn run_app() {
-    let bin = "cargo";
-    let status = Command::new(bin)
-        .current_dir(&PATHS.prfs_backend)
-        .args(["run", "-p", "prfs_circuits_circom"])
-        .status()
-        .expect(&format!("{} command failed to start", bin));
-
-    assert!(status.success());
-}
-
-fn create_local_server_asset_path() {
-    let local_server_asset_path = &PATHS.prf_asset_server_assets_local;
-
-    println!(
-        "{} a directory, path: {:?}",
-        "Recreating".green(),
-        local_server_asset_path,
-    );
-
-    if local_server_asset_path.exists() {
-        std::fs::remove_dir_all(&local_server_asset_path).unwrap();
-    }
-    std::fs::create_dir_all(&local_server_asset_path).unwrap();
+pub fn run() {
+    println!("build");
 }
 
 fn make_spartan(circuit: &Circuit) -> PathBuf {

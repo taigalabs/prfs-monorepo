@@ -23,15 +23,6 @@
     "rimraf": "^3.0.2",
     "snarkjs": "^0.5.0"
   },
-  "workspaces": {
-    "packages": [
-      "externals/incremental-merkle-tree",
-      "source/prfs_js",
-      "source/prfs_web",
-      "source/prfs_circuits",
-      "source/e2e_test_node"
-    ]
-  },
   "dependencies": {
     "@mui/icons-material": "^5.14.0",
     "@thirdweb-dev/react": "^3.14.13",
