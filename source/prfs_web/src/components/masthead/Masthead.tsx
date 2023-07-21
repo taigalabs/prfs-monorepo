@@ -4,7 +4,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import { useRouter } from "next/navigation";
 import { useFloating, useClick, useInteractions, useDismiss } from "@floating-ui/react";
-import localStorage from "@/storage/localStorage";
+import localStore from "@/storage/localStore";
 
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -34,7 +34,7 @@ const AccountStat: React.FC<AccountStatProps> = ({ account }) => {
       type: "sign_out",
     });
 
-    localStorage.removePrfsAccount();
+    localStore.removePrfsAccount();
 
     router.push("/");
   }, []);

@@ -4,7 +4,7 @@ import React from "react";
 
 import { Action } from "@/state/actions";
 import reducer, { AppState } from "@/state/reducer";
-import localStorage from "@/storage/localStorage";
+import localStore from "@/storage/localStore";
 
 const initialState: AppState = {
   prfsAccount: undefined,
@@ -16,7 +16,7 @@ export const stateContext = React.createContext({
 });
 
 export const StateProvider = ({ children }) => {
-  // let prfsAccount = localStorage.getPrfsAccount();
+  // let prfsAccount = localStore.getPrfsAccount();
 
   // let iState: AppState;
   // if (prfsAccount !== null) {

@@ -14,7 +14,7 @@ import { i18nContext } from "@/contexts/i18n";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
 import Button from "@/components/button/Button";
 import { signIn } from "@/functions/prfsAccount";
-import localStorage from "@/storage/localStorage";
+import localStore from "@/storage/localStore";
 
 const metamaskConfig = metamaskWallet();
 
@@ -78,7 +78,7 @@ const SignIn: React.FC = () => {
           },
         });
 
-        localStorage.putPrfsAccount(resp.payload.sig, walletAddr);
+        localStore.putPrfsAccount(resp.payload.sig, walletAddr);
 
         router.push("/");
       } catch (err) {

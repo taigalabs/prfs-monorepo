@@ -9,6 +9,8 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
 
+import localStore from "@/storage/localStore";
+import { stateContext } from "@/contexts/state";
 import Table from "@/components/table/Table";
 import styles from "./Generate.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -20,6 +22,18 @@ const metamaskConfig = metamaskWallet();
 
 const Generate: React.FC = () => {
   let i18n = React.useContext(i18nContext);
+  const { state, dispatch } = React.useContext(stateContext);
+
+  React.useEffect(() => {
+    let prfsAccount = localStore.getPrfsAccount();
+
+    if (prfsAccount !== null) {
+      dispatch({
+        type: "load_prfs_account",
+        payload: prfsAccount,
+      });
+    }
+  }, []);
 
   const proveAddressMembershipMock = React.useCallback(() => {
     proveMembershipMock().then(() => {});

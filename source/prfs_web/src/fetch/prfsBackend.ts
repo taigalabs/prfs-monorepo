@@ -1,6 +1,6 @@
 "use client";
 
-const PRFS_BACKEND_ENDPOINT = process.env.NEXT_PUBLIC_PRFS_BACKEND_ENDPOINT;
+const PRFS_BACKEND_ENDPOINT = `${process.env.NEXT_PUBLIC_PRFS_BACKEND_ENDPOINT}/api/v0`;
 
 export interface SignUpRequest {
   sig: string;
