@@ -1,13 +1,18 @@
 use dotenv::dotenv;
 use hyper::Server;
-use prfs_backend::{router, BackendError};
+use prfs_backend::{router, seed::SeedJson, BackendError};
 use prfs_db_interface::database::Database;
 use routerify::RouterService;
-use std::net::SocketAddr;
+use std::{net::SocketAddr, path::PathBuf};
 
 #[tokio::main]
 async fn main() -> Result<(), BackendError> {
     println!("Starting backend server...");
+
+    let curr_dir = std::env::current_dir().unwrap();
+    println!("curr_dir: {:?}", curr_dir);
+
+    let local_assets = load_local_assets(&curr_dir)?;
 
     dotenv().expect("dotenv failed");
 
@@ -27,4 +32,12 @@ async fn main() -> Result<(), BackendError> {
     }
 
     Ok(())
+}
+
+fn load_local_assets(curr_dir: &PathBuf) -> Result<SeedJson, BackendError> {
+    let seed_json_path = curr_dir.join("seed.json");
+    let seed_json = std::fs::read(&seed_json_path).unwrap();
+    let seed_json: SeedJson = serde_json::from_slice(&seed_json)?;
+
+    Ok(seed_json)
 }
