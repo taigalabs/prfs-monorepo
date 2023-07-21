@@ -1,7 +1,7 @@
 [
   {
-    "name": "addr_membership2"
-    "instance_path": "instances/addr_membership2.circuit",
+    "name": "addr_membership2",
+    "instance_path": "instances/addr_membership2.circom",
     "num_public_inputs": 5
   }
 ]

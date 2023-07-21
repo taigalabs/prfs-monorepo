@@ -1,4 +1,4 @@
-use super::compile_circuits::BuildCircuitJson;
+use super::compile_circuits::AssetsJson;
 use crate::{paths::PATHS, tasks::JS_ENGINE};
 use clap::ArgMatches;
 use colored::Colorize;
@@ -16,7 +16,7 @@ fn inject_prfs_web_env() {
     let build_circuits_json_path = PATHS.prf_asset_server_assets_local.join("build.json");
 
     let b = std::fs::read(build_circuits_json_path).unwrap();
-    let build_circuits_json: BuildCircuitJson = serde_json::from_slice(&b).unwrap();
+    let assets_json: AssetsJson = serde_json::from_slice(&b).unwrap();
 
     let env_path = PATHS.prfs_web.join(".env");
     println!("{} a file, path: {:?}", "Recreating".green(), env_path);
@@ -29,17 +29,17 @@ fn inject_prfs_web_env() {
 
     let mut contents = vec![];
 
-    {
-        for (name, file_path) in build_circuits_json.files {
-            contents.push(format!(
-                "{}_{}_URL={}/{}",
-                NEXT_PREFIX,
-                name.to_uppercase(),
-                serve_url_host,
-                file_path
-            ));
-        }
-    }
+    // {
+    //     for file in assets_json.files {
+    //         contents.push(format!(
+    //             "{}_{}_URL={}/{}",
+    //             NEXT_PREFIX,
+    //             name.to_uppercase(),
+    //             serve_url_host,
+    //             file_path
+    //         ));
+    //     }
+    // }
 
     {
         contents.push(format!(

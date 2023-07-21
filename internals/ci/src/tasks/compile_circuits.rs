@@ -6,16 +6,15 @@ use std::{collections::HashMap, fs, io::Write, path::PathBuf, process::Command};
 pub struct CompileCircuitsTask;
 
 #[derive(Serialize, Deserialize)]
-pub struct BuildCircuitJson {
-    pub timestamp: String,
-    pub files: HashMap<String, String>,
+pub struct AssetsJson {
+    pub files: Vec<String>,
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct Circuit {
     pub name: String,
     pub instance_path: String,
-    pub num_pub_inputs: usize,
+    pub num_public_inputs: usize,
 }
 
 impl Task for CompileCircuitsTask {
@@ -29,43 +28,11 @@ impl Task for CompileCircuitsTask {
         let compile_json = read_compile_json();
 
         for circuit in compile_json {
-            // let circuit_id = format!("{}_{}", circuit.name, build_handle.timestamp);
-
-            compile_circuits(&circuit, &build_handle.timestamp);
-
+            compile_circuits(&circuit);
+            let circuit_spartan_path = make_spartan(&circuit);
             create_local_server_asset_path();
-
-            // let circuit_file_name = format!("{}.circuit", circuit_id,);
-            // let circuit_compiled_serve_path =
-            //     PATHS.prf_asset_server_assets_local.join(&circuit_file_name);
-
-            // let wtns_gen_src_path = PATHS
-            //     .circuits_build
-            //     .join(format!("{}_js/{}.wasm", circuit.name, circuit.name));
-            // let wtns_gen_file_name = format!("{}.wasm", circuit_id);
-
-            // let wtns_gen_serve_path = PATHS
-            //     .prf_asset_server_assets_local
-            //     .join(&wtns_gen_file_name);
-            //
-            make_spartan(&circuit);
-
-            // circuit_reader::make_spartan_instance(
-            //     &circuit_r1cs_path,
-            //     &circuit_compiled_path,
-            //     circuit.num_pub_inputs,
-            // );
+            copy_assets(&circuit, &build_handle.timestamp, &circuit_spartan_path);
         }
-
-        // copy_assets(
-        //     build_handle,
-        //     circuit_compiled_path,
-        //     &circuit_compiled_serve_path,
-        //     &wtns_gen_src_path,
-        //     &wtns_gen_serve_path,
-        // );
-
-        // create_build_json(build_handle, &circuit_file_name, &wtns_gen_file_name);
 
         Ok(())
     }
@@ -86,21 +53,23 @@ fn create_local_server_asset_path() {
     std::fs::create_dir_all(&local_server_asset_path).unwrap();
 }
 
-fn make_spartan(circuit: &Circuit) {
-    let circuit_r1cs_path = PATHS.circuits_build.join(format!("{}.r1cs", &circuit.name));
-    let circuit_compiled_path = PATHS
-        .circuits_build
-        .join(format!("{}_spartan.circuit", circuit.name));
+fn make_spartan(circuit: &Circuit) -> PathBuf {
+    let build_path = PATHS.circuits_build.join(&circuit.name);
+    let circuit_r1cs_path = build_path.join(format!("{}.r1cs", &circuit.name));
+    let circuit_dest_path = build_path.join(format!("{}_spartan.circuit", circuit.name));
 
     circuit_reader::make_spartan_instance(
         &circuit_r1cs_path,
-        &circuit_compiled_path,
-        circuit.num_pub_inputs,
+        &circuit_dest_path,
+        circuit.num_public_inputs,
     );
+
+    circuit_dest_path
 }
 
 fn read_compile_json() -> Vec<Circuit> {
     let compile_json_path = PATHS.prfs_circuits.join("compile.json");
+    println!("Read compile.json path: {:?}", compile_json_path);
 
     compile_json_path.try_exists().unwrap();
 
@@ -116,22 +85,14 @@ fn clean_build() {
     }
 }
 
-fn compile_circuits(circuit: &Circuit, timestamp: &String) {
+fn compile_circuits(circuit: &Circuit) {
     let circuit_src_path = PATHS.prfs_circuits.join(&circuit.instance_path);
     println!("circuit_src_path: {:?}", circuit_src_path);
 
-    let circuit_dest_path = PATHS
-        .circuits_build
-        .join(format!("{}_{}.circuit", circuit.name, timestamp));
-    println!("circuit_dest_path: {:?}", circuit_dest_path);
+    let build_path = PATHS.circuits_build.join(&circuit.name);
+    println!("circuit_build_path: {:?}", build_path);
 
-    println!(
-        "{} a direcotry, path: {:?}",
-        "Creating".green(),
-        circuit_dest_path
-    );
-
-    std::fs::create_dir_all(&PATHS.circuits_build).unwrap();
+    std::fs::create_dir_all(&build_path).unwrap();
 
     let status = Command::new("circom-secq")
         .args([
@@ -141,7 +102,7 @@ fn compile_circuits(circuit: &Circuit, timestamp: &String) {
             "--prime",
             "secq256k1",
             "-o",
-            PATHS.circuits_build.to_str().unwrap(),
+            build_path.to_str().unwrap(),
         ])
         .status()
         .expect("circom-secq command failed to start");
@@ -149,66 +110,64 @@ fn compile_circuits(circuit: &Circuit, timestamp: &String) {
     assert!(status.success());
 }
 
-fn copy_assets(
-    _build_handle: &BuildHandle,
-    circuit_compiled_path: PathBuf,
-    circuit_compiled_serve_path: &PathBuf,
-    wtns_gen_src_path: &PathBuf,
-    wtns_gen_serve_path: &PathBuf,
-) {
+fn copy_assets(circuit: &Circuit, timestamp: &String, circuit_spartan_path: &PathBuf) {
+    let build_path = PATHS.circuits_build.join(&circuit.name);
+    let circuit_dest_path = PATHS
+        .prf_asset_server_assets_local
+        .join(format!("{}_{}.circuit", circuit.name, timestamp));
+
     println!(
         "{} a file from src: {:?}, dst: {:?}",
         "Copying".green(),
-        circuit_compiled_path,
-        circuit_compiled_serve_path,
+        circuit_spartan_path,
+        circuit_dest_path,
     );
 
-    fs::copy(circuit_compiled_path, circuit_compiled_serve_path).unwrap();
+    fs::copy(&circuit_spartan_path, &circuit_dest_path).unwrap();
+
+    let wtns_gen_src_path = build_path.join(format!("{}_js/{}.wasm", circuit.name, circuit.name));
+    let wtns_gen_dest_path = PATHS
+        .prf_asset_server_assets_local
+        .join(format!("{}_{}.wasm", circuit.name, timestamp));
 
     println!(
         "{} a file, src: {:?}, dst: {:?}",
         "Copying".green(),
         wtns_gen_src_path,
-        wtns_gen_serve_path,
+        wtns_gen_dest_path,
     );
 
-    fs::copy(wtns_gen_src_path, wtns_gen_serve_path).unwrap();
+    fs::copy(&wtns_gen_src_path, &wtns_gen_dest_path).unwrap();
+
+    create_assets_json(&circuit_dest_path, &wtns_gen_dest_path);
 }
 
-fn create_build_json(
-    build_handle: &BuildHandle,
-    circuit_file_name: &String,
-    wtns_gen_file_name: &String,
-) {
-    let files = HashMap::from([
-        (
-            String::from("addr_membership2_circuit"),
-            format!("{}", circuit_file_name),
-        ),
-        (
-            String::from("addr_membership2_wtns_gen"),
-            format!("{}", wtns_gen_file_name),
-        ),
-    ]);
+fn create_assets_json(circuit_path: &PathBuf, wtns_gen_path: &PathBuf) {
+    let files = vec![
+        circuit_path
+            .file_name()
+            .unwrap()
+            .to_str()
+            .unwrap()
+            .to_string(),
+        wtns_gen_path
+            .file_name()
+            .unwrap()
+            .to_str()
+            .unwrap()
+            .to_string(),
+    ];
 
-    let build_json = BuildCircuitJson {
-        timestamp: build_handle.timestamp.to_string(),
-        files,
-    };
+    let assets_json = AssetsJson { files };
 
-    let circuit_build_json_path = PATHS.prf_asset_server_assets_local.join("build.json");
+    let assets_json_path = PATHS.prf_asset_server_assets_local.join("assets.json");
     println!(
         "{} a file, path: {:?}",
-        "Recreating".green(),
-        circuit_build_json_path
+        "Creating".green(),
+        assets_json_path
     );
 
-    if circuit_build_json_path.exists() {
-        std::fs::remove_file(&circuit_build_json_path).unwrap();
-    }
-
-    let mut fd = std::fs::File::create(&circuit_build_json_path).unwrap();
-    let build_json_str = serde_json::to_string_pretty(&build_json).unwrap();
-
-    fd.write_all(&build_json_str.into_bytes()).unwrap();
+    let mut fd = std::fs::File::create(&assets_json_path).unwrap();
+    let assets_json_str = serde_json::to_string_pretty(&assets_json).unwrap();
+    fd.write_all(&assets_json_str.into_bytes()).unwrap();
 }
