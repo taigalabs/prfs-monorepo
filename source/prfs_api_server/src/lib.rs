@@ -5,4 +5,4 @@ pub mod router;
 pub mod seed;
 mod state;
 
-pub type BackendError = Box<dyn std::error::Error + Send + Sync>;
+pub type ApiServerError = Box<dyn std::error::Error + Send + Sync>;

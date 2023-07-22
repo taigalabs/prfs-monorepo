@@ -26,7 +26,7 @@ fn main() {
         .subcommand(command!("e2e_test_web"))
         .subcommand(command!("dev_prfs_web").arg(arg!(--env <STR> "Environment")))
         .subcommand(command!("dev_asset_server"))
-        .subcommand(command!("dev_backend"))
+        .subcommand(command!("dev_api_server"))
         .subcommand(command!("seed_backend"))
         .subcommand(command!("start_prfs_web"))
         .get_matches();

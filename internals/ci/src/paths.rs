@@ -12,8 +12,9 @@ pub struct Paths {
     pub prfs_circuits_circom: PathBuf,
     pub circuits_build: PathBuf,
     pub prfs_api_server: PathBuf,
-    pub prf_asset_server: PathBuf,
-    pub prf_asset_server_assets_local: PathBuf,
+    pub prfs_asset_server: PathBuf,
+    pub prfs_asset_server_assets: PathBuf,
+    pub prfs_asset_server_assets_local: PathBuf,
     pub prfs_js: PathBuf,
     pub prfs_web: PathBuf,
     pub e2e_test_web: PathBuf,
@@ -38,17 +39,16 @@ impl Paths {
         let circuits_build = curr_dir.join("source/prfs_circuits/build");
         println!("circuits_build: {:?}", circuits_build);
 
-        let prf_asset_server = curr_dir.join("source/prfs_prf_asset_server");
-        println!("prf_asset_server: {:?}", prf_asset_server);
+        let prfs_asset_server = curr_dir.join("source/prfs_asset_server");
+        println!("prfs_asset_server: {:?}", prfs_asset_server);
 
-        let prf_asset_server_assets = curr_dir.join("source/prfs_prf_asset_server/assets");
-        println!("prf_asset_server_assets: {:?}", prf_asset_server_assets);
+        let prfs_asset_server_assets = curr_dir.join("source/prfs_asset_server/assets");
+        println!("prfs_asset_server_assets: {:?}", prfs_asset_server_assets);
 
-        let prf_asset_server_assets_local =
-            curr_dir.join("source/prfs_prf_asset_server/assets/local");
+        let prfs_asset_server_assets_local = curr_dir.join("source/prfs_asset_server/assets/local");
         println!(
-            "prf_asset_server_assets_local: {:?}",
-            prf_asset_server_assets_local,
+            "prfs_asset_server_assets_local: {:?}",
+            prfs_asset_server_assets_local,
         );
 
         let circuits_build = curr_dir.join("source/prfs_circuits/build");
@@ -72,8 +72,9 @@ impl Paths {
             wasm_build,
             prfs_circuits_circom,
             circuits_build,
-            prf_asset_server,
-            prf_asset_server_assets_local,
+            prfs_asset_server,
+            prfs_asset_server_assets,
+            prfs_asset_server_assets_local,
             prfs_js,
             prfs_web,
             e2e_test_web,

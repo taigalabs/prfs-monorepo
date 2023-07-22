@@ -28,7 +28,7 @@ pub fn run(matches: &ArgMatches) {
 }
 
 fn inject_prfs_web_env(env: &Env) {
-    let assets_json_path = PATHS.prf_asset_server_assets_local.join("assets.json");
+    let assets_json_path = PATHS.prfs_asset_server_assets_local.join("assets.json");
 
     let b = std::fs::read(assets_json_path).unwrap();
     let assets_json: AssetsJson = serde_json::from_slice(&b).unwrap();
@@ -41,7 +41,7 @@ fn inject_prfs_web_env(env: &Env) {
     }
 
     let asset_server_endpoint = get_asset_server_endpoint(&env);
-    let backend_endpoint = get_backend_endpoint(&env);
+    let api_server_endpoint = get_backend_endpoint(&env);
 
     let mut contents = vec![];
 
@@ -63,8 +63,8 @@ fn inject_prfs_web_env(env: &Env) {
 
     {
         contents.push(format!(
-            "{}_PRFS_BACKEND_ENDPOINT={}",
-            NEXT_PREFIX, backend_endpoint,
+            "{}_PRFS_API_SERVER_ENDPOINT={}",
+            NEXT_PREFIX, api_server_endpoint,
         ));
     }
 

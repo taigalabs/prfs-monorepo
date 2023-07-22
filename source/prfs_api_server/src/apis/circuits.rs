@@ -2,7 +2,7 @@ use crate::{
     apis::prfs_account,
     responses::{ApiResponse, ResponseCode},
     state::ServerState,
-    BackendError,
+    ApiServerError,
 };
 use hyper::{body, header, Body, Request, Response, StatusCode};
 use prfs_db_interface::models::PrfsAccount;

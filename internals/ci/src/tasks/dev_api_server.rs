@@ -11,7 +11,7 @@ fn run_app() {
     let bin = "cargo";
     let status = Command::new(bin)
         .current_dir(&PATHS.prfs_api_server)
-        .args(["run", "-p", "prfs_backend"])
+        .args(["run", "-p", "prfs_api_server"])
         .status()
         .expect(&format!("{} command failed to start", bin));
 

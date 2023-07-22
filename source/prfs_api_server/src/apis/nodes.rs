@@ -1,4 +1,4 @@
-use crate::{state::ServerState, BackendError};
+use crate::state::ServerState;
 use hyper::{body, header, Body, Request, Response};
 use prfs_db_interface::models::EthTreeNode;
 use routerify::prelude::*;

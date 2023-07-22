@@ -1,6 +1,7 @@
 use crate::apis::{circuits, prfs_account, proofs};
 use crate::state::ServerState;
-use crate::{apis::nodes, middleware, BackendError};
+use crate::ApiServerError;
+use crate::{apis::nodes, middleware};
 use hyper::{header, Body, Request, Response};
 use prfs_db_interface::database::Database;
 use routerify::{Middleware, Router};
@@ -10,7 +11,7 @@ use std::sync::Arc;
 
 const PREFIX: &str = "/api/v0";
 
-pub fn make_router(db: Database) -> Result<Router<Body, Infallible>, BackendError> {
+pub fn make_router(db: Database) -> Result<Router<Body, Infallible>, ApiServerError> {
     let db = Arc::new(db);
     let state = ServerState { db };
 

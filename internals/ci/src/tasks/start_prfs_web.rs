@@ -7,13 +7,13 @@ use std::process::Command;
 const NEXT_PREFIX: &str = "NEXT_PUBLIC";
 
 pub fn run(_matches: &ArgMatches) {
-    inject_prfs_web_env();
-    build_app();
+    // inject_prfs_web_env();
+    // build_app();
     start_app();
 }
 
 fn inject_prfs_web_env() {
-    let build_circuits_json_path = PATHS.prf_asset_server_assets_local.join("build.json");
+    let build_circuits_json_path = PATHS.prfs_asset_server_assets_local.join("build.json");
 
     let b = std::fs::read(build_circuits_json_path).unwrap();
     let assets_json: AssetsJson = serde_json::from_slice(&b).unwrap();
@@ -43,7 +43,7 @@ fn inject_prfs_web_env() {
 
     {
         contents.push(format!(
-            "{}_PRFS_BACKEND_ENDPOINT={}",
+            "{}_PRFS_API_SERVER_ENDPOINT={}",
             NEXT_PREFIX, "http://localhost:4000/api/v0",
         ));
     }

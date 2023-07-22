@@ -1,6 +1,6 @@
 "use client";
 
-const PRFS_BACKEND_ENDPOINT = `${process.env.NEXT_PUBLIC_PRFS_BACKEND_ENDPOINT}/api/v0`;
+const PRFS_API_SERVER_ENDPOINT = `${process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT}/api/v0`;
 
 export interface SignUpRequest {
   sig: string;
@@ -21,7 +21,7 @@ async function signUpPrfsAccount(sig: string) {
   };
 
   try {
-    let res = await fetch(`${PRFS_BACKEND_ENDPOINT}/prfs_account/sign_up`, {
+    let res = await fetch(`${PRFS_API_SERVER_ENDPOINT}/prfs_account/sign_up`, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -56,7 +56,7 @@ async function signInPrfsAccount(sig: string) {
   };
 
   try {
-    let res = await fetch(`${PRFS_BACKEND_ENDPOINT}/prfs_account/sign_in`, {
+    let res = await fetch(`${PRFS_API_SERVER_ENDPOINT}/prfs_account/sign_in`, {
       method: "POST",
       mode: "cors",
       headers: {
