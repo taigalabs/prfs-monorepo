@@ -19,6 +19,7 @@ pub struct CircuitBuildJson {
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct CircuitBuildDetail {
     pub name: String,
+    pub author: String,
     pub instance_path: String,
     pub num_public_inputs: usize,
     pub wtns_gen_path: String,
@@ -29,6 +30,7 @@ pub struct CircuitBuildDetail {
 pub struct CircuitJson {
     pub name: String,
     pub instance_path: String,
+    pub author: String,
     pub num_public_inputs: usize,
 }
 
@@ -137,6 +139,7 @@ fn create_build_json(circuits: Vec<CircuitJson>, timestamp: &String) {
 
         let circuit_build_json = CircuitBuildDetail {
             name: circuit.name.to_string(),
+            author: circuit.author.to_string(),
             num_public_inputs: circuit.num_public_inputs,
             instance_path: format!("{}/{}", circuit.name, circuit.instance_path),
             wtns_gen_path,

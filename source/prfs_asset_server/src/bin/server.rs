@@ -11,7 +11,7 @@ use std::path::PathBuf;
 
 #[tokio::main]
 async fn main() -> Result<(), AssetServerError> {
-    let _circuit_build_json = match load_assets() {
+    let _circuit_build_json = match setup_local_assets() {
         Ok(a) => a,
         Err(err) => {
             return Err(format!("Failed to load assets, err: {}", err).into());
@@ -35,7 +35,7 @@ async fn main() -> Result<(), AssetServerError> {
     Ok(())
 }
 
-fn load_assets() -> Result<CircuitBuildJson, AssetServerError> {
+fn setup_local_assets() -> Result<CircuitBuildJson, AssetServerError> {
     let circuits_build_path = prfs_circuits_circom::get_build_fs_path();
     circuits_build_path.try_exists()?;
 
