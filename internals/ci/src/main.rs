@@ -60,11 +60,11 @@ fn main() {
         Some(("dev_asset_server", sub_matches)) => {
             tasks::dev_asset_server::run(sub_matches);
         }
-        Some(("dev_backend", sub_matches)) => {
-            tasks::dev_backend::run(sub_matches);
+        Some(("dev_api_server", sub_matches)) => {
+            tasks::dev_api_server::run(sub_matches);
         }
-        Some(("seed_backend", sub_matches)) => {
-            tasks::seed_backend::run(sub_matches);
+        Some(("seed_api_server", sub_matches)) => {
+            tasks::seed_api_server::run(sub_matches);
         }
         _ => unreachable!("Subcommand not defined"),
     }

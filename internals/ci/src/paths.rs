@@ -11,12 +11,12 @@ pub struct Paths {
     pub wasm_build: PathBuf,
     pub prfs_circuits_circom: PathBuf,
     pub circuits_build: PathBuf,
+    pub prfs_api_server: PathBuf,
     pub prf_asset_server: PathBuf,
     pub prf_asset_server_assets_local: PathBuf,
     pub prfs_js: PathBuf,
     pub prfs_web: PathBuf,
     pub e2e_test_web: PathBuf,
-    pub prfs_backend: PathBuf,
 }
 
 impl Paths {
@@ -63,8 +63,8 @@ impl Paths {
         let e2e_test_web = curr_dir.join("source/e2e_test_web");
         println!("e2e_test_web: {:?}", e2e_test_web);
 
-        let prfs_backend = curr_dir.join("source/prfs_backend");
-        println!("prfs_backend: {:?}", prfs_backend);
+        let prfs_api_server = curr_dir.join("source/prfs_api_server");
+        println!("prfs_api_server: {:?}", prfs_api_server);
 
         Paths {
             curr_dir,
@@ -77,7 +77,7 @@ impl Paths {
             prfs_js,
             prfs_web,
             e2e_test_web,
-            prfs_backend,
+            prfs_api_server,
         }
     }
 }

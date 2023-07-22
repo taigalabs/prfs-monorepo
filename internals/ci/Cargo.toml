@@ -14,4 +14,4 @@ serde_json = "1.0"
 lazy_static = "1.4"
 
 circuit_reader = { path = "../../externals/circuit_reader" }
-prfs_backend = { path = "../../source/prfs_backend" }
+prfs_api_server = { path = "../../source/prfs_api_server" }

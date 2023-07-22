@@ -9,8 +9,8 @@ pub fn run(_matches: &ArgMatches) {
 fn run_app() {
     let bin = "cargo";
     let status = Command::new(bin)
-        .current_dir(&PATHS.prfs_backend)
-        .args(["run", "-p", "prfs_backend", "--bin", "seed"])
+        .current_dir(&PATHS.prfs_api_server)
+        .args(["run", "-p", "prfs_api_server", "--bin", "seed"])
         .status()
         .expect(&format!("{} command failed to start", bin));
 

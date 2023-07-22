@@ -1,5 +1,5 @@
 [package]
-name = "prfs_backend"
+name = "prfs_api_server"
 version = "0.1.0"
 edition = "2021"
 default-run = "server"

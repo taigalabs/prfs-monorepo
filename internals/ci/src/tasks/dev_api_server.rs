@@ -1,7 +1,7 @@
 use crate::paths::PATHS;
 use clap::ArgMatches;
 use colored::Colorize;
-use prfs_backend::seed::SeedJson;
+use prfs_api_server::seed::SeedJson;
 use std::process::Command;
 
 pub fn run(_matches: &ArgMatches) {
@@ -17,7 +17,7 @@ fn create_seed() {
     };
     let seed_json_str = serde_json::to_string_pretty(&seed_json).unwrap();
 
-    let seed_json_path = PATHS.prfs_backend.join("seed.json");
+    let seed_json_path = PATHS.prfs_api_server.join("seed.json");
     println!(
         "{} seed.json, path: {:?}",
         "Writing".green(),
@@ -30,7 +30,7 @@ fn create_seed() {
 fn run_app() {
     let bin = "cargo";
     let status = Command::new(bin)
-        .current_dir(&PATHS.prfs_backend)
+        .current_dir(&PATHS.prfs_api_server)
         .args(["run", "-p", "prfs_backend"])
         .status()
         .expect(&format!("{} command failed to start", bin));
