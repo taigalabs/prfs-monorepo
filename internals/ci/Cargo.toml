@@ -12,6 +12,3 @@ colored = "2.0.4"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 lazy_static = "1.4"
-
-circuit_reader = { path = "../../externals/circuit_reader" }
-prfs_api_server = { path = "../../source/prfs_api_server" }

@@ -1,30 +1,10 @@
 use crate::paths::PATHS;
 use clap::ArgMatches;
 use colored::Colorize;
-use prfs_api_server::seed::SeedJson;
 use std::process::Command;
 
 pub fn run(_matches: &ArgMatches) {
-    create_seed();
-
     run_app();
-}
-
-fn create_seed() {
-    let assets_json_path = PATHS.prf_asset_server_assets_local.join("assets.json");
-    let seed_json = SeedJson {
-        assets_json_path: assets_json_path.to_str().unwrap().to_string(),
-    };
-    let seed_json_str = serde_json::to_string_pretty(&seed_json).unwrap();
-
-    let seed_json_path = PATHS.prfs_api_server.join("seed.json");
-    println!(
-        "{} seed.json, path: {:?}",
-        "Writing".green(),
-        seed_json_path
-    );
-
-    std::fs::write(seed_json_path, seed_json_str).unwrap();
 }
 
 fn run_app() {

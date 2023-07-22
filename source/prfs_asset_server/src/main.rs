@@ -19,6 +19,16 @@ async fn main() -> Result<(), AssetServerError> {
 
     let assets_path = curr_dir.join("source/prfs_prf_asset_server/assets/local");
     println!("asset serve path: {:?}", assets_path);
+    // clean_build();
+
+    // let compile_json = read_compile_json();
+
+    // for circuit in compile_json {
+    //     compile_circuits(&circuit);
+    //     let circuit_spartan_path = make_spartan(&circuit);
+    //     create_local_server_asset_path();
+    //     copy_assets(&circuit, &build_handle.timestamp, &circuit_spartan_path);
+    // }
 
     assert!(assets_path
         .try_exists()
