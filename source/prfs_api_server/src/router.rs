@@ -33,6 +33,10 @@ pub fn make_router(server_state: ServerState) -> Result<Router<Body, Infallible>
         )
         .post(format!("{}/get_nodes", PREFIX), nodes::get_nodes)
         .post(
+            format!("{}/get_native_circuits", PREFIX),
+            circuits::get_native_circuits,
+        )
+        .post(
             format!("{}/get_proof_types", PREFIX),
             proofs::get_proof_types,
         )

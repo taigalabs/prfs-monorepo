@@ -1,4 +1,4 @@
-use crate::{paths::PATHS, task::Task, tasks::JS_ENGINE, BuildHandle, CiError};
+use crate::{deps::JS_ENGINE, paths::PATHS, task::Task, BuildHandle, CiError};
 use std::process::Command;
 
 pub struct BuildJsDependenciesTask;

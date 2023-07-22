@@ -1,3 +1,8 @@
+export interface Envs {
+  NEXT_PUBLIC_ADDR_MEMBERSHIP_TEMP_CIRCUIT_URL: string;
+  NEXT_PUBLIC_ADDR_MEMBERSHIP_TEMP_WTNS_GEN_URL: string;
+}
+
 export function getAddrMembership2CircuitUrl() {
   if (process.env.NEXT_PUBLIC_ADDR_MEMBERSHIP_TEMP_CIRCUIT_URL === undefined) {
     throw new Error("addr membership2 circuit url is needed");

@@ -1,4 +1,4 @@
-use crate::{paths::PATHS, tasks::JS_ENGINE};
+use crate::{deps::JS_ENGINE, paths::PATHS};
 use clap::ArgMatches;
 use std::process::Command;
 

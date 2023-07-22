@@ -1,4 +1,5 @@
 mod build_handle;
+mod deps;
 mod paths;
 mod task;
 mod tasks;
@@ -31,11 +32,6 @@ fn main() {
     let now = Utc::now();
     let timestamp = now.timestamp_millis().to_string();
     println!("Ci starts: {} ({})", now, timestamp);
-
-    let ci_file = PATHS.curr_dir.join("ci");
-    ci_file
-        .try_exists()
-        .expect("current dir may not be the project root");
 
     match matches.subcommand() {
         Some(("build", sub_matches)) => {

@@ -17,9 +17,8 @@ struct GetCircuitsRequest {}
 #[derive(Serialize, Deserialize, Debug)]
 struct GetCircuitsRespPayload {}
 
-// local
 pub async fn get_circuits(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    println!("sign up prfs");
+    println!("get circuits");
 
     let state = req.data::<ServerState>().unwrap();
     let db = state.db.clone();
@@ -55,4 +54,29 @@ pub async fn get_circuits(req: Request<Body>) -> Result<Response<Body>, Infallib
     panic!();
 
     // return Ok(resp.into_hyper_response());
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+struct GetNativeCircuitsRequest {}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct GetNativeCircuitsRespPayload {}
+
+pub async fn get_native_circuits(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+    println!("get circuits");
+
+    let state = req.data::<ServerState>().unwrap();
+    &state.build_json;
+
+    let bytes = body::to_bytes(req.into_body()).await.unwrap();
+    let body_str = String::from_utf8(bytes.to_vec()).unwrap();
+    let _get_circuits_req = serde_json::from_str::<GetCircuitsRequest>(&body_str)
+        .expect("req request should be parsable");
+
+    let payload = GetNativeCircuitsRespPayload {};
+
+    let resp = ApiResponse::new_success(payload);
+
+    return Ok(resp.into_hyper_response());
 }
