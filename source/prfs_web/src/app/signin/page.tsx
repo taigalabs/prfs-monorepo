@@ -15,6 +15,7 @@ import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalle
 import Button from "@/components/button/Button";
 import { signIn } from "@/functions/prfsAccount";
 import localStore from "@/storage/localStore";
+import useLocalWallet from "@/hooks/useLocalWallet";
 
 const metamaskConfig = metamaskWallet();
 
@@ -23,15 +24,13 @@ const SignIn: React.FC = () => {
   const connect = useConnect();
   const router = useRouter();
 
-  const { state, dispatch } = React.useContext(stateContext);
+  const { dispatch } = React.useContext(stateContext);
+  useLocalWallet(dispatch);
+
   const [walletAddr, setWalletAddr] = React.useState("");
   const [passcode, setPasscode] = React.useState("");
   const [passhash, setPasshash] = React.useState("");
   const [signInAlert, setSignInAlert] = React.useState("");
-
-  React.useEffect(() => {
-    // console.log(11, state);
-  }, [state]);
 
   const handleChangePasscode = React.useCallback(
     (ev: any) => {

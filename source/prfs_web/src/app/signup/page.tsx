@@ -14,14 +14,17 @@ import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalle
 import Button from "@/components/button/Button";
 import prfsBackend from "@/fetch/prfsBackend";
 import { stateContext } from "@/contexts/state";
+import useLocalWallet from "@/hooks/useLocalWallet";
 
 const metamaskConfig = metamaskWallet();
 
 const SignUp: React.FC = () => {
   let i18n = React.useContext(i18nContext);
   const connect = useConnect();
-  const { state, dispatch } = React.useContext(stateContext);
+  const { dispatch } = React.useContext(stateContext);
   const router = useRouter();
+
+  useLocalWallet(dispatch);
 
   const [walletAddr, setWalletAddr] = React.useState("");
   const [hashAlert, setHashAlert] = React.useState("");
