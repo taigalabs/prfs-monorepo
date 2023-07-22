@@ -10,14 +10,14 @@ pub enum FileKind {
     WtnsGen,
 }
 
-#[derive(Serialize, Deserialize)]
-pub struct BuildJson {
+#[derive(Serialize, Deserialize, Debug)]
+pub struct CircuitBuildJson {
     pub timestamp: String,
-    pub circuit_builds: Vec<CircuitBuildJson>,
+    pub circuit_builds: Vec<CircuitBuildDetail>,
 }
 
-#[derive(Serialize, Deserialize, Clone)]
-pub struct CircuitBuildJson {
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct CircuitBuildDetail {
     pub name: String,
     pub instance_path: String,
     pub num_public_inputs: usize,
@@ -135,7 +135,7 @@ fn create_build_json(circuits: Vec<CircuitJson>, timestamp: &String) {
         let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen, timestamp);
         let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan, timestamp);
 
-        let circuit_build_json = CircuitBuildJson {
+        let circuit_build_json = CircuitBuildDetail {
             name: circuit.name.to_string(),
             num_public_inputs: circuit.num_public_inputs,
             instance_path: format!("{}/{}", circuit.name, circuit.instance_path),
@@ -145,7 +145,7 @@ fn create_build_json(circuits: Vec<CircuitJson>, timestamp: &String) {
         circuit_builds.push(circuit_build_json);
     }
 
-    let build_json = BuildJson {
+    let build_json = CircuitBuildJson {
         timestamp: timestamp.to_string(),
         circuit_builds,
     };

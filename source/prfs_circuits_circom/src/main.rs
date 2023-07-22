@@ -1,7 +1,4 @@
-mod builder;
-mod paths;
-
-pub type CircuitsError = Box<dyn std::error::Error + Sync + Send>;
+use prfs_circuits_circom::builder;
 
 fn main() {
     builder::run();
