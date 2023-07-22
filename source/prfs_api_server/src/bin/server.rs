@@ -1,26 +1,35 @@
+use colored::Colorize;
 use dotenv::dotenv;
 use hyper::Server;
+use prfs_api_server::state::ServerState;
 use prfs_api_server::{router, ApiServerError};
+use prfs_circuits_circom::BuildJson;
 use prfs_db_interface::database::Database;
 use routerify::RouterService;
+use std::sync::Arc;
 use std::{net::SocketAddr, path::PathBuf};
 
 #[tokio::main]
 async fn main() -> Result<(), ApiServerError> {
     println!("Initializing {}...", env!("CARGO_PKG_NAME"));
 
+    dotenv().expect("dotenv failed");
+
     let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     println!("manifest_dir: {:?}", manifest_dir);
 
-    let load_local_assets = load_local_assets()?;
-
-    dotenv().expect("dotenv failed");
+    let build_json = require_local_assets();
 
     let pg_endpoint = std::env::var("POSTGRES_ENDPOINT").expect("POSTGRES_ENDPOINT missing");
     let pg_pw = std::env::var("POSTGRES_PW").expect("POSTGRES_PW missing");
     let db = Database::connect(pg_endpoint, pg_pw).await?;
 
-    let router = router::make_router(db).expect("make_router fail");
+    let server_state = ServerState {
+        db: Arc::new(db),
+        build_json,
+    };
+
+    let router = router::make_router(server_state).expect("make_router fail");
     let service = RouterService::new(router).expect("router service init fail");
 
     let addr = SocketAddr::from(([0, 0, 0, 0], 4000));
@@ -34,8 +43,12 @@ async fn main() -> Result<(), ApiServerError> {
     Ok(())
 }
 
-fn load_local_assets() -> Result<(), ApiServerError> {
-    // let circuits_path = prfs_circuits_
+fn require_local_assets() -> BuildJson {
+    let build_json = prfs_circuits_circom::access::read_build_json();
 
-    Ok(())
+    for circuit in &build_json.circuit_builds {
+        println!("[local] {} {}", "Loading".green(), circuit.name);
+    }
+
+    build_json
 }

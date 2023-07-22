@@ -11,7 +11,7 @@ pub enum FileKind {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct CircuitBuildJson {
+pub struct BuildJson {
     pub timestamp: String,
     pub circuit_builds: Vec<CircuitBuildDetail>,
 }
@@ -148,7 +148,7 @@ fn create_build_json(circuits: Vec<CircuitJson>, timestamp: &String) {
         circuit_builds.push(circuit_build_json);
     }
 
-    let build_json = CircuitBuildJson {
+    let build_json = BuildJson {
         timestamp: timestamp.to_string(),
         circuit_builds,
     };

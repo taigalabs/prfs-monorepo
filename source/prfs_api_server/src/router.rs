@@ -11,9 +11,8 @@ use std::sync::Arc;
 
 const PREFIX: &str = "/api/v0";
 
-pub fn make_router(db: Database) -> Result<Router<Body, Infallible>, ApiServerError> {
-    let db = Arc::new(db);
-    let state = ServerState { db };
+pub fn make_router(server_state: ServerState) -> Result<Router<Body, Infallible>, ApiServerError> {
+    let state = Arc::new(server_state);
 
     let r = Router::builder()
         .data(state)

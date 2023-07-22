@@ -1,4 +1,5 @@
 pub mod apis;
+pub mod local;
 pub mod paths;
 pub mod router;
 pub mod state;
