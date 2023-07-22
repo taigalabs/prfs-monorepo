@@ -31,24 +31,32 @@ function prepareEnv() {
       },
     },
   });
-
-  let contents = [];
   const { env } = values;
 
   const envs: Envs = {
-    NEXT_PUBLIC_ADDR_MEMBERSHIP_TEMP_CIRCUIT_URL: "",
-    NEXT_PUBLIC_ADDR_MEMBERSHIP_TEMP_WTNS_GEN_URL: "",
+    NEXT_PUBLIC_ADDR_MEMBERSHIP_TEMP_CIRCUIT_URL: isDev(env) ? "" : "",
+    NEXT_PUBLIC_ADDR_MEMBERSHIP_TEMP_WTNS_GEN_URL: isDev(env) ? "" : "",
   };
-
-  if (env === "development") {
-    let line = util.format("%s%s=%s");
-    contents.push(line);
-  } else {
-  }
 
   console.log("Writing envs to %s", DOT_ENV_PATH);
 
-  fs.writeFileSync(DOT_ENV_PATH, "power");
+  writeEnvsToDotEnv(envs);
+  // fs.writeFileSync(DOT_ENV_PATH, "power");
+}
+
+function isDev(env: string) {
+  return env === "development";
+}
+
+function writeEnvsToDotEnv(envs: Envs) {
+  // if (env === "development") {
+  //   let line = util.format("%s%s=%s");
+  //   contents.push(line);
+  // } else {
+  // }
+  //
+  for (const [key, val] of Object.entries(envs)) {
+  }
 }
 
 run();
