@@ -3,9 +3,6 @@ use crate::{
     models::{EthAccountTreeNode, EthTreeNode, PrfsAccount, ProofType},
     DbInterfaceError,
 };
-use rust_decimal::Decimal;
-use std::{collections::BTreeMap, fs::write};
-use tokio_postgres::{Client as PGClient, Row};
 
 impl Database {
     pub async fn get_prfs_account(

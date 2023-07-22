@@ -7,17 +7,17 @@ lazy_static! {
 
 pub struct Paths {
     pub curr_dir: PathBuf,
-    pub prfs_wasm: PathBuf,
-    pub wasm_build: PathBuf,
-    pub prfs_circuits_circom: PathBuf,
     pub circuits_build: PathBuf,
+    pub wasm_build: PathBuf,
+    pub e2e_test_web: PathBuf,
+    pub prfs_wasm: PathBuf,
+    pub prfs_circuits_circom: PathBuf,
     pub prfs_api_server: PathBuf,
     pub prfs_asset_server: PathBuf,
     pub prfs_asset_server_assets: PathBuf,
     pub prfs_asset_server_assets_local: PathBuf,
     pub prfs_js: PathBuf,
     pub prfs_web: PathBuf,
-    pub e2e_test_web: PathBuf,
 }
 
 impl Paths {

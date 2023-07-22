@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "prepare": "ts-node prepare.ts",
+    "prepare-env": "ts-node prepareEnv.ts",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

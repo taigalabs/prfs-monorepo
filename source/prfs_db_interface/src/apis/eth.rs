@@ -4,8 +4,8 @@ use crate::{
     DbInterfaceError,
 };
 use rust_decimal::Decimal;
-use std::{collections::BTreeMap, fs::write};
-use tokio_postgres::{Client as PGClient, Row};
+use std::collections::BTreeMap;
+use tokio_postgres::Row;
 
 impl Database {
     pub async fn get_accounts(

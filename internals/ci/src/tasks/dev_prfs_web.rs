@@ -26,7 +26,7 @@ fn run_app(env: &Env) {
     let status = Command::new(JS_ENGINE)
         .current_dir(&PATHS.prfs_web)
         .args([
-            "prepare",
+            "prepare-env",
             // "--env", &env.to_string()
         ])
         .status()
