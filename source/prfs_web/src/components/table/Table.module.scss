@@ -4,16 +4,7 @@
   flex-direction: column;
   padding: 14px 38px;
 
-  .leftMenu {
-    border: 1px solid gray;
-    width: 210px;
-  }
-
-  .mainMenu {
-    list-style: none;
-  }
-
-  .rightMenu {
-    margin-left: auto;
+  .tableHeader {
+    display: flex;
   }
 }

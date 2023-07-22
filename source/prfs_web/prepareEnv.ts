@@ -1,7 +1,6 @@
 import { parseArgs } from "node:util";
 import fs from "fs";
 import path from "path";
-import util from "util";
 
 import { Envs } from "./src/env";
 
@@ -37,10 +36,6 @@ function prepareEnv() {
   console.log("Writing envs to %s", DOT_ENV_PATH);
 
   writeEnvsToDotEnv(envs);
-}
-
-function isDev(env: string) {
-  return env === "development";
 }
 
 function writeEnvsToDotEnv(envs: Envs) {

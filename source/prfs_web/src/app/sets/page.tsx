@@ -2,8 +2,6 @@
 
 import React from "react";
 import { ethers } from "ethers";
-import Paper from "@mui/material/Paper";
-import Container from "@mui/material/Container";
 
 import styles from "./Sets.module.scss";
 import { stateContext } from "@/contexts/state";
@@ -33,7 +31,7 @@ const Sets: React.FC = () => {
   return (
     <DefaultLayout>
       <div className={styles.wrapper}>
-        <Paper className={styles.paper}>
+        <div className={styles.card}>
           <Widget label={i18n.sets}>
             <Table
               columns={[
@@ -45,7 +43,7 @@ const Sets: React.FC = () => {
               onChangePage={_page => {}}
             />
           </Widget>
-        </Paper>
+        </div>
       </div>
     </DefaultLayout>
   );

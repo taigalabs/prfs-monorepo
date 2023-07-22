@@ -4,9 +4,8 @@
   justify-content: center;
   height: 500px;
 
-  .input {
-  }
-
-  .desc {
+  .card {
+    flex-grow: 1;
+    margin: 0 45px;
   }
 }
