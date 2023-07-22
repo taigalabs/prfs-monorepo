@@ -8,12 +8,9 @@ use clap::{arg, command, ArgMatches};
 use colored::Colorize;
 use std::env;
 use task::Task;
-use tasks::{
-    build_js_dependencies::BuildJsDependenciesTask, build_prfs_js::BuildPrfsJsTask,
-    build_wasm::BuildWasmTask, compile_circuits::CompileCircuitsTask,
-};
+use tasks::compile_circuits::CompileCircuitsTask;
 
-use crate::build_handle::BuildHandle;
+use crate::{build_handle::BuildHandle, paths::PATHS};
 
 pub type CiError = Box<dyn std::error::Error + Sync + Send>;
 
@@ -34,6 +31,11 @@ fn main() {
     let now = Utc::now();
     let timestamp = now.timestamp_millis().to_string();
     println!("Ci starts: {} ({})", now, timestamp);
+
+    let ci_file = PATHS.curr_dir.join("ci");
+    ci_file
+        .try_exists()
+        .expect("current dir may not be the project root");
 
     match matches.subcommand() {
         Some(("build", sub_matches)) => {

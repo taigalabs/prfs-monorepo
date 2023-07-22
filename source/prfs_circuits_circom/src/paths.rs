@@ -6,7 +6,7 @@ lazy_static! {
 }
 
 pub struct Paths {
-    pub curr_dir: PathBuf,
+    pub manifest_dir: PathBuf,
     pub circuits: PathBuf,
     pub build: PathBuf,
 }
@@ -15,17 +15,17 @@ impl Paths {
     pub fn new() -> Paths {
         println!("Initializing {} paths...", env!("CARGO_PKG_NAME"));
 
-        let curr_dir = std::env::current_dir().unwrap();
-        println!("curr_dir: {:?}", curr_dir);
+        let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        println!("manifest_dir: {:?}", manifest_dir);
 
-        let circuits = curr_dir.join("circuits");
+        let circuits = manifest_dir.join("circuits");
         println!("circuits path: {:?}", circuits);
 
-        let build = curr_dir.join("build");
+        let build = manifest_dir.join("build");
         println!("build path: {:?}", build);
 
         Paths {
-            curr_dir,
+            manifest_dir,
             circuits,
             build,
         }

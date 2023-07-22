@@ -14,13 +14,13 @@ impl Paths {
     pub fn new() -> Paths {
         println!("Initializing {} paths...", env!("CARGO_PKG_NAME"));
 
-        let curr_dir = std::env::current_dir().unwrap();
-        println!("curr_dir: {:?}", curr_dir);
+        let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        println!("manifest_dir: {:?}", manifest_dir);
 
-        let assets = curr_dir.join("assets");
+        let assets = manifest_dir.join("assets");
         println!("assets: {:?}", assets);
 
-        let assets_local = curr_dir.join("assets/local");
+        let assets_local = manifest_dir.join("assets/local");
         println!("assets_local: {:?}", assets);
 
         Paths {
