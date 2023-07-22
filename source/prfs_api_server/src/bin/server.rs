@@ -7,12 +7,12 @@ use std::{net::SocketAddr, path::PathBuf};
 
 #[tokio::main]
 async fn main() -> Result<(), ApiServerError> {
-    println!("Starting backend server...");
+    println!("Initializing {}...", env!("CARGO_PKG_NAME"));
 
-    let curr_dir = std::env::current_dir().unwrap();
-    println!("curr_dir: {:?}", curr_dir);
+    let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    println!("manifest_dir: {:?}", manifest_dir);
 
-    let load_local_assets = load_local_assets(&curr_dir)?;
+    let load_local_assets = load_local_assets()?;
 
     dotenv().expect("dotenv failed");
 
@@ -34,6 +34,8 @@ async fn main() -> Result<(), ApiServerError> {
     Ok(())
 }
 
-fn load_local_assets(curr_dir: &PathBuf) -> Result<(), ApiServerError> {
+fn load_local_assets() -> Result<(), ApiServerError> {
+    // let circuits_path = prfs_circuits_
+
     Ok(())
 }

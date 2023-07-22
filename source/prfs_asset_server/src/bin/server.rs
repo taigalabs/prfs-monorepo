@@ -4,6 +4,7 @@ use prfs_asset_server::state::ServerState;
 use prfs_asset_server::utils::copy_dir_all;
 use prfs_asset_server::AssetServerError;
 use prfs_asset_server::{paths::PATHS, router::make_router};
+use prfs_circuits_circom::access::get_build_fs_path;
 use prfs_circuits_circom::builder::CircuitBuildJson;
 use routerify::RouterService;
 use std::net::SocketAddr;
@@ -36,7 +37,7 @@ async fn main() -> Result<(), AssetServerError> {
 }
 
 fn setup_local_assets() -> Result<CircuitBuildJson, AssetServerError> {
-    let circuits_build_path = prfs_circuits_circom::get_build_fs_path();
+    let circuits_build_path = get_build_fs_path();
     circuits_build_path.try_exists()?;
 
     println!("prfs_circuits build path: {:?}", circuits_build_path);

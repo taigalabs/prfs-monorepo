@@ -27,6 +27,7 @@ tracing-subscriber = { version = "0.3", features = ["json", "env-filter"] }
 tracing-appender = "0.2"
 
 prfs_db_interface = { path = "../prfs_db_interface" }
+prfs_circuits_circom = { path = "../prfs_circuits_circom" }
 
 [[bin]]
 name = "server"
