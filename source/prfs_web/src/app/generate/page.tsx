@@ -1,18 +1,13 @@
 "use client";
 
 import React from "react";
-import Button from "@mui/material/Button";
-import Paper from "@mui/material/Paper";
-import Divider from "@mui/material/Divider";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
 
+import styles from "./Generate.module.scss";
 import localStore from "@/storage/localStore";
 import { stateContext } from "@/contexts/state";
 import Table from "@/components/table/Table";
-import styles from "./Generate.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Widget from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
