@@ -1,5 +1,5 @@
 use super::paths::PATHS;
-use crate::builder::BuildJson;
+use crate::BuildJson;
 use std::path::PathBuf;
 
 pub fn get_build_fs_path() -> PathBuf {

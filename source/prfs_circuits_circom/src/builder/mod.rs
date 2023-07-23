@@ -1,38 +1,10 @@
+mod json;
+
 use crate::paths::PATHS;
 use chrono::Utc;
 use colored::Colorize;
-use serde::{Deserialize, Serialize};
-use std::{io::Write, process::Command};
-
-pub enum FileKind {
-    R1CS,
-    Spartan,
-    WtnsGen,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct BuildJson {
-    pub timestamp: String,
-    pub circuit_builds: Vec<CircuitBuildDetail>,
-}
-
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct CircuitBuildDetail {
-    pub name: String,
-    pub author: String,
-    pub instance_path: String,
-    pub num_public_inputs: usize,
-    pub wtns_gen_path: String,
-    pub spartan_circuit_path: String,
-}
-
-#[derive(Serialize, Deserialize, Clone)]
-pub struct CircuitJson {
-    pub name: String,
-    pub instance_path: String,
-    pub author: String,
-    pub num_public_inputs: usize,
-}
+pub use json::*;
+use std::{collections::HashMap, io::Write, process::Command};
 
 pub fn run() {
     let now = Utc::now();
@@ -47,13 +19,14 @@ pub fn run() {
 
     clean_build();
 
-    let circuits = read_circuits_json();
-    for circuit in &circuits {
+    let circuits_json = read_circuits_json();
+
+    for (_name, circuit) in &circuits_json.circuits {
         compile_circuits(&circuit);
         make_spartan(&circuit, &timestamp);
     }
 
-    create_build_json(circuits, &timestamp);
+    create_build_json(&circuits_json, &timestamp);
 }
 
 fn clean_build() {
@@ -62,7 +35,7 @@ fn clean_build() {
     }
 }
 
-fn get_path_segment(circuit: &CircuitJson, file_kind: FileKind, timestamp: &String) -> String {
+fn get_path_segment(circuit: &CircuitDetail, file_kind: FileKind, timestamp: &String) -> String {
     let r1cs_path_segment = format!("{}/{}.r1cs", &circuit.name, &circuit.name,);
     let spartan_circuit_path_segment = format!(
         "{}/{}_{}.spartan.circuit",
@@ -78,7 +51,7 @@ fn get_path_segment(circuit: &CircuitJson, file_kind: FileKind, timestamp: &Stri
     }
 }
 
-fn make_spartan(circuit: &CircuitJson, timestamp: &String) {
+fn make_spartan(circuit: &CircuitDetail, timestamp: &String) {
     let r1cs_src_path = PATHS
         .build
         .join(get_path_segment(circuit, FileKind::R1CS, timestamp));
@@ -94,19 +67,19 @@ fn make_spartan(circuit: &CircuitJson, timestamp: &String) {
     );
 }
 
-fn read_circuits_json() -> Vec<CircuitJson> {
+fn read_circuits_json() -> CircuitsJson {
     let circuits_json_path = PATHS.circuits.join("circuits.json");
     println!("Read circuits.json path: {:?}", circuits_json_path);
 
     circuits_json_path.try_exists().unwrap();
 
     let bytes = std::fs::read(circuits_json_path).unwrap();
-    let circuits: Vec<CircuitJson> = serde_json::from_slice(&bytes).unwrap();
+    let circuits: CircuitsJson = serde_json::from_slice(&bytes).unwrap();
 
     return circuits;
 }
 
-fn compile_circuits(circuit: &CircuitJson) {
+fn compile_circuits(circuit: &CircuitDetail) {
     let circuit_src_path = PATHS.circuits.join(&circuit.instance_path);
     println!("circuit_src_path: {:?}", circuit_src_path);
 
@@ -131,9 +104,9 @@ fn compile_circuits(circuit: &CircuitJson) {
     assert!(status.success());
 }
 
-fn create_build_json(circuits: Vec<CircuitJson>, timestamp: &String) {
-    let mut circuit_builds = vec![];
-    for circuit in circuits {
+fn create_build_json(circuits_json: &CircuitsJson, timestamp: &String) {
+    let mut circuit_builds = HashMap::new();
+    for (name, circuit) in &circuits_json.circuits {
         let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen, timestamp);
         let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan, timestamp);
 
@@ -145,7 +118,8 @@ fn create_build_json(circuits: Vec<CircuitJson>, timestamp: &String) {
             wtns_gen_path,
             spartan_circuit_path,
         };
-        circuit_builds.push(circuit_build_json);
+
+        circuit_builds.insert(name.to_string(), circuit_build_json);
     }
 
     let build_json = BuildJson {

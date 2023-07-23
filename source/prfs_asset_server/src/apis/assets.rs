@@ -1,14 +1,10 @@
-use crate::paths::{Paths, PATHS};
+use crate::paths::PATHS;
 use crate::state::ServerState;
 use hyper::header::CONTENT_TYPE;
 use hyper::{Body, Request, Response, StatusCode};
-use hyper_staticfile::Static;
 use multer::Multipart;
 use routerify::prelude::*;
-use routerify::{Middleware, RequestInfo, Router};
-use routerify_cors::enable_cors_all;
 use std::convert::Infallible;
-use std::path::PathBuf;
 use tokio::fs::File;
 use tokio::io::AsyncWriteExt;
 

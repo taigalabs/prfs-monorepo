@@ -1,8 +1,10 @@
-[
-  {
-    "name": "addr_membership2",
-    "author": "SYSTEM_NATIVE",
-    "instance_path": "instances/addr_membership2.circom",
-    "num_public_inputs": 5
+{
+  "circuits": {
+    "addr_membership2": {
+      "name": "addr_membership2",
+      "author": "SYSTEM_NATIVE",
+      "instance_path": "instances/addr_membership2.circom",
+      "num_public_inputs": 5
+    }
   }
-]
+}
