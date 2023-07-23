@@ -4,21 +4,28 @@ import Link from "next/link";
 import styles from "./Table.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 
-const Table: React.FC<TableProps> = ({ columns, onChangePage }) => {
+function Table<T>({ columns, values }: TableProps<T>) {
   const i18n = React.useContext(i18nContext);
 
   React.useEffect(() => {}, []);
 
   let columnElems = React.useMemo(() => {
     let elems = [];
-    for (let col of columns) {
-      elems.push(
-        <div key={col.key}>
-          <div>{col.key}</div>
-          <div>{col.label}</div>
-        </div>
-      );
+
+    // for (let col of columns) {
+    //   elems.push(
+    //     <div key={col.key}>
+    //       <div>{col.key}</div>
+    //       <div>{col.label}</div>
+    //     </div>
+    //   );
+    // }
+    // return elems;
+    //
+    for (let id of Object.keys(columns)) {
+      console.log(11, id);
     }
+
     return elems;
   }, [columns]);
 
@@ -28,16 +35,20 @@ const Table: React.FC<TableProps> = ({ columns, onChangePage }) => {
       power
     </div>
   );
-};
+}
 
 export default Table;
 
-export interface TableProps {
-  columns: TableColumn[];
+export interface TableProps<T> {
+  columns: T;
+  values?: TableValues<T>;
   onChangePage: (page: number) => void;
 }
 
-export interface TableColumn {
-  key: string;
-  label: string;
+export interface TableColumns {
+  [key: string]: any;
 }
+
+export type TableValues<T> = {
+  [key in keyof T]: any;
+};

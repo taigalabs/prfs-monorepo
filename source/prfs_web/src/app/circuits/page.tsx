@@ -10,6 +10,7 @@ import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
+import CardRow from "@/components/card_row/CardRow";
 
 const Circuits: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -19,11 +20,13 @@ const Circuits: React.FC = () => {
 
   return (
     <DefaultLayout>
-      <Card>
-        <Widget label={i18n.circuits}>
-          <Table columns={[]} onChangePage={() => {}} />
-        </Widget>
-      </Card>
+      <CardRow>
+        <Card>
+          <Widget label={i18n.circuits}>
+            <Table columns={{ pwer: 1 }} values={{ pwer: {} }} onChangePage={() => {}} />
+          </Widget>
+        </Card>
+      </CardRow>
     </DefaultLayout>
   );
 };
