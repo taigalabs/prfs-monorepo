@@ -28,6 +28,9 @@ function prepareEnv() {
       env: {
         type: "string",
       },
+      teaser: {
+        type: "boolean",
+      },
     },
   });
   const { env } = values;

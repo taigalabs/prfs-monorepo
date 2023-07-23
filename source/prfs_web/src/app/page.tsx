@@ -15,6 +15,7 @@ import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import localStore from "@/storage/localStore";
 import useLocalWallet from "@/hooks/useLocalWallet";
+import Teaser from "@/components/teaser/Teaser";
 
 const Home: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -22,7 +23,7 @@ const Home: React.FC = () => {
 
   useLocalWallet(dispatch);
 
-  return (
+  return process.env.IS_TEASER ? (
     <DefaultLayout>
       <div className={styles.wrapper}>
         <Paper className={styles.paper}>
@@ -37,6 +38,8 @@ const Home: React.FC = () => {
         </Paper>
       </div>
     </DefaultLayout>
+  ) : (
+    <Teaser />
   );
 };
 
