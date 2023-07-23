@@ -23,7 +23,7 @@ const Home: React.FC = () => {
 
   useLocalWallet(dispatch);
 
-  return process.env.IS_TEASER ? (
+  return process.env.NEXT_PUBLIC_IS_TEASER === "yes" ? (
     <Teaser />
   ) : (
     <DefaultLayout>
