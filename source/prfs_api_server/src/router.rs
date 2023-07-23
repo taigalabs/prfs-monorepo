@@ -11,24 +11,21 @@ use std::sync::Arc;
 
 const PREFIX: &str = "/api/v0";
 
-pub fn make_router(server_state: ServerState) -> Result<Router<Body, Infallible>, ApiServerError> {
-    let state = Arc::new(server_state);
-
+pub fn make_router(
+    server_state: Arc<ServerState>,
+) -> Result<Router<Body, Infallible>, ApiServerError> {
     let r = Router::builder()
-        .data(state)
+        .data(server_state)
         .middleware(Middleware::pre(middleware::logger))
         .middleware(enable_cors_all())
         .get("/", status_handler)
         .post(
-            format!("{}/prfs_account/sign_up", PREFIX),
+            format!("{}/sign_up_prfs_account", PREFIX),
             prfs_account::sign_up,
         )
+        .post(format!("{}/get_circuits", PREFIX), circuits::get_circuits)
         .post(
-            format!("{}/circuits/get_circuits", PREFIX),
-            circuits::get_circuits,
-        )
-        .post(
-            format!("{}/prfs_account/sign_in", PREFIX),
+            format!("{}/sign_in_prfs_account", PREFIX),
             prfs_account::sign_in,
         )
         .post(format!("{}/get_nodes", PREFIX), nodes::get_nodes)

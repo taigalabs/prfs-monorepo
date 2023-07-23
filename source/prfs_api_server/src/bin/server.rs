@@ -24,10 +24,10 @@ async fn main() -> Result<(), ApiServerError> {
     let pg_pw = std::env::var("POSTGRES_PW").expect("POSTGRES_PW missing");
     let db = Database::connect(pg_endpoint, pg_pw).await?;
 
-    let server_state = ServerState {
+    let server_state = Arc::new(ServerState {
         db: Arc::new(db),
         build_json,
-    };
+    });
 
     let router = router::make_router(server_state).expect("make_router fail");
     let service = RouterService::new(router).expect("router service init fail");
