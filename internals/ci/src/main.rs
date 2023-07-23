@@ -4,14 +4,13 @@ mod paths;
 mod task;
 mod tasks;
 
+use crate::{build_handle::BuildHandle, paths::PATHS};
 use chrono::prelude::*;
-use clap::{arg, command, ArgMatches};
+use clap::{arg, builder::BoolishValueParser, command, ArgMatches};
 use colored::Colorize;
 use std::env;
 use task::Task;
 use tasks::compile_circuits::CompileCircuitsTask;
-
-use crate::{build_handle::BuildHandle, paths::PATHS};
 
 pub type CiError = Box<dyn std::error::Error + Sync + Send>;
 
@@ -22,7 +21,10 @@ fn main() {
         .arg_required_else_help(true)
         .subcommand(command!("build"))
         .subcommand(command!("e2e_test_web"))
-        .subcommand(command!("dev_prfs_web").arg(arg!(--env <STR> "Environment")))
+        .subcommand(
+            command!("dev_prfs_web")
+                .arg(arg!(--teaser <bool> "teaser page").value_parser(BoolishValueParser::new())),
+        )
         .subcommand(command!("dev_asset_server"))
         .subcommand(command!("dev_api_server"))
         .subcommand(command!("seed_api_server"))
