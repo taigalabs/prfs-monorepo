@@ -6,11 +6,10 @@ use clap::ArgMatches;
 use std::process::Command;
 
 pub fn run(matches: &ArgMatches) {
-    let extra_args = matches
-        .get_many::<String>("extra_args")
-        .unwrap()
-        .map(|v| v.as_str())
-        .collect::<Vec<_>>();
+    let extra_args = match matches.get_many::<String>("extra_args") {
+        Some(value_ref) => value_ref.map(|v| v.as_str()).collect::<Vec<_>>(),
+        None => vec![],
+    };
 
     deps::check_nodejs();
     run_app(extra_args);

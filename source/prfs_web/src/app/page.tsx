@@ -16,6 +16,7 @@ import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import localStore from "@/storage/localStore";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import Teaser from "@/components/teaser/Teaser";
+import Card from "@/components/card/Card";
 
 const Home: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -28,16 +29,20 @@ const Home: React.FC = () => {
   ) : (
     <DefaultLayout>
       <div className={styles.wrapper}>
-        <Paper className={styles.paper}>
-          <Widget label={i18n.proofs}>
-            <Table columns={[]} onChangePage={() => {}} />
-          </Widget>
-        </Paper>
-        <Paper className={styles.paper}>
-          <Widget label={i18n.proof_types}>
-            <Table columns={[]} onChangePage={() => {}} />
-          </Widget>
-        </Paper>
+        <div className={styles.row}>
+          <Card>
+            <Widget label={i18n.proofs}>
+              <Table columns={[]} onChangePage={() => {}} />
+            </Widget>
+          </Card>
+        </div>
+        <div className={styles.row}>
+          <Card>
+            <Widget label={i18n.proof_types}>
+              <Table columns={[]} onChangePage={() => {}} />
+            </Widget>
+          </Card>
+        </div>
       </div>
     </DefaultLayout>
   );
