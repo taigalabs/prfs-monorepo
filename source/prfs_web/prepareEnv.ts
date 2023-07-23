@@ -1,13 +1,14 @@
 import { parseArgs } from "node:util";
 import fs from "fs";
 import path from "path";
+import chalk from "chalk";
 
 import { Envs } from "./src/env";
 
 const DOT_ENV_PATH = path.resolve(".env");
 
 function run() {
-  console.log("Preparing prfs web launch");
+  console.log("%s prepareEnv.ts prfs web launch", chalk.green("Launching"));
 
   prepareEnv();
 }
@@ -23,6 +24,9 @@ function prepareEnv() {
       },
     },
   });
+
+  console.log("cli args: %j", values);
+
   const { production, teaser } = values;
 
   const envs = {

@@ -23,7 +23,7 @@ fn main() {
         .subcommand(command!("e2e_test_web"))
         .subcommand(
             command!("dev_prfs_web")
-                .arg(arg!(--teaser <bool> "teaser page").value_parser(BoolishValueParser::new())),
+                .arg(arg!(--teaser "teaser page").value_parser(BoolishValueParser::new())),
         )
         .subcommand(command!("dev_asset_server"))
         .subcommand(command!("dev_api_server"))
