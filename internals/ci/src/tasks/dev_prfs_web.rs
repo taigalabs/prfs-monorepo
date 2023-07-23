@@ -1,5 +1,5 @@
 use crate::{
-    deps::{JS_ENGINE, NODE_VERSION},
+    deps::{self, JS_ENGINE, NODE_VERSION},
     paths::PATHS,
 };
 use clap::ArgMatches;
@@ -18,17 +18,14 @@ pub fn run(matches: &ArgMatches) {
     };
     println!("env: {:?}", env);
 
-    check_nodejs();
+    deps::check_nodejs();
     run_app(&env);
 }
 
 fn run_app(env: &Env) {
     let status = Command::new(JS_ENGINE)
         .current_dir(&PATHS.prfs_web)
-        .args([
-            "prepare-env",
-            // "--env", &env.to_string()
-        ])
+        .args(["prepare-env"])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));
     assert!(status.success());
@@ -40,23 +37,6 @@ fn run_app(env: &Env) {
         .expect(&format!("{} command failed to start", JS_ENGINE));
 
     assert!(status.success());
-}
-
-fn check_nodejs() {
-    let cmd = "node";
-    let output = Command::new("node")
-        .args(["--version"])
-        .output()
-        .expect(&format!("{} command failed to start", cmd));
-
-    let node_version = String::from_utf8(output.stdout).unwrap();
-    if NODE_VERSION != node_version.trim() {
-        panic!(
-            "node wrong version, expected: {}, has: {}",
-            NODE_VERSION,
-            node_version.trim(),
-        );
-    }
 }
 
 #[derive(Debug)]

@@ -24,6 +24,8 @@ const Home: React.FC = () => {
   useLocalWallet(dispatch);
 
   return process.env.IS_TEASER ? (
+    <Teaser />
+  ) : (
     <DefaultLayout>
       <div className={styles.wrapper}>
         <Paper className={styles.paper}>
@@ -38,8 +40,6 @@ const Home: React.FC = () => {
         </Paper>
       </div>
     </DefaultLayout>
-  ) : (
-    <Teaser />
   );
 };
 

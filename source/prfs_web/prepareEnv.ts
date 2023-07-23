@@ -6,16 +6,6 @@ import { Envs } from "./src/env";
 
 const DOT_ENV_PATH = path.resolve(".env");
 
-const envs_prod: Envs = {
-  NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: "http://localhost:4000",
-  NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "https://api.prfs.xyz",
-};
-
-const envs_dev: Envs = {
-  NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: "http://localhost:4010",
-  NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "https://asset.prfs.xyz",
-};
-
 function run() {
   console.log("Preparing prfs web launch");
 
@@ -25,17 +15,25 @@ function run() {
 function prepareEnv() {
   const { values } = parseArgs({
     options: {
-      env: {
-        type: "string",
+      production: {
+        type: "boolean",
       },
       teaser: {
         type: "boolean",
       },
     },
   });
-  const { env } = values;
+  const { production, teaser } = values;
 
-  const envs = env === "development" ? envs_dev : envs_prod;
+  const envs = {
+    NEXT_PUBLIC_IS_TEASER: teaser ? "yes" : "no",
+    NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: production
+      ? "https://api.prfs.xyz"
+      : "http://localhost:4000",
+    NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: production
+      ? "https://asset.prfs.xyz"
+      : "http://localhost:4010",
+  };
   console.log("Writing envs to %s", DOT_ENV_PATH);
 
   writeEnvsToDotEnv(envs);
