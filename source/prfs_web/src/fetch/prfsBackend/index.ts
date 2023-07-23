@@ -26,22 +26,6 @@ async function signUpPrfsAccount(sig: string) {
   } catch (err) {
     console.log("error fetching", err);
   }
-
-  // try {
-  //   let res = await fetch(`${PRFS_API_SERVER_ENDPOINT}/prfs_account/sign_up`, {
-  //     method: "POST",
-  //     mode: "cors",
-  //     headers: {
-  //       "Content-type": "application/json",
-  //     },
-  //     body: JSON.stringify(signUpReq),
-  //   });
-
-  //   let resp: SignUpResponse = await res.json();
-  //   return resp;
-  // } catch (err) {
-  //   console.log("error fetching", err);
-  // }
 }
 
 export interface SignInRequest {
@@ -67,57 +51,28 @@ async function signInPrfsAccount(sig: string) {
   } catch (err) {
     console.log("error fetching", err);
   }
-
-  // try {
-  //   let res = await fetch(`${PRFS_API_SERVER_ENDPOINT}/prfs_account/sign_in`, {
-  //     method: "POST",
-  //     mode: "cors",
-  //     headers: {
-  //       "Content-type": "application/json",
-  //     },
-  //     body: JSON.stringify(signInReq),
-  //   });
-
-  //   let resp: SignInResponse = await res.json();
-  //   return resp;
-  // } catch (err) {
-  //   console.log("error fetching", err);
-  // }
 }
 
-export interface GetCircuitsRequest {
-  sig: string;
+export interface GetCircuitsRequest {}
+
+export type GetCircuitsResponse = PrfsApiResponse<{}>;
+
+async function getCircuits() {
+  let req: GetCircuitsRequest = {};
+
+  try {
+    let resp: GetCircuitsResponse = await api({
+      path: `get_circuits`,
+      req,
+    });
+    return resp;
+  } catch (err) {
+    console.log("error fetching", err);
+  }
 }
-
-export type GetCircuitsResponse = PrfsApiResponse<{
-  sig: string;
-  id: string;
-}>;
-
-// async function getCircuits(sig: string) {
-//   let signInReq: SignInRequest = {
-//     sig,
-//   };
-
-//   try {
-//     let res = await fetch(`${PRFS_API_SERVER_ENDPOINT}/prfs_account/sign_in`, {
-//       method: "POST",
-//       mode: "cors",
-//       headers: {
-//         "Content-type": "application/json",
-//       },
-//       body: JSON.stringify(signInReq),
-//     });
-
-//     let resp: SignInResponse = await res.json();
-//     return resp;
-//   } catch (err) {
-//     console.log("error fetching", err);
-//   }
-// }
 
 export default {
   signInPrfsAccount,
   signUpPrfsAccount,
-  // getCircuits,
+  getCircuits,
 };
