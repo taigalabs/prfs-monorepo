@@ -2,8 +2,7 @@ use colored::Colorize;
 use dotenv::dotenv;
 use hyper::Server;
 use prfs_api_server::state::ServerState;
-use prfs_api_server::{router, ApiServerError};
-use prfs_circuits_circom::BuildJson;
+use prfs_api_server::{local, router, ApiServerError};
 use prfs_db_interface::database::Database;
 use routerify::RouterService;
 use std::sync::Arc;
@@ -18,7 +17,7 @@ async fn main() -> Result<(), ApiServerError> {
     let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     println!("manifest_dir: {:?}", manifest_dir);
 
-    let build_json = require_local_assets();
+    let build_json = local::require_local_assets();
 
     let pg_endpoint = std::env::var("POSTGRES_ENDPOINT").expect("POSTGRES_ENDPOINT missing");
     let pg_pw = std::env::var("POSTGRES_PW").expect("POSTGRES_PW missing");
@@ -41,14 +40,4 @@ async fn main() -> Result<(), ApiServerError> {
     }
 
     Ok(())
-}
-
-fn require_local_assets() -> BuildJson {
-    let build_json = prfs_circuits_circom::access::read_build_json();
-
-    for circuit in &build_json.circuit_builds {
-        println!("[local] {} {}", "Loading".green(), circuit.name);
-    }
-
-    build_json
 }

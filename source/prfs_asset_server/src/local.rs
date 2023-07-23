@@ -25,7 +25,7 @@ pub fn setup_local_assets() -> BuildJson {
 
         if !build_json_path.exists() {
             copy_circuit_build(&circuits_build_path);
-            // return Ok(circuits_build_path);
+            return load_local_build_json();
         }
 
         let b = std::fs::read(&build_json_path).unwrap();
@@ -36,15 +36,18 @@ pub fn setup_local_assets() -> BuildJson {
 
         if original_timestamp > local_timestamp {
             copy_circuit_build(&circuits_build_path);
+            return load_local_build_json();
+        } else {
+            return load_local_build_json();
         }
     } else {
         println!("circuits don't exist. Copying...");
 
         copy_circuit_build(&circuits_build_path);
-    }
 
-    let local_circuit_build_json = load_local_build_json();
-    return local_circuit_build_json;
+        let local_circuit_build_json = load_local_build_json();
+        return local_circuit_build_json;
+    }
 }
 
 fn load_local_build_json() -> BuildJson {
