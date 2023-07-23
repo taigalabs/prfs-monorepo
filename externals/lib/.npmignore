@@ -1,7 +1,0 @@
-/node_modules
-/src
-/tests
-tsconfig.json
-jest.config.js
-copy_artifacts.sh
-load_wasm.ts
