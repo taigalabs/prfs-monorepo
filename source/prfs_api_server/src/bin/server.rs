@@ -10,14 +10,14 @@ use std::{net::SocketAddr, path::PathBuf};
 
 #[tokio::main]
 async fn main() -> Result<(), ApiServerError> {
-    println!("Initializing {}...", env!("CARGO_PKG_NAME"));
+    println!("{} {}...", "Starting".green(), env!("CARGO_PKG_NAME"));
 
     dotenv().expect("dotenv failed");
 
     let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     println!("manifest_dir: {:?}", manifest_dir);
 
-    let build_json = local::require_local_assets();
+    let build_json = local::require_build_json();
 
     let pg_endpoint = std::env::var("POSTGRES_ENDPOINT").expect("POSTGRES_ENDPOINT missing");
     let pg_pw = std::env::var("POSTGRES_PW").expect("POSTGRES_PW missing");

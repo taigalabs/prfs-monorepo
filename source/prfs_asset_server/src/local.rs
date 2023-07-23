@@ -1,10 +1,9 @@
-use prfs_circuits_circom::access::get_build_fs_path;
-use prfs_circuits_circom::BuildJson;
-use std::path::PathBuf;
-
 use crate::paths::PATHS;
 use crate::utils::copy_dir_all;
 use crate::AssetServerError;
+use prfs_circuits_circom::access::get_build_fs_path;
+use prfs_circuits_circom::BuildJson;
+use std::path::PathBuf;
 
 pub fn setup_local_assets() -> BuildJson {
     let circuits_build_path = get_build_fs_path();
@@ -52,7 +51,7 @@ pub fn setup_local_assets() -> BuildJson {
 
 fn load_local_build_json() -> BuildJson {
     let copied_build_json_path = PATHS.assets.join("build.json");
-    let b = std::fs::read(copied_build_json_path.join("build.json")).unwrap();
+    let b = std::fs::read(copied_build_json_path).unwrap();
     let circuit_build_json: BuildJson = serde_json::from_slice(&b).unwrap();
     circuit_build_json
 }

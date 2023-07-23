@@ -4,7 +4,7 @@ use prfs_api_server::{local, ApiServerError};
 async fn main() -> Result<(), ApiServerError> {
     println!("Starting backend seeding...");
 
-    let build_json = local::require_local_assets();
+    local::run_seed();
 
     Ok(())
 }
