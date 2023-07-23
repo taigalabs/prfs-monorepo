@@ -6,7 +6,7 @@ use hyper::{body, Body, Request, Response};
 use prfs_db_interface::models::PrfsAccount;
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
-use std::convert::Infallible;
+use std::{convert::Infallible, sync::Arc};
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
@@ -23,7 +23,7 @@ struct SignUpRespPayload {
 pub async fn sign_up(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     println!("sign up prfs");
 
-    let state = req.data::<ServerState>().unwrap();
+    let state = req.data::<Arc<ServerState>>().unwrap();
     let db = state.db.clone();
 
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
@@ -73,7 +73,7 @@ struct SignInRespPayload {
 pub async fn sign_in(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     println!("sign in prfs");
 
-    let state = req.data::<ServerState>().unwrap();
+    let state = req.data::<Arc<ServerState>>().unwrap();
     let db = state.db.clone();
 
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
