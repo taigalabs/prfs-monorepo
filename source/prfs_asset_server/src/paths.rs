@@ -1,3 +1,4 @@
+use colored::Colorize;
 use lazy_static::lazy_static;
 use std::path::PathBuf;
 
@@ -7,7 +8,6 @@ lazy_static! {
 
 pub struct Paths {
     pub assets: PathBuf,
-    pub assets_local: PathBuf,
 }
 
 impl Paths {
@@ -20,12 +20,6 @@ impl Paths {
         let assets = manifest_dir.join("assets");
         println!("assets: {:?}", assets);
 
-        let assets_local = manifest_dir.join("assets/local");
-        println!("assets_local: {:?}", assets);
-
-        Paths {
-            assets,
-            assets_local,
-        }
+        Paths { assets }
     }
 }
