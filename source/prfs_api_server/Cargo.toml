@@ -1,0 +1,39 @@
+[package]
+name = "prfs_api_server"
+version = "0.1.0"
+edition = "2021"
+default-run = "server"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+colored = "2.0.4"
+tokio = { version = "1.28", features = ["full"] }
+tokio-stream = "0.1"
+tokio-postgres = "0.7.7"
+hyper = "0.14"
+hyper-tls = "0.5.0"
+routerify = "3"
+routerify-cors = "3"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+log = "0.4"
+chrono = "0.4.23"
+hex = "0.4.3"
+dotenv = "0.15.0"
+rust_decimal = { version = "1.29", features = ["db-postgres"] }
+rust_decimal_macros = "1.29"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["json", "env-filter"] }
+tracing-appender = "0.2"
+
+prfs_db_interface = { path = "../prfs_db_interface" }
+prfs_circuits_circom = { path = "../prfs_circuits_circom" }
+
+[[bin]]
+name = "server"
+path = "src/bin/server.rs"
+
+[[bin]]
+name = "seed"
+path = "src/bin/seed.rs"

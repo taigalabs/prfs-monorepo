@@ -1,12 +1,21 @@
 [workspace]
 members = [
-    "packages/spartan_wasm",
-    "packages/secq256k1",
-    "packages/poseidon",
-    "packages/Spartan-secq",
-    "packages/circuit_reader",
+  # externals
+  "externals/secq256k1",
+  "externals/poseidon",
+  "externals/Spartan-secq",
+  "externals/circuit_reader",
 
-    # prfs
-    "source/prfs_wasm",
-    "internals/ci",
+  # prfs
+  "source/prfs_wasm",
+  "source/prfs_db_interface",
+  "source/prfs_tree_maker",
+  "source/prfs_api_server",
+  "source/prfs_asset_server",
+  "source/prfs_lib",
+  "source/prfs_crypto",
+  "source/prfs_circuits_circom",
+
+  # internals
+  "internals/ci",
 ]

@@ -1,7 +1,8 @@
 {
   "include": [
     "./src/**/*",
-    "./src/**/*.wasm"
+    "./src/**/*.wasm",
+    "./src/**/package.json"
   ],
   "exclude": [
     "./jest.config.js",
@@ -15,8 +16,8 @@
       "DOM"
     ],
     "declaration": true,
-    "target": "es2020",
-    "module": "CommonJS",
+    "target": "es2022",
+    "module": "esnext",
     "rootDir": "./src",
     "moduleResolution": "node",
     "allowJs": true,
@@ -24,6 +25,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "resolveJsonModule": true
   }
 }

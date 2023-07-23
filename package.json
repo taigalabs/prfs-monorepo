@@ -7,13 +7,12 @@
   "author": "Daniel Tehrani <contact@dantehrani.com>",
   "scripts": {
     "build": "sh ./scripts/build.sh && lerna run build --stream",
-    "build2": "cargo run --bin scripts",
-    "exp": "yarn run build2 && cd source/e2e_test/node && yarn bench",
     "build-wasm": "sh ./scripts/build_wasm.sh && lerna run build",
     "test": "sh ./scripts/test.sh"
   },
   "devDependencies": {
     "@types/jest": "^29.2.4",
+    "@types/node": "^17.0.9",
     "@typescript-eslint/eslint-plugin": "5.49.0",
     "@typescript-eslint/parser": "^5.59.9",
     "eslint": "8.32.0",
@@ -21,18 +20,13 @@
     "eslint-plugin-react-hooks": "4.6.0",
     "eslint-plugin-security": "1.7.0",
     "lerna": "^6.4.0",
+    "rimraf": "^3.0.2",
     "snarkjs": "^0.5.0"
   },
-  "workspaces": [
-    "packages/lib",
-    "packages/benchmark/web",
-    "packages/benchmark/node",
-    "packages/circuits",
-    "source/prfs_js",
-    "source/prfs_circuits",
-    "source/prfs_circuit_server",
-    "source/prfs_wasm",
-    "source/e2e_test/web",
-    "source/e2e_test/node"
-  ]
+  "dependencies": {
+    "@mui/icons-material": "^5.14.0",
+    "@thirdweb-dev/react": "^3.14.13",
+    "@thirdweb-dev/sdk": "^3.10.33",
+    "ethers": "^5"
+  }
 }

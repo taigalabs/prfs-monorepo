@@ -1,0 +1,50 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 80px 8px;
+  background-color: #f4f4f5;
+  flex-grow: 1;
+  border: 1px solid black;
+
+  .inner {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .upper {
+    font-size: 1.4em;
+    font-weight: 500;
+    margin-bottom: 58px;
+
+    a {
+      color: inherit;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .title {
+    margin-bottom: 24px;
+
+    .label {
+      font-size: 1.75em;
+      font-weight: 600;
+    }
+
+    .desc {
+      margin-top: 0.48em;
+    }
+
+    a {
+      color: var(--green-50);
+    }
+  }
+
+  .footer {
+    color: #5a5b5b;
+    display: flex;
+    margin-top: 105px;
+    flex-grow: 1;
+  }
+}

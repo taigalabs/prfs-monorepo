@@ -1,0 +1,12 @@
+.wrapper {
+  font-size: 1.4em;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+
+  > div {
+    margin-bottom: 15px;
+  }
+}

@@ -1,0 +1,70 @@
+.wrapper {
+  .upper {
+    background-color: #fafafa;
+    padding: 14px 18px;
+    font-weight: 600;
+    font-size: 1.15em;
+    color: #2b2a2d;
+  }
+
+  .widgetInner {
+    padding: 21px 18px;
+  }
+
+  .widgetInner:not(:first-child) {
+    border-top: 1px solid #dfdfdf;
+  }
+
+  .content {
+    padding: 21px 18px;
+  }
+
+  .connectBtnRow {
+    margin-top: 16px;
+  }
+
+  .radioBox {
+    border: 1px solid #9fb6bf;
+    padding: 13px 10px;
+    display: flex;
+    background-color: #f6fbf8;
+
+    > div {
+      margin-left: 12px;
+    }
+
+    .label {
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .desc {
+      font-size: 0.94em;
+      color: #4d4d4d;
+    }
+  }
+
+  .connectBtn {
+    border-radius: 0;
+    background-color: #c8d0ca;
+    color: #2f3139;
+    font-weight: 500;
+    padding: 8px 12px;
+
+    &:hover {
+      background-color: #b5bdb7;
+      cursor: pointer;
+    }
+  }
+
+  .walletAddr {
+    .label {
+      margin-bottom: 4px;
+      color: #272717;
+    }
+    .val {
+      font-weight: 500;
+      color: #272717;
+    }
+  }
+}
