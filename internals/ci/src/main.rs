@@ -6,7 +6,7 @@ mod tasks;
 
 use crate::{build_handle::BuildHandle, paths::PATHS};
 use chrono::prelude::*;
-use clap::{arg, builder::BoolishValueParser, command, ArgMatches};
+use clap::{arg, builder::BoolishValueParser, command, Arg, ArgMatches};
 use colored::Colorize;
 use std::env;
 use task::Task;
@@ -21,14 +21,11 @@ fn main() {
         .arg_required_else_help(true)
         .subcommand(command!("build"))
         .subcommand(command!("e2e_test_web"))
-        .subcommand(
-            command!("dev_prfs_web")
-                .arg(arg!(--teaser "teaser page").value_parser(BoolishValueParser::new())),
-        )
+        .subcommand(command!("dev_prfs_web").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_asset_server"))
         .subcommand(command!("dev_api_server"))
         .subcommand(command!("seed_api_server"))
-        .subcommand(command!("start_prfs_web"))
+        .subcommand(command!("start_prfs_web").arg(Arg::new("extra_args")))
         .get_matches();
 
     let now = Utc::now();
