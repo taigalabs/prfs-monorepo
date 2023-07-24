@@ -19,6 +19,7 @@ pub struct BuildJson {
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct CircuitBuildDetail {
+    pub id: usize,
     pub name: String,
     pub desc: String,
     pub created_at: String,

@@ -1,14 +1,36 @@
 .wrapper {
+  .name {
+    color: red;
+  }
+  .id {
+  }
+  .numInputs {
+  }
+  .createdAt {
+  }
+  .author {
+  }
+  .desc {
+  }
+}
+
+.tableHeader {
+  > div {
+    padding: 11px 20px;
+    position: relative;
+  }
 }
 
 .tableRow {
   display: flex;
+
+  > div {
+    padding: 11px 20px;
+    position: relative;
+  }
 }
 
 .cell {
   padding: 11px 20px;
   position: relative;
-}
-
-.nameCol {
 }

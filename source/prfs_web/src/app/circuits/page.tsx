@@ -3,7 +3,7 @@
 import React from "react";
 
 import styles from "./Circuits.module.scss";
-import Table, { TableColumns, TableValues } from "@/components/table/Table";
+import Table, { TableColumns, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import Widget from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
@@ -20,77 +20,105 @@ const Circuits: React.FC = () => {
   useLocalWallet(dispatch);
 
   let circuitTableColumns = React.useMemo(() => {
-    let circuitTableColumns: TableColumns<CircuitTableValues> = {
-      name: {
-        label: i18n.name,
-        elem: <div className={styles.nameCol}>{i18n.name}</div>,
+    let circuitTableColumns: TableColumns<CircuitTableKeys> = [
+      {
+        key: "name",
+        elem: (
+          <div key="name" className={styles.name}>
+            {i18n.name}
+          </div>
+        ),
       },
-      author: {
-        label: i18n.author,
-        elem: <div className={styles.authorCol}>{i18n.author}</div>,
+      {
+        key: "author",
+        elem: (
+          <div key="author" className={styles.author}>
+            {i18n.author}
+          </div>
+        ),
       },
-      num_public_inputs: {
-        label: i18n.num_inputs,
-        elem: <div className={styles.num_public_inputs}>{i18n.num_inputs}</div>,
+      {
+        key: "num_public_inputs",
+        elem: (
+          <div key="num_public_inputs" className={styles.numInputs}>
+            {i18n.num_inputs}
+          </div>
+        ),
       },
-      desc: {
-        label: i18n.description,
-        elem: <div className={styles.desc}>{i18n.description}</div>,
+      {
+        key: "desc",
+        elem: (
+          <div key="desc" className={styles.desc}>
+            {i18n.description}
+          </div>
+        ),
       },
-      created_at: {
-        label: i18n.created_at,
-        elem: <div className={styles.created_at}>{i18n.created_at}</div>,
+      {
+        key: "created_at",
+        elem: (
+          <div key="created_at" className={styles.createdAt}>
+            {i18n.created_at}
+          </div>
+        ),
       },
-    };
+    ];
 
     return circuitTableColumns;
   }, []);
 
-  const createRows = React.useCallback(
-    (columns: TableColumns<CircuitTableValues>, values: TableValues<CircuitTableValues>) => {
-      // console.log(1, values, columns);
+  const createRows = React.useCallback((data: TableData<CircuitTableKeys>) => {
+    console.log(1, data);
 
-      let rows = [];
+    let { page, values } = data;
 
-      if (values === undefined || values.length < 1) {
-        return rows;
-      }
+    let rows = [];
 
-      for (let val of values) {
-        let row = (
-          <div className={styles.tableRow}>
-            <div key={columns.name.label} className={styles.cell}>
-              {val.name}
-            </div>
-            <div key={columns.author.label} className={styles.cell}>
-              {val.author}
-            </div>
-            <div key={columns.num_public_inputs.label} className={styles.cell}>
-              {val.num_public_inputs}
-            </div>
-            <div key={columns.desc.label} className={styles.cell}>
-              {val.desc}
-            </div>
-            <div key={columns.created_at.label} className={styles.cell}>
-              {val.created_at}
-            </div>
+    if (values === undefined || values.length < 1) {
+      return rows;
+    }
+
+    for (let val of values) {
+      let row = (
+        <div key={val.id} className={styles.tableRow}>
+          <div key="id" className={styles.id}>
+            {val.id}
           </div>
-        );
+          <div key="name" className={styles.name}>
+            {val.name}
+          </div>
+          <div key="author" className={styles.author}>
+            {val.author}
+          </div>
+          <div key="num_public_inputs" className={styles.numInputs}>
+            {val.num_public_inputs}
+          </div>
+          <div key="desc" className={styles.desc}>
+            {val.desc}
+          </div>
+          <div key="created_at" className={styles.createdAt}>
+            {val.created_at}
+          </div>
+        </div>
+      );
 
-        rows.push(<div className={styles.tableRow}>{row}</div>);
-      }
+      rows.push(row);
+    }
 
-      return <div>{rows}</div>;
-    },
-    []
-  );
+    return <div key={page}>{rows}</div>;
+  }, []);
 
   const handleChangeCircuitPage = React.useCallback(async (page: number) => {
     return prfsBackend
       .getNativeCircuits({
         page,
       })
-      .then(resp => resp.payload.circuits);
+      .then(resp => {
+        const { page, circuits } = resp.payload;
+        return {
+          page,
+          values: circuits,
+        };
+      });
   }, []);
 
   return (
@@ -98,11 +126,14 @@ const Circuits: React.FC = () => {
       <CardRow>
         <Card>
           <Widget label={i18n.circuits}>
-            <Table
-              columns={circuitTableColumns}
-              createRows={createRows}
-              onChangePage={handleChangeCircuitPage}
-            />
+            <div className={styles.wrapper}>
+              <Table
+                headerClassName={styles.tableHeader}
+                columns={circuitTableColumns}
+                createRows={createRows}
+                onChangePage={handleChangeCircuitPage}
+              />
+            </div>
           </Widget>
         </Card>
       </CardRow>
@@ -112,10 +143,4 @@ const Circuits: React.FC = () => {
 
 export default Circuits;
 
-interface CircuitTableValues {
-  name: any;
-  author: any;
-  num_public_inputs: any;
-  desc: any;
-  created_at: any;
-}
+type CircuitTableKeys = "id" | "name" | "author" | "num_public_inputs" | "desc" | "created_at";

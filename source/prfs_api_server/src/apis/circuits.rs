@@ -17,6 +17,7 @@ struct GetCircuitsRequest {}
 
 #[derive(Serialize, Deserialize, Debug)]
 struct GetCircuitsRespPayload {
+    page: usize,
     circuits: Vec<CircuitBuildDetail>,
 }
 
@@ -36,7 +37,7 @@ pub async fn get_native_circuits(req: Request<Body>) -> Result<Response<Body>, I
         circuits.push(circuit_build.clone());
     }
 
-    let resp = ApiResponse::new_success(GetCircuitsRespPayload { circuits });
+    let resp = ApiResponse::new_success(GetCircuitsRespPayload { page: 0, circuits });
 
     return Ok(resp.into_hyper_response());
 }

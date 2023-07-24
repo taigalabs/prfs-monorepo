@@ -59,6 +59,7 @@ export interface GetNativeCircuitsRequest {
 }
 
 export type GetNativeCircuitsResponse = PrfsApiResponse<{
+  page: number;
   circuits: Circuit[];
 }>;
 
