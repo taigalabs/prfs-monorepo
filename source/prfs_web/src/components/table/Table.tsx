@@ -25,7 +25,32 @@ function Table<T>({ columns, values, onChangePage }: TableProps<T>) {
         <div
           key={col.label}
           style={{
-            width: col.width,
+            width: col.width ? col.width : "auto",
+            flexGrow: col.width ? 0 : 1,
+          }}
+        >
+          {col.label}
+        </div>
+      );
+    }
+
+    return elems;
+  }, [columns]);
+
+  let rowElems = React.useMemo(() => {
+    let elems = [];
+
+    for (let id in columns) {
+      let col = columns[id];
+
+      console.log(5, col);
+
+      elems.push(
+        <div
+          key={col.label}
+          style={{
+            width: col.width ? col.width : "auto",
+            flexGrow: col.width ? 0 : 1,
           }}
         >
           {col.label}
@@ -39,6 +64,7 @@ function Table<T>({ columns, values, onChangePage }: TableProps<T>) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.tableHeader}>{columnElems}</div>
+      <div className={styles.tableBody}>{rowElems}</div>
     </div>
   );
 }

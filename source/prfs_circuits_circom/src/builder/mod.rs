@@ -127,7 +127,7 @@ fn create_build_json(circuits_json: &CircuitsJson, timestamp: i64) {
             name: circuit.name.to_string(),
             author: circuit.author.to_string(),
             desc: circuit.desc.to_string(),
-            created_at: datetime.to_rfc3339(),
+            created_at: datetime.to_rfc3339_opts(chrono::SecondsFormat::Secs, true),
             circuit_src_path,
             num_public_inputs: circuit.num_public_inputs,
             instance_path: format!("{}/{}", circuit.name, circuit.instance_path),
