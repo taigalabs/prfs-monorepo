@@ -1,4 +1,5 @@
 export default {
+  name: "Name",
   logo_label: "Prfs",
   desc_1: "a",
   desc_2: "b",

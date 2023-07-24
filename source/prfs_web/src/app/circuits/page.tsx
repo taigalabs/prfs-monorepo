@@ -3,7 +3,7 @@
 import React from "react";
 
 import styles from "./Circuits.module.scss";
-import Table from "@/components/table/Table";
+import Table, { TableColumns } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import Widget from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
@@ -18,6 +18,21 @@ const Circuits: React.FC = () => {
   const { dispatch } = React.useContext(stateContext);
 
   useLocalWallet(dispatch);
+
+  let circuitTableColumns = React.useMemo(() => {
+    let circuitTableColumns: TableColumns<any> = {
+      name: {
+        label: i18n.name,
+        width: 100,
+      },
+      author: {
+        label: i18n.author,
+        width: 100,
+      },
+    };
+
+    return circuitTableColumns;
+  }, []);
 
   const [page, setPage] = React.useState(0);
   const [values, setValues] = React.useState([]);
@@ -43,7 +58,7 @@ const Circuits: React.FC = () => {
         <Card>
           <Widget label={i18n.circuits}>
             <Table
-              columns={{ pwer: 1 }}
+              columns={circuitTableColumns}
               values={values as any}
               onChangePage={handleChangeCircuitPage}
             />

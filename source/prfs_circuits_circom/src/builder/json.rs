@@ -22,7 +22,7 @@ pub struct CircuitBuildDetail {
     pub name: String,
     pub author: String,
     pub instance_path: String,
-    pub src_path: String,
+    pub circuit_src_path: String,
     pub num_public_inputs: usize,
     pub wtns_gen_path: String,
     pub spartan_circuit_path: String,

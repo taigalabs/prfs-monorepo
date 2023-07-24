@@ -118,11 +118,12 @@ fn create_build_json(circuits_json: &CircuitsJson, timestamp: &String) {
     for (name, circuit) in &circuits_json.circuits {
         let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen, timestamp);
         let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan, timestamp);
+        let circuit_src_path = get_path_segment(&circuit, FileKind::Source, timestamp);
 
         let circuit_build_json = CircuitBuildDetail {
             name: circuit.name.to_string(),
             author: circuit.author.to_string(),
-            src_path: format!("{}/src", circuit.name),
+            circuit_src_path,
             num_public_inputs: circuit.num_public_inputs,
             instance_path: format!("{}/{}", circuit.name, circuit.instance_path),
             wtns_gen_path,

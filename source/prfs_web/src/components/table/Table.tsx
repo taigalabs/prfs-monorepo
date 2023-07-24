@@ -16,18 +16,21 @@ function Table<T>({ columns, values, onChangePage }: TableProps<T>) {
   let columnElems = React.useMemo(() => {
     let elems = [];
 
-    // for (let col of columns) {
-    //   elems.push(
-    //     <div key={col.key}>
-    //       <div>{col.key}</div>
-    //       <div>{col.label}</div>
-    //     </div>
-    //   );
-    // }
-    // return elems;
-    //
-    for (let id of Object.keys(columns)) {
-      console.log(11, id);
+    for (let id in columns) {
+      let col = columns[id];
+
+      console.log(5, col);
+
+      elems.push(
+        <div
+          key={col.label}
+          style={{
+            width: col.width,
+          }}
+        >
+          {col.label}
+        </div>
+      );
     }
 
     return elems;
@@ -36,7 +39,6 @@ function Table<T>({ columns, values, onChangePage }: TableProps<T>) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.tableHeader}>{columnElems}</div>
-      power
     </div>
   );
 }
@@ -44,14 +46,17 @@ function Table<T>({ columns, values, onChangePage }: TableProps<T>) {
 export default Table;
 
 export interface TableProps<T> {
-  columns: T;
+  columns: TableColumns<T>;
   values?: TableValues<T>;
   onChangePage: (page: number) => void;
 }
 
-export interface TableColumns {
-  [key: string]: any;
-}
+export type TableColumns<T> = {
+  [key in keyof T]: {
+    label: string;
+    width?: number;
+  };
+};
 
 export type TableValues<T> = {
   [key in keyof T]: any;

@@ -18,12 +18,6 @@ struct GetCircuitsRequest {}
 #[derive(Serialize, Deserialize, Debug)]
 struct GetCircuitsRespPayload {
     circuits: Vec<CircuitBuildDetail>,
-    // "name": "addr_membership2",
-    // "author": "SYSTEM_NATIVE",
-    // "instance_path": "addr_membership2/instances/addr_membership2.circom",
-    // "num_public_inputs": 5,
-    // "wtns_gen_path": "addr_membership2/addr_membership2_js/addr_membership2.wasm",
-    // "spartan_circuit_path": "addr_membership2/addr_membership2_1690074626890.spartan.circuit"
 }
 
 pub async fn get_native_circuits(req: Request<Body>) -> Result<Response<Body>, Infallible> {
