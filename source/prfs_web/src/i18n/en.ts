@@ -1,5 +1,9 @@
 export default {
   name: "Name",
+  author: "Author",
+  num_public_inputs: "# public inputs",
+  description: "Description",
+  created_at: "Created at",
   logo_label: "Prfs",
   desc_1: "a",
   desc_2: "b",

@@ -4,7 +4,8 @@
       "name": "addr_membership2",
       "author": "SYSTEM_NATIVE",
       "instance_path": "instances/addr_membership2.circom",
-      "num_public_inputs": 5
+      "num_public_inputs": 5,
+      "desc": "Prove address membership (ECDSA, Poseidon)"
     }
   }
 }

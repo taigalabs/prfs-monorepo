@@ -1,14 +1,14 @@
 mod json;
 
 use crate::paths::PATHS;
-use chrono::Utc;
+use chrono::{DateTime, NaiveDateTime, TimeZone, Utc};
 use colored::Colorize;
 pub use json::*;
 use std::{collections::HashMap, io::Write, process::Command};
 
 pub fn run() {
     let now = Utc::now();
-    let timestamp = now.timestamp_millis().to_string();
+    let timestamp = now.timestamp_millis();
 
     println!(
         "{} building {}, timestamp: {}",
@@ -23,11 +23,11 @@ pub fn run() {
 
     for (_name, circuit) in &circuits_json.circuits {
         compile_circuits(&circuit);
-        make_spartan(&circuit, &timestamp);
+        make_spartan(&circuit, timestamp);
         copy_instance(&circuit);
     }
 
-    create_build_json(&circuits_json, &timestamp);
+    create_build_json(&circuits_json, timestamp);
 }
 
 fn clean_build() {
@@ -36,7 +36,7 @@ fn clean_build() {
     }
 }
 
-fn get_path_segment(circuit: &CircuitDetail, file_kind: FileKind, timestamp: &String) -> String {
+fn get_path_segment(circuit: &CircuitDetail, file_kind: FileKind, timestamp: i64) -> String {
     match file_kind {
         FileKind::R1CS => {
             format!("{}/{}.r1cs", &circuit.name, &circuit.name,)
@@ -60,7 +60,7 @@ fn get_path_segment(circuit: &CircuitDetail, file_kind: FileKind, timestamp: &St
     }
 }
 
-fn make_spartan(circuit: &CircuitDetail, timestamp: &String) {
+fn make_spartan(circuit: &CircuitDetail, timestamp: i64) {
     let r1cs_src_path = PATHS
         .build
         .join(get_path_segment(circuit, FileKind::R1CS, timestamp));
@@ -113,16 +113,21 @@ fn compile_circuits(circuit: &CircuitDetail) {
     assert!(status.success());
 }
 
-fn create_build_json(circuits_json: &CircuitsJson, timestamp: &String) {
+fn create_build_json(circuits_json: &CircuitsJson, timestamp: i64) {
     let mut circuit_builds = HashMap::new();
     for (name, circuit) in &circuits_json.circuits {
         let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen, timestamp);
         let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan, timestamp);
         let circuit_src_path = get_path_segment(&circuit, FileKind::Source, timestamp);
 
+        let naive = NaiveDateTime::from_timestamp_millis(timestamp).unwrap();
+        let datetime: DateTime<Utc> = DateTime::from_utc(naive, Utc);
+
         let circuit_build_json = CircuitBuildDetail {
             name: circuit.name.to_string(),
             author: circuit.author.to_string(),
+            desc: circuit.desc.to_string(),
+            created_at: datetime.to_rfc3339(),
             circuit_src_path,
             num_public_inputs: circuit.num_public_inputs,
             instance_path: format!("{}/{}", circuit.name, circuit.instance_path),
