@@ -53,16 +53,20 @@ async function signInPrfsAccount(sig: string) {
   }
 }
 
-export interface GetCircuitsRequest {}
+export interface GetNativeCircuitsRequest {
+  page: number;
+}
 
-export type GetCircuitsResponse = PrfsApiResponse<{}>;
+export type GetNativeCircuitsResponse = PrfsApiResponse<{}>;
 
-async function getCircuits() {
-  let req: GetCircuitsRequest = {};
+async function getNativeCircuits({ page }) {
+  let req: GetNativeCircuitsRequest = {
+    page,
+  };
 
   try {
-    let resp: GetCircuitsResponse = await api({
-      path: `get_circuits`,
+    let resp: GetNativeCircuitsResponse = await api({
+      path: `get_native_circuits`,
       req,
     });
     return resp;
@@ -74,5 +78,5 @@ async function getCircuits() {
 export default {
   signInPrfsAccount,
   signUpPrfsAccount,
-  getCircuits,
+  getNativeCircuits,
 };

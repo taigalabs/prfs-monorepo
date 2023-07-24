@@ -24,6 +24,7 @@ pub fn run() {
     for (_name, circuit) in &circuits_json.circuits {
         compile_circuits(&circuit);
         make_spartan(&circuit, &timestamp);
+        copy_instance(&circuit);
     }
 
     create_build_json(&circuits_json, &timestamp);
@@ -131,4 +132,14 @@ fn create_build_json(circuits_json: &CircuitsJson, timestamp: &String) {
     let mut fd = std::fs::File::create(&build_json_path).unwrap();
     let build_json_str = serde_json::to_string_pretty(&build_json).unwrap();
     fd.write_all(&build_json_str.into_bytes()).unwrap();
+}
+
+fn copy_instance(circuit: &CircuitDetail) {
+    let circuit_src_path = PATHS.circuits.join(&circuit.instance_path);
+    let file_name = circuit_src_path.file_name().unwrap();
+
+    let dest_dir = PATHS.build.join(format!("{}/src/", &circuit.name));
+    std::fs::create_dir_all(&dest_dir).unwrap();
+
+    // let dest_path = dest_dir.join("")
 }

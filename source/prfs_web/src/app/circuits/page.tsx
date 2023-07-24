@@ -19,20 +19,34 @@ const Circuits: React.FC = () => {
 
   useLocalWallet(dispatch);
 
-  const handleChangeCircuitPage = React.useCallback(() => {
-    async function fn() {
-      await prfsBackend.getCircuits();
-    }
+  const [page, setPage] = React.useState(0);
+  const [values, setValues] = React.useState([]);
 
-    fn().then();
-  }, []);
+  const handleChangeCircuitPage = React.useCallback(
+    (page: number) => {
+      async function fn() {
+        let resp = await prfsBackend.getNativeCircuits({
+          page,
+        });
+
+        setValues(resp.payload as any);
+      }
+
+      fn().then();
+    },
+    [page, setValues]
+  );
 
   return (
     <DefaultLayout>
       <CardRow>
         <Card>
           <Widget label={i18n.circuits}>
-            <Table columns={{ pwer: 1 }} onChangePage={handleChangeCircuitPage} />
+            <Table
+              columns={{ pwer: 1 }}
+              values={values as any}
+              onChangePage={handleChangeCircuitPage}
+            />
           </Widget>
         </Card>
       </CardRow>

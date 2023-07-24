@@ -4,10 +4,14 @@ import Link from "next/link";
 import styles from "./Table.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 
-function Table<T>({ columns, values }: TableProps<T>) {
+function Table<T>({ columns, values, onChangePage }: TableProps<T>) {
   const i18n = React.useContext(i18nContext);
 
-  React.useEffect(() => {}, []);
+  React.useEffect(() => {
+    onChangePage(0);
+  }, [onChangePage]);
+
+  console.log(3, values);
 
   let columnElems = React.useMemo(() => {
     let elems = [];

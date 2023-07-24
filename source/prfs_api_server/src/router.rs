@@ -23,7 +23,10 @@ pub fn make_router(
             format!("{}/sign_up_prfs_account", PREFIX),
             prfs_account::sign_up,
         )
-        .post(format!("{}/get_circuits", PREFIX), circuits::get_circuits)
+        .post(
+            format!("{}/get_native_circuits", PREFIX),
+            circuits::get_native_circuits,
+        )
         .post(
             format!("{}/sign_in_prfs_account", PREFIX),
             prfs_account::sign_in,
