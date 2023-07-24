@@ -37,18 +37,26 @@ fn clean_build() {
 }
 
 fn get_path_segment(circuit: &CircuitDetail, file_kind: FileKind, timestamp: &String) -> String {
-    let r1cs_path_segment = format!("{}/{}.r1cs", &circuit.name, &circuit.name,);
-    let spartan_circuit_path_segment = format!(
-        "{}/{}_{}.spartan.circuit",
-        circuit.name, circuit.name, timestamp
-    );
-    let wtns_gen_path_segment =
-        format!("{}/{}_js/{}.wasm", circuit.name, circuit.name, circuit.name,);
-
     match file_kind {
-        FileKind::R1CS => r1cs_path_segment,
-        FileKind::Spartan => spartan_circuit_path_segment,
-        FileKind::WtnsGen => wtns_gen_path_segment,
+        FileKind::R1CS => {
+            format!("{}/{}.r1cs", &circuit.name, &circuit.name,)
+        }
+        FileKind::Spartan => {
+            format!(
+                "{}/{}_{}.spartan.circuit",
+                circuit.name, circuit.name, timestamp
+            )
+        }
+        FileKind::WtnsGen => {
+            format!("{}/{}_js/{}.wasm", circuit.name, circuit.name, circuit.name,)
+        }
+        FileKind::Source => {
+            let circuit_src_path = PATHS.circuits.join(&circuit.instance_path);
+            let file_name = circuit_src_path.file_name().unwrap().to_str().unwrap();
+
+            let src_path = format!("{}/src/{}", &circuit.name, &file_name);
+            src_path
+        }
     }
 }
 
@@ -114,6 +122,7 @@ fn create_build_json(circuits_json: &CircuitsJson, timestamp: &String) {
         let circuit_build_json = CircuitBuildDetail {
             name: circuit.name.to_string(),
             author: circuit.author.to_string(),
+            src_path: format!("{}/src", circuit.name),
             num_public_inputs: circuit.num_public_inputs,
             instance_path: format!("{}/{}", circuit.name, circuit.instance_path),
             wtns_gen_path,
@@ -136,10 +145,18 @@ fn create_build_json(circuits_json: &CircuitsJson, timestamp: &String) {
 
 fn copy_instance(circuit: &CircuitDetail) {
     let circuit_src_path = PATHS.circuits.join(&circuit.instance_path);
-    let file_name = circuit_src_path.file_name().unwrap();
+    let file_name = circuit_src_path.file_name().unwrap().to_str().unwrap();
 
     let dest_dir = PATHS.build.join(format!("{}/src/", &circuit.name));
     std::fs::create_dir_all(&dest_dir).unwrap();
 
-    // let dest_path = dest_dir.join("")
+    let dest_path = dest_dir.join(file_name);
+    println!(
+        "{} {:?} to {:?}",
+        "Copying".green(),
+        circuit_src_path,
+        dest_path
+    );
+
+    std::fs::copy(circuit_src_path, dest_path).unwrap();
 }

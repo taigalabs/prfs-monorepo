@@ -13,6 +13,7 @@ ff = "0.12.0"
 byteorder = "1.4.3"
 group = "0.12.0"
 itertools = "0.9.0"
+colored = "2.0.4"
 
 [[bin]]
 name = "gen_spartan_inst"
