@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import styles from "./ProofTypes.module.scss";
 import Table, { TableData } from "@/components/table/Table";
@@ -20,6 +20,12 @@ const Proofs: React.FC = () => {
   const { dispatch } = React.useContext(stateContext);
 
   const router = useRouter();
+
+  const searchParams = useSearchParams();
+
+  React.useEffect(() => {
+    console.log(55, searchParams);
+  }, [searchParams]);
 
   useLocalWallet(dispatch);
 
@@ -102,7 +108,7 @@ const Proofs: React.FC = () => {
   }, []);
 
   const handleClickCreateProofType = React.useCallback(() => {
-    router.push("/create_proof_type");
+    router.push("/proof_types?create");
   }, [router]);
 
   const proofTypesHeader = (
