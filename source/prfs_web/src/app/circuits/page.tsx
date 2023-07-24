@@ -23,29 +23,29 @@ const Circuits: React.FC = () => {
     let circuitTableColumns: TableColumns<any> = {
       name: {
         label: i18n.name,
-        width: 100,
+        width: 180,
       },
       author: {
         label: i18n.author,
-        width: 130,
+        width: 160,
       },
       num_public_inputs: {
-        label: i18n.num_public_inputs,
-        width: 130,
+        label: i18n.num_inputs,
+        width: 100,
       },
       desc: {
         label: i18n.description,
       },
       created_at: {
         label: i18n.created_at,
-        width: 100,
+        width: 150,
       },
     };
 
     return circuitTableColumns;
   }, []);
 
-  const [page, setPage] = React.useState(0);
+  const [page, _setPage] = React.useState(0);
   const [values, setValues] = React.useState([]);
 
   const handleChangeCircuitPage = React.useCallback(

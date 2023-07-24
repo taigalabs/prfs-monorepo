@@ -147,6 +147,13 @@ fn create_build_json(circuits_json: &CircuitsJson, timestamp: i64) {
     let mut fd = std::fs::File::create(&build_json_path).unwrap();
     let build_json_str = serde_json::to_string_pretty(&build_json).unwrap();
     fd.write_all(&build_json_str.into_bytes()).unwrap();
+
+    println!(
+        "{} build.json, path: {:?}",
+        "Created".green(),
+        build_json_path
+    );
+    println!("{:#?}", build_json);
 }
 
 fn copy_instance(circuit: &CircuitDetail) {
