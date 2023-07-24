@@ -12,6 +12,7 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import prfsBackend from "@/fetch/prfsBackend";
 import CardRow from "@/components/card_row/CardRow";
+import Button from "@/components/button/Button";
 
 const Proofs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -97,11 +98,20 @@ const Proofs: React.FC = () => {
       });
   }, []);
 
+  const proofTypesHeader = (
+    <div className={styles.proofTypesHeader}>
+      <div className={styles.label}>{i18n.proof_types}</div>
+      <div>
+        <Button variant="a">{i18n.create_proof_type}</Button>
+      </div>
+    </div>
+  );
+
   return (
     <DefaultLayout>
       <CardRow>
         <Card>
-          <Widget label={i18n.proof_types}>
+          <Widget label={i18n.proof_types} headerElem={proofTypesHeader}>
             <Table
               keys={CIRCUIT_TABLE_KEYS}
               createColumns={createColumns}

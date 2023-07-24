@@ -13,6 +13,7 @@ export default {
   browse: "Browse",
   generate: "Generate",
   circuits: "Circuits",
+  create_proof_type: "Create proof type",
   proofs: "Proofs",
   proof_types: "Proof types",
   references: "References",

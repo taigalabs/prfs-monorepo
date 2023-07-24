@@ -35,3 +35,27 @@
     position: relative;
   }
 }
+
+.proofTypesHeader {
+  display: flex;
+  justify-content: space-between;
+
+  background-color: var(--bright-gray-55);
+  border-bottom: 1px solid var(--bright-green-81);
+
+  > div {
+    display: flex;
+    align-items: center;
+  }
+
+  .label {
+    padding: 18px 18px;
+    font-weight: 600;
+    font-size: 1.25em;
+    color: #2b2a2d;
+  }
+
+  .createBtn {
+    border: 1px solid black;
+  }
+}
