@@ -1,5 +1,6 @@
 "use client";
 
+import { Circuit } from "@/models";
 import { api } from "./api";
 import { PrfsApiResponse } from "./types";
 
@@ -58,13 +59,7 @@ export interface GetNativeCircuitsRequest {
 }
 
 export type GetNativeCircuitsResponse = PrfsApiResponse<{
-  circuits: {
-    name: string;
-    author: string;
-    num_public_inputs: number;
-    desc: string;
-    created_at: string;
-  }[];
+  circuits: Circuit[];
 }>;
 
 async function getNativeCircuits({ page }) {

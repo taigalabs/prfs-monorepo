@@ -7,25 +7,27 @@
     display: flex;
     background-color: var(--bright-gray-55);
     padding: 0px 0px;
-  }
 
-  .tableBody {
+    .cell {
+      &::before {
+        content: "";
+        height: 20px;
+        margin: auto;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        border-left: 1px solid var(--bright-gray-40);
+      }
+    }
   }
 
   .cell {
     padding: 11px 20px;
     position: relative;
+  }
 
-    &::before {
-      content: "";
-      height: 18px;
-      margin: auto;
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      border-left: 1px solid black;
-    }
+  .tableBody {
   }
 
   .row {

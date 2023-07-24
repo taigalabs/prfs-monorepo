@@ -3,7 +3,7 @@
 import React from "react";
 
 import styles from "./Circuits.module.scss";
-import Table, { TableColumns } from "@/components/table/Table";
+import Table, { TableColumns, TableValues } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import Widget from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
@@ -12,6 +12,7 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import prfsBackend from "@/fetch/prfsBackend";
+import { Circuit } from "@/models";
 
 const Circuits: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -20,7 +21,7 @@ const Circuits: React.FC = () => {
   useLocalWallet(dispatch);
 
   let circuitTableColumns = React.useMemo(() => {
-    let circuitTableColumns: TableColumns<any> = {
+    let circuitTableColumns: TableColumns<CircuitTableValues> = {
       name: {
         label: i18n.name,
         width: 180,
@@ -46,19 +47,54 @@ const Circuits: React.FC = () => {
   }, []);
 
   const [page, _setPage] = React.useState(0);
-  const [values, setValues] = React.useState([]);
+  const [_, setValues] = React.useState<TableValues<CircuitTableValues>>([]);
 
-  const handleChangeCircuitPage = React.useCallback(
-    (page: number) => {
-      async function fn() {
-        let resp = await prfsBackend.getNativeCircuits({
-          page,
-        });
+  const createRows = React.useCallback(
+    (columns: TableColumns<CircuitTableValues>, values: TableValues<CircuitTableValues>) => {
+      console.log(1, values, columns);
 
-        setValues(resp.payload.circuits);
+      let row = [];
+
+      if (values === undefined || values.length < 1) {
+        return row;
       }
 
-      fn().then();
+      for (let value of values) {
+        for (let id in columns) {
+          let col = columns[id];
+          let val = value[id];
+
+          console.log(3, id, col, val);
+
+          if (col && val) {
+            row.push(
+              <div
+                className={styles.cell}
+                key={col.label}
+                style={{
+                  width: col.width ? col.width : "auto",
+                  flexGrow: col.width ? 0 : 1,
+                }}
+              >
+                {val}
+              </div>
+            );
+          }
+        }
+      }
+
+      return <div className={styles.tableRow}>{row}</div>;
+    },
+    []
+  );
+
+  const handleChangeCircuitPage = React.useCallback(
+    async (page: number) => {
+      return prfsBackend
+        .getNativeCircuits({
+          page,
+        })
+        .then(resp => resp.payload.circuits);
     },
     [page, setValues]
   );
@@ -70,7 +106,7 @@ const Circuits: React.FC = () => {
           <Widget label={i18n.circuits}>
             <Table
               columns={circuitTableColumns}
-              values={values as any}
+              createRows={createRows}
               onChangePage={handleChangeCircuitPage}
             />
           </Widget>
@@ -81,3 +117,11 @@ const Circuits: React.FC = () => {
 };
 
 export default Circuits;
+
+interface CircuitTableValues {
+  name: any;
+  author: any;
+  num_public_inputs: any;
+  desc: any;
+  created_at: any;
+}
