@@ -14,61 +14,32 @@ function Table<T>({ columns, createRows, onChangePage }: TableProps<T>) {
     });
   }, [onChangePage, setValues]);
 
-  // console.log(3, values);
+  // let columnElems = React.useMemo(() => {
+  //   let elems = [];
 
-  let columnElems = React.useMemo(() => {
-    let elems = [];
+  //   for (let id in columns) {
+  //     let col = columns[id];
 
-    for (let id in columns) {
-      let col = columns[id];
+  //     console.log(5, col);
 
-      console.log(5, col);
+  //     elems.push(
+  //       <div
+  //         className={styles.cell}
+  //         key={col.label}
+  //         // style={{
+  //         //   width: col.width ? col.width : "auto",
+  //         //   flexGrow: col.width ? 0 : 1,
+  //         // }}
+  //       >
+  //         {col.label}
+  //       </div>
+  //     );
+  //   }
 
-      elems.push(
-        <div
-          className={styles.cell}
-          key={col.label}
-          style={{
-            width: col.width ? col.width : "auto",
-            flexGrow: col.width ? 0 : 1,
-          }}
-        >
-          {col.label}
-        </div>
-      );
-    }
-
-    return elems;
-  }, [columns]);
+  //   return elems;
+  // }, [columns]);
 
   let rowElems = React.useMemo(() => {
-    // console.log(1, values, columns);
-    // let row = [];
-    // if (values === undefined || values.length < 1) {
-    //   return row;
-    // }
-    // for (let value of values) {
-    //   for (let id in columns) {
-    //     let col = columns[id];
-    //     let val = value[id];
-    //     console.log(3, id, col, val);
-    //     if (col && val) {
-    //       row.push(
-    //         <div
-    //           className={styles.cell}
-    //           key={col.label}
-    //           style={{
-    //             width: col.width ? col.width : "auto",
-    //             flexGrow: col.width ? 0 : 1,
-    //           }}
-    //         >
-    //           {val}
-    //         </div>
-    //       );
-    //     }
-    //   }
-    // }
-    // return <div className={styles.row}>{row}</div>;
     return createRows(columns, values);
   }, [values, columns]);
 
@@ -85,14 +56,14 @@ export default Table;
 export interface TableProps<T> {
   columns: TableColumns<T>;
   // values?: TableValues<T>;
-  createRows: (columns: TableColumns<T>, values: TableValues<T>) => any;
+  createRows: (columns: TableColumns<T>, values: TableValues<T>) => React.ReactNode;
   onChangePage: (page: number) => Promise<T[]>;
 }
 
 export type TableColumns<T> = {
   [key in keyof T]: {
     label: string;
-    width?: number;
+    elem: React.JSX.Element;
   };
 };
 

@@ -12,7 +12,6 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import prfsBackend from "@/fetch/prfsBackend";
-import { Circuit } from "@/models";
 
 const Circuits: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -24,80 +23,75 @@ const Circuits: React.FC = () => {
     let circuitTableColumns: TableColumns<CircuitTableValues> = {
       name: {
         label: i18n.name,
-        width: 180,
+        elem: <div className={styles.nameCol}>{i18n.name}</div>,
       },
       author: {
         label: i18n.author,
-        width: 160,
+        elem: <div className={styles.authorCol}>{i18n.author}</div>,
       },
       num_public_inputs: {
         label: i18n.num_inputs,
-        width: 100,
+        elem: <div className={styles.num_public_inputs}>{i18n.num_inputs}</div>,
       },
       desc: {
         label: i18n.description,
+        elem: <div className={styles.desc}>{i18n.description}</div>,
       },
       created_at: {
         label: i18n.created_at,
-        width: 170,
+        elem: <div className={styles.created_at}>{i18n.created_at}</div>,
       },
     };
 
     return circuitTableColumns;
   }, []);
 
-  const [page, _setPage] = React.useState(0);
-  const [_, setValues] = React.useState<TableValues<CircuitTableValues>>([]);
-
   const createRows = React.useCallback(
     (columns: TableColumns<CircuitTableValues>, values: TableValues<CircuitTableValues>) => {
-      console.log(1, values, columns);
+      // console.log(1, values, columns);
 
-      let row = [];
+      let rows = [];
 
       if (values === undefined || values.length < 1) {
-        return row;
+        return rows;
       }
 
-      for (let value of values) {
-        for (let id in columns) {
-          let col = columns[id];
-          let val = value[id];
+      for (let val of values) {
+        let row = (
+          <div className={styles.tableRow}>
+            <div key={columns.name.label} className={styles.cell}>
+              {val.name}
+            </div>
+            <div key={columns.author.label} className={styles.cell}>
+              {val.author}
+            </div>
+            <div key={columns.num_public_inputs.label} className={styles.cell}>
+              {val.num_public_inputs}
+            </div>
+            <div key={columns.desc.label} className={styles.cell}>
+              {val.desc}
+            </div>
+            <div key={columns.created_at.label} className={styles.cell}>
+              {val.created_at}
+            </div>
+          </div>
+        );
 
-          console.log(3, id, col, val);
-
-          if (col && val) {
-            row.push(
-              <div
-                className={styles.cell}
-                key={col.label}
-                style={{
-                  width: col.width ? col.width : "auto",
-                  flexGrow: col.width ? 0 : 1,
-                }}
-              >
-                {val}
-              </div>
-            );
-          }
-        }
+        rows.push(<div className={styles.tableRow}>{row}</div>);
       }
 
-      return <div className={styles.tableRow}>{row}</div>;
+      return <div>{rows}</div>;
     },
     []
   );
 
-  const handleChangeCircuitPage = React.useCallback(
-    async (page: number) => {
-      return prfsBackend
-        .getNativeCircuits({
-          page,
-        })
-        .then(resp => resp.payload.circuits);
-    },
-    [page, setValues]
-  );
+  const handleChangeCircuitPage = React.useCallback(async (page: number) => {
+    return prfsBackend
+      .getNativeCircuits({
+        page,
+      })
+      .then(resp => resp.payload.circuits);
+  }, []);
 
   return (
     <DefaultLayout>
