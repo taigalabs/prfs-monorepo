@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 
 import styles from "./ProofTypes.module.scss";
 import Table, { TableData } from "@/components/table/Table";
@@ -17,6 +18,8 @@ import Button from "@/components/button/Button";
 const Proofs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
   const { dispatch } = React.useContext(stateContext);
+
+  const router = useRouter();
 
   useLocalWallet(dispatch);
 
@@ -98,11 +101,17 @@ const Proofs: React.FC = () => {
       });
   }, []);
 
+  const handleClickCreateProofType = React.useCallback(() => {
+    router.push("/create_proof_type");
+  }, [router]);
+
   const proofTypesHeader = (
     <div className={styles.proofTypesHeader}>
       <div className={styles.label}>{i18n.proof_types}</div>
       <div>
-        <Button variant="a">{i18n.create_proof_type}</Button>
+        <Button variant="a" handleClick={handleClickCreateProofType}>
+          {i18n.create_proof_type}
+        </Button>
       </div>
     </div>
   );
