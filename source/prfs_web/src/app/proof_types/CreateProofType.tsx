@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import styles from "./CreateProofType.module.scss";
+import styles from "./CreateProofTypePage.module.scss";
 import Table, { TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import Widget from "@/components/widget/Widget";
