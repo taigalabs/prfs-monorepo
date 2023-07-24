@@ -38,7 +38,7 @@ const Circuits: React.FC = () => {
       },
       created_at: {
         label: i18n.created_at,
-        width: 150,
+        width: 170,
       },
     };
 

@@ -23,6 +23,7 @@ function Table<T>({ columns, values, onChangePage }: TableProps<T>) {
 
       elems.push(
         <div
+          className={styles.cell}
           key={col.label}
           style={{
             width: col.width ? col.width : "auto",
@@ -56,6 +57,7 @@ function Table<T>({ columns, values, onChangePage }: TableProps<T>) {
         if (col && val) {
           row.push(
             <div
+              className={styles.cell}
               key={col.label}
               style={{
                 width: col.width ? col.width : "auto",
