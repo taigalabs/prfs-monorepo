@@ -19,59 +19,29 @@ const Circuits: React.FC = () => {
 
   useLocalWallet(dispatch);
 
-  let circuitTableColumns = React.useMemo(() => {
-    let circuitTableColumns: TableColumns<CircuitTableKeys> = [
-      {
-        key: "id",
-        elem: (
-          <div key="id" className={styles.id}>
-            {i18n.id}
-          </div>
-        ),
-      },
-      {
-        key: "name",
-        elem: (
-          <div key="name" className={styles.name}>
-            {i18n.name}
-          </div>
-        ),
-      },
-      {
-        key: "author",
-        elem: (
-          <div key="author" className={styles.author}>
-            {i18n.author}
-          </div>
-        ),
-      },
-      {
-        key: "num_public_inputs",
-        elem: (
-          <div key="num_public_inputs" className={styles.numInputs}>
-            {i18n.num_inputs}
-          </div>
-        ),
-      },
-      {
-        key: "desc",
-        elem: (
-          <div key="desc" className={styles.desc}>
-            {i18n.description}
-          </div>
-        ),
-      },
-      {
-        key: "created_at",
-        elem: (
-          <div key="created_at" className={styles.createdAt}>
-            {i18n.created_at}
-          </div>
-        ),
-      },
-    ];
-
-    return circuitTableColumns;
+  let createColumns = React.useCallback((keys: ReadonlyArray<CircuitTableKeys>) => {
+    return (
+      <div className={styles.tableHeader}>
+        <div key={keys[0]} className={styles.id}>
+          {i18n.id}
+        </div>
+        <div key={keys[1]} className={styles.name}>
+          {i18n.name}
+        </div>
+        <div key={keys[2]} className={styles.author}>
+          {i18n.author}
+        </div>
+        <div key={keys[3]} className={styles.numInputs}>
+          {i18n.num_inputs}
+        </div>
+        <div key={keys[4]} className={styles.desc}>
+          {i18n.description}
+        </div>
+        <div key={keys[5]} className={styles.createdAt}>
+          {i18n.created_at}
+        </div>
+      </div>
+    );
   }, []);
 
   const createRows = React.useCallback((data: TableData<CircuitTableKeys>) => {
@@ -136,8 +106,8 @@ const Circuits: React.FC = () => {
           <Widget label={i18n.circuits}>
             <div className={styles.wrapper}>
               <Table
-                headerClassName={styles.tableHeader}
-                columns={circuitTableColumns}
+                keys={CIRCUIT_TABLE_KEYS}
+                createColumns={createColumns}
                 createRows={createRows}
                 onChangePage={handleChangeCircuitPage}
               />
@@ -151,4 +121,13 @@ const Circuits: React.FC = () => {
 
 export default Circuits;
 
-type CircuitTableKeys = "id" | "name" | "author" | "num_public_inputs" | "desc" | "created_at";
+const CIRCUIT_TABLE_KEYS = [
+  "id",
+  "name",
+  "author",
+  "num_public_inputs",
+  "desc",
+  "created_at",
+] as const;
+
+type CircuitTableKeys = (typeof CIRCUIT_TABLE_KEYS)[number];

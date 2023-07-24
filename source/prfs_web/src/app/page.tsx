@@ -46,3 +46,7 @@ const Home: React.FC = () => {
 };
 
 export default Home;
+// headerClassName={styles.tableHeader}
+// columns={circuitTableColumns}
+// createRows={createRows}
+// onChangePage={handleChangeCircuitPage}

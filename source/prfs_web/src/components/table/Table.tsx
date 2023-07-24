@@ -5,12 +5,7 @@ import classNames from "classnames";
 import styles from "./Table.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 
-function Table<T extends string>({
-  columns,
-  createRows,
-  onChangePage,
-  headerClassName,
-}: TableProps<T>) {
+function Table<T extends string>({ keys, createColumns, createRows, onChangePage }: TableProps<T>) {
   const i18n = React.useContext(i18nContext);
 
   const [data, setValues] = React.useState({ page: 0, values: [] });
@@ -22,14 +17,8 @@ function Table<T extends string>({
   }, [onChangePage, setValues]);
 
   let columnElems = React.useMemo(() => {
-    let elems = [];
-
-    for (let col of columns) {
-      elems.push(col.elem);
-    }
-
-    return elems;
-  }, [columns]);
+    return createColumns(keys);
+  }, [keys]);
 
   let rowElems = React.useMemo(() => {
     return createRows(data);
@@ -37,8 +26,8 @@ function Table<T extends string>({
 
   return (
     <div className={styles.wrapper}>
-      <div className={classNames(styles.tableHeader, headerClassName)}>{columnElems}</div>
-      <div className={styles.tableBody}>{rowElems}</div>
+      <div className={styles.tableHeaderWrapper}>{columnElems}</div>
+      <div className={styles.tableBodyWrapper}>{rowElems}</div>
     </div>
   );
 }
@@ -46,8 +35,8 @@ function Table<T extends string>({
 export default Table;
 
 export interface TableProps<T extends string> {
-  headerClassName?: string;
-  columns: TableColumns<T>;
+  keys: ReadonlyArray<T>;
+  createColumns: (keys: ReadonlyArray<T>) => React.ReactNode;
   createRows: (data: TableData<T>) => React.ReactNode;
   onChangePage: (page: number) => Promise<TableData<T>>;
 }
@@ -56,6 +45,10 @@ export type TableColumns<T> = {
   key: T;
   elem: React.JSX.Element;
 }[];
+
+export type A<T extends string> = {
+  [key in T]: T;
+};
 
 export type TableData<T extends string> = {
   page: number;

@@ -20,6 +20,9 @@
 }
 
 .tableHeader {
+  display: flex;
+  width: 100%;
+
   > div {
     padding: 11px 20px;
     position: relative;

@@ -3,7 +3,7 @@
   flex-grow: 1;
   flex-direction: column;
 
-  .tableHeader {
+  .tableHeaderWrapper {
     display: flex;
     background-color: var(--bright-gray-55);
     border-bottom: 1px solid var(--bright-green-81);
@@ -28,7 +28,7 @@
     position: relative;
   }
 
-  .tableBody {
+  .tableBodyWrapper {
   }
 
   .row {
