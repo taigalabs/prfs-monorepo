@@ -27,7 +27,9 @@ const Leftbar: React.FC<any> = () => {
           <li>
             <ActiveLink href="/circuits">{i18n.circuits}</ActiveLink>
           </li>
-          <li>{i18n.proof_types}</li>
+          <li>
+            <ActiveLink href="/proof_types">{i18n.proof_types}</ActiveLink>
+          </li>
         </ul>
       </div>
       <div className={styles.section}>
