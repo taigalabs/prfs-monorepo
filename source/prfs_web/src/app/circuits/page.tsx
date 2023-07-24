@@ -19,7 +19,7 @@ const Circuits: React.FC = () => {
 
   useLocalWallet(dispatch);
 
-  let createColumns = React.useCallback((keys: ReadonlyArray<CircuitTableKeys>) => {
+  const createColumns = React.useCallback((keys: ReadonlyArray<CircuitTableKeys>) => {
     return (
       <div className={styles.tableHeader}>
         <div key={keys[0]} className={styles.id}>
@@ -46,11 +46,9 @@ const Circuits: React.FC = () => {
 
   const createRows = React.useCallback((data: TableData<CircuitTableKeys>) => {
     // console.log(1, data);
-
     let { page, values } = data;
 
     let rows = [];
-
     if (values === undefined || values.length < 1) {
       return rows;
     }

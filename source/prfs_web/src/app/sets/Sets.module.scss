@@ -1,11 +1,37 @@
-.wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 500px;
+.id {
+  width: 80px;
+}
+.name {
+  width: 160px;
+}
+.numInputs {
+  width: 100px;
+}
+.createdAt {
+  width: 180px;
+}
+.author {
+  width: 180px;
+}
+.desc {
+  flex-grow: 1;
+}
 
-  .card {
-    flex-grow: 1;
-    margin: 0 45px;
+.tableHeader {
+  display: flex;
+  width: 100%;
+
+  > div {
+    padding: 11px 20px;
+    position: relative;
+  }
+}
+
+.tableRow {
+  display: flex;
+
+  > div {
+    padding: 11px 20px;
+    position: relative;
   }
 }
