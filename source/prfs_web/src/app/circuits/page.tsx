@@ -22,6 +22,14 @@ const Circuits: React.FC = () => {
   let circuitTableColumns = React.useMemo(() => {
     let circuitTableColumns: TableColumns<CircuitTableKeys> = [
       {
+        key: "id",
+        elem: (
+          <div key="id" className={styles.id}>
+            {i18n.id}
+          </div>
+        ),
+      },
+      {
         key: "name",
         elem: (
           <div key="name" className={styles.name}>
@@ -67,7 +75,7 @@ const Circuits: React.FC = () => {
   }, []);
 
   const createRows = React.useCallback((data: TableData<CircuitTableKeys>) => {
-    console.log(1, data);
+    // console.log(1, data);
 
     let { page, values } = data;
 

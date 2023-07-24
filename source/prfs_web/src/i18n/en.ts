@@ -1,4 +1,5 @@
 export default {
+  id: "Id",
   name: "Name",
   author: "Author",
   num_inputs: "# inputs",
