@@ -57,7 +57,15 @@ export interface GetNativeCircuitsRequest {
   page: number;
 }
 
-export type GetNativeCircuitsResponse = PrfsApiResponse<{}>;
+export type GetNativeCircuitsResponse = PrfsApiResponse<{
+  circuits: {
+    name: string;
+    author: string;
+    num_public_inputs: number;
+    desc: string;
+    created_at: string;
+  }[];
+}>;
 
 async function getNativeCircuits({ page }) {
   let req: GetNativeCircuitsRequest = {

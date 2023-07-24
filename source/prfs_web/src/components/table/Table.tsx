@@ -38,28 +38,39 @@ function Table<T>({ columns, values, onChangePage }: TableProps<T>) {
   }, [columns]);
 
   let rowElems = React.useMemo(() => {
-    let elems = [];
+    console.log(1, values, columns);
 
-    for (let id in columns) {
-      let col = columns[id];
+    let row = [];
 
-      console.log(5, col);
-
-      elems.push(
-        <div
-          key={col.label}
-          style={{
-            width: col.width ? col.width : "auto",
-            flexGrow: col.width ? 0 : 1,
-          }}
-        >
-          {col.label}
-        </div>
-      );
+    if (values === undefined || values.length < 1) {
+      return row;
     }
 
-    return elems;
-  }, [columns]);
+    for (let value of values) {
+      for (let id in columns) {
+        let col = columns[id];
+        let val = value[id];
+
+        console.log(3, id, col, val);
+
+        if (col && val) {
+          row.push(
+            <div
+              key={col.label}
+              style={{
+                width: col.width ? col.width : "auto",
+                flexGrow: col.width ? 0 : 1,
+              }}
+            >
+              {val}
+            </div>
+          );
+        }
+      }
+    }
+
+    return <div className={styles.row}>{row}</div>;
+  }, [values, columns]);
 
   return (
     <div className={styles.wrapper}>
@@ -73,7 +84,7 @@ export default Table;
 
 export interface TableProps<T> {
   columns: TableColumns<T>;
-  values?: TableValues<T>;
+  values?: TableValue<T>[];
   onChangePage: (page: number) => void;
 }
 
@@ -84,6 +95,6 @@ export type TableColumns<T> = {
   };
 };
 
-export type TableValues<T> = {
+export type TableValue<T> = {
   [key in keyof T]: any;
 };

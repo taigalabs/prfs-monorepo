@@ -55,7 +55,7 @@ const Circuits: React.FC = () => {
           page,
         });
 
-        setValues(resp.payload as any);
+        setValues(resp.payload.circuits);
       }
 
       fn().then();
