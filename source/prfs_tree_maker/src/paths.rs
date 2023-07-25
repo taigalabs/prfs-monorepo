@@ -6,6 +6,7 @@ lazy_static! {
 }
 
 pub struct Paths {
+    manifest_dir: PathBuf,
     pub log_files: PathBuf,
     pub data: PathBuf,
 }
@@ -23,6 +24,10 @@ impl Paths {
         let data = manifest_dir.join("data");
         println!("data: {:?}", data);
 
-        Paths { log_files, data }
+        Paths {
+            manifest_dir,
+            log_files,
+            data,
+        }
     }
 }

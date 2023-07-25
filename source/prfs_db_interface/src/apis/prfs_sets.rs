@@ -1,3 +1,5 @@
+use rust_decimal::Decimal;
+
 use crate::{
     database::Database,
     models::{PrfsAccount, PrfsSet},
@@ -38,9 +40,9 @@ impl Database {
     //     Ok(prfs_accounts)
     // }
 
-    pub async fn insert_prfs_set(&self, prfs_set: &PrfsSet) -> Result<u64, DbInterfaceError> {
+    pub async fn insert_prfs_set(&self, prfs_set: &PrfsSet) -> Result<Decimal, DbInterfaceError> {
         let stmt = format!(
-            "INSERT INTO {} (label, author, desc) VALUES ('{}, {}, {}') ON CONFLICT DO NOTHING",
+            "INSERT INTO {} (label, author, desc) VALUES ('{}, {}, {}') ON CONFLICT DO NOTHING returning id",
             PrfsAccount::table_name(),
             prfs_set.label,
             prfs_set.author,
@@ -48,7 +50,7 @@ impl Database {
         );
         // println!("stmt: {}", stmt);
 
-        let rows_updated = match self.pg_client.execute(&stmt, &[]).await {
+        let id = match self.pg_client.query(&stmt, &[]).await {
             Ok(r) => r,
             Err(err) => {
                 tracing::error!("Error executing stmt, err: {}, stmt: {}", err, stmt);
@@ -57,6 +59,12 @@ impl Database {
             }
         };
 
-        Ok(rows_updated)
+        let id: Decimal = id
+            .get(0)
+            .unwrap()
+            .try_get("id")
+            .expect("id should be present");
+
+        Ok(id)
     }
 }
