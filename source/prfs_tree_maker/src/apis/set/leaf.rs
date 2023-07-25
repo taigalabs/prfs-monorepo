@@ -44,7 +44,7 @@ pub async fn create_leaf(
         );
 
         let now = SystemTime::now();
-        let accounts = db.get_accounts(&where_clause).await?;
+        let accounts = db.get_eth_accounts(&where_clause).await?;
 
         let elapsed = now.elapsed().unwrap();
         println!("Query took {} ms - get_accounts", elapsed.as_millis());
@@ -66,7 +66,7 @@ pub async fn create_leaf(
             break;
         }
 
-        let nodes_updated = db.insert_eth_tree_nodes(&nodes, false).await?;
+        let nodes_updated = db.insert_prfs_tree_nodes(&nodes, false).await?;
 
         count += accounts.len();
         offset += accounts.len();

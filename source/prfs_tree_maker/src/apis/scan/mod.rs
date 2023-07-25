@@ -207,7 +207,7 @@ async fn scan_ledger_accounts(
 
         let balances_count = balances.len();
         if balances.len() >= balance_bucket_capacity {
-            match db.insert_accounts(balances, update_on_conflict).await {
+            match db.insert_eth_accounts(balances, update_on_conflict).await {
                 Ok(r) => {
                     tracing::info!(
                         "Writing balances, balances_count: {}, block_no: {}, rows_affected: {}",
@@ -235,7 +235,7 @@ async fn scan_ledger_accounts(
             end_block
         );
 
-        db.insert_accounts(balances, update_on_conflict).await?;
+        db.insert_eth_accounts(balances, update_on_conflict).await?;
     } else {
         tracing::info!(
             "Balances are empty. Closing 'scan', balances_count: {}, end block_no (excl): {}",
