@@ -39,22 +39,25 @@ fn clean_build() {
 fn get_path_segment(circuit: &CircuitDetail, file_kind: FileKind, timestamp: i64) -> String {
     match file_kind {
         FileKind::R1CS => {
-            format!("{}/{}.r1cs", &circuit.name, &circuit.name,)
+            format!("{}/{}.r1cs", &circuit.label, &circuit.label,)
         }
         FileKind::Spartan => {
             format!(
                 "{}/{}_{}.spartan.circuit",
-                circuit.name, circuit.name, timestamp
+                circuit.label, circuit.label, timestamp
             )
         }
         FileKind::WtnsGen => {
-            format!("{}/{}_js/{}.wasm", circuit.name, circuit.name, circuit.name,)
+            format!(
+                "{}/{}_js/{}.wasm",
+                circuit.label, circuit.label, circuit.label,
+            )
         }
         FileKind::Source => {
             let circuit_src_path = PATHS.circuits.join(&circuit.instance_path);
             let file_name = circuit_src_path.file_name().unwrap().to_str().unwrap();
 
-            let src_path = format!("{}/src/{}", &circuit.name, &file_name);
+            let src_path = format!("{}/src/{}", &circuit.label, &file_name);
             src_path
         }
     }
@@ -92,7 +95,7 @@ fn compile_circuits(circuit: &CircuitDetail) {
     let circuit_src_path = PATHS.circuits.join(&circuit.instance_path);
     println!("circuit_src_path: {:?}", circuit_src_path);
 
-    let build_path = PATHS.build.join(&circuit.name);
+    let build_path = PATHS.build.join(&circuit.label);
     println!("circuit_build_path: {:?}", build_path);
 
     std::fs::create_dir_all(&build_path).unwrap();
@@ -125,13 +128,13 @@ fn create_build_json(circuits_json: &CircuitsJson, timestamp: i64) {
 
         let circuit_build_json = CircuitBuildDetail {
             id: idx,
-            name: circuit.name.to_string(),
+            label: circuit.label.to_string(),
             author: circuit.author.to_string(),
             desc: circuit.desc.to_string(),
             created_at: datetime.to_rfc3339_opts(chrono::SecondsFormat::Secs, true),
             circuit_src_path,
             num_public_inputs: circuit.num_public_inputs,
-            instance_path: format!("{}/{}", circuit.name, circuit.instance_path),
+            instance_path: format!("{}/{}", circuit.label, circuit.instance_path),
             wtns_gen_path,
             spartan_circuit_path,
         };
@@ -161,7 +164,7 @@ fn copy_instance(circuit: &CircuitDetail) {
     let circuit_src_path = PATHS.circuits.join(&circuit.instance_path);
     let file_name = circuit_src_path.file_name().unwrap().to_str().unwrap();
 
-    let dest_dir = PATHS.build.join(format!("{}/src/", &circuit.name));
+    let dest_dir = PATHS.build.join(format!("{}/src/", &circuit.label));
     std::fs::create_dir_all(&dest_dir).unwrap();
 
     let dest_path = dest_dir.join(file_name);

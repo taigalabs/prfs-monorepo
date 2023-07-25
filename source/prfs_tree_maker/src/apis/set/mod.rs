@@ -18,6 +18,5 @@ pub async fn create_set(_sub_matches: &ArgMatches) {
     leaf::create_leaves_without_offset(&db, &set_json, prfs_set)
         .await
         .unwrap();
-
-    // climb::create_tree_nodes(&db, &set_json).await.unwrap();
+    climb::create_tree_nodes(&db, &set_json).await.unwrap();
 }

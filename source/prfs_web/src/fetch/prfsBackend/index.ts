@@ -1,7 +1,7 @@
 "use client";
 
-import { Circuit } from "@/models";
-import { api } from "./api";
+import { Circuit, Set } from "@/models";
+import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
 
 export interface SignUpRequest {
@@ -79,8 +79,34 @@ async function getNativeCircuits({ page }) {
   }
 }
 
+export interface GetSetsRequest {
+  page: number;
+}
+
+export type GetSetsResponse = PrfsApiResponse<{
+  page: number;
+  sets: Set[];
+}>;
+
+async function getSets({ page }) {
+  let req: GetSetsRequest = {
+    page,
+  };
+
+  try {
+    let resp: GetSetsResponse = await api({
+      path: "get_sets",
+      req,
+    });
+    return resp;
+  } catch (err) {
+    console.log("error fetching", err);
+  }
+}
+
 export default {
   signInPrfsAccount,
   signUpPrfsAccount,
   getNativeCircuits,
+  getSets,
 };

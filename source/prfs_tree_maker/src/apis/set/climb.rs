@@ -11,8 +11,8 @@ pub async fn create_tree_nodes(db: &Database, set_json: &SetJson) -> Result<(), 
     let set_id = set_json.set.set_id.to_string();
 
     println!(
-        "{} creating tree nodes set label: {}, set_id: {}, depth: {}",
-        "Star".green(),
+        "{} tree nodes set label: {}, set_id: {}, depth: {}",
+        "Creating".green(),
         set_label,
         set_id,
         depth,
@@ -96,7 +96,7 @@ pub async fn create_tree_nodes(db: &Database, set_json: &SetJson) -> Result<(), 
         // break;
     }
 
-    println!("Finish tree node creating, total count: {}", count);
+    println!("{} tree nodes, total count: {}", "Created".green(), count);
 
     Ok(())
 }

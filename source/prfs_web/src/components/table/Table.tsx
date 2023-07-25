@@ -17,11 +17,25 @@ function Table<T extends string>({ keys, createHeader, createRows, onChangePage 
   }, [onChangePage, setValues]);
 
   let headerElems = React.useMemo(() => {
-    return createHeader(keys);
+    const tableKeys: TableKeys<T> = keys.reduce((r, key) => {
+      return {
+        ...r,
+        [key]: false,
+      };
+    }, {} as TableKeys<T>);
+
+    return createHeader(tableKeys);
   }, [keys]);
 
   let rowElems = React.useMemo(() => {
-    return createRows(data);
+    const tableKeys: TableKeys<T> = keys.reduce((r, key) => {
+      return {
+        ...r,
+        [key]: false,
+      };
+    }, {} as TableKeys<T>);
+
+    return createRows(tableKeys, data);
   }, [data]);
 
   return (
@@ -36,14 +50,20 @@ export default Table;
 
 export interface TableProps<T extends string> {
   keys: ReadonlyArray<T>;
-  createHeader: (keys: ReadonlyArray<T>) => React.ReactNode;
-  createRows: (data: TableData<T>) => React.ReactNode;
+  createHeader: (keys: TableKeys<T>) => React.ReactNode;
+  createRows: (keys: TableKeys<T>, data: TableData<T>) => React.ReactNode;
   onChangePage: (page: number) => Promise<TableData<T>>;
 }
+
+export type TableKeys<T extends string> = ObjectFromList<ReadonlyArray<T>, any>;
 
 export type TableData<T extends string> = {
   page: number;
   values: {
     [key in T]: any;
   }[];
+};
+
+type ObjectFromList<T extends ReadonlyArray<string>, V = string> = {
+  [K in T extends ReadonlyArray<infer U> ? U : never]: V;
 };

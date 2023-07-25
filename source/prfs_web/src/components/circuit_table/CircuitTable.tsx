@@ -3,78 +3,79 @@
 import React from "react";
 
 import styles from "./CircuitTable.module.scss";
-import { stateContext } from "@/contexts/state";
-import Table, { TableData } from "@/components/table/Table";
+import Table, { TableData, TableKeys } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
 
 const CircuitTable: React.FC = () => {
   const i18n = React.useContext(i18nContext);
-  const { dispatch } = React.useContext(stateContext);
 
-  const createHeader = React.useCallback((keys: ReadonlyArray<CircuitTableKeys>) => {
+  const createHeader = React.useCallback((keys: TableKeys<CircuitTableKeys>) => {
     return (
       <div className={styles.tableHeader}>
-        <div key={keys[0]} className={styles.id}>
+        <div key={keys.id} className={styles.id}>
           {i18n.id}
         </div>
-        <div key={keys[1]} className={styles.name}>
-          {i18n.name}
+        <div key={keys.label} className={styles.label}>
+          {i18n.label}
         </div>
-        <div key={keys[2]} className={styles.author}>
+        <div key={keys.author} className={styles.author}>
           {i18n.author}
         </div>
-        <div key={keys[3]} className={styles.numInputs}>
+        <div key={keys.num_public_inputs} className={styles.numInputs}>
           {i18n.num_inputs}
         </div>
-        <div key={keys[4]} className={styles.desc}>
+        <div key={keys.desc} className={styles.desc}>
           {i18n.description}
         </div>
-        <div key={keys[5]} className={styles.createdAt}>
+        <div key={keys.created_at} className={styles.createdAt}>
           {i18n.created_at}
         </div>
       </div>
     );
   }, []);
 
-  const createRows = React.useCallback((data: TableData<CircuitTableKeys>) => {
-    // console.log(1, data);
-    let { page, values } = data;
+  const createRows = React.useCallback(
+    (keys: TableKeys<CircuitTableKeys>, data: TableData<CircuitTableKeys>) => {
+      // console.log(1, data);
+      let { page, values } = data;
 
-    let rows = [];
-    if (values === undefined || values.length < 1) {
-      return rows;
-    }
+      let rows = [];
+      if (values === undefined || values.length < 1) {
+        return rows;
+      }
 
-    for (let val of values) {
-      let row = (
-        <div key={val.id} className={styles.tableRow}>
-          <div key="id" className={styles.id}>
-            {val.id}
+      for (let val of values) {
+        let row = (
+          <div key={val.id} className={styles.tableRow}>
+            <div key={keys.id} className={styles.id}>
+              {val.id}
+            </div>
+            <div key={keys.label} className={styles.label}>
+              {val.label}
+            </div>
+            <div key={keys.author} className={styles.author}>
+              {val.author}
+            </div>
+            <div key={keys.num_public_inputs} className={styles.numInputs}>
+              {val.num_public_inputs}
+            </div>
+            <div key={keys.desc} className={styles.desc}>
+              {val.desc}
+            </div>
+            <div key={keys.created_at} className={styles.createdAt}>
+              {val.created_at}
+            </div>
           </div>
-          <div key="name" className={styles.name}>
-            {val.name}
-          </div>
-          <div key="author" className={styles.author}>
-            {val.author}
-          </div>
-          <div key="num_public_inputs" className={styles.numInputs}>
-            {val.num_public_inputs}
-          </div>
-          <div key="desc" className={styles.desc}>
-            {val.desc}
-          </div>
-          <div key="created_at" className={styles.createdAt}>
-            {val.created_at}
-          </div>
-        </div>
-      );
+        );
 
-      rows.push(row);
-    }
+        rows.push(row);
+      }
 
-    return <div key={page}>{rows}</div>;
-  }, []);
+      return <div key={page}>{rows}</div>;
+    },
+    []
+  );
 
   const handleChangeProofPage = React.useCallback(async (page: number) => {
     return prfsBackend
@@ -104,7 +105,7 @@ export default CircuitTable;
 
 const CIRCUIT_TABLE_KEYS = [
   "id",
-  "name",
+  "label",
   "author",
   "num_public_inputs",
   "desc",

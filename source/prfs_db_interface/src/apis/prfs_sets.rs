@@ -45,7 +45,7 @@ impl Database {
         &self,
         prfs_set: &PrfsSet,
         update_on_conflict: bool,
-    ) -> Result<String, DbInterfaceError> {
+    ) -> Result<Vec<String>, DbInterfaceError> {
         let cols = concat_cols(&[
             PrfsSet::set_id(),
             PrfsSet::label(),
@@ -67,20 +67,20 @@ impl Database {
         let stmt = if update_on_conflict {
             format!(
                 "INSERT INTO {} ({}) VALUES ({}) \
-                ON CONFLICT DO NOTHING returning set_id",
-                PrfsSet::_table_name(),
-                cols,
-                vals,
-            )
-        } else {
-            format!(
-                "INSERT INTO {} ({}) VALUES ({}) \
                 ON CONFLICT ({}) DO UPDATE SET cardinality = excluded.cardinality, \
                 updated_at = now() returning set_id",
                 PrfsSet::_table_name(),
                 cols,
                 vals,
                 PrfsSet::set_id(),
+            )
+        } else {
+            format!(
+                "INSERT INTO {} ({}) VALUES ({}) \
+                ON CONFLICT DO NOTHING returning set_id",
+                PrfsSet::_table_name(),
+                cols,
+                vals,
             )
         };
 
@@ -95,12 +95,14 @@ impl Database {
             }
         };
 
-        let set_id: String = rows
-            .get(0)
-            .expect("One row should be returned")
-            .try_get("set_id")
-            .expect("id should be present");
+        let set_ids: Vec<String> = rows
+            .iter()
+            .map(|r| {
+                let set_id: String = r.try_get("set_id").unwrap();
+                set_id
+            })
+            .collect();
 
-        Ok(set_id)
+        Ok(set_ids)
     }
 }
