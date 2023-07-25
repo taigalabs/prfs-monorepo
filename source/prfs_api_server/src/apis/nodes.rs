@@ -1,6 +1,6 @@
 use crate::state::ServerState;
 use hyper::{body, header, Body, Request, Response};
-use prfs_db_interface::models::EthTreeNode;
+use prfs_db_interface::models::PrfsTreeNode;
 use routerify::prelude::*;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
@@ -22,7 +22,7 @@ struct GetNodesRequest<'a> {
 
 #[derive(Serialize, Deserialize, Debug)]
 struct GetNodesResponse {
-    nodes: Vec<EthTreeNode>,
+    tree_nodes: Vec<PrfsTreeNode>,
 }
 
 pub async fn get_nodes(req: Request<Body>) -> Result<Response<Body>, Infallible> {
@@ -56,14 +56,14 @@ pub async fn get_nodes(req: Request<Body>) -> Result<Response<Body>, Infallible>
 
     println!("where_clause, {}", where_clause);
 
-    let nodes = db
-        .get_eth_tree_nodes(&where_clause)
+    let tree_nodes = db
+        .get_prfs_tree_nodes(&where_clause)
         .await
         .expect("get nodes fail");
 
     // println!("merkle_path: {:?}", merkle_path);
 
-    let get_nodes_resp = GetNodesResponse { nodes };
+    let get_nodes_resp = GetNodesResponse { tree_nodes };
 
     let data = serde_json::to_string(&get_nodes_resp).unwrap();
 
