@@ -1,5 +1,5 @@
 {
-  "subset": {
+  "set": {
     "label": "0.50-0.60 ETH OWNERSHIP",
     "desc": "Addresses that own 0.50 to less than 0.60 Ethereum",
     "author": "SYSTEM_NATIVE",

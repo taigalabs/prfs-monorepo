@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PrfsSet {
-    pub id: Option<Decimal>,
+    pub id: Option<i64>,
     pub label: String,
     pub author: String,
     pub desc: String,

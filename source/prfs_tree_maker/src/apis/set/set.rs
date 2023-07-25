@@ -1,13 +1,8 @@
-use super::json::{self, SetJson};
-use crate::{paths::PATHS, TreeMakerError};
-use prfs_db_interface::{
-    database::Database,
-    models::{PrfsSet, PrfsTreeNode},
-};
-use rust_decimal::{prelude::FromPrimitive, Decimal};
-use std::time::{Duration, SystemTime};
+use super::json::SetJson;
+use crate::TreeMakerError;
+use prfs_db_interface::{database::Database, models::PrfsSet};
 
-pub async fn create_set(db: &Database, set_json: &SetJson) -> Result<(), TreeMakerError> {
+pub async fn create_set(db: &Database, set_json: &SetJson) -> Result<i64, TreeMakerError> {
     let prfs_set = PrfsSet {
         id: None,
         label: set_json.set.label.to_string(),
@@ -18,5 +13,5 @@ pub async fn create_set(db: &Database, set_json: &SetJson) -> Result<(), TreeMak
     let set_id = db.insert_prfs_set(&prfs_set).await.unwrap();
     println!("set_id: {:?}", set_id);
 
-    Ok(())
+    Ok(set_id)
 }
