@@ -1,12 +1,9 @@
 use chrono::prelude::*;
-use clap::{command, Arg, ArgAction};
-use colored::Colorize;
+use clap::{command, Arg};
 use dotenv::dotenv;
 use prfs_tree_maker::{
     apis::{scan, subsets},
-    logger,
-    paths::PATHS,
-    TreeMakerError,
+    logger, TreeMakerError,
 };
 
 #[tokio::main]
@@ -24,28 +21,21 @@ async fn main() {
 
 async fn run_cli_command() -> Result<(), TreeMakerError> {
     let matches = command!()
-        .arg(Arg::new("operation").action(ArgAction::Append))
+        .version("v0.1")
+        .propagate_version(true)
+        .arg_required_else_help(true)
+        .subcommand(command!("scan").arg(Arg::new("extra_args")))
+        .subcommand(command!("subset").arg(Arg::new("extra_args")))
         .get_matches();
 
-    let op = matches
-        .get_one::<String>("operation")
-        .expect("operation needs to be given")
-        .clone();
-
-    let op_str = op.as_str();
-
-    println!("Operation: {}", op_str.cyan().bold());
-
-    match op.as_str() {
-        "scan" => {
-            scan::run_scan().await;
+    match matches.subcommand() {
+        Some(("scan", sub_matches)) => {
+            scan::run_scan(sub_matches).await;
         }
-        "subset" => {
-            subsets::create_subset().await;
+        Some(("subset", sub_matches)) => {
+            subsets::create_subset(sub_matches).await;
         }
-        _ => {
-            panic!("[ci] Could not find the operation. op: {}", op);
-        }
+        _ => unreachable!("Subcommand not defined"),
     }
 
     Ok(())

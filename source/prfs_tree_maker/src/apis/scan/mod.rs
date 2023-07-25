@@ -2,6 +2,7 @@ use crate::geth::{
     GetBalanceRequest, GetBlockByNumberRequest, GetTransactionReceiptRequest, GethClient,
 };
 use crate::TreeMakerError;
+use clap::ArgMatches;
 use prfs_db_interface::database::Database;
 use prfs_db_interface::models::EthAccount;
 use rust_decimal::Decimal;
@@ -10,7 +11,7 @@ use std::time::Duration;
 
 const MAX_CONSEQ_ERR_COUNT: usize = 10;
 
-pub async fn run_scan() {
+pub async fn run_scan(sub_matches: &ArgMatches) {
     let geth_client = GethClient::new().unwrap();
 
     let pg_endpoint = std::env::var("POSTGRES_ENDPOINT").unwrap();

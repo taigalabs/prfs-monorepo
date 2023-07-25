@@ -2,9 +2,10 @@ mod climb;
 mod json;
 mod leaf;
 
+use clap::ArgMatches;
 use prfs_db_interface::database::Database;
 
-pub async fn create_subset() {
+pub async fn create_subset(sub_matches: &ArgMatches) {
     let pg_endpoint = std::env::var("POSTGRES_ENDPOINT").unwrap();
     let pg_pw = std::env::var("POSTGRES_PW").unwrap();
     let db = Database::connect(pg_endpoint, pg_pw).await.unwrap();
