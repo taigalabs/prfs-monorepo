@@ -3,8 +3,8 @@ use clap::{command, Arg, ArgAction};
 use colored::Colorize;
 use dotenv::dotenv;
 use prfs_tree_maker::{
-    apis::{genesis, scan, subsets, tree},
-    paths::{Paths, PATHS},
+    apis::{genesis, scan, subsets},
+    paths::PATHS,
     TreeMakerError,
 };
 use tracing::metadata::LevelFilter;
@@ -50,9 +50,6 @@ async fn run_cli_command() -> Result<(), TreeMakerError> {
         }
         "genesis" => {
             genesis::run().await?;
-        }
-        "tree" => {
-            tree::run().await?;
         }
         "subset" => {
             subsets::create_subset().await?;
