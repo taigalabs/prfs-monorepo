@@ -1,6 +1,5 @@
 use chrono::Utc;
 use clap::{command, Arg};
-use dotenv::dotenv;
 use prfs_tree_maker::{
     apis::{scan, set},
     envs::ENVS,
@@ -10,7 +9,6 @@ use prfs_tree_maker::{
 #[tokio::main]
 async fn main() {
     std::env::set_var("RUST_LOG", "info");
-    dotenv().unwrap();
 
     ENVS.check();
 
