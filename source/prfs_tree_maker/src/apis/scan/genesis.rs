@@ -1,6 +1,7 @@
 use crate::geth::{GetBalanceRequest, GethClient};
 use crate::paths::PATHS;
 use crate::TreeMakerError;
+use clap::ArgMatches;
 use prfs_db_interface::database::Database;
 use prfs_db_interface::models::EthAccount;
 use rust_decimal::Decimal;
@@ -13,7 +14,7 @@ struct GenesisEntry {
     wei: String,
 }
 
-pub async fn run() -> Result<(), TreeMakerError> {
+pub async fn scan_genesis(_sub_matches: &ArgMatches) -> Result<(), TreeMakerError> {
     let geth_client = GethClient::new()?;
 
     let pg_endpoint = std::env::var("POSTGRES_ENDPOINT")?;
@@ -30,7 +31,7 @@ async fn process_genesis_block_accounts(
     geth_client: GethClient,
     db: Database,
 ) -> Result<(), TreeMakerError> {
-    let genesis_block_path = PATHS.data.join("genesis_block.json");
+    let genesis_block_path = PATHS.scan.join("genesis_block.json");
 
     println!("genesis_block_path: {:?}", genesis_block_path);
 
@@ -57,7 +58,7 @@ async fn process_genesis_block_accounts(
             balances.insert(addr, acc);
 
             if idx % 200 == 0 {
-                let rows_updated = db.insert_accounts(balances, false).await?;
+                let rows_updated = db.insert_eth_accounts(balances, false).await?;
                 println!("idx: {}, rows_updated: {}", idx, rows_updated);
 
                 balances = BTreeMap::new();

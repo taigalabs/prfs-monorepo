@@ -29,8 +29,11 @@ async fn run_cli_command() -> Result<(), TreeMakerError> {
         .get_matches();
 
     match matches.subcommand() {
+        Some(("scan_genesis", sub_matches)) => {
+            scan::scan_genesis(sub_matches).await;
+        }
         Some(("scan", sub_matches)) => {
-            scan::run_scan(sub_matches).await;
+            scan::scan_ledger(sub_matches).await;
         }
         Some(("set", sub_matches)) => {
             set::create_set(sub_matches).await;
