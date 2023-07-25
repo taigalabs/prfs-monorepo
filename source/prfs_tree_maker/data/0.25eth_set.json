@@ -1,0 +1,10 @@
+{
+  "subset": {
+    "label": "0.50-0.60 ETH OWNERSHIP",
+    "desc": "Addresses that own 0.50 to less than 0.60 Ethereum",
+    "author": "SYSTEM_NATIVE",
+    "src_set_label": "eth_accounts",
+    "where_clause": "500000000000000000 <= acc.wei AND acc.wei < 600000000000000000 order by wei",
+    "tree_depth": 32
+  }
+}

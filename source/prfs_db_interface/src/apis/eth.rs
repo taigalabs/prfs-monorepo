@@ -67,13 +67,13 @@ impl Database {
                 let pos_w = n.try_get("pos_w").expect("pos_w should exist");
                 let pos_h = n.try_get("pos_h").expect("pos_h should exist");
                 let val = n.try_get("val").expect("val should exist");
-                let set_id = n.try_get("set_id").expect("set_id should exist");
+                let id = n.try_get("id").expect("set_id should exist");
 
                 PrfsTreeNode {
                     pos_w,
                     pos_h,
                     val,
-                    set_id,
+                    id,
                 }
             })
             .collect();
@@ -144,7 +144,7 @@ impl Database {
         let mut values = Vec::with_capacity(nodes.len());
 
         for n in nodes {
-            let val = format!("({}, {}, '{}', '{}')", n.pos_w, n.pos_h, n.val, n.set_id);
+            let val = format!("({}, {}, '{}', '{:?}')", n.pos_w, n.pos_h, n.val, n.id);
             values.push(val);
         }
 

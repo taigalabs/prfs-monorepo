@@ -3,18 +3,21 @@ use colored::Colorize;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct SubsetJson {
-    pub subset: SubsetDetail,
+pub struct SetJson {
+    pub set: SetDetail,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct SubsetDetail {
-    pub set_id: String,
+pub struct SetDetail {
+    pub label: String,
+    pub desc: String,
+    pub author: String,
+    pub src_set_label: String,
     pub where_clause: String,
     pub tree_depth: u32,
 }
 
-pub fn require_subset_json(subset_json_filename: String) -> SubsetJson {
+pub fn require_set_json(subset_json_filename: String) -> SetJson {
     let subset_json_path = PATHS.data.join(&subset_json_filename);
     println!(
         "{} subset json, path: {}",
@@ -26,9 +29,9 @@ pub fn require_subset_json(subset_json_filename: String) -> SubsetJson {
         "Subset should exist, path: {:?}",
         subset_json_path,
     ));
-    let subset_json: SubsetJson = serde_json::from_slice(&b).unwrap();
+    let set_json: SetJson = serde_json::from_slice(&b).unwrap();
 
-    println!("subset_json: {:#?}", subset_json);
+    println!("set_json: {:#?}", set_json);
 
-    subset_json
+    set_json
 }

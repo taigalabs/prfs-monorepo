@@ -2,7 +2,7 @@ use chrono::prelude::*;
 use clap::{command, Arg};
 use dotenv::dotenv;
 use prfs_tree_maker::{
-    apis::{scan, subsets},
+    apis::{scan, set},
     logger, TreeMakerError,
 };
 
@@ -25,15 +25,15 @@ async fn run_cli_command() -> Result<(), TreeMakerError> {
         .propagate_version(true)
         .arg_required_else_help(true)
         .subcommand(command!("scan").arg(Arg::new("extra_args")))
-        .subcommand(command!("subset").arg(Arg::new("extra_args")))
+        .subcommand(command!("set").arg(Arg::new("extra_args")))
         .get_matches();
 
     match matches.subcommand() {
         Some(("scan", sub_matches)) => {
             scan::run_scan(sub_matches).await;
         }
-        Some(("subset", sub_matches)) => {
-            subsets::create_subset(sub_matches).await;
+        Some(("set", sub_matches)) => {
+            set::create_set(sub_matches).await;
         }
         _ => unreachable!("Subcommand not defined"),
     }
