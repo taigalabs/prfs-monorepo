@@ -14,17 +14,17 @@ struct GenesisEntry {
     wei: String,
 }
 
-pub async fn scan_genesis(_sub_matches: &ArgMatches) -> Result<(), TreeMakerError> {
-    let geth_client = GethClient::new()?;
+pub async fn scan_genesis(_sub_matches: &ArgMatches) {
+    let geth_client = GethClient::new().unwrap();
 
-    let pg_endpoint = std::env::var("POSTGRES_ENDPOINT")?;
-    let pg_pw = std::env::var("POSTGRES_PW")?;
+    let pg_endpoint = std::env::var("POSTGRES_ENDPOINT").unwrap();
+    let pg_pw = std::env::var("POSTGRES_PW").unwrap();
 
-    let db = Database::connect(pg_endpoint, pg_pw).await?;
+    let db = Database::connect(pg_endpoint, pg_pw).await.unwrap();
 
-    process_genesis_block_accounts(geth_client, db).await?;
-
-    Ok(())
+    process_genesis_block_accounts(geth_client, db)
+        .await
+        .unwrap();
 }
 
 async fn process_genesis_block_accounts(
