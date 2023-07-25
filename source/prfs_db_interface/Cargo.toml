@@ -22,7 +22,7 @@ bytemuck = "1.13.1"
 flate2 = "1.0.25"
 dotenv = "0.15.0"
 primitive-types = "0.12.1"
-colored = "2"
+colored = "2.0"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["json", "env-filter"] }
 tracing-appender = "0.2"

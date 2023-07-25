@@ -1,36 +1,36 @@
-use crate::{geth::GethClient, paths::Paths, proof_type_json::ProofTypeJson, TreeMakerError};
+mod climb;
+
+use crate::{
+    paths::{Paths, PATHS},
+    proof_type_json::ProofTypeJson,
+    TreeMakerError,
+};
+pub use climb::*;
 use prfs_db_interface::{
     database::Database,
     models::{EthAccountTreeNode, EthTreeNode},
 };
 use rust_decimal::{prelude::FromPrimitive, Decimal};
-use serde::{Deserialize, Serialize};
-use std::{
-    io::Write,
-    time::{Duration, SystemTime},
-};
+use std::time::{Duration, SystemTime};
 
-pub async fn run(paths: &Paths) -> Result<(), TreeMakerError> {
+pub async fn create_subset() -> Result<(), TreeMakerError> {
     let pg_endpoint = std::env::var("POSTGRES_ENDPOINT")?;
     let pg_pw = std::env::var("POSTGRES_PW")?;
     let db = Database::connect(pg_endpoint, pg_pw).await?;
 
     let subset_filename = std::env::var("SUBSET_FILENAME")?;
 
-    let subset_json = read_subset_file(paths, subset_filename)?;
+    let subset_json = read_subset_file(subset_filename)?;
 
-    create_subset(&db, paths, subset_json).await?;
+    create(&db, subset_json).await?;
 
     Ok(())
 }
 
-fn read_subset_file(
-    paths: &Paths,
-    subset_filename: String,
-) -> Result<ProofTypeJson, TreeMakerError> {
+pub fn read_subset_file(subset_filename: String) -> Result<ProofTypeJson, TreeMakerError> {
     println!("subset_filename: {}", subset_filename);
 
-    let subset_json_path = paths.data.join(subset_filename);
+    let subset_json_path = PATHS.data.join(subset_filename);
 
     let subset_json_bytes = std::fs::read(&subset_json_path).expect(&format!(
         "Subset should exist, path: {:?}",
@@ -44,11 +44,7 @@ fn read_subset_file(
     Ok(subset_json)
 }
 
-async fn create_subset(
-    db: &Database,
-    paths: &Paths,
-    proof_type_json: ProofTypeJson,
-) -> Result<(), TreeMakerError> {
+async fn create(db: &Database, proof_type_json: ProofTypeJson) -> Result<(), TreeMakerError> {
     let subset_query_limit = std::env::var("SUBSET_QUERY_LIMIT")?;
 
     let subset_offset = {

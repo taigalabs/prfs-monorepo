@@ -1,6 +1,4 @@
-pub mod climb;
 pub mod genesis;
 pub mod scan;
-pub mod set;
-pub mod subset;
+pub mod subsets;
 pub mod tree;

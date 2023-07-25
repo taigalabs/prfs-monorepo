@@ -3,8 +3,8 @@ use clap::{command, Arg, ArgAction};
 use colored::Colorize;
 use dotenv::dotenv;
 use prfs_tree_maker::{
-    apis::{climb, genesis, scan, subset, tree},
-    paths::Paths,
+    apis::{genesis, scan, subsets, tree},
+    paths::{Paths, PATHS},
     TreeMakerError,
 };
 use tracing::metadata::LevelFilter;
@@ -23,16 +23,14 @@ async fn main() -> Result<(), TreeMakerError> {
     let now = Utc::now();
     println!("Tree maker starts, start time: {}", now);
 
-    let paths = Paths::new();
+    let _guard = set_up_logger()?;
 
-    let _guard = set_up_logger(&paths)?;
-
-    run_cli_command(&paths).await?;
+    run_cli_command().await?;
 
     Ok(())
 }
 
-async fn run_cli_command(paths: &Paths) -> Result<(), TreeMakerError> {
+async fn run_cli_command() -> Result<(), TreeMakerError> {
     let matches = command!() // requires `cargo` feature
         .arg(Arg::new("operation").action(ArgAction::Append))
         .get_matches();
@@ -57,10 +55,10 @@ async fn run_cli_command(paths: &Paths) -> Result<(), TreeMakerError> {
             tree::run().await?;
         }
         "subset" => {
-            subset::run(&paths).await?;
+            subsets::create_subset().await?;
         }
         "climb" => {
-            climb::run(&paths).await?;
+            subsets::climb().await?;
         }
         _ => {
             panic!("[ci] Could not find the operation. op: {}", op);
@@ -70,9 +68,9 @@ async fn run_cli_command(paths: &Paths) -> Result<(), TreeMakerError> {
     Ok(())
 }
 
-fn set_up_logger(paths: &Paths) -> Result<WorkerGuard, TreeMakerError> {
-    if paths.log_files.exists() == false {
-        std::fs::create_dir_all(&paths.log_files).unwrap();
+fn set_up_logger() -> Result<WorkerGuard, TreeMakerError> {
+    if PATHS.log_files.exists() == false {
+        std::fs::create_dir_all(&PATHS.log_files).unwrap();
     }
 
     let mut layers = Vec::new();
@@ -86,7 +84,7 @@ fn set_up_logger(paths: &Paths) -> Result<WorkerGuard, TreeMakerError> {
 
     layers.push(console_log_layer);
 
-    let file_appender = tracing_appender::rolling::daily(&paths.log_files, "tree_maker.log");
+    let file_appender = tracing_appender::rolling::daily(&PATHS.log_files, "tree_maker.log");
 
     let (non_blocking, guard) = tracing_appender::non_blocking(file_appender);
 
@@ -103,7 +101,7 @@ fn set_up_logger(paths: &Paths) -> Result<WorkerGuard, TreeMakerError> {
 
     println!(
         "File logger is attached. Log files will be periodically rotated. path: {:?}",
-        paths.log_files,
+        PATHS.log_files,
     );
 
     println!("Following log invocation will be handled by global logger");
