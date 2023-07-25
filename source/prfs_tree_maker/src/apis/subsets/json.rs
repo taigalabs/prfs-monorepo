@@ -1,27 +1,29 @@
-use crate::{paths::PATHS, TreeMakerError};
-use prfs_db_interface::database::Database;
+use crate::paths::PATHS;
+use colored::Colorize;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct ProofTypeJson {
+pub struct SubsetJson {
     pub set_id: String,
     pub where_clause: String,
     pub tree_depth: u32,
 }
 
-pub fn read_subset_file(subset_filename: String) -> Result<ProofTypeJson, TreeMakerError> {
-    println!("subset_filename: {}", subset_filename);
+pub fn require_subset_json(subset_json_filename: String) -> SubsetJson {
+    let subset_json_path = PATHS.data.join(&subset_json_filename);
+    println!(
+        "{} subset json, path: {}",
+        "Reading".green(),
+        subset_json_filename
+    );
 
-    let subset_json_path = PATHS.data.join(subset_filename);
-
-    let subset_json_bytes = std::fs::read(&subset_json_path).expect(&format!(
+    let b = std::fs::read(&subset_json_path).expect(&format!(
         "Subset should exist, path: {:?}",
         subset_json_path,
     ));
+    let subset_json: SubsetJson = serde_json::from_slice(&b).unwrap();
 
-    let subset_json: ProofTypeJson = serde_json::from_slice(&subset_json_bytes).unwrap();
+    println!("subset_json: {:#?}", subset_json);
 
-    println!("subset_json: {:?}", subset_json);
-
-    Ok(subset_json)
+    subset_json
 }

@@ -1,24 +1,14 @@
-use super::json::{self, ProofTypeJson};
+use super::json::SubsetJson;
 use crate::TreeMakerError;
 use prfs_db_interface::{database::Database, models::PrfsTreeNode};
 use rust_decimal::Decimal;
 
-pub async fn climb() -> Result<(), TreeMakerError> {
-    let pg_endpoint = std::env::var("POSTGRES_ENDPOINT")?;
-    let pg_pw = std::env::var("POSTGRES_PW")?;
-    let db = Database::connect(pg_endpoint, pg_pw).await?;
-
-    let subset_filename = std::env::var("SUBSET_FILENAME")?;
-    let subset_json = json::read_subset_file(subset_filename)?;
-
-    climb_subset(&db, subset_json).await?;
-
-    Ok(())
-}
-
-async fn climb_subset(db: &Database, proof_type_json: ProofTypeJson) -> Result<(), TreeMakerError> {
-    let set_id = proof_type_json.set_id.to_string();
-    let depth = proof_type_json.tree_depth as usize;
+pub async fn create_tree_nodes(
+    db: &Database,
+    subset_json: &SubsetJson,
+) -> Result<(), TreeMakerError> {
+    let set_id = subset_json.set_id.to_string();
+    let depth = subset_json.tree_depth as usize;
 
     println!("climb_subset, set_id: {}", set_id);
 
