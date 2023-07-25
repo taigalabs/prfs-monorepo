@@ -5,7 +5,7 @@
     "desc": "Addresses that own from 0.20 to 0.30 Ethereum",
     "author": "SYSTEM_NATIVE",
     "src_set_label": "eth_accounts",
-    "where_clause": "200000000000000000 <= acc.wei AND acc.wei < 300000000000000000",
+    "where_clause": "where 200000000000000000 <= acc.wei AND acc.wei < 300000000000000000",
     "tree_depth": 32,
     "hash_algorithm": "poseidon",
     "cardinality": 0

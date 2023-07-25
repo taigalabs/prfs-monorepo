@@ -8,7 +8,7 @@ impl Database {
         where_clause: &str,
     ) -> Result<Vec<EthAccount>, DbInterfaceError> {
         let stmt = format!(
-            "SELECT * from {} as acc where {}",
+            "SELECT * from {} as acc {}",
             EthAccount::table_name(),
             where_clause,
         );
