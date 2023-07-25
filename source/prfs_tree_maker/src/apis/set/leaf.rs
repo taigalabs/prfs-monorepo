@@ -1,13 +1,17 @@
 use super::json::SetJson;
 use crate::TreeMakerError;
 use colored::Colorize;
-use prfs_db_interface::{database::Database, models::PrfsTreeNode};
+use prfs_db_interface::{
+    database::Database,
+    models::{PrfsSet, PrfsTreeNode},
+};
 use rust_decimal::{prelude::FromPrimitive, Decimal};
 use std::time::SystemTime;
 
 pub async fn create_leaves_without_offset(
     db: &Database,
     set_json: &SetJson,
+    mut prfs_set: PrfsSet,
 ) -> Result<(), TreeMakerError> {
     let set_id = set_json.set.set_id.to_string();
 
@@ -72,6 +76,10 @@ pub async fn create_leaves_without_offset(
         "Finish creating a set, set_id: {}, total count: {}",
         set_id, count,
     );
+
+    prfs_set.cardinality = Decimal::from(count);
+
+    db.insert_prfs_set(&prfs_set, true).await.unwrap();
 
     Ok(())
 }

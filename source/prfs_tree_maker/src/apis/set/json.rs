@@ -1,5 +1,6 @@
 use crate::paths::PATHS;
 use colored::Colorize;
+use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -16,6 +17,8 @@ pub struct SetDetail {
     pub src_set_label: String,
     pub where_clause: String,
     pub tree_depth: u32,
+    pub hash_algorithm: String,
+    pub cardinality: Decimal,
 }
 
 pub fn require_set_json(set_json_path: String) -> SetJson {

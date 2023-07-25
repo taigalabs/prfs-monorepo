@@ -14,10 +14,10 @@ pub async fn create_set(_sub_matches: &ArgMatches) {
     let set_json_path = std::env::var("SET_JSON_PATH").unwrap();
     let set_json = json::require_set_json(set_json_path);
 
-    // create::create_set(&db, &set_json).await.unwrap();
-    // leaf::create_leaves_without_offset(&db, &set_json)
-    //     .await
-    //     .unwrap();
+    let prfs_set = create::create_set(&db, &set_json).await.unwrap();
+    leaf::create_leaves_without_offset(&db, &set_json, prfs_set)
+        .await
+        .unwrap();
 
-    climb::create_tree_nodes(&db, &set_json).await.unwrap();
+    // climb::create_tree_nodes(&db, &set_json).await.unwrap();
 }

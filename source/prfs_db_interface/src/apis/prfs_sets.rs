@@ -41,12 +41,18 @@ impl Database {
     //     Ok(prfs_accounts)
     // }
 
-    pub async fn insert_prfs_set(&self, prfs_set: &PrfsSet) -> Result<String, DbInterfaceError> {
+    pub async fn insert_prfs_set(
+        &self,
+        prfs_set: &PrfsSet,
+        update_on_conflict: bool,
+    ) -> Result<String, DbInterfaceError> {
         let cols = concat_cols(&[
             PrfsSet::set_id(),
             PrfsSet::label(),
             PrfsSet::author(),
             PrfsSet::desc(),
+            PrfsSet::hash_algorithm(),
+            PrfsSet::cardinality(),
         ]);
 
         let vals = concat_values(&[
@@ -54,15 +60,30 @@ impl Database {
             &prfs_set.label,
             &prfs_set.author,
             &prfs_set.desc,
+            &prfs_set.hash_algorithm,
+            &prfs_set.cardinality.to_string(),
         ]);
 
-        let stmt = format!(
-            "INSERT INTO {} ({}) VALUES ({}) \
-        ON CONFLICT DO NOTHING returning set_id",
-            PrfsSet::_table_name(),
-            cols,
-            vals,
-        );
+        let stmt = if update_on_conflict {
+            format!(
+                "INSERT INTO {} ({}) VALUES ({}) \
+                ON CONFLICT DO NOTHING returning set_id",
+                PrfsSet::_table_name(),
+                cols,
+                vals,
+            )
+        } else {
+            format!(
+                "INSERT INTO {} ({}) VALUES ({}) \
+                ON CONFLICT ({}) DO UPDATE SET cardinality = excluded.cardinality, \
+                updated_at = now() returning set_id",
+                PrfsSet::_table_name(),
+                cols,
+                vals,
+                PrfsSet::set_id(),
+            )
+        };
+
         println!("stmt: {}", stmt);
 
         let rows = match self.pg_client.query(&stmt, &[]).await {

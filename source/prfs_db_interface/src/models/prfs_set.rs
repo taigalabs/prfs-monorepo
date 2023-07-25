@@ -7,6 +7,8 @@ pub struct PrfsSet {
     pub label: String,
     pub author: String,
     pub desc: String,
+    pub hash_algorithm: String,
+    pub cardinality: Decimal,
 }
 
 impl PrfsSet {
@@ -28,5 +30,13 @@ impl PrfsSet {
 
     pub fn desc() -> &'static str {
         "desc"
+    }
+
+    pub fn hash_algorithm() -> &'static str {
+        "hash_algorithm"
+    }
+
+    pub fn cardinality() -> &'static str {
+        "cardinality"
     }
 }
