@@ -33,7 +33,7 @@ pub async fn sign_up(req: Request<Body>) -> Result<Response<Body>, Infallible> {
 
     let where_clause = format!("sig = '{}'", sign_up_req.sig);
 
-    let prfs_accounts = db.get_prfs_account(&where_clause).await.unwrap();
+    let prfs_accounts = db.get_prfs_accounts(&where_clause).await.unwrap();
 
     println!("prfs_accounts: {:?}", prfs_accounts);
 
@@ -83,7 +83,7 @@ pub async fn sign_in(req: Request<Body>) -> Result<Response<Body>, Infallible> {
 
     let where_clause = format!("sig = '{}'", sign_in_req.sig);
 
-    let prfs_accounts = db.get_prfs_account(&where_clause).await.unwrap();
+    let prfs_accounts = db.get_prfs_accounts(&where_clause).await.unwrap();
 
     if prfs_accounts.len() == 0 {
         println!("prfs_accounts: {:?}", prfs_accounts);

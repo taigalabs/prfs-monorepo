@@ -3,16 +3,14 @@
 import React from "react";
 
 import styles from "./CircuitTable.module.scss";
-import { stateContext } from "@/contexts/state";
-import Table, { TableData } from "@/components/table/Table";
+import Table, { TableData, TableKeys } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
 
 const SetTable: React.FC = () => {
   const i18n = React.useContext(i18nContext);
-  const { dispatch } = React.useContext(stateContext);
 
-  const createHeader = React.useCallback((keys: ReadonlyArray<CircuitTableKeys>) => {
+  const createHeader = React.useCallback((keys: TableKeys<SetTableKeys>) => {
     return (
       <div className={styles.tableHeader}>
         <div key={keys[0]} className={styles.id}>
@@ -37,44 +35,47 @@ const SetTable: React.FC = () => {
     );
   }, []);
 
-  const createRows = React.useCallback((data: TableData<CircuitTableKeys>) => {
-    // console.log(1, data);
-    let { page, values } = data;
+  const createRows = React.useCallback(
+    (keys: TableKeys<SetTableKeys>, data: TableData<SetTableKeys>) => {
+      // console.log(1, data);
+      let { page, values } = data;
 
-    let rows = [];
-    if (values === undefined || values.length < 1) {
-      return rows;
-    }
+      let rows = [];
+      if (values === undefined || values.length < 1) {
+        return rows;
+      }
 
-    for (let val of values) {
-      let row = (
-        <div key={val.set_id} className={styles.tableRow}>
-          <div key="set_id" className={styles.id}>
-            {val.id}
+      for (let val of values) {
+        let row = (
+          <div key={val.set_id} className={styles.tableRow}>
+            <div key={keys.set_id} className={styles.id}>
+              {val.set_id}
+            </div>
+            <div key={keys.label} className={styles.name}>
+              {val.label}
+            </div>
+            <div key={keys.author} className={styles.author}>
+              {val.author}
+            </div>
+            <div key={keys.desc} className={styles.numInputs}>
+              {val.desc}
+            </div>
+            <div key={keys.cardinality} className={styles.desc}>
+              {val.cardinality}
+            </div>
+            <div key={keys.created_at} className={styles.createdAt}>
+              {val.created_at}
+            </div>
           </div>
-          {/* <div key={val.label} className={styles.name}> */}
-          {/*   {val.name} */}
-          {/* </div> */}
-          {/* <div key="author" className={styles.author}> */}
-          {/*   {val.author} */}
-          {/* </div> */}
-          {/* <div key="num_public_inputs" className={styles.numInputs}> */}
-          {/*   {val.num_public_inputs} */}
-          {/* </div> */}
-          {/* <div key="desc" className={styles.desc}> */}
-          {/*   {val.desc} */}
-          {/* </div> */}
-          {/* <div key="created_at" className={styles.createdAt}> */}
-          {/*   {val.created_at} */}
-          {/* </div> */}
-        </div>
-      );
+        );
 
-      rows.push(row);
-    }
+        rows.push(row);
+      }
 
-    return <div key={page}>{rows}</div>;
-  }, []);
+      return <div key={page}>{rows}</div>;
+    },
+    []
+  );
 
   const handleChangePage = React.useCallback(async (page: number) => {
     return prfsBackend
@@ -112,4 +113,4 @@ const SET_TABLE_KEYS = [
   "created_at",
 ] as const;
 
-type CircuitTableKeys = (typeof SET_TABLE_KEYS)[number];
+type SetTableKeys = (typeof SET_TABLE_KEYS)[number];

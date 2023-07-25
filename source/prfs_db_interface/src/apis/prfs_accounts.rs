@@ -1,7 +1,7 @@
 use crate::{database::Database, models::PrfsAccount, DbInterfaceError};
 
 impl Database {
-    pub async fn get_prfs_account(
+    pub async fn get_prfs_accounts(
         &self,
         where_clause: &str,
     ) -> Result<Vec<PrfsAccount>, DbInterfaceError> {
