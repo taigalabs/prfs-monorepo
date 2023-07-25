@@ -1,4 +1,5 @@
 use crate::geth::{GetBalanceRequest, GethClient};
+use crate::paths::PATHS;
 use crate::TreeMakerError;
 use prfs_db_interface::database::Database;
 use prfs_db_interface::models::EthAccount;
@@ -6,7 +7,6 @@ use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, HashMap};
 use std::fs::{self};
-use std::path::PathBuf;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct GenesisEntry {
@@ -30,8 +30,7 @@ async fn process_genesis_block_accounts(
     geth_client: GethClient,
     db: Database,
 ) -> Result<(), TreeMakerError> {
-    let project_root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    let genesis_block_path = project_root.join("data/genesis_block.json");
+    let genesis_block_path = PATHS.data.join("genesis_block.json");
 
     println!("genesis_block_path: {:?}", genesis_block_path);
 

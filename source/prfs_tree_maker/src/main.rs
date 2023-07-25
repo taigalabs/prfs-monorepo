@@ -3,7 +3,7 @@ use clap::{command, Arg, ArgAction};
 use colored::Colorize;
 use dotenv::dotenv;
 use prfs_tree_maker::{
-    apis::{genesis, scan, subsets},
+    apis::{scan, subsets},
     paths::PATHS,
     TreeMakerError,
 };
@@ -31,7 +31,7 @@ async fn main() -> Result<(), TreeMakerError> {
 }
 
 async fn run_cli_command() -> Result<(), TreeMakerError> {
-    let matches = command!() // requires `cargo` feature
+    let matches = command!()
         .arg(Arg::new("operation").action(ArgAction::Append))
         .get_matches();
 
@@ -47,9 +47,6 @@ async fn run_cli_command() -> Result<(), TreeMakerError> {
     match op.as_str() {
         "scan" => {
             scan::run().await?;
-        }
-        "genesis" => {
-            genesis::run().await?;
         }
         "subset" => {
             subsets::create_subset().await?;
