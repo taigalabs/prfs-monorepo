@@ -1,8 +1,11 @@
 .wrapper {
-
+  &:hover {
+    font-weight: 400;
+    color: var(--green-50);
+  }
 }
 
 .wrapper.active {
-  color: blue;
+  color: var(--green-50);
+  font-weight: 600;
 }
-
