@@ -30,8 +30,8 @@ pub async fn create_leaf(
     );
 
     let break_every = {
-        let b = set_query_limit.parse::<usize>().unwrap();
-        b * 2
+        let l = set_query_limit.parse::<usize>().unwrap();
+        l * 2
     };
 
     let mut offset = set_offset;

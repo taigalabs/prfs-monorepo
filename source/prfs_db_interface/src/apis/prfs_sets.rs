@@ -60,8 +60,6 @@ ON CONFLICT DO NOTHING returning id",
             }
         };
 
-        println!("rows: {:?}", rows);
-
         let id: i64 = rows
             .get(0)
             .expect("One row should be returned")

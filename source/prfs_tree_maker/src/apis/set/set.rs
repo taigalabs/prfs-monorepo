@@ -11,7 +11,7 @@ pub async fn create_set(db: &Database, set_json: &SetJson) -> Result<i64, TreeMa
     };
 
     let set_id = db.insert_prfs_set(&prfs_set).await.unwrap();
-    println!("set_id: {:?}", set_id);
+    println!("Inserted prfs_set, id: {:?}", set_id);
 
     Ok(set_id)
 }
