@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import chalk from "chalk";
 
-import { Envs } from "./src/env";
+import { Envs } from "./src/envs";
 
 const DOT_ENV_PATH = path.resolve(".env");
 
