@@ -1,3 +1,4 @@
+use crate::envs::ENVS;
 use crate::geth::{
     GetBalanceRequest, GetBlockByNumberRequest, GetTransactionReceiptRequest, GethClient,
 };
@@ -14,38 +15,15 @@ const MAX_CONSEQ_ERR_COUNT: usize = 10;
 pub async fn scan_ledger(_sub_matches: &ArgMatches) {
     let geth_client = GethClient::new().unwrap();
 
-    let pg_endpoint = std::env::var("POSTGRES_ENDPOINT").unwrap();
-    let pg_pw = std::env::var("POSTGRES_PW").unwrap();
+    let pg_endpoint = &ENVS.postgres_endpoint;
+    let pg_pw = &ENVS.postgres_pw;
     let db = Database::connect(pg_endpoint, pg_pw).await.unwrap();
 
-    let balance_bucket_capacity = {
-        let s: usize = std::env::var("SCAN_BALANCE_BUCKET_CAPACITY")
-            .expect("env var SCAN_BALANCE_BUCKET_CAPACITY missing")
-            .parse()
-            .unwrap();
-        s
-    };
+    let balance_bucket_capacity = ENVS.scan_balance_bucket_capacity;
 
-    let scan_update_on_conflict = {
-        let s: String = std::env::var("SCAN_UPDATE_ON_CONFLICT")
-            .expect("env var SCAN_UPDATE_ON_CONFLICT missing")
-            .parse()
-            .unwrap();
+    let scan_update_on_conflict = ENVS.scan_update_on_conflict;
 
-        match s.as_str() {
-            "true" => true,
-            "false" => false,
-            _ => panic!("Invalid POSTGRES_UPDATE_ON_CONFLICT"),
-        }
-    };
-
-    let scan_interval = {
-        let s: u64 = std::env::var("SCAN_INTERVAL")
-            .expect("env var SCAN_INTERVAL missing")
-            .parse()
-            .unwrap();
-        s
-    };
+    let scan_interval = ENVS.scan_interval;
 
     scan_ledger_accounts(
         geth_client,
@@ -65,18 +43,8 @@ async fn scan_ledger_accounts(
     scan_interval: u64,
     balance_bucket_capacity: usize,
 ) -> Result<(), TreeMakerError> {
-    let (start_block, end_block) = {
-        let sb: u64 = std::env::var("START_BLOCK")
-            .expect("env var START_BLOCK missing")
-            .parse()
-            .unwrap();
-        let eb: u64 = std::env::var("END_BLOCK")
-            .expect("env var END_BLOCK missing")
-            .parse()
-            .unwrap();
-
-        (sb, eb)
-    };
+    let start_block: u64 = ENVS.scan_start_block;
+    let end_block: u64 = ENVS.scan_end_block;
 
     println!(
         "Scanning ledger accounts, start_block: {}, end_block: {}, scan_interval: {}, \

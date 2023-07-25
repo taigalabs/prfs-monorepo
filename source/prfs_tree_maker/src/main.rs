@@ -1,12 +1,10 @@
-use chrono::prelude::*;
+use chrono::Utc;
 use clap::{command, Arg};
 use dotenv::dotenv;
 use prfs_tree_maker::{
     apis::{scan, set},
-    envs::{self, ENVS},
-    logger,
-    paths::PATHS,
-    TreeMakerError,
+    envs::ENVS,
+    logger, TreeMakerError,
 };
 
 #[tokio::main]
@@ -20,8 +18,6 @@ async fn main() {
     println!("Tree maker starts, start time: {}", now);
 
     let _guard = logger::set_up_logger().unwrap();
-
-    return;
 
     run_cli_command().await.unwrap();
 }

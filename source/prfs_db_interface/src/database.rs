@@ -7,7 +7,10 @@ pub struct Database {
 }
 
 impl Database {
-    pub async fn connect(pg_endpoint: String, pg_pw: String) -> Result<Database, DbInterfaceError> {
+    pub async fn connect(
+        pg_endpoint: &String,
+        pg_pw: &String,
+    ) -> Result<Database, DbInterfaceError> {
         let pg_config = format!("host={} user=postgres password={}", pg_endpoint, pg_pw,);
 
         println!("{} to db, pg_config: {}", "Connecting".green(), pg_config);

@@ -3,12 +3,13 @@ mod create;
 mod json;
 mod leaf;
 
+use crate::envs::ENVS;
 use clap::ArgMatches;
 use prfs_db_interface::database::Database;
 
 pub async fn create_set(_sub_matches: &ArgMatches) {
-    let pg_endpoint = std::env::var("POSTGRES_ENDPOINT").unwrap();
-    let pg_pw = std::env::var("POSTGRES_PW").unwrap();
+    let pg_endpoint = &ENVS.postgres_endpoint;
+    let pg_pw = &ENVS.postgres_pw;
     let db = Database::connect(pg_endpoint, pg_pw).await.unwrap();
 
     let set_json_path = std::env::var("SET_JSON_PATH").unwrap();

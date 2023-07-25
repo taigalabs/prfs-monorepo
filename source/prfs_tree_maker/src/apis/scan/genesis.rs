@@ -1,3 +1,4 @@
+use crate::envs::ENVS;
 use crate::geth::{GetBalanceRequest, GethClient};
 use crate::paths::PATHS;
 use crate::TreeMakerError;
@@ -17,8 +18,8 @@ struct GenesisEntry {
 pub async fn scan_genesis(_sub_matches: &ArgMatches) {
     let geth_client = GethClient::new().unwrap();
 
-    let pg_endpoint = std::env::var("POSTGRES_ENDPOINT").unwrap();
-    let pg_pw = std::env::var("POSTGRES_PW").unwrap();
+    let pg_endpoint = &ENVS.postgres_endpoint;
+    let pg_pw = &ENVS.postgres_pw;
 
     let db = Database::connect(pg_endpoint, pg_pw).await.unwrap();
 
