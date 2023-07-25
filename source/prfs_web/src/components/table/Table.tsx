@@ -16,27 +16,23 @@ function Table<T extends string>({ keys, createHeader, createRows, onChangePage 
     });
   }, [onChangePage, setValues]);
 
-  let headerElems = React.useMemo(() => {
+  const tableKeys = React.useMemo(() => {
     const tableKeys: TableKeys<T> = keys.reduce((r, key) => {
       return {
         ...r,
-        [key]: false,
+        [key]: key,
       };
     }, {} as TableKeys<T>);
-
-    return createHeader(tableKeys);
+    return tableKeys;
   }, [keys]);
 
-  let rowElems = React.useMemo(() => {
-    const tableKeys: TableKeys<T> = keys.reduce((r, key) => {
-      return {
-        ...r,
-        [key]: false,
-      };
-    }, {} as TableKeys<T>);
+  let headerElems = React.useMemo(() => {
+    return createHeader(tableKeys);
+  }, [tableKeys]);
 
+  let rowElems = React.useMemo(() => {
     return createRows(tableKeys, data);
-  }, [data]);
+  }, [data, tableKeys]);
 
   return (
     <div className={styles.wrapper}>
@@ -55,7 +51,7 @@ export interface TableProps<T extends string> {
   onChangePage: (page: number) => Promise<TableData<T>>;
 }
 
-export type TableKeys<T extends string> = ObjectFromList<ReadonlyArray<T>, any>;
+export type TableKeys<T extends string> = ObjectFromList<ReadonlyArray<T>, string>;
 
 export type TableData<T extends string> = {
   page: number;

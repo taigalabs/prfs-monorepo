@@ -3,7 +3,10 @@ use clap::{command, Arg};
 use dotenv::dotenv;
 use prfs_tree_maker::{
     apis::{scan, set},
-    logger, TreeMakerError,
+    envs::{self, ENVS},
+    logger,
+    paths::PATHS,
+    TreeMakerError,
 };
 
 #[tokio::main]
@@ -11,10 +14,14 @@ async fn main() {
     std::env::set_var("RUST_LOG", "info");
     dotenv().unwrap();
 
+    ENVS.check();
+
     let now = Utc::now();
     println!("Tree maker starts, start time: {}", now);
 
     let _guard = logger::set_up_logger().unwrap();
+
+    return;
 
     run_cli_command().await.unwrap();
 }
