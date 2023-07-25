@@ -47,7 +47,11 @@ pub async fn create_leaf(
         let accounts = db.get_eth_accounts(&where_clause).await?;
 
         let elapsed = now.elapsed().unwrap();
-        println!("Query took {} ms - get_accounts", elapsed.as_millis());
+        println!(
+            "Query took {} ms - get_accounts, row_count: {}",
+            elapsed.as_millis(),
+            accounts.len(),
+        );
 
         let mut nodes = vec![];
 
@@ -80,6 +84,75 @@ pub async fn create_leaf(
             println!("sleep");
             tokio::time::sleep(Duration::from_millis(set_insert_interval)).await;
         }
+
+        if accounts.len() < 1 {
+            break;
+        }
+    }
+
+    println!(
+        "Finish creating a set, set_id: {}, total count: {}",
+        set_id, count,
+    );
+
+    Ok(())
+}
+
+pub async fn create_leaf_without_offset(
+    db: &Database,
+    set_json: &SetJson,
+    set_id: &String,
+) -> Result<(), TreeMakerError> {
+    let set_insert_interval = {
+        let s: u64 = std::env::var("SET_INSERT_INTERVAL")
+            .unwrap()
+            .parse()
+            .unwrap();
+        s
+    };
+
+    println!("set_insert_interval: {}", set_insert_interval,);
+
+    let mut count = 0;
+
+    loop {
+        let where_clause = format!("{}", set_json.set.where_clause,);
+
+        let now = SystemTime::now();
+        let accounts = db.get_eth_accounts(&where_clause).await?;
+        let elapsed = now.elapsed().unwrap();
+
+        println!(
+            "Query took {} ms - get_accounts, row_count: {}",
+            elapsed.as_millis(),
+            accounts.len(),
+        );
+
+        let mut nodes = vec![];
+
+        for (idx, account) in accounts.iter().enumerate() {
+            let node = PrfsTreeNode {
+                pos_w: Decimal::from_u64((count + idx) as u64).unwrap(),
+                pos_h: 0,
+                val: account.addr.to_string(),
+                set_id: set_id.to_string(),
+            };
+
+            nodes.push(node);
+        }
+
+        if nodes.len() == 0 {
+            break;
+        }
+
+        let nodes_updated = db.insert_prfs_tree_nodes(&nodes, false).await?;
+
+        count += accounts.len();
+
+        println!(
+            "Inserted, nodes updated: {}, current count: {}",
+            nodes_updated, count,
+        );
 
         if accounts.len() < 1 {
             break;
