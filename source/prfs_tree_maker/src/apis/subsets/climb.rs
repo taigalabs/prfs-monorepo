@@ -1,5 +1,5 @@
-use super::read_subset_file;
-use crate::{proof_type_json::ProofTypeJson, TreeMakerError};
+use super::{json::ProofTypeJson, read_subset_file};
+use crate::TreeMakerError;
 use prfs_db_interface::{database::Database, models::EthTreeNode};
 use rust_decimal::Decimal;
 

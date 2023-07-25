@@ -1,10 +1,8 @@
 mod climb;
+mod json;
 
-use crate::{
-    paths::{Paths, PATHS},
-    proof_type_json::ProofTypeJson,
-    TreeMakerError,
-};
+use self::json::ProofTypeJson;
+use crate::{paths::PATHS, TreeMakerError};
 pub use climb::*;
 use prfs_db_interface::{
     database::Database,
