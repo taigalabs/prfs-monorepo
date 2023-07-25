@@ -12,7 +12,7 @@ pub async fn create_set(_sub_matches: &ArgMatches) {
     let pg_pw = &ENVS.postgres_pw;
     let db = Database::connect(pg_endpoint, pg_pw).await.unwrap();
 
-    let set_json_path = std::env::var("SET_JSON_PATH").unwrap();
+    let set_json_path = &ENVS.set_json_path;
     let set_json = json::require_set_json(set_json_path);
 
     let prfs_set = create::create_set(&db, &set_json).await.unwrap();

@@ -1,5 +1,5 @@
 use super::json::SetJson;
-use crate::TreeMakerError;
+use crate::{envs::ENVS, TreeMakerError};
 use colored::Colorize;
 use prfs_db_interface::{
     database::Database,
@@ -15,13 +15,7 @@ pub async fn create_leaves_without_offset(
 ) -> Result<(), TreeMakerError> {
     let set_id = set_json.set.set_id.to_string();
 
-    let set_insert_interval = {
-        let s: u64 = std::env::var("SET_INSERT_INTERVAL")
-            .unwrap()
-            .parse()
-            .unwrap();
-        s
-    };
+    let set_insert_interval = ENVS.set_insert_interval;
 
     println!(
         "{} leaves without offset, set_id: {}, set_insert_interval: {}",

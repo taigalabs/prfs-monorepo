@@ -1,7 +1,7 @@
 use chrono::Utc;
 use clap::{command, Arg};
 use prfs_tree_maker::{
-    apis::{scan, set},
+    apis::{revisit, scan, set},
     envs::ENVS,
     logger, TreeMakerError,
 };
@@ -38,6 +38,9 @@ async fn run_cli_command() -> Result<(), TreeMakerError> {
         }
         Some(("set", sub_matches)) => {
             set::create_set(sub_matches).await;
+        }
+        Some(("revisit", sub_matches)) => {
+            revisit::revisit(sub_matches).await;
         }
         _ => unreachable!("Subcommand not defined"),
     }
