@@ -3,7 +3,7 @@ use rust_decimal::Decimal;
 use crate::{
     database::Database,
     models::{PrfsAccount, PrfsSet},
-    utils::concat_cols,
+    utils::{concat_cols, concat_values},
     DbInterfaceError,
 };
 
@@ -49,7 +49,7 @@ impl Database {
             PrfsSet::desc(),
         ]);
 
-        let vals = concat_cols(&[
+        let vals = concat_values(&[
             &prfs_set.set_id,
             &prfs_set.label,
             &prfs_set.author,
