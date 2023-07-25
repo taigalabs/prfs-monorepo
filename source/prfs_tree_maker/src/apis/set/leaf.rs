@@ -7,7 +7,7 @@ use std::time::{Duration, SystemTime};
 pub async fn create_leaf(
     db: &Database,
     set_json: &SetJson,
-    set_id: i64,
+    set_id: &String,
 ) -> Result<(), TreeMakerError> {
     let set_query_limit = std::env::var("SET_QUERY_LIMIT").unwrap();
 
@@ -56,7 +56,7 @@ pub async fn create_leaf(
                 pos_w: Decimal::from_u64((count + idx) as u64).unwrap(),
                 pos_h: 0,
                 val: account.addr.to_string(),
-                id: None,
+                set_id: set_id.to_string(),
             };
 
             nodes.push(node);

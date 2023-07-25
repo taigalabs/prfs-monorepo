@@ -9,6 +9,7 @@ pub struct SetJson {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct SetDetail {
+    pub set_id: String,
     pub label: String,
     pub desc: String,
     pub author: String,

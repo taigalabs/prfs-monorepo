@@ -6,7 +6,7 @@ pub struct PrfsTreeNode {
     pub pos_w: Decimal,
     pub pos_h: i32,
     pub val: String,
-    pub id: Option<Decimal>,
+    pub set_id: String,
 }
 
 impl PrfsTreeNode {
