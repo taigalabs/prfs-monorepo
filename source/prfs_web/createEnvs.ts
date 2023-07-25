@@ -8,12 +8,12 @@ import { Envs } from "./src/env";
 const DOT_ENV_PATH = path.resolve(".env");
 
 function run() {
-  console.log("%s prepareEnv.ts prfs web launch", chalk.green("Launching"));
+  console.log("%s createEnvs.ts prfs web launch", chalk.green("Launching"));
 
-  prepareEnv();
+  createEnvs();
 }
 
-function prepareEnv() {
+function createEnvs() {
   const { values } = parseArgs({
     options: {
       production: {

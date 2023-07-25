@@ -16,11 +16,11 @@ pub fn run(matches: &ArgMatches) {
 }
 
 fn run_app(extra_args: Vec<&str>) {
-    let prepare_args = [vec!["prepare-env"], extra_args].concat();
+    let extra_args = [vec!["create-envs"], extra_args].concat();
 
     let status = Command::new(JS_ENGINE)
         .current_dir(&PATHS.prfs_web)
-        .args(prepare_args)
+        .args(extra_args)
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));
     assert!(status.success());
