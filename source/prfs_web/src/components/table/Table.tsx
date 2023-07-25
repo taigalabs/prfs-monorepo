@@ -41,15 +41,6 @@ export interface TableProps<T extends string> {
   onChangePage: (page: number) => Promise<TableData<T>>;
 }
 
-export type TableHeaderCol<T> = {
-  key: T;
-  elem: React.JSX.Element;
-}[];
-
-export type A<T extends string> = {
-  [key in T]: T;
-};
-
 export type TableData<T extends string> = {
   page: number;
   values: {
