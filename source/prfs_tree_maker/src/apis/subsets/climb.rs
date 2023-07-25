@@ -7,8 +7,8 @@ pub async fn create_tree_nodes(
     db: &Database,
     subset_json: &SubsetJson,
 ) -> Result<(), TreeMakerError> {
-    let set_id = subset_json.set_id.to_string();
-    let depth = subset_json.tree_depth as usize;
+    let set_id = subset_json.subset.set_id.to_string();
+    let depth = subset_json.subset.tree_depth as usize;
 
     println!("climb_subset, set_id: {}", set_id);
 

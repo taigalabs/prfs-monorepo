@@ -5,10 +5,10 @@ use rust_decimal::{prelude::FromPrimitive, Decimal};
 use std::time::{Duration, SystemTime};
 
 pub async fn create_leaf(db: &Database, subset_json: &SubsetJson) -> Result<(), TreeMakerError> {
-    let subset_query_limit = std::env::var("SUBSET_QUERY_LIMIT")?;
+    let subset_query_limit = std::env::var("SUBSET_QUERY_LIMIT").unwrap();
 
     let subset_offset = {
-        let s = std::env::var("SUBSET_OFFSET")?;
+        let s = std::env::var("SUBSET_OFFSET").unwrap();
         s.parse::<usize>().unwrap()
     };
 
@@ -30,14 +30,14 @@ pub async fn create_leaf(db: &Database, subset_json: &SubsetJson) -> Result<(), 
         b * 2
     };
 
-    let set_id = &subset_json.set_id;
+    let set_id = &subset_json.subset.set_id;
     let mut offset = subset_offset;
     let mut count = 0;
 
     loop {
         let where_clause = format!(
             "{} offset {} limit {}",
-            subset_json.where_clause, offset, subset_query_limit
+            subset_json.subset.where_clause, offset, subset_query_limit
         );
 
         let now = SystemTime::now();

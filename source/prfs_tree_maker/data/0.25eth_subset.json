@@ -1,7 +1,9 @@
 {
-  "proof_label": "0.25 - 0.30ETH OWNERSHIP",
-  "proof_id": "0.25eth_20230711",
-  "set_id": "0.25eth_20230711",
-  "where_clause": "250000000000000000 <= accounts.wei AND accounts.wei < 300000000000000000 order by wei",
-  "tree_depth": 32
+  "subset": {
+    "proof_label": "0.25 - 0.30ETH OWNERSHIP",
+    "proof_id": "0.25eth_20230711",
+    "set_id": "0.25eth_20230711",
+    "where_clause": "250000000000000000 <= accounts.wei AND accounts.wei < 300000000000000000 order by wei",
+    "tree_depth": 32
+  }
 }
