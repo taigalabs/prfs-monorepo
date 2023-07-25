@@ -1,5 +1,6 @@
 pub mod apis;
 pub mod geth;
+pub mod logger;
 pub mod paths;
 pub mod proof_type_json;
 

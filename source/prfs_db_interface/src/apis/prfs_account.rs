@@ -1,8 +1,4 @@
-use crate::{
-    database::Database,
-    models::{EthAccountTreeNode, EthTreeNode, PrfsAccount, ProofType},
-    DbInterfaceError,
-};
+use crate::{database::Database, models::PrfsAccount, DbInterfaceError};
 
 impl Database {
     pub async fn get_prfs_account(

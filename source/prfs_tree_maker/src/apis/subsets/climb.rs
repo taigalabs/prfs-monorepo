@@ -1,6 +1,6 @@
-use super::{json::ProofTypeJson, read_subset_file};
+use super::json::{self, ProofTypeJson};
 use crate::TreeMakerError;
-use prfs_db_interface::{database::Database, models::EthTreeNode};
+use prfs_db_interface::{database::Database, models::PrfsTreeNode};
 use rust_decimal::Decimal;
 
 pub async fn climb() -> Result<(), TreeMakerError> {
@@ -9,8 +9,7 @@ pub async fn climb() -> Result<(), TreeMakerError> {
     let db = Database::connect(pg_endpoint, pg_pw).await?;
 
     let subset_filename = std::env::var("SUBSET_FILENAME")?;
-
-    let subset_json = read_subset_file(subset_filename)?;
+    let subset_json = json::read_subset_file(subset_filename)?;
 
     climb_subset(&db, subset_json).await?;
 
@@ -58,7 +57,7 @@ async fn climb_subset(db: &Database, proof_type_json: ProofTypeJson) -> Result<(
             // println!("node: {:?}, idx: {}", node, idx);
             let val = prfs_crypto::convert_32bytes_into_decimal_string(node).unwrap();
 
-            let n = EthTreeNode {
+            let n = PrfsTreeNode {
                 pos_w: Decimal::from(idx),
                 pos_h: (d + 1) as i32,
                 val,

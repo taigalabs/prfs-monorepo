@@ -10,12 +10,12 @@ use std::time::Duration;
 
 const MAX_CONSEQ_ERR_COUNT: usize = 10;
 
-pub async fn run() -> Result<(), TreeMakerError> {
-    let geth_client = GethClient::new()?;
+pub async fn run_scan() {
+    let geth_client = GethClient::new().unwrap();
 
-    let pg_endpoint = std::env::var("POSTGRES_ENDPOINT")?;
-    let pg_pw = std::env::var("POSTGRES_PW")?;
-    let db = Database::connect(pg_endpoint, pg_pw).await?;
+    let pg_endpoint = std::env::var("POSTGRES_ENDPOINT").unwrap();
+    let pg_pw = std::env::var("POSTGRES_PW").unwrap();
+    let db = Database::connect(pg_endpoint, pg_pw).await.unwrap();
 
     let balance_bucket_capacity = {
         let s: usize = std::env::var("SCAN_BALANCE_BUCKET_CAPACITY")
@@ -53,9 +53,8 @@ pub async fn run() -> Result<(), TreeMakerError> {
         scan_interval,
         balance_bucket_capacity,
     )
-    .await?;
-
-    Ok(())
+    .await
+    .unwrap();
 }
 
 async fn scan_ledger_accounts(
