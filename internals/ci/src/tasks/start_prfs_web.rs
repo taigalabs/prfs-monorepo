@@ -1,5 +1,5 @@
 use crate::{
-    deps::{self, JS_ENGINE, NODE_VERSION},
+    deps::{self, JS_ENGINE},
     paths::PATHS,
 };
 use clap::ArgMatches;
