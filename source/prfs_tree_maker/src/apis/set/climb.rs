@@ -30,8 +30,8 @@ pub async fn create_tree_nodes(db: &Database, set_json: &SetJson) -> Result<(), 
 
     let now = SystemTime::now();
     let leaves = db.get_prfs_tree_nodes(&where_clause).await?;
-    let elapsed = now.elapsed().unwrap();
 
+    let elapsed = now.elapsed().unwrap();
     println!(
         "Query took {} ms - get_prfs_tree_nodes, row_count: {}",
         elapsed.as_millis(),
@@ -42,9 +42,9 @@ pub async fn create_tree_nodes(db: &Database, set_json: &SetJson) -> Result<(), 
         return Err(format!("Cannot climb if there is no leaf, set_id: {}", set_id).into());
     }
 
-    let _ = check_if_last_leaf_has_correct_pos(&leaves);
+    require_last_leaf_have_correct_pos(&leaves);
 
-    let leaves: Vec<[u8; 32]> = leaves
+    let mut children: Vec<[u8; 32]> = leaves
         .iter()
         .map(|leaf| {
             let b = prfs_crypto::convert_hex_into_32bytes(&leaf.val).unwrap();
@@ -52,9 +52,12 @@ pub async fn create_tree_nodes(db: &Database, set_json: &SetJson) -> Result<(), 
         })
         .collect();
 
-    let mut children = leaves;
-
+    let mut count = 0;
     for d in 0..depth {
+        println!("processing depth: {}", d);
+
+        let now = SystemTime::now();
+
         let parent = match prfs_crypto::calc_parent_nodes(&children) {
             Ok(p) => p,
             Err(err) => return Err(format!("calc parent err: {}, d: {}", err, d).into()),
@@ -77,20 +80,35 @@ pub async fn create_tree_nodes(db: &Database, set_json: &SetJson) -> Result<(), 
             parent_nodes.push(n);
         }
 
-        println!("depth: {}, parent_nodes len: {:?}", d, parent_nodes.len());
-
         db.insert_prfs_tree_nodes(&parent_nodes, false).await?;
         children = parent;
+
+        count += parent_nodes.len();
+
+        let elapsed = now.elapsed().unwrap();
+        println!(
+            "Depth processing took {} ms - depth:{}, parent node count: {}",
+            elapsed.as_millis(),
+            d,
+            parent_nodes.len(),
+        );
+
         // break;
     }
+
+    println!("Finish tree node creating, total count: {}", count);
 
     Ok(())
 }
 
-fn check_if_last_leaf_has_correct_pos(leaves: &Vec<PrfsTreeNode>) -> bool {
+fn require_last_leaf_have_correct_pos(leaves: &Vec<PrfsTreeNode>) {
     let last_leaf = leaves.last().unwrap();
 
-    println!("pos_w: {}, leaves_len: {}", last_leaf.pos_w, leaves.len());
-
-    return true;
+    if last_leaf.pos_w != Decimal::from(leaves.len() - 1) {
+        panic!(
+            "last_leaf's pos_w is invalid, pos_w: {}, leaves_len: {}",
+            last_leaf.pos_w,
+            leaves.len()
+        );
+    }
 }
