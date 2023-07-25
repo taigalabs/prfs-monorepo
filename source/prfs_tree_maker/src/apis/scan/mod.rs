@@ -11,7 +11,7 @@ use std::time::Duration;
 
 const MAX_CONSEQ_ERR_COUNT: usize = 10;
 
-pub async fn run_scan(sub_matches: &ArgMatches) {
+pub async fn run_scan(_sub_matches: &ArgMatches) {
     let geth_client = GethClient::new().unwrap();
 
     let pg_endpoint = std::env::var("POSTGRES_ENDPOINT").unwrap();
