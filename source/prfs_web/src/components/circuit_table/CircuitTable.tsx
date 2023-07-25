@@ -2,24 +2,17 @@
 
 import React from "react";
 
-import styles from "./Circuits.module.scss";
+import styles from "./CircuitTable.module.scss";
+import { stateContext } from "@/contexts/state";
 import Table, { TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
-import Widget from "@/components/widget/Widget";
-import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
-import { stateContext } from "@/contexts/state";
-import useLocalWallet from "@/hooks/useLocalWallet";
-import Card from "@/components/card/Card";
-import CardRow from "@/components/card_row/CardRow";
 import prfsBackend from "@/fetch/prfsBackend";
 
-const Circuits: React.FC = () => {
-  let i18n = React.useContext(i18nContext);
+const CircuitTable: React.FC = () => {
+  const i18n = React.useContext(i18nContext);
   const { dispatch } = React.useContext(stateContext);
 
-  useLocalWallet(dispatch);
-
-  const createColumns = React.useCallback((keys: ReadonlyArray<CircuitTableKeys>) => {
+  const createHeader = React.useCallback((keys: ReadonlyArray<CircuitTableKeys>) => {
     return (
       <div className={styles.tableHeader}>
         <div key={keys[0]} className={styles.id}>
@@ -83,7 +76,7 @@ const Circuits: React.FC = () => {
     return <div key={page}>{rows}</div>;
   }, []);
 
-  const handleChangeCircuitPage = React.useCallback(async (page: number) => {
+  const handleChangeProofPage = React.useCallback(async (page: number) => {
     return prfsBackend
       .getNativeCircuits({
         page,
@@ -98,26 +91,16 @@ const Circuits: React.FC = () => {
   }, []);
 
   return (
-    <DefaultLayout>
-      <CardRow>
-        <Card>
-          <Widget label={i18n.circuits}>
-            <div className={styles.wrapper}>
-              <Table
-                keys={CIRCUIT_TABLE_KEYS}
-                createHeader={createColumns}
-                createRows={createRows}
-                onChangePage={handleChangeCircuitPage}
-              />
-            </div>
-          </Widget>
-        </Card>
-      </CardRow>
-    </DefaultLayout>
+    <Table
+      keys={CIRCUIT_TABLE_KEYS}
+      createHeader={createHeader}
+      createRows={createRows}
+      onChangePage={handleChangeProofPage}
+    />
   );
 };
 
-export default Circuits;
+export default CircuitTable;
 
 const CIRCUIT_TABLE_KEYS = [
   "id",

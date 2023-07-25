@@ -4,23 +4,6 @@
   flex-direction: column;
 
   .tableHeaderWrapper {
-    display: flex;
-    background-color: var(--bright-gray-55);
-    border-bottom: 1px solid var(--bright-green-81);
-    padding: 0px 0px;
-
-    .cell {
-      &::before {
-        content: "";
-        height: 20px;
-        margin: auto;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        border-left: 1px solid var(--bright-gray-40);
-      }
-    }
   }
 
   .cell {
