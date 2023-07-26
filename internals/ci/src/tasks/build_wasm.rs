@@ -2,9 +2,6 @@ use crate::{deps, paths::PATHS, task::Task, BuildHandle, CiError};
 use colored::Colorize;
 use std::process::Command;
 
-// const WASM_PACK_VERSION: &str = "wasm-pack 0.12.1";
-// const RUST_NIGHTLY_TOOLCHAIN: &str = "nightly-2023-05-22-x86_64-unknown-linux-gnu";
-
 pub struct BuildWasmTask;
 
 impl Task for BuildWasmTask {

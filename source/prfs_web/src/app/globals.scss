@@ -1,17 +1,21 @@
 :root {
   --black-20: #121313;
-
   --gray-20: #373739;
-  --gray-30: #555756;
-  --gray-40: #b5bdb7;
-  --gray-50: #c8d0ca;
+  --gray-30: #545b64;
+  --gray-31: #555756;
+  --gray-32: #5a5b5b;
+  --gray-40: #acaca6;
+  --gray-50: #b5bdb7;
+  --gray-60: #c8d0ca;
 
   --bright-gray-40: #ececec;
   --bright-gray-50: #f4f4f5;
+  --bright-gray-55: #fafafa;
 
   --bright-green-30: #7beab6;
   --bright-green-50: #82f7c0;
   --bright-green-80: #e5f2f0;
+  --bright-green-81: #e8dfe6;
 
   --green-50: #3f8386;
 
@@ -22,30 +26,6 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0)); */
-    /* --secondary-glow: linear-gradient( */
-    /*   to bottom right, */
-    /*   rgba(1, 65, 255, 0), */
-    /*   rgba(1, 65, 255, 0), */
-    /*   rgba(1, 65, 255, 0.3) */
-    /* ); */
-
-    /* --tile-start-rgb: 2, 13, 46; */
-    /* --tile-end-rgb: 2, 5, 19; */
-    /* --tile-border: conic-gradient( */
-    /*   #ffffff80, */
-    /*   #ffffff40, */
-    /*   #ffffff30, */
-    /*   #ffffff20, */
-    /*   #ffffff10, */
-    /*   #ffffff10, */
-    /*   #ffffff80 */
-    /* ); */
-
-    /* --callout-rgb: 20, 20, 20; */
-    /* --callout-border-rgb: 108, 108, 108; */
-    /* --card-rgb: 100, 100, 100; */
-    /* --card-border-rgb: 200, 200, 200; */
   }
 }
 
@@ -57,6 +37,9 @@
 
 html {
   // border: 1px solid red;
+  font-family: "Roboto", "-apple-system", "BlinkMacSystemFont", '"Segoe UI"', '"Helvetica Neue"',
+    "Arial", "sans-serif", '"Apple Color Emoji"', '"Segoe UI Emoji"', '"Segoe UI Symbol"',
+    sans-serif;
   height: 100%;
 }
 

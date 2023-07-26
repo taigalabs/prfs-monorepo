@@ -4,9 +4,9 @@ mod paths;
 mod task;
 mod tasks;
 
-use crate::{build_handle::BuildHandle, paths::PATHS};
+use crate::build_handle::BuildHandle;
 use chrono::prelude::*;
-use clap::{arg, builder::BoolishValueParser, command, Arg, ArgMatches};
+use clap::{command, Arg, ArgMatches};
 use colored::Colorize;
 use std::env;
 use task::Task;
@@ -15,7 +15,7 @@ use tasks::compile_circuits::CompileCircuitsTask;
 pub type CiError = Box<dyn std::error::Error + Sync + Send>;
 
 fn main() {
-    let matches = command!() // requires `cargo` feature
+    let matches = command!()
         .version("v0.1")
         .propagate_version(true)
         .arg_required_else_help(true)
@@ -93,7 +93,11 @@ fn run_tasks(
         }
     }
 
-    println!("\nSuccess building, tasks done: {}", tasks.len());
+    println!(
+        "{} building, tasks done: {}",
+        "Success".green(),
+        tasks.len()
+    );
 
     Ok(())
 }

@@ -1,7 +1,6 @@
+use crate::paths::PATHS;
 use clap::ArgMatches;
 use std::process::Command;
-
-use crate::paths::PATHS;
 
 pub fn run(_matches: &ArgMatches) {
     let bin = "cargo";

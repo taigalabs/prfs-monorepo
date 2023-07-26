@@ -1,128 +1,49 @@
-use chrono::prelude::*;
-use clap::{command, Arg, ArgAction};
-use colored::Colorize;
-use dotenv::dotenv;
+use chrono::Utc;
+use clap::{command, Arg};
 use prfs_tree_maker::{
-    apis::{climb, genesis, scan, subset, tree},
-    paths::Paths,
-    TreeMakerError,
-};
-use tracing::metadata::LevelFilter;
-use tracing_appender::non_blocking::WorkerGuard;
-use tracing_subscriber::{
-    fmt::{format::Writer, time::FormatTime},
-    prelude::__tracing_subscriber_SubscriberExt,
-    EnvFilter, Layer,
+    apis::{revisit, scan, set},
+    envs::ENVS,
+    logger, TreeMakerError,
 };
 
 #[tokio::main]
-async fn main() -> Result<(), TreeMakerError> {
+async fn main() {
     std::env::set_var("RUST_LOG", "info");
-    dotenv()?;
+
+    ENVS.check();
 
     let now = Utc::now();
     println!("Tree maker starts, start time: {}", now);
 
-    let paths = Paths::new();
+    let _guard = logger::set_up_logger().unwrap();
 
-    let _guard = set_up_logger(&paths)?;
-
-    run_cli_command(&paths).await?;
-
-    Ok(())
+    run_cli_command().await.unwrap();
 }
 
-async fn run_cli_command(paths: &Paths) -> Result<(), TreeMakerError> {
-    let matches = command!() // requires `cargo` feature
-        .arg(Arg::new("operation").action(ArgAction::Append))
+async fn run_cli_command() -> Result<(), TreeMakerError> {
+    let matches = command!()
+        .version("v0.1")
+        .propagate_version(true)
+        .arg_required_else_help(true)
+        .subcommand(command!("scan").arg(Arg::new("extra_args")))
+        .subcommand(command!("set").arg(Arg::new("extra_args")))
         .get_matches();
 
-    let op = matches
-        .get_one::<String>("operation")
-        .expect("operation needs to be given")
-        .clone();
-
-    let op_str = op.as_str();
-
-    println!("Operation: {}", op_str.cyan().bold());
-
-    match op.as_str() {
-        "scan" => {
-            scan::run().await?;
+    match matches.subcommand() {
+        Some(("scan_genesis", sub_matches)) => {
+            scan::scan_genesis(sub_matches).await;
         }
-        "genesis" => {
-            genesis::run().await?;
+        Some(("scan", sub_matches)) => {
+            scan::scan_ledger(sub_matches).await;
         }
-        "tree" => {
-            tree::run().await?;
+        Some(("set", sub_matches)) => {
+            set::create_set(sub_matches).await;
         }
-        "subset" => {
-            subset::run(&paths).await?;
+        Some(("revisit", sub_matches)) => {
+            revisit::revisit(sub_matches).await;
         }
-        "climb" => {
-            climb::run(&paths).await?;
-        }
-        _ => {
-            panic!("[ci] Could not find the operation. op: {}", op);
-        }
+        _ => unreachable!("Subcommand not defined"),
     }
 
     Ok(())
-}
-
-fn set_up_logger(paths: &Paths) -> Result<WorkerGuard, TreeMakerError> {
-    if paths.log_files.exists() == false {
-        std::fs::create_dir_all(&paths.log_files).unwrap();
-    }
-
-    let mut layers = Vec::new();
-
-    let console_log_layer = tracing_subscriber::fmt::layer()
-        .with_target(false)
-        .with_timer(TimeFormat)
-        .with_filter(EnvFilter::from_default_env())
-        .with_filter(LevelFilter::INFO)
-        .boxed();
-
-    layers.push(console_log_layer);
-
-    let file_appender = tracing_appender::rolling::daily(&paths.log_files, "tree_maker.log");
-
-    let (non_blocking, guard) = tracing_appender::non_blocking(file_appender);
-
-    let file_log_layer = tracing_subscriber::fmt::layer()
-        .with_writer(non_blocking)
-        .with_target(false)
-        .with_timer(TimeFormat)
-        .with_ansi(false)
-        .with_filter(EnvFilter::from_default_env())
-        .with_filter(LevelFilter::ERROR)
-        .boxed();
-
-    layers.push(file_log_layer);
-
-    println!(
-        "File logger is attached. Log files will be periodically rotated. path: {:?}",
-        paths.log_files,
-    );
-
-    println!("Following log invocation will be handled by global logger");
-
-    let subscriber = tracing_subscriber::registry().with(layers);
-
-    tracing::subscriber::set_global_default(subscriber).expect("Unable to set a global collector");
-
-    tracing::info!("log info");
-    tracing::warn!("log warn");
-    tracing::error!("log error");
-
-    Ok(guard)
-}
-
-pub(crate) struct TimeFormat;
-impl FormatTime for TimeFormat {
-    fn format_time(&self, w: &mut Writer<'_>) -> std::fmt::Result {
-        let time = Utc::now().format("%y-%m-%d %H:%M:%S");
-        write!(w, "{}", time)
-    }
 }

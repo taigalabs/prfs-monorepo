@@ -1,5 +1,5 @@
-pub mod addr;
-pub mod circuits;
-pub mod nodes;
-pub mod prfs_account;
+pub mod prfs_accounts;
+pub mod prfs_circuits;
+pub mod prfs_sets;
+pub mod prfs_tree_nodes;
 pub mod proofs;

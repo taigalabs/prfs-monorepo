@@ -1,10 +1,16 @@
 {
   "circuits": {
     "addr_membership2": {
-      "name": "addr_membership2",
+      "label": "addr_membership2",
       "author": "SYSTEM_NATIVE",
       "instance_path": "instances/addr_membership2.circom",
-      "num_public_inputs": 5
+      "num_public_inputs": 5,
+      "desc": "Prove address membership (ECDSA, Poseidon)",
+      "circuit_dsl": "circom 2",
+      "arithmetization": "R1CS",
+      "proof_algorithm": "Spartan",
+      "elliptic_curve": "Secp256k1",
+      "finite_field": "Z_(2^256-2^32-977)"
     }
   }
 }

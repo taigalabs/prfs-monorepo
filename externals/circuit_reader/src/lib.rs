@@ -1,6 +1,7 @@
 mod circom_reader;
 
 use circom_reader::{load_r1cs_from_bin_file, R1CS};
+use colored::Colorize;
 use ff::PrimeField;
 use libspartan::Instance;
 use secq256k1::AffinePoint;
@@ -16,7 +17,7 @@ pub fn make_spartan_instance(
 ) {
     // let circuit_r1cs_path = PATHS.circuits_build.join(format!("{}.r1cs", &circuit.name));
     //
-    println!("\ngen_spartan_inst()");
+    println!("{} spartan instance...", "Generating".green());
 
     // let circom_r1cs_path = args().nth(1).unwrap();
     println!("circom_r1cs_path: {:?}", circom_r1cs_path);

@@ -2,9 +2,24 @@
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  padding: 14px 38px;
 
-  .tableHeader {
+  .tableHeaderWrapper {
+  }
+
+  .cell {
+    padding: 11px 20px;
+    position: relative;
+  }
+
+  .tableBodyWrapper {
+  }
+
+  .row {
     display: flex;
   }
+}
+
+.pageLimitWarning {
+  background-color: var(--bright-gray-55);
+  padding: 11px 20px;
 }

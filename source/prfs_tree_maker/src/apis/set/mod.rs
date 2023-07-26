@@ -1,29 +1,34 @@
-// mod grow;
-// mod leaves;
+mod climb;
+mod create;
+mod json;
+mod leaf;
 
-// use self::grow::grow_tree;
-// use crate::TreeMakerError;
-// use prfs_db_interface::{Account, Database, Node};
-// use rust_decimal::Decimal;
+use crate::envs::ENVS;
+use clap::ArgMatches;
+use colored::Colorize;
+use prfs_db_interface::database::Database;
 
-// pub struct SetType {
-//     pub set_id: String,
-//     pub table_label: String,
-//     pub query: String,
-// }
+pub async fn create_set(_sub_matches: &ArgMatches) {
+    let pg_endpoint = &ENVS.postgres_endpoint;
+    let pg_pw = &ENVS.postgres_pw;
+    let db = Database::connect(pg_endpoint, pg_pw).await.unwrap();
 
-// lazy_static::lazy_static! {
-//     static ref WEI_200: SetType = SetType {
-//         set_id: "1".to_string(),
-//         table_label: "accounts".to_string(),
-//         query: "216800000000000000 <= wei and wei < 216900000000000000".to_string(),
-//     };
-// }
+    let set_json_path = &ENVS.set_json_path;
+    let set_json = json::require_set_json(set_json_path);
 
-// pub async fn run(db: Database) -> Result<(), TreeMakerError> {
-//     leaves::make_leaves(&db, &*WEI_200).await?;
+    let mut prfs_set = create::create_set(&db, &set_json).await.unwrap();
+    let cardinality = leaf::create_leaves_without_offset(&db, &set_json, &mut prfs_set)
+        .await
+        .unwrap();
+    let merkle_root = climb::create_tree_nodes(&db, &set_json, &mut prfs_set)
+        .await
+        .unwrap();
 
-//     grow::grow_tree(&db, &*WEI_200).await?;
-
-//     Ok(())
-// }
+    println!(
+        "{} a set with tree nodes, set_id: {}, cardinality: {}, merkle_root: {}",
+        "Created".green(),
+        prfs_set.set_id,
+        cardinality,
+        merkle_root,
+    )
+}

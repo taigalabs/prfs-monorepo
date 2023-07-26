@@ -1,6 +1,7 @@
 use crate::paths::PATHS;
 use crate::utils::copy_dir_all;
 use crate::AssetServerError;
+use colored::Colorize;
 use prfs_circuits_circom::access::get_build_fs_path;
 use prfs_circuits_circom::BuildJson;
 use std::path::PathBuf;
@@ -15,38 +16,19 @@ pub fn setup_local_assets() -> BuildJson {
 
     println!("prfs_circuits build path: {:?}", circuits_build_path);
 
-    let b = std::fs::read(circuits_build_path.join("build.json")).unwrap();
-    let original_circuit_build_json: BuildJson = serde_json::from_slice(&b).unwrap();
-
     if PATHS.assets.exists() {
-        let build_json_path = PATHS.assets.join("build.json");
-        println!("build.json path: {:?}", build_json_path);
+        println!(
+            "assets path already exists, removing, path: {:?}",
+            PATHS.assets,
+        );
 
-        if !build_json_path.exists() {
-            copy_circuit_build(&circuits_build_path);
-            return load_local_build_json();
-        }
-
-        let b = std::fs::read(&build_json_path).unwrap();
-        let local_circuit_build_json: BuildJson = serde_json::from_slice(&b).unwrap();
-
-        let local_timestamp: usize = local_circuit_build_json.timestamp.parse().unwrap();
-        let original_timestamp: usize = original_circuit_build_json.timestamp.parse().unwrap();
-
-        if original_timestamp > local_timestamp {
-            copy_circuit_build(&circuits_build_path);
-            return load_local_build_json();
-        } else {
-            return load_local_build_json();
-        }
-    } else {
-        println!("circuits don't exist. Copying...");
-
+        std::fs::remove_dir_all(&PATHS.assets).unwrap();
         copy_circuit_build(&circuits_build_path);
-
-        let local_circuit_build_json = load_local_build_json();
-        return local_circuit_build_json;
+    } else {
+        copy_circuit_build(&circuits_build_path);
     }
+
+    return load_local_build_json();
 }
 
 fn load_local_build_json() -> BuildJson {
@@ -57,5 +39,12 @@ fn load_local_build_json() -> BuildJson {
 }
 
 fn copy_circuit_build(circuit_src: &PathBuf) {
+    println!(
+        "{} circuit build, src: {:?}, dest: {:?}",
+        "Copying".green(),
+        circuit_src,
+        &PATHS.assets
+    );
+
     copy_dir_all(circuit_src, &PATHS.assets).unwrap();
 }

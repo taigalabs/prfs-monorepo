@@ -1,7 +1,7 @@
 use crate::{paths::PATHS, task::Task, BuildHandle, CiError};
 use colored::Colorize;
 use serde::{Deserialize, Serialize};
-use std::{collections::HashMap, fs, io::Write, path::PathBuf, process::Command};
+use std::process::Command;
 
 pub struct CompileCircuitsTask;
 
@@ -39,80 +39,3 @@ fn run_app() {
 
     assert!(status.success());
 }
-
-// fn create_local_server_asset_path() {
-//     let local_server_asset_path = &PATHS.prf_asset_server_assets_local;
-
-//     println!(
-//         "{} a directory, path: {:?}",
-//         "Recreating".green(),
-//         local_server_asset_path,
-//     );
-
-//     if local_server_asset_path.exists() {
-//         std::fs::remove_dir_all(&local_server_asset_path).unwrap();
-//     }
-//     std::fs::create_dir_all(&local_server_asset_path).unwrap();
-// }
-
-// fn copy_assets(circuit: &Circuit, timestamp: &String, circuit_spartan_path: &PathBuf) {
-//     let build_path = PATHS.circuits_build.join(&circuit.name);
-//     let circuit_dest_path = PATHS
-//         .prf_asset_server_assets_local
-//         .join(format!("{}_{}.circuit", circuit.name, timestamp));
-
-//     println!(
-//         "{} a file from src: {:?}, dst: {:?}",
-//         "Copying".green(),
-//         circuit_spartan_path,
-//         circuit_dest_path,
-//     );
-
-//     fs::copy(&circuit_spartan_path, &circuit_dest_path).unwrap();
-
-//     let wtns_gen_src_path = build_path.join(format!("{}_js/{}.wasm", circuit.name, circuit.name));
-//     let wtns_gen_dest_path = PATHS
-//         .prf_asset_server_assets_local
-//         .join(format!("{}_{}.wasm", circuit.name, timestamp));
-
-//     println!(
-//         "{} a file, src: {:?}, dst: {:?}",
-//         "Copying".green(),
-//         wtns_gen_src_path,
-//         wtns_gen_dest_path,
-//     );
-
-//     fs::copy(&wtns_gen_src_path, &wtns_gen_dest_path).unwrap();
-
-//     create_assets_json(&circuit_dest_path, &wtns_gen_dest_path);
-// }
-
-// fn create_assets_json(circuit_path: &PathBuf, wtns_gen_path: &PathBuf) {
-//     let files = vec![
-//         circuit_path
-//             .file_name()
-//             .unwrap()
-//             .to_str()
-//             .unwrap()
-//             .to_string(),
-//         wtns_gen_path
-//             .file_name()
-//             .unwrap()
-//             .to_str()
-//             .unwrap()
-//             .to_string(),
-//     ];
-
-//     let assets_json = AssetsJson { files };
-
-//     let assets_json_path = PATHS.prf_asset_server_assets_local.join("assets.json");
-//     println!(
-//         "{} a file, path: {:?}",
-//         "Creating".green(),
-//         assets_json_path
-//     );
-
-//     let mut fd = std::fs::File::create(&assets_json_path).unwrap();
-//     let assets_json_str = serde_json::to_string_pretty(&assets_json).unwrap();
-//     fd.write_all(&assets_json_str.into_bytes()).unwrap();
-// }

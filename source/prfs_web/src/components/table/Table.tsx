@@ -1,54 +1,64 @@
 import React from "react";
-import Link from "next/link";
 
 import styles from "./Table.module.scss";
-import { i18nContext } from "@/contexts/i18n";
 
-function Table<T>({ columns, values }: TableProps<T>) {
-  const i18n = React.useContext(i18nContext);
+export const TableCurrentPageLimitWarning: React.FC = () => {
+  return <div className={styles.pageLimitWarning}>Currently showing up to 20 elements</div>;
+};
 
-  React.useEffect(() => {}, []);
+function Table<T extends string>({ keys, createHeader, createBody, onChangePage }: TableProps<T>) {
+  const [data, setValues] = React.useState({ page: 0, values: [] });
 
-  let columnElems = React.useMemo(() => {
-    let elems = [];
+  React.useEffect(() => {
+    onChangePage(0).then(res => {
+      setValues(res);
+    });
+  }, [onChangePage, setValues]);
 
-    // for (let col of columns) {
-    //   elems.push(
-    //     <div key={col.key}>
-    //       <div>{col.key}</div>
-    //       <div>{col.label}</div>
-    //     </div>
-    //   );
-    // }
-    // return elems;
-    //
-    for (let id of Object.keys(columns)) {
-      console.log(11, id);
-    }
+  const tableKeys = React.useMemo(() => {
+    const tableKeys: TableKeys<T> = keys.reduce((r, key) => {
+      return {
+        ...r,
+        [key]: key,
+      };
+    }, {} as TableKeys<T>);
+    return tableKeys;
+  }, [keys]);
 
-    return elems;
-  }, [columns]);
+  let headerElems = React.useMemo(() => {
+    return createHeader(tableKeys);
+  }, [tableKeys]);
+
+  let bodyElems = React.useMemo(() => {
+    return createBody(tableKeys, data);
+  }, [data, tableKeys]);
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.tableHeader}>{columnElems}</div>
-      power
+      <div className={styles.tableHeaderWrapper}>{headerElems}</div>
+      <div className={styles.tableBodyWrapper}>{bodyElems}</div>
     </div>
   );
 }
 
 export default Table;
 
-export interface TableProps<T> {
-  columns: T;
-  values?: TableValues<T>;
-  onChangePage: (page: number) => void;
+export interface TableProps<T extends string> {
+  keys: ReadonlyArray<T>;
+  createHeader: (keys: TableKeys<T>) => React.ReactNode;
+  createBody: (keys: TableKeys<T>, data: TableData<T>) => React.ReactNode;
+  onChangePage: (page: number) => Promise<TableData<T>>;
 }
 
-export interface TableColumns {
-  [key: string]: any;
-}
+export type TableKeys<T extends string> = ObjectFromList<ReadonlyArray<T>, string>;
 
-export type TableValues<T> = {
-  [key in keyof T]: any;
+export type TableData<T extends string> = {
+  page: number;
+  values: {
+    [key in T]: any;
+  }[];
+};
+
+type ObjectFromList<T extends ReadonlyArray<string>, V = string> = {
+  [K in T extends ReadonlyArray<infer U> ? U : never]: V;
 };

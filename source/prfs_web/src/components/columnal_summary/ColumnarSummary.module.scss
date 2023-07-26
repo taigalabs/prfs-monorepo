@@ -1,0 +1,27 @@
+.columnarSummaryWrapper {
+  display: flex;
+  padding: 8px 12px;
+}
+
+.columnarSummaryCol {
+  flex-grow: 1;
+  width: 33%;
+}
+
+.columnarSummaryCol:not(:last-child) {
+  border-right: 1px solid var(--bright-gray-50);
+}
+
+.columnarSummaryCell {
+  padding: 10px 10px;
+  word-wrap: break-word;
+}
+
+.columnarSummaryCell:not(:last-child) {
+  margin-bottom: 18px;
+}
+
+.columnarSummaryCellHeader {
+  color: var(--gray-30);
+  margin-bottom: 5px;
+}

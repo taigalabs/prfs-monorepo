@@ -1,5 +1,0 @@
-{
-  "set_id": "0.2eth_20230711",
-  "where_clause": "200000000000000000 < accounts.wei AND accounts.wei < 300000000000000000",
-  "tree_depth": 32
-}

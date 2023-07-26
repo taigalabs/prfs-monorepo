@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   padding: 80px 8px;
-  background-color: #f4f4f5;
   flex-grow: 1;
   border: 1px solid black;
 
@@ -38,11 +37,14 @@
 
     a {
       color: var(--green-50);
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 
   .footer {
-    color: #5a5b5b;
+    color: var(--gray-32);
     display: flex;
     margin-top: 105px;
     flex-grow: 1;
