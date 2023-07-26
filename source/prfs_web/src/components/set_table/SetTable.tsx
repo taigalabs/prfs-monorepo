@@ -84,10 +84,10 @@ const SetTable: React.FC = () => {
         page,
       })
       .then(resp => {
-        const { page, sets } = resp.payload;
+        const { page, prfs_sets } = resp.payload;
         return {
           page,
-          values: sets,
+          values: prfs_sets,
         };
       });
   }, []);

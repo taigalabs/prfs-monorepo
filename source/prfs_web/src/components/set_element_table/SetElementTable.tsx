@@ -8,7 +8,7 @@ import Table, { TableData, TableKeys } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
 
-const SetElementTable: React.FC = () => {
+const SetElementTable: React.FC<SetElementTableProps> = ({ setId }) => {
   const i18n = React.useContext(i18nContext);
 
   const createHeader = React.useCallback((keys: TableKeys<SetElementTableKeys>) => {
@@ -17,7 +17,7 @@ const SetElementTable: React.FC = () => {
         <div key={keys[0]} className={styles.id}>
           {i18n.id}
         </div>
-        <div key={keys[1]} className={styles.label}>
+        <div key={keys[1]} className={styles.val}>
           {i18n.value}
         </div>
       </div>
@@ -37,7 +37,12 @@ const SetElementTable: React.FC = () => {
       for (let val of values) {
         let row = (
           <div key={val.pos_w} className={styles.tableRow}>
-            power
+            <div key={keys.pos_w} className={styles.id}>
+              {val.pos_w}
+            </div>
+            <div key={keys.val} className={styles.val}>
+              {val.val}
+            </div>
           </div>
         );
 
@@ -49,19 +54,23 @@ const SetElementTable: React.FC = () => {
     []
   );
 
-  const handleChangePage = React.useCallback(async (page: number) => {
-    return prfsBackend
-      .getSetElements({
-        page,
-      })
-      .then(resp => {
-        const { page, elements } = resp.payload;
-        return {
+  const handleChangePage = React.useCallback(
+    async (page: number) => {
+      return prfsBackend
+        .getSetElements({
           page,
-          values: elements,
-        };
-      });
-  }, []);
+          set_id: setId,
+        })
+        .then(resp => {
+          const { page, prfs_tree_nodes } = resp.payload;
+          return {
+            page,
+            values: prfs_tree_nodes,
+          };
+        });
+    },
+    [setId]
+  );
 
   return (
     <Table
@@ -75,6 +84,10 @@ const SetElementTable: React.FC = () => {
 
 export default SetElementTable;
 
-const SET_ELEMENT_TABLE_KEYS = ["pos_w", "value"] as const;
+const SET_ELEMENT_TABLE_KEYS = ["pos_h", "pos_w", "set_id", "val"] as const;
 
 type SetElementTableKeys = (typeof SET_ELEMENT_TABLE_KEYS)[number];
+
+export interface SetElementTableProps {
+  setId: string;
+}

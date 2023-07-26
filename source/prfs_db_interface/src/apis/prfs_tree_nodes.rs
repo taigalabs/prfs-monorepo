@@ -6,7 +6,7 @@ impl Database {
         where_clause: &str,
     ) -> Result<Vec<PrfsTreeNode>, DbInterfaceError> {
         let stmt = format!(
-            "SELECT * from {} where {}",
+            "SELECT * from {} {}",
             PrfsTreeNode::table_name(),
             where_clause
         );

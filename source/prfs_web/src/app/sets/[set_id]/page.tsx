@@ -101,10 +101,10 @@ const Set: React.FC<SetProps> = ({ params }) => {
         set_id: params.set_id,
       })
       .then(resp => {
-        const { sets } = resp.payload;
+        const { prfs_sets } = resp.payload;
 
-        if (sets.length > 0) {
-          setSet(sets[0]);
+        if (prfs_sets.length > 0) {
+          setSet(prfs_sets[0]);
         } else {
           router.push("/sets");
         }
@@ -130,7 +130,7 @@ const Set: React.FC<SetProps> = ({ params }) => {
       <CardRow>
         <Card>
           <Widget label={`${i18n.elements} - ${params.set_id}`}>
-            <SetElementTable />
+            <SetElementTable setId={params.set_id} />
           </Widget>
         </Card>
       </CardRow>

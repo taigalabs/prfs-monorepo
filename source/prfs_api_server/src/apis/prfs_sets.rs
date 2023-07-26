@@ -15,7 +15,7 @@ struct GetSetsRequest {
 #[derive(Serialize, Deserialize, Debug)]
 struct GetSetsRespPayload {
     page: usize,
-    sets: Vec<PrfsSet>,
+    prfs_sets: Vec<PrfsSet>,
 }
 
 pub async fn get_prfs_sets(req: Request<Body>) -> Result<Response<Body>, Infallible> {
@@ -33,9 +33,9 @@ pub async fn get_prfs_sets(req: Request<Body>) -> Result<Response<Body>, Infalli
         where_clause = format!("where set_id='{}'", &set_id);
     }
 
-    let sets = state.db.get_prfs_sets(&where_clause).await.unwrap();
+    let prfs_sets = state.db.get_prfs_sets(&where_clause).await.unwrap();
 
-    let resp = ApiResponse::new_success(GetSetsRespPayload { page: 0, sets });
+    let resp = ApiResponse::new_success(GetSetsRespPayload { page: 0, prfs_sets });
 
     return Ok(resp.into_hyper_response());
 }

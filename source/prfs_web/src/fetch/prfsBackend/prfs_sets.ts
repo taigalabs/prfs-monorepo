@@ -1,4 +1,4 @@
-import { PrfsSet } from "@/models";
+import { PrfsSet, PrfsTreeNode } from "@/models";
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
 
@@ -9,7 +9,7 @@ export interface GetSetsRequest {
 
 export type GetSetsResponse = PrfsApiResponse<{
   page: number;
-  sets: PrfsSet[];
+  prfs_sets: PrfsSet[];
 }>;
 
 export interface GetSetsArgs {
@@ -41,7 +41,7 @@ export interface GetSetElementsRequest {
 
 export type GetSetElementsResponse = PrfsApiResponse<{
   page: number;
-  elements: [];
+  prfs_tree_nodes: PrfsTreeNode[];
 }>;
 
 export interface GetSetElementsArgs {
@@ -57,7 +57,7 @@ export async function getSetElements({ page, set_id }: GetSetElementsArgs) {
 
   try {
     let resp: GetSetElementsResponse = await api({
-      path: "get_prfs_tree_nodes",
+      path: "get_prfs_tree_leaf_nodes",
       req,
     });
     return resp;
