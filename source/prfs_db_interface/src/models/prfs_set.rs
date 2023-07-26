@@ -1,3 +1,4 @@
+use chrono::NaiveDate;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 
@@ -9,6 +10,7 @@ pub struct PrfsSet {
     pub desc: String,
     pub hash_algorithm: String,
     pub cardinality: i64,
+    pub created_at: NaiveDate,
 }
 
 impl PrfsSet {

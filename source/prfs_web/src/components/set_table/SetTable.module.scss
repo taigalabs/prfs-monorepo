@@ -31,21 +31,22 @@
   }
 }
 
-.id {
-  width: 80px;
+.set_id {
+  width: 150px;
 }
-.name {
+.label {
   width: 160px;
 }
-.numInputs {
-  width: 100px;
-}
-.createdAt {
-  width: 180px;
-}
 .author {
-  width: 180px;
+  width: 140px;
 }
 .desc {
   flex-grow: 1;
+}
+.hash_algorithm {
+}
+.cardinality {
+}
+.createdAt {
+  width: 140px;
 }

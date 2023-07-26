@@ -13,20 +13,20 @@ const SetTable: React.FC = () => {
   const createHeader = React.useCallback((keys: TableKeys<SetTableKeys>) => {
     return (
       <div className={styles.tableHeader}>
-        <div key={keys[0]} className={styles.id}>
-          {i18n.id}
+        <div key={keys[0]} className={styles.set_id}>
+          {i18n.set_id}
         </div>
-        <div key={keys[1]} className={styles.name}>
-          {i18n.name}
+        <div key={keys[1]} className={styles.label}>
+          {i18n.label}
         </div>
         <div key={keys[2]} className={styles.author}>
           {i18n.author}
         </div>
-        <div key={keys[3]} className={styles.numInputs}>
-          {i18n.num_inputs}
-        </div>
-        <div key={keys[4]} className={styles.desc}>
+        <div key={keys[3]} className={styles.desc}>
           {i18n.description}
+        </div>
+        <div key={keys[4]} className={styles.cardinality}>
+          {i18n.cardinality}
         </div>
         <div key={keys[5]} className={styles.createdAt}>
           {i18n.created_at}
@@ -48,19 +48,19 @@ const SetTable: React.FC = () => {
       for (let val of values) {
         let row = (
           <div key={val.set_id} className={styles.tableRow}>
-            <div key={keys.set_id} className={styles.id}>
+            <div key={keys.set_id} className={styles.set_id}>
               {val.set_id}
             </div>
-            <div key={keys.label} className={styles.name}>
+            <div key={keys.label} className={styles.label}>
               {val.label}
             </div>
             <div key={keys.author} className={styles.author}>
               {val.author}
             </div>
-            <div key={keys.desc} className={styles.numInputs}>
+            <div key={keys.desc} className={styles.desc}>
               {val.desc}
             </div>
-            <div key={keys.cardinality} className={styles.desc}>
+            <div key={keys.cardinality} className={styles.cardinality}>
               {val.cardinality}
             </div>
             <div key={keys.created_at} className={styles.createdAt}>

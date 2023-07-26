@@ -4,6 +4,7 @@ use crate::{
     utils::{concat_cols, concat_values},
     DbInterfaceError,
 };
+use chrono::NaiveDate;
 use rust_decimal::Decimal;
 
 impl Database {
@@ -22,7 +23,6 @@ impl Database {
                 return Err(err.into());
             }
         };
-        println!("rows: {:?}", rows);
 
         let prfs_sets: Vec<PrfsSet> = rows
             .iter()
@@ -34,6 +34,7 @@ impl Database {
                 let hash_algorithm: String =
                     r.try_get("hash_algorithm").expect("invalid hash_algorithm");
                 let cardinality: i64 = r.try_get("cardinality").expect("invalid cardinality");
+                let created_at: NaiveDate = r.try_get("created_at").expect("invalid created_at");
 
                 PrfsSet {
                     set_id,
@@ -42,6 +43,7 @@ impl Database {
                     desc,
                     hash_algorithm,
                     cardinality,
+                    created_at,
                 }
             })
             .collect();
