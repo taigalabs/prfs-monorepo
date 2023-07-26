@@ -1,0 +1,29 @@
+.wrapper {
+}
+
+.setSummaryWrapper {
+  display: flex;
+  padding: 8px 15px;
+
+  .col {
+    flex-grow: 1;
+  }
+
+  .col:not(:last-child) {
+    border-right: 1px solid var(--bright-gray-50);
+  }
+
+  .cell {
+    padding: 8px;
+  }
+
+  .cellHeader {
+    color: var(--gray-30);
+    margin-bottom: 5px;
+  }
+}
+
+.here {
+  color: var(--gray-30);
+  font-weight: 700;
+}

@@ -14,12 +14,19 @@ import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
 import SetElementTable from "@/components/set_element_table/SetElementTable";
+import prfsBackend from "@/fetch/prfsBackend";
+import { Set } from "@/models/index";
 
 const SetSummary = () => {
+  const i18n = React.useContext(i18nContext);
+
   return (
     <div className={styles.setSummaryWrapper}>
       <div className={styles.col}>
-        <div className={styles.cell}>cell1</div>
+        <div className={styles.cell}>
+          <div className={styles.cellHeader}>{i18n.set_id}</div>
+          <div>power</div>
+        </div>
       </div>
       <div className={styles.col}>
         <div className={styles.cell}>cellb1</div>
@@ -39,6 +46,23 @@ const Set: React.FC<SetProps> = ({ params }) => {
 
   useLocalWallet(dispatch);
 
+  const [set, setSet] = React.useState<Set>();
+  React.useEffect(() => {
+    prfsBackend
+      .getSets({
+        page: 0,
+        set_id: params.set_id,
+      })
+      .then(resp => {
+        const { sets } = resp.payload;
+        console.log(11, sets);
+
+        if (sets.length > 0) {
+          setSet(sets[0]);
+        }
+      });
+  }, [setSet]);
+
   return (
     <DefaultLayout>
       <Breadcrumb>
@@ -46,11 +70,11 @@ const Set: React.FC<SetProps> = ({ params }) => {
           <Link href="/sets">{i18n.sets}</Link>
         </div>
         <ArrowForwardIosIcon />
-        <div className={styles.here}>{params.set}</div>
+        <div className={styles.here}>{params.set_id}</div>
       </Breadcrumb>
       <CardRow>
         <Card>
-          <Widget label={`${i18n.set} - ${params.set}`}>
+          <Widget label={`${i18n.set} - ${params.set_id}`}>
             <SetSummary />
             <SetElementTable />
           </Widget>
@@ -64,6 +88,6 @@ export default Set;
 
 interface SetProps {
   params: {
-    set: string;
+    set_id: string;
   };
 }

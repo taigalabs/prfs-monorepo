@@ -81,6 +81,7 @@ async function getNativeCircuits({ page }) {
 
 export interface GetSetsRequest {
   page: number;
+  set_id?: string;
 }
 
 export type GetSetsResponse = PrfsApiResponse<{
@@ -88,9 +89,15 @@ export type GetSetsResponse = PrfsApiResponse<{
   sets: Set[];
 }>;
 
-async function getSets({ page }) {
+export interface GetSetsArgs {
+  page: number;
+  set_id?: string;
+}
+
+async function getSets({ page, set_id }: GetSetsArgs) {
   let req: GetSetsRequest = {
     page,
+    set_id,
   };
 
   try {
