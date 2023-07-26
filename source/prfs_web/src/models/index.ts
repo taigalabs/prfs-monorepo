@@ -8,7 +8,8 @@ export interface PrfsCircuit {
   proof_algorithm: string;
   arithmetization: string;
   circuit_dsl: string;
-  proof_curve: string;
+  elliptic_curve: string;
+  finite_field: string;
 }
 
 export interface PrfsSet {

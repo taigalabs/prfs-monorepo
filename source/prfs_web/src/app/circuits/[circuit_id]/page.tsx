@@ -13,7 +13,6 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
-import SetElementTable from "@/components/set_element_table/SetElementTable";
 import prfsBackend from "@/fetch/prfsBackend";
 import { PrfsCircuit } from "@/models/index";
 import ColumnarSummary, {
@@ -22,7 +21,6 @@ import ColumnarSummary, {
   ColumnarSummaryColumn,
 } from "@/components/columnal_summary/ColumnarSummary";
 import { useRouter } from "next/navigation";
-import { TableCurrentPageLimitWarning } from "@/components/table/Table";
 
 const CircuitSummary: React.FC<CircuitSummaryProps> = ({ circuit }) => {
   const i18n = React.useContext(i18nContext);
@@ -35,11 +33,53 @@ const CircuitSummary: React.FC<CircuitSummaryProps> = ({ circuit }) => {
             <ColumnarSummaryCellHeader>{i18n.circuit_id}</ColumnarSummaryCellHeader>
             <div>{circuit.circuit_id}</div>
           </ColumnarSummaryCell>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.label}</ColumnarSummaryCellHeader>
+            <div>{circuit.label}</div>
+          </ColumnarSummaryCell>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.proof_algorithm}</ColumnarSummaryCellHeader>
+            <div>{circuit.proof_algorithm}</div>
+          </ColumnarSummaryCell>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.elliptic_curve}</ColumnarSummaryCellHeader>
+            <div>{circuit.elliptic_curve}</div>
+          </ColumnarSummaryCell>
         </ColumnarSummaryColumn>
 
-        <ColumnarSummaryColumn>3</ColumnarSummaryColumn>
+        <ColumnarSummaryColumn>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.circuit_dsl}</ColumnarSummaryCellHeader>
+            <div>{circuit.circuit_dsl}</div>
+          </ColumnarSummaryCell>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.arithmetization}</ColumnarSummaryCellHeader>
+            <div>{circuit.arithmetization}</div>
+          </ColumnarSummaryCell>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.description}</ColumnarSummaryCellHeader>
+            <div>{circuit.desc}</div>
+          </ColumnarSummaryCell>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.finite_field}</ColumnarSummaryCellHeader>
+            <div>{circuit.finite_field}</div>
+          </ColumnarSummaryCell>
+        </ColumnarSummaryColumn>
 
-        <ColumnarSummaryColumn>4</ColumnarSummaryColumn>
+        <ColumnarSummaryColumn>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.num_inputs}</ColumnarSummaryCellHeader>
+            <div>{circuit.num_public_inputs}</div>
+          </ColumnarSummaryCell>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.author}</ColumnarSummaryCellHeader>
+            <div>{circuit.author}</div>
+          </ColumnarSummaryCell>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.created_at}</ColumnarSummaryCellHeader>
+            <div>{circuit.created_at}</div>
+          </ColumnarSummaryCell>
+        </ColumnarSummaryColumn>
       </ColumnarSummary>
     )
   );
@@ -81,7 +121,7 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
       </Breadcrumb>
       <CardRow>
         <Card>
-          <Widget label={`${i18n.set} - ${params.circuit_id}`}>
+          <Widget label={`${i18n.circuit} - ${params.circuit_id}`}>
             <CircuitSummary circuit={circuit} />
           </Widget>
         </Card>
