@@ -14,7 +14,10 @@ const Leftbar: React.FC<any> = () => {
         <ul>
           <li className={styles.category}>{i18n.proofs}</li>
           <li>
-            <ActiveLink href="/proofs">{i18n.proofs}</ActiveLink>
+            <ActiveLink href="/proofs">{i18n.proof_instances}</ActiveLink>
+          </li>
+          <li>
+            <ActiveLink href="/proof_types">{i18n.proof_types}</ActiveLink>
           </li>
         </ul>
       </div>
@@ -23,9 +26,6 @@ const Leftbar: React.FC<any> = () => {
           <li className={styles.category}>{i18n.programs}</li>
           <li>
             <ActiveLink href="/circuits">{i18n.circuits}</ActiveLink>
-          </li>
-          <li>
-            <ActiveLink href="/proof_types">{i18n.proof_types}</ActiveLink>
           </li>
         </ul>
       </div>

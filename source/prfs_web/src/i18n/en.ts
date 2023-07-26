@@ -26,6 +26,7 @@ export default {
   configuration: "Configuration",
   create_proof_type: "Create a proof type",
   proofs: "Proofs",
+  proof_instances: "Proof instances",
   proof_types: "Proof types",
   choose_circuit: "Choose a circuit",
   choose_set: "Choose a set",
