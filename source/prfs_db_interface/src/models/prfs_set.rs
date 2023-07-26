@@ -1,5 +1,4 @@
 use chrono::NaiveDate;
-use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -13,6 +12,8 @@ pub struct PrfsSet {
     pub created_at: NaiveDate,
     pub merkle_root: String,
     pub element_type: String,
+    pub finite_field: String,
+    pub elliptic_curve: String,
 }
 
 impl PrfsSet {
@@ -50,5 +51,13 @@ impl PrfsSet {
 
     pub fn element_type() -> &'static str {
         "element_type"
+    }
+
+    pub fn finite_field() -> &'static str {
+        "finite_field"
+    }
+
+    pub fn elliptic_curve() -> &'static str {
+        "elliptic_curve"
     }
 }

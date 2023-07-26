@@ -19,5 +19,6 @@ export interface Set {
   hash_algorithm: number;
   cardinality: number;
   created_at: string;
-  merkle_root: String;
+  merkle_root: string;
+  element_type: string;
 }

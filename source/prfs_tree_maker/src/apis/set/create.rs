@@ -16,6 +16,8 @@ pub async fn create_set(db: &Database, set_json: &SetJson) -> Result<PrfsSet, Tr
         cardinality: set_json.set.cardinality,
         merkle_root: set_json.set.merkle_root.to_string(),
         element_type: set_json.set.element_type.to_string(),
+        elliptic_curve: set_json.set.elliptic_curve.to_string(),
+        finite_field: set_json.set.finite_field.to_string(),
         created_at,
     };
 

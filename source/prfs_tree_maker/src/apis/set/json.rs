@@ -21,6 +21,8 @@ pub struct SetDetail {
     pub cardinality: i64,
     pub created_at: String,
     pub merkle_root: String,
+    pub elliptic_curve: String,
+    pub finite_field: String,
 }
 
 pub fn require_set_json(set_json_path: &String) -> SetJson {

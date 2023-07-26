@@ -34,8 +34,11 @@ impl Database {
                     r.try_get("hash_algorithm").expect("invalid hash_algorithm");
                 let cardinality: i64 = r.try_get("cardinality").expect("invalid cardinality");
                 let created_at: NaiveDate = r.try_get("created_at").expect("invalid created_at");
-                let merkle_root: String = r.try_get("merkle_root").expect("invalid merkle root");
-                let element_type: String = r.try_get("element_type").expect("invalid element type");
+                let merkle_root: String = r.try_get("merkle_root").expect("invalid merkle_root");
+                let element_type: String = r.try_get("element_type").expect("invalid element_type");
+                let elliptic_curve: String =
+                    r.try_get("elliptic_curve").expect("invalid element_curve");
+                let finite_field: String = r.try_get("finite_field").expect("invalid finite_field");
 
                 PrfsSet {
                     set_id,
@@ -47,6 +50,8 @@ impl Database {
                     created_at,
                     merkle_root,
                     element_type,
+                    elliptic_curve,
+                    finite_field,
                 }
             })
             .collect();
@@ -68,6 +73,8 @@ impl Database {
             PrfsSet::cardinality(),
             PrfsSet::merkle_root(),
             PrfsSet::element_type(),
+            PrfsSet::elliptic_curve(),
+            PrfsSet::finite_field(),
         ]);
 
         let vals = concat_values(&[
@@ -79,6 +86,8 @@ impl Database {
             &prfs_set.cardinality.to_string(),
             &prfs_set.merkle_root,
             &prfs_set.element_type,
+            &prfs_set.elliptic_curve,
+            &prfs_set.finite_field,
         ]);
 
         let stmt = if update_on_conflict {

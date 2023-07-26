@@ -27,6 +27,7 @@ export default {
   choose_proof_type: "Choose a proof type",
   connect_wallet: "Connect a wallet of your choice",
   wallet: "Wallet",
+  element_type: "Element type",
   merkle_root: "Merkle root",
   prfs: "Prfs",
   metamask: "Metamask",

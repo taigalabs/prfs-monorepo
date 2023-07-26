@@ -24,7 +24,8 @@ pub struct CircuitBuildDetail {
     pub circuit_dsl: String,
     pub arithmetization: String,
     pub proof_algorithm: String,
-    pub proof_curve: String,
+    pub elliptic_curve: String,
+    pub finite_field: String,
     pub num_public_inputs: usize,
 
     pub instance_path: String,
@@ -48,5 +49,6 @@ pub struct CircuitDetail {
     pub circuit_dsl: String,
     pub arithmetization: String,
     pub proof_algorithm: String,
-    pub proof_curve: String,
+    pub elliptic_curve: String,
+    pub finite_field: String,
 }

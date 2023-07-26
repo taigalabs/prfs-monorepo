@@ -21,6 +21,7 @@ import ColumnarSummary, {
   ColumnarSummaryCellHeader,
   ColumnarSummaryColumn,
 } from "@/components/columnal_summary/ColumnarSummary";
+import { useRouter } from "next/navigation";
 
 const SetSummary: React.FC<SetSummaryProps> = ({ set }) => {
   const i18n = React.useContext(i18nContext);
@@ -37,12 +38,17 @@ const SetSummary: React.FC<SetSummaryProps> = ({ set }) => {
             <ColumnarSummaryCellHeader>{i18n.label}</ColumnarSummaryCellHeader>
             <div>{set.label}</div>
           </ColumnarSummaryCell>
-        </ColumnarSummaryColumn>
-        <ColumnarSummaryColumn>
           <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.author}</ColumnarSummaryCellHeader>
-            <div>{set.author}</div>
+            <ColumnarSummaryCellHeader>{i18n.cardinality}</ColumnarSummaryCellHeader>
+            <div>{set.cardinality}</div>
           </ColumnarSummaryCell>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.element_type}</ColumnarSummaryCellHeader>
+            <div>{set.element_type}</div>
+          </ColumnarSummaryCell>
+        </ColumnarSummaryColumn>
+
+        <ColumnarSummaryColumn>
           <ColumnarSummaryCell>
             <ColumnarSummaryCellHeader>{i18n.description}</ColumnarSummaryCellHeader>
             <div>{set.desc}</div>
@@ -51,19 +57,20 @@ const SetSummary: React.FC<SetSummaryProps> = ({ set }) => {
             <ColumnarSummaryCellHeader>{i18n.hash_algorithm}</ColumnarSummaryCellHeader>
             <div>{set.hash_algorithm}</div>
           </ColumnarSummaryCell>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.merkle_root}</ColumnarSummaryCellHeader>
+            <div>{set.merkle_root}</div>
+          </ColumnarSummaryCell>
         </ColumnarSummaryColumn>
+
         <ColumnarSummaryColumn>
           <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.cardinality}</ColumnarSummaryCellHeader>
-            <div>{set.cardinality}</div>
+            <ColumnarSummaryCellHeader>{i18n.author}</ColumnarSummaryCellHeader>
+            <div>{set.author}</div>
           </ColumnarSummaryCell>
           <ColumnarSummaryCell>
             <ColumnarSummaryCellHeader>{i18n.created_at}</ColumnarSummaryCellHeader>
             <div>{set.created_at}</div>
-          </ColumnarSummaryCell>
-          <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.merkle_root}</ColumnarSummaryCellHeader>
-            <div>{set.merkle_root}</div>
           </ColumnarSummaryCell>
         </ColumnarSummaryColumn>
       </ColumnarSummary>
@@ -76,6 +83,7 @@ const Set: React.FC<SetProps> = ({ params }) => {
   const { dispatch } = React.useContext(stateContext);
 
   useLocalWallet(dispatch);
+  const router = useRouter();
 
   const [set, setSet] = React.useState<Set>();
   React.useEffect(() => {
@@ -89,6 +97,8 @@ const Set: React.FC<SetProps> = ({ params }) => {
 
         if (sets.length > 0) {
           setSet(sets[0]);
+        } else {
+          router.push("/sets");
         }
       });
   }, [setSet]);

@@ -9,7 +9,8 @@
       "circuit_dsl": "circom 2",
       "arithmetization": "R1CS",
       "proof_algorithm": "Spartan",
-      "proof_curve": "Secp256k1"
+      "elliptic_curve": "Secp256k1",
+      "finite_field": "Z_(2^256-2^32-977)"
     }
   }
 }
