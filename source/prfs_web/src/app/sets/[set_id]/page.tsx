@@ -17,26 +17,28 @@ import SetElementTable from "@/components/set_element_table/SetElementTable";
 import prfsBackend from "@/fetch/prfsBackend";
 import { Set } from "@/models/index";
 
-const SetSummary = () => {
+const SetSummary: React.FC<SetSummaryProps> = ({ set }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
-    <div className={styles.setSummaryWrapper}>
-      <div className={styles.col}>
-        <div className={styles.cell}>
-          <div className={styles.cellHeader}>{i18n.set_id}</div>
-          <div>power</div>
+    set && (
+      <div className={styles.setSummaryWrapper}>
+        <div className={styles.col}>
+          <div className={styles.cell}>
+            <div className={styles.cellHeader}>{i18n.set_id}</div>
+            <div>{set.set_id}</div>
+          </div>
+        </div>
+        <div className={styles.col}>
+          <div className={styles.cell}>cellb1</div>
+          <div className={styles.cell}>cellb2</div>
+          <div className={styles.cell}>cellb3</div>
+        </div>
+        <div className={styles.col}>
+          <div className={styles.cell}>cell</div>
         </div>
       </div>
-      <div className={styles.col}>
-        <div className={styles.cell}>cellb1</div>
-        <div className={styles.cell}>cellb2</div>
-        <div className={styles.cell}>cellb3</div>
-      </div>
-      <div className={styles.col}>
-        <div className={styles.cell}>cell</div>
-      </div>
-    </div>
+    )
   );
 };
 
@@ -55,7 +57,6 @@ const Set: React.FC<SetProps> = ({ params }) => {
       })
       .then(resp => {
         const { sets } = resp.payload;
-        console.log(11, sets);
 
         if (sets.length > 0) {
           setSet(sets[0]);
@@ -75,7 +76,7 @@ const Set: React.FC<SetProps> = ({ params }) => {
       <CardRow>
         <Card>
           <Widget label={`${i18n.set} - ${params.set_id}`}>
-            <SetSummary />
+            <SetSummary set={set} />
             <SetElementTable />
           </Widget>
         </Card>
@@ -90,4 +91,8 @@ interface SetProps {
   params: {
     set_id: string;
   };
+}
+
+interface SetSummaryProps {
+  set: Set;
 }

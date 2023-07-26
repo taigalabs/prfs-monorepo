@@ -7,8 +7,10 @@ use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "camelCase")]
-struct GetSetsRequest {}
+struct GetSetsRequest {
+    page: usize,
+    set_id: Option<String>,
+}
 
 #[derive(Serialize, Deserialize, Debug)]
 struct GetSetsRespPayload {
@@ -22,10 +24,15 @@ pub async fn get_sets(req: Request<Body>) -> Result<Response<Body>, Infallible> 
 
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let _req =
+    let req =
         serde_json::from_str::<GetSetsRequest>(&body_str).expect("req request should be parsable");
 
-    let where_clause = format!("");
+    let mut where_clause = String::new();
+
+    if let Some(set_id) = req.set_id {
+        where_clause = format!("where set_id='{}'", &set_id);
+    }
+
     let sets = state.db.get_prfs_sets(&where_clause).await.unwrap();
 
     let resp = ApiResponse::new_success(GetSetsRespPayload { page: 0, sets });
