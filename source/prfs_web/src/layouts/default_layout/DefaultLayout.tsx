@@ -17,7 +17,7 @@ const DefaultLayout: React.FC<any> = ({ children }) => {
       <Masthead />
       <div className={styles.bottom}>
         <LeftBar />
-        <div className={styles.right}>{children}</div>
+        <div className={styles.contentArea}>{children}</div>
       </div>
     </div>
   );
