@@ -1,11 +1,18 @@
 use super::json::SetJson;
 use crate::TreeMakerError;
 use colored::Colorize;
-use prfs_db_interface::{database::Database, models::PrfsTreeNode};
+use prfs_db_interface::{
+    database::Database,
+    models::{PrfsSet, PrfsTreeNode},
+};
 use rust_decimal::Decimal;
 use std::time::SystemTime;
 
-pub async fn create_tree_nodes(db: &Database, set_json: &SetJson) -> Result<(), TreeMakerError> {
+pub async fn create_tree_nodes(
+    db: &Database,
+    set_json: &SetJson,
+    prfs_set: &mut PrfsSet,
+) -> Result<String, TreeMakerError> {
     let set_label = set_json.set.label.to_string();
     let depth = set_json.set.tree_depth as usize;
     let set_id = set_json.set.set_id.to_string();
@@ -53,6 +60,7 @@ pub async fn create_tree_nodes(db: &Database, set_json: &SetJson) -> Result<(), 
         .collect();
 
     let mut count = 0;
+    let mut parent_nodes = vec![];
     for d in 0..depth {
         println!("processing depth: {}", d);
 
@@ -65,7 +73,7 @@ pub async fn create_tree_nodes(db: &Database, set_json: &SetJson) -> Result<(), 
 
         // println!("parent: {:?}", parent);
 
-        let mut parent_nodes = vec![];
+        parent_nodes = vec![];
         for (idx, node) in parent.iter().enumerate() {
             // println!("node: {:?}, idx: {}", node, idx);
             let val = prfs_crypto::convert_32bytes_into_decimal_string(node).unwrap();
@@ -96,9 +104,19 @@ pub async fn create_tree_nodes(db: &Database, set_json: &SetJson) -> Result<(), 
         // break;
     }
 
-    println!("{} tree nodes, total count: {}", "Created".green(), count);
+    let merkle_root = parent_nodes[0].val.to_string();
 
-    Ok(())
+    println!(
+        "{} tree nodes, total count: {}, merkle_root: {:?}",
+        "Created".green(),
+        count,
+        merkle_root,
+    );
+
+    prfs_set.merkle_root = merkle_root.to_string();
+    db.insert_prfs_set(&prfs_set, true).await.unwrap();
+
+    Ok(merkle_root)
 }
 
 fn require_last_leaf_have_correct_pos(leaves: &Vec<PrfsTreeNode>) {

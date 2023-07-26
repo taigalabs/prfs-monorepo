@@ -15,9 +15,11 @@ pub async fn create_set(_sub_matches: &ArgMatches) {
     let set_json_path = &ENVS.set_json_path;
     let set_json = json::require_set_json(set_json_path);
 
-    let prfs_set = create::create_set(&db, &set_json).await.unwrap();
-    leaf::create_leaves_without_offset(&db, &set_json, prfs_set)
+    let mut prfs_set = create::create_set(&db, &set_json).await.unwrap();
+    leaf::create_leaves_without_offset(&db, &set_json, &mut prfs_set)
         .await
         .unwrap();
-    climb::create_tree_nodes(&db, &set_json).await.unwrap();
+    climb::create_tree_nodes(&db, &set_json, &mut prfs_set)
+        .await
+        .unwrap();
 }

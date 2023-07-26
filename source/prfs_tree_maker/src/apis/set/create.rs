@@ -3,11 +3,9 @@ use crate::TreeMakerError;
 use chrono::NaiveDate;
 use colored::Colorize;
 use prfs_db_interface::{database::Database, models::PrfsSet};
-use rust_decimal::Decimal;
 
 pub async fn create_set(db: &Database, set_json: &SetJson) -> Result<PrfsSet, TreeMakerError> {
     let created_at = parse_date(&set_json.set.created_at);
-    // NaiveDate::from_ymd_opt(year, month, day);
 
     let prfs_set = PrfsSet {
         set_id: set_json.set.set_id.to_string(),
@@ -17,6 +15,7 @@ pub async fn create_set(db: &Database, set_json: &SetJson) -> Result<PrfsSet, Tr
         hash_algorithm: set_json.set.hash_algorithm.to_string(),
         cardinality: set_json.set.cardinality,
         merkle_root: set_json.set.merkle_root.to_string(),
+        element_type: set_json.set.element_type.to_string(),
         created_at,
     };
 
@@ -28,6 +27,12 @@ pub async fn create_set(db: &Database, set_json: &SetJson) -> Result<PrfsSet, Tr
     );
 
     let set_id = db.insert_prfs_set(&prfs_set, false).await.unwrap();
+    assert!(
+        set_id.len() > 0,
+        "Set needs to be inserted, set_id: {}",
+        set_json.set.set_id
+    );
+
     println!("Inserted prfs_set, id: {:?}", set_id);
 
     Ok(prfs_set)

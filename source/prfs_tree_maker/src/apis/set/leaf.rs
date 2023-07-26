@@ -11,7 +11,7 @@ use std::time::SystemTime;
 pub async fn create_leaves_without_offset(
     db: &Database,
     set_json: &SetJson,
-    mut prfs_set: PrfsSet,
+    prfs_set: &mut PrfsSet,
 ) -> Result<(), TreeMakerError> {
     let set_id = set_json.set.set_id.to_string();
 
@@ -70,7 +70,6 @@ pub async fn create_leaves_without_offset(
     );
 
     prfs_set.cardinality = count as i64;
-
     db.insert_prfs_set(&prfs_set, true).await.unwrap();
 
     Ok(())

@@ -1,6 +1,6 @@
 use crate::{
     database::Database,
-    models::{PrfsAccount, PrfsSet},
+    models::PrfsSet,
     utils::{concat_cols, concat_values},
     DbInterfaceError,
 };
@@ -35,6 +35,7 @@ impl Database {
                 let cardinality: i64 = r.try_get("cardinality").expect("invalid cardinality");
                 let created_at: NaiveDate = r.try_get("created_at").expect("invalid created_at");
                 let merkle_root: String = r.try_get("merkle_root").expect("invalid merkle root");
+                let element_type: String = r.try_get("element_type").expect("invalid element type");
 
                 PrfsSet {
                     set_id,
@@ -45,6 +46,7 @@ impl Database {
                     cardinality,
                     created_at,
                     merkle_root,
+                    element_type,
                 }
             })
             .collect();
@@ -64,6 +66,8 @@ impl Database {
             PrfsSet::desc(),
             PrfsSet::hash_algorithm(),
             PrfsSet::cardinality(),
+            PrfsSet::merkle_root(),
+            PrfsSet::element_type(),
         ]);
 
         let vals = concat_values(&[
@@ -73,13 +77,15 @@ impl Database {
             &prfs_set.desc,
             &prfs_set.hash_algorithm,
             &prfs_set.cardinality.to_string(),
+            &prfs_set.merkle_root,
+            &prfs_set.element_type,
         ]);
 
         let stmt = if update_on_conflict {
             format!(
                 "INSERT INTO {} ({}) VALUES ({}) \
                 ON CONFLICT ({}) DO UPDATE SET cardinality = excluded.cardinality, \
-                updated_at = now() returning set_id",
+                merkle_root = excluded.merkle_root, updated_at = now() returning set_id",
                 PrfsSet::__table_name(),
                 cols,
                 vals,

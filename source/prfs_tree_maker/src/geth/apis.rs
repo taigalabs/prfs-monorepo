@@ -5,10 +5,8 @@ use super::{
 use crate::geth::io_models::{GetBalanceRequest, GetBalanceResponse};
 use crate::make_request_type;
 use crate::TreeMakerError;
-use hyper::body::HttpBody;
 use hyper::{client::HttpConnector, Body, Client as HyperClient, Method, Request};
 use hyper_tls::HttpsConnector;
-use serde_json::json;
 
 pub struct GethClient {
     pub hyper_client: HyperClient<HttpsConnector<HttpConnector>>,

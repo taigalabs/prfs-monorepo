@@ -12,6 +12,7 @@ pub struct PrfsSet {
     pub cardinality: i64,
     pub created_at: NaiveDate,
     pub merkle_root: String,
+    pub element_type: String,
 }
 
 impl PrfsSet {
@@ -45,5 +46,9 @@ impl PrfsSet {
 
     pub fn merkle_root() -> &'static str {
         "merkle_root"
+    }
+
+    pub fn element_type() -> &'static str {
+        "element_type"
     }
 }

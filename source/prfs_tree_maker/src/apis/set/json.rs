@@ -1,6 +1,5 @@
 use crate::paths::PATHS;
 use colored::Colorize;
-use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -18,6 +17,7 @@ pub struct SetDetail {
     pub where_clause: String,
     pub tree_depth: u32,
     pub hash_algorithm: String,
+    pub element_type: String,
     pub cardinality: i64,
     pub created_at: String,
     pub merkle_root: String,
