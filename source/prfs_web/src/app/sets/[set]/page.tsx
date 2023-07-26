@@ -1,11 +1,12 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { ethers } from "ethers";
 import { useRouter } from "next/navigation";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
-import styles from "./Sets.module.scss";
+import styles from "./Set.module.scss";
 import { stateContext } from "@/contexts/state";
 import Table, { TableData } from "@/components/table/Table";
 import Widget from "@/components/widget/Widget";
@@ -27,10 +28,11 @@ const Set: React.FC<SetProps> = ({ params }) => {
   return (
     <DefaultLayout>
       <Breadcrumb>
-        <div>55</div>
+        <div>
+          <Link href="/sets">{i18n.sets}</Link>
+        </div>
         <ArrowForwardIosIcon />
-        <div>55</div>
-        <ArrowForwardIosIcon />
+        <div className={styles.here}>{params.set}</div>
       </Breadcrumb>
       <CardRow>
         <Card>

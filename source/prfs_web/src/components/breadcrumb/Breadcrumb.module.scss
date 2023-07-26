@@ -1,7 +1,18 @@
 .wrapper {
   display: flex;
+  align-items: center;
   margin: 20px 45px 12px;
 
+  > div {
+    margin-right: 10px;
+  }
+
+  > svg {
+    margin-right: 10px;
+    color: var(--gray-30);
+  }
+
   a {
+    color: var(--green-50);
   }
 }
