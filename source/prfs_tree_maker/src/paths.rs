@@ -11,20 +11,20 @@ pub struct Paths {
     pub manifest_dir: PathBuf,
     pub log_files: PathBuf,
     pub sets: PathBuf,
-    pub scan: PathBuf,
+    pub scans: PathBuf,
 }
 
 impl Paths {
     pub fn new() -> Paths {
         let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         let log_files = manifest_dir.join("log_files");
-        let scan = manifest_dir.join("scan");
+        let scans = manifest_dir.join("scans");
         let sets = manifest_dir.join("sets");
 
         let p = Paths {
             manifest_dir,
             log_files,
-            scan,
+            scans,
             sets,
         };
 

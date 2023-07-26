@@ -1,6 +1,7 @@
 {
   "circuits": {
     "addr_membership2": {
+      "circuit_id": "addr_membership2_1",
       "label": "addr_membership2",
       "author": "SYSTEM_NATIVE",
       "instance_path": "instances/addr_membership2.circom",

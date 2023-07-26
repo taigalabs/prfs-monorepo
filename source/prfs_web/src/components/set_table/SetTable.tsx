@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 
 import styles from "./SetTable.module.scss";
-import Table, { TableData, TableKeys } from "@/components/table/Table";
+import Table, { TableRow, TableHeader, TableData, TableKeys } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
 
@@ -13,7 +13,7 @@ const SetTable: React.FC = () => {
 
   const createHeader = React.useCallback((keys: TableKeys<SetTableKeys>) => {
     return (
-      <div className={styles.tableHeader}>
+      <TableHeader>
         <div key={keys[0]} className={styles.set_id}>
           {i18n.set_id}
         </div>
@@ -32,7 +32,7 @@ const SetTable: React.FC = () => {
         <div key={keys[5]} className={styles.createdAt}>
           {i18n.created_at}
         </div>
-      </div>
+      </TableHeader>
     );
   }, []);
 
@@ -48,7 +48,7 @@ const SetTable: React.FC = () => {
 
       for (let val of values) {
         let row = (
-          <div key={val.set_id} className={styles.tableRow}>
+          <TableRow key={val.set_id}>
             <div key={keys.set_id} className={styles.set_id}>
               <Link href={`/sets/${val.set_id}`}>{val.set_id}</Link>
             </div>
@@ -67,7 +67,7 @@ const SetTable: React.FC = () => {
             <div key={keys.created_at} className={styles.createdAt}>
               {val.created_at}
             </div>
-          </div>
+          </TableRow>
         );
 
         rows.push(row);

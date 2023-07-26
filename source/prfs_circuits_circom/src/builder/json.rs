@@ -16,7 +16,7 @@ pub struct BuildJson {
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct CircuitBuildDetail {
-    pub id: usize,
+    pub circuit_id: String,
     pub label: String,
     pub desc: String,
     pub created_at: String,
@@ -41,6 +41,7 @@ pub struct CircuitsJson {
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct CircuitDetail {
+    pub circuit_id: String,
     pub label: String,
     pub instance_path: String,
     pub author: String,

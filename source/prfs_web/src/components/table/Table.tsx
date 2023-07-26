@@ -6,6 +6,14 @@ export const TableCurrentPageLimitWarning: React.FC = () => {
   return <div className={styles.pageLimitWarning}>Currently showing up to 20 elements</div>;
 };
 
+export const TableHeader: React.FC<TableHeaderProps> = ({ children }) => {
+  return <div className={styles.tableHeaderWrapper}>{children}</div>;
+};
+
+export const TableRow: React.FC<TableRowProps> = ({ children }) => {
+  return <div className={styles.tableRowWrapper}>{children}</div>;
+};
+
 function Table<T extends string>({ keys, createHeader, createBody, onChangePage }: TableProps<T>) {
   const [data, setValues] = React.useState({ page: 0, values: [] });
 
@@ -35,8 +43,8 @@ function Table<T extends string>({ keys, createHeader, createBody, onChangePage 
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.tableHeaderWrapper}>{headerElems}</div>
-      <div className={styles.tableBodyWrapper}>{bodyElems}</div>
+      {headerElems}
+      <div>{bodyElems}</div>
     </div>
   );
 }
@@ -62,3 +70,11 @@ export type TableData<T extends string> = {
 type ObjectFromList<T extends ReadonlyArray<string>, V = string> = {
   [K in T extends ReadonlyArray<infer U> ? U : never]: V;
 };
+
+export interface TableHeaderProps {
+  children: React.ReactNode;
+}
+
+export interface TableRowProps {
+  children: React.ReactNode;
+}

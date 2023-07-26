@@ -118,7 +118,7 @@ fn compile_circuits(circuit: &CircuitDetail) {
 
 fn create_build_json(circuits_json: &CircuitsJson, timestamp: i64) {
     let mut circuit_builds = HashMap::new();
-    for (idx, (name, circuit)) in circuits_json.circuits.iter().enumerate() {
+    for (name, circuit) in &circuits_json.circuits {
         let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen, timestamp);
         let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan, timestamp);
         let circuit_src_path = get_path_segment(&circuit, FileKind::Source, timestamp);
@@ -127,7 +127,7 @@ fn create_build_json(circuits_json: &CircuitsJson, timestamp: i64) {
         let datetime: DateTime<Utc> = DateTime::from_utc(naive, Utc);
 
         let circuit_build_json = CircuitBuildDetail {
-            id: idx,
+            circuit_id: circuit.circuit_id.to_string(),
             label: circuit.label.to_string(),
             author: circuit.author.to_string(),
             desc: circuit.desc.to_string(),

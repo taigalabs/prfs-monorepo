@@ -1,5 +1,5 @@
 export interface PrfsCircuit {
-  id: number;
+  circuit_id: number;
   label: string;
   author: string;
   num_public_inputs: number;

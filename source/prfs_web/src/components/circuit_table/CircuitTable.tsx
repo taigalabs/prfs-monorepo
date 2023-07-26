@@ -3,7 +3,7 @@
 import React from "react";
 
 import styles from "./CircuitTable.module.scss";
-import Table, { TableData, TableKeys } from "@/components/table/Table";
+import Table, { TableRow, TableData, TableHeader, TableKeys } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
 
@@ -12,8 +12,8 @@ const CircuitTable: React.FC = () => {
 
   const createHeader = React.useCallback((keys: TableKeys<CircuitTableKeys>) => {
     return (
-      <div className={styles.tableHeader}>
-        <div key={keys.id} className={styles.id}>
+      <TableHeader>
+        <div key={keys.circuit_id} className={styles.id}>
           {i18n.id}
         </div>
         <div key={keys.label} className={styles.label}>
@@ -31,7 +31,7 @@ const CircuitTable: React.FC = () => {
         <div key={keys.created_at} className={styles.createdAt}>
           {i18n.created_at}
         </div>
-      </div>
+      </TableHeader>
     );
   }, []);
 
@@ -47,9 +47,9 @@ const CircuitTable: React.FC = () => {
 
       for (let val of values) {
         let row = (
-          <div key={val.id} className={styles.tableRow}>
-            <div key={keys.id} className={styles.id}>
-              {val.id}
+          <TableRow key={val.circuit_id}>
+            <div key={keys.circuit_id} className={styles.id}>
+              {val.circuit_id}
             </div>
             <div key={keys.label} className={styles.label}>
               {val.label}
@@ -66,7 +66,7 @@ const CircuitTable: React.FC = () => {
             <div key={keys.created_at} className={styles.createdAt}>
               {val.created_at}
             </div>
-          </div>
+          </TableRow>
         );
 
         rows.push(row);
@@ -104,7 +104,7 @@ const CircuitTable: React.FC = () => {
 export default CircuitTable;
 
 const CIRCUIT_TABLE_KEYS = [
-  "id",
+  "circuit_id",
   "label",
   "author",
   "num_public_inputs",

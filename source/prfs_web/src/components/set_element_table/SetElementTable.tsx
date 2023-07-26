@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 
 import styles from "./SetElementTable.module.scss";
-import Table, { TableData, TableKeys } from "@/components/table/Table";
+import Table, { TableRow, TableData, TableHeader, TableKeys } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
 
@@ -13,14 +13,14 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId }) => {
 
   const createHeader = React.useCallback((keys: TableKeys<SetElementTableKeys>) => {
     return (
-      <div className={styles.tableHeader}>
+      <TableHeader>
         <div key={keys[0]} className={styles.id}>
           {i18n.id}
         </div>
         <div key={keys[1]} className={styles.val}>
           {i18n.value}
         </div>
-      </div>
+      </TableHeader>
     );
   }, []);
 
@@ -36,24 +36,20 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId }) => {
 
       for (let val of values) {
         let row = (
-          <div key={val.pos_w} className={styles.tableRow}>
+          <TableRow key={val.pos_w}>
             <div key={keys.pos_w} className={styles.id}>
               {val.pos_w}
             </div>
             <div key={keys.val} className={styles.val}>
               {val.val}
             </div>
-          </div>
+          </TableRow>
         );
 
         rows.push(row);
       }
 
-      return (
-        <div className={styles.tableBody} key={page}>
-          {rows}
-        </div>
-      );
+      return <div key={page}>{rows}</div>;
     },
     []
   );
