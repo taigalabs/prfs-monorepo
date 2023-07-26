@@ -45,7 +45,7 @@ const CircuitSummary: React.FC<CircuitSummaryProps> = ({ circuit }) => {
   );
 };
 
-const Set: React.FC<SetProps> = ({ params }) => {
+const Circuit: React.FC<CircuitProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
   const { dispatch } = React.useContext(stateContext);
 
@@ -74,7 +74,7 @@ const Set: React.FC<SetProps> = ({ params }) => {
     <DefaultLayout>
       <Breadcrumb>
         <div>
-          <Link href="/circuits">{i18n.sets}</Link>
+          <Link href="/circuits">{i18n.circuits}</Link>
         </div>
         <ArrowForwardIosIcon />
         <div className={styles.here}>{params.circuit_id}</div>
@@ -98,9 +98,9 @@ const Set: React.FC<SetProps> = ({ params }) => {
   );
 };
 
-export default Set;
+export default Circuit;
 
-interface SetProps {
+interface CircuitProps {
   params: {
     circuit_id: string;
   };
