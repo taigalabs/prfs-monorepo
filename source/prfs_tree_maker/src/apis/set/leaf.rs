@@ -12,7 +12,7 @@ pub async fn create_leaves_without_offset(
     db: &Database,
     set_json: &SetJson,
     prfs_set: &mut PrfsSet,
-) -> Result<(), TreeMakerError> {
+) -> Result<u64, TreeMakerError> {
     let set_id = set_json.set.set_id.to_string();
 
     let set_insert_interval = ENVS.set_insert_interval;
@@ -36,11 +36,11 @@ pub async fn create_leaves_without_offset(
         accounts.len(),
     );
 
-    if accounts.len() < 1 {
-        println!("No account has been returned. Exiting...");
-
-        return Ok(());
-    }
+    assert!(
+        accounts.len() < 1,
+        "no account to create as leaves, set_id: {}",
+        set_id
+    );
 
     let mut nodes = vec![];
 
@@ -76,5 +76,5 @@ pub async fn create_leaves_without_offset(
     prfs_set.cardinality = updated_count as i64;
     db.insert_prfs_set(&prfs_set, true).await.unwrap();
 
-    Ok(())
+    Ok(updated_count)
 }

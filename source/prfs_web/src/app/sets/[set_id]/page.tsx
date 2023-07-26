@@ -58,6 +58,14 @@ const SetSummary: React.FC<SetSummaryProps> = ({ set }) => {
             <div>{set.hash_algorithm}</div>
           </ColumnarSummaryCell>
           <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.elliptic_curve}</ColumnarSummaryCellHeader>
+            <div>{set.elliptic_curve}</div>
+          </ColumnarSummaryCell>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.finite_field}</ColumnarSummaryCellHeader>
+            <div>{set.finite_field}</div>
+          </ColumnarSummaryCell>
+          <ColumnarSummaryCell>
             <ColumnarSummaryCellHeader>{i18n.merkle_root}</ColumnarSummaryCellHeader>
             <div>{set.merkle_root}</div>
           </ColumnarSummaryCell>

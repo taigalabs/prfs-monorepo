@@ -28,6 +28,8 @@ export default {
   connect_wallet: "Connect a wallet of your choice",
   wallet: "Wallet",
   element_type: "Element type",
+  elliptic_curve: "Elliptic curve",
+  finite_field: "Finite field",
   merkle_root: "Merkle root",
   prfs: "Prfs",
   metamask: "Metamask",
