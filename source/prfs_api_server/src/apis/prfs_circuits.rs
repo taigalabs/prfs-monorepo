@@ -6,7 +6,6 @@ use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "camelCase")]
 struct GetCircuitsRequest {
     page: u32,
     circuit_id: Option<String>,

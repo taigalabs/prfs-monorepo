@@ -9,7 +9,6 @@ use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "camelCase")]
 struct SignUpRequest {
     sig: String,
 }

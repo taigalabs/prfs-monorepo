@@ -86,14 +86,6 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
           </Widget>
         </Card>
       </CardRow>
-      <CardRow>
-        <Card>
-          <Widget label={`${i18n.elements} - ${params.circuit_id}`}>
-            <TableCurrentPageLimitWarning />
-            <SetElementTable setId={params.circuit_id} />
-          </Widget>
-        </Card>
-      </CardRow>
     </DefaultLayout>
   );
 };
