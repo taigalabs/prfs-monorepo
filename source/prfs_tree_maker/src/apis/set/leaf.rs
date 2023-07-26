@@ -58,7 +58,7 @@ pub async fn create_leaves_without_offset(
     let updated_count = db.insert_prfs_tree_nodes(&nodes, false).await?;
 
     println!(
-        "{} a set, set_id: {}, updated_count: {}, acocunts len: {}",
+        "{} a set, set_id: {}, updated_count: {}, accounts len: {}",
         "Created".green(),
         set_id,
         updated_count,
