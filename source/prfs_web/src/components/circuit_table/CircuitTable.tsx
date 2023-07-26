@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 
 import styles from "./CircuitTable.module.scss";
 import Table, { TableRow, TableData, TableHeader, TableKeys } from "@/components/table/Table";
@@ -49,7 +50,7 @@ const CircuitTable: React.FC = () => {
         let row = (
           <TableRow key={val.circuit_id}>
             <div key={keys.circuit_id} className={styles.circuit_id}>
-              {val.circuit_id}
+              <Link href={`/circuits/${val.circuit_id}`}>{val.circuit_id}</Link>
             </div>
             <div key={keys.label} className={styles.label}>
               {val.label}
@@ -79,14 +80,14 @@ const CircuitTable: React.FC = () => {
 
   const handleChangeProofPage = React.useCallback(async (page: number) => {
     return prfsBackend
-      .getNativeCircuits({
+      .getPrfsNativeCircuits({
         page,
       })
       .then(resp => {
-        const { page, circuits } = resp.payload;
+        const { page, prfs_circuits } = resp.payload;
         return {
           page,
-          values: circuits,
+          values: prfs_circuits,
         };
       });
   }, []);
