@@ -24,7 +24,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId }) => {
     );
   }, []);
 
-  const createRows = React.useCallback(
+  const createBody = React.useCallback(
     (keys: TableKeys<SetElementTableKeys>, data: TableData<SetElementTableKeys>) => {
       // console.log(1, data);
       let { page, values } = data;
@@ -49,7 +49,11 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId }) => {
         rows.push(row);
       }
 
-      return <div key={page}>{rows}</div>;
+      return (
+        <div className={styles.tableBody} key={page}>
+          {rows}
+        </div>
+      );
     },
     []
   );
@@ -59,6 +63,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId }) => {
       return prfsBackend
         .getSetElements({
           page,
+          limit: 20,
           set_id: setId,
         })
         .then(resp => {
@@ -76,7 +81,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId }) => {
     <Table
       keys={SET_ELEMENT_TABLE_KEYS}
       createHeader={createHeader}
-      createRows={createRows}
+      createBody={createBody}
       onChangePage={handleChangePage}
     />
   );

@@ -36,7 +36,7 @@ const SetTable: React.FC = () => {
     );
   }, []);
 
-  const createRows = React.useCallback(
+  const createBody = React.useCallback(
     (keys: TableKeys<SetTableKeys>, data: TableData<SetTableKeys>) => {
       // console.log(1, data);
       let { page, values } = data;
@@ -96,7 +96,7 @@ const SetTable: React.FC = () => {
     <Table
       keys={SET_TABLE_KEYS}
       createHeader={createHeader}
-      createRows={createRows}
+      createBody={createBody}
       onChangePage={handleChangePage}
     />
   );

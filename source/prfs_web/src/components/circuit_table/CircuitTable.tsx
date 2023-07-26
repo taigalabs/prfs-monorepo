@@ -35,7 +35,7 @@ const CircuitTable: React.FC = () => {
     );
   }, []);
 
-  const createRows = React.useCallback(
+  const createBody = React.useCallback(
     (keys: TableKeys<CircuitTableKeys>, data: TableData<CircuitTableKeys>) => {
       // console.log(1, data);
       let { page, values } = data;
@@ -95,7 +95,7 @@ const CircuitTable: React.FC = () => {
     <Table
       keys={CIRCUIT_TABLE_KEYS}
       createHeader={createHeader}
-      createRows={createRows}
+      createBody={createBody}
       onChangePage={handleChangeProofPage}
     />
   );

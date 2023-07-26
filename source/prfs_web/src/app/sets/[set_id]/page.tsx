@@ -22,6 +22,7 @@ import ColumnarSummary, {
   ColumnarSummaryColumn,
 } from "@/components/columnal_summary/ColumnarSummary";
 import { useRouter } from "next/navigation";
+import { TableCurrentPageLimitWarning } from "@/components/table/Table";
 
 const SetSummary: React.FC<SetSummaryProps> = ({ set }) => {
   const i18n = React.useContext(i18nContext);
@@ -130,6 +131,7 @@ const Set: React.FC<SetProps> = ({ params }) => {
       <CardRow>
         <Card>
           <Widget label={`${i18n.elements} - ${params.set_id}`}>
+            <TableCurrentPageLimitWarning />
             <SetElementTable setId={params.set_id} />
           </Widget>
         </Card>

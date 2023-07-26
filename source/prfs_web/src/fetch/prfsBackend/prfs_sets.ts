@@ -36,6 +36,7 @@ export async function getSets({ page, set_id }: GetSetsArgs) {
 
 export interface GetSetElementsRequest {
   page: number;
+  limit: number;
   set_id?: string;
 }
 
@@ -46,12 +47,14 @@ export type GetSetElementsResponse = PrfsApiResponse<{
 
 export interface GetSetElementsArgs {
   page: number;
+  limit: number;
   set_id?: string;
 }
 
-export async function getSetElements({ page, set_id }: GetSetElementsArgs) {
+export async function getSetElements({ page, set_id, limit }: GetSetElementsArgs) {
   let req: GetSetElementsRequest = {
     page,
+    limit,
     set_id,
   };
 
