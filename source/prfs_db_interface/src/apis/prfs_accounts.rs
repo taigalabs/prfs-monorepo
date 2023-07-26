@@ -6,7 +6,7 @@ impl Database {
         where_clause: &str,
     ) -> Result<Vec<PrfsAccount>, DbInterfaceError> {
         let stmt = format!(
-            "SELECT * from {} where {}",
+            "SELECT * from {} {}",
             PrfsAccount::table_name(),
             where_clause
         );

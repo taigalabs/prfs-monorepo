@@ -8,11 +8,11 @@ pub struct PrfsSet {
     pub author: String,
     pub desc: String,
     pub hash_algorithm: String,
-    pub cardinality: Decimal,
+    pub cardinality: i64,
 }
 
 impl PrfsSet {
-    pub fn _table_name() -> &'static str {
+    pub fn __table_name() -> &'static str {
         "prfs_sets"
     }
 

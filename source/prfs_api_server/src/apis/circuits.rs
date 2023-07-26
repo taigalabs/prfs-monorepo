@@ -1,12 +1,6 @@
-use crate::{
-    apis::prfs_account,
-    responses::{ApiResponse, ResponseCode},
-    state::ServerState,
-    ApiServerError,
-};
-use hyper::{body, header, Body, Request, Response, StatusCode};
+use crate::{responses::ApiResponse, state::ServerState};
+use hyper::{body, Body, Request, Response};
 use prfs_circuits_circom::CircuitBuildDetail;
-use prfs_db_interface::models::PrfsAccount;
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
@@ -33,7 +27,7 @@ pub async fn get_native_circuits(req: Request<Body>) -> Result<Response<Body>, I
         .expect("req request should be parsable");
 
     let mut circuits = vec![];
-    for (_, circuit_build) in &state.build_json.circuit_builds {
+    for (_, circuit_build) in &state.local_assets.build_json.circuit_builds {
         circuits.push(circuit_build.clone());
     }
 

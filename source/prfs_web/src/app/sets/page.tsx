@@ -12,8 +12,8 @@ import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
-import prfsBackend from "@/fetch/prfsBackend";
 import CircuitTable from "@/components/circuit_table/CircuitTable";
+import SetTable from "@/components/set_table/SetTable";
 
 const Sets: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -26,7 +26,7 @@ const Sets: React.FC = () => {
       <CardRow>
         <Card>
           <Widget label={i18n.sets}>
-            <CircuitTable />
+            <SetTable />
           </Widget>
         </Card>
       </CardRow>

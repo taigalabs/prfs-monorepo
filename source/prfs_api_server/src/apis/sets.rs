@@ -17,14 +17,12 @@ struct GetSetsRespPayload {
 }
 
 pub async fn get_sets(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    println!("get sets");
-
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
 
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let req =
+    let _req =
         serde_json::from_str::<GetSetsRequest>(&body_str).expect("req request should be parsable");
 
     let where_clause = format!("");

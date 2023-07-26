@@ -8,23 +8,50 @@ lazy_static! {
 
 #[derive(Deserialize, Debug)]
 pub struct Envs {
+    #[serde(default = "default_geth_endpoint")]
     pub geth_endpoint: String,
+
+    #[serde(default = "default_postgres_endpoint")]
     pub postgres_endpoint: String,
+
+    #[serde(default = "default_postgres_pw")]
     pub postgres_pw: String,
+
+    #[serde(default = "default_scan_json_path")]
     pub scan_json_path: String,
+
+    #[serde(default = "default_scan_update_on_conflict")]
     pub scan_update_on_conflict: bool,
+
+    #[serde(default = "default_scan_interval")]
     pub scan_interval: u64,
+
+    #[serde(default = "default_scan_balance_bucket_capacity")]
     pub scan_balance_bucket_capacity: usize,
+
+    #[serde(default = "default_scan_start_block")]
     pub scan_start_block: u64,
+
+    #[serde(default = "default_scan_end_block")]
     pub scan_end_block: u64,
+
+    #[serde(default = "default_set_json_path")]
     pub set_json_path: String,
+
+    #[serde(default = "default_set_offset")]
     pub set_offset: usize,
+
+    #[serde(default = "default_set_query_limit")]
     pub set_query_limit: usize,
+
+    #[serde(default = "default_set_insert_interval")]
     pub set_insert_interval: u64,
 }
 
 impl Envs {
     pub fn new() -> Envs {
+        dotenv::dotenv().unwrap();
+
         match envy::from_env::<Envs>() {
             Ok(envs) => {
                 println!("{} dot env {:#?}", "Loaded".green(), envs);
@@ -36,4 +63,56 @@ impl Envs {
     }
 
     pub fn check(&self) {}
+}
+
+fn default_geth_endpoint() -> String {
+    String::from("some endpoint")
+}
+
+fn default_set_offset() -> usize {
+    5000
+}
+
+fn default_postgres_endpoint() -> String {
+    String::from("some endpoint")
+}
+
+fn default_postgres_pw() -> String {
+    String::from("some pw")
+}
+
+fn default_scan_interval() -> u64 {
+    3000
+}
+
+fn default_scan_json_path() -> String {
+    String::from("scan/some_file.json")
+}
+
+fn default_set_json_path() -> String {
+    String::from("scan/some_file.json")
+}
+
+fn default_scan_end_block() -> u64 {
+    0
+}
+
+fn default_set_query_limit() -> usize {
+    10000
+}
+
+fn default_scan_start_block() -> u64 {
+    0
+}
+
+fn default_scan_update_on_conflict() -> bool {
+    true
+}
+
+fn default_set_insert_interval() -> u64 {
+    3000
+}
+
+fn default_scan_balance_bucket_capacity() -> usize {
+    5000
 }

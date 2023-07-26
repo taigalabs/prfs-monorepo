@@ -24,16 +24,16 @@ pub async fn sign_up(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     println!("sign up prfs");
 
     let state = req.data::<Arc<ServerState>>().unwrap();
-    let db = state.db.clone();
+    let state = state.clone();
 
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
     let sign_up_req = serde_json::from_str::<SignUpRequest>(&body_str)
         .expect("sign_up_req request should be parsable");
 
-    let where_clause = format!("sig = '{}'", sign_up_req.sig);
+    let where_clause = format!("where sig = '{}'", sign_up_req.sig);
 
-    let prfs_accounts = db.get_prfs_accounts(&where_clause).await.unwrap();
+    let prfs_accounts = state.db.get_prfs_accounts(&where_clause).await.unwrap();
 
     println!("prfs_accounts: {:?}", prfs_accounts);
 
@@ -48,7 +48,7 @@ pub async fn sign_up(req: Request<Body>) -> Result<Response<Body>, Infallible> {
         sig: sign_up_req.sig.to_string(),
     };
 
-    db.insert_prfs_account(&prfs_account).await.unwrap();
+    state.db.insert_prfs_account(&prfs_account).await.unwrap();
 
     let resp = ApiResponse::new_success(SignUpRespPayload {
         sig: prfs_account.sig.to_string(),
@@ -74,16 +74,16 @@ pub async fn sign_in(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     println!("sign in prfs");
 
     let state = req.data::<Arc<ServerState>>().unwrap();
-    let db = state.db.clone();
+    let state = state.clone();
 
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
     let sign_in_req = serde_json::from_str::<SignInRequest>(&body_str)
         .expect("sign_in_req request should be parsable");
 
-    let where_clause = format!("sig = '{}'", sign_in_req.sig);
+    let where_clause = format!("where sig = '{}'", sign_in_req.sig);
 
-    let prfs_accounts = db.get_prfs_accounts(&where_clause).await.unwrap();
+    let prfs_accounts = state.db.get_prfs_accounts(&where_clause).await.unwrap();
 
     if prfs_accounts.len() == 0 {
         println!("prfs_accounts: {:?}", prfs_accounts);

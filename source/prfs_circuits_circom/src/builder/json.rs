@@ -1,8 +1,5 @@
-use crate::paths::PATHS;
-use chrono::Utc;
-use colored::Colorize;
 use serde::{Deserialize, Serialize};
-use std::{collections::HashMap, io::Write, process::Command};
+use std::collections::HashMap;
 
 pub enum FileKind {
     Source,
@@ -24,11 +21,21 @@ pub struct CircuitBuildDetail {
     pub desc: String,
     pub created_at: String,
     pub author: String,
+    pub circuit_dsl: String,
+    pub arithmetization: String,
+    pub proof_algorithm: String,
+    pub proof_curve: String,
+    pub num_public_inputs: usize,
+
     pub instance_path: String,
     pub circuit_src_path: String,
-    pub num_public_inputs: usize,
     pub wtns_gen_path: String,
     pub spartan_circuit_path: String,
+}
+
+#[derive(Serialize, Deserialize, Clone)]
+pub struct CircuitsJson {
+    pub circuits: HashMap<String, CircuitDetail>,
 }
 
 #[derive(Serialize, Deserialize, Clone)]
@@ -38,9 +45,8 @@ pub struct CircuitDetail {
     pub author: String,
     pub num_public_inputs: usize,
     pub desc: String,
-}
-
-#[derive(Serialize, Deserialize, Clone)]
-pub struct CircuitsJson {
-    pub circuits: HashMap<String, CircuitDetail>,
+    pub circuit_dsl: String,
+    pub arithmetization: String,
+    pub proof_algorithm: String,
+    pub proof_curve: String,
 }

@@ -4,7 +4,7 @@ use prfs_db_interface::models::PrfsTreeNode;
 use routerify::prelude::*;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
-use std::convert::Infallible;
+use std::{convert::Infallible, sync::Arc};
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
@@ -28,8 +28,8 @@ struct GetNodesResponse {
 pub async fn get_nodes(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     println!("gen proof request");
 
-    let state = req.data::<ServerState>().unwrap();
-    let db = state.db.clone();
+    let state = req.data::<Arc<ServerState>>().unwrap();
+    let state = state.clone();
 
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
@@ -56,7 +56,8 @@ pub async fn get_nodes(req: Request<Body>) -> Result<Response<Body>, Infallible>
 
     println!("where_clause, {}", where_clause);
 
-    let tree_nodes = db
+    let tree_nodes = state
+        .db
         .get_prfs_tree_nodes(&where_clause)
         .await
         .expect("get nodes fail");

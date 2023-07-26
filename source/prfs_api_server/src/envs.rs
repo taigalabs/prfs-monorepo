@@ -1,4 +1,5 @@
 use colored::Colorize;
+use dotenv::dotenv;
 use lazy_static::lazy_static;
 use serde::Deserialize;
 
@@ -14,6 +15,8 @@ pub struct Envs {
 
 impl Envs {
     pub fn new() -> Envs {
+        dotenv().unwrap();
+
         match envy::from_env::<Envs>() {
             Ok(envs) => {
                 println!("{} dot env {:#?}", "Loaded".green(), envs);

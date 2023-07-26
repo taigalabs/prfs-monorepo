@@ -1,8 +1,7 @@
-use prfs_circuits_circom::BuildJson;
+use crate::local::LocalAssets;
 use prfs_db_interface::database::Database;
-use std::sync::Arc;
 
 pub struct ServerState {
-    pub db: Arc<Database>,
-    pub build_json: BuildJson,
+    pub db: Database,
+    pub local_assets: LocalAssets,
 }

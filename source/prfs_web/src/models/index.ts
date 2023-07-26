@@ -5,6 +5,10 @@ export interface Circuit {
   num_public_inputs: number;
   desc: string;
   created_at: string;
+  proof_algorithm: string;
+  arithmetization: string;
+  circuit_dsl: string;
+  proof_curve: string;
 }
 
 export interface Set {

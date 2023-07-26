@@ -17,16 +17,13 @@ async fn main() -> Result<(), ApiServerError> {
     let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     println!("manifest_dir: {:?}", manifest_dir);
 
-    let build_json = local::require_build_json();
+    let local_assets = local::load_local_assets();
 
     let pg_endpoint = &ENVS.postgres_endpoint;
     let pg_pw = &ENVS.postgres_pw;
     let db = Database::connect(pg_endpoint, pg_pw).await?;
 
-    let server_state = Arc::new(ServerState {
-        db: Arc::new(db),
-        build_json,
-    });
+    let server_state = Arc::new(ServerState { db, local_assets });
 
     let router = router::make_router(server_state).expect("make_router fail");
     let service = RouterService::new(router).expect("router service init fail");

@@ -1,9 +1,8 @@
-use crate::apis::{circuits, prfs_account, proofs};
+use crate::apis::{circuits, prfs_account, proofs, sets};
 use crate::state::ServerState;
 use crate::ApiServerError;
 use crate::{apis::nodes, middleware};
 use hyper::{header, Body, Request, Response};
-use prfs_db_interface::database::Database;
 use routerify::{Middleware, Router};
 use routerify_cors::enable_cors_all;
 use std::convert::Infallible;
@@ -32,6 +31,7 @@ pub fn make_router(
             prfs_account::sign_in,
         )
         .post(format!("{}/get_nodes", PREFIX), nodes::get_nodes)
+        .post(format!("{}/get_sets", PREFIX), sets::get_sets)
         .post(
             format!("{}/get_proof_types", PREFIX),
             proofs::get_proof_types,
