@@ -24,8 +24,6 @@ pub async fn create_leaves_without_offset(
         set_insert_interval,
     );
 
-    let mut count = 0;
-
     let where_clause = format!("{}", set_json.set.where_clause,);
 
     let now = SystemTime::now();
@@ -48,7 +46,7 @@ pub async fn create_leaves_without_offset(
 
     for (idx, account) in accounts.iter().enumerate() {
         let node = PrfsTreeNode {
-            pos_w: Decimal::from_u64((count + idx) as u64).unwrap(),
+            pos_w: Decimal::from_u64(idx as u64).unwrap(),
             pos_h: 0,
             val: account.addr.to_string(),
             set_id: set_id.to_string(),
@@ -57,19 +55,25 @@ pub async fn create_leaves_without_offset(
         nodes.push(node);
     }
 
-    let nodes_updated = db.insert_prfs_tree_nodes(&nodes, false).await?;
-
-    count += accounts.len();
+    let updated_count = db.insert_prfs_tree_nodes(&nodes, false).await?;
 
     println!(
-        "{} a set, set_id: {}, total count: {}, nodes_updated: {}",
+        "{} a set, set_id: {}, updated_count: {}, acocunts len: {}",
         "Created".green(),
         set_id,
-        count,
-        nodes_updated,
+        updated_count,
+        accounts.len(),
     );
 
-    prfs_set.cardinality = count as i64;
+    assert_eq!(
+        updated_count,
+        accounts.len() as u64,
+        "updated count should be equal to accounts len, {} != {}",
+        updated_count,
+        accounts.len()
+    );
+
+    prfs_set.cardinality = updated_count as i64;
     db.insert_prfs_set(&prfs_set, true).await.unwrap();
 
     Ok(())
