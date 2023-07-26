@@ -12,7 +12,7 @@ import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
-import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
+import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import prfsBackend from "@/fetch/prfsBackend";
 import { PrfsCircuit } from "@/models/index";
 import ColumnarSummary, {
@@ -113,11 +113,10 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
   return (
     <DefaultLayout>
       <Breadcrumb>
-        <div>
+        <BreadcrumbEntry>
           <Link href="/circuits">{i18n.circuits}</Link>
-        </div>
-        <ArrowForwardIosIcon />
-        <div className={styles.here}>{params.circuit_id}</div>
+        </BreadcrumbEntry>
+        <BreadcrumbEntry>{params.circuit_id}</BreadcrumbEntry>
       </Breadcrumb>
       <CardRow>
         <Card>

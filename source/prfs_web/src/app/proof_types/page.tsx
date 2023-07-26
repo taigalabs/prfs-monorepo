@@ -19,7 +19,6 @@ const Proofs: React.FC = () => {
   const { dispatch } = React.useContext(stateContext);
 
   const router = useRouter();
-
   const searchParams = useSearchParams();
 
   React.useEffect(() => {

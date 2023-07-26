@@ -1,20 +1,31 @@
-import React, { MouseEventHandler } from "react";
+import React from "react";
 import Link from "next/link";
-import Paper from "@mui/material/Paper";
-import classnames from "classnames";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import styles from "./Breadcrumb.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Widget from "@/components/widget/Widget";
 
-const Breadcrumb: React.FC<Button1Props> = ({ children }) => {
+export const BreadcrumbEntry: React.FC<BreadcrumbEntryProps> = ({ children }) => {
+  return (
+    <div className={styles.breadcrumbEntryWrapper}>
+      {children}
+      <ArrowForwardIosIcon />
+    </div>
+  );
+};
+
+const Breadcrumb: React.FC<BreadcrumbProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
 
-  return <div className={styles.wrapper}>{children}</div>;
+  return <div className={styles.breadcrumbWrapper}>{children}</div>;
 };
 
 export default Breadcrumb;
 
-export interface Button1Props {
+export interface BreadcrumbProps {
+  children: React.ReactNode;
+}
+
+export interface BreadcrumbEntryProps {
   children: React.ReactNode;
 }
