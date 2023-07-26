@@ -13,17 +13,13 @@
   }
 }
 
-.pageLimitWarning {
-  background-color: var(--bright-gray-55);
-  padding: 11px 20px;
-}
-
 .tableHeaderWrapper {
   display: flex;
   background-color: var(--bright-gray-55);
   border-bottom: 1px solid var(--bright-green-81);
   padding: 0px 0px;
   width: 100%;
+  word-wrap: break-word;
 
   > div {
     padding: 11px 20px;
@@ -44,6 +40,7 @@
 
 .tableRowWrapper {
   display: flex;
+  word-wrap: break-word;
 
   > div {
     padding: 11px 20px;
@@ -56,4 +53,9 @@
       text-decoration: underline;
     }
   }
+}
+
+.pageLimitWarning {
+  background-color: var(--bright-gray-55);
+  padding: 11px 20px;
 }

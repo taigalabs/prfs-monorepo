@@ -17,6 +17,7 @@ export default {
   hash_algorithm: "Hash algorithm",
   generate: "Generate",
   circuits: "Circuits",
+  circuit_id: "Circuit id",
   cardinality: "Cardinality",
   create_proof_type: "Create proof type",
   proofs: "Proofs",
