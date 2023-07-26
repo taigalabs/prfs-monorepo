@@ -13,17 +13,7 @@ import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import Button from "@/components/button/Button";
 import ProofTypeTable from "@/components/proof_type_table/ProofTypeTable";
-// import CreateProofTypeForm from "@/components/create_proof_type_form/CreateProofTypeForm";
-
-const CreateProofTypeForm: React.FC = () => {
-  const i18n = React.useContext(i18nContext);
-
-  return (
-    <Widget label={i18n.connect_wallet} className={styles.wrapper}>
-      dir
-    </Widget>
-  );
-};
+import CreateProofTypeForm from "@/components/create_proof_type_form/CreateProofTypeForm";
 
 const Proofs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -58,13 +48,7 @@ const Proofs: React.FC = () => {
   return (
     <DefaultLayout>
       {createPage ? (
-        <CardRow>
-          <Card>
-            <Widget label={i18n.proof_types}>
-              <CreateProofTypeForm />
-            </Widget>
-          </Card>
-        </CardRow>
+        <CreateProofTypeForm />
       ) : (
         <CardRow>
           <Card>
