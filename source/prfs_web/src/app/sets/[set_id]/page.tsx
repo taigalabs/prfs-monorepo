@@ -16,28 +16,53 @@ import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
 import SetElementTable from "@/components/set_element_table/SetElementTable";
 import prfsBackend from "@/fetch/prfsBackend";
 import { Set } from "@/models/index";
+import ColumnarSummary, {
+  ColumnarSummaryCell,
+  ColumnarSummaryCellHeader,
+  ColumnarSummaryColumn,
+} from "@/components/columnal_summary/ColumnarSummary";
 
 const SetSummary: React.FC<SetSummaryProps> = ({ set }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
     set && (
-      <div className={styles.setSummaryWrapper}>
-        <div className={styles.col}>
-          <div className={styles.cell}>
-            <div className={styles.cellHeader}>{i18n.set_id}</div>
+      <ColumnarSummary>
+        <ColumnarSummaryColumn>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.set_id}</ColumnarSummaryCellHeader>
             <div>{set.set_id}</div>
-          </div>
-        </div>
-        <div className={styles.col}>
-          <div className={styles.cell}>cellb1</div>
-          <div className={styles.cell}>cellb2</div>
-          <div className={styles.cell}>cellb3</div>
-        </div>
-        <div className={styles.col}>
-          <div className={styles.cell}>cell</div>
-        </div>
-      </div>
+          </ColumnarSummaryCell>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.label}</ColumnarSummaryCellHeader>
+            <div>{set.label}</div>
+          </ColumnarSummaryCell>
+        </ColumnarSummaryColumn>
+        <ColumnarSummaryColumn>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.author}</ColumnarSummaryCellHeader>
+            <div>{set.author}</div>
+          </ColumnarSummaryCell>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.description}</ColumnarSummaryCellHeader>
+            <div>{set.desc}</div>
+          </ColumnarSummaryCell>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.hash_algorithm}</ColumnarSummaryCellHeader>
+            <div>{set.hash_algorithm}</div>
+          </ColumnarSummaryCell>
+        </ColumnarSummaryColumn>
+        <ColumnarSummaryColumn>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.cardinality}</ColumnarSummaryCellHeader>
+            <div>{set.cardinality}</div>
+          </ColumnarSummaryCell>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.created_at}</ColumnarSummaryCellHeader>
+            <div>{set.created_at}</div>
+          </ColumnarSummaryCell>
+        </ColumnarSummaryColumn>
+      </ColumnarSummary>
     )
   );
 };

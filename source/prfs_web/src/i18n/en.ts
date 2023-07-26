@@ -13,6 +13,7 @@ export default {
   learn: "Learn",
   browse: "Browse",
   set_id: "Set id",
+  hash_algorithm: "Hash algorithm",
   generate: "Generate",
   circuits: "Circuits",
   cardinality: "Cardinality",
