@@ -18,7 +18,9 @@ pub struct SetDetail {
     pub where_clause: String,
     pub tree_depth: u32,
     pub hash_algorithm: String,
-    pub cardinality: Decimal,
+    pub cardinality: i64,
+    pub created_at: String,
+    pub merkle_root: String,
 }
 
 pub fn require_set_json(set_json_path: &String) -> SetJson {

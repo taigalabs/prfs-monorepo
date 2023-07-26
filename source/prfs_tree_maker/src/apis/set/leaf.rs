@@ -69,7 +69,7 @@ pub async fn create_leaves_without_offset(
         nodes_updated,
     );
 
-    prfs_set.cardinality = Decimal::from(count);
+    prfs_set.cardinality = count as i64;
 
     db.insert_prfs_set(&prfs_set, true).await.unwrap();
 
