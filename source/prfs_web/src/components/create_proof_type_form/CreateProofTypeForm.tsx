@@ -12,7 +12,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
 
   return (
-    <div>
+    <div className={styles.wrapper}>
       <Breadcrumb>
         <BreadcrumbEntry>
           <Link href="/proof_types">{i18n.proof_types}</Link>
@@ -22,7 +22,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       <div>title</div>
       <CardRow>
         <Card>
-          <Widget label={i18n.name}>dir</Widget>
+          <Widget label={i18n.name_and_description}>name input</Widget>
         </Card>
       </CardRow>
       <CardRow>

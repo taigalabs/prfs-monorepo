@@ -1,6 +1,7 @@
 export default {
   id: "Id",
   name: "Name",
+  name_and_description: "Name and description",
   author: "Author",
   num_inputs: "# inputs",
   description: "Description",
@@ -22,6 +23,7 @@ export default {
   circuit_id: "Circuit id",
   circuit_dsl: "Circuit DSL",
   cardinality: "Cardinality",
+  configuration: "Configuration",
   create_proof_type: "Create a proof type",
   proofs: "Proofs",
   proof_types: "Proof types",
