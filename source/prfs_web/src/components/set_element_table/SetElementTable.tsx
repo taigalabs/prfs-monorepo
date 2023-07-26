@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 
-import styles from "./SetTable.module.scss";
+import styles from "./SetElementTable.module.scss";
 import Table, { TableData, TableKeys } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";

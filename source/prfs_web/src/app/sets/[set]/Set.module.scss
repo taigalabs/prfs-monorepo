@@ -1,6 +1,14 @@
 .wrapper {
 }
 
+.setSummaryWrapper {
+  display: flex;
+
+  .col {
+    flex-grow: 1;
+  }
+}
+
 .here {
   color: var(--gray-30);
   font-weight: 700;
