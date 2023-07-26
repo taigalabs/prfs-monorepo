@@ -20,6 +20,7 @@ export default {
   proofs: "Proofs",
   proof_types: "Proof types",
   references: "References",
+  set: "Set",
   sets: "Sets",
   connect: "Connect",
   choose_proof_type: "Choose a proof type",

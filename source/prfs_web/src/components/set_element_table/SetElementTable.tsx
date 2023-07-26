@@ -8,7 +8,7 @@ import Table, { TableData, TableKeys } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
 
-const SetTable: React.FC = () => {
+const SetElementTable: React.FC = () => {
   const i18n = React.useContext(i18nContext);
 
   const createHeader = React.useCallback((keys: TableKeys<SetTableKeys>) => {
@@ -102,7 +102,7 @@ const SetTable: React.FC = () => {
   );
 };
 
-export default SetTable;
+export default SetElementTable;
 
 const SET_TABLE_KEYS = [
   "set_id",
