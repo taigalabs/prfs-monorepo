@@ -23,15 +23,21 @@ pub fn make_router(
             prfs_accounts::sign_up,
         )
         .post(
-            format!("{}/get_native_circuits", PREFIX),
-            prfs_circuits::get_native_circuits,
+            format!("{}/get_prfs_native_circuits", PREFIX),
+            prfs_circuits::get_prfs_native_circuits,
         )
         .post(
             format!("{}/sign_in_prfs_account", PREFIX),
             prfs_accounts::sign_in,
         )
-        .post(format!("{}/get_nodes", PREFIX), prfs_tree_nodes::get_nodes)
-        .post(format!("{}/get_sets", PREFIX), prfs_sets::get_sets)
+        .post(
+            format!("{}/get_prfs_tree_nodes", PREFIX),
+            prfs_tree_nodes::get_prfs_tree_nodes,
+        )
+        .post(
+            format!("{}/get_prfs_sets", PREFIX),
+            prfs_sets::get_prfs_sets,
+        )
         .post(
             format!("{}/get_proof_types", PREFIX),
             proofs::get_proof_types,

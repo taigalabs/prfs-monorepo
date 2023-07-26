@@ -11,33 +11,21 @@ import prfsBackend from "@/fetch/prfsBackend";
 const SetElementTable: React.FC = () => {
   const i18n = React.useContext(i18nContext);
 
-  const createHeader = React.useCallback((keys: TableKeys<SetTableKeys>) => {
+  const createHeader = React.useCallback((keys: TableKeys<SetElementTableKeys>) => {
     return (
       <div className={styles.tableHeader}>
-        <div key={keys[0]} className={styles.set_id}>
-          {i18n.set_id}
+        <div key={keys[0]} className={styles.id}>
+          {i18n.id}
         </div>
         <div key={keys[1]} className={styles.label}>
-          {i18n.label}
-        </div>
-        <div key={keys[2]} className={styles.author}>
-          {i18n.author}
-        </div>
-        <div key={keys[3]} className={styles.desc}>
-          {i18n.description}
-        </div>
-        <div key={keys[4]} className={styles.cardinality}>
-          {i18n.cardinality}
-        </div>
-        <div key={keys[5]} className={styles.createdAt}>
-          {i18n.created_at}
+          {i18n.value}
         </div>
       </div>
     );
   }, []);
 
   const createRows = React.useCallback(
-    (keys: TableKeys<SetTableKeys>, data: TableData<SetTableKeys>) => {
+    (keys: TableKeys<SetElementTableKeys>, data: TableData<SetElementTableKeys>) => {
       // console.log(1, data);
       let { page, values } = data;
 
@@ -48,25 +36,8 @@ const SetElementTable: React.FC = () => {
 
       for (let val of values) {
         let row = (
-          <div key={val.set_id} className={styles.tableRow}>
-            <div key={keys.set_id} className={styles.set_id}>
-              <Link href={`/sets/${val.set_id}`}>{val.set_id}</Link>
-            </div>
-            <div key={keys.label} className={styles.label}>
-              {val.label}
-            </div>
-            <div key={keys.author} className={styles.author}>
-              {val.author}
-            </div>
-            <div key={keys.desc} className={styles.desc}>
-              {val.desc}
-            </div>
-            <div key={keys.cardinality} className={styles.cardinality}>
-              {val.cardinality}
-            </div>
-            <div key={keys.created_at} className={styles.createdAt}>
-              {val.created_at}
-            </div>
+          <div key={val.pos_w} className={styles.tableRow}>
+            power
           </div>
         );
 
@@ -80,21 +51,21 @@ const SetElementTable: React.FC = () => {
 
   const handleChangePage = React.useCallback(async (page: number) => {
     return prfsBackend
-      .getSets({
+      .getSetElements({
         page,
       })
       .then(resp => {
-        const { page, sets } = resp.payload;
+        const { page, elements } = resp.payload;
         return {
           page,
-          values: sets,
+          values: elements,
         };
       });
   }, []);
 
   return (
     <Table
-      keys={SET_TABLE_KEYS}
+      keys={SET_ELEMENT_TABLE_KEYS}
       createHeader={createHeader}
       createRows={createRows}
       onChangePage={handleChangePage}
@@ -104,14 +75,6 @@ const SetElementTable: React.FC = () => {
 
 export default SetElementTable;
 
-const SET_TABLE_KEYS = [
-  "set_id",
-  "label",
-  "author",
-  "desc",
-  "hash_algorithm",
-  "cardinality",
-  "created_at",
-] as const;
+const SET_ELEMENT_TABLE_KEYS = ["pos_w", "value"] as const;
 
-type SetTableKeys = (typeof SET_TABLE_KEYS)[number];
+type SetElementTableKeys = (typeof SET_ELEMENT_TABLE_KEYS)[number];

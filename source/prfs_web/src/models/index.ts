@@ -1,4 +1,4 @@
-export interface Circuit {
+export interface PrfsCircuit {
   id: number;
   label: string;
   author: string;
@@ -11,7 +11,7 @@ export interface Circuit {
   proof_curve: string;
 }
 
-export interface Set {
+export interface PrfsSet {
   set_id: number;
   label: string;
   author: string;
@@ -23,4 +23,9 @@ export interface Set {
   element_type: string;
   elliptic_curve: string;
   finite_field: string;
+}
+
+export interface PrfsTreeNode {
+  pos_w: number;
+  val: string;
 }

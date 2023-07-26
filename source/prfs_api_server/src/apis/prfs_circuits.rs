@@ -15,7 +15,7 @@ struct GetCircuitsRespPayload {
     circuits: Vec<CircuitBuildDetail>,
 }
 
-pub async fn get_native_circuits(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+pub async fn get_prfs_native_circuits(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     println!("get circuits");
 
     let state = req.data::<Arc<ServerState>>().unwrap();

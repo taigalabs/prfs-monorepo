@@ -25,7 +25,7 @@ struct GetNodesResponse {
     tree_nodes: Vec<PrfsTreeNode>,
 }
 
-pub async fn get_nodes(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+pub async fn get_prfs_tree_nodes(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     println!("gen proof request");
 
     let state = req.data::<Arc<ServerState>>().unwrap();

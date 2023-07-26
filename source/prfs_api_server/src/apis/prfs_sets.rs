@@ -18,7 +18,7 @@ struct GetSetsRespPayload {
     sets: Vec<PrfsSet>,
 }
 
-pub async fn get_sets(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+pub async fn get_prfs_sets(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
 

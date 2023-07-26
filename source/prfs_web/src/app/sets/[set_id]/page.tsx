@@ -15,7 +15,7 @@ import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
 import SetElementTable from "@/components/set_element_table/SetElementTable";
 import prfsBackend from "@/fetch/prfsBackend";
-import { Set } from "@/models/index";
+import { PrfsSet } from "@/models/index";
 import ColumnarSummary, {
   ColumnarSummaryCell,
   ColumnarSummaryCellHeader,
@@ -93,7 +93,7 @@ const Set: React.FC<SetProps> = ({ params }) => {
   useLocalWallet(dispatch);
   const router = useRouter();
 
-  const [set, setSet] = React.useState<Set>();
+  const [set, setSet] = React.useState<PrfsSet>();
   React.useEffect(() => {
     prfsBackend
       .getSets({
@@ -124,6 +124,12 @@ const Set: React.FC<SetProps> = ({ params }) => {
         <Card>
           <Widget label={`${i18n.set} - ${params.set_id}`}>
             <SetSummary set={set} />
+          </Widget>
+        </Card>
+      </CardRow>
+      <CardRow>
+        <Card>
+          <Widget label={`${i18n.elements} - ${params.set_id}`}>
             <SetElementTable />
           </Widget>
         </Card>
@@ -141,5 +147,5 @@ interface SetProps {
 }
 
 interface SetSummaryProps {
-  set: Set;
+  set: PrfsSet;
 }
