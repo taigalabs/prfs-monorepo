@@ -61,6 +61,10 @@ const SetSummary: React.FC<SetSummaryProps> = ({ set }) => {
             <ColumnarSummaryCellHeader>{i18n.created_at}</ColumnarSummaryCellHeader>
             <div>{set.created_at}</div>
           </ColumnarSummaryCell>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.merkle_root}</ColumnarSummaryCellHeader>
+            <div>{set.merkle_root}</div>
+          </ColumnarSummaryCell>
         </ColumnarSummaryColumn>
       </ColumnarSummary>
     )

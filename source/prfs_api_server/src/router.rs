@@ -1,7 +1,7 @@
-use crate::apis::{circuits, prfs_account, proofs, sets};
+use crate::apis::{prfs_accounts, prfs_circuits, prfs_sets, prfs_tree_nodes, proofs};
+use crate::middleware;
 use crate::state::ServerState;
 use crate::ApiServerError;
-use crate::{apis::nodes, middleware};
 use hyper::{header, Body, Request, Response};
 use routerify::{Middleware, Router};
 use routerify_cors::enable_cors_all;
@@ -20,18 +20,18 @@ pub fn make_router(
         .get("/", status_handler)
         .post(
             format!("{}/sign_up_prfs_account", PREFIX),
-            prfs_account::sign_up,
+            prfs_accounts::sign_up,
         )
         .post(
             format!("{}/get_native_circuits", PREFIX),
-            circuits::get_native_circuits,
+            prfs_circuits::get_native_circuits,
         )
         .post(
             format!("{}/sign_in_prfs_account", PREFIX),
-            prfs_account::sign_in,
+            prfs_accounts::sign_in,
         )
-        .post(format!("{}/get_nodes", PREFIX), nodes::get_nodes)
-        .post(format!("{}/get_sets", PREFIX), sets::get_sets)
+        .post(format!("{}/get_nodes", PREFIX), prfs_tree_nodes::get_nodes)
+        .post(format!("{}/get_sets", PREFIX), prfs_sets::get_sets)
         .post(
             format!("{}/get_proof_types", PREFIX),
             proofs::get_proof_types,

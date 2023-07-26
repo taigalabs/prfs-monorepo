@@ -5,7 +5,6 @@ use crate::{
     DbInterfaceError,
 };
 use chrono::NaiveDate;
-use rust_decimal::Decimal;
 
 impl Database {
     pub async fn get_prfs_sets(
@@ -35,6 +34,7 @@ impl Database {
                     r.try_get("hash_algorithm").expect("invalid hash_algorithm");
                 let cardinality: i64 = r.try_get("cardinality").expect("invalid cardinality");
                 let created_at: NaiveDate = r.try_get("created_at").expect("invalid created_at");
+                let merkle_root: String = r.try_get("merkle_root").expect("invalid merkle root");
 
                 PrfsSet {
                     set_id,
@@ -44,6 +44,7 @@ impl Database {
                     hash_algorithm,
                     cardinality,
                     created_at,
+                    merkle_root,
                 }
             })
             .collect();

@@ -11,6 +11,7 @@ pub struct PrfsSet {
     pub hash_algorithm: String,
     pub cardinality: i64,
     pub created_at: NaiveDate,
+    pub merkle_root: String,
 }
 
 impl PrfsSet {
@@ -40,5 +41,9 @@ impl PrfsSet {
 
     pub fn cardinality() -> &'static str {
         "cardinality"
+    }
+
+    pub fn merkle_root() -> &'static str {
+        "merkle_root"
     }
 }
