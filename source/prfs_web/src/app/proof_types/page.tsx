@@ -4,17 +4,15 @@ import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import styles from "./ProofTypes.module.scss";
-import Table, { TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import Widget from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
-import prfsBackend from "@/fetch/prfsBackend";
 import CardRow from "@/components/card_row/CardRow";
 import Button from "@/components/button/Button";
-import CircuitTable from "@/components/circuit_table/CircuitTable";
+import ProofTypeTable from "@/components/proof_type_table/ProofTypeTable";
 
 const Proofs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -50,7 +48,7 @@ const Proofs: React.FC = () => {
       <CardRow>
         <Card>
           <Widget label={i18n.proof_types} headerElem={proofTypesHeader}>
-            <CircuitTable />
+            <ProofTypeTable />
           </Widget>
         </Card>
       </CardRow>

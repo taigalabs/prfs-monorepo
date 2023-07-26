@@ -12,7 +12,7 @@ const Leftbar: React.FC<any> = () => {
     <div className={styles.wrapper}>
       <div className={styles.section}>
         <ul>
-          <li className={styles.category}>{i18n.browse}</li>
+          <li className={styles.category}>{i18n.proofs}</li>
           <li>
             <ActiveLink href="/proofs">{i18n.proofs}</ActiveLink>
           </li>
@@ -20,10 +20,7 @@ const Leftbar: React.FC<any> = () => {
       </div>
       <div className={styles.section}>
         <ul>
-          <li className={styles.category}>{i18n.generate}</li>
-          <li>
-            <ActiveLink href="/generate">{i18n.generate}</ActiveLink>
-          </li>
+          <li className={styles.category}>{i18n.programs}</li>
           <li>
             <ActiveLink href="/circuits">{i18n.circuits}</ActiveLink>
           </li>

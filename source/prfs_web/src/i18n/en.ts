@@ -15,6 +15,7 @@ export default {
   browse: "Browse",
   set_id: "Set id",
   hash_algorithm: "Hash algorithm",
+  programs: "Programs",
   generate: "Generate",
   circuit: "Circuit",
   circuits: "Circuits",
