@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import Paper from "@mui/material/Paper";
 import classnames from "classnames";
 import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
 
@@ -14,7 +13,6 @@ const ConnectWalletWidget: React.FC<ConnectWalletWidgetProps> = ({ className, ha
   const i18n = React.useContext(i18nContext);
 
   const connect = useConnect();
-
   const [walletAddr, setWalletAddr] = React.useState(undefined);
 
   let handleClickConnect = React.useCallback(() => {
