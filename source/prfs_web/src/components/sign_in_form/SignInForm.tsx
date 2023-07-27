@@ -15,6 +15,7 @@ import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/component
 import CardRow from "@/components/card_row/CardRow";
 import Card from "@/components/card/Card";
 import { FormSubtitle, FormTextInput, FormTitle, FormTitleRow } from "../form/Form";
+import StrikeThroughText from "../strike_through_text/StrikeThroughText";
 
 const metamaskConfig = metamaskWallet();
 
@@ -59,6 +60,10 @@ const SignInForm: React.FC<SignInFormProps> = () => {
     fn().then();
   }, [passcode, setPasshash]);
 
+  const handleClickSignUp = React.useCallback(() => {
+    router.push("/signup");
+  }, [router]);
+
   const handleClickSignIn = React.useCallback(() => {
     async function fn() {
       const wallet = await connect(metamaskConfig);
@@ -92,9 +97,6 @@ const SignInForm: React.FC<SignInFormProps> = () => {
     <div>
       <FormTitleRow>
         <FormTitle>{i18n.sign_in}</FormTitle>
-        {/* <FormSubtitle> */}
-        {/*   <div dangerouslySetInnerHTML={{ __html: i18n.sign_in_desc }} /> */}
-        {/* </FormSubtitle> */}
       </FormTitleRow>
       <div>
         <CardRow>
@@ -138,11 +140,11 @@ const SignInForm: React.FC<SignInFormProps> = () => {
           {signInAlert.length > 0 && <div className={styles.signInAlert}>{signInAlert}</div>}
         </div>
         <div className={styles.signUpSuggestion}>
-          <div className={styles.newToPrfs}>
-            <span>{i18n.new_to_prfs}</span>
-          </div>
+          <StrikeThroughText>{i18n.new_to_prfs}</StrikeThroughText>
           <div>
-            <Button variant="transparent_a">{i18n.create_new_prfs_account}</Button>
+            <Button variant="transparent_a" handleClick={handleClickSignUp}>
+              {i18n.create_new_prfs_account}
+            </Button>
           </div>
         </div>
       </div>

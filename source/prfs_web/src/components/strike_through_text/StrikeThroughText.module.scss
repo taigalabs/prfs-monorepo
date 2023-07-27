@@ -1,0 +1,26 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 0 28px;
+  position: relative;
+  background-color: var(--bright-gray-50);
+  margin: 21px 0 24px;
+
+  &::before {
+    content: "";
+    bottom: 0;
+    top: 0;
+    left: 0;
+    position: absolute;
+    background-color: var(--gray-40);
+    margin: auto;
+    height: 1px;
+    width: 100%;
+  }
+
+  span {
+    background: inherit;
+    position: relative;
+    padding: 0 11px;
+  }
+}
