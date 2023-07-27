@@ -14,6 +14,7 @@ import { i18nContext } from "@/contexts/i18n";
 import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
 import CardRow from "@/components/card_row/CardRow";
 import Card from "@/components/card/Card";
+import { FormSubtitle, FormTitle } from "../form/Form";
 
 const metamaskConfig = metamaskWallet();
 
@@ -89,9 +90,13 @@ const SignInForm: React.FC<SignInFormProps> = () => {
 
   return (
     <div>
+      <FormTitle>{i18n.sign_in}</FormTitle>
+      <FormSubtitle>
+        <div className={styles.subtitle}>{i18n.sign_in_desc}</div>
+      </FormSubtitle>
       <CardRow>
         <Card>
-          <ConnectWalletWidget className={styles.widget} handleConnect={handleConnect} />
+          <ConnectWalletWidget handleConnect={handleConnect} />
         </Card>
       </CardRow>
       <CardRow>
@@ -110,7 +115,6 @@ const SignInForm: React.FC<SignInFormProps> = () => {
                   {i18n.hash}
                 </Button>
               </div>
-
               {passhash.length > 0 && (
                 <div>
                   <div className={styles.hashResult}>

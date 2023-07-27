@@ -1,9 +1,7 @@
 import React from "react";
-import Link from "next/link";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import styles from "./Breadcrumb.module.scss";
-import { i18nContext } from "@/contexts/i18n";
 
 export const BreadcrumbEntry: React.FC<BreadcrumbEntryProps> = ({ children }) => {
   return (
@@ -15,8 +13,6 @@ export const BreadcrumbEntry: React.FC<BreadcrumbEntryProps> = ({ children }) =>
 };
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ children }) => {
-  const i18n = React.useContext(i18nContext);
-
   return <div className={styles.breadcrumbWrapper}>{children}</div>;
 };
 

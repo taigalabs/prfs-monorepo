@@ -1,15 +1,14 @@
 import React from "react";
 import Link from "next/link";
-import classnames from "classnames";
 import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
 
 import styles from "./ConnectWalletWidget.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
+import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
 
 const metamaskConfig = metamaskWallet();
 
-const ConnectWalletWidget: React.FC<ConnectWalletWidgetProps> = ({ className, handleConnect }) => {
+const ConnectWalletWidget: React.FC<ConnectWalletWidgetProps> = ({ handleConnect }) => {
   const i18n = React.useContext(i18nContext);
 
   const connect = useConnect();
@@ -32,7 +31,7 @@ const ConnectWalletWidget: React.FC<ConnectWalletWidgetProps> = ({ className, ha
       <WidgetHeader>
         <WidgetLabel>{i18n.connect_wallet}</WidgetLabel>
       </WidgetHeader>
-      <div className={styles.widgetInner}>
+      <WidgetPaddedBody>
         <div className={`${styles.radioBox}`}>
           <div>
             <input type="radio" value="metamask" checked readOnly />
@@ -47,7 +46,7 @@ const ConnectWalletWidget: React.FC<ConnectWalletWidgetProps> = ({ className, ha
             {i18n.connect}
           </button>
         </div>
-      </div>
+      </WidgetPaddedBody>
       {walletAddr && (
         <div className={styles.widgetInner}>
           <div className={styles.walletAddr}>
@@ -63,6 +62,5 @@ const ConnectWalletWidget: React.FC<ConnectWalletWidgetProps> = ({ className, ha
 export default ConnectWalletWidget;
 
 export interface ConnectWalletWidgetProps {
-  className?: string;
   handleConnect: Function;
 }

@@ -7,21 +7,13 @@ import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
 import CardRow from "@/components/card_row/CardRow";
 import Card from "@/components/card/Card";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
-
-const FormSection: React.FC<SectionProps> = ({ children }) => {
-  return <div className={styles.formSectionWrapper}>{children}</div>;
-};
-
-const FormTextInput: React.FC<FormTextInputProps> = ({ label }) => {
-  return (
-    <div className={styles.formTextInputWrapper}>
-      <div>{label}</div>
-      <div>
-        <input type="text" />
-      </div>
-    </div>
-  );
-};
+import {
+  FormSection,
+  FormTextInput,
+  FormTitleRow,
+  FormTitle,
+  FormSubtitle,
+} from "@/components/form/Form";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -34,10 +26,10 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
         </BreadcrumbEntry>
         <BreadcrumbEntry>{i18n.create_proof_type}</BreadcrumbEntry>
       </Breadcrumb>
-      <div className={styles.titleRow}>
-        <div className={styles.title}>{i18n.create_proof_type}</div>
-        <div className={styles.subtitle}>{i18n.create_proof_type_subtitle}</div>
-      </div>
+      <FormTitleRow>
+        <FormTitle>{i18n.create_proof_type}</FormTitle>
+        <FormSubtitle>{i18n.create_proof_type_subtitle}</FormSubtitle>
+      </FormTitleRow>
       <CardRow>
         <Card>
           <Widget>
@@ -78,11 +70,3 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 export default CreateProofTypeForm;
 
 export interface CreateProofTypeFormProps {}
-
-interface SectionProps {
-  children: React.ReactNode;
-}
-
-interface FormTextInputProps {
-  label: string;
-}

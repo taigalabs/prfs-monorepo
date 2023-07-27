@@ -7,7 +7,7 @@ import Logo from "@/components/logo/Logo";
 import styles from "./SignInLayout.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 
-const SignInLayout: React.FC<SignInLayoutProps> = ({ children, title, desc }) => {
+const SignInLayout: React.FC<SignInLayoutProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
@@ -33,6 +33,4 @@ export default SignInLayout;
 
 export interface SignInLayoutProps {
   children: React.ReactNode;
-  title: string;
-  desc: string;
 }
