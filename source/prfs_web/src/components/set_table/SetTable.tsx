@@ -106,7 +106,7 @@ const SetTable: React.FC = () => {
       createHeader={createHeader}
       createBody={createBody}
       onChangePage={handleChangePage}
-      minWidth={800}
+      minWidth={910}
     />
   );
 };

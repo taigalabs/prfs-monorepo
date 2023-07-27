@@ -55,9 +55,9 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             </WidgetHeader>
             <WidgetPaddedBody>
               <div>Select an awefawe</div>
-              <div>
+              <Widget>
                 <CircuitTable />
-              </div>
+              </Widget>
             </WidgetPaddedBody>
           </Widget>
         </Card>
@@ -70,9 +70,9 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             </WidgetHeader>
             <WidgetPaddedBody>
               <div>Select an awefawe</div>
-              <div>
+              <Widget>
                 <SetTable />
-              </div>
+              </Widget>
             </WidgetPaddedBody>
           </Widget>
         </Card>

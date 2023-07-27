@@ -100,7 +100,7 @@ const CircuitTable: React.FC = () => {
       createHeader={createHeader}
       createBody={createBody}
       onChangePage={handleChangeProofPage}
-      minWidth={800}
+      minWidth={880}
     />
   );
 };
