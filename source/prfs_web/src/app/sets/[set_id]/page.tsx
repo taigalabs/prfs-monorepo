@@ -6,7 +6,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import styles from "./Set.module.scss";
 import { stateContext } from "@/contexts/state";
-import Widget from "@/components/widget/Widget";
+import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
@@ -122,14 +122,20 @@ const Set: React.FC<SetProps> = ({ params }) => {
       </Breadcrumb>
       <CardRow>
         <Card>
-          <Widget label={`${i18n.set} - ${params.set_id}`}>
-            <SetSummary set={set} />
+          <Widget>
+            <WidgetHeader>
+              <WidgetLabel>{`${i18n.set} - ${params.set_id}`}</WidgetLabel>
+              <SetSummary set={set} />
+            </WidgetHeader>
           </Widget>
         </Card>
       </CardRow>
       <CardRow>
         <Card>
-          <Widget label={`${i18n.elements} - ${params.set_id}`}>
+          <Widget>
+            <WidgetHeader>
+              <WidgetLabel>{`${i18n.elements} - ${params.set_id}`}</WidgetLabel>
+            </WidgetHeader>
             <TableCurrentPageLimitWarning />
             <SetElementTable setId={params.set_id} />
           </Widget>

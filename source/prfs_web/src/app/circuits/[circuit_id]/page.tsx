@@ -6,7 +6,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import styles from "./Circuit.module.scss";
 import { stateContext } from "@/contexts/state";
-import Widget from "@/components/widget/Widget";
+import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
@@ -120,7 +120,10 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
       </Breadcrumb>
       <CardRow>
         <Card>
-          <Widget label={`${i18n.circuit} - ${params.circuit_id}`}>
+          <Widget>
+            <WidgetHeader>
+              <WidgetLabel>{`${i18n.circuit} - ${params.circuit_id}`}</WidgetLabel>
+            </WidgetHeader>
             <CircuitSummary circuit={circuit} />
           </Widget>
         </Card>
