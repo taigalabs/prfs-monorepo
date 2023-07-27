@@ -8,7 +8,7 @@
 }
 
 .formTitleRowWrapper {
-  margin: 32px 45px 30px;
+  margin: 12px 0 18px;
 }
 
 .formTitleWrapper {
@@ -20,4 +20,11 @@
 .formSubtitleWrapper {
   color: var(--gray-31);
   line-height: 1.78em;
+
+  a {
+    color: var(--green-50);
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }

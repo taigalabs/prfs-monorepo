@@ -14,7 +14,7 @@ import { i18nContext } from "@/contexts/i18n";
 import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
 import CardRow from "@/components/card_row/CardRow";
 import Card from "@/components/card/Card";
-import { FormSubtitle, FormTitle } from "../form/Form";
+import { FormSubtitle, FormTitle, FormTitleRow } from "../form/Form";
 
 const metamaskConfig = metamaskWallet();
 
@@ -90,10 +90,12 @@ const SignInForm: React.FC<SignInFormProps> = () => {
 
   return (
     <div>
-      <FormTitle>{i18n.sign_in}</FormTitle>
-      <FormSubtitle>
-        <div className={styles.subtitle}>{i18n.sign_in_desc}</div>
-      </FormSubtitle>
+      <FormTitleRow>
+        <FormTitle>{i18n.sign_in}</FormTitle>
+        <FormSubtitle>
+          <div dangerouslySetInnerHTML={{ __html: i18n.sign_in_desc }} />
+        </FormSubtitle>
+      </FormTitleRow>
       <CardRow>
         <Card>
           <ConnectWalletWidget handleConnect={handleConnect} />

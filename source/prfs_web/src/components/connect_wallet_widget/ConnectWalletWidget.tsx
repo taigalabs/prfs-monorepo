@@ -48,7 +48,7 @@ const ConnectWalletWidget: React.FC<ConnectWalletWidgetProps> = ({ handleConnect
         </div>
       </WidgetPaddedBody>
       {walletAddr && (
-        <div className={styles.widgetInner}>
+        <div>
           <div className={styles.walletAddr}>
             <p className={styles.label}>{i18n.wallet_addr}</p>
             <p className={styles.val}>{walletAddr}</p>
