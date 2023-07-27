@@ -16,7 +16,8 @@ struct GenesisEntry {
 }
 
 pub async fn scan_genesis(_sub_matches: &ArgMatches) {
-    let geth_client = GethClient::new().unwrap();
+    let geth_endpoint: String = ENVS.geth_endpoint.to_string();
+    let geth_client = GethClient::new(geth_endpoint);
 
     let pg_endpoint = &ENVS.postgres_endpoint;
     let pg_pw = &ENVS.postgres_pw;

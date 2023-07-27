@@ -2,9 +2,10 @@ use super::{
     GetBlockByNumberRequest, GetBlockResponse, GetTransactionReceiptRequest,
     GetTransactionReceiptResponse,
 };
+use crate::envs::ENVS;
 use crate::geth::io_models::{GetBalanceRequest, GetBalanceResponse};
 use crate::make_request_type;
-use crate::TreeMakerError;
+use colored::Colorize;
 use hyper::{client::HttpConnector, Body, Client as HyperClient, Method, Request};
 use hyper_tls::HttpsConnector;
 
@@ -15,18 +16,20 @@ pub struct GethClient {
 
 #[allow(non_snake_case)]
 impl GethClient {
-    pub fn new() -> Result<GethClient, TreeMakerError> {
-        let geth_endpoint: String = std::env::var("GETH_ENDPOINT")
-            .expect("env var GETH_ENDPOINT missing")
-            .parse()?;
+    pub fn new(geth_endpoint: String) -> GethClient {
+        println!(
+            "{} Geth client, endpoint: {}",
+            "Initializing".green(),
+            geth_endpoint
+        );
 
         let https = HttpsConnector::new();
         let hyper_client = HyperClient::builder().build::<_, hyper::Body>(https);
 
-        Ok(GethClient {
+        GethClient {
             hyper_client,
             geth_endpoint,
-        })
+        }
     }
 
     make_request_type!(eth_getBalance, GetBalanceRequest, GetBalanceResponse);

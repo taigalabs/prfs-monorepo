@@ -13,43 +13,27 @@ use std::time::Duration;
 const MAX_CONSEQ_ERR_COUNT: usize = 10;
 
 pub async fn scan_ledger(_sub_matches: &ArgMatches) {
-    let geth_client = GethClient::new().unwrap();
+    let geth_endpoint: String = ENVS.geth_endpoint.to_string();
+    let geth_client = GethClient::new(geth_endpoint);
 
     let pg_endpoint = &ENVS.postgres_endpoint;
     let pg_pw = &ENVS.postgres_pw;
     let db = Database::connect(pg_endpoint, pg_pw).await.unwrap();
 
-    let balance_bucket_capacity = ENVS.scan_balance_bucket_capacity;
-
-    let scan_update_on_conflict = ENVS.scan_update_on_conflict;
-
-    let scan_interval = ENVS.scan_interval;
-
-    scan_ledger_accounts(
-        geth_client,
-        db,
-        scan_update_on_conflict,
-        scan_interval,
-        balance_bucket_capacity,
-    )
-    .await
-    .unwrap();
+    scan_ledger_accounts(geth_client, db).await.unwrap();
 }
 
-async fn scan_ledger_accounts(
-    geth_client: GethClient,
-    db: Database,
-    update_on_conflict: bool,
-    scan_interval: u64,
-    balance_bucket_capacity: usize,
-) -> Result<(), TreeMakerError> {
+async fn scan_ledger_accounts(geth_client: GethClient, db: Database) -> Result<(), TreeMakerError> {
+    let balance_bucket_capacity = ENVS.scan_balance_bucket_capacity;
+    let scan_update_on_conflict = ENVS.scan_update_on_conflict;
+    let scan_interval = ENVS.scan_interval;
     let start_block: u64 = ENVS.scan_start_block;
     let end_block: u64 = ENVS.scan_end_block;
 
     println!(
         "Scanning ledger accounts, start_block: {}, end_block: {}, scan_interval: {}, \
         update_on_conflict: {}",
-        start_block, end_block, scan_interval, update_on_conflict,
+        start_block, end_block, scan_interval, scan_update_on_conflict,
     );
 
     let mut balances = BTreeMap::<String, EthAccount>::new();
@@ -109,6 +93,7 @@ async fn scan_ledger_accounts(
         }
 
         for tx in result.transactions {
+            println!("tx: {:#?}", tx);
             // from
             match get_balance_and_add_item(&geth_client, &mut balances, tx.from.to_string()).await {
                 Ok(_) => {
@@ -175,7 +160,12 @@ async fn scan_ledger_accounts(
 
         let balances_count = balances.len();
         if balances.len() >= balance_bucket_capacity {
-            match db.insert_eth_accounts(balances, update_on_conflict).await {
+            // println!("balances: {:#?}", balances);
+
+            match db
+                .insert_eth_accounts(balances, scan_update_on_conflict)
+                .await
+            {
                 Ok(r) => {
                     tracing::info!(
                         "Writing balances, balances_count: {}, block_no: {}, rows_affected: {}",
@@ -197,13 +187,15 @@ async fn scan_ledger_accounts(
     }
 
     if balances.len() > 0 {
+        // println!("44 balances: {:#?}", balances);
         tracing::info!(
             "Writing (last) remaining balances, balances_count: {}, end block_no (excl): {}",
             balances.len(),
             end_block
         );
 
-        db.insert_eth_accounts(balances, update_on_conflict).await?;
+        db.insert_eth_accounts(balances, scan_update_on_conflict)
+            .await?;
     } else {
         tracing::info!(
             "Balances are empty. Closing 'scan', balances_count: {}, end block_no (excl): {}",
