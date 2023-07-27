@@ -92,45 +92,59 @@ const SignInForm: React.FC<SignInFormProps> = () => {
     <div>
       <FormTitleRow>
         <FormTitle>{i18n.sign_in}</FormTitle>
-        <FormSubtitle>
-          <div dangerouslySetInnerHTML={{ __html: i18n.sign_in_desc }} />
-        </FormSubtitle>
+        {/* <FormSubtitle> */}
+        {/*   <div dangerouslySetInnerHTML={{ __html: i18n.sign_in_desc }} /> */}
+        {/* </FormSubtitle> */}
       </FormTitleRow>
-      <CardRow>
-        <Card>
-          <ConnectWalletWidget handleConnect={handleConnect} />
-        </Card>
-      </CardRow>
-      <CardRow>
-        <Card>
-          <Widget>
-            <WidgetHeader>
-              <WidgetLabel>{i18n.credential}</WidgetLabel>
-            </WidgetHeader>
-            <WidgetPaddedBody>
-              <div className={styles.passcode}>
-                <p className={styles.label}>Passcode</p>
-                <input type="password" onChange={handleChangePasscode} />
-              </div>
-              <div className={styles.hashBtnRow}>
-                <Button variant="a" handleClick={handleClickHash}>
-                  {i18n.hash}
-                </Button>
-              </div>
-              {passhash.length > 0 && (
-                <div className={styles.hashResult}>
-                  <FormTextInput label={i18n.passhash} value={passhash} />
+      <div>
+        <CardRow>
+          <Card>
+            <ConnectWalletWidget handleConnect={handleConnect} />
+          </Card>
+        </CardRow>
+        <CardRow>
+          <Card>
+            <Widget>
+              <WidgetHeader>
+                <WidgetLabel>{i18n.credential}</WidgetLabel>
+              </WidgetHeader>
+              <WidgetPaddedBody>
+                <div className={styles.passcode}>
+                  <p className={styles.label}>Passcode</p>
+                  <input type="password" onChange={handleChangePasscode} />
                 </div>
-              )}
-            </WidgetPaddedBody>
-          </Widget>
-        </Card>
-      </CardRow>
+                <div className={styles.hashBtnRow}>
+                  <Button variant="a" handleClick={handleClickHash}>
+                    {i18n.hash}
+                  </Button>
+                </div>
+                {passhash.length > 0 && (
+                  <div className={styles.hashResult}>
+                    <FormTextInput label={i18n.passhash} value={passhash} />
+                  </div>
+                )}
+              </WidgetPaddedBody>
+            </Widget>
+          </Card>
+        </CardRow>
+      </div>
       <div className={styles.btnRow}>
-        {signInAlert.length > 0 && <div className={styles.signInAlert}>{signInAlert}</div>}
-        <Button variant="b" handleClick={handleClickSignIn}>
-          {i18n.sign_in}
-        </Button>
+        <div className={styles.signInRow}>
+          <div>
+            <Button variant="b" handleClick={handleClickSignIn}>
+              {i18n.sign_in}
+            </Button>
+          </div>
+          {signInAlert.length > 0 && <div className={styles.signInAlert}>{signInAlert}</div>}
+        </div>
+        <div className={styles.signUpSuggestion}>
+          <div className={styles.newToPrfs}>
+            <span>{i18n.new_to_prfs}</span>
+          </div>
+          <div>
+            <Button variant="transparent_a">{i18n.create_new_prfs_account}</Button>
+          </div>
+        </div>
       </div>
     </div>
   );

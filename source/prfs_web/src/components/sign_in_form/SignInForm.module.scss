@@ -9,16 +9,61 @@
   }
 }
 
-.hashResult {
-  margin-top: 13px;
-}
-
 .hashBtnRow {
   margin-top: 15px;
 }
 
+.hashResult {
+  margin-top: 13px;
+}
+
+.btnRow {
+  margin-top: 25px;
+}
+
 .signInAlert {
-  margin-bottom: 15px;
+  margin-left: 25px;
+  max-width: 390px;
+  max-height: 70px;
+  overflow-y: scroll;
+
   color: red;
   word-wrap: break-word;
+}
+
+.signInRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.signUpSuggestion {
+  width: 280px;
+  color: var(--gray-40);
+
+  .newToPrfs {
+    display: flex;
+    justify-content: center;
+    padding: 0 28px;
+    position: relative;
+    background-color: var(--bright-gray-50);
+    margin: 21px 0 24px;
+
+    &::before {
+      content: "";
+      bottom: 0;
+      top: 0;
+      left: 0;
+      position: absolute;
+      background-color: var(--gray-40);
+      margin: auto;
+      height: 1px;
+      width: 100%;
+    }
+
+    span {
+      background: inherit;
+      position: relative;
+      padding: 0 11px;
+    }
+  }
 }
