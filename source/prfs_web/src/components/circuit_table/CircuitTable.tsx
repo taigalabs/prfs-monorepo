@@ -4,7 +4,13 @@ import React from "react";
 import Link from "next/link";
 
 import styles from "./CircuitTable.module.scss";
-import Table, { TableRow, TableData, TableHeader, TableKeys } from "@/components/table/Table";
+import Table, {
+  TableBody,
+  TableRow,
+  TableData,
+  TableHeader,
+  TableKeys,
+} from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
 
@@ -14,24 +20,23 @@ const CircuitTable: React.FC = () => {
   const createHeader = React.useCallback((keys: TableKeys<CircuitTableKeys>) => {
     return (
       <TableHeader>
-        <div key={keys.circuit_id} className={styles.circuit_id}>
-          {i18n.circuit_id}
-        </div>
-        <div key={keys.label} className={styles.label}>
-          {i18n.label}
-        </div>
-        <div key={keys.desc} className={styles.desc}>
-          {i18n.description}
-        </div>
-        <div key={keys.num_public_inputs} className={styles.numInputs}>
-          {i18n.num_inputs}
-        </div>
-        <div key={keys.author} className={styles.author}>
-          {i18n.author}
-        </div>
-        <div key={keys.created_at} className={styles.createdAt}>
-          {i18n.created_at}
-        </div>
+        <TableRow>
+          <th key={keys.circuit_id} className={styles.circuit_id}>
+            {i18n.circuit_id}
+          </th>
+          <th key={keys.label} className={styles.label}>
+            {i18n.label}
+          </th>
+          <th key={keys.desc} className={styles.desc}>
+            {i18n.description}
+          </th>
+          <th key={keys.author} className={styles.author}>
+            {i18n.author}
+          </th>
+          <th key={keys.created_at} className={styles.createdAt}>
+            {i18n.created_at}
+          </th>
+        </TableRow>
       </TableHeader>
     );
   }, []);
@@ -49,31 +54,28 @@ const CircuitTable: React.FC = () => {
       for (let val of values) {
         let row = (
           <TableRow key={val.circuit_id}>
-            <div key={keys.circuit_id} className={styles.circuit_id}>
+            <td key={keys.circuit_id} className={styles.circuit_id}>
               <Link href={`/circuits/${val.circuit_id}`}>{val.circuit_id}</Link>
-            </div>
-            <div key={keys.label} className={styles.label}>
+            </td>
+            <td key={keys.label} className={styles.label}>
               {val.label}
-            </div>
-            <div key={keys.desc} className={styles.desc}>
+            </td>
+            <td key={keys.desc} className={styles.desc}>
               {val.desc}
-            </div>
-            <div key={keys.num_public_inputs} className={styles.numInputs}>
-              {val.num_public_inputs}
-            </div>
-            <div key={keys.author} className={styles.author}>
+            </td>
+            <td key={keys.author} className={styles.author}>
               {val.author}
-            </div>
-            <div key={keys.created_at} className={styles.createdAt}>
+            </td>
+            <td key={keys.created_at} className={styles.createdAt}>
               {val.created_at}
-            </div>
+            </td>
           </TableRow>
         );
 
         rows.push(row);
       }
 
-      return <div key={page}>{rows}</div>;
+      return <TableBody key={page}>{rows}</TableBody>;
     },
     []
   );
@@ -98,6 +100,7 @@ const CircuitTable: React.FC = () => {
       createHeader={createHeader}
       createBody={createBody}
       onChangePage={handleChangeProofPage}
+      minWidth={800}
     />
   );
 };

@@ -1,18 +1,23 @@
+.wrapper {
+  /* min-width: 800px; */
+}
 .circuit_id {
   width: 160px;
+  word-wrap: break-word;
 }
 .label {
-  width: 160px;
+  min-width: 160px;
 }
 .numInputs {
-  width: 100px;
+  min-width: 100px;
 }
 .author {
   width: 160px;
 }
 .createdAt {
-  width: 190px;
+  width: 120px;
+  max-width: 120px;
 }
 .desc {
-  flex-grow: 1;
+  width: 100%;
 }

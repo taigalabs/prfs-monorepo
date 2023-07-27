@@ -7,14 +7,24 @@ export const TableCurrentPageLimitWarning: React.FC = () => {
 };
 
 export const TableHeader: React.FC<TableHeaderProps> = ({ children }) => {
-  return <div className={styles.tableHeaderWrapper}>{children}</div>;
+  return <thead className={styles.tableHeaderWrapper}>{children}</thead>;
+};
+
+export const TableBody: React.FC<TableBodyProps> = ({ children }) => {
+  return <tbody className={styles.tableBodyWrapper}>{children}</tbody>;
 };
 
 export const TableRow: React.FC<TableRowProps> = ({ children }) => {
-  return <div className={styles.tableRowWrapper}>{children}</div>;
+  return <tr className={styles.tableRowWrapper}>{children}</tr>;
 };
 
-function Table<T extends string>({ keys, createHeader, createBody, onChangePage }: TableProps<T>) {
+function Table<T extends string>({
+  keys,
+  createHeader,
+  createBody,
+  onChangePage,
+  minWidth,
+}: TableProps<T>) {
   const [data, setValues] = React.useState({ page: 0, values: [] });
 
   React.useEffect(() => {
@@ -42,9 +52,16 @@ function Table<T extends string>({ keys, createHeader, createBody, onChangePage 
   }, [data, tableKeys]);
 
   return (
-    <div className={styles.wrapper}>
-      {headerElems}
-      <div>{bodyElems}</div>
+    <div className={styles.tableWrapper}>
+      <table
+        className={styles.table}
+        style={{
+          minWidth,
+        }}
+      >
+        {headerElems}
+        {bodyElems}
+      </table>
     </div>
   );
 }
@@ -56,6 +73,7 @@ export interface TableProps<T extends string> {
   createHeader: (keys: TableKeys<T>) => React.ReactNode;
   createBody: (keys: TableKeys<T>, data: TableData<T>) => React.ReactNode;
   onChangePage: (page: number) => Promise<TableData<T>>;
+  minWidth: number;
 }
 
 export type TableKeys<T extends string> = ObjectFromList<ReadonlyArray<T>, string>;
@@ -72,6 +90,10 @@ type ObjectFromList<T extends ReadonlyArray<string>, V = string> = {
 };
 
 export interface TableHeaderProps {
+  children: React.ReactNode;
+}
+
+export interface TableBodyProps {
   children: React.ReactNode;
 }
 

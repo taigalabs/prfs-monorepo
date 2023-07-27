@@ -62,14 +62,3 @@ const Proofs: React.FC = () => {
 };
 
 export default Proofs;
-
-const CIRCUIT_TABLE_KEYS = [
-  "id",
-  "name",
-  "author",
-  "num_public_inputs",
-  "desc",
-  "created_at",
-] as const;
-
-type CircuitTableKeys = (typeof CIRCUIT_TABLE_KEYS)[number];

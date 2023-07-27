@@ -4,7 +4,13 @@ import React from "react";
 import Link from "next/link";
 
 import styles from "./ProofTypeTable.module.scss";
-import Table, { TableRow, TableData, TableHeader, TableKeys } from "@/components/table/Table";
+import Table, {
+  TableBody,
+  TableRow,
+  TableData,
+  TableHeader,
+  TableKeys,
+} from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
 
@@ -14,12 +20,14 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
   const createHeader = React.useCallback((keys: TableKeys<ProofTypeTableKeys>) => {
     return (
       <TableHeader>
-        <div key={keys[0]} className={styles.id}>
-          {i18n.id}
-        </div>
-        <div key={keys[1]} className={styles.val}>
-          {i18n.value}
-        </div>
+        <TableRow>
+          <th key={keys[0]} className={styles.id}>
+            {i18n.id}
+          </th>
+          <th key={keys[1]} className={styles.val}>
+            {i18n.value}
+          </th>
+        </TableRow>
       </TableHeader>
     );
   }, []);
@@ -37,19 +45,19 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
       for (let val of values) {
         let row = (
           <TableRow key={val.pos_w}>
-            <div key={keys.pos_w} className={styles.id}>
+            <td key={keys.pos_w} className={styles.id}>
               {val.pos_w}
-            </div>
-            <div key={keys.val} className={styles.val}>
+            </td>
+            <td key={keys.val} className={styles.val}>
               {val.val}
-            </div>
+            </td>
           </TableRow>
         );
 
         rows.push(row);
       }
 
-      return <div key={page}>{rows}</div>;
+      return <TableBody key={page}>{rows}</TableBody>;
     },
     []
   );
@@ -76,6 +84,7 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
       createHeader={createHeader}
       createBody={createBody}
       onChangePage={handleChangePage}
+      minWidth={800}
     />
   );
 };

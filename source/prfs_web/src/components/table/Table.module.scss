@@ -1,20 +1,12 @@
-.wrapper {
-  display: flex;
-  flex-grow: 1;
-  flex-direction: column;
+.tableWrapper {
+  overflow-x: scroll;
 
-  .cell {
-    padding: 11px 20px;
-    position: relative;
-  }
-
-  .row {
-    display: flex;
+  table {
+    border-collapse: collapse;
   }
 }
 
 .tableHeaderWrapper {
-  display: flex;
   background-color: var(--bright-gray-55);
   border-bottom: 1px solid var(--bright-green-81);
   padding: 0px 0px;
@@ -23,7 +15,7 @@
   color: var(--gray-30);
   font-weight: 700;
 
-  > div {
+  th {
     padding: 11px 20px;
     position: relative;
 
@@ -41,10 +33,11 @@
 }
 
 .tableRowWrapper {
-  display: flex;
+  /* display: flex; */
   word-wrap: break-word;
 
-  > div {
+  > td {
+    /* flex-shrink: 0; */
     padding: 11px 20px;
     position: relative;
   }
