@@ -15,7 +15,7 @@ const SignInLayout: React.FC<SignInLayoutProps> = ({ children }) => {
       <div className={styles.inner}>
         <div className={styles.logoRow}>
           <Link href="/">
-            <Logo />
+            <Logo variant="big" />
           </Link>
         </div>
         <div>{children}</div>
