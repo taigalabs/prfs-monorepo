@@ -139,7 +139,7 @@ const SignInForm: React.FC<SignInFormProps> = () => {
           </div>
           {signInAlert.length > 0 && <div className={styles.signInAlert}>{signInAlert}</div>}
         </div>
-        <div className={styles.signUpSuggestion}>
+        <div className={styles.suggestion}>
           <StrikeThroughText>{i18n.new_to_prfs}</StrikeThroughText>
           <div>
             <Button variant="transparent_a" handleClick={handleClickSignUp}>

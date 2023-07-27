@@ -1,49 +1,36 @@
-.signInBtnRow {
-  margin-bottom: 18px;
-}
-
 .hashAlert {
   color: red;
   margin-bottom: 8px;
 }
 
-.radioBox {
-  border: 1px solid #9fb6bf;
-  padding: 13px 10px;
-  display: flex;
-  background-color: #f6fbf8;
-
-  > div {
-    margin-left: 12px;
-  }
-
-  .label {
-    font-weight: 500;
-    letter-spacing: 0.02em;
-  }
-
-  .desc {
-    font-size: 0.94em;
-    color: #4d4d4d;
-  }
-}
-
 .passcode {
   margin-bottom: 12px;
+  width: 200px;
+}
 
-  input {
-    margin-top: 5px;
-    border: 1px solid #acaca6;
-    padding: 4px 5px;
-  }
+.hashBtnRow {
+  margin-top: 15px;
+}
+
+.hashResult {
+  margin-top: 12px;
 }
 
 .signUpAlert {
   color: red;
-  margin-bottom: 12px;
+  margin-top: 12px;
   word-wrap: break-word;
 }
 
-.footer {
-  margin-top: 80px;
+.btnRow {
+  margin-top: 25px;
+}
+
+.signUpBtn {
+  margin-top: 18px;
+}
+
+.suggestion {
+  width: 280px;
+  color: var(--gray-40);
 }

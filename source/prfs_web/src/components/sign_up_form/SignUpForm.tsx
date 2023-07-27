@@ -92,7 +92,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
       try {
         let resp = await prfsBackend.signUpPrfsAccount(sig);
         if (resp.error) {
-          return;
+          throw new Error(resp.error);
         }
 
         dispatch({
@@ -104,11 +104,17 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         });
 
         router.push("/");
-      } catch (err) {}
+      } catch (err) {
+        setSignUpAlert(`sign up err, err: ${err}`);
+      }
     }
 
     fn().then();
   }, [walletAddr, passhash, setSignUpAlert]);
+
+  const handleClickSignIn = React.useCallback(() => {
+    router.push("/signin");
+  }, [router]);
 
   const handleConnect = React.useCallback(
     (addr: string) => {
@@ -142,10 +148,10 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
                     handleChange={handleChangePasscode}
                   />
                 </div>
-                <div className={styles.passcode_confirm}>
+                <div className={styles.passcode}>
                   <FormTextInput
                     type="password"
-                    label={i18n.passcode}
+                    label={i18n.passcode_confirm}
                     handleChange={handleChangePasscodeConfirm}
                   />
                 </div>
@@ -157,20 +163,30 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
                 </div>
                 {passhash && (
                   <div className={styles.hashResult}>
-                    <div className={styles.hashResult}>
-                      <FormTextInput label={i18n.passhash} value={passhash} />
-                    </div>
+                    <FormTextInput label={i18n.passhash} value={passhash} />
                   </div>
                 )}
               </WidgetPaddedBody>
             </Widget>
           </Card>
         </CardRow>
-        <div>
+      </div>
+      <div className={styles.btnRow}>
+        <div className={styles.signInRow}>
+          <div>
+            <Button variant="b" handleClick={handleClickSignUp}>
+              {i18n.sign_up}
+            </Button>
+          </div>
           {signUpAlert.length > 0 && <div className={styles.signUpAlert}>{signUpAlert}</div>}
-          <Button variant="b" handleClick={handleClickSignUp}>
-            {i18n.sign_up}
-          </Button>
+        </div>
+        <div className={styles.suggestion}>
+          <StrikeThroughText>{i18n.or}</StrikeThroughText>
+          <div>
+            <Button variant="transparent_a" handleClick={handleClickSignIn}>
+              {i18n.sign_in_to_existing}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

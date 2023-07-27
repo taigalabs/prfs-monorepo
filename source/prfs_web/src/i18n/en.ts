@@ -66,6 +66,7 @@ export default {
   passcode: "Passcode",
   passcode_confirm: "Confirm passcode",
   passhash: "Passhash",
+  or: "OR",
   sign_in_to_existing: "Sign in to an existing Prfs account",
   teaser_1: "Prfs is coming to empower you",
   teaser_2: "to make undeniable, anonymous claims",
