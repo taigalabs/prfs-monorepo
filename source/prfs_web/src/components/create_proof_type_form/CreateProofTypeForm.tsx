@@ -3,10 +3,25 @@ import Link from "next/link";
 
 import styles from "./CreateProofTypeForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Widget from "@/components/widget/Widget";
+import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
 import CardRow from "@/components/card_row/CardRow";
 import Card from "@/components/card/Card";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
+
+const FormSection: React.FC<SectionProps> = ({ children }) => {
+  return <div className={styles.formSectionWrapper}>{children}</div>;
+};
+
+const FormTextInput: React.FC<FormTextInputProps> = ({ label }) => {
+  return (
+    <div className={styles.formTextInputWrapper}>
+      <div>{label}</div>
+      <div>
+        <input type="text" />
+      </div>
+    </div>
+  );
+};
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -25,17 +40,34 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       </div>
       <CardRow>
         <Card>
-          <Widget label={i18n.name_and_description}>name input</Widget>
+          <Widget>
+            <WidgetHeader>
+              <WidgetLabel>{i18n.name_and_description}</WidgetLabel>
+            </WidgetHeader>
+            <FormSection>
+              <FormTextInput label={i18n.name} />
+            </FormSection>
+          </Widget>
         </Card>
       </CardRow>
       <CardRow>
         <Card>
-          <Widget label={i18n.choose_circuit}>aa</Widget>
+          <Widget>
+            <WidgetHeader>
+              <WidgetLabel>{i18n.choose_circuit}</WidgetLabel>
+            </WidgetHeader>
+            pp
+          </Widget>
         </Card>
       </CardRow>
       <CardRow>
         <Card>
-          <Widget label={i18n.choose_set}>aa</Widget>
+          <Widget>
+            <WidgetHeader>
+              <WidgetLabel>{i18n.choose_set}</WidgetLabel>
+            </WidgetHeader>
+            aa
+          </Widget>
         </Card>
       </CardRow>
       <div>button row</div>
@@ -46,3 +78,11 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 export default CreateProofTypeForm;
 
 export interface CreateProofTypeFormProps {}
+
+interface SectionProps {
+  children: React.ReactNode;
+}
+
+interface FormTextInputProps {
+  label: string;
+}

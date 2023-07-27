@@ -3,17 +3,17 @@
   justify-content: center;
   padding: 80px 8px;
   flex-grow: 1;
-  border: 1px solid black;
 
   .inner {
     display: flex;
     flex-direction: column;
+    width: 610px;
   }
 
-  .upper {
+  .logoRow {
     font-size: 1.4em;
     font-weight: 500;
-    margin-bottom: 58px;
+    margin-bottom: 28px;
 
     a {
       color: inherit;

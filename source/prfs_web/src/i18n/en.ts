@@ -25,7 +25,8 @@ export default {
   cardinality: "Cardinality",
   configuration: "Configuration",
   create_proof_type: "Create a proof type",
-  create_proof_type_subtitle: "Create a proof type subtitle",
+  create_proof_type_subtitle:
+    "Proofs allow you to make an undeniable, anonymous claim about anything from the source of truth. Start by choosing the circuit (program) and the reference values.",
   proofs: "Proofs",
   proof_instances: "Proof instances",
   proof_types: "Proof types",

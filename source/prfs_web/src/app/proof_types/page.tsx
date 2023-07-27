@@ -34,17 +34,6 @@ const Proofs: React.FC = () => {
     router.push("/proof_types?create");
   }, [router]);
 
-  const proofTypesHeader = (
-    <div className={styles.proofTypesHeader}>
-      <div className={styles.label}>{i18n.proof_types}</div>
-      <div>
-        <Button variant="a" handleClick={handleClickCreateProofType}>
-          {i18n.create_proof_type}
-        </Button>
-      </div>
-    </div>
-  );
-
   return (
     <DefaultLayout>
       {createPage ? (
@@ -56,7 +45,7 @@ const Proofs: React.FC = () => {
               <WidgetHeader>
                 <div className={styles.proofTypesHeader}>
                   <WidgetLabel>{i18n.proof_types}</WidgetLabel>
-                  <div>
+                  <div className={styles.btnRow}>
                     <Button variant="a" handleClick={handleClickCreateProofType}>
                       {i18n.create_proof_type}
                     </Button>

@@ -13,15 +13,15 @@ const SignInLayout: React.FC<SignInLayoutProps> = ({ children, title, desc }) =>
   return (
     <div className={styles.wrapper}>
       <div className={styles.inner}>
-        <div className={styles.upper}>
+        <div className={styles.logoRow}>
           <Link href="/">
             <Logo />
           </Link>
         </div>
-        <div className={styles.title}>
-          <div className={styles.label}>{title}</div>
-          <div className={styles.desc} dangerouslySetInnerHTML={{ __html: desc }}></div>
-        </div>
+        {/* <div className={styles.title}> */}
+        {/*   <div className={styles.label}>{title}</div> */}
+        {/*   <div className={styles.desc} dangerouslySetInnerHTML={{ __html: desc }}></div> */}
+        {/* </div> */}
         <div>{children}</div>
         <div className={styles.footer}>{i18n.copyright}</div>
       </div>

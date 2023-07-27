@@ -5,7 +5,7 @@ import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev
 
 import styles from "./ConnectWalletWidget.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Widget from "@/components/widget/Widget";
+import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
 
 const metamaskConfig = metamaskWallet();
 
@@ -28,7 +28,10 @@ const ConnectWalletWidget: React.FC<ConnectWalletWidgetProps> = ({ className, ha
   }, [setWalletAddr]);
 
   return (
-    <Widget label={i18n.connect_wallet} className={classnames(styles.wrapper, className)}>
+    <Widget>
+      <WidgetHeader>
+        <WidgetLabel>{i18n.connect_wallet}</WidgetLabel>
+      </WidgetHeader>
       <div className={styles.widgetInner}>
         <div className={`${styles.radioBox}`}>
           <div>

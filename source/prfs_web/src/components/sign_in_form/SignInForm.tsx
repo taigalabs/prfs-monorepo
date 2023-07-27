@@ -1,28 +1,23 @@
-"use client";
-
 import React from "react";
-import Link from "next/link";
-import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
+import { useConnect, metamaskWallet } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
 import { useRouter } from "next/navigation";
 
+import styles from "./SignInForm.module.scss";
 import { stateContext } from "@/contexts/state";
-import SignInLayout from "@/layouts/sign_in_layout/SignInLayout";
-import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
-import styles from "./SignIn.module.scss";
-import { i18nContext } from "@/contexts/i18n";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
 import Button from "@/components/button/Button";
 import { signIn } from "@/functions/prfsAccount";
 import localStore from "@/storage/localStore";
 import useLocalWallet from "@/hooks/useLocalWallet";
+import { i18nContext } from "@/contexts/i18n";
+import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
 import CardRow from "@/components/card_row/CardRow";
 import Card from "@/components/card/Card";
-import SignInForm from "@/components/sign_in_form/SignInForm";
 
 const metamaskConfig = metamaskWallet();
 
-const SignIn: React.FC = () => {
+const SignInForm: React.FC<SignInFormProps> = () => {
   const i18n = React.useContext(i18nContext);
   const connect = useConnect();
   const router = useRouter();
@@ -93,10 +88,53 @@ const SignIn: React.FC = () => {
   }, [walletAddr, passhash, setSignInAlert]);
 
   return (
-    <SignInLayout title={i18n.sign_in} desc={i18n.sign_in_desc}>
-      <SignInForm />
-    </SignInLayout>
+    <div>
+      <CardRow>
+        <Card>
+          <ConnectWalletWidget className={styles.widget} handleConnect={handleConnect} />
+        </Card>
+      </CardRow>
+      <CardRow>
+        <Card>
+          <Widget>
+            <WidgetHeader>
+              <WidgetLabel>{i18n.credential}</WidgetLabel>
+            </WidgetHeader>
+            <WidgetPaddedBody>
+              <div className={styles.passcode}>
+                <p className={styles.label}>Passcode</p>
+                <input type="password" onChange={handleChangePasscode} />
+              </div>
+              <div className={styles.hashBtnRow}>
+                <Button variant="a" handleClick={handleClickHash}>
+                  {i18n.hash}
+                </Button>
+              </div>
+
+              {passhash.length > 0 && (
+                <div>
+                  <div className={styles.hashResult}>
+                    <div>
+                      <p className={styles.label}>passhash</p>
+                      <p className={styles.val}>{passhash}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </WidgetPaddedBody>
+          </Widget>
+        </Card>
+      </CardRow>
+      <div className={styles.btnRow}>
+        {signInAlert.length > 0 && <div className={styles.signInAlert}>{signInAlert}</div>}
+        <Button variant="b" handleClick={handleClickSignIn}>
+          {i18n.sign_in}
+        </Button>
+      </div>
+    </div>
   );
 };
 
-export default SignIn;
+export default SignInForm;
+
+export interface SignInFormProps {}

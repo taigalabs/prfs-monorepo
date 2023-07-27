@@ -13,5 +13,15 @@
 
   .subtitle {
     color: var(--gray-31);
+    line-height: 1.78em;
+  }
+}
+
+.formSectionWrapper {
+  padding: 18px 20px;
+}
+
+.formTextInputWrapper {
+  input {
   }
 }
