@@ -25,6 +25,7 @@ export default {
   cardinality: "Cardinality",
   configuration: "Configuration",
   create_proof_type: "Create a proof type",
+  create_proof_type_subtitle: "Create a proof type subtitle",
   proofs: "Proofs",
   proof_instances: "Proof instances",
   proof_types: "Proof types",

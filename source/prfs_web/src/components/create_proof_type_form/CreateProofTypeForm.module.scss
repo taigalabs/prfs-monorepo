@@ -1,3 +1,17 @@
 .wrapper {
   max-width: 910px;
+
+  .titleRow {
+    margin: 32px 45px 30px;
+  }
+
+  .title {
+    font-size: 1.8em;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    color: var(--gray-31);
+  }
 }

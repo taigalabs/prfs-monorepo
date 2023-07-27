@@ -19,7 +19,10 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
         </BreadcrumbEntry>
         <BreadcrumbEntry>{i18n.create_proof_type}</BreadcrumbEntry>
       </Breadcrumb>
-      <div>title</div>
+      <div className={styles.titleRow}>
+        <div className={styles.title}>{i18n.create_proof_type}</div>
+        <div className={styles.subtitle}>{i18n.create_proof_type_subtitle}</div>
+      </div>
       <CardRow>
         <Card>
           <Widget label={i18n.name_and_description}>name input</Widget>
