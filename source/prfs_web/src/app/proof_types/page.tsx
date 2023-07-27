@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import styles from "./ProofTypes.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Widget from "@/components/widget/Widget";
+import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
@@ -52,7 +52,17 @@ const Proofs: React.FC = () => {
       ) : (
         <CardRow>
           <Card>
-            <Widget label={i18n.proof_types} headerElem={proofTypesHeader}>
+            <Widget>
+              <WidgetHeader>
+                <div className={styles.proofTypesHeader}>
+                  <WidgetLabel>{i18n.proof_types}</WidgetLabel>
+                  <div>
+                    <Button variant="a" handleClick={handleClickCreateProofType}>
+                      {i18n.create_proof_type}
+                    </Button>
+                  </div>
+                </div>
+              </WidgetHeader>
               <ProofTypeTable />
             </Widget>
           </Card>

@@ -4,7 +4,7 @@ import React from "react";
 
 import styles from "./Circuits.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Widget from "@/components/widget/Widget";
+import Widget, { WidgetHeader } from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
@@ -22,7 +22,8 @@ const Circuits: React.FC = () => {
     <DefaultLayout>
       <CardRow>
         <Card>
-          <Widget label={i18n.circuits}>
+          <Widget>
+            <WidgetHeader>{i18n.circuits}</WidgetHeader>
             <CircuitTable />
           </Widget>
         </Card>
