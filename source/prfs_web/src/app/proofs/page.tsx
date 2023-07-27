@@ -5,7 +5,7 @@ import React from "react";
 import styles from "./Proofs.module.scss";
 import Table, { TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
-import Widget from "@/components/widget/Widget";
+import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
@@ -24,7 +24,10 @@ const Proofs: React.FC = () => {
     <DefaultLayout>
       <CardRow>
         <Card>
-          <Widget label={i18n.proofs}>
+          <Widget>
+            <WidgetHeader>
+              <WidgetLabel>{i18n.proofs}</WidgetLabel>
+            </WidgetHeader>
             <CircuitTable />
           </Widget>
         </Card>
