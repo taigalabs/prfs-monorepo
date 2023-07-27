@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import styles from "./CreateProofTypeForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
+import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
 import CardRow from "@/components/card_row/CardRow";
 import Card from "@/components/card/Card";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
@@ -14,6 +14,9 @@ import {
   FormTitle,
   FormSubtitle,
 } from "@/components/form/Form";
+import CircuitTable from "../circuit_table/CircuitTable";
+import SetTable from "../set_table/SetTable";
+import Button from "@/components/button/Button";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -36,9 +39,11 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             <WidgetHeader>
               <WidgetLabel>{i18n.name_and_description}</WidgetLabel>
             </WidgetHeader>
-            <FormSection>
-              <FormTextInput label={i18n.name} />
-            </FormSection>
+            <WidgetPaddedBody>
+              <div className={styles.proofName}>
+                <FormTextInput label={i18n.name} />
+              </div>
+            </WidgetPaddedBody>
           </Widget>
         </Card>
       </CardRow>
@@ -48,7 +53,12 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             <WidgetHeader>
               <WidgetLabel>{i18n.choose_circuit}</WidgetLabel>
             </WidgetHeader>
-            pp
+            <WidgetPaddedBody>
+              <div>Select an awefawe</div>
+              <div>
+                <CircuitTable />
+              </div>
+            </WidgetPaddedBody>
           </Widget>
         </Card>
       </CardRow>
@@ -58,11 +68,18 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             <WidgetHeader>
               <WidgetLabel>{i18n.choose_set}</WidgetLabel>
             </WidgetHeader>
-            aa
+            <WidgetPaddedBody>
+              <div>Select an awefawe</div>
+              <div>
+                <SetTable />
+              </div>
+            </WidgetPaddedBody>
           </Widget>
         </Card>
       </CardRow>
-      <div>button row</div>
+      <div>
+        <Button variant="b">{i18n.create_proof_type}</Button>
+      </div>
     </div>
   );
 };
