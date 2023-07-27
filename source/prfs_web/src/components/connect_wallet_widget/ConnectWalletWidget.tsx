@@ -5,6 +5,8 @@ import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev
 import styles from "./ConnectWalletWidget.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
+import { FormTextInput } from "../form/Form";
+import Button from "@/components/button/Button";
 
 const metamaskConfig = metamaskWallet();
 
@@ -32,7 +34,7 @@ const ConnectWalletWidget: React.FC<ConnectWalletWidgetProps> = ({ handleConnect
         <WidgetLabel>{i18n.connect_wallet}</WidgetLabel>
       </WidgetHeader>
       <WidgetPaddedBody>
-        <div className={`${styles.radioBox}`}>
+        <div className={styles.radioBox}>
           <div>
             <input type="radio" value="metamask" checked readOnly />
           </div>
@@ -42,19 +44,16 @@ const ConnectWalletWidget: React.FC<ConnectWalletWidgetProps> = ({ handleConnect
           </div>
         </div>
         <div className={styles.connectBtnRow}>
-          <button className={styles.connectBtn} onClick={handleClickConnect}>
+          <Button variant="a" handleClick={handleClickConnect}>
             {i18n.connect}
-          </button>
+          </Button>
         </div>
-      </WidgetPaddedBody>
-      {walletAddr && (
-        <div>
+        {walletAddr && (
           <div className={styles.walletAddr}>
-            <p className={styles.label}>{i18n.wallet_addr}</p>
-            <p className={styles.val}>{walletAddr}</p>
+            <FormTextInput label={i18n.wallet_addr} value={walletAddr} />
           </div>
-        </div>
-      )}
+        )}
+      </WidgetPaddedBody>
     </Widget>
   );
 };

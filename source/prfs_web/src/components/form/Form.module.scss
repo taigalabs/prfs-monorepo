@@ -3,7 +3,21 @@
 }
 
 .formTextInputWrapper {
+  .label {
+    margin-bottom: 5px;
+    color: var(--gray-10);
+  }
+
   input {
+    color: var(--gray-10);
+    width: 100%;
+    border: 1px solid var(--gray-40);
+    padding: 5px 5px;
+  }
+
+  input.readOnly {
+    background-color: var(--bright-gray-50);
+    color: var(--gray-30);
   }
 }
 

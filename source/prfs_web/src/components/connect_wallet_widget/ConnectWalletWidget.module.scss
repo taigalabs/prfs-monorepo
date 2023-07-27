@@ -39,26 +39,6 @@
   }
 }
 
-.connectBtn {
-  border-radius: 0;
-  background-color: #c8d0ca;
-  color: #2f3139;
-  font-weight: 500;
-  padding: 8px 12px;
-
-  &:hover {
-    background-color: #b5bdb7;
-    cursor: pointer;
-  }
-}
-
 .walletAddr {
-  .label {
-    margin-bottom: 4px;
-    color: #272717;
-  }
-  .val {
-    font-weight: 500;
-    color: #272717;
-  }
+  margin-top: 13px;
 }

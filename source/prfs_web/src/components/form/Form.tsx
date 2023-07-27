@@ -18,12 +18,16 @@ export const FormSection: React.FC<FormSectionProps> = ({ children }) => {
   return <div className={styles.formSectionWrapper}>{children}</div>;
 };
 
-export const FormTextInput: React.FC<FormTextInputProps> = ({ label }) => {
+export const FormTextInput: React.FC<FormTextInputProps> = ({ label, value }) => {
   return (
     <div className={styles.formTextInputWrapper}>
-      <div>{label}</div>
+      <div className={styles.label}>{label}</div>
       <div>
-        <input type="text" />
+        {value ? (
+          <input className={styles.readOnly} type="text" value={value} readOnly />
+        ) : (
+          <input type="text" />
+        )}
       </div>
     </div>
   );
@@ -35,6 +39,7 @@ export interface FormSectionProps {
 
 export interface FormTextInputProps {
   label: string;
+  value?: string | number;
 }
 
 export interface FormTitleProps {
