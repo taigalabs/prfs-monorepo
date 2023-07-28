@@ -55,14 +55,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             <WidgetHeader>
               <WidgetLabel>{i18n.choose_circuit}</WidgetLabel>
             </WidgetHeader>
-            <div>
-              <div>Select an awefawe</div>
-              <div className={styles.tableContainer}>
-                <div className={styles.tableBorder}>
-                  <CircuitTable />
-                </div>
-              </div>
-            </div>
+            <CircuitTable />
           </Widget>
         </Card>
       </CardRow>
@@ -72,12 +65,14 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             <WidgetHeader>
               <WidgetLabel>{i18n.choose_set}</WidgetLabel>
             </WidgetHeader>
-            <WidgetPaddedBody>
+            <div>
               <div>Select an awefawe</div>
-              <Widget>
-                <SetTable />
-              </Widget>
-            </WidgetPaddedBody>
+              <div className={styles.tableContainer}>
+                <div className={styles.tableBorder}>
+                  <SetTable />
+                </div>
+              </div>
+            </div>
           </Widget>
         </Card>
       </CardRow>

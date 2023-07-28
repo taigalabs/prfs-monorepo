@@ -16,35 +16,38 @@ import Table, {
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
 
-const CircuitTable: React.FC<CircuitTableProps> = () => {
+const CircuitTable: React.FC<CircuitTableProps> = ({ selectedVal, setSelectedVal }) => {
   const i18n = React.useContext(i18nContext);
 
-  const [selectedVal, setSelectedVal] = React.useState<TableSelectedValue<CircuitTableKeys>>({});
+  // const [selectedVal, setSelectedVal] = React.useState<TableSelectedValue<CircuitTableKeys>>({});
 
-  const createHeader = React.useCallback((keys: TableKeys<CircuitTableKeys>) => {
-    return (
-      <TableHeader>
-        <TableRow>
-          <th key="select" className={styles.radio}></th>
-          <th key={keys.circuit_id} className={styles.circuit_id}>
-            {i18n.circuit_id}
-          </th>
-          <th key={keys.label} className={styles.label}>
-            {i18n.label}
-          </th>
-          <th key={keys.desc} className={styles.desc}>
-            {i18n.description}
-          </th>
-          <th key={keys.author} className={styles.author}>
-            {i18n.author}
-          </th>
-          <th key={keys.created_at} className={styles.createdAt}>
-            {i18n.created_at}
-          </th>
-        </TableRow>
-      </TableHeader>
-    );
-  }, []);
+  const createHeader = React.useCallback(
+    (keys: TableKeys<CircuitTableKeys>) => {
+      return (
+        <TableHeader>
+          <TableRow>
+            {setSelectedVal && <th key="select" className={styles.radio}></th>}
+            <th key={keys.circuit_id} className={styles.circuit_id}>
+              {i18n.circuit_id}
+            </th>
+            <th key={keys.label} className={styles.label}>
+              {i18n.label}
+            </th>
+            <th key={keys.desc} className={styles.desc}>
+              {i18n.description}
+            </th>
+            <th key={keys.author} className={styles.author}>
+              {i18n.author}
+            </th>
+            <th key={keys.created_at} className={styles.createdAt}>
+              {i18n.created_at}
+            </th>
+          </TableRow>
+        </TableHeader>
+      );
+    },
+    [setSelectedVal]
+  );
 
   const createBody = React.useCallback(
     ({ keys, data, onClickRow, selectedVal }: CreateBodyArgs<CircuitTableKeys>) => {
@@ -62,13 +65,15 @@ const CircuitTable: React.FC<CircuitTableProps> = () => {
           onClickRow(val);
         };
 
-        const isSelected = !!selectedVal[val.circuit_id];
+        const isSelected = selectedVal && !!selectedVal[val.circuit_id];
 
         let row = (
           <TableRow key={val.circuit_id} onClickRow={handleClickRow}>
-            <td key="select" className={styles.radio}>
-              <input type="radio" value="metamask" checked={isSelected} readOnly />
-            </td>
+            {selectedVal && (
+              <td key="select" className={styles.radio}>
+                <input type="radio" value="metamask" checked={isSelected} readOnly />
+              </td>
+            )}
             <td key={keys.circuit_id} className={styles.circuit_id}>
               <Link href={`/circuits/${val.circuit_id}`}>{val.circuit_id}</Link>
             </td>
@@ -92,7 +97,7 @@ const CircuitTable: React.FC<CircuitTableProps> = () => {
 
       return <TableBody key={page}>{rows}</TableBody>;
     },
-    []
+    [setSelectedVal]
   );
 
   const handleChangeProofPage = React.useCallback(async (page: number) => {
@@ -111,20 +116,22 @@ const CircuitTable: React.FC<CircuitTableProps> = () => {
 
   const handleClickRow = React.useCallback(
     (val: TableRowValue<CircuitTableKeys>) => {
-      console.log(11, val);
+      if (setSelectedVal) {
+        console.log(11, val);
 
-      setSelectedVal(oldVal => {
-        if (oldVal[val.circuit_id]) {
-          const newVal = { ...oldVal };
-          delete newVal[val.circuit_id];
-          return newVal;
-        } else {
-          return {
-            ...oldVal,
-            [val.circuit_id]: val,
-          };
-        }
-      });
+        setSelectedVal(oldVal => {
+          if (oldVal[val.circuit_id]) {
+            const newVal = { ...oldVal };
+            delete newVal[val.circuit_id];
+            return newVal;
+          } else {
+            return {
+              ...oldVal,
+              [val.circuit_id]: val,
+            };
+          }
+        });
+      }
     },
     [setSelectedVal]
   );
@@ -144,7 +151,10 @@ const CircuitTable: React.FC<CircuitTableProps> = () => {
 
 export default CircuitTable;
 
-export interface CircuitTableProps {}
+export interface CircuitTableProps {
+  selectedVal?: TableSelectedValue<CircuitTableKeys>;
+  setSelectedVal?: React.Dispatch<React.SetStateAction<TableSelectedValue<CircuitTableKeys>>>;
+}
 
 const CIRCUIT_TABLE_KEYS = [
   "circuit_id",
