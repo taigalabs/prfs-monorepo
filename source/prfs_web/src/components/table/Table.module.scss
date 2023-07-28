@@ -16,7 +16,7 @@
   font-weight: 700;
 
   th {
-    padding: 11px 20px;
+    padding: 11px 12px;
     position: relative;
 
     &::before {
@@ -33,12 +33,10 @@
 }
 
 .tableRowWrapper {
-  /* display: flex; */
   word-wrap: break-word;
 
   > td {
-    /* flex-shrink: 0; */
-    padding: 11px 20px;
+    padding: 11px 12px;
     position: relative;
   }
 

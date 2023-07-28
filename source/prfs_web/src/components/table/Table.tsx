@@ -14,16 +14,20 @@ export const TableBody: React.FC<TableBodyProps> = ({ children }) => {
   return <tbody className={styles.tableBodyWrapper}>{children}</tbody>;
 };
 
-export const TableRow: React.FC<TableRowProps> = ({ children }) => {
-  return <tr className={styles.tableRowWrapper}>{children}</tr>;
-};
+export function TableRow<T>({ children, onClickRow }: TableRowProps<T>) {
+  return (
+    <tr className={styles.tableRowWrapper} {...(onClickRow && { onClickRow })}>
+      {children}
+    </tr>
+  );
+}
 
 function Table<T extends string>({
   keys,
   createHeader,
   createBody,
   onChangePage,
-  onSelectRow,
+  onClickRow,
   minWidth,
   selectable,
 }: TableProps<T>) {
@@ -54,7 +58,7 @@ function Table<T extends string>({
       keys: tableKeys,
       data,
       selectable: !!selectable,
-      onSelectRow,
+      onClickRow,
     });
   }, [data, tableKeys, selectable]);
 
@@ -82,10 +86,10 @@ export interface TableProps<T extends string> {
     keys: TableKeys<T>;
     data: TableData<T>;
     selectable: boolean;
-    onSelectRow: SelectRowFunction<T>;
+    onClickRow: ClickRowFunction<T>;
   }) => React.ReactNode;
   onChangePage: (page: number) => Promise<TableData<T>>;
-  onSelectRow?: SelectRowFunction<T>;
+  onClickRow?: ClickRowFunction<T>;
   minWidth: number;
   selectable?: boolean;
 }
@@ -111,8 +115,9 @@ export interface TableBodyProps {
   children: React.ReactNode;
 }
 
-export interface TableRowProps {
+export interface TableRowProps<T> {
   children: React.ReactNode;
+  onClickRow?: ClickRowFunction<T>;
 }
 
-export type SelectRowFunction<T> = (row: T) => void;
+export type ClickRowFunction<T> = (row: T) => void;

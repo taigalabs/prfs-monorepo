@@ -22,11 +22,7 @@ const CircuitTable: React.FC<CircuitTableProps> = ({ selectable }) => {
       return (
         <TableHeader>
           <TableRow>
-            {selectable && (
-              <th key="select" className={styles.circuit_id}>
-                se
-              </th>
-            )}
+            {selectable && <th key="select" className={styles.radio}></th>}
             <th key={keys.circuit_id} className={styles.circuit_id}>
               {i18n.circuit_id}
             </th>
@@ -49,7 +45,7 @@ const CircuitTable: React.FC<CircuitTableProps> = ({ selectable }) => {
     []
   );
 
-  const createBody = React.useCallback(({ keys, data, selectable, onSelectRow }) => {
+  const createBody = React.useCallback(({ keys, data, selectable, onClickRow }) => {
     // console.log(1, data);
     let { page, values } = data;
 
@@ -58,14 +54,12 @@ const CircuitTable: React.FC<CircuitTableProps> = ({ selectable }) => {
       return rows;
     }
 
-    console.log(11, selectable);
-
     for (let val of values) {
       let row = (
-        <TableRow key={val.circuit_id}>
+        <TableRow key={val.circuit_id} onClickRow={onClickRow}>
           {selectable && (
-            <td key="select" className={styles.circuit_id}>
-              radio
+            <td key="select" className={styles.radio}>
+              <input type="radio" value="metamask" checked readOnly />
             </td>
           )}
           <td key={keys.circuit_id} className={styles.circuit_id}>
@@ -106,6 +100,10 @@ const CircuitTable: React.FC<CircuitTableProps> = ({ selectable }) => {
       });
   }, []);
 
+  const handleClickRow = (d: any) => {
+    console.log(11, d);
+  };
+
   return (
     <Table
       keys={CIRCUIT_TABLE_KEYS}
@@ -114,6 +112,7 @@ const CircuitTable: React.FC<CircuitTableProps> = ({ selectable }) => {
       onChangePage={handleChangeProofPage}
       minWidth={880}
       selectable={selectable}
+      onClickRow={handleClickRow}
     />
   );
 };
