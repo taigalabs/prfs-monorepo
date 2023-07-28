@@ -23,6 +23,7 @@ function Table<T extends string>({
   createHeader,
   createBody,
   onChangePage,
+  onSelectRow,
   minWidth,
   selectable,
 }: TableProps<T>) {
@@ -49,7 +50,12 @@ function Table<T extends string>({
   }, [tableKeys]);
 
   let bodyElems = React.useMemo(() => {
-    return createBody(tableKeys, data, !!selectable);
+    return createBody({
+      keys: tableKeys,
+      data,
+      selectable: !!selectable,
+      onSelectRow,
+    });
   }, [data, tableKeys, selectable]);
 
   return (
@@ -72,9 +78,14 @@ export default Table;
 export interface TableProps<T extends string> {
   keys: ReadonlyArray<T>;
   createHeader: (keys: TableKeys<T>, selectable: boolean) => React.ReactNode;
-  createBody: (keys: TableKeys<T>, data: TableData<T>, selectable: boolean) => React.ReactNode;
+  createBody: (args: {
+    keys: TableKeys<T>;
+    data: TableData<T>;
+    selectable: boolean;
+    onSelectRow: SelectRowFunction<T>;
+  }) => React.ReactNode;
   onChangePage: (page: number) => Promise<TableData<T>>;
-  onSelectRow?: (row: T) => void;
+  onSelectRow?: SelectRowFunction<T>;
   minWidth: number;
   selectable?: boolean;
 }
@@ -103,3 +114,5 @@ export interface TableBodyProps {
 export interface TableRowProps {
   children: React.ReactNode;
 }
+
+export type SelectRowFunction<T> = (row: T) => void;

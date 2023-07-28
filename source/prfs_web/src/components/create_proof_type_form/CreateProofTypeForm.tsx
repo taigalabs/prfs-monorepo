@@ -21,6 +21,8 @@ import Button from "@/components/button/Button";
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
 
+  const handleSelectCircuit = React.useCallback(() => {}, []);
+
   return (
     <div className={styles.wrapper}>
       <Breadcrumb>
@@ -55,9 +57,11 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             </WidgetHeader>
             <WidgetPaddedBody>
               <div>Select an awefawe</div>
-              <Widget>
-                <CircuitTable selectable />
-              </Widget>
+              <div className={styles.tableContainer}>
+                <div className={styles.tableBorder}>
+                  <CircuitTable selectable />
+                </div>
+              </div>
             </WidgetPaddedBody>
           </Widget>
         </Card>

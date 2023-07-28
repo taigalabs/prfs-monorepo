@@ -32,35 +32,32 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId }) => {
     );
   }, []);
 
-  const createBody = React.useCallback(
-    (keys: TableKeys<SetElementTableKeys>, data: TableData<SetElementTableKeys>) => {
-      // console.log(1, data);
-      let { page, values } = data;
+  const createBody = React.useCallback(({ keys, data }) => {
+    // console.log(1, data);
+    let { page, values } = data;
 
-      let rows = [];
-      if (values === undefined || values.length < 1) {
-        return rows;
-      }
+    let rows = [];
+    if (values === undefined || values.length < 1) {
+      return rows;
+    }
 
-      for (let val of values) {
-        let row = (
-          <TableRow key={val.pos_w}>
-            <td key={keys.pos_w} className={styles.id}>
-              {val.pos_w}
-            </td>
-            <td key={keys.val} className={styles.val}>
-              {val.val}
-            </td>
-          </TableRow>
-        );
+    for (let val of values) {
+      let row = (
+        <TableRow key={val.pos_w}>
+          <td key={keys.pos_w} className={styles.id}>
+            {val.pos_w}
+          </td>
+          <td key={keys.val} className={styles.val}>
+            {val.val}
+          </td>
+        </TableRow>
+      );
 
-        rows.push(row);
-      }
+      rows.push(row);
+    }
 
-      return <TableBody key={page}>{rows}</TableBody>;
-    },
-    []
-  );
+    return <TableBody key={page}>{rows}</TableBody>;
+  }, []);
 
   const handleChangePage = React.useCallback(
     async (page: number) => {

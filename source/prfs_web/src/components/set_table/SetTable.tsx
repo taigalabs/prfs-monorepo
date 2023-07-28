@@ -44,47 +44,44 @@ const SetTable: React.FC = () => {
     );
   }, []);
 
-  const createBody = React.useCallback(
-    (keys: TableKeys<SetTableKeys>, data: TableData<SetTableKeys>) => {
-      // console.log(1, data);
-      let { page, values } = data;
+  const createBody = React.useCallback(({ keys, data }) => {
+    // console.log(1, data);
+    let { page, values } = data;
 
-      let rows = [];
-      if (values === undefined || values.length < 1) {
-        return rows;
-      }
+    let rows = [];
+    if (values === undefined || values.length < 1) {
+      return rows;
+    }
 
-      for (let val of values) {
-        let row = (
-          <TableRow key={val.set_id}>
-            <td key={keys.set_id} className={styles.set_id}>
-              <Link href={`/sets/${val.set_id}`}>{val.set_id}</Link>
-            </td>
-            <td key={keys.label} className={styles.label}>
-              {val.label}
-            </td>
-            <td key={keys.author} className={styles.author}>
-              {val.author}
-            </td>
-            <td key={keys.desc} className={styles.desc}>
-              {val.desc}
-            </td>
-            <td key={keys.cardinality} className={styles.cardinality}>
-              {val.cardinality}
-            </td>
-            <td key={keys.created_at} className={styles.createdAt}>
-              {val.created_at}
-            </td>
-          </TableRow>
-        );
+    for (let val of values) {
+      let row = (
+        <TableRow key={val.set_id}>
+          <td key={keys.set_id} className={styles.set_id}>
+            <Link href={`/sets/${val.set_id}`}>{val.set_id}</Link>
+          </td>
+          <td key={keys.label} className={styles.label}>
+            {val.label}
+          </td>
+          <td key={keys.author} className={styles.author}>
+            {val.author}
+          </td>
+          <td key={keys.desc} className={styles.desc}>
+            {val.desc}
+          </td>
+          <td key={keys.cardinality} className={styles.cardinality}>
+            {val.cardinality}
+          </td>
+          <td key={keys.created_at} className={styles.createdAt}>
+            {val.created_at}
+          </td>
+        </TableRow>
+      );
 
-        rows.push(row);
-      }
+      rows.push(row);
+    }
 
-      return <TableBody key={page}>{rows}</TableBody>;
-    },
-    []
-  );
+    return <TableBody key={page}>{rows}</TableBody>;
+  }, []);
 
   const handleChangePage = React.useCallback(async (page: number) => {
     return prfsBackend
