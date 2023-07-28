@@ -1,5 +1,7 @@
 .wrapper {
-  // border: 1px solid black;
+  /* border: 1px solid red; */
+  position: fixed;
+  z-index: 100;
   width: 210px;
   min-height: 100%;
   flex-shrink: 0;

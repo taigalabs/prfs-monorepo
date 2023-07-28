@@ -1,5 +1,9 @@
 .wrapper {
-  // border: 1px solid gray;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  width: 100%;
   display: flex;
   padding: 0px 0px;
   background-color: var(--dark-cyan-50);

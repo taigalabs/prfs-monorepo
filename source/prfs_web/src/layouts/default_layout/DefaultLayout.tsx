@@ -16,8 +16,10 @@ const DefaultLayout: React.FC<any> = ({ children }) => {
   return (
     <div className={styles.wrapper}>
       <Masthead />
-      <div className={styles.bottom}>
-        <LeftBar />
+      <div className={styles.main}>
+        <div className={styles.leftBarContainer}>
+          <LeftBar />
+        </div>
         <div className={styles.contentArea}>{children}</div>
       </div>
       <GlobalFooter />
