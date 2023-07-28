@@ -11,11 +11,12 @@ import Table, {
   TableData,
   TableKeys,
   TableSelectedValue,
+  TableRowValue,
 } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
 
-const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, setSelectedVal }) => {
+const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
 
   const createHeader = React.useCallback(
@@ -23,7 +24,7 @@ const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, setSelecte
       return (
         <TableHeader>
           <TableRow>
-            {setSelectedVal && <th key="select" className={styles.select}></th>}
+            {handleSelectVal && <th key="select" className={styles.select}></th>}
             <th key={keys[0]} className={styles.set_id}>
               {i18n.set_id}
             </th>
@@ -46,7 +47,7 @@ const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, setSelecte
         </TableHeader>
       );
     },
-    [setSelectedVal]
+    [handleSelectVal]
   );
 
   const createBody = React.useCallback(
@@ -96,7 +97,7 @@ const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, setSelecte
 
       return <TableBody key={page}>{rows}</TableBody>;
     },
-    [setSelectedVal]
+    [handleSelectVal]
   );
 
   const handleChangePage = React.useCallback(async (page: number) => {
@@ -129,7 +130,7 @@ export default SetTable;
 export interface SetTableProps {
   selectType?: "checkbox" | "radio";
   selectedVal?: TableSelectedValue<SetTableKeys>;
-  setSelectedVal?: React.Dispatch<React.SetStateAction<TableSelectedValue<SetTableKeys>>>;
+  handleSelectVal?: (row: TableRowValue<SetTableKeys>) => void;
 }
 
 const SET_TABLE_KEYS = [

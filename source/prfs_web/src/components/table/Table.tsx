@@ -14,7 +14,7 @@ export const TableBody: React.FC<TableBodyProps> = ({ children }) => {
   return <tbody className={styles.tableBodyWrapper}>{children}</tbody>;
 };
 
-export function TableRow({ children, onClickRow }: TableRowProps) {
+export function TableRow<T extends string>({ children, handleSelectVal }: TableRowProps<T>) {
   return (
     <tr className={styles.tableRowWrapper} {...(onClickRow && { onClick: onClickRow })}>
       {children}
@@ -126,9 +126,9 @@ export interface TableBodyProps {
   children: React.ReactNode;
 }
 
-export interface TableRowProps {
+export interface TableRowProps<T extends string> {
   children: React.ReactNode;
-  onClickRow?: MouseEventHandler;
+  handleSelectVal?: (row: TableRowValue<T>) => ClickRowFunction<T>;
 }
 
-export type ClickRowFunction<T extends string> = (val: TableRowValue<T>) => void;
+// export type ClickRowFunction<T extends string> = (val: TableRowValue<T>) => void;

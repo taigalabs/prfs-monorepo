@@ -46,6 +46,25 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   );
 
   const [selectedSet, setSelectedSet] = React.useState<TableSelectedValue<SetTableKeys>>({});
+  const handleSelectSet = React.useCallback(
+    (val: TableRowValue<SetTableKeys>) => {
+      console.log(11, val);
+
+      setSelectedSet(oldVal => {
+        if (oldVal[val.set_id]) {
+          const newVal = { ...oldVal };
+          delete newVal[val.set_id];
+          return newVal;
+        } else {
+          return {
+            ...oldVal,
+            [val.set_id]: val,
+          };
+        }
+      });
+    },
+    [setSelectedCircuit]
+  );
 
   return (
     <div className={styles.wrapper}>
@@ -82,7 +101,6 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             <CircuitTable
               selectType="radio"
               selectedVal={selectedCircuit}
-              setSelectedVal={setSelectedCircuit}
               handleSelectVal={handleSelectCircuit}
             />
           </Widget>
@@ -98,7 +116,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             <SetTable
               selectType="checkbox"
               selectedVal={selectedSet}
-              setSelectedVal={setSelectedSet}
+              handleSelectVal={handleSelectSet}
             />
           </Widget>
         </Card>

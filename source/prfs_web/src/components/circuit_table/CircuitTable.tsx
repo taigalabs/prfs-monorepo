@@ -23,8 +23,6 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
 
-  // const [selectedVal, setSelectedVal] = React.useState<TableSelectedValue<CircuitTableKeys>>({});
-
   const createHeader = React.useCallback(
     (keys: TableKeys<CircuitTableKeys>) => {
       return (
@@ -65,17 +63,17 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
       // console.log(22, selectedVal);
 
       for (let val of values) {
-        const handleClickRow = handleSelectVal
-          ? (_ev: React.MouseEvent) => {
-              handleSelectVal(val);
-            }
-          : undefined;
+        // const onClickRow = handleSelectVal
+        //   ? (_ev: React.MouseEvent) => {
+        //       handleSelectVal(val);
+        //     }
+        //   : undefined;
 
         const isSelected = selectedVal && !!selectedVal[val.circuit_id];
         const selType = selectType || "radio";
 
         let row = (
-          <TableRow key={val.circuit_id} onClickRow={handleClickRow}>
+          <TableRow key={val.circuit_id} handleSelectVal={handleSelectVal}>
             {selectedVal && (
               <td key="select" className={styles.radio}>
                 <input type={selType} checked={isSelected} readOnly />
