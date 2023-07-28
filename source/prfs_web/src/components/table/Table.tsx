@@ -1,6 +1,7 @@
 import React, { MouseEventHandler } from "react";
 
 import styles from "./Table.module.scss";
+import classNames from "classnames";
 
 export const TableCurrentPageLimitWarning: React.FC = () => {
   return <div className={styles.pageLimitWarning}>Currently showing up to 20 elements</div>;
@@ -14,9 +15,15 @@ export const TableBody: React.FC<TableBodyProps> = ({ children }) => {
   return <tbody className={styles.tableBodyWrapper}>{children}</tbody>;
 };
 
-export function TableRow<T extends string>({ children, handleSelectVal }: TableRowProps<T>) {
+export function TableRow({ isSelected, children, onClickRow }: TableRowProps) {
   return (
-    <tr className={styles.tableRowWrapper} {...(onClickRow && { onClick: onClickRow })}>
+    <tr
+      className={classNames({
+        [styles.tableRowWrapper]: true,
+        [styles.selectedRow]: !!isSelected,
+      })}
+      {...(onClickRow && { onClick: onClickRow })}
+    >
       {children}
     </tr>
   );
@@ -27,7 +34,6 @@ function Table<T extends string>({
   createHeader,
   createBody,
   onChangePage,
-  // onClickRow,
   handleSelectVal,
   minWidth,
   selectedVal,
@@ -85,16 +91,14 @@ export interface TableProps<T extends string> {
   createHeader: (keys: TableKeys<T>) => React.ReactNode;
   createBody: (args: CreateBodyArgs<T>) => React.ReactNode;
   onChangePage: (page: number) => Promise<TableData<T>>;
-  // onClickRow?: ClickRowFunction<T>;
-  handleSelectVal?: (row: TableRowValue<T>) => void;
   minWidth: number;
   selectedVal?: TableSelectedValue<T>;
+  handleSelectVal?: (row: TableRowValue<T>) => void;
 }
 
 export type CreateBodyArgs<T extends string> = {
   keys: TableKeys<T>;
   data: TableData<T>;
-  // onClickRow: ClickRowFunction<T>;
   selectedVal: TableSelectedValue<T>;
   handleSelectVal?: (row: TableRowValue<T>) => void;
 };
@@ -126,9 +130,8 @@ export interface TableBodyProps {
   children: React.ReactNode;
 }
 
-export interface TableRowProps<T extends string> {
+export interface TableRowProps {
+  isSelected?: boolean;
   children: React.ReactNode;
-  handleSelectVal?: (row: TableRowValue<T>) => ClickRowFunction<T>;
+  onClickRow?: MouseEventHandler;
 }
-
-// export type ClickRowFunction<T extends string> = (val: TableRowValue<T>) => void;

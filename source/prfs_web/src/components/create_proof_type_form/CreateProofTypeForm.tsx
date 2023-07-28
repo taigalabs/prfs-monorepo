@@ -27,13 +27,11 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   >({});
   const handleSelectCircuit = React.useCallback(
     (val: TableRowValue<CircuitTableKeys>) => {
-      console.log(11, val);
+      // console.log(11, val);
 
       setSelectedCircuit(oldVal => {
         if (oldVal[val.circuit_id]) {
-          const newVal = { ...oldVal };
-          delete newVal[val.circuit_id];
-          return newVal;
+          return oldVal;
         } else {
           return {
             ...oldVal,

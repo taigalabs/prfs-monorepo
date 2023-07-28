@@ -48,6 +48,15 @@
   }
 }
 
+.tableRowWrapper.selectedRow {
+  background-color: #f6fbf8;
+  border: 1px solid #9fb6bf;
+
+  > td:first-child {
+    border-left: 1px solid #9fb6bf;
+  }
+}
+
 .pageLimitWarning {
   background-color: var(--bright-gray-55);
   padding: 11px 20px;

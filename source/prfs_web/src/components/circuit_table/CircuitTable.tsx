@@ -63,17 +63,17 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
       // console.log(22, selectedVal);
 
       for (let val of values) {
-        // const onClickRow = handleSelectVal
-        //   ? (_ev: React.MouseEvent) => {
-        //       handleSelectVal(val);
-        //     }
-        //   : undefined;
+        const onClickRow = handleSelectVal
+          ? (_ev: React.MouseEvent) => {
+              handleSelectVal(val);
+            }
+          : undefined;
 
         const isSelected = selectedVal && !!selectedVal[val.circuit_id];
         const selType = selectType || "radio";
 
         let row = (
-          <TableRow key={val.circuit_id} handleSelectVal={handleSelectVal}>
+          <TableRow key={val.circuit_id} onClickRow={onClickRow} isSelected={isSelected}>
             {selectedVal && (
               <td key="select" className={styles.radio}>
                 <input type={selType} checked={isSelected} readOnly />
@@ -102,7 +102,7 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
 
       return <TableBody key={page}>{rows}</TableBody>;
     },
-    [handleSelectVal]
+    []
   );
 
   const handleChangeProofPage = React.useCallback(async (page: number) => {
