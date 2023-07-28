@@ -8,6 +8,7 @@ import styles from "./DefaultLayout.module.scss";
 import Masthead from "@/components/masthead/Masthead";
 import LeftBar from "@/components/left_bar/LeftBar";
 import { i18nContext } from "@/contexts/i18n";
+import GlobalFooter from "@/components/global_footer/GlobalFooter";
 
 const DefaultLayout: React.FC<any> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
@@ -19,6 +20,7 @@ const DefaultLayout: React.FC<any> = ({ children }) => {
         <LeftBar />
         <div className={styles.contentArea}>{children}</div>
       </div>
+      <GlobalFooter />
     </div>
   );
 };

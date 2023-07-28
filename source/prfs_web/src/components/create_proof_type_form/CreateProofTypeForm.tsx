@@ -111,11 +111,13 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
               <WidgetLabel>{i18n.choose_set}</WidgetLabel>
             </WidgetHeader>
             <WidgetPaddedBody>power</WidgetPaddedBody>
-            <SetTable
-              selectType="checkbox"
-              selectedVal={selectedSet}
-              handleSelectVal={handleSelectSet}
-            />
+            <div className={styles.embeddedTable}>
+              <SetTable
+                selectType="checkbox"
+                selectedVal={selectedSet}
+                handleSelectVal={handleSelectSet}
+              />
+            </div>
           </Widget>
         </Card>
       </CardRow>
