@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MouseEventHandler } from "react";
 
 import styles from "./Table.module.scss";
 
@@ -14,9 +14,9 @@ export const TableBody: React.FC<TableBodyProps> = ({ children }) => {
   return <tbody className={styles.tableBodyWrapper}>{children}</tbody>;
 };
 
-export function TableRow<T>({ children, onClickRow }: TableRowProps<T>) {
+export function TableRow({ children, onClickRow }: TableRowProps) {
   return (
-    <tr className={styles.tableRowWrapper} {...(onClickRow && { onClickRow })}>
+    <tr className={styles.tableRowWrapper} {...(onClickRow && { onClick: onClickRow })}>
       {children}
     </tr>
   );
@@ -82,25 +82,29 @@ export default Table;
 export interface TableProps<T extends string> {
   keys: ReadonlyArray<T>;
   createHeader: (keys: TableKeys<T>, selectable: boolean) => React.ReactNode;
-  createBody: (args: {
-    keys: TableKeys<T>;
-    data: TableData<T>;
-    selectable: boolean;
-    onClickRow: ClickRowFunction<T>;
-  }) => React.ReactNode;
+  createBody: (args: CreateBodyArgs<T>) => React.ReactNode;
   onChangePage: (page: number) => Promise<TableData<T>>;
   onClickRow?: ClickRowFunction<T>;
   minWidth: number;
   selectable?: boolean;
 }
 
+export type CreateBodyArgs<T extends string> = {
+  keys: TableKeys<T>;
+  data: TableData<T>;
+  selectable: boolean;
+  onClickRow: ClickRowFunction<T>;
+};
+
 export type TableKeys<T extends string> = ObjectFromList<ReadonlyArray<T>, string>;
 
 export type TableData<T extends string> = {
   page: number;
-  values: {
-    [key in T]: any;
-  }[];
+  values: TableRowValue<T>[];
+};
+
+export type TableRowValue<T extends string> = {
+  [key in T]: any;
 };
 
 type ObjectFromList<T extends ReadonlyArray<string>, V = string> = {
@@ -115,9 +119,9 @@ export interface TableBodyProps {
   children: React.ReactNode;
 }
 
-export interface TableRowProps<T> {
+export interface TableRowProps {
   children: React.ReactNode;
-  onClickRow?: ClickRowFunction<T>;
+  onClickRow?: MouseEventHandler;
 }
 
-export type ClickRowFunction<T> = (row: T) => void;
+export type ClickRowFunction<T extends string> = (val: TableRowValue<T>) => void;

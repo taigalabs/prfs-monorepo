@@ -1,15 +1,15 @@
 "use client";
 
-import React from "react";
+import React, { MouseEventHandler } from "react";
 import Link from "next/link";
 
 import styles from "./CircuitTable.module.scss";
 import Table, {
   TableBody,
   TableRow,
-  TableData,
   TableHeader,
   TableKeys,
+  CreateBodyArgs,
 } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
@@ -45,46 +45,52 @@ const CircuitTable: React.FC<CircuitTableProps> = ({ selectable }) => {
     []
   );
 
-  const createBody = React.useCallback(({ keys, data, selectable, onClickRow }) => {
-    // console.log(1, data);
-    let { page, values } = data;
+  const createBody = React.useCallback(
+    ({ keys, data, selectable, onClickRow }: CreateBodyArgs<CircuitTableKeys>) => {
+      let { page, values } = data;
 
-    let rows = [];
-    if (values === undefined || values.length < 1) {
-      return rows;
-    }
+      let rows = [];
+      if (values === undefined || values.length < 1) {
+        return rows;
+      }
 
-    for (let val of values) {
-      let row = (
-        <TableRow key={val.circuit_id} onClickRow={onClickRow}>
-          {selectable && (
-            <td key="select" className={styles.radio}>
-              <input type="radio" value="metamask" checked readOnly />
+      for (let val of values) {
+        const handleClickRow: MouseEventHandler = _ev => {
+          onClickRow(val);
+        };
+
+        let row = (
+          <TableRow key={val.circuit_id} onClickRow={handleClickRow}>
+            {selectable && (
+              <td key="select" className={styles.radio}>
+                <input type="radio" value="metamask" checked readOnly />
+              </td>
+            )}
+            <td key={keys.circuit_id} className={styles.circuit_id}>
+              <Link href={`/circuits/${val.circuit_id}`}>{val.circuit_id}</Link>
             </td>
-          )}
-          <td key={keys.circuit_id} className={styles.circuit_id}>
-            <Link href={`/circuits/${val.circuit_id}`}>{val.circuit_id}</Link>
-          </td>
-          <td key={keys.label} className={styles.label}>
-            {val.label}
-          </td>
-          <td key={keys.desc} className={styles.desc}>
-            {val.desc}
-          </td>
-          <td key={keys.author} className={styles.author}>
-            {val.author}
-          </td>
-          <td key={keys.created_at} className={styles.createdAt}>
-            {val.created_at}
-          </td>
-        </TableRow>
-      );
+            <td key={keys.label} className={styles.label}>
+              {val.label}
+            </td>
+            <td key={keys.desc} className={styles.desc}>
+              {val.desc}
+            </td>
+            <td key={keys.author} className={styles.author}>
+              {val.author}
+            </td>
+            <td key={keys.created_at} className={styles.createdAt}>
+              {val.created_at}
+            </td>
+          </TableRow>
+        );
 
-      rows.push(row);
-    }
+        rows.push(row);
+      }
 
-    return <TableBody key={page}>{rows}</TableBody>;
-  }, []);
+      return <TableBody key={page}>{rows}</TableBody>;
+    },
+    []
+  );
 
   const handleChangeProofPage = React.useCallback(async (page: number) => {
     return prfsBackend
