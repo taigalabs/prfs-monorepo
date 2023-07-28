@@ -74,6 +74,7 @@ export interface TableProps<T extends string> {
   createHeader: (keys: TableKeys<T>, selectable: boolean) => React.ReactNode;
   createBody: (keys: TableKeys<T>, data: TableData<T>, selectable: boolean) => React.ReactNode;
   onChangePage: (page: number) => Promise<TableData<T>>;
+  onSelectRow?: (row: T) => void;
   minWidth: number;
   selectable?: boolean;
 }
