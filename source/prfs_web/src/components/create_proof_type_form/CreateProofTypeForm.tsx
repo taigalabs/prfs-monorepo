@@ -55,14 +55,14 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             <WidgetHeader>
               <WidgetLabel>{i18n.choose_circuit}</WidgetLabel>
             </WidgetHeader>
-            <WidgetPaddedBody>
+            <div>
               <div>Select an awefawe</div>
               <div className={styles.tableContainer}>
                 <div className={styles.tableBorder}>
                   <CircuitTable />
                 </div>
               </div>
-            </WidgetPaddedBody>
+            </div>
           </Widget>
         </Card>
       </CardRow>
