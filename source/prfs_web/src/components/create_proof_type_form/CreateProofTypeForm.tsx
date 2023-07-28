@@ -17,7 +17,7 @@ import {
 import CircuitTable, { CircuitTableKeys } from "../circuit_table/CircuitTable";
 import SetTable, { SetTableKeys } from "../set_table/SetTable";
 import Button from "@/components/button/Button";
-import { TableSelectedValue } from "../table/Table";
+import { TableRowValue, TableSelectedValue } from "../table/Table";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -25,6 +25,25 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const [selectedCircuit, setSelectedCircuit] = React.useState<
     TableSelectedValue<CircuitTableKeys>
   >({});
+  const handleSelectCircuit = React.useCallback(
+    (val: TableRowValue<CircuitTableKeys>) => {
+      console.log(11, val);
+
+      setSelectedCircuit(oldVal => {
+        if (oldVal[val.circuit_id]) {
+          const newVal = { ...oldVal };
+          delete newVal[val.circuit_id];
+          return newVal;
+        } else {
+          return {
+            ...oldVal,
+            [val.circuit_id]: val,
+          };
+        }
+      });
+    },
+    [setSelectedCircuit]
+  );
 
   const [selectedSet, setSelectedSet] = React.useState<TableSelectedValue<SetTableKeys>>({});
 
@@ -64,6 +83,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
               selectType="radio"
               selectedVal={selectedCircuit}
               setSelectedVal={setSelectedCircuit}
+              handleSelectVal={handleSelectCircuit}
             />
           </Widget>
         </Card>

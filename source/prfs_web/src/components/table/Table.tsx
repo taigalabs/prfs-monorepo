@@ -27,7 +27,8 @@ function Table<T extends string>({
   createHeader,
   createBody,
   onChangePage,
-  onClickRow,
+  // onClickRow,
+  handleSelectVal,
   minWidth,
   selectedVal,
 }: TableProps<T>) {
@@ -57,10 +58,10 @@ function Table<T extends string>({
     return createBody({
       keys: tableKeys,
       data,
-      onClickRow,
+      handleSelectVal,
       selectedVal,
     });
-  }, [data, tableKeys, selectedVal, onClickRow]);
+  }, [data, tableKeys, selectedVal, handleSelectVal]);
 
   return (
     <div className={styles.tableWrapper}>
@@ -84,7 +85,8 @@ export interface TableProps<T extends string> {
   createHeader: (keys: TableKeys<T>) => React.ReactNode;
   createBody: (args: CreateBodyArgs<T>) => React.ReactNode;
   onChangePage: (page: number) => Promise<TableData<T>>;
-  onClickRow?: ClickRowFunction<T>;
+  // onClickRow?: ClickRowFunction<T>;
+  handleSelectVal?: (row: TableRowValue<T>) => void;
   minWidth: number;
   selectedVal?: TableSelectedValue<T>;
 }
@@ -92,8 +94,9 @@ export interface TableProps<T extends string> {
 export type CreateBodyArgs<T extends string> = {
   keys: TableKeys<T>;
   data: TableData<T>;
-  onClickRow: ClickRowFunction<T>;
+  // onClickRow: ClickRowFunction<T>;
   selectedVal: TableSelectedValue<T>;
+  handleSelectVal?: (row: TableRowValue<T>) => void;
 };
 
 export type TableKeys<T extends string> = ObjectFromList<ReadonlyArray<T>, string>;
