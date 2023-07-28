@@ -19,12 +19,24 @@ import SetTable, { SetTableKeys } from "../set_table/SetTable";
 import Button from "@/components/button/Button";
 import { TableRowValue, TableSelectedValue } from "../table/Table";
 
+const FormSelectedItems: React.FC<any> = ({ children }) => {
+  const i18n = React.useContext(i18nContext);
+
+  return (
+    <div>
+      <div>{i18n.selected_sets}</div>
+      {children}
+    </div>
+  );
+};
+
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
 
   const [selectedCircuit, setSelectedCircuit] = React.useState<
     TableSelectedValue<CircuitTableKeys>
   >({});
+
   const handleSelectCircuit = React.useCallback(
     (val: TableRowValue<CircuitTableKeys>) => {
       // console.log(11, val);
@@ -46,7 +58,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const [selectedSet, setSelectedSet] = React.useState<TableSelectedValue<SetTableKeys>>({});
   const handleSelectSet = React.useCallback(
     (val: TableRowValue<SetTableKeys>) => {
-      console.log(11, val);
+      // console.log(11, val);
 
       setSelectedSet(oldVal => {
         if (oldVal[val.set_id]) {
@@ -63,6 +75,20 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     },
     [setSelectedCircuit]
   );
+
+  const selectedSetElem = React.useMemo(() => {
+    let elems = [];
+    for (let [_, set] of Object.entries(selectedSet)) {
+      elems.push(
+        <div key={set.set_id}>
+          <div>{set.set_id}</div>
+          <div>X</div>
+        </div>
+      );
+    }
+
+    return elems;
+  }, [selectedSet]);
 
   return (
     <div className={styles.wrapper}>
@@ -110,7 +136,15 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             <WidgetHeader>
               <WidgetLabel>{i18n.choose_set}</WidgetLabel>
             </WidgetHeader>
-            <WidgetPaddedBody>power</WidgetPaddedBody>
+            <WidgetPaddedBody>
+              <FormSelectedItems>
+                <div>{selectedSetElem}</div>
+              </FormSelectedItems>
+              {/* <div> */}
+              {/*   <div>{i18n.selected_sets}</div> */}
+              {/*   <div>{selectedSetElem}</div> */}
+              {/* </div> */}
+            </WidgetPaddedBody>
             <div className={styles.embeddedTable}>
               <SetTable
                 selectType="checkbox"

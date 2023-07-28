@@ -1,6 +1,8 @@
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
+pub const SYSTEM_NATIVE_SCHEME: &str = "system_native://";
+
 pub enum FileKind {
     Source,
     R1CS,
@@ -27,11 +29,11 @@ pub struct CircuitBuildDetail {
     pub elliptic_curve: String,
     pub finite_field: String,
     pub num_public_inputs: usize,
-
     pub instance_path: String,
     pub circuit_src_path: String,
-    pub wtns_gen_path: String,
-    pub spartan_circuit_path: String,
+
+    pub wtns_gen_url: String,
+    pub spartan_circuit_url: String,
 }
 
 #[derive(Serialize, Deserialize, Clone)]

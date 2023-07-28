@@ -33,6 +33,7 @@ export default {
   proof_types: "Proof types",
   choose_circuit: "Choose a circuit",
   choose_set: "Choose a set",
+  selected_sets: "Selected sets",
   proof_algorithm: "Proof algorithm",
   arithmetization: "Arithmetization",
   references: "References",
