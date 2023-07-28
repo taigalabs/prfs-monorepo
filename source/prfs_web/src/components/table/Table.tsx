@@ -29,7 +29,7 @@ function Table<T extends string>({
   onChangePage,
   onClickRow,
   minWidth,
-  selectable,
+  selectedVals,
 }: TableProps<T>) {
   const [data, setValues] = React.useState({ page: 0, values: [] });
 
@@ -50,17 +50,17 @@ function Table<T extends string>({
   }, [keys]);
 
   let headerElems = React.useMemo(() => {
-    return createHeader(tableKeys, !!selectable);
+    return createHeader(tableKeys);
   }, [tableKeys]);
 
   let bodyElems = React.useMemo(() => {
     return createBody({
       keys: tableKeys,
       data,
-      selectable: !!selectable,
       onClickRow,
+      selectedVals,
     });
-  }, [data, tableKeys, selectable]);
+  }, [data, tableKeys]);
 
   return (
     <div className={styles.tableWrapper}>
@@ -81,19 +81,19 @@ export default Table;
 
 export interface TableProps<T extends string> {
   keys: ReadonlyArray<T>;
-  createHeader: (keys: TableKeys<T>, selectable: boolean) => React.ReactNode;
+  createHeader: (keys: TableKeys<T>) => React.ReactNode;
   createBody: (args: CreateBodyArgs<T>) => React.ReactNode;
   onChangePage: (page: number) => Promise<TableData<T>>;
   onClickRow?: ClickRowFunction<T>;
   minWidth: number;
-  selectable?: boolean;
+  selectedVals?: TableRowValue<T>[];
 }
 
 export type CreateBodyArgs<T extends string> = {
   keys: TableKeys<T>;
   data: TableData<T>;
-  selectable: boolean;
   onClickRow: ClickRowFunction<T>;
+  selectedVals: TableRowValue<T>[];
 };
 
 export type TableKeys<T extends string> = ObjectFromList<ReadonlyArray<T>, string>;
