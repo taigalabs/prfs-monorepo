@@ -136,22 +136,16 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             <WidgetHeader>
               <WidgetLabel>{i18n.choose_set}</WidgetLabel>
             </WidgetHeader>
+            <SetTable
+              selectType="checkbox"
+              selectedVal={selectedSet}
+              handleSelectVal={handleSelectSet}
+            />
             <WidgetPaddedBody>
               <FormSelectedItems>
                 <div>{selectedSetElem}</div>
               </FormSelectedItems>
-              {/* <div> */}
-              {/*   <div>{i18n.selected_sets}</div> */}
-              {/*   <div>{selectedSetElem}</div> */}
-              {/* </div> */}
             </WidgetPaddedBody>
-            <div className={styles.embeddedTable}>
-              <SetTable
-                selectType="checkbox"
-                selectedVal={selectedSet}
-                handleSelectVal={handleSelectSet}
-              />
-            </div>
           </Widget>
         </Card>
       </CardRow>

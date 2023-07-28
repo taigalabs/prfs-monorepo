@@ -8,14 +8,17 @@
 
 .tableHeaderWrapper {
   background-color: var(--bright-gray-55);
-  border-left: 1px solid var(--bright-gray-55);
-  border-right: 1px solid var(--bright-gray-55);
   border-bottom: 1px solid var(--bright-green-81);
   padding: 0px 0px;
   width: 100%;
   word-wrap: break-word;
   color: var(--gray-30);
   font-weight: 700;
+
+  tr {
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+  }
 
   th {
     padding: 11px 12px;
