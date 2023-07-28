@@ -24,6 +24,7 @@ function Table<T extends string>({
   createBody,
   onChangePage,
   minWidth,
+  selectable,
 }: TableProps<T>) {
   const [data, setValues] = React.useState({ page: 0, values: [] });
 
@@ -44,12 +45,12 @@ function Table<T extends string>({
   }, [keys]);
 
   let headerElems = React.useMemo(() => {
-    return createHeader(tableKeys);
+    return createHeader(tableKeys, !!selectable);
   }, [tableKeys]);
 
   let bodyElems = React.useMemo(() => {
-    return createBody(tableKeys, data);
-  }, [data, tableKeys]);
+    return createBody(tableKeys, data, !!selectable);
+  }, [data, tableKeys, selectable]);
 
   return (
     <div className={styles.tableWrapper}>
@@ -70,10 +71,11 @@ export default Table;
 
 export interface TableProps<T extends string> {
   keys: ReadonlyArray<T>;
-  createHeader: (keys: TableKeys<T>) => React.ReactNode;
-  createBody: (keys: TableKeys<T>, data: TableData<T>) => React.ReactNode;
+  createHeader: (keys: TableKeys<T>, selectable: boolean) => React.ReactNode;
+  createBody: (keys: TableKeys<T>, data: TableData<T>, selectable: boolean) => React.ReactNode;
   onChangePage: (page: number) => Promise<TableData<T>>;
   minWidth: number;
+  selectable?: boolean;
 }
 
 export type TableKeys<T extends string> = ObjectFromList<ReadonlyArray<T>, string>;

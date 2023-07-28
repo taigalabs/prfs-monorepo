@@ -14,35 +14,43 @@ import Table, {
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
 
-const CircuitTable: React.FC = () => {
+const CircuitTable: React.FC<CircuitTableProps> = ({ selectable }) => {
   const i18n = React.useContext(i18nContext);
 
-  const createHeader = React.useCallback((keys: TableKeys<CircuitTableKeys>) => {
-    return (
-      <TableHeader>
-        <TableRow>
-          <th key={keys.circuit_id} className={styles.circuit_id}>
-            {i18n.circuit_id}
-          </th>
-          <th key={keys.label} className={styles.label}>
-            {i18n.label}
-          </th>
-          <th key={keys.desc} className={styles.desc}>
-            {i18n.description}
-          </th>
-          <th key={keys.author} className={styles.author}>
-            {i18n.author}
-          </th>
-          <th key={keys.created_at} className={styles.createdAt}>
-            {i18n.created_at}
-          </th>
-        </TableRow>
-      </TableHeader>
-    );
-  }, []);
+  const createHeader = React.useCallback(
+    (keys: TableKeys<CircuitTableKeys>, selectable: boolean) => {
+      return (
+        <TableHeader>
+          <TableRow>
+            {selectable && (
+              <th key="select" className={styles.circuit_id}>
+                se
+              </th>
+            )}
+            <th key={keys.circuit_id} className={styles.circuit_id}>
+              {i18n.circuit_id}
+            </th>
+            <th key={keys.label} className={styles.label}>
+              {i18n.label}
+            </th>
+            <th key={keys.desc} className={styles.desc}>
+              {i18n.description}
+            </th>
+            <th key={keys.author} className={styles.author}>
+              {i18n.author}
+            </th>
+            <th key={keys.created_at} className={styles.createdAt}>
+              {i18n.created_at}
+            </th>
+          </TableRow>
+        </TableHeader>
+      );
+    },
+    []
+  );
 
   const createBody = React.useCallback(
-    (keys: TableKeys<CircuitTableKeys>, data: TableData<CircuitTableKeys>) => {
+    (keys: TableKeys<CircuitTableKeys>, data: TableData<CircuitTableKeys>, selectable: boolean) => {
       // console.log(1, data);
       let { page, values } = data;
 
@@ -51,9 +59,16 @@ const CircuitTable: React.FC = () => {
         return rows;
       }
 
+      console.log(11, selectable);
+
       for (let val of values) {
         let row = (
           <TableRow key={val.circuit_id}>
+            {selectable && (
+              <td key="select" className={styles.circuit_id}>
+                radio
+              </td>
+            )}
             <td key={keys.circuit_id} className={styles.circuit_id}>
               <Link href={`/circuits/${val.circuit_id}`}>{val.circuit_id}</Link>
             </td>
@@ -101,11 +116,16 @@ const CircuitTable: React.FC = () => {
       createBody={createBody}
       onChangePage={handleChangeProofPage}
       minWidth={880}
+      selectable={selectable}
     />
   );
 };
 
 export default CircuitTable;
+
+export interface CircuitTableProps {
+  selectable?: boolean;
+}
 
 const CIRCUIT_TABLE_KEYS = [
   "circuit_id",
