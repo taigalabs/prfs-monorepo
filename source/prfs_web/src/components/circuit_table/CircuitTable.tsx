@@ -16,7 +16,7 @@ import Table, {
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
 
-const CircuitTable: React.FC<CircuitTableProps> = ({ selectedVal, setSelectedVal }) => {
+const CircuitTable: React.FC<CircuitTableProps> = ({ selectType, selectedVal, setSelectedVal }) => {
   const i18n = React.useContext(i18nContext);
 
   // const [selectedVal, setSelectedVal] = React.useState<TableSelectedValue<CircuitTableKeys>>({});
@@ -58,7 +58,7 @@ const CircuitTable: React.FC<CircuitTableProps> = ({ selectedVal, setSelectedVal
         return rows;
       }
 
-      console.log(22, selectedVal);
+      // console.log(22, selectedVal);
 
       for (let val of values) {
         const handleClickRow: MouseEventHandler = _ev => {
@@ -66,12 +66,13 @@ const CircuitTable: React.FC<CircuitTableProps> = ({ selectedVal, setSelectedVal
         };
 
         const isSelected = selectedVal && !!selectedVal[val.circuit_id];
+        const selType = selectType || "radio";
 
         let row = (
           <TableRow key={val.circuit_id} onClickRow={handleClickRow}>
             {selectedVal && (
               <td key="select" className={styles.radio}>
-                <input type="radio" value="metamask" checked={isSelected} readOnly />
+                <input type={selType} checked={isSelected} readOnly />
               </td>
             )}
             <td key={keys.circuit_id} className={styles.circuit_id}>
@@ -152,6 +153,7 @@ const CircuitTable: React.FC<CircuitTableProps> = ({ selectedVal, setSelectedVal
 export default CircuitTable;
 
 export interface CircuitTableProps {
+  selectType?: "checkbox" | "radio";
   selectedVal?: TableSelectedValue<CircuitTableKeys>;
   setSelectedVal?: React.Dispatch<React.SetStateAction<TableSelectedValue<CircuitTableKeys>>>;
 }
@@ -165,4 +167,4 @@ const CIRCUIT_TABLE_KEYS = [
   "created_at",
 ] as const;
 
-type CircuitTableKeys = (typeof CIRCUIT_TABLE_KEYS)[number];
+export type CircuitTableKeys = (typeof CIRCUIT_TABLE_KEYS)[number];

@@ -14,14 +14,19 @@ import {
   FormTitle,
   FormSubtitle,
 } from "@/components/form/Form";
-import CircuitTable from "../circuit_table/CircuitTable";
-import SetTable from "../set_table/SetTable";
+import CircuitTable, { CircuitTableKeys } from "../circuit_table/CircuitTable";
+import SetTable, { SetTableKeys } from "../set_table/SetTable";
 import Button from "@/components/button/Button";
+import { TableSelectedValue } from "../table/Table";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
 
-  const handleSelectCircuit = React.useCallback(() => {}, []);
+  const [selectedCircuit, setSelectedCircuit] = React.useState<
+    TableSelectedValue<CircuitTableKeys>
+  >({});
+
+  const [selectedSet, setSelectedSet] = React.useState<TableSelectedValue<SetTableKeys>>({});
 
   return (
     <div className={styles.wrapper}>
@@ -55,7 +60,11 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             <WidgetHeader>
               <WidgetLabel>{i18n.choose_circuit}</WidgetLabel>
             </WidgetHeader>
-            <CircuitTable />
+            <CircuitTable
+              selectType="radio"
+              selectedVal={selectedCircuit}
+              setSelectedVal={setSelectedCircuit}
+            />
           </Widget>
         </Card>
       </CardRow>
@@ -65,14 +74,12 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             <WidgetHeader>
               <WidgetLabel>{i18n.choose_set}</WidgetLabel>
             </WidgetHeader>
-            <div>
-              <div>Select an awefawe</div>
-              <div className={styles.tableContainer}>
-                <div className={styles.tableBorder}>
-                  <SetTable />
-                </div>
-              </div>
-            </div>
+            <WidgetPaddedBody>power</WidgetPaddedBody>
+            <SetTable
+              selectType="checkbox"
+              selectedVal={selectedSet}
+              setSelectedVal={setSelectedSet}
+            />
           </Widget>
         </Card>
       </CardRow>
