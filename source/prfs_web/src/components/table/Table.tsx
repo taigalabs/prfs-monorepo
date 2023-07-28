@@ -29,7 +29,7 @@ function Table<T extends string>({
   onChangePage,
   onClickRow,
   minWidth,
-  selectedVals,
+  selectedVal,
 }: TableProps<T>) {
   const [data, setValues] = React.useState({ page: 0, values: [] });
 
@@ -58,9 +58,9 @@ function Table<T extends string>({
       keys: tableKeys,
       data,
       onClickRow,
-      selectedVals,
+      selectedVal,
     });
-  }, [data, tableKeys]);
+  }, [data, tableKeys, selectedVal, onClickRow]);
 
   return (
     <div className={styles.tableWrapper}>
@@ -86,14 +86,14 @@ export interface TableProps<T extends string> {
   onChangePage: (page: number) => Promise<TableData<T>>;
   onClickRow?: ClickRowFunction<T>;
   minWidth: number;
-  selectedVals?: TableRowValue<T>[];
+  selectedVal?: TableSelectedValue<T>;
 }
 
 export type CreateBodyArgs<T extends string> = {
   keys: TableKeys<T>;
   data: TableData<T>;
   onClickRow: ClickRowFunction<T>;
-  selectedVals: TableRowValue<T>[];
+  selectedVal: TableSelectedValue<T>;
 };
 
 export type TableKeys<T extends string> = ObjectFromList<ReadonlyArray<T>, string>;
@@ -106,6 +106,10 @@ export type TableData<T extends string> = {
 export type TableRowValue<T extends string> = {
   [key in T]: any;
 };
+
+export interface TableSelectedValue<T extends string> {
+  [key: string]: TableRowValue<T>;
+}
 
 type ObjectFromList<T extends ReadonlyArray<string>, V = string> = {
   [K in T extends ReadonlyArray<infer U> ? U : never]: V;

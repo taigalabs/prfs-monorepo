@@ -10,6 +10,8 @@ import Table, {
   TableHeader,
   TableKeys,
   CreateBodyArgs,
+  TableRowValue,
+  TableSelectedValue,
 } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
@@ -17,7 +19,7 @@ import prfsBackend from "@/fetch/prfsBackend";
 const CircuitTable: React.FC<CircuitTableProps> = () => {
   const i18n = React.useContext(i18nContext);
 
-  const [selectedVals, setSelectedVals] = React.useState();
+  const [selectedVal, setSelectedVal] = React.useState<TableSelectedValue<CircuitTableKeys>>({});
 
   const createHeader = React.useCallback((keys: TableKeys<CircuitTableKeys>) => {
     return (
@@ -45,7 +47,7 @@ const CircuitTable: React.FC<CircuitTableProps> = () => {
   }, []);
 
   const createBody = React.useCallback(
-    ({ keys, data, onClickRow }: CreateBodyArgs<CircuitTableKeys>) => {
+    ({ keys, data, onClickRow, selectedVal }: CreateBodyArgs<CircuitTableKeys>) => {
       let { page, values } = data;
 
       let rows = [];
@@ -53,15 +55,19 @@ const CircuitTable: React.FC<CircuitTableProps> = () => {
         return rows;
       }
 
+      console.log(22, selectedVal);
+
       for (let val of values) {
         const handleClickRow: MouseEventHandler = _ev => {
           onClickRow(val);
         };
 
+        const isSelected = !!selectedVal[val.circuit_id];
+
         let row = (
           <TableRow key={val.circuit_id} onClickRow={handleClickRow}>
             <td key="select" className={styles.radio}>
-              <input type="radio" value="metamask" checked readOnly />
+              <input type="radio" value="metamask" checked={isSelected} readOnly />
             </td>
             <td key={keys.circuit_id} className={styles.circuit_id}>
               <Link href={`/circuits/${val.circuit_id}`}>{val.circuit_id}</Link>
@@ -103,9 +109,25 @@ const CircuitTable: React.FC<CircuitTableProps> = () => {
       });
   }, []);
 
-  const handleClickRow = (d: any) => {
-    console.log(11, d);
-  };
+  const handleClickRow = React.useCallback(
+    (val: TableRowValue<CircuitTableKeys>) => {
+      console.log(11, val);
+
+      setSelectedVal(oldVal => {
+        if (oldVal[val.circuit_id]) {
+          const newVal = { ...oldVal };
+          delete newVal[val.circuit_id];
+          return newVal;
+        } else {
+          return {
+            ...oldVal,
+            [val.circuit_id]: val,
+          };
+        }
+      });
+    },
+    [setSelectedVal]
+  );
 
   return (
     <Table
@@ -114,7 +136,7 @@ const CircuitTable: React.FC<CircuitTableProps> = () => {
       createBody={createBody}
       onChangePage={handleChangeProofPage}
       minWidth={880}
-      selectedVals={selectedVals}
+      selectedVal={selectedVal}
       onClickRow={handleClickRow}
     />
   );
