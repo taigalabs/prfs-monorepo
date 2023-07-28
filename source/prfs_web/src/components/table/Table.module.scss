@@ -8,6 +8,8 @@
 
 .tableHeaderWrapper {
   background-color: var(--bright-gray-55);
+  border-left: 1px solid var(--bright-gray-55);
+  border-right: 1px solid var(--bright-gray-55);
   border-bottom: 1px solid var(--bright-green-81);
   padding: 0px 0px;
   width: 100%;
@@ -49,12 +51,8 @@
 }
 
 .tableRowWrapper.selectedRow {
-  background-color: #f6fbf8;
-  border: 1px solid #9fb6bf;
-
-  > td:first-child {
-    border-left: 1px solid #9fb6bf;
-  }
+  background-color: var(--bright-green-90);
+  border: 1px solid var(--green-80);
 }
 
 .pageLimitWarning {
