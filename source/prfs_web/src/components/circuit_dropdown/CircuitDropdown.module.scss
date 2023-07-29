@@ -1,0 +1,35 @@
+.listWrapper {
+  background-color: var(--white-100);
+}
+
+.dropdownBase {
+  padding: 3px 5px;
+  color: var(--gray-32);
+  font-style: italic;
+}
+
+.entryWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 5px 6px;
+
+  .titleRow {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .body {
+    font-size: 0.89em;
+    color: var(--gray-32);
+
+    .item {
+      display: inline-flex;
+      margin-right: 17px;
+
+      > p:first-child {
+        margin-right: 0.2em;
+      }
+    }
+  }
+}

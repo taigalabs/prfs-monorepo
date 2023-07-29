@@ -8,24 +8,24 @@ import CardRow from "@/components/card_row/CardRow";
 import Card from "@/components/card/Card";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import { FormTitleRow, FormTitle, FormSubtitle } from "@/components/form/Form";
-import CircuitTable, { CircuitTableKeys } from "@/components/circuit_table/CircuitTable";
+import CircuitTable from "@/components/circuit_table/CircuitTable";
 import Button from "@/components/button/Button";
 import { TableSelectedValue } from "../table/Table";
 import FormTextInput from "@/components/form/FormTextInput";
 import FormSelectedItems, { FormSelectedItemsEntry } from "../form/FormSelectedItems";
 import SetDropdown from "../set_dropdown/SetDropdown";
 import { RecordOfKeys } from "@/models/types";
-import { PrfsSetKeys } from "@/models";
+import { PrfsCircuitKeys, PrfsSetKeys } from "@/models";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
 
-  const [selectedCircuit, setSelectedCircuit] = React.useState<
-    TableSelectedValue<CircuitTableKeys>
-  >({});
+  const [selectedCircuit, setSelectedCircuit] = React.useState<TableSelectedValue<PrfsCircuitKeys>>(
+    {}
+  );
 
   const handleSelectCircuit = React.useCallback(
-    (val: RecordOfKeys<CircuitTableKeys>) => {
+    (val: RecordOfKeys<PrfsCircuitKeys>) => {
       // console.log(11, val);
 
       setSelectedCircuit(oldVal => {

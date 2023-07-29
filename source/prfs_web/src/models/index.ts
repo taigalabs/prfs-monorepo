@@ -12,6 +12,17 @@ export interface PrfsCircuit {
   finite_field: string;
 }
 
+export const PRFS_CIRCUIT_KEYS = [
+  "circuit_id",
+  "label",
+  "author",
+  "num_public_inputs",
+  "desc",
+  "created_at",
+] as const;
+
+export type PrfsCircuitKeys = (typeof PRFS_CIRCUIT_KEYS)[number];
+
 export interface PrfsSet {
   set_id: number;
   label: string;

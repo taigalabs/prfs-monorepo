@@ -1,6 +1,6 @@
 "use client";
 
-import React, { MouseEventHandler } from "react";
+import React from "react";
 import Link from "next/link";
 
 import styles from "./CircuitTable.module.scss";
@@ -14,6 +14,7 @@ import Table, {
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
 import { KeysAsObject, RecordOfKeys } from "@/models/types";
+import { PRFS_CIRCUIT_KEYS, PrfsCircuitKeys } from "@/models";
 
 const CircuitTable: React.FC<CircuitTableProps> = ({
   selectType,
@@ -23,7 +24,7 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
   const i18n = React.useContext(i18nContext);
 
   const createHeader = React.useCallback(
-    (keys: KeysAsObject<CircuitTableKeys>) => {
+    (keys: KeysAsObject<PrfsCircuitKeys>) => {
       return (
         <TableHeader>
           <TableRow>
@@ -51,7 +52,7 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
   );
 
   const createBody = React.useCallback(
-    ({ keys, data, handleSelectVal, selectedVal }: CreateBodyArgs<CircuitTableKeys>) => {
+    ({ keys, data, handleSelectVal, selectedVal }: CreateBodyArgs<PrfsCircuitKeys>) => {
       let { page, values } = data;
 
       let rows = [];
@@ -120,7 +121,7 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
 
   return (
     <Table
-      keys={CIRCUIT_TABLE_KEYS}
+      keys={PRFS_CIRCUIT_KEYS}
       createHeader={createHeader}
       createBody={createBody}
       onChangePage={handleChangeProofPage}
@@ -135,17 +136,6 @@ export default CircuitTable;
 
 export interface CircuitTableProps {
   selectType?: "checkbox" | "radio";
-  selectedVal?: TableSelectedValue<CircuitTableKeys>;
-  handleSelectVal?: (row: RecordOfKeys<CircuitTableKeys>) => void;
+  selectedVal?: TableSelectedValue<PrfsCircuitKeys>;
+  handleSelectVal?: (row: RecordOfKeys<PrfsCircuitKeys>) => void;
 }
-
-const CIRCUIT_TABLE_KEYS = [
-  "circuit_id",
-  "label",
-  "author",
-  "num_public_inputs",
-  "desc",
-  "created_at",
-] as const;
-
-export type CircuitTableKeys = (typeof CIRCUIT_TABLE_KEYS)[number];
