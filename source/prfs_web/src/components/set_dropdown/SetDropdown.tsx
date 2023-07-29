@@ -1,15 +1,10 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import { useRouter } from "next/navigation";
-import { useFloating, useClick, useInteractions, useDismiss } from "@floating-ui/react";
 
 import styles from "./SetDropdown.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import prfsBackend, { GetSetsResponse } from "@/fetch/prfsBackend";
+import prfsBackend from "@/fetch/prfsBackend";
 import Dropdown, { DropdownData, DropdownSelectedValue } from "@/components/dropdown/Dropdown";
 import { PrfsSetKeys } from "@/models";
 import { RecordOfKeys } from "@/models/types";
