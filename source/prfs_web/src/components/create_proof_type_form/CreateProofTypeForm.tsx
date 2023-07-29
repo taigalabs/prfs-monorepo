@@ -16,22 +16,44 @@ import { PrfsCircuit, PrfsCircuitKeys, PrfsSetKeys, PublicInputKind } from "@/mo
 import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { DropdownSingleSelectedValue } from "@/components/dropdown/Dropdown";
 
-const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit }) => {
+const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit, setPublicInputs }) => {
   const i18n = React.useContext(i18nContext);
 
-  const [selectedSet, setSelectedSet] =
-    React.useState<DropdownSingleSelectedValue<PrfsSetKeys>>(undefined);
+  let vals = [];
+  let setVals = [];
+  circuit.public_inputs.forEach((pi, idx) => {
+    switch (pi.kind) {
+      case PublicInputKind.COMPUTED:
+        break;
+      case PublicInputKind.SET:
+        const [selectedSet, setSelectedSet] =
+          React.useState<DropdownSingleSelectedValue<PrfsSetKeys>>(undefined);
 
-  const handleSelectSet = React.useCallback(
-    (val: RecordOfKeys<PrfsSetKeys>) => {
-      // console.log(13, val);
-      setSelectedSet(val);
-    },
-    [setSelectedSet]
-  );
+        const handleSelectSet = React.useCallback(
+          (val: RecordOfKeys<PrfsSetKeys>) => {
+            // console.log(13, val);
+            setSelectedSet(val);
+            setPublicInputs((oldVal: any[]) => {
+              const newVal = [...oldVal];
+              newVal[idx] = val;
+              return newVal;
+            });
+          },
+          [setSelectedSet]
+        );
+
+        vals[idx] = selectedSet;
+        setVals[idx] = handleSelectSet;
+
+        break;
+      default:
+        throw new Error("Invalid public input kind");
+    }
+  });
 
   const publicInputEntries = React.useMemo(() => {
     let elems = [];
+
     for (const [idx, [_, pi]] of Object.entries(circuit.public_inputs).entries()) {
       let inputValue: React.ReactElement;
       switch (pi.kind) {
@@ -39,7 +61,7 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit }) => {
           inputValue = <div className={styles.computedInput}>{i18n.computed.toUpperCase()}</div>;
           break;
         case PublicInputKind.SET:
-          inputValue = <SetDropdown selectedVal={selectedSet} handleSelectVal={handleSelectSet} />;
+          inputValue = <SetDropdown selectedVal={vals[idx]} handleSelectVal={setVals[idx]} />;
           break;
         default:
           throw new Error("Invalid public input kind");
@@ -57,7 +79,7 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit }) => {
     }
 
     return elems;
-  }, [selectedSet, circuit]);
+  }, [circuit]);
 
   return (
     <CardRow>
@@ -88,6 +110,20 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     },
     [setSelectedCircuit]
   );
+
+  const [publicInputs, setPublicInputs] = React.useState([]);
+  React.useEffect(() => {
+    console.log(22, publicInputs);
+    // if (selectedCircuit !== undefined) {
+    //   let circuit: PrfsCircuit = selectedCircuit;
+    //   let inputs = [];
+    //   for (const [idx, [a, x]] of Object.entries(circuit.public_inputs).entries()) {
+    //     // inputs[idx] =
+    //   }
+    // }
+  }, [publicInputs]);
+
+  const handleClickCreateProofType = React.useCallback(() => {}, []);
 
   return (
     <div className={styles.wrapper}>
@@ -136,10 +172,18 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
         </Card>
       </CardRow>
 
-      {selectedCircuit && <PublicInputSection circuit={selectedCircuit} />}
+      {selectedCircuit && (
+        <PublicInputSection
+          circuit={selectedCircuit}
+          publicInputs={publicInputs}
+          setPublicInputs={setPublicInputs}
+        />
+      )}
 
       <div className={styles.btnRow}>
-        <Button variant="b">{i18n.create_proof_type}</Button>
+        <Button variant="b" handleClick={handleClickCreateProofType}>
+          {i18n.create_proof_type}
+        </Button>
       </div>
     </div>
   );
@@ -151,4 +195,6 @@ export interface CreateProofTypeFormProps {}
 
 interface PublicInputSectionProps {
   circuit: PrfsCircuit;
+  publicInputs: any[];
+  setPublicInputs: React.Dispatch<React.SetStateAction<any[]>>;
 }
