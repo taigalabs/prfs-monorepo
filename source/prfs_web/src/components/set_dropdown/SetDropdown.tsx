@@ -69,7 +69,9 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
         {selectedVal ? (
           <SetEntry val={selectedVal} />
         ) : (
-          <div className={styles.guide}>{i18n.select_circuit}</div>
+          <DropdownEntry>
+            <div className={styles.guide}>{i18n.select_circuit}</div>
+          </DropdownEntry>
         )}
       </div>
     );

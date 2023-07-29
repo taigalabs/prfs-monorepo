@@ -38,7 +38,7 @@ function Dropdown<T extends string>({ createBase, createList, handleSelectVal }:
   return (
     <div className={styles.dropdownWrapper}>
       <div className={styles.dropdownBase} ref={refs.setReference} {...getReferenceProps()}>
-        <div>{baseElem}</div>
+        <div className={styles.baseContainer}>{baseElem}</div>
         <div className={styles.arrowContainer}>
           {isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
         </div>

@@ -44,9 +44,14 @@
   }
 
   .inputDesc {
+    margin-top: 3px;
+    color: var(--gray-31);
   }
 }
 
+.publicInputEntry:not(:first-child) {
+  margin-top: 15px;
+}
 .inputContainer {
   margin-top: 4px;
   max-width: 535px;

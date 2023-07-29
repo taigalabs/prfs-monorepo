@@ -3,12 +3,17 @@
   /* border: 1px solid black; */
 }
 
+.baseContainer {
+  flex-grow: 1;
+}
+
 .dropdownBase {
   display: flex;
   border: 1px solid var(--black-20);
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+  width: 100%;
 }
 
 .arrowContainer {
