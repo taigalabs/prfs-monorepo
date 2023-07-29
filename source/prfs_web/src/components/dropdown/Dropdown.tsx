@@ -1,8 +1,6 @@
 import React from "react";
-import Link from "next/link";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import { useRouter } from "next/navigation";
 import { useFloating, useClick, useInteractions, useDismiss } from "@floating-ui/react";
 
 import styles from "./Dropdown.module.scss";
@@ -22,18 +20,6 @@ const Dropdown: React.FC<DropdownProps> = ({ baseElem, listElem }) => {
   const click = useClick(context);
   const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
 
-  // const handleClickSignOut = React.useCallback(() => {
-  //   console.log("123");
-  // }, []);
-
-  // let baseElem = React.useMemo(() => {
-  //   return createBase();
-  // }, [createBase]);
-
-  // let listElem = React.useMemo(() => {
-  //   return createList();
-  // }, [createList]);
-
   return (
     <div className={styles.dropdownWrapper}>
       <div className={styles.dropdownBase} ref={refs.setReference} {...getReferenceProps()}>
@@ -50,10 +36,6 @@ const Dropdown: React.FC<DropdownProps> = ({ baseElem, listElem }) => {
           {...getFloatingProps()}
         >
           {listElem}
-          {/* <ul> */}
-          {/*   <li onClick={handleClickEntry}>aa</li> */}
-          {/*   <li onClick={handleClickEntry}>bb</li> */}
-          {/* </ul> */}
         </div>
       )}
     </div>

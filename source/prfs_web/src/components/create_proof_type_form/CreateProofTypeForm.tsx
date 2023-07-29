@@ -16,6 +16,7 @@ import FormSelectedItems, { FormSelectedItemsEntry } from "../form/FormSelectedI
 import SetDropdown from "../set_dropdown/SetDropdown";
 import { RecordOfKeys } from "@/models/types";
 import { PrfsCircuitKeys, PrfsSetKeys } from "@/models";
+import CircuitDropdown from "../circuit_dropdown/CircuitDropdown";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -111,11 +112,15 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             <WidgetHeader>
               <WidgetLabel>{i18n.choose_circuit}</WidgetLabel>
             </WidgetHeader>
-            <CircuitTable
-              selectType="radio"
-              selectedVal={selectedCircuit}
-              handleSelectVal={handleSelectCircuit}
-            />
+            <WidgetPaddedBody>
+              <div className={styles.dropdownContainer}>
+                <div>{i18n.circuit}</div>
+                <CircuitDropdown
+                  selectedVal={selectedCircuit}
+                  handleSelectVal={handleSelectCircuit}
+                />
+              </div>
+            </WidgetPaddedBody>
           </Widget>
         </Card>
       </CardRow>
@@ -127,7 +132,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
               <WidgetLabel>{i18n.choose_set}</WidgetLabel>
             </WidgetHeader>
             <WidgetPaddedBody>
-              <div className={styles.setDropdownContainer}>
+              <div className={styles.dropdownContainer}>
                 <SetDropdown selectedVal={selectedSet} handleSelectVal={handleSelectSet} />
               </div>
             </WidgetPaddedBody>

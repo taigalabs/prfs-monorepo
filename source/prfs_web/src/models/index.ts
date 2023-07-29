@@ -23,6 +23,7 @@ export const PRFS_CIRCUIT_KEYS = [
   "desc",
   "created_at",
   "arithmetization",
+  "proof_algorithm",
   "circuit_dsl",
   "elliptic_curve",
   "finite_field",

@@ -118,16 +118,18 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
         </BreadcrumbEntry>
         <BreadcrumbEntry>{params.circuit_id}</BreadcrumbEntry>
       </Breadcrumb>
-      <CardRow>
-        <Card>
-          <Widget>
-            <WidgetHeader>
-              <WidgetLabel>{`${i18n.circuit} - ${params.circuit_id}`}</WidgetLabel>
-            </WidgetHeader>
-            <CircuitSummary circuit={circuit} />
-          </Widget>
-        </Card>
-      </CardRow>
+      <div className={styles.contentArea}>
+        <CardRow>
+          <Card>
+            <Widget>
+              <WidgetHeader>
+                <WidgetLabel>{`${i18n.circuit} - ${params.circuit_id}`}</WidgetLabel>
+              </WidgetHeader>
+              <CircuitSummary circuit={circuit} />
+            </Widget>
+          </Card>
+        </CardRow>
+      </div>
     </DefaultLayout>
   );
 };

@@ -5,6 +5,7 @@ export default {
   name_and_description: "Name and description",
   author: "Author",
   num_inputs: "# inputs",
+  num_public_inputs: "# public inputs",
   description: "Description",
   created_at: "Created at",
   logo_label: "Prfs",

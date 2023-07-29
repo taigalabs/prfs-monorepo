@@ -6,25 +6,25 @@ import styles from "./CircuitDropdown.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
 import Dropdown, { DropdownData, DropdownSelectedValue } from "@/components/dropdown/Dropdown";
-import { PrfsSetKeys } from "@/models";
+import { PrfsCircuitKeys, PrfsSetKeys } from "@/models";
 import { RecordOfKeys } from "@/models/types";
 
 const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
 
-  const [data, setData] = React.useState<DropdownData<PrfsSetKeys>>({
+  const [data, setData] = React.useState<DropdownData<PrfsCircuitKeys>>({
     page: 0,
     values: [],
   });
 
   React.useEffect(() => {
     prfsBackend
-      .getSets({
+      .getPrfsNativeCircuits({
         page: 0,
       })
       .then(resp => {
-        const { page, prfs_sets } = resp.payload;
-        setData({ page, values: prfs_sets });
+        const { page, prfs_circuits } = resp.payload;
+        setData({ page, values: prfs_circuits });
       });
   }, [setData]);
 
@@ -44,25 +44,31 @@ const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSe
     }
 
     let entries = [];
-    for (let set of values) {
+    for (let val of values) {
+      console.log(11, val);
+
       entries.push(
-        <li className={styles.entryWrapper} key={set.set_id} onClick={handleClickEntry}>
+        <li className={styles.entryWrapper} key={val.circuit_id} onClick={handleClickEntry}>
           <div className={styles.titleRow}>
-            <div>{set.label}</div>
-            <div>{set.set_id}</div>
+            <p>{val.label}</p>
+            <p>{val.circuit_id}</p>
           </div>
           <div className={styles.body}>
             <div className={styles.item}>
-              <p>{i18n.hash_algorithm}:</p>
-              <p>{set.hash_algorithm}</p>
+              <p>{i18n.proof_algorithm}:</p>
+              <p>{val.proof_algorithm}</p>
             </div>
             <div className={styles.item}>
-              <p>{i18n.cardinality}:</p>
-              <p>{set.cardinality}</p>
+              <div>{i18n.num_public_inputs}:</div>
+              <div>{val.public_inputs.length}</div>
             </div>
             <div className={styles.item}>
-              <p>{i18n.element_type}:</p>
-              <p>{set.element_type}</p>
+              <p>{i18n.circuit_dsl}:</p>
+              <p>{val.circuit_dsl}</p>
+            </div>
+            <div className={styles.item}>
+              <p>{i18n.elliptic_curve}:</p>
+              <p>{val.elliptic_curve}</p>
             </div>
           </div>
         </li>
@@ -78,6 +84,6 @@ const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSe
 export default CircuitDropdown;
 
 export interface CircuitDropdownProps {
-  selectedVal: DropdownSelectedValue<PrfsSetKeys>;
-  handleSelectVal: (row: RecordOfKeys<PrfsSetKeys>) => void;
+  selectedVal: DropdownSelectedValue<PrfsCircuitKeys>;
+  handleSelectVal: (val: RecordOfKeys<PrfsCircuitKeys>) => void;
 }
