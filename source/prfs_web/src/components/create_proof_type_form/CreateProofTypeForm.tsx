@@ -15,6 +15,7 @@ import { RecordOfKeys } from "@/models/types";
 import { PrfsCircuit, PrfsCircuitKeys, PrfsSetKeys, PublicInputKind } from "@/models";
 import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { DropdownSingleSelectedValue } from "@/components/dropdown/Dropdown";
+import prfsBackend from "@/fetch/prfsBackend";
 
 const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit, setPublicInputs }) => {
   const i18n = React.useContext(i18nContext);
@@ -125,17 +126,44 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const handleClickCreateProofType = React.useCallback(() => {
     console.log(11, publicInputs);
 
+    if (name === undefined || name.length < 1) {
+      setFormAlert("Name should be defined");
+      return;
+    }
+
+    if (selectedCircuit === undefined) {
+      setFormAlert("Circuit should be selected");
+      return;
+    }
+
     selectedCircuit.public_inputs.forEach((pi, idx) => {
       switch (pi.kind) {
         case PublicInputKind.COMPUTED:
           break;
         case PublicInputKind.SET:
+          if (!publicInputs[idx]) {
+            setFormAlert(`public input is undefined, idx: ${idx}`);
+            return;
+          }
           break;
         default:
       }
     });
 
-    console.log(22, name);
+    setFormAlert("");
+
+    // let a = JSON.stringify(publicInputs);
+    // console.log(22, name, a);
+
+    let prfsProofType = {
+      name,
+      circuit_id: selectedCircuit.circuit_id,
+      publicInputs,
+    };
+
+    console.log(11, prfsProofType);
+
+    // prfsBackend.putPrfsProofType();
   }, [publicInputs, selectedCircuit, name, setFormAlert]);
 
   return (
