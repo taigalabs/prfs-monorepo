@@ -33,6 +33,7 @@ export default {
   proofs: "Proofs",
   proof_instances: "Proof instances",
   proof_types: "Proof types",
+  computed: "Computed",
   choose_circuit: "Choose a circuit",
   choose_set: "Choose a set",
   configure_public_inputs: "Configure public inputs",

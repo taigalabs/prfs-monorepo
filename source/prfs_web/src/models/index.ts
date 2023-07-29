@@ -4,7 +4,7 @@ export interface PrfsCircuit {
   author: string;
   public_inputs: {
     label: string;
-    kind: string;
+    kind: PublicInputKind;
   }[];
   desc: string;
   created_at: string;
@@ -13,6 +13,11 @@ export interface PrfsCircuit {
   circuit_dsl: string;
   elliptic_curve: string;
   finite_field: string;
+}
+
+export enum PublicInputKind {
+  COMPUTED = "COMPUTED",
+  SET = "SET",
 }
 
 export const PRFS_CIRCUIT_KEYS = [
