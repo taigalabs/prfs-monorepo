@@ -17,7 +17,7 @@ const SetEntry: React.FC<SetEntryProps> = ({ val }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
-    <div>
+    <div className={styles.entryWrapper}>
       <div className={styles.titleRow}>
         <div>{val.label}</div>
         <div>{val.set_id}</div>
@@ -89,7 +89,7 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
         };
 
         entries.push(
-          <li className={styles.entryWrapper} key={val.set_id} onClick={handleClickEntry}>
+          <li key={val.set_id} onClick={handleClickEntry}>
             <SetEntry val={val} />
           </li>
         );

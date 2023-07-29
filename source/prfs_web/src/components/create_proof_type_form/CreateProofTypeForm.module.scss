@@ -31,23 +31,28 @@
 .publicInputEntry {
   display: flex;
 
-  .left {
+  .inputIdx {
     width: 40px;
   }
-  .right {
+
+  .inputGroup {
     margin-left: 10px;
     flex-grow: 1;
   }
 
   &:not(:first-child) {
-    margin-top: 7px;
+    margin-top: 11px;
   }
 }
 
 .inputContainer {
+  margin-top: 3px;
   max-width: 535px;
   width: 100%;
 }
 
 .computedInput {
+  padding: 3px 2px;
+  border: 1px solid var(--gray-60);
+  background-color: var(--bright-gray-40);
 }
