@@ -15,13 +15,12 @@ import { RecordOfKeys } from "@/models/types";
 import { PrfsCircuit, PrfsCircuitKeys, PrfsSetKeys, PublicInputKind } from "@/models";
 import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { DropdownSingleSelectedValue } from "@/components/dropdown/Dropdown";
-import DropdownEntry from "../dropdown/DropdownEntry";
 
 const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit, setPublicInputs }) => {
   const i18n = React.useContext(i18nContext);
 
-  let vals = [];
-  let setVals = [];
+  let vals = {};
+  let setVals = {};
   circuit.public_inputs.forEach((pi, idx) => {
     switch (pi.kind) {
       case PublicInputKind.COMPUTED:
@@ -32,15 +31,15 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit, setPub
 
         const handleSelectSet = React.useCallback(
           (val: RecordOfKeys<PrfsSetKeys>) => {
-            console.log(13, val);
+            // console.log(13, val);
             setSelectedSet(val);
-            setPublicInputs((oldVal: any[]) => {
-              const newVal = [...oldVal];
+            setPublicInputs((oldVal: PublicInputObject) => {
+              const newVal = { ...oldVal };
               newVal[idx] = val;
               return newVal;
             });
           },
-          [setSelectedSet]
+          [setSelectedSet, setPublicInputs]
         );
 
         vals[idx] = selectedSet;
@@ -102,6 +101,8 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit, setPub
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
 
+  const [publicInputs, setPublicInputs] = React.useState({});
+  const [formAlert, setFormAlert] = React.useState("");
   const [name, setName] = React.useState("");
   const [selectedCircuit, setSelectedCircuit] =
     React.useState<DropdownSingleSelectedValue<PrfsCircuitKeys>>(undefined);
@@ -114,24 +115,28 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     [setSelectedCircuit]
   );
 
-  const [publicInputs, setPublicInputs] = React.useState([]);
-  // React.useEffect(() => {
-  //   console.log(22, publicInputs);
-  //   // if (selectedCircuit !== undefined) {
-  //   //   let circuit: PrfsCircuit = selectedCircuit;
-  //   //   let inputs = [];
-  //   //   for (const [idx, [a, x]] of Object.entries(circuit.public_inputs).entries()) {
-  //   //     // inputs[idx] =
-  //   //   }
-  //   // }
-  // }, [publicInputs]);
+  const handleChangeName = React.useCallback(
+    (ev: any) => {
+      setName(ev.target.value);
+    },
+    [setName]
+  );
 
   const handleClickCreateProofType = React.useCallback(() => {
     console.log(11, publicInputs);
-    for (const pi of publicInputs) {
-      console.log(555, pi);
-    }
-  }, [publicInputs, selectedCircuit]);
+
+    selectedCircuit.public_inputs.forEach((pi, idx) => {
+      switch (pi.kind) {
+        case PublicInputKind.COMPUTED:
+          break;
+        case PublicInputKind.SET:
+          break;
+        default:
+      }
+    });
+
+    console.log(22, name);
+  }, [publicInputs, selectedCircuit, name, setFormAlert]);
 
   return (
     <div className={styles.wrapper}>
@@ -154,7 +159,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             </WidgetHeader>
             <WidgetPaddedBody>
               <div className={styles.proofName}>
-                <FormTextInput label={i18n.name} value={name} />
+                <FormTextInput label={i18n.name} handleChange={handleChangeName} />
               </div>
             </WidgetPaddedBody>
           </Widget>
@@ -183,10 +188,12 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       {selectedCircuit && (
         <PublicInputSection
           circuit={selectedCircuit}
-          publicInputs={publicInputs}
+          // publicInputs={publicInputs}
           setPublicInputs={setPublicInputs}
         />
       )}
+
+      <div className={styles.alert}>{formAlert}</div>
 
       <div className={styles.btnRow}>
         <Button variant="b" handleClick={handleClickCreateProofType}>
@@ -203,6 +210,12 @@ export interface CreateProofTypeFormProps {}
 
 interface PublicInputSectionProps {
   circuit: PrfsCircuit;
-  publicInputs: any[];
-  setPublicInputs: React.Dispatch<React.SetStateAction<any[]>>;
+  // publicInputs: {
+  //   [key: number]: any;
+  // };
+  setPublicInputs: React.Dispatch<React.SetStateAction<PublicInputObject>>;
+}
+
+interface PublicInputObject {
+  [key: number]: any;
 }

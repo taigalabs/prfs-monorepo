@@ -1,10 +1,9 @@
-import React from "react";
+import React, { ChangeEventHandler } from "react";
 
 import styles from "./Form.module.scss";
 
 const FormTextInput: React.FC<FormTextInputProps> = ({ type, label, value, handleChange }) => {
   const inputType = type ? type : "text";
-  console.log(55, value);
 
   return (
     <div className={styles.formTextInputWrapper}>
@@ -25,6 +24,6 @@ export default FormTextInput;
 export interface FormTextInputProps {
   label: string;
   value?: string | number;
-  handleChange?: (ev: any) => void;
+  handleChange?: ChangeEventHandler;
   type?: string;
 }
