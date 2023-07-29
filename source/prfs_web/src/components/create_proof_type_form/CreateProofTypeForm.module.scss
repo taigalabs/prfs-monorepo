@@ -27,3 +27,27 @@
     margin-bottom: 5px;
   }
 }
+
+.publicInputEntry {
+  display: flex;
+
+  .left {
+    width: 40px;
+  }
+  .right {
+    margin-left: 10px;
+    flex-grow: 1;
+  }
+
+  &:not(:first-child) {
+    margin-top: 7px;
+  }
+}
+
+.inputContainer {
+  max-width: 535px;
+  width: 100%;
+}
+
+.computedInput {
+}

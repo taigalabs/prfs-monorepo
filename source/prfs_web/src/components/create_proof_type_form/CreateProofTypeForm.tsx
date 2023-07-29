@@ -23,54 +23,24 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit }) => {
   const i18n = React.useContext(i18nContext);
 
   const [selectedSet, setSelectedSet] = React.useState<TableSelectedValue<PrfsSetKeys>>({});
-  // const handleSelectSet = React.useCallback(
-  //   (val: RecordOfKeys<PrfsSetKeys>) => {
-  //     // console.log(11, val);
-
-  //     setSelectedSet(oldVal => {
-  //       if (oldVal[val.set_id]) {
-  //         const newVal = { ...oldVal };
-  //         delete newVal[val.set_id];
-  //         return newVal;
-  //       } else {
-  //         return {
-  //           ...oldVal,
-  //           [val.set_id]: val,
-  //         };
-  //       }
-  //     });
-  //   },
-  //   [setSelectedSet]
-  // );
-
-  // const selectedSetElem = React.useMemo(() => {
-  //   let elems = [];
-  //   for (let [_, set] of Object.entries(selectedSet)) {
-  //     elems.push(
-  //       <FormSelectedItemsEntry key={set.set_id}>
-  //         <div>{set.set_id}</div>
-  //         <div>X</div>
-  //       </FormSelectedItemsEntry>
-  //     );
-  //   }
-
-  //   return elems;
-  // }, [selectedSet]);
+  const handleSelectSet = React.useCallback(
+    (val: RecordOfKeys<PrfsSetKeys>) => {
+      // console.log(11, val);
+      setSelectedSet(val);
+    },
+    [setSelectedSet]
+  );
 
   const publicInputEntries = React.useMemo(() => {
     let elems = [];
-    for (const pi of circuit.public_inputs) {
-      let inputValue;
+    for (const [idx, [_, pi]] of Object.entries(circuit.public_inputs).entries()) {
+      let inputValue: React.ReactElement;
       switch (pi.kind) {
         case PublicInputKind.COMPUTED:
-          inputValue = <div>{i18n.computed.toUpperCase()}</div>;
+          inputValue = <div className={styles.computedInput}>{i18n.computed.toUpperCase()}</div>;
           break;
         case PublicInputKind.SET:
-          inputValue = (
-            <div>
-              <SetDropdown />
-            </div>
-          );
+          inputValue = <SetDropdown selectedVal={selectedSet} handleSelectVal={handleSelectSet} />;
           break;
         default:
           throw new Error("Invalid public input kind");
@@ -78,8 +48,11 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit }) => {
 
       elems.push(
         <div className={styles.publicInputEntry} key={pi.label}>
-          <div>{pi.label}</div>
-          {inputValue}
+          <div className={styles.left}>{idx}</div>
+          <div className={styles.right}>
+            <div>{pi.label}</div>
+            <div className={styles.inputContainer}>{inputValue}</div>
+          </div>
         </div>
       );
     }
@@ -96,15 +69,7 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit }) => {
           </WidgetHeader>
           <WidgetPaddedBody>
             <div>{publicInputEntries}</div>
-            {/* <div className={styles.dropdownContainer}> */}
-            {/*   <SetDropdown selectedVal={selectedSet} handleSelectVal={handleSelectSet} /> */}
-            {/* </div> */}
           </WidgetPaddedBody>
-          {/* <WidgetPaddedBody> */}
-          {/*   <div> */}
-          {/*     <div>{selectedSetElem}</div> */}
-          {/*   </div> */}
-          {/* </WidgetPaddedBody> */}
         </Widget>
       </Card>
     </CardRow>
@@ -119,8 +84,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 
   const handleSelectCircuit = React.useCallback(
     (val: RecordOfKeys<PrfsCircuitKeys>) => {
-      console.log(11, val);
-
+      // console.log(11, val);
       setSelectedCircuit(val);
     },
     [setSelectedCircuit]
