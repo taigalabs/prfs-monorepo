@@ -69,7 +69,7 @@ const CircuitSummary: React.FC<CircuitSummaryProps> = ({ circuit }) => {
         <ColumnarSummaryColumn>
           <ColumnarSummaryCell>
             <ColumnarSummaryCellHeader>{i18n.num_inputs}</ColumnarSummaryCellHeader>
-            <div>{circuit.num_public_inputs}</div>
+            <div>{circuit.public_inputs.length}</div>
           </ColumnarSummaryCell>
           <ColumnarSummaryCell>
             <ColumnarSummaryCellHeader>{i18n.author}</ColumnarSummaryCellHeader>
