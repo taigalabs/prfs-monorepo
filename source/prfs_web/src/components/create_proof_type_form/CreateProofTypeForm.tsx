@@ -130,7 +130,11 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             {/*   selectedVal={selectedSet} */}
             {/*   handleSelectVal={handleSelectSet} */}
             {/* /> */}
-            <SetDropdown />
+            <WidgetPaddedBody>
+              <div className={styles.setDropdownContainer}>
+                <SetDropdown />
+              </div>
+            </WidgetPaddedBody>
             <WidgetPaddedBody>
               <FormSelectedItems label={i18n.selected_sets}>
                 <div>{selectedSetElem}</div>

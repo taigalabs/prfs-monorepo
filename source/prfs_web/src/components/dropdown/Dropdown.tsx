@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import Link from "next/link";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
@@ -24,32 +22,35 @@ const SetDropdown: React.FC<SetDropdownProps> = () => {
   const click = useClick(context);
   const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
 
-  const handleClickEntry = React.useCallback(() => {
+  const handleClickSignOut = React.useCallback(() => {
     console.log("123");
   }, []);
 
   return (
     <div className={styles.dropdownWrapper}>
-      <div className={styles.dropdownBase} ref={refs.setReference} {...getReferenceProps()}>
-        <div>dropdown</div>
-        <div className={styles.arrowContainer}>
-          {isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+      <div>dropdown</div>
+      <div className={styles.accountStat} ref={refs.setReference} {...getReferenceProps()}>
+        <div>
+          <div>power</div>
+          <div>bla</div>
         </div>
+        <div className={styles.btnArea}>{isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}</div>
       </div>
-      {/* <div className={styles.accountStat} ref={refs.setReference} {...getReferenceProps()}></div> */}
-      {isOpen && (
-        <div
-          className={styles.dropdown}
-          ref={refs.setFloating}
-          style={floatingStyles}
-          {...getFloatingProps()}
-        >
-          <ul>
-            <li onClick={handleClickEntry}>aa</li>
-            <li onClick={handleClickEntry}>bb</li>
-          </ul>
-        </div>
-      )}
+      <div>
+        {isOpen && (
+          <div
+            className={styles.dropdown}
+            ref={refs.setFloating}
+            style={floatingStyles}
+            {...getFloatingProps()}
+          >
+            <ul>
+              power
+              <li onClick={handleClickSignOut}>{i18n.sign_out}</li>
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
