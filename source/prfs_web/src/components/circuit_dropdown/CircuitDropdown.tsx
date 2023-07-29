@@ -12,35 +12,38 @@ import Dropdown, {
 } from "@/components/dropdown/Dropdown";
 import { PrfsCircuitKeys, PrfsSetKeys } from "@/models";
 import { RecordOfKeys } from "@/models/types";
+import DropdownEntry from "../dropdown/DropdownEntry";
 
 const CircuitEntry: React.FC<CircuitEntryProps> = ({ val }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
-    <div className={styles.entryWrapper}>
-      <div className={styles.titleRow}>
-        <p>{val.label}</p>
-        <p>{val.circuit_id}</p>
+    <DropdownEntry>
+      <div className={styles.entryWrapper}>
+        <div className={styles.titleRow}>
+          <p>{val.label}</p>
+          <p>{val.circuit_id}</p>
+        </div>
+        <div className={styles.body}>
+          <div className={styles.item}>
+            <p>{i18n.proof_algorithm}:</p>
+            <p>{val.proof_algorithm}</p>
+          </div>
+          <div className={styles.item}>
+            <div>{i18n.num_public_inputs}:</div>
+            <div>{val.public_inputs.length}</div>
+          </div>
+          <div className={styles.item}>
+            <p>{i18n.circuit_dsl}:</p>
+            <p>{val.circuit_dsl}</p>
+          </div>
+          <div className={styles.item}>
+            <p>{i18n.elliptic_curve}:</p>
+            <p>{val.elliptic_curve}</p>
+          </div>
+        </div>
       </div>
-      <div className={styles.body}>
-        <div className={styles.item}>
-          <p>{i18n.proof_algorithm}:</p>
-          <p>{val.proof_algorithm}</p>
-        </div>
-        <div className={styles.item}>
-          <div>{i18n.num_public_inputs}:</div>
-          <div>{val.public_inputs.length}</div>
-        </div>
-        <div className={styles.item}>
-          <p>{i18n.circuit_dsl}:</p>
-          <p>{val.circuit_dsl}</p>
-        </div>
-        <div className={styles.item}>
-          <p>{i18n.elliptic_curve}:</p>
-          <p>{val.elliptic_curve}</p>
-        </div>
-      </div>
-    </div>
+    </DropdownEntry>
   );
 };
 

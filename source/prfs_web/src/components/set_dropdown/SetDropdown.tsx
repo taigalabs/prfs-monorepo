@@ -12,31 +12,34 @@ import Dropdown, {
 } from "@/components/dropdown/Dropdown";
 import { PrfsSet, PrfsSetKeys } from "@/models";
 import { RecordOfKeys } from "@/models/types";
+import DropdownEntry from "../dropdown/DropdownEntry";
 
 const SetEntry: React.FC<SetEntryProps> = ({ val }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
-    <div className={styles.entryWrapper}>
-      <div className={styles.titleRow}>
-        <div>{val.label}</div>
-        <div>{val.set_id}</div>
+    <DropdownEntry>
+      <div className={styles.entryWrapper}>
+        <div className={styles.titleRow}>
+          <div>{val.label}</div>
+          <div>{val.set_id}</div>
+        </div>
+        <div className={styles.body}>
+          <div className={styles.item}>
+            <p>{i18n.hash_algorithm}:</p>
+            <p>{val.hash_algorithm}</p>
+          </div>
+          <div className={styles.item}>
+            <p>{i18n.cardinality}:</p>
+            <p>{val.cardinality}</p>
+          </div>
+          <div className={styles.item}>
+            <p>{i18n.element_type}:</p>
+            <p>{val.element_type}</p>
+          </div>
+        </div>
       </div>
-      <div className={styles.body}>
-        <div className={styles.item}>
-          <p>{i18n.hash_algorithm}:</p>
-          <p>{val.hash_algorithm}</p>
-        </div>
-        <div className={styles.item}>
-          <p>{i18n.cardinality}:</p>
-          <p>{val.cardinality}</p>
-        </div>
-        <div className={styles.item}>
-          <p>{i18n.element_type}:</p>
-          <p>{val.element_type}</p>
-        </div>
-      </div>
-    </div>
+    </DropdownEntry>
   );
 };
 
