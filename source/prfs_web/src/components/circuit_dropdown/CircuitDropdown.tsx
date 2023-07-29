@@ -13,13 +13,14 @@ import Dropdown, {
 import { PrfsCircuitKeys, PrfsSetKeys } from "@/models";
 import { RecordOfKeys } from "@/models/types";
 import DropdownEntry from "../dropdown/DropdownEntry";
+import DropdownList from "../dropdown/DropdownList";
 
 const CircuitEntry: React.FC<CircuitEntryProps> = ({ val }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
     <DropdownEntry>
-      <div className={styles.entryWrapper}>
+      <div className={styles.dropdownEntry}>
         <div className={styles.titleRow}>
           <p>{val.label}</p>
           <p>{val.circuit_id}</p>
@@ -100,7 +101,7 @@ const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSe
         );
       }
 
-      return <ul className={styles.listWrapper}>{entries}</ul>;
+      return <DropdownList>{entries}</DropdownList>;
     },
     [data, handleSelectVal]
   );

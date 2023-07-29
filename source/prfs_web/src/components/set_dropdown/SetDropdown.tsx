@@ -13,6 +13,7 @@ import Dropdown, {
 import { PrfsSet, PrfsSetKeys } from "@/models";
 import { RecordOfKeys } from "@/models/types";
 import DropdownEntry from "../dropdown/DropdownEntry";
+import DropdownList from "../dropdown/DropdownList";
 
 const SetEntry: React.FC<SetEntryProps> = ({ val }) => {
   const i18n = React.useContext(i18nContext);
@@ -63,8 +64,6 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
   }, [setData]);
 
   const createBase = React.useCallback(() => {
-    console.log("redraw", selectedVal);
-
     return (
       <div className={styles.dropdownBase}>
         {selectedVal ? (
@@ -87,7 +86,7 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
       let entries = [];
       for (let val of values) {
         const handleClickEntry = () => {
-          console.log(11, val);
+          // console.log(11, val);
           upgradedHandleSelectVal(val);
         };
 
@@ -98,7 +97,7 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
         );
       }
 
-      return <ul className={styles.listWrapper}>{entries}</ul>;
+      return <DropdownList>{entries}</DropdownList>;
     },
     [data, handleSelectVal]
   );
