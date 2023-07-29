@@ -23,7 +23,7 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit }) => {
     React.useState<DropdownSingleSelectedValue<PrfsSetKeys>>(undefined);
   const handleSelectSet = React.useCallback(
     (val: RecordOfKeys<PrfsSetKeys>) => {
-      // console.log(11, val);
+      console.log(13, val);
       setSelectedSet(val);
     },
     [setSelectedSet]
@@ -45,7 +45,7 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit }) => {
       }
 
       elems.push(
-        <div className={styles.publicInputEntry} key={pi.label}>
+        <div className={styles.publicInputEntry} key={idx}>
           <div className={styles.left}>{idx}</div>
           <div className={styles.right}>
             <div>{pi.label}</div>

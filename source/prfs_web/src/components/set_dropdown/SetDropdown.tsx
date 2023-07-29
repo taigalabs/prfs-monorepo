@@ -5,9 +5,40 @@ import React from "react";
 import styles from "./SetDropdown.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
-import Dropdown, { DropdownData, DropdownMultiSelectedValue } from "@/components/dropdown/Dropdown";
-import { PrfsSetKeys } from "@/models";
+import Dropdown, {
+  CreateDropdownListArgs,
+  DropdownData,
+  DropdownSingleSelectedValue,
+} from "@/components/dropdown/Dropdown";
+import { PrfsSet, PrfsSetKeys } from "@/models";
 import { RecordOfKeys } from "@/models/types";
+
+const SetEntry: React.FC<SetEntryProps> = ({ val }) => {
+  const i18n = React.useContext(i18nContext);
+
+  return (
+    <div>
+      <div className={styles.titleRow}>
+        <div>{val.label}</div>
+        <div>{val.set_id}</div>
+      </div>
+      <div className={styles.body}>
+        <div className={styles.item}>
+          <p>{i18n.hash_algorithm}:</p>
+          <p>{val.hash_algorithm}</p>
+        </div>
+        <div className={styles.item}>
+          <p>{i18n.cardinality}:</p>
+          <p>{val.cardinality}</p>
+        </div>
+        <div className={styles.item}>
+          <p>{i18n.element_type}:</p>
+          <p>{val.element_type}</p>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
@@ -28,49 +59,46 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
       });
   }, [setData]);
 
-  const handleClickEntry = React.useCallback(() => {
-    console.log("123");
-  }, [handleSelectVal]);
-
   const createBase = React.useCallback(() => {
-    return <div className={styles.dropdownBase}>{i18n.select_sets}</div>;
+    console.log("redraw", selectedVal);
+
+    return (
+      <div className={styles.dropdownBase}>
+        {selectedVal ? (
+          <SetEntry val={selectedVal} />
+        ) : (
+          <div className={styles.guide}>{i18n.select_circuit}</div>
+        )}
+      </div>
+    );
   }, [selectedVal]);
 
-  const createList = React.useCallback(() => {
-    let { values } = data;
+  const createList = React.useCallback(
+    ({ upgradedHandleSelectVal }: CreateDropdownListArgs<PrfsSetKeys>) => {
+      let { values } = data;
 
-    if (values === undefined) {
-      return <div>no element</div>;
-    }
+      if (values === undefined) {
+        return <div>no element</div>;
+      }
 
-    let entries = [];
-    for (let set of values) {
-      entries.push(
-        <li className={styles.entryWrapper} key={set.set_id} onClick={handleClickEntry}>
-          <div className={styles.titleRow}>
-            <div>{set.label}</div>
-            <div>{set.set_id}</div>
-          </div>
-          <div className={styles.body}>
-            <div className={styles.item}>
-              <p>{i18n.hash_algorithm}:</p>
-              <p>{set.hash_algorithm}</p>
-            </div>
-            <div className={styles.item}>
-              <p>{i18n.cardinality}:</p>
-              <p>{set.cardinality}</p>
-            </div>
-            <div className={styles.item}>
-              <p>{i18n.element_type}:</p>
-              <p>{set.element_type}</p>
-            </div>
-          </div>
-        </li>
-      );
-    }
+      let entries = [];
+      for (let val of values) {
+        const handleClickEntry = () => {
+          console.log(11, val);
+          upgradedHandleSelectVal(val);
+        };
 
-    return <ul className={styles.listWrapper}>{entries}</ul>;
-  }, [data]);
+        entries.push(
+          <li className={styles.entryWrapper} key={val.set_id} onClick={handleClickEntry}>
+            <SetEntry val={val} />
+          </li>
+        );
+      }
+
+      return <ul className={styles.listWrapper}>{entries}</ul>;
+    },
+    [data, handleSelectVal]
+  );
 
   return (
     <Dropdown createBase={createBase} createList={createList} handleSelectVal={handleSelectVal} />
@@ -80,6 +108,10 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
 export default SetDropdown;
 
 export interface SetDropdownProps {
-  selectedVal: DropdownMultiSelectedValue<PrfsSetKeys>;
+  selectedVal: DropdownSingleSelectedValue<PrfsSetKeys>;
   handleSelectVal: (row: RecordOfKeys<PrfsSetKeys>) => void;
+}
+
+export interface SetEntryProps {
+  val: PrfsSet;
 }

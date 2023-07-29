@@ -61,6 +61,7 @@ export const PRFS_SET_KEYS = [
   "element_type",
   "cardinality",
   "created_at",
+  "merkle_root",
 ] as const;
 
 export type PrfsSetKeys = (typeof PRFS_SET_KEYS)[number];
