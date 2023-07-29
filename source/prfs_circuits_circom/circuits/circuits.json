@@ -15,22 +15,27 @@
       "public_inputs": [
         {
           "label": "Tx",
+          "desc": "Tx description",
           "kind": "COMPUTED"
         },
         {
           "label": "Ty",
+          "desc": "Ty description",
           "kind": "COMPUTED"
         },
         {
           "label": "Ux",
+          "desc": "Ux description",
           "kind": "COMPUTED"
         },
         {
           "label": "Uy",
+          "desc": "Uy description",
           "kind": "COMPUTED"
         },
         {
           "label": "Merkle root",
+          "desc": "Vector commitment (Merkle root) of a set",
           "kind": "SET"
         }
       ]

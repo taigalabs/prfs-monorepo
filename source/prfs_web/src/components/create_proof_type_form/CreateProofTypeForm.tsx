@@ -71,7 +71,8 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit, setPub
         <div className={styles.publicInputEntry} key={idx}>
           <div className={styles.inputIdx}>{idx}</div>
           <div className={styles.inputGroup}>
-            <div>{pi.label}</div>
+            <div className={styles.inputLabel}>{pi.label}</div>
+            <div className={styles.inputDesc}>{pi.desc}</div>
             <div className={styles.inputContainer}>{inputValue}</div>
           </div>
         </div>

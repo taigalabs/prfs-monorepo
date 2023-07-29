@@ -65,5 +65,6 @@ pub enum PublicInputKind {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PublicInput {
     pub label: String,
+    pub desc: String,
     pub kind: PublicInputKind,
 }

@@ -40,19 +40,21 @@
     flex-grow: 1;
   }
 
-  &:not(:first-child) {
-    margin-top: 11px;
+  .inputLabel {
+  }
+
+  .inputDesc {
   }
 }
 
 .inputContainer {
-  margin-top: 3px;
+  margin-top: 4px;
   max-width: 535px;
   width: 100%;
 }
 
 .computedInput {
-  padding: 3px 2px;
+  padding: 5px 5px;
   border: 1px solid var(--gray-60);
   background-color: var(--bright-gray-40);
 }

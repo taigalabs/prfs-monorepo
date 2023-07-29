@@ -4,6 +4,7 @@ export interface PrfsCircuit {
   author: string;
   public_inputs: {
     label: string;
+    desc: string;
     kind: PublicInputKind;
   }[];
   desc: string;
