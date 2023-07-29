@@ -25,6 +25,7 @@ export default {
   circuit_id: "Circuit id",
   circuit_dsl: "Circuit DSL",
   cardinality: "Cardinality",
+  select_circuit: "Select a circuit",
   configuration: "Configuration",
   create_proof_type: "Create a proof type",
   create_proof_type_subtitle:

@@ -5,7 +5,7 @@ import React from "react";
 import styles from "./SetDropdown.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
-import Dropdown, { DropdownData, DropdownSelectedValue } from "@/components/dropdown/Dropdown";
+import Dropdown, { DropdownData, DropdownMultiSelectedValue } from "@/components/dropdown/Dropdown";
 import { PrfsSetKeys } from "@/models";
 import { RecordOfKeys } from "@/models/types";
 
@@ -78,6 +78,6 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
 export default SetDropdown;
 
 export interface SetDropdownProps {
-  selectedVal: DropdownSelectedValue<PrfsSetKeys>;
+  selectedVal: DropdownMultiSelectedValue<PrfsSetKeys>;
   handleSelectVal: (row: RecordOfKeys<PrfsSetKeys>) => void;
 }

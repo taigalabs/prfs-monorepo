@@ -3,10 +3,10 @@
 }
 
 .radioBox {
-  border: 1px solid #9fb6bf;
+  border: 1px solid var(--green-80);
   padding: 13px 10px;
   display: flex;
-  background-color: #f6fbf8;
+  background-color: var(--bright-green-90);
 
   > div {
     margin-left: 12px;
@@ -19,7 +19,6 @@
 
   .desc {
     font-size: 0.94em;
-    color: #4d4d4d;
   }
 }
 

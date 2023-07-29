@@ -49,7 +49,9 @@ export interface DropdownProps {
   listElem: React.ReactNode;
 }
 
-export interface DropdownSelectedValue<T extends string> {
+export type DropdownSingleSelectedValue<T extends string> = RecordOfKeys<T>;
+
+export interface DropdownMultiSelectedValue<T extends string> {
   [id: string]: RecordOfKeys<T>;
 }
 

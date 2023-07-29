@@ -5,9 +5,43 @@ import React from "react";
 import styles from "./CircuitDropdown.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
-import Dropdown, { DropdownData, DropdownSelectedValue } from "@/components/dropdown/Dropdown";
+import Dropdown, {
+  DropdownData,
+  DropdownSingleSelectedValue,
+} from "@/components/dropdown/Dropdown";
 import { PrfsCircuitKeys, PrfsSetKeys } from "@/models";
 import { RecordOfKeys } from "@/models/types";
+
+const CircuitEntry: React.FC<CircuitEntryProps> = ({ val }) => {
+  const i18n = React.useContext(i18nContext);
+
+  return (
+    <div className={styles.entryWrapper}>
+      <div className={styles.titleRow}>
+        <p>{val.label}</p>
+        <p>{val.circuit_id}</p>
+      </div>
+      <div className={styles.body}>
+        <div className={styles.item}>
+          <p>{i18n.proof_algorithm}:</p>
+          <p>{val.proof_algorithm}</p>
+        </div>
+        <div className={styles.item}>
+          <div>{i18n.num_public_inputs}:</div>
+          <div>{val.public_inputs.length}</div>
+        </div>
+        <div className={styles.item}>
+          <p>{i18n.circuit_dsl}:</p>
+          <p>{val.circuit_dsl}</p>
+        </div>
+        <div className={styles.item}>
+          <p>{i18n.elliptic_curve}:</p>
+          <p>{val.elliptic_curve}</p>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
@@ -28,12 +62,16 @@ const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSe
       });
   }, [setData]);
 
-  const handleClickEntry = React.useCallback(() => {
-    console.log("123");
-  }, []);
-
   const createBase = React.useMemo(() => {
-    return <div className={styles.dropdownBase}>{i18n.select_sets}</div>;
+    return (
+      <div className={styles.dropdownBase}>
+        {selectedVal ? (
+          <CircuitEntry val={selectedVal} />
+        ) : (
+          <div className={styles.guide}>{i18n.select_circuit}</div>
+        )}
+      </div>
+    );
   }, [selectedVal]);
 
   const createList = React.useMemo(() => {
@@ -45,36 +83,21 @@ const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSe
 
     let entries = [];
     for (let val of values) {
+      const handleClickEntry = handleSelectVal
+        ? () => {
+            handleSelectVal(val);
+          }
+        : undefined;
+
       entries.push(
         <li className={styles.entryWrapper} key={val.circuit_id} onClick={handleClickEntry}>
-          <div className={styles.titleRow}>
-            <p>{val.label}</p>
-            <p>{val.circuit_id}</p>
-          </div>
-          <div className={styles.body}>
-            <div className={styles.item}>
-              <p>{i18n.proof_algorithm}:</p>
-              <p>{val.proof_algorithm}</p>
-            </div>
-            <div className={styles.item}>
-              <div>{i18n.num_public_inputs}:</div>
-              <div>{val.public_inputs.length}</div>
-            </div>
-            <div className={styles.item}>
-              <p>{i18n.circuit_dsl}:</p>
-              <p>{val.circuit_dsl}</p>
-            </div>
-            <div className={styles.item}>
-              <p>{i18n.elliptic_curve}:</p>
-              <p>{val.elliptic_curve}</p>
-            </div>
-          </div>
+          <CircuitEntry val={val} />
         </li>
       );
     }
 
     return <ul className={styles.listWrapper}>{entries}</ul>;
-  }, [data]);
+  }, [data, handleSelectVal]);
 
   return <Dropdown baseElem={createBase} listElem={createList} />;
 };
@@ -82,6 +105,10 @@ const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSe
 export default CircuitDropdown;
 
 export interface CircuitDropdownProps {
-  selectedVal: DropdownSelectedValue<PrfsCircuitKeys>;
+  selectedVal: DropdownSingleSelectedValue<PrfsCircuitKeys> | undefined;
   handleSelectVal: (val: RecordOfKeys<PrfsCircuitKeys>) => void;
+}
+
+export interface CircuitEntryProps {
+  val: RecordOfKeys<PrfsCircuitKeys>;
 }

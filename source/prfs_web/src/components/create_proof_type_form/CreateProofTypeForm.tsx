@@ -17,28 +17,19 @@ import SetDropdown from "../set_dropdown/SetDropdown";
 import { RecordOfKeys } from "@/models/types";
 import { PrfsCircuitKeys, PrfsSetKeys } from "@/models";
 import CircuitDropdown from "../circuit_dropdown/CircuitDropdown";
+import { DropdownSingleSelectedValue } from "../dropdown/Dropdown";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
 
-  const [selectedCircuit, setSelectedCircuit] = React.useState<TableSelectedValue<PrfsCircuitKeys>>(
-    {}
-  );
+  const [selectedCircuit, setSelectedCircuit] =
+    React.useState<DropdownSingleSelectedValue<PrfsCircuitKeys>>(undefined);
 
   const handleSelectCircuit = React.useCallback(
     (val: RecordOfKeys<PrfsCircuitKeys>) => {
-      // console.log(11, val);
+      console.log(11, val);
 
-      setSelectedCircuit(oldVal => {
-        if (oldVal[val.circuit_id]) {
-          return oldVal;
-        } else {
-          return {
-            ...oldVal,
-            [val.circuit_id]: val,
-          };
-        }
-      });
+      setSelectedCircuit(val);
     },
     [setSelectedCircuit]
   );

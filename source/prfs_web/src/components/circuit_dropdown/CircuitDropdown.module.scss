@@ -1,15 +1,25 @@
 .dropdownBase {
-  padding: 3px 5px;
+}
+
+.guide {
+  padding: 3px 3px;
   color: var(--gray-32);
   font-style: italic;
 }
 
 .listWrapper {
   background-color: var(--white-100);
+
+  li {
+    width: 100%;
+
+    &:hover {
+      background-color: blue;
+    }
+  }
 }
 
 .entryWrapper {
-  width: 100%;
   display: flex;
   flex-direction: column;
   padding: 5px 6px;
