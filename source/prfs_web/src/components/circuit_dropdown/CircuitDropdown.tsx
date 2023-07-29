@@ -34,7 +34,7 @@ const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSe
 
   const createBase = React.useMemo(() => {
     return <div className={styles.dropdownBase}>{i18n.select_sets}</div>;
-  }, [handleSelectVal]);
+  }, [selectedVal]);
 
   const createList = React.useMemo(() => {
     let { values } = data;
@@ -45,8 +45,6 @@ const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSe
 
     let entries = [];
     for (let val of values) {
-      console.log(11, val);
-
       entries.push(
         <li className={styles.entryWrapper} key={val.circuit_id} onClick={handleClickEntry}>
           <div className={styles.titleRow}>
