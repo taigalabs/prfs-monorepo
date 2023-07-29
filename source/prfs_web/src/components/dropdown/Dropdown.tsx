@@ -20,7 +20,9 @@ function Dropdown<T extends string>({ createBase, createList, handleSelectVal }:
   const click = useClick(context);
   const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
 
-  const upgradedHandleSelectVal = React.useCallback(() => {}, [handleSelectVal]);
+  const upgradedHandleSelectVal = React.useCallback(() => {
+    // handleSelectVal()
+  }, [handleSelectVal]);
 
   let baseElem = React.useMemo(() => {
     return createBase();

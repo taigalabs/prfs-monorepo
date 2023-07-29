@@ -32,11 +32,11 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
     console.log("123");
   }, []);
 
-  const createBase = React.useMemo(() => {
+  const createBase = React.useCallback(() => {
     return <div className={styles.dropdownBase}>{i18n.select_sets}</div>;
   }, [handleSelectVal]);
 
-  const createList = React.useMemo(() => {
+  const createList = React.useCallback(() => {
     let { values } = data;
 
     if (values === undefined) {
@@ -72,7 +72,9 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
     return <ul className={styles.listWrapper}>{entries}</ul>;
   }, [data]);
 
-  return <Dropdown baseElem={createBase} listElem={createList} />;
+  return (
+    <Dropdown createBase={createBase} createList={createList} handleSelectVal={handleSelectVal} />
+  );
 };
 
 export default SetDropdown;
