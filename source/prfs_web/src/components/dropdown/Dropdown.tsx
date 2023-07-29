@@ -4,12 +4,9 @@ import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import { useFloating, useClick, useInteractions, useDismiss } from "@floating-ui/react";
 
 import styles from "./Dropdown.module.scss";
-import { i18nContext } from "@/contexts/i18n";
 import { RecordOfKeys } from "@/models/types";
 
 function Dropdown<T extends string>({ createBase, createList, handleSelectVal }: DropdownProps<T>) {
-  const i18n = React.useContext(i18nContext);
-
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, floatingStyles, context } = useFloating({
     placement: "bottom-end",
@@ -20,19 +17,23 @@ function Dropdown<T extends string>({ createBase, createList, handleSelectVal }:
   const click = useClick(context);
   const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
 
-  const upgradedHandleSelectVal = React.useCallback(() => {
-    // handleSelectVal()
-  }, [handleSelectVal]);
+  const upgradedHandleSelectVal = React.useCallback(
+    (data: RecordOfKeys<T>) => {
+      handleSelectVal(data);
+      setIsOpen(false);
+    },
+    [handleSelectVal, setIsOpen]
+  );
 
   let baseElem = React.useMemo(() => {
     return createBase();
-  }, []);
+  }, [createBase]);
 
   let listElem = React.useMemo(() => {
     return createList({
       upgradedHandleSelectVal,
     });
-  }, []);
+  }, [createList]);
 
   return (
     <div className={styles.dropdownWrapper}>
@@ -60,11 +61,11 @@ export default Dropdown;
 
 export interface DropdownProps<T extends string> {
   createBase: () => React.ReactNode;
-  createList: (args: CreateListArgs<T>) => React.ReactNode;
+  createList: (args: CreateDropdownListArgs<T>) => React.ReactNode;
   handleSelectVal: (data: RecordOfKeys<T>) => void;
 }
 
-interface CreateListArgs<T extends string> {
+export interface CreateDropdownListArgs<T extends string> {
   upgradedHandleSelectVal: (val: RecordOfKeys<T>) => void;
 }
 

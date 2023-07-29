@@ -6,6 +6,7 @@ import styles from "./CircuitDropdown.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
 import Dropdown, {
+  CreateDropdownListArgs,
   DropdownData,
   DropdownSingleSelectedValue,
 } from "@/components/dropdown/Dropdown";
@@ -75,8 +76,10 @@ const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSe
   }, [selectedVal]);
 
   const createList = React.useCallback(
-    ({ upgradedHandleSelectVal }) => {
+    ({ upgradedHandleSelectVal }: CreateDropdownListArgs<PrfsCircuitKeys>) => {
       let { values } = data;
+
+      // console.log(11, data);
 
       if (values === undefined) {
         return <div>no element</div>;
