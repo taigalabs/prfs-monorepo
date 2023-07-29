@@ -62,7 +62,7 @@ const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSe
       });
   }, [setData]);
 
-  const createBase = React.useMemo(() => {
+  const createBase = React.useCallback(() => {
     return (
       <div className={styles.dropdownBase}>
         {selectedVal ? (
@@ -74,32 +74,35 @@ const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSe
     );
   }, [selectedVal]);
 
-  const createList = React.useMemo(() => {
-    let { values } = data;
+  const createList = React.useCallback(
+    ({ upgradedHandleSelectVal }) => {
+      let { values } = data;
 
-    if (values === undefined) {
-      return <div>no element</div>;
-    }
+      if (values === undefined) {
+        return <div>no element</div>;
+      }
 
-    let entries = [];
-    for (let val of values) {
-      const handleClickEntry = handleSelectVal
-        ? () => {
-            handleSelectVal(val);
-          }
-        : undefined;
+      let entries = [];
+      for (let val of values) {
+        const handleClickEntry = () => {
+          upgradedHandleSelectVal(val);
+        };
 
-      entries.push(
-        <li className={styles.entryWrapper} key={val.circuit_id} onClick={handleClickEntry}>
-          <CircuitEntry val={val} />
-        </li>
-      );
-    }
+        entries.push(
+          <li className={styles.entryWrapper} key={val.circuit_id} onClick={handleClickEntry}>
+            <CircuitEntry val={val} />
+          </li>
+        );
+      }
 
-    return <ul className={styles.listWrapper}>{entries}</ul>;
-  }, [data, handleSelectVal]);
+      return <ul className={styles.listWrapper}>{entries}</ul>;
+    },
+    [data, handleSelectVal]
+  );
 
-  return <Dropdown baseElem={createBase} listElem={createList} />;
+  return (
+    <Dropdown createBase={createBase} createList={createList} handleSelectVal={handleSelectVal} />
+  );
 };
 
 export default CircuitDropdown;

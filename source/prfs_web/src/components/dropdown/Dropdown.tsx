@@ -7,7 +7,7 @@ import styles from "./Dropdown.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { RecordOfKeys } from "@/models/types";
 
-const Dropdown: React.FC<DropdownProps> = ({ baseElem, listElem }) => {
+function Dropdown<T extends string>({ createBase, createList, handleSelectVal }: DropdownProps<T>) {
   const i18n = React.useContext(i18nContext);
 
   const [isOpen, setIsOpen] = React.useState(false);
@@ -19,6 +19,18 @@ const Dropdown: React.FC<DropdownProps> = ({ baseElem, listElem }) => {
   const dismiss = useDismiss(context);
   const click = useClick(context);
   const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
+
+  const upgradedHandleSelectVal = React.useCallback(() => {}, [handleSelectVal]);
+
+  let baseElem = React.useMemo(() => {
+    return createBase();
+  }, []);
+
+  let listElem = React.useMemo(() => {
+    return createList({
+      upgradedHandleSelectVal,
+    });
+  }, []);
 
   return (
     <div className={styles.dropdownWrapper}>
@@ -40,13 +52,18 @@ const Dropdown: React.FC<DropdownProps> = ({ baseElem, listElem }) => {
       )}
     </div>
   );
-};
+}
 
 export default Dropdown;
 
-export interface DropdownProps {
-  baseElem: React.ReactNode;
-  listElem: React.ReactNode;
+export interface DropdownProps<T extends string> {
+  createBase: () => React.ReactNode;
+  createList: (args: CreateListArgs<T>) => React.ReactNode;
+  handleSelectVal: (data: RecordOfKeys<T>) => void;
+}
+
+interface CreateListArgs<T extends string> {
+  upgradedHandleSelectVal: (val: RecordOfKeys<T>) => void;
 }
 
 export type DropdownSingleSelectedValue<T extends string> = RecordOfKeys<T>;
