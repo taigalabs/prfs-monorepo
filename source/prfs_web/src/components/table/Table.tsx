@@ -2,6 +2,7 @@ import React, { MouseEventHandler } from "react";
 
 import styles from "./Table.module.scss";
 import classNames from "classnames";
+import { KeysAsObject, RecordOfKeys } from "@/models/types";
 
 export const TableCurrentPageLimitWarning: React.FC = () => {
   return <div className={styles.pageLimitWarning}>Currently showing up to 20 elements</div>;
@@ -47,12 +48,12 @@ function Table<T extends string>({
   }, [onChangePage, setValues]);
 
   const tableKeys = React.useMemo(() => {
-    const tableKeys: TableKeys<T> = keys.reduce((r, key) => {
+    const tableKeys: KeysAsObject<T> = keys.reduce((r, key) => {
       return {
         ...r,
         [key]: key,
       };
-    }, {} as TableKeys<T>);
+    }, {} as RecordOfKeys<T>);
     return tableKeys;
   }, [keys]);
 
@@ -88,39 +89,29 @@ export default Table;
 
 export interface TableProps<T extends string> {
   keys: ReadonlyArray<T>;
-  createHeader: (keys: TableKeys<T>) => React.ReactNode;
+  createHeader: (keys: RecordOfKeys<T>) => React.ReactNode;
   createBody: (args: CreateBodyArgs<T>) => React.ReactNode;
   onChangePage: (page: number) => Promise<TableData<T>>;
   minWidth: number;
   selectedVal?: TableSelectedValue<T>;
-  handleSelectVal?: (row: TableRowValue<T>) => void;
+  handleSelectVal?: (row: RecordOfKeys<T>) => void;
 }
 
 export type CreateBodyArgs<T extends string> = {
-  keys: TableKeys<T>;
+  keys: KeysAsObject<T>;
   data: TableData<T>;
   selectedVal: TableSelectedValue<T>;
-  handleSelectVal?: (row: TableRowValue<T>) => void;
+  handleSelectVal?: (row: RecordOfKeys<T>) => void;
 };
-
-export type TableKeys<T extends string> = ObjectFromList<ReadonlyArray<T>, string>;
 
 export type TableData<T extends string> = {
   page: number;
-  values: TableRowValue<T>[];
-};
-
-export type TableRowValue<T extends string> = {
-  [key in T]: any;
+  values: RecordOfKeys<T>[];
 };
 
 export interface TableSelectedValue<T extends string> {
-  [key: string]: TableRowValue<T>;
+  [id: string]: RecordOfKeys<T>;
 }
-
-type ObjectFromList<T extends ReadonlyArray<string>, V = string> = {
-  [K in T extends ReadonlyArray<infer U> ? U : never]: V;
-};
 
 export interface TableHeaderProps {
   children: React.ReactNode;

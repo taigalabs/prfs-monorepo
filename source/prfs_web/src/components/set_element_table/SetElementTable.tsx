@@ -4,20 +4,15 @@ import React from "react";
 import Link from "next/link";
 
 import styles from "./SetElementTable.module.scss";
-import Table, {
-  TableBody,
-  TableRow,
-  TableData,
-  TableHeader,
-  TableKeys,
-} from "@/components/table/Table";
+import Table, { TableBody, TableRow, TableData, TableHeader } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
+import { KeysAsObject } from "@/models/types";
 
 const SetElementTable: React.FC<SetElementTableProps> = ({ setId }) => {
   const i18n = React.useContext(i18nContext);
 
-  const createHeader = React.useCallback((keys: TableKeys<SetElementTableKeys>) => {
+  const createHeader = React.useCallback((keys: KeysAsObject<SetElementTableKeys>) => {
     return (
       <TableHeader>
         <TableRow>

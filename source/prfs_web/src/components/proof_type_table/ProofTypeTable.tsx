@@ -4,20 +4,15 @@ import React from "react";
 import Link from "next/link";
 
 import styles from "./ProofTypeTable.module.scss";
-import Table, {
-  TableBody,
-  TableRow,
-  TableData,
-  TableHeader,
-  TableKeys,
-} from "@/components/table/Table";
+import Table, { TableBody, TableRow, TableData, TableHeader } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
+import { KeysAsObject } from "@/models/types";
 
 const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
   const i18n = React.useContext(i18nContext);
 
-  const createHeader = React.useCallback((keys: TableKeys<ProofTypeTableKeys>) => {
+  const createHeader = React.useCallback((keys: KeysAsObject<ProofTypeTableKeys>) => {
     return (
       <TableHeader>
         <TableRow>

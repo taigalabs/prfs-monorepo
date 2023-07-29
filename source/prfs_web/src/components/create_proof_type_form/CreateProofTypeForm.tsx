@@ -11,10 +11,11 @@ import { FormTitleRow, FormTitle, FormSubtitle } from "@/components/form/Form";
 import CircuitTable, { CircuitTableKeys } from "@/components/circuit_table/CircuitTable";
 import SetTable, { SetTableKeys } from "@/components/set_table/SetTable";
 import Button from "@/components/button/Button";
-import { TableRowValue, TableSelectedValue } from "../table/Table";
+import { TableSelectedValue } from "../table/Table";
 import FormTextInput from "@/components/form/FormTextInput";
 import FormSelectedItems, { FormSelectedItemsEntry } from "../form/FormSelectedItems";
 import SetDropdown from "../set_dropdown/SetDropdown";
+import { RecordOfKeys } from "@/models/types";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -24,7 +25,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   >({});
 
   const handleSelectCircuit = React.useCallback(
-    (val: TableRowValue<CircuitTableKeys>) => {
+    (val: RecordOfKeys<CircuitTableKeys>) => {
       // console.log(11, val);
 
       setSelectedCircuit(oldVal => {
@@ -43,7 +44,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 
   const [selectedSet, setSelectedSet] = React.useState<TableSelectedValue<SetTableKeys>>({});
   const handleSelectSet = React.useCallback(
-    (val: TableRowValue<SetTableKeys>) => {
+    (val: RecordOfKeys<SetTableKeys>) => {
       // console.log(11, val);
 
       setSelectedSet(oldVal => {

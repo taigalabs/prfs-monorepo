@@ -56,4 +56,6 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ handleSelectVal }) => {
 
 export default SetDropdown;
 
-export interface SetDropdownProps {}
+export interface SetDropdownProps {
+  handleSelectVal?: any;
+}

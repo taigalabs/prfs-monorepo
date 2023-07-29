@@ -9,19 +9,17 @@ import Table, {
   TableRow,
   TableHeader,
   TableData,
-  TableKeys,
   TableSelectedValue,
-  TableRowValue,
 } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
-import classNames from "classnames";
+import { KeysAsObject, RecordOfKeys } from "@/models/types";
 
 const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
 
   const createHeader = React.useCallback(
-    (keys: TableKeys<SetTableKeys>) => {
+    (keys: KeysAsObject<SetTableKeys>) => {
       return (
         <TableHeader>
           <TableRow>
@@ -138,7 +136,7 @@ export default SetTable;
 export interface SetTableProps {
   selectType?: "checkbox" | "radio";
   selectedVal?: TableSelectedValue<SetTableKeys>;
-  handleSelectVal?: (row: TableRowValue<SetTableKeys>) => void;
+  handleSelectVal?: (row: RecordOfKeys<SetTableKeys>) => void;
 }
 
 const SET_TABLE_KEYS = [

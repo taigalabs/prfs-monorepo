@@ -8,13 +8,12 @@ import Table, {
   TableBody,
   TableRow,
   TableHeader,
-  TableKeys,
   CreateBodyArgs,
-  TableRowValue,
   TableSelectedValue,
 } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
+import { KeysAsObject, RecordOfKeys } from "@/models/types";
 
 const CircuitTable: React.FC<CircuitTableProps> = ({
   selectType,
@@ -24,7 +23,7 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
   const i18n = React.useContext(i18nContext);
 
   const createHeader = React.useCallback(
-    (keys: TableKeys<CircuitTableKeys>) => {
+    (keys: KeysAsObject<CircuitTableKeys>) => {
       return (
         <TableHeader>
           <TableRow>
@@ -137,7 +136,7 @@ export default CircuitTable;
 export interface CircuitTableProps {
   selectType?: "checkbox" | "radio";
   selectedVal?: TableSelectedValue<CircuitTableKeys>;
-  handleSelectVal?: (row: TableRowValue<CircuitTableKeys>) => void;
+  handleSelectVal?: (row: RecordOfKeys<CircuitTableKeys>) => void;
 }
 
 const CIRCUIT_TABLE_KEYS = [
