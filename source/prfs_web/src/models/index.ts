@@ -2,7 +2,10 @@ export interface PrfsCircuit {
   circuit_id: number;
   label: string;
   author: string;
-  num_public_inputs: number;
+  public_inputs: {
+    label: string;
+    kind: string;
+  }[];
   desc: string;
   created_at: string;
   proof_algorithm: string;
@@ -16,9 +19,13 @@ export const PRFS_CIRCUIT_KEYS = [
   "circuit_id",
   "label",
   "author",
-  "num_public_inputs",
+  "public_inputs",
   "desc",
   "created_at",
+  "arithmetization",
+  "circuit_dsl",
+  "elliptic_curve",
+  "finite_field",
 ] as const;
 
 export type PrfsCircuitKeys = (typeof PRFS_CIRCUIT_KEYS)[number];

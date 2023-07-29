@@ -7,7 +7,7 @@ import {
   pubToAddress,
 } from "@ethereumjs/util";
 import { ethers } from "ethers";
-import { getAddrMembership2CircuitUrl, getAddrMembership2WtnsGenUrl } from "@/env";
+import { getAddrMembership2CircuitUrl, getAddrMembership2WtnsGenUrl } from "@/envs";
 
 let addrs = [
   "0x33d10ab178924ecb7ad52f4c0c8062c3066607ec",

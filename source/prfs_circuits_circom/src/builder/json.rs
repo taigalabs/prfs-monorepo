@@ -47,7 +47,6 @@ pub struct CircuitDetail {
     pub label: String,
     pub instance_path: String,
     pub author: String,
-    // pub num_public_inputs: usize,
     pub public_inputs: Vec<PublicInput>,
     pub desc: String,
     pub circuit_dsl: String,
