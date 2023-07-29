@@ -11,7 +11,29 @@
       "arithmetization": "R1CS",
       "proof_algorithm": "Spartan",
       "elliptic_curve": "Secp256k1",
-      "finite_field": "Z_(2^256-2^32-977)"
+      "finite_field": "Z_(2^256-2^32-977)",
+      "public_inputs": [
+        {
+          "label": "Tx",
+          "kind": "COMPUTED"
+        },
+        {
+          "label": "Ty",
+          "kind": "COMPUTED"
+        },
+        {
+          "label": "Ux",
+          "kind": "COMPUTED"
+        },
+        {
+          "label": "Uy",
+          "kind": "COMPUTED"
+        },
+        {
+          "label": "Merkle root",
+          "kind": "SET"
+        }
+      ]
     }
   }
 }

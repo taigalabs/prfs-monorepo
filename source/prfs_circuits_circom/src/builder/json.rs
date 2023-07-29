@@ -28,7 +28,7 @@ pub struct CircuitBuildDetail {
     pub proof_algorithm: String,
     pub elliptic_curve: String,
     pub finite_field: String,
-    pub num_public_inputs: usize,
+    pub public_inputs: Vec<PublicInput>,
     pub instance_path: String,
     pub circuit_src_path: String,
 
@@ -47,11 +47,24 @@ pub struct CircuitDetail {
     pub label: String,
     pub instance_path: String,
     pub author: String,
-    pub num_public_inputs: usize,
+    // pub num_public_inputs: usize,
+    pub public_inputs: Vec<PublicInput>,
     pub desc: String,
     pub circuit_dsl: String,
     pub arithmetization: String,
     pub proof_algorithm: String,
     pub elliptic_curve: String,
     pub finite_field: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub enum PublicInputKind {
+    COMPUTED,
+    SET,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct PublicInput {
+    pub label: String,
+    pub kind: PublicInputKind,
 }

@@ -75,7 +75,7 @@ fn make_spartan(circuit: &CircuitDetail, timestamp: i64) {
     circuit_reader::make_spartan_instance(
         &r1cs_src_path,
         &spartan_circuit_path,
-        circuit.num_public_inputs,
+        circuit.public_inputs.len(),
     );
 }
 
@@ -138,7 +138,7 @@ fn create_build_json(circuits_json: &CircuitsJson, timestamp: i64) {
             elliptic_curve: circuit.elliptic_curve.to_string(),
             finite_field: circuit.finite_field.to_string(),
             instance_path: format!("{}/{}", circuit.label, circuit.instance_path),
-            num_public_inputs: circuit.num_public_inputs,
+            public_inputs: circuit.public_inputs.clone(),
             circuit_src_path,
             wtns_gen_url: format!("{}{}", SYSTEM_NATIVE_SCHEME, wtns_gen_path),
             spartan_circuit_url: format!("{}{}", SYSTEM_NATIVE_SCHEME, spartan_circuit_path),
