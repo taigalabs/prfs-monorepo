@@ -32,7 +32,7 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit, setPub
 
         const handleSelectSet = React.useCallback(
           (val: RecordOfKeys<PrfsSetKeys>) => {
-            // console.log(13, val);
+            console.log(13, val);
             setSelectedSet(val);
             setPublicInputs((oldVal: any[]) => {
               const newVal = [...oldVal];
@@ -81,7 +81,7 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit, setPub
     }
 
     return elems;
-  }, [circuit]);
+  }, [circuit, setVals]);
 
   return (
     <CardRow>
@@ -102,6 +102,7 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit, setPub
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
 
+  const [name, setName] = React.useState("");
   const [selectedCircuit, setSelectedCircuit] =
     React.useState<DropdownSingleSelectedValue<PrfsCircuitKeys>>(undefined);
 
@@ -114,18 +115,23 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   );
 
   const [publicInputs, setPublicInputs] = React.useState([]);
-  React.useEffect(() => {
-    console.log(22, publicInputs);
-    // if (selectedCircuit !== undefined) {
-    //   let circuit: PrfsCircuit = selectedCircuit;
-    //   let inputs = [];
-    //   for (const [idx, [a, x]] of Object.entries(circuit.public_inputs).entries()) {
-    //     // inputs[idx] =
-    //   }
-    // }
-  }, [publicInputs]);
+  // React.useEffect(() => {
+  //   console.log(22, publicInputs);
+  //   // if (selectedCircuit !== undefined) {
+  //   //   let circuit: PrfsCircuit = selectedCircuit;
+  //   //   let inputs = [];
+  //   //   for (const [idx, [a, x]] of Object.entries(circuit.public_inputs).entries()) {
+  //   //     // inputs[idx] =
+  //   //   }
+  //   // }
+  // }, [publicInputs]);
 
-  const handleClickCreateProofType = React.useCallback(() => {}, []);
+  const handleClickCreateProofType = React.useCallback(() => {
+    console.log(11, publicInputs);
+    for (const pi of publicInputs) {
+      console.log(555, pi);
+    }
+  }, [publicInputs, selectedCircuit]);
 
   return (
     <div className={styles.wrapper}>
@@ -148,7 +154,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             </WidgetHeader>
             <WidgetPaddedBody>
               <div className={styles.proofName}>
-                <FormTextInput label={i18n.name} />
+                <FormTextInput label={i18n.name} value={name} />
               </div>
             </WidgetPaddedBody>
           </Widget>

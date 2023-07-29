@@ -52,6 +52,7 @@
 .publicInputEntry:not(:first-child) {
   margin-top: 15px;
 }
+
 .inputContainer {
   margin-top: 4px;
   max-width: 535px;
@@ -61,5 +62,6 @@
 .computedInput {
   padding: 5px 5px;
   border: 1px solid var(--gray-60);
-  background-color: var(--bright-gray-40);
+  background-color: var(--bright-gray-55);
+  color: var(--gray-40);
 }

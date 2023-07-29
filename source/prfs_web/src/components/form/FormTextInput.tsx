@@ -4,6 +4,7 @@ import styles from "./Form.module.scss";
 
 const FormTextInput: React.FC<FormTextInputProps> = ({ type, label, value, handleChange }) => {
   const inputType = type ? type : "text";
+  console.log(55, value);
 
   return (
     <div className={styles.formTextInputWrapper}>
