@@ -14,6 +14,7 @@ import Button from "@/components/button/Button";
 import { TableRowValue, TableSelectedValue } from "../table/Table";
 import FormTextInput from "@/components/form/FormTextInput";
 import FormSelectedItems, { FormSelectedItemsEntry } from "../form/FormSelectedItems";
+import SetDropdown from "../set_dropdown/SetDropdown";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -87,6 +88,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
         <FormTitle>{i18n.create_proof_type}</FormTitle>
         <FormSubtitle>{i18n.create_proof_type_subtitle}</FormSubtitle>
       </FormTitleRow>
+
       <CardRow>
         <Card>
           <Widget>
@@ -101,6 +103,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
           </Widget>
         </Card>
       </CardRow>
+
       <CardRow>
         <Card>
           <Widget>
@@ -115,17 +118,19 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
           </Widget>
         </Card>
       </CardRow>
+
       <CardRow>
         <Card>
           <Widget>
             <WidgetHeader>
               <WidgetLabel>{i18n.choose_set}</WidgetLabel>
             </WidgetHeader>
-            <SetTable
-              selectType="checkbox"
-              selectedVal={selectedSet}
-              handleSelectVal={handleSelectSet}
-            />
+            {/* <SetTable */}
+            {/*   selectType="checkbox" */}
+            {/*   selectedVal={selectedSet} */}
+            {/*   handleSelectVal={handleSelectSet} */}
+            {/* /> */}
+            <SetDropdown />
             <WidgetPaddedBody>
               <FormSelectedItems label={i18n.selected_sets}>
                 <div>{selectedSetElem}</div>
@@ -134,7 +139,8 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
           </Widget>
         </Card>
       </CardRow>
-      <div>
+
+      <div className={styles.btnRow}>
         <Button variant="b">{i18n.create_proof_type}</Button>
       </div>
     </div>

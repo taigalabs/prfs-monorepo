@@ -5,7 +5,7 @@ import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev
 import styles from "./ConnectWalletWidget.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
-import { FormTextInput } from "../form/Form";
+import FormTextInput from "@/components/form/FormTextInput";
 import Button from "@/components/button/Button";
 
 const metamaskConfig = metamaskWallet();

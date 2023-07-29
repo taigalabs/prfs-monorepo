@@ -14,8 +14,9 @@ import { i18nContext } from "@/contexts/i18n";
 import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
 import CardRow from "@/components/card_row/CardRow";
 import Card from "@/components/card/Card";
-import { FormTextInput, FormTitle, FormTitleRow } from "../form/Form";
-import StrikeThroughText from "../strike_through_text/StrikeThroughText";
+import { FormTitle, FormTitleRow } from "@/components/form/Form";
+import FormTextInput from "@/components/form/FormTextInput";
+import StrikeThroughText from "@/components/strike_through_text/StrikeThroughText";
 import prfsBackend from "@/fetch/prfsBackend";
 
 const metamaskConfig = metamaskWallet();
