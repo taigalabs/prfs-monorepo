@@ -35,6 +35,7 @@ export default {
   proof_types: "Proof types",
   choose_circuit: "Choose a circuit",
   choose_set: "Choose a set",
+  configure_public_inputs: "Configure public inputs",
   selected_sets: "Selected sets",
   select_sets: "Select sets",
   proof_algorithm: "Proof algorithm",

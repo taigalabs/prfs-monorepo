@@ -120,7 +120,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
         <Card>
           <Widget>
             <WidgetHeader>
-              <WidgetLabel>{i18n.choose_set}</WidgetLabel>
+              <WidgetLabel>{i18n.configure_public_inputs}</WidgetLabel>
             </WidgetHeader>
             <WidgetPaddedBody>
               <div className={styles.dropdownContainer}>
