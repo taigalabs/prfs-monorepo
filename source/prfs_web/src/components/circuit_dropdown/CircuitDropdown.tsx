@@ -77,9 +77,8 @@ const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSe
 
   const createList = React.useCallback(
     ({ upgradedHandleSelectVal }: CreateDropdownListArgs<PrfsCircuitKeys>) => {
-      let { values } = data;
-
       // console.log(11, data);
+      let { values } = data;
 
       if (values === undefined) {
         return <div>no element</div>;

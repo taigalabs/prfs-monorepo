@@ -8,21 +8,19 @@ import CardRow from "@/components/card_row/CardRow";
 import Card from "@/components/card/Card";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import { FormTitleRow, FormTitle, FormSubtitle } from "@/components/form/Form";
-import CircuitTable from "@/components/circuit_table/CircuitTable";
 import Button from "@/components/button/Button";
-import { TableSelectedValue } from "../table/Table";
 import FormTextInput from "@/components/form/FormTextInput";
-import FormSelectedItems, { FormSelectedItemsEntry } from "../form/FormSelectedItems";
-import SetDropdown from "../set_dropdown/SetDropdown";
+import SetDropdown from "@/components/set_dropdown/SetDropdown";
 import { RecordOfKeys } from "@/models/types";
 import { PrfsCircuit, PrfsCircuitKeys, PrfsSetKeys, PublicInputKind } from "@/models";
-import CircuitDropdown from "../circuit_dropdown/CircuitDropdown";
-import { DropdownSingleSelectedValue } from "../dropdown/Dropdown";
+import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
+import { DropdownSingleSelectedValue } from "@/components/dropdown/Dropdown";
 
 const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit }) => {
   const i18n = React.useContext(i18nContext);
 
-  const [selectedSet, setSelectedSet] = React.useState<TableSelectedValue<PrfsSetKeys>>({});
+  const [selectedSet, setSelectedSet] =
+    React.useState<DropdownSingleSelectedValue<PrfsSetKeys>>(undefined);
   const handleSelectSet = React.useCallback(
     (val: RecordOfKeys<PrfsSetKeys>) => {
       // console.log(11, val);

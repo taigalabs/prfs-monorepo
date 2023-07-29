@@ -139,15 +139,3 @@ export interface SetTableProps {
   selectedVal?: TableSelectedValue<PrfsSetKeys>;
   handleSelectVal?: (row: RecordOfKeys<PrfsSetKeys>) => void;
 }
-
-// const SET_TABLE_KEYS = [
-//   "set_id",
-//   "label",
-//   "author",
-//   "desc",
-//   "hash_algorithm",
-//   "cardinality",
-//   "created_at",
-// ] as const;
-
-// export type SetTableKeys = (typeof SET_TABLE_KEYS)[number];
