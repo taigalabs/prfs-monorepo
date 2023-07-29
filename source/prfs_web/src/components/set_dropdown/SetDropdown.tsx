@@ -29,8 +29,15 @@ const SetDropdown: React.FC<SetDropdownProps> = () => {
   }, []);
 
   return (
-    <div>
+    <div className={styles.dropdownWrapper}>
       <div>dropdown</div>
+      <div className={styles.accountStat} ref={refs.setReference} {...getReferenceProps()}>
+        <div>
+          <div>power</div>
+          <div>bla</div>
+        </div>
+        <div className={styles.btnArea}>{isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}</div>
+      </div>
       <div>
         {isOpen && (
           <div
