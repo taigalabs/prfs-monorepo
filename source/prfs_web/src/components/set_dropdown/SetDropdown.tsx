@@ -11,7 +11,7 @@ import styles from "./SetDropdown.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
 
-const SetDropdown: React.FC<SetDropdownProps> = () => {
+const SetDropdown: React.FC<SetDropdownProps> = ({ handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
 
   const [isOpen, setIsOpen] = React.useState(false);
