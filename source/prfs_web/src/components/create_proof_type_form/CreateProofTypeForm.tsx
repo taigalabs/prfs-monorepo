@@ -7,28 +7,13 @@ import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/component
 import CardRow from "@/components/card_row/CardRow";
 import Card from "@/components/card/Card";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
-import {
-  FormSection,
-  FormTextInput,
-  FormTitleRow,
-  FormTitle,
-  FormSubtitle,
-} from "@/components/form/Form";
-import CircuitTable, { CircuitTableKeys } from "../circuit_table/CircuitTable";
-import SetTable, { SetTableKeys } from "../set_table/SetTable";
+import { FormTitleRow, FormTitle, FormSubtitle } from "@/components/form/Form";
+import CircuitTable, { CircuitTableKeys } from "@/components/circuit_table/CircuitTable";
+import SetTable, { SetTableKeys } from "@/components/set_table/SetTable";
 import Button from "@/components/button/Button";
 import { TableRowValue, TableSelectedValue } from "../table/Table";
-
-const FormSelectedItems: React.FC<any> = ({ children }) => {
-  const i18n = React.useContext(i18nContext);
-
-  return (
-    <div>
-      <div>{i18n.selected_sets}</div>
-      {children}
-    </div>
-  );
-};
+import FormTextInput from "@/components/form/FormTextInput";
+import FormSelectedItems, { FormSelectedItemsEntry } from "../form/FormSelectedItems";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -80,10 +65,10 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     let elems = [];
     for (let [_, set] of Object.entries(selectedSet)) {
       elems.push(
-        <div key={set.set_id}>
+        <FormSelectedItemsEntry key={set.set_id}>
           <div>{set.set_id}</div>
           <div>X</div>
-        </div>
+        </FormSelectedItemsEntry>
       );
     }
 
@@ -142,7 +127,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
               handleSelectVal={handleSelectSet}
             />
             <WidgetPaddedBody>
-              <FormSelectedItems>
+              <FormSelectedItems label={i18n.selected_sets}>
                 <div>{selectedSetElem}</div>
               </FormSelectedItems>
             </WidgetPaddedBody>
