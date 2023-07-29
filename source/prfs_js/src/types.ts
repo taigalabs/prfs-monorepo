@@ -25,7 +25,7 @@ export interface EffECDSAPubInput2 {
   Ux: bigint;
   Uy: bigint;
 
-  sInv: bigint;
+  // sInv: bigint;
 }
 
 export interface NIZK {
