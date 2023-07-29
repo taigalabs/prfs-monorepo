@@ -26,6 +26,18 @@ export interface PrfsSet {
   finite_field: string;
 }
 
+export const PRFS_SET_KEYS = [
+  "set_id",
+  "label",
+  "author",
+  "desc",
+  "hash_algorithm",
+  "cardinality",
+  "created_at",
+] as const;
+
+export type PrfsSetKeys = (typeof PRFS_SET_KEYS)[number];
+
 export interface PrfsTreeNode {
   pos_h: number;
   pos_w: number;

@@ -9,13 +9,13 @@ import Card from "@/components/card/Card";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import { FormTitleRow, FormTitle, FormSubtitle } from "@/components/form/Form";
 import CircuitTable, { CircuitTableKeys } from "@/components/circuit_table/CircuitTable";
-import SetTable, { SetTableKeys } from "@/components/set_table/SetTable";
 import Button from "@/components/button/Button";
 import { TableSelectedValue } from "../table/Table";
 import FormTextInput from "@/components/form/FormTextInput";
 import FormSelectedItems, { FormSelectedItemsEntry } from "../form/FormSelectedItems";
 import SetDropdown from "../set_dropdown/SetDropdown";
 import { RecordOfKeys } from "@/models/types";
+import { PrfsSetKeys } from "@/models";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -42,9 +42,9 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     [setSelectedCircuit]
   );
 
-  const [selectedSet, setSelectedSet] = React.useState<TableSelectedValue<SetTableKeys>>({});
+  const [selectedSet, setSelectedSet] = React.useState<TableSelectedValue<PrfsSetKeys>>({});
   const handleSelectSet = React.useCallback(
-    (val: RecordOfKeys<SetTableKeys>) => {
+    (val: RecordOfKeys<PrfsSetKeys>) => {
       // console.log(11, val);
 
       setSelectedSet(oldVal => {
@@ -126,20 +126,15 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             <WidgetHeader>
               <WidgetLabel>{i18n.choose_set}</WidgetLabel>
             </WidgetHeader>
-            {/* <SetTable */}
-            {/*   selectType="checkbox" */}
-            {/*   selectedVal={selectedSet} */}
-            {/*   handleSelectVal={handleSelectSet} */}
-            {/* /> */}
             <WidgetPaddedBody>
               <div className={styles.setDropdownContainer}>
-                <SetDropdown />
+                <SetDropdown selectedVal={selectedSet} handleSelectVal={handleSelectSet} />
               </div>
             </WidgetPaddedBody>
             <WidgetPaddedBody>
-              <FormSelectedItems label={i18n.selected_sets}>
+              <div>
                 <div>{selectedSetElem}</div>
-              </FormSelectedItems>
+              </div>
             </WidgetPaddedBody>
           </Widget>
         </Card>

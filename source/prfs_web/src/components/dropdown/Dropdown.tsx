@@ -5,11 +5,11 @@ import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import { useRouter } from "next/navigation";
 import { useFloating, useClick, useInteractions, useDismiss } from "@floating-ui/react";
 
-import styles from "./SetDropdown.module.scss";
+import styles from "./Dropdown.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import prfsBackend from "@/fetch/prfsBackend";
+import { RecordOfKeys } from "@/models/types";
 
-const SetDropdown: React.FC<SetDropdownProps> = () => {
+const Dropdown: React.FC<DropdownProps> = ({ baseElem, listElem }) => {
   const i18n = React.useContext(i18nContext);
 
   const [isOpen, setIsOpen] = React.useState(false);
@@ -22,39 +22,56 @@ const SetDropdown: React.FC<SetDropdownProps> = () => {
   const click = useClick(context);
   const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
 
-  const handleClickSignOut = React.useCallback(() => {
-    console.log("123");
-  }, []);
+  // const handleClickSignOut = React.useCallback(() => {
+  //   console.log("123");
+  // }, []);
+
+  // let baseElem = React.useMemo(() => {
+  //   return createBase();
+  // }, [createBase]);
+
+  // let listElem = React.useMemo(() => {
+  //   return createList();
+  // }, [createList]);
 
   return (
     <div className={styles.dropdownWrapper}>
-      <div>dropdown</div>
-      <div className={styles.accountStat} ref={refs.setReference} {...getReferenceProps()}>
-        <div>
-          <div>power</div>
-          <div>bla</div>
+      <div className={styles.dropdownBase} ref={refs.setReference} {...getReferenceProps()}>
+        <div>{baseElem}</div>
+        <div className={styles.arrowContainer}>
+          {isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
         </div>
-        <div className={styles.btnArea}>{isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}</div>
       </div>
-      <div>
-        {isOpen && (
-          <div
-            className={styles.dropdown}
-            ref={refs.setFloating}
-            style={floatingStyles}
-            {...getFloatingProps()}
-          >
-            <ul>
-              power
-              <li onClick={handleClickSignOut}>{i18n.sign_out}</li>
-            </ul>
-          </div>
-        )}
-      </div>
+      {isOpen && (
+        <div
+          className={styles.dropdown}
+          ref={refs.setFloating}
+          style={floatingStyles}
+          {...getFloatingProps()}
+        >
+          {listElem}
+          {/* <ul> */}
+          {/*   <li onClick={handleClickEntry}>aa</li> */}
+          {/*   <li onClick={handleClickEntry}>bb</li> */}
+          {/* </ul> */}
+        </div>
+      )}
     </div>
   );
 };
 
-export default SetDropdown;
+export default Dropdown;
 
-export interface SetDropdownProps {}
+export interface DropdownProps {
+  baseElem: React.ReactNode;
+  listElem: React.ReactNode;
+}
+
+export interface DropdownSelectedValue<T extends string> {
+  [id: string]: RecordOfKeys<T>;
+}
+
+export type DropdownData<T extends string> = {
+  page: number;
+  values: RecordOfKeys<T>[];
+};

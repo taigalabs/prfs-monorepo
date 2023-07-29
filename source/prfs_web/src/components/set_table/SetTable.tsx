@@ -14,12 +14,13 @@ import Table, {
 import { i18nContext } from "@/contexts/i18n";
 import prfsBackend from "@/fetch/prfsBackend";
 import { KeysAsObject, RecordOfKeys } from "@/models/types";
+import { PRFS_SET_KEYS, PrfsSetKeys } from "@/models";
 
 const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
 
   const createHeader = React.useCallback(
-    (keys: KeysAsObject<SetTableKeys>) => {
+    (keys: KeysAsObject<PrfsSetKeys>) => {
       return (
         <TableHeader>
           <TableRow>
@@ -120,7 +121,7 @@ const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSele
 
   return (
     <Table
-      keys={SET_TABLE_KEYS}
+      keys={PRFS_SET_KEYS}
       createHeader={createHeader}
       createBody={createBody}
       onChangePage={handleChangePage}
@@ -135,18 +136,18 @@ export default SetTable;
 
 export interface SetTableProps {
   selectType?: "checkbox" | "radio";
-  selectedVal?: TableSelectedValue<SetTableKeys>;
-  handleSelectVal?: (row: RecordOfKeys<SetTableKeys>) => void;
+  selectedVal?: TableSelectedValue<PrfsSetKeys>;
+  handleSelectVal?: (row: RecordOfKeys<PrfsSetKeys>) => void;
 }
 
-const SET_TABLE_KEYS = [
-  "set_id",
-  "label",
-  "author",
-  "desc",
-  "hash_algorithm",
-  "cardinality",
-  "created_at",
-] as const;
+// const SET_TABLE_KEYS = [
+//   "set_id",
+//   "label",
+//   "author",
+//   "desc",
+//   "hash_algorithm",
+//   "cardinality",
+//   "created_at",
+// ] as const;
 
-export type SetTableKeys = (typeof SET_TABLE_KEYS)[number];
+// export type SetTableKeys = (typeof SET_TABLE_KEYS)[number];
