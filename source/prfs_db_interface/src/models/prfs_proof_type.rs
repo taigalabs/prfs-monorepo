@@ -2,7 +2,7 @@ use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct PrfsSet {
+pub struct PrfsProofType {
     pub proof_type_id: String,
     pub label: String,
     pub author: String,
@@ -10,9 +10,10 @@ pub struct PrfsSet {
 
     pub created_at: NaiveDate,
     pub circuit_id: String,
+    pub public_inputs: String,
 }
 
-impl PrfsSet {
+impl PrfsProofType {
     pub fn __table_name() -> &'static str {
         "prfs_proof_types"
     }
@@ -33,27 +34,15 @@ impl PrfsSet {
         "desc"
     }
 
-    pub fn hash_algorithm() -> &'static str {
-        "hash_algorithm"
+    pub fn created_at() -> &'static str {
+        "created_at"
     }
 
-    pub fn cardinality() -> &'static str {
-        "cardinality"
+    pub fn circuit_id() -> &'static str {
+        "circuit_id"
     }
 
-    pub fn merkle_root() -> &'static str {
-        "merkle_root"
-    }
-
-    pub fn element_type() -> &'static str {
-        "element_type"
-    }
-
-    pub fn finite_field() -> &'static str {
-        "finite_field"
-    }
-
-    pub fn elliptic_curve() -> &'static str {
-        "elliptic_curve"
+    pub fn public_inputs() -> &'static str {
+        "public_inputs"
     }
 }
