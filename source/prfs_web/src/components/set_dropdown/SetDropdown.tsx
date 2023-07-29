@@ -51,19 +51,30 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
     let entries = [];
     for (let set of values) {
       entries.push(
-        <li key={set.set_id} onClick={handleClickEntry}>
-          <div>{set.label}</div>
+        <li className={styles.entryWrapper} key={set.set_id} onClick={handleClickEntry}>
+          <div className={styles.titleRow}>
+            <div>{set.label}</div>
+            <div>{set.set_id}</div>
+          </div>
+          <div className={styles.body}>
+            <div className={styles.item}>
+              <p>{i18n.hash_algorithm}:</p>
+              <p>{set.hash_algorithm}</p>
+            </div>
+            <div className={styles.item}>
+              <p>{i18n.cardinality}:</p>
+              <p>{set.cardinality}</p>
+            </div>
+            <div className={styles.item}>
+              <p>{i18n.element_type}:</p>
+              <p>{set.element_type}</p>
+            </div>
+          </div>
         </li>
       );
     }
 
-    return (
-      <ul className={styles.listWrapper}>
-        {entries}
-        <li onClick={handleClickEntry}>power</li>
-        <li>power2</li>
-      </ul>
-    );
+    return <ul className={styles.listWrapper}>{entries}</ul>;
   }, [data]);
 
   return <Dropdown baseElem={createBase} listElem={createList} />;

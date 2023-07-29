@@ -32,6 +32,9 @@ export const PRFS_SET_KEYS = [
   "author",
   "desc",
   "hash_algorithm",
+  "elliptic_curve",
+  "finite_field",
+  "element_type",
   "cardinality",
   "created_at",
 ] as const;
