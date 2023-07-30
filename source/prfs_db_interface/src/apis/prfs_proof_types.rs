@@ -6,6 +6,7 @@ use crate::{
     DbInterfaceError,
 };
 use chrono::NaiveDate;
+use sqlx::{Execute, Postgres};
 
 impl Database2 {
     pub async fn get_prfs_proof_types(&self, where_clause: &str) {}
@@ -21,15 +22,21 @@ impl Database2 {
 
         let proof_type = proof_types.get(0).unwrap();
 
-        sqlx::query(query)
+        let mut a: sqlx::query::Query<'_, Postgres, _> = sqlx::query(query)
             .bind(&proof_type.proof_type_id)
             .bind(&proof_type.author)
             .bind(&proof_type.label)
             .bind(&proof_type.desc)
             .bind(&proof_type.circuit_id)
-            .bind(&proof_type.public_inputs)
-            .execute(&self.pool)
-            .await
-            .unwrap();
+            .bind(&proof_type.public_inputs);
+
+        // a.fetch(executor)
+        // let b = a.sql();
+        // println!("b: {}", b);
+        // let c = a.statement().unwrap();
+        // println!("c: {:?}", c);
+        // let b = a.execute(&self.pool).await.unwrap();
+        // .await
+        // .unwrap();
     }
 }
