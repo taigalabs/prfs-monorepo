@@ -20,7 +20,6 @@ futures-util = "0.3.26"
 hex = "0.4.3"
 bytemuck = "1.13.1"
 flate2 = "1.0.25"
-dotenv = "0.15.0"
 primitive-types = "0.12.1"
 colored = "2.0"
 tracing = "0.1"
@@ -32,4 +31,4 @@ rust_decimal_macros = "1.29"
 group = "0.12"
 rand = "0.8"
 ff = "0.12"
-
+sqlx = { version = "0.7", features = [ "runtime-tokio" ] }
