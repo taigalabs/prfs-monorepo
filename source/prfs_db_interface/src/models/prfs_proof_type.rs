@@ -8,9 +8,10 @@ pub struct PrfsProofType {
     pub author: String,
     pub desc: String,
 
-    pub created_at: NaiveDate,
     pub circuit_id: String,
     pub public_inputs: String,
+
+    pub created_at: NaiveDate,
 }
 
 impl PrfsProofType {
@@ -18,8 +19,8 @@ impl PrfsProofType {
         "prfs_proof_types"
     }
 
-    pub fn set_id() -> &'static str {
-        "set_id"
+    pub fn proof_type_id() -> &'static str {
+        "proof_type_id"
     }
 
     pub fn label() -> &'static str {
