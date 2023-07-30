@@ -46,6 +46,7 @@ pub fn make_router(
             format!("{}/get_proof_types", PREFIX),
             proofs::get_proof_types,
         )
+        .post(format!("{}/put_prfs_proof_type", PREFIX), prfs_proof_types)
         .err_handler_with_info(middleware::error_handler)
         .build()?;
 

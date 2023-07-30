@@ -50,7 +50,7 @@ pub struct Envs {
 
 impl Envs {
     pub fn new() -> Envs {
-        dotenv::dotenv().unwrap();
+        dotenvy::dotenv().unwrap();
 
         match envy::from_env::<Envs>() {
             Ok(envs) => {
