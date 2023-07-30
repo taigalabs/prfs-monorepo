@@ -9,6 +9,7 @@ use std::{convert::Infallible, sync::Arc};
 
 #[derive(Serialize, Deserialize, Debug)]
 struct InsertPrfsProofTypesRequest {
+    // power: usize,
     // page: usize,
     // set_id: Option<String>,
 }
@@ -20,6 +21,7 @@ struct InsertPrfsProofTypesRespPayload {
 }
 
 pub async fn insert_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+    println!("111");
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
 
@@ -48,7 +50,7 @@ pub async fn insert_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
     };
 
     let prfs_sets = state
-        .db
+        .db2
         .insert_prfs_proof_types(&vec![prfs_proof_type])
         .await;
 
