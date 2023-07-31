@@ -9,7 +9,7 @@ import ColumnarSummary, {
   ColumnarSummaryColumn,
 } from "@/components/columnal_summary/ColumnarSummary";
 
-const CircuitSummary: React.FC<CircuitSummaryProps> = ({ circuit }) => {
+const CircuitProgramSummary: React.FC<CircuitProgramSummaryProps> = ({ circuit }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
@@ -72,8 +72,8 @@ const CircuitSummary: React.FC<CircuitSummaryProps> = ({ circuit }) => {
   );
 };
 
-export default CircuitSummary;
+export default CircuitProgramSummary;
 
-interface CircuitSummaryProps {
+interface CircuitProgramSummaryProps {
   circuit: PrfsCircuit;
 }

@@ -21,6 +21,7 @@ import ColumnarSummary, {
 } from "@/components/columnal_summary/ColumnarSummary";
 import { useRouter } from "next/navigation";
 import CircuitSummary from "@/components/circuit_summary/CircuitSummary";
+import CircuitProgramSummary from "@/components/circuit_program_summary/CircuitProgramSummary";
 
 const Circuit: React.FC<CircuitProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -72,7 +73,7 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
               <WidgetHeader>
                 <WidgetLabel>{i18n.program}</WidgetLabel>
               </WidgetHeader>
-              <CircuitSummary circuit={circuit} />
+              <CircuitProgramSummary circuit={circuit} />
             </Widget>
           </Card>
         </CardRow>
