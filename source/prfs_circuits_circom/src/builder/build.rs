@@ -1,6 +1,6 @@
 use crate::{
-    paths::PATHS, CircuitBuildJson, CircuitBuildListJson, CircuitDetail, CircuitsJson, FileKind,
-    SYSTEM_NATIVE_SCHEME,
+    builder::spartan_circom_program::SpartanCircomProgram, paths::PATHS, CircuitBuildJson,
+    CircuitBuildListJson, CircuitDetail, CircuitsJson, FileKind, SYSTEM_NATIVE_SCHEME,
 };
 use chrono::{DateTime, NaiveDateTime, TimeZone, Utc};
 use colored::Colorize;
@@ -28,7 +28,7 @@ pub fn run() {
         copy_instance(&circuit);
         create_build_json(&circuit, timestamp);
 
-        circuit_list.push(circuit.circuit_id.to_string());
+        circuit_list.push(circuit.label.to_string());
     }
 
     create_list_json(&circuit_list, timestamp);
@@ -127,6 +127,9 @@ fn create_build_json(circuit: &CircuitDetail, timestamp: i64) {
 
     let naive = NaiveDateTime::from_timestamp_millis(timestamp).unwrap();
     let datetime: DateTime<Utc> = DateTime::from_utc(naive, Utc);
+
+    let program: SpartanCircomProgram = serde_json::from_value(circuit.program.clone()).unwrap();
+    println!("program: {:?}", program);
 
     let circuit_build_json = CircuitBuildJson {
         timestamp,

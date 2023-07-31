@@ -30,7 +30,6 @@ pub struct CircuitDetail {
     pub elliptic_curve: String,
     pub finite_field: String,
 
-    #[serde(flatten)]
     pub program: serde_json::Value,
 }
 
@@ -43,7 +42,7 @@ pub enum PublicInputKind {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PublicInput {
+    pub r#type: PublicInputKind,
     pub label: String,
     pub desc: String,
-    pub r#type: PublicInputKind,
 }
