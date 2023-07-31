@@ -1,8 +1,7 @@
+use crate::CircuitJson;
 use prfs_circuit_type::{self, CircuitProgram};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-
-use crate::CircuitDetail;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct CircuitBuildListJson {
@@ -15,5 +14,5 @@ pub struct CircuitBuildJson {
     pub timestamp: i64,
 
     #[serde(flatten)]
-    pub inner: CircuitDetail,
+    pub inner: CircuitJson,
 }

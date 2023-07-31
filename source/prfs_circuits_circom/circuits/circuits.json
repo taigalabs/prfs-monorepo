@@ -2,6 +2,7 @@
   "circuits": [
     {
       "circuit_id": "addr_membership2_1",
+      "created_at": "",
       "label": "addr_membership2",
       "author": "SYSTEM_NATIVE",
       "num_public_inputs": 5,

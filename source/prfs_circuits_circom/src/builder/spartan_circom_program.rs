@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 
+pub const SPARTAN_CIRCOM_PROGRAM_TYPE: &str = "SPARTAN_CIRCOM_1";
+
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct SpartanCircomProgram {
     pub r#type: String,

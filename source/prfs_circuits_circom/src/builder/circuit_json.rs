@@ -1,9 +1,7 @@
-use crate::CircuitBuildJson;
+use super::spartan_circom_program::PublicInput;
 use prfs_circuit_type::CircuitProgram;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-
-use super::spartan_circom_program::PublicInput;
 
 pub const SYSTEM_NATIVE_SCHEME: &str = "system_native://";
 
@@ -16,11 +14,11 @@ pub enum FileKind {
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct CircuitsJson {
-    pub circuits: Vec<CircuitBuildJson>,
+    pub circuits: Vec<CircuitJson>,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct CircuitDetail {
+pub struct CircuitJson {
     pub circuit_id: String,
     pub label: String,
     pub desc: String,
