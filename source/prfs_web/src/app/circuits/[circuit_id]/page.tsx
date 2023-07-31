@@ -14,11 +14,6 @@ import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import prfsBackend from "@/fetch/prfsBackend";
 import { PrfsCircuit } from "@/models/index";
-import ColumnarSummary, {
-  ColumnarSummaryCell,
-  ColumnarSummaryCellHeader,
-  ColumnarSummaryColumn,
-} from "@/components/columnal_summary/ColumnarSummary";
 import { useRouter } from "next/navigation";
 import CircuitSummary from "@/components/circuit_summary/CircuitSummary";
 import CircuitProgramSummary from "@/components/circuit_program_summary/CircuitProgramSummary";
