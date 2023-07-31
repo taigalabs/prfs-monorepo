@@ -105,7 +105,7 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
         if (prfs_circuits.length > 0) {
           setCircuit(prfs_circuits[0]);
         } else {
-          router.push("/circuits");
+          // router.push("/circuits");
         }
       });
   }, [setCircuit]);

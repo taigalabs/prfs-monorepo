@@ -2,9 +2,8 @@ use crate::{
     builder::spartan_circom_program::{SpartanCircomProgram, SPARTAN_CIRCOM_PROGRAM_TYPE},
     paths::PATHS,
     CircuitBuildJson, CircuitBuildListJson, CircuitJson, CircuitsJson, FileKind,
-    SYSTEM_NATIVE_SCHEME,
 };
-use chrono::{DateTime, NaiveDateTime, TimeZone, Utc};
+use chrono::{DateTime, NaiveDateTime, Utc};
 use colored::Colorize;
 use std::{collections::HashMap, io::Write, process::Command};
 
@@ -27,10 +26,9 @@ pub fn run() {
     for mut circuit in &mut circuits_json.circuits {
         compile_circuits(&circuit);
         make_spartan(&circuit, timestamp);
-        // copy_instance(&circuit);
         create_build_json(&mut circuit, timestamp);
 
-        circuit_list.push(circuit.label.to_string());
+        circuit_list.push(circuit.circuit_id.to_string());
     }
 
     create_list_json(&circuit_list, timestamp);
@@ -45,18 +43,18 @@ fn clean_build() {
 fn get_path_segment(circuit: &CircuitJson, file_kind: FileKind, timestamp: i64) -> String {
     match file_kind {
         FileKind::R1CS => {
-            format!("{}/{}.r1cs", &circuit.label, &circuit.label,)
+            format!("{}/{}.r1cs", &circuit.circuit_id, &circuit.label,)
         }
         FileKind::Spartan => {
             format!(
                 "{}/{}_{}.spartan.circuit",
-                circuit.label, circuit.label, timestamp
+                circuit.circuit_id, circuit.label, timestamp
             )
         }
         FileKind::WtnsGen => {
             format!(
                 "{}/{}_js/{}.wasm",
-                circuit.label, circuit.label, circuit.label,
+                circuit.circuit_id, circuit.label, circuit.label,
             )
         }
     }
@@ -107,7 +105,7 @@ fn compile_circuits(circuit: &CircuitJson) {
     let circuit_src_path = PATHS.circuits.join(&program.instance_path);
     println!("circuit_src_path: {:?}", circuit_src_path);
 
-    let build_path = PATHS.build.join(&circuit.label);
+    let build_path = PATHS.build.join(&circuit.circuit_id);
     println!("circuit_build_path: {:?}", build_path);
 
     std::fs::create_dir_all(&build_path).unwrap();
@@ -147,7 +145,9 @@ fn create_build_json(circuit: &mut CircuitJson, timestamp: i64) {
         inner: circuit.clone(),
     };
 
-    let build_json_path = PATHS.build.join(format!("{}/build.json", circuit.label));
+    let build_json_path = PATHS
+        .build
+        .join(format!("{}/build.json", circuit.circuit_id));
     let mut fd = std::fs::File::create(&build_json_path).unwrap();
     let build_json_str = serde_json::to_string_pretty(&circuit_build_json).unwrap();
     fd.write_all(&build_json_str.into_bytes()).unwrap();
