@@ -8,15 +8,17 @@ use std::{convert::Infallible, sync::Arc};
 
 #[derive(Serialize, Deserialize, Debug)]
 struct InsertPrfsProofTypesRequest {
-    // power: usize,
-    // page: usize,
-    // set_id: Option<String>,
+    proof_type_id: String,
+    author: String,
+    label: String,
+    desc: String,
+    circuit_id: String,
+    public_inputs: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 struct InsertPrfsProofTypesRespPayload {
-    // page: usize,
-    // prfs_sets: Vec<PrfsSet>,
+    // prfs_proof_types: Vec<PrfsProofType>,
 }
 
 pub async fn insert_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, Infallible> {
@@ -37,18 +39,18 @@ pub async fn insert_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
     //     where_clause = format!("where set_id='{}'", &set_id);
     // }
     let prfs_proof_type = PrfsProofType {
-        proof_type_id: "11".to_string(),
-        label: "label".to_string(),
-        author: "author".to_string(),
-        desc: "desc".to_string(),
+        proof_type_id: req.proof_type_id.to_string(),
+        label: req.label.to_string(),
+        author: req.author.to_string(),
+        desc: req.desc.to_string(),
 
-        circuit_id: "circuit_id".to_string(),
-        public_inputs: "public_inputs".to_string(),
+        circuit_id: req.circuit_id.to_string(),
+        public_inputs: req.public_inputs.to_string(),
 
         created_at: NaiveDate::from_ymd_opt(1, 2, 1).unwrap(),
     };
 
-    let prfs_sets = state
+    let prfs_proof_types = state
         .db2
         .insert_prfs_proof_types(&vec![prfs_proof_type])
         .await;
