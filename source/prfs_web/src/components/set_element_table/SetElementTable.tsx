@@ -64,6 +64,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId }) => {
         })
         .then(resp => {
           const { page, prfs_tree_nodes } = resp.payload;
+
           return {
             page,
             values: prfs_tree_nodes,
