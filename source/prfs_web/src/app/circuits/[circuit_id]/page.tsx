@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import styles from "./Circuit.module.scss";
 import { stateContext } from "@/contexts/state";
@@ -21,69 +20,7 @@ import ColumnarSummary, {
   ColumnarSummaryColumn,
 } from "@/components/columnal_summary/ColumnarSummary";
 import { useRouter } from "next/navigation";
-
-const CircuitSummary: React.FC<CircuitSummaryProps> = ({ circuit }) => {
-  const i18n = React.useContext(i18nContext);
-
-  return (
-    circuit && (
-      <ColumnarSummary>
-        <ColumnarSummaryColumn>
-          <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.circuit_id}</ColumnarSummaryCellHeader>
-            <div>{circuit.circuit_id}</div>
-          </ColumnarSummaryCell>
-          <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.label}</ColumnarSummaryCellHeader>
-            <div>{circuit.label}</div>
-          </ColumnarSummaryCell>
-          <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.proof_algorithm}</ColumnarSummaryCellHeader>
-            <div>{circuit.proof_algorithm}</div>
-          </ColumnarSummaryCell>
-          <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.elliptic_curve}</ColumnarSummaryCellHeader>
-            <div>{circuit.elliptic_curve}</div>
-          </ColumnarSummaryCell>
-        </ColumnarSummaryColumn>
-
-        <ColumnarSummaryColumn>
-          <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.circuit_dsl}</ColumnarSummaryCellHeader>
-            <div>{circuit.circuit_dsl}</div>
-          </ColumnarSummaryCell>
-          <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.arithmetization}</ColumnarSummaryCellHeader>
-            <div>{circuit.arithmetization}</div>
-          </ColumnarSummaryCell>
-          <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.description}</ColumnarSummaryCellHeader>
-            <div>{circuit.desc}</div>
-          </ColumnarSummaryCell>
-          <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.finite_field}</ColumnarSummaryCellHeader>
-            <div>{circuit.finite_field}</div>
-          </ColumnarSummaryCell>
-        </ColumnarSummaryColumn>
-
-        <ColumnarSummaryColumn>
-          <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.num_inputs}</ColumnarSummaryCellHeader>
-            <div>{circuit.public_inputs.length}</div>
-          </ColumnarSummaryCell>
-          <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.author}</ColumnarSummaryCellHeader>
-            <div>{circuit.author}</div>
-          </ColumnarSummaryCell>
-          <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.created_at}</ColumnarSummaryCellHeader>
-            <div>{circuit.created_at}</div>
-          </ColumnarSummaryCell>
-        </ColumnarSummaryColumn>
-      </ColumnarSummary>
-    )
-  );
-};
+import CircuitSummary from "@/components/circuit_summary/CircuitSummary";
 
 const Circuit: React.FC<CircuitProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -105,7 +42,7 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
         if (prfs_circuits.length > 0) {
           setCircuit(prfs_circuits[0]);
         } else {
-          // router.push("/circuits");
+          router.push("/circuits");
         }
       });
   }, [setCircuit]);
@@ -129,6 +66,16 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
             </Widget>
           </Card>
         </CardRow>
+        <CardRow>
+          <Card>
+            <Widget>
+              <WidgetHeader>
+                <WidgetLabel>{i18n.program}</WidgetLabel>
+              </WidgetHeader>
+              <CircuitSummary circuit={circuit} />
+            </Widget>
+          </Card>
+        </CardRow>
       </div>
     </DefaultLayout>
   );
@@ -140,8 +87,4 @@ interface CircuitProps {
   params: {
     circuit_id: string;
   };
-}
-
-interface CircuitSummaryProps {
-  circuit: PrfsCircuit;
 }
