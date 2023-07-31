@@ -93,7 +93,7 @@ export interface TableProps<T extends string> {
   keys: ReadonlyArray<T>;
   createHeader: (keys: RecordOfKeys<T>) => React.ReactNode;
   createBody: (args: CreateBodyArgs<T>) => React.ReactNode;
-  onChangePage?: (page: number) => Promise<TableData<T>>;
+  onChangePage: (page: number) => Promise<TableData<T>>;
   minWidth: number;
   selectedVal?: TableSelectedValue<T>;
   handleSelectVal?: (row: RecordOfKeys<T>) => void;
