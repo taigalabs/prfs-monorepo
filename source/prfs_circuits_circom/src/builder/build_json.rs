@@ -26,7 +26,4 @@ pub struct CircuitBuildJson {
     pub instance_path: String,
     pub circuit_src_path: String,
     pub program: serde_json::Value,
-
-    pub wtns_gen_url: String,
-    pub spartan_circuit_url: String,
 }

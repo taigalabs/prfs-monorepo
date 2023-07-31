@@ -144,8 +144,6 @@ fn create_build_json(circuit: &CircuitDetail, timestamp: i64) {
         public_inputs: circuit.public_inputs.clone(),
         circuit_src_path,
         program: circuit.program.clone(),
-        wtns_gen_url: format!("{}{}", SYSTEM_NATIVE_SCHEME, wtns_gen_path),
-        spartan_circuit_url: format!("{}{}", SYSTEM_NATIVE_SCHEME, spartan_circuit_path),
     };
 
     let build_json_path = PATHS.build.join(format!("{}/build.json", circuit.label));
