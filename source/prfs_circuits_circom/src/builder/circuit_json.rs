@@ -1,5 +1,5 @@
 use super::spartan_circom_program::PublicInput;
-use prfs_circuit_type::CircuitProgram;
+use prfs_program_type::CircuitProgram;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 

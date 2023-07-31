@@ -1,5 +1,5 @@
 use crate::CircuitJson;
-use prfs_circuit_type::{self, CircuitProgram};
+use prfs_program_type::{self, CircuitProgram};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]

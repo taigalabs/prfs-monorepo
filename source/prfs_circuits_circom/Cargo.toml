@@ -14,4 +14,4 @@ serde_json = "1.0"
 lazy_static = "1.4"
 
 circuit_reader = { path = "../../externals/circuit_reader" }
-prfs_circuit_type = { path = "../prfs_circuit_type" }
+prfs_program_type = { path = "../prfs_program_type" }
