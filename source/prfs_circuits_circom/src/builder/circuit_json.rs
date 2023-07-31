@@ -29,18 +29,21 @@ pub struct CircuitDetail {
     pub proof_algorithm: String,
     pub elliptic_curve: String,
     pub finite_field: String,
+
+    #[serde(flatten)]
     pub program: CircuitProgram,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
+#[allow(non_camel_case_types)]
 pub enum PublicInputKind {
     COMPUTED,
-    SET,
+    PRFS_SET,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PublicInput {
     pub label: String,
     pub desc: String,
-    pub kind: PublicInputKind,
+    pub r#type: PublicInputKind,
 }

@@ -13,9 +13,7 @@
       "elliptic_curve": "Secp256k1",
       "finite_field": "Z_(2^256-2^32-977)",
       "program": {
-        "type": "SpartanCircom2_1",
-        "wtns_gen_url": "",
-        "circuit_url": ""
+        "a": "1"
       },
       "public_inputs": [
         {
