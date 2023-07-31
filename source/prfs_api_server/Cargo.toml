@@ -31,6 +31,7 @@ tracing-appender = "0.2"
 
 prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_circuits_circom = { path = "../prfs_circuits_circom" }
+prfs_program_type = { path = "../prfs_program_type" }
 
 [[bin]]
 name = "server"
