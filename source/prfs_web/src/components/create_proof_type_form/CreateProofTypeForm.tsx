@@ -12,7 +12,7 @@ import Button from "@/components/button/Button";
 import FormTextInput from "@/components/form/FormTextInput";
 import SetDropdown from "@/components/set_dropdown/SetDropdown";
 import { RecordOfKeys } from "@/models/types";
-import { PrfsCircuit, PrfsCircuitKeys, PrfsSetKeys, PublicInputKind } from "@/models";
+import { PrfsCircuit, PrfsCircuitKeys, PrfsSetKeys, PublicInputType } from "@/models";
 import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { DropdownSingleSelectedValue } from "@/components/dropdown/Dropdown";
 import prfsBackend from "@/fetch/prfsBackend";
@@ -23,10 +23,10 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit, setPub
   let vals = {};
   let setVals = {};
   circuit.public_inputs.forEach((pi, idx) => {
-    switch (pi.kind) {
-      case PublicInputKind.COMPUTED:
+    switch (pi.type) {
+      case PublicInputType.COMPUTED:
         break;
-      case PublicInputKind.SET:
+      case PublicInputType.PRFS_SET:
         const [selectedSet, setSelectedSet] =
           React.useState<DropdownSingleSelectedValue<PrfsSetKeys>>(undefined);
 
@@ -48,7 +48,7 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit, setPub
 
         break;
       default:
-        throw new Error("Invalid public input kind");
+        throw new Error(`Invalid public input kind, ${pi.type}`);
     }
   });
 
@@ -57,11 +57,11 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit, setPub
 
     for (const [idx, [_, pi]] of Object.entries(circuit.public_inputs).entries()) {
       let inputValue: React.ReactElement;
-      switch (pi.kind) {
-        case PublicInputKind.COMPUTED:
+      switch (pi.type) {
+        case PublicInputType.COMPUTED:
           inputValue = <div className={styles.computedInput}>{i18n.computed.toUpperCase()}</div>;
           break;
-        case PublicInputKind.SET:
+        case PublicInputType.PRFS_SET:
           inputValue = <SetDropdown selectedVal={vals[idx]} handleSelectVal={setVals[idx]} />;
           break;
         default:
@@ -138,9 +138,9 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 
     selectedCircuit.public_inputs.forEach((pi, idx) => {
       switch (pi.kind) {
-        case PublicInputKind.COMPUTED:
+        case PublicInputType.COMPUTED:
           break;
-        case PublicInputKind.SET:
+        case PublicInputType.PRFS_SET:
           if (!publicInputs[idx]) {
             setFormAlert(`public input is undefined, idx: ${idx}`);
             return;
