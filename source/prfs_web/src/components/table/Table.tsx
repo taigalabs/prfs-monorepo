@@ -1,7 +1,7 @@
 import React, { MouseEventHandler } from "react";
+import classNames from "classnames";
 
 import styles from "./Table.module.scss";
-import classNames from "classnames";
 import { KeysAsObject, RecordOfKeys } from "@/models/types";
 
 export const TableCurrentPageLimitWarning: React.FC = () => {
@@ -42,9 +42,11 @@ function Table<T extends string>({
   const [data, setValues] = React.useState({ page: 0, values: [] });
 
   React.useEffect(() => {
-    onChangePage(0).then(res => {
-      setValues(res);
-    });
+    if (onChangePage) {
+      onChangePage(0).then(res => {
+        setValues(res);
+      });
+    }
   }, [onChangePage, setValues]);
 
   const tableKeys = React.useMemo(() => {
@@ -91,7 +93,7 @@ export interface TableProps<T extends string> {
   keys: ReadonlyArray<T>;
   createHeader: (keys: RecordOfKeys<T>) => React.ReactNode;
   createBody: (args: CreateBodyArgs<T>) => React.ReactNode;
-  onChangePage: (page: number) => Promise<TableData<T>>;
+  onChangePage?: (page: number) => Promise<TableData<T>>;
   minWidth: number;
   selectedVal?: TableSelectedValue<T>;
   handleSelectVal?: (row: RecordOfKeys<T>) => void;

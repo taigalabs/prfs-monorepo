@@ -17,6 +17,7 @@ import { PrfsCircuit } from "@/models/index";
 import { useRouter } from "next/navigation";
 import CircuitSummary from "@/components/circuit_summary/CircuitSummary";
 import CircuitProgramSummary from "@/components/circuit_program_summary/CircuitProgramSummary";
+import PublicInputTable from "@/components/public_input_table/PublicInputTable";
 
 const Circuit: React.FC<CircuitProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -43,6 +44,8 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
       });
   }, [setCircuit]);
 
+  console.log(222, circuit);
+
   return (
     <DefaultLayout>
       <Breadcrumb>
@@ -66,9 +69,10 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
           <Card>
             <Widget>
               <WidgetHeader>
-                <WidgetLabel>{i18n.program}</WidgetLabel>
+                <WidgetLabel>{i18n.public_inputs}</WidgetLabel>
               </WidgetHeader>
-              <CircuitProgramSummary circuit={circuit} />
+              <PublicInputTable circuit={circuit} />
+              {/* <CircuitProgramSummary circuit={circuit} /> */}
             </Widget>
           </Card>
         </CardRow>

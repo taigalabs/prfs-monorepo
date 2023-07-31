@@ -73,3 +73,7 @@ export interface PrfsTreeNode {
   val: string;
   set_id: string;
 }
+
+export type PublicInputKeys = (typeof PUBLIC_INPUT_KEYS)[number];
+
+export const PUBLIC_INPUT_KEYS = ["type", "label", "desc"] as const;
