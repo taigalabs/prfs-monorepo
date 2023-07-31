@@ -19,7 +19,7 @@ struct SignUpRespPayload {
     sig: String,
 }
 
-pub async fn sign_up(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+pub async fn sign_up_prfs_account(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     println!("sign up prfs");
 
     let state = req.data::<Arc<ServerState>>().unwrap();
@@ -27,31 +27,28 @@ pub async fn sign_up(req: Request<Body>) -> Result<Response<Body>, Infallible> {
 
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let sign_up_req = serde_json::from_str::<SignUpRequest>(&body_str)
+    let req = serde_json::from_str::<SignUpRequest>(&body_str)
         .expect("sign_up_req request should be parsable");
 
-    let where_clause = format!("where sig = '{}'", sign_up_req.sig);
+    println!("req: {:?}", req);
 
-    let prfs_accounts = state.db.get_prfs_accounts(&where_clause).await.unwrap();
-
-    println!("prfs_accounts: {:?}", prfs_accounts);
+    let prfs_accounts = state.db2.get_prfs_accounts(&req.sig).await.unwrap();
 
     if prfs_accounts.len() > 0 {
-        let resp =
-            ApiResponse::new_error(format!("Accout already exists, sig: {}", sign_up_req.sig));
+        let resp = ApiResponse::new_error(format!("Accout already exists, sig: {}", req.sig));
 
         return Ok(resp.into_hyper_response());
     }
 
     let prfs_account = PrfsAccount {
-        sig: sign_up_req.sig.to_string(),
+        sig: req.sig.to_string(),
     };
 
-    state.db.insert_prfs_account(&prfs_account).await.unwrap();
+    let sig = state.db2.insert_prfs_account(&prfs_account).await.unwrap();
 
     let resp = ApiResponse::new_success(SignUpRespPayload {
-        sig: prfs_account.sig.to_string(),
-        id: prfs_account.sig[..10].to_string(),
+        sig: sig.to_string(),
+        id: sig[..10].to_string(),
     });
 
     return Ok(resp.into_hyper_response());
@@ -69,7 +66,7 @@ struct SignInRespPayload {
     id: String,
 }
 
-pub async fn sign_in(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+pub async fn sign_in_prfs_account(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     println!("sign in prfs");
 
     let state = req.data::<Arc<ServerState>>().unwrap();
@@ -77,20 +74,17 @@ pub async fn sign_in(req: Request<Body>) -> Result<Response<Body>, Infallible> {
 
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let sign_in_req = serde_json::from_str::<SignInRequest>(&body_str)
+    let req = serde_json::from_str::<SignInRequest>(&body_str)
         .expect("sign_in_req request should be parsable");
 
-    let where_clause = format!("where sig = '{}'", sign_in_req.sig);
+    println!("req: {:?}", req);
 
-    let prfs_accounts = state.db.get_prfs_accounts(&where_clause).await.unwrap();
+    let prfs_accounts = state.db2.get_prfs_accounts(&req.sig).await.unwrap();
 
     if prfs_accounts.len() == 0 {
         println!("prfs_accounts: {:?}", prfs_accounts);
 
-        let resp = ApiResponse::new_error(format!(
-            "No account has been found, sig: {}",
-            sign_in_req.sig
-        ));
+        let resp = ApiResponse::new_error(format!("No account has been found, sig: {}", req.sig));
 
         return Ok(resp.into_hyper_response());
     }

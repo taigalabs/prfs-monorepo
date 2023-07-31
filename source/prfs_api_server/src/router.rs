@@ -20,7 +20,7 @@ pub fn make_router(
         .get("/", status_handler)
         .post(
             format!("{}/sign_up_prfs_account", PREFIX),
-            prfs_accounts::sign_up,
+            prfs_accounts::sign_up_prfs_account,
         )
         .post(
             format!("{}/get_prfs_native_circuits", PREFIX),
@@ -28,7 +28,7 @@ pub fn make_router(
         )
         .post(
             format!("{}/sign_in_prfs_account", PREFIX),
-            prfs_accounts::sign_in,
+            prfs_accounts::sign_in_prfs_account,
         )
         .post(
             format!("{}/get_prfs_tree_nodes", PREFIX),
