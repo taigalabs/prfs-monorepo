@@ -1,6 +1,6 @@
 {
-  "circuits": {
-    "addr_membership2": {
+  "circuits": [
+    {
       "circuit_id": "addr_membership2_1",
       "label": "addr_membership2",
       "author": "SYSTEM_NATIVE",
@@ -45,5 +45,5 @@
         }
       ]
     }
-  }
+  ]
 }

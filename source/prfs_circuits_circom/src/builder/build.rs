@@ -1,5 +1,6 @@
 use crate::{
-    paths::PATHS, CircuitBuildJson, CircuitDetail, CircuitsJson, FileKind, SYSTEM_NATIVE_SCHEME,
+    paths::PATHS, CircuitBuildJson, CircuitBuildListJson, CircuitDetail, CircuitsJson, FileKind,
+    SYSTEM_NATIVE_SCHEME,
 };
 use chrono::{DateTime, NaiveDateTime, TimeZone, Utc};
 use colored::Colorize;
@@ -20,14 +21,16 @@ pub fn run() {
 
     let circuits_json = read_circuits_json();
 
-    for (_label, circuit) in &circuits_json.circuits {
+    let mut circuit_list = vec![];
+    for circuit in &circuits_json.circuits {
         compile_circuits(&circuit);
         make_spartan(&circuit, timestamp);
         copy_instance(&circuit);
         create_build_json(&circuit, timestamp);
+        circuit_list.push(circuit.circuit_id.to_string());
     }
 
-    create_list_json(&circuits_json, timestamp);
+    create_list_json(&circuit_list, timestamp);
 }
 
 fn clean_build() {
@@ -154,11 +157,15 @@ fn create_build_json(circuit: &CircuitDetail, timestamp: i64) {
         "Created".green(),
         build_json_path
     );
+
     // println!("{:#?}", build_json);
 }
 
-fn create_list_json(circuits_json: &CircuitsJson, timestamp: i64) {
+fn create_list_json(circuits_json: &Vec<String>, timestamp: i64) {
     // let mut circuit_builds = HashMap::new();
+    let build_list_json = CircuitBuildListJson {
+        circuits: circuits_json.clone(),
+    };
 
     // for (name, circuit) in &circuits_json.circuits {
     //     let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen, timestamp);
@@ -189,16 +196,16 @@ fn create_list_json(circuits_json: &CircuitsJson, timestamp: i64) {
     //     circuit_builds.insert(name.to_string(), circuit_build_json);
     // }
 
-    // let build_json_path = PATHS.build.join("build.json");
-    // let mut fd = std::fs::File::create(&build_json_path).unwrap();
-    // let build_json_str = serde_json::to_string_pretty(&build_json).unwrap();
-    // fd.write_all(&build_json_str.into_bytes()).unwrap();
+    let build_list_json_path = PATHS.build.join("list.json");
+    let mut fd = std::fs::File::create(&build_list_json_path).unwrap();
+    let build_json_str = serde_json::to_string_pretty(&build_list_json).unwrap();
+    fd.write_all(&build_json_str.into_bytes()).unwrap();
 
-    // println!(
-    //     "{} build.json, path: {:?}",
-    //     "Created".green(),
-    //     build_json_path
-    // );
+    println!(
+        "{} build list, path: {:?}",
+        "Created".green(),
+        build_list_json_path
+    );
     // println!("{:#?}", build_json);
 }
 

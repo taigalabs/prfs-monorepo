@@ -13,7 +13,7 @@ pub enum FileKind {
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct CircuitsJson {
-    pub circuits: HashMap<String, CircuitDetail>,
+    pub circuits: Vec<CircuitDetail>,
 }
 
 #[derive(Serialize, Deserialize, Clone)]
