@@ -1,9 +1,11 @@
-mod json;
+mod build_json;
+mod circuit_json;
 
 use crate::paths::PATHS;
+pub use build_json::*;
 use chrono::{DateTime, NaiveDateTime, TimeZone, Utc};
+pub use circuit_json::*;
 use colored::Colorize;
-pub use json::*;
 use std::{collections::HashMap, io::Write, process::Command};
 
 pub fn run() {
@@ -21,13 +23,14 @@ pub fn run() {
 
     let circuits_json = read_circuits_json();
 
-    for (_name, circuit) in &circuits_json.circuits {
+    for (_label, circuit) in &circuits_json.circuits {
         compile_circuits(&circuit);
         make_spartan(&circuit, timestamp);
         copy_instance(&circuit);
+        create_build_json(&circuit, timestamp);
     }
 
-    create_build_json(&circuits_json, timestamp);
+    create_list_json(&circuits_json, timestamp);
 }
 
 fn clean_build() {
@@ -116,36 +119,82 @@ fn compile_circuits(circuit: &CircuitDetail) {
     assert!(status.success());
 }
 
-fn create_build_json(circuits_json: &CircuitsJson, timestamp: i64) {
+fn create_build_json(circuit: &CircuitDetail, timestamp: i64) {
+    let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen, timestamp);
+    let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan, timestamp);
+    let circuit_src_path = get_path_segment(&circuit, FileKind::Source, timestamp);
+
+    let naive = NaiveDateTime::from_timestamp_millis(timestamp).unwrap();
+    let datetime: DateTime<Utc> = DateTime::from_utc(naive, Utc);
+
+    let build_json = CircuitBuildDetail {
+        timestamp,
+        circuit_id: circuit.circuit_id.to_string(),
+        label: circuit.label.to_string(),
+        author: circuit.author.to_string(),
+        desc: circuit.desc.to_string(),
+        created_at: datetime.to_rfc3339_opts(chrono::SecondsFormat::Secs, true),
+        circuit_dsl: circuit.circuit_dsl.to_string(),
+        arithmetization: circuit.arithmetization.to_string(),
+        proof_algorithm: circuit.proof_algorithm.to_string(),
+        elliptic_curve: circuit.elliptic_curve.to_string(),
+        finite_field: circuit.finite_field.to_string(),
+        instance_path: circuit.instance_path.to_string(),
+        public_inputs: circuit.public_inputs.clone(),
+        circuit_src_path,
+        program: circuit.program.clone(),
+        wtns_gen_url: format!("{}{}", SYSTEM_NATIVE_SCHEME, wtns_gen_path),
+        spartan_circuit_url: format!("{}{}", SYSTEM_NATIVE_SCHEME, spartan_circuit_path),
+    };
+
+    // let build_json = BuildJson {
+    //     timestamp: timestamp.to_string(),
+    //     circuit_builds,
+    // };
+
+    let build_json_path = PATHS.build.join(format!("{}/build.json", circuit.label));
+    let mut fd = std::fs::File::create(&build_json_path).unwrap();
+    let build_json_str = serde_json::to_string_pretty(&build_json).unwrap();
+    fd.write_all(&build_json_str.into_bytes()).unwrap();
+
+    println!(
+        "{} build.json, path: {:?}",
+        "Created".green(),
+        build_json_path
+    );
+    // println!("{:#?}", build_json);
+}
+
+fn create_list_json(circuits_json: &CircuitsJson, timestamp: i64) {
     let mut circuit_builds = HashMap::new();
-    for (name, circuit) in &circuits_json.circuits {
-        let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen, timestamp);
-        let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan, timestamp);
-        let circuit_src_path = get_path_segment(&circuit, FileKind::Source, timestamp);
+    // for (name, circuit) in &circuits_json.circuits {
+    //     let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen, timestamp);
+    //     let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan, timestamp);
+    //     let circuit_src_path = get_path_segment(&circuit, FileKind::Source, timestamp);
 
-        let naive = NaiveDateTime::from_timestamp_millis(timestamp).unwrap();
-        let datetime: DateTime<Utc> = DateTime::from_utc(naive, Utc);
+    //     let naive = NaiveDateTime::from_timestamp_millis(timestamp).unwrap();
+    //     let datetime: DateTime<Utc> = DateTime::from_utc(naive, Utc);
 
-        let circuit_build_json = CircuitBuildDetail {
-            circuit_id: circuit.circuit_id.to_string(),
-            label: circuit.label.to_string(),
-            author: circuit.author.to_string(),
-            desc: circuit.desc.to_string(),
-            created_at: datetime.to_rfc3339_opts(chrono::SecondsFormat::Secs, true),
-            circuit_dsl: circuit.circuit_dsl.to_string(),
-            arithmetization: circuit.arithmetization.to_string(),
-            proof_algorithm: circuit.proof_algorithm.to_string(),
-            elliptic_curve: circuit.elliptic_curve.to_string(),
-            finite_field: circuit.finite_field.to_string(),
-            instance_path: format!("{}/{}", circuit.label, circuit.instance_path),
-            public_inputs: circuit.public_inputs.clone(),
-            circuit_src_path,
-            wtns_gen_url: format!("{}{}", SYSTEM_NATIVE_SCHEME, wtns_gen_path),
-            spartan_circuit_url: format!("{}{}", SYSTEM_NATIVE_SCHEME, spartan_circuit_path),
-        };
+    //     let circuit_build_json = CircuitBuildDetail {
+    //         circuit_id: circuit.circuit_id.to_string(),
+    //         label: circuit.label.to_string(),
+    //         author: circuit.author.to_string(),
+    //         desc: circuit.desc.to_string(),
+    //         created_at: datetime.to_rfc3339_opts(chrono::SecondsFormat::Secs, true),
+    //         circuit_dsl: circuit.circuit_dsl.to_string(),
+    //         arithmetization: circuit.arithmetization.to_string(),
+    //         proof_algorithm: circuit.proof_algorithm.to_string(),
+    //         elliptic_curve: circuit.elliptic_curve.to_string(),
+    //         finite_field: circuit.finite_field.to_string(),
+    //         instance_path: format!("{}/{}", circuit.label, circuit.instance_path),
+    //         public_inputs: circuit.public_inputs.clone(),
+    //         circuit_src_path,
+    //         wtns_gen_url: format!("{}{}", SYSTEM_NATIVE_SCHEME, wtns_gen_path),
+    //         spartan_circuit_url: format!("{}{}", SYSTEM_NATIVE_SCHEME, spartan_circuit_path),
+    //     };
 
-        circuit_builds.insert(name.to_string(), circuit_build_json);
-    }
+    //     circuit_builds.insert(name.to_string(), circuit_build_json);
+    // }
 
     let build_json = BuildJson {
         timestamp: timestamp.to_string(),

@@ -15,6 +15,7 @@ members = [
   "source/prfs_lib",
   "source/prfs_crypto",
   "source/prfs_circuits_circom",
+  "source/prfs_circuit_type",
 
   # internals
   "internals/ci",

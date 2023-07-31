@@ -13,7 +13,7 @@
       "elliptic_curve": "Secp256k1",
       "finite_field": "Z_(2^256-2^32-977)",
       "program": {
-        "kind": "CIRCOM2_SPARTAN_1",
+        "type": "SpartanCircom2_1",
         "wtns_gen_url": "",
         "circuit_url": ""
       },
@@ -21,27 +21,27 @@
         {
           "label": "Tx",
           "desc": "Tx description",
-          "kind": "COMPUTED"
+          "type": "COMPUTED"
         },
         {
           "label": "Ty",
           "desc": "Ty description",
-          "kind": "COMPUTED"
+          "type": "COMPUTED"
         },
         {
           "label": "Ux",
           "desc": "Ux description",
-          "kind": "COMPUTED"
+          "type": "COMPUTED"
         },
         {
           "label": "Uy",
           "desc": "Uy description",
-          "kind": "COMPUTED"
+          "type": "COMPUTED"
         },
         {
           "label": "Merkle root",
           "desc": "Vector commitment (Merkle root) of a set",
-          "kind": "SET"
+          "type": "PRFS_SET"
         }
       ]
     }
