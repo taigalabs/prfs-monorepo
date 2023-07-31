@@ -44,8 +44,6 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
       });
   }, [setCircuit]);
 
-  console.log(222, circuit);
-
   return (
     <DefaultLayout>
       <Breadcrumb>
@@ -62,6 +60,12 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
                 <WidgetLabel>{`${i18n.circuit} - ${params.circuit_id}`}</WidgetLabel>
               </WidgetHeader>
               <CircuitSummary circuit={circuit} />
+            </Widget>
+            <Widget>
+              <WidgetHeader>
+                <WidgetLabel>{i18n.program}</WidgetLabel>
+              </WidgetHeader>
+              <CircuitProgramSummary circuit={circuit} />
             </Widget>
           </Card>
         </CardRow>

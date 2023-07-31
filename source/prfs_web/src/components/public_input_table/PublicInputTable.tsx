@@ -44,7 +44,7 @@ const PublicInputTable: React.FC<PublicInputTableProps> = ({ circuit }) => {
     );
   }, []);
 
-  const createBody = React.useCallback(({ keys, data, handleSelectVal, selectedVal }) => {
+  const createBody = React.useCallback(({ keys, data }) => {
     // console.log(1, data);
     let { page, values } = data;
 
@@ -54,14 +54,14 @@ const PublicInputTable: React.FC<PublicInputTableProps> = ({ circuit }) => {
     }
 
     for (let val of values) {
-      const onClickRow = handleSelectVal
-        ? () => {
-            handleSelectVal(val);
-          }
-        : undefined;
+      // const onClickRow = handleSelectVal
+      //   ? () => {
+      //       handleSelectVal(val);
+      //     }
+      // : undefined;
 
       let row = (
-        <TableRow key={val.label} onClickRow={onClickRow}>
+        <TableRow key={val.label}>
           <td key={keys.type} className={styles.type}>
             {val.type}
           </td>
