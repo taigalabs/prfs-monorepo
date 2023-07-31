@@ -7,15 +7,36 @@ use chrono::NaiveDate;
 use sqlx::{Execute, Postgres, Row};
 
 impl Database2 {
-    pub async fn get_prfs_proof_types(&self, where_clause: &str) {}
+    pub async fn get_prfs_proof_types(&self, proof_type_id: &String) -> Vec<PrfsProofType> {
+        let query = "SELECT * from prfs_proof_types where proof_type_id=$1";
+
+        let rows = sqlx::query(query)
+            .bind(&proof_type_id)
+            .fetch_all(&self.pool)
+            .await
+            .unwrap();
+
+        let prfs_proof_types: Vec<PrfsProofType> = rows
+            .iter()
+            .map(|row| PrfsProofType {
+                proof_type_id: row.get("proof_type_id"),
+                label: row.get("label"),
+                author: row.get("author"),
+                desc: row.get("desc"),
+                circuit_id: row.get("circuit_id"),
+                public_inputs: row.get("public_inputs"),
+                created_at: row.get("created_at"),
+            })
+            .collect();
+
+        return prfs_proof_types;
+    }
 
     pub async fn insert_prfs_proof_types(
         &self,
         proof_types: &Vec<PrfsProofType>,
         // update_on_conflict: bool,
     ) {
-        println!("2");
-
         let query = "INSERT INTO prfs_proof_types \
             (proof_type_id, author, label, \"desc\", circuit_id, public_inputs) \
             VALUES ($1, $2, $3, $4, $5, $6) returning proof_type_id";

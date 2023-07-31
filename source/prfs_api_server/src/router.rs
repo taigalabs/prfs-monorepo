@@ -1,6 +1,4 @@
-use crate::apis::{
-    prfs_accounts, prfs_circuits, prfs_proof_types, prfs_sets, prfs_tree_nodes, proofs,
-};
+use crate::apis::{prfs_accounts, prfs_circuits, prfs_proof_types, prfs_sets, prfs_tree_nodes};
 use crate::middleware;
 use crate::state::ServerState;
 use crate::ApiServerError;
@@ -45,8 +43,8 @@ pub fn make_router(
             prfs_sets::get_prfs_sets,
         )
         .post(
-            format!("{}/get_proof_types", PREFIX),
-            proofs::get_proof_types,
+            format!("{}/get_prfs_proof_types", PREFIX),
+            prfs_proof_types::get_prfs_proof_types,
         )
         .post(
             format!("{}/insert_prfs_proof_type", PREFIX),
