@@ -21,7 +21,7 @@
         {
           "label": "Tx",
           "desc": "Tx description",
-          "type": "computed"
+          "type": "COMPUTED"
         },
         {
           "label": "Ty",
