@@ -1,7 +1,6 @@
 use crate::CircuitJson;
 use prfs_circuit_type::{self, CircuitProgram};
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct CircuitBuildListJson {
