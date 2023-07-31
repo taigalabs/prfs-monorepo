@@ -3,10 +3,9 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub enum CircuitProgram {
     SpartanCircom2_1 {
-        a: usize,
-        // r#type: String,
-        // wtns_gen_url: String,
-        // circuit_url: String,
+        r#type: String,
+        wtns_gen_url: String,
+        circuit_url: String,
     },
 }
 

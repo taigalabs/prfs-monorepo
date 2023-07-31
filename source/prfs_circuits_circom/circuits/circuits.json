@@ -13,13 +13,15 @@
       "elliptic_curve": "Secp256k1",
       "finite_field": "Z_(2^256-2^32-977)",
       "program": {
-        "a": "1"
+        "type": "SPARTAN_CIRCOM_1",
+        "wtns_gen_url": "",
+        "circuit_url": ""
       },
       "public_inputs": [
         {
           "label": "Tx",
           "desc": "Tx description",
-          "type": "COMPUTED"
+          "type": "computed"
         },
         {
           "label": "Ty",

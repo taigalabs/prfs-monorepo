@@ -3,11 +3,27 @@ use crate::utils::copy_dir_all;
 use crate::AssetServerError;
 use colored::Colorize;
 use prfs_circuits_circom::access::get_build_fs_path;
-use prfs_circuits_circom::BuildJson;
+use prfs_circuits_circom::CircuitBuildJson;
+use std::collections::HashMap;
 use std::path::PathBuf;
 
-pub fn setup_local_assets() -> BuildJson {
+pub fn setup_local_assets() -> HashMap<String, CircuitBuildJson> {
+    copy_assets();
+
+    return load_local_build_json();
+}
+
+fn load_local_build_json() -> HashMap<String, CircuitBuildJson> {
+    unimplemented!();
+    // let copied_build_json_path = PATHS.assets.join("build.json");
+    // let b = std::fs::read(copied_build_json_path).unwrap();
+    // let circuit_build_json: CircuitBuildJson = serde_json::from_slice(&b).unwrap();
+    // circuit_build_json
+}
+
+fn copy_assets() {
     let circuits_build_path = get_build_fs_path();
+
     assert!(
         circuits_build_path.exists(),
         "circuits build path should exist, path: {:?}",
@@ -27,15 +43,6 @@ pub fn setup_local_assets() -> BuildJson {
     } else {
         copy_circuit_build(&circuits_build_path);
     }
-
-    return load_local_build_json();
-}
-
-fn load_local_build_json() -> BuildJson {
-    let copied_build_json_path = PATHS.assets.join("build.json");
-    let b = std::fs::read(copied_build_json_path).unwrap();
-    let circuit_build_json: BuildJson = serde_json::from_slice(&b).unwrap();
-    circuit_build_json
 }
 
 fn copy_circuit_build(circuit_src: &PathBuf) {

@@ -31,7 +31,7 @@ pub struct CircuitDetail {
     pub finite_field: String,
 
     #[serde(flatten)]
-    pub program: CircuitProgram,
+    pub program: serde_json::Value,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]

@@ -1,6 +1,5 @@
 use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
 use hyper::{body, Body, Request, Response};
-use prfs_circuits_circom::CircuitBuildDetail;
 use prfs_db_interface::models::PrfsSet;
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};

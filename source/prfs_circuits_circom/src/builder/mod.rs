@@ -127,7 +127,7 @@ fn create_build_json(circuit: &CircuitDetail, timestamp: i64) {
     let naive = NaiveDateTime::from_timestamp_millis(timestamp).unwrap();
     let datetime: DateTime<Utc> = DateTime::from_utc(naive, Utc);
 
-    let build_json = CircuitBuildDetail {
+    let circuit_build_json = CircuitBuildJson {
         timestamp,
         circuit_id: circuit.circuit_id.to_string(),
         label: circuit.label.to_string(),
@@ -147,14 +147,9 @@ fn create_build_json(circuit: &CircuitDetail, timestamp: i64) {
         spartan_circuit_url: format!("{}{}", SYSTEM_NATIVE_SCHEME, spartan_circuit_path),
     };
 
-    // let build_json = BuildJson {
-    //     timestamp: timestamp.to_string(),
-    //     circuit_builds,
-    // };
-
     let build_json_path = PATHS.build.join(format!("{}/build.json", circuit.label));
     let mut fd = std::fs::File::create(&build_json_path).unwrap();
-    let build_json_str = serde_json::to_string_pretty(&build_json).unwrap();
+    let build_json_str = serde_json::to_string_pretty(&circuit_build_json).unwrap();
     fd.write_all(&build_json_str.into_bytes()).unwrap();
 
     println!(
@@ -166,7 +161,8 @@ fn create_build_json(circuit: &CircuitDetail, timestamp: i64) {
 }
 
 fn create_list_json(circuits_json: &CircuitsJson, timestamp: i64) {
-    let mut circuit_builds = HashMap::new();
+    // let mut circuit_builds = HashMap::new();
+
     // for (name, circuit) in &circuits_json.circuits {
     //     let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen, timestamp);
     //     let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan, timestamp);
@@ -196,22 +192,17 @@ fn create_list_json(circuits_json: &CircuitsJson, timestamp: i64) {
     //     circuit_builds.insert(name.to_string(), circuit_build_json);
     // }
 
-    let build_json = BuildJson {
-        timestamp: timestamp.to_string(),
-        circuit_builds,
-    };
+    // let build_json_path = PATHS.build.join("build.json");
+    // let mut fd = std::fs::File::create(&build_json_path).unwrap();
+    // let build_json_str = serde_json::to_string_pretty(&build_json).unwrap();
+    // fd.write_all(&build_json_str.into_bytes()).unwrap();
 
-    let build_json_path = PATHS.build.join("build.json");
-    let mut fd = std::fs::File::create(&build_json_path).unwrap();
-    let build_json_str = serde_json::to_string_pretty(&build_json).unwrap();
-    fd.write_all(&build_json_str.into_bytes()).unwrap();
-
-    println!(
-        "{} build.json, path: {:?}",
-        "Created".green(),
-        build_json_path
-    );
-    println!("{:#?}", build_json);
+    // println!(
+    //     "{} build.json, path: {:?}",
+    //     "Created".green(),
+    //     build_json_path
+    // );
+    // println!("{:#?}", build_json);
 }
 
 fn copy_instance(circuit: &CircuitDetail) {
