@@ -27,6 +27,7 @@ pub fn run() {
         make_spartan(&circuit, timestamp);
         copy_instance(&circuit);
         create_build_json(&circuit, timestamp);
+
         circuit_list.push(circuit.circuit_id.to_string());
     }
 
@@ -153,48 +154,18 @@ fn create_build_json(circuit: &CircuitDetail, timestamp: i64) {
     fd.write_all(&build_json_str.into_bytes()).unwrap();
 
     println!(
-        "{} build.json, path: {:?}",
+        "{} build.json, path: {:?}, build_json: {:#?}",
         "Created".green(),
-        build_json_path
+        build_json_path,
+        circuit_build_json,
     );
-
-    // println!("{:#?}", build_json);
 }
 
 fn create_list_json(circuits_json: &Vec<String>, timestamp: i64) {
-    // let mut circuit_builds = HashMap::new();
     let build_list_json = CircuitBuildListJson {
+        timestamp,
         circuits: circuits_json.clone(),
     };
-
-    // for (name, circuit) in &circuits_json.circuits {
-    //     let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen, timestamp);
-    //     let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan, timestamp);
-    //     let circuit_src_path = get_path_segment(&circuit, FileKind::Source, timestamp);
-
-    //     let naive = NaiveDateTime::from_timestamp_millis(timestamp).unwrap();
-    //     let datetime: DateTime<Utc> = DateTime::from_utc(naive, Utc);
-
-    //     let circuit_build_json = CircuitBuildDetail {
-    //         circuit_id: circuit.circuit_id.to_string(),
-    //         label: circuit.label.to_string(),
-    //         author: circuit.author.to_string(),
-    //         desc: circuit.desc.to_string(),
-    //         created_at: datetime.to_rfc3339_opts(chrono::SecondsFormat::Secs, true),
-    //         circuit_dsl: circuit.circuit_dsl.to_string(),
-    //         arithmetization: circuit.arithmetization.to_string(),
-    //         proof_algorithm: circuit.proof_algorithm.to_string(),
-    //         elliptic_curve: circuit.elliptic_curve.to_string(),
-    //         finite_field: circuit.finite_field.to_string(),
-    //         instance_path: format!("{}/{}", circuit.label, circuit.instance_path),
-    //         public_inputs: circuit.public_inputs.clone(),
-    //         circuit_src_path,
-    //         wtns_gen_url: format!("{}{}", SYSTEM_NATIVE_SCHEME, wtns_gen_path),
-    //         spartan_circuit_url: format!("{}{}", SYSTEM_NATIVE_SCHEME, spartan_circuit_path),
-    //     };
-
-    //     circuit_builds.insert(name.to_string(), circuit_build_json);
-    // }
 
     let build_list_json_path = PATHS.build.join("list.json");
     let mut fd = std::fs::File::create(&build_list_json_path).unwrap();
@@ -206,7 +177,6 @@ fn create_list_json(circuits_json: &Vec<String>, timestamp: i64) {
         "Created".green(),
         build_list_json_path
     );
-    // println!("{:#?}", build_json);
 }
 
 fn copy_instance(circuit: &CircuitDetail) {

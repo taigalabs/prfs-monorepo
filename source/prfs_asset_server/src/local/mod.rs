@@ -39,19 +39,14 @@ fn copy_assets() {
         );
 
         std::fs::remove_dir_all(&PATHS.assets).unwrap();
-        copy_circuit_build(&circuits_build_path);
-    } else {
-        copy_circuit_build(&circuits_build_path);
     }
-}
 
-fn copy_circuit_build(circuit_src: &PathBuf) {
     println!(
         "{} circuit build, src: {:?}, dest: {:?}",
         "Copying".green(),
-        circuit_src,
+        circuits_build_path,
         &PATHS.assets
     );
 
-    copy_dir_all(circuit_src, &PATHS.assets).unwrap();
+    copy_dir_all(circuits_build_path, &PATHS.assets).unwrap();
 }
