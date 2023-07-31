@@ -129,19 +129,18 @@ fn compile_circuits(circuit: &CircuitJson) {
 }
 
 fn create_build_json(circuit: &mut CircuitJson, timestamp: i64) {
+    let mut program: SpartanCircomProgram =
+        serde_json::from_value(circuit.program.clone()).unwrap();
     let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen, timestamp);
     let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan, timestamp);
 
-    let mut program: SpartanCircomProgram =
-        serde_json::from_value(circuit.program.clone()).unwrap();
+    program.wtns_gen_url = format!("prfs://{}", wtns_gen_path);
+    program.circuit_url = format!("prfs://{}", spartan_circuit_path);
+    circuit.program = serde_json::to_value(program).unwrap();
 
     let naive = NaiveDateTime::from_timestamp_millis(timestamp).unwrap();
     let datetime: DateTime<Utc> = DateTime::from_utc(naive, Utc);
-
     circuit.created_at = datetime.to_rfc3339_opts(chrono::SecondsFormat::Secs, true);
-
-    program.wtns_gen_url = format!("prfs://{}", wtns_gen_path);
-    program.circuit_url = format!("prfs://{}", spartan_circuit_path);
 
     let circuit_build_json = CircuitBuildJson {
         timestamp,
