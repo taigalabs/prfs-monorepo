@@ -1,6 +1,6 @@
 use crate::{
     builder::spartan_circom_program::SpartanCircomProgram, paths::PATHS, CircuitBuildJson,
-    CircuitBuildListJson, CircuitDetail, CircuitsJson, FileKind, SYSTEM_NATIVE_SCHEME,
+    CircuitBuildListJson, CircuitsJson, FileKind, SYSTEM_NATIVE_SCHEME,
 };
 use chrono::{DateTime, NaiveDateTime, TimeZone, Utc};
 use colored::Colorize;
@@ -25,10 +25,10 @@ pub fn run() {
     for circuit in &circuits_json.circuits {
         compile_circuits(&circuit);
         make_spartan(&circuit, timestamp);
-        copy_instance(&circuit);
+        // copy_instance(&circuit);
         create_build_json(&circuit, timestamp);
 
-        circuit_list.push(circuit.label.to_string());
+        circuit_list.push(circuit.inner.label.to_string());
     }
 
     create_list_json(&circuit_list, timestamp);
@@ -40,34 +40,33 @@ fn clean_build() {
     }
 }
 
-fn get_path_segment(circuit: &CircuitDetail, file_kind: FileKind, timestamp: i64) -> String {
+fn get_path_segment(circuit: &CircuitBuildJson, file_kind: FileKind, timestamp: i64) -> String {
     match file_kind {
         FileKind::R1CS => {
-            format!("{}/{}.r1cs", &circuit.label, &circuit.label,)
+            format!("{}/{}.r1cs", &circuit.inner.label, &circuit.inner.label,)
         }
         FileKind::Spartan => {
             format!(
                 "{}/{}_{}.spartan.circuit",
-                circuit.label, circuit.label, timestamp
+                circuit.inner.label, circuit.inner.label, timestamp
             )
         }
         FileKind::WtnsGen => {
             format!(
                 "{}/{}_js/{}.wasm",
-                circuit.label, circuit.label, circuit.label,
+                circuit.inner.label, circuit.inner.label, circuit.inner.label,
             )
-        }
-        FileKind::Source => {
-            let circuit_src_path = PATHS.circuits.join(&circuit.instance_path);
-            let file_name = circuit_src_path.file_name().unwrap().to_str().unwrap();
+        } // FileKind::Source => {
+          //     let circuit_src_path = PATHS.circuits.join(&circuit.instance_path);
+          //     let file_name = circuit_src_path.file_name().unwrap().to_str().unwrap();
 
-            let src_path = format!("{}/src/{}", &circuit.label, &file_name);
-            src_path
-        }
+          //     let src_path = format!("{}/src/{}", &circuit.label, &file_name);
+          //     src_path
+          // }
     }
 }
 
-fn make_spartan(circuit: &CircuitDetail, timestamp: i64) {
+fn make_spartan(circuit: &CircuitBuildJson, timestamp: i64) {
     let r1cs_src_path = PATHS
         .build
         .join(get_path_segment(circuit, FileKind::R1CS, timestamp));
@@ -79,7 +78,7 @@ fn make_spartan(circuit: &CircuitDetail, timestamp: i64) {
     circuit_reader::make_spartan_instance(
         &r1cs_src_path,
         &spartan_circuit_path,
-        circuit.public_inputs.len(),
+        circuit.inner.public_inputs.len(),
     );
 }
 
@@ -95,11 +94,14 @@ fn read_circuits_json() -> CircuitsJson {
     return circuits;
 }
 
-fn compile_circuits(circuit: &CircuitDetail) {
-    let circuit_src_path = PATHS.circuits.join(&circuit.instance_path);
+fn compile_circuits(circuit: &CircuitBuildJson) {
+    let mut program: SpartanCircomProgram =
+        serde_json::from_value(circuit.inner.program.clone()).unwrap();
+
+    let circuit_src_path = PATHS.circuits.join(&program.instance_path);
     println!("circuit_src_path: {:?}", circuit_src_path);
 
-    let build_path = PATHS.build.join(&circuit.label);
+    let build_path = PATHS.build.join(&circuit.inner.label);
     println!("circuit_build_path: {:?}", build_path);
 
     std::fs::create_dir_all(&build_path).unwrap();
@@ -120,15 +122,20 @@ fn compile_circuits(circuit: &CircuitDetail) {
     assert!(status.success());
 }
 
-fn create_build_json(circuit: &CircuitDetail, timestamp: i64) {
+fn create_build_json(circuit: &CircuitBuildJson, timestamp: i64) {
     let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen, timestamp);
     let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan, timestamp);
-    let circuit_src_path = get_path_segment(&circuit, FileKind::Source, timestamp);
+    // let circuit_src_path = get_path_segment(&circuit, FileKind::Source, timestamp);
 
     let naive = NaiveDateTime::from_timestamp_millis(timestamp).unwrap();
     let datetime: DateTime<Utc> = DateTime::from_utc(naive, Utc);
 
-    let program: SpartanCircomProgram = serde_json::from_value(circuit.program.clone()).unwrap();
+    let mut program: SpartanCircomProgram =
+        serde_json::from_value(circuit.program.clone()).unwrap();
+
+    program.wtns_gen_url = format!("prfs://{}", wtns_gen_path);
+    program.circuit_url = format!("prfs://{}", spartan_circuit_path);
+
     println!("program: {:?}", program);
 
     let circuit_build_json = CircuitBuildJson {
@@ -143,10 +150,10 @@ fn create_build_json(circuit: &CircuitDetail, timestamp: i64) {
         proof_algorithm: circuit.proof_algorithm.to_string(),
         elliptic_curve: circuit.elliptic_curve.to_string(),
         finite_field: circuit.finite_field.to_string(),
-        instance_path: circuit.instance_path.to_string(),
+        // instance_path: circuit.instance_path.to_string(),
         public_inputs: circuit.public_inputs.clone(),
-        circuit_src_path,
-        program: circuit.program.clone(),
+        // circuit_src_path,
+        program: serde_json::to_value(&program).unwrap(),
     };
 
     let build_json_path = PATHS.build.join(format!("{}/build.json", circuit.label));
@@ -180,20 +187,20 @@ fn create_list_json(circuits_json: &Vec<String>, timestamp: i64) {
     );
 }
 
-fn copy_instance(circuit: &CircuitDetail) {
-    let circuit_src_path = PATHS.circuits.join(&circuit.instance_path);
-    let file_name = circuit_src_path.file_name().unwrap().to_str().unwrap();
+// fn copy_instance(circuit: &CircuitDetail) {
+//     let circuit_src_path = PATHS.circuits.join(&circuit.instance_path);
+//     let file_name = circuit_src_path.file_name().unwrap().to_str().unwrap();
 
-    let dest_dir = PATHS.build.join(format!("{}/src/", &circuit.label));
-    std::fs::create_dir_all(&dest_dir).unwrap();
+//     let dest_dir = PATHS.build.join(format!("{}/src/", &circuit.label));
+//     std::fs::create_dir_all(&dest_dir).unwrap();
 
-    let dest_path = dest_dir.join(file_name);
-    println!(
-        "{} {:?} to {:?}",
-        "Copying".green(),
-        circuit_src_path,
-        dest_path
-    );
+//     let dest_path = dest_dir.join(file_name);
+//     println!(
+//         "{} {:?} to {:?}",
+//         "Copying".green(),
+//         circuit_src_path,
+//         dest_path
+//     );
 
-    std::fs::copy(circuit_src_path, dest_path).unwrap();
-}
+//     std::fs::copy(circuit_src_path, dest_path).unwrap();
+// }
