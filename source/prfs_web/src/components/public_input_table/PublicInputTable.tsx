@@ -10,8 +10,6 @@ import { KeysAsObject } from "@/models/types";
 import { PUBLIC_INPUT_KEYS, PrfsCircuit, PublicInputKeys } from "@/models";
 
 const PublicInputTable: React.FC<PublicInputTableProps> = ({ circuit }) => {
-  console.log(11, circuit);
-
   const i18n = React.useContext(i18nContext);
 
   const createHeader = React.useCallback((keys: KeysAsObject<PublicInputKeys>) => {

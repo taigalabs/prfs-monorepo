@@ -8,6 +8,7 @@ pub struct SpartanCircomProgram {
     pub wtns_gen_url: String,
     pub circuit_url: String,
     pub instance_path: String,
+    pub repository_url: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
