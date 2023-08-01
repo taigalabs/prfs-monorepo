@@ -1,5 +1,6 @@
 mod access;
 mod json;
+mod paths;
 mod program;
 
 pub use json::*;
