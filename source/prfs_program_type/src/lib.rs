@@ -1,4 +1,4 @@
-mod access;
+pub mod access;
 mod json;
 mod paths;
 mod program;

@@ -7,6 +7,12 @@ pub struct LocalAssets {
 }
 
 pub fn load_local_assets() -> LocalAssets {
+    let circuit_build = load_local_circuits();
+
+    LocalAssets { circuit_build }
+}
+
+fn load_local_circuits() -> HashMap<String, CircuitBuildJson> {
     let build_list_json = prfs_circuits_circom::access::read_circuit_artifacts();
 
     let build_path = prfs_circuits_circom::access::get_build_fs_path();
@@ -20,5 +26,7 @@ pub fn load_local_assets() -> LocalAssets {
         circuit_build.insert(circuit_name, build_json);
     }
 
-    LocalAssets { circuit_build }
+    circuit_build
 }
+
+fn load_local_circuit_program_types() {}
