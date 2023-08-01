@@ -62,21 +62,20 @@ const PublicInputTable: React.FC<PublicInputTableProps> = ({ circuit }) => {
     return <TableBody key={page}>{rows}</TableBody>;
   }, []);
 
-  const onChangePage = React.useCallback(() => {
-    return Promise.resolve({
-      page: 0,
-      values: circuit ? circuit.public_inputs : [],
-    });
+  const initialValues = React.useMemo(() => {
+    return circuit ? circuit.public_inputs : [];
   }, [circuit]);
 
   return (
-    <Table
-      keys={PUBLIC_INPUT_KEYS}
-      createHeader={createHeader}
-      createBody={createBody}
-      minWidth={910}
-      onChangePage={onChangePage}
-    />
+    circuit && (
+      <Table
+        keys={PUBLIC_INPUT_KEYS}
+        createHeader={createHeader}
+        createBody={createBody}
+        minWidth={910}
+        initialValues={initialValues}
+      />
+    )
   );
 };
 

@@ -38,8 +38,9 @@ function Table<T extends string>({
   handleSelectVal,
   minWidth,
   selectedVal,
+  initialValues,
 }: TableProps<T>) {
-  const [data, setValues] = React.useState({ page: 0, values: [] });
+  const [data, setValues] = React.useState({ page: 0, values: initialValues ? initialValues : [] });
 
   React.useEffect(() => {
     if (onChangePage) {
@@ -94,7 +95,7 @@ export interface TableProps<T extends string> {
   createHeader: (keys: RecordOfKeys<T>) => React.ReactNode;
   createBody: (args: CreateBodyArgs<T>) => React.ReactNode;
   onChangePage?: (page: number) => Promise<TableData<T>> | TableData<T>;
-  initialValues?: TableData<T>;
+  initialValues?: RecordOfKeys<T>[];
   minWidth: number;
   selectedVal?: TableSelectedValue<T>;
   handleSelectVal?: (row: RecordOfKeys<T>) => void;
