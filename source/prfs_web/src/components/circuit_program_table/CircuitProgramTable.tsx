@@ -16,7 +16,7 @@ import * as prfsBackend from "@/fetch/prfsBackend";
 import { KeysAsObject, RecordOfKeys } from "@/models/types";
 import { PRFS_CIRCUIT_PROGRAM_KEYS, PrfsCircuitProgramKeys } from "@/models";
 
-const CircuitTable: React.FC<CircuitTableProps> = ({
+const CircuitProgramTable: React.FC<CircuitTableProps> = ({
   selectType,
   selectedVal,
   handleSelectVal,
@@ -120,7 +120,7 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
   );
 };
 
-export default CircuitTable;
+export default CircuitProgramTable;
 
 export interface CircuitTableProps {
   selectType?: "checkbox" | "radio";

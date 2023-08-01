@@ -1,4 +1,5 @@
-use crate::{paths::PATHS, task::Task, BuildHandle, CiError};
+use super::task::BuildTask;
+use crate::{paths::PATHS, BuildHandle, CiError};
 use colored::Colorize;
 use serde::{Deserialize, Serialize};
 use std::process::Command;
@@ -17,7 +18,7 @@ pub struct Circuit {
     pub num_public_inputs: usize,
 }
 
-impl Task for CompileCircuitsTask {
+impl BuildTask for CompileCircuitsTask {
     fn name(&self) -> &str {
         "compile_circuits"
     }

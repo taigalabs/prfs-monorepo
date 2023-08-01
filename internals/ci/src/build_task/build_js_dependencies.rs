@@ -1,9 +1,10 @@
-use crate::{deps::JS_ENGINE, paths::PATHS, task::Task, BuildHandle, CiError};
+use super::task::BuildTask;
+use crate::{deps::JS_ENGINE, paths::PATHS, BuildHandle, CiError};
 use std::process::Command;
 
 pub struct BuildJsDependenciesTask;
 
-impl Task for BuildJsDependenciesTask {
+impl BuildTask for BuildJsDependenciesTask {
     fn name(&self) -> &str {
         "build_js_dependencies"
     }

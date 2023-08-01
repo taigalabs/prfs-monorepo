@@ -1,10 +1,11 @@
-use crate::{deps, paths::PATHS, task::Task, BuildHandle, CiError};
+use super::task::BuildTask;
+use crate::{deps, paths::PATHS, BuildHandle, CiError};
 use colored::Colorize;
 use std::process::Command;
 
 pub struct BuildWasmTask;
 
-impl Task for BuildWasmTask {
+impl BuildTask for BuildWasmTask {
     fn name(&self) -> &str {
         "build_wasm"
     }
