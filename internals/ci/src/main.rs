@@ -28,7 +28,7 @@ fn main() {
 
     let now = Utc::now();
     let timestamp = now.timestamp_millis().to_string();
-    println!("Ci starts: {} ({})", now, timestamp);
+    println!("{} ci: {} ({})", "Starting".green(), now, timestamp);
 
     match matches.subcommand() {
         Some(("build", sub_matches)) => {
