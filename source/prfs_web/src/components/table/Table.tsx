@@ -2,7 +2,7 @@ import React, { MouseEventHandler } from "react";
 import classNames from "classnames";
 
 import styles from "./Table.module.scss";
-import { KeysAsObject, RecordOfKeys } from "@/models/types";
+// import { KeysAsObject, RecordOfKeys } from "@/models/types";
 
 export const TableCurrentPageLimitWarning: React.FC = () => {
   return <div className={styles.pageLimitWarning}>Currently showing up to 20 elements</div>;
@@ -16,9 +16,9 @@ export const TableBody: React.FC<TableBodyProps> = ({ children }) => {
   return <tbody className={styles.tableBodyWrapper}>{children}</tbody>;
 };
 
-// export const TableCell: React.FC<TableCellProps> = ({ children }) => {
-//   return <td className={styles.tableCell}>{children}</td>;
-// };
+export const TableCell: React.FC<TableCellProps> = ({ children }) => {
+  return <td className={styles.tableCell}>{children}</td>;
+};
 
 export function TableRow({ isSelected, children, onClickRow }: TableRowProps) {
   return (
@@ -34,8 +34,8 @@ export function TableRow({ isSelected, children, onClickRow }: TableRowProps) {
   );
 }
 
-function Table<T extends string>({
-  keys,
+function Table<T>({
+  // keys,
   createHeader,
   createBody,
   onChangePage,
@@ -55,28 +55,28 @@ function Table<T extends string>({
     }
   }, [onChangePage, setValues]);
 
-  const tableKeys = React.useMemo(() => {
-    const tableKeys: KeysAsObject<T> = keys.reduce((r, key) => {
-      return {
-        ...r,
-        [key]: key,
-      };
-    }, {} as RecordOfKeys<T>);
-    return tableKeys;
-  }, [keys]);
+  // const tableKeys = React.useMemo(() => {
+  //   const tableKeys: KeysAsObject<T> = keys.reduce((r, key) => {
+  //     return {
+  //       ...r,
+  //       [key]: key,
+  //     };
+  //   }, {} as RecordOfKeys<T>);
+  //   return tableKeys;
+  // }, [keys]);
 
   let headerElems = React.useMemo(() => {
-    return createHeader(tableKeys);
-  }, [tableKeys]);
+    return createHeader();
+  }, []);
 
   let bodyElems = React.useMemo(() => {
     return createBody({
-      keys: tableKeys,
+      // keys: tableKeys,
       data,
       handleSelectVal,
       selectedVal,
     });
-  }, [data, tableKeys, selectedVal, handleSelectVal]);
+  }, [data, selectedVal, handleSelectVal]);
 
   return (
     <div className={styles.tableWrapper}>
@@ -96,33 +96,33 @@ function Table<T extends string>({
 
 export default Table;
 
-export interface TableProps<T extends string> {
-  keys: ReadonlyArray<T>;
-  createHeader: (keys: RecordOfKeys<T>) => React.ReactNode;
+export interface TableProps<T> {
+  // keys: ReadonlyArray<T>;
+  createHeader: () => React.ReactNode;
   createBody: (args: CreateBodyArgs<T>) => React.ReactNode;
   onChangePage?: (page: number) => Promise<TableData<T>> | TableData<T>;
-  initialValues?: RecordOfKeys<T>[];
-  selectedVal?: TableSelectedValue<T>;
-  handleSelectVal?: (row: RecordOfKeys<T>) => void;
+  initialValues?: T[];
+  selectedVal?: T;
+  handleSelectVal?: (row: T) => void;
   minWidth: number;
   tableLayout?: any;
 }
 
-export type CreateBodyArgs<T extends string> = {
-  keys: KeysAsObject<T>;
+export type CreateBodyArgs<T> = {
+  // keys: KeysAsObject<T>;
   data: TableData<T>;
-  selectedVal: TableSelectedValue<T>;
-  handleSelectVal?: (row: RecordOfKeys<T>) => void;
+  selectedVal: T;
+  handleSelectVal?: (row: T) => void;
 };
 
-export type TableData<T extends string> = {
+export type TableData<T> = {
   page: number;
-  values: RecordOfKeys<T>[];
+  values: T[];
 };
 
-export interface TableSelectedValue<T extends string> {
-  [id: string]: RecordOfKeys<T>;
-}
+// export interface TableSelectedValue<T extends string> {
+//   [id: string]: RecordOfKeys<T>;
+// }
 
 export interface TableHeaderProps {
   children: React.ReactNode;
@@ -132,9 +132,9 @@ export interface TableBodyProps {
   children: React.ReactNode;
 }
 
-// export interface TableCellProps {
-//   children: React.ReactNode;
-// }
+export interface TableCellProps {
+  children: React.ReactNode;
+}
 
 export interface TableRowProps {
   isSelected?: boolean;

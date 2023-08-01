@@ -4,17 +4,10 @@ import React from "react";
 import Link from "next/link";
 
 import styles from "./CircuitProgramTable.module.scss";
-import Table, {
-  TableBody,
-  TableRow,
-  TableHeader,
-  CreateBodyArgs,
-  TableSelectedValue,
-} from "@/components/table/Table";
+import Table, { TableBody, TableRow, TableHeader, CreateBodyArgs } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import * as prfsBackend from "@/fetch/prfsBackend";
-import { KeysAsObject, RecordOfKeys } from "@/models/types";
-import { PRFS_CIRCUIT_PROGRAM_KEYS, PrfsCircuitProgramKeys } from "@/models";
+import { PrfsCircuitProgram } from "@/models";
 
 const CircuitProgramTable: React.FC<CircuitTableProps> = ({
   selectType,
@@ -23,30 +16,21 @@ const CircuitProgramTable: React.FC<CircuitTableProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
 
-  const createHeader = React.useCallback(
-    (keys: KeysAsObject<PrfsCircuitProgramKeys>) => {
-      return (
-        <TableHeader>
-          <TableRow>
-            {handleSelectVal && <th key="select" className={styles.radio}></th>}
-            <th key={keys.program_id} className={styles.program_id}>
-              {i18n.program_id}
-            </th>
-            <th key={keys.program_repository_url} className={styles.program_repository_url}>
-              {i18n.program_repository_url}
-            </th>
-            <th key={keys.version} className={styles.version}>
-              {i18n.version}
-            </th>
-          </TableRow>
-        </TableHeader>
-      );
-    },
-    [handleSelectVal]
-  );
+  const createHeader = React.useCallback(() => {
+    return (
+      <TableHeader>
+        <TableRow>
+          {handleSelectVal && <th className={styles.radio}></th>}
+          <th className={styles.program_id}>{i18n.program_id}</th>
+          <th className={styles.program_repository_url}>{i18n.program_repository_url}</th>
+          <th className={styles.version}>{i18n.version}</th>
+        </TableRow>
+      </TableHeader>
+    );
+  }, [handleSelectVal]);
 
   const createBody = React.useCallback(
-    ({ keys, data, handleSelectVal, selectedVal }: CreateBodyArgs<PrfsCircuitProgramKeys>) => {
+    ({ data, handleSelectVal, selectedVal }: CreateBodyArgs<PrfsCircuitProgram>) => {
       let { page, values } = data;
 
       let rows = [];
@@ -69,19 +53,15 @@ const CircuitProgramTable: React.FC<CircuitTableProps> = ({
         let row = (
           <TableRow key={val.program_id} onClickRow={onClickRow} isSelected={isSelected}>
             {selectedVal && (
-              <td key="select" className={styles.radio}>
+              <td className={styles.radio}>
                 <input type={selType} checked={isSelected} readOnly />
               </td>
             )}
-            <td key={keys.program_id} className={styles.program_id}>
+            <td className={styles.program_id}>
               <Link href={`/programs/${val.program_id}`}>{val.program_id}</Link>
             </td>
-            <td key={keys.program_repository_url} className={styles.repoUrl}>
-              {val.program_repository_url}
-            </td>
-            <td key={keys.version} className={styles.version}>
-              {val.version}
-            </td>
+            <td className={styles.repoUrl}>{val.program_repository_url}</td>
+            <td className={styles.version}>{val.version}</td>
           </TableRow>
         );
 
@@ -109,7 +89,6 @@ const CircuitProgramTable: React.FC<CircuitTableProps> = ({
 
   return (
     <Table
-      keys={PRFS_CIRCUIT_PROGRAM_KEYS}
       createHeader={createHeader}
       createBody={createBody}
       onChangePage={handleChangeProofPage}
@@ -124,6 +103,6 @@ export default CircuitProgramTable;
 
 export interface CircuitTableProps {
   selectType?: "checkbox" | "radio";
-  selectedVal?: TableSelectedValue<PrfsCircuitProgramKeys>;
-  handleSelectVal?: (row: RecordOfKeys<PrfsCircuitProgramKeys>) => void;
+  selectedVal?: PrfsCircuitProgram;
+  handleSelectVal?: (row: PrfsCircuitProgram) => void;
 }

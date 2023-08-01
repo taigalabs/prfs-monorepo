@@ -12,22 +12,18 @@ import { KeysAsObject } from "@/models/types";
 const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
   const i18n = React.useContext(i18nContext);
 
-  const createHeader = React.useCallback((keys: KeysAsObject<ProofTypeTableKeys>) => {
+  const createHeader = React.useCallback(() => {
     return (
       <TableHeader>
         <TableRow>
-          <th key={keys[0]} className={styles.id}>
-            {i18n.id}
-          </th>
-          <th key={keys[1]} className={styles.val}>
-            {i18n.value}
-          </th>
+          <th className={styles.id}>{i18n.id}</th>
+          <th className={styles.val}>{i18n.value}</th>
         </TableRow>
       </TableHeader>
     );
   }, []);
 
-  const createBody = React.useCallback(({ keys, data }) => {
+  const createBody = React.useCallback(({ data }) => {
     // console.log(1, data);
     let { page, values } = data;
 
@@ -39,12 +35,8 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
     for (let val of values) {
       let row = (
         <TableRow key={val.pos_w}>
-          <td key={keys.pos_w} className={styles.id}>
-            {val.pos_w}
-          </td>
-          <td key={keys.val} className={styles.val}>
-            {val.val}
-          </td>
+          <td className={styles.id}>{val.pos_w}</td>
+          <td className={styles.val}>{val.val}</td>
         </TableRow>
       );
 
@@ -72,7 +64,6 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
 
   return (
     <Table
-      keys={PROOF_TYPE_TABLE_KEYS}
       createHeader={createHeader}
       createBody={createBody}
       onChangePage={handleChangePage}
@@ -83,8 +74,8 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
 
 export default ProofTypeTable;
 
-const PROOF_TYPE_TABLE_KEYS = ["pos_h", "pos_w", "set_id", "val"] as const;
+// const PROOF_TYPE_TABLE_KEYS = ["pos_h", "pos_w", "set_id", "val"] as const;
 
-type ProofTypeTableKeys = (typeof PROOF_TYPE_TABLE_KEYS)[number];
+// type ProofTypeTableKeys = (typeof PROOF_TYPE_TABLE_KEYS)[number];
 
 export interface ProofTypeTableProps {}

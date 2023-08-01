@@ -4,17 +4,10 @@ import React from "react";
 import Link from "next/link";
 
 import styles from "./CircuitTable.module.scss";
-import Table, {
-  TableBody,
-  TableRow,
-  TableHeader,
-  CreateBodyArgs,
-  TableSelectedValue,
-} from "@/components/table/Table";
+import Table, { TableBody, TableRow, TableHeader, CreateBodyArgs } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import * as prfsBackend from "@/fetch/prfsBackend";
-import { KeysAsObject, RecordOfKeys } from "@/models/types";
-import { PRFS_CIRCUIT_KEYS, PrfsCircuitKeys } from "@/models";
+import { PrfsCircuit } from "@/models";
 
 const CircuitTable: React.FC<CircuitTableProps> = ({
   selectType,
@@ -23,36 +16,23 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
 
-  const createHeader = React.useCallback(
-    (keys: KeysAsObject<PrfsCircuitKeys>) => {
-      return (
-        <TableHeader>
-          <TableRow>
-            {handleSelectVal && <th key="select" className={styles.radio}></th>}
-            <th key={keys.circuit_id} className={styles.circuit_id}>
-              {i18n.circuit_id}
-            </th>
-            <th key={keys.label} className={styles.label}>
-              {i18n.label}
-            </th>
-            <th key={keys.desc} className={styles.desc}>
-              {i18n.description}
-            </th>
-            <th key={keys.author} className={styles.author}>
-              {i18n.author}
-            </th>
-            <th key={keys.created_at} className={styles.createdAt}>
-              {i18n.created_at}
-            </th>
-          </TableRow>
-        </TableHeader>
-      );
-    },
-    [handleSelectVal]
-  );
+  const createHeader = React.useCallback(() => {
+    return (
+      <TableHeader>
+        <TableRow>
+          {handleSelectVal && <th className={styles.radio}></th>}
+          <th className={styles.circuit_id}>{i18n.circuit_id}</th>
+          <th className={styles.label}>{i18n.label}</th>
+          <th className={styles.desc}>{i18n.description}</th>
+          <th className={styles.author}>{i18n.author}</th>
+          <th className={styles.createdAt}>{i18n.created_at}</th>
+        </TableRow>
+      </TableHeader>
+    );
+  }, [handleSelectVal]);
 
   const createBody = React.useCallback(
-    ({ keys, data, handleSelectVal, selectedVal }: CreateBodyArgs<PrfsCircuitKeys>) => {
+    ({ data, handleSelectVal, selectedVal }: CreateBodyArgs<PrfsCircuit>) => {
       let { page, values } = data;
 
       let rows = [];
@@ -75,25 +55,17 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
         let row = (
           <TableRow key={val.circuit_id} onClickRow={onClickRow} isSelected={isSelected}>
             {selectedVal && (
-              <td key="select" className={styles.radio}>
+              <td className={styles.radio}>
                 <input type={selType} checked={isSelected} readOnly />
               </td>
             )}
-            <td key={keys.circuit_id} className={styles.circuit_id}>
+            <td className={styles.circuit_id}>
               <Link href={`/circuits/${val.circuit_id}`}>{val.circuit_id}</Link>
             </td>
-            <td key={keys.label} className={styles.label}>
-              {val.label}
-            </td>
-            <td key={keys.desc} className={styles.desc}>
-              {val.desc}
-            </td>
-            <td key={keys.author} className={styles.author}>
-              {val.author}
-            </td>
-            <td key={keys.created_at} className={styles.createdAt}>
-              {val.created_at}
-            </td>
+            <td className={styles.label}>{val.label}</td>
+            <td className={styles.desc}>{val.desc}</td>
+            <td className={styles.author}>{val.author}</td>
+            <td className={styles.createdAt}>{val.created_at}</td>
           </TableRow>
         );
 
@@ -121,7 +93,6 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
 
   return (
     <Table
-      keys={PRFS_CIRCUIT_KEYS}
       createHeader={createHeader}
       createBody={createBody}
       onChangePage={handleChangeProofPage}
@@ -136,6 +107,6 @@ export default CircuitTable;
 
 export interface CircuitTableProps {
   selectType?: "checkbox" | "radio";
-  selectedVal?: TableSelectedValue<PrfsCircuitKeys>;
-  handleSelectVal?: (row: RecordOfKeys<PrfsCircuitKeys>) => void;
+  selectedVal?: PrfsCircuit;
+  handleSelectVal?: (row: PrfsCircuit) => void;
 }
