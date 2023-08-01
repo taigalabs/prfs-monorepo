@@ -24,6 +24,7 @@ impl Database2 {
                 author: row.get("author"),
                 desc: row.get("desc"),
                 circuit_id: row.get("circuit_id"),
+                program_id: row.get("program_id"),
                 public_inputs: row.get("public_inputs"),
                 created_at: row.get("created_at"),
             })
@@ -38,7 +39,7 @@ impl Database2 {
         // update_on_conflict: bool,
     ) {
         let query = "INSERT INTO prfs_proof_types \
-            (proof_type_id, author, label, \"desc\", circuit_id, public_inputs) \
+            (proof_type_id, author, label, \"desc\", circuit_id, public_inputs, program_id) \
             VALUES ($1, $2, $3, $4, $5, $6) returning proof_type_id";
 
         let proof_type = proof_types.get(0).unwrap();
@@ -50,6 +51,7 @@ impl Database2 {
             .bind(&proof_type.desc)
             .bind(&proof_type.circuit_id)
             .bind(&proof_type.public_inputs)
+            .bind(&proof_type.program_id)
             .fetch_one(&self.pool)
             .await
             .unwrap();

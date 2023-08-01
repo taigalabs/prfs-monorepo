@@ -42,7 +42,8 @@ struct InsertPrfsProofTypesRequest {
     label: String,
     desc: String,
     circuit_id: String,
-    public_inputs: String,
+    program_id: String,
+    public_inputs: serde_json::Value,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -62,12 +63,6 @@ pub async fn insert_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
 
     println!("req: {:?}", req);
 
-    // let mut where_clause = String::new();
-
-    // if let Some(set_id) = req.set_id {
-    //     where_clause = format!("where set_id='{}'", &set_id);
-    // }
-
     let prfs_proof_type = PrfsProofType {
         proof_type_id: req.proof_type_id.to_string(),
         label: req.label.to_string(),
@@ -75,7 +70,8 @@ pub async fn insert_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
         desc: req.desc.to_string(),
 
         circuit_id: req.circuit_id.to_string(),
-        public_inputs: req.public_inputs.to_string(),
+        program_id: req.program_id.to_string(),
+        public_inputs: req.public_inputs,
 
         created_at: NaiveDate::from_ymd_opt(1, 2, 1).unwrap(),
     };

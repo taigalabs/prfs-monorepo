@@ -12,7 +12,14 @@ import Button from "@/components/button/Button";
 import FormTextInput from "@/components/form/FormTextInput";
 import SetDropdown from "@/components/set_dropdown/SetDropdown";
 import { RecordOfKeys } from "@/models/types";
-import { PrfsCircuit, PublicInput, PrfsCircuitKeys, PrfsSetKeys, PublicInputType } from "@/models";
+import {
+  PrfsCircuit,
+  PublicInput,
+  PrfsSetKeys,
+  PublicInputType,
+  PrfsProofType,
+  PrfsSet,
+} from "@/models";
 import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { DropdownSingleSelectedValue } from "@/components/dropdown/Dropdown";
 
@@ -27,10 +34,10 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit, setPub
         break;
       case PublicInputType.PRFS_SET:
         const [selectedSet, setSelectedSet] =
-          React.useState<DropdownSingleSelectedValue<PrfsSetKeys>>(undefined);
+          React.useState<DropdownSingleSelectedValue<PrfsSet>>(undefined);
 
         const handleSelectSet = React.useCallback(
-          (val: RecordOfKeys<PrfsSetKeys>) => {
+          (val: PrfsSet) => {
             // console.log(13, val);
             setSelectedSet(val);
             setPublicInputs((oldVal: PublicInputObject) => {
@@ -104,11 +111,10 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const [publicInputs, setPublicInputs] = React.useState({});
   const [formAlert, setFormAlert] = React.useState("");
   const [name, setName] = React.useState("");
-  const [selectedCircuit, setSelectedCircuit] =
-    React.useState<DropdownSingleSelectedValue<PrfsCircuitKeys>>(undefined);
+  const [selectedCircuit, setSelectedCircuit] = React.useState<PrfsCircuit>(undefined);
 
   const handleSelectCircuit = React.useCallback(
-    (val: RecordOfKeys<PrfsCircuitKeys>) => {
+    (val: PrfsCircuit) => {
       setSelectedCircuit(val);
     },
     [setSelectedCircuit]
@@ -150,14 +156,14 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 
     setFormAlert("");
 
-    let prfsProofType = {
-      name,
-      circuit_id: selectedCircuit.circuit_id,
-      program_id: selectedCircuit.program.program_id,
-      publicInputs,
-    };
+    // let prfsProofType: PrfsProofType = {
+    //   label: name,
+    //   circuit_id: selectedCircuit.circuit_id,
+    //   program_id: selectedCircuit.program.program_id,
+    //   publicInputs,
+    // };
 
-    console.log(11, prfsProofType);
+    // console.log(11, prfsProofType);
 
     // prfsBackend.putPrfsProofType();
   }, [publicInputs, selectedCircuit, name, setFormAlert]);

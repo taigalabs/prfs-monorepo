@@ -18,7 +18,7 @@ function Dropdown<T extends string>({ createBase, createList, handleSelectVal }:
   const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
 
   const upgradedHandleSelectVal = React.useCallback(
-    (data: RecordOfKeys<T>) => {
+    (data: T) => {
       handleSelectVal(data);
       setIsOpen(false);
     },
@@ -62,20 +62,20 @@ export default Dropdown;
 export interface DropdownProps<T extends string> {
   createBase: () => React.ReactNode;
   createList: (args: CreateDropdownListArgs<T>) => React.ReactNode;
-  handleSelectVal: (data: RecordOfKeys<T>) => void;
+  handleSelectVal: (data: T) => void;
 }
 
-export interface CreateDropdownListArgs<T extends string> {
-  upgradedHandleSelectVal: (val: RecordOfKeys<T>) => void;
+export interface CreateDropdownListArgs<T> {
+  upgradedHandleSelectVal: (val: T) => void;
 }
 
-export type DropdownSingleSelectedValue<T extends string> = RecordOfKeys<T>;
+export type DropdownSingleSelectedValue<T> = T;
 
-export interface DropdownMultiSelectedValue<T extends string> {
-  [id: string]: RecordOfKeys<T>;
-}
+// export interface DropdownMultiSelectedValue<T extends string> {
+//   [id: string]: RecordOfKeys<T>;
+// }
 
-export type DropdownData<T extends string> = {
+export type DropdownData<T> = {
   page: number;
-  values: RecordOfKeys<T>[];
+  values: T[];
 };
