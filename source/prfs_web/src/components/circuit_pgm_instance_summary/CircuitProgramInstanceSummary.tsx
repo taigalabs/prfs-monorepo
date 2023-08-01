@@ -33,7 +33,7 @@ const CircuitProgramInstanceSummary: React.FC<CircuitProgramInstanceSummaryProps
     columns[0].push(
       <ColumnarSummaryCell key={program.program_id}>
         <ColumnarSummaryCellHeader>{i18n.program_id}</ColumnarSummaryCellHeader>
-        <div className={styles.cellValue}>
+        <div>
           <Link href={`/programs/${program.program_id}`}>{program.program_id}</Link>
         </div>
       </ColumnarSummaryCell>
@@ -43,15 +43,6 @@ const CircuitProgramInstanceSummary: React.FC<CircuitProgramInstanceSummaryProps
       <ColumnarSummaryCell key={program.version}>
         <ColumnarSummaryCellHeader>{i18n.version}</ColumnarSummaryCellHeader>
         <div>{program.version}</div>
-      </ColumnarSummaryCell>
-    );
-
-    columns[2].push(
-      <ColumnarSummaryCell key={program.program_repository_url}>
-        <ColumnarSummaryCellHeader>{i18n.program_repository_url}</ColumnarSummaryCellHeader>
-        <div className={styles.cellValue}>
-          <Link href={program.program_repository_url}>{program.program_repository_url}</Link>
-        </div>
       </ColumnarSummaryCell>
     );
 

@@ -15,6 +15,13 @@
 .columnarSummaryCell {
   padding: 10px 10px;
   word-wrap: break-word;
+
+  a {
+    color: var(--green-50);
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 .columnarSummaryCell:not(:last-child) {

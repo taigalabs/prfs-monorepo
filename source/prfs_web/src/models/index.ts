@@ -100,7 +100,7 @@ export interface PrfsCircuitProgram {
   program_id: string;
   program_repository_url: string;
   version: string;
-  requirements: {
+  properties: {
     [key: string]: any;
   };
 }

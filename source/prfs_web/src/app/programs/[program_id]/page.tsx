@@ -16,8 +16,8 @@ import * as prfsBackend from "@/fetch/prfsBackend";
 import { PrfsCircuit, PrfsCircuitProgram } from "@/models/index";
 import { useRouter } from "next/navigation";
 import CircuitSummary from "@/components/circuit_summary/CircuitSummary";
-import CircuitProgramSummary from "@/components/circuit_program_summary/CircuitProgramSummary";
 import PublicInputTable from "@/components/public_input_table/PublicInputTable";
+import CircuitProgramSummary from "@/components/circuit_program_summary/CircuitProgramSummary";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -52,32 +52,16 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
         <BreadcrumbEntry>{params.program_id}</BreadcrumbEntry>
       </Breadcrumb>
       <div className={styles.contentArea}>
-        {/* <CardRow> */}
-        {/*   <Card> */}
-        {/*     <Widget> */}
-        {/*       <WidgetHeader> */}
-        {/*         <WidgetLabel>{`${i18n.circuit} - ${params.circuit_id}`}</WidgetLabel> */}
-        {/*       </WidgetHeader> */}
-        {/*       <CircuitSummary circuit={circuit} /> */}
-        {/*     </Widget> */}
-        {/*     <Widget> */}
-        {/*       <WidgetHeader> */}
-        {/*         <WidgetLabel>{i18n.program}</WidgetLabel> */}
-        {/*       </WidgetHeader> */}
-        {/*       <CircuitProgramSummary circuit={circuit} /> */}
-        {/*     </Widget> */}
-        {/*   </Card> */}
-        {/* </CardRow> */}
-        {/* <CardRow> */}
-        {/*   <Card> */}
-        {/*     <Widget> */}
-        {/*       <WidgetHeader> */}
-        {/*         <WidgetLabel>{i18n.public_inputs}</WidgetLabel> */}
-        {/*       </WidgetHeader> */}
-        {/*       <PublicInputTable circuit={circuit} /> */}
-        {/*     </Widget> */}
-        {/*   </Card> */}
-        {/* </CardRow> */}
+        <CardRow>
+          <Card>
+            <Widget>
+              <WidgetHeader>
+                <WidgetLabel>{i18n.programs}</WidgetLabel>
+              </WidgetHeader>
+              <CircuitProgramSummary program={program} />
+            </Widget>
+          </Card>
+        </CardRow>
       </div>
     </DefaultLayout>
   );
