@@ -12,9 +12,9 @@
       "proof_algorithm": "Spartan",
       "elliptic_curve": "Secp256k1",
       "finite_field": "Z_(2^256-2^32-977)",
+      "circuit_repository_url": "https://github.com/taigalabs/prfs-monorepo/tree/main/source/prfs_circuits_circom",
       "program": {
-        "type": "SPARTAN_CIRCOM_1",
-        "repository_url": "https://github.com/taigalabs/prfs-monorepo/tree/main/source/prfs_circuits_circom",
+        "program_id": "SPARTAN_CIRCOM_1",
         "instance_path": "instances/addr_membership2.circom",
         "wtns_gen_url": "",
         "circuit_url": ""

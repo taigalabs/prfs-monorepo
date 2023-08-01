@@ -1,3 +1,15 @@
 {
-  "programs": []
+  "programs": [
+    {
+      "program_id": "SPARTAN_CIRCOM_1",
+      "program_repository_url": "https://github.com/taigalabs/prfs-monorepo/tree/main/source/prfs_js",
+      "version": "0.1.0",
+      "requirements": {
+        "circuit_dsl": "Circom 2",
+        "instance_path": "Relatve path to instance file",
+        "wtns_gen_url": "Wtns gen url",
+        "circuit_url": "Circuit (compiled) url"
+      }
+    }
+  ]
 }
