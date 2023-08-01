@@ -76,7 +76,6 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
                 <WidgetLabel>{i18n.public_inputs}</WidgetLabel>
               </WidgetHeader>
               <PublicInputTable circuit={circuit} />
-              {/* <CircuitProgramSummary circuit={circuit} /> */}
             </Widget>
           </Card>
         </CardRow>

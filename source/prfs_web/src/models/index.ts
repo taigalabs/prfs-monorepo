@@ -14,6 +14,10 @@ export interface PrfsCircuit {
   circuit_dsl: string;
   elliptic_curve: string;
   finite_field: string;
+  program: {
+    type: string;
+    [key: string]: any;
+  };
 }
 
 export enum PublicInputType {

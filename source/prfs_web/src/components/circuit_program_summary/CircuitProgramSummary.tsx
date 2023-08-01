@@ -9,64 +9,52 @@ import ColumnarSummary, {
   ColumnarSummaryColumn,
 } from "@/components/columnal_summary/ColumnarSummary";
 
+const NUM_COLUMNS = 3;
+
 const CircuitProgramSummary: React.FC<CircuitProgramSummaryProps> = ({ circuit }) => {
   const i18n = React.useContext(i18nContext);
+
+  const columnElems = React.useMemo(() => {
+    if (circuit === undefined) {
+      return null;
+    }
+
+    let { program } = circuit;
+    let programKeys = Object.keys(program);
+    const q = Math.floor(programKeys.length / NUM_COLUMNS);
+    const r = programKeys.length % NUM_COLUMNS;
+
+    const columns = [[], [], []];
+    for (let i = 0; i < q; i += 1) {
+      const cell = (
+        <ColumnarSummaryCell key={program[programKeys[i]]}>
+          <ColumnarSummaryCellHeader>{programKeys[i]}</ColumnarSummaryCellHeader>
+          <div>{program[programKeys[i]]}</div>
+        </ColumnarSummaryCell>
+      );
+      columns[i % NUM_COLUMNS].push(cell);
+    }
+
+    let startIdx = 3 * q - 1;
+    for (let i = startIdx; i < startIdx + r; i += 1) {
+      const cell = (
+        <ColumnarSummaryCell key={program[programKeys[i]]}>
+          <ColumnarSummaryCellHeader>{programKeys[i]}</ColumnarSummaryCellHeader>
+          <div>{program[programKeys[i]]}</div>
+        </ColumnarSummaryCell>
+      );
+      columns[i % NUM_COLUMNS].push(cell);
+    }
+
+    return columns;
+  }, [circuit]);
 
   return (
     circuit && (
       <ColumnarSummary>
-        <ColumnarSummaryColumn>
-          <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.circuit_id}</ColumnarSummaryCellHeader>
-            <div>{circuit.circuit_id}</div>
-          </ColumnarSummaryCell>
-          <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.label}</ColumnarSummaryCellHeader>
-            <div>{circuit.label}</div>
-          </ColumnarSummaryCell>
-          <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.proof_algorithm}</ColumnarSummaryCellHeader>
-            <div>{circuit.proof_algorithm}</div>
-          </ColumnarSummaryCell>
-          <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.elliptic_curve}</ColumnarSummaryCellHeader>
-            <div>{circuit.elliptic_curve}</div>
-          </ColumnarSummaryCell>
-        </ColumnarSummaryColumn>
-
-        <ColumnarSummaryColumn>
-          <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.circuit_dsl}</ColumnarSummaryCellHeader>
-            <div>{circuit.circuit_dsl}</div>
-          </ColumnarSummaryCell>
-          <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.arithmetization}</ColumnarSummaryCellHeader>
-            <div>{circuit.arithmetization}</div>
-          </ColumnarSummaryCell>
-          <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.description}</ColumnarSummaryCellHeader>
-            <div>{circuit.desc}</div>
-          </ColumnarSummaryCell>
-          <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.finite_field}</ColumnarSummaryCellHeader>
-            <div>{circuit.finite_field}</div>
-          </ColumnarSummaryCell>
-        </ColumnarSummaryColumn>
-
-        <ColumnarSummaryColumn>
-          <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.num_inputs}</ColumnarSummaryCellHeader>
-            <div>{circuit.public_inputs.length}</div>
-          </ColumnarSummaryCell>
-          <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.author}</ColumnarSummaryCellHeader>
-            <div>{circuit.author}</div>
-          </ColumnarSummaryCell>
-          <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.created_at}</ColumnarSummaryCellHeader>
-            <div>{circuit.created_at}</div>
-          </ColumnarSummaryCell>
-        </ColumnarSummaryColumn>
+        <ColumnarSummaryColumn>{columnElems[0]}</ColumnarSummaryColumn>
+        <ColumnarSummaryColumn>{columnElems[1]}</ColumnarSummaryColumn>
+        <ColumnarSummaryColumn>{columnElems[2]}</ColumnarSummaryColumn>
       </ColumnarSummary>
     )
   );
