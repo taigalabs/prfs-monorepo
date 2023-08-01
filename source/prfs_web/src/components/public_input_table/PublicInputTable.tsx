@@ -72,6 +72,7 @@ const PublicInputTable: React.FC<PublicInputTableProps> = ({ circuit }) => {
         createBody={createBody}
         minWidth={910}
         initialValues={initialValues}
+        tableLayout="fixed"
       />
     )
   );

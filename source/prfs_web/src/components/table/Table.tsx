@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from "react";
+import React, { CSSProperties, MouseEventHandler } from "react";
 import classNames from "classnames";
 
 import styles from "./Table.module.scss";
@@ -39,6 +39,7 @@ function Table<T extends string>({
   minWidth,
   selectedVal,
   initialValues,
+  tableLayout,
 }: TableProps<T>) {
   const [data, setValues] = React.useState({ page: 0, values: initialValues ? initialValues : [] });
 
@@ -79,6 +80,7 @@ function Table<T extends string>({
         className={styles.table}
         style={{
           minWidth,
+          tableLayout: tableLayout,
         }}
       >
         {headerElems}
@@ -96,9 +98,10 @@ export interface TableProps<T extends string> {
   createBody: (args: CreateBodyArgs<T>) => React.ReactNode;
   onChangePage?: (page: number) => Promise<TableData<T>> | TableData<T>;
   initialValues?: RecordOfKeys<T>[];
-  minWidth: number;
   selectedVal?: TableSelectedValue<T>;
   handleSelectVal?: (row: RecordOfKeys<T>) => void;
+  minWidth: number;
+  tableLayout?: any;
 }
 
 export type CreateBodyArgs<T extends string> = {
