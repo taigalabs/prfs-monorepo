@@ -20,10 +20,11 @@ const CircuitProgramSummary: React.FC<CircuitProgramSummaryProps> = ({ circuit }
     }
 
     let { program } = circuit;
-    let programKeys = Object.keys(program);
+    let { properties } = program;
+    let propertyKeys = Object.keys(properties);
 
-    const q = Math.floor(programKeys.length / NUM_COLUMNS);
-    const r = programKeys.length % NUM_COLUMNS;
+    const q = Math.floor(propertyKeys.length / NUM_COLUMNS);
+    const r = propertyKeys.length % NUM_COLUMNS;
 
     const columns = [[], [], []];
     for (let i = 0; i < q; i += 1) {
@@ -31,9 +32,9 @@ const CircuitProgramSummary: React.FC<CircuitProgramSummaryProps> = ({ circuit }
         const idx = i * NUM_COLUMNS + j;
 
         const cell = (
-          <ColumnarSummaryCell key={programKeys[idx]}>
-            <ColumnarSummaryCellHeader>{programKeys[idx]}</ColumnarSummaryCellHeader>
-            <div>{program[programKeys[idx]]}</div>
+          <ColumnarSummaryCell key={propertyKeys[idx]}>
+            <ColumnarSummaryCellHeader>{propertyKeys[idx]}</ColumnarSummaryCellHeader>
+            <div>{properties[propertyKeys[idx]]}</div>
           </ColumnarSummaryCell>
         );
 
@@ -44,9 +45,9 @@ const CircuitProgramSummary: React.FC<CircuitProgramSummaryProps> = ({ circuit }
     const startIdx = NUM_COLUMNS * q;
     for (let i = startIdx; i < startIdx + r; i += 1) {
       const cell = (
-        <ColumnarSummaryCell key={programKeys[i]}>
-          <ColumnarSummaryCellHeader>{programKeys[i]}</ColumnarSummaryCellHeader>
-          <div>{program[programKeys[i]]}</div>
+        <ColumnarSummaryCell key={propertyKeys[i]}>
+          <ColumnarSummaryCellHeader>{propertyKeys[i]}</ColumnarSummaryCellHeader>
+          <div>{properties[propertyKeys[i]]}</div>
         </ColumnarSummaryCell>
       );
 

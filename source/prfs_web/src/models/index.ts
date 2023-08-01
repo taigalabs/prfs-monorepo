@@ -15,8 +15,12 @@ export interface PrfsCircuit {
   elliptic_curve: string;
   finite_field: string;
   program: {
-    type: string;
-    [key: string]: any;
+    program_id: string;
+    program_repository_url: string;
+    version: string;
+    properties: {
+      [key: string]: any;
+    };
   };
 }
 
