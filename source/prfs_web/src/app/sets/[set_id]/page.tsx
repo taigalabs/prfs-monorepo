@@ -14,7 +14,7 @@ import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import SetElementTable from "@/components/set_element_table/SetElementTable";
-import prfsBackend from "@/fetch/prfsBackend";
+import * as prfsBackend from "@/fetch/prfsBackend";
 import { PrfsSet } from "@/models/index";
 import ColumnarSummary, {
   ColumnarSummaryCell,

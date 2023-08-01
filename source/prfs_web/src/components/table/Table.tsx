@@ -1,4 +1,4 @@
-import React, { CSSProperties, MouseEventHandler } from "react";
+import React, { MouseEventHandler } from "react";
 import classNames from "classnames";
 
 import styles from "./Table.module.scss";
@@ -15,6 +15,10 @@ export const TableHeader: React.FC<TableHeaderProps> = ({ children }) => {
 export const TableBody: React.FC<TableBodyProps> = ({ children }) => {
   return <tbody className={styles.tableBodyWrapper}>{children}</tbody>;
 };
+
+// export const TableCell: React.FC<TableCellProps> = ({ children }) => {
+//   return <td className={styles.tableCell}>{children}</td>;
+// };
 
 export function TableRow({ isSelected, children, onClickRow }: TableRowProps) {
   return (
@@ -127,6 +131,10 @@ export interface TableHeaderProps {
 export interface TableBodyProps {
   children: React.ReactNode;
 }
+
+// export interface TableCellProps {
+//   children: React.ReactNode;
+// }
 
 export interface TableRowProps {
   isSelected?: boolean;

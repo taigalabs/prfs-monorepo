@@ -14,7 +14,7 @@ import Table, {
 import { i18nContext } from "@/contexts/i18n";
 import * as prfsBackend from "@/fetch/prfsBackend";
 import { KeysAsObject, RecordOfKeys } from "@/models/types";
-import { PRFS_CIRCUIT_PROGRAM_KEYS, PrfsCircuitKeys, PrfsCircuitProgramKeys } from "@/models";
+import { PRFS_CIRCUIT_PROGRAM_KEYS, PrfsCircuitProgramKeys } from "@/models";
 
 const CircuitTable: React.FC<CircuitTableProps> = ({
   selectType,
@@ -30,7 +30,7 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
           <TableRow>
             {handleSelectVal && <th key="select" className={styles.radio}></th>}
             <th key={keys.program_id} className={styles.program_id}>
-              {i18n.circuit_id}
+              {i18n.program_id}
             </th>
             <th key={keys.program_repository_url} className={styles.program_repository_url}>
               {i18n.program_repository_url}
@@ -54,8 +54,6 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
         return rows;
       }
 
-      // console.log(22, selectedVal);
-
       for (let val of values) {
         const onClickRow = handleSelectVal
           ? (_ev: React.MouseEvent) => {
@@ -66,6 +64,8 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
         const isSelected = selectedVal && !!selectedVal[val.program_id];
         const selType = selectType || "radio";
 
+        console.log(3, val);
+
         let row = (
           <TableRow key={val.program_id} onClickRow={onClickRow} isSelected={isSelected}>
             {selectedVal && (
@@ -74,10 +74,9 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
               </td>
             )}
             <td key={keys.program_id} className={styles.program_id}>
-              <Link href={`/circuits/${val.program_id}`}>{val.program_id}</Link>
+              <Link href={`/programs/${val.program_id}`}>{val.program_id}</Link>
             </td>
-            "program_id", "program_repository_url", "version", "requirements",
-            <td key={keys.program_repository_url} className={styles.program_repository_url}>
+            <td key={keys.program_repository_url} className={styles.repoUrl}>
               {val.program_repository_url}
             </td>
             <td key={keys.version} className={styles.version}>

@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 
-import styles from "./Circuit.module.scss";
+import styles from "./Program.module.scss";
 import { stateContext } from "@/contexts/state";
 import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
@@ -12,8 +12,8 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
-import prfsBackend from "@/fetch/prfsBackend";
-import { PrfsCircuit } from "@/models/index";
+import * as prfsBackend from "@/fetch/prfsBackend";
+import { PrfsCircuit, PrfsCircuitProgram } from "@/models/index";
 import { useRouter } from "next/navigation";
 import CircuitSummary from "@/components/circuit_summary/CircuitSummary";
 import CircuitProgramSummary from "@/components/circuit_program_summary/CircuitProgramSummary";
@@ -26,22 +26,22 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
   useLocalWallet(dispatch);
   const router = useRouter();
 
-  const [circuit, setCircuit] = React.useState<PrfsCircuit>();
+  const [program, setProgram] = React.useState<PrfsCircuitProgram>();
   React.useEffect(() => {
-    // prfsBackend
-    //   .getPrfsNativeCircuits({
-    //     page: 0,
-    //     circuit_id: params.circuit_id,
-    //   })
-    //   .then(resp => {
-    //     const { prfs_circuits } = resp.payload;
-    //     if (prfs_circuits.length > 0) {
-    //       setCircuit(prfs_circuits[0]);
-    //     } else {
-    //       router.push("/circuits");
-    //     }
-    //   });
-  }, [setCircuit]);
+    prfsBackend
+      .getPrfsNativeCircuitPrograms({
+        page: 0,
+        program_id: params.program_id,
+      })
+      .then(resp => {
+        const { prfs_circuit_programs } = resp.payload;
+        if (prfs_circuit_programs.length > 0) {
+          setProgram(prfs_circuit_programs[0]);
+        } else {
+          router.push("/programs");
+        }
+      });
+  }, [setProgram]);
 
   return (
     <DefaultLayout>

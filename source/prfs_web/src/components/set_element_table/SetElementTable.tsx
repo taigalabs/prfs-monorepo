@@ -6,7 +6,7 @@ import Link from "next/link";
 import styles from "./SetElementTable.module.scss";
 import Table, { TableBody, TableRow, TableData, TableHeader } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
-import prfsBackend from "@/fetch/prfsBackend";
+import * as prfsBackend from "@/fetch/prfsBackend";
 import { KeysAsObject } from "@/models/types";
 
 const SetElementTable: React.FC<SetElementTableProps> = ({ setId }) => {

@@ -67,6 +67,7 @@ pub async fn insert_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
     // if let Some(set_id) = req.set_id {
     //     where_clause = format!("where set_id='{}'", &set_id);
     // }
+
     let prfs_proof_type = PrfsProofType {
         proof_type_id: req.proof_type_id.to_string(),
         label: req.label.to_string(),

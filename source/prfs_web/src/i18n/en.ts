@@ -26,6 +26,7 @@ export default {
   circuit: "Circuit",
   circuits: "Circuits",
   circuit_id: "Circuit id",
+  program_id: "Program id",
   program_repository_url: "Program repository url",
   version: "Version",
   circuit_dsl: "Circuit DSL",

@@ -5,23 +5,13 @@ import Link from "next/link";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import styles from "./Set.module.scss";
-import { stateContext } from "@/contexts/state";
-import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
-import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
-import useLocalWallet from "@/hooks/useLocalWallet";
-import Card from "@/components/card/Card";
-import CardRow from "@/components/card_row/CardRow";
-import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
-import SetElementTable from "@/components/set_element_table/SetElementTable";
-import prfsBackend from "@/fetch/prfsBackend";
 import { PrfsSet } from "@/models/index";
 import ColumnarSummary, {
   ColumnarSummaryCell,
   ColumnarSummaryCellHeader,
   ColumnarSummaryColumn,
 } from "@/components/columnal_summary/ColumnarSummary";
-import { useRouter } from "next/navigation";
 
 const SetSummary: React.FC<SetSummaryProps> = ({ set }) => {
   const i18n = React.useContext(i18nContext);

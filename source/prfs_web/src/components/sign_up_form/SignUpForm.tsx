@@ -17,7 +17,7 @@ import Card from "@/components/card/Card";
 import { FormTitle, FormTitleRow } from "@/components/form/Form";
 import FormTextInput from "@/components/form/FormTextInput";
 import StrikeThroughText from "@/components/strike_through_text/StrikeThroughText";
-import prfsBackend from "@/fetch/prfsBackend";
+import * as prfsBackend from "@/fetch/prfsBackend";
 
 const metamaskConfig = metamaskWallet();
 

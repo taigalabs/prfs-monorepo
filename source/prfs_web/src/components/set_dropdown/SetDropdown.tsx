@@ -4,7 +4,7 @@ import React from "react";
 
 import styles from "./SetDropdown.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import prfsBackend from "@/fetch/prfsBackend";
+import * as prfsBackend from "@/fetch/prfsBackend";
 import Dropdown, {
   CreateDropdownListArgs,
   DropdownData,

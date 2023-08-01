@@ -15,7 +15,6 @@ import { RecordOfKeys } from "@/models/types";
 import { PrfsCircuit, PrfsCircuitKeys, PrfsSetKeys, PublicInputType } from "@/models";
 import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { DropdownSingleSelectedValue } from "@/components/dropdown/Dropdown";
-import prfsBackend from "@/fetch/prfsBackend";
 
 const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit, setPublicInputs }) => {
   const i18n = React.useContext(i18nContext);

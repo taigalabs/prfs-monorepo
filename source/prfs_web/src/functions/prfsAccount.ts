@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 
-import prfsBackend from "@/fetch/prfsBackend";
+import * as prfsBackend from "@/fetch/prfsBackend";
 
 export async function signIn(walletAddr: string, passhash: string, signer: ethers.Signer) {
   if (walletAddr.length < 1) {

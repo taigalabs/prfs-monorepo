@@ -12,7 +12,7 @@ import Table, {
   TableSelectedValue,
 } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
-import prfsBackend from "@/fetch/prfsBackend";
+import * as prfsBackend from "@/fetch/prfsBackend";
 import { KeysAsObject, RecordOfKeys } from "@/models/types";
 import { PRFS_SET_KEYS, PrfsSetKeys } from "@/models";
 
