@@ -2,14 +2,14 @@
 
 import React from "react";
 import Link from "next/link";
-import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
+import { useConnect, metamaskWallet } from "@thirdweb-dev/react";
 
 import styles from "./Generate.module.scss";
 import localStore from "@/storage/localStore";
 import { stateContext } from "@/contexts/state";
 import Table from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
-import Widget from "@/components/widget/Widget";
+import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { proveMembership, proveMembershipMock } from "@/functions/prfsCrypto";
 
@@ -53,7 +53,10 @@ const Generate: React.FC = () => {
 
   return (
     <DefaultLayout>
-      <Widget label={i18n.choose_proof_type}>
+      <Widget>
+        <WidgetHeader>
+          <WidgetLabel>{i18n.choose_proof_type}</WidgetLabel>
+        </WidgetHeader>
         {/* <Table columns={[]} onChangePage={() => {}} /> */}
       </Widget>
       <div>

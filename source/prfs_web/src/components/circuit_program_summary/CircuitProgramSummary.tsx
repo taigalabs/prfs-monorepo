@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 import styles from "./CircuitProgramSummary.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -27,6 +28,31 @@ const CircuitProgramSummary: React.FC<CircuitProgramSummaryProps> = ({ circuit }
     const r = propertyKeys.length % NUM_COLUMNS;
 
     const columns = [[], [], []];
+    columns[0].push(
+      <ColumnarSummaryCell key={program.program_id}>
+        <ColumnarSummaryCellHeader>{i18n.program_id}</ColumnarSummaryCellHeader>
+        <div className={styles.cellValue}>
+          <Link href={`/programs/${program.program_id}`}>{program.program_id}</Link>
+        </div>
+      </ColumnarSummaryCell>
+    );
+
+    columns[1].push(
+      <ColumnarSummaryCell key={program.version}>
+        <ColumnarSummaryCellHeader>{i18n.version}</ColumnarSummaryCellHeader>
+        <div>{program.version}</div>
+      </ColumnarSummaryCell>
+    );
+
+    columns[2].push(
+      <ColumnarSummaryCell key={program.program_repository_url}>
+        <ColumnarSummaryCellHeader>{i18n.program_repository_url}</ColumnarSummaryCellHeader>
+        <div className={styles.cellValue}>
+          <Link href={program.program_repository_url}>{program.program_repository_url}</Link>
+        </div>
+      </ColumnarSummaryCell>
+    );
+
     for (let i = 0; i < q; i += 1) {
       for (let j = 0; j < NUM_COLUMNS; j += 1) {
         const idx = i * NUM_COLUMNS + j;
