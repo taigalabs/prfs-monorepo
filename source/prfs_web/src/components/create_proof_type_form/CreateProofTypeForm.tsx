@@ -111,6 +111,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const [publicInputs, setPublicInputs] = React.useState({});
   const [formAlert, setFormAlert] = React.useState("");
   const [name, setName] = React.useState("");
+  const [desc, setDesc] = React.useState("");
   const [selectedCircuit, setSelectedCircuit] = React.useState<PrfsCircuit>(undefined);
 
   const handleSelectCircuit = React.useCallback(
@@ -125,6 +126,13 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       setName(ev.target.value);
     },
     [setName]
+  );
+
+  const handleChangeDesc = React.useCallback(
+    (ev: any) => {
+      setDesc(ev.target.value);
+    },
+    [setDesc]
   );
 
   const handleClickCreateProofType = React.useCallback(() => {
@@ -188,8 +196,11 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
               <WidgetLabel>{i18n.name_and_description}</WidgetLabel>
             </WidgetHeader>
             <WidgetPaddedBody>
-              <div className={styles.proofName}>
+              <div className={styles.textInputContainer}>
                 <FormTextInput label={i18n.name} handleChange={handleChangeName} />
+              </div>
+              <div className={styles.textInputContainer}>
+                <FormTextInput label={i18n.description} handleChange={handleChangeDesc} />
               </div>
             </WidgetPaddedBody>
           </Widget>

@@ -2,7 +2,11 @@
   max-width: 760px;
 }
 
-.proofName {
+.textInputContainer {
+  &:not(:first-child) {
+    margin-top: 15px;
+  }
+
   input {
     max-width: 535px;
   }
