@@ -2,7 +2,6 @@ import React, { MouseEventHandler } from "react";
 import classNames from "classnames";
 
 import styles from "./Table.module.scss";
-// import { KeysAsObject, RecordOfKeys } from "@/models/types";
 
 export const TableCurrentPageLimitWarning: React.FC = () => {
   return <div className={styles.pageLimitWarning}>Currently showing up to 20 elements</div>;
@@ -35,7 +34,6 @@ export function TableRow({ isSelected, children, onClickRow }: TableRowProps) {
 }
 
 function Table<T>({
-  // keys,
   createHeader,
   createBody,
   onChangePage,
@@ -55,23 +53,12 @@ function Table<T>({
     }
   }, [onChangePage, setValues]);
 
-  // const tableKeys = React.useMemo(() => {
-  //   const tableKeys: KeysAsObject<T> = keys.reduce((r, key) => {
-  //     return {
-  //       ...r,
-  //       [key]: key,
-  //     };
-  //   }, {} as RecordOfKeys<T>);
-  //   return tableKeys;
-  // }, [keys]);
-
   let headerElems = React.useMemo(() => {
     return createHeader();
   }, []);
 
   let bodyElems = React.useMemo(() => {
     return createBody({
-      // keys: tableKeys,
       data,
       handleSelectVal,
       selectedVal,
@@ -97,7 +84,6 @@ function Table<T>({
 export default Table;
 
 export interface TableProps<T> {
-  // keys: ReadonlyArray<T>;
   createHeader: () => React.ReactNode;
   createBody: (args: CreateBodyArgs<T>) => React.ReactNode;
   onChangePage?: (page: number) => Promise<TableData<T>> | TableData<T>;
@@ -109,7 +95,6 @@ export interface TableProps<T> {
 }
 
 export type CreateBodyArgs<T> = {
-  // keys: KeysAsObject<T>;
   data: TableData<T>;
   selectedVal: T;
   handleSelectVal?: (row: T) => void;
@@ -119,10 +104,6 @@ export type TableData<T> = {
   page: number;
   values: T[];
 };
-
-// export interface TableSelectedValue<T extends string> {
-//   [id: string]: RecordOfKeys<T>;
-// }
 
 export interface TableHeaderProps {
   children: React.ReactNode;
