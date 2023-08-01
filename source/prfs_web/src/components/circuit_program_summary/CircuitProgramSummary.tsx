@@ -1,6 +1,6 @@
 import React from "react";
 
-import styles from "./CircuitSummary.module.scss";
+import styles from "./CircuitProgramSummary.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { PrfsCircuit } from "@/models/index";
 import ColumnarSummary, {
@@ -21,28 +21,35 @@ const CircuitProgramSummary: React.FC<CircuitProgramSummaryProps> = ({ circuit }
 
     let { program } = circuit;
     let programKeys = Object.keys(program);
+
     const q = Math.floor(programKeys.length / NUM_COLUMNS);
     const r = programKeys.length % NUM_COLUMNS;
 
     const columns = [[], [], []];
     for (let i = 0; i < q; i += 1) {
-      const cell = (
-        <ColumnarSummaryCell key={program[programKeys[i]]}>
-          <ColumnarSummaryCellHeader>{programKeys[i]}</ColumnarSummaryCellHeader>
-          <div>{program[programKeys[i]]}</div>
-        </ColumnarSummaryCell>
-      );
-      columns[i % NUM_COLUMNS].push(cell);
+      for (let j = 0; j < NUM_COLUMNS; j += 1) {
+        const idx = i * NUM_COLUMNS + j;
+
+        const cell = (
+          <ColumnarSummaryCell key={programKeys[idx]}>
+            <ColumnarSummaryCellHeader>{programKeys[idx]}</ColumnarSummaryCellHeader>
+            <div>{program[programKeys[idx]]}</div>
+          </ColumnarSummaryCell>
+        );
+
+        columns[j].push(cell);
+      }
     }
 
-    let startIdx = 3 * q - 1;
+    const startIdx = NUM_COLUMNS * q;
     for (let i = startIdx; i < startIdx + r; i += 1) {
       const cell = (
-        <ColumnarSummaryCell key={program[programKeys[i]]}>
+        <ColumnarSummaryCell key={programKeys[i]}>
           <ColumnarSummaryCellHeader>{programKeys[i]}</ColumnarSummaryCellHeader>
           <div>{program[programKeys[i]]}</div>
         </ColumnarSummaryCell>
       );
+
       columns[i % NUM_COLUMNS].push(cell);
     }
 
