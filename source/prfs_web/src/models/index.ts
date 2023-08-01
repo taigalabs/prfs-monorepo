@@ -91,7 +91,7 @@ export const PRFS_CIRCUIT_PROGRAM_KEYS = [
   "program_id",
   "program_repository_url",
   "version",
-  "requirements",
+  "properties",
 ] as const;
 
 export type PrfsCircuitProgramKeys = (typeof PRFS_CIRCUIT_PROGRAM_KEYS)[number];
