@@ -16,7 +16,7 @@ import * as prfsBackend from "@/fetch/prfsBackend";
 import { PrfsCircuit } from "@/models/index";
 import { useRouter } from "next/navigation";
 import CircuitSummary from "@/components/circuit_summary/CircuitSummary";
-import CircuitProgramSummary from "@/components/circuit_program_summary/CircuitProgramSummary";
+import CircuitProgramInstanceSummary from "@/components/circuit_pgm_instance_summary/CircuitProgramInstanceSummary";
 import PublicInputTable from "@/components/public_input_table/PublicInputTable";
 
 const Circuit: React.FC<CircuitProps> = ({ params }) => {
@@ -66,7 +66,7 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
                 <WidgetHeader>
                   <WidgetLabel>{i18n.program}</WidgetLabel>
                 </WidgetHeader>
-                <CircuitProgramSummary circuit={circuit} />
+                <CircuitProgramInstanceSummary circuit={circuit} />
               </Widget>
             </div>
           </Card>

@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
-import styles from "./CircuitProgramSummary.module.scss";
+import styles from "./CircuitProgramInstanceSummary.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { PrfsCircuit } from "@/models/index";
 import ColumnarSummary, {
@@ -12,7 +12,9 @@ import ColumnarSummary, {
 
 const NUM_COLUMNS = 3;
 
-const CircuitProgramSummary: React.FC<CircuitProgramSummaryProps> = ({ circuit }) => {
+const CircuitProgramInstanceSummary: React.FC<CircuitProgramInstanceSummaryProps> = ({
+  circuit,
+}) => {
   const i18n = React.useContext(i18nContext);
 
   const columnElems = React.useMemo(() => {
@@ -94,8 +96,8 @@ const CircuitProgramSummary: React.FC<CircuitProgramSummaryProps> = ({ circuit }
   );
 };
 
-export default CircuitProgramSummary;
+export default CircuitProgramInstanceSummary;
 
-interface CircuitProgramSummaryProps {
+interface CircuitProgramInstanceSummaryProps {
   circuit: PrfsCircuit;
 }
