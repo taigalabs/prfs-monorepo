@@ -43,7 +43,7 @@ function Table<T extends string>({
 
   React.useEffect(() => {
     if (onChangePage) {
-      onChangePage(0).then(res => {
+      Promise.resolve(onChangePage(0)).then(res => {
         setValues(res);
       });
     }
@@ -93,7 +93,8 @@ export interface TableProps<T extends string> {
   keys: ReadonlyArray<T>;
   createHeader: (keys: RecordOfKeys<T>) => React.ReactNode;
   createBody: (args: CreateBodyArgs<T>) => React.ReactNode;
-  onChangePage: (page: number) => Promise<TableData<T>>;
+  onChangePage?: (page: number) => Promise<TableData<T>> | TableData<T>;
+  initialValues?: TableData<T>;
   minWidth: number;
   selectedVal?: TableSelectedValue<T>;
   handleSelectVal?: (row: RecordOfKeys<T>) => void;

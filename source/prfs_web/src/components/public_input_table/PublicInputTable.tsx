@@ -4,22 +4,10 @@ import React from "react";
 import Link from "next/link";
 
 import styles from "./PublicInputTable.module.scss";
-import Table, {
-  TableBody,
-  TableRow,
-  TableHeader,
-  TableData,
-  TableSelectedValue,
-} from "@/components/table/Table";
+import Table, { TableBody, TableRow, TableHeader } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
-import { KeysAsObject, RecordOfKeys } from "@/models/types";
-import {
-  PRFS_SET_KEYS,
-  PUBLIC_INPUT_KEYS,
-  PrfsCircuit,
-  PrfsSetKeys,
-  PublicInputKeys,
-} from "@/models";
+import { KeysAsObject } from "@/models/types";
+import { PUBLIC_INPUT_KEYS, PrfsCircuit, PublicInputKeys } from "@/models";
 
 const PublicInputTable: React.FC<PublicInputTableProps> = ({ circuit }) => {
   console.log(11, circuit);
@@ -54,12 +42,6 @@ const PublicInputTable: React.FC<PublicInputTableProps> = ({ circuit }) => {
     }
 
     for (let val of values) {
-      // const onClickRow = handleSelectVal
-      //   ? () => {
-      //       handleSelectVal(val);
-      //     }
-      // : undefined;
-
       let row = (
         <TableRow key={val.label}>
           <td key={keys.type} className={styles.type}>
