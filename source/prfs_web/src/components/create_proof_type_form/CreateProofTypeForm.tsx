@@ -12,7 +12,7 @@ import Button from "@/components/button/Button";
 import FormTextInput from "@/components/form/FormTextInput";
 import SetDropdown from "@/components/set_dropdown/SetDropdown";
 import { RecordOfKeys } from "@/models/types";
-import { PrfsCircuit, PrfsCircuitKeys, PrfsSetKeys, PublicInputType } from "@/models";
+import { PrfsCircuit, PublicInput, PrfsCircuitKeys, PrfsSetKeys, PublicInputType } from "@/models";
 import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { DropdownSingleSelectedValue } from "@/components/dropdown/Dropdown";
 
@@ -109,7 +109,6 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 
   const handleSelectCircuit = React.useCallback(
     (val: RecordOfKeys<PrfsCircuitKeys>) => {
-      // console.log(11, val);
       setSelectedCircuit(val);
     },
     [setSelectedCircuit]
@@ -135,8 +134,8 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       return;
     }
 
-    selectedCircuit.public_inputs.forEach((pi, idx) => {
-      switch (pi.kind) {
+    selectedCircuit.public_inputs.forEach((pi: PublicInput, idx: number) => {
+      switch (pi.type) {
         case PublicInputType.COMPUTED:
           break;
         case PublicInputType.PRFS_SET:
@@ -151,12 +150,10 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 
     setFormAlert("");
 
-    // let a = JSON.stringify(publicInputs);
-    // console.log(22, name, a);
-
     let prfsProofType = {
       name,
       circuit_id: selectedCircuit.circuit_id,
+      program_id: selectedCircuit.program.program_id,
       publicInputs,
     };
 
@@ -237,9 +234,6 @@ export interface CreateProofTypeFormProps {}
 
 interface PublicInputSectionProps {
   circuit: PrfsCircuit;
-  // publicInputs: {
-  //   [key: number]: any;
-  // };
   setPublicInputs: React.Dispatch<React.SetStateAction<PublicInputObject>>;
 }
 

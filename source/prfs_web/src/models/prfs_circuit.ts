@@ -2,11 +2,7 @@ export interface PrfsCircuit {
   circuit_id: number;
   label: string;
   author: string;
-  public_inputs: {
-    label: string;
-    desc: string;
-    type: PublicInputType;
-  }[];
+  public_inputs: PublicInput[];
   desc: string;
   created_at: string;
   proof_algorithm: string;
@@ -14,14 +10,7 @@ export interface PrfsCircuit {
   circuit_dsl: string;
   elliptic_curve: string;
   finite_field: string;
-  program: {
-    program_id: string;
-    program_repository_url: string;
-    version: string;
-    properties: {
-      [key: string]: any;
-    };
-  };
+  program: PrfsCircuitProgram;
 }
 
 export const PRFS_CIRCUIT_KEYS = [
@@ -44,6 +33,12 @@ export type PrfsCircuitKeys = (typeof PRFS_CIRCUIT_KEYS)[number];
 export enum PublicInputType {
   COMPUTED = "COMPUTED",
   PRFS_SET = "PRFS_SET",
+}
+
+export interface PublicInput {
+  label: string;
+  desc: string;
+  type: PublicInputType;
 }
 
 export type PublicInputKeys = (typeof PUBLIC_INPUT_KEYS)[number];
