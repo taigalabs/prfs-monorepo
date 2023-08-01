@@ -15,9 +15,13 @@
       "circuit_repository_url": "https://github.com/taigalabs/prfs-monorepo/tree/main/source/prfs_circuits_circom",
       "program": {
         "program_id": "SPARTAN_CIRCOM_1",
-        "instance_path": "instances/addr_membership2.circom",
-        "wtns_gen_url": "",
-        "circuit_url": ""
+        "program_repository_url": "https://github.com/taigalabs/prfs-monorepo/tree/main/source/prfs_js",
+        "version": "0.1.0",
+        "properties": {
+          "instance_path": "instances/addr_membership2.circom",
+          "wtns_gen_url": "",
+          "circuit_url": ""
+        }
       },
       "public_inputs": [
         {

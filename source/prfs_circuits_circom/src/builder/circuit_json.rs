@@ -1,4 +1,4 @@
-use super::spartan_circom_program::PublicInput;
+use prfs_program_type::CircuitProgram;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
@@ -29,5 +29,19 @@ pub struct CircuitJson {
     pub elliptic_curve: String,
     pub finite_field: String,
     pub public_inputs: Vec<PublicInput>,
-    pub program: serde_json::Value,
+    pub program: CircuitProgram,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+#[allow(non_camel_case_types)]
+pub enum PublicInputKind {
+    COMPUTED,
+    PRFS_SET,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct PublicInput {
+    pub r#type: PublicInputKind,
+    pub label: String,
+    pub desc: String,
 }

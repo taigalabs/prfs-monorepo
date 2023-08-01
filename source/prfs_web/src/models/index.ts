@@ -81,3 +81,21 @@ export interface PrfsTreeNode {
 export type PublicInputKeys = (typeof PUBLIC_INPUT_KEYS)[number];
 
 export const PUBLIC_INPUT_KEYS = ["type", "label", "desc"] as const;
+
+export const PRFS_CIRCUIT_PROGRAM_KEYS = [
+  "program_id",
+  "program_repository_url",
+  "version",
+  "requirements",
+] as const;
+
+export type PrfsCircuitProgramKeys = (typeof PRFS_CIRCUIT_PROGRAM_KEYS)[number];
+
+export interface PrfsCircuitProgram {
+  program_id: string;
+  program_repository_url: string;
+  version: string;
+  requirements: {
+    [key: string]: any;
+  };
+}

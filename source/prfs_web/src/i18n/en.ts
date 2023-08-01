@@ -26,6 +26,8 @@ export default {
   circuit: "Circuit",
   circuits: "Circuits",
   circuit_id: "Circuit id",
+  program_repository_url: "Program repository url",
+  version: "Version",
   circuit_dsl: "Circuit DSL",
   cardinality: "Cardinality",
   select_circuit: "Select a circuit",

@@ -1,11 +1,10 @@
 use crate::{
-    builder::spartan_circom_program::{SpartanCircomProgram, SPARTAN_CIRCOM_PROGRAM_TYPE},
-    paths::PATHS,
-    CircuitBuildJson, CircuitBuildListJson, CircuitJson, CircuitsJson, FileKind,
+    paths::PATHS, CircuitBuildJson, CircuitBuildListJson, CircuitJson, CircuitsJson, FileKind,
 };
 use chrono::{DateTime, NaiveDateTime, Utc};
 use colored::Colorize;
-use std::{collections::HashMap, io::Write, process::Command};
+use prfs_program_type::programs::{SpartanCircomProgramProperties, SPARTAN_CIRCOM_PROGRAM_TYPE};
+use std::{io::Write, process::Command};
 
 pub fn run() {
     let now = Utc::now();
@@ -89,20 +88,19 @@ fn read_circuits_json() -> CircuitsJson {
 }
 
 fn compile_circuits(circuit: &CircuitJson) {
-    let program_type = circuit
-        .program
-        .get("type")
-        .expect("program type must exist");
+    let program_id = &circuit.program.program_id;
 
-    let program: SpartanCircomProgram = match program_type.as_str().unwrap() {
-        SPARTAN_CIRCOM_PROGRAM_TYPE => serde_json::from_value(circuit.program.clone()).unwrap(),
+    let program_props: SpartanCircomProgramProperties = match program_id.as_str() {
+        SPARTAN_CIRCOM_PROGRAM_TYPE => {
+            serde_json::from_value(circuit.program.properties.clone()).unwrap()
+        }
         _ => panic!(
-            "We cannot compile a circuit of this type, type: {:?}",
-            program_type.as_str()
+            "We cannot compile a circuit of this type, program_id: {:?}",
+            program_id.as_str()
         ),
     };
 
-    let circuit_src_path = PATHS.circuits.join(&program.instance_path);
+    let circuit_src_path = PATHS.circuits.join(&program_props.instance_path);
     println!("circuit_src_path: {:?}", circuit_src_path);
 
     let build_path = PATHS.build.join(&circuit.circuit_id);
@@ -127,14 +125,14 @@ fn compile_circuits(circuit: &CircuitJson) {
 }
 
 fn create_build_json(circuit: &mut CircuitJson, timestamp: i64) {
-    let mut program: SpartanCircomProgram =
-        serde_json::from_value(circuit.program.clone()).unwrap();
+    let mut program_props: SpartanCircomProgramProperties =
+        serde_json::from_value(circuit.program.properties.clone()).unwrap();
     let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen, timestamp);
     let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan, timestamp);
 
-    program.wtns_gen_url = format!("prfs://{}", wtns_gen_path);
-    program.circuit_url = format!("prfs://{}", spartan_circuit_path);
-    circuit.program = serde_json::to_value(program).unwrap();
+    program_props.wtns_gen_url = format!("prfs://{}", wtns_gen_path);
+    program_props.circuit_url = format!("prfs://{}", spartan_circuit_path);
+    circuit.program.properties = serde_json::to_value(program_props).unwrap();
 
     let naive = NaiveDateTime::from_timestamp_millis(timestamp).unwrap();
     let datetime: DateTime<Utc> = DateTime::from_utc(naive, Utc);

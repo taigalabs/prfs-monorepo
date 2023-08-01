@@ -32,12 +32,12 @@ pub async fn get_prfs_native_circuits(req: Request<Body>) -> Result<Response<Bod
 
     let mut circuits = vec![];
     if let Some(circuit_id) = req.circuit_id {
-        match state.local_assets.circuit_build.get(&circuit_id) {
+        match state.local_assets.circuits.get(&circuit_id) {
             Some(c) => circuits.push(c.clone()),
             None => {}
         };
     } else {
-        for (_, circuit) in &state.local_assets.circuit_build {
+        for (_, circuit) in &state.local_assets.circuits {
             circuits.push(circuit.clone());
         }
     }

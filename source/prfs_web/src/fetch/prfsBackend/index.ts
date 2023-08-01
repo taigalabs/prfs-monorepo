@@ -8,6 +8,10 @@ import {
   GetNativeCircuitsRequest,
   getPrfsNativeCircuits,
 } from "./prfs_circuits";
+export * from // GetNativeCircuitProgramsResponse,
+// GetNativeCircuitProgramsRequest,
+// getPrfsNativeCircuitPrograms,
+"./prfs_circuit_programs";
 
 export type { GetSetsArgs, GetSetsResponse, GetNativeCircuitsResponse, GetNativeCircuitsRequest };
 
