@@ -4,6 +4,7 @@ use crate::paths::PATHS;
 use crate::TreeMakerError;
 use clap::ArgMatches;
 use prfs_db_interface::database::Database;
+use prfs_db_interface::database2::Database2;
 use prfs_db_interface::models::EthAccount;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
@@ -20,18 +21,22 @@ pub async fn scan_genesis(_sub_matches: &ArgMatches) {
     let geth_client = GethClient::new(geth_endpoint);
 
     let pg_endpoint = &ENVS.postgres_endpoint;
+    let pg_username = &ENVS.postgres_username;
     let pg_pw = &ENVS.postgres_pw;
 
-    let db = Database::connect(pg_endpoint, pg_pw).await.unwrap();
+    // let db = Database::connect(pg_endpoint, pg_pw).await.unwrap();
+    let db2 = Database2::connect(pg_endpoint, pg_username, pg_pw)
+        .await
+        .unwrap();
 
-    process_genesis_block_accounts(geth_client, db)
+    process_genesis_block_accounts(geth_client, db2)
         .await
         .unwrap();
 }
 
 async fn process_genesis_block_accounts(
     geth_client: GethClient,
-    db: Database,
+    db: Database2,
 ) -> Result<(), TreeMakerError> {
     let genesis_block_path = PATHS.scans.join("genesis_block.json");
 

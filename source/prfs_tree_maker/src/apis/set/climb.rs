@@ -3,13 +3,14 @@ use crate::TreeMakerError;
 use colored::Colorize;
 use prfs_db_interface::{
     database::Database,
+    database2::Database2,
     models::{PrfsSet, PrfsTreeNode},
 };
 use rust_decimal::Decimal;
 use std::time::SystemTime;
 
 pub async fn create_tree_nodes(
-    db: &Database,
+    db: &Database2,
     set_json: &SetJson,
     prfs_set: &mut PrfsSet,
 ) -> Result<String, TreeMakerError> {

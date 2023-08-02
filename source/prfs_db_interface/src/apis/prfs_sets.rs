@@ -1,27 +1,31 @@
 use crate::{
     database::Database,
+    database2::Database2,
     models::PrfsSet,
     utils::{concat_cols, concat_values},
     DbInterfaceError,
 };
 use chrono::NaiveDate;
+use sqlx::Row;
 
-impl Database {
+impl Database2 {
     pub async fn get_prfs_sets(
         &self,
         where_clause: &str,
     ) -> Result<Vec<PrfsSet>, DbInterfaceError> {
-        let stmt = format!("SELECT * from {} {}", PrfsSet::__table_name(), where_clause);
-        println!("stmt: {}", stmt);
+        let query = format!("SELECT * from {} {}", PrfsSet::__table_name(), where_clause);
+        // println!("stmt: {}", stmt);
 
-        let rows = match self.pg_client.query(&stmt, &[]).await {
-            Ok(r) => r,
-            Err(err) => {
-                tracing::error!("account retrieval failed, err: {}, stmt: {}", err, stmt);
+        // let rows = match self.pg_client.query(&stmt, &[]).await {
+        //     Ok(r) => r,
+        //     Err(err) => {
+        //         tracing::error!("account retrieval failed, err: {}, stmt: {}", err, stmt);
 
-                return Err(err.into());
-            }
-        };
+        //         return Err(err.into());
+        //     }
+        // };
+        //
+        let rows = sqlx::query(&query).fetch_all(&self.pool).await.unwrap();
 
         let prfs_sets: Vec<PrfsSet> = rows
             .iter()
@@ -90,7 +94,7 @@ impl Database {
             &prfs_set.finite_field,
         ]);
 
-        let stmt = if update_on_conflict {
+        let query = if update_on_conflict {
             format!(
                 "INSERT INTO {} ({}) VALUES ({}) \
                 ON CONFLICT ({}) DO UPDATE SET cardinality = excluded.cardinality, \
@@ -110,16 +114,18 @@ impl Database {
             )
         };
 
-        println!("stmt: {}", stmt);
+        // println!("stmt: {}", stmt);
 
-        let rows = match self.pg_client.query(&stmt, &[]).await {
-            Ok(r) => r,
-            Err(err) => {
-                tracing::error!("Error executing stmt, err: {}, stmt: {}", err, stmt);
+        // let rows = match self.pg_client.query(&stmt, &[]).await {
+        //     Ok(r) => r,
+        //     Err(err) => {
+        //         tracing::error!("Error executing stmt, err: {}, stmt: {}", err, stmt);
 
-                return Err(err.into());
-            }
-        };
+        //         return Err(err.into());
+        //     }
+        // };
+
+        let rows = sqlx::query(&query).fetch_all(&self.pool).await.unwrap();
 
         let set_ids: Vec<String> = rows
             .iter()

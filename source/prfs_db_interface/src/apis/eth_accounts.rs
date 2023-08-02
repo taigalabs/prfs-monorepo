@@ -67,23 +67,23 @@ impl Database2 {
             values.push(val);
         }
 
-        let stmt = if update_on_conflict {
+        let query = if update_on_conflict {
             format!(
-                "INSERT INTO {} (addr, wei) VALUES {} ON CONFLICT(addr) {}",
-                EthAccount::table_name(),
+                "INSERT INTO eth_accounts (addr, wei) VALUES {} ON CONFLICT(addr) {}",
                 values.join(","),
                 "DO UPDATE SET wei = excluded.wei, updated_at = now()",
             )
         } else {
             format!(
-                "INSERT INTO {} (addr, wei) VALUES {} ON CONFLICT DO NOTHING",
-                EthAccount::table_name(),
+                "INSERT INTO eth_accounts (addr, wei) VALUES {} ON CONFLICT DO NOTHING",
                 values.join(",")
             )
         };
         // println!("stmt: {}", stmt);
 
-        panic!();
+        let result = sqlx::query(&query).execute(&self.pool).await.unwrap();
+
+        return Ok(result.rows_affected());
 
         // let rows_updated = match self.pg_client.execute(&stmt, &[]).await {
         //     Ok(r) => r,

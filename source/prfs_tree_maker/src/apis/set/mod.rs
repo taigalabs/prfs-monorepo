@@ -6,12 +6,15 @@ mod leaf;
 use crate::envs::ENVS;
 use clap::ArgMatches;
 use colored::Colorize;
-use prfs_db_interface::database::Database;
+use prfs_db_interface::{database::Database, database2::Database2};
 
 pub async fn create_set(_sub_matches: &ArgMatches) {
     let pg_endpoint = &ENVS.postgres_endpoint;
+    let pg_username = &ENVS.postgres_username;
     let pg_pw = &ENVS.postgres_pw;
-    let db = Database::connect(pg_endpoint, pg_pw).await.unwrap();
+    let db = Database2::connect(pg_endpoint, pg_username, pg_pw)
+        .await
+        .unwrap();
 
     let set_json_path = &ENVS.set_json_path;
     let set_json = json::require_set_json(set_json_path);

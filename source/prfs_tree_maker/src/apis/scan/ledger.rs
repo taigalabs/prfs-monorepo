@@ -5,6 +5,7 @@ use crate::geth::{
 use crate::TreeMakerError;
 use clap::ArgMatches;
 use prfs_db_interface::database::Database;
+use prfs_db_interface::database2::Database2;
 use prfs_db_interface::models::EthAccount;
 use rust_decimal::Decimal;
 use std::collections::BTreeMap;
@@ -17,13 +18,19 @@ pub async fn scan_ledger(_sub_matches: &ArgMatches) {
     let geth_client = GethClient::new(geth_endpoint);
 
     let pg_endpoint = &ENVS.postgres_endpoint;
+    let pg_username = &ENVS.postgres_username;
     let pg_pw = &ENVS.postgres_pw;
-    let db = Database::connect(pg_endpoint, pg_pw).await.unwrap();
+    let db2 = Database2::connect(pg_endpoint, pg_username, pg_pw)
+        .await
+        .unwrap();
 
-    scan_ledger_accounts(geth_client, db).await.unwrap();
+    scan_ledger_accounts(geth_client, db2).await.unwrap();
 }
 
-async fn scan_ledger_accounts(geth_client: GethClient, db: Database) -> Result<(), TreeMakerError> {
+async fn scan_ledger_accounts(
+    geth_client: GethClient,
+    db: Database2,
+) -> Result<(), TreeMakerError> {
     let balance_bucket_capacity = ENVS.scan_balance_bucket_capacity;
     let scan_update_on_conflict = ENVS.scan_update_on_conflict;
     let scan_interval = ENVS.scan_interval;

@@ -1,25 +1,28 @@
-use crate::{database::Database, models::PrfsTreeNode, DbInterfaceError};
+use sqlx::Row;
 
-impl Database {
+use crate::{database::Database, database2::Database2, models::PrfsTreeNode, DbInterfaceError};
+
+impl Database2 {
     pub async fn get_prfs_tree_nodes(
         &self,
         where_clause: &str,
     ) -> Result<Vec<PrfsTreeNode>, DbInterfaceError> {
-        let stmt = format!(
+        let query = format!(
             "SELECT * from {} {}",
             PrfsTreeNode::table_name(),
             where_clause
         );
-        println!("stmt: {}", stmt);
+        // println!("stmt: {}", stmt);
 
-        let rows = match self.pg_client.query(&stmt, &[]).await {
-            Ok(r) => r,
-            Err(err) => {
-                tracing::error!("account retrieval failed, err: {}, stmt: {}", err, stmt);
+        let rows = sqlx::query(&query).fetch_all(&self.pool).await.unwrap();
+        // let rows = match self.pg_client.query(&stmt, &[]).await {
+        //     Ok(r) => r,
+        //     Err(err) => {
+        //         tracing::error!("account retrieval failed, err: {}, stmt: {}", err, stmt);
 
-                return Err(err.into());
-            }
-        };
+        //         return Err(err.into());
+        //     }
+        // };
 
         let nodes: Vec<PrfsTreeNode> = rows
             .iter()
@@ -53,7 +56,7 @@ impl Database {
             values.push(val);
         }
 
-        let stmt = if update_on_conflict {
+        let query = if update_on_conflict {
             format!(
                 "INSERT INTO {} (pos_w, pos_h, val, set_id) VALUES {} ON CONFLICT \
                     (pos_w, pos_h, set_id) {}",
@@ -70,15 +73,17 @@ impl Database {
         };
         // println!("stmt: {}", stmt);
 
-        let rows_updated = match self.pg_client.execute(&stmt, &[]).await {
-            Ok(r) => r,
-            Err(err) => {
-                tracing::error!("Error executing stmt, err: {}, stmt: {}", err, stmt);
+        // let rows_updated = match self.pg_client.execute(&stmt, &[]).await {
+        //     Ok(r) => r,
+        //     Err(err) => {
+        //         tracing::error!("Error executing stmt, err: {}, stmt: {}", err, stmt);
 
-                return Err(err.into());
-            }
-        };
+        //         return Err(err.into());
+        //     }
+        // };
+        //
+        let result = sqlx::query(&query).execute(&self.pool).await.unwrap();
 
-        Ok(rows_updated)
+        Ok(result.rows_affected())
     }
 }

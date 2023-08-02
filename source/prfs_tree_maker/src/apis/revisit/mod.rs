@@ -3,7 +3,7 @@ use crate::{
     geth::{GetBalanceRequest, GethClient},
 };
 use clap::ArgMatches;
-use prfs_db_interface::{database::Database, models::EthAccount};
+use prfs_db_interface::{database::Database, database2::Database2, models::EthAccount};
 use rust_decimal::Decimal;
 
 pub async fn revisit(_sub_matches: &ArgMatches) {
@@ -11,13 +11,16 @@ pub async fn revisit(_sub_matches: &ArgMatches) {
     let geth_client = GethClient::new(geth_endpoint);
 
     let pg_endpoint = &ENVS.postgres_endpoint;
+    let pg_username = &ENVS.postgres_username;
     let pg_pw = &ENVS.postgres_pw;
-    let db = Database::connect(pg_endpoint, pg_pw).await.unwrap();
+    let db = Database2::connect(pg_endpoint, pg_username, pg_pw)
+        .await
+        .unwrap();
 
     run(&db, &geth_client).await;
 }
 
-async fn run(db: &Database, geth: &GethClient) {
+async fn run(db: &Database2, geth: &GethClient) {
     let accs = db
         .get_eth_accounts("where acc.addr = '0xe94f1fa4f27d9d288ffea234bb62e1fbc086ca0c'")
         .await
