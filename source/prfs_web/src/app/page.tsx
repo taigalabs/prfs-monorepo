@@ -27,7 +27,7 @@ const Home: React.FC = () => {
         <Card>
           <Widget>
             <WidgetHeader>
-              <WidgetLabel>label={i18n.proofs}</WidgetLabel>
+              <WidgetLabel>{i18n.proofs}</WidgetLabel>
             </WidgetHeader>
             <CircuitTable />
           </Widget>
@@ -35,10 +35,7 @@ const Home: React.FC = () => {
       </CardRow>
       <CardRow>
         <Card>
-          <Widget>
-            <WidgetHeader>label={i18n.proof_types}</WidgetHeader>
-            <CircuitTable />
-          </Widget>
+          <Widget>wip</Widget>
         </Card>
       </CardRow>
     </DefaultLayout>
