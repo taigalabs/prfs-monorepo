@@ -6,7 +6,7 @@ use crate::TreeMakerError;
 use clap::ArgMatches;
 use prfs_db_interface::database::Database;
 use prfs_db_interface::database2::Database2;
-use prfs_db_interface::models::EthAccount;
+use prfs_db_interface::entities::EthAccount;
 use rust_decimal::Decimal;
 use std::collections::BTreeMap;
 use std::time::Duration;

@@ -8,52 +8,53 @@ use chrono::NaiveDate;
 use sqlx::Row;
 
 impl Database2 {
-    pub async fn get_prfs_set(&self, set_id: &String) -> Result<Vec<PrfsSet>, DbInterfaceError> {
+    pub async fn get_prfs_set(&self, set_id: &String) -> Result<PrfsSet, DbInterfaceError> {
         let query = format!("SELECT * from prfs_sets where set_id=$1");
-        let rows = sqlx::query(&query)
+
+        let row = sqlx::query(&query)
             .bind(&set_id)
-            .fetch_all(&self.pool)
+            .fetch_one(&self.pool)
             .await
             .unwrap();
 
-        let prfs_sets: Vec<PrfsSet> = rows
-            .iter()
-            .map(|r| {
-                let set_id: String = r.try_get("set_id").expect("invalid set_id");
-                let label: String = r.try_get("label").expect("invalid label");
-                let author: String = r.try_get("author").expect("invalid author");
-                let desc: String = r.try_get("desc").expect("invalid desc");
-                let hash_algorithm: String =
-                    r.try_get("hash_algorithm").expect("invalid hash_algorithm");
-                let cardinality: i64 = r.try_get("cardinality").expect("invalid cardinality");
-                let created_at: NaiveDate = r.try_get("created_at").expect("invalid created_at");
-                let merkle_root: String = r.try_get("merkle_root").expect("invalid merkle_root");
-                let element_type: String = r.try_get("element_type").expect("invalid element_type");
-                let elliptic_curve: String =
-                    r.try_get("elliptic_curve").expect("invalid element_curve");
-                let finite_field: String = r.try_get("finite_field").expect("invalid finite_field");
+        let set_id: String = row.try_get("set_id").expect("invalid set_id");
+        let label: String = row.try_get("label").expect("invalid label");
+        let author: String = row.try_get("author").expect("invalid author");
+        let desc: String = row.try_get("desc").expect("invalid desc");
+        let hash_algorithm: String = row
+            .try_get("hash_algorithm")
+            .expect("invalid hash_algorithm");
+        let cardinality: i64 = row.try_get("cardinality").expect("invalid cardinality");
+        let created_at: NaiveDate = row.try_get("created_at").expect("invalid created_at");
+        let merkle_root: String = row.try_get("merkle_root").expect("invalid merkle_root");
+        let element_type: String = row.try_get("element_type").expect("invalid element_type");
+        let elliptic_curve: String = row
+            .try_get("elliptic_curve")
+            .expect("invalid element_curve");
+        let finite_field: String = row.try_get("finite_field").expect("invalid finite_field");
 
-                PrfsSet {
-                    set_id,
-                    label,
-                    author,
-                    desc,
-                    hash_algorithm,
-                    cardinality,
-                    created_at,
-                    merkle_root,
-                    element_type,
-                    elliptic_curve,
-                    finite_field,
-                }
-            })
-            .collect();
+        let s = PrfsSet {
+            set_id,
+            label,
+            author,
+            desc,
+            hash_algorithm,
+            cardinality,
+            created_at,
+            merkle_root,
+            element_type,
+            elliptic_curve,
+            finite_field,
+        };
 
-        Ok(prfs_sets)
+        Ok(s)
     }
 
     pub async fn get_prfs_sets(&self) -> Result<Vec<PrfsSet>, DbInterfaceError> {
         let query = format!("SELECT * from prfs_sets");
+
+        // let query = format!("SELECT st.*, ptn.val from prfs_sets st join prfs_tree_nodes ptn on ptn.set_id=st.set_id where ptn.pos_h=31");
+
         let rows = sqlx::query(&query).fetch_all(&self.pool).await.unwrap();
 
         let prfs_sets: Vec<PrfsSet> = rows

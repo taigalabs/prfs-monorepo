@@ -3,7 +3,7 @@ use crate::{
     geth::{GetBalanceRequest, GethClient},
 };
 use clap::ArgMatches;
-use prfs_db_interface::{database::Database, database2::Database2, models::EthAccount};
+use prfs_db_interface::{database2::Database2, entities::EthAccount};
 use rust_decimal::Decimal;
 
 pub async fn revisit(_sub_matches: &ArgMatches) {

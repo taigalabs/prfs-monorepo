@@ -2,9 +2,8 @@ use super::json::SetJson;
 use crate::TreeMakerError;
 use colored::Colorize;
 use prfs_db_interface::{
-    database::Database,
     database2::Database2,
-    models::{PrfsSet, PrfsTreeNode},
+    entities::{PrfsSet, PrfsTreeNode},
 };
 use rust_decimal::Decimal;
 use std::time::SystemTime;
