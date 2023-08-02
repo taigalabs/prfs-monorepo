@@ -54,8 +54,8 @@ pub fn make_router(
             prfs_proof_types::get_prfs_proof_types,
         )
         .post(
-            format!("{}/insert_prfs_proof_type", PREFIX),
-            prfs_proof_types::insert_prfs_proof_types,
+            format!("{}/create_prfs_proof_type", PREFIX),
+            prfs_proof_types::create_prfs_proof_types,
         )
         .err_handler_with_info(middleware::error_handler)
         .build()?;

@@ -36,7 +36,7 @@ pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, 
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-struct InsertPrfsProofTypesRequest {
+struct CreatePrfsProofTypesRequest {
     proof_type_id: String,
     author: String,
     label: String,
@@ -47,18 +47,18 @@ struct InsertPrfsProofTypesRequest {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-struct InsertPrfsProofTypesRespPayload {
+struct CreatePrfsProofTypesRespPayload {
     // prfs_proof_types: Vec<PrfsProofType>,
 }
 
-pub async fn insert_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     println!("111");
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
 
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let req = serde_json::from_str::<InsertPrfsProofTypesRequest>(&body_str)
+    let req = serde_json::from_str::<CreatePrfsProofTypesRequest>(&body_str)
         .expect("req request should be parsable");
 
     println!("req: {:?}", req);
@@ -81,7 +81,7 @@ pub async fn insert_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
         .insert_prfs_proof_types(&vec![prfs_proof_type])
         .await;
 
-    let resp = ApiResponse::new_success(InsertPrfsProofTypesRespPayload {});
+    let resp = ApiResponse::new_success(CreatePrfsProofTypesRespPayload {});
 
     return Ok(resp.into_hyper_response());
 }

@@ -11,17 +11,11 @@ import { FormTitleRow, FormTitle, FormSubtitle } from "@/components/form/Form";
 import Button from "@/components/button/Button";
 import FormTextInput from "@/components/form/FormTextInput";
 import SetDropdown from "@/components/set_dropdown/SetDropdown";
-import {
-  PrfsCircuit,
-  PublicInput,
-  PublicInputType,
-  PrfsSet,
-  PublicInputInstance,
-  PublicInputInstanceEntry,
-} from "@/models";
+import { PrfsCircuit, PublicInput, PublicInputType, PrfsSet, PublicInputInstance } from "@/models";
 import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { DropdownSingleSelectedValue } from "@/components/dropdown/Dropdown";
 import { stateContext } from "@/contexts/state";
+import * as prfsBackend from "@/fetch/prfsBackend";
 
 const PublicInputSection: React.FC<PublicInputSectionProps> = ({
   circuit,
@@ -168,8 +162,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     }
 
     const newPublicInputInstance: PublicInputInstance = {};
-
-    selectedCircuit.public_inputs.forEach((pi: PublicInput, idx: number) => {
+    for (const [idx, pi] of selectedCircuit.public_inputs.entries()) {
       switch (pi.type) {
         case PublicInputType.PROVER_GENERATED:
           newPublicInputInstance[idx] = {
@@ -182,30 +175,31 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
         case PublicInputType.PRFS_SET:
           if (!publicInputInstance[idx]) {
             setFormAlert(`public input is undefined, idx: ${idx}`);
-
             return;
           }
+
+          newPublicInputInstance[idx] = publicInputInstance[idx];
           break;
         default:
           throw new Error(`public input invalid, type: ${pi.type}`);
       }
-    });
+    }
 
     setFormAlert("");
 
-    let prfsProofType = {
+    let createPrfsProofTypeRequest = {
       label: name,
       desc,
       author: prfsAccount.sig,
       proof_type_id: "123123",
       circuit_id: selectedCircuit.circuit_id,
       program_id: selectedCircuit.program.program_id,
-      public_input_instance: publicInputInstance,
+      public_input_instance: newPublicInputInstance,
     };
 
-    console.log(11, prfsProofType);
+    console.log(11, createPrfsProofTypeRequest);
 
-    // prfsBackend.putPrfsProofType();
+    prfsBackend.createPrfsProofType(createPrfsProofTypeRequest);
   }, [publicInputInstance, selectedCircuit, name, setFormAlert, desc, state.prfsAccount]);
 
   return (
