@@ -12,7 +12,7 @@ import { FormTitleRow, FormTitle, FormSubtitle } from "@/components/form/Form";
 import Button from "@/components/button/Button";
 import FormTextInput from "@/components/form/FormTextInput";
 import SetDropdown from "@/components/set_dropdown/SetDropdown";
-import { PrfsCircuit, PublicInput, PublicInputType, PrfsSet, PublicInputInstance } from "@/models";
+import { PrfsCircuit, PublicInputType, PrfsSet, PublicInputInstance } from "@/models";
 import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { DropdownSingleSelectedValue } from "@/components/dropdown/Dropdown";
 import { stateContext } from "@/contexts/state";
