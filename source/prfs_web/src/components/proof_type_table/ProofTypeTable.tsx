@@ -39,7 +39,9 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
     for (let val of values) {
       let row = (
         <TableRow key={val.proof_type_id}>
-          <td className={styles.proofTypeId}>{val.proof_type_id}</td>
+          <td className={styles.proofTypeId}>
+            <Link href={`/proof_types/${val.proof_type_id}`}>{val.proof_type_id}</Link>
+          </td>
           <td className={styles.label}>{val.label}</td>
           <td className={styles.desc}>{val.desc}</td>
           <td className={styles.circuitId}>{val.circuit_id}</td>
