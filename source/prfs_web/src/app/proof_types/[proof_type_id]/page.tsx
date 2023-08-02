@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import CircuitSummary from "@/components/circuit_summary/CircuitSummary";
 import PublicInputTable from "@/components/public_input_table/PublicInputTable";
 import CircuitProgramSummary from "@/components/circuit_program_summary/CircuitProgramSummary";
+import ProofTypeSummary from "@/components/proof_type_summary/ProofTypeSummary";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -60,7 +61,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
               <WidgetHeader>
                 <WidgetLabel>{i18n.programs}</WidgetLabel>
               </WidgetHeader>
-              {/* <CircuitProgramSummary program={program} /> */}
+              <ProofTypeSummary proofType={proofType} />
             </Widget>
           </Card>
         </CardRow>
