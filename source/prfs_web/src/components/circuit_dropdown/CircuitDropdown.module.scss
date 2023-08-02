@@ -42,6 +42,8 @@
 }
 
 .entryWrapper {
+  border: 1px solid transparent;
+
   &:hover {
     border: 1px solid var(--green-80);
     background-color: var(--bright-green-90);

@@ -20,6 +20,7 @@ const SetEntry: React.FC<SetEntryProps> = ({ val }) => {
   return (
     <DropdownEntry>
       <div className={styles.dropdownEntry}>
+        <div className={styles.valueRow}>{val.merkle_root}</div>
         <div className={styles.titleRow}>
           <div>{val.label}</div>
           <div>{val.set_id}</div>

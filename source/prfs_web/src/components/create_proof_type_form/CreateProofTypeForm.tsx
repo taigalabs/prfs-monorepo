@@ -11,18 +11,15 @@ import { FormTitleRow, FormTitle, FormSubtitle } from "@/components/form/Form";
 import Button from "@/components/button/Button";
 import FormTextInput from "@/components/form/FormTextInput";
 import SetDropdown from "@/components/set_dropdown/SetDropdown";
-import {
-  PrfsCircuit,
-  PublicInput,
-  PublicInputType,
-  PrfsProofType,
-  PrfsSet,
-  PublicInputInstance,
-} from "@/models";
+import { PrfsCircuit, PublicInput, PublicInputType, PrfsSet, PublicInputInstance } from "@/models";
 import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { DropdownSingleSelectedValue } from "@/components/dropdown/Dropdown";
+import { stateContext } from "@/contexts/state";
 
-const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit, setPublicInputs }) => {
+const PublicInputSection: React.FC<PublicInputSectionProps> = ({
+  circuit,
+  setPublicInputInstance,
+}) => {
   const i18n = React.useContext(i18nContext);
 
   let vals = {};
@@ -39,13 +36,13 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit, setPub
           (val: PrfsSet) => {
             // console.log(13, val);
             setSelectedSet(val);
-            setPublicInputs((oldVal: any) => {
+            setPublicInputInstance((oldVal: any) => {
               const newVal = { ...oldVal };
               newVal[idx] = val;
               return newVal;
             });
           },
-          [setSelectedSet, setPublicInputs]
+          [setSelectedSet, setPublicInputInstance]
         );
 
         vals[idx] = selectedSet;
@@ -64,10 +61,17 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit, setPub
       let inputValue: React.ReactElement;
       switch (pi.type) {
         case PublicInputType.PROVER_GENERATED:
-          inputValue = <div className={styles.computedInput}>{i18n.computed.toUpperCase()}</div>;
+          inputValue = (
+            <div className={styles.computedInput}>{PublicInputType.PROVER_GENERATED}</div>
+          );
           break;
         case PublicInputType.PRFS_SET:
-          inputValue = <SetDropdown selectedVal={vals[idx]} handleSelectVal={setVals[idx]} />;
+          inputValue = (
+            <div>
+              <div className={styles.publicInputType}>{PublicInputType.PRFS_SET}</div>
+              <SetDropdown selectedVal={vals[idx]} handleSelectVal={setVals[idx]} />
+            </div>
+          );
           break;
         default:
           throw new Error("Invalid public input kind");
@@ -106,8 +110,10 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit, setPub
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
+  const { state } = React.useContext(stateContext);
+  const { prfsAccount } = state;
 
-  const [publicInputs, setPublicInputs] = React.useState<PublicInputInstance>({});
+  const [publicInputInstance, setPublicInputInstance] = React.useState<PublicInputInstance>({});
   const [formAlert, setFormAlert] = React.useState("");
   const [name, setName] = React.useState("");
   const [desc, setDesc] = React.useState("");
@@ -135,7 +141,10 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   );
 
   const handleClickCreateProofType = React.useCallback(() => {
-    console.log(11, publicInputs);
+    if (!prfsAccount) {
+      setFormAlert("User is not signed in");
+      return;
+    }
 
     if (name === undefined || name.length < 1) {
       setFormAlert("Name should be defined");
@@ -157,10 +166,12 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             type: pi.type,
             value: "",
           };
+
           break;
         case PublicInputType.PRFS_SET:
-          if (!publicInputs[idx]) {
+          if (!publicInputInstance[idx]) {
             setFormAlert(`public input is undefined, idx: ${idx}`);
+
             return;
           }
           break;
@@ -173,17 +184,18 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 
     let prfsProofType = {
       label: name,
-      author: "a",
-      proof_type_id: "spo",
+      desc,
+      author: prfsAccount.sig,
+      proof_type_id: "123123",
       circuit_id: selectedCircuit.circuit_id,
       program_id: selectedCircuit.program.program_id,
-      public_inputs: publicInputs,
+      public_input_instance: publicInputInstance,
     };
 
     console.log(11, prfsProofType);
 
     // prfsBackend.putPrfsProofType();
-  }, [publicInputs, selectedCircuit, name, setFormAlert]);
+  }, [publicInputInstance, selectedCircuit, name, setFormAlert, desc, state.prfsAccount]);
 
   return (
     <div className={styles.wrapper}>
@@ -236,7 +248,10 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       </CardRow>
 
       {selectedCircuit && (
-        <PublicInputSection circuit={selectedCircuit} setPublicInputs={setPublicInputs} />
+        <PublicInputSection
+          circuit={selectedCircuit}
+          setPublicInputInstance={setPublicInputInstance}
+        />
       )}
 
       <div className={styles.alert}>{formAlert}</div>
@@ -256,5 +271,5 @@ export interface CreateProofTypeFormProps {}
 
 interface PublicInputSectionProps {
   circuit: PrfsCircuit;
-  setPublicInputs: React.Dispatch<React.SetStateAction<PublicInputInstance>>;
+  setPublicInputInstance: React.Dispatch<React.SetStateAction<PublicInputInstance>>;
 }

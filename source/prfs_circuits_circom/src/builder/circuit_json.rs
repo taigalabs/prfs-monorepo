@@ -1,11 +1,9 @@
 use prfs_program_type::CircuitProgram;
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
 
 pub const SYSTEM_NATIVE_SCHEME: &str = "system_native://";
 
 pub enum FileKind {
-    // Source,
     R1CS,
     Spartan,
     WtnsGen,
@@ -35,7 +33,7 @@ pub struct CircuitJson {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[allow(non_camel_case_types)]
 pub enum PublicInputKind {
-    COMPUTED,
+    PROVER_GENERATED,
     PRFS_SET,
 }
 
