@@ -1,8 +1,8 @@
-use crate::{database::Database, models::EthAccount, DbInterfaceError};
+use crate::{database::Database, database2::Database2, models::EthAccount, DbInterfaceError};
 use rust_decimal::Decimal;
 use std::collections::BTreeMap;
 
-impl Database {
+impl Database2 {
     pub async fn get_eth_accounts(
         &self,
         where_clause: &str,
