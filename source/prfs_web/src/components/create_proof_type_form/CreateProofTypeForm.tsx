@@ -16,6 +16,9 @@ import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { DropdownSingleSelectedValue } from "@/components/dropdown/Dropdown";
 import { stateContext } from "@/contexts/state";
 import * as prfsBackend from "@/fetch/prfsBackend";
+import { getYMD } from "@/functions/date";
+import { keccak256 } from "ethers/lib/utils";
+import { keccakHash } from "@/functions/hash";
 
 const PublicInputSection: React.FC<PublicInputSectionProps> = ({
   circuit,
@@ -43,6 +46,7 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({
                 label: pi.label,
                 type: pi.type,
                 value: val.merkle_root,
+                ref: val.set_id,
               };
               return newVal;
             });
@@ -187,11 +191,18 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 
     setFormAlert("");
 
+    let { y, m, d } = getYMD();
+    let hash = keccakHash(`${selectedCircuit.circuit_id}+${selectedCircuit.program.program_id}`);
+    console.log(11, hash);
+    return;
+
+    let proof_type_id = `${prfsAccount.id}_${y}${m}${d}_${hash}`;
+
     let createPrfsProofTypeRequest = {
+      proof_type_id,
       label: name,
       desc,
       author: prfsAccount.sig,
-      proof_type_id: "123123",
       circuit_id: selectedCircuit.circuit_id,
       program_id: selectedCircuit.program.program_id,
       public_input_instance: newPublicInputInstance,

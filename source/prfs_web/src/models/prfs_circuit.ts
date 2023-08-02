@@ -32,6 +32,7 @@ export interface PublicInputInstanceEntry {
   label: string;
   type: PublicInputType;
   value: any;
+  ref?: string;
 }
 
 export interface PrfsCircuitProgram {

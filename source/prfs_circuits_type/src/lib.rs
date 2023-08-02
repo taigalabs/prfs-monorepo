@@ -22,4 +22,5 @@ pub struct PublicInputInstanceEntry {
     pub r#type: PublicInputKind,
     pub label: String,
     pub value: String,
+    pub r#ref: Option<String>,
 }

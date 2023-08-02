@@ -1,9 +1,9 @@
 export interface PrfsSet {
-  set_id: number;
+  set_id: string;
   label: string;
   author: string;
   desc: string;
-  hash_algorithm: number;
+  hash_algorithm: string;
   cardinality: number;
   created_at: string;
   merkle_root: string;

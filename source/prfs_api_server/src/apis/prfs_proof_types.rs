@@ -68,7 +68,6 @@ struct CreatePrfsProofTypesRespPayload {
 }
 
 pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    println!("111");
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
 
@@ -92,7 +91,7 @@ pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
         created_at: NaiveDate::from_ymd_opt(1, 2, 1).unwrap(),
     };
 
-    let prfs_proof_types = state
+    state
         .db2
         .insert_prfs_proof_types(&vec![prfs_proof_type])
         .await;
