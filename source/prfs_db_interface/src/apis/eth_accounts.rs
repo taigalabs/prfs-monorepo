@@ -1,5 +1,4 @@
 use crate::{
-    database::Database,
     database2::Database2,
     entities::{EthAccount, PrfsAccount},
     DbInterfaceError,

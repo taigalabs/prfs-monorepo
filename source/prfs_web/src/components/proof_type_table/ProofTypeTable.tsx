@@ -4,10 +4,16 @@ import React from "react";
 import Link from "next/link";
 
 import styles from "./ProofTypeTable.module.scss";
-import Table, { TableBody, TableRow, TableData, TableHeader } from "@/components/table/Table";
+import Table, {
+  TableBody,
+  TableRow,
+  TableData,
+  TableHeader,
+  CreateBodyArgs,
+} from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import * as prfsBackend from "@/fetch/prfsBackend";
-import { KeysAsObject } from "@/models/types";
+import { PrfsProofType } from "@/models";
 
 const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -16,15 +22,19 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
     return (
       <TableHeader>
         <TableRow>
-          <th className={styles.id}>{i18n.id}</th>
-          <th className={styles.val}>{i18n.value}</th>
+          <th className={styles.proofTypeId}>{i18n.proof_type_id}</th>
+          <th className={styles.label}>{i18n.label}</th>
+          <th className={styles.desc}>{i18n.description}</th>
+          <th className={styles.circuitId}>{i18n.circuit_id}</th>
+          <th className={styles.createdAt}>{i18n.created_at}</th>
         </TableRow>
       </TableHeader>
     );
   }, []);
 
-  const createBody = React.useCallback(({ data }) => {
-    // console.log(1, data);
+  const createBody = React.useCallback(({ data }: CreateBodyArgs<PrfsProofType>) => {
+    console.log(1, data);
+
     let { page, values } = data;
 
     let rows = [];
@@ -34,9 +44,12 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
 
     for (let val of values) {
       let row = (
-        <TableRow key={val.pos_w}>
-          <td className={styles.id}>{val.pos_w}</td>
-          <td className={styles.val}>{val.val}</td>
+        <TableRow key={val.proof_type_id}>
+          <td className={styles.proofTypeId}>{val.proof_type_id}</td>
+          <td className={styles.label}>{val.label}</td>
+          <td className={styles.desc}>{val.desc}</td>
+          <td className={styles.circuitId}>{val.circuit_id}</td>
+          <td className={styles.createdAt}>{val.created_at}</td>
         </TableRow>
       );
 
@@ -48,16 +61,14 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
 
   const handleChangePage = React.useCallback(async (page: number) => {
     return prfsBackend
-      .getSetElements({
+      .getPrfsProofTypes({
         page,
-        limit: 20,
-        set_id: "0",
       })
       .then(resp => {
-        const { page, prfs_tree_nodes } = resp.payload;
+        const { page, prfs_proof_types } = resp.payload;
         return {
           page,
-          values: prfs_tree_nodes,
+          values: prfs_proof_types,
         };
       });
   }, []);
@@ -73,9 +84,5 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
 };
 
 export default ProofTypeTable;
-
-// const PROOF_TYPE_TABLE_KEYS = ["pos_h", "pos_w", "set_id", "val"] as const;
-
-// type ProofTypeTableKeys = (typeof PROOF_TYPE_TABLE_KEYS)[number];
 
 export interface ProofTypeTableProps {}

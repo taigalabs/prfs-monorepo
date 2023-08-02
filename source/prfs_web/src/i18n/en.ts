@@ -19,6 +19,7 @@ export default {
   set_id: "Set id",
   type: "Type",
   hash_algorithm: "Hash algorithm",
+  proof_type_id: "Proof type id",
   programs: "Programs",
   program: "Program",
   generate: "Generate",

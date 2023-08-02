@@ -1,12 +1,8 @@
-use crate::{
-    database2::Database2,
-    entities::{PrfsProofType, PrfsSet},
-};
-use chrono::NaiveDate;
-use sqlx::{Execute, Postgres, Row};
+use crate::{database2::Database2, entities::PrfsProofType};
+use sqlx::Row;
 
 impl Database2 {
-    pub async fn get_prfs_proof_types(&self, proof_type_id: &String) -> Vec<PrfsProofType> {
+    pub async fn get_prfs_proof_type(&self, proof_type_id: &String) -> Vec<PrfsProofType> {
         let query = "SELECT * from prfs_proof_types where proof_type_id=$1";
 
         let rows = sqlx::query(query)
@@ -14,6 +10,28 @@ impl Database2 {
             .fetch_all(&self.pool)
             .await
             .unwrap();
+
+        let prfs_proof_types: Vec<PrfsProofType> = rows
+            .iter()
+            .map(|row| PrfsProofType {
+                proof_type_id: row.get("proof_type_id"),
+                label: row.get("label"),
+                author: row.get("author"),
+                desc: row.get("desc"),
+                circuit_id: row.get("circuit_id"),
+                program_id: row.get("program_id"),
+                public_input_instance: row.get("public_input_instance"),
+                created_at: row.get("created_at"),
+            })
+            .collect();
+
+        return prfs_proof_types;
+    }
+
+    pub async fn get_prfs_proof_types(&self) -> Vec<PrfsProofType> {
+        let query = "SELECT * from prfs_proof_types";
+
+        let rows = sqlx::query(query).fetch_all(&self.pool).await.unwrap();
 
         let prfs_proof_types: Vec<PrfsProofType> = rows
             .iter()

@@ -7,8 +7,7 @@ import styles from "./SetTable.module.scss";
 import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import * as prfsBackend from "@/fetch/prfsBackend";
-import { KeysAsObject, RecordOfKeys } from "@/models/types";
-import { PRFS_SET_KEYS, PrfsSet, PrfsSetKeys } from "@/models";
+import { PrfsSet } from "@/models";
 
 const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
@@ -105,5 +104,5 @@ export default SetTable;
 export interface SetTableProps {
   selectType?: "checkbox" | "radio";
   selectedVal?: PrfsSet;
-  handleSelectVal?: (row: RecordOfKeys<PrfsSetKeys>) => void;
+  handleSelectVal?: (row: PrfsSet) => void;
 }
