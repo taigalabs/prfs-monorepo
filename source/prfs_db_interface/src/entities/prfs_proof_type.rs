@@ -11,6 +11,7 @@ pub struct PrfsProofType {
     pub circuit_id: String,
     pub program_id: String,
     pub public_input_instance: String,
+    pub program_properties: String,
 
     pub created_at: NaiveDate,
 }

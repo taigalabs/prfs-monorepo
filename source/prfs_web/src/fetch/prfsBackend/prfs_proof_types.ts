@@ -10,6 +10,7 @@ export interface CreatePrfsProofTypeRequest {
   circuit_id: string;
   program_id: string;
   public_input_instance: PublicInputInstance;
+  program_properties: Record<string, any>;
 }
 
 export type CreatePrfsProofTypeResponse = PrfsApiResponse<{}>;

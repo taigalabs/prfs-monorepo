@@ -18,7 +18,6 @@ import { DropdownSingleSelectedValue } from "@/components/dropdown/Dropdown";
 import { stateContext } from "@/contexts/state";
 import * as prfsBackend from "@/fetch/prfsBackend";
 import { getYMD } from "@/functions/date";
-import { keccak256 } from "ethers/lib/utils";
 import { keccakHash } from "@/functions/hash";
 
 const PublicInputSection: React.FC<PublicInputSectionProps> = ({
@@ -209,6 +208,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       circuit_id: selectedCircuit.circuit_id,
       program_id: selectedCircuit.program.program_id,
       public_input_instance: newPublicInputInstance,
+      program_properties: selectedCircuit.program.properties,
     };
 
     prfsBackend
@@ -278,7 +278,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
         />
       )}
 
-      <div className={styles.alert}>{formAlert}</div>
+      {formAlert.length > 0 && <div className={styles.alert}>{formAlert}</div>}
 
       <div className={styles.btnRow}>
         <Button variant="b" handleClick={handleClickCreateProofType}>

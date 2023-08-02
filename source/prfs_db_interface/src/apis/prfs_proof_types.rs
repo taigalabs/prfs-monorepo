@@ -21,6 +21,7 @@ impl Database2 {
                 circuit_id: row.get("circuit_id"),
                 program_id: row.get("program_id"),
                 public_input_instance: row.get("public_input_instance"),
+                program_properties: row.get("program_properties"),
                 created_at: row.get("created_at"),
             })
             .collect();
@@ -43,6 +44,7 @@ impl Database2 {
                 circuit_id: row.get("circuit_id"),
                 program_id: row.get("program_id"),
                 public_input_instance: row.get("public_input_instance"),
+                program_properties: row.get("program_properties"),
                 created_at: row.get("created_at"),
             })
             .collect();

@@ -12,18 +12,6 @@
   }
 }
 
-.tableContainer {
-  border: 10px solid var(--bright-gray-50);
-}
-
-.tableBorder {
-  border: 1px solid var(--bright-gray-30);
-}
-
-.embeddedTable {
-  border-top: 1px solid var(--bright-green-81);
-}
-
 .dropdownContainer {
   width: 535px;
 
@@ -42,9 +30,6 @@
   .inputGroup {
     margin-left: 8px;
     flex-grow: 1;
-  }
-
-  .inputLabel {
   }
 
   .inputDesc {
@@ -72,4 +57,9 @@
 .publicInputType {
   font-size: 0.93em;
   margin-bottom: 2px;
+}
+
+.alert {
+  color: red;
+  margin: 12px 0;
 }
