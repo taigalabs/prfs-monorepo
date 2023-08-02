@@ -25,11 +25,13 @@ export interface PublicInput {
 }
 
 export interface PublicInputInstance {
-  [key: number]: {
-    label: string;
-    type: PublicInputType;
-    value: any;
-  };
+  [key: number]: PublicInputInstanceEntry;
+}
+
+export interface PublicInputInstanceEntry {
+  label: string;
+  type: PublicInputType;
+  value: any;
 }
 
 export interface PrfsCircuitProgram {

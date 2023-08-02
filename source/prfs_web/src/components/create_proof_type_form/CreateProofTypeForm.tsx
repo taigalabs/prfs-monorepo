@@ -11,7 +11,14 @@ import { FormTitleRow, FormTitle, FormSubtitle } from "@/components/form/Form";
 import Button from "@/components/button/Button";
 import FormTextInput from "@/components/form/FormTextInput";
 import SetDropdown from "@/components/set_dropdown/SetDropdown";
-import { PrfsCircuit, PublicInput, PublicInputType, PrfsSet, PublicInputInstance } from "@/models";
+import {
+  PrfsCircuit,
+  PublicInput,
+  PublicInputType,
+  PrfsSet,
+  PublicInputInstance,
+  PublicInputInstanceEntry,
+} from "@/models";
 import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { DropdownSingleSelectedValue } from "@/components/dropdown/Dropdown";
 import { stateContext } from "@/contexts/state";
@@ -36,9 +43,13 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({
           (val: PrfsSet) => {
             // console.log(13, val);
             setSelectedSet(val);
-            setPublicInputInstance((oldVal: any) => {
+            setPublicInputInstance((oldVal: PublicInputInstance) => {
               const newVal = { ...oldVal };
-              newVal[idx] = val;
+              newVal[idx] = {
+                label: pi.label,
+                type: pi.type,
+                value: val.merkle_root,
+              };
               return newVal;
             });
           },
