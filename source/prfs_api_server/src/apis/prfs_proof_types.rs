@@ -9,11 +9,13 @@ use std::{convert::Infallible, sync::Arc};
 
 #[derive(Serialize, Deserialize, Debug)]
 struct GetPrfsProofTypesRequest {
+    page: u32,
     proof_type_id: Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 struct GetPrfsProofTypeRespPayload {
+    page: u32,
     prfs_proof_types: Vec<PrfsProofType>,
 }
 
@@ -32,12 +34,18 @@ pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, 
     match req.proof_type_id {
         Some(proof_type_id) => {
             let prfs_proof_types = state.db2.get_prfs_proof_type(&proof_type_id).await;
-            let resp = ApiResponse::new_success(GetPrfsProofTypeRespPayload { prfs_proof_types });
+            let resp = ApiResponse::new_success(GetPrfsProofTypeRespPayload {
+                page: req.page,
+                prfs_proof_types,
+            });
             return Ok(resp.into_hyper_response());
         }
         None => {
             let prfs_proof_types = state.db2.get_prfs_proof_types().await;
-            let resp = ApiResponse::new_success(GetPrfsProofTypeRespPayload { prfs_proof_types });
+            let resp = ApiResponse::new_success(GetPrfsProofTypeRespPayload {
+                page: req.page,
+                prfs_proof_types,
+            });
             return Ok(resp.into_hyper_response());
         }
     };
