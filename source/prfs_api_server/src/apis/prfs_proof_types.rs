@@ -1,6 +1,7 @@
 use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
 use chrono::NaiveDate;
 use hyper::{body, Body, Request, Response};
+use prfs_circuits_type::PublicInputInstance;
 use prfs_db_interface::entities::{PrfsProofType, PrfsSet};
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
@@ -43,7 +44,7 @@ struct CreatePrfsProofTypesRequest {
     desc: String,
     circuit_id: String,
     program_id: String,
-    public_inputs: serde_json::Value,
+    public_input_instance: PublicInputInstance,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -71,7 +72,7 @@ pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
 
         circuit_id: req.circuit_id.to_string(),
         program_id: req.program_id.to_string(),
-        public_inputs: req.public_inputs,
+        public_input_instance: serde_json::to_string(&req.public_input_instance).unwrap(),
 
         created_at: NaiveDate::from_ymd_opt(1, 2, 1).unwrap(),
     };

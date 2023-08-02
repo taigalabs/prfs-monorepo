@@ -24,7 +24,7 @@ impl Database2 {
                 desc: row.get("desc"),
                 circuit_id: row.get("circuit_id"),
                 program_id: row.get("program_id"),
-                public_inputs: row.get("public_inputs"),
+                public_input_instance: row.get("public_input_instance"),
                 created_at: row.get("created_at"),
             })
             .collect();
@@ -32,14 +32,10 @@ impl Database2 {
         return prfs_proof_types;
     }
 
-    pub async fn insert_prfs_proof_types(
-        &self,
-        proof_types: &Vec<PrfsProofType>,
-        // update_on_conflict: bool,
-    ) {
+    pub async fn insert_prfs_proof_types(&self, proof_types: &Vec<PrfsProofType>) {
         let query = "INSERT INTO prfs_proof_types \
-            (proof_type_id, author, label, \"desc\", circuit_id, public_inputs, program_id) \
-            VALUES ($1, $2, $3, $4, $5, $6) returning proof_type_id";
+            (proof_type_id, author, label, \"desc\", circuit_id, public_input_instance, program_id) \
+            VALUES ($1, $2, $3, $4, $5, $6, $7) returning proof_type_id";
 
         let proof_type = proof_types.get(0).unwrap();
 
@@ -49,7 +45,7 @@ impl Database2 {
             .bind(&proof_type.label)
             .bind(&proof_type.desc)
             .bind(&proof_type.circuit_id)
-            .bind(&proof_type.public_inputs)
+            .bind(&proof_type.public_input_instance)
             .bind(&proof_type.program_id)
             .fetch_one(&self.pool)
             .await

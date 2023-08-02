@@ -10,7 +10,7 @@ pub struct PrfsProofType {
 
     pub circuit_id: String,
     pub program_id: String,
-    pub public_inputs: serde_json::Value,
+    pub public_input_instance: String,
 
     pub created_at: NaiveDate,
 }
