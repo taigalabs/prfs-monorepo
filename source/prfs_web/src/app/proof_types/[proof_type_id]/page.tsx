@@ -50,7 +50,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
     <DefaultLayout>
       <Breadcrumb>
         <BreadcrumbEntry>
-          <Link href="/programs">{i18n.programs}</Link>
+          <Link href="/proof_types">{i18n.proof_types}</Link>
         </BreadcrumbEntry>
         <BreadcrumbEntry>{params.proof_type_id}</BreadcrumbEntry>
       </Breadcrumb>
@@ -59,7 +59,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
           <Card>
             <Widget>
               <WidgetHeader>
-                <WidgetLabel>{i18n.programs}</WidgetLabel>
+                <WidgetLabel>{i18n.proof_type}</WidgetLabel>
               </WidgetHeader>
               <ProofTypeSummary proofType={proofType} />
             </Widget>
