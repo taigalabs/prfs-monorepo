@@ -11,7 +11,7 @@ use std::net::SocketAddr;
 async fn main() -> Result<(), AssetServerError> {
     println!("{} {}", "Starting".green(), env!("CARGO_PKG_NAME"),);
 
-    let _circuit_build_json = local::setup_local_assets();
+    local::setup_local_assets();
 
     let static_serve = Static::new(&PATHS.assets);
     let server_state = ServerState { static_serve };

@@ -1,5 +1,5 @@
-use prfs_circuits_circom::builder;
+use prfs_circuits_circom::build;
 
 fn main() {
-    builder::run();
+    build::run();
 }

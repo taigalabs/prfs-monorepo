@@ -1,33 +1,27 @@
-use crate::{database::Database, models::PrfsAccount, DbInterfaceError};
+use crate::{database2::Database2, entities::PrfsAccount, DbInterfaceError};
+use sqlx::Row;
 
-impl Database {
+impl Database2 {
     pub async fn get_prfs_accounts(
         &self,
-        where_clause: &str,
+        sig: &String,
     ) -> Result<Vec<PrfsAccount>, DbInterfaceError> {
-        let stmt = format!(
-            "SELECT * from {} {}",
-            PrfsAccount::table_name(),
-            where_clause
-        );
-        // println!("stmt: {}", stmt);
+        let query = "SELECT * from prfs_accounts where sig=$1";
 
-        let rows = match self.pg_client.query(&stmt, &[]).await {
-            Ok(r) => r,
-            Err(err) => {
-                tracing::error!("account retrieval failed, err: {}, stmt: {}", err, stmt);
-
-                return Err(err.into());
-            }
-        };
-        println!("rows: {:?}", rows);
+        let rows = sqlx::query(query)
+            .bind(&sig)
+            .fetch_all(&self.pool)
+            .await
+            .unwrap();
 
         let prfs_accounts: Vec<PrfsAccount> = rows
             .iter()
-            .map(|r| {
-                let sig: String = r.try_get("sig").expect("sig should be present");
+            .map(|row| {
+                let prfs_account = PrfsAccount {
+                    sig: row.get("sig"),
+                };
 
-                PrfsAccount { sig }
+                prfs_account
             })
             .collect();
 
@@ -37,23 +31,19 @@ impl Database {
     pub async fn insert_prfs_account(
         &self,
         prfs_account: &PrfsAccount,
-    ) -> Result<u64, DbInterfaceError> {
-        let stmt = format!(
-            "INSERT INTO {} (sig) VALUES ('{}') ON CONFLICT DO NOTHING",
-            PrfsAccount::table_name(),
-            prfs_account.sig,
-        );
-        // println!("stmt: {}", stmt);
+    ) -> Result<String, DbInterfaceError> {
+        let query = "INSERT INTO prfs_accounts \
+            (sig) \
+            VALUES ($1) returning sig";
 
-        let rows_updated = match self.pg_client.execute(&stmt, &[]).await {
-            Ok(r) => r,
-            Err(err) => {
-                tracing::error!("Error executing stmt, err: {}, stmt: {}", err, stmt);
+        let row = sqlx::query(query)
+            .bind(&prfs_account.sig)
+            .fetch_one(&self.pool)
+            .await
+            .unwrap();
 
-                return Err(err.into());
-            }
-        };
+        let sig: String = row.get("sig");
 
-        Ok(rows_updated)
+        return Ok(sig);
     }
 }

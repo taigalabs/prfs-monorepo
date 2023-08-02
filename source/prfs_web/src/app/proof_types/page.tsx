@@ -4,28 +4,28 @@ import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import styles from "./ProofTypes.module.scss";
-import Table, { TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
-import Widget from "@/components/widget/Widget";
+import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
-import prfsBackend from "@/fetch/prfsBackend";
 import CardRow from "@/components/card_row/CardRow";
 import Button from "@/components/button/Button";
-import CircuitTable from "@/components/circuit_table/CircuitTable";
+import ProofTypeTable from "@/components/proof_type_table/ProofTypeTable";
+import CreateProofTypeForm from "@/components/create_proof_type_form/CreateProofTypeForm";
 
 const Proofs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
   const { dispatch } = React.useContext(stateContext);
 
   const router = useRouter();
-
   const searchParams = useSearchParams();
+  const [createPage, setCreatePage] = React.useState(false);
 
   React.useEffect(() => {
-    console.log(55, searchParams);
+    let createPage = searchParams.get("create") !== null;
+    setCreatePage(createPage);
   }, [searchParams]);
 
   useLocalWallet(dispatch);
@@ -34,39 +34,31 @@ const Proofs: React.FC = () => {
     router.push("/proof_types?create");
   }, [router]);
 
-  const proofTypesHeader = (
-    <div className={styles.proofTypesHeader}>
-      <div className={styles.label}>{i18n.proof_types}</div>
-      <div>
-        <Button variant="a" handleClick={handleClickCreateProofType}>
-          {i18n.create_proof_type}
-        </Button>
-      </div>
-    </div>
-  );
-
   return (
     <DefaultLayout>
-      <CardRow>
-        <Card>
-          <Widget label={i18n.proof_types} headerElem={proofTypesHeader}>
-            <CircuitTable />
-          </Widget>
-        </Card>
-      </CardRow>
+      {createPage ? (
+        <CreateProofTypeForm />
+      ) : (
+        <CardRow>
+          <Card>
+            <Widget>
+              <WidgetHeader>
+                <div className={styles.proofTypesHeader}>
+                  <WidgetLabel>{i18n.proof_types}</WidgetLabel>
+                  <div className={styles.btnRow}>
+                    <Button variant="a" handleClick={handleClickCreateProofType}>
+                      {i18n.create_proof_type}
+                    </Button>
+                  </div>
+                </div>
+              </WidgetHeader>
+              <ProofTypeTable />
+            </Widget>
+          </Card>
+        </CardRow>
+      )}
     </DefaultLayout>
   );
 };
 
 export default Proofs;
-
-const CIRCUIT_TABLE_KEYS = [
-  "id",
-  "name",
-  "author",
-  "num_public_inputs",
-  "desc",
-  "created_at",
-] as const;
-
-type CircuitTableKeys = (typeof CIRCUIT_TABLE_KEYS)[number];

@@ -21,7 +21,7 @@ serde_json = "1.0"
 log = "0.4"
 chrono = "0.4.23"
 hex = "0.4.3"
-dotenv = "0.15"
+dotenvy = "0.15"
 envy = "0.4"
 rust_decimal = { version = "1.29", features = ["db-postgres"] }
 rust_decimal_macros = "1.29"
@@ -31,6 +31,8 @@ tracing-appender = "0.2"
 
 prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_circuits_circom = { path = "../prfs_circuits_circom" }
+prfs_circuits_type = { path = "../prfs_circuits_type" }
+prfs_program_type = { path = "../prfs_program_type" }
 
 [[bin]]
 name = "server"

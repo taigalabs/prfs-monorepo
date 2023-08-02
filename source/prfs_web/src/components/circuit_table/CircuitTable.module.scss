@@ -1,51 +1,28 @@
-.tableHeader {
-  display: flex;
-  background-color: var(--bright-gray-55);
-  border-bottom: 1px solid var(--bright-green-81);
-  padding: 0px 0px;
-  width: 100%;
-
-  > div {
-    padding: 11px 20px;
-    position: relative;
-
-    &::before {
-      content: "";
-      height: 20px;
-      margin: auto;
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      border-left: 1px solid var(--bright-gray-40);
-    }
-  }
+.select {
+  width: 60px;
 }
 
-.tableRow {
-  display: flex;
-
-  > div {
-    padding: 11px 20px;
-    position: relative;
-  }
+.circuit_id {
+  width: 160px;
+  word-wrap: break-word;
 }
 
-.id {
-  width: 80px;
-}
 .label {
   width: 160px;
 }
+
 .numInputs {
   width: 100px;
 }
-.createdAt {
-  width: 180px;
-}
+
 .author {
-  width: 180px;
+  width: 160px;
 }
+
+.createdAt {
+  width: 120px;
+}
+
 .desc {
-  flex-grow: 1;
+  width: 100%;
 }

@@ -1,7 +1,6 @@
 use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
 use hyper::{body, Body, Request, Response};
-use prfs_circuits_circom::CircuitBuildDetail;
-use prfs_db_interface::models::PrfsSet;
+use prfs_db_interface::entities::PrfsSet;
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
@@ -27,13 +26,20 @@ pub async fn get_prfs_sets(req: Request<Body>) -> Result<Response<Body>, Infalli
     let req =
         serde_json::from_str::<GetSetsRequest>(&body_str).expect("req request should be parsable");
 
-    let mut where_clause = String::new();
-
     if let Some(set_id) = req.set_id {
-        where_clause = format!("where set_id='{}'", &set_id);
+        let prfs_set = state.db2.get_prfs_set(&set_id).await.unwrap();
+        // let merkle_root = state.db2.get_prfs_tree_root(&set_id).await.unwrap();
+
+        let resp = ApiResponse::new_success(GetSetsRespPayload {
+            page: 0,
+            prfs_sets: vec![prfs_set],
+        });
+
+        return Ok(resp.into_hyper_response());
     }
 
-    let prfs_sets = state.db.get_prfs_sets(&where_clause).await.unwrap();
+    let prfs_sets = state.db2.get_prfs_sets().await.unwrap();
+    // let merkle_root = state.db2.get_prfs_tree_root();
 
     let resp = ApiResponse::new_success(GetSetsRespPayload { page: 0, prfs_sets });
 

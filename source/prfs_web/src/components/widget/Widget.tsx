@@ -5,22 +5,40 @@ import Paper from "@mui/material/Paper";
 import styles from "./Widget.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 
-const Widget: React.FC<WidgetProps> = ({ className, children, label, headerElem }) => {
-  const i18n = React.useContext(i18nContext);
+export const WidgetLabel: React.FC<WidgetLabelProps> = ({ children }) => {
+  return <div className={styles.widgetLabelWrapper}>{children}</div>;
+};
 
+export const WidgetPaddedBody: React.FC<WidgetPaddedBodyProps> = ({ children }) => {
+  return <div className={styles.widgetPaddedBodyWrapper}>{children}</div>;
+};
+
+export const WidgetHeader: React.FC<WidgetHeaderProps> = ({ children }) => {
+  return <div className={styles.widgetHeaderWrapper}>{children}</div>;
+};
+
+const Widget: React.FC<WidgetProps> = ({ children }) => {
   return (
-    <Paper className={`${styles.wrapper} ${className}`}>
-      {headerElem ? headerElem : <div className={styles.header}>{label}</div>}
-      <div className={styles.body}>{children}</div>
-    </Paper>
+    <div className={styles.wrapper}>
+      <div>{children}</div>
+    </div>
   );
 };
 
 export default Widget;
 
 export interface WidgetProps {
-  label: string;
   children: React.ReactNode;
-  headerElem?: React.ReactNode;
-  className?: string;
+}
+
+export interface WidgetHeaderProps {
+  children: React.ReactNode;
+}
+
+export interface WidgetLabelProps {
+  children: React.ReactNode;
+}
+
+export interface WidgetPaddedBodyProps {
+  children: React.ReactNode;
 }

@@ -1,0 +1,18 @@
+.wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 200;
+  background-color: var(--dark-cyan-50);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 30px;
+  padding: 0 24px;
+  color: var(--white-100);
+  font-size: 12px;
+}
+
+.company {
+}

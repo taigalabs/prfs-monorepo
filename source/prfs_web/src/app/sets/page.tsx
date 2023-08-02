@@ -4,7 +4,7 @@ import React from "react";
 
 import styles from "./Sets.module.scss";
 import { stateContext } from "@/contexts/state";
-import Widget from "@/components/widget/Widget";
+import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
@@ -22,7 +22,10 @@ const Sets: React.FC = () => {
     <DefaultLayout>
       <CardRow>
         <Card>
-          <Widget label={i18n.set}>
+          <Widget>
+            <WidgetHeader>
+              <WidgetLabel>{i18n.sets}</WidgetLabel>
+            </WidgetHeader>
             <SetTable />
           </Widget>
         </Card>

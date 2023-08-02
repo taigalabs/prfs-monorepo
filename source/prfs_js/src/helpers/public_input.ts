@@ -28,13 +28,7 @@ export class CircuitPubInput {
   Ux: bigint;
   Uy: bigint;
 
-  constructor(
-    merkleRoot: bigint,
-    Tx: bigint,
-    Ty: bigint,
-    Ux: bigint,
-    Uy: bigint
-  ) {
+  constructor(merkleRoot: bigint, Tx: bigint, Ty: bigint, Ux: bigint, Uy: bigint) {
     this.merkleRoot = merkleRoot;
     this.Tx = Tx;
     this.Ty = Ty;
@@ -74,12 +68,7 @@ export class PublicInput {
   msgHash: Buffer;
   circuitPubInput: CircuitPubInput;
 
-  constructor(
-    r: bigint,
-    v: bigint,
-    msgHash: Buffer,
-    circuitPubInput: CircuitPubInput
-  ) {
+  constructor(r: bigint, v: bigint, msgHash: Buffer, circuitPubInput: CircuitPubInput) {
     this.r = r;
     this.rV = v;
     this.msgHash = msgHash;
@@ -88,9 +77,7 @@ export class PublicInput {
 
   serialize(): Uint8Array {
     const circuitPubInput: Uint8Array = this.circuitPubInput.serialize();
-    let serialized = new Uint8Array(
-      32 + 1 + this.msgHash.byteLength + circuitPubInput.byteLength
-    );
+    let serialized = new Uint8Array(32 + 1 + this.msgHash.byteLength + circuitPubInput.byteLength);
 
     serialized.set(bigIntToBytes(this.r, 32), 0);
     serialized.set(bigIntToBytes(this.rV, 1), 32);
@@ -166,7 +153,7 @@ export const computeEffEcdsaPubInput = (
     Tx: BigInt(T.getX().toString()),
     Ty: BigInt(T.getY().toString()),
     Ux: BigInt(U.getX().toString()),
-    Uy: BigInt(U.getY().toString())
+    Uy: BigInt(U.getY().toString()),
   };
 };
 
@@ -196,8 +183,8 @@ export const computeEffEcdsaPubInput2 = (
   console.log("rInv: %s", rInv.toString());
   // mod p: 16422318760896786956730317114097881585994440145463608900482311659390706192225
   //
-  const rInv2 = new BN(r as any).invm(SECP256K1_P);
-  console.log("rInv2: %s", rInv2.toString());
+  // const rInv2 = new BN(r as any).invm(SECP256K1_P);
+  // console.log("rInv2: %s", rInv2.toString());
 
   // w = -(r^-1 * msg)
   const w = rInv.mul(new BN(msgHash)).neg().umod(SECP256K1_N);
@@ -213,42 +200,42 @@ export const computeEffEcdsaPubInput2 = (
   let sBn = new BN(s as any);
   console.log("sBn: %s", sBn.toString());
 
-  let sMulT = T.mul(sBn);
-  let q = sMulT.add(U);
-  let qx = q.getX().toString();
-  let qy = q.getY().toString();
+  // let sMulT = T.mul(sBn);
+  // let q = sMulT.add(U);
+  // let qx = q.getX().toString();
+  // let qy = q.getY().toString();
 
-  console.log("qx: %s", qx);
+  // console.log("qx: %s", qx);
   // mod n: 73703d822b3a4bf694d7c29e9200e6e20ba00068a33886cb393a7a908012e1b3
   // mod p: 73baf5ff292e37be428c9dfa5aa9123c4145796c13bbb749d84913efedf5a8c8
 
-  console.log("qy: %s", qy);
+  // console.log("qy: %s", qy);
   // mod n: fd9467081aa964663cb75e399fa545ba1932dbebae97da9fdd841994df77e69c
   // mod p: c17412d21f92fbd229a1f3beb0aae3e5df2bce71e8b422febc53c755de94e36d
 
-  const sInv = new BN(s as any).invm(SECP256K1_N);
-  const u1 = m.mul(sInv).mod(SECP256K1_N);
-  console.log("u1: %s", u1.toString());
+  // const sInv = new BN(s as any).invm(SECP256K1_N);
+  // const u1 = m.mul(sInv).mod(SECP256K1_N);
+  // console.log("u1: %s", u1.toString());
 
-  const u2 = new BN(r as any).mul(sInv).mod(SECP256K1_N);
-  console.log("u2: %s", u2.toString());
+  // const u2 = new BN(r as any).mul(sInv).mod(SECP256K1_N);
+  // console.log("u2: %s", u2.toString());
 
-  let a1 = ec.curve.g.mul(u1);
-  console.log("a1.x: %s", a1.getX().toString());
+  // let a1 = ec.curve.g.mul(u1);
+  // console.log("a1.x: %s", a1.getX().toString());
 
-  let a2 = q.mul(u2);
-  console.log("a2.x: %s", a2.getX().toString());
+  // let a2 = q.mul(u2);
+  // console.log("a2.x: %s", a2.getX().toString());
 
-  let a3 = a1.add(a2);
-  // let xx = p3.getX();
-  console.log("p3.x: %s", a3.getX().toString());
+  // let a3 = a1.add(a2);
+  // // let xx = p3.getX();
+  // console.log("p3.x: %s", a3.getX().toString());
 
   return {
     Tx: BigInt(T.getX().toString()),
     Ty: BigInt(T.getY().toString()),
     Ux: BigInt(U.getX().toString()),
     Uy: BigInt(U.getY().toString()),
-    sInv: BigInt(sInv.toString()),
+    // sInv: BigInt(sInv.toString()),
   };
 };
 
@@ -256,11 +243,7 @@ export const computeEffEcdsaPubInput2 = (
  * Verify the public values of the efficient ECDSA circuit
  */
 export const verifyEffEcdsaPubInput = (pubInput: PublicInput): boolean => {
-  const expectedCircuitInput = computeEffEcdsaPubInput(
-    pubInput.r,
-    pubInput.rV,
-    pubInput.msgHash
-  );
+  const expectedCircuitInput = computeEffEcdsaPubInput(pubInput.r, pubInput.rV, pubInput.msgHash);
 
   const circuitPubInput = pubInput.circuitPubInput;
 

@@ -1,0 +1,8 @@
+.cellValue {
+  a {
+    color: var(--green-50);
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

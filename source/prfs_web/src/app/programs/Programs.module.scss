@@ -1,0 +1,39 @@
+.wrapper {
+  .id {
+    width: 80px;
+  }
+  .name {
+    width: 160px;
+  }
+  .numInputs {
+    width: 100px;
+  }
+  .createdAt {
+    width: 180px;
+  }
+  .author {
+    width: 180px;
+  }
+  .desc {
+    flex-grow: 1;
+  }
+}
+
+.tableHeader {
+  display: flex;
+  width: 100%;
+
+  > div {
+    padding: 11px 20px;
+    position: relative;
+  }
+}
+
+.tableRow {
+  display: flex;
+
+  > div {
+    padding: 11px 20px;
+    position: relative;
+  }
+}

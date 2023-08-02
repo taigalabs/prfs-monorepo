@@ -1,0 +1,42 @@
+.passcode {
+  .label {
+    margin-bottom: 5px;
+  }
+
+  input {
+    border: 1px solid var(--gray-40);
+    padding: 4px 5px;
+  }
+}
+
+.hashBtnRow {
+  margin-top: 15px;
+}
+
+.hashResult {
+  margin-top: 13px;
+}
+
+.btnRow {
+  margin-top: 25px;
+}
+
+.signInAlert {
+  margin-left: 25px;
+  max-width: 390px;
+  max-height: 70px;
+  overflow-y: scroll;
+
+  color: red;
+  word-wrap: break-word;
+}
+
+.signInRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.suggestion {
+  width: 280px;
+  color: var(--gray-40);
+}

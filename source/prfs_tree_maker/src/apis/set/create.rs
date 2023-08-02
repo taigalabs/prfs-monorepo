@@ -2,9 +2,9 @@ use super::json::SetJson;
 use crate::TreeMakerError;
 use chrono::NaiveDate;
 use colored::Colorize;
-use prfs_db_interface::{database::Database, models::PrfsSet};
+use prfs_db_interface::{database2::Database2, entities::PrfsSet};
 
-pub async fn create_set(db: &Database, set_json: &SetJson) -> Result<PrfsSet, TreeMakerError> {
+pub async fn create_set(db: &Database2, set_json: &SetJson) -> Result<PrfsSet, TreeMakerError> {
     let created_at = parse_date(&set_json.set.created_at);
 
     let prfs_set = PrfsSet {

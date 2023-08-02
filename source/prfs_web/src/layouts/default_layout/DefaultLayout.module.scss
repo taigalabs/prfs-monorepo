@@ -2,14 +2,26 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+}
+
+.main {
+  flex-grow: 1;
+  padding: 41px 0 31px;
+  display: flex;
   height: 100%;
+}
 
-  .bottom {
-    display: flex;
-    flex-grow: 1;
-  }
+.leftBarContainer {
+  width: 210px;
+  flex-shrink: 0;
+}
 
-  .right {
-    flex-grow: 1;
-  }
+.bottom {
+  display: flex;
+  flex-grow: 1;
+}
+
+.contentArea {
+  flex-grow: 1;
+  padding: 20px 45px;
 }

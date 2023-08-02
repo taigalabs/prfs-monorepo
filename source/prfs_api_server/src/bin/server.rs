@@ -4,6 +4,7 @@ use prfs_api_server::envs::ENVS;
 use prfs_api_server::state::ServerState;
 use prfs_api_server::{local, router, ApiServerError};
 use prfs_db_interface::database::Database;
+use prfs_db_interface::database2::Database2;
 use routerify::RouterService;
 use std::sync::Arc;
 use std::{net::SocketAddr, path::PathBuf};
@@ -20,10 +21,20 @@ async fn main() -> Result<(), ApiServerError> {
     let local_assets = local::load_local_assets();
 
     let pg_endpoint = &ENVS.postgres_endpoint;
+    let pg_username = &ENVS.postgres_username;
     let pg_pw = &ENVS.postgres_pw;
-    let db = Database::connect(pg_endpoint, pg_pw).await?;
 
-    let server_state = Arc::new(ServerState { db, local_assets });
+    let db2 = Database2::connect(pg_endpoint, pg_username, pg_pw)
+        .await
+        .unwrap();
+
+    // let db = Database::connect(pg_endpoint, pg_pw).await?;
+
+    let server_state = Arc::new(ServerState {
+        // db,
+        local_assets,
+        db2,
+    });
 
     let router = router::make_router(server_state).expect("make_router fail");
     let service = RouterService::new(router).expect("router service init fail");

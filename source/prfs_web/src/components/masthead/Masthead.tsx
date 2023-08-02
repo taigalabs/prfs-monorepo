@@ -83,7 +83,7 @@ const Masthead: React.FC<any> = () => {
     <div className={styles.wrapper}>
       <div className={styles.logoArea}>
         <Link href="/">
-          <Logo />
+          <Logo variant="simple" />
         </Link>
       </div>
       <div className={styles.rightMenu}>

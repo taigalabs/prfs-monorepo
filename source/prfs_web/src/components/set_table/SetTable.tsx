@@ -4,79 +4,74 @@ import React from "react";
 import Link from "next/link";
 
 import styles from "./SetTable.module.scss";
-import Table, { TableData, TableKeys } from "@/components/table/Table";
+import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
-import prfsBackend from "@/fetch/prfsBackend";
+import * as prfsBackend from "@/fetch/prfsBackend";
+import { PrfsSet } from "@/models";
 
-const SetTable: React.FC = () => {
+const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
 
-  const createHeader = React.useCallback((keys: TableKeys<SetTableKeys>) => {
+  const createHeader = React.useCallback(() => {
     return (
-      <div className={styles.tableHeader}>
-        <div key={keys[0]} className={styles.set_id}>
-          {i18n.set_id}
-        </div>
-        <div key={keys[1]} className={styles.label}>
-          {i18n.label}
-        </div>
-        <div key={keys[2]} className={styles.author}>
-          {i18n.author}
-        </div>
-        <div key={keys[3]} className={styles.desc}>
-          {i18n.description}
-        </div>
-        <div key={keys[4]} className={styles.cardinality}>
-          {i18n.cardinality}
-        </div>
-        <div key={keys[5]} className={styles.createdAt}>
-          {i18n.created_at}
-        </div>
-      </div>
+      <TableHeader>
+        <TableRow>
+          {handleSelectVal && <th className={styles.select}></th>}
+          <th className={styles.set_id}>{i18n.set_id}</th>
+          <th className={styles.label}>{i18n.label}</th>
+          <th className={styles.author}>{i18n.author}</th>
+          <th className={styles.desc}>{i18n.description}</th>
+          <th className={styles.cardinality}>{i18n.cardinality}</th>
+          <th className={styles.createdAt}>{i18n.created_at}</th>
+        </TableRow>
+      </TableHeader>
     );
+  }, [handleSelectVal]);
+
+  const createBody = React.useCallback(({ data, handleSelectVal, selectedVal }) => {
+    // console.log(1, data);
+    let { page, values } = data;
+
+    let rows = [];
+    if (values === undefined || values.length < 1) {
+      return rows;
+    }
+
+    for (let val of values) {
+      const onClickRow = handleSelectVal
+        ? () => {
+            handleSelectVal(val);
+          }
+        : undefined;
+
+      const isSelected = selectedVal && !!selectedVal[val.set_id];
+      const selType = selectType || "radio";
+
+      let row = (
+        <TableRow key={val.set_id} onClickRow={onClickRow} isSelected={isSelected}>
+          {handleSelectVal && (
+            <td className={styles.select}>
+              <div>
+                <input type={selType} checked={isSelected} readOnly />
+              </div>
+            </td>
+          )}
+          <td className={styles.set_id}>
+            <Link href={`/sets/${val.set_id}`}>{val.set_id}</Link>
+          </td>
+          <td className={styles.label}>{val.label}</td>
+          <td className={styles.author}>{val.author}</td>
+          <td className={styles.desc}>{val.desc}</td>
+          <td className={styles.cardinality}>{val.cardinality}</td>
+          <td className={styles.createdAt}>{val.created_at}</td>
+        </TableRow>
+      );
+
+      rows.push(row);
+    }
+
+    return <TableBody>{rows}</TableBody>;
   }, []);
-
-  const createBody = React.useCallback(
-    (keys: TableKeys<SetTableKeys>, data: TableData<SetTableKeys>) => {
-      // console.log(1, data);
-      let { page, values } = data;
-
-      let rows = [];
-      if (values === undefined || values.length < 1) {
-        return rows;
-      }
-
-      for (let val of values) {
-        let row = (
-          <div key={val.set_id} className={styles.tableRow}>
-            <div key={keys.set_id} className={styles.set_id}>
-              <Link href={`/sets/${val.set_id}`}>{val.set_id}</Link>
-            </div>
-            <div key={keys.label} className={styles.label}>
-              {val.label}
-            </div>
-            <div key={keys.author} className={styles.author}>
-              {val.author}
-            </div>
-            <div key={keys.desc} className={styles.desc}>
-              {val.desc}
-            </div>
-            <div key={keys.cardinality} className={styles.cardinality}>
-              {val.cardinality}
-            </div>
-            <div key={keys.created_at} className={styles.createdAt}>
-              {val.created_at}
-            </div>
-          </div>
-        );
-
-        rows.push(row);
-      }
-
-      return <div key={page}>{rows}</div>;
-    },
-    []
-  );
 
   const handleChangePage = React.useCallback(async (page: number) => {
     return prfsBackend
@@ -94,24 +89,20 @@ const SetTable: React.FC = () => {
 
   return (
     <Table
-      keys={SET_TABLE_KEYS}
       createHeader={createHeader}
       createBody={createBody}
       onChangePage={handleChangePage}
+      minWidth={910}
+      selectedVal={selectedVal}
+      handleSelectVal={handleSelectVal}
     />
   );
 };
 
 export default SetTable;
 
-const SET_TABLE_KEYS = [
-  "set_id",
-  "label",
-  "author",
-  "desc",
-  "hash_algorithm",
-  "cardinality",
-  "created_at",
-] as const;
-
-type SetTableKeys = (typeof SET_TABLE_KEYS)[number];
+export interface SetTableProps {
+  selectType?: "checkbox" | "radio";
+  selectedVal?: PrfsSet;
+  handleSelectVal?: (row: PrfsSet) => void;
+}

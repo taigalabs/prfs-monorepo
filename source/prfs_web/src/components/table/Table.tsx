@@ -1,4 +1,5 @@
-import React from "react";
+import React, { MouseEventHandler } from "react";
+import classNames from "classnames";
 
 import styles from "./Table.module.scss";
 
@@ -6,59 +7,118 @@ export const TableCurrentPageLimitWarning: React.FC = () => {
   return <div className={styles.pageLimitWarning}>Currently showing up to 20 elements</div>;
 };
 
-function Table<T extends string>({ keys, createHeader, createBody, onChangePage }: TableProps<T>) {
-  const [data, setValues] = React.useState({ page: 0, values: [] });
+export const TableHeader: React.FC<TableHeaderProps> = ({ children }) => {
+  return <thead className={styles.tableHeaderWrapper}>{children}</thead>;
+};
+
+export const TableBody: React.FC<TableBodyProps> = ({ children }) => {
+  return <tbody className={styles.tableBodyWrapper}>{children}</tbody>;
+};
+
+export const TableCell: React.FC<TableCellProps> = ({ children }) => {
+  return <td className={styles.tableCell}>{children}</td>;
+};
+
+export function TableRow({ isSelected, children, onClickRow }: TableRowProps) {
+  return (
+    <tr
+      className={classNames({
+        [styles.tableRowWrapper]: true,
+        [styles.selectedRow]: !!isSelected,
+      })}
+      {...(onClickRow && { onClick: onClickRow })}
+    >
+      {children}
+    </tr>
+  );
+}
+
+function Table<T>({
+  createHeader,
+  createBody,
+  onChangePage,
+  handleSelectVal,
+  minWidth,
+  selectedVal,
+  initialValues,
+  tableLayout,
+}: TableProps<T>) {
+  const [data, setValues] = React.useState({ page: 0, values: initialValues ? initialValues : [] });
 
   React.useEffect(() => {
-    onChangePage(0).then(res => {
-      setValues(res);
-    });
+    if (onChangePage) {
+      Promise.resolve(onChangePage(0)).then(res => {
+        setValues(res);
+      });
+    }
   }, [onChangePage, setValues]);
 
-  const tableKeys = React.useMemo(() => {
-    const tableKeys: TableKeys<T> = keys.reduce((r, key) => {
-      return {
-        ...r,
-        [key]: key,
-      };
-    }, {} as TableKeys<T>);
-    return tableKeys;
-  }, [keys]);
-
   let headerElems = React.useMemo(() => {
-    return createHeader(tableKeys);
-  }, [tableKeys]);
+    return createHeader();
+  }, []);
 
   let bodyElems = React.useMemo(() => {
-    return createBody(tableKeys, data);
-  }, [data, tableKeys]);
+    return createBody({
+      data,
+      handleSelectVal,
+      selectedVal,
+    });
+  }, [data, selectedVal, handleSelectVal]);
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.tableHeaderWrapper}>{headerElems}</div>
-      <div className={styles.tableBodyWrapper}>{bodyElems}</div>
+    <div className={styles.tableWrapper}>
+      <table
+        className={styles.table}
+        style={{
+          minWidth,
+          tableLayout: tableLayout,
+        }}
+      >
+        {headerElems}
+        {bodyElems}
+      </table>
     </div>
   );
 }
 
 export default Table;
 
-export interface TableProps<T extends string> {
-  keys: ReadonlyArray<T>;
-  createHeader: (keys: TableKeys<T>) => React.ReactNode;
-  createBody: (keys: TableKeys<T>, data: TableData<T>) => React.ReactNode;
-  onChangePage: (page: number) => Promise<TableData<T>>;
+export interface TableProps<T> {
+  createHeader: () => React.ReactNode;
+  createBody: (args: CreateBodyArgs<T>) => React.ReactNode;
+  onChangePage?: (page: number) => Promise<TableData<T>> | TableData<T>;
+  initialValues?: T[];
+  selectedVal?: T;
+  handleSelectVal?: (row: T) => void;
+  minWidth: number;
+  tableLayout?: any;
 }
 
-export type TableKeys<T extends string> = ObjectFromList<ReadonlyArray<T>, string>;
+export type CreateBodyArgs<T> = {
+  data: TableData<T>;
+  selectedVal: T;
+  handleSelectVal?: (row: T) => void;
+};
 
-export type TableData<T extends string> = {
+export type TableData<T> = {
   page: number;
-  values: {
-    [key in T]: any;
-  }[];
+  values: T[];
 };
 
-type ObjectFromList<T extends ReadonlyArray<string>, V = string> = {
-  [K in T extends ReadonlyArray<infer U> ? U : never]: V;
-};
+export interface TableHeaderProps {
+  children: React.ReactNode;
+}
+
+export interface TableBodyProps {
+  children: React.ReactNode;
+}
+
+export interface TableCellProps {
+  children: React.ReactNode;
+}
+
+export interface TableRowProps {
+  isSelected?: boolean;
+  children: React.ReactNode;
+  onClickRow?: MouseEventHandler;
+}

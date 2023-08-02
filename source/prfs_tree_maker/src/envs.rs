@@ -14,6 +14,9 @@ pub struct Envs {
     #[serde(default = "default_postgres_endpoint")]
     pub postgres_endpoint: String,
 
+    #[serde(default = "default_postgres_username")]
+    pub postgres_username: String,
+
     #[serde(default = "default_postgres_pw")]
     pub postgres_pw: String,
 
@@ -50,7 +53,7 @@ pub struct Envs {
 
 impl Envs {
     pub fn new() -> Envs {
-        dotenv::dotenv().unwrap();
+        dotenvy::dotenv().unwrap();
 
         match envy::from_env::<Envs>() {
             Ok(envs) => {
@@ -75,6 +78,10 @@ fn default_set_offset() -> usize {
 
 fn default_postgres_endpoint() -> String {
     String::from("some endpoint")
+}
+
+fn default_postgres_username() -> String {
+    String::from("some username")
 }
 
 fn default_postgres_pw() -> String {

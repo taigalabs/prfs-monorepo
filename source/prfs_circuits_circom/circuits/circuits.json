@@ -1,16 +1,55 @@
 {
-  "circuits": {
-    "addr_membership2": {
+  "circuits": [
+    {
+      "circuit_id": "addr_membership2_1",
+      "created_at": "",
       "label": "addr_membership2",
       "author": "SYSTEM_NATIVE",
-      "instance_path": "instances/addr_membership2.circom",
       "num_public_inputs": 5,
       "desc": "Prove address membership (ECDSA, Poseidon)",
-      "circuit_dsl": "circom 2",
+      "circuit_dsl": "Circom 2",
       "arithmetization": "R1CS",
       "proof_algorithm": "Spartan",
       "elliptic_curve": "Secp256k1",
-      "finite_field": "Z_(2^256-2^32-977)"
+      "finite_field": "Z_(2^256-2^32-977)",
+      "circuit_repository_url": "https://github.com/taigalabs/prfs-monorepo/tree/main/source/prfs_circuits_circom",
+      "program": {
+        "program_id": "SPARTAN_CIRCOM_1",
+        "program_repository_url": "https://github.com/taigalabs/prfs-monorepo/tree/main/source/prfs_js",
+        "version": "0.1.0",
+        "properties": {
+          "instance_path": "instances/addr_membership2.circom",
+          "wtns_gen_url": "",
+          "circuit_url": ""
+        }
+      },
+      "public_inputs": [
+        {
+          "label": "Tx",
+          "desc": "Tx description",
+          "type": "PROVER_GENERATED"
+        },
+        {
+          "label": "Ty",
+          "desc": "Ty description",
+          "type": "PROVER_GENERATED"
+        },
+        {
+          "label": "Ux",
+          "desc": "Ux description",
+          "type": "PROVER_GENERATED"
+        },
+        {
+          "label": "Uy",
+          "desc": "Uy description",
+          "type": "PROVER_GENERATED"
+        },
+        {
+          "label": "Merkle root",
+          "desc": "Vector commitment (Merkle root) of a set",
+          "type": "PRFS_SET"
+        }
+      ]
     }
-  }
+  ]
 }

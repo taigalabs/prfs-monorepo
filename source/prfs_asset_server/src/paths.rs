@@ -6,20 +6,25 @@ lazy_static! {
     pub static ref PATHS: Paths = Paths::new();
 }
 
+#[derive(Debug)]
 pub struct Paths {
     pub assets: PathBuf,
 }
 
 impl Paths {
     pub fn new() -> Paths {
-        println!("Initializing {} paths...", env!("CARGO_PKG_NAME"));
-
         let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        println!("manifest_dir: {:?}", manifest_dir);
-
         let assets = manifest_dir.join("assets");
-        println!("assets: {:?}", assets);
 
-        Paths { assets }
+        let p = Paths { assets };
+
+        println!(
+            "{} paths, pkg: {}, Paths: {:#?}",
+            "Loaded".green(),
+            env!("CARGO_PKG_NAME"),
+            p
+        );
+
+        p
     }
 }

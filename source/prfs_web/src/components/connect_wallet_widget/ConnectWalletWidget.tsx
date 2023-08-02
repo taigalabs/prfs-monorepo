@@ -1,20 +1,19 @@
 import React from "react";
 import Link from "next/link";
-import Paper from "@mui/material/Paper";
-import classnames from "classnames";
 import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
 
 import styles from "./ConnectWalletWidget.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Widget from "@/components/widget/Widget";
+import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
+import FormTextInput from "@/components/form/FormTextInput";
+import Button from "@/components/button/Button";
 
 const metamaskConfig = metamaskWallet();
 
-const ConnectWalletWidget: React.FC<ConnectWalletWidgetProps> = ({ className, handleConnect }) => {
+const ConnectWalletWidget: React.FC<ConnectWalletWidgetProps> = ({ handleConnect }) => {
   const i18n = React.useContext(i18nContext);
 
   const connect = useConnect();
-
   const [walletAddr, setWalletAddr] = React.useState(undefined);
 
   let handleClickConnect = React.useCallback(() => {
@@ -30,9 +29,12 @@ const ConnectWalletWidget: React.FC<ConnectWalletWidgetProps> = ({ className, ha
   }, [setWalletAddr]);
 
   return (
-    <Widget label={i18n.connect_wallet} className={classnames(styles.wrapper, className)}>
-      <div className={styles.widgetInner}>
-        <div className={`${styles.radioBox}`}>
+    <Widget>
+      <WidgetHeader>
+        <WidgetLabel>{i18n.connect_wallet}</WidgetLabel>
+      </WidgetHeader>
+      <WidgetPaddedBody>
+        <div className={styles.radioBox}>
           <div>
             <input type="radio" value="metamask" checked readOnly />
           </div>
@@ -42,19 +44,16 @@ const ConnectWalletWidget: React.FC<ConnectWalletWidgetProps> = ({ className, ha
           </div>
         </div>
         <div className={styles.connectBtnRow}>
-          <button className={styles.connectBtn} onClick={handleClickConnect}>
+          <Button variant="a" handleClick={handleClickConnect}>
             {i18n.connect}
-          </button>
+          </Button>
         </div>
-      </div>
-      {walletAddr && (
-        <div className={styles.widgetInner}>
+        {walletAddr && (
           <div className={styles.walletAddr}>
-            <p className={styles.label}>{i18n.wallet_addr}</p>
-            <p className={styles.val}>{walletAddr}</p>
+            <FormTextInput label={i18n.wallet_addr} value={walletAddr} />
           </div>
-        </div>
-      )}
+        )}
+      </WidgetPaddedBody>
     </Widget>
   );
 };
@@ -62,6 +61,5 @@ const ConnectWalletWidget: React.FC<ConnectWalletWidgetProps> = ({ className, ha
 export default ConnectWalletWidget;
 
 export interface ConnectWalletWidgetProps {
-  className?: string;
   handleConnect: Function;
 }

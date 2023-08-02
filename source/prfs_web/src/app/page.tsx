@@ -4,15 +4,13 @@ import React from "react";
 
 import { stateContext } from "@/contexts/state";
 import styles from "./Home.module.scss";
-import Table, { TableData } from "@/components/table/Table";
-import Widget from "@/components/widget/Widget";
+import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import Teaser from "@/components/teaser/Teaser";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
-import prfsBackend from "@/fetch/prfsBackend";
 import CircuitTable from "@/components/circuit_table/CircuitTable";
 
 const Home: React.FC = () => {
@@ -27,14 +25,18 @@ const Home: React.FC = () => {
     <DefaultLayout>
       <CardRow>
         <Card>
-          <Widget label={i18n.proofs}>
+          <Widget>
+            <WidgetHeader>
+              <WidgetLabel>label={i18n.proofs}</WidgetLabel>
+            </WidgetHeader>
             <CircuitTable />
           </Widget>
         </Card>
       </CardRow>
       <CardRow>
         <Card>
-          <Widget label={i18n.proof_types}>
+          <Widget>
+            <WidgetHeader>label={i18n.proof_types}</WidgetHeader>
             <CircuitTable />
           </Widget>
         </Card>
