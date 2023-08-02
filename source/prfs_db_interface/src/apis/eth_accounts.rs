@@ -1,5 +1,11 @@
-use crate::{database::Database, database2::Database2, models::EthAccount, DbInterfaceError};
+use crate::{
+    database::Database,
+    database2::Database2,
+    models::{EthAccount, PrfsAccount},
+    DbInterfaceError,
+};
 use rust_decimal::Decimal;
+use sqlx::Row;
 use std::collections::BTreeMap;
 
 impl Database2 {
@@ -7,23 +13,37 @@ impl Database2 {
         &self,
         where_clause: &str,
     ) -> Result<Vec<EthAccount>, DbInterfaceError> {
-        let stmt = format!(
-            "SELECT * from {} as acc {}",
-            EthAccount::table_name(),
-            where_clause,
-        );
-        println!("stmt: {}", stmt);
+        // let stmt = format!(
+        //     "SELECT * from {} as acc {}",
+        //     EthAccount::table_name(),
+        //     where_clause,
+        // );
+        // println!("stmt: {}", stmt);
 
-        let rows = match self.pg_client.query(&stmt, &[]).await {
-            Ok(r) => r,
-            Err(err) => {
-                tracing::error!("account retrieval failed, err: {}, stmt: {}", err, stmt);
+        // let rows = match self.pg_client.query(&stmt, &[]).await {
+        //     Ok(r) => r,
+        //     Err(err) => {
+        //         tracing::error!("account retrieval failed, err: {}, stmt: {}", err, stmt);
 
-                return Err(err.into());
-            }
-        };
+        //         return Err(err.into());
+        //     }
+        // };
 
-        let accounts: Vec<EthAccount> = rows
+        // let accounts: Vec<EthAccount> = rows
+        //     .iter()
+        //     .map(|r| {
+        //         let addr: String = r.try_get("addr").expect("addr should be present");
+        //         let wei: Decimal = r.try_get("wei").expect("wei should be present");
+
+        //         EthAccount { addr, wei }
+        //     })
+        //     .collect();
+
+        let query = format!("SELECT * from eth_accounts as acc {}", where_clause);
+
+        let rows = sqlx::query(&query).fetch_all(&self.pool).await.unwrap();
+
+        let eth_accounts: Vec<EthAccount> = rows
             .iter()
             .map(|r| {
                 let addr: String = r.try_get("addr").expect("addr should be present");
@@ -33,7 +53,7 @@ impl Database2 {
             })
             .collect();
 
-        Ok(accounts)
+        Ok(eth_accounts)
     }
 
     pub async fn insert_eth_accounts(
@@ -63,15 +83,17 @@ impl Database2 {
         };
         // println!("stmt: {}", stmt);
 
-        let rows_updated = match self.pg_client.execute(&stmt, &[]).await {
-            Ok(r) => r,
-            Err(err) => {
-                tracing::error!("Error executing stmt, err: {}, stmt: {}", err, stmt);
+        panic!();
 
-                return Err(err.into());
-            }
-        };
+        // let rows_updated = match self.pg_client.execute(&stmt, &[]).await {
+        //     Ok(r) => r,
+        //     Err(err) => {
+        //         tracing::error!("Error executing stmt, err: {}, stmt: {}", err, stmt);
 
-        Ok(rows_updated)
+        //         return Err(err.into());
+        //     }
+        // };
+
+        // Ok(rows_updated)
     }
 }
