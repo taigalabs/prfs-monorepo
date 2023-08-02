@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import styles from "./CreateProofTypeForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -121,6 +122,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
   const { state } = React.useContext(stateContext);
   const { prfsAccount } = state;
+  const router = useRouter();
 
   const [publicInputInstance, setPublicInputInstance] = React.useState<PublicInputInstance>({});
   const [formAlert, setFormAlert] = React.useState("");
@@ -209,9 +211,14 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       public_input_instance: newPublicInputInstance,
     };
 
-    console.log(11, createPrfsProofTypeRequest);
-
-    prfsBackend.createPrfsProofType(createPrfsProofTypeRequest);
+    prfsBackend
+      .createPrfsProofType(createPrfsProofTypeRequest)
+      .then(_res => {
+        router.push("/proof_types");
+      })
+      .catch(err => {
+        setFormAlert(err);
+      });
   }, [publicInputInstance, selectedCircuit, name, setFormAlert, desc, state.prfsAccount]);
 
   return (
