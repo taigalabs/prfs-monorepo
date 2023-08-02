@@ -1,4 +1,4 @@
-use crate::{database::Database, database2::Database2, models::PrfsAccount, DbInterfaceError};
+use crate::{database2::Database2, entities::PrfsAccount, DbInterfaceError};
 use sqlx::Row;
 
 impl Database2 {

@@ -1,7 +1,7 @@
 use crate::{
     database::Database,
     database2::Database2,
-    models::{EthAccount, PrfsAccount},
+    entities::{EthAccount, PrfsAccount},
     DbInterfaceError,
 };
 use rust_decimal::Decimal;

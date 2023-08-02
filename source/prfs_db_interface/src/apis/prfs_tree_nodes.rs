@@ -1,28 +1,15 @@
+use crate::{database2::Database2, entities::PrfsTreeNode, DbInterfaceError};
 use sqlx::Row;
-
-use crate::{database::Database, database2::Database2, models::PrfsTreeNode, DbInterfaceError};
 
 impl Database2 {
     pub async fn get_prfs_tree_nodes(
         &self,
         where_clause: &str,
     ) -> Result<Vec<PrfsTreeNode>, DbInterfaceError> {
-        let query = format!(
-            "SELECT * from {} {}",
-            PrfsTreeNode::table_name(),
-            where_clause
-        );
+        let query = format!("SELECT * from prfs_tree_nodes {}", where_clause);
         // println!("stmt: {}", stmt);
 
         let rows = sqlx::query(&query).fetch_all(&self.pool).await.unwrap();
-        // let rows = match self.pg_client.query(&stmt, &[]).await {
-        //     Ok(r) => r,
-        //     Err(err) => {
-        //         tracing::error!("account retrieval failed, err: {}, stmt: {}", err, stmt);
-
-        //         return Err(err.into());
-        //     }
-        // };
 
         let nodes: Vec<PrfsTreeNode> = rows
             .iter()
@@ -42,6 +29,35 @@ impl Database2 {
             .collect();
 
         Ok(nodes)
+    }
+
+    pub async fn get_prfs_tree_root(
+        &self,
+        set_id: &String,
+    ) -> Result<PrfsTreeNode, DbInterfaceError> {
+        let query =
+            format!("SELECT * from prfs_tree_nodes where set_id=$1 and pos_h=31 and pos_w=0",);
+        // println!("stmt: {}", stmt);
+
+        let row = sqlx::query(&query)
+            .bind(&set_id)
+            .fetch_one(&self.pool)
+            .await
+            .unwrap();
+
+        let pos_w = row.try_get("pos_w").expect("pos_w should exist");
+        let pos_h = row.try_get("pos_h").expect("pos_h should exist");
+        let val = row.try_get("val").expect("val should exist");
+        let set_id = row.try_get("set_id").expect("set_id should exist");
+
+        let n = PrfsTreeNode {
+            pos_w,
+            pos_h,
+            val,
+            set_id,
+        };
+
+        Ok(n)
     }
 
     pub async fn insert_prfs_tree_nodes(
@@ -71,6 +87,7 @@ impl Database2 {
                 values.join(","),
             )
         };
+
         // println!("stmt: {}", stmt);
 
         // let rows_updated = match self.pg_client.execute(&stmt, &[]).await {

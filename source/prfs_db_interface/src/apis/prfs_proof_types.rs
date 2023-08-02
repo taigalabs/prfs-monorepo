@@ -1,7 +1,6 @@
 use crate::{
-    database::Database,
     database2::Database2,
-    models::{PrfsProofType, PrfsSet},
+    entities::{PrfsProofType, PrfsSet},
 };
 use chrono::NaiveDate;
 use sqlx::{Execute, Postgres, Row};

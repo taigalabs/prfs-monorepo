@@ -3,7 +3,7 @@ use crate::{
     state::ServerState,
 };
 use hyper::{body, Body, Request, Response};
-use prfs_db_interface::models::PrfsAccount;
+use prfs_db_interface::entities::PrfsAccount;
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};

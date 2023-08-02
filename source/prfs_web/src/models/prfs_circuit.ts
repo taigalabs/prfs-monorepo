@@ -1,5 +1,5 @@
 export interface PrfsCircuit {
-  circuit_id: number;
+  circuit_id: string;
   label: string;
   author: string;
   public_inputs: PublicInput[];
@@ -22,6 +22,14 @@ export interface PublicInput {
   label: string;
   desc: string;
   type: PublicInputType;
+}
+
+export interface PublicInputInstance {
+  [key: number]: {
+    label: string;
+    type: PublicInputType;
+    value: any;
+  };
 }
 
 export interface PrfsCircuitProgram {

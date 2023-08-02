@@ -10,10 +10,9 @@ import Dropdown, {
   DropdownData,
   DropdownSingleSelectedValue,
 } from "@/components/dropdown/Dropdown";
-import { PrfsSet, PrfsSetKeys } from "@/models";
-import { RecordOfKeys } from "@/models/types";
-import DropdownEntry from "../dropdown/DropdownEntry";
-import DropdownList from "../dropdown/DropdownList";
+import { PrfsSet } from "@/models";
+import DropdownEntry from "@/components/dropdown/DropdownEntry";
+import DropdownList from "@/components/dropdown/DropdownList";
 
 const SetEntry: React.FC<SetEntryProps> = ({ val }) => {
   const i18n = React.useContext(i18nContext);
@@ -47,7 +46,7 @@ const SetEntry: React.FC<SetEntryProps> = ({ val }) => {
 const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
 
-  const [data, setData] = React.useState<DropdownData<PrfsSetKeys>>({
+  const [data, setData] = React.useState<DropdownData<PrfsSet>>({
     page: 0,
     values: [],
   });
@@ -78,7 +77,7 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
   }, [selectedVal]);
 
   const createList = React.useCallback(
-    ({ upgradedHandleSelectVal }: CreateDropdownListArgs<PrfsSetKeys>) => {
+    ({ upgradedHandleSelectVal }: CreateDropdownListArgs<PrfsSet>) => {
       let { values } = data;
 
       if (values === undefined) {
@@ -112,8 +111,8 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
 export default SetDropdown;
 
 export interface SetDropdownProps {
-  selectedVal: DropdownSingleSelectedValue<PrfsSetKeys>;
-  handleSelectVal: (row: RecordOfKeys<PrfsSetKeys>) => void;
+  selectedVal: DropdownSingleSelectedValue<PrfsSet>;
+  handleSelectVal: (row: PrfsSet) => void;
 }
 
 export interface SetEntryProps {

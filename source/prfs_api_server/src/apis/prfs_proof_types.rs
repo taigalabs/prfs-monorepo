@@ -1,7 +1,7 @@
 use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
 use chrono::NaiveDate;
 use hyper::{body, Body, Request, Response};
-use prfs_db_interface::models::{PrfsProofType, PrfsSet};
+use prfs_db_interface::entities::{PrfsProofType, PrfsSet};
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};

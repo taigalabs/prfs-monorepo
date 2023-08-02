@@ -11,19 +11,3 @@ export interface PrfsSet {
   elliptic_curve: string;
   finite_field: string;
 }
-
-export const PRFS_SET_KEYS = [
-  "set_id",
-  "label",
-  "author",
-  "desc",
-  "hash_algorithm",
-  "elliptic_curve",
-  "finite_field",
-  "element_type",
-  "cardinality",
-  "created_at",
-  "merkle_root",
-] as const;
-
-export type PrfsSetKeys = (typeof PRFS_SET_KEYS)[number];

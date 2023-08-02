@@ -1,6 +1,6 @@
 use crate::{responses::ApiResponse, state::ServerState};
 use hyper::{body, header, Body, Request, Response};
-use prfs_db_interface::models::PrfsTreeNode;
+use prfs_db_interface::entities::PrfsTreeNode;
 use routerify::prelude::*;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
@@ -53,7 +53,7 @@ pub async fn get_prfs_tree_nodes(req: Request<Body>) -> Result<Response<Body>, I
     println!("where_clause, {}", where_clause);
 
     let prfs_tree_nodes = state
-        .db
+        .db2
         .get_prfs_tree_nodes(&where_clause)
         .await
         .expect("get nodes fail");
@@ -100,7 +100,7 @@ pub async fn get_prfs_tree_leaf_nodes(req: Request<Body>) -> Result<Response<Bod
     println!("where_clause, {}", where_clause);
 
     let prfs_tree_nodes = state
-        .db
+        .db2
         .get_prfs_tree_nodes(&where_clause)
         .await
         .expect("get nodes fail");

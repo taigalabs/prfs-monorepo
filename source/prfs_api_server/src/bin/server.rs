@@ -28,10 +28,10 @@ async fn main() -> Result<(), ApiServerError> {
         .await
         .unwrap();
 
-    let db = Database::connect(pg_endpoint, pg_pw).await?;
+    // let db = Database::connect(pg_endpoint, pg_pw).await?;
 
     let server_state = Arc::new(ServerState {
-        db,
+        // db,
         local_assets,
         db2,
     });

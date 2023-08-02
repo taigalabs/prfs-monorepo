@@ -4,9 +4,8 @@ import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import { useFloating, useClick, useInteractions, useDismiss } from "@floating-ui/react";
 
 import styles from "./Dropdown.module.scss";
-import { RecordOfKeys } from "@/models/types";
 
-function Dropdown<T extends string>({ createBase, createList, handleSelectVal }: DropdownProps<T>) {
+function Dropdown<T>({ createBase, createList, handleSelectVal }: DropdownProps<T>) {
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, floatingStyles, context } = useFloating({
     placement: "bottom-end",
@@ -59,7 +58,7 @@ function Dropdown<T extends string>({ createBase, createList, handleSelectVal }:
 
 export default Dropdown;
 
-export interface DropdownProps<T extends string> {
+export interface DropdownProps<T> {
   createBase: () => React.ReactNode;
   createList: (args: CreateDropdownListArgs<T>) => React.ReactNode;
   handleSelectVal: (data: T) => void;
