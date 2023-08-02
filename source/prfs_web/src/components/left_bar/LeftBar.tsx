@@ -23,12 +23,12 @@ const Leftbar: React.FC<any> = () => {
       </div>
       <div className={styles.section}>
         <ul>
-          <li className={styles.category}>{i18n.circuits}</li>
+          <li className={styles.category}>{i18n.programs}</li>
           <li>
-            <ActiveLink href="/circuits">{i18n.circuits}</ActiveLink>
+            <ActiveLink href="/programs">{i18n.proof_programs}</ActiveLink>
           </li>
           <li>
-            <ActiveLink href="/programs">{i18n.programs}</ActiveLink>
+            <ActiveLink href="/circuits">{i18n.circuits}</ActiveLink>
           </li>
         </ul>
       </div>

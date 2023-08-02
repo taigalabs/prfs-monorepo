@@ -21,6 +21,7 @@ export default {
   hash_algorithm: "Hash algorithm",
   proof_type_id: "Proof type id",
   programs: "Programs",
+  proof_programs: "Proof programs",
   program: "Program",
   generate: "Generate",
   public_inputs: "Public inputs",
