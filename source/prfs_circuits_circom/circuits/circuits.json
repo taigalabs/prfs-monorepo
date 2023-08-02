@@ -27,22 +27,22 @@
         {
           "label": "Tx",
           "desc": "Tx description",
-          "type": "COMPUTED"
+          "type": "PROVER_GENERATED"
         },
         {
           "label": "Ty",
           "desc": "Ty description",
-          "type": "COMPUTED"
+          "type": "PROVER_GENERATED"
         },
         {
           "label": "Ux",
           "desc": "Ux description",
-          "type": "COMPUTED"
+          "type": "PROVER_GENERATED"
         },
         {
           "label": "Uy",
           "desc": "Uy description",
-          "type": "COMPUTED"
+          "type": "PROVER_GENERATED"
         },
         {
           "label": "Merkle root",

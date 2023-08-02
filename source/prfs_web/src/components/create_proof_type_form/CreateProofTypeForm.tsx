@@ -29,7 +29,7 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit, setPub
   let setVals = {};
   circuit.public_inputs.forEach((pi, idx) => {
     switch (pi.type) {
-      case PublicInputType.COMPUTED:
+      case PublicInputType.PROVER_GENERATED:
         break;
       case PublicInputType.PRFS_SET:
         const [selectedSet, setSelectedSet] =
@@ -63,7 +63,7 @@ const PublicInputSection: React.FC<PublicInputSectionProps> = ({ circuit, setPub
     for (const [idx, [_, pi]] of Object.entries(circuit.public_inputs).entries()) {
       let inputValue: React.ReactElement;
       switch (pi.type) {
-        case PublicInputType.COMPUTED:
+        case PublicInputType.PROVER_GENERATED:
           inputValue = <div className={styles.computedInput}>{i18n.computed.toUpperCase()}</div>;
           break;
         case PublicInputType.PRFS_SET:
@@ -147,9 +147,16 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       return;
     }
 
+    const newPublicInputInstance: PublicInputInstance = {};
+
     selectedCircuit.public_inputs.forEach((pi: PublicInput, idx: number) => {
       switch (pi.type) {
-        case PublicInputType.COMPUTED:
+        case PublicInputType.PROVER_GENERATED:
+          newPublicInputInstance[idx] = {
+            label: pi.label,
+            type: pi.type,
+            value: "",
+          };
           break;
         case PublicInputType.PRFS_SET:
           if (!publicInputs[idx]) {
@@ -158,6 +165,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
           }
           break;
         default:
+          throw new Error(`public input invalid, type: ${pi.type}`);
       }
     });
 
@@ -228,11 +236,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       </CardRow>
 
       {selectedCircuit && (
-        <PublicInputSection
-          circuit={selectedCircuit}
-          // publicInputs={publicInputs}
-          setPublicInputs={setPublicInputs}
-        />
+        <PublicInputSection circuit={selectedCircuit} setPublicInputs={setPublicInputs} />
       )}
 
       <div className={styles.alert}>{formAlert}</div>
@@ -254,7 +258,3 @@ interface PublicInputSectionProps {
   circuit: PrfsCircuit;
   setPublicInputs: React.Dispatch<React.SetStateAction<PublicInputInstance>>;
 }
-
-// interface  {
-//   [key: number]: any;
-// }

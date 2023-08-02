@@ -14,7 +14,7 @@ export interface PrfsCircuit {
 }
 
 export enum PublicInputType {
-  COMPUTED = "COMPUTED",
+  PROVER_GENERATED = "PROVER_GENERATED",
   PRFS_SET = "PRFS_SET",
 }
 
