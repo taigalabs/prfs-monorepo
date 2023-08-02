@@ -192,9 +192,10 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     setFormAlert("");
 
     let { y, m, d } = getYMD();
-    let hash = keccakHash(`${selectedCircuit.circuit_id}+${selectedCircuit.program.program_id}`);
-    console.log(11, hash);
-    return;
+    let now = Date.now();
+    let hash = keccakHash(
+      `${selectedCircuit.circuit_id}_${selectedCircuit.program.program_id}_${now}`
+    ).substring(2, 8);
 
     let proof_type_id = `${prfsAccount.id}_${y}${m}${d}_${hash}`;
 
