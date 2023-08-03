@@ -8,17 +8,16 @@ members = [
 
   # prfs
   "source/prfs_db_interface",
-
   "source/prfs_tree_maker",
   "source/prfs_api_server",
   "source/prfs_asset_server",
-
-  # "source/prfs_lib",
   "source/prfs_crypto",
 
+  # prfs cicuits
   "source/prfs_circuits_circom",
   "source/prfs_circuits_type",
 
+  # prfs program
   "source/prfs_program_type",
   "source/prfs_program_spartan_wasm",
 
