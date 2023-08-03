@@ -1,0 +1,65 @@
+.wrapper {
+  max-width: 760px;
+}
+
+.textInputContainer {
+  &:not(:first-child) {
+    margin-top: 15px;
+  }
+
+  input {
+    max-width: 535px;
+  }
+}
+
+.dropdownContainer {
+  width: 535px;
+
+  > div:first-child {
+    margin-bottom: 5px;
+  }
+}
+
+.publicInputEntry {
+  display: flex;
+
+  .inputIdx {
+    width: 30px;
+  }
+
+  .inputGroup {
+    margin-left: 8px;
+    flex-grow: 1;
+  }
+
+  .inputDesc {
+    margin-top: 3px;
+    color: var(--gray-31);
+  }
+}
+
+.publicInputEntry:not(:first-child) {
+  margin-top: 15px;
+}
+
+.inputContainer {
+  margin-top: 4px;
+  width: 100%;
+}
+
+.computedInput {
+  padding: 5px 5px;
+  border: 1px solid var(--gray-60);
+  background-color: var(--bright-gray-55);
+  color: var(--gray-40);
+}
+
+.publicInputType {
+  font-size: 0.93em;
+  margin-bottom: 2px;
+}
+
+.alert {
+  color: red;
+  margin: 12px 0;
+}

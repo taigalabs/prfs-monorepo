@@ -46,6 +46,7 @@ export default {
   proof_type: "Proof type",
   proof_type_summary_label: "Proof type summary for",
   proof_types: "Proof types",
+  proof_instances: "Proof instances",
   public_input_instance: "Public input instance",
   program_properties: "Program properties",
   computed: "Computed",

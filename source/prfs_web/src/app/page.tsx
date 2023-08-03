@@ -29,14 +29,12 @@ const Home: React.FC = () => {
             <WidgetHeader>
               <WidgetLabel>{i18n.proofs}</WidgetLabel>
             </WidgetHeader>
-            <CircuitTable />
+            {/* <CircuitTable /> */}
           </Widget>
         </Card>
       </CardRow>
       <CardRow>
-        <Card>
-          <Widget>wip</Widget>
-        </Card>
+        <Card>{/* <Widget>wip</Widget> */}</Card>
       </CardRow>
     </DefaultLayout>
   );
