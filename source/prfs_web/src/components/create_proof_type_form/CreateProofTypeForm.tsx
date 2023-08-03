@@ -175,7 +175,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 
       {selectedCircuit && (
         <PublicInputConfigSection
-          circuit={selectedCircuit}
+          publicInputs={selectedCircuit.public_inputs}
           setPublicInputInstance={setPublicInputInstance}
         />
       )}

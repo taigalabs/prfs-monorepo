@@ -1,41 +1,24 @@
 import React from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 import styles from "./PublicInputConfigSection.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
 import CardRow from "@/components/card_row/CardRow";
 import Card from "@/components/card/Card";
-import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
-import { FormTitleRow, FormTitle, FormSubtitle } from "@/components/form/Form";
-import Button from "@/components/button/Button";
-import FormTextInput from "@/components/form/FormTextInput";
 import SetDropdown from "@/components/set_dropdown/SetDropdown";
-import {
-  PrfsCircuit,
-  PublicInputType,
-  PrfsSet,
-  PublicInputInstance,
-  PrfsProofType,
-} from "@/models";
-import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
+import { PublicInputType, PrfsSet, PublicInputInstance, PublicInput } from "@/models";
 import { DropdownSingleSelectedValue } from "@/components/dropdown/Dropdown";
-import { stateContext } from "@/contexts/state";
-import * as prfsBackend from "@/fetch/prfsBackend";
-import { getYMD } from "@/functions/date";
-import { keccakHash } from "@/functions/hash";
-import ProofTypeDropdown from "../proof_type_dropdown/ProofTypeDropdown";
 
 const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
-  circuit,
+  publicInputs,
   setPublicInputInstance,
 }) => {
   const i18n = React.useContext(i18nContext);
 
   let vals = {};
   let setVals = {};
-  circuit.public_inputs.forEach((pi, idx) => {
+  publicInputs.forEach((pi, idx) => {
     switch (pi.type) {
       case PublicInputType.PROVER_GENERATED:
         break;
@@ -73,7 +56,7 @@ const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
   const publicInputEntries = React.useMemo(() => {
     let elems = [];
 
-    for (const [idx, [_, pi]] of Object.entries(circuit.public_inputs).entries()) {
+    for (const [idx, [_, pi]] of Object.entries(publicInputs).entries()) {
       let inputValue: React.ReactElement;
       switch (pi.type) {
         case PublicInputType.PROVER_GENERATED:
@@ -106,7 +89,7 @@ const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
     }
 
     return elems;
-  }, [circuit, setVals]);
+  }, [publicInputs, setVals]);
 
   return (
     <CardRow>
@@ -127,6 +110,7 @@ const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
 export default PublicInputConfigSection;
 
 interface PublicInputConfigSectionProps {
-  circuit: PrfsCircuit;
+  // circuit: PrfsCircuit;
+  publicInputs: PublicInput[];
   setPublicInputInstance: React.Dispatch<React.SetStateAction<PublicInputInstance>>;
 }
