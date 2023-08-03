@@ -16,7 +16,7 @@ import * as prfsBackend from "@/fetch/prfsBackend";
 import { PrfsCircuit, PrfsCircuitProgram, PrfsProofType } from "@/models/index";
 import { useRouter } from "next/navigation";
 import CircuitSummary from "@/components/circuit_summary/CircuitSummary";
-import PublicInputTable from "@/components/public_input_table/PublicInputTable";
+import PublicInputInstanceTable from "@/components/public_input_instance_table/PublicInputInstanceTable";
 import CircuitProgramSummary from "@/components/circuit_program_summary/CircuitProgramSummary";
 import ProofTypeSummary from "@/components/proof_type_summary/ProofTypeSummary";
 
@@ -63,6 +63,18 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
                 <WidgetLabel>{proofTypeSummaryLabel}</WidgetLabel>
               </WidgetHeader>
               <ProofTypeSummary proofType={proofType} />
+            </Widget>
+          </Card>
+        </CardRow>
+        <CardRow>
+          <Card>
+            <Widget>
+              <WidgetHeader>
+                <WidgetLabel>{i18n.public_inputs}</WidgetLabel>
+              </WidgetHeader>
+              {proofType && (
+                <PublicInputInstanceTable publicInputInstance={proofType.public_input_instance} />
+              )}
             </Widget>
           </Card>
         </CardRow>

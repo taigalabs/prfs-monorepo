@@ -3,23 +3,28 @@
 import React from "react";
 import Link from "next/link";
 
-import styles from "./PublicInputTable.module.scss";
+import styles from "./PublicInputInstanceTable.module.scss";
 import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
-import { PublicInput } from "@/models";
+import { PublicInput, PublicInputInstance, PublicInputInstanceEntry } from "@/models";
 
-const PublicInputTable: React.FC<PublicInputTableProps> = ({ public_inputs }) => {
+const PublicInputInstanceTable: React.FC<PublicInputInstanceTableProps> = ({
+  publicInputInstance,
+}) => {
   const i18n = React.useContext(i18nContext);
-  const [data, setData] = React.useState<TableData<PublicInput>>({ page: 0, values: [] });
+  const [data, setData] = React.useState<TableData<PublicInputInstanceEntry>>({
+    page: 0,
+    values: [],
+  });
 
   React.useEffect(() => {
-    if (public_inputs) {
+    if (publicInputInstance) {
       setData({
         page: 0,
-        values: public_inputs,
+        values: Object.values(publicInputInstance),
       });
     }
-  }, [public_inputs]);
+  }, [publicInputInstance]);
 
   const rowsElem = React.useMemo(() => {
     let { values } = data;
@@ -34,7 +39,8 @@ const PublicInputTable: React.FC<PublicInputTableProps> = ({ public_inputs }) =>
         <TableRow key={val.label}>
           <td className={styles.type}>{val.type}</td>
           <td className={styles.label}>{val.label}</td>
-          <td className={styles.desc}>{val.desc}</td>
+          <td className={styles.ref}>{val.ref}</td>
+          <td className={styles.value}>{val.value}</td>
         </TableRow>
       );
 
@@ -50,7 +56,8 @@ const PublicInputTable: React.FC<PublicInputTableProps> = ({ public_inputs }) =>
         <TableRow>
           <th className={styles.type}>{i18n.type}</th>
           <th className={styles.label}>{i18n.label}</th>
-          <th className={styles.desc}>{i18n.description}</th>
+          <th className={styles.ref}>{i18n.ref}</th>
+          <th className={styles.value}>{i18n.value}</th>
         </TableRow>
       </TableHeader>
       <TableBody>{rowsElem}</TableBody>
@@ -58,8 +65,8 @@ const PublicInputTable: React.FC<PublicInputTableProps> = ({ public_inputs }) =>
   );
 };
 
-export default PublicInputTable;
+export default PublicInputInstanceTable;
 
-export interface PublicInputTableProps {
-  public_inputs: PublicInput[];
+export interface PublicInputInstanceTableProps {
+  publicInputInstance: PublicInputInstance;
 }
