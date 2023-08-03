@@ -11,7 +11,6 @@ import { PrfsCircuit, PrfsCircuitProgram } from "@/models";
 
 const CircuitProgramPropsTable: React.FC<CircuitProgramPropsTableProps> = ({
   program,
-  selectType,
   handleSelectVal,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -26,36 +25,24 @@ const CircuitProgramPropsTable: React.FC<CircuitProgramPropsTableProps> = ({
     }
   }, [program]);
 
-  const propKeys = React.useMemo(() => {
-    if (program) {
-      console.log(22, program.properties);
-      return Object.keys(program.properties);
-    } else {
+  const headerElem = React.useMemo(() => {
+    let { values } = data;
+    if (values === undefined || values.length < 1) {
       return null;
     }
-  }, [program]);
 
-  console.log(2332, propKeys);
-
-  const headerElem = React.useMemo(() => {
-    console.log(11, data);
-
-    if (propKeys) {
-    }
+    console.log(11, values);
 
     return (
       <TableHeader>
         <TableRow>
           {handleSelectVal && <th className={styles.radio}></th>}
-          <th className={styles.circuit_id}>{i18n.circuit_id}</th>
           <th className={styles.label}>{i18n.label}</th>
           <th className={styles.desc}>{i18n.description}</th>
-          <th className={styles.author}>{i18n.author}</th>
-          <th className={styles.createdAt}>{i18n.created_at}</th>
         </TableRow>
       </TableHeader>
     );
-  }, [propKeys, handleSelectVal]);
+  }, [data, handleSelectVal]);
 
   const rowsElem = React.useMemo(() => {
     let { page, values } = data;
@@ -68,13 +55,8 @@ const CircuitProgramPropsTable: React.FC<CircuitProgramPropsTableProps> = ({
     for (let val of values) {
       let row = (
         <TableRow key={val.circuit_id}>
-          <td className={styles.circuit_id}>
-            <Link href={`/circuits/${val.circuit_id}`}>{val.circuit_id}</Link>
-          </td>
-          <td className={styles.label}>{val.label}</td>
-          <td className={styles.desc}>{val.desc}</td>
-          <td className={styles.author}>{val.author}</td>
-          <td className={styles.createdAt}>{val.created_at}</td>
+          <td key={val[0]}>{val[0]}</td>
+          <td key={val[1]}>{val[1]}</td>
         </TableRow>
       );
 
