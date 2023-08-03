@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 
 import styles from "./CircuitProgramPropsTable.module.scss";
-import Table, { TableBody, TableRow, TableHeader, CreateBodyArgs } from "@/components/table/Table";
+import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import * as prfsBackend from "@/fetch/prfsBackend";
 import { PrfsCircuit, PrfsCircuitProgram } from "@/models";
@@ -15,6 +15,16 @@ const CircuitProgramPropsTable: React.FC<CircuitProgramPropsTableProps> = ({
   handleSelectVal,
 }) => {
   const i18n = React.useContext(i18nContext);
+  const [data, setData] = React.useState<TableData<Record<string, any>>>({ page: 0, values: [] });
+
+  React.useEffect(() => {
+    if (program.properties) {
+      setData({
+        page: 0,
+        values: program.properties.entries(),
+      });
+    }
+  }, [program]);
 
   const propKeys = React.useMemo(() => {
     if (program) {
@@ -27,8 +37,9 @@ const CircuitProgramPropsTable: React.FC<CircuitProgramPropsTableProps> = ({
 
   console.log(2332, propKeys);
 
-  const createHeader = React.useCallback(() => {
-    console.log(11, propKeys);
+  const headerElem = React.useMemo(() => {
+    console.log(11, data);
+
     if (propKeys) {
     }
 
@@ -46,72 +57,38 @@ const CircuitProgramPropsTable: React.FC<CircuitProgramPropsTableProps> = ({
     );
   }, [propKeys, handleSelectVal]);
 
-  const createBody = React.useCallback(
-    ({ data, handleSelectVal, selectedVal }: CreateBodyArgs<PrfsCircuit>) => {
-      let { page, values } = data;
+  const rowsElem = React.useMemo(() => {
+    let { page, values } = data;
 
-      let rows = [];
-      if (values === undefined || values.length < 1) {
-        return rows;
-      }
+    let rows = [];
+    if (values === undefined || values.length < 1) {
+      return rows;
+    }
 
-      for (let val of values) {
-        const onClickRow = handleSelectVal
-          ? (_ev: React.MouseEvent) => {
-              handleSelectVal(val);
-            }
-          : undefined;
+    for (let val of values) {
+      let row = (
+        <TableRow key={val.circuit_id}>
+          <td className={styles.circuit_id}>
+            <Link href={`/circuits/${val.circuit_id}`}>{val.circuit_id}</Link>
+          </td>
+          <td className={styles.label}>{val.label}</td>
+          <td className={styles.desc}>{val.desc}</td>
+          <td className={styles.author}>{val.author}</td>
+          <td className={styles.createdAt}>{val.created_at}</td>
+        </TableRow>
+      );
 
-        const isSelected = selectedVal && !!selectedVal[val.circuit_id];
-        const selType = selectType || "radio";
+      rows.push(row);
+    }
 
-        let row = (
-          <TableRow key={val.circuit_id} onClickRow={onClickRow} isSelected={isSelected}>
-            {selectedVal && (
-              <td className={styles.radio}>
-                <input type={selType} checked={isSelected} readOnly />
-              </td>
-            )}
-            <td className={styles.circuit_id}>
-              <Link href={`/circuits/${val.circuit_id}`}>{val.circuit_id}</Link>
-            </td>
-            <td className={styles.label}>{val.label}</td>
-            <td className={styles.desc}>{val.desc}</td>
-            <td className={styles.author}>{val.author}</td>
-            <td className={styles.createdAt}>{val.created_at}</td>
-          </TableRow>
-        );
-
-        rows.push(row);
-      }
-
-      return <TableBody key={page}>{rows}</TableBody>;
-    },
-    [program]
-  );
-
-  const handleChangeProofPage = React.useCallback(async (page: number) => {
-    return prfsBackend
-      .getPrfsNativeCircuits({
-        page,
-      })
-      .then(resp => {
-        const { page, prfs_circuits } = resp.payload;
-        return {
-          page,
-          values: prfs_circuits,
-        };
-      });
-  }, []);
+    return <TableBody key={page}>{rows}</TableBody>;
+  }, [program]);
 
   return (
-    <div>5</div>
-    // <Table
-    //   createHeader={createHeader}
-    //   createBody={createBody}
-    //   onChangePage={handleChangeProofPage}
-    //   minWidth={880}
-    // />
+    <Table minWidth={880}>
+      {headerElem}
+      <TableBody>{rowsElem}</TableBody>
+    </Table>
   );
 };
 

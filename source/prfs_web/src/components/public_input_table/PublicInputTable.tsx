@@ -37,13 +37,9 @@ const PublicInputTable: React.FC<PublicInputTableProps> = ({ circuit }) => {
     return rows;
   }, [circuit]);
 
-  const initialValues = React.useMemo(() => {
-    return circuit ? circuit.public_inputs : [];
-  }, [circuit]);
-
   return (
     circuit && (
-      <Table minWidth={910} initialValues={initialValues}>
+      <Table minWidth={910}>
         <TableHeader>
           <TableRow>
             <th className={styles.type}>{i18n.type}</th>

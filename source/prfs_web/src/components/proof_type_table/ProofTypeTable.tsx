@@ -4,13 +4,7 @@ import React from "react";
 import Link from "next/link";
 
 import styles from "./ProofTypeTable.module.scss";
-import Table, {
-  TableBody,
-  TableRow,
-  TableHeader,
-  CreateBodyArgs,
-  TableData,
-} from "@/components/table/Table";
+import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import * as prfsBackend from "@/fetch/prfsBackend";
 import { PrfsProofType } from "@/models";
