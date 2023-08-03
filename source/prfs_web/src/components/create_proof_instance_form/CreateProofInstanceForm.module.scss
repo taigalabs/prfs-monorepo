@@ -37,4 +37,11 @@
   .value {
     margin-top: 9px;
   }
+
+  a {
+    color: var(--green-50);
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }

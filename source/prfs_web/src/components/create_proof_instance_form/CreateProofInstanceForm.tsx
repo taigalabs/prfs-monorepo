@@ -10,7 +10,6 @@ import Card from "@/components/card/Card";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import { FormTitleRow, FormTitle, FormSubtitle } from "@/components/form/Form";
 import Button from "@/components/button/Button";
-import FormTextInput from "@/components/form/FormTextInput";
 import {
   PrfsCircuit,
   PublicInputType,
@@ -34,8 +33,8 @@ const ProgramSection: React.FC<ProgramSectionProps> = ({ proofType }) => {
 
     for (let [propName, val] of Object.entries(proofType.program_properties)) {
       if (val.startsWith("prfs://")) {
-        console.log(555);
-        val = val.replace("prfs://", "pppp");
+        val = val.replace("prfs:/", process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT);
+        val = <Link href={val}>{val}</Link>;
       }
 
       rows.push(
