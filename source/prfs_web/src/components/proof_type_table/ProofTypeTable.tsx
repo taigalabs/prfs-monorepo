@@ -4,30 +4,43 @@ import React from "react";
 import Link from "next/link";
 
 import styles from "./ProofTypeTable.module.scss";
-import Table, { TableBody, TableRow, TableHeader, CreateBodyArgs } from "@/components/table/Table";
+import Table, {
+  TableBody,
+  TableRow,
+  TableHeader,
+  CreateBodyArgs,
+  TableData,
+} from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import * as prfsBackend from "@/fetch/prfsBackend";
 import { PrfsProofType } from "@/models";
 
 const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
   const i18n = React.useContext(i18nContext);
+  const [data, setData] = React.useState<TableData<PrfsProofType>>({ page: 0, values: [] });
 
-  const createHeader = React.useCallback(() => {
-    return (
-      <TableHeader>
-        <TableRow>
-          <th className={styles.proofTypeId}>{i18n.proof_type_id}</th>
-          <th className={styles.label}>{i18n.label}</th>
-          <th className={styles.desc}>{i18n.description}</th>
-          <th className={styles.circuitId}>{i18n.circuit_id}</th>
-          <th className={styles.createdAt}>{i18n.created_at}</th>
-        </TableRow>
-      </TableHeader>
-    );
+  const handleChangePage = React.useCallback(async (page: number) => {
+    return prfsBackend
+      .getPrfsProofTypes({
+        page,
+      })
+      .then(resp => {
+        const { page, prfs_proof_types } = resp.payload;
+        return {
+          page,
+          values: prfs_proof_types,
+        };
+      });
   }, []);
 
-  const createBody = React.useCallback(({ data }: CreateBodyArgs<PrfsProofType>) => {
-    console.log(1, data);
+  React.useEffect(() => {
+    Promise.resolve(handleChangePage(0)).then(res => {
+      setData(res);
+    });
+  }, [setData, handleChangePage]);
+
+  const rowsElem = React.useMemo(() => {
+    // console.log(1, data);
 
     let { page, values } = data;
 
@@ -52,30 +65,22 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
       rows.push(row);
     }
 
-    return <TableBody key={page}>{rows}</TableBody>;
-  }, []);
-
-  const handleChangePage = React.useCallback(async (page: number) => {
-    return prfsBackend
-      .getPrfsProofTypes({
-        page,
-      })
-      .then(resp => {
-        const { page, prfs_proof_types } = resp.payload;
-        return {
-          page,
-          values: prfs_proof_types,
-        };
-      });
-  }, []);
+    return rows;
+  }, [data]);
 
   return (
-    <Table
-      createHeader={createHeader}
-      createBody={createBody}
-      onChangePage={handleChangePage}
-      minWidth={800}
-    />
+    <Table minWidth={800}>
+      <TableHeader>
+        <TableRow>
+          <th className={styles.proofTypeId}>{i18n.proof_type_id}</th>
+          <th className={styles.label}>{i18n.label}</th>
+          <th className={styles.desc}>{i18n.description}</th>
+          <th className={styles.circuitId}>{i18n.circuit_id}</th>
+          <th className={styles.createdAt}>{i18n.created_at}</th>
+        </TableRow>
+      </TableHeader>
+      <TableBody>{rowsElem}</TableBody>
+    </Table>
   );
 };
 

@@ -48,8 +48,6 @@ const CircuitProgramTable: React.FC<CircuitTableProps> = ({
         const isSelected = selectedVal && !!selectedVal[val.program_id];
         const selType = selectType || "radio";
 
-        console.log(3, val);
-
         let row = (
           <TableRow key={val.program_id} onClickRow={onClickRow} isSelected={isSelected}>
             {selectedVal && (

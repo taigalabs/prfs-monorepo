@@ -13,11 +13,10 @@ import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import * as prfsBackend from "@/fetch/prfsBackend";
-import { PrfsCircuit, PrfsCircuitProgram } from "@/models/index";
+import { PrfsCircuitProgram } from "@/models/index";
 import { useRouter } from "next/navigation";
-import CircuitSummary from "@/components/circuit_summary/CircuitSummary";
-import PublicInputTable from "@/components/public_input_table/PublicInputTable";
 import CircuitProgramSummary from "@/components/circuit_program_summary/CircuitProgramSummary";
+import CircuitProgramPropsTable from "@/components/circuit_pgm_props_table/CircuitProgramPropsTable";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -71,7 +70,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
               <WidgetHeader>
                 <WidgetLabel>{i18n.program_properties}</WidgetLabel>
               </WidgetHeader>
-              <CircuitProgramSummary program={program} />
+              <CircuitProgramPropsTable program={program} />
             </Widget>
           </Card>
         </CardRow>

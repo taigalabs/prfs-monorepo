@@ -4,30 +4,20 @@ import React from "react";
 import Link from "next/link";
 
 import styles from "./PublicInputTable.module.scss";
-import Table, { TableBody, TableRow, TableHeader } from "@/components/table/Table";
+import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
-import { PrfsCircuit } from "@/models";
+import { PrfsCircuit, PublicInput } from "@/models";
 
 const PublicInputTable: React.FC<PublicInputTableProps> = ({ circuit }) => {
   const i18n = React.useContext(i18nContext);
 
-  const createHeader = React.useCallback(() => {
-    return (
-      <TableHeader>
-        <TableRow>
-          <th className={styles.type}>{i18n.type}</th>
-          <th className={styles.label}>{i18n.label}</th>
-          <th className={styles.desc}>{i18n.description}</th>
-        </TableRow>
-      </TableHeader>
-    );
-  }, []);
-
-  const createBody = React.useCallback(({ data }) => {
-    // console.log(1, data);
-    let { page, values } = data;
-
+  const rowsElem = React.useMemo(() => {
     let rows = [];
+    // console.log(1, data);
+
+    if (!circuit) return rows;
+
+    const values = circuit.public_inputs;
     if (values === undefined || values.length < 1) {
       return rows;
     }
@@ -44,8 +34,8 @@ const PublicInputTable: React.FC<PublicInputTableProps> = ({ circuit }) => {
       rows.push(row);
     }
 
-    return <TableBody key={page}>{rows}</TableBody>;
-  }, []);
+    return rows;
+  }, [circuit]);
 
   const initialValues = React.useMemo(() => {
     return circuit ? circuit.public_inputs : [];
@@ -53,13 +43,16 @@ const PublicInputTable: React.FC<PublicInputTableProps> = ({ circuit }) => {
 
   return (
     circuit && (
-      <Table
-        createHeader={createHeader}
-        createBody={createBody}
-        minWidth={910}
-        initialValues={initialValues}
-        tableLayout="fixed"
-      />
+      <Table minWidth={910} initialValues={initialValues}>
+        <TableHeader>
+          <TableRow>
+            <th className={styles.type}>{i18n.type}</th>
+            <th className={styles.label}>{i18n.label}</th>
+            <th className={styles.desc}>{i18n.description}</th>
+          </TableRow>
+        </TableHeader>
+        <TableBody>{rowsElem}</TableBody>
+      </Table>
     )
   );
 };
