@@ -1,6 +1,6 @@
 packages:
   - "externals/incremental-merkle-tree"
   - "source/e2e_test_web"
-  - "source/prfs_js"
+  - "source/prfs_program_spartan_js"
   - "source/prfs_circuits_circom"
   - "source/prfs_web"

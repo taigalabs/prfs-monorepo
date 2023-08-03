@@ -158,9 +158,9 @@ importers:
       '@ethereumjs/util':
         specifier: ^8.0.3
         version: 8.1.0
-      '@taigalabs/prfs-js':
+      '@taigalabs/prfs-program-spartan-js':
         specifier: '*'
-        version: link:../prfs_js
+        version: link:../prfs_program_spartan_js
       puppeteer:
         specifier: ^20.7.4
         version: 20.8.2(typescript@4.9.5)
@@ -212,7 +212,7 @@ importers:
         specifier: ^4.9.4
         version: 4.9.5
 
-  source/prfs_js:
+  source/prfs_program_spartan_js:
     dependencies:
       '@ethereumjs/util':
         specifier: ^8.0.3
@@ -293,9 +293,9 @@ importers:
       '@mui/styles':
         specifier: ^5.14.0
         version: 5.14.0(@types/react@18.2.12)(react@18.2.0)
-      '@taigalabs/prfs-js':
+      '@taigalabs/prfs-program-spartan-js':
         specifier: '*'
-        version: link:../prfs_js
+        version: link:../prfs_program_spartan_js
       '@thirdweb-dev/react':
         specifier: ^3.14.13
         version: 3.14.15(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@thirdweb-dev/sdk@3.10.35)(@types/react-dom@18.2.5)(@types/react@18.2.12)(ethers@5.7.2)(localforage@1.10.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.3)

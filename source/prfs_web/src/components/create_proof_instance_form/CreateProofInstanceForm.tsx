@@ -21,10 +21,9 @@ import { stateContext } from "@/contexts/state";
 import * as prfsBackend from "@/fetch/prfsBackend";
 import ProofTypeDropdown from "../proof_type_dropdown/ProofTypeDropdown";
 import PublicInputConfigSection from "../public_input_config_section/PublicInputConfigSection";
-import useProver from "@/hooks/useProver";
 import { useSigner } from "@thirdweb-dev/react";
 import { proveMembership } from "@/functions/prfsCrypto";
-import { castToSpartanProgramProps } from "@taigalabs/prfs-js";
+import { castToSpartanProgramProps } from "@taigalabs/prfs-program-spartan-js";
 
 const ProgramSection: React.FC<ProgramSectionProps> = ({ proofType }) => {
   const i18n = React.useContext(i18nContext);
@@ -93,6 +92,8 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   }, [selectedProofType]);
 
   const handleClickCreateProofInstance = React.useCallback(() => {
+    setFormAlert("");
+
     if (!prfsAccount) {
       setFormAlert("User is not signed in");
       return;
@@ -103,9 +104,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       return;
     }
 
-    setFormAlert("");
-
-    const { program_properties } = selectedProofType;
+    const { program_id, program_properties } = selectedProofType;
 
     const spartanProgramProps = castToSpartanProgramProps(program_properties);
     spartanProgramProps.wtns_gen_url = spartanProgramProps.wtns_gen_url.replace(
@@ -229,7 +228,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
 export default CreateProofInstanceForm;
 
-export interface CreateProofInstanceFormProps {}
+export interface CreateProofInstanceFormProps { }
 
 interface ProgramSectionProps {
   proofType: PrfsProofType;

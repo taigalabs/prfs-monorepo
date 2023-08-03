@@ -6,6 +6,8 @@ use wasm_bindgen::{prelude::*, Clamped};
 #[cfg(feature = "multicore")]
 pub use wasm_bindgen_rayon::init_thread_pool;
 
+use crate::api;
+
 #[wasm_bindgen]
 extern "C" {
     // Use `js_namespace` here to bind `console.log(..)` instead of just
@@ -42,7 +44,7 @@ pub fn bb() -> Result<Vec<u8>, JsValue> {
 
 #[wasm_bindgen]
 pub fn get_build_status() -> Result<String, JsValue> {
-    return match prfs_lib::get_build_status() {
+    return match api::get_build_status() {
         Ok(s) => Ok(s),
         Err(err) => Err(JsValue::from_str(&err.to_string())),
     };
@@ -50,7 +52,7 @@ pub fn get_build_status() -> Result<String, JsValue> {
 
 #[wasm_bindgen]
 pub fn prove(circuit: &[u8], vars: &[u8], public_inputs: &[u8]) -> Result<Vec<u8>, JsValue> {
-    return match prfs_lib::prove(circuit, vars, public_inputs) {
+    return match api::prove(circuit, vars, public_inputs) {
         Ok(p) => Ok(p),
         Err(err) => Err(JsValue::from_str(&err.to_string())),
     };
@@ -77,7 +79,7 @@ pub fn make_merkle_proof(make_merkle_proof_args: JsValue) -> Result<JsValue, JsV
 
     log(&format!("merkle proof args: {:?}", args));
 
-    let proof = match prfs_lib::make_merkle_proof(args.leaves, args.leaf_idx, args.depth) {
+    let proof = match api::make_merkle_proof(args.leaves, args.leaf_idx, args.depth) {
         Ok(p) => p,
         Err(err) => return Err(JsValue::from_str(&err.to_string())),
     };
@@ -95,7 +97,7 @@ pub fn make_merkle_proof(make_merkle_proof_args: JsValue) -> Result<JsValue, JsV
 
 #[wasm_bindgen]
 pub fn verify(circuit: &[u8], proof: &[u8], public_input: &[u8]) -> Result<bool, JsValue> {
-    return match prfs_lib::verify(circuit, proof, public_input) {
+    return match api::verify(circuit, proof, public_input) {
         Ok(p) => Ok(p),
         Err(err) => Err(JsValue::from_str(&err.to_string())),
     };
@@ -103,7 +105,7 @@ pub fn verify(circuit: &[u8], proof: &[u8], public_input: &[u8]) -> Result<bool,
 
 #[wasm_bindgen]
 pub fn poseidon(input_bytes: &[u8]) -> Result<Vec<u8>, JsValue> {
-    return match prfs_lib::poseidon(input_bytes) {
+    return match api::poseidon(input_bytes) {
         Ok(p) => Ok(p),
         Err(err) => Err(JsValue::from_str(&err.to_string())),
     };
