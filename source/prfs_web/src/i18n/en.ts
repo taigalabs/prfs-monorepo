@@ -1,5 +1,6 @@
 export default {
   prfs_copyright: "© 2023 Prfs",
+  github: "Github",
   id: "Id",
   name: "Name",
   name_and_description: "Name and description",

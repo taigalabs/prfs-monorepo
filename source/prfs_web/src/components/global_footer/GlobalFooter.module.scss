@@ -12,7 +12,14 @@
   padding: 0 24px;
   color: var(--white-100);
   font-size: 12px;
-}
 
-.company {
+  > div:not(:last-child) {
+    margin-right: 25px;
+  }
+
+  a {
+    &:hover {
+      color: var(--bright-green-50);
+    }
+  }
 }

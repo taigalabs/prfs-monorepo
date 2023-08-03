@@ -45,6 +45,8 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
       });
   }, [setProofType]);
 
+  const proofTypeSummaryLabel = `${i18n.proof_type_summary_label} ${params.proof_type_id}`;
+
   return (
     <DefaultLayout>
       <Breadcrumb>
@@ -58,9 +60,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
           <Card>
             <Widget>
               <WidgetHeader>
-                <WidgetLabel>
-                  {`${i18n.proof_type_summary_label} ${params.proof_type_id}`}
-                </WidgetLabel>
+                <WidgetLabel>{proofTypeSummaryLabel}</WidgetLabel>
               </WidgetHeader>
               <ProofTypeSummary proofType={proofType} />
             </Widget>

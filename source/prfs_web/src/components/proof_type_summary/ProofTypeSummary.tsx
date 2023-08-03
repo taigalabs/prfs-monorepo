@@ -41,11 +41,15 @@ const ProofTypeSummary: React.FC<ProofTypeSummaryProps> = ({ proofType }) => {
           </ColumnarSummaryCell>
           <ColumnarSummaryCell>
             <ColumnarSummaryCellHeader>{i18n.circuit_id}</ColumnarSummaryCellHeader>
-            <div>{proofType.circuit_id}</div>
+            <div>
+              <Link href={`/circuits/${proofType.circuit_id}`}>{proofType.circuit_id}</Link>
+            </div>
           </ColumnarSummaryCell>
           <ColumnarSummaryCell>
             <ColumnarSummaryCellHeader>{i18n.program_id}</ColumnarSummaryCellHeader>
-            <div>{proofType.program_id}</div>
+            <div>
+              <Link href={`/programs/${proofType.program_id}`}>{proofType.program_id}</Link>
+            </div>
           </ColumnarSummaryCell>
         </ColumnarSummaryColumn>
 
