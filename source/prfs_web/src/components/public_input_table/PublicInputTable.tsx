@@ -10,14 +10,21 @@ import { PrfsCircuit, PublicInput } from "@/models";
 
 const PublicInputTable: React.FC<PublicInputTableProps> = ({ circuit }) => {
   const i18n = React.useContext(i18nContext);
+  const [data, setData] = React.useState<TableData<PublicInput>>({ page: 0, values: [] });
+
+  React.useEffect(() => {
+    if (circuit) {
+      setData({
+        page: 0,
+        values: circuit.public_inputs,
+      });
+    }
+  }, [circuit]);
 
   const rowsElem = React.useMemo(() => {
+    let { page, values } = data;
+
     let rows = [];
-    // console.log(1, data);
-
-    if (!circuit) return rows;
-
-    const values = circuit.public_inputs;
     if (values === undefined || values.length < 1) {
       return rows;
     }
@@ -35,7 +42,7 @@ const PublicInputTable: React.FC<PublicInputTableProps> = ({ circuit }) => {
     }
 
     return rows;
-  }, [circuit]);
+  }, [data]);
 
   return (
     circuit && (

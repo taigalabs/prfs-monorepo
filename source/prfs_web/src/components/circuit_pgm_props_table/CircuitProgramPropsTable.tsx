@@ -18,10 +18,10 @@ const CircuitProgramPropsTable: React.FC<CircuitProgramPropsTableProps> = ({
   const [data, setData] = React.useState<TableData<Record<string, any>>>({ page: 0, values: [] });
 
   React.useEffect(() => {
-    if (program.properties) {
+    if (program) {
       setData({
         page: 0,
-        values: program.properties.entries(),
+        values: Object.entries(program.properties),
       });
     }
   }, [program]);
@@ -81,7 +81,7 @@ const CircuitProgramPropsTable: React.FC<CircuitProgramPropsTableProps> = ({
       rows.push(row);
     }
 
-    return <TableBody key={page}>{rows}</TableBody>;
+    return rows;
   }, [program]);
 
   return (
