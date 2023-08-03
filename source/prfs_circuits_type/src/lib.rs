@@ -21,6 +21,7 @@ pub type PublicInputInstance = HashMap<u32, PublicInputInstanceEntry>;
 pub struct PublicInputInstanceEntry {
     pub r#type: PublicInputKind,
     pub label: String,
+    pub desc: String,
     pub value: String,
 
     #[serde(skip_serializing_if = "Option::is_none")]

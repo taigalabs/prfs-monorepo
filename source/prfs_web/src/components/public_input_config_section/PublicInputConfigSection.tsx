@@ -35,6 +35,7 @@ const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
               newVal[idx] = {
                 label: pi.label,
                 type: pi.type,
+                desc: pi.desc,
                 value: val.merkle_root,
                 ref: val.set_id,
               };

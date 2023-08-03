@@ -20,6 +20,7 @@ import {
 import { stateContext } from "@/contexts/state";
 import * as prfsBackend from "@/fetch/prfsBackend";
 import ProofTypeDropdown from "../proof_type_dropdown/ProofTypeDropdown";
+import PublicInputConfigSection from "../public_input_config_section/PublicInputConfigSection";
 
 const ProgramSection: React.FC<ProgramSectionProps> = ({ proofType }) => {
   const i18n = React.useContext(i18nContext);
@@ -67,8 +68,6 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
   const [publicInputInstance, setPublicInputInstance] = React.useState<PublicInputInstance>({});
   const [formAlert, setFormAlert] = React.useState("");
-  const [name, setName] = React.useState("");
-  const [desc, setDesc] = React.useState("");
   const [selectedProofType, setSelectedProofType] = React.useState<PrfsProofType>(undefined);
 
   const handleSelectProofType = React.useCallback(
@@ -94,18 +93,13 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
   React.useEffect(() => {
     if (selectedProofType) {
-      console.log(55, selectedProofType.program_properties);
+      // console.log(55, selectedProofType.program_properties);
     }
   }, [selectedProofType]);
 
   const handleClickCreateProofInstance = React.useCallback(() => {
     if (!prfsAccount) {
       setFormAlert("User is not signed in");
-      return;
-    }
-
-    if (name === undefined || name.length < 1) {
-      setFormAlert("Name should be defined");
       return;
     }
 
@@ -143,7 +137,9 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     //   .catch(err => {
     //     setFormAlert(err);
     //   });
-  }, [publicInputInstance, selectedProofType, name, setFormAlert, desc, state.prfsAccount]);
+  }, [publicInputInstance, selectedProofType, setFormAlert, state.prfsAccount]);
+
+  console.log(11, selectedProofType);
 
   return (
     <div className={styles.wrapper}>
@@ -186,6 +182,21 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
               </WidgetHeader>
               <WidgetPaddedBody>
                 <ProgramSection proofType={selectedProofType} />
+              </WidgetPaddedBody>
+            </Widget>
+          </Card>
+        </CardRow>
+      )}
+
+      {selectedProofType && (
+        <CardRow>
+          <Card>
+            <Widget>
+              <WidgetHeader>
+                <WidgetLabel>{i18n.program}</WidgetLabel>
+              </WidgetHeader>
+              <WidgetPaddedBody>
+                {/* <PublicInputConfigSection publicInputs={selectedProofType.public_input_instance} /> */}
               </WidgetPaddedBody>
             </Widget>
           </Card>

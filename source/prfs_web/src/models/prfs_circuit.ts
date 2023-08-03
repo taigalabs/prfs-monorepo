@@ -31,6 +31,7 @@ export interface PublicInputInstance {
 export interface PublicInputInstanceEntry {
   label: string;
   type: PublicInputType;
+  desc: string;
   value: any;
   ref?: string;
 }

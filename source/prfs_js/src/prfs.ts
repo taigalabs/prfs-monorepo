@@ -5,11 +5,9 @@ import { PrfsHandlers, AsyncHashFn } from "./types";
 import { initWasm } from "./wasm_wrapper/load_worker";
 
 export class Prfs {
-  isInitilized: boolean;
   handlers: PrfsHandlers;
 
   private constructor(handlers: PrfsHandlers) {
-    this.isInitilized = true;
     this.handlers = handlers;
   }
 

@@ -75,6 +75,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
           newPublicInputInstance[idx] = {
             label: pi.label,
             type: pi.type,
+            desc: pi.desc,
             value: "",
           };
 
