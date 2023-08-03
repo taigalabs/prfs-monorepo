@@ -61,14 +61,16 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
               </WidgetHeader>
               <CircuitSummary circuit={circuit} />
             </Widget>
-            <div className={styles.secondRowWidget}>
-              <Widget>
-                <WidgetHeader>
-                  <WidgetLabel>{i18n.program}</WidgetLabel>
-                </WidgetHeader>
-                <CircuitProgramInstanceSummary circuit={circuit} />
-              </Widget>
-            </div>
+          </Card>
+        </CardRow>
+        <CardRow>
+          <Card>
+            <Widget>
+              <WidgetHeader>
+                <WidgetLabel>{i18n.program}</WidgetLabel>
+              </WidgetHeader>
+              <CircuitProgramInstanceSummary circuit={circuit} />
+            </Widget>
           </Card>
         </CardRow>
         <CardRow>

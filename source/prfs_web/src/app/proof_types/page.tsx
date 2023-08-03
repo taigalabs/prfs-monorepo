@@ -25,6 +25,7 @@ const Proofs: React.FC = () => {
 
   React.useEffect(() => {
     let createPage = searchParams.get("create") !== null;
+
     setCreatePage(createPage);
   }, [searchParams]);
 

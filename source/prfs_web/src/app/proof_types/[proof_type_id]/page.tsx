@@ -36,6 +36,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
       })
       .then(resp => {
         const { prfs_proof_types } = resp.payload;
+
         if (prfs_proof_types.length > 0) {
           setProofType(prfs_proof_types[0]);
         } else {
@@ -43,8 +44,6 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
         }
       });
   }, [setProofType]);
-
-  console.log(11, proofType);
 
   return (
     <DefaultLayout>
@@ -59,7 +58,9 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
           <Card>
             <Widget>
               <WidgetHeader>
-                <WidgetLabel>{i18n.proof_type}</WidgetLabel>
+                <WidgetLabel>
+                  {`${i18n.proof_type_summary_label} ${params.proof_type_id}`}
+                </WidgetLabel>
               </WidgetHeader>
               <ProofTypeSummary proofType={proofType} />
             </Widget>

@@ -35,6 +35,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
       })
       .then(resp => {
         const { prfs_circuit_programs } = resp.payload;
+
         if (prfs_circuit_programs.length > 0) {
           setProgram(prfs_circuit_programs[0]);
         } else {
@@ -42,6 +43,8 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
         }
       });
   }, [setProgram]);
+
+  let programSummaryLabel = `${i18n.program_summary_label} ${params.program_id}`;
 
   return (
     <DefaultLayout>
@@ -56,7 +59,17 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
           <Card>
             <Widget>
               <WidgetHeader>
-                <WidgetLabel>{i18n.programs}</WidgetLabel>
+                <WidgetLabel>{programSummaryLabel}</WidgetLabel>
+              </WidgetHeader>
+              <CircuitProgramSummary program={program} />
+            </Widget>
+          </Card>
+        </CardRow>
+        <CardRow>
+          <Card>
+            <Widget>
+              <WidgetHeader>
+                <WidgetLabel>{i18n.program_properties}</WidgetLabel>
               </WidgetHeader>
               <CircuitProgramSummary program={program} />
             </Widget>
