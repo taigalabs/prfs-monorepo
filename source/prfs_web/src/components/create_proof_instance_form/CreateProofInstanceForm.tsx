@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import styles from "./CreateProofTypeForm.module.scss";
+import styles from "./CreateProofInstanceForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
 import CardRow from "@/components/card_row/CardRow";
@@ -225,13 +225,13 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     <div className={styles.wrapper}>
       <Breadcrumb>
         <BreadcrumbEntry>
-          <Link href="/proof_types">{i18n.proof_types}</Link>
+          <Link href="/proofs">{i18n.proofs}</Link>
         </BreadcrumbEntry>
         <BreadcrumbEntry>{i18n.create_proof_type}</BreadcrumbEntry>
       </Breadcrumb>
       <FormTitleRow>
-        <FormTitle>{i18n.create_proof_type}</FormTitle>
-        <FormSubtitle>{i18n.create_proof_type_subtitle}</FormSubtitle>
+        <FormTitle>{i18n.create_proof_instance}</FormTitle>
+        <FormSubtitle>{i18n.create_proof_instance_subtitle}</FormSubtitle>
       </FormTitleRow>
 
       <CardRow>

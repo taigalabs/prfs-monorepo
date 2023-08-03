@@ -13,7 +13,7 @@ import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import ProofInstanceTable from "@/components/proof_instance_table/ProofInstanceTable";
 import Button from "@/components/button/Button";
-import CreateProofInstanceForm from "@/components/create_proof_instance_form/CreateProofTypeForm";
+import CreateProofInstanceForm from "@/components/create_proof_instance_form/CreateProofInstanceForm";
 
 const Proofs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -32,7 +32,7 @@ const Proofs: React.FC = () => {
   }, [searchParams]);
 
   const handleClickCreateProofType = React.useCallback(() => {
-    router.push("/proof_types?create");
+    router.push("/proofs?create");
   }, [router]);
 
   return (
@@ -47,7 +47,7 @@ const Proofs: React.FC = () => {
                 <div className={styles.proofInstanceWidgetHeader}>
                   <WidgetLabel>{i18n.proof_instances}</WidgetLabel>
                   <div className={styles.btnArea}>
-                    <Button variant="a" handleClick={handleClickCreateProofType}>
+                    <Button variant="b" handleClick={handleClickCreateProofType}>
                       {i18n.create_proof_type}
                     </Button>
                   </div>
