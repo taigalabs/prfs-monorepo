@@ -77,6 +77,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   const [publicInputInstance, setPublicInputInstance] = React.useState<PublicInputInstance>({});
   const [formAlert, setFormAlert] = React.useState("");
   const [selectedProofType, setSelectedProofType] = React.useState<PrfsProofType>(undefined);
+  const [programProps, setProgramProps] = React.useState();
 
   const handleSelectProofType = React.useCallback(
     (val: PrfsProofType) => {
@@ -151,7 +152,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     //   });
   }, [publicInputInstance, selectedProofType, setFormAlert, state.prfsAccount]);
 
-  // console.log(11, selectedProofType);
+  console.log(11, selectedProofType);
 
   return (
     <div className={styles.wrapper}>
