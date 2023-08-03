@@ -30,9 +30,13 @@ let addrs = [
   // "0x67284e6473dd2afca0782e24dae6d79f712c270f",
 ];
 
-export async function proveMembership(signer: ethers.Signer) {
+export async function proveMembership(
+  signer: ethers.Signer,
+  circuitUrl: string,
+  wtnsGenUrl: string
+) {
   // await f1(signer);
-  await f2(signer);
+  await f2(signer, circuitUrl, wtnsGenUrl);
 }
 
 // async function f1(signer: ethers.Signer) {
@@ -113,9 +117,9 @@ export async function proveMembership(signer: ethers.Signer) {
 //   return proof;
 // }
 
-async function f2(signer: ethers.Signer) {
-  let addrMembership2CircuitUrl = getAddrMembership2CircuitUrl();
-  let addrMembership2WtnsGenUrl = getAddrMembership2WtnsGenUrl();
+async function f2(signer: ethers.Signer, circuitUrl: string, wtnsGenUrl: string) {
+  // let addrMembership2CircuitUrl = getAddrMembership2CircuitUrl();
+  // let addrMembership2WtnsGenUrl = getAddrMembership2WtnsGenUrl();
 
   // let prfsHandlers = await initWasm();
   // console.log(11, prfsHandlers);
@@ -150,7 +154,7 @@ async function f2(signer: ethers.Signer) {
 
   console.log("Proving...");
   console.time("Full proving time");
-  const proofGen = prfs.newMembershipProofGen(addrMembership2WtnsGenUrl, addrMembership2CircuitUrl);
+  const proofGen = prfs.newMembershipProofGen(wtnsGenUrl, circuitUrl);
   const { proof, publicInput } = await proofGen.prove(sig, msgHash, merkleProof);
 
   console.timeEnd("Full proving time");

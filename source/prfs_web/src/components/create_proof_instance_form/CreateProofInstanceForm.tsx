@@ -21,6 +21,10 @@ import { stateContext } from "@/contexts/state";
 import * as prfsBackend from "@/fetch/prfsBackend";
 import ProofTypeDropdown from "../proof_type_dropdown/ProofTypeDropdown";
 import PublicInputConfigSection from "../public_input_config_section/PublicInputConfigSection";
+import useProver from "@/hooks/useProver";
+import { useSigner } from "@thirdweb-dev/react";
+import { proveMembership } from "@/functions/prfsCrypto";
+import { castToSpartanProgramProps } from "@taigalabs/prfs-js";
 
 const ProgramSection: React.FC<ProgramSectionProps> = ({ proofType }) => {
   const i18n = React.useContext(i18nContext);
@@ -65,6 +69,10 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   const { state } = React.useContext(stateContext);
   const { prfsAccount } = state;
   const router = useRouter();
+  // const prover = useProver();
+  const signer = useSigner();
+
+  // prfsCrypto
 
   const [publicInputInstance, setPublicInputInstance] = React.useState<PublicInputInstance>({});
   const [formAlert, setFormAlert] = React.useState("");
@@ -76,20 +84,6 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     },
     [setSelectedProofType]
   );
-
-  // const handleChangeName = React.useCallback(
-  //   (ev: any) => {
-  //     setName(ev.target.value);
-  //   },
-  //   [setName]
-  // );
-
-  // const handleChangeDesc = React.useCallback(
-  //   (ev: any) => {
-  //     setDesc(ev.target.value);
-  //   },
-  //   [setDesc]
-  // );
 
   React.useEffect(() => {
     if (selectedProofType) {
@@ -109,6 +103,24 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     }
 
     setFormAlert("");
+
+    const { program_properties } = selectedProofType;
+
+    const spartanProgramProps = castToSpartanProgramProps(program_properties);
+    spartanProgramProps.wtns_gen_url = spartanProgramProps.wtns_gen_url.replace(
+      "prfs:/",
+      process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT
+    );
+    spartanProgramProps.circuit_url = spartanProgramProps.circuit_url.replace(
+      "prfs:/",
+      process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT
+    );
+
+    console.log(12, selectedProofType.program_properties);
+
+    console.log(13, spartanProgramProps);
+
+    // proveMembership(signer);
 
     // let { y, m, d } = getYMD();
     // let now = Date.now();
@@ -139,7 +151,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     //   });
   }, [publicInputInstance, selectedProofType, setFormAlert, state.prfsAccount]);
 
-  console.log(11, selectedProofType);
+  // console.log(11, selectedProofType);
 
   return (
     <div className={styles.wrapper}>

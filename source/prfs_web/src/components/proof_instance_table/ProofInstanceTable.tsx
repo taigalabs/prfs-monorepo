@@ -8,6 +8,8 @@ import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components
 import { i18nContext } from "@/contexts/i18n";
 import * as prfsBackend from "@/fetch/prfsBackend";
 import { PrfsCircuit } from "@/models";
+import { useConnect, useSigner } from "@thirdweb-dev/react";
+import { useWallet } from "@thirdweb-dev/react";
 
 const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
   selectType,

@@ -17,9 +17,9 @@ pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
 
     let tasks: Vec<Box<dyn BuildTask>> = vec![
         // Box::new(BuildWasmTask),
-        Box::new(CompileCircuitsTask),
+        // Box::new(CompileCircuitsTask),
         // Box::new(BuildJsDependenciesTask),
-        // Box::new(BuildPrfsJsTask),
+        Box::new(BuildPrfsJsTask),
     ];
 
     run_tasks(sub_matches, tasks, build_handle).expect("Ci failed");
