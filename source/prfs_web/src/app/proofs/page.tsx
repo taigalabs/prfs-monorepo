@@ -48,7 +48,7 @@ const Proofs: React.FC = () => {
                   <WidgetLabel>{i18n.proof_instances}</WidgetLabel>
                   <div className={styles.btnArea}>
                     <Button variant="b" handleClick={handleClickCreateProofType}>
-                      {i18n.create_proof_type}
+                      {i18n.create_proof}
                     </Button>
                   </div>
                 </div>

@@ -36,7 +36,12 @@ function Dropdown<T>({ createBase, createList, handleSelectVal }: DropdownProps<
 
   return (
     <div className={styles.dropdownWrapper}>
-      <div className={styles.dropdownBase} ref={refs.setReference} {...getReferenceProps()}>
+      <div
+        className={styles.dropdownBase}
+        ref={refs.setReference}
+        {...getReferenceProps()}
+        role="button"
+      >
         <div className={styles.baseContainer}>{baseElem}</div>
         <div className={styles.arrowContainer}>
           {isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
