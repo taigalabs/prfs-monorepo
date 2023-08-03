@@ -1,4 +1,5 @@
 pub mod access;
+mod example;
 mod json;
 mod paths;
 pub mod programs;
