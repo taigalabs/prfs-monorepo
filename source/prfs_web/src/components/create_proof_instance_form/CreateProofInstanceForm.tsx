@@ -55,7 +55,7 @@ const ProgramSection: React.FC<ProgramSectionProps> = ({ proofType }) => {
   return (
     <div className={styles.programSectionWrapper}>
       <div className={styles.item}>
-        <div className={styles.label}>{i18n.program_id}</div>
+        <div className={styles.label}>{i18n.driver_id}</div>
         <div className={styles.value}>{proofType.driver_id}</div>
       </div>
       {programPropsElem}
