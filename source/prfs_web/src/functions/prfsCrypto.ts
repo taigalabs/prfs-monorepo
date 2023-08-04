@@ -1,4 +1,4 @@
-import SpartanDriver, { MerkleProof } from "@taigalabs/prfs-driver-spartan-js";
+import spartanDriverGen, { MerkleProof } from "@taigalabs/prfs-driver-spartan-js";
 import {
   ecsign,
   hashPersonalMessage,
@@ -41,17 +41,18 @@ let addrs = [
 
 export async function proveMembership(
   signer: ethers.Signer,
-  circuitUrl: string,
-  wtnsGenUrl: string
+  driverProps: any
+  // circuitUrl: string,
+  // wtnsGenUrl: string
 ) {
   console.log("proveMembership()");
 
-  let prfs = await SpartanDriver.newInstance();
+  let spartanDriver = await spartanDriverGen.newInstance(driverProps);
 
-  let buildStatus = await prfs.getBuildStatus();
+  let buildStatus = await spartanDriver.getBuildStatus();
   console.log("buildStatus: %o", buildStatus);
 
-  let merkleProof: MerkleProof = await prfs.makeMerkleProof(addrs, BigInt(0), 32);
+  let merkleProof: MerkleProof = await spartanDriver.makeMerkleProof(addrs, BigInt(0), 32);
   console.log("merkle proof", merkleProof);
 
   // let poseidon = prfs.newPoseidon();
@@ -75,8 +76,8 @@ export async function proveMembership(
 
   console.log("Proving...");
   console.time("Full proving time");
-  const proofGen = prfs.newMembershipProofGen(wtnsGenUrl, circuitUrl);
-  const { proof, publicInput } = await proofGen.prove(sig, msgHash, merkleProof);
+  // const proofGen = spart.newMembershipProofGen(wtnsGenUrl, circuitUrl);
+  const { proof, publicInput } = await spartanDriver.prove(sig, msgHash, merkleProof);
 
   console.timeEnd("Full proving time");
   console.log("Raw proof size (excluding public input)", proof.length, "bytes");
@@ -84,7 +85,7 @@ export async function proveMembership(
   console.log("Verifying...");
 
   console.time("Verification time");
-  const result = await proofGen.verify(proof, publicInput.serialize());
+  const result = await spartanDriver.verify(proof, publicInput.serialize());
   console.timeEnd("Verification time");
 
   if (result) {
@@ -94,18 +95,12 @@ export async function proveMembership(
   }
 }
 
-export async function proveMembershipMock(circuitUrl: string, wtnsGenUrl: string) {
-  console.log("circuitUrl: %s, wtnsGenUrl: %s", circuitUrl, wtnsGenUrl);
+export async function proveMembershipMock(driverProps: any) {
+  console.log("driveProps: %o", driverProps);
 
-  // let addrMembership2CircuitUrl = getAddrMembership2CircuitUrl();
-  // let addrMembership2WtnsGenUrl = getAddrMembership2WtnsGenUrl();
+  let spartanDriver = await spartanDriverGen.newInstance(driverProps);
 
-  // let prfsHandlers = await initWasm();
-  // let prfs = new Prfs(prfsHandlers);
-  // let prfsHandlers = await initWasm();
-  let prfs = await SpartanDriver.newInstance();
-
-  let poseidon = prfs.newPoseidon();
+  let poseidon = spartanDriver.newPoseidon();
   const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
   const msg = Buffer.from("harry potter");
   const msgHash = hashPersonalMessage(msg);
@@ -113,7 +108,7 @@ export async function proveMembershipMock(circuitUrl: string, wtnsGenUrl: string
   const sig = `0x${r.toString("hex")}${s.toString("hex")}${v.toString(16)}`;
 
   const treeDepth = 32;
-  const addressTree = await prfs.newTree(treeDepth, poseidon);
+  const addressTree = await spartanDriver.newTree(treeDepth, poseidon);
 
   let proverAddrHex = "0x" + privateToAddress(privKey).toString("hex");
   console.log("proverAddrHex", proverAddrHex);
@@ -138,15 +133,15 @@ export async function proveMembershipMock(circuitUrl: string, wtnsGenUrl: string
 
   console.log("Proving...");
   console.time("Full proving time");
-  const proofGen = prfs.newMembershipProofGen(wtnsGenUrl, circuitUrl);
-  const { proof, publicInput } = await proofGen.prove(sig, msgHash, merkleProof);
+  // const proofGen = prfs.newMembershipProofGen(wtnsGenUrl, circuitUrl);
+  const { proof, publicInput } = await spartanDriver.prove(sig, msgHash, merkleProof);
 
   console.timeEnd("Full proving time");
   console.log("Raw proof size (excluding public input)", proof.length, "bytes");
 
   console.log("Verifying...");
   console.time("Verification time");
-  const result = await proofGen.verify(proof, publicInput.serialize());
+  const result = await spartanDriver.verify(proof, publicInput.serialize());
   console.timeEnd("Verification time");
 
   if (result) {

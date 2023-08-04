@@ -1,4 +1,4 @@
-import { CircuitDriver, CircuitDriverInstance } from "@taigalabs/prfs-driver-interface";
+import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 import { MerkleProof } from "@taigalabs/async-incremental-merkle-tree";
 import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-type/bindings/SpartanCircomDriverProperties";
 
@@ -17,7 +17,7 @@ import {
 } from "./helpers/public_input";
 import { BN } from "bn.js";
 
-export default class SpartanDriver implements CircuitDriverInstance {
+export default class SpartanDriver implements CircuitDriver {
   handlers: PrfsHandlers;
   wtnsGenUrl: string;
   circuitUrl: string;

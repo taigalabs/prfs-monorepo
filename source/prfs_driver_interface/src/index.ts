@@ -1,11 +1,12 @@
-export interface CircuitDriver {
-  newInstance(driverProps: any): Promise<CircuitDriverInstance>;
+export interface CircuitDriverGen {
+  newInstance(driverProps: any): Promise<CircuitDriver>;
   [key: string]: any;
 }
 
-export interface CircuitDriverInstance {
+export interface CircuitDriver {
   prove(...args: any): Promise<ProveResult>;
-  // verify(...args: any): Promise<boolean>;
+  verify(...args: any): Promise<boolean>;
+  [key: string]: any;
 }
 
 export interface ProveResult {
