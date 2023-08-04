@@ -22,8 +22,6 @@ include "./secp256k1_func.circom";
 template AddrMembership2(nLevels, n, k) {
     signal input m;
     signal input r;
-    signal input s2[k];
-    signal input sInv;
 
     signal input s;
     signal input root;
@@ -41,7 +39,6 @@ template AddrMembership2(nLevels, n, k) {
     ecdsa.Uy <== Uy;
     ecdsa.s <== s;
     ecdsa.r <== r;
-    ecdsa.sInv <== sInv;
     ecdsa.m <== m;
 
     log("ecdsa pubKeyX", ecdsa.pubKeyX);

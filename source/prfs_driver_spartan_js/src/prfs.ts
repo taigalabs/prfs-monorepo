@@ -75,12 +75,12 @@ export default class SpartanDriver {
 
     const m = new BN(msgHash).mod(SECP256K1_P);
 
-    let s_array: bigint[] = bigint_to_array(64, 4, s);
+    // let s_array: bigint[] = bigint_to_array(64, 4, s);
 
     const witnessGenInput = {
       r,
       s,
-      s2: s_array,
+      // s2: s_array,
       m: BigInt(m.toString()),
 
       ...merkleProof,

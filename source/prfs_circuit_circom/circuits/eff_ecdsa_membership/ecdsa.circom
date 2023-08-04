@@ -13,7 +13,6 @@ template ECDSA() {
 
     //
     signal input r;
-    signal input sInv;
 
     signal input m;
     signal input s;
@@ -26,20 +25,11 @@ template ECDSA() {
     signal output pubKeyX;
     signal output pubKeyY;
   
-    log("sInv", sInv);
-    log("m", m);
-      
     /* const u1 = m.mul(sInv).mod(SECP256K1_N); */
     /* const u2 = new BN(r as any).mul(sInv).mod(SECP256K1_N); */
     /* let p1 = ec.curve.g.mul(u1); */
     /* let p2 = q.mul(u2); */
     /* let p3 = p1.add(p2); */
-
-    signal u1 <== m * sInv;
-    signal u2 <== r * sInv; 
-
-    log("u1", u1);
-    log("u2", u2);
 
     /* component a1 = Secp256k1Mul(); */
     /* a1.scalar <== u1; */
