@@ -190,7 +190,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
           <Card>
             <Widget>
               <WidgetHeader>
-                <WidgetLabel>{i18n.program}</WidgetLabel>
+                <WidgetLabel>{i18n.driver}</WidgetLabel>
               </WidgetHeader>
               <WidgetPaddedBody>
                 <ProgramSection proofType={selectedProofType} />
@@ -205,7 +205,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
           <Card>
             <Widget>
               <WidgetHeader>
-                <WidgetLabel>{i18n.program}</WidgetLabel>
+                <WidgetLabel>{i18n.driver}</WidgetLabel>
               </WidgetHeader>
               <WidgetPaddedBody>
                 {/* <PublicInputConfigSection publicInputs={selectedProofType.public_input_instance} /> */}

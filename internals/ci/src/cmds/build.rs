@@ -4,6 +4,7 @@ use crate::{
         build_js_dependencies::BuildJsDependenciesTask,
         build_prfs_driver_spartan_js::BuildPrfsDriverSpartanJsTask,
         build_prfs_driver_spartan_wasm::BuildPrfsDriverSpartanWasmTask,
+        build_ts_driver_interface::BuildTsDriverInterfaceTask,
         compile_circuits::CompileCircuitsTask, task::BuildTask,
     },
     paths::PATHS,
@@ -18,6 +19,7 @@ pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
     };
 
     let tasks: Vec<Box<dyn BuildTask>> = vec![
+        Box::new(BuildTsDriverInterfaceTask),
         Box::new(BuildPrfsDriverSpartanWasmTask),
         Box::new(CompileCircuitsTask),
         Box::new(BuildJsDependenciesTask),
@@ -34,19 +36,15 @@ fn run_tasks(
 ) -> Result<(), CiError> {
     for t in &tasks {
         println!(
-            "\n{} executing task: {}",
-            "Start".green().bold(),
+            "\n{} a task: {}",
+            "Executing".green().bold(),
             t.name().cyan().bold()
         );
 
         match t.run(&mut build_handle) {
             Ok(_) => (),
             Err(err) => {
-                println!(
-                    "Error executing task, {}, err: {}",
-                    t.name(),
-                    err.to_string()
-                );
+                println!("Error executing task, err: {}", err.to_string());
 
                 return Err(err);
             }

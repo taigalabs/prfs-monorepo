@@ -6,7 +6,7 @@ pub struct BuildJsDependenciesTask;
 
 impl BuildTask for BuildJsDependenciesTask {
     fn name(&self) -> &str {
-        "build_js_dependencies"
+        stringify!(BuildJsDependenciesTask)
     }
 
     fn run(&self, _build_handle: &mut BuildHandle) -> Result<(), CiError> {

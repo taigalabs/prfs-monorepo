@@ -2,11 +2,11 @@ use super::task::BuildTask;
 use crate::{deps::JS_ENGINE, paths::PATHS, BuildHandle, CiError};
 use std::process::Command;
 
-pub struct BuildPrfsDriverSpartanJsTask;
+pub struct BuildTsDriverInterfaceTask;
 
-impl BuildTask for BuildPrfsDriverSpartanJsTask {
+impl BuildTask for BuildTsDriverInterfaceTask {
     fn name(&self) -> &str {
-        stringify!(BuildPrfsDriverSpartanJsTask)
+        stringify!(BuildTsDriverInterfaceTask)
     }
 
     fn run(&self, _build_handle: &mut BuildHandle) -> Result<(), CiError> {
