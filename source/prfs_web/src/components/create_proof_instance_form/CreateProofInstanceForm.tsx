@@ -22,7 +22,7 @@ import * as prfsBackend from "@/fetch/prfsBackend";
 import ProofTypeDropdown from "../proof_type_dropdown/ProofTypeDropdown";
 import PublicInputConfigSection from "../public_input_config_section/PublicInputConfigSection";
 import { useSigner } from "@thirdweb-dev/react";
-import { proveMembership } from "@/functions/prfsCrypto";
+import { proveMembership, proveMembershipMock } from "@/functions/prfsCrypto";
 import { launchDriver } from "@/functions/prfsDriver";
 
 const ProgramSection: React.FC<ProgramSectionProps> = ({ proofType }) => {
@@ -107,10 +107,27 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     const { driver_id, driver_properties } = selectedProofType;
     console.log(12, selectedProofType.driver_properties);
 
-    const driver = await launchDriver(driver_id, driver_properties);
+    // const driver = await launchDriver(driver_id, driver_properties);
+    // for (const [key, val] of Object.entries(driver_properties)) {
+    //   if (val.startsWith('prfs://')) {
+    //     driver.
+    //   }
+    // }
+    const circuitUrl = driver_properties.circuit_url.replace(
+      "prfs:/",
+      process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT
+    );
+    const wtnsGenUrl = driver_properties.wtns_gen_url.replace(
+      "prfs:/",
+      process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT
+    );
 
-    let instance = await driver.newInstance();
-    console.log(11, instance);
+    await proveMembership(signer, circuitUrl, wtnsGenUrl);
+
+    // await proveMembershipMock();
+
+    // let instance = await driver.newInstance();
+    // console.log(11, instance);
 
     // const spartanProgramProps = castToSpartanProgramProps(driver_properties);
     // spartanProgramProps.wtns_gen_url = spartanProgramProps.wtns_gen_url.replace(

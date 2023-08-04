@@ -1,4 +1,4 @@
-import { Prfs, MerkleProof } from "@taigalabs/prfs-driver-spartan-js";
+import { newInstance, MerkleProof } from "@taigalabs/prfs-driver-spartan-js";
 import {
   ecsign,
   hashPersonalMessage,
@@ -30,16 +30,21 @@ let addrs = [
   // "0x67284e6473dd2afca0782e24dae6d79f712c270f",
 ];
 
+// export async function proveMembership(
+//   driver: SpartanDriver,
+//   signer: ethers.Signer,
+//   circuitUrl: string,
+//   wtnsGenUrl: string
+// ) {
+//   await f2(signer, circuitUrl, wtnsGenUrl);
+// }
+
 export async function proveMembership(
   signer: ethers.Signer,
   circuitUrl: string,
   wtnsGenUrl: string
 ) {
-  await f2(signer, circuitUrl, wtnsGenUrl);
-}
-
-async function f2(signer: ethers.Signer, circuitUrl: string, wtnsGenUrl: string) {
-  let prfs = await Prfs.newInstance();
+  let prfs = await newInstance();
 
   let buildStatus = await prfs.getBuildStatus();
   console.log("buildStatus: %o", buildStatus);
@@ -87,14 +92,16 @@ async function f2(signer: ethers.Signer, circuitUrl: string, wtnsGenUrl: string)
   }
 }
 
-export async function proveMembershipMock() {
-  let addrMembership2CircuitUrl = getAddrMembership2CircuitUrl();
-  let addrMembership2WtnsGenUrl = getAddrMembership2WtnsGenUrl();
+export async function proveMembershipMock(circuitUrl: string, wtnsGenUrl: string) {
+  console.log("circuitUrl: %s, wtnsGenUrl: %s", circuitUrl, wtnsGenUrl);
+
+  // let addrMembership2CircuitUrl = getAddrMembership2CircuitUrl();
+  // let addrMembership2WtnsGenUrl = getAddrMembership2WtnsGenUrl();
 
   // let prfsHandlers = await initWasm();
   // let prfs = new Prfs(prfsHandlers);
   // let prfsHandlers = await initWasm();
-  let prfs = await Prfs.newInstance();
+  let prfs = await newInstance();
 
   let poseidon = prfs.newPoseidon();
   const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
@@ -129,7 +136,7 @@ export async function proveMembershipMock() {
 
   console.log("Proving...");
   console.time("Full proving time");
-  const proofGen = prfs.newMembershipProofGen(addrMembership2WtnsGenUrl, addrMembership2CircuitUrl);
+  const proofGen = prfs.newMembershipProofGen(wtnsGenUrl, circuitUrl);
   const { proof, publicInput } = await proofGen.prove(sig, msgHash, merkleProof);
 
   console.timeEnd("Full proving time");

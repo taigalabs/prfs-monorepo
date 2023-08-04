@@ -25,25 +25,25 @@ export default class SpartanDriver {
     return new SpartanDriver(prfsHandlers);
   }
 
-  // async getBuildStatus() {
-  //   return this.handlers.getBuildStatus();
-  // }
+  async getBuildStatus() {
+    return this.handlers.getBuildStatus();
+  }
 
-  // async makeMerkleProof(leaves: string[], leafIdx: BigInt, depth: number) {
-  //   return this.handlers.makeMerkleProof(leaves, leafIdx, depth);
-  // }
+  async makeMerkleProof(leaves: string[], leafIdx: BigInt, depth: number) {
+    return this.handlers.makeMerkleProof(leaves, leafIdx, depth);
+  }
 
-  // newPoseidon() {
-  //   return makePoseidon(this.handlers);
-  // }
+  newPoseidon() {
+    return makePoseidon(this.handlers);
+  }
 
-  // async newTree(depth: number, hash: AsyncHashFn): Promise<Tree> {
-  //   return await Tree.newInstance(depth, hash);
-  // }
+  async newTree(depth: number, hash: AsyncHashFn): Promise<Tree> {
+    return await Tree.newInstance(depth, hash);
+  }
 
-  // newMembershipProofGen(witnessGenWasmUrl: string, circuitUrl: string) {
-  //   return new MembershipProofGen(witnessGenWasmUrl, circuitUrl, this.handlers);
-  // }
+  newMembershipProofGen(witnessGenWasmUrl: string, circuitUrl: string) {
+    return new MembershipProofGen(witnessGenWasmUrl, circuitUrl, this.handlers);
+  }
 
   async prove(
     sig: string,
