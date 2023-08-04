@@ -1,4 +1,4 @@
-import { newInstance, MerkleProof } from "@taigalabs/prfs-driver-spartan-js";
+import SpartanDriver, { MerkleProof } from "@taigalabs/prfs-driver-spartan-js";
 import {
   ecsign,
   hashPersonalMessage,
@@ -46,7 +46,7 @@ export async function proveMembership(
 ) {
   console.log("proveMembership()");
 
-  let prfs = await newInstance();
+  let prfs = await SpartanDriver.newInstance();
 
   let buildStatus = await prfs.getBuildStatus();
   console.log("buildStatus: %o", buildStatus);
@@ -103,7 +103,7 @@ export async function proveMembershipMock(circuitUrl: string, wtnsGenUrl: string
   // let prfsHandlers = await initWasm();
   // let prfs = new Prfs(prfsHandlers);
   // let prfsHandlers = await initWasm();
-  let prfs = await newInstance();
+  let prfs = await SpartanDriver.newInstance();
 
   let poseidon = prfs.newPoseidon();
   const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");

@@ -4,6 +4,4 @@ export * from "./properties";
 
 import SpartanDriver from "./prfs";
 
-export async function newInstance() {
-  return await SpartanDriver.newInstance();
-}
+export default SpartanDriver;

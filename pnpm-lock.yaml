@@ -201,7 +201,7 @@ importers:
         version: 2.1.4
       '@zk-kit/incremental-merkle-tree':
         specifier: '*'
-        version: link:../../externals/incremental-merkle-tree
+        version: 1.1.0
       jest:
         specifier: ^29.3.1
         version: 29.6.1(@types/node@17.0.45)
@@ -217,7 +217,7 @@ importers:
       '@ethereumjs/util':
         specifier: ^8.0.3
         version: 8.1.0
-      '@zk-kit/incremental-merkle-tree':
+      '@taigalabs/async-incremental-merkle-tree':
         specifier: '*'
         version: link:../../externals/incremental-merkle-tree
       bn.js:
