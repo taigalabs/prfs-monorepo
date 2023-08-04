@@ -6,7 +6,7 @@ pub struct BuildPrfsDriverSpartanJsTask;
 
 impl BuildTask for BuildPrfsDriverSpartanJsTask {
     fn name(&self) -> &str {
-        stringify!(BuildPrfsDriverSpartanJsTask)
+        "BuildPrfsDriverSpartanJsTask"
     }
 
     fn run(&self, _build_handle: &mut BuildHandle) -> Result<(), CiError> {

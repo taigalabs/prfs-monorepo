@@ -6,7 +6,7 @@ pub struct BuildTsDriverInterfaceTask;
 
 impl BuildTask for BuildTsDriverInterfaceTask {
     fn name(&self) -> &str {
-        stringify!(BuildTsDriverInterfaceTask)
+        "BuildTsDriverInterfaceTask"
     }
 
     fn run(&self, _build_handle: &mut BuildHandle) -> Result<(), CiError> {

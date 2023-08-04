@@ -6,4 +6,3 @@ pub trait BuildTask {
 
     fn run(&self, build_handle: &mut BuildHandle) -> Result<(), CiError>;
 }
-

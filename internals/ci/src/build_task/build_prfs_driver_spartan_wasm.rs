@@ -7,7 +7,7 @@ pub struct BuildPrfsDriverSpartanWasmTask;
 
 impl BuildTask for BuildPrfsDriverSpartanWasmTask {
     fn name(&self) -> &str {
-        stringify!(BuildPrfsDriverSpartanWasmTask)
+        "BuildPrfsDriverSpartanWasmTask"
     }
 
     fn run(&self, build_handle: &mut BuildHandle) -> Result<(), CiError> {
