@@ -14,12 +14,12 @@ members = [
   "source/prfs_crypto",
 
   # prfs cicuits
-  "source/prfs_circuits_circom",
-  "source/prfs_circuits_type",
+  "source/prfs_circuit_circom",
+  "source/prfs_circuit_type",
 
-  # prfs program
-  "source/prfs_program_type",
-  "source/prfs_program_spartan_wasm",
+  # prfs driver
+  "source/prfs_driver_type",
+  "source/prfs_driver_spartan_wasm",
 
   # internals
   "internals/ci",

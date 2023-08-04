@@ -3,7 +3,7 @@ use crate::{
 };
 use chrono::{DateTime, NaiveDateTime, Utc};
 use colored::Colorize;
-use prfs_program_type::programs::{SpartanCircomProgramProperties, SPARTAN_CIRCOM_PROGRAM_TYPE};
+use prfs_driver_type::programs::{SpartanCircomProgramProperties, SPARTAN_CIRCOM_PROGRAM_TYPE};
 use std::{io::Write, process::Command};
 
 pub fn run() {

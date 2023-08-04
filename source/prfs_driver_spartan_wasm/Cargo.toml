@@ -1,5 +1,5 @@
 [package]
-name = "prfs_program_spartan_wasm"
+name = "prfs_driver_spartan_wasm"
 version = "0.1.0"
 edition = "2021"
 

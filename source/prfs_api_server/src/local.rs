@@ -1,6 +1,6 @@
 use colored::Colorize;
-use prfs_circuits_circom::{CircuitBuildJson, CircuitBuildListJson};
-use prfs_program_type::CircuitProgram;
+use prfs_circuit_circom::{CircuitBuildJson, CircuitBuildListJson};
+use prfs_driver_type::CircuitProgram;
 use std::{collections::HashMap, path::PathBuf};
 
 pub struct LocalAssets {
@@ -17,9 +17,9 @@ pub fn load_local_assets() -> LocalAssets {
 }
 
 fn load_circuits() -> HashMap<String, CircuitBuildJson> {
-    let build_list_json = prfs_circuits_circom::access::read_circuit_artifacts();
+    let build_list_json = prfs_circuit_circom::access::read_circuit_artifacts();
 
-    let build_path = prfs_circuits_circom::access::get_build_fs_path();
+    let build_path = prfs_circuit_circom::access::get_build_fs_path();
 
     let mut circuit_build = HashMap::new();
     for circuit_name in build_list_json.circuits {
@@ -34,7 +34,7 @@ fn load_circuits() -> HashMap<String, CircuitBuildJson> {
 }
 
 fn load_program_types() -> HashMap<String, CircuitProgram> {
-    let programs_json = prfs_program_type::access::load_system_native_program_types();
+    let programs_json = prfs_driver_type::access::load_system_native_program_types();
 
     let mut m = HashMap::new();
     for pgm in programs_json.programs {

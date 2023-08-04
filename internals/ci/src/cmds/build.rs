@@ -2,8 +2,8 @@ use crate::{
     build_handle::BuildHandle,
     build_task::{
         build_js_dependencies::BuildJsDependenciesTask,
-        build_prfs_program_spartan_js::BuildPrfsProgramSpartanJsTask,
-        build_prfs_program_spartan_wasm::BuildPrfsProgramSpartanWasmTask,
+        build_prfs_driver_spartan_js::BuildPrfsDriverSpartanJsTask,
+        build_prfs_driver_spartan_wasm::BuildPrfsDriverSpartanWasmTask,
         compile_circuits::CompileCircuitsTask, task::BuildTask,
     },
     paths::PATHS,
@@ -18,10 +18,10 @@ pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
     };
 
     let tasks: Vec<Box<dyn BuildTask>> = vec![
-        Box::new(BuildPrfsProgramSpartanWasmTask),
+        Box::new(BuildPrfsDriverSpartanWasmTask),
         Box::new(CompileCircuitsTask),
         Box::new(BuildJsDependenciesTask),
-        Box::new(BuildPrfsProgramSpartanJsTask),
+        Box::new(BuildPrfsDriverSpartanJsTask),
     ];
 
     run_tasks(sub_matches, tasks, build_handle).expect("Ci failed");

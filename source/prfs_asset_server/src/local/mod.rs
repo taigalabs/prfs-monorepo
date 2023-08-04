@@ -2,8 +2,8 @@ use crate::paths::PATHS;
 use crate::utils::copy_dir_all;
 use crate::AssetServerError;
 use colored::Colorize;
-use prfs_circuits_circom::access::get_build_fs_path;
-use prfs_circuits_circom::CircuitBuildJson;
+use prfs_circuit_circom::access::get_build_fs_path;
+use prfs_circuit_circom::CircuitBuildJson;
 use std::collections::HashMap;
 use std::path::PathBuf;
 

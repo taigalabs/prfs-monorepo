@@ -33,8 +33,8 @@ impl BuildTask for CompileCircuitsTask {
 fn run_app() {
     let bin = "cargo";
     let status = Command::new(bin)
-        .current_dir(&PATHS.prfs_circuits_circom)
-        .args(["run", "-p", "prfs_circuits_circom"])
+        .current_dir(&PATHS.prfs_circuit_circom)
+        .args(["run", "-p", "prfs_circuit_circom"])
         .status()
         .expect(&format!("{} command failed to start", bin));
 

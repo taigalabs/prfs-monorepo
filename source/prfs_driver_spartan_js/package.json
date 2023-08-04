@@ -1,5 +1,5 @@
 {
-  "name": "@taigalabs/prfs-program-spartan-js",
+  "name": "@taigalabs/prfs-driver-spartan-js",
   "version": "0.0.1",
   "main": "./build_cjs/index.js",
   "module": "./build/index.js",
