@@ -103,7 +103,7 @@ export default class SpartanDriver {
   }
 }
 
-function bigint_to_array(n: number, k: number, x: bigint) {
+function bigint_to_array(n: number, k: number, x: bigint): bigint[] {
   let mod: bigint = 1n;
   for (var idx = 0; idx < n; idx++) {
     mod = mod * 2n;
