@@ -40,14 +40,15 @@ export default {
   select_proof_type: "Select a proof type",
   configuration: "Configuration",
   create_proof_type: "Create a proof type",
+  create_proof_instance_subtitle:
+    "Proofs allow you to make an undeniable, anonymous claim about anything from the source of truth.",
   create_proof_type_subtitle:
-    "Proofs allow you to make an undeniable, anonymous claim about anything from the source of truth. Start by choosing the circuit (program) and the reference values.",
+    "In order to create a proof instance, we need a proof type defined. Start by choosing the circuit (program) and the reference values.",
   proofs: "Proofs",
   proof_instances: "Proof instances",
   create_proof: "Create proof",
   proof_dashboard: "Proof dashboard",
   create_proof_instance: "Create a proof instance",
-  create_proof_instance_subtitle: "asdfasdf",
   proof_type: "Proof type",
   proof_type_summary_label: "Proof type summary for",
   proof_types: "Proof types",
