@@ -45,6 +45,7 @@ export default {
   proofs: "Proofs",
   proof_instances: "Proof instances",
   create_proof: "Create proof",
+  proof_dashboard: "Proof dashboard",
   create_proof_instance: "Create a proof instance",
   create_proof_instance_subtitle: "asdfasdf",
   proof_type: "Proof type",

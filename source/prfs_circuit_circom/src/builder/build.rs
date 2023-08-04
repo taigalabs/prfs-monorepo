@@ -3,7 +3,7 @@ use crate::{
 };
 use chrono::{DateTime, NaiveDateTime, Utc};
 use colored::Colorize;
-use prfs_driver_type::drivers::{SpartanCircomDriverProperties, SPARTAN_CIRCOM_DRIVER_TYPE};
+use prfs_driver_type::drivers::{driver_ids, spartan_circom_driver::SpartanCircomDriverProperties};
 use std::{io::Write, process::Command};
 
 pub fn run() {
@@ -91,7 +91,7 @@ fn compile_circuits(circuit: &CircuitJson) {
     let driver_id = &circuit.driver.driver_id;
 
     let driver: SpartanCircomDriverProperties = match driver_id.as_str() {
-        SPARTAN_CIRCOM_DRIVER_TYPE => {
+        driver_ids::SPARTAN_CIRCOM_DRIVER_TYPE => {
             serde_json::from_value(circuit.driver.properties.clone()).unwrap()
         }
         _ => panic!(

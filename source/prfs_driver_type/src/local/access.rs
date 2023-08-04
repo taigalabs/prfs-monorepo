@@ -1,4 +1,5 @@
-use crate::{paths::PATHS, DriversJson};
+use super::json::DriversJson;
+use crate::paths::PATHS;
 
 pub fn load_system_native_driver_types() -> DriversJson {
     let drivers_json_path = PATHS.data.join("drivers.json");

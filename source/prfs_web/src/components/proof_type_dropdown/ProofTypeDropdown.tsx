@@ -93,7 +93,7 @@ const ProofTypeDropdown: React.FC<ProofTypeDropdownProps> = ({ selectedVal, hand
         };
 
         entries.push(
-          <li className={styles.entryWrapper} key={val.circuit_id} onClick={handleClickEntry}>
+          <li className={styles.entryWrapper} key={val.proof_type_id} onClick={handleClickEntry}>
             <ProofTypeEntry val={val} />
           </li>
         );

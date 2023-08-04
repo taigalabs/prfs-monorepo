@@ -1,5 +1,5 @@
 use prfs_circuit_type::PublicInput;
-use prfs_driver_type::CircuitDriver;
+use prfs_driver_type::drivers::circuit_driver::CircuitDriver;
 use serde::{Deserialize, Serialize};
 
 pub const SYSTEM_NATIVE_SCHEME: &str = "system_native://";

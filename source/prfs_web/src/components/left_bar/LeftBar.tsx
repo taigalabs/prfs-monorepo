@@ -10,6 +10,11 @@ const Leftbar: React.FC<any> = () => {
 
   return (
     <div className={styles.wrapper}>
+      <ul>
+        <li>
+          <ActiveLink href="/">{i18n.proof_dashboard}</ActiveLink>
+        </li>
+      </ul>
       <div className={styles.section}>
         <ul>
           <li className={styles.category}>{i18n.proofs}</li>

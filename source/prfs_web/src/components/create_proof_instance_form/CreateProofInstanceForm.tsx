@@ -23,7 +23,7 @@ import ProofTypeDropdown from "../proof_type_dropdown/ProofTypeDropdown";
 import PublicInputConfigSection from "../public_input_config_section/PublicInputConfigSection";
 import { useSigner } from "@thirdweb-dev/react";
 import { proveMembership } from "@/functions/prfsCrypto";
-import { castToSpartanProgramProps } from "@taigalabs/prfs-driver-spartan-js";
+import { launchDriver } from "@/functions/prfsDriver";
 
 const ProgramSection: React.FC<ProgramSectionProps> = ({ proofType }) => {
   const i18n = React.useContext(i18nContext);
@@ -91,7 +91,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     }
   }, [selectedProofType]);
 
-  const handleClickCreateProofInstance = React.useCallback(() => {
+  const handleClickCreateProofInstance = React.useCallback(async () => {
     setFormAlert("");
 
     if (!prfsAccount) {
@@ -105,20 +105,22 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     }
 
     const { driver_id, driver_properties } = selectedProofType;
-
-    const spartanProgramProps = castToSpartanProgramProps(driver_properties);
-    spartanProgramProps.wtns_gen_url = spartanProgramProps.wtns_gen_url.replace(
-      "prfs:/",
-      process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT
-    );
-    spartanProgramProps.circuit_url = spartanProgramProps.circuit_url.replace(
-      "prfs:/",
-      process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT
-    );
-
     console.log(12, selectedProofType.driver_properties);
 
-    console.log(13, spartanProgramProps);
+    const a = await launchDriver(driver_id, driver_properties);
+    console.log(11, a);
+
+    // const spartanProgramProps = castToSpartanProgramProps(driver_properties);
+    // spartanProgramProps.wtns_gen_url = spartanProgramProps.wtns_gen_url.replace(
+    //   "prfs:/",
+    //   process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT
+    // );
+    // spartanProgramProps.circuit_url = spartanProgramProps.circuit_url.replace(
+    //   "prfs:/",
+    //   process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT
+    // );
+
+    // console.log(13, spartanProgramProps);
 
     // proveMembership(signer);
 
