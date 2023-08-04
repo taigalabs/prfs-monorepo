@@ -11,6 +11,7 @@ import { i18nContext } from "@/contexts/i18n";
 import Logo from "@/components/logo/Logo";
 import { stateContext } from "@/contexts/state";
 import { PrfsAccount } from "@/state/reducer";
+import classNames from "classnames";
 
 const AccountStat: React.FC<AccountStatProps> = ({ account }) => {
   const i18n = React.useContext(i18nContext);
@@ -40,8 +41,15 @@ const AccountStat: React.FC<AccountStatProps> = ({ account }) => {
   }, []);
 
   return (
-    <>
-      <div className={styles.accountStat} ref={refs.setReference} {...getReferenceProps()}>
+    <div className={styles.accountStat}>
+      <div
+        className={classNames({
+          [styles.base]: true,
+          [styles.isOpen]: isOpen,
+        })}
+        ref={refs.setReference}
+        {...getReferenceProps()}
+      >
         <div>
           <div>{id}</div>
           <div>{shortWalletAddr}</div>
@@ -60,7 +68,7 @@ const AccountStat: React.FC<AccountStatProps> = ({ account }) => {
           </ul>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
@@ -87,8 +95,10 @@ const Masthead: React.FC<any> = () => {
         </Link>
       </div>
       <ul className={styles.mainMenu}>
-        <li>{i18n.proofs}</li>
-        <li>{i18n.vote}</li>
+        <li>
+          <Link href="/">{i18n.proofs}</Link>
+        </li>
+        <li className={styles.inactive}>{i18n.vote}</li>
       </ul>
       <div className={styles.rightMenu}>
         {prfsAccount ? <AccountStat account={prfsAccount} /> : <ConnectButton />}

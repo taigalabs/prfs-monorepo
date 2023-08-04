@@ -25,8 +25,18 @@
   display: flex;
   align-items: center;
 
+  a {
+    &:hover {
+      color: var(--bright-green-50);
+    }
+  }
+
   > li {
     margin-right: 24px;
+  }
+
+  .inactive {
+    color: var(--gray-50);
   }
 }
 
@@ -36,18 +46,30 @@
 }
 
 .accountStat {
-  padding: 0px 12px;
   display: flex;
   align-items: center;
+  height: 100%;
 
-  &:hover {
-    cursor: pointer;
+  .base {
+    height: 100%;
+    padding: 0px 12px;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      color: var(--bright-green-50);
+      cursor: pointer;
+    }
+
+    .btnArea {
+      align-items: center;
+      display: flex;
+      margin-left: 1px;
+    }
   }
 
-  .btnArea {
-    align-items: center;
-    display: flex;
-    margin-left: 1px;
+  .base.isOpen {
+    color: var(--bright-green-50);
   }
 }
 
