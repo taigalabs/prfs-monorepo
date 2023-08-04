@@ -17,6 +17,7 @@
     "@mui/icons-material": "^5.14.1",
     "@mui/material": "^5.14.0",
     "@mui/styles": "^5.14.0",
+    "@taigalabs/prfs-driver-interface": "*",
     "@taigalabs/prfs-driver-spartan-js": "*",
     "@taigalabs/prfs-driver-type": "*",
     "@thirdweb-dev/react": "^3.14.13",

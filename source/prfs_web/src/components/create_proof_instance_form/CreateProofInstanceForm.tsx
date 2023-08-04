@@ -23,7 +23,8 @@ import ProofTypeDropdown from "../proof_type_dropdown/ProofTypeDropdown";
 import PublicInputConfigSection from "../public_input_config_section/PublicInputConfigSection";
 import { useSigner } from "@thirdweb-dev/react";
 import { proveMembership, proveMembershipMock } from "@/functions/prfsCrypto";
-import { launchDriver } from "@/functions/prfsDriver";
+import { interpolateSystemAssetEndpoint, initDriver } from "@/functions/circuitDriver";
+import { MerkleProof } from "@taigalabs/prfs-driver-spartan-js";
 
 const ProgramSection: React.FC<ProgramSectionProps> = ({ proofType }) => {
   const i18n = React.useContext(i18nContext);
@@ -107,41 +108,64 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     const { driver_id, driver_properties } = selectedProofType;
     console.log(12, selectedProofType.driver_properties);
 
-    // const driver = await launchDriver(driver_id, driver_properties);
-    // for (const [key, val] of Object.entries(driver_properties)) {
-    //   if (val.startsWith('prfs://')) {
-    //     driver.
-    //   }
+    let driverProperties = interpolateSystemAssetEndpoint(driver_properties);
+    console.log(13, driverProperties);
+
+    const driver = await initDriver(driver_id, driverProperties);
+
+    let buildStatus = await driver.getBuildStatus();
+    console.log("buildStatus: %s", buildStatus);
+
+    let addrs = [
+      "0x33d10ab178924ecb7ad52f4c0c8062c3066607ec",
+      "0x4f6fcaae3fc4124acaccc780c6cb0dd69ddbeff8",
+      "0x50d34ee0ac40da7779c42d3d94c2072e5625395f",
+      "0x51c0e162bd86b63933262d558a8953def4e30c85",
+    ];
+
+    let merkleProof: MerkleProof = await driver.makeMerkleProof(addrs, BigInt(0), 32);
+    console.log("merkle proof", merkleProof);
+
+    // let poseidon = prfs.newPoseidon();
+    // const msg = Buffer.from("harry potter");
+    // const msgHash = hashPersonalMessage(msg);
+
+    // let sig = await signer.signMessage(msg);
+    // console.log("sig", sig);
+
+    // let verifyMsg = ethers.utils.verifyMessage(msg, sig);
+    // console.log("verified addr", verifyMsg);
+
+    // let proverAddress = await signer.getAddress();
+    // console.log("proverAddr", proverAddress);
+
+    // const proverAddr = BigInt(proverAddress);
+    // console.log("proverAddr", proverAddr);
+
+    // const addr1 = BigInt(addrs[1]);
+    // console.log("Addr1", addr1);
+
+    // console.log("Proving...");
+    // console.time("Full proving time");
+    // // const proofGen = spart.newMembershipProofGen(wtnsGenUrl, circuitUrl);
+    // const { proof, publicInput } = await spartanDriver.prove(sig, msgHash, merkleProof);
+
+    // console.timeEnd("Full proving time");
+    // console.log("Raw proof size (excluding public input)", proof.length, "bytes");
+
+    // console.log("Verifying...");
+
+    // console.time("Verification time");
+    // const result = await spartanDriver.verify(proof, publicInput.serialize());
+    // console.timeEnd("Verification time");
+
+    // if (result) {
+    //   console.log("Successfully verified proof!");
+    // } else {
+    //   console.log("Failed to verify proof :(");
     // }
-    const circuitUrl = driver_properties.circuit_url.replace(
-      "prfs:/",
-      process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT
-    );
-    const wtnsGenUrl = driver_properties.wtns_gen_url.replace(
-      "prfs:/",
-      process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT
-    );
 
-    await proveMembership(signer, circuitUrl, wtnsGenUrl);
-
-    // await proveMembershipMock();
-
-    // let instance = await driver.newInstance();
-    // console.log(11, instance);
-
-    // const spartanProgramProps = castToSpartanProgramProps(driver_properties);
-    // spartanProgramProps.wtns_gen_url = spartanProgramProps.wtns_gen_url.replace(
-    //   "prfs:/",
-    //   process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT
-    // );
-    // spartanProgramProps.circuit_url = spartanProgramProps.circuit_url.replace(
-    //   "prfs:/",
-    //   process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT
-    // );
-
-    // console.log(13, spartanProgramProps);
-
-    // proveMembership(signer);
+    // await proveMembership(signer, circuitUrl, wtnsGenUrl);
 
     // let { y, m, d } = getYMD();
     // let now = Date.now();
@@ -172,7 +196,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     //   });
   }, [publicInputInstance, selectedProofType, setFormAlert, state.prfsAccount]);
 
-  console.log(11, selectedProofType);
+  // console.log(11, selectedProofType);
 
   return (
     <div className={styles.wrapper}>

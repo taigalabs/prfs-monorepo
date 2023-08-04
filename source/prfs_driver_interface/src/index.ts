@@ -6,6 +6,7 @@ export interface CircuitDriverGen {
 export interface CircuitDriver {
   prove(...args: any): Promise<ProveResult>;
   verify(...args: any): Promise<boolean>;
+  getBuildStatus(): Promise<any>;
   [key: string]: any;
 }
 

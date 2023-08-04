@@ -23,12 +23,24 @@ export default class SpartanDriver implements CircuitDriver {
   circuitUrl: string;
 
   constructor(handlers: PrfsHandlers, driverProps: SpartanCircomDriverProperties) {
+    console.log("SpartanDriver, driverProps: %o", driverProps);
     this.handlers = handlers;
+
+    if (driverProps.circuit_url === undefined) {
+      throw new Error("Spartan cannot be instantiated without circuitUrl");
+    }
+
+    if (driverProps.wtns_gen_url === undefined) {
+      throw new Error("Spartan cannot be instantiated without wtnsGenUrl");
+    }
+
     this.circuitUrl = driverProps.circuit_url;
     this.wtnsGenUrl = driverProps.wtns_gen_url;
+
+    console.log("circuitUrl: %s, wtnsGenUrl: %s", this.circuitUrl, this.wtnsGenUrl);
   }
 
-  async getBuildStatus() {
+  async getBuildStatus(): Promise<string> {
     return this.handlers.getBuildStatus();
   }
 
@@ -65,6 +77,7 @@ export default class SpartanDriver implements CircuitDriver {
     );
 
     const publicInput = new PublicInput(r, v, msgHash, circuitPubInput);
+    console.log("publicInput: %o", publicInput);
     const m = new BN(msgHash).mod(SECP256K1_P);
 
     const witnessGenInput = {
