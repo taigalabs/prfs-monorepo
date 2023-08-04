@@ -1,6 +1,8 @@
 use colored::Colorize;
 use prfs_circuit_circom::{CircuitBuildJson, CircuitBuildListJson};
-use prfs_driver_type::CircuitDriver;
+use prfs_driver_type::{
+    drivers::circuit_driver::CircuitDriver, local::access::load_system_native_driver_types,
+};
 use std::{collections::HashMap, path::PathBuf};
 
 pub struct LocalAssets {
@@ -34,7 +36,7 @@ fn load_circuits() -> HashMap<String, CircuitBuildJson> {
 }
 
 fn load_driver_types() -> HashMap<String, CircuitDriver> {
-    let drivers_json = prfs_driver_type::access::load_system_native_driver_types();
+    let drivers_json = load_system_native_driver_types();
 
     let mut m = HashMap::new();
     for pgm in drivers_json.drivers {
