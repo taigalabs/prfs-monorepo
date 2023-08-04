@@ -10,6 +10,13 @@ const Leftbar: React.FC<any> = () => {
 
   return (
     <div className={styles.wrapper}>
+      <ul>
+        <li>
+          <ActiveLink href="/" exact>
+            {i18n.home}
+          </ActiveLink>
+        </li>
+      </ul>
       <div className={styles.section}>
         <ul>
           <li className={styles.category}>{i18n.proofs}</li>
@@ -28,7 +35,7 @@ const Leftbar: React.FC<any> = () => {
             <ActiveLink href="/circuits">{i18n.circuits}</ActiveLink>
           </li>
           <li>
-            <ActiveLink href="/programs">{i18n.programs}</ActiveLink>
+            <ActiveLink href="/drivers">{i18n.circuit_drivers}</ActiveLink>
           </li>
         </ul>
       </div>

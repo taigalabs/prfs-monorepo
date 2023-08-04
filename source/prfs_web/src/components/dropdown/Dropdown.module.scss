@@ -36,3 +36,12 @@
 .dropdownListWrapper {
   background-color: var(--white-100);
 }
+
+.hiddenInput {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  opacity: 0;
+  width: 100%;
+  pointer-events: none;
+}

@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
-    "@taigalabs/prfs-js": "*",
+    "@taigalabs/prfs-driver-spartan-js": "*",
     "puppeteer": "^20.7.4"
   },
   "devDependencies": {

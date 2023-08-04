@@ -11,24 +11,29 @@ import { PrfsSet } from "@/models";
 
 const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
+  const [data, setData] = React.useState<TableData<PrfsSet>>({ page: 0, values: [] });
 
-  const createHeader = React.useCallback(() => {
-    return (
-      <TableHeader>
-        <TableRow>
-          {handleSelectVal && <th className={styles.select}></th>}
-          <th className={styles.set_id}>{i18n.set_id}</th>
-          <th className={styles.label}>{i18n.label}</th>
-          <th className={styles.author}>{i18n.author}</th>
-          <th className={styles.desc}>{i18n.description}</th>
-          <th className={styles.cardinality}>{i18n.cardinality}</th>
-          <th className={styles.createdAt}>{i18n.created_at}</th>
-        </TableRow>
-      </TableHeader>
-    );
-  }, [handleSelectVal]);
+  const handleChangePage = React.useCallback(async (page: number) => {
+    return prfsBackend
+      .getSets({
+        page,
+      })
+      .then(resp => {
+        const { page, prfs_sets } = resp.payload;
+        return {
+          page,
+          values: prfs_sets,
+        };
+      });
+  }, []);
 
-  const createBody = React.useCallback(({ data, handleSelectVal, selectedVal }) => {
+  React.useEffect(() => {
+    Promise.resolve(handleChangePage(0)).then(res => {
+      setData(res);
+    });
+  }, [setData, handleChangePage]);
+
+  const rowsElem = React.useMemo(() => {
     // console.log(1, data);
     let { page, values } = data;
 
@@ -70,32 +75,24 @@ const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSele
       rows.push(row);
     }
 
-    return <TableBody>{rows}</TableBody>;
-  }, []);
-
-  const handleChangePage = React.useCallback(async (page: number) => {
-    return prfsBackend
-      .getSets({
-        page,
-      })
-      .then(resp => {
-        const { page, prfs_sets } = resp.payload;
-        return {
-          page,
-          values: prfs_sets,
-        };
-      });
-  }, []);
+    return rows;
+  }, [data, handleSelectVal, selectedVal]);
 
   return (
-    <Table
-      createHeader={createHeader}
-      createBody={createBody}
-      onChangePage={handleChangePage}
-      minWidth={910}
-      selectedVal={selectedVal}
-      handleSelectVal={handleSelectVal}
-    />
+    <Table minWidth={910}>
+      <TableHeader>
+        <TableRow>
+          {handleSelectVal && <th className={styles.select}></th>}
+          <th className={styles.set_id}>{i18n.set_id}</th>
+          <th className={styles.label}>{i18n.label}</th>
+          <th className={styles.author}>{i18n.author}</th>
+          <th className={styles.desc}>{i18n.description}</th>
+          <th className={styles.cardinality}>{i18n.cardinality}</th>
+          <th className={styles.createdAt}>{i18n.created_at}</th>
+        </TableRow>
+      </TableHeader>
+      <TableBody>{rowsElem}</TableBody>
+    </Table>
   );
 };
 

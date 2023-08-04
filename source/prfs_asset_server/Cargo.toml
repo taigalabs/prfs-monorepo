@@ -18,7 +18,7 @@ serde_json = "1.0"
 multer = "2.0"
 lazy_static = "1.4"
 
-prfs_circuits_circom = { path = "../prfs_circuits_circom" }
+prfs_circuit_circom = { path = "../prfs_circuit_circom" }
 
 [[bin]]
 name = "server"

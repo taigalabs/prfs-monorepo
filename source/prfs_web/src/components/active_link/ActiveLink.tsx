@@ -4,11 +4,10 @@ import classnames from "classnames";
 
 import styles from "./ActiveLink.module.scss";
 
-const ActiveLink = ({ children, ...rest }: { children: React.ReactNode } & LinkProps) => {
-  const { href } = rest;
+const ActiveLink = ({ children, href, exact }: ActiveLinkProps & LinkProps) => {
   const pathName = usePathname();
 
-  const isActive = pathName.startsWith(href.toString());
+  const isActive = exact ? pathName === href.toString() : pathName.startsWith(href.toString());
 
   return (
     <Link
@@ -16,7 +15,7 @@ const ActiveLink = ({ children, ...rest }: { children: React.ReactNode } & LinkP
         [styles.wrapper]: true,
         [styles.active]: isActive,
       })}
-      {...rest}
+      href={href}
     >
       {children}
     </Link>
@@ -24,3 +23,8 @@ const ActiveLink = ({ children, ...rest }: { children: React.ReactNode } & LinkP
 };
 
 export default ActiveLink;
+
+export interface ActiveLinkProps {
+  exact?: boolean;
+  children: React.ReactNode;
+}

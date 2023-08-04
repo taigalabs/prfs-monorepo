@@ -158,9 +158,9 @@ importers:
       '@ethereumjs/util':
         specifier: ^8.0.3
         version: 8.1.0
-      '@taigalabs/prfs-js':
+      '@taigalabs/prfs-driver-spartan-js':
         specifier: '*'
-        version: link:../prfs_js
+        version: link:../prfs_driver_spartan_js
       puppeteer:
         specifier: ^20.7.4
         version: 20.8.2(typescript@4.9.5)
@@ -175,7 +175,7 @@ importers:
         specifier: ^4.9.4
         version: 4.9.5
 
-  source/prfs_circuits_circom:
+  source/prfs_circuit_circom:
     dependencies:
       '@ethereumjs/util':
         specifier: ^8.0.3
@@ -212,7 +212,7 @@ importers:
         specifier: ^4.9.4
         version: 4.9.5
 
-  source/prfs_js:
+  source/prfs_driver_spartan_js:
     dependencies:
       '@ethereumjs/util':
         specifier: ^8.0.3
@@ -270,6 +270,8 @@ importers:
         specifier: ^5.88.2
         version: 5.88.2
 
+  source/prfs_driver_type: {}
+
   source/prfs_web:
     dependencies:
       '@emotion/react':
@@ -293,9 +295,12 @@ importers:
       '@mui/styles':
         specifier: ^5.14.0
         version: 5.14.0(@types/react@18.2.12)(react@18.2.0)
-      '@taigalabs/prfs-js':
+      '@taigalabs/prfs-driver-spartan-js':
         specifier: '*'
-        version: link:../prfs_js
+        version: link:../prfs_driver_spartan_js
+      '@taigalabs/prfs-driver-type':
+        specifier: '*'
+        version: link:../prfs_driver_type
       '@thirdweb-dev/react':
         specifier: ^3.14.13
         version: 3.14.15(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@thirdweb-dev/sdk@3.10.35)(@types/react-dom@18.2.5)(@types/react@18.2.12)(ethers@5.7.2)(localforage@1.10.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.3)

@@ -1,4 +1,4 @@
-import { Prfs, MerkleProof } from "@taigalabs/prfs-js";
+import { newInstance, MerkleProof } from "@taigalabs/prfs-driver-spartan-js";
 import {
   ecsign,
   hashPersonalMessage,
@@ -30,98 +30,23 @@ let addrs = [
   // "0x67284e6473dd2afca0782e24dae6d79f712c270f",
 ];
 
-export async function proveMembership(signer: ethers.Signer) {
-  // await f1(signer);
-  await f2(signer);
-}
+// export async function proveMembership(
+//   driver: SpartanDriver,
+//   signer: ethers.Signer,
+//   circuitUrl: string,
+//   wtnsGenUrl: string
+// ) {
+//   await f2(signer, circuitUrl, wtnsGenUrl);
+// }
 
-async function f1(signer: ethers.Signer) {
-  let addrMembership2WtnsGenUrl = getAddrMembership2WtnsGenUrl();
-  let addrMembership2CircuitUrl = getAddrMembership2CircuitUrl();
+export async function proveMembership(
+  signer: ethers.Signer,
+  circuitUrl: string,
+  wtnsGenUrl: string
+) {
+  console.log("proveMembership()");
 
-  // let prfsHandlers = await initWasm();
-  let prfs = await Prfs.newInstance();
-
-  let buildStatus = await prfs.getBuildStatus();
-  console.log("buildStatus: %o", buildStatus);
-
-  let poseidon = prfs.newPoseidon();
-  // const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
-  const msg = Buffer.from("harry potter");
-  const msgHash = hashPersonalMessage(msg);
-
-  // const { v, r, s } = ecsign(msgHash, privKey);
-  // const sig = `0x${r.toString("hex")}${s.toString("hex")}${v.toString(16)}`;
-
-  // let provider = new ethers.BrowserProvider(window.ethereum);
-  let proverAddrHex = await signer.getAddress();
-  // let sig = await provider.send('personal_sign', [ethers.hexlify(msg), proverAddrHex.toLowerCase()]);
-  let sig = await signer.signMessage(msg);
-  // proverAddrHex = proverAddrHex.toLowerCase();
-
-  let verifyMsg = ethers.utils.verifyMessage(msg, sig);
-  console.log("verified addr", verifyMsg);
-
-  console.log("sig", sig);
-
-  const treeDepth = 32;
-  const addressTree = await prfs.newTree(treeDepth, poseidon);
-
-  // let proverAddrHex = "0x" + privateToAddress(privKey).toString("hex");
-  const proverAddress = BigInt(proverAddrHex);
-
-  console.log("proverAddrHex", proverAddrHex);
-  console.log("proverAddress", proverAddress);
-  // await addressTree.insert(proverAddress);
-
-  let addrs2 = [];
-  for (const addr of addrs) {
-    let a = BigInt(addr);
-    console.log("new address", a);
-    addrs2.push(a);
-    await addressTree.insert(a);
-  }
-
-  let q = await poseidon([proverAddress, addrs2[0]]);
-  console.log("poseidon", q);
-
-  const index = addressTree.indexOf(proverAddress);
-  const merkleProof = addressTree.createProof(index);
-
-  console.log("merkleProof", merkleProof);
-
-  console.log("Proving...");
-  console.time("Full proving time");
-  const proofGen = prfs.newMembershipProofGen(addrMembership2WtnsGenUrl, addrMembership2CircuitUrl);
-
-  const { proof, publicInput } = await proofGen.prove(sig, msgHash, merkleProof);
-
-  console.timeEnd("Full proving time");
-  console.log("Raw proof size (excluding public input)", proof.length, "bytes");
-
-  console.log("Verifying...");
-  console.time("Verification time");
-  const result = await proofGen.verify(proof, publicInput.serialize());
-  console.timeEnd("Verification time");
-
-  if (result) {
-    console.log("Successfully verified proof!");
-  } else {
-    console.log("Failed to verify proof :(");
-  }
-
-  return proof;
-}
-
-async function f2(signer: ethers.Signer) {
-  let addrMembership2CircuitUrl = getAddrMembership2CircuitUrl();
-  let addrMembership2WtnsGenUrl = getAddrMembership2WtnsGenUrl();
-
-  // let prfsHandlers = await initWasm();
-  // console.log(11, prfsHandlers);
-
-  // let prfs = new Prfs(prfsHandlers);
-  let prfs = await Prfs.newInstance();
+  let prfs = await newInstance();
 
   let buildStatus = await prfs.getBuildStatus();
   console.log("buildStatus: %o", buildStatus);
@@ -150,7 +75,7 @@ async function f2(signer: ethers.Signer) {
 
   console.log("Proving...");
   console.time("Full proving time");
-  const proofGen = prfs.newMembershipProofGen(addrMembership2WtnsGenUrl, addrMembership2CircuitUrl);
+  const proofGen = prfs.newMembershipProofGen(wtnsGenUrl, circuitUrl);
   const { proof, publicInput } = await proofGen.prove(sig, msgHash, merkleProof);
 
   console.timeEnd("Full proving time");
@@ -169,14 +94,16 @@ async function f2(signer: ethers.Signer) {
   }
 }
 
-export async function proveMembershipMock() {
-  let addrMembership2CircuitUrl = getAddrMembership2CircuitUrl();
-  let addrMembership2WtnsGenUrl = getAddrMembership2WtnsGenUrl();
+export async function proveMembershipMock(circuitUrl: string, wtnsGenUrl: string) {
+  console.log("circuitUrl: %s, wtnsGenUrl: %s", circuitUrl, wtnsGenUrl);
+
+  // let addrMembership2CircuitUrl = getAddrMembership2CircuitUrl();
+  // let addrMembership2WtnsGenUrl = getAddrMembership2WtnsGenUrl();
 
   // let prfsHandlers = await initWasm();
   // let prfs = new Prfs(prfsHandlers);
   // let prfsHandlers = await initWasm();
-  let prfs = await Prfs.newInstance();
+  let prfs = await newInstance();
 
   let poseidon = prfs.newPoseidon();
   const privKey = Buffer.from("".padStart(16, "🧙"), "utf16le");
@@ -211,7 +138,7 @@ export async function proveMembershipMock() {
 
   console.log("Proving...");
   console.time("Full proving time");
-  const proofGen = prfs.newMembershipProofGen(addrMembership2WtnsGenUrl, addrMembership2CircuitUrl);
+  const proofGen = prfs.newMembershipProofGen(wtnsGenUrl, circuitUrl);
   const { proof, publicInput } = await proofGen.prove(sig, msgHash, merkleProof);
 
   console.timeEnd("Full proving time");

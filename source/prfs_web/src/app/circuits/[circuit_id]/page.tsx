@@ -16,7 +16,7 @@ import * as prfsBackend from "@/fetch/prfsBackend";
 import { PrfsCircuit } from "@/models/index";
 import { useRouter } from "next/navigation";
 import CircuitSummary from "@/components/circuit_summary/CircuitSummary";
-import CircuitProgramInstanceSummary from "@/components/circuit_pgm_instance_summary/CircuitProgramInstanceSummary";
+import CircuitDriverInstanceSummary from "@/components/circuit_driver_instance_summary/CircuitDriverInstanceSummary";
 import PublicInputTable from "@/components/public_input_table/PublicInputTable";
 
 const Circuit: React.FC<CircuitProps> = ({ params }) => {
@@ -61,14 +61,16 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
               </WidgetHeader>
               <CircuitSummary circuit={circuit} />
             </Widget>
-            <div className={styles.secondRowWidget}>
-              <Widget>
-                <WidgetHeader>
-                  <WidgetLabel>{i18n.program}</WidgetLabel>
-                </WidgetHeader>
-                <CircuitProgramInstanceSummary circuit={circuit} />
-              </Widget>
-            </div>
+          </Card>
+        </CardRow>
+        <CardRow>
+          <Card>
+            <Widget>
+              <WidgetHeader>
+                <WidgetLabel>{i18n.driver}</WidgetLabel>
+              </WidgetHeader>
+              <CircuitDriverInstanceSummary circuit={circuit} />
+            </Widget>
           </Card>
         </CardRow>
         <CardRow>
@@ -77,7 +79,7 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
               <WidgetHeader>
                 <WidgetLabel>{i18n.public_inputs}</WidgetLabel>
               </WidgetHeader>
-              <PublicInputTable circuit={circuit} />
+              {circuit && <PublicInputTable public_inputs={circuit.public_inputs} />}
             </Widget>
           </Card>
         </CardRow>

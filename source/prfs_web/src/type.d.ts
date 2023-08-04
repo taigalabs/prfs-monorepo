@@ -1,6 +1,6 @@
 import { Web3Provider } from "ethers";
 
-import { Envs } from "./env";
+import { Envs } from "./envs";
 
 declare global {
   interface Window {

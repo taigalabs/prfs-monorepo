@@ -50,6 +50,8 @@ const Set: React.FC<SetProps> = ({ params }) => {
       });
   }, [setSet]);
 
+  let setTableLabel = `${i18n.set} - ${params.set_id}`;
+
   return (
     <DefaultLayout>
       <Breadcrumb>
@@ -63,7 +65,7 @@ const Set: React.FC<SetProps> = ({ params }) => {
           <Card>
             <Widget>
               <WidgetHeader>
-                <WidgetLabel>{`${i18n.set} - ${params.set_id}`}</WidgetLabel>
+                <WidgetLabel>{setTableLabel}</WidgetLabel>
               </WidgetHeader>
               <SetSummary set={set} />
             </Widget>
@@ -73,7 +75,7 @@ const Set: React.FC<SetProps> = ({ params }) => {
           <Card>
             <Widget>
               <WidgetHeader>
-                <WidgetLabel>{`${i18n.elements} - ${params.set_id}`}</WidgetLabel>
+                <WidgetLabel>{i18n.elements}</WidgetLabel>
               </WidgetHeader>
               <TableCurrentPageLimitWarning />
               <SetElementTable setId={params.set_id} />

@@ -1,8 +1,11 @@
 use crate::{
     build_handle::BuildHandle,
     build_task::{
-        build_js_dependencies::BuildJsDependenciesTask, build_prfs_js::BuildPrfsJsTask,
-        build_wasm::BuildWasmTask, compile_circuits::CompileCircuitsTask, task::BuildTask,
+        build_js_dependencies::BuildJsDependenciesTask,
+        build_prfs_driver_spartan_js::BuildPrfsDriverSpartanJsTask,
+        build_prfs_driver_spartan_wasm::BuildPrfsDriverSpartanWasmTask,
+        build_ts_driver_interface::BuildTsDriverInterfaceTask,
+        compile_circuits::CompileCircuitsTask, task::BuildTask,
     },
     paths::PATHS,
     CiError,
@@ -16,10 +19,11 @@ pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
     };
 
     let tasks: Vec<Box<dyn BuildTask>> = vec![
-        // Box::new(BuildWasmTask),
+        Box::new(BuildTsDriverInterfaceTask),
+        Box::new(BuildPrfsDriverSpartanWasmTask),
         Box::new(CompileCircuitsTask),
-        // Box::new(BuildJsDependenciesTask),
-        // Box::new(BuildPrfsJsTask),
+        Box::new(BuildJsDependenciesTask),
+        Box::new(BuildPrfsDriverSpartanJsTask),
     ];
 
     run_tasks(sub_matches, tasks, build_handle).expect("Ci failed");
@@ -32,19 +36,15 @@ fn run_tasks(
 ) -> Result<(), CiError> {
     for t in &tasks {
         println!(
-            "\n{} executing task: {}",
-            "Start".green().bold(),
+            "\n{} a task: {}",
+            "Executing".green().bold(),
             t.name().cyan().bold()
         );
 
         match t.run(&mut build_handle) {
             Ok(_) => (),
             Err(err) => {
-                println!(
-                    "Error executing task, {}, err: {}",
-                    t.name(),
-                    err.to_string()
-                );
+                println!("Error executing task, err: {}", err.to_string());
 
                 return Err(err);
             }

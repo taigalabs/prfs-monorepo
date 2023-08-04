@@ -1,25 +1,27 @@
 use colored::Colorize;
-use prfs_circuits_circom::{CircuitBuildJson, CircuitBuildListJson};
-use prfs_program_type::CircuitProgram;
+use prfs_circuit_circom::{CircuitBuildJson, CircuitBuildListJson};
+use prfs_driver_type::{
+    drivers::circuit_driver::CircuitDriver, local::access::load_system_native_driver_types,
+};
 use std::{collections::HashMap, path::PathBuf};
 
 pub struct LocalAssets {
     pub circuits: HashMap<String, CircuitBuildJson>,
-    pub programs: HashMap<String, CircuitProgram>,
+    pub drivers: HashMap<String, CircuitDriver>,
 }
 
 pub fn load_local_assets() -> LocalAssets {
     let circuits = load_circuits();
 
-    let programs = load_program_types();
+    let drivers = load_driver_types();
 
-    LocalAssets { circuits, programs }
+    LocalAssets { circuits, drivers }
 }
 
 fn load_circuits() -> HashMap<String, CircuitBuildJson> {
-    let build_list_json = prfs_circuits_circom::access::read_circuit_artifacts();
+    let build_list_json = prfs_circuit_circom::access::read_circuit_artifacts();
 
-    let build_path = prfs_circuits_circom::access::get_build_fs_path();
+    let build_path = prfs_circuit_circom::access::get_build_fs_path();
 
     let mut circuit_build = HashMap::new();
     for circuit_name in build_list_json.circuits {
@@ -33,12 +35,12 @@ fn load_circuits() -> HashMap<String, CircuitBuildJson> {
     circuit_build
 }
 
-fn load_program_types() -> HashMap<String, CircuitProgram> {
-    let programs_json = prfs_program_type::access::load_system_native_program_types();
+fn load_driver_types() -> HashMap<String, CircuitDriver> {
+    let drivers_json = load_system_native_driver_types();
 
     let mut m = HashMap::new();
-    for pgm in programs_json.programs {
-        m.insert(pgm.program_id.to_string(), pgm.clone());
+    for pgm in drivers_json.drivers {
+        m.insert(pgm.driver_id.to_string(), pgm.clone());
     }
 
     return m;

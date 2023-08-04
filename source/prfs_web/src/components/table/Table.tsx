@@ -33,49 +33,16 @@ export function TableRow({ isSelected, children, onClickRow }: TableRowProps) {
   );
 }
 
-function Table<T>({
-  createHeader,
-  createBody,
-  onChangePage,
-  handleSelectVal,
-  minWidth,
-  selectedVal,
-  initialValues,
-  tableLayout,
-}: TableProps<T>) {
-  const [data, setValues] = React.useState({ page: 0, values: initialValues ? initialValues : [] });
-
-  React.useEffect(() => {
-    if (onChangePage) {
-      Promise.resolve(onChangePage(0)).then(res => {
-        setValues(res);
-      });
-    }
-  }, [onChangePage, setValues]);
-
-  let headerElems = React.useMemo(() => {
-    return createHeader();
-  }, []);
-
-  let bodyElems = React.useMemo(() => {
-    return createBody({
-      data,
-      handleSelectVal,
-      selectedVal,
-    });
-  }, [data, selectedVal, handleSelectVal]);
-
+function Table({ minWidth, children }: TableProps) {
   return (
     <div className={styles.tableWrapper}>
       <table
         className={styles.table}
         style={{
           minWidth,
-          tableLayout: tableLayout,
         }}
       >
-        {headerElems}
-        {bodyElems}
+        {children}
       </table>
     </div>
   );
@@ -83,22 +50,10 @@ function Table<T>({
 
 export default Table;
 
-export interface TableProps<T> {
-  createHeader: () => React.ReactNode;
-  createBody: (args: CreateBodyArgs<T>) => React.ReactNode;
-  onChangePage?: (page: number) => Promise<TableData<T>> | TableData<T>;
-  initialValues?: T[];
-  selectedVal?: T;
-  handleSelectVal?: (row: T) => void;
+export interface TableProps {
+  children: React.ReactNode;
   minWidth: number;
-  tableLayout?: any;
 }
-
-export type CreateBodyArgs<T> = {
-  data: TableData<T>;
-  selectedVal: T;
-  handleSelectVal?: (row: T) => void;
-};
 
 export type TableData<T> = {
   page: number;

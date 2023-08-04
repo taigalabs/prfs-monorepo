@@ -4,28 +4,25 @@ import React from "react";
 import Link from "next/link";
 
 import styles from "./PublicInputTable.module.scss";
-import Table, { TableBody, TableRow, TableHeader } from "@/components/table/Table";
+import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
-import { PrfsCircuit } from "@/models";
+import { PublicInput } from "@/models";
 
-const PublicInputTable: React.FC<PublicInputTableProps> = ({ circuit }) => {
+const PublicInputTable: React.FC<PublicInputTableProps> = ({ public_inputs }) => {
   const i18n = React.useContext(i18nContext);
+  const [data, setData] = React.useState<TableData<PublicInput>>({ page: 0, values: [] });
 
-  const createHeader = React.useCallback(() => {
-    return (
-      <TableHeader>
-        <TableRow>
-          <th className={styles.type}>{i18n.type}</th>
-          <th className={styles.label}>{i18n.label}</th>
-          <th className={styles.desc}>{i18n.description}</th>
-        </TableRow>
-      </TableHeader>
-    );
-  }, []);
+  React.useEffect(() => {
+    if (public_inputs) {
+      setData({
+        page: 0,
+        values: public_inputs,
+      });
+    }
+  }, [public_inputs]);
 
-  const createBody = React.useCallback(({ data }) => {
-    // console.log(1, data);
-    let { page, values } = data;
+  const rowsElem = React.useMemo(() => {
+    let { values } = data;
 
     let rows = [];
     if (values === undefined || values.length < 1) {
@@ -44,28 +41,25 @@ const PublicInputTable: React.FC<PublicInputTableProps> = ({ circuit }) => {
       rows.push(row);
     }
 
-    return <TableBody key={page}>{rows}</TableBody>;
-  }, []);
-
-  const initialValues = React.useMemo(() => {
-    return circuit ? circuit.public_inputs : [];
-  }, [circuit]);
+    return rows;
+  }, [data]);
 
   return (
-    circuit && (
-      <Table
-        createHeader={createHeader}
-        createBody={createBody}
-        minWidth={910}
-        initialValues={initialValues}
-        tableLayout="fixed"
-      />
-    )
+    <Table minWidth={910}>
+      <TableHeader>
+        <TableRow>
+          <th className={styles.type}>{i18n.type}</th>
+          <th className={styles.label}>{i18n.label}</th>
+          <th className={styles.desc}>{i18n.description}</th>
+        </TableRow>
+      </TableHeader>
+      <TableBody>{rowsElem}</TableBody>
+    </Table>
   );
 };
 
 export default PublicInputTable;
 
 export interface PublicInputTableProps {
-  circuit: PrfsCircuit;
+  public_inputs: PublicInput[];
 }

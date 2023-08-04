@@ -1,0 +1,47 @@
+.wrapper {
+  max-width: 760px;
+}
+
+.textInputContainer {
+  &:not(:first-child) {
+    margin-top: 15px;
+  }
+
+  input {
+    max-width: 535px;
+  }
+}
+
+.dropdownContainer {
+  width: 535px;
+
+  > div:first-child {
+    margin-bottom: 5px;
+  }
+}
+
+.alert {
+  color: red;
+  margin: 12px 0;
+}
+
+.programSectionWrapper {
+  .item:not(:first-child) {
+    margin-top: 20px;
+  }
+
+  .label {
+    color: var(--gray-30);
+  }
+
+  .value {
+    margin-top: 9px;
+  }
+
+  a {
+    color: var(--green-50);
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

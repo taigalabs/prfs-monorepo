@@ -25,6 +25,7 @@ const Proofs: React.FC = () => {
 
   React.useEffect(() => {
     let createPage = searchParams.get("create") !== null;
+
     setCreatePage(createPage);
   }, [searchParams]);
 
@@ -45,8 +46,8 @@ const Proofs: React.FC = () => {
               <WidgetHeader>
                 <div className={styles.proofTypesHeader}>
                   <WidgetLabel>{i18n.proof_types}</WidgetLabel>
-                  <div className={styles.btnRow}>
-                    <Button variant="a" handleClick={handleClickCreateProofType}>
+                  <div className={styles.btnArea}>
+                    <Button variant="b" handleClick={handleClickCreateProofType}>
                       {i18n.create_proof_type}
                     </Button>
                   </div>

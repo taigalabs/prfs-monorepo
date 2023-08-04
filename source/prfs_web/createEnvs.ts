@@ -36,7 +36,7 @@ function createEnvs() {
       : "http://localhost:4000",
     NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: production
       ? "https://asset.prfs.xyz"
-      : "http://localhost:4010",
+      : "http://localhost:4010/assets",
   };
   console.log("Writing envs to %s", DOT_ENV_PATH);
 

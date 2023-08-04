@@ -1,5 +1,5 @@
 use crate::apis::{
-    prfs_accounts, prfs_circuit_programs, prfs_circuits, prfs_proof_types, prfs_sets,
+    prfs_accounts, prfs_circuit_drivers, prfs_circuits, prfs_proof_types, prfs_sets,
     prfs_tree_nodes,
 };
 use crate::middleware;
@@ -30,8 +30,8 @@ pub fn make_router(
             prfs_circuits::get_prfs_native_circuits,
         )
         .post(
-            format!("{}/get_prfs_native_circuit_programs", PREFIX),
-            prfs_circuit_programs::get_prfs_native_circuit_programs,
+            format!("{}/get_prfs_native_circuit_drivers", PREFIX),
+            prfs_circuit_drivers::get_prfs_native_circuit_drivers,
         )
         .post(
             format!("{}/sign_in_prfs_account", PREFIX),
