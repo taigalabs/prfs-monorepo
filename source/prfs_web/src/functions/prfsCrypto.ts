@@ -44,6 +44,8 @@ export async function proveMembership(
   circuitUrl: string,
   wtnsGenUrl: string
 ) {
+  console.log("proveMembership()");
+
   let prfs = await newInstance();
 
   let buildStatus = await prfs.getBuildStatus();

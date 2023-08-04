@@ -16,15 +16,11 @@ export class MembershipProofGen extends Profiler {
   witnessGenWasmUrl: string;
   handlers: PrfsHandlers;
 
-  constructor(
-    witnessGenWasmUrl: string,
-    circuitUrl: string,
-    prfsHandlers: PrfsHandlers,
-  ) {
+  constructor(witnessGenWasmUrl: string, circuitUrl: string, prfsHandlers: PrfsHandlers) {
     console.log(
-      'Initializing membership prover2, witnesGenWasm: %o, circuitUrl: %o',
+      "Initializing membership prover2, witnesGenWasm: %o, circuitUrl: %o",
       witnessGenWasmUrl,
-      circuitUrl,
+      circuitUrl
     );
 
     super({ enabled: true });
@@ -57,16 +53,16 @@ export class MembershipProofGen extends Profiler {
 
     const m = new BN(msgHash).mod(SECP256K1_P);
 
-    let s_array: bigint[] = bigint_to_array(64, 4, s);
+    // let s_array: bigint[] = bigint_to_array(64, 4, s);
 
     const witnessGenInput = {
       r,
       s,
-      s2: s_array,
+      // s2: s_array,
       m: BigInt(m.toString()),
 
       ...merkleProof,
-      ...effEcdsaPubInput
+      ...effEcdsaPubInput,
     };
     console.log("witnessGenInput: %o", witnessGenInput);
 
@@ -86,7 +82,7 @@ export class MembershipProofGen extends Profiler {
 
     return {
       proof,
-      publicInput
+      publicInput,
     };
   }
 
