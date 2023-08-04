@@ -23,7 +23,7 @@ import ProofTypeDropdown from "../proof_type_dropdown/ProofTypeDropdown";
 import PublicInputConfigSection from "../public_input_config_section/PublicInputConfigSection";
 import { useSigner } from "@thirdweb-dev/react";
 import { proveMembership } from "@/functions/prfsCrypto";
-import { castToSpartanProgramProps } from "@taigalabs/prfs-program-spartan-js";
+import { castToSpartanProgramProps } from "@taigalabs/prfs-driver-spartan-js";
 
 const ProgramSection: React.FC<ProgramSectionProps> = ({ proofType }) => {
   const i18n = React.useContext(i18nContext);

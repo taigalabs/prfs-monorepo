@@ -1,4 +1,4 @@
-import { Prfs, MerkleProof } from "@taigalabs/prfs-program-spartan-js";
+import { Prfs, MerkleProof } from "@taigalabs/prfs-driver-spartan-js";
 import {
   ecsign,
   hashPersonalMessage,
