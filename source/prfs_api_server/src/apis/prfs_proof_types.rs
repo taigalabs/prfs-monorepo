@@ -58,9 +58,9 @@ struct CreatePrfsProofTypesRequest {
     label: String,
     desc: String,
     circuit_id: String,
-    program_id: String,
+    driver_id: String,
     public_input_instance: PublicInputInstance,
-    program_properties: serde_json::Value,
+    driver_properties: serde_json::Value,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -86,9 +86,9 @@ pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
         desc: req.desc.to_string(),
 
         circuit_id: req.circuit_id.to_string(),
-        program_id: req.program_id.to_string(),
+        driver_id: req.driver_id.to_string(),
         public_input_instance: serde_json::to_string(&req.public_input_instance).unwrap(),
-        program_properties: serde_json::to_string(&req.program_properties).unwrap(),
+        driver_properties: serde_json::to_string(&req.driver_properties).unwrap(),
 
         created_at: NaiveDate::from_ymd_opt(1, 2, 1).unwrap(),
     };

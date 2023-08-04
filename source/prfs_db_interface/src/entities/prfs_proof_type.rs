@@ -10,13 +10,13 @@ pub struct PrfsProofType {
     pub desc: String,
 
     pub circuit_id: String,
-    pub program_id: String,
+    pub driver_id: String,
 
     #[serde(serialize_with = "serialize_json_value")]
     pub public_input_instance: String,
 
     #[serde(serialize_with = "serialize_json_value")]
-    pub program_properties: String,
+    pub driver_properties: String,
 
     pub created_at: NaiveDate,
 }

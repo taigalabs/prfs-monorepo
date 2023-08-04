@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
-import styles from "./CircuitProgramInstanceSummary.module.scss";
+import styles from "./CircuitDriverInstanceSummary.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { PrfsCircuit } from "@/models/index";
 import ColumnarSummary, {
@@ -12,9 +12,7 @@ import ColumnarSummary, {
 
 const NUM_COLUMNS = 3;
 
-const CircuitProgramInstanceSummary: React.FC<CircuitProgramInstanceSummaryProps> = ({
-  circuit,
-}) => {
+const CircuitDriverInstanceSummary: React.FC<CircuitDriverInstanceSummaryProps> = ({ circuit }) => {
   const i18n = React.useContext(i18nContext);
 
   const columnElems = React.useMemo(() => {
@@ -22,8 +20,8 @@ const CircuitProgramInstanceSummary: React.FC<CircuitProgramInstanceSummaryProps
       return null;
     }
 
-    let { program } = circuit;
-    let { properties } = program;
+    let { driver } = circuit;
+    let { properties } = driver;
     let propertyKeys = Object.keys(properties);
 
     const q = Math.floor(propertyKeys.length / NUM_COLUMNS);
@@ -31,18 +29,18 @@ const CircuitProgramInstanceSummary: React.FC<CircuitProgramInstanceSummaryProps
 
     const columns = [[], [], []];
     columns[0].push(
-      <ColumnarSummaryCell key={program.program_id}>
-        <ColumnarSummaryCellHeader>{i18n.program_id}</ColumnarSummaryCellHeader>
+      <ColumnarSummaryCell key={driver.driver_id}>
+        <ColumnarSummaryCellHeader>{i18n.driver_id}</ColumnarSummaryCellHeader>
         <div>
-          <Link href={`/programs/${program.program_id}`}>{program.program_id}</Link>
+          <Link href={`/drivers/${driver.driver_id}`}>{driver.driver_id}</Link>
         </div>
       </ColumnarSummaryCell>
     );
 
     columns[1].push(
-      <ColumnarSummaryCell key={program.version}>
+      <ColumnarSummaryCell key={driver.version}>
         <ColumnarSummaryCellHeader>{i18n.version}</ColumnarSummaryCellHeader>
-        <div>{program.version}</div>
+        <div>{driver.version}</div>
       </ColumnarSummaryCell>
     );
 
@@ -87,8 +85,8 @@ const CircuitProgramInstanceSummary: React.FC<CircuitProgramInstanceSummaryProps
   );
 };
 
-export default CircuitProgramInstanceSummary;
+export default CircuitDriverInstanceSummary;
 
-interface CircuitProgramInstanceSummaryProps {
+interface CircuitDriverInstanceSummaryProps {
   circuit: PrfsCircuit;
 }

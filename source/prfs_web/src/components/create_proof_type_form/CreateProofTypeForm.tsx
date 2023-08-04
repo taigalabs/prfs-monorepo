@@ -98,7 +98,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     let { y, m, d } = getYMD();
     let now = Date.now();
     let hash = keccakHash(
-      `${selectedCircuit.circuit_id}_${selectedCircuit.program.program_id}_${now}`
+      `${selectedCircuit.circuit_id}_${selectedCircuit.driver.driver_id}_${now}`
     ).substring(2, 8);
 
     let proof_type_id = `${prfsAccount.id}_${y}${m}${d}_${hash}`;
@@ -109,9 +109,9 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       desc,
       author: prfsAccount.sig,
       circuit_id: selectedCircuit.circuit_id,
-      program_id: selectedCircuit.program.program_id,
       public_input_instance: newPublicInputInstance,
-      program_properties: selectedCircuit.program.properties,
+      driver_id: selectedCircuit.driver.driver_id,
+      driver_properties: selectedCircuit.driver.properties,
     };
 
     prfsBackend

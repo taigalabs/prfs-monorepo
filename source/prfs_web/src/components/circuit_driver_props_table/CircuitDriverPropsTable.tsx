@@ -3,27 +3,27 @@
 import React from "react";
 import Link from "next/link";
 
-import styles from "./CircuitProgramPropsTable.module.scss";
+import styles from "./CircuitDriverPropsTable.module.scss";
 import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import * as prfsBackend from "@/fetch/prfsBackend";
-import { PrfsCircuit, PrfsCircuitProgram } from "@/models";
+import { PrfsCircuit, PrfsCircuitDriver } from "@/models";
 
-const CircuitProgramPropsTable: React.FC<CircuitProgramPropsTableProps> = ({
-  program,
+const CircuitDriverPropsTable: React.FC<CircuitDriverPropsTableProps> = ({
+  driver,
   handleSelectVal,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [data, setData] = React.useState<TableData<Record<string, any>>>({ page: 0, values: [] });
 
   React.useEffect(() => {
-    if (program) {
+    if (driver) {
       setData({
         page: 0,
-        values: Object.entries(program.properties),
+        values: Object.entries(driver.properties),
       });
     }
-  }, [program]);
+  }, [driver]);
 
   const headerElem = React.useMemo(() => {
     let { values } = data;
@@ -64,7 +64,7 @@ const CircuitProgramPropsTable: React.FC<CircuitProgramPropsTableProps> = ({
     }
 
     return rows;
-  }, [program]);
+  }, [driver]);
 
   return (
     <Table minWidth={880}>
@@ -74,10 +74,10 @@ const CircuitProgramPropsTable: React.FC<CircuitProgramPropsTableProps> = ({
   );
 };
 
-export default CircuitProgramPropsTable;
+export default CircuitDriverPropsTable;
 
-export interface CircuitProgramPropsTableProps {
-  program: PrfsCircuitProgram;
+export interface CircuitDriverPropsTableProps {
+  driver: PrfsCircuitDriver;
   selectType?: "checkbox" | "radio";
   selectedVal?: PrfsCircuit;
   handleSelectVal?: (row: PrfsCircuit) => void;

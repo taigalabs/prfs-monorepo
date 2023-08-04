@@ -10,7 +10,7 @@ import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
-import CircuitProgramTable from "@/components/circuit_program_table/CircuitProgramTable";
+import CircuitDriverTable from "@/components/circuit_driver_table/CircuitDriverTable";
 
 const Programs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -26,7 +26,7 @@ const Programs: React.FC = () => {
             <WidgetHeader>
               <WidgetLabel>{i18n.programs}</WidgetLabel>
             </WidgetHeader>
-            <CircuitProgramTable />
+            <CircuitDriverTable />
           </Widget>
         </Card>
       </CardRow>

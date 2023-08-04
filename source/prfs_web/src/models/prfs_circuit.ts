@@ -10,7 +10,7 @@ export interface PrfsCircuit {
   circuit_dsl: string;
   elliptic_curve: string;
   finite_field: string;
-  program: PrfsCircuitProgram;
+  driver: PrfsCircuitDriver;
 }
 
 export enum PublicInputType {
@@ -36,9 +36,9 @@ export interface PublicInputInstanceEntry {
   ref?: string;
 }
 
-export interface PrfsCircuitProgram {
-  program_id: string;
-  program_repository_url: string;
+export interface PrfsCircuitDriver {
+  driver_id: string;
+  driver_repository_url: string;
   version: string;
   properties: Record<string, any>;
 }

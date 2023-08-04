@@ -30,8 +30,8 @@ pub fn make_router(
             prfs_circuits::get_prfs_native_circuits,
         )
         .post(
-            format!("{}/get_prfs_native_circuit_programs", PREFIX),
-            prfs_circuit_drivers::get_prfs_native_circuit_programs,
+            format!("{}/get_prfs_native_circuit_drivers", PREFIX),
+            prfs_circuit_drivers::get_prfs_native_circuit_drivers,
         )
         .post(
             format!("{}/sign_in_prfs_account", PREFIX),

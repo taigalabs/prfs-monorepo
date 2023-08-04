@@ -19,9 +19,9 @@ impl Database2 {
                 author: row.get("author"),
                 desc: row.get("desc"),
                 circuit_id: row.get("circuit_id"),
-                program_id: row.get("program_id"),
                 public_input_instance: row.get("public_input_instance"),
-                program_properties: row.get("program_properties"),
+                driver_id: row.get("driver_id"),
+                driver_properties: row.get("driver_properties"),
                 created_at: row.get("created_at"),
             })
             .collect();
@@ -42,9 +42,9 @@ impl Database2 {
                 author: row.get("author"),
                 desc: row.get("desc"),
                 circuit_id: row.get("circuit_id"),
-                program_id: row.get("program_id"),
                 public_input_instance: row.get("public_input_instance"),
-                program_properties: row.get("program_properties"),
+                driver_id: row.get("driver_id"),
+                driver_properties: row.get("driver_properties"),
                 created_at: row.get("created_at"),
             })
             .collect();
@@ -55,7 +55,7 @@ impl Database2 {
     pub async fn insert_prfs_proof_types(&self, proof_types: &Vec<PrfsProofType>) {
         let query = "INSERT INTO prfs_proof_types \
             (proof_type_id, author, label, \"desc\", circuit_id, public_input_instance,\
-            program_id, program_properties) \
+            driver_id, driver_properties) \
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8) returning proof_type_id";
 
         let proof_type = proof_types.get(0).unwrap();
@@ -67,8 +67,8 @@ impl Database2 {
             .bind(&proof_type.desc)
             .bind(&proof_type.circuit_id)
             .bind(&proof_type.public_input_instance)
-            .bind(&proof_type.program_id)
-            .bind(&proof_type.program_properties)
+            .bind(&proof_type.driver_id)
+            .bind(&proof_type.driver_properties)
             .fetch_one(&self.pool)
             .await
             .unwrap();

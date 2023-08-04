@@ -13,10 +13,10 @@ import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import * as prfsBackend from "@/fetch/prfsBackend";
-import { PrfsCircuitProgram } from "@/models/index";
+import { PrfsCircuitDriver } from "@/models/index";
 import { useRouter } from "next/navigation";
-import CircuitProgramSummary from "@/components/circuit_program_summary/CircuitProgramSummary";
-import CircuitProgramPropsTable from "@/components/circuit_pgm_props_table/CircuitProgramPropsTable";
+import CircuitDriverSummary from "@/components/circuit_driver_summary/CircuitDriverSummary";
+import CircuitDriverPropsTable from "@/components/circuit_driver_props_table/CircuitDriverPropsTable";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -25,33 +25,33 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
   useLocalWallet(dispatch);
   const router = useRouter();
 
-  const [program, setProgram] = React.useState<PrfsCircuitProgram>();
+  const [driver, setDriver] = React.useState<PrfsCircuitDriver>();
   React.useEffect(() => {
     prfsBackend
-      .getPrfsNativeCircuitPrograms({
+      .getPrfsNativeCircuitDrivers({
         page: 0,
-        program_id: params.program_id,
+        driver_id: params.driver_id,
       })
       .then(resp => {
-        const { prfs_circuit_programs } = resp.payload;
+        const { prfs_circuit_drivers } = resp.payload;
 
-        if (prfs_circuit_programs.length > 0) {
-          setProgram(prfs_circuit_programs[0]);
+        if (prfs_circuit_drivers.length > 0) {
+          setDriver(prfs_circuit_drivers[0]);
         } else {
           router.push("/programs");
         }
       });
-  }, [setProgram]);
+  }, [setDriver]);
 
-  let programSummaryLabel = `${i18n.program_summary_label} ${params.program_id}`;
+  let programSummaryLabel = `${i18n.driver_summary_label} ${params.driver_id}`;
 
   return (
     <DefaultLayout>
       <Breadcrumb>
         <BreadcrumbEntry>
-          <Link href="/programs">{i18n.programs}</Link>
+          <Link href="/drivers">{i18n.drivers}</Link>
         </BreadcrumbEntry>
-        <BreadcrumbEntry>{params.program_id}</BreadcrumbEntry>
+        <BreadcrumbEntry>{params.driver_id}</BreadcrumbEntry>
       </Breadcrumb>
       <div className={styles.contentArea}>
         <CardRow>
@@ -60,7 +60,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
               <WidgetHeader>
                 <WidgetLabel>{programSummaryLabel}</WidgetLabel>
               </WidgetHeader>
-              <CircuitProgramSummary program={program} />
+              <CircuitDriverSummary driver={driver} />
             </Widget>
           </Card>
         </CardRow>
@@ -68,9 +68,9 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
           <Card>
             <Widget>
               <WidgetHeader>
-                <WidgetLabel>{i18n.program_properties}</WidgetLabel>
+                <WidgetLabel>{i18n.driver_properties}</WidgetLabel>
               </WidgetHeader>
-              <CircuitProgramPropsTable program={program} />
+              <CircuitDriverPropsTable driver={driver} />
             </Widget>
           </Card>
         </CardRow>
@@ -83,6 +83,6 @@ export default Program;
 
 interface ProgramProps {
   params: {
-    program_id: string;
+    driver_id: string;
   };
 }

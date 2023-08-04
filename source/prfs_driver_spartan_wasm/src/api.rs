@@ -1,3 +1,4 @@
+use crate::PrfsDriverSpartanWasmError;
 use byteorder::{LittleEndian, ReadBytesExt};
 use ff::PrimeField;
 use libspartan::{Assignment, Instance, NIZKGens, NIZK};
@@ -6,12 +7,10 @@ use prfs_crypto::{hash_from_bytes, MerkleProof};
 use secq256k1::{affine::Group, field::BaseField};
 use std::io::{Error, Read};
 
-use crate::PrfsProgramSpartanWasmError;
-
 pub type G1 = secq256k1::AffinePoint;
 pub type F1 = <G1 as Group>::Scalar;
 
-pub fn bb() -> Result<Vec<u8>, PrfsProgramSpartanWasmError> {
+pub fn bb() -> Result<Vec<u8>, PrfsDriverSpartanWasmError> {
     return Ok(vec![111]);
 }
 
@@ -19,7 +18,7 @@ pub fn prove(
     circuit: &[u8],
     vars: &[u8],
     public_inputs: &[u8],
-) -> Result<Vec<u8>, PrfsProgramSpartanWasmError> {
+) -> Result<Vec<u8>, PrfsDriverSpartanWasmError> {
     let witness = load_witness_from_bin_reader::<F1, _>(vars).unwrap();
     // println!("witness len: {}", witness.len());
 
@@ -69,7 +68,7 @@ pub fn verify(
     circuit: &[u8],
     proof: &[u8],
     public_input: &[u8],
-) -> Result<bool, PrfsProgramSpartanWasmError> {
+) -> Result<bool, PrfsDriverSpartanWasmError> {
     let circuit: Instance = bincode::deserialize(&circuit).unwrap();
     let proof: NIZK = bincode::deserialize(&proof).unwrap();
 
@@ -96,7 +95,7 @@ pub fn verify(
     Ok(verified)
 }
 
-pub fn poseidon(input_bytes: &[u8]) -> Result<Vec<u8>, PrfsProgramSpartanWasmError> {
+pub fn poseidon(input_bytes: &[u8]) -> Result<Vec<u8>, PrfsDriverSpartanWasmError> {
     match hash_from_bytes(input_bytes) {
         Ok(r) => Ok(r.to_vec()),
         Err(err) => {
@@ -105,7 +104,7 @@ pub fn poseidon(input_bytes: &[u8]) -> Result<Vec<u8>, PrfsProgramSpartanWasmErr
     }
 }
 
-pub fn get_build_status() -> Result<String, PrfsProgramSpartanWasmError> {
+pub fn get_build_status() -> Result<String, PrfsDriverSpartanWasmError> {
     return Ok(libspartan::get_build_status());
 }
 
@@ -113,7 +112,7 @@ pub fn make_merkle_proof(
     leaves: Vec<String>,
     leaf_idx: u128,
     depth: u8,
-) -> Result<MerkleProof, PrfsProgramSpartanWasmError> {
+) -> Result<MerkleProof, PrfsDriverSpartanWasmError> {
     match prfs_crypto::make_merkle_proof(leaves, leaf_idx, depth) {
         Ok(p) => return Ok(p),
         Err(err) => return Err(err.to_string().into()),

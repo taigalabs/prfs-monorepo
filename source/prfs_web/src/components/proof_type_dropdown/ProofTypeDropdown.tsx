@@ -33,8 +33,8 @@ const ProofTypeEntry: React.FC<CircuitEntryProps> = ({ val }) => {
             <p>{val.circuit_id}</p>
           </div>
           <div className={styles.item}>
-            <div>{i18n.program_id}:</div>
-            <div>{val.program_id}</div>
+            <div>{i18n.driver_id}:</div>
+            <div>{val.driver_id}</div>
           </div>
           <div className={styles.item}>
             <div>{i18n.num_inputs}:</div>

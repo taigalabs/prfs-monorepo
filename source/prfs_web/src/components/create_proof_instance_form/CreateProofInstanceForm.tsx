@@ -35,7 +35,7 @@ const ProgramSection: React.FC<ProgramSectionProps> = ({ proofType }) => {
       return rows;
     }
 
-    for (let [propName, val] of Object.entries(proofType.program_properties)) {
+    for (let [propName, val] of Object.entries(proofType.driver_properties)) {
       if (val.startsWith("prfs://")) {
         val = val.replace("prfs:/", process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT);
         val = <Link href={val}>{val}</Link>;
@@ -56,7 +56,7 @@ const ProgramSection: React.FC<ProgramSectionProps> = ({ proofType }) => {
     <div className={styles.programSectionWrapper}>
       <div className={styles.item}>
         <div className={styles.label}>{i18n.program_id}</div>
-        <div className={styles.value}>{proofType.program_id}</div>
+        <div className={styles.value}>{proofType.driver_id}</div>
       </div>
       {programPropsElem}
     </div>
@@ -104,9 +104,9 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       return;
     }
 
-    const { program_id, program_properties } = selectedProofType;
+    const { driver_id, driver_properties } = selectedProofType;
 
-    const spartanProgramProps = castToSpartanProgramProps(program_properties);
+    const spartanProgramProps = castToSpartanProgramProps(driver_properties);
     spartanProgramProps.wtns_gen_url = spartanProgramProps.wtns_gen_url.replace(
       "prfs:/",
       process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT
@@ -116,7 +116,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT
     );
 
-    console.log(12, selectedProofType.program_properties);
+    console.log(12, selectedProofType.driver_properties);
 
     console.log(13, spartanProgramProps);
 
@@ -228,7 +228,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
 export default CreateProofInstanceForm;
 
-export interface CreateProofInstanceFormProps { }
+export interface CreateProofInstanceFormProps {}
 
 interface ProgramSectionProps {
   proofType: PrfsProofType;

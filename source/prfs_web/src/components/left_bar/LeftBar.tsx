@@ -23,9 +23,9 @@ const Leftbar: React.FC<any> = () => {
       </div>
       <div className={styles.section}>
         <ul>
-          <li className={styles.category}>{i18n.programs}</li>
+          <li className={styles.category}>{i18n.circuits}</li>
           <li>
-            <ActiveLink href="/programs">{i18n.proof_programs}</ActiveLink>
+            <ActiveLink href="/drivers">{i18n.circuit_drivers}</ActiveLink>
           </li>
           <li>
             <ActiveLink href="/circuits">{i18n.circuits}</ActiveLink>

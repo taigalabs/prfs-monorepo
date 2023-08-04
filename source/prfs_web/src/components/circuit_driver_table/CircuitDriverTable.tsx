@@ -3,30 +3,30 @@
 import React from "react";
 import Link from "next/link";
 
-import styles from "./CircuitProgramTable.module.scss";
+import styles from "./CircuitDriverTable.module.scss";
 import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import * as prfsBackend from "@/fetch/prfsBackend";
-import { PrfsCircuitProgram } from "@/models";
+import { PrfsCircuitDriver } from "@/models";
 
-const CircuitProgramTable: React.FC<CircuitTableProps> = ({
+const CircuitDriverTable: React.FC<CircuitDriverTableProps> = ({
   selectType,
   selectedVal,
   handleSelectVal,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const [data, setData] = React.useState<TableData<PrfsCircuitProgram>>({ page: 0, values: [] });
+  const [data, setData] = React.useState<TableData<PrfsCircuitDriver>>({ page: 0, values: [] });
 
   const handleChangeProofPage = React.useCallback(async (page: number) => {
     return prfsBackend
-      .getPrfsNativeCircuitPrograms({
+      .getPrfsNativeCircuitDrivers({
         page,
       })
       .then(resp => {
-        const { page, prfs_circuit_programs } = resp.payload;
+        const { page, prfs_circuit_drivers } = resp.payload;
         return {
           page,
-          values: prfs_circuit_programs,
+          values: prfs_circuit_drivers,
         };
       });
   }, []);
@@ -52,20 +52,20 @@ const CircuitProgramTable: React.FC<CircuitTableProps> = ({
           }
         : undefined;
 
-      const isSelected = selectedVal && !!selectedVal[val.program_id];
+      const isSelected = selectedVal && !!selectedVal[val.driver_id];
       const selType = selectType || "radio";
 
       let row = (
-        <TableRow key={val.program_id} onClickRow={onClickRow} isSelected={isSelected}>
+        <TableRow key={val.driver_id} onClickRow={onClickRow} isSelected={isSelected}>
           {selectedVal && (
             <td className={styles.radio}>
               <input type={selType} checked={isSelected} readOnly />
             </td>
           )}
-          <td className={styles.program_id}>
-            <Link href={`/programs/${val.program_id}`}>{val.program_id}</Link>
+          <td className={styles.driver_id}>
+            <Link href={`/drivers/${val.driver_id}`}>{val.driver_id}</Link>
           </td>
-          <td className={styles.repoUrl}>{val.program_repository_url}</td>
+          <td className={styles.repoUrl}>{val.driver_repository_url}</td>
           <td className={styles.version}>{val.version}</td>
         </TableRow>
       );
@@ -81,8 +81,8 @@ const CircuitProgramTable: React.FC<CircuitTableProps> = ({
       <TableHeader>
         <TableRow>
           {handleSelectVal && <th className={styles.radio}></th>}
-          <th className={styles.program_id}>{i18n.program_id}</th>
-          <th className={styles.program_repository_url}>{i18n.program_repository_url}</th>
+          <th className={styles.driver_id}>{i18n.driver_id}</th>
+          <th className={styles.driver_repository_url}>{i18n.driver_repository_url}</th>
           <th className={styles.version}>{i18n.version}</th>
         </TableRow>
       </TableHeader>
@@ -91,10 +91,10 @@ const CircuitProgramTable: React.FC<CircuitTableProps> = ({
   );
 };
 
-export default CircuitProgramTable;
+export default CircuitDriverTable;
 
-export interface CircuitTableProps {
+export interface CircuitDriverTableProps {
   selectType?: "checkbox" | "radio";
-  selectedVal?: PrfsCircuitProgram;
-  handleSelectVal?: (row: PrfsCircuitProgram) => void;
+  selectedVal?: PrfsCircuitDriver;
+  handleSelectVal?: (row: PrfsCircuitDriver) => void;
 }

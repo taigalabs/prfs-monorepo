@@ -3,7 +3,7 @@ use crate::{
 };
 use chrono::{DateTime, NaiveDateTime, Utc};
 use colored::Colorize;
-use prfs_driver_type::programs::{SpartanCircomProgramProperties, SPARTAN_CIRCOM_PROGRAM_TYPE};
+use prfs_driver_type::drivers::{SpartanCircomDriverProperties, SPARTAN_CIRCOM_DRIVER_TYPE};
 use std::{io::Write, process::Command};
 
 pub fn run() {
@@ -88,19 +88,19 @@ fn read_circuits_json() -> CircuitsJson {
 }
 
 fn compile_circuits(circuit: &CircuitJson) {
-    let program_id = &circuit.program.program_id;
+    let driver_id = &circuit.driver.driver_id;
 
-    let program_props: SpartanCircomProgramProperties = match program_id.as_str() {
-        SPARTAN_CIRCOM_PROGRAM_TYPE => {
-            serde_json::from_value(circuit.program.properties.clone()).unwrap()
+    let driver: SpartanCircomDriverProperties = match driver_id.as_str() {
+        SPARTAN_CIRCOM_DRIVER_TYPE => {
+            serde_json::from_value(circuit.driver.properties.clone()).unwrap()
         }
         _ => panic!(
-            "We cannot compile a circuit of this type, program_id: {:?}",
-            program_id.as_str()
+            "We cannot compile a circuit of this type, driver: {:?}",
+            driver_id.as_str()
         ),
     };
 
-    let circuit_src_path = PATHS.circuits.join(&program_props.instance_path);
+    let circuit_src_path = PATHS.circuits.join(&driver.instance_path);
     println!("circuit_src_path: {:?}", circuit_src_path);
 
     let build_path = PATHS.build.join(&circuit.circuit_id);
@@ -125,14 +125,14 @@ fn compile_circuits(circuit: &CircuitJson) {
 }
 
 fn create_build_json(circuit: &mut CircuitJson, timestamp: i64) {
-    let mut program_props: SpartanCircomProgramProperties =
-        serde_json::from_value(circuit.program.properties.clone()).unwrap();
+    let mut driver_props: SpartanCircomDriverProperties =
+        serde_json::from_value(circuit.driver.properties.clone()).unwrap();
     let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen, timestamp);
     let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan, timestamp);
 
-    program_props.wtns_gen_url = format!("prfs://{}", wtns_gen_path);
-    program_props.circuit_url = format!("prfs://{}", spartan_circuit_path);
-    circuit.program.properties = serde_json::to_value(program_props).unwrap();
+    driver_props.wtns_gen_url = format!("prfs://{}", wtns_gen_path);
+    driver_props.circuit_url = format!("prfs://{}", spartan_circuit_path);
+    circuit.driver.properties = serde_json::to_value(driver_props).unwrap();
 
     let naive = NaiveDateTime::from_timestamp_millis(timestamp).unwrap();
     let datetime: DateTime<Utc> = DateTime::from_utc(naive, Utc);

@@ -1,5 +1,5 @@
 use prfs_circuit_type::PublicInput;
-use prfs_driver_type::CircuitProgram;
+use prfs_driver_type::CircuitDriver;
 use serde::{Deserialize, Serialize};
 
 pub const SYSTEM_NATIVE_SCHEME: &str = "system_native://";
@@ -28,5 +28,5 @@ pub struct CircuitJson {
     pub elliptic_curve: String,
     pub finite_field: String,
     pub public_inputs: Vec<PublicInput>,
-    pub program: CircuitProgram,
+    pub driver: CircuitDriver,
 }

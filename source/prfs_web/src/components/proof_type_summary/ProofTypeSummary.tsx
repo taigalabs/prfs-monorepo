@@ -46,9 +46,9 @@ const ProofTypeSummary: React.FC<ProofTypeSummaryProps> = ({ proofType }) => {
             </div>
           </ColumnarSummaryCell>
           <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.program_id}</ColumnarSummaryCellHeader>
+            <ColumnarSummaryCellHeader>{i18n.driver_id}</ColumnarSummaryCellHeader>
             <div>
-              <Link href={`/programs/${proofType.program_id}`}>{proofType.program_id}</Link>
+              <Link href={`/programs/${proofType.driver_id}`}>{proofType.driver_id}</Link>
             </div>
           </ColumnarSummaryCell>
         </ColumnarSummaryColumn>

@@ -8,9 +8,9 @@ export interface CreatePrfsProofTypeRequest {
   author: string;
   proof_type_id: string;
   circuit_id: string;
-  program_id: string;
   public_input_instance: PublicInputInstance;
-  program_properties: Record<string, any>;
+  driver_id: string;
+  driver_properties: Record<string, any>;
 }
 
 export type CreatePrfsProofTypeResponse = PrfsApiResponse<{}>;
