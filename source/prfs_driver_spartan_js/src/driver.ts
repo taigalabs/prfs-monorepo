@@ -13,6 +13,7 @@ import {
   PublicInput,
   SECP256K1_P,
   computeEffEcdsaPubInput2,
+  verifyEffEcdsaPubInput,
 } from "./helpers/public_input";
 import { BN } from "bn.js";
 
@@ -43,20 +44,17 @@ export default class SpartanDriver implements CircuitDriverInstance {
     return await Tree.newInstance(depth, hash);
   }
 
-  newMembershipProofGen(witnessGenWasmUrl: string, circuitUrl: string) {
-    return new MembershipProofGen(witnessGenWasmUrl, circuitUrl, this.handlers);
-  }
+  // newMembershipProofGen(witnessGenWasmUrl: string, circuitUrl: string) {
+  //   return new MembershipProofGen(witnessGenWasmUrl, circuitUrl, this.handlers);
+  // }
 
   async prove(sig: string, msgHash: Buffer, merkleProof: MerkleProof): Promise<NIZK> {
     console.log("\nMembershipProver2.prove()");
 
     const { r, s, v } = fromSig(sig);
-    console.log("r: %s", r);
-    console.log("s: %s", s);
-    console.log("v: %s", v);
-
     const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash, s);
-    console.log("effEcdsaPubInput: {}", effEcdsaPubInput);
+
+    // console.log("effEcdsaPubInput: {}", effEcdsaPubInput);
 
     const circuitPubInput = new CircuitPubInput(
       merkleProof.root,
@@ -67,37 +65,101 @@ export default class SpartanDriver implements CircuitDriverInstance {
     );
 
     const publicInput = new PublicInput(r, v, msgHash, circuitPubInput);
-    console.log("publicInput: %o", publicInput);
-
     const m = new BN(msgHash).mod(SECP256K1_P);
-
-    // let s_array: bigint[] = bigint_to_array(64, 4, s);
 
     const witnessGenInput = {
       r,
       s,
-      // s2: s_array,
       m: BigInt(m.toString()),
 
       ...merkleProof,
       ...effEcdsaPubInput,
     };
-
     console.log("witnessGenInput: %o", witnessGenInput);
 
     const witness = await snarkJsWitnessGen(witnessGenInput, this.wtnsGenUrl);
-
     const circuitBin = await loadCircuit(this.circuitUrl);
-
     const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
 
-    let proof = await this.handlers.prove(circuitBin, witness.data, circuitPublicInput);
+    const proof = await this.handlers.prove(circuitBin, witness.data, circuitPublicInput);
 
     return {
       proof,
       publicInput,
     };
   }
+
+  async verify(proof: Uint8Array, publicInputSer: Uint8Array): Promise<boolean> {
+    const circuitBin = await loadCircuit(this.circuitUrl);
+
+    const publicInput = PublicInput.deserialize(publicInputSer);
+    const isPubInputValid = verifyEffEcdsaPubInput(publicInput);
+
+    let isProofValid;
+    try {
+      isProofValid = await this.handlers.verify(
+        circuitBin,
+        proof,
+        publicInput.circuitPubInput.serialize()
+      );
+    } catch (_e) {
+      isProofValid = false;
+    }
+
+    return isProofValid && isPubInputValid;
+  }
+
+  // async prove(sig: string, msgHash: Buffer, merkleProof: MerkleProof): Promise<NIZK> {
+  //   console.log("\nMembershipProver2.prove()");
+
+  //   const { r, s, v } = fromSig(sig);
+  //   console.log("r: %s", r);
+  //   console.log("s: %s", s);
+  //   console.log("v: %s", v);
+
+  //   const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash, s);
+  //   console.log("effEcdsaPubInput: {}", effEcdsaPubInput);
+
+  //   const circuitPubInput = new CircuitPubInput(
+  //     merkleProof.root,
+  //     effEcdsaPubInput.Tx,
+  //     effEcdsaPubInput.Ty,
+  //     effEcdsaPubInput.Ux,
+  //     effEcdsaPubInput.Uy
+  //   );
+
+  //   const publicInput = new PublicInput(r, v, msgHash, circuitPubInput);
+  //   console.log("publicInput: %o", publicInput);
+
+  //   const m = new BN(msgHash).mod(SECP256K1_P);
+
+  //   // let s_array: bigint[] = bigint_to_array(64, 4, s);
+
+  //   const witnessGenInput = {
+  //     r,
+  //     s,
+  //     // s2: s_array,
+  //     m: BigInt(m.toString()),
+
+  //     ...merkleProof,
+  //     ...effEcdsaPubInput,
+  //   };
+
+  //   console.log("witnessGenInput: %o", witnessGenInput);
+
+  //   const witness = await snarkJsWitnessGen(witnessGenInput, this.wtnsGenUrl);
+
+  //   const circuitBin = await loadCircuit(this.circuitUrl);
+
+  //   const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
+
+  //   let proof = await this.handlers.prove(circuitBin, witness.data, circuitPublicInput);
+
+  //   return {
+  //     proof,
+  //     publicInput,
+  //   };
+  // }
 }
 
 function bigint_to_array(n: number, k: number, x: bigint): bigint[] {

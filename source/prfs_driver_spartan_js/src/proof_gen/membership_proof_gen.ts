@@ -24,6 +24,7 @@ export class MembershipProofGen extends Profiler {
     );
 
     super({ enabled: true });
+
     this.circuitUrl = circuitUrl;
     this.witnessGenWasmUrl = witnessGenWasmUrl;
     this.handlers = prfsHandlers;

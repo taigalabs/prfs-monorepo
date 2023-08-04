@@ -1,5 +1,6 @@
 export interface CircuitDriver {
   newInstance(driverProps: any): Promise<CircuitDriverInstance>;
+  [key: string]: any;
 }
 
 export interface CircuitDriverInstance {
