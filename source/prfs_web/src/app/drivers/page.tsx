@@ -24,7 +24,7 @@ const Programs: React.FC = () => {
         <Card>
           <Widget>
             <WidgetHeader>
-              <WidgetLabel>{i18n.programs}</WidgetLabel>
+              <WidgetLabel>{i18n.drivers}</WidgetLabel>
             </WidgetHeader>
             <CircuitDriverTable />
           </Widget>
