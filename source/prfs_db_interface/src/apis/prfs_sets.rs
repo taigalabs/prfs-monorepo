@@ -4,7 +4,7 @@ use crate::{
     utils::{concat_cols, concat_values},
     DbInterfaceError,
 };
-use chrono::NaiveDate;
+use chrono::{DateTime, NaiveDate, Utc};
 use sqlx::Row;
 
 impl Database2 {
@@ -25,7 +25,7 @@ impl Database2 {
             .try_get("hash_algorithm")
             .expect("invalid hash_algorithm");
         let cardinality: i64 = row.try_get("cardinality").expect("invalid cardinality");
-        let created_at: NaiveDate = row.try_get("created_at").expect("invalid created_at");
+        let created_at: DateTime<Utc> = row.try_get("created_at").expect("invalid created_at");
         let merkle_root: String = row.try_get("merkle_root").expect("invalid merkle_root");
         let element_type: String = row.try_get("element_type").expect("invalid element_type");
         let elliptic_curve: String = row
@@ -67,7 +67,8 @@ impl Database2 {
                 let hash_algorithm: String =
                     r.try_get("hash_algorithm").expect("invalid hash_algorithm");
                 let cardinality: i64 = r.try_get("cardinality").expect("invalid cardinality");
-                let created_at: NaiveDate = r.try_get("created_at").expect("invalid created_at");
+                let created_at: DateTime<Utc> =
+                    r.try_get("created_at").expect("invalid created_at");
                 let merkle_root: String = r.try_get("merkle_root").expect("invalid merkle_root");
                 let element_type: String = r.try_get("element_type").expect("invalid element_type");
                 let elliptic_curve: String =

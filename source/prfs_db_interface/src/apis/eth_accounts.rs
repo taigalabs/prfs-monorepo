@@ -12,32 +12,6 @@ impl Database2 {
         &self,
         where_clause: &str,
     ) -> Result<Vec<EthAccount>, DbInterfaceError> {
-        // let stmt = format!(
-        //     "SELECT * from {} as acc {}",
-        //     EthAccount::table_name(),
-        //     where_clause,
-        // );
-        // println!("stmt: {}", stmt);
-
-        // let rows = match self.pg_client.query(&stmt, &[]).await {
-        //     Ok(r) => r,
-        //     Err(err) => {
-        //         tracing::error!("account retrieval failed, err: {}, stmt: {}", err, stmt);
-
-        //         return Err(err.into());
-        //     }
-        // };
-
-        // let accounts: Vec<EthAccount> = rows
-        //     .iter()
-        //     .map(|r| {
-        //         let addr: String = r.try_get("addr").expect("addr should be present");
-        //         let wei: Decimal = r.try_get("wei").expect("wei should be present");
-
-        //         EthAccount { addr, wei }
-        //     })
-        //     .collect();
-
         let query = format!("SELECT * from eth_accounts as acc {}", where_clause);
 
         let rows = sqlx::query(&query).fetch_all(&self.pool).await.unwrap();
@@ -78,21 +52,9 @@ impl Database2 {
                 values.join(",")
             )
         };
-        // println!("stmt: {}", stmt);
 
         let result = sqlx::query(&query).execute(&self.pool).await.unwrap();
 
         return Ok(result.rows_affected());
-
-        // let rows_updated = match self.pg_client.execute(&stmt, &[]).await {
-        //     Ok(r) => r,
-        //     Err(err) => {
-        //         tracing::error!("Error executing stmt, err: {}, stmt: {}", err, stmt);
-
-        //         return Err(err.into());
-        //     }
-        // };
-
-        // Ok(rows_updated)
     }
 }

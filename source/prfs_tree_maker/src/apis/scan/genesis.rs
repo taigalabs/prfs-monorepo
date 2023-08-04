@@ -38,7 +38,7 @@ async fn process_genesis_block_accounts(
     geth_client: GethClient,
     db: Database2,
 ) -> Result<(), TreeMakerError> {
-    let genesis_block_path = PATHS.scans.join("genesis_block.json");
+    let genesis_block_path = PATHS.data_scans.join("genesis_block.json");
 
     println!("genesis_block_path: {:?}", genesis_block_path);
 

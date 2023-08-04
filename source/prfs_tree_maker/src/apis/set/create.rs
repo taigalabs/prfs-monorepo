@@ -1,6 +1,6 @@
 use super::json::SetJson;
 use crate::TreeMakerError;
-use chrono::NaiveDate;
+use chrono::{DateTime, NaiveDate, Utc};
 use colored::Colorize;
 use prfs_db_interface::{database2::Database2, entities::PrfsSet};
 
@@ -40,7 +40,7 @@ pub async fn create_set(db: &Database2, set_json: &SetJson) -> Result<PrfsSet, T
     Ok(prfs_set)
 }
 
-fn parse_date(date: &str) -> NaiveDate {
+fn parse_date(date: &str) -> DateTime<Utc> {
     let ymd: Vec<&str> = date.split("/").collect();
     if ymd.len() != 3 {
         panic!("date is invalid, date: {}", date);
@@ -50,5 +50,10 @@ fn parse_date(date: &str) -> NaiveDate {
     let m: u32 = ymd[1].parse().unwrap();
     let d: u32 = ymd[2].parse().unwrap();
 
-    NaiveDate::from_ymd_opt(y, m, d).unwrap()
+    let date = NaiveDate::from_ymd_opt(y, m, d)
+        .unwrap()
+        .and_hms_opt(0, 0, 0)
+        .unwrap();
+
+    DateTime::from_utc(date, Utc)
 }

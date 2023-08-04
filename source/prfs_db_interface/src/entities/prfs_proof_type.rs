@@ -1,4 +1,4 @@
-use chrono::NaiveDate;
+use chrono::{DateTime, NaiveDate, Utc};
 use serde::{Deserialize, Serialize, Serializer};
 use serde_json::value::RawValue;
 
@@ -18,7 +18,7 @@ pub struct PrfsProofType {
     #[serde(serialize_with = "serialize_json_value")]
     pub driver_properties: String,
 
-    pub created_at: NaiveDate,
+    pub created_at: DateTime<Utc>,
 }
 
 fn serialize_json_value<S>(a: &String, s: S) -> Result<S::Ok, S::Error>

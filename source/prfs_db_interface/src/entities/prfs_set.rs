@@ -1,4 +1,4 @@
-use chrono::NaiveDate;
+use chrono::{DateTime, NaiveDate, Utc};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -9,7 +9,7 @@ pub struct PrfsSet {
     pub desc: String,
     pub hash_algorithm: String,
     pub cardinality: i64,
-    pub created_at: NaiveDate,
+    pub created_at: DateTime<Utc>,
     pub merkle_root: String,
     pub element_type: String,
     pub finite_field: String,

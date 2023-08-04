@@ -1,5 +1,5 @@
 use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
-use chrono::NaiveDate;
+use chrono::{DateTime, NaiveDate, NaiveDateTime};
 use hyper::{body, Body, Request, Response};
 use prfs_circuit_type::PublicInputInstance;
 use prfs_db_interface::entities::{PrfsProofType, PrfsSet};
@@ -90,7 +90,7 @@ pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
         public_input_instance: serde_json::to_string(&req.public_input_instance).unwrap(),
         driver_properties: serde_json::to_string(&req.driver_properties).unwrap(),
 
-        created_at: NaiveDate::from_ymd_opt(1, 2, 1).unwrap(),
+        created_at: chrono::offset::Utc::now(),
     };
 
     state
