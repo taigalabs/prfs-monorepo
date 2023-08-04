@@ -13,7 +13,7 @@ const Leftbar: React.FC<any> = () => {
       <ul>
         <li>
           <ActiveLink href="/" exact>
-            {i18n.proof_dashboard}
+            {i18n.home}
           </ActiveLink>
         </li>
       </ul>

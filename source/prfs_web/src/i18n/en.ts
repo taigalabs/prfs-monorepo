@@ -49,6 +49,7 @@ export default {
   create_proof: "Create proof",
   proof_dashboard: "Proof dashboard",
   create_proof_instance: "Create a proof instance",
+  home: "Home",
   proof_type: "Proof type",
   proof_type_summary_label: "Proof type summary for",
   proof_types: "Proof types",
