@@ -12,7 +12,9 @@ const Leftbar: React.FC<any> = () => {
     <div className={styles.wrapper}>
       <ul>
         <li>
-          <ActiveLink href="/">{i18n.proof_dashboard}</ActiveLink>
+          <ActiveLink href="/" exact>
+            {i18n.proof_dashboard}
+          </ActiveLink>
         </li>
       </ul>
       <div className={styles.section}>
