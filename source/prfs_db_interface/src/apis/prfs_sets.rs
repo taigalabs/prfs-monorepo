@@ -4,7 +4,7 @@ use crate::{
     utils::{concat_cols, concat_values},
     DbInterfaceError,
 };
-use chrono::{DateTime, NaiveDate, Utc};
+use chrono::{DateTime, Utc};
 use sqlx::Row;
 
 impl Database2 {
@@ -52,8 +52,6 @@ impl Database2 {
 
     pub async fn get_prfs_sets(&self) -> Result<Vec<PrfsSet>, DbInterfaceError> {
         let query = format!("SELECT * from prfs_sets");
-
-        // let query = format!("SELECT st.*, ptn.val from prfs_sets st join prfs_tree_nodes ptn on ptn.set_id=st.set_id where ptn.pos_h=31");
 
         let rows = sqlx::query(&query).fetch_all(&self.pool).await.unwrap();
 
@@ -144,17 +142,6 @@ impl Database2 {
                 vals,
             )
         };
-
-        // println!("stmt: {}", stmt);
-
-        // let rows = match self.pg_client.query(&stmt, &[]).await {
-        //     Ok(r) => r,
-        //     Err(err) => {
-        //         tracing::error!("Error executing stmt, err: {}, stmt: {}", err, stmt);
-
-        //         return Err(err.into());
-        //     }
-        // };
 
         let rows = sqlx::query(&query).fetch_all(&self.pool).await.unwrap();
 
