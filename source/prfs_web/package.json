@@ -18,6 +18,7 @@
     "@mui/material": "^5.14.0",
     "@mui/styles": "^5.14.0",
     "@taigalabs/prfs-program-spartan-js": "*",
+    "@taigalabs/prfs-program-type": "*",
     "@thirdweb-dev/react": "^3.14.13",
     "@thirdweb-dev/sdk": "^3.10.33",
     "classnames": "^2.3.2",
