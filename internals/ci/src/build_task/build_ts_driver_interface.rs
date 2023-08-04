@@ -10,9 +10,12 @@ impl BuildTask for BuildTsDriverInterfaceTask {
     }
 
     fn run(&self, _build_handle: &mut BuildHandle) -> Result<(), CiError> {
-        let status = Command::new(JS_ENGINE)
-            .current_dir(&PATHS.prfs_driver_spartan_js)
-            .args(["run", "build-pkg"])
+        if PATHS.prfs_driver_type_bindings.exists() {
+            std::fs::remove_dir_all(&PATHS.prfs_driver_type_bindings).unwrap();
+        }
+
+        let status = Command::new("cargo")
+            .args(["test", "-p", "prfs_driver_type"])
             .status()
             .expect(&format!("{} command failed to start", JS_ENGINE));
 
