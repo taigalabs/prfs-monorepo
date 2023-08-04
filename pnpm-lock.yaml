@@ -212,6 +212,8 @@ importers:
         specifier: ^4.9.4
         version: 4.9.5
 
+  source/prfs_driver_interface: {}
+
   source/prfs_driver_spartan_js:
     dependencies:
       '@ethereumjs/util':
@@ -220,6 +222,12 @@ importers:
       '@taigalabs/async-incremental-merkle-tree':
         specifier: '*'
         version: link:../../externals/incremental-merkle-tree
+      '@taigalabs/prfs-driver-interface':
+        specifier: '*'
+        version: link:../prfs_driver_interface
+      '@taigalabs/prfs-driver-type':
+        specifier: '*'
+        version: link:../prfs_driver_type
       bn.js:
         specifier: ^5.2.1
         version: 5.2.1

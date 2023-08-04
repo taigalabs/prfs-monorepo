@@ -1,9 +1,12 @@
+import { CircuitDriver, CircuitDriverInstance } from "@taigalabs/prfs-driver-interface";
+import { MerkleProof } from "@taigalabs/async-incremental-merkle-tree";
+import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-type/bindings/SpartanCircomDriverProperties";
+
 import { Tree } from "./helpers/tree";
 import { makePoseidon } from "./helpers/poseidon";
 import { MembershipProofGen } from "./proof_gen/membership_proof_gen";
 import { PrfsHandlers, AsyncHashFn, NIZK } from "./types";
 import { initWasm } from "./wasm_wrapper/load_worker";
-import { MerkleProof } from "@taigalabs/async-incremental-merkle-tree";
 import { fromSig, loadCircuit, snarkJsWitnessGen } from "./helpers/utils";
 import {
   CircuitPubInput,
@@ -13,16 +16,15 @@ import {
 } from "./helpers/public_input";
 import { BN } from "bn.js";
 
-export default class SpartanDriver {
+export default class SpartanDriver implements CircuitDriverInstance {
   handlers: PrfsHandlers;
+  wtnsGenUrl: string;
+  circuitUrl: string;
 
-  private constructor(handlers: PrfsHandlers) {
+  constructor(handlers: PrfsHandlers, driverProps: SpartanCircomDriverProperties) {
     this.handlers = handlers;
-  }
-
-  static async newInstance(): Promise<SpartanDriver> {
-    let prfsHandlers = await initWasm();
-    return new SpartanDriver(prfsHandlers);
+    this.circuitUrl = driverProps.circuit_url;
+    this.wtnsGenUrl = driverProps.wtns_gen_url;
   }
 
   async getBuildStatus() {
@@ -45,13 +47,7 @@ export default class SpartanDriver {
     return new MembershipProofGen(witnessGenWasmUrl, circuitUrl, this.handlers);
   }
 
-  async prove(
-    sig: string,
-    msgHash: Buffer,
-    merkleProof: MerkleProof,
-    circuitUrl: string,
-    wtnsGenUrl: string
-  ): Promise<NIZK> {
+  async prove(sig: string, msgHash: Buffer, merkleProof: MerkleProof): Promise<NIZK> {
     console.log("\nMembershipProver2.prove()");
 
     const { r, s, v } = fromSig(sig);
@@ -86,11 +82,12 @@ export default class SpartanDriver {
       ...merkleProof,
       ...effEcdsaPubInput,
     };
+
     console.log("witnessGenInput: %o", witnessGenInput);
 
-    const witness = await snarkJsWitnessGen(witnessGenInput, wtnsGenUrl);
+    const witness = await snarkJsWitnessGen(witnessGenInput, this.wtnsGenUrl);
 
-    const circuitBin = await loadCircuit(circuitUrl);
+    const circuitBin = await loadCircuit(this.circuitUrl);
 
     const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
 
