@@ -9,17 +9,25 @@
   background-color: var(--dark-cyan-50);
   height: 41px;
   color: var(--white-100);
-  font-size: 12px;
+  font-size: 13px;
 }
+
 .logoArea {
   align-items: center;
   display: flex;
-  padding: 0 20px;
+  padding: 0 25px;
   font-size: 1.245rem;
 }
 
 .mainMenu {
+  padding: 0 25px;
   list-style: none;
+  display: flex;
+  align-items: center;
+
+  > li {
+    margin-right: 24px;
+  }
 }
 
 .rightMenu {

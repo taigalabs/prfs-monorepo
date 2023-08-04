@@ -86,6 +86,10 @@ const Masthead: React.FC<any> = () => {
           <Logo variant="simple" />
         </Link>
       </div>
+      <ul className={styles.mainMenu}>
+        <li>{i18n.proofs}</li>
+        <li>{i18n.vote}</li>
+      </ul>
       <div className={styles.rightMenu}>
         {prfsAccount ? <AccountStat account={prfsAccount} /> : <ConnectButton />}
       </div>
