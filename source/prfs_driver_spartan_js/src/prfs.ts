@@ -3,7 +3,7 @@ import { makePoseidon } from "./helpers/poseidon";
 import { MembershipProofGen } from "./proof_gen/membership_proof_gen";
 import { PrfsHandlers, AsyncHashFn, NIZK } from "./types";
 import { initWasm } from "./wasm_wrapper/load_worker";
-import { MerkleProof } from "@zk-kit/incremental-merkle-tree";
+import { MerkleProof } from "@taigalabs/async-incremental-merkle-tree";
 import { fromSig, loadCircuit, snarkJsWitnessGen } from "./helpers/utils";
 import {
   CircuitPubInput,
