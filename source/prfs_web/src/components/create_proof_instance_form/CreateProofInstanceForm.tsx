@@ -107,8 +107,10 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     const { driver_id, driver_properties } = selectedProofType;
     console.log(12, selectedProofType.driver_properties);
 
-    const a = await launchDriver(driver_id, driver_properties);
-    console.log(11, a);
+    const driver = await launchDriver(driver_id, driver_properties);
+
+    let instance = await driver.newInstance();
+    console.log(11, instance);
 
     // const spartanProgramProps = castToSpartanProgramProps(driver_properties);
     // spartanProgramProps.wtns_gen_url = spartanProgramProps.wtns_gen_url.replace(
