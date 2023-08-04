@@ -25,10 +25,10 @@ const Leftbar: React.FC<any> = () => {
         <ul>
           <li className={styles.category}>{i18n.circuits}</li>
           <li>
-            <ActiveLink href="/drivers">{i18n.circuit_drivers}</ActiveLink>
+            <ActiveLink href="/circuits">{i18n.circuits}</ActiveLink>
           </li>
           <li>
-            <ActiveLink href="/circuits">{i18n.circuits}</ActiveLink>
+            <ActiveLink href="/drivers">{i18n.circuit_drivers}</ActiveLink>
           </li>
         </ul>
       </div>
