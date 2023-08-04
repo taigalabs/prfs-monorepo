@@ -10,13 +10,8 @@
     "skipLibCheck": true,
     "declaration": true,
     "allowSyntheticDefaultImports": true,
-    "declarationDir": "types",
-    "typeRoots": [
-      "../../node_modules/@types",
-      "node_modules/@types",
-      "types",
-      "jest"
-    ]
+    "declarationDir": "./types",
+    "typeRoots": ["../../node_modules/@types", "node_modules/@types", "types", "jest"]
   },
   "ts-node": {
     "compilerOptions": {
@@ -24,9 +19,5 @@
       "module": "commonjs"
     }
   },
-  "include": [
-    "src",
-    "tests",
-    "rollup.config.ts"
-  ]
+  "include": ["src", "tests", "rollup.config.ts"]
 }
