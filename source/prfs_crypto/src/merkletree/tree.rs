@@ -41,8 +41,11 @@ pub fn make_merkle_proof(
 
     let leaves: Vec<[u8; 32]> = leaves
         .iter()
-        .map(|leaf| {
+        .enumerate()
+        .map(|(idx, leaf)| {
             let b = convert_hex_into_32bytes(leaf).unwrap();
+            println!("leaf, idx: {}, bytes: {:?}, leaf: {}", idx, b, leaf);
+
             b
         })
         .collect();
@@ -58,7 +61,7 @@ pub fn make_merkle_proof(
             Err(err) => return Err(format!("calc parent err: {}, d: {}", err, d).into()),
         };
 
-        println!("parent: {:?}", parent);
+        // println!("parent: {:?}", parent);
         nodes.push(parent);
     }
 
@@ -71,8 +74,8 @@ pub fn make_merkle_proof(
         None => return Err(format!("root does not exist, depth: {}", depth).into()),
     };
 
-    let sibling_indices = make_sibling_path(depth as u32, leaf_idx);
-    let path_indices = make_path_indices(depth as u32, leaf_idx);
+    let sibling_indices = make_sibling_path(depth as u8, leaf_idx);
+    let path_indices = make_path_indices(depth as u8, leaf_idx);
 
     println!("sibling_indices: {:?}", sibling_indices);
 
@@ -93,7 +96,7 @@ pub fn make_merkle_proof(
         };
 
         let s = convert_32bytes_into_decimal_string(sibling)?;
-        println!("\nsibling({}, {}): {:?}, decimal: {}", h, s_idx, sibling, s);
+        // println!("\nsibling({}, {}): {:?}, decimal: {}", h, s_idx, sibling, s);
 
         siblings.push(s);
     }
@@ -114,13 +117,11 @@ pub fn calc_parent_nodes(children: &Vec<[u8; 32]>) -> Result<Vec<[u8; 32]>, Prfs
         return Err(format!("children is len 0").into());
     }
 
+    // single child
     if children.len() == 1 {
-        // println!("A single children");
-
         let left = children.get(0).unwrap();
-        let right = left;
 
-        let res = hash_two(left, &right).unwrap();
+        let res = hash_two(left, &left).unwrap();
         parent.push(res);
 
         // let l = convert_32bytes_into_decimal_string(left)?;
@@ -151,7 +152,7 @@ pub fn calc_parent_nodes(children: &Vec<[u8; 32]>) -> Result<Vec<[u8; 32]>, Prfs
                 // println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
             } else {
                 // only left is present
-                let res = hash_two(left, left).unwrap();
+                let res = hash_two(left, &left).unwrap();
                 parent.push(res);
 
                 // let l = convert_32bytes_into_decimal_string(left)?;

@@ -113,43 +113,41 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     const addr = await signer.getAddress();
     console.log("my address: %s", addr);
 
-    if (selectedProofType.public_input_instance[4].ref) {
-      const setId = selectedProofType.public_input_instance[4].ref;
-      let { payload } = await prfsBackend.getPrfsTreeLeafNodes({
-        set_id: setId,
-        leaf_vals: [addr],
-      });
+    // if (selectedProofType.public_input_instance[4].ref) {
+    //   const setId = selectedProofType.public_input_instance[4].ref;
+    //   let { payload } = await prfsBackend.getPrfsTreeLeafNodes({
+    //     set_id: setId,
+    //     leaf_vals: [addr],
+    //   });
 
-      let pos_w = null;
-      for (const node of payload.prfs_tree_nodes) {
-        if (node.val === addr.toLowerCase()) {
-          pos_w = node.pos_w;
-        }
-      }
+    //   let pos_w = null;
+    //   for (const node of payload.prfs_tree_nodes) {
+    //     if (node.val === addr.toLowerCase()) {
+    //       pos_w = node.pos_w;
+    //     }
+    //   }
 
-      if (pos_w === null) {
-        throw new Error("Address is not part of a set");
-      }
+    //   if (pos_w === null) {
+    //     throw new Error("Address is not part of a set");
+    //   }
 
-      const leafIdx = Number(pos_w);
-      const siblingPath = makeSiblingPath(32, Number(pos_w));
-      const merklePath = makeMerklePath(32, Number(pos_w));
+    //   const leafIdx = Number(pos_w);
+    //   const siblingPath = makeSiblingPath(32, Number(pos_w));
+    //   const merklePath = makeMerklePath(32, Number(pos_w));
 
-      const siblingPos = siblingPath.map((pos_w, idx) => {
-        return { pos_h: idx, pos_w };
-      });
+    //   const siblingPos = siblingPath.map((pos_w, idx) => {
+    //     return { pos_h: idx, pos_w };
+    //   });
 
-      console.log("siblingPos", siblingPos);
+    //   console.log("siblingPos", siblingPos);
 
-      const data = await prfsBackend.getPrfsTreeNodes({
-        set_id: setId,
-        pos: siblingPos,
-      });
+    //   const data = await prfsBackend.getPrfsTreeNodes({
+    //     set_id: setId,
+    //     pos: siblingPos,
+    //   });
 
-      console.log(333, data);
-    }
-
-    return;
+    //   console.log(333, data);
+    // }
 
     const { driver_id, driver_properties } = selectedProofType;
     console.log(12, selectedProofType.driver_properties);
@@ -159,17 +157,20 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
     const driver = await initDriver(driver_id, driverProperties);
 
-    let buildStatus = await driver.getBuildStatus();
-    console.log("buildStatus: %s", buildStatus);
+    await proveMembership(signer, driver, 4);
+    // await proveMembershipMock(driver);
+
+    // let buildStatus = await driver.getBuildStatus();
+    // console.log("buildStatus: %s", buildStatus);
 
     // const a = makeSiblingPath(32);
     // console.log(222, a);
     //0x33d10ab178924ecb7ad52f4c0c8062c3066607ec
-    let merkleProof = {
-      // root: bigint;
-      // siblings: bigint[];
-      // pathIndices: number[];
-    };
+    // let merkleProof = {
+    // root: bigint;
+    // siblings: bigint[];
+    // pathIndices: number[];
+    // };
 
     // let poseidon = driver.newPoseidon();
     // const msg = Buffer.from("harry potter");
