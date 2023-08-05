@@ -27,6 +27,11 @@ import { interpolateSystemAssetEndpoint, initDriver } from "@/functions/circuitD
 import { MerkleProof } from "@taigalabs/prfs-driver-spartan-js";
 import ProofGen from "@taigalabs/prfs-sdk-web/src/ProofGen";
 
+///
+import { hashPersonalMessage } from "@ethereumjs/util";
+import { ethers } from "ethers";
+import { makeSiblingPath } from "@taigalabs/prfs-crypto-js";
+
 const ProgramSection: React.FC<ProgramSectionProps> = ({ proofType }) => {
   const i18n = React.useContext(i18nContext);
 
@@ -114,43 +119,34 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     let buildStatus = await driver.getBuildStatus();
     console.log("buildStatus: %s", buildStatus);
 
-    let addrs = [
-      "0x33d10ab178924ecb7ad52f4c0c8062c3066607ec",
-      "0x4f6fcaae3fc4124acaccc780c6cb0dd69ddbeff8",
-      "0x50d34ee0ac40da7779c42d3d94c2072e5625395f",
-      "0x51c0e162bd86b63933262d558a8953def4e30c85",
-    ];
+    const a = makeSiblingPath();
+    console.log(222, a);
+    //0x33d10ab178924ecb7ad52f4c0c8062c3066607ec
+    let merkleProof = {
+      // root: bigint;
+      // siblings: bigint[];
+      // pathIndices: number[];
+    };
 
-    let merkleProof: MerkleProof = await driver.makeMerkleProof(addrs, BigInt(0), 32);
-    console.log("merkle proof", merkleProof);
+    let poseidon = driver.newPoseidon();
+    const msg = Buffer.from("harry potter");
+    const msgHash = hashPersonalMessage(msg);
 
-    // root: bigint;
-    // siblings: bigint[];
-    // pathIndices: number[];
+    let sig = await signer.signMessage(msg);
+    console.log("sig", sig);
 
-    // let poseidon = prfs.newPoseidon();
-    // const msg = Buffer.from("harry potter");
-    // const msgHash = hashPersonalMessage(msg);
+    let verifyMsg = ethers.utils.verifyMessage(msg, sig);
+    console.log("verified addr", verifyMsg);
 
-    // let sig = await signer.signMessage(msg);
-    // console.log("sig", sig);
+    let proverAddress = await signer.getAddress();
+    console.log("proverAddr", proverAddress);
 
-    // let verifyMsg = ethers.utils.verifyMessage(msg, sig);
-    // console.log("verified addr", verifyMsg);
-
-    // let proverAddress = await signer.getAddress();
-    // console.log("proverAddr", proverAddress);
-
-    // const proverAddr = BigInt(proverAddress);
-    // console.log("proverAddr", proverAddr);
-
-    // const addr1 = BigInt(addrs[1]);
-    // console.log("Addr1", addr1);
+    const proverAddr = BigInt(proverAddress);
+    console.log("proverAddr", proverAddr);
 
     // console.log("Proving...");
     // console.time("Full proving time");
-    // // const proofGen = spart.newMembershipProofGen(wtnsGenUrl, circuitUrl);
-    // const { proof, publicInput } = await spartanDriver.prove(sig, msgHash, merkleProof);
+    // const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
 
     // console.timeEnd("Full proving time");
     // console.log("Raw proof size (excluding public input)", proof.length, "bytes");

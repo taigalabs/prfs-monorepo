@@ -8,6 +8,7 @@ import {
 } from "@ethereumjs/util";
 import { ethers } from "ethers";
 import { getAddrMembership2CircuitUrl, getAddrMembership2WtnsGenUrl } from "@/envs";
+import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 
 let addrs = [
   "0x33d10ab178924ecb7ad52f4c0c8062c3066607ec",
@@ -39,20 +40,15 @@ let addrs = [
 //   await f2(signer, circuitUrl, wtnsGenUrl);
 // }
 
-export async function proveMembership(
-  signer: ethers.Signer,
-  driverProps: any
-  // circuitUrl: string,
-  // wtnsGenUrl: string
-) {
+export async function proveMembership(signer: ethers.Signer, driver: CircuitDriver) {
   console.log("proveMembership()");
 
-  let spartanDriver = await spartanDriverGen.newInstance(driverProps);
+  // let spartanDriver = await spartanDriverGen.newInstance(driverProps);
 
-  let buildStatus = await spartanDriver.getBuildStatus();
+  let buildStatus = await driver.getBuildStatus();
   console.log("buildStatus: %o", buildStatus);
 
-  let merkleProof: MerkleProof = await spartanDriver.makeMerkleProof(addrs, BigInt(0), 32);
+  let merkleProof: MerkleProof = await driver.makeMerkleProof(addrs, BigInt(0), 32);
   console.log("merkle proof", merkleProof);
 
   // let poseidon = prfs.newPoseidon();
@@ -77,7 +73,7 @@ export async function proveMembership(
   console.log("Proving...");
   console.time("Full proving time");
   // const proofGen = spart.newMembershipProofGen(wtnsGenUrl, circuitUrl);
-  const { proof, publicInput } = await spartanDriver.prove(sig, msgHash, merkleProof);
+  const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
 
   console.timeEnd("Full proving time");
   console.log("Raw proof size (excluding public input)", proof.length, "bytes");
@@ -85,7 +81,7 @@ export async function proveMembership(
   console.log("Verifying...");
 
   console.time("Verification time");
-  const result = await spartanDriver.verify(proof, publicInput.serialize());
+  const result = await driver.verify(proof, publicInput.serialize());
   console.timeEnd("Verification time");
 
   if (result) {

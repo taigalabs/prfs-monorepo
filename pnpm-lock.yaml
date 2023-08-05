@@ -212,6 +212,8 @@ importers:
         specifier: ^4.9.4
         version: 4.9.5
 
+  source/prfs_crypto_js: {}
+
   source/prfs_driver_interface: {}
 
   source/prfs_driver_spartan_js:
@@ -312,6 +314,9 @@ importers:
       '@mui/styles':
         specifier: ^5.14.0
         version: 5.14.0(@types/react@18.2.12)(react@18.2.0)
+      '@taigalabs/prfs-crypto-js':
+        specifier: '*'
+        version: link:../prfs_crypto_js
       '@taigalabs/prfs-driver-interface':
         specifier: '*'
         version: link:../prfs_driver_interface

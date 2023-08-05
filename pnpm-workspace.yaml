@@ -1,6 +1,7 @@
 packages:
   - "externals/incremental-merkle-tree"
   - "source/e2e_test_web"
+  - "source/prfs_crypto_js"
   - "source/prfs_driver_spartan_js"
   - "source/prfs_driver_type"
   - "source/prfs_driver_interface"
