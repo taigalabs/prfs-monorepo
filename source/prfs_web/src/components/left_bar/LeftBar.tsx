@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
 import styles from "./LeftBar.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -23,7 +24,10 @@ const Leftbar: React.FC<any> = () => {
       </ul>
       <div className={styles.section}>
         <ul>
-          <li className={styles.category}>{i18n.proofs}</li>
+          <li className={styles.category}>
+            <ArrowRightIcon />
+            {i18n.proofs}
+          </li>
           <li>
             <ActiveLink href="/proofs" activeClassName={styles.activeLink}>
               {i18n.proof_instances}
@@ -38,7 +42,10 @@ const Leftbar: React.FC<any> = () => {
       </div>
       <div className={styles.section}>
         <ul>
-          <li className={styles.category}>{i18n.circuits}</li>
+          <li className={styles.category}>
+            <ArrowRightIcon />
+            {i18n.circuits}
+          </li>
           <li>
             <ActiveLink href="/circuits" activeClassName={styles.activeLink}>
               {i18n.circuits}
@@ -53,7 +60,10 @@ const Leftbar: React.FC<any> = () => {
       </div>
       <div className={styles.section}>
         <ul>
-          <li className={styles.category}>{i18n.references}</li>
+          <li className={styles.category}>
+            <ArrowRightIcon />
+            {i18n.references}
+          </li>
           <li>
             <ActiveLink href="/sets" activeClassName={styles.activeLink}>
               {i18n.sets}

@@ -4,7 +4,7 @@
   width: 210px;
   min-height: 100%;
   flex-shrink: 0;
-  padding: 34px 16px;
+  padding: 34px 8px;
   background-color: var(--white-100);
   box-shadow: rgba(0, 28, 36, 0.3) 0px 1px 1px 0px, rgba(0, 28, 36, 0.15) 1px 1px 1px 0px,
     rgba(0, 28, 36, 0.15) -1px 1px 1px 0px;
@@ -16,7 +16,7 @@
   li {
     a {
       display: block;
-      padding: 10px 15px;
+      padding: 10px 21px;
     }
 
     a:hover {
@@ -29,7 +29,7 @@
   li {
     a {
       display: block;
-      padding: 10px 20px;
+      padding: 10px 21px;
     }
 
     a:hover {
@@ -43,9 +43,15 @@
 }
 
 .category {
-  font-weight: 300;
-  /* font-size: 14px; */
-  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: var(--gray-32);
+  padding: 10px 0px;
+
+  svg {
+    /* font-size: 1.5em; */
+  }
 }
 
 .activeLink {
