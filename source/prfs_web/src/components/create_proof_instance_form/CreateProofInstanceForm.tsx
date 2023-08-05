@@ -30,7 +30,7 @@ import ProofGen from "@taigalabs/prfs-sdk-web/src/ProofGen";
 ///
 import { hashPersonalMessage } from "@ethereumjs/util";
 import { ethers } from "ethers";
-import { makeSiblingPath } from "@taigalabs/prfs-crypto-js";
+import { makeMerklePath, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 
 const ProgramSection: React.FC<ProgramSectionProps> = ({ proofType }) => {
   const i18n = React.useContext(i18nContext);
@@ -115,12 +115,38 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
     if (selectedProofType.public_input_instance[4].ref) {
       const setId = selectedProofType.public_input_instance[4].ref;
-      let data = await prfsBackend.getPrfsTreeLeafNodes({
+      let { payload } = await prfsBackend.getPrfsTreeLeafNodes({
         set_id: setId,
         leaf_vals: [addr],
       });
 
-      console.log(111, data);
+      let pos_w = null;
+      for (const node of payload.prfs_tree_nodes) {
+        if (node.val === addr.toLowerCase()) {
+          pos_w = node.pos_w;
+        }
+      }
+
+      if (pos_w === null) {
+        throw new Error("Address is not part of a set");
+      }
+
+      const leafIdx = Number(pos_w);
+      const siblingPath = makeSiblingPath(32, Number(pos_w));
+      const merklePath = makeMerklePath(32, Number(pos_w));
+
+      const siblingPos = siblingPath.map((pos_w, idx) => {
+        return { pos_h: idx, pos_w };
+      });
+
+      console.log("siblingPos", siblingPos);
+
+      const data = await prfsBackend.getPrfsTreeNodes({
+        set_id: setId,
+        pos: siblingPos,
+      });
+
+      console.log(333, data);
     }
 
     return;

@@ -133,6 +133,7 @@ pub async fn get_prfs_tree_leaf_nodes(req: Request<Body>) -> Result<Response<Bod
     let set_id = req.set_id.to_string();
 
     let mut leaf_clause = vec![];
+
     for val in req.leaf_vals {
         let l = format!("val = '{}'", val.to_lowercase());
         leaf_clause.push(l);

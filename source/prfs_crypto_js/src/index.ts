@@ -35,7 +35,7 @@ function getSiblingIdx(idx: number): number {
 }
 
 function getParentIdx(idx: number): number {
-  return idx / 2;
+  return Math.floor(idx / 2);
 }
 
 // pub fn make_sibling_path(depth: u32, leaf_idx: u128) -> Vec<u128> {
