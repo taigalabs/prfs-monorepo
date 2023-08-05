@@ -99,6 +99,7 @@ const Masthead: React.FC<any> = () => {
           <Link href="/">{i18n.proofs}</Link>
         </li>
         <li className={styles.inactive}>{i18n.vote}</li>
+        <li className={styles.inactive}>{i18n.enrollment}</li>
       </ul>
       <div className={styles.rightMenu}>
         {prfsAccount ? <AccountStat account={prfsAccount} /> : <ConnectButton />}

@@ -49,6 +49,7 @@ export default {
     "In order to create a proof instance, we need a proof type defined. Start by choosing the circuit (program) and the reference values.",
   proofs: "Proofs",
   vote: "Vote",
+  enrollment: "Enrollment",
   proof_instances: "Proof instances",
   create_proof: "Create proof",
   proof_dashboard: "Proof dashboard",
