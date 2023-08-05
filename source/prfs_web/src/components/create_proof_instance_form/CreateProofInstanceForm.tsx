@@ -236,14 +236,6 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
         <CardRow>
           <Card>
             <ProofGen />
-            {/* <Widget> */}
-            {/*   <WidgetHeader> */}
-            {/*     <WidgetLabel>{i18n.driver}</WidgetLabel> */}
-            {/*   </WidgetHeader> */}
-            {/*   <WidgetPaddedBody> */}
-            {/*     <ProgramSection proofType={selectedProofType} /> */}
-            {/*   </WidgetPaddedBody> */}
-            {/* </Widget> */}
           </Card>
         </CardRow>
       )}

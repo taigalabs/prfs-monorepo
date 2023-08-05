@@ -25,12 +25,8 @@ const GlobalFooter: React.FC = () => {
         <li className={styles.code}>
           <Link href={repoUrl}>{i18n.github}</Link>
         </li>
-        <li className={styles.inactive}>
-          <Link href={repoUrl}>{i18n.terms}</Link>
-        </li>
-        <li className={styles.inactive}>
-          <Link href={repoUrl}>{i18n.privacy}</Link>
-        </li>
+        <li className={styles.inactive}>{i18n.terms}</li>
+        <li className={styles.inactive}>{i18n.privacy}</li>
         <li className={styles.company}>{i18n.prfs_copyright}</li>
       </ul>
     </div>
