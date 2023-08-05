@@ -5,4 +5,5 @@ packages:
   - "source/prfs_driver_type"
   - "source/prfs_driver_interface"
   - "source/prfs_circuit_circom"
+  - "source/prfs_sdk_web"
   - "source/prfs_web"
