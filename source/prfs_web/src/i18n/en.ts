@@ -1,6 +1,9 @@
 export default {
   prfs_copyright: "© 2023 Prfs",
   github: "Github",
+  terms: "Terms",
+  privacy: "Privacy",
+  language: "Language",
   id: "Id",
   name: "Name",
   name_and_description: "Name and description",

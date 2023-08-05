@@ -13,10 +13,21 @@ const GlobalFooter: React.FC = () => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.code}>
-        <Link href={repoUrl}>{i18n.github}</Link>
-      </div>
-      <div className={styles.company}>{i18n.prfs_copyright}</div>
+      <ul className={styles.leftMenu}>
+        <li className={styles.inactive}>{i18n.language}</li>
+      </ul>
+      <ul className={styles.rightMenu}>
+        <li className={styles.code}>
+          <Link href={repoUrl}>{i18n.github}</Link>
+        </li>
+        <li className={styles.inactive}>
+          <Link href={repoUrl}>{i18n.terms}</Link>
+        </li>
+        <li className={styles.inactive}>
+          <Link href={repoUrl}>{i18n.privacy}</Link>
+        </li>
+        <li className={styles.company}>{i18n.prfs_copyright}</li>
+      </ul>
     </div>
   );
 };

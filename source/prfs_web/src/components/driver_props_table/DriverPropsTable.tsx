@@ -3,16 +3,13 @@
 import React from "react";
 import Link from "next/link";
 
-import styles from "./CircuitDriverPropsTable.module.scss";
+import styles from "./DriverPropsTable.module.scss";
 import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import * as prfsBackend from "@/fetch/prfsBackend";
 import { PrfsCircuit, PrfsCircuitDriver } from "@/models";
 
-const CircuitDriverPropsTable: React.FC<CircuitDriverPropsTableProps> = ({
-  driver,
-  handleSelectVal,
-}) => {
+const DriverPropsTable: React.FC<DriverPropsTableProps> = ({ driver, handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
   const [data, setData] = React.useState<TableData<Record<string, any>>>({ page: 0, values: [] });
 
@@ -31,7 +28,7 @@ const CircuitDriverPropsTable: React.FC<CircuitDriverPropsTableProps> = ({
       return null;
     }
 
-    console.log(11, values);
+    // console.log(11, values);
 
     return (
       <TableHeader>
@@ -54,7 +51,7 @@ const CircuitDriverPropsTable: React.FC<CircuitDriverPropsTableProps> = ({
 
     for (let val of values) {
       let row = (
-        <TableRow key={val.circuit_id}>
+        <TableRow key={val[0]}>
           <td key={val[0]}>{val[0]}</td>
           <td key={val[1]}>{val[1]}</td>
         </TableRow>
@@ -74,9 +71,9 @@ const CircuitDriverPropsTable: React.FC<CircuitDriverPropsTableProps> = ({
   );
 };
 
-export default CircuitDriverPropsTable;
+export default DriverPropsTable;
 
-export interface CircuitDriverPropsTableProps {
+export interface DriverPropsTableProps {
   driver: PrfsCircuitDriver;
   selectType?: "checkbox" | "radio";
   selectedVal?: PrfsCircuit;
