@@ -9,10 +9,6 @@ import ActiveLink from "@/components/active_link/ActiveLink";
 const Leftbar: React.FC<any> = () => {
   const i18n = React.useContext(i18nContext);
 
-  console.log(11, styles.wrapper);
-
-  console.log(113, styles.activeLink);
-
   return (
     <div className={styles.wrapper}>
       <ul className={styles.topMenu}>

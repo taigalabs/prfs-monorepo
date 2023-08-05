@@ -79,7 +79,9 @@ struct GetPrfsTreeLeafNodesRequest {
     set_id: String,
 }
 
-pub async fn get_prfs_tree_leaf_nodes(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+pub async fn get_prfs_tree_leaf_nodes_by_set_id(
+    req: Request<Body>,
+) -> Result<Response<Body>, Infallible> {
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
 
@@ -95,6 +97,51 @@ pub async fn get_prfs_tree_leaf_nodes(req: Request<Body>) -> Result<Response<Bod
         "where set_id = '{}' AND pos_h = 0 limit {}",
         set_id.to_string(),
         req.limit,
+    );
+
+    println!("where_clause, {}", where_clause);
+
+    let prfs_tree_nodes = state
+        .db2
+        .get_prfs_tree_nodes(&where_clause)
+        .await
+        .expect("get nodes fail");
+
+    // println!("merkle_path: {:?}", merkle_path);
+
+    let resp = ApiResponse::new_success(GetPrfsTreeNodesResponse { prfs_tree_nodes });
+
+    return Ok(resp.into_hyper_response());
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct GetPrfsTreeLeafIndicesRequest {
+    set_id: String,
+    leaf_vals: Vec<String>,
+}
+
+pub async fn get_prfs_tree_leaf_nodes(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+    let state = req.data::<Arc<ServerState>>().unwrap();
+    let state = state.clone();
+
+    let bytes = body::to_bytes(req.into_body()).await.unwrap();
+    let body_str = String::from_utf8(bytes.to_vec()).unwrap();
+    let req = serde_json::from_str::<GetPrfsTreeLeafIndicesRequest>(&body_str).unwrap();
+
+    println!("req {:?}", req);
+
+    let set_id = req.set_id.to_string();
+
+    let mut leaf_clause = vec![];
+    for val in req.leaf_vals {
+        let l = format!("val = '{}'", val.to_lowercase());
+        leaf_clause.push(l);
+    }
+
+    let where_clause = format!(
+        "where set_id = '{}' AND pos_h = 0 AND {}",
+        set_id.to_string(),
+        leaf_clause.join(" or ")
     );
 
     println!("where_clause, {}", where_clause);

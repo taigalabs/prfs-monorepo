@@ -1,9 +1,41 @@
-export function makeMerklePath() {
-  return 3;
+export function makeMerklePath(depth: number, leafIdx: number): number[] {
+  const pathIndices = [];
+  let currIdx = leafIdx;
+
+  for (let h = 0; h < depth; h += 1) {
+    pathIndices.push(currIdx);
+    let parentIdx = getParentIdx(currIdx);
+    currIdx = parentIdx;
+  }
+
+  return pathIndices;
 }
 
-export function makeSiblingPath() {
-  return 5;
+export function makeSiblingPath(depth: number, leafIdx: number): number[] {
+  const siblingIndices = [];
+  let currIdx = leafIdx;
+
+  for (let h = 0; h < depth; h += 1) {
+    let siblingIdx = getSiblingIdx(currIdx);
+    let parentIdx = getParentIdx(currIdx);
+
+    currIdx = parentIdx;
+    siblingIndices.push(siblingIdx);
+  }
+
+  return siblingIndices;
+}
+
+function getSiblingIdx(idx: number): number {
+  if (idx % 2 == 0) {
+    return idx + 1;
+  } else {
+    return idx - 1;
+  }
+}
+
+function getParentIdx(idx: number): number {
+  return idx / 2;
 }
 
 // pub fn make_sibling_path(depth: u32, leaf_idx: u128) -> Vec<u128> {
@@ -33,16 +65,4 @@ export function makeSiblingPath() {
 //     }
 
 //     return path_indices;
-// }
-
-// function getSiblingIdx(idx: number): number {
-//   if (idx % 2 == 0) {
-//     return idx + 1;
-//   } else {
-//     return idx - 1;
-//   }
-// }
-
-// function getParentIdx(idx: number): number {
-//   return idx / 2;
 // }

@@ -108,6 +108,23 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       return;
     }
 
+    console.log(11, selectedProofType);
+
+    const addr = await signer.getAddress();
+    console.log("my address: %s", addr);
+
+    if (selectedProofType.public_input_instance[4].ref) {
+      const setId = selectedProofType.public_input_instance[4].ref;
+      let data = await prfsBackend.getPrfsTreeLeafNodes({
+        set_id: setId,
+        leaf_vals: [addr],
+      });
+
+      console.log(111, data);
+    }
+
+    return;
+
     const { driver_id, driver_properties } = selectedProofType;
     console.log(12, selectedProofType.driver_properties);
 
@@ -119,8 +136,8 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     let buildStatus = await driver.getBuildStatus();
     console.log("buildStatus: %s", buildStatus);
 
-    const a = makeSiblingPath();
-    console.log(222, a);
+    // const a = makeSiblingPath(32);
+    // console.log(222, a);
     //0x33d10ab178924ecb7ad52f4c0c8062c3066607ec
     let merkleProof = {
       // root: bigint;
@@ -128,21 +145,21 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       // pathIndices: number[];
     };
 
-    let poseidon = driver.newPoseidon();
-    const msg = Buffer.from("harry potter");
-    const msgHash = hashPersonalMessage(msg);
+    // let poseidon = driver.newPoseidon();
+    // const msg = Buffer.from("harry potter");
+    // const msgHash = hashPersonalMessage(msg);
 
-    let sig = await signer.signMessage(msg);
-    console.log("sig", sig);
+    // let sig = await signer.signMessage(msg);
+    // console.log("sig", sig);
 
-    let verifyMsg = ethers.utils.verifyMessage(msg, sig);
-    console.log("verified addr", verifyMsg);
+    // let verifyMsg = ethers.utils.verifyMessage(msg, sig);
+    // console.log("verified addr", verifyMsg);
 
-    let proverAddress = await signer.getAddress();
-    console.log("proverAddr", proverAddress);
+    // let proverAddress = await signer.getAddress();
+    // console.log("proverAddr", proverAddress);
 
-    const proverAddr = BigInt(proverAddress);
-    console.log("proverAddr", proverAddr);
+    // const proverAddr = BigInt(proverAddress);
+    // console.log("proverAddr", proverAddr);
 
     // console.log("Proving...");
     // console.time("Full proving time");

@@ -6,7 +6,7 @@ impl Database2 {
         &self,
         where_clause: &str,
     ) -> Result<Vec<PrfsTreeNode>, DbInterfaceError> {
-        let query = format!("SELECT * from prfs_tree_nodes {}", where_clause);
+        let query = format!("SELECT * from prfs_tree_nodes nodes {}", where_clause);
         // println!("stmt: {}", stmt);
 
         let rows = sqlx::query(&query).fetch_all(&self.pool).await.unwrap();
