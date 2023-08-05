@@ -6,10 +6,10 @@
   width: 100%;
   display: flex;
   padding: 0px 0px;
-  background-color: var(--dark-cyan-50);
+  background-color: var(--dark-cyan-40);
   height: 41px;
-  color: var(--white-100);
   font-size: 13px;
+  color: var(--white-100);
 }
 
 .logoArea {
@@ -36,7 +36,7 @@
   }
 
   .inactive {
-    color: var(--gray-50);
+    color: var(--gray-40);
   }
 }
 

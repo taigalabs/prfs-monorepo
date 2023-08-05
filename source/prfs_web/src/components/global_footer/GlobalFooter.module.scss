@@ -4,7 +4,7 @@
   left: 0;
   width: 100%;
   z-index: 200;
-  background-color: var(--dark-cyan-50);
+  background-color: var(--dark-cyan-40);
   display: flex;
   align-items: center;
   height: 30px;
@@ -16,6 +16,14 @@
     &:hover {
       color: var(--bright-green-50);
     }
+  }
+}
+
+.leftMenu {
+  display: flex;
+
+  > li:not(:last-child) {
+    margin-right: 25px;
   }
 }
 

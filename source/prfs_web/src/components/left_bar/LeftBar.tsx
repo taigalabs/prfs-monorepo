@@ -8,11 +8,15 @@ import ActiveLink from "@/components/active_link/ActiveLink";
 const Leftbar: React.FC<any> = () => {
   const i18n = React.useContext(i18nContext);
 
+  console.log(11, styles.wrapper);
+
+  console.log(113, styles.activeLink);
+
   return (
     <div className={styles.wrapper}>
-      <ul>
+      <ul className={styles.topMenu}>
         <li>
-          <ActiveLink href="/" exact>
+          <ActiveLink href="/" exact activeClassName={styles.activeLink}>
             {i18n.home}
           </ActiveLink>
         </li>
@@ -21,10 +25,14 @@ const Leftbar: React.FC<any> = () => {
         <ul>
           <li className={styles.category}>{i18n.proofs}</li>
           <li>
-            <ActiveLink href="/proofs">{i18n.proof_instances}</ActiveLink>
+            <ActiveLink href="/proofs" activeClassName={styles.activeLink}>
+              {i18n.proof_instances}
+            </ActiveLink>
           </li>
           <li>
-            <ActiveLink href="/proof_types">{i18n.proof_types}</ActiveLink>
+            <ActiveLink href="/proof_types" activeClassName={styles.activeLink}>
+              {i18n.proof_types}
+            </ActiveLink>
           </li>
         </ul>
       </div>
@@ -32,10 +40,14 @@ const Leftbar: React.FC<any> = () => {
         <ul>
           <li className={styles.category}>{i18n.circuits}</li>
           <li>
-            <ActiveLink href="/circuits">{i18n.circuits}</ActiveLink>
+            <ActiveLink href="/circuits" activeClassName={styles.activeLink}>
+              {i18n.circuits}
+            </ActiveLink>
           </li>
           <li>
-            <ActiveLink href="/drivers">{i18n.circuit_drivers}</ActiveLink>
+            <ActiveLink href="/drivers" activeClassName={styles.activeLink}>
+              {i18n.circuit_drivers}
+            </ActiveLink>
           </li>
         </ul>
       </div>
@@ -43,9 +55,15 @@ const Leftbar: React.FC<any> = () => {
         <ul>
           <li className={styles.category}>{i18n.references}</li>
           <li>
-            <ActiveLink href="/sets">{i18n.sets}</ActiveLink>
+            <ActiveLink href="/sets" activeClassName={styles.activeLink}>
+              {i18n.sets}
+            </ActiveLink>
           </li>
-          <li>{i18n.dynamic_sets}</li>
+          <li>
+            <ActiveLink href="/#dynamic_sets" activeClassName={styles.activeLink}>
+              {i18n.dynamic_sets}
+            </ActiveLink>
+          </li>
         </ul>
       </div>
     </div>

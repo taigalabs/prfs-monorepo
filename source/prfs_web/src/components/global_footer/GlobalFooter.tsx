@@ -15,6 +15,11 @@ const GlobalFooter: React.FC = () => {
     <div className={styles.wrapper}>
       <ul className={styles.leftMenu}>
         <li className={styles.inactive}>{i18n.language}</li>
+        <li>
+          <Link href="https://github.com/taigalabs/prfs-monorepo/discussions/categories/general">
+            {i18n.feedback}
+          </Link>
+        </li>
       </ul>
       <ul className={styles.rightMenu}>
         <li className={styles.code}>

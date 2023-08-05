@@ -4,6 +4,7 @@ export default {
   terms: "Terms",
   privacy: "Privacy",
   language: "Language",
+  feedback: "Feedback",
   id: "Id",
   name: "Name",
   name_and_description: "Name and description",
