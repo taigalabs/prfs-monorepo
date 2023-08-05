@@ -45,6 +45,7 @@ const Leftbar: React.FC<any> = () => {
           <li>
             <ActiveLink href="/sets">{i18n.sets}</ActiveLink>
           </li>
+          <li>{i18n.dynamic_sets}</li>
         </ul>
       </div>
     </div>

@@ -73,6 +73,7 @@ export default {
   references: "References",
   set: "Set",
   sets: "Sets",
+  dynamic_sets: "Dynamic sets",
   connect: "Connect",
   connect_wallet: "Connect a wallet of your choice",
   wallet: "Wallet",
