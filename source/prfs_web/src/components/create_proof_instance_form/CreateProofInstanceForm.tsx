@@ -126,6 +126,10 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     let merkleProof: MerkleProof = await driver.makeMerkleProof(addrs, BigInt(0), 32);
     console.log("merkle proof", merkleProof);
 
+    // root: bigint;
+    // siblings: bigint[];
+    // pathIndices: number[];
+
     // let poseidon = prfs.newPoseidon();
     // const msg = Buffer.from("harry potter");
     // const msgHash = hashPersonalMessage(msg);

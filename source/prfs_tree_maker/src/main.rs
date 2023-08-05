@@ -1,5 +1,6 @@
 use chrono::Utc;
 use clap::{command, Arg};
+use colored::Colorize;
 use prfs_tree_maker::{
     apis::{revisit, scan, set},
     envs::ENVS,
@@ -8,12 +9,18 @@ use prfs_tree_maker::{
 
 #[tokio::main]
 async fn main() {
-    std::env::set_var("RUST_LOG", "info");
+    let rust_log_level = "info";
+    println!(
+        "{} rust log level, level: {}",
+        "Setting".green(),
+        rust_log_level
+    );
+    std::env::set_var("RUST_LOG", rust_log_level);
 
     ENVS.check();
 
     let now = Utc::now();
-    println!("Tree maker starts, start time: {}", now);
+    println!("{} Tree maker, start time: {}", "Starting".green(), now);
 
     let _guard = logger::set_up_logger().unwrap();
 

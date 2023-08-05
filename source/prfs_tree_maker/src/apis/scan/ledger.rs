@@ -4,7 +4,6 @@ use crate::geth::{
 };
 use crate::TreeMakerError;
 use clap::ArgMatches;
-use prfs_db_interface::database::Database;
 use prfs_db_interface::database2::Database2;
 use prfs_db_interface::entities::EthAccount;
 use rust_decimal::Decimal;
@@ -37,10 +36,13 @@ async fn scan_ledger_accounts(
     let start_block: u64 = ENVS.scan_start_block;
     let end_block: u64 = ENVS.scan_end_block;
 
-    println!(
+    tracing::info!(
         "Scanning ledger accounts, start_block: {}, end_block: {}, scan_interval: {}, \
         update_on_conflict: {}",
-        start_block, end_block, scan_interval, scan_update_on_conflict,
+        start_block,
+        end_block,
+        scan_interval,
+        scan_update_on_conflict,
     );
 
     let mut balances = BTreeMap::<String, EthAccount>::new();
@@ -100,7 +102,6 @@ async fn scan_ledger_accounts(
         }
 
         for tx in result.transactions {
-            println!("tx: {:#?}", tx);
             // from
             match get_balance_and_add_item(&geth_client, &mut balances, tx.from.to_string()).await {
                 Ok(_) => {
