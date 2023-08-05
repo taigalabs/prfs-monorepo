@@ -25,6 +25,7 @@ import { useSigner } from "@thirdweb-dev/react";
 import { proveMembership, proveMembershipMock } from "@/functions/prfsCrypto";
 import { interpolateSystemAssetEndpoint, initDriver } from "@/functions/circuitDriver";
 import { MerkleProof } from "@taigalabs/prfs-driver-spartan-js";
+import ProofGen from "@taigalabs/prfs-sdk-web/src/ProofGen";
 
 const ProgramSection: React.FC<ProgramSectionProps> = ({ proofType }) => {
   const i18n = React.useContext(i18nContext);
@@ -69,10 +70,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   const { state } = React.useContext(stateContext);
   const { prfsAccount } = state;
   const router = useRouter();
-  // const prover = useProver();
   const signer = useSigner();
-
-  // prfsCrypto
 
   const [publicInputInstance, setPublicInputInstance] = React.useState<PublicInputInstance>({});
   const [formAlert, setFormAlert] = React.useState("");
@@ -237,29 +235,15 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       {selectedProofType && (
         <CardRow>
           <Card>
-            <Widget>
-              <WidgetHeader>
-                <WidgetLabel>{i18n.driver}</WidgetLabel>
-              </WidgetHeader>
-              <WidgetPaddedBody>
-                <ProgramSection proofType={selectedProofType} />
-              </WidgetPaddedBody>
-            </Widget>
-          </Card>
-        </CardRow>
-      )}
-
-      {selectedProofType && (
-        <CardRow>
-          <Card>
-            <Widget>
-              <WidgetHeader>
-                <WidgetLabel>{i18n.driver}</WidgetLabel>
-              </WidgetHeader>
-              <WidgetPaddedBody>
-                {/* <PublicInputConfigSection publicInputs={selectedProofType.public_input_instance} /> */}
-              </WidgetPaddedBody>
-            </Widget>
+            <ProofGen />
+            {/* <Widget> */}
+            {/*   <WidgetHeader> */}
+            {/*     <WidgetLabel>{i18n.driver}</WidgetLabel> */}
+            {/*   </WidgetHeader> */}
+            {/*   <WidgetPaddedBody> */}
+            {/*     <ProgramSection proofType={selectedProofType} /> */}
+            {/*   </WidgetPaddedBody> */}
+            {/* </Widget> */}
           </Card>
         </CardRow>
       )}

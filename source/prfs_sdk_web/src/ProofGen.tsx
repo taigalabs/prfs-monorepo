@@ -1,6 +1,6 @@
 import React from "react";
 
-const ProofGen = () => {
+const ProofGen: React.FC = () => {
   return <div>55</div>;
 };
 
