@@ -24,9 +24,8 @@ pub fn verify(merkle_proof: MerkleProof, leaf: [u8; 32]) {
         }
     }
 
-    println!("curr: {:?}", curr);
-
     let st = convert_32bytes_into_decimal_string(&curr).unwrap();
+
     assert_eq!(
         st, merkle_proof.root,
         "root (calculated): {}, root (merkle proof): {}",
