@@ -16,7 +16,7 @@ function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
     },
     async prove(circuit: Uint8Array, vars: Uint8Array, public_inputs: Uint8Array) {
       const res = prfsWasm.prove(circuit, vars, public_inputs);
-      return res;
+      return Comlink.transfer(res, [res.buffer]);
     },
     async verify(circuit: Uint8Array, proof: Uint8Array, public_inputs: Uint8Array) {
       const res = prfsWasm.verify(circuit, proof, public_inputs);
@@ -52,18 +52,6 @@ function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
       return buildStatus;
     },
   };
-
-  // return () => {
-  //   const start = performance.now();
-  //   // const rawImageData = generate(width, height, maxIterations);
-  //   const time = performance.now() - start;
-  //   return {
-  //     // Little perf boost to transfer data to the main thread w/o copying.
-  //     // rawImageData: Comlink.transfer(rawImageData, [rawImageData.buffer]),
-  //     time
-  //   };
-  // };
-  //
 }
 
 async function initHandlers() {
