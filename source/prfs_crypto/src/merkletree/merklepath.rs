@@ -1,7 +1,4 @@
-use serde::{Deserialize, Serialize};
-
 pub fn make_sibling_path(depth: u8, leaf_idx: u128) -> Vec<u128> {
-    // let height = depth + 1;
     let mut sibling_indices = vec![];
     let mut curr_idx = leaf_idx;
 

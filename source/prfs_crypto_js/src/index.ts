@@ -11,13 +11,14 @@
 //   return pathIndices;
 // }
 
-export function makePathIndices(depth: number, leafIdx: number): number[] {
-  let pathIndices = [];
+export function makePathIndices(depth: number, leafIdx: number): BigInt[] {
+  let pathIndices: BigInt[] = [];
   let currIdx = leafIdx;
 
   for (let h = 0; h < depth; h += 1) {
     let d = getDirection(currIdx);
-    pathIndices.push(d);
+    console.log("h: %s, d: %s, currIdx: %s", h, d, currIdx);
+    pathIndices.push(BigInt(d));
     let parent_idx = getParentIdx(currIdx);
     currIdx = parent_idx;
   }

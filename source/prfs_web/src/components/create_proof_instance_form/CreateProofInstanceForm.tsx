@@ -133,7 +133,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       throw new Error("Address is not part of a set");
     }
 
-    // const leafIdx = Number(pos_w);
+    const leafIdx = Number(pos_w);
     const siblingPath = makeSiblingPath(32, Number(pos_w));
     const pathIndices = makePathIndices(32, Number(pos_w));
 
@@ -171,7 +171,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
     const driver = await initDriver(driver_id, driverProperties);
 
-    await proveMembership(signer, driver, 4);
+    // await proveMembership(signer, driver, 4);
     // await proveMembershipMock(driver);
 
     let merkleProof = {
@@ -193,9 +193,6 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
     let proverAddress = await signer.getAddress();
     console.log("proverAddr", proverAddress);
-
-    const proverAddr = BigInt(proverAddress);
-    console.log("proverAddr", proverAddr);
 
     console.log("Proving...");
     console.time("Full proving time");

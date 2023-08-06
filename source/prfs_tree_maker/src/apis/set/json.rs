@@ -25,8 +25,8 @@ pub struct SetDetail {
     pub finite_field: String,
 }
 
-pub fn require_set_json(set_json_name: &String) -> SetJson {
-    let set_json_path = PATHS.data_sets.join(set_json_name);
+pub fn require_set_json(set_json_path: &String) -> SetJson {
+    let set_json_path = PATHS.data.join(set_json_path);
     println!("{} set json, path: {:?}", "Reading".green(), set_json_path,);
 
     let b = std::fs::read(&set_json_path)

@@ -37,7 +37,7 @@ pub async fn create_leaves_without_offset(
     );
 
     assert!(
-        accounts.len() < 1,
+        accounts.len() > 1,
         "no account to create as leaves, set_id: {}",
         set_id
     );
