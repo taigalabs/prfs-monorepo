@@ -20,9 +20,13 @@ const DefaultLayout: React.FC<any> = ({ children }) => {
         <div className={styles.leftBarContainer}>
           <LeftBar />
         </div>
-        <div className={styles.contentArea}>{children}</div>
+        <div className={styles.contentArea}>
+          <div>{children}</div>
+          <div className={styles.footerContainer}>
+            <GlobalFooter />
+          </div>
+        </div>
       </div>
-      <GlobalFooter />
     </div>
   );
 };

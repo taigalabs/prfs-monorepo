@@ -198,22 +198,20 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     console.time("Full proving time");
     const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
 
-    console.log("11 proof", proof);
-
     console.timeEnd("Full proving time");
     console.log("Raw proof size (excluding public input)", proof.length, "bytes");
 
-    // console.log("Verifying...");
+    console.log("Verifying...");
 
-    // console.time("Verification time");
-    // const result = await spartanDriver.verify(proof, publicInput.serialize());
-    // console.timeEnd("Verification time");
+    console.time("Verification time");
+    const result = await driver.verify(proof, publicInput.serialize());
+    console.timeEnd("Verification time");
 
-    // if (result) {
-    //   console.log("Successfully verified proof!");
-    // } else {
-    //   console.log("Failed to verify proof :(");
-    // }
+    if (result) {
+      console.log("Successfully verified proof!");
+    } else {
+      console.log("Failed to verify proof :(");
+    }
 
     // await proveMembership(signer, circuitUrl, wtnsGenUrl);
 

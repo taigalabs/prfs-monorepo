@@ -6,7 +6,7 @@
 
 .main {
   flex-grow: 1;
-  padding: 41px 0 31px;
+  padding: 41px 0 0px;
   display: flex;
   height: 100%;
 }
@@ -16,13 +16,16 @@
   flex-shrink: 0;
 }
 
-.bottom {
-  display: flex;
-  flex-grow: 1;
-}
-
 .contentArea {
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
   overflow-x: hidden;
   padding: 20px 45px;
+  /* border: 1px solid blue; */
+  background-color: var(--bright-gray-50);
+}
+
+.footerContainer {
+  margin-top: auto;
 }
