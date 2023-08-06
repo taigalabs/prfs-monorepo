@@ -1,8 +1,9 @@
 import { threads } from "wasm-feature-detect";
 import * as Comlink from "comlink";
 
-import { PrfsWasmType, PrfsHandlers, PrfsMerkleProof } from "../types";
+import { PrfsWasmType, PrfsHandlers, PrfsMerkleProof, BuildStatus } from "../types";
 import { wasmBytes } from "./build/prfs_wasm_bytes";
+import wasmPackageJson from "./build/package.json";
 
 function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
   console.log("wasm-worker, wrapExports()");
@@ -43,7 +44,12 @@ function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
     },
     async getBuildStatus() {
       let res = prfsWasm.get_build_status();
-      return res;
+
+      let buildStatus: BuildStatus = {
+        wasmThreadSupport: res,
+        wasmModulePath: wasmPackageJson.module,
+      };
+      return buildStatus;
     },
   };
 

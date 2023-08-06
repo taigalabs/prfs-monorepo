@@ -13,7 +13,6 @@
     "clean-build-cjs": "rm -rf ./build_cjs",
     "build-pkg": "pnpm run clean-build && tsc",
     "build-cjs": "pnpm run clean-build-cjs && tsc --project tsconfig.cjs.json",
-    "rollup": "pnpm run clean-build && pnpm run clean-build-cjs && rollup -c rollup.config.js --bundleConfigAsCjs",
     "prepublishOnly": "pnpm run build-pkg",
     "test": "jest"
   },

@@ -5,7 +5,7 @@ import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-type/bindi
 import { Tree } from "./helpers/tree";
 import { makePoseidon } from "./helpers/poseidon";
 import { MembershipProofGen } from "./proof_gen/membership_proof_gen";
-import { PrfsHandlers, AsyncHashFn, NIZK } from "./types";
+import { PrfsHandlers, AsyncHashFn, NIZK, BuildStatus } from "./types";
 import { initWasm } from "./wasm_wrapper/load_worker";
 import { fromSig, loadCircuit, snarkJsWitnessGen } from "./helpers/utils";
 import {
@@ -40,7 +40,7 @@ export default class SpartanDriver implements CircuitDriver {
     console.log("circuitUrl: %s, wtnsGenUrl: %s", this.circuitUrl, this.wtnsGenUrl);
   }
 
-  async getBuildStatus(): Promise<string> {
+  async getBuildStatus(): Promise<BuildStatus> {
     return this.handlers.getBuildStatus();
   }
 
