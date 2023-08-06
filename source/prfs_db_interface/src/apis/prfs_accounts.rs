@@ -1,49 +1,43 @@
 use crate::{database2::Database2, entities::PrfsAccount, DbInterfaceError};
-use sqlx::Row;
+use sqlx::{Pool, Postgres, Row, Transaction};
 
-impl Database2 {
-    pub async fn get_prfs_accounts(
-        &self,
-        sig: &String,
-    ) -> Result<Vec<PrfsAccount>, DbInterfaceError> {
-        let query = "SELECT * from prfs_accounts where sig=$1";
+pub async fn get_prfs_accounts(
+    pool: &Pool<Postgres>,
+    sig: &String,
+) -> Result<Vec<PrfsAccount>, DbInterfaceError> {
+    let query = "SELECT * from prfs_accounts where sig=$1";
 
-        let rows = sqlx::query(query)
-            .bind(&sig)
-            .fetch_all(&self.pool)
-            .await
-            .unwrap();
+    let rows = sqlx::query(query).bind(&sig).fetch_all(pool).await.unwrap();
 
-        let prfs_accounts: Vec<PrfsAccount> = rows
-            .iter()
-            .map(|row| {
-                let prfs_account = PrfsAccount {
-                    sig: row.get("sig"),
-                };
+    let prfs_accounts: Vec<PrfsAccount> = rows
+        .iter()
+        .map(|row| {
+            let prfs_account = PrfsAccount {
+                sig: row.get("sig"),
+            };
 
-                prfs_account
-            })
-            .collect();
+            prfs_account
+        })
+        .collect();
 
-        Ok(prfs_accounts)
-    }
+    Ok(prfs_accounts)
+}
 
-    pub async fn insert_prfs_account(
-        &self,
-        prfs_account: &PrfsAccount,
-    ) -> Result<String, DbInterfaceError> {
-        let query = "INSERT INTO prfs_accounts \
+pub async fn insert_prfs_account(
+    tx: &mut Transaction<'_, Postgres>,
+    prfs_account: &PrfsAccount,
+) -> Result<String, DbInterfaceError> {
+    let query = "INSERT INTO prfs_accounts \
             (sig) \
             VALUES ($1) returning sig";
 
-        let row = sqlx::query(query)
-            .bind(&prfs_account.sig)
-            .fetch_one(&self.pool)
-            .await
-            .unwrap();
+    let row = sqlx::query(query)
+        .bind(&prfs_account.sig)
+        .fetch_one(&mut **tx)
+        .await
+        .unwrap();
 
-        let sig: String = row.get("sig");
+    let sig: String = row.get("sig");
 
-        return Ok(sig);
-    }
+    return Ok(sig);
 }

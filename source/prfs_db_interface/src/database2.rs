@@ -1,5 +1,3 @@
-use std::time::Duration;
-
 use crate::DbInterfaceError;
 use colored::Colorize;
 use log::LevelFilter;
@@ -7,6 +5,7 @@ use sqlx::{
     postgres::{PgConnectOptions, PgPoolOptions},
     ConnectOptions, Pool, Postgres,
 };
+use std::time::Duration;
 
 pub struct Database2 {
     pub pool: Pool<Postgres>,

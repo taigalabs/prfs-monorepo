@@ -2,9 +2,16 @@ use super::json::SetJson;
 use crate::TreeMakerError;
 use chrono::{DateTime, NaiveDate, Utc};
 use colored::Colorize;
-use prfs_db_interface::{database2::Database2, entities::PrfsSet};
+use prfs_db_interface::{
+    db_apis,
+    entities::PrfsSet,
+    sqlx::{Postgres, Transaction},
+};
 
-pub async fn create_set(db: &Database2, set_json: &SetJson) -> Result<PrfsSet, TreeMakerError> {
+pub async fn create_set(
+    tx: &mut Transaction<'_, Postgres>,
+    set_json: &SetJson,
+) -> Result<PrfsSet, TreeMakerError> {
     let created_at = parse_date(&set_json.set.created_at);
 
     let prfs_set = PrfsSet {
@@ -28,7 +35,9 @@ pub async fn create_set(db: &Database2, set_json: &SetJson) -> Result<PrfsSet, T
         set_json.set.label
     );
 
-    let set_id = db.insert_prfs_set(&prfs_set, false).await.unwrap();
+    let set_id = db_apis::insert_prfs_set(tx, &prfs_set, false)
+        .await
+        .unwrap();
     assert!(
         set_id.len() > 0,
         "Set needs to be inserted, set_id: {}",

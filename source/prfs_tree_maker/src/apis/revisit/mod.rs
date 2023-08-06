@@ -3,6 +3,8 @@ use crate::{
     geth::{GetBalanceRequest, GethClient},
 };
 use clap::ArgMatches;
+use prfs_db_interface::db_apis;
+use prfs_db_interface::sqlx::{Pool, Postgres, Transaction};
 use prfs_db_interface::{database2::Database2, entities::EthAccount};
 use rust_decimal::Decimal;
 
@@ -13,18 +15,29 @@ pub async fn revisit(_sub_matches: &ArgMatches) {
     let pg_endpoint = &ENVS.postgres_endpoint;
     let pg_username = &ENVS.postgres_username;
     let pg_pw = &ENVS.postgres_pw;
-    let db = Database2::connect(pg_endpoint, pg_username, pg_pw)
+
+    let db2 = Database2::connect(pg_endpoint, pg_username, pg_pw)
         .await
         .unwrap();
 
-    run(&db, &geth_client).await;
+    let pool = &db2.pool;
+    let mut tx = pool.begin().await.unwrap();
+
+    run(&pool, &mut tx, &geth_client).await;
 }
 
-async fn run(db: &Database2, geth: &GethClient) {
-    let accs = db
-        .get_eth_accounts("where acc.addr = '0xe94f1fa4f27d9d288ffea234bb62e1fbc086ca0c'")
-        .await
-        .unwrap();
+async fn run(
+    // db: &Database2,
+    pool: &Pool<Postgres>,
+    tx: &mut Transaction<'_, Postgres>,
+    geth: &GethClient,
+) {
+    let accs = db_apis::get_eth_accounts(
+        pool,
+        "where acc.addr = '0xe94f1fa4f27d9d288ffea234bb62e1fbc086ca0c'",
+    )
+    .await
+    .unwrap();
 
     println!("accs: {:#?}", accs);
 

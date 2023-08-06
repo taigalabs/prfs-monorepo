@@ -3,13 +3,16 @@ use crate::{envs::ENVS, TreeMakerError};
 use colored::Colorize;
 use prfs_db_interface::{
     database2::Database2,
+    db_apis,
     entities::{PrfsSet, PrfsTreeNode},
+    sqlx::{Pool, Postgres, Transaction},
 };
 use rust_decimal::{prelude::FromPrimitive, Decimal};
 use std::time::SystemTime;
 
 pub async fn create_leaves_without_offset(
-    db: &Database2,
+    pool: &Pool<Postgres>,
+    tx: &mut Transaction<'_, Postgres>,
     set_json: &SetJson,
     prfs_set: &mut PrfsSet,
 ) -> Result<u64, TreeMakerError> {
@@ -27,7 +30,7 @@ pub async fn create_leaves_without_offset(
     let where_clause = format!("{}", set_json.set.where_clause,);
 
     let now = SystemTime::now();
-    let accounts = db.get_eth_accounts(&where_clause).await?;
+    let accounts = db_apis::get_eth_accounts(pool, &where_clause).await?;
     let elapsed = now.elapsed().unwrap();
 
     println!(
@@ -55,7 +58,7 @@ pub async fn create_leaves_without_offset(
         nodes.push(node);
     }
 
-    let updated_count = db.insert_prfs_tree_nodes(&nodes, false).await?;
+    let updated_count = db_apis::insert_prfs_tree_nodes(tx, &nodes, false).await?;
 
     println!(
         "{} a set, set_id: {}, updated_count: {}, accounts len: {}",
@@ -74,7 +77,7 @@ pub async fn create_leaves_without_offset(
     );
 
     prfs_set.cardinality = updated_count as i64;
-    db.insert_prfs_set(&prfs_set, true).await.unwrap();
+    db_apis::insert_prfs_set(tx, &prfs_set, true).await.unwrap();
 
     Ok(updated_count)
 }

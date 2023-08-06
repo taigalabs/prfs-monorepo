@@ -2,6 +2,7 @@ use crate::DbInterfaceError;
 use colored::Colorize;
 use tokio_postgres::{Client as PGClient, NoTls};
 
+#[deprecated]
 pub struct Database {
     pub pg_client: PGClient,
 }

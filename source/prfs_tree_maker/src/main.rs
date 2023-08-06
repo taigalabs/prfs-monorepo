@@ -2,7 +2,7 @@ use chrono::Utc;
 use clap::{command, Arg};
 use colored::Colorize;
 use prfs_tree_maker::{
-    apis::{revisit, scan, set},
+    apis::{revisit, scan, scan_genesis, set},
     envs::ENVS,
     logger, TreeMakerError,
 };
@@ -40,7 +40,7 @@ async fn run_cli_command() -> Result<(), TreeMakerError> {
 
     match matches.subcommand() {
         Some(("scan_genesis", sub_matches)) => {
-            scan::scan_genesis(sub_matches).await;
+            scan_genesis::scan_genesis(sub_matches).await;
         }
         Some(("scan", sub_matches)) => {
             scan::scan_ledger(sub_matches).await;

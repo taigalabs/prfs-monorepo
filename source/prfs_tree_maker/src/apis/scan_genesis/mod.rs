@@ -4,7 +4,9 @@ use crate::paths::PATHS;
 use crate::TreeMakerError;
 use clap::ArgMatches;
 use prfs_db_interface::database2::Database2;
+use prfs_db_interface::db_apis;
 use prfs_db_interface::entities::EthAccount;
+use prfs_db_interface::sqlx::{Pool, Postgres, Transaction};
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, HashMap};
@@ -23,19 +25,24 @@ pub async fn scan_genesis(_sub_matches: &ArgMatches) {
     let pg_username = &ENVS.postgres_username;
     let pg_pw = &ENVS.postgres_pw;
 
-    // let db = Database::connect(pg_endpoint, pg_pw).await.unwrap();
     let db2 = Database2::connect(pg_endpoint, pg_username, pg_pw)
         .await
         .unwrap();
 
-    process_genesis_block_accounts(geth_client, db2)
+    let pool = &db2.pool;
+    let mut tx = pool.begin().await.unwrap();
+
+    process_genesis_block_accounts(geth_client, pool, &mut tx)
         .await
         .unwrap();
+
+    tx.commit().await.unwrap();
 }
 
 async fn process_genesis_block_accounts(
     geth_client: GethClient,
-    db: Database2,
+    _pool: &Pool<Postgres>,
+    tx: &mut Transaction<'_, Postgres>,
 ) -> Result<(), TreeMakerError> {
     let genesis_block_path = PATHS.data_scans.join("genesis_block.json");
 
@@ -64,7 +71,7 @@ async fn process_genesis_block_accounts(
             balances.insert(addr, acc);
 
             if idx % 200 == 0 {
-                let rows_updated = db.insert_eth_accounts(balances, false).await?;
+                let rows_updated = db_apis::insert_eth_accounts(tx, balances, false).await?;
                 println!("idx: {}, rows_updated: {}", idx, rows_updated);
 
                 balances = BTreeMap::new();

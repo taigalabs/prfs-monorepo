@@ -2,6 +2,7 @@ use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
 use chrono::{DateTime, NaiveDate, NaiveDateTime};
 use hyper::{body, Body, Request, Response};
 use prfs_circuit_type::PublicInputInstance;
+use prfs_db_interface::db_apis;
 use prfs_db_interface::entities::{PrfsProofType, PrfsSet};
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
@@ -25,6 +26,9 @@ pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, 
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
 
+    let pool = &state.db2.pool;
+    // let mut tx = pool.begin().await.unwrap();
+
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
     let req = serde_json::from_str::<GetPrfsProofTypesRequest>(&body_str).unwrap();
@@ -33,7 +37,7 @@ pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, 
 
     match req.proof_type_id {
         Some(proof_type_id) => {
-            let prfs_proof_types = state.db2.get_prfs_proof_type(&proof_type_id).await;
+            let prfs_proof_types = db_apis::get_prfs_proof_type(pool, &proof_type_id).await;
             let resp = ApiResponse::new_success(GetPrfsProofTypeRespPayload {
                 page: req.page,
                 prfs_proof_types,
@@ -41,7 +45,7 @@ pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, 
             return Ok(resp.into_hyper_response());
         }
         None => {
-            let prfs_proof_types = state.db2.get_prfs_proof_types().await;
+            let prfs_proof_types = db_apis::get_prfs_proof_types(pool).await;
             let resp = ApiResponse::new_success(GetPrfsProofTypeRespPayload {
                 page: req.page,
                 prfs_proof_types,
@@ -72,6 +76,9 @@ pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
 
+    let pool = &state.db2.pool;
+    let mut tx = pool.begin().await.unwrap();
+
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
     let req = serde_json::from_str::<CreatePrfsProofTypesRequest>(&body_str)
@@ -93,10 +100,9 @@ pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
         created_at: chrono::offset::Utc::now(),
     };
 
-    state
-        .db2
-        .insert_prfs_proof_types(&vec![prfs_proof_type])
-        .await;
+    db_apis::insert_prfs_proof_types(&mut tx, &vec![prfs_proof_type]).await;
+
+    tx.commit().await.unwrap();
 
     let resp = ApiResponse::new_success(CreatePrfsProofTypesRespPayload {});
 

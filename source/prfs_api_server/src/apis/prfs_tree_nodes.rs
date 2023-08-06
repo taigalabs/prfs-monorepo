@@ -1,5 +1,6 @@
 use crate::{responses::ApiResponse, state::ServerState};
 use hyper::{body, header, Body, Request, Response};
+use prfs_db_interface::db_apis;
 use prfs_db_interface::entities::PrfsTreeNode;
 use routerify::prelude::*;
 use rust_decimal::Decimal;
@@ -27,6 +28,9 @@ pub async fn get_prfs_tree_nodes(req: Request<Body>) -> Result<Response<Body>, I
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
 
+    let pool = &state.db2.pool;
+    // let mut tx = pool.begin().await.unwrap();
+
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
     let req = serde_json::from_str::<GetPrfsTreeNodesRequest>(&body_str)
@@ -52,9 +56,7 @@ pub async fn get_prfs_tree_nodes(req: Request<Body>) -> Result<Response<Body>, I
 
     println!("where_clause, {}", where_clause);
 
-    let prfs_tree_nodes = state
-        .db2
-        .get_prfs_tree_nodes(&where_clause)
+    let prfs_tree_nodes = db_apis::get_prfs_tree_nodes(pool, &where_clause)
         .await
         .expect("get nodes fail");
 
@@ -78,6 +80,9 @@ pub async fn get_prfs_tree_leaf_nodes_by_set_id(
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
 
+    let pool = &state.db2.pool;
+    // let mut tx = pool.begin().await.unwrap();
+
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
     let req = serde_json::from_str::<GetPrfsTreeLeafNodesRequest>(&body_str).unwrap();
@@ -94,9 +99,7 @@ pub async fn get_prfs_tree_leaf_nodes_by_set_id(
 
     println!("where_clause, {}", where_clause);
 
-    let prfs_tree_nodes = state
-        .db2
-        .get_prfs_tree_nodes(&where_clause)
+    let prfs_tree_nodes = db_apis::get_prfs_tree_nodes(pool, &where_clause)
         .await
         .expect("get nodes fail");
 
@@ -116,6 +119,8 @@ struct GetPrfsTreeLeafIndicesRequest {
 pub async fn get_prfs_tree_leaf_nodes(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
+
+    let pool = &state.db2.pool;
 
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
@@ -140,9 +145,7 @@ pub async fn get_prfs_tree_leaf_nodes(req: Request<Body>) -> Result<Response<Bod
 
     println!("where_clause, {}", where_clause);
 
-    let prfs_tree_nodes = state
-        .db2
-        .get_prfs_tree_nodes(&where_clause)
+    let prfs_tree_nodes = db_apis::get_prfs_tree_nodes(pool, &where_clause)
         .await
         .expect("get nodes fail");
 

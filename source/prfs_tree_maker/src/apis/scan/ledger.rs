@@ -5,7 +5,9 @@ use crate::geth::{
 use crate::TreeMakerError;
 use clap::ArgMatches;
 use prfs_db_interface::database2::Database2;
+use prfs_db_interface::db_apis;
 use prfs_db_interface::entities::EthAccount;
+use prfs_db_interface::sqlx::{Pool, Postgres, Transaction};
 use rust_decimal::Decimal;
 use std::collections::BTreeMap;
 use std::time::Duration;
@@ -23,12 +25,20 @@ pub async fn scan_ledger(_sub_matches: &ArgMatches) {
         .await
         .unwrap();
 
-    scan_ledger_accounts(geth_client, db2).await.unwrap();
+    let pool = &db2.pool;
+    let mut tx = pool.begin().await.unwrap();
+
+    scan_ledger_accounts(geth_client, pool, &mut tx)
+        .await
+        .unwrap();
+
+    tx.commit().await.unwrap();
 }
 
 async fn scan_ledger_accounts(
     geth_client: GethClient,
-    db: Database2,
+    _pool: &Pool<Postgres>,
+    tx: &mut Transaction<'_, Postgres>,
 ) -> Result<(), TreeMakerError> {
     let balance_bucket_capacity = ENVS.scan_balance_bucket_capacity;
     let scan_update_on_conflict = ENVS.scan_update_on_conflict;
@@ -170,10 +180,7 @@ async fn scan_ledger_accounts(
         if balances.len() >= balance_bucket_capacity {
             // println!("balances: {:#?}", balances);
 
-            match db
-                .insert_eth_accounts(balances, scan_update_on_conflict)
-                .await
-            {
+            match db_apis::insert_eth_accounts(tx, balances, scan_update_on_conflict).await {
                 Ok(r) => {
                     tracing::info!(
                         "Writing balances, balances_count: {}, block_no: {}, rows_affected: {}",
@@ -202,8 +209,7 @@ async fn scan_ledger_accounts(
             end_block
         );
 
-        db.insert_eth_accounts(balances, scan_update_on_conflict)
-            .await?;
+        db_apis::insert_eth_accounts(tx, balances, scan_update_on_conflict).await?;
     } else {
         tracing::info!(
             "Balances are empty. Closing 'scan', balances_count: {}, end block_no (excl): {}",
