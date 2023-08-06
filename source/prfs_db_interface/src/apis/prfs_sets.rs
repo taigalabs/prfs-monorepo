@@ -96,7 +96,7 @@ impl Database2 {
         &self,
         prfs_set: &PrfsSet,
         update_on_conflict: bool,
-    ) -> Result<Vec<String>, DbInterfaceError> {
+    ) -> Result<String, DbInterfaceError> {
         let cols = concat_cols(&[
             PrfsSet::set_id(),
             PrfsSet::label(),
@@ -143,16 +143,13 @@ impl Database2 {
             )
         };
 
-        let rows = sqlx::query(&query).fetch_all(&self.pool).await.unwrap();
+        let row = sqlx::query(&query)
+            .fetch_one(&self.pool)
+            .await
+            .expect(&format!("insertion failed, set_id: {}", prfs_set.set_id));
 
-        let set_ids: Vec<String> = rows
-            .iter()
-            .map(|r| {
-                let set_id: String = r.try_get("set_id").unwrap();
-                set_id
-            })
-            .collect();
+        let set_id: String = row.try_get("set_id").unwrap();
 
-        Ok(set_ids)
+        Ok(set_id)
     }
 }

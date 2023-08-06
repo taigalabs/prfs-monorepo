@@ -33,7 +33,7 @@ pub async fn create_tree_nodes(
         .into());
     }
 
-    let where_clause = format!("set_id='{}' order by pos_w asc", set_id);
+    let where_clause = format!("where set_id='{}' order by pos_w asc", set_id);
 
     let now = SystemTime::now();
     let leaves = db.get_prfs_tree_nodes(&where_clause).await?;
