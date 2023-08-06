@@ -30,7 +30,7 @@ import ProofGen from "@taigalabs/prfs-sdk-web/src/ProofGen";
 ///
 import { hashPersonalMessage } from "@ethereumjs/util";
 import { ethers } from "ethers";
-import { makeMerklePath, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
+import { makeMerklePath, makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 
 const ProgramSection: React.FC<ProgramSectionProps> = ({ proofType }) => {
   const i18n = React.useContext(i18nContext);
@@ -112,42 +112,56 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
     const addr = await signer.getAddress();
     console.log("my address: %s", addr);
-
-    if (selectedProofType.public_input_instance[4].ref) {
-      const setId = selectedProofType.public_input_instance[4].ref;
-      let { payload } = await prfsBackend.getPrfsTreeLeafNodes({
-        set_id: setId,
-        leaf_vals: [addr],
-      });
-
-      let pos_w = null;
-      for (const node of payload.prfs_tree_nodes) {
-        if (node.val === addr.toLowerCase()) {
-          pos_w = node.pos_w;
-        }
-      }
-
-      if (pos_w === null) {
-        throw new Error("Address is not part of a set");
-      }
-
-      // const leafIdx = Number(pos_w);
-      const siblingPath = makeSiblingPath(32, Number(pos_w));
-      // const merklePath = makeMerklePath(32, Number(pos_w));
-
-      const siblingPos = siblingPath.map((pos_w, idx) => {
-        return { pos_h: idx, pos_w };
-      });
-
-      console.log("siblingPos: %o", siblingPos);
-
-      const data = await prfsBackend.getPrfsTreeNodes({
-        set_id: setId,
-        pos: siblingPos,
-      });
-
-      console.log(333, data);
+    if (!selectedProofType.public_input_instance[4].ref) {
+      throw new Error("set id (ref) is not defined");
     }
+
+    const setId = selectedProofType.public_input_instance[4].ref;
+    let { payload } = await prfsBackend.getPrfsTreeLeafNodes({
+      set_id: setId,
+      leaf_vals: [addr],
+    });
+
+    let pos_w = null;
+    for (const node of payload.prfs_tree_nodes) {
+      if (node.val === addr.toLowerCase()) {
+        pos_w = node.pos_w;
+      }
+    }
+
+    if (pos_w === null) {
+      throw new Error("Address is not part of a set");
+    }
+
+    // const leafIdx = Number(pos_w);
+    const siblingPath = makeSiblingPath(32, Number(pos_w));
+    const pathIndices = makePathIndices(32, Number(pos_w));
+
+    const siblingPos = siblingPath.map((pos_w, idx) => {
+      return { pos_h: idx, pos_w };
+    });
+
+    console.log("siblingPos: %o", siblingPos);
+
+    const data = await prfsBackend.getPrfsTreeNodes({
+      set_id: setId,
+      pos: siblingPos,
+    });
+
+    console.log(55, data);
+
+    let siblings: BigInt[] = [];
+    for (const node of data.payload.prfs_tree_nodes) {
+      siblings[node.pos_h] = BigInt(node.val);
+    }
+
+    for (let idx = 0; idx < 32; idx += 1) {
+      if (siblings[idx] === undefined) {
+        siblings[idx] = BigInt(0);
+      }
+    }
+
+    console.log(22, siblings);
 
     const { driver_id, driver_properties } = selectedProofType;
     console.log(12, selectedProofType.driver_properties);
@@ -155,45 +169,40 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     let driverProperties = interpolateSystemAssetEndpoint(driver_properties);
     console.log(13, driverProperties);
 
-    // const driver = await initDriver(driver_id, driverProperties);
+    const driver = await initDriver(driver_id, driverProperties);
 
-    // await proveMembership(signer, driver, 4);
+    await proveMembership(signer, driver, 4);
     // await proveMembershipMock(driver);
 
-    // let buildStatus = await driver.getBuildStatus();
-    // console.log("buildStatus: %o", buildStatus);
+    let merkleProof = {
+      root: BigInt(selectedProofType.public_input_instance[4].value),
+      siblings,
+      pathIndices,
+    };
 
-    // const a = makeSiblingPath(32);
-    // console.log(222, a);
-    //0x33d10ab178924ecb7ad52f4c0c8062c3066607ec
-    // let merkleProof = {
-    // root: bigint;
-    // siblings: bigint[];
-    // pathIndices: number[];
-    // };
+    console.log(55, merkleProof);
 
-    // let poseidon = driver.newPoseidon();
-    // const msg = Buffer.from("harry potter");
-    // const msgHash = hashPersonalMessage(msg);
+    const msg = Buffer.from("harry potter");
+    const msgHash = hashPersonalMessage(msg);
 
-    // let sig = await signer.signMessage(msg);
-    // console.log("sig", sig);
+    let sig = await signer.signMessage(msg);
+    console.log("sig", sig);
 
-    // let verifyMsg = ethers.utils.verifyMessage(msg, sig);
-    // console.log("verified addr", verifyMsg);
+    let verifyMsg = ethers.utils.verifyMessage(msg, sig);
+    console.log("verified addr", verifyMsg);
 
-    // let proverAddress = await signer.getAddress();
-    // console.log("proverAddr", proverAddress);
+    let proverAddress = await signer.getAddress();
+    console.log("proverAddr", proverAddress);
 
-    // const proverAddr = BigInt(proverAddress);
-    // console.log("proverAddr", proverAddr);
+    const proverAddr = BigInt(proverAddress);
+    console.log("proverAddr", proverAddr);
 
-    // console.log("Proving...");
-    // console.time("Full proving time");
-    // const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
+    console.log("Proving...");
+    console.time("Full proving time");
+    const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
 
-    // console.timeEnd("Full proving time");
-    // console.log("Raw proof size (excluding public input)", proof.length, "bytes");
+    console.timeEnd("Full proving time");
+    console.log("Raw proof size (excluding public input)", proof.length, "bytes");
 
     // console.log("Verifying...");
 

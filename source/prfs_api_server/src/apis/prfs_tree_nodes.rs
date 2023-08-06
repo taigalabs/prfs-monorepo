@@ -60,16 +60,9 @@ pub async fn get_prfs_tree_nodes(req: Request<Body>) -> Result<Response<Body>, I
 
     // println!("merkle_path: {:?}", merkle_path);
 
-    let get_nodes_resp = GetPrfsTreeNodesResponse { prfs_tree_nodes };
+    let resp = ApiResponse::new_success(GetPrfsTreeNodesResponse { prfs_tree_nodes });
 
-    let data = serde_json::to_string(&get_nodes_resp).unwrap();
-
-    let res = Response::builder()
-        .header(header::CONTENT_TYPE, "application/json")
-        .body(Body::from(data))
-        .unwrap();
-
-    Ok(res)
+    Ok(resp.into_hyper_response())
 }
 
 #[derive(Serialize, Deserialize, Debug)]

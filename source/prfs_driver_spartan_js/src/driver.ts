@@ -56,10 +56,6 @@ export default class SpartanDriver implements CircuitDriver {
     return await Tree.newInstance(depth, hash);
   }
 
-  // newMembershipProofGen(witnessGenWasmUrl: string, circuitUrl: string) {
-  //   return new MembershipProofGen(witnessGenWasmUrl, circuitUrl, this.handlers);
-  // }
-
   async prove(sig: string, msgHash: Buffer, merkleProof: MerkleProof): Promise<NIZK> {
     console.log("\nMembershipProver2.prove()");
 

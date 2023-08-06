@@ -47,6 +47,8 @@ export async function proveMembership(
   let merkleProof: MerkleProof = await driver.makeMerkleProof(addrs, BigInt(leafIdx), 32);
   console.log("merkle proof", merkleProof);
 
+  return;
+
   // let poseidon = prfs.newPoseidon();
   const msg = Buffer.from("harry potter");
   const msgHash = hashPersonalMessage(msg);
