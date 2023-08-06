@@ -1,4 +1,5 @@
-use crate::{database2::Database2, entities::PrfsTreeNode, DbInterfaceError};
+use crate::{database2::Database2, DbInterfaceError};
+use prfs_entities::entities::PrfsTreeNode;
 use sqlx::{Pool, Postgres, Row, Transaction};
 
 pub async fn get_prfs_tree_nodes(

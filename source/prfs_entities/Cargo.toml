@@ -1,5 +1,5 @@
 [package]
-name = "prfs_db_interface"
+name = "prfs_entities"
 version = "0.1.0"
 edition = "2021"
 
@@ -33,4 +33,4 @@ rand = "0.8"
 ff = "0.12"
 sqlx = { version = "0.7", features = [ "runtime-tokio", "postgres", "chrono", "rust_decimal", "json" ] }
 
-prfs_entities = { path = "../prfs_entities" }
+ts-rs = "6.2"

@@ -1,7 +1,7 @@
 use crate::{responses::ApiResponse, state::ServerState};
 use hyper::{body, header, Body, Request, Response};
 use prfs_db_interface::db_apis;
-use prfs_db_interface::entities::PrfsTreeNode;
+use prfs_entities::entities::PrfsTreeNode;
 use routerify::prelude::*;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};

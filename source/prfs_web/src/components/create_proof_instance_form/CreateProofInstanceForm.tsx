@@ -25,7 +25,7 @@ import { useSigner } from "@thirdweb-dev/react";
 import { proveMembership, proveMembershipMock } from "@/functions/prfsCrypto";
 import { interpolateSystemAssetEndpoint, initDriver } from "@/functions/circuitDriver";
 import { MerkleProof } from "@taigalabs/prfs-driver-spartan-js";
-import ProofGen from "@taigalabs/prfs-sdk-web/src/ProofGen";
+import { ProofGen } from "@taigalabs/prfs-sdk-web";
 
 ///
 import { hashPersonalMessage } from "@ethereumjs/util";
@@ -281,7 +281,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       {selectedProofType && (
         <CardRow>
           <Card>
-            <ProofGen />
+            <ProofGen proofType={selectedProofType} />
           </Card>
         </CardRow>
       )}

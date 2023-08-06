@@ -35,4 +35,5 @@ ff = "0.12"
 hex = "0.4.3"
 
 prfs_db_interface = { path = "../prfs_db_interface" }
+prfs_entities = { path = "../prfs_entities" }
 prfs_crypto = { path = "../prfs_crypto" }

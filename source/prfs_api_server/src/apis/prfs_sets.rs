@@ -1,7 +1,7 @@
 use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
 use hyper::{body, Body, Request, Response};
 use prfs_db_interface::db_apis;
-use prfs_db_interface::entities::PrfsSet;
+use prfs_entities::entities::PrfsSet;
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};

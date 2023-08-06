@@ -4,9 +4,9 @@ use colored::Colorize;
 use prfs_db_interface::{
     database2::Database2,
     db_apis,
-    entities::{PrfsSet, PrfsTreeNode},
     sqlx::{Pool, Postgres, Transaction},
 };
+use prfs_entities::entities::{PrfsSet, PrfsTreeNode};
 use rust_decimal::{prelude::FromPrimitive, Decimal};
 use std::time::SystemTime;
 

@@ -1,4 +1,5 @@
-use crate::{database2::Database2, entities::PrfsProofType};
+use crate::database2::Database2;
+use prfs_entities::entities::PrfsProofType;
 use sqlx::{Pool, Postgres, Row, Transaction};
 
 pub async fn get_prfs_proof_type(

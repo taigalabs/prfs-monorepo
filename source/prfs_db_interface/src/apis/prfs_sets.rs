@@ -1,10 +1,10 @@
 use crate::{
     database2::Database2,
-    entities::PrfsSet,
     utils::{concat_cols, concat_values},
     DbInterfaceError,
 };
 use chrono::{DateTime, Utc};
+use prfs_entities::entities::PrfsSet;
 use sqlx::{Pool, Postgres, Row, Transaction};
 
 pub async fn get_prfs_set(

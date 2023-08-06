@@ -3,9 +3,9 @@ use crate::TreeMakerError;
 use colored::Colorize;
 use prfs_db_interface::{
     db_apis,
-    entities::{PrfsSet, PrfsTreeNode},
     sqlx::{Pool, Postgres, Transaction},
 };
+use prfs_entities::entities::{PrfsSet, PrfsTreeNode};
 use rust_decimal::Decimal;
 use std::time::SystemTime;
 

@@ -1,4 +1,5 @@
-use crate::{database2::Database2, entities::PrfsAccount, DbInterfaceError};
+use crate::{database2::Database2, DbInterfaceError};
+pub use prfs_entities::entities::PrfsAccount;
 use sqlx::{Pool, Postgres, Row, Transaction};
 
 pub async fn get_prfs_accounts(

@@ -4,9 +4,9 @@ use chrono::{DateTime, NaiveDate, Utc};
 use colored::Colorize;
 use prfs_db_interface::{
     db_apis,
-    entities::PrfsSet,
     sqlx::{Postgres, Transaction},
 };
+use prfs_entities::entities::PrfsSet;
 
 pub async fn create_set(
     tx: &mut Transaction<'_, Postgres>,

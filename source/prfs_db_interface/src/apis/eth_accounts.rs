@@ -1,8 +1,5 @@
-use crate::{
-    database2::Database2,
-    entities::{EthAccount, PrfsAccount},
-    DbInterfaceError,
-};
+use crate::{database2::Database2, DbInterfaceError};
+use prfs_entities::entities::{EthAccount, PrfsAccount};
 use rust_decimal::Decimal;
 use sqlx::{Pool, Postgres, Row, Transaction};
 use std::collections::BTreeMap;
