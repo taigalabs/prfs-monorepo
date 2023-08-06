@@ -3,11 +3,12 @@
   align-items: center;
   height: 30px;
   padding: 0 0px;
+  margin-top: 32px;
   font-size: 12px;
 
   a {
     &:hover {
-      color: var(--bright-green-50);
+      color: var(--aqua-blue-50);
     }
   }
 }

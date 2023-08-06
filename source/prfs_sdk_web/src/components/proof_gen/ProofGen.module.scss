@@ -1,0 +1,46 @@
+.wrapper {
+  word-wrap: break-word;
+}
+
+.publicInputInstance {
+  .title {
+    font-weight: 600;
+    font-size: 1.11em;
+  }
+
+  .entries {
+    margin-top: 5px;
+  }
+}
+
+.publicInputEntry {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.entryMeta {
+  display: flex;
+
+  > div:not(:first-child) {
+    margin-left: 8px;
+  }
+}
+
+.entryType {
+  width: 80px;
+}
+
+.entryLabel {
+  width: 132px;
+}
+
+.entryValue {
+  display: inline-block;
+  padding: 3px 5px;
+  border: 1px solid var(--gray-50);
+  border-radius: 3px;
+  width: 260px;
+  word-wrap: break-word;
+  max-height: 38px;
+  overflow: hidden;
+}

@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import styles from "./CreateProofInstanceForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -10,13 +11,7 @@ import Card from "@/components/card/Card";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import { FormTitleRow, FormTitle, FormSubtitle } from "@/components/form/Form";
 import Button from "@/components/button/Button";
-import {
-  PrfsCircuit,
-  PublicInputType,
-  PrfsSet,
-  PublicInputInstance,
-  PrfsProofType,
-} from "@/models";
+import { PrfsCircuit, PublicInputType, PrfsSet, PublicInputInstance } from "@/models";
 import { stateContext } from "@/contexts/state";
 import * as prfsBackend from "@/fetch/prfsBackend";
 import ProofTypeDropdown from "../proof_type_dropdown/ProofTypeDropdown";
@@ -91,9 +86,13 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
   React.useEffect(() => {
     if (selectedProofType) {
-      // console.log(55, selectedProofType.program_properties);
+      console.log(55, selectedProofType);
     }
   }, [selectedProofType]);
+
+  const handleCreateProof = React.useCallback((proof: any) => {
+    console.log("handle create proof", proof);
+  }, []);
 
   const handleClickCreateProofInstance = React.useCallback(async () => {
     setFormAlert("");
@@ -280,19 +279,19 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
       {selectedProofType && (
         <CardRow>
-          <Card>
-            <ProofGen proofType={selectedProofType} handleCreateProof={() => {}} />
-          </Card>
+          <div>
+            <ProofGen proofType={selectedProofType} handleCreateProof={handleCreateProof} />
+          </div>
         </CardRow>
       )}
 
       {formAlert.length > 0 && <div className={styles.alert}>{formAlert}</div>}
 
-      <div className={styles.btnRow}>
-        <Button variant="b" handleClick={handleClickCreateProofInstance}>
-          {i18n.create_proof_type}
-        </Button>
-      </div>
+      {/* <div className={styles.btnRow}> */}
+      {/*   <Button variant="b" handleClick={handleClickCreateProofInstance}> */}
+      {/*     {i18n.create_proof_type} */}
+      {/*   </Button> */}
+      {/* </div> */}
     </div>
   );
 };
