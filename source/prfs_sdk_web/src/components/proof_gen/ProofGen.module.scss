@@ -1,16 +1,25 @@
 .wrapper {
+  position: relative;
+  padding: 10px 14px;
+  border: 1px solid var(--gray-60);
+  border-radius: 5px;
+  width: 580px;
   word-wrap: break-word;
 }
 
-.publicInputInstance {
-  .title {
-    font-weight: 600;
-    font-size: 1.11em;
-  }
+.privateInputs {
+}
 
-  .entries {
-    margin-top: 5px;
-  }
+.publicInputInstance {
+}
+
+.inputCategoryTitle {
+  font-weight: 500;
+  font-size: 1.11em;
+}
+
+.inputEntries {
+  margin-top: 5px;
 }
 
 .publicInputEntry {
@@ -43,4 +52,16 @@
   word-wrap: break-word;
   max-height: 38px;
   overflow: hidden;
+}
+
+.btnRow {
+  margin-top: 25px;
+}
+
+.powered {
+  font-size: 0.89em;
+  color: var(--gray-40);
+  position: absolute;
+  bottom: 3px;
+  right: 5px;
 }

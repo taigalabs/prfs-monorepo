@@ -34,13 +34,18 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType, handleCreateProof }) => 
   return (
     proofType && (
       <div className={styles.wrapper}>
+        <div className={styles.privateInputs}>
+          <div className={styles.inputCategoryTitle}>{i18n.private_inputs}</div>
+          <div className={styles.inputEntries}></div>
+        </div>
         <div className={styles.publicInputInstance}>
-          <div className={styles.title}>{i18n.public_inputs}</div>
-          <div className={styles.entries}>{publicInputElem}</div>
+          <div className={styles.inputCategoryTitle}>{i18n.public_inputs}</div>
+          <div className={styles.inputEntries}>{publicInputElem}</div>
         </div>
         <div className={styles.btnRow}>
           <Button variant="b">{i18n.create_proof}</Button>
         </div>
+        <div className={styles.powered}>{i18n.powered_by_prfs_web_sdk}</div>
       </div>
     )
   );
