@@ -282,8 +282,13 @@ importers:
 
   source/prfs_driver_type: {}
 
+  source/prfs_entities: {}
+
   source/prfs_sdk_web:
     dependencies:
+      '@taigalabs/prfs-entities':
+        specifier: '*'
+        version: link:../prfs_entities
       react:
         specifier: 18.2.0
         version: 18.2.0

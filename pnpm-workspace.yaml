@@ -8,3 +8,4 @@ packages:
   - "source/prfs_circuit_circom"
   - "source/prfs_sdk_web"
   - "source/prfs_web"
+  - "source/prfs_entities"
