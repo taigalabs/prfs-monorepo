@@ -69,8 +69,10 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   const i18n = React.useContext(i18nContext);
   const { state } = React.useContext(stateContext);
   const { prfsAccount } = state;
-  const router = useRouter();
+  // const router = useRouter();
   const signer = useSigner();
+
+  console.log(15, signer);
 
   const [publicInputInstance, setPublicInputInstance] = React.useState<PublicInputInstance>({});
   const [formAlert, setFormAlert] = React.useState("");
@@ -280,7 +282,11 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       {selectedProofType && (
         <CardRow>
           <div>
-            <ProofGen proofType={selectedProofType} handleCreateProof={handleCreateProof} />
+            <ProofGen
+              proofType={selectedProofType}
+              handleCreateProof={handleCreateProof}
+              signer={signer}
+            />
           </div>
         </CardRow>
       )}

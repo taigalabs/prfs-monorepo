@@ -3,7 +3,7 @@ use prfs_driver_type::CircuitDriver;
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct CircuitJson {
     pub circuit_id: String,
     pub label: String,
