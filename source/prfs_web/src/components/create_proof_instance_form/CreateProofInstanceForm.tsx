@@ -30,7 +30,7 @@ import { ProofGen } from "@taigalabs/prfs-sdk-web";
 ///
 import { hashPersonalMessage } from "@ethereumjs/util";
 import { ethers } from "ethers";
-import { makeMerklePath, makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
+import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 
 const ProgramSection: React.FC<ProgramSectionProps> = ({ proofType }) => {
   const i18n = React.useContext(i18nContext);
@@ -283,7 +283,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       {selectedProofType && (
         <CardRow>
           <Card>
-            <ProofGen proofType={selectedProofType} />
+            <ProofGen proofType={selectedProofType} handleCreateProof={() => {}} />
           </Card>
         </CardRow>
       )}
