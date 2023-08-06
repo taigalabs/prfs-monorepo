@@ -198,6 +198,8 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     console.time("Full proving time");
     const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
 
+    console.log("11 proof", proof);
+
     console.timeEnd("Full proving time");
     console.log("Raw proof size (excluding public input)", proof.length, "bytes");
 

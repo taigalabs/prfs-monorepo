@@ -1,8 +1,10 @@
 use chrono::{DateTime, NaiveDate, Utc};
 use serde::{Deserialize, Serialize, Serializer};
 use serde_json::value::RawValue;
+use ts_rs::TS;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(TS, Debug, Serialize, Deserialize)]
+#[ts(export)]
 pub struct PrfsProofType {
     pub proof_type_id: String,
     pub label: String,
@@ -18,6 +20,7 @@ pub struct PrfsProofType {
     #[serde(serialize_with = "serialize_json_value")]
     pub driver_properties: String,
 
+    #[ts(type = "number")]
     pub created_at: DateTime<Utc>,
 }
 

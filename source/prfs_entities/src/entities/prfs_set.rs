@@ -1,7 +1,9 @@
 use chrono::{DateTime, NaiveDate, Utc};
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(TS, Debug, Serialize, Deserialize)]
+#[ts(export)]
 pub struct PrfsSet {
     pub set_id: String,
     pub label: String,
@@ -9,11 +11,13 @@ pub struct PrfsSet {
     pub desc: String,
     pub hash_algorithm: String,
     pub cardinality: i64,
-    pub created_at: DateTime<Utc>,
     pub merkle_root: String,
     pub element_type: String,
     pub finite_field: String,
     pub elliptic_curve: String,
+
+    #[ts(type = "number")]
+    pub created_at: DateTime<Utc>,
 }
 
 impl PrfsSet {
