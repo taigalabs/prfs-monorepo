@@ -12,6 +12,8 @@ import Teaser from "@/components/teaser/Teaser";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import CircuitTable from "@/components/circuit_table/CircuitTable";
+import ExploreTechSection from "@/components/explore_tech_section/ExploreTechSection";
+import LatestPrfsUpdateSection from "@/components/latest_prfs_update_section/LatestPrfsUpdateSection";
 
 const Home: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -23,19 +25,17 @@ const Home: React.FC = () => {
     <Teaser />
   ) : (
     <DefaultLayout>
-      <CardRow>
-        <Card>
-          <Widget>
-            <WidgetHeader>
-              <WidgetLabel>{i18n.proofs}</WidgetLabel>
-            </WidgetHeader>
-            {/* <CircuitTable /> */}
-          </Widget>
-        </Card>
-      </CardRow>
-      <CardRow>
-        <Card>{/* <Widget>wip</Widget> */}</Card>
-      </CardRow>
+      <div className={styles.container}>
+        <div className={styles.leftColumn}></div>
+        <div className={styles.rightColumn}>
+          <div className={styles.sectionWrapper}>
+            <ExploreTechSection />
+          </div>
+          <div className={styles.sectionWrapper}>
+            <LatestPrfsUpdateSection />
+          </div>
+        </div>
+      </div>
     </DefaultLayout>
   );
 };

@@ -1,0 +1,17 @@
+.wrapper {
+}
+
+.row:not(:first-child) {
+  margin-top: 17px;
+}
+
+.createdAt {
+  font-size: 0.88em;
+  color: var(--gray-40);
+  margin-bottom: 4px;
+}
+
+.title {
+  font-weight: 500;
+  margin-bottom: 5px;
+}
