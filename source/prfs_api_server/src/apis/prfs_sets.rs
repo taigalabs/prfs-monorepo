@@ -43,7 +43,6 @@ pub async fn get_prfs_sets(req: Request<Body>) -> Result<Response<Body>, Infalli
     }
 
     let prfs_sets = db_apis::get_prfs_sets(pool).await.unwrap();
-    // let merkle_root = state.db2.get_prfs_tree_root();
 
     let resp = ApiResponse::new_success(GetSetsRespPayload { page: 0, prfs_sets });
 

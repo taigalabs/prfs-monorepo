@@ -29,7 +29,6 @@ pub async fn get_prfs_tree_nodes(req: Request<Body>) -> Result<Response<Body>, I
     let state = state.clone();
 
     let pool = &state.db2.pool;
-    // let mut tx = pool.begin().await.unwrap();
 
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
@@ -59,8 +58,6 @@ pub async fn get_prfs_tree_nodes(req: Request<Body>) -> Result<Response<Body>, I
     let prfs_tree_nodes = db_apis::get_prfs_tree_nodes(pool, &where_clause)
         .await
         .expect("get nodes fail");
-
-    // println!("merkle_path: {:?}", merkle_path);
 
     let resp = ApiResponse::new_success(GetPrfsTreeNodesResponse { prfs_tree_nodes });
 
@@ -102,8 +99,6 @@ pub async fn get_prfs_tree_leaf_nodes_by_set_id(
     let prfs_tree_nodes = db_apis::get_prfs_tree_nodes(pool, &where_clause)
         .await
         .expect("get nodes fail");
-
-    // println!("merkle_path: {:?}", merkle_path);
 
     let resp = ApiResponse::new_success(GetPrfsTreeNodesResponse { prfs_tree_nodes });
 
@@ -148,8 +143,6 @@ pub async fn get_prfs_tree_leaf_nodes(req: Request<Body>) -> Result<Response<Bod
     let prfs_tree_nodes = db_apis::get_prfs_tree_nodes(pool, &where_clause)
         .await
         .expect("get nodes fail");
-
-    // println!("merkle_path: {:?}", merkle_path);
 
     let resp = ApiResponse::new_success(GetPrfsTreeNodesResponse { prfs_tree_nodes });
 

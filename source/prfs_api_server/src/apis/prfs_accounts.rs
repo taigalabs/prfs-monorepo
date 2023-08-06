@@ -95,7 +95,6 @@ pub async fn sign_in_prfs_account(req: Request<Body>) -> Result<Response<Body>, 
         println!("prfs_accounts: {:?}", prfs_accounts);
 
         let resp = ApiResponse::new_error(format!("No account has been found, sig: {}", req.sig));
-
         return Ok(resp.into_hyper_response());
     }
 
