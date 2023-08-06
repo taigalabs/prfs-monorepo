@@ -2,7 +2,6 @@ use super::json::SetJson;
 use crate::{envs::ENVS, TreeMakerError};
 use colored::Colorize;
 use prfs_db_interface::{
-    database::Database,
     database2::Database2,
     entities::{PrfsSet, PrfsTreeNode},
 };

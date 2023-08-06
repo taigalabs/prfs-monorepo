@@ -6,7 +6,7 @@ mod leaf;
 use crate::envs::ENVS;
 use clap::ArgMatches;
 use colored::Colorize;
-use prfs_db_interface::{database::Database, database2::Database2};
+use prfs_db_interface::database2::Database2;
 
 pub async fn create_set(_sub_matches: &ArgMatches) {
     let pg_endpoint = &ENVS.postgres_endpoint;
