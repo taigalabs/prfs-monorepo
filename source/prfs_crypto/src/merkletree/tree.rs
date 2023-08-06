@@ -87,14 +87,18 @@ pub fn make_merkle_proof(
             .get(h)
             .expect(&format!("sibling index should exist at depth, {}", h));
 
-        let my_idx = if s_idx % 2 == 0 { s_idx + 1 } else { s_idx - 1 };
+        /////////////////////////////////////
+        // let my_idx = if s_idx % 2 == 0 { s_idx + 1 } else { s_idx - 1 };
 
         let sibling = match nodes_at_height.get(*s_idx as usize) {
             Some(s) => s,
-            None => nodes_at_height.get(my_idx as usize).expect(&format!(
-                "Node in merkle path should exist, h: {}, my_idx: {}",
-                h, my_idx
-            )),
+            None => {
+                // nodes_at_height.get(my_idx as usize).expect(&format!(
+                // "Node in merkle path should exist, h: {}, my_idx: {}",
+                // h, my_idx))
+
+                &ZERO
+            }
         };
 
         let s = convert_32bytes_into_decimal_string(sibling)?;
