@@ -41,8 +41,11 @@ pub fn make_merkle_proof(
 
     let leaves: Vec<[u8; 32]> = leaves
         .iter()
-        .map(|leaf| {
+        .enumerate()
+        .map(|(idx, leaf)| {
             let b = convert_hex_into_32bytes(leaf).unwrap();
+            println!("leaf, idx: {}, bytes: {:?}, leaf: {}", idx, b, leaf);
+
             b
         })
         .collect();
@@ -53,12 +56,14 @@ pub fn make_merkle_proof(
     for d in 0..depth {
         let children = nodes.get(d).unwrap();
 
+        println!("depth: {}, children count: {}", d, children.len());
+
         let parent = match calc_parent_nodes(children) {
             Ok(p) => p,
             Err(err) => return Err(format!("calc parent err: {}, d: {}", err, d).into()),
         };
 
-        println!("parent: {:?}", parent);
+        // println!("parent: {:?}", parent);
         nodes.push(parent);
     }
 
@@ -71,8 +76,8 @@ pub fn make_merkle_proof(
         None => return Err(format!("root does not exist, depth: {}", depth).into()),
     };
 
-    let sibling_indices = make_sibling_path(depth as u32, leaf_idx);
-    let path_indices = make_path_indices(depth as u32, leaf_idx);
+    let sibling_indices = make_sibling_path(depth as u8, leaf_idx);
+    let path_indices = make_path_indices(depth as u8, leaf_idx);
 
     println!("sibling_indices: {:?}", sibling_indices);
 
@@ -82,18 +87,22 @@ pub fn make_merkle_proof(
             .get(h)
             .expect(&format!("sibling index should exist at depth, {}", h));
 
-        let my_idx = if s_idx % 2 == 0 { s_idx + 1 } else { s_idx - 1 };
+        /////////////////////////////////////
+        // let my_idx = if s_idx % 2 == 0 { s_idx + 1 } else { s_idx - 1 };
 
         let sibling = match nodes_at_height.get(*s_idx as usize) {
             Some(s) => s,
-            None => nodes_at_height.get(my_idx as usize).expect(&format!(
-                "Node in merkle path should exist, h: {}, my_idx: {}",
-                h, my_idx
-            )),
+            None => {
+                // nodes_at_height.get(my_idx as usize).expect(&format!(
+                // "Node in merkle path should exist, h: {}, my_idx: {}",
+                // h, my_idx))
+
+                &ZERO
+            }
         };
 
         let s = convert_32bytes_into_decimal_string(sibling)?;
-        println!("\nsibling({}, {}): {:?}, decimal: {}", h, s_idx, sibling, s);
+        // println!("\nsibling({}, {}): {:?}, decimal: {}", h, s_idx, sibling, s);
 
         siblings.push(s);
     }
@@ -114,19 +123,18 @@ pub fn calc_parent_nodes(children: &Vec<[u8; 32]>) -> Result<Vec<[u8; 32]>, Prfs
         return Err(format!("children is len 0").into());
     }
 
+    // single child
     if children.len() == 1 {
-        // println!("A single children");
-
         let left = children.get(0).unwrap();
-        let right = left;
+        let right = &ZERO;
 
-        let res = hash_two(left, &right).unwrap();
+        let res = hash_two(left, right).unwrap();
         parent.push(res);
 
-        // let l = convert_32bytes_into_decimal_string(left)?;
-        // let r = convert_32bytes_into_decimal_string(right)?;
-        // let res = convert_32bytes_into_decimal_string(&res)?;
-        // println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
+        let l = convert_32bytes_into_decimal_string(left)?;
+        let r = convert_32bytes_into_decimal_string(right)?;
+        let res = convert_32bytes_into_decimal_string(&res)?;
+        println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
 
         // continue;
     } else {
@@ -145,19 +153,20 @@ pub fn calc_parent_nodes(children: &Vec<[u8; 32]>) -> Result<Vec<[u8; 32]>, Prfs
                 let res = hash_two(left, r).unwrap();
                 parent.push(res);
 
-                // let l = convert_32bytes_into_decimal_string(left)?;
-                // let r = convert_32bytes_into_decimal_string(r)?;
-                // let res = convert_32bytes_into_decimal_string(&res)?;
-                // println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
+                let l = convert_32bytes_into_decimal_string(left)?;
+                let r = convert_32bytes_into_decimal_string(r)?;
+                let res = convert_32bytes_into_decimal_string(&res)?;
+                println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
             } else {
+                let right = &ZERO;
                 // only left is present
-                let res = hash_two(left, left).unwrap();
+                let res = hash_two(left, right).unwrap();
                 parent.push(res);
 
-                // let l = convert_32bytes_into_decimal_string(left)?;
-                // let r = convert_32bytes_into_decimal_string(left)?;
-                // let res = convert_32bytes_into_decimal_string(&res)?;
-                // println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
+                let l = convert_32bytes_into_decimal_string(left)?;
+                let r = convert_32bytes_into_decimal_string(right)?;
+                let res = convert_32bytes_into_decimal_string(&res)?;
+                println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
 
                 break;
             }

@@ -11,6 +11,7 @@ const dotenv = require("dotenv");
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  transpilePackages: ["@taigalabs/prfs-sdk-web"],
   webpack: (config, { isServer, dev }) => {
     config.resolve.fallback = { fs: false };
     config.experiments = { ...config.experiments, asyncWebAssembly: true };

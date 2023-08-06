@@ -15,8 +15,8 @@ import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb"
 import * as prfsBackend from "@/fetch/prfsBackend";
 import { PrfsCircuitDriver } from "@/models/index";
 import { useRouter } from "next/navigation";
-import CircuitDriverSummary from "@/components/circuit_driver_summary/CircuitDriverSummary";
-import CircuitDriverPropsTable from "@/components/circuit_driver_props_table/CircuitDriverPropsTable";
+import DriverSummary from "@/components/driver_summary/DriverSummary";
+import DriverPropsTable from "@/components/driver_props_table/DriverPropsTable";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -60,7 +60,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
               <WidgetHeader>
                 <WidgetLabel>{programSummaryLabel}</WidgetLabel>
               </WidgetHeader>
-              <CircuitDriverSummary driver={driver} />
+              <DriverSummary driver={driver} />
             </Widget>
           </Card>
         </CardRow>
@@ -70,7 +70,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
               <WidgetHeader>
                 <WidgetLabel>{i18n.driver_properties}</WidgetLabel>
               </WidgetHeader>
-              <CircuitDriverPropsTable driver={driver} />
+              <DriverPropsTable driver={driver} />
             </Widget>
           </Card>
         </CardRow>

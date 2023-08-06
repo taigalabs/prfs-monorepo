@@ -1,6 +1,10 @@
 export default {
   prfs_copyright: "© 2023 Prfs",
   github: "Github",
+  terms: "Terms",
+  privacy: "Privacy",
+  language: "Language",
+  feedback: "Feedback",
   id: "Id",
   name: "Name",
   name_and_description: "Name and description",
@@ -45,6 +49,8 @@ export default {
   create_proof_type_subtitle:
     "In order to create a proof instance, we need a proof type defined. Start by choosing the circuit (program) and the reference values.",
   proofs: "Proofs",
+  vote: "Vote",
+  enrollment: "Enrollment",
   proof_instances: "Proof instances",
   create_proof: "Create proof",
   proof_dashboard: "Proof dashboard",
@@ -68,6 +74,7 @@ export default {
   references: "References",
   set: "Set",
   sets: "Sets",
+  dynamic_sets: "Dynamic sets",
   connect: "Connect",
   connect_wallet: "Connect a wallet of your choice",
   wallet: "Wallet",

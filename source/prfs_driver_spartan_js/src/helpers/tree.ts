@@ -1,4 +1,4 @@
-import { AsyncIncrementalMerkleTree } from "@zk-kit/incremental-merkle-tree";
+import { AsyncIncrementalMerkleTree } from "@taigalabs/async-incremental-merkle-tree";
 import { MerkleProof, AsyncHashFn } from "../types";
 import { bytesToBigInt } from "./utils";
 
@@ -47,7 +47,7 @@ export class Tree {
     return {
       siblings,
       pathIndices: proof.pathIndices,
-      root: proof.root
+      root: proof.root,
     };
   }
 

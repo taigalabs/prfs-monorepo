@@ -1,10 +1,17 @@
 use super::json::SetJson;
 use crate::TreeMakerError;
-use chrono::NaiveDate;
+use chrono::{DateTime, NaiveDate, Utc};
 use colored::Colorize;
-use prfs_db_interface::{database2::Database2, entities::PrfsSet};
+use prfs_db_interface::{
+    db_apis,
+    sqlx::{Postgres, Transaction},
+};
+use prfs_entities::entities::PrfsSet;
 
-pub async fn create_set(db: &Database2, set_json: &SetJson) -> Result<PrfsSet, TreeMakerError> {
+pub async fn create_set(
+    tx: &mut Transaction<'_, Postgres>,
+    set_json: &SetJson,
+) -> Result<PrfsSet, TreeMakerError> {
     let created_at = parse_date(&set_json.set.created_at);
 
     let prfs_set = PrfsSet {
@@ -28,7 +35,9 @@ pub async fn create_set(db: &Database2, set_json: &SetJson) -> Result<PrfsSet, T
         set_json.set.label
     );
 
-    let set_id = db.insert_prfs_set(&prfs_set, false).await.unwrap();
+    let set_id = db_apis::insert_prfs_set(tx, &prfs_set, false)
+        .await
+        .unwrap();
     assert!(
         set_id.len() > 0,
         "Set needs to be inserted, set_id: {}",
@@ -40,7 +49,7 @@ pub async fn create_set(db: &Database2, set_json: &SetJson) -> Result<PrfsSet, T
     Ok(prfs_set)
 }
 
-fn parse_date(date: &str) -> NaiveDate {
+fn parse_date(date: &str) -> DateTime<Utc> {
     let ymd: Vec<&str> = date.split("/").collect();
     if ymd.len() != 3 {
         panic!("date is invalid, date: {}", date);
@@ -50,5 +59,10 @@ fn parse_date(date: &str) -> NaiveDate {
     let m: u32 = ymd[1].parse().unwrap();
     let d: u32 = ymd[2].parse().unwrap();
 
-    NaiveDate::from_ymd_opt(y, m, d).unwrap()
+    let date = NaiveDate::from_ymd_opt(y, m, d)
+        .unwrap()
+        .and_hms_opt(0, 0, 0)
+        .unwrap();
+
+    DateTime::from_utc(date, Utc)
 }

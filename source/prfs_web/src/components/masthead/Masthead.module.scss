@@ -6,20 +6,38 @@
   width: 100%;
   display: flex;
   padding: 0px 0px;
-  background-color: var(--dark-cyan-50);
+  background-color: var(--dark-cyan-40);
   height: 41px;
+  font-size: 13px;
   color: var(--white-100);
-  font-size: 12px;
 }
+
 .logoArea {
   align-items: center;
   display: flex;
-  padding: 0 20px;
+  padding: 0 25px;
   font-size: 1.245rem;
 }
 
 .mainMenu {
+  padding: 0 25px;
   list-style: none;
+  display: flex;
+  align-items: center;
+
+  a {
+    &:hover {
+      color: var(--bright-green-50);
+    }
+  }
+
+  > li {
+    margin-right: 28px;
+  }
+
+  .inactive {
+    color: var(--gray-40);
+  }
 }
 
 .rightMenu {
@@ -28,18 +46,30 @@
 }
 
 .accountStat {
-  padding: 0px 12px;
   display: flex;
   align-items: center;
+  height: 100%;
 
-  &:hover {
-    cursor: pointer;
+  .base {
+    height: 100%;
+    padding: 0px 12px;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      color: var(--bright-green-50);
+      cursor: pointer;
+    }
+
+    .btnArea {
+      align-items: center;
+      display: flex;
+      margin-left: 1px;
+    }
   }
 
-  .btnArea {
-    align-items: center;
-    display: flex;
-    margin-left: 1px;
+  .base.isOpen {
+    color: var(--bright-green-50);
   }
 }
 

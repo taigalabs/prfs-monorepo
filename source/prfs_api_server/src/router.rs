@@ -42,6 +42,10 @@ pub fn make_router(
             prfs_tree_nodes::get_prfs_tree_nodes,
         )
         .post(
+            format!("{}/get_prfs_tree_leaf_nodes_by_set_id", PREFIX),
+            prfs_tree_nodes::get_prfs_tree_leaf_nodes_by_set_id,
+        )
+        .post(
             format!("{}/get_prfs_tree_leaf_nodes", PREFIX),
             prfs_tree_nodes::get_prfs_tree_leaf_nodes,
         )

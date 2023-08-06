@@ -50,7 +50,7 @@ const Set: React.FC<SetProps> = ({ params }) => {
       });
   }, [setSet]);
 
-  let setTableLabel = `${i18n.set} - ${params.set_id}`;
+  let setTableLabel = `${i18n.set} summary for ${params.set_id}`;
 
   return (
     <DefaultLayout>

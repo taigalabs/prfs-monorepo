@@ -2,14 +2,16 @@ use super::json::SetJson;
 use crate::TreeMakerError;
 use colored::Colorize;
 use prfs_db_interface::{
-    database2::Database2,
-    entities::{PrfsSet, PrfsTreeNode},
+    db_apis,
+    sqlx::{Pool, Postgres, Transaction},
 };
+use prfs_entities::entities::{PrfsSet, PrfsTreeNode};
 use rust_decimal::Decimal;
 use std::time::SystemTime;
 
 pub async fn create_tree_nodes(
-    db: &Database2,
+    pool: &Pool<Postgres>,
+    tx: &mut Transaction<'_, Postgres>,
     set_json: &SetJson,
     prfs_set: &mut PrfsSet,
 ) -> Result<String, TreeMakerError> {
@@ -33,10 +35,10 @@ pub async fn create_tree_nodes(
         .into());
     }
 
-    let where_clause = format!("set_id='{}' order by pos_w asc", set_id);
+    let where_clause = format!("where set_id='{}' order by pos_w asc", set_id);
 
     let now = SystemTime::now();
-    let leaves = db.get_prfs_tree_nodes(&where_clause).await?;
+    let leaves = db_apis::get_prfs_tree_nodes(pool, &where_clause).await?;
 
     let elapsed = now.elapsed().unwrap();
     println!(
@@ -88,7 +90,7 @@ pub async fn create_tree_nodes(
             parent_nodes.push(n);
         }
 
-        db.insert_prfs_tree_nodes(&parent_nodes, false).await?;
+        db_apis::insert_prfs_tree_nodes(tx, &parent_nodes, false).await?;
         children = parent;
 
         count += parent_nodes.len();
@@ -114,7 +116,7 @@ pub async fn create_tree_nodes(
     );
 
     prfs_set.merkle_root = merkle_root.to_string();
-    db.insert_prfs_set(&prfs_set, true).await.unwrap();
+    db_apis::insert_prfs_set(tx, &prfs_set, true).await.unwrap();
 
     Ok(merkle_root)
 }

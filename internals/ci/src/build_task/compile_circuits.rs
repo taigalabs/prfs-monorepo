@@ -2,7 +2,7 @@ use super::task::BuildTask;
 use crate::{paths::PATHS, BuildHandle, CiError};
 use colored::Colorize;
 use serde::{Deserialize, Serialize};
-use std::{any::type_name, process::Command};
+use std::process::Command;
 
 pub struct CompileCircuitsTask;
 
@@ -20,10 +20,10 @@ pub struct Circuit {
 
 impl BuildTask for CompileCircuitsTask {
     fn name(&self) -> &str {
-        stringify!(CompileCircuitsTask)
+        "CompileCircuitsTask"
     }
 
-    fn run(&self, build_handle: &mut BuildHandle) -> Result<(), CiError> {
+    fn run(&self, _build_handle: &mut BuildHandle) -> Result<(), CiError> {
         run_app();
 
         Ok(())

@@ -15,6 +15,7 @@ pub struct Paths {
     pub prfs_asset_server: PathBuf,
     pub prfs_asset_server_assets: PathBuf,
     pub prfs_asset_server_assets_local: PathBuf,
+    pub prfs_entities_bindings: PathBuf,
     pub prfs_driver_type: PathBuf,
     pub prfs_driver_type_bindings: PathBuf,
     pub prfs_driver_spartan_js: PathBuf,
@@ -37,6 +38,8 @@ impl Paths {
         let e2e_test_web = curr_dir.join("source/e2e_test_web");
         let prfs_api_server = curr_dir.join("source/prfs_api_server");
 
+        let prfs_entities_bindings = curr_dir.join("source/prfs_entities/bindings");
+
         let prfs_driver_type = curr_dir.join("source/prfs_driver_type");
         let prfs_driver_type_bindings = curr_dir.join("source/prfs_driver_type/bindings");
 
@@ -55,6 +58,8 @@ impl Paths {
             prfs_driver_spartan_wasm_build,
 
             prfs_circuit_circom,
+
+            prfs_entities_bindings,
 
             prfs_asset_server,
             prfs_asset_server_assets,

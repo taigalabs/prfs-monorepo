@@ -1,6 +1,11 @@
 use crate::DbInterfaceError;
 use colored::Colorize;
-use sqlx::{postgres::PgPoolOptions, Pool, Postgres};
+use log::LevelFilter;
+use sqlx::{
+    postgres::{PgConnectOptions, PgPoolOptions},
+    ConnectOptions, Pool, Postgres,
+};
+use std::time::Duration;
 
 pub struct Database2 {
     pub pool: Pool<Postgres>,
@@ -19,21 +24,19 @@ impl Database2 {
 
         println!("url: {}", url);
 
+        let connect_options = PgConnectOptions::from_url(&url.parse().unwrap())
+            .unwrap()
+            .log_slow_statements(LevelFilter::Warn, Duration::from_secs(5));
+
         let pool = PgPoolOptions::new()
             .max_connections(5)
-            .connect(&url)
+            .connect_with(connect_options)
             .await
             .unwrap();
 
         println!("Postgres connected!");
 
         let d = Database2 { pool };
-
-        // tokio::spawn(async move {
-        //     if let Err(e) = connection.await {
-        //         println!("connection error: {}", e);
-        //     }
-        // });
 
         return Ok(d);
     }

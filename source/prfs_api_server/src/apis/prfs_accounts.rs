@@ -3,7 +3,8 @@ use crate::{
     state::ServerState,
 };
 use hyper::{body, Body, Request, Response};
-use prfs_db_interface::entities::PrfsAccount;
+use prfs_db_interface::db_apis;
+use prfs_entities::entities::PrfsAccount;
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
@@ -32,7 +33,10 @@ pub async fn sign_up_prfs_account(req: Request<Body>) -> Result<Response<Body>, 
 
     println!("req: {:?}", req);
 
-    let prfs_accounts = state.db2.get_prfs_accounts(&req.sig).await.unwrap();
+    let pool = &state.db2.pool;
+    let mut tx = pool.begin().await.unwrap();
+
+    let prfs_accounts = db_apis::get_prfs_accounts(pool, &req.sig).await.unwrap();
 
     if prfs_accounts.len() > 0 {
         let resp = ApiResponse::new_error(format!("Accout already exists, sig: {}", req.sig));
@@ -44,7 +48,11 @@ pub async fn sign_up_prfs_account(req: Request<Body>) -> Result<Response<Body>, 
         sig: req.sig.to_string(),
     };
 
-    let sig = state.db2.insert_prfs_account(&prfs_account).await.unwrap();
+    let sig = db_apis::insert_prfs_account(&mut tx, &prfs_account)
+        .await
+        .unwrap();
+
+    tx.commit().await.unwrap();
 
     let resp = ApiResponse::new_success(SignUpRespPayload {
         sig: sig.to_string(),
@@ -79,13 +87,14 @@ pub async fn sign_in_prfs_account(req: Request<Body>) -> Result<Response<Body>, 
 
     println!("req: {:?}", req);
 
-    let prfs_accounts = state.db2.get_prfs_accounts(&req.sig).await.unwrap();
+    let pool = &state.db2.pool;
+
+    let prfs_accounts = db_apis::get_prfs_accounts(pool, &req.sig).await.unwrap();
 
     if prfs_accounts.len() == 0 {
         println!("prfs_accounts: {:?}", prfs_accounts);
 
         let resp = ApiResponse::new_error(format!("No account has been found, sig: {}", req.sig));
-
         return Ok(resp.into_hyper_response());
     }
 

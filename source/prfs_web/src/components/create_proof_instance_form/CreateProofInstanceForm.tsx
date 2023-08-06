@@ -23,7 +23,14 @@ import ProofTypeDropdown from "../proof_type_dropdown/ProofTypeDropdown";
 import PublicInputConfigSection from "../public_input_config_section/PublicInputConfigSection";
 import { useSigner } from "@thirdweb-dev/react";
 import { proveMembership, proveMembershipMock } from "@/functions/prfsCrypto";
-import { launchDriver } from "@/functions/prfsDriver";
+import { interpolateSystemAssetEndpoint, initDriver } from "@/functions/circuitDriver";
+import { MerkleProof } from "@taigalabs/prfs-driver-spartan-js";
+import { ProofGen } from "@taigalabs/prfs-sdk-web";
+
+///
+import { hashPersonalMessage } from "@ethereumjs/util";
+import { ethers } from "ethers";
+import { makeMerklePath, makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 
 const ProgramSection: React.FC<ProgramSectionProps> = ({ proofType }) => {
   const i18n = React.useContext(i18nContext);
@@ -68,10 +75,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   const { state } = React.useContext(stateContext);
   const { prfsAccount } = state;
   const router = useRouter();
-  // const prover = useProver();
   const signer = useSigner();
-
-  // prfsCrypto
 
   const [publicInputInstance, setPublicInputInstance] = React.useState<PublicInputInstance>({});
   const [formAlert, setFormAlert] = React.useState("");
@@ -104,44 +108,114 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       return;
     }
 
+    console.log(11, selectedProofType);
+
+    const addr = await signer.getAddress();
+    console.log("my address: %s", addr);
+    if (!selectedProofType.public_input_instance[4].ref) {
+      throw new Error("set id (ref) is not defined");
+    }
+
+    const setId = selectedProofType.public_input_instance[4].ref;
+    let { payload } = await prfsBackend.getPrfsTreeLeafNodes({
+      set_id: setId,
+      leaf_vals: [addr],
+    });
+
+    let pos_w = null;
+    for (const node of payload.prfs_tree_nodes) {
+      if (node.val === addr.toLowerCase()) {
+        pos_w = node.pos_w;
+      }
+    }
+
+    if (pos_w === null) {
+      throw new Error("Address is not part of a set");
+    }
+
+    const leafIdx = Number(pos_w);
+    const siblingPath = makeSiblingPath(32, Number(pos_w));
+    const pathIndices = makePathIndices(32, Number(pos_w));
+
+    const siblingPos = siblingPath.map((pos_w, idx) => {
+      return { pos_h: idx, pos_w };
+    });
+
+    console.log("siblingPos: %o", siblingPos);
+
+    const data = await prfsBackend.getPrfsTreeNodes({
+      set_id: setId,
+      pos: siblingPos,
+    });
+
+    console.log(55, data);
+
+    let siblings: BigInt[] = [];
+    for (const node of data.payload.prfs_tree_nodes) {
+      siblings[node.pos_h] = BigInt(node.val);
+    }
+
+    for (let idx = 0; idx < 32; idx += 1) {
+      if (siblings[idx] === undefined) {
+        siblings[idx] = BigInt(0);
+      }
+    }
+
+    console.log(22, siblings);
+
     const { driver_id, driver_properties } = selectedProofType;
     console.log(12, selectedProofType.driver_properties);
 
-    // const driver = await launchDriver(driver_id, driver_properties);
-    // for (const [key, val] of Object.entries(driver_properties)) {
-    //   if (val.startsWith('prfs://')) {
-    //     driver.
-    //   }
+    let driverProperties = interpolateSystemAssetEndpoint(driver_properties);
+    console.log(13, driverProperties);
+
+    const driver = await initDriver(driver_id, driverProperties);
+
+    // await proveMembership(signer, driver, 4);
+    // await proveMembershipMock(driver);
+
+    let merkleProof = {
+      root: BigInt(selectedProofType.public_input_instance[4].value),
+      siblings,
+      pathIndices,
+    };
+
+    console.log(55, merkleProof);
+
+    const msg = Buffer.from("harry potter");
+    const msgHash = hashPersonalMessage(msg);
+
+    let sig = await signer.signMessage(msg);
+    console.log("sig", sig);
+
+    let verifyMsg = ethers.utils.verifyMessage(msg, sig);
+    console.log("verified addr", verifyMsg);
+
+    let proverAddress = await signer.getAddress();
+    console.log("proverAddr", proverAddress);
+
+    console.log("Proving...");
+    console.time("Full proving time");
+    const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
+
+    console.log("11 proof", proof);
+
+    console.timeEnd("Full proving time");
+    console.log("Raw proof size (excluding public input)", proof.length, "bytes");
+
+    // console.log("Verifying...");
+
+    // console.time("Verification time");
+    // const result = await spartanDriver.verify(proof, publicInput.serialize());
+    // console.timeEnd("Verification time");
+
+    // if (result) {
+    //   console.log("Successfully verified proof!");
+    // } else {
+    //   console.log("Failed to verify proof :(");
     // }
-    const circuitUrl = driver_properties.circuit_url.replace(
-      "prfs:/",
-      process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT
-    );
-    const wtnsGenUrl = driver_properties.wtns_gen_url.replace(
-      "prfs:/",
-      process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT
-    );
 
-    await proveMembership(signer, circuitUrl, wtnsGenUrl);
-
-    // await proveMembershipMock();
-
-    // let instance = await driver.newInstance();
-    // console.log(11, instance);
-
-    // const spartanProgramProps = castToSpartanProgramProps(driver_properties);
-    // spartanProgramProps.wtns_gen_url = spartanProgramProps.wtns_gen_url.replace(
-    //   "prfs:/",
-    //   process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT
-    // );
-    // spartanProgramProps.circuit_url = spartanProgramProps.circuit_url.replace(
-    //   "prfs:/",
-    //   process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT
-    // );
-
-    // console.log(13, spartanProgramProps);
-
-    // proveMembership(signer);
+    // await proveMembership(signer, circuitUrl, wtnsGenUrl);
 
     // let { y, m, d } = getYMD();
     // let now = Date.now();
@@ -172,7 +246,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     //   });
   }, [publicInputInstance, selectedProofType, setFormAlert, state.prfsAccount]);
 
-  console.log(11, selectedProofType);
+  // console.log(11, selectedProofType);
 
   return (
     <div className={styles.wrapper}>
@@ -209,29 +283,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       {selectedProofType && (
         <CardRow>
           <Card>
-            <Widget>
-              <WidgetHeader>
-                <WidgetLabel>{i18n.driver}</WidgetLabel>
-              </WidgetHeader>
-              <WidgetPaddedBody>
-                <ProgramSection proofType={selectedProofType} />
-              </WidgetPaddedBody>
-            </Widget>
-          </Card>
-        </CardRow>
-      )}
-
-      {selectedProofType && (
-        <CardRow>
-          <Card>
-            <Widget>
-              <WidgetHeader>
-                <WidgetLabel>{i18n.driver}</WidgetLabel>
-              </WidgetHeader>
-              <WidgetPaddedBody>
-                {/* <PublicInputConfigSection publicInputs={selectedProofType.public_input_instance} /> */}
-              </WidgetPaddedBody>
-            </Widget>
+            <ProofGen proofType={selectedProofType} />
           </Card>
         </CardRow>
       )}

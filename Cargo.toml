@@ -12,10 +12,10 @@ members = [
   "source/prfs_api_server",
   "source/prfs_asset_server",
   "source/prfs_crypto",
+  "source/prfs_entities",
 
   # prfs cicuits
   "source/prfs_circuit_circom",
-  "source/prfs_circuit_type",
 
   # prfs driver
   "source/prfs_driver_type",

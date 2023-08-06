@@ -60,7 +60,7 @@ export async function getSetElements({ page, set_id, limit }: GetSetElementsArgs
 
   try {
     let resp: GetSetElementsResponse = await api({
-      path: "get_prfs_tree_leaf_nodes",
+      path: "get_prfs_tree_leaf_nodes_by_set_id",
       req,
     });
     return resp;

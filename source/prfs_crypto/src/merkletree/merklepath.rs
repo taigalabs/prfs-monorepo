@@ -1,7 +1,4 @@
-use serde::{Deserialize, Serialize};
-
-pub fn make_sibling_path(depth: u32, leaf_idx: u128) -> Vec<u128> {
-    // let height = depth + 1;
+pub fn make_sibling_path(depth: u8, leaf_idx: u128) -> Vec<u128> {
     let mut sibling_indices = vec![];
     let mut curr_idx = leaf_idx;
 
@@ -16,17 +13,26 @@ pub fn make_sibling_path(depth: u32, leaf_idx: u128) -> Vec<u128> {
     return sibling_indices;
 }
 
-pub fn make_path_indices(depth: u32, leaf_idx: u128) -> Vec<u128> {
+pub fn make_path_indices(depth: u8, leaf_idx: u128) -> Vec<u128> {
     let mut path_indices = vec![];
     let mut curr_idx = leaf_idx;
 
     for _h in 0..depth {
-        path_indices.push(curr_idx);
+        let d = get_direction(curr_idx);
+        path_indices.push(d);
         let parent_idx = get_parent_idx(curr_idx);
         curr_idx = parent_idx;
     }
 
     return path_indices;
+}
+
+fn get_direction(idx: u128) -> u128 {
+    if idx % 2 == 0 {
+        0
+    } else {
+        1
+    }
 }
 
 fn get_sibling_idx(idx: u128) -> u128 {

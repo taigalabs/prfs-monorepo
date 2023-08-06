@@ -4,22 +4,39 @@
   left: 0;
   width: 100%;
   z-index: 200;
-  background-color: var(--dark-cyan-50);
+  background-color: var(--dark-cyan-40);
   display: flex;
   align-items: center;
-  justify-content: flex-end;
   height: 30px;
   padding: 0 24px;
   color: var(--white-100);
   font-size: 12px;
-
-  > div:not(:last-child) {
-    margin-right: 25px;
-  }
 
   a {
     &:hover {
       color: var(--bright-green-50);
     }
   }
+}
+
+.leftMenu {
+  display: flex;
+
+  > li:not(:last-child) {
+    margin-right: 25px;
+  }
+}
+
+.rightMenu {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+
+  > li:not(:last-child) {
+    margin-right: 25px;
+  }
+}
+
+.inactive {
+  color: var(--gray-40);
 }

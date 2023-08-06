@@ -1,11 +1,11 @@
 use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
-use chrono::NaiveDate;
+use chrono::{DateTime, NaiveDate, NaiveDateTime};
 use hyper::{body, Body, Request, Response};
-use prfs_circuit_type::PublicInputInstance;
-use prfs_db_interface::entities::{PrfsProofType, PrfsSet};
+use prfs_db_interface::{db_apis, sqlx::types::Json};
+use prfs_entities::entities::{PrfsProofType, PrfsSet, PublicInputInstanceEntry};
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
-use std::{convert::Infallible, sync::Arc};
+use std::{collections::HashMap, convert::Infallible, sync::Arc};
 
 #[derive(Serialize, Deserialize, Debug)]
 struct GetPrfsProofTypesRequest {
@@ -25,6 +25,9 @@ pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, 
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
 
+    let pool = &state.db2.pool;
+    // let mut tx = pool.begin().await.unwrap();
+
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
     let req = serde_json::from_str::<GetPrfsProofTypesRequest>(&body_str).unwrap();
@@ -33,7 +36,7 @@ pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, 
 
     match req.proof_type_id {
         Some(proof_type_id) => {
-            let prfs_proof_types = state.db2.get_prfs_proof_type(&proof_type_id).await;
+            let prfs_proof_types = db_apis::get_prfs_proof_type(pool, &proof_type_id).await;
             let resp = ApiResponse::new_success(GetPrfsProofTypeRespPayload {
                 page: req.page,
                 prfs_proof_types,
@@ -41,7 +44,7 @@ pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, 
             return Ok(resp.into_hyper_response());
         }
         None => {
-            let prfs_proof_types = state.db2.get_prfs_proof_types().await;
+            let prfs_proof_types = db_apis::get_prfs_proof_types(pool).await;
             let resp = ApiResponse::new_success(GetPrfsProofTypeRespPayload {
                 page: req.page,
                 prfs_proof_types,
@@ -59,8 +62,8 @@ struct CreatePrfsProofTypesRequest {
     desc: String,
     circuit_id: String,
     driver_id: String,
-    public_input_instance: PublicInputInstance,
-    driver_properties: serde_json::Value,
+    public_input_instance: HashMap<u32, PublicInputInstanceEntry>,
+    driver_properties: HashMap<String, String>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -71,6 +74,9 @@ struct CreatePrfsProofTypesRespPayload {
 pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
+
+    let pool = &state.db2.pool;
+    let mut tx = pool.begin().await.unwrap();
 
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
@@ -87,16 +93,15 @@ pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
 
         circuit_id: req.circuit_id.to_string(),
         driver_id: req.driver_id.to_string(),
-        public_input_instance: serde_json::to_string(&req.public_input_instance).unwrap(),
-        driver_properties: serde_json::to_string(&req.driver_properties).unwrap(),
+        public_input_instance: Json::from(req.public_input_instance.clone()),
+        driver_properties: Json::from(req.driver_properties.clone()),
 
-        created_at: NaiveDate::from_ymd_opt(1, 2, 1).unwrap(),
+        created_at: chrono::offset::Utc::now(),
     };
 
-    state
-        .db2
-        .insert_prfs_proof_types(&vec![prfs_proof_type])
-        .await;
+    db_apis::insert_prfs_proof_types(&mut tx, &vec![prfs_proof_type]).await;
+
+    tx.commit().await.unwrap();
 
     let resp = ApiResponse::new_success(CreatePrfsProofTypesRespPayload {});
 

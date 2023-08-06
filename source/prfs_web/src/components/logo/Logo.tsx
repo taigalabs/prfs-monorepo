@@ -4,7 +4,7 @@ import classNames from "classnames";
 import styles from "./Logo.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 
-const Logo: React.FC<LogoProps> = ({ variant, className }) => {
+const Logo: React.FC<LogoProps> = ({ variant }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
@@ -12,7 +12,6 @@ const Logo: React.FC<LogoProps> = ({ variant, className }) => {
       className={classNames({
         [styles.simple]: variant === "simple",
         [styles.big]: variant === "big",
-        [className]: true,
       })}
     >
       {i18n.prfs}
@@ -24,5 +23,4 @@ export default Logo;
 
 export interface LogoProps {
   variant: "simple" | "big";
-  className?: string;
 }
