@@ -1,12 +1,11 @@
 use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
 use chrono::{DateTime, NaiveDate, NaiveDateTime};
 use hyper::{body, Body, Request, Response};
-use prfs_circuit_type::PublicInputInstance;
-use prfs_db_interface::db_apis;
-use prfs_entities::entities::{PrfsProofType, PrfsSet};
+use prfs_db_interface::{db_apis, sqlx::types::Json};
+use prfs_entities::entities::{PrfsProofType, PrfsSet, PublicInputInstanceEntry};
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
-use std::{convert::Infallible, sync::Arc};
+use std::{collections::HashMap, convert::Infallible, sync::Arc};
 
 #[derive(Serialize, Deserialize, Debug)]
 struct GetPrfsProofTypesRequest {
@@ -63,8 +62,8 @@ struct CreatePrfsProofTypesRequest {
     desc: String,
     circuit_id: String,
     driver_id: String,
-    public_input_instance: PublicInputInstance,
-    driver_properties: serde_json::Value,
+    public_input_instance: HashMap<u32, PublicInputInstanceEntry>,
+    driver_properties: HashMap<String, String>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -94,8 +93,8 @@ pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
 
         circuit_id: req.circuit_id.to_string(),
         driver_id: req.driver_id.to_string(),
-        public_input_instance: serde_json::to_string(&req.public_input_instance).unwrap(),
-        driver_properties: serde_json::to_string(&req.driver_properties).unwrap(),
+        public_input_instance: Json::from(req.public_input_instance.clone()),
+        driver_properties: Json::from(req.driver_properties.clone()),
 
         created_at: chrono::offset::Utc::now(),
     };

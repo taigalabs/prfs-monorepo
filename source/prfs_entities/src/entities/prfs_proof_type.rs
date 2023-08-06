@@ -1,9 +1,11 @@
 use chrono::{DateTime, NaiveDate, Utc};
+use prfs_driver_type::drivers::spartan_circom_driver::SpartanCircomDriverProperties;
 use serde::{Deserialize, Serialize, Serializer};
 use serde_json::value::RawValue;
+use std::collections::HashMap;
 use ts_rs::TS;
 
-#[derive(TS, Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TS)]
 #[ts(export)]
 pub struct PrfsProofType {
     pub proof_type_id: String,
@@ -14,11 +16,11 @@ pub struct PrfsProofType {
     pub circuit_id: String,
     pub driver_id: String,
 
-    #[serde(serialize_with = "serialize_json_value")]
-    pub public_input_instance: String,
+    #[ts(type = "Record<string, any>")]
+    pub public_input_instance: sqlx::types::Json<HashMap<u32, PublicInputInstanceEntry>>,
 
-    #[serde(serialize_with = "serialize_json_value")]
-    pub driver_properties: String,
+    #[ts(type = "Record<string, any>")]
+    pub driver_properties: sqlx::types::Json<HashMap<String, String>>,
 
     #[ts(type = "number")]
     pub created_at: DateTime<Utc>,
@@ -30,4 +32,29 @@ where
 {
     let v: &RawValue = serde_json::from_str(&a).expect(&format!("invalid json, str: {}", a));
     v.serialize(s)
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct PublicInputInstanceEntry {
+    pub label: String,
+    pub r#type: PublicInputType,
+    pub desc: String,
+    pub value: String,
+    pub r#ref: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS, strum_macros::Display)]
+#[ts(export)]
+pub enum PublicInputType {
+    PROVER_GENERATED,
+    PRFS_SET,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, TS)]
+#[ts(export)]
+pub struct PublicInput {
+    pub r#type: PublicInputType,
+    pub label: String,
+    pub desc: String,
 }

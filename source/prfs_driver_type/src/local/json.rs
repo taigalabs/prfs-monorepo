@@ -1,4 +1,4 @@
-use crate::drivers::circuit_driver::CircuitDriver;
+use crate::CircuitDriver;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Clone, Debug)]

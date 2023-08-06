@@ -1,8 +1,6 @@
 use colored::Colorize;
 use prfs_circuit_circom::{CircuitBuildJson, CircuitBuildListJson};
-use prfs_driver_type::{
-    drivers::circuit_driver::CircuitDriver, local::access::load_system_native_driver_types,
-};
+use prfs_driver_type::{local::access::load_system_native_driver_types, CircuitDriver};
 use std::{collections::HashMap, path::PathBuf};
 
 pub struct LocalAssets {

@@ -16,7 +16,6 @@ members = [
 
   # prfs cicuits
   "source/prfs_circuit_circom",
-  "source/prfs_circuit_type",
 
   # prfs driver
   "source/prfs_driver_type",

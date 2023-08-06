@@ -1,19 +1,7 @@
+use super::PublicInput;
 use prfs_driver_type::CircuitDriver;
-use prfs_entities::entities::PublicInput;
 use serde::{Deserialize, Serialize};
-
-pub const SYSTEM_NATIVE_SCHEME: &str = "system_native://";
-
-pub enum FileKind {
-    R1CS,
-    Spartan,
-    WtnsGen,
-}
-
-#[derive(Serialize, Deserialize, Clone)]
-pub struct CircuitsJson {
-    pub circuits: Vec<CircuitJson>,
-}
+use ts_rs::TS;
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct CircuitJson {
