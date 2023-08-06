@@ -86,7 +86,7 @@ async fn scan_ledger_accounts(
             let msg = format!("Get block response failed, block_no: {}", no);
             tracing::error!("{}", msg);
 
-            return Err(msg.into());
+            break;
         };
 
         // miner
