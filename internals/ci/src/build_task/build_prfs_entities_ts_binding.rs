@@ -31,8 +31,6 @@ impl BuildTask for BuildPrfsEntitiesTSBindingTask {
             format_ts_files(&PATHS.prfs_entities_bindings);
         }
 
-        println!("A");
-
         Ok(())
     }
 }

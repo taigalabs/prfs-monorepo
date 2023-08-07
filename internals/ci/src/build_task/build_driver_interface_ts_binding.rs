@@ -1,5 +1,3 @@
-use which::which;
-
 use super::task::BuildTask;
 use crate::{
     build_task::ts_rs_format::format_ts_files,
@@ -8,6 +6,7 @@ use crate::{
     BuildHandle, CiError,
 };
 use std::process::Command;
+use which::which;
 
 pub struct BuildDriverInterfaceTSBindingTask;
 
