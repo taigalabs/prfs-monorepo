@@ -7,6 +7,7 @@ packages:
   - "source/prfs_driver_interface"
   - "source/prfs_circuit_circom"
   - "source/prfs_sdk_web"
+  - "source/prfs_sdk_web_ui"
   - "source/prfs_api_js"
   - "source/prfs_web"
   - "source/prfs_entities"

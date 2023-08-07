@@ -5,8 +5,7 @@ import { hashPersonalMessage } from "@ethereumjs/util";
 import { ethers } from "ethers";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
-// import { ThirdwebProvider, useSigner, useWallet } from "@thirdweb-dev/react";
-// import { useSigner } from "@thirdweb-dev/react";
+import { ThirdwebProvider, useSigner, useWallet } from "@thirdweb-dev/react";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 
 import i18n from "../../i18n/en";

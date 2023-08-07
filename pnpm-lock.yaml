@@ -328,6 +328,12 @@ importers:
   source/prfs_entities: {}
 
   source/prfs_sdk_web:
+    devDependencies:
+      rollup:
+        specifier: ^3.27.2
+        version: 3.27.2
+
+  source/prfs_sdk_web_ui:
     dependencies:
       '@emotion/react':
         specifier: ^11.11.1
@@ -370,7 +376,7 @@ importers:
         version: link:../prfs_entities
       '@taigalabs/prfs-sdk-web':
         specifier: '*'
-        version: 'link:'
+        version: link:../prfs_sdk_web
       '@thirdweb-dev/react':
         specifier: ^3.14.13
         version: 3.14.15(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@thirdweb-dev/sdk@3.10.35)(@types/react-dom@18.2.5)(@types/react@18.2.12)(ethers@5.7.2)(localforage@1.10.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.3)
@@ -16432,6 +16438,14 @@ packages:
 
   /rollup@3.26.3:
     resolution: {integrity: sha512-7Tin0C8l86TkpcMtXvQu6saWH93nhG3dGQ1/+l5V2TDMceTxO7kDiK6GzbfLWNNxqJXm591PcEZUozZm51ogwQ==}
+    engines: {node: '>=14.18.0', npm: '>=8.0.0'}
+    hasBin: true
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: true
+
+  /rollup@3.27.2:
+    resolution: {integrity: sha512-YGwmHf7h2oUHkVBT248x0yt6vZkYQ3/rvE5iQuVBh3WO8GcJ6BNeOkpoX1yMHIiBm18EMLjBPIoUDkhgnyxGOQ==}
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     hasBin: true
     optionalDependencies:
