@@ -22,10 +22,10 @@ pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
     let tasks: Vec<Box<dyn BuildTask>> = vec![
         Box::new(BuildDriverInterfaceTSBindingTask),
         Box::new(BuildPrfsEntitiesTSBindingTask),
-        Box::new(BuildJsDependenciesTask),
-        Box::new(CompileCircuitsTask),
-        Box::new(BuildPrfsDriverSpartanWasmTask),
-        Box::new(BuildPrfsDriverSpartanJsTask),
+        // Box::new(BuildJsDependenciesTask),
+        // Box::new(CompileCircuitsTask),
+        // Box::new(BuildPrfsDriverSpartanWasmTask),
+        // Box::new(BuildPrfsDriverSpartanJsTask),
     ];
 
     run_tasks(sub_matches, tasks, build_handle).expect("Ci failed");

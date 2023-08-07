@@ -15,15 +15,14 @@ import Button from "../button/Button";
 const ProofGen: React.FC<ProofGenProps> = ({ signer, proofType, handleCreateProof }) => {
   // let aaa = useWallet();
   // const signer = useSigner();
+  //
+  const [msg, setMsg] = React.useState("");
+  const [time, setTime] = React.useState(0);
+  const [running, setRunning] = React.useState(false);
 
   const publicInputElem = React.useMemo(() => {
     const obj: Record<any, PublicInputInstanceEntry> = proofType.public_input_instance;
 
-    // label: string;
-    // type: PublicInputType;
-    // desc: string;
-    // value: string;
-    // ref: string | null;
     const entriesElem = Object.entries(obj).map(([key, val]) => {
       return (
         <div className={styles.publicInputEntry} key={key}>
@@ -71,14 +70,14 @@ const ProofGen: React.FC<ProofGenProps> = ({ signer, proofType, handleCreateProo
     }
 
     const leafIdx = Number(pos_w);
-    const siblingPath = makeSiblingPath(32, Number(pos_w));
-    const pathIndices = makePathIndices(32, Number(pos_w));
+    const siblingPath = makeSiblingPath(32, leafIdx);
+    const pathIndices = makePathIndices(32, leafIdx);
 
     const siblingPos = siblingPath.map((pos_w, idx) => {
       return { pos_h: idx, pos_w };
     });
 
-    console.log("siblingPos: %o", siblingPos);
+    console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
 
     const data = await prfsApi.getPrfsTreeNodes({
       set_id: setId,
@@ -105,9 +104,6 @@ const ProofGen: React.FC<ProofGenProps> = ({ signer, proofType, handleCreateProo
 
     const driver = await initDriver(driver_id, driverProperties);
 
-    // await proveMembership(signer, driver, 4);
-    // await proveMembershipMock(driver);
-
     let merkleProof = {
       root: BigInt(proofType.public_input_instance[4].value),
       siblings,
@@ -130,7 +126,15 @@ const ProofGen: React.FC<ProofGenProps> = ({ signer, proofType, handleCreateProo
 
     console.log("Proving...");
     console.time("Full proving time");
+    const prevTime = performance.now();
     const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
+    const now = performance.now();
+
+    const diff = now - prevTime;
+
+    setMsg(`Created a proof, ${diff}`);
+
+    handleCreateProof(proof, publicInput);
 
     console.timeEnd("Full proving time");
     console.log("Raw proof size (excluding public input)", proof.length, "bytes");
@@ -146,7 +150,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ signer, proofType, handleCreateProo
     } else {
       console.log("Failed to verify proof :(");
     }
-  }, [proofType, signer]);
+  }, [proofType, signer, handleCreateProof, setMsg]);
 
   return (
     proofType && (
@@ -163,6 +167,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ signer, proofType, handleCreateProo
           <Button variant="b" handleClick={handleClickCreateProof}>
             {i18n.create_proof}
           </Button>
+          <div>{msg}</div>
         </div>
         <div className={styles.powered}>{i18n.powered_by_prfs_web_sdk}</div>
       </div>
@@ -173,9 +178,9 @@ const ProofGen: React.FC<ProofGenProps> = ({ signer, proofType, handleCreateProo
 export default ProofGen;
 
 export interface ProofGenProps {
-  signer: any;
+  signer: ethers.Signer;
   proofType: PrfsProofType;
-  handleCreateProof: Function;
+  handleCreateProof: (proof: Uint8Array, publicInput: any) => void;
 }
 
 function interpolateSystemAssetEndpoint(
