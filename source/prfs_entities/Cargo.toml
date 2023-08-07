@@ -16,7 +16,7 @@ lazy_static = "1.4"
 rust_decimal = { version = "1.29", features = ["db-postgres"] }
 rust_decimal_macros = "1.29"
 sqlx = { version = "0.7", features = [ "runtime-tokio", "postgres", "chrono", "rust_decimal", "json" ] }
-ts-rs = { version = "6.2", features=["chrono-impl"]}
+ts-rs = { version = "6.2", features = ["chrono-impl"] }
 strum_macros = "0.25"
 
 prfs_driver_type = { path = "../prfs_driver_type" }

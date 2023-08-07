@@ -1,5 +1,12 @@
+use which::which;
+
 use super::task::BuildTask;
-use crate::{deps::JS_ENGINE, paths::PATHS, BuildHandle, CiError};
+use crate::{
+    build_task::ts_rs_format::format_ts_files,
+    deps::{JS_ENGINE, PRETTIERD},
+    paths::PATHS,
+    BuildHandle, CiError,
+};
 use std::process::Command;
 
 pub struct BuildDriverInterfaceTSBindingTask;
@@ -20,6 +27,10 @@ impl BuildTask for BuildDriverInterfaceTSBindingTask {
             .expect(&format!("{} command failed to start", JS_ENGINE));
 
         assert!(status.success());
+
+        if let Ok(_) = which(PRETTIERD) {
+            format_ts_files(&PATHS.prfs_driver_type_bindings);
+        }
 
         Ok(())
     }
