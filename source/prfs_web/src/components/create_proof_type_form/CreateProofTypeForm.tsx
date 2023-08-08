@@ -1,6 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import * as prfsApi from "@taigalabs/prfs-api-js";
+import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 
 import styles from "./CreateProofTypeForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -12,10 +14,8 @@ import { FormTitleRow, FormTitle, FormSubtitle } from "@/components/form/Form";
 import Button from "@/components/button/Button";
 import FormTextInput from "@/components/form/FormTextInput";
 import PublicInputConfigSection from "@/components/public_input_config_section/PublicInputConfigSection";
-import { PrfsCircuit, PublicInputType, PublicInputInstance } from "@/models";
 import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { stateContext } from "@/contexts/state";
-import * as prfsBackend from "@/fetch/prfsBackend";
 import { getYMD } from "@/functions/date";
 import { keccakHash } from "@/functions/hash";
 
@@ -77,6 +77,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             type: pi.type,
             desc: pi.desc,
             value: "",
+            ref: null,
           };
 
           break;
@@ -114,7 +115,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       driver_properties: selectedCircuit.driver.properties,
     };
 
-    prfsBackend
+    prfsApi
       .createPrfsProofType(createPrfsProofTypeRequest)
       .then(_res => {
         router.push("/proof_types");

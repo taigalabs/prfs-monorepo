@@ -1,4 +1,4 @@
-use crate::CircuitJson;
+use prfs_entities::entities::PrfsCircuit;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -12,5 +12,5 @@ pub struct CircuitBuildJson {
     pub timestamp: i64,
 
     #[serde(flatten)]
-    pub inner: CircuitJson,
+    pub inner: PrfsCircuit,
 }

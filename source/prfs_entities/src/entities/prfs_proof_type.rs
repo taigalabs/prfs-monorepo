@@ -1,5 +1,4 @@
 use chrono::{DateTime, NaiveDate, Utc};
-use prfs_driver_type::drivers::spartan_circom_driver::SpartanCircomDriverProperties;
 use serde::{Deserialize, Serialize, Serializer};
 use serde_json::value::RawValue;
 use std::collections::HashMap;

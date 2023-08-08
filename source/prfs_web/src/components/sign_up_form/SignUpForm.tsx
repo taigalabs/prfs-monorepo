@@ -2,6 +2,7 @@ import React from "react";
 import { useConnect, metamaskWallet } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
 import { useRouter } from "next/navigation";
+import * as prfsApi from "@taigalabs/prfs-api-js";
 
 import styles from "./SignUpForm.module.scss";
 import { stateContext } from "@/contexts/state";
@@ -17,7 +18,6 @@ import Card from "@/components/card/Card";
 import { FormTitle, FormTitleRow } from "@/components/form/Form";
 import FormTextInput from "@/components/form/FormTextInput";
 import StrikeThroughText from "@/components/strike_through_text/StrikeThroughText";
-import * as prfsBackend from "@/fetch/prfsBackend";
 
 const metamaskConfig = metamaskWallet();
 
@@ -91,7 +91,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
       const sig = await signer.signMessage(passhash);
 
       try {
-        let resp = await prfsBackend.signUpPrfsAccount(sig);
+        let resp = await prfsApi.signUpPrfsAccount(sig);
         if (resp.error) {
           throw new Error(resp.error);
         }

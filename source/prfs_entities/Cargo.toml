@@ -19,4 +19,4 @@ sqlx = { version = "0.7", features = [ "runtime-tokio", "postgres", "chrono", "r
 ts-rs = { version = "6.2", features = ["chrono-impl"] }
 strum_macros = "0.25"
 
-prfs_driver_type = { path = "../prfs_driver_type" }
+# prfs_driver_type = { path = "../prfs_driver_type" }
