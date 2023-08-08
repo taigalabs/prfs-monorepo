@@ -4,12 +4,13 @@ import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import * as prfsApi from "@taigalabs/prfs-api-js";
+import { MsgType } from "@taigalabs/prfs-sdk-web";
 
 import styles from "./Home.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
-import { MsgType } from "@taigalabs/prfs-sdk-web";
+import Loading from "@/components/loading/Loading";
 
 const PARENT_MSG_HANDLER = {
   registered: false,
@@ -55,7 +56,11 @@ const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
     fn().then();
   }, [searchParams, setProofType]);
 
-  return <DefaultLayout>{proofType && <CreateProofForm proofType={proofType} />}</DefaultLayout>;
+  return (
+    <DefaultLayout>
+      {proofType ? <CreateProofForm proofType={proofType} /> : <Loading />}
+    </DefaultLayout>
+  );
 };
 
 export default ProofGen;
