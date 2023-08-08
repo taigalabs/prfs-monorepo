@@ -18,7 +18,7 @@ pub struct PrfsCircuit {
     pub public_inputs: Vec<PublicInput>,
     pub driver: CircuitDriver,
 
-    #[ts(type = "number")]
+    #[ts(type = "string")]
     pub created_at: DateTime<Utc>,
 }
 

@@ -14,5 +14,5 @@ export interface PrfsCircuit {
   finite_field: string;
   public_inputs: Array<PublicInput>;
   driver: CircuitDriver;
-  created_at: number;
+  created_at: string;
 }

@@ -2,6 +2,7 @@
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
 import { PublicInput } from "@taigalabs/prfs-entities/bindings/PublicInput";
+import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 
 export interface GetNativeCircuitsRequest {
   page: number;
@@ -30,24 +31,24 @@ export async function getPrfsNativeCircuits({ page, circuit_id }: GetNativeCircu
   }
 }
 
-export interface PrfsCircuit {
-  circuit_id: string;
-  label: string;
-  author: string;
-  public_inputs: PublicInput[];
-  desc: string;
-  created_at: string;
-  proof_algorithm: string;
-  arithmetization: string;
-  circuit_dsl: string;
-  elliptic_curve: string;
-  finite_field: string;
-  driver: PrfsCircuitDriver;
-}
+// export interface PrfsCircuit {
+//   circuit_id: string;
+//   label: string;
+//   author: string;
+//   public_inputs: PublicInput[];
+//   desc: string;
+//   created_at: string;
+//   proof_algorithm: string;
+//   arithmetization: string;
+//   circuit_dsl: string;
+//   elliptic_curve: string;
+//   finite_field: string;
+//   driver: PrfsCircuitDriver;
+// }
 
-export interface PrfsCircuitDriver {
-  driver_id: string;
-  driver_repository_url: string;
-  version: string;
-  properties: Record<string, any>;
-}
+// export interface PrfsCircuitDriver {
+//   driver_id: string;
+//   driver_repository_url: string;
+//   version: string;
+//   properties: Record<string, any>;
+// }
