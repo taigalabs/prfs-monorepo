@@ -1,10 +1,11 @@
 "use client";
 
 import React from "react";
+import * as prfsApi from "@taigalabs/prfs-api-js";
+import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import styles from "./ProofTypeDropdown.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import * as prfsBackend from "@/fetch/prfsBackend";
 import Dropdown, {
   CreateDropdownListArgs,
   DropdownData,
@@ -12,7 +13,6 @@ import Dropdown, {
 } from "@/components/dropdown/Dropdown";
 import DropdownEntry from "../dropdown/DropdownEntry";
 import DropdownList from "../dropdown/DropdownList";
-import { PrfsCircuit, PrfsProofType } from "@/models";
 
 const ProofTypeEntry: React.FC<CircuitEntryProps> = ({ val }) => {
   const i18n = React.useContext(i18nContext);
@@ -55,7 +55,7 @@ const ProofTypeDropdown: React.FC<ProofTypeDropdownProps> = ({ selectedVal, hand
   });
 
   React.useEffect(() => {
-    prfsBackend
+    prfsApi
       .getPrfsProofTypes({
         page: 0,
       })

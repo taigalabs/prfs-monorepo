@@ -4,13 +4,10 @@ import { useRouter } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
-import {
-  PrfsCircuit,
-  PublicInputType,
-  PrfsSet,
-  PublicInputInstance,
-} from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
+import { PublicInputType } from "@taigalabs/prfs-entities/bindings/PublicInputType";
+import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import * as prfsApi from "@taigalabs/prfs-api-js";
+import { PublicInputInstanceEntry } from "@taigalabs/prfs-entities/bindings/PublicInputInstanceEntry";
 
 import styles from "./CreateProofInstanceForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -82,7 +79,9 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
   // console.log(15, signer);
 
-  const [publicInputInstance, setPublicInputInstance] = React.useState<PublicInputInstance>({});
+  const [publicInputInstance, setPublicInputInstance] = React.useState<
+    Record<string, PublicInputInstanceEntry>
+  >({});
   const [formAlert, setFormAlert] = React.useState("");
   const [selectedProofType, setSelectedProofType] = React.useState<PrfsProofType>(undefined);
   const [programProps, setProgramProps] = React.useState();
