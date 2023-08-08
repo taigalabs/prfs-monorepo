@@ -53,6 +53,7 @@ export default {
   proofs: "Proofs",
   vote: "Vote",
   enrollment: "Enrollment",
+  talk: "Talk",
   proof_instances: "Proof instances",
   create_proof: "Create proof",
   proof_dashboard: "Proof dashboard",
