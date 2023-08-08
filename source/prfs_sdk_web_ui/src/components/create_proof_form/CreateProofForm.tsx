@@ -48,6 +48,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ signer, proofType, handleCreateProo
 
     const addr = await signer.getAddress();
     console.log("my address: %s", addr);
+
     if (!proofType.public_input_instance[4].ref) {
       throw new Error("set id (ref) is not defined");
     }

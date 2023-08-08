@@ -328,6 +328,10 @@ importers:
   source/prfs_entities: {}
 
   source/prfs_sdk_web:
+    dependencies:
+      '@taigalabs/prfs-entities':
+        specifier: '*'
+        version: link:../prfs_entities
     devDependencies:
       rollup:
         specifier: ^3.27.2

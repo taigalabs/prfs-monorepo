@@ -9,7 +9,7 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 const Home: React.FC = () => {
   const i18n = React.useContext(i18nContext);
 
-  return <div>55</div>;
+  return <div>Invalid access. Check URL</div>;
 };
 
 export default Home;

@@ -27,6 +27,8 @@ import { hashPersonalMessage } from "@ethereumjs/util";
 import { ethers } from "ethers";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 
+const prfs = new PrfsSDK("test");
+
 const ProgramSection: React.FC<ProgramSectionProps> = ({ proofType }) => {
   const i18n = React.useContext(i18nContext);
 
@@ -72,7 +74,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   // const router = useRouter();
   const signer = useSigner();
 
-  console.log(15, signer);
+  // console.log(15, signer);
 
   const [publicInputInstance, setPublicInputInstance] = React.useState<PublicInputInstance>({});
   const [formAlert, setFormAlert] = React.useState("");
@@ -90,8 +92,11 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     if (selectedProofType) {
       console.log(55, selectedProofType);
 
-      const prfsSDK = new PrfsSDK("test");
-      prfsSDK.mount("#prfs-sdk-container");
+      const proofGenElement = prfs.create("proof-gen", {
+        selectedProofType,
+      });
+
+      proofGenElement.mount("#prfs-sdk-container");
     }
   }, [selectedProofType]);
 

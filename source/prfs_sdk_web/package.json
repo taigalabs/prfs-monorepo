@@ -11,6 +11,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@taigalabs/prfs-entities": "*"
+  },
   "devDependencies": {
     "rollup": "^3.27.2",
     "typescript": "5.1.3"
