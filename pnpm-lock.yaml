@@ -332,6 +332,9 @@ importers:
       rollup:
         specifier: ^3.27.2
         version: 3.27.2
+      typescript:
+        specifier: 5.1.3
+        version: 5.1.3
 
   source/prfs_sdk_web_ui:
     dependencies:

@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 
 import styles from "./CreateProofInstanceForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -20,7 +21,6 @@ import { useSigner } from "@thirdweb-dev/react";
 import { proveMembership, proveMembershipMock } from "@/functions/prfsCrypto";
 import { interpolateSystemAssetEndpoint, initDriver } from "@/functions/circuitDriver";
 import { MerkleProof } from "@taigalabs/prfs-driver-spartan-js";
-import { ProofGen } from "@taigalabs/prfs-sdk-web";
 
 ///
 import { hashPersonalMessage } from "@ethereumjs/util";
@@ -89,6 +89,9 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   React.useEffect(() => {
     if (selectedProofType) {
       console.log(55, selectedProofType);
+
+      const prfsSDK = new PrfsSDK("test");
+      prfsSDK.mount("#prfs-sdk-container");
     }
   }, [selectedProofType]);
 
@@ -281,12 +284,12 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
       {selectedProofType && (
         <CardRow>
-          <div>
-            <ProofGen
-              proofType={selectedProofType}
-              handleCreateProof={handleCreateProof}
-              signer={signer}
-            />
+          <div id="prfs-sdk-container">
+            {/* <ProofGen */}
+            {/*   proofType={selectedProofType} */}
+            {/*   handleCreateProof={handleCreateProof} */}
+            {/*   signer={signer} */}
+            {/* /> */}
           </div>
         </CardRow>
       )}

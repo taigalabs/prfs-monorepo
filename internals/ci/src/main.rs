@@ -20,7 +20,7 @@ fn main() {
         .subcommand(command!("build"))
         .subcommand(command!("e2e_test_web"))
         .subcommand(command!("dev_prfs_web").arg(Arg::new("extra_args")))
-        .subcommand(command!("dev_sdk_web").arg(Arg::new("extra_args")))
+        .subcommand(command!("dev_sdk_web_ui").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_asset_server"))
         .subcommand(command!("dev_api_server"))
         .subcommand(command!("seed_api_server"))
@@ -41,8 +41,8 @@ fn main() {
         Some(("dev_prfs_web", sub_matches)) => {
             cmds::dev_prfs_web::run(sub_matches);
         }
-        Some(("dev_sdk_web", sub_matches)) => {
-            cmds::dev_sdk_web::run(sub_matches);
+        Some(("dev_sdk_web_ui", sub_matches)) => {
+            cmds::dev_sdk_web_ui::run(sub_matches);
         }
         Some(("start_prfs_web", sub_matches)) => {
             cmds::start_prfs_web::run(sub_matches);
