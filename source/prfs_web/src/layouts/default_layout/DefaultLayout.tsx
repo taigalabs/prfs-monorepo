@@ -1,8 +1,6 @@
 "use client";
 
 import React from "react";
-import Paper from "@mui/material/Paper";
-import Container from "@mui/material/Container";
 
 import styles from "./DefaultLayout.module.scss";
 import Masthead from "@/components/masthead/Masthead";

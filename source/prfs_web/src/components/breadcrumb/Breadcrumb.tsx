@@ -1,6 +1,5 @@
 import React from "react";
-// import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { FaAngleRight } from 'react-icons/fa6';
+import { FaAngleRight } from "react-icons/fa6";
 
 import styles from "./Breadcrumb.module.scss";
 

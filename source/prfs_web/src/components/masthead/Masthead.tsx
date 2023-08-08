@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import { IoMdArrowDropup, IoMdArrowDropdown } from "react-icons/io";
+
 import { useRouter } from "next/navigation";
 import { useFloating, useClick, useInteractions, useDismiss } from "@floating-ui/react";
 import localStore from "@/storage/localStore";
@@ -54,7 +54,7 @@ const AccountStat: React.FC<AccountStatProps> = ({ account }) => {
           <div>{id}</div>
           <div>{shortWalletAddr}</div>
         </div>
-        <div className={styles.btnArea}>{isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}</div>
+        <div className={styles.btnArea}>{isOpen ? <IoMdArrowDropup /> : <IoMdArrowDropdown />}</div>
       </div>
       {isOpen && (
         <div

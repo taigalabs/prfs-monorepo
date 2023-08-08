@@ -1,8 +1,6 @@
 import React from "react";
 import Link from "next/link";
-// import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { FaAngleRight } from "react-icons/fa6";
-import { MdAccountCircle } from "react-icons/md";
 
 import styles from "./LeftBar.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -23,8 +21,8 @@ const Leftbar: React.FC<any> = () => {
       <div className={styles.section}>
         <ul>
           <li className={styles.category}>
-            <MdAccountCircle />
-            <span>{i18n.proofs}</span>
+            <FaAngleRight />
+            {i18n.proofs}
           </li>
           <li>
             <ActiveLink href="/proofs" activeClassName={styles.activeLink}>

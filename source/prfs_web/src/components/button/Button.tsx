@@ -1,6 +1,5 @@
 import React, { MouseEventHandler } from "react";
 import Link from "next/link";
-import Paper from "@mui/material/Paper";
 import classnames from "classnames";
 
 import styles from "./Button.module.scss";

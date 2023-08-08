@@ -2,11 +2,10 @@
 
 import React from "react";
 import Link from "next/link";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import styles from "./Set.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { PrfsProofType, PrfsSet } from "@/models/index";
 import ColumnarSummary, {
   ColumnarSummaryCell,
   ColumnarSummaryCellHeader,

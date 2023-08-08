@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import styles from "./Set.module.scss";
 import { i18nContext } from "@/contexts/i18n";

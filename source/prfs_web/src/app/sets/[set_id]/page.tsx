@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { useRouter } from "next/navigation";
 
 import styles from "./Set.module.scss";
 import { stateContext } from "@/contexts/state";
@@ -16,12 +16,6 @@ import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb"
 import SetElementTable from "@/components/set_element_table/SetElementTable";
 import * as prfsBackend from "@/fetch/prfsBackend";
 import { PrfsSet } from "@/models/index";
-import ColumnarSummary, {
-  ColumnarSummaryCell,
-  ColumnarSummaryCellHeader,
-  ColumnarSummaryColumn,
-} from "@/components/columnal_summary/ColumnarSummary";
-import { useRouter } from "next/navigation";
 import { TableCurrentPageLimitWarning } from "@/components/table/Table";
 import SetSummary from "@/components/set_summary/SetSummary";
 

@@ -9,6 +9,10 @@
   box-shadow: rgba(0, 28, 36, 0.3) 0px 1px 1px 0px, rgba(0, 28, 36, 0.15) 1px 1px 1px 0px,
     rgba(0, 28, 36, 0.15) -1px 1px 1px 0px;
   color: var(--gray-20);
+
+  li {
+    line-height: 1em;
+  }
 }
 
 .topMenu {

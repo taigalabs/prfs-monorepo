@@ -2,11 +2,8 @@
 
 import "./globals.scss";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import { I18nProvider } from "@/contexts/i18n";
-
-const theme = createTheme({});
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -21,11 +18,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body suppressHydrationWarning={true}>
-        <ThemeProvider theme={theme}>
-          <ThirdwebProvider activeChain="ethereum">
-            <I18nProvider>{children}</I18nProvider>
-          </ThirdwebProvider>
-        </ThemeProvider>
+        <ThirdwebProvider activeChain="ethereum">
+          <I18nProvider>{children}</I18nProvider>
+        </ThirdwebProvider>
       </body>
     </html>
   );
