@@ -2,10 +2,10 @@
 
 import React from "react";
 import Link from "next/link";
+import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 
 import styles from "./Set.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { PrfsSet } from "@/models/index";
 import ColumnarSummary, {
   ColumnarSummaryCell,
   ColumnarSummaryCellHeader,
@@ -29,7 +29,7 @@ const SetSummary: React.FC<SetSummaryProps> = ({ set }) => {
           </ColumnarSummaryCell>
           <ColumnarSummaryCell>
             <ColumnarSummaryCellHeader>{i18n.cardinality}</ColumnarSummaryCellHeader>
-            <div>{set.cardinality}</div>
+            <div>{set.cardinality.toString()}</div>
           </ColumnarSummaryCell>
           <ColumnarSummaryCell>
             <ColumnarSummaryCellHeader>{i18n.element_type}</ColumnarSummaryCellHeader>

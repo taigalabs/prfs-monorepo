@@ -4,6 +4,7 @@ import React from "react";
 import { ethers } from "ethers";
 import { Msg } from "@taigalabs/prfs-sdk-web";
 import { useRouter, useSearchParams } from "next/navigation";
+import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 
 import styles from "./Home.module.scss";
@@ -16,6 +17,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
 
   const [data, setData] = React.useState();
   const searchParams = useSearchParams();
+  const [proofType, setProofType] = React.useState<PrfsProofType>();
 
   React.useEffect(() => {
     window.addEventListener("message", e => {
@@ -35,12 +37,14 @@ const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
           proof_type_id: proofTypeId,
         });
 
-        console.log(33, payload);
+        if (payload.prfs_proof_types.length > 0) {
+          setProofType(payload.prfs_proof_types[0]);
+        }
       }
     }
 
     fn().then();
-  }, [searchParams]);
+  }, [searchParams, setProofType]);
 
   return <div>55</div>;
   // return proof_type_id  />;

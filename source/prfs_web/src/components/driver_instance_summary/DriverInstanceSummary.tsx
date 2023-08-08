@@ -1,9 +1,9 @@
 import React from "react";
 import Link from "next/link";
+import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 
 import styles from "./DriverInstanceSummary.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { PrfsCircuit } from "@/models/index";
 import ColumnarSummary, {
   ColumnarSummaryCell,
   ColumnarSummaryCellHeader,

@@ -1,5 +1,9 @@
 import React from "react";
 import Link from "next/link";
+import { PublicInput } from "@taigalabs/prfs-entities/bindings/PublicInput";
+import { PublicInputType } from "@taigalabs/prfs-entities/bindings/PublicInputType";
+import { PublicInputInstanceEntry } from "@taigalabs/prfs-entities/bindings/PublicInputInstanceEntry";
+import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 
 import styles from "./PublicInputConfigSection.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -7,7 +11,6 @@ import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/component
 import CardRow from "@/components/card_row/CardRow";
 import Card from "@/components/card/Card";
 import SetDropdown from "@/components/set_dropdown/SetDropdown";
-import { PublicInputType, PrfsSet, PublicInputInstance, PublicInput } from "@/models";
 import { DropdownSingleSelectedValue } from "@/components/dropdown/Dropdown";
 
 const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
@@ -20,9 +23,9 @@ const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
   let setVals = {};
   publicInputs.forEach((pi, idx) => {
     switch (pi.type) {
-      case PublicInputType.PROVER_GENERATED:
+      case "PROVER_GENERATED":
         break;
-      case PublicInputType.PRFS_SET:
+      case "PRFS_SET":
         const [selectedSet, setSelectedSet] =
           React.useState<DropdownSingleSelectedValue<PrfsSet>>(undefined);
 
@@ -30,7 +33,7 @@ const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
           (val: PrfsSet) => {
             // console.log(13, val);
             setSelectedSet(val);
-            setPublicInputInstance((oldVal: PublicInputInstance) => {
+            setPublicInputInstance((oldVal: Record<number, PublicInputInstanceEntry>) => {
               const newVal = { ...oldVal };
               newVal[idx] = {
                 label: pi.label,
@@ -60,15 +63,13 @@ const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
     for (const [idx, [_, pi]] of Object.entries(publicInputs).entries()) {
       let inputValue: React.ReactElement;
       switch (pi.type) {
-        case PublicInputType.PROVER_GENERATED:
-          inputValue = (
-            <div className={styles.computedInput}>{PublicInputType.PROVER_GENERATED}</div>
-          );
+        case "PROVER_GENERATED":
+          inputValue = <div className={styles.computedInput}>PROVER_GENERATED</div>;
           break;
-        case PublicInputType.PRFS_SET:
+        case "PRFS_SET":
           inputValue = (
             <div>
-              <div className={styles.publicInputType}>{PublicInputType.PRFS_SET}</div>
+              <div className={styles.publicInputType}>PRFS_SET</div>
               <SetDropdown selectedVal={vals[idx]} handleSelectVal={setVals[idx]} />
             </div>
           );
@@ -113,5 +114,7 @@ export default PublicInputConfigSection;
 interface PublicInputConfigSectionProps {
   // circuit: PrfsCircuit;
   publicInputs: PublicInput[];
-  setPublicInputInstance: React.Dispatch<React.SetStateAction<PublicInputInstance>>;
+  setPublicInputInstance: React.Dispatch<
+    React.SetStateAction<Record<number, PublicInputInstanceEntry>>
+  >;
 }

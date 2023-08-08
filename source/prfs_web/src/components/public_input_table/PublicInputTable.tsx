@@ -2,11 +2,11 @@
 
 import React from "react";
 import Link from "next/link";
+import { PublicInput } from "@taigalabs/prfs-entities/bindings/PublicInput";
 
 import styles from "./PublicInputTable.module.scss";
 import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
-import { PublicInput } from "@/models";
 
 const PublicInputTable: React.FC<PublicInputTableProps> = ({ public_inputs }) => {
   const i18n = React.useContext(i18nContext);
