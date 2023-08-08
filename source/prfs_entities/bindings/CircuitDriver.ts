@@ -4,5 +4,7 @@ export interface CircuitDriver {
   driver_id: string;
   driver_repository_url: string;
   version: string;
+  author: string;
   properties: Record<string, any>;
+  created_at: number;
 }

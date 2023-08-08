@@ -6,7 +6,6 @@ export interface PrfsCircuit {
   circuit_id: string;
   label: string;
   desc: string;
-  created_at: string;
   author: string;
   circuit_dsl: string;
   arithmetization: string;
@@ -15,4 +14,5 @@ export interface PrfsCircuit {
   finite_field: string;
   public_inputs: Array<PublicInput>;
   driver: CircuitDriver;
+  created_at: number;
 }
