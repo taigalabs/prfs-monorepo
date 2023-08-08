@@ -1,5 +1,5 @@
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import { Msg, PRFS_SDK_MSG } from "./msg";
+import { Msg } from "./msg";
 
 const sdkEndpoint = "http://localhost:3010";
 
@@ -40,8 +40,7 @@ export class ProofGenElement {
     const iframe = document.createElement("iframe");
     iframe.src = `${sdkEndpoint}/proof_gen?proofTypeId=${this.selectedProofType.proof_type_id}`;
 
-    console.log("aaa");
-    window.addEventListener("message", e => {
+    window.addEventListener("message", (e: MessageEvent) => {
       console.log("child says, %o", e.data);
     });
 

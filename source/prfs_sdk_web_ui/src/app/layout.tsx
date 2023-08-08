@@ -18,9 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body suppressHydrationWarning={true}>
-        <ThirdwebProvider activeChain="ethereum">
-          <I18nProvider>{children}</I18nProvider>
-        </ThirdwebProvider>
+        <I18nProvider>{children}</I18nProvider>
       </body>
     </html>
   );
