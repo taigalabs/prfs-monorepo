@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "create-envs": "ts-node createEnvs.ts",
-    "build-install-script": "rollup --config rollup.config.js",
     "dev": "next dev -p 3010",
     "build": "next build",
     "start": "next start",
