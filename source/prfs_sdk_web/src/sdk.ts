@@ -1,5 +1,6 @@
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { MsgType } from "./msg";
+import { handleChildMessage } from "./msg_handle";
 
 const sdkEndpoint = "http://localhost:3010";
 
@@ -47,25 +48,7 @@ export class ProofGenElement {
 
       container!.append(iframe);
 
-      window.addEventListener("message", (e: MessageEvent) => {
-        console.log("child says, %o", e.data);
-
-        const msgType: MsgType = e.data.type;
-
-        switch (msgType) {
-          case MsgType.HANDSHAKE: {
-            iframe.contentWindow?.postMessage(
-              {
-                type: MsgType.HANDSHAKE_RESPONSE,
-              },
-              "*"
-            );
-            resolve(iframe);
-          }
-          default: {
-          }
-        }
-      });
+      handleChildMessage(iframe, resolve);
     });
   }
 }

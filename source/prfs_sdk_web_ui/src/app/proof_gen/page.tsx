@@ -11,6 +11,10 @@ import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { MsgType } from "@taigalabs/prfs-sdk-web";
 
+const PARENT_MSG_HANDLER = {
+  registered: false,
+};
+
 const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
 
@@ -21,10 +25,6 @@ const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
   useMessageHandler(setData);
 
   React.useEffect(() => {
-    window.addEventListener("message", e => {
-      console.log("parent says", e.data);
-    });
-
     window.parent.postMessage(
       {
         type: MsgType.HANDSHAKE,
@@ -68,27 +68,25 @@ export interface ProofGenProps {
 
 function useMessageHandler(setData) {
   React.useEffect(() => {
-    console.log(111);
-    window.addEventListener("message", e => {
-      console.log("parent says", e.data);
+    if (!PARENT_MSG_HANDLER.registered) {
+      console.log("Attaching parent msg handler");
 
-      const type: MsgType = e.data;
+      window.addEventListener("message", e => {
+        console.log("parent says", e.data);
 
-      switch (type) {
-        case MsgType.HANDSHAKE:
-          window.postMessage({
-            type: MsgType.HANDSHAKE_RESPONSE,
-            payload: "hi",
-          });
-          break;
+        const type: MsgType = e.data;
 
-        case MsgType.GET_SIGNER_RESPONSE:
-          window.postMessage({});
-          break;
+        switch (type) {
+          case MsgType.GET_SIGNER_RESPONSE:
+            window.postMessage({});
+            break;
 
-        default:
-          console.error(`Cannot handle this msg type, type: ${type}`);
-      }
-    });
-  }, [setData]);
+          default:
+          // console.error(`Cannot handle this msg type, type: ${type}`);
+        }
+      });
+
+      PARENT_MSG_HANDLER.registered = true;
+    }
+  }, []);
 }
