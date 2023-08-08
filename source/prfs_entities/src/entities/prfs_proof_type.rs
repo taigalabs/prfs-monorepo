@@ -1,5 +1,5 @@
-use chrono::{DateTime, NaiveDate, Utc};
-use serde::{Deserialize, Serialize, Serializer};
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use ts_rs::TS;
 
@@ -34,6 +34,7 @@ pub struct PublicInputInstanceEntry {
     pub r#ref: Option<String>,
 }
 
+#[allow(non_camel_case_types)]
 #[derive(Debug, Serialize, Deserialize, Clone, TS, strum_macros::Display)]
 #[ts(export)]
 pub enum PublicInputType {

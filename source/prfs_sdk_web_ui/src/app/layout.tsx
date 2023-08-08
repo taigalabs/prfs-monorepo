@@ -1,7 +1,6 @@
 "use client";
 
 import "./globals.scss";
-import { ThirdwebProvider } from "@thirdweb-dev/react";
 
 import { I18nProvider } from "@/contexts/i18n";
 

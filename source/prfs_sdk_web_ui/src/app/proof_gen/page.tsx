@@ -17,8 +17,6 @@ const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
   const [data, setData] = React.useState();
   const searchParams = useSearchParams();
 
-  console.log(params);
-
   React.useEffect(() => {
     window.addEventListener("message", e => {
       console.log("parent says", e.data);
