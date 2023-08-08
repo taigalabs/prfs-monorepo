@@ -101,18 +101,6 @@ pub async fn insert_prfs_set(
     let cols = "'set_id', 'label', 'author', 'desc', 'hash_algorithm', 'cardinality'\
         'merkle_root', 'element_type', 'elliptic_curve', 'finite_field'";
 
-    // PrfsSet::set_id(),
-    // PrfsSet::label(),
-    // PrfsSet::author(),
-    // PrfsSet::desc(),
-    // PrfsSet::hash_algorithm(),
-    // PrfsSet::cardinality(),
-    // PrfsSet::merkle_root(),
-    // PrfsSet::element_type(),
-    // PrfsSet::elliptic_curve(),
-    // PrfsSet::finite_field(),
-    // ]);
-
     let vals = concat_values(&[
         &prfs_set.set_id,
         &prfs_set.label,
