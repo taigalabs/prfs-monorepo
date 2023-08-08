@@ -8,7 +8,7 @@ import LeftBar from "@/components/left_bar/LeftBar";
 import { i18nContext } from "@/contexts/i18n";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 
-const DefaultLayout: React.FC<any> = ({ children }) => {
+const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
@@ -30,3 +30,7 @@ const DefaultLayout: React.FC<any> = ({ children }) => {
 };
 
 export default DefaultLayout;
+
+export interface DefaultLayoutProps {
+  children: React.ReactNode;
+}

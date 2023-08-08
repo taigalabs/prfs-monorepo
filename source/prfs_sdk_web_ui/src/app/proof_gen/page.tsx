@@ -7,8 +7,8 @@ import * as prfsApi from "@taigalabs/prfs-api-js";
 
 import styles from "./Home.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import useLocalWallet from "@/hooks/useLocalWallet";
 import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
+import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 
 const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -46,7 +46,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
     fn().then();
   }, [searchParams, setProofType]);
 
-  return proofType && <CreateProofForm proofType={proofType} />;
+  return <DefaultLayout>{proofType && <CreateProofForm proofType={proofType} />}</DefaultLayout>;
 };
 
 export default ProofGen;

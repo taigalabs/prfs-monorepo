@@ -39,6 +39,9 @@ export class ProofGenElement {
 
     const iframe = document.createElement("iframe");
     iframe.src = `${sdkEndpoint}/proof_gen?proofTypeId=${this.selectedProofType.proof_type_id}`;
+    iframe.style.width = "490px";
+    iframe.style.height = "320px";
+    iframe.style.border = "none";
 
     window.addEventListener("message", (e: MessageEvent) => {
       console.log("child says, %o", e.data);

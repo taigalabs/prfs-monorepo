@@ -12,9 +12,6 @@ import i18n from "@/i18n/en";
 import Button from "@/components/button/Button";
 
 const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
-  // let aaa = useWallet();
-  // const signer = useSigner();
-  //
   const [msg, setMsg] = React.useState("");
   const [time, setTime] = React.useState(0);
   const [running, setRunning] = React.useState(false);
