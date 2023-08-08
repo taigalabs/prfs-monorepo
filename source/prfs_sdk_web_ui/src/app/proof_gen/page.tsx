@@ -22,7 +22,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
   const searchParams = useSearchParams();
   const [proofType, setProofType] = React.useState<PrfsProofType>();
 
-  useMessageHandler(setData);
+  useParentMsgHandler(setData);
 
   React.useEffect(() => {
     window.parent.postMessage(
@@ -66,7 +66,7 @@ export interface ProofGenProps {
   };
 }
 
-function useMessageHandler(setData) {
+function useParentMsgHandler(setData) {
   React.useEffect(() => {
     if (!PARENT_MSG_HANDLER.registered) {
       console.log("Attaching parent msg handler");

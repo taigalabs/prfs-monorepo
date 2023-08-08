@@ -191,7 +191,6 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
           </Button>
           <div>{msg}</div>
         </div>
-        <div className={styles.powered}>{i18n.powered_by_prfs_web_sdk}</div>
       </div>
     )
   );
