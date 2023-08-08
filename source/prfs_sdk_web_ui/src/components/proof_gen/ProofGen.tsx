@@ -8,9 +8,9 @@ import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 import { ThirdwebProvider, useSigner, useWallet } from "@thirdweb-dev/react";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 
-import i18n from "../../i18n/en";
-import styles from "./ProofGen.module.scss";
-import Button from "../button/Button";
+import i18n from "@/i18n/en";
+import styles from "@/components/ProofGen.module.scss";
+import Button from "@/components/button/Button";
 
 const ProofGen: React.FC<ProofGenProps> = ({ signer, proofType, handleCreateProof }) => {
   // let aaa = useWallet();
