@@ -1,6 +1,5 @@
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
-// import { PrfsTreeNode } from "@/models";
 import { PrfsTreeNode } from "@taigalabs/prfs-entities/bindings/PrfsTreeNode";
 
 export interface NodePos {
