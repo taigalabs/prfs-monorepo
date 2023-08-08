@@ -1,5 +1,5 @@
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import { Msg } from "./msg";
+import { MsgType } from "./msg";
 
 const sdkEndpoint = "http://localhost:3010";
 
@@ -29,36 +29,44 @@ export class ProofGenElement {
     this.selectedProofType = options.selectedProofType;
   }
 
-  mount(containerName: string) {
+  async mount(containerName: string): Promise<HTMLIFrameElement> {
     const container = document.querySelector(containerName);
 
-    if (!container) {
-      console.error(`No target element named, ${containerName}`);
-      return;
-    }
+    return new Promise((resolve, reject) => {
+      if (!container) {
+        console.error(`No target element named, ${containerName}`);
 
-    const iframe = document.createElement("iframe");
-    iframe.src = `${sdkEndpoint}/proof_gen?proofTypeId=${this.selectedProofType.proof_type_id}`;
-    iframe.style.width = "490px";
-    iframe.style.height = "320px";
-    iframe.style.border = "none";
-
-    window.addEventListener("message", (e: MessageEvent) => {
-      console.log("child says, %o", e.data);
-    });
-
-    container.append(iframe);
-
-    setTimeout(() => {
-      if (iframe.contentWindow) {
-        iframe.contentWindow.postMessage(
-          {
-            data: "power",
-          },
-          "*"
-        );
+        reject("no target element");
       }
-    }, 1000);
+
+      const iframe = document.createElement("iframe");
+      iframe.src = `${sdkEndpoint}/proof_gen?proofTypeId=${this.selectedProofType.proof_type_id}`;
+      iframe.style.width = "490px";
+      iframe.style.height = "320px";
+      iframe.style.border = "none";
+
+      container!.append(iframe);
+
+      window.addEventListener("message", (e: MessageEvent) => {
+        console.log("child says, %o", e.data);
+
+        const msgType: MsgType = e.data.type;
+
+        switch (msgType) {
+          case MsgType.HANDSHAKE: {
+            iframe.contentWindow?.postMessage(
+              {
+                type: MsgType.HANDSHAKE_RESPONSE,
+              },
+              "*"
+            );
+            resolve(iframe);
+          }
+          default: {
+          }
+        }
+      });
+    });
   }
 }
 

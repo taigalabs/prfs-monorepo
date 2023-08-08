@@ -101,7 +101,9 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
         selectedProofType,
       });
 
-      proofGenElement.mount("#prfs-sdk-container");
+      proofGenElement.mount("#prfs-sdk-container").then(elem => {
+        console.log("yo", elem);
+      });
     }
   }, [selectedProofType]);
 

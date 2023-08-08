@@ -9,6 +9,7 @@ import styles from "./Home.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
+import { MsgType } from "@taigalabs/prfs-sdk-web";
 
 const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -17,12 +18,20 @@ const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
   const searchParams = useSearchParams();
   const [proofType, setProofType] = React.useState<PrfsProofType>();
 
+  useMessageHandler(setData);
+
   React.useEffect(() => {
     window.addEventListener("message", e => {
       console.log("parent says", e.data);
-      setData(e.data);
     });
-  }, [setData]);
+
+    window.parent.postMessage(
+      {
+        type: MsgType.HANDSHAKE,
+      },
+      "*"
+    );
+  }, []);
 
   React.useEffect(() => {
     async function fn() {
@@ -55,4 +64,31 @@ export interface ProofGenProps {
   params: {
     proofTypeId: string;
   };
+}
+
+function useMessageHandler(setData) {
+  React.useEffect(() => {
+    console.log(111);
+    window.addEventListener("message", e => {
+      console.log("parent says", e.data);
+
+      const type: MsgType = e.data;
+
+      switch (type) {
+        case MsgType.HANDSHAKE:
+          window.postMessage({
+            type: MsgType.HANDSHAKE_RESPONSE,
+            payload: "hi",
+          });
+          break;
+
+        case MsgType.GET_SIGNER_RESPONSE:
+          window.postMessage({});
+          break;
+
+        default:
+          console.error(`Cannot handle this msg type, type: ${type}`);
+      }
+    });
+  }, [setData]);
 }
