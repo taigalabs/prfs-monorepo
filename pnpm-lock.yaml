@@ -450,27 +450,12 @@ importers:
 
   source/prfs_web:
     dependencies:
-      '@emotion/react':
-        specifier: ^11.11.1
-        version: 11.11.1(@types/react@18.2.12)(react@18.2.0)
-      '@emotion/styled':
-        specifier: ^11.11.0
-        version: 11.11.0(@emotion/react@11.11.1)(@types/react@18.2.12)(react@18.2.0)
       '@ethereumjs/util':
         specifier: ^8.0.3
         version: 8.1.0
       '@floating-ui/react':
         specifier: ^0.24.8
         version: 0.24.8(react-dom@18.2.0)(react@18.2.0)
-      '@mui/icons-material':
-        specifier: ^5.14.1
-        version: 5.14.1(@mui/material@5.14.0)(@types/react@18.2.12)(react@18.2.0)
-      '@mui/material':
-        specifier: ^5.14.0
-        version: 5.14.0(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@types/react@18.2.12)(react-dom@18.2.0)(react@18.2.0)
-      '@mui/styles':
-        specifier: ^5.14.0
-        version: 5.14.0(@types/react@18.2.12)(react@18.2.0)
       '@taigalabs/prfs-api-js':
         specifier: '*'
         version: link:../prfs_api_js
@@ -519,6 +504,9 @@ importers:
       react-dom:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
+      react-icons:
+        specifier: ^4.10.1
+        version: 4.10.1(react@18.2.0)
       readline:
         specifier: ^1.3.0
         version: 1.3.0
@@ -15958,6 +15946,14 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
+
+  /react-icons@4.10.1(react@18.2.0):
+    resolution: {integrity: sha512-/ngzDP/77tlCfqthiiGNZeYFACw85fUjZtLbedmJ5DTlNDIwETxhwBzdOJ21zj4iJdvc0J3y7yOsX3PpxAJzrw==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /react-is@16.13.1:

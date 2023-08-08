@@ -1,6 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+// import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import { FaAngleRight } from "react-icons/fa6";
+import { MdAccountCircle } from "react-icons/md";
 
 import styles from "./LeftBar.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -21,8 +23,8 @@ const Leftbar: React.FC<any> = () => {
       <div className={styles.section}>
         <ul>
           <li className={styles.category}>
-            <ArrowRightIcon />
-            {i18n.proofs}
+            <MdAccountCircle />
+            <span>{i18n.proofs}</span>
           </li>
           <li>
             <ActiveLink href="/proofs" activeClassName={styles.activeLink}>
@@ -39,7 +41,7 @@ const Leftbar: React.FC<any> = () => {
       <div className={styles.section}>
         <ul>
           <li className={styles.category}>
-            <ArrowRightIcon />
+            <FaAngleRight />
             {i18n.circuits}
           </li>
           <li>
@@ -57,8 +59,8 @@ const Leftbar: React.FC<any> = () => {
       <div className={styles.section}>
         <ul>
           <li className={styles.category}>
-            <ArrowRightIcon />
-            {i18n.references}
+            <FaAngleRight />
+            <span>{i18n.references}</span>
           </li>
           <li>
             <ActiveLink href="/sets" activeClassName={styles.activeLink}>
