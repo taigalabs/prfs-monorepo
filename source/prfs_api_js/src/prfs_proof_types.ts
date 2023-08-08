@@ -1,4 +1,3 @@
-// import { PrfsProofType, PublicInputInstance } from "@/models";
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";

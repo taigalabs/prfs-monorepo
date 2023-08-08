@@ -1,4 +1,3 @@
-// import { PrfsSet, PrfsTreeNode } from "@/models";
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
