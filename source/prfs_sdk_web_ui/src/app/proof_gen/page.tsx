@@ -4,7 +4,7 @@ import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import * as prfsApi from "@taigalabs/prfs-api-js";
-import { MsgType } from "@taigalabs/prfs-sdk-web";
+import { MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 
 import styles from "./Home.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -26,12 +26,18 @@ const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
   useParentMsgHandler(setData);
 
   React.useEffect(() => {
-    window.parent.postMessage(
-      {
-        type: MsgType.HANDSHAKE,
-      },
-      "*"
-    );
+    async function fn() {
+      const reply = await sendMsgToParent("power111");
+      console.log("parents reply", reply);
+    }
+
+    fn().then();
+    // window.parent.postMessage(
+    //   {
+    //     type: MsgType.HANDSHAKE,
+    //   },
+    //   "*"
+    // );
   }, []);
 
   React.useEffect(() => {
@@ -76,19 +82,24 @@ function useParentMsgHandler(setData) {
     if (!PARENT_MSG_HANDLER.registered) {
       console.log("Attaching parent msg handler");
 
-      window.addEventListener("message", e => {
-        console.log("parent says", e.data);
+      window.addEventListener("message", (ev: MessageEvent) => {
+        console.log("parent says: %o, ports: %o", ev.data, ev.ports);
 
-        const type: MsgType = e.data;
+        // const type: MsgType = ev.data.type;
+        // const ports = ev.ports;
 
-        switch (type) {
-          case MsgType.GET_SIGNER_RESPONSE:
-            window.postMessage({});
-            break;
+        ev.ports[0].postMessage({ result: `${ev.data} back` });
 
-          default:
-          // console.error(`Cannot handle this msg type, type: ${type}`);
-        }
+        // console.log(44, ports);
+
+        // switch (type) {
+        //   case MsgType.GET_SIGNER_RESPONSE:
+        //     window.postMessage({});
+        //     break;
+
+        //   default:
+        //   // console.error(`Cannot handle this msg type, type: ${type}`);
+        // }
       });
 
       PARENT_MSG_HANDLER.registered = true;

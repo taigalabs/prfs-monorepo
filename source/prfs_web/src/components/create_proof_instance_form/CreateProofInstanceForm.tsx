@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
+import { PrfsSDK, sendMsgToChild } from "@taigalabs/prfs-sdk-web";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import { PublicInputType } from "@taigalabs/prfs-entities/bindings/PublicInputType";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
@@ -94,17 +94,21 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   );
 
   React.useEffect(() => {
-    if (selectedProofType) {
-      console.log(55, selectedProofType);
+    async function fn() {
+      if (selectedProofType) {
+        console.log(55, selectedProofType);
 
-      const proofGenElement = prfs.create("proof-gen", {
-        selectedProofType,
-      });
+        const proofGenElement = prfs.create("proof-gen", {
+          selectedProofType,
+        });
 
-      proofGenElement.mount("#prfs-sdk-container").then(elem => {
-        console.log("yo", elem);
-      });
+        const iframe = await proofGenElement.mount("#prfs-sdk-container");
+        const reply = await sendMsgToChild("power", iframe);
+        console.log(22, reply);
+      }
     }
+
+    fn().then();
   }, [selectedProofType]);
 
   const handleCreateProof = React.useCallback((proof: Uint8Array, publicInput: any) => {

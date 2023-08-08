@@ -4,22 +4,22 @@ export function handleChildMessage(iframe: HTMLIFrameElement, resolve: (value: a
   console.log("attaching child msg handler");
 
   window.addEventListener("message", (e: MessageEvent) => {
-    console.log("child says, %o", e.data);
+    console.log("child says, data: %o, ports: %o", e.data, e.ports);
 
-    const msgType: MsgType = e.data.type;
+    // const msgType: MsgType = e.data.type;
 
-    switch (msgType) {
-      case MsgType.HANDSHAKE: {
-        iframe.contentWindow?.postMessage(
-          {
-            type: MsgType.HANDSHAKE_RESPONSE,
-          },
-          "*"
-        );
-        resolve(iframe);
-      }
-      default: {
-      }
-    }
+    // switch (msgType) {
+    //   case MsgType.HANDSHAKE: {
+    //     iframe.contentWindow?.postMessage(
+    //       {
+    //         type: MsgType.HANDSHAKE_RESPONSE,
+    //       },
+    //       "*"
+    //     );
+    //     resolve(iframe);
+    //   }
+    //   default: {
+    //   }
+    // }
   });
 }
