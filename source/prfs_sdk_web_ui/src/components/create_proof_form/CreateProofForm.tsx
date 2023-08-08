@@ -6,6 +6,8 @@ import { ethers } from "ethers";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 import * as prfsApi from "@taigalabs/prfs-api-js";
+import { PiCalculatorLight } from "react-icons/pi";
+import { HiOutlineDocumentText } from "react-icons/hi2";
 
 import styles from "./CreateProofForm.module.scss";
 import i18n from "@/i18n/en";
@@ -20,11 +22,26 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
     const obj: Record<any, PublicInputInstanceEntry> = proofType.public_input_instance;
 
     const entriesElem = Object.entries(obj).map(([key, val]) => {
+      let typeElem;
+      switch (val.type) {
+        case "PROVER_GENERATED": {
+          typeElem = <PiCalculatorLight />;
+          break;
+        }
+        case "PRFS_SET": {
+          typeElem = <HiOutlineDocumentText />;
+          break;
+        }
+        default: {
+          throw new Error(`public input type is wrong, type: ${val.type}`);
+        }
+      }
+
       return (
         <div className={styles.publicInputEntry} key={key}>
           <div className={styles.entryMeta}>
             <div className={styles.entryKey}>{key}</div>
-            <div className={styles.entryType}>{val.type}</div>
+            <div className={styles.entryType}>{typeElem}</div>
             <div className={styles.entryLabel}>{val.label}</div>
           </div>
           <div className={styles.entryValue}>{val.value}</div>
