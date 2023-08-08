@@ -1,8 +1,6 @@
 "use client";
 
 import React from "react";
-import { ethers } from "ethers";
-import { Msg } from "@taigalabs/prfs-sdk-web";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import * as prfsApi from "@taigalabs/prfs-api-js";
@@ -39,6 +37,8 @@ const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
 
         if (payload.prfs_proof_types.length > 0) {
           setProofType(payload.prfs_proof_types[0]);
+        } else {
+          console.log("PrfsProofType not found");
         }
       }
     }
@@ -46,8 +46,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
     fn().then();
   }, [searchParams, setProofType]);
 
-  return <div>55</div>;
-  // return proof_type_id  />;
+  return proofType && <CreateProofForm proofType={proofType} />;
 };
 
 export default ProofGen;
