@@ -3,6 +3,8 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import * as prfsApi from "@taigalabs/prfs-api-js";
+import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 
 import styles from "./Circuit.module.scss";
 import { stateContext } from "@/contexts/state";
@@ -13,8 +15,6 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
-import * as prfsBackend from "@/fetch/prfsBackend";
-import { PrfsCircuit } from "@/models/index";
 import CircuitSummary from "@/components/circuit_summary/CircuitSummary";
 import DriverInstanceSummary from "@/components/driver_instance_summary/DriverInstanceSummary";
 import PublicInputTable from "@/components/public_input_table/PublicInputTable";
@@ -28,7 +28,7 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
 
   const [circuit, setCircuit] = React.useState<PrfsCircuit>();
   React.useEffect(() => {
-    prfsBackend
+    prfsApi
       .getPrfsNativeCircuits({
         page: 0,
         circuit_id: params.circuit_id,

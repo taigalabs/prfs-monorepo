@@ -2,19 +2,19 @@
 
 import React from "react";
 import Link from "next/link";
+import * as prfsApi from "@taigalabs/prfs-api-js";
+import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import styles from "./ProofTypeTable.module.scss";
 import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
-import * as prfsBackend from "@/fetch/prfsBackend";
-import { PrfsProofType } from "@/models";
 
 const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
   const i18n = React.useContext(i18nContext);
   const [data, setData] = React.useState<TableData<PrfsProofType>>({ page: 0, values: [] });
 
   const handleChangePage = React.useCallback(async (page: number) => {
-    return prfsBackend
+    return prfsApi
       .getPrfsProofTypes({
         page,
       })

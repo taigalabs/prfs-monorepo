@@ -2,12 +2,12 @@
 
 import React from "react";
 import Link from "next/link";
+import * as prfsApi from "@taigalabs/prfs-api-js";
+import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 
 import styles from "./CircuitTable.module.scss";
 import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
-import * as prfsBackend from "@/fetch/prfsBackend";
-import { PrfsCircuit } from "@/models";
 
 const CircuitTable: React.FC<CircuitTableProps> = ({
   selectType,
@@ -18,7 +18,7 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
   const [data, setData] = React.useState<TableData<PrfsCircuit>>({ page: 0, values: [] });
 
   const handleChangeProofPage = React.useCallback(async (page: number) => {
-    return prfsBackend
+    return prfsApi
       .getPrfsNativeCircuits({
         page,
       })

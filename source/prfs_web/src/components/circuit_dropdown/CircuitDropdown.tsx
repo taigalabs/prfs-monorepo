@@ -1,10 +1,11 @@
 "use client";
 
 import React from "react";
+import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
+import * as prfsApi from "@taigalabs/prfs-api-js";
 
 import styles from "./CircuitDropdown.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import * as prfsBackend from "@/fetch/prfsBackend";
 import Dropdown, {
   CreateDropdownListArgs,
   DropdownData,
@@ -12,7 +13,6 @@ import Dropdown, {
 } from "@/components/dropdown/Dropdown";
 import DropdownEntry from "../dropdown/DropdownEntry";
 import DropdownList from "../dropdown/DropdownList";
-import { PrfsCircuit } from "@/models";
 
 const CircuitEntry: React.FC<CircuitEntryProps> = ({ val }) => {
   const i18n = React.useContext(i18nContext);
@@ -56,7 +56,7 @@ const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSe
   });
 
   React.useEffect(() => {
-    prfsBackend
+    prfsApi
       .getPrfsNativeCircuits({
         page: 0,
       })

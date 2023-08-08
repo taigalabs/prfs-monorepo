@@ -2,12 +2,12 @@
 
 import React from "react";
 import Link from "next/link";
+import * as prfsApi from "@taigalabs/prfs-api-js";
+import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 
 import styles from "./ProofInstanceTable.module.scss";
 import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
-import * as prfsBackend from "@/fetch/prfsBackend";
-import { PrfsCircuit } from "@/models";
 import { useConnect, useSigner } from "@thirdweb-dev/react";
 import { useWallet } from "@thirdweb-dev/react";
 
@@ -20,7 +20,7 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
   const [data, setData] = React.useState<TableData<PrfsCircuit>>({ page: 0, values: [] });
 
   const handleChangeProofPage = React.useCallback(async (page: number) => {
-    return prfsBackend
+    return prfsApi
       .getPrfsNativeCircuits({
         page,
       })

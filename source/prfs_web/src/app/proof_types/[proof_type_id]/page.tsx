@@ -2,6 +2,8 @@
 
 import React from "react";
 import Link from "next/link";
+import * as prfsApi from "@taigalabs/prfs-api-js";
+import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import styles from "./ProofType.module.scss";
 import { stateContext } from "@/contexts/state";
@@ -12,8 +14,6 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
-import * as prfsBackend from "@/fetch/prfsBackend";
-import { PrfsProofType } from "@/models/index";
 import { useRouter } from "next/navigation";
 import PublicInputInstanceTable from "@/components/public_input_instance_table/PublicInputInstanceTable";
 import ProofTypeSummary from "@/components/proof_type_summary/ProofTypeSummary";
@@ -27,7 +27,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
 
   const [proofType, setProofType] = React.useState<PrfsProofType>();
   React.useEffect(() => {
-    prfsBackend
+    prfsApi
       .getPrfsProofTypes({
         page: 0,
         proof_type_id: params.proof_type_id,

@@ -2,19 +2,19 @@
 
 import React from "react";
 import Link from "next/link";
+import * as prfsApi from "@taigalabs/prfs-api-js";
+import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 
 import styles from "./SetTable.module.scss";
 import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
-import * as prfsBackend from "@/fetch/prfsBackend";
-import { PrfsSet } from "@/models";
 
 const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
   const [data, setData] = React.useState<TableData<PrfsSet>>({ page: 0, values: [] });
 
   const handleChangePage = React.useCallback(async (page: number) => {
-    return prfsBackend
+    return prfsApi
       .getSets({
         page,
       })
@@ -67,7 +67,7 @@ const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSele
           <td className={styles.label}>{val.label}</td>
           <td className={styles.author}>{val.author}</td>
           <td className={styles.desc}>{val.desc}</td>
-          <td className={styles.cardinality}>{val.cardinality}</td>
+          <td className={styles.cardinality}>{val.cardinality.toString()}</td>
           <td className={styles.createdAt}>{val.created_at}</td>
         </TableRow>
       );

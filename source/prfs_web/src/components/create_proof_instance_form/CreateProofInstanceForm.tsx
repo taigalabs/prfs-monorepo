@@ -3,6 +3,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
+import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
+import {
+  PrfsCircuit,
+  PublicInputType,
+  PrfsSet,
+  PublicInputInstance,
+} from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
+import * as prfsApi from "@taigalabs/prfs-api-js";
 
 import styles from "./CreateProofInstanceForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -12,9 +20,7 @@ import Card from "@/components/card/Card";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import { FormTitleRow, FormTitle, FormSubtitle } from "@/components/form/Form";
 import Button from "@/components/button/Button";
-import { PrfsCircuit, PublicInputType, PrfsSet, PublicInputInstance } from "@/models";
 import { stateContext } from "@/contexts/state";
-import * as prfsBackend from "@/fetch/prfsBackend";
 import ProofTypeDropdown from "../proof_type_dropdown/ProofTypeDropdown";
 import PublicInputConfigSection from "../public_input_config_section/PublicInputConfigSection";
 import { useSigner } from "@thirdweb-dev/react";

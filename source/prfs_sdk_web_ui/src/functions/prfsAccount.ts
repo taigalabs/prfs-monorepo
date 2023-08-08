@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 
-import * as prfsBackend from "@/fetch/prfsBackend";
+import * as prfsApi from "@taigalabs/prfs-api-js";
 
 export async function signIn(walletAddr: string, passhash: string, signer: ethers.Signer) {
   if (walletAddr.length < 1) {
@@ -13,7 +13,7 @@ export async function signIn(walletAddr: string, passhash: string, signer: ether
 
   try {
     let sig = await signer.signMessage(passhash);
-    let resp = await prfsBackend.signInPrfsAccount(sig);
+    let resp = await prfsApi.signInPrfsAccount(sig);
 
     if (resp.error) {
       throw new Error(resp.error);

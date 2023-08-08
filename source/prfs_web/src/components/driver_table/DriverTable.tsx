@@ -2,19 +2,19 @@
 
 import React from "react";
 import Link from "next/link";
+import * as prfsApi from "@taigalabs/prfs-api-js";
+import { CircuitDriver } from "@taigalabs/prfs-entities/bindings/CircuitDriver";
 
 import styles from "./DriverTable.module.scss";
 import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
-import * as prfsBackend from "@/fetch/prfsBackend";
-import { PrfsCircuitDriver } from "@/models";
 
 const DriverTable: React.FC<DriverTableProps> = ({ selectType, selectedVal, handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
-  const [data, setData] = React.useState<TableData<PrfsCircuitDriver>>({ page: 0, values: [] });
+  const [data, setData] = React.useState<TableData<CircuitDriver>>({ page: 0, values: [] });
 
   const handleChangeProofPage = React.useCallback(async (page: number) => {
-    return prfsBackend
+    return prfsApi
       .getPrfsNativeCircuitDrivers({
         page,
       })
@@ -91,6 +91,6 @@ export default DriverTable;
 
 export interface DriverTableProps {
   selectType?: "checkbox" | "radio";
-  selectedVal?: PrfsCircuitDriver;
-  handleSelectVal?: (row: PrfsCircuitDriver) => void;
+  selectedVal?: CircuitDriver;
+  handleSelectVal?: (row: CircuitDriver) => void;
 }

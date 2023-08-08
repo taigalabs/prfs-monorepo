@@ -2,6 +2,8 @@
 
 import React from "react";
 import Link from "next/link";
+import * as prfsApi from "@taigalabs/prfs-api-js";
+import { CircuitDriver } from "@taigalabs/prfs-entities/bindings/CircuitDriver";
 
 import styles from "./Program.module.scss";
 import { stateContext } from "@/contexts/state";
@@ -12,8 +14,6 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
-import * as prfsBackend from "@/fetch/prfsBackend";
-import { PrfsCircuitDriver } from "@/models/index";
 import { useRouter } from "next/navigation";
 import DriverSummary from "@/components/driver_summary/DriverSummary";
 import DriverPropsTable from "@/components/driver_props_table/DriverPropsTable";
@@ -25,9 +25,9 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
   useLocalWallet(dispatch);
   const router = useRouter();
 
-  const [driver, setDriver] = React.useState<PrfsCircuitDriver>();
+  const [driver, setDriver] = React.useState<CircuitDriver>();
   React.useEffect(() => {
-    prfsBackend
+    prfsApi
       .getPrfsNativeCircuitDrivers({
         page: 0,
         driver_id: params.driver_id,

@@ -1,6 +1,5 @@
 use chrono::{DateTime, NaiveDate, Utc};
 use serde::{Deserialize, Serialize, Serializer};
-use serde_json::value::RawValue;
 use std::collections::HashMap;
 use ts_rs::TS;
 
@@ -23,14 +22,6 @@ pub struct PrfsProofType {
 
     #[ts(type = "number")]
     pub created_at: DateTime<Utc>,
-}
-
-fn serialize_json_value<S>(a: &String, s: S) -> Result<S::Ok, S::Error>
-where
-    S: Serializer,
-{
-    let v: &RawValue = serde_json::from_str(&a).expect(&format!("invalid json, str: {}", a));
-    v.serialize(s)
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
