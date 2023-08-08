@@ -136,7 +136,7 @@ fn create_build_json(circuit: &mut PrfsCircuit, timestamp: i64) {
 
     let naive = NaiveDateTime::from_timestamp_millis(timestamp).unwrap();
     let datetime: DateTime<Utc> = DateTime::from_utc(naive, Utc);
-    circuit.created_at = datetime.to_rfc3339_opts(chrono::SecondsFormat::Secs, true);
+    circuit.created_at = datetime;
 
     let circuit_build_json = CircuitBuildJson {
         timestamp,

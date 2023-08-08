@@ -42,6 +42,10 @@ const DriverSummary: React.FC<DriverSummaryProps> = ({ driver }) => {
             <ColumnarSummaryCellHeader>{i18n.version}</ColumnarSummaryCellHeader>
             <div>{driver.version}</div>
           </ColumnarSummaryCell>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.created_at}</ColumnarSummaryCellHeader>
+            <div>{driver.created_at}</div>
+          </ColumnarSummaryCell>
         </ColumnarSummaryColumn>
       </ColumnarSummary>
     )

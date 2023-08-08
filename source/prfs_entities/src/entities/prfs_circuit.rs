@@ -16,7 +16,7 @@ pub struct PrfsCircuit {
     pub elliptic_curve: String,
     pub finite_field: String,
     pub public_inputs: Vec<PublicInput>,
-    pub driver: CircuitDriver,
+    pub driver: CircuitDriverInstance,
 
     #[ts(type = "string")]
     pub created_at: DateTime<Utc>,
@@ -29,6 +29,19 @@ pub struct CircuitDriver {
     pub driver_repository_url: String,
     pub version: String,
     pub author: String,
+
+    #[ts(type = "Record<string, string>")]
+    pub properties_desc: sqlx::types::Json<serde_json::Value>,
+
+    #[ts(type = "number")]
+    pub created_at: DateTime<Utc>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct CircuitDriverInstance {
+    pub driver_id: String,
+    pub version: String,
 
     #[ts(type = "Record<string, any>")]
     pub properties: sqlx::types::Json<serde_json::Value>,

@@ -11,8 +11,8 @@ pub struct EthAccount {
     pub wei: Decimal,
 }
 
-impl EthAccount {
-    pub fn table_name() -> &'static str {
-        "eth_accounts"
-    }
-}
+// impl EthAccount {
+//     pub fn table_name() -> &'static str {
+//         "eth_accounts"
+//     }
+// }

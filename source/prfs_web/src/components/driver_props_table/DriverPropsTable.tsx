@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
+import { CircuitDriver } from "@taigalabs/prfs-entities/bindings/CircuitDriver";
 
 import styles from "./DriverPropsTable.module.scss";
 import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
@@ -16,7 +17,7 @@ const DriverPropsTable: React.FC<DriverPropsTableProps> = ({ driver, handleSelec
     if (driver) {
       setData({
         page: 0,
-        values: Object.entries(driver.properties),
+        values: Object.entries(driver.properties_desc),
       });
     }
   }, [driver]);
@@ -73,7 +74,7 @@ const DriverPropsTable: React.FC<DriverPropsTableProps> = ({ driver, handleSelec
 export default DriverPropsTable;
 
 export interface DriverPropsTableProps {
-  driver: PrfsCircuitDriver;
+  driver: CircuitDriver;
   selectType?: "checkbox" | "radio";
   selectedVal?: PrfsCircuit;
   handleSelectVal?: (row: PrfsCircuit) => void;

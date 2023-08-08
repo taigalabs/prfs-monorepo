@@ -8,7 +8,6 @@ use crate::{
         build_prfs_entities_ts_binding::BuildPrfsEntitiesTSBindingTask,
         compile_circuits::CompileCircuitsTask, task::BuildTask,
     },
-    paths::PATHS,
     CiError,
 };
 use clap::ArgMatches;
