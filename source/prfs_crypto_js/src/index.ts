@@ -1,16 +1,3 @@
-// export function makePathIndices(depth: number, leafIdx: number): number[] {
-//   const pathIndices = [];
-//   let currIdx = leafIdx;
-
-//   for (let h = 0; h < depth; h += 1) {
-//     pathIndices.push(currIdx);
-//     let parentIdx = getParentIdx(currIdx);
-//     currIdx = parentIdx;
-//   }
-
-//   return pathIndices;
-// }
-
 export function makePathIndices(depth: number, leafIdx: number): BigInt[] {
   let pathIndices: BigInt[] = [];
   let currIdx = leafIdx;

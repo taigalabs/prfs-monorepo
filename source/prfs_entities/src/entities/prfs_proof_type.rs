@@ -1,7 +1,5 @@
-use chrono::{DateTime, NaiveDate, Utc};
-use prfs_driver_type::drivers::spartan_circom_driver::SpartanCircomDriverProperties;
-use serde::{Deserialize, Serialize, Serializer};
-use serde_json::value::RawValue;
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use ts_rs::TS;
 
@@ -26,14 +24,6 @@ pub struct PrfsProofType {
     pub created_at: DateTime<Utc>,
 }
 
-fn serialize_json_value<S>(a: &String, s: S) -> Result<S::Ok, S::Error>
-where
-    S: Serializer,
-{
-    let v: &RawValue = serde_json::from_str(&a).expect(&format!("invalid json, str: {}", a));
-    v.serialize(s)
-}
-
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
 pub struct PublicInputInstanceEntry {
@@ -44,6 +34,7 @@ pub struct PublicInputInstanceEntry {
     pub r#ref: Option<String>,
 }
 
+#[allow(non_camel_case_types)]
 #[derive(Debug, Serialize, Deserialize, Clone, TS, strum_macros::Display)]
 #[ts(export)]
 pub enum PublicInputType {

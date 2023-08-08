@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import Paper from "@mui/material/Paper";
 
 import styles from "./Widget.module.scss";
 import { i18nContext } from "@/contexts/i18n";

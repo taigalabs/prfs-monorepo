@@ -2,12 +2,12 @@
 
 import React from "react";
 import Link from "next/link";
+import * as prfsApi from "@taigalabs/prfs-api-js";
+import { PrfsTreeNode } from "@taigalabs/prfs-entities/bindings/PrfsTreeNode";
 
 import styles from "./SetElementTable.module.scss";
 import Table, { TableBody, TableRow, TableData, TableHeader } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
-import * as prfsBackend from "@/fetch/prfsBackend";
-import { PrfsTreeNode } from "@/models";
 
 const SetElementTable: React.FC<SetElementTableProps> = ({ setId }) => {
   const i18n = React.useContext(i18nContext);
@@ -15,7 +15,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId }) => {
 
   const handleChangePage = React.useCallback(
     async (page: number) => {
-      return prfsBackend
+      return prfsApi
         .getSetElements({
           page,
           limit: 20,

@@ -6,10 +6,10 @@
   width: 100%;
   display: flex;
   padding: 0px 0px;
-  background-color: var(--dark-cyan-40);
   height: 41px;
   font-size: 13px;
-  color: var(--white-100);
+  background-color: var(--bright-gray-50);
+  border-bottom: 1px solid var(--gray-60);
 }
 
 .logoArea {
@@ -27,7 +27,7 @@
 
   a {
     &:hover {
-      color: var(--bright-green-50);
+      color: var(--aqua-blue-50);
     }
   }
 
@@ -36,7 +36,7 @@
   }
 
   .inactive {
-    color: var(--gray-40);
+    color: var(--gray-70);
   }
 }
 
@@ -57,7 +57,7 @@
     align-items: center;
 
     &:hover {
-      color: var(--bright-green-50);
+      color: var(--aqua-blue-50);
       cursor: pointer;
     }
 
@@ -69,7 +69,7 @@
   }
 
   .base.isOpen {
-    color: var(--bright-green-50);
+    color: var(--aqua-blue-50);
   }
 }
 
@@ -80,8 +80,7 @@
 }
 
 .dropdown {
-  color: var(--white-100);
-  background-color: var(--dark-cyan-50);
+  background-color: var(--bright-gray-50);
   padding: 12px 13px;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   box-shadow: 2px 2px 4px #0006, inset 0 1px #414750;
@@ -89,6 +88,6 @@
 
   li:hover {
     cursor: pointer;
-    color: var(--bright-green-30);
+    color: var(--aqua-blue-50);
   }
 }

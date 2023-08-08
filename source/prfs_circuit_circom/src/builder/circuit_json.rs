@@ -1,5 +1,4 @@
-use prfs_driver_type::CircuitDriver;
-use prfs_entities::entities::PublicInput;
+use prfs_entities::entities::{CircuitDriver, PrfsCircuit, PublicInput};
 use serde::{Deserialize, Serialize};
 
 pub const SYSTEM_NATIVE_SCHEME: &str = "system_native://";
@@ -12,21 +11,5 @@ pub enum FileKind {
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct CircuitsJson {
-    pub circuits: Vec<CircuitJson>,
-}
-
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct CircuitJson {
-    pub circuit_id: String,
-    pub label: String,
-    pub desc: String,
-    pub created_at: String,
-    pub author: String,
-    pub circuit_dsl: String,
-    pub arithmetization: String,
-    pub proof_algorithm: String,
-    pub elliptic_curve: String,
-    pub finite_field: String,
-    pub public_inputs: Vec<PublicInput>,
-    pub driver: CircuitDriver,
+    pub circuits: Vec<PrfsCircuit>,
 }

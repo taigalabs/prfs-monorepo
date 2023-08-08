@@ -1,6 +1,6 @@
 use crate::{responses::ApiResponse, state::ServerState};
 use hyper::{body, Body, Request, Response};
-use prfs_driver_type::CircuitDriver;
+use prfs_entities::entities::CircuitDriver;
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};

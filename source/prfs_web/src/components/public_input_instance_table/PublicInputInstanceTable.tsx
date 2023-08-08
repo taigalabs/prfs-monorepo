@@ -2,11 +2,12 @@
 
 import React from "react";
 import Link from "next/link";
+import { PublicInput } from "@taigalabs/prfs-entities/bindings/PublicInput";
+import { PublicInputInstanceEntry } from "@taigalabs/prfs-entities/bindings/PublicInputInstanceEntry";
 
 import styles from "./PublicInputInstanceTable.module.scss";
 import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
-import { PublicInput, PublicInputInstance, PublicInputInstanceEntry } from "@/models";
 
 const PublicInputInstanceTable: React.FC<PublicInputInstanceTableProps> = ({
   publicInputInstance,
@@ -68,5 +69,5 @@ const PublicInputInstanceTable: React.FC<PublicInputInstanceTableProps> = ({
 export default PublicInputInstanceTable;
 
 export interface PublicInputInstanceTableProps {
-  publicInputInstance: PublicInputInstance;
+  publicInputInstance: Record<string, PublicInputInstanceEntry>;
 }

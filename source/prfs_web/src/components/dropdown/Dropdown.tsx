@@ -1,6 +1,5 @@
 import React from "react";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import { IoMdArrowDropup, IoMdArrowDropdown } from "react-icons/io";
 import { useFloating, useClick, useInteractions, useDismiss } from "@floating-ui/react";
 
 import styles from "./Dropdown.module.scss";
@@ -44,7 +43,7 @@ function Dropdown<T>({ createBase, createList, handleSelectVal }: DropdownProps<
       >
         <div className={styles.baseContainer}>{baseElem}</div>
         <div className={styles.arrowContainer}>
-          {isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+          {isOpen ? <IoMdArrowDropup /> : <IoMdArrowDropdown />}
         </div>
       </div>
       {isOpen && (

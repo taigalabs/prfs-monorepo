@@ -22,6 +22,8 @@ pub struct Paths {
     pub prfs_driver_spartan_wasm: PathBuf,
     pub prfs_driver_spartan_wasm_build: PathBuf,
     pub prfs_web: PathBuf,
+    pub prfs_sdk_web: PathBuf,
+    pub prfs_sdk_web_ui: PathBuf,
 }
 
 impl Paths {
@@ -47,6 +49,9 @@ impl Paths {
         let prfs_driver_spartan_wasm = curr_dir.join("source/prfs_driver_spartan_wasm");
         let prfs_driver_spartan_wasm_build = curr_dir.join("source/prfs_driver_spartan_wasm/build");
 
+        let prfs_sdk_web = curr_dir.join("source/prfs_sdk_web");
+        let prfs_sdk_web_ui = curr_dir.join("source/prfs_sdk_web_ui");
+
         let p = Paths {
             curr_dir,
 
@@ -61,13 +66,17 @@ impl Paths {
 
             prfs_entities_bindings,
 
+            prfs_api_server,
+
             prfs_asset_server,
             prfs_asset_server_assets,
             prfs_asset_server_assets_local,
 
             prfs_web,
+            prfs_sdk_web,
+            prfs_sdk_web_ui,
+
             e2e_test_web,
-            prfs_api_server,
         };
 
         println!(

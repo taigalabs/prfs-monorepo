@@ -1,20 +1,14 @@
 .wrapper {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  z-index: 200;
-  background-color: var(--dark-cyan-40);
   display: flex;
   align-items: center;
   height: 30px;
-  padding: 0 24px;
-  color: var(--white-100);
+  padding: 0 0px;
+  margin-top: 32px;
   font-size: 12px;
 
   a {
     &:hover {
-      color: var(--bright-green-50);
+      color: var(--aqua-blue-50);
     }
   }
 }
@@ -38,5 +32,5 @@
 }
 
 .inactive {
-  color: var(--gray-40);
+  color: var(--gray-70);
 }

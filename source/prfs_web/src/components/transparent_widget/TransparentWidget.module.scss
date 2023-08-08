@@ -1,0 +1,28 @@
+.wrapper {
+  padding: 8px 10px;
+
+  a:hover {
+    color: var(--aqua-blue-50);
+  }
+}
+
+.header {
+  font-weight: 600;
+  font-size: 1.22em;
+  margin-bottom: 10px;
+}
+
+.row:not(:first-child) {
+  margin-top: 17px;
+}
+
+.createdAt {
+  font-size: 0.88em;
+  color: var(--gray-40);
+  margin-bottom: 4px;
+}
+
+.title {
+  font-weight: 500;
+  margin-bottom: 5px;
+}

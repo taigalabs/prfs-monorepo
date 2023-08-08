@@ -2,12 +2,11 @@
 
 import React from "react";
 import Link from "next/link";
+import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 
 import styles from "./DriverPropsTable.module.scss";
 import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
-import * as prfsBackend from "@/fetch/prfsBackend";
-import { PrfsCircuit, PrfsCircuitDriver } from "@/models";
 
 const DriverPropsTable: React.FC<DriverPropsTableProps> = ({ driver, handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);

@@ -1,3 +1,2 @@
-import ProofGen, { ProofGenProps } from "./components/ProofGen/ProofGen";
-
-export { ProofGen, type ProofGenProps };
+export * from "./msg";
+export * from "./sdk";

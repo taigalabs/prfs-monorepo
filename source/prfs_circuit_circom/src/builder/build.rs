@@ -1,9 +1,8 @@
-use crate::{
-    paths::PATHS, CircuitBuildJson, CircuitBuildListJson, CircuitJson, CircuitsJson, FileKind,
-};
+use crate::{paths::PATHS, CircuitBuildJson, CircuitBuildListJson, CircuitsJson, FileKind};
 use chrono::{DateTime, NaiveDateTime, Utc};
 use colored::Colorize;
 use prfs_driver_type::{driver_ids, drivers::spartan_circom_driver::SpartanCircomDriverProperties};
+use prfs_entities::entities::PrfsCircuit;
 use std::{io::Write, process::Command};
 
 pub fn run() {
@@ -39,7 +38,7 @@ fn clean_build() {
     }
 }
 
-fn get_path_segment(circuit: &CircuitJson, file_kind: FileKind, timestamp: i64) -> String {
+fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind, timestamp: i64) -> String {
     match file_kind {
         FileKind::R1CS => {
             format!("{}/{}.r1cs", &circuit.circuit_id, &circuit.label,)
@@ -59,7 +58,7 @@ fn get_path_segment(circuit: &CircuitJson, file_kind: FileKind, timestamp: i64) 
     }
 }
 
-fn make_spartan(circuit: &CircuitJson, timestamp: i64) {
+fn make_spartan(circuit: &PrfsCircuit, timestamp: i64) {
     let r1cs_src_path = PATHS
         .build
         .join(get_path_segment(circuit, FileKind::R1CS, timestamp));
@@ -87,12 +86,12 @@ fn read_circuits_json() -> CircuitsJson {
     return circuits;
 }
 
-fn compile_circuits(circuit: &CircuitJson) {
+fn compile_circuits(circuit: &PrfsCircuit) {
     let driver_id = &circuit.driver.driver_id;
 
     let driver: SpartanCircomDriverProperties = match driver_id.as_str() {
         driver_ids::SPARTAN_CIRCOM_DRIVER_TYPE => {
-            serde_json::from_value(circuit.driver.properties.clone()).unwrap()
+            serde_json::from_str(&circuit.driver.properties.to_string()).unwrap()
         }
         _ => panic!(
             "We cannot compile a circuit of this type, driver: {:?}",
@@ -124,15 +123,16 @@ fn compile_circuits(circuit: &CircuitJson) {
     assert!(status.success());
 }
 
-fn create_build_json(circuit: &mut CircuitJson, timestamp: i64) {
+fn create_build_json(circuit: &mut PrfsCircuit, timestamp: i64) {
     let mut driver_props: SpartanCircomDriverProperties =
-        serde_json::from_value(circuit.driver.properties.clone()).unwrap();
+        serde_json::from_str(&circuit.driver.properties.to_string()).unwrap();
     let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen, timestamp);
     let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan, timestamp);
 
     driver_props.wtns_gen_url = format!("prfs://{}", wtns_gen_path);
     driver_props.circuit_url = format!("prfs://{}", spartan_circuit_path);
-    circuit.driver.properties = serde_json::to_value(driver_props).unwrap();
+    circuit.driver.properties =
+        sqlx::types::Json::from(serde_json::to_value(driver_props).unwrap());
 
     let naive = NaiveDateTime::from_timestamp_millis(timestamp).unwrap();
     let datetime: DateTime<Utc> = DateTime::from_utc(naive, Utc);

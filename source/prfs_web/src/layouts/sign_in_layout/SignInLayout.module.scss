@@ -3,6 +3,7 @@
   justify-content: center;
   padding: 38px 8px;
   flex-grow: 1;
+  background-color: var(--bright-gray-50);
 
   .inner {
     display: flex;
@@ -36,7 +37,7 @@
     }
 
     a {
-      color: var(--turquoise-50);
+      color: var(--aqua-blue-50);
 
       &:hover {
         text-decoration: underline;

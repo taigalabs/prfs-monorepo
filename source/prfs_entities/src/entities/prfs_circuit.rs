@@ -1,10 +1,10 @@
 use super::PublicInput;
-use prfs_driver_type::CircuitDriver;
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct CircuitJson {
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct PrfsCircuit {
     pub circuit_id: String,
     pub label: String,
     pub desc: String,
@@ -17,4 +17,15 @@ pub struct CircuitJson {
     pub finite_field: String,
     pub public_inputs: Vec<PublicInput>,
     pub driver: CircuitDriver,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct CircuitDriver {
+    pub driver_id: String,
+    pub driver_repository_url: String,
+    pub version: String,
+
+    #[ts(type = "Record<string, any>")]
+    pub properties: sqlx::types::Json<serde_json::Value>,
 }

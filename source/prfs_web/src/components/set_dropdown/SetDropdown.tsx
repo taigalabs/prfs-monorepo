@@ -1,16 +1,16 @@
 "use client";
 
 import React from "react";
+import * as prfsApi from "@taigalabs/prfs-api-js";
+import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 
 import styles from "./SetDropdown.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import * as prfsBackend from "@/fetch/prfsBackend";
 import Dropdown, {
   CreateDropdownListArgs,
   DropdownData,
   DropdownSingleSelectedValue,
 } from "@/components/dropdown/Dropdown";
-import { PrfsSet } from "@/models";
 import DropdownEntry from "@/components/dropdown/DropdownEntry";
 import DropdownList from "@/components/dropdown/DropdownList";
 
@@ -32,7 +32,7 @@ const SetEntry: React.FC<SetEntryProps> = ({ val }) => {
           </div>
           <div className={styles.item}>
             <p>{i18n.cardinality}:</p>
-            <p>{val.cardinality}</p>
+            <p>{val.cardinality.toString()}</p>
           </div>
           <div className={styles.item}>
             <p>{i18n.element_type}:</p>
@@ -53,7 +53,7 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
   });
 
   React.useEffect(() => {
-    prfsBackend
+    prfsApi
       .getSets({
         page: 0,
       })
