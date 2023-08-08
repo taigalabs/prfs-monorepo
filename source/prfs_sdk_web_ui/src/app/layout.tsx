@@ -5,7 +5,6 @@ import { ThirdwebProvider } from "@thirdweb-dev/react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import { I18nProvider } from "@/contexts/i18n";
-import { StateProvider } from "@/contexts/state";
 
 const theme = createTheme({});
 
@@ -24,9 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body suppressHydrationWarning={true}>
         <ThemeProvider theme={theme}>
           <ThirdwebProvider activeChain="ethereum">
-            <StateProvider>
-              <I18nProvider>{children}</I18nProvider>
-            </StateProvider>
+            <I18nProvider>{children}</I18nProvider>
           </ThirdwebProvider>
         </ThemeProvider>
       </body>

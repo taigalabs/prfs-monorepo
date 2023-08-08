@@ -17,6 +17,7 @@ export class PrfsSDK {
 
     const iframe = document.createElement("iframe");
     iframe.src = sdkEndpoint;
+    // iframe.sandbox = 
 
     container.append(iframe);
   }
