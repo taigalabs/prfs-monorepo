@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import { MsgType } from "./msg";
-import { handleChildMessage } from "./msg_handle";
+import { handleChildMessage } from "./handle_msg";
 
 const SDK_ENDPOINT = "http://localhost:3010";
 

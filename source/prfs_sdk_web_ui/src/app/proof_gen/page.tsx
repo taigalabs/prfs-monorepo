@@ -87,12 +87,11 @@ function useParentMsgHandler(setData) {
       console.log("Attaching parent msg handler");
 
       window.addEventListener("message", (ev: MessageEvent) => {
-        console.log("parent says: %o, ports: %o", ev.data, ev.ports);
-
-        const type: MsgType = ev.data.type;
-        // const ports = ev.ports;
-
         if (ev.ports.length > 0) {
+          console.log("parent says: %o, ports: %o", ev.data, ev.ports);
+
+          const type: MsgType = ev.data.type;
+
           ev.ports[0].postMessage({ result: `${ev.data} back` });
         }
 

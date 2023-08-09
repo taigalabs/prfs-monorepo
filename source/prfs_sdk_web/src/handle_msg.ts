@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 
-import { MsgType } from "./msg";
+import { GetAddressResponseMsg, MsgType } from "./msg";
 
 export function handleChildMessage(
   iframe: HTMLIFrameElement,
@@ -9,7 +9,7 @@ export function handleChildMessage(
 ) {
   console.log("attaching child msg handler");
 
-  window.addEventListener("message", (ev: MessageEvent) => {
+  window.addEventListener("message", async (ev: MessageEvent) => {
     if (ev.ports.length > 0) {
       const type: MsgType = ev.data.type;
 
@@ -23,13 +23,14 @@ export function handleChildMessage(
           });
           break;
 
-        case "GET_SIGNER":
-          console.log(11, provider);
+        case "GET_ADDRESS":
+          await provider.send("eth_requestAccounts", []);
+          const signer = provider.getSigner();
+          const addr = await signer.getAddress();
+          console.log(222, addr);
+          // const addr = await signer.getAddress();
 
-          ev.ports[0].postMessage({
-            type: MsgType.GET_SIGNER_RESPONSE,
-            payload: `Hello`,
-          });
+          ev.ports[0].postMessage(new GetAddressResponseMsg(addr));
 
           break;
         default:

@@ -96,8 +96,13 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   React.useEffect(() => {
     async function fn() {
       if (selectedProofType) {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
         console.log(55, selectedProofType);
+
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        // await provider.send("eth_requestAccounts", []);
+        // const signer = provider.getSigner();
+        // const addr = await signer.getAddress();
+        // console.log(222, addr);
 
         const proofGenElement = prfs.create("proof-gen", {
           selectedProofType,
