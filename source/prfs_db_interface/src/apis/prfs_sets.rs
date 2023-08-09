@@ -98,8 +98,18 @@ pub async fn insert_prfs_set(
     prfs_set: &PrfsSet,
     update_on_conflict: bool,
 ) -> Result<String, DbInterfaceError> {
-    let cols = "'set_id', 'label', 'author', 'desc', 'hash_algorithm', 'cardinality'\
-        'merkle_root', 'element_type', 'elliptic_curve', 'finite_field'";
+    let cols = concat_cols(&[
+        "set_id",
+        "label",
+        "author",
+        "desc",
+        "hash_algorithm",
+        "cardinality",
+        "merkle_root",
+        "element_type",
+        "elliptic_curve",
+        "finite_field",
+    ]);
 
     let vals = concat_values(&[
         &prfs_set.set_id,
@@ -128,6 +138,8 @@ pub async fn insert_prfs_set(
             cols, vals,
         )
     };
+
+    println!("query: {}", query);
 
     let row = sqlx::query(&query)
         .fetch_one(&mut **tx)

@@ -366,9 +366,6 @@ importers:
       '@taigalabs/prfs-driver-interface':
         specifier: '*'
         version: link:../prfs_driver_interface
-      '@taigalabs/prfs-driver-spartan-js':
-        specifier: '*'
-        version: link:../prfs_driver_spartan_js
       '@taigalabs/prfs-driver-type':
         specifier: '*'
         version: link:../prfs_driver_type
