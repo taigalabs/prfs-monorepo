@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import { PrfsSDK, sendMsgToChild } from "@taigalabs/prfs-sdk-web";
+import { MsgType, PrfsSDK, sendMsgToChild } from "@taigalabs/prfs-sdk-web";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import { PublicInputType } from "@taigalabs/prfs-entities/bindings/PublicInputType";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
@@ -96,15 +96,19 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   React.useEffect(() => {
     async function fn() {
       if (selectedProofType) {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
         console.log(55, selectedProofType);
 
         const proofGenElement = prfs.create("proof-gen", {
           selectedProofType,
+          provider,
         });
 
         const iframe = await proofGenElement.mount("#prfs-sdk-container");
-        const reply = await sendMsgToChild("power", iframe);
-        console.log(22, reply);
+        // const reply = await sendMsgToChild({
+        //   type: MsgType.
+        // }, iframe);
+        // console.log(22, reply);
       }
     }
 

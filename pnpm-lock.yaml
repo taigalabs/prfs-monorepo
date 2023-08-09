@@ -332,6 +332,9 @@ importers:
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
+      ethers:
+        specifier: ^5
+        version: 5.7.2
     devDependencies:
       rollup:
         specifier: ^3.27.2

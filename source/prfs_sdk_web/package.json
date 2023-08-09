@@ -12,7 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@taigalabs/prfs-entities": "*"
+    "@taigalabs/prfs-entities": "*",
+    "ethers": "^5"
   },
   "devDependencies": {
     "rollup": "^3.27.2",

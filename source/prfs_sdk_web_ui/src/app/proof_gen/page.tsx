@@ -27,7 +27,11 @@ const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
 
   React.useEffect(() => {
     async function fn() {
-      const reply = await sendMsgToParent("power111");
+      const reply = await sendMsgToParent({
+        type: MsgType.HANDSHAKE,
+        payload: "Hi",
+      });
+
       console.log("parents reply", reply);
     }
 

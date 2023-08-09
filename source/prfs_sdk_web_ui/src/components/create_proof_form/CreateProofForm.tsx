@@ -60,12 +60,12 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
 
     console.log(11, proofType);
 
-    window.postMessage(
-      {
-        type: MsgType.GET_SIGNER,
-      },
-      "*"
-    );
+    // window.postMessage(
+    //   {
+    //     type: MsgType.GET_SIGNER,
+    //   },
+    //   "*"
+    // );
 
     // const addr = await signer.getAddress();
     // console.log("my address: %s", addr);

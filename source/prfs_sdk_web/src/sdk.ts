@@ -1,8 +1,10 @@
+import { ethers } from "ethers";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+
 import { MsgType } from "./msg";
 import { handleChildMessage } from "./msg_handle";
 
-const sdkEndpoint = "http://localhost:3010";
+const SDK_ENDPOINT = "http://localhost:3010";
 
 export class PrfsSDK {
   token: string;
@@ -25,9 +27,11 @@ export class PrfsSDK {
 
 export class ProofGenElement {
   selectedProofType: PrfsProofType;
+  provider: ethers.providers.Web3Provider;
 
-  constructor(options: { selectedProofType: PrfsProofType }) {
+  constructor(options: ProofGenElementOptions) {
     this.selectedProofType = options.selectedProofType;
+    this.provider = new ethers.providers.Web3Provider(window.ethereum);
   }
 
   async mount(containerName: string): Promise<HTMLIFrameElement> {
@@ -41,14 +45,14 @@ export class ProofGenElement {
       }
 
       const iframe = document.createElement("iframe");
-      iframe.src = `${sdkEndpoint}/proof_gen?proofTypeId=${this.selectedProofType.proof_type_id}`;
+      iframe.src = `${SDK_ENDPOINT}/proof_gen?proofTypeId=${this.selectedProofType.proof_type_id}`;
       iframe.style.width = "490px";
       iframe.style.height = "320px";
       iframe.style.border = "none";
 
       container!.append(iframe);
 
-      handleChildMessage(iframe, resolve);
+      handleChildMessage(iframe, resolve, this.provider);
     });
   }
 }
@@ -58,5 +62,11 @@ export type ElementType = "proof-gen";
 export interface ElementOptions {
   "proof-gen": {
     selectedProofType: PrfsProofType;
+    provider: ethers.providers.Web3Provider;
   };
+}
+
+export interface ProofGenElementOptions {
+  selectedProofType: PrfsProofType;
+  provider: ethers.providers.Web3Provider;
 }
