@@ -1,3 +1,3 @@
-export * from "./msg";
+export * from "./proof_gen_element/msg";
 export * from "./sdk";
-export * from "./send_msg";
+export * from "./proof_gen_element/send_msg";
