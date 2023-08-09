@@ -12,7 +12,7 @@ import { HiOutlineDocumentText } from "react-icons/hi2";
 import styles from "./CreateProofForm.module.scss";
 import i18n from "@/i18n/en";
 import Button from "@/components/button/Button";
-import { MsgType } from "@taigalabs/prfs-sdk-web";
+import { MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 
 const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
   const [msg, setMsg] = React.useState("");
@@ -58,7 +58,12 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
       return;
     }
 
-    console.log(11, proofType);
+    const reply = await sendMsgToParent({
+      type: MsgType.GET_SIGNER,
+      payload: "sign",
+    });
+
+    console.log(22, reply);
 
     // window.postMessage(
     //   {
