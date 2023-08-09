@@ -13,14 +13,17 @@
 }
 
 .logoArea {
-  align-items: center;
   display: flex;
+  align-items: center;
   padding: 0 25px;
+}
+
+.logoContainer {
   font-size: 1.245rem;
 }
 
 .mainMenu {
-  padding: 0 25px;
+  padding: 0 38px;
   list-style: none;
   display: flex;
   align-items: center;
@@ -33,6 +36,7 @@
 
   > li {
     display: flex;
+    align-items: center;
     margin-right: 32px;
   }
 }
@@ -99,10 +103,16 @@
 }
 
 .betaTag {
-  align-self: start;
-  height: 100%;
-  background-color: yellow;
   padding: 0px 2px;
+  transform: translateY(-5px);
+  font-size: 0.79em;
+  letter-spacing: -0.01em;
+  color: var(--gray-30);
+}
+
+.newTag {
+  background-color: yellow;
+  padding: 0px 1px;
   transform: translateY(-5px);
   font-size: 0.79em;
 }

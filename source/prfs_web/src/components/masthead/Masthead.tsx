@@ -90,9 +90,12 @@ const Masthead: React.FC<any> = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.logoArea}>
-        <Link href="/">
-          <Logo variant="simple" />
-        </Link>
+        <div className={styles.logoContainer}>
+          <Link href="/">
+            <Logo variant="simple" />
+          </Link>
+        </div>
+        <div className={styles.betaTag}>Beta</div>
       </div>
       <ul className={styles.mainMenu}>
         <li>
@@ -102,7 +105,7 @@ const Masthead: React.FC<any> = () => {
         <li className={styles.inactive}>{i18n.enrollment}</li>
         <li className={styles.inactive}>
           <p>{i18n.talk}</p>
-          <div className={styles.betaTag}>{i18n.beta}</div>
+          <div className={styles.newTag}>{i18n.new}</div>
         </li>
       </ul>
       <div className={styles.rightMenu}>

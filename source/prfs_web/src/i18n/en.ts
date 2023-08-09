@@ -57,6 +57,7 @@ export default {
   beta: "Beta",
   docs: "Docs",
   sdk_api: "SDK/API",
+  new: "New",
   proof_instances: "Proof instances",
   create_proof: "Create proof",
   proof_dashboard: "Proof dashboard",
