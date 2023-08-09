@@ -1,7 +1,13 @@
 import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 import { ethers } from "ethers";
 
-import { CreateProofPayload, GetAddressResponseMsg, HandshakeResponseMsg, MsgType } from "./msg";
+import {
+  CreateProofPayload,
+  CreateProofResponseMsg,
+  GetAddressResponseMsg,
+  HandshakeResponseMsg,
+  MsgType,
+} from "./msg";
 
 export function handleChildMessage(
   iframe: HTMLIFrameElement,
@@ -50,18 +56,31 @@ export function handleChildMessage(
           const driver = await initDriver(payload.driverId, payload.driverProperties);
 
           console.log("Proving...");
-          console.time("Full proving time");
-          const prevTime = performance.now();
 
           const { proof, publicInput } = await driver.prove(
             payload.sig,
             payload.msgHash,
             payload.merkleProof
           );
-          const now = performance.now();
-          const diff = now - prevTime;
 
-          console.log(`Created a proof, ${diff}`);
+          ev.ports[0].postMessage(
+            new CreateProofResponseMsg({
+              proof,
+              publicInput,
+            })
+          );
+
+          console.log("Verifying...");
+
+          console.time("Verification time");
+          const result = await driver.verify(proof, publicInput.serialize());
+          console.timeEnd("Verification time");
+
+          if (result) {
+            console.log("Successfully verified proof!");
+          } else {
+            console.log("Failed to verify proof :(");
+          }
 
           break;
         }

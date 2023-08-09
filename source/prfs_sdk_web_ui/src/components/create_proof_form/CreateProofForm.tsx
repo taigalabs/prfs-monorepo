@@ -138,41 +138,16 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
     let verifyMsg = ethers.utils.verifyMessage(msg, sig);
     console.log("verified addr", verifyMsg);
 
-    // const driver = await initDriver(driver_id, driverProperties);
-    await sendMsgToParent(
+    const prevTime = performance.now();
+    let resp = await sendMsgToParent(
       new CreateProofMsg(sig, msgHash, merkleProof, driver_id, driverProperties)
     );
+    const now = performance.now();
+    const diff = now - prevTime;
 
-    // await sendMsgToParent(new CreateProofMsg(sig, msgHash, merkleProof));
+    console.log("Created a proof: %o, diff: %s,", resp, diff);
 
-    // let proverAddress = await signer.getAddress();
-    // console.log("proverAddr", proverAddress);
-
-    // console.log("Proving...");
-    // console.time("Full proving time");
-    // const prevTime = performance.now();
-    // const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
-    // const now = performance.now();
-    // const diff = now - prevTime;
-
-    // setMsg(`Created a proof, ${diff}`);
-
-    // handleCreateProof(proof, publicInput);
-
-    // console.timeEnd("Full proving time");
-    // console.log("Raw proof size (excluding public input)", proof.length, "bytes");
-
-    // console.log("Verifying...");
-
-    // console.time("Verification time");
-    // const result = await driver.verify(proof, publicInput.serialize());
-    // console.timeEnd("Verification time");
-
-    // if (result) {
-    //   console.log("Successfully verified proof!");
-    // } else {
-    //   console.log("Failed to verify proof :(");
-    // }
+    setMsg(`Created a proof in ${diff} ms`);
   }, [proofType, setMsg]);
 
   return (

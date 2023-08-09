@@ -105,12 +105,17 @@ export interface CreateProofPayload {
   driverProperties: Record<string, any>;
 }
 
-export class CreateProofResponseMsg implements MsgInterface<string> {
+export class CreateProofResponseMsg implements MsgInterface<CreateProofResponsePayload> {
   type: MsgType;
-  payload: string;
+  payload: CreateProofResponsePayload;
 
-  constructor(payload: string) {
+  constructor(payload: CreateProofResponsePayload) {
     this.type = MsgType.CREATE_PROOF_RESPONSE;
     this.payload = payload;
   }
+}
+
+export interface CreateProofResponsePayload {
+  proof: Uint8Array;
+  publicInput: any;
 }
