@@ -325,11 +325,11 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
       {formAlert.length > 0 && <div className={styles.alert}>{formAlert}</div>}
 
-      <div className={styles.btnRow}>
-        <Button variant="b" handleClick={handleClickCreateProofInstance}>
-          {i18n.create_proof_type}
-        </Button>
-      </div>
+      {/* <div className={styles.btnRow}> */}
+      {/*   <Button variant="b" handleClick={handleClickCreateProofInstance}> */}
+      {/*     {i18n.create_proof_type} */}
+      {/*   </Button> */}
+      {/* </div> */}
     </div>
   );
 };
