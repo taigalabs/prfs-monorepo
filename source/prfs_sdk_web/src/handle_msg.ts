@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 
-import { GetAddressResponseMsg, MsgType } from "./msg";
+import { GetAddressResponseMsg, HandshakeResponseMsg, MsgType } from "./msg";
 
 export function handleChildMessage(
   iframe: HTMLIFrameElement,
@@ -16,25 +16,36 @@ export function handleChildMessage(
       console.log("child says, data: %o, ports: %o", ev.data, ev.ports);
 
       switch (type) {
-        case "HANDSHAKE":
-          ev.ports[0].postMessage({
-            type: MsgType.HANDSHAKE_RESPONSE,
-            payload: `Hello`,
-          });
-          break;
+        case "HANDSHAKE": {
+          ev.ports[0].postMessage(new HandshakeResponseMsg("hello"));
 
-        case "GET_ADDRESS":
+          break;
+        }
+
+        case "GET_ADDRESS": {
           await provider.send("eth_requestAccounts", []);
           const signer = provider.getSigner();
           const addr = await signer.getAddress();
-          console.log(222, addr);
-          // const addr = await signer.getAddress();
 
           ev.ports[0].postMessage(new GetAddressResponseMsg(addr));
 
           break;
+        }
+
+        case "GET_SIGNATURE": {
+          const msg = ev.data.payload;
+
+          await provider.send("eth_requestAccounts", []);
+          const signer = provider.getSigner();
+          const sig = await signer.signMessage(msg);
+
+          ev.ports[0].postMessage(new GetAddressResponseMsg(sig));
+
+          break;
+        }
+
         default:
-          console.error(`invalid msg type, ${type}`);
+          console.error(`[parent] invalid msg type, ${type}`);
       }
     }
 

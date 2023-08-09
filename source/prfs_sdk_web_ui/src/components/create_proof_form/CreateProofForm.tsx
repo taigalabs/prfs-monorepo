@@ -12,7 +12,7 @@ import { HiOutlineDocumentText } from "react-icons/hi2";
 import styles from "./CreateProofForm.module.scss";
 import i18n from "@/i18n/en";
 import Button from "@/components/button/Button";
-import { GetAddressMsg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
+import { GetAddressMsg, GetSignatureMsg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 
 const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
   const [msg, setMsg] = React.useState("");
@@ -128,11 +128,11 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
     const msg = Buffer.from("harry potter");
     const msgHash = hashPersonalMessage(msg);
 
-    // let sig = await signer.signMessage(msg);
-    // console.log("sig", sig);
+    const sig = await sendMsgToParent(new GetSignatureMsg(msg));
+    console.log("sig", sig);
 
-    // let verifyMsg = ethers.utils.verifyMessage(msg, sig);
-    // console.log("verified addr", verifyMsg);
+    let verifyMsg = ethers.utils.verifyMessage(msg, sig);
+    console.log("verified addr", verifyMsg);
 
     // let proverAddress = await signer.getAddress();
     // console.log("proverAddr", proverAddress);
