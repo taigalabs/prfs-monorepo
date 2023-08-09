@@ -4,7 +4,7 @@ import { PublicInputInstanceEntry } from "@taigalabs/prfs-entities/bindings/Publ
 import { hashPersonalMessage } from "@ethereumjs/util";
 import { ethers } from "ethers";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
-import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
+// import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PiCalculatorLight } from "react-icons/pi";
 import { HiOutlineDocumentText } from "react-icons/hi2";
@@ -175,7 +175,6 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
 export default ProofGen;
 
 export interface ProofGenProps {
-  // signer: ethers.Signer;
   proofType: PrfsProofType;
   // handleCreateProof: (proof: Uint8Array, publicInput: any) => void;
 }
@@ -193,17 +192,17 @@ function interpolateSystemAssetEndpoint(
   return ret;
 }
 
-async function initDriver(
-  driverId: string,
-  driverProps: Record<string, any>
-): Promise<CircuitDriver> {
-  switch (driverId) {
-    case "SPARTAN_CIRCOM_1": {
-      const mod = await import("@taigalabs/prfs-driver-spartan-js");
-      const driver = await mod.default.newInstance(driverProps);
-      return driver;
-    }
-    default:
-      throw new Error(`This driver is not supported, ${driverId}`);
-  }
-}
+// async function initDriver(
+//   driverId: string,
+//   driverProps: Record<string, any>
+// ): Promise<CircuitDriver> {
+//   switch (driverId) {
+//     case "SPARTAN_CIRCOM_1": {
+//       const mod = await import("@taigalabs/prfs-driver-spartan-js");
+//       const driver = await mod.default.newInstance(driverProps);
+//       return driver;
+//     }
+//     default:
+//       throw new Error(`This driver is not supported, ${driverId}`);
+//   }
+// }

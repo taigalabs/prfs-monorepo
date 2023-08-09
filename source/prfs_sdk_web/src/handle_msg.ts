@@ -89,22 +89,6 @@ export function handleChildMessage(
           console.error(`[parent] invalid msg type, ${type}`);
       }
     }
-
-    // const msgType: MsgType = e.data.type;
-
-    // switch (msgType) {
-    //   case MsgType.HANDSHAKE: {
-    //     iframe.contentWindow?.postMessage(
-    //       {
-    //         type: MsgType.HANDSHAKE_RESPONSE,
-    //       },
-    //       "*"
-    //     );
-    //     resolve(iframe);
-    //   }
-    //   default: {
-    //   }
-    // }
   });
 }
 
