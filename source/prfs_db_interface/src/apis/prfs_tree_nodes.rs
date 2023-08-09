@@ -73,16 +73,14 @@ pub async fn insert_prfs_tree_nodes(
 
     let query = if update_on_conflict {
         format!(
-            "INSERT INTO {} (pos_w, pos_h, val, set_id) VALUES {} ON CONFLICT \
+            "INSERT INTO prfs_tree_nodes (pos_w, pos_h, val, set_id) VALUES {} ON CONFLICT \
                     (pos_w, pos_h, set_id) {}",
-            PrfsTreeNode::table_name(),
             values.join(","),
             "DO UPDATE SET val = excluded.val, updated_at = now()",
         )
     } else {
         format!(
-            "INSERT INTO {} (pos_w, pos_h, val, set_id) VALUES {} ON CONFLICT DO NOTHING",
-            PrfsTreeNode::table_name(),
+            "INSERT INTO prfs_tree_nodes (pos_w, pos_h, val, set_id) VALUES {} ON CONFLICT DO NOTHING",
             values.join(","),
         )
     };

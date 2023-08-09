@@ -10,9 +10,3 @@ pub struct EthAccount {
     #[ts(type = "number")]
     pub wei: Decimal,
 }
-
-// impl EthAccount {
-//     pub fn table_name() -> &'static str {
-//         "eth_accounts"
-//     }
-// }
