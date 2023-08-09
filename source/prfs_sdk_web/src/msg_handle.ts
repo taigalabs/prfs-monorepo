@@ -3,8 +3,15 @@ import { MsgType } from "./msg";
 export function handleChildMessage(iframe: HTMLIFrameElement, resolve: (value: any) => void) {
   console.log("attaching child msg handler");
 
-  window.addEventListener("message", (e: MessageEvent) => {
-    console.log("child says, data: %o, ports: %o", e.data, e.ports);
+  window.addEventListener("message", (ev: MessageEvent) => {
+    console.log("child says, data: %o, ports: %o", ev.data, ev.ports);
+
+    const type: MsgType = ev.data.type;
+    // const ports = ev.ports;
+
+    // if (ev.ports.length > 0) {
+    //   ev.ports[0].postMessage({ result: `${ev.data} back` });
+    // }
 
     // const msgType: MsgType = e.data.type;
 

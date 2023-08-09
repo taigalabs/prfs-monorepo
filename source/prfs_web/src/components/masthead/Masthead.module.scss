@@ -32,17 +32,19 @@
   }
 
   > li {
-    margin-right: 28px;
-  }
-
-  .inactive {
-    color: var(--gray-70);
+    display: flex;
+    margin-right: 32px;
   }
 }
 
 .rightMenu {
   display: flex;
+  align-items: center;
   margin-left: auto;
+
+  > li:not(:last-child) {
+    margin-right: 32px;
+  }
 }
 
 .accountStat {
@@ -90,4 +92,17 @@
     cursor: pointer;
     color: var(--aqua-blue-50);
   }
+}
+
+.inactive {
+  color: var(--gray-70);
+}
+
+.betaTag {
+  align-self: start;
+  height: 100%;
+  background-color: yellow;
+  padding: 0px 2px;
+  transform: translateY(-5px);
+  font-size: 0.79em;
 }

@@ -100,9 +100,14 @@ const Masthead: React.FC<any> = () => {
         </li>
         <li className={styles.inactive}>{i18n.vote}</li>
         <li className={styles.inactive}>{i18n.enrollment}</li>
-        <li className={styles.inactive}>{i18n.talk}</li>
+        <li className={styles.inactive}>
+          <p>{i18n.talk}</p>
+          <div className={styles.betaTag}>{i18n.beta}</div>
+        </li>
       </ul>
       <div className={styles.rightMenu}>
+        <li className={styles.inactive}>{i18n.docs}</li>
+        <li className={styles.inactive}>{i18n.sdk_api}</li>
         {prfsAccount ? <AccountStat account={prfsAccount} /> : <ConnectButton />}
       </div>
     </div>
