@@ -137,15 +137,14 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
     // let proverAddress = await signer.getAddress();
     // console.log("proverAddr", proverAddress);
 
-    // console.log("Proving...");
-    // console.time("Full proving time");
-    // const prevTime = performance.now();
-    // const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
-    // const now = performance.now();
+    console.log("Proving...");
+    console.time("Full proving time");
+    const prevTime = performance.now();
+    const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
+    const now = performance.now();
+    const diff = now - prevTime;
 
-    // const diff = now - prevTime;
-
-    // setMsg(`Created a proof, ${diff}`);
+    setMsg(`Created a proof, ${diff}`);
 
     // handleCreateProof(proof, publicInput);
 

@@ -4,7 +4,7 @@ export function makePathIndices(depth: number, leafIdx: number): BigInt[] {
 
   for (let h = 0; h < depth; h += 1) {
     let d = getDirection(currIdx);
-    console.log("h: %s, d: %s, currIdx: %s", h, d, currIdx);
+    // console.log("h: %s, d: %s, currIdx: %s", h, d, currIdx);
     pathIndices.push(BigInt(d));
     let parent_idx = getParentIdx(currIdx);
     currIdx = parent_idx;
