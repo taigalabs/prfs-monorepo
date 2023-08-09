@@ -1,11 +1,11 @@
 {
   "set": {
-    "set_id": "eth_1_1_5_1",
-    "label": "1.0-2.0 ETH OWNERSHIP",
+    "set_id": "eth_1.0_1.1",
+    "label": "1.0-1.1 ETH OWNERSHIP",
     "desc": "test",
     "author": "SYSTEM_NATIVE",
     "src_set_label": "eth_accounts",
-    "where_clause": "where wei between 1000000000000000000 and 1500000000000000000 order by addr;",
+    "where_clause": "where wei between 1000000000000000000 and 1100000000000000000 order by addr;",
     "element_type": "Ethereum address",
     "tree_depth": 32,
     "hash_algorithm": "Poseidon",

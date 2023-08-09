@@ -14,6 +14,7 @@ pub async fn create_tree_nodes(
     tx: &mut Transaction<'_, Postgres>,
     set_json: &SetJson,
     prfs_set: &mut PrfsSet,
+    leaves: &Vec<PrfsTreeNode>,
 ) -> Result<String, TreeMakerError> {
     let set_label = set_json.set.label.to_string();
     let depth = set_json.set.tree_depth as usize;
@@ -35,23 +36,23 @@ pub async fn create_tree_nodes(
         .into());
     }
 
-    let where_clause = format!("where set_id='{}' order by pos_w asc", set_id);
+    // let where_clause = format!("where set_id='{}' order by pos_w asc", set_id);
 
-    let now = SystemTime::now();
-    let leaves = db_apis::get_prfs_tree_nodes(pool, &where_clause).await?;
+    // let now = SystemTime::now();
+    // let leaves = db_apis::get_prfs_tree_nodes(pool, &where_clause).await?;
+    // let elapsed = now.elapsed().unwrap();
 
-    let elapsed = now.elapsed().unwrap();
-    println!(
-        "Query took {} ms - get_prfs_tree_nodes, row_count: {}",
-        elapsed.as_millis(),
-        leaves.len(),
-    );
+    // println!(
+    //     "Query took {} ms - get_prfs_tree_nodes, row_count: {}",
+    //     elapsed.as_millis(),
+    //     leaves.len(),
+    // );
 
     if leaves.len() < 1 {
         return Err(format!("Cannot climb if there is no leaf, set_id: {}", set_id).into());
     }
 
-    require_last_leaf_have_correct_pos(&leaves);
+    // require_last_leaf_have_correct_pos(&leaves);
 
     let mut children: Vec<[u8; 32]> = leaves
         .iter()
@@ -97,7 +98,7 @@ pub async fn create_tree_nodes(
 
         let elapsed = now.elapsed().unwrap();
         println!(
-            "Depth processing took {} ms - depth:{}, parent node count: {}",
+            "Depth processing took {} ms - depth: {}, parent node count: {}",
             elapsed.as_millis(),
             d,
             parent_nodes.len(),

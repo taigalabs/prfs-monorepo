@@ -8,14 +8,13 @@ use prfs_db_interface::{
 };
 use prfs_entities::entities::{PrfsSet, PrfsTreeNode};
 use rust_decimal::{prelude::FromPrimitive, Decimal};
-use std::time::SystemTime;
 
 pub async fn create_leaves_without_offset(
     pool: &Pool<Postgres>,
     tx: &mut Transaction<'_, Postgres>,
     set_json: &SetJson,
     prfs_set: &mut PrfsSet,
-) -> Result<u64, TreeMakerError> {
+) -> Result<Vec<PrfsTreeNode>, TreeMakerError> {
     let set_id = set_json.set.set_id.to_string();
     let set_insert_interval = ENVS.set_insert_interval;
     let where_clause = format!("{}", set_json.set.where_clause,);
@@ -23,8 +22,8 @@ pub async fn create_leaves_without_offset(
     let now1 = chrono::Local::now();
 
     println!(
-        "{} leaves without offset, set_id: {}, set_insert_interval: {}, start_time: {}",
-        "Creating".green(),
+        "{} eth accounts, set_id: {}, set_insert_interval: {}, start_time: {}",
+        "Retrieving".green(),
         set_id,
         set_insert_interval,
         now1,
@@ -59,28 +58,42 @@ pub async fn create_leaves_without_offset(
         nodes.push(node);
     }
 
-    println!("{} leaf nodes, count: {}", "Inserting".green(), nodes.len());
-
-    let updated_count = db_apis::insert_prfs_tree_nodes(tx, &nodes, false).await?;
+    let node_chunks: Vec<_> = nodes.chunks(100).collect();
 
     println!(
-        "{} a set, set_id: {}, updated_count: {}, accounts len: {}",
-        "Created".green(),
-        set_id,
-        updated_count,
-        accounts.len(),
+        "{} leaf nodes, count: {}, chunks: {}",
+        "Inserting".green(),
+        nodes.len(),
+        node_chunks.len()
     );
 
+    let mut total_count = 0;
+
+    for chunk in node_chunks {
+        let updated_count = db_apis::insert_prfs_tree_nodes(tx, chunk, false).await?;
+        total_count += updated_count;
+
+        println!(
+            "{} leaf nodes, set_id: {}, updated_count: {}, total_count: {}",
+            "Inserted".green(),
+            set_id,
+            updated_count,
+            total_count,
+        );
+    }
+
+    // let updated_count = db_apis::insert_prfs_tree_nodes(tx, &nodes, false).await?;
+
     assert_eq!(
-        updated_count,
+        total_count,
         accounts.len() as u64,
         "updated count should be equal to accounts len, {} != {}",
-        updated_count,
+        total_count,
         accounts.len()
     );
 
-    prfs_set.cardinality = updated_count as i64;
+    prfs_set.cardinality = total_count as i64;
     db_apis::insert_prfs_set(tx, &prfs_set, true).await.unwrap();
 
-    Ok(updated_count)
+    Ok(nodes)
 }

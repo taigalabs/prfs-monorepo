@@ -131,10 +131,10 @@ pub fn calc_parent_nodes(children: &Vec<[u8; 32]>) -> Result<Vec<[u8; 32]>, Prfs
         let res = hash_two(left, right).unwrap();
         parent.push(res);
 
-        let l = convert_32bytes_into_decimal_string(left)?;
-        let r = convert_32bytes_into_decimal_string(right)?;
-        let res = convert_32bytes_into_decimal_string(&res)?;
-        println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
+        // let l = convert_32bytes_into_decimal_string(left)?;
+        // let r = convert_32bytes_into_decimal_string(right)?;
+        // let res = convert_32bytes_into_decimal_string(&res)?;
+        // println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
 
         // continue;
     } else {
@@ -153,20 +153,20 @@ pub fn calc_parent_nodes(children: &Vec<[u8; 32]>) -> Result<Vec<[u8; 32]>, Prfs
                 let res = hash_two(left, r).unwrap();
                 parent.push(res);
 
-                let l = convert_32bytes_into_decimal_string(left)?;
-                let r = convert_32bytes_into_decimal_string(r)?;
-                let res = convert_32bytes_into_decimal_string(&res)?;
-                println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
+                // let l = convert_32bytes_into_decimal_string(left)?;
+                // let r = convert_32bytes_into_decimal_string(r)?;
+                // let res = convert_32bytes_into_decimal_string(&res)?;
+                // println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
             } else {
                 let right = &ZERO;
                 // only left is present
                 let res = hash_two(left, right).unwrap();
                 parent.push(res);
 
-                let l = convert_32bytes_into_decimal_string(left)?;
-                let r = convert_32bytes_into_decimal_string(right)?;
-                let res = convert_32bytes_into_decimal_string(&res)?;
-                println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
+                // let l = convert_32bytes_into_decimal_string(left)?;
+                // let r = convert_32bytes_into_decimal_string(right)?;
+                // let res = convert_32bytes_into_decimal_string(&res)?;
+                // println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
 
                 break;
             }

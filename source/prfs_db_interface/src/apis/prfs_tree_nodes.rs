@@ -61,7 +61,7 @@ pub async fn get_prfs_tree_root(
 
 pub async fn insert_prfs_tree_nodes(
     tx: &mut Transaction<'_, Postgres>,
-    nodes: &Vec<PrfsTreeNode>,
+    nodes: &[PrfsTreeNode],
     update_on_conflict: bool,
 ) -> Result<u64, DbInterfaceError> {
     let mut values = Vec::with_capacity(nodes.len());

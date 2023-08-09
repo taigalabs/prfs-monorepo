@@ -24,12 +24,16 @@ pub async fn create_set(_sub_matches: &ArgMatches) {
     let set_json = json::require_set_json(set_json_path);
 
     let mut prfs_set = create::create_set(&mut tx, &set_json).await.unwrap();
-    let cardinality = leaf::create_leaves_without_offset(&pool, &mut tx, &set_json, &mut prfs_set)
-        .await
-        .unwrap();
-    let merkle_root = climb::create_tree_nodes(&pool, &mut tx, &set_json, &mut prfs_set)
-        .await
-        .unwrap();
+
+    let prfs_tree_nodes =
+        leaf::create_leaves_without_offset(&pool, &mut tx, &set_json, &mut prfs_set)
+            .await
+            .unwrap();
+
+    let merkle_root =
+        climb::create_tree_nodes(&pool, &mut tx, &set_json, &mut prfs_set, &prfs_tree_nodes)
+            .await
+            .unwrap();
 
     tx.commit().await.unwrap();
 
@@ -37,7 +41,7 @@ pub async fn create_set(_sub_matches: &ArgMatches) {
         "{} a set with tree nodes, set_id: {}, cardinality: {}, merkle_root: {}",
         "Created".green(),
         prfs_set.set_id,
-        cardinality,
+        prfs_tree_nodes.len(),
         merkle_root,
     )
 }
