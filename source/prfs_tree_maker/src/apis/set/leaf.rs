@@ -17,25 +17,26 @@ pub async fn create_leaves_without_offset(
     prfs_set: &mut PrfsSet,
 ) -> Result<u64, TreeMakerError> {
     let set_id = set_json.set.set_id.to_string();
-
     let set_insert_interval = ENVS.set_insert_interval;
+    let where_clause = format!("{}", set_json.set.where_clause,);
+
+    let now1 = chrono::Local::now();
 
     println!(
-        "{} leaves without offset, set_id: {}, set_insert_interval: {}",
+        "{} leaves without offset, set_id: {}, set_insert_interval: {}, start_time: {}",
         "Creating".green(),
         set_id,
         set_insert_interval,
+        now1,
     );
 
-    let where_clause = format!("{}", set_json.set.where_clause,);
-
-    let now = SystemTime::now();
     let accounts = db_apis::get_eth_accounts(pool, &where_clause).await?;
-    let elapsed = now.elapsed().unwrap();
+    let now2 = chrono::Local::now();
+    let elapsed = now2 - now1;
 
     println!(
-        "Query took {} ms - get_eth_accounts, row_count: {}",
-        elapsed.as_millis(),
+        "Query took {} s - get_eth_accounts, row_count: {}",
+        elapsed.to_string(),
         accounts.len(),
     );
 
@@ -57,6 +58,8 @@ pub async fn create_leaves_without_offset(
 
         nodes.push(node);
     }
+
+    println!("{} leaf nodes, count: {}", "Inserting".green(), nodes.len());
 
     let updated_count = db_apis::insert_prfs_tree_nodes(tx, &nodes, false).await?;
 
