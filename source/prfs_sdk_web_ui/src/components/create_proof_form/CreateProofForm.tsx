@@ -23,7 +23,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
     const obj: Record<any, PublicInputInstanceEntry> = proofType.public_input_instance;
 
     const entriesElem = Object.entries(obj).map(([key, val]) => {
-      let typeElem;
+      let typeElem: React.ReactElement;
       switch (val.type) {
         case "PROVER_GENERATED": {
           typeElem = <PiCalculatorLight />;
@@ -58,86 +58,75 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
       return;
     }
 
-    const reply = await sendMsgToParent(new GetAddressMsg(""));
+    const addr = await sendMsgToParent(new GetAddressMsg(""));
+    console.log("my address: %s", addr);
 
-    console.log(22, reply);
+    if (!proofType.public_input_instance[4].ref) {
+      throw new Error("set id (ref) is not defined");
+    }
 
-    // window.postMessage(
-    //   {
-    //     type: MsgType.GET_SIGNER,
-    //   },
-    //   "*"
-    // );
+    const setId = proofType.public_input_instance[4].ref;
 
-    // const addr = await signer.getAddress();
-    // console.log("my address: %s", addr);
+    let { payload } = await prfsApi.getPrfsTreeLeafNodes({
+      set_id: setId,
+      leaf_vals: [addr],
+    });
 
-    // if (!proofType.public_input_instance[4].ref) {
-    //   throw new Error("set id (ref) is not defined");
-    // }
+    let pos_w = null;
+    for (const node of payload.prfs_tree_nodes) {
+      if (node.val === addr.toLowerCase()) {
+        pos_w = node.pos_w;
+      }
+    }
 
-    // const setId = proofType.public_input_instance[4].ref;
-    // let { payload } = await prfsApi.getPrfsTreeLeafNodes({
-    //   set_id: setId,
-    //   leaf_vals: [addr],
-    // });
+    if (pos_w === null) {
+      throw new Error("Address is not part of a set");
+    }
 
-    // let pos_w = null;
-    // for (const node of payload.prfs_tree_nodes) {
-    //   if (node.val === addr.toLowerCase()) {
-    //     pos_w = node.pos_w;
-    //   }
-    // }
+    const leafIdx = Number(pos_w);
+    const siblingPath = makeSiblingPath(32, leafIdx);
+    const pathIndices = makePathIndices(32, leafIdx);
 
-    // if (pos_w === null) {
-    //   throw new Error("Address is not part of a set");
-    // }
+    const siblingPos = siblingPath.map((pos_w, idx) => {
+      return { pos_h: idx, pos_w };
+    });
 
-    // const leafIdx = Number(pos_w);
-    // const siblingPath = makeSiblingPath(32, leafIdx);
-    // const pathIndices = makePathIndices(32, leafIdx);
+    console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
 
-    // const siblingPos = siblingPath.map((pos_w, idx) => {
-    //   return { pos_h: idx, pos_w };
-    // });
+    const prfsTreeNodesData = await prfsApi.getPrfsTreeNodes({
+      set_id: setId,
+      pos: siblingPos,
+    });
 
-    // console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
+    let siblings: BigInt[] = [];
+    for (const node of prfsTreeNodesData.payload.prfs_tree_nodes) {
+      siblings[node.pos_h] = BigInt(node.val);
+    }
 
-    // const data = await prfsApi.getPrfsTreeNodes({
-    //   set_id: setId,
-    //   pos: siblingPos,
-    // });
+    for (let idx = 0; idx < 32; idx += 1) {
+      if (siblings[idx] === undefined) {
+        siblings[idx] = BigInt(0);
+      }
+    }
 
-    // console.log(55, data);
+    const { driver_id, driver_properties } = proofType;
+    console.log(12, proofType.driver_properties);
 
-    // let siblings: BigInt[] = [];
-    // for (const node of data.payload.prfs_tree_nodes) {
-    //   siblings[node.pos_h] = BigInt(node.val);
-    // }
+    let driverProperties = interpolateSystemAssetEndpoint(driver_properties);
+    console.log(13, driverProperties);
 
-    // for (let idx = 0; idx < 32; idx += 1) {
-    //   if (siblings[idx] === undefined) {
-    //     siblings[idx] = BigInt(0);
-    //   }
-    // }
-    // const { driver_id, driver_properties } = proofType;
-    // console.log(12, proofType.driver_properties);
+    const driver = await initDriver(driver_id, driverProperties);
 
-    // let driverProperties = interpolateSystemAssetEndpoint(driver_properties);
-    // console.log(13, driverProperties);
+    let merkleProof = {
+      root: BigInt(proofType.public_input_instance[4].value),
+      siblings,
+      pathIndices,
+    };
 
-    // const driver = await initDriver(driver_id, driverProperties);
+    console.log(55, merkleProof);
 
-    // let merkleProof = {
-    //   root: BigInt(proofType.public_input_instance[4].value),
-    //   siblings,
-    //   pathIndices,
-    // };
-
-    // console.log(55, merkleProof);
-
-    // const msg = Buffer.from("harry potter");
-    // const msgHash = hashPersonalMessage(msg);
+    const msg = Buffer.from("harry potter");
+    const msgHash = hashPersonalMessage(msg);
 
     // let sig = await signer.signMessage(msg);
     // console.log("sig", sig);
