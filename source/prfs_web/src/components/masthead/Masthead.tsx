@@ -1,17 +1,16 @@
 import React from "react";
 import Link from "next/link";
 import { IoMdArrowDropup, IoMdArrowDropdown } from "react-icons/io";
-
 import { useRouter } from "next/navigation";
 import { useFloating, useClick, useInteractions, useDismiss } from "@floating-ui/react";
-import localStore from "@/storage/localStore";
+import classNames from "classnames";
 
 import styles from "./Masthead.module.scss";
+import localStore from "@/storage/localStore";
 import { i18nContext } from "@/contexts/i18n";
 import Logo from "@/components/logo/Logo";
 import { stateContext } from "@/contexts/state";
 import { PrfsAccount } from "@/state/reducer";
-import classNames from "classnames";
 
 const AccountStat: React.FC<AccountStatProps> = ({ account }) => {
   const i18n = React.useContext(i18nContext);
