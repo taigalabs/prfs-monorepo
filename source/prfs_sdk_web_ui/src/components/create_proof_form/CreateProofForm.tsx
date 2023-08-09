@@ -12,7 +12,13 @@ import { HiOutlineDocumentText } from "react-icons/hi2";
 import styles from "./CreateProofForm.module.scss";
 import i18n from "@/i18n/en";
 import Button from "@/components/button/Button";
-import { GetAddressMsg, GetSignatureMsg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
+import {
+  CreateProofMsg,
+  GetAddressMsg,
+  GetSignatureMsg,
+  MsgType,
+  sendMsgToParent,
+} from "@taigalabs/prfs-sdk-web";
 
 const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
   const [msg, setMsg] = React.useState("");
@@ -115,8 +121,6 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
     let driverProperties = interpolateSystemAssetEndpoint(driver_properties);
     console.log(13, driverProperties);
 
-    const driver = await initDriver(driver_id, driverProperties);
-
     let merkleProof = {
       root: BigInt(proofType.public_input_instance[4].value),
       siblings,
@@ -134,17 +138,24 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
     let verifyMsg = ethers.utils.verifyMessage(msg, sig);
     console.log("verified addr", verifyMsg);
 
+    // const driver = await initDriver(driver_id, driverProperties);
+    await sendMsgToParent(
+      new CreateProofMsg(sig, msgHash, merkleProof, driver_id, driverProperties)
+    );
+
+    // await sendMsgToParent(new CreateProofMsg(sig, msgHash, merkleProof));
+
     // let proverAddress = await signer.getAddress();
     // console.log("proverAddr", proverAddress);
 
-    console.log("Proving...");
-    console.time("Full proving time");
-    const prevTime = performance.now();
-    const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
-    const now = performance.now();
-    const diff = now - prevTime;
+    // console.log("Proving...");
+    // console.time("Full proving time");
+    // const prevTime = performance.now();
+    // const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
+    // const now = performance.now();
+    // const diff = now - prevTime;
 
-    setMsg(`Created a proof, ${diff}`);
+    // setMsg(`Created a proof, ${diff}`);
 
     // handleCreateProof(proof, publicInput);
 

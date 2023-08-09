@@ -329,6 +329,12 @@ importers:
 
   source/prfs_sdk_web:
     dependencies:
+      '@taigalabs/prfs-driver-interface':
+        specifier: '*'
+        version: link:../prfs_driver_interface
+      '@taigalabs/prfs-driver-spartan-js':
+        specifier: '*'
+        version: link:../prfs_driver_spartan_js
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities

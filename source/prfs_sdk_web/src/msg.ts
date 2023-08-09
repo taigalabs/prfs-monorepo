@@ -5,6 +5,8 @@ export enum MsgType {
   GET_ADDRESS_RESPONSE = "GET_ADDRESS_RESPONSE",
   GET_SIGNATURE = "GET_SIGNATURE",
   GET_SIGNATURE_RESPONSE = "GET_SIGNATURE_RESPONSE",
+  CREATE_PROOF = "CREATE_PROOF",
+  CREATE_PROOF_RESPONSE = "CREATE_PROOF_RESPONSE",
 }
 
 export interface MsgInterface<T> {
@@ -69,6 +71,46 @@ export class GetSignatureResponseMsg implements MsgInterface<string> {
 
   constructor(payload: string) {
     this.type = MsgType.GET_SIGNATURE_RESPONSE;
+    this.payload = payload;
+  }
+}
+
+export class CreateProofMsg implements MsgInterface<CreateProofPayload> {
+  type: MsgType;
+  payload: CreateProofPayload;
+
+  constructor(
+    sig: Buffer,
+    msgHash: Buffer,
+    merkleProof: any,
+    driverId: string,
+    driverProperties: Record<string, any>
+  ) {
+    this.type = MsgType.CREATE_PROOF;
+    this.payload = {
+      sig,
+      msgHash,
+      merkleProof,
+      driverId,
+      driverProperties,
+    };
+  }
+}
+
+export interface CreateProofPayload {
+  sig: Buffer;
+  msgHash: Buffer;
+  merkleProof: any;
+  driverId: string;
+  driverProperties: Record<string, any>;
+}
+
+export class CreateProofResponseMsg implements MsgInterface<string> {
+  type: MsgType;
+  payload: string;
+
+  constructor(payload: string) {
+    this.type = MsgType.CREATE_PROOF_RESPONSE;
     this.payload = payload;
   }
 }

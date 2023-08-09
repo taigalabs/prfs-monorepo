@@ -1,6 +1,7 @@
+import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 import { ethers } from "ethers";
 
-import { GetAddressResponseMsg, HandshakeResponseMsg, MsgType } from "./msg";
+import { CreateProofPayload, GetAddressResponseMsg, HandshakeResponseMsg, MsgType } from "./msg";
 
 export function handleChildMessage(
   iframe: HTMLIFrameElement,
@@ -44,6 +45,27 @@ export function handleChildMessage(
           break;
         }
 
+        case "CREATE_PROOF": {
+          const payload: CreateProofPayload = ev.data.payload;
+          const driver = await initDriver(payload.driverId, payload.driverProperties);
+
+          console.log("Proving...");
+          console.time("Full proving time");
+          const prevTime = performance.now();
+
+          const { proof, publicInput } = await driver.prove(
+            payload.sig,
+            payload.msgHash,
+            payload.merkleProof
+          );
+          const now = performance.now();
+          const diff = now - prevTime;
+
+          console.log(`Created a proof, ${diff}`);
+
+          break;
+        }
+
         default:
           console.error(`[parent] invalid msg type, ${type}`);
       }
@@ -65,4 +87,19 @@ export function handleChildMessage(
     //   }
     // }
   });
+}
+
+async function initDriver(
+  driverId: string,
+  driverProps: Record<string, any>
+): Promise<CircuitDriver> {
+  switch (driverId) {
+    case "SPARTAN_CIRCOM_1": {
+      const mod = await import("@taigalabs/prfs-driver-spartan-js");
+      const driver = await mod.default.newInstance(driverProps);
+      return driver;
+    }
+    default:
+      throw new Error(`This driver is not supported, ${driverId}`);
+  }
 }

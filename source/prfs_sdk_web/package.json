@@ -12,6 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@taigalabs/prfs-driver-spartan-js": "*",
+    "@taigalabs/prfs-driver-interface": "*",
     "@taigalabs/prfs-entities": "*",
     "ethers": "^5"
   },
