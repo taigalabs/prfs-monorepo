@@ -71,6 +71,7 @@ export function handleChildMessage(
             payload.merkleProof
           );
 
+          console.log("proof done");
           ev.ports[0].postMessage(
             new CreateProofResponseMsg(undefined, {
               proof,

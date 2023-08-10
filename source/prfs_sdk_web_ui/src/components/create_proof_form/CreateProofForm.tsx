@@ -14,11 +14,12 @@ import {
   MsgType,
   sendMsgToParent,
 } from "@taigalabs/prfs-sdk-web";
+import { Buffer } from "buffer/";
+import type { Buffer as Bupher } from "buffer";
 
 import styles from "./CreateProofForm.module.scss";
 import { i18n, I18nContext } from "@/contexts/i18n";
 import Button from "@/components/button/Button";
-import { Buffer } from "buffer/";
 
 const CreateProofForm: Component<CreateProofFormProps> = ({ proofType }) => {
   const [msg, setMsg] = createSignal("");
@@ -141,7 +142,7 @@ const CreateProofForm: Component<CreateProofFormProps> = ({ proofType }) => {
 
     console.log(55, merkleProof);
 
-    const msg = Buffer.from("harry potter");
+    const msg = Buffer.from("harry potter") as unknown as Bupher;
     const msgHash = hashPersonalMessage(msg);
 
     const sig = await sendMsgToParent(new GetSignatureMsg(msg));
@@ -188,31 +189,3 @@ export interface CreateProofFormProps {
   proofType: PrfsProofType;
   // handleCreateProof: (proof: Uint8Array, publicInput: any) => void;
 }
-
-// function interpolateSystemAssetEndpoint(
-//   driverProperties: Record<string, any>
-// ): Record<string, any> {
-//   const ret: Record<string, any> = {};
-
-//   for (const key in driverProperties) {
-//     const val = driverProperties[key];
-//     ret[key] = val.replace("prfs:/", process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT);
-//   }
-
-//   return ret;
-// }
-
-// async function initDriver(
-//   driverId: string,
-//   driverProps: Record<string, any>
-// ): Promise<CircuitDriver> {
-//   switch (driverId) {
-//     case "SPARTAN_CIRCOM_1": {
-//       const mod = await import("@taigalabs/prfs-driver-spartan-js");
-//       const driver = await mod.default.newInstance(driverProps);
-//       return driver;
-//     }
-//     default:
-//       throw new Error(`This driver is not supported, ${driverId}`);
-//   }
-// }
