@@ -1,6 +1,7 @@
-import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
 import { CircuitDriver } from "@taigalabs/prfs-entities/bindings/CircuitDriver";
+
+import { api } from "./utils";
 
 export interface GetNativeCircuitDriversRequest {
   page: number;

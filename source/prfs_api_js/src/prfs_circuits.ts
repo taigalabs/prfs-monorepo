@@ -1,6 +1,7 @@
-import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
+
+import { api } from "./utils";
 
 export interface GetNativeCircuitsRequest {
   page: number;

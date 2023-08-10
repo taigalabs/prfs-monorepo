@@ -1,6 +1,7 @@
+import { PrfsTreeNode } from "@taigalabs/prfs-entities/bindings/PrfsTreeNode";
+
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
-import { PrfsTreeNode } from "@taigalabs/prfs-entities/bindings/PrfsTreeNode";
 
 export interface NodePos {
   pos_w: number;

@@ -1,7 +1,8 @@
-import { api } from "./utils";
-import { PrfsApiResponse } from "./types";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { PublicInputInstanceEntry } from "@taigalabs/prfs-entities/bindings/PublicInputInstanceEntry";
+
+import { api } from "./utils";
+import { PrfsApiResponse } from "./types";
 
 export interface CreatePrfsProofTypeRequest {
   label: string;

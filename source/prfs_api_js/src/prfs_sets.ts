@@ -1,7 +1,8 @@
-import { api } from "./utils";
-import { PrfsApiResponse } from "./types";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import { PrfsTreeNode } from "@taigalabs/prfs-entities/bindings/PrfsTreeNode";
+
+import { api } from "./utils";
+import { PrfsApiResponse } from "./types";
 
 export interface GetSetsRequest {
   page: number;

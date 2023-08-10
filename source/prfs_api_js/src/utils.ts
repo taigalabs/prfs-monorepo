@@ -1,4 +1,11 @@
-const PRFS_API_SERVER_ENDPOINT = `${process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT}/api/v0`;
+let PRFS_API_SERVER_ENDPOINT;
+
+if (process) {
+  PRFS_API_SERVER_ENDPOINT = `${process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT}/api/v0`;
+} else {
+  console.log(555);
+  // const PRFS_API_SERVER_ENDPOINT = `${process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT}/api/v0`;
+}
 
 export async function api({ path, req }: ApiArg) {
   try {
