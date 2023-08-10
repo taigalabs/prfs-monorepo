@@ -1,0 +1,18 @@
+{
+  "set": {
+    "set_id": "eth_1.0_2.0",
+    "label": "1.0-2.0 ETH OWNERSHIP",
+    "desc": "test",
+    "author": "SYSTEM_NATIVE",
+    "src_set_label": "eth_accounts",
+    "where_clause": "where wei between 1000000000000000000 and 2000000000000000000 order by addr;",
+    "element_type": "Ethereum address",
+    "tree_depth": 32,
+    "hash_algorithm": "Poseidon",
+    "elliptic_curve": "Secp256k1",
+    "finite_field": "Z_(2^256-2^32-977)",
+    "cardinality": 0,
+    "merkle_root": "0",
+    "created_at": "2023/7/26"
+  }
+}
