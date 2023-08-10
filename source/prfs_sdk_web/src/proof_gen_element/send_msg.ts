@@ -1,9 +1,11 @@
-import { MsgInterface } from "./msg";
+// import { MsgInterface } from "./msg";
 
-export async function sendMsgToChild(msg: MsgInterface<any>, iframe: HTMLIFrameElement) {
+import { MsgBase } from "./msg";
+
+export async function sendMsgToChild<T, R>(msg: MsgBase<T, R>, iframe: HTMLIFrameElement) {
   return new Promise((res, rej) => {
     const channel = new MessageChannel();
-    channel.port1.onmessage = ({ data }: { data: MsgInterface<any> }) => {
+    channel.port1.onmessage = ({ data }: { data: MsgBase<R, any> }) => {
       channel.port1.close();
       if (data.error) {
         rej(data.error);
@@ -16,10 +18,10 @@ export async function sendMsgToChild(msg: MsgInterface<any>, iframe: HTMLIFrameE
   });
 }
 
-export async function sendMsgToParent<T>(msg: MsgInterface<T>): Promise<T> {
+export async function sendMsgToParent<T, R>(msg: MsgBase<T, R>): Promise<R> {
   return new Promise((res, rej) => {
     const channel = new MessageChannel();
-    channel.port1.onmessage = ({ data }: { data: MsgInterface<T> }) => {
+    channel.port1.onmessage = ({ data }: { data: MsgBase<R, any> }) => {
       channel.port1.close();
       if (data.error) {
         rej(data.error);

@@ -4,22 +4,15 @@ import { PublicInputInstanceEntry } from "@taigalabs/prfs-entities/bindings/Publ
 import { hashPersonalMessage } from "@ethereumjs/util";
 import { ethers } from "ethers";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
-// import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PiCalculatorLight } from "react-icons/pi";
 import { HiOutlineDocumentText } from "react-icons/hi2";
+import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
+import { GetAddressMsg, GetSignatureMsg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 
 import styles from "./CreateProofForm.module.scss";
 import i18n from "@/i18n/en";
 import Button from "@/components/button/Button";
-import {
-  CreateProofMsg,
-  GetAddressMsg,
-  GetSignatureMsg,
-  MsgType,
-  sendMsgToParent,
-} from "@taigalabs/prfs-sdk-web";
-import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 
 const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
   const [msg, setMsg] = React.useState("");
@@ -27,7 +20,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
   const [running, setRunning] = React.useState(false);
 
   React.useEffect(() => {
-    proofType;
+    const { driver_id, driver_properties } = proofType;
   }, [proofType]);
 
   const publicInputElem = React.useMemo(() => {
@@ -153,21 +146,21 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
     const sig = await sendMsgToParent(new GetSignatureMsg(msg));
     console.log("sig", sig);
 
-    let verifyMsg = ethers.utils.verifyMessage(msg, sig);
-    console.log("verified addr", verifyMsg);
+    // let verifyMsg = ethers.utils.verifyMessage(msg, sig);
+    // console.log("verified addr", verifyMsg);
 
-    const prevTime = performance.now();
-    const now = performance.now();
-    const diff = now - prevTime;
+    // const prevTime = performance.now();
+    // const now = performance.now();
+    // const diff = now - prevTime;
 
-    const driver = await initDriver(driver_id, driverProperties);
+    // const driver = await initDriver(driver_id, driverProperties);
 
-    console.log("Proving...");
-    console.time("Full proving time");
-    const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
+    // console.log("Proving...");
+    // console.time("Full proving time");
+    // const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
 
-    console.timeEnd("Full proving time");
-    console.log("Raw proof size (excluding public input)", proof.length, "bytes");
+    // console.timeEnd("Full proving time");
+    // console.log("Raw proof size (excluding public input)", proof.length, "bytes");
 
     // setMsg(`Created a proof in ${diff} ms`);
   }, [proofType, setMsg]);

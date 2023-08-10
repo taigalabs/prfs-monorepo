@@ -2,7 +2,7 @@ import { GetAddressResponseMsg, HandshakeResponseMsg, MsgType } from "./msg";
 import { ProofGenElementOptions } from "./proof_gen_element";
 
 export function handleChildMessage(resolve: (value: any) => void, options: ProofGenElementOptions) {
-  console.log("attaching child msg handler");
+  console.log("Attaching child msg handler");
 
   window.addEventListener("message", async (ev: MessageEvent) => {
     if (ev.ports.length > 0) {
@@ -13,7 +13,11 @@ export function handleChildMessage(resolve: (value: any) => void, options: Proof
 
       switch (type) {
         case "HANDSHAKE": {
-          ev.ports[0].postMessage(new HandshakeResponseMsg("hello"));
+          ev.ports[0].postMessage(
+            new HandshakeResponseMsg({
+              prfsAssetEndpoint: options.prfsAssetEndpoint,
+            })
+          );
           resolve(1);
 
           break;

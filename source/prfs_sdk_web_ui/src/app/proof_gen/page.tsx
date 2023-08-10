@@ -4,7 +4,7 @@ import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import * as prfsApi from "@taigalabs/prfs-api-js";
-import { MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
+import { HandshakeMsg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 
 import styles from "./Home.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -23,18 +23,12 @@ const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
   const searchParams = useSearchParams();
   const [proofType, setProofType] = React.useState<PrfsProofType>();
 
-  useParentMsgHandler(setData);
+  useParentMsgHandler();
 
   React.useEffect(() => {
     async function fn() {
-      const reply = await sendMsgToParent({
-        type: MsgType.HANDSHAKE,
-        payload: "Hi",
-      });
-
-      console.log("parents reply", reply);
+      const { prfsAssetEndpoint } = await sendMsgToParent(new HandshakeMsg("hi"));
     }
-
     fn().then();
   }, []);
 
@@ -75,7 +69,7 @@ export interface ProofGenProps {
   };
 }
 
-function useParentMsgHandler(setData) {
+function useParentMsgHandler() {
   React.useEffect(() => {
     if (!PARENT_MSG_HANDLER.registered) {
       console.log("Attaching parent msg handler");
@@ -85,7 +79,6 @@ function useParentMsgHandler(setData) {
           console.log("parent says: %o, ports: %o", ev.data, ev.ports);
 
           const type: MsgType = ev.data.type;
-
           ev.ports[0].postMessage({ result: `${ev.data} back` });
         }
 

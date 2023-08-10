@@ -1,11 +1,8 @@
 import { ethers } from "ethers";
-import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import { handleChildMessage } from "./handle_msg";
-// import { initDriver } from "./driver";
 import { sendMsgToChild } from "./send_msg";
-import { DriverLoadResultMsg } from "./msg";
 
 const SDK_ENDPOINT = "http://localhost:3010";
 
