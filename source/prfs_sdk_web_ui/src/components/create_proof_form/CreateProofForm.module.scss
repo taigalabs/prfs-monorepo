@@ -1,0 +1,55 @@
+.wrapper {
+  width: 100%;
+  heigth: 100%;
+  word-wrap: break-word;
+}
+
+.privateInputs {
+}
+
+.publicInputInstance {
+}
+
+.inputCategoryTitle {
+  font-weight: 500;
+  font-size: 1.11em;
+}
+
+.inputEntries {
+  margin-top: 5px;
+}
+
+.publicInputEntry {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.entryMeta {
+  display: flex;
+
+  > div:not(:first-child) {
+    margin-left: 6px;
+  }
+}
+
+.entryType {
+}
+
+.entryLabel {
+  width: 112px;
+}
+
+.entryValue {
+  display: inline-block;
+  padding: 3px 5px;
+  border: 1px solid var(--gray-50);
+  border-radius: 3px;
+  width: 280px;
+  word-wrap: break-word;
+  max-height: 38px;
+  overflow: hidden;
+}
+
+.btnRow {
+  margin-top: 25px;
+}

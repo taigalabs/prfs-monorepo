@@ -1,7 +1,7 @@
-import { Component, createEffect, createSignal, useContext } from "solid-js";
+import { Component, Show, createEffect, createResource, createSignal, useContext } from "solid-js";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
-import { useSearchParams } from "@solidjs/router";
+import { useSearchParams, Params } from "@solidjs/router";
 
 import styles from "./ProofGen.module.scss";
 import { I18nContext } from "@/contexts/i18n";
@@ -17,9 +17,11 @@ const PARENT_MSG_HANDLER = {
 const ProofGen: Component<ProofGenProps> = () => {
   const i18n = useContext(I18nContext);
 
-  const [data, setData] = createSignal();
+  const [data, setData] = createSignal(0);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [proofType, setProofType] = createSignal<PrfsProofType>();
+  const [proofType] = createResource(searchParams, fetchProofType);
+
+  // const [count, setCount] = createSignal(0);
 
   useParentMsgHandler();
 
@@ -42,27 +44,31 @@ const ProofGen: Component<ProofGenProps> = () => {
       console.log("proofTypeId: %s", proofTypeId);
 
       if (proofTypeId) {
-        const resp = await prfsApi.getPrfsProofTypes({
-          page: 0,
-          proof_type_id: proofTypeId,
-        });
-
-        if (resp && resp.payload.prfs_proof_types.length > 0) {
-          // setProofType(resp.payload.prfs_proof_types[0]);
-        } else {
-          console.log("PrfsProofType not found");
-        }
+        // setProofTypeId(proofTypeId);
+        // const resp = await prfsApi.getPrfsProofTypes({
+        //   page: 0,
+        //   proof_type_id: proofTypeId,
+        // });
+        // if (resp && resp.payload.prfs_proof_types.length > 0) {
+        //   console.log(555, resp.payload.prfs_proof_types[0]);
+        //   setProofType(resp.payload.prfs_proof_types[0]);
+        // } else {
+        //   console.log("PrfsProofType not found");
+        // }
       }
     }
 
     fn().then();
-  }, [searchParams, setProofType]);
+  });
 
-  console.log(33, proofType);
+  // console.log(33, proofType());
+  console.log(331, data());
 
   return (
     <DefaultLayout>
-      {proofType() ? <CreateProofForm proofType={proofType()!} /> : <Loading />}
+      <Show when={proofType()} fallback={<Loading />}>
+        <CreateProofForm proofType={proofType()!} />
+      </Show>
     </DefaultLayout>
   );
 };
@@ -104,4 +110,22 @@ function useParentMsgHandler() {
       PARENT_MSG_HANDLER.registered = true;
     }
   });
+}
+
+async function fetchProofType(searchParams: Params) {
+  let proofTypeId = searchParams["proofTypeId"];
+  console.log("proofTypeId: %s", proofTypeId);
+
+  if (proofTypeId) {
+    const resp = await prfsApi.getPrfsProofTypes({
+      page: 0,
+      proof_type_id: proofTypeId,
+    });
+
+    if (resp && resp.payload.prfs_proof_types.length > 0) {
+      return resp.payload.prfs_proof_types[0];
+    } else {
+      console.log("PrfsProofType not found");
+    }
+  }
 }

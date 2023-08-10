@@ -5,8 +5,8 @@ import { hashPersonalMessage } from "@ethereumjs/util";
 import { ethers } from "ethers";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import * as prfsApi from "@taigalabs/prfs-api-js";
-// import { PiCalculatorLight } from "react-icons/pi";
-// import { HiOutlineDocumentText } from "react-icons/hi2";
+import { RiDocumentFileListLine } from "solid-icons/ri";
+import { IoCalculatorSharp } from "solid-icons/io";
 
 import styles from "./CreateProofForm.module.scss";
 import { i18n, I18nContext } from "@/contexts/i18n";
@@ -19,31 +19,25 @@ import {
   sendMsgToParent,
 } from "@taigalabs/prfs-sdk-web";
 
-// const CreateProofForm: Component = () => {
-//   return <div class={styles.App}>power</div>;
-// };
-
-// export default CreateProofForm;
-
 const CreateProofForm: Component<CreateProofFormProps> = ({ proofType }) => {
   const [msg, setMsg] = createSignal("");
   const [time, setTime] = createSignal(0);
   const [running, setRunning] = createSignal(false);
 
-  const publicInputElem = createMemo(() => {
-    console.log(11, proofType);
+  console.log(1313, proofType);
 
+  const publicInputElem = createMemo(() => {
     const obj: Record<any, PublicInputInstanceEntry> = proofType.public_input_instance;
 
     const entriesElem = Object.entries(obj).map(([key, val]) => {
       let typeElem: JSX.Element;
       switch (val.type) {
         case "PROVER_GENERATED": {
-          // typeElem = <PiCalculatorLight />;
+          typeElem = <IoCalculatorSharp />;
           break;
         }
         case "PRFS_SET": {
-          // typeElem = <HiOutlineDocumentText />;
+          typeElem = <RiDocumentFileListLine />;
           break;
         }
         default: {

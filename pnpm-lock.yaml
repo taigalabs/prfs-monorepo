@@ -384,6 +384,9 @@ importers:
       ethers:
         specifier: ^5
         version: 5.7.2
+      solid-icons:
+        specifier: ^1.0.11
+        version: 1.0.11(solid-js@1.7.6)
       solid-js:
         specifier: ^1.7.6
         version: 1.7.6
@@ -17026,6 +17029,15 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /solid-icons@1.0.11(solid-js@1.7.6):
+    resolution: {integrity: sha512-shEL5Otrl73LPZukpanJKi6ISnQhpIvhqqAb8haKyCGrixHOYC6yGfNkSE7jpkKSikZ0rGtSMRiFETRrec2Uzw==}
+    engines: {node: '>= 16'}
+    peerDependencies:
+      solid-js: '*'
+    dependencies:
+      solid-js: 1.7.6
+    dev: false
 
   /solid-js@1.7.6:
     resolution: {integrity: sha512-DXVOTjUh/bIAhE0fIqu3ezGLyQaez7v8EOw3uPLIi87DmLjg+hsuCAgKyNIZ+o4jUetOk3ZORccvJmE1yZUk8g==}
