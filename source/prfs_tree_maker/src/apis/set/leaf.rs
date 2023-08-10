@@ -58,10 +58,10 @@ pub async fn create_leaves_without_offset(
         nodes.push(node);
     }
 
-    let node_chunks: Vec<_> = nodes.chunks(1000).collect();
+    let node_chunks: Vec<_> = nodes.chunks(2000).collect();
 
     println!(
-        "{} leaf nodes, count: {}, chunks: {}",
+        "{} leaf nodes, count: {}, chunk len: {}",
         "Inserting".green(),
         nodes.len(),
         node_chunks.len()
