@@ -1,7 +1,6 @@
 import { ethers } from "ethers";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
-import { MsgType } from "./msg";
 import { handleChildMessage } from "./handle_msg";
 
 const SDK_ENDPOINT = "http://localhost:3010";
@@ -43,7 +42,5 @@ export default ProofGenElement;
 export interface ProofGenElementOptions {
   selectedProofType: PrfsProofType;
   provider: ethers.providers.Web3Provider;
-  handleCreateProof: () => {
-    proof: Uint8Array;
-  };
+  handleCreateProof: ({ proof, publicInput }) => void;
 }

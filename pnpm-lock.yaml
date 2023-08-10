@@ -408,7 +408,7 @@ importers:
         version: link:../prfs_entities
       '@taigalabs/prfs-sdk-web':
         specifier: '*'
-        version: link:../prfs_sdk_web_ui
+        version: link:../prfs_sdk_web
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -502,7 +502,7 @@ importers:
         version: link:../prfs_entities
       '@taigalabs/prfs-sdk-web':
         specifier: '*'
-        version: link:../prfs_sdk_web_ui
+        version: link:../prfs_sdk_web
       '@thirdweb-dev/react':
         specifier: ^3.14.13
         version: 3.14.15(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@thirdweb-dev/sdk@3.10.35)(@types/react-dom@18.2.5)(@types/react@18.2.12)(ethers@5.7.2)(localforage@1.10.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
