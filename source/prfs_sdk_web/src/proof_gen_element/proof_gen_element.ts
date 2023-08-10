@@ -42,7 +42,7 @@ class ProofGenElement {
       iframe.allow = "cross-origin-isolated";
       iframe.style.width = "490px";
       iframe.style.height = "320px";
-      iframe.style.border = "1px solid black;";
+      iframe.style.border = "none";
       iframe.onload = () => {
         const loadingSpan = document.getElementById(LOADING_SPAN_ID);
 
