@@ -8,12 +8,12 @@ import {
   HandshakeResponseMsg,
   MsgType,
 } from "./msg";
-import { ProofGenElementOptions } from "./proof_gen_element";
+import { ProofGenElementOptions, ProofGenElementState } from "./proof_gen_element";
 
 export function handleChildMessage(
-  iframe: HTMLIFrameElement,
   resolve: (value: any) => void,
-  options: ProofGenElementOptions
+  options: ProofGenElementOptions,
+  state: ProofGenElementState
 ) {
   console.log("attaching child msg handler");
 
@@ -22,7 +22,6 @@ export function handleChildMessage(
       const { provider } = options;
 
       const type: MsgType = ev.data.type;
-
       console.log("child says, data: %o, ports: %o", ev.data, ev.ports);
 
       switch (type) {
@@ -57,22 +56,27 @@ export function handleChildMessage(
 
         case "CREATE_PROOF": {
           const payload: CreateProofPayload = ev.data.payload;
-          // const driver = await initDriver(payload.driverId, payload.driverProperties);
 
-          // console.log("Proving...");
+          if (!state.driver) {
+            ev.ports[0].postMessage(new CreateProofResponseMsg("Driver is not loaded"));
+            break;
+          }
 
-          // const { proof, publicInput } = await driver.prove(
-          //   payload.sig,
-          //   payload.msgHash,
-          //   payload.merkleProof
-          // );
+          const driver = state.driver;
+          console.log("Proving...");
 
-          // ev.ports[0].postMessage(
-          //   new CreateProofResponseMsg({
-          //     proof,
-          //     publicInput,
-          //   })
-          // );
+          const { proof, publicInput } = await driver.prove(
+            payload.sig,
+            payload.msgHash,
+            payload.merkleProof
+          );
+
+          ev.ports[0].postMessage(
+            new CreateProofResponseMsg(undefined, {
+              proof,
+              publicInput,
+            })
+          );
 
           // console.log("Verifying...");
 

@@ -14,7 +14,7 @@ export enum MsgType {
 export interface MsgInterface<T> {
   error?: any;
   type: MsgType;
-  payload: T;
+  payload: T | undefined;
 }
 
 export class HandshakeMsg implements MsgInterface<string> {
@@ -124,11 +124,13 @@ export interface CreateProofPayload {
 }
 
 export class CreateProofResponseMsg implements MsgInterface<CreateProofResponsePayload> {
+  error: string;
   type: MsgType;
   payload: CreateProofResponsePayload;
 
-  constructor(payload: CreateProofResponsePayload) {
+  constructor(error?: string, payload?: CreateProofResponsePayload) {
     this.type = MsgType.CREATE_PROOF_RESPONSE;
+    this.error = error;
     this.payload = payload;
   }
 }

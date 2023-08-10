@@ -38,11 +38,10 @@ const ProofGen: Component<ProofGenProps> = () => {
 
   return (
     <DefaultLayout>
-      123
-      {/* {data()} */}
-      {/* <Show when={proofType()} fallback={<Loading />}> */}
-      {/*   <CreateProofForm proofType={proofType()!} /> */}
-      {/* </Show> */}
+      {data()}
+      <Show when={proofType()} fallback={<Loading />}>
+        <CreateProofForm proofType={proofType()!} />
+      </Show>
     </DefaultLayout>
   );
 };
