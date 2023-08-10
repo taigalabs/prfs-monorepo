@@ -8,9 +8,11 @@
     "build": "pnpm clean && tsc"
   },
   "devDependencies": {
+    "@types/node": "^20.4.9",
     "@types/react": "18.2.12",
     "@types/react-dom": "18.2.5",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "vite": "^4.3.9"
   },
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
