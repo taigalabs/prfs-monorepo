@@ -20,6 +20,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
 
   const [data, setData] = React.useState();
+  const [prfsAssetEndpoint, setPrfsAssetEndpoint] = React.useState<string>();
   const searchParams = useSearchParams();
   const [proofType, setProofType] = React.useState<PrfsProofType>();
 
@@ -28,9 +29,10 @@ const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
   React.useEffect(() => {
     async function fn() {
       const { prfsAssetEndpoint } = await sendMsgToParent(new HandshakeMsg("hi"));
+      setPrfsAssetEndpoint(prfsAssetEndpoint);
     }
     fn().then();
-  }, []);
+  }, [setPrfsAssetEndpoint]);
 
   React.useEffect(() => {
     async function fn() {
@@ -56,7 +58,11 @@ const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
 
   return (
     <DefaultLayout>
-      {proofType ? <CreateProofForm proofType={proofType} /> : <Loading />}
+      {proofType && prfsAssetEndpoint ? (
+        <CreateProofForm proofType={proofType} prfsAssetEndpoint={prfsAssetEndpoint} />
+      ) : (
+        <Loading />
+      )}
     </DefaultLayout>
   );
 };

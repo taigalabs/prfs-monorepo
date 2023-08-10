@@ -16,13 +16,14 @@ export async function initDriver(
 }
 
 export function interpolateSystemAssetEndpoint(
-  driverProperties: Record<string, any>
+  driverProperties: Record<string, any>,
+  prfsAssetEndpoint: string
 ): Record<string, any> {
-  const ret = {};
+  const ret: Record<string, any> = {};
 
   for (const key in driverProperties) {
     const val = driverProperties[key];
-    ret[key] = val.replace("prfs:/", process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT);
+    ret[key] = val.replace("prfs://", `${prfsAssetEndpoint}/`);
   }
 
   return ret;
