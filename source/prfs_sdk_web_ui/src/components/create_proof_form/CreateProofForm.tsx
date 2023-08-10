@@ -137,12 +137,6 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType, prfsAssetEndpoint }) => 
       }
     }
 
-    // const { driver_id, driver_properties } = proofType;
-    // console.log(12, proofType.driver_properties);
-
-    // let driverProperties = interpolateSystemAssetEndpoint(driver_properties);
-    // console.log(13, driverProperties);
-
     let merkleProof = {
       root: BigInt(proofType.public_input_instance[4].value),
       siblings,
@@ -157,8 +151,10 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType, prfsAssetEndpoint }) => 
     const sig = await sendMsgToParent(new GetSignatureMsg(msg));
     console.log("sig", sig);
 
-    // let verifyMsg = ethers.utils.verifyMessage(msg, sig);
-    // console.log("verified addr", verifyMsg);
+    let verifyMsg = ethers.utils.verifyMessage(msg, sig);
+    console.log("verified addr", verifyMsg);
+
+    console.log(55, driver);
 
     // const prevTime = performance.now();
     // const now = performance.now();
@@ -174,7 +170,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType, prfsAssetEndpoint }) => 
     // console.log("Raw proof size (excluding public input)", proof.length, "bytes");
 
     // setMsg(`Created a proof in ${diff} ms`);
-  }, [proofType, setMsg]);
+  }, [proofType, setMsg, driver]);
 
   return (
     proofType && (
