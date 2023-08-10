@@ -75,5 +75,5 @@ const CircuitSummary: React.FC<CircuitSummaryProps> = ({ circuit }) => {
 export default CircuitSummary;
 
 interface CircuitSummaryProps {
-  circuit: PrfsCircuit;
+  circuit: PrfsCircuit | undefined;
 }

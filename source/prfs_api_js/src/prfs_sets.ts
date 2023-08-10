@@ -1,8 +1,8 @@
-// import { PrfsSet, PrfsTreeNode } from "@/models";
-import { api } from "./utils";
-import { PrfsApiResponse } from "./types";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import { PrfsTreeNode } from "@taigalabs/prfs-entities/bindings/PrfsTreeNode";
+
+import { api } from "./utils";
+import { PrfsApiResponse } from "./types";
 
 export interface GetSetsRequest {
   page: number;
@@ -33,6 +33,7 @@ export async function getSets({ page, set_id }: GetSetsArgs) {
     return resp;
   } catch (err) {
     console.log("error fetching", err);
+    throw err;
   }
 }
 
@@ -68,5 +69,6 @@ export async function getSetElements({ page, set_id, limit }: GetSetElementsArgs
     return resp;
   } catch (err) {
     console.log("error fetching", err);
+    throw err;
   }
 }

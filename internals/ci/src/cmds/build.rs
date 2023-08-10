@@ -8,7 +8,6 @@ use crate::{
         build_prfs_entities_ts_binding::BuildPrfsEntitiesTSBindingTask,
         compile_circuits::CompileCircuitsTask, task::BuildTask,
     },
-    paths::PATHS,
     CiError,
 };
 use clap::ArgMatches;
@@ -22,10 +21,10 @@ pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
     let tasks: Vec<Box<dyn BuildTask>> = vec![
         Box::new(BuildDriverInterfaceTSBindingTask),
         Box::new(BuildPrfsEntitiesTSBindingTask),
-        // Box::new(BuildJsDependenciesTask),
+        Box::new(BuildJsDependenciesTask),
         // Box::new(CompileCircuitsTask),
-        // Box::new(BuildPrfsDriverSpartanWasmTask),
-        // Box::new(BuildPrfsDriverSpartanJsTask),
+        Box::new(BuildPrfsDriverSpartanWasmTask),
+        Box::new(BuildPrfsDriverSpartanJsTask),
     ];
 
     run_tasks(sub_matches, tasks, build_handle).expect("Ci failed");

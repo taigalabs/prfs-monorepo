@@ -1,6 +1,7 @@
+import { PrfsTreeNode } from "@taigalabs/prfs-entities/bindings/PrfsTreeNode";
+
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
-import { PrfsTreeNode } from "@taigalabs/prfs-entities/bindings/PrfsTreeNode";
 
 export interface NodePos {
   pos_w: number;
@@ -26,6 +27,7 @@ export async function getPrfsTreeNodes(req: GetPrfsTreeNodesRequest) {
     return resp;
   } catch (err) {
     console.log("error fetching", err);
+    throw err;
   }
 }
 
@@ -48,5 +50,6 @@ export async function getPrfsTreeLeafNodes(req: GetPrfsTreeLeafNodesRequest) {
     return resp;
   } catch (err) {
     console.log("error fetching", err);
+    throw err;
   }
 }

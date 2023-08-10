@@ -14,6 +14,7 @@ pub async fn create_tree_nodes(
     tx: &mut Transaction<'_, Postgres>,
     set_json: &SetJson,
     prfs_set: &mut PrfsSet,
+    leaves: &Vec<PrfsTreeNode>,
 ) -> Result<String, TreeMakerError> {
     let set_label = set_json.set.label.to_string();
     let depth = set_json.set.tree_depth as usize;
@@ -35,23 +36,9 @@ pub async fn create_tree_nodes(
         .into());
     }
 
-    let where_clause = format!("where set_id='{}' order by pos_w asc", set_id);
-
-    let now = SystemTime::now();
-    let leaves = db_apis::get_prfs_tree_nodes(pool, &where_clause).await?;
-
-    let elapsed = now.elapsed().unwrap();
-    println!(
-        "Query took {} ms - get_prfs_tree_nodes, row_count: {}",
-        elapsed.as_millis(),
-        leaves.len(),
-    );
-
     if leaves.len() < 1 {
         return Err(format!("Cannot climb if there is no leaf, set_id: {}", set_id).into());
     }
-
-    require_last_leaf_have_correct_pos(&leaves);
 
     let mut children: Vec<[u8; 32]> = leaves
         .iter()
@@ -64,7 +51,7 @@ pub async fn create_tree_nodes(
     let mut count = 0;
     let mut parent_nodes = vec![];
     for d in 0..depth {
-        println!("processing depth: {}", d);
+        println!("processing depth: {}, children len: {}", d, children.len());
 
         let now = SystemTime::now();
 
@@ -73,7 +60,7 @@ pub async fn create_tree_nodes(
             Err(err) => return Err(format!("calc parent err: {}, d: {}", err, d).into()),
         };
 
-        // println!("parent: {:?}", parent);
+        println!("Finished processing parent, len: {}", parent.len());
 
         parent_nodes = vec![];
         for (idx, node) in parent.iter().enumerate() {
@@ -90,14 +77,37 @@ pub async fn create_tree_nodes(
             parent_nodes.push(n);
         }
 
-        db_apis::insert_prfs_tree_nodes(tx, &parent_nodes, false).await?;
+        println!(
+            "{} parent nodes, d: {}, parent_nodes len: {}",
+            "Inserting".green(),
+            d,
+            parent_nodes.len()
+        );
+
+        let parent_node_chunks: Vec<_> = parent_nodes.chunks(1000).collect();
+
+        let mut total_count = 0;
+        for chunk in parent_node_chunks {
+            let updated_count = db_apis::insert_prfs_tree_nodes(tx, chunk, false).await?;
+            total_count += updated_count;
+
+            println!(
+                "{} parent_nodes, d: {}, updated_count: {}, total_count: {}",
+                "Inserted".green(),
+                d,
+                updated_count,
+                total_count,
+            );
+        }
+
+        // db_apis::insert_prfs_tree_nodes(tx, &parent_nodes, false).await?;
         children = parent;
 
         count += parent_nodes.len();
 
         let elapsed = now.elapsed().unwrap();
         println!(
-            "Depth processing took {} ms - depth:{}, parent node count: {}",
+            "Depth processing took {} ms - depth: {}, parent node count: {}",
             elapsed.as_millis(),
             d,
             parent_nodes.len(),
@@ -121,7 +131,7 @@ pub async fn create_tree_nodes(
     Ok(merkle_root)
 }
 
-fn require_last_leaf_have_correct_pos(leaves: &Vec<PrfsTreeNode>) {
+fn _require_last_leaf_have_correct_pos(leaves: &Vec<PrfsTreeNode>) {
     let last_leaf = leaves.last().unwrap();
 
     if last_leaf.pos_w != Decimal::from(leaves.len() - 1) {

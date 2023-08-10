@@ -24,6 +24,10 @@ const DriverSummary: React.FC<DriverSummaryProps> = ({ driver }) => {
             <ColumnarSummaryCellHeader>{i18n.driver_id}</ColumnarSummaryCellHeader>
             <div>{driver.driver_id}</div>
           </ColumnarSummaryCell>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.author}</ColumnarSummaryCellHeader>
+            <div>{driver.author}</div>
+          </ColumnarSummaryCell>
         </ColumnarSummaryColumn>
         <ColumnarSummaryColumn>
           <ColumnarSummaryCell>
@@ -38,6 +42,10 @@ const DriverSummary: React.FC<DriverSummaryProps> = ({ driver }) => {
             <ColumnarSummaryCellHeader>{i18n.version}</ColumnarSummaryCellHeader>
             <div>{driver.version}</div>
           </ColumnarSummaryCell>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.created_at}</ColumnarSummaryCellHeader>
+            <div>{driver.created_at}</div>
+          </ColumnarSummaryCell>
         </ColumnarSummaryColumn>
       </ColumnarSummary>
     )
@@ -47,5 +55,5 @@ const DriverSummary: React.FC<DriverSummaryProps> = ({ driver }) => {
 export default DriverSummary;
 
 interface DriverSummaryProps {
-  driver: CircuitDriver;
+  driver: CircuitDriver | undefined;
 }

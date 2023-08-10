@@ -1,8 +1,8 @@
-// import { PrfsProofType, PublicInputInstance } from "@/models";
-import { api } from "./utils";
-import { PrfsApiResponse } from "./types";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { PublicInputInstanceEntry } from "@taigalabs/prfs-entities/bindings/PublicInputInstanceEntry";
+
+import { api } from "./utils";
+import { PrfsApiResponse } from "./types";
 
 export interface CreatePrfsProofTypeRequest {
   label: string;
@@ -26,6 +26,7 @@ export async function createPrfsProofType(req: CreatePrfsProofTypeRequest) {
     return resp;
   } catch (err) {
     console.log("error fetching", err);
+    throw err;
   }
 }
 
@@ -48,5 +49,6 @@ export async function getPrfsProofTypes(req: GetPrfsProofTypesRequest) {
     return resp;
   } catch (err) {
     console.log("error fetching", err);
+    throw err;
   }
 }

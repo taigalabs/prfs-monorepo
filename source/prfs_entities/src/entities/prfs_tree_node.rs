@@ -12,9 +12,3 @@ pub struct PrfsTreeNode {
     pub val: String,
     pub set_id: String,
 }
-
-impl PrfsTreeNode {
-    pub fn table_name() -> &'static str {
-        "prfs_tree_nodes"
-    }
-}

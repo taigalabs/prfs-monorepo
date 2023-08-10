@@ -40,7 +40,7 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
   const rowsElem = React.useMemo(() => {
     let { page, values } = data;
 
-    let rows = [];
+    let rows: React.ReactNode[] = [];
     if (values === undefined || values.length < 1) {
       return rows;
     }
@@ -52,7 +52,7 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
           }
         : undefined;
 
-      const isSelected = selectedVal && !!selectedVal[val.circuit_id];
+      const isSelected = selectedVal && selectedVal.circuit_id === val.circuit_id;
       const selType = selectType || "radio";
 
       let row = (

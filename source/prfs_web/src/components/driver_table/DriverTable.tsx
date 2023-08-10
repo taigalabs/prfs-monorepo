@@ -36,7 +36,7 @@ const DriverTable: React.FC<DriverTableProps> = ({ selectType, selectedVal, hand
   const rowsElem = React.useMemo(() => {
     let { page, values } = data;
 
-    let rows = [];
+    let rows: React.ReactNode[] = [];
     if (values === undefined || values.length < 1) {
       return rows;
     }
@@ -48,7 +48,7 @@ const DriverTable: React.FC<DriverTableProps> = ({ selectType, selectedVal, hand
           }
         : undefined;
 
-      const isSelected = selectedVal && !!selectedVal[val.driver_id];
+      const isSelected = selectedVal && selectedVal.driver_id == val.driver_id;
       const selType = selectType || "radio";
 
       let row = (

@@ -21,8 +21,8 @@ const Leftbar: React.FC<any> = () => {
       <div className={styles.section}>
         <ul>
           <li className={styles.category}>
-            <FaAngleRight />
-            {i18n.proofs}
+            {/* <FaAngleRight /> */}
+            {i18n.proofs.toUpperCase()}
           </li>
           <li>
             <ActiveLink href="/proofs" activeClassName={styles.activeLink}>
@@ -39,8 +39,8 @@ const Leftbar: React.FC<any> = () => {
       <div className={styles.section}>
         <ul>
           <li className={styles.category}>
-            <FaAngleRight />
-            {i18n.circuits}
+            {/* <FaAngleRight /> */}
+            {i18n.circuits.toUpperCase()}
           </li>
           <li>
             <ActiveLink href="/circuits" activeClassName={styles.activeLink}>
@@ -57,8 +57,8 @@ const Leftbar: React.FC<any> = () => {
       <div className={styles.section}>
         <ul>
           <li className={styles.category}>
-            <FaAngleRight />
-            <span>{i18n.references}</span>
+            {/* <FaAngleRight /> */}
+            <span>{i18n.references.toUpperCase()}</span>
           </li>
           <li>
             <ActiveLink href="/sets" activeClassName={styles.activeLink}>

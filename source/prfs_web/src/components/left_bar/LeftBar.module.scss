@@ -20,7 +20,7 @@
   li {
     a {
       display: block;
-      padding: 10px 21px;
+      padding: 10px 18px;
     }
 
     a:hover {
@@ -33,7 +33,7 @@
   li {
     a {
       display: block;
-      padding: 10px 21px;
+      padding: 10px 18px;
     }
 
     a:hover {
@@ -50,8 +50,9 @@
   display: flex;
   align-items: center;
   font-weight: 600;
-  color: var(--gray-32);
-  padding: 10px 0px;
+  font-size: 12px;
+  /* color: var(--gray-20); */
+  padding: 10px 12px;
 
   svg {
     /* font-size: 1.5em; */

@@ -25,6 +25,11 @@ fn load_circuits() -> HashMap<String, CircuitBuildJson> {
     let mut circuit_build = HashMap::new();
     for circuit_name in build_list_json.circuits {
         let circuit_build_json_path = build_path.join(format!("{}/{}", circuit_name, "build.json"));
+        println!(
+            "Reading circuit, name: {:?}",
+            circuit_build_json_path.file_name()
+        );
+
         let b = std::fs::read(circuit_build_json_path).unwrap();
         let build_json: CircuitBuildJson = serde_json::from_slice(&b).unwrap();
 

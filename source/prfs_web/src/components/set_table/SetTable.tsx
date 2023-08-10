@@ -37,7 +37,7 @@ const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSele
     // console.log(1, data);
     let { page, values } = data;
 
-    let rows = [];
+    let rows: React.ReactNode[] = [];
     if (values === undefined || values.length < 1) {
       return rows;
     }
@@ -49,7 +49,7 @@ const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSele
           }
         : undefined;
 
-      const isSelected = selectedVal && !!selectedVal[val.set_id];
+      const isSelected = selectedVal && selectedVal.set_id === val.set_id;
       const selType = selectType || "radio";
 
       let row = (

@@ -61,7 +61,7 @@ pub async fn get_prfs_tree_root(
 
 pub async fn insert_prfs_tree_nodes(
     tx: &mut Transaction<'_, Postgres>,
-    nodes: &Vec<PrfsTreeNode>,
+    nodes: &[PrfsTreeNode],
     update_on_conflict: bool,
 ) -> Result<u64, DbInterfaceError> {
     let mut values = Vec::with_capacity(nodes.len());
@@ -73,16 +73,14 @@ pub async fn insert_prfs_tree_nodes(
 
     let query = if update_on_conflict {
         format!(
-            "INSERT INTO {} (pos_w, pos_h, val, set_id) VALUES {} ON CONFLICT \
+            "INSERT INTO prfs_tree_nodes (pos_w, pos_h, val, set_id) VALUES {} ON CONFLICT \
                     (pos_w, pos_h, set_id) {}",
-            PrfsTreeNode::table_name(),
             values.join(","),
             "DO UPDATE SET val = excluded.val, updated_at = now()",
         )
     } else {
         format!(
-            "INSERT INTO {} (pos_w, pos_h, val, set_id) VALUES {} ON CONFLICT DO NOTHING",
-            PrfsTreeNode::table_name(),
+            "INSERT INTO prfs_tree_nodes (pos_w, pos_h, val, set_id) VALUES {} ON CONFLICT DO NOTHING",
             values.join(","),
         )
     };

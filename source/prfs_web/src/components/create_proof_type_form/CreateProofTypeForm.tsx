@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
+import { PublicInputInstanceEntry } from "@taigalabs/prfs-entities/bindings/PublicInputInstanceEntry";
 
 import styles from "./CreateProofTypeForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -25,11 +26,13 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const { prfsAccount } = state;
   const router = useRouter();
 
-  const [publicInputInstance, setPublicInputInstance] = React.useState<PublicInputInstance>({});
+  const [publicInputInstance, setPublicInputInstance] = React.useState<
+    Record<number, PublicInputInstanceEntry>
+  >({});
   const [formAlert, setFormAlert] = React.useState("");
   const [name, setName] = React.useState("");
   const [desc, setDesc] = React.useState("");
-  const [selectedCircuit, setSelectedCircuit] = React.useState<PrfsCircuit>(undefined);
+  const [selectedCircuit, setSelectedCircuit] = React.useState<PrfsCircuit | undefined>();
 
   const handleSelectCircuit = React.useCallback(
     (val: PrfsCircuit) => {
@@ -68,10 +71,10 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       return;
     }
 
-    const newPublicInputInstance: PublicInputInstance = {};
+    const newPublicInputInstance: Record<number, PublicInputInstanceEntry> = {};
     for (const [idx, pi] of selectedCircuit.public_inputs.entries()) {
       switch (pi.type) {
-        case PublicInputType.PROVER_GENERATED:
+        case "PROVER_GENERATED":
           newPublicInputInstance[idx] = {
             label: pi.label,
             type: pi.type,
@@ -81,7 +84,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
           };
 
           break;
-        case PublicInputType.PRFS_SET:
+        case "PRFS_SET":
           if (!publicInputInstance[idx]) {
             setFormAlert(`public input is undefined, idx: ${idx}`);
             return;

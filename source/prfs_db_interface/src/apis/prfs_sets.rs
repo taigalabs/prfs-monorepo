@@ -99,16 +99,16 @@ pub async fn insert_prfs_set(
     update_on_conflict: bool,
 ) -> Result<String, DbInterfaceError> {
     let cols = concat_cols(&[
-        PrfsSet::set_id(),
-        PrfsSet::label(),
-        PrfsSet::author(),
-        PrfsSet::desc(),
-        PrfsSet::hash_algorithm(),
-        PrfsSet::cardinality(),
-        PrfsSet::merkle_root(),
-        PrfsSet::element_type(),
-        PrfsSet::elliptic_curve(),
-        PrfsSet::finite_field(),
+        "set_id",
+        "label",
+        "author",
+        "desc",
+        "hash_algorithm",
+        "cardinality",
+        "merkle_root",
+        "element_type",
+        "elliptic_curve",
+        "finite_field",
     ]);
 
     let vals = concat_values(&[
@@ -126,23 +126,20 @@ pub async fn insert_prfs_set(
 
     let query = if update_on_conflict {
         format!(
-            "INSERT INTO {} ({}) VALUES ({}) \
-                ON CONFLICT ({}) DO UPDATE SET cardinality = excluded.cardinality, \
+            "INSERT INTO prfs_sets ({}) VALUES ({}) \
+                ON CONFLICT (set_id) DO UPDATE SET cardinality = excluded.cardinality, \
                 merkle_root = excluded.merkle_root, updated_at = now() returning set_id",
-            PrfsSet::__table_name(),
-            cols,
-            vals,
-            PrfsSet::set_id(),
+            cols, vals,
         )
     } else {
         format!(
-            "INSERT INTO {} ({}) VALUES ({}) \
+            "INSERT INTO prfs_sets ({}) VALUES ({}) \
                 ON CONFLICT DO NOTHING returning set_id",
-            PrfsSet::__table_name(),
-            cols,
-            vals,
+            cols, vals,
         )
     };
+
+    println!("query: {}", query);
 
     let row = sqlx::query(&query)
         .fetch_one(&mut **tx)

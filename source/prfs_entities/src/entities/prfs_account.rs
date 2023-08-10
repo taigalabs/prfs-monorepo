@@ -6,9 +6,3 @@ use ts_rs::TS;
 pub struct PrfsAccount {
     pub sig: String,
 }
-
-impl PrfsAccount {
-    pub fn table_name() -> &'static str {
-        "prfs_accounts"
-    }
-}

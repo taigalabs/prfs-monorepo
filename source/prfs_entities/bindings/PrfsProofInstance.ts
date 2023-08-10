@@ -5,5 +5,5 @@ export interface PrfsProofInstance {
   proof_instance_id: string;
   proof_type_id: string;
   public_input: Record<string, any>;
-  created_at: number;
+  created_at: string;
 }

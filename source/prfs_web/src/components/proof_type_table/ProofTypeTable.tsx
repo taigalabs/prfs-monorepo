@@ -38,7 +38,7 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
 
     let { page, values } = data;
 
-    let rows = [];
+    let rows: React.ReactNode[] = [];
     if (values === undefined || values.length < 1) {
       return rows;
     }

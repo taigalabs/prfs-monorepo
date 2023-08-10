@@ -1,4 +1,5 @@
 export default {
+  loading: "Loading...",
   create_proof: "Create proof",
   public_inputs: "Public inputs",
   private_inputs: "Private inputs",

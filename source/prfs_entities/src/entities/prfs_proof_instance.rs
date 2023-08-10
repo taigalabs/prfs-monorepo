@@ -12,6 +12,6 @@ pub struct PrfsProofInstance {
     #[ts(type = "Record<string, any>")]
     pub public_input: sqlx::types::Json<serde_json::Value>,
 
-    #[ts(type = "number")]
+    #[ts(type = "string")]
     pub created_at: DateTime<Utc>,
 }

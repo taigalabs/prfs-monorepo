@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use super::merklepath::make_sibling_path;
 use crate::{
     hash_two,
@@ -117,28 +119,33 @@ pub fn make_merkle_proof(
 }
 
 pub fn calc_parent_nodes(children: &Vec<[u8; 32]>) -> Result<Vec<[u8; 32]>, PrfsCryptoError> {
-    let mut parent = vec![];
-
     if children.len() < 1 {
         return Err(format!("children is len 0").into());
     }
 
     // single child
     if children.len() == 1 {
+        let mut parent = vec![];
         let left = children.get(0).unwrap();
         let right = &ZERO;
 
         let res = hash_two(left, right).unwrap();
         parent.push(res);
 
-        let l = convert_32bytes_into_decimal_string(left)?;
-        let r = convert_32bytes_into_decimal_string(right)?;
-        let res = convert_32bytes_into_decimal_string(&res)?;
-        println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
+        // let l = convert_32bytes_into_decimal_string(left)?;
+        // let r = convert_32bytes_into_decimal_string(right)?;
+        // let res = convert_32bytes_into_decimal_string(&res)?;
+        // println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
 
-        // continue;
+        return Ok(parent);
     } else {
+        let mut parent = vec![];
+
         for i in (0..children.len()).step_by(2) {
+            if i % 2000 == 0 {
+                println!("calc_parent_nodes, child idx: {}", i);
+            }
+
             // println!("i: {}", i);
 
             let left = match children.get(i) {
@@ -153,25 +160,25 @@ pub fn calc_parent_nodes(children: &Vec<[u8; 32]>) -> Result<Vec<[u8; 32]>, Prfs
                 let res = hash_two(left, r).unwrap();
                 parent.push(res);
 
-                let l = convert_32bytes_into_decimal_string(left)?;
-                let r = convert_32bytes_into_decimal_string(r)?;
-                let res = convert_32bytes_into_decimal_string(&res)?;
-                println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
+                // let l = convert_32bytes_into_decimal_string(left)?;
+                // let r = convert_32bytes_into_decimal_string(r)?;
+                // let res = convert_32bytes_into_decimal_string(&res)?;
+                // println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
             } else {
                 let right = &ZERO;
                 // only left is present
                 let res = hash_two(left, right).unwrap();
                 parent.push(res);
 
-                let l = convert_32bytes_into_decimal_string(left)?;
-                let r = convert_32bytes_into_decimal_string(right)?;
-                let res = convert_32bytes_into_decimal_string(&res)?;
-                println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
+                // let l = convert_32bytes_into_decimal_string(left)?;
+                // let r = convert_32bytes_into_decimal_string(right)?;
+                // let res = convert_32bytes_into_decimal_string(&res)?;
+                // println!("l: {:?}, r: {:?}, res: {:?}", l, r, res);
 
                 break;
             }
         }
-    }
 
-    Ok(parent)
+        return Ok(parent);
+    }
 }

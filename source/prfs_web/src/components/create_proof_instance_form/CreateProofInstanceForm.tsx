@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
+import { MsgType, PrfsSDK, sendMsgToChild } from "@taigalabs/prfs-sdk-web";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import { PublicInputType } from "@taigalabs/prfs-entities/bindings/PublicInputType";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
@@ -36,7 +36,7 @@ const ProgramSection: React.FC<ProgramSectionProps> = ({ proofType }) => {
   const i18n = React.useContext(i18nContext);
 
   const programPropsElem = React.useMemo(() => {
-    const rows = [];
+    const rows: React.ReactNode[] = [];
 
     if (!proofType) {
       return rows;
@@ -83,7 +83,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     Record<string, PublicInputInstanceEntry>
   >({});
   const [formAlert, setFormAlert] = React.useState("");
-  const [selectedProofType, setSelectedProofType] = React.useState<PrfsProofType>(undefined);
+  const [selectedProofType, setSelectedProofType] = React.useState<PrfsProofType | undefined>();
   const [programProps, setProgramProps] = React.useState();
 
   const handleSelectProofType = React.useCallback(
@@ -93,172 +93,180 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     [setSelectedProofType]
   );
 
-  React.useEffect(() => {
-    if (selectedProofType) {
-      console.log(55, selectedProofType);
-
-      const proofGenElement = prfs.create("proof-gen", {
-        selectedProofType,
-      });
-
-      proofGenElement.mount("#prfs-sdk-container").then(elem => {
-        console.log("yo", elem);
-      });
-    }
-  }, [selectedProofType]);
-
-  const handleCreateProof = React.useCallback((proof: Uint8Array, publicInput: any) => {
+  const handleCreateProof = React.useCallback(({ proof, publicInput }: any) => {
     console.log("Created proof!", proof, publicInput);
   }, []);
 
-  // const handleClickCreateProofInstance = React.useCallback(async () => {
-  //   setFormAlert("");
+  React.useEffect(() => {
+    async function fn() {
+      if (selectedProofType) {
+        console.log(55, selectedProofType);
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-  //   if (!prfsAccount) {
-  //     setFormAlert("User is not signed in");
-  //     return;
-  //   }
+        const proofGenElement = prfs.create("proof-gen", {
+          proofType: selectedProofType,
+          provider,
+          handleCreateProof,
+          prfsApiEndpoint: process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT,
+          prfsAssetEndpoint: process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT,
+        });
 
-  //   if (selectedProofType === undefined) {
-  //     setFormAlert("Proof type should be selected");
-  //     return;
-  //   }
+        const iframe = await proofGenElement.mount("#prfs-sdk-container");
+        console.log("sdk is loaded");
+        // const reply = await sendMsgToChild({
+        //   type: MsgType.
+        // }, iframe);
+        // console.log(22, reply);
+      }
+    }
 
-  //   console.log(11, selectedProofType);
+    fn().then();
+  }, [selectedProofType, handleCreateProof]);
 
-  //   const addr = await signer.getAddress();
-  //   console.log("my address: %s", addr);
-  //   if (!selectedProofType.public_input_instance[4].ref) {
-  //     throw new Error("set id (ref) is not defined");
-  //   }
+  const handleClickCreateProofInstance = React.useCallback(async () => {
+    setFormAlert("");
 
-  //   const setId = selectedProofType.public_input_instance[4].ref;
-  //   let { payload } = await prfsBackend.getPrfsTreeLeafNodes({
-  //     set_id: setId,
-  //     leaf_vals: [addr],
-  //   });
+    if (!prfsAccount) {
+      setFormAlert("User is not signed in");
+      return;
+    }
 
-  //   let pos_w = null;
-  //   for (const node of payload.prfs_tree_nodes) {
-  //     if (node.val === addr.toLowerCase()) {
-  //       pos_w = node.pos_w;
-  //     }
-  //   }
+    if (selectedProofType === undefined) {
+      setFormAlert("Proof type should be selected");
+      return;
+    }
 
-  //   if (pos_w === null) {
-  //     throw new Error("Address is not part of a set");
-  //   }
+    console.log(11, selectedProofType);
 
-  //   const leafIdx = Number(pos_w);
-  //   const siblingPath = makeSiblingPath(32, Number(pos_w));
-  //   const pathIndices = makePathIndices(32, Number(pos_w));
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    await provider.send("eth_requestAccounts", []);
+    const signer = provider.getSigner();
 
-  //   const siblingPos = siblingPath.map((pos_w, idx) => {
-  //     return { pos_h: idx, pos_w };
-  //   });
+    const addr = await signer.getAddress();
+    console.log("my address: %s", addr);
+    if (!selectedProofType.public_input_instance[4].ref) {
+      throw new Error("set id (ref) is not defined");
+    }
 
-  //   console.log("siblingPos: %o", siblingPos);
+    const setId = selectedProofType.public_input_instance[4].ref;
+    let { payload } = await prfsApi.getPrfsTreeLeafNodes({
+      set_id: setId,
+      leaf_vals: [addr],
+    });
 
-  //   const data = await prfsBackend.getPrfsTreeNodes({
-  //     set_id: setId,
-  //     pos: siblingPos,
-  //   });
+    let pos_w = null;
+    for (const node of payload.prfs_tree_nodes) {
+      if (node.val === addr.toLowerCase()) {
+        pos_w = node.pos_w;
+      }
+    }
 
-  //   console.log(55, data);
+    if (pos_w === null) {
+      throw new Error("Address is not part of a set");
+    }
 
-  //   let siblings: BigInt[] = [];
-  //   for (const node of data.payload.prfs_tree_nodes) {
-  //     siblings[node.pos_h] = BigInt(node.val);
-  //   }
+    const leafIdx = Number(pos_w);
+    const siblingPath = makeSiblingPath(32, Number(pos_w));
+    const pathIndices = makePathIndices(32, Number(pos_w));
 
-  //   for (let idx = 0; idx < 32; idx += 1) {
-  //     if (siblings[idx] === undefined) {
-  //       siblings[idx] = BigInt(0);
-  //     }
-  //   }
+    const siblingPos = siblingPath.map((pos_w, idx) => {
+      return { pos_h: idx, pos_w };
+    });
 
-  //   console.log(22, siblings);
+    console.log("siblingPos: %o", siblingPos);
 
-  //   const { driver_id, driver_properties } = selectedProofType;
-  //   console.log(12, selectedProofType.driver_properties);
+    const data = await prfsApi.getPrfsTreeNodes({
+      set_id: setId,
+      pos: siblingPos,
+    });
 
-  //   let driverProperties = interpolateSystemAssetEndpoint(driver_properties);
-  //   console.log(13, driverProperties);
+    console.log(55, data);
 
-  //   const driver = await initDriver(driver_id, driverProperties);
+    let siblings: BigInt[] = [];
+    for (const node of data.payload.prfs_tree_nodes) {
+      siblings[node.pos_h] = BigInt(node.val);
+    }
 
-  //   // await proveMembership(signer, driver, 4);
-  //   // await proveMembershipMock(driver);
+    for (let idx = 0; idx < 32; idx += 1) {
+      if (siblings[idx] === undefined) {
+        siblings[idx] = BigInt(0);
+      }
+    }
 
-  //   let merkleProof = {
-  //     root: BigInt(selectedProofType.public_input_instance[4].value),
-  //     siblings,
-  //     pathIndices,
-  //   };
+    const { driver_id, driver_properties } = selectedProofType;
+    let driverProperties = interpolateSystemAssetEndpoint(driver_properties);
 
-  //   console.log(55, merkleProof);
+    const driver = await initDriver(driver_id, driverProperties);
 
-  //   const msg = Buffer.from("harry potter");
-  //   const msgHash = hashPersonalMessage(msg);
+    let merkleProof = {
+      root: BigInt(selectedProofType.public_input_instance[4].value),
+      siblings,
+      pathIndices,
+    };
 
-  //   let sig = await signer.signMessage(msg);
-  //   console.log("sig", sig);
+    console.log(55, merkleProof);
 
-  //   let verifyMsg = ethers.utils.verifyMessage(msg, sig);
-  //   console.log("verified addr", verifyMsg);
+    const msg = Buffer.from("harry potter");
+    const msgHash = hashPersonalMessage(msg);
 
-  //   let proverAddress = await signer.getAddress();
-  //   console.log("proverAddr", proverAddress);
+    let sig = await signer.signMessage(msg);
+    console.log("sig", sig);
 
-  //   console.log("Proving...");
-  //   console.time("Full proving time");
-  //   const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
+    let verifyMsg = ethers.utils.verifyMessage(msg, sig);
+    console.log("verified addr", verifyMsg);
 
-  //   console.timeEnd("Full proving time");
-  //   console.log("Raw proof size (excluding public input)", proof.length, "bytes");
+    let proverAddress = await signer.getAddress();
+    console.log("proverAddr", proverAddress);
 
-  //   console.log("Verifying...");
+    console.log("Proving...");
+    console.time("Full proving time");
+    const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
 
-  //   console.time("Verification time");
-  //   const result = await driver.verify(proof, publicInput.serialize());
-  //   console.timeEnd("Verification time");
+    console.timeEnd("Full proving time");
+    console.log("Raw proof size (excluding public input)", proof.length, "bytes");
 
-  //   if (result) {
-  //     console.log("Successfully verified proof!");
-  //   } else {
-  //     console.log("Failed to verify proof :(");
-  //   }
+    console.log("Verifying...");
 
-  //   // await proveMembership(signer, circuitUrl, wtnsGenUrl);
+    console.time("Verification time");
+    const result = await driver.verify(proof, publicInput.serialize());
+    console.timeEnd("Verification time");
 
-  //   // let { y, m, d } = getYMD();
-  //   // let now = Date.now();
-  //   // let hash = keccakHash(
-  //   //   `${selectedCircuit.circuit_id}_${selectedCircuit.program.program_id}_${now}`
-  //   // ).substring(2, 8);
+    if (result) {
+      console.log("Successfully verified proof!");
+    } else {
+      console.log("Failed to verify proof :(");
+    }
 
-  //   // let proof_type_id = `${prfsAccount.id}_${y}${m}${d}_${hash}`;
+    // await proveMembership(signer, circuitUrl, wtnsGenUrl);
 
-  //   // let createPrfsProofTypeRequest = {
-  //   //   proof_type_id,
-  //   //   label: name,
-  //   //   desc,
-  //   //   author: prfsAccount.sig,
-  //   //   circuit_id: selectedCircuit.circuit_id,
-  //   //   program_id: selectedCircuit.program.program_id,
-  //   //   public_input_instance: newPublicInputInstance,
-  //   //   program_properties: selectedCircuit.program.properties,
-  //   // };
+    // let { y, m, d } = getYMD();
+    // let now = Date.now();
+    // let hash = keccakHash(
+    //   `${selectedCircuit.circuit_id}_${selectedCircuit.program.program_id}_${now}`
+    // ).substring(2, 8);
 
-  //   // prfsBackend
-  //   //   .createPrfsProofType(createPrfsProofTypeRequest)
-  //   //   .then(_res => {
-  //   //     router.push("/proof_types");
-  //   //   })
-  //   //   .catch(err => {
-  //   //     setFormAlert(err);
-  //   //   });
-  // }, [publicInputInstance, selectedProofType, setFormAlert, state.prfsAccount]);
+    // let proof_type_id = `${prfsAccount.id}_${y}${m}${d}_${hash}`;
+
+    // let createPrfsProofTypeRequest = {
+    //   proof_type_id,
+    //   label: name,
+    //   desc,
+    //   author: prfsAccount.sig,
+    //   circuit_id: selectedCircuit.circuit_id,
+    //   program_id: selectedCircuit.program.program_id,
+    //   public_input_instance: newPublicInputInstance,
+    //   program_properties: selectedCircuit.program.properties,
+    // };
+
+    // prfsBackend
+    //   .createPrfsProofType(createPrfsProofTypeRequest)
+    //   .then(_res => {
+    //     router.push("/proof_types");
+    //   })
+    //   .catch(err => {
+    //     setFormAlert(err);
+    //   });
+  }, [publicInputInstance, selectedProofType, setFormAlert, state.prfsAccount]);
 
   // console.log(11, selectedProofType);
 
