@@ -23,7 +23,7 @@ export default class SpartanDriver implements CircuitDriver {
   circuit: Uint8Array;
 
   constructor(args: SpartanDriverCtorArgs) {
-    console.log("SpartanDriver, args: %o", args);
+    // console.log("SpartanDriver, args: %o", args);
     this.handlers = args.handlers;
 
     if (args.circuit === undefined) {
