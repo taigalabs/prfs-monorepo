@@ -112,6 +112,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
         });
 
         const iframe = await proofGenElement.mount("#prfs-sdk-container");
+        console.log("sdk is loaded");
         // const reply = await sendMsgToChild({
         //   type: MsgType.
         // }, iframe);

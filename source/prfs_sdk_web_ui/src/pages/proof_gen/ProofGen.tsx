@@ -21,11 +21,7 @@ const ProofGen: Component<ProofGenProps> = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [proofType] = createResource(searchParams, fetchProofType);
 
-  console.log(123123);
-
-  // const [count, setCount] = createSignal(0);
-
-  createParentMsgHandler();
+  createParentMsgHandler(setData);
 
   createEffect(() => {
     async function fn() {
@@ -40,36 +36,13 @@ const ProofGen: Component<ProofGenProps> = () => {
     fn().then();
   });
 
-  createEffect(() => {
-    async function fn() {
-      let proofTypeId = searchParams["proofTypeId"];
-      console.log("proofTypeId: %s", proofTypeId);
-
-      if (proofTypeId) {
-        // setProofTypeId(proofTypeId);
-        // const resp = await prfsApi.getPrfsProofTypes({
-        //   page: 0,
-        //   proof_type_id: proofTypeId,
-        // });
-        // if (resp && resp.payload.prfs_proof_types.length > 0) {
-        //   console.log(555, resp.payload.prfs_proof_types[0]);
-        //   setProofType(resp.payload.prfs_proof_types[0]);
-        // } else {
-        //   console.log("PrfsProofType not found");
-        // }
-      }
-    }
-
-    fn().then();
-  });
-
-  // console.log(33, proofType());
-
   return (
     <DefaultLayout>
-      <Show when={proofType()} fallback={<Loading />}>
-        <CreateProofForm proofType={proofType()!} />
-      </Show>
+      123
+      {/* {data()} */}
+      {/* <Show when={proofType()} fallback={<Loading />}> */}
+      {/*   <CreateProofForm proofType={proofType()!} /> */}
+      {/* </Show> */}
     </DefaultLayout>
   );
 };
@@ -78,8 +51,8 @@ export default ProofGen;
 
 export interface ProofGenProps {}
 
-function createParentMsgHandler() {
-  createEffect(() => {
+function createParentMsgHandler(setData: any) {
+  createEffect(prev => {
     if (!PARENT_MSG_HANDLER.registered) {
       console.log("Attaching parent msg handler");
 
@@ -92,6 +65,7 @@ function createParentMsgHandler() {
           switch (type) {
             case MsgType.DRIVER_LOAD_RESULT:
               ev.ports[0].postMessage({ result: `${ev.data} back` });
+              setData(1);
               break;
 
             default:
@@ -102,6 +76,8 @@ function createParentMsgHandler() {
 
       PARENT_MSG_HANDLER.registered = true;
     }
+
+    return 0;
   });
 }
 

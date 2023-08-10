@@ -13,7 +13,6 @@ import { ProofGenElementOptions } from "./proof_gen_element";
 export function handleChildMessage(
   iframe: HTMLIFrameElement,
   resolve: (value: any) => void,
-  // provider: ethers.providers.Web3Provider
   options: ProofGenElementOptions
 ) {
   console.log("attaching child msg handler");
@@ -29,6 +28,8 @@ export function handleChildMessage(
       switch (type) {
         case "HANDSHAKE": {
           ev.ports[0].postMessage(new HandshakeResponseMsg("hello"));
+
+          resolve(1);
 
           break;
         }
