@@ -111,7 +111,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
           prfsAssetEndpoint: process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT,
         });
 
-        // const iframe = await proofGenElement.mount("#prfs-sdk-container");
+        const iframe = await proofGenElement.mount("#prfs-sdk-container");
         console.log("sdk is loaded");
         // const reply = await sendMsgToChild({
         //   type: MsgType.
@@ -316,11 +316,11 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
       {formAlert.length > 0 && <div className={styles.alert}>{formAlert}</div>}
 
-      <div className={styles.btnRow}>
-        <Button variant="b" handleClick={handleClickCreateProofInstance}>
-          {i18n.create_proof_type}
-        </Button>
-      </div>
+      {/* <div className={styles.btnRow}> */}
+      {/*   <Button variant="b" handleClick={handleClickCreateProofInstance}> */}
+      {/*     {i18n.create_proof_type} */}
+      {/*   </Button> */}
+      {/* </div> */}
     </div>
   );
 };
