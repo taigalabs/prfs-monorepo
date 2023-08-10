@@ -7,6 +7,8 @@ export enum MsgType {
   GET_SIGNATURE_RESPONSE = "GET_SIGNATURE_RESPONSE",
   CREATE_PROOF = "CREATE_PROOF",
   CREATE_PROOF_RESPONSE = "CREATE_PROOF_RESPONSE",
+  DRIVER_LOAD_RESULT = "DRIVER_LOAD_RESULT",
+  DRIVER_LOAD_RESULT_RESPONSE = "DRIVER_LOAD_RESULT_RESPONSE",
 }
 
 export interface MsgInterface<T> {
@@ -95,6 +97,22 @@ export class CreateProofMsg implements MsgInterface<CreateProofPayload> {
       driverProperties,
     };
   }
+}
+
+export class DriverLoadResultMsg implements MsgInterface<DriverLoadResultPayload> {
+  type: MsgType;
+  payload: DriverLoadResultPayload;
+
+  constructor(driverId: string) {
+    this.type = MsgType.DRIVER_LOAD_RESULT;
+    this.payload = {
+      driverId,
+    };
+  }
+}
+
+export interface DriverLoadResultPayload {
+  driverId: string;
 }
 
 export interface CreateProofPayload {

@@ -101,17 +101,14 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     async function fn() {
       if (selectedProofType) {
         console.log(55, selectedProofType);
-
         const provider = new ethers.providers.Web3Provider(window.ethereum);
-        // await provider.send("eth_requestAccounts", []);
-        // const signer = provider.getSigner();
-        // const addr = await signer.getAddress();
-        // console.log(222, addr);
 
         const proofGenElement = prfs.create("proof-gen", {
-          selectedProofType,
+          proofType: selectedProofType,
           provider,
           handleCreateProof,
+          prfsApiEndpoint: process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT,
+          prfsAssetEndpoint: process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT,
         });
 
         const iframe = await proofGenElement.mount("#prfs-sdk-container");

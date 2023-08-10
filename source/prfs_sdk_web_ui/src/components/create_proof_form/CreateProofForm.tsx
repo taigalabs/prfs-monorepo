@@ -7,10 +7,6 @@ import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { RiDocumentFileListLine } from "solid-icons/ri";
 import { IoCalculatorSharp } from "solid-icons/io";
-
-import styles from "./CreateProofForm.module.scss";
-import { i18n, I18nContext } from "@/contexts/i18n";
-import Button from "@/components/button/Button";
 import {
   CreateProofMsg,
   GetAddressMsg,
@@ -18,6 +14,10 @@ import {
   MsgType,
   sendMsgToParent,
 } from "@taigalabs/prfs-sdk-web";
+
+import styles from "./CreateProofForm.module.scss";
+import { i18n, I18nContext } from "@/contexts/i18n";
+import Button from "@/components/button/Button";
 
 const CreateProofForm: Component<CreateProofFormProps> = ({ proofType }) => {
   const [msg, setMsg] = createSignal("");
@@ -126,39 +126,39 @@ const CreateProofForm: Component<CreateProofFormProps> = ({ proofType }) => {
       }
     }
 
-    const { driver_id, driver_properties } = proofType;
-    console.log(12, proofType.driver_properties);
+    // const { driver_id, driver_properties } = proofType;
+    // console.log(12, proofType.driver_properties);
 
-    let driverProperties = interpolateSystemAssetEndpoint(driver_properties);
-    console.log(13, driverProperties);
+    // let driverProperties = interpolateSystemAssetEndpoint(driver_properties);
+    // console.log(13, driverProperties);
 
-    let merkleProof = {
-      root: BigInt(proofType.public_input_instance[4].value),
-      siblings,
-      pathIndices,
-    };
+    // let merkleProof = {
+    //   root: BigInt(proofType.public_input_instance[4].value),
+    //   siblings,
+    //   pathIndices,
+    // };
 
-    console.log(55, merkleProof);
+    // console.log(55, merkleProof);
 
-    const msg = Buffer.from("harry potter");
-    const msgHash = hashPersonalMessage(msg);
+    // const msg = Buffer.from("harry potter");
+    // const msgHash = hashPersonalMessage(msg);
 
-    const sig = await sendMsgToParent(new GetSignatureMsg(msg));
-    console.log("sig", sig);
+    // const sig = await sendMsgToParent(new GetSignatureMsg(msg));
+    // console.log("sig", sig);
 
-    let verifyMsg = ethers.utils.verifyMessage(msg, sig);
-    console.log("verified addr", verifyMsg);
+    // let verifyMsg = ethers.utils.verifyMessage(msg, sig);
+    // console.log("verified addr", verifyMsg);
 
-    const prevTime = performance.now();
-    let resp = await sendMsgToParent(
-      new CreateProofMsg(sig, msgHash, merkleProof, driver_id, driverProperties)
-    );
-    const now = performance.now();
-    const diff = now - prevTime;
+    // const prevTime = performance.now();
+    // let resp = await sendMsgToParent(
+    //   new CreateProofMsg(sig, msgHash, merkleProof, driver_id, driverProperties)
+    // );
+    // const now = performance.now();
+    // const diff = now - prevTime;
 
-    console.log("Created a proof: %o, diff: %s,", resp, diff);
+    // console.log("Created a proof: %o, diff: %s,", resp, diff);
 
-    setMsg(`Created a proof in ${diff} ms`);
+    // setMsg(`Created a proof in ${diff} ms`);
   });
 
   return (
@@ -190,18 +190,18 @@ export interface CreateProofFormProps {
   // handleCreateProof: (proof: Uint8Array, publicInput: any) => void;
 }
 
-function interpolateSystemAssetEndpoint(
-  driverProperties: Record<string, any>
-): Record<string, any> {
-  const ret: Record<string, any> = {};
+// function interpolateSystemAssetEndpoint(
+//   driverProperties: Record<string, any>
+// ): Record<string, any> {
+//   const ret: Record<string, any> = {};
 
-  for (const key in driverProperties) {
-    const val = driverProperties[key];
-    ret[key] = val.replace("prfs:/", process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT);
-  }
+//   for (const key in driverProperties) {
+//     const val = driverProperties[key];
+//     ret[key] = val.replace("prfs:/", process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT);
+//   }
 
-  return ret;
-}
+//   return ret;
+// }
 
 // async function initDriver(
 //   driverId: string,

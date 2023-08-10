@@ -57,34 +57,34 @@ export function handleChildMessage(
 
         case "CREATE_PROOF": {
           const payload: CreateProofPayload = ev.data.payload;
-          const driver = await initDriver(payload.driverId, payload.driverProperties);
+          // const driver = await initDriver(payload.driverId, payload.driverProperties);
 
-          console.log("Proving...");
+          // console.log("Proving...");
 
-          const { proof, publicInput } = await driver.prove(
-            payload.sig,
-            payload.msgHash,
-            payload.merkleProof
-          );
+          // const { proof, publicInput } = await driver.prove(
+          //   payload.sig,
+          //   payload.msgHash,
+          //   payload.merkleProof
+          // );
 
-          ev.ports[0].postMessage(
-            new CreateProofResponseMsg({
-              proof,
-              publicInput,
-            })
-          );
+          // ev.ports[0].postMessage(
+          //   new CreateProofResponseMsg({
+          //     proof,
+          //     publicInput,
+          //   })
+          // );
 
-          console.log("Verifying...");
+          // console.log("Verifying...");
 
-          console.time("Verification time");
-          const result = await driver.verify(proof, publicInput.serialize());
-          console.timeEnd("Verification time");
+          // console.time("Verification time");
+          // const result = await driver.verify(proof, publicInput.serialize());
+          // console.timeEnd("Verification time");
 
-          if (result) {
-            console.log("Successfully verified proof!");
-          } else {
-            console.log("Failed to verify proof :(");
-          }
+          // if (result) {
+          //   console.log("Successfully verified proof!");
+          // } else {
+          //   console.log("Failed to verify proof :(");
+          // }
 
           break;
         }
@@ -94,19 +94,4 @@ export function handleChildMessage(
       }
     }
   });
-}
-
-async function initDriver(
-  driverId: string,
-  driverProps: Record<string, any>
-): Promise<CircuitDriver> {
-  switch (driverId) {
-    case "SPARTAN_CIRCOM_1": {
-      const mod = await import("@taigalabs/prfs-driver-spartan-js");
-      const driver = await mod.default.newInstance(driverProps);
-      return driver;
-    }
-    default:
-      throw new Error(`This driver is not supported, ${driverId}`);
-  }
 }

@@ -21,9 +21,11 @@ const ProofGen: Component<ProofGenProps> = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [proofType] = createResource(searchParams, fetchProofType);
 
+  console.log(123123);
+
   // const [count, setCount] = createSignal(0);
 
-  useParentMsgHandler();
+  createParentMsgHandler();
 
   createEffect(() => {
     async function fn() {
@@ -62,7 +64,6 @@ const ProofGen: Component<ProofGenProps> = () => {
   });
 
   // console.log(33, proofType());
-  console.log(331, data());
 
   return (
     <DefaultLayout>
@@ -75,13 +76,9 @@ const ProofGen: Component<ProofGenProps> = () => {
 
 export default ProofGen;
 
-export interface ProofGenProps {
-  // params: {
-  //   proofTypeId: string;
-  // };
-}
+export interface ProofGenProps {}
 
-function useParentMsgHandler() {
+function createParentMsgHandler() {
   createEffect(() => {
     if (!PARENT_MSG_HANDLER.registered) {
       console.log("Attaching parent msg handler");
@@ -92,19 +89,15 @@ function useParentMsgHandler() {
 
           const type: MsgType = ev.data.type;
 
-          ev.ports[0].postMessage({ result: `${ev.data} back` });
+          switch (type) {
+            case MsgType.DRIVER_LOAD_RESULT:
+              ev.ports[0].postMessage({ result: `${ev.data} back` });
+              break;
+
+            default:
+              console.error(`Cannot handle this msg type, type: ${type}`);
+          }
         }
-
-        // console.log(44, ports);
-
-        // switch (type) {
-        //   case MsgType.GET_SIGNER_RESPONSE:
-        //     window.postMessage({});
-        //     break;
-
-        //   default:
-        //   // console.error(`Cannot handle this msg type, type: ${type}`);
-        // }
       });
 
       PARENT_MSG_HANDLER.registered = true;
