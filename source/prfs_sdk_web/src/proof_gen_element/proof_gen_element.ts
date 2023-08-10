@@ -7,21 +7,23 @@ const SDK_ENDPOINT = "http://localhost:3010";
 
 class ProofGenElement {
   options: ProofGenElementOptions;
-  provider: ethers.providers.Web3Provider;
 
   constructor(options: ProofGenElementOptions) {
     this.options = options;
-    this.provider = new ethers.providers.Web3Provider(window.ethereum);
   }
 
   async mount(containerName: string): Promise<HTMLIFrameElement> {
-    const container = document.querySelector(containerName);
-
     return new Promise((resolve, reject) => {
+      const container = document.querySelector(containerName);
+
       if (!container) {
         console.error(`No target element named, ${containerName}`);
 
         reject("no target element");
+      }
+
+      while (container.firstChild) {
+        container.removeChild(container.lastChild);
       }
 
       const iframe = document.createElement("iframe");
@@ -32,7 +34,7 @@ class ProofGenElement {
 
       container!.append(iframe);
 
-      handleChildMessage(iframe, resolve, this.provider);
+      handleChildMessage(iframe, resolve, this.options);
     });
   }
 }

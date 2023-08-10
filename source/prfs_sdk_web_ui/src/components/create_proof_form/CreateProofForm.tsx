@@ -60,105 +60,105 @@ const CreateProofForm: Component<CreateProofFormProps> = ({ proofType }) => {
     return entriesElem;
   }, [proofType]);
 
-  const handleClickCreateProof = createMemo(() => {
-    return async () => {
-      if (proofType === undefined) {
-        return;
+  const handleClickCreateProof = createMemo(async () => {
+    console.log("handle click create proof");
+
+    if (proofType === undefined) {
+      return;
+    }
+
+    const addr = await sendMsgToParent(new GetAddressMsg(""));
+    console.log("my address: %s", addr);
+
+    if (!proofType.public_input_instance[4].ref) {
+      throw new Error("set id (ref) is not defined");
+    }
+
+    const setId = proofType.public_input_instance[4].ref;
+
+    let getPrfsTreeLeafNodesResp = await prfsApi.getPrfsTreeLeafNodes({
+      set_id: setId,
+      leaf_vals: [addr],
+    });
+
+    if (!getPrfsTreeLeafNodesResp) {
+      return;
+    }
+
+    let pos_w = null;
+    for (const node of getPrfsTreeLeafNodesResp.payload.prfs_tree_nodes) {
+      if (node.val === addr.toLowerCase()) {
+        pos_w = node.pos_w;
       }
+    }
 
-      const addr = await sendMsgToParent(new GetAddressMsg(""));
-      console.log("my address: %s", addr);
+    if (pos_w === null) {
+      throw new Error("Address is not part of a set");
+    }
 
-      if (!proofType.public_input_instance[4].ref) {
-        throw new Error("set id (ref) is not defined");
+    const leafIdx = Number(pos_w);
+    const siblingPath = makeSiblingPath(32, leafIdx);
+    const pathIndices = makePathIndices(32, leafIdx);
+
+    const siblingPos = siblingPath.map((pos_w, idx) => {
+      return { pos_h: idx, pos_w };
+    });
+
+    console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
+
+    const prfsTreeNodesDataResp = await prfsApi.getPrfsTreeNodes({
+      set_id: setId,
+      pos: siblingPos,
+    });
+
+    if (!prfsTreeNodesDataResp) {
+      return;
+    }
+
+    let siblings: BigInt[] = [];
+    for (const node of prfsTreeNodesDataResp.payload.prfs_tree_nodes) {
+      siblings[node.pos_h] = BigInt(node.val);
+    }
+
+    for (let idx = 0; idx < 32; idx += 1) {
+      if (siblings[idx] === undefined) {
+        siblings[idx] = BigInt(0);
       }
+    }
 
-      const setId = proofType.public_input_instance[4].ref;
+    const { driver_id, driver_properties } = proofType;
+    console.log(12, proofType.driver_properties);
 
-      let getPrfsTreeLeafNodesResp = await prfsApi.getPrfsTreeLeafNodes({
-        set_id: setId,
-        leaf_vals: [addr],
-      });
+    let driverProperties = interpolateSystemAssetEndpoint(driver_properties);
+    console.log(13, driverProperties);
 
-      if (!getPrfsTreeLeafNodesResp) {
-        return;
-      }
-
-      let pos_w = null;
-      for (const node of getPrfsTreeLeafNodesResp.payload.prfs_tree_nodes) {
-        if (node.val === addr.toLowerCase()) {
-          pos_w = node.pos_w;
-        }
-      }
-
-      if (pos_w === null) {
-        throw new Error("Address is not part of a set");
-      }
-
-      const leafIdx = Number(pos_w);
-      const siblingPath = makeSiblingPath(32, leafIdx);
-      const pathIndices = makePathIndices(32, leafIdx);
-
-      const siblingPos = siblingPath.map((pos_w, idx) => {
-        return { pos_h: idx, pos_w };
-      });
-
-      console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
-
-      const prfsTreeNodesDataResp = await prfsApi.getPrfsTreeNodes({
-        set_id: setId,
-        pos: siblingPos,
-      });
-
-      if (!prfsTreeNodesDataResp) {
-        return;
-      }
-
-      let siblings: BigInt[] = [];
-      for (const node of prfsTreeNodesDataResp.payload.prfs_tree_nodes) {
-        siblings[node.pos_h] = BigInt(node.val);
-      }
-
-      for (let idx = 0; idx < 32; idx += 1) {
-        if (siblings[idx] === undefined) {
-          siblings[idx] = BigInt(0);
-        }
-      }
-
-      const { driver_id, driver_properties } = proofType;
-      console.log(12, proofType.driver_properties);
-
-      let driverProperties = interpolateSystemAssetEndpoint(driver_properties);
-      console.log(13, driverProperties);
-
-      let merkleProof = {
-        root: BigInt(proofType.public_input_instance[4].value),
-        siblings,
-        pathIndices,
-      };
-
-      console.log(55, merkleProof);
-
-      const msg = Buffer.from("harry potter");
-      const msgHash = hashPersonalMessage(msg);
-
-      const sig = await sendMsgToParent(new GetSignatureMsg(msg));
-      console.log("sig", sig);
-
-      let verifyMsg = ethers.utils.verifyMessage(msg, sig);
-      console.log("verified addr", verifyMsg);
-
-      const prevTime = performance.now();
-      let resp = await sendMsgToParent(
-        new CreateProofMsg(sig, msgHash, merkleProof, driver_id, driverProperties)
-      );
-      const now = performance.now();
-      const diff = now - prevTime;
-
-      console.log("Created a proof: %o, diff: %s,", resp, diff);
-
-      setMsg(`Created a proof in ${diff} ms`);
+    let merkleProof = {
+      root: BigInt(proofType.public_input_instance[4].value),
+      siblings,
+      pathIndices,
     };
+
+    console.log(55, merkleProof);
+
+    const msg = Buffer.from("harry potter");
+    const msgHash = hashPersonalMessage(msg);
+
+    const sig = await sendMsgToParent(new GetSignatureMsg(msg));
+    console.log("sig", sig);
+
+    let verifyMsg = ethers.utils.verifyMessage(msg, sig);
+    console.log("verified addr", verifyMsg);
+
+    const prevTime = performance.now();
+    let resp = await sendMsgToParent(
+      new CreateProofMsg(sig, msgHash, merkleProof, driver_id, driverProperties)
+    );
+    const now = performance.now();
+    const diff = now - prevTime;
+
+    console.log("Created a proof: %o, diff: %s,", resp, diff);
+
+    setMsg(`Created a proof in ${diff} ms`);
   });
 
   return (

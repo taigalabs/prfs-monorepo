@@ -8,16 +8,20 @@ import {
   HandshakeResponseMsg,
   MsgType,
 } from "./msg";
+import { ProofGenElementOptions } from "./proof_gen_element";
 
 export function handleChildMessage(
   iframe: HTMLIFrameElement,
   resolve: (value: any) => void,
-  provider: ethers.providers.Web3Provider
+  // provider: ethers.providers.Web3Provider
+  options: ProofGenElementOptions
 ) {
   console.log("attaching child msg handler");
 
   window.addEventListener("message", async (ev: MessageEvent) => {
     if (ev.ports.length > 0) {
+      const { provider } = options;
+
       const type: MsgType = ev.data.type;
 
       console.log("child says, data: %o, ports: %o", ev.data, ev.ports);
