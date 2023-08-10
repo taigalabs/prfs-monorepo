@@ -1,11 +1,7 @@
 import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 import { ProofGenElementOptions } from "./proof_gen_element";
 
-export async function initDriver(
-  options: ProofGenElementOptions
-  // driverId: string,
-  // driverProps: Record<string, any>
-): Promise<CircuitDriver> {
+export async function initDriver(options: ProofGenElementOptions): Promise<CircuitDriver> {
   const { proofType } = options;
   const { driver_id, driver_properties } = proofType;
   const driverProps = interpolateSystemAssetEndpoint(driver_properties, options.prfsAssetEndpoint);

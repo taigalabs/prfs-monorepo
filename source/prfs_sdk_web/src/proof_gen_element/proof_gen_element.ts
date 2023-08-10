@@ -37,6 +37,8 @@ class ProofGenElement {
 
       container!.append(iframe);
 
+      handleChildMessage(iframe, resolve, this.options);
+
       initDriver(this.options).then(async _ => {
         const reply = await sendMsgToChild(
           new DriverLoadResultMsg(this.options.proofType.proof_type_id),
@@ -45,8 +47,6 @@ class ProofGenElement {
 
         console.log(22, reply);
       });
-
-      handleChildMessage(iframe, resolve, this.options);
     });
   }
 }

@@ -20,24 +20,22 @@ import { BN } from "bn.js";
 export default class SpartanDriver implements CircuitDriver {
   handlers: PrfsHandlers;
   wtnsGenUrl: string;
-  circuitUrl: string;
+  circuit: Uint8Array;
 
-  constructor(handlers: PrfsHandlers, driverProps: SpartanCircomDriverProperties) {
-    console.log("SpartanDriver, driverProps: %o", driverProps);
-    this.handlers = handlers;
+  constructor(args: SpartanDriverCtorArgs) {
+    console.log("SpartanDriver, args: %o", args);
+    this.handlers = args.handlers;
 
-    if (driverProps.circuit_url === undefined) {
+    if (args.circuit === undefined) {
       throw new Error("Spartan cannot be instantiated without circuitUrl");
     }
 
-    if (driverProps.wtns_gen_url === undefined) {
+    if (args.wtnsGenUrl === undefined) {
       throw new Error("Spartan cannot be instantiated without wtnsGenUrl");
     }
 
-    this.circuitUrl = driverProps.circuit_url;
-    this.wtnsGenUrl = driverProps.wtns_gen_url;
-
-    console.log("circuitUrl: %s, wtnsGenUrl: %s", this.circuitUrl, this.wtnsGenUrl);
+    this.circuit = args.circuit;
+    this.wtnsGenUrl = args.wtnsGenUrl;
   }
 
   async getBuildStatus(): Promise<BuildStatus> {
@@ -87,10 +85,10 @@ export default class SpartanDriver implements CircuitDriver {
     console.log("witnessGenInput: %o", witnessGenInput);
 
     const witness = await snarkJsWitnessGen(witnessGenInput, this.wtnsGenUrl);
-    const circuitBin = await loadCircuit(this.circuitUrl);
+    // const circuitBin = await loadCircuit(this.circuitUrl);
     const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
 
-    const proof = await this.handlers.prove(circuitBin, witness.data, circuitPublicInput);
+    const proof = await this.handlers.prove(this.circuit, witness.data, circuitPublicInput);
 
     return {
       proof,
@@ -99,7 +97,7 @@ export default class SpartanDriver implements CircuitDriver {
   }
 
   async verify(proof: Uint8Array, publicInputSer: Uint8Array): Promise<boolean> {
-    const circuitBin = await loadCircuit(this.circuitUrl);
+    // const circuitBin = await loadCircuit(this.circuit);
 
     const publicInput = PublicInput.deserialize(publicInputSer);
     const isPubInputValid = verifyEffEcdsaPubInput(publicInput);
@@ -107,7 +105,7 @@ export default class SpartanDriver implements CircuitDriver {
     let isProofValid;
     try {
       isProofValid = await this.handlers.verify(
-        circuitBin,
+        this.circuit,
         proof,
         publicInput.circuitPubInput.serialize()
       );
@@ -117,6 +115,12 @@ export default class SpartanDriver implements CircuitDriver {
 
     return isProofValid && isPubInputValid;
   }
+}
+
+export interface SpartanDriverCtorArgs {
+  handlers: PrfsHandlers;
+  wtnsGenUrl: string;
+  circuit: Uint8Array;
 }
 
 // function bigint_to_array(n: number, k: number, x: bigint): bigint[] {

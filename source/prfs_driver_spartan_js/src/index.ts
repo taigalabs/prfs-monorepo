@@ -6,12 +6,21 @@ import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-type/bindi
 
 import SpartanDriver from "./driver";
 import { initWasm } from "./wasm_wrapper/load_worker";
+import { fetchCircuit } from "./helpers/utils";
 
 const spartanDriverGen: CircuitDriverGen = {
   async newInstance(driverProps: SpartanCircomDriverProperties): Promise<CircuitDriver> {
-    let prfsHandlers = await initWasm();
+    const prfsHandlers = await initWasm();
 
-    const obj = new SpartanDriver(prfsHandlers, driverProps);
+    const circuit = await fetchCircuit(driverProps.circuit_url);
+
+    const args = {
+      handlers: prfsHandlers,
+      wtnsGenUrl: driverProps.wtns_gen_url,
+      circuit,
+    };
+
+    const obj = new SpartanDriver(args);
     return obj;
   },
 };

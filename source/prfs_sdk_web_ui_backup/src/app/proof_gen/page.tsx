@@ -36,12 +36,6 @@ const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
     }
 
     fn().then();
-    // window.parent.postMessage(
-    //   {
-    //     type: MsgType.HANDSHAKE,
-    //   },
-    //   "*"
-    // );
   }, []);
 
   React.useEffect(() => {

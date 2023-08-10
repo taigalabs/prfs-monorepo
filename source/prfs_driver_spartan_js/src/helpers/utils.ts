@@ -8,7 +8,7 @@ export const snarkJsWitnessGen = async (input: any, wasmFile: string) => {
     type: string;
     data?: any;
   } = {
-    type: "mem"
+    type: "mem",
   };
 
   await snarkJs.wtns.calculate(input, wasmFile, witness);
@@ -33,13 +33,13 @@ const readCircuitFromFs = async (path: string): Promise<Uint8Array> => {
   return new Uint8Array(bytes);
 };
 
-const fetchCircuit = async (url: string): Promise<Uint8Array> => {
+export async function fetchCircuit(url: string) {
   const response = await fetch(url);
 
   const circuit = await response.arrayBuffer();
 
   return new Uint8Array(circuit);
-};
+}
 
 export const bytesToBigInt = (bytes: Uint8Array): bigint =>
   BigInt("0x" + Buffer.from(bytes).toString("hex"));

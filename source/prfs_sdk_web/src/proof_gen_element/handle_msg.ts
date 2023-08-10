@@ -28,7 +28,6 @@ export function handleChildMessage(
       switch (type) {
         case "HANDSHAKE": {
           ev.ports[0].postMessage(new HandshakeResponseMsg("hello"));
-
           resolve(1);
 
           break;
