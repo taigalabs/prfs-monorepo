@@ -19,15 +19,16 @@ const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
 
-  let vals = {};
-  let setVals = {};
+  let vals: Record<string, any> = {};
+  let setVals: Record<string, any> = {};
   publicInputs.forEach((pi, idx) => {
     switch (pi.type) {
       case "PROVER_GENERATED":
         break;
       case "PRFS_SET":
-        const [selectedSet, setSelectedSet] =
-          React.useState<DropdownSingleSelectedValue<PrfsSet>>(undefined);
+        const [selectedSet, setSelectedSet] = React.useState<
+          DropdownSingleSelectedValue<PrfsSet> | undefined
+        >();
 
         const handleSelectSet = React.useCallback(
           (val: PrfsSet) => {

@@ -66,5 +66,5 @@ const ProofTypeSummary: React.FC<ProofTypeSummaryProps> = ({ proofType }) => {
 export default ProofTypeSummary;
 
 interface ProofTypeSummaryProps {
-  proofType: PrfsProofType;
+  proofType: PrfsProofType | undefined;
 }

@@ -36,7 +36,7 @@ const ProgramSection: React.FC<ProgramSectionProps> = ({ proofType }) => {
   const i18n = React.useContext(i18nContext);
 
   const programPropsElem = React.useMemo(() => {
-    const rows = [];
+    const rows: React.ReactNode[] = [];
 
     if (!proofType) {
       return rows;
@@ -83,7 +83,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     Record<string, PublicInputInstanceEntry>
   >({});
   const [formAlert, setFormAlert] = React.useState("");
-  const [selectedProofType, setSelectedProofType] = React.useState<PrfsProofType>(undefined);
+  const [selectedProofType, setSelectedProofType] = React.useState<PrfsProofType | undefined>();
   const [programProps, setProgramProps] = React.useState();
 
   const handleSelectProofType = React.useCallback(
@@ -93,7 +93,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     [setSelectedProofType]
   );
 
-  const handleCreateProof = React.useCallback(({ proof, publicInput }) => {
+  const handleCreateProof = React.useCallback(({ proof, publicInput }: any) => {
     console.log("Created proof!", proof, publicInput);
   }, []);
 

@@ -30,5 +30,6 @@ export async function getPrfsNativeCircuitDrivers({
     return resp;
   } catch (err) {
     console.log("error fetching", err);
+    throw err;
   }
 }

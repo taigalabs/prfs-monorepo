@@ -7,7 +7,7 @@ import {
   pubToAddress,
 } from "@ethereumjs/util";
 import { ethers } from "ethers";
-import { getAddrMembership2CircuitUrl, getAddrMembership2WtnsGenUrl } from "@/envs";
+// import { getAddrMembership2CircuitUrl, getAddrMembership2WtnsGenUrl } from "@/envs";
 import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 
 let addrs = [

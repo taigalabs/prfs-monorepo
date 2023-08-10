@@ -13,7 +13,7 @@ export interface PrfsAccount {
 }
 
 export interface AppState {
-  prfsAccount: PrfsAccount | null;
+  prfsAccount: PrfsAccount | undefined;
 }
 
 const reducer = (state: AppState, action: Action) => {
@@ -71,6 +71,6 @@ function handleLoadPrfsAccount(state: AppState, action: LoadPrfsAccountAction): 
 function handleSignOut(state: AppState, _action: SignOutAction): AppState {
   return {
     ...state,
-    prfsAccount: null,
+    prfsAccount: undefined,
   };
 }

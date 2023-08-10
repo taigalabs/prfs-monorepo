@@ -15,7 +15,7 @@ const Button: React.FC<Button1Props> = ({ children, className, handleClick, vari
         [styles.a]: variant === "a",
         [styles.b]: variant === "b",
         [styles.transparent_a]: variant === "transparent_a",
-        [className]: true,
+        [className || ""]: true,
       })}
       onClick={handleClick}
     >

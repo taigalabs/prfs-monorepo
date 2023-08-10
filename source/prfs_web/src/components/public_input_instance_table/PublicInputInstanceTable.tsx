@@ -30,7 +30,7 @@ const PublicInputInstanceTable: React.FC<PublicInputInstanceTableProps> = ({
   const rowsElem = React.useMemo(() => {
     let { values } = data;
 
-    let rows = [];
+    let rows: React.ReactNode[] = [];
     if (values === undefined || values.length < 1) {
       return rows;
     }

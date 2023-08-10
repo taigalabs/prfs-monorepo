@@ -18,7 +18,7 @@ export async function initDriver(
 export function interpolateSystemAssetEndpoint(
   driverProperties: Record<string, any>
 ): Record<string, any> {
-  const ret = {};
+  const ret: Record<string, any> = {};
 
   for (const key in driverProperties) {
     const val = driverProperties[key];

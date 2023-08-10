@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import Link from "next/link";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 
@@ -17,7 +17,7 @@ const CircuitDriverInstanceSummary: React.FC<CircuitDriverInstanceSummaryProps> 
 
   const columnElems = React.useMemo(() => {
     if (circuit === undefined) {
-      return null;
+      return [];
     }
 
     let { driver } = circuit;
@@ -27,7 +27,7 @@ const CircuitDriverInstanceSummary: React.FC<CircuitDriverInstanceSummaryProps> 
     const q = Math.floor(propertyKeys.length / NUM_COLUMNS);
     const r = propertyKeys.length % NUM_COLUMNS;
 
-    const columns = [[], [], []];
+    const columns: [ReactNode[], ReactNode[], ReactNode[]] = [[], [], []];
     columns[0].push(
       <ColumnarSummaryCell key={driver.driver_id}>
         <ColumnarSummaryCellHeader>{i18n.driver_id}</ColumnarSummaryCellHeader>
@@ -88,5 +88,5 @@ const CircuitDriverInstanceSummary: React.FC<CircuitDriverInstanceSummaryProps> 
 export default CircuitDriverInstanceSummary;
 
 interface CircuitDriverInstanceSummaryProps {
-  circuit: PrfsCircuit;
+  circuit: PrfsCircuit | undefined;
 }

@@ -43,7 +43,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId }) => {
     // console.log(1, data);
     let { page, values } = data;
 
-    let rows = [];
+    let rows: React.ReactNode[] = [];
     if (values === undefined || values.length < 1) {
       return rows;
     }

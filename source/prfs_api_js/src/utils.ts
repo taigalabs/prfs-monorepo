@@ -4,7 +4,8 @@ if (typeof process !== "undefined") {
   // Nextjs
   PRFS_API_SERVER_ENDPOINT = `${process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT}/api/v0`;
 } else {
-  PRFS_API_SERVER_ENDPOINT = `${import.meta.env.VITE_PRFS_API_SERVER_ENDPOINT}/api/v0`;
+  throw new Error("process is undefined");
+  // PRFS_API_SERVER_ENDPOINT = `${import.meta.env.VITE_PRFS_API_SERVER_ENDPOINT}/api/v0`;
 }
 
 export async function api({ path, req }: ApiArg) {

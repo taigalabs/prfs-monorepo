@@ -114,9 +114,9 @@ export interface CreateProofPayload {
 }
 
 export class CreateProofResponseMsg implements MsgInterface<CreateProofResponsePayload> {
-  error: string;
+  error?: string;
   type: MsgType;
-  payload: CreateProofResponsePayload;
+  payload: CreateProofResponsePayload | undefined;
 
   constructor(error?: string, payload?: CreateProofResponsePayload) {
     this.type = MsgType.CREATE_PROOF_RESPONSE;

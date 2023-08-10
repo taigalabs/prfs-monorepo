@@ -27,6 +27,7 @@ export async function getPrfsTreeNodes(req: GetPrfsTreeNodesRequest) {
     return resp;
   } catch (err) {
     console.log("error fetching", err);
+    throw err;
   }
 }
 
@@ -49,5 +50,6 @@ export async function getPrfsTreeLeafNodes(req: GetPrfsTreeLeafNodesRequest) {
     return resp;
   } catch (err) {
     console.log("error fetching", err);
+    throw err;
   }
 }

@@ -19,14 +19,14 @@ fn run_app(extra_args: Vec<&str>) {
     let extra_args = [vec!["create-envs"], extra_args].concat();
 
     let status = Command::new(JS_ENGINE)
-        .current_dir(&PATHS.prfs_sdk_web_ui_backup)
+        .current_dir(&PATHS.prfs_sdk_web_ui)
         .args(extra_args)
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));
     assert!(status.success());
 
     let status = Command::new(JS_ENGINE)
-        .current_dir(&PATHS.prfs_sdk_web_ui_backup)
+        .current_dir(&PATHS.prfs_sdk_web_ui)
         .args(["run", "dev"])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));

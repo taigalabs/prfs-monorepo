@@ -78,5 +78,5 @@ const SetSummary: React.FC<SetSummaryProps> = ({ set }) => {
 export default SetSummary;
 
 interface SetSummaryProps {
-  set: PrfsSet;
+  set: PrfsSet | undefined;
 }

@@ -32,7 +32,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const [formAlert, setFormAlert] = React.useState("");
   const [name, setName] = React.useState("");
   const [desc, setDesc] = React.useState("");
-  const [selectedCircuit, setSelectedCircuit] = React.useState<PrfsCircuit>(undefined);
+  const [selectedCircuit, setSelectedCircuit] = React.useState<PrfsCircuit | undefined>();
 
   const handleSelectCircuit = React.useCallback(
     (val: PrfsCircuit) => {

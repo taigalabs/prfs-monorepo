@@ -23,6 +23,7 @@ export async function signUpPrfsAccount(sig: string) {
     return resp;
   } catch (err) {
     console.log("error fetching", err);
+    throw err;
   }
 }
 
@@ -48,5 +49,6 @@ export async function signInPrfsAccount(sig: string) {
     return resp;
   } catch (err) {
     console.log("error fetching", err);
+    throw err;
   }
 }

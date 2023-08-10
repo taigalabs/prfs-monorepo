@@ -27,5 +27,6 @@ export async function getPrfsNativeCircuits({ page, circuit_id }: GetNativeCircu
     return resp;
   } catch (err) {
     console.log("error fetching", err);
+    throw err;
   }
 }

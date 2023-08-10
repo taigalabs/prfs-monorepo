@@ -26,6 +26,10 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
   const [time, setTime] = React.useState(0);
   const [running, setRunning] = React.useState(false);
 
+  React.useEffect(() => {
+    proofType;
+  }, [proofType]);
+
   const publicInputElem = React.useMemo(() => {
     const obj: Record<any, PublicInputInstanceEntry> = proofType.public_input_instance;
 
@@ -74,10 +78,17 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
 
     const setId = proofType.public_input_instance[4].ref;
 
-    let { payload } = await prfsApi.getPrfsTreeLeafNodes({
-      set_id: setId,
-      leaf_vals: [addr],
-    });
+    let payload;
+    try {
+      payload = (
+        await prfsApi.getPrfsTreeLeafNodes({
+          set_id: setId,
+          leaf_vals: [addr],
+        })
+      ).payload;
+    } catch (err) {
+      return;
+    }
 
     let pos_w = null;
     for (const node of payload.prfs_tree_nodes) {
@@ -100,13 +111,19 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
 
     console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
 
-    const prfsTreeNodesData = await prfsApi.getPrfsTreeNodes({
-      set_id: setId,
-      pos: siblingPos,
-    });
+    try {
+      payload = (
+        await prfsApi.getPrfsTreeNodes({
+          set_id: setId,
+          pos: siblingPos,
+        })
+      ).payload;
+    } catch (err) {
+      return;
+    }
 
     let siblings: BigInt[] = [];
-    for (const node of prfsTreeNodesData.payload.prfs_tree_nodes) {
+    for (const node of payload.prfs_tree_nodes) {
       siblings[node.pos_h] = BigInt(node.val);
     }
 
@@ -187,7 +204,7 @@ export interface ProofGenProps {
 function interpolateSystemAssetEndpoint(
   driverProperties: Record<string, any>
 ): Record<string, any> {
-  const ret = {};
+  const ret: Record<string, any> = {};
 
   for (const key in driverProperties) {
     const val = driverProperties[key];

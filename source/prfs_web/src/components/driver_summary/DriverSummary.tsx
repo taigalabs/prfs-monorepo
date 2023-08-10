@@ -55,5 +55,5 @@ const DriverSummary: React.FC<DriverSummaryProps> = ({ driver }) => {
 export default DriverSummary;
 
 interface DriverSummaryProps {
-  driver: CircuitDriver;
+  driver: CircuitDriver | undefined;
 }

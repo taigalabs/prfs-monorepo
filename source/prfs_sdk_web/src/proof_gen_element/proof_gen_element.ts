@@ -3,7 +3,7 @@ import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import { handleChildMessage } from "./handle_msg";
-import { initDriver } from "./driver";
+// import { initDriver } from "./driver";
 import { sendMsgToChild } from "./send_msg";
 import { DriverLoadResultMsg } from "./msg";
 
@@ -11,19 +11,13 @@ const SDK_ENDPOINT = "http://localhost:3010";
 
 class ProofGenElement {
   options: ProofGenElementOptions;
-  state: {
-    driver: CircuitDriver | undefined;
-  };
 
   constructor(options: ProofGenElementOptions) {
     this.options = options;
-    this.state = {
-      driver: undefined,
-    };
   }
 
   async mount(containerName: string): Promise<HTMLIFrameElement> {
-    const { state, options } = this;
+    const { options } = this;
 
     return new Promise((resolve, reject) => {
       const container = document.querySelector(containerName);
@@ -34,8 +28,8 @@ class ProofGenElement {
         reject("no target element");
       }
 
-      while (container.firstChild) {
-        container.removeChild(container.lastChild);
+      while (container!.firstChild) {
+        container!.removeChild(container!.lastChild!);
       }
 
       const iframe = document.createElement("iframe");
@@ -47,16 +41,16 @@ class ProofGenElement {
 
       container!.append(iframe);
 
-      handleChildMessage(resolve, options, state);
+      handleChildMessage(resolve, options);
 
-      initDriver(options).then(async driver => {
-        const _reply = await sendMsgToChild(
-          new DriverLoadResultMsg(options.proofType.proof_type_id),
-          iframe
-        );
+      // initDriver(options).then(async driver => {
+      //   const _reply = await sendMsgToChild(
+      //     new DriverLoadResultMsg(options.proofType.proof_type_id),
+      //     iframe
+      //   );
 
-        state.driver = driver;
-      });
+      //   state.driver = driver;
+      // });
     });
   }
 }
@@ -66,11 +60,7 @@ export default ProofGenElement;
 export interface ProofGenElementOptions {
   proofType: PrfsProofType;
   provider: ethers.providers.Web3Provider;
-  handleCreateProof: ({ proof, publicInput }) => void;
+  handleCreateProof: ({ proof, publicInput }: any) => void;
   prfsAssetEndpoint: string;
   prfsApiEndpoint: string;
-}
-
-export interface ProofGenElementState {
-  driver: CircuitDriver | undefined;
 }

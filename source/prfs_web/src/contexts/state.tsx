@@ -14,7 +14,7 @@ export const stateContext = React.createContext({
   dispatch: (_action: Action) => {},
 });
 
-export const StateProvider = ({ children }) => {
+export const StateProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   return <stateContext.Provider value={{ state, dispatch }}>{children}</stateContext.Provider>;

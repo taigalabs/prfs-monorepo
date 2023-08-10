@@ -24,7 +24,11 @@ export async function sendMsgToParent<T>(msg: MsgInterface<T>): Promise<T> {
       if (data.error) {
         rej(data.error);
       } else {
-        res(data.payload);
+        if (data.payload) {
+          res(data.payload);
+        } else {
+          rej("Msg doesn't contain payload");
+        }
       }
     };
 

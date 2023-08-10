@@ -14,7 +14,7 @@ const ConnectWalletWidget: React.FC<ConnectWalletWidgetProps> = ({ handleConnect
   const i18n = React.useContext(i18nContext);
 
   const connect = useConnect();
-  const [walletAddr, setWalletAddr] = React.useState(undefined);
+  const [walletAddr, setWalletAddr] = React.useState<string | undefined>();
 
   let handleClickConnect = React.useCallback(() => {
     async function fn() {

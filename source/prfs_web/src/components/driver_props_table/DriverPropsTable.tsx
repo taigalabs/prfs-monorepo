@@ -44,7 +44,7 @@ const DriverPropsTable: React.FC<DriverPropsTableProps> = ({ driver, handleSelec
   const rowsElem = React.useMemo(() => {
     let { page, values } = data;
 
-    let rows = [];
+    let rows: React.ReactNode[] = [];
     if (values === undefined || values.length < 1) {
       return rows;
     }
@@ -74,7 +74,7 @@ const DriverPropsTable: React.FC<DriverPropsTableProps> = ({ driver, handleSelec
 export default DriverPropsTable;
 
 export interface DriverPropsTableProps {
-  driver: CircuitDriver;
+  driver: CircuitDriver | undefined;
   selectType?: "checkbox" | "radio";
   selectedVal?: PrfsCircuit;
   handleSelectVal?: (row: PrfsCircuit) => void;

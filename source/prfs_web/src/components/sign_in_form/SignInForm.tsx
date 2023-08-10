@@ -2,12 +2,12 @@ import React from "react";
 import { useConnect, metamaskWallet } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
 import { useRouter } from "next/navigation";
+import * as prfsApi from "@taigalabs/prfs-api-js";
 
 import styles from "./SignInForm.module.scss";
 import { stateContext } from "@/contexts/state";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
 import Button from "@/components/button/Button";
-import { signIn } from "@/functions/prfsAccount";
 import localStore from "@/storage/localStore";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import { i18nContext } from "@/contexts/i18n";
@@ -87,7 +87,7 @@ const SignInForm: React.FC<SignInFormProps> = () => {
         router.push("/");
       } catch (err) {
         console.log(err);
-        setSignInAlert(err.toString());
+        setSignInAlert((err as string).toString());
       }
     }
 
@@ -156,3 +156,26 @@ const SignInForm: React.FC<SignInFormProps> = () => {
 export default SignInForm;
 
 export interface SignInFormProps {}
+
+export async function signIn(walletAddr: string, passhash: string, signer: ethers.Signer) {
+  if (walletAddr.length < 1) {
+    throw new Error("Connect a wallet first");
+  }
+
+  if (passhash.length < 1) {
+    throw new Error("Hash passcode first");
+  }
+
+  try {
+    let sig = await signer.signMessage(passhash);
+    let resp = await prfsApi.signInPrfsAccount(sig);
+
+    if (resp.error) {
+      throw new Error(resp.error);
+    }
+
+    return resp;
+  } catch (err) {
+    throw new Error(`sign in fail, err: ${err}`);
+  }
+}

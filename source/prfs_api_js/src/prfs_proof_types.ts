@@ -26,6 +26,7 @@ export async function createPrfsProofType(req: CreatePrfsProofTypeRequest) {
     return resp;
   } catch (err) {
     console.log("error fetching", err);
+    throw err;
   }
 }
 
@@ -48,5 +49,6 @@ export async function getPrfsProofTypes(req: GetPrfsProofTypesRequest) {
     return resp;
   } catch (err) {
     console.log("error fetching", err);
+    throw err;
   }
 }

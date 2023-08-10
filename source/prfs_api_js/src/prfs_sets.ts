@@ -33,6 +33,7 @@ export async function getSets({ page, set_id }: GetSetsArgs) {
     return resp;
   } catch (err) {
     console.log("error fetching", err);
+    throw err;
   }
 }
 
@@ -68,5 +69,6 @@ export async function getSetElements({ page, set_id, limit }: GetSetElementsArgs
     return resp;
   } catch (err) {
     console.log("error fetching", err);
+    throw err;
   }
 }

@@ -8,8 +8,6 @@ import styles from "./SignUpForm.module.scss";
 import { stateContext } from "@/contexts/state";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
 import Button from "@/components/button/Button";
-import { signIn } from "@/functions/prfsAccount";
-import localStore from "@/storage/localStore";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import { i18nContext } from "@/contexts/i18n";
 import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
