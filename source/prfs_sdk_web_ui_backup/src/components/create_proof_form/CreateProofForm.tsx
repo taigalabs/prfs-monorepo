@@ -19,6 +19,7 @@ import {
   MsgType,
   sendMsgToParent,
 } from "@taigalabs/prfs-sdk-web";
+import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 
 const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
   const [msg, setMsg] = React.useState("");
@@ -139,15 +140,19 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
     console.log("verified addr", verifyMsg);
 
     const prevTime = performance.now();
-    let resp = await sendMsgToParent(
-      new CreateProofMsg(sig, msgHash, merkleProof, driver_id, driverProperties)
-    );
     const now = performance.now();
     const diff = now - prevTime;
 
-    console.log("Created a proof: %o, diff: %s,", resp, diff);
+    const driver = await initDriver(driver_id, driverProperties);
 
-    setMsg(`Created a proof in ${diff} ms`);
+    console.log("Proving...");
+    console.time("Full proving time");
+    const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
+
+    console.timeEnd("Full proving time");
+    console.log("Raw proof size (excluding public input)", proof.length, "bytes");
+
+    // setMsg(`Created a proof in ${diff} ms`);
   }, [proofType, setMsg]);
 
   return (
@@ -192,17 +197,17 @@ function interpolateSystemAssetEndpoint(
   return ret;
 }
 
-// async function initDriver(
-//   driverId: string,
-//   driverProps: Record<string, any>
-// ): Promise<CircuitDriver> {
-//   switch (driverId) {
-//     case "SPARTAN_CIRCOM_1": {
-//       const mod = await import("@taigalabs/prfs-driver-spartan-js");
-//       const driver = await mod.default.newInstance(driverProps);
-//       return driver;
-//     }
-//     default:
-//       throw new Error(`This driver is not supported, ${driverId}`);
-//   }
-// }
+async function initDriver(
+  driverId: string,
+  driverProps: Record<string, any>
+): Promise<CircuitDriver> {
+  switch (driverId) {
+    case "SPARTAN_CIRCOM_1": {
+      const mod = await import("@taigalabs/prfs-driver-spartan-js");
+      const driver = await mod.default.newInstance(driverProps);
+      return driver;
+    }
+    default:
+      throw new Error(`This driver is not supported, ${driverId}`);
+  }
+}
