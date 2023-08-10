@@ -16,18 +16,23 @@ import Button from "@/components/button/Button";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
 
 const ProofGen: React.FC<ProofGenProps> = ({ proofType, prfsAssetEndpoint }) => {
+  const [systemMsg, setSystemMsg] = React.useState("");
   const [msg, setMsg] = React.useState("");
   const [time, setTime] = React.useState(0);
   const [running, setRunning] = React.useState(false);
+  const [driver, setDriver] = React.useState<CircuitDriver>();
 
   React.useEffect(() => {
     async function fn() {
+      setSystemMsg("Loading driver...");
       const { driver_id, driver_properties } = proofType;
       const driverProperties = interpolateSystemAssetEndpoint(driver_properties, prfsAssetEndpoint);
-      await initDriver(driver_id, driverProperties);
+      const driver = await initDriver(driver_id, driverProperties);
+      setSystemMsg("System is ready");
+      setDriver(driver);
     }
     fn().then();
-  }, [proofType]);
+  }, [proofType, setSystemMsg, setDriver]);
 
   const publicInputElem = React.useMemo(() => {
     const obj: Record<any, PublicInputInstanceEntry> = proofType.public_input_instance;
@@ -132,8 +137,8 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType, prfsAssetEndpoint }) => 
       }
     }
 
-    const { driver_id, driver_properties } = proofType;
-    console.log(12, proofType.driver_properties);
+    // const { driver_id, driver_properties } = proofType;
+    // console.log(12, proofType.driver_properties);
 
     // let driverProperties = interpolateSystemAssetEndpoint(driver_properties);
     // console.log(13, driverProperties);
@@ -183,10 +188,11 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType, prfsAssetEndpoint }) => 
           <div className={styles.inputEntries}>{publicInputElem}</div>
         </div>
         <div className={styles.btnRow}>
-          <Button variant="b" handleClick={handleClickCreateProof}>
+          <Button variant="b" handleClick={handleClickCreateProof} disabled={!driver}>
             {i18n.create_proof}
           </Button>
           <div>{msg}</div>
+          <div>{systemMsg}</div>
         </div>
       </div>
     )
