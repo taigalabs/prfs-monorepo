@@ -1,14 +1,13 @@
 import type { Component } from "solid-js";
 
-import logo from "./logo.svg";
-import styles from "./App.module.scss";
-import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
+// import logo from "./logo.svg";
+import styles from "./Home.module.scss";
 
 const App: Component = () => {
   return (
     <div class={styles.App}>
       <header class={styles.header}>
-        <img src={logo} class={styles.logo} alt="logo" />
+        {/* <img src={logo} class={styles.logo} alt="logo" /> */}
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
@@ -19,7 +18,6 @@ const App: Component = () => {
           rel="noopener noreferrer"
         >
           Learn Solid
-          <CreateProofForm />
         </a>
       </header>
     </div>
