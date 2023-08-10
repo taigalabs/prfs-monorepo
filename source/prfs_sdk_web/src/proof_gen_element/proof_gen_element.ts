@@ -40,6 +40,7 @@ class ProofGenElement {
 
       const iframe = document.createElement("iframe");
       iframe.src = `${SDK_ENDPOINT}/proof_gen?proofTypeId=${options.proofType.proof_type_id}`;
+      iframe.allow = "cross-origin-isolated";
       iframe.style.width = "490px";
       iframe.style.height = "320px";
       iframe.style.border = "none";

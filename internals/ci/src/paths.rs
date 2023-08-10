@@ -24,6 +24,7 @@ pub struct Paths {
     pub prfs_web: PathBuf,
     pub prfs_sdk_web: PathBuf,
     pub prfs_sdk_web_ui: PathBuf,
+    pub prfs_sdk_web_ui_backup: PathBuf,
 }
 
 impl Paths {
@@ -51,6 +52,7 @@ impl Paths {
 
         let prfs_sdk_web = curr_dir.join("source/prfs_sdk_web");
         let prfs_sdk_web_ui = curr_dir.join("source/prfs_sdk_web_ui");
+        let prfs_sdk_web_ui_backup = curr_dir.join("source/prfs_sdk_web_ui_backup");
 
         let p = Paths {
             curr_dir,
@@ -75,6 +77,7 @@ impl Paths {
             prfs_web,
             prfs_sdk_web,
             prfs_sdk_web_ui,
+            prfs_sdk_web_ui_backup,
 
             e2e_test_web,
         };
