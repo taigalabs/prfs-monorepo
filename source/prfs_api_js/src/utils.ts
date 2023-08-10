@@ -1,12 +1,10 @@
-let PRFS_API_SERVER_ENDPOINT;
+let PRFS_API_SERVER_ENDPOINT: string;
 
 if (typeof process !== "undefined") {
   // Nextjs
   PRFS_API_SERVER_ENDPOINT = `${process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT}/api/v0`;
 } else {
-  // Solidjs
-  console.log(555, import.meta.env.VITE_PRFS_API_SERVER_ENDPOINT);
-  // const PRFS_API_SERVER_ENDPOINT = `${process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT}/api/v0`;
+  PRFS_API_SERVER_ENDPOINT = import.meta.env.VITE_PRFS_API_SERVER_ENDPOINT;
 }
 
 export async function api({ path, req }: ApiArg) {

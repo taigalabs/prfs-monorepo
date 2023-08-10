@@ -30,11 +30,9 @@ function createEnvs() {
   const { production, teaser } = values;
 
   const envs = {
-    NEXT_PUBLIC_IS_TEASER: teaser ? "yes" : "no",
-    NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: production
-      ? "https://api.prfs.xyz"
-      : "http://localhost:4000",
-    NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: production
+    VITE_IS_TEASER: teaser ? "yes" : "no",
+    VITE_PRFS_API_SERVER_ENDPOINT: production ? "https://api.prfs.xyz" : "http://localhost:4000",
+    VITE_PRFS_ASSET_SERVER_ENDPOINT: production
       ? "https://asset.prfs.xyz"
       : "http://localhost:4010/assets",
   };

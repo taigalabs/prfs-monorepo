@@ -31,6 +31,8 @@ const CreateProofForm: Component<CreateProofFormProps> = ({ proofType }) => {
   const [running, setRunning] = createSignal(false);
 
   const publicInputElem = createMemo(() => {
+    console.log(11, proofType);
+
     const obj: Record<any, PublicInputInstanceEntry> = proofType.public_input_instance;
 
     const entriesElem = Object.entries(obj).map(([key, val]) => {

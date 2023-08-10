@@ -6,9 +6,9 @@ import { useSearchParams } from "@solidjs/router";
 import styles from "./ProofGen.module.scss";
 import { I18nContext } from "@/contexts/i18n";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-// import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
-// import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
-// import Loading from "@/components/loading/Loading";
+import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
+import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
+import Loading from "@/components/loading/Loading";
 
 const PARENT_MSG_HANDLER = {
   registered: false,
@@ -42,29 +42,29 @@ const ProofGen: Component<ProofGenProps> = () => {
       console.log("proofTypeId: %s", proofTypeId);
 
       if (proofTypeId) {
-        console.log(1111);
         const resp = await prfsApi.getPrfsProofTypes({
           page: 0,
           proof_type_id: proofTypeId,
         });
-        // if (resp && resp.payload.prfs_proof_types.length > 0) {
-        //   setProofType(resp.payload.prfs_proof_types[0]);
-        // } else {
-        //   console.log("PrfsProofType not found");
-        // }
+
+        if (resp && resp.payload.prfs_proof_types.length > 0) {
+          // setProofType(resp.payload.prfs_proof_types[0]);
+        } else {
+          console.log("PrfsProofType not found");
+        }
       }
     }
 
     fn().then();
   }, [searchParams, setProofType]);
-  //
-  return <div>5515</div>;
 
-  // return (
-  //   <DefaultLayout>
-  //     {proofType ? <CreateProofForm proofType={proofType()!} /> : <Loading />}
-  //   </DefaultLayout>
-  // );
+  console.log(33, proofType);
+
+  return (
+    <DefaultLayout>
+      {proofType() ? <CreateProofForm proofType={proofType()!} /> : <Loading />}
+    </DefaultLayout>
+  );
 };
 
 export default ProofGen;
