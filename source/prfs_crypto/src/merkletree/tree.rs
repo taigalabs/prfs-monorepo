@@ -142,8 +142,8 @@ pub fn calc_parent_nodes(children: &Vec<[u8; 32]>) -> Result<Vec<[u8; 32]>, Prfs
         let mut parent = vec![];
 
         for i in (0..children.len()).step_by(2) {
-            if i % 1000 == 0 {
-                println!("child idx: {}", i);
+            if i % 2000 == 0 {
+                println!("calc_parent_nodes, child idx: {}", i);
             }
 
             // println!("i: {}", i);

@@ -84,7 +84,23 @@ pub async fn create_tree_nodes(
             parent_nodes.len()
         );
 
-        db_apis::insert_prfs_tree_nodes(tx, &parent_nodes, false).await?;
+        let parent_node_chunks: Vec<_> = parent_nodes.chunks(1000).collect();
+
+        let mut total_count = 0;
+        for chunk in parent_node_chunks {
+            let updated_count = db_apis::insert_prfs_tree_nodes(tx, chunk, false).await?;
+            total_count += updated_count;
+
+            println!(
+                "{} parent_nodes, d: {}, updated_count: {}, total_count: {}",
+                "Inserted".green(),
+                d,
+                updated_count,
+                total_count,
+            );
+        }
+
+        // db_apis::insert_prfs_tree_nodes(tx, &parent_nodes, false).await?;
         children = parent;
 
         count += parent_nodes.len();
@@ -115,7 +131,7 @@ pub async fn create_tree_nodes(
     Ok(merkle_root)
 }
 
-fn require_last_leaf_have_correct_pos(leaves: &Vec<PrfsTreeNode>) {
+fn _require_last_leaf_have_correct_pos(leaves: &Vec<PrfsTreeNode>) {
     let last_leaf = leaves.last().unwrap();
 
     if last_leaf.pos_w != Decimal::from(leaves.len() - 1) {
