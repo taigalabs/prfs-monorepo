@@ -18,6 +18,7 @@ import {
 import styles from "./CreateProofForm.module.scss";
 import { i18n, I18nContext } from "@/contexts/i18n";
 import Button from "@/components/button/Button";
+import { Buffer } from "buffer/";
 
 const CreateProofForm: Component<CreateProofFormProps> = ({ proofType }) => {
   const [msg, setMsg] = createSignal("");
@@ -60,7 +61,7 @@ const CreateProofForm: Component<CreateProofFormProps> = ({ proofType }) => {
     return entriesElem;
   }, [proofType]);
 
-  const handleClickCreateProof = createMemo(async () => {
+  const handleClickCreateProof = async () => {
     console.log("handle click create proof");
 
     if (proofType === undefined) {
@@ -132,34 +133,32 @@ const CreateProofForm: Component<CreateProofFormProps> = ({ proofType }) => {
     // let driverProperties = interpolateSystemAssetEndpoint(driver_properties);
     // console.log(13, driverProperties);
 
-    // let merkleProof = {
-    //   root: BigInt(proofType.public_input_instance[4].value),
-    //   siblings,
-    //   pathIndices,
-    // };
+    let merkleProof = {
+      root: BigInt(proofType.public_input_instance[4].value),
+      siblings,
+      pathIndices,
+    };
 
-    // console.log(55, merkleProof);
+    console.log(55, merkleProof);
 
-    // const msg = Buffer.from("harry potter");
-    // const msgHash = hashPersonalMessage(msg);
+    const msg = Buffer.from("harry potter");
+    const msgHash = hashPersonalMessage(msg);
 
-    // const sig = await sendMsgToParent(new GetSignatureMsg(msg));
-    // console.log("sig", sig);
+    const sig = await sendMsgToParent(new GetSignatureMsg(msg));
+    console.log("sig", sig);
 
-    // let verifyMsg = ethers.utils.verifyMessage(msg, sig);
-    // console.log("verified addr", verifyMsg);
+    let verifyMsg = ethers.utils.verifyMessage(msg, sig);
+    console.log("verified addr", verifyMsg);
 
-    // const prevTime = performance.now();
-    // let resp = await sendMsgToParent(
-    //   new CreateProofMsg(sig, msgHash, merkleProof, driver_id, driverProperties)
-    // );
-    // const now = performance.now();
-    // const diff = now - prevTime;
+    const prevTime = performance.now();
+    let resp = await sendMsgToParent(new CreateProofMsg(sig, msgHash, merkleProof));
+    const now = performance.now();
+    const diff = now - prevTime;
 
-    // console.log("Created a proof: %o, diff: %s,", resp, diff);
+    console.log("Created a proof: %o, diff: %s,", resp, diff);
 
     // setMsg(`Created a proof in ${diff} ms`);
-  });
+  };
 
   return (
     proofType && (

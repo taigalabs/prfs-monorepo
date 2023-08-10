@@ -51,7 +51,7 @@ export default ProofGen;
 export interface ProofGenProps {}
 
 function createParentMsgHandler(setData: any) {
-  createEffect(prev => {
+  createEffect(_prev => {
     if (!PARENT_MSG_HANDLER.registered) {
       console.log("Attaching parent msg handler");
 

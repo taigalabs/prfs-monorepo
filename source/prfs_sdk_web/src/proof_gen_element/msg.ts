@@ -81,20 +81,12 @@ export class CreateProofMsg implements MsgInterface<CreateProofPayload> {
   type: MsgType;
   payload: CreateProofPayload;
 
-  constructor(
-    sig: Buffer,
-    msgHash: Buffer,
-    merkleProof: any,
-    driverId: string,
-    driverProperties: Record<string, any>
-  ) {
+  constructor(sig: Buffer, msgHash: Buffer, merkleProof: any) {
     this.type = MsgType.CREATE_PROOF;
     this.payload = {
       sig,
       msgHash,
       merkleProof,
-      driverId,
-      driverProperties,
     };
   }
 }
@@ -119,8 +111,6 @@ export interface CreateProofPayload {
   sig: Buffer;
   msgHash: Buffer;
   merkleProof: any;
-  driverId: string;
-  driverProperties: Record<string, any>;
 }
 
 export class CreateProofResponseMsg implements MsgInterface<CreateProofResponsePayload> {

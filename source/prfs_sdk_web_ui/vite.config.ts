@@ -1,18 +1,12 @@
 import { defineConfig } from "vite";
 import solidPlugin from "vite-plugin-solid";
 import tsconfigPaths from "vite-tsconfig-paths";
-// import devtools from 'solid-devtools/vite';
+import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill";
+import { NodeModulesPolyfillPlugin } from "@esbuild-plugins/node-modules-polyfill";
+import rollupNodePolyfill from "rollup-plugin-node-polyfills";
 
 export default defineConfig({
-  plugins: [
-    /* 
-    Uncomment the following line to enable solid-devtools.
-    For more info see https://github.com/thetarnav/solid-devtools/tree/main/packages/extension#readme
-    */
-    // devtools(),
-    solidPlugin(),
-    tsconfigPaths(),
-  ],
+  plugins: [solidPlugin(), tsconfigPaths()],
   server: {
     port: 3010,
     headers: {
@@ -21,7 +15,24 @@ export default defineConfig({
       "Cross-Origin-Opener-Policy": "same-origin",
     },
   },
+  optimizeDeps: {
+    esbuildOptions: {
+      define: {
+        global: "globalThis",
+      },
+      plugins: [
+        NodeGlobalsPolyfillPlugin({
+          process: true,
+          buffer: true,
+        }),
+        NodeModulesPolyfillPlugin(),
+      ],
+    },
+  },
   build: {
     target: "esnext",
+    rollupOptions: {
+      plugins: [rollupNodePolyfill],
+    },
   },
 });
