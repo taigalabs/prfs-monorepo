@@ -361,6 +361,12 @@ importers:
       '@taigalabs/prfs-api-js':
         specifier: '*'
         version: link:../prfs_api_js
+      '@taigalabs/prfs-entities':
+        specifier: '*'
+        version: link:../prfs_entities
+      '@taigalabs/prfs-sdk-web':
+        specifier: '*'
+        version: link:../prfs_sdk_web
       '@types/node':
         specifier: ^20.4.9
         version: 20.4.9
