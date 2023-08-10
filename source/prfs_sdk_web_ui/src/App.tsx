@@ -2,6 +2,7 @@ import type { Component } from "solid-js";
 
 import logo from "./logo.svg";
 import styles from "./App.module.scss";
+import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 
 const App: Component = () => {
   return (
@@ -18,6 +19,7 @@ const App: Component = () => {
           rel="noopener noreferrer"
         >
           Learn Solid
+          <CreateProofForm />
         </a>
       </header>
     </div>
