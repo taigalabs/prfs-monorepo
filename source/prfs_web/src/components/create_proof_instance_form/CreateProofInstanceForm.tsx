@@ -111,7 +111,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
           prfsAssetEndpoint: process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT,
         });
 
-        const iframe = await proofGenElement.mount("#prfs-sdk-container");
+        // const iframe = await proofGenElement.mount("#prfs-sdk-container");
         console.log("sdk is loaded");
         // const reply = await sendMsgToChild({
         //   type: MsgType.
