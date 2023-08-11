@@ -21,44 +21,44 @@ const DriverInputsMetaTable: React.FC<DriverInputsMetaTableProps> = ({
   const i18n = React.useContext(i18nContext);
   const [data, setData] = React.useState<TableData<DriverInputMeta>>({
     page: 0,
-    values: [],
+    values: driver_inputs_meta,
   });
 
-  // React.useEffect(() => {
-  //   setData({ record: driver?.properties_meta });
-  // }, [driver, setData]);
+  const rowsElem = React.useMemo(() => {
+    let { values } = data;
 
-  // const rowsElem = React.useMemo(() => {
-  //   let { record } = data;
+    let rows: React.ReactNode[] = [];
+    if (values.length < 1) {
+      return rows;
+    }
 
-  //   let rows: React.ReactNode[] = [];
-  //   if (record === undefined || Object.keys(record).length < 1) {
-  //     return rows;
-  //   }
+    for (const val of values) {
+      let row = (
+        <TableRow key={val.label}>
+          <td className={styles.label}>{val.label}</td>
+          <td className={styles.desc}>{val.desc}</td>
+          <td className={styles.type}>{val.type}</td>
+          <td className={styles.ref}>{val.ref}</td>
+        </TableRow>
+      );
 
-  //   for (const [key, val] of Object.entries(record)) {
-  //     let row = (
-  //       <TableRow key={key}>
-  //         <td className={styles.label}>{key}</td>
-  //         <td className={styles.value}>{val}</td>
-  //       </TableRow>
-  //     );
+      rows.push(row);
+    }
 
-  //     rows.push(row);
-  //   }
-
-  //   return rows;
-  // }, [data]);
+    return rows;
+  }, [data]);
 
   return (
     <Table minWidth={880}>
       <TableHeader>
         <TableRow>
           <th className={styles.label}>{i18n.label}</th>
-          <th className={styles.value}>{i18n.value}</th>
+          <th className={styles.desc}>{i18n.description}</th>
+          <th className={styles.type}>{i18n.type}</th>
+          <th className={styles.ref}>{i18n.reference}</th>
         </TableRow>
       </TableHeader>
-      {/* <TableBody>{rowsElem}</TableBody> */}
+      <TableBody>{rowsElem}</TableBody>
     </Table>
   );
 };
