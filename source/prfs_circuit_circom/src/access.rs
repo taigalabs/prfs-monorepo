@@ -1,5 +1,5 @@
 use super::paths::PATHS;
-use crate::{CircuitBuildJson, CircuitBuildListJson};
+use crate::CircuitBuildListJson;
 use std::path::PathBuf;
 
 pub fn get_build_fs_path() -> PathBuf {

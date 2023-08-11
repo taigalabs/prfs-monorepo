@@ -1,4 +1,4 @@
-import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
+import { CircuitDriver, ProveArgs, VerifyArgs } from "@taigalabs/prfs-driver-interface";
 import { MerkleProof } from "@taigalabs/async-incremental-merkle-tree";
 import { BN } from "bn.js";
 
@@ -50,11 +50,21 @@ export default class SpartanDriver implements CircuitDriver {
     return await Tree.newInstance(depth, hash);
   }
 
-  async prove(sig: string, msgHash: Buffer, merkleProof: SpartanMerkleProof): Promise<NIZK> {
+  async prove(
+    args: ProveArgs
+    // sig: string,
+    // msgHash: Buffer,
+    // merkleProof: SpartanMerkleProof,
+    // eventSubscriber: DriverEventSubscriber
+  ): Promise<NIZK> {
     // console.log("\nMembershipProver2.prove()");
+    const { inputs, eventListener } = args;
+    const { sig, msgHash, merkleProof } = inputs;
 
     const { r, s, v } = fromSig(sig);
     const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash);
+
+    eventListener("Computed ECDSA pub input");
 
     const circuitPubInput = new CircuitPubInput(
       merkleProof.root,
@@ -84,9 +94,11 @@ export default class SpartanDriver implements CircuitDriver {
       Uy: effEcdsaPubInput.Uy,
     };
 
-    console.log("witnessGenInput: %o", witnessGenInput);
-
+    // console.log("witnessGenInput: %o", witnessGenInput);
     const witness = await snarkJsWitnessGen(witnessGenInput, this.wtnsGenUrl);
+
+    eventListener("Computed witness gen input");
+
     const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
 
     const proof = await this.handlers.prove(this.circuit, witness.data, circuitPublicInput);
@@ -97,7 +109,14 @@ export default class SpartanDriver implements CircuitDriver {
     };
   }
 
-  async verify(proof: Uint8Array, publicInputSer: Uint8Array): Promise<boolean> {
+  async verify(
+    args: VerifyArgs
+    // proof: Uint8Array,
+    // publicInputSer: Uint8Array
+  ): Promise<boolean> {
+    const { inputs } = args;
+    const { proof, publicInputSer } = inputs;
+
     const publicInput = PublicInput.deserialize(publicInputSer);
     const isPubInputValid = verifyEffEcdsaPubInput(publicInput);
 
@@ -121,18 +140,3 @@ export interface SpartanDriverCtorArgs {
   wtnsGenUrl: string;
   circuit: Uint8Array;
 }
-
-// function bigint_to_array(n: number, k: number, x: bigint): bigint[] {
-//   let mod: bigint = 1n;
-//   for (var idx = 0; idx < n; idx++) {
-//     mod = mod * 2n;
-//   }
-
-//   let ret: bigint[] = [];
-//   var x_temp: bigint = x;
-//   for (var idx = 0; idx < k; idx++) {
-//     ret.push(x_temp % mod);
-//     x_temp = x_temp / mod;
-//   }
-//   return ret;
-// }

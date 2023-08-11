@@ -1,3 +1,4 @@
+use crate::api;
 use console_error_panic_hook;
 use serde::{Deserialize, Serialize};
 use std::io::{Error, Read};
@@ -5,8 +6,6 @@ use wasm_bindgen::{prelude::*, Clamped};
 
 #[cfg(feature = "multicore")]
 pub use wasm_bindgen_rayon::init_thread_pool;
-
-use crate::api;
 
 #[wasm_bindgen]
 extern "C" {
@@ -29,17 +28,6 @@ extern "C" {
 #[wasm_bindgen]
 pub fn init_panic_hook() {
     console_error_panic_hook::set_once();
-}
-
-#[wasm_bindgen]
-pub fn bb() -> Result<Vec<u8>, JsValue> {
-    return Ok(vec![111]);
-    // return Err(JsValue::from_str("aaa"));
-    // Clamped(
-    //     Generator::new(width, height, max_iterations)
-    //         .iter_bytes()
-    //         .collect(),
-    // )
 }
 
 #[wasm_bindgen]

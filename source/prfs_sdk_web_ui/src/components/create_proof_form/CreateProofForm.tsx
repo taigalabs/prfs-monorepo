@@ -182,7 +182,17 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
     setIsRunning(true);
 
     const prevTime = performance.now();
-    const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
+    const { proof, publicInput } = await driver.prove({
+      inputs: {
+        sig,
+        msgHash,
+        merkleProof,
+      },
+      eventListener: (msg: string) => {
+        console.log("driver event", msg);
+      },
+    });
+
     const now = performance.now();
     const diff = now - prevTime;
 
