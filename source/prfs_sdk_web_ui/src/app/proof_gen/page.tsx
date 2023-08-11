@@ -13,6 +13,7 @@ import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import Loading from "@/components/loading/Loading";
 import NoSSR from "@/components/no_ssr/NoSSR";
+import { checkSanity } from "@/functions/sanity";
 
 const PARENT_MSG_HANDLER = {
   registered: false,
@@ -22,30 +23,35 @@ const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
 
   const [data, setData] = React.useState();
-  const [prfsAssetEndpoint, setPrfsAssetEndpoint] = React.useState<string>();
   const searchParams = useSearchParams();
   const [proofType, setProofType] = React.useState<PrfsProofType>();
+  const [isReady, setIsReady] = React.useState<boolean>();
 
   useParentMsgHandler();
 
-  React.useEffect(() => {
-    async function fn() {
-      const { prfsAssetEndpoint } = await sendMsgToParent(new HandshakeMsg("hi"));
-      setPrfsAssetEndpoint(prfsAssetEndpoint);
-    }
-    fn().then();
-  }, [setPrfsAssetEndpoint]);
+  React.useEffect(() => {}, [setIsReady]);
 
   React.useEffect(() => {
+    checkSanity();
+
     async function fn() {
+      await sendMsgToParent(new HandshakeMsg("hi"));
+
       let proofTypeId = searchParams.get("proofTypeId");
       console.log("proofTypeId: %s", proofTypeId);
 
       if (proofTypeId) {
-        const { payload } = await prfsApi.getPrfsProofTypes({
-          page: 0,
-          proof_type_id: proofTypeId,
-        });
+        let payload;
+        try {
+          payload = (
+            await prfsApi.getPrfsProofTypes({
+              page: 0,
+              proof_type_id: proofTypeId,
+            })
+          ).payload;
+        } catch (err) {
+          return;
+        }
 
         if (payload.prfs_proof_types.length > 0) {
           setProofType(payload.prfs_proof_types[0]);
@@ -59,15 +65,13 @@ const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
   }, [searchParams, setProofType]);
 
   return (
-    <NoSSR>
-      <DefaultLayout>
-        {proofType && prfsAssetEndpoint ? (
-          <CreateProofForm proofType={proofType} prfsAssetEndpoint={prfsAssetEndpoint} />
-        ) : (
-          <Loading />
-        )}
-      </DefaultLayout>
-    </NoSSR>
+    isReady && (
+      <NoSSR>
+        <DefaultLayout>
+          {proofType ? <CreateProofForm proofType={proofType} /> : <Loading />}
+        </DefaultLayout>
+      </NoSSR>
+    )
   );
 };
 

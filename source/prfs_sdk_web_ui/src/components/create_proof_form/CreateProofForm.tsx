@@ -15,7 +15,9 @@ import i18n from "@/i18n/en";
 import Button from "@/components/button/Button";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
 
-const ProofGen: React.FC<ProofGenProps> = ({ proofType, prfsAssetEndpoint }) => {
+const ASSET_SERVER_ENDPOINT = process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
+
+const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
   const [systemMsg, setSystemMsg] = React.useState("");
   const [msg, setMsg] = React.useState("");
   const [time, setTime] = React.useState(0);
@@ -26,7 +28,10 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType, prfsAssetEndpoint }) => 
     async function fn() {
       setSystemMsg("Loading driver...");
       const { driver_id, driver_properties } = proofType;
-      const driverProperties = interpolateSystemAssetEndpoint(driver_properties, prfsAssetEndpoint);
+      const driverProperties = interpolateSystemAssetEndpoint(
+        driver_properties,
+        ASSET_SERVER_ENDPOINT
+      );
       const driver = await initDriver(driver_id, driverProperties);
       setSystemMsg("System is ready");
       setDriver(driver);
@@ -199,6 +204,5 @@ export default ProofGen;
 
 export interface ProofGenProps {
   proofType: PrfsProofType;
-  prfsAssetEndpoint: string;
   // handleCreateProof: (proof: Uint8Array, publicInput: any) => void;
 }

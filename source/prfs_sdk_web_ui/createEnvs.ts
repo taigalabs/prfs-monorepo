@@ -26,6 +26,12 @@ function createEnvs() {
 
   const envs = {
     NEXT_PUBLIC_VERSION: "0.1.0",
+    NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: values.production
+      ? "https://api.prfs.xyz"
+      : "http://localhost:4000",
+    NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: values.production
+      ? "https://asset.prfs.xyz"
+      : "http://localhost:4010/assets",
   };
   console.log("%s envs to %s", chalk.green("Writing"), DOT_ENV_PATH);
 
