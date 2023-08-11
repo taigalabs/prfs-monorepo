@@ -1,4 +1,4 @@
-use prfs_entities::entities::{CircuitDriver, CircuitType};
+use prfs_entities::entities::CircuitType;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
