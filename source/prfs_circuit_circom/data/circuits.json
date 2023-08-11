@@ -23,22 +23,32 @@
         {
           "label": "Tx",
           "desc": "Tx description",
-          "type": "PROVER_GENERATED"
+          "type": "PROVER_GENERATED",
+          "public": true
         },
         {
           "label": "Ty",
           "desc": "Ty description",
-          "type": "PROVER_GENERATED"
+          "type": "PROVER_GENERATED",
+          "public": true
         },
         {
           "label": "Ux",
           "desc": "Ux description",
-          "type": "PROVER_GENERATED"
+          "type": "PROVER_GENERATED",
+          "public": true
         },
         {
           "label": "Uy",
           "desc": "Uy description",
-          "type": "PROVER_GENERATED"
+          "type": "PROVER_GENERATED",
+          "public": true
+        },
+        {
+          "label": "Merkle root",
+          "desc": "Vector commitment (Merkle root) of a set",
+          "type": "PRFS_SET",
+          "public": true
         },
         {
           "label": "m",
@@ -56,11 +66,6 @@
           "type": "PROVER_GENERATED"
         },
         {
-          "label": "Merkle root",
-          "desc": "Vector commitment (Merkle root) of a set",
-          "type": "PRFS_SET"
-        },
-        {
           "label": "pathIndices",
           "desc": "Merkle path indices",
           "type": "PROVER_GENERATED"
@@ -68,33 +73,6 @@
         {
           "label": "siblings",
           "desc": "Siblings of a leaf in a Merkle path towards the root",
-          "type": "PRFS_SET"
-        }
-      ],
-      "circuit_public_inputs_meta": [
-        {
-          "label": "Tx",
-          "desc": "Tx description",
-          "type": "PROVER_GENERATED"
-        },
-        {
-          "label": "Ty",
-          "desc": "Ty description",
-          "type": "PROVER_GENERATED"
-        },
-        {
-          "label": "Ux",
-          "desc": "Ux description",
-          "type": "PROVER_GENERATED"
-        },
-        {
-          "label": "Uy",
-          "desc": "Uy description",
-          "type": "PROVER_GENERATED"
-        },
-        {
-          "label": "Merkle root",
-          "desc": "Vector commitment (Merkle root) of a set",
           "type": "PRFS_SET"
         }
       ]

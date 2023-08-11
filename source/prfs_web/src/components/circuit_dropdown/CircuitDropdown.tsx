@@ -31,7 +31,7 @@ const CircuitEntry: React.FC<CircuitEntryProps> = ({ val }) => {
           </div>
           <div className={styles.item}>
             <div>{i18n.num_public_inputs}:</div>
-            <div>{val.circuit_public_inputs_meta.length}</div>
+            <div>{val.circuit_inputs_meta.length}</div>
           </div>
           <div className={styles.item}>
             <p>{i18n.circuit_dsl}:</p>

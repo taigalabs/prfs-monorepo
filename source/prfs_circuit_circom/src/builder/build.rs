@@ -71,7 +71,7 @@ fn make_spartan(circuit: &PrfsCircuit, timestamp: i64) {
     circuit_reader::make_spartan_instance(
         &r1cs_src_path,
         &spartan_circuit_path,
-        circuit.circuit_public_inputs_meta.len(),
+        circuit.circuit_inputs_meta.len(),
     );
 }
 

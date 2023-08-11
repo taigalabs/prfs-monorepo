@@ -16,7 +16,6 @@ pub struct PrfsCircuit {
     pub elliptic_curve: String,
     pub finite_field: String,
     pub circuit_inputs_meta: Vec<CircuitInputMeta>,
-    pub circuit_public_inputs_meta: Vec<CircuitInputMeta>,
     pub driver_id: String,
     pub driver_version: String,
 

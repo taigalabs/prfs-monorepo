@@ -48,4 +48,11 @@ pub struct CircuitInputMeta {
     pub r#type: CircuitInputType,
     pub label: String,
     pub desc: String,
+
+    #[serde(default = "default_public")]
+    pub public: bool,
+}
+
+fn default_public() -> bool {
+    false
 }

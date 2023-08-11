@@ -12,7 +12,6 @@ export interface PrfsCircuit {
   elliptic_curve: string;
   finite_field: string;
   circuit_inputs_meta: Array<CircuitInputMeta>;
-  circuit_public_inputs_meta: Array<CircuitInputMeta>;
   driver_id: string;
   driver_version: string;
   driver_properties: Record<string, any>;

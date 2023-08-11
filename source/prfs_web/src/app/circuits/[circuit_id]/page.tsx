@@ -80,7 +80,7 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
                 <WidgetLabel>{i18n.public_inputs}</WidgetLabel>
               </WidgetHeader>
               {circuit && (
-                <PublicInputTable circuit_public_inputs_meta={circuit.circuit_public_inputs_meta} />
+                <PublicInputTable circuit_public_inputs_meta={circuit.circuit_inputs_meta} />
               )}
             </Widget>
           </Card>

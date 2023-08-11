@@ -5,4 +5,5 @@ export interface CircuitInputMeta {
   type: CircuitInputType;
   label: string;
   desc: string;
+  public: boolean;
 }
