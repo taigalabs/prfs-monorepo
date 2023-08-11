@@ -25,11 +25,18 @@ const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
   const [data, setData] = React.useState();
   const searchParams = useSearchParams();
   const [proofType, setProofType] = React.useState<PrfsProofType>();
-  const [isReady, setIsReady] = React.useState<boolean>();
+  const [isReady, setIsReady] = React.useState(false);
 
   useParentMsgHandler();
 
-  React.useEffect(() => {}, [setIsReady]);
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      // Give iframe a moment to remove 'loading' placeholder
+      setIsReady(true);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [setIsReady]);
 
   React.useEffect(() => {
     checkSanity();
