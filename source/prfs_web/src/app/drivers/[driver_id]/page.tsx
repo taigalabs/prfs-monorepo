@@ -4,7 +4,6 @@ import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { CircuitDriver } from "@taigalabs/prfs-entities/bindings/CircuitDriver";
-import { ProveInputMeta } from "@taigalabs/prfs-entities/bindings/ProveInputMeta";
 import { useRouter } from "next/navigation";
 
 import styles from "./Program.module.scss";
@@ -18,7 +17,7 @@ import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import DriverSummary from "@/components/driver_summary/DriverSummary";
 import DriverPropsMetaTable from "@/components/driver_props_meta_table/DriverPropsMetaTable";
-import ProofFunctionMultiTable from "@/components/proof_function_multi_table/ProofFunctionMultiTable";
+import CircuitTypeTable from "@/components/circuit_type_table/CircuitTypeTable";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -81,11 +80,9 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
           <Card>
             <Widget>
               <WidgetHeader>
-                <WidgetLabel>{i18n.proof_functions}</WidgetLabel>
+                <WidgetLabel>{i18n.circuit_types}</WidgetLabel>
               </WidgetHeader>
-              <ProofFunctionMultiTable
-                prove_inputs_meta={driver?.prove_inputs_meta as ProveInputMeta[] | undefined}
-              />
+              <CircuitTypeTable circuit_types={driver?.circuit_types} />
             </Widget>
           </Card>
         </CardRow>

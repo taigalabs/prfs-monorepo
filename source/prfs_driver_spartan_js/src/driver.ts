@@ -49,7 +49,7 @@ export default class SpartanDriver implements CircuitDriver {
     return await Tree.newInstance(depth, hash);
   }
 
-  async prove(args: ProveArgs): Promise<NIZK> {
+  async prove(args: ProveArgs<any>): Promise<NIZK> {
     const { inputs, eventListener } = args;
     const { sig, msgHash, merkleProof } = inputs;
 
@@ -127,4 +127,10 @@ export interface SpartanDriverCtorArgs {
   handlers: PrfsHandlers;
   wtnsGenUrl: string;
   circuit: Uint8Array;
+}
+
+export interface MembershipProveInputs {
+  sig: any;
+  msgHash: any;
+  merkleProof: any;
 }

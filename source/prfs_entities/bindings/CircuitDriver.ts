@@ -4,9 +4,9 @@ export interface CircuitDriver {
   driver_id: string;
   driver_repository_url: string;
   version: string;
+  circuit_types: string[];
   author: string;
   desc: string;
   properties_meta: Record<string, string>;
   created_at: number;
-  prove_inputs_meta: Record<string, any>[];
 }

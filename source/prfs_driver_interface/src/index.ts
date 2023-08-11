@@ -4,14 +4,15 @@ export interface CircuitDriverGen {
 }
 
 export interface CircuitDriver {
-  prove(args: ProveArgs): Promise<ProveResult>;
-  verify(args: ProveArgs): Promise<boolean>;
+  prove(args: ProveArgs<any>): Promise<ProveResult>;
+  verify(args: ProveArgs<any>): Promise<boolean>;
   getBuildStatus(): Promise<any>;
   [key: string]: any;
 }
 
-export interface ProveArgs {
-  inputs: Record<string, any>;
+export interface ProveArgs<T> {
+  inputs: T;
+  circuitType: string;
   eventListener: (msg: string) => void;
 }
 

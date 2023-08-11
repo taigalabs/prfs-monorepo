@@ -48,6 +48,9 @@ pub struct CircuitDriver {
     pub driver_id: String,
     pub driver_repository_url: String,
     pub version: String,
+
+    #[ts(type = "string[]")]
+    pub circuit_types: sqlx::types::Json<Vec<String>>,
     pub author: String,
     pub desc: String,
 
@@ -56,23 +59,24 @@ pub struct CircuitDriver {
 
     #[ts(type = "number")]
     pub created_at: DateTime<Utc>,
-
-    #[ts(type = "Record<string, any>[]")]
-    pub prove_inputs_meta: sqlx::types::Json<Vec<ProveInputMeta>>,
 }
-
-// #[derive(Debug, Serialize, Deserialize, Clone, TS)]
-// #[ts(export)]
-// pub struct ProofFunctionDefinition {
-//     label: String,
-
-//     #[ts(type = "Record<string, any>[]")]
-//     inputs: sqlx::types::Json<Vec<ProofFunctionInputMeta>>,
-// }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
-pub struct ProveInputMeta {
+pub struct CircuitType {
+    pub circuit_type: String,
+    pub desc: String,
+
+    #[ts(type = "number")]
+    pub created_at: DateTime<Utc>,
+
+    #[ts(type = "Record<string, any>[]")]
+    pub driver_inputs_meta: sqlx::types::Json<Vec<DriverInputMeta>>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct DriverInputMeta {
     pub r#type: String,
     pub label: String,
     pub desc: String,

@@ -188,6 +188,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
         msgHash,
         merkleProof,
       },
+      circuitType: "MEMBERSHIP_PROOF_1",
       eventListener: (msg: string) => {
         console.log("driver event", msg);
       },

@@ -12,6 +12,7 @@
       "proof_algorithm": "Spartan",
       "elliptic_curve": "Secp256k1",
       "finite_field": "Z_(2^256-2^32-977)",
+      "circuit_type": "MEMBERSHIP_PROOF_1",
       "driver_id": "SPARTAN_CIRCOM_1",
       "driver_version": "0.1.0",
       "driver_properties": {

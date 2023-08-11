@@ -73,6 +73,7 @@ export default {
   driver_properties: "Driver properties",
   driver_properties_meta: "Driver properties meta",
   proof_functions: "Proof functions",
+  circuit_types: "Circuit types",
   computed: "Computed",
   choose_circuit: "Choose a circuit",
   choose_proof_type: "Choose a proof type",
