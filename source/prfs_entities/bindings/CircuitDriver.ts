@@ -5,6 +5,6 @@ export interface CircuitDriver {
   driver_repository_url: string;
   version: string;
   author: string;
-  properties_desc: Record<string, string>;
+  properties_meta: Record<string, string>;
   created_at: number;
 }

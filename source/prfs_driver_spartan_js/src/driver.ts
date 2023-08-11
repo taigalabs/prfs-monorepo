@@ -1,5 +1,4 @@
 import { CircuitDriver, ProveArgs, VerifyArgs } from "@taigalabs/prfs-driver-interface";
-import { MerkleProof } from "@taigalabs/async-incremental-merkle-tree";
 import { BN } from "bn.js";
 
 import { Tree } from "./helpers/tree";
@@ -50,14 +49,7 @@ export default class SpartanDriver implements CircuitDriver {
     return await Tree.newInstance(depth, hash);
   }
 
-  async prove(
-    args: ProveArgs
-    // sig: string,
-    // msgHash: Buffer,
-    // merkleProof: SpartanMerkleProof,
-    // eventSubscriber: DriverEventSubscriber
-  ): Promise<NIZK> {
-    // console.log("\nMembershipProver2.prove()");
+  async prove(args: ProveArgs): Promise<NIZK> {
     const { inputs, eventListener } = args;
     const { sig, msgHash, merkleProof } = inputs;
 
@@ -109,11 +101,7 @@ export default class SpartanDriver implements CircuitDriver {
     };
   }
 
-  async verify(
-    args: VerifyArgs
-    // proof: Uint8Array,
-    // publicInputSer: Uint8Array
-  ): Promise<boolean> {
+  async verify(args: VerifyArgs): Promise<boolean> {
     const { inputs } = args;
     const { proof, publicInputSer } = inputs;
 

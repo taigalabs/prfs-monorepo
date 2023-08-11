@@ -20,27 +20,27 @@ const CircuitDriverInstanceSummary: React.FC<CircuitDriverInstanceSummaryProps> 
       return [];
     }
 
-    let { driver } = circuit;
-    let { properties } = driver;
-    let propertyKeys = Object.keys(properties);
+    // let { driver } = circuit;
+    // let { properties } = driver;
+    let propertyKeys = Object.keys(circuit.driver_properties);
 
     const q = Math.floor(propertyKeys.length / NUM_COLUMNS);
     const r = propertyKeys.length % NUM_COLUMNS;
 
     const columns: [ReactNode[], ReactNode[], ReactNode[]] = [[], [], []];
     columns[0].push(
-      <ColumnarSummaryCell key={driver.driver_id}>
+      <ColumnarSummaryCell key={circuit.driver_id}>
         <ColumnarSummaryCellHeader>{i18n.driver_id}</ColumnarSummaryCellHeader>
         <div>
-          <Link href={`/drivers/${driver.driver_id}`}>{driver.driver_id}</Link>
+          <Link href={`/drivers/${circuit.driver_id}`}>{circuit.driver_id}</Link>
         </div>
       </ColumnarSummaryCell>
     );
 
     columns[1].push(
-      <ColumnarSummaryCell key={driver.version}>
+      <ColumnarSummaryCell key={circuit.driver_version}>
         <ColumnarSummaryCellHeader>{i18n.version}</ColumnarSummaryCellHeader>
-        <div>{driver.version}</div>
+        <div>{circuit.driver_version}</div>
       </ColumnarSummaryCell>
     );
 
@@ -51,7 +51,7 @@ const CircuitDriverInstanceSummary: React.FC<CircuitDriverInstanceSummaryProps> 
         const cell = (
           <ColumnarSummaryCell key={propertyKeys[idx]}>
             <ColumnarSummaryCellHeader>{propertyKeys[idx]}</ColumnarSummaryCellHeader>
-            <div>{properties[propertyKeys[idx]]}</div>
+            <div>{circuit.driver_properties[propertyKeys[idx]]}</div>
           </ColumnarSummaryCell>
         );
 
@@ -64,7 +64,7 @@ const CircuitDriverInstanceSummary: React.FC<CircuitDriverInstanceSummaryProps> 
       const cell = (
         <ColumnarSummaryCell key={propertyKeys[i]}>
           <ColumnarSummaryCellHeader>{propertyKeys[i]}</ColumnarSummaryCellHeader>
-          <div>{properties[propertyKeys[i]]}</div>
+          <div>{circuit.driver_properties[propertyKeys[i]]}</div>
         </ColumnarSummaryCell>
       );
 

@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import { PublicInputType } from "@taigalabs/prfs-entities/bindings/PublicInputType";
 import { PublicInputInstanceEntry } from "@taigalabs/prfs-entities/bindings/PublicInputInstanceEntry";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
+import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 
 import styles from "./PublicInputConfigSection.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -11,7 +11,6 @@ import CardRow from "@/components/card_row/CardRow";
 import Card from "@/components/card/Card";
 import SetDropdown from "@/components/set_dropdown/SetDropdown";
 import { DropdownSingleSelectedValue } from "@/components/dropdown/Dropdown";
-import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
 
 const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
   publicInputsMeta,
@@ -113,7 +112,7 @@ const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
 export default PublicInputConfigSection;
 
 interface PublicInputConfigSectionProps {
-  publicInputsMeta: PublicInputMeta[];
+  publicInputsMeta: CircuitInputMeta[];
   setPublicInputInstance: React.Dispatch<
     React.SetStateAction<Record<number, PublicInputInstanceEntry>>
   >;

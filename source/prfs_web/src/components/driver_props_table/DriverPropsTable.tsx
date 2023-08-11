@@ -17,7 +17,7 @@ const DriverPropsTable: React.FC<DriverPropsTableProps> = ({ driver, handleSelec
     if (driver) {
       setData({
         page: 0,
-        values: Object.entries(driver.properties_desc),
+        values: Object.entries(driver.properties_meta),
       });
     }
   }, [driver]);

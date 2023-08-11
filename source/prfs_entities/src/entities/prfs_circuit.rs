@@ -1,4 +1,4 @@
-use super::PublicInputMeta;
+use super::CircuitInputMeta;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
@@ -15,9 +15,13 @@ pub struct PrfsCircuit {
     pub proof_algorithm: String,
     pub elliptic_curve: String,
     pub finite_field: String,
-    pub private_inputs_meta: Vec<PublicInputMeta>,
-    pub public_inputs_meta: Vec<PublicInputMeta>,
-    pub driver: CircuitDriverInstance,
+    pub circuit_inputs_meta: Vec<CircuitInputMeta>,
+    pub circuit_public_inputs_meta: Vec<CircuitInputMeta>,
+    pub driver_id: String,
+    pub driver_version: String,
+
+    #[ts(type = "Record<string, any>")]
+    pub driver_properties: sqlx::types::Json<serde_json::Value>,
 
     #[ts(type = "string")]
     pub created_at: DateTime<Utc>,
@@ -32,21 +36,15 @@ pub struct CircuitDriver {
     pub author: String,
 
     #[ts(type = "Record<string, string>")]
-    pub properties_desc: sqlx::types::Json<serde_json::Value>,
+    pub properties_meta: sqlx::types::Json<serde_json::Value>,
 
     #[ts(type = "number")]
     pub created_at: DateTime<Utc>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone, TS)]
-#[ts(export)]
-pub struct CircuitDriverInstance {
-    pub driver_id: String,
-    pub version: String,
-
-    #[ts(type = "Record<string, any>")]
-    pub properties: sqlx::types::Json<serde_json::Value>,
-
-    #[ts(type = "number")]
-    pub created_at: DateTime<Utc>,
-}
+// #[derive(Debug, Serialize, Deserialize, Clone, TS)]
+// #[ts(export)]
+// pub struct CircuitDriverInstance {
+//     #[ts(type = "Record<string, any>")]
+//     pub properties: sqlx::types::Json<serde_json::Value>,
+// }

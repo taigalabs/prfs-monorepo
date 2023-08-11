@@ -26,7 +26,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
   const [msg, setMsg] = React.useState("");
   const [proveTime, setProveTime] = React.useState<number>(0);
   const [driver, setDriver] = React.useState<CircuitDriver>();
-  const [isRunning, setIsRunning] = React.useState(false);
+  const [isTimerRunning, setIsTimerRunning] = React.useState(false);
 
   React.useEffect(() => {
     async function fn() {
@@ -49,7 +49,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
     () => {
       setProveTime(prev => prev + 1);
     },
-    isRunning ? 1000 : null
+    isTimerRunning ? 1000 : null
   );
 
   const publicInputElem = React.useMemo(() => {
@@ -171,15 +171,15 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
     const msgHash = hashPersonalMessage(msg);
 
     const sig = await sendMsgToParent(new GetSignatureMsg(msg));
-    console.log("sig", sig);
 
-    let verifyMsg = ethers.utils.verifyMessage(msg, sig);
-    console.log("verified addr", verifyMsg);
-
-    console.log(55, driver);
+    let recoveredAddr = ethers.utils.verifyMessage(msg, sig);
+    if (addr !== recoveredAddr) {
+      console.error("Address in the signature is invalid");
+      return;
+    }
 
     console.log("Proving...");
-    setIsRunning(true);
+    setIsTimerRunning(true);
 
     const prevTime = performance.now();
     const { proof, publicInput } = await driver.prove({
@@ -198,12 +198,12 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
 
     console.log("publicInput %o", publicInput);
 
-    setIsRunning(false);
+    setIsTimerRunning(false);
     console.log("Proof gen complete, duration: %s", diff);
     console.log("Raw proof size (excluding public input)", proof.length, "bytes");
 
     // setMsg(`Created a proof in ${diff} ms`);
-  }, [proofType, setMsg, driver, setIsRunning]);
+  }, [proofType, setMsg, driver, setIsTimerRunning]);
 
   return (
     proofType && (

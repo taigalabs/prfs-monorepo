@@ -72,7 +72,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     }
 
     const newPublicInputInstance: Record<number, PublicInputInstanceEntry> = {};
-    for (const [idx, pi] of selectedCircuit.public_inputs_meta.entries()) {
+    for (const [idx, pi] of selectedCircuit.circuit_public_inputs_meta.entries()) {
       switch (pi.type) {
         case "PROVER_GENERATED":
           newPublicInputInstance[idx] = {
@@ -102,7 +102,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     let { y, m, d } = getYMD();
     let now = Date.now();
     let hash = keccakHash(
-      `${selectedCircuit.circuit_id}_${selectedCircuit.driver.driver_id}_${now}`
+      `${selectedCircuit.circuit_id}_${selectedCircuit.driver_id}_${now}`
     ).substring(2, 8);
 
     let proof_type_id = `${prfsAccount.id}_${y}${m}${d}_${hash}`;
@@ -114,8 +114,8 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       author: prfsAccount.sig,
       circuit_id: selectedCircuit.circuit_id,
       public_input_instance: newPublicInputInstance,
-      driver_id: selectedCircuit.driver.driver_id,
-      driver_properties: selectedCircuit.driver.properties,
+      driver_id: selectedCircuit.driver_id,
+      driver_properties: selectedCircuit.driver_properties,
     };
 
     prfsApi
@@ -180,7 +180,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 
       {selectedCircuit && (
         <PublicInputConfigSection
-          publicInputsMeta={selectedCircuit.public_inputs_meta}
+          publicInputsMeta={selectedCircuit.circuit_public_inputs_meta}
           setPublicInputInstance={setPublicInputInstance}
         />
       )}

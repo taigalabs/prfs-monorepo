@@ -71,7 +71,7 @@ fn make_spartan(circuit: &PrfsCircuit, timestamp: i64) {
     circuit_reader::make_spartan_instance(
         &r1cs_src_path,
         &spartan_circuit_path,
-        circuit.public_inputs_meta.len(),
+        circuit.circuit_public_inputs_meta.len(),
     );
 }
 
@@ -88,11 +88,11 @@ fn read_circuits_json() -> CircuitsJson {
 }
 
 fn compile_circuits(circuit: &PrfsCircuit) {
-    let driver_id = &circuit.driver.driver_id;
+    let driver_id = &circuit.driver_id;
 
     let driver: SpartanCircomDriverProperties = match driver_id.as_str() {
         driver_ids::SPARTAN_CIRCOM_DRIVER_TYPE => {
-            serde_json::from_str(&circuit.driver.properties.to_string()).unwrap()
+            serde_json::from_str(&circuit.driver_properties.to_string()).unwrap()
         }
         _ => panic!(
             "We cannot compile a circuit of this type, driver: {:?}",
@@ -126,13 +126,13 @@ fn compile_circuits(circuit: &PrfsCircuit) {
 
 fn create_build_json(circuit: &mut PrfsCircuit, timestamp: i64) {
     let mut driver_props: SpartanCircomDriverProperties =
-        serde_json::from_str(&circuit.driver.properties.to_string()).unwrap();
+        serde_json::from_str(&circuit.driver_properties.to_string()).unwrap();
     let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen, timestamp);
     let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan, timestamp);
 
     driver_props.wtns_gen_url = format!("prfs://{}", wtns_gen_path);
     driver_props.circuit_url = format!("prfs://{}", spartan_circuit_path);
-    circuit.driver.properties =
+    circuit.driver_properties =
         sqlx::types::Json::from(serde_json::to_value(driver_props).unwrap());
 
     let naive = NaiveDateTime::from_timestamp_millis(timestamp).unwrap();

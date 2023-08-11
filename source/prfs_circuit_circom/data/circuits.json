@@ -12,19 +12,66 @@
       "proof_algorithm": "Spartan",
       "elliptic_curve": "Secp256k1",
       "finite_field": "Z_(2^256-2^32-977)",
-      "driver_repository_url": "https://github.com/taigalabs/prfs-monorepo/tree/main/source/prfs_circuits_circom",
-      "driver": {
-        "driver_id": "SPARTAN_CIRCOM_1",
-        "version": "0.1.0",
-        "created_at": "2023-05-01T16:39:57-08:00",
-        "properties": {
-          "instance_path": "instances/addr_membership2.circom",
-          "wtns_gen_url": "",
-          "circuit_url": ""
-        }
+      "driver_id": "SPARTAN_CIRCOM_1",
+      "driver_version": "0.1.0",
+      "driver_properties": {
+        "instance_path": "instances/addr_membership2.circom",
+        "wtns_gen_url": "",
+        "circuit_url": ""
       },
-      "private_inputs_meta": [],
-      "public_inputs_meta": [
+      "circuit_inputs_meta": [
+        {
+          "label": "Tx",
+          "desc": "Tx description",
+          "type": "PROVER_GENERATED"
+        },
+        {
+          "label": "Ty",
+          "desc": "Ty description",
+          "type": "PROVER_GENERATED"
+        },
+        {
+          "label": "Ux",
+          "desc": "Ux description",
+          "type": "PROVER_GENERATED"
+        },
+        {
+          "label": "Uy",
+          "desc": "Uy description",
+          "type": "PROVER_GENERATED"
+        },
+        {
+          "label": "m",
+          "desc": "Message",
+          "type": "PROVER_GENERATED"
+        },
+        {
+          "label": "r",
+          "desc": "R value of a signature",
+          "type": "PROVER_GENERATED"
+        },
+        {
+          "label": "s",
+          "desc": "S value of a siganture",
+          "type": "PROVER_GENERATED"
+        },
+        {
+          "label": "Merkle root",
+          "desc": "Vector commitment (Merkle root) of a set",
+          "type": "PRFS_SET"
+        },
+        {
+          "label": "pathIndices",
+          "desc": "Merkle path indices",
+          "type": "PROVER_GENERATED"
+        },
+        {
+          "label": "siblings",
+          "desc": "Siblings of a leaf in a Merkle path towards the root",
+          "type": "PRFS_SET"
+        }
+      ],
+      "circuit_public_inputs_meta": [
         {
           "label": "Tx",
           "desc": "Tx description",
