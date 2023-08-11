@@ -17,6 +17,7 @@ export default {
   created_at: "Created at",
   logo_label: "Prfs",
   label: "Label",
+  circuit_type: "Circuit type",
   ref: "Ref",
   desc_1: "a",
   desc_2: "b",

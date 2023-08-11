@@ -1,51 +1,71 @@
 import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
-import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
+import { CircuitType } from "@taigalabs/prfs-entities/bindings/CircuitType";
 
 import styles from "./CircuitTypeTable.module.scss";
-import Table, {
-  TableBody,
-  TableRow,
-  TableHeader,
-  TableData,
-  TableRecordData,
-} from "@/components/table/Table";
+import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 
-const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({ circuit_types }) => {
+const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({
+  selectType,
+  selectedVal,
+  handleSelectVal,
+}) => {
   const i18n = React.useContext(i18nContext);
-  const [data, setData] = React.useState<TableRecordData<Record<number, string>>>({ record: {} });
+  const [data, setData] = React.useState<TableData<CircuitType>>({ page: 0, values: [] });
+
+  const handleChangeProofPage = React.useCallback(async (page: number) => {
+    return prfsApi
+      .getPrfsNativeCircuitTypes({
+        page,
+      })
+      .then(resp => {
+        const { page, prfs_circuit_types } = resp.payload;
+        return {
+          page,
+          values: prfs_circuit_types,
+        };
+      });
+  }, []);
 
   React.useEffect(() => {
-    const circuitTypes: Record<number, string> = {};
-
-    if (!circuit_types) {
-      return;
-    }
-
-    circuit_types.forEach((circuit_type, idx) => {
-      circuitTypes[idx] = circuit_type;
+    handleChangeProofPage(0).then(res => {
+      setData(res);
     });
-
-    setData({
-      record: circuitTypes,
-    });
-  }, [circuit_types, setData]);
+  }, [handleChangeProofPage, setData]);
 
   const rowsElem = React.useMemo(() => {
-    let { record } = data;
+    let { page, values } = data;
 
     let rows: React.ReactNode[] = [];
-    if (record === undefined || Object.keys(record).length < 1) {
+    if (values === undefined || values.length < 1) {
       return rows;
     }
 
-    for (const [key, val] of Object.entries(record)) {
+    for (let val of values) {
+      const onClickRow = handleSelectVal
+        ? (_ev: React.MouseEvent) => {
+            handleSelectVal(val);
+          }
+        : undefined;
+
+      const isSelected = selectedVal && selectedVal.circuit_type === val.circuit_type;
+      const selType = selectType || "radio";
+
       let row = (
-        <TableRow key={key}>
-          <td className={styles.label}>{key}</td>
-          <td className={styles.value}>{val}</td>
+        <TableRow key={val.circuit_type} onClickRow={onClickRow} isSelected={isSelected}>
+          {selectedVal && (
+            <td className={styles.radio}>
+              <input type={selType} checked={isSelected} readOnly />
+            </td>
+          )}
+          <td className={styles.circuit_type}>
+            <Link href={`/circuit_types/${val.circuit_type}`}>{val.circuit_type}</Link>
+          </td>
+          <td className={styles.desc}>{val.desc}</td>
+          <td className={styles.author}>{val.author}</td>
+          <td className={styles.createdAt}>{val.created_at}</td>
         </TableRow>
       );
 
@@ -59,8 +79,11 @@ const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({ circuit_types }) =>
     <Table minWidth={880}>
       <TableHeader>
         <TableRow>
-          <th className={styles.label}>{i18n.label}</th>
-          <th className={styles.value}>{i18n.value}</th>
+          {handleSelectVal && <th className={styles.radio}></th>}
+          <th className={styles.circuit_type}>{i18n.circuit_type}</th>
+          <th className={styles.desc}>{i18n.description}</th>
+          <th className={styles.author}>{i18n.author}</th>
+          <th className={styles.createdAt}>{i18n.created_at}</th>
         </TableRow>
       </TableHeader>
       <TableBody>{rowsElem}</TableBody>
@@ -71,8 +94,7 @@ const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({ circuit_types }) =>
 export default CircuitTypeTable;
 
 export interface CircuitTypeTableProps {
-  circuit_types: string[] | undefined;
   selectType?: "checkbox" | "radio";
-  selectedVal?: PrfsCircuit;
-  handleSelectVal?: (row: PrfsCircuit) => void;
+  selectedVal?: CircuitType;
+  handleSelectVal?: (row: CircuitType) => void;
 }

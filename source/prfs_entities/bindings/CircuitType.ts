@@ -3,6 +3,7 @@
 export interface CircuitType {
   circuit_type: string;
   desc: string;
+  author: string;
   created_at: number;
   driver_inputs_meta: Record<string, any>[];
 }

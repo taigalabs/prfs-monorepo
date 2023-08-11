@@ -10,7 +10,7 @@ import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
-import CircuitTable from "@/components/circuit_table/CircuitTable";
+import CircuitTypeTable from "@/components/circuit_type_table/CircuitTypeTable";
 
 const CircuitTypes: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -26,7 +26,7 @@ const CircuitTypes: React.FC = () => {
             <WidgetHeader>
               <WidgetLabel>{i18n.circuit_types}</WidgetLabel>
             </WidgetHeader>
-            <CircuitTable />
+            <CircuitTypeTable />
           </Widget>
         </Card>
       </CardRow>
