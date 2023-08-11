@@ -30,20 +30,18 @@ const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
   useParentMsgHandler();
 
   React.useEffect(() => {
-    const timer = setTimeout(() => {
-      // Give iframe a moment to remove 'loading' placeholder
+    async function fn() {
+      await sendMsgToParent(new HandshakeMsg("hi"));
       setIsReady(true);
-    }, 100);
+    }
 
-    return () => clearTimeout(timer);
+    fn().then();
   }, [setIsReady]);
 
   React.useEffect(() => {
     checkSanity();
 
     async function fn() {
-      await sendMsgToParent(new HandshakeMsg("hi"));
-
       let proofTypeId = searchParams.get("proofTypeId");
       console.log("proofTypeId: %s", proofTypeId);
 

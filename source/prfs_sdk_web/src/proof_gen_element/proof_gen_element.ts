@@ -2,9 +2,8 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { ethers } from "ethers";
 
 import { handleChildMessage } from "./handle_msg";
-import { sendMsgToChild } from "./send_msg";
 
-const LOADING_SPAN_ID = "prfs-sdk-loading";
+export const LOADING_SPAN_ID = "prfs-sdk-loading";
 const SDK_ENDPOINT = "http://localhost:3010";
 
 class ProofGenElement {
@@ -43,13 +42,6 @@ class ProofGenElement {
       iframe.style.width = "490px";
       iframe.style.height = "320px";
       iframe.style.border = "none";
-      iframe.onload = () => {
-        const loadingSpan = document.getElementById(LOADING_SPAN_ID);
-
-        if (loadingSpan) {
-          loadingSpan.style.display = "none";
-        }
-      };
 
       const wrapperDiv = document.createElement("div");
       wrapperDiv.style.position = "relative";
@@ -69,6 +61,4 @@ export interface ProofGenElementOptions {
   proofType: PrfsProofType;
   provider: ethers.providers.Web3Provider;
   handleCreateProof: ({ proof, publicInput }: any) => void;
-  prfsAssetEndpoint: string;
-  prfsApiEndpoint: string;
 }

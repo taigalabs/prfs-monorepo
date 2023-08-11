@@ -11,13 +11,6 @@ export enum MsgType {
   DRIVER_LOAD_RESULT_RESPONSE = "DRIVER_LOAD_RESULT_RESPONSE",
 }
 
-// export interface MsgInterface<T, R> {
-//   error?: any;
-//   type: MsgType;
-//   payload: T | undefined;
-//   _type?: R;
-// }
-
 export class MsgBase<T, R> {
   error?: any;
   type: MsgType;
@@ -44,7 +37,7 @@ export class HandshakeResponseMsg extends MsgBase<HandshakeResponsePayload, neve
 }
 
 export interface HandshakeResponsePayload {
-  prfsAssetEndpoint: string;
+  // prfsAssetEndpoint: string;
 }
 
 export class GetAddressMsg extends MsgBase<string, string> {

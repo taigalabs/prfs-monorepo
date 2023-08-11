@@ -107,8 +107,6 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
           proofType: selectedProofType,
           provider,
           handleCreateProof,
-          prfsApiEndpoint: process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT,
-          prfsAssetEndpoint: process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT,
         });
 
         const iframe = await proofGenElement.mount("#prfs-sdk-container");

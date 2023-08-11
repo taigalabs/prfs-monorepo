@@ -1,5 +1,5 @@
 import { GetAddressResponseMsg, HandshakeResponseMsg, MsgType } from "./msg";
-import { ProofGenElementOptions } from "./proof_gen_element";
+import { LOADING_SPAN_ID, ProofGenElementOptions } from "./proof_gen_element";
 
 export function handleChildMessage(resolve: (value: any) => void, options: ProofGenElementOptions) {
   console.log("Attaching child msg handler");
@@ -13,13 +13,14 @@ export function handleChildMessage(resolve: (value: any) => void, options: Proof
 
       switch (type) {
         case "HANDSHAKE": {
-          ev.ports[0].postMessage(
-            new HandshakeResponseMsg({
-              prfsAssetEndpoint: options.prfsAssetEndpoint,
-            })
-          );
-          resolve(1);
+          ev.ports[0].postMessage(new HandshakeResponseMsg({}));
 
+          const loading = document.getElementById(LOADING_SPAN_ID);
+          if (loading) {
+            loading.style.display = "none";
+          }
+
+          resolve(1);
           break;
         }
 
