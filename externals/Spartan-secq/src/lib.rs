@@ -752,6 +752,7 @@ mod tests {
 }
 
 /// get build status
+#[allow(unused_assignments)]
 pub fn get_build_status() -> String {
   let mut feature = "singlecore";
 
