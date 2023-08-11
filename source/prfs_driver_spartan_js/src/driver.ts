@@ -4,7 +4,7 @@ import { BN } from "bn.js";
 
 import { Tree } from "./helpers/tree";
 import { makePoseidon } from "./helpers/poseidon";
-import { PrfsHandlers, AsyncHashFn, NIZK, BuildStatus } from "./types";
+import { PrfsHandlers, AsyncHashFn, NIZK, BuildStatus, SpartanMerkleProof } from "./types";
 import { fromSig, snarkJsWitnessGen } from "./helpers/utils";
 import {
   CircuitPubInput,
@@ -50,7 +50,7 @@ export default class SpartanDriver implements CircuitDriver {
     return await Tree.newInstance(depth, hash);
   }
 
-  async prove(sig: string, msgHash: Buffer, merkleProof: MerkleProof): Promise<NIZK> {
+  async prove(sig: string, msgHash: Buffer, merkleProof: SpartanMerkleProof): Promise<NIZK> {
     // console.log("\nMembershipProver2.prove()");
 
     const { r, s, v } = fromSig(sig);
@@ -74,8 +74,6 @@ export default class SpartanDriver implements CircuitDriver {
 
       // merkle root
       root: merkleProof.root,
-      leaf: merkleProof.leaf,
-      leafIndex: merkleProof.leafIndex,
       siblings: merkleProof.siblings,
       pathIndices: merkleProof.pathIndices,
 
