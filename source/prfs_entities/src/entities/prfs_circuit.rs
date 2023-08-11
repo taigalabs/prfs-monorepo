@@ -33,6 +33,7 @@ pub struct CircuitDriver {
     pub driver_repository_url: String,
     pub version: String,
     pub author: String,
+    pub desc: String,
 
     #[ts(type = "Record<string, string>")]
     pub properties_meta: sqlx::types::Json<serde_json::Value>,

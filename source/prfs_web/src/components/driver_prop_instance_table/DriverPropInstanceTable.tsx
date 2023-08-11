@@ -3,7 +3,7 @@ import Link from "next/link";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 
-import styles from "./DriverPropertyTable.module.scss";
+import styles from "./DriverPropInstanceTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Table, {
   TableBody,
@@ -13,14 +13,14 @@ import Table, {
   TableRecordData,
 } from "@/components/table/Table";
 
-const DriverPropertyTable: React.FC<DriverPropertyTableProps> = ({
+const DriverPropInstanceTable: React.FC<DriverPropInstanceTableProps> = ({
   driver_properties,
   selectType,
   selectedVal,
   handleSelectVal,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const [data, setData] = React.useState<TableRecordData<Record<string, any>>>({
+  const [data, _] = React.useState<TableRecordData<Record<string, any>>>({
     record: driver_properties,
   });
 
@@ -31,8 +31,6 @@ const DriverPropertyTable: React.FC<DriverPropertyTableProps> = ({
     if (record === undefined || Object.keys(record).length < 1) {
       return rows;
     }
-
-    console.log(55, record);
 
     for (const [key, val] of Object.entries(record)) {
       let row = (
@@ -62,9 +60,9 @@ const DriverPropertyTable: React.FC<DriverPropertyTableProps> = ({
   );
 };
 
-export default DriverPropertyTable;
+export default DriverPropInstanceTable;
 
-interface DriverPropertyTableProps {
+interface DriverPropInstanceTableProps {
   driver_properties: Record<string, any>;
   selectType?: "checkbox" | "radio";
   selectedVal?: PrfsCircuit;

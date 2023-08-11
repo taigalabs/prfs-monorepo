@@ -69,7 +69,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
           <Card>
             <Widget>
               <WidgetHeader>
-                <WidgetLabel>{i18n.driver_properties}</WidgetLabel>
+                <WidgetLabel>{i18n.driver_properties_meta}</WidgetLabel>
               </WidgetHeader>
               <DriverPropsMetaTable driver={driver} />
             </Widget>

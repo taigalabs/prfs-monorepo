@@ -6,13 +6,7 @@ import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import { CircuitDriver } from "@taigalabs/prfs-entities/bindings/CircuitDriver";
 
 import styles from "./DriverPropsMetaTable.module.scss";
-import Table, {
-  TableBody,
-  TableRow,
-  TableHeader,
-  TableData,
-  TableRecordData,
-} from "@/components/table/Table";
+import Table, { TableBody, TableRow, TableHeader, TableRecordData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 
 const DriverPropsMetaTable: React.FC<DriverPropsMetaTableProps> = ({ driver, handleSelectVal }) => {
@@ -36,8 +30,6 @@ const DriverPropsMetaTable: React.FC<DriverPropsMetaTableProps> = ({ driver, han
     }
 
     for (const [key, val] of Object.entries(record)) {
-      console.log(5, key, val);
-
       let row = (
         <TableRow key={key}>
           <td className={styles.label}>{key}</td>

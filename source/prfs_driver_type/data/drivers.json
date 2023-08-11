@@ -6,6 +6,7 @@
       "version": "0.1.0",
       "author": "Personae Labs",
       "created_at": "2023-05-01T16:39:57-08:00",
+      "desc": "High-speed zkSNARKs without trusted setup",
       "properties_meta": {
         "instance_path": "Relatve path to instance file",
         "wtns_gen_url": "Wtns gen url",

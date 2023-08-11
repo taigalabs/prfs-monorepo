@@ -16,7 +16,7 @@ import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import CircuitSummary from "@/components/circuit_summary/CircuitSummary";
-import DriverPropertyTable from "@/components/driver_property_table/DriverPropertyTable";
+import DriverPropInstanceTable from "@/components/driver_prop_instance_table/DriverPropInstanceTable";
 import CircuitInputTable from "@/components/circuit_input_table/CircuitInputTable";
 
 const Circuit: React.FC<CircuitProps> = ({ params }) => {
@@ -73,7 +73,7 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
                     {i18n.driver_properties} ({circuit.driver_id})
                   </WidgetLabel>
                 </WidgetHeader>
-                <DriverPropertyTable driver_properties={circuit.driver_properties} />
+                <DriverPropInstanceTable driver_properties={circuit.driver_properties} />
               </Widget>
             </Card>
           </CardRow>
