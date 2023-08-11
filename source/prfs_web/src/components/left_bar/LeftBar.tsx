@@ -20,10 +20,7 @@ const Leftbar: React.FC<any> = () => {
       </ul>
       <div className={styles.section}>
         <ul>
-          <li className={styles.category}>
-            {/* <FaAngleRight /> */}
-            {i18n.proofs.toUpperCase()}
-          </li>
+          <li className={styles.category}>{i18n.proofs.toUpperCase()}</li>
           <li>
             <ActiveLink href="/proofs" activeClassName={styles.activeLink}>
               {i18n.proof_instances}
@@ -38,10 +35,7 @@ const Leftbar: React.FC<any> = () => {
       </div>
       <div className={styles.section}>
         <ul>
-          <li className={styles.category}>
-            {/* <FaAngleRight /> */}
-            {i18n.circuits.toUpperCase()}
-          </li>
+          <li className={styles.category}>{i18n.circuits.toUpperCase()}</li>
           <li>
             <ActiveLink href="/circuits" activeClassName={styles.activeLink}>
               {i18n.circuits}
@@ -52,12 +46,16 @@ const Leftbar: React.FC<any> = () => {
               {i18n.circuit_drivers}
             </ActiveLink>
           </li>
+          <li>
+            <ActiveLink href="/circuit_types" activeClassName={styles.activeLink}>
+              {i18n.circuit_types}
+            </ActiveLink>
+          </li>
         </ul>
       </div>
       <div className={styles.section}>
         <ul>
           <li className={styles.category}>
-            {/* <FaAngleRight /> */}
             <span>{i18n.references.toUpperCase()}</span>
           </li>
           <li>
