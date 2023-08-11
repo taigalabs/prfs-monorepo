@@ -85,7 +85,6 @@ export default class SpartanDriver implements CircuitDriver {
     console.log("witnessGenInput: %o", witnessGenInput);
 
     const witness = await snarkJsWitnessGen(witnessGenInput, this.wtnsGenUrl);
-    // const circuitBin = await loadCircuit(this.circuitUrl);
     const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
 
     const proof = await this.handlers.prove(this.circuit, witness.data, circuitPublicInput);
@@ -97,8 +96,6 @@ export default class SpartanDriver implements CircuitDriver {
   }
 
   async verify(proof: Uint8Array, publicInputSer: Uint8Array): Promise<boolean> {
-    // const circuitBin = await loadCircuit(this.circuit);
-
     const publicInput = PublicInput.deserialize(publicInputSer);
     const isPubInputValid = verifyEffEcdsaPubInput(publicInput);
 

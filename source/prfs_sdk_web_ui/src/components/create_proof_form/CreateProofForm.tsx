@@ -181,17 +181,16 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
     console.log("Proving...");
     setIsRunning(true);
 
-    // const prevTime = performance.now();
-    // const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
-    // const now = performance.now();
-    // const diff = now - prevTime;
+    const prevTime = performance.now();
+    const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
+    const now = performance.now();
+    const diff = now - prevTime;
 
-    // console.log("publicInput %o", publicInput);
+    console.log("publicInput %o", publicInput);
 
-    setTimeout(() => {
-      setIsRunning(false);
-    }, 4000);
-    // console.log("Raw proof size (excluding public input)", proof.length, "bytes");
+    setIsRunning(false);
+    console.log("Proof gen complete, duration: %s", diff);
+    console.log("Raw proof size (excluding public input)", proof.length, "bytes");
 
     // setMsg(`Created a proof in ${diff} ms`);
   }, [proofType, setMsg, driver, setIsRunning]);

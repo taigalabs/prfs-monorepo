@@ -20,15 +20,17 @@ include "./secp256k1_func.circom";
  *  hashing the public key in PubkeyToAddress().
  */
 template AddrMembership2(nLevels, n, k) {
-    signal input m;
-    signal input r;
-
-    signal input s;
-    signal input root;
+    // eff ecdsa
     signal input Tx; 
     signal input Ty; 
     signal input Ux;
     signal input Uy;
+    signal input m;
+    signal input r;
+    signal input s;
+
+    // merkle proof
+    signal input root;
     signal input pathIndices[nLevels];
     signal input siblings[nLevels];
 
