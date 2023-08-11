@@ -6,7 +6,7 @@ import { wasmBytes } from "./build/prfs_wasm_bytes";
 import wasmPackageJson from "./build/package.json";
 
 function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
-  console.log("wasm-worker, wrapExports()");
+  // console.log("wasm-worker, wrapExports()");
 
   return {
     supportsThreads: true,
@@ -75,8 +75,6 @@ async function initHandlers() {
 }
 
 const handlers = initHandlers();
-
-console.log("Wasm method exposed, handlers");
 
 Comlink.expose({
   handlers,
