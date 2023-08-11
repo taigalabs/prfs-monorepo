@@ -20,7 +20,7 @@
         "wtns_gen_url": "",
         "circuit_url": ""
       },
-      "circuit_inputs_meta": [
+      "raw_circuit_inputs_meta": [
         {
           "label": "Tx",
           "desc": "Tx description",

@@ -16,7 +16,7 @@ pub struct PrfsCircuit {
     pub finite_field: String,
 
     #[ts(type = "Record<string, any>[]")]
-    pub circuit_inputs_meta: sqlx::types::Json<Vec<CircuitInputMeta>>,
+    pub raw_circuit_inputs_meta: sqlx::types::Json<Vec<RawCircuitInputMeta>>,
 
     pub driver_id: String,
     pub driver_version: String,
@@ -30,7 +30,7 @@ pub struct PrfsCircuit {
 
 #[derive(Serialize, Deserialize, Debug, Clone, TS)]
 #[ts(export)]
-pub struct CircuitInputMeta {
+pub struct RawCircuitInputMeta {
     pub r#type: String,
     pub label: String,
     pub desc: String,
