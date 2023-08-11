@@ -39,4 +39,43 @@ pub struct CircuitDriver {
 
     #[ts(type = "number")]
     pub created_at: DateTime<Utc>,
+
+    #[ts(type = "Record<string, any>[]")]
+    pub proof_functions: sqlx::types::Json<Vec<ProofFunctionDefinition>>,
 }
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct ProofFunctionDefinition {
+    label: String,
+
+    #[ts(type = "Record<string, any>[]")]
+    inputs: sqlx::types::Json<Vec<ProofFunctionArg>>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct ProofFunctionArg {
+    label: String,
+    r#type: String,
+}
+
+// "proof_functions": [
+//   {
+//     "label": "prove",
+//     "inputs": [
+//       {
+//         "label": "sig",
+//         "type": ""
+//       },
+//       {
+//         "label": "msgHash",
+//         "type": ""
+//       },
+//       {
+//         "label": "merkleProof",
+//         "type": ""
+//       }
+//     ]
+//   }
+// ]

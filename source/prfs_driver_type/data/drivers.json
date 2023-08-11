@@ -10,7 +10,26 @@
         "instance_path": "Relatve path to instance file",
         "wtns_gen_url": "Wtns gen url",
         "circuit_url": "Circuit (compiled) url"
-      }
+      },
+      "proof_functions": [
+        {
+          "label": "prove",
+          "inputs": [
+            {
+              "label": "sig",
+              "type": ""
+            },
+            {
+              "label": "msgHash",
+              "type": ""
+            },
+            {
+              "label": "merkleProof",
+              "type": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

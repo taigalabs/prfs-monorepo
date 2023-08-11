@@ -103,10 +103,10 @@ export default class SpartanDriver implements CircuitDriver {
 
   async verify(args: VerifyArgs): Promise<boolean> {
     const { inputs } = args;
-    const { proof, publicInputSer } = inputs;
+    const { proof, publicInput } = inputs;
 
-    const publicInput = PublicInput.deserialize(publicInputSer);
-    const isPubInputValid = verifyEffEcdsaPubInput(publicInput);
+    // const publicInput = PublicInput.deserialize(publicInputSer);
+    const isPubInputValid = verifyEffEcdsaPubInput(publicInput as PublicInput);
 
     let isProofValid;
     try {

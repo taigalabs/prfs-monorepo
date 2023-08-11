@@ -7,4 +7,5 @@ export interface CircuitDriver {
   author: string;
   properties_meta: Record<string, string>;
   created_at: number;
+  proof_functions: Record<string, any>[];
 }

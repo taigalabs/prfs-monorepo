@@ -28,26 +28,21 @@ pub struct PrfsProofType {
 #[ts(export)]
 pub struct PublicInputInstanceEntry {
     pub label: String,
-    pub r#type: CircuitInputType,
+    pub r#type: String,
     pub desc: String,
     pub value: String,
     pub r#ref: Option<String>,
 }
 
-#[allow(non_camel_case_types)]
-#[derive(Debug, Serialize, Deserialize, Clone, TS, strum_macros::Display)]
-#[ts(export)]
-pub enum CircuitInputType {
-    PROVER_GENERATED,
-    PRFS_SET,
-}
-
 #[derive(Serialize, Deserialize, Debug, Clone, TS)]
 #[ts(export)]
 pub struct CircuitInputMeta {
-    pub r#type: CircuitInputType,
+    pub r#type: String,
     pub label: String,
     pub desc: String,
+
+    #[serde(default = "default_ref")]
+    pub r#ref: String,
 
     #[serde(default = "default_public")]
     pub public: bool,
@@ -56,3 +51,15 @@ pub struct CircuitInputMeta {
 fn default_public() -> bool {
     false
 }
+
+fn default_ref() -> String {
+    String::from("None")
+}
+
+// #[allow(non_camel_case_types)]
+// #[derive(Debug, Serialize, Deserialize, Clone, TS, strum_macros::Display)]
+// #[ts(export)]
+// pub enum CircuitInputType {
+//     PROVER_GENERATED,
+//     PRFS_SET,
+// }

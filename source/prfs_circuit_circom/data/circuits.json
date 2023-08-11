@@ -23,57 +23,58 @@
         {
           "label": "Tx",
           "desc": "Tx description",
-          "type": "PROVER_GENERATED",
+          "type": "FIELD_ELEMENT",
           "public": true
         },
         {
           "label": "Ty",
           "desc": "Ty description",
-          "type": "PROVER_GENERATED",
+          "type": "FIELD_ELEMENT",
           "public": true
         },
         {
           "label": "Ux",
           "desc": "Ux description",
-          "type": "PROVER_GENERATED",
+          "type": "FIELD_ELEMENT",
           "public": true
         },
         {
           "label": "Uy",
           "desc": "Uy description",
-          "type": "PROVER_GENERATED",
+          "type": "FIELD_ELEMENT",
           "public": true
         },
         {
           "label": "Merkle root",
           "desc": "Vector commitment (Merkle root) of a set",
-          "type": "PRFS_SET",
+          "type": "FIELD_ELEMENT",
+          "ref": "PRFS_SET",
           "public": true
         },
         {
           "label": "m",
           "desc": "Message",
-          "type": "PROVER_GENERATED"
+          "type": "FIELD_ELEMENT"
         },
         {
           "label": "r",
           "desc": "R value of a signature",
-          "type": "PROVER_GENERATED"
+          "type": "FIELD_ELEMENT"
         },
         {
           "label": "s",
           "desc": "S value of a siganture",
-          "type": "PROVER_GENERATED"
+          "type": "FIELD_ELEMENT"
         },
         {
           "label": "pathIndices",
           "desc": "Merkle path indices",
-          "type": "PROVER_GENERATED"
+          "type": "FIELD_ELEMENT_VECTOR"
         },
         {
           "label": "siblings",
           "desc": "Siblings of a leaf in a Merkle path towards the root",
-          "type": "PRFS_SET"
+          "type": "FIELD_ELEMENT_VECTOR"
         }
       ]
     }

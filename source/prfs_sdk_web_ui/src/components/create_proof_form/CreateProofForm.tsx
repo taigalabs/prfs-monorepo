@@ -202,6 +202,8 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
     console.log("Proof gen complete, duration: %s", diff);
     console.log("Raw proof size (excluding public input)", proof.length, "bytes");
 
+    await driver.verify();
+
     // setMsg(`Created a proof in ${diff} ms`);
   }, [proofType, setMsg, driver, setIsTimerRunning]);
 

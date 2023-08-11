@@ -21,39 +21,32 @@ const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
   let vals: Record<string, any> = {};
   let setVals: Record<string, any> = {};
   publicInputsMeta.forEach((pi, idx) => {
-    switch (pi.type) {
-      case "PROVER_GENERATED":
-        break;
-      case "PRFS_SET":
-        const [selectedSet, setSelectedSet] = React.useState<
-          DropdownSingleSelectedValue<PrfsSet> | undefined
-        >();
+    if (pi.ref === "PRFS_SET") {
+      const [selectedSet, setSelectedSet] = React.useState<
+        DropdownSingleSelectedValue<PrfsSet> | undefined
+      >();
 
-        const handleSelectSet = React.useCallback(
-          (val: PrfsSet) => {
-            // console.log(13, val);
-            setSelectedSet(val);
-            setPublicInputInstance((oldVal: Record<number, PublicInputInstanceEntry>) => {
-              const newVal = { ...oldVal };
-              newVal[idx] = {
-                label: pi.label,
-                type: pi.type,
-                desc: pi.desc,
-                value: val.merkle_root,
-                ref: val.set_id,
-              };
-              return newVal;
-            });
-          },
-          [setSelectedSet, setPublicInputInstance]
-        );
+      const handleSelectSet = React.useCallback(
+        (val: PrfsSet) => {
+          // console.log(13, val);
+          setSelectedSet(val);
+          setPublicInputInstance((oldVal: Record<number, PublicInputInstanceEntry>) => {
+            const newVal = { ...oldVal };
+            newVal[idx] = {
+              label: pi.label,
+              type: pi.type,
+              desc: pi.desc,
+              value: val.merkle_root,
+              ref: val.set_id,
+            };
+            return newVal;
+          });
+        },
+        [setSelectedSet, setPublicInputInstance]
+      );
 
-        vals[idx] = selectedSet;
-        setVals[idx] = handleSelectSet;
-
-        break;
-      default:
-        throw new Error(`Invalid public input kind, ${pi.type}`);
+      vals[idx] = selectedSet;
+      setVals[idx] = handleSelectSet;
     }
   });
 
@@ -62,10 +55,7 @@ const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
 
     for (const [idx, [_, pi]] of Object.entries(publicInputsMeta).entries()) {
       let inputValue: React.ReactElement;
-      switch (pi.type) {
-        case "PROVER_GENERATED":
-          inputValue = <div className={styles.computedInput}>PROVER_GENERATED</div>;
-          break;
+      switch (pi.ref) {
         case "PRFS_SET":
           inputValue = (
             <div>
@@ -75,7 +65,7 @@ const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
           );
           break;
         default:
-          throw new Error("Invalid public input kind");
+          inputValue = <div className={styles.computedInput}>{pi.type}</div>;
       }
 
       elems.push(
