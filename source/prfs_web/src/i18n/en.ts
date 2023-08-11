@@ -72,6 +72,7 @@ export default {
   proof_types: "Proof types",
   public_input_instance: "Public input instance",
   driver_properties: "Driver properties",
+  driver_inputs_meta: "Driver inputs meta",
   driver_properties_meta: "Driver properties meta",
   proof_functions: "Proof functions",
   circuit_types: "Circuit types",

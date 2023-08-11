@@ -4,8 +4,8 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as prfsApi from "@taigalabs/prfs-api-js";
-import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
+import { CircuitType } from "@taigalabs/prfs-entities/bindings/CircuitType";
 
 import styles from "./CircuitType.module.scss";
 import { stateContext } from "@/contexts/state";
@@ -19,75 +19,66 @@ import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb"
 import CircuitSummary from "@/components/circuit_summary/CircuitSummary";
 import DriverPropInstanceTable from "@/components/driver_prop_instance_table/DriverPropInstanceTable";
 import CircuitInputTable from "@/components/circuit_input_table/CircuitInputTable";
+import CircuitTypeSummary from "@/components/circuit_type_summary/CircuitTypeSummary";
+import DriverInputsMetaTable from "@/components/driver_inputs_meta_table/DriverInputsMetaTable";
+import { DriverInputMeta } from "@taigalabs/prfs-entities/bindings/DriverInputMeta";
 
-const Circuit: React.FC<CircuitProps> = ({ params }) => {
+const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
   const { dispatch } = React.useContext(stateContext);
 
   useLocalWallet(dispatch);
   const router = useRouter();
 
-  const [circuit, setCircuit] = React.useState<PrfsCircuit>();
+  const [circuitType, setCircuitType] = React.useState<CircuitType>();
 
   React.useEffect(() => {
     prfsApi
-      .getPrfsNativeCircuits({
+      .getPrfsNativeCircuitTypes({
         page: 0,
-        circuit_id: params.circuit_id,
+        circuit_type_id: params.circuit_type_id,
       })
       .then(resp => {
-        const { prfs_circuits } = resp.payload;
+        const { prfs_circuit_types } = resp.payload;
 
-        if (prfs_circuits.length > 0) {
-          setCircuit(prfs_circuits[0]);
+        if (prfs_circuit_types.length > 0) {
+          setCircuitType(prfs_circuit_types[0]);
         } else {
           router.push("/circuits");
         }
       });
-  }, [setCircuit]);
+  }, [setCircuitType]);
 
   return (
     <DefaultLayout>
       <Breadcrumb>
         <BreadcrumbEntry>
-          <Link href="/circuits">{i18n.circuits}</Link>
+          <Link href="/circuit_types">{i18n.circuit_types}</Link>
         </BreadcrumbEntry>
-        <BreadcrumbEntry>{params.circuit_id}</BreadcrumbEntry>
+        <BreadcrumbEntry>{params.circuit_type_id}</BreadcrumbEntry>
       </Breadcrumb>
       <div className={styles.contentArea}>
         <CardRow>
           <Card>
             <Widget>
               <WidgetHeader>
-                <WidgetLabel>{`${i18n.circuit} - ${params.circuit_id}`}</WidgetLabel>
+                <WidgetLabel>{`${i18n.circuit_type} - ${params.circuit_type_id}`}</WidgetLabel>
               </WidgetHeader>
-              <CircuitSummary circuit={circuit} />
+              <CircuitTypeSummary circuitType={circuitType} />
             </Widget>
           </Card>
         </CardRow>
-        {circuit && (
+        {circuitType && (
           <CardRow>
             <Card>
               <Widget>
                 <WidgetHeader>
                   <WidgetLabel>
-                    {i18n.driver_properties} ({circuit.driver_id})
+                    {i18n.driver_inputs_meta} ({circuitType.circuit_type})
                   </WidgetLabel>
                 </WidgetHeader>
-                <DriverPropInstanceTable driver_properties={circuit.driver_properties} />
-              </Widget>
-            </Card>
-          </CardRow>
-        )}
-        {circuit && (
-          <CardRow>
-            <Card>
-              <Widget>
-                <WidgetHeader>
-                  <WidgetLabel>{i18n.circuit_inputs}</WidgetLabel>
-                </WidgetHeader>
-                <CircuitInputTable
-                  circuit_inputs_meta={circuit.circuit_inputs_meta as CircuitInputMeta[]}
+                <DriverInputsMetaTable
+                  driver_inputs_meta={circuitType.driver_inputs_meta as DriverInputMeta[]}
                 />
               </Widget>
             </Card>
@@ -98,10 +89,10 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
   );
 };
 
-export default Circuit;
+export default CircuitType;
 
-interface CircuitProps {
+interface CircuitTypeProps {
   params: {
-    circuit_id: string;
+    circuit_type_id: string;
   };
 }
