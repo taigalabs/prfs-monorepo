@@ -1,13 +1,11 @@
 import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 import { MerkleProof } from "@taigalabs/async-incremental-merkle-tree";
-import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-type/bindings/SpartanCircomDriverProperties";
+import { BN } from "bn.js";
 
 import { Tree } from "./helpers/tree";
 import { makePoseidon } from "./helpers/poseidon";
-import { MembershipProofGen } from "./proof_gen/membership_proof_gen";
 import { PrfsHandlers, AsyncHashFn, NIZK, BuildStatus } from "./types";
-import { initWasm } from "./wasm_wrapper/load_worker";
-import { fromSig, loadCircuit, snarkJsWitnessGen } from "./helpers/utils";
+import { fromSig, snarkJsWitnessGen } from "./helpers/utils";
 import {
   CircuitPubInput,
   PublicInput,
@@ -15,7 +13,6 @@ import {
   computeEffEcdsaPubInput2,
   verifyEffEcdsaPubInput,
 } from "./helpers/public_input";
-import { BN } from "bn.js";
 
 export default class SpartanDriver implements CircuitDriver {
   handlers: PrfsHandlers;
@@ -23,7 +20,6 @@ export default class SpartanDriver implements CircuitDriver {
   circuit: Uint8Array;
 
   constructor(args: SpartanDriverCtorArgs) {
-    // console.log("SpartanDriver, args: %o", args);
     this.handlers = args.handlers;
 
     if (args.circuit === undefined) {
@@ -55,12 +51,10 @@ export default class SpartanDriver implements CircuitDriver {
   }
 
   async prove(sig: string, msgHash: Buffer, merkleProof: MerkleProof): Promise<NIZK> {
-    console.log("\nMembershipProver2.prove()");
+    // console.log("\nMembershipProver2.prove()");
 
     const { r, s, v } = fromSig(sig);
-    const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash, s);
-
-    // console.log("effEcdsaPubInput: {}", effEcdsaPubInput);
+    const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash);
 
     const circuitPubInput = new CircuitPubInput(
       merkleProof.root,
@@ -71,7 +65,6 @@ export default class SpartanDriver implements CircuitDriver {
     );
 
     const publicInput = new PublicInput(r, v, msgHash, circuitPubInput);
-    console.log("publicInput: %o", publicInput);
     const m = new BN(msgHash).mod(SECP256K1_P);
 
     const witnessGenInput = {
@@ -79,9 +72,20 @@ export default class SpartanDriver implements CircuitDriver {
       s,
       m: BigInt(m.toString()),
 
-      ...merkleProof,
-      ...effEcdsaPubInput,
+      // merkle root
+      root: merkleProof.root,
+      leaf: merkleProof.leaf,
+      leafIndex: merkleProof.leafIndex,
+      siblings: merkleProof.siblings,
+      pathIndices: merkleProof.pathIndices,
+
+      // Eff ECDSA PubInput
+      Tx: effEcdsaPubInput.Tx,
+      Ty: effEcdsaPubInput.Ty,
+      Ux: effEcdsaPubInput.Ux,
+      Uy: effEcdsaPubInput.Uy,
     };
+
     console.log("witnessGenInput: %o", witnessGenInput);
 
     const witness = await snarkJsWitnessGen(witnessGenInput, this.wtnsGenUrl);
