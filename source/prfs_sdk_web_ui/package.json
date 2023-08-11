@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "create-envs": "ts-node createEnvs.ts",
     "dev": "next dev -p 3010",
     "build": "next build",
     "start": "next start -p 3010",
@@ -22,7 +23,7 @@
     "elliptic": "^6.5.4",
     "ethers": "^5",
     "ffjavascript": "^0.2.59",
-    "next": "13.4.12",
+    "next": "13.4.13",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "readline": "^1.3.0",
