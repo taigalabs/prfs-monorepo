@@ -70,6 +70,7 @@ export default {
   proof_types: "Proof types",
   public_input_instance: "Public input instance",
   driver_properties: "Driver properties",
+  proof_functions: "Proof functions",
   computed: "Computed",
   choose_circuit: "Choose a circuit",
   choose_proof_type: "Choose a proof type",

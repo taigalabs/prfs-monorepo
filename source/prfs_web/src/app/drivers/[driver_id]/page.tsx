@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { CircuitDriver } from "@taigalabs/prfs-entities/bindings/CircuitDriver";
+import { useRouter } from "next/navigation";
 
 import styles from "./Program.module.scss";
 import { stateContext } from "@/contexts/state";
@@ -14,18 +15,18 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
-import { useRouter } from "next/navigation";
 import DriverSummary from "@/components/driver_summary/DriverSummary";
-import DriverPropsTable from "@/components/driver_props_table/DriverPropsTable";
+import DriverPropsMetaTable from "@/components/driver_props_meta_table/DriverPropsMetaTable";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
   const { dispatch } = React.useContext(stateContext);
-
-  useLocalWallet(dispatch);
   const router = useRouter();
 
+  useLocalWallet(dispatch);
+
   const [driver, setDriver] = React.useState<CircuitDriver>();
+
   React.useEffect(() => {
     prfsApi
       .getPrfsNativeCircuitDrivers({
@@ -70,7 +71,17 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
               <WidgetHeader>
                 <WidgetLabel>{i18n.driver_properties}</WidgetLabel>
               </WidgetHeader>
-              <DriverPropsTable driver={driver} />
+              <DriverPropsMetaTable driver={driver} />
+            </Widget>
+          </Card>
+        </CardRow>
+        <CardRow>
+          <Card>
+            <Widget>
+              <WidgetHeader>
+                <WidgetLabel>{i18n.proof_functions}</WidgetLabel>
+              </WidgetHeader>
+              {/* <DriverPropsTable driver={driver} /> */}
             </Widget>
           </Card>
         </CardRow>

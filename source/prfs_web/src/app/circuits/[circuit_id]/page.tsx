@@ -27,6 +27,7 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
   const router = useRouter();
 
   const [circuit, setCircuit] = React.useState<PrfsCircuit>();
+
   React.useEffect(() => {
     prfsApi
       .getPrfsNativeCircuits({
