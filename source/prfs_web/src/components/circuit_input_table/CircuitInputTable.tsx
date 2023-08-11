@@ -4,25 +4,16 @@ import React from "react";
 import Link from "next/link";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 
-import styles from "./PublicInputTable.module.scss";
+import styles from "./CircuitInputTable.module.scss";
 import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 
-const PublicInputTable: React.FC<PublicInputTableProps> = ({ circuit_public_inputs_meta }) => {
+const CircuitInputTable: React.FC<CircuitInputTableProps> = ({ circuit_public_inputs_meta }) => {
   const i18n = React.useContext(i18nContext);
-  const [data, setData] = React.useState<TableData<CircuitInputMeta>>({
+  const [data, _] = React.useState<TableData<CircuitInputMeta>>({
     page: 0,
-    values: [],
+    values: circuit_public_inputs_meta,
   });
-
-  React.useEffect(() => {
-    if (circuit_public_inputs_meta) {
-      setData({
-        page: 0,
-        values: circuit_public_inputs_meta,
-      });
-    }
-  }, [circuit_public_inputs_meta]);
 
   const rowsElem = React.useMemo(() => {
     let { values } = data;
@@ -61,8 +52,8 @@ const PublicInputTable: React.FC<PublicInputTableProps> = ({ circuit_public_inpu
   );
 };
 
-export default PublicInputTable;
+export default CircuitInputTable;
 
-export interface PublicInputTableProps {
+export interface CircuitInputTableProps {
   circuit_public_inputs_meta: CircuitInputMeta[];
 }

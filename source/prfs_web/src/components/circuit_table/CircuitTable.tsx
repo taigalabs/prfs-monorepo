@@ -45,8 +45,6 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
       return rows;
     }
 
-    console.log(55, values);
-
     for (let val of values) {
       const onClickRow = handleSelectVal
         ? (_ev: React.MouseEvent) => {

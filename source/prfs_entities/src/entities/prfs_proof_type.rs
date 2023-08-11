@@ -55,11 +55,3 @@ fn default_public() -> bool {
 fn default_ref() -> String {
     String::from("None")
 }
-
-// #[allow(non_camel_case_types)]
-// #[derive(Debug, Serialize, Deserialize, Clone, TS, strum_macros::Display)]
-// #[ts(export)]
-// pub enum CircuitInputType {
-//     PROVER_GENERATED,
-//     PRFS_SET,
-// }

@@ -1,5 +1,6 @@
 import React from "react";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
+import Link from "next/link";
 
 import styles from "./CircuitSummary.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -32,6 +33,10 @@ const CircuitSummary: React.FC<CircuitSummaryProps> = ({ circuit }) => {
             <ColumnarSummaryCellHeader>{i18n.elliptic_curve}</ColumnarSummaryCellHeader>
             <div>{circuit.elliptic_curve}</div>
           </ColumnarSummaryCell>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.finite_field}</ColumnarSummaryCellHeader>
+            <div>{circuit.finite_field}</div>
+          </ColumnarSummaryCell>
         </ColumnarSummaryColumn>
 
         <ColumnarSummaryColumn>
@@ -48,8 +53,14 @@ const CircuitSummary: React.FC<CircuitSummaryProps> = ({ circuit }) => {
             <div>{circuit.desc}</div>
           </ColumnarSummaryCell>
           <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.finite_field}</ColumnarSummaryCellHeader>
-            <div>{circuit.finite_field}</div>
+            <ColumnarSummaryCellHeader>{i18n.driver_id}</ColumnarSummaryCellHeader>
+            <div>
+              <Link href={`/drivers/${circuit.driver_id}`}>{circuit.driver_id}</Link>
+            </div>
+          </ColumnarSummaryCell>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.driver_version}</ColumnarSummaryCellHeader>
+            <div>{circuit.driver_version}</div>
           </ColumnarSummaryCell>
         </ColumnarSummaryColumn>
 

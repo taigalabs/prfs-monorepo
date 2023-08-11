@@ -16,8 +16,8 @@ import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import CircuitSummary from "@/components/circuit_summary/CircuitSummary";
-import DriverInstanceSummary from "@/components/driver_instance_summary/DriverInstanceSummary";
-import PublicInputTable from "@/components/public_input_table/PublicInputTable";
+import DriverPropertyTable from "@/components/driver_property_table/DriverPropertyTable";
+import CircuitInputTable from "@/components/circuit_input_table/CircuitInputTable";
 
 const Circuit: React.FC<CircuitProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -63,28 +63,32 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
             </Widget>
           </Card>
         </CardRow>
-        <CardRow>
-          <Card>
-            <Widget>
-              <WidgetHeader>
-                <WidgetLabel>{i18n.driver}</WidgetLabel>
-              </WidgetHeader>
-              <DriverInstanceSummary circuit={circuit} />
-            </Widget>
-          </Card>
-        </CardRow>
-        <CardRow>
-          <Card>
-            <Widget>
-              <WidgetHeader>
-                <WidgetLabel>{i18n.public_inputs}</WidgetLabel>
-              </WidgetHeader>
-              {circuit && (
-                <PublicInputTable circuit_public_inputs_meta={circuit.circuit_inputs_meta} />
-              )}
-            </Widget>
-          </Card>
-        </CardRow>
+        {circuit && (
+          <CardRow>
+            <Card>
+              <Widget>
+                <WidgetHeader>
+                  <WidgetLabel>
+                    {i18n.driver_properties} ({circuit.driver_id})
+                  </WidgetLabel>
+                </WidgetHeader>
+                <DriverPropertyTable driver_properties={circuit.driver_properties} />
+              </Widget>
+            </Card>
+          </CardRow>
+        )}
+        {circuit && (
+          <CardRow>
+            <Card>
+              <Widget>
+                <WidgetHeader>
+                  <WidgetLabel>{i18n.circuit_inputs}</WidgetLabel>
+                </WidgetHeader>
+                <CircuitInputTable circuit_public_inputs_meta={circuit.circuit_inputs_meta} />
+              </Widget>
+            </Card>
+          </CardRow>
+        )}
       </div>
     </DefaultLayout>
   );

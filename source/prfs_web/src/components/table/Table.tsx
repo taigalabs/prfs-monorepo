@@ -60,6 +60,10 @@ export type TableData<T> = {
   values: T[];
 };
 
+export type TableRecordData<R> = {
+  record: R;
+};
+
 export interface TableHeaderProps {
   children: React.ReactNode;
 }
