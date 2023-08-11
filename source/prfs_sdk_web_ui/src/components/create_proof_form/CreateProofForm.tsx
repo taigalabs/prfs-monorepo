@@ -15,6 +15,7 @@ import i18n from "@/i18n/en";
 import Button from "@/components/button/Button";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
 import { i18nContext } from "@/contexts/i18n";
+import { useInterval } from "@/functions/interval";
 
 const ASSET_SERVER_ENDPOINT = process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
@@ -23,24 +24,33 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
 
   const [systemMsg, setSystemMsg] = React.useState("");
   const [msg, setMsg] = React.useState("");
-  const [time, setTime] = React.useState(0);
-  const [running, setRunning] = React.useState(false);
+  const [proveTime, setProveTime] = React.useState<number>(0);
   const [driver, setDriver] = React.useState<CircuitDriver>();
+  const [isRunning, setIsRunning] = React.useState(false);
 
   React.useEffect(() => {
     async function fn() {
       setSystemMsg("Loading driver...");
+
       const { driver_id, driver_properties } = proofType;
       const driverProperties = interpolateSystemAssetEndpoint(
         driver_properties,
         ASSET_SERVER_ENDPOINT
       );
       const driver = await initDriver(driver_id, driverProperties);
+
       setSystemMsg(`${i18n.driver}: ${driver_id}`);
       setDriver(driver);
     }
     fn().then();
   }, [proofType, setSystemMsg, setDriver]);
+
+  useInterval(
+    () => {
+      setProveTime(prev => prev + 1);
+    },
+    isRunning ? 1000 : null
+  );
 
   const publicInputElem = React.useMemo(() => {
     const obj: Record<any, PublicInputInstanceEntry> = proofType.public_input_instance;
@@ -77,6 +87,10 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
   }, [proofType]);
 
   const handleClickCreateProof = React.useCallback(async () => {
+    if (!driver) {
+      return;
+    }
+
     if (proofType === undefined) {
       return;
     }
@@ -164,21 +178,23 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
 
     console.log(55, driver);
 
+    console.log("Proving...");
+    setIsRunning(true);
+
     // const prevTime = performance.now();
+    // const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
     // const now = performance.now();
     // const diff = now - prevTime;
 
-    // const driver = await initDriver(driver_id, driverProperties);
+    // console.log("publicInput %o", publicInput);
 
-    // console.log("Proving...");
-    // console.time("Full proving time");
-    // const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
-
-    // console.timeEnd("Full proving time");
+    setTimeout(() => {
+      setIsRunning(false);
+    }, 4000);
     // console.log("Raw proof size (excluding public input)", proof.length, "bytes");
 
     // setMsg(`Created a proof in ${diff} ms`);
-  }, [proofType, setMsg, driver]);
+  }, [proofType, setMsg, driver, setIsRunning]);
 
   return (
     proofType && (
@@ -195,6 +211,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
           <Button variant="b" handleClick={handleClickCreateProof} disabled={!driver}>
             {i18n.create_proof}
           </Button>
+          <div>{proveTime}</div>
           <div>{msg}</div>
           <div className={styles.systemMsg}>{systemMsg}</div>
         </div>

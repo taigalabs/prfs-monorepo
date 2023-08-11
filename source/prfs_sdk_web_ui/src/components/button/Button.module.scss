@@ -17,7 +17,16 @@
   font-weight: 700;
   padding: 8px 12px;
 
-  &:hover {
+  &:disabled {
+    background-color: var(--bright-green-55);
+    color: var(--gray-41);
+  }
+
+  &:disabled:hover {
+    cursor: not-allowed;
+  }
+
+  &:hover:not([disabled]) {
     background-color: var(--bright-green-30);
     cursor: pointer;
   }
