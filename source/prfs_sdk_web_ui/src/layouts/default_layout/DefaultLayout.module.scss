@@ -1,9 +1,7 @@
 .wrapper {
   width: 480px;
   height: 320px;
-  overflow-x: scroll;
   position: relative;
-  /* padding: 10px 14px; */
   border: 1px solid var(--gray-60);
   border-radius: 5px;
 }
@@ -12,6 +10,6 @@
   font-size: 0.89em;
   color: var(--gray-40);
   position: absolute;
-  bottom: 3px;
+  bottom: 2px;
   right: 5px;
 }

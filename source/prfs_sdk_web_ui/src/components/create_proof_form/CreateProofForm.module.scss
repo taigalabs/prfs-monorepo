@@ -1,9 +1,13 @@
 .wrapper {
+  display: flex;
+  flex-direction: column;
   position: relative;
   width: 100%;
   heigth: 100%;
   word-wrap: break-word;
-  padding: 10px 14px;
+  padding: 13px 14px 24px;
+  min-height: 100%;
+  border: 1px solid blue;
 }
 
 .privateInputs {
@@ -53,5 +57,21 @@
 }
 
 .btnRow {
-  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+  margin-bottom: 0;
+
+  button {
+    width: 220px;
+    height: 42px;
+  }
+}
+
+.systemMsg {
+  position: absolute;
+  left: 5px;
+  bottom: 2px;
+  font-size: 0.89em;
+  color: var(--gray-40);
 }

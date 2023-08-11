@@ -14,10 +14,13 @@ import styles from "./CreateProofForm.module.scss";
 import i18n from "@/i18n/en";
 import Button from "@/components/button/Button";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
+import { i18nContext } from "@/contexts/i18n";
 
 const ASSET_SERVER_ENDPOINT = process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
 const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
+  const i18n = React.useContext(i18nContext);
+
   const [systemMsg, setSystemMsg] = React.useState("");
   const [msg, setMsg] = React.useState("");
   const [time, setTime] = React.useState(0);
@@ -33,7 +36,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
         ASSET_SERVER_ENDPOINT
       );
       const driver = await initDriver(driver_id, driverProperties);
-      setSystemMsg("System is ready");
+      setSystemMsg(`${i18n.driver}: ${driver_id}`);
       setDriver(driver);
     }
     fn().then();
@@ -193,7 +196,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
             {i18n.create_proof}
           </Button>
           <div>{msg}</div>
-          <div>{systemMsg}</div>
+          <div className={styles.systemMsg}>{systemMsg}</div>
         </div>
       </div>
     )

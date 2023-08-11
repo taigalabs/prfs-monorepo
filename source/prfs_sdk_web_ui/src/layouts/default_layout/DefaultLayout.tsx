@@ -10,7 +10,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
 
   return (
     <div className={styles.wrapper}>
-      <div>{children}</div>
+      {children}
       <div className={styles.powered}>
         {i18n.prfs_web_sdk} {process.env.NEXT_PUBLIC_VERSION}
       </div>
