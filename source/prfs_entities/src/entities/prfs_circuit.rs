@@ -41,10 +41,3 @@ pub struct CircuitDriver {
     #[ts(type = "number")]
     pub created_at: DateTime<Utc>,
 }
-
-// #[derive(Debug, Serialize, Deserialize, Clone, TS)]
-// #[ts(export)]
-// pub struct CircuitDriverInstance {
-//     #[ts(type = "Record<string, any>")]
-//     pub properties: sqlx::types::Json<serde_json::Value>,
-// }
