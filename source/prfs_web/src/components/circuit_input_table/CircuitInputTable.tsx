@@ -24,11 +24,14 @@ const CircuitInputTable: React.FC<CircuitInputTableProps> = ({ circuit_public_in
     }
 
     for (let val of values) {
+      console.log(11, val);
       let row = (
         <TableRow key={val.label}>
-          <td className={styles.type}>{val.type}</td>
           <td className={styles.label}>{val.label}</td>
+          <td className={styles.type}>{val.type}</td>
+          <td className={styles.public}>{val.public.toString()}</td>
           <td className={styles.desc}>{val.desc}</td>
+          <td className={styles.desc}>{val.ref}</td>
         </TableRow>
       );
 
@@ -42,9 +45,11 @@ const CircuitInputTable: React.FC<CircuitInputTableProps> = ({ circuit_public_in
     <Table minWidth={910}>
       <TableHeader>
         <TableRow>
-          <th className={styles.type}>{i18n.type}</th>
           <th className={styles.label}>{i18n.label}</th>
+          <th className={styles.type}>{i18n.type}</th>
+          <th className={styles.public}>{i18n.public}</th>
           <th className={styles.desc}>{i18n.description}</th>
+          <th className={styles.ref}>{i18n.references}</th>
         </TableRow>
       </TableHeader>
       <TableBody>{rowsElem}</TableBody>

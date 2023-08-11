@@ -17,6 +17,8 @@ import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import DriverSummary from "@/components/driver_summary/DriverSummary";
 import DriverPropsMetaTable from "@/components/driver_props_meta_table/DriverPropsMetaTable";
+import ProofFunctionMultiTable from "@/components/proof_function_multi_table/ProofFunctionMultiTable";
+import { ProofFunctionDefinition } from "@taigalabs/prfs-entities/bindings/ProofFunctionDefinition";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -81,7 +83,9 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
               <WidgetHeader>
                 <WidgetLabel>{i18n.proof_functions}</WidgetLabel>
               </WidgetHeader>
-              {/* <DriverPropsTable driver={driver} /> */}
+              <ProofFunctionMultiTable
+                proof_functions={driver?.proof_functions as ProofFunctionDefinition[]}
+              />
             </Widget>
           </Card>
         </CardRow>

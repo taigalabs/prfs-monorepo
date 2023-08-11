@@ -22,8 +22,6 @@ const DriverPropsMetaTable: React.FC<DriverPropsMetaTableProps> = ({ driver, han
   const rowsElem = React.useMemo(() => {
     let { record } = data;
 
-    console.log(11, record, driver);
-
     let rows: React.ReactNode[] = [];
     if (record === undefined || Object.keys(record).length < 1) {
       return rows;
