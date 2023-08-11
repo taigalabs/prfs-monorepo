@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
+import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 
 import styles from "./Circuit.module.scss";
 import { stateContext } from "@/contexts/state";
@@ -85,7 +86,9 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
                 <WidgetHeader>
                   <WidgetLabel>{i18n.circuit_inputs}</WidgetLabel>
                 </WidgetHeader>
-                <CircuitInputTable circuit_public_inputs_meta={circuit.circuit_inputs_meta} />
+                <CircuitInputTable
+                  circuit_inputs_meta={circuit.circuit_inputs_meta as CircuitInputMeta[]}
+                />
               </Widget>
             </Card>
           </CardRow>

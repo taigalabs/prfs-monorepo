@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
-import { ProofFunctionDefinition } from "@taigalabs/prfs-entities/bindings/ProofFunctionDefinition";
+import { ProveInputMeta } from "@taigalabs/prfs-entities/bindings/ProveInputMeta";
 
 import styles from "./CircuitTable.module.scss";
 import Table, {
@@ -15,7 +15,7 @@ import Table, {
 import { i18nContext } from "@/contexts/i18n";
 
 const ProofFunctionMultiTable: React.FC<ProofFunctionMultiTableProps> = ({
-  proof_functions,
+  prove_inputs_meta,
   selectType,
   selectedVal,
   handleSelectVal,
@@ -29,22 +29,22 @@ const ProofFunctionMultiTable: React.FC<ProofFunctionMultiTableProps> = ({
   //   setData({ record: proof_functions });
   // }, [setData, proof_functions]);
 
-  console.log(11, proof_functions);
+  console.log(11, prove_inputs_meta);
 
   const tablesElem = React.useMemo(() => {
     const elems: React.ReactNode[] = [];
 
-    if (proof_functions === undefined) {
-      return elems;
-    }
+    // if (proof_functions === undefined) {
+    //   return elems;
+    // }
 
-    proof_functions.map(proof_function => {
-      let elem = <div key={proof_function.label}>{proof_function.label}</div>;
-      elems.push(elem);
-    });
+    // proof_functions.map(proof_function => {
+    //   let elem = <div key={proof_function.label}>{proof_function.label}</div>;
+    //   elems.push(elem);
+    // });
 
     return elems;
-  }, [proof_functions]);
+  }, [prove_inputs_meta]);
 
   return <div>{tablesElem}</div>;
 
@@ -68,7 +68,7 @@ const ProofFunctionMultiTable: React.FC<ProofFunctionMultiTableProps> = ({
 export default ProofFunctionMultiTable;
 
 export interface ProofFunctionMultiTableProps {
-  proof_functions: ProofFunctionDefinition[];
+  prove_inputs_meta: ProveInputMeta[] | undefined;
   selectType?: "checkbox" | "radio";
   selectedVal?: PrfsCircuit;
   handleSelectVal?: (row: PrfsCircuit) => void;

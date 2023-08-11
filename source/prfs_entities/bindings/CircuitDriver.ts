@@ -8,5 +8,5 @@ export interface CircuitDriver {
   desc: string;
   properties_meta: Record<string, string>;
   created_at: number;
-  proof_functions: Record<string, any>[];
+  prove_inputs_meta: Record<string, any>[];
 }

@@ -14,7 +14,10 @@ pub struct PrfsCircuit {
     pub proof_algorithm: String,
     pub elliptic_curve: String,
     pub finite_field: String,
-    pub circuit_inputs_meta: Vec<CircuitInputMeta>,
+
+    #[ts(type = "Record<string, any>[]")]
+    pub circuit_inputs_meta: sqlx::types::Json<Vec<CircuitInputMeta>>,
+
     pub driver_id: String,
     pub driver_version: String,
 
@@ -23,6 +26,20 @@ pub struct PrfsCircuit {
 
     #[ts(type = "string")]
     pub created_at: DateTime<Utc>,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, TS)]
+#[ts(export)]
+pub struct CircuitInputMeta {
+    pub r#type: String,
+    pub label: String,
+    pub desc: String,
+
+    #[serde(default = "default_ref")]
+    pub r#ref: String,
+
+    #[serde(default = "default_public")]
+    pub public: bool,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
@@ -41,41 +58,27 @@ pub struct CircuitDriver {
     pub created_at: DateTime<Utc>,
 
     #[ts(type = "Record<string, any>[]")]
-    pub proof_functions: sqlx::types::Json<Vec<ProofFunctionDefinition>>,
+    pub prove_inputs_meta: sqlx::types::Json<Vec<ProveInputMeta>>,
 }
+
+// #[derive(Debug, Serialize, Deserialize, Clone, TS)]
+// #[ts(export)]
+// pub struct ProofFunctionDefinition {
+//     label: String,
+
+//     #[ts(type = "Record<string, any>[]")]
+//     inputs: sqlx::types::Json<Vec<ProofFunctionInputMeta>>,
+// }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
-pub struct ProofFunctionDefinition {
-    label: String,
-
-    #[ts(type = "Record<string, any>[]")]
-    inputs: sqlx::types::Json<Vec<ProofFunctionInputMeta>>,
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone, TS)]
-#[ts(export)]
-pub struct ProofFunctionInputMeta {
+pub struct ProveInputMeta {
     pub r#type: String,
     pub label: String,
     pub desc: String,
 
     #[serde(default = "default_ref")]
     pub r#ref: String,
-}
-
-#[derive(Serialize, Deserialize, Debug, Clone, TS)]
-#[ts(export)]
-pub struct CircuitInputMeta {
-    pub r#type: String,
-    pub label: String,
-    pub desc: String,
-
-    #[serde(default = "default_ref")]
-    pub r#ref: String,
-
-    #[serde(default = "default_public")]
-    pub public: bool,
 }
 
 fn default_public() -> bool {

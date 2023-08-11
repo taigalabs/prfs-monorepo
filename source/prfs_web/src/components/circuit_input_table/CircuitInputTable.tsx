@@ -8,11 +8,11 @@ import styles from "./CircuitInputTable.module.scss";
 import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 
-const CircuitInputTable: React.FC<CircuitInputTableProps> = ({ circuit_public_inputs_meta }) => {
+const CircuitInputTable: React.FC<CircuitInputTableProps> = ({ circuit_inputs_meta }) => {
   const i18n = React.useContext(i18nContext);
   const [data, _] = React.useState<TableData<CircuitInputMeta>>({
     page: 0,
-    values: circuit_public_inputs_meta,
+    values: circuit_inputs_meta,
   });
 
   const rowsElem = React.useMemo(() => {
@@ -60,5 +60,5 @@ const CircuitInputTable: React.FC<CircuitInputTableProps> = ({ circuit_public_in
 export default CircuitInputTable;
 
 export interface CircuitInputTableProps {
-  circuit_public_inputs_meta: CircuitInputMeta[];
+  circuit_inputs_meta: CircuitInputMeta[];
 }

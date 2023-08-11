@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { CircuitDriver } from "@taigalabs/prfs-entities/bindings/CircuitDriver";
+import { ProveInputMeta } from "@taigalabs/prfs-entities/bindings/ProveInputMeta";
 import { useRouter } from "next/navigation";
 
 import styles from "./Program.module.scss";
@@ -18,7 +19,6 @@ import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb"
 import DriverSummary from "@/components/driver_summary/DriverSummary";
 import DriverPropsMetaTable from "@/components/driver_props_meta_table/DriverPropsMetaTable";
 import ProofFunctionMultiTable from "@/components/proof_function_multi_table/ProofFunctionMultiTable";
-import { ProofFunctionDefinition } from "@taigalabs/prfs-entities/bindings/ProofFunctionDefinition";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -84,7 +84,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
                 <WidgetLabel>{i18n.proof_functions}</WidgetLabel>
               </WidgetHeader>
               <ProofFunctionMultiTable
-                proof_functions={driver?.proof_functions as ProofFunctionDefinition[]}
+                prove_inputs_meta={driver?.prove_inputs_meta as ProveInputMeta[] | undefined}
               />
             </Widget>
           </Card>

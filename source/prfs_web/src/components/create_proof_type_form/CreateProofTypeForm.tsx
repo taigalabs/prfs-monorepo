@@ -19,6 +19,7 @@ import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { stateContext } from "@/contexts/state";
 import { getYMD } from "@/functions/date";
 import { keccakHash } from "@/functions/hash";
+import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -180,7 +181,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 
       {selectedCircuit && (
         <PublicInputConfigSection
-          publicInputsMeta={selectedCircuit.circuit_inputs_meta}
+          publicInputsMeta={selectedCircuit.circuit_inputs_meta as CircuitInputMeta[]}
           setPublicInputInstance={setPublicInputInstance}
         />
       )}
