@@ -1,5 +1,5 @@
-import { ethers } from "ethers";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import { ethers } from "ethers";
 
 import { handleChildMessage } from "./handle_msg";
 import { sendMsgToChild } from "./send_msg";

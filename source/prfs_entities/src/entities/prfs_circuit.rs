@@ -1,4 +1,4 @@
-use super::PublicInput;
+use super::PublicInputMeta;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
@@ -15,7 +15,8 @@ pub struct PrfsCircuit {
     pub proof_algorithm: String,
     pub elliptic_curve: String,
     pub finite_field: String,
-    pub public_inputs: Vec<PublicInput>,
+    pub private_inputs_meta: Vec<PublicInputMeta>,
+    pub public_inputs_meta: Vec<PublicInputMeta>,
     pub driver: CircuitDriverInstance,
 
     #[ts(type = "string")]

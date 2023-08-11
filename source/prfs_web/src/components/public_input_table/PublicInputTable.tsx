@@ -2,24 +2,24 @@
 
 import React from "react";
 import Link from "next/link";
-import { PublicInput } from "@taigalabs/prfs-entities/bindings/PublicInput";
 
 import styles from "./PublicInputTable.module.scss";
 import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
+import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
 
-const PublicInputTable: React.FC<PublicInputTableProps> = ({ public_inputs }) => {
+const PublicInputTable: React.FC<PublicInputTableProps> = ({ public_inputs_meta }) => {
   const i18n = React.useContext(i18nContext);
-  const [data, setData] = React.useState<TableData<PublicInput>>({ page: 0, values: [] });
+  const [data, setData] = React.useState<TableData<PublicInputMeta>>({ page: 0, values: [] });
 
   React.useEffect(() => {
-    if (public_inputs) {
+    if (public_inputs_meta) {
       setData({
         page: 0,
-        values: public_inputs,
+        values: public_inputs_meta,
       });
     }
-  }, [public_inputs]);
+  }, [public_inputs_meta]);
 
   const rowsElem = React.useMemo(() => {
     let { values } = data;
@@ -61,5 +61,5 @@ const PublicInputTable: React.FC<PublicInputTableProps> = ({ public_inputs }) =>
 export default PublicInputTable;
 
 export interface PublicInputTableProps {
-  public_inputs: PublicInput[];
+  public_inputs_meta: PublicInputMeta[];
 }

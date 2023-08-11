@@ -62,6 +62,7 @@ fn make_spartan(circuit: &PrfsCircuit, timestamp: i64) {
     let r1cs_src_path = PATHS
         .build
         .join(get_path_segment(circuit, FileKind::R1CS, timestamp));
+
     let spartan_circuit_path =
         PATHS
             .build
@@ -70,12 +71,12 @@ fn make_spartan(circuit: &PrfsCircuit, timestamp: i64) {
     circuit_reader::make_spartan_instance(
         &r1cs_src_path,
         &spartan_circuit_path,
-        circuit.public_inputs.len(),
+        circuit.public_input_desc.len(),
     );
 }
 
 fn read_circuits_json() -> CircuitsJson {
-    let circuits_json_path = PATHS.circuits.join("circuits.json");
+    let circuits_json_path = PATHS.data.join("circuits.json");
     println!("Read circuits.json path: {:?}", circuits_json_path);
 
     circuits_json_path.try_exists().unwrap();

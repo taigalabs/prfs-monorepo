@@ -72,7 +72,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     }
 
     const newPublicInputInstance: Record<number, PublicInputInstanceEntry> = {};
-    for (const [idx, pi] of selectedCircuit.public_inputs.entries()) {
+    for (const [idx, pi] of selectedCircuit.public_inputs_meta.entries()) {
       switch (pi.type) {
         case "PROVER_GENERATED":
           newPublicInputInstance[idx] = {
@@ -180,7 +180,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 
       {selectedCircuit && (
         <PublicInputConfigSection
-          publicInputs={selectedCircuit.public_inputs}
+          publicInputsMeta={selectedCircuit.public_inputs_meta}
           setPublicInputInstance={setPublicInputInstance}
         />
       )}

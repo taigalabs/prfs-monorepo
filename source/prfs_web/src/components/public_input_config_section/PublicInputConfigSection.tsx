@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import { PublicInput } from "@taigalabs/prfs-entities/bindings/PublicInput";
 import { PublicInputType } from "@taigalabs/prfs-entities/bindings/PublicInputType";
 import { PublicInputInstanceEntry } from "@taigalabs/prfs-entities/bindings/PublicInputInstanceEntry";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
@@ -12,16 +11,17 @@ import CardRow from "@/components/card_row/CardRow";
 import Card from "@/components/card/Card";
 import SetDropdown from "@/components/set_dropdown/SetDropdown";
 import { DropdownSingleSelectedValue } from "@/components/dropdown/Dropdown";
+import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
 
 const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
-  publicInputs,
+  publicInputsMeta,
   setPublicInputInstance,
 }) => {
   const i18n = React.useContext(i18nContext);
 
   let vals: Record<string, any> = {};
   let setVals: Record<string, any> = {};
-  publicInputs.forEach((pi, idx) => {
+  publicInputsMeta.forEach((pi, idx) => {
     switch (pi.type) {
       case "PROVER_GENERATED":
         break;
@@ -61,7 +61,7 @@ const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
   const publicInputEntries = React.useMemo(() => {
     let elems = [];
 
-    for (const [idx, [_, pi]] of Object.entries(publicInputs).entries()) {
+    for (const [idx, [_, pi]] of Object.entries(publicInputsMeta).entries()) {
       let inputValue: React.ReactElement;
       switch (pi.type) {
         case "PROVER_GENERATED":
@@ -92,7 +92,7 @@ const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
     }
 
     return elems;
-  }, [publicInputs, setVals]);
+  }, [publicInputsMeta, setVals]);
 
   return (
     <CardRow>
@@ -113,8 +113,7 @@ const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
 export default PublicInputConfigSection;
 
 interface PublicInputConfigSectionProps {
-  // circuit: PrfsCircuit;
-  publicInputs: PublicInput[];
+  publicInputsMeta: PublicInputMeta[];
   setPublicInputInstance: React.Dispatch<
     React.SetStateAction<Record<number, PublicInputInstanceEntry>>
   >;

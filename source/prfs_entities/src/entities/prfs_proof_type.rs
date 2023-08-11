@@ -44,7 +44,7 @@ pub enum PublicInputType {
 
 #[derive(Serialize, Deserialize, Debug, Clone, TS)]
 #[ts(export)]
-pub struct PublicInput {
+pub struct PublicInputMeta {
     pub r#type: PublicInputType,
     pub label: String,
     pub desc: String,

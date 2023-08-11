@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import { PublicInput } from "@taigalabs/prfs-entities/bindings/PublicInput";
 import { PublicInputInstanceEntry } from "@taigalabs/prfs-entities/bindings/PublicInputInstanceEntry";
 
 import styles from "./PublicInputInstanceTable.module.scss";

@@ -10,6 +10,7 @@ lazy_static! {
 pub struct Paths {
     pub manifest_dir: PathBuf,
     pub circuits: PathBuf,
+    pub data: PathBuf,
     pub build: PathBuf,
 }
 
@@ -18,10 +19,12 @@ impl Paths {
         let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         let circuits = manifest_dir.join("circuits");
         let build = manifest_dir.join("build");
+        let data = manifest_dir.join("data");
 
         let p = Paths {
             manifest_dir,
             circuits,
+            data,
             build,
         };
 

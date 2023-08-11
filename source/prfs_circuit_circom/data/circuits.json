@@ -23,7 +23,8 @@
           "circuit_url": ""
         }
       },
-      "public_inputs": [
+      "private_inputs_meta": [],
+      "public_inputs_meta": [
         {
           "label": "Tx",
           "desc": "Tx description",
