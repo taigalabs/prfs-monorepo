@@ -18,15 +18,19 @@
           "inputs": [
             {
               "label": "sig",
-              "type": ""
+              "desc": "Signature over a string",
+              "type": "string"
             },
             {
               "label": "msgHash",
-              "type": ""
+              "desc": "A string over which a signature is created",
+              "type": "string"
             },
             {
               "label": "merkleProof",
-              "type": ""
+              "desc": "Vector commitment (Merkle root) of a set",
+              "type": "FIELD_ELEMENT",
+              "ref": "PRFS_SET"
             }
           ]
         }

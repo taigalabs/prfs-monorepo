@@ -33,25 +33,3 @@ pub struct PublicInputInstanceEntry {
     pub value: String,
     pub r#ref: Option<String>,
 }
-
-#[derive(Serialize, Deserialize, Debug, Clone, TS)]
-#[ts(export)]
-pub struct CircuitInputMeta {
-    pub r#type: String,
-    pub label: String,
-    pub desc: String,
-
-    #[serde(default = "default_ref")]
-    pub r#ref: String,
-
-    #[serde(default = "default_public")]
-    pub public: bool,
-}
-
-fn default_public() -> bool {
-    false
-}
-
-fn default_ref() -> String {
-    String::from("None")
-}

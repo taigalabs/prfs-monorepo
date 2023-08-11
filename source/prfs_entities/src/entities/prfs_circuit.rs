@@ -1,4 +1,3 @@
-use super::CircuitInputMeta;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
@@ -51,12 +50,38 @@ pub struct ProofFunctionDefinition {
     label: String,
 
     #[ts(type = "Record<string, any>[]")]
-    inputs: sqlx::types::Json<Vec<ProofFunctionArg>>,
+    inputs: sqlx::types::Json<Vec<ProofFunctionInputMeta>>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
-pub struct ProofFunctionArg {
-    label: String,
-    r#type: String,
+pub struct ProofFunctionInputMeta {
+    pub r#type: String,
+    pub label: String,
+    pub desc: String,
+
+    #[serde(default = "default_ref")]
+    pub r#ref: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, TS)]
+#[ts(export)]
+pub struct CircuitInputMeta {
+    pub r#type: String,
+    pub label: String,
+    pub desc: String,
+
+    #[serde(default = "default_ref")]
+    pub r#ref: String,
+
+    #[serde(default = "default_public")]
+    pub public: bool,
+}
+
+fn default_public() -> bool {
+    false
+}
+
+fn default_ref() -> String {
+    String::from("")
 }
