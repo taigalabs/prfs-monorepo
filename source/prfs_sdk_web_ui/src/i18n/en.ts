@@ -84,6 +84,7 @@ export default {
   dynamic_sets: "Dynamic sets",
   connect: "Connect",
   connect_wallet: "Connect a wallet of your choice",
+  wallet_address: "Wallet address",
   wallet: "Wallet",
   element_type: "Element type",
   elliptic_curve: "Elliptic curve",

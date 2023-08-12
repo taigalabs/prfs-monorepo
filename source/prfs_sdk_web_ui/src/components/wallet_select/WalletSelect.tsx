@@ -1,17 +1,12 @@
 import React from "react";
 import Image from "next/image";
 import cn from "classnames";
-import Dropdown, {
-  CreateDropdownListArgs,
-  DropdownData,
-  DropdownSingleSelectedValue,
-} from "@taigalabs/prfs-react-components/src/dropdown/Dropdown";
-import DropdownEntry from "@taigalabs/prfs-react-components/src/dropdown/DropdownEntry";
-import DropdownList from "@taigalabs/prfs-react-components/src/dropdown/DropdownList";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./WalletSelect.module.scss";
 import MetamaskSvg from "@/assets/svg/MetaMask_Fox.svg";
 import { i18nContext } from "@/contexts/i18n";
+import { GetAddressMsg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 
 const walletData = [
   {
@@ -20,7 +15,12 @@ const walletData = [
   },
 ];
 
-const WalletSelect: React.FC<WalletSelectProps> = ({ selectedVal, handleSelectVal }) => {
+const WalletSelect: React.FC<WalletSelectProps> = ({
+  selectedVal,
+  handleSelectVal,
+  walletAddr,
+  setWalletAddr,
+}) => {
   const i18n = React.useContext(i18nContext);
 
   const itemsElem = React.useMemo(() => {
@@ -41,7 +41,7 @@ const WalletSelect: React.FC<WalletSelectProps> = ({ selectedVal, handleSelectVa
           key={wallet.id}
           className={cn({
             [styles.item]: true,
-            [styles.selected]: selectedVal && selectedVal.label === "power",
+            [styles.selected]: selectedVal && selectedVal.id === wallet.id,
           })}
         >
           <div>{icon}</div>
@@ -55,9 +55,21 @@ const WalletSelect: React.FC<WalletSelectProps> = ({ selectedVal, handleSelectVa
     return elems;
   }, [selectedVal, handleSelectVal]);
 
+  const handleClickConnectWallet = React.useCallback(async () => {
+    const reply = await sendMsgToParent(new GetAddressMsg(""));
+
+    setWalletAddr(reply);
+  }, [handleSelectVal]);
+
   return (
     <div>
       <ul className={styles.walletList}>{itemsElem}</ul>
+      <div className={styles.walletStatus}>
+        <div className={styles.walletAddr}>
+          <input placeholder={i18n.wallet_address} value={walletAddr} readOnly />
+          <button onClick={handleClickConnectWallet}>{i18n.connect}</button>
+        </div>
+      </div>
     </div>
   );
 };
@@ -65,14 +77,17 @@ const WalletSelect: React.FC<WalletSelectProps> = ({ selectedVal, handleSelectVa
 export default WalletSelect;
 
 export interface WalletSelectProps {
-  selectedVal: WalletData | undefined;
-  handleSelectVal: (val: WalletData) => void;
+  selectedVal: WalletType | undefined;
+  handleSelectVal: (val: WalletType) => void;
+  walletAddr: string | undefined;
+  setWalletAddr: React.Dispatch<React.SetStateAction<any>>;
 }
 
-export interface WalletData {
+export interface WalletType {
+  id: string;
   label: string;
 }
 
 export interface WalletEntryProps {
-  val: WalletData;
+  val: WalletType;
 }

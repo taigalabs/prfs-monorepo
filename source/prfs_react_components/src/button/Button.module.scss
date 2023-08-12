@@ -1,12 +1,12 @@
 .a {
   border-radius: 0;
-  background-color: var(--gray-60);
+  background-color: #cddfdf;
   color: var(--blue-black-50);
   font-weight: 500;
   padding: 8px 12px;
 
   &:hover {
-    background-color: var(--gray-50);
+    background-color: #b9c8c8;
     cursor: pointer;
   }
 }

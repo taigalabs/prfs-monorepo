@@ -6,6 +6,11 @@
   border-radius: 5px;
 }
 
+.container {
+  height: 100%;
+  overflow-y: scroll;
+}
+
 .powered {
   font-size: 0.89em;
   color: var(--gray-40);

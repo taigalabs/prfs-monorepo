@@ -4,24 +4,37 @@
   position: relative;
   width: 100%;
   word-wrap: break-word;
-  padding: 13px 14px 26px;
+  padding: 18px 18px 26px;
   min-height: 100%;
 
   /* border: 1px solid blue; */
 }
 
-.inputCategoryTitle {
+.circuitInputs {
+  margin-top: 8px;
+}
+
+.circuitInputsTitle {
   font-weight: 500;
-  font-size: 1.11em;
+  font-size: 0.81em;
+  color: var(--gray-30);
 }
 
 .inputEntries {
   margin-top: 5px;
 }
 
-.publicInputEntry {
+.circuitInputEntry {
   display: flex;
+  flex-direction: column;
   margin-bottom: 8px;
+
+  input {
+    margin-top: 4px;
+    height: 42px;
+    border: 1px solid var(--gray-70);
+    border-radius: 3px;
+  }
 }
 
 .entryMeta {
@@ -33,19 +46,18 @@
 }
 
 .entryLabel {
-  width: 112px;
 }
 
-.entryValue {
-  display: inline-block;
-  padding: 3px 5px;
-  border: 1px solid var(--gray-50);
-  border-radius: 3px;
-  width: 280px;
-  word-wrap: break-word;
-  max-height: 38px;
-  overflow: hidden;
-}
+/* .entryValue { */
+/*   display: inline-block; */
+/*   padding: 3px 5px; */
+/*   border: 1px solid var(--gray-50); */
+/*   border-radius: 3px; */
+/*   width: 280px; */
+/*   word-wrap: break-word; */
+/*   max-height: 38px; */
+/*   overflow: hidden; */
+/* } */
 
 .btnRow {
   display: flex;

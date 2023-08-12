@@ -8,17 +8,14 @@ import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PiCalculatorLight } from "react-icons/pi";
 import { HiOutlineDocumentText } from "react-icons/hi2";
 import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
-import { GetAddressMsg, GetSignatureMsg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
-import Image from "next/image";
-import Dropdown from "@taigalabs/prfs-react-components/src/dropdown/Dropdown";
+import { GetAddressMsg, GetSignatureMsg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./CreateProofForm.module.scss";
-import i18n from "@/i18n/en";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
 import { i18nContext } from "@/contexts/i18n";
 import { useInterval } from "@/functions/interval";
-import WalletSelect, { WalletData } from "@/components/wallet_select/WalletSelect";
+import WalletSelect, { WalletType } from "@/components/wallet_select/WalletSelect";
 
 const ASSET_SERVER_ENDPOINT = process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
@@ -30,13 +27,17 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
   const [proveTime, setProveTime] = React.useState<number>(0);
   const [driver, setDriver] = React.useState<CircuitDriver>();
   const [isTimerRunning, setIsTimerRunning] = React.useState(false);
-  const [selectedWallet, setSelectedWallet] = React.useState<WalletData>();
+  const [selectedWalletType, setSelectedWalletType] = React.useState<WalletType>({
+    id: "metamask",
+    label: "Metamask",
+  });
+  const [walletAddr, setWalletAddr] = React.useState();
 
-  const handleSelectWallet = React.useCallback(
-    (val: WalletData) => {
-      setSelectedWallet(val);
+  const handleSelectWalletType = React.useCallback(
+    (val: WalletType) => {
+      setSelectedWalletType(val);
     },
-    [setSelectedWallet]
+    [setSelectedWalletType]
   );
 
   React.useEffect(() => {
@@ -79,13 +80,11 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
       }
 
       return (
-        <div className={styles.publicInputEntry} key={key}>
+        <div className={styles.circuitInputEntry} key={key}>
           <div className={styles.entryMeta}>
-            <div className={styles.entryKey}>{key}</div>
-            <div className={styles.entryType}>{typeElem}</div>
             <div className={styles.entryLabel}>{val.label}</div>
           </div>
-          <div className={styles.entryValue}>{val.value}</div>
+          <input className={styles.entryValue} />
         </div>
       );
     });
@@ -219,10 +218,15 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
     proofType && (
       <div className={styles.wrapper}>
         <div>
-          <WalletSelect selectedVal={selectedWallet} handleSelectVal={handleSelectWallet} />
+          <WalletSelect
+            selectedVal={selectedWalletType}
+            handleSelectVal={handleSelectWalletType}
+            walletAddr={walletAddr}
+            setWalletAddr={setWalletAddr}
+          />
         </div>
         <div className={styles.circuitInputs}>
-          <div className={styles.inputCategoryTitle}>{i18n.circuit_inputs}</div>
+          <div className={styles.circuitInputsTitle}>{i18n.circuit_inputs.toUpperCase()}</div>
           <div className={styles.inputEntries}>{publicInputElem}</div>
         </div>
         <div className={styles.btnRow}>
