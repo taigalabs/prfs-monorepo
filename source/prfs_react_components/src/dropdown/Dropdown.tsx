@@ -5,6 +5,7 @@ import { useFloating, useClick, useInteractions, useDismiss } from "@floating-ui
 import styles from "./Dropdown.module.scss";
 
 function Dropdown<T>({ createBase, createList, handleSelectVal }: DropdownProps<T>) {
+  console.log(111, styles);
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, floatingStyles, context } = useFloating({
     placement: "bottom-end",
@@ -73,10 +74,6 @@ export interface CreateDropdownListArgs<T> {
 }
 
 export type DropdownSingleSelectedValue<T> = T;
-
-// export interface DropdownMultiSelectedValue<T extends string> {
-//   [id: string]: RecordOfKeys<T>;
-// }
 
 export type DropdownData<T> = {
   page: number;

@@ -10,9 +10,9 @@ import Dropdown, {
   CreateDropdownListArgs,
   DropdownData,
   DropdownSingleSelectedValue,
-} from "@/components/dropdown/Dropdown";
-import DropdownEntry from "../dropdown/DropdownEntry";
-import DropdownList from "../dropdown/DropdownList";
+} from "@taigalabs/prfs-react-components/src/dropdown/Dropdown";
+import DropdownEntry from "@taigalabs/prfs-react-components/src/dropdown/DropdownEntry";
+import DropdownList from "@taigalabs/prfs-react-components/src/dropdown/DropdownList";
 
 const ProofTypeEntry: React.FC<CircuitEntryProps> = ({ val }) => {
   const i18n = React.useContext(i18nContext);

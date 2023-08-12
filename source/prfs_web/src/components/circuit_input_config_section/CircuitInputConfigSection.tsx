@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
+import { DropdownSingleSelectedValue } from "@taigalabs/prfs-react-components/src/dropdown/Dropdown";
 
 import styles from "./CircuitInputConfigSection.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -10,7 +11,6 @@ import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/component
 import CardRow from "@/components/card_row/CardRow";
 import Card from "@/components/card/Card";
 import SetDropdown from "@/components/set_dropdown/SetDropdown";
-import { DropdownSingleSelectedValue } from "@/components/dropdown/Dropdown";
 
 const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
   circuitInputsMeta,

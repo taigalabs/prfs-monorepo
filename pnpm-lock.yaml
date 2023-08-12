@@ -336,6 +336,28 @@ importers:
 
   source/prfs_entities: {}
 
+  source/prfs_react_components:
+    dependencies:
+      '@floating-ui/react':
+        specifier: ^0.24.8
+        version: 0.24.8(react-dom@18.2.0)(react@18.2.0)
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      react-icons:
+        specifier: ^4.10.1
+        version: 4.10.1(react@18.2.0)
+    devDependencies:
+      '@types/node':
+        specifier: 20.3.1
+        version: 20.3.1
+      '@types/react':
+        specifier: 18.2.12
+        version: 18.2.12
+
   source/prfs_sdk_web:
     dependencies:
       '@taigalabs/prfs-entities':
@@ -378,6 +400,9 @@ importers:
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
+      '@taigalabs/prfs-react-components':
+        specifier: '*'
+        version: link:../prfs_react_components
       '@taigalabs/prfs-sdk-web':
         specifier: '*'
         version: link:../prfs_sdk_web
@@ -472,6 +497,9 @@ importers:
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
+      '@taigalabs/prfs-react-components':
+        specifier: '*'
+        version: link:../prfs_react_components
       '@taigalabs/prfs-sdk-web':
         specifier: '*'
         version: link:../prfs_sdk_web

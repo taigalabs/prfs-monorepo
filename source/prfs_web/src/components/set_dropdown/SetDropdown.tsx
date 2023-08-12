@@ -10,9 +10,9 @@ import Dropdown, {
   CreateDropdownListArgs,
   DropdownData,
   DropdownSingleSelectedValue,
-} from "@/components/dropdown/Dropdown";
-import DropdownEntry from "@/components/dropdown/DropdownEntry";
-import DropdownList from "@/components/dropdown/DropdownList";
+} from "@taigalabs/prfs-react-components/src/dropdown/Dropdown";
+import DropdownEntry from "@taigalabs/prfs-react-components/src/dropdown/DropdownEntry";
+import DropdownList from "@taigalabs/prfs-react-components/src/dropdown/DropdownList";
 
 const SetEntry: React.FC<SetEntryProps> = ({ val }) => {
   const i18n = React.useContext(i18nContext);

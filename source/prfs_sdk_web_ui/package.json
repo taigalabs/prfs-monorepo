@@ -16,6 +16,7 @@
     "@taigalabs/prfs-crypto-js": "*",
     "@taigalabs/prfs-driver-interface": "*",
     "@taigalabs/prfs-driver-spartan-js": "*",
+    "@taigalabs/prfs-react-components": "*",
     "@taigalabs/prfs-driver-type": "*",
     "@taigalabs/prfs-entities": "*",
     "@taigalabs/prfs-sdk-web": "*",

@@ -9,6 +9,8 @@ import { PiCalculatorLight } from "react-icons/pi";
 import { HiOutlineDocumentText } from "react-icons/hi2";
 import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 import { GetAddressMsg, GetSignatureMsg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
+import Image from "next/image";
+import Dropdown from "@taigalabs/prfs-react-components/src/dropdown/Dropdown";
 
 import styles from "./CreateProofForm.module.scss";
 import i18n from "@/i18n/en";
@@ -16,6 +18,8 @@ import Button from "@/components/button/Button";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
 import { i18nContext } from "@/contexts/i18n";
 import { useInterval } from "@/functions/interval";
+import MetamaskSvg from "@/assets/svg/MetaMask_Fox.svg";
+import WalletDropdown, { WalletData } from "../wallet_dropdown/WalletDropdown";
 
 const ASSET_SERVER_ENDPOINT = process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
@@ -27,6 +31,14 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
   const [proveTime, setProveTime] = React.useState<number>(0);
   const [driver, setDriver] = React.useState<CircuitDriver>();
   const [isTimerRunning, setIsTimerRunning] = React.useState(false);
+  const [selectedWallet, setSelectedWallet] = React.useState<WalletData>();
+
+  const handleSelectWallet = React.useCallback(
+    (val: WalletData) => {
+      setSelectedWallet(val);
+    },
+    [setSelectedWallet]
+  );
 
   React.useEffect(() => {
     async function fn() {
@@ -209,7 +221,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
       <div className={styles.wrapper}>
         <div>
           <div>{i18n.wallet}</div>
-          <div>wallet</div>
+          <WalletDropdown selectedVal={selectedWallet} handleSelectVal={handleSelectWallet} />
         </div>
         <div className={styles.circuitInputs}>
           <div className={styles.inputCategoryTitle}>{i18n.circuit_inputs}</div>
