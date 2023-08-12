@@ -7,7 +7,7 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { HandshakeMsg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 
-import styles from "./Home.module.scss";
+import styles from "./ProofGen.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
@@ -19,7 +19,7 @@ const PARENT_MSG_HANDLER = {
   registered: false,
 };
 
-const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
+const ProofGen: React.FC<ProofGenProps> = () => {
   const i18n = React.useContext(i18nContext);
 
   const [data, setData] = React.useState();
@@ -82,11 +82,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ params }) => {
 
 export default ProofGen;
 
-export interface ProofGenProps {
-  params: {
-    proofTypeId: string;
-  };
-}
+export interface ProofGenProps {}
 
 function useParentMsgHandler() {
   React.useEffect(() => {
@@ -100,8 +96,6 @@ function useParentMsgHandler() {
           const type: MsgType = ev.data.type;
           ev.ports[0].postMessage({ result: `${ev.data} back` });
         }
-
-        // console.log(44, ports);
 
         // switch (type) {
         //   case MsgType.GET_SIGNER_RESPONSE:

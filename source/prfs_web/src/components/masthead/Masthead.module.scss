@@ -98,6 +98,15 @@
   }
 }
 
+.wallet {
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: 3px;
+  }
+}
+
 .inactive {
   color: var(--gray-70);
 }

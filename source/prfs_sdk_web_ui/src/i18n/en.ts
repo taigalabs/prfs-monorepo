@@ -40,6 +40,7 @@ export default {
   generate: "Generate",
   circuit: "Circuit",
   circuits: "Circuits",
+  circuit_inputs: "Circuit inputs",
   circuit_id: "Circuit id",
   driver_id: "Driver id",
   driver_repository_url: "Driver repository url",

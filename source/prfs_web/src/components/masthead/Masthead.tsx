@@ -4,6 +4,7 @@ import { IoMdArrowDropup, IoMdArrowDropdown } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import { useFloating, useClick, useInteractions, useDismiss } from "@floating-ui/react";
 import classNames from "classnames";
+import { BsWallet2 } from "react-icons/bs";
 
 import styles from "./Masthead.module.scss";
 import localStore from "@/storage/localStore";
@@ -16,7 +17,7 @@ const AccountStat: React.FC<AccountStatProps> = ({ account }) => {
   const i18n = React.useContext(i18nContext);
   const { dispatch } = React.useContext(stateContext);
   const { walletAddr, id } = account;
-  let shortWalletAddr = `W: ${walletAddr.substring(0, 7)}`;
+  const shortWalletAddr = walletAddr.substring(0, 7);
   const router = useRouter();
 
   const [isOpen, setIsOpen] = React.useState(false);
@@ -51,7 +52,10 @@ const AccountStat: React.FC<AccountStatProps> = ({ account }) => {
       >
         <div>
           <div>{id}</div>
-          <div>{shortWalletAddr}</div>
+          <div className={styles.wallet}>
+            <BsWallet2 />
+            {shortWalletAddr}
+          </div>
         </div>
         <div className={styles.btnArea}>{isOpen ? <IoMdArrowDropup /> : <IoMdArrowDropdown />}</div>
       </div>

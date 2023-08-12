@@ -207,12 +207,12 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
   return (
     proofType && (
       <div className={styles.wrapper}>
-        <div className={styles.privateInputs}>
-          <div className={styles.inputCategoryTitle}>{i18n.private_inputs}</div>
-          <div className={styles.inputEntries}></div>
+        <div>
+          <div>{i18n.wallet}</div>
+          <div>wallet</div>
         </div>
-        <div className={styles.publicInputInstance}>
-          <div className={styles.inputCategoryTitle}>{i18n.public_inputs}</div>
+        <div className={styles.circuitInputs}>
+          <div className={styles.inputCategoryTitle}>{i18n.circuit_inputs}</div>
           <div className={styles.inputEntries}>{publicInputElem}</div>
         </div>
         <div className={styles.btnRow}>
