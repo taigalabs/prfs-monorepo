@@ -13,12 +13,12 @@ pub struct CircuitType {
     pub created_at: DateTime<Utc>,
 
     #[ts(type = "Record<string, any>[]")]
-    pub driver_inputs_meta: sqlx::types::Json<Vec<DriverInputMeta>>,
+    pub circuit_inputs_meta: sqlx::types::Json<Vec<CircuitInputMeta>>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
-pub struct DriverInputMeta {
+pub struct CircuitInputMeta {
     pub r#type: String,
     pub label: String,
     pub desc: String,

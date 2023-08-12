@@ -20,6 +20,24 @@
         "wtns_gen_url": "",
         "circuit_url": ""
       },
+      "circuit_inputs_meta": [
+        {
+          "label": "sig",
+          "desc": "Signature over a string",
+          "type": "string"
+        },
+        {
+          "label": "msgHash",
+          "desc": "A string over which a signature is created",
+          "type": "string"
+        },
+        {
+          "label": "merkleProof",
+          "desc": "Vector commitment (Merkle root) of a set",
+          "type": "FIELD_ELEMENT",
+          "ref": "PRFS_SET"
+        }
+      ],
       "raw_circuit_inputs_meta": [
         {
           "label": "Tx",

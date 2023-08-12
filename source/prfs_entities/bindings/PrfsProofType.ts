@@ -7,7 +7,7 @@ export interface PrfsProofType {
   desc: string;
   circuit_id: string;
   driver_id: string;
-  public_input_instance: Record<string, any>;
+  circuit_inputs: Record<string, any>;
   driver_properties: Record<string, any>;
   created_at: number;
 }

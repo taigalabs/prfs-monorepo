@@ -1,10 +1,10 @@
 import React from "react";
 import Link from "next/link";
-import { PublicInputInstanceEntry } from "@taigalabs/prfs-entities/bindings/PublicInputInstanceEntry";
+import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 
-import styles from "./PublicInputConfigSection.module.scss";
+import styles from "./CircuitInputConfigSection.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
 import CardRow from "@/components/card_row/CardRow";
@@ -12,16 +12,17 @@ import Card from "@/components/card/Card";
 import SetDropdown from "@/components/set_dropdown/SetDropdown";
 import { DropdownSingleSelectedValue } from "@/components/dropdown/Dropdown";
 
-const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
-  publicInputsMeta,
-  setPublicInputInstance,
+const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
+  circuitInputsMeta,
+  setCircuitInputs,
 }) => {
   const i18n = React.useContext(i18nContext);
 
   let vals: Record<string, any> = {};
   let setVals: Record<string, any> = {};
-  publicInputsMeta.forEach((pi, idx) => {
-    if (pi.ref === "PRFS_SET") {
+
+  circuitInputsMeta.forEach((input, idx) => {
+    if (input.ref === "PRFS_SET") {
       const [selectedSet, setSelectedSet] = React.useState<
         DropdownSingleSelectedValue<PrfsSet> | undefined
       >();
@@ -30,19 +31,19 @@ const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
         (val: PrfsSet) => {
           // console.log(13, val);
           setSelectedSet(val);
-          setPublicInputInstance((oldVal: Record<number, PublicInputInstanceEntry>) => {
+          setCircuitInputs((oldVal: Record<number, CircuitInput>) => {
             const newVal = { ...oldVal };
             newVal[idx] = {
-              label: pi.label,
-              type: pi.type,
-              desc: pi.desc,
+              label: input.label,
+              type: input.type,
+              desc: input.desc,
               value: val.merkle_root,
               ref: val.set_id,
             };
             return newVal;
           });
         },
-        [setSelectedSet, setPublicInputInstance]
+        [setSelectedSet, setCircuitInputs]
       );
 
       vals[idx] = selectedSet;
@@ -50,10 +51,10 @@ const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
     }
   });
 
-  const publicInputEntries = React.useMemo(() => {
+  const circuitInputEntries = React.useMemo(() => {
     let elems = [];
 
-    for (const [idx, [_, pi]] of Object.entries(publicInputsMeta).entries()) {
+    for (const [idx, [_, pi]] of Object.entries(circuitInputsMeta).entries()) {
       let inputValue: React.ReactElement;
       switch (pi.ref) {
         case "PRFS_SET":
@@ -81,17 +82,17 @@ const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
     }
 
     return elems;
-  }, [publicInputsMeta, setVals]);
+  }, [circuitInputsMeta, setVals]);
 
   return (
     <CardRow>
       <Card>
         <Widget>
           <WidgetHeader>
-            <WidgetLabel>{i18n.configure_public_inputs}</WidgetLabel>
+            <WidgetLabel>{i18n.configure_circuit_inputs}</WidgetLabel>
           </WidgetHeader>
           <WidgetPaddedBody>
-            <div>{publicInputEntries}</div>
+            <div>{circuitInputEntries}</div>
           </WidgetPaddedBody>
         </Widget>
       </Card>
@@ -99,11 +100,9 @@ const PublicInputConfigSection: React.FC<PublicInputConfigSectionProps> = ({
   );
 };
 
-export default PublicInputConfigSection;
+export default CircuitInputConfigSection;
 
-interface PublicInputConfigSectionProps {
-  publicInputsMeta: CircuitInputMeta[];
-  setPublicInputInstance: React.Dispatch<
-    React.SetStateAction<Record<number, PublicInputInstanceEntry>>
-  >;
+interface CircuitInputConfigSectionProps {
+  circuitInputsMeta: CircuitInputMeta[];
+  setCircuitInputs: React.Dispatch<React.SetStateAction<Record<number, CircuitInput>>>;
 }

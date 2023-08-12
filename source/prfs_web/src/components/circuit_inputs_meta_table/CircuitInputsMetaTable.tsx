@@ -2,9 +2,9 @@ import React from "react";
 import Link from "next/link";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import { CircuitDriver } from "@taigalabs/prfs-entities/bindings/CircuitDriver";
-import { DriverInputMeta } from "@taigalabs/prfs-entities/bindings/DriverInputMeta";
+import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 
-import styles from "./DriverInputsMetaTable.module.scss";
+import styles from "./CircuitInputsMetaTable.module.scss";
 import Table, {
   TableBody,
   TableRow,
@@ -14,14 +14,14 @@ import Table, {
 } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 
-const DriverInputsMetaTable: React.FC<DriverInputsMetaTableProps> = ({
-  driver_inputs_meta,
+const CircuitInputsMetaTable: React.FC<CircuitInputsMetaTableProps> = ({
+  circuit_inputs_meta,
   handleSelectVal,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const [data, setData] = React.useState<TableData<DriverInputMeta>>({
+  const [data, setData] = React.useState<TableData<CircuitInputMeta>>({
     page: 0,
-    values: driver_inputs_meta,
+    values: circuit_inputs_meta,
   });
 
   const rowsElem = React.useMemo(() => {
@@ -63,10 +63,10 @@ const DriverInputsMetaTable: React.FC<DriverInputsMetaTableProps> = ({
   );
 };
 
-export default DriverInputsMetaTable;
+export default CircuitInputsMetaTable;
 
-export interface DriverInputsMetaTableProps {
-  driver_inputs_meta: DriverInputMeta[];
+export interface CircuitInputsMetaTableProps {
+  circuit_inputs_meta: CircuitInputMeta[];
   selectType?: "checkbox" | "radio";
   selectedVal?: PrfsCircuit;
   handleSelectVal?: (row: PrfsCircuit) => void;

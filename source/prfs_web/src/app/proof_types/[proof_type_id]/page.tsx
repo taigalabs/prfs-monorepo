@@ -15,7 +15,7 @@ import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import { useRouter } from "next/navigation";
-import PublicInputInstanceTable from "@/components/public_input_instance_table/PublicInputInstanceTable";
+import CircuitInputTable from "@/components/circuit_input_table/CircuitInputTable";
 import ProofTypeSummary from "@/components/proof_type_summary/ProofTypeSummary";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
@@ -70,9 +70,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
               <WidgetHeader>
                 <WidgetLabel>{i18n.public_input_instance}</WidgetLabel>
               </WidgetHeader>
-              {proofType && (
-                <PublicInputInstanceTable publicInputInstance={proofType.public_input_instance} />
-              )}
+              {proofType && <CircuitInputTable circuit_inputs={proofType.circuit_inputs} />}
             </Widget>
           </Card>
         </CardRow>

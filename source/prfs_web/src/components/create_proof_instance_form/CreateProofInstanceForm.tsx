@@ -6,7 +6,7 @@ import { MsgType, PrfsSDK, sendMsgToChild } from "@taigalabs/prfs-sdk-web";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import * as prfsApi from "@taigalabs/prfs-api-js";
-import { PublicInputInstanceEntry } from "@taigalabs/prfs-entities/bindings/PublicInputInstanceEntry";
+import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 
 import styles from "./CreateProofInstanceForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -17,8 +17,8 @@ import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb"
 import { FormTitleRow, FormTitle, FormSubtitle } from "@/components/form/Form";
 import Button from "@/components/button/Button";
 import { stateContext } from "@/contexts/state";
-import ProofTypeDropdown from "../proof_type_dropdown/ProofTypeDropdown";
-import PublicInputConfigSection from "../public_input_config_section/PublicInputConfigSection";
+import ProofTypeDropdown from "@/components/proof_type_dropdown/ProofTypeDropdown";
+import CircuitInputConfigSection from "@/components/circuit_input_config_section/CircuitInputConfigSection";
 import { useSigner } from "@thirdweb-dev/react";
 import { interpolateSystemAssetEndpoint, initDriver } from "@/functions/circuitDriver";
 import { SpartanMerkleProof } from "@taigalabs/prfs-driver-spartan-js";
@@ -75,10 +75,8 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   // const router = useRouter();
   const signer = useSigner();
 
-  // console.log(15, signer);
-
   const [publicInputInstance, setPublicInputInstance] = React.useState<
-    Record<string, PublicInputInstanceEntry>
+    Record<string, CircuitInput>
   >({});
   const [formAlert, setFormAlert] = React.useState("");
   const [selectedProofType, setSelectedProofType] = React.useState<PrfsProofType | undefined>();

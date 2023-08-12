@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
-import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
+import { RawCircuitInputMeta } from "@taigalabs/prfs-entities/bindings/RawCircuitInputMeta";
 
 import styles from "./Circuit.module.scss";
 import { stateContext } from "@/contexts/state";
@@ -18,7 +18,7 @@ import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import CircuitSummary from "@/components/circuit_summary/CircuitSummary";
 import DriverPropInstanceTable from "@/components/driver_prop_instance_table/DriverPropInstanceTable";
-import CircuitInputTable from "@/components/circuit_input_table/CircuitInputTable";
+import RawCircuitInputTable from "@/components/raw_circuit_input_table/RawCircuitInputTable";
 
 const Circuit: React.FC<CircuitProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -86,8 +86,8 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
                 <WidgetHeader>
                   <WidgetLabel>{i18n.circuit_inputs}</WidgetLabel>
                 </WidgetHeader>
-                <CircuitInputTable
-                  circuit_inputs_meta={circuit.circuit_inputs_meta as CircuitInputMeta[]}
+                <RawCircuitInputTable
+                  raw_circuit_inputs_meta={circuit.raw_circuit_inputs_meta as RawCircuitInputMeta[]}
                 />
               </Widget>
             </Card>

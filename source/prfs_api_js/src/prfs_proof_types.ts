@@ -1,5 +1,5 @@
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import { PublicInputInstanceEntry } from "@taigalabs/prfs-entities/bindings/PublicInputInstanceEntry";
+import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
@@ -10,7 +10,7 @@ export interface CreatePrfsProofTypeRequest {
   author: string;
   proof_type_id: string;
   circuit_id: string;
-  public_input_instance: Record<string, PublicInputInstanceEntry>;
+  circuit_inputs: Record<string, CircuitInput>;
   driver_id: string;
   driver_properties: Record<string, any>;
 }

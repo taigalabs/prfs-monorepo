@@ -5,5 +5,5 @@ export interface CircuitType {
   desc: string;
   author: string;
   created_at: number;
-  driver_inputs_meta: Record<string, any>[];
+  circuit_inputs_meta: Record<string, any>[];
 }

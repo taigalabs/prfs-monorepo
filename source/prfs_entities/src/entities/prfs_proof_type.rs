@@ -15,7 +15,7 @@ pub struct PrfsProofType {
     pub driver_id: String,
 
     #[ts(type = "Record<string, any>")]
-    pub public_input_instance: sqlx::types::Json<HashMap<u32, PublicInputInstanceEntry>>,
+    pub circuit_inputs: sqlx::types::Json<HashMap<String, CircuitInput>>,
 
     #[ts(type = "Record<string, any>")]
     pub driver_properties: sqlx::types::Json<HashMap<String, String>>,
@@ -26,7 +26,7 @@ pub struct PrfsProofType {
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
-pub struct PublicInputInstanceEntry {
+pub struct CircuitInput {
     pub label: String,
     pub r#type: String,
     pub desc: String,

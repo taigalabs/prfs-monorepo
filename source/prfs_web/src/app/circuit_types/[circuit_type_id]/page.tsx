@@ -16,12 +16,8 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
-import CircuitSummary from "@/components/circuit_summary/CircuitSummary";
-import DriverPropInstanceTable from "@/components/driver_prop_instance_table/DriverPropInstanceTable";
-import CircuitInputTable from "@/components/circuit_input_table/CircuitInputTable";
 import CircuitTypeSummary from "@/components/circuit_type_summary/CircuitTypeSummary";
-import DriverInputsMetaTable from "@/components/driver_inputs_meta_table/DriverInputsMetaTable";
-import { DriverInputMeta } from "@taigalabs/prfs-entities/bindings/DriverInputMeta";
+import CircuitInputsMetaTable from "@/components/circuit_inputs_meta_table/CircuitInputsMetaTable";
 
 const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -77,8 +73,8 @@ const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {
                     {i18n.driver_inputs_meta} ({circuitType.circuit_type})
                   </WidgetLabel>
                 </WidgetHeader>
-                <DriverInputsMetaTable
-                  driver_inputs_meta={circuitType.driver_inputs_meta as DriverInputMeta[]}
+                <CircuitInputsMetaTable
+                  circuit_inputs_meta={circuitType.circuit_inputs_meta as CircuitInputMeta[]}
                 />
               </Widget>
             </Card>

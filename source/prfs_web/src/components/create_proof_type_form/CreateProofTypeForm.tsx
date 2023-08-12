@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
-import { PublicInputInstanceEntry } from "@taigalabs/prfs-entities/bindings/PublicInputInstanceEntry";
+import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 
 import styles from "./CreateProofTypeForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -14,12 +14,12 @@ import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb"
 import { FormTitleRow, FormTitle, FormSubtitle } from "@/components/form/Form";
 import Button from "@/components/button/Button";
 import FormTextInput from "@/components/form/FormTextInput";
-import PublicInputConfigSection from "@/components/public_input_config_section/PublicInputConfigSection";
 import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { stateContext } from "@/contexts/state";
 import { getYMD } from "@/functions/date";
 import { keccakHash } from "@/functions/hash";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
+import CircuitInputConfigSection from "../circuit_input_config_section/CircuitInputConfigSection";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -27,9 +27,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const { prfsAccount } = state;
   const router = useRouter();
 
-  const [publicInputInstance, setPublicInputInstance] = React.useState<
-    Record<number, PublicInputInstanceEntry>
-  >({});
+  const [circuitInputs, setCircuitInputs] = React.useState<Record<number, CircuitInput>>({});
   const [formAlert, setFormAlert] = React.useState("");
   const [name, setName] = React.useState("");
   const [desc, setDesc] = React.useState("");
@@ -72,11 +70,11 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       return;
     }
 
-    const newPublicInputInstance: Record<number, PublicInputInstanceEntry> = {};
-    for (const [idx, pi] of selectedCircuit.circuit_inputs_meta.entries()) {
+    const newCircuitInputs: Record<number, CircuitInput> = {};
+    for (const [idx, pi] of selectedCircuit.raw_circuit_inputs_meta.entries()) {
       switch (pi.type) {
         case "PROVER_GENERATED":
-          newPublicInputInstance[idx] = {
+          newCircuitInputs[idx] = {
             label: pi.label,
             type: pi.type,
             desc: pi.desc,
@@ -86,12 +84,12 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 
           break;
         case "PRFS_SET":
-          if (!publicInputInstance[idx]) {
+          if (!circuitInputs[idx]) {
             setFormAlert(`public input is undefined, idx: ${idx}`);
             return;
           }
 
-          newPublicInputInstance[idx] = publicInputInstance[idx];
+          newCircuitInputs[idx] = circuitInputs[idx];
           break;
         default:
           throw new Error(`public input invalid, type: ${pi.type}`);
@@ -114,7 +112,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       desc,
       author: prfsAccount.sig,
       circuit_id: selectedCircuit.circuit_id,
-      public_input_instance: newPublicInputInstance,
+      circuit_inputs: newCircuitInputs,
       driver_id: selectedCircuit.driver_id,
       driver_properties: selectedCircuit.driver_properties,
     };
@@ -127,7 +125,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       .catch(err => {
         setFormAlert(err);
       });
-  }, [publicInputInstance, selectedCircuit, name, setFormAlert, desc, state.prfsAccount]);
+  }, [circuitInputs, selectedCircuit, name, setFormAlert, desc, state.prfsAccount]);
 
   return (
     <div className={styles.wrapper}>
@@ -180,9 +178,9 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       </CardRow>
 
       {selectedCircuit && (
-        <PublicInputConfigSection
-          publicInputsMeta={selectedCircuit.circuit_inputs_meta as CircuitInputMeta[]}
-          setPublicInputInstance={setPublicInputInstance}
+        <CircuitInputConfigSection
+          circuitInputsMeta={selectedCircuit.circuit_inputs_meta as CircuitInputMeta[]}
+          setCircuitInputs={setCircuitInputs}
         />
       )}
 

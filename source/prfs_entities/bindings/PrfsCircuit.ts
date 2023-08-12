@@ -10,9 +10,10 @@ export interface PrfsCircuit {
   proof_algorithm: string;
   elliptic_curve: string;
   finite_field: string;
-  raw_circuit_inputs_meta: Record<string, any>[];
   driver_id: string;
   driver_version: string;
+  circuit_inputs_meta: Record<string, any>[];
+  raw_circuit_inputs_meta: Record<string, any>[];
   driver_properties: Record<string, any>;
   created_at: string;
 }

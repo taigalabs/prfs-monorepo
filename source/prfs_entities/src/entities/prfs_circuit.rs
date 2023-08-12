@@ -2,6 +2,8 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
+use super::CircuitInputMeta;
+
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
 pub struct PrfsCircuit {
@@ -14,12 +16,14 @@ pub struct PrfsCircuit {
     pub proof_algorithm: String,
     pub elliptic_curve: String,
     pub finite_field: String,
+    pub driver_id: String,
+    pub driver_version: String,
+
+    #[ts(type = "Record<string, any>[]")]
+    pub circuit_inputs_meta: sqlx::types::Json<Vec<CircuitInputMeta>>,
 
     #[ts(type = "Record<string, any>[]")]
     pub raw_circuit_inputs_meta: sqlx::types::Json<Vec<RawCircuitInputMeta>>,
-
-    pub driver_id: String,
-    pub driver_version: String,
 
     #[ts(type = "Record<string, any>")]
     pub driver_properties: sqlx::types::Json<serde_json::Value>,
