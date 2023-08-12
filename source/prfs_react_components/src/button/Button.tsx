@@ -3,13 +3,20 @@ import classnames from "classnames";
 
 import styles from "./Button.module.scss";
 
-const Button: React.FC<Button1Props> = ({ children, handleClick, variant, disabled }) => {
+const Button: React.FC<Button1Props> = ({
+  children,
+  className,
+  handleClick,
+  variant,
+  disabled,
+}) => {
   return (
     <button
       className={classnames({
         [styles.a]: variant === "a",
         [styles.b]: variant === "b",
         [styles.transparent_a]: variant === "transparent_a",
+        [className || ""]: true,
       })}
       onClick={handleClick}
       disabled={!!disabled}
@@ -23,7 +30,8 @@ export default Button;
 
 export interface Button1Props {
   variant: "a" | "b" | "transparent_a";
+  className?: string;
   children: React.ReactNode;
-  handleClick?: MouseEventHandler;
   disabled?: boolean;
+  handleClick?: MouseEventHandler;
 }

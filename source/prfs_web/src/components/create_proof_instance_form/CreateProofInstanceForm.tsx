@@ -7,6 +7,7 @@ import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./CreateProofInstanceForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -15,7 +16,6 @@ import CardRow from "@/components/card_row/CardRow";
 import Card from "@/components/card/Card";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import { FormTitleRow, FormTitle, FormSubtitle } from "@/components/form/Form";
-import Button from "@/components/button/Button";
 import { stateContext } from "@/contexts/state";
 import ProofTypeDropdown from "@/components/proof_type_dropdown/ProofTypeDropdown";
 import CircuitInputConfigSection from "@/components/circuit_input_config_section/CircuitInputConfigSection";

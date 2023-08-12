@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import cn from "classnames";
 import Dropdown, {
   CreateDropdownListArgs,
@@ -26,6 +27,15 @@ const WalletSelect: React.FC<WalletSelectProps> = ({ selectedVal, handleSelectVa
     const elems = [];
 
     for (const wallet of walletData) {
+      let icon;
+      switch (wallet.id) {
+        case "metamask":
+          icon = <Image src={MetamaskSvg} width={24} height={24} alt={wallet.label} />;
+          break;
+        default:
+          continue;
+      }
+
       const elem = (
         <li
           key={wallet.id}
@@ -34,8 +44,8 @@ const WalletSelect: React.FC<WalletSelectProps> = ({ selectedVal, handleSelectVa
             [styles.selected]: selectedVal && selectedVal.label === "power",
           })}
         >
-          <div>icon</div>
-          <div>label</div>
+          <div>{icon}</div>
+          <div>{wallet.label}</div>
         </li>
       );
 

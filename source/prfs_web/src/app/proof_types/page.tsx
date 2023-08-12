@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./ProofTypes.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -11,7 +12,6 @@ import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
-import Button from "@/components/button/Button";
 import ProofTypeTable from "@/components/proof_type_table/ProofTypeTable";
 import CreateProofTypeForm from "@/components/create_proof_type_form/CreateProofTypeForm";
 

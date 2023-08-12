@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./Proofs.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -12,7 +13,6 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import ProofInstanceTable from "@/components/proof_instance_table/ProofInstanceTable";
-import Button from "@/components/button/Button";
 import CreateProofInstanceForm from "@/components/create_proof_instance_form/CreateProofInstanceForm";
 
 const Proofs: React.FC = () => {

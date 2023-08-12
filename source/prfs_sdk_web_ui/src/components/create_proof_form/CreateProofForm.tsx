@@ -11,10 +11,10 @@ import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 import { GetAddressMsg, GetSignatureMsg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 import Image from "next/image";
 import Dropdown from "@taigalabs/prfs-react-components/src/dropdown/Dropdown";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./CreateProofForm.module.scss";
 import i18n from "@/i18n/en";
-import Button from "@/components/button/Button";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
 import { i18nContext } from "@/contexts/i18n";
 import { useInterval } from "@/functions/interval";

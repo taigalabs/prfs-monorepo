@@ -3,6 +3,11 @@
 }
 
 .item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border: 1px solid gray;
   border-radius: 3px;
+  padding: 3px 4px;
+  color: var(--gray-20);
 }
