@@ -37,6 +37,7 @@ export default {
   generate: "Generate",
   public_inputs: "Public inputs",
   circuit_inputs: "Circuit inputs",
+  raw_circuit_inputs: "Raw circuit inputs",
   circuit: "Circuit",
   circuits: "Circuits",
   circuit_id: "Circuit id",

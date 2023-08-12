@@ -18,7 +18,10 @@ import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import CircuitSummary from "@/components/circuit_summary/CircuitSummary";
 import DriverPropInstanceTable from "@/components/driver_prop_instance_table/DriverPropInstanceTable";
-import RawCircuitInputTable from "@/components/raw_circuit_input_table/RawCircuitInputTable";
+import RawCircuitInputMetaTable from "@/components/raw_circuit_input_meta_table/RawCircuitInputMetaTable";
+import CircuitInputTable from "@/components/circuit_input_table/CircuitInputTable";
+import CircuitInputMetaTable from "@/components/circuit_input_meta_table/CircuitInputMetaTable";
+import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 
 const Circuit: React.FC<CircuitProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -86,7 +89,21 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
                 <WidgetHeader>
                   <WidgetLabel>{i18n.circuit_inputs}</WidgetLabel>
                 </WidgetHeader>
-                <RawCircuitInputTable
+                <CircuitInputMetaTable
+                  circuit_inputs_meta={circuit.circuit_inputs_meta as CircuitInputMeta[]}
+                />
+              </Widget>
+            </Card>
+          </CardRow>
+        )}
+        {circuit && (
+          <CardRow>
+            <Card>
+              <Widget>
+                <WidgetHeader>
+                  <WidgetLabel>{i18n.raw_circuit_inputs}</WidgetLabel>
+                </WidgetHeader>
+                <RawCircuitInputMetaTable
                   raw_circuit_inputs_meta={circuit.raw_circuit_inputs_meta as RawCircuitInputMeta[]}
                 />
               </Widget>

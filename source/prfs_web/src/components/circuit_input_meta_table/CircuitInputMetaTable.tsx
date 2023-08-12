@@ -3,26 +3,18 @@
 import React from "react";
 import Link from "next/link";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
+import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 
-import styles from "./CircuitInputTable.module.scss";
+import styles from "./CircuitInputMetaTable.module.scss";
 import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 
-const CircuitInputTable: React.FC<CircuitInputTableProps> = ({ circuit_inputs }) => {
+const CircuitInputMetaTable: React.FC<CircuitInputMetaTableProps> = ({ circuit_inputs_meta }) => {
   const i18n = React.useContext(i18nContext);
-  const [data, setData] = React.useState<TableData<CircuitInput>>({
+  const [data, setData] = React.useState<TableData<CircuitInputMeta>>({
     page: 0,
-    values: [],
+    values: circuit_inputs_meta,
   });
-
-  React.useEffect(() => {
-    if (circuit_inputs) {
-      setData({
-        page: 0,
-        values: Object.values(circuit_inputs),
-      });
-    }
-  }, [circuit_inputs]);
 
   const rowsElem = React.useMemo(() => {
     let { values } = data;
@@ -37,8 +29,8 @@ const CircuitInputTable: React.FC<CircuitInputTableProps> = ({ circuit_inputs })
         <TableRow key={val.label}>
           <td className={styles.type}>{val.type}</td>
           <td className={styles.label}>{val.label}</td>
+          <td className={styles.value}>{val.desc}</td>
           <td className={styles.ref}>{val.ref}</td>
-          <td className={styles.value}>{val.value}</td>
         </TableRow>
       );
 
@@ -54,8 +46,8 @@ const CircuitInputTable: React.FC<CircuitInputTableProps> = ({ circuit_inputs })
         <TableRow>
           <th className={styles.type}>{i18n.type}</th>
           <th className={styles.label}>{i18n.label}</th>
+          <th className={styles.value}>{i18n.description}</th>
           <th className={styles.ref}>{i18n.ref}</th>
-          <th className={styles.value}>{i18n.value}</th>
         </TableRow>
       </TableHeader>
       <TableBody>{rowsElem}</TableBody>
@@ -63,8 +55,8 @@ const CircuitInputTable: React.FC<CircuitInputTableProps> = ({ circuit_inputs })
   );
 };
 
-export default CircuitInputTable;
+export default CircuitInputMetaTable;
 
-export interface CircuitInputTableProps {
-  circuit_inputs: Record<string, CircuitInput>;
+export interface CircuitInputMetaTableProps {
+  circuit_inputs_meta: CircuitInputMeta[];
 }

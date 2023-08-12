@@ -4,11 +4,13 @@ import React from "react";
 import Link from "next/link";
 import { RawCircuitInputMeta } from "@taigalabs/prfs-entities/bindings/RawCircuitInputMeta";
 
-import styles from "./RawCircuitInputTable.module.scss";
+import styles from "./RawCircuitInputMetaTable.module.scss";
 import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 
-const RawCircuitInputTable: React.FC<RawCircuitInputTableProps> = ({ raw_circuit_inputs_meta }) => {
+const RawCircuitInputMetaTable: React.FC<RawCircuitInputMetaTableProps> = ({
+  raw_circuit_inputs_meta,
+}) => {
   const i18n = React.useContext(i18nContext);
   const [data, _] = React.useState<TableData<RawCircuitInputMeta>>({
     page: 0,
@@ -57,8 +59,8 @@ const RawCircuitInputTable: React.FC<RawCircuitInputTableProps> = ({ raw_circuit
   );
 };
 
-export default RawCircuitInputTable;
+export default RawCircuitInputMetaTable;
 
-export interface RawCircuitInputTableProps {
+export interface RawCircuitInputMetaTableProps {
   raw_circuit_inputs_meta: RawCircuitInputMeta[];
 }
