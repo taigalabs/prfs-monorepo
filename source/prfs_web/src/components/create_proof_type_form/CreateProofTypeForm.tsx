@@ -71,18 +71,8 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     }
 
     const newCircuitInputs: Record<number, CircuitInput> = {};
-    for (const [idx, pi] of selectedCircuit.raw_circuit_inputs_meta.entries()) {
-      switch (pi.type) {
-        case "PROVER_GENERATED":
-          newCircuitInputs[idx] = {
-            label: pi.label,
-            type: pi.type,
-            desc: pi.desc,
-            value: "",
-            ref: null,
-          };
-
-          break;
+    for (const [idx, pi] of selectedCircuit.circuit_inputs_meta.entries()) {
+      switch (pi.ref) {
         case "PRFS_SET":
           if (!circuitInputs[idx]) {
             setFormAlert(`public input is undefined, idx: ${idx}`);
@@ -90,9 +80,16 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
           }
 
           newCircuitInputs[idx] = circuitInputs[idx];
+
           break;
         default:
-          throw new Error(`public input invalid, type: ${pi.type}`);
+          newCircuitInputs[idx] = {
+            label: pi.label,
+            type: pi.type,
+            desc: pi.desc,
+            value: "",
+            ref: null,
+          };
       }
     }
 

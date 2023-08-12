@@ -1,6 +1,6 @@
 import React from "react";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import { PublicInputInstanceEntry } from "@taigalabs/prfs-entities/bindings/PublicInputInstanceEntry";
+import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { hashPersonalMessage } from "@ethereumjs/util";
 import { ethers } from "ethers";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
@@ -53,21 +53,17 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
   );
 
   const publicInputElem = React.useMemo(() => {
-    const obj: Record<any, PublicInputInstanceEntry> = proofType.public_input_instance;
+    const obj: Record<any, CircuitInput> = proofType.circuit_inputs;
 
     const entriesElem = Object.entries(obj).map(([key, val]) => {
       let typeElem: React.ReactElement;
-      switch (val.type) {
-        case "PROVER_GENERATED": {
-          typeElem = <PiCalculatorLight />;
-          break;
-        }
+      switch (val.ref) {
         case "PRFS_SET": {
           typeElem = <HiOutlineDocumentText />;
           break;
         }
         default: {
-          throw new Error(`public input type is wrong, type: ${val.type}`);
+          typeElem = <PiCalculatorLight />;
         }
       }
 
@@ -98,11 +94,11 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
     const addr = await sendMsgToParent(new GetAddressMsg(""));
     console.log("my address: %s", addr);
 
-    if (!proofType.public_input_instance[4].ref) {
+    if (!proofType.circuit_inputs[4].ref) {
       throw new Error("set id (ref) is not defined");
     }
 
-    const setId = proofType.public_input_instance[4].ref;
+    const setId = proofType.circuit_inputs[4].ref;
 
     let payload;
     try {
@@ -160,7 +156,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
     }
 
     let merkleProof = {
-      root: BigInt(proofType.public_input_instance[4].value),
+      root: BigInt(proofType.circuit_inputs[4].value),
       siblings,
       pathIndices,
     };
