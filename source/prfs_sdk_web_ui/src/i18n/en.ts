@@ -48,6 +48,7 @@ export default {
   circuit_dsl: "Circuit DSL",
   cardinality: "Cardinality",
   select_circuit: "Select a circuit",
+  select_wallet: "Select a wallet",
   select_proof_type: "Select a proof type",
   configuration: "Configuration",
   create_proof_type: "Create a proof type",

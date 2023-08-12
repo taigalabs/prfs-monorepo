@@ -18,8 +18,7 @@ import Button from "@/components/button/Button";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
 import { i18nContext } from "@/contexts/i18n";
 import { useInterval } from "@/functions/interval";
-import MetamaskSvg from "@/assets/svg/MetaMask_Fox.svg";
-import WalletDropdown, { WalletData } from "../wallet_dropdown/WalletDropdown";
+import WalletSelect, { WalletData } from "@/components/wallet_select/WalletSelect";
 
 const ASSET_SERVER_ENDPOINT = process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
@@ -220,8 +219,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
     proofType && (
       <div className={styles.wrapper}>
         <div>
-          <div>{i18n.wallet}</div>
-          <WalletDropdown selectedVal={selectedWallet} handleSelectVal={handleSelectWallet} />
+          <WalletSelect selectedVal={selectedWallet} handleSelectVal={handleSelectWallet} />
         </div>
         <div className={styles.circuitInputs}>
           <div className={styles.inputCategoryTitle}>{i18n.circuit_inputs}</div>

@@ -30,44 +30,6 @@ import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 
 const prfs = new PrfsSDK("test");
 
-const ProgramSection: React.FC<ProgramSectionProps> = ({ proofType }) => {
-  const i18n = React.useContext(i18nContext);
-
-  const programPropsElem = React.useMemo(() => {
-    const rows: React.ReactNode[] = [];
-
-    if (!proofType) {
-      return rows;
-    }
-
-    for (let [propName, val] of Object.entries(proofType.driver_properties)) {
-      if (val.startsWith("prfs://")) {
-        val = val.replace("prfs:/", process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT);
-        val = <Link href={val}>{val}</Link>;
-      }
-
-      rows.push(
-        <div className={styles.item} key={propName}>
-          <div className={styles.label}>{propName}</div>
-          <div className={styles.value}>{val}</div>
-        </div>
-      );
-    }
-
-    return rows;
-  }, [proofType]);
-
-  return (
-    <div className={styles.programSectionWrapper}>
-      <div className={styles.item}>
-        <div className={styles.label}>{i18n.driver_id}</div>
-        <div className={styles.value}>{proofType.driver_id}</div>
-      </div>
-      {programPropsElem}
-    </div>
-  );
-};
-
 const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   const i18n = React.useContext(i18nContext);
   const { state } = React.useContext(stateContext);
