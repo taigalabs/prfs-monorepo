@@ -18,8 +18,8 @@ const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
 
-  let vals: Record<string, any> = {};
-  let setVals: Record<string, any> = {};
+  const vals: Record<string, any> = {};
+  const setVals: Record<string, any> = {};
 
   circuitInputsMeta.forEach((input, idx) => {
     if (input.ref === "PRFS_SET") {
@@ -37,8 +37,8 @@ const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
               label: input.label,
               type: input.type,
               desc: input.desc,
-              value: val.merkle_root,
-              ref: val.set_id,
+              value: val.set_id,
+              ref: input.ref,
             };
             return newVal;
           });
