@@ -19,8 +19,9 @@ pub struct CircuitType {
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
 pub struct CircuitInputMeta {
-    pub r#type: String,
+    pub variable_name: String,
     pub label: String,
+    pub r#type: String,
     pub desc: String,
 
     #[serde(default = "default_ref")]

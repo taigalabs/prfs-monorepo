@@ -68,7 +68,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
           <Card>
             <Widget>
               <WidgetHeader>
-                <WidgetLabel>{i18n.public_input_instance}</WidgetLabel>
+                <WidgetLabel>{i18n.circuit_inputs}</WidgetLabel>
               </WidgetHeader>
               {proofType && <CircuitInputTable circuit_inputs={proofType.circuit_inputs} />}
             </Widget>

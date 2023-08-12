@@ -54,9 +54,9 @@ const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
   const circuitInputEntries = React.useMemo(() => {
     let elems = [];
 
-    for (const [idx, [_, pi]] of Object.entries(circuitInputsMeta).entries()) {
+    for (const [idx, [_, input]] of Object.entries(circuitInputsMeta).entries()) {
       let inputValue: React.ReactElement;
-      switch (pi.ref) {
+      switch (input.ref) {
         case "PRFS_SET":
           inputValue = (
             <div>
@@ -66,15 +66,15 @@ const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
           );
           break;
         default:
-          inputValue = <div className={styles.computedInput}>{pi.type}</div>;
+          inputValue = <div className={styles.computedInput}>{input.type}</div>;
       }
 
       elems.push(
         <div className={styles.publicInputEntry} key={idx}>
           <div className={styles.inputIdx}>{idx}</div>
           <div className={styles.inputGroup}>
-            <div className={styles.inputLabel}>{pi.label}</div>
-            <div className={styles.inputDesc}>{pi.desc}</div>
+            <div className={styles.inputLabel}>{input.label}</div>
+            <div className={styles.inputDesc}>{input.desc}</div>
             <div className={styles.inputContainer}>{inputValue}</div>
           </div>
         </div>

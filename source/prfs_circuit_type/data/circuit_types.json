@@ -7,19 +7,22 @@
       "desc": "Group membership proof",
       "circuit_inputs_meta": [
         {
-          "label": "sig",
+          "variable_name": "sig",
+          "label": "Signature",
           "desc": "Signature over a string",
-          "type": "string"
+          "type": "STRING"
         },
         {
-          "label": "msgHash",
+          "variable_name": "msgHash",
+          "label": "Message",
           "desc": "A string over which a signature is created",
-          "type": "string"
+          "type": "STRING"
         },
         {
-          "label": "merkleProof",
+          "variable_name": "merkleProof",
+          "label": "Merkle proof",
           "desc": "Vector commitment (Merkle root) of a set",
-          "type": "FIELD_ELEMENT",
+          "type": "MERKLE_PROOF_1",
           "ref": "PRFS_SET"
         }
       ]

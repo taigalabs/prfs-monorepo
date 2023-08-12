@@ -70,7 +70,7 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
           <SetEntry val={selectedVal} />
         ) : (
           <DropdownEntry>
-            <div className={styles.guide}>{i18n.select_circuit}</div>
+            <div className={styles.guide}>{i18n.select_set}</div>
           </DropdownEntry>
         )}
       </div>
