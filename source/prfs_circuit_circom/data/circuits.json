@@ -25,7 +25,7 @@
           "name": "sigData",
           "label": "Signature data",
           "desc": "Message raw, Message hash, and a signature over the message hash",
-          "type": "STRING"
+          "type": "SIG_DATA_1"
         },
         {
           "name": "merkleProof",

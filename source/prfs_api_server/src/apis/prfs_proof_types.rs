@@ -62,7 +62,7 @@ struct CreatePrfsProofTypesRequest {
     desc: String,
     circuit_id: String,
     driver_id: String,
-    circuit_inputs: HashMap<String, CircuitInput>,
+    circuit_inputs: HashMap<u32, CircuitInput>,
     driver_properties: HashMap<String, String>,
 }
 

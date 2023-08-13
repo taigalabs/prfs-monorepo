@@ -19,6 +19,10 @@ import WalletSelect, { WalletTypeValue } from "@/components/wallet_select/Wallet
 
 const ASSET_SERVER_ENDPOINT = process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
+const SigDataInput = () => {
+  return <div></div>;
+};
+
 const ProofGen: React.FC<ProofGenProps> = ({ proofType, formHeight }) => {
   const i18n = React.useContext(i18nContext);
 
@@ -64,18 +68,21 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType, formHeight }) => {
     isTimerRunning ? 1000 : null
   );
 
-  const publicInputElem = React.useMemo(() => {
+  const circuitInputsElem = React.useMemo(() => {
     const obj: Record<any, CircuitInput> = proofType.circuit_inputs;
 
+    console.log(22, proofType);
+
     const entriesElem = Object.entries(obj).map(([key, val]) => {
-      let typeElem: React.ReactElement;
+      let inputElem: React.ReactElement;
+      // let inputEleme
       switch (val.ref) {
         case "PRFS_SET": {
-          typeElem = <HiOutlineDocumentText />;
+          inputElem = <HiOutlineDocumentText />;
           break;
         }
         default: {
-          typeElem = <PiCalculatorLight />;
+          inputElem = <PiCalculatorLight />;
         }
       }
 
@@ -84,7 +91,8 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType, formHeight }) => {
           <div className={styles.entryMeta}>
             <div className={styles.entryLabel}>{val.label}</div>
           </div>
-          <input className={styles.entryValue} />
+          {inputElem}
+          {/* <input className={styles.entryValue} /> */}
         </div>
       );
     });
@@ -228,9 +236,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType, formHeight }) => {
           walletAddr={walletAddr}
           setWalletAddr={setWalletAddr}
         />
-        <div className={styles.circuitInputs}>
-          <div className={styles.inputEntries}>{publicInputElem}</div>
-        </div>
+        <div className={styles.circuitInputs}>{circuitInputsElem}</div>
         <div className={styles.btnRow}>
           <Button variant="b" handleClick={handleClickCreateProof} disabled={!driver}>
             {i18n.create_proof}
