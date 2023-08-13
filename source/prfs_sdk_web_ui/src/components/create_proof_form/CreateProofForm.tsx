@@ -15,7 +15,7 @@ import styles from "./CreateProofForm.module.scss";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
 import { i18nContext } from "@/contexts/i18n";
 import { useInterval } from "@/functions/interval";
-import WalletSelect, { WalletType } from "@/components/wallet_select/WalletSelect";
+import WalletSelect, { WalletTypeValue } from "@/components/wallet_select/WalletSelect";
 
 const ASSET_SERVER_ENDPOINT = process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
@@ -27,9 +27,8 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType, formHeight }) => {
   const [proveTime, setProveTime] = React.useState<number>(0);
   const [driver, setDriver] = React.useState<CircuitDriver>();
   const [isTimerRunning, setIsTimerRunning] = React.useState(false);
-  const [selectedWalletType, setSelectedWalletType] = React.useState<WalletType>({
-    id: "metamask",
-    label: "Metamask",
+  const [selectedWalletType, setSelectedWalletType] = React.useState<WalletTypeValue>({
+    value: "metamask",
   });
   const [walletAddr, setWalletAddr] = React.useState();
 
@@ -244,16 +243,6 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType, formHeight }) => {
     )
   );
 };
-
-{
-  /* <div>{proveTime}</div> */
-}
-{
-  /* <div>{msg}</div> */
-}
-{
-  /* <div className={styles.systemMsg}>{systemMsg}</div> */
-}
 
 export default ProofGen;
 
