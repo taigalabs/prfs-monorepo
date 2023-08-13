@@ -72,18 +72,20 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ input, value, setFormValues
 const MerkleProofInput: React.FC<SigDataInputProps> = ({ input, value, setFormValues }) => {
   const i18n = React.useContext(i18nContext);
 
-  const handleClickSign = React.useCallback(async () => {
-    if (value) {
-      await sendMsgToParent(new GetSignatureMsg(value.msgHash));
-    }
+  const handleClickCreate = React.useCallback(async () => {
+    // if (value) {
+    //   await sendMsgToParent(new GetSignatureMsg(value.msgHash));
+    // }
   }, [value, setFormValues]);
 
   return (
-    <div className={styles.sigDataInputWrapper}>
+    <div className={styles.merkleProofInputWrapper}>
       <input placeholder={input.desc} value={value?.msgRaw || ""} readOnly />
-      <button className={styles.connectBtn} onClick={handleClickSign}>
-        {i18n.create}
-      </button>
+      <div className={styles.btnGroup}>
+        <button className={styles.connectBtn} onClick={handleClickCreate}>
+          {i18n.create}
+        </button>
+      </div>
     </div>
   );
 };
