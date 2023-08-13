@@ -19,8 +19,19 @@ import WalletSelect, { WalletTypeValue } from "@/components/wallet_select/Wallet
 
 const ASSET_SERVER_ENDPOINT = process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
-const SigDataInput = () => {
-  return <div></div>;
+const SigDataInput: React.FC<SigDataInputProps> = ({ input, value, setFormValues }) => {
+  const i18n = React.useContext(i18nContext);
+
+  const handleClickSign = React.useCallback(() => {}, [setFormValues]);
+
+  return (
+    <div className={styles.sigDataInputWrapper}>
+      <input placeholder={input.desc} value={value || ""} readOnly />
+      <button className={styles.connectBtn} onClick={handleClickSign}>
+        {i18n.sign}
+      </button>
+    </div>
+  );
 };
 
 const ProofGen: React.FC<ProofGenProps> = ({ proofType, formHeight }) => {
@@ -35,6 +46,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType, formHeight }) => {
     value: "metamask",
   });
   const [walletAddr, setWalletAddr] = React.useState("");
+  const [formValues, setFormValues] = React.useState<Record<string, any>>({});
 
   const handleSelectWalletType = React.useCallback(
     (ev: React.ChangeEvent) => {
@@ -71,14 +83,22 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType, formHeight }) => {
   const circuitInputsElem = React.useMemo(() => {
     const obj: Record<any, CircuitInput> = proofType.circuit_inputs;
 
-    console.log(22, proofType);
-
     const entriesElem = Object.entries(obj).map(([key, val]) => {
       let inputElem: React.ReactElement;
       // let inputEleme
-      switch (val.ref) {
-        case "PRFS_SET": {
+      switch (val.type) {
+        case "MERKLE_PROOF_1": {
           inputElem = <HiOutlineDocumentText />;
+          break;
+        }
+        case "SIG_DATA_1": {
+          inputElem = (
+            <SigDataInput
+              input={val}
+              value={formValues[val.label] as string}
+              setFormValues={setFormValues}
+            />
+          );
           break;
         }
         default: {
@@ -98,7 +118,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType, formHeight }) => {
     });
 
     return entriesElem;
-  }, [proofType]);
+  }, [proofType, formValues, setFormValues]);
 
   const handleClickCreateProof = React.useCallback(async () => {
     if (!driver) {
@@ -256,4 +276,10 @@ export interface ProofGenProps {
   proofType: PrfsProofType;
   formHeight: number;
   // handleCreateProof: (proof: Uint8Array, publicInput: any) => void;
+}
+
+export interface SigDataInputProps {
+  input: CircuitInput;
+  value: string;
+  setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
 }

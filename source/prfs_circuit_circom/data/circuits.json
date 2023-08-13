@@ -23,8 +23,8 @@
       "circuit_inputs_meta": [
         {
           "name": "sigData",
-          "label": "Signature data",
-          "desc": "Message raw, Message hash, and a signature over the message hash",
+          "label": "Signature",
+          "desc": "Message over which a signature is made",
           "type": "SIG_DATA_1"
         },
         {

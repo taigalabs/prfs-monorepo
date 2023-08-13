@@ -83,6 +83,7 @@ export default {
   sets: "Sets",
   dynamic_sets: "Dynamic sets",
   connect: "Connect",
+  sign: "Sign",
   connect_wallet: "Connect a wallet of your choice",
   wallet_address: "Wallet address",
   wallet: "Wallet",
