@@ -14,6 +14,8 @@ import Loading from "@/components/loading/Loading";
 import NoSSR from "@/components/no_ssr/NoSSR";
 import { checkSanity } from "@/functions/sanity";
 
+const HEIGHT_PER_INPUT = 61;
+
 const PARENT_MSG_HANDLER = {
   registered: false,
 };
@@ -27,15 +29,6 @@ const ProofGen: React.FC<ProofGenProps> = () => {
   const [isReady, setIsReady] = React.useState(false);
 
   useParentMsgHandler();
-
-  React.useEffect(() => {
-    async function fn() {
-      await sendMsgToParent(new HandshakeMsg("hi"));
-      setIsReady(true);
-    }
-
-    fn().then();
-  }, [setIsReady]);
 
   React.useEffect(() => {
     checkSanity();
@@ -58,6 +51,14 @@ const ProofGen: React.FC<ProofGenProps> = () => {
         }
 
         if (payload.prfs_proof_types.length > 0) {
+          const circuitInputCount = payload.prfs_proof_types[0].circuit_id.length;
+          await sendMsgToParent(
+            new HandshakeMsg({
+              height: circuitInputCount * HEIGHT_PER_INPUT,
+            })
+          );
+          setIsReady(true);
+
           setProofType(payload.prfs_proof_types[0]);
         } else {
           console.log("PrfsProofType not found");
@@ -66,7 +67,7 @@ const ProofGen: React.FC<ProofGenProps> = () => {
     }
 
     fn().then();
-  }, [searchParams, setProofType]);
+  }, [searchParams, setProofType, setIsReady]);
 
   return (
     isReady && (

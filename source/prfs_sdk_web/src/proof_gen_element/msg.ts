@@ -24,8 +24,8 @@ export class MsgBase<T, R> {
   }
 }
 
-export class HandshakeMsg extends MsgBase<string, HandshakeResponsePayload> {
-  constructor(payload: string) {
+export class HandshakeMsg extends MsgBase<HandshakePayload, HandshakeResponsePayload> {
+  constructor(payload: HandshakePayload) {
     super(MsgType.HANDSHAKE, payload);
   }
 }
@@ -34,6 +34,10 @@ export class HandshakeResponseMsg extends MsgBase<HandshakeResponsePayload, neve
   constructor(payload: HandshakeResponsePayload) {
     super(MsgType.HANDSHAKE_RESPONSE, payload);
   }
+}
+
+export interface HandshakePayload {
+  height: number;
 }
 
 export interface HandshakeResponsePayload {

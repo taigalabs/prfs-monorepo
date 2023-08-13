@@ -13,6 +13,10 @@ export function handleChildMessage(resolve: (value: any) => void, options: Proof
 
       switch (type) {
         case "HANDSHAKE": {
+          const { payload } = ev.data;
+
+          console.log(22, payload);
+
           ev.ports[0].postMessage(new HandshakeResponseMsg({}));
 
           const loading = document.getElementById(LOADING_SPAN_ID);
