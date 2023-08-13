@@ -14,6 +14,7 @@ import Loading from "@/components/loading/Loading";
 import NoSSR from "@/components/no_ssr/NoSSR";
 import { checkSanity } from "@/functions/sanity";
 
+const BASE_HEIGHT = 140;
 const HEIGHT_PER_INPUT = 61;
 
 const PARENT_MSG_HANDLER = {
@@ -26,7 +27,7 @@ const ProofGen: React.FC<ProofGenProps> = () => {
   const [data, setData] = React.useState();
   const searchParams = useSearchParams();
   const [proofType, setProofType] = React.useState<PrfsProofType>();
-  const [isReady, setIsReady] = React.useState(false);
+  const [formHeight, setFormHeight] = React.useState<number>();
 
   useParentMsgHandler();
 
@@ -51,15 +52,18 @@ const ProofGen: React.FC<ProofGenProps> = () => {
         }
 
         if (payload.prfs_proof_types.length > 0) {
-          const circuitInputCount = payload.prfs_proof_types[0].circuit_id.length;
+          const proof_type = payload.prfs_proof_types[0];
+          const circuitInputCount = Object.keys(proof_type.circuit_inputs).length;
+          const formHeight = calcFormHeight(circuitInputCount);
+
           await sendMsgToParent(
             new HandshakeMsg({
-              height: circuitInputCount * HEIGHT_PER_INPUT,
+              formHeight,
             })
           );
-          setIsReady(true);
 
-          setProofType(payload.prfs_proof_types[0]);
+          setFormHeight(formHeight);
+          setProofType(proof_type);
         } else {
           console.log("PrfsProofType not found");
         }
@@ -67,13 +71,14 @@ const ProofGen: React.FC<ProofGenProps> = () => {
     }
 
     fn().then();
-  }, [searchParams, setProofType, setIsReady]);
+  }, [searchParams, setProofType, setFormHeight]);
 
   return (
-    isReady && (
+    proofType &&
+    formHeight && (
       <NoSSR>
         <DefaultLayout>
-          {proofType ? <CreateProofForm proofType={proofType} /> : <Loading />}
+          <CreateProofForm proofType={proofType} formHeight={formHeight} />
         </DefaultLayout>
       </NoSSR>
     )
@@ -110,4 +115,8 @@ function useParentMsgHandler() {
       PARENT_MSG_HANDLER.registered = true;
     }
   }, []);
+}
+
+function calcFormHeight(inputCount: number): number {
+  return inputCount * HEIGHT_PER_INPUT + BASE_HEIGHT;
 }

@@ -1,7 +1,11 @@
-import { GetAddressResponseMsg, HandshakeResponseMsg, MsgType } from "./msg";
+import { GetAddressResponseMsg, HandshakePayload, HandshakeResponseMsg, MsgType } from "./msg";
 import { LOADING_SPAN_ID, ProofGenElementOptions } from "./proof_gen_element";
 
-export function handleChildMessage(resolve: (value: any) => void, options: ProofGenElementOptions) {
+export function handleChildMessage(
+  resolve: (value: any) => void,
+  options: ProofGenElementOptions,
+  iframe: HTMLIFrameElement
+) {
   console.log("Attaching child msg handler");
 
   window.addEventListener("message", async (ev: MessageEvent) => {
@@ -13,9 +17,10 @@ export function handleChildMessage(resolve: (value: any) => void, options: Proof
 
       switch (type) {
         case "HANDSHAKE": {
-          const { payload } = ev.data;
+          const handshakePayload: HandshakePayload = ev.data.payload;
 
-          console.log(22, payload);
+          const { formHeight } = handshakePayload;
+          iframe.style.height = `${formHeight}px`;
 
           ev.ports[0].postMessage(new HandshakeResponseMsg({}));
 

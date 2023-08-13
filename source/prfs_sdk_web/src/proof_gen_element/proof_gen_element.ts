@@ -52,7 +52,8 @@ class ProofGenElement {
       wrapperDiv.appendChild(iframe);
 
       container!.append(wrapperDiv);
-      handleChildMessage(resolve, options);
+
+      handleChildMessage(resolve, options, iframe);
     });
   }
 }

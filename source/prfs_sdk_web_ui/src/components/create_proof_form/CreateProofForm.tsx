@@ -19,7 +19,7 @@ import WalletSelect, { WalletType } from "@/components/wallet_select/WalletSelec
 
 const ASSET_SERVER_ENDPOINT = process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
-const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
+const ProofGen: React.FC<ProofGenProps> = ({ proofType, formHeight }) => {
   const i18n = React.useContext(i18nContext);
 
   const [systemMsg, setSystemMsg] = React.useState("");
@@ -221,7 +221,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
 
   return (
     proofType && (
-      <div className={styles.wrapper}>
+      <div className={styles.wrapper} style={{ height: formHeight - 6 }}>
         <WalletSelect
           selectedVal={selectedWalletType}
           handleSelectVal={handleSelectWalletType}
@@ -235,18 +235,29 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
           <Button variant="b" handleClick={handleClickCreateProof} disabled={!driver}>
             {i18n.create_proof}
           </Button>
-          <div>{proveTime}</div>
-          <div>{msg}</div>
-          <div className={styles.systemMsg}>{systemMsg}</div>
+        </div>
+        <div className={styles.systemMsg}>
+          <div>{systemMsg}</div>
         </div>
       </div>
     )
   );
 };
 
+{
+  /* <div>{proveTime}</div> */
+}
+{
+  /* <div>{msg}</div> */
+}
+{
+  /* <div className={styles.systemMsg}>{systemMsg}</div> */
+}
+
 export default ProofGen;
 
 export interface ProofGenProps {
   proofType: PrfsProofType;
+  formHeight: number;
   // handleCreateProof: (proof: Uint8Array, publicInput: any) => void;
 }

@@ -6,6 +6,7 @@
   word-wrap: break-word;
   /* padding: 18px 18px 26px; */
   min-height: 100%;
+  padding-bottom: 14px;
 
   /* border: 1px solid blue; */
 }
@@ -64,8 +65,8 @@
 
 .systemMsg {
   position: absolute;
-  left: 5px;
-  bottom: 2px;
-  font-size: 0.89em;
+  left: 0px;
+  bottom: 0px;
+  font-size: 10px;
   color: var(--gray-40);
 }
