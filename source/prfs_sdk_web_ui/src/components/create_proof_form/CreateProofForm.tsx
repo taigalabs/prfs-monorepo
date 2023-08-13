@@ -22,11 +22,15 @@ const ASSET_SERVER_ENDPOINT = process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT
 const SigDataInput: React.FC<SigDataInputProps> = ({ input, value, setFormValues }) => {
   const i18n = React.useContext(i18nContext);
 
-  const handleClickSign = React.useCallback(() => {}, [setFormValues]);
+  const handleClickSign = React.useCallback(async () => {
+    if (value) {
+      await sendMsgToParent(new GetSignatureMsg(value.msgHash));
+    }
+  }, [value, setFormValues]);
 
   return (
     <div className={styles.sigDataInputWrapper}>
-      <input placeholder={input.desc} value={value || ""} readOnly />
+      <input placeholder={input.desc} value={value?.msgRaw || ""} readOnly />
       <button className={styles.connectBtn} onClick={handleClickSign}>
         {i18n.sign}
       </button>
@@ -95,7 +99,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType, formHeight }) => {
           inputElem = (
             <SigDataInput
               input={val}
-              value={formValues[val.label] as string}
+              value={formValues[val.label] as any}
               setFormValues={setFormValues}
             />
           );
@@ -204,7 +208,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType, formHeight }) => {
     const msgRaw = "harry potter";
     const msg = Buffer.from(msgRaw);
     const msgHash = hashPersonalMessage(msg);
-    const sig = await sendMsgToParent(new GetSignatureMsg(msg));
+    const sig = await sendMsgToParent(new GetSignatureMsg(msgHash));
 
     const sigData = {
       msgRaw,
@@ -278,8 +282,14 @@ export interface ProofGenProps {
   // handleCreateProof: (proof: Uint8Array, publicInput: any) => void;
 }
 
+export interface SigData {
+  msgRaw: string;
+  msgHash: Buffer;
+  sig: string;
+}
+
 export interface SigDataInputProps {
   input: CircuitInput;
-  value: string;
+  value: SigData | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
 }

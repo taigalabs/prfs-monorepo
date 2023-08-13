@@ -44,11 +44,12 @@ export function handleChildMessage(
         }
 
         case "GET_SIGNATURE": {
-          const msg = ev.data.payload;
+          const msgHash = ev.data.payload;
+          // const msg = Buffer.from(msgRaw);
 
           await provider.send("eth_requestAccounts", []);
           const signer = provider.getSigner();
-          const sig = await signer.signMessage(msg);
+          const sig = await signer.signMessage(msgHash);
 
           ev.ports[0].postMessage(new GetAddressResponseMsg(sig));
 
