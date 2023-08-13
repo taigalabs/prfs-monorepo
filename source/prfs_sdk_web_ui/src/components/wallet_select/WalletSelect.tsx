@@ -62,13 +62,10 @@ const WalletSelect: React.FC<WalletSelectProps> = ({
   }, [handleSelectVal]);
 
   return (
-    <div>
-      <ul className={styles.walletList}>{itemsElem}</ul>
-      <div className={styles.walletStatus}>
-        <div className={styles.walletAddr}>
-          <input placeholder={i18n.wallet_address} value={walletAddr} readOnly />
-          <button onClick={handleClickConnectWallet}>{i18n.connect}</button>
-        </div>
+    <div className={styles.wrapper}>
+      <div className={styles.walletAddr}>
+        <input placeholder={i18n.wallet_address} value={walletAddr} readOnly />
+        <button onClick={handleClickConnectWallet}>{i18n.connect}</button>
       </div>
     </div>
   );

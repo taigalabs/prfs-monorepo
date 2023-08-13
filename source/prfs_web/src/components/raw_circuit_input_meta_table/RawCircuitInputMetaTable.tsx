@@ -33,7 +33,6 @@ const RawCircuitInputMetaTable: React.FC<RawCircuitInputMetaTableProps> = ({
           <td className={styles.type}>{val.type}</td>
           <td className={styles.public}>{val.public.toString()}</td>
           <td className={styles.desc}>{val.desc}</td>
-          <td className={styles.desc}>{val.ref}</td>
         </TableRow>
       );
 
@@ -51,7 +50,6 @@ const RawCircuitInputMetaTable: React.FC<RawCircuitInputMetaTableProps> = ({
           <th className={styles.type}>{i18n.type}</th>
           <th className={styles.public}>{i18n.public}</th>
           <th className={styles.desc}>{i18n.description}</th>
-          <th className={styles.ref}>{i18n.references}</th>
         </TableRow>
       </TableHeader>
       <TableBody>{rowsElem}</TableBody>

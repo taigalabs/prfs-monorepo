@@ -1,3 +1,8 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+}
+
 .walletList {
   display: flex;
 }
@@ -16,12 +21,6 @@
 .item.selected {
   border: 1px solid var(--green-80);
   background-color: var(--bright-green-90);
-}
-
-.walletStatus {
-  display: flex;
-  align-items: center;
-  margin-top: 8px;
 }
 
 .walletAddr {

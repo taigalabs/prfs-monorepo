@@ -49,9 +49,10 @@ export default class SpartanDriver implements CircuitDriver {
     return await Tree.newInstance(depth, hash);
   }
 
-  async prove(args: ProveArgs<any>): Promise<NIZK> {
+  async prove(args: ProveArgs<MembershipProveInputs>): Promise<NIZK> {
     const { inputs, eventListener } = args;
-    const { sig, msgHash, merkleProof } = inputs;
+    const { sigData, merkleProof } = inputs;
+    const { msgHash, sig } = sigData;
 
     const { r, s, v } = fromSig(sig);
     const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash);
@@ -105,7 +106,6 @@ export default class SpartanDriver implements CircuitDriver {
     const { inputs } = args;
     const { proof, publicInput } = inputs;
 
-    // const publicInput = PublicInput.deserialize(publicInputSer);
     const isPubInputValid = verifyEffEcdsaPubInput(publicInput as PublicInput);
 
     let isProofValid;
@@ -130,7 +130,10 @@ export interface SpartanDriverCtorArgs {
 }
 
 export interface MembershipProveInputs {
-  sig: any;
-  msgHash: any;
-  merkleProof: any;
+  sigData: {
+    msgRaw: string;
+    msgHash: Buffer;
+    sig: string;
+  };
+  merkleProof: SpartanMerkleProof;
 }

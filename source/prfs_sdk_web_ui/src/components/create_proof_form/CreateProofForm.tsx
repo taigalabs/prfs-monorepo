@@ -171,12 +171,18 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
       pathIndices,
     };
 
-    console.log(55, merkleProof);
+    // console.log(55, merkleProof);
 
-    const msg = Buffer.from("harry potter");
+    const msgRaw = "harry potter";
+    const msg = Buffer.from(msgRaw);
     const msgHash = hashPersonalMessage(msg);
-
     const sig = await sendMsgToParent(new GetSignatureMsg(msg));
+
+    const sigData = {
+      msgRaw,
+      msgHash,
+      sig,
+    };
 
     let recoveredAddr = ethers.utils.verifyMessage(msg, sig);
     if (addr !== recoveredAddr) {
@@ -190,8 +196,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
     const prevTime = performance.now();
     const { proof, publicInput } = await driver.prove({
       inputs: {
-        sig,
-        msgHash,
+        sigData,
         merkleProof,
       },
       circuitType: "MEMBERSHIP_PROOF_1",
@@ -217,16 +222,13 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType }) => {
   return (
     proofType && (
       <div className={styles.wrapper}>
-        <div>
-          <WalletSelect
-            selectedVal={selectedWalletType}
-            handleSelectVal={handleSelectWalletType}
-            walletAddr={walletAddr}
-            setWalletAddr={setWalletAddr}
-          />
-        </div>
+        <WalletSelect
+          selectedVal={selectedWalletType}
+          handleSelectVal={handleSelectWalletType}
+          walletAddr={walletAddr}
+          setWalletAddr={setWalletAddr}
+        />
         <div className={styles.circuitInputs}>
-          <div className={styles.circuitInputsTitle}>{i18n.circuit_inputs.toUpperCase()}</div>
           <div className={styles.inputEntries}>{publicInputElem}</div>
         </div>
         <div className={styles.btnRow}>

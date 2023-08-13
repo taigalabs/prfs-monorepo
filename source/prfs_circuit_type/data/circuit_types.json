@@ -7,15 +7,9 @@
       "desc": "Group membership proof",
       "circuit_inputs_meta": [
         {
-          "name": "sig",
-          "label": "Signature",
-          "desc": "Signature over a string",
-          "type": "STRING"
-        },
-        {
-          "name": "msgHash",
-          "label": "Message",
-          "desc": "A string over which a signature is created",
+          "name": "sigData",
+          "label": "Signature data",
+          "desc": "Message raw, Message hash, and a signature over the message hash",
           "type": "STRING"
         },
         {

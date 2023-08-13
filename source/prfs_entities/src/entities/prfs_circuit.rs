@@ -39,9 +39,6 @@ pub struct RawCircuitInputMeta {
     pub label: String,
     pub desc: String,
 
-    #[serde(default = "default_ref")]
-    pub r#ref: String,
-
     #[serde(default = "default_public")]
     pub public: bool,
 }

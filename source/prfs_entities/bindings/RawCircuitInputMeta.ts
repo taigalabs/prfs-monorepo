@@ -4,6 +4,5 @@ export interface RawCircuitInputMeta {
   type: string;
   label: string;
   desc: string;
-  ref: string;
   public: boolean;
 }
