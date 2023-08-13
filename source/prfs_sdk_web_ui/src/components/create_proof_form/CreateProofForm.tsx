@@ -34,8 +34,9 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType, formHeight }) => {
   const [walletAddr, setWalletAddr] = React.useState();
 
   const handleSelectWalletType = React.useCallback(
-    (val: WalletType) => {
-      setSelectedWalletType(val);
+    (ev: React.ChangeEvent) => {
+      console.log(123, ev.target);
+      // setSelectedWalletType(val);
     },
     [setSelectedWalletType]
   );

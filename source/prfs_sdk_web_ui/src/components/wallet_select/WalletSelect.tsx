@@ -2,18 +2,18 @@ import React from "react";
 import Image from "next/image";
 import cn from "classnames";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 import styles from "./WalletSelect.module.scss";
 import MetamaskSvg from "@/assets/svg/MetaMask_Fox.svg";
 import { i18nContext } from "@/contexts/i18n";
 import { GetAddressMsg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 
-const walletData = [
-  {
-    id: "metamask",
-    label: "Metamask",
+const walletType = {
+  metamask: {
+    value: "metamask",
   },
-];
+};
 
 const WalletSelect: React.FC<WalletSelectProps> = ({
   selectedVal,
@@ -23,36 +23,24 @@ const WalletSelect: React.FC<WalletSelectProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
 
-  const itemsElem = React.useMemo(() => {
-    const elems = [];
-
-    for (const wallet of walletData) {
-      let icon;
-      switch (wallet.id) {
-        case "metamask":
-          icon = <Image src={MetamaskSvg} width={24} height={24} alt={wallet.label} />;
-          break;
-        default:
-          continue;
-      }
-
-      const elem = (
-        <li
-          key={wallet.id}
-          className={cn({
-            [styles.item]: true,
-            [styles.selected]: selectedVal && selectedVal.id === wallet.id,
-          })}
-        >
-          <div>{icon}</div>
-          <div>{wallet.label}</div>
-        </li>
-      );
-
-      elems.push(elem);
-    }
-
-    return elems;
+  const selectElem = React.useMemo(() => {
+    return (
+      <div className={styles.selectWrapper}>
+        <select onChange={handleSelectVal}>
+          <option style={{ display: "none" }}></option>
+          <option
+            value={walletType.metamask.value}
+            disabled={selectedVal.value === walletType.metamask.value}
+          >
+            {walletType.metamask.value}
+          </option>
+        </select>
+        <div className={styles.imgContainer}>
+          <Image src={MetamaskSvg} width={24} height={24} alt={selectedVal.value} />
+        </div>
+        <MdOutlineKeyboardArrowDown />
+      </div>
+    );
   }, [selectedVal, handleSelectVal]);
 
   const handleClickConnectWallet = React.useCallback(async () => {
@@ -63,10 +51,11 @@ const WalletSelect: React.FC<WalletSelectProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.walletAddr}>
-        <input placeholder={i18n.wallet_address} value={walletAddr} readOnly />
-        <button onClick={handleClickConnectWallet}>{i18n.connect}</button>
-      </div>
+      {selectElem}
+      <input placeholder={i18n.wallet_address} value={walletAddr} readOnly />
+      <button className={styles.connectBtn} onClick={handleClickConnectWallet}>
+        {i18n.connect}
+      </button>
     </div>
   );
 };
@@ -74,17 +63,16 @@ const WalletSelect: React.FC<WalletSelectProps> = ({
 export default WalletSelect;
 
 export interface WalletSelectProps {
-  selectedVal: WalletType | undefined;
-  handleSelectVal: (val: WalletType) => void;
+  selectedVal: WalletTypeValue;
+  handleSelectVal: React.ChangeEventHandler<HTMLSelectElement>;
   walletAddr: string | undefined;
   setWalletAddr: React.Dispatch<React.SetStateAction<any>>;
 }
 
-export interface WalletType {
-  id: string;
-  label: string;
+export interface WalletTypeValue {
+  value: string;
 }
 
 export interface WalletEntryProps {
-  val: WalletType;
+  val: WalletTypeValue;
 }
