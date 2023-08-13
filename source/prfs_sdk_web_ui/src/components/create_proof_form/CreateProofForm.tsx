@@ -30,7 +30,7 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType, formHeight }) => {
   const [selectedWalletType, setSelectedWalletType] = React.useState<WalletTypeValue>({
     value: "metamask",
   });
-  const [walletAddr, setWalletAddr] = React.useState();
+  const [walletAddr, setWalletAddr] = React.useState("");
 
   const handleSelectWalletType = React.useCallback(
     (ev: React.ChangeEvent) => {

@@ -44,9 +44,9 @@ const WalletSelect: React.FC<WalletSelectProps> = ({
   }, [selectedVal, handleSelectVal]);
 
   const handleClickConnectWallet = React.useCallback(async () => {
-    const reply = await sendMsgToParent(new GetAddressMsg(""));
+    const addr = await sendMsgToParent(new GetAddressMsg(""));
 
-    setWalletAddr(reply);
+    setWalletAddr(addr);
   }, [handleSelectVal]);
 
   return (
@@ -65,7 +65,7 @@ export default WalletSelect;
 export interface WalletSelectProps {
   selectedVal: WalletTypeValue;
   handleSelectVal: React.ChangeEventHandler<HTMLSelectElement>;
-  walletAddr: string | undefined;
+  walletAddr: string;
   setWalletAddr: React.Dispatch<React.SetStateAction<any>>;
 }
 

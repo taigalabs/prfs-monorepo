@@ -43,7 +43,7 @@ class ProofGenElement {
       iframe.style.height = "320px";
       iframe.style.border = "none";
       iframe.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
-      iframe.style.border = "1px solid gray";
+      // iframe.style.border = "1px solid gray";
 
       const wrapperDiv = document.createElement("div");
       wrapperDiv.style.position = "relative";
