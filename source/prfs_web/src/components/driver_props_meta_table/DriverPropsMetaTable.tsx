@@ -16,7 +16,7 @@ const DriverPropsMetaTable: React.FC<DriverPropsMetaTableProps> = ({ driver, han
   });
 
   React.useEffect(() => {
-    setData({ record: driver?.properties_meta });
+    setData({ record: driver?.driver_properties_meta });
   }, [driver, setData]);
 
   const rowsElem = React.useMemo(() => {

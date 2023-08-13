@@ -19,7 +19,7 @@ pub struct CircuitType {
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
 pub struct CircuitInputMeta {
-    pub variable_name: String,
+    pub name: String,
     pub label: String,
     pub r#type: String,
     pub desc: String,
@@ -30,4 +30,12 @@ pub struct CircuitInputMeta {
 
 fn default_ref() -> String {
     String::from("")
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct DriverPropertyMeta {
+    pub label: String,
+    pub r#type: String,
+    pub desc: String,
 }
