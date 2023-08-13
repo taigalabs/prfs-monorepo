@@ -22,18 +22,49 @@ const ASSET_SERVER_ENDPOINT = process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT
 const SigDataInput: React.FC<SigDataInputProps> = ({ input, value, setFormValues }) => {
   const i18n = React.useContext(i18nContext);
 
+  React.useEffect(() => {
+    if (value === undefined) {
+      const defaultSigData: SigData = {
+        msgRaw: "default message",
+        msgHash: Buffer.from(""),
+        sig: "",
+      };
+
+      setFormValues(oldVals => {
+        return {
+          ...oldVals,
+          [input.label]: defaultSigData,
+        };
+      });
+    }
+  }, [value, setFormValues]);
+
   const handleClickSign = React.useCallback(async () => {
     if (value) {
-      await sendMsgToParent(new GetSignatureMsg(value.msgHash));
+      const msgRaw = value.msgRaw;
+      const msgHash = Buffer.from(msgRaw);
+      const sig = await sendMsgToParent(new GetSignatureMsg(msgHash));
+
+      setFormValues(oldVals => ({
+        ...oldVals,
+        [input.label]: {
+          msgRaw,
+          msgHash,
+          sig,
+        },
+      }));
     }
   }, [value, setFormValues]);
 
   return (
     <div className={styles.sigDataInputWrapper}>
       <input placeholder={input.desc} value={value?.msgRaw || ""} readOnly />
-      <button className={styles.connectBtn} onClick={handleClickSign}>
-        {i18n.sign}
-      </button>
+      <div className={styles.btnGroup}>
+        <p className={styles.signed}>{value?.sig ? i18n.signed : ""}</p>
+        <button className={styles.connectBtn} onClick={handleClickSign}>
+          {i18n.sign}
+        </button>
+      </div>
     </div>
   );
 };

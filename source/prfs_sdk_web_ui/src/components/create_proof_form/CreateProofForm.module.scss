@@ -66,6 +66,13 @@
   border-radius: 3px;
   margin-top: 4px;
 
+  .btnGroup {
+    display: flex;
+    position: absolute;
+    right: 5px;
+    align-items: center;
+  }
+
   input {
     padding-left: 5px;
     padding-right: 40px;
@@ -73,8 +80,11 @@
 
   button {
     cursor: pointer;
-    position: absolute;
-    right: 5px;
     color: var(--aqua-blue-50);
+  }
+
+  .signed {
+    color: var(--gray-50);
+    margin-right: 7px;
   }
 }
