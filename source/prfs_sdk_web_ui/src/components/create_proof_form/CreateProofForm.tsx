@@ -38,6 +38,25 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ input, value, setFormValues
   );
 };
 
+const MerkleProofInput: React.FC<SigDataInputProps> = ({ input, value, setFormValues }) => {
+  const i18n = React.useContext(i18nContext);
+
+  const handleClickSign = React.useCallback(async () => {
+    if (value) {
+      await sendMsgToParent(new GetSignatureMsg(value.msgHash));
+    }
+  }, [value, setFormValues]);
+
+  return (
+    <div className={styles.sigDataInputWrapper}>
+      <input placeholder={input.desc} value={value?.msgRaw || ""} readOnly />
+      <button className={styles.connectBtn} onClick={handleClickSign}>
+        {i18n.create}
+      </button>
+    </div>
+  );
+};
+
 const ProofGen: React.FC<ProofGenProps> = ({ proofType, formHeight }) => {
   const i18n = React.useContext(i18nContext);
 
@@ -92,7 +111,13 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType, formHeight }) => {
       // let inputEleme
       switch (val.type) {
         case "MERKLE_PROOF_1": {
-          inputElem = <HiOutlineDocumentText />;
+          inputElem = (
+            <MerkleProofInput
+              input={val}
+              value={formValues[val.label] as any}
+              setFormValues={setFormValues}
+            />
+          );
           break;
         }
         case "SIG_DATA_1": {

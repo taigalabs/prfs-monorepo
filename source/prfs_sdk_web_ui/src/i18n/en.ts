@@ -13,6 +13,7 @@ export default {
   language: "Language",
   feedback: "Feedback",
   id: "Id",
+  create: "Create",
   name: "Name",
   name_and_description: "Name and description",
   author: "Author",
