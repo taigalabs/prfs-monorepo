@@ -88,7 +88,9 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
             <WidgetHeader>
               <WidgetLabel>{i18n.circuit_types}</WidgetLabel>
             </WidgetHeader>
-            <CircuitTypeList circuit_types={driver?.circuit_types} />
+            <div className={styles.tableWrapper}>
+              <CircuitTypeList circuit_types={driver?.circuit_types} />
+            </div>
           </Widget>
         </Card>
       </CardRow>

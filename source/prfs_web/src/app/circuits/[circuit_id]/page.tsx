@@ -73,11 +73,11 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
         <CardRow>
           <Card>
             <Widget>
-              <div className={styles.widgetHeader}>
+              <WidgetHeader>
                 <WidgetLabel>
                   {i18n.driver_properties} ({circuit.driver_id})
                 </WidgetLabel>
-              </div>
+              </WidgetHeader>
               <div className={styles.tableContainer}>
                 <DriverPropInstanceTable driver_properties={circuit.driver_properties} />
               </div>
@@ -89,9 +89,9 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
         <CardRow>
           <Card>
             <Widget>
-              <div className={styles.widgetHeader}>
+              <WidgetHeader>
                 <WidgetLabel>{i18n.circuit_inputs}</WidgetLabel>
-              </div>
+              </WidgetHeader>
               <div className={styles.tableContainer}>
                 <CircuitInputMetaTable
                   circuit_inputs_meta={circuit.circuit_inputs_meta as CircuitInputMeta[]}
