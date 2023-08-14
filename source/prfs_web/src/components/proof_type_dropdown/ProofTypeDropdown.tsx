@@ -99,7 +99,11 @@ const ProofTypeDropdown: React.FC<ProofTypeDropdownProps> = ({ selectedVal, hand
         );
       }
 
-      return <DropdownList>{entries}</DropdownList>;
+      return (
+        <DropdownList>
+          <div className={styles.listContainer}>{entries}</div>
+        </DropdownList>
+      );
     },
     [data, handleSelectVal]
   );

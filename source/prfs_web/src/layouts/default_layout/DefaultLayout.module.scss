@@ -21,11 +21,13 @@
   flex-direction: column;
   flex-grow: 1;
   overflow-x: hidden;
-  padding: 20px 45px;
+  padding: 20px 35px 20px 25px;
   background-color: var(--bright-gray-50);
   /* border: 1px solid blue; */
 }
 
 .footerContainer {
+  /* position: absolute; */
+  /* bottom: 0; */
   margin-top: auto;
 }
