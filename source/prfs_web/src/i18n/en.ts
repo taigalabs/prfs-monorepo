@@ -84,7 +84,7 @@ export default {
   computed: "Computed",
   choose_circuit: "Choose a circuit",
   choose_proof_type: "Choose a proof type",
-  type_proof_inputs: "Type proof inputs",
+  get_ready_to_make_proof: "Get ready to make a proof",
   choose_set: "Choose a set",
   configure_circuit_inputs: "Configure circuit inputs",
   prover_generated: "prover_generated",

@@ -27,6 +27,7 @@ import { SpartanMerkleProof } from "@taigalabs/prfs-driver-spartan-js";
 import { hashPersonalMessage } from "@ethereumjs/util";
 import { ethers } from "ethers";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
+import { PaddedTableWrapper } from "../table/Table";
 
 const prfs = new PrfsSDK("test");
 
@@ -258,26 +259,29 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
           </Widget>
         </Card>
       </CardRow>
-      <CardRow>
-        <Card>
-          <Widget>
-            <WidgetHeader>
-              <WidgetLabel>{i18n.type_proof_inputs}</WidgetLabel>
-            </WidgetHeader>
-            <WidgetPaddedBody>
-              {selectedProofType && <div id="prfs-sdk-container"></div>}
-            </WidgetPaddedBody>
-          </Widget>
-        </Card>
-      </CardRow>
+      {selectedProofType && (
+        <>
+          <CardRow>
+            <Card>
+              <Widget>
+                <WidgetHeader>
+                  <WidgetLabel>{i18n.get_ready_to_make_proof}</WidgetLabel>
+                </WidgetHeader>
+                <WidgetPaddedBody>
+                  <div id="prfs-sdk-container"></div>
+                  <div className={styles.btnRow}>
+                    <Button variant="c" handleClick={handleClickCreateProofInstance}>
+                      {i18n.create_proof_type}
+                    </Button>
+                  </div>
+                </WidgetPaddedBody>
+              </Widget>
+            </Card>
+          </CardRow>
+        </>
+      )}
 
       {formAlert.length > 0 && <div className={styles.alert}>{formAlert}</div>}
-
-      {/* <div className={styles.btnRow}> */}
-      {/*   <Button variant="b" handleClick={handleClickCreateProofInstance}> */}
-      {/*     {i18n.create_proof_type} */}
-      {/*   </Button> */}
-      {/* </div> */}
     </div>
   );
 };
@@ -285,7 +289,3 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 export default CreateProofInstanceForm;
 
 export interface CreateProofInstanceFormProps {}
-
-interface ProgramSectionProps {
-  proofType: PrfsProofType;
-}
