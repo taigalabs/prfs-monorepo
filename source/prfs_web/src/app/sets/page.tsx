@@ -23,10 +23,12 @@ const Sets: React.FC = () => {
       <CardRow>
         <Card>
           <Widget>
-            <WidgetHeader>
+            <div className={styles.topWidgetTitle}>
               <WidgetLabel>{i18n.sets}</WidgetLabel>
-            </WidgetHeader>
-            <SetTable />
+            </div>
+            <div className={styles.tableWrapper}>
+              <SetTable />
+            </div>
           </Widget>
         </Card>
       </CardRow>
