@@ -26,11 +26,12 @@ import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInput
 const Circuit: React.FC<CircuitProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
   const { dispatch } = React.useContext(stateContext);
+  const router = useRouter();
+  const [circuit, setCircuit] = React.useState<PrfsCircuit>();
 
   useLocalWallet(dispatch);
-  const router = useRouter();
 
-  const [circuit, setCircuit] = React.useState<PrfsCircuit>();
+  const topWidgetLabel = `${i18n.circuit_summary_label} ${params.circuit_id}`;
 
   React.useEffect(() => {
     prfsApi
@@ -63,7 +64,7 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
                   <BreadcrumbEntry>{params.circuit_id}</BreadcrumbEntry>
                 </Breadcrumb>
               </div>
-              <WidgetLabel>{`${i18n.circuit_summary_label} ${params.circuit_id}`}</WidgetLabel>
+              <WidgetLabel>{topWidgetLabel}</WidgetLabel>
             </div>
             <CircuitSummary circuit={circuit} />
           </Widget>

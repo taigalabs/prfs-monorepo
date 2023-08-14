@@ -22,11 +22,12 @@ import CircuitInputsMetaTable from "@/components/circuit_inputs_meta_table/Circu
 const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
   const { dispatch } = React.useContext(stateContext);
+  const router = useRouter();
+  const [circuitType, setCircuitType] = React.useState<CircuitType>();
 
   useLocalWallet(dispatch);
-  const router = useRouter();
 
-  const [circuitType, setCircuitType] = React.useState<CircuitType>();
+  const topWidgetLabel = `${i18n.circuit_type} - ${params.circuit_type_id}`;
 
   React.useEffect(() => {
     prfsApi
@@ -47,40 +48,42 @@ const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {
 
   return (
     <DefaultLayout>
-      <Breadcrumb>
-        <BreadcrumbEntry>
-          <Link href="/circuit_types">{i18n.circuit_types}</Link>
-        </BreadcrumbEntry>
-        <BreadcrumbEntry>{params.circuit_type_id}</BreadcrumbEntry>
-      </Breadcrumb>
-      <div className={styles.contentArea}>
+      <CardRow>
+        <Card>
+          <Widget>
+            <div className={styles.topWidgetTitle}>
+              <div className={styles.breadcrumbContainer}>
+                <Breadcrumb>
+                  <BreadcrumbEntry>
+                    <Link href="/circuit_types">{i18n.circuit_types}</Link>
+                  </BreadcrumbEntry>
+                  <BreadcrumbEntry>{params.circuit_type_id}</BreadcrumbEntry>
+                </Breadcrumb>
+              </div>
+              <WidgetLabel>{topWidgetLabel}</WidgetLabel>
+            </div>
+            <CircuitTypeSummary circuitType={circuitType} />
+          </Widget>
+        </Card>
+      </CardRow>
+      {circuitType && (
         <CardRow>
           <Card>
             <Widget>
               <WidgetHeader>
-                <WidgetLabel>{`${i18n.circuit_type} - ${params.circuit_type_id}`}</WidgetLabel>
+                <WidgetLabel>
+                  {i18n.driver_inputs_meta} ({circuitType.circuit_type})
+                </WidgetLabel>
               </WidgetHeader>
-              <CircuitTypeSummary circuitType={circuitType} />
-            </Widget>
-          </Card>
-        </CardRow>
-        {circuitType && (
-          <CardRow>
-            <Card>
-              <Widget>
-                <WidgetHeader>
-                  <WidgetLabel>
-                    {i18n.driver_inputs_meta} ({circuitType.circuit_type})
-                  </WidgetLabel>
-                </WidgetHeader>
+              <div className={styles.tableWrapper}>
                 <CircuitInputsMetaTable
                   circuit_inputs_meta={circuitType.circuit_inputs_meta as CircuitInputMeta[]}
                 />
-              </Widget>
-            </Card>
-          </CardRow>
-        )}
-      </div>
+              </div>
+            </Widget>
+          </Card>
+        </CardRow>
+      )}
     </DefaultLayout>
   );
 };
