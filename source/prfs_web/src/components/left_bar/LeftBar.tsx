@@ -14,9 +14,9 @@ const Leftbar: React.FC<any> = () => {
       <div className={styles.topSection}>
         <ul>
           <li>
-            <ActiveLink href="/proof_wizard" exact activeClassName={styles.activeLink}>
+            <ActiveLink href="/#proof_wizard" exact activeClassName={styles.activeLink}>
               <p>{i18n.proof_wizard}</p>
-              <p className={styles.menuSublabel}>power</p>
+              <p className={styles.menuSublabel}>{i18n.proof_wizard_sublabel}</p>
             </ActiveLink>
           </li>
         </ul>
