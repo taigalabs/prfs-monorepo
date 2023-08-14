@@ -1,11 +1,8 @@
 .proofInstanceWidgetHeader {
   display: flex;
-  justify-content: space-between;
-  height: 80px;
+  width: 100%;
   align-items: center;
-  padding-left: 25px;
-  padding-right: 18px;
-  border-bottom: 1px solid var(--bright-gray-31);
+  justify-content: space-between;
 }
 
 .btnArea {

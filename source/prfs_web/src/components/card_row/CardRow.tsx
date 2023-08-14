@@ -1,6 +1,4 @@
 import React from "react";
-import Link from "next/link";
-import classnames from "classnames";
 
 import styles from "./CardRow.module.scss";
 

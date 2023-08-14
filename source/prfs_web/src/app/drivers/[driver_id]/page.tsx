@@ -64,8 +64,8 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
                     <BreadcrumbEntry>{params.driver_id}</BreadcrumbEntry>
                   </Breadcrumb>
                 </div>
+                <WidgetLabel>{programSummaryLabel}</WidgetLabel>
               </div>
-              <WidgetLabel>{programSummaryLabel}</WidgetLabel>
             </TopWidgetTitle>
             <PaddedSummaryWrapper>
               <DriverSummary driver={driver} />

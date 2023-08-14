@@ -254,18 +254,18 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
                   handleSelectVal={handleSelectProofType}
                 />
               </div>
-
-              {selectedProofType && (
-                <div className={styles.sdkContainer}>
-                  <div id="prfs-sdk-container">
-                    {/* <ProofGen */}
-                    {/*   proofType={selectedProofType} */}
-                    {/*   handleCreateProof={handleCreateProof} */}
-                    {/*   signer={signer} */}
-                    {/* /> */}
-                  </div>
-                </div>
-              )}
+            </WidgetPaddedBody>
+          </Widget>
+        </Card>
+      </CardRow>
+      <CardRow>
+        <Card>
+          <Widget>
+            <WidgetHeader>
+              <WidgetLabel>{i18n.type_proof_inputs}</WidgetLabel>
+            </WidgetHeader>
+            <WidgetPaddedBody>
+              {selectedProofType && <div id="prfs-sdk-container"></div>}
             </WidgetPaddedBody>
           </Widget>
         </Card>
