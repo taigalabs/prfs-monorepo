@@ -5,8 +5,7 @@
   left: 0;
   width: 100%;
   display: flex;
-  padding-left: 88px;
-  height: 41px;
+  height: 53px;
   background-color: var(--bright-gray-50);
   border-bottom: 1px solid var(--gray-70);
 }
@@ -14,7 +13,8 @@
 .logoArea {
   display: flex;
   align-items: center;
-  padding: 0 25px;
+  padding-left: 112px;
+  width: 285px;
 }
 
 .logoContainer {
