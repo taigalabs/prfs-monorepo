@@ -2,6 +2,7 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { ethers } from "ethers";
 
 import { handleChildMessage } from "./handle_msg";
+import { hideOnClickOutside } from "./click";
 
 export const LOADING_SPAN_ID = "prfs-sdk-loading";
 const SDK_ENDPOINT = "http://localhost:3010";
@@ -44,6 +45,7 @@ class ProofGenElement {
       iframe.style.border = "none";
       iframe.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
       // iframe.style.border = "1px solid gray";
+      //
 
       const wrapperDiv = document.createElement("div");
       wrapperDiv.style.position = "relative";
@@ -54,6 +56,8 @@ class ProofGenElement {
       container!.append(wrapperDiv);
 
       handleChildMessage(resolve, options, iframe);
+
+      hideOnClickOutside(iframe);
     });
   }
 }
