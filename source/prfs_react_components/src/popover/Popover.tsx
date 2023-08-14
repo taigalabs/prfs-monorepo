@@ -4,7 +4,7 @@ import { useFloating, useClick, useInteractions, useDismiss, flip } from "@float
 
 import styles from "./Popover.module.scss";
 
-function Popover({ popoverElem, baseElem }: PopoverProps) {
+function Popover({ popoverElem, createBase }: PopoverProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, floatingStyles, context } = useFloating({
     placement: "bottom-end",
@@ -21,6 +21,10 @@ function Popover({ popoverElem, baseElem }: PopoverProps) {
   //   setIsOpen(false);
   // }, [setIsOpen]);
 
+  const baseElem = React.useMemo(() => {
+    return createBase(isOpen);
+  }, [createBase, isOpen]);
+
   return (
     <div className={styles.dropdownWrapper}>
       <div
@@ -30,9 +34,9 @@ function Popover({ popoverElem, baseElem }: PopoverProps) {
         role="button"
       >
         {baseElem}
-        <div className={styles.arrowContainer}>
-          {isOpen ? <IoMdArrowDropup /> : <IoMdArrowDropdown />}
-        </div>
+        {/* <div className={styles.arrowContainer}> */}
+        {/*   {isOpen ? <IoMdArrowDropup /> : <IoMdArrowDropdown />} */}
+        {/* </div> */}
       </div>
       {isOpen && (
         <div
@@ -51,7 +55,7 @@ function Popover({ popoverElem, baseElem }: PopoverProps) {
 export default Popover;
 
 export interface PopoverProps {
-  baseElem: React.ReactNode;
+  createBase: (isOpen: boolean) => React.ReactNode;
   popoverElem: React.ReactNode;
   // handleSelectVal: (data: T) => void;
 }

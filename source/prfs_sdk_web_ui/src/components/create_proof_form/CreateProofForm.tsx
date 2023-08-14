@@ -17,6 +17,7 @@ import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitD
 import { i18nContext } from "@/contexts/i18n";
 import { useInterval } from "@/functions/interval";
 import WalletSelect, { WalletTypeValue } from "@/components/wallet_select/WalletSelect";
+import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
 
 const ASSET_SERVER_ENDPOINT = process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
@@ -70,34 +71,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ input, value, setFormValues
   );
 };
 
-const MerkleProofInput: React.FC<SigDataInputProps> = ({ input, value, setFormValues }) => {
-  const i18n = React.useContext(i18nContext);
-
-  const handleClickCreate = React.useCallback(async () => {
-    // if (value) {
-    //   await sendMsgToParent(new GetSignatureMsg(value.msgHash));
-    // }
-  }, [value, setFormValues]);
-
-  const baseElem = (
-    <button className={styles.connectBtn} onClick={handleClickCreate}>
-      {i18n.create}
-    </button>
-  );
-
-  const popoverElem = <div className={styles.merkleProofPopover}>powepo</div>;
-
-  return (
-    <div className={styles.merkleProofInputWrapper}>
-      <input placeholder={input.desc} value={value?.msgRaw || ""} readOnly />
-      <div className={styles.btnGroup}>
-        <Popover baseElem={baseElem} popoverElem={popoverElem} />
-      </div>
-    </div>
-  );
-};
-
-const ProofGen: React.FC<ProofGenProps> = ({ proofType, formHeight }) => {
+const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight }) => {
   const i18n = React.useContext(i18nContext);
 
   const [systemMsg, setSystemMsg] = React.useState("");
@@ -339,9 +313,9 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType, formHeight }) => {
   );
 };
 
-export default ProofGen;
+export default CreateProofForm;
 
-export interface ProofGenProps {
+export interface CreateProofFormProps {
   proofType: PrfsProofType;
   formHeight: number;
   // handleCreateProof: (proof: Uint8Array, publicInput: any) => void;
