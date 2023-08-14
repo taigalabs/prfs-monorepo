@@ -8,7 +8,7 @@ import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 
 import styles from "./Set.module.scss";
 import { stateContext } from "@/contexts/state";
-import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
+import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
@@ -16,8 +16,9 @@ import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import SetElementTable from "@/components/set_element_table/SetElementTable";
-import { TableCurrentPageLimitWarning } from "@/components/table/Table";
+import { PaddedTableWrapper, TableCurrentPageLimitWarning } from "@/components/table/Table";
 import SetSummary from "@/components/set_summary/SetSummary";
+import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
 
 const Set: React.FC<SetProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -51,18 +52,22 @@ const Set: React.FC<SetProps> = ({ params }) => {
       <CardRow>
         <Card>
           <Widget>
-            <div className={styles.topWidgetTitle}>
-              <div className={styles.breadcrumbContainer}>
-                <Breadcrumb>
-                  <BreadcrumbEntry>
-                    <Link href="/sets">{i18n.sets}</Link>
-                  </BreadcrumbEntry>
-                  <BreadcrumbEntry>{params.set_id}</BreadcrumbEntry>
-                </Breadcrumb>
+            <TopWidgetTitle>
+              <div className={styles.setHeader}>
+                <div className={styles.breadcrumbContainer}>
+                  <Breadcrumb>
+                    <BreadcrumbEntry>
+                      <Link href="/sets">{i18n.sets}</Link>
+                    </BreadcrumbEntry>
+                    <BreadcrumbEntry>{params.set_id}</BreadcrumbEntry>
+                  </Breadcrumb>
+                </div>
+                <WidgetLabel>{setTableLabel}</WidgetLabel>
               </div>
-              <WidgetLabel>{setTableLabel}</WidgetLabel>
-            </div>
-            <SetSummary set={set} />
+            </TopWidgetTitle>
+            <PaddedSummaryWrapper>
+              <SetSummary set={set} />
+            </PaddedSummaryWrapper>
           </Widget>
         </Card>
       </CardRow>
@@ -72,10 +77,10 @@ const Set: React.FC<SetProps> = ({ params }) => {
             <WidgetHeader>
               <WidgetLabel>{i18n.elements}</WidgetLabel>
             </WidgetHeader>
-            <div className={styles.tableContainer}>
+            <PaddedTableWrapper>
               <TableCurrentPageLimitWarning />
               <SetElementTable setId={params.set_id} />
-            </div>
+            </PaddedTableWrapper>
           </Widget>
         </Card>
       </CardRow>

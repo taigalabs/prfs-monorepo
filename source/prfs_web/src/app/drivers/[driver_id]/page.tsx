@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 
 import styles from "./Program.module.scss";
 import { stateContext } from "@/contexts/state";
-import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
+import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
@@ -19,15 +19,16 @@ import DriverSummary from "@/components/driver_summary/DriverSummary";
 import DriverPropsMetaTable from "@/components/driver_props_meta_table/DriverPropsMetaTable";
 import CircuitTypeList from "@/components/circuit_type_list/CircuitTypeList";
 import { DriverPropertyMeta } from "@taigalabs/prfs-entities/bindings/DriverPropertyMeta";
+import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
+import { PaddedTableWrapper } from "@/components/table/Table";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
   const { dispatch } = React.useContext(stateContext);
   const router = useRouter();
+  const [driver, setDriver] = React.useState<CircuitDriver>();
 
   useLocalWallet(dispatch);
-
-  const [driver, setDriver] = React.useState<CircuitDriver>();
 
   React.useEffect(() => {
     prfsApi
@@ -53,18 +54,22 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
       <CardRow>
         <Card>
           <Widget>
-            <div className={styles.topWidgetTitle}>
-              <div className={styles.breadcrumbContainer}>
-                <Breadcrumb>
-                  <BreadcrumbEntry>
-                    <Link href="/drivers">{i18n.drivers}</Link>
-                  </BreadcrumbEntry>
-                  <BreadcrumbEntry>{params.driver_id}</BreadcrumbEntry>
-                </Breadcrumb>
+            <TopWidgetTitle>
+              <div className={styles.driverHeader}>
+                <div className={styles.breadcrumbContainer}>
+                  <Breadcrumb>
+                    <BreadcrumbEntry>
+                      <Link href="/drivers">{i18n.drivers}</Link>
+                    </BreadcrumbEntry>
+                    <BreadcrumbEntry>{params.driver_id}</BreadcrumbEntry>
+                  </Breadcrumb>
+                </div>
               </div>
               <WidgetLabel>{programSummaryLabel}</WidgetLabel>
-            </div>
-            <DriverSummary driver={driver} />
+            </TopWidgetTitle>
+            <PaddedSummaryWrapper>
+              <DriverSummary driver={driver} />
+            </PaddedSummaryWrapper>
           </Widget>
         </Card>
       </CardRow>
@@ -74,11 +79,11 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
             <WidgetHeader>
               <WidgetLabel>{i18n.driver_properties_meta}</WidgetLabel>
             </WidgetHeader>
-            <div className={styles.tableWrapper}>
+            <PaddedTableWrapper>
               <DriverPropsMetaTable
                 driverPropsMeta={driver?.driver_properties_meta as DriverPropertyMeta[]}
               />
-            </div>
+            </PaddedTableWrapper>
           </Widget>
         </Card>
       </CardRow>
@@ -88,9 +93,9 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
             <WidgetHeader>
               <WidgetLabel>{i18n.circuit_types}</WidgetLabel>
             </WidgetHeader>
-            <div className={styles.tableWrapper}>
+            <PaddedTableWrapper>
               <CircuitTypeList circuit_types={driver?.circuit_types} />
-            </div>
+            </PaddedTableWrapper>
           </Widget>
         </Card>
       </CardRow>

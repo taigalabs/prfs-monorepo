@@ -27,9 +27,9 @@ const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {
   const router = useRouter();
   const [circuitType, setCircuitType] = React.useState<CircuitType>();
 
-  useLocalWallet(dispatch);
-
   const topWidgetLabel = `${i18n.circuit_type} - ${params.circuit_type_id}`;
+
+  useLocalWallet(dispatch);
 
   React.useEffect(() => {
     prfsApi
@@ -54,15 +54,17 @@ const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {
         <Card>
           <Widget>
             <TopWidgetTitle>
-              <div className={styles.breadcrumbContainer}>
-                <Breadcrumb>
-                  <BreadcrumbEntry>
-                    <Link href="/circuit_types">{i18n.circuit_types}</Link>
-                  </BreadcrumbEntry>
-                  <BreadcrumbEntry>{params.circuit_type_id}</BreadcrumbEntry>
-                </Breadcrumb>
+              <div className={styles.circuitTypeHeader}>
+                <div className={styles.breadcrumbContainer}>
+                  <Breadcrumb>
+                    <BreadcrumbEntry>
+                      <Link href="/circuit_types">{i18n.circuit_types}</Link>
+                    </BreadcrumbEntry>
+                    <BreadcrumbEntry>{params.circuit_type_id}</BreadcrumbEntry>
+                  </Breadcrumb>
+                </div>
+                <WidgetLabel>{topWidgetLabel}</WidgetLabel>
               </div>
-              <WidgetLabel>{topWidgetLabel}</WidgetLabel>
             </TopWidgetTitle>
             <PaddedSummaryWrapper>
               <CircuitTypeSummary circuitType={circuitType} />

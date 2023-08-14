@@ -9,7 +9,7 @@ import { RawCircuitInputMeta } from "@taigalabs/prfs-entities/bindings/RawCircui
 
 import styles from "./Circuit.module.scss";
 import { stateContext } from "@/contexts/state";
-import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
+import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
@@ -22,6 +22,8 @@ import RawCircuitInputMetaTable from "@/components/raw_circuit_input_meta_table/
 import CircuitInputTable from "@/components/circuit_input_table/CircuitInputTable";
 import CircuitInputMetaTable from "@/components/circuit_input_meta_table/CircuitInputMetaTable";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
+import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
+import { PaddedTableWrapper } from "@/components/table/Table";
 
 const Circuit: React.FC<CircuitProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -55,18 +57,22 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
       <CardRow>
         <Card>
           <Widget>
-            <div className={styles.topWidgetTitle}>
-              <div className={styles.breadcrumbContainer}>
-                <Breadcrumb>
-                  <BreadcrumbEntry>
-                    <Link href="/circuits">{i18n.circuits}</Link>
-                  </BreadcrumbEntry>
-                  <BreadcrumbEntry>{params.circuit_id}</BreadcrumbEntry>
-                </Breadcrumb>
+            <TopWidgetTitle>
+              <div className={styles.circuitHeader}>
+                <div className={styles.breadcrumbContainer}>
+                  <Breadcrumb>
+                    <BreadcrumbEntry>
+                      <Link href="/circuits">{i18n.circuits}</Link>
+                    </BreadcrumbEntry>
+                    <BreadcrumbEntry>{params.circuit_id}</BreadcrumbEntry>
+                  </Breadcrumb>
+                </div>
+                <WidgetLabel>{topWidgetLabel}</WidgetLabel>
               </div>
-              <WidgetLabel>{topWidgetLabel}</WidgetLabel>
-            </div>
-            <CircuitSummary circuit={circuit} />
+            </TopWidgetTitle>
+            <PaddedSummaryWrapper>
+              <CircuitSummary circuit={circuit} />
+            </PaddedSummaryWrapper>
           </Widget>
         </Card>
       </CardRow>
@@ -79,9 +85,9 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
                   {i18n.driver_properties} ({circuit.driver_id})
                 </WidgetLabel>
               </WidgetHeader>
-              <div className={styles.tableContainer}>
+              <PaddedTableWrapper>
                 <DriverPropInstanceTable driver_properties={circuit.driver_properties} />
-              </div>
+              </PaddedTableWrapper>
             </Widget>
           </Card>
         </CardRow>
@@ -93,11 +99,11 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
               <WidgetHeader>
                 <WidgetLabel>{i18n.circuit_inputs}</WidgetLabel>
               </WidgetHeader>
-              <div className={styles.tableContainer}>
+              <PaddedTableWrapper>
                 <CircuitInputMetaTable
                   circuit_inputs_meta={circuit.circuit_inputs_meta as CircuitInputMeta[]}
                 />
-              </div>
+              </PaddedTableWrapper>
             </Widget>
           </Card>
         </CardRow>
@@ -109,11 +115,11 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
               <WidgetHeader>
                 <WidgetLabel>{i18n.raw_circuit_inputs}</WidgetLabel>
               </WidgetHeader>
-              <div className={styles.tableContainer}>
+              <PaddedTableWrapper>
                 <RawCircuitInputMetaTable
                   raw_circuit_inputs_meta={circuit.raw_circuit_inputs_meta as RawCircuitInputMeta[]}
                 />
-              </div>
+              </PaddedTableWrapper>
             </Widget>
           </Card>
         </CardRow>
