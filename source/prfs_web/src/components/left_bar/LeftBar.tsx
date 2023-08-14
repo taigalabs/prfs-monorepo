@@ -5,6 +5,7 @@ import { FaAngleRight } from "react-icons/fa6";
 import styles from "./LeftBar.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import ActiveLink from "@/components/active_link/ActiveLink";
+import ProjectMeta from "../project_meta/ProjectMeta";
 
 const Leftbar: React.FC<any> = () => {
   const i18n = React.useContext(i18nContext);

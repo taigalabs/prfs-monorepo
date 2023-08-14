@@ -14,6 +14,7 @@ import CardRow from "@/components/card_row/CardRow";
 import CircuitTable from "@/components/circuit_table/CircuitTable";
 import ExploreTechSection from "@/components/explore_tech_section/ExploreTechSection";
 import LatestPrfsUpdateSection from "@/components/latest_prfs_update_section/LatestPrfsUpdateSection";
+import ProjectMeta from "@/components/project_meta/ProjectMeta";
 
 const Home: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -33,6 +34,9 @@ const Home: React.FC = () => {
           </div>
           <div className={styles.sectionWrapper}>
             <LatestPrfsUpdateSection />
+          </div>
+          <div className={styles.sectionWrapper}>
+            <ProjectMeta />
           </div>
         </div>
       </div>

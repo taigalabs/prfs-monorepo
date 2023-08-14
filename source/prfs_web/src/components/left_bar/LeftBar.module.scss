@@ -1,8 +1,10 @@
 .wrapper {
+  display: flex;
+  flex-direction: column;
   position: fixed;
   z-index: 100;
   width: 285px;
-  min-height: 100%;
+  height: calc(100% - 53px);
   flex-shrink: 0;
   padding: 10px 12px 34px 94px;
   font-size: 15px;
@@ -13,16 +15,20 @@
   li {
     line-height: 1em;
     color: var(--gray-30);
-    padding: 12px 18px;
-
-    a {
-      /* display: block; */
-    }
 
     a:hover {
-      text-decoration: underline;
-      /* background-color: var(--bright-gray-50); */
+      border-radius: 3px;
+      background-color: var(--bright-gray-30);
     }
+  }
+
+  a:hover {
+    background-color: var(--bright-gray-50);
+  }
+
+  a {
+    display: block;
+    padding: 12px 18px;
   }
 }
 
@@ -37,6 +43,9 @@
 
 .homeSection {
   margin-top: 20px;
+}
+
+.section {
 }
 
 .section:not(:first-child) {
@@ -56,8 +65,6 @@
 }
 
 .activeLink {
-  /* background-color: var(--bright-gray-50); */
-  /* color: var(--gray-20); */
 }
 
 p.menuSublabel {
