@@ -1,6 +1,13 @@
 import React from "react";
 import { IoMdArrowDropup, IoMdArrowDropdown } from "react-icons/io";
-import { useFloating, useClick, useInteractions, useDismiss, flip } from "@floating-ui/react";
+import {
+  offset,
+  useFloating,
+  useClick,
+  useInteractions,
+  useDismiss,
+  flip,
+} from "@floating-ui/react";
 
 import styles from "./Popover.module.scss";
 
@@ -10,7 +17,7 @@ function Popover({ popoverElem, createBase }: PopoverProps) {
     placement: "bottom-end",
     open: isOpen,
     onOpenChange: setIsOpen,
-    middleware: [flip()],
+    middleware: [flip(), offset(3)],
   });
   const dismiss = useDismiss(context);
   const click = useClick(context);
@@ -34,9 +41,6 @@ function Popover({ popoverElem, createBase }: PopoverProps) {
         role="button"
       >
         {baseElem}
-        {/* <div className={styles.arrowContainer}> */}
-        {/*   {isOpen ? <IoMdArrowDropup /> : <IoMdArrowDropdown />} */}
-        {/* </div> */}
       </div>
       {isOpen && (
         <div

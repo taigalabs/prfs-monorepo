@@ -17,18 +17,18 @@
     padding-left: 5px;
     padding-right: 40px;
   }
-
-  button {
-    cursor: pointer;
-    color: var(--aqua-blue-50);
-  }
 }
 
-.popoverWrapper {
-  width: 320px;
-  height: 70px;
+.createBtn {
+  cursor: pointer;
+  color: var(--aqua-blue-50);
 }
 
 .isOpen {
-  color: blue;
+  text-decoration: underline;
+}
+
+.popoverWrapper {
+  width: 460px;
+  height: 70px;
 }

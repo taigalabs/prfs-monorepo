@@ -22,6 +22,8 @@ import WalletSelect, { WalletTypeValue } from "@/components/wallet_select/Wallet
 const MerkleProofInput: React.FC<MerkleProofInputProps> = ({ input, value, setFormValues }) => {
   const i18n = React.useContext(i18nContext);
 
+  console.log(111, input);
+
   const handleClickCreate = React.useCallback(async () => {
     // if (value) {
     //   await sendMsgToParent(new GetSignatureMsg(value.msgHash));
@@ -29,10 +31,12 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({ input, value, setFo
   }, [value, setFormValues]);
 
   const createBase = React.useCallback((isOpen: boolean) => {
+    console.log(11, isOpen);
+
     return (
       <button
         className={cn({
-          [styles.connectBtn]: true,
+          [styles.createBtn]: true,
           [styles.isOpen]: isOpen,
         })}
         onClick={handleClickCreate}
