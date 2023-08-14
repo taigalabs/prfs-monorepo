@@ -14,7 +14,7 @@ import Loading from "@/components/loading/Loading";
 import NoSSR from "@/components/no_ssr/NoSSR";
 import { checkSanity } from "@/functions/sanity";
 
-const BASE_HEIGHT = 140;
+const BASE_HEIGHT = 100;
 const HEIGHT_PER_INPUT = 61;
 
 const PARENT_MSG_HANDLER = {

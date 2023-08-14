@@ -10,6 +10,7 @@ import { HiOutlineDocumentText } from "react-icons/hi2";
 import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 import { GetAddressMsg, GetSignatureMsg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
 
 import styles from "./CreateProofForm.module.scss";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
@@ -78,13 +79,19 @@ const MerkleProofInput: React.FC<SigDataInputProps> = ({ input, value, setFormVa
     // }
   }, [value, setFormValues]);
 
+  const baseElem = (
+    <button className={styles.connectBtn} onClick={handleClickCreate}>
+      {i18n.create}
+    </button>
+  );
+
+  const popoverElem = <div className={styles.merkleProofPopover}>powepo</div>;
+
   return (
     <div className={styles.merkleProofInputWrapper}>
       <input placeholder={input.desc} value={value?.msgRaw || ""} readOnly />
       <div className={styles.btnGroup}>
-        <button className={styles.connectBtn} onClick={handleClickCreate}>
-          {i18n.create}
-        </button>
+        <Popover baseElem={baseElem} popoverElem={popoverElem} />
       </div>
     </div>
   );
@@ -319,11 +326,11 @@ const ProofGen: React.FC<ProofGenProps> = ({ proofType, formHeight }) => {
           setWalletAddr={setWalletAddr}
         />
         <div className={styles.circuitInputs}>{circuitInputsElem}</div>
-        <div className={styles.btnRow}>
-          <Button variant="b" handleClick={handleClickCreateProof} disabled={!driver}>
-            {i18n.create_proof}
-          </Button>
-        </div>
+        {/* <div className={styles.btnRow}> */}
+        {/*   <Button variant="b" handleClick={handleClickCreateProof} disabled={!driver}> */}
+        {/*     {i18n.create_proof} */}
+        {/*   </Button> */}
+        {/* </div> */}
         <div className={styles.systemMsg}>
           <div>{systemMsg}</div>
         </div>
