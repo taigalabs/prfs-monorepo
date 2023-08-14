@@ -1,12 +1,15 @@
 .topWidgetTitle {
-  height: 80px;
   display: flex;
+
   align-items: center;
+  height: 80px;
   padding-left: 25px;
   border-bottom: 1px solid var(--bright-gray-31);
 }
 
 .tableWrapper {
+  padding: 0 18px;
+
   thead {
     border-bottom: 1px solid var(--bright-gray-31);
   }

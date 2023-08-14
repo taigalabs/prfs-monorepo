@@ -23,10 +23,12 @@ const Programs: React.FC = () => {
       <CardRow>
         <Card>
           <Widget>
-            <WidgetHeader>
+            <div className={styles.topWidgetTitle}>
               <WidgetLabel>{i18n.drivers}</WidgetLabel>
-            </WidgetHeader>
-            <DriverTable />
+            </div>
+            <div className={styles.tableWrapper}>
+              <DriverTable />
+            </div>
           </Widget>
         </Card>
       </CardRow>

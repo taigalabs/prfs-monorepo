@@ -1,13 +1,9 @@
 .tableWrapper {
   overflow-x: scroll;
-
-  table {
-    border-collapse: collapse;
-  }
 }
 
 .tableHeaderWrapper {
-  /* background-color: var(--bright-gray-55); */
+  background-color: var(--bright-gray-53);
   /* border-top: 1px solid var(--gray-80); */
   /* border-bottom: 1px solid var(--gray-80); */
   padding: 0px 0px;
@@ -22,7 +18,7 @@
   }
 
   th {
-    padding: 11px 12px;
+    padding: 6px 12px;
     position: relative;
     white-space: nowrap;
     word-wrap: break-word;
