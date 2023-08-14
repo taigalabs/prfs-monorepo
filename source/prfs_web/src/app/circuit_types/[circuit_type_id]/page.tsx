@@ -9,7 +9,7 @@ import { CircuitType } from "@taigalabs/prfs-entities/bindings/CircuitType";
 
 import styles from "./CircuitType.module.scss";
 import { stateContext } from "@/contexts/state";
-import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
+import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
@@ -18,6 +18,8 @@ import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import CircuitTypeSummary from "@/components/circuit_type_summary/CircuitTypeSummary";
 import CircuitInputsMetaTable from "@/components/circuit_inputs_meta_table/CircuitInputsMetaTable";
+import { PaddedTableWrapper } from "@/components/table/Table";
+import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
 
 const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -51,7 +53,7 @@ const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {
       <CardRow>
         <Card>
           <Widget>
-            <div className={styles.topWidgetTitle}>
+            <TopWidgetTitle>
               <div className={styles.breadcrumbContainer}>
                 <Breadcrumb>
                   <BreadcrumbEntry>
@@ -61,8 +63,10 @@ const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {
                 </Breadcrumb>
               </div>
               <WidgetLabel>{topWidgetLabel}</WidgetLabel>
-            </div>
-            <CircuitTypeSummary circuitType={circuitType} />
+            </TopWidgetTitle>
+            <PaddedSummaryWrapper>
+              <CircuitTypeSummary circuitType={circuitType} />
+            </PaddedSummaryWrapper>
           </Widget>
         </Card>
       </CardRow>
@@ -75,11 +79,11 @@ const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {
                   {i18n.driver_inputs_meta} ({circuitType.circuit_type})
                 </WidgetLabel>
               </WidgetHeader>
-              <div className={styles.tableWrapper}>
+              <PaddedTableWrapper>
                 <CircuitInputsMetaTable
                   circuit_inputs_meta={circuitType.circuit_inputs_meta as CircuitInputMeta[]}
                 />
-              </div>
+              </PaddedTableWrapper>
             </Widget>
           </Card>
         </CardRow>

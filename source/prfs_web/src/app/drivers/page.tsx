@@ -4,13 +4,14 @@ import React from "react";
 
 import styles from "./Programs.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
+import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import DriverTable from "@/components/driver_table/DriverTable";
+import { PaddedTableWrapper } from "@/components/table/Table";
 
 const Programs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -23,12 +24,12 @@ const Programs: React.FC = () => {
       <CardRow>
         <Card>
           <Widget>
-            <div className={styles.topWidgetTitle}>
+            <TopWidgetTitle>
               <WidgetLabel>{i18n.drivers}</WidgetLabel>
-            </div>
-            <div className={styles.tableWrapper}>
+            </TopWidgetTitle>
+            <PaddedTableWrapper>
               <DriverTable />
-            </div>
+            </PaddedTableWrapper>
           </Widget>
         </Card>
       </CardRow>

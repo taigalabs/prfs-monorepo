@@ -2,6 +2,16 @@
   overflow-x: scroll;
 }
 
+.paddedTableWrapper {
+  padding: 0 24px;
+
+  thead {
+    tr {
+      border-top: none;
+    }
+  }
+}
+
 .tableHeaderWrapper {
   background-color: var(--bright-gray-54);
   padding: 0px 0px;

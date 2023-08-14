@@ -11,6 +11,7 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import CircuitTypeTable from "@/components/circuit_type_table/CircuitTypeTable";
+import { PaddedTableWrapper } from "@/components/table/Table";
 
 const CircuitTypes: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -26,9 +27,9 @@ const CircuitTypes: React.FC = () => {
             <div className={styles.topWidgetTitle}>
               <WidgetLabel>{i18n.circuit_types}</WidgetLabel>
             </div>
-            <div className={styles.tableWrapper}>
+            <PaddedTableWrapper>
               <CircuitTypeTable />
-            </div>
+            </PaddedTableWrapper>
           </Widget>
         </Card>
       </CardRow>
