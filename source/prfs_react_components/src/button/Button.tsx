@@ -15,6 +15,7 @@ const Button: React.FC<Button1Props> = ({
       className={classnames({
         [styles.a]: variant === "a",
         [styles.b]: variant === "b",
+        [styles.c]: variant === "c",
         [styles.transparent_a]: variant === "transparent_a",
         [className || ""]: true,
       })}
@@ -29,7 +30,7 @@ const Button: React.FC<Button1Props> = ({
 export default Button;
 
 export interface Button1Props {
-  variant: "a" | "b" | "transparent_a";
+  variant: "a" | "b" | "c" | "transparent_a";
   className?: string;
   children: React.ReactNode;
   disabled?: boolean;

@@ -24,6 +24,19 @@
   }
 }
 
+.c {
+  border-radius: 4px;
+  background-color: #445dc6;
+  color: #fff;
+  font-weight: 700;
+  padding: 8px 12px;
+
+  &:hover {
+    /* background-color: var(--bright-green-30); */
+    cursor: pointer;
+  }
+}
+
 .transparent_a {
   border: 1px solid gray;
   border-radius: 1px;
