@@ -9,18 +9,20 @@ import styles from "./DriverPropsMetaTable.module.scss";
 import Table, { TableBody, TableRow, TableHeader, TableRecordData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 
-const DriverPropsMetaTable: React.FC<DriverPropsMetaTableProps> = ({ driver, handleSelectVal }) => {
+const DriverPropsMetaTable: React.FC<DriverPropsMetaTableProps> = ({ driverPropsMeta }) => {
   const i18n = React.useContext(i18nContext);
   const [data, setData] = React.useState<TableRecordData<Record<string, any> | undefined>>({
-    record: driver,
+    record: driverPropsMeta,
   });
 
   React.useEffect(() => {
-    setData({ record: driver?.driver_properties_meta });
-  }, [driver, setData]);
+    setData({ record: driverPropsMeta });
+  }, [driverPropsMeta, setData]);
 
   const rowsElem = React.useMemo(() => {
     let { record } = data;
+
+    console.log(11, record);
 
     let rows: React.ReactNode[] = [];
     if (record === undefined || Object.keys(record).length < 1) {
@@ -57,7 +59,7 @@ const DriverPropsMetaTable: React.FC<DriverPropsMetaTableProps> = ({ driver, han
 export default DriverPropsMetaTable;
 
 export interface DriverPropsMetaTableProps {
-  driver: CircuitDriver | undefined;
+  driverPropsMeta: Record<string, any> | undefined;
   selectType?: "checkbox" | "radio";
   selectedVal?: PrfsCircuit;
   handleSelectVal?: (row: PrfsCircuit) => void;
