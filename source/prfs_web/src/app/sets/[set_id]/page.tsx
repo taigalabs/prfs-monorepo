@@ -48,35 +48,37 @@ const Set: React.FC<SetProps> = ({ params }) => {
 
   return (
     <DefaultLayout>
-      <Breadcrumb>
-        <BreadcrumbEntry>
-          <Link href="/sets">{i18n.sets}</Link>
-        </BreadcrumbEntry>
-        <BreadcrumbEntry>{params.set_id}</BreadcrumbEntry>
-      </Breadcrumb>
-      <div className={styles.contentArea}>
-        <CardRow>
-          <Card>
-            <Widget>
-              <WidgetHeader>
-                <WidgetLabel>{setTableLabel}</WidgetLabel>
-              </WidgetHeader>
-              <SetSummary set={set} />
-            </Widget>
-          </Card>
-        </CardRow>
-        <CardRow>
-          <Card>
-            <Widget>
-              <WidgetHeader>
-                <WidgetLabel>{i18n.elements}</WidgetLabel>
-              </WidgetHeader>
+      <CardRow>
+        <Card>
+          <Widget>
+            <div className={styles.topWidgetTitle}>
+              <div className={styles.breadcrumbContainer}>
+                <Breadcrumb>
+                  <BreadcrumbEntry>
+                    <Link href="/sets">{i18n.sets}</Link>
+                  </BreadcrumbEntry>
+                  <BreadcrumbEntry>{params.set_id}</BreadcrumbEntry>
+                </Breadcrumb>
+              </div>
+              <WidgetLabel>{setTableLabel}</WidgetLabel>
+            </div>
+            <SetSummary set={set} />
+          </Widget>
+        </Card>
+      </CardRow>
+      <CardRow>
+        <Card>
+          <Widget>
+            <WidgetHeader>
+              <WidgetLabel>{i18n.elements}</WidgetLabel>
+            </WidgetHeader>
+            <div className={styles.tableContainer}>
               <TableCurrentPageLimitWarning />
               <SetElementTable setId={params.set_id} />
-            </Widget>
-          </Card>
-        </CardRow>
-      </div>
+            </div>
+          </Widget>
+        </Card>
+      </CardRow>
     </DefaultLayout>
   );
 };
