@@ -17,11 +17,7 @@ export const WidgetHeader: React.FC<WidgetHeaderProps> = ({ children }) => {
 };
 
 const Widget: React.FC<WidgetProps> = ({ children }) => {
-  return (
-    <div className={styles.wrapper}>
-      <div>{children}</div>
-    </div>
-  );
+  return <div className={styles.wrapper}>{children}</div>;
 };
 
 export default Widget;

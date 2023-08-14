@@ -43,17 +43,17 @@ const Proofs: React.FC = () => {
         <CardRow>
           <Card>
             <Widget>
-              <WidgetHeader>
-                <div className={styles.proofTypesHeader}>
-                  <WidgetLabel>{i18n.proof_types}</WidgetLabel>
-                  <div className={styles.btnArea}>
-                    <Button variant="b" handleClick={handleClickCreateProofType}>
-                      {i18n.create_proof_type}
-                    </Button>
-                  </div>
+              <div className={styles.proofTypesHeader}>
+                <WidgetLabel>{i18n.proof_types}</WidgetLabel>
+                <div className={styles.btnArea}>
+                  <Button variant="b" handleClick={handleClickCreateProofType}>
+                    {i18n.create_proof_type}
+                  </Button>
                 </div>
-              </WidgetHeader>
-              <ProofTypeTable />
+              </div>
+              <div className={styles.tableWrapper}>
+                <ProofTypeTable />
+              </div>
             </Widget>
           </Card>
         </CardRow>

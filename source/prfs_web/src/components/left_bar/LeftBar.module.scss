@@ -6,38 +6,36 @@
   width: 285px;
   height: calc(100% - 53px);
   flex-shrink: 0;
-  padding: 10px 12px 34px 94px;
+  padding: 0px 0px 34px 94px;
   font-size: 15px;
-  background-color: var(--bright-gray-50);
-  border-right: 1px solid var(--gray-70);
-  color: var(--gray-20);
+  /* background-color: var(--bright-gray-60); */
+  border-right: 1px solid var(--bright-gray-31);
+  color: var(--black-50);
 
   li {
     line-height: 1em;
-    color: var(--gray-30);
 
     a:hover {
-      border-radius: 3px;
-      background-color: var(--bright-gray-30);
+      background-color: var(--bright-gray-40);
     }
   }
 
-  a:hover {
-    background-color: var(--bright-gray-50);
-  }
-
   a {
+    border-radius: 5px;
     display: block;
     padding: 12px 18px;
+    margin-right: 14px;
   }
 }
 
 .topSection {
-  border-bottom: 1px solid var(--bright-gray-30);
-  padding-bottom: 6px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--bright-gray-31);
+  height: 80px;
 
   a {
-    color: var(--gray-20);
+    /* color: var(--gray-20); */
   }
 }
 
@@ -55,9 +53,8 @@
 .category {
   display: flex;
   align-items: center;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 12px;
-  /* color: var(--gray-20); */
   padding: 14px 18px;
 
   svg {
@@ -65,6 +62,7 @@
 }
 
 .activeLink {
+  font-weight: 700;
 }
 
 p.menuSublabel {

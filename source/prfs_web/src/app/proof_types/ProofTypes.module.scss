@@ -2,12 +2,19 @@
   display: flex;
   justify-content: space-between;
 
-  > div {
-    display: flex;
-    align-items: center;
-  }
+  align-items: center;
+  height: 80px;
+  padding-left: 25px;
+  border-bottom: 1px solid var(--bright-gray-31);
+}
 
-  .createBtn {
-    border: 1px solid black;
+.btnArea {
+  display: flex;
+  align-items: center;
+}
+
+.tableWrapper {
+  thead {
+    border-bottom: 1px solid var(--bright-gray-31);
   }
 }
