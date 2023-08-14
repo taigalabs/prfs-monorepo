@@ -23,10 +23,12 @@ const CircuitTypes: React.FC = () => {
       <CardRow>
         <Card>
           <Widget>
-            <WidgetHeader>
+            <div className={styles.topWidgetTitle}>
               <WidgetLabel>{i18n.circuit_types}</WidgetLabel>
-            </WidgetHeader>
-            <CircuitTypeTable />
+            </div>
+            <div className={styles.tableWrapper}>
+              <CircuitTypeTable />
+            </div>
           </Widget>
         </Card>
       </CardRow>
