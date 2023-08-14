@@ -6,13 +6,7 @@ import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import { DriverPropertyMeta } from "@taigalabs/prfs-entities/bindings/DriverPropertyMeta";
 
 import styles from "./DriverPropsMetaTable.module.scss";
-import Table, {
-  TableBody,
-  TableRow,
-  TableHeader,
-  TableRecordData,
-  TableData,
-} from "@/components/table/Table";
+import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 
 const DriverPropsMetaTable: React.FC<DriverPropsMetaTableProps> = ({ driverPropsMeta }) => {

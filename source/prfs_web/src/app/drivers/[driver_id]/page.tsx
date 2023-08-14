@@ -18,6 +18,7 @@ import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb"
 import DriverSummary from "@/components/driver_summary/DriverSummary";
 import DriverPropsMetaTable from "@/components/driver_props_meta_table/DriverPropsMetaTable";
 import CircuitTypeList from "@/components/circuit_type_list/CircuitTypeList";
+import { DriverPropertyMeta } from "@taigalabs/prfs-entities/bindings/DriverPropertyMeta";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -72,7 +73,9 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
               <WidgetHeader>
                 <WidgetLabel>{i18n.driver_properties_meta}</WidgetLabel>
               </WidgetHeader>
-              <DriverPropsMetaTable driverPropsMeta={driver?.driver_properties_meta} />
+              <DriverPropsMetaTable
+                driverPropsMeta={driver?.driver_properties_meta as DriverPropertyMeta[]}
+              />
             </Widget>
           </Card>
         </CardRow>
