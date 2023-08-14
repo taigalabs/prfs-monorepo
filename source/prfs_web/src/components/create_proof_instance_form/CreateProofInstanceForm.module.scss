@@ -2,6 +2,11 @@
   max-width: 760px;
 }
 
+.breadcrumbContainer {
+  padding-top: 12px;
+  padding-bottom: 13px;
+}
+
 .textInputContainer {
   &:not(:first-child) {
     margin-top: 15px;
@@ -44,4 +49,8 @@
       text-decoration: underline;
     }
   }
+}
+
+.sdkContainer {
+  margin-top: 32px;
 }

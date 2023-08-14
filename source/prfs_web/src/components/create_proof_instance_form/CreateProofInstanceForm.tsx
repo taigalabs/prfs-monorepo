@@ -228,21 +228,22 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
   return (
     <div className={styles.wrapper}>
-      <Breadcrumb>
-        <BreadcrumbEntry>
-          <Link href="/proofs">{i18n.proofs}</Link>
-        </BreadcrumbEntry>
-        <BreadcrumbEntry>{i18n.create_proof_type}</BreadcrumbEntry>
-      </Breadcrumb>
-      <FormTitleRow>
-        <FormTitle>{i18n.create_proof_instance}</FormTitle>
-        <FormSubtitle>{i18n.create_proof_instance_subtitle}</FormSubtitle>
-      </FormTitleRow>
-
       <CardRow>
         <Card>
           <Widget>
             <WidgetHeader>
+              <div className={styles.breadcrumbContainer}>
+                <Breadcrumb>
+                  <BreadcrumbEntry>
+                    <Link href="/proofs">{i18n.proofs}</Link>
+                  </BreadcrumbEntry>
+                  <BreadcrumbEntry>{i18n.create_proof_type}</BreadcrumbEntry>
+                </Breadcrumb>
+              </div>
+              <FormTitleRow>
+                <FormTitle>{i18n.create_proof_instance}</FormTitle>
+                <FormSubtitle>{i18n.create_proof_instance_subtitle}</FormSubtitle>
+              </FormTitleRow>
               <WidgetLabel>{i18n.choose_proof_type}</WidgetLabel>
             </WidgetHeader>
             <WidgetPaddedBody>
@@ -253,22 +254,22 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
                   handleSelectVal={handleSelectProofType}
                 />
               </div>
+
+              {selectedProofType && (
+                <div className={styles.sdkContainer}>
+                  <div id="prfs-sdk-container">
+                    {/* <ProofGen */}
+                    {/*   proofType={selectedProofType} */}
+                    {/*   handleCreateProof={handleCreateProof} */}
+                    {/*   signer={signer} */}
+                    {/* /> */}
+                  </div>
+                </div>
+              )}
             </WidgetPaddedBody>
           </Widget>
         </Card>
       </CardRow>
-
-      {selectedProofType && (
-        <CardRow>
-          <div id="prfs-sdk-container">
-            {/* <ProofGen */}
-            {/*   proofType={selectedProofType} */}
-            {/*   handleCreateProof={handleCreateProof} */}
-            {/*   signer={signer} */}
-            {/* /> */}
-          </div>
-        </CardRow>
-      )}
 
       {formAlert.length > 0 && <div className={styles.alert}>{formAlert}</div>}
 
