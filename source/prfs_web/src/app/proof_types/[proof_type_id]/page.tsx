@@ -47,34 +47,36 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
 
   return (
     <DefaultLayout>
-      <Breadcrumb>
-        <BreadcrumbEntry>
-          <Link href="/proof_types">{i18n.proof_types}</Link>
-        </BreadcrumbEntry>
-        <BreadcrumbEntry>{params.proof_type_id}</BreadcrumbEntry>
-      </Breadcrumb>
-      <div className={styles.contentArea}>
-        <CardRow>
-          <Card>
-            <Widget>
-              <WidgetHeader>
-                <WidgetLabel>{proofTypeSummaryLabel}</WidgetLabel>
-              </WidgetHeader>
-              <ProofTypeSummary proofType={proofType} />
-            </Widget>
-          </Card>
-        </CardRow>
-        <CardRow>
-          <Card>
-            <Widget>
-              <WidgetHeader>
-                <WidgetLabel>{i18n.circuit_inputs}</WidgetLabel>
-              </WidgetHeader>
+      <CardRow>
+        <Card>
+          <Widget>
+            <div className={styles.topWidgetTitle}>
+              <div className={styles.breadcrumbContainer}>
+                <Breadcrumb>
+                  <BreadcrumbEntry>
+                    <Link href="/proof_types">{i18n.proof_types}</Link>
+                  </BreadcrumbEntry>
+                  <BreadcrumbEntry>{params.proof_type_id}</BreadcrumbEntry>
+                </Breadcrumb>
+              </div>
+              <WidgetLabel>{proofTypeSummaryLabel}</WidgetLabel>
+            </div>
+            <ProofTypeSummary proofType={proofType} />
+          </Widget>
+        </Card>
+      </CardRow>
+      <CardRow>
+        <Card>
+          <Widget>
+            <div className={styles.widgetHeader}>
+              <WidgetLabel>{i18n.circuit_inputs}</WidgetLabel>
+            </div>
+            <div className={styles.tableContainer}>
               {proofType && <CircuitInputTable circuit_inputs={proofType.circuit_inputs} />}
-            </Widget>
-          </Card>
-        </CardRow>
-      </div>
+            </div>
+          </Widget>
+        </Card>
+      </CardRow>
     </DefaultLayout>
   );
 };

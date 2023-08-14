@@ -50,46 +50,48 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
 
   return (
     <DefaultLayout>
-      <Breadcrumb>
-        <BreadcrumbEntry>
-          <Link href="/drivers">{i18n.drivers}</Link>
-        </BreadcrumbEntry>
-        <BreadcrumbEntry>{params.driver_id}</BreadcrumbEntry>
-      </Breadcrumb>
-      <div className={styles.contentArea}>
-        <CardRow>
-          <Card>
-            <Widget>
-              <WidgetHeader>
-                <WidgetLabel>{programSummaryLabel}</WidgetLabel>
-              </WidgetHeader>
-              <DriverSummary driver={driver} />
-            </Widget>
-          </Card>
-        </CardRow>
-        <CardRow>
-          <Card>
-            <Widget>
-              <WidgetHeader>
-                <WidgetLabel>{i18n.driver_properties_meta}</WidgetLabel>
-              </WidgetHeader>
+      <CardRow>
+        <Card>
+          <Widget>
+            <div className={styles.topWidgetTitle}>
+              <div className={styles.breadcrumbContainer}>
+                <Breadcrumb>
+                  <BreadcrumbEntry>
+                    <Link href="/drivers">{i18n.drivers}</Link>
+                  </BreadcrumbEntry>
+                  <BreadcrumbEntry>{params.driver_id}</BreadcrumbEntry>
+                </Breadcrumb>
+              </div>
+              <WidgetLabel>{programSummaryLabel}</WidgetLabel>
+            </div>
+            <DriverSummary driver={driver} />
+          </Widget>
+        </Card>
+      </CardRow>
+      <CardRow>
+        <Card>
+          <Widget>
+            <WidgetHeader>
+              <WidgetLabel>{i18n.driver_properties_meta}</WidgetLabel>
+            </WidgetHeader>
+            <div className={styles.tableWrapper}>
               <DriverPropsMetaTable
                 driverPropsMeta={driver?.driver_properties_meta as DriverPropertyMeta[]}
               />
-            </Widget>
-          </Card>
-        </CardRow>
-        <CardRow>
-          <Card>
-            <Widget>
-              <WidgetHeader>
-                <WidgetLabel>{i18n.circuit_types}</WidgetLabel>
-              </WidgetHeader>
-              <CircuitTypeList circuit_types={driver?.circuit_types} />
-            </Widget>
-          </Card>
-        </CardRow>
-      </div>
+            </div>
+          </Widget>
+        </Card>
+      </CardRow>
+      <CardRow>
+        <Card>
+          <Widget>
+            <WidgetHeader>
+              <WidgetLabel>{i18n.circuit_types}</WidgetLabel>
+            </WidgetHeader>
+            <CircuitTypeList circuit_types={driver?.circuit_types} />
+          </Widget>
+        </Card>
+      </CardRow>
     </DefaultLayout>
   );
 };

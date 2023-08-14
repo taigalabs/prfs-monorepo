@@ -51,66 +51,72 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
 
   return (
     <DefaultLayout>
-      <Breadcrumb>
-        <BreadcrumbEntry>
-          <Link href="/circuits">{i18n.circuits}</Link>
-        </BreadcrumbEntry>
-        <BreadcrumbEntry>{params.circuit_id}</BreadcrumbEntry>
-      </Breadcrumb>
-      <div className={styles.contentArea}>
+      <CardRow>
+        <Card>
+          <Widget>
+            <div className={styles.topWidgetTitle}>
+              <div className={styles.breadcrumbContainer}>
+                <Breadcrumb>
+                  <BreadcrumbEntry>
+                    <Link href="/circuits">{i18n.circuits}</Link>
+                  </BreadcrumbEntry>
+                  <BreadcrumbEntry>{params.circuit_id}</BreadcrumbEntry>
+                </Breadcrumb>
+              </div>
+              <WidgetLabel>{`${i18n.circuit_summary_label} ${params.circuit_id}`}</WidgetLabel>
+            </div>
+            <CircuitSummary circuit={circuit} />
+          </Widget>
+        </Card>
+      </CardRow>
+      {circuit && (
+        <CardRow>
+          <Card>
+            <Widget>
+              <div className={styles.widgetHeader}>
+                <WidgetLabel>
+                  {i18n.driver_properties} ({circuit.driver_id})
+                </WidgetLabel>
+              </div>
+              <div className={styles.tableContainer}>
+                <DriverPropInstanceTable driver_properties={circuit.driver_properties} />
+              </div>
+            </Widget>
+          </Card>
+        </CardRow>
+      )}
+      {circuit && (
+        <CardRow>
+          <Card>
+            <Widget>
+              <div className={styles.widgetHeader}>
+                <WidgetLabel>{i18n.circuit_inputs}</WidgetLabel>
+              </div>
+              <div className={styles.tableContainer}>
+                <CircuitInputMetaTable
+                  circuit_inputs_meta={circuit.circuit_inputs_meta as CircuitInputMeta[]}
+                />
+              </div>
+            </Widget>
+          </Card>
+        </CardRow>
+      )}
+      {circuit && (
         <CardRow>
           <Card>
             <Widget>
               <WidgetHeader>
-                <WidgetLabel>{`${i18n.circuit} - ${params.circuit_id}`}</WidgetLabel>
+                <WidgetLabel>{i18n.raw_circuit_inputs}</WidgetLabel>
               </WidgetHeader>
-              <CircuitSummary circuit={circuit} />
-            </Widget>
-          </Card>
-        </CardRow>
-        {circuit && (
-          <CardRow>
-            <Card>
-              <Widget>
-                <WidgetHeader>
-                  <WidgetLabel>
-                    {i18n.driver_properties} ({circuit.driver_id})
-                  </WidgetLabel>
-                </WidgetHeader>
-                <DriverPropInstanceTable driver_properties={circuit.driver_properties} />
-              </Widget>
-            </Card>
-          </CardRow>
-        )}
-        {circuit && (
-          <CardRow>
-            <Card>
-              <Widget>
-                <WidgetHeader>
-                  <WidgetLabel>{i18n.circuit_inputs}</WidgetLabel>
-                </WidgetHeader>
-                <CircuitInputMetaTable
-                  circuit_inputs_meta={circuit.circuit_inputs_meta as CircuitInputMeta[]}
-                />
-              </Widget>
-            </Card>
-          </CardRow>
-        )}
-        {circuit && (
-          <CardRow>
-            <Card>
-              <Widget>
-                <WidgetHeader>
-                  <WidgetLabel>{i18n.raw_circuit_inputs}</WidgetLabel>
-                </WidgetHeader>
+              <div className={styles.tableContainer}>
                 <RawCircuitInputMetaTable
                   raw_circuit_inputs_meta={circuit.raw_circuit_inputs_meta as RawCircuitInputMeta[]}
                 />
-              </Widget>
-            </Card>
-          </CardRow>
-        )}
-      </div>
+              </div>
+            </Widget>
+          </Card>
+        </CardRow>
+      )}
     </DefaultLayout>
   );
 };

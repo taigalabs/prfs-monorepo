@@ -1,3 +1,24 @@
-.contentArea {
-  margin-top: 15px;
+.topWidgetTitle {
+  display: flex;
+  flex-direction: column;
+
+  height: 80px;
+  padding-left: 25px;
+  padding-right: 15px;
+  border-bottom: 1px solid var(--bright-gray-31);
+}
+
+.breadcrumbContainer {
+  padding-top: 12px;
+  padding-bottom: 13px;
+}
+
+.tableWrapper {
+  padding: 0 10px;
+
+  thead {
+    tr {
+      border-top: none;
+    }
+  }
 }

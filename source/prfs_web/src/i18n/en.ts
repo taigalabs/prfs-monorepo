@@ -39,6 +39,7 @@ export default {
   circuit_inputs: "Circuit inputs",
   raw_circuit_inputs: "Raw circuit inputs",
   circuit: "Circuit",
+  circuit_summary_label: "Circuit summary for",
   circuits: "Circuits",
   circuit_id: "Circuit id",
   driver_id: "Driver id",
