@@ -1,5 +1,5 @@
 .a {
-  border-radius: 0;
+  border-radius: 4px;
   background-color: #cddfdf;
   color: var(--blue-black-50);
   font-weight: 500;
@@ -12,6 +12,7 @@
 }
 
 .b {
+  border-radius: 4px;
   background-color: var(--bright-green-50);
   color: var(--blue-black-50);
   font-weight: 700;

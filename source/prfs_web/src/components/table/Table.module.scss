@@ -3,22 +3,20 @@
 }
 
 .tableHeaderWrapper {
-  background-color: var(--bright-gray-53);
-  /* border-top: 1px solid var(--gray-80); */
-  /* border-bottom: 1px solid var(--gray-80); */
+  background-color: var(--bright-gray-54);
   padding: 0px 0px;
   width: 100%;
   word-wrap: break-word;
-  color: var(--gray-30);
-  font-weight: 700;
+  color: var(--gray-10);
+  font-weight: 500;
 
   tr {
-    /* border-left: 1px solid transparent; */
-    /* border-right: 1px solid transparent; */
+    border-top: 1px solid var(--bright-gray-31);
+    border-bottom: 1px solid var(--bright-gray-31);
   }
 
   th {
-    padding: 6px 12px;
+    padding: 7px 12px;
     position: relative;
     white-space: nowrap;
     word-wrap: break-word;
@@ -26,7 +24,7 @@
 }
 
 .tableRowWrapper {
-  /* border-bottom: 1px solid var(--bright-gray-35); */
+  border-bottom: 1px solid var(--bright-gray-35);
 
   > td {
     padding: 11px 12px;

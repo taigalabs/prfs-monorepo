@@ -8,9 +8,11 @@
 }
 
 .tableWrapper {
-  padding: 0 18px;
+  padding: 0 15px;
 
   thead {
-    border-bottom: 1px solid var(--bright-gray-31);
+    tr {
+      border-top: none;
+    }
   }
 }

@@ -4,6 +4,7 @@
   height: 80px;
   align-items: center;
   padding-left: 25px;
+  padding-right: 18px;
   border-bottom: 1px solid var(--bright-gray-31);
 }
 
@@ -13,7 +14,11 @@
 }
 
 .tableWrapper {
+  padding: 0 18px;
+
   thead {
-    border-bottom: 1px solid var(--bright-gray-31);
+    tr {
+      border-top: none;
+    }
   }
 }
