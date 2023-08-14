@@ -2,24 +2,11 @@
   display: flex;
   justify-content: space-between;
 
+  width: 100%;
   align-items: center;
-  height: 80px;
-  padding-left: 25px;
-  padding-right: 15px;
-  border-bottom: 1px solid var(--bright-gray-31);
 }
 
 .btnArea {
   display: flex;
   align-items: center;
-}
-
-.tableWrapper {
-  padding: 0 15px;
-
-  thead {
-    tr {
-      border-top: none;
-    }
-  }
 }

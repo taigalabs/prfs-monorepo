@@ -7,7 +7,7 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import styles from "./ProofType.module.scss";
 import { stateContext } from "@/contexts/state";
-import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
+import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
@@ -17,6 +17,8 @@ import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb"
 import { useRouter } from "next/navigation";
 import CircuitInputTable from "@/components/circuit_input_table/CircuitInputTable";
 import ProofTypeSummary from "@/components/proof_type_summary/ProofTypeSummary";
+import { PaddedTableWrapper } from "@/components/table/Table";
+import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -50,30 +52,34 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
       <CardRow>
         <Card>
           <Widget>
-            <div className={styles.topWidgetTitle}>
-              <div className={styles.breadcrumbContainer}>
-                <Breadcrumb>
-                  <BreadcrumbEntry>
-                    <Link href="/proof_types">{i18n.proof_types}</Link>
-                  </BreadcrumbEntry>
-                  <BreadcrumbEntry>{params.proof_type_id}</BreadcrumbEntry>
-                </Breadcrumb>
+            <TopWidgetTitle>
+              <div className={styles.proofTypesHeader}>
+                <div className={styles.breadcrumbContainer}>
+                  <Breadcrumb>
+                    <BreadcrumbEntry>
+                      <Link href="/proof_types">{i18n.proof_types}</Link>
+                    </BreadcrumbEntry>
+                    <BreadcrumbEntry>{params.proof_type_id}</BreadcrumbEntry>
+                  </Breadcrumb>
+                </div>
+                <WidgetLabel>{proofTypeSummaryLabel}</WidgetLabel>
               </div>
-              <WidgetLabel>{proofTypeSummaryLabel}</WidgetLabel>
-            </div>
-            <ProofTypeSummary proofType={proofType} />
+            </TopWidgetTitle>
+            <PaddedSummaryWrapper>
+              <ProofTypeSummary proofType={proofType} />
+            </PaddedSummaryWrapper>
           </Widget>
         </Card>
       </CardRow>
       <CardRow>
         <Card>
           <Widget>
-            <div className={styles.widgetHeader}>
+            <WidgetHeader>
               <WidgetLabel>{i18n.circuit_inputs}</WidgetLabel>
-            </div>
-            <div className={styles.tableContainer}>
+            </WidgetHeader>
+            <PaddedTableWrapper>
               {proofType && <CircuitInputTable circuit_inputs={proofType.circuit_inputs} />}
-            </div>
+            </PaddedTableWrapper>
           </Widget>
         </Card>
       </CardRow>
