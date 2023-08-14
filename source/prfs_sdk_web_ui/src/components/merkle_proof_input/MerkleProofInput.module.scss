@@ -19,6 +19,12 @@
   }
 }
 
+.rawBtn {
+  cursor: not-allowed;
+  color: var(--aqua-blue-90);
+  margin-right: 7px;
+}
+
 .createBtn {
   cursor: pointer;
   color: var(--aqua-blue-50);
@@ -29,6 +35,8 @@
 }
 
 .popoverWrapper {
+  border-radius: 3px;
+  background-color: var(--white-100);
   width: 460px;
   height: 70px;
 }

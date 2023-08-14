@@ -34,24 +34,27 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({ input, value, setFo
     console.log(11, isOpen);
 
     return (
-      <button
-        className={cn({
-          [styles.createBtn]: true,
-          [styles.isOpen]: isOpen,
-        })}
-        onClick={handleClickCreate}
-      >
-        {i18n.create}
-      </button>
+      <div>
+        <button
+          className={cn({
+            [styles.createBtn]: true,
+            [styles.isOpen]: isOpen,
+          })}
+          onClick={handleClickCreate}
+        >
+          {i18n.create}
+        </button>
+      </div>
     );
   }, []);
 
-  const popoverElem = <div className={styles.popoverWrapper}>powepo</div>;
+  const popoverElem = <div className={styles.popoverWrapper}>pp</div>;
 
   return (
     <div className={styles.wrapper}>
       <input placeholder={input.desc} value={value?.msgRaw || ""} readOnly />
       <div className={styles.btnGroup}>
+        <button className={styles.rawBtn}>Raw</button>
         <Popover createBase={createBase} popoverElem={popoverElem} />
       </div>
     </div>

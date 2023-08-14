@@ -11,13 +11,25 @@ const Leftbar: React.FC<any> = () => {
 
   return (
     <div className={styles.wrapper}>
-      <ul className={styles.topMenu}>
-        <li>
-          <ActiveLink href="/" exact activeClassName={styles.activeLink}>
-            {i18n.home}
-          </ActiveLink>
-        </li>
-      </ul>
+      <div className={styles.topSection}>
+        <ul>
+          <li>
+            <ActiveLink href="/proof_wizard" exact activeClassName={styles.activeLink}>
+              <p>{i18n.proof_wizard}</p>
+              <p className={styles.menuSublabel}>power</p>
+            </ActiveLink>
+          </li>
+        </ul>
+      </div>
+      <div className={styles.homeSection}>
+        <ul>
+          <li>
+            <ActiveLink href="/" exact activeClassName={styles.activeLink}>
+              {i18n.home}
+            </ActiveLink>
+          </li>
+        </ul>
+      </div>
       <div className={styles.section}>
         <ul>
           <li className={styles.category}>{i18n.proofs.toUpperCase()}</li>
