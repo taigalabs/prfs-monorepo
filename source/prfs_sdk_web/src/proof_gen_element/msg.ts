@@ -116,14 +116,14 @@ export class ListenCreateProofResponseMsg extends MsgBase<boolean, void> {
   }
 }
 
-export class CreateProofMsg extends MsgBase<void, void> {
+export class CreateProofMsg extends MsgBase<void, any> {
   constructor() {
     super(MsgType.CREATE_PROOF);
   }
 }
 
-export class CreateProofResponseMsg extends MsgBase<void, void> {
-  constructor() {
-    super(MsgType.CREATE_PROOF_RESPONSE);
+export class CreateProofResponseMsg extends MsgBase<any, any> {
+  constructor(payload: any) {
+    super(MsgType.CREATE_PROOF_RESPONSE, payload);
   }
 }

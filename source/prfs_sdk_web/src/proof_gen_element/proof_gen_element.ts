@@ -87,7 +87,10 @@ class ProofGenElement {
       return;
     }
 
-    await sendMsgToChild(new CreateProofMsg(), this.state.iframe);
+    const proofResp = await sendMsgToChild(new CreateProofMsg(), this.state.iframe);
+
+    return proofResp;
+    console.log(33, proofResp);
   }
 }
 

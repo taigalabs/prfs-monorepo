@@ -9,6 +9,7 @@ import { PiCalculatorLight } from "react-icons/pi";
 import { HiOutlineDocumentText } from "react-icons/hi2";
 import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 import {
+  CreateProofResponseMsg,
   GetAddressMsg,
   GetSignatureMsg,
   ListenCreateProofMsg,
@@ -52,12 +53,16 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
   // console.log(51, formValues);
 
   React.useEffect(() => {
-    function eventListener(ev: MessageEvent) {
-      const { type } = ev.data;
-      if (type === MsgType.CREATE_PROOF) {
-        validateFormValues(formValues);
+    async function eventListener(ev: MessageEvent) {
+      if (ev.ports.length > 0) {
+        const type: MsgType = ev.data.type;
 
-        createProof(proofType, formValues, walletAddr);
+        if (type === MsgType.CREATE_PROOF) {
+          validateFormValues(formValues);
+
+          const proof = await createProof(proofType, formValues, walletAddr);
+          ev.ports[0].postMessage(new CreateProofResponseMsg(proof));
+        }
       }
     }
 
