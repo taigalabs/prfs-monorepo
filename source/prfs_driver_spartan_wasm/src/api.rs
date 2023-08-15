@@ -6,9 +6,28 @@ use merlin::Transcript;
 use prfs_crypto::{hash_from_bytes, MerkleProof};
 use secq256k1::affine::Group;
 use std::io::{Error, Read};
+use wasm_bindgen::prelude::wasm_bindgen;
 
 pub type G1 = secq256k1::AffinePoint;
 pub type F1 = <G1 as Group>::Scalar;
+
+#[wasm_bindgen]
+extern "C" {
+    // Use `js_namespace` here to bind `console.log(..)` instead of just
+    // `log(..)`
+    #[wasm_bindgen(js_namespace = console)]
+    fn log(s: &str);
+
+    // The `console.log` is quite polymorphic, so we can bind it with multiple
+    // signatures. Note that we need to use `js_name` to ensure we always call
+    // `log` in JS.
+    #[wasm_bindgen(js_namespace = console, js_name = log)]
+    fn log_u32(a: u32);
+
+    // Multiple arguments too!
+    #[wasm_bindgen(js_namespace = console, js_name = log)]
+    fn log_many(a: &str, b: &str);
+}
 
 pub fn prove(
     circuit: &[u8],
@@ -22,12 +41,16 @@ pub fn prove(
         .map(|w| w.to_repr().into())
         .collect::<Vec<[u8; 32]>>();
 
+    log(&format!("11"));
+
     let assignment = Assignment::new(&witness_bytes).unwrap();
     let circuit: Instance = bincode::deserialize(&circuit).unwrap();
 
     let num_cons = circuit.inst.get_num_cons();
     let num_vars = circuit.inst.get_num_vars();
     let num_inputs = circuit.inst.get_num_inputs();
+
+    log(&format!("22"));
 
     // produce public parameters
     let gens = NIZKGens::new(num_cons, num_vars, num_inputs);
@@ -36,6 +59,8 @@ pub fn prove(
     for i in 0..num_inputs {
         input.push(public_inputs[(i * 32)..((i + 1) * 32)].try_into().unwrap());
     }
+
+    log(&format!("33"));
 
     let input = Assignment::new(&input).unwrap();
 
@@ -49,6 +74,8 @@ pub fn prove(
         &gens,
         &mut prover_transcript,
     );
+
+    log(&format!("44"));
 
     Ok(bincode::serialize(&proof).unwrap())
 }

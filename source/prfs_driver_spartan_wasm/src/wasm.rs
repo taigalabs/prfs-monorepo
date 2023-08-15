@@ -40,6 +40,8 @@ pub fn get_build_status() -> Result<String, JsValue> {
 
 #[wasm_bindgen]
 pub fn prove(circuit: &[u8], vars: &[u8], public_inputs: &[u8]) -> Result<Vec<u8>, JsValue> {
+    log(&format!("prove() public_inputs: {:?}", public_inputs));
+
     return match api::prove(circuit, vars, public_inputs) {
         Ok(p) => Ok(p),
         Err(err) => Err(JsValue::from_str(&err.to_string())),
