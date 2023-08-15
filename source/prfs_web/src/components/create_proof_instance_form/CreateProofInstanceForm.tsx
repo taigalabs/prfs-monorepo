@@ -8,6 +8,7 @@ import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 
 import styles from "./CreateProofInstanceForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -260,7 +261,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
         </Card>
       </CardRow>
       {selectedProofType && (
-        <>
+        <Fade>
           <CardRow>
             <Card>
               <Widget>
@@ -278,7 +279,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
               </Widget>
             </Card>
           </CardRow>
-        </>
+        </Fade>
       )}
 
       {formAlert.length > 0 && <div className={styles.alert}>{formAlert}</div>}
