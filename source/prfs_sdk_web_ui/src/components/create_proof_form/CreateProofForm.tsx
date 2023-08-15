@@ -24,6 +24,7 @@ import WalletSelect, { WalletTypeValue } from "@/components/wallet_select/Wallet
 import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
 import SigDataInput from "@/components/sig_data_input/SigDataInput";
 import { PRFS_SDK_CRAETE_PROOF_EVENT_TYPE } from "@taigalabs/prfs-sdk-web/src/proof_gen_element/outside_event";
+import { createProof } from "@/functions/proof";
 
 const ASSET_SERVER_ENDPOINT = process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
@@ -41,8 +42,6 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
   const [walletAddr, setWalletAddr] = React.useState("");
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
 
-  console.log(51, formValues);
-
   const handleSelectWalletType = React.useCallback(
     (_ev: React.ChangeEvent) => {
       // noop
@@ -50,13 +49,15 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
     [setSelectedWalletType]
   );
 
-  React.useEffect(() => {
-    sendMsgToParent(new ListenCreateProofMsg());
+  console.log(51, formValues);
 
+  React.useEffect(() => {
     function eventListener(ev: MessageEvent) {
       const { type } = ev.data;
       if (type === MsgType.CREATE_PROOF) {
         validateFormValues(formValues);
+
+        createProof(proofType, formValues, walletAddr);
       }
     }
 
@@ -65,7 +66,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
     return () => {
       window.removeEventListener("message", eventListener);
     };
-  }, [formValues]);
+  }, [proofType, formValues, walletAddr]);
 
   React.useEffect(() => {
     async function fn() {
