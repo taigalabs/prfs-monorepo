@@ -34,11 +34,10 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
   const [walletAddr, setWalletAddr] = React.useState("");
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
 
+  console.log(51, formValues);
+
   const handleSelectWalletType = React.useCallback(
-    (ev: React.ChangeEvent) => {
-      console.log(123, ev.target);
-      // setSelectedWalletType(val);
-    },
+    (ev: React.ChangeEvent) => {},
     [setSelectedWalletType]
   );
 
@@ -59,14 +58,12 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
     fn().then();
   }, [proofType, setSystemMsg, setDriver]);
 
-  useInterval(
-    () => {
-      setProveTime(prev => prev + 1);
-    },
-    isTimerRunning ? 1000 : null
-  );
-
-  console.log(33, walletAddr);
+  // useInterval(
+  //   () => {
+  //     setProveTime(prev => prev + 1);
+  //   },
+  //   isTimerRunning ? 1000 : null
+  // );
 
   const circuitInputsElem = React.useMemo(() => {
     const obj: Record<any, CircuitInput> = proofType.circuit_inputs;
@@ -76,8 +73,6 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
 
       switch (val.type) {
         case "MERKLE_PROOF_1": {
-          console.log(44, walletAddr);
-
           inputElem = (
             <MerkleProofInput
               walletAddr={walletAddr}
@@ -99,7 +94,9 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
           break;
         }
         default: {
-          inputElem = <PiCalculatorLight />;
+          console.error(`Cannot handle circuit input of this type`);
+
+          inputElem = <input placeholder="Cannot handle circuit input of this type" />;
         }
       }
 
@@ -109,7 +106,6 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
             <div className={styles.entryLabel}>{val.label}</div>
           </div>
           {inputElem}
-          {/* <input className={styles.entryValue} /> */}
         </div>
       );
     });
@@ -254,11 +250,6 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
           setWalletAddr={setWalletAddr}
         />
         <div className={styles.circuitInputs}>{circuitInputsElem}</div>
-        {/* <div className={styles.btnRow}> */}
-        {/*   <Button variant="b" handleClick={handleClickCreateProof} disabled={!driver}> */}
-        {/*     {i18n.create_proof} */}
-        {/*   </Button> */}
-        {/* </div> */}
         <div className={styles.systemMsg}>
           <div>{systemMsg}</div>
         </div>
@@ -274,9 +265,3 @@ export interface CreateProofFormProps {
   formHeight: number;
   // handleCreateProof: (proof: Uint8Array, publicInput: any) => void;
 }
-
-// export interface SigData {
-//   msgRaw: string;
-//   msgHash: Buffer;
-//   sig: string;
-// }

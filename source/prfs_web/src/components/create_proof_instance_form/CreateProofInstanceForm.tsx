@@ -230,36 +230,36 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
   return (
     <div className={styles.wrapper}>
-      <CardRow>
-        <Card>
-          <Widget>
-            <WidgetHeader>
-              <div className={styles.breadcrumbContainer}>
-                <Breadcrumb>
-                  <BreadcrumbEntry>
-                    <Link href="/proofs">{i18n.proofs}</Link>
-                  </BreadcrumbEntry>
-                  <BreadcrumbEntry>{i18n.create_proof_type}</BreadcrumbEntry>
-                </Breadcrumb>
-              </div>
-              <FormTitleRow>
-                <FormTitle>{i18n.create_proof_instance}</FormTitle>
-                <FormSubtitle>{i18n.create_proof_instance_subtitle}</FormSubtitle>
-              </FormTitleRow>
-              <WidgetLabel>{i18n.choose_proof_type}</WidgetLabel>
-            </WidgetHeader>
-            <WidgetPaddedBody>
-              <div className={styles.dropdownContainer}>
-                <div>{i18n.proof_type}</div>
-                <ProofTypeDropdown
-                  selectedVal={selectedProofType}
-                  handleSelectVal={handleSelectProofType}
-                />
-              </div>
-            </WidgetPaddedBody>
-          </Widget>
-        </Card>
-      </CardRow>
+      <WidgetPaddedBody>
+        <div className={styles.breadcrumbContainer}>
+          <Breadcrumb>
+            <BreadcrumbEntry>
+              <Link href="/proofs">{i18n.proofs}</Link>
+            </BreadcrumbEntry>
+            <BreadcrumbEntry>{i18n.create_proof_type}</BreadcrumbEntry>
+          </Breadcrumb>
+        </div>
+        <FormTitleRow>
+          <FormTitle>{i18n.create_proof_instance}</FormTitle>
+          <FormSubtitle>{i18n.create_proof_instance_subtitle}</FormSubtitle>
+        </FormTitleRow>
+      </WidgetPaddedBody>
+
+      <Widget>
+        <WidgetHeader>
+          <WidgetLabel>{i18n.choose_proof_type}</WidgetLabel>
+        </WidgetHeader>
+        <WidgetPaddedBody>
+          <div className={styles.dropdownContainer}>
+            <div>{i18n.proof_type}</div>
+            <ProofTypeDropdown
+              selectedVal={selectedProofType}
+              handleSelectVal={handleSelectProofType}
+            />
+          </div>
+        </WidgetPaddedBody>
+      </Widget>
+
       {selectedProofType && (
         <Fade>
           <CardRow>
@@ -272,7 +272,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
                   <div id="prfs-sdk-container"></div>
                   <div className={styles.btnRow}>
                     <Button variant="c" handleClick={handleClickCreateProofInstance}>
-                      {i18n.create_proof_type}
+                      {i18n.create_proof_instance}
                     </Button>
                   </div>
                 </WidgetPaddedBody>

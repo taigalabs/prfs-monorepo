@@ -27,6 +27,7 @@ pub struct PrfsProofType {
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
 pub struct CircuitInput {
+    pub name: String,
     pub label: String,
     pub r#type: String,
     pub desc: String,

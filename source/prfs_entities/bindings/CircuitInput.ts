@@ -5,5 +5,6 @@ export interface CircuitInput {
   type: string;
   desc: string;
   value: string;
+  name: string;
   ref: string | null;
 }

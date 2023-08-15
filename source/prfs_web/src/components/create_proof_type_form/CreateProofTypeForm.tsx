@@ -126,16 +126,18 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 
   return (
     <div className={styles.wrapper}>
-      <Breadcrumb>
-        <BreadcrumbEntry>
-          <Link href="/proof_types">{i18n.proof_types}</Link>
-        </BreadcrumbEntry>
-        <BreadcrumbEntry>{i18n.create_proof_type}</BreadcrumbEntry>
-      </Breadcrumb>
-      <FormTitleRow>
-        <FormTitle>{i18n.create_proof_type}</FormTitle>
-        <FormSubtitle>{i18n.create_proof_type_subtitle}</FormSubtitle>
-      </FormTitleRow>
+      <WidgetPaddedBody>
+        <Breadcrumb>
+          <BreadcrumbEntry>
+            <Link href="/proof_types">{i18n.proof_types}</Link>
+          </BreadcrumbEntry>
+          <BreadcrumbEntry>{i18n.create_proof_type}</BreadcrumbEntry>
+        </Breadcrumb>
+        <FormTitleRow>
+          <FormTitle>{i18n.create_proof_type}</FormTitle>
+          <FormSubtitle>{i18n.create_proof_type_subtitle}</FormSubtitle>
+        </FormTitleRow>
+      </WidgetPaddedBody>
 
       <CardRow>
         <Card>

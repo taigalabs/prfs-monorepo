@@ -27,14 +27,15 @@ import { i18nContext } from "@/contexts/i18n";
 import { useInterval } from "@/functions/interval";
 import WalletSelect, { WalletTypeValue } from "@/components/wallet_select/WalletSelect";
 import { PRFS_SDK_CLICK_OUTSIDE_EVENT_TYPE } from "@taigalabs/prfs-sdk-web/src/proof_gen_element/click";
+import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 
 const MerkleProofModal: React.FC<MerkleProofModalProps> = ({
+  prfsSet,
   walletAddr,
   setIsOpen,
   circuitInput,
+  setFormValues,
 }) => {
-  console.log(22, walletAddr);
-
   const i18n = React.useContext(i18nContext);
 
   React.useEffect(() => {
@@ -59,6 +60,10 @@ const MerkleProofModal: React.FC<MerkleProofModalProps> = ({
 
   const handleCreateMerkleProof = React.useCallback(async () => {
     if (walletAddr.length < 1) {
+      return;
+    }
+
+    if (!prfsSet) {
       return;
     }
 
@@ -107,13 +112,20 @@ const MerkleProofModal: React.FC<MerkleProofModalProps> = ({
         }
       }
 
-      let merkleProof = {
-        root: BigInt(proofType.circuit_inputs[4].value),
+      const merkleProof = {
+        root: prfsSet.merkle_root,
         siblings,
         pathIndices,
       };
+
+      setFormValues((prevVals: any) => {
+        return {
+          ...prevVals,
+          [circuitInput.label]: merkleProof,
+        };
+      });
     } catch (err) {}
-  }, [circuitInput, walletAddr]);
+  }, [circuitInput, walletAddr, prfsSet, setFormValues]);
 
   return (
     <div className={styles.popoverWrapper}>
@@ -138,10 +150,28 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   setFormValues,
 }) => {
   const i18n = React.useContext(i18nContext);
+  const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
 
   const handleClickCreate = React.useCallback(async () => {
     // console.log("handle click");
   }, [value, setFormValues]);
+
+  React.useEffect(() => {
+    async function fn() {
+      if (circuitInput.ref === "PRFS_SET") {
+        const { payload } = await prfsApi.getSets({ page: 0, set_id: circuitInput.value });
+
+        if (payload.prfs_sets.length > 0) {
+          const prfsSet = payload.prfs_sets[0];
+          setPrfsSet(prfsSet);
+        } else {
+          console.error("Prfs set not found");
+        }
+      }
+    }
+
+    fn().then();
+  }, [circuitInput, setPrfsSet]);
 
   const createBase = React.useCallback((isOpen: boolean) => {
     return (
@@ -163,23 +193,30 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
     (setIsOpen: React.Dispatch<React.SetStateAction<any>>) => {
       return (
         <MerkleProofModal
+          prfsSet={prfsSet}
           walletAddr={walletAddr}
           setIsOpen={setIsOpen}
           circuitInput={circuitInput}
+          setFormValues={setFormValues}
         />
       );
     },
-    [circuitInput, walletAddr]
+    [circuitInput, walletAddr, prfsSet]
   );
 
   return (
-    <div className={styles.wrapper}>
-      <input placeholder={circuitInput.desc} value={value?.msgRaw || ""} readOnly />
-      <div className={styles.btnGroup}>
-        <button className={styles.rawBtn}>Raw</button>
-        <Popover createBase={createBase} createPopover={createPopover} />
+    prfsSet && (
+      <div className={styles.wrapper}>
+        <input
+          placeholder={`${prfsSet.set_id} / ${circuitInput.desc}`}
+          value={value?.msgRaw || ""}
+          readOnly
+        />
+        <div className={styles.btnGroup}>
+          <Popover createBase={createBase} createPopover={createPopover} />
+        </div>
       </div>
-    </div>
+    )
   );
 };
 
@@ -193,7 +230,9 @@ export interface MerkleProofInputProps {
 }
 
 export interface MerkleProofModalProps {
+  prfsSet: PrfsSet | undefined;
   walletAddr: string;
   circuitInput: CircuitInput;
   setIsOpen: React.Dispatch<React.SetStateAction<any>>;
+  setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
 }

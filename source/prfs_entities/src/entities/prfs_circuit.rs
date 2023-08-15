@@ -65,7 +65,3 @@ pub struct CircuitDriver {
 fn default_public() -> bool {
     false
 }
-
-fn default_ref() -> String {
-    String::from("")
-}
