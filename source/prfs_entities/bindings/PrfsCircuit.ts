@@ -5,6 +5,7 @@ export interface PrfsCircuit {
   label: string;
   desc: string;
   author: string;
+  num_public_inputs: number;
   circuit_dsl: string;
   arithmetization: string;
   proof_algorithm: string;

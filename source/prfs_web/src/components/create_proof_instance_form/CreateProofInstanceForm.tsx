@@ -203,15 +203,15 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       sig,
     };
 
-    // const { proof, publicInput } = await driver.prove(sig, msgHash, merkleProof);
-    const { proof, publicInput } = await driver.prove({
-      inputs: {
-        merkleProof,
-        sigData,
-      },
-      circuitType: "MERKLE_PROOF_1",
-      eventListener: () => {},
-    });
+    const { proof, publicInput } = await driver.prove2(sig, msgHash, merkleProof);
+    // const { proof, publicInput } = await driver.prove({
+    //   inputs: {
+    //     merkleProof,
+    //     sigData,
+    //   },
+    //   circuitType: "MERKLE_PROOF_1",
+    //   eventListener: () => {},
+    // });
 
     console.timeEnd("Full proving time");
     console.log("Raw proof size (excluding public input)", proof.length, "bytes");

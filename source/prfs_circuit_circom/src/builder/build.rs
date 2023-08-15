@@ -2,7 +2,7 @@ use crate::{paths::PATHS, CircuitBuildJson, CircuitBuildListJson, CircuitsJson, 
 use chrono::{DateTime, NaiveDateTime, Utc};
 use colored::Colorize;
 use prfs_driver_type::driver_ids;
-use prfs_entities::entities::PrfsCircuit;
+use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
 use std::{io::Write, process::Command};
 
 pub fn run() {
@@ -59,6 +59,18 @@ fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind, timestamp: i64) 
 }
 
 fn make_spartan(circuit: &PrfsCircuit, timestamp: i64) {
+    let _raw_public_inputs: Vec<&RawCircuitInputMeta> = circuit
+        .raw_circuit_inputs_meta
+        .iter()
+        .filter(|raw_input| return raw_input.public)
+        .collect();
+
+    assert_eq!(
+        _raw_public_inputs.len(),
+        circuit.num_public_inputs as usize,
+        "num_public_input AND # of public raw input should be equal",
+    );
+
     let r1cs_src_path = PATHS
         .build
         .join(get_path_segment(circuit, FileKind::R1CS, timestamp));
@@ -71,7 +83,7 @@ fn make_spartan(circuit: &PrfsCircuit, timestamp: i64) {
     circuit_reader::make_spartan_instance(
         &r1cs_src_path,
         &spartan_circuit_path,
-        circuit.raw_circuit_inputs_meta.len(),
+        circuit.num_public_inputs as usize,
     );
 }
 

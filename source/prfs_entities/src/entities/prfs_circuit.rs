@@ -11,6 +11,7 @@ pub struct PrfsCircuit {
     pub label: String,
     pub desc: String,
     pub author: String,
+    pub num_public_inputs: u32,
     pub circuit_dsl: String,
     pub arithmetization: String,
     pub proof_algorithm: String,
