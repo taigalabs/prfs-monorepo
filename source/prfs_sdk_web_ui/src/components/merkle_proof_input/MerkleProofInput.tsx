@@ -56,7 +56,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({ input, value, setFo
   const i18n = React.useContext(i18nContext);
 
   const handleClickCreate = React.useCallback(async () => {
-    console.log("handle click");
+    // console.log("handle click");
   }, [value, setFormValues]);
 
   const createBase = React.useCallback((isOpen: boolean) => {
