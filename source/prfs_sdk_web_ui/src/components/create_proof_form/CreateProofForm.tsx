@@ -66,6 +66,8 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
     isTimerRunning ? 1000 : null
   );
 
+  console.log(33, walletAddr);
+
   const circuitInputsElem = React.useMemo(() => {
     const obj: Record<any, CircuitInput> = proofType.circuit_inputs;
 
@@ -74,6 +76,8 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
 
       switch (val.type) {
         case "MERKLE_PROOF_1": {
+          console.log(44, walletAddr);
+
           inputElem = (
             <MerkleProofInput
               walletAddr={walletAddr}

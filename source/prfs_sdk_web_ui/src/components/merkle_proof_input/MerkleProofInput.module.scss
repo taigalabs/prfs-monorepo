@@ -60,5 +60,9 @@ input.addrInput {
 
   button {
     color: var(--aqua-blue-50);
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
