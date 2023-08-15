@@ -1,10 +1,19 @@
-import { GetAddressResponseMsg, HandshakePayload, HandshakeResponseMsg, MsgType } from "./msg";
-import { LOADING_SPAN_ID, ProofGenElementOptions } from "./proof_gen_element";
+import { listenClickOutside, removeClickListener } from "./click";
+import {
+  GetAddressResponseMsg,
+  HandshakePayload,
+  HandshakeResponseMsg,
+  ListenClickOutsideMsg,
+  ListenClickOutsideResponseMsg,
+  MsgType,
+} from "./msg";
+import { LOADING_SPAN_ID, ProofGenElementOptions, ProofGenElementState } from "./proof_gen_element";
 
 export function handleChildMessage(
   resolve: (value: any) => void,
   options: ProofGenElementOptions,
-  iframe: HTMLIFrameElement
+  iframe: HTMLIFrameElement,
+  state: ProofGenElementState
 ) {
   console.log("Attaching child msg handler");
 
@@ -52,6 +61,27 @@ export function handleChildMessage(
           const sig = await signer.signMessage(msgHash);
 
           ev.ports[0].postMessage(new GetAddressResponseMsg(sig));
+
+          break;
+        }
+
+        case "LISTEN_CLICK_OUTSIDE": {
+          if (!state.clickOutsideListener) {
+            const outsideClickListener = listenClickOutside(iframe);
+            state.clickOutsideListener = outsideClickListener;
+            ev.ports[0].postMessage(new ListenClickOutsideResponseMsg(true));
+          }
+
+          ev.ports[0].postMessage(new ListenClickOutsideResponseMsg(false));
+
+          break;
+        }
+
+        case "STOP_CLICK_OUTSIDE": {
+          if (state.clickOutsideListener) {
+            removeClickListener(state.clickOutsideListener);
+            state.clickOutsideListener = undefined;
+          }
 
           break;
         }

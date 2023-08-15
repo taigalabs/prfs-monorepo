@@ -91,29 +91,24 @@ export interface ProofGenProps {}
 
 function useParentMsgHandler() {
   React.useEffect(() => {
-    if (!PARENT_MSG_HANDLER.registered) {
-      console.log("Attaching parent msg handler");
-
-      window.addEventListener("message", (ev: MessageEvent) => {
-        if (ev.ports.length > 0) {
-          console.log("parent says: %o, ports: %o", ev.data, ev.ports);
-
-          const type: MsgType = ev.data.type;
-          ev.ports[0].postMessage({ result: `${ev.data} back` });
-        }
-
-        // switch (type) {
-        //   case MsgType.GET_SIGNER_RESPONSE:
-        //     window.postMessage({});
-        //     break;
-
-        //   default:
-        //   // console.error(`Cannot handle this msg type, type: ${type}`);
-        // }
-      });
-
-      PARENT_MSG_HANDLER.registered = true;
-    }
+    // if (!PARENT_MSG_HANDLER.registered) {
+    //   console.log("Attaching parent msg handler");
+    //   window.addEventListener("message", (ev: MessageEvent) => {
+    //     if (ev.ports.length > 0) {
+    //       console.log("parent says: %o, ports: %o", ev.data, ev.ports);
+    //       const type: MsgType = ev.data.type;
+    //       ev.ports[0].postMessage({ result: `${ev.data} back` });
+    //     }
+    //     // switch (type) {
+    //     //   case MsgType.GET_SIGNER_RESPONSE:
+    //     //     window.postMessage({});
+    //     //     break;
+    //     //   default:
+    //     //   // console.error(`Cannot handle this msg type, type: ${type}`);
+    //     // }
+    //   });
+    //   PARENT_MSG_HANDLER.registered = true;
+    // }
   }, []);
 }
 

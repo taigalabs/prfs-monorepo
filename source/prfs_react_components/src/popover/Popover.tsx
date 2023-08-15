@@ -11,7 +11,7 @@ import {
 
 import styles from "./Popover.module.scss";
 
-function Popover({ popoverElem, createBase }: PopoverProps) {
+function Popover({ createPopover, createBase, clickAwayHandler }: PopoverProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, floatingStyles, context } = useFloating({
     placement: "bottom-end",
@@ -23,10 +23,20 @@ function Popover({ popoverElem, createBase }: PopoverProps) {
   const click = useClick(context);
   const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
 
-  // const upgradedHandleSelectVal = React.useCallback(() => {
-  //   // handleSelectVal(data);
-  //   setIsOpen(false);
+  // React.useEffect(() => {
+  //   let removeListener: () => void;
+  //   if (clickAwayHandler) {
+  //     clickAwayHandler(setIsOpen).then(destructor => (removeListener = destructor));
+  //   }
+
+  //   return () => {
+  //     removeListener?.();
+  //   };
   // }, [setIsOpen]);
+  //
+  const popoverElem = React.useMemo(() => {
+    return createPopover(setIsOpen);
+  }, [createPopover]);
 
   const baseElem = React.useMemo(() => {
     return createBase(isOpen);
@@ -60,6 +70,6 @@ export default Popover;
 
 export interface PopoverProps {
   createBase: (isOpen: boolean) => React.ReactNode;
-  popoverElem: React.ReactNode;
-  // handleSelectVal: (data: T) => void;
+  createPopover: (setIsOpen: React.Dispatch<React.SetStateAction<any>>) => React.ReactNode;
+  clickAwayHandler?: (setIsOpen: React.Dispatch<React.SetStateAction<any>>) => Promise<() => void>;
 }

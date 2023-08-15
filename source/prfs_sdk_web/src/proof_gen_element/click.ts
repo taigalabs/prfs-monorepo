@@ -1,21 +1,29 @@
-export function hideOnClickOutside(element: HTMLElement) {
-  const outsideClickListener = (event: MouseEvent) => {
-    console.log(11, event);
+import { sendMsgToChild } from "./send_msg";
 
-    if (!element.contains(event.target as any) && isVisible(element)) {
-      // or use: event.target.closest(selector) === null
-      // element.style.display = "none";
-      removeClickListener();
+export const PRFS_SDK_CLICK_OUTSIDE_EVENT_TYPE = "PRFS_SDK_CLICK_OUTSIDE_EVENT_TYPE";
+
+export function listenClickOutside(element: HTMLIFrameElement) {
+  function outsideClickListener(event: MouseEvent) {
+    if (!element.contains(event.target as any)) {
+      element.contentWindow?.postMessage(
+        {
+          type: PRFS_SDK_CLICK_OUTSIDE_EVENT_TYPE,
+        },
+        "*"
+      );
     }
-  };
-
-  const removeClickListener = () => {
-    document.removeEventListener("click", outsideClickListener);
-  };
+  }
 
   document.addEventListener("click", outsideClickListener);
+
+  return outsideClickListener;
 }
 
 // source (2018-03-11): https://github.com/jquery/jquery/blob/master/src/css/hiddenVisibleSelectors.js
-const isVisible = (elem: HTMLElement) =>
-  !!elem && !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
+function isVisible(elem: HTMLElement) {
+  return !!elem && !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
+}
+
+export function removeClickListener(listener: (ev: MouseEvent) => void) {
+  document.removeEventListener("click", listener);
+}

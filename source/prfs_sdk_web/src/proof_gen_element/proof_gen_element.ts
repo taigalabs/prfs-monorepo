@@ -2,16 +2,20 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { ethers } from "ethers";
 
 import { handleChildMessage } from "./handle_msg";
-import { hideOnClickOutside } from "./click";
 
+export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
 export const LOADING_SPAN_ID = "prfs-sdk-loading";
 const SDK_ENDPOINT = "http://localhost:3010";
 
 class ProofGenElement {
   options: ProofGenElementOptions;
+  state: ProofGenElementState;
 
   constructor(options: ProofGenElementOptions) {
     this.options = options;
+    this.state = {
+      clickOutsideListener: undefined,
+    };
   }
 
   async mount(containerName: string): Promise<HTMLIFrameElement> {
@@ -38,6 +42,7 @@ class ProofGenElement {
       loadingSpan.style.left = "12px";
 
       const iframe = document.createElement("iframe");
+      iframe.id = PROOF_GEN_IFRAME_ID;
       iframe.src = `${SDK_ENDPOINT}/proof_gen?proofTypeId=${options.proofType.proof_type_id}`;
       iframe.allow = "cross-origin-isolated";
       iframe.style.width = "494px";
@@ -54,9 +59,9 @@ class ProofGenElement {
 
       container!.append(wrapperDiv);
 
-      handleChildMessage(resolve, options, iframe);
+      handleChildMessage(resolve, options, iframe, this.state);
 
-      hideOnClickOutside(iframe);
+      // hideOnClickOutside(iframe);
     });
   }
 }
@@ -67,4 +72,8 @@ export interface ProofGenElementOptions {
   proofType: PrfsProofType;
   provider: ethers.providers.Web3Provider;
   handleCreateProof: ({ proof, publicInput }: any) => void;
+}
+
+export interface ProofGenElementState {
+  clickOutsideListener: ((event: MouseEvent) => void) | undefined;
 }

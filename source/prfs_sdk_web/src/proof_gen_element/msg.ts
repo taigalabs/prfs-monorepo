@@ -5,6 +5,10 @@ export enum MsgType {
   GET_ADDRESS_RESPONSE = "GET_ADDRESS_RESPONSE",
   GET_SIGNATURE = "GET_SIGNATURE",
   GET_SIGNATURE_RESPONSE = "GET_SIGNATURE_RESPONSE",
+  LISTEN_CLICK_OUTSIDE = "LISTEN_CLICK_OUTSIDE",
+  LISTEN_CLICK_OUTSIDE_RESPONSE = "LISTEN_CLICK_OUTSIDE_RESPONSE",
+  STOP_CLICK_OUTSIDE = "STOP_CLICK_OUTSIDE",
+  STOP_CLICK_OUTSIDE_RESPONSE = "STOP_CLICK_OUTSIDE_RESPONSE",
   CREATE_PROOF = "CREATE_PROOF",
   CREATE_PROOF_RESPONSE = "CREATE_PROOF_RESPONSE",
   DRIVER_LOAD_RESULT = "DRIVER_LOAD_RESULT",
@@ -68,55 +72,20 @@ export class GetSignatureResponseMsg extends MsgBase<string, never> {
   }
 }
 
-// export class CreateProofMsg implements MsgInterface<CreateProofPayload> {
-//   type: MsgType;
-//   payload: CreateProofPayload;
+export class ListenClickOutsideMsg extends MsgBase<void, boolean> {
+  constructor() {
+    super(MsgType.LISTEN_CLICK_OUTSIDE);
+  }
+}
 
-//   constructor(sig: Buffer, msgHash: Buffer, merkleProof: any) {
-//     this.type = MsgType.CREATE_PROOF;
-//     this.payload = {
-//       sig,
-//       msgHash,
-//       merkleProof,
-//     };
-//   }
-// }
+export class ListenClickOutsideResponseMsg extends MsgBase<boolean, void> {
+  constructor(isNewlyAttached: boolean) {
+    super(MsgType.LISTEN_CLICK_OUTSIDE_RESPONSE, isNewlyAttached);
+  }
+}
 
-// export class DriverLoadResultMsg implements MsgInterface<DriverLoadResultPayload> {
-//   type: MsgType;
-//   payload: DriverLoadResultPayload;
-
-//   constructor(driverId: string) {
-//     this.type = MsgType.DRIVER_LOAD_RESULT;
-//     this.payload = {
-//       driverId,
-//     };
-//   }
-// }
-
-// export interface DriverLoadResultPayload {
-//   driverId: string;
-// }
-
-// export interface CreateProofPayload {
-//   sig: Buffer;
-//   msgHash: Buffer;
-//   merkleProof: any;
-// }
-
-// export class CreateProofResponseMsg implements MsgInterface<CreateProofResponsePayload> {
-//   error?: string;
-//   type: MsgType;
-//   payload: CreateProofResponsePayload | undefined;
-
-//   constructor(error?: string, payload?: CreateProofResponsePayload) {
-//     this.type = MsgType.CREATE_PROOF_RESPONSE;
-//     this.error = error;
-//     this.payload = payload;
-//   }
-// }
-
-// export interface CreateProofResponsePayload {
-//   proof: Uint8Array;
-//   publicInput: any;
-// }
+export class StopClickOutsideMsg extends MsgBase<void, boolean> {
+  constructor() {
+    super(MsgType.STOP_CLICK_OUTSIDE);
+  }
+}
