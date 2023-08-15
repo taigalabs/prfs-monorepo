@@ -8,14 +8,14 @@
   align-items: center;
 
   height: 80px;
-  padding-left: 42px;
+  padding-left: 50px;
   padding-right: 15px;
   border-bottom: 1px solid var(--bright-gray-31);
 }
 
 .widgetHeaderWrapper {
   border-bottom: 1px solid var(--bright-gray-31);
-  padding: 18px 42px;
+  padding: 18px 0px 18px 50px;
 }
 
 .widgetLabelWrapper {
@@ -25,5 +25,5 @@
 }
 
 .widgetPaddedBodyWrapper {
-  padding: 21px 42px;
+  padding: 21px 42px 21px 50px;
 }
