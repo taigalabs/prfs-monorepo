@@ -36,6 +36,10 @@ const DriverSummary: React.FC<DriverSummaryProps> = ({ driver }) => {
               <Link href={driver.driver_repository_url}>{driver.driver_repository_url}</Link>
             </div>
           </ColumnarSummaryCell>
+          <ColumnarSummaryCell>
+            <ColumnarSummaryCellHeader>{i18n.description}</ColumnarSummaryCellHeader>
+            <div>{driver.desc}</div>
+          </ColumnarSummaryCell>
         </ColumnarSummaryColumn>
         <ColumnarSummaryColumn>
           <ColumnarSummaryCell>

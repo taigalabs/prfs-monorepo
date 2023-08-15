@@ -8,7 +8,7 @@ import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 
 import styles from "./Set.module.scss";
 import { stateContext } from "@/contexts/state";
-import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
+import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
@@ -16,8 +16,9 @@ import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import SetElementTable from "@/components/set_element_table/SetElementTable";
-import { TableCurrentPageLimitWarning } from "@/components/table/Table";
+import { PaddedTableWrapper, TableCurrentPageLimitWarning } from "@/components/table/Table";
 import SetSummary from "@/components/set_summary/SetSummary";
+import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
 
 const Set: React.FC<SetProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -48,35 +49,41 @@ const Set: React.FC<SetProps> = ({ params }) => {
 
   return (
     <DefaultLayout>
-      <Breadcrumb>
-        <BreadcrumbEntry>
-          <Link href="/sets">{i18n.sets}</Link>
-        </BreadcrumbEntry>
-        <BreadcrumbEntry>{params.set_id}</BreadcrumbEntry>
-      </Breadcrumb>
-      <div className={styles.contentArea}>
-        <CardRow>
-          <Card>
-            <Widget>
-              <WidgetHeader>
+      <CardRow>
+        <Card>
+          <Widget>
+            <TopWidgetTitle>
+              <div className={styles.setHeader}>
+                <div className={styles.breadcrumbContainer}>
+                  <Breadcrumb>
+                    <BreadcrumbEntry>
+                      <Link href="/sets">{i18n.sets}</Link>
+                    </BreadcrumbEntry>
+                    <BreadcrumbEntry>{params.set_id}</BreadcrumbEntry>
+                  </Breadcrumb>
+                </div>
                 <WidgetLabel>{setTableLabel}</WidgetLabel>
-              </WidgetHeader>
+              </div>
+            </TopWidgetTitle>
+            <PaddedSummaryWrapper>
               <SetSummary set={set} />
-            </Widget>
-          </Card>
-        </CardRow>
-        <CardRow>
-          <Card>
-            <Widget>
-              <WidgetHeader>
-                <WidgetLabel>{i18n.elements}</WidgetLabel>
-              </WidgetHeader>
+            </PaddedSummaryWrapper>
+          </Widget>
+        </Card>
+      </CardRow>
+      <CardRow>
+        <Card>
+          <Widget>
+            <WidgetHeader>
+              <WidgetLabel>{i18n.elements}</WidgetLabel>
+            </WidgetHeader>
+            <PaddedTableWrapper>
               <TableCurrentPageLimitWarning />
               <SetElementTable setId={params.set_id} />
-            </Widget>
-          </Card>
-        </CardRow>
-      </div>
+            </PaddedTableWrapper>
+          </Widget>
+        </Card>
+      </CardRow>
     </DefaultLayout>
   );
 };

@@ -13,6 +13,7 @@
     "@ethereumjs/util": "^8.0.3",
     "@floating-ui/react": "^0.24.8",
     "@taigalabs/prfs-api-js": "*",
+    "@taigalabs/prfs-react-components": "*",
     "@taigalabs/prfs-crypto-js": "*",
     "@taigalabs/prfs-driver-interface": "*",
     "@taigalabs/prfs-driver-spartan-js": "*",

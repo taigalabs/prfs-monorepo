@@ -4,19 +4,23 @@ import React from "react";
 
 import styles from "./ColumnarSummary.module.scss";
 
+export const PaddedSummaryWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return <div className={styles.paddedSummaryWrapper}>{children}</div>;
+};
+
 const ColumnarSummary: React.FC<ColumnarSummaryProps> = ({ children }) => {
   return <div className={styles.columnarSummaryWrapper}>{children}</div>;
 };
 
-const ColumnarSummaryColumn: React.FC<ColumnarSummaryColumnProps> = ({ children }) => {
+export const ColumnarSummaryColumn: React.FC<ColumnarSummaryColumnProps> = ({ children }) => {
   return <div className={styles.columnarSummaryCol}>{children}</div>;
 };
 
-const ColumnarSummaryCell: React.FC<ColumnarSummaryCellProps> = ({ children }) => {
+export const ColumnarSummaryCell: React.FC<ColumnarSummaryCellProps> = ({ children }) => {
   return <div className={styles.columnarSummaryCell}>{children}</div>;
 };
 
-const ColumnarSummaryCellHeader: React.FC<ColumnarSummaryCellProps> = ({ children }) => {
+export const ColumnarSummaryCellHeader: React.FC<ColumnarSummaryCellProps> = ({ children }) => {
   return <div className={styles.columnarSummaryCellHeader}>{children}</div>;
 };
 
@@ -33,5 +37,3 @@ export interface ColumnarSummaryCellProps {
 }
 
 export default ColumnarSummary;
-
-export { ColumnarSummaryColumn, ColumnarSummaryCell, ColumnarSummaryCellHeader };

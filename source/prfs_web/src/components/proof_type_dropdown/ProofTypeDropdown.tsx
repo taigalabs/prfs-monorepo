@@ -10,9 +10,9 @@ import Dropdown, {
   CreateDropdownListArgs,
   DropdownData,
   DropdownSingleSelectedValue,
-} from "@/components/dropdown/Dropdown";
-import DropdownEntry from "../dropdown/DropdownEntry";
-import DropdownList from "../dropdown/DropdownList";
+} from "@taigalabs/prfs-react-components/src/dropdown/Dropdown";
+import DropdownEntry from "@taigalabs/prfs-react-components/src/dropdown/DropdownEntry";
+import DropdownList from "@taigalabs/prfs-react-components/src/dropdown/DropdownList";
 
 const ProofTypeEntry: React.FC<CircuitEntryProps> = ({ val }) => {
   const i18n = React.useContext(i18nContext);
@@ -38,7 +38,7 @@ const ProofTypeEntry: React.FC<CircuitEntryProps> = ({ val }) => {
           </div>
           <div className={styles.item}>
             <div>{i18n.num_inputs}:</div>
-            <div>{Object.keys(val.public_input_instance).length}</div>
+            <div>{Object.keys(val.circuit_inputs).length}</div>
           </div>
         </div>
       </div>
@@ -99,7 +99,11 @@ const ProofTypeDropdown: React.FC<ProofTypeDropdownProps> = ({ selectedVal, hand
         );
       }
 
-      return <DropdownList>{entries}</DropdownList>;
+      return (
+        <DropdownList>
+          <div className={styles.listContainer}>{entries}</div>
+        </DropdownList>
+      );
     },
     [data, handleSelectVal]
   );

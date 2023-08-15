@@ -1,8 +1,8 @@
 use crate::{paths::PATHS, CircuitBuildJson, CircuitBuildListJson, CircuitsJson, FileKind};
 use chrono::{DateTime, NaiveDateTime, Utc};
 use colored::Colorize;
-use prfs_driver_type::{driver_ids, drivers::spartan_circom_driver::SpartanCircomDriverProperties};
-use prfs_entities::entities::PrfsCircuit;
+use prfs_driver_type::driver_ids;
+use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
 use std::{io::Write, process::Command};
 
 pub fn run() {
@@ -59,9 +59,22 @@ fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind, timestamp: i64) 
 }
 
 fn make_spartan(circuit: &PrfsCircuit, timestamp: i64) {
+    let _raw_public_inputs: Vec<&RawCircuitInputMeta> = circuit
+        .raw_circuit_inputs_meta
+        .iter()
+        .filter(|raw_input| return raw_input.public)
+        .collect();
+
+    assert_eq!(
+        _raw_public_inputs.len(),
+        circuit.num_public_inputs as usize,
+        "num_public_input AND # of public raw input should be equal",
+    );
+
     let r1cs_src_path = PATHS
         .build
         .join(get_path_segment(circuit, FileKind::R1CS, timestamp));
+
     let spartan_circuit_path =
         PATHS
             .build
@@ -70,12 +83,12 @@ fn make_spartan(circuit: &PrfsCircuit, timestamp: i64) {
     circuit_reader::make_spartan_instance(
         &r1cs_src_path,
         &spartan_circuit_path,
-        circuit.public_inputs.len(),
+        circuit.num_public_inputs as usize,
     );
 }
 
 fn read_circuits_json() -> CircuitsJson {
-    let circuits_json_path = PATHS.circuits.join("circuits.json");
+    let circuits_json_path = PATHS.data.join("circuits.json");
     println!("Read circuits.json path: {:?}", circuits_json_path);
 
     circuits_json_path.try_exists().unwrap();
@@ -87,52 +100,51 @@ fn read_circuits_json() -> CircuitsJson {
 }
 
 fn compile_circuits(circuit: &PrfsCircuit) {
-    let driver_id = &circuit.driver.driver_id;
+    let driver_id = &circuit.driver_id;
 
-    let driver: SpartanCircomDriverProperties = match driver_id.as_str() {
+    match driver_id.as_str() {
         driver_ids::SPARTAN_CIRCOM_DRIVER_TYPE => {
-            serde_json::from_str(&circuit.driver.properties.to_string()).unwrap()
+            let instance_path = &circuit.driver_properties.get("instance_path").unwrap();
+
+            let circuit_src_path = PATHS.circuits.join(&instance_path);
+            println!("circuit_src_path: {:?}", circuit_src_path);
+
+            let build_path = PATHS.build.join(&circuit.circuit_id);
+            println!("circuit_build_path: {:?}", build_path);
+
+            std::fs::create_dir_all(&build_path).unwrap();
+
+            let status = Command::new("circom-secq")
+                .args([
+                    circuit_src_path.to_str().unwrap(),
+                    "--r1cs",
+                    "--wasm",
+                    "--prime",
+                    "secq256k1",
+                    "-o",
+                    build_path.to_str().unwrap(),
+                ])
+                .status()
+                .expect("circom-secq command failed to start");
+
+            assert!(status.success());
         }
         _ => panic!(
             "We cannot compile a circuit of this type, driver: {:?}",
             driver_id.as_str()
         ),
     };
-
-    let circuit_src_path = PATHS.circuits.join(&driver.instance_path);
-    println!("circuit_src_path: {:?}", circuit_src_path);
-
-    let build_path = PATHS.build.join(&circuit.circuit_id);
-    println!("circuit_build_path: {:?}", build_path);
-
-    std::fs::create_dir_all(&build_path).unwrap();
-
-    let status = Command::new("circom-secq")
-        .args([
-            circuit_src_path.to_str().unwrap(),
-            "--r1cs",
-            "--wasm",
-            "--prime",
-            "secq256k1",
-            "-o",
-            build_path.to_str().unwrap(),
-        ])
-        .status()
-        .expect("circom-secq command failed to start");
-
-    assert!(status.success());
 }
 
 fn create_build_json(circuit: &mut PrfsCircuit, timestamp: i64) {
-    let mut driver_props: SpartanCircomDriverProperties =
-        serde_json::from_str(&circuit.driver.properties.to_string()).unwrap();
     let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen, timestamp);
     let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan, timestamp);
 
-    driver_props.wtns_gen_url = format!("prfs://{}", wtns_gen_path);
-    driver_props.circuit_url = format!("prfs://{}", spartan_circuit_path);
-    circuit.driver.properties =
-        sqlx::types::Json::from(serde_json::to_value(driver_props).unwrap());
+    let wtns_gen_url = circuit.driver_properties.get_mut("wtns_gen_url").unwrap();
+    *wtns_gen_url = format!("prfs://{}", wtns_gen_path);
+
+    let circuit_url = circuit.driver_properties.get_mut("circuit_url").unwrap();
+    *circuit_url = format!("prfs://{}", spartan_circuit_path);
 
     let naive = NaiveDateTime::from_timestamp_millis(timestamp).unwrap();
     let datetime: DateTime<Utc> = DateTime::from_utc(naive, Utc);

@@ -5,21 +5,20 @@
   left: 0;
   width: 100%;
   display: flex;
-  padding: 0px 0px;
-  height: 41px;
-  font-size: 13px;
-  background-color: var(--bright-gray-50);
-  border-bottom: 1px solid var(--gray-60);
+  height: 53px;
+  background-color: var(--white-100);
+  border-bottom: 1px solid var(--bright-gray-31);
 }
 
 .logoArea {
   display: flex;
   align-items: center;
-  padding: 0 25px;
+  padding-left: 112px;
+  width: 285px;
 }
 
 .logoContainer {
-  font-size: 1.245rem;
+  font-size: 1.545rem;
 }
 
 .mainMenu {
@@ -45,6 +44,7 @@
   display: flex;
   align-items: center;
   margin-left: auto;
+  padding-right: 45px;
 
   > li:not(:last-child) {
     margin-right: 32px;
@@ -95,6 +95,15 @@
   li:hover {
     cursor: pointer;
     color: var(--aqua-blue-50);
+  }
+}
+
+.wallet {
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: 3px;
   }
 }
 

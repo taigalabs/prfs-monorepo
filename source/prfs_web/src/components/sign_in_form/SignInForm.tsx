@@ -3,11 +3,11 @@ import { useConnect, metamaskWallet } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
 import { useRouter } from "next/navigation";
 import * as prfsApi from "@taigalabs/prfs-api-js";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./SignInForm.module.scss";
 import { stateContext } from "@/contexts/state";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
-import Button from "@/components/button/Button";
 import localStore from "@/storage/localStore";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import { i18nContext } from "@/contexts/i18n";

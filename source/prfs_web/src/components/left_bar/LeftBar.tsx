@@ -5,25 +5,35 @@ import { FaAngleRight } from "react-icons/fa6";
 import styles from "./LeftBar.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import ActiveLink from "@/components/active_link/ActiveLink";
+import ProjectMeta from "../project_meta/ProjectMeta";
 
 const Leftbar: React.FC<any> = () => {
   const i18n = React.useContext(i18nContext);
 
   return (
     <div className={styles.wrapper}>
-      <ul className={styles.topMenu}>
-        <li>
-          <ActiveLink href="/" exact activeClassName={styles.activeLink}>
-            {i18n.home}
-          </ActiveLink>
-        </li>
-      </ul>
+      <div className={styles.topSection}>
+        <ul>
+          <li>
+            <ActiveLink href="/#proof_wizard" exact activeClassName={styles.activeLink}>
+              <p>{i18n.proof_wizard}</p>
+              <p className={styles.menuSublabel}>{i18n.proof_wizard_sublabel}</p>
+            </ActiveLink>
+          </li>
+        </ul>
+      </div>
+      <div className={styles.homeSection}>
+        <ul>
+          <li>
+            <ActiveLink href="/" exact activeClassName={styles.activeLink}>
+              {i18n.home}
+            </ActiveLink>
+          </li>
+        </ul>
+      </div>
       <div className={styles.section}>
         <ul>
-          <li className={styles.category}>
-            {/* <FaAngleRight /> */}
-            {i18n.proofs.toUpperCase()}
-          </li>
+          <li className={styles.category}>{i18n.proofs.toUpperCase()}</li>
           <li>
             <ActiveLink href="/proofs" activeClassName={styles.activeLink}>
               {i18n.proof_instances}
@@ -38,10 +48,7 @@ const Leftbar: React.FC<any> = () => {
       </div>
       <div className={styles.section}>
         <ul>
-          <li className={styles.category}>
-            {/* <FaAngleRight /> */}
-            {i18n.circuits.toUpperCase()}
-          </li>
+          <li className={styles.category}>{i18n.circuits.toUpperCase()}</li>
           <li>
             <ActiveLink href="/circuits" activeClassName={styles.activeLink}>
               {i18n.circuits}
@@ -52,12 +59,16 @@ const Leftbar: React.FC<any> = () => {
               {i18n.circuit_drivers}
             </ActiveLink>
           </li>
+          <li>
+            <ActiveLink href="/circuit_types" activeClassName={styles.activeLink}>
+              {i18n.circuit_types}
+            </ActiveLink>
+          </li>
         </ul>
       </div>
       <div className={styles.section}>
         <ul>
           <li className={styles.category}>
-            {/* <FaAngleRight /> */}
             <span>{i18n.references.toUpperCase()}</span>
           </li>
           <li>

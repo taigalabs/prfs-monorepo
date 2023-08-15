@@ -3,7 +3,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
-import { PublicInputInstanceEntry } from "@taigalabs/prfs-entities/bindings/PublicInputInstanceEntry";
+import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./CreateProofTypeForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -12,13 +13,13 @@ import CardRow from "@/components/card_row/CardRow";
 import Card from "@/components/card/Card";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import { FormTitleRow, FormTitle, FormSubtitle } from "@/components/form/Form";
-import Button from "@/components/button/Button";
 import FormTextInput from "@/components/form/FormTextInput";
-import PublicInputConfigSection from "@/components/public_input_config_section/PublicInputConfigSection";
 import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { stateContext } from "@/contexts/state";
 import { getYMD } from "@/functions/date";
 import { keccakHash } from "@/functions/hash";
+import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
+import CircuitInputConfigSection from "../circuit_input_config_section/CircuitInputConfigSection";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -26,9 +27,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const { prfsAccount } = state;
   const router = useRouter();
 
-  const [publicInputInstance, setPublicInputInstance] = React.useState<
-    Record<number, PublicInputInstanceEntry>
-  >({});
+  const [circuitInputs, setCircuitInputs] = React.useState<Record<number, CircuitInput>>({});
   const [formAlert, setFormAlert] = React.useState("");
   const [name, setName] = React.useState("");
   const [desc, setDesc] = React.useState("");
@@ -71,29 +70,29 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       return;
     }
 
-    const newPublicInputInstance: Record<number, PublicInputInstanceEntry> = {};
-    for (const [idx, pi] of selectedCircuit.public_inputs.entries()) {
-      switch (pi.type) {
-        case "PROVER_GENERATED":
-          newPublicInputInstance[idx] = {
-            label: pi.label,
-            type: pi.type,
-            desc: pi.desc,
-            value: "",
-            ref: null,
-          };
+    const newCircuitInputs: Record<number, CircuitInput> = {};
+    const circuit_inputs_meta = selectedCircuit.circuit_inputs_meta as CircuitInputMeta[];
 
-          break;
+    for (const [idx, input] of circuit_inputs_meta.entries()) {
+      switch (input.ref) {
         case "PRFS_SET":
-          if (!publicInputInstance[idx]) {
+          if (!circuitInputs[idx]) {
             setFormAlert(`public input is undefined, idx: ${idx}`);
             return;
           }
 
-          newPublicInputInstance[idx] = publicInputInstance[idx];
+          newCircuitInputs[idx] = circuitInputs[idx];
           break;
+
         default:
-          throw new Error(`public input invalid, type: ${pi.type}`);
+          newCircuitInputs[idx] = {
+            name: input.name,
+            label: input.label,
+            type: input.type,
+            desc: input.desc,
+            value: "",
+            ref: null,
+          };
       }
     }
 
@@ -102,7 +101,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     let { y, m, d } = getYMD();
     let now = Date.now();
     let hash = keccakHash(
-      `${selectedCircuit.circuit_id}_${selectedCircuit.driver.driver_id}_${now}`
+      `${selectedCircuit.circuit_id}_${selectedCircuit.driver_id}_${now}`
     ).substring(2, 8);
 
     let proof_type_id = `${prfsAccount.id}_${y}${m}${d}_${hash}`;
@@ -113,9 +112,9 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       desc,
       author: prfsAccount.sig,
       circuit_id: selectedCircuit.circuit_id,
-      public_input_instance: newPublicInputInstance,
-      driver_id: selectedCircuit.driver.driver_id,
-      driver_properties: selectedCircuit.driver.properties,
+      circuit_inputs: newCircuitInputs,
+      driver_id: selectedCircuit.driver_id,
+      driver_properties: selectedCircuit.driver_properties,
     };
 
     prfsApi
@@ -126,20 +125,22 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       .catch(err => {
         setFormAlert(err);
       });
-  }, [publicInputInstance, selectedCircuit, name, setFormAlert, desc, state.prfsAccount]);
+  }, [circuitInputs, selectedCircuit, name, setFormAlert, desc, state.prfsAccount]);
 
   return (
     <div className={styles.wrapper}>
-      <Breadcrumb>
-        <BreadcrumbEntry>
-          <Link href="/proof_types">{i18n.proof_types}</Link>
-        </BreadcrumbEntry>
-        <BreadcrumbEntry>{i18n.create_proof_type}</BreadcrumbEntry>
-      </Breadcrumb>
-      <FormTitleRow>
-        <FormTitle>{i18n.create_proof_type}</FormTitle>
-        <FormSubtitle>{i18n.create_proof_type_subtitle}</FormSubtitle>
-      </FormTitleRow>
+      <WidgetPaddedBody>
+        <Breadcrumb>
+          <BreadcrumbEntry>
+            <Link href="/proof_types">{i18n.proof_types}</Link>
+          </BreadcrumbEntry>
+          <BreadcrumbEntry>{i18n.create_proof_type}</BreadcrumbEntry>
+        </Breadcrumb>
+        <FormTitleRow>
+          <FormTitle>{i18n.create_proof_type}</FormTitle>
+          <FormSubtitle>{i18n.create_proof_type_subtitle}</FormSubtitle>
+        </FormTitleRow>
+      </WidgetPaddedBody>
 
       <CardRow>
         <Card>
@@ -179,19 +180,19 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       </CardRow>
 
       {selectedCircuit && (
-        <PublicInputConfigSection
-          publicInputs={selectedCircuit.public_inputs}
-          setPublicInputInstance={setPublicInputInstance}
+        <CircuitInputConfigSection
+          circuitInputsMeta={selectedCircuit.circuit_inputs_meta as CircuitInputMeta[]}
+          setCircuitInputs={setCircuitInputs}
         />
       )}
 
       {formAlert.length > 0 && <div className={styles.alert}>{formAlert}</div>}
 
-      <div className={styles.btnRow}>
-        <Button variant="b" handleClick={handleClickCreateProofType}>
+      <WidgetPaddedBody>
+        <Button variant="c" handleClick={handleClickCreateProofType}>
           {i18n.create_proof_type}
         </Button>
-      </div>
+      </WidgetPaddedBody>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { AsyncIncrementalMerkleTree } from "@taigalabs/async-incremental-merkle-tree";
-import { MerkleProof, AsyncHashFn } from "../types";
+import { SpartanMerkleProof, AsyncHashFn } from "../types";
 import { bytesToBigInt } from "./utils";
 
 export class Tree {
@@ -37,7 +37,7 @@ export class Tree {
     return this.treeInner.indexOf(leaf);
   }
 
-  createProof(index: number): MerkleProof {
+  createProof(index: number): SpartanMerkleProof {
     const proof = this.treeInner.createProof(index);
 
     const siblings = proof.siblings.map((s: any) => {

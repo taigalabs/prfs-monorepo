@@ -1,12 +1,12 @@
 import React from "react";
 import Link from "next/link";
 import { useConnect, useAddress, useSigner, metamaskWallet } from "@thirdweb-dev/react";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./ConnectWalletWidget.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
 import FormTextInput from "@/components/form/FormTextInput";
-import Button from "@/components/button/Button";
 
 const metamaskConfig = metamaskWallet();
 

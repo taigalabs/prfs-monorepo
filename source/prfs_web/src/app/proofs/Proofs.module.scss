@@ -1,13 +1,21 @@
 .proofInstanceWidgetHeader {
   display: flex;
+  width: 100%;
+  align-items: center;
   justify-content: space-between;
+}
 
-  > div {
-    display: flex;
-    align-items: center;
-  }
+.btnArea {
+  display: flex;
+  align-items: center;
+}
 
-  .createBtn {
-    border: 1px solid black;
+.tableWrapper {
+  padding: 0 18px;
+
+  thead {
+    tr {
+      border-top: none;
+    }
   }
 }

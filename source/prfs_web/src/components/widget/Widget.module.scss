@@ -1,23 +1,29 @@
 .wrapper {
-  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
-    0px 1px 3px 0px rgba(0, 0, 0, 0.12);
-  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 2px;
-  background-color: var(--white-100);
+  // transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  // border-radius: 2px;
+}
+
+.topWidgetTitle {
+  display: flex;
+  align-items: center;
+
+  height: 80px;
+  padding-left: 50px;
+  padding-right: 15px;
+  border-bottom: 1px solid var(--bright-gray-31);
 }
 
 .widgetHeaderWrapper {
-  background-color: var(--bright-gray-55);
-  border-bottom: 1px solid var(--bright-gray-35);
-  padding: 14px 18px;
+  border-bottom: 1px solid var(--bright-gray-31);
+  padding: 18px 0px 18px 50px;
 }
 
 .widgetLabelWrapper {
-  font-weight: 600;
-  font-size: 1.25em;
-  color: var(--gray-10);
+  font-weight: 400;
+  font-size: 1.3em;
+  color: var(--black-00);
 }
 
 .widgetPaddedBodyWrapper {
-  padding: 21px 18px;
+  padding: 21px 42px 21px 50px;
 }

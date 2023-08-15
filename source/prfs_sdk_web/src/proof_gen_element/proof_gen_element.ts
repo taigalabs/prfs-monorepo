@@ -1,17 +1,30 @@
-import { ethers } from "ethers";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import { ethers } from "ethers";
 
-import { handleChildMessage } from "./handle_msg";
+import { handleChildMessage } from "./handle_child_msg";
 import { sendMsgToChild } from "./send_msg";
+import { CreateProofMsg } from "./msg";
 
-const LOADING_SPAN_ID = "prfs-sdk-loading";
+export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
+export const LOADING_SPAN_ID = "prfs-sdk-loading";
 const SDK_ENDPOINT = "http://localhost:3010";
+
+const singleton: {
+  msgEventListener: any;
+} = {
+  msgEventListener: undefined,
+};
 
 class ProofGenElement {
   options: ProofGenElementOptions;
+  state: ProofGenElementState;
 
   constructor(options: ProofGenElementOptions) {
     this.options = options;
+    this.state = {
+      clickOutsideListener: undefined,
+      iframe: undefined,
+    };
   }
 
   async mount(containerName: string): Promise<HTMLIFrameElement> {
@@ -38,18 +51,14 @@ class ProofGenElement {
       loadingSpan.style.left = "12px";
 
       const iframe = document.createElement("iframe");
+      iframe.id = PROOF_GEN_IFRAME_ID;
       iframe.src = `${SDK_ENDPOINT}/proof_gen?proofTypeId=${options.proofType.proof_type_id}`;
       iframe.allow = "cross-origin-isolated";
-      iframe.style.width = "490px";
+      iframe.style.width = "494px";
       iframe.style.height = "320px";
       iframe.style.border = "none";
-      iframe.onload = () => {
-        const loadingSpan = document.getElementById(LOADING_SPAN_ID);
-
-        if (loadingSpan) {
-          loadingSpan.style.display = "none";
-        }
-      };
+      iframe.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
+      // iframe.style.border = "1px solid gray";
 
       const wrapperDiv = document.createElement("div");
       wrapperDiv.style.position = "relative";
@@ -58,8 +67,30 @@ class ProofGenElement {
       wrapperDiv.appendChild(iframe);
 
       container!.append(wrapperDiv);
-      handleChildMessage(resolve, options);
+
+      if (singleton.msgEventListener) {
+        console.warn("Remove already registered Prfs sdk message event listener");
+
+        window.removeEventListener("message", singleton.msgEventListener);
+      }
+
+      const msgEventListener = handleChildMessage(resolve, options, iframe, this.state);
+      singleton.msgEventListener = msgEventListener;
+
+      this.state.iframe = iframe;
     });
+  }
+
+  async createProof() {
+    if (!this.state.iframe) {
+      console.error("iframe is not created");
+      return;
+    }
+
+    const proofResp = await sendMsgToChild(new CreateProofMsg(), this.state.iframe);
+
+    return proofResp;
+    console.log(33, proofResp);
   }
 }
 
@@ -69,6 +100,9 @@ export interface ProofGenElementOptions {
   proofType: PrfsProofType;
   provider: ethers.providers.Web3Provider;
   handleCreateProof: ({ proof, publicInput }: any) => void;
-  prfsAssetEndpoint: string;
-  prfsApiEndpoint: string;
+}
+
+export interface ProofGenElementState {
+  clickOutsideListener: ((event: MouseEvent) => void) | undefined;
+  iframe: HTMLIFrameElement | undefined;
 }

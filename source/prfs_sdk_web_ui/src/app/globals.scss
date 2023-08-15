@@ -5,6 +5,7 @@
   --gray-31: #555756;
   --gray-32: #5a5b5b;
   --gray-40: #687078;
+  --gray-41: #6f7179;
   --gray-50: #8a8c8c;
   --gray-60: #acaca6;
   --gray-70: #b5bdb7;
@@ -19,6 +20,9 @@
   --bright-gray-55: #fafafa;
 
   --aqua-blue-50: #3857d3;
+  --aqua-blue-90: #9ba6ce;
+
+  --bright-aqua-blue-80: #f3f4fb;
 
   --blue-30: #1d74c1;
   --blue-40: #3d7293;
@@ -26,6 +30,7 @@
 
   --bright-green-30: #7beab6;
   --bright-green-50: #82f7c0;
+  --bright-green-55: #9dbfaf;
   --bright-green-80: #e5f2f0;
   --bright-green-81: #e8dfe6;
   --bright-green-90: #f6fbf8;
@@ -63,9 +68,11 @@
 }
 
 html {
-  font-family: "Roboto", "-apple-system", "BlinkMacSystemFont", '"Segoe UI"', '"Helvetica Neue"',
-    "Arial", "sans-serif", '"Apple Color Emoji"', '"Segoe UI Emoji"', '"Segoe UI Symbol"',
-    sans-serif;
+  /* font-family: "Roboto", "-apple-system", "BlinkMacSystemFont", '"Segoe UI"', '"Helvetica Neue"', */
+  /*   "Arial", "sans-serif", '"Apple Color Emoji"', '"Segoe UI Emoji"', '"Segoe UI Symbol"', */
+  /*   sans-serif; */
+  font-family: "-apple-system", "system-ui", "BlinkMacSystemFont", "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
   height: 100%;
 }
 

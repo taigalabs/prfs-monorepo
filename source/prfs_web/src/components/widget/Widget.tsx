@@ -4,6 +4,10 @@ import Link from "next/link";
 import styles from "./Widget.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 
+export const TopWidgetTitle: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return <div className={styles.topWidgetTitle}>{children}</div>;
+};
+
 export const WidgetLabel: React.FC<WidgetLabelProps> = ({ children }) => {
   return <div className={styles.widgetLabelWrapper}>{children}</div>;
 };
@@ -17,11 +21,7 @@ export const WidgetHeader: React.FC<WidgetHeaderProps> = ({ children }) => {
 };
 
 const Widget: React.FC<WidgetProps> = ({ children }) => {
-  return (
-    <div className={styles.wrapper}>
-      <div>{children}</div>
-    </div>
-  );
+  return <div className={styles.wrapper}>{children}</div>;
 };
 
 export default Widget;

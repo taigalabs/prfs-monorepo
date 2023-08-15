@@ -2,7 +2,7 @@ use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
 use chrono::{DateTime, NaiveDate, NaiveDateTime};
 use hyper::{body, Body, Request, Response};
 use prfs_db_interface::{db_apis, sqlx::types::Json};
-use prfs_entities::entities::{PrfsProofType, PrfsSet, PublicInputInstanceEntry};
+use prfs_entities::entities::{CircuitInput, PrfsProofType, PrfsSet};
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, convert::Infallible, sync::Arc};
@@ -62,7 +62,7 @@ struct CreatePrfsProofTypesRequest {
     desc: String,
     circuit_id: String,
     driver_id: String,
-    public_input_instance: HashMap<u32, PublicInputInstanceEntry>,
+    circuit_inputs: HashMap<u32, CircuitInput>,
     driver_properties: HashMap<String, String>,
 }
 
@@ -93,7 +93,7 @@ pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
 
         circuit_id: req.circuit_id.to_string(),
         driver_id: req.driver_id.to_string(),
-        public_input_instance: Json::from(req.public_input_instance.clone()),
+        circuit_inputs: Json::from(req.circuit_inputs.clone()),
         driver_properties: Json::from(req.driver_properties.clone()),
 
         created_at: chrono::offset::Utc::now(),

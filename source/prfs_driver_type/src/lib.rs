@@ -1,5 +1,4 @@
 pub mod driver_ids;
-pub mod drivers;
 pub mod local;
 mod paths;
 

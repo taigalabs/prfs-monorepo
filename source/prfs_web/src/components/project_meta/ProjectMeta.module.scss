@@ -1,0 +1,27 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0px;
+  font-size: 13px;
+
+  a {
+    &:hover {
+      color: var(--aqua-blue-50);
+    }
+  }
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+
+  > li:not(:last-child) {
+    margin-right: 15px;
+    margin-bottom: 13px;
+  }
+}
+
+.inactive {
+  color: var(--gray-70);
+}

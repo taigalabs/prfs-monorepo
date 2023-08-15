@@ -20,15 +20,17 @@ include "./secp256k1_func.circom";
  *  hashing the public key in PubkeyToAddress().
  */
 template AddrMembership2(nLevels, n, k) {
-    signal input m;
-    signal input r;
-
-    signal input s;
-    signal input root;
+    // eff ecdsa
     signal input Tx; 
     signal input Ty; 
     signal input Ux;
     signal input Uy;
+    signal input m;
+    signal input r;
+    signal input s;
+
+    // merkle proof
+    signal input root;
     signal input pathIndices[nLevels];
     signal input siblings[nLevels];
 
@@ -41,8 +43,8 @@ template AddrMembership2(nLevels, n, k) {
     ecdsa.r <== r;
     ecdsa.m <== m;
 
-    log("ecdsa pubKeyX", ecdsa.pubKeyX);
-    log("ecdsa pubKeyY", ecdsa.pubKeyY);
+    // log("ecdsa pubKeyX", ecdsa.pubKeyX);
+    // log("ecdsa pubKeyY", ecdsa.pubKeyY);
 
     component pubKeyXBits = Num2Bits(256);
     pubKeyXBits.in <== ecdsa.pubKeyX;
@@ -57,7 +59,7 @@ template AddrMembership2(nLevels, n, k) {
         pubToAddr.pubkeyBits[i + 256] <== pubKeyXBits.out[i];
     }
 
-    log("public addr (leaf)", pubToAddr.address);
+    // log("public addr (leaf)", pubToAddr.address);
 
     component merkleProof = MerkleTreeInclusionProof(nLevels);
     merkleProof.leaf <== pubToAddr.address;
@@ -67,8 +69,8 @@ template AddrMembership2(nLevels, n, k) {
         merkleProof.siblings[i] <== siblings[i];
     }
 
-    log("root (given)", root); 
-    log("merkleProof root", merkleProof.root);
+    // log("root (given)", root); 
+    // log("merkleProof root", merkleProof.root);
 
     root === merkleProof.root;
 }

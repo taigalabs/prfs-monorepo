@@ -1,17 +1,24 @@
 .wrapper {
-  width: 480px;
-  height: 320px;
-  overflow-x: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 492px;
   position: relative;
-  padding: 10px 14px;
-  border: 1px solid var(--gray-60);
-  border-radius: 5px;
+
+  /* border: 1px solid var(--gray-60); */
 }
 
-.powered {
-  font-size: 0.89em;
-  color: var(--gray-40);
+.container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.sdkMeta {
   position: absolute;
-  bottom: 3px;
-  right: 5px;
+  bottom: 2px;
+  right: 2px;
+  font-size: 10px;
+  color: var(--gray-40);
 }

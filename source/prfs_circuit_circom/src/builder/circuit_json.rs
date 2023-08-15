@@ -1,7 +1,5 @@
-use prfs_entities::entities::{CircuitDriver, PrfsCircuit, PublicInput};
+use prfs_entities::entities::PrfsCircuit;
 use serde::{Deserialize, Serialize};
-
-pub const SYSTEM_NATIVE_SCHEME: &str = "system_native://";
 
 pub enum FileKind {
     R1CS,

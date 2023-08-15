@@ -2,12 +2,11 @@
   display: flex;
   justify-content: space-between;
 
-  > div {
-    display: flex;
-    align-items: center;
-  }
+  width: 100%;
+  align-items: center;
+}
 
-  .createBtn {
-    border: 1px solid black;
-  }
+.btnArea {
+  display: flex;
+  align-items: center;
 }

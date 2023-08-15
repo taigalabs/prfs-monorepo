@@ -10,9 +10,9 @@ import Dropdown, {
   CreateDropdownListArgs,
   DropdownData,
   DropdownSingleSelectedValue,
-} from "@/components/dropdown/Dropdown";
-import DropdownEntry from "../dropdown/DropdownEntry";
-import DropdownList from "../dropdown/DropdownList";
+} from "@taigalabs/prfs-react-components/src/dropdown/Dropdown";
+import DropdownEntry from "@taigalabs/prfs-react-components/src/dropdown/DropdownEntry";
+import DropdownList from "@taigalabs/prfs-react-components/src/dropdown/DropdownList";
 
 const CircuitEntry: React.FC<CircuitEntryProps> = ({ val }) => {
   const i18n = React.useContext(i18nContext);
@@ -30,8 +30,8 @@ const CircuitEntry: React.FC<CircuitEntryProps> = ({ val }) => {
             <p>{val.proof_algorithm}</p>
           </div>
           <div className={styles.item}>
-            <div>{i18n.num_public_inputs}:</div>
-            <div>{val.public_inputs.length}</div>
+            <div>{i18n.num_inputs}:</div>
+            <div>{val.raw_circuit_inputs_meta.length}</div>
           </div>
           <div className={styles.item}>
             <p>{i18n.circuit_dsl}:</p>

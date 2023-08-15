@@ -1,13 +1,10 @@
-import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
-import { MerkleProof } from "@taigalabs/async-incremental-merkle-tree";
-import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-type/bindings/SpartanCircomDriverProperties";
+import { CircuitDriver, ProveArgs, VerifyArgs } from "@taigalabs/prfs-driver-interface";
+import { BN } from "bn.js";
 
 import { Tree } from "./helpers/tree";
 import { makePoseidon } from "./helpers/poseidon";
-import { MembershipProofGen } from "./proof_gen/membership_proof_gen";
-import { PrfsHandlers, AsyncHashFn, NIZK, BuildStatus } from "./types";
-import { initWasm } from "./wasm_wrapper/load_worker";
-import { fromSig, loadCircuit, snarkJsWitnessGen } from "./helpers/utils";
+import { PrfsHandlers, AsyncHashFn, NIZK, BuildStatus, SpartanMerkleProof } from "./types";
+import { fromSig, snarkJsWitnessGen } from "./helpers/utils";
 import {
   CircuitPubInput,
   PublicInput,
@@ -15,7 +12,6 @@ import {
   computeEffEcdsaPubInput2,
   verifyEffEcdsaPubInput,
 } from "./helpers/public_input";
-import { BN } from "bn.js";
 
 export default class SpartanDriver implements CircuitDriver {
   handlers: PrfsHandlers;
@@ -23,7 +19,6 @@ export default class SpartanDriver implements CircuitDriver {
   circuit: Uint8Array;
 
   constructor(args: SpartanDriverCtorArgs) {
-    // console.log("SpartanDriver, args: %o", args);
     this.handlers = args.handlers;
 
     if (args.circuit === undefined) {
@@ -54,13 +49,20 @@ export default class SpartanDriver implements CircuitDriver {
     return await Tree.newInstance(depth, hash);
   }
 
-  async prove(sig: string, msgHash: Buffer, merkleProof: MerkleProof): Promise<NIZK> {
-    console.log("\nMembershipProver2.prove()");
+  async prove2(sig: string, msgHash: Buffer, merkleProof: SpartanMerkleProof): Promise<NIZK> {
+    // const { inputs, eventListener } = args;
+    // const { sigData, merkleProof } = inputs;
+    // const { msgHash, sig } = sigData;
+
+    // console.log("inputs: %o", inputs);
+    // console.log("sigData: %o, merkleProof", sigData, merkleProof);
+    console.log("\nMembershipProver2.prove()", sig, msgHash, merkleProof);
 
     const { r, s, v } = fromSig(sig);
-    const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash, s);
 
-    // console.log("effEcdsaPubInput: {}", effEcdsaPubInput);
+    const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash);
+
+    // eventListener("Computed ECDSA pub input");
 
     const circuitPubInput = new CircuitPubInput(
       merkleProof.root,
@@ -71,7 +73,6 @@ export default class SpartanDriver implements CircuitDriver {
     );
 
     const publicInput = new PublicInput(r, v, msgHash, circuitPubInput);
-    console.log("publicInput: %o", publicInput);
     const m = new BN(msgHash).mod(SECP256K1_P);
 
     const witnessGenInput = {
@@ -79,13 +80,25 @@ export default class SpartanDriver implements CircuitDriver {
       s,
       m: BigInt(m.toString()),
 
+      // merkle root
+      // root: merkleProof.root,
+      // siblings: merkleProof.siblings,
+      // pathIndices: merkleProof.pathIndices,
+
+      // // Eff ECDSA PubInput
+      // Tx: effEcdsaPubInput.Tx,
+      // Ty: effEcdsaPubInput.Ty,
+      // Ux: effEcdsaPubInput.Ux,
+      // Uy: effEcdsaPubInput.Uy,
       ...merkleProof,
       ...effEcdsaPubInput,
     };
-    console.log("witnessGenInput: %o", witnessGenInput);
 
+    console.log("witnessGenInput: %o", witnessGenInput);
     const witness = await snarkJsWitnessGen(witnessGenInput, this.wtnsGenUrl);
-    // const circuitBin = await loadCircuit(this.circuitUrl);
+
+    // eventListener("Computed witness gen input");
+
     const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
 
     const proof = await this.handlers.prove(this.circuit, witness.data, circuitPublicInput);
@@ -96,11 +109,68 @@ export default class SpartanDriver implements CircuitDriver {
     };
   }
 
-  async verify(proof: Uint8Array, publicInputSer: Uint8Array): Promise<boolean> {
-    // const circuitBin = await loadCircuit(this.circuit);
+  async prove(args: ProveArgs<MembershipProveInputs>): Promise<NIZK> {
+    const { inputs, eventListener } = args;
+    const { sigData, merkleProof } = inputs;
+    const { msgHash, sig } = sigData;
 
-    const publicInput = PublicInput.deserialize(publicInputSer);
-    const isPubInputValid = verifyEffEcdsaPubInput(publicInput);
+    console.log("inputs: %o", inputs);
+    console.log("sigData: %o, merkleProof", sigData, merkleProof);
+
+    const { r, s, v } = fromSig(sig);
+
+    const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash);
+
+    eventListener("Computed ECDSA pub input");
+
+    const circuitPubInput = new CircuitPubInput(
+      merkleProof.root,
+      effEcdsaPubInput.Tx,
+      effEcdsaPubInput.Ty,
+      effEcdsaPubInput.Ux,
+      effEcdsaPubInput.Uy
+    );
+
+    const publicInput = new PublicInput(r, v, msgHash, circuitPubInput);
+    const m = new BN(msgHash).mod(SECP256K1_P);
+
+    const witnessGenInput = {
+      r,
+      s,
+      m: BigInt(m.toString()),
+
+      // merkle root
+      root: merkleProof.root,
+      siblings: merkleProof.siblings,
+      pathIndices: merkleProof.pathIndices,
+
+      // Eff ECDSA PubInput
+      Tx: effEcdsaPubInput.Tx,
+      Ty: effEcdsaPubInput.Ty,
+      Ux: effEcdsaPubInput.Ux,
+      Uy: effEcdsaPubInput.Uy,
+    };
+
+    // console.log("witnessGenInput: %o", witnessGenInput);
+    const witness = await snarkJsWitnessGen(witnessGenInput, this.wtnsGenUrl);
+
+    eventListener("Computed witness gen input");
+
+    const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
+
+    const proof = await this.handlers.prove(this.circuit, witness.data, circuitPublicInput);
+
+    return {
+      proof,
+      publicInput,
+    };
+  }
+
+  async verify(args: VerifyArgs): Promise<boolean> {
+    const { inputs } = args;
+    const { proof, publicInput } = inputs;
+
+    const isPubInputValid = verifyEffEcdsaPubInput(publicInput as PublicInput);
 
     let isProofValid;
     try {
@@ -123,17 +193,11 @@ export interface SpartanDriverCtorArgs {
   circuit: Uint8Array;
 }
 
-// function bigint_to_array(n: number, k: number, x: bigint): bigint[] {
-//   let mod: bigint = 1n;
-//   for (var idx = 0; idx < n; idx++) {
-//     mod = mod * 2n;
-//   }
-
-//   let ret: bigint[] = [];
-//   var x_temp: bigint = x;
-//   for (var idx = 0; idx < k; idx++) {
-//     ret.push(x_temp % mod);
-//     x_temp = x_temp / mod;
-//   }
-//   return ret;
-// }
+export interface MembershipProveInputs {
+  sigData: {
+    msgRaw: string;
+    msgHash: Buffer;
+    sig: string;
+  };
+  merkleProof: SpartanMerkleProof;
+}

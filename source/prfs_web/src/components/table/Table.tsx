@@ -3,6 +3,10 @@ import classNames from "classnames";
 
 import styles from "./Table.module.scss";
 
+export const PaddedTableWrapper: React.FC<PaddedTableWrapperProps> = ({ children }) => {
+  return <div className={styles.paddedTableWrapper}>{children}</div>;
+};
+
 export const TableCurrentPageLimitWarning: React.FC = () => {
   return <div className={styles.pageLimitWarning}>Currently showing up to 20 elements</div>;
 };
@@ -60,7 +64,15 @@ export type TableData<T> = {
   values: T[];
 };
 
+export type TableRecordData<R> = {
+  record: R;
+};
+
 export interface TableHeaderProps {
+  children: React.ReactNode;
+}
+
+export interface PaddedTableWrapperProps {
   children: React.ReactNode;
 }
 

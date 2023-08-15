@@ -7,13 +7,9 @@
   font-style: italic;
 }
 
-.listWrapper {
-  background-color: var(--white-100);
-
-  li {
-    width: 100%;
-    border: 1px solid transparent;
-  }
+.listContainer {
+  max-height: 45vh;
+  overflow-y: scroll;
 }
 
 .dropdownEntry {

@@ -16,3 +16,4 @@ packages:
 
   - "source/prfs_sdk_web"
   - "source/prfs_sdk_web_ui"
+  - "source/prfs_react_components"

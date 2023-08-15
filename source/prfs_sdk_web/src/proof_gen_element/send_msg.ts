@@ -1,5 +1,3 @@
-// import { MsgInterface } from "./msg";
-
 import { MsgBase } from "./msg";
 
 export async function sendMsgToChild<T, R>(msg: MsgBase<T, R>, iframe: HTMLIFrameElement) {

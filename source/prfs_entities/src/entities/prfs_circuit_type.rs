@@ -1,0 +1,41 @@
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
+use ts_rs::TS;
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct CircuitType {
+    pub circuit_type: String,
+    pub desc: String,
+    pub author: String,
+
+    #[ts(type = "number")]
+    pub created_at: DateTime<Utc>,
+
+    #[ts(type = "Record<string, any>[]")]
+    pub circuit_inputs_meta: sqlx::types::Json<Vec<CircuitInputMeta>>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct CircuitInputMeta {
+    pub name: String,
+    pub label: String,
+    pub r#type: String,
+    pub desc: String,
+
+    #[serde(default = "default_ref")]
+    pub r#ref: String,
+}
+
+fn default_ref() -> String {
+    String::from("")
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct DriverPropertyMeta {
+    pub label: String,
+    pub r#type: String,
+    pub desc: String,
+}

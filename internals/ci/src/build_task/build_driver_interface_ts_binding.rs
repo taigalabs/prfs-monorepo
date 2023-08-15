@@ -27,9 +27,9 @@ impl BuildTask for BuildDriverInterfaceTSBindingTask {
 
         assert!(status.success());
 
-        if let Ok(_) = which(PRETTIERD) {
-            format_ts_files(&PATHS.prfs_driver_type_bindings);
-        }
+        // if let Ok(_) = which(PRETTIERD) {
+        //     format_ts_files(&PATHS.prfs_driver_type_bindings);
+        // }
 
         Ok(())
     }

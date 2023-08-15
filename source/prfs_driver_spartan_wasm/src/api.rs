@@ -4,15 +4,30 @@ use ff::PrimeField;
 use libspartan::{Assignment, Instance, NIZKGens, NIZK};
 use merlin::Transcript;
 use prfs_crypto::{hash_from_bytes, MerkleProof};
-use secq256k1::{affine::Group, field::BaseField};
+use secq256k1::affine::Group;
 use std::io::{Error, Read};
+use wasm_bindgen::prelude::wasm_bindgen;
 
 pub type G1 = secq256k1::AffinePoint;
 pub type F1 = <G1 as Group>::Scalar;
 
-pub fn bb() -> Result<Vec<u8>, PrfsDriverSpartanWasmError> {
-    return Ok(vec![111]);
-}
+// #[wasm_bindgen]
+// extern "C" {
+//     // Use `js_namespace` here to bind `console.log(..)` instead of just
+//     // `log(..)`
+//     #[wasm_bindgen(js_namespace = console)]
+//     fn log(s: &str);
+
+//     // The `console.log` is quite polymorphic, so we can bind it with multiple
+//     // signatures. Note that we need to use `js_name` to ensure we always call
+//     // `log` in JS.
+//     #[wasm_bindgen(js_namespace = console, js_name = log)]
+//     fn log_u32(a: u32);
+
+//     // Multiple arguments too!
+//     #[wasm_bindgen(js_namespace = console, js_name = log)]
+//     fn log_many(a: &str, b: &str);
+// }
 
 pub fn prove(
     circuit: &[u8],
@@ -20,7 +35,6 @@ pub fn prove(
     public_inputs: &[u8],
 ) -> Result<Vec<u8>, PrfsDriverSpartanWasmError> {
     let witness = load_witness_from_bin_reader::<F1, _>(vars).unwrap();
-    // println!("witness len: {}", witness.len());
 
     let witness_bytes = witness
         .iter()
@@ -34,19 +48,19 @@ pub fn prove(
     let num_vars = circuit.inst.get_num_vars();
     let num_inputs = circuit.inst.get_num_inputs();
 
-    // println!(
-    //     "#cons: {}, #vars: {}, #inputs: {}",
-    //     num_cons, num_vars, num_inputs,
-    // );
-
     // produce public parameters
     let gens = NIZKGens::new(num_cons, num_vars, num_inputs);
 
-    let mut input = Vec::new();
+    // log(&format!("num_inputs: {}", num_inputs));
+
+    let mut input: Vec<[u8; 32]> = Vec::new();
     for i in 0..num_inputs {
-        input.push(public_inputs[(i * 32)..((i + 1) * 32)].try_into().unwrap());
+        input.push(
+            public_inputs[(i * 32)..((i + 1) * 32)]
+                .try_into()
+                .expect("input convert failed"),
+        );
     }
-    // println!("input len: {}", input.len());
 
     let input = Assignment::new(&input).unwrap();
 
@@ -204,77 +218,4 @@ pub fn load_witness_from_bin_reader<Fr: PrimeField, R: Read>(
         result.push(wts);
     }
     Ok(result)
-}
-
-#[cfg(test)]
-mod test {
-    use secq256k1::field::field_secq::FieldElement;
-
-    use super::*;
-    use std::{env::current_dir, fs};
-
-    #[test]
-    fn check_nizk() {
-        println!("check_nizk()");
-
-        let root = current_dir().unwrap();
-        let circuit = fs::read(root.join("test_circuit/test_circuit.circuit")).unwrap();
-        let vars = fs::read(root.join("test_circuit/witness.wtns")).unwrap();
-        // println!("vars: {:?}", vars);
-
-        let public_inputs = [F1::from(1u64), F1::from(1u64), F1::from(1u64)]
-            .iter()
-            .map(|w| w.to_repr())
-            .flatten()
-            .collect::<Vec<u8>>();
-
-        println!("\npublic_inputs: {:?}", public_inputs);
-
-        let proof = prove(
-            circuit.as_slice(),
-            vars.as_slice(),
-            public_inputs.as_slice(),
-        )
-        .unwrap();
-
-        println!("\nproof: {:?}", proof);
-
-        let result = verify(
-            circuit.as_slice(),
-            proof.as_slice(),
-            public_inputs.as_slice(),
-        );
-
-        println!("\nresult: {:?}", result);
-
-        assert!(result.unwrap());
-    }
-
-    #[test]
-    fn test_poseidon() {
-        // Using the same inputs as poseidon.test.ts
-        let a = FieldElement::from_str_vartime(
-            "115792089237316195423570985008687907853269984665640564039457584007908834671663",
-        )
-        .unwrap()
-        .to_bytes();
-        let b = FieldElement::from_str_vartime(
-            "115792089237316195423570985008687907853269984665640564039457584007908834671662",
-        )
-        .unwrap()
-        .to_bytes();
-
-        let mut inputs = [0u8; 64];
-        inputs[..32].copy_from_slice(&a);
-        inputs[32..].copy_from_slice(&b);
-        // let result = poseidon(&inputs).unwrap();
-
-        // assert_eq!(
-        //     result.as_slice(),
-        //     &[
-        //         181, 226, 121, 200, 61, 3, 57, 70, 184, 30, 115, 145, 192, 7, 138, 73, 36, 8, 40,
-        //         132, 190, 141, 35, 89, 108, 149, 235, 51, 129, 165, 64, 103
-        //     ]
-        // )
-    }
 }
