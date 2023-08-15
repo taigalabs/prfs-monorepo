@@ -71,7 +71,9 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     }
 
     const newCircuitInputs: Record<number, CircuitInput> = {};
-    for (const [idx, input] of selectedCircuit.circuit_inputs_meta.entries()) {
+    const circuit_inputs_meta = selectedCircuit.circuit_inputs_meta as CircuitInputMeta[];
+
+    for (const [idx, input] of circuit_inputs_meta.entries()) {
       switch (input.ref) {
         case "PRFS_SET":
           if (!circuitInputs[idx]) {
@@ -84,6 +86,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 
         default:
           newCircuitInputs[idx] = {
+            name: input.name,
             label: input.label,
             type: input.type,
             desc: input.desc,

@@ -33,6 +33,7 @@ const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
           setCircuitInputs((oldVal: Record<number, CircuitInput>) => {
             const newVal = { ...oldVal };
             newVal[idx] = {
+              name: input.name,
               label: input.label,
               type: input.type,
               desc: input.desc,
@@ -69,7 +70,7 @@ const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
       }
 
       elems.push(
-        <div className={styles.publicInputEntry} key={idx}>
+        <div className={styles.circuitInputEntry} key={idx}>
           <div className={styles.inputIdx}>{idx}</div>
           <div className={styles.inputGroup}>
             <div className={styles.inputLabel}>{input.label}</div>

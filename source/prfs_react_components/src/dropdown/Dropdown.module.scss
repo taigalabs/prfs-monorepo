@@ -5,6 +5,7 @@
 
 .baseContainer {
   flex-grow: 1;
+  width: calc(100% - 15px);
 }
 
 .dropdownBase {
