@@ -1,6 +1,6 @@
 use crate::apis::{
-    prfs_accounts, prfs_circuit_drivers, prfs_circuit_types, prfs_circuits, prfs_proof_types,
-    prfs_sets, prfs_tree_nodes,
+    prfs_accounts, prfs_circuit_drivers, prfs_circuit_types, prfs_circuits, prfs_proof_instances,
+    prfs_proof_types, prfs_sets, prfs_tree_nodes,
 };
 use crate::middleware;
 use crate::state::ServerState;
@@ -36,6 +36,10 @@ pub fn make_router(
         .post(
             format!("{}/get_prfs_native_circuit_drivers", PREFIX),
             prfs_circuit_drivers::get_prfs_native_circuit_drivers,
+        )
+        .post(
+            format!("{}/create_prfs_proof_instances", PREFIX),
+            prfs_proof_instances::create_prfs_proof_instances,
         )
         .post(
             format!("{}/sign_in_prfs_account", PREFIX),
