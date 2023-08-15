@@ -5,7 +5,7 @@ import { GetSignatureMsg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 import styles from "./SigDataInput.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 
-const SigDataInput: React.FC<SigDataInputProps> = ({ input, value, setFormValues }) => {
+const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFormValues }) => {
   const i18n = React.useContext(i18nContext);
 
   React.useEffect(() => {
@@ -19,7 +19,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ input, value, setFormValues
       setFormValues(oldVals => {
         return {
           ...oldVals,
-          [input.label]: defaultSigData,
+          [circuitInput.label]: defaultSigData,
         };
       });
     }
@@ -33,7 +33,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ input, value, setFormValues
 
       setFormValues(oldVals => ({
         ...oldVals,
-        [input.label]: {
+        [circuitInput.label]: {
           msgRaw,
           msgHash,
           sig,
@@ -44,7 +44,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ input, value, setFormValues
 
   return (
     <div className={styles.sigDataInputWrapper}>
-      <input placeholder={input.desc} value={value?.msgRaw || ""} readOnly />
+      <input placeholder={circuitInput.desc} value={value?.msgRaw || ""} readOnly />
       <div className={styles.btnGroup}>
         <p className={styles.signed}>{value?.sig ? i18n.signed : ""}</p>
         <button className={styles.connectBtn} onClick={handleClickSign}>
@@ -64,7 +64,7 @@ export interface SigData {
 }
 
 export interface SigDataInputProps {
-  input: CircuitInput;
+  circuitInput: CircuitInput;
   value: SigData | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
 }

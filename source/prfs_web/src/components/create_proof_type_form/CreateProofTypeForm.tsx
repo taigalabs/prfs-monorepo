@@ -80,8 +80,8 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
           }
 
           newCircuitInputs[idx] = circuitInputs[idx];
-
           break;
+
         default:
           newCircuitInputs[idx] = {
             label: input.label,
@@ -183,11 +183,11 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 
       {formAlert.length > 0 && <div className={styles.alert}>{formAlert}</div>}
 
-      <div className={styles.btnRow}>
-        <Button variant="b" handleClick={handleClickCreateProofType}>
+      <WidgetPaddedBody>
+        <Button variant="c" handleClick={handleClickCreateProofType}>
           {i18n.create_proof_type}
         </Button>
-      </div>
+      </WidgetPaddedBody>
     </div>
   );
 };

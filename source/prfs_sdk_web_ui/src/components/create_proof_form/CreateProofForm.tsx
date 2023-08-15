@@ -71,12 +71,12 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
 
     const entriesElem = Object.entries(obj).map(([key, val]) => {
       let inputElem: React.ReactElement;
-      // let inputEleme
+
       switch (val.type) {
         case "MERKLE_PROOF_1": {
           inputElem = (
             <MerkleProofInput
-              input={val}
+              circuitInput={val}
               value={formValues[val.label] as any}
               setFormValues={setFormValues}
             />
@@ -86,7 +86,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
         case "SIG_DATA_1": {
           inputElem = (
             <SigDataInput
-              input={val}
+              circuitInput={val}
               value={formValues[val.label] as any}
               setFormValues={setFormValues}
             />

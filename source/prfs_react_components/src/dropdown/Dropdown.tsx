@@ -1,6 +1,6 @@
 import React from "react";
 import { IoMdArrowDropup, IoMdArrowDropdown } from "react-icons/io";
-import { useFloating, useClick, useInteractions, useDismiss } from "@floating-ui/react";
+import { flip, useFloating, useClick, useInteractions, useDismiss } from "@floating-ui/react";
 
 import styles from "./Dropdown.module.scss";
 
@@ -10,6 +10,7 @@ function Dropdown<T>({ createBase, createList, handleSelectVal }: DropdownProps<
     placement: "bottom-end",
     open: isOpen,
     onOpenChange: setIsOpen,
+    middleware: [flip()],
   });
   const dismiss = useDismiss(context);
   const click = useClick(context);

@@ -29,7 +29,6 @@ const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
 
       const handleSelectSet = React.useCallback(
         (val: PrfsSet) => {
-          // console.log(13, val);
           setSelectedSet(val);
           setCircuitInputs((oldVal: Record<number, CircuitInput>) => {
             const newVal = { ...oldVal };
