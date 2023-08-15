@@ -7,6 +7,8 @@ export enum MsgType {
   GET_SIGNATURE_RESPONSE = "GET_SIGNATURE_RESPONSE",
   LISTEN_CLICK_OUTSIDE = "LISTEN_CLICK_OUTSIDE",
   LISTEN_CLICK_OUTSIDE_RESPONSE = "LISTEN_CLICK_OUTSIDE_RESPONSE",
+  LISTEN_CREATE_PROOF = "LISTEN_CREATE_PROOF",
+  LISTEN_CREATE_PROOF_RESPONSE = "LISTEN_CREATE_PROOF_RESPONSE",
   STOP_CLICK_OUTSIDE = "STOP_CLICK_OUTSIDE",
   STOP_CLICK_OUTSIDE_RESPONSE = "STOP_CLICK_OUTSIDE_RESPONSE",
   CREATE_PROOF = "CREATE_PROOF",
@@ -87,5 +89,29 @@ export class ListenClickOutsideResponseMsg extends MsgBase<boolean, void> {
 export class StopClickOutsideMsg extends MsgBase<void, boolean> {
   constructor() {
     super(MsgType.STOP_CLICK_OUTSIDE);
+  }
+}
+
+export class ListenCreateProofMsg extends MsgBase<void, boolean> {
+  constructor() {
+    super(MsgType.LISTEN_CREATE_PROOF);
+  }
+}
+
+export class ListenCreateProofResponseMsg extends MsgBase<boolean, void> {
+  constructor(isNewlyAttached: boolean) {
+    super(MsgType.LISTEN_CREATE_PROOF_RESPONSE, isNewlyAttached);
+  }
+}
+
+export class CreateProofMsg extends MsgBase<void, void> {
+  constructor() {
+    super(MsgType.CREATE_PROOF);
+  }
+}
+
+export class CreateProofResponseMsg extends MsgBase<void, void> {
+  constructor() {
+    super(MsgType.CREATE_PROOF_RESPONSE);
   }
 }

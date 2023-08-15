@@ -1,7 +1,9 @@
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { ethers } from "ethers";
 
-import { handleChildMessage } from "./handle_msg";
+import { handleChildMessage } from "./handle_child_msg";
+import { sendMsgToChild } from "./send_msg";
+import { CreateProofMsg } from "./msg";
 
 export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
 export const LOADING_SPAN_ID = "prfs-sdk-loading";
@@ -21,6 +23,7 @@ class ProofGenElement {
     this.options = options;
     this.state = {
       clickOutsideListener: undefined,
+      iframe: undefined,
     };
   }
 
@@ -73,7 +76,18 @@ class ProofGenElement {
 
       const msgEventListener = handleChildMessage(resolve, options, iframe, this.state);
       singleton.msgEventListener = msgEventListener;
+
+      this.state.iframe = iframe;
     });
+  }
+
+  async createProof() {
+    if (!this.state.iframe) {
+      console.error("iframe is not created");
+      return;
+    }
+
+    await sendMsgToChild(new CreateProofMsg(), this.state.iframe);
   }
 }
 
@@ -87,4 +101,5 @@ export interface ProofGenElementOptions {
 
 export interface ProofGenElementState {
   clickOutsideListener: ((event: MouseEvent) => void) | undefined;
+  iframe: HTMLIFrameElement | undefined;
 }

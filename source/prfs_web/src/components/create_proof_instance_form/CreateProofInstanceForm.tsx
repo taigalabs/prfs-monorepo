@@ -29,6 +29,7 @@ import { hashPersonalMessage } from "@ethereumjs/util";
 import { ethers } from "ethers";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import { PaddedTableWrapper } from "../table/Table";
+import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
 const prfs = new PrfsSDK("test");
 
@@ -45,6 +46,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   const [formAlert, setFormAlert] = React.useState("");
   const [selectedProofType, setSelectedProofType] = React.useState<PrfsProofType | undefined>();
   const [programProps, setProgramProps] = React.useState();
+  const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
 
   const handleSelectProofType = React.useCallback(
     (val: PrfsProofType) => {
@@ -69,17 +71,15 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
           handleCreateProof,
         });
 
-        const iframe = await proofGenElement.mount("#prfs-sdk-container");
+        await proofGenElement.mount("#prfs-sdk-container");
         console.log("sdk is loaded");
-        // const reply = await sendMsgToChild({
-        //   type: MsgType.
-        // }, iframe);
-        // console.log(22, reply);
+
+        setProofGenElement(proofGenElement);
       }
     }
 
     fn().then();
-  }, [selectedProofType, handleCreateProof]);
+  }, [selectedProofType, handleCreateProof, setProofGenElement]);
 
   const handleClickCreateProofInstance = React.useCallback(async () => {
     setFormAlert("");
@@ -94,7 +94,14 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       return;
     }
 
-    console.log(11, selectedProofType);
+    if (!proofGenElement) {
+      setFormAlert("PRFS sdk is undefined");
+      return;
+    }
+
+    proofGenElement.createProof();
+
+    // console.log(11, selectedProofType);
 
     // const provider = new ethers.providers.Web3Provider(window.ethereum);
     // await provider.send("eth_requestAccounts", []);
@@ -224,7 +231,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     //   .catch(err => {
     //     setFormAlert(err);
     //   });
-  }, [publicInputInstance, selectedProofType, setFormAlert, state.prfsAccount]);
+  }, [publicInputInstance, selectedProofType, setFormAlert, state.prfsAccount, proofGenElement]);
 
   // console.log(11, selectedProofType);
 

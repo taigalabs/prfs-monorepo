@@ -6,12 +6,7 @@ import { hashPersonalMessage } from "@ethereumjs/util";
 import { ethers } from "ethers";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import * as prfsApi from "@taigalabs/prfs-api-js";
-import { PiCalculatorLight } from "react-icons/pi";
-import { HiOutlineDocumentText } from "react-icons/hi2";
-import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 import {
-  GetAddressMsg,
-  GetSignatureMsg,
   ListenClickOutsideMsg,
   MsgType,
   StopClickOutsideMsg,
@@ -20,12 +15,12 @@ import {
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
 import { PROOF_GEN_IFRAME_ID } from "@taigalabs/prfs-sdk-web";
+import { PRFS_SDK_CLICK_OUTSIDE_EVENT_TYPE } from "@taigalabs/prfs-sdk-web/src/proof_gen_element/outside_event";
+import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 
 import styles from "./MerkleProofInput.module.scss";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
 import { i18nContext } from "@/contexts/i18n";
-import { PRFS_SDK_CLICK_OUTSIDE_EVENT_TYPE } from "@taigalabs/prfs-sdk-web/src/proof_gen_element/click";
-import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 
 const MerkleProofModal: React.FC<MerkleProofModalProps> = ({
   prfsSet,
@@ -37,22 +32,21 @@ const MerkleProofModal: React.FC<MerkleProofModalProps> = ({
   const i18n = React.useContext(i18nContext);
 
   React.useEffect(() => {
-    async function fn() {
-      sendMsgToParent(new ListenClickOutsideMsg());
+    sendMsgToParent(new ListenClickOutsideMsg());
 
-      window.addEventListener("message", (ev: MessageEvent) => {
-        const { type } = ev.data;
+    function eventListener(ev: MessageEvent) {
+      const { type } = ev.data;
 
-        if (type && type === PRFS_SDK_CLICK_OUTSIDE_EVENT_TYPE) {
-          setIsOpen(false);
-        }
-      });
+      if (type && type === PRFS_SDK_CLICK_OUTSIDE_EVENT_TYPE) {
+        setIsOpen(false);
+      }
     }
 
-    fn().then();
+    window.addEventListener("message", eventListener);
 
     return () => {
       sendMsgToParent(new StopClickOutsideMsg());
+      window.removeEventListener("message", eventListener);
     };
   }, []);
 

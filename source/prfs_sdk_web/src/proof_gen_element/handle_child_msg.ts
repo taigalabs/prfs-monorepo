@@ -1,4 +1,4 @@
-import { listenClickOutside, removeClickListener } from "./click";
+import { listenClickOutside, removeClickListener } from "./outside_event";
 import {
   GetAddressResponseMsg,
   HandshakePayload,

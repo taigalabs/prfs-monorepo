@@ -8,7 +8,12 @@ import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PiCalculatorLight } from "react-icons/pi";
 import { HiOutlineDocumentText } from "react-icons/hi2";
 import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
-import { GetAddressMsg, GetSignatureMsg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
+import {
+  GetAddressMsg,
+  GetSignatureMsg,
+  ListenCreateProofMsg,
+  sendMsgToParent,
+} from "@taigalabs/prfs-sdk-web";
 
 import styles from "./CreateProofForm.module.scss";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
@@ -17,6 +22,7 @@ import { useInterval } from "@/functions/interval";
 import WalletSelect, { WalletTypeValue } from "@/components/wallet_select/WalletSelect";
 import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
 import SigDataInput from "@/components/sig_data_input/SigDataInput";
+import { PRFS_SDK_CRAETE_PROOF_EVENT_TYPE } from "@taigalabs/prfs-sdk-web/src/proof_gen_element/outside_event";
 
 const ASSET_SERVER_ENDPOINT = process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
@@ -40,6 +46,24 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
     (ev: React.ChangeEvent) => {},
     [setSelectedWalletType]
   );
+
+  React.useEffect(() => {
+    sendMsgToParent(new ListenCreateProofMsg());
+
+    function eventListener(ev: MessageEvent) {
+      const { type } = ev.data;
+
+      if (type && type === PRFS_SDK_CRAETE_PROOF_EVENT_TYPE) {
+        // setIsOpen(false);
+      }
+    }
+
+    window.addEventListener("message", eventListener);
+
+    return () => {
+      window.removeEventListener("message", eventListener);
+    };
+  }, []);
 
   React.useEffect(() => {
     async function fn() {
