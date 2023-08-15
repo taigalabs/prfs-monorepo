@@ -28,10 +28,12 @@ import { useInterval } from "@/functions/interval";
 import WalletSelect, { WalletTypeValue } from "@/components/wallet_select/WalletSelect";
 import { PRFS_SDK_CLICK_OUTSIDE_EVENT_TYPE } from "@taigalabs/prfs-sdk-web/src/proof_gen_element/click";
 
-const MerkleProofModal: React.FC<MerkleProofModalProps> = ({ setIsOpen, circuitInput }) => {
+const MerkleProofModal: React.FC<MerkleProofModalProps> = ({
+  walletAddr,
+  setIsOpen,
+  circuitInput,
+}) => {
   const i18n = React.useContext(i18nContext);
-
-  const [address, setAddress] = React.useState("");
 
   React.useEffect(() => {
     async function fn() {
@@ -53,25 +55,36 @@ const MerkleProofModal: React.FC<MerkleProofModalProps> = ({ setIsOpen, circuitI
     };
   }, []);
 
-  let elem = "Invalid request";
-  if (circuitInput.ref === "PRFS_SET") {
+  const handleCreateMerkleProof = React.useCallback(async () => {
+    if (walletAddr.length < 1) {
+      return;
+    }
+
     const setId = circuitInput.value;
-    // prfsApi.get
-    // let { payload } = await prfsApi.getPrfsTreeLeafNodes({
-    //   set_id: setId,
-    //   leaf_vals: [addr],
-    // });
-  }
+    const { payload } = await prfsApi.getPrfsTreeLeafNodes({
+      set_id: setId,
+      leaf_vals: [walletAddr],
+    });
+  }, [circuitInput, walletAddr]);
 
   return (
     <div className={styles.popoverWrapper}>
-      <p>{i18n.wallet_address}</p>
-      <input value={address} />
+      <div>
+        <p>{i18n.wallet_address}</p>
+        <div className={styles.addrInputBox}>
+          <input className={styles.addrInput} value={walletAddr} readOnly />
+        </div>
+      </div>
+      <div className={styles.popoverBtnRow}>
+        <button onClick={handleCreateMerkleProof}>{i18n.create_merkle_proof_for}</button>
+        <span> {circuitInput.value}</span>
+      </div>
     </div>
   );
 };
 
 const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
+  walletAddr,
   circuitInput,
   value,
   setFormValues,
@@ -100,7 +113,13 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
 
   const createPopover = React.useCallback(
     (setIsOpen: React.Dispatch<React.SetStateAction<any>>) => {
-      return <MerkleProofModal setIsOpen={setIsOpen} circuitInput={circuitInput} />;
+      return (
+        <MerkleProofModal
+          walletAddr={walletAddr}
+          setIsOpen={setIsOpen}
+          circuitInput={circuitInput}
+        />
+      );
     },
     [circuitInput]
   );
@@ -119,12 +138,14 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
 export default MerkleProofInput;
 
 export interface MerkleProofInputProps {
+  walletAddr: string;
   circuitInput: CircuitInput;
   value: any | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
 }
 
 export interface MerkleProofModalProps {
+  walletAddr: string;
   circuitInput: CircuitInput;
   setIsOpen: React.Dispatch<React.SetStateAction<any>>;
 }

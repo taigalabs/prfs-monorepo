@@ -76,6 +76,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
         case "MERKLE_PROOF_1": {
           inputElem = (
             <MerkleProofInput
+              walletAddr={walletAddr}
               circuitInput={val}
               value={formValues[val.label] as any}
               setFormValues={setFormValues}
@@ -110,7 +111,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
     });
 
     return entriesElem;
-  }, [proofType, formValues, setFormValues]);
+  }, [proofType, formValues, setFormValues, walletAddr]);
 
   // const handleClickCreateProof = React.useCallback(async () => {
   //   if (!driver) {

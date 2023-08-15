@@ -88,6 +88,8 @@ export default {
   signed: "Signed",
   connect_wallet: "Connect a wallet of your choice",
   wallet_address: "Wallet address",
+  create_merkle_proof_for: "Create merkle proof for a set",
+  load: "Load",
   wallet: "Wallet",
   element_type: "Element type",
   elliptic_curve: "Elliptic curve",
