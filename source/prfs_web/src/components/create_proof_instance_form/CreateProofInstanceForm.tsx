@@ -99,111 +99,111 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       return;
     }
 
-    // proofGenElement.createProof();
+    proofGenElement.createProof();
 
     // console.log(11, selectedProofType);
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    await provider.send("eth_requestAccounts", []);
-    const signer = provider.getSigner();
+    // const provider = new ethers.providers.Web3Provider(window.ethereum);
+    // await provider.send("eth_requestAccounts", []);
+    // const signer = provider.getSigner();
 
-    const addr = await signer.getAddress();
-    console.log("my address: %s", addr);
-    if (!selectedProofType.circuit_inputs[1].ref) {
-      throw new Error("set id (ref) is not defined");
-    }
+    // const addr = await signer.getAddress();
+    // console.log("my address: %s", addr);
+    // if (!selectedProofType.circuit_inputs[1].ref) {
+    //   throw new Error("set id (ref) is not defined");
+    // }
 
-    const setId = selectedProofType.circuit_inputs[1].value;
-    let { payload } = await prfsApi.getPrfsTreeLeafNodes({
-      set_id: setId,
-      leaf_vals: [addr],
-    });
+    // const setId = selectedProofType.circuit_inputs[1].value;
+    // let { payload } = await prfsApi.getPrfsTreeLeafNodes({
+    //   set_id: setId,
+    //   leaf_vals: [addr],
+    // });
 
-    let pos_w = null;
-    for (const node of payload.prfs_tree_nodes) {
-      if (node.val === addr.toLowerCase()) {
-        pos_w = node.pos_w;
-      }
-    }
+    // let pos_w = null;
+    // for (const node of payload.prfs_tree_nodes) {
+    //   if (node.val === addr.toLowerCase()) {
+    //     pos_w = node.pos_w;
+    //   }
+    // }
 
-    if (pos_w === null) {
-      throw new Error("Address is not part of a set");
-    }
+    // if (pos_w === null) {
+    //   throw new Error("Address is not part of a set");
+    // }
 
-    const leafIdx = Number(pos_w);
-    const siblingPath = makeSiblingPath(32, Number(pos_w));
-    const pathIndices = makePathIndices(32, Number(pos_w));
+    // const leafIdx = Number(pos_w);
+    // const siblingPath = makeSiblingPath(32, Number(pos_w));
+    // const pathIndices = makePathIndices(32, Number(pos_w));
 
-    const siblingPos = siblingPath.map((pos_w, idx) => {
-      return { pos_h: idx, pos_w };
-    });
+    // const siblingPos = siblingPath.map((pos_w, idx) => {
+    //   return { pos_h: idx, pos_w };
+    // });
 
-    console.log("siblingPos: %o", siblingPos);
+    // console.log("siblingPos: %o", siblingPos);
 
-    const data = await prfsApi.getPrfsTreeNodes({
-      set_id: setId,
-      pos: siblingPos,
-    });
+    // const data = await prfsApi.getPrfsTreeNodes({
+    //   set_id: setId,
+    //   pos: siblingPos,
+    // });
 
-    console.log(55, data);
+    // console.log(55, data);
 
-    let siblings: BigInt[] = [];
-    for (const node of data.payload.prfs_tree_nodes) {
-      siblings[node.pos_h] = BigInt(node.val);
-    }
+    // let siblings: BigInt[] = [];
+    // for (const node of data.payload.prfs_tree_nodes) {
+    //   siblings[node.pos_h] = BigInt(node.val);
+    // }
 
-    for (let idx = 0; idx < 32; idx += 1) {
-      if (siblings[idx] === undefined) {
-        siblings[idx] = BigInt(0);
-      }
-    }
+    // for (let idx = 0; idx < 32; idx += 1) {
+    //   if (siblings[idx] === undefined) {
+    //     siblings[idx] = BigInt(0);
+    //   }
+    // }
 
-    const { driver_id, driver_properties } = selectedProofType;
-    let driverProperties = interpolateSystemAssetEndpoint(driver_properties);
+    // const { driver_id, driver_properties } = selectedProofType;
+    // let driverProperties = interpolateSystemAssetEndpoint(driver_properties);
 
-    const driver = await initDriver(driver_id, driverProperties);
+    // const driver = await initDriver(driver_id, driverProperties);
 
-    const data2 = await prfsApi.getSets({
-      page: 0,
-      set_id: setId,
-    });
+    // const data2 = await prfsApi.getSets({
+    //   page: 0,
+    //   set_id: setId,
+    // });
 
-    if (data2.payload.prfs_sets.length < 1) {
-      return;
-    }
+    // if (data2.payload.prfs_sets.length < 1) {
+    //   return;
+    // }
 
-    const prfsSet = data2.payload.prfs_sets[0];
+    // const prfsSet = data2.payload.prfs_sets[0];
 
-    let merkleProof = {
-      root: BigInt(prfsSet.merkle_root),
-      siblings,
-      pathIndices,
-    };
+    // let merkleProof = {
+    //   root: BigInt(prfsSet.merkle_root),
+    //   siblings,
+    //   pathIndices,
+    // };
 
-    console.log(55, merkleProof);
+    // console.log(55, merkleProof);
 
-    const msgRaw = "harry potter";
-    const msg = Buffer.from(msgRaw);
-    const msgHash = hashPersonalMessage(msg);
+    // const msgRaw = "harry potter";
+    // const msg = Buffer.from(msgRaw);
+    // const msgHash = hashPersonalMessage(msg);
 
-    let sig = await signer.signMessage(msg);
-    console.log("sig", sig);
+    // let sig = await signer.signMessage(msg);
+    // console.log("sig", sig);
 
-    let verifyMsg = ethers.utils.verifyMessage(msg, sig);
-    console.log("verified addr", verifyMsg);
+    // let verifyMsg = ethers.utils.verifyMessage(msg, sig);
+    // console.log("verified addr", verifyMsg);
 
-    let proverAddress = await signer.getAddress();
-    console.log("proverAddr", proverAddress);
+    // let proverAddress = await signer.getAddress();
+    // console.log("proverAddr", proverAddress);
 
-    console.log("Proving...");
-    console.time("Full proving time");
-    const sigData = {
-      msgRaw,
-      msgHash,
-      sig,
-    };
+    // console.log("Proving...");
+    // console.time("Full proving time");
+    // const sigData = {
+    //   msgRaw,
+    //   msgHash,
+    //   sig,
+    // };
 
-    const { proof, publicInput } = await driver.prove2(sig, msgHash, merkleProof);
+    // const { proof, publicInput } = await driver.prove2(sig, msgHash, merkleProof);
     // const { proof, publicInput } = await driver.prove({
     //   inputs: {
     //     merkleProof,
@@ -213,8 +213,8 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     //   eventListener: () => {},
     // });
 
-    console.timeEnd("Full proving time");
-    console.log("Raw proof size (excluding public input)", proof.length, "bytes");
+    // console.timeEnd("Full proving time");
+    // console.log("Raw proof size (excluding public input)", proof.length, "bytes");
 
     // console.log("Verifying...");
 

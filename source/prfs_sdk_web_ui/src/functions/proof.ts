@@ -119,13 +119,10 @@ export async function createProof(
   const msg = Buffer.from(msgRaw);
 
   let recoveredAddr = ethers.utils.verifyMessage(msg, sig);
-  console.log(11, recoveredAddr);
   if (walletAddr !== recoveredAddr) {
     console.error("Address in the signature is invalid");
     return;
   }
-
-  return;
 
   console.log("Proving...");
   // setIsTimerRunning(true);

@@ -49,7 +49,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
     [setSelectedWalletType]
   );
 
-  console.log(51, formValues);
+  // console.log(51, formValues);
 
   React.useEffect(() => {
     function eventListener(ev: MessageEvent) {
