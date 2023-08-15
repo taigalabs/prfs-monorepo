@@ -54,7 +54,11 @@ export default class SpartanDriver implements CircuitDriver {
     const { sigData, merkleProof } = inputs;
     const { msgHash, sig } = sigData;
 
+    console.log("inputs: %o", inputs);
+    console.log("sigData: %o, merkleProof", sigData, merkleProof);
+
     const { r, s, v } = fromSig(sig);
+
     const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash);
 
     eventListener("Computed ECDSA pub input");
