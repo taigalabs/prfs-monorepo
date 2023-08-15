@@ -7,6 +7,12 @@ export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
 export const LOADING_SPAN_ID = "prfs-sdk-loading";
 const SDK_ENDPOINT = "http://localhost:3010";
 
+const singleton: {
+  msgEventListener: any;
+} = {
+  msgEventListener: undefined,
+};
+
 class ProofGenElement {
   options: ProofGenElementOptions;
   state: ProofGenElementState;
@@ -59,9 +65,14 @@ class ProofGenElement {
 
       container!.append(wrapperDiv);
 
-      handleChildMessage(resolve, options, iframe, this.state);
+      if (singleton.msgEventListener) {
+        console.warn("Remove already registered Prfs sdk message event listener");
 
-      // hideOnClickOutside(iframe);
+        window.removeEventListener("message", singleton.msgEventListener);
+      }
+
+      const msgEventListener = handleChildMessage(resolve, options, iframe, this.state);
+      singleton.msgEventListener = msgEventListener;
     });
   }
 }

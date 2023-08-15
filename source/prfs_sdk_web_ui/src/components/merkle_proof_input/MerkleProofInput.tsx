@@ -30,11 +30,8 @@ import { PRFS_SDK_CLICK_OUTSIDE_EVENT_TYPE } from "@taigalabs/prfs-sdk-web/src/p
 
 const MerkleProofModal: React.FC<MerkleProofModalProps> = ({ setIsOpen }) => {
   React.useEffect(() => {
-    console.log("mounting");
-
     async function fn() {
-      const isNewlyAttached = await sendMsgToParent(new ListenClickOutsideMsg());
-      console.log("attaching, new: %o", isNewlyAttached);
+      sendMsgToParent(new ListenClickOutsideMsg());
 
       window.addEventListener("message", (ev: MessageEvent) => {
         const { type } = ev.data;
@@ -90,11 +87,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({ input, value, setFo
       <input placeholder={input.desc} value={value?.msgRaw || ""} readOnly />
       <div className={styles.btnGroup}>
         <button className={styles.rawBtn}>Raw</button>
-        <Popover
-          createBase={createBase}
-          createPopover={createPopover}
-          // clickAwayHandler={clickAwayHandler}
-        />
+        <Popover createBase={createBase} createPopover={createPopover} />
       </div>
     </div>
   );

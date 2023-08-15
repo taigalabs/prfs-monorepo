@@ -11,7 +11,7 @@ import {
 
 import styles from "./Popover.module.scss";
 
-function Popover({ createPopover, createBase, clickAwayHandler }: PopoverProps) {
+function Popover({ createPopover, createBase }: PopoverProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, floatingStyles, context } = useFloating({
     placement: "bottom-end",
@@ -23,17 +23,6 @@ function Popover({ createPopover, createBase, clickAwayHandler }: PopoverProps) 
   const click = useClick(context);
   const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
 
-  // React.useEffect(() => {
-  //   let removeListener: () => void;
-  //   if (clickAwayHandler) {
-  //     clickAwayHandler(setIsOpen).then(destructor => (removeListener = destructor));
-  //   }
-
-  //   return () => {
-  //     removeListener?.();
-  //   };
-  // }, [setIsOpen]);
-  //
   const popoverElem = React.useMemo(() => {
     return createPopover(setIsOpen);
   }, [createPopover]);
@@ -71,5 +60,4 @@ export default Popover;
 export interface PopoverProps {
   createBase: (isOpen: boolean) => React.ReactNode;
   createPopover: (setIsOpen: React.Dispatch<React.SetStateAction<any>>) => React.ReactNode;
-  clickAwayHandler?: (setIsOpen: React.Dispatch<React.SetStateAction<any>>) => Promise<() => void>;
 }

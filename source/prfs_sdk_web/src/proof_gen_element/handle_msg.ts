@@ -17,7 +17,7 @@ export function handleChildMessage(
 ) {
   console.log("Attaching child msg handler");
 
-  window.addEventListener("message", async (ev: MessageEvent) => {
+  const msgEventListener = async (ev: MessageEvent) => {
     if (ev.ports.length > 0) {
       const { provider } = options;
 
@@ -90,5 +90,9 @@ export function handleChildMessage(
           console.error(`[parent] invalid msg type, ${type}`);
       }
     }
-  });
+  };
+
+  window.addEventListener("message", msgEventListener);
+
+  return msgEventListener;
 }
