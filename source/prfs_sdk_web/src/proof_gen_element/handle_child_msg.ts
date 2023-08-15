@@ -1,6 +1,9 @@
+import { hashPersonalMessage } from "@ethereumjs/util";
 import { listenClickOutside, removeClickListener } from "./outside_event";
 import {
   GetAddressResponseMsg,
+  GetSignatureMsgPayload,
+  GetSignatureResponseMsg,
   HandshakePayload,
   HandshakeResponseMsg,
   ListenClickOutsideMsg,
@@ -53,14 +56,19 @@ export function handleChildMessage(
         }
 
         case "GET_SIGNATURE": {
-          const msgHash = ev.data.payload;
-          // const msg = Buffer.from(msgRaw);
+          const { msgRaw } = ev.data.payload as GetSignatureMsgPayload;
 
           await provider.send("eth_requestAccounts", []);
           const signer = provider.getSigner();
-          const sig = await signer.signMessage(msgHash);
+          const msgHash = hashPersonalMessage(Buffer.from(msgRaw));
+          const sig = await signer.signMessage(msgRaw);
 
-          ev.ports[0].postMessage(new GetAddressResponseMsg(sig));
+          ev.ports[0].postMessage(
+            new GetSignatureResponseMsg({
+              msgHash,
+              sig,
+            })
+          );
 
           break;
         }

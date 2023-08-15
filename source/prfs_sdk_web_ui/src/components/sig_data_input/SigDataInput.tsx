@@ -28,8 +28,11 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
   const handleClickSign = React.useCallback(async () => {
     if (value) {
       const msgRaw = value.msgRaw;
-      const msgHash = Buffer.from(msgRaw);
-      const sig = await sendMsgToParent(new GetSignatureMsg(msgHash));
+      const { msgHash, sig } = await sendMsgToParent(
+        new GetSignatureMsg({
+          msgRaw,
+        })
+      );
 
       setFormValues(oldVals => ({
         ...oldVals,

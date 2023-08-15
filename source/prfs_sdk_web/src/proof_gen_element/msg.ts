@@ -62,16 +62,28 @@ export class GetAddressResponseMsg extends MsgBase<string, never> {
   }
 }
 
-export class GetSignatureMsg extends MsgBase<Buffer, string> {
-  constructor(payload: Buffer) {
+export class GetSignatureMsg extends MsgBase<
+  GetSignatureMsgPayload,
+  GetSignatureMsgResponsePayload
+> {
+  constructor(payload: GetSignatureMsgPayload) {
     super(MsgType.GET_SIGNATURE, payload);
   }
 }
 
-export class GetSignatureResponseMsg extends MsgBase<string, never> {
-  constructor(payload: string) {
+export class GetSignatureResponseMsg extends MsgBase<GetSignatureMsgResponsePayload, never> {
+  constructor(payload: GetSignatureMsgResponsePayload) {
     super(MsgType.GET_SIGNATURE_RESPONSE, payload);
   }
+}
+
+export interface GetSignatureMsgPayload {
+  msgRaw: string;
+}
+
+export interface GetSignatureMsgResponsePayload {
+  msgHash: Buffer;
+  sig: string;
 }
 
 export class ListenClickOutsideMsg extends MsgBase<void, boolean> {

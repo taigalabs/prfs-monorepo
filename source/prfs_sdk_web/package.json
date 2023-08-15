@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@ethereumjs/util": "^8.0.3",
     "@taigalabs/prfs-entities": "*",
     "ethers": "^5"
   },
