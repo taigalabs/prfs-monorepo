@@ -77,7 +77,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
             <MerkleProofInput
               walletAddr={walletAddr}
               circuitInput={val}
-              value={formValues[val.label] as any}
+              value={formValues[val.name] as any}
               setFormValues={setFormValues}
             />
           );
@@ -87,7 +87,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
           inputElem = (
             <SigDataInput
               circuitInput={val}
-              value={formValues[val.label] as any}
+              value={formValues[val.name] as any}
               setFormValues={setFormValues}
             />
           );

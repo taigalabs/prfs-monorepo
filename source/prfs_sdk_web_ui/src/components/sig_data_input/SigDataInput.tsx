@@ -19,7 +19,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
       setFormValues(oldVals => {
         return {
           ...oldVals,
-          [circuitInput.label]: defaultSigData,
+          [circuitInput.name]: defaultSigData,
         };
       });
     }
@@ -33,7 +33,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
 
       setFormValues(oldVals => ({
         ...oldVals,
-        [circuitInput.label]: {
+        [circuitInput.name]: {
           msgRaw,
           msgHash,
           sig,

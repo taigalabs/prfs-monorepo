@@ -24,8 +24,6 @@ import { PROOF_GEN_IFRAME_ID } from "@taigalabs/prfs-sdk-web";
 import styles from "./MerkleProofInput.module.scss";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
 import { i18nContext } from "@/contexts/i18n";
-import { useInterval } from "@/functions/interval";
-import WalletSelect, { WalletTypeValue } from "@/components/wallet_select/WalletSelect";
 import { PRFS_SDK_CLICK_OUTSIDE_EVENT_TYPE } from "@taigalabs/prfs-sdk-web/src/proof_gen_element/click";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 
@@ -121,11 +119,13 @@ const MerkleProofModal: React.FC<MerkleProofModalProps> = ({
       setFormValues((prevVals: any) => {
         return {
           ...prevVals,
-          [circuitInput.label]: merkleProof,
+          [circuitInput.name]: merkleProof,
         };
       });
+
+      setIsOpen(false);
     } catch (err) {}
-  }, [circuitInput, walletAddr, prfsSet, setFormValues]);
+  }, [circuitInput, walletAddr, prfsSet, setFormValues, setIsOpen]);
 
   return (
     <div className={styles.popoverWrapper}>
@@ -136,8 +136,13 @@ const MerkleProofModal: React.FC<MerkleProofModalProps> = ({
         </div>
       </div>
       <div className={styles.popoverBtnRow}>
-        <button onClick={handleCreateMerkleProof}>{i18n.create_merkle_proof_label}</button>
-        <span> {circuitInput.value}</span>
+        <div>
+          <button onClick={handleCreateMerkleProof}>{i18n.create_merkle_proof_label}</button>
+          <span> {circuitInput.value}</span>
+        </div>
+        <div>
+          <button disabled>{i18n.edit_raw}</button>
+        </div>
       </div>
     </div>
   );

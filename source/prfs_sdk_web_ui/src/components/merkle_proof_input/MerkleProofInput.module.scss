@@ -56,13 +56,19 @@ input.addrInput {
 }
 
 .popoverBtnRow {
+  display: flex;
+  justify-content: space-between;
   margin-top: 11px;
 
-  button {
+  button:not(:disabled) {
     color: var(--aqua-blue-50);
     cursor: pointer;
     &:hover {
       text-decoration: underline;
     }
+  }
+
+  button:disabled {
+    color: var(--aqua-blue-90);
   }
 }
