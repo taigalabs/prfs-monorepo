@@ -5,6 +5,7 @@ import {
   VerifyArgs,
 } from "@taigalabs/prfs-driver-interface";
 import { BN } from "bn.js";
+import { deserializePublicInputs, serializePublicInputs } from "@taigalabs/prfs-driver-utils";
 
 import { Tree } from "./helpers/tree";
 import { makePoseidon } from "./helpers/poseidon";
@@ -104,15 +105,21 @@ export default class SpartanDriver implements CircuitDriver {
 
     const proof = await this.handlers.prove(this.circuit, witness.data, circuitPublicInput);
 
+    console.log(23, publicInput);
+
     return {
       proof,
-      publicInputs: publicInput,
+      publicInputSer: serializePublicInputs(publicInput),
     };
   }
 
   async verify(args: VerifyArgs): Promise<boolean> {
     const { inputs } = args;
-    const { proof, publicInput } = inputs;
+    const { proof, publicInputSer } = inputs;
+
+    const publicInput = deserializePublicInputs(publicInputSer);
+
+    console.log(32, proof, publicInput);
 
     const isPubInputValid = verifyEffEcdsaPubInput(publicInput as PublicInput);
 
@@ -128,24 +135,6 @@ export default class SpartanDriver implements CircuitDriver {
     }
 
     return isProofValid && isPubInputValid;
-  }
-
-  serializePublicInputs(publicInputs: PublicInput): string {
-    const json = JSON.stringify(publicInputs, (_, value) =>
-      typeof value === "bigint" ? value.toString() + "n" : value
-    );
-    return json;
-  }
-
-  deserializePublicInputs(serPublicInputs: string): PublicInput {
-    const backAgain = JSON.parse(serPublicInputs, (_, value) => {
-      if (typeof value === "string" && /^\d+n$/.test(value)) {
-        return BigInt(value.substring(0, value.length - 1));
-      }
-      return value;
-    });
-
-    return backAgain as PublicInput;
   }
 }
 

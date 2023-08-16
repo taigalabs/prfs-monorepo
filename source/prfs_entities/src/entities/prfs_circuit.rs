@@ -30,9 +30,6 @@ pub struct PrfsCircuit {
     #[ts(type = "Record<string, any>[]")]
     pub raw_circuit_inputs_meta: sqlx::types::Json<Vec<RawCircuitInputMeta>>,
 
-    #[ts(type = "Record<string, any>[]")]
-    pub circuit_generated_public_inputs_meta: sqlx::types::Json<Vec<CircuitGeneratedPublicInput>>,
-
     #[ts(type = "string")]
     pub created_at: DateTime<Utc>,
 }

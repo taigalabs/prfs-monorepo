@@ -17,6 +17,5 @@ export interface PrfsCircuit {
   driver_properties: Record<string, string>;
   circuit_inputs_meta: Record<string, any>[];
   raw_circuit_inputs_meta: Record<string, any>[];
-  circuit_generated_public_inputs_meta: Record<string, any>[];
   created_at: string;
 }

@@ -201,7 +201,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
     if (value) {
       const { root, pathIndices, siblings } = value;
       const rt = `Root: ${root.toString().substring(0, 6)}..`;
-      const paths = `Paths[${pathIndices.length}]: ${pathIndices.slice(0, 6).join(",")}`;
+      const paths = `Paths[${pathIndices.length}]: ${pathIndices.slice(0, 6).join(",")}..`;
       const sibs = `Siblings[${siblings.length}]`;
       return `${rt} / ${paths} / ${sibs}`;
     }
