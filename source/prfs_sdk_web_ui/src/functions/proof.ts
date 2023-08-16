@@ -1,6 +1,4 @@
-import { hashPersonalMessage } from "@ethereumjs/util";
 import { ethers } from "ethers";
-import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import { initDriver, interpolateSystemAssetEndpoint } from "./circuitDriver";
@@ -19,7 +17,6 @@ export async function createProof(
   console.log("driver_id: %s, props: %o", driver_id, driverProperties);
 
   const driver = await initDriver(driver_id, driverProperties);
-  console.log("driver initiated");
 
   if (!driver) {
     return;
@@ -30,9 +27,7 @@ export async function createProof(
   }
 
   const { sigData } = formValues;
-
   const { msgRaw, sig } = sigData;
-  console.log(22, msgRaw, sig);
   const msg = Buffer.from(msgRaw);
 
   let recoveredAddr = ethers.utils.verifyMessage(msg, sig);
@@ -42,8 +37,6 @@ export async function createProof(
   }
 
   console.log("Proving...");
-  // setIsTimerRunning(true);
-
   const prevTime = performance.now();
 
   const proveResult = await driver.prove({
@@ -59,7 +52,6 @@ export async function createProof(
 
   console.log("proveResult: %o", proveResult);
 
-  // setIsTimerRunning(false);
   console.log("Proof gen complete, duration: %s", diff);
   console.log("Raw proof size (excluding public input)", proveResult.proof.length, "bytes");
 

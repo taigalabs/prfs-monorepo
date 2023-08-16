@@ -61,7 +61,6 @@ export default class SpartanDriver implements CircuitDriver {
     const { msgHash, sig } = sigData;
 
     // console.log("inputs: %o", inputs);
-    // console.log("sigData: %o, merkleProof", sigData, merkleProof);
 
     const { r, s, v } = fromSig(sig);
     const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash);
@@ -105,8 +104,6 @@ export default class SpartanDriver implements CircuitDriver {
 
     const proof = await this.handlers.prove(this.circuit, witness.data, circuitPublicInput);
 
-    console.log(23, publicInput);
-
     return {
       proof,
       publicInputSer: serializePublicInput(publicInput),
@@ -118,9 +115,6 @@ export default class SpartanDriver implements CircuitDriver {
     const { proof, publicInputSer } = inputs;
 
     const publicInput = deserializePublicInput(publicInputSer);
-
-    console.log(32, proof, publicInput);
-
     const isPubInputValid = verifyEffEcdsaPubInput(publicInput as PublicInput);
 
     let isProofValid;

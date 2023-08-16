@@ -100,24 +100,20 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     }
 
     const proofResult = await proofGenElement.createProof();
-    console.log(22, proofResult);
 
     if (proofResult) {
       console.log("try inserting proof");
 
       const { proof, publicInputSer } = proofResult;
-
+      const public_inputs = JSON.parse(publicInputSer);
       console.log(11, proof, publicInputSer);
 
-      // const proof = proofResult.proof;
-      // const publicInputSer =
-
-      // await prfsApi.createPrfsProofInstance({
-      //   sig: prfsAccount.sig,
-      //   proof_type_id: selectedProofType.proof_type_id,
-      //   proof: Array.from(proof),
-      //   public_inputs: proofResult.publicInput,
-      // });
+      await prfsApi.createPrfsProofInstance({
+        sig: prfsAccount.sig,
+        proof_type_id: selectedProofType.proof_type_id,
+        proof: Array.from(proof),
+        public_inputs,
+      });
     }
   }, [publicInputInstance, selectedProofType, setFormAlert, state.prfsAccount, proofGenElement]);
 

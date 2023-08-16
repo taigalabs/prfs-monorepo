@@ -7,7 +7,7 @@ export function serializePublicInput(publicInput: PublicInput): string {
   const publicInputSer: PublicInputSerObject = {
     r: r.toString(),
     rV: rV.toString(),
-    msgHash: msgHash.toString(),
+    msgHash: [...msgHash],
     circuitPubInput: {
       merkleRoot: merkleRoot.toString() + "n",
       Tx: Tx.toString() + "n",
@@ -42,7 +42,7 @@ export function deserializePublicInput(publicInputSer: string): PublicInput {
 interface PublicInputSerObject {
   r: string;
   rV: string;
-  msgHash: string;
+  msgHash: number[];
   circuitPubInput: {
     merkleRoot: string;
     Tx: string;
