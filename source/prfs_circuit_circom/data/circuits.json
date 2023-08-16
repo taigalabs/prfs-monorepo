@@ -2,6 +2,7 @@
   "circuits": [
     {
       "circuit_id": "addr_membership2_1",
+      "circuit_type": "MEMBERSHIP_PROOF_1",
       "created_at": "2023-05-01T16:39:57-08:00",
       "label": "addr_membership2",
       "author": "SYSTEM_NATIVE",
@@ -12,7 +13,6 @@
       "proof_algorithm": "Spartan",
       "elliptic_curve": "Secp256k1",
       "finite_field": "Z_(2^256-2^32-977)",
-      "circuit_type": "MEMBERSHIP_PROOF_1",
       "driver_id": "SPARTAN_CIRCOM_1",
       "driver_version": "0.1.0",
       "driver_properties": {
@@ -33,6 +33,23 @@
           "desc": "Vector commitment (Merkle root) of a set",
           "type": "MERKLE_PROOF_1",
           "ref": "PRFS_SET"
+        }
+      ],
+      "circuit_generated_public_inputs_meta": [
+        {
+          "name": "msgHash",
+          "label": "Public inputs",
+          "type": "Uint8Array"
+        },
+        {
+          "name": "r",
+          "label": "Siganture r portion",
+          "type": "BigInt"
+        },
+        {
+          "name": "rV",
+          "label": "Siganture v portion",
+          "type": "BigInt"
         }
       ],
       "raw_circuit_inputs_meta": [

@@ -8,6 +8,7 @@ use ts_rs::TS;
 #[ts(export)]
 pub struct PrfsCircuit {
     pub circuit_id: String,
+    pub circuit_type: String,
     pub label: String,
     pub desc: String,
     pub author: String,
@@ -20,17 +21,28 @@ pub struct PrfsCircuit {
     pub driver_id: String,
     pub driver_version: String,
 
+    #[ts(type = "Record<string, string>")]
+    pub driver_properties: sqlx::types::Json<HashMap<String, String>>,
+
     #[ts(type = "Record<string, any>[]")]
     pub circuit_inputs_meta: sqlx::types::Json<Vec<CircuitInputMeta>>,
 
     #[ts(type = "Record<string, any>[]")]
     pub raw_circuit_inputs_meta: sqlx::types::Json<Vec<RawCircuitInputMeta>>,
 
-    #[ts(type = "Record<string, string>")]
-    pub driver_properties: sqlx::types::Json<HashMap<String, String>>,
+    #[ts(type = "Record<string, any>[]")]
+    pub circuit_generated_public_inputs_meta: sqlx::types::Json<Vec<CircuitGeneratedPublicInput>>,
 
     #[ts(type = "string")]
     pub created_at: DateTime<Utc>,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, TS)]
+#[ts(export)]
+pub struct CircuitGeneratedPublicInput {
+    pub name: String,
+    pub r#type: String,
+    pub label: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, TS)]

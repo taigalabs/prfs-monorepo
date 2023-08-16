@@ -21,6 +21,7 @@ import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import styles from "./MerkleProofInput.module.scss";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
 import { i18nContext } from "@/contexts/i18n";
+import { SpartanMerkleProof } from "@taigalabs/prfs-driver-spartan-js";
 
 const MerkleProofModal: React.FC<MerkleProofModalProps> = ({
   prfsSet,
@@ -104,9 +105,9 @@ const MerkleProofModal: React.FC<MerkleProofModalProps> = ({
         }
       }
 
-      const merkleProof = {
-        root: prfsSet.merkle_root,
-        siblings,
+      const merkleProof: SpartanMerkleProof = {
+        root: BigInt(prfsSet.merkle_root),
+        siblings: siblings as bigint[],
         pathIndices,
       };
 

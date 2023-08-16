@@ -81,17 +81,17 @@ export default class SpartanDriver implements CircuitDriver {
       m: BigInt(m.toString()),
 
       // merkle root
-      // root: merkleProof.root,
-      // siblings: merkleProof.siblings,
-      // pathIndices: merkleProof.pathIndices,
+      root: merkleProof.root,
+      siblings: merkleProof.siblings,
+      pathIndices: merkleProof.pathIndices,
 
       // // Eff ECDSA PubInput
-      // Tx: effEcdsaPubInput.Tx,
-      // Ty: effEcdsaPubInput.Ty,
-      // Ux: effEcdsaPubInput.Ux,
-      // Uy: effEcdsaPubInput.Uy,
-      ...merkleProof,
-      ...effEcdsaPubInput,
+      Tx: effEcdsaPubInput.Tx,
+      Ty: effEcdsaPubInput.Ty,
+      Ux: effEcdsaPubInput.Ux,
+      Uy: effEcdsaPubInput.Uy,
+      // ...merkleProof,
+      // ...effEcdsaPubInput,
     };
 
     console.log("witnessGenInput: %o", witnessGenInput);

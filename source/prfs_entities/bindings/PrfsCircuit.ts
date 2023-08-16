@@ -2,6 +2,7 @@
 
 export interface PrfsCircuit {
   circuit_id: string;
+  circuit_type: string;
   label: string;
   desc: string;
   author: string;
@@ -13,8 +14,9 @@ export interface PrfsCircuit {
   finite_field: string;
   driver_id: string;
   driver_version: string;
+  driver_properties: Record<string, string>;
   circuit_inputs_meta: Record<string, any>[];
   raw_circuit_inputs_meta: Record<string, any>[];
-  driver_properties: Record<string, string>;
+  circuit_generated_public_inputs_meta: Record<string, any>[];
   created_at: string;
 }
