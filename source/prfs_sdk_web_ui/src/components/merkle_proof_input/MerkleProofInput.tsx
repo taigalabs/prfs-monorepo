@@ -205,6 +205,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
       const sibs = `Siblings[${siblings.length}]`;
       return `${rt} / ${paths} / ${sibs}`;
     }
+
     return "";
   }, [value]);
 
