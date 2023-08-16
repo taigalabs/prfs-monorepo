@@ -33,6 +33,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
   const i18n = React.useContext(i18nContext);
 
   const [systemMsg, setSystemMsg] = React.useState("");
+  const [terminalLog, setTerminalLog] = React.useState<React.ReactNode[]>([]);
   const [msg, setMsg] = React.useState("");
   const [proveTime, setProveTime] = React.useState<number>(0);
   const [driver, setDriver] = React.useState<CircuitDriver>();
@@ -50,8 +51,6 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
     [setSelectedWalletType]
   );
 
-  // console.log(51, formValues);
-
   React.useEffect(() => {
     async function eventListener(ev: MessageEvent) {
       if (ev.ports.length > 0) {
@@ -60,8 +59,14 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
         if (type === MsgType.CREATE_PROOF) {
           validateFormValues(formValues);
 
-          const proof = await createProof(proofType, formValues, walletAddr);
-          ev.ports[0].postMessage(new CreateProofResponseMsg(proof));
+          setTerminalLog(oldVal => {
+            const elem = <span key={oldVal.length}>Start creating a proof...</span>;
+
+            return [...oldVal, elem];
+          });
+
+          // const proof = await createProof(proofType, formValues, walletAddr);
+          // ev.ports[0].postMessage(new CreateProofResponseMsg(proof));
         }
       }
     }
@@ -71,7 +76,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
     return () => {
       window.removeEventListener("message", eventListener);
     };
-  }, [proofType, formValues, walletAddr]);
+  }, [proofType, formValues, walletAddr, setTerminalLog]);
 
   React.useEffect(() => {
     async function fn() {
@@ -151,13 +156,16 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
   return (
     proofType && (
       <div className={styles.wrapper} style={{ height: formHeight - 6 }}>
-        <WalletSelect
-          selectedVal={selectedWalletType}
-          handleSelectVal={handleSelectWalletType}
-          walletAddr={walletAddr}
-          setWalletAddr={setWalletAddr}
-        />
-        <div className={styles.circuitInputs}>{circuitInputsElem}</div>
+        <div className={styles.form}>
+          <WalletSelect
+            selectedVal={selectedWalletType}
+            handleSelectVal={handleSelectWalletType}
+            walletAddr={walletAddr}
+            setWalletAddr={setWalletAddr}
+          />
+          <div className={styles.circuitInputs}>{circuitInputsElem}</div>
+        </div>
+        {terminalLog.length > 0 && <div className={styles.terminal}>{terminalLog}</div>}
         <div className={styles.systemMsg}>
           <div>{systemMsg}</div>
         </div>

@@ -6,8 +6,12 @@
   min-height: 100%;
   padding-bottom: 20px;
   margin: 2px;
+  overflow-y: scroll;
 
   /* border: 1px solid blue; */
+}
+
+.form {
 }
 
 .circuitInputs {
@@ -56,4 +60,10 @@
   bottom: 0px;
   font-size: 10px;
   color: var(--gray-40);
+}
+
+.terminal {
+  border: 1px solid blue;
+  height: 90px;
+  flex-shrink: 0;
 }
