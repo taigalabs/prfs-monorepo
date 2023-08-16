@@ -80,7 +80,7 @@ pub async fn create_prfs_proof_instance(req: Request<Body>) -> Result<Response<B
     let req = serde_json::from_str::<CreatePrfsProofInstanceRequest>(&body_str)
         .expect("req request should be parsable");
 
-    println!("req: {:?}", req);
+    // println!("req: {:?}", req);
 
     let prfs_proof_instance = PrfsProofInstance {
         proof_instance_id: chrono::offset::Utc::now().to_string(),

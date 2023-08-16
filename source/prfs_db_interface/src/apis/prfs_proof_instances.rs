@@ -55,7 +55,7 @@ pub async fn insert_prfs_proof_instances(
 ) {
     let query = "INSERT INTO prfs_proof_instances \
             (proof_instance_id, proof_type_id, sig, proof, public_inputs)
-            VALUES ($1, $2, $3, $4, $5) returning proof_type_id";
+            VALUES ($1, $2, $3, $4, $5) returning proof_instance_id";
 
     let proof_instance = proof_instances.get(0).unwrap();
 
