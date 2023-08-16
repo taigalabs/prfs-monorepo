@@ -123,69 +123,49 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
   );
 
   return (
-    <div>
-      <FormTitleRow>
-        <FormTitle>{i18n.sign_up}</FormTitle>
-      </FormTitleRow>
-      <div>
-        <CardRow>
-          <Card>
-            <ConnectWalletWidget handleConnect={handleConnect} />
-          </Card>
-        </CardRow>
-        <CardRow>
-          <Card>
-            <Widget>
-              <WidgetHeader>
-                <WidgetLabel>{i18n.credential}</WidgetLabel>
-              </WidgetHeader>
-              <WidgetPaddedBody>
-                <div className={styles.passcode}>
-                  <FormTextInput
-                    type="password"
-                    label={i18n.passcode}
-                    handleChange={handleChangePasscode}
-                  />
-                </div>
-                <div className={styles.passcode}>
-                  <FormTextInput
-                    type="password"
-                    label={i18n.passcode_confirm}
-                    handleChange={handleChangePasscodeConfirm}
-                  />
-                </div>
-                {hashAlert.length > 0 && <div className={styles.hashAlert}>{hashAlert}</div>}
-                <div className={styles.hashBtnRow}>
-                  <Button variant="a" handleClick={handleClickHash}>
-                    {i18n.hash}
-                  </Button>
-                </div>
-                {passhash && (
-                  <div className={styles.hashResult}>
-                    <FormTextInput label={i18n.passhash} value={passhash} />
-                  </div>
-                )}
-              </WidgetPaddedBody>
-            </Widget>
-          </Card>
-        </CardRow>
+    <div className={styles.wrapper}>
+      <FormTitle>{i18n.sign_up}</FormTitle>
+      <div className={styles.inputGroup}>
+        <ConnectWalletWidget handleConnect={handleConnect} />
       </div>
-      <div className={styles.btnRow}>
-        <div className={styles.signInRow}>
-          <div>
-            <Button variant="b" handleClick={handleClickSignUp}>
-              {i18n.sign_up}
-            </Button>
-          </div>
-          {signUpAlert.length > 0 && <div className={styles.signUpAlert}>{signUpAlert}</div>}
+      <div className={styles.inputGroup}>
+        <div className={styles.passcode}>
+          <FormTextInput
+            type="password"
+            label={i18n.passcode}
+            handleChange={handleChangePasscode}
+          />
         </div>
-        <div className={styles.suggestion}>
-          <StrikeThroughText>{i18n.or}</StrikeThroughText>
-          <div>
-            <Button variant="transparent_a" handleClick={handleClickSignIn}>
-              {i18n.sign_in_to_existing}
-            </Button>
+        <div className={styles.passcode}>
+          <FormTextInput
+            type="password"
+            label={i18n.passcode_confirm}
+            handleChange={handleChangePasscodeConfirm}
+          />
+        </div>
+        {hashAlert.length > 0 && <div className={styles.hashAlert}>{hashAlert}</div>}
+        <div className={styles.hashBtnRow}>
+          <Button variant="a" handleClick={handleClickHash}>
+            {i18n.hash}
+          </Button>
+        </div>
+        {passhash && (
+          <div className={styles.hashResult}>
+            <FormTextInput label={i18n.passhash} value={passhash} />
           </div>
+        )}
+      </div>
+      {signUpAlert.length > 0 && <div className={styles.signUpAlert}>{signUpAlert}</div>}
+      <div className={styles.btnRow}>
+        <div>
+          <Button variant="c" handleClick={handleClickSignUp}>
+            {i18n.sign_up}
+          </Button>
+        </div>
+        <div>
+          <Button variant="text_c" handleClick={handleClickSignIn}>
+            {i18n.sign_in_to_existing}
+          </Button>
         </div>
       </div>
     </div>

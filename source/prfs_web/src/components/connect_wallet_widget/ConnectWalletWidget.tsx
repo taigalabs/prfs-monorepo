@@ -29,32 +29,27 @@ const ConnectWalletWidget: React.FC<ConnectWalletWidgetProps> = ({ handleConnect
   }, [setWalletAddr]);
 
   return (
-    <Widget>
-      <WidgetHeader>
-        <WidgetLabel>{i18n.connect_wallet}</WidgetLabel>
-      </WidgetHeader>
-      <WidgetPaddedBody>
-        <div className={styles.radioBox}>
-          <div>
-            <input type="radio" value="metamask" checked readOnly />
-          </div>
-          <div>
-            <p className={styles.label}>{i18n.metamask}</p>
-            <p className={styles.desc}>{i18n.metamask_desc}</p>
-          </div>
+    <div>
+      <div className={styles.radioBox}>
+        <div>
+          <input type="radio" value="metamask" checked readOnly />
         </div>
-        <div className={styles.connectBtnRow}>
-          <Button variant="a" handleClick={handleClickConnect}>
-            {i18n.connect}
-          </Button>
+        <div>
+          <p className={styles.label}>{i18n.metamask}</p>
+          <p className={styles.desc}>{i18n.metamask_desc}</p>
         </div>
-        {walletAddr && (
-          <div className={styles.walletAddr}>
-            <FormTextInput label={i18n.wallet_addr} value={walletAddr} />
-          </div>
-        )}
-      </WidgetPaddedBody>
-    </Widget>
+      </div>
+      <div className={styles.connectBtnRow}>
+        <Button variant="a" handleClick={handleClickConnect}>
+          {i18n.connect}
+        </Button>
+      </div>
+      {walletAddr && (
+        <div className={styles.walletAddr}>
+          <FormTextInput label={i18n.wallet_addr} value={walletAddr} />
+        </div>
+      )}
+    </div>
   );
 };
 

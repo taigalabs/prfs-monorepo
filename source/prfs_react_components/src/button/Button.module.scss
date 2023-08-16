@@ -50,3 +50,12 @@
     cursor: pointer;
   }
 }
+
+.text_c {
+  color: var(--aqua-blue-50);
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

@@ -32,30 +32,32 @@ pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Bod
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
     let req = serde_json::from_str::<GetPrfsProofInstancesRequest>(&body_str).unwrap();
 
-    println!("req: {:?}", req);
+    unimplemented!()
 
-    match req.proof_type_id {
-        Some(proof_type_id) => {
-            let prfs_proof_types = db_apis::get_prfs_proof_type(pool, &proof_type_id).await;
-            let resp = ApiResponse::new_success(GetPrfsProofTypeRespPayload {
-                page: req.page,
-                prfs_proof_types,
-            });
-            return Ok(resp.into_hyper_response());
-        }
-        None => {
-            let prfs_proof_types = db_apis::get_prfs_proof_types(pool).await;
-            let resp = ApiResponse::new_success(GetPrfsProofTypeRespPayload {
-                page: req.page,
-                prfs_proof_types,
-            });
-            return Ok(resp.into_hyper_response());
-        }
-    };
+    // println!("req: {:?}", req);
+
+    // match req.proof_instance_id {
+    //     Some(proof_type_id) => {
+    //         let prfs_proof_types = db_apis::get_prfs_proof_type(pool, &proof_type_id).await;
+    //         let resp = ApiResponse::new_success(GetPrfsProofInstancesRespPayload {
+    //             page: req.page,
+    //             prfs_proof_types,
+    //         });
+    //         return Ok(resp.into_hyper_response());
+    //     }
+    //     None => {
+    //         let prfs_proof_types = db_apis::get_prfs_proof_types(pool).await;
+    //         let resp = ApiResponse::new_success(GetPrfsProofTypeRespPayload {
+    //             page: req.page,
+    //             prfs_proof_types,
+    //         });
+    //         return Ok(resp.into_hyper_response());
+    //     }
+    // };
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-struct CreatePrfsProofTypesRequest {
+struct CreatePrfsProofInstancesRequest {
     proof_type_id: String,
     author: String,
     label: String,
@@ -80,30 +82,32 @@ pub async fn create_prfs_proof_instances(req: Request<Body>) -> Result<Response<
 
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let req = serde_json::from_str::<CreatePrfsProofTypesRequest>(&body_str)
+    let req = serde_json::from_str::<CreatePrfsProofInstancesRequest>(&body_str)
         .expect("req request should be parsable");
 
     println!("req: {:?}", req);
 
-    let prfs_proof_type = PrfsProofType {
-        proof_type_id: req.proof_type_id.to_string(),
-        label: req.label.to_string(),
-        author: req.author.to_string(),
-        desc: req.desc.to_string(),
+    unimplemented!();
 
-        circuit_id: req.circuit_id.to_string(),
-        driver_id: req.driver_id.to_string(),
-        circuit_inputs: Json::from(req.circuit_inputs.clone()),
-        driver_properties: Json::from(req.driver_properties.clone()),
+    // let prfs_proof_type = PrfsProofInstance {
+    //     proof_type_id: req.proof_type_id.to_string(),
+    //     // label: req.label.to_string(),
+    //     // author: req.author.to_string(),
+    //     // desc: req.desc.to_string(),
 
-        created_at: chrono::offset::Utc::now(),
-    };
+    //     // circuit_id: req.circuit_id.to_string(),
+    //     // driver_id: req.driver_id.to_string(),
+    //     // circuit_inputs: Json::from(req.circuit_inputs.clone()),
+    //     // driver_properties: Json::from(req.driver_properties.clone()),
 
-    db_apis::insert_prfs_proof_types(&mut tx, &vec![prfs_proof_type]).await;
+    //     // created_at: chrono::offset::Utc::now(),
+    // };
 
-    tx.commit().await.unwrap();
+    // db_apis::insert_prfs_proof_types(&mut tx, &vec![prfs_proof_type]).await;
 
-    let resp = ApiResponse::new_success(CreatePrfsProofTypesRespPayload {});
+    // tx.commit().await.unwrap();
 
-    return Ok(resp.into_hyper_response());
+    // let resp = ApiResponse::new_success(CreatePrfsProofTypesRespPayload {});
+
+    // return Ok(resp.into_hyper_response());
 }
