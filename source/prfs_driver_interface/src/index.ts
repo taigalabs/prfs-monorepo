@@ -7,6 +7,8 @@ export interface CircuitDriver {
   prove(args: ProveArgs<any>): Promise<ProveResult>;
   verify(args: ProveArgs<any>): Promise<boolean>;
   getBuildStatus(): Promise<any>;
+  serializePublicInputs(publicInputs: any): string;
+  deserializePublicInputs(serPublicInputs: string): any;
   [key: string]: any;
 }
 
@@ -22,5 +24,5 @@ export interface VerifyArgs {
 
 export interface ProveResult {
   proof: Uint8Array;
-  publicInput: any;
+  publicInputs: any;
 }

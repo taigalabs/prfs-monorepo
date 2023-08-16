@@ -46,7 +46,7 @@ export async function createProof(
 
   const prevTime = performance.now();
 
-  const { proof, publicInput } = await driver.prove({
+  const { proof, publicInputs } = await driver.prove({
     inputs: formValues,
     circuitType: "MEMBERSHIP_PROOF_1",
     eventListener: (msg: string) => {
@@ -57,7 +57,7 @@ export async function createProof(
   const now = performance.now();
   const diff = now - prevTime;
 
-  console.log("publicInput %o", publicInput);
+  console.log("publicInput %o", publicInputs);
 
   // setIsTimerRunning(false);
   console.log("Proof gen complete, duration: %s", diff);
@@ -65,7 +65,7 @@ export async function createProof(
 
   return {
     proof,
-    publicInput,
+    publicInputs,
   };
 
   // await driver.verify();
