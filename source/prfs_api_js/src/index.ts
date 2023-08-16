@@ -4,4 +4,5 @@ export * from "./prfs_circuit_types";
 export * from "./prfs_circuit_drivers";
 export * from "./prfs_accounts";
 export * from "./prfs_tree_nodes";
+export * from "./prfs_proof_instances";
 export * from "./prfs_proof_types";

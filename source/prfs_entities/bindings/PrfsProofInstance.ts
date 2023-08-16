@@ -4,6 +4,7 @@ export interface PrfsProofInstance {
   proof: Array<number>;
   proof_instance_id: string;
   proof_type_id: string;
-  public_input: Record<string, any>;
+  sig: string;
+  public_inputs: Record<string, any>;
   created_at: string;
 }

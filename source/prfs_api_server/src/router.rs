@@ -38,8 +38,12 @@ pub fn make_router(
             prfs_circuit_drivers::get_prfs_native_circuit_drivers,
         )
         .post(
-            format!("{}/create_prfs_proof_instances", PREFIX),
-            prfs_proof_instances::create_prfs_proof_instances,
+            format!("{}/create_prfs_proof_instance", PREFIX),
+            prfs_proof_instances::create_prfs_proof_instance,
+        )
+        .post(
+            format!("{}/get_prfs_proof_instances", PREFIX),
+            prfs_proof_instances::get_prfs_proof_instances,
         )
         .post(
             format!("{}/sign_in_prfs_account", PREFIX),

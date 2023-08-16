@@ -32,48 +32,43 @@ pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Bod
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
     let req = serde_json::from_str::<GetPrfsProofInstancesRequest>(&body_str).unwrap();
 
-    unimplemented!()
-
     // println!("req: {:?}", req);
 
-    // match req.proof_instance_id {
-    //     Some(proof_type_id) => {
-    //         let prfs_proof_types = db_apis::get_prfs_proof_type(pool, &proof_type_id).await;
-    //         let resp = ApiResponse::new_success(GetPrfsProofInstancesRespPayload {
-    //             page: req.page,
-    //             prfs_proof_types,
-    //         });
-    //         return Ok(resp.into_hyper_response());
-    //     }
-    //     None => {
-    //         let prfs_proof_types = db_apis::get_prfs_proof_types(pool).await;
-    //         let resp = ApiResponse::new_success(GetPrfsProofTypeRespPayload {
-    //             page: req.page,
-    //             prfs_proof_types,
-    //         });
-    //         return Ok(resp.into_hyper_response());
-    //     }
-    // };
+    match req.proof_instance_id {
+        Some(proof_instance_id) => {
+            let prfs_proof_instances =
+                db_apis::get_prfs_proof_instance(pool, &proof_instance_id).await;
+            let resp = ApiResponse::new_success(GetPrfsProofInstancesRespPayload {
+                page: req.page,
+                prfs_proof_instances,
+            });
+            return Ok(resp.into_hyper_response());
+        }
+        None => {
+            let prfs_proof_instances = db_apis::get_prfs_proof_instances(pool).await;
+            let resp = ApiResponse::new_success(GetPrfsProofInstancesRespPayload {
+                page: req.page,
+                prfs_proof_instances,
+            });
+            return Ok(resp.into_hyper_response());
+        }
+    };
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-struct CreatePrfsProofInstancesRequest {
+struct CreatePrfsProofInstanceRequest {
+    sig: String,
     proof_type_id: String,
-    author: String,
-    label: String,
-    desc: String,
-    circuit_id: String,
-    driver_id: String,
-    circuit_inputs: HashMap<u32, CircuitInput>,
-    driver_properties: HashMap<String, String>,
+    proof: Vec<u8>,
+    public_inputs: sqlx::types::Json<serde_json::Value>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-struct CreatePrfsProofTypesRespPayload {
+struct CreatePrfsProofInstanceRespPayload {
     // prfs_proof_types: Vec<PrfsProofType>,
 }
 
-pub async fn create_prfs_proof_instances(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+pub async fn create_prfs_proof_instance(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
 
@@ -82,32 +77,25 @@ pub async fn create_prfs_proof_instances(req: Request<Body>) -> Result<Response<
 
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let req = serde_json::from_str::<CreatePrfsProofInstancesRequest>(&body_str)
+    let req = serde_json::from_str::<CreatePrfsProofInstanceRequest>(&body_str)
         .expect("req request should be parsable");
 
     println!("req: {:?}", req);
 
-    unimplemented!();
+    let prfs_proof_instance = PrfsProofInstance {
+        proof_instance_id: chrono::offset::Utc::now().to_string(),
+        proof_type_id: req.proof_type_id.to_string(),
+        sig: req.sig.to_string(),
+        proof: req.proof.to_vec(),
+        public_inputs: req.public_inputs.clone(),
+        created_at: chrono::offset::Utc::now(),
+    };
 
-    // let prfs_proof_type = PrfsProofInstance {
-    //     proof_type_id: req.proof_type_id.to_string(),
-    //     // label: req.label.to_string(),
-    //     // author: req.author.to_string(),
-    //     // desc: req.desc.to_string(),
+    db_apis::insert_prfs_proof_instances(&mut tx, &vec![prfs_proof_instance]).await;
 
-    //     // circuit_id: req.circuit_id.to_string(),
-    //     // driver_id: req.driver_id.to_string(),
-    //     // circuit_inputs: Json::from(req.circuit_inputs.clone()),
-    //     // driver_properties: Json::from(req.driver_properties.clone()),
+    tx.commit().await.unwrap();
 
-    //     // created_at: chrono::offset::Utc::now(),
-    // };
+    let resp = ApiResponse::new_success(CreatePrfsProofInstanceRespPayload {});
 
-    // db_apis::insert_prfs_proof_types(&mut tx, &vec![prfs_proof_type]).await;
-
-    // tx.commit().await.unwrap();
-
-    // let resp = ApiResponse::new_success(CreatePrfsProofTypesRespPayload {});
-
-    // return Ok(resp.into_hyper_response());
+    return Ok(resp.into_hyper_response());
 }

@@ -99,9 +99,22 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       return;
     }
 
-    const proofResult = await proofGenElement.createProof();
+    const proofResult: any = await proofGenElement.createProof();
 
     console.log(11, proofResult);
+
+    if (proofResult && proofResult.proof && proofResult.publicInput) {
+      console.log("try inserting proof");
+
+      const proof = proofResult.proof as Uint8Array;
+
+      // await prfsApi.createPrfsProofInstance({
+      //   sig: prfsAccount.sig,
+      //   proof_type_id: selectedProofType.proof_type_id,
+      //   proof: Array.from(proof),
+      //   public_inputs: proofResult.publicInput,
+      // });
+    }
   }, [publicInputInstance, selectedProofType, setFormAlert, state.prfsAccount, proofGenElement]);
 
   return (
