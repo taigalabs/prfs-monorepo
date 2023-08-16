@@ -63,9 +63,11 @@ export async function createProof(
   console.log("Proof gen complete, duration: %s", diff);
   console.log("Raw proof size (excluding public input)", proveResult.proof.length, "bytes");
 
-  await driver.verify({
+  const isVerified = await driver.verify({
     inputs: proveResult,
   });
+
+  console.log("isVerified: %o", isVerified);
 
   return proveResult;
 }

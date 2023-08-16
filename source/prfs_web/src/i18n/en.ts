@@ -63,6 +63,7 @@ export default {
   talk: "Talk",
   beta: "Beta",
   docs: "Docs",
+  dashboard: "Dashboard",
   sdk_api: "SDK/API",
   new: "New",
   proof_instances: "Proof instances",

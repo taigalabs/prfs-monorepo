@@ -5,7 +5,6 @@ import {
   VerifyArgs,
 } from "@taigalabs/prfs-driver-interface";
 import { BN } from "bn.js";
-import { deserializePublicInputs, serializePublicInputs } from "@taigalabs/prfs-driver-utils";
 
 import { Tree } from "./helpers/tree";
 import { makePoseidon } from "./helpers/poseidon";
@@ -18,6 +17,7 @@ import {
   computeEffEcdsaPubInput2,
   verifyEffEcdsaPubInput,
 } from "./helpers/public_input";
+import { deserializePublicInput, serializePublicInput } from "./serialize";
 
 export default class SpartanDriver implements CircuitDriver {
   handlers: PrfsHandlers;
@@ -109,7 +109,7 @@ export default class SpartanDriver implements CircuitDriver {
 
     return {
       proof,
-      publicInputSer: serializePublicInputs(publicInput),
+      publicInputSer: serializePublicInput(publicInput),
     };
   }
 
@@ -117,7 +117,7 @@ export default class SpartanDriver implements CircuitDriver {
     const { inputs } = args;
     const { proof, publicInputSer } = inputs;
 
-    const publicInput = deserializePublicInputs(publicInputSer);
+    const publicInput = deserializePublicInput(publicInputSer);
 
     console.log(32, proof, publicInput);
 
