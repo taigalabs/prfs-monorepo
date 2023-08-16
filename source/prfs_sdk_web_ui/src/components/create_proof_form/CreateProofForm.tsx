@@ -87,7 +87,10 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
       setSystemMsg(`${i18n.driver}: ${driver_id}`);
       setDriver(driver);
     }
-    fn().then();
+
+    window.setTimeout(() => {
+      fn().then();
+    }, 1000);
   }, [proofType, setSystemMsg, setDriver]);
 
   // useInterval(
