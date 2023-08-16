@@ -6,7 +6,6 @@ packages:
   - "source/prfs_driver_spartan_js"
   - "source/prfs_driver_type"
   - "source/prfs_driver_interface"
-  - "source/prfs_driver_utils"
 
   - "source/prfs_crypto_js"
   - "source/prfs_api_js"
