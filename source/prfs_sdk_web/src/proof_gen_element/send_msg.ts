@@ -1,6 +1,9 @@
 import { MsgBase } from "./msg";
 
-export async function sendMsgToChild<T, R>(msg: MsgBase<T, R>, iframe: HTMLIFrameElement) {
+export async function sendMsgToChild<T, R>(
+  msg: MsgBase<T, R>,
+  iframe: HTMLIFrameElement
+): Promise<R> {
   return new Promise((res, rej) => {
     const channel = new MessageChannel();
     channel.port1.onmessage = ({ data }: { data: MsgBase<R, any> }) => {
@@ -8,7 +11,11 @@ export async function sendMsgToChild<T, R>(msg: MsgBase<T, R>, iframe: HTMLIFram
       if (data.error) {
         rej(data.error);
       } else {
-        res(data.payload);
+        if (data.payload) {
+          res(data.payload);
+        } else {
+          rej("Msg doesn't contain payload");
+        }
       }
     };
 

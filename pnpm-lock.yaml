@@ -363,6 +363,9 @@ importers:
       '@ethereumjs/util':
         specifier: ^8.0.3
         version: 8.1.0
+      '@taigalabs/prfs-driver-interface':
+        specifier: '*'
+        version: link:../prfs_driver_interface
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities

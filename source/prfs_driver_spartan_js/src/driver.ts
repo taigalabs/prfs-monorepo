@@ -131,12 +131,21 @@ export default class SpartanDriver implements CircuitDriver {
   }
 
   serializePublicInputs(publicInputs: PublicInput): string {
-    return "";
+    const json = JSON.stringify(publicInputs, (_, value) =>
+      typeof value === "bigint" ? value.toString() + "n" : value
+    );
+    return json;
   }
 
-  deserializePublicInputs(serPublicInputs: string) {
-    return 1;
-    // return new PublicInput()
+  deserializePublicInputs(serPublicInputs: string): PublicInput {
+    const backAgain = JSON.parse(serPublicInputs, (_, value) => {
+      if (typeof value === "string" && /^\d+n$/.test(value)) {
+        return BigInt(value.substring(0, value.length - 1));
+      }
+      return value;
+    });
+
+    return backAgain as PublicInput;
   }
 }
 

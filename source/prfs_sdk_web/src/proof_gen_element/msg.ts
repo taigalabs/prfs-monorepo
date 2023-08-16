@@ -1,3 +1,5 @@
+import { ProveResult } from "@taigalabs/prfs-driver-interface";
+
 export enum MsgType {
   HANDSHAKE = "HANDSHAKE",
   HANDSHAKE_RESPONSE = "HANDSHAKE_RESPONSE",
@@ -116,13 +118,13 @@ export class ListenCreateProofResponseMsg extends MsgBase<boolean, void> {
   }
 }
 
-export class CreateProofMsg extends MsgBase<void, any> {
+export class CreateProofMsg extends MsgBase<void, ProveResult> {
   constructor() {
     super(MsgType.CREATE_PROOF);
   }
 }
 
-export class CreateProofResponseMsg extends MsgBase<any, any> {
+export class CreateProofResponseMsg extends MsgBase<ProveResult, any> {
   constructor(payload: any) {
     super(MsgType.CREATE_PROOF_RESPONSE, payload);
   }

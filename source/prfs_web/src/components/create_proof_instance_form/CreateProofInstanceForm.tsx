@@ -22,14 +22,14 @@ import ProofTypeDropdown from "@/components/proof_type_dropdown/ProofTypeDropdow
 import CircuitInputConfigSection from "@/components/circuit_input_config_section/CircuitInputConfigSection";
 import { useSigner } from "@thirdweb-dev/react";
 import { interpolateSystemAssetEndpoint, initDriver } from "@/functions/circuitDriver";
-// import { SpartanMerkleProof } from "@taigalabs/prfs-driver-spartan-js";
+import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
+import { ProveResult } from "@taigalabs/prfs-driver-interface";
 
 ///
 import { hashPersonalMessage } from "@ethereumjs/util";
 import { ethers } from "ethers";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import { PaddedTableWrapper } from "../table/Table";
-import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
 const prfs = new PrfsSDK("test");
 
@@ -99,14 +99,17 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       return;
     }
 
-    const proofResult: any = await proofGenElement.createProof();
+    const proofResult = await proofGenElement.createProof();
 
     console.log(11, proofResult);
 
-    if (proofResult && proofResult.proof && proofResult.publicInput) {
+    if (proofResult) {
       console.log("try inserting proof");
 
-      const proof = proofResult.proof as Uint8Array;
+      const { proof, publicInputs } = proofResult;
+
+      // const proof = proofResult.proof;
+      // const publicInputSer =
 
       // await prfsApi.createPrfsProofInstance({
       //   sig: prfsAccount.sig,
