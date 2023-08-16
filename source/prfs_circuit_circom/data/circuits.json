@@ -35,23 +35,6 @@
           "ref": "PRFS_SET"
         }
       ],
-      "circuit_generated_public_inputs_meta": [
-        {
-          "name": "msgHash",
-          "label": "Public inputs",
-          "type": "Uint8Array"
-        },
-        {
-          "name": "r",
-          "label": "Siganture r portion",
-          "type": "BigInt"
-        },
-        {
-          "name": "rV",
-          "label": "Siganture v portion",
-          "type": "BigInt"
-        }
-      ],
       "raw_circuit_inputs_meta": [
         {
           "label": "Tx",
