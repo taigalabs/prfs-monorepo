@@ -36,10 +36,8 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
   const [systemMsg, setSystemMsg] = React.useState("Loading driver...");
   const [createProofPage, setCreateProofPage] = React.useState(CreateProofPage.INPUT);
   const [terminalLog, setTerminalLog] = React.useState<React.ReactNode[]>([]);
-  const [msg, setMsg] = React.useState("");
-  const [proveTime, setProveTime] = React.useState<number>(0);
-  const [driver, setDriver] = React.useState<CircuitDriver>();
-  const [isTimerRunning, setIsTimerRunning] = React.useState(false);
+  const [_, setDriver] = React.useState<CircuitDriver>();
+  const [isCompleted, setIsCompleted] = React.useState(false);
   const [selectedWalletType, setSelectedWalletType] = React.useState<WalletTypeValue>({
     value: "metamask",
   });
@@ -91,6 +89,8 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
               proofGenEventListener
             );
 
+            setIsCompleted(true);
+
             ev.ports[0].postMessage(new CreateProofResponseMsg(proof));
           }, 3000);
         }
@@ -102,7 +102,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
     return () => {
       window.removeEventListener("message", eventListener);
     };
-  }, [proofType, formValues, walletAddr, setTerminalLog]);
+  }, [proofType, formValues, walletAddr, setTerminalLog, setIsCompleted]);
 
   React.useEffect(() => {
     async function fn() {
@@ -131,13 +131,6 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
 
     setWalletAddr(addr);
   }, [setWalletAddr]);
-
-  // useInterval(
-  //   () => {
-  //     setProveTime(prev => prev + 1);
-  //   },
-  //   isTimerRunning ? 1000 : null
-  // );
 
   const circuitInputsElem = React.useMemo(() => {
     const obj: Record<any, CircuitInput> = proofType.circuit_inputs;
@@ -214,7 +207,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
       {createProofPage === CreateProofPage.PROGRESS && (
         <div className={styles.terminalPage}>
           <Fade>
-            <CreateProofProgress terminalLog={terminalLog} />
+            <CreateProofProgress terminalLog={terminalLog} isCompleted={isCompleted} />
           </Fade>
         </div>
       )}

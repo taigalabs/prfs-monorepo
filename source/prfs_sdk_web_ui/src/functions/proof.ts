@@ -51,14 +51,20 @@ export async function createProof(
 
   console.log("proveResult: %o", proveResult);
 
-  console.log("Proof gen complete, duration: %s", diff);
+  eventListener(
+    "plain",
+    `Proof created in ${(diff * 1000) / 1000}s, Proof size: ${proveResult.proof.length}bytes`
+  );
+
+  eventListener("special", `Hey anon, you are now in the shadow`);
+
   console.log("Raw proof size (excluding public input)", proveResult.proof.length, "bytes");
 
-  const isVerified = await driver.verify({
-    inputs: proveResult,
-  });
+  // const isVerified = await driver.verify({
+  //   inputs: proveResult,
+  // });
 
-  console.log("isVerified: %o", isVerified);
+  // console.log("isVerified: %o", isVerified);
 
   return proveResult;
 }

@@ -21,7 +21,7 @@ import { stateContext } from "@/contexts/state";
 import ProofTypeDropdown from "@/components/proof_type_dropdown/ProofTypeDropdown";
 import CircuitInputConfigSection from "@/components/circuit_input_config_section/CircuitInputConfigSection";
 import { useSigner } from "@thirdweb-dev/react";
-import { interpolateSystemAssetEndpoint, initDriver } from "@/functions/circuitDriver";
+// import { interpolateSystemAssetEndpoint, initDriver } from "@/functions/circuitDriver";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 import { ProveResult } from "@taigalabs/prfs-driver-interface";
 

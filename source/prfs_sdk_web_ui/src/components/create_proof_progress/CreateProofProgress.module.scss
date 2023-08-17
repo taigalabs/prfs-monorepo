@@ -24,10 +24,15 @@
 
 .terminal {
   border: 1px solid blue;
-  padding: 5px 6px;
+  padding: 4px 6px;
   font-size: 12px;
   border-radius: 3px;
   height: 85px;
   color: var(--gray-20);
   border: 1px solid var(--gray-70);
+}
+
+.isCompleted {
+  background-color: var(--black-00);
+  color: var(--white-100);
 }
