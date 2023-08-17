@@ -15,7 +15,7 @@
   min-height: 100%;
   overflow-y: scroll;
   height: 100%;
-  padding-bottom: 14px;
+  padding-bottom: 18px;
   /* margin: 2px; */
 }
 
@@ -24,27 +24,14 @@
   flex-shrink: 0;
 }
 
-.circuitInputs {
-}
-
 .circuitInputsTitle {
   font-weight: 500;
   font-size: 0.81em;
   color: var(--gray-30);
 }
 
-.inputEntries {
-}
-
 .circuitInputEntry {
-  display: flex;
-  flex-direction: column;
   margin-top: 12px;
-
-  input {
-    width: 100%;
-    font-size: 14px;
-  }
 }
 
 .entryMeta {
@@ -63,17 +50,12 @@
   }
 }
 
-.terminal {
-  border: 1px solid blue;
-  height: 90px;
-  flex-shrink: 0;
-}
-
 .footer {
   position: absolute;
   display: flex;
   justify-content: space-between;
-  bottom: 0;
+  bottom: 2px;
+  padding: 0 4px;
   width: 100%;
   font-size: 10px;
   color: var(--gray-40);

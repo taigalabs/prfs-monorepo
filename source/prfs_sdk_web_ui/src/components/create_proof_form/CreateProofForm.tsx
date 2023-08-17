@@ -6,8 +6,6 @@ import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 import {
   CreateProofResponseMsg,
   GetAddressMsg,
-  GetSignatureMsg,
-  ListenCreateProofMsg,
   MsgType,
   sendMsgToParent,
 } from "@taigalabs/prfs-sdk-web";
@@ -21,8 +19,8 @@ import { i18nContext } from "@/contexts/i18n";
 import { useInterval } from "@/functions/interval";
 import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
 import SigDataInput from "@/components/sig_data_input/SigDataInput";
-import { PRFS_SDK_CRAETE_PROOF_EVENT_TYPE } from "@taigalabs/prfs-sdk-web/src/proof_gen_element/outside_event";
 import { createProof } from "@/functions/proof";
+import Terminal from "../terminal/Terminal";
 
 const ASSET_SERVER_ENDPOINT = process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
@@ -169,8 +167,8 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
               handleClickConnectWallet={handleClickConnectWallet}
             />
           </div>
-          <div className={styles.circuitInputs}>{circuitInputsElem}</div>
-          {terminalLog.length > 0 && <div className={styles.terminal}>{terminalLog}</div>}
+          {circuitInputsElem}
+          {terminalLog.length > 0 && <Terminal>{terminalLog}</Terminal>}
         </div>
 
         <div className={styles.footer}>
