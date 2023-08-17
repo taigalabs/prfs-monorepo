@@ -9,6 +9,8 @@ pub async fn get_prfs_proof_instance(
 ) -> Vec<PrfsProofInstance> {
     let query = "SELECT * from prfs_proof_instances where proof_instance_id=$1";
 
+    println!("query: {}", query);
+
     let rows = sqlx::query(query)
         .bind(&proof_instance_id)
         .fetch_all(pool)
@@ -36,6 +38,8 @@ pub async fn get_prfs_proof_instances(
 ) -> Vec<PrfsProofInstance> {
     let query =
         "SELECT proof_instance_id, proof_type_id, sig, public_inputs, created_at from prfs_proof_instances limit $1";
+
+    println!("query: {}", query);
 
     let limit = Decimal::from(20);
 
