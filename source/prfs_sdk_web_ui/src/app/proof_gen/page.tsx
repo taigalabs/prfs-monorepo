@@ -27,9 +27,7 @@ const ProofGen: React.FC<ProofGenProps> = () => {
   const [data, setData] = React.useState();
   const searchParams = useSearchParams();
   const [proofType, setProofType] = React.useState<PrfsProofType>();
-  const [formHeight, setFormHeight] = React.useState<number>();
-
-  useParentMsgHandler();
+  const [docHeight, setDocHeight] = React.useState<number>();
 
   React.useEffect(() => {
     checkSanity();
@@ -54,15 +52,16 @@ const ProofGen: React.FC<ProofGenProps> = () => {
         if (payload.prfs_proof_types.length > 0) {
           const proof_type = payload.prfs_proof_types[0];
           const circuitInputCount = Object.keys(proof_type.circuit_inputs).length;
-          const formHeight = calcFormHeight(circuitInputCount);
+          const docHeight = calcFormHeight(circuitInputCount);
+          console.log("docHeight", docHeight);
 
           await sendMsgToParent(
             new HandshakeMsg({
-              formHeight,
+              docHeight,
             })
           );
 
-          setFormHeight(formHeight);
+          setDocHeight(docHeight);
           setProofType(proof_type);
         } else {
           console.log("PrfsProofType not found");
@@ -71,14 +70,14 @@ const ProofGen: React.FC<ProofGenProps> = () => {
     }
 
     fn().then();
-  }, [searchParams, setProofType, setFormHeight]);
+  }, [searchParams, setProofType, setDocHeight]);
 
   return (
     proofType &&
-    formHeight && (
+    docHeight && (
       <NoSSR>
         <DefaultLayout>
-          <CreateProofForm proofType={proofType} formHeight={formHeight} />
+          <CreateProofForm proofType={proofType} docHeight={docHeight} />
         </DefaultLayout>
       </NoSSR>
     )
@@ -88,29 +87,6 @@ const ProofGen: React.FC<ProofGenProps> = () => {
 export default ProofGen;
 
 export interface ProofGenProps {}
-
-function useParentMsgHandler() {
-  React.useEffect(() => {
-    // if (!PARENT_MSG_HANDLER.registered) {
-    //   console.log("Attaching parent msg handler");
-    //   window.addEventListener("message", (ev: MessageEvent) => {
-    //     if (ev.ports.length > 0) {
-    //       console.log("parent says: %o, ports: %o", ev.data, ev.ports);
-    //       const type: MsgType = ev.data.type;
-    //       ev.ports[0].postMessage({ result: `${ev.data} back` });
-    //     }
-    //     // switch (type) {
-    //     //   case MsgType.GET_SIGNER_RESPONSE:
-    //     //     window.postMessage({});
-    //     //     break;
-    //     //   default:
-    //     //   // console.error(`Cannot handle this msg type, type: ${type}`);
-    //     // }
-    //   });
-    //   PARENT_MSG_HANDLER.registered = true;
-    // }
-  }, []);
-}
 
 function calcFormHeight(inputCount: number): number {
   return inputCount * HEIGHT_PER_INPUT + BASE_HEIGHT;

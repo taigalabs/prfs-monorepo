@@ -45,7 +45,7 @@ export class HandshakeResponseMsg extends MsgBase<HandshakeResponsePayload, neve
 }
 
 export interface HandshakePayload {
-  formHeight: number;
+  docHeight: number;
 }
 
 export interface HandshakeResponsePayload {

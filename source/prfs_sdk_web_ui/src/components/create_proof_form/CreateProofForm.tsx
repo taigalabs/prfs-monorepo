@@ -12,6 +12,7 @@ import {
 import WalletSelect, {
   WalletTypeValue,
 } from "@taigalabs/prfs-react-components/src/wallet_select/WalletSelect";
+import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 
 import styles from "./CreateProofForm.module.scss";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
@@ -20,14 +21,20 @@ import { useInterval } from "@/functions/interval";
 import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
 import SigDataInput from "@/components/sig_data_input/SigDataInput";
 import { createProof } from "@/functions/proof";
-import Terminal from "../terminal/Terminal";
+import Terminal from "@/components/terminal/Terminal";
 
 const ASSET_SERVER_ENDPOINT = process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
-const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight }) => {
+enum CreateProofPage {
+  INPUT,
+  TERMINAL,
+}
+
+const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight }) => {
   const i18n = React.useContext(i18nContext);
 
   const [systemMsg, setSystemMsg] = React.useState("");
+  const [createProofPage, setCreateProofPage] = React.useState(CreateProofPage.INPUT);
   const [terminalLog, setTerminalLog] = React.useState<React.ReactNode[]>([]);
   const [msg, setMsg] = React.useState("");
   const [proveTime, setProveTime] = React.useState<number>(0);
@@ -75,16 +82,18 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
             return [...oldVal, elem];
           });
 
-          setTimeout(async () => {
-            const proof = await createProof(
-              proofType,
-              formValues,
-              walletAddr,
-              proofGenEventListener
-            );
+          setCreateProofPage(CreateProofPage.TERMINAL);
 
-            ev.ports[0].postMessage(new CreateProofResponseMsg(proof));
-          }, 200);
+          // setTimeout(async () => {
+          //   const proof = await createProof(
+          //     proofType,
+          //     formValues,
+          //     walletAddr,
+          //     proofGenEventListener
+          //   );
+
+          //   ev.ports[0].postMessage(new CreateProofResponseMsg(proof));
+          // }, 500);
         }
       }
     }
@@ -114,7 +123,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
     window.setTimeout(() => {
       fn().then();
     }, 1000);
-  }, [proofType, setSystemMsg, setDriver]);
+  }, [proofType, setSystemMsg, setDriver, setCreateProofPage]);
 
   const handleClickConnectWallet = React.useCallback(async () => {
     const addr = await sendMsgToParent(new GetAddressMsg(""));
@@ -177,41 +186,66 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
     return entriesElem;
   }, [proofType, formValues, setFormValues, walletAddr]);
 
-  return (
-    proofType && (
-      <div className={styles.wrapper}>
-        <div className={styles.form} style={{ height: formHeight - 6 }}>
-          <div className={styles.inputContainer}>
-            <WalletSelect
-              selectedWallet={selectedWalletType}
-              handleSelectWallet={handleSelectWalletType}
-              walletAddr={walletAddr}
-              handleChangeWalletAddr={setWalletAddr}
-              handleClickConnectWallet={handleClickConnectWallet}
-            />
-          </div>
-          {circuitInputsElem}
-          {terminalLog.length > 0 && <Terminal>{terminalLog}</Terminal>}
-        </div>
+  if (!proofType) {
+    return null;
+  }
 
-        <div className={styles.footer}>
-          <div className={styles.systemMsg}>
-            <div>{systemMsg}</div>
+  return (
+    <div className={styles.wrapper}>
+      {/* <div */}
+      {/*   className={styles.inputPage} */}
+      {/*   // style={{ visibility: createProofPage === CreateProofPage.TERMINAL ? "hidden" : "visible" }} */}
+      {/* > */}
+      {/*   <div className={styles.form} style={{ height: docHeight }}> */}
+      {/*     <div className={styles.inputContainer}> */}
+      {/*       <WalletSelect */}
+      {/*         selectedWallet={selectedWalletType} */}
+      {/*         handleSelectWallet={handleSelectWalletType} */}
+      {/*         walletAddr={walletAddr} */}
+      {/*         handleChangeWalletAddr={setWalletAddr} */}
+      {/*         handleClickConnectWallet={handleClickConnectWallet} */}
+      {/*       /> */}
+      {/*     </div> */}
+      {/*     {circuitInputsElem} */}
+      {/*   </div> */}
+      {/*   <div className={styles.footer}> */}
+      {/*     <div className={styles.systemMsg}> */}
+      {/*       <div>{systemMsg}</div> */}
+      {/*     </div> */}
+      {/*     <div className={styles.sdkMeta}> */}
+      {/*       {i18n.prfs_web_sdk} {process.env.NEXT_PUBLIC_VERSION} */}
+      {/*     </div> */}
+      {/*   </div> */}
+      {/* </div> */}
+
+      {createProofPage === CreateProofPage.TERMINAL && (
+        <Fade>
+          <div className={styles.terminalPage}>
+            <Terminal>{terminalLog}</Terminal>
           </div>
-          <div className={styles.sdkMeta}>
-            {i18n.prfs_web_sdk} {process.env.NEXT_PUBLIC_VERSION}
-          </div>
-        </div>
-      </div>
-    )
+        </Fade>
+      )}
+    </div>
   );
 };
+{
+  /* <Fade> */
+}
+{
+  /*   <div className={styles.terminalPage}> */
+}
+{
+  /*   </div> */
+}
+{
+  /* </Fade> */
+}
 
 export default CreateProofForm;
 
 export interface CreateProofFormProps {
   proofType: PrfsProofType;
-  formHeight: number;
+  docHeight: number;
   // handleCreateProof: (proof: Uint8Array, publicInput: any) => void;
 }
 
