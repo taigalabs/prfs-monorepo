@@ -57,9 +57,9 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
     (type: string, msg: string) => {
       setTerminalLog(oldVals => {
         const elem = (
-          <span className={type} key={oldVals.length}>
+          <p className={type} key={oldVals.length}>
             {msg}
-          </span>
+          </p>
         );
 
         return [...oldVals, elem];
@@ -76,24 +76,23 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
         if (type === MsgType.CREATE_PROOF) {
           validateFormValues(formValues);
 
-          setTerminalLog(oldVal => {
-            const elem = <span key={oldVal.length}>Start creating a proof...</span>;
-
-            return [...oldVal, elem];
-          });
-
           setCreateProofPage(CreateProofPage.PROGRESS);
 
-          // setTimeout(async () => {
-          //   const proof = await createProof(
-          //     proofType,
-          //     formValues,
-          //     walletAddr,
-          //     proofGenEventListener
-          //   );
+          setTimeout(async () => {
+            proofGenEventListener(
+              "plain",
+              `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
+            );
 
-          //   ev.ports[0].postMessage(new CreateProofResponseMsg(proof));
-          // }, 500);
+            const proof = await createProof(
+              proofType,
+              formValues,
+              walletAddr,
+              proofGenEventListener
+            );
+
+            ev.ports[0].postMessage(new CreateProofResponseMsg(proof));
+          }, 3000);
         }
       }
     }
@@ -112,10 +111,14 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
         driver_properties,
         ASSET_SERVER_ENDPOINT
       );
-      const driver = await initDriver(driver_id, driverProperties);
 
-      setSystemMsg(`${i18n.driver}: ${driver_id}`);
-      setDriver(driver);
+      try {
+        const driver = await initDriver(driver_id, driverProperties);
+        setSystemMsg(`${i18n.driver}: ${driver_id}`);
+        setDriver(driver);
+      } catch (err) {
+        setSystemMsg(`Driver init failed, id: ${driver_id}, err: ${err}`);
+      }
     }
 
     window.setTimeout(() => {

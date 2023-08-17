@@ -10,7 +10,12 @@ import { fetchCircuit } from "./helpers/utils";
 
 const spartanDriverGen: CircuitDriverGen = {
   async newInstance(driverProps: SpartanCircomDriverProperties): Promise<CircuitDriver> {
-    const prfsHandlers = await initWasm();
+    let prfsHandlers;
+    try {
+      prfsHandlers = await initWasm();
+    } catch (err) {
+      throw err;
+    }
 
     const circuit = await fetchCircuit(driverProps.circuit_url);
 

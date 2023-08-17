@@ -43,6 +43,7 @@ export default {
   proof_type_id: "Proof type id",
   drivers: "Drivers",
   driver: "Driver",
+  driver_init_failed: "Driver init failed",
   driver_summary_label: "Driver summary for",
   circuit_drivers: "Circuit drivers",
   generate: "Generate",
