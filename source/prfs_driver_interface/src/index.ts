@@ -13,7 +13,7 @@ export interface CircuitDriver {
 export interface ProveArgs<T> {
   inputs: T;
   circuitType: string;
-  eventListener: (msg: string) => void;
+  eventListener: (type: string, msg: string) => void;
 }
 
 export interface VerifyArgs {

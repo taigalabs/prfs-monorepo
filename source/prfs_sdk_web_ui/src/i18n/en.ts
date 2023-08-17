@@ -1,4 +1,6 @@
 export default {
+  terminal_scroll_guide: "Scroll to see the inputs",
+  log: "Log",
   loading: "Loading...",
   create_proof: "Create proof",
   public_inputs: "Public inputs",

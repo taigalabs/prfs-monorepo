@@ -1,19 +1,39 @@
 .wrapper {
-  margin-top: 12px;
+  margin-top: 8px;
+  position: relative;
+
+  /* border: 1px solid blue; */
 }
 
 .header {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: 16px;
+
+  > div {
+    display: flex;
+    align-items: center;
+  }
+
+  svg {
+    font-size: 16px;
+  }
+}
+
+.label {
+  padding: 4px 5px;
+  margin-left: 6px;
+  font-size: 12px;
 }
 
 .log {
   margin-top: 3px;
   padding: 5px 6px;
   font-size: 12px;
-  border: 1px solid var(--gray-70);
   border-radius: 3px;
   height: 65px;
+  border: 1px solid var(--gray-70);
+}
+
+.contentArea {
 }

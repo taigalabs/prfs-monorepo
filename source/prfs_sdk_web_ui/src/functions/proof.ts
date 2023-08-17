@@ -6,7 +6,8 @@ import { initDriver, interpolateSystemAssetEndpoint } from "./circuitDriver";
 export async function createProof(
   proofType: PrfsProofType,
   formValues: Record<string, any>,
-  walletAddr: string
+  walletAddr: string,
+  eventListener: (type: string, msg: string) => void
 ) {
   const { driver_id, driver_properties } = proofType;
   const driverProperties = interpolateSystemAssetEndpoint(
@@ -42,9 +43,7 @@ export async function createProof(
   const proveResult = await driver.prove({
     inputs: formValues,
     circuitType: "MEMBERSHIP_PROOF_1",
-    eventListener: (msg: string) => {
-      console.log("driver event", msg);
-    },
+    eventListener,
   });
 
   const now = performance.now();

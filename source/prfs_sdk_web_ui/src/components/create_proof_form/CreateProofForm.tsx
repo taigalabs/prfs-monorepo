@@ -46,6 +46,21 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
     [setSelectedWalletType]
   );
 
+  const proofGenEventListener = React.useCallback(
+    (type: string, msg: string) => {
+      setTerminalLog(oldVals => {
+        const elem = (
+          <span className={type} key={oldVals.length}>
+            {msg}
+          </span>
+        );
+
+        return [...oldVals, elem];
+      });
+    },
+    [setTerminalLog]
+  );
+
   React.useEffect(() => {
     async function eventListener(ev: MessageEvent) {
       if (ev.ports.length > 0) {
@@ -60,8 +75,16 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
             return [...oldVal, elem];
           });
 
-          // const proof = await createProof(proofType, formValues, walletAddr);
-          // ev.ports[0].postMessage(new CreateProofResponseMsg(proof));
+          setTimeout(async () => {
+            const proof = await createProof(
+              proofType,
+              formValues,
+              walletAddr,
+              proofGenEventListener
+            );
+
+            ev.ports[0].postMessage(new CreateProofResponseMsg(proof));
+          }, 200);
         }
       }
     }
