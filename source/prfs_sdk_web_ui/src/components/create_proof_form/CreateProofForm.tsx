@@ -145,7 +145,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
           <div className={styles.entryMeta}>
             <div className={styles.entryLabel}>{val.label}</div>
           </div>
-          {inputElem}
+          <div className={styles.inputContainer}>{inputElem}</div>
         </div>
       );
     });
@@ -155,19 +155,27 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
 
   return (
     proofType && (
-      <div className={styles.wrapper} style={{ height: formHeight - 6 }}>
-        <div className={styles.form}>
-          <WalletSelect
-            selectedVal={selectedWalletType}
-            handleSelectVal={handleSelectWalletType}
-            walletAddr={walletAddr}
-            setWalletAddr={setWalletAddr}
-          />
+      <div className={styles.wrapper}>
+        <div className={styles.form} style={{ height: formHeight - 6 }}>
+          <div className={styles.inputContainer}>
+            <WalletSelect
+              selectedWallet={selectedWalletType}
+              handleSelectWallet={handleSelectWalletType}
+              walletAddr={walletAddr}
+              handleChangeWalletAddr={setWalletAddr}
+            />
+          </div>
           <div className={styles.circuitInputs}>{circuitInputsElem}</div>
+          {terminalLog.length > 0 && <div className={styles.terminal}>{terminalLog}</div>}
         </div>
-        {terminalLog.length > 0 && <div className={styles.terminal}>{terminalLog}</div>}
-        <div className={styles.systemMsg}>
-          <div>{systemMsg}</div>
+
+        <div className={styles.footer}>
+          <div className={styles.systemMsg}>
+            <div>{systemMsg}</div>
+          </div>
+          <div className={styles.sdkMeta}>
+            {i18n.prfs_web_sdk} {process.env.NEXT_PUBLIC_VERSION}
+          </div>
         </div>
       </div>
     )

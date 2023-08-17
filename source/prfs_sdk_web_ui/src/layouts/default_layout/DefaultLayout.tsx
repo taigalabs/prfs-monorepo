@@ -10,10 +10,11 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.container}>{children}</div>
-      <div className={styles.sdkMeta}>
-        {i18n.prfs_web_sdk} {process.env.NEXT_PUBLIC_VERSION}
-      </div>
+      {children}
+      {/* <div className={styles.container}>{children}</div> */}
+      {/* <div className={styles.sdkMeta}> */}
+      {/*   {i18n.prfs_web_sdk} {process.env.NEXT_PUBLIC_VERSION} */}
+      {/* </div> */}
     </div>
   );
 };

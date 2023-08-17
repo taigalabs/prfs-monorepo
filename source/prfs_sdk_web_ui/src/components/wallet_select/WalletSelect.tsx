@@ -1,7 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import cn from "classnames";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 import styles from "./WalletSelect.module.scss";
@@ -16,38 +14,38 @@ const walletType = {
 };
 
 const WalletSelect: React.FC<WalletSelectProps> = ({
-  selectedVal,
-  handleSelectVal,
+  selectedWallet,
+  handleSelectWallet,
   walletAddr,
-  setWalletAddr,
+  handleChangeWalletAddr,
 }) => {
   const i18n = React.useContext(i18nContext);
 
   const selectElem = React.useMemo(() => {
     return (
       <div className={styles.selectWrapper}>
-        <select onChange={handleSelectVal}>
+        <select onChange={handleSelectWallet}>
           <option style={{ display: "none" }}></option>
           <option
             value={walletType.metamask.value}
-            disabled={selectedVal.value === walletType.metamask.value}
+            disabled={selectedWallet.value === walletType.metamask.value}
           >
             {walletType.metamask.value}
           </option>
         </select>
         <div className={styles.imgContainer}>
-          <Image src={MetamaskSvg} width={24} height={24} alt={selectedVal.value} />
+          <Image src={MetamaskSvg} width={24} height={24} alt={selectedWallet.value} />
         </div>
         <MdOutlineKeyboardArrowDown />
       </div>
     );
-  }, [selectedVal, handleSelectVal]);
+  }, [selectedWallet, handleSelectWallet]);
 
   const handleClickConnectWallet = React.useCallback(async () => {
     const addr = await sendMsgToParent(new GetAddressMsg(""));
 
-    setWalletAddr(addr);
-  }, [handleSelectVal]);
+    handleChangeWalletAddr(addr);
+  }, [handleChangeWalletAddr]);
 
   return (
     <div className={styles.wrapper}>
@@ -63,10 +61,10 @@ const WalletSelect: React.FC<WalletSelectProps> = ({
 export default WalletSelect;
 
 export interface WalletSelectProps {
-  selectedVal: WalletTypeValue;
-  handleSelectVal: React.ChangeEventHandler<HTMLSelectElement>;
+  selectedWallet: WalletTypeValue;
+  handleSelectWallet: React.ChangeEventHandler<HTMLSelectElement>;
   walletAddr: string;
-  setWalletAddr: React.Dispatch<React.SetStateAction<any>>;
+  handleChangeWalletAddr: React.Dispatch<React.SetStateAction<any>>;
 }
 
 export interface WalletTypeValue {

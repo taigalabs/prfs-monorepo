@@ -2,14 +2,20 @@
   display: flex;
   align-items: center;
   position: relative;
-  border: 1px solid var(--gray-70);
-  border-radius: 3px;
   margin-top: 4px;
+  height: 100%;
 
   input {
+    height: 100%;
+    border: 1px solid var(--gray-70);
+    border-radius: 3px;
     padding-left: 7px;
     padding-right: 40px;
-    height: 38px;
+    outline: none;
+
+    &:focus {
+      border: 1px solid blue;
+    }
   }
 }
 
