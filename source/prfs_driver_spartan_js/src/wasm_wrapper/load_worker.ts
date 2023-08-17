@@ -5,8 +5,7 @@ export async function initWasm() {
     type: "module",
   });
 
-  const remote = await Comlink.wrap(worker);
-  const handlers = remote.handlers;
+  const handlers = await (Comlink.wrap(worker) as any).handlers;
 
   if (!handlers) {
     console.log("handlers not found");

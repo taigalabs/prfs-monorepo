@@ -99,13 +99,15 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       return;
     }
 
-    const proofResult = await proofGenElement.createProof();
+    const proveReceipt = await proofGenElement.createProof();
 
-    if (proofResult) {
-      console.log("try inserting proof");
+    if (proveReceipt) {
+      console.log("try inserting proof", proveReceipt);
 
-      const { proof, publicInputSer } = proofResult;
+      const { proveResult } = proveReceipt;
+      const { proof, publicInputSer } = proveResult;
       const public_inputs = JSON.parse(publicInputSer);
+
       console.log(11, proof, publicInputSer);
 
       await prfsApi.createPrfsProofInstance({

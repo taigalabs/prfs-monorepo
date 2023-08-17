@@ -80,39 +80,23 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
 
           setCreateProofPage(CreateProofPage.PROGRESS);
 
-          setTimeout(async () => {
-            proofGenEventListener(
-              "plain",
-              `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
+          await delay(3000);
+
+          proofGenEventListener(
+            "plain",
+            `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
+          );
+
+          try {
+            const proveReceipt = await createProof(
+              driver,
+              formValues,
+              walletAddr,
+              proofGenEventListener
             );
 
-            try {
-              const prevTime = performance.now();
-              const proveResult = await createProof(
-                driver,
-                formValues,
-                walletAddr,
-                proofGenEventListener
-              );
-
-              const now = performance.now();
-              const diff = now - prevTime;
-              const duration = Math.floor((diff / 1000) * 1000) / 1000;
-
-              setIsCompleted(true);
-
-              proofGenEventListener(
-                "plain",
-                `Proof created in ${duration}s, Proof size: ${proveResult.proof.length}bytes`
-              );
-
-              await delay(500);
-
-              proofGenEventListener("special", `Hey anon, you are now in the shadow`);
-
-              ev.ports[0].postMessage(new CreateProofResponseMsg(proveResult));
-            } catch (err) {}
-          }, 3000);
+            ev.ports[0].postMessage(new CreateProofResponseMsg(proveReceipt));
+          } catch (err) {}
         }
       }
     }

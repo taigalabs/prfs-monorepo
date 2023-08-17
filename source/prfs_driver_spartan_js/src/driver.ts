@@ -2,6 +2,7 @@ import {
   CircuitDriver,
   ProveArgs,
   ProveResult,
+  ProveReceipt,
   VerifyArgs,
 } from "@taigalabs/prfs-driver-interface";
 import { BN } from "bn.js";
@@ -55,7 +56,7 @@ export default class SpartanDriver implements CircuitDriver {
     return await Tree.newInstance(depth, hash);
   }
 
-  async prove(args: ProveArgs<MembershipProveInputs>): Promise<ProveResult> {
+  async prove(args: ProveArgs<MembershipProveInputs>): Promise<ProveReceipt> {
     const { inputs, eventListener } = args;
     const { sigData, merkleProof } = inputs;
     const { msgHash, sig } = sigData;
@@ -102,11 +103,16 @@ export default class SpartanDriver implements CircuitDriver {
 
     const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
 
+    const prev = performance.now();
     const proof = await this.handlers.prove(this.circuit, witness.data, circuitPublicInput);
+    const now = performance.now();
 
     return {
-      proof,
-      publicInputSer: serializePublicInput(publicInput),
+      duration: now - prev,
+      proveResult: {
+        proof,
+        publicInputSer: serializePublicInput(publicInput),
+      },
     };
   }
 

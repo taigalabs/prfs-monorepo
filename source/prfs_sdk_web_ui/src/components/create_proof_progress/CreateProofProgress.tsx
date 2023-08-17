@@ -10,16 +10,18 @@ const CreateProofProgress: React.FC<CreateProofProgressProps> = ({ terminalLog, 
   const i18n = React.useContext(i18nContext);
 
   React.useEffect(() => {
-    console.log(55, terminalLog);
+    // console.log(55, terminalLog);
   }, [terminalLog]);
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.guide}>
-        <p className={styles.title}>{i18n.proof_creation}</p>
-        <p dangerouslySetInnerHTML={{ __html: i18n.start_create_proof_guide_1 }} />
+        <p className={styles.title}>{i18n.proof_creation_title}</p>
+        <p>
+          <button onClick={() => {}}>Abort now</button> if you are running other CPU-intensive
+          tasks. Do not refresh the page
+        </p>
         <p>{i18n.start_create_proof_guide_2}</p>
-        <p>{i18n.start_create_proof_guide_3}</p>
       </div>
       <div
         className={cn({

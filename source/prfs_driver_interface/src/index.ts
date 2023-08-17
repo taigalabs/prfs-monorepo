@@ -4,7 +4,7 @@ export interface CircuitDriverGen {
 }
 
 export interface CircuitDriver {
-  prove(args: ProveArgs<any>): Promise<ProveResult>;
+  prove(args: ProveArgs<any>): Promise<ProveReceipt>;
   verify(args: VerifyArgs): Promise<boolean>;
   getBuildStatus(): Promise<any>;
   [key: string]: any;
@@ -26,4 +26,9 @@ export interface VerifyArgs {
 export interface ProveResult {
   proof: Uint8Array;
   publicInputSer: string;
+}
+
+export interface ProveReceipt {
+  proveResult: ProveResult;
+  duration: number;
 }

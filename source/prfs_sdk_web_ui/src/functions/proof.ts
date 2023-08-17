@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import { CircuitDriver, ProveResult } from "@taigalabs/prfs-driver-interface";
+import { CircuitDriver, ProveReceipt, ProveResult } from "@taigalabs/prfs-driver-interface";
 
 // import { initDriver, interpolateSystemAssetEndpoint } from "./circuitDriver";
 
@@ -9,7 +9,7 @@ export async function createProof(
   formValues: Record<string, any>,
   walletAddr: string,
   eventListener: (type: string, msg: string) => void
-): Promise<ProveResult> {
+): Promise<ProveReceipt> {
   const { sigData } = formValues;
   const { msgRaw, sig } = sigData;
   const msg = Buffer.from(msgRaw);
@@ -22,15 +22,18 @@ export async function createProof(
 
   console.log("Proving...");
 
-  const proveResult = await driver.prove({
+  const proveReceipt = await driver.prove({
     inputs: formValues,
     circuitType: "MEMBERSHIP_PROOF_1",
     eventListener,
   });
 
-  console.log("proveResult: %o", proveResult);
-
-  console.log("Raw proof size (excluding public input)", proveResult.proof.length, "bytes");
+  console.log("proveResult: %o", proveReceipt.proveResult);
+  console.log(
+    "Raw proof size (excluding public input)",
+    proveReceipt.proveResult.proof.length,
+    "bytes"
+  );
 
   // const isVerified = await driver.verify({
   //   inputs: proveResult,
@@ -38,5 +41,5 @@ export async function createProof(
 
   // console.log("isVerified: %o", isVerified);
 
-  return proveResult;
+  return proveReceipt;
 }
