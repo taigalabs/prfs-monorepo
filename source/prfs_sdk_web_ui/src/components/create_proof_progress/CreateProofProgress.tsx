@@ -9,6 +9,10 @@ import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 const CreateProofProgress: React.FC<CreateProofProgressProps> = ({ terminalLog, isCompleted }) => {
   const i18n = React.useContext(i18nContext);
 
+  React.useEffect(() => {
+    console.log(55, terminalLog);
+  }, [terminalLog]);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.guide}>

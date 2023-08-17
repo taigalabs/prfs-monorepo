@@ -17,7 +17,7 @@ import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import styles from "./CreateProofForm.module.scss";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
 import { i18nContext } from "@/contexts/i18n";
-import { useInterval } from "@/functions/interval";
+import { delay, useInterval } from "@/functions/interval";
 import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
 import SigDataInput from "@/components/sig_data_input/SigDataInput";
 import { createProof } from "@/functions/proof";
@@ -36,7 +36,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
   const [systemMsg, setSystemMsg] = React.useState("Loading driver...");
   const [createProofPage, setCreateProofPage] = React.useState(CreateProofPage.INPUT);
   const [terminalLog, setTerminalLog] = React.useState<React.ReactNode[]>([]);
-  const [_, setDriver] = React.useState<CircuitDriver>();
+  const [driver, setDriver] = React.useState<CircuitDriver>();
   const [isCompleted, setIsCompleted] = React.useState(false);
   const [selectedWalletType, setSelectedWalletType] = React.useState<WalletTypeValue>({
     value: "metamask",
@@ -72,6 +72,10 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
         const type: MsgType = ev.data.type;
 
         if (type === MsgType.CREATE_PROOF) {
+          if (!driver) {
+            return;
+          }
+
           validateFormValues(formValues);
 
           setCreateProofPage(CreateProofPage.PROGRESS);
@@ -82,16 +86,32 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
               `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
             );
 
-            const proof = await createProof(
-              proofType,
-              formValues,
-              walletAddr,
-              proofGenEventListener
-            );
+            try {
+              const prevTime = performance.now();
+              const proveResult = await createProof(
+                driver,
+                formValues,
+                walletAddr,
+                proofGenEventListener
+              );
 
-            setIsCompleted(true);
+              const now = performance.now();
+              const diff = now - prevTime;
+              const duration = Math.floor((diff / 1000) * 1000) / 1000;
 
-            ev.ports[0].postMessage(new CreateProofResponseMsg(proof));
+              setIsCompleted(true);
+
+              proofGenEventListener(
+                "plain",
+                `Proof created in ${duration}s, Proof size: ${proveResult.proof.length}bytes`
+              );
+
+              await delay(500);
+
+              proofGenEventListener("special", `Hey anon, you are now in the shadow`);
+
+              ev.ports[0].postMessage(new CreateProofResponseMsg(proveResult));
+            } catch (err) {}
           }, 3000);
         }
       }

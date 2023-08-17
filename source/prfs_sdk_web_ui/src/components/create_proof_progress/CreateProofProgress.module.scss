@@ -26,13 +26,20 @@
   border: 1px solid blue;
   padding: 4px 6px;
   font-size: 12px;
-  border-radius: 3px;
+  border-radius: 5px;
   height: 85px;
   color: var(--gray-20);
   border: 1px solid var(--gray-70);
+
+  transition: background-color 1000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    color 1000ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+
+  :global .special {
+    color: var(--bright-green-20);
+  }
 }
 
 .isCompleted {
-  background-color: var(--black-00);
+  background-color: var(--black-25);
   color: var(--white-100);
 }

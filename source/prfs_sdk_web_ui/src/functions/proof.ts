@@ -1,44 +1,26 @@
 import { ethers } from "ethers";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import { CircuitDriver, ProveResult } from "@taigalabs/prfs-driver-interface";
 
-import { initDriver, interpolateSystemAssetEndpoint } from "./circuitDriver";
+// import { initDriver, interpolateSystemAssetEndpoint } from "./circuitDriver";
 
 export async function createProof(
-  proofType: PrfsProofType,
+  driver: CircuitDriver,
   formValues: Record<string, any>,
   walletAddr: string,
   eventListener: (type: string, msg: string) => void
-) {
-  const { driver_id, driver_properties } = proofType;
-  const driverProperties = interpolateSystemAssetEndpoint(
-    driver_properties,
-    process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT
-  );
-
-  console.log("driver_id: %s, props: %o", driver_id, driverProperties);
-
-  const driver = await initDriver(driver_id, driverProperties);
-
-  if (!driver) {
-    return;
-  }
-
-  if (proofType === undefined) {
-    return;
-  }
-
+): Promise<ProveResult> {
   const { sigData } = formValues;
   const { msgRaw, sig } = sigData;
   const msg = Buffer.from(msgRaw);
 
   let recoveredAddr = ethers.utils.verifyMessage(msg, sig);
   if (walletAddr !== recoveredAddr) {
-    console.error("Address in the signature is invalid");
-    return;
+    // console.error("Address in the signature is invalid");
+    throw new Error("Address in the signature is invalid");
   }
 
   console.log("Proving...");
-  const prevTime = performance.now();
 
   const proveResult = await driver.prove({
     inputs: formValues,
@@ -46,17 +28,7 @@ export async function createProof(
     eventListener,
   });
 
-  const now = performance.now();
-  const diff = now - prevTime;
-
   console.log("proveResult: %o", proveResult);
-
-  eventListener(
-    "plain",
-    `Proof created in ${(diff * 1000) / 1000}s, Proof size: ${proveResult.proof.length}bytes`
-  );
-
-  eventListener("special", `Hey anon, you are now in the shadow`);
 
   console.log("Raw proof size (excluding public input)", proveResult.proof.length, "bytes");
 
