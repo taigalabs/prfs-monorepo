@@ -33,7 +33,7 @@ enum CreateProofPage {
 const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight }) => {
   const i18n = React.useContext(i18nContext);
 
-  const [systemMsg, setSystemMsg] = React.useState("");
+  const [systemMsg, setSystemMsg] = React.useState("Loading driver...");
   const [createProofPage, setCreateProofPage] = React.useState(CreateProofPage.INPUT);
   const [terminalLog, setTerminalLog] = React.useState<React.ReactNode[]>([]);
   const [msg, setMsg] = React.useState("");
@@ -107,8 +107,6 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
 
   React.useEffect(() => {
     async function fn() {
-      setSystemMsg("Loading driver...");
-
       const { driver_id, driver_properties } = proofType;
       const driverProperties = interpolateSystemAssetEndpoint(
         driver_properties,

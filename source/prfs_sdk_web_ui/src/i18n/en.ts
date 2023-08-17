@@ -7,8 +7,10 @@ export default {
   private_inputs: "Private inputs",
   prfs_web_sdk: "Prfs Web SDK",
   proof_creation: "Proof creation",
-  start_create_proof_guide_1: "We are about to create a proof",
-  start_create_proof_guide_2: "Do not refresh the page unless you want to stop the operation",
+  start_create_proof_guide_1: `Proof creation runs solely on this machine`,
+  start_create_proof_guide_2:
+    "Do not refresh the page, try later if you are running other CPU-intensive works",
+  start_create_proof_guide_3: "15-20s to take on average, process will be force-stopped after 60s",
   prfs_copyright: "© 2023 Prfs",
   explore_technologies: "Explore technologies",
   latest_prfs_updates: "Latest Prfs updates",

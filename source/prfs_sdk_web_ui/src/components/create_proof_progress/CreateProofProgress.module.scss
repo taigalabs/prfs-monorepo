@@ -1,5 +1,18 @@
+.wrapper {
+  a {
+    cursor: pointer;
+    color: var(--aqua-blue-50);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
 .guide {
   color: var(--gray-20);
+  font-size: 13px;
+  line-height: 18px;
   margin-bottom: 12px;
 }
 

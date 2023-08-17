@@ -12,8 +12,9 @@ const CreateProofProgress: React.FC<CreateProofProgressProps> = ({ terminalLog }
     <div className={styles.wrapper}>
       <div className={styles.guide}>
         <p className={styles.title}>{i18n.proof_creation}</p>
-        <p>{i18n.start_create_proof_guide_1}</p>
+        <p dangerouslySetInnerHTML={{ __html: i18n.start_create_proof_guide_1 }} />
         <p>{i18n.start_create_proof_guide_2}</p>
+        <p>{i18n.start_create_proof_guide_3}</p>
       </div>
       <div className={styles.terminal}>{terminalLog}</div>
     </div>
