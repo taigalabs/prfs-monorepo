@@ -1,6 +1,6 @@
 use crate::database2::Database2;
 use prfs_entities::entities::{PrfsProofInstance, PrfsProofType};
-use sqlx::{Pool, Postgres, Row, Transaction};
+use sqlx::{types::Json, Pool, Postgres, Row, Transaction};
 
 pub async fn get_prfs_proof_instance(
     pool: &Pool<Postgres>,
@@ -30,7 +30,8 @@ pub async fn get_prfs_proof_instance(
 }
 
 pub async fn get_prfs_proof_instances(pool: &Pool<Postgres>) -> Vec<PrfsProofInstance> {
-    let query = "SELECT * from prfs_proof_types";
+    let query =
+        "SELECT proof_instance_id, proof_type_id, sig, public_inputs, created_at from prfs_proof_instances";
 
     let rows = sqlx::query(query).fetch_all(pool).await.unwrap();
 
@@ -40,7 +41,7 @@ pub async fn get_prfs_proof_instances(pool: &Pool<Postgres>) -> Vec<PrfsProofIns
             proof_instance_id: row.get("proof_instance_id"),
             proof_type_id: row.get("proof_type_id"),
             sig: row.get("sig"),
-            proof: row.get("proof"),
+            proof: vec![],
             public_inputs: row.get("public_inputs"),
             created_at: row.get("created_at"),
         })

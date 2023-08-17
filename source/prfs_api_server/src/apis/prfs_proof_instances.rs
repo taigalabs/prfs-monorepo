@@ -32,7 +32,7 @@ pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Bod
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
     let req = serde_json::from_str::<GetPrfsProofInstancesRequest>(&body_str).unwrap();
 
-    // println!("req: {:?}", req);
+    println!("req: {:?}", req);
 
     match req.proof_instance_id {
         Some(proof_instance_id) => {
