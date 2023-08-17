@@ -1,5 +1,6 @@
 use crate::database2::Database2;
 use prfs_entities::entities::{PrfsProofInstance, PrfsProofType};
+use rust_decimal::Decimal;
 use sqlx::{types::Json, Pool, Postgres, Row, Transaction};
 
 pub async fn get_prfs_proof_instance(
@@ -29,11 +30,20 @@ pub async fn get_prfs_proof_instance(
     return prfs_proof_instances;
 }
 
-pub async fn get_prfs_proof_instances(pool: &Pool<Postgres>) -> Vec<PrfsProofInstance> {
+pub async fn get_prfs_proof_instances(
+    pool: &Pool<Postgres>,
+    limit: Option<u32>,
+) -> Vec<PrfsProofInstance> {
     let query =
-        "SELECT proof_instance_id, proof_type_id, sig, public_inputs, created_at from prfs_proof_instances";
+        "SELECT proof_instance_id, proof_type_id, sig, public_inputs, created_at from prfs_proof_instances limit $1";
 
-    let rows = sqlx::query(query).fetch_all(pool).await.unwrap();
+    let limit = Decimal::from(20);
+
+    let rows = sqlx::query(query)
+        .bind(&limit)
+        .fetch_all(pool)
+        .await
+        .unwrap();
 
     let prfs_proof_instances: Vec<PrfsProofInstance> = rows
         .iter()

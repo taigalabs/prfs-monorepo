@@ -27,6 +27,7 @@ export async function createPrfsProofInstance(req: CreatePrfsProofInstanceReques
 
 export interface GetPrfsProofInstancesRequest {
   page: number;
+  limit?: number;
   proof_instance_id?: string;
 }
 

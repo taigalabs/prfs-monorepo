@@ -10,6 +10,7 @@ use std::{collections::HashMap, convert::Infallible, sync::Arc};
 #[derive(Serialize, Deserialize, Debug)]
 struct GetPrfsProofInstancesRequest {
     page: u32,
+    limit: Option<u32>,
     proof_instance_id: Option<String>,
 }
 
@@ -45,7 +46,7 @@ pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Bod
             return Ok(resp.into_hyper_response());
         }
         None => {
-            let prfs_proof_instances = db_apis::get_prfs_proof_instances(pool).await;
+            let prfs_proof_instances = db_apis::get_prfs_proof_instances(pool, req.limit).await;
             let resp = ApiResponse::new_success(GetPrfsProofInstancesRespPayload {
                 page: req.page,
                 prfs_proof_instances,
