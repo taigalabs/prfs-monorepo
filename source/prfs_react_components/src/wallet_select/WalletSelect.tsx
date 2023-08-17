@@ -4,8 +4,6 @@ import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 import styles from "./WalletSelect.module.scss";
 import MetamaskSvg from "@/assets/svg/MetaMask_Fox.svg";
-import { i18nContext } from "@/contexts/i18n";
-import { GetAddressMsg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 
 const walletType = {
   metamask: {
@@ -13,13 +11,19 @@ const walletType = {
   },
 };
 
+const i18n = {
+  wallet_address: "Wallet address",
+  connect: "Connect",
+};
+
 const WalletSelect: React.FC<WalletSelectProps> = ({
   selectedWallet,
   handleSelectWallet,
   walletAddr,
   handleChangeWalletAddr,
+  handleClickConnectWallet,
 }) => {
-  const i18n = React.useContext(i18nContext);
+  // const i18n = React.useContext(i18nContext);
 
   const selectElem = React.useMemo(() => {
     return (
@@ -41,11 +45,11 @@ const WalletSelect: React.FC<WalletSelectProps> = ({
     );
   }, [selectedWallet, handleSelectWallet]);
 
-  const handleClickConnectWallet = React.useCallback(async () => {
-    const addr = await sendMsgToParent(new GetAddressMsg(""));
+  // const handleClickConnectWallet = React.useCallback(async () => {
+  //   const addr = await sendMsgToParent(new GetAddressMsg(""));
 
-    handleChangeWalletAddr(addr);
-  }, [handleChangeWalletAddr]);
+  //   handleChangeWalletAddr(addr);
+  // }, [handleChangeWalletAddr]);
 
   return (
     <div className={styles.wrapper}>
@@ -65,6 +69,7 @@ export interface WalletSelectProps {
   handleSelectWallet: React.ChangeEventHandler<HTMLSelectElement>;
   walletAddr: string;
   handleChangeWalletAddr: React.Dispatch<React.SetStateAction<any>>;
+  handleClickConnectWallet: () => Promise<void>;
 }
 
 export interface WalletTypeValue {

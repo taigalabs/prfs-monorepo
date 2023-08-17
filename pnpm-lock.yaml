@@ -344,6 +344,9 @@ importers:
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
+      next:
+        specifier: 13.4.13
+        version: 13.4.13(react-dom@18.2.0)(react@18.2.0)(sass@1.63.6)
       react:
         specifier: 18.2.0
         version: 18.2.0
