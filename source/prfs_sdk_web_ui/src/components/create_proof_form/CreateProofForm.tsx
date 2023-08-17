@@ -21,13 +21,13 @@ import { useInterval } from "@/functions/interval";
 import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
 import SigDataInput from "@/components/sig_data_input/SigDataInput";
 import { createProof } from "@/functions/proof";
-import Terminal from "@/components/terminal/Terminal";
+import CreateProofProgress from "@/components/create_proof_progress/CreateProofProgress";
 
 const ASSET_SERVER_ENDPOINT = process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
 enum CreateProofPage {
   INPUT,
-  TERMINAL,
+  PROGRESS,
 }
 
 const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight }) => {
@@ -82,7 +82,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
             return [...oldVal, elem];
           });
 
-          setCreateProofPage(CreateProofPage.TERMINAL);
+          setCreateProofPage(CreateProofPage.PROGRESS);
 
           // setTimeout(async () => {
           //   const proof = await createProof(
@@ -191,55 +191,44 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
   }
 
   return (
-    <div className={styles.wrapper}>
-      {/* <div */}
-      {/*   className={styles.inputPage} */}
-      {/*   // style={{ visibility: createProofPage === CreateProofPage.TERMINAL ? "hidden" : "visible" }} */}
-      {/* > */}
-      {/*   <div className={styles.form} style={{ height: docHeight }}> */}
-      {/*     <div className={styles.inputContainer}> */}
-      {/*       <WalletSelect */}
-      {/*         selectedWallet={selectedWalletType} */}
-      {/*         handleSelectWallet={handleSelectWalletType} */}
-      {/*         walletAddr={walletAddr} */}
-      {/*         handleChangeWalletAddr={setWalletAddr} */}
-      {/*         handleClickConnectWallet={handleClickConnectWallet} */}
-      {/*       /> */}
-      {/*     </div> */}
-      {/*     {circuitInputsElem} */}
-      {/*   </div> */}
-      {/*   <div className={styles.footer}> */}
-      {/*     <div className={styles.systemMsg}> */}
-      {/*       <div>{systemMsg}</div> */}
-      {/*     </div> */}
-      {/*     <div className={styles.sdkMeta}> */}
-      {/*       {i18n.prfs_web_sdk} {process.env.NEXT_PUBLIC_VERSION} */}
-      {/*     </div> */}
-      {/*   </div> */}
-      {/* </div> */}
-
-      {createProofPage === CreateProofPage.TERMINAL && (
-        <Fade>
-          <div className={styles.terminalPage}>
-            <Terminal>{terminalLog}</Terminal>
+    <div className={styles.wrapper} style={{ height: docHeight }}>
+      <div
+        className={styles.inputPage}
+        style={{ opacity: createProofPage === CreateProofPage.INPUT ? 1 : 0 }}
+      >
+        <div className={styles.form} style={{ height: docHeight }}>
+          <div className={styles.inputContainer}>
+            <WalletSelect
+              selectedWallet={selectedWalletType}
+              handleSelectWallet={handleSelectWalletType}
+              walletAddr={walletAddr}
+              handleChangeWalletAddr={setWalletAddr}
+              handleClickConnectWallet={handleClickConnectWallet}
+            />
           </div>
-        </Fade>
+          {circuitInputsElem}
+        </div>
+      </div>
+
+      {createProofPage === CreateProofPage.PROGRESS && (
+        <div className={styles.terminalPage}>
+          <Fade>
+            <CreateProofProgress terminalLog={terminalLog} />
+          </Fade>
+        </div>
       )}
+
+      <div className={styles.footer}>
+        <div className={styles.systemMsg}>
+          <div>{systemMsg}</div>
+        </div>
+        <div className={styles.sdkMeta}>
+          {i18n.prfs_web_sdk} {process.env.NEXT_PUBLIC_VERSION}
+        </div>
+      </div>
     </div>
   );
 };
-{
-  /* <Fade> */
-}
-{
-  /*   <div className={styles.terminalPage}> */
-}
-{
-  /*   </div> */
-}
-{
-  /* </Fade> */
-}
 
 export default CreateProofForm;
 

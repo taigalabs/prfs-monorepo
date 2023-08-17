@@ -8,7 +8,7 @@ const Fade: React.FC<FadeProps> = ({ children }) => {
   React.useEffect(() => {
     setTimeout(() => {
       setOpacity(1);
-    }, 0);
+    }, 50);
   }, [setOpacity]);
 
   return (
