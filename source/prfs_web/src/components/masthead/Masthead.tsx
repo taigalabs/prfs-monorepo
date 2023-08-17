@@ -104,17 +104,17 @@ const Masthead: React.FC<any> = () => {
         <li>
           <Link href="/">{i18n.home}</Link>
         </li>
+        <li className={styles.inactive}>{i18n.learn}</li>
+      </ul>
+      <div className={styles.rightMenu}>
+        <li className={styles.inactive}>{i18n.sdk_api}</li>
         <li className={styles.inactive}>{i18n.vote}</li>
         <li className={styles.inactive}>{i18n.enrollment}</li>
         <li className={styles.inactive}>
           <p>{i18n.talk}</p>
           <div className={styles.newTag}>{i18n.new}</div>
         </li>
-      </ul>
-      <div className={styles.rightMenu}>
         <li className={styles.inactive}>{i18n.dashboard}</li>
-        <li className={styles.inactive}>{i18n.docs}</li>
-        <li className={styles.inactive}>{i18n.sdk_api}</li>
         {prfsAccount ? <AccountStat account={prfsAccount} /> : <ConnectButton />}
       </div>
     </div>
