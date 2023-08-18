@@ -1,10 +1,9 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
 
+import styles from "./ProofAppPage.module.scss";
 import { stateContext } from "@/contexts/state";
-import styles from "./Home.module.scss";
 import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
@@ -20,15 +19,27 @@ import ProjectMeta from "@/components/project_meta/ProjectMeta";
 const Home: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const { dispatch } = React.useContext(stateContext);
-  const router = useRouter();
 
-  React.useEffect(() => {
-    if (process.env.NEXT_PUBLIC_IS_TEASER !== "yes") {
-      router.push("/proof");
-    }
-  }, [router]);
+  useLocalWallet(dispatch);
 
-  return process.env.NEXT_PUBLIC_IS_TEASER === "yes" ? <Teaser /> : <div></div>;
+  return (
+    <DefaultLayout>
+      <div className={styles.container}>
+        <div className={styles.leftColumn}></div>
+        <div className={styles.rightColumn}>
+          <div className={styles.sectionWrapper}>
+            <ExploreTechSection />
+          </div>
+          <div className={styles.sectionWrapper}>
+            <LatestPrfsUpdateSection />
+          </div>
+          <div className={styles.sectionWrapper}>
+            <ProjectMeta />
+          </div>
+        </div>
+      </div>
+    </DefaultLayout>
+  );
 };
 
 export default Home;
