@@ -50,7 +50,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   // const handleClickCreateProofType = React.useCallback(() => {
   //   router.push("/proofs?create");
   // }, [router]);
-  //
+
   console.log(111, proofInstance);
 
   return (

@@ -37,7 +37,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   const i18n = React.useContext(i18nContext);
   const { state } = React.useContext(stateContext);
   const { prfsAccount } = state;
-  // const router = useRouter();
+  const router = useRouter();
   const signer = useSigner();
 
   const [publicInputInstance, setPublicInputInstance] = React.useState<
@@ -72,7 +72,6 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
         });
 
         await proofGenElement.mount("#prfs-sdk-container");
-        console.log("sdk is loaded");
 
         setProofGenElement(proofGenElement);
       }
@@ -102,20 +101,26 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     const proveReceipt = await proofGenElement.createProof();
 
     if (proveReceipt) {
-      console.log("try inserting proof", proveReceipt);
-
-      const { proveResult } = proveReceipt;
+      const { duration, proveResult } = proveReceipt;
       const { proof, publicInputSer } = proveResult;
       const public_inputs = JSON.parse(publicInputSer);
 
-      console.log(11, proof, publicInputSer);
+      console.log("took %s ms to create a proof", duration);
 
+      const proof_instance_id = `${prfsAccount.id}_${selectedProofType.proof_type_id.substring(
+        -6
+      )}_${Date.now()}`;
+
+      console.log("try inserting proof", proveReceipt);
       await prfsApi.createPrfsProofInstance({
+        proof_instance_id,
         sig: prfsAccount.sig,
         proof_type_id: selectedProofType.proof_type_id,
         proof: Array.from(proof),
         public_inputs,
       });
+
+      router.push("/proofs");
     }
   }, [publicInputInstance, selectedProofType, setFormAlert, state.prfsAccount, proofGenElement]);
 

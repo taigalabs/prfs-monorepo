@@ -58,6 +58,7 @@ pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Bod
 
 #[derive(Serialize, Deserialize, Debug)]
 struct CreatePrfsProofInstanceRequest {
+    proof_instance_id: String,
     sig: String,
     proof_type_id: String,
     proof: Vec<u8>,
@@ -84,7 +85,7 @@ pub async fn create_prfs_proof_instance(req: Request<Body>) -> Result<Response<B
     // println!("req: {:?}", req);
 
     let prfs_proof_instance = PrfsProofInstance {
-        proof_instance_id: chrono::offset::Utc::now().to_string(),
+        proof_instance_id: req.proof_instance_id,
         proof_type_id: req.proof_type_id.to_string(),
         sig: req.sig.to_string(),
         proof: req.proof.to_vec(),

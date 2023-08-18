@@ -4,6 +4,7 @@ import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
 
 export interface CreatePrfsProofInstanceRequest {
+  proof_instance_id: string;
   sig: string;
   proof_type_id: string;
   proof: number[];
