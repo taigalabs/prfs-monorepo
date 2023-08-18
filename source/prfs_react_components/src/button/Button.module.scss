@@ -69,8 +69,8 @@
   align-items: center;
 
   svg {
-    font-size: 20px;
-    margin-right: 3px;
+    margin-right: 0.25em;
+    font-size: 1.2em;
   }
 
   &:hover {
@@ -80,21 +80,20 @@
   }
 }
 
-.transparent_c {
+.transparent_d {
   border-radius: 3px;
-  color: var(--aqua-blue-50);
+  color: var(--gray-20);
   font-weight: 500;
   padding: 10px 12px;
   display: flex;
   align-items: center;
 
   svg {
-    font-size: 20px;
-    margin-right: 3px;
+    margin-right: 0.25em;
+    font-size: 1.2em;
   }
 
   &:hover {
-    color: var(--aqua-blue-40);
     background-color: var(--bright-gray-40);
     cursor: pointer;
   }

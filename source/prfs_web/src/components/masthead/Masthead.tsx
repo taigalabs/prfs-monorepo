@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { useFloating, useClick, useInteractions, useDismiss } from "@floating-ui/react";
 import classNames from "classnames";
 import { BsWallet2 } from "react-icons/bs";
-import { PiDotsNineBold } from "react-icons/pi";
+import IconButton from "@taigalabs/prfs-react-components/src/icon_button/IconButton";
+import { BsTools } from "react-icons/bs";
 
 import styles from "./Masthead.module.scss";
 import localStore from "@/storage/localStore";
@@ -109,14 +110,17 @@ const Masthead: React.FC<any> = () => {
         <li className={styles.inactive}>{i18n.learn}</li>
       </ul>
       <div className={styles.rightMenu}>
-        <li className={styles.inactive}>{i18n.sdk_api}</li>
-        <li className={styles.inactive}>{i18n.vote}</li>
-        <li className={styles.inactive}>{i18n.enrollment}</li>
+        <li className={styles.inactive}>
+          <Button variant="transparent_d">
+            <BsTools />
+            {i18n.sdk_api}
+          </Button>
+        </li>
+        {/* <li className={styles.inactive}>{i18n.vote}</li> */}
+        {/* <li className={styles.inactive}>{i18n.enrollment}</li> */}
         {/* <li className={styles.inactive}>{i18n.dashboard}</li> */}
         <li>
-          <Button variant="transparent_d">
-            <PiDotsNineBold />
-          </Button>
+          <IconButton variant="dots" />
         </li>
         {/* <li className={styles.inactive}> */}
         {/*   <p>{i18n.talk}</p> */}
