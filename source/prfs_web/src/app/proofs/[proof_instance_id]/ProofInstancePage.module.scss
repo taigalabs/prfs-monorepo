@@ -18,13 +18,18 @@
 
 .topRow {
   display: flex;
+  padding: 40px;
+
+  > div:not(:first-child) {
+    margin-left: 20px;
+  }
 }
 
 .proofInstanceDetailTableContainer {
-  width: 680px;
-  padding: 40px;
+  width: 620px;
+  /* padding: 40px; */
 }
 
 .proofInstanceQRCodeContainer {
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
 }
