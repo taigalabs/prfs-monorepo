@@ -33,12 +33,18 @@
   align-items: center;
 }
 
+.popoverWrapper {
+  border-radius: 10px;
+}
+
 .modal {
-  background-color: var(--white-100);
+  border-radius: 10px;
   padding: 12px 13px;
-  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  box-shadow: 2px 2px 4px #0006, inset 0 1px #414750;
-  width: 180px;
+  width: 210px;
+  background-color: var(--white-100);
+
+  ul {
+  }
 
   li:hover {
     cursor: pointer;
@@ -53,4 +59,12 @@
   svg {
     margin-right: 3px;
   }
+}
+
+.id {
+}
+
+.value {
+  overflow: hidden;
+  word-wrap: break-word;
 }

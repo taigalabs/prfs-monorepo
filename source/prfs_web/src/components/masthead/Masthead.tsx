@@ -1,8 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import { IoMdArrowDropup, IoMdArrowDropdown } from "react-icons/io";
-import { useRouter } from "next/navigation";
-import { useFloating, useClick, useInteractions, useDismiss } from "@floating-ui/react";
 import classNames from "classnames";
 import { BsWallet2 } from "react-icons/bs";
 import IconButton from "@taigalabs/prfs-react-components/src/icon_button/IconButton";
