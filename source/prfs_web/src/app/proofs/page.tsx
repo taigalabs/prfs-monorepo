@@ -4,6 +4,7 @@ import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
+import { HiMiniDocumentPlus } from "react-icons/hi2";
 
 import styles from "./Proofs.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -48,8 +49,9 @@ const Proofs: React.FC = () => {
                 <div className={styles.proofInstanceWidgetHeader}>
                   <WidgetLabel>{i18n.proof_instances}</WidgetLabel>
                   <div className={styles.btnArea}>
-                    <Button variant="c" handleClick={handleClickCreateProofType}>
-                      {i18n.create_proof_instance}
+                    <Button variant="transparent_c" handleClick={handleClickCreateProofType}>
+                      <HiMiniDocumentPlus />
+                      {i18n.create_proof_instance.toUpperCase()}
                     </Button>
                   </div>
                 </div>

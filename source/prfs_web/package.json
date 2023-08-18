@@ -23,6 +23,7 @@
     "@thirdweb-dev/react": "^3.14.13",
     "@thirdweb-dev/sdk": "^3.10.33",
     "classnames": "^2.3.2",
+    "dayjs": "^1.11.9",
     "elliptic": "^6.5.4",
     "ethers": "^5",
     "ffjavascript": "^0.2.59",

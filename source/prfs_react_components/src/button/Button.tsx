@@ -11,6 +11,8 @@ const Button: React.FC<ButtonProps> = ({ children, className, handleClick, varia
         [styles.b]: variant === "b",
         [styles.c]: variant === "c",
         [styles.transparent_a]: variant === "transparent_a",
+        [styles.transparent_c]: variant === "transparent_c",
+        [styles.transparent_d]: variant === "transparent_d",
         [styles.text_c]: variant === "text_c",
         [className || ""]: true,
       })}
@@ -25,7 +27,7 @@ const Button: React.FC<ButtonProps> = ({ children, className, handleClick, varia
 export default Button;
 
 export interface ButtonProps {
-  variant: "a" | "b" | "c" | "transparent_a" | "text_c";
+  variant: "a" | "b" | "c" | "transparent_a" | "text_c" | "transparent_c" | "transparent_d";
   className?: string;
   children: React.ReactNode;
   disabled?: boolean;

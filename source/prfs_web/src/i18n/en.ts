@@ -56,7 +56,7 @@ export default {
   select_set: "Select a set",
   select_proof_type: "Select a proof type",
   configuration: "Configuration",
-  create_proof_type: "Create a proof type",
+  create_proof_type: "Create proof type",
   create_proof_instance_subtitle:
     "Proofs allow you to make an undeniable, anonymous claim about anything from the source of truth.",
   create_proof_type_subtitle:
@@ -73,7 +73,7 @@ export default {
   proof_instances: "Proof instances",
   create_proof: "Create proof",
   proof_dashboard: "Proof dashboard",
-  create_proof_instance: "Create a proof instance",
+  create_proof_instance: "Create proof instance",
   home: "Home",
   proof_wizard: "Proof wizard",
   proof_wizard_sublabel: "Which proof can I create?",

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useFloating, useClick, useInteractions, useDismiss } from "@floating-ui/react";
 import classNames from "classnames";
 import { BsWallet2 } from "react-icons/bs";
+import { PiDotsNineBold } from "react-icons/pi";
 
 import styles from "./Masthead.module.scss";
 import localStore from "@/storage/localStore";
@@ -12,6 +13,7 @@ import { i18nContext } from "@/contexts/i18n";
 import Logo from "@/components/logo/Logo";
 import { stateContext } from "@/contexts/state";
 import { PrfsAccount } from "@/state/reducer";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 const AccountStat: React.FC<AccountStatProps> = ({ account }) => {
   const i18n = React.useContext(i18nContext);
@@ -110,11 +112,16 @@ const Masthead: React.FC<any> = () => {
         <li className={styles.inactive}>{i18n.sdk_api}</li>
         <li className={styles.inactive}>{i18n.vote}</li>
         <li className={styles.inactive}>{i18n.enrollment}</li>
+        {/* <li className={styles.inactive}>{i18n.dashboard}</li> */}
+        <li>
+          <Button variant="transparent_d">
+            <PiDotsNineBold />
+          </Button>
+        </li>
         {/* <li className={styles.inactive}> */}
         {/*   <p>{i18n.talk}</p> */}
         {/*   <div className={styles.newTag}>{i18n.new}</div> */}
         {/* </li> */}
-        <li className={styles.inactive}>{i18n.dashboard}</li>
         {prfsAccount ? <AccountStat account={prfsAccount} /> : <ConnectButton />}
       </div>
     </div>
