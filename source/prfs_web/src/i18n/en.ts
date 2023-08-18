@@ -43,6 +43,7 @@ export default {
   circuit: "Circuit",
   circuit_summary_label: "Circuit summary for",
   proof_instance: "Proof instance",
+  proof_instance_detail: "Proof instance detail",
   circuits: "Circuits",
   circuit_id: "Circuit id",
   driver_id: "Driver id",

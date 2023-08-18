@@ -34,7 +34,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
 
   useLocalWallet(dispatch);
 
-  const topWidgetLabel = `${i18n.circuit_summary_label} ${params.proof_instance_id}`;
+  const topWidgetLabel = `${i18n.proof_instance_detail} ${params.proof_instance_id}`;
 
   const [proofInstance, setProofInstance] = React.useState<PrfsProofInstance>();
   React.useEffect(() => {
