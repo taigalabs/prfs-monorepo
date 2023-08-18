@@ -45,7 +45,7 @@ const Proofs: React.FC = () => {
           <Card>
             <Widget>
               <TopWidgetTitle>
-                <div className={styles.proofTypesHeader}>
+                <div className={styles.header}>
                   <WidgetLabel>{i18n.proof_types}</WidgetLabel>
                   <div className={styles.btnArea}>
                     <Button variant="c" handleClick={handleClickCreateProofType}>

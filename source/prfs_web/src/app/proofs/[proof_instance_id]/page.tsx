@@ -21,13 +21,8 @@ import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
-import ProofInstanceTable from "@/components/proof_instance_table/ProofInstanceTable";
-import CreateProofInstanceForm from "@/components/create_proof_instance_form/CreateProofInstanceForm";
-import { PaddedTableWrapper } from "@/components/table/Table";
 import { PrfsProofInstance } from "@taigalabs/prfs-entities/bindings/PrfsProofInstance";
 import ProofInstanceDetailTable from "@/components/proof_instance_detail_table/ProofInstanceDetailTable";
-import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
-import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
 import ProofInstanceQRCode from "@/components/proof_instance_qrcode/ProofInstanceQRCode";
 
 const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
