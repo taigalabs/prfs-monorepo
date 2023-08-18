@@ -69,8 +69,9 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
             <TopWidgetTitle>
               <div className={styles.header}>
                 <div className={styles.navigation}>
-                  <ArrowButton variant="left" />
-                  <Link href="/proofs">{i18n.proofs}</Link>
+                  <Link href="/proofs">
+                    <ArrowButton variant="left" />
+                  </Link>
                 </div>
                 <WidgetLabel>{topWidgetLabel}</WidgetLabel>
               </div>

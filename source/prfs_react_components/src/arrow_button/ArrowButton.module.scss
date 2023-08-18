@@ -9,7 +9,11 @@
   font-size: 24px;
   cursor: pointer;
 
+  svg {
+    color: var(--aqua-blue-50);
+  }
+
   &:hover {
-    background-color: #f7f7f7;
+    background-color: var(--bright-gray-50);
   }
 }
