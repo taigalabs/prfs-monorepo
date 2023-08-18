@@ -7,6 +7,7 @@ import classNames from "classnames";
 import { BsWallet2 } from "react-icons/bs";
 import IconButton from "@taigalabs/prfs-react-components/src/icon_button/IconButton";
 import { BsTools } from "react-icons/bs";
+import { IoIosSchool } from "react-icons/io";
 
 import styles from "./Masthead.module.scss";
 import localStore from "@/storage/localStore";
@@ -15,6 +16,7 @@ import Logo from "@/components/logo/Logo";
 import { stateContext } from "@/contexts/state";
 import { PrfsAccount } from "@/state/reducer";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import PrfsAppsPopover from "./PrfsAppsPopover";
 
 const AccountStat: React.FC<AccountStatProps> = ({ account }) => {
   const i18n = React.useContext(i18nContext);
@@ -107,20 +109,26 @@ const Masthead: React.FC<any> = () => {
         <li>
           <Link href="/">{i18n.home}</Link>
         </li>
-        <li className={styles.inactive}>{i18n.learn}</li>
       </ul>
       <div className={styles.rightMenu}>
-        <li className={styles.inactive}>
+        <li>
+          <Button variant="transparent_d">
+            <IoIosSchool />
+            {i18n.learn.toUpperCase()}
+          </Button>
+        </li>
+        <li>
           <Button variant="transparent_d">
             <BsTools />
-            {i18n.sdk_api}
+            {i18n.sdk_api.toUpperCase()}
           </Button>
         </li>
         {/* <li className={styles.inactive}>{i18n.vote}</li> */}
         {/* <li className={styles.inactive}>{i18n.enrollment}</li> */}
         {/* <li className={styles.inactive}>{i18n.dashboard}</li> */}
         <li>
-          <IconButton variant="dots" />
+          <PrfsAppsPopover />
+          {/* <IconButton variant="dots" /> */}
         </li>
         {/* <li className={styles.inactive}> */}
         {/*   <p>{i18n.talk}</p> */}

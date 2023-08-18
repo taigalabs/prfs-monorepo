@@ -1,5 +1,4 @@
 import React from "react";
-import { IoMdArrowDropup, IoMdArrowDropdown } from "react-icons/io";
 import {
   offset,
   useFloating,
