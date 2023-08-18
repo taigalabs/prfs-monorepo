@@ -2,12 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-// import { MsgType, PrfsSDK, sendMsgToChild } from "@taigalabs/prfs-sdk-web";
-// import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 // import * as prfsApi from "@taigalabs/prfs-api-js";
-// import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-// import Button from "@taigalabs/prfs-react-components/src/button/Button";
-// import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 
 import styles from "./ProofInstanceDetailTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -53,7 +48,7 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
     );
   }, [data]);
 
-  return <Table minWidth={880}>{rowsElem}</Table>;
+  return <Table>{rowsElem}</Table>;
 };
 
 export default ProofInstanceDetailTable;

@@ -37,7 +37,7 @@ export function TableRow({ isSelected, children, onClickRow }: TableRowProps) {
   );
 }
 
-function Table({ minWidth, children }: TableProps) {
+function Table({ children }: TableProps) {
   return (
     <div className={styles.tableWrapper}>
       <table
@@ -58,7 +58,7 @@ export default Table;
 
 export interface TableProps {
   children: React.ReactNode;
-  minWidth: number;
+  // minWidth: number;
 }
 
 export type TableData<T> = {

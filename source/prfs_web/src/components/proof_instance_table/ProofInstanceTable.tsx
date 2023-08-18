@@ -24,6 +24,7 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
     return prfsApi
       .getPrfsProofInstances({
         page,
+        limit: 20,
       })
       .then(resp => {
         const { page, prfs_proof_instances } = resp.payload;
@@ -87,7 +88,7 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
   }, [data]);
 
   return (
-    <Table minWidth={880}>
+    <Table>
       <TableHeader>
         <TableRow>
           {handleSelectVal && <th className={styles.radio}></th>}

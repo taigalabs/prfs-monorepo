@@ -26,6 +26,7 @@ import { PrfsProofInstance } from "@taigalabs/prfs-entities/bindings/PrfsProofIn
 import ProofInstanceDetailTable from "@/components/proof_instance_detail_table/ProofInstanceDetailTable";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
+import ProofInstanceQRCode from "@/components/proof_instance_qrcode/ProofInstanceQRCode";
 
 const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   let i18n = React.useContext(i18nContext);
@@ -76,8 +77,13 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
                 <WidgetLabel>{topWidgetLabel}</WidgetLabel>
               </div>
             </TopWidgetTitle>
-            <div className={styles.proofInstanceDetailTableContainer}>
-              {proofInstance && <ProofInstanceDetailTable proofInstance={proofInstance} />}
+            <div className={styles.topRow}>
+              <div className={styles.proofInstanceDetailTableContainer}>
+                {proofInstance && <ProofInstanceDetailTable proofInstance={proofInstance} />}
+              </div>
+              <div className={styles.proofInstanceQRCodeContainer}>
+                {proofInstance && <ProofInstanceQRCode proofInstance={proofInstance} />}
+              </div>
             </div>
           </Widget>
         </Card>

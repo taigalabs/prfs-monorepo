@@ -16,7 +16,15 @@
   border-bottom: 1px solid var(--bright-gray-31);
 }
 
+.topRow {
+  display: flex;
+}
+
 .proofInstanceDetailTableContainer {
-  max-width: 880px;
+  width: 680px;
   padding: 40px;
+}
+
+.proofInstanceQRCodeContainer {
+  border: 1px solid blue;
 }
