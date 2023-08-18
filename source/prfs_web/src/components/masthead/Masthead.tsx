@@ -105,11 +105,7 @@ const Masthead: React.FC<any> = () => {
         </div>
         <div className={styles.betaTag}>Beta</div>
       </div>
-      <ul className={styles.mainMenu}>
-        <li>
-          <Link href="/">{i18n.home}</Link>
-        </li>
-      </ul>
+      <ul className={styles.mainMenu}></ul>
       <div className={styles.rightMenu}>
         <li>
           <Button variant="transparent_d">
