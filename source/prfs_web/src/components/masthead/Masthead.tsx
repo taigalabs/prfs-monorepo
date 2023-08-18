@@ -45,13 +45,13 @@ const Masthead: React.FC<any> = () => {
       </div>
       <ul className={styles.mainMenu}></ul>
       <div className={styles.rightMenu}>
-        <li>
+        <li className={styles.inactive}>
           <Button variant="transparent_d">
             <IoIosSchool />
             {i18n.learn.toUpperCase()}
           </Button>
         </li>
-        <li>
+        <li className={styles.inactive}>
           <Button variant="transparent_d">
             <FaTools />
             {i18n.sdk_api.toUpperCase()}

@@ -4,13 +4,15 @@
 
 .popoverWrapper {
   border-radius: 38px;
+  background-color: var(--bright-aqua-blue-80);
 }
 
 .modal {
   border-radius: 38px;
-  background-color: var(--bright-gray-50);
-  padding: 12px 12px;
-  width: 330px;
+  background-color: var(--white-100);
+  margin: 12px 12px;
+  padding: 8px 0;
+  width: 310px;
 
   > li {
     display: inline-block;

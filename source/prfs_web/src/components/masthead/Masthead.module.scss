@@ -108,7 +108,9 @@
 }
 
 .inactive {
-  color: var(--gray-70);
+  button {
+    color: var(--gray-70);
+  }
 }
 
 .betaTag {
