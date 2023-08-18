@@ -16,6 +16,7 @@ import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import ProofInstanceTable from "@/components/proof_instance_table/ProofInstanceTable";
 import CreateProofInstanceForm from "@/components/create_proof_instance_form/CreateProofInstanceForm";
+import { paths } from "@/routes/path";
 
 const Proofs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -34,7 +35,7 @@ const Proofs: React.FC = () => {
   }, [searchParams]);
 
   const handleClickCreateProofType = React.useCallback(() => {
-    router.push("/proofs?create");
+    router.push(`${paths.proof__proof_instances}?create`);
   }, [router]);
 
   return (

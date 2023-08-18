@@ -14,6 +14,7 @@ import Table, {
 
 import styles from "./ProofTypeTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
+import { paths } from "@/routes/path";
 
 const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -53,7 +54,9 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
       let row = (
         <TableRow key={val.proof_type_id}>
           <td className={styles.proofTypeId}>
-            <Link href={`/proof_types/${val.proof_type_id}`}>{val.proof_type_id}</Link>
+            <Link href={`${paths.proof__proof_types}/${val.proof_type_id}`}>
+              {val.proof_type_id}
+            </Link>
           </td>
           <td className={styles.label}>{val.label}</td>
           <td className={styles.desc}>{val.desc}</td>

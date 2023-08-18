@@ -17,6 +17,7 @@ import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import ProofTypeTable from "@/components/proof_type_table/ProofTypeTable";
 import CreateProofTypeForm from "@/components/create_proof_type_form/CreateProofTypeForm";
+import { paths } from "@/routes/path";
 
 const Proofs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -35,7 +36,7 @@ const Proofs: React.FC = () => {
   useLocalWallet(dispatch);
 
   const handleClickCreateProofType = React.useCallback(() => {
-    router.push("/proof_types?create");
+    router.push(`${paths.proof__proof_types}?create`);
   }, [router]);
 
   return (

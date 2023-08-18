@@ -17,6 +17,7 @@ import { i18nContext } from "@/contexts/i18n";
 import { useConnect, useSigner } from "@thirdweb-dev/react";
 import { useWallet } from "@thirdweb-dev/react";
 import { PrfsProofInstance } from "@taigalabs/prfs-entities/bindings/PrfsProofInstance";
+import { paths } from "@/routes/path";
 
 const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
   selectType,
@@ -76,10 +77,14 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
             </td>
           )}
           <td className={styles.proof_instance_id}>
-            <Link href={`/proofs/${val.proof_instance_id}`}>{val.proof_instance_id}</Link>
+            <Link href={`${paths.proof__proof_instances}/${val.proof_instance_id}`}>
+              {val.proof_instance_id}
+            </Link>
           </td>
           <td className={styles.proof_type_id}>
-            <Link href={`/proof_types/${val.proof_type_id}`}>{val.proof_type_id}</Link>
+            <Link href={`${paths.proof__proof_types}/${val.proof_type_id}`}>
+              {val.proof_type_id}
+            </Link>
           </td>
           <td className={styles.author}>{shortSig}</td>
           <td className={styles.public_inputs}>{shortPublicInputs}</td>
