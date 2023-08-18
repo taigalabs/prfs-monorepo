@@ -5,6 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import Link from "next/link";
+import { AiOutlineArrowLeft } from "react-icons/ai";
+import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 
 import styles from "./ProofInstancePage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -35,7 +37,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
 
   useLocalWallet(dispatch);
 
-  const topWidgetLabel = `${i18n.proof_instance_detail} ${params.proof_instance_id}`;
+  const topWidgetLabel = `${i18n.proof_instance} ${params.proof_instance_id}`;
 
   const [proofInstance, setProofInstance] = React.useState<PrfsProofInstance>();
   React.useEffect(() => {
@@ -66,13 +68,9 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
           <Widget>
             <TopWidgetTitle>
               <div className={styles.header}>
-                <div className={styles.breadcrumbContainer}>
-                  <Breadcrumb>
-                    <BreadcrumbEntry>
-                      <Link href="/proofs">{i18n.proofs}</Link>
-                    </BreadcrumbEntry>
-                    <BreadcrumbEntry>{params.proof_instance_id}</BreadcrumbEntry>
-                  </Breadcrumb>
+                <div className={styles.navigation}>
+                  <ArrowButton variant="left" />
+                  <Link href="/proofs">{i18n.proofs}</Link>
                 </div>
                 <WidgetLabel>{topWidgetLabel}</WidgetLabel>
               </div>

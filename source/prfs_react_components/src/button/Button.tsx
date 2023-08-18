@@ -3,13 +3,7 @@ import classnames from "classnames";
 
 import styles from "./Button.module.scss";
 
-const Button: React.FC<Button1Props> = ({
-  children,
-  className,
-  handleClick,
-  variant,
-  disabled,
-}) => {
+const Button: React.FC<ButtonProps> = ({ children, className, handleClick, variant, disabled }) => {
   return (
     <button
       className={classnames({
@@ -30,7 +24,7 @@ const Button: React.FC<Button1Props> = ({
 
 export default Button;
 
-export interface Button1Props {
+export interface ButtonProps {
   variant: "a" | "b" | "c" | "transparent_a" | "text_c";
   className?: string;
   children: React.ReactNode;

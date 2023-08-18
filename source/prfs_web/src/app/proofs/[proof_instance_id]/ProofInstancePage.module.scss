@@ -1,5 +1,27 @@
 .header {
+  display: flex;
+  align-items: center;
   height: 100%;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  line-height: 19px;
+  margin-right: 22px;
+
+  svg {
+    color: var(--gray-30);
+    margin-right: 8px;
+  }
+
+  a {
+    color: var(--aqua-blue-50);
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 .breadcrumbContainer {
