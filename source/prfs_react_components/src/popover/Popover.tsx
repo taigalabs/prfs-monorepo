@@ -1,4 +1,5 @@
 import React from "react";
+import cn from "classnames";
 import {
   offset as offset_fn,
   useFloating,
@@ -10,7 +11,7 @@ import {
 
 import styles from "./Popover.module.scss";
 
-function Popover({ createPopover, createBase, offset }: PopoverProps) {
+function Popover({ createPopover, createBase, offset, popoverClassName }: PopoverProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, floatingStyles, context } = useFloating({
     placement: "bottom-end",
@@ -31,18 +32,13 @@ function Popover({ createPopover, createBase, offset }: PopoverProps) {
   }, [createBase, isOpen]);
 
   return (
-    <div className={styles.dropdownWrapper}>
-      <div
-        className={styles.dropdownBase}
-        ref={refs.setReference}
-        {...getReferenceProps()}
-        role="button"
-      >
+    <div className={styles.wrapper}>
+      <div className={styles.base} ref={refs.setReference} {...getReferenceProps()} role="button">
         {baseElem}
       </div>
       {isOpen && (
         <div
-          className={styles.dropdown}
+          className={cn(styles.popover, popoverClassName, "1")}
           ref={refs.setFloating}
           style={floatingStyles}
           {...getFloatingProps()}
@@ -60,4 +56,5 @@ export interface PopoverProps {
   createBase: (isOpen: boolean) => React.ReactNode;
   offset?: number;
   createPopover: (setIsOpen: React.Dispatch<React.SetStateAction<any>>) => React.ReactNode;
+  popoverClassName?: string;
 }

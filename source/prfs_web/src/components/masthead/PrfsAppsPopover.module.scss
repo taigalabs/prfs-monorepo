@@ -3,6 +3,11 @@
 }
 
 .popoverWrapper {
+  border-radius: 38px;
+}
+
+.modal {
+  border-radius: 38px;
   background-color: var(--white-100);
   padding: 12px 12px;
   width: 330px;
@@ -28,7 +33,7 @@
   }
 
   svg {
-    font-size: 24px;
+    font-size: 30px;
     margin-bottom: 9px;
   }
 }

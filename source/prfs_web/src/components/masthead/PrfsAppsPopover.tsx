@@ -20,29 +20,29 @@ const Modal: React.FC<MerkleProofModalProps> = ({}) => {
   const i18n = React.useContext(i18nContext);
 
   return (
-    <ul className={styles.popoverWrapper}>
+    <ul className={styles.modal}>
       <li>
         <div className={styles.appItem}>
           <TbMathPi />
-          <span>{i18n.proof.toUpperCase()}</span>
+          <span>{i18n.proof}</span>
         </div>
       </li>
       <li className={styles.inactive}>
         <div className={styles.appItem}>
           <MdForest />
-          <span>{i18n.forest.toUpperCase()}</span>
+          <span>{i18n.forest}</span>
         </div>
       </li>
       <li className={styles.inactive}>
         <div className={styles.appItem}>
           <MdOutlineHowToVote />
-          <span>{i18n.vote.toUpperCase()}</span>
+          <span>{i18n.vote}</span>
         </div>
       </li>
       <li className={styles.inactive}>
         <div className={styles.appItem}>
           <MdGroups />
-          <span>{i18n.enrollment.toUpperCase()}</span>
+          <span>{i18n.enrollment}</span>
         </div>
       </li>
     </ul>
@@ -51,8 +51,6 @@ const Modal: React.FC<MerkleProofModalProps> = ({}) => {
 
 const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({}) => {
   const i18n = React.useContext(i18nContext);
-
-  const handleClickCreate = React.useCallback(() => {}, []);
 
   const createBase = React.useCallback((isOpen: boolean) => {
     return (
@@ -76,7 +74,12 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({}) => {
 
   return (
     <div className={styles.wrapper}>
-      <Popover createBase={createBase} createPopover={createPopover} offset={10} />
+      <Popover
+        createBase={createBase}
+        createPopover={createPopover}
+        offset={10}
+        popoverClassName={styles.popoverWrapper}
+      />
     </div>
   );
 };
