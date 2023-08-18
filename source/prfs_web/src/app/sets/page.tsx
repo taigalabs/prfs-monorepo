@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./Sets.module.scss";
 import { stateContext } from "@/contexts/state";
@@ -11,7 +12,6 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import SetTable from "@/components/set_table/SetTable";
-import { PaddedTableWrapper } from "@/components/table/Table";
 
 const Sets: React.FC = () => {
   const i18n = React.useContext(i18nContext);

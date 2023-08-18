@@ -4,9 +4,15 @@ import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { CircuitDriver } from "@taigalabs/prfs-entities/bindings/CircuitDriver";
+import Table, {
+  TableBody,
+  TableHeader,
+  TableData,
+  TableRecordData,
+  TableRow,
+} from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./DriverTable.module.scss";
-import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 
 const DriverTable: React.FC<DriverTableProps> = ({ selectType, selectedVal, handleSelectVal }) => {
@@ -73,7 +79,7 @@ const DriverTable: React.FC<DriverTableProps> = ({ selectType, selectedVal, hand
   }, [data]);
 
   return (
-    <Table minWidth={880}>
+    <Table>
       <TableHeader>
         <TableRow>
           {handleSelectVal && <th className={styles.radio}></th>}

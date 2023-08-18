@@ -5,6 +5,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
+import {
+  PaddedTableWrapper,
+  TableCurrentPageLimitWarning,
+} from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./Set.module.scss";
 import { stateContext } from "@/contexts/state";
@@ -16,7 +20,6 @@ import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import SetElementTable from "@/components/set_element_table/SetElementTable";
-import { PaddedTableWrapper, TableCurrentPageLimitWarning } from "@/components/table/Table";
 import SetSummary from "@/components/set_summary/SetSummary";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
 

@@ -3,9 +3,15 @@
 import React from "react";
 import Link from "next/link";
 import { RawCircuitInputMeta } from "@taigalabs/prfs-entities/bindings/RawCircuitInputMeta";
+import Table, {
+  TableBody,
+  TableHeader,
+  TableRecordData,
+  TableRow,
+  TableData,
+} from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./RawCircuitInputMetaTable.module.scss";
-import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 
 const RawCircuitInputMetaTable: React.FC<RawCircuitInputMetaTableProps> = ({
@@ -43,7 +49,7 @@ const RawCircuitInputMetaTable: React.FC<RawCircuitInputMetaTableProps> = ({
   }, [data]);
 
   return (
-    <Table minWidth={910}>
+    <Table>
       <TableHeader>
         <TableRow>
           <th className={styles.label}>{i18n.label}</th>

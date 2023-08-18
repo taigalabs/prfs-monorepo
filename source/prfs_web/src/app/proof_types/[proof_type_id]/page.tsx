@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./ProofType.module.scss";
 import { stateContext } from "@/contexts/state";
@@ -17,7 +18,6 @@ import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb"
 import { useRouter } from "next/navigation";
 import CircuitInputTable from "@/components/circuit_input_table/CircuitInputTable";
 import ProofTypeSummary from "@/components/proof_type_summary/ProofTypeSummary";
-import { PaddedTableWrapper } from "@/components/table/Table";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {

@@ -4,9 +4,15 @@ import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
+import Table, {
+  TableBody,
+  TableHeader,
+  TableRecordData,
+  TableData,
+  TableRow,
+} from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./ProofInstanceTable.module.scss";
-import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import { useConnect, useSigner } from "@thirdweb-dev/react";
 import { useWallet } from "@thirdweb-dev/react";

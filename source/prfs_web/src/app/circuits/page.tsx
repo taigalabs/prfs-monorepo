@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./Circuits.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -11,7 +12,6 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import CircuitTable from "@/components/circuit_table/CircuitTable";
-import { PaddedTableWrapper } from "@/components/table/Table";
 
 const Circuits: React.FC = () => {
   let i18n = React.useContext(i18nContext);

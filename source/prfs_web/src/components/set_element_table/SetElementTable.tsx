@@ -4,9 +4,15 @@ import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsTreeNode } from "@taigalabs/prfs-entities/bindings/PrfsTreeNode";
+import Table, {
+  TableBody,
+  TableHeader,
+  TableRecordData,
+  TableRow,
+  TableData,
+} from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./SetElementTable.module.scss";
-import Table, { TableBody, TableRow, TableData, TableHeader } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 
 const SetElementTable: React.FC<SetElementTableProps> = ({ setId }) => {
@@ -63,7 +69,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId }) => {
   }, [data]);
 
   return (
-    <Table minWidth={800}>
+    <Table>
       <TableHeader>
         <TableRow>
           <th className={styles.id}>{i18n.id}</th>

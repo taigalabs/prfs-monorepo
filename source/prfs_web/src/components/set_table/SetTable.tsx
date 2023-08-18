@@ -4,9 +4,15 @@ import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
+import Table, {
+  TableBody,
+  TableHeader,
+  TableRecordData,
+  TableRow,
+  TableData,
+} from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./SetTable.module.scss";
-import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 
 const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSelectVal }) => {
@@ -79,7 +85,7 @@ const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSele
   }, [data, handleSelectVal, selectedVal]);
 
   return (
-    <Table minWidth={910}>
+    <Table>
       <TableHeader>
         <TableRow>
           {handleSelectVal && <th className={styles.select}></th>}

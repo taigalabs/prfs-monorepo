@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./ProofTypes.module.scss";
@@ -14,7 +15,6 @@ import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import ProofTypeTable from "@/components/proof_type_table/ProofTypeTable";
 import CreateProofTypeForm from "@/components/create_proof_type_form/CreateProofTypeForm";
-import { PaddedTableWrapper } from "@/components/table/Table";
 
 const Proofs: React.FC = () => {
   let i18n = React.useContext(i18nContext);

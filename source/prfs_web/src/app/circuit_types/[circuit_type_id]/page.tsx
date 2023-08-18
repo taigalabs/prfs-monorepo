@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 import { CircuitType } from "@taigalabs/prfs-entities/bindings/CircuitType";
+import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./CircuitType.module.scss";
 import { stateContext } from "@/contexts/state";
@@ -18,7 +19,6 @@ import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import CircuitTypeSummary from "@/components/circuit_type_summary/CircuitTypeSummary";
 import CircuitInputsMetaTable from "@/components/circuit_inputs_meta_table/CircuitInputsMetaTable";
-import { PaddedTableWrapper } from "@/components/table/Table";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
 
 const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {

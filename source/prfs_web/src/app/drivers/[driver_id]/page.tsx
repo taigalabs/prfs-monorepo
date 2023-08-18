@@ -5,6 +5,7 @@ import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { CircuitDriver } from "@taigalabs/prfs-entities/bindings/CircuitDriver";
 import { useRouter } from "next/navigation";
+import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./Program.module.scss";
 import { stateContext } from "@/contexts/state";
@@ -20,7 +21,6 @@ import DriverPropsMetaTable from "@/components/driver_props_meta_table/DriverPro
 import CircuitTypeList from "@/components/circuit_type_list/CircuitTypeList";
 import { DriverPropertyMeta } from "@taigalabs/prfs-entities/bindings/DriverPropertyMeta";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
-import { PaddedTableWrapper } from "@/components/table/Table";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);

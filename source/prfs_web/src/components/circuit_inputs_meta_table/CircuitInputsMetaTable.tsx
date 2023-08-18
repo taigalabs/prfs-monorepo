@@ -3,15 +3,14 @@ import Link from "next/link";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import { CircuitDriver } from "@taigalabs/prfs-entities/bindings/CircuitDriver";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
-
-import styles from "./CircuitInputsMetaTable.module.scss";
 import Table, {
   TableBody,
   TableRow,
   TableHeader,
-  TableRecordData,
   TableData,
-} from "@/components/table/Table";
+} from "@taigalabs/prfs-react-components/src/table/Table";
+
+import styles from "./CircuitInputsMetaTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 
 const CircuitInputsMetaTable: React.FC<CircuitInputsMetaTableProps> = ({
@@ -49,7 +48,7 @@ const CircuitInputsMetaTable: React.FC<CircuitInputsMetaTableProps> = ({
   }, [data]);
 
   return (
-    <Table minWidth={880}>
+    <Table>
       <TableHeader>
         <TableRow>
           <th className={styles.label}>{i18n.label}</th>

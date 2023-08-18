@@ -2,9 +2,15 @@ import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
+import Table, {
+  TableBody,
+  TableRow,
+  TableHeader,
+  TableData,
+  TableRecordData,
+} from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./CircuitTable.module.scss";
-import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 
 const CircuitTable: React.FC<CircuitTableProps> = ({
@@ -77,7 +83,7 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
   }, [data]);
 
   return (
-    <Table minWidth={880}>
+    <Table>
       <TableHeader>
         <TableRow>
           {handleSelectVal && <th className={styles.radio}></th>}

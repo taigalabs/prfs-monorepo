@@ -4,9 +4,15 @@ import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import Table, {
+  TableBody,
+  TableHeader,
+  TableRecordData,
+  TableRow,
+  TableData,
+} from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./ProofTypeTable.module.scss";
-import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 
 const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
@@ -63,7 +69,7 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
   }, [data]);
 
   return (
-    <Table minWidth={800}>
+    <Table>
       <TableHeader>
         <TableRow>
           <th className={styles.proofTypeId}>{i18n.proof_type_id}</th>

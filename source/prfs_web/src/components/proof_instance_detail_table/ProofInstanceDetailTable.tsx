@@ -2,12 +2,17 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import Table, {
+  TableBody,
+  TableHeader,
+  TableRecordData,
+  TableRow,
+} from "@taigalabs/prfs-react-components/src/table/Table";
 // import * as prfsApi from "@taigalabs/prfs-api-js";
 
 import styles from "./ProofInstanceDetailTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { PrfsProofInstance } from "@taigalabs/prfs-entities/bindings/PrfsProofInstance";
-import Table, { TableBody, TableHeader, TableRecordData, TableRow } from "../table/Table";
 
 const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ proofInstance }) => {
   const i18n = React.useContext(i18nContext);

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import { RawCircuitInputMeta } from "@taigalabs/prfs-entities/bindings/RawCircuitInputMeta";
+import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./Circuit.module.scss";
 import { stateContext } from "@/contexts/state";
@@ -23,7 +24,6 @@ import CircuitInputTable from "@/components/circuit_input_table/CircuitInputTabl
 import CircuitInputMetaTable from "@/components/circuit_input_meta_table/CircuitInputMetaTable";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
-import { PaddedTableWrapper } from "@/components/table/Table";
 
 const Circuit: React.FC<CircuitProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
