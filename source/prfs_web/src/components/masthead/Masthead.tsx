@@ -6,7 +6,7 @@ import { useFloating, useClick, useInteractions, useDismiss } from "@floating-ui
 import classNames from "classnames";
 import { BsWallet2 } from "react-icons/bs";
 import IconButton from "@taigalabs/prfs-react-components/src/icon_button/IconButton";
-import { BsTools } from "react-icons/bs";
+import { FaTools } from "react-icons/fa";
 import { IoIosSchool } from "react-icons/io";
 
 import styles from "./Masthead.module.scss";
@@ -119,7 +119,7 @@ const Masthead: React.FC<any> = () => {
         </li>
         <li>
           <Button variant="transparent_d">
-            <BsTools />
+            <FaTools />
             {i18n.sdk_api.toUpperCase()}
           </Button>
         </li>

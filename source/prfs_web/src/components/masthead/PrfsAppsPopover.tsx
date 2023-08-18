@@ -17,7 +17,16 @@ import IconButton from "@taigalabs/prfs-react-components/src/icon_button/IconBut
 const Modal: React.FC<MerkleProofModalProps> = ({}) => {
   const i18n = React.useContext(i18nContext);
 
-  return <div className={styles.popoverWrapper}>5555</div>;
+  return (
+    <ul className={styles.popoverWrapper}>
+      <li>
+        <div>{i18n.proof.toUpperCase()}</div>
+      </li>
+      <li>{i18n.forest.toUpperCase()}</li>
+      <li>{i18n.vote.toUpperCase()}</li>
+      <li>{i18n.enrollment.toUpperCase()}</li>
+    </ul>
+  );
 };
 
 const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({}) => {

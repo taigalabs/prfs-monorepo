@@ -15,6 +15,14 @@
 }
 
 .popoverWrapper {
+  background-color: var(--white-100);
+  padding: 10px 12px;
+  width: 320px;
+
+  > li {
+    display: inline-block;
+    width: 95px;
+  }
 }
 
 input.addrInput {

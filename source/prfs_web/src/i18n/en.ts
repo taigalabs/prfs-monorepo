@@ -62,6 +62,8 @@ export default {
   create_proof_type_subtitle:
     "In order to create a proof instance, we need a proof type defined. Start by choosing the circuit (program) and the reference values.",
   proofs: "Proofs",
+  forest: "Forest",
+  proof: "Proof",
   vote: "Vote",
   enrollment: "Enrollment",
   talk: "Talk",
