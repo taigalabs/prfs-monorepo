@@ -1,10 +1,9 @@
 import React from "react";
 import Link from "next/link";
+import { ethers } from "ethers";
 import { useRouter } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import { MsgType, PrfsSDK, sendMsgToChild } from "@taigalabs/prfs-sdk-web";
-import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
-import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
+import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
@@ -19,17 +18,7 @@ import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb"
 import { FormTitleRow, FormTitle, FormSubtitle } from "@/components/form/Form";
 import { stateContext } from "@/contexts/state";
 import ProofTypeDropdown from "@/components/proof_type_dropdown/ProofTypeDropdown";
-import CircuitInputConfigSection from "@/components/circuit_input_config_section/CircuitInputConfigSection";
-import { useSigner } from "@thirdweb-dev/react";
-// import { interpolateSystemAssetEndpoint, initDriver } from "@/functions/circuitDriver";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
-import { ProveResult } from "@taigalabs/prfs-driver-interface";
-
-///
-import { hashPersonalMessage } from "@ethereumjs/util";
-import { ethers } from "ethers";
-import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
-import { PaddedTableWrapper } from "../table/Table";
 
 const prfs = new PrfsSDK("test");
 
@@ -38,14 +27,12 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   const { state } = React.useContext(stateContext);
   const { prfsAccount } = state;
   const router = useRouter();
-  const signer = useSigner();
 
   const [publicInputInstance, setPublicInputInstance] = React.useState<
     Record<string, CircuitInput>
   >({});
   const [formAlert, setFormAlert] = React.useState("");
   const [selectedProofType, setSelectedProofType] = React.useState<PrfsProofType | undefined>();
-  const [programProps, setProgramProps] = React.useState();
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
 
   const handleSelectProofType = React.useCallback(
