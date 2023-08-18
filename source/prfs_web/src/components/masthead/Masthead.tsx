@@ -17,68 +17,8 @@ import { stateContext } from "@/contexts/state";
 import { PrfsAccount } from "@/state/reducer";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import PrfsAppsPopover from "./PrfsAppsPopover";
-
-const AccountStat: React.FC<AccountStatProps> = ({ account }) => {
-  const i18n = React.useContext(i18nContext);
-  const { dispatch } = React.useContext(stateContext);
-  const { walletAddr, id } = account;
-  const shortWalletAddr = walletAddr.substring(0, 7);
-  const router = useRouter();
-
-  const [isOpen, setIsOpen] = React.useState(false);
-  const { refs, floatingStyles, context } = useFloating({
-    placement: "bottom-end",
-    open: isOpen,
-    onOpenChange: setIsOpen,
-  });
-  const dismiss = useDismiss(context);
-  const click = useClick(context);
-  const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
-
-  const handleClickSignOut = React.useCallback(() => {
-    dispatch({
-      type: "sign_out",
-    });
-
-    localStore.removePrfsAccount();
-
-    router.push("/");
-  }, []);
-
-  return (
-    <div className={styles.accountStat}>
-      <div
-        className={classNames({
-          [styles.base]: true,
-          [styles.isOpen]: isOpen,
-        })}
-        ref={refs.setReference}
-        {...getReferenceProps()}
-      >
-        <div>
-          <div>{id}</div>
-          <div className={styles.wallet}>
-            <BsWallet2 />
-            {shortWalletAddr}
-          </div>
-        </div>
-        <div className={styles.btnArea}>{isOpen ? <IoMdArrowDropup /> : <IoMdArrowDropdown />}</div>
-      </div>
-      {isOpen && (
-        <div
-          className={styles.dropdown}
-          ref={refs.setFloating}
-          style={floatingStyles}
-          {...getFloatingProps()}
-        >
-          <ul>
-            <li onClick={handleClickSignOut}>{i18n.sign_out}</li>
-          </ul>
-        </div>
-      )}
-    </div>
-  );
-};
+import { paths } from "@/routes/path";
+import AccountPopover from "./AccountPopover";
 
 const ConnectButton = () => {
   const i18n = React.useContext(i18nContext);
@@ -122,7 +62,7 @@ const Masthead: React.FC<any> = () => {
         <li>
           <PrfsAppsPopover />
         </li>
-        {prfsAccount ? <AccountStat account={prfsAccount} /> : <ConnectButton />}
+        {prfsAccount ? <AccountPopover account={prfsAccount} /> : <ConnectButton />}
       </div>
     </div>
   );
