@@ -12,6 +12,7 @@ import Table, {
 
 import styles from "./CircuitTypeTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
+import { paths } from "@/routes/path";
 
 const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({
   selectType,
@@ -67,7 +68,9 @@ const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({
             </td>
           )}
           <td className={styles.circuit_type}>
-            <Link href={`/circuit_types/${val.circuit_type}`}>{val.circuit_type}</Link>
+            <Link href={`${paths.proof__circuit_types}/${val.circuit_type}`}>
+              {val.circuit_type}
+            </Link>
           </td>
           <td className={styles.desc}>{val.desc}</td>
           <td className={styles.author}>{val.author}</td>

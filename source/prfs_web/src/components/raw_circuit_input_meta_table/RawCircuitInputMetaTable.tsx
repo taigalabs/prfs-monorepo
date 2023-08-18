@@ -32,7 +32,6 @@ const RawCircuitInputMetaTable: React.FC<RawCircuitInputMetaTableProps> = ({
     }
 
     for (let val of values) {
-      console.log(11, val);
       let row = (
         <TableRow key={val.label}>
           <td className={styles.label}>{val.label}</td>

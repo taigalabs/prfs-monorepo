@@ -3,7 +3,7 @@
 import React from "react";
 import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 
-import styles from "./Programs.module.scss";
+import styles from "./CircuitDriverPage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";

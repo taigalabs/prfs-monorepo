@@ -14,6 +14,7 @@ import Table, {
 
 import styles from "./DriverTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
+import { paths } from "@/routes/path";
 
 const DriverTable: React.FC<DriverTableProps> = ({ selectType, selectedVal, handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
@@ -65,7 +66,7 @@ const DriverTable: React.FC<DriverTableProps> = ({ selectType, selectedVal, hand
             </td>
           )}
           <td className={styles.driver_id}>
-            <Link href={`/drivers/${val.driver_id}`}>{val.driver_id}</Link>
+            <Link href={`${paths.proof__circuit_drivers}/${val.driver_id}`}>{val.driver_id}</Link>
           </td>
           <td className={styles.repoUrl}>{val.driver_repository_url}</td>
           <td className={styles.version}>{val.version}</td>

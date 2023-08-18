@@ -14,6 +14,7 @@ import Table, {
 
 import styles from "./SetTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
+import { paths } from "@/routes/path";
 
 const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
@@ -68,7 +69,7 @@ const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSele
             </td>
           )}
           <td className={styles.set_id}>
-            <Link href={`/sets/${val.set_id}`}>{val.set_id}</Link>
+            <Link href={`${paths.proof__sets}/${val.set_id}`}>{val.set_id}</Link>
           </td>
           <td className={styles.label}>{val.label}</td>
           <td className={styles.author}>{val.author}</td>
