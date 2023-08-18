@@ -123,16 +123,9 @@ const Masthead: React.FC<any> = () => {
             {i18n.sdk_api.toUpperCase()}
           </Button>
         </li>
-        {/* <li className={styles.inactive}>{i18n.vote}</li> */}
-        {/* <li className={styles.inactive}>{i18n.enrollment}</li> */}
-        {/* <li className={styles.inactive}>{i18n.dashboard}</li> */}
         <li>
           <PrfsAppsPopover />
         </li>
-        {/* <li className={styles.inactive}> */}
-        {/*   <p>{i18n.talk}</p> */}
-        {/*   <div className={styles.newTag}>{i18n.new}</div> */}
-        {/* </li> */}
         {prfsAccount ? <AccountStat account={prfsAccount} /> : <ConnectButton />}
       </div>
     </div>
