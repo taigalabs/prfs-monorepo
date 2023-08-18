@@ -128,7 +128,6 @@ const Masthead: React.FC<any> = () => {
         {/* <li className={styles.inactive}>{i18n.dashboard}</li> */}
         <li>
           <PrfsAppsPopover />
-          {/* <IconButton variant="dots" /> */}
         </li>
         {/* <li className={styles.inactive}> */}
         {/*   <p>{i18n.talk}</p> */}

@@ -19,6 +19,7 @@ const IconButton: React.FC<IconButtonProps> = ({ className, handleClick, variant
       className={cn({
         [styles.wrapper]: true,
         [styles.dots]: variant === "dots",
+        [className as any]: !!className,
       })}
       onClick={handleClick}
       disabled={!!disabled}

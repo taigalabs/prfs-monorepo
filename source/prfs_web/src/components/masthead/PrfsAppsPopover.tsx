@@ -12,11 +12,12 @@ import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
 
 import styles from "./PrfsAppsPopover.module.scss";
 import { i18nContext } from "@/contexts/i18n";
+import IconButton from "@taigalabs/prfs-react-components/src/icon_button/IconButton";
 
 const Modal: React.FC<MerkleProofModalProps> = ({}) => {
   const i18n = React.useContext(i18nContext);
 
-  return <div className={styles.popoverWrapper}>power</div>;
+  return <div className={styles.popoverWrapper}>5555</div>;
 };
 
 const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({}) => {
@@ -27,15 +28,12 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({}) => {
   const createBase = React.useCallback((isOpen: boolean) => {
     return (
       <div>
-        <button
+        <IconButton
           className={cn({
-            [styles.createBtn]: true,
             [styles.isOpen]: isOpen,
           })}
-          onClick={handleClickCreate}
-        >
-          power
-        </button>
+          variant="dots"
+        />
       </div>
     );
   }, []);
@@ -49,10 +47,7 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({}) => {
 
   return (
     <div className={styles.wrapper}>
-      123
-      <div className={styles.btnGroup}>
-        <Popover createBase={createBase} createPopover={createPopover} />
-      </div>
+      <Popover createBase={createBase} createPopover={createPopover} offset={10} />
     </div>
   );
 };
