@@ -28,8 +28,8 @@
   th {
     padding: 7px 12px;
     position: relative;
-    white-space: nowrap;
     word-wrap: break-word;
+    /* white-space: nowrap; */
   }
 }
 
@@ -39,7 +39,7 @@
   > td {
     padding: 11px 12px;
     position: relative;
-    white-space: nowrap;
+    /* white-space: nowrap; */
     word-wrap: break-word;
   }
 

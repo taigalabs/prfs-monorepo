@@ -1,5 +1,18 @@
+.tableWrapper {
+  table-layout: fixed;
+  width: 100%;
+}
+
 .rows {
 }
 
-.sig {
+.label {
+  vertical-align: top;
+  font-weight: 500;
+  width: 220px;
+}
+
+.value {
+  word-wrap: break-word;
+  word-break: break-all;
 }

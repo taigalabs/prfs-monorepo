@@ -42,9 +42,11 @@ function Table({ minWidth, children }: TableProps) {
     <div className={styles.tableWrapper}>
       <table
         className={styles.table}
-        style={{
-          minWidth,
-        }}
+        style={
+          {
+            // minWidth,
+          }
+        }
       >
         {children}
       </table>

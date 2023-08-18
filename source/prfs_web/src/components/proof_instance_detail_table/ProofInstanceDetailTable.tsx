@@ -30,45 +30,30 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
     }
 
     return (
-      <div className={styles.rows}>
+      <TableBody>
         <TableRow>
-          <td className={styles.value}>{i18n.proof_instance_id}</td>
-          <td className={styles.label}>{record.proof_instance_id}</td>
+          <td className={styles.label}>{i18n.proof_instance_id}</td>
+          <td className={styles.value}>{record.proof_instance_id}</td>
         </TableRow>
         <TableRow>
-          <td className={styles.value}>{i18n.proof_type_id}</td>
-          <td className={styles.label}>{record.proof_type_id}</td>
+          <td className={styles.label}>{i18n.proof_type_id}</td>
+          <td className={styles.value}>{record.proof_type_id}</td>
         </TableRow>
         <TableRow>
-          <td className={styles.value}>{i18n.signature}</td>
-          <td className={styles.sig}>{record.sig}</td>
+          <td className={styles.label}>{i18n.signature}</td>
+          <td className={styles.value}>
+            <div>{record.sig}</div>
+          </td>
         </TableRow>
         {/* <TableRow> */}
         {/*   <td className={styles.value}>{i18n.proof_instance_id}</td> */}
         {/*   <td className={styles.label}>{record.proof_instance_id}</td> */}
         {/* </TableRow> */}
-      </div>
+      </TableBody>
     );
-
-    // for (const [key, val] of Object.entries(record)) {
-    //   let row = (
-    //     <TableRow key={key}>
-    //       <td className={styles.label}>{key}</td>
-    //       <td className={styles.value}>{val}</td>
-    //     </TableRow>
-    //   );
-
-    //   rows.push(row);
-    // }
-
-    // return rows;
   }, [data]);
 
-  return (
-    <Table minWidth={880}>
-      <TableBody>{rowsElem}</TableBody>
-    </Table>
-  );
+  return <Table minWidth={880}>{rowsElem}</Table>;
 };
 
 export default ProofInstanceDetailTable;
