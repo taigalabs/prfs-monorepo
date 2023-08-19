@@ -9,19 +9,21 @@
   flex-direction: column;
   align-items: center;
   flex-grow: 1;
-  padding: 53px 0 0px;
   height: 100%;
 }
 
 .inner {
+  display: flex;
+  // padding-left: 300px;
   flex-grow: 1;
   height: 100%;
-  width: 1600px;
+  max-width: 1500px;
 
   // border: 1px solid blue;
 }
 
 .leftBarContainer {
+  position: relative;
   width: 285px;
   flex-shrink: 0;
 }
