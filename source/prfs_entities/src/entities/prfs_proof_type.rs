@@ -1,4 +1,5 @@
 use chrono::{DateTime, Utc};
+use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use ts_rs::TS;
@@ -6,7 +7,9 @@ use ts_rs::TS;
 #[derive(Debug, Serialize, Deserialize, TS)]
 #[ts(export)]
 pub struct PrfsProofType {
-    pub proof_type_id: String,
+    #[ts(type = "number")]
+    pub id: Option<Decimal>,
+
     pub label: String,
     pub author: String,
     pub desc: String,

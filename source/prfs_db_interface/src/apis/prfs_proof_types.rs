@@ -1,5 +1,6 @@
 use crate::database2::Database2;
 use prfs_entities::entities::PrfsProofType;
+use rust_decimal::Decimal;
 use sqlx::{Pool, Postgres, Row, Transaction};
 
 pub async fn get_prfs_proof_type(
@@ -17,7 +18,7 @@ pub async fn get_prfs_proof_type(
     let prfs_proof_types: Vec<PrfsProofType> = rows
         .iter()
         .map(|row| PrfsProofType {
-            proof_type_id: row.get("proof_type_id"),
+            id: row.get("id"),
             label: row.get("label"),
             author: row.get("author"),
             desc: row.get("desc"),
@@ -40,7 +41,7 @@ pub async fn get_prfs_proof_types(pool: &Pool<Postgres>) -> Vec<PrfsProofType> {
     let prfs_proof_types: Vec<PrfsProofType> = rows
         .iter()
         .map(|row| PrfsProofType {
-            proof_type_id: row.get("proof_type_id"),
+            id: row.get("id"),
             label: row.get("label"),
             author: row.get("author"),
             desc: row.get("desc"),
@@ -60,14 +61,13 @@ pub async fn insert_prfs_proof_types(
     proof_types: &Vec<PrfsProofType>,
 ) {
     let query = "INSERT INTO prfs_proof_types \
-            (proof_type_id, author, label, \"desc\", circuit_id, circuit_inputs,\
+            (author, label, \"desc\", circuit_id, circuit_inputs,\
             driver_id, driver_properties) \
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8) returning proof_type_id";
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8) returning id";
 
     let proof_type = proof_types.get(0).unwrap();
 
     let row = sqlx::query(query)
-        .bind(&proof_type.proof_type_id)
         .bind(&proof_type.author)
         .bind(&proof_type.label)
         .bind(&proof_type.desc)
@@ -79,7 +79,7 @@ pub async fn insert_prfs_proof_types(
         .await
         .unwrap();
 
-    let proof_type_id: String = row.get("proof_type_id");
+    let id: Decimal = row.get("id");
 
-    println!("proof_type_id: {}", proof_type_id);
+    println!("id: {}", id);
 }
