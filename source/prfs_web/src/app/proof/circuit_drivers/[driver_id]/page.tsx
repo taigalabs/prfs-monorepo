@@ -21,6 +21,7 @@ import DriverPropsMetaTable from "@/components/driver_props_meta_table/DriverPro
 import CircuitTypeList from "@/components/circuit_type_list/CircuitTypeList";
 import { DriverPropertyMeta } from "@taigalabs/prfs-entities/bindings/DriverPropertyMeta";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
+import { paths } from "@/routes/path";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -42,7 +43,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
         if (prfs_circuit_drivers.length > 0) {
           setDriver(prfs_circuit_drivers[0]);
         } else {
-          router.push("/programs");
+          router.push(paths.proof__circuit_drivers);
         }
       });
   }, [setDriver]);
@@ -59,7 +60,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
                 <div className={styles.breadcrumbContainer}>
                   <Breadcrumb>
                     <BreadcrumbEntry>
-                      <Link href="/drivers">{i18n.drivers}</Link>
+                      <Link href={paths.proof__circuit_drivers}>{i18n.drivers}</Link>
                     </BreadcrumbEntry>
                     <BreadcrumbEntry>{params.driver_id}</BreadcrumbEntry>
                   </Breadcrumb>
@@ -73,6 +74,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
           </Widget>
         </Card>
       </CardRow>
+
       <CardRow>
         <Card>
           <Widget>
@@ -87,6 +89,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
           </Widget>
         </Card>
       </CardRow>
+
       <CardRow>
         <Card>
           <Widget>
