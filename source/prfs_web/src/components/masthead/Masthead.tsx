@@ -36,37 +36,40 @@ const Masthead: React.FC<any> = () => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.logoArea}>
-        <div className={styles.logoContainer}>
-          <Link href="/">
-            <Logo variant="simple" />
-          </Link>
+      <div className={styles.inner}>
+        <div className={styles.logoArea}>
+          <div className={styles.logoContainer}>
+            <Link href="/">
+              <Logo variant="simple" />
+            </Link>
+          </div>
+          <div className={styles.betaTag}>Beta</div>
         </div>
-        <div className={styles.betaTag}>Beta</div>
-      </div>
-      <div className={styles.mainMenu}>
-        <div className={styles.search}>
-          <FaSearch />
-          <input placeholder={i18n.search_guide} />
+        <div className={styles.mainMenu}>
+          <div className={styles.search}>
+            <FaSearch />
+            <input placeholder={i18n.search_guide} />
+          </div>
         </div>
-      </div>
-      <div className={styles.rightMenu}>
-        <li className={styles.inactive}>
-          <Button variant="transparent_d">
-            <IoIosSchool />
-            {i18n.learn.toUpperCase()}
-          </Button>
-        </li>
-        <li className={styles.inactive}>
-          <Button variant="transparent_d">
-            <FaTools />
-            {i18n.sdk_api.toUpperCase()}
-          </Button>
-        </li>
-        <li>
-          <PrfsAppsPopover />
-        </li>
-        {prfsAccount ? <AccountPopover account={prfsAccount} /> : <ConnectButton />}
+        <div className={styles.rightMenu}>
+          <li className={styles.inactive}>
+            <Button variant="transparent_d">
+              <IoIosSchool />
+              {i18n.learn.toUpperCase()}
+            </Button>
+          </li>
+          <li className={styles.inactive}>
+            <Button variant="transparent_d">
+              <FaTools />
+              {i18n.sdk_api.toUpperCase()}
+            </Button>
+          </li>
+          <li>
+            <PrfsAppsPopover />
+          </li>
+          {prfsAccount ? <AccountPopover account={prfsAccount} /> : <ConnectButton />}
+        </div>
+
       </div>
     </div>
   );

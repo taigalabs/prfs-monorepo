@@ -5,9 +5,16 @@
   left: 0;
   width: 100%;
   display: flex;
+  justify-content: center;
   height: 53px;
   background-color: var(--white-100);
   border-bottom: 1px solid var(--bright-gray-31);
+}
+
+.inner {
+  display: flex;
+  // border: 1px solid blue;
+  width: 1600px;
 }
 
 .logoArea {
