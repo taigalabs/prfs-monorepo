@@ -24,6 +24,7 @@ import CardRow from "@/components/card_row/CardRow";
 import { PrfsProofInstance } from "@taigalabs/prfs-entities/bindings/PrfsProofInstance";
 import ProofInstanceDetailTable from "@/components/proof_instance_detail_table/ProofInstanceDetailTable";
 import ProofInstanceQRCode from "@/components/proof_instance_qrcode/ProofInstanceQRCode";
+import { paths } from "@/routes/path";
 
 const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   let i18n = React.useContext(i18nContext);
@@ -64,7 +65,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
             <TopWidgetTitle>
               <div className={styles.header}>
                 <div className={styles.navigation}>
-                  <Link href="/proofs">
+                  <Link href={paths.proof__proof_instances}>
                     <ArrowButton variant="left" />
                   </Link>
                 </div>
