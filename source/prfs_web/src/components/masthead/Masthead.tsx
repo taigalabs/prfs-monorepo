@@ -43,7 +43,11 @@ const Masthead: React.FC<any> = () => {
         </div>
         <div className={styles.betaTag}>Beta</div>
       </div>
-      <ul className={styles.mainMenu}></ul>
+      <div className={styles.mainMenu}>
+        <div className={styles.search}>
+          <input placeholder="power" />
+        </div>
+      </div>
       <div className={styles.rightMenu}>
         <li className={styles.inactive}>
           <Button variant="transparent_d">

@@ -51,60 +51,10 @@
   }
 }
 
-.accountStat {
-  display: flex;
-  align-items: center;
-  height: 100%;
-
-  .base {
-    height: 100%;
-    padding: 0px 12px;
-    display: flex;
-    align-items: center;
-
-    &:hover {
-      color: var(--aqua-blue-50);
-      cursor: pointer;
-    }
-
-    .btnArea {
-      align-items: center;
-      display: flex;
-      margin-left: 1px;
-    }
-  }
-
-  .base.isOpen {
-    color: var(--aqua-blue-50);
-  }
-}
-
 .connectBtn {
   padding: 0px 8px;
   display: flex;
   align-items: center;
-}
-
-.dropdown {
-  background-color: var(--bright-gray-50);
-  padding: 12px 13px;
-  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  box-shadow: 2px 2px 4px #0006, inset 0 1px #414750;
-  width: 180px;
-
-  li:hover {
-    cursor: pointer;
-    color: var(--aqua-blue-50);
-  }
-}
-
-.wallet {
-  display: flex;
-  align-items: center;
-
-  svg {
-    margin-right: 3px;
-  }
 }
 
 .inactive {
@@ -126,4 +76,9 @@
   padding: 0px 1px;
   transform: translateY(-5px);
   font-size: 0.79em;
+}
+
+.search {
+  border: 1px solid var(--gray-70);
+  width: 455px;
 }
