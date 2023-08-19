@@ -81,4 +81,18 @@
 .search {
   border: 1px solid var(--gray-70);
   width: 455px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  padding: 7px 12px;
+  border-radius: 5px;
+  background-color: var(--bright-gray-50);
+
+  input {
+    margin-left: 7px;
+    outline: none;
+    width: 100%;
+    // padding: 5px 6px;
+  }
 }
+

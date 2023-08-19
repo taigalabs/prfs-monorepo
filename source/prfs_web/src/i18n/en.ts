@@ -24,6 +24,8 @@ export default {
   desc_3: "c",
   value: "Value",
   learn: "Learn",
+  search: "Search",
+  search_guide: "Search for a proof (type), circuits, sets and others",
   browse: "Browse",
   set_id: "Set id",
   type: "Type",

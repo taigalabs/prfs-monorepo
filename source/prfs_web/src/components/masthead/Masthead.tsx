@@ -6,6 +6,7 @@ import { BsWallet2 } from "react-icons/bs";
 import IconButton from "@taigalabs/prfs-react-components/src/icon_button/IconButton";
 import { FaTools } from "react-icons/fa";
 import { IoIosSchool } from "react-icons/io";
+import { FaSearch } from 'react-icons/fa';
 
 import styles from "./Masthead.module.scss";
 import localStore from "@/storage/localStore";
@@ -45,7 +46,8 @@ const Masthead: React.FC<any> = () => {
       </div>
       <div className={styles.mainMenu}>
         <div className={styles.search}>
-          <input placeholder="power" />
+          <FaSearch />
+          <input placeholder={i18n.search_guide} />
         </div>
       </div>
       <div className={styles.rightMenu}>
