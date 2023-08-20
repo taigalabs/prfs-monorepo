@@ -7,9 +7,9 @@ import Table, {
   TableRow,
   TableHeader,
   TableData,
-  TableRecordData,
   TableSearch,
 } from "@taigalabs/prfs-react-components/src/table/Table";
+import dayjs from "dayjs";
 
 import styles from "./CircuitTypeTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -61,6 +61,8 @@ const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({
       const isSelected = selectedVal && selectedVal.circuit_type === val.circuit_type;
       const selType = selectType || "radio";
 
+      const createdAt = dayjs(val.created_at).format("YYYY-MM-DD");
+
       let row = (
         <TableRow key={val.circuit_type} onClickRow={onClickRow} isSelected={isSelected}>
           {selectedVal && (
@@ -75,7 +77,7 @@ const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({
           </td>
           <td className={styles.desc}>{val.desc}</td>
           <td className={styles.author}>{val.author}</td>
-          <td className={styles.createdAt}>{val.created_at}</td>
+          <td className={styles.createdAt}>{createdAt}</td>
         </TableRow>
       );
 
