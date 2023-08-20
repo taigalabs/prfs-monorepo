@@ -24,7 +24,7 @@ import CircuitInputConfigSection from "../circuit_input_config_section/CircuitIn
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
   const { state } = React.useContext(stateContext);
-  const { prfsAccount } = state;
+  const { localPrfsAccount } = state;
   const router = useRouter();
 
   const [circuitInputs, setCircuitInputs] = React.useState<Record<number, CircuitInput>>({});
@@ -55,10 +55,12 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   );
 
   const handleClickCreateProofType = React.useCallback(() => {
-    if (!prfsAccount) {
+    if (!localPrfsAccount) {
       setFormAlert("User is not signed in");
       return;
     }
+
+    const { prfsAccount } = localPrfsAccount;
 
     if (name === undefined || name.length < 1) {
       setFormAlert("Name should be defined");
@@ -103,8 +105,9 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     let hash = keccakHash(
       `${selectedCircuit.circuit_id}_${selectedCircuit.driver_id}_${now}`
     ).substring(2, 8);
+    const id = prfsAccount.sig.substring(2, 8);
 
-    let proof_type_id = `${prfsAccount.id}_${y}${m}${d}_${hash}`;
+    let proof_type_id = `${id}_${y}${m}${d}_${hash}`;
 
     let createPrfsProofTypeRequest = {
       proof_type_id,
@@ -125,7 +128,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       .catch(err => {
         setFormAlert(err);
       });
-  }, [circuitInputs, selectedCircuit, name, setFormAlert, desc, state.prfsAccount]);
+  }, [circuitInputs, selectedCircuit, name, setFormAlert, desc, localPrfsAccount]);
 
   return (
     <div className={styles.wrapper}>

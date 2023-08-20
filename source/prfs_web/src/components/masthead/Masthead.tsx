@@ -1,23 +1,13 @@
 import React from "react";
 import Link from "next/link";
-import { IoMdArrowDropup, IoMdArrowDropdown } from "react-icons/io";
-import classNames from "classnames";
-import { BsWallet2 } from "react-icons/bs";
-import IconButton from "@taigalabs/prfs-react-components/src/icon_button/IconButton";
-import { FaTools } from "react-icons/fa";
-import { IoIosSchool } from "react-icons/io";
 import { FaSearch } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 
 import styles from "./Masthead.module.scss";
-import localStore from "@/storage/localStore";
 import { i18nContext } from "@/contexts/i18n";
 import Logo from "@/components/logo/Logo";
 import { stateContext } from "@/contexts/state";
-import { LocalPrfsAccount } from "@/state/reducer";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import PrfsAppsPopover from "./PrfsAppsPopover";
-import { paths } from "@/routes/path";
 import AccountPopover from "./AccountPopover";
 
 const ConnectButton = () => {
