@@ -1,16 +1,15 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  /* position: sticky; */
+  position: fixed;
   z-index: 100;
   width: 285px;
   height: calc(100% - 53px);
-  flex-shrink: 0;
   // padding: 0px 0px 34px 94px;
   font-size: 15px;
-  /* background-color: var(--bright-gray-60); */
   border-right: 1px solid var(--bright-gray-31);
   color: var(--black-50);
+  overflow-y: scroll;
 
   li {
     line-height: 1em;

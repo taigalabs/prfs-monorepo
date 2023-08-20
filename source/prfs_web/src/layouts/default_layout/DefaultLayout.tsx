@@ -21,7 +21,6 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
           <div className={styles.contentArea}>
             <div>{children}</div>
           </div>
-
         </div>
       </div>
     </div>
