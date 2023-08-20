@@ -35,6 +35,7 @@ export default {
   hash_algorithm: "Hash algorithm",
   proof_instance_id: "Proof instance id",
   proof_type_id: "Proof type id",
+  verified: "Verified",
   proof_type_search_guide: "Search proof types",
   proof_instance_search_guide: "Search proof instances",
   driver_search_guide: "Search cicuit drivers",

@@ -16,3 +16,11 @@
   word-wrap: break-word;
   word-break: break-all;
 }
+
+.verified {
+  color: var(--green-50);
+}
+
+.cell {
+  display: flex;
+}

@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import cn from "classnames";
 import { useRouter } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import Table, {
@@ -8,11 +9,12 @@ import Table, {
   TableRecordData,
   TableRow,
 } from "@taigalabs/prfs-react-components/src/table/Table";
-// import * as prfsApi from "@taigalabs/prfs-api-js";
+import { AiOutlineCheck } from "react-icons/ai";
 
 import styles from "./ProofInstanceDetailTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { PrfsProofInstance } from "@taigalabs/prfs-entities/bindings/PrfsProofInstance";
+import dayjs from "dayjs";
 
 const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ proofInstance }) => {
   const i18n = React.useContext(i18nContext);
@@ -29,26 +31,30 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
       return rows;
     }
 
+    const createdAt = dayjs(record.created_at).format("YYYY-MM-DD");
+
     return (
       <TableBody>
         <TableRow>
           <td className={styles.label}>{i18n.id}</td>
-          <td className={styles.value}>{record.id}</td>
+          <td className={styles.value}>{record.id as unknown as number}</td>
         </TableRow>
         <TableRow>
           <td className={styles.label}>{i18n.proof_type_id}</td>
           <td className={styles.value}>{record.proof_type_id}</td>
         </TableRow>
         <TableRow>
-          <td className={styles.label}>{i18n.signature}</td>
-          <td className={styles.value}>
-            <div>{record.sig}</div>
+          <td className={styles.label}>{i18n.verified}</td>
+          <td className={cn(styles.value, styles.verified)}>
+            <div className={styles.cell}>
+              <AiOutlineCheck />
+            </div>
           </td>
         </TableRow>
-        {/* <TableRow> */}
-        {/*   <td className={styles.value}>{i18n.proof_instance_id}</td> */}
-        {/*   <td className={styles.label}>{record.proof_instance_id}</td> */}
-        {/* </TableRow> */}
+        <TableRow>
+          <td className={styles.label}>{i18n.created_at}</td>
+          <td className={styles.value}>{createdAt}</td>
+        </TableRow>
       </TableBody>
     );
   }, [data]);
