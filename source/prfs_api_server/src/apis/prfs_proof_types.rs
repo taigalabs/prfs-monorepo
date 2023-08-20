@@ -57,7 +57,7 @@ pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, 
 
 #[derive(Serialize, Deserialize, Debug)]
 struct CreatePrfsProofTypesRequest {
-    id: Decimal,
+    proof_type_id: String,
     author: String,
     label: String,
     desc: String,
@@ -87,7 +87,7 @@ pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
     println!("req: {:?}", req);
 
     let prfs_proof_type = PrfsProofType {
-        id: None,
+        proof_type_id: req.proof_type_id.to_string(),
         label: req.label.to_string(),
         author: req.author.to_string(),
         desc: req.desc.to_string(),

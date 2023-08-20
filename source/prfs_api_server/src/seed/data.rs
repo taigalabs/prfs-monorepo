@@ -7,7 +7,7 @@ pub fn get_prfs_proof_types() -> Vec<PrfsProofType> {
     let datetime = Utc.with_ymd_and_hms(2023, 7, 8, 9, 10, 11).unwrap();
 
     let pt = PrfsProofType {
-        id: None,
+        proof_type_id: "SYSTEM_NATIVE_1".to_string(),
         label: String::from(""),
         author: String::from(""),
         desc: String::from(""),

@@ -7,8 +7,7 @@ use ts_rs::TS;
 #[derive(Debug, Serialize, Deserialize, TS)]
 #[ts(export)]
 pub struct PrfsProofType {
-    #[ts(type = "number")]
-    pub id: Option<Decimal>,
+    pub proof_type_id: String,
 
     pub label: String,
     pub author: String,

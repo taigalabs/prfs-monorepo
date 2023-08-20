@@ -85,7 +85,7 @@ pub async fn create_prfs_proof_instance(req: Request<Body>) -> Result<Response<B
     // println!("req: {:?}", req);
 
     let prfs_proof_instance = PrfsProofInstance {
-        proof_instance_id: req.proof_instance_id,
+        id: None,
         proof_type_id: req.proof_type_id.to_string(),
         sig: req.sig.to_string(),
         proof: req.proof.to_vec(),

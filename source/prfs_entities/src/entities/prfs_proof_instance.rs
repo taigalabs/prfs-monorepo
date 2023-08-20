@@ -1,12 +1,15 @@
 use chrono::{DateTime, Utc};
+use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
 #[derive(Debug, Serialize, Deserialize, TS)]
 #[ts(export)]
 pub struct PrfsProofInstance {
+    #[ts(type = "number")]
+    pub id: Option<Decimal>,
+
     pub proof: Vec<u8>,
-    pub proof_instance_id: String,
     pub proof_type_id: String,
     pub sig: String,
 
