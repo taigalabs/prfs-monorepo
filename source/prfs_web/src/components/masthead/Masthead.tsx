@@ -7,6 +7,7 @@ import IconButton from "@taigalabs/prfs-react-components/src/icon_button/IconBut
 import { FaTools } from "react-icons/fa";
 import { IoIosSchool } from "react-icons/io";
 import { FaSearch } from "react-icons/fa";
+import { usePathname } from "next/navigation";
 
 import styles from "./Masthead.module.scss";
 import localStore from "@/storage/localStore";
@@ -33,17 +34,28 @@ const Masthead: React.FC<any> = () => {
   const i18n = React.useContext(i18nContext);
   const { state } = React.useContext(stateContext);
   const { prfsAccount } = state;
+  const path = usePathname();
+  const [appName, setAppName] = React.useState("");
+
+  React.useEffect(() => {
+    const pathSegments = path.split("/");
+    if (pathSegments.length > 1) {
+      const appName = pathSegments[1];
+      setAppName(appName.charAt(0).toUpperCase() + appName.slice(1));
+    }
+  }, [path, setAppName]);
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.inner}>
-        <div className={styles.logoArea}>
+        <div className={styles.leftMenu}>
           <div className={styles.logoContainer}>
             <Link href="/">
               <Logo variant="simple" />
             </Link>
+            <div className={styles.betaTag}>Beta</div>
           </div>
-          <div className={styles.betaTag}>Beta</div>
+          <div className={styles.appName}>{appName}</div>
         </div>
         <div className={styles.mainMenu}>
           <div className={styles.search}>

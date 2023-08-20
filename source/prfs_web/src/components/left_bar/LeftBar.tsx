@@ -1,6 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import { FaAngleRight } from "react-icons/fa6";
+import { FaHatWizard } from "react-icons/fa6";
+import { FaHome } from "react-icons/fa";
+import { MdSpaceDashboard } from "react-icons/md";
 
 import styles from "./LeftBar.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -17,8 +20,13 @@ const Leftbar: React.FC<any> = () => {
         <ul>
           <li>
             <ActiveLink href={paths.proof__proof_wizard} exact activeClassName={styles.activeLink}>
-              <p>{i18n.proof_wizard}</p>
-              <p className={styles.menuSublabel}>{i18n.proof_wizard_sublabel}</p>
+              <div className={styles.button}>
+                <FaHatWizard />
+                <div>
+                  <p>{i18n.proof_wizard}</p>
+                  <p className={styles.menuSublabel}>{i18n.proof_wizard_sublabel}</p>
+                </div>
+              </div>
             </ActiveLink>
           </li>
         </ul>
@@ -27,7 +35,10 @@ const Leftbar: React.FC<any> = () => {
         <ul>
           <li>
             <ActiveLink href={paths.proof} exact activeClassName={styles.activeLink}>
-              {i18n.home}
+              <div className={styles.button}>
+                <MdSpaceDashboard />
+                {i18n.dashboard}
+              </div>
             </ActiveLink>
           </li>
         </ul>

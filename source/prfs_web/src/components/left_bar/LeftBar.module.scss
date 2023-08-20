@@ -3,9 +3,8 @@
   flex-direction: column;
   position: fixed;
   z-index: 100;
-  width: 285px;
-  height: calc(100% - 53px);
-  // padding: 0px 0px 34px 94px;
+  width: 260px;
+  height: calc(100% - 55px);
   font-size: 15px;
   border-right: 1px solid var(--bright-gray-31);
   color: var(--black-50);
@@ -22,20 +21,15 @@
   a {
     border-radius: 5px;
     display: block;
-    padding: 12px 18px;
-    margin-right: 14px;
+    padding: 12px 14px;
+    margin: 0 14px;
   }
 }
 
 .topSection {
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid var(--bright-gray-31);
-  height: 80px;
-
-  a {
-    /* color: var(--gray-20); */
-  }
+  margin-top: 10px;
+  height: 60px;
+  /* border-bottom: 1px solid var(--bright-gray-31); */
 }
 
 .homeSection {
@@ -66,6 +60,15 @@
 
 p.menuSublabel {
   color: var(--aqua-blue-50);
-  margin-top: 6px;
-  font-size: 0.81em;
+  margin-top: 2px;
+  font-size: 0.79em;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: 14px;
+  }
 }
