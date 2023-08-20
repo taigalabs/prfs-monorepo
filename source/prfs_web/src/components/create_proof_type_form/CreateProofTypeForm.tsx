@@ -8,7 +8,12 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./CreateProofTypeForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
+import Widget, {
+  TopWidgetTitle,
+  WidgetHeader,
+  WidgetLabel,
+  WidgetPaddedBody,
+} from "@/components/widget/Widget";
 import CardRow from "@/components/card_row/CardRow";
 import Card from "@/components/card/Card";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
@@ -134,27 +139,33 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 
   return (
     <div className={styles.wrapper}>
-      <WidgetPaddedBody>
-        <FormTitleRow>
-          <FormTitle>
-            <div className={styles.navigation}>
-              <Link href={paths.proof__proof_types}>
-                <ArrowButton variant="left" />
-              </Link>
-            </div>
-            {i18n.create_proof_type}
-          </FormTitle>
-          <FormSubtitle>{i18n.create_proof_type_subtitle}</FormSubtitle>
-        </FormTitleRow>
-      </WidgetPaddedBody>
+      <TopWidgetTitle>
+        <div className={styles.header}>
+          <Link href={paths.proof__proof_instances}>
+            <ArrowButton variant="left" />
+          </Link>
+          <WidgetLabel>{i18n.create_proof_type}</WidgetLabel>
+        </div>
+      </TopWidgetTitle>
+      {/* <WidgetPaddedBody> */}
+      {/*   <FormTitleRow> */}
+      {/*     <FormTitle> */}
+      {/*       <div className={styles.navigation}> */}
+      {/*         <Link href={paths.proof__proof_types}> */}
+      {/*           <ArrowButton variant="left" /> */}
+      {/*         </Link> */}
+      {/*       </div> */}
+      {/*       {i18n.create_proof_type} */}
+      {/*     </FormTitle> */}
+      {/*     <FormSubtitle>{i18n.create_proof_type_subtitle}</FormSubtitle> */}
+      {/*   </FormTitleRow> */}
+      {/* </WidgetPaddedBody> */}
 
       <CardRow>
         <Card>
           <Widget>
-            <WidgetHeader>
-              <WidgetLabel>{i18n.name_and_description}</WidgetLabel>
-            </WidgetHeader>
             <WidgetPaddedBody>
+              <div>{i18n.create_proof_type_subtitle}</div>
               <div className={styles.textInputContainer}>
                 <FormTextInput label={i18n.name} handleChange={handleChangeName} />
               </div>
