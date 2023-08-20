@@ -54,23 +54,9 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
       <CardRow>
         <Card>
           <Widget>
-            {/* <TopWidgetTitle> */}
-            {/*   <div className={styles.proofTypesHeader}> */}
-            {/*     <div className={styles.breadcrumbContainer}> */}
-            {/*       <Breadcrumb> */}
-            {/*         <BreadcrumbEntry> */}
-            {/*           <Link href="/proof_types">{i18n.proof_types}</Link> */}
-            {/*         </BreadcrumbEntry> */}
-            {/*         <BreadcrumbEntry>{params.proof_type_id}</BreadcrumbEntry> */}
-            {/*       </Breadcrumb> */}
-            {/*     </div> */}
-            {/*     <WidgetLabel>{proofTypeSummaryLabel}</WidgetLabel> */}
-            {/*   </div> */}
-            {/* </TopWidgetTitle> */}
-
             <TopWidgetTitle>
               <div className={styles.header}>
-                <Link href={paths.proof__proof_instances}>
+                <Link href={paths.proof__proof_types}>
                   <ArrowButton variant="left" />
                 </Link>
                 <WidgetLabel>{proofTypeSummaryLabel}</WidgetLabel>
