@@ -147,25 +147,12 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
           <WidgetLabel>{i18n.create_proof_type}</WidgetLabel>
         </div>
       </TopWidgetTitle>
-      {/* <WidgetPaddedBody> */}
-      {/*   <FormTitleRow> */}
-      {/*     <FormTitle> */}
-      {/*       <div className={styles.navigation}> */}
-      {/*         <Link href={paths.proof__proof_types}> */}
-      {/*           <ArrowButton variant="left" /> */}
-      {/*         </Link> */}
-      {/*       </div> */}
-      {/*       {i18n.create_proof_type} */}
-      {/*     </FormTitle> */}
-      {/*     <FormSubtitle>{i18n.create_proof_type_subtitle}</FormSubtitle> */}
-      {/*   </FormTitleRow> */}
-      {/* </WidgetPaddedBody> */}
 
       <CardRow>
         <Card>
           <Widget>
             <WidgetPaddedBody>
-              <div>{i18n.create_proof_type_subtitle}</div>
+              <div className={styles.desc}>{i18n.create_proof_type_subtitle}</div>
               <div className={styles.textInputContainer}>
                 <FormTextInput label={i18n.name} handleChange={handleChangeName} />
               </div>
