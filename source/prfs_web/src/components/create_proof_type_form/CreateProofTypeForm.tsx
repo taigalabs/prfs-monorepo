@@ -166,7 +166,11 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
                 <FormTextInput label={i18n.name} handleChange={handleChangeName} />
               </div>
               <div className={styles.textInputContainer}>
-                <FormTextareaInput label={i18n.description} handleChange={handleChangeDesc} />
+                <FormTextareaInput
+                  label={i18n.description}
+                  handleChange={handleChangeDesc}
+                  rows={4}
+                />
               </div>
               <div className={styles.textInputContainer}>
                 <FormTextInput label={i18n.expression} handleChange={handleChangeExpression} />
