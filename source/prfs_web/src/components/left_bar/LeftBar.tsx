@@ -103,7 +103,7 @@ const Leftbar: React.FC<any> = () => {
           </li>
           <li>
             <ActiveLink href={paths.proof__sets} activeClassName={styles.activeLink}>
-              <div className={cn(styles.button, styles.bold)}>
+              <div className={cn(styles.button)}>
                 <TbTable />
                 <span>{i18n.sets}</span>
               </div>
@@ -111,7 +111,7 @@ const Leftbar: React.FC<any> = () => {
           </li>
           <li>
             <ActiveLink href={paths.proof__dynamic_sets} activeClassName={styles.activeLink}>
-              <div className={cn(styles.button, styles.bold)}>
+              <div className={cn(styles.button)}>
                 <TbTableAlias />
                 <span>{i18n.dynamic_sets}</span>
               </div>
