@@ -75,10 +75,7 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
 
   return (
     <div className={styles.wrapper}>
-      <TableSearch>
-        <MdFilterList />
-        {i18n.proof_type_search_guide}
-      </TableSearch>
+      <TableSearch>{i18n.proof_type_search_guide}</TableSearch>
       <Table>
         <TableHeader>
           <TableRow>

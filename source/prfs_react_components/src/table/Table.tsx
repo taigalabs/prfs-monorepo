@@ -1,5 +1,6 @@
 import React, { MouseEventHandler } from "react";
 import classNames from "classnames";
+import { MdFilterList } from "react-icons/md";
 
 import styles from "./Table.module.scss";
 
@@ -20,7 +21,15 @@ export const TableBody: React.FC<TableBodyProps> = ({ children }) => {
 };
 
 export const TableSearch: React.FC<TableSearchProps> = ({ children }) => {
-  return <div className={styles.tableSearch}>{children}</div>;
+  return (
+    <div className={styles.tableSearch}>
+      <div className={styles.guide}>
+        <MdFilterList />
+        <span>Filter</span>
+      </div>
+      {children}
+    </div>
+  );
 };
 
 export function TableRow({ isSelected, children, onClickRow }: TableRowProps) {

@@ -62,7 +62,19 @@
 }
 
 .tableSearch {
-  padding: 6px 7px;
+  padding: 10px 7px;
   border-top: 1px solid var(--bright-gray-31);
   border-bottom: 1px solid var(--bright-gray-31);
+  display: flex;
+  color: var(--gray-40);
+
+  .guide {
+    color: var(--black-00);
+    font-weight: 500;
+    margin-right: 15px;
+
+    svg {
+      margin-right: 4px;
+    }
+  }
 }
