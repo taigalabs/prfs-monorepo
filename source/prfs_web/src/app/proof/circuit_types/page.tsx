@@ -28,7 +28,9 @@ const CircuitTypes: React.FC = () => {
               <WidgetLabel>{i18n.circuit_types}</WidgetLabel>
             </TopWidgetTitle>
             <PaddedTableWrapper>
-              <CircuitTypeTable />
+              <div className={styles.tableContainer}>
+                <CircuitTypeTable />
+              </div>
             </PaddedTableWrapper>
           </Widget>
         </Card>

@@ -22,6 +22,7 @@ import CircuitTypeList from "@/components/circuit_type_list/CircuitTypeList";
 import { DriverPropertyMeta } from "@taigalabs/prfs-entities/bindings/DriverPropertyMeta";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
 import { paths } from "@/routes/path";
+import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -56,18 +57,16 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
         <Card>
           <Widget>
             <TopWidgetTitle>
-              <div className={styles.driverHeader}>
-                <div className={styles.breadcrumbContainer}>
-                  <Breadcrumb>
-                    <BreadcrumbEntry>
-                      <Link href={paths.proof__circuit_drivers}>{i18n.drivers}</Link>
-                    </BreadcrumbEntry>
-                    <BreadcrumbEntry>{params.driver_id}</BreadcrumbEntry>
-                  </Breadcrumb>
+              <div className={styles.header}>
+                <div className={styles.navigation}>
+                  <Link href={paths.proof__circuit_drivers}>
+                    <ArrowButton variant="left" />
+                  </Link>
                 </div>
                 <WidgetLabel>{programSummaryLabel}</WidgetLabel>
               </div>
             </TopWidgetTitle>
+
             <PaddedSummaryWrapper>
               <DriverSummary driver={driver} />
             </PaddedSummaryWrapper>

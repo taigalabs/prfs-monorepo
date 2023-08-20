@@ -61,7 +61,7 @@ const Proofs: React.FC = () => {
                 </div>
               </TopWidgetTitle>
               <PaddedTableWrapper>
-                <div className={styles.proofTypeTableContainer}>
+                <div className={styles.tableContainer}>
                   <ProofTypeTable />
                 </div>
               </PaddedTableWrapper>

@@ -50,7 +50,9 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
         if (prfs_proof_instances.length > 0) {
           setProofInstance(prfs_proof_instances[0]);
         } else {
-          // router.push("/proofs");
+          console.error("Proof instance is not found, invalid access");
+
+          // router.push(paths.proof__proof_instances);
         }
       });
   }, [setProofInstance]);

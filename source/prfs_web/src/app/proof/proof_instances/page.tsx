@@ -47,7 +47,7 @@ const Proofs: React.FC = () => {
           <Card>
             <Widget>
               <TopWidgetTitle>
-                <div className={styles.titleInner}>
+                <div className={styles.header}>
                   <WidgetLabel>{i18n.proof_instances}</WidgetLabel>
                   <Button variant="transparent_c" handleClick={handleClickCreateProofType}>
                     <HiMiniDocumentPlus />
@@ -56,7 +56,9 @@ const Proofs: React.FC = () => {
                 </div>
               </TopWidgetTitle>
               <PaddedTableWrapper>
-                <ProofInstanceTable />
+                <div className={styles.tableContainer}>
+                  <ProofInstanceTable />
+                </div>
               </PaddedTableWrapper>
             </Widget>
           </Card>

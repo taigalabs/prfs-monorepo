@@ -1,18 +1,20 @@
-.driverHeader {
+.header {
+  display: flex;
+  align-items: center;
   height: 100%;
 }
 
-.breadcrumbContainer {
-  padding-top: 12px;
-  padding-bottom: 13px;
-}
+.navigation {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  line-height: 24px;
+  margin-right: 22px;
 
-.tableWrapper {
-  padding: 0 10px;
-
-  thead {
-    tr {
-      border-top: none;
+  a {
+    color: var(--aqua-blue-50);
+    &:hover {
+      text-decoration: underline;
     }
   }
 }
