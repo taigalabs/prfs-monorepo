@@ -31,16 +31,15 @@ const AccountModal: React.FC<AccountModalProps> = ({ localPrfsAccount }) => {
 
   return (
     <div className={styles.modal}>
-      <div>
-        <p>{i18n.signature}</p>
+      <div className={styles.info}>
+        <p className={styles.infoLabel}>{i18n.signature}</p>
         <p className={styles.value}>{prfsAccount.sig}</p>
       </div>
-      <div>
-        <p>{i18n.wallet_addr}</p>
+      <div className={styles.info}>
+        <p className={styles.infoLabel}>{i18n.wallet_addr}</p>
         <p className={styles.value}>{walletAddr}</p>
       </div>
-      <ul>
-        <div>55</div>
+      <ul className={styles.menu}>
         <li onClick={handleClickSignOut}>{i18n.sign_out}</li>
       </ul>
     </div>

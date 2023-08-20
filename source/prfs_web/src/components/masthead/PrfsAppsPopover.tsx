@@ -59,7 +59,7 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({}) => {
           className={cn({
             [styles.isOpen]: isOpen,
           })}
-          variant="dots"
+          variant="hamburger"
         />
       </div>
     );
