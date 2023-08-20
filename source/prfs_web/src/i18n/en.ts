@@ -81,6 +81,7 @@ export default {
   create_proof: "Create proof",
   proof_dashboard: "Proof dashboard",
   create_proof_instance: "Create proof instance",
+  create_circuit: "Create circuit",
   home: "Home",
   proof_wizard: "Proof wizard",
   proof_wizard_sublabel: "Which proof can I create?",

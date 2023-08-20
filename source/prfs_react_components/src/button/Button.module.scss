@@ -1,3 +1,10 @@
+.wrapper {
+  a {
+    display: flex;
+    align-items: center;
+  }
+}
+
 .a {
   border-radius: 4px;
   background-color: #cddfdf;
@@ -80,6 +87,10 @@
     background-color: var(--bright-gray-40);
     cursor: pointer;
   }
+}
+
+.transparent_c:disabled {
+  color: var(--aqua-blue-90);
 }
 
 .transparent_c_light {

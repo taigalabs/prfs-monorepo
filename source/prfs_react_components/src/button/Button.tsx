@@ -7,6 +7,7 @@ const Button: React.FC<ButtonProps> = ({ children, className, handleClick, varia
   return (
     <button
       className={classnames({
+        [styles.wrapper]: true,
         [styles.a]: variant === "a",
         [styles.b]: variant === "b",
         [styles.c]: variant === "c",

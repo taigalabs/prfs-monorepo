@@ -47,14 +47,12 @@ const Proofs: React.FC = () => {
           <Card>
             <Widget>
               <TopWidgetTitle>
-                <div className={styles.proofInstanceWidgetHeader}>
+                <div className={styles.titleInner}>
                   <WidgetLabel>{i18n.proof_instances}</WidgetLabel>
-                  <div className={styles.btnArea}>
-                    <Button variant="transparent_c" handleClick={handleClickCreateProofType}>
-                      <HiMiniDocumentPlus />
-                      {i18n.create_proof_instance.toUpperCase()}
-                    </Button>
-                  </div>
+                  <Button variant="transparent_c" handleClick={handleClickCreateProofType}>
+                    <HiMiniDocumentPlus />
+                    {i18n.create_proof_instance.toUpperCase()}
+                  </Button>
                 </div>
               </TopWidgetTitle>
               <PaddedTableWrapper>
