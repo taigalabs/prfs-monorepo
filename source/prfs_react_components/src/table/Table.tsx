@@ -19,8 +19,8 @@ export const TableBody: React.FC<TableBodyProps> = ({ children }) => {
   return <tbody className={styles.tableBodyWrapper}>{children}</tbody>;
 };
 
-export const TableCell: React.FC<TableCellProps> = ({ children }) => {
-  return <td className={styles.tableCell}>{children}</td>;
+export const TableSearch: React.FC<TableSearchProps> = ({ children }) => {
+  return <div className={styles.tableSearch}>{children}</div>;
 };
 
 export function TableRow({ isSelected, children, onClickRow }: TableRowProps) {
@@ -82,7 +82,7 @@ export interface TableBodyProps {
   children: React.ReactNode;
 }
 
-export interface TableCellProps {
+export interface TableSearchProps {
   children: React.ReactNode;
 }
 

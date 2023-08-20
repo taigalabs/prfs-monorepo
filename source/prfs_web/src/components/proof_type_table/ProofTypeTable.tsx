@@ -10,7 +10,9 @@ import Table, {
   TableRecordData,
   TableRow,
   TableData,
+  TableSearch,
 } from "@taigalabs/prfs-react-components/src/table/Table";
+import { MdFilterList } from "react-icons/md";
 
 import styles from "./ProofTypeTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -72,18 +74,24 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
   }, [data]);
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <th className={styles.proofTypeId}>{i18n.proof_type_id}</th>
-          <th className={styles.label}>{i18n.label}</th>
-          <th className={styles.desc}>{i18n.description}</th>
-          <th className={styles.circuitId}>{i18n.circuit_id}</th>
-          <th className={styles.createdAt}>{i18n.created_at}</th>
-        </TableRow>
-      </TableHeader>
-      <TableBody>{rowsElem}</TableBody>
-    </Table>
+    <div className={styles.wrapper}>
+      <TableSearch>
+        <MdFilterList />
+        {i18n.proof_type_search_guide}
+      </TableSearch>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <th className={styles.proofTypeId}>{i18n.proof_type_id}</th>
+            <th className={styles.label}>{i18n.label}</th>
+            <th className={styles.desc}>{i18n.description}</th>
+            <th className={styles.circuitId}>{i18n.circuit_id}</th>
+            <th className={styles.createdAt}>{i18n.created_at}</th>
+          </TableRow>
+        </TableHeader>
+        <TableBody>{rowsElem}</TableBody>
+      </Table>
+    </div>
   );
 };
 

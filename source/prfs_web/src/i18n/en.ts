@@ -33,6 +33,7 @@ export default {
   hash_algorithm: "Hash algorithm",
   proof_instance_id: "Proof instance id",
   proof_type_id: "Proof type id",
+  proof_type_search_guide: "Search proof types",
   signature: "Signature",
   drivers: "Drivers",
   driver: "Driver",
