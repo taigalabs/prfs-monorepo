@@ -10,7 +10,7 @@ import {
 import localStore from "@/storage/localStore";
 
 export interface LocalPrfsAccount {
-  prfsAccount: PrfsAccount;
+  prfsAccount: PrfsAccount | undefined;
   walletAddr: string;
 }
 
@@ -19,7 +19,7 @@ export interface AppState {
 }
 
 const reducer = (state: AppState, action: Action) => {
-  // console.log("reducer, action: %o", action);
+  console.log("reducer, action: %o", action);
 
   switch (action.type) {
     case "sign_in":

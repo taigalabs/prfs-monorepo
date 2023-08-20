@@ -10,6 +10,7 @@ import Logo from "@/components/logo/Logo";
 import { stateContext } from "@/contexts/state";
 import PrfsAppsPopover from "./PrfsAppsPopover";
 import AccountPopover from "./AccountPopover";
+import useLocalWallet from "@/hooks/useLocalWallet";
 
 const ConnectButton = () => {
   const i18n = React.useContext(i18nContext);
@@ -24,9 +25,12 @@ const ConnectButton = () => {
 const Masthead: React.FC<any> = () => {
   const i18n = React.useContext(i18nContext);
   const { state } = React.useContext(stateContext);
+  const { dispatch } = React.useContext(stateContext);
   const { localPrfsAccount } = state;
   const path = usePathname();
   const [appName, setAppName] = React.useState("");
+
+  useLocalWallet(dispatch);
 
   React.useEffect(() => {
     const pathSegments = path.split("/");
