@@ -40,7 +40,9 @@ const Circuits: React.FC = () => {
               </div>
             </TopWidgetTitle>
             <PaddedTableWrapper>
-              <CircuitTable />
+              <div className={styles.circuitTableContainer}>
+                <CircuitTable />
+              </div>
             </PaddedTableWrapper>
           </Widget>
         </Card>

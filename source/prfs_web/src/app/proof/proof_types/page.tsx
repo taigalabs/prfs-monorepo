@@ -50,20 +50,20 @@ const Proofs: React.FC = () => {
               <TopWidgetTitle>
                 <div className={styles.header}>
                   <WidgetLabel>{i18n.proof_types}</WidgetLabel>
-                  <div className={styles.btnArea}>
-                    <Button
-                      className={styles.iconBtn}
-                      variant="transparent_c"
-                      handleClick={handleClickCreateProofType}
-                    >
-                      <AiFillFolderAdd />
-                      <span>{i18n.create_proof_type.toUpperCase()}</span>
-                    </Button>
-                  </div>
+                  <Button
+                    className={styles.iconBtn}
+                    variant="transparent_c"
+                    handleClick={handleClickCreateProofType}
+                  >
+                    <AiFillFolderAdd />
+                    <span>{i18n.create_proof_type.toUpperCase()}</span>
+                  </Button>
                 </div>
               </TopWidgetTitle>
               <PaddedTableWrapper>
-                <ProofTypeTable />
+                <div className={styles.proofTypeTableContainer}>
+                  <ProofTypeTable />
+                </div>
               </PaddedTableWrapper>
             </Widget>
           </Card>
