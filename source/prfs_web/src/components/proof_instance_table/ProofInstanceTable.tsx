@@ -12,11 +12,10 @@ import Table, {
   TableRow,
   TableSearch,
 } from "@taigalabs/prfs-react-components/src/table/Table";
+import dayjs from "dayjs";
 
 import styles from "./ProofInstanceTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { useConnect, useSigner } from "@thirdweb-dev/react";
-import { useWallet } from "@thirdweb-dev/react";
 import { PrfsProofInstance } from "@taigalabs/prfs-entities/bindings/PrfsProofInstance";
 import { paths } from "@/routes/path";
 
@@ -69,6 +68,8 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
 
       const shortPublicInputs = JSON.stringify(val.public_inputs).substring(0, 40);
 
+      const createdAt = dayjs(val.created_at).format("YYYY-MM-DD");
+
       let row = (
         <TableRow key={val.id as any} onClickRow={onClickRow} isSelected={isSelected}>
           {selectedVal && (
@@ -79,13 +80,9 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
           <td className={styles.proof_instance_id}>
             <Link href={`${paths.proof__proof_instances}/${val.id}`}>{val.id as any}</Link>
           </td>
-          <td className={styles.proof_type_id}>
-            <Link href={`${paths.proof__proof_types}/${val.proof_type_id}`}>
-              {val.proof_type_id}
-            </Link>
-          </td>
+          <td className={styles.proof_type_id}>{val.proof_type_id}</td>
           <td className={styles.public_inputs}>{shortPublicInputs}</td>
-          <td className={styles.createdAt}>{val.created_at}</td>
+          <td className={styles.createdAt}>{createdAt}</td>
         </TableRow>
       );
 
@@ -108,6 +105,7 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
             <th className={styles.proof_type_id}>{i18n.proof_type_id}</th>
             <th className={styles.public_inputs}>{i18n.public_inputs}</th>
             <th className={styles.createdAt}>{i18n.created_at}</th>
+            <th></th>
           </TableRow>
         </TableHeader>
         <TableBody>{rowsElem}</TableBody>

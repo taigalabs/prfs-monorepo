@@ -1,10 +1,9 @@
 "use client";
 
 import React from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import { HiMiniFolderPlus } from "react-icons/hi2";
 import { AiFillFolderAdd } from "react-icons/ai";
 import Link from "next/link";
 
@@ -24,7 +23,6 @@ const Proofs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
   const { dispatch } = React.useContext(stateContext);
 
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [createPage, setCreatePage] = React.useState(false);
 

@@ -19,7 +19,6 @@ import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
-import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import SetElementTable from "@/components/set_element_table/SetElementTable";
 import SetSummary from "@/components/set_summary/SetSummary";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
@@ -45,7 +44,9 @@ const Set: React.FC<SetProps> = ({ params }) => {
         if (prfs_sets.length > 0) {
           setSet(prfs_sets[0]);
         } else {
-          router.push("/sets");
+          console.error("Set not found");
+
+          // router.push(paths.proof__sets);
         }
       });
   }, [setSet]);

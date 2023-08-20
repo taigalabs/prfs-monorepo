@@ -14,7 +14,6 @@ import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
-import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import { useRouter } from "next/navigation";
 import CircuitInputTable from "@/components/circuit_input_table/CircuitInputTable";
 import ProofTypeSummary from "@/components/proof_type_summary/ProofTypeSummary";
