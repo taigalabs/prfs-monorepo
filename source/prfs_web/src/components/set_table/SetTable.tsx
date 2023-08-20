@@ -10,6 +10,7 @@ import Table, {
   TableRecordData,
   TableRow,
   TableData,
+  TableSearch,
 } from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./SetTable.module.scss";
@@ -72,7 +73,6 @@ const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSele
             <Link href={`${paths.proof__sets}/${val.set_id}`}>{val.set_id}</Link>
           </td>
           <td className={styles.label}>{val.label}</td>
-          <td className={styles.author}>{val.author}</td>
           <td className={styles.desc}>{val.desc}</td>
           <td className={styles.cardinality}>{val.cardinality.toString()}</td>
           <td className={styles.createdAt}>{val.created_at}</td>
@@ -86,20 +86,24 @@ const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSele
   }, [data, handleSelectVal, selectedVal]);
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          {handleSelectVal && <th className={styles.select}></th>}
-          <th className={styles.set_id}>{i18n.set_id}</th>
-          <th className={styles.label}>{i18n.label}</th>
-          <th className={styles.author}>{i18n.author}</th>
-          <th className={styles.desc}>{i18n.description}</th>
-          <th className={styles.cardinality}>{i18n.cardinality}</th>
-          <th className={styles.createdAt}>{i18n.created_at}</th>
-        </TableRow>
-      </TableHeader>
-      <TableBody>{rowsElem}</TableBody>
-    </Table>
+    <div>
+      <TableSearch>
+        <input placeholder={i18n.set_search_guide} />
+      </TableSearch>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            {handleSelectVal && <th className={styles.select}></th>}
+            <th className={styles.set_id}>{i18n.set_id}</th>
+            <th className={styles.label}>{i18n.label}</th>
+            <th className={styles.desc}>{i18n.description}</th>
+            <th className={styles.cardinality}>{i18n.cardinality}</th>
+            <th className={styles.createdAt}>{i18n.created_at}</th>
+          </TableRow>
+        </TableHeader>
+        <TableBody>{rowsElem}</TableBody>
+      </Table>
+    </div>
   );
 };
 

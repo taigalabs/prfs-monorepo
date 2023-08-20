@@ -37,6 +37,7 @@ export default {
   proof_type_id: "Proof type id",
   proof_type_search_guide: "Search proof types",
   proof_instance_search_guide: "Search proof instances",
+  set_search_guide: "Search sets",
   circuit_search_guide: "Search circuits",
   signature: "Signature",
   drivers: "Drivers",
