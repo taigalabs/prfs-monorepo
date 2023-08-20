@@ -19,6 +19,8 @@ pub async fn get_prfs_proof_type(
         .iter()
         .map(|row| PrfsProofType {
             proof_type_id: row.get("proof_type_id"),
+            expression: row.get("expression"),
+            img_url: row.get("img_url"),
             label: row.get("label"),
             author: row.get("author"),
             desc: row.get("desc"),
@@ -43,6 +45,8 @@ pub async fn get_prfs_proof_types(pool: &Pool<Postgres>) -> Vec<PrfsProofType> {
         .map(|row| PrfsProofType {
             proof_type_id: row.get("proof_type_id"),
             label: row.get("label"),
+            expression: row.get("expression"),
+            img_url: row.get("img_url"),
             author: row.get("author"),
             desc: row.get("desc"),
             circuit_id: row.get("circuit_id"),

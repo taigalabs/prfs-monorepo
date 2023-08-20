@@ -12,6 +12,8 @@ pub struct PrfsProofType {
     pub label: String,
     pub author: String,
     pub desc: String,
+    pub expression: String,
+    pub img_url: String,
 
     pub circuit_id: String,
     pub driver_id: String,
