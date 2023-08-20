@@ -84,6 +84,11 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 
     const { prfsAccount } = localPrfsAccount;
 
+    if (!prfsAccount) {
+      setFormAlert("Invalid local prfs account");
+      return null;
+    }
+
     if (name === undefined || name.length < 1) {
       setFormAlert("Name should be defined");
       return;

@@ -1,4 +1,5 @@
 import { PrfsProofInstance } from "@taigalabs/prfs-entities/bindings/PrfsProofInstance";
+import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
@@ -32,12 +33,12 @@ export async function createPrfsProofInstance(req: CreatePrfsProofInstanceReques
 export interface GetPrfsProofInstancesRequest {
   page: number;
   limit?: number;
-  proof_instance_id?: string;
+  id?: number;
 }
 
 export type GetPrfsProofInstancesResponse = PrfsApiResponse<{
   page: number;
-  prfs_proof_instances: PrfsProofInstance[];
+  prfs_proof_instances_syn1: PrfsProofInstanceSyn1[];
 }>;
 
 export async function getPrfsProofInstances(req: GetPrfsProofInstancesRequest) {

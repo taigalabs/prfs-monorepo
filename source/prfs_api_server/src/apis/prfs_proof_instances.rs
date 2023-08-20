@@ -2,7 +2,10 @@ use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
 use chrono::{DateTime, NaiveDate, NaiveDateTime};
 use hyper::{body, Body, Request, Response};
 use prfs_db_interface::{db_apis, sqlx::types::Json};
-use prfs_entities::entities::{CircuitInput, PrfsProofInstance, PrfsProofType, PrfsSet};
+use prfs_entities::{
+    entities::{CircuitInput, PrfsProofInstance, PrfsProofType, PrfsSet},
+    syn_entities::PrfsProofInstanceSyn1,
+};
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, convert::Infallible, sync::Arc};
@@ -17,7 +20,7 @@ struct GetPrfsProofInstancesRequest {
 #[derive(Serialize, Deserialize, Debug)]
 struct GetPrfsProofInstancesRespPayload {
     page: u32,
-    prfs_proof_instances: Vec<PrfsProofInstance>,
+    prfs_proof_instances_syn1: Vec<PrfsProofInstanceSyn1>,
 }
 
 pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Body>, Infallible> {
@@ -37,18 +40,19 @@ pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Bod
 
     match req.id {
         Some(id) => {
-            let prfs_proof_instances = db_apis::get_prfs_proof_instance(pool, &id).await;
+            let prfs_proof_instances_syn1 = db_apis::get_prfs_proof_instance_syn1(pool, &id).await;
             let resp = ApiResponse::new_success(GetPrfsProofInstancesRespPayload {
                 page: req.page,
-                prfs_proof_instances,
+                prfs_proof_instances_syn1,
             });
             return Ok(resp.into_hyper_response());
         }
         None => {
-            let prfs_proof_instances = db_apis::get_prfs_proof_instances(pool, req.limit).await;
+            let prfs_proof_instances_syn1 =
+                db_apis::get_prfs_proof_instances_syn1(pool, req.limit).await;
             let resp = ApiResponse::new_success(GetPrfsProofInstancesRespPayload {
                 page: req.page,
-                prfs_proof_instances,
+                prfs_proof_instances_syn1,
             });
             return Ok(resp.into_hyper_response());
         }

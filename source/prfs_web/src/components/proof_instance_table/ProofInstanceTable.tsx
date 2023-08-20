@@ -34,10 +34,10 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
         limit: 20,
       })
       .then(resp => {
-        const { page, prfs_proof_instances } = resp.payload;
+        const { page, prfs_proof_instances_syn1 } = resp.payload;
         return {
           page,
-          values: prfs_proof_instances,
+          values: prfs_proof_instances_syn1,
         };
       });
   }, []);

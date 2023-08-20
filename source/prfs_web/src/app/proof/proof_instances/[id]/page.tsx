@@ -33,22 +33,22 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
 
   useLocalWallet(dispatch);
 
-  const topWidgetLabel = `${i18n.proof_instance} ${params.proof_instance_id}`;
+  const topWidgetLabel = `${i18n.proof_instance} ${params.id}`;
 
   const [proofInstance, setProofInstance] = React.useState<PrfsProofInstance>();
   React.useEffect(() => {
-    const proof_instance_id = decodeURIComponent(params.proof_instance_id);
+    const id = +decodeURIComponent(params.id);
 
     prfsApi
       .getPrfsProofInstances({
         page: 0,
-        proof_instance_id,
+        id,
       })
       .then(resp => {
-        const { prfs_proof_instances } = resp.payload;
+        const { prfs_proof_instances_syn1 } = resp.payload;
 
-        if (prfs_proof_instances.length > 0) {
-          setProofInstance(prfs_proof_instances[0]);
+        if (prfs_proof_instances_syn1.length > 0) {
+          setProofInstance(prfs_proof_instances_syn1[0]);
         } else {
           console.error("Proof instance is not found, invalid access");
 
@@ -91,6 +91,6 @@ export default ProofInstancePage;
 
 interface ProofInstancePageProps {
   params: {
-    proof_instance_id: string;
+    id: string;
   };
 }
