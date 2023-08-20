@@ -6,10 +6,11 @@ import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/T
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { HiMiniFolderPlus } from "react-icons/hi2";
 import { AiFillFolderAdd } from "react-icons/ai";
+import Link from "next/link";
 
 import styles from "./ProofTypes.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
+import Widget, { TopWidgetTitle, WidgetLabel } from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
@@ -35,10 +36,6 @@ const Proofs: React.FC = () => {
 
   useLocalWallet(dispatch);
 
-  const handleClickCreateProofType = React.useCallback(() => {
-    router.push(`${paths.proof__proof_types}?create`);
-  }, [router]);
-
   return (
     <DefaultLayout>
       {createPage ? (
@@ -50,13 +47,11 @@ const Proofs: React.FC = () => {
               <TopWidgetTitle>
                 <div className={styles.header}>
                   <WidgetLabel>{i18n.proof_types}</WidgetLabel>
-                  <Button
-                    className={styles.iconBtn}
-                    variant="transparent_c"
-                    handleClick={handleClickCreateProofType}
-                  >
-                    <AiFillFolderAdd />
-                    <span>{i18n.create_proof_type.toUpperCase()}</span>
+                  <Button className={styles.iconBtn} variant="transparent_c">
+                    <Link href={`${paths.proof__proof_types}?create`}>
+                      <AiFillFolderAdd />
+                      <span>{i18n.create_proof_type.toUpperCase()}</span>
+                    </Link>
                   </Button>
                 </div>
               </TopWidgetTitle>

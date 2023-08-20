@@ -5,10 +5,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 import { HiMiniDocumentPlus } from "react-icons/hi2";
+import Link from "next/link";
 
 import styles from "./Proofs.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
+import Widget, { TopWidgetTitle, WidgetLabel } from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
@@ -34,10 +35,6 @@ const Proofs: React.FC = () => {
     setCreatePage(createPage);
   }, [searchParams]);
 
-  const handleClickCreateProofType = React.useCallback(() => {
-    router.push(`${paths.proof__proof_instances}?create`);
-  }, [router]);
-
   return (
     <DefaultLayout>
       {createPage ? (
@@ -49,9 +46,11 @@ const Proofs: React.FC = () => {
               <TopWidgetTitle>
                 <div className={styles.header}>
                   <WidgetLabel>{i18n.proof_instances}</WidgetLabel>
-                  <Button variant="transparent_c" handleClick={handleClickCreateProofType}>
-                    <HiMiniDocumentPlus />
-                    {i18n.create_proof_instance.toUpperCase()}
+                  <Button variant="transparent_c">
+                    <Link href={`${paths.proof__proof_instances}?create`}>
+                      <HiMiniDocumentPlus />
+                      {i18n.create_proof_instance.toUpperCase()}
+                    </Link>
                   </Button>
                 </div>
               </TopWidgetTitle>

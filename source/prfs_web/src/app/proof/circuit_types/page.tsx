@@ -2,6 +2,9 @@
 
 import React from "react";
 import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
+import { AiFillPlusCircle } from "react-icons/ai";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Link from "next/link";
 
 import styles from "./CircuitTypes.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -12,6 +15,7 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import CircuitTypeTable from "@/components/circuit_type_table/CircuitTypeTable";
+import { paths } from "@/routes/path";
 
 const CircuitTypes: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -25,7 +29,15 @@ const CircuitTypes: React.FC = () => {
         <Card>
           <Widget>
             <TopWidgetTitle>
-              <WidgetLabel>{i18n.circuit_types}</WidgetLabel>
+              <div className={styles.titleInner}>
+                <WidgetLabel>{i18n.circuit_types}</WidgetLabel>
+                <Button variant="transparent_c" disabled>
+                  <Link href={`${paths.proof__circuit_types}?create`}>
+                    <AiFillPlusCircle />
+                    {i18n.create_circuit_type.toUpperCase()}
+                  </Link>
+                </Button>
+              </div>
             </TopWidgetTitle>
             <PaddedTableWrapper>
               <div className={styles.tableContainer}>

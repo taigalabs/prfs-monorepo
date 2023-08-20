@@ -9,6 +9,7 @@ import {
   PaddedTableWrapper,
   TableCurrentPageLimitWarning,
 } from "@taigalabs/prfs-react-components/src/table/Table";
+import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 
 import styles from "./Set.module.scss";
 import { stateContext } from "@/contexts/state";
@@ -22,6 +23,7 @@ import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb"
 import SetElementTable from "@/components/set_element_table/SetElementTable";
 import SetSummary from "@/components/set_summary/SetSummary";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
+import { paths } from "@/routes/path";
 
 const Set: React.FC<SetProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -56,24 +58,21 @@ const Set: React.FC<SetProps> = ({ params }) => {
         <Card>
           <Widget>
             <TopWidgetTitle>
-              <div className={styles.setHeader}>
-                <div className={styles.breadcrumbContainer}>
-                  <Breadcrumb>
-                    <BreadcrumbEntry>
-                      <Link href="/sets">{i18n.sets}</Link>
-                    </BreadcrumbEntry>
-                    <BreadcrumbEntry>{params.set_id}</BreadcrumbEntry>
-                  </Breadcrumb>
-                </div>
+              <div className={styles.header}>
+                <Link href={paths.proof__sets}>
+                  <ArrowButton variant="left" />
+                </Link>
                 <WidgetLabel>{setTableLabel}</WidgetLabel>
               </div>
             </TopWidgetTitle>
+
             <PaddedSummaryWrapper>
               <SetSummary set={set} />
             </PaddedSummaryWrapper>
           </Widget>
         </Card>
       </CardRow>
+
       <CardRow>
         <Card>
           <Widget>

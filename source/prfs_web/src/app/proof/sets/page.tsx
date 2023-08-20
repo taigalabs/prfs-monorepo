@@ -12,6 +12,10 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import SetTable from "@/components/set_table/SetTable";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Link from "next/link";
+import { AiFillPlusCircle } from "react-icons/ai";
+import { paths } from "@/routes/path";
 
 const Sets: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -25,10 +29,20 @@ const Sets: React.FC = () => {
         <Card>
           <Widget>
             <TopWidgetTitle>
-              <WidgetLabel>{i18n.sets}</WidgetLabel>
+              <div className={styles.titleInner}>
+                <WidgetLabel>{i18n.sets}</WidgetLabel>
+                <Button className={styles.iconBtn} variant="transparent_c">
+                  <Link href={`${paths.proof__sets}?create`}>
+                    <AiFillPlusCircle />
+                    <span>{i18n.create_set.toUpperCase()}</span>
+                  </Link>
+                </Button>
+              </div>
             </TopWidgetTitle>
             <PaddedTableWrapper>
-              <SetTable />
+              <div className={styles.tableContainer}>
+                <SetTable />
+              </div>
             </PaddedTableWrapper>
           </Widget>
         </Card>
