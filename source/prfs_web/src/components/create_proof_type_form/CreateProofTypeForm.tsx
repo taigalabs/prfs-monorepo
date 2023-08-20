@@ -20,6 +20,8 @@ import { getYMD } from "@/functions/date";
 import { keccakHash } from "@/functions/hash";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 import CircuitInputConfigSection from "../circuit_input_config_section/CircuitInputConfigSection";
+import { paths } from "@/routes/path";
+import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -133,14 +135,15 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   return (
     <div className={styles.wrapper}>
       <WidgetPaddedBody>
-        <Breadcrumb>
-          <BreadcrumbEntry>
-            <Link href="/proof_types">{i18n.proof_types}</Link>
-          </BreadcrumbEntry>
-          <BreadcrumbEntry>{i18n.create_proof_type}</BreadcrumbEntry>
-        </Breadcrumb>
         <FormTitleRow>
-          <FormTitle>{i18n.create_proof_type}</FormTitle>
+          <FormTitle>
+            <div className={styles.navigation}>
+              <Link href={paths.proof__proof_types}>
+                <ArrowButton variant="left" />
+              </Link>
+            </div>
+            {i18n.create_proof_type}
+          </FormTitle>
           <FormSubtitle>{i18n.create_proof_type_subtitle}</FormSubtitle>
         </FormTitleRow>
       </WidgetPaddedBody>
