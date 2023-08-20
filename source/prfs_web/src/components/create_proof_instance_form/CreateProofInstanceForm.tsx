@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import * as prfsApi from "@taigalabs/prfs-api-js";
-import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
@@ -33,9 +32,6 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   const { localPrfsAccount } = state;
   const router = useRouter();
 
-  const [publicInputInstance, setPublicInputInstance] = React.useState<
-    Record<string, CircuitInput>
-  >({});
   const [formAlert, setFormAlert] = React.useState("");
   const [selectedProofType, setSelectedProofType] = React.useState<PrfsProofType | undefined>();
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
@@ -106,7 +102,6 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       console.log("took %s ms to create a proof", duration);
 
       const id = prfsAccount.sig.substring(0, 10);
-
       const proof_instance_id = `${id}_${selectedProofType.proof_type_id.substring(
         -6
       )}_${Date.now()}`;
@@ -122,7 +117,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
       router.push(`${paths.proof__proof_instances}/${resp.payload.id}`);
     }
-  }, [publicInputInstance, selectedProofType, setFormAlert, localPrfsAccount, proofGenElement]);
+  }, [selectedProofType, setFormAlert, localPrfsAccount, proofGenElement]);
 
   return (
     <div className={styles.wrapper}>

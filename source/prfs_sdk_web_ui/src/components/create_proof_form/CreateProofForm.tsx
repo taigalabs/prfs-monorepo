@@ -95,6 +95,8 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
               proofGenEventListener
             );
 
+            proofGenEventListener("plain", `Proof created in ${proveReceipt.duration}ms`);
+
             ev.ports[0].postMessage(new CreateProofResponseMsg(proveReceipt));
           } catch (err) {}
         }
