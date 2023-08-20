@@ -4,10 +4,19 @@ import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import Table, {
+  TableBody,
+  TableHeader,
+  TableRecordData,
+  TableRow,
+  TableData,
+  TableSearch,
+} from "@taigalabs/prfs-react-components/src/table/Table";
+import { MdFilterList } from "react-icons/md";
 
 import styles from "./ProofTypeTable.module.scss";
-import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
+import { paths } from "@/routes/path";
 
 const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -47,7 +56,9 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
       let row = (
         <TableRow key={val.proof_type_id}>
           <td className={styles.proofTypeId}>
-            <Link href={`/proof_types/${val.proof_type_id}`}>{val.proof_type_id}</Link>
+            <Link href={`${paths.proof__proof_types}/${val.proof_type_id}`}>
+              {val.proof_type_id}
+            </Link>
           </td>
           <td className={styles.label}>{val.label}</td>
           <td className={styles.desc}>{val.desc}</td>
@@ -63,18 +74,22 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
   }, [data]);
 
   return (
-    <Table minWidth={800}>
-      <TableHeader>
-        <TableRow>
-          <th className={styles.proofTypeId}>{i18n.proof_type_id}</th>
-          <th className={styles.label}>{i18n.label}</th>
-          <th className={styles.desc}>{i18n.description}</th>
-          <th className={styles.circuitId}>{i18n.circuit_id}</th>
-          <th className={styles.createdAt}>{i18n.created_at}</th>
-        </TableRow>
-      </TableHeader>
-      <TableBody>{rowsElem}</TableBody>
-    </Table>
+    <div className={styles.wrapper}>
+      <TableSearch>{i18n.proof_type_search_guide}</TableSearch>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <th className={styles.proofTypeId}>{i18n.proof_type_id}</th>
+            <th className={styles.label}>{i18n.label}</th>
+            <th className={styles.desc}>{i18n.description}</th>
+            <th className={styles.circuitId}>{i18n.circuit_id}</th>
+            <th className={styles.createdAt}>{i18n.created_at}</th>
+            <th></th>
+          </TableRow>
+        </TableHeader>
+        <TableBody>{rowsElem}</TableBody>
+      </Table>
+    </div>
   );
 };
 

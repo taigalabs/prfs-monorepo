@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import { handleChildMessage } from "./handle_child_msg";
 import { sendMsgToChild } from "./send_msg";
 import { CreateProofMsg } from "./msg";
+import { ProveReceipt, ProveResult } from "@taigalabs/prfs-driver-interface";
 
 export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
 export const LOADING_SPAN_ID = "prfs-sdk-loading";
@@ -81,16 +82,19 @@ class ProofGenElement {
     });
   }
 
-  async createProof() {
+  async createProof(): Promise<ProveReceipt | null> {
     if (!this.state.iframe) {
       console.error("iframe is not created");
-      return;
+      return null;
     }
 
-    const proofResp = await sendMsgToChild(new CreateProofMsg(), this.state.iframe);
+    try {
+      const proofResp: ProveReceipt = await sendMsgToChild(new CreateProofMsg(), this.state.iframe);
 
-    return proofResp;
-    console.log(33, proofResp);
+      return proofResp;
+    } catch (err) {
+      return null;
+    }
   }
 }
 

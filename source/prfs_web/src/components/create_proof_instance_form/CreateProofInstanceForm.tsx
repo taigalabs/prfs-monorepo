@@ -1,51 +1,39 @@
 import React from "react";
 import Link from "next/link";
+import { ethers } from "ethers";
 import { useRouter } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import { MsgType, PrfsSDK, sendMsgToChild } from "@taigalabs/prfs-sdk-web";
-import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
-import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
+import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import * as prfsApi from "@taigalabs/prfs-api-js";
-import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
+import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
 import styles from "./CreateProofInstanceForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
+import Widget, {
+  TopWidgetTitle,
+  WidgetHeader,
+  WidgetLabel,
+  WidgetPaddedBody,
+} from "@/components/widget/Widget";
 import CardRow from "@/components/card_row/CardRow";
 import Card from "@/components/card/Card";
-import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
-import { FormTitleRow, FormTitle, FormSubtitle } from "@/components/form/Form";
 import { stateContext } from "@/contexts/state";
 import ProofTypeDropdown from "@/components/proof_type_dropdown/ProofTypeDropdown";
-import CircuitInputConfigSection from "@/components/circuit_input_config_section/CircuitInputConfigSection";
-import { useSigner } from "@thirdweb-dev/react";
-import { interpolateSystemAssetEndpoint, initDriver } from "@/functions/circuitDriver";
-// import { SpartanMerkleProof } from "@taigalabs/prfs-driver-spartan-js";
-
-///
-import { hashPersonalMessage } from "@ethereumjs/util";
-import { ethers } from "ethers";
-import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
-import { PaddedTableWrapper } from "../table/Table";
-import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
+import { paths } from "@/routes/path";
 
 const prfs = new PrfsSDK("test");
 
 const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   const i18n = React.useContext(i18nContext);
   const { state } = React.useContext(stateContext);
-  const { prfsAccount } = state;
-  // const router = useRouter();
-  const signer = useSigner();
+  const { localPrfsAccount } = state;
+  const router = useRouter();
 
-  const [publicInputInstance, setPublicInputInstance] = React.useState<
-    Record<string, CircuitInput>
-  >({});
   const [formAlert, setFormAlert] = React.useState("");
   const [selectedProofType, setSelectedProofType] = React.useState<PrfsProofType | undefined>();
-  const [programProps, setProgramProps] = React.useState();
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
 
   const handleSelectProofType = React.useCallback(
@@ -62,7 +50,6 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   React.useEffect(() => {
     async function fn() {
       if (selectedProofType) {
-        console.log(55, selectedProofType);
         const provider = new ethers.providers.Web3Provider(window.ethereum);
 
         const proofGenElement = prfs.create("proof-gen", {
@@ -72,7 +59,6 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
         });
 
         await proofGenElement.mount("#prfs-sdk-container");
-        console.log("sdk is loaded");
 
         setProofGenElement(proofGenElement);
       }
@@ -83,6 +69,13 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
   const handleClickCreateProofInstance = React.useCallback(async () => {
     setFormAlert("");
+
+    if (!localPrfsAccount) {
+      setFormAlert("User is not signed in");
+      return;
+    }
+
+    const { prfsAccount } = localPrfsAccount;
 
     if (!prfsAccount) {
       setFormAlert("User is not signed in");
@@ -99,26 +92,46 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       return;
     }
 
-    const proofResult = await proofGenElement.createProof();
+    const proveReceipt = await proofGenElement.createProof();
 
-    console.log(11, proofResult);
-  }, [publicInputInstance, selectedProofType, setFormAlert, state.prfsAccount, proofGenElement]);
+    if (proveReceipt) {
+      const { duration, proveResult } = proveReceipt;
+      const { proof, publicInputSer } = proveResult;
+      const public_inputs = JSON.parse(publicInputSer);
+
+      console.log("took %s ms to create a proof", duration);
+
+      const id = prfsAccount.sig.substring(0, 10);
+      const proof_instance_id = `${id}_${selectedProofType.proof_type_id.substring(
+        -6
+      )}_${Date.now()}`;
+
+      console.log("try inserting proof", proveReceipt);
+      const resp = await prfsApi.createPrfsProofInstance({
+        proof_instance_id,
+        sig: prfsAccount.sig,
+        proof_type_id: selectedProofType.proof_type_id,
+        proof: Array.from(proof),
+        public_inputs,
+      });
+
+      router.push(`${paths.proof__proof_instances}/${resp.payload.id}`);
+    }
+  }, [selectedProofType, setFormAlert, localPrfsAccount, proofGenElement]);
 
   return (
     <div className={styles.wrapper}>
-      <WidgetPaddedBody>
-        <div className={styles.breadcrumbContainer}>
-          <Breadcrumb>
-            <BreadcrumbEntry>
-              <Link href="/proofs">{i18n.proofs}</Link>
-            </BreadcrumbEntry>
-            <BreadcrumbEntry>{i18n.create_proof_type}</BreadcrumbEntry>
-          </Breadcrumb>
+      <TopWidgetTitle>
+        <div className={styles.header}>
+          <Link href={paths.proof__proof_instances}>
+            <ArrowButton variant="left" />
+          </Link>
+          <WidgetLabel>{i18n.create_proof_instance}</WidgetLabel>
         </div>
-        <FormTitleRow>
-          <FormTitle>{i18n.create_proof_instance}</FormTitle>
-          <FormSubtitle>{i18n.create_proof_instance_subtitle}</FormSubtitle>
-        </FormTitleRow>
+      </TopWidgetTitle>
+
+      <WidgetPaddedBody>
+        <div className={styles.desc}>{i18n.create_proof_type_subtitle}</div>
       </WidgetPaddedBody>
 
       <Widget>

@@ -1,0 +1,18 @@
+.tableWrapper {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.rows {
+}
+
+.label {
+  vertical-align: top;
+  font-weight: 500;
+  width: 180px;
+}
+
+.value {
+  word-wrap: break-word;
+  word-break: break-all;
+}

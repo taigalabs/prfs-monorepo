@@ -28,6 +28,7 @@ rust_decimal_macros = "1.29"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["json", "env-filter"] }
 tracing-appender = "0.2"
+sqlx = { version = "0.7", features = [ "runtime-tokio", "postgres", "chrono", "rust_decimal", "json" ] }
 
 prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_circuit_circom = { path = "../prfs_circuit_circom" }

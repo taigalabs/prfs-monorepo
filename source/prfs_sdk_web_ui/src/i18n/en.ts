@@ -1,9 +1,15 @@
 export default {
+  terminal_scroll_guide: "Scroll to see the inputs",
+  log: "Log",
   loading: "Loading...",
   create_proof: "Create proof",
   public_inputs: "Public inputs",
   private_inputs: "Private inputs",
   prfs_web_sdk: "Prfs Web SDK",
+  proof_creation_title: "Proof creation starts soon",
+  start_create_proof_guide_1:
+    "Do not refresh the page, try later if you are running other CPU-intensive works",
+  start_create_proof_guide_2: "15-20s to take on average, process will be force-stopped after 60s",
   prfs_copyright: "© 2023 Prfs",
   explore_technologies: "Explore technologies",
   latest_prfs_updates: "Latest Prfs updates",
@@ -36,6 +42,7 @@ export default {
   proof_type_id: "Proof type id",
   drivers: "Drivers",
   driver: "Driver",
+  driver_init_failed: "Driver init failed",
   driver_summary_label: "Driver summary for",
   circuit_drivers: "Circuit drivers",
   generate: "Generate",

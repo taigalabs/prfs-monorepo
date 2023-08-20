@@ -3,14 +3,12 @@
   flex-direction: column;
   position: fixed;
   z-index: 100;
-  width: 285px;
-  height: calc(100% - 53px);
-  flex-shrink: 0;
-  padding: 0px 0px 34px 94px;
+  width: 260px;
+  height: calc(100% - 55px);
   font-size: 15px;
-  /* background-color: var(--bright-gray-60); */
   border-right: 1px solid var(--bright-gray-31);
   color: var(--black-50);
+  overflow-y: scroll;
 
   li {
     line-height: 1em;
@@ -23,42 +21,33 @@
   a {
     border-radius: 5px;
     display: block;
-    padding: 12px 18px;
-    margin-right: 14px;
+    padding: 12px 14px;
+    margin: 0 14px;
   }
 }
 
 .topSection {
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid var(--bright-gray-31);
-  height: 80px;
-
-  a {
-    /* color: var(--gray-20); */
-  }
-}
-
-.homeSection {
-  margin-top: 20px;
+  /* margin-top: 10px; */
+  /* height: 60px; */
+  /* border-bottom: 1px solid var(--bright-gray-31); */
 }
 
 .section {
+  padding: 10px 0;
 }
 
 .section:not(:first-child) {
-  margin-top: 20px;
+  border-top: 1px solid var(--bright-gray-31);
+  /* margin-top: 20px; */
 }
 
 .category {
+  margin: 0 14px;
   display: flex;
   align-items: center;
-  font-weight: 500;
-  font-size: 12px;
-  padding: 14px 18px;
-
-  svg {
-  }
+  /* font-weight: 500; */
+  /* font-size: 13px; */
+  padding: 12px 14px;
 }
 
 .activeLink {
@@ -67,6 +56,23 @@
 
 p.menuSublabel {
   color: var(--aqua-blue-50);
-  margin-top: 6px;
-  font-size: 0.81em;
+  margin-top: 2px;
+  font-size: 0.79em;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+
+  svg {
+    font-size: 18px;
+    color: var(--gray-30);
+    margin-right: 14px;
+  }
+}
+
+.bold {
+  svg {
+    color: var(--gray-10);
+  }
 }

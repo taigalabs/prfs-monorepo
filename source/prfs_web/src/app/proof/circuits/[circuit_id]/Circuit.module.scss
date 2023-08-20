@@ -1,0 +1,17 @@
+.circuitHeader {
+  height: 100%;
+}
+
+.breadcrumbContainer {
+  padding-top: 12px;
+  padding-bottom: 13px;
+}
+
+.widgetHeader {
+  display: flex;
+  justify-content: space-between;
+
+  align-items: center;
+  padding: 15px 15px 15px 25px;
+  border-bottom: 1px solid var(--bright-gray-31);
+}

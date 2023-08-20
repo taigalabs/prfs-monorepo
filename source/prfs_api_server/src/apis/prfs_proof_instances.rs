@@ -1,0 +1,101 @@
+use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
+use chrono::{DateTime, NaiveDate, NaiveDateTime};
+use hyper::{body, Body, Request, Response};
+use prfs_db_interface::{db_apis, sqlx::types::Json};
+use prfs_entities::entities::{CircuitInput, PrfsProofInstance, PrfsProofType, PrfsSet};
+use routerify::prelude::*;
+use serde::{Deserialize, Serialize};
+use std::{collections::HashMap, convert::Infallible, sync::Arc};
+
+#[derive(Serialize, Deserialize, Debug)]
+struct GetPrfsProofInstancesRequest {
+    page: u32,
+    limit: Option<u32>,
+    id: Option<i64>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct GetPrfsProofInstancesRespPayload {
+    page: u32,
+    prfs_proof_instances: Vec<PrfsProofInstance>,
+}
+
+pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+    println!("get proof types");
+
+    let state = req.data::<Arc<ServerState>>().unwrap();
+    let state = state.clone();
+
+    let pool = &state.db2.pool;
+    // let mut tx = pool.begin().await.unwrap();
+
+    let bytes = body::to_bytes(req.into_body()).await.unwrap();
+    let body_str = String::from_utf8(bytes.to_vec()).unwrap();
+    let req = serde_json::from_str::<GetPrfsProofInstancesRequest>(&body_str).unwrap();
+
+    println!("req: {:?}", req);
+
+    match req.id {
+        Some(id) => {
+            let prfs_proof_instances = db_apis::get_prfs_proof_instance(pool, &id).await;
+            let resp = ApiResponse::new_success(GetPrfsProofInstancesRespPayload {
+                page: req.page,
+                prfs_proof_instances,
+            });
+            return Ok(resp.into_hyper_response());
+        }
+        None => {
+            let prfs_proof_instances = db_apis::get_prfs_proof_instances(pool, req.limit).await;
+            let resp = ApiResponse::new_success(GetPrfsProofInstancesRespPayload {
+                page: req.page,
+                prfs_proof_instances,
+            });
+            return Ok(resp.into_hyper_response());
+        }
+    };
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct CreatePrfsProofInstanceRequest {
+    proof_instance_id: String,
+    sig: String,
+    proof_type_id: String,
+    proof: Vec<u8>,
+    public_inputs: sqlx::types::Json<serde_json::Value>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct CreatePrfsProofInstanceRespPayload {
+    id: i64,
+}
+
+pub async fn create_prfs_proof_instance(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+    let state = req.data::<Arc<ServerState>>().unwrap();
+    let state = state.clone();
+
+    let pool = &state.db2.pool;
+    let mut tx = pool.begin().await.unwrap();
+
+    let bytes = body::to_bytes(req.into_body()).await.unwrap();
+    let body_str = String::from_utf8(bytes.to_vec()).unwrap();
+    let req = serde_json::from_str::<CreatePrfsProofInstanceRequest>(&body_str)
+        .expect("req request should be parsable");
+
+    // println!("req: {:?}", req);
+
+    let prfs_proof_instance = PrfsProofInstance {
+        id: None,
+        proof_type_id: req.proof_type_id.to_string(),
+        proof: req.proof.to_vec(),
+        public_inputs: req.public_inputs.clone(),
+        created_at: chrono::offset::Utc::now(),
+    };
+
+    let id = db_apis::insert_prfs_proof_instances(&mut tx, &vec![prfs_proof_instance]).await;
+
+    tx.commit().await.unwrap();
+
+    let resp = ApiResponse::new_success(CreatePrfsProofInstanceRespPayload { id });
+
+    return Ok(resp.into_hyper_response());
+}

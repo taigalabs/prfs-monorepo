@@ -1,3 +1,4 @@
+import { keccak256, toUtf8Bytes } from "ethers/lib/utils";
 // import spartanDriverGen, { MerkleProof } from "@taigalabs/prfs-driver-spartan-js";
 // import {
 //   ecsign,
@@ -139,3 +140,10 @@
 
 //   return proof;
 // }
+//
+
+export function keccakHash(m: string) {
+  let arr = toUtf8Bytes(m);
+  const hash = keccak256(arr);
+  return hash;
+}

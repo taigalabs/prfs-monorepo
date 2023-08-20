@@ -31,8 +31,8 @@ export function handleChildMessage(
         case "HANDSHAKE": {
           const handshakePayload: HandshakePayload = ev.data.payload;
 
-          const { formHeight } = handshakePayload;
-          iframe.style.height = `${formHeight}px`;
+          const { docHeight } = handshakePayload;
+          iframe.style.height = `${docHeight}px`;
 
           ev.ports[0].postMessage(new HandshakeResponseMsg({}));
 

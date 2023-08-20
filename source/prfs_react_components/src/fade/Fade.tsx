@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from "react";
+import React from "react";
 
 import styles from "./Fade.module.scss";
 
@@ -6,7 +6,9 @@ const Fade: React.FC<FadeProps> = ({ children }) => {
   const [opacity, setOpacity] = React.useState(0);
 
   React.useEffect(() => {
-    setOpacity(1);
+    setTimeout(() => {
+      setOpacity(1);
+    }, 50);
   }, [setOpacity]);
 
   return (

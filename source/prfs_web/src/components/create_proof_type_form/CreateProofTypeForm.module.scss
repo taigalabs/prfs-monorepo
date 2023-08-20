@@ -2,18 +2,25 @@
   max-width: 760px;
 }
 
-.breadcrumbContainer {
-  /* padding-top: 12px; */
-  padding-bottom: 13px;
+.header {
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  a {
+    margin-right: 14px;
+  }
 }
 
 .textInputContainer {
   &:not(:first-child) {
-    margin-top: 15px;
+    margin-top: 21px;
   }
 
-  input {
+  input,
+  textarea {
     max-width: 535px;
+    font-size: 14px;
   }
 }
 
@@ -28,4 +35,10 @@
 .alert {
   color: red;
   margin: 12px 0;
+}
+
+.desc {
+  width: 520px;
+  color: var(--gray-31);
+  line-height: 1.52em;
 }

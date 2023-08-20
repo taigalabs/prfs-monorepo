@@ -2,15 +2,15 @@ import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
-
-import styles from "./CircuitTypeList.module.scss";
 import Table, {
   TableBody,
   TableRow,
   TableHeader,
   TableData,
   TableRecordData,
-} from "@/components/table/Table";
+} from "@taigalabs/prfs-react-components/src/table/Table";
+
+import styles from "./CircuitTypeList.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 
 const CircuitTypeList: React.FC<CircuitTypeListProps> = ({ circuit_types }) => {
@@ -56,7 +56,7 @@ const CircuitTypeList: React.FC<CircuitTypeListProps> = ({ circuit_types }) => {
   }, [data]);
 
   return (
-    <Table minWidth={880}>
+    <Table>
       <TableHeader>
         <TableRow>
           <th className={styles.label}>{i18n.label}</th>

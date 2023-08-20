@@ -1,7 +1,6 @@
 // @ts-ignore
 const snarkJs = require("snarkjs");
 import { fromRpcSig } from "@ethereumjs/util";
-import * as fs from "fs";
 
 export const snarkJsWitnessGen = async (input: any, wasmFile: string) => {
   const witness: {
@@ -15,27 +14,8 @@ export const snarkJsWitnessGen = async (input: any, wasmFile: string) => {
   return witness;
 };
 
-/**
- * Load a circuit from a file or URL
- */
-export const loadCircuit = async (pathOrUrl: string): Promise<Uint8Array> => {
-  const isWeb = typeof window !== "undefined";
-  if (isWeb) {
-    return await fetchCircuit(pathOrUrl);
-  } else {
-    return await readCircuitFromFs(pathOrUrl);
-  }
-};
-
-const readCircuitFromFs = async (path: string): Promise<Uint8Array> => {
-  const bytes = fs.readFileSync(path);
-  console.log(33, path, bytes);
-  return new Uint8Array(bytes);
-};
-
 export async function fetchCircuit(url: string) {
   const response = await fetch(url);
-
   const circuit = await response.arrayBuffer();
 
   return new Uint8Array(circuit);

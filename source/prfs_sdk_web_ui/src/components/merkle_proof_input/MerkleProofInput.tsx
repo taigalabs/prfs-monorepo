@@ -1,25 +1,19 @@
 import React from "react";
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import cn from "classnames";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { hashPersonalMessage } from "@ethereumjs/util";
-import { ethers } from "ethers";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import {
   ListenClickOutsideMsg,
-  MsgType,
   StopClickOutsideMsg,
   sendMsgToParent,
 } from "@taigalabs/prfs-sdk-web";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
-import { PROOF_GEN_IFRAME_ID } from "@taigalabs/prfs-sdk-web";
 import { PRFS_SDK_CLICK_OUTSIDE_EVENT_TYPE } from "@taigalabs/prfs-sdk-web/src/proof_gen_element/outside_event";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
+import { SpartanMerkleProof } from "@taigalabs/prfs-driver-spartan-js";
 
 import styles from "./MerkleProofInput.module.scss";
-import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
 import { i18nContext } from "@/contexts/i18n";
 
 const MerkleProofModal: React.FC<MerkleProofModalProps> = ({
@@ -104,9 +98,9 @@ const MerkleProofModal: React.FC<MerkleProofModalProps> = ({
         }
       }
 
-      const merkleProof = {
-        root: prfsSet.merkle_root,
-        siblings,
+      const merkleProof: SpartanMerkleProof = {
+        root: BigInt(prfsSet.merkle_root),
+        siblings: siblings as bigint[],
         pathIndices,
       };
 
@@ -203,12 +197,24 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
     [circuitInput, walletAddr, prfsSet]
   );
 
+  const displayValue = React.useMemo(() => {
+    if (value) {
+      const { root, pathIndices, siblings } = value;
+      const rt = `Root: ${root.toString().substring(0, 6)}..`;
+      const paths = `Paths[${pathIndices.length}]: ${pathIndices.slice(0, 6).join(",")}..`;
+      const sibs = `Siblings[${siblings.length}]`;
+      return `${rt} / ${paths} / ${sibs}`;
+    }
+
+    return "";
+  }, [value]);
+
   return (
     prfsSet && (
       <div className={styles.wrapper}>
         <input
           placeholder={`${prfsSet.set_id} / ${circuitInput.desc}`}
-          value={value?.msgRaw || ""}
+          value={displayValue}
           readOnly
         />
         <div className={styles.btnGroup}>
@@ -224,7 +230,7 @@ export default MerkleProofInput;
 export interface MerkleProofInputProps {
   walletAddr: string;
   circuitInput: CircuitInput;
-  value: any | undefined;
+  value: SpartanMerkleProof | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
 }
 

@@ -4,12 +4,20 @@ import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
+import Table, {
+  TableBody,
+  TableHeader,
+  TableRecordData,
+  TableData,
+  TableRow,
+} from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./ProofInstanceTable.module.scss";
-import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 import { useConnect, useSigner } from "@thirdweb-dev/react";
 import { useWallet } from "@thirdweb-dev/react";
+import { PrfsProofInstance } from "@taigalabs/prfs-entities/bindings/PrfsProofInstance";
+import { paths } from "@/routes/path";
 
 const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
   selectType,
@@ -17,26 +25,27 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
   handleSelectVal,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const [data, setData] = React.useState<TableData<PrfsCircuit>>({ page: 0, values: [] });
+  const [data, setData] = React.useState<TableData<PrfsProofInstance>>({ page: 0, values: [] });
 
   const handleChangeProofPage = React.useCallback(async (page: number) => {
     return prfsApi
-      .getPrfsNativeCircuits({
+      .getPrfsProofInstances({
         page,
+        limit: 20,
       })
       .then(resp => {
-        const { page, prfs_circuits } = resp.payload;
+        const { page, prfs_proof_instances } = resp.payload;
         return {
           page,
-          values: prfs_circuits,
+          values: prfs_proof_instances,
         };
       });
   }, []);
 
   React.useEffect(() => {
-    // handleChangeProofPage(0).then(res => {
-    //   setData(res);
-    // });
+    handleChangeProofPage(0).then(res => {
+      setData(res);
+    });
   }, [handleChangeProofPage, setData]);
 
   const rowsElem = React.useMemo(() => {
@@ -54,22 +63,27 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
           }
         : undefined;
 
-      const isSelected = selectedVal && selectedVal.circuit_id == val.circuit_id;
+      const isSelected = selectedVal && selectedVal.id == val.id;
       const selType = selectType || "radio";
 
+      const shortPublicInputs = JSON.stringify(val.public_inputs).substring(0, 40);
+
       let row = (
-        <TableRow key={val.circuit_id} onClickRow={onClickRow} isSelected={isSelected}>
+        <TableRow key={val.id as any} onClickRow={onClickRow} isSelected={isSelected}>
           {selectedVal && (
             <td className={styles.radio}>
               <input type={selType} checked={isSelected} readOnly />
             </td>
           )}
-          <td className={styles.circuit_id}>
-            <Link href={`/circuits/${val.circuit_id}`}>{val.circuit_id}</Link>
+          <td className={styles.proof_instance_id}>
+            <Link href={`${paths.proof__proof_instances}/${val.id}`}>{val.id as any}</Link>
           </td>
-          <td className={styles.label}>{val.label}</td>
-          <td className={styles.desc}>{val.desc}</td>
-          <td className={styles.author}>{val.author}</td>
+          <td className={styles.proof_type_id}>
+            <Link href={`${paths.proof__proof_types}/${val.proof_type_id}`}>
+              {val.proof_type_id}
+            </Link>
+          </td>
+          <td className={styles.public_inputs}>{shortPublicInputs}</td>
           <td className={styles.createdAt}>{val.created_at}</td>
         </TableRow>
       );
@@ -81,14 +95,13 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
   }, [data]);
 
   return (
-    <Table minWidth={880}>
+    <Table>
       <TableHeader>
         <TableRow>
           {handleSelectVal && <th className={styles.radio}></th>}
-          <th className={styles.circuit_id}>{i18n.circuit_id}</th>
-          <th className={styles.label}>{i18n.label}</th>
-          <th className={styles.desc}>{i18n.description}</th>
-          <th className={styles.author}>{i18n.author}</th>
+          <th className={styles.proof_instance_id}>{i18n.proof_instance_id}</th>
+          <th className={styles.proof_type_id}>{i18n.proof_type_id}</th>
+          <th className={styles.public_inputs}>{i18n.public_inputs}</th>
           <th className={styles.createdAt}>{i18n.created_at}</th>
         </TableRow>
       </TableHeader>
@@ -101,6 +114,6 @@ export default ProofInstanceTable;
 
 export interface ProofInstanceTableProps {
   selectType?: "checkbox" | "radio";
-  selectedVal?: PrfsCircuit;
-  handleSelectVal?: (row: PrfsCircuit) => void;
+  selectedVal?: PrfsProofInstance;
+  handleSelectVal?: (row: PrfsProofInstance) => void;
 }

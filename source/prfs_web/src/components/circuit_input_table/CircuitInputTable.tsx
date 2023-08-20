@@ -3,9 +3,14 @@
 import React from "react";
 import Link from "next/link";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
+import Table, {
+  TableBody,
+  TableRow,
+  TableHeader,
+  TableData,
+} from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./CircuitInputTable.module.scss";
-import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 
 const CircuitInputTable: React.FC<CircuitInputTableProps> = ({ circuit_inputs }) => {
@@ -49,7 +54,7 @@ const CircuitInputTable: React.FC<CircuitInputTableProps> = ({ circuit_inputs })
   }, [data]);
 
   return (
-    <Table minWidth={910}>
+    <Table>
       <TableHeader>
         <TableRow>
           <th className={styles.type}>{i18n.type}</th>

@@ -1,10 +1,26 @@
-import { PrfsAccount } from "@/state/reducer";
+import { LocalPrfsAccount } from "@/state/reducer";
+import { PrfsAccount } from "@taigalabs/prfs-entities/bindings/PrfsAccount";
 
-const PRFS_SIG = "prfs_sig";
+const PRFS_ACCOUNT = "prfs_account";
 const PRFS_WALLET_ADDR = "prfs_wallet_addr";
 
-function getPrfsAccount(): PrfsAccount | null {
-  let sig = window.localStorage.getItem(PRFS_SIG);
+function getPrfsAccount(): LocalPrfsAccount | null {
+  let prfsAccountSer = window.localStorage.getItem(PRFS_ACCOUNT);
+
+  if (!prfsAccountSer) {
+    return null;
+  }
+
+  let prfsAccount: PrfsAccount;
+  try {
+    prfsAccount = JSON.parse(prfsAccountSer);
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+
+  const sig = prfsAccount.sig;
+
   let walletAddr = window.localStorage.getItem(PRFS_WALLET_ADDR);
 
   if (sig === null || walletAddr === null) {
@@ -19,21 +35,23 @@ function getPrfsAccount(): PrfsAccount | null {
     removePrfsAccount();
   }
 
-  let id = sig.substring(0, 10);
+  // let id = sig.substring(0, 10);
+
   return {
-    sig,
-    id,
+    prfsAccount,
     walletAddr,
   };
 }
 
-function putPrfsAccount(sig: string, walletAddr: string) {
-  window.localStorage.setItem(PRFS_SIG, sig);
+function putPrfsAccount(prfs_account: PrfsAccount, walletAddr: string) {
+  const prfsAccountSer = JSON.stringify(prfs_account);
+
+  window.localStorage.setItem(PRFS_ACCOUNT, prfsAccountSer);
   window.localStorage.setItem(PRFS_WALLET_ADDR, walletAddr);
 }
 
 function removePrfsAccount() {
-  window.localStorage.removeItem(PRFS_SIG);
+  window.localStorage.removeItem(PRFS_ACCOUNT);
   window.localStorage.removeItem(PRFS_WALLET_ADDR);
 }
 

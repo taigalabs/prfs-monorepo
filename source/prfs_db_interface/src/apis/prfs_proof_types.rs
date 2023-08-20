@@ -1,5 +1,6 @@
 use crate::database2::Database2;
 use prfs_entities::entities::PrfsProofType;
+use rust_decimal::Decimal;
 use sqlx::{Pool, Postgres, Row, Transaction};
 
 pub async fn get_prfs_proof_type(
@@ -18,6 +19,8 @@ pub async fn get_prfs_proof_type(
         .iter()
         .map(|row| PrfsProofType {
             proof_type_id: row.get("proof_type_id"),
+            expression: row.get("expression"),
+            img_url: row.get("img_url"),
             label: row.get("label"),
             author: row.get("author"),
             desc: row.get("desc"),
@@ -42,6 +45,8 @@ pub async fn get_prfs_proof_types(pool: &Pool<Postgres>) -> Vec<PrfsProofType> {
         .map(|row| PrfsProofType {
             proof_type_id: row.get("proof_type_id"),
             label: row.get("label"),
+            expression: row.get("expression"),
+            img_url: row.get("img_url"),
             author: row.get("author"),
             desc: row.get("desc"),
             circuit_id: row.get("circuit_id"),
@@ -58,11 +63,11 @@ pub async fn get_prfs_proof_types(pool: &Pool<Postgres>) -> Vec<PrfsProofType> {
 pub async fn insert_prfs_proof_types(
     tx: &mut Transaction<'_, Postgres>,
     proof_types: &Vec<PrfsProofType>,
-) {
+) -> i64 {
     let query = "INSERT INTO prfs_proof_types \
             (proof_type_id, author, label, \"desc\", circuit_id, circuit_inputs,\
-            driver_id, driver_properties) \
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8) returning proof_type_id";
+            driver_id, driver_properties, expression, img_url) \
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) returning id";
 
     let proof_type = proof_types.get(0).unwrap();
 
@@ -75,11 +80,15 @@ pub async fn insert_prfs_proof_types(
         .bind(&proof_type.circuit_inputs)
         .bind(&proof_type.driver_id)
         .bind(&proof_type.driver_properties)
+        .bind(&proof_type.expression)
+        .bind(&proof_type.img_url)
         .fetch_one(&mut **tx)
         .await
         .unwrap();
 
-    let proof_type_id: String = row.get("proof_type_id");
+    let id: i64 = row.get("id");
 
-    println!("proof_type_id: {}", proof_type_id);
+    println!("id: {}", id);
+
+    return id;
 }

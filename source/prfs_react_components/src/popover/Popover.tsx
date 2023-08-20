@@ -1,7 +1,7 @@
 import React from "react";
-import { IoMdArrowDropup, IoMdArrowDropdown } from "react-icons/io";
+import cn from "classnames";
 import {
-  offset,
+  offset as offset_fn,
   useFloating,
   useClick,
   useInteractions,
@@ -11,13 +11,13 @@ import {
 
 import styles from "./Popover.module.scss";
 
-function Popover({ createPopover, createBase }: PopoverProps) {
+function Popover({ createPopover, createBase, offset, popoverClassName }: PopoverProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, floatingStyles, context } = useFloating({
     placement: "bottom-end",
     open: isOpen,
     onOpenChange: setIsOpen,
-    middleware: [flip(), offset(3)],
+    middleware: [flip(), offset_fn(offset ? offset : 3)],
   });
   const dismiss = useDismiss(context);
   const click = useClick(context);
@@ -32,18 +32,13 @@ function Popover({ createPopover, createBase }: PopoverProps) {
   }, [createBase, isOpen]);
 
   return (
-    <div className={styles.dropdownWrapper}>
-      <div
-        className={styles.dropdownBase}
-        ref={refs.setReference}
-        {...getReferenceProps()}
-        role="button"
-      >
+    <div className={styles.wrapper}>
+      <div className={styles.base} ref={refs.setReference} {...getReferenceProps()} role="button">
         {baseElem}
       </div>
       {isOpen && (
         <div
-          className={styles.dropdown}
+          className={cn(styles.popover, popoverClassName, "1")}
           ref={refs.setFloating}
           style={floatingStyles}
           {...getFloatingProps()}
@@ -59,5 +54,7 @@ export default Popover;
 
 export interface PopoverProps {
   createBase: (isOpen: boolean) => React.ReactNode;
+  offset?: number;
   createPopover: (setIsOpen: React.Dispatch<React.SetStateAction<any>>) => React.ReactNode;
+  popoverClassName?: string;
 }

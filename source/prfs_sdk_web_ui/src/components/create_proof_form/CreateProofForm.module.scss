@@ -1,16 +1,25 @@
 .wrapper {
+  position: relative;
+  width: 100%;
+
+  /* border: 1px solid yellow; */
+}
+
+.form {
+  padding: 4px;
   display: flex;
   flex-direction: column;
   position: relative;
   word-wrap: break-word;
   min-height: 100%;
-  padding-bottom: 20px;
-  margin: 2px;
-
-  /* border: 1px solid blue; */
+  overflow-y: scroll;
+  height: 100%;
+  padding-bottom: 18px;
 }
 
-.circuitInputs {
+.inputContainer {
+  height: 40px;
+  flex-shrink: 0;
 }
 
 .circuitInputsTitle {
@@ -19,19 +28,8 @@
   color: var(--gray-30);
 }
 
-.inputEntries {
-}
-
 .circuitInputEntry {
-  display: flex;
-  flex-direction: column;
   margin-top: 12px;
-
-  input {
-    width: 100%;
-    /* height: 38px; */
-    font-size: 14px;
-  }
 }
 
 .entryMeta {
@@ -50,10 +48,32 @@
   }
 }
 
-.systemMsg {
+.footer {
   position: absolute;
-  left: 0px;
-  bottom: 0px;
+  display: flex;
+  justify-content: space-between;
+  bottom: 2px;
+  padding: 0 4px;
+  width: 100%;
   font-size: 10px;
   color: var(--gray-40);
+
+  /* border: 1px solid red; */
+}
+
+.terminalPage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 6px 7px;
+
+  > div {
+    width: 100%;
+  }
 }

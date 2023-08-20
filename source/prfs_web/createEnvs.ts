@@ -29,19 +29,24 @@ function createEnvs() {
 
   const { production, teaser } = values;
 
-  const envs = {
+  const env_dev: Envs = {
     NEXT_PUBLIC_IS_TEASER: teaser ? "yes" : "no",
-    NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: production
-      ? "https://api.prfs.xyz"
-      : "http://localhost:4000",
-    NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: production
-      ? "https://asset.prfs.xyz"
-      : "http://localhost:4010/assets",
-    NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT: production
-      ? "https://sdk.prfs.xyz"
-      : "http://localhost:3010",
+    NEXT_PUBLIC_PRFS_WEB_ENDPOINT: "http://localhost:3000",
+    NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: "http://localhost:4000",
+    NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "http://localhost:4010/assets",
+    NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT: "http://localhost:3010",
   };
-  console.log("Writing envs to %s", DOT_ENV_PATH);
+
+  const env_prod: Envs = {
+    NEXT_PUBLIC_IS_TEASER: teaser ? "yes" : "no",
+    NEXT_PUBLIC_PRFS_WEB_ENDPOINT: "http://prfs.xyz",
+    NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: "https://api.prfs.xyz",
+    NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "https://asset.prfs.xyz",
+    NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT: "https://sdk.prfs.xyz",
+  };
+
+  const envs = production ? env_prod : env_dev;
+  console.log("Writing envs to %s, envs: %o", DOT_ENV_PATH, envs);
 
   writeEnvsToDotEnv(envs);
 }

@@ -4,6 +4,7 @@ use hyper::{body, Body, Request, Response};
 use prfs_db_interface::{db_apis, sqlx::types::Json};
 use prfs_entities::entities::{CircuitInput, PrfsProofType, PrfsSet};
 use routerify::prelude::*;
+use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, convert::Infallible, sync::Arc};
 
@@ -62,13 +63,15 @@ struct CreatePrfsProofTypesRequest {
     desc: String,
     circuit_id: String,
     driver_id: String,
+    expression: String,
+    img_url: Option<String>,
     circuit_inputs: HashMap<u32, CircuitInput>,
     driver_properties: HashMap<String, String>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 struct CreatePrfsProofTypesRespPayload {
-    // prfs_proof_types: Vec<PrfsProofType>,
+    id: i64,
 }
 
 pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, Infallible> {
@@ -90,6 +93,8 @@ pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
         label: req.label.to_string(),
         author: req.author.to_string(),
         desc: req.desc.to_string(),
+        expression: req.expression.to_string(),
+        img_url: req.img_url,
 
         circuit_id: req.circuit_id.to_string(),
         driver_id: req.driver_id.to_string(),
@@ -99,11 +104,11 @@ pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
         created_at: chrono::offset::Utc::now(),
     };
 
-    db_apis::insert_prfs_proof_types(&mut tx, &vec![prfs_proof_type]).await;
+    let id = db_apis::insert_prfs_proof_types(&mut tx, &vec![prfs_proof_type]).await;
 
     tx.commit().await.unwrap();
 
-    let resp = ApiResponse::new_success(CreatePrfsProofTypesRespPayload {});
+    let resp = ApiResponse::new_success(CreatePrfsProofTypesRespPayload { id });
 
     return Ok(resp.into_hyper_response());
 }

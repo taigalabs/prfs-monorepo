@@ -14,11 +14,13 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
     <div className={styles.wrapper}>
       <Masthead />
       <div className={styles.main}>
-        <div className={styles.leftBarContainer}>
-          <LeftBar />
-        </div>
-        <div className={styles.contentArea}>
-          <div>{children}</div>
+        <div className={styles.inner}>
+          <div className={styles.leftBarContainer}>
+            <LeftBar />
+          </div>
+          <div className={styles.contentArea}>
+            <div>{children}</div>
+          </div>
         </div>
       </div>
     </div>

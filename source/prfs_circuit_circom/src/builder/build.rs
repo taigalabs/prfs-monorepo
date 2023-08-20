@@ -59,14 +59,14 @@ fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind, timestamp: i64) 
 }
 
 fn make_spartan(circuit: &PrfsCircuit, timestamp: i64) {
-    let _raw_public_inputs: Vec<&RawCircuitInputMeta> = circuit
+    let raw_public_inputs: Vec<&RawCircuitInputMeta> = circuit
         .raw_circuit_inputs_meta
         .iter()
         .filter(|raw_input| return raw_input.public)
         .collect();
 
     assert_eq!(
-        _raw_public_inputs.len(),
+        raw_public_inputs.len(),
         circuit.num_public_inputs as usize,
         "num_public_input AND # of public raw input should be equal",
     );

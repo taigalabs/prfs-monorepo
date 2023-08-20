@@ -1,0 +1,52 @@
+.header {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  line-height: 24px;
+  margin-right: 22px;
+
+  a {
+    color: var(--aqua-blue-50);
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.breadcrumbContainer {
+  padding-top: 12px;
+  padding-bottom: 13px;
+}
+
+.widgetHeader {
+  display: flex;
+  justify-content: space-between;
+
+  align-items: center;
+  padding: 15px 15px 15px 25px;
+  border-bottom: 1px solid var(--bright-gray-31);
+}
+
+.topRow {
+  display: flex;
+  padding: 40px 30px;
+
+  > div:not(:first-child) {
+    margin-left: 20px;
+  }
+}
+
+.proofInstanceDetailTableContainer {
+  width: 620px;
+  /* padding: 40px; */
+}
+
+.proofInstanceQRCodeContainer {
+  /* border: 1px solid blue; */
+}

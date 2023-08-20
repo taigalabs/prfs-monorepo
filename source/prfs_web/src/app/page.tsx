@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 
 import { stateContext } from "@/contexts/state";
 import styles from "./Home.module.scss";
@@ -19,29 +20,15 @@ import ProjectMeta from "@/components/project_meta/ProjectMeta";
 const Home: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const { dispatch } = React.useContext(stateContext);
+  const router = useRouter();
 
-  useLocalWallet(dispatch);
+  React.useEffect(() => {
+    if (process.env.NEXT_PUBLIC_IS_TEASER !== "yes") {
+      router.push("/proof");
+    }
+  }, [router]);
 
-  return process.env.NEXT_PUBLIC_IS_TEASER === "yes" ? (
-    <Teaser />
-  ) : (
-    <DefaultLayout>
-      <div className={styles.container}>
-        <div className={styles.leftColumn}></div>
-        <div className={styles.rightColumn}>
-          <div className={styles.sectionWrapper}>
-            <ExploreTechSection />
-          </div>
-          <div className={styles.sectionWrapper}>
-            <LatestPrfsUpdateSection />
-          </div>
-          <div className={styles.sectionWrapper}>
-            <ProjectMeta />
-          </div>
-        </div>
-      </div>
-    </DefaultLayout>
-  );
+  return process.env.NEXT_PUBLIC_IS_TEASER === "yes" ? <Teaser /> : <div></div>;
 };
 
 export default Home;

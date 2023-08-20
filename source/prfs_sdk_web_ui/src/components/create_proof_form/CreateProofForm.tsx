@@ -1,42 +1,43 @@
 import React from "react";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { hashPersonalMessage } from "@ethereumjs/util";
-import { ethers } from "ethers";
-import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import * as prfsApi from "@taigalabs/prfs-api-js";
-import { PiCalculatorLight } from "react-icons/pi";
-import { HiOutlineDocumentText } from "react-icons/hi2";
 import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 import {
   CreateProofResponseMsg,
   GetAddressMsg,
-  GetSignatureMsg,
-  ListenCreateProofMsg,
   MsgType,
   sendMsgToParent,
 } from "@taigalabs/prfs-sdk-web";
+import WalletSelect, {
+  WalletTypeValue,
+} from "@taigalabs/prfs-react-components/src/wallet_select/WalletSelect";
+import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 
 import styles from "./CreateProofForm.module.scss";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
 import { i18nContext } from "@/contexts/i18n";
-import { useInterval } from "@/functions/interval";
-import WalletSelect, { WalletTypeValue } from "@/components/wallet_select/WalletSelect";
+import { delay, useInterval } from "@/functions/interval";
 import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
 import SigDataInput from "@/components/sig_data_input/SigDataInput";
-import { PRFS_SDK_CRAETE_PROOF_EVENT_TYPE } from "@taigalabs/prfs-sdk-web/src/proof_gen_element/outside_event";
 import { createProof } from "@/functions/proof";
+import CreateProofProgress from "@/components/create_proof_progress/CreateProofProgress";
 
 const ASSET_SERVER_ENDPOINT = process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
-const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight }) => {
+enum CreateProofPage {
+  INPUT,
+  PROGRESS,
+}
+
+const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight }) => {
   const i18n = React.useContext(i18nContext);
 
-  const [systemMsg, setSystemMsg] = React.useState("");
-  const [msg, setMsg] = React.useState("");
-  const [proveTime, setProveTime] = React.useState<number>(0);
+  const [systemMsg, setSystemMsg] = React.useState("Loading driver...");
+  const [createProofPage, setCreateProofPage] = React.useState(CreateProofPage.INPUT);
+  const [terminalLog, setTerminalLog] = React.useState<React.ReactNode[]>([]);
   const [driver, setDriver] = React.useState<CircuitDriver>();
-  const [isTimerRunning, setIsTimerRunning] = React.useState(false);
+  const [isCompleted, setIsCompleted] = React.useState(false);
   const [selectedWalletType, setSelectedWalletType] = React.useState<WalletTypeValue>({
     value: "metamask",
   });
@@ -50,7 +51,20 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
     [setSelectedWalletType]
   );
 
-  // console.log(51, formValues);
+  const proofGenEventListener = React.useCallback(
+    (type: string, msg: string) => {
+      setTerminalLog(oldVals => {
+        const elem = (
+          <p className={type} key={oldVals.length}>
+            {msg}
+          </p>
+        );
+
+        return [...oldVals, elem];
+      });
+    },
+    [setTerminalLog]
+  );
 
   React.useEffect(() => {
     async function eventListener(ev: MessageEvent) {
@@ -58,10 +72,33 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
         const type: MsgType = ev.data.type;
 
         if (type === MsgType.CREATE_PROOF) {
+          if (!driver) {
+            return;
+          }
+
           validateFormValues(formValues);
 
-          const proof = await createProof(proofType, formValues, walletAddr);
-          ev.ports[0].postMessage(new CreateProofResponseMsg(proof));
+          setCreateProofPage(CreateProofPage.PROGRESS);
+
+          await delay(3000);
+
+          proofGenEventListener(
+            "plain",
+            `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
+          );
+
+          try {
+            const proveReceipt = await createProof(
+              driver,
+              formValues,
+              walletAddr,
+              proofGenEventListener
+            );
+
+            proofGenEventListener("plain", `Proof created in ${proveReceipt.duration}ms`);
+
+            ev.ports[0].postMessage(new CreateProofResponseMsg(proveReceipt));
+          } catch (err) {}
         }
       }
     }
@@ -71,31 +108,35 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
     return () => {
       window.removeEventListener("message", eventListener);
     };
-  }, [proofType, formValues, walletAddr]);
+  }, [proofType, formValues, walletAddr, setTerminalLog, setIsCompleted]);
 
   React.useEffect(() => {
     async function fn() {
-      setSystemMsg("Loading driver...");
-
       const { driver_id, driver_properties } = proofType;
       const driverProperties = interpolateSystemAssetEndpoint(
         driver_properties,
         ASSET_SERVER_ENDPOINT
       );
-      const driver = await initDriver(driver_id, driverProperties);
 
-      setSystemMsg(`${i18n.driver}: ${driver_id}`);
-      setDriver(driver);
+      try {
+        const driver = await initDriver(driver_id, driverProperties);
+        setSystemMsg(`${i18n.driver}: ${driver_id}`);
+        setDriver(driver);
+      } catch (err) {
+        setSystemMsg(`Driver init failed, id: ${driver_id}, err: ${err}`);
+      }
     }
-    fn().then();
-  }, [proofType, setSystemMsg, setDriver]);
 
-  // useInterval(
-  //   () => {
-  //     setProveTime(prev => prev + 1);
-  //   },
-  //   isTimerRunning ? 1000 : null
-  // );
+    window.setTimeout(() => {
+      fn().then();
+    }, 1000);
+  }, [proofType, setSystemMsg, setDriver, setCreateProofPage]);
+
+  const handleClickConnectWallet = React.useCallback(async () => {
+    const addr = await sendMsgToParent(new GetAddressMsg(""));
+
+    setWalletAddr(addr);
+  }, [setWalletAddr]);
 
   const circuitInputsElem = React.useMemo(() => {
     const obj: Record<any, CircuitInput> = proofType.circuit_inputs;
@@ -137,7 +178,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
           <div className={styles.entryMeta}>
             <div className={styles.entryLabel}>{val.label}</div>
           </div>
-          {inputElem}
+          <div className={styles.inputContainer}>{inputElem}</div>
         </div>
       );
     });
@@ -145,21 +186,47 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, formHeight
     return entriesElem;
   }, [proofType, formValues, setFormValues, walletAddr]);
 
+  if (!proofType) {
+    return null;
+  }
+
   return (
-    proofType && (
-      <div className={styles.wrapper} style={{ height: formHeight - 6 }}>
-        <WalletSelect
-          selectedVal={selectedWalletType}
-          handleSelectVal={handleSelectWalletType}
-          walletAddr={walletAddr}
-          setWalletAddr={setWalletAddr}
-        />
-        <div className={styles.circuitInputs}>{circuitInputsElem}</div>
+    <div className={styles.wrapper} style={{ height: docHeight }}>
+      <div
+        className={styles.inputPage}
+        style={{ opacity: createProofPage === CreateProofPage.INPUT ? 1 : 0 }}
+      >
+        <div className={styles.form} style={{ height: docHeight }}>
+          <div className={styles.inputContainer}>
+            <WalletSelect
+              selectedWallet={selectedWalletType}
+              handleSelectWallet={handleSelectWalletType}
+              walletAddr={walletAddr}
+              handleChangeWalletAddr={setWalletAddr}
+              handleClickConnectWallet={handleClickConnectWallet}
+            />
+          </div>
+          {circuitInputsElem}
+        </div>
+      </div>
+
+      {createProofPage === CreateProofPage.PROGRESS && (
+        <div className={styles.terminalPage}>
+          <Fade>
+            <CreateProofProgress terminalLog={terminalLog} isCompleted={isCompleted} />
+          </Fade>
+        </div>
+      )}
+
+      <div className={styles.footer}>
         <div className={styles.systemMsg}>
           <div>{systemMsg}</div>
         </div>
+        <div className={styles.sdkMeta}>
+          {i18n.prfs_web_sdk} {process.env.NEXT_PUBLIC_VERSION}
+        </div>
       </div>
-    )
+    </div>
   );
 };
 
@@ -167,7 +234,7 @@ export default CreateProofForm;
 
 export interface CreateProofFormProps {
   proofType: PrfsProofType;
-  formHeight: number;
+  docHeight: number;
   // handleCreateProof: (proof: Uint8Array, publicInput: any) => void;
 }
 

@@ -2,16 +2,16 @@ import React, { ReactNode } from "react";
 import Link from "next/link";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import * as prfsApi from "@taigalabs/prfs-api-js";
-
-import styles from "./DriverPropInstanceTable.module.scss";
-import { i18nContext } from "@/contexts/i18n";
 import Table, {
   TableBody,
-  TableRow,
   TableHeader,
   TableData,
   TableRecordData,
-} from "@/components/table/Table";
+  TableRow,
+} from "@taigalabs/prfs-react-components/src/table/Table";
+
+import styles from "./DriverPropInstanceTable.module.scss";
+import { i18nContext } from "@/contexts/i18n";
 
 const DriverPropInstanceTable: React.FC<DriverPropInstanceTableProps> = ({
   driver_properties,
@@ -47,7 +47,7 @@ const DriverPropInstanceTable: React.FC<DriverPropInstanceTableProps> = ({
   }, [data]);
 
   return (
-    <Table minWidth={880}>
+    <Table>
       <TableHeader>
         <TableRow>
           {handleSelectVal && <th className={styles.radio}></th>}

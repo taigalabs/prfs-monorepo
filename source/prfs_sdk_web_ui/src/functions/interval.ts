@@ -19,3 +19,11 @@ export function useInterval(callback: Function, delay: number | null) {
     }
   }, [delay]);
 }
+
+export function delay(duration: number) {
+  return new Promise((resolve, _) => {
+    setTimeout(() => {
+      resolve(0);
+    }, duration);
+  });
+}

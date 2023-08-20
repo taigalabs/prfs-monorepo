@@ -1,3 +1,19 @@
+.wrapper {
+  border: 1px solid var(--gray-70);
+  border-radius: 5px;
+  padding: 34px 42px 50px;
+}
+
+.inputGroup {
+  margin-top: 32px;
+
+  input {
+    border: 1px solid var(--gray-70);
+    border-radius: 3px;
+    padding: 7px 8px;
+  }
+}
+
 .hashAlert {
   color: red;
   margin-bottom: 8px;
@@ -23,11 +39,10 @@
 }
 
 .btnRow {
-  margin-top: 25px;
-}
-
-.signUpBtn {
-  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 42px;
 }
 
 .suggestion {

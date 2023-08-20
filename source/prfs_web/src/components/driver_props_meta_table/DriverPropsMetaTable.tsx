@@ -4,9 +4,15 @@ import React from "react";
 import Link from "next/link";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import { DriverPropertyMeta } from "@taigalabs/prfs-entities/bindings/DriverPropertyMeta";
+import Table, {
+  TableBody,
+  TableHeader,
+  TableData,
+  TableRecordData,
+  TableRow,
+} from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./DriverPropsMetaTable.module.scss";
-import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
 
 const DriverPropsMetaTable: React.FC<DriverPropsMetaTableProps> = ({ driverPropsMeta }) => {
@@ -48,7 +54,7 @@ const DriverPropsMetaTable: React.FC<DriverPropsMetaTableProps> = ({ driverProps
   }, [data]);
 
   return (
-    <Table minWidth={880}>
+    <Table>
       <TableHeader>
         <TableRow>
           <th className={styles.label}>{i18n.label}</th>

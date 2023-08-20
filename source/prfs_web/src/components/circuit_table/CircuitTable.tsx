@@ -2,10 +2,17 @@ import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
+import Table, {
+  TableBody,
+  TableRow,
+  TableHeader,
+  TableData,
+  TableRecordData,
+} from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./CircuitTable.module.scss";
-import Table, { TableBody, TableRow, TableHeader, TableData } from "@/components/table/Table";
 import { i18nContext } from "@/contexts/i18n";
+import { paths } from "@/routes/path";
 
 const CircuitTable: React.FC<CircuitTableProps> = ({
   selectType,
@@ -61,7 +68,7 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
             </td>
           )}
           <td className={styles.circuit_id}>
-            <Link href={`/circuits/${val.circuit_id}`}>{val.circuit_id}</Link>
+            <Link href={`${paths.proof__circuits}/${val.circuit_id}`}>{val.circuit_id}</Link>
           </td>
           <td className={styles.label}>{val.label}</td>
           <td className={styles.desc}>{val.desc}</td>
@@ -77,7 +84,7 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
   }, [data]);
 
   return (
-    <Table minWidth={880}>
+    <Table>
       <TableHeader>
         <TableRow>
           {handleSelectVal && <th className={styles.radio}></th>}

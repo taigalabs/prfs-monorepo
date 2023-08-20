@@ -1,9 +1,15 @@
-import { CircuitDriver, ProveArgs, VerifyArgs } from "@taigalabs/prfs-driver-interface";
+import {
+  CircuitDriver,
+  ProveArgs,
+  ProveResult,
+  ProveReceipt,
+  VerifyArgs,
+} from "@taigalabs/prfs-driver-interface";
 import { BN } from "bn.js";
 
 import { Tree } from "./helpers/tree";
 import { makePoseidon } from "./helpers/poseidon";
-import { PrfsHandlers, AsyncHashFn, NIZK, BuildStatus, SpartanMerkleProof } from "./types";
+import { PrfsHandlers, AsyncHashFn, BuildStatus, SpartanMerkleProof } from "./types";
 import { fromSig, snarkJsWitnessGen } from "./helpers/utils";
 import {
   CircuitPubInput,
@@ -12,6 +18,7 @@ import {
   computeEffEcdsaPubInput2,
   verifyEffEcdsaPubInput,
 } from "./helpers/public_input";
+import { deserializePublicInput, serializePublicInput } from "./serialize";
 
 export default class SpartanDriver implements CircuitDriver {
   handlers: PrfsHandlers;
@@ -49,79 +56,17 @@ export default class SpartanDriver implements CircuitDriver {
     return await Tree.newInstance(depth, hash);
   }
 
-  async prove2(sig: string, msgHash: Buffer, merkleProof: SpartanMerkleProof): Promise<NIZK> {
-    // const { inputs, eventListener } = args;
-    // const { sigData, merkleProof } = inputs;
-    // const { msgHash, sig } = sigData;
-
-    // console.log("inputs: %o", inputs);
-    // console.log("sigData: %o, merkleProof", sigData, merkleProof);
-    console.log("\nMembershipProver2.prove()", sig, msgHash, merkleProof);
-
-    const { r, s, v } = fromSig(sig);
-
-    const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash);
-
-    // eventListener("Computed ECDSA pub input");
-
-    const circuitPubInput = new CircuitPubInput(
-      merkleProof.root,
-      effEcdsaPubInput.Tx,
-      effEcdsaPubInput.Ty,
-      effEcdsaPubInput.Ux,
-      effEcdsaPubInput.Uy
-    );
-
-    const publicInput = new PublicInput(r, v, msgHash, circuitPubInput);
-    const m = new BN(msgHash).mod(SECP256K1_P);
-
-    const witnessGenInput = {
-      r,
-      s,
-      m: BigInt(m.toString()),
-
-      // merkle root
-      // root: merkleProof.root,
-      // siblings: merkleProof.siblings,
-      // pathIndices: merkleProof.pathIndices,
-
-      // // Eff ECDSA PubInput
-      // Tx: effEcdsaPubInput.Tx,
-      // Ty: effEcdsaPubInput.Ty,
-      // Ux: effEcdsaPubInput.Ux,
-      // Uy: effEcdsaPubInput.Uy,
-      ...merkleProof,
-      ...effEcdsaPubInput,
-    };
-
-    console.log("witnessGenInput: %o", witnessGenInput);
-    const witness = await snarkJsWitnessGen(witnessGenInput, this.wtnsGenUrl);
-
-    // eventListener("Computed witness gen input");
-
-    const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
-
-    const proof = await this.handlers.prove(this.circuit, witness.data, circuitPublicInput);
-
-    return {
-      proof,
-      publicInput,
-    };
-  }
-
-  async prove(args: ProveArgs<MembershipProveInputs>): Promise<NIZK> {
+  async prove(args: ProveArgs<MembershipProveInputs>): Promise<ProveReceipt> {
     const { inputs, eventListener } = args;
     const { sigData, merkleProof } = inputs;
     const { msgHash, sig } = sigData;
 
-    console.log("inputs: %o", inputs);
-    console.log("sigData: %o, merkleProof", sigData, merkleProof);
+    // console.log("inputs: %o", inputs);
 
     const { r, s, v } = fromSig(sig);
-
     const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash);
 
-    eventListener("Computed ECDSA pub input");
+    eventListener("plain", "Computed ECDSA pub input");
 
     const circuitPubInput = new CircuitPubInput(
       merkleProof.root,
@@ -154,22 +99,28 @@ export default class SpartanDriver implements CircuitDriver {
     // console.log("witnessGenInput: %o", witnessGenInput);
     const witness = await snarkJsWitnessGen(witnessGenInput, this.wtnsGenUrl);
 
-    eventListener("Computed witness gen input");
+    eventListener("plain", "Computed witness gen input");
 
     const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
 
+    const prev = performance.now();
     const proof = await this.handlers.prove(this.circuit, witness.data, circuitPublicInput);
+    const now = performance.now();
 
     return {
-      proof,
-      publicInput,
+      duration: now - prev,
+      proveResult: {
+        proof,
+        publicInputSer: serializePublicInput(publicInput),
+      },
     };
   }
 
   async verify(args: VerifyArgs): Promise<boolean> {
     const { inputs } = args;
-    const { proof, publicInput } = inputs;
+    const { proof, publicInputSer } = inputs;
 
+    const publicInput = deserializePublicInput(publicInputSer);
     const isPubInputValid = verifyEffEcdsaPubInput(publicInput as PublicInput);
 
     let isProofValid;

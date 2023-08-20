@@ -1,79 +1,14 @@
 import React from "react";
 import Link from "next/link";
-import { IoMdArrowDropup, IoMdArrowDropdown } from "react-icons/io";
-import { useRouter } from "next/navigation";
-import { useFloating, useClick, useInteractions, useDismiss } from "@floating-ui/react";
-import classNames from "classnames";
-import { BsWallet2 } from "react-icons/bs";
+import { FaSearch } from "react-icons/fa";
+import { usePathname } from "next/navigation";
 
 import styles from "./Masthead.module.scss";
-import localStore from "@/storage/localStore";
 import { i18nContext } from "@/contexts/i18n";
 import Logo from "@/components/logo/Logo";
 import { stateContext } from "@/contexts/state";
-import { PrfsAccount } from "@/state/reducer";
-
-const AccountStat: React.FC<AccountStatProps> = ({ account }) => {
-  const i18n = React.useContext(i18nContext);
-  const { dispatch } = React.useContext(stateContext);
-  const { walletAddr, id } = account;
-  const shortWalletAddr = walletAddr.substring(0, 7);
-  const router = useRouter();
-
-  const [isOpen, setIsOpen] = React.useState(false);
-  const { refs, floatingStyles, context } = useFloating({
-    placement: "bottom-end",
-    open: isOpen,
-    onOpenChange: setIsOpen,
-  });
-  const dismiss = useDismiss(context);
-  const click = useClick(context);
-  const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
-
-  const handleClickSignOut = React.useCallback(() => {
-    dispatch({
-      type: "sign_out",
-    });
-
-    localStore.removePrfsAccount();
-
-    router.push("/");
-  }, []);
-
-  return (
-    <div className={styles.accountStat}>
-      <div
-        className={classNames({
-          [styles.base]: true,
-          [styles.isOpen]: isOpen,
-        })}
-        ref={refs.setReference}
-        {...getReferenceProps()}
-      >
-        <div>
-          <div>{id}</div>
-          <div className={styles.wallet}>
-            <BsWallet2 />
-            {shortWalletAddr}
-          </div>
-        </div>
-        <div className={styles.btnArea}>{isOpen ? <IoMdArrowDropup /> : <IoMdArrowDropdown />}</div>
-      </div>
-      {isOpen && (
-        <div
-          className={styles.dropdown}
-          ref={refs.setFloating}
-          style={floatingStyles}
-          {...getFloatingProps()}
-        >
-          <ul>
-            <li onClick={handleClickSignOut}>{i18n.sign_out}</li>
-          </ul>
-        </div>
-      )}
-    </div>
-  );
-};
+import PrfsAppsPopover from "./PrfsAppsPopover";
+import AccountPopover from "./AccountPopover";
 
 const ConnectButton = () => {
   const i18n = React.useContext(i18nContext);
@@ -88,40 +23,55 @@ const ConnectButton = () => {
 const Masthead: React.FC<any> = () => {
   const i18n = React.useContext(i18nContext);
   const { state } = React.useContext(stateContext);
-  const { prfsAccount } = state;
+  const { localPrfsAccount } = state;
+  const path = usePathname();
+  const [appName, setAppName] = React.useState("");
+
+  React.useEffect(() => {
+    const pathSegments = path.split("/");
+    if (pathSegments.length > 1) {
+      const appName = pathSegments[1];
+      setAppName(appName.charAt(0).toUpperCase() + appName.slice(1));
+    }
+  }, [path, setAppName]);
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.logoArea}>
-        <div className={styles.logoContainer}>
-          <Link href="/">
-            <Logo variant="simple" />
-          </Link>
+      <div className={styles.inner}>
+        <div className={styles.leftMenu}>
+          <div className={styles.logoContainer}>
+            <Link href="/">
+              <Logo variant="simple" />
+            </Link>
+          </div>
+          <div className={styles.appName}>{appName}</div>
+          <div className={styles.betaTag}>Beta</div>
         </div>
-        <div className={styles.betaTag}>Beta</div>
-      </div>
-      <ul className={styles.mainMenu}>
-        <li>
-          <Link href="/">{i18n.proofs}</Link>
-        </li>
-        <li className={styles.inactive}>{i18n.vote}</li>
-        <li className={styles.inactive}>{i18n.enrollment}</li>
-        <li className={styles.inactive}>
-          <p>{i18n.talk}</p>
-          <div className={styles.newTag}>{i18n.new}</div>
-        </li>
-      </ul>
-      <div className={styles.rightMenu}>
-        <li className={styles.inactive}>{i18n.docs}</li>
-        <li className={styles.inactive}>{i18n.sdk_api}</li>
-        {prfsAccount ? <AccountStat account={prfsAccount} /> : <ConnectButton />}
+        <div className={styles.mainMenu}>
+          <div className={styles.search}>
+            <FaSearch />
+            <input placeholder={i18n.search_guide} />
+          </div>
+        </div>
+        <div className={styles.rightMenu}>
+          <li className={styles.inactive}>
+            <button>{i18n.learn.toUpperCase()}</button>
+          </li>
+          <li className={styles.inactive}>
+            <button>{i18n.sdk_api.toUpperCase()}</button>
+          </li>
+          <li>
+            <PrfsAppsPopover />
+          </li>
+          {localPrfsAccount ? (
+            <AccountPopover localPrfsAccount={localPrfsAccount} />
+          ) : (
+            <ConnectButton />
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
 export default Masthead;
-
-export interface AccountStatProps {
-  account: PrfsAccount;
-}

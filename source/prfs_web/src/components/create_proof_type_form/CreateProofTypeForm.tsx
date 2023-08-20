@@ -8,11 +8,14 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./CreateProofTypeForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
+import Widget, {
+  TopWidgetTitle,
+  WidgetHeader,
+  WidgetLabel,
+  WidgetPaddedBody,
+} from "@/components/widget/Widget";
 import CardRow from "@/components/card_row/CardRow";
 import Card from "@/components/card/Card";
-import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
-import { FormTitleRow, FormTitle, FormSubtitle } from "@/components/form/Form";
 import FormTextInput from "@/components/form/FormTextInput";
 import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { stateContext } from "@/contexts/state";
@@ -20,17 +23,22 @@ import { getYMD } from "@/functions/date";
 import { keccakHash } from "@/functions/hash";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 import CircuitInputConfigSection from "../circuit_input_config_section/CircuitInputConfigSection";
+import { paths } from "@/routes/path";
+import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import FormTextareaInput from "@/components/form/FormTextareaInput";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
   const { state } = React.useContext(stateContext);
-  const { prfsAccount } = state;
+  const { localPrfsAccount } = state;
   const router = useRouter();
 
   const [circuitInputs, setCircuitInputs] = React.useState<Record<number, CircuitInput>>({});
   const [formAlert, setFormAlert] = React.useState("");
   const [name, setName] = React.useState("");
+  const [imgUrl, setImgUrl] = React.useState("");
   const [desc, setDesc] = React.useState("");
+  const [expression, setExpression] = React.useState("");
   const [selectedCircuit, setSelectedCircuit] = React.useState<PrfsCircuit | undefined>();
 
   const handleSelectCircuit = React.useCallback(
@@ -47,6 +55,13 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     [setName]
   );
 
+  const handleChangeExpression = React.useCallback(
+    (ev: any) => {
+      setExpression(ev.target.value);
+    },
+    [setExpression]
+  );
+
   const handleChangeDesc = React.useCallback(
     (ev: any) => {
       setDesc(ev.target.value);
@@ -54,11 +69,20 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     [setDesc]
   );
 
+  const handleChangeImgUrl = React.useCallback(
+    (ev: any) => {
+      setImgUrl(ev.target.value);
+    },
+    [setImgUrl]
+  );
+
   const handleClickCreateProofType = React.useCallback(() => {
-    if (!prfsAccount) {
+    if (!localPrfsAccount) {
       setFormAlert("User is not signed in");
       return;
     }
+
+    const { prfsAccount } = localPrfsAccount;
 
     if (name === undefined || name.length < 1) {
       setFormAlert("Name should be defined");
@@ -67,6 +91,16 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 
     if (selectedCircuit === undefined) {
       setFormAlert("Circuit should be selected");
+      return;
+    }
+
+    if (desc === undefined || desc.length < 1) {
+      setFormAlert("Description should be given");
+      return;
+    }
+
+    if (expression === undefined || expression.length < 1) {
+      setFormAlert("Expression should be given");
       return;
     }
 
@@ -103,13 +137,16 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     let hash = keccakHash(
       `${selectedCircuit.circuit_id}_${selectedCircuit.driver_id}_${now}`
     ).substring(2, 8);
+    const id = prfsAccount.sig.substring(2, 8);
 
-    let proof_type_id = `${prfsAccount.id}_${y}${m}${d}_${hash}`;
+    let proof_type_id = `${id}_${y}${m}${d}_${hash}`;
 
     let createPrfsProofTypeRequest = {
       proof_type_id,
       label: name,
       desc,
+      img_url: imgUrl,
+      expression,
       author: prfsAccount.sig,
       circuit_id: selectedCircuit.circuit_id,
       circuit_inputs: newCircuitInputs,
@@ -120,40 +157,44 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     prfsApi
       .createPrfsProofType(createPrfsProofTypeRequest)
       .then(_res => {
-        router.push("/proof_types");
+        router.push(paths.proof__proof_types);
       })
       .catch(err => {
         setFormAlert(err);
       });
-  }, [circuitInputs, selectedCircuit, name, setFormAlert, desc, state.prfsAccount]);
+  }, [circuitInputs, selectedCircuit, name, setFormAlert, desc, localPrfsAccount]);
 
   return (
     <div className={styles.wrapper}>
-      <WidgetPaddedBody>
-        <Breadcrumb>
-          <BreadcrumbEntry>
-            <Link href="/proof_types">{i18n.proof_types}</Link>
-          </BreadcrumbEntry>
-          <BreadcrumbEntry>{i18n.create_proof_type}</BreadcrumbEntry>
-        </Breadcrumb>
-        <FormTitleRow>
-          <FormTitle>{i18n.create_proof_type}</FormTitle>
-          <FormSubtitle>{i18n.create_proof_type_subtitle}</FormSubtitle>
-        </FormTitleRow>
-      </WidgetPaddedBody>
+      <TopWidgetTitle>
+        <div className={styles.header}>
+          <Link href={paths.proof__proof_instances}>
+            <ArrowButton variant="left" />
+          </Link>
+          <WidgetLabel>{i18n.create_proof_type}</WidgetLabel>
+        </div>
+      </TopWidgetTitle>
 
       <CardRow>
         <Card>
           <Widget>
-            <WidgetHeader>
-              <WidgetLabel>{i18n.name_and_description}</WidgetLabel>
-            </WidgetHeader>
             <WidgetPaddedBody>
+              <div className={styles.desc}>{i18n.create_proof_type_subtitle}</div>
               <div className={styles.textInputContainer}>
                 <FormTextInput label={i18n.name} handleChange={handleChangeName} />
               </div>
               <div className={styles.textInputContainer}>
-                <FormTextInput label={i18n.description} handleChange={handleChangeDesc} />
+                <FormTextareaInput
+                  label={i18n.description}
+                  handleChange={handleChangeDesc}
+                  rows={4}
+                />
+              </div>
+              <div className={styles.textInputContainer}>
+                <FormTextInput label={i18n.expression} handleChange={handleChangeExpression} />
+              </div>
+              <div className={styles.textInputContainer}>
+                <FormTextInput label={i18n.image_url} handleChange={handleChangeImgUrl} />
               </div>
             </WidgetPaddedBody>
           </Widget>

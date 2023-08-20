@@ -1,5 +1,6 @@
 "use client";
 
+import "@taigalabs/prfs-react-components/src/react_components.scss";
 import "./globals.scss";
 
 import { I18nProvider } from "@/contexts/i18n";

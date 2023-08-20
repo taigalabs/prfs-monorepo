@@ -8,14 +8,7 @@ import { i18nContext } from "@/contexts/i18n";
 const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
 
-  return (
-    <div className={styles.wrapper}>
-      <div className={styles.container}>{children}</div>
-      <div className={styles.sdkMeta}>
-        {i18n.prfs_web_sdk} {process.env.NEXT_PUBLIC_VERSION}
-      </div>
-    </div>
-  );
+  return <div className={styles.wrapper}>{children}</div>;
 };
 
 export default DefaultLayout;

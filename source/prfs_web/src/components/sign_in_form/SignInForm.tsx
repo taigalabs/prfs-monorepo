@@ -77,12 +77,12 @@ const SignInForm: React.FC<SignInFormProps> = () => {
         dispatch({
           type: "sign_in",
           payload: {
-            ...resp.payload,
+            prfsAccount: resp.payload.prfs_account,
             walletAddr,
           },
         });
 
-        localStore.putPrfsAccount(resp.payload.sig, walletAddr);
+        // localStore.putPrfsAccount(resp.payload.prfs_account, walletAddr);
 
         router.push("/");
       } catch (err) {
@@ -95,64 +95,47 @@ const SignInForm: React.FC<SignInFormProps> = () => {
   }, [walletAddr, passhash, setSignInAlert]);
 
   return (
-    <div>
-      <FormTitleRow>
-        <FormTitle>{i18n.sign_in}</FormTitle>
-      </FormTitleRow>
-      <div>
-        <CardRow>
-          <Card>
-            <ConnectWalletWidget handleConnect={handleConnect} />
-          </Card>
-        </CardRow>
-        <CardRow>
-          <Card>
-            <Widget>
-              <WidgetHeader>
-                <WidgetLabel>{i18n.credential}</WidgetLabel>
-              </WidgetHeader>
-              <WidgetPaddedBody>
-                <div className={styles.passcode}>
-                  <p className={styles.label}>Passcode</p>
-                  <input type="password" onChange={handleChangePasscode} />
-                </div>
-                <div className={styles.hashBtnRow}>
-                  <Button variant="a" handleClick={handleClickHash}>
-                    {i18n.hash}
-                  </Button>
-                </div>
-                {passhash.length > 0 && (
-                  <div className={styles.hashResult}>
-                    <FormTextInput label={i18n.passhash} value={passhash} />
-                  </div>
-                )}
-              </WidgetPaddedBody>
-            </Widget>
-          </Card>
-        </CardRow>
+    <div className={styles.wrapper}>
+      <FormTitle>{i18n.sign_in}</FormTitle>
+      <div className={styles.inputGroup}>
+        <ConnectWalletWidget handleConnect={handleConnect} />
       </div>
-      <div className={styles.btnRow}>
-        <div className={styles.signInRow}>
-          <div>
-            <Button variant="b" handleClick={handleClickSignIn}>
-              {i18n.sign_in}
-            </Button>
-          </div>
-          {signInAlert.length > 0 && <div className={styles.signInAlert}>{signInAlert}</div>}
+      <div className={styles.inputGroup}>
+        <div className={styles.passcode}>
+          <p className={styles.label}>Passcode</p>
+          <input type="password" onChange={handleChangePasscode} />
         </div>
-        <div className={styles.suggestion}>
-          <StrikeThroughText>{i18n.new_to_prfs}</StrikeThroughText>
-          <div>
-            <Button variant="transparent_a" handleClick={handleClickSignUp}>
-              {i18n.create_new_prfs_account}
-            </Button>
+        <div className={styles.hashBtnRow}>
+          <Button variant="a" handleClick={handleClickHash}>
+            {i18n.hash}
+          </Button>
+        </div>
+        {passhash.length > 0 && (
+          <div className={styles.hashResult}>
+            <FormTextInput label={i18n.passhash} value={passhash} />
           </div>
+        )}
+      </div>
+      <div>{signInAlert.length > 0 && <div className={styles.signInAlert}>{signInAlert}</div>}</div>
+      <div className={styles.btnRow}>
+        <div>
+          <Button variant="c" handleClick={handleClickSignIn}>
+            {i18n.sign_in}
+          </Button>
+        </div>
+        <div>
+          <button className={styles.signUpBtn} onClick={handleClickSignUp}>
+            {i18n.create_new_prfs_account}
+          </button>
         </div>
       </div>
     </div>
   );
 };
 
+{
+  /* <StrikeThroughText>{i18n.new_to_prfs}</StrikeThroughText> */
+}
 export default SignInForm;
 
 export interface SignInFormProps {}
@@ -168,7 +151,7 @@ export async function signIn(walletAddr: string, passhash: string, signer: ether
 
   try {
     let sig = await signer.signMessage(passhash);
-    let resp = await prfsApi.signInPrfsAccount(sig);
+    let resp = await prfsApi.signInPrfsAccount({ sig });
 
     if (resp.error) {
       throw new Error(resp.error);
