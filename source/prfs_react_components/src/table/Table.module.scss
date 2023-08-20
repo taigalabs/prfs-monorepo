@@ -66,11 +66,13 @@
 }
 
 .tableSearch {
-  padding: 10px 7px;
   border-top: 1px solid var(--bright-gray-31);
   border-bottom: 1px solid var(--bright-gray-31);
   display: flex;
+  align-items: center;
   color: var(--gray-50);
+  height: 40px;
+  padding: 0 15px;
 
   .guide {
     color: var(--black-00);
@@ -80,5 +82,10 @@
     svg {
       margin-right: 4px;
     }
+  }
+
+  input {
+    padding: 3px 4px;
+    width: 410px;
   }
 }

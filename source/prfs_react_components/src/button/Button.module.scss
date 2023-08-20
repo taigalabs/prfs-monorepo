@@ -82,6 +82,25 @@
   }
 }
 
+.transparent_c_light {
+  border-radius: 3px;
+  color: var(--aqua-blue-50);
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: 0.25em;
+    font-size: 1.2em;
+  }
+
+  &:hover {
+    color: var(--aqua-blue-40);
+    background-color: var(--bright-aqua-blue-60);
+    cursor: pointer;
+  }
+}
+
 .transparent_d {
   border-radius: 3px;
   color: var(--gray-20);

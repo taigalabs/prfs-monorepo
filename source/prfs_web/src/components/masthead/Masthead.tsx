@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { FaSearch } from "react-icons/fa";
 import { usePathname } from "next/navigation";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -14,9 +15,9 @@ const ConnectButton = () => {
   const i18n = React.useContext(i18nContext);
 
   return (
-    <div className={styles.connectBtn}>
+    <Button variant="transparent_c_light">
       <Link href="/signin">{i18n.connect}</Link>
-    </div>
+    </Button>
   );
 };
 
