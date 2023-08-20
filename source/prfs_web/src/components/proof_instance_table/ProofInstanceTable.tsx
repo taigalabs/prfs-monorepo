@@ -10,6 +10,7 @@ import Table, {
   TableRecordData,
   TableData,
   TableRow,
+  TableSearch,
 } from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./ProofInstanceTable.module.scss";
@@ -95,18 +96,23 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
   }, [data]);
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          {handleSelectVal && <th className={styles.radio}></th>}
-          <th className={styles.proof_instance_id}>{i18n.proof_instance_id}</th>
-          <th className={styles.proof_type_id}>{i18n.proof_type_id}</th>
-          <th className={styles.public_inputs}>{i18n.public_inputs}</th>
-          <th className={styles.createdAt}>{i18n.created_at}</th>
-        </TableRow>
-      </TableHeader>
-      <TableBody>{rowsElem}</TableBody>
-    </Table>
+    <div>
+      <TableSearch>
+        <input placeholder={i18n.proof_instance_search_guide} />
+      </TableSearch>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            {handleSelectVal && <th className={styles.radio}></th>}
+            <th className={styles.proof_instance_id}>{i18n.proof_instance_id}</th>
+            <th className={styles.proof_type_id}>{i18n.proof_type_id}</th>
+            <th className={styles.public_inputs}>{i18n.public_inputs}</th>
+            <th className={styles.createdAt}>{i18n.created_at}</th>
+          </TableRow>
+        </TableHeader>
+        <TableBody>{rowsElem}</TableBody>
+      </Table>
+    </div>
   );
 };
 
