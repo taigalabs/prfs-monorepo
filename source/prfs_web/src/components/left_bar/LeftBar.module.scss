@@ -27,8 +27,8 @@
 }
 
 .topSection {
-  margin-top: 10px;
-  height: 60px;
+  /* margin-top: 10px; */
+  /* height: 60px; */
   /* border-bottom: 1px solid var(--bright-gray-31); */
 }
 
@@ -37,18 +37,21 @@
 }
 
 .section {
+  padding: 8px 0;
 }
 
 .section:not(:first-child) {
-  margin-top: 20px;
+  border-top: 1px solid var(--bright-gray-31);
+  /* margin-top: 20px; */
 }
 
 .category {
+  margin: 0 14px;
   display: flex;
   align-items: center;
-  font-weight: 500;
-  font-size: 12px;
-  padding: 14px 18px;
+  /* font-weight: 500; */
+  /* font-size: 13px; */
+  padding: 12px 14px;
 }
 
 .activeLink {
@@ -66,6 +69,7 @@ p.menuSublabel {
   align-items: center;
 
   svg {
+    font-size: 18px;
     color: var(--gray-30);
     margin-right: 14px;
   }
@@ -73,6 +77,6 @@ p.menuSublabel {
 
 .bold {
   svg {
-    color: var(--black-20);
+    color: var(--gray-10);
   }
 }

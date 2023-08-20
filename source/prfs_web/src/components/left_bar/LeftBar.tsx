@@ -5,8 +5,12 @@ import { FaAngleRight } from "react-icons/fa6";
 import { FaHatWizard } from "react-icons/fa6";
 import { FaHome } from "react-icons/fa";
 import { MdSpaceDashboard, MdOutlineDocumentScanner } from "react-icons/md";
-import { IoDocumentTextOutline } from "react-icons/io5";
+import { IoDocumentTextOutline, IoDocument } from "react-icons/io5";
 import { GrDocumentText } from "react-icons/gr";
+import { AiFillFolder } from "react-icons/ai";
+import { PiCircuitry, PiCircuitryFill } from "react-icons/pi";
+import { AiTwotoneTool } from "react-icons/ai";
+import { TbTable, TbTableAlias } from "react-icons/tb";
 
 import styles from "./LeftBar.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -19,7 +23,7 @@ const Leftbar: React.FC<any> = () => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.topSection}>
+      <div className={styles.section}>
         <ul>
           <li>
             <ActiveLink href={paths.proof__proof_wizard} exact activeClassName={styles.activeLink}>
@@ -32,10 +36,6 @@ const Leftbar: React.FC<any> = () => {
               </div>
             </ActiveLink>
           </li>
-        </ul>
-      </div>
-      <div className={styles.homeSection}>
-        <ul>
           <li>
             <ActiveLink href={paths.proof} exact activeClassName={styles.activeLink}>
               <div className={styles.button}>
@@ -48,7 +48,7 @@ const Leftbar: React.FC<any> = () => {
       </div>
       <div className={styles.section}>
         <ul>
-          <li className={styles.category}>{i18n.proofs.toUpperCase()}</li>
+          <li className={styles.category}>{i18n.proofs}</li>
           <li>
             <ActiveLink href={paths.proof__proof_instances} activeClassName={styles.activeLink}>
               <div className={cn(styles.button, styles.bold)}>
@@ -59,27 +59,39 @@ const Leftbar: React.FC<any> = () => {
           </li>
           <li>
             <ActiveLink href={paths.proof__proof_types} activeClassName={styles.activeLink}>
-              {i18n.proof_types}
+              <div className={styles.button}>
+                <IoDocument />
+                <span>{i18n.proof_types}</span>
+              </div>
             </ActiveLink>
           </li>
         </ul>
       </div>
       <div className={styles.section}>
         <ul>
-          <li className={styles.category}>{i18n.circuits.toUpperCase()}</li>
+          <li className={styles.category}>{i18n.circuits}</li>
           <li>
             <ActiveLink href={paths.proof__circuits} activeClassName={styles.activeLink}>
-              {i18n.circuits}
+              <div className={cn(styles.button, styles.bold)}>
+                <PiCircuitry />
+                <span>{i18n.circuits}</span>
+              </div>
             </ActiveLink>
           </li>
           <li>
             <ActiveLink href={paths.proof__circuit_drivers} activeClassName={styles.activeLink}>
-              {i18n.circuit_drivers}
+              <div className={styles.button}>
+                <AiTwotoneTool />
+                <span>{i18n.circuit_drivers}</span>
+              </div>
             </ActiveLink>
           </li>
           <li>
             <ActiveLink href={paths.proof__circuit_types} activeClassName={styles.activeLink}>
-              {i18n.circuit_types}
+              <div className={styles.button}>
+                <PiCircuitryFill />
+                <span>{i18n.circuit_types}</span>
+              </div>
             </ActiveLink>
           </li>
         </ul>
@@ -87,16 +99,22 @@ const Leftbar: React.FC<any> = () => {
       <div className={styles.section}>
         <ul>
           <li className={styles.category}>
-            <span>{i18n.references.toUpperCase()}</span>
+            <span>{i18n.references}</span>
           </li>
           <li>
             <ActiveLink href={paths.proof__sets} activeClassName={styles.activeLink}>
-              {i18n.sets}
+              <div className={cn(styles.button, styles.bold)}>
+                <TbTable />
+                <span>{i18n.sets}</span>
+              </div>
             </ActiveLink>
           </li>
           <li>
             <ActiveLink href={paths.proof__dynamic_sets} activeClassName={styles.activeLink}>
-              {i18n.dynamic_sets}
+              <div className={cn(styles.button, styles.bold)}>
+                <TbTableAlias />
+                <span>{i18n.dynamic_sets}</span>
+              </div>
             </ActiveLink>
           </li>
         </ul>
