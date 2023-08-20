@@ -10,6 +10,7 @@ import Table, {
   TableData,
   TableRecordData,
   TableRow,
+  TableSearch,
 } from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./DriverTable.module.scss";
@@ -80,17 +81,22 @@ const DriverTable: React.FC<DriverTableProps> = ({ selectType, selectedVal, hand
   }, [data]);
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          {handleSelectVal && <th className={styles.radio}></th>}
-          <th className={styles.driver_id}>{i18n.driver_id}</th>
-          <th className={styles.driver_repository_url}>{i18n.driver_repository_url}</th>
-          <th className={styles.version}>{i18n.version}</th>
-        </TableRow>
-      </TableHeader>
-      <TableBody>{rowsElem}</TableBody>
-    </Table>
+    <div>
+      <TableSearch>
+        <input placeholder={i18n.driver_search_guide} />
+      </TableSearch>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            {handleSelectVal && <th className={styles.radio}></th>}
+            <th className={styles.driver_id}>{i18n.driver_id}</th>
+            <th className={styles.driver_repository_url}>{i18n.driver_repository_url}</th>
+            <th className={styles.version}>{i18n.version}</th>
+          </TableRow>
+        </TableHeader>
+        <TableBody>{rowsElem}</TableBody>
+      </Table>
+    </div>
   );
 };
 

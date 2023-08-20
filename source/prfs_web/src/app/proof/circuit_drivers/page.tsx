@@ -28,7 +28,9 @@ const Programs: React.FC = () => {
               <WidgetLabel>{i18n.drivers}</WidgetLabel>
             </TopWidgetTitle>
             <PaddedTableWrapper>
-              <DriverTable />
+              <div className={styles.tableContainer}>
+                <DriverTable />
+              </div>
             </PaddedTableWrapper>
           </Widget>
         </Card>

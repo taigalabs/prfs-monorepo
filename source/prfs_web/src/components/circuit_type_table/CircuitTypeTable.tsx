@@ -8,6 +8,7 @@ import Table, {
   TableHeader,
   TableData,
   TableRecordData,
+  TableSearch,
 } from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./CircuitTypeTable.module.scss";
@@ -85,18 +86,23 @@ const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({
   }, [data]);
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          {handleSelectVal && <th className={styles.radio}></th>}
-          <th className={styles.circuit_type}>{i18n.circuit_type}</th>
-          <th className={styles.desc}>{i18n.description}</th>
-          <th className={styles.author}>{i18n.author}</th>
-          <th className={styles.createdAt}>{i18n.created_at}</th>
-        </TableRow>
-      </TableHeader>
-      <TableBody>{rowsElem}</TableBody>
-    </Table>
+    <div>
+      <TableSearch>
+        <input placeholder={i18n.circuit_type_search_guide} />
+      </TableSearch>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            {handleSelectVal && <th className={styles.radio}></th>}
+            <th className={styles.circuit_type}>{i18n.circuit_type}</th>
+            <th className={styles.desc}>{i18n.description}</th>
+            <th className={styles.author}>{i18n.author}</th>
+            <th className={styles.createdAt}>{i18n.created_at}</th>
+          </TableRow>
+        </TableHeader>
+        <TableBody>{rowsElem}</TableBody>
+      </Table>
+    </div>
   );
 };
 

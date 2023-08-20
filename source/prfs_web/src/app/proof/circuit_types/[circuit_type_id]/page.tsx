@@ -20,6 +20,8 @@ import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb"
 import CircuitTypeSummary from "@/components/circuit_type_summary/CircuitTypeSummary";
 import CircuitInputsMetaTable from "@/components/circuit_inputs_meta_table/CircuitInputsMetaTable";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
+import { paths } from "@/routes/path";
+import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 
 const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -54,24 +56,23 @@ const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {
         <Card>
           <Widget>
             <TopWidgetTitle>
-              <div className={styles.circuitTypeHeader}>
-                <div className={styles.breadcrumbContainer}>
-                  <Breadcrumb>
-                    <BreadcrumbEntry>
-                      <Link href="/circuit_types">{i18n.circuit_types}</Link>
-                    </BreadcrumbEntry>
-                    <BreadcrumbEntry>{params.circuit_type_id}</BreadcrumbEntry>
-                  </Breadcrumb>
+              <div className={styles.header}>
+                <div className={styles.navigation}>
+                  <Link href={paths.proof__circuit_types}>
+                    <ArrowButton variant="left" />
+                  </Link>
                 </div>
                 <WidgetLabel>{topWidgetLabel}</WidgetLabel>
               </div>
             </TopWidgetTitle>
+
             <PaddedSummaryWrapper>
               <CircuitTypeSummary circuitType={circuitType} />
             </PaddedSummaryWrapper>
           </Widget>
         </Card>
       </CardRow>
+
       {circuitType && (
         <CardRow>
           <Card>
