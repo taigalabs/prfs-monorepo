@@ -8,14 +8,16 @@ import styles from "./AccountPopover.module.scss";
 import localStore from "@/storage/localStore";
 import { i18nContext } from "@/contexts/i18n";
 import { stateContext } from "@/contexts/state";
-import { PrfsAccount } from "@/state/reducer";
+import { LocalPrfsAccount } from "@/state/reducer";
 import { paths } from "@/routes/path";
 import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
 
-const AccountModal: React.FC<AccountModalProps> = ({ account }) => {
+const AccountModal: React.FC<AccountModalProps> = ({ localPrfsAccount }) => {
   const i18n = React.useContext(i18nContext);
   const { dispatch } = React.useContext(stateContext);
   const router = useRouter();
+
+  const { prfsAccount, walletAddr } = localPrfsAccount;
 
   const handleClickSignOut = React.useCallback(() => {
     dispatch({
@@ -30,12 +32,12 @@ const AccountModal: React.FC<AccountModalProps> = ({ account }) => {
   return (
     <div className={styles.modal}>
       <div>
-        <p>{i18n.id}</p>
-        <p className={styles.value}>{account.id}</p>
+        <p>{i18n.signature}</p>
+        <p className={styles.value}>{prfsAccount.sig}</p>
       </div>
       <div>
         <p>{i18n.wallet_addr}</p>
-        <p className={styles.value}>{account.walletAddr}</p>
+        <p className={styles.value}>{walletAddr}</p>
       </div>
       <ul>
         <div>55</div>
@@ -45,28 +47,32 @@ const AccountModal: React.FC<AccountModalProps> = ({ account }) => {
   );
 };
 
-const AccountPopover: React.FC<AccountPopoverProps> = ({ account }) => {
+const AccountPopover: React.FC<AccountPopoverProps> = ({ localPrfsAccount }) => {
   const i18n = React.useContext(i18nContext);
-  const { walletAddr, id } = account;
+  const { walletAddr, prfsAccount } = localPrfsAccount;
 
-  console.log(11, account.sig);
+  // console.log(11, account.sig);
 
-  const createBase = React.useCallback((isOpen: boolean) => {
-    const s = id.substring(2, 6);
+  const createBase = React.useCallback(
+    (isOpen: boolean) => {
+      const { sig } = prfsAccount;
+      const s = sig.substring(2, 6);
 
-    return (
-      <div className={styles.base}>
-        <div className={styles.id}>{s}</div>
-      </div>
-      // {/* <div className={styles.wallet}>{/* <BsWallet2 /> */}</div> */}
-    );
-  }, []);
+      return (
+        <div className={styles.base}>
+          <div className={styles.id}>{s}</div>
+        </div>
+        // {/* <div className={styles.wallet}>{/* <BsWallet2 /> */}</div> */}
+      );
+    },
+    [prfsAccount]
+  );
 
   const createPopover = React.useCallback(
     (setIsOpen: React.Dispatch<React.SetStateAction<any>>) => {
-      const shortWalletAddr = walletAddr.substring(0, 15);
+      // const shortWalletAddr = walletAddr.substring(0, 15);
 
-      return <AccountModal setIsOpen={setIsOpen} account={account} />;
+      return <AccountModal setIsOpen={setIsOpen} localPrfsAccount={localPrfsAccount} />;
     },
     []
   );
@@ -86,10 +92,10 @@ const AccountPopover: React.FC<AccountPopoverProps> = ({ account }) => {
 export default AccountPopover;
 
 interface AccountPopoverProps {
-  account: PrfsAccount;
+  localPrfsAccount: LocalPrfsAccount;
 }
 
 interface AccountModalProps {
-  account: PrfsAccount;
+  localPrfsAccount: LocalPrfsAccount;
   setIsOpen: React.Dispatch<React.SetStateAction<any>>;
 }

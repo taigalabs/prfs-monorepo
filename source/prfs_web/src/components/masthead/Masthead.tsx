@@ -14,7 +14,7 @@ import localStore from "@/storage/localStore";
 import { i18nContext } from "@/contexts/i18n";
 import Logo from "@/components/logo/Logo";
 import { stateContext } from "@/contexts/state";
-import { PrfsAccount } from "@/state/reducer";
+import { LocalPrfsAccount } from "@/state/reducer";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import PrfsAppsPopover from "./PrfsAppsPopover";
 import { paths } from "@/routes/path";
@@ -33,7 +33,7 @@ const ConnectButton = () => {
 const Masthead: React.FC<any> = () => {
   const i18n = React.useContext(i18nContext);
   const { state } = React.useContext(stateContext);
-  const { prfsAccount } = state;
+  const { localPrfsAccount } = state;
   const path = usePathname();
   const [appName, setAppName] = React.useState("");
 
@@ -73,7 +73,11 @@ const Masthead: React.FC<any> = () => {
           <li>
             <PrfsAppsPopover />
           </li>
-          {prfsAccount ? <AccountPopover account={prfsAccount} /> : <ConnectButton />}
+          {localPrfsAccount ? (
+            <AccountPopover localPrfsAccount={localPrfsAccount} />
+          ) : (
+            <ConnectButton />
+          )}
         </div>
       </div>
     </div>
@@ -81,7 +85,3 @@ const Masthead: React.FC<any> = () => {
 };
 
 export default Masthead;
-
-export interface AccountStatProps {
-  account: PrfsAccount;
-}
