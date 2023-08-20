@@ -7,7 +7,6 @@
   display: flex;
   justify-content: center;
   height: 53px;
-  padding: 0px 25px;
   background-color: var(--white-100);
   border-bottom: 1px solid var(--bright-gray-31);
 }
@@ -17,6 +16,7 @@
   min-width: 1100px;
   max-width: 1600px;
   width: 100%;
+  padding: 0px 25px;
 
   // border: 1px solid blue;
 }
