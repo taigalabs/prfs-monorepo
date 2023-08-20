@@ -7,6 +7,7 @@ import * as prfsApi from "@taigalabs/prfs-api-js";
 import Link from "next/link";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 
 import styles from "./ProofInstancePage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -21,7 +22,6 @@ import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
-import { PrfsProofInstance } from "@taigalabs/prfs-entities/bindings/PrfsProofInstance";
 import ProofInstanceDetailTable from "@/components/proof_instance_detail_table/ProofInstanceDetailTable";
 import ProofInstanceQRCode from "@/components/proof_instance_qrcode/ProofInstanceQRCode";
 import { paths } from "@/routes/path";
@@ -35,7 +35,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
 
   const topWidgetLabel = `${i18n.proof_instance} ${params.id}`;
 
-  const [proofInstance, setProofInstance] = React.useState<PrfsProofInstance>();
+  const [proofInstance, setProofInstance] = React.useState<PrfsProofInstanceSyn1>();
   React.useEffect(() => {
     const id = +decodeURIComponent(params.id);
 

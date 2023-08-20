@@ -10,16 +10,17 @@ import Table, {
   TableRow,
 } from "@taigalabs/prfs-react-components/src/table/Table";
 import { AiOutlineCheck } from "react-icons/ai";
+import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
+import { PrfsProofInstance } from "@taigalabs/prfs-entities/bindings/PrfsProofInstance";
 
 import styles from "./ProofInstanceDetailTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { PrfsProofInstance } from "@taigalabs/prfs-entities/bindings/PrfsProofInstance";
 import dayjs from "dayjs";
 
 const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ proofInstance }) => {
   const i18n = React.useContext(i18nContext);
 
-  const [data, setData] = React.useState<TableRecordData<PrfsProofInstance | undefined>>({
+  const [data, setData] = React.useState<TableRecordData<PrfsProofInstanceSyn1 | undefined>>({
     record: proofInstance,
   });
 
@@ -65,5 +66,5 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
 export default ProofInstanceDetailTable;
 
 export interface ProofInstanceDetailTableProps {
-  proofInstance: PrfsProofInstance | undefined;
+  proofInstance: PrfsProofInstanceSyn1 | undefined;
 }
