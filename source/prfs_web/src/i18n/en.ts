@@ -14,6 +14,7 @@ export default {
   num_inputs: "num inputs",
   num_circuit_inputs: "# circuit inputs",
   description: "Description",
+  expression: "Expression",
   created_at: "Created at",
   logo_label: "Prfs",
   label: "Label",

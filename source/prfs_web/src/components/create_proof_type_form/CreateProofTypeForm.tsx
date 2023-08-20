@@ -27,6 +27,7 @@ import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInput
 import CircuitInputConfigSection from "../circuit_input_config_section/CircuitInputConfigSection";
 import { paths } from "@/routes/path";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import FormTextareaInput from "../form/FormTextareaInput";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -38,6 +39,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const [formAlert, setFormAlert] = React.useState("");
   const [name, setName] = React.useState("");
   const [desc, setDesc] = React.useState("");
+  const [expression, setExpression] = React.useState("");
   const [selectedCircuit, setSelectedCircuit] = React.useState<PrfsCircuit | undefined>();
 
   const handleSelectCircuit = React.useCallback(
@@ -52,6 +54,13 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       setName(ev.target.value);
     },
     [setName]
+  );
+
+  const handleChangeExpression = React.useCallback(
+    (ev: any) => {
+      setExpression(ev.target.value);
+    },
+    [setExpression]
   );
 
   const handleChangeDesc = React.useCallback(
@@ -157,7 +166,10 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
                 <FormTextInput label={i18n.name} handleChange={handleChangeName} />
               </div>
               <div className={styles.textInputContainer}>
-                <FormTextInput label={i18n.description} handleChange={handleChangeDesc} />
+                <FormTextareaInput label={i18n.description} handleChange={handleChangeDesc} />
+              </div>
+              <div className={styles.textInputContainer}>
+                <FormTextInput label={i18n.expression} handleChange={handleChangeExpression} />
               </div>
             </WidgetPaddedBody>
           </Widget>
