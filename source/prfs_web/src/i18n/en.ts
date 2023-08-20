@@ -63,9 +63,9 @@ export default {
   configuration: "Configuration",
   create_proof_type: "Create proof type",
   create_proof_instance_subtitle:
-    "Proofs allow you to make an undeniable, anonymous claim about anything from the source of truth.",
+    "Proofs allow you to make an undeniable, anonymous claim. Start by choosing a specific proof type you want to make",
   create_proof_type_subtitle:
-    "In order to create a proof instance, we need a proof type defined. Start by choosing the circuit (program) and the reference values.",
+    "Proof instances are created based upon the type that is preconfigured. Start by choosing the circuit (program) and the reference values.",
   proofs: "Proofs",
   forest: "Forest",
   proof: "Proof",

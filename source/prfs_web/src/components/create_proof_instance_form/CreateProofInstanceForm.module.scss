@@ -2,9 +2,20 @@
   max-width: 760px;
 }
 
-.breadcrumbContainer {
-  /* padding-top: 12px; */
-  padding-bottom: 13px;
+.header {
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  a {
+    margin-right: 14px;
+  }
+}
+
+.desc {
+  width: 520px;
+  color: var(--gray-31);
+  line-height: 1.52em;
 }
 
 .textInputContainer {

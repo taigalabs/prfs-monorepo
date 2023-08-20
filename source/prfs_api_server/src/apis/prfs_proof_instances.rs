@@ -11,7 +11,7 @@ use std::{collections::HashMap, convert::Infallible, sync::Arc};
 struct GetPrfsProofInstancesRequest {
     page: u32,
     limit: Option<u32>,
-    proof_instance_id: Option<String>,
+    id: Option<i64>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -35,10 +35,9 @@ pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Bod
 
     println!("req: {:?}", req);
 
-    match req.proof_instance_id {
-        Some(proof_instance_id) => {
-            let prfs_proof_instances =
-                db_apis::get_prfs_proof_instance(pool, &proof_instance_id).await;
+    match req.id {
+        Some(id) => {
+            let prfs_proof_instances = db_apis::get_prfs_proof_instance(pool, &id).await;
             let resp = ApiResponse::new_success(GetPrfsProofInstancesRespPayload {
                 page: req.page,
                 prfs_proof_instances,
@@ -67,7 +66,7 @@ struct CreatePrfsProofInstanceRequest {
 
 #[derive(Serialize, Deserialize, Debug)]
 struct CreatePrfsProofInstanceRespPayload {
-    // prfs_proof_types: Vec<PrfsProofType>,
+    id: i64,
 }
 
 pub async fn create_prfs_proof_instance(req: Request<Body>) -> Result<Response<Body>, Infallible> {
@@ -87,17 +86,16 @@ pub async fn create_prfs_proof_instance(req: Request<Body>) -> Result<Response<B
     let prfs_proof_instance = PrfsProofInstance {
         id: None,
         proof_type_id: req.proof_type_id.to_string(),
-        sig: req.sig.to_string(),
         proof: req.proof.to_vec(),
         public_inputs: req.public_inputs.clone(),
         created_at: chrono::offset::Utc::now(),
     };
 
-    db_apis::insert_prfs_proof_instances(&mut tx, &vec![prfs_proof_instance]).await;
+    let id = db_apis::insert_prfs_proof_instances(&mut tx, &vec![prfs_proof_instance]).await;
 
     tx.commit().await.unwrap();
 
-    let resp = ApiResponse::new_success(CreatePrfsProofInstanceRespPayload {});
+    let resp = ApiResponse::new_success(CreatePrfsProofInstanceRespPayload { id });
 
     return Ok(resp.into_hyper_response());
 }

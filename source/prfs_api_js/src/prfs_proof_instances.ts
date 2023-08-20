@@ -11,7 +11,9 @@ export interface CreatePrfsProofInstanceRequest {
   public_inputs: Record<string, any>;
 }
 
-export type CreatePrfsProofInstanceResponse = PrfsApiResponse<{}>;
+export type CreatePrfsProofInstanceResponse = PrfsApiResponse<{
+  id: number;
+}>;
 
 export async function createPrfsProofInstance(req: CreatePrfsProofInstanceRequest) {
   try {
@@ -19,6 +21,7 @@ export async function createPrfsProofInstance(req: CreatePrfsProofInstanceReques
       path: `create_prfs_proof_instance`,
       req,
     });
+
     return resp;
   } catch (err) {
     console.log("error fetching", err);
