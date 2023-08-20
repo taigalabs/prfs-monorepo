@@ -6,7 +6,7 @@ import { BsWallet2 } from "react-icons/bs";
 import IconButton from "@taigalabs/prfs-react-components/src/icon_button/IconButton";
 import { FaTools } from "react-icons/fa";
 import { IoIosSchool } from "react-icons/io";
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch } from "react-icons/fa";
 
 import styles from "./Masthead.module.scss";
 import localStore from "@/storage/localStore";
@@ -53,23 +53,16 @@ const Masthead: React.FC<any> = () => {
         </div>
         <div className={styles.rightMenu}>
           <li className={styles.inactive}>
-            <Button variant="transparent_d">
-              <IoIosSchool />
-              {i18n.learn.toUpperCase()}
-            </Button>
+            <button>{i18n.learn.toUpperCase()}</button>
           </li>
           <li className={styles.inactive}>
-            <Button variant="transparent_d">
-              <FaTools />
-              {i18n.sdk_api.toUpperCase()}
-            </Button>
+            <button>{i18n.sdk_api.toUpperCase()}</button>
           </li>
           <li>
             <PrfsAppsPopover />
           </li>
           {prfsAccount ? <AccountPopover account={prfsAccount} /> : <ConnectButton />}
         </div>
-
       </div>
     </div>
   );

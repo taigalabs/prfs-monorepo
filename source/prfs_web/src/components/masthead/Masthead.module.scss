@@ -7,6 +7,7 @@
   display: flex;
   justify-content: center;
   height: 53px;
+  padding: 0px 25px;
   background-color: var(--white-100);
   border-bottom: 1px solid var(--bright-gray-31);
 }
@@ -53,10 +54,9 @@
   display: flex;
   align-items: center;
   margin-left: auto;
-  padding-right: 45px;
 
   > li:not(:last-child) {
-    margin-right: 15px;
+    margin-right: 35px;
   }
 }
 
