@@ -51,7 +51,7 @@
   font-size: 12px;
   font-weight: 400;
   color: var(--gray-20);
-  border-bottom: 1px solid var(--bright-gray-50);
+  border-bottom: 1px solid var(--gray-70);
   padding: 11px 0;
 }
 
@@ -60,9 +60,13 @@
 }
 
 .menu {
-  li:hover {
+  li {
+    padding: 8px 6px;
     cursor: pointer;
-    color: var(--aqua-blue-50);
+  }
+
+  li:hover {
+    background-color: var(--bright-gray-50);
   }
 }
 

@@ -16,8 +16,6 @@ import Widget, {
 } from "@/components/widget/Widget";
 import CardRow from "@/components/card_row/CardRow";
 import Card from "@/components/card/Card";
-import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
-import { FormTitleRow, FormTitle, FormSubtitle } from "@/components/form/Form";
 import FormTextInput from "@/components/form/FormTextInput";
 import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { stateContext } from "@/contexts/state";
@@ -27,7 +25,7 @@ import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInput
 import CircuitInputConfigSection from "../circuit_input_config_section/CircuitInputConfigSection";
 import { paths } from "@/routes/path";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
-import FormTextareaInput from "../form/FormTextareaInput";
+import FormTextareaInput from "@/components/form/FormTextareaInput";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -38,6 +36,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const [circuitInputs, setCircuitInputs] = React.useState<Record<number, CircuitInput>>({});
   const [formAlert, setFormAlert] = React.useState("");
   const [name, setName] = React.useState("");
+  const [imgUrl, setImgUrl] = React.useState("");
   const [desc, setDesc] = React.useState("");
   const [expression, setExpression] = React.useState("");
   const [selectedCircuit, setSelectedCircuit] = React.useState<PrfsCircuit | undefined>();
@@ -70,6 +69,13 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     [setDesc]
   );
 
+  const handleChangeImgUrl = React.useCallback(
+    (ev: any) => {
+      setImgUrl(ev.target.value);
+    },
+    [setImgUrl]
+  );
+
   const handleClickCreateProofType = React.useCallback(() => {
     if (!localPrfsAccount) {
       setFormAlert("User is not signed in");
@@ -85,6 +91,16 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 
     if (selectedCircuit === undefined) {
       setFormAlert("Circuit should be selected");
+      return;
+    }
+
+    if (desc === undefined || desc.length < 1) {
+      setFormAlert("Description should be given");
+      return;
+    }
+
+    if (expression === undefined || expression.length < 1) {
+      setFormAlert("Expression should be given");
       return;
     }
 
@@ -129,6 +145,8 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       proof_type_id,
       label: name,
       desc,
+      img_url: imgUrl,
+      expression,
       author: prfsAccount.sig,
       circuit_id: selectedCircuit.circuit_id,
       circuit_inputs: newCircuitInputs,
@@ -139,7 +157,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     prfsApi
       .createPrfsProofType(createPrfsProofTypeRequest)
       .then(_res => {
-        router.push("/proof_types");
+        router.push(paths.proof__proof_types);
       })
       .catch(err => {
         setFormAlert(err);
@@ -174,6 +192,9 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
               </div>
               <div className={styles.textInputContainer}>
                 <FormTextInput label={i18n.expression} handleChange={handleChangeExpression} />
+              </div>
+              <div className={styles.textInputContainer}>
+                <FormTextInput label={i18n.image_url} handleChange={handleChangeImgUrl} />
               </div>
             </WidgetPaddedBody>
           </Widget>

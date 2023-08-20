@@ -15,6 +15,7 @@ export default {
   num_circuit_inputs: "# circuit inputs",
   description: "Description",
   expression: "Expression",
+  image_url: "Image url",
   created_at: "Created at",
   logo_label: "Prfs",
   label: "Label",

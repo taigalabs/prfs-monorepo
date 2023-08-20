@@ -6,7 +6,7 @@ export interface PrfsProofType {
   author: string;
   desc: string;
   expression: string;
-  img_url: string;
+  img_url: string | null;
   circuit_id: string;
   driver_id: string;
   circuit_inputs: Record<number, any>;
