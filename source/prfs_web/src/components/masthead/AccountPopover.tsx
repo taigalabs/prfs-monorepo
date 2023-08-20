@@ -49,17 +49,16 @@ const AccountModal: React.FC<AccountModalProps> = ({ localPrfsAccount }) => {
 
 const AccountPopover: React.FC<AccountPopoverProps> = ({ localPrfsAccount }) => {
   const i18n = React.useContext(i18nContext);
-  const { walletAddr, prfsAccount } = localPrfsAccount;
-
-  // console.log(11, account.sig);
+  const { prfsAccount } = localPrfsAccount;
 
   const createBase = React.useCallback(
     (isOpen: boolean) => {
-      const { sig } = prfsAccount;
+      const { sig, avatar_color } = prfsAccount;
       const s = sig.substring(2, 6);
+      const avatarColor = `#${avatar_color}`;
 
       return (
-        <div className={styles.base}>
+        <div className={styles.base} style={{ backgroundColor: avatarColor }}>
           <div className={styles.id}>{s}</div>
         </div>
         // {/* <div className={styles.wallet}>{/* <BsWallet2 /> */}</div> */}
