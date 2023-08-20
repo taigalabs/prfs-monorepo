@@ -49,9 +49,6 @@
   font-weight: 500;
   font-size: 12px;
   padding: 14px 18px;
-
-  svg {
-  }
 }
 
 .activeLink {
@@ -69,6 +66,13 @@ p.menuSublabel {
   align-items: center;
 
   svg {
+    color: var(--gray-30);
     margin-right: 14px;
+  }
+}
+
+.bold {
+  svg {
+    color: var(--black-20);
   }
 }

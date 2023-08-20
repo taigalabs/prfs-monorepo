@@ -1,9 +1,12 @@
 import React from "react";
+import cn from "classnames";
 import Link from "next/link";
 import { FaAngleRight } from "react-icons/fa6";
 import { FaHatWizard } from "react-icons/fa6";
 import { FaHome } from "react-icons/fa";
-import { MdSpaceDashboard } from "react-icons/md";
+import { MdSpaceDashboard, MdOutlineDocumentScanner } from "react-icons/md";
+import { IoDocumentTextOutline } from "react-icons/io5";
+import { GrDocumentText } from "react-icons/gr";
 
 import styles from "./LeftBar.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -37,7 +40,7 @@ const Leftbar: React.FC<any> = () => {
             <ActiveLink href={paths.proof} exact activeClassName={styles.activeLink}>
               <div className={styles.button}>
                 <MdSpaceDashboard />
-                {i18n.dashboard}
+                <span>{i18n.dashboard}</span>
               </div>
             </ActiveLink>
           </li>
@@ -48,7 +51,10 @@ const Leftbar: React.FC<any> = () => {
           <li className={styles.category}>{i18n.proofs.toUpperCase()}</li>
           <li>
             <ActiveLink href={paths.proof__proof_instances} activeClassName={styles.activeLink}>
-              {i18n.proof_instances}
+              <div className={cn(styles.button, styles.bold)}>
+                <IoDocumentTextOutline />
+                <span>{i18n.proof_instances}</span>
+              </div>
             </ActiveLink>
           </li>
           <li>

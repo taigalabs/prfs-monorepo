@@ -84,6 +84,7 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
             <th className={styles.desc}>{i18n.description}</th>
             <th className={styles.circuitId}>{i18n.circuit_id}</th>
             <th className={styles.createdAt}>{i18n.created_at}</th>
+            <th></th>
           </TableRow>
         </TableHeader>
         <TableBody>{rowsElem}</TableBody>
