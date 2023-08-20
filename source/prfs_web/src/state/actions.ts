@@ -1,8 +1,9 @@
+import { PrfsAccount } from "@taigalabs/prfs-entities/bindings/PrfsAccount";
+
 export type LoadPrfsAccountAction = {
   type: "load_prfs_account";
   payload: {
-    sig: string;
-    id: string;
+    prfsAccount: PrfsAccount;
     walletAddr: string;
   };
 };
@@ -10,8 +11,7 @@ export type LoadPrfsAccountAction = {
 export type SignInAction = {
   type: "sign_in";
   payload: {
-    sig: string;
-    id: string;
+    prfsAccount: PrfsAccount;
     walletAddr: string;
   };
 };
@@ -29,4 +29,4 @@ export type SignUpAction = {
   };
 };
 
-export type Action = SignInAction | SignUpAction | LoadPrfsAccountAction | SignOutAction;
+export type Action = SignInAction | SignUpAction | SignOutAction | LoadPrfsAccountAction;

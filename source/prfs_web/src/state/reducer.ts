@@ -1,3 +1,5 @@
+import { PrfsAccount } from "@taigalabs/prfs-entities/bindings/PrfsAccount";
+
 import {
   Action,
   LoadPrfsAccountAction,
@@ -5,15 +7,15 @@ import {
   SignOutAction,
   SignUpAction,
 } from "./actions";
+import localStore from "@/storage/localStore";
 
-export interface PrfsAccount {
-  sig: string;
-  id: string;
+export interface LocalPrfsAccount {
+  prfsAccount: PrfsAccount;
   walletAddr: string;
 }
 
 export interface AppState {
-  prfsAccount: PrfsAccount | undefined;
+  localPrfsAccount: LocalPrfsAccount | undefined;
 }
 
 const reducer = (state: AppState, action: Action) => {
@@ -36,11 +38,12 @@ const reducer = (state: AppState, action: Action) => {
 export default reducer;
 
 function handleSignIn(state: AppState, action: SignInAction): AppState {
+  localStore.putPrfsAccount(action.payload.prfsAccount, action.payload.walletAddr);
+
   return {
     ...state,
-    prfsAccount: {
-      sig: action.payload.sig,
-      id: action.payload.id,
+    localPrfsAccount: {
+      prfsAccount: action.payload.prfsAccount,
       walletAddr: action.payload.walletAddr,
     },
   };
@@ -49,20 +52,16 @@ function handleSignIn(state: AppState, action: SignInAction): AppState {
 function handleSignUp(state: AppState, action: SignUpAction): AppState {
   return {
     ...state,
-    prfsAccount: {
-      sig: action.payload.sig,
-      id: action.payload.id,
-      walletAddr: action.payload.walletAddr,
-    },
   };
 }
 
 function handleLoadPrfsAccount(state: AppState, action: LoadPrfsAccountAction): AppState {
   return {
     ...state,
-    prfsAccount: {
-      sig: action.payload.sig,
-      id: action.payload.id,
+    localPrfsAccount: {
+      // sig: action.payload.sig,
+      // id: action.payload.id,
+      prfsAccount: action.payload.prfsAccount,
       walletAddr: action.payload.walletAddr,
     },
   };
@@ -71,6 +70,6 @@ function handleLoadPrfsAccount(state: AppState, action: LoadPrfsAccountAction): 
 function handleSignOut(state: AppState, _action: SignOutAction): AppState {
   return {
     ...state,
-    prfsAccount: undefined,
+    localPrfsAccount: undefined,
   };
 }

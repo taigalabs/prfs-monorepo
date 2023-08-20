@@ -32,8 +32,8 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
     return (
       <TableBody>
         <TableRow>
-          <td className={styles.label}>{i18n.proof_instance_id}</td>
-          <td className={styles.value}>{record.proof_instance_id}</td>
+          <td className={styles.label}>{i18n.id}</td>
+          <td className={styles.value}>{record.id}</td>
         </TableRow>
         <TableRow>
           <td className={styles.label}>{i18n.proof_type_id}</td>

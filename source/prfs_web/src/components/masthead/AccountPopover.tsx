@@ -49,6 +49,8 @@ const AccountPopover: React.FC<AccountPopoverProps> = ({ account }) => {
   const i18n = React.useContext(i18nContext);
   const { walletAddr, id } = account;
 
+  console.log(11, account.sig);
+
   const createBase = React.useCallback((isOpen: boolean) => {
     const s = id.substring(2, 6);
 

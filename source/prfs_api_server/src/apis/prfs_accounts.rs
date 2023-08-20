@@ -12,6 +12,7 @@ use std::{convert::Infallible, sync::Arc};
 #[derive(Serialize, Deserialize, Debug)]
 struct SignUpRequest {
     sig: String,
+    avatarColor: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -46,6 +47,7 @@ pub async fn sign_up_prfs_account(req: Request<Body>) -> Result<Response<Body>, 
 
     let prfs_account = PrfsAccount {
         sig: req.sig.to_string(),
+        avatar_color: req.avatarColor.to_string(),
     };
 
     let sig = db_apis::insert_prfs_account(&mut tx, &prfs_account)
@@ -70,8 +72,7 @@ struct SignInRequest {
 
 #[derive(Serialize, Deserialize, Debug)]
 struct SignInRespPayload {
-    sig: String,
-    id: String,
+    prfs_account: PrfsAccount,
 }
 
 pub async fn sign_in_prfs_account(req: Request<Body>) -> Result<Response<Body>, Infallible> {
@@ -98,12 +99,9 @@ pub async fn sign_in_prfs_account(req: Request<Body>) -> Result<Response<Body>, 
         return Ok(resp.into_hyper_response());
     }
 
-    let acc = prfs_accounts.get(0).unwrap();
+    let prfs_account = prfs_accounts.get(0).unwrap().clone();
 
-    let resp = ApiResponse::new_success(SignInRespPayload {
-        sig: acc.sig.to_string(),
-        id: acc.sig[..10].to_string(),
-    });
+    let resp = ApiResponse::new_success(SignInRespPayload { prfs_account });
 
     return Ok(resp.into_hyper_response());
 }

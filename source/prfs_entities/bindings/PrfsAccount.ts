@@ -2,4 +2,5 @@
 
 export interface PrfsAccount {
   sig: string;
+  avatarColor: string;
 }

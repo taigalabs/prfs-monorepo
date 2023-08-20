@@ -16,6 +16,7 @@ import Card from "@/components/card/Card";
 import { FormTitle, FormTitleRow } from "@/components/form/Form";
 import FormTextInput from "@/components/form/FormTextInput";
 import StrikeThroughText from "@/components/strike_through_text/StrikeThroughText";
+import { paths } from "@/routes/path";
 
 const metamaskConfig = metamaskWallet();
 
@@ -87,22 +88,27 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
       const wallet = await connect(metamaskConfig);
       const signer = await wallet.getSigner();
       const sig = await signer.signMessage(passhash);
+      const avatarColor = Math.floor(Math.random() * 16777215).toString(16);
 
       try {
-        let resp = await prfsApi.signUpPrfsAccount(sig);
+        let resp = await prfsApi.signUpPrfsAccount({
+          sig,
+          avatarColor,
+        });
+
         if (resp.error) {
           throw new Error(resp.error);
         }
 
-        dispatch({
-          type: "sign_up",
-          payload: {
-            ...resp.payload,
-            walletAddr,
-          },
-        });
+        // dispatch({
+        //   type: "sign_up",
+        //   payload: {
+        //     ...resp.payload,
+        //     walletAddr,
+        //   },
+        // });
 
-        router.push("/");
+        router.push(paths.signin);
       } catch (err) {
         setSignUpAlert(`sign up err, err: ${err}`);
       }

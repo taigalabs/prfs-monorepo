@@ -55,8 +55,6 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
       });
   }, [setProofInstance]);
 
-  console.log(111, proofInstance);
-
   return (
     <DefaultLayout>
       <CardRow>

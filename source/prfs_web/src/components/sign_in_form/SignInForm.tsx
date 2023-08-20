@@ -77,12 +77,12 @@ const SignInForm: React.FC<SignInFormProps> = () => {
         dispatch({
           type: "sign_in",
           payload: {
-            ...resp.payload,
+            prfsAccount: resp.payload.prfs_account,
             walletAddr,
           },
         });
 
-        localStore.putPrfsAccount(resp.payload.sig, walletAddr);
+        // localStore.putPrfsAccount(resp.payload.prfs_account, walletAddr);
 
         router.push("/");
       } catch (err) {
@@ -151,7 +151,7 @@ export async function signIn(walletAddr: string, passhash: string, signer: ether
 
   try {
     let sig = await signer.signMessage(passhash);
-    let resp = await prfsApi.signInPrfsAccount(sig);
+    let resp = await prfsApi.signInPrfsAccount({ sig });
 
     if (resp.error) {
       throw new Error(resp.error);

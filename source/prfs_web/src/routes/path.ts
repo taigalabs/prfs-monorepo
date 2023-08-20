@@ -4,6 +4,7 @@ export function resolvePath(app: string, segment: string) {
 
 export const paths = {
   __: "/",
+  signin: "/signin",
   proof: "/proof",
   proof__proof_wizard: "/proof/#proof_wizard",
   proof__proof_instances: "/proof/proof_instances",
