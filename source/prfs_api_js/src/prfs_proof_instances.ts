@@ -13,7 +13,7 @@ export interface CreatePrfsProofInstanceRequest {
 }
 
 export type CreatePrfsProofInstanceResponse = PrfsApiResponse<{
-  id: number;
+  proof_instance_id: string;
 }>;
 
 export async function createPrfsProofInstance(req: CreatePrfsProofInstanceRequest) {
@@ -33,7 +33,7 @@ export async function createPrfsProofInstance(req: CreatePrfsProofInstanceReques
 export interface GetPrfsProofInstancesRequest {
   page: number;
   limit?: number;
-  id?: number;
+  proof_instance_id?: string;
 }
 
 export type GetPrfsProofInstancesResponse = PrfsApiResponse<{

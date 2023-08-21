@@ -16,6 +16,7 @@ import CircuitTable from "@/components/circuit_table/CircuitTable";
 import ExploreTechSection from "@/components/explore_tech_section/ExploreTechSection";
 import LatestPrfsUpdateSection from "@/components/latest_prfs_update_section/LatestPrfsUpdateSection";
 import ProjectMeta from "@/components/project_meta/ProjectMeta";
+import { paths } from "@/routes/path";
 
 const Home: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -24,7 +25,7 @@ const Home: React.FC = () => {
 
   React.useEffect(() => {
     if (process.env.NEXT_PUBLIC_IS_TEASER !== "yes") {
-      router.push("/proof");
+      router.push(paths.proof__proof_instances);
     }
   }, [router]);
 

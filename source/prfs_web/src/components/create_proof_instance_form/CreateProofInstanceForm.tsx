@@ -113,7 +113,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
         public_inputs,
       });
 
-      router.push(`${paths.proof__proof_instances}/${resp.payload.id}`);
+      router.push(`${paths.proof__proof_instances}/${resp.payload.proof_instance_id}`);
     }
   }, [selectedProofType, setFormAlert, localPrfsAccount, proofGenElement]);
 

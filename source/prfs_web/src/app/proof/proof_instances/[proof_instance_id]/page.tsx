@@ -69,12 +69,12 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
 
   const [proofInstance, setProofInstance] = React.useState<PrfsProofInstanceSyn1>();
   React.useEffect(() => {
-    const id = +decodeURIComponent(params.proof_instance_id);
+    const proof_instance_id = decodeURIComponent(params.proof_instance_id);
 
     prfsApi
       .getPrfsProofInstances({
         page: 0,
-        id,
+        proof_instance_id,
       })
       .then(resp => {
         const { prfs_proof_instances_syn1 } = resp.payload;

@@ -8,18 +8,22 @@ use rust_decimal::Decimal;
 
 pub async fn get_prfs_proof_instance_syn1(
     pool: &Pool<Postgres>,
-    id: &i64,
+    proof_instance_id: &uuid::Uuid,
 ) -> Vec<PrfsProofInstanceSyn1> {
     let query = "\
 SELECT ppi.*, ppt.expression, ppt.img_url, ppt.label as proof_label, ppt.desc as proof_desc, \
 ppt.driver_id, ppt.circuit_id \
 FROM prfs_proof_instances ppi \
 INNER JOIN prfs_proof_types ppt ON ppi.proof_type_id=ppt.proof_type_id \
-WHERE ppi.id=$1";
+WHERE ppi.proof_instance_id=$1";
 
     println!("query: {}", query);
 
-    let rows = sqlx::query(query).bind(&id).fetch_all(pool).await.unwrap();
+    let rows = sqlx::query(query)
+        .bind(&proof_instance_id)
+        .fetch_all(pool)
+        .await
+        .unwrap();
 
     let prfs_proof_instances: Vec<PrfsProofInstanceSyn1> = rows
         .iter()
@@ -141,7 +145,7 @@ pub async fn insert_prfs_proof_instances(
 ) -> uuid::Uuid {
     let query = "INSERT INTO prfs_proof_instances \
             (proof_instance_id, proof_type_id, proof, public_inputs)
-            VALUES ($1, $2, $3, $4) returning id";
+            VALUES ($1, $2, $3, $4) returning proof_instance_id";
 
     let proof_instance = proof_instances.get(0).unwrap();
 
