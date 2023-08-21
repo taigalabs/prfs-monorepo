@@ -9,8 +9,10 @@ pub struct PrfsProofInstance {
     #[ts(type = "string")]
     pub proof_instance_id: Uuid,
 
+    #[ts(type = "string")]
+    pub proof_type_id: Uuid,
+
     pub proof: Vec<u8>,
-    pub proof_type_id: String,
 
     #[ts(type = "Record<string, any>")]
     pub public_inputs: sqlx::types::Json<serde_json::Value>,

@@ -13,7 +13,7 @@ pub async fn create_set(
     let created_at = parse_date(&set_json.set.created_at);
 
     let prfs_set = PrfsSet {
-        set_id: set_json.set.set_id,
+        set_id: uuid::Uuid::default(),
         label: set_json.set.label.to_string(),
         author: set_json.set.author.to_string(),
         desc: set_json.set.desc.to_string(),

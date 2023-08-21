@@ -65,11 +65,11 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
 
   useLocalWallet(dispatch);
 
-  const topWidgetLabel = `${i18n.proof_instance} ${params.id}`;
+  const topWidgetLabel = `${i18n.proof_instance} ${params.proof_instance_id}`;
 
   const [proofInstance, setProofInstance] = React.useState<PrfsProofInstanceSyn1>();
   React.useEffect(() => {
-    const id = +decodeURIComponent(params.id);
+    const id = +decodeURIComponent(params.proof_instance_id);
 
     prfsApi
       .getPrfsProofInstances({
@@ -165,7 +165,7 @@ export default ProofInstancePage;
 
 interface ProofInstancePageProps {
   params: {
-    id: string;
+    proof_instance_id: string;
   };
 }
 

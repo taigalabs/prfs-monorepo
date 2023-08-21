@@ -64,7 +64,7 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
           }
         : undefined;
 
-      const isSelected = selectedVal && selectedVal.id == val.id;
+      const isSelected = selectedVal && selectedVal.proof_instance_id == val.proof_instance_id;
       const selType = selectType || "radio";
 
       const shortPublicInputs = JSON.stringify(val.public_inputs).substring(0, 40);
@@ -72,14 +72,16 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
       const createdAt = dayjs(val.created_at).format("YYYY-MM-DD");
 
       let row = (
-        <TableRow key={val.id as any} onClickRow={onClickRow} isSelected={isSelected}>
+        <TableRow key={val.proof_instance_id} onClickRow={onClickRow} isSelected={isSelected}>
           {selectedVal && (
             <td className={styles.radio}>
               <input type={selType} checked={isSelected} readOnly />
             </td>
           )}
           <td className={styles.proof_instance_id}>
-            <Link href={`${paths.proof__proof_instances}/${val.id}`}>{val.id as any}</Link>
+            <Link href={`${paths.proof__proof_instances}/${val.proof_instance_id}`}>
+              {val.proof_instance_id}
+            </Link>
           </td>
           <td className={styles.proof_type_id}>{val.proof_type_id}</td>
           <td className={styles.public_inputs}>{shortPublicInputs}</td>

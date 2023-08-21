@@ -64,14 +64,14 @@ pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Bod
 struct CreatePrfsProofInstanceRequest {
     proof_instance_id: uuid::Uuid,
     sig: String,
-    proof_type_id: String,
+    proof_type_id: uuid::Uuid,
     proof: Vec<u8>,
     public_inputs: sqlx::types::Json<serde_json::Value>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 struct CreatePrfsProofInstanceRespPayload {
-    id: i64,
+    proof_instance_id: uuid::Uuid,
 }
 
 pub async fn create_prfs_proof_instance(req: Request<Body>) -> Result<Response<Body>, Infallible> {
@@ -90,17 +90,18 @@ pub async fn create_prfs_proof_instance(req: Request<Body>) -> Result<Response<B
 
     let prfs_proof_instance = PrfsProofInstance {
         proof_instance_id: req.proof_instance_id,
-        proof_type_id: req.proof_type_id.to_string(),
+        proof_type_id: req.proof_type_id,
         proof: req.proof.to_vec(),
         public_inputs: req.public_inputs.clone(),
         created_at: chrono::offset::Utc::now(),
     };
 
-    let id = db_apis::insert_prfs_proof_instances(&mut tx, &vec![prfs_proof_instance]).await;
+    let proof_instance_id =
+        db_apis::insert_prfs_proof_instances(&mut tx, &vec![prfs_proof_instance]).await;
 
     tx.commit().await.unwrap();
 
-    let resp = ApiResponse::new_success(CreatePrfsProofInstanceRespPayload { id });
+    let resp = ApiResponse::new_success(CreatePrfsProofInstanceRespPayload { proof_instance_id });
 
     return Ok(resp.into_hyper_response());
 }

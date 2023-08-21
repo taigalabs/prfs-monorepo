@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { ethers } from "ethers";
+import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
@@ -101,10 +102,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
       console.log("took %s ms to create a proof", duration);
 
-      const id = prfsAccount.sig.substring(0, 10);
-      const proof_instance_id = `${id}_${selectedProofType.proof_type_id.substring(
-        -6
-      )}_${Date.now()}`;
+      let proof_instance_id = uuidv4();
 
       console.log("try inserting proof", proveReceipt);
       const resp = await prfsApi.createPrfsProofInstance({

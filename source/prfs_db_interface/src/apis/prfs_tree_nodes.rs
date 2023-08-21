@@ -18,12 +18,14 @@ pub async fn get_prfs_tree_nodes(
             let pos_h = n.try_get("pos_h").expect("pos_h should exist");
             let val = n.try_get("val").expect("val should exist");
             let set_id = n.try_get("set_id").expect("set_id should exist");
+            // let set_id2 = n.try_get("set_id").expect("set_id should exist");
 
             PrfsTreeNode {
                 pos_w,
                 pos_h,
                 val,
                 set_id,
+                // set_id2,
             }
         })
         .collect();
@@ -48,12 +50,14 @@ pub async fn get_prfs_tree_root(
     let pos_h = row.try_get("pos_h").expect("pos_h should exist");
     let val = row.try_get("val").expect("val should exist");
     let set_id = row.try_get("set_id").expect("set_id should exist");
+    // let set_id2 = row.try_get("set_id2").expect("set_id should exist");
 
     let n = PrfsTreeNode {
         pos_w,
         pos_h,
         val,
         set_id,
+        // set_id2,
     };
 
     Ok(n)
@@ -85,7 +89,7 @@ pub async fn insert_prfs_tree_nodes(
         )
     };
 
-    // println!("stmt: {}", stmt);
+    // println!("stmt: {}", query);
 
     // let rows_updated = match self.pg_client.execute(&stmt, &[]).await {
     //     Ok(r) => r,

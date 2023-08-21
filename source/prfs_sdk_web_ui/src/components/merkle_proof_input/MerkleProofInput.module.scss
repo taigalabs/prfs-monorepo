@@ -83,3 +83,11 @@ input.addrInput {
     color: var(--aqua-blue-90);
   }
 }
+
+.rightBtnGroup {
+  align-items: flex-start;
+  display: flex;
+  justify-content: flex-end;
+  width: 60px;
+  flex-shrink: 0;
+}

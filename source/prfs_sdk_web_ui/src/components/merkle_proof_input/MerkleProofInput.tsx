@@ -128,7 +128,7 @@ const MerkleProofModal: React.FC<MerkleProofModalProps> = ({
           <button onClick={handleCreateMerkleProof}>{i18n.create_merkle_proof_label}</button>
           <span> {circuitInput.value}</span>
         </div>
-        <div>
+        <div className={styles.rightBtnGroup}>
           <button disabled>{i18n.edit_raw}</button>
         </div>
       </div>

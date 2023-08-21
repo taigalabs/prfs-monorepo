@@ -9,7 +9,7 @@ use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 
 pub async fn get_prfs_set(
     pool: &Pool<Postgres>,
-    set_id: &String,
+    set_id: &uuid::Uuid,
 ) -> Result<PrfsSet, DbInterfaceError> {
     let query = format!("SELECT * from prfs_sets where set_id=$1");
 
