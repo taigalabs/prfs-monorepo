@@ -1,13 +1,15 @@
 use chrono::{DateTime, Utc};
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
+use uuid::Uuid;
 use std::collections::HashMap;
 use ts_rs::TS;
 
 #[derive(Debug, Serialize, Deserialize, TS)]
 #[ts(export)]
 pub struct PrfsProofType {
-    pub proof_type_id: String,
+    #[ts(type = "string")]
+    pub proof_type_id: Uuid,
 
     pub label: String,
     pub author: String,

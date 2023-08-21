@@ -5,7 +5,7 @@ import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/T
 
 import styles from "./Sets.module.scss";
 import { stateContext } from "@/contexts/state";
-import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
+import Widget, { TopWidgetTitle, WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";

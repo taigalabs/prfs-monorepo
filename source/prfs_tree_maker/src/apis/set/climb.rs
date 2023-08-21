@@ -1,11 +1,9 @@
 use super::json::SetJson;
 use crate::TreeMakerError;
 use colored::Colorize;
-use prfs_db_interface::{
-    db_apis,
-    sqlx::{Pool, Postgres, Transaction},
-};
+use prfs_db_interface::db_apis;
 use prfs_entities::entities::{PrfsSet, PrfsTreeNode};
+use prfs_entities::sqlx::{Pool, Postgres, Transaction};
 use rust_decimal::Decimal;
 use std::time::SystemTime;
 

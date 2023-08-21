@@ -3,7 +3,6 @@ use hyper::Server;
 use prfs_api_server::envs::ENVS;
 use prfs_api_server::state::ServerState;
 use prfs_api_server::{local, router, ApiServerError};
-use prfs_db_interface::database::Database;
 use prfs_db_interface::database2::Database2;
 use routerify::RouterService;
 use std::sync::Arc;
@@ -28,13 +27,7 @@ async fn main() -> Result<(), ApiServerError> {
         .await
         .unwrap();
 
-    // let db = Database::connect(pg_endpoint, pg_pw).await?;
-
-    let server_state = Arc::new(ServerState {
-        // db,
-        local_assets,
-        db2,
-    });
+    let server_state = Arc::new(ServerState { local_assets, db2 });
 
     let router = router::make_router(server_state).expect("make_router fail");
     let service = RouterService::new(router).expect("router service init fail");

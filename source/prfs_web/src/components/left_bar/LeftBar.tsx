@@ -51,7 +51,7 @@ const Leftbar: React.FC<any> = () => {
           <li className={styles.category}>{i18n.proofs}</li>
           <li>
             <ActiveLink href={paths.proof__proof_instances} activeClassName={styles.activeLink}>
-              <div className={cn(styles.button, styles.bold)}>
+              <div className={cn(styles.button)}>
                 <IoDocumentTextOutline />
                 <span>{i18n.proof_instances}</span>
               </div>
@@ -72,7 +72,7 @@ const Leftbar: React.FC<any> = () => {
           <li className={styles.category}>{i18n.circuits}</li>
           <li>
             <ActiveLink href={paths.proof__circuits} activeClassName={styles.activeLink}>
-              <div className={cn(styles.button, styles.bold)}>
+              <div className={cn(styles.button)}>
                 <PiCircuitry />
                 <span>{i18n.circuits}</span>
               </div>

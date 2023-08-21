@@ -16,6 +16,7 @@ import Table, {
 import styles from "./SetTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/routes/path";
+import dayjs from "dayjs";
 
 const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
@@ -60,6 +61,8 @@ const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSele
       const isSelected = selectedVal && selectedVal.set_id === val.set_id;
       const selType = selectType || "radio";
 
+      const createdAt = dayjs(val.created_at).format("YYYY-MM-DD");
+
       let row = (
         <TableRow key={val.set_id} onClickRow={onClickRow} isSelected={isSelected}>
           {handleSelectVal && (
@@ -75,7 +78,7 @@ const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSele
           <td className={styles.label}>{val.label}</td>
           <td className={styles.desc}>{val.desc}</td>
           <td className={styles.cardinality}>{val.cardinality.toString()}</td>
-          <td className={styles.createdAt}>{val.created_at}</td>
+          <td className={styles.createdAt}>{createdAt}</td>
         </TableRow>
       );
 
@@ -99,6 +102,7 @@ const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSele
             <th className={styles.desc}>{i18n.description}</th>
             <th className={styles.cardinality}>{i18n.cardinality}</th>
             <th className={styles.createdAt}>{i18n.created_at}</th>
+            <th></th>
           </TableRow>
         </TableHeader>
         <TableBody>{rowsElem}</TableBody>

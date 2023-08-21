@@ -1,8 +1,11 @@
 use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
 use chrono::{DateTime, NaiveDate, NaiveDateTime};
 use hyper::{body, Body, Request, Response};
-use prfs_db_interface::{db_apis, sqlx::types::Json};
-use prfs_entities::entities::{CircuitInput, PrfsProofType, PrfsSet};
+use prfs_db_interface::db_apis;
+use prfs_entities::{
+    entities::{CircuitInput, PrfsProofType, PrfsSet},
+    sqlx::types::Json,
+};
 use routerify::prelude::*;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
@@ -57,7 +60,7 @@ pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, 
 
 #[derive(Serialize, Deserialize, Debug)]
 struct CreatePrfsProofTypesRequest {
-    proof_type_id: String,
+    proof_type_id: uuid::Uuid,
     author: String,
     label: String,
     desc: String,
@@ -89,7 +92,7 @@ pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
     println!("req: {:?}", req);
 
     let prfs_proof_type = PrfsProofType {
-        proof_type_id: req.proof_type_id.to_string(),
+        proof_type_id: req.proof_type_id,
         label: req.label.to_string(),
         author: req.author.to_string(),
         desc: req.desc.to_string(),

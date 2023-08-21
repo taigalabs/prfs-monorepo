@@ -2,11 +2,9 @@ use super::json::SetJson;
 use crate::TreeMakerError;
 use chrono::{DateTime, NaiveDate, Utc};
 use colored::Colorize;
-use prfs_db_interface::{
-    db_apis,
-    sqlx::{Postgres, Transaction},
-};
+use prfs_db_interface::db_apis;
 use prfs_entities::entities::PrfsSet;
+use prfs_entities::sqlx::{Postgres, Transaction};
 
 pub async fn create_set(
     tx: &mut Transaction<'_, Postgres>,

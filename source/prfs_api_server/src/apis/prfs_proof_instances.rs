@@ -1,7 +1,8 @@
 use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
 use chrono::{DateTime, NaiveDate, NaiveDateTime};
 use hyper::{body, Body, Request, Response};
-use prfs_db_interface::{db_apis, sqlx::types::Json};
+use prfs_db_interface::db_apis;
+use prfs_entities::sqlx;
 use prfs_entities::{
     entities::{CircuitInput, PrfsProofInstance, PrfsProofType, PrfsSet},
     syn_entities::PrfsProofInstanceSyn1,

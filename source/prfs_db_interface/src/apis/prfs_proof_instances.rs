@@ -1,10 +1,10 @@
 use crate::database2::Database2;
+use prfs_entities::sqlx::{self, types::Json, Pool, Postgres, Row, Transaction};
 use prfs_entities::{
     entities::{PrfsProofInstance, PrfsProofType},
     syn_entities::PrfsProofInstanceSyn1,
 };
 use rust_decimal::Decimal;
-use sqlx::{types::Json, Pool, Postgres, Row, Transaction};
 
 pub async fn get_prfs_proof_instance_syn1(
     pool: &Pool<Postgres>,

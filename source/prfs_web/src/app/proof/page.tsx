@@ -4,14 +4,9 @@ import React from "react";
 
 import styles from "./ProofAppPage.module.scss";
 import { stateContext } from "@/contexts/state";
-import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
-import Teaser from "@/components/teaser/Teaser";
-import Card from "@/components/card/Card";
-import CardRow from "@/components/card_row/CardRow";
-import CircuitTable from "@/components/circuit_table/CircuitTable";
 import ExploreTechSection from "@/components/explore_tech_section/ExploreTechSection";
 import LatestPrfsUpdateSection from "@/components/latest_prfs_update_section/LatestPrfsUpdateSection";
 import ProjectMeta from "@/components/project_meta/ProjectMeta";

@@ -1,12 +1,9 @@
 use super::json::SetJson;
 use crate::{envs::ENVS, TreeMakerError};
 use colored::Colorize;
-use prfs_db_interface::{
-    database2::Database2,
-    db_apis,
-    sqlx::{Pool, Postgres, Transaction},
-};
+use prfs_db_interface::{database2::Database2, db_apis};
 use prfs_entities::entities::{PrfsSet, PrfsTreeNode};
+use prfs_entities::sqlx::{Pool, Postgres, Transaction};
 use rust_decimal::{prelude::FromPrimitive, Decimal};
 
 pub async fn create_leaves_without_offset(
