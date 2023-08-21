@@ -1,7 +1,7 @@
 {
   "circuits": [
     {
-      "circuit_id": "addr_membership2_1",
+      "circuit_id": "00000000-0000-0000-0000-000000000000",
       "circuit_type": "MEMBERSHIP_PROOF_1",
       "created_at": "2023-05-01T16:39:57-08:00",
       "label": "addr_membership2",

@@ -5,7 +5,7 @@ use prfs_driver_type::driver_ids;
 use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
 use std::{io::Write, process::Command};
 
-pub fn run() {
+pub fn run(starting_circuit_id: u32) {
     let now = Utc::now();
     let timestamp = now.timestamp_millis();
 
@@ -16,17 +16,24 @@ pub fn run() {
         timestamp
     );
 
+    println!("starting_circuit_id: {}", starting_circuit_id);
+
     clean_build();
 
     let mut circuits_json = read_circuits_json();
 
     let mut circuit_list = vec![];
+    let mut idx = starting_circuit_id;
     for mut circuit in &mut circuits_json.circuits {
+        let circuit_id = uuid::Uuid::from_u128(idx as u128);
+
+        circuit.circuit_id = circuit_id;
         compile_circuits(&circuit);
         make_spartan(&circuit, timestamp);
         create_build_json(&mut circuit, timestamp);
 
         circuit_list.push(circuit.circuit_id.to_string());
+        idx += 1;
     }
 
     create_list_json(&circuit_list, timestamp);
@@ -109,7 +116,7 @@ fn compile_circuits(circuit: &PrfsCircuit) {
             let circuit_src_path = PATHS.circuits.join(&instance_path);
             println!("circuit_src_path: {:?}", circuit_src_path);
 
-            let build_path = PATHS.build.join(&circuit.circuit_id);
+            let build_path = PATHS.build.join(&circuit.circuit_id.to_string());
             println!("circuit_build_path: {:?}", build_path);
 
             std::fs::create_dir_all(&build_path).unwrap();
@@ -148,6 +155,7 @@ fn create_build_json(circuit: &mut PrfsCircuit, timestamp: i64) {
 
     let naive = NaiveDateTime::from_timestamp_millis(timestamp).unwrap();
     let datetime: DateTime<Utc> = DateTime::from_utc(naive, Utc);
+
     circuit.created_at = datetime;
 
     let circuit_build_json = CircuitBuildJson {
