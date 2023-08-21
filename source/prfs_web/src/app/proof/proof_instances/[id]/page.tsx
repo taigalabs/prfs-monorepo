@@ -8,15 +8,13 @@ import Link from "next/link";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
+import { AiFillTwitterSquare } from "react-icons/ai";
+import { BsTelegram } from "react-icons/bs";
+import { BiLogoDiscord } from "react-icons/bi";
 
 import styles from "./ProofInstancePage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Widget, {
-  TopWidgetTitle,
-  WidgetHeader,
-  WidgetLabel,
-  WidgetPaddedBody,
-} from "@/components/widget/Widget";
+import Widget, { TopWidgetTitle, WidgetLabel } from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
@@ -58,32 +56,48 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   }, [setProofInstance]);
 
   return (
-    <DefaultLayout>
-      <CardRow>
-        <Card>
-          <Widget>
-            <TopWidgetTitle>
-              <div className={styles.header}>
-                <div className={styles.navigation}>
-                  <Link href={paths.proof__proof_instances}>
-                    <ArrowButton variant="left" />
-                  </Link>
+    proofInstance && (
+      <DefaultLayout>
+        <CardRow>
+          <Card>
+            <Widget>
+              <TopWidgetTitle>
+                <div className={styles.header}>
+                  <div className={styles.navigation}>
+                    <Link href={paths.proof__proof_instances}>
+                      <ArrowButton variant="left" />
+                    </Link>
+                  </div>
+                  <WidgetLabel>{topWidgetLabel}</WidgetLabel>
                 </div>
-                <WidgetLabel>{topWidgetLabel}</WidgetLabel>
+              </TopWidgetTitle>
+              <div className={styles.infoRow}>
+                <div className={styles.proofInstanceDetailTableContainer}>
+                  <ProofInstanceDetailTable proofInstance={proofInstance} />
+                </div>
+                <div className={styles.right}>
+                  <ProofInstanceQRCode proofInstance={proofInstance} />
+                  <ul className={styles.social}>
+                    <li>
+                      <AiFillTwitterSquare />
+                      <span>{i18n.twitter}</span>
+                    </li>
+                    <li>
+                      <BsTelegram />
+                      <span>{i18n.telegram}</span>
+                    </li>
+                    <li>
+                      <BiLogoDiscord />
+                      <span>{i18n.discord}</span>
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </TopWidgetTitle>
-            <div className={styles.topRow}>
-              <div className={styles.proofInstanceDetailTableContainer}>
-                {proofInstance && <ProofInstanceDetailTable proofInstance={proofInstance} />}
-              </div>
-              <div className={styles.proofInstanceQRCodeContainer}>
-                {proofInstance && <ProofInstanceQRCode proofInstance={proofInstance} />}
-              </div>
-            </div>
-          </Widget>
-        </Card>
-      </CardRow>
-    </DefaultLayout>
+            </Widget>
+          </Card>
+        </CardRow>
+      </DefaultLayout>
+    )
   );
 };
 

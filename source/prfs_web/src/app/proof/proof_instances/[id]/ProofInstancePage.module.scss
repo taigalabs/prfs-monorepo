@@ -19,20 +19,37 @@
   }
 }
 
-.topRow {
+.infoRow {
   display: flex;
   padding: 40px 30px;
 
-  > div:not(:first-child) {
-    margin-left: 20px;
+  .right {
+    margin-left: 24px;
   }
 }
 
 .proofInstanceDetailTableContainer {
-  width: 620px;
+  width: 510px;
   /* padding: 40px; */
 }
 
-.proofInstanceQRCodeContainer {
-  /* border: 1px solid blue; */
+.social {
+  line-height: 16px;
+  padding: 8px 12px;
+  color: var(--gray-30);
+
+  li {
+    display: flex;
+    align-items: center;
+  }
+
+  li:not(:first-child) {
+    margin-top: 6px;
+  }
+
+  svg {
+    color: var(--gray-20);
+    font-size: 16px;
+    margin-right: 4px;
+  }
 }

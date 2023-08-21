@@ -9,18 +9,24 @@
 .label {
   vertical-align: top;
   font-weight: 500;
-  width: 180px;
+  width: 110px;
 }
 
 .value {
   word-wrap: break-word;
   word-break: break-all;
+  width: 200px;
 }
 
 .verified {
-  color: var(--green-50);
+  font-size: 16px;
+  color: var(--green-60);
 }
 
 .cell {
   display: flex;
+}
+
+.last {
+  /* width: 100%; */
 }
