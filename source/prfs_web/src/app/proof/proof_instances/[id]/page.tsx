@@ -14,7 +14,7 @@ import { BiLogoDiscord } from "react-icons/bi";
 
 import styles from "./ProofInstancePage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Widget, { TopWidgetTitle, WidgetLabel } from "@/components/widget/Widget";
+import Widget, { TopWidgetTitle, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
@@ -92,6 +92,15 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
                     </li>
                   </ul>
                 </div>
+              </div>
+            </Widget>
+          </Card>
+        </CardRow>
+        <CardRow>
+          <Card>
+            <Widget>
+              <div className={styles.row}>
+                <div>power</div>
               </div>
             </Widget>
           </Card>
