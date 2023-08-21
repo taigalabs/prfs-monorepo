@@ -24,23 +24,31 @@ const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({
   const [data, setData] = React.useState<TableData<CircuitType>>({ page: 0, values: [] });
 
   const handleChangeProofPage = React.useCallback(async (page: number) => {
-    return prfsApi
-      .getPrfsNativeCircuitTypes({
+    try {
+      const { payload } = await prfsApi.getPrfsNativeCircuitTypes({
         page,
-      })
-      .then(resp => {
-        const { page, prfs_circuit_types } = resp.payload;
-        return {
-          page,
-          values: prfs_circuit_types,
-        };
       });
+
+      return {
+        page: payload.page,
+        values: payload.prfs_circuit_types,
+      };
+    } catch (err) {
+      throw err;
+    }
   }, []);
 
   React.useEffect(() => {
-    handleChangeProofPage(0).then(res => {
-      setData(res);
-    });
+    async function fn() {
+      try {
+        const res = await handleChangeProofPage(0);
+        setData(res);
+      } catch (err) {
+        console.log("error occurred, %o", err);
+      }
+    }
+
+    fn().then();
   }, [handleChangeProofPage, setData]);
 
   const rowsElem = React.useMemo(() => {
