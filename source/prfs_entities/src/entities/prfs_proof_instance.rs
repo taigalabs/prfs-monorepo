@@ -1,11 +1,13 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
+use uuid::Uuid;
 
 #[derive(Debug, Serialize, Deserialize, TS)]
 #[ts(export)]
 pub struct PrfsProofInstance {
-    pub id: Option<i64>,
+    #[ts(type = "string")]
+    pub proof_instance_id: Uuid,
 
     pub proof: Vec<u8>,
     pub proof_type_id: String,

@@ -19,7 +19,7 @@ pub async fn get_prfs_set(
         .await
         .unwrap();
 
-    let set_id: String = row.try_get("set_id").expect("invalid set_id");
+    let set_id: uuid::Uuid = row.try_get("set_id").expect("invalid set_id");
     let label: String = row.try_get("label").expect("invalid label");
     let author: String = row.try_get("author").expect("invalid author");
     let desc: String = row.try_get("desc").expect("invalid desc");
@@ -60,7 +60,7 @@ pub async fn get_prfs_sets(pool: &Pool<Postgres>) -> Result<Vec<PrfsSet>, DbInte
     let prfs_sets: Vec<PrfsSet> = rows
         .iter()
         .map(|r| {
-            let set_id: String = r.try_get("set_id").expect("invalid set_id");
+            let set_id: uuid::Uuid = r.try_get("set_id").expect("invalid set_id");
             let label: String = r.try_get("label").expect("invalid label");
             let author: String = r.try_get("author").expect("invalid author");
             let desc: String = r.try_get("desc").expect("invalid desc");
@@ -112,7 +112,7 @@ pub async fn insert_prfs_set(
     ]);
 
     let vals = concat_values(&[
-        &prfs_set.set_id,
+        &prfs_set.set_id.to_string(),
         &prfs_set.label,
         &prfs_set.author,
         &prfs_set.desc,

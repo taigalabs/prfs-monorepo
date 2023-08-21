@@ -24,7 +24,7 @@ WHERE ppi.id=$1";
     let prfs_proof_instances: Vec<PrfsProofInstanceSyn1> = rows
         .iter()
         .map(|row| PrfsProofInstanceSyn1 {
-            id: row.get("id"),
+            proof_instance_id: row.get("proof_instance_id"),
             proof_type_id: row.get("proof_type_id"),
             proof: row.get("proof"),
             expression: row.get("expression"),
@@ -51,7 +51,7 @@ pub async fn get_prfs_proof_instance(pool: &Pool<Postgres>, id: &i64) -> Vec<Prf
     let prfs_proof_instances: Vec<PrfsProofInstance> = rows
         .iter()
         .map(|row| PrfsProofInstance {
-            id: row.get("id"),
+            proof_instance_id: row.get("proof_instance_id"),
             proof_type_id: row.get("proof_type_id"),
             proof: row.get("proof"),
             public_inputs: row.get("public_inputs"),
@@ -88,7 +88,7 @@ limit $1";
     let prfs_proof_instances: Vec<PrfsProofInstanceSyn1> = rows
         .iter()
         .map(|row| PrfsProofInstanceSyn1 {
-            id: row.get("id"),
+            proof_instance_id: row.get("proof_instance_id"),
             proof_type_id: row.get("proof_type_id"),
             proof: row.get("proof"),
             expression: row.get("expression"),
@@ -124,7 +124,7 @@ pub async fn get_prfs_proof_instances(
     let prfs_proof_instances: Vec<PrfsProofInstance> = rows
         .iter()
         .map(|row| PrfsProofInstance {
-            id: row.get("id"),
+            proof_instance_id: row.get("proof_instance_id"),
             proof_type_id: row.get("proof_type_id"),
             proof: vec![],
             public_inputs: row.get("public_inputs"),

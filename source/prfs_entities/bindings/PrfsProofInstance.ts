@@ -2,6 +2,7 @@
 
 export interface PrfsProofInstance {
   id: bigint | null;
+  proof_instance_id: string;
   proof: Array<number>;
   proof_type_id: string;
   public_inputs: Record<string, any>;

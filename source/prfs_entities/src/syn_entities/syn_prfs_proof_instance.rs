@@ -5,7 +5,8 @@ use ts_rs::TS;
 #[derive(Debug, Serialize, Deserialize, TS)]
 #[ts(export)]
 pub struct PrfsProofInstanceSyn1 {
-    pub id: Option<i64>,
+    #[ts(type = "string")]
+    pub proof_instance_id: uuid::Uuid,
 
     pub proof: Vec<u8>,
     pub proof_type_id: String,

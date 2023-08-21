@@ -4,6 +4,8 @@ import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
+// import { PrfsProofInstance } from "@taigalabs/prfs-entities/bindings/PrfsProofInstance";
+import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import Table, {
   TableBody,
   TableHeader,
@@ -16,7 +18,6 @@ import dayjs from "dayjs";
 
 import styles from "./ProofInstanceTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { PrfsProofInstance } from "@taigalabs/prfs-entities/bindings/PrfsProofInstance";
 import { paths } from "@/routes/path";
 
 const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
@@ -25,7 +26,7 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
   handleSelectVal,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const [data, setData] = React.useState<TableData<PrfsProofInstance>>({ page: 0, values: [] });
+  const [data, setData] = React.useState<TableData<PrfsProofInstanceSyn1>>({ page: 0, values: [] });
 
   const handleChangeProofPage = React.useCallback(async (page: number) => {
     return prfsApi
@@ -118,6 +119,6 @@ export default ProofInstanceTable;
 
 export interface ProofInstanceTableProps {
   selectType?: "checkbox" | "radio";
-  selectedVal?: PrfsProofInstance;
-  handleSelectVal?: (row: PrfsProofInstance) => void;
+  selectedVal?: PrfsProofInstanceSyn1;
+  handleSelectVal?: (row: PrfsProofInstanceSyn1) => void;
 }
