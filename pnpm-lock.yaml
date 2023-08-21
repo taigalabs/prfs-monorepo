@@ -557,6 +557,9 @@ importers:
       snarkjs:
         specifier: 0.7.0
         version: 0.7.0
+      uuid:
+        specifier: ^9.0.0
+        version: 9.0.0
     devDependencies:
       '@types/node':
         specifier: 20.3.1
