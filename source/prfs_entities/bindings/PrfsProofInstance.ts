@@ -2,8 +2,8 @@
 
 export interface PrfsProofInstance {
   proof_instance_id: string;
-  proof: Array<number>;
   proof_type_id: string;
+  proof: Array<number>;
   public_inputs: Record<string, any>;
   created_at: string;
 }
