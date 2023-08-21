@@ -1,10 +1,13 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { v4 as uuidv4 } from "uuid";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 
 import styles from "./CreateProofTypeForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -21,10 +24,8 @@ import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { stateContext } from "@/contexts/state";
 import { getYMD } from "@/functions/date";
 import { keccakHash } from "@/functions/hash";
-import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
-import CircuitInputConfigSection from "../circuit_input_config_section/CircuitInputConfigSection";
+import CircuitInputConfigSection from "@/components/circuit_input_config_section/CircuitInputConfigSection";
 import { paths } from "@/routes/path";
-import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 import FormTextareaInput from "@/components/form/FormTextareaInput";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
@@ -144,7 +145,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     ).substring(2, 8);
     const id = prfsAccount.sig.substring(2, 8);
 
-    let proof_type_id = `${id}_${y}${m}${d}_${hash}`;
+    let proof_type_id = uuidv4();
 
     let createPrfsProofTypeRequest = {
       proof_type_id,
