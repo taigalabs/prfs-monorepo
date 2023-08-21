@@ -19,9 +19,9 @@
   }
 }
 
-.infoRow {
+.row {
   display: flex;
-  padding: 40px 30px;
+  padding: 40px 30px 0;
 
   .right {
     margin-left: 24px;
@@ -51,5 +51,23 @@
     color: var(--gray-20);
     font-size: 16px;
     margin-right: 4px;
+  }
+}
+
+.proofView {
+  width: 100%;
+  word-break: break-all;
+
+  .label {
+    font-weight: 500;
+  }
+
+  .value {
+    font-family: "JetBrains Mono", monospace;
+    padding: 6px 8px;
+    border: 1px solid var(--bright-gray-31);
+    border-radius: 5px;
+    font-size: 13px;
+    margin-top: 12px;
   }
 }

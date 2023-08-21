@@ -11,6 +11,7 @@ import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsPro
 import { AiFillTwitterSquare } from "react-icons/ai";
 import { BsTelegram } from "react-icons/bs";
 import { BiLogoDiscord } from "react-icons/bi";
+import Head from "next/head";
 
 import styles from "./ProofInstancePage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -23,6 +24,39 @@ import CardRow from "@/components/card_row/CardRow";
 import ProofInstanceDetailTable from "@/components/proof_instance_detail_table/ProofInstanceDetailTable";
 import ProofInstanceQRCode from "@/components/proof_instance_qrcode/ProofInstanceQRCode";
 import { paths } from "@/routes/path";
+
+const PublicInputsView: React.FC<PublicInputsViewProps> = ({ publicInputs }) => {
+  let i18n = React.useContext(i18nContext);
+
+  const valueElem = React.useMemo(() => {
+    return JSON.stringify(publicInputs);
+  }, [publicInputs]);
+
+  return (
+    <div className={styles.proofView}>
+      <div className={styles.label}>{i18n.public_inputs}</div>
+      <div className={styles.value}>{valueElem}</div>
+    </div>
+  );
+};
+
+const ProofView: React.FC<ProofViewProps> = ({ proof }) => {
+  let i18n = React.useContext(i18nContext);
+
+  const proofElem = React.useMemo(() => {
+    const a = Buffer.from(proof).toString("hex");
+    console.log(22, a.length);
+
+    return a;
+  }, [proof]);
+
+  return (
+    <div className={styles.proofView}>
+      <div className={styles.label}>{i18n.proof}</div>
+      <div className={styles.value}>{proofElem}</div>
+    </div>
+  );
+};
 
 const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   let i18n = React.useContext(i18nContext);
@@ -58,6 +92,12 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   return (
     proofInstance && (
       <DefaultLayout>
+        <Head>
+          <link
+            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap"
+            rel="stylesheet"
+          />
+        </Head>
         <CardRow>
           <Card>
             <Widget>
@@ -71,7 +111,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
                   <WidgetLabel>{topWidgetLabel}</WidgetLabel>
                 </div>
               </TopWidgetTitle>
-              <div className={styles.infoRow}>
+              <div className={styles.row}>
                 <div className={styles.proofInstanceDetailTableContainer}>
                   <ProofInstanceDetailTable proofInstance={proofInstance} />
                 </div>
@@ -93,14 +133,13 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
                   </ul>
                 </div>
               </div>
-            </Widget>
-          </Card>
-        </CardRow>
-        <CardRow>
-          <Card>
-            <Widget>
+
               <div className={styles.row}>
-                <div>power</div>
+                <PublicInputsView publicInputs={proofInstance.public_inputs} />
+              </div>
+
+              <div className={styles.row}>
+                <ProofView proof={proofInstance.proof} />
               </div>
             </Widget>
           </Card>
@@ -116,4 +155,12 @@ interface ProofInstancePageProps {
   params: {
     id: string;
   };
+}
+
+interface ProofViewProps {
+  proof: number[];
+}
+
+interface PublicInputsViewProps {
+  publicInputs: Record<string, any>;
 }
