@@ -111,6 +111,18 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
                   <WidgetLabel>{topWidgetLabel}</WidgetLabel>
                 </div>
               </TopWidgetTitle>
+
+              <div className={styles.singleValueRow}>
+                <div className={styles.summary}>
+                  {proofInstance.img_url.length > 0 && (
+                    <div className={styles.image}>
+                      <img crossOrigin="anonymous" alt="Proof image" src={proofInstance.img_url} />
+                    </div>
+                  )}
+                  <p>{proofInstance.expression}</p>
+                </div>
+              </div>
+
               <div className={styles.row}>
                 <div className={styles.proofInstanceDetailTableContainer}>
                   <ProofInstanceDetailTable proofInstance={proofInstance} />
@@ -134,11 +146,11 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
                 </div>
               </div>
 
-              <div className={styles.row}>
+              <div className={styles.singleValueRow}>
                 <PublicInputsView publicInputs={proofInstance.public_inputs} />
               </div>
 
-              <div className={styles.row}>
+              <div className={styles.singleValueRow}>
                 <ProofView proof={proofInstance.proof} />
               </div>
             </Widget>
