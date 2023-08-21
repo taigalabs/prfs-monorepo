@@ -14,7 +14,7 @@ use std::{collections::HashMap, convert::Infallible, sync::Arc};
 #[derive(Serialize, Deserialize, Debug)]
 struct GetPrfsProofTypesRequest {
     page: u32,
-    proof_type_id: Option<String>,
+    proof_type_id: Option<uuid::Uuid>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]

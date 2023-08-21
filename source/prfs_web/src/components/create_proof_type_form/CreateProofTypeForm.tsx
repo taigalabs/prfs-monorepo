@@ -22,8 +22,6 @@ import Card from "@/components/card/Card";
 import FormTextInput from "@/components/form/FormTextInput";
 import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { stateContext } from "@/contexts/state";
-import { getYMD } from "@/functions/date";
-import { keccakHash } from "@/functions/hash";
 import CircuitInputConfigSection from "@/components/circuit_input_config_section/CircuitInputConfigSection";
 import { paths } from "@/routes/path";
 import FormTextareaInput from "@/components/form/FormTextareaInput";
@@ -137,13 +135,6 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     }
 
     setFormAlert("");
-
-    let { y, m, d } = getYMD();
-    let now = Date.now();
-    let hash = keccakHash(
-      `${selectedCircuit.circuit_id}_${selectedCircuit.driver_id}_${now}`
-    ).substring(2, 8);
-    const id = prfsAccount.sig.substring(2, 8);
 
     let proof_type_id = uuidv4();
 

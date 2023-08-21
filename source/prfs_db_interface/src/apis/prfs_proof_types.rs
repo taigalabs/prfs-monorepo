@@ -5,7 +5,7 @@ use rust_decimal::Decimal;
 
 pub async fn get_prfs_proof_type(
     pool: &Pool<Postgres>,
-    proof_type_id: &String,
+    proof_type_id: &uuid::Uuid,
 ) -> Vec<PrfsProofType> {
     let query = "SELECT * from prfs_proof_types where proof_type_id=$1";
 
