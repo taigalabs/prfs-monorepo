@@ -5,13 +5,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { HandshakeMsg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
+import NoSSR from "@taigalabs/prfs-react-components/src/no_ssr/NoSSR";
 
 import styles from "./ProofGen.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import Loading from "@/components/loading/Loading";
-import NoSSR from "@/components/no_ssr/NoSSR";
 import { checkSanity } from "@/functions/sanity";
 
 const BASE_HEIGHT = 100;

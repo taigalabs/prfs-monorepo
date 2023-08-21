@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import NoSSR from "@taigalabs/prfs-react-components/src/no_ssr/NoSSR";
 
 import styles from "./ProofAppPage.module.scss";
 import { stateContext } from "@/contexts/state";
@@ -18,22 +19,24 @@ const Home: React.FC = () => {
   useLocalWallet(dispatch);
 
   return (
-    <DefaultLayout>
-      <div className={styles.container}>
-        <div className={styles.leftColumn}></div>
-        <div className={styles.rightColumn}>
-          <div className={styles.sectionWrapper}>
-            <ExploreTechSection />
-          </div>
-          <div className={styles.sectionWrapper}>
-            <LatestPrfsUpdateSection />
-          </div>
-          <div className={styles.sectionWrapper}>
-            <ProjectMeta />
+    <NoSSR>
+      <DefaultLayout>
+        <div className={styles.container}>
+          <div className={styles.leftColumn}></div>
+          <div className={styles.rightColumn}>
+            <div className={styles.sectionWrapper}>
+              <ExploreTechSection />
+            </div>
+            <div className={styles.sectionWrapper}>
+              <LatestPrfsUpdateSection />
+            </div>
+            <div className={styles.sectionWrapper}>
+              <ProjectMeta />
+            </div>
           </div>
         </div>
-      </div>
-    </DefaultLayout>
+      </DefaultLayout>
+    </NoSSR>
   );
 };
 
