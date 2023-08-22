@@ -103,20 +103,17 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       console.log("took %s ms to create a proof", duration);
 
       const proof_instance_id = uuidv4();
-      const buf = parseUuid(proof_instance_id);
-      const shortId = b62.encode(buf);
 
-      console.log(55, shortId);
-      // console.log("try inserting proof", proveReceipt);
-      // const resp = await prfsApi.createPrfsProofInstance({
-      //   proof_instance_id,
-      //   sig: prfsAccount.sig,
-      //   proof_type_id: selectedProofType.proof_type_id,
-      //   proof: Array.from(proof),
-      //   public_inputs,
-      // });
+      console.log("try inserting proof", proveReceipt);
+      const resp = await prfsApi.createPrfsProofInstance({
+        proof_instance_id,
+        sig: prfsAccount.sig,
+        proof_type_id: selectedProofType.proof_type_id,
+        proof: Array.from(proof),
+        public_inputs,
+      });
 
-      // router.push(`${paths.proof__proof_instances}/${resp.payload.proof_instance_id}`);
+      router.push(`${paths.proof__proof_instances}/${resp.payload.proof_instance_id}`);
     }
   }, [selectedProofType, setFormAlert, localPrfsAccount, proofGenElement]);
 
