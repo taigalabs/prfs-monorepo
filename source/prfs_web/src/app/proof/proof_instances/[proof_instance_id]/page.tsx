@@ -19,12 +19,12 @@ import Widget, { TopWidgetTitle, WidgetLabel, WidgetPaddedBody } from "@/compone
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
-import CardRow from "@/components/card_row/CardRow";
 import ProofInstanceDetailTable from "@/components/proof_instance_detail_table/ProofInstanceDetailTable";
 import ProofInstanceQRCode from "@/components/proof_instance_qrcode/ProofInstanceQRCode";
 import { paths } from "@/paths";
 import ProofImage from "@/components/proof_image/ProofImage";
 import SocialSharePopover from "@/components/social_share_popover/SocialSharePopover";
+import { ContentAreaRow } from "@/components/content_area/ContentArea";
 
 const PublicInputsView: React.FC<PublicInputsViewProps> = ({ publicInputs }) => {
   let i18n = React.useContext(i18nContext);
@@ -97,7 +97,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
             rel="stylesheet"
           />
         </Head>
-        <CardRow>
+        <ContentAreaRow>
           <Widget>
             <TopWidgetTitle>
               <div className={styles.header}>
@@ -135,7 +135,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
               <ProofView proof={proofInstance.proof} />
             </div>
           </Widget>
-        </CardRow>
+        </ContentAreaRow>
       </DefaultLayout>
     )
   );

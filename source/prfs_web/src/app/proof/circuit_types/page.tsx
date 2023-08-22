@@ -12,9 +12,9 @@ import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
-import CardRow from "@/components/card_row/CardRow";
 import CircuitTypeTable from "@/components/circuit_type_table/CircuitTypeTable";
 import { paths } from "@/paths";
+import { ContentAreaRow } from "@/components/content_area/ContentArea";
 
 const CircuitTypes: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -24,7 +24,7 @@ const CircuitTypes: React.FC = () => {
 
   return (
     <DefaultLayout>
-      <CardRow>
+      <ContentAreaRow>
         <Widget>
           <TopWidgetTitle>
             <div className={styles.titleInner}>
@@ -43,7 +43,7 @@ const CircuitTypes: React.FC = () => {
             </div>
           </PaddedTableWrapper>
         </Widget>
-      </CardRow>
+      </ContentAreaRow>
     </DefaultLayout>
   );
 };

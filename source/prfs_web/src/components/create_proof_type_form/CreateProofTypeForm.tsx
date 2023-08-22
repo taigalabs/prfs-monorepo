@@ -17,13 +17,13 @@ import Widget, {
   WidgetLabel,
   WidgetPaddedBody,
 } from "@/components/widget/Widget";
-import CardRow from "@/components/card_row/CardRow";
 import FormTextInput from "@/components/form/FormTextInput";
 import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { stateContext } from "@/contexts/state";
 import CircuitInputConfigSection from "@/components/circuit_input_config_section/CircuitInputConfigSection";
 import { paths } from "@/paths";
 import FormTextareaInput from "@/components/form/FormTextareaInput";
+import { ContentAreaRow } from "../content_area/ContentArea";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -176,7 +176,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
         </div>
       </TopWidgetTitle>
 
-      <CardRow>
+      <ContentAreaRow>
         <Widget>
           <WidgetPaddedBody>
             <div className={styles.desc}>{i18n.create_proof_type_subtitle}</div>
@@ -201,9 +201,9 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             </div>
           </WidgetPaddedBody>
         </Widget>
-      </CardRow>
+      </ContentAreaRow>
 
-      <CardRow>
+      <ContentAreaRow>
         <Widget>
           <WidgetHeader>
             <WidgetLabel>{i18n.choose_circuit}</WidgetLabel>
@@ -218,13 +218,15 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             </div>
           </WidgetPaddedBody>
         </Widget>
-      </CardRow>
+      </ContentAreaRow>
 
       {selectedCircuit && (
-        <CircuitInputConfigSection
-          circuitInputsMeta={selectedCircuit.circuit_inputs_meta as CircuitInputMeta[]}
-          setCircuitInputs={setCircuitInputs}
-        />
+        <ContentAreaRow>
+          <CircuitInputConfigSection
+            circuitInputsMeta={selectedCircuit.circuit_inputs_meta as CircuitInputMeta[]}
+            setCircuitInputs={setCircuitInputs}
+          />
+        </ContentAreaRow>
       )}
 
       <WidgetPaddedBody>

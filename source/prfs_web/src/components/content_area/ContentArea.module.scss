@@ -27,3 +27,7 @@
 
   /* border: 1px solid red; */
 }
+
+.row:not(:last-child) {
+  margin-bottom: 44px;
+}

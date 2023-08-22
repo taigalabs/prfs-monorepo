@@ -17,11 +17,11 @@ import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
-import CardRow from "@/components/card_row/CardRow";
 import SetElementTable from "@/components/set_element_table/SetElementTable";
 import SetSummary from "@/components/set_summary/SetSummary";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
 import { paths } from "@/paths";
+import { ContentAreaRow } from "@/components/content_area/ContentArea";
 
 const Set: React.FC<SetProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -54,7 +54,7 @@ const Set: React.FC<SetProps> = ({ params }) => {
 
   return (
     <DefaultLayout>
-      <CardRow>
+      <ContentAreaRow>
         <Widget>
           <TopWidgetTitle>
             <div className={styles.header}>
@@ -69,9 +69,9 @@ const Set: React.FC<SetProps> = ({ params }) => {
             <SetSummary set={set} />
           </PaddedSummaryWrapper>
         </Widget>
-      </CardRow>
+      </ContentAreaRow>
 
-      <CardRow>
+      <ContentAreaRow>
         <Widget>
           <WidgetHeader>
             <WidgetLabel>{i18n.elements}</WidgetLabel>
@@ -81,7 +81,7 @@ const Set: React.FC<SetProps> = ({ params }) => {
             <SetElementTable setId={params.set_id} />
           </PaddedTableWrapper>
         </Widget>
-      </CardRow>
+      </ContentAreaRow>
     </DefaultLayout>
   );
 };

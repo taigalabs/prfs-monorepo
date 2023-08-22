@@ -12,13 +12,13 @@ import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
-import CardRow from "@/components/card_row/CardRow";
 import { useRouter } from "next/navigation";
 import CircuitInputTable from "@/components/circuit_input_table/CircuitInputTable";
 import ProofTypeSummary from "@/components/proof_type_summary/ProofTypeSummary";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 import { paths } from "@/paths";
+import { ContentAreaRow } from "@/components/content_area/ContentArea";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -49,7 +49,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
 
   return (
     <DefaultLayout>
-      <CardRow>
+      <ContentAreaRow>
         <Widget>
           <TopWidgetTitle>
             <div className={styles.header}>
@@ -64,9 +64,9 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
             <ProofTypeSummary proofType={proofType} />
           </PaddedSummaryWrapper>
         </Widget>
-      </CardRow>
+      </ContentAreaRow>
 
-      <CardRow>
+      <ContentAreaRow>
         <Widget>
           <WidgetHeader>
             <WidgetLabel>{i18n.circuit_inputs}</WidgetLabel>
@@ -75,7 +75,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
             {proofType && <CircuitInputTable circuit_inputs={proofType.circuit_inputs} />}
           </PaddedTableWrapper>
         </Widget>
-      </CardRow>
+      </ContentAreaRow>
     </DefaultLayout>
   );
 };

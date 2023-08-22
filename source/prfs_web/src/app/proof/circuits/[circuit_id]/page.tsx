@@ -15,15 +15,14 @@ import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
-import CardRow from "@/components/card_row/CardRow";
 import { paths } from "@/paths";
 import CircuitSummary from "@/components/circuit_summary/CircuitSummary";
 import DriverPropInstanceTable from "@/components/driver_prop_instance_table/DriverPropInstanceTable";
 import RawCircuitInputMetaTable from "@/components/raw_circuit_input_meta_table/RawCircuitInputMetaTable";
-import CircuitInputTable from "@/components/circuit_input_table/CircuitInputTable";
 import CircuitInputMetaTable from "@/components/circuit_input_meta_table/CircuitInputMetaTable";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
+import { ContentAreaRow } from "@/components/content_area/ContentArea";
 
 const Circuit: React.FC<CircuitProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -54,7 +53,7 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
 
   return (
     <DefaultLayout>
-      <CardRow>
+      <ContentAreaRow>
         <Widget>
           <TopWidgetTitle>
             <div className={styles.header}>
@@ -69,10 +68,10 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
             <CircuitSummary circuit={circuit} />
           </PaddedSummaryWrapper>
         </Widget>
-      </CardRow>
+      </ContentAreaRow>
 
       {circuit && (
-        <CardRow>
+        <ContentAreaRow>
           <Widget>
             <WidgetHeader>
               <WidgetLabel>
@@ -83,10 +82,10 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
               <DriverPropInstanceTable driver_properties={circuit.driver_properties} />
             </PaddedTableWrapper>
           </Widget>
-        </CardRow>
+        </ContentAreaRow>
       )}
       {circuit && (
-        <CardRow>
+        <ContentAreaRow>
           <Widget>
             <WidgetHeader>
               <WidgetLabel>{i18n.circuit_inputs}</WidgetLabel>
@@ -97,11 +96,11 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
               />
             </PaddedTableWrapper>
           </Widget>
-        </CardRow>
+        </ContentAreaRow>
       )}
 
       {circuit && (
-        <CardRow>
+        <ContentAreaRow>
           <Widget>
             <WidgetHeader>
               <WidgetLabel>{i18n.raw_circuit_inputs}</WidgetLabel>
@@ -112,7 +111,7 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
               />
             </PaddedTableWrapper>
           </Widget>
-        </CardRow>
+        </ContentAreaRow>
       )}
     </DefaultLayout>
   );

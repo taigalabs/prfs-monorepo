@@ -12,9 +12,9 @@ import Widget, { TopWidgetTitle, WidgetLabel } from "@/components/widget/Widget"
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
-import CardRow from "@/components/card_row/CardRow";
 import DriverTable from "@/components/driver_table/DriverTable";
 import { paths } from "@/paths";
+import { ContentAreaRow } from "@/components/content_area/ContentArea";
 
 const Programs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -24,7 +24,7 @@ const Programs: React.FC = () => {
 
   return (
     <DefaultLayout>
-      <CardRow>
+      <ContentAreaRow>
         <Widget>
           <TopWidgetTitle>
             <div className={styles.titleInner}>
@@ -43,7 +43,7 @@ const Programs: React.FC = () => {
             </div>
           </PaddedTableWrapper>
         </Widget>
-      </CardRow>
+      </ContentAreaRow>
     </DefaultLayout>
   );
 };

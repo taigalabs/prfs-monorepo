@@ -19,10 +19,10 @@ import Widget, {
   WidgetLabel,
   WidgetPaddedBody,
 } from "@/components/widget/Widget";
-import CardRow from "@/components/card_row/CardRow";
 import { stateContext } from "@/contexts/state";
 import ProofTypeDropdown from "@/components/proof_type_dropdown/ProofTypeDropdown";
 import { paths } from "@/paths";
+import { ContentAreaRow } from "../content_area/ContentArea";
 
 const prfs = new PrfsSDK("test");
 
@@ -148,7 +148,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
       {selectedProofType && (
         <Fade>
-          <CardRow>
+          <ContentAreaRow>
             <Widget>
               <WidgetHeader>
                 <WidgetLabel>{i18n.get_ready_to_make_proof}</WidgetLabel>
@@ -162,7 +162,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
                 </div>
               </WidgetPaddedBody>
             </Widget>
-          </CardRow>
+          </ContentAreaRow>
         </Fade>
       )}
 

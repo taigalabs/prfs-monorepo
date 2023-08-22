@@ -15,12 +15,12 @@ import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
-import CardRow from "@/components/card_row/CardRow";
 import DriverSummary from "@/components/driver_summary/DriverSummary";
 import DriverPropsMetaTable from "@/components/driver_props_meta_table/DriverPropsMetaTable";
 import CircuitTypeList from "@/components/circuit_type_list/CircuitTypeList";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
 import { paths } from "@/paths";
+import { ContentAreaRow } from "@/components/content_area/ContentArea";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -51,7 +51,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
 
   return (
     <DefaultLayout>
-      <CardRow>
+      <ContentAreaRow>
         <Widget>
           <TopWidgetTitle>
             <div className={styles.header}>
@@ -68,9 +68,9 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
             <DriverSummary driver={driver} />
           </PaddedSummaryWrapper>
         </Widget>
-      </CardRow>
+      </ContentAreaRow>
 
-      <CardRow>
+      <ContentAreaRow>
         <Widget>
           <WidgetHeader>
             <WidgetLabel>{i18n.driver_properties_meta}</WidgetLabel>
@@ -81,9 +81,9 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
             />
           </PaddedTableWrapper>
         </Widget>
-      </CardRow>
+      </ContentAreaRow>
 
-      <CardRow>
+      <ContentAreaRow>
         <Widget>
           <WidgetHeader>
             <WidgetLabel>{i18n.circuit_types}</WidgetLabel>
@@ -92,7 +92,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
             <CircuitTypeList circuit_types={driver?.circuit_types} />
           </PaddedTableWrapper>
         </Widget>
-      </CardRow>
+      </ContentAreaRow>
     </DefaultLayout>
   );
 };

@@ -13,10 +13,10 @@ import Widget, { TopWidgetTitle, WidgetLabel } from "@/components/widget/Widget"
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
-import CardRow from "@/components/card_row/CardRow";
 import ProofInstanceTable from "@/components/proof_instance_table/ProofInstanceTable";
 import CreateProofInstanceForm from "@/components/create_proof_instance_form/CreateProofInstanceForm";
 import { paths } from "@/paths";
+import { ContentAreaRow } from "@/components/content_area/ContentArea";
 
 const Proofs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -39,7 +39,7 @@ const Proofs: React.FC = () => {
       {createPage ? (
         <CreateProofInstanceForm />
       ) : (
-        <CardRow>
+        <ContentAreaRow>
           <Widget>
             <TopWidgetTitle>
               <div className={styles.header}>
@@ -58,7 +58,7 @@ const Proofs: React.FC = () => {
               </div>
             </PaddedTableWrapper>
           </Widget>
-        </CardRow>
+        </ContentAreaRow>
       )}
     </DefaultLayout>
   );

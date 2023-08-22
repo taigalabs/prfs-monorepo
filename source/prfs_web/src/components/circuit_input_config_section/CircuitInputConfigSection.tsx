@@ -8,7 +8,6 @@ import { DropdownSingleSelectedValue } from "@taigalabs/prfs-react-components/sr
 import styles from "./CircuitInputConfigSection.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
-import CardRow from "@/components/card_row/CardRow";
 import SetDropdown from "@/components/set_dropdown/SetDropdown";
 
 const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
@@ -84,16 +83,14 @@ const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
   }, [circuitInputsMeta, setVals]);
 
   return (
-    <CardRow>
-      <Widget>
-        <WidgetHeader>
-          <WidgetLabel>{i18n.configure_circuit_inputs}</WidgetLabel>
-        </WidgetHeader>
-        <WidgetPaddedBody>
-          <div>{circuitInputEntries}</div>
-        </WidgetPaddedBody>
-      </Widget>
-    </CardRow>
+    <Widget>
+      <WidgetHeader>
+        <WidgetLabel>{i18n.configure_circuit_inputs}</WidgetLabel>
+      </WidgetHeader>
+      <WidgetPaddedBody>
+        <div>{circuitInputEntries}</div>
+      </WidgetPaddedBody>
+    </Widget>
   );
 };
 
