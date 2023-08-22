@@ -21,7 +21,7 @@ import SetElementTable from "@/components/set_element_table/SetElementTable";
 import SetSummary from "@/components/set_summary/SetSummary";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
 import { paths } from "@/paths";
-import { ContentAreaRow } from "@/components/content_area/ContentArea";
+import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 
 const Set: React.FC<SetProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -54,17 +54,14 @@ const Set: React.FC<SetProps> = ({ params }) => {
 
   return (
     <DefaultLayout>
+      <ContentAreaHeader>
+        <Link href={paths.proof__sets}>
+          <ArrowButton variant="left" />
+        </Link>
+        <WidgetLabel>{setTableLabel}</WidgetLabel>
+      </ContentAreaHeader>
       <ContentAreaRow>
         <Widget>
-          <TopWidgetTitle>
-            <div className={styles.header}>
-              <Link href={paths.proof__sets}>
-                <ArrowButton variant="left" />
-              </Link>
-              <WidgetLabel>{setTableLabel}</WidgetLabel>
-            </div>
-          </TopWidgetTitle>
-
           <PaddedSummaryWrapper>
             <SetSummary set={set} />
           </PaddedSummaryWrapper>

@@ -14,7 +14,7 @@ import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import CircuitTypeTable from "@/components/circuit_type_table/CircuitTypeTable";
 import { paths } from "@/paths";
-import { ContentAreaRow } from "@/components/content_area/ContentArea";
+import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 
 const CircuitTypes: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -24,19 +24,17 @@ const CircuitTypes: React.FC = () => {
 
   return (
     <DefaultLayout>
+      <ContentAreaHeader>
+        <WidgetLabel>{i18n.circuit_types}</WidgetLabel>
+        <Button variant="transparent_aqua_blue_1" disabled>
+          <Link href={`${paths.proof__circuit_types}?create`}>
+            <AiFillPlusCircle />
+            <span>{i18n.create_circuit_type.toUpperCase()}</span>
+          </Link>
+        </Button>
+      </ContentAreaHeader>
       <ContentAreaRow>
         <Widget>
-          <TopWidgetTitle>
-            <div className={styles.titleInner}>
-              <WidgetLabel>{i18n.circuit_types}</WidgetLabel>
-              <Button variant="transparent_aqua_blue_1" disabled>
-                <Link href={`${paths.proof__circuit_types}?create`}>
-                  <AiFillPlusCircle />
-                  {i18n.create_circuit_type.toUpperCase()}
-                </Link>
-              </Button>
-            </div>
-          </TopWidgetTitle>
           <PaddedTableWrapper>
             <div className={styles.tableContainer}>
               <CircuitTypeTable />

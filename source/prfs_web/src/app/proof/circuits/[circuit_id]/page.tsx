@@ -22,7 +22,7 @@ import RawCircuitInputMetaTable from "@/components/raw_circuit_input_meta_table/
 import CircuitInputMetaTable from "@/components/circuit_input_meta_table/CircuitInputMetaTable";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
-import { ContentAreaRow } from "@/components/content_area/ContentArea";
+import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 
 const Circuit: React.FC<CircuitProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -35,35 +35,38 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
   const topWidgetLabel = `${i18n.circuit_summary_label} ${params.circuit_id}`;
 
   React.useEffect(() => {
-    prfsApi
-      .getPrfsNativeCircuits({
-        page: 0,
-        circuit_id: params.circuit_id,
-      })
-      .then(resp => {
-        const { prfs_circuits } = resp.payload;
+    async function fn() {
+      try {
+        const { payload } = await prfsApi.getPrfsNativeCircuits({
+          page: 0,
+          circuit_id: params.circuit_id,
+        });
+
+        const { prfs_circuits } = payload;
 
         if (prfs_circuits.length > 0) {
           setCircuit(prfs_circuits[0]);
         } else {
-          router.push("/circuits");
+          // router.push(paths.proof__circuits);
         }
-      });
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    fn().then();
   }, [setCircuit]);
 
   return (
     <DefaultLayout>
+      <ContentAreaHeader>
+        <Link href={paths.proof__circuits}>
+          <ArrowButton variant="left" />
+        </Link>
+        <WidgetLabel>{topWidgetLabel}</WidgetLabel>
+      </ContentAreaHeader>
       <ContentAreaRow>
         <Widget>
-          <TopWidgetTitle>
-            <div className={styles.header}>
-              <Link href={paths.proof__circuits}>
-                <ArrowButton variant="left" />
-              </Link>
-              <WidgetLabel>{topWidgetLabel}</WidgetLabel>
-            </div>
-          </TopWidgetTitle>
-
           <PaddedSummaryWrapper>
             <CircuitSummary circuit={circuit} />
           </PaddedSummaryWrapper>

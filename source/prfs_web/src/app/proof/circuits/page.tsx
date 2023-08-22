@@ -15,7 +15,7 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import CircuitTable from "@/components/circuit_table/CircuitTable";
 import Link from "next/link";
 import { paths } from "@/paths";
-import { ContentAreaRow } from "@/components/content_area/ContentArea";
+import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 
 const Circuits: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -25,19 +25,17 @@ const Circuits: React.FC = () => {
 
   return (
     <DefaultLayout>
+      <ContentAreaHeader>
+        <WidgetLabel>{i18n.circuits}</WidgetLabel>
+        <Button variant="transparent_aqua_blue_1" disabled>
+          <Link href={`${paths.proof__circuits}?create`}>
+            <AiFillPlusCircle />
+            {i18n.create_circuit.toUpperCase()}
+          </Link>
+        </Button>
+      </ContentAreaHeader>
       <ContentAreaRow>
         <Widget>
-          <TopWidgetTitle>
-            <div className={styles.titleInner}>
-              <WidgetLabel>{i18n.circuits}</WidgetLabel>
-              <Button variant="transparent_aqua_blue_1" disabled>
-                <Link href={`${paths.proof__circuits}?create`}>
-                  <AiFillPlusCircle />
-                  {i18n.create_circuit.toUpperCase()}
-                </Link>
-              </Button>
-            </div>
-          </TopWidgetTitle>
           <PaddedTableWrapper>
             <div className={styles.circuitTableContainer}>
               <CircuitTable />

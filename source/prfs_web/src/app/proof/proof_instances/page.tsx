@@ -16,7 +16,7 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import ProofInstanceTable from "@/components/proof_instance_table/ProofInstanceTable";
 import CreateProofInstanceForm from "@/components/create_proof_instance_form/CreateProofInstanceForm";
 import { paths } from "@/paths";
-import { ContentAreaRow } from "@/components/content_area/ContentArea";
+import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 
 const Proofs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -39,26 +39,26 @@ const Proofs: React.FC = () => {
       {createPage ? (
         <CreateProofInstanceForm />
       ) : (
-        <ContentAreaRow>
-          <Widget>
-            <TopWidgetTitle>
-              <div className={styles.header}>
-                <WidgetLabel>{i18n.proof_instances}</WidgetLabel>
-                <Button variant="transparent_aqua_blue_1">
-                  <Link href={`${paths.proof__proof_instances}?create`}>
-                    <HiMiniDocumentPlus />
-                    {i18n.create_proof_instance.toUpperCase()}
-                  </Link>
-                </Button>
-              </div>
-            </TopWidgetTitle>
-            <PaddedTableWrapper>
-              <div className={styles.tableContainer}>
-                <ProofInstanceTable />
-              </div>
-            </PaddedTableWrapper>
-          </Widget>
-        </ContentAreaRow>
+        <>
+          <ContentAreaHeader>
+            <WidgetLabel>{i18n.proof_instances}</WidgetLabel>
+            <Button variant="transparent_aqua_blue_1">
+              <Link href={`${paths.proof__proof_instances}?create`}>
+                <HiMiniDocumentPlus />
+                {i18n.create_proof_instance.toUpperCase()}
+              </Link>
+            </Button>
+          </ContentAreaHeader>
+          <ContentAreaRow>
+            <Widget>
+              <PaddedTableWrapper>
+                <div className={styles.tableContainer}>
+                  <ProofInstanceTable />
+                </div>
+              </PaddedTableWrapper>
+            </Widget>
+          </ContentAreaRow>
+        </>
       )}
     </DefaultLayout>
   );

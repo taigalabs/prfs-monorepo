@@ -20,7 +20,7 @@ import DriverPropsMetaTable from "@/components/driver_props_meta_table/DriverPro
 import CircuitTypeList from "@/components/circuit_type_list/CircuitTypeList";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
 import { paths } from "@/paths";
-import { ContentAreaRow } from "@/components/content_area/ContentArea";
+import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -51,19 +51,17 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
 
   return (
     <DefaultLayout>
+      <ContentAreaHeader>
+        <div className={styles.navigation}>
+          <Link href={paths.proof__circuit_drivers}>
+            <ArrowButton variant="left" />
+          </Link>
+        </div>
+        <WidgetLabel>{programSummaryLabel}</WidgetLabel>
+      </ContentAreaHeader>
+
       <ContentAreaRow>
         <Widget>
-          <TopWidgetTitle>
-            <div className={styles.header}>
-              <div className={styles.navigation}>
-                <Link href={paths.proof__circuit_drivers}>
-                  <ArrowButton variant="left" />
-                </Link>
-              </div>
-              <WidgetLabel>{programSummaryLabel}</WidgetLabel>
-            </div>
-          </TopWidgetTitle>
-
           <PaddedSummaryWrapper>
             <DriverSummary driver={driver} />
           </PaddedSummaryWrapper>

@@ -24,7 +24,7 @@ import ProofInstanceQRCode from "@/components/proof_instance_qrcode/ProofInstanc
 import { paths } from "@/paths";
 import ProofImage from "@/components/proof_image/ProofImage";
 import SocialSharePopover from "@/components/social_share_popover/SocialSharePopover";
-import { ContentAreaRow } from "@/components/content_area/ContentArea";
+import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 
 const PublicInputsView: React.FC<PublicInputsViewProps> = ({ publicInputs }) => {
   let i18n = React.useContext(i18nContext);
@@ -97,19 +97,17 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
             rel="stylesheet"
           />
         </Head>
+
+        <ContentAreaHeader>
+          <div className={styles.navigation}>
+            <Link href={paths.proof__proof_instances}>
+              <ArrowButton variant="left" />
+            </Link>
+          </div>
+          <WidgetLabel>{topWidgetLabel}</WidgetLabel>
+        </ContentAreaHeader>
         <ContentAreaRow>
           <Widget>
-            <TopWidgetTitle>
-              <div className={styles.header}>
-                <div className={styles.navigation}>
-                  <Link href={paths.proof__proof_instances}>
-                    <ArrowButton variant="left" />
-                  </Link>
-                </div>
-                <WidgetLabel>{topWidgetLabel}</WidgetLabel>
-              </div>
-            </TopWidgetTitle>
-
             <div className={styles.singleValueRow}>
               <div className={styles.summary}>
                 <ProofImage src={proofInstance.img_url} />

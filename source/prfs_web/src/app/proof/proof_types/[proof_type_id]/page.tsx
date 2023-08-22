@@ -18,7 +18,7 @@ import ProofTypeSummary from "@/components/proof_type_summary/ProofTypeSummary";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 import { paths } from "@/paths";
-import { ContentAreaRow } from "@/components/content_area/ContentArea";
+import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -49,17 +49,14 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
 
   return (
     <DefaultLayout>
+      <ContentAreaHeader>
+        <Link href={paths.proof__proof_types}>
+          <ArrowButton variant="left" />
+        </Link>
+        <WidgetLabel>{proofTypeSummaryLabel}</WidgetLabel>
+      </ContentAreaHeader>
       <ContentAreaRow>
         <Widget>
-          <TopWidgetTitle>
-            <div className={styles.header}>
-              <Link href={paths.proof__proof_types}>
-                <ArrowButton variant="left" />
-              </Link>
-              <WidgetLabel>{proofTypeSummaryLabel}</WidgetLabel>
-            </div>
-          </TopWidgetTitle>
-
           <PaddedSummaryWrapper>
             <ProofTypeSummary proofType={proofType} />
           </PaddedSummaryWrapper>

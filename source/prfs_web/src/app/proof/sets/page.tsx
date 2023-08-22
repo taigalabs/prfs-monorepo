@@ -14,7 +14,7 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { paths } from "@/paths";
-import { ContentAreaRow } from "@/components/content_area/ContentArea";
+import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 
 const Sets: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -24,19 +24,17 @@ const Sets: React.FC = () => {
 
   return (
     <DefaultLayout>
+      <ContentAreaHeader>
+        <WidgetLabel>{i18n.sets}</WidgetLabel>
+        <Button variant="transparent_aqua_blue_1" disabled>
+          <Link href={`${paths.proof__sets}?create`}>
+            <AiFillPlusCircle />
+            <span>{i18n.create_set.toUpperCase()}</span>
+          </Link>
+        </Button>
+      </ContentAreaHeader>
       <ContentAreaRow>
         <Widget>
-          <TopWidgetTitle>
-            <div className={styles.titleInner}>
-              <WidgetLabel>{i18n.sets}</WidgetLabel>
-              <Button variant="transparent_aqua_blue_1" disabled>
-                <Link href={`${paths.proof__sets}?create`}>
-                  <AiFillPlusCircle />
-                  <span>{i18n.create_set.toUpperCase()}</span>
-                </Link>
-              </Button>
-            </div>
-          </TopWidgetTitle>
           <PaddedTableWrapper>
             <div className={styles.tableContainer}>
               <SetTable />

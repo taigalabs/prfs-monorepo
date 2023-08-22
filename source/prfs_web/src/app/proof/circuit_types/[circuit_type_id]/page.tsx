@@ -19,7 +19,7 @@ import CircuitInputsMetaTable from "@/components/circuit_inputs_meta_table/Circu
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
 import { paths } from "@/paths";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
-import { ContentAreaRow } from "@/components/content_area/ContentArea";
+import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 
 const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -50,19 +50,16 @@ const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {
 
   return (
     <DefaultLayout>
+      <ContentAreaHeader>
+        <div className={styles.navigation}>
+          <Link href={paths.proof__circuit_types}>
+            <ArrowButton variant="left" />
+          </Link>
+        </div>
+        <WidgetLabel>{topWidgetLabel}</WidgetLabel>
+      </ContentAreaHeader>
       <ContentAreaRow>
         <Widget>
-          <TopWidgetTitle>
-            <div className={styles.header}>
-              <div className={styles.navigation}>
-                <Link href={paths.proof__circuit_types}>
-                  <ArrowButton variant="left" />
-                </Link>
-              </div>
-              <WidgetLabel>{topWidgetLabel}</WidgetLabel>
-            </div>
-          </TopWidgetTitle>
-
           <PaddedSummaryWrapper>
             <CircuitTypeSummary circuitType={circuitType} />
           </PaddedSummaryWrapper>

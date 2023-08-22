@@ -14,7 +14,7 @@ import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import DriverTable from "@/components/driver_table/DriverTable";
 import { paths } from "@/paths";
-import { ContentAreaRow } from "@/components/content_area/ContentArea";
+import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 
 const Programs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -24,19 +24,17 @@ const Programs: React.FC = () => {
 
   return (
     <DefaultLayout>
+      <ContentAreaHeader>
+        <WidgetLabel>{i18n.drivers}</WidgetLabel>
+        <Button variant="transparent_aqua_blue_1" disabled>
+          <Link href={`${paths.proof__circuit_drivers}?create`}>
+            <AiFillPlusCircle />
+            {i18n.create_circuit_driver.toUpperCase()}
+          </Link>
+        </Button>
+      </ContentAreaHeader>
       <ContentAreaRow>
         <Widget>
-          <TopWidgetTitle>
-            <div className={styles.titleInner}>
-              <WidgetLabel>{i18n.drivers}</WidgetLabel>
-              <Button variant="transparent_aqua_blue_1" disabled>
-                <Link href={`${paths.proof__circuit_drivers}?create`}>
-                  <AiFillPlusCircle />
-                  {i18n.create_circuit_driver.toUpperCase()}
-                </Link>
-              </Button>
-            </div>
-          </TopWidgetTitle>
           <PaddedTableWrapper>
             <div className={styles.tableContainer}>
               <DriverTable />
