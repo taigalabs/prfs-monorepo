@@ -52,11 +52,9 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
   return (
     <DefaultLayout>
       <ContentAreaHeader>
-        <div className={styles.navigation}>
-          <Link href={paths.proof__circuit_drivers}>
-            <ArrowButton variant="left" />
-          </Link>
-        </div>
+        <Link href={paths.proof__circuit_drivers}>
+          <ArrowButton variant="left" />
+        </Link>
         <WidgetLabel>{programSummaryLabel}</WidgetLabel>
       </ContentAreaHeader>
 

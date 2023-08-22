@@ -17,6 +17,7 @@ import ProofTypeTable from "@/components/proof_type_table/ProofTypeTable";
 import CreateProofTypeForm from "@/components/create_proof_type_form/CreateProofTypeForm";
 import { paths } from "@/paths";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
+import { SpacedBetweenArea } from "@/components/area/Area";
 
 const Proofs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -40,13 +41,15 @@ const Proofs: React.FC = () => {
       ) : (
         <>
           <ContentAreaHeader>
-            <WidgetLabel>{i18n.proof_types}</WidgetLabel>
-            <Button className={styles.iconBtn} variant="transparent_aqua_blue_1">
-              <Link href={`${paths.proof__proof_types}?create`}>
-                <AiFillFolderAdd />
-                <span>{i18n.create_proof_type.toUpperCase()}</span>
-              </Link>
-            </Button>
+            <SpacedBetweenArea>
+              <WidgetLabel>{i18n.proof_types}</WidgetLabel>
+              <Button variant="transparent_aqua_blue_1">
+                <Link href={`${paths.proof__proof_types}?create`}>
+                  <AiFillFolderAdd />
+                  <span>{i18n.create_proof_type.toUpperCase()}</span>
+                </Link>
+              </Button>
+            </SpacedBetweenArea>
           </ContentAreaHeader>
           <ContentAreaRow>
             <Widget>

@@ -17,6 +17,7 @@ import ProofInstanceTable from "@/components/proof_instance_table/ProofInstanceT
 import CreateProofInstanceForm from "@/components/create_proof_instance_form/CreateProofInstanceForm";
 import { paths } from "@/paths";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
+import { SpacedBetweenArea } from "@/components/area/Area";
 
 const Proofs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -41,13 +42,15 @@ const Proofs: React.FC = () => {
       ) : (
         <>
           <ContentAreaHeader>
-            <WidgetLabel>{i18n.proof_instances}</WidgetLabel>
-            <Button variant="transparent_aqua_blue_1">
-              <Link href={`${paths.proof__proof_instances}?create`}>
-                <HiMiniDocumentPlus />
-                {i18n.create_proof_instance.toUpperCase()}
-              </Link>
-            </Button>
+            <SpacedBetweenArea>
+              <WidgetLabel>{i18n.proof_instances}</WidgetLabel>
+              <Button variant="transparent_aqua_blue_1">
+                <Link href={`${paths.proof__proof_instances}?create`}>
+                  <HiMiniDocumentPlus />
+                  <span>{i18n.create_proof_instance.toUpperCase()}</span>
+                </Link>
+              </Button>
+            </SpacedBetweenArea>
           </ContentAreaHeader>
           <ContentAreaRow>
             <Widget>
