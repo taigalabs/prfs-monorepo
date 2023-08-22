@@ -3,6 +3,7 @@ use chrono::Utc;
 use colored::Colorize;
 use prfs_api_server::envs::ENVS;
 use prfs_api_server::seed;
+use prfs_api_server::seed::Endpoint;
 use prfs_api_server::ApiServerError;
 use prfs_db_interface::database2::Database2;
 use prfs_db_interface::db_apis;
@@ -17,14 +18,12 @@ use uuid::uuid;
 async fn main() -> Result<(), ApiServerError> {
     println!("Starting backend seeding...");
 
-    temp_migrate().await;
-
-    // seed::upload().await;
+    seed::upload(Endpoint::Local).await;
 
     Ok(())
 }
 
-async fn temp_migrate() {
+async fn _temp_migrate() {
     println!("{} {}...", "Starting".green(), env!("CARGO_PKG_NAME"));
 
     ENVS.check();
