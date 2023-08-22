@@ -69,7 +69,7 @@ pub async fn insert_prfs_proof_types(
     let query = "INSERT INTO prfs_proof_types \
 (proof_type_id, author, label, \"desc\", circuit_id, circuit_inputs,\
 driver_id, driver_properties, expression, img_url, img_caption) \
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) returning id";
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) returning id";
 
     let proof_type = proof_types.get(0).unwrap();
 
