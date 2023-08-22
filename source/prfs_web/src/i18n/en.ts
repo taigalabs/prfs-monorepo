@@ -23,6 +23,7 @@ export default {
   label: "Label",
   circuit_type: "Circuit type",
   ref: "Ref",
+  redirecting: "Redirecting...",
   desc_1: "a",
   desc_2: "b",
   desc_3: "c",
