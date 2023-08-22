@@ -5,12 +5,14 @@
 }
 
 .leftColumn {
-  /* border: 1px solid red; */
   flex-grow: 1;
+
+  /* border: 1px solid red; */
 }
 
 .rightColumn {
-  padding-top: 45px;
+  padding-top: 18px;
+  padding-right: 12px;
   width: 360px;
   /* border: 1px solid blue; */
 }

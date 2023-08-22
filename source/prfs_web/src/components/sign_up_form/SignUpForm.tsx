@@ -16,7 +16,7 @@ import Card from "@/components/card/Card";
 import { FormTitle, FormTitleRow } from "@/components/form/Form";
 import FormTextInput from "@/components/form/FormTextInput";
 import StrikeThroughText from "@/components/strike_through_text/StrikeThroughText";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 
 const metamaskConfig = metamaskWallet();
 
@@ -164,12 +164,12 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
       {signUpAlert.length > 0 && <div className={styles.signUpAlert}>{signUpAlert}</div>}
       <div className={styles.btnRow}>
         <div>
-          <Button variant="c" handleClick={handleClickSignUp}>
+          <Button variant="aqua_blue_1" handleClick={handleClickSignUp}>
             {i18n.sign_up}
           </Button>
         </div>
         <div>
-          <Button variant="text_c" handleClick={handleClickSignIn}>
+          <Button variant="text_aqua_blue_1" handleClick={handleClickSignIn}>
             {i18n.sign_in_to_existing}
           </Button>
         </div>

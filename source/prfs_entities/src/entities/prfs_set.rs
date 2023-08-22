@@ -1,11 +1,14 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
+use uuid::Uuid;
 
 #[derive(TS, Debug, Serialize, Deserialize)]
 #[ts(export)]
 pub struct PrfsSet {
-    pub set_id: String,
+    #[ts(type = "string")]
+    pub set_id: Uuid,
+
     pub label: String,
     pub author: String,
     pub desc: String,

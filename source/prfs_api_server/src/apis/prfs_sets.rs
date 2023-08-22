@@ -9,7 +9,7 @@ use std::{convert::Infallible, sync::Arc};
 #[derive(Serialize, Deserialize, Debug)]
 struct GetSetsRequest {
     page: usize,
-    set_id: Option<String>,
+    set_id: Option<uuid::Uuid>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]

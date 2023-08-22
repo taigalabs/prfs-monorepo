@@ -18,7 +18,7 @@
   flex-grow: 1;
   height: 100%;
   min-width: 1100px;
-  max-width: 1600px;
+  max-width: 1500px;
   width: 100%;
   overflow: hidden;
 
@@ -36,7 +36,8 @@
   flex-direction: column;
   flex-grow: 1;
   overflow-x: hidden;
-  padding: 0px 0px 20px 0px;
+  padding: 0px 0px 34px 0px;
+  border-right: 1px solid var(--bright-gray-31);
 
   /* background-color: var(--bright-gray-50); */
   /* border: 1px solid blue; */

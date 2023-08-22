@@ -9,7 +9,7 @@ import localStore from "@/storage/localStore";
 import { i18nContext } from "@/contexts/i18n";
 import { stateContext } from "@/contexts/state";
 import { LocalPrfsAccount } from "@/state/reducer";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
 
 const AccountModal: React.FC<AccountModalProps> = ({ localPrfsAccount }) => {
@@ -33,7 +33,7 @@ const AccountModal: React.FC<AccountModalProps> = ({ localPrfsAccount }) => {
     <div className={styles.modal}>
       <div className={styles.info}>
         <p className={styles.infoLabel}>{i18n.signature}</p>
-        <p className={styles.value}>{prfsAccount.sig}</p>
+        <p className={styles.value}>{prfsAccount && prfsAccount.sig}</p>
       </div>
       <div className={styles.info}>
         <p className={styles.infoLabel}>{i18n.wallet_addr}</p>
@@ -52,6 +52,10 @@ const AccountPopover: React.FC<AccountPopoverProps> = ({ localPrfsAccount }) => 
 
   const createBase = React.useCallback(
     (isOpen: boolean) => {
+      if (!prfsAccount) {
+        return null;
+      }
+
       const { sig, avatar_color } = prfsAccount;
       const s = sig.substring(2, 6);
       const avatarColor = `#${avatar_color}`;

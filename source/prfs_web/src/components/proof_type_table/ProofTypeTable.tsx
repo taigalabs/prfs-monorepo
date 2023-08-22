@@ -13,10 +13,11 @@ import Table, {
   TableSearch,
 } from "@taigalabs/prfs-react-components/src/table/Table";
 import { MdFilterList } from "react-icons/md";
+import dayjs from "dayjs";
 
 import styles from "./ProofTypeTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 
 const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -53,6 +54,8 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
     }
 
     for (let val of values) {
+      const createdAt = dayjs(val.created_at).format("YYYY-MM-DD");
+
       let row = (
         <TableRow key={val.proof_type_id}>
           <td className={styles.proofTypeId}>
@@ -63,7 +66,7 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
           <td className={styles.label}>{val.label}</td>
           <td className={styles.desc}>{val.desc}</td>
           <td className={styles.circuitId}>{val.circuit_id}</td>
-          <td className={styles.createdAt}>{val.created_at}</td>
+          <td className={styles.createdAt}>{createdAt}</td>
         </TableRow>
       );
 
@@ -75,7 +78,9 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
 
   return (
     <div className={styles.wrapper}>
-      <TableSearch>{i18n.proof_type_search_guide}</TableSearch>
+      <TableSearch>
+        <input placeholder={i18n.proof_type_search_guide} />
+      </TableSearch>
       <Table>
         <TableHeader>
           <TableRow>

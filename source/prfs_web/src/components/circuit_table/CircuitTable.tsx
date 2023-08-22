@@ -8,11 +8,13 @@ import Table, {
   TableHeader,
   TableData,
   TableRecordData,
+  TableSearch,
 } from "@taigalabs/prfs-react-components/src/table/Table";
+import dayjs from "dayjs";
 
 import styles from "./CircuitTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 
 const CircuitTable: React.FC<CircuitTableProps> = ({
   selectType,
@@ -60,6 +62,8 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
       const isSelected = selectedVal && selectedVal.circuit_id === val.circuit_id;
       const selType = selectType || "radio";
 
+      const createdAt = dayjs(val.created_at).format("YYYY-MM-DD");
+
       let row = (
         <TableRow key={val.circuit_id} onClickRow={onClickRow} isSelected={isSelected}>
           {selectedVal && (
@@ -73,7 +77,7 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
           <td className={styles.label}>{val.label}</td>
           <td className={styles.desc}>{val.desc}</td>
           <td className={styles.author}>{val.author}</td>
-          <td className={styles.createdAt}>{val.created_at}</td>
+          <td className={styles.createdAt}>{createdAt}</td>
         </TableRow>
       );
 
@@ -84,19 +88,25 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
   }, [data]);
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          {handleSelectVal && <th className={styles.radio}></th>}
-          <th className={styles.circuit_id}>{i18n.circuit_id}</th>
-          <th className={styles.label}>{i18n.label}</th>
-          <th className={styles.desc}>{i18n.description}</th>
-          <th className={styles.author}>{i18n.author}</th>
-          <th className={styles.createdAt}>{i18n.created_at}</th>
-        </TableRow>
-      </TableHeader>
-      <TableBody>{rowsElem}</TableBody>
-    </Table>
+    <div>
+      <TableSearch>
+        <input placeholder={i18n.circuit_search_guide} />
+      </TableSearch>
+
+      <Table>
+        <TableHeader>
+          <TableRow>
+            {handleSelectVal && <th className={styles.radio}></th>}
+            <th className={styles.circuit_id}>{i18n.circuit_id}</th>
+            <th className={styles.label}>{i18n.label}</th>
+            <th className={styles.desc}>{i18n.description}</th>
+            <th className={styles.author}>{i18n.author}</th>
+            <th className={styles.createdAt}>{i18n.created_at}</th>
+          </TableRow>
+        </TableHeader>
+        <TableBody>{rowsElem}</TableBody>
+      </Table>
+    </div>
   );
 };
 

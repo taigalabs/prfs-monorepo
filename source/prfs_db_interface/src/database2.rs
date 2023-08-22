@@ -1,7 +1,8 @@
 use crate::DbInterfaceError;
 use colored::Colorize;
 use log::LevelFilter;
-use sqlx::{
+use prfs_entities::sqlx::{
+    self,
     postgres::{PgConnectOptions, PgPoolOptions},
     ConnectOptions, Pool, Postgres,
 };

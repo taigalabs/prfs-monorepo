@@ -109,7 +109,7 @@ fn compile_circuits(circuit: &PrfsCircuit) {
             let circuit_src_path = PATHS.circuits.join(&instance_path);
             println!("circuit_src_path: {:?}", circuit_src_path);
 
-            let build_path = PATHS.build.join(&circuit.circuit_id);
+            let build_path = PATHS.build.join(&circuit.circuit_id.to_string());
             println!("circuit_build_path: {:?}", build_path);
 
             std::fs::create_dir_all(&build_path).unwrap();
@@ -148,6 +148,7 @@ fn create_build_json(circuit: &mut PrfsCircuit, timestamp: i64) {
 
     let naive = NaiveDateTime::from_timestamp_millis(timestamp).unwrap();
     let datetime: DateTime<Utc> = DateTime::from_utc(naive, Utc);
+
     circuit.created_at = datetime;
 
     let circuit_build_json = CircuitBuildJson {

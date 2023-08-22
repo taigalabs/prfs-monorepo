@@ -9,6 +9,7 @@ lazy_static! {
 #[derive(Debug)]
 pub struct Paths {
     pub curr_dir: PathBuf,
+    pub internals_ci_docker_postgres: PathBuf,
     pub e2e_test_web: PathBuf,
     pub prfs_circuit_circom: PathBuf,
     pub prfs_api_server: PathBuf,
@@ -29,6 +30,18 @@ pub struct Paths {
 impl Paths {
     pub fn new() -> Paths {
         let curr_dir = std::env::current_dir().unwrap();
+
+        {
+            let ci_file_path = curr_dir.join("ci");
+            if !ci_file_path.exists() {
+                panic!(
+                    "Wrong current dir, ci does not exist, path: {:?}",
+                    ci_file_path,
+                );
+            }
+        }
+
+        let internals_ci_docker_postgres = curr_dir.join("internals/ci/docker_postgres");
 
         let prfs_circuit_circom = curr_dir.join("source/prfs_circuit_circom");
 
@@ -54,6 +67,8 @@ impl Paths {
 
         let p = Paths {
             curr_dir,
+
+            internals_ci_docker_postgres,
 
             prfs_driver_type,
             prfs_driver_type_bindings,

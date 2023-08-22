@@ -3,17 +3,20 @@ use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use ts_rs::TS;
+use uuid::Uuid;
 
 #[derive(Debug, Serialize, Deserialize, TS)]
 #[ts(export)]
 pub struct PrfsProofType {
-    pub proof_type_id: String,
+    #[ts(type = "string")]
+    pub proof_type_id: Uuid,
 
     pub label: String,
     pub author: String,
     pub desc: String,
     pub expression: String,
     pub img_url: Option<String>,
+    pub img_caption: Option<String>,
 
     pub circuit_id: String,
     pub driver_id: String,

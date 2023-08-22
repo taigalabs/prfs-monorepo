@@ -17,6 +17,7 @@ import Card from "@/components/card/Card";
 import { FormSubtitle, FormTitle, FormTitleRow } from "@/components/form/Form";
 import FormTextInput from "@/components/form/FormTextInput";
 import StrikeThroughText from "@/components/strike_through_text/StrikeThroughText";
+import { paths } from "@/paths";
 
 const metamaskConfig = metamaskWallet();
 
@@ -62,7 +63,7 @@ const SignInForm: React.FC<SignInFormProps> = () => {
   }, [passcode, setPasshash]);
 
   const handleClickSignUp = React.useCallback(() => {
-    router.push("/signup");
+    router.push(paths.signup);
   }, [router]);
 
   const handleClickSignIn = React.useCallback(() => {
@@ -74,6 +75,10 @@ const SignInForm: React.FC<SignInFormProps> = () => {
       try {
         let resp = await signIn(walletAddr, passhash, signer);
 
+        if (!resp.payload.prfs_account) {
+          throw new Error("Invalid response. Does not contain prfs account");
+        }
+
         dispatch({
           type: "sign_in",
           payload: {
@@ -82,9 +87,7 @@ const SignInForm: React.FC<SignInFormProps> = () => {
           },
         });
 
-        // localStore.putPrfsAccount(resp.payload.prfs_account, walletAddr);
-
-        router.push("/");
+        router.push(paths.__);
       } catch (err) {
         console.log(err);
         setSignInAlert((err as string).toString());
@@ -119,7 +122,7 @@ const SignInForm: React.FC<SignInFormProps> = () => {
       <div>{signInAlert.length > 0 && <div className={styles.signInAlert}>{signInAlert}</div>}</div>
       <div className={styles.btnRow}>
         <div>
-          <Button variant="c" handleClick={handleClickSignIn}>
+          <Button variant="aqua_blue_1" handleClick={handleClickSignIn}>
             {i18n.sign_in}
           </Button>
         </div>

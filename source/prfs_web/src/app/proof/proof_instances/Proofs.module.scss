@@ -1,21 +1,10 @@
-.proofInstanceWidgetHeader {
+.header {
   display: flex;
   width: 100%;
   align-items: center;
   justify-content: space-between;
 }
 
-.btnArea {
-  display: flex;
-  align-items: center;
-}
-
-.tableWrapper {
-  padding: 0 18px;
-
-  thead {
-    tr {
-      border-top: none;
-    }
-  }
+.tableContainer {
+  padding-top: 24px;
 }

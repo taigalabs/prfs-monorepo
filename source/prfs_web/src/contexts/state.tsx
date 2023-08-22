@@ -6,7 +6,7 @@ import { Action } from "@/state/actions";
 import reducer, { AppState } from "@/state/reducer";
 
 const initialState: AppState = {
-  prfsAccount: undefined,
+  localPrfsAccount: undefined,
 };
 
 export const stateContext = React.createContext({

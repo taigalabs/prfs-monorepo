@@ -1,12 +1,9 @@
 use super::json::SetJson;
 use crate::{envs::ENVS, TreeMakerError};
 use colored::Colorize;
-use prfs_db_interface::{
-    database2::Database2,
-    db_apis,
-    sqlx::{Pool, Postgres, Transaction},
-};
+use prfs_db_interface::{database2::Database2, db_apis};
 use prfs_entities::entities::{PrfsSet, PrfsTreeNode};
+use prfs_entities::sqlx::{Pool, Postgres, Transaction};
 use rust_decimal::{prelude::FromPrimitive, Decimal};
 
 pub async fn create_leaves_without_offset(
@@ -15,7 +12,7 @@ pub async fn create_leaves_without_offset(
     set_json: &SetJson,
     prfs_set: &mut PrfsSet,
 ) -> Result<Vec<PrfsTreeNode>, TreeMakerError> {
-    let set_id = set_json.set.set_id.to_string();
+    let set_id = set_json.set.set_id;
     let set_insert_interval = ENVS.set_insert_interval;
     let where_clause = format!("{}", set_json.set.where_clause,);
 
@@ -52,7 +49,7 @@ pub async fn create_leaves_without_offset(
             pos_w: Decimal::from_u64(idx as u64).unwrap(),
             pos_h: 0,
             val: account.addr.to_string(),
-            set_id: set_id.to_string(),
+            set_id,
         };
 
         nodes.push(node);

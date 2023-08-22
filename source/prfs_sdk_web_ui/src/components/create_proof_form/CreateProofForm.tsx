@@ -17,7 +17,7 @@ import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import styles from "./CreateProofForm.module.scss";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
 import { i18nContext } from "@/contexts/i18n";
-import { delay, useInterval } from "@/functions/interval";
+import { delay } from "@/functions/interval";
 import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
 import SigDataInput from "@/components/sig_data_input/SigDataInput";
 import { createProof } from "@/functions/proof";

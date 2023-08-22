@@ -7,12 +7,13 @@ import Table, {
   TableRow,
   TableHeader,
   TableData,
-  TableRecordData,
+  TableSearch,
 } from "@taigalabs/prfs-react-components/src/table/Table";
+import dayjs from "dayjs";
 
 import styles from "./CircuitTypeTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 
 const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({
   selectType,
@@ -23,23 +24,31 @@ const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({
   const [data, setData] = React.useState<TableData<CircuitType>>({ page: 0, values: [] });
 
   const handleChangeProofPage = React.useCallback(async (page: number) => {
-    return prfsApi
-      .getPrfsNativeCircuitTypes({
+    try {
+      const { payload } = await prfsApi.getPrfsNativeCircuitTypes({
         page,
-      })
-      .then(resp => {
-        const { page, prfs_circuit_types } = resp.payload;
-        return {
-          page,
-          values: prfs_circuit_types,
-        };
       });
+
+      return {
+        page: payload.page,
+        values: payload.prfs_circuit_types,
+      };
+    } catch (err) {
+      throw err;
+    }
   }, []);
 
   React.useEffect(() => {
-    handleChangeProofPage(0).then(res => {
-      setData(res);
-    });
+    async function fn() {
+      try {
+        const res = await handleChangeProofPage(0);
+        setData(res);
+      } catch (err) {
+        console.log("error occurred, %o", err);
+      }
+    }
+
+    fn().then();
   }, [handleChangeProofPage, setData]);
 
   const rowsElem = React.useMemo(() => {
@@ -60,6 +69,8 @@ const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({
       const isSelected = selectedVal && selectedVal.circuit_type === val.circuit_type;
       const selType = selectType || "radio";
 
+      const createdAt = dayjs(val.created_at).format("YYYY-MM-DD");
+
       let row = (
         <TableRow key={val.circuit_type} onClickRow={onClickRow} isSelected={isSelected}>
           {selectedVal && (
@@ -74,7 +85,7 @@ const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({
           </td>
           <td className={styles.desc}>{val.desc}</td>
           <td className={styles.author}>{val.author}</td>
-          <td className={styles.createdAt}>{val.created_at}</td>
+          <td className={styles.createdAt}>{createdAt}</td>
         </TableRow>
       );
 
@@ -85,18 +96,23 @@ const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({
   }, [data]);
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          {handleSelectVal && <th className={styles.radio}></th>}
-          <th className={styles.circuit_type}>{i18n.circuit_type}</th>
-          <th className={styles.desc}>{i18n.description}</th>
-          <th className={styles.author}>{i18n.author}</th>
-          <th className={styles.createdAt}>{i18n.created_at}</th>
-        </TableRow>
-      </TableHeader>
-      <TableBody>{rowsElem}</TableBody>
-    </Table>
+    <div>
+      <TableSearch>
+        <input placeholder={i18n.circuit_type_search_guide} />
+      </TableSearch>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            {handleSelectVal && <th className={styles.radio}></th>}
+            <th className={styles.circuit_type}>{i18n.circuit_type}</th>
+            <th className={styles.desc}>{i18n.description}</th>
+            <th className={styles.author}>{i18n.author}</th>
+            <th className={styles.createdAt}>{i18n.created_at}</th>
+          </TableRow>
+        </TableHeader>
+        <TableBody>{rowsElem}</TableBody>
+      </Table>
+    </div>
   );
 };
 

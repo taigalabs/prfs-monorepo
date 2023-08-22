@@ -10,5 +10,8 @@ pub struct PrfsTreeNode {
 
     pub pos_h: i32,
     pub val: String,
-    pub set_id: String,
+
+    // pub set_id: String,
+    #[ts(type = "string")]
+    pub set_id: uuid::Uuid,
 }

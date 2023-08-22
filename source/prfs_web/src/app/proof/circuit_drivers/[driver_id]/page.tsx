@@ -6,6 +6,8 @@ import * as prfsApi from "@taigalabs/prfs-api-js";
 import { CircuitDriver } from "@taigalabs/prfs-entities/bindings/CircuitDriver";
 import { useRouter } from "next/navigation";
 import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
+import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import { DriverPropertyMeta } from "@taigalabs/prfs-entities/bindings/DriverPropertyMeta";
 
 import styles from "./Program.module.scss";
 import { stateContext } from "@/contexts/state";
@@ -19,9 +21,8 @@ import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb"
 import DriverSummary from "@/components/driver_summary/DriverSummary";
 import DriverPropsMetaTable from "@/components/driver_props_meta_table/DriverPropsMetaTable";
 import CircuitTypeList from "@/components/circuit_type_list/CircuitTypeList";
-import { DriverPropertyMeta } from "@taigalabs/prfs-entities/bindings/DriverPropertyMeta";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -56,18 +57,16 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
         <Card>
           <Widget>
             <TopWidgetTitle>
-              <div className={styles.driverHeader}>
-                <div className={styles.breadcrumbContainer}>
-                  <Breadcrumb>
-                    <BreadcrumbEntry>
-                      <Link href={paths.proof__circuit_drivers}>{i18n.drivers}</Link>
-                    </BreadcrumbEntry>
-                    <BreadcrumbEntry>{params.driver_id}</BreadcrumbEntry>
-                  </Breadcrumb>
+              <div className={styles.header}>
+                <div className={styles.navigation}>
+                  <Link href={paths.proof__circuit_drivers}>
+                    <ArrowButton variant="left" />
+                  </Link>
                 </div>
                 <WidgetLabel>{programSummaryLabel}</WidgetLabel>
               </div>
             </TopWidgetTitle>
+
             <PaddedSummaryWrapper>
               <DriverSummary driver={driver} />
             </PaddedSummaryWrapper>

@@ -1,10 +1,13 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { v4 as uuidv4 } from "uuid";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 
 import styles from "./CreateProofTypeForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -19,12 +22,8 @@ import Card from "@/components/card/Card";
 import FormTextInput from "@/components/form/FormTextInput";
 import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { stateContext } from "@/contexts/state";
-import { getYMD } from "@/functions/date";
-import { keccakHash } from "@/functions/hash";
-import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
-import CircuitInputConfigSection from "../circuit_input_config_section/CircuitInputConfigSection";
-import { paths } from "@/routes/path";
-import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import CircuitInputConfigSection from "@/components/circuit_input_config_section/CircuitInputConfigSection";
+import { paths } from "@/paths";
 import FormTextareaInput from "@/components/form/FormTextareaInput";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
@@ -34,12 +33,13 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const router = useRouter();
 
   const [circuitInputs, setCircuitInputs] = React.useState<Record<number, CircuitInput>>({});
-  const [formAlert, setFormAlert] = React.useState("");
   const [name, setName] = React.useState("");
-  const [imgUrl, setImgUrl] = React.useState("");
+  const [imgUrl, setImgUrl] = React.useState(null);
+  const [imgCaption, setImgCaption] = React.useState(null);
   const [desc, setDesc] = React.useState("");
   const [expression, setExpression] = React.useState("");
   const [selectedCircuit, setSelectedCircuit] = React.useState<PrfsCircuit | undefined>();
+  const [errMsg, setErrMsg] = React.useState("");
 
   const handleSelectCircuit = React.useCallback(
     (val: PrfsCircuit) => {
@@ -76,31 +76,43 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     [setImgUrl]
   );
 
-  const handleClickCreateProofType = React.useCallback(() => {
+  const handleChangeImgCaption = React.useCallback(
+    (ev: any) => {
+      setImgUrl(ev.target.value);
+    },
+    [setImgCaption]
+  );
+
+  const handleClickCreateProofType = React.useCallback(async () => {
     if (!localPrfsAccount) {
-      setFormAlert("User is not signed in");
+      setErrMsg("User is not signed in");
       return;
     }
 
     const { prfsAccount } = localPrfsAccount;
 
+    if (!prfsAccount) {
+      setErrMsg("Invalid local prfs account");
+      return null;
+    }
+
     if (name === undefined || name.length < 1) {
-      setFormAlert("Name should be defined");
+      setErrMsg("Name should be defined");
       return;
     }
 
     if (selectedCircuit === undefined) {
-      setFormAlert("Circuit should be selected");
+      setErrMsg("Circuit should be selected");
       return;
     }
 
     if (desc === undefined || desc.length < 1) {
-      setFormAlert("Description should be given");
+      setErrMsg("Description should be given");
       return;
     }
 
     if (expression === undefined || expression.length < 1) {
-      setFormAlert("Expression should be given");
+      setErrMsg("Expression should be given");
       return;
     }
 
@@ -111,7 +123,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       switch (input.ref) {
         case "PRFS_SET":
           if (!circuitInputs[idx]) {
-            setFormAlert(`public input is undefined, idx: ${idx}`);
+            setErrMsg(`public input is undefined, idx: ${idx}`);
             return;
           }
 
@@ -130,22 +142,16 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       }
     }
 
-    setFormAlert("");
+    setErrMsg("");
 
-    let { y, m, d } = getYMD();
-    let now = Date.now();
-    let hash = keccakHash(
-      `${selectedCircuit.circuit_id}_${selectedCircuit.driver_id}_${now}`
-    ).substring(2, 8);
-    const id = prfsAccount.sig.substring(2, 8);
-
-    let proof_type_id = `${id}_${y}${m}${d}_${hash}`;
+    let proof_type_id = uuidv4();
 
     let createPrfsProofTypeRequest = {
       proof_type_id,
       label: name,
       desc,
       img_url: imgUrl,
+      img_caption: imgCaption,
       expression,
       author: prfsAccount.sig,
       circuit_id: selectedCircuit.circuit_id,
@@ -154,15 +160,11 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       driver_properties: selectedCircuit.driver_properties,
     };
 
-    prfsApi
-      .createPrfsProofType(createPrfsProofTypeRequest)
-      .then(_res => {
-        router.push(paths.proof__proof_types);
-      })
-      .catch(err => {
-        setFormAlert(err);
-      });
-  }, [circuitInputs, selectedCircuit, name, setFormAlert, desc, localPrfsAccount]);
+    try {
+      await prfsApi.createPrfsProofType(createPrfsProofTypeRequest);
+      router.push(paths.proof__proof_types);
+    } catch (err: any) {}
+  }, [circuitInputs, selectedCircuit, name, setErrMsg, desc, localPrfsAccount]);
 
   return (
     <div className={styles.wrapper}>
@@ -196,6 +198,9 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
               <div className={styles.textInputContainer}>
                 <FormTextInput label={i18n.image_url} handleChange={handleChangeImgUrl} />
               </div>
+              <div className={styles.textInputContainer}>
+                <FormTextInput label={i18n.image_caption} handleChange={handleChangeImgCaption} />
+              </div>
             </WidgetPaddedBody>
           </Widget>
         </Card>
@@ -227,10 +232,12 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
         />
       )}
 
-      {formAlert.length > 0 && <div className={styles.alert}>{formAlert}</div>}
-
       <WidgetPaddedBody>
-        <Button variant="c" handleClick={handleClickCreateProofType}>
+        <div className={styles.errMsg} style={{ opacity: errMsg.length > 0 ? 1 : 0 }}>
+          {errMsg}
+        </div>
+
+        <Button variant="aqua_blue_1" handleClick={handleClickCreateProofType}>
           {i18n.create_proof_type}
         </Button>
       </WidgetPaddedBody>

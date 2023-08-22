@@ -9,6 +9,7 @@ import ColumnarSummary, {
   ColumnarSummaryCellHeader,
   ColumnarSummaryColumn,
 } from "@/components/columnal_summary/ColumnarSummary";
+import { paths } from "@/paths";
 
 const CircuitSummary: React.FC<CircuitSummaryProps> = ({ circuit }) => {
   const i18n = React.useContext(i18nContext);
@@ -55,7 +56,9 @@ const CircuitSummary: React.FC<CircuitSummaryProps> = ({ circuit }) => {
           <ColumnarSummaryCell>
             <ColumnarSummaryCellHeader>{i18n.driver_id}</ColumnarSummaryCellHeader>
             <div>
-              <Link href={`/drivers/${circuit.driver_id}`}>{circuit.driver_id}</Link>
+              <Link href={`${paths.proof__circuit_drivers}/${circuit.driver_id}`}>
+                {circuit.driver_id}
+              </Link>
             </div>
           </ColumnarSummaryCell>
           <ColumnarSummaryCell>

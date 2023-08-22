@@ -1,0 +1,20 @@
+.wrapper {
+  line-height: 16px;
+  padding: 8px 12px;
+  color: var(--gray-30);
+
+  li {
+    display: flex;
+    align-items: center;
+  }
+
+  li:not(:first-child) {
+    margin-top: 8px;
+  }
+
+  svg {
+    color: var(--gray-20);
+    font-size: 16px;
+    margin-right: 4px;
+  }
+}

@@ -1,8 +1,12 @@
 use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
 use chrono::{DateTime, NaiveDate, NaiveDateTime};
 use hyper::{body, Body, Request, Response};
-use prfs_db_interface::{db_apis, sqlx::types::Json};
-use prfs_entities::entities::{CircuitInput, PrfsProofInstance, PrfsProofType, PrfsSet};
+use prfs_db_interface::db_apis;
+use prfs_entities::sqlx;
+use prfs_entities::{
+    entities::{CircuitInput, PrfsProofInstance, PrfsProofType, PrfsSet},
+    syn_entities::PrfsProofInstanceSyn1,
+};
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, convert::Infallible, sync::Arc};
@@ -11,13 +15,13 @@ use std::{collections::HashMap, convert::Infallible, sync::Arc};
 struct GetPrfsProofInstancesRequest {
     page: u32,
     limit: Option<u32>,
-    id: Option<i64>,
+    proof_instance_id: Option<uuid::Uuid>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 struct GetPrfsProofInstancesRespPayload {
     page: u32,
-    prfs_proof_instances: Vec<PrfsProofInstance>,
+    prfs_proof_instances_syn1: Vec<PrfsProofInstanceSyn1>,
 }
 
 pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Body>, Infallible> {
@@ -35,20 +39,22 @@ pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Bod
 
     println!("req: {:?}", req);
 
-    match req.id {
-        Some(id) => {
-            let prfs_proof_instances = db_apis::get_prfs_proof_instance(pool, &id).await;
+    match req.proof_instance_id {
+        Some(proof_instance_id) => {
+            let prfs_proof_instances_syn1 =
+                db_apis::get_prfs_proof_instance_syn1(pool, &proof_instance_id).await;
             let resp = ApiResponse::new_success(GetPrfsProofInstancesRespPayload {
                 page: req.page,
-                prfs_proof_instances,
+                prfs_proof_instances_syn1,
             });
             return Ok(resp.into_hyper_response());
         }
         None => {
-            let prfs_proof_instances = db_apis::get_prfs_proof_instances(pool, req.limit).await;
+            let prfs_proof_instances_syn1 =
+                db_apis::get_prfs_proof_instances_syn1(pool, req.limit).await;
             let resp = ApiResponse::new_success(GetPrfsProofInstancesRespPayload {
                 page: req.page,
-                prfs_proof_instances,
+                prfs_proof_instances_syn1,
             });
             return Ok(resp.into_hyper_response());
         }
@@ -57,16 +63,16 @@ pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Bod
 
 #[derive(Serialize, Deserialize, Debug)]
 struct CreatePrfsProofInstanceRequest {
-    proof_instance_id: String,
+    proof_instance_id: uuid::Uuid,
     sig: String,
-    proof_type_id: String,
+    proof_type_id: uuid::Uuid,
     proof: Vec<u8>,
     public_inputs: sqlx::types::Json<serde_json::Value>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 struct CreatePrfsProofInstanceRespPayload {
-    id: i64,
+    proof_instance_id: uuid::Uuid,
 }
 
 pub async fn create_prfs_proof_instance(req: Request<Body>) -> Result<Response<Body>, Infallible> {
@@ -84,18 +90,19 @@ pub async fn create_prfs_proof_instance(req: Request<Body>) -> Result<Response<B
     // println!("req: {:?}", req);
 
     let prfs_proof_instance = PrfsProofInstance {
-        id: None,
-        proof_type_id: req.proof_type_id.to_string(),
+        proof_instance_id: req.proof_instance_id,
+        proof_type_id: req.proof_type_id,
         proof: req.proof.to_vec(),
         public_inputs: req.public_inputs.clone(),
         created_at: chrono::offset::Utc::now(),
     };
 
-    let id = db_apis::insert_prfs_proof_instances(&mut tx, &vec![prfs_proof_instance]).await;
+    let proof_instance_id =
+        db_apis::insert_prfs_proof_instances(&mut tx, &vec![prfs_proof_instance]).await;
 
     tx.commit().await.unwrap();
 
-    let resp = ApiResponse::new_success(CreatePrfsProofInstanceRespPayload { id });
+    let resp = ApiResponse::new_success(CreatePrfsProofInstanceRespPayload { proof_instance_id });
 
     return Ok(resp.into_hyper_response());
 }

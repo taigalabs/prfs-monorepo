@@ -10,7 +10,7 @@ import {
 import localStore from "@/storage/localStore";
 
 export interface LocalPrfsAccount {
-  prfsAccount: PrfsAccount;
+  prfsAccount: PrfsAccount | undefined;
   walletAddr: string;
 }
 

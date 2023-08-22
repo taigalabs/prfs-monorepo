@@ -1,11 +1,9 @@
 use super::json::SetJson;
 use crate::TreeMakerError;
 use colored::Colorize;
-use prfs_db_interface::{
-    db_apis,
-    sqlx::{Pool, Postgres, Transaction},
-};
+use prfs_db_interface::db_apis;
 use prfs_entities::entities::{PrfsSet, PrfsTreeNode};
+use prfs_entities::sqlx::{Pool, Postgres, Transaction};
 use rust_decimal::Decimal;
 use std::time::SystemTime;
 
@@ -18,7 +16,7 @@ pub async fn create_tree_nodes(
 ) -> Result<String, TreeMakerError> {
     let set_label = set_json.set.label.to_string();
     let depth = set_json.set.tree_depth as usize;
-    let set_id = set_json.set.set_id.to_string();
+    let set_id = set_json.set.set_id;
 
     println!(
         "{} tree nodes set label: {}, set_id: {}, depth: {}",
@@ -71,7 +69,8 @@ pub async fn create_tree_nodes(
                 pos_w: Decimal::from(idx),
                 pos_h: (d + 1) as i32,
                 val,
-                set_id: set_id.to_string(),
+                set_id,
+                // set_id2: uuid::Uuid::default(),
             };
 
             parent_nodes.push(n);

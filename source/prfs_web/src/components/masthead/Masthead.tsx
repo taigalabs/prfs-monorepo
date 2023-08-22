@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { FaSearch } from "react-icons/fa";
 import { usePathname } from "next/navigation";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -9,23 +10,27 @@ import Logo from "@/components/logo/Logo";
 import { stateContext } from "@/contexts/state";
 import PrfsAppsPopover from "./PrfsAppsPopover";
 import AccountPopover from "./AccountPopover";
+import useLocalWallet from "@/hooks/useLocalWallet";
 
 const ConnectButton = () => {
   const i18n = React.useContext(i18nContext);
 
   return (
-    <div className={styles.connectBtn}>
+    <Button variant="transparent_aqua_blue_1_light">
       <Link href="/signin">{i18n.connect}</Link>
-    </div>
+    </Button>
   );
 };
 
 const Masthead: React.FC<any> = () => {
   const i18n = React.useContext(i18nContext);
   const { state } = React.useContext(stateContext);
+  const { dispatch } = React.useContext(stateContext);
   const { localPrfsAccount } = state;
   const path = usePathname();
   const [appName, setAppName] = React.useState("");
+
+  useLocalWallet(dispatch);
 
   React.useEffect(() => {
     const pathSegments = path.split("/");

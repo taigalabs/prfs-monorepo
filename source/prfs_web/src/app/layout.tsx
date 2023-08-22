@@ -2,10 +2,6 @@
 
 import "@taigalabs/prfs-react-components/src/react_components.scss";
 import "./globals.scss";
-import { ThirdwebProvider } from "@thirdweb-dev/react";
-
-import { I18nProvider } from "@/contexts/i18n";
-import { StateProvider } from "@/contexts/state";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -19,13 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body suppressHydrationWarning={true}>
-        <ThirdwebProvider activeChain="ethereum">
-          <StateProvider>
-            <I18nProvider>{children}</I18nProvider>
-          </StateProvider>
-        </ThirdwebProvider>
-      </body>
+      <body suppressHydrationWarning={true}>{children}</body>
     </html>
   );
 }

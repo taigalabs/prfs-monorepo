@@ -1,5 +1,11 @@
-.setHeader {
+.header {
+  display: flex;
+  align-items: center;
   height: 100%;
+
+  a {
+    margin-right: 14px;
+  }
 }
 
 .breadcrumbContainer {

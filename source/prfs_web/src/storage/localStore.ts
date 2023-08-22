@@ -11,6 +11,13 @@ function getPrfsAccount(): LocalPrfsAccount | null {
     return null;
   }
 
+  if (prfsAccountSer === "undefined") {
+    console.error("invalid prfs account was stored, emptying...");
+    removePrfsAccount();
+
+    return null;
+  }
+
   let prfsAccount: PrfsAccount;
   try {
     prfsAccount = JSON.parse(prfsAccountSer);

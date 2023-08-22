@@ -6,13 +6,13 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-clap = { version = "4.3.11", features=["cargo"] }
+clap = { version = "4.3.23", features=["cargo"] }
 chrono = "0.4.26"
 colored = "2.0"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 lazy_static = "1.4"
-sqlx = { version = "0.7", features = [ "runtime-tokio", "postgres", "chrono", "rust_decimal", "json" ] }
+uuid = { version = "1.4.1", features = ["v4", "serde"] }
 
 circuit_reader = { path = "../../externals/circuit_reader" }
 prfs_driver_type = { path = "../prfs_driver_type" }

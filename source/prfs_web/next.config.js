@@ -21,12 +21,16 @@ const nextConfig = {
 
   webpack: (config, { isServer, dev }) => {
     config.resolve.fallback = { fs: false };
-    config.experiments = { ...config.experiments, asyncWebAssembly: true };
+    config.experiments = {
+      ...config.experiments,
+      asyncWebAssembly: true,
+    };
     config.output.webassemblyModuleFilename =
       isServer && !dev ? "../static/wasm/[modulehash].wasm" : "static/wasm/[modulehash].wasm";
 
     return config;
   },
+
   async headers() {
     return [
       {
@@ -44,8 +48,12 @@ const nextConfig = {
       },
     ];
   },
+
   eslint: {
     ignoreDuringBuilds: true,
+  },
+  experimental: {
+    logging: "verbose",
   },
 };
 

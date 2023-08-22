@@ -16,7 +16,7 @@ import styles from "./LeftBar.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import ActiveLink from "@/components/active_link/ActiveLink";
 import ProjectMeta from "../project_meta/ProjectMeta";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 
 const Leftbar: React.FC<any> = () => {
   const i18n = React.useContext(i18nContext);
@@ -51,7 +51,7 @@ const Leftbar: React.FC<any> = () => {
           <li className={styles.category}>{i18n.proofs}</li>
           <li>
             <ActiveLink href={paths.proof__proof_instances} activeClassName={styles.activeLink}>
-              <div className={cn(styles.button, styles.bold)}>
+              <div className={cn(styles.button)}>
                 <IoDocumentTextOutline />
                 <span>{i18n.proof_instances}</span>
               </div>
@@ -72,7 +72,7 @@ const Leftbar: React.FC<any> = () => {
           <li className={styles.category}>{i18n.circuits}</li>
           <li>
             <ActiveLink href={paths.proof__circuits} activeClassName={styles.activeLink}>
-              <div className={cn(styles.button, styles.bold)}>
+              <div className={cn(styles.button)}>
                 <PiCircuitry />
                 <span>{i18n.circuits}</span>
               </div>

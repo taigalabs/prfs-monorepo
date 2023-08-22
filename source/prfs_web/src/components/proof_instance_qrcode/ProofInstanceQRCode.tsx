@@ -2,17 +2,11 @@ import React from "react";
 import Link from "next/link";
 import QRCode from "qrcode";
 import { useRouter } from "next/navigation";
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import Table, {
-  TableBody,
-  TableHeader,
-  TableRecordData,
-  TableRow,
-} from "@taigalabs/prfs-react-components/src/table/Table";
+import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 
 import styles from "./ProofInstanceQRCode.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { PrfsProofInstance } from "@taigalabs/prfs-entities/bindings/PrfsProofInstance";
+import { paths } from "@/paths";
 
 const ProofInstanceQRCode: React.FC<ProofInstanceQRCodeProps> = ({ proofInstance }) => {
   const i18n = React.useContext(i18nContext);
@@ -20,10 +14,12 @@ const ProofInstanceQRCode: React.FC<ProofInstanceQRCodeProps> = ({ proofInstance
 
   React.useEffect(() => {
     async function fn() {
-      if (canvasRef.current) {
-        await QRCode.toCanvas(canvasRef.current, "I am a pony!", {
+      if (canvasRef.current && proofInstance) {
+        const url = `${process.env.NEXT_PUBLIC_PRFS_WEB_ENDPOINT}/${paths.proof__proof_instances}/${proofInstance.proof_instance_id}`;
+
+        await QRCode.toCanvas(canvasRef.current, url, {
           errorCorrectionLevel: "H",
-          width: 180,
+          width: 152,
         });
       }
     }
@@ -40,5 +36,5 @@ const ProofInstanceQRCode: React.FC<ProofInstanceQRCodeProps> = ({ proofInstance
 export default ProofInstanceQRCode;
 
 export interface ProofInstanceQRCodeProps {
-  proofInstance: PrfsProofInstance | undefined;
+  proofInstance: PrfsProofInstanceSyn1;
 }
