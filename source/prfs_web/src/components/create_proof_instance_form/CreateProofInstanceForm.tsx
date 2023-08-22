@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { ethers } from "ethers";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4, parse as parseUuid } from "uuid";
 import { useRouter } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
@@ -23,6 +23,7 @@ import { stateContext } from "@/contexts/state";
 import ProofTypeDropdown from "@/components/proof_type_dropdown/ProofTypeDropdown";
 import { paths } from "@/paths";
 import { ContentAreaRow } from "../content_area/ContentArea";
+import b62 from "@/functions/base62";
 
 const prfs = new PrfsSDK("test");
 
@@ -101,18 +102,21 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
       console.log("took %s ms to create a proof", duration);
 
-      let proof_instance_id = uuidv4();
+      const proof_instance_id = uuidv4();
+      const buf = parseUuid(proof_instance_id);
+      const shortId = b62.encode(buf);
 
-      console.log("try inserting proof", proveReceipt);
-      const resp = await prfsApi.createPrfsProofInstance({
-        proof_instance_id,
-        sig: prfsAccount.sig,
-        proof_type_id: selectedProofType.proof_type_id,
-        proof: Array.from(proof),
-        public_inputs,
-      });
+      console.log(55, shortId);
+      // console.log("try inserting proof", proveReceipt);
+      // const resp = await prfsApi.createPrfsProofInstance({
+      //   proof_instance_id,
+      //   sig: prfsAccount.sig,
+      //   proof_type_id: selectedProofType.proof_type_id,
+      //   proof: Array.from(proof),
+      //   public_inputs,
+      // });
 
-      router.push(`${paths.proof__proof_instances}/${resp.payload.proof_instance_id}`);
+      // router.push(`${paths.proof__proof_instances}/${resp.payload.proof_instance_id}`);
     }
   }, [selectedProofType, setFormAlert, localPrfsAccount, proofGenElement]);
 
