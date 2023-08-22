@@ -40,7 +40,7 @@ const ConnectWalletWidget: React.FC<ConnectWalletWidgetProps> = ({ handleConnect
         </div>
       </div>
       <div className={styles.connectBtnRow}>
-        <Button variant="a" handleClick={handleClickConnect}>
+        <Button variant="transparent_aqua_blue_1" handleClick={handleClickConnect}>
           {i18n.connect}
         </Button>
       </div>

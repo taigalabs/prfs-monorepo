@@ -109,7 +109,7 @@ const SignInForm: React.FC<SignInFormProps> = () => {
           <input type="password" onChange={handleChangePasscode} />
         </div>
         <div className={styles.hashBtnRow}>
-          <Button variant="a" handleClick={handleClickHash}>
+          <Button variant="transparent_aqua_blue_1" handleClick={handleClickHash}>
             {i18n.hash}
           </Button>
         </div>

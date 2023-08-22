@@ -5,32 +5,6 @@
   }
 }
 
-.a {
-  border-radius: 4px;
-  background-color: #cddfdf;
-  color: var(--blue-black-50);
-  font-weight: 500;
-  padding: 8px 12px;
-
-  &:hover {
-    background-color: #b9c8c8;
-    cursor: pointer;
-  }
-}
-
-.b {
-  border-radius: 4px;
-  background-color: var(--bright-green-50);
-  color: var(--blue-black-50);
-  font-weight: 700;
-  padding: 8px 12px;
-
-  &:hover {
-    background-color: var(--bright-green-30);
-    cursor: pointer;
-  }
-}
-
 .aqua_blue_1 {
   border-radius: 4px;
   background-color: #546dd3;
@@ -42,20 +16,6 @@
 
   &:hover {
     background-color: #445dc6;
-    cursor: pointer;
-  }
-}
-
-.transparent_a {
-  border: 1px solid gray;
-  border-radius: 1px;
-  color: var(--gray-30);
-  font-weight: 500;
-  padding: 8px 12px;
-
-  &:hover {
-    color: var(--black-20);
-    background-color: var(--bright-gray-40);
     cursor: pointer;
   }
 }
@@ -108,25 +68,6 @@
   &:hover {
     color: var(--aqua-blue-40);
     background-color: var(--bright-aqua-blue-60);
-    cursor: pointer;
-  }
-}
-
-.transparent_d {
-  border-radius: 3px;
-  color: var(--gray-20);
-  font-weight: 500;
-  padding: 10px 12px;
-  display: flex;
-  align-items: center;
-
-  svg {
-    margin-right: 0.25em;
-    font-size: 1.2em;
-  }
-
-  &:hover {
-    background-color: var(--bright-gray-40);
     cursor: pointer;
   }
 }
