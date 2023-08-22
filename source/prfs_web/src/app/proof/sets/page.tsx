@@ -15,7 +15,7 @@ import SetTable from "@/components/set_table/SetTable";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import { AiFillPlusCircle } from "react-icons/ai";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 
 const Sets: React.FC = () => {
   const i18n = React.useContext(i18nContext);

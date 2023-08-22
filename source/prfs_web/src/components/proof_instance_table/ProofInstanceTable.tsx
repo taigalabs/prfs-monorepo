@@ -18,7 +18,7 @@ import dayjs from "dayjs";
 
 import styles from "./ProofInstanceTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 
 const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
   selectType,

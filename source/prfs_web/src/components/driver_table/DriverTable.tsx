@@ -15,7 +15,7 @@ import Table, {
 
 import styles from "./DriverTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 
 const DriverTable: React.FC<DriverTableProps> = ({ selectType, selectedVal, handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);

@@ -9,7 +9,7 @@ import ColumnarSummary, {
   ColumnarSummaryCellHeader,
   ColumnarSummaryColumn,
 } from "@/components/columnal_summary/ColumnarSummary";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 
 const CircuitSummary: React.FC<CircuitSummaryProps> = ({ circuit }) => {
   const i18n = React.useContext(i18nContext);

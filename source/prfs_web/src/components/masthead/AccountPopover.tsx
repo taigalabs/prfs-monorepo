@@ -9,7 +9,7 @@ import localStore from "@/storage/localStore";
 import { i18nContext } from "@/contexts/i18n";
 import { stateContext } from "@/contexts/state";
 import { LocalPrfsAccount } from "@/state/reducer";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
 
 const AccountModal: React.FC<AccountModalProps> = ({ localPrfsAccount }) => {

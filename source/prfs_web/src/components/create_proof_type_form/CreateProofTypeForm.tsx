@@ -23,7 +23,7 @@ import FormTextInput from "@/components/form/FormTextInput";
 import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { stateContext } from "@/contexts/state";
 import CircuitInputConfigSection from "@/components/circuit_input_config_section/CircuitInputConfigSection";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 import FormTextareaInput from "@/components/form/FormTextareaInput";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {

@@ -14,7 +14,7 @@ import dayjs from "dayjs";
 
 import styles from "./CircuitTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 
 const CircuitTable: React.FC<CircuitTableProps> = ({
   selectType,

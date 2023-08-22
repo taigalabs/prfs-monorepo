@@ -18,7 +18,7 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 import CircuitSummary from "@/components/circuit_summary/CircuitSummary";
 import DriverPropInstanceTable from "@/components/driver_prop_instance_table/DriverPropInstanceTable";
 import RawCircuitInputMetaTable from "@/components/raw_circuit_input_meta_table/RawCircuitInputMetaTable";

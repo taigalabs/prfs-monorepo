@@ -13,7 +13,7 @@ import dayjs from "dayjs";
 
 import styles from "./CircuitTypeTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 
 const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({
   selectType,

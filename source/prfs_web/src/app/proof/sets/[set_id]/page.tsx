@@ -22,7 +22,7 @@ import CardRow from "@/components/card_row/CardRow";
 import SetElementTable from "@/components/set_element_table/SetElementTable";
 import SetSummary from "@/components/set_summary/SetSummary";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 
 const Set: React.FC<SetProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);

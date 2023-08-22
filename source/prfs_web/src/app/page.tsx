@@ -16,7 +16,7 @@ import CircuitTable from "@/components/circuit_table/CircuitTable";
 import ExploreTechSection from "@/components/explore_tech_section/ExploreTechSection";
 import LatestPrfsUpdateSection from "@/components/latest_prfs_update_section/LatestPrfsUpdateSection";
 import ProjectMeta from "@/components/project_meta/ProjectMeta";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 
 const Home: React.FC = () => {
   const i18n = React.useContext(i18nContext);

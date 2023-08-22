@@ -15,7 +15,7 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import DriverTable from "@/components/driver_table/DriverTable";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 
 const Programs: React.FC = () => {
   let i18n = React.useContext(i18nContext);

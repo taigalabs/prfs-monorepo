@@ -16,7 +16,7 @@ import Card from "@/components/card/Card";
 import { FormTitle, FormTitleRow } from "@/components/form/Form";
 import FormTextInput from "@/components/form/FormTextInput";
 import StrikeThroughText from "@/components/strike_through_text/StrikeThroughText";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 
 const metamaskConfig = metamaskWallet();
 

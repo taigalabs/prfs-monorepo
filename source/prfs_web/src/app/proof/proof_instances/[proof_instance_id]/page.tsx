@@ -23,7 +23,8 @@ import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import ProofInstanceDetailTable from "@/components/proof_instance_detail_table/ProofInstanceDetailTable";
 import ProofInstanceQRCode from "@/components/proof_instance_qrcode/ProofInstanceQRCode";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
+import ProofImage from "@/components/proof_image/ProofImage";
 
 const PublicInputsView: React.FC<PublicInputsViewProps> = ({ publicInputs }) => {
   let i18n = React.useContext(i18nContext);
@@ -114,11 +115,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
 
               <div className={styles.singleValueRow}>
                 <div className={styles.summary}>
-                  {proofInstance.img_url.length > 0 && (
-                    <div className={styles.image}>
-                      <img crossOrigin="anonymous" alt="Proof image" src={proofInstance.img_url} />
-                    </div>
-                  )}
+                  {proofInstance.img_url.length > 0 && <ProofImage src={proofInstance.img_url} />}
                   <p>{proofInstance.expression}</p>
                 </div>
               </div>

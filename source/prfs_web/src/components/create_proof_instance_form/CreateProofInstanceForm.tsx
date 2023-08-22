@@ -23,7 +23,7 @@ import CardRow from "@/components/card_row/CardRow";
 import Card from "@/components/card/Card";
 import { stateContext } from "@/contexts/state";
 import ProofTypeDropdown from "@/components/proof_type_dropdown/ProofTypeDropdown";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 
 const prfs = new PrfsSDK("test");
 

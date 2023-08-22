@@ -19,7 +19,7 @@ import CircuitInputTable from "@/components/circuit_input_table/CircuitInputTabl
 import ProofTypeSummary from "@/components/proof_type_summary/ProofTypeSummary";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);

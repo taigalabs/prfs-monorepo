@@ -17,7 +17,7 @@ import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import ProofTypeTable from "@/components/proof_type_table/ProofTypeTable";
 import CreateProofTypeForm from "@/components/create_proof_type_form/CreateProofTypeForm";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 
 const Proofs: React.FC = () => {
   let i18n = React.useContext(i18nContext);

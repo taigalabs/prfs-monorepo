@@ -6,7 +6,7 @@ import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsPro
 
 import styles from "./ProofInstanceQRCode.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 
 const ProofInstanceQRCode: React.FC<ProofInstanceQRCodeProps> = ({ proofInstance }) => {
   const i18n = React.useContext(i18nContext);

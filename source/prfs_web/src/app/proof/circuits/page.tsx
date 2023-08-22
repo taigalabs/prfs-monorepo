@@ -16,7 +16,7 @@ import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import CircuitTable from "@/components/circuit_table/CircuitTable";
 import Link from "next/link";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 
 const Circuits: React.FC = () => {
   let i18n = React.useContext(i18nContext);
