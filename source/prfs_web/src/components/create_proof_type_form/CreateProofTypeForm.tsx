@@ -35,7 +35,8 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const [circuitInputs, setCircuitInputs] = React.useState<Record<number, CircuitInput>>({});
   const [formAlert, setFormAlert] = React.useState("");
   const [name, setName] = React.useState("");
-  const [imgUrl, setImgUrl] = React.useState("");
+  const [imgUrl, setImgUrl] = React.useState(null);
+  const [imgCaption, setImgCaption] = React.useState(null);
   const [desc, setDesc] = React.useState("");
   const [expression, setExpression] = React.useState("");
   const [selectedCircuit, setSelectedCircuit] = React.useState<PrfsCircuit | undefined>();
@@ -73,6 +74,13 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       setImgUrl(ev.target.value);
     },
     [setImgUrl]
+  );
+
+  const handleChangeImgCaption = React.useCallback(
+    (ev: any) => {
+      setImgUrl(ev.target.value);
+    },
+    [setImgCaption]
   );
 
   const handleClickCreateProofType = React.useCallback(() => {
@@ -143,6 +151,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       label: name,
       desc,
       img_url: imgUrl,
+      img_caption: imgCaption,
       expression,
       author: prfsAccount.sig,
       circuit_id: selectedCircuit.circuit_id,
@@ -193,6 +202,9 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
               <div className={styles.textInputContainer}>
                 <FormTextInput label={i18n.image_url} handleChange={handleChangeImgUrl} />
               </div>
+              <div className={styles.textInputContainer}>
+                <FormTextInput label={i18n.image_caption} handleChange={handleChangeImgCaption} />
+              </div>
             </WidgetPaddedBody>
           </Widget>
         </Card>
@@ -227,7 +239,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       {formAlert.length > 0 && <div className={styles.alert}>{formAlert}</div>}
 
       <WidgetPaddedBody>
-        <Button variant="c" handleClick={handleClickCreateProofType}>
+        <Button variant="aqua_blue_1" handleClick={handleClickCreateProofType}>
           {i18n.create_proof_type}
         </Button>
       </WidgetPaddedBody>

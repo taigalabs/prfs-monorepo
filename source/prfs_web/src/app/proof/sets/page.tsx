@@ -31,7 +31,7 @@ const Sets: React.FC = () => {
             <TopWidgetTitle>
               <div className={styles.titleInner}>
                 <WidgetLabel>{i18n.sets}</WidgetLabel>
-                <Button variant="transparent_c" disabled>
+                <Button variant="transparent_aqua_blue_1" disabled>
                   <Link href={`${paths.proof__sets}?create`}>
                     <AiFillPlusCircle />
                     <span>{i18n.create_set.toUpperCase()}</span>

@@ -164,12 +164,12 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
       {signUpAlert.length > 0 && <div className={styles.signUpAlert}>{signUpAlert}</div>}
       <div className={styles.btnRow}>
         <div>
-          <Button variant="c" handleClick={handleClickSignUp}>
+          <Button variant="aqua_blue_1" handleClick={handleClickSignUp}>
             {i18n.sign_up}
           </Button>
         </div>
         <div>
-          <Button variant="text_c" handleClick={handleClickSignIn}>
+          <Button variant="text_aqua_blue_1" handleClick={handleClickSignIn}>
             {i18n.sign_in_to_existing}
           </Button>
         </div>

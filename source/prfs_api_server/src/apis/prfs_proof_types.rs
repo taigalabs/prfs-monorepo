@@ -68,6 +68,7 @@ struct CreatePrfsProofTypesRequest {
     driver_id: String,
     expression: String,
     img_url: Option<String>,
+    img_caption: Option<String>,
     circuit_inputs: HashMap<u32, CircuitInput>,
     driver_properties: HashMap<String, String>,
 }
@@ -98,6 +99,7 @@ pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
         desc: req.desc.to_string(),
         expression: req.expression.to_string(),
         img_url: req.img_url,
+        img_caption: req.img_caption,
 
         circuit_id: req.circuit_id.to_string(),
         driver_id: req.driver_id.to_string(),

@@ -20,7 +20,7 @@ import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb"
 import CircuitTypeSummary from "@/components/circuit_type_summary/CircuitTypeSummary";
 import CircuitInputsMetaTable from "@/components/circuit_inputs_meta_table/CircuitInputsMetaTable";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
-import { paths } from "@/routes/path";
+import { paths } from "@/paths";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 
 const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {

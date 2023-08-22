@@ -6,6 +6,8 @@ import * as prfsApi from "@taigalabs/prfs-api-js";
 import { CircuitDriver } from "@taigalabs/prfs-entities/bindings/CircuitDriver";
 import { useRouter } from "next/navigation";
 import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
+import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import { DriverPropertyMeta } from "@taigalabs/prfs-entities/bindings/DriverPropertyMeta";
 
 import styles from "./Program.module.scss";
 import { stateContext } from "@/contexts/state";
@@ -19,10 +21,8 @@ import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb"
 import DriverSummary from "@/components/driver_summary/DriverSummary";
 import DriverPropsMetaTable from "@/components/driver_props_meta_table/DriverPropsMetaTable";
 import CircuitTypeList from "@/components/circuit_type_list/CircuitTypeList";
-import { DriverPropertyMeta } from "@taigalabs/prfs-entities/bindings/DriverPropertyMeta";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
-import { paths } from "@/routes/path";
-import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import { paths } from "@/paths";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);

@@ -122,7 +122,7 @@ const SignInForm: React.FC<SignInFormProps> = () => {
       <div>{signInAlert.length > 0 && <div className={styles.signInAlert}>{signInAlert}</div>}</div>
       <div className={styles.btnRow}>
         <div>
-          <Button variant="c" handleClick={handleClickSignIn}>
+          <Button variant="aqua_blue_1" handleClick={handleClickSignIn}>
             {i18n.sign_in}
           </Button>
         </div>

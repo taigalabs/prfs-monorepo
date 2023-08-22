@@ -158,7 +158,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
                 <WidgetPaddedBody>
                   <div id="prfs-sdk-container"></div>
                   <div className={styles.btnRow}>
-                    <Button variant="c" handleClick={handleClickCreateProofInstance}>
+                    <Button variant="aqua_blue_1" handleClick={handleClickCreateProofInstance}>
                       {i18n.create_proof_instance}
                     </Button>
                   </div>

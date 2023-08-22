@@ -13,6 +13,7 @@ export interface CreatePrfsProofTypeRequest {
   circuit_inputs: Record<string, CircuitInput>;
   expression: string;
   img_url: string | null;
+  img_caption: string | null;
   driver_id: string;
   driver_properties: Record<string, any>;
 }

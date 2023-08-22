@@ -16,6 +16,7 @@ export default {
   description: "Description",
   expression: "Expression",
   image_url: "Image url",
+  image_caption: "Image caption",
   created_at: "Created at",
   proof_description: "Proof description",
   logo_label: "Prfs",

@@ -46,7 +46,7 @@ const Proofs: React.FC = () => {
               <TopWidgetTitle>
                 <div className={styles.header}>
                   <WidgetLabel>{i18n.proof_instances}</WidgetLabel>
-                  <Button variant="transparent_c">
+                  <Button variant="transparent_aqua_blue_1">
                     <Link href={`${paths.proof__proof_instances}?create`}>
                       <HiMiniDocumentPlus />
                       {i18n.create_proof_instance.toUpperCase()}

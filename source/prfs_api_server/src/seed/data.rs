@@ -15,6 +15,7 @@ pub fn get_prfs_proof_types() -> Vec<PrfsProofType> {
         desc: String::from(""),
         circuit_id: String::from(""),
         driver_id: String::from(""),
+        img_caption: Some(String::from("")),
         img_url: Some(String::from("")),
         expression: String::from(""),
         circuit_inputs: Json::from(HashMap::new()),

@@ -32,7 +32,7 @@ const Circuits: React.FC = () => {
             <TopWidgetTitle>
               <div className={styles.titleInner}>
                 <WidgetLabel>{i18n.circuits}</WidgetLabel>
-                <Button variant="transparent_c" disabled>
+                <Button variant="transparent_aqua_blue_1" disabled>
                   <Link href={`${paths.proof__circuits}?create`}>
                     <AiFillPlusCircle />
                     {i18n.create_circuit.toUpperCase()}

@@ -21,6 +21,7 @@ pub async fn get_prfs_proof_type(
             proof_type_id: row.get("proof_type_id"),
             expression: row.get("expression"),
             img_url: row.get("img_url"),
+            img_caption: row.get("img_caption"),
             label: row.get("label"),
             author: row.get("author"),
             desc: row.get("desc"),
@@ -47,6 +48,7 @@ pub async fn get_prfs_proof_types(pool: &Pool<Postgres>) -> Vec<PrfsProofType> {
             label: row.get("label"),
             expression: row.get("expression"),
             img_url: row.get("img_url"),
+            img_caption: row.get("img_caption"),
             author: row.get("author"),
             desc: row.get("desc"),
             circuit_id: row.get("circuit_id"),
@@ -65,9 +67,9 @@ pub async fn insert_prfs_proof_types(
     proof_types: &Vec<PrfsProofType>,
 ) -> i64 {
     let query = "INSERT INTO prfs_proof_types \
-            (proof_type_id, author, label, \"desc\", circuit_id, circuit_inputs,\
-            driver_id, driver_properties, expression, img_url) \
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) returning id";
+(proof_type_id, author, label, \"desc\", circuit_id, circuit_inputs,\
+driver_id, driver_properties, expression, img_url, img_caption) \
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) returning id";
 
     let proof_type = proof_types.get(0).unwrap();
 
@@ -82,6 +84,7 @@ pub async fn insert_prfs_proof_types(
         .bind(&proof_type.driver_properties)
         .bind(&proof_type.expression)
         .bind(&proof_type.img_url)
+        .bind(&proof_type.img_caption)
         .fetch_one(&mut **tx)
         .await
         .unwrap();

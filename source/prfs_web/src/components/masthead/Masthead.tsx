@@ -16,7 +16,7 @@ const ConnectButton = () => {
   const i18n = React.useContext(i18nContext);
 
   return (
-    <Button variant="transparent_c_light">
+    <Button variant="transparent_aqua_blue_1_light">
       <Link href="/signin">{i18n.connect}</Link>
     </Button>
   );
