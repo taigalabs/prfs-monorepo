@@ -38,6 +38,14 @@
   font-size: 19px;
   display: flex;
   align-items: center;
+
+  img {
+    border-radius: 20px;
+  }
+}
+
+.expression {
+  margin-left: 23px;
 }
 
 .proofInstanceDetailTableContainer {

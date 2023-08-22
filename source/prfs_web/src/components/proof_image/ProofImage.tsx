@@ -1,6 +1,7 @@
 import React from "react";
 
 import styles from "./ProofImage.module.scss";
+import ProofImagePlaceHolder from "@/static/svgs/proof_img_placeholder_1.svg";
 
 const ProofImage: React.FC<ProofImageProps> = ({ src }) => {
   return (
@@ -9,7 +10,8 @@ const ProofImage: React.FC<ProofImageProps> = ({ src }) => {
         crossOrigin="anonymous"
         alt="Proof image"
         src={src}
-        onError={() => {
+        onError={ev => {
+          ev.currentTarget.src = ProofImagePlaceHolder.src;
           console.log(5555);
         }}
       />

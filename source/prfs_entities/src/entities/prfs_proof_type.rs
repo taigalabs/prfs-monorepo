@@ -16,6 +16,7 @@ pub struct PrfsProofType {
     pub desc: String,
     pub expression: String,
     pub img_url: Option<String>,
+    pub img_caption: Option<String>,
 
     pub circuit_id: String,
     pub driver_id: String,

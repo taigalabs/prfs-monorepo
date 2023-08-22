@@ -115,8 +115,8 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
 
               <div className={styles.singleValueRow}>
                 <div className={styles.summary}>
-                  {proofInstance.img_url.length > 0 && <ProofImage src={proofInstance.img_url} />}
-                  <p>{proofInstance.expression}</p>
+                  <ProofImage src={proofInstance.img_url} />
+                  <div className={styles.expression}>{proofInstance.expression}</div>
                 </div>
               </div>
 
