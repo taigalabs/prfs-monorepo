@@ -17,7 +17,6 @@ import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
-import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import SetElementTable from "@/components/set_element_table/SetElementTable";
 import SetSummary from "@/components/set_summary/SetSummary";
@@ -56,36 +55,32 @@ const Set: React.FC<SetProps> = ({ params }) => {
   return (
     <DefaultLayout>
       <CardRow>
-        <Card>
-          <Widget>
-            <TopWidgetTitle>
-              <div className={styles.header}>
-                <Link href={paths.proof__sets}>
-                  <ArrowButton variant="left" />
-                </Link>
-                <WidgetLabel>{setTableLabel}</WidgetLabel>
-              </div>
-            </TopWidgetTitle>
+        <Widget>
+          <TopWidgetTitle>
+            <div className={styles.header}>
+              <Link href={paths.proof__sets}>
+                <ArrowButton variant="left" />
+              </Link>
+              <WidgetLabel>{setTableLabel}</WidgetLabel>
+            </div>
+          </TopWidgetTitle>
 
-            <PaddedSummaryWrapper>
-              <SetSummary set={set} />
-            </PaddedSummaryWrapper>
-          </Widget>
-        </Card>
+          <PaddedSummaryWrapper>
+            <SetSummary set={set} />
+          </PaddedSummaryWrapper>
+        </Widget>
       </CardRow>
 
       <CardRow>
-        <Card>
-          <Widget>
-            <WidgetHeader>
-              <WidgetLabel>{i18n.elements}</WidgetLabel>
-            </WidgetHeader>
-            <PaddedTableWrapper>
-              <TableCurrentPageLimitWarning />
-              <SetElementTable setId={params.set_id} />
-            </PaddedTableWrapper>
-          </Widget>
-        </Card>
+        <Widget>
+          <WidgetHeader>
+            <WidgetLabel>{i18n.elements}</WidgetLabel>
+          </WidgetHeader>
+          <PaddedTableWrapper>
+            <TableCurrentPageLimitWarning />
+            <SetElementTable setId={params.set_id} />
+          </PaddedTableWrapper>
+        </Widget>
       </CardRow>
     </DefaultLayout>
   );

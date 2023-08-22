@@ -12,7 +12,6 @@ import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
-import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import CircuitTypeTable from "@/components/circuit_type_table/CircuitTypeTable";
 import { paths } from "@/paths";
@@ -26,26 +25,24 @@ const CircuitTypes: React.FC = () => {
   return (
     <DefaultLayout>
       <CardRow>
-        <Card>
-          <Widget>
-            <TopWidgetTitle>
-              <div className={styles.titleInner}>
-                <WidgetLabel>{i18n.circuit_types}</WidgetLabel>
-                <Button variant="transparent_aqua_blue_1" disabled>
-                  <Link href={`${paths.proof__circuit_types}?create`}>
-                    <AiFillPlusCircle />
-                    {i18n.create_circuit_type.toUpperCase()}
-                  </Link>
-                </Button>
-              </div>
-            </TopWidgetTitle>
-            <PaddedTableWrapper>
-              <div className={styles.tableContainer}>
-                <CircuitTypeTable />
-              </div>
-            </PaddedTableWrapper>
-          </Widget>
-        </Card>
+        <Widget>
+          <TopWidgetTitle>
+            <div className={styles.titleInner}>
+              <WidgetLabel>{i18n.circuit_types}</WidgetLabel>
+              <Button variant="transparent_aqua_blue_1" disabled>
+                <Link href={`${paths.proof__circuit_types}?create`}>
+                  <AiFillPlusCircle />
+                  {i18n.create_circuit_type.toUpperCase()}
+                </Link>
+              </Button>
+            </div>
+          </TopWidgetTitle>
+          <PaddedTableWrapper>
+            <div className={styles.tableContainer}>
+              <CircuitTypeTable />
+            </div>
+          </PaddedTableWrapper>
+        </Widget>
       </CardRow>
     </DefaultLayout>
   );

@@ -9,7 +9,6 @@ import styles from "./CircuitInputConfigSection.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
 import CardRow from "@/components/card_row/CardRow";
-import Card from "@/components/card/Card";
 import SetDropdown from "@/components/set_dropdown/SetDropdown";
 
 const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
@@ -86,16 +85,14 @@ const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
 
   return (
     <CardRow>
-      <Card>
-        <Widget>
-          <WidgetHeader>
-            <WidgetLabel>{i18n.configure_circuit_inputs}</WidgetLabel>
-          </WidgetHeader>
-          <WidgetPaddedBody>
-            <div>{circuitInputEntries}</div>
-          </WidgetPaddedBody>
-        </Widget>
-      </Card>
+      <Widget>
+        <WidgetHeader>
+          <WidgetLabel>{i18n.configure_circuit_inputs}</WidgetLabel>
+        </WidgetHeader>
+        <WidgetPaddedBody>
+          <div>{circuitInputEntries}</div>
+        </WidgetPaddedBody>
+      </Widget>
     </CardRow>
   );
 };

@@ -7,14 +7,15 @@ import {
   useInteractions,
   useDismiss,
   flip,
+  Placement,
 } from "@floating-ui/react";
 
 import styles from "./Popover.module.scss";
 
-function Popover({ createPopover, createBase, offset, popoverClassName }: PopoverProps) {
+function Popover({ placement, createPopover, createBase, offset, popoverClassName }: PopoverProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, floatingStyles, context } = useFloating({
-    placement: "bottom-end",
+    placement: placement ? placement : "bottom-start",
     open: isOpen,
     onOpenChange: setIsOpen,
     middleware: [flip(), offset_fn(offset ? offset : 3)],
@@ -57,4 +58,5 @@ export interface PopoverProps {
   offset?: number;
   createPopover: (setIsOpen: React.Dispatch<React.SetStateAction<any>>) => React.ReactNode;
   popoverClassName?: string;
+  placement?: Placement;
 }

@@ -15,9 +15,7 @@ import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
-import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
-import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import { paths } from "@/paths";
 import CircuitSummary from "@/components/circuit_summary/CircuitSummary";
 import DriverPropInstanceTable from "@/components/driver_prop_instance_table/DriverPropInstanceTable";
@@ -57,71 +55,63 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
   return (
     <DefaultLayout>
       <CardRow>
-        <Card>
-          <Widget>
-            <TopWidgetTitle>
-              <div className={styles.header}>
-                <Link href={paths.proof__circuits}>
-                  <ArrowButton variant="left" />
-                </Link>
-                <WidgetLabel>{topWidgetLabel}</WidgetLabel>
-              </div>
-            </TopWidgetTitle>
+        <Widget>
+          <TopWidgetTitle>
+            <div className={styles.header}>
+              <Link href={paths.proof__circuits}>
+                <ArrowButton variant="left" />
+              </Link>
+              <WidgetLabel>{topWidgetLabel}</WidgetLabel>
+            </div>
+          </TopWidgetTitle>
 
-            <PaddedSummaryWrapper>
-              <CircuitSummary circuit={circuit} />
-            </PaddedSummaryWrapper>
-          </Widget>
-        </Card>
+          <PaddedSummaryWrapper>
+            <CircuitSummary circuit={circuit} />
+          </PaddedSummaryWrapper>
+        </Widget>
       </CardRow>
 
       {circuit && (
         <CardRow>
-          <Card>
-            <Widget>
-              <WidgetHeader>
-                <WidgetLabel>
-                  {i18n.driver_properties} ({circuit.driver_id})
-                </WidgetLabel>
-              </WidgetHeader>
-              <PaddedTableWrapper>
-                <DriverPropInstanceTable driver_properties={circuit.driver_properties} />
-              </PaddedTableWrapper>
-            </Widget>
-          </Card>
+          <Widget>
+            <WidgetHeader>
+              <WidgetLabel>
+                {i18n.driver_properties} ({circuit.driver_id})
+              </WidgetLabel>
+            </WidgetHeader>
+            <PaddedTableWrapper>
+              <DriverPropInstanceTable driver_properties={circuit.driver_properties} />
+            </PaddedTableWrapper>
+          </Widget>
         </CardRow>
       )}
       {circuit && (
         <CardRow>
-          <Card>
-            <Widget>
-              <WidgetHeader>
-                <WidgetLabel>{i18n.circuit_inputs}</WidgetLabel>
-              </WidgetHeader>
-              <PaddedTableWrapper>
-                <CircuitInputMetaTable
-                  circuit_inputs_meta={circuit.circuit_inputs_meta as CircuitInputMeta[]}
-                />
-              </PaddedTableWrapper>
-            </Widget>
-          </Card>
+          <Widget>
+            <WidgetHeader>
+              <WidgetLabel>{i18n.circuit_inputs}</WidgetLabel>
+            </WidgetHeader>
+            <PaddedTableWrapper>
+              <CircuitInputMetaTable
+                circuit_inputs_meta={circuit.circuit_inputs_meta as CircuitInputMeta[]}
+              />
+            </PaddedTableWrapper>
+          </Widget>
         </CardRow>
       )}
 
       {circuit && (
         <CardRow>
-          <Card>
-            <Widget>
-              <WidgetHeader>
-                <WidgetLabel>{i18n.raw_circuit_inputs}</WidgetLabel>
-              </WidgetHeader>
-              <PaddedTableWrapper>
-                <RawCircuitInputMetaTable
-                  raw_circuit_inputs_meta={circuit.raw_circuit_inputs_meta as RawCircuitInputMeta[]}
-                />
-              </PaddedTableWrapper>
-            </Widget>
-          </Card>
+          <Widget>
+            <WidgetHeader>
+              <WidgetLabel>{i18n.raw_circuit_inputs}</WidgetLabel>
+            </WidgetHeader>
+            <PaddedTableWrapper>
+              <RawCircuitInputMetaTable
+                raw_circuit_inputs_meta={circuit.raw_circuit_inputs_meta as RawCircuitInputMeta[]}
+              />
+            </PaddedTableWrapper>
+          </Widget>
         </CardRow>
       )}
     </DefaultLayout>

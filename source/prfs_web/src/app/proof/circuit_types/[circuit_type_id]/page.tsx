@@ -14,9 +14,7 @@ import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
-import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
-import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import CircuitTypeSummary from "@/components/circuit_type_summary/CircuitTypeSummary";
 import CircuitInputsMetaTable from "@/components/circuit_inputs_meta_table/CircuitInputsMetaTable";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
@@ -53,42 +51,38 @@ const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {
   return (
     <DefaultLayout>
       <CardRow>
-        <Card>
-          <Widget>
-            <TopWidgetTitle>
-              <div className={styles.header}>
-                <div className={styles.navigation}>
-                  <Link href={paths.proof__circuit_types}>
-                    <ArrowButton variant="left" />
-                  </Link>
-                </div>
-                <WidgetLabel>{topWidgetLabel}</WidgetLabel>
+        <Widget>
+          <TopWidgetTitle>
+            <div className={styles.header}>
+              <div className={styles.navigation}>
+                <Link href={paths.proof__circuit_types}>
+                  <ArrowButton variant="left" />
+                </Link>
               </div>
-            </TopWidgetTitle>
+              <WidgetLabel>{topWidgetLabel}</WidgetLabel>
+            </div>
+          </TopWidgetTitle>
 
-            <PaddedSummaryWrapper>
-              <CircuitTypeSummary circuitType={circuitType} />
-            </PaddedSummaryWrapper>
-          </Widget>
-        </Card>
+          <PaddedSummaryWrapper>
+            <CircuitTypeSummary circuitType={circuitType} />
+          </PaddedSummaryWrapper>
+        </Widget>
       </CardRow>
 
       {circuitType && (
         <CardRow>
-          <Card>
-            <Widget>
-              <WidgetHeader>
-                <WidgetLabel>
-                  {i18n.driver_inputs_meta} ({circuitType.circuit_type})
-                </WidgetLabel>
-              </WidgetHeader>
-              <PaddedTableWrapper>
-                <CircuitInputsMetaTable
-                  circuit_inputs_meta={circuitType.circuit_inputs_meta as CircuitInputMeta[]}
-                />
-              </PaddedTableWrapper>
-            </Widget>
-          </Card>
+          <Widget>
+            <WidgetHeader>
+              <WidgetLabel>
+                {i18n.driver_inputs_meta} ({circuitType.circuit_type})
+              </WidgetLabel>
+            </WidgetHeader>
+            <PaddedTableWrapper>
+              <CircuitInputsMetaTable
+                circuit_inputs_meta={circuitType.circuit_inputs_meta as CircuitInputMeta[]}
+              />
+            </PaddedTableWrapper>
+          </Widget>
         </CardRow>
       )}
     </DefaultLayout>

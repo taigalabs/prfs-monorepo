@@ -61,6 +61,7 @@ export default {
   circuits: "Circuits",
   circuit_id: "Circuit id",
   driver_id: "Driver id",
+  share: "Share",
   twitter: "Twitter",
   telegram: "Telegram",
   discord: "Discord",

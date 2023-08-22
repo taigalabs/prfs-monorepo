@@ -5,6 +5,8 @@ import { AiFillTwitterSquare } from "react-icons/ai";
 import { BsTelegram } from "react-icons/bs";
 import { BiLogoDiscord } from "react-icons/bi";
 import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
+import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import { IoMdArrowDropdown } from "react-icons/io";
 
 import styles from "./SocialSharePopover.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -13,18 +15,14 @@ const SocialSharePopover: React.FC<SocialSharePopoverProps> = () => {
   let i18n = React.useContext(i18nContext);
 
   const createBase = React.useCallback((isOpen: boolean) => {
-    return <div>power</div>;
-
-    // const { sig, avatar_color } = prfsAccount;
-    // const s = sig.substring(2, 6);
-    // const avatarColor = `#${avatar_color}`;
-
-    // return (
-    //   <div className={styles.base} style={{ backgroundColor: avatarColor }}>
-    //     <div className={styles.id}>{s}</div>
-    //   </div>
-    //   // {/* <div className={styles.wallet}>{/* <BsWallet2 /> */}</div> */}
-    // );
+    return (
+      <div className={styles.base}>
+        <Button variant="transparent_aqua_blue_1">
+          <span>{i18n.share.toUpperCase()}</span>
+          <IoMdArrowDropdown />
+        </Button>
+      </div>
+    );
   }, []);
 
   const createPopover = React.useCallback(
@@ -32,7 +30,7 @@ const SocialSharePopover: React.FC<SocialSharePopoverProps> = () => {
       // const shortWalletAddr = walletAddr.substring(0, 15);
 
       return (
-        <ul className={styles.wrapper}>
+        <ul className={styles.popover}>
           <li>
             <AiFillTwitterSquare />
             <span>{i18n.twitter}</span>

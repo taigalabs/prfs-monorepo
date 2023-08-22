@@ -18,7 +18,6 @@ import Widget, {
   WidgetPaddedBody,
 } from "@/components/widget/Widget";
 import CardRow from "@/components/card_row/CardRow";
-import Card from "@/components/card/Card";
 import FormTextInput from "@/components/form/FormTextInput";
 import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { stateContext } from "@/contexts/state";
@@ -178,51 +177,47 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       </TopWidgetTitle>
 
       <CardRow>
-        <Card>
-          <Widget>
-            <WidgetPaddedBody>
-              <div className={styles.desc}>{i18n.create_proof_type_subtitle}</div>
-              <div className={styles.textInputContainer}>
-                <FormTextInput label={i18n.name} handleChange={handleChangeName} />
-              </div>
-              <div className={styles.textInputContainer}>
-                <FormTextareaInput
-                  label={i18n.description}
-                  handleChange={handleChangeDesc}
-                  rows={4}
-                />
-              </div>
-              <div className={styles.textInputContainer}>
-                <FormTextInput label={i18n.expression} handleChange={handleChangeExpression} />
-              </div>
-              <div className={styles.textInputContainer}>
-                <FormTextInput label={i18n.image_url} handleChange={handleChangeImgUrl} />
-              </div>
-              <div className={styles.textInputContainer}>
-                <FormTextInput label={i18n.image_caption} handleChange={handleChangeImgCaption} />
-              </div>
-            </WidgetPaddedBody>
-          </Widget>
-        </Card>
+        <Widget>
+          <WidgetPaddedBody>
+            <div className={styles.desc}>{i18n.create_proof_type_subtitle}</div>
+            <div className={styles.textInputContainer}>
+              <FormTextInput label={i18n.name} handleChange={handleChangeName} />
+            </div>
+            <div className={styles.textInputContainer}>
+              <FormTextareaInput
+                label={i18n.description}
+                handleChange={handleChangeDesc}
+                rows={4}
+              />
+            </div>
+            <div className={styles.textInputContainer}>
+              <FormTextInput label={i18n.expression} handleChange={handleChangeExpression} />
+            </div>
+            <div className={styles.textInputContainer}>
+              <FormTextInput label={i18n.image_url} handleChange={handleChangeImgUrl} />
+            </div>
+            <div className={styles.textInputContainer}>
+              <FormTextInput label={i18n.image_caption} handleChange={handleChangeImgCaption} />
+            </div>
+          </WidgetPaddedBody>
+        </Widget>
       </CardRow>
 
       <CardRow>
-        <Card>
-          <Widget>
-            <WidgetHeader>
-              <WidgetLabel>{i18n.choose_circuit}</WidgetLabel>
-            </WidgetHeader>
-            <WidgetPaddedBody>
-              <div className={styles.dropdownContainer}>
-                <div>{i18n.circuit}</div>
-                <CircuitDropdown
-                  selectedVal={selectedCircuit}
-                  handleSelectVal={handleSelectCircuit}
-                />
-              </div>
-            </WidgetPaddedBody>
-          </Widget>
-        </Card>
+        <Widget>
+          <WidgetHeader>
+            <WidgetLabel>{i18n.choose_circuit}</WidgetLabel>
+          </WidgetHeader>
+          <WidgetPaddedBody>
+            <div className={styles.dropdownContainer}>
+              <div>{i18n.circuit}</div>
+              <CircuitDropdown
+                selectedVal={selectedCircuit}
+                handleSelectVal={handleSelectCircuit}
+              />
+            </div>
+          </WidgetPaddedBody>
+        </Widget>
       </CardRow>
 
       {selectedCircuit && (

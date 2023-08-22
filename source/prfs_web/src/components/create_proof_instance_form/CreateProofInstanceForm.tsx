@@ -20,7 +20,6 @@ import Widget, {
   WidgetPaddedBody,
 } from "@/components/widget/Widget";
 import CardRow from "@/components/card_row/CardRow";
-import Card from "@/components/card/Card";
 import { stateContext } from "@/contexts/state";
 import ProofTypeDropdown from "@/components/proof_type_dropdown/ProofTypeDropdown";
 import { paths } from "@/paths";
@@ -150,21 +149,19 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       {selectedProofType && (
         <Fade>
           <CardRow>
-            <Card>
-              <Widget>
-                <WidgetHeader>
-                  <WidgetLabel>{i18n.get_ready_to_make_proof}</WidgetLabel>
-                </WidgetHeader>
-                <WidgetPaddedBody>
-                  <div id="prfs-sdk-container"></div>
-                  <div className={styles.btnRow}>
-                    <Button variant="aqua_blue_1" handleClick={handleClickCreateProofInstance}>
-                      {i18n.create_proof_instance}
-                    </Button>
-                  </div>
-                </WidgetPaddedBody>
-              </Widget>
-            </Card>
+            <Widget>
+              <WidgetHeader>
+                <WidgetLabel>{i18n.get_ready_to_make_proof}</WidgetLabel>
+              </WidgetHeader>
+              <WidgetPaddedBody>
+                <div id="prfs-sdk-container"></div>
+                <div className={styles.btnRow}>
+                  <Button variant="aqua_blue_1" handleClick={handleClickCreateProofInstance}>
+                    {i18n.create_proof_instance}
+                  </Button>
+                </div>
+              </WidgetPaddedBody>
+            </Widget>
           </CardRow>
         </Fade>
       )}

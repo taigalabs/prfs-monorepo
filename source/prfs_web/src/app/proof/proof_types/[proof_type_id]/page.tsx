@@ -12,7 +12,6 @@ import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
-import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import { useRouter } from "next/navigation";
 import CircuitInputTable from "@/components/circuit_input_table/CircuitInputTable";
@@ -51,35 +50,31 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
   return (
     <DefaultLayout>
       <CardRow>
-        <Card>
-          <Widget>
-            <TopWidgetTitle>
-              <div className={styles.header}>
-                <Link href={paths.proof__proof_types}>
-                  <ArrowButton variant="left" />
-                </Link>
-                <WidgetLabel>{proofTypeSummaryLabel}</WidgetLabel>
-              </div>
-            </TopWidgetTitle>
+        <Widget>
+          <TopWidgetTitle>
+            <div className={styles.header}>
+              <Link href={paths.proof__proof_types}>
+                <ArrowButton variant="left" />
+              </Link>
+              <WidgetLabel>{proofTypeSummaryLabel}</WidgetLabel>
+            </div>
+          </TopWidgetTitle>
 
-            <PaddedSummaryWrapper>
-              <ProofTypeSummary proofType={proofType} />
-            </PaddedSummaryWrapper>
-          </Widget>
-        </Card>
+          <PaddedSummaryWrapper>
+            <ProofTypeSummary proofType={proofType} />
+          </PaddedSummaryWrapper>
+        </Widget>
       </CardRow>
 
       <CardRow>
-        <Card>
-          <Widget>
-            <WidgetHeader>
-              <WidgetLabel>{i18n.circuit_inputs}</WidgetLabel>
-            </WidgetHeader>
-            <PaddedTableWrapper>
-              {proofType && <CircuitInputTable circuit_inputs={proofType.circuit_inputs} />}
-            </PaddedTableWrapper>
-          </Widget>
-        </Card>
+        <Widget>
+          <WidgetHeader>
+            <WidgetLabel>{i18n.circuit_inputs}</WidgetLabel>
+          </WidgetHeader>
+          <PaddedTableWrapper>
+            {proofType && <CircuitInputTable circuit_inputs={proofType.circuit_inputs} />}
+          </PaddedTableWrapper>
+        </Widget>
       </CardRow>
     </DefaultLayout>
   );

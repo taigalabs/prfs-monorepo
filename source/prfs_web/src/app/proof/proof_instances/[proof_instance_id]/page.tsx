@@ -19,7 +19,6 @@ import Widget, { TopWidgetTitle, WidgetLabel, WidgetPaddedBody } from "@/compone
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
-import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
 import ProofInstanceDetailTable from "@/components/proof_instance_detail_table/ProofInstanceDetailTable";
 import ProofInstanceQRCode from "@/components/proof_instance_qrcode/ProofInstanceQRCode";
@@ -99,45 +98,43 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
           />
         </Head>
         <CardRow>
-          <Card>
-            <Widget>
-              <TopWidgetTitle>
-                <div className={styles.header}>
-                  <div className={styles.navigation}>
-                    <Link href={paths.proof__proof_instances}>
-                      <ArrowButton variant="left" />
-                    </Link>
-                  </div>
-                  <WidgetLabel>{topWidgetLabel}</WidgetLabel>
+          <Widget>
+            <TopWidgetTitle>
+              <div className={styles.header}>
+                <div className={styles.navigation}>
+                  <Link href={paths.proof__proof_instances}>
+                    <ArrowButton variant="left" />
+                  </Link>
                 </div>
-              </TopWidgetTitle>
-
-              <div className={styles.singleValueRow}>
-                <div className={styles.summary}>
-                  <ProofImage src={proofInstance.img_url} />
-                  <div className={styles.expression}>{proofInstance.expression}</div>
-                </div>
+                <WidgetLabel>{topWidgetLabel}</WidgetLabel>
               </div>
+            </TopWidgetTitle>
 
-              <div className={styles.row}>
-                <div className={styles.proofInstanceDetailTableContainer}>
-                  <ProofInstanceDetailTable proofInstance={proofInstance} />
-                </div>
-                <div className={styles.right}>
-                  <ProofInstanceQRCode proofInstance={proofInstance} />
-                  <SocialSharePopover />
-                </div>
+            <div className={styles.singleValueRow}>
+              <div className={styles.summary}>
+                <ProofImage src={proofInstance.img_url} />
+                <div className={styles.expression}>{proofInstance.expression}</div>
               </div>
+            </div>
 
-              <div className={styles.singleValueRow}>
-                <PublicInputsView publicInputs={proofInstance.public_inputs} />
+            <div className={styles.row}>
+              <div className={styles.proofInstanceDetailTableContainer}>
+                <ProofInstanceDetailTable proofInstance={proofInstance} />
               </div>
+              <div className={styles.right}>
+                <ProofInstanceQRCode proofInstance={proofInstance} />
+                <SocialSharePopover />
+              </div>
+            </div>
 
-              <div className={styles.singleValueRow}>
-                <ProofView proof={proofInstance.proof} />
-              </div>
-            </Widget>
-          </Card>
+            <div className={styles.singleValueRow}>
+              <PublicInputsView publicInputs={proofInstance.public_inputs} />
+            </div>
+
+            <div className={styles.singleValueRow}>
+              <ProofView proof={proofInstance.proof} />
+            </div>
+          </Widget>
         </CardRow>
       </DefaultLayout>
     )

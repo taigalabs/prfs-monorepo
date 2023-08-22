@@ -2,18 +2,21 @@ import React from "react";
 
 import styles from "./ContentArea.module.scss";
 
-const Header: React.FC<HeaderProps> = ({ children }) => {
-  // let i18n = React.useContext(i18nContext);
-
-  // const valueElem = React.useMemo(() => {
-  //   return JSON.stringify(publicInputs);
-  // }, [publicInputs]);
-
-  return <div className={styles.header}>{children}</div>;
+const ContentAreaHeader: React.FC<ContentAreaHeaderProps> = ({ children }) => {
+  return (
+    <>
+      <div className={styles.floatingHeader}>
+        {/* <div> */}
+        <div className={styles.content}>{children}</div>
+        {/* </div> */}
+      </div>
+      <div className={styles.placeholder} />
+    </>
+  );
 };
 
-export default Header;
+export default ContentAreaHeader;
 
-export interface HeaderProps {
+export interface ContentAreaHeaderProps {
   children: React.ReactNode;
 }

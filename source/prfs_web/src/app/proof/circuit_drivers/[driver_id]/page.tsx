@@ -15,9 +15,7 @@ import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
-import Card from "@/components/card/Card";
 import CardRow from "@/components/card_row/CardRow";
-import Breadcrumb, { BreadcrumbEntry } from "@/components/breadcrumb/Breadcrumb";
 import DriverSummary from "@/components/driver_summary/DriverSummary";
 import DriverPropsMetaTable from "@/components/driver_props_meta_table/DriverPropsMetaTable";
 import CircuitTypeList from "@/components/circuit_type_list/CircuitTypeList";
@@ -54,52 +52,46 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
   return (
     <DefaultLayout>
       <CardRow>
-        <Card>
-          <Widget>
-            <TopWidgetTitle>
-              <div className={styles.header}>
-                <div className={styles.navigation}>
-                  <Link href={paths.proof__circuit_drivers}>
-                    <ArrowButton variant="left" />
-                  </Link>
-                </div>
-                <WidgetLabel>{programSummaryLabel}</WidgetLabel>
+        <Widget>
+          <TopWidgetTitle>
+            <div className={styles.header}>
+              <div className={styles.navigation}>
+                <Link href={paths.proof__circuit_drivers}>
+                  <ArrowButton variant="left" />
+                </Link>
               </div>
-            </TopWidgetTitle>
+              <WidgetLabel>{programSummaryLabel}</WidgetLabel>
+            </div>
+          </TopWidgetTitle>
 
-            <PaddedSummaryWrapper>
-              <DriverSummary driver={driver} />
-            </PaddedSummaryWrapper>
-          </Widget>
-        </Card>
+          <PaddedSummaryWrapper>
+            <DriverSummary driver={driver} />
+          </PaddedSummaryWrapper>
+        </Widget>
       </CardRow>
 
       <CardRow>
-        <Card>
-          <Widget>
-            <WidgetHeader>
-              <WidgetLabel>{i18n.driver_properties_meta}</WidgetLabel>
-            </WidgetHeader>
-            <PaddedTableWrapper>
-              <DriverPropsMetaTable
-                driverPropsMeta={driver?.driver_properties_meta as DriverPropertyMeta[]}
-              />
-            </PaddedTableWrapper>
-          </Widget>
-        </Card>
+        <Widget>
+          <WidgetHeader>
+            <WidgetLabel>{i18n.driver_properties_meta}</WidgetLabel>
+          </WidgetHeader>
+          <PaddedTableWrapper>
+            <DriverPropsMetaTable
+              driverPropsMeta={driver?.driver_properties_meta as DriverPropertyMeta[]}
+            />
+          </PaddedTableWrapper>
+        </Widget>
       </CardRow>
 
       <CardRow>
-        <Card>
-          <Widget>
-            <WidgetHeader>
-              <WidgetLabel>{i18n.circuit_types}</WidgetLabel>
-            </WidgetHeader>
-            <PaddedTableWrapper>
-              <CircuitTypeList circuit_types={driver?.circuit_types} />
-            </PaddedTableWrapper>
-          </Widget>
-        </Card>
+        <Widget>
+          <WidgetHeader>
+            <WidgetLabel>{i18n.circuit_types}</WidgetLabel>
+          </WidgetHeader>
+          <PaddedTableWrapper>
+            <CircuitTypeList circuit_types={driver?.circuit_types} />
+          </PaddedTableWrapper>
+        </Widget>
       </CardRow>
     </DefaultLayout>
   );
