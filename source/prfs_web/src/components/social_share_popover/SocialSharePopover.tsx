@@ -16,12 +16,10 @@ const SocialSharePopover: React.FC<SocialSharePopoverProps> = () => {
 
   const createBase = React.useCallback((isOpen: boolean) => {
     return (
-      <div className={styles.base}>
-        <Button variant="transparent_aqua_blue_1">
-          <span>{i18n.share.toUpperCase()}</span>
-          <IoMdArrowDropdown />
-        </Button>
-      </div>
+      <Button variant="transparent_aqua_blue_1">
+        <span>{i18n.share.toUpperCase()}</span>
+        <IoMdArrowDropdown />
+      </Button>
     );
   }, []);
 
