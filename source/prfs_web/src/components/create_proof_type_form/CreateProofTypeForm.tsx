@@ -162,7 +162,11 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     try {
       await prfsApi.createPrfsProofType(createPrfsProofTypeRequest);
       router.push(paths.proof__proof_types);
-    } catch (err: any) {}
+    } catch (err: any) {
+      console.error(err);
+
+      setErrMsg(err);
+    }
   }, [circuitInputs, selectedCircuit, name, setErrMsg, desc, localPrfsAccount]);
 
   return (

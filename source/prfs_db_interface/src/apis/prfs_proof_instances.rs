@@ -1,4 +1,3 @@
-use crate::database2::Database2;
 use prfs_entities::sqlx::{self, types::Json, Pool, Postgres, Row, Transaction};
 use prfs_entities::{
     entities::{PrfsProofInstance, PrfsProofType},
@@ -56,6 +55,7 @@ pub async fn get_prfs_proof_instance(pool: &Pool<Postgres>, id: &i64) -> Vec<Prf
         .iter()
         .map(|row| PrfsProofInstance {
             proof_instance_id: row.get("proof_instance_id"),
+            short_id: row.get("short_id"),
             proof_type_id: row.get("proof_type_id"),
             proof: row.get("proof"),
             public_inputs: row.get("public_inputs"),
@@ -130,6 +130,7 @@ pub async fn get_prfs_proof_instances(
         .map(|row| PrfsProofInstance {
             proof_instance_id: row.get("proof_instance_id"),
             proof_type_id: row.get("proof_type_id"),
+            short_id: row.get("short_id"),
             proof: vec![],
             public_inputs: row.get("public_inputs"),
             created_at: row.get("created_at"),
@@ -144,8 +145,8 @@ pub async fn insert_prfs_proof_instances(
     proof_instances: &Vec<PrfsProofInstance>,
 ) -> uuid::Uuid {
     let query = "INSERT INTO prfs_proof_instances \
-            (proof_instance_id, proof_type_id, proof, public_inputs)
-            VALUES ($1, $2, $3, $4) returning proof_instance_id";
+            (proof_instance_id, proof_type_id, proof, public_inputs, short_id)
+            VALUES ($1, $2, $3, $4, $5) returning proof_instance_id";
 
     let proof_instance = proof_instances.get(0).unwrap();
 
@@ -154,6 +155,7 @@ pub async fn insert_prfs_proof_instances(
         .bind(&proof_instance.proof_type_id)
         .bind(&proof_instance.proof)
         .bind(&proof_instance.public_inputs)
+        .bind(&proof_instance.short_id)
         .fetch_one(&mut **tx)
         .await
         .unwrap();

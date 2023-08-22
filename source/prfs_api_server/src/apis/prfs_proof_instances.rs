@@ -89,9 +89,13 @@ pub async fn create_prfs_proof_instance(req: Request<Body>) -> Result<Response<B
 
     // println!("req: {:?}", req);
 
+    let proof_instance_id_128 = req.proof_instance_id.as_u128();
+    let short_id = &base62::encode(proof_instance_id_128)[..8];
+
     let prfs_proof_instance = PrfsProofInstance {
         proof_instance_id: req.proof_instance_id,
         proof_type_id: req.proof_type_id,
+        short_id: short_id.to_string(),
         proof: req.proof.to_vec(),
         public_inputs: req.public_inputs.clone(),
         created_at: chrono::offset::Utc::now(),

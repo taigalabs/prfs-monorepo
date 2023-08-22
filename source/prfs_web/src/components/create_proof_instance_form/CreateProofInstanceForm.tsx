@@ -33,6 +33,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   const { localPrfsAccount } = state;
   const router = useRouter();
 
+  const [errMsg, setErrMsg] = React.useState("");
   const [formAlert, setFormAlert] = React.useState("");
   const [selectedProofType, setSelectedProofType] = React.useState<PrfsProofType | undefined>();
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
@@ -105,17 +106,23 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       const proof_instance_id = uuidv4();
 
       console.log("try inserting proof", proveReceipt);
-      const resp = await prfsApi.createPrfsProofInstance({
-        proof_instance_id,
-        sig: prfsAccount.sig,
-        proof_type_id: selectedProofType.proof_type_id,
-        proof: Array.from(proof),
-        public_inputs,
-      });
+      try {
+        const resp = await prfsApi.createPrfsProofInstance({
+          proof_instance_id,
+          sig: prfsAccount.sig,
+          proof_type_id: selectedProofType.proof_type_id,
+          proof: Array.from(proof),
+          public_inputs,
+        });
 
-      router.push(`${paths.proof__proof_instances}/${resp.payload.proof_instance_id}`);
+        router.push(`${paths.proof__proof_instances}/${resp.payload.proof_instance_id}`);
+      } catch (err: any) {
+        console.error(err);
+
+        setErrMsg(err);
+      }
     }
-  }, [selectedProofType, setFormAlert, localPrfsAccount, proofGenElement]);
+  }, [selectedProofType, setFormAlert, localPrfsAccount, proofGenElement, setErrMsg]);
 
   return (
     <div className={styles.wrapper}>
@@ -146,6 +153,8 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
           </div>
         </WidgetPaddedBody>
       </Widget>
+
+      {errMsg.length > 0 && <div>{errMsg}</div>}
 
       {selectedProofType && (
         <Fade>

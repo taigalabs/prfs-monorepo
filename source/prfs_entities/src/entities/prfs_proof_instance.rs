@@ -12,6 +12,8 @@ pub struct PrfsProofInstance {
     #[ts(type = "string")]
     pub proof_type_id: Uuid,
 
+    pub short_id: String,
+
     pub proof: Vec<u8>,
 
     #[ts(type = "Record<string, any>")]
