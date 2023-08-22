@@ -2,16 +2,12 @@
 
 import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import Link from "next/link";
-import { AiOutlineArrowLeft } from "react-icons/ai";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
-import { AiFillTwitterSquare } from "react-icons/ai";
-import { BsTelegram } from "react-icons/bs";
-import { BiLogoDiscord } from "react-icons/bi";
 import Head from "next/head";
+import { AiOutlineCopy } from "react-icons/ai";
 
 import styles from "./ProofInstancePage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -25,6 +21,27 @@ import { paths } from "@/paths";
 import ProofImage from "@/components/proof_image/ProofImage";
 import SocialSharePopover from "@/components/social_share_popover/SocialSharePopover";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
+
+const URLView: React.FC<URLViewProps> = ({ shortId }) => {
+  let i18n = React.useContext(i18nContext);
+
+  const url = `${process.env.NEXT_PUBLIC_PRFS_WEB_ENDPOINT}/p/${shortId}`;
+  const handleClickCopy = React.useCallback(() => {
+    navigator.clipboard.writeText(url);
+  }, [url]);
+
+  return (
+    <div className={styles.urlView}>
+      <p className={styles.label}>{i18n.url}</p>
+      <div className={styles.value}>
+        <span>{url}</span>
+        <button onClick={handleClickCopy}>
+          <AiOutlineCopy />
+        </button>
+      </div>
+    </div>
+  );
+};
 
 const PublicInputsView: React.FC<PublicInputsViewProps> = ({ publicInputs }) => {
   let i18n = React.useContext(i18nContext);
@@ -106,6 +123,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
           </div>
           <WidgetLabel>{topWidgetLabel}</WidgetLabel>
         </ContentAreaHeader>
+
         <ContentAreaRow>
           <Widget>
             <div className={styles.singleValueRow}>
@@ -121,6 +139,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
               </div>
               <div className={styles.right}>
                 <ProofInstanceQRCode proofInstance={proofInstance} />
+                <URLView shortId={proofInstance.short_id} />
                 <SocialSharePopover />
               </div>
             </div>
@@ -153,4 +172,8 @@ interface ProofViewProps {
 
 interface PublicInputsViewProps {
   publicInputs: Record<string, any>;
+}
+
+interface URLViewProps {
+  shortId: string;
 }
