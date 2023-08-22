@@ -96,6 +96,7 @@ export default {
   connect_wallet: "Connect a wallet of your choice",
   wallet_address: "Wallet address",
   create_merkle_proof_label: "Create merkle proof for",
+  create_merkle_path_label: "Create merkle path for",
   edit_raw: "Edit raw",
   load: "Load",
   wallet: "Wallet",

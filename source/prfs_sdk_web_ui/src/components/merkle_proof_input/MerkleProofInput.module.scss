@@ -13,7 +13,7 @@
     border: 1px solid var(--gray-70);
     border-radius: 3px;
     padding-left: 7px;
-    padding-right: 40px;
+    padding-right: 60px;
     outline: none;
 
     &:focus {
@@ -61,7 +61,7 @@ input.addrInput {
 
 .addrInputBox {
   margin-top: 4px;
-  border: 1px solid var(--gray-70);
+  /* border: 1px solid var(--gray-70); */
   border-radius: 3px;
   position: relative;
 }
@@ -81,6 +81,12 @@ input.addrInput {
 
   button:disabled {
     color: var(--aqua-blue-90);
+  }
+}
+
+.leftBtnGroup {
+  span {
+    font-size: 13px;
   }
 }
 

@@ -124,8 +124,8 @@ const MerkleProofModal: React.FC<MerkleProofModalProps> = ({
         </div>
       </div>
       <div className={styles.popoverBtnRow}>
-        <div>
-          <button onClick={handleCreateMerkleProof}>{i18n.create_merkle_proof_label}</button>
+        <div className={styles.leftBtnGroup}>
+          <button onClick={handleCreateMerkleProof}>{i18n.create_merkle_path_label}</button>
           <span> {circuitInput.value}</span>
         </div>
         <div className={styles.rightBtnGroup}>
@@ -212,11 +212,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   return (
     prfsSet && (
       <div className={styles.wrapper}>
-        <input
-          placeholder={`${prfsSet.set_id} / ${circuitInput.desc}`}
-          value={displayValue}
-          readOnly
-        />
+        <input placeholder={`${i18n.set} - ${prfsSet.label}`} value={displayValue} readOnly />
         <div className={styles.btnGroup}>
           <Popover createBase={createBase} createPopover={createPopover} />
         </div>

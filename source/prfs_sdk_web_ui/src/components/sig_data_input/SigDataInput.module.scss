@@ -37,6 +37,20 @@
 }
 
 .signed {
-  color: var(--gray-50);
+  color: var(--gray-30);
   margin-right: 7px;
+  display: flex;
+  justify-content: center;
+  /* border: 1px solid blue; */
+
+  svg {
+    color: var(--gray-70);
+    font-size: 18px;
+  }
+}
+
+.signComplete {
+  svg {
+    color: var(--green-60);
+  }
 }

@@ -25,6 +25,7 @@ import ProofInstanceDetailTable from "@/components/proof_instance_detail_table/P
 import ProofInstanceQRCode from "@/components/proof_instance_qrcode/ProofInstanceQRCode";
 import { paths } from "@/paths";
 import ProofImage from "@/components/proof_image/ProofImage";
+import SocialSharePopover from "@/components/social_share_popover/SocialSharePopover";
 
 const PublicInputsView: React.FC<PublicInputsViewProps> = ({ publicInputs }) => {
   let i18n = React.useContext(i18nContext);
@@ -46,7 +47,6 @@ const ProofView: React.FC<ProofViewProps> = ({ proof }) => {
 
   const proofElem = React.useMemo(() => {
     const a = Buffer.from(proof).toString("hex");
-    console.log(22, a.length);
 
     return a;
   }, [proof]);
@@ -70,24 +70,23 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
 
   const [proofInstance, setProofInstance] = React.useState<PrfsProofInstanceSyn1>();
   React.useEffect(() => {
-    const proof_instance_id = decodeURIComponent(params.proof_instance_id);
+    async function fn() {
+      const proof_instance_id = decodeURIComponent(params.proof_instance_id);
+      try {
+        let { payload } = await prfsApi.getPrfsProofInstances({
+          page: 0,
+          proof_instance_id,
+        });
 
-    prfsApi
-      .getPrfsProofInstances({
-        page: 0,
-        proof_instance_id,
-      })
-      .then(resp => {
-        const { prfs_proof_instances_syn1 } = resp.payload;
+        const { prfs_proof_instances_syn1 } = payload;
+        setProofInstance(prfs_proof_instances_syn1[0]);
+      } catch (err) {
+        console.error("Proof instance is not found, invalid access");
+        // router.push(paths.proof__proof_instances);
+      }
+    }
 
-        if (prfs_proof_instances_syn1.length > 0) {
-          setProofInstance(prfs_proof_instances_syn1[0]);
-        } else {
-          console.error("Proof instance is not found, invalid access");
-
-          // router.push(paths.proof__proof_instances);
-        }
-      });
+    fn().then();
   }, [setProofInstance]);
 
   return (
@@ -126,20 +125,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
                 </div>
                 <div className={styles.right}>
                   <ProofInstanceQRCode proofInstance={proofInstance} />
-                  <ul className={styles.social}>
-                    <li>
-                      <AiFillTwitterSquare />
-                      <span>{i18n.twitter}</span>
-                    </li>
-                    <li>
-                      <BsTelegram />
-                      <span>{i18n.telegram}</span>
-                    </li>
-                    <li>
-                      <BiLogoDiscord />
-                      <span>{i18n.discord}</span>
-                    </li>
-                  </ul>
+                  <SocialSharePopover />
                 </div>
               </div>
 
