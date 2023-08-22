@@ -16,6 +16,7 @@ import CircuitTable from "@/components/circuit_table/CircuitTable";
 import Link from "next/link";
 import { paths } from "@/paths";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
+import { SpacedBetweenArea } from "@/components/area/Area";
 
 const Circuits: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -26,13 +27,15 @@ const Circuits: React.FC = () => {
   return (
     <DefaultLayout>
       <ContentAreaHeader>
-        <WidgetLabel>{i18n.circuits}</WidgetLabel>
-        <Button variant="transparent_aqua_blue_1" disabled>
-          <Link href={`${paths.proof__circuits}?create`}>
-            <AiFillPlusCircle />
-            {i18n.create_circuit.toUpperCase()}
-          </Link>
-        </Button>
+        <SpacedBetweenArea>
+          <WidgetLabel>{i18n.circuits}</WidgetLabel>
+          <Button variant="transparent_aqua_blue_1" disabled>
+            <Link href={`${paths.proof__circuits}?create`}>
+              <AiFillPlusCircle />
+              <span>{i18n.create_circuit.toUpperCase()}</span>
+            </Link>
+          </Button>
+        </SpacedBetweenArea>
       </ContentAreaHeader>
       <ContentAreaRow>
         <Widget>
