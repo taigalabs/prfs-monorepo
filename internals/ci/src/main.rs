@@ -6,7 +6,7 @@ mod paths;
 
 use crate::build_handle::BuildHandle;
 use chrono::prelude::*;
-use clap::{command, Arg, ArgMatches};
+use clap::{command, Arg};
 use colored::Colorize;
 use std::env;
 
@@ -24,6 +24,7 @@ fn main() {
         .subcommand(command!("dev_asset_server"))
         .subcommand(command!("dev_api_server"))
         .subcommand(command!("seed_api_server"))
+        .subcommand(command!("run_docker_postgres").arg(Arg::new("extra_args")))
         .subcommand(command!("start_prfs_web").arg(Arg::new("extra_args")))
         .get_matches();
 
@@ -55,6 +56,9 @@ fn main() {
         }
         Some(("seed_api_server", sub_matches)) => {
             cmds::seed_api_server::run(sub_matches);
+        }
+        Some(("run_docker_postgres", sub_matches)) => {
+            cmds::run_docker_postgres::run(sub_matches);
         }
         _ => unreachable!("Subcommand not defined"),
     }

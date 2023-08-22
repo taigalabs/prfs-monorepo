@@ -3,7 +3,10 @@ use prfs_circuit_circom::{CircuitBuildJson, CircuitBuildListJson};
 use prfs_circuit_type::local::access::load_system_native_circuit_types;
 use prfs_driver_type::local::access::load_system_native_driver_types;
 use prfs_entities::entities::{CircuitDriver, CircuitType};
-use std::{collections::HashMap, path::PathBuf};
+use std::{
+    collections::{HashMap, HashSet},
+    path::PathBuf,
+};
 
 pub struct LocalAssets {
     pub circuits: HashMap<String, CircuitBuildJson>,
@@ -29,6 +32,7 @@ fn load_circuits() -> HashMap<String, CircuitBuildJson> {
     let build_path = prfs_circuit_circom::access::get_build_fs_path();
 
     let mut circuit_build = HashMap::new();
+    let mut circuit_ids = HashSet::new();
     for circuit_name in build_list_json.circuits {
         let circuit_build_json_path = build_path.join(format!("{}/{}", circuit_name, "build.json"));
         println!(
@@ -39,6 +43,11 @@ fn load_circuits() -> HashMap<String, CircuitBuildJson> {
         let b = std::fs::read(circuit_build_json_path).unwrap();
         let build_json: CircuitBuildJson = serde_json::from_slice(&b).unwrap();
 
+        if circuit_ids.contains(&build_json.inner.circuit_id) {
+            panic!("Duplicate circuit id, build_json: {:?}", build_json);
+        }
+
+        circuit_ids.insert(build_json.inner.circuit_id);
         circuit_build.insert(circuit_name, build_json);
     }
 

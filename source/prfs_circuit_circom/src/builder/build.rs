@@ -5,7 +5,7 @@ use prfs_driver_type::driver_ids;
 use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
 use std::{io::Write, process::Command};
 
-pub fn run(starting_circuit_id: u32) {
+pub fn run() {
     let now = Utc::now();
     let timestamp = now.timestamp_millis();
 
@@ -16,24 +16,17 @@ pub fn run(starting_circuit_id: u32) {
         timestamp
     );
 
-    println!("starting_circuit_id: {}", starting_circuit_id);
-
     clean_build();
 
     let mut circuits_json = read_circuits_json();
 
     let mut circuit_list = vec![];
-    let mut idx = starting_circuit_id;
     for mut circuit in &mut circuits_json.circuits {
-        let circuit_id = uuid::Uuid::from_u128(idx as u128);
-
-        circuit.circuit_id = circuit_id;
         compile_circuits(&circuit);
         make_spartan(&circuit, timestamp);
         create_build_json(&mut circuit, timestamp);
 
         circuit_list.push(circuit.circuit_id.to_string());
-        idx += 1;
     }
 
     create_list_json(&circuit_list, timestamp);
