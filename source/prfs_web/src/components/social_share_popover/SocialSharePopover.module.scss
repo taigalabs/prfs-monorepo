@@ -5,11 +5,12 @@
 .popover {
   line-height: 16px;
   color: var(--gray-30);
+  padding: 3px 0;
 
   li {
     display: flex;
     align-items: center;
-    padding: 8px 10px;
+    padding: 10px 12px;
     cursor: pointer;
 
     &:hover {
