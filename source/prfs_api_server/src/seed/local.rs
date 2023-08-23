@@ -1,11 +1,14 @@
+use crate::{
+    paths::PATHS,
+    seed::json::{CircuitInputTypesJson, CircuitTypesJson, DriversJson},
+};
 use colored::Colorize;
 use prfs_circuit_circom::{CircuitBuildJson, CircuitBuildListJson};
 use prfs_circuit_type::local::access::{
     load_system_native_circuit_input_types, load_system_native_circuit_types,
 };
-// use prfs_driver_type::local::{access::load_system_native_driver_types, json::DriversJson};
 use prfs_entities::{
-    entities::{CircuitDriver, CircuitInputType, CircuitType},
+    entities::{CircuitInputType, CircuitType, PrfsCircuit, PrfsCircuitDriver},
     syn_entities::PrfsCircuitSyn1,
 };
 use std::{
@@ -13,40 +16,32 @@ use std::{
     path::PathBuf,
 };
 
-use crate::{
-    paths::PATHS,
-    seed::json::{CircuitInputTypesJson, CircuitTypesJson, DriversJson},
-};
+// pub struct LocalAssets {
+//     pub syn_circuits: HashMap<String, PrfsCircuitSyn1>,
+//     pub drivers: HashMap<String, CircuitDriver>,
+//     pub circuit_types: HashMap<String, CircuitType>,
+//     pub circuit_input_types: HashMap<String, CircuitInputType>,
+// }
 
-pub struct LocalAssets {
-    pub syn_circuits: HashMap<String, PrfsCircuitSyn1>,
-    pub drivers: HashMap<String, CircuitDriver>,
-    pub circuit_types: HashMap<String, CircuitType>,
-    pub circuit_input_types: HashMap<String, CircuitInputType>,
-}
+// pub fn load_local_assets() -> LocalAssets {
+//     let circuit_types = load_circuit_types();
+//     let circuit_input_types = load_circuit_input_types();
+//     let syn_circuits = load_circuits(&circuit_types, &circuit_input_types);
+//     let drivers = load_driver_types();
 
-pub fn load_local_assets() -> LocalAssets {
-    let circuit_types = load_circuit_types();
-    let circuit_input_types = load_circuit_input_types();
-    let syn_circuits = load_circuits(&circuit_types, &circuit_input_types);
-    let drivers = load_driver_types();
+//     LocalAssets {
+//         syn_circuits,
+//         drivers,
+//         circuit_types,
+//         circuit_input_types,
+//     }
+// }
 
-    LocalAssets {
-        syn_circuits,
-        drivers,
-        circuit_types,
-        circuit_input_types,
-    }
-}
-
-pub fn load_circuits(
-    circuit_types: &HashMap<String, CircuitType>,
-    circuit_input_types: &HashMap<String, CircuitInputType>,
-) -> HashMap<String, PrfsCircuitSyn1> {
+pub fn load_circuits() -> HashMap<String, PrfsCircuit> {
     let build_list_json = prfs_circuit_circom::access::read_circuit_artifacts();
     let build_path = prfs_circuit_circom::access::get_build_fs_path();
 
-    let mut syn_circuits = HashMap::new();
+    let mut circuits = HashMap::new();
     let mut circuit_ids = HashSet::new();
 
     for circuit_name in build_list_json.circuits {
@@ -64,43 +59,15 @@ pub fn load_circuits(
         }
 
         let c = build_json.circuit;
-        let circuit_type = circuit_types.get(&c.circuit_type).unwrap();
-
-        let mut relevant_input_types = vec![];
-        for circuit_input in circuit_type.circuit_inputs_meta.iter() {
-            let circuit_input_type = circuit_input_types.get(&circuit_input.r#type).unwrap();
-            relevant_input_types.push(circuit_input_type.clone());
-        }
-
-        let syn_circuit = PrfsCircuitSyn1 {
-            circuit_id: c.circuit_id,
-            circuit_type: c.circuit_type,
-            label: c.label,
-            desc: c.desc,
-            author: c.author,
-            num_public_inputs: c.num_public_inputs,
-            circuit_dsl: c.circuit_dsl,
-            arithmetization: c.arithmetization,
-            proof_algorithm: c.proof_algorithm,
-            elliptic_curve: c.elliptic_curve,
-            finite_field: c.finite_field,
-            driver_id: c.driver_id,
-            driver_version: c.driver_version,
-            driver_properties: c.driver_properties,
-            circuit_inputs_meta: circuit_type.circuit_inputs_meta.clone(),
-            circuit_input_types: relevant_input_types,
-            raw_circuit_inputs_meta: c.raw_circuit_inputs_meta,
-            created_at: c.created_at,
-        };
 
         circuit_ids.insert(c.circuit_id.to_string());
-        syn_circuits.insert(circuit_name, syn_circuit);
+        circuits.insert(circuit_name, c.clone());
     }
 
-    syn_circuits
+    circuits
 }
 
-pub fn load_driver_types() -> HashMap<String, CircuitDriver> {
+pub fn load_driver_types() -> HashMap<String, PrfsCircuitDriver> {
     println!("\n{} circuit drivers", "Loading".green());
 
     // let drivers_json = load_system_native_driver_types();

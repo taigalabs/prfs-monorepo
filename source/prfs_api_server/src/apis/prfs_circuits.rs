@@ -31,24 +31,26 @@ pub async fn get_prfs_native_circuits(req: Request<Body>) -> Result<Response<Bod
 
     println!("req: {:?}", req);
 
-    let mut syn_circuits = vec![];
-    if let Some(circuit_id) = req.circuit_id {
-        match state.local_assets.syn_circuits.get(&circuit_id) {
-            Some(c) => {
-                syn_circuits.push(c.clone());
-            }
-            None => {}
-        };
-    } else {
-        for (_, circuit) in &state.local_assets.syn_circuits {
-            syn_circuits.push(circuit.clone());
-        }
-    }
+    unimplemented!();
 
-    let resp = ApiResponse::new_success(GetCircuitsRespPayload {
-        page: 0,
-        prfs_circuits_syn1: syn_circuits,
-    });
+    // let mut syn_circuits = vec![];
+    // if let Some(circuit_id) = req.circuit_id {
+    //     match state.local_assets.syn_circuits.get(&circuit_id) {
+    //         Some(c) => {
+    //             syn_circuits.push(c.clone());
+    //         }
+    //         None => {}
+    //     };
+    // } else {
+    //     for (_, circuit) in &state.local_assets.syn_circuits {
+    //         syn_circuits.push(circuit.clone());
+    //     }
+    // }
 
-    return Ok(resp.into_hyper_response());
+    // let resp = ApiResponse::new_success(GetCircuitsRespPayload {
+    //     page: 0,
+    //     prfs_circuits_syn1: syn_circuits,
+    // });
+
+    // return Ok(resp.into_hyper_response());
 }

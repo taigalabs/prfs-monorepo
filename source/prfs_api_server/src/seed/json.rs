@@ -1,10 +1,10 @@
-use prfs_entities::entities::CircuitDriver;
+use prfs_entities::entities::PrfsCircuitDriver;
 use prfs_entities::entities::{CircuitInputType, CircuitType};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct DriversJson {
-    pub drivers: Vec<CircuitDriver>,
+    pub drivers: Vec<PrfsCircuitDriver>,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]

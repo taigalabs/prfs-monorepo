@@ -1,6 +1,6 @@
 use crate::{responses::ApiResponse, state::ServerState};
 use hyper::{body, Body, Request, Response};
-use prfs_entities::entities::CircuitDriver;
+use prfs_entities::entities::PrfsCircuitDriver;
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
@@ -14,7 +14,7 @@ struct GetCircuitDriversRequest {
 #[derive(Serialize, Deserialize, Debug)]
 struct GetCircuitDriversRespPayload {
     page: usize,
-    prfs_circuit_drivers: Vec<CircuitDriver>,
+    prfs_circuit_drivers: Vec<PrfsCircuitDriver>,
 }
 
 pub async fn get_prfs_native_circuit_drivers(
@@ -30,22 +30,24 @@ pub async fn get_prfs_native_circuit_drivers(
 
     println!("req: {:?}", req);
 
-    let mut drivers = vec![];
-    if let Some(driver_id) = req.driver_id {
-        match state.local_assets.drivers.get(&driver_id) {
-            Some(pgm) => drivers.push(pgm.clone()),
-            None => {}
-        };
-    } else {
-        for (_, driver) in &state.local_assets.drivers {
-            drivers.push(driver.clone());
-        }
-    }
+    unimplemented!();
 
-    let resp = ApiResponse::new_success(GetCircuitDriversRespPayload {
-        page: 0,
-        prfs_circuit_drivers: drivers,
-    });
+    // let mut drivers = vec![];
+    // if let Some(driver_id) = req.driver_id {
+    //     match state.local_assets.drivers.get(&driver_id) {
+    //         Some(pgm) => drivers.push(pgm.clone()),
+    //         None => {}
+    //     };
+    // } else {
+    //     for (_, driver) in &state.local_assets.drivers {
+    //         drivers.push(driver.clone());
+    //     }
+    // }
 
-    return Ok(resp.into_hyper_response());
+    // let resp = ApiResponse::new_success(GetCircuitDriversRespPayload {
+    //     page: 0,
+    //     prfs_circuit_drivers: drivers,
+    // });
+
+    // return Ok(resp.into_hyper_response());
 }

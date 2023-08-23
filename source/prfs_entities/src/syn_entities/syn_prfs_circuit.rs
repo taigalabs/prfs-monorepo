@@ -30,8 +30,6 @@ pub struct PrfsCircuitSyn1 {
     #[ts(type = "Record<string, any>[]")]
     pub circuit_inputs_meta: sqlx::types::Json<Vec<CircuitInputMeta>>,
 
-    pub circuit_input_types: Vec<CircuitInputType>,
-
     #[ts(type = "Record<string, any>[]")]
     pub raw_circuit_inputs_meta: sqlx::types::Json<Vec<RawCircuitInputMeta>>,
 

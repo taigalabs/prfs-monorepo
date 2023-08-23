@@ -1,6 +1,6 @@
 use crate::{responses::ApiResponse, state::ServerState};
 use hyper::{body, Body, Request, Response};
-use prfs_entities::entities::{CircuitDriver, CircuitType};
+use prfs_entities::entities::{CircuitType, PrfsCircuitDriver};
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
@@ -30,22 +30,24 @@ pub async fn get_prfs_native_circuit_types(
 
     println!("req: {:?}", req);
 
-    let mut prfs_circuit_types = vec![];
-    if let Some(circuit_type_id) = req.circuit_type_id {
-        match state.local_assets.circuit_types.get(&circuit_type_id) {
-            Some(circuit_type) => prfs_circuit_types.push(circuit_type.clone()),
-            None => {}
-        };
-    } else {
-        for (_, driver) in &state.local_assets.circuit_types {
-            prfs_circuit_types.push(driver.clone());
-        }
-    }
+    unimplemented!();
 
-    let resp = ApiResponse::new_success(GetCircuitTypesRespPayload {
-        page: 0,
-        prfs_circuit_types,
-    });
+    // let mut prfs_circuit_types = vec![];
+    // if let Some(circuit_type_id) = req.circuit_type_id {
+    //     match state.local_assets.circuit_types.get(&circuit_type_id) {
+    //         Some(circuit_type) => prfs_circuit_types.push(circuit_type.clone()),
+    //         None => {}
+    //     };
+    // } else {
+    //     for (_, driver) in &state.local_assets.circuit_types {
+    //         prfs_circuit_types.push(driver.clone());
+    //     }
+    // }
 
-    return Ok(resp.into_hyper_response());
+    // let resp = ApiResponse::new_success(GetCircuitTypesRespPayload {
+    //     page: 0,
+    //     prfs_circuit_types,
+    // });
+
+    // return Ok(resp.into_hyper_response());
 }
