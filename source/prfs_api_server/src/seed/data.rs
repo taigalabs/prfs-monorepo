@@ -1,9 +1,10 @@
 use chrono::{DateTime, NaiveDateTime, TimeZone, Utc};
+use prfs_db_interface::database2::Database2;
 use prfs_entities::entities::PrfsProofType;
 use prfs_entities::sqlx::types::Json;
 use std::collections::HashMap;
 
-pub fn get_prfs_proof_types() -> Vec<PrfsProofType> {
+pub async fn upload(db: Database2) {
     let datetime = Utc.with_ymd_and_hms(2023, 7, 8, 9, 10, 11).unwrap();
 
     let proof_type_id = uuid::Uuid::from_u128(0);
@@ -22,6 +23,4 @@ pub fn get_prfs_proof_types() -> Vec<PrfsProofType> {
         driver_properties: Json::from(HashMap::new()),
         created_at: datetime,
     };
-
-    vec![pt]
 }
