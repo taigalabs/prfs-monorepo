@@ -15,6 +15,8 @@ pub struct CircuitType {
 
     #[ts(type = "Record<string, any>[]")]
     pub circuit_inputs_meta: sqlx::types::Json<Vec<CircuitInputMeta>>,
+
+    pub prioritized_input_type_names: Vec<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]

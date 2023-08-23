@@ -1,7 +1,7 @@
 {
   "circuit_input_types": [
     {
-      "type": "SIG_DATA_1",
+      "circuit_input_type": "SIG_DATA_1",
       "properties_meta": [
         {
           "name": "msgRaw",
@@ -25,7 +25,7 @@
       ]
     },
     {
-      "type": "MERKLE_PROOF_1",
+      "circuit_input_type": "MERKLE_PROOF_1",
       "properties_meta": [
         {
           "name": "root",

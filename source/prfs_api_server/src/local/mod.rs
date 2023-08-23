@@ -96,7 +96,7 @@ fn load_circuits(
 }
 
 fn load_driver_types() -> HashMap<String, CircuitDriver> {
-    println!("{} circuit drivers", "Loading".green());
+    println!("\n{} circuit drivers", "Loading".green());
 
     let drivers_json = load_system_native_driver_types();
 
@@ -109,7 +109,7 @@ fn load_driver_types() -> HashMap<String, CircuitDriver> {
 }
 
 fn load_circuit_types() -> HashMap<String, CircuitType> {
-    println!("{} circuit types", "Loading".green());
+    println!("\n{} circuit types", "Loading".green());
 
     let circuit_types_json = load_system_native_circuit_types();
 
@@ -124,7 +124,7 @@ fn load_circuit_types() -> HashMap<String, CircuitType> {
 }
 
 fn load_circuit_input_types() -> HashMap<String, CircuitInputType> {
-    println!("{} circuit input types", "Loading".green());
+    println!("\n{} circuit input types", "Loading".green());
 
     let json = load_system_native_circuit_input_types();
 

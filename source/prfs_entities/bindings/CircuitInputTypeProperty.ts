@@ -5,5 +5,4 @@ export interface CircuitInputTypeProperty {
   label: string;
   desc: string;
   type: string;
-  show_priority: number;
 }

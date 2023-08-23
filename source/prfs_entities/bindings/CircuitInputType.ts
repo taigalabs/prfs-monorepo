@@ -2,6 +2,6 @@
 import type { CircuitInputTypeProperty } from "./CircuitInputTypeProperty";
 
 export interface CircuitInputType {
-  label: string;
+  circuit_input_type: string;
   properties_meta: Array<CircuitInputTypeProperty>;
 }

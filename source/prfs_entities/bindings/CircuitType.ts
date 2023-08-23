@@ -6,4 +6,5 @@ export interface CircuitType {
   author: string;
   created_at: number;
   circuit_inputs_meta: Record<string, any>[];
+  prioritized_input_type_names: Array<string>;
 }

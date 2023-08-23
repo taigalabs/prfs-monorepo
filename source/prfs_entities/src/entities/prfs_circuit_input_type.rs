@@ -10,19 +10,12 @@ pub struct CircuitInputMeta {
     pub r#type: String,
     pub desc: String,
 
-    #[serde(default = "default_show_priority")]
-    pub show_priority: u8,
-
     #[serde(default = "default_ref")]
     pub r#ref: String,
 }
 
 fn default_ref() -> String {
     String::from("")
-}
-
-fn default_show_priority() -> u8 {
-    3
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
@@ -39,5 +32,4 @@ pub struct CircuitInputTypeProperty {
     pub label: String,
     pub desc: String,
     pub r#type: String,
-    pub show_priority: u8,
 }
