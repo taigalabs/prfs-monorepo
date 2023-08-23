@@ -16,6 +16,7 @@ import dayjs from "dayjs";
 
 import styles from "./ProofInstanceDetailTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
+import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
 
 const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ proofInstance }) => {
   const i18n = React.useContext(i18nContext);
@@ -25,8 +26,15 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
   });
 
   const handleClickCopy = React.useCallback(
-    (ev: React.MouseEvent) => {
-      // navigator.clipboard.writeText(url);
+    (ev: React.MouseEvent<HTMLElement>) => {
+      const el = ev.currentTarget as HTMLElement;
+
+      if (el) {
+        const url = el.getAttribute("data-url");
+        if (url) {
+          navigator.clipboard.writeText(url);
+        }
+      }
     },
     [data]
   );
@@ -58,11 +66,17 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
         </TableRow>
         <TableRow>
           <td className={styles.label}>{i18n.share_url}</td>
-          <td className={styles.value}>
-            <span>{url}</span>
-            <button data-src={url} onClick={handleClickCopy}>
-              <AiOutlineCopy />
-            </button>
+          <td className={cn(styles.value, styles.url)}>
+            <div className={styles.cell}>
+              <span>{url}</span>
+              <Popover
+  {/* createBase: (isOpen: boolean) => React.ReactNode; */}
+  {/* createPopover: (setIsOpen: React.Dispatch<React.SetStateAction<any>>) => React.ReactNode; */}
+              />
+              <button data-url={url} onClick={handleClickCopy}>
+                <AiOutlineCopy />
+              </button>
+            </div>
           </td>
         </TableRow>
         <TableRow>

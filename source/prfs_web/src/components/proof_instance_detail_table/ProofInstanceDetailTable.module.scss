@@ -30,6 +30,17 @@
   display: flex;
 }
 
-.last {
-  /* width: 100%; */
+.url {
+  cursor: pointer;
+
+  button {
+    cursor: pointer;
+    margin-left: 3px;
+    display: flex;
+    align-items: center;
+  }
+
+  svg {
+    font-size: 16px;
+  }
 }
