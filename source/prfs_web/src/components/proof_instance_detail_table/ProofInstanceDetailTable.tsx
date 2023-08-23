@@ -100,7 +100,7 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
           <td className={styles.value}>{createdAt}</td>
         </TableRow>
         <TableRow>
-          <td className={styles.label}>{i18n.proof_description}</td>
+          <td className={styles.label}>{i18n.proof_type_description}</td>
           <td className={styles.value}>{record.proof_desc}</td>
         </TableRow>
         <TableRow>

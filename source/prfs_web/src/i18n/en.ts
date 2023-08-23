@@ -19,6 +19,7 @@ export default {
   image_caption: "Image caption",
   created_at: "Created at",
   proof_description: "Proof description",
+  proof_type_description: "Proof type description",
   logo_label: "Prfs",
   label: "Label",
   circuit_type: "Circuit type",
