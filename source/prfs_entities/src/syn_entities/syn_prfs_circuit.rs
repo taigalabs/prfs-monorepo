@@ -1,4 +1,4 @@
-use crate::entities::{CircuitInputMeta, RawCircuitInputMeta};
+use crate::entities::{CircuitInputMeta, CircuitInputType, RawCircuitInputMeta};
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -29,6 +29,8 @@ pub struct PrfsCircuitSyn1 {
 
     #[ts(type = "Record<string, any>[]")]
     pub circuit_inputs_meta: sqlx::types::Json<Vec<CircuitInputMeta>>,
+
+    pub circuit_input_types: Vec<CircuitInputType>,
 
     #[ts(type = "Record<string, any>[]")]
     pub raw_circuit_inputs_meta: sqlx::types::Json<Vec<RawCircuitInputMeta>>,

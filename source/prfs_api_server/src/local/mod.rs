@@ -23,7 +23,7 @@ pub struct LocalAssets {
 pub fn load_local_assets() -> LocalAssets {
     let circuit_types = load_circuit_types();
     let circuit_input_types = load_circuit_input_types();
-    let syn_circuits = load_circuits(&circuit_types);
+    let syn_circuits = load_circuits(&circuit_types, &circuit_input_types);
     let drivers = load_driver_types();
 
     LocalAssets {
@@ -34,7 +34,10 @@ pub fn load_local_assets() -> LocalAssets {
     }
 }
 
-fn load_circuits(circuit_types: &HashMap<String, CircuitType>) -> HashMap<String, PrfsCircuitSyn1> {
+fn load_circuits(
+    circuit_types: &HashMap<String, CircuitType>,
+    circuit_input_types: &HashMap<String, CircuitInputType>,
+) -> HashMap<String, PrfsCircuitSyn1> {
     let build_list_json = prfs_circuit_circom::access::read_circuit_artifacts();
     let build_path = prfs_circuit_circom::access::get_build_fs_path();
 
@@ -58,6 +61,12 @@ fn load_circuits(circuit_types: &HashMap<String, CircuitType>) -> HashMap<String
         let c = build_json.circuit;
         let circuit_type = circuit_types.get(&c.circuit_type).unwrap();
 
+        let mut relevant_input_types = vec![];
+        for circuit_input in circuit_type.circuit_inputs_meta.iter() {
+            let circuit_input_type = circuit_input_types.get(&circuit_input.r#type).unwrap();
+            relevant_input_types.push(circuit_input_type.clone());
+        }
+
         let syn_circuit = PrfsCircuitSyn1 {
             circuit_id: c.circuit_id,
             circuit_type: c.circuit_type,
@@ -74,6 +83,7 @@ fn load_circuits(circuit_types: &HashMap<String, CircuitType>) -> HashMap<String
             driver_version: c.driver_version,
             driver_properties: c.driver_properties,
             circuit_inputs_meta: circuit_type.circuit_inputs_meta.clone(),
+            circuit_input_types: relevant_input_types,
             raw_circuit_inputs_meta: c.raw_circuit_inputs_meta,
             created_at: c.created_at,
         };
