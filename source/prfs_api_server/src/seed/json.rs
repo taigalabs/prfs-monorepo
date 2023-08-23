@@ -3,8 +3,8 @@ use prfs_entities::entities::{CircuitInputType, CircuitType};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct DriversJson {
-    pub drivers: Vec<PrfsCircuitDriver>,
+pub struct CircuitDriversJson {
+    pub circuit_drivers: Vec<PrfsCircuitDriver>,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]

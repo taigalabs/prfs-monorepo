@@ -1,6 +1,6 @@
 use crate::{
     paths::PATHS,
-    seed::json::{CircuitInputTypesJson, CircuitTypesJson, DriversJson},
+    seed::json::{CircuitDriversJson, CircuitInputTypesJson, CircuitTypesJson},
 };
 use colored::Colorize;
 use prfs_circuit_circom::{CircuitBuildJson, CircuitBuildListJson};
@@ -67,17 +67,17 @@ pub fn load_circuits() -> HashMap<String, PrfsCircuit> {
     circuits
 }
 
-pub fn load_driver_types() -> HashMap<String, PrfsCircuitDriver> {
+pub fn load_circuit_drivers() -> HashMap<String, PrfsCircuitDriver> {
     println!("\n{} circuit drivers", "Loading".green());
 
     // let drivers_json = load_system_native_driver_types();
-    let json_path = PATHS.data.join("drivers.json");
+    let json_path = PATHS.data.join("circuit_drivers.json");
     let b = std::fs::read(&json_path).expect(&format!("file not exists, {:?}", json_path));
-    let json: DriversJson = serde_json::from_slice(&b).unwrap();
+    let json: CircuitDriversJson = serde_json::from_slice(&b).unwrap();
 
     let mut m = HashMap::new();
-    for pgm in json.drivers {
-        m.insert(pgm.driver_id.to_string(), pgm.clone());
+    for pgm in json.circuit_drivers {
+        m.insert(pgm.circuit_driver_id.to_string(), pgm.clone());
     }
 
     return m;

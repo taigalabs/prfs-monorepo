@@ -1,5 +1,6 @@
-use super::local::load_driver_types;
-use crate::seed::local::{load_circuit_input_types, load_circuit_types, load_circuits};
+use crate::seed::local::{
+    load_circuit_drivers, load_circuit_input_types, load_circuit_types, load_circuits,
+};
 use chrono::{DateTime, NaiveDateTime, TimeZone, Utc};
 use prfs_db_interface::database2::Database2;
 use prfs_db_interface::db_apis;
@@ -8,17 +9,25 @@ use prfs_entities::sqlx::types::Json;
 use std::collections::HashMap;
 
 pub async fn upload(db: Database2) {
-    let driver_types = load_driver_types();
-    println!("driver_types: {:#?}", driver_types);
+    let pool = &db.pool;
+    let mut tx = pool.begin().await.unwrap();
 
-    // db_apis::insert_
+    let circuit_drivers = load_circuit_drivers();
+    println!("circuit_drivers: {:#?}", circuit_drivers);
 
-    let circuit_types = load_circuit_types();
-    println!("circuit_types: {:#?}", circuit_types);
+    for circuit_driver in circuit_drivers.values() {
+        let circuit_driver_id = db_apis::insert_prfs_circuit_driver(&mut tx, circuit_driver).await;
+        println!("Inserted circuit_driver, id: {}", circuit_driver_id);
+    }
 
-    let circuit_input_types = load_circuit_input_types();
-    println!("circuit_input_types: {:#?}", circuit_input_types);
+    // let circuit_types = load_circuit_types();
+    // println!("circuit_types: {:#?}", circuit_types);
 
-    let circuits = load_circuits();
-    println!("circuits: {:#?}", circuits);
+    // let circuit_input_types = load_circuit_input_types();
+    // println!("circuit_input_types: {:#?}", circuit_input_types);
+
+    // let circuits = load_circuits();
+    // println!("circuits: {:#?}", circuits);
+
+    tx.commit().await.unwrap();
 }

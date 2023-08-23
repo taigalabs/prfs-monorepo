@@ -56,8 +56,11 @@ pub struct RawCircuitInputMeta {
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
 pub struct PrfsCircuitDriver {
-    pub circuit_driver_id: String,
-    pub circuit_driver_repository_url: String,
+    #[ts(type = "string")]
+    pub circuit_driver_id: Uuid,
+
+    pub label: String,
+    pub driver_repository_url: String,
     pub version: String,
     pub author: String,
     pub desc: String,
