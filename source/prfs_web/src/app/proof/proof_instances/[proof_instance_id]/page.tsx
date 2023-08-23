@@ -101,14 +101,14 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
                 <ProofImage src={proofInstance.img_url} />
                 <div className={styles.expression}>{proofInstance.expression}</div>
               </div>
-            </div>
-
-            <div className={styles.row}>
-              <div className={styles.proofInstanceDetailTableContainer}>
-                <ProofInstanceDetailTable proofInstance={proofInstance} />
-              </div>
               <div className={styles.right}>
                 <ProofInstanceQRCode proofInstance={proofInstance} />
+              </div>
+            </div>
+
+            <div className={styles.singleColRow}>
+              <div className={styles.proofInstanceDetailTableContainer}>
+                <ProofInstanceDetailTable proofInstance={proofInstance} />
               </div>
             </div>
 

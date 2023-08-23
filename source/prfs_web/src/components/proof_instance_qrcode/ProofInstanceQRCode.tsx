@@ -19,7 +19,7 @@ const ProofInstanceQRCode: React.FC<ProofInstanceQRCodeProps> = ({ proofInstance
 
         await QRCode.toCanvas(canvasRef.current, url, {
           errorCorrectionLevel: "H",
-          width: 152,
+          width: 120,
         });
       }
     }
