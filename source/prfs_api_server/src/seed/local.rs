@@ -8,7 +8,7 @@ use prfs_circuit_type::local::access::{
     load_system_native_circuit_input_types, load_system_native_circuit_types,
 };
 use prfs_entities::{
-    entities::{CircuitInputType, CircuitType, PrfsCircuit, PrfsCircuitDriver},
+    entities::{CircuitInputType, PrfsCircuit, PrfsCircuitDriver, PrfsCircuitType},
     syn_entities::PrfsCircuitSyn1,
 };
 use std::{
@@ -83,7 +83,7 @@ pub fn load_circuit_drivers() -> HashMap<String, PrfsCircuitDriver> {
     return m;
 }
 
-pub fn load_circuit_types() -> HashMap<String, CircuitType> {
+pub fn load_circuit_types() -> HashMap<String, PrfsCircuitType> {
     println!("\n{} circuit types", "Loading".green());
 
     let json_path = PATHS.data.join("circuit_types.json");

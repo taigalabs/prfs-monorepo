@@ -20,9 +20,10 @@ pub async fn upload(db: Database2) {
         println!("Inserted circuit_driver, id: {}", circuit_driver_id);
     }
 
-    // let circuit_types = load_circuit_types();
-    // println!("circuit_types: {:#?}", circuit_types);
+    let circuit_types = load_circuit_types();
+    println!("circuit_types: {:#?}", circuit_types);
 
+    for circuit_type in circuit_types.values() {}
     // let circuit_input_types = load_circuit_input_types();
     // println!("circuit_input_types: {:#?}", circuit_input_types);
 

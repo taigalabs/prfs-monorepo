@@ -1,6 +1,6 @@
 use crate::{responses::ApiResponse, state::ServerState};
 use hyper::{body, Body, Request, Response};
-use prfs_entities::entities::{CircuitType, PrfsCircuitDriver};
+use prfs_entities::entities::{PrfsCircuitDriver, PrfsCircuitType};
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
@@ -14,7 +14,7 @@ struct GetCircuitTypesRequest {
 #[derive(Serialize, Deserialize, Debug)]
 struct GetCircuitTypesRespPayload {
     page: usize,
-    prfs_circuit_types: Vec<CircuitType>,
+    prfs_circuit_types: Vec<PrfsCircuitType>,
 }
 
 pub async fn get_prfs_native_circuit_types(

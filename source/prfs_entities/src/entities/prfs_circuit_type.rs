@@ -5,7 +5,7 @@ use ts_rs::TS;
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
-pub struct CircuitType {
+pub struct PrfsCircuitType {
     pub circuit_type: String,
     pub desc: String,
     pub author: String,
@@ -16,7 +16,8 @@ pub struct CircuitType {
     #[ts(type = "Record<string, any>[]")]
     pub circuit_inputs_meta: sqlx::types::Json<Vec<CircuitInputMeta>>,
 
-    pub prioritized_input_type_names: Vec<String>,
+    #[ts(type = "string[]")]
+    pub prioritized_input_type_names: sqlx::types::Json<Vec<String>>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
