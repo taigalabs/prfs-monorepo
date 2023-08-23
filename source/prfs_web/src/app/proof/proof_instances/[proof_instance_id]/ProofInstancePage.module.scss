@@ -18,7 +18,7 @@
 
 .singleColRow {
   display: flex;
-  padding: 40px 34px 0;
+  padding: 40px 30px 0;
 }
 
 .summary {
@@ -77,37 +77,5 @@
     border-radius: 5px;
     font-size: 13px;
     margin-top: 12px;
-  }
-}
-
-.urlView {
-  padding: 0 12px;
-  margin: 10px 0;
-
-  .label {
-    font-weight: 500;
-    margin-bottom: 3px;
-  }
-
-  .value {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    line-height: 18px;
-  }
-
-  button {
-    cursor: pointer;
-    margin-left: 3px;
-    color: var(--gray-20);
-    font-size: 18px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &:hover {
-      color: var(--black-00);
-    }
   }
 }

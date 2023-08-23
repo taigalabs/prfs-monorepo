@@ -21,22 +21,34 @@ import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
 const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ proofInstance }) => {
   const i18n = React.useContext(i18nContext);
 
-  const [data, setData] = React.useState<TableRecordData<PrfsProofInstanceSyn1>>({
+  const [data, _] = React.useState<TableRecordData<PrfsProofInstanceSyn1>>({
     record: proofInstance,
   });
 
-  const handleClickCopy = React.useCallback(
-    (ev: React.MouseEvent<HTMLElement>) => {
-      const el = ev.currentTarget as HTMLElement;
+  const url = React.useMemo(() => {
+    return `${process.env.NEXT_PUBLIC_PRFS_WEB_ENDPOINT}/p/${proofInstance.short_id}`;
+  }, [proofInstance]);
 
-      if (el) {
-        const url = el.getAttribute("data-url");
-        if (url) {
-          navigator.clipboard.writeText(url);
-        }
-      }
+  const handleClickCopy = React.useCallback(() => {
+    navigator.clipboard.writeText(url);
+  }, [url]);
+
+  const createCopyButton = React.useCallback(
+    (_: boolean) => {
+      return (
+        <button onClick={handleClickCopy}>
+          <AiOutlineCopy />
+        </button>
+      );
     },
-    [data]
+    [url]
+  );
+
+  const createCopyButtonTooltip = React.useCallback(
+    (setIsOpen: React.Dispatch<React.SetStateAction<any>>) => {
+      return <div>URL is copied</div>;
+    },
+    []
   );
 
   const rowsElem = React.useMemo(() => {
@@ -48,7 +60,7 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
     }
 
     const createdAt = dayjs(record.created_at).format("YYYY-MM-DD");
-    const url = `${process.env.NEXT_PUBLIC_PRFS_WEB_ENDPOINT}/p/${record.short_id}`;
+    // const url = `${process.env.NEXT_PUBLIC_PRFS_WEB_ENDPOINT}/p/${record.short_id}`;
 
     return (
       <TableBody>
@@ -69,13 +81,7 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
           <td className={cn(styles.value, styles.url)}>
             <div className={styles.cell}>
               <span>{url}</span>
-              <Popover
-  {/* createBase: (isOpen: boolean) => React.ReactNode; */}
-  {/* createPopover: (setIsOpen: React.Dispatch<React.SetStateAction<any>>) => React.ReactNode; */}
-              />
-              <button data-url={url} onClick={handleClickCopy}>
-                <AiOutlineCopy />
-              </button>
+              <Popover createBase={createCopyButton} createPopover={createCopyButtonTooltip} />
             </div>
           </td>
         </TableRow>
@@ -110,7 +116,7 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
         </TableRow>
       </TableBody>
     );
-  }, [data]);
+  }, [data, url]);
 
   return <Table>{rowsElem}</Table>;
 };

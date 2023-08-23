@@ -24,34 +24,12 @@ import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/Con
 import PublicInputsView from "@/components/public_inputs_view/PublicInputsView";
 import { SpacedBetweenArea } from "@/components/area/Area";
 
-const URLView: React.FC<URLViewProps> = ({ shortId }) => {
-  let i18n = React.useContext(i18nContext);
-
-  const url = `${process.env.NEXT_PUBLIC_PRFS_WEB_ENDPOINT}/p/${shortId}`;
-  const handleClickCopy = React.useCallback(() => {
-    navigator.clipboard.writeText(url);
-  }, [url]);
-
-  return (
-    <div className={styles.urlView}>
-      <p className={styles.label}>{i18n.url}</p>
-      <div className={styles.value}>
-        <span>{url}</span>
-        <button onClick={handleClickCopy}>
-          <AiOutlineCopy />
-        </button>
-      </div>
-    </div>
-  );
-};
-
 const ProofView: React.FC<ProofViewProps> = ({ proof }) => {
   let i18n = React.useContext(i18nContext);
 
   const proofElem = React.useMemo(() => {
-    const a = Buffer.from(proof).toString("hex");
-
-    return a;
+    const el = Buffer.from(proof).toString("hex");
+    return el;
   }, [proof]);
 
   return (
@@ -131,7 +109,6 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
               </div>
               <div className={styles.right}>
                 <ProofInstanceQRCode proofInstance={proofInstance} />
-                <URLView shortId={proofInstance.short_id} />
               </div>
             </div>
 
@@ -159,8 +136,4 @@ interface ProofInstancePageProps {
 
 interface ProofViewProps {
   proof: number[];
-}
-
-interface URLViewProps {
-  shortId: string;
 }
