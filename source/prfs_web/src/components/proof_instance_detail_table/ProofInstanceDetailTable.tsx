@@ -9,13 +9,13 @@ import Table, {
   TableRecordData,
   TableRow,
 } from "@taigalabs/prfs-react-components/src/table/Table";
-import { AiFillCheckCircle } from "react-icons/ai";
+import { AiFillCheckCircle, AiOutlineCopy } from "react-icons/ai";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import { BsFillCheckCircleFill } from "react-icons/bs";
+import dayjs from "dayjs";
 
 import styles from "./ProofInstanceDetailTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import dayjs from "dayjs";
 
 const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ proofInstance }) => {
   const i18n = React.useContext(i18nContext);
@@ -23,6 +23,13 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
   const [data, setData] = React.useState<TableRecordData<PrfsProofInstanceSyn1>>({
     record: proofInstance,
   });
+
+  const handleClickCopy = React.useCallback(
+    (ev: React.MouseEvent) => {
+      // navigator.clipboard.writeText(url);
+    },
+    [data]
+  );
 
   const rowsElem = React.useMemo(() => {
     let { record } = data;
@@ -33,6 +40,7 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
     }
 
     const createdAt = dayjs(record.created_at).format("YYYY-MM-DD");
+    const url = `${process.env.NEXT_PUBLIC_PRFS_WEB_ENDPOINT}/p/${record.short_id}`;
 
     return (
       <TableBody>
@@ -49,10 +57,20 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
           <td className={styles.value}>{record.proof_label}</td>
         </TableRow>
         <TableRow>
+          <td className={styles.label}>{i18n.share_url}</td>
+          <td className={styles.value}>
+            <span>{url}</span>
+            <button data-src={url} onClick={handleClickCopy}>
+              <AiOutlineCopy />
+            </button>
+          </td>
+        </TableRow>
+        <TableRow>
           <td className={styles.label}>{i18n.verified}</td>
           <td className={cn(styles.value, styles.verified)}>
             <div className={styles.cell}>
               <BsFillCheckCircleFill />
+              <span>{i18n.verified}</span>
             </div>
           </td>
         </TableRow>

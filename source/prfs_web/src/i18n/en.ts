@@ -39,6 +39,8 @@ export default {
   proof_instance_id: "Proof instance id",
   proof_type_id: "Proof type id",
   proof_label: "Proof label",
+  short_id: "Short id",
+  share_url: "Share URL",
   verified: "Verified",
   proof_type_search_guide: "Search proof types",
   proof_instance_search_guide: "Search proof instances",

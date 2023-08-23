@@ -22,6 +22,7 @@ import ProofImage from "@/components/proof_image/ProofImage";
 import SocialSharePopover from "@/components/social_share_popover/SocialSharePopover";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 import PublicInputsView from "@/components/public_inputs_view/PublicInputsView";
+import { SpacedBetweenArea } from "@/components/area/Area";
 
 const URLView: React.FC<URLViewProps> = ({ shortId }) => {
   let i18n = React.useContext(i18nContext);
@@ -102,17 +103,22 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
         </Head>
 
         <ContentAreaHeader>
-          <div className={styles.navigation}>
-            <Link href={paths.proof__proof_instances}>
-              <ArrowButton variant="left" />
-            </Link>
-          </div>
-          <WidgetLabel>{topWidgetLabel}</WidgetLabel>
+          <SpacedBetweenArea>
+            <div className={styles.navigation}>
+              <Link href={paths.proof__proof_instances}>
+                <ArrowButton variant="left" />
+              </Link>
+              <WidgetLabel>{topWidgetLabel}</WidgetLabel>
+            </div>
+            <div className={styles.headerRight}>
+              <SocialSharePopover />
+            </div>
+          </SpacedBetweenArea>
         </ContentAreaHeader>
 
         <ContentAreaRow>
           <Widget>
-            <div className={styles.singleValueRow}>
+            <div className={styles.singleColRow}>
               <div className={styles.summary}>
                 <ProofImage src={proofInstance.img_url} />
                 <div className={styles.expression}>{proofInstance.expression}</div>
@@ -126,15 +132,14 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
               <div className={styles.right}>
                 <ProofInstanceQRCode proofInstance={proofInstance} />
                 <URLView shortId={proofInstance.short_id} />
-                <SocialSharePopover />
               </div>
             </div>
 
-            <div className={styles.singleValueRow}>
+            <div className={styles.singleColRow}>
               <PublicInputsView publicInputs={proofInstance.public_inputs} />
             </div>
 
-            <div className={styles.singleValueRow}>
+            <div className={styles.singleColRow}>
               <ProofView proof={proofInstance.proof} />
             </div>
           </Widget>

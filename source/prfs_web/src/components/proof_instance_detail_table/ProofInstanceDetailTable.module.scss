@@ -19,8 +19,11 @@
 }
 
 .verified {
-  font-size: 16px;
-  color: var(--green-60);
+  svg {
+    margin-right: 4px;
+    font-size: 16px;
+    color: var(--green-60);
+  }
 }
 
 .cell {

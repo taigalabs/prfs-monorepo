@@ -1,15 +1,9 @@
 .navigation {
   display: flex;
   align-items: center;
-  font-size: 16px;
-  line-height: 24px;
-  margin-right: 22px;
 
   a {
-    color: var(--aqua-blue-50);
-    &:hover {
-      text-decoration: underline;
-    }
+    margin-right: 5px;
   }
 }
 
@@ -22,7 +16,7 @@
   }
 }
 
-.singleValueRow {
+.singleColRow {
   display: flex;
   padding: 40px 34px 0;
 }
@@ -92,34 +86,28 @@
 
   .label {
     font-weight: 500;
-    margin-bottom: 8px;
+    margin-bottom: 3px;
   }
 
   .value {
     display: flex;
     align-items: center;
     cursor: pointer;
-
-    &:hover {
-      text-decoration: underline;
-      color: var(--black-00);
-    }
+    line-height: 18px;
   }
 
   button {
     cursor: pointer;
     margin-left: 3px;
-    color: var(--black-00);
+    color: var(--gray-20);
+    font-size: 18px;
 
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 25px;
-    width: 25px;
-    border-radius: 25px;
 
     &:hover {
-      background-color: var(--bright-gray-50);
+      color: var(--black-00);
     }
   }
 }
