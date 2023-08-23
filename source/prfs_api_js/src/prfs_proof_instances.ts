@@ -56,7 +56,9 @@ export async function getPrfsProofInstances(req: GetPrfsProofInstancesRequest) {
 
 export async function getPrfsProofInstanceByShortId(req: { short_id: string }) {
   try {
-    let resp: GetPrfsProofInstancesResponse = await api({
+    let resp: PrfsApiResponse<{
+      prfs_proof_instance: PrfsProofInstance;
+    }> = await api({
       path: `get_prfs_proof_instance_by_short_id`,
       req,
     });

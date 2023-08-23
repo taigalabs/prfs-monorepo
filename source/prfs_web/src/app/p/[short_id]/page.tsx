@@ -22,10 +22,11 @@ const ShortIdPage: React.FC<ShortIdPageProps> = ({ params }) => {
             short_id: params.short_id,
           });
 
-          if (payload.prfs_proof_instances_syn1.length > 0) {
-            let proofInstanceId = payload.prfs_proof_instances_syn1[0].proof_instance_id;
-
+          if (payload.prfs_proof_instance) {
+            let proofInstanceId = payload.prfs_proof_instance.proof_instance_id;
             router.push(`${paths.proof__proof_instances}/${proofInstanceId}`);
+          } else {
+            throw new Error("Response does not contain proof instance");
           }
         } catch (err) {
           console.error(err);
