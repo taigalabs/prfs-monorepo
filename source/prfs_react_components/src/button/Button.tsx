@@ -32,7 +32,6 @@ export interface ButtonProps {
     | "text_aqua_blue_1"
     | "transparent_aqua_blue_1"
     | "transparent_aqua_blue_1_light";
-  // | "transparent_d";
   className?: string;
   children: React.ReactNode;
   disabled?: boolean;
