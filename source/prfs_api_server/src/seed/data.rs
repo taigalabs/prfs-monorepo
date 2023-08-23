@@ -1,4 +1,5 @@
 use super::local::load_driver_types;
+use crate::seed::local::{load_circuit_input_types, load_circuit_types};
 use chrono::{DateTime, NaiveDateTime, TimeZone, Utc};
 use prfs_db_interface::database2::Database2;
 use prfs_entities::entities::PrfsProofType;
@@ -8,4 +9,10 @@ use std::collections::HashMap;
 pub async fn upload(db: Database2) {
     let driver_types = load_driver_types();
     println!("driver_types: {:#?}", driver_types);
+
+    let circuit_types = load_circuit_types();
+    println!("circuit_types: {:#?}", circuit_types);
+
+    let circuit_input_types = load_circuit_input_types();
+    println!("circuit_input_types: {:#?}", circuit_input_types);
 }

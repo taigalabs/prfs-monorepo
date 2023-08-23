@@ -13,7 +13,10 @@ use std::{
     path::PathBuf,
 };
 
-use crate::{paths::PATHS, seed::json::DriversJson};
+use crate::{
+    paths::PATHS,
+    seed::json::{CircuitInputTypesJson, CircuitTypesJson, DriversJson},
+};
 
 pub struct LocalAssets {
     pub syn_circuits: HashMap<String, PrfsCircuitSyn1>,
@@ -116,10 +119,12 @@ pub fn load_driver_types() -> HashMap<String, CircuitDriver> {
 pub fn load_circuit_types() -> HashMap<String, CircuitType> {
     println!("\n{} circuit types", "Loading".green());
 
-    let circuit_types_json = load_system_native_circuit_types();
+    let json_path = PATHS.data.join("circuit_types.json");
+    let b = std::fs::read(&json_path).expect(&format!("file not exists, {:?}", json_path));
+    let json: CircuitTypesJson = serde_json::from_slice(&b).unwrap();
 
     let mut m = HashMap::new();
-    for circuit_type in circuit_types_json.circuit_types {
+    for circuit_type in json.circuit_types {
         println!("Reading circuit_type, name: {}", circuit_type.circuit_type);
 
         m.insert(circuit_type.circuit_type.to_string(), circuit_type.clone());
@@ -131,7 +136,9 @@ pub fn load_circuit_types() -> HashMap<String, CircuitType> {
 pub fn load_circuit_input_types() -> HashMap<String, CircuitInputType> {
     println!("\n{} circuit input types", "Loading".green());
 
-    let json = load_system_native_circuit_input_types();
+    let json_path = PATHS.data.join("circuit_input_types.json");
+    let b = std::fs::read(&json_path).expect(&format!("file not exists, {:?}", json_path));
+    let json: CircuitInputTypesJson = serde_json::from_slice(&b).unwrap();
 
     let mut m = HashMap::new();
     for input_type in json.circuit_input_types {
