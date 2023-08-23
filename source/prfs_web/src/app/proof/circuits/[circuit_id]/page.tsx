@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as prfsApi from "@taigalabs/prfs-api-js";
-import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
+import { PrfsCircuitSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsCircuitSyn1";
 import { RawCircuitInputMeta } from "@taigalabs/prfs-entities/bindings/RawCircuitInputMeta";
 import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
@@ -28,7 +28,7 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
   const { dispatch } = React.useContext(stateContext);
   const router = useRouter();
-  const [circuit, setCircuit] = React.useState<PrfsCircuit>();
+  const [circuit, setCircuit] = React.useState<PrfsCircuitSyn1>();
 
   useLocalWallet(dispatch);
 
@@ -42,10 +42,10 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
           circuit_id: params.circuit_id,
         });
 
-        const { prfs_circuits } = payload;
+        const { prfs_circuits_syn1 } = payload;
 
-        if (prfs_circuits.length > 0) {
-          setCircuit(prfs_circuits[0]);
+        if (prfs_circuits_syn1.length > 0) {
+          setCircuit(prfs_circuits_syn1[0]);
         } else {
           // router.push(paths.proof__circuits);
         }

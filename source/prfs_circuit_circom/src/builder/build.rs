@@ -153,7 +153,7 @@ fn create_build_json(circuit: &mut PrfsCircuit, timestamp: i64) {
 
     let circuit_build_json = CircuitBuildJson {
         timestamp,
-        inner: circuit.clone(),
+        circuit: circuit.clone(),
     };
 
     let build_json_path = PATHS

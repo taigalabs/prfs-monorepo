@@ -5,5 +5,6 @@ export interface CircuitInputMeta {
   label: string;
   type: string;
   desc: string;
+  show_priority: number;
   ref: string;
 }

@@ -1,5 +1,5 @@
 import { PrfsApiResponse } from "./types";
-import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
+import { PrfsCircuitSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsCircuitSyn1";
 
 import { api } from "./utils";
 
@@ -10,7 +10,7 @@ export interface GetNativeCircuitsRequest {
 
 export type GetNativeCircuitsResponse = PrfsApiResponse<{
   page: number;
-  prfs_circuits: PrfsCircuit[];
+  prfs_circuits_syn1: PrfsCircuitSyn1[];
 }>;
 
 export async function getPrfsNativeCircuits({ page, circuit_id }: GetNativeCircuitsRequest) {

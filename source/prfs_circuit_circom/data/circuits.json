@@ -20,21 +20,6 @@
         "wtns_gen_url": "",
         "circuit_url": ""
       },
-      "circuit_inputs_meta": [
-        {
-          "name": "sigData",
-          "label": "Signature",
-          "desc": "Message over which a signature is made",
-          "type": "SIG_DATA_1"
-        },
-        {
-          "name": "merkleProof",
-          "label": "Merkle proof",
-          "desc": "Vector commitment (Merkle root) of a set",
-          "type": "MERKLE_PROOF_1",
-          "ref": "PRFS_SET"
-        }
-      ],
       "raw_circuit_inputs_meta": [
         {
           "label": "Tx",

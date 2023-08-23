@@ -2,37 +2,40 @@ use colored::Colorize;
 use prfs_circuit_circom::{CircuitBuildJson, CircuitBuildListJson};
 use prfs_circuit_type::local::access::load_system_native_circuit_types;
 use prfs_driver_type::local::access::load_system_native_driver_types;
-use prfs_entities::entities::{CircuitDriver, CircuitType};
+use prfs_entities::{
+    entities::{CircuitDriver, CircuitType},
+    syn_entities::PrfsCircuitSyn1,
+};
 use std::{
     collections::{HashMap, HashSet},
     path::PathBuf,
 };
 
 pub struct LocalAssets {
-    pub circuits: HashMap<String, CircuitBuildJson>,
+    pub syn_circuits: HashMap<String, PrfsCircuitSyn1>,
     pub drivers: HashMap<String, CircuitDriver>,
     pub circuit_types: HashMap<String, CircuitType>,
 }
 
 pub fn load_local_assets() -> LocalAssets {
-    let circuits = load_circuits();
-    let drivers = load_driver_types();
     let circuit_types = load_circuit_types();
+    let syn_circuits = load_circuits(&circuit_types);
+    let drivers = load_driver_types();
 
     LocalAssets {
-        circuits,
+        syn_circuits,
         drivers,
         circuit_types,
     }
 }
 
-fn load_circuits() -> HashMap<String, CircuitBuildJson> {
+fn load_circuits(circuit_types: &HashMap<String, CircuitType>) -> HashMap<String, PrfsCircuitSyn1> {
     let build_list_json = prfs_circuit_circom::access::read_circuit_artifacts();
-
     let build_path = prfs_circuit_circom::access::get_build_fs_path();
 
-    let mut circuit_build = HashMap::new();
+    let mut syn_circuits = HashMap::new();
     let mut circuit_ids = HashSet::new();
+
     for circuit_name in build_list_json.circuits {
         let circuit_build_json_path = build_path.join(format!("{}/{}", circuit_name, "build.json"));
         println!(
@@ -43,15 +46,38 @@ fn load_circuits() -> HashMap<String, CircuitBuildJson> {
         let b = std::fs::read(circuit_build_json_path).unwrap();
         let build_json: CircuitBuildJson = serde_json::from_slice(&b).unwrap();
 
-        if circuit_ids.contains(&build_json.inner.circuit_id) {
+        if circuit_ids.contains(&build_json.circuit.circuit_id.to_string()) {
             panic!("Duplicate circuit id, build_json: {:?}", build_json);
         }
 
-        circuit_ids.insert(build_json.inner.circuit_id);
-        circuit_build.insert(circuit_name, build_json);
+        let c = build_json.circuit;
+        let circuit_type = circuit_types.get(&c.circuit_type).unwrap();
+
+        let syn_circuit = PrfsCircuitSyn1 {
+            circuit_id: c.circuit_id,
+            circuit_type: c.circuit_type,
+            label: c.label,
+            desc: c.desc,
+            author: c.author,
+            num_public_inputs: c.num_public_inputs,
+            circuit_dsl: c.circuit_dsl,
+            arithmetization: c.arithmetization,
+            proof_algorithm: c.proof_algorithm,
+            elliptic_curve: c.elliptic_curve,
+            finite_field: c.finite_field,
+            driver_id: c.driver_id,
+            driver_version: c.driver_version,
+            driver_properties: c.driver_properties,
+            circuit_inputs_meta: circuit_type.circuit_inputs_meta.clone(),
+            raw_circuit_inputs_meta: c.raw_circuit_inputs_meta,
+            created_at: c.created_at,
+        };
+
+        circuit_ids.insert(c.circuit_id.to_string());
+        syn_circuits.insert(circuit_name, syn_circuit);
     }
 
-    circuit_build
+    syn_circuits
 }
 
 fn load_driver_types() -> HashMap<String, CircuitDriver> {
@@ -70,6 +96,8 @@ fn load_circuit_types() -> HashMap<String, CircuitType> {
 
     let mut m = HashMap::new();
     for circuit_type in circuit_types_json.circuit_types {
+        println!("Reading circuit_type, name: {}", circuit_type.circuit_type);
+
         m.insert(circuit_type.circuit_type.to_string(), circuit_type.clone());
     }
 

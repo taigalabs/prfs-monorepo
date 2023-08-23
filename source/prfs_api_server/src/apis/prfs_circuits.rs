@@ -1,6 +1,7 @@
 use crate::{responses::ApiResponse, state::ServerState};
 use hyper::{body, Body, Request, Response};
 use prfs_circuit_circom::CircuitBuildJson;
+use prfs_entities::syn_entities::PrfsCircuitSyn1;
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
@@ -14,7 +15,7 @@ struct GetCircuitsRequest {
 #[derive(Serialize, Deserialize, Debug)]
 struct GetCircuitsRespPayload {
     page: usize,
-    prfs_circuits: Vec<CircuitBuildJson>,
+    prfs_circuits_syn1: Vec<PrfsCircuitSyn1>,
 }
 
 pub async fn get_prfs_native_circuits(req: Request<Body>) -> Result<Response<Body>, Infallible> {
@@ -30,21 +31,23 @@ pub async fn get_prfs_native_circuits(req: Request<Body>) -> Result<Response<Bod
 
     println!("req: {:?}", req);
 
-    let mut circuits = vec![];
+    let mut syn_circuits = vec![];
     if let Some(circuit_id) = req.circuit_id {
-        match state.local_assets.circuits.get(&circuit_id) {
-            Some(c) => circuits.push(c.clone()),
+        match state.local_assets.syn_circuits.get(&circuit_id) {
+            Some(c) => {
+                syn_circuits.push(c.clone());
+            }
             None => {}
         };
     } else {
-        for (_, circuit) in &state.local_assets.circuits {
-            circuits.push(circuit.clone());
+        for (_, circuit) in &state.local_assets.syn_circuits {
+            syn_circuits.push(circuit.clone());
         }
     }
 
     let resp = ApiResponse::new_success(GetCircuitsRespPayload {
         page: 0,
-        prfs_circuits: circuits,
+        prfs_circuits_syn1: syn_circuits,
     });
 
     return Ok(resp.into_hyper_response());

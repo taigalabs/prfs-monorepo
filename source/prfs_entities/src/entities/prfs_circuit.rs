@@ -1,4 +1,4 @@
-use super::{CircuitInputMeta, DriverPropertyMeta};
+use super::DriverPropertyMeta;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -26,9 +26,6 @@ pub struct PrfsCircuit {
 
     #[ts(type = "Record<string, string>")]
     pub driver_properties: sqlx::types::Json<HashMap<String, String>>,
-
-    #[ts(type = "Record<string, any>[]")]
-    pub circuit_inputs_meta: sqlx::types::Json<Vec<CircuitInputMeta>>,
 
     #[ts(type = "Record<string, any>[]")]
     pub raw_circuit_inputs_meta: sqlx::types::Json<Vec<RawCircuitInputMeta>>,

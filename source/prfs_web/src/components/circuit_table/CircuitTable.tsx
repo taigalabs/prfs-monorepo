@@ -30,10 +30,10 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
         page,
       })
       .then(resp => {
-        const { page, prfs_circuits } = resp.payload;
+        const { page, prfs_circuits_syn1 } = resp.payload;
         return {
           page,
-          values: prfs_circuits,
+          values: prfs_circuits_syn1,
         };
       });
   }, []);
