@@ -17,7 +17,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({ children }) => {
 };
 
 export const TableBody: React.FC<TableBodyProps> = ({ children }) => {
-  return <tbody className={styles.tableBodyWrapper}>{children}</tbody>;
+  return <tbody>{children}</tbody>;
 };
 
 export const TableSearch: React.FC<TableSearchProps> = ({ children }) => {
@@ -49,16 +49,7 @@ export function TableRow({ isSelected, children, onClickRow }: TableRowProps) {
 function Table({ children }: TableProps) {
   return (
     <div className={styles.tableWrapper}>
-      <table
-        className={styles.table}
-        style={
-          {
-            // minWidth,
-          }
-        }
-      >
-        {children}
-      </table>
+      <table className={styles.table}>{children}</table>
     </div>
   );
 }
@@ -67,7 +58,6 @@ export default Table;
 
 export interface TableProps {
   children: React.ReactNode;
-  // minWidth: number;
 }
 
 export type TableData<T> = {

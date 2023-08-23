@@ -21,6 +21,7 @@ import { paths } from "@/paths";
 import ProofImage from "@/components/proof_image/ProofImage";
 import SocialSharePopover from "@/components/social_share_popover/SocialSharePopover";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
+import PublicInputsView from "@/components/public_inputs_view/PublicInputsView";
 
 const URLView: React.FC<URLViewProps> = ({ shortId }) => {
   let i18n = React.useContext(i18nContext);
@@ -39,21 +40,6 @@ const URLView: React.FC<URLViewProps> = ({ shortId }) => {
           <AiOutlineCopy />
         </button>
       </div>
-    </div>
-  );
-};
-
-const PublicInputsView: React.FC<PublicInputsViewProps> = ({ publicInputs }) => {
-  let i18n = React.useContext(i18nContext);
-
-  const valueElem = React.useMemo(() => {
-    return JSON.stringify(publicInputs);
-  }, [publicInputs]);
-
-  return (
-    <div className={styles.proofView}>
-      <div className={styles.label}>{i18n.public_inputs}</div>
-      <div className={styles.value}>{valueElem}</div>
     </div>
   );
 };
@@ -168,10 +154,6 @@ interface ProofInstancePageProps {
 
 interface ProofViewProps {
   proof: number[];
-}
-
-interface PublicInputsViewProps {
-  publicInputs: Record<string, any>;
 }
 
 interface URLViewProps {

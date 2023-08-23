@@ -59,7 +59,7 @@ export default class SpartanDriver implements CircuitDriver {
   async prove(args: ProveArgs<MembershipProveInputs>): Promise<ProveReceipt> {
     const { inputs, eventListener } = args;
     const { sigData, merkleProof } = inputs;
-    const { msgHash, sig } = sigData;
+    const { msgRaw, msgHash, sig } = sigData;
 
     // console.log("inputs: %o", inputs);
 
@@ -76,7 +76,7 @@ export default class SpartanDriver implements CircuitDriver {
       effEcdsaPubInput.Uy
     );
 
-    const publicInput = new PublicInput(r, v, msgHash, circuitPubInput);
+    const publicInput = new PublicInput(r, v, msgRaw, msgHash, circuitPubInput);
     const m = new BN(msgHash).mod(SECP256K1_P);
 
     const witnessGenInput = {
