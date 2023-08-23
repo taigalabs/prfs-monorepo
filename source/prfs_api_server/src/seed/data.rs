@@ -14,12 +14,18 @@ pub async fn truncate(db: &Database2) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    sqlx::query("truncate table prfs_circuit_drivers restart identity")
-        .execute(&mut *tx)
-        .await
-        .unwrap();
+    let tables = ["prfs_circuit_drivers"];
+
+    for table in tables {
+        sqlx::query(&format!("truncate table {} restart identity", table))
+            .execute(&mut *tx)
+            .await
+            .unwrap();
+    }
 
     tx.commit().await.unwrap();
+
+    println!("Truncated tables, {:?}", tables);
 }
 
 pub async fn upload(db: &Database2) {
