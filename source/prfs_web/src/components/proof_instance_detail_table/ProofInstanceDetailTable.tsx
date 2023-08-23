@@ -45,8 +45,8 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
   );
 
   const createCopyButtonTooltip = React.useCallback(
-    (setIsOpen: React.Dispatch<React.SetStateAction<any>>) => {
-      return <div>URL is copied</div>;
+    (_: React.Dispatch<React.SetStateAction<any>>) => {
+      return <div className={styles.copyBtnTooltip}>{i18n.url_is_copied}</div>;
     },
     []
   );

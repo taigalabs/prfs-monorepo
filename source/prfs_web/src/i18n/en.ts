@@ -37,6 +37,7 @@ export default {
   public: "Public",
   hash_algorithm: "Hash algorithm",
   proof_instance_id: "Proof instance id",
+  url_is_copied: "URL is copied",
   proof_type_id: "Proof type id",
   proof_label: "Proof label",
   short_id: "Short id",
