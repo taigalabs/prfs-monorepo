@@ -36,7 +36,6 @@ pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Bod
     let state = state.clone();
 
     let pool = &state.db2.pool;
-    // let mut tx = pool.begin().await.unwrap();
 
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
@@ -48,19 +47,26 @@ pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Bod
         Some(proof_instance_id) => {
             let prfs_proof_instances_syn1 =
                 db_apis::get_prfs_proof_instance_syn1(pool, &proof_instance_id).await;
+
+            // let prfs_proof_instances_syn1 =
+            //     db_apis::get_prfs_proof_instance_syn1(pool, &proof_instance_id).await;
+
             let resp = ApiResponse::new_success(GetPrfsProofInstancesRespPayload {
                 page: req.page,
                 prfs_proof_instances_syn1,
             });
+
             return Ok(resp.into_hyper_response());
         }
         None => {
             let prfs_proof_instances_syn1 =
                 db_apis::get_prfs_proof_instances_syn1(pool, req.limit).await;
+
             let resp = ApiResponse::new_success(GetPrfsProofInstancesRespPayload {
                 page: req.page,
                 prfs_proof_instances_syn1,
             });
+
             return Ok(resp.into_hyper_response());
         }
     };
