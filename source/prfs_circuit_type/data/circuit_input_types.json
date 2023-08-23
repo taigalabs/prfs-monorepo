@@ -1,0 +1,51 @@
+{
+  "circuit_input_types": [
+    {
+      "type": "SIG_DATA_1",
+      "properties_meta": [
+        {
+          "name": "msgRaw",
+          "label": "Message raw",
+          "desc": "Raw string upon which e-signature has been made",
+          "type": "STRING",
+          "show_priority": 0
+        },
+        {
+          "name": "msgHash",
+          "label": "Message hash",
+          "desc": "Hash result of a message raw",
+          "type": "BUFFER"
+        },
+        {
+          "name": "sig",
+          "label": "Signature",
+          "desc": "E-signature",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "type": "MERKLE_PROOF_1",
+      "properties_meta": [
+        {
+          "name": "root",
+          "label": "Root",
+          "desc": "Root of a merkle tree",
+          "type": "BIGINT"
+        },
+        {
+          "name": "siblings",
+          "label": "Sibling nodes",
+          "desc": "Sibling nodes in climbing up the tree",
+          "type": "BIGINT[]"
+        },
+        {
+          "name": "pathIndices",
+          "label": "Path indices",
+          "desc": "Either left of right at a level with respect to sibling of a merkle tree",
+          "type": "number[]"
+        }
+      ]
+    }
+  ]
+}
