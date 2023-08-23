@@ -67,6 +67,32 @@ pub async fn get_prfs_proof_instance(pool: &Pool<Postgres>, id: &i64) -> Vec<Prf
     return prfs_proof_instances;
 }
 
+pub async fn get_prfs_proof_instance_by_short_id(
+    pool: &Pool<Postgres>,
+    short_id: &String,
+) -> PrfsProofInstance {
+    let query = "SELECT * from prfs_proof_instances where short_id=$1";
+
+    println!("query: {}", query);
+
+    let row = sqlx::query(query)
+        .bind(&short_id)
+        .fetch_one(pool)
+        .await
+        .unwrap();
+
+    let prfs_proof_instance = PrfsProofInstance {
+        proof_instance_id: row.get("proof_instance_id"),
+        short_id: row.get("short_id"),
+        proof_type_id: row.get("proof_type_id"),
+        proof: row.get("proof"),
+        public_inputs: row.get("public_inputs"),
+        created_at: row.get("created_at"),
+    };
+
+    return prfs_proof_instance;
+}
+
 pub async fn get_prfs_proof_instances_syn1(
     pool: &Pool<Postgres>,
     limit: Option<u32>,

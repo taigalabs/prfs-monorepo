@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
+import * as prfsApi from "@taigalabs/prfs-api-js";
 
 import { stateContext } from "@/contexts/state";
 import styles from "./Home.module.scss";
@@ -14,9 +15,7 @@ const PPage: React.FC = () => {
   const router = useRouter();
 
   React.useEffect(() => {
-    // if (process.env.NEXT_PUBLIC_IS_TEASER !== "yes") {
-    //   router.push(paths.proof__proof_instances);
-    // }
+    router.push(paths.__);
   }, [router]);
 
   return <div>{i18n.redirecting}</div>;

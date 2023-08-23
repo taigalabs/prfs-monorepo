@@ -19,6 +19,11 @@ struct GetPrfsProofInstancesRequest {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+struct GetPrfsProofInstancesByShortIdRespPayload {
+    prfs_proof_instance: PrfsProofInstance,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
 struct GetPrfsProofInstancesRespPayload {
     page: u32,
     prfs_proof_instances_syn1: Vec<PrfsProofInstanceSyn1>,
@@ -59,6 +64,36 @@ pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Bod
             return Ok(resp.into_hyper_response());
         }
     };
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct GetPrfsProofInstanceByShortIdRequest {
+    short_id: String,
+}
+
+pub async fn get_prfs_proof_instance_by_short_id(
+    req: Request<Body>,
+) -> Result<Response<Body>, Infallible> {
+    println!("get proof types");
+
+    let state = req.data::<Arc<ServerState>>().unwrap();
+    let state = state.clone();
+    let pool = &state.db2.pool;
+
+    let bytes = body::to_bytes(req.into_body()).await.unwrap();
+    let body_str = String::from_utf8(bytes.to_vec()).unwrap();
+    let req = serde_json::from_str::<GetPrfsProofInstanceByShortIdRequest>(&body_str).unwrap();
+
+    println!("req: {:?}", req);
+
+    let prfs_proof_instance =
+        db_apis::get_prfs_proof_instance_by_short_id(pool, &req.short_id).await;
+
+    let resp = ApiResponse::new_success(GetPrfsProofInstancesByShortIdRespPayload {
+        prfs_proof_instance,
+    });
+
+    return Ok(resp.into_hyper_response());
 }
 
 #[derive(Serialize, Deserialize, Debug)]
