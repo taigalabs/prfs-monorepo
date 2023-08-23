@@ -22,6 +22,7 @@ const PublicInputsView: React.FC<PublicInputsViewProps> = ({ publicInputs }) => 
         <TableRow key={key}>
           <td className={styles.label}>{key}</td>
           <td className={styles.value}>{JSON.stringify(value)}</td>
+          <td></td>
         </TableRow>
       );
 
@@ -34,12 +35,9 @@ const PublicInputsView: React.FC<PublicInputsViewProps> = ({ publicInputs }) => 
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.title}>{i18n.public_inputs}</div>
-      <div className={styles.tableWrapper}>
-        <Table>
-          <TableBody>{valueElem}</TableBody>
-        </Table>
-      </div>
+      <Table>
+        <TableBody>{valueElem}</TableBody>
+      </Table>
     </div>
   );
 };

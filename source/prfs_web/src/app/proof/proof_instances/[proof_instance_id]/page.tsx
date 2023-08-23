@@ -23,22 +23,7 @@ import SocialSharePopover from "@/components/social_share_popover/SocialSharePop
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 import PublicInputsView from "@/components/public_inputs_view/PublicInputsView";
 import { SpacedBetweenArea } from "@/components/area/Area";
-
-const ProofView: React.FC<ProofViewProps> = ({ proof }) => {
-  let i18n = React.useContext(i18nContext);
-
-  const proofElem = React.useMemo(() => {
-    const el = Buffer.from(proof).toString("hex");
-    return el;
-  }, [proof]);
-
-  return (
-    <div className={styles.proofView}>
-      <div className={styles.label}>{i18n.proof}</div>
-      <div className={styles.value}>{proofElem}</div>
-    </div>
-  );
-};
+import ProofView from "@/components/proof_view/ProofView";
 
 const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   let i18n = React.useContext(i18nContext);
@@ -73,13 +58,6 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   return (
     proofInstance && (
       <DefaultLayout>
-        <Head>
-          <link
-            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap"
-            rel="stylesheet"
-          />
-        </Head>
-
         <ContentAreaHeader>
           <SpacedBetweenArea>
             <div className={styles.navigation}>
@@ -100,24 +78,29 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
               <div className={styles.summary}>
                 <ProofImage src={proofInstance.img_url} />
                 <div className={styles.expression}>{proofInstance.expression}</div>
-              </div>
-              <div className={styles.right}>
                 <ProofInstanceQRCode proofInstance={proofInstance} />
               </div>
+              <div className={styles.right}></div>
             </div>
 
             <div className={styles.singleColRow}>
-              <div className={styles.proofInstanceDetailTableContainer}>
+              <div className={styles.tableContainer}>
                 <ProofInstanceDetailTable proofInstance={proofInstance} />
               </div>
             </div>
 
             <div className={styles.singleColRow}>
-              <PublicInputsView publicInputs={proofInstance.public_inputs} />
+              <div className={styles.tableContainer}>
+                <div className={styles.title}>{i18n.public_inputs}</div>
+                <PublicInputsView publicInputs={proofInstance.public_inputs} />
+              </div>
             </div>
 
             <div className={styles.singleColRow}>
-              <ProofView proof={proofInstance.proof} />
+              <div className={styles.tableContainer}>
+                <div className={styles.title}>{i18n.proof}</div>
+                <ProofView proof={proofInstance.proof} />
+              </div>
             </div>
           </Widget>
         </ContentAreaRow>
@@ -132,8 +115,4 @@ interface ProofInstancePageProps {
   params: {
     proof_instance_id: string;
   };
-}
-
-interface ProofViewProps {
-  proof: number[];
 }
