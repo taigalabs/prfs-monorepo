@@ -5,10 +5,24 @@ use chrono::{DateTime, NaiveDateTime, TimeZone, Utc};
 use prfs_db_interface::database2::Database2;
 use prfs_db_interface::db_apis;
 use prfs_entities::entities::PrfsProofType;
-use prfs_entities::sqlx::types::Json;
+use prfs_entities::sqlx::{self, types::Json};
 use std::collections::HashMap;
 
-pub async fn upload(db: Database2) {
+pub async fn truncate(db: &Database2) {
+    println!("Truncating tables...");
+
+    let pool = &db.pool;
+    let mut tx = pool.begin().await.unwrap();
+
+    sqlx::query("truncate table prfs_circuit_drivers restart identity")
+        .execute(&mut *tx)
+        .await
+        .unwrap();
+
+    tx.commit().await.unwrap();
+}
+
+pub async fn upload(db: &Database2) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
