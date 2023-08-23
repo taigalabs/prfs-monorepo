@@ -28,7 +28,7 @@ fn default_show_priority() -> u8 {
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
 pub struct CircuitInputType {
-    pub label: String,
+    pub circuit_input_type: String,
     pub properties_meta: Vec<CircuitInputTypeProperty>,
 }
 

@@ -1,9 +1,11 @@
 use colored::Colorize;
 use prfs_circuit_circom::{CircuitBuildJson, CircuitBuildListJson};
-use prfs_circuit_type::local::access::load_system_native_circuit_types;
+use prfs_circuit_type::local::access::{
+    load_system_native_circuit_input_types, load_system_native_circuit_types,
+};
 use prfs_driver_type::local::access::load_system_native_driver_types;
 use prfs_entities::{
-    entities::{CircuitDriver, CircuitType},
+    entities::{CircuitDriver, CircuitInputType, CircuitType},
     syn_entities::PrfsCircuitSyn1,
 };
 use std::{
@@ -15,10 +17,12 @@ pub struct LocalAssets {
     pub syn_circuits: HashMap<String, PrfsCircuitSyn1>,
     pub drivers: HashMap<String, CircuitDriver>,
     pub circuit_types: HashMap<String, CircuitType>,
+    pub circuit_input_types: HashMap<String, CircuitInputType>,
 }
 
 pub fn load_local_assets() -> LocalAssets {
     let circuit_types = load_circuit_types();
+    let circuit_input_types = load_circuit_input_types();
     let syn_circuits = load_circuits(&circuit_types);
     let drivers = load_driver_types();
 
@@ -26,6 +30,7 @@ pub fn load_local_assets() -> LocalAssets {
         syn_circuits,
         drivers,
         circuit_types,
+        circuit_input_types,
     }
 }
 
@@ -81,6 +86,8 @@ fn load_circuits(circuit_types: &HashMap<String, CircuitType>) -> HashMap<String
 }
 
 fn load_driver_types() -> HashMap<String, CircuitDriver> {
+    println!("{} circuit drivers", "Loading".green());
+
     let drivers_json = load_system_native_driver_types();
 
     let mut m = HashMap::new();
@@ -92,6 +99,8 @@ fn load_driver_types() -> HashMap<String, CircuitDriver> {
 }
 
 fn load_circuit_types() -> HashMap<String, CircuitType> {
+    println!("{} circuit types", "Loading".green());
+
     let circuit_types_json = load_system_native_circuit_types();
 
     let mut m = HashMap::new();
@@ -99,6 +108,27 @@ fn load_circuit_types() -> HashMap<String, CircuitType> {
         println!("Reading circuit_type, name: {}", circuit_type.circuit_type);
 
         m.insert(circuit_type.circuit_type.to_string(), circuit_type.clone());
+    }
+
+    return m;
+}
+
+fn load_circuit_input_types() -> HashMap<String, CircuitInputType> {
+    println!("{} circuit input types", "Loading".green());
+
+    let json = load_system_native_circuit_input_types();
+
+    let mut m = HashMap::new();
+    for input_type in json.circuit_input_types {
+        println!(
+            "Reading input_type, name: {}",
+            input_type.circuit_input_type
+        );
+
+        m.insert(
+            input_type.circuit_input_type.to_string(),
+            input_type.clone(),
+        );
     }
 
     return m;
