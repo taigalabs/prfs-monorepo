@@ -1,7 +1,8 @@
-use crate::{paths::PATHS, CircuitBuildJson, CircuitBuildListJson, CircuitsJson, FileKind};
+use crate::{
+    driver_id, paths::PATHS, CircuitBuildJson, CircuitBuildListJson, CircuitsJson, FileKind,
+};
 use chrono::{DateTime, NaiveDateTime, Utc};
 use colored::Colorize;
-use prfs_driver_type::driver_ids;
 use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
 use std::{io::Write, process::Command};
 
@@ -103,7 +104,7 @@ fn compile_circuits(circuit: &PrfsCircuit) {
     let circuit_driver_id = &circuit.circuit_driver_id;
 
     match circuit_driver_id.as_str() {
-        driver_ids::SPARTAN_CIRCOM_DRIVER_TYPE => {
+        driver_id::SPARTAN_CIRCOM_DRIVER_ID => {
             let instance_path = &circuit.driver_properties.get("instance_path").unwrap();
 
             let circuit_src_path = PATHS.circuits.join(&instance_path);

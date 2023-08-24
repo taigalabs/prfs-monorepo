@@ -19,7 +19,6 @@ members = [
   "source/prfs_circuit_circom",
 
   # prfs driver
-  "source/prfs_driver_type",
   "source/prfs_driver_spartan_wasm",
 
   # internals
