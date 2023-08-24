@@ -4,9 +4,6 @@ use crate::{
 };
 use colored::Colorize;
 use prfs_circuit_circom::{CircuitBuildJson, CircuitBuildListJson};
-use prfs_circuit_type::local::access::{
-    load_system_native_circuit_input_types, load_system_native_circuit_types,
-};
 use prfs_entities::{
     entities::{PrfsCircuit, PrfsCircuitDriver, PrfsCircuitInputType, PrfsCircuitType},
     syn_entities::PrfsCircuitSyn1,
@@ -15,27 +12,6 @@ use std::{
     collections::{HashMap, HashSet},
     path::PathBuf,
 };
-
-// pub struct LocalAssets {
-//     pub syn_circuits: HashMap<String, PrfsCircuitSyn1>,
-//     pub drivers: HashMap<String, CircuitDriver>,
-//     pub circuit_types: HashMap<String, CircuitType>,
-//     pub circuit_input_types: HashMap<String, CircuitInputType>,
-// }
-
-// pub fn load_local_assets() -> LocalAssets {
-//     let circuit_types = load_circuit_types();
-//     let circuit_input_types = load_circuit_input_types();
-//     let syn_circuits = load_circuits(&circuit_types, &circuit_input_types);
-//     let drivers = load_driver_types();
-
-//     LocalAssets {
-//         syn_circuits,
-//         drivers,
-//         circuit_types,
-//         circuit_input_types,
-//     }
-// }
 
 pub fn load_circuits() -> HashMap<String, PrfsCircuit> {
     let build_list_json = prfs_circuit_circom::access::read_circuit_artifacts();

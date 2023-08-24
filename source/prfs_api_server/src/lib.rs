@@ -1,6 +1,5 @@
 mod apis;
 pub mod envs;
-pub mod local;
 mod middleware;
 mod paths;
 mod responses;
