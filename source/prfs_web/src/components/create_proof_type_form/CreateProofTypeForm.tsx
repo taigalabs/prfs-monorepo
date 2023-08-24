@@ -156,7 +156,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       author: prfsAccount.sig,
       circuit_id: selectedCircuit.circuit_id,
       circuit_inputs: newCircuitInputs,
-      driver_id: selectedCircuit.driver_id,
+      circuit_driver_id: selectedCircuit.circuit_driver_id,
       driver_properties: selectedCircuit.driver_properties,
     };
 

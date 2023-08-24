@@ -1,5 +1,5 @@
 import { PrfsApiResponse } from "./types";
-import { CircuitType } from "@taigalabs/prfs-entities/bindings/CircuitType";
+import { PrfsCircuitType } from "@taigalabs/prfs-entities/bindings/PrfsCircuitType";
 
 import { api } from "./utils";
 
@@ -10,7 +10,7 @@ export interface GetNativeCircuitTypesRequest {
 
 export type GetNativeCircuitTypesResponse = PrfsApiResponse<{
   page: number;
-  prfs_circuit_types: CircuitType[];
+  prfs_circuit_types: PrfsCircuitType[];
 }>;
 
 export async function getPrfsNativeCircuitTypes({

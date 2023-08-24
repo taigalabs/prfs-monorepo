@@ -78,7 +78,7 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
           <Widget>
             <WidgetHeader>
               <WidgetLabel>
-                {i18n.driver_properties} ({circuit.driver_id})
+                {i18n.driver_properties} ({circuit.circuit_driver_id})
               </WidgetLabel>
             </WidgetHeader>
             <PaddedTableWrapper>

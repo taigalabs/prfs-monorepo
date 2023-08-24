@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
-import { CircuitDriver } from "@taigalabs/prfs-entities/bindings/CircuitDriver";
+import { PrfsCircuitDriver } from "@taigalabs/prfs-entities/bindings/PrfsCircuitDriver";
 import Table, {
   TableBody,
   TableHeader,
@@ -19,7 +19,7 @@ import { paths } from "@/paths";
 
 const DriverTable: React.FC<DriverTableProps> = ({ selectType, selectedVal, handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
-  const [data, setData] = React.useState<TableData<CircuitDriver>>({ page: 0, values: [] });
+  const [data, setData] = React.useState<TableData<PrfsCircuitDriver>>({ page: 0, values: [] });
 
   const handleChangeProofPage = React.useCallback(async (page: number) => {
     return prfsApi
@@ -56,18 +56,20 @@ const DriverTable: React.FC<DriverTableProps> = ({ selectType, selectedVal, hand
           }
         : undefined;
 
-      const isSelected = selectedVal && selectedVal.driver_id == val.driver_id;
+      const isSelected = selectedVal && selectedVal.circuit_driver_id == val.circuit_driver_id;
       const selType = selectType || "radio";
 
       let row = (
-        <TableRow key={val.driver_id} onClickRow={onClickRow} isSelected={isSelected}>
+        <TableRow key={val.circuit_driver_id} onClickRow={onClickRow} isSelected={isSelected}>
           {selectedVal && (
             <td className={styles.radio}>
               <input type={selType} checked={isSelected} readOnly />
             </td>
           )}
           <td className={styles.driver_id}>
-            <Link href={`${paths.proof__circuit_drivers}/${val.driver_id}`}>{val.driver_id}</Link>
+            <Link href={`${paths.proof__circuit_drivers}/${val.circuit_driver_id}`}>
+              {val.circuit_driver_id}
+            </Link>
           </td>
           <td className={styles.repoUrl}>{val.driver_repository_url}</td>
           <td className={styles.version}>{val.version}</td>
@@ -104,6 +106,6 @@ export default DriverTable;
 
 export interface DriverTableProps {
   selectType?: "checkbox" | "radio";
-  selectedVal?: CircuitDriver;
-  handleSelectVal?: (row: CircuitDriver) => void;
+  selectedVal?: PrfsCircuitDriver;
+  handleSelectVal?: (row: PrfsCircuitDriver) => void;
 }

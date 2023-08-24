@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
-import { CircuitType } from "@taigalabs/prfs-entities/bindings/CircuitType";
+import { PrfsCircuitType } from "@taigalabs/prfs-entities/bindings/PrfsCircuitType";
 import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./CircuitType.module.scss";
@@ -25,7 +25,7 @@ const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
   const { dispatch } = React.useContext(stateContext);
   const router = useRouter();
-  const [circuitType, setCircuitType] = React.useState<CircuitType>();
+  const [circuitType, setCircuitType] = React.useState<PrfsCircuitType>();
 
   const topWidgetLabel = `${i18n.circuit_type} - ${params.circuit_type_id}`;
 

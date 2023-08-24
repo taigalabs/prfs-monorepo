@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
-import { CircuitDriver } from "@taigalabs/prfs-entities/bindings/CircuitDriver";
+import { PrfsCircuitDriver } from "@taigalabs/prfs-entities/bindings/PrfsCircuitDriver";
 import { useRouter } from "next/navigation";
 import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
@@ -26,7 +26,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
   const { dispatch } = React.useContext(stateContext);
   const router = useRouter();
-  const [driver, setDriver] = React.useState<CircuitDriver>();
+  const [driver, setDriver] = React.useState<PrfsCircuitDriver>();
 
   useLocalWallet(dispatch);
 
@@ -34,7 +34,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
     prfsApi
       .getPrfsNativeCircuitDrivers({
         page: 0,
-        driver_id: params.driver_id,
+        circuit_driver_id: params.circuit_driver_id,
       })
       .then(resp => {
         const { prfs_circuit_drivers } = resp.payload;
@@ -47,7 +47,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
       });
   }, [setDriver]);
 
-  let programSummaryLabel = `${i18n.driver_summary_label} ${params.driver_id}`;
+  let programSummaryLabel = `${i18n.driver_summary_label} ${params.circuit_driver_id}`;
 
   return (
     <DefaultLayout>
@@ -99,6 +99,6 @@ export default Program;
 
 interface ProgramProps {
   params: {
-    driver_id: string;
+    circuit_driver_id: string;
   };
 }
