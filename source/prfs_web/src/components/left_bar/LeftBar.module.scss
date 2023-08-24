@@ -8,7 +8,8 @@
   font-size: 15px;
   border-right: 1px solid var(--bright-gray-31);
   color: var(--black-30);
-  overflow-y: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
 
   li {
     line-height: 1em;

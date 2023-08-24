@@ -8,7 +8,7 @@ export interface PrfsProofInstanceSyn1 {
   expression: string;
   img_url: string;
   circuit_id: string;
-  driver_id: string;
+  circuit_driver_id: string;
   proof_desc: string;
   proof_label: string;
   public_inputs: Record<string, any>;

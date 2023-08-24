@@ -53,7 +53,7 @@ const ProofGen: React.FC<ProofGenProps> = () => {
           const proof_type = payload.prfs_proof_types[0];
           const circuitInputCount = Object.keys(proof_type.circuit_inputs).length;
           const docHeight = calcFormHeight(circuitInputCount);
-          console.log("docHeight", docHeight);
+          // console.log("docHeight", docHeight);
 
           await sendMsgToParent(
             new HandshakeMsg({
