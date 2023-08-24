@@ -1,14 +1,12 @@
 import React from "react";
 import cn from "classnames";
 import Link from "next/link";
-import { FaAngleRight } from "react-icons/fa6";
-import { FaHatWizard } from "react-icons/fa6";
-import { FaHome } from "react-icons/fa";
-import { MdSpaceDashboard, MdOutlineDocumentScanner } from "react-icons/md";
-import { IoDocumentTextOutline, IoDocument } from "react-icons/io5";
-import { GrDocumentText } from "react-icons/gr";
-import { AiFillFolder } from "react-icons/ai";
-import { PiCircuitry, PiCircuitryFill } from "react-icons/pi";
+import { FaHatWizard } from "@react-icons/all-files/fa/FaHatWizard";
+import { MdDashboard } from "@react-icons/all-files/md/MdDashboard";
+import { IoDocumentTextOutline } from "@react-icons/all-files/io5/IoDocumentTextOutline";
+import { IoDocument } from "@react-icons/all-files/io5/IoDocument";
+import { PiCircuitry } from "@react-icons/all-files/pi/PiCircuitry";
+// import { PiCircuitry, PiCircuitryFill } from "react-icons/pi";
 import { AiTwotoneTool } from "react-icons/ai";
 import { TbTable, TbTableAlias } from "react-icons/tb";
 
@@ -39,7 +37,7 @@ const Leftbar: React.FC<any> = () => {
           <li>
             <ActiveLink href={paths.proof} exact activeClassName={styles.activeLink}>
               <div className={styles.button}>
-                <MdSpaceDashboard />
+                <MdDashboard />
                 <span>{i18n.dashboard}</span>
               </div>
             </ActiveLink>

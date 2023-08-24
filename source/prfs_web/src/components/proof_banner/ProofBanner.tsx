@@ -4,6 +4,7 @@ import QRCode from "qrcode";
 import { useRouter } from "next/navigation";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
+import { AiOutlineQrcode } from "react-icons/ai";
 
 import styles from "./ProofBanner.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -50,9 +51,10 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance }) => {
         <div className={styles.prioritizedValues}>{prioritizedValues.join(",")}</div>
         <div className={styles.url}>{url}</div>
       </div>
-      {/* <div className={styles.right}> */}
-      {/*   <ProofInstanceQRCode proofInstance={proofInstance} /> */}
-      {/* </div> */}
+      <div className={styles.right}>
+        <AiOutlineQrcode />
+        {/* <ProofInstanceQRCode proofInstance={proofInstance} /> */}
+      </div>
     </div>
   );
 };

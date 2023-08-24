@@ -4,7 +4,7 @@ import React from "react";
 import { useSearchParams } from "next/navigation";
 import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import { AiFillFolderAdd } from "react-icons/ai";
+import { AiFillFolderAdd } from "@react-icons/all-files/ai/AiFillFolderAdd";
 import Link from "next/link";
 
 import styles from "./ProofTypes.module.scss";

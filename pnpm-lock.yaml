@@ -386,6 +386,9 @@ importers:
       '@floating-ui/react':
         specifier: ^0.24.8
         version: 0.24.8(react-dom@18.2.0)(react@18.2.0)
+      '@react-icons/all-files':
+        specifier: ^4.1.0
+        version: 4.1.0(react@18.2.0)
       '@taigalabs/prfs-api-js':
         specifier: '*'
         version: link:../prfs_api_js
@@ -428,9 +431,6 @@ importers:
       react-dom:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
-      react-icons:
-        specifier: ^4.10.1
-        version: 4.10.1(react@18.2.0)
       readline:
         specifier: ^1.3.0
         version: 1.3.0
@@ -480,6 +480,9 @@ importers:
       '@floating-ui/react':
         specifier: ^0.24.8
         version: 0.24.8(react-dom@18.2.0)(react@18.2.0)
+      '@react-icons/all-files':
+        specifier: ^4.1.0
+        version: 4.1.0(react@18.2.0)
       '@taigalabs/prfs-api-js':
         specifier: '*'
         version: link:../prfs_api_js
@@ -537,9 +540,6 @@ importers:
       react-dom:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
-      react-icons:
-        specifier: ^4.10.1
-        version: 4.10.1(react@18.2.0)
       readline:
         specifier: ^1.3.0
         version: 1.3.0

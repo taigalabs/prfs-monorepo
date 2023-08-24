@@ -6,8 +6,6 @@ import * as prfsApi from "@taigalabs/prfs-api-js";
 import Link from "next/link";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
-import Head from "next/head";
-import { AiOutlineCopy } from "react-icons/ai";
 
 import styles from "./ProofInstancePage.module.scss";
 import { i18nContext } from "@/contexts/i18n";

@@ -4,7 +4,7 @@ import React from "react";
 import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
-import { AiFillPlusCircle } from "react-icons/ai";
+import { AiFillPlusCircle } from "@react-icons/all-files/ai/AiFillPlusCircle";
 
 import styles from "./CircuitDriverPage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
