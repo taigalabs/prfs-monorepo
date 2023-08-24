@@ -14,10 +14,12 @@ import ProofInstanceQRCode from "../proof_instance_qrcode/ProofInstanceQRCode";
 const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance }) => {
   const i18n = React.useContext(i18nContext);
 
-  const prioritizedValues = React.useMemo(() => {
+  const { prioritizedValues, url } = React.useMemo(() => {
     console.log(11, proofInstance);
 
-    const { public_inputs_meta, public_inputs } = proofInstance;
+    const { public_inputs_meta, public_inputs, short_id } = proofInstance;
+
+    const url = `${process.env.NEXT_PUBLIC_PRFS_WEB_ENDPOINT}/p/${short_id}`;
 
     let accessors = [];
     let values = [];
@@ -33,20 +35,20 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance }) => {
       }
     }
 
-    return values;
+    return { prioritizedValues: values, url };
   }, [proofInstance]);
 
   console.log(11, prioritizedValues);
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.left}>
+      <div className={styles.imgContainer}>
         <ProofImage img_url={proofInstance.img_url} img_caption={proofInstance.img_caption} />
       </div>
-      <div>
+      <div className={styles.content}>
         <div className={styles.expression}>{proofInstance.expression}</div>
-        <div>{prioritizedValues.join(",")}</div>
-        <div>url</div>
+        <div className={styles.prioritizedValues}>{prioritizedValues.join(",")}</div>
+        <div className={styles.url}>{url}</div>
       </div>
       {/* <div className={styles.right}> */}
       {/*   <ProofInstanceQRCode proofInstance={proofInstance} /> */}
