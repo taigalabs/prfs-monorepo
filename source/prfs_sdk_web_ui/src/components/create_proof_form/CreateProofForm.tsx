@@ -222,7 +222,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
 
       <div className={styles.footer}>
         <div className={styles.systemMsg}>
-          <div>{systemMsg}</div>
+          <span>{systemMsg}</span>
         </div>
         <div className={styles.sdkMeta}>
           {i18n.prfs_web_sdk} {process.env.NEXT_PUBLIC_VERSION}

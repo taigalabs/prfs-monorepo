@@ -61,6 +61,12 @@
   /* border: 1px solid red; */
 }
 
+.systemMsg {
+  width: 360px;
+  overflow: hidden;
+  height: 12px;
+}
+
 .terminalPage {
   display: flex;
   align-items: center;
