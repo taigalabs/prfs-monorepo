@@ -29,7 +29,7 @@
         }
       ],
       "driver_properties": {
-        "circuit_url": "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1692632478328.spartan.circuit",
+        "circuit_url": "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_0.0.1.spartan.circuit",
         "wtns_gen_url": "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_js/addr_membership2.wasm",
         "instance_path": "instances/addr_membership2.circom"
       },
