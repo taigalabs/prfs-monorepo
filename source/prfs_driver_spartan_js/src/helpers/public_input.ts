@@ -79,29 +79,6 @@ export class PublicInput {
     this.msgHash = msgHash;
     this.circuitPubInput = circuitPubInput;
   }
-
-  // serialize(): Uint8Array {
-  //   const circuitPubInput: Uint8Array = this.circuitPubInput.serialize();
-  //   let serialized = new Uint8Array(32 + 1 + this.msgHash.byteLength + circuitPubInput.byteLength);
-
-  //   serialized.set(bigIntToBytes(this.r, 32), 0);
-  //   serialized.set(bigIntToBytes(this.rV, 1), 32);
-  //   serialized.set(circuitPubInput, 33);
-  //   serialized.set(this.msgHash, 33 + circuitPubInput.byteLength);
-
-  //   return serialized;
-  // }
-
-  // static deserialize(serialized: Uint8Array): PublicInput {
-  //   const r = bytesToBigInt(serialized.slice(0, 32));
-  //   const rV = bytesToBigInt(serialized.slice(32, 33));
-  //   const circuitPubInput: CircuitPubInput = CircuitPubInput.deserialize(
-  //     serialized.slice(32 + 1, 32 + 1 + 32 * 5)
-  //   );
-  //   const msgHash = serialized.slice(32 + 1 + 32 * 5);
-
-  //   return new PublicInput(r, rV, Buffer.from(msgHash), circuitPubInput);
-  // }
 }
 
 /**

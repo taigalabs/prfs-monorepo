@@ -16,14 +16,22 @@ pub struct PrfsCircuitType {
     #[ts(type = "Record<string, any>[]")]
     pub circuit_inputs_meta: sqlx::types::Json<Vec<CircuitInputMeta>>,
 
-    #[ts(type = "string[]")]
-    pub prioritized_input_accessors: sqlx::types::Json<Vec<String>>,
+    #[ts(type = "Record<string, any>[]")]
+    pub public_inputs_meta: sqlx::types::Json<Vec<PublicInputMeta>>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
-pub struct DriverPropertyMeta {
+pub struct PublicInputMeta {
+    pub name: String,
     pub label: String,
     pub r#type: String,
     pub desc: String,
+
+    #[serde(default = "default_show_priority")]
+    pub show_priority: i16,
+}
+
+fn default_show_priority() -> i16 {
+    3
 }

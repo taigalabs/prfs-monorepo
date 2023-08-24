@@ -16,11 +16,12 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance }) => {
 
   console.log(11, proofInstance);
 
-  const { prioritized_input_accessors } = proofInstance;
+  // const { prioritized_input_accessors } = proofInstance;
 
-  for (const accessor in prioritized_input_accessors) {
-    console.log(2, accessor);
-  }
+  // for (const accessor of prioritized_input_accessors) {
+  //   const a = accessObj(accessor, proofInstance.public_inputs);
+  //   console.log(22, a);
+  // }
 
   return (
     <div className={styles.wrapper}>

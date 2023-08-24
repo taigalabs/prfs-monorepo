@@ -1,4 +1,3 @@
-use super::DriverPropertyMeta;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -24,4 +23,12 @@ pub struct PrfsCircuitDriver {
 
     #[ts(type = "number")]
     pub created_at: DateTime<Utc>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[ts(export)]
+pub struct DriverPropertyMeta {
+    pub label: String,
+    pub r#type: String,
+    pub desc: String,
 }

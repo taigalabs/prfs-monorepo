@@ -11,7 +11,7 @@ pub async fn get_prfs_proof_instance_syn1(
 ) -> Vec<PrfsProofInstanceSyn1> {
     let query = r#"
 SELECT ppi.*, ppt.expression, ppt.img_url, ppt.label as proof_label, ppt.desc as proof_desc,
-ppt.circuit_driver_id, ppt.circuit_id, ppt.img_caption, pct.prioritized_input_accessors
+ppt.circuit_driver_id, ppt.circuit_id, ppt.img_caption, pct.public_inputs_meta
 FROM prfs_proof_instances ppi
 INNER JOIN prfs_proof_types ppt ON ppi.proof_type_id=ppt.proof_type_id
 INNER JOIN prfs_circuit_types pct ON pct.circuit_type=ppt.circuit_type
@@ -39,7 +39,7 @@ WHERE ppi.proof_instance_id=$1
             circuit_id: row.get("circuit_id"),
             circuit_driver_id: row.get("circuit_driver_id"),
             proof_desc: row.get("proof_desc"),
-            prioritized_input_accessors: row.get("prioritized_input_accessors"),
+            public_inputs_meta: row.get("public_inputs_meta"),
             proof_label: row.get("proof_label"),
             public_inputs: row.get("public_inputs"),
             created_at: row.get("created_at"),
@@ -81,7 +81,7 @@ pub async fn get_prfs_proof_instances_syn1(
 ) -> Vec<PrfsProofInstanceSyn1> {
     let query = r#"
 SELECT ppi.*, ppt.expression, ppt.img_url, ppt.label as proof_label, ppt.desc as proof_desc,
-ppt.circuit_driver_id, ppt.circuit_id, ppt.img_caption, pct.prioritized_input_accessors
+ppt.circuit_driver_id, ppt.circuit_id, ppt.img_caption, pct.public_inputs_meta
 FROM prfs_proof_instances ppi
 INNER JOIN prfs_proof_types ppt ON ppi.proof_type_id=ppt.proof_type_id
 INNER JOIN prfs_circuit_types pct ON pct.circuit_type=ppt.circuit_type
@@ -112,7 +112,7 @@ limit $1
             circuit_driver_id: row.get("circuit_driver_id"),
             proof_desc: row.get("proof_desc"),
             proof_label: row.get("proof_label"),
-            prioritized_input_accessors: row.get("prioritized_input_accessors"),
+            public_inputs_meta: row.get("public_inputs_meta"),
             public_inputs: row.get("public_inputs"),
             created_at: row.get("created_at"),
         })

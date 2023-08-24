@@ -2,6 +2,8 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
+use crate::entities::PublicInputMeta;
+
 #[derive(Debug, Serialize, Deserialize, TS)]
 #[ts(export)]
 pub struct PrfsProofInstanceSyn1 {
@@ -21,8 +23,8 @@ pub struct PrfsProofInstanceSyn1 {
     pub proof_desc: String,
     pub proof_label: String,
 
-    #[ts(type = "string[]")]
-    pub prioritized_input_accessors: sqlx::types::Json<Vec<String>>,
+    #[ts(type = "Record<string, any>[]")]
+    pub public_inputs_meta: sqlx::types::Json<Vec<PublicInputMeta>>,
 
     #[ts(type = "Record<string, any>")]
     pub public_inputs: sqlx::types::Json<serde_json::Value>,

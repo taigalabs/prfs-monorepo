@@ -21,7 +21,39 @@
           "ref": "PRFS_SET"
         }
       ],
-      "prioritized_input_accessors": ["sigData.msgRaw"]
+      "public_inputs_meta": [
+        {
+          "name": "r",
+          "label": "r",
+          "desc": "'s' element of elliptic curve signature",
+          "type": "BIGINT"
+        },
+        {
+          "name": "rV",
+          "label": "v",
+          "desc": "'v' element of elliptic curve signature",
+          "type": "BIGINT"
+        },
+        {
+          "name": "msgRaw",
+          "label": "Message raw",
+          "desc": "Message over which a digital signature is made",
+          "type": "STRING",
+          "show_priority": 0
+        },
+        {
+          "name": "msgHash",
+          "label": "Message hash",
+          "desc": "Message hash in u8 array",
+          "type": "BUFFER"
+        },
+        {
+          "name": "circuitPubInput",
+          "label": "Circuit public input",
+          "desc": "Raw public inputs that go into circuit to verify",
+          "type": "JSON"
+        }
+      ]
     }
   ]
 }
