@@ -279,9 +279,6 @@ importers:
       '@taigalabs/prfs-driver-interface':
         specifier: '*'
         version: link:../prfs_driver_interface
-      '@taigalabs/prfs-driver-type':
-        specifier: '*'
-        version: link:../prfs_driver_type
       bn.js:
         specifier: ^5.2.1
         version: 5.2.1
@@ -331,8 +328,6 @@ importers:
       webpack:
         specifier: ^5.88.2
         version: 5.88.2
-
-  source/prfs_driver_type: {}
 
   source/prfs_entities: {}
 
@@ -403,9 +398,6 @@ importers:
       '@taigalabs/prfs-driver-spartan-js':
         specifier: '*'
         version: link:../prfs_driver_spartan_js
-      '@taigalabs/prfs-driver-type':
-        specifier: '*'
-        version: link:../prfs_driver_type
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
@@ -500,9 +492,6 @@ importers:
       '@taigalabs/prfs-driver-spartan-js':
         specifier: '*'
         version: link:../prfs_driver_spartan_js
-      '@taigalabs/prfs-driver-type':
-        specifier: '*'
-        version: link:../prfs_driver_type
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities

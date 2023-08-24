@@ -17,8 +17,6 @@ pub struct Paths {
     pub prfs_asset_server_assets: PathBuf,
     pub prfs_asset_server_assets_local: PathBuf,
     pub prfs_entities_bindings: PathBuf,
-    pub prfs_driver_type: PathBuf,
-    pub prfs_driver_type_bindings: PathBuf,
     pub prfs_driver_spartan_js: PathBuf,
     pub prfs_driver_spartan_wasm: PathBuf,
     pub prfs_driver_spartan_wasm_build: PathBuf,
@@ -55,9 +53,6 @@ impl Paths {
 
         let prfs_entities_bindings = curr_dir.join("source/prfs_entities/bindings");
 
-        let prfs_driver_type = curr_dir.join("source/prfs_driver_type");
-        let prfs_driver_type_bindings = curr_dir.join("source/prfs_driver_type/bindings");
-
         let prfs_driver_spartan_js = curr_dir.join("source/prfs_driver_spartan_js");
         let prfs_driver_spartan_wasm = curr_dir.join("source/prfs_driver_spartan_wasm");
         let prfs_driver_spartan_wasm_build = curr_dir.join("source/prfs_driver_spartan_wasm/build");
@@ -69,9 +64,6 @@ impl Paths {
             curr_dir,
 
             internals_ci_docker_postgres,
-
-            prfs_driver_type,
-            prfs_driver_type_bindings,
 
             prfs_driver_spartan_js,
             prfs_driver_spartan_wasm,

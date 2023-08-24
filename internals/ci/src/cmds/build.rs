@@ -1,7 +1,6 @@
 use crate::{
     build_handle::BuildHandle,
     build_task::{
-        build_driver_interface_ts_binding::BuildDriverInterfaceTSBindingTask,
         build_js_dependencies::BuildJsDependenciesTask,
         build_prfs_driver_spartan_js::BuildPrfsDriverSpartanJsTask,
         build_prfs_driver_spartan_wasm::BuildPrfsDriverSpartanWasmTask,
@@ -19,7 +18,6 @@ pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
     };
 
     let tasks: Vec<Box<dyn BuildTask>> = vec![
-        Box::new(BuildDriverInterfaceTSBindingTask),
         Box::new(BuildPrfsEntitiesTSBindingTask),
         Box::new(BuildJsDependenciesTask),
         Box::new(CompileCircuitsTask),
