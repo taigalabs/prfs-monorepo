@@ -28,8 +28,8 @@ const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
       const handleSelectSet = React.useCallback(
         (val: PrfsSet) => {
           setSelectedSet(val);
-          setCircuitInputs((oldVal: Record<number, CircuitInput>) => {
-            const newVal = { ...oldVal };
+          setCircuitInputs((oldVal: CircuitInput[]) => {
+            const newVal = [...oldVal];
             newVal[idx] = {
               name: input.name,
               label: input.label,
@@ -98,5 +98,5 @@ export default CircuitInputConfigSection;
 
 interface CircuitInputConfigSectionProps {
   circuitInputsMeta: CircuitInputMeta[];
-  setCircuitInputs: React.Dispatch<React.SetStateAction<Record<number, CircuitInput>>>;
+  setCircuitInputs: React.Dispatch<React.SetStateAction<CircuitInput[]>>;
 }

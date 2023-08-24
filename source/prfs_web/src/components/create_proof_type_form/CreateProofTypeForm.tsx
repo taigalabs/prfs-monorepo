@@ -32,7 +32,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const { localPrfsAccount } = state;
   const router = useRouter();
 
-  const [circuitInputs, setCircuitInputs] = React.useState<Record<number, CircuitInput>>({});
+  const [circuitInputs, setCircuitInputs] = React.useState<CircuitInput[]>([]);
   const [name, setName] = React.useState("");
   const [imgUrl, setImgUrl] = React.useState(null);
   const [imgCaption, setImgCaption] = React.useState(null);
@@ -166,7 +166,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     } catch (err: any) {
       console.error(err);
 
-      setErrMsg(err);
+      setErrMsg(err.toString());
     }
   }, [circuitInputs, selectedCircuit, name, setErrMsg, desc, localPrfsAccount]);
 
