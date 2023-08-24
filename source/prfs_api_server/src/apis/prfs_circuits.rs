@@ -1,15 +1,17 @@
 use crate::{responses::ApiResponse, state::ServerState};
 use hyper::{body, Body, Request, Response};
 use prfs_circuit_circom::CircuitBuildJson;
+use prfs_db_interface::db_apis;
 use prfs_entities::syn_entities::PrfsCircuitSyn1;
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
+use uuid::Uuid;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct GetCircuitsRequest {
     page: u32,
-    circuit_id: Option<String>,
+    circuit_id: Option<Uuid>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -31,21 +33,14 @@ pub async fn get_prfs_native_circuits(req: Request<Body>) -> Result<Response<Bod
 
     println!("req: {:?}", req);
 
-    unimplemented!();
-
-    // let mut syn_circuits = vec![];
-    // if let Some(circuit_id) = req.circuit_id {
-    //     match state.local_assets.syn_circuits.get(&circuit_id) {
-    //         Some(c) => {
-    //             syn_circuits.push(c.clone());
-    //         }
-    //         None => {}
-    //     };
-    // } else {
-    //     for (_, circuit) in &state.local_assets.syn_circuits {
-    //         syn_circuits.push(circuit.clone());
-    //     }
-    // }
+    if let Some(circuit_id) = req.circuit_id {
+        let prfs_circuit_syn1 = db_apis::get_prfs_circuit_syn1(pool, circuit_id).await;
+    } else {
+        let prfs_circuit_syn1 = db_apis::get_prfs_circuits_syn1(pool).await;
+        // for (_, circuit) in &state.local_assets.syn_circuits {
+        //     syn_circuits.push(circuit.clone());
+        // }
+    }
 
     // let resp = ApiResponse::new_success(GetCircuitsRespPayload {
     //     page: 0,

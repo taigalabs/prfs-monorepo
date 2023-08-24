@@ -15,13 +15,13 @@ pub struct PrfsCircuitSyn1 {
     pub label: String,
     pub desc: String,
     pub author: String,
-    pub num_public_inputs: u32,
+    pub num_public_inputs: i16,
     pub circuit_dsl: String,
     pub arithmetization: String,
     pub proof_algorithm: String,
     pub elliptic_curve: String,
     pub finite_field: String,
-    pub driver_id: String,
+    pub circuit_driver_id: String,
     pub driver_version: String,
 
     #[ts(type = "Record<string, string>")]
