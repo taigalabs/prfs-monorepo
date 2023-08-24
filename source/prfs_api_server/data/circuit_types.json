@@ -21,7 +21,7 @@
           "ref": "PRFS_SET"
         }
       ],
-      "prioritized_input_type_names": ["msgRaw"]
+      "prioritized_input_type_names": ["sigData.msgRaw"]
     }
   ]
 }
