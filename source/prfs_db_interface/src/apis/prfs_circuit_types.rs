@@ -22,7 +22,7 @@ from prfs_circuit_types"#;
             desc: row.get("desc"),
             author: row.get("author"),
             circuit_inputs_meta: row.get("circuit_inputs_meta"),
-            prioritized_input_type_names: row.get("prioritized_input_type_names"),
+            prioritized_input_accessors: row.get("prioritized_input_accessors"),
             created_at: row.get("created_at"),
         })
         .collect();
@@ -54,7 +54,7 @@ where circuit_type=$1"#;
             desc: row.get("desc"),
             author: row.get("author"),
             circuit_inputs_meta: row.get("circuit_inputs_meta"),
-            prioritized_input_type_names: row.get("prioritized_input_type_names"),
+            prioritized_input_accessors: row.get("prioritized_input_accessors"),
             created_at: row.get("created_at"),
         })
         .collect();
@@ -68,7 +68,7 @@ pub async fn insert_prfs_circuit_type(
 ) -> String {
     let query = r#"
 INSERT INTO prfs_circuit_types
-(circuit_type, "desc", author, circuit_inputs_meta, prioritized_input_type_names)
+(circuit_type, "desc", author, circuit_inputs_meta, prioritized_input_accessors)
 VALUES ($1, $2, $3, $4, $5) returning circuit_type"#;
 
     let row = sqlx::query(query)
@@ -76,7 +76,7 @@ VALUES ($1, $2, $3, $4, $5) returning circuit_type"#;
         .bind(&circuit_type.desc)
         .bind(&circuit_type.author)
         .bind(&circuit_type.circuit_inputs_meta)
-        .bind(&circuit_type.prioritized_input_type_names)
+        .bind(&circuit_type.prioritized_input_accessors)
         .fetch_one(&mut **tx)
         .await
         .unwrap();

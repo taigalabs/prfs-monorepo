@@ -6,5 +6,5 @@ export interface PrfsCircuitType {
   author: string;
   created_at: number;
   circuit_inputs_meta: Record<string, any>[];
-  prioritized_input_type_names: string[];
+  prioritized_input_accessors: string[];
 }

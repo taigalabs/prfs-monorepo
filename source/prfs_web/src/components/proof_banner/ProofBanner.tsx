@@ -9,10 +9,18 @@ import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import ProofImage from "../proof_image/ProofImage";
 import ProofInstanceQRCode from "../proof_instance_qrcode/ProofInstanceQRCode";
+import { accessObj } from "@/functions/obj_access";
 
 const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance }) => {
   const i18n = React.useContext(i18nContext);
+
   console.log(11, proofInstance);
+
+  const { prioritized_input_accessors } = proofInstance;
+
+  for (const accessor in prioritized_input_accessors) {
+    console.log(2, accessor);
+  }
 
   return (
     <div className={styles.wrapper}>

@@ -12,7 +12,7 @@ export interface PrfsProofInstanceSyn1 {
   circuit_driver_id: string;
   proof_desc: string;
   proof_label: string;
-  prioritized_input_type_names: string[];
+  prioritized_input_accessors: string[];
   public_inputs: Record<string, any>;
   created_at: string;
 }

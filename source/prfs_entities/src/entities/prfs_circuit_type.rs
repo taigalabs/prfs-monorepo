@@ -17,7 +17,7 @@ pub struct PrfsCircuitType {
     pub circuit_inputs_meta: sqlx::types::Json<Vec<CircuitInputMeta>>,
 
     #[ts(type = "string[]")]
-    pub prioritized_input_type_names: sqlx::types::Json<Vec<String>>,
+    pub prioritized_input_accessors: sqlx::types::Json<Vec<String>>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
