@@ -12,7 +12,7 @@ export interface PrfsCircuitSyn1 {
   proof_algorithm: string;
   elliptic_curve: string;
   finite_field: string;
-  driver_id: string;
+  circuit_driver_id: string;
   driver_version: string;
   driver_properties: Record<string, string>;
   circuit_inputs_meta: Record<string, any>[];

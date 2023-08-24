@@ -26,6 +26,8 @@ pub async fn get_prfs_native_circuits(req: Request<Body>) -> Result<Response<Bod
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
 
+    let pool = &state.db2.pool;
+
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
     let req = serde_json::from_str::<GetCircuitsRequest>(&body_str)
@@ -33,19 +35,16 @@ pub async fn get_prfs_native_circuits(req: Request<Body>) -> Result<Response<Bod
 
     println!("req: {:?}", req);
 
-    if let Some(circuit_id) = req.circuit_id {
-        let prfs_circuit_syn1 = db_apis::get_prfs_circuit_syn1(pool, circuit_id).await;
+    let prfs_circuits_syn1 = if let Some(circuit_id) = req.circuit_id {
+        db_apis::get_prfs_circuit_syn1(&pool, &circuit_id).await
     } else {
-        let prfs_circuit_syn1 = db_apis::get_prfs_circuits_syn1(pool).await;
-        // for (_, circuit) in &state.local_assets.syn_circuits {
-        //     syn_circuits.push(circuit.clone());
-        // }
-    }
+        db_apis::get_prfs_circuits_syn1(&pool).await
+    };
 
-    // let resp = ApiResponse::new_success(GetCircuitsRespPayload {
-    //     page: 0,
-    //     prfs_circuits_syn1: syn_circuits,
-    // });
+    let resp = ApiResponse::new_success(GetCircuitsRespPayload {
+        page: 0,
+        prfs_circuits_syn1,
+    });
 
-    // return Ok(resp.into_hyper_response());
+    return Ok(resp.into_hyper_response());
 }
