@@ -9,6 +9,7 @@
       "img_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Ethereum_logo_translucent.svg/1449px-Ethereum_logo_translucent.svg.png",
       "img_caption": "0.0001",
       "circuit_id": "00000000-0000-0000-0000-000000000000",
+      "circuit_type": "MEMBERSHIP_PROOF_1",
       "circuit_driver_id": "SPARTAN_CIRCOM_1",
       "circuit_inputs": [
         {

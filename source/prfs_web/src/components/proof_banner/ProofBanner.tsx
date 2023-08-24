@@ -12,16 +12,20 @@ import ProofInstanceQRCode from "../proof_instance_qrcode/ProofInstanceQRCode";
 
 const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance }) => {
   const i18n = React.useContext(i18nContext);
+  console.log(11, proofInstance);
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.left}>
         <ProofImage img_url={proofInstance.img_url} img_caption={proofInstance.img_caption} />
+      </div>
+      <div>
         <div className={styles.expression}>{proofInstance.expression}</div>
+        <div>power</div>
       </div>
-      <div className={styles.right}>
-        <ProofInstanceQRCode proofInstance={proofInstance} />
-      </div>
+      {/* <div className={styles.right}> */}
+      {/*   <ProofInstanceQRCode proofInstance={proofInstance} /> */}
+      {/* </div> */}
     </div>
   );
 };

@@ -10,6 +10,7 @@ use routerify::prelude::*;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, convert::Infallible, sync::Arc};
+use uuid::Uuid;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct GetPrfsProofTypesRequest {
@@ -64,7 +65,8 @@ struct CreatePrfsProofTypesRequest {
     author: String,
     label: String,
     desc: String,
-    circuit_id: String,
+    circuit_id: Uuid,
+    circuit_type: String,
     circuit_driver_id: String,
     expression: String,
     img_url: Option<String>,
@@ -100,8 +102,8 @@ pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
         expression: req.expression.to_string(),
         img_url: req.img_url,
         img_caption: req.img_caption,
-
-        circuit_id: req.circuit_id.to_string(),
+        circuit_id: req.circuit_id,
+        circuit_type: req.circuit_type.to_string(),
         circuit_driver_id: req.circuit_driver_id.to_string(),
         circuit_inputs: Json::from(req.circuit_inputs.clone()),
         driver_properties: Json::from(req.driver_properties.clone()),

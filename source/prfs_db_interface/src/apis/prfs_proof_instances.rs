@@ -9,12 +9,13 @@ pub async fn get_prfs_proof_instance_syn1(
     pool: &Pool<Postgres>,
     proof_instance_id: &uuid::Uuid,
 ) -> Vec<PrfsProofInstanceSyn1> {
-    let query = "\
-SELECT ppi.*, ppt.expression, ppt.img_url, ppt.label as proof_label, ppt.desc as proof_desc, \
-ppt.circuit_driver_id, ppt.circuit_id, ppt.img_caption \
-FROM prfs_proof_instances ppi \
-INNER JOIN prfs_proof_types ppt ON ppi.proof_type_id=ppt.proof_type_id \
-WHERE ppi.proof_instance_id=$1";
+    let query = r#"
+SELECT ppi.*, ppt.expression, ppt.img_url, ppt.label as proof_label, ppt.desc as proof_desc,
+ppt.circuit_driver_id, ppt.circuit_id, ppt.img_caption
+FROM prfs_proof_instances ppi
+INNER JOIN prfs_proof_types ppt ON ppi.proof_type_id=ppt.proof_type_id
+WHERE ppi.proof_instance_id=$1
+"#;
 
     println!("query: {}", query);
 

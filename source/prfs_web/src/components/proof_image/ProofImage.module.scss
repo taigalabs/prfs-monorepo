@@ -5,6 +5,9 @@
   width: 100px;
   height: 100px;
   position: relative;
+  border: 1px solid black;
+  border-radius: 20px;
+  overflow: hidden;
 
   img {
     max-width: 100px;
@@ -18,7 +21,7 @@
   justify-content: center;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 5px;
 
   p {
     font-size: 11px;
