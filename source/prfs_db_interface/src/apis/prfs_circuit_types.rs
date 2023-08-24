@@ -176,7 +176,7 @@ pub async fn insert_prfs_circuit_type(
     let query = r#"
 INSERT INTO prfs_circuit_types
 (circuit_type, "desc", author, circuit_inputs_meta, prioritized_input_type_names)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8) returning circuit_type"#;
+VALUES ($1, $2, $3, $4, $5) returning circuit_type"#;
 
     let row = sqlx::query(query)
         .bind(&circuit_type.circuit_type)

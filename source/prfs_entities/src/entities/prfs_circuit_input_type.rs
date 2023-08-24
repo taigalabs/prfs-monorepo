@@ -20,9 +20,11 @@ fn default_ref() -> String {
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
-pub struct CircuitInputType {
+pub struct PrfsCircuitInputType {
     pub circuit_input_type: String,
-    pub properties_meta: Vec<CircuitInputTypeProperty>,
+
+    #[ts(type = "Record<string, any>[]")]
+    pub properties_meta: sqlx::types::Json<Vec<CircuitInputTypeProperty>>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]

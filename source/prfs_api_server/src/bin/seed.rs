@@ -22,7 +22,7 @@ async fn main() -> Result<(), ApiServerError> {
 
     seed::data::truncate(&db).await;
 
-    // seed::data::upload(&db).await;
+    seed::data::upload(&db).await;
 
     Ok(())
 }

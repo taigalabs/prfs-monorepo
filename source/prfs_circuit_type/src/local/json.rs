@@ -1,4 +1,4 @@
-use prfs_entities::entities::{CircuitInputType, PrfsCircuitType};
+use prfs_entities::entities::{PrfsCircuitInputType, PrfsCircuitType};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
@@ -8,5 +8,5 @@ pub struct CircuitTypesJson2 {
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct CircuitInputTypesJson2 {
-    pub circuit_input_types: Vec<CircuitInputType>,
+    pub circuit_input_types: Vec<PrfsCircuitInputType>,
 }

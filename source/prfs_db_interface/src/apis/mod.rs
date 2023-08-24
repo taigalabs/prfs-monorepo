@@ -1,6 +1,7 @@
 mod eth_accounts;
 mod prfs_accounts;
 mod prfs_circuit_drivers;
+mod prfs_circuit_input_types;
 mod prfs_circuit_types;
 mod prfs_proof_instances;
 mod prfs_proof_types;
@@ -10,6 +11,7 @@ mod prfs_tree_nodes;
 pub use eth_accounts::*;
 pub use prfs_accounts::*;
 pub use prfs_circuit_drivers::*;
+pub use prfs_circuit_input_types::*;
 pub use prfs_circuit_types::*;
 pub use prfs_proof_instances::*;
 pub use prfs_proof_types::*;

@@ -14,7 +14,11 @@ pub async fn truncate(db: &Database2) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    let tables = ["prfs_circuit_drivers"];
+    let tables = [
+        "prfs_circuit_drivers",
+        "prfs_circuit_input_types",
+        "prfs_circuit_types",
+    ];
 
     for table in tables {
         sqlx::query(&format!("truncate table {} restart identity", table))
@@ -47,8 +51,12 @@ pub async fn upload(db: &Database2) {
         db_apis::insert_prfs_circuit_type(&mut tx, circuit_type).await;
     }
 
-    // let circuit_input_types = load_circuit_input_types();
-    // println!("circuit_input_types: {:#?}", circuit_input_types);
+    let circuit_input_types = load_circuit_input_types();
+    println!("circuit_input_types: {:#?}", circuit_input_types);
+
+    for circuit_input_type in circuit_input_types.values() {
+        db_apis::insert_prfs_circuit_input_type(&mut tx, circuit_input_type).await;
+    }
 
     // let circuits = load_circuits();
     // println!("circuits: {:#?}", circuits);
