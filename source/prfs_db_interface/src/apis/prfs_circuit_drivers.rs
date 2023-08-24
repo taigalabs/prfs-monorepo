@@ -172,7 +172,7 @@ use rust_decimal::Decimal;
 pub async fn insert_prfs_circuit_driver(
     tx: &mut Transaction<'_, Postgres>,
     circuit_driver: &PrfsCircuitDriver,
-) -> uuid::Uuid {
+) -> String {
     let query = r#"
 INSERT INTO prfs_circuit_drivers
 (circuit_driver_id, driver_repository_url, version, author, "desc", circuit_types,
@@ -192,9 +192,7 @@ VALUES ($1, $2, $3, $4, $5, $6, $7, $8) returning circuit_driver_id"#;
         .await
         .unwrap();
 
-    let circuit_driver_id: uuid::Uuid = row.get("circuit_driver_id");
-
-    println!("circuit_driver_id: {}", circuit_driver_id);
+    let circuit_driver_id: String = row.get("circuit_driver_id");
 
     circuit_driver_id
 }

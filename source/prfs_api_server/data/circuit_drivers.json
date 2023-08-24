@@ -1,7 +1,7 @@
 {
   "circuit_drivers": [
     {
-      "circuit_driver_id": "00000000-0000-0000-0000-000000000000",
+      "circuit_driver_id": "SPARTAN_CIRCOME_1",
       "label": "Spartan Circom 1",
       "driver_repository_url": "https://github.com/taigalabs/prfs-monorepo/tree/main/source/prfs_driver_spartan_js",
       "driver_properties_meta": [

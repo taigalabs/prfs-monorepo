@@ -18,6 +18,7 @@ pub async fn truncate(db: &Database2) {
         "prfs_circuit_drivers",
         "prfs_circuit_input_types",
         "prfs_circuit_types",
+        "prfs_circuits",
     ];
 
     for table in tables {
@@ -58,8 +59,12 @@ pub async fn upload(db: &Database2) {
         db_apis::insert_prfs_circuit_input_type(&mut tx, circuit_input_type).await;
     }
 
-    // let circuits = load_circuits();
-    // println!("circuits: {:#?}", circuits);
+    let circuits = load_circuits();
+    println!("circuits: {:#?}", circuits);
+
+    for circuit in circuits.values() {
+        db_apis::insert_prfs_circuit(&mut tx, circuit).await;
+    }
 
     tx.commit().await.unwrap();
 }

@@ -15,13 +15,14 @@ pub struct PrfsCircuit {
     pub label: String,
     pub desc: String,
     pub author: String,
-    pub num_public_inputs: u32,
+    pub num_public_inputs: i16,
     pub circuit_dsl: String,
     pub arithmetization: String,
     pub proof_algorithm: String,
     pub elliptic_curve: String,
     pub finite_field: String,
-    pub driver_id: String,
+
+    pub circuit_driver_id: String,
     pub driver_version: String,
 
     #[ts(type = "Record<string, string>")]
@@ -51,28 +52,6 @@ pub struct RawCircuitInputMeta {
 
     #[serde(default = "default_public")]
     pub public: bool,
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone, TS)]
-#[ts(export)]
-pub struct PrfsCircuitDriver {
-    #[ts(type = "string")]
-    pub circuit_driver_id: Uuid,
-
-    pub label: String,
-    pub driver_repository_url: String,
-    pub version: String,
-    pub author: String,
-    pub desc: String,
-
-    #[ts(type = "string[]")]
-    pub circuit_types: sqlx::types::Json<Vec<String>>,
-
-    #[ts(type = "Record<string, any>[]")]
-    pub driver_properties_meta: sqlx::types::Json<Vec<DriverPropertyMeta>>,
-
-    #[ts(type = "number")]
-    pub created_at: DateTime<Utc>,
 }
 
 fn default_public() -> bool {

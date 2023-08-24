@@ -100,9 +100,9 @@ fn read_circuits_json() -> CircuitsJson {
 }
 
 fn compile_circuits(circuit: &PrfsCircuit) {
-    let driver_id = &circuit.driver_id;
+    let circuit_driver_id = &circuit.circuit_driver_id;
 
-    match driver_id.as_str() {
+    match circuit_driver_id.as_str() {
         driver_ids::SPARTAN_CIRCOM_DRIVER_TYPE => {
             let instance_path = &circuit.driver_properties.get("instance_path").unwrap();
 
@@ -131,7 +131,7 @@ fn compile_circuits(circuit: &PrfsCircuit) {
         }
         _ => panic!(
             "We cannot compile a circuit of this type, driver: {:?}",
-            driver_id.as_str()
+            circuit_driver_id.as_str()
         ),
     };
 }
