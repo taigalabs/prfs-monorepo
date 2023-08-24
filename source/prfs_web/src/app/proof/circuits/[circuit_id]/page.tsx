@@ -23,6 +23,7 @@ import CircuitInputMetaTable from "@/components/circuit_input_meta_table/Circuit
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
+import Table2 from "@/components/table2/Table2";
 
 const Circuit: React.FC<CircuitProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -65,10 +66,12 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
         </Link>
         <WidgetLabel>{topWidgetLabel}</WidgetLabel>
       </ContentAreaHeader>
+
       <ContentAreaRow>
         <Widget>
           <PaddedSummaryWrapper>
-            <CircuitSummary circuit={circuit} />
+            <Table2 />
+            {/* <CircuitSummary circuit={circuit} /> */}
           </PaddedSummaryWrapper>
         </Widget>
       </ContentAreaRow>
@@ -87,6 +90,7 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
           </Widget>
         </ContentAreaRow>
       )}
+
       {circuit && (
         <ContentAreaRow>
           <Widget>
