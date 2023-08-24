@@ -69,7 +69,7 @@ struct CreatePrfsProofTypesRequest {
     expression: String,
     img_url: Option<String>,
     img_caption: Option<String>,
-    circuit_inputs: HashMap<u32, CircuitInput>,
+    circuit_inputs: Vec<CircuitInput>,
     driver_properties: HashMap<String, String>,
 }
 

@@ -22,7 +22,7 @@ pub struct PrfsProofType {
     pub circuit_driver_id: String,
 
     #[ts(type = "Record<number, any>")]
-    pub circuit_inputs: sqlx::types::Json<HashMap<u32, CircuitInput>>,
+    pub circuit_inputs: sqlx::types::Json<Vec<CircuitInput>>,
 
     #[ts(type = "Record<string, any>")]
     pub driver_properties: sqlx::types::Json<HashMap<String, String>>,

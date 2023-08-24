@@ -11,7 +11,7 @@ pub async fn get_prfs_proof_instance_syn1(
 ) -> Vec<PrfsProofInstanceSyn1> {
     let query = "\
 SELECT ppi.*, ppt.expression, ppt.img_url, ppt.label as proof_label, ppt.desc as proof_desc, \
-ppt.driver_id, ppt.circuit_id \
+ppt.circuit_driver_id, ppt.circuit_id \
 FROM prfs_proof_instances ppi \
 INNER JOIN prfs_proof_types ppt ON ppi.proof_type_id=ppt.proof_type_id \
 WHERE ppi.proof_instance_id=$1";
@@ -34,7 +34,7 @@ WHERE ppi.proof_instance_id=$1";
             expression: row.get("expression"),
             img_url: row.get("img_url"),
             circuit_id: row.get("circuit_id"),
-            driver_id: row.get("driver_id"),
+            circuit_driver_id: row.get("circuit_driver_id"),
             proof_desc: row.get("proof_desc"),
             proof_label: row.get("proof_label"),
             public_inputs: row.get("public_inputs"),
@@ -101,7 +101,7 @@ pub async fn get_prfs_proof_instances_syn1(
 
     let query = "\
 SELECT ppi.*, ppt.expression, ppt.img_url, ppt.label as proof_label, ppt.desc as proof_desc, \
-ppt.driver_id, ppt.circuit_id \
+ppt.circuit_driver_id, ppt.circuit_id \
 FROM prfs_proof_instances ppi \
 INNER JOIN prfs_proof_types ppt ON ppi.proof_type_id=ppt.proof_type_id \
 limit $1";
@@ -126,7 +126,7 @@ limit $1";
             expression: row.get("expression"),
             img_url: row.get("img_url"),
             circuit_id: row.get("circuit_id"),
-            driver_id: row.get("driver_id"),
+            circuit_driver_id: row.get("circuit_driver_id"),
             proof_desc: row.get("proof_desc"),
             proof_label: row.get("proof_label"),
             public_inputs: row.get("public_inputs"),

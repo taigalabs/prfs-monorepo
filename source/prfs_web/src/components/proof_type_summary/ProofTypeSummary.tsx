@@ -11,6 +11,7 @@ import ColumnarSummary, {
   ColumnarSummaryCellHeader,
   ColumnarSummaryColumn,
 } from "@/components/columnal_summary/ColumnarSummary";
+import { paths } from "@/paths";
 
 const ProofTypeSummary: React.FC<ProofTypeSummaryProps> = ({ proofType }) => {
   const i18n = React.useContext(i18nContext);
@@ -47,7 +48,9 @@ const ProofTypeSummary: React.FC<ProofTypeSummaryProps> = ({ proofType }) => {
           <ColumnarSummaryCell>
             <ColumnarSummaryCellHeader>{i18n.driver_id}</ColumnarSummaryCellHeader>
             <div>
-              <Link href={`/programs/${proofType.driver_id}`}>{proofType.driver_id}</Link>
+              <Link href={`${paths.proof__circuit_drivers}/${proofType.circuit_driver_id}`}>
+                {proofType.circuit_driver_id}
+              </Link>
             </div>
           </ColumnarSummaryCell>
         </ColumnarSummaryColumn>

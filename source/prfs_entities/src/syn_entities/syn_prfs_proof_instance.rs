@@ -16,7 +16,7 @@ pub struct PrfsProofInstanceSyn1 {
     pub expression: String,
     pub img_url: String,
     pub circuit_id: String,
-    pub driver_id: String,
+    pub circuit_driver_id: String,
     pub proof_desc: String,
     pub proof_label: String,
 
