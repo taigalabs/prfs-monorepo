@@ -80,6 +80,8 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
 
           setCreateProofPage(CreateProofPage.PROGRESS);
 
+          proofGenEventListener("plain", `Process starts in 3 seconds`);
+
           await delay(3000);
 
           proofGenEventListener(

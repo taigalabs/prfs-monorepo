@@ -1,0 +1,17 @@
+.wrapper {
+  width: 100%;
+  word-break: break-all;
+}
+
+.label {
+  font-weight: 500;
+}
+
+.value {
+  font-family: "JetBrains Mono", monospace;
+  padding: 6px 8px;
+  border: 1px solid var(--bright-gray-31);
+  border-radius: 5px;
+  font-size: 13px;
+  margin-top: 12px;
+}

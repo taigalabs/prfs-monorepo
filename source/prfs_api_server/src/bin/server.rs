@@ -2,7 +2,7 @@ use colored::Colorize;
 use hyper::Server;
 use prfs_api_server::envs::ENVS;
 use prfs_api_server::state::ServerState;
-use prfs_api_server::{local, router, ApiServerError};
+use prfs_api_server::{router, ApiServerError};
 use prfs_db_interface::database2::Database2;
 use routerify::RouterService;
 use std::sync::Arc;
@@ -17,7 +17,7 @@ async fn main() -> Result<(), ApiServerError> {
     let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     println!("manifest_dir: {:?}", manifest_dir);
 
-    let local_assets = local::load_local_assets();
+    // let local_assets = local::load_local_assets();
 
     let pg_endpoint = &ENVS.postgres_endpoint;
     let pg_username = &ENVS.postgres_username;
@@ -27,7 +27,7 @@ async fn main() -> Result<(), ApiServerError> {
         .await
         .unwrap();
 
-    let server_state = Arc::new(ServerState { local_assets, db2 });
+    let server_state = Arc::new(ServerState { db2 });
 
     let router = router::make_router(server_state).expect("make_router fail");
     let service = RouterService::new(router).expect("router service init fail");

@@ -6,7 +6,7 @@ export default {
   public_inputs: "Public inputs",
   private_inputs: "Private inputs",
   prfs_web_sdk: "Prfs Web SDK",
-  proof_creation_title: "Proof creation starts soon",
+  proof_creation_title: "Proof creation",
   start_create_proof_guide_1:
     "Do not refresh the page, try later if you are running other CPU-intensive works",
   start_create_proof_guide_2: "15-20s to take on average, process will be force-stopped after 60s",

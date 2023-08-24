@@ -12,11 +12,11 @@ import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
-import Card from "@/components/card/Card";
-import CardRow from "@/components/card_row/CardRow";
 import CircuitTable from "@/components/circuit_table/CircuitTable";
 import Link from "next/link";
 import { paths } from "@/paths";
+import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
+import { SpacedBetweenArea } from "@/components/area/Area";
 
 const Circuits: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -26,28 +26,26 @@ const Circuits: React.FC = () => {
 
   return (
     <DefaultLayout>
-      <CardRow>
-        <Card>
-          <Widget>
-            <TopWidgetTitle>
-              <div className={styles.titleInner}>
-                <WidgetLabel>{i18n.circuits}</WidgetLabel>
-                <Button variant="transparent_aqua_blue_1" disabled>
-                  <Link href={`${paths.proof__circuits}?create`}>
-                    <AiFillPlusCircle />
-                    {i18n.create_circuit.toUpperCase()}
-                  </Link>
-                </Button>
-              </div>
-            </TopWidgetTitle>
-            <PaddedTableWrapper>
-              <div className={styles.circuitTableContainer}>
-                <CircuitTable />
-              </div>
-            </PaddedTableWrapper>
-          </Widget>
-        </Card>
-      </CardRow>
+      <ContentAreaHeader>
+        <SpacedBetweenArea>
+          <WidgetLabel>{i18n.circuits}</WidgetLabel>
+          <Button variant="transparent_aqua_blue_1" disabled>
+            <Link href={`${paths.proof__circuits}?create`}>
+              <AiFillPlusCircle />
+              <span>{i18n.create_circuit.toUpperCase()}</span>
+            </Link>
+          </Button>
+        </SpacedBetweenArea>
+      </ContentAreaHeader>
+      <ContentAreaRow>
+        <Widget>
+          <PaddedTableWrapper>
+            <div className={styles.circuitTableContainer}>
+              <CircuitTable />
+            </div>
+          </PaddedTableWrapper>
+        </Widget>
+      </ContentAreaRow>
     </DefaultLayout>
   );
 };

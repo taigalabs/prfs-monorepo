@@ -8,8 +8,6 @@ import { DropdownSingleSelectedValue } from "@taigalabs/prfs-react-components/sr
 import styles from "./CircuitInputConfigSection.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
-import CardRow from "@/components/card_row/CardRow";
-import Card from "@/components/card/Card";
 import SetDropdown from "@/components/set_dropdown/SetDropdown";
 
 const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
@@ -30,8 +28,8 @@ const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
       const handleSelectSet = React.useCallback(
         (val: PrfsSet) => {
           setSelectedSet(val);
-          setCircuitInputs((oldVal: Record<number, CircuitInput>) => {
-            const newVal = { ...oldVal };
+          setCircuitInputs((oldVal: CircuitInput[]) => {
+            const newVal = [...oldVal];
             newVal[idx] = {
               name: input.name,
               label: input.label,
@@ -85,18 +83,14 @@ const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
   }, [circuitInputsMeta, setVals]);
 
   return (
-    <CardRow>
-      <Card>
-        <Widget>
-          <WidgetHeader>
-            <WidgetLabel>{i18n.configure_circuit_inputs}</WidgetLabel>
-          </WidgetHeader>
-          <WidgetPaddedBody>
-            <div>{circuitInputEntries}</div>
-          </WidgetPaddedBody>
-        </Widget>
-      </Card>
-    </CardRow>
+    <Widget>
+      <WidgetHeader>
+        <WidgetLabel>{i18n.configure_circuit_inputs}</WidgetLabel>
+      </WidgetHeader>
+      <WidgetPaddedBody>
+        <div>{circuitInputEntries}</div>
+      </WidgetPaddedBody>
+    </Widget>
   );
 };
 
@@ -104,5 +98,5 @@ export default CircuitInputConfigSection;
 
 interface CircuitInputConfigSectionProps {
   circuitInputsMeta: CircuitInputMeta[];
-  setCircuitInputs: React.Dispatch<React.SetStateAction<Record<number, CircuitInput>>>;
+  setCircuitInputs: React.Dispatch<React.SetStateAction<CircuitInput[]>>;
 }

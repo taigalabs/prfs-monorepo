@@ -12,5 +12,5 @@ pub struct CircuitBuildJson {
     pub timestamp: i64,
 
     #[serde(flatten)]
-    pub inner: PrfsCircuit,
+    pub circuit: PrfsCircuit,
 }

@@ -9,20 +9,47 @@ import Table, {
   TableRecordData,
   TableRow,
 } from "@taigalabs/prfs-react-components/src/table/Table";
-import { AiFillCheckCircle } from "react-icons/ai";
+import { AiFillCheckCircle, AiOutlineCopy } from "react-icons/ai";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import { BsFillCheckCircleFill } from "react-icons/bs";
+import dayjs from "dayjs";
 
 import styles from "./ProofInstanceDetailTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import dayjs from "dayjs";
+import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
 
 const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ proofInstance }) => {
   const i18n = React.useContext(i18nContext);
 
-  const [data, setData] = React.useState<TableRecordData<PrfsProofInstanceSyn1>>({
+  const [data, _] = React.useState<TableRecordData<PrfsProofInstanceSyn1>>({
     record: proofInstance,
   });
+
+  const url = React.useMemo(() => {
+    return `${process.env.NEXT_PUBLIC_PRFS_WEB_ENDPOINT}/p/${proofInstance.short_id}`;
+  }, [proofInstance]);
+
+  const handleClickCopy = React.useCallback(() => {
+    navigator.clipboard.writeText(url);
+  }, [url]);
+
+  const createCopyButton = React.useCallback(
+    (_: boolean) => {
+      return (
+        <button onClick={handleClickCopy}>
+          <AiOutlineCopy />
+        </button>
+      );
+    },
+    [url]
+  );
+
+  const createCopyButtonTooltip = React.useCallback(
+    (_: React.Dispatch<React.SetStateAction<any>>) => {
+      return <div className={styles.copyBtnTooltip}>{i18n.url_is_copied}</div>;
+    },
+    []
+  );
 
   const rowsElem = React.useMemo(() => {
     let { record } = data;
@@ -33,12 +60,14 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
     }
 
     const createdAt = dayjs(record.created_at).format("YYYY-MM-DD");
+    // const url = `${process.env.NEXT_PUBLIC_PRFS_WEB_ENDPOINT}/p/${record.short_id}`;
 
     return (
       <TableBody>
         <TableRow>
           <td className={styles.label}>{i18n.proof_instance_id}</td>
           <td className={styles.value}>{record.proof_instance_id}</td>
+          <td></td>
         </TableRow>
         <TableRow>
           <td className={styles.label}>{i18n.proof_type_id}</td>
@@ -49,10 +78,20 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
           <td className={styles.value}>{record.proof_label}</td>
         </TableRow>
         <TableRow>
+          <td className={styles.label}>{i18n.share_url}</td>
+          <td className={cn(styles.value, styles.url)}>
+            <div className={styles.cell}>
+              <span>{url}</span>
+              <Popover createBase={createCopyButton} createPopover={createCopyButtonTooltip} />
+            </div>
+          </td>
+        </TableRow>
+        <TableRow>
           <td className={styles.label}>{i18n.verified}</td>
           <td className={cn(styles.value, styles.verified)}>
             <div className={styles.cell}>
               <BsFillCheckCircleFill />
+              <span>{i18n.verified}</span>
             </div>
           </td>
         </TableRow>
@@ -61,7 +100,7 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
           <td className={styles.value}>{createdAt}</td>
         </TableRow>
         <TableRow>
-          <td className={styles.label}>{i18n.proof_description}</td>
+          <td className={styles.label}>{i18n.proof_type_description}</td>
           <td className={styles.value}>{record.proof_desc}</td>
         </TableRow>
         <TableRow>
@@ -78,7 +117,7 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
         </TableRow>
       </TableBody>
     );
-  }, [data]);
+  }, [data, url]);
 
   return <Table>{rowsElem}</Table>;
 };

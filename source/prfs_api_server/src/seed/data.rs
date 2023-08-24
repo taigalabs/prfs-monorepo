@@ -1,27 +1,77 @@
+use crate::seed::local::{
+    load_circuit_drivers, load_circuit_input_types, load_circuit_types, load_circuits,
+    load_proof_types,
+};
 use chrono::{DateTime, NaiveDateTime, TimeZone, Utc};
+use prfs_db_interface::database2::Database2;
+use prfs_db_interface::db_apis;
 use prfs_entities::entities::PrfsProofType;
-use prfs_entities::sqlx::types::Json;
+use prfs_entities::sqlx::{self, types::Json};
 use std::collections::HashMap;
 
-pub fn get_prfs_proof_types() -> Vec<PrfsProofType> {
-    let datetime = Utc.with_ymd_and_hms(2023, 7, 8, 9, 10, 11).unwrap();
+pub async fn truncate(db: &Database2) {
+    println!("Truncating tables...");
 
-    let proof_type_id = uuid::Uuid::from_u128(0);
+    let pool = &db.pool;
+    let mut tx = pool.begin().await.unwrap();
 
-    let pt = PrfsProofType {
-        proof_type_id,
-        label: String::from(""),
-        author: String::from(""),
-        desc: String::from(""),
-        circuit_id: String::from(""),
-        driver_id: String::from(""),
-        img_caption: Some(String::from("")),
-        img_url: Some(String::from("")),
-        expression: String::from(""),
-        circuit_inputs: Json::from(HashMap::new()),
-        driver_properties: Json::from(HashMap::new()),
-        created_at: datetime,
-    };
+    let tables = [
+        "prfs_circuit_drivers",
+        "prfs_circuit_input_types",
+        "prfs_circuit_types",
+        "prfs_circuits",
+        "prfs_proof_types",
+    ];
 
-    vec![pt]
+    for table in tables {
+        sqlx::query(&format!("truncate table {} restart identity", table))
+            .execute(&mut *tx)
+            .await
+            .unwrap();
+    }
+
+    tx.commit().await.unwrap();
+
+    println!("Truncated tables, {:?}", tables);
+}
+
+pub async fn upload(db: &Database2) {
+    let pool = &db.pool;
+    let mut tx = pool.begin().await.unwrap();
+
+    let circuit_drivers = load_circuit_drivers();
+    println!("circuit_drivers: {:#?}", circuit_drivers);
+
+    for circuit_driver in circuit_drivers.values() {
+        let circuit_driver_id = db_apis::insert_prfs_circuit_driver(&mut tx, circuit_driver).await;
+        println!("Inserted circuit_driver, id: {}", circuit_driver_id);
+    }
+
+    let circuit_types = load_circuit_types();
+    println!("circuit_types: {:#?}", circuit_types);
+
+    for circuit_type in circuit_types.values() {
+        db_apis::insert_prfs_circuit_type(&mut tx, circuit_type).await;
+    }
+
+    let circuit_input_types = load_circuit_input_types();
+    println!("circuit_input_types: {:#?}", circuit_input_types);
+
+    for circuit_input_type in circuit_input_types.values() {
+        db_apis::insert_prfs_circuit_input_type(&mut tx, circuit_input_type).await;
+    }
+
+    let circuits = load_circuits();
+    println!("circuits: {:#?}", circuits);
+
+    for circuit in circuits.values() {
+        db_apis::insert_prfs_circuit(&mut tx, circuit).await;
+    }
+
+    let proof_types = load_proof_types();
+    for proof_type in proof_types.values() {
+        db_apis::insert_prfs_proof_type(&mut tx, proof_type).await;
+    }
+
+    tx.commit().await.unwrap();
 }

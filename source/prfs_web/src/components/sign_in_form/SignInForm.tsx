@@ -12,8 +12,6 @@ import localStore from "@/storage/localStore";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import { i18nContext } from "@/contexts/i18n";
 import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
-import CardRow from "@/components/card_row/CardRow";
-import Card from "@/components/card/Card";
 import { FormSubtitle, FormTitle, FormTitleRow } from "@/components/form/Form";
 import FormTextInput from "@/components/form/FormTextInput";
 import StrikeThroughText from "@/components/strike_through_text/StrikeThroughText";
@@ -109,7 +107,7 @@ const SignInForm: React.FC<SignInFormProps> = () => {
           <input type="password" onChange={handleChangePasscode} />
         </div>
         <div className={styles.hashBtnRow}>
-          <Button variant="a" handleClick={handleClickHash}>
+          <Button variant="transparent_aqua_blue_1" handleClick={handleClickHash}>
             {i18n.hash}
           </Button>
         </div>

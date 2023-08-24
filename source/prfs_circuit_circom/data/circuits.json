@@ -13,28 +13,13 @@
       "proof_algorithm": "Spartan",
       "elliptic_curve": "Secp256k1",
       "finite_field": "Z_(2^256-2^32-977)",
-      "driver_id": "SPARTAN_CIRCOM_1",
+      "circuit_driver_id": "SPARTAN_CIRCOM_1",
       "driver_version": "0.1.0",
       "driver_properties": {
         "instance_path": "instances/addr_membership2.circom",
         "wtns_gen_url": "",
         "circuit_url": ""
       },
-      "circuit_inputs_meta": [
-        {
-          "name": "sigData",
-          "label": "Signature",
-          "desc": "Message over which a signature is made",
-          "type": "SIG_DATA_1"
-        },
-        {
-          "name": "merkleProof",
-          "label": "Merkle proof",
-          "desc": "Vector commitment (Merkle root) of a set",
-          "type": "MERKLE_PROOF_1",
-          "ref": "PRFS_SET"
-        }
-      ],
       "raw_circuit_inputs_meta": [
         {
           "label": "Tx",

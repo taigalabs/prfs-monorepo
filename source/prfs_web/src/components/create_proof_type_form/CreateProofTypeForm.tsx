@@ -17,14 +17,14 @@ import Widget, {
   WidgetLabel,
   WidgetPaddedBody,
 } from "@/components/widget/Widget";
-import CardRow from "@/components/card_row/CardRow";
-import Card from "@/components/card/Card";
 import FormTextInput from "@/components/form/FormTextInput";
 import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { stateContext } from "@/contexts/state";
 import CircuitInputConfigSection from "@/components/circuit_input_config_section/CircuitInputConfigSection";
 import { paths } from "@/paths";
 import FormTextareaInput from "@/components/form/FormTextareaInput";
+import { ContentAreaRow } from "../content_area/ContentArea";
+import { PrfsCircuitSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsCircuitSyn1";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -32,17 +32,17 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const { localPrfsAccount } = state;
   const router = useRouter();
 
-  const [circuitInputs, setCircuitInputs] = React.useState<Record<number, CircuitInput>>({});
+  const [circuitInputs, setCircuitInputs] = React.useState<CircuitInput[]>([]);
   const [name, setName] = React.useState("");
   const [imgUrl, setImgUrl] = React.useState(null);
   const [imgCaption, setImgCaption] = React.useState(null);
   const [desc, setDesc] = React.useState("");
   const [expression, setExpression] = React.useState("");
-  const [selectedCircuit, setSelectedCircuit] = React.useState<PrfsCircuit | undefined>();
+  const [selectedCircuit, setSelectedCircuit] = React.useState<PrfsCircuitSyn1 | undefined>();
   const [errMsg, setErrMsg] = React.useState("");
 
   const handleSelectCircuit = React.useCallback(
-    (val: PrfsCircuit) => {
+    (val: PrfsCircuitSyn1) => {
       setSelectedCircuit(val);
     },
     [setSelectedCircuit]
@@ -156,14 +156,18 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       author: prfsAccount.sig,
       circuit_id: selectedCircuit.circuit_id,
       circuit_inputs: newCircuitInputs,
-      driver_id: selectedCircuit.driver_id,
+      circuit_driver_id: selectedCircuit.circuit_driver_id,
       driver_properties: selectedCircuit.driver_properties,
     };
 
     try {
       await prfsApi.createPrfsProofType(createPrfsProofTypeRequest);
       router.push(paths.proof__proof_types);
-    } catch (err: any) {}
+    } catch (err: any) {
+      console.error(err);
+
+      setErrMsg(err.toString());
+    }
   }, [circuitInputs, selectedCircuit, name, setErrMsg, desc, localPrfsAccount]);
 
   return (
@@ -177,59 +181,57 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
         </div>
       </TopWidgetTitle>
 
-      <CardRow>
-        <Card>
-          <Widget>
-            <WidgetPaddedBody>
-              <div className={styles.desc}>{i18n.create_proof_type_subtitle}</div>
-              <div className={styles.textInputContainer}>
-                <FormTextInput label={i18n.name} handleChange={handleChangeName} />
-              </div>
-              <div className={styles.textInputContainer}>
-                <FormTextareaInput
-                  label={i18n.description}
-                  handleChange={handleChangeDesc}
-                  rows={4}
-                />
-              </div>
-              <div className={styles.textInputContainer}>
-                <FormTextInput label={i18n.expression} handleChange={handleChangeExpression} />
-              </div>
-              <div className={styles.textInputContainer}>
-                <FormTextInput label={i18n.image_url} handleChange={handleChangeImgUrl} />
-              </div>
-              <div className={styles.textInputContainer}>
-                <FormTextInput label={i18n.image_caption} handleChange={handleChangeImgCaption} />
-              </div>
-            </WidgetPaddedBody>
-          </Widget>
-        </Card>
-      </CardRow>
+      <ContentAreaRow>
+        <Widget>
+          <WidgetPaddedBody>
+            <div className={styles.desc}>{i18n.create_proof_type_subtitle}</div>
+            <div className={styles.textInputContainer}>
+              <FormTextInput label={i18n.name} handleChange={handleChangeName} />
+            </div>
+            <div className={styles.textInputContainer}>
+              <FormTextareaInput
+                label={i18n.description}
+                handleChange={handleChangeDesc}
+                rows={4}
+              />
+            </div>
+            <div className={styles.textInputContainer}>
+              <FormTextInput label={i18n.expression} handleChange={handleChangeExpression} />
+            </div>
+            <div className={styles.textInputContainer}>
+              <FormTextInput label={i18n.image_url} handleChange={handleChangeImgUrl} />
+            </div>
+            <div className={styles.textInputContainer}>
+              <FormTextInput label={i18n.image_caption} handleChange={handleChangeImgCaption} />
+            </div>
+          </WidgetPaddedBody>
+        </Widget>
+      </ContentAreaRow>
 
-      <CardRow>
-        <Card>
-          <Widget>
-            <WidgetHeader>
-              <WidgetLabel>{i18n.choose_circuit}</WidgetLabel>
-            </WidgetHeader>
-            <WidgetPaddedBody>
-              <div className={styles.dropdownContainer}>
-                <div>{i18n.circuit}</div>
-                <CircuitDropdown
-                  selectedVal={selectedCircuit}
-                  handleSelectVal={handleSelectCircuit}
-                />
-              </div>
-            </WidgetPaddedBody>
-          </Widget>
-        </Card>
-      </CardRow>
+      <ContentAreaRow>
+        <Widget>
+          <WidgetHeader>
+            <WidgetLabel>{i18n.choose_circuit}</WidgetLabel>
+          </WidgetHeader>
+          <WidgetPaddedBody>
+            <div className={styles.dropdownContainer}>
+              <div>{i18n.circuit}</div>
+              <CircuitDropdown
+                selectedVal={selectedCircuit}
+                handleSelectVal={handleSelectCircuit}
+              />
+            </div>
+          </WidgetPaddedBody>
+        </Widget>
+      </ContentAreaRow>
 
       {selectedCircuit && (
-        <CircuitInputConfigSection
-          circuitInputsMeta={selectedCircuit.circuit_inputs_meta as CircuitInputMeta[]}
-          setCircuitInputs={setCircuitInputs}
-        />
+        <ContentAreaRow>
+          <CircuitInputConfigSection
+            circuitInputsMeta={selectedCircuit.circuit_inputs_meta as CircuitInputMeta[]}
+            setCircuitInputs={setCircuitInputs}
+          />
+        </ContentAreaRow>
       )}
 
       <WidgetPaddedBody>

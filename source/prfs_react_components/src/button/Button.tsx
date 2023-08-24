@@ -8,14 +8,11 @@ const Button: React.FC<ButtonProps> = ({ children, className, handleClick, varia
     <button
       className={classnames({
         [styles.wrapper]: true,
-        [styles.a]: variant === "a",
-        [styles.b]: variant === "b",
         [styles.aqua_blue_1]: variant === "aqua_blue_1",
-        [styles.transparent_a]: variant === "transparent_a",
+        [styles.white_1]: variant === "white_1",
         [styles.transparent_aqua_blue_1]: variant === "transparent_aqua_blue_1",
         [styles.transparent_aqua_blue_1_light]: variant === "transparent_aqua_blue_1_light",
-        [styles.transparent_d]: variant === "transparent_d",
-        [styles.text_c]: variant === "text_aqua_blue_1",
+        [styles.text_aqua_blue_1]: variant === "text_aqua_blue_1",
         [className || ""]: true,
       })}
       onClick={handleClick}
@@ -30,14 +27,11 @@ export default Button;
 
 export interface ButtonProps {
   variant:
-    | "a"
-    | "transparent_a"
-    | "b"
     | "aqua_blue_1"
+    | "white_1"
     | "text_aqua_blue_1"
     | "transparent_aqua_blue_1"
-    | "transparent_aqua_blue_1_light"
-    | "transparent_d";
+    | "transparent_aqua_blue_1_light";
   className?: string;
   children: React.ReactNode;
   disabled?: boolean;

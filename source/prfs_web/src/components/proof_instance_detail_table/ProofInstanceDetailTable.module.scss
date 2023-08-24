@@ -9,24 +9,48 @@
 .label {
   vertical-align: top;
   font-weight: 500;
-  width: 110px;
+  width: 230px;
 }
 
 .value {
   word-wrap: break-word;
   word-break: break-all;
-  width: 200px;
+  width: 490px;
 }
 
 .verified {
-  font-size: 16px;
-  color: var(--green-60);
+  svg {
+    margin-right: 4px;
+    font-size: 16px;
+    color: var(--green-60);
+  }
 }
 
 .cell {
   display: flex;
 }
 
-.last {
-  /* width: 100%; */
+.url {
+  cursor: pointer;
+
+  button {
+    cursor: pointer;
+    margin-left: 3px;
+    display: flex;
+    align-items: center;
+  }
+
+  svg {
+    font-size: 16px;
+  }
+}
+
+.copyBtnTooltip {
+  padding: 4px 5px;
+  background-color: var(--gray-30);
+  border-radius: 5px;
+  color: var(--white-100);
+  width: 100px;
+  text-align: center;
+  font-size: 13px;
 }

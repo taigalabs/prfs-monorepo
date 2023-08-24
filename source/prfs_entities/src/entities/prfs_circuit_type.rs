@@ -1,10 +1,11 @@
+use super::CircuitInputMeta;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
-pub struct CircuitType {
+pub struct PrfsCircuitType {
     pub circuit_type: String,
     pub desc: String,
     pub author: String,
@@ -14,22 +15,9 @@ pub struct CircuitType {
 
     #[ts(type = "Record<string, any>[]")]
     pub circuit_inputs_meta: sqlx::types::Json<Vec<CircuitInputMeta>>,
-}
 
-#[derive(Debug, Serialize, Deserialize, Clone, TS)]
-#[ts(export)]
-pub struct CircuitInputMeta {
-    pub name: String,
-    pub label: String,
-    pub r#type: String,
-    pub desc: String,
-
-    #[serde(default = "default_ref")]
-    pub r#ref: String,
-}
-
-fn default_ref() -> String {
-    String::from("")
+    #[ts(type = "string[]")]
+    pub prioritized_input_type_names: sqlx::types::Json<Vec<String>>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]

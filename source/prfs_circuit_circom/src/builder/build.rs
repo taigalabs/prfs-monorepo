@@ -1,7 +1,8 @@
-use crate::{paths::PATHS, CircuitBuildJson, CircuitBuildListJson, CircuitsJson, FileKind};
+use crate::{
+    driver_id, paths::PATHS, CircuitBuildJson, CircuitBuildListJson, CircuitsJson, FileKind,
+};
 use chrono::{DateTime, NaiveDateTime, Utc};
 use colored::Colorize;
-use prfs_driver_type::driver_ids;
 use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
 use std::{io::Write, process::Command};
 
@@ -100,10 +101,10 @@ fn read_circuits_json() -> CircuitsJson {
 }
 
 fn compile_circuits(circuit: &PrfsCircuit) {
-    let driver_id = &circuit.driver_id;
+    let circuit_driver_id = &circuit.circuit_driver_id;
 
-    match driver_id.as_str() {
-        driver_ids::SPARTAN_CIRCOM_DRIVER_TYPE => {
+    match circuit_driver_id.as_str() {
+        driver_id::SPARTAN_CIRCOM_DRIVER_ID => {
             let instance_path = &circuit.driver_properties.get("instance_path").unwrap();
 
             let circuit_src_path = PATHS.circuits.join(&instance_path);
@@ -131,7 +132,7 @@ fn compile_circuits(circuit: &PrfsCircuit) {
         }
         _ => panic!(
             "We cannot compile a circuit of this type, driver: {:?}",
-            driver_id.as_str()
+            circuit_driver_id.as_str()
         ),
     };
 }
@@ -153,7 +154,7 @@ fn create_build_json(circuit: &mut PrfsCircuit, timestamp: i64) {
 
     let circuit_build_json = CircuitBuildJson {
         timestamp,
-        inner: circuit.clone(),
+        circuit: circuit.clone(),
     };
 
     let build_json_path = PATHS

@@ -65,11 +65,11 @@ struct CreatePrfsProofTypesRequest {
     label: String,
     desc: String,
     circuit_id: String,
-    driver_id: String,
+    circuit_driver_id: String,
     expression: String,
     img_url: Option<String>,
     img_caption: Option<String>,
-    circuit_inputs: HashMap<u32, CircuitInput>,
+    circuit_inputs: Vec<CircuitInput>,
     driver_properties: HashMap<String, String>,
 }
 
@@ -102,14 +102,14 @@ pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
         img_caption: req.img_caption,
 
         circuit_id: req.circuit_id.to_string(),
-        driver_id: req.driver_id.to_string(),
+        circuit_driver_id: req.circuit_driver_id.to_string(),
         circuit_inputs: Json::from(req.circuit_inputs.clone()),
         driver_properties: Json::from(req.driver_properties.clone()),
 
         created_at: chrono::offset::Utc::now(),
     };
 
-    let id = db_apis::insert_prfs_proof_types(&mut tx, &vec![prfs_proof_type]).await;
+    let id = db_apis::insert_prfs_proof_type(&mut tx, &prfs_proof_type).await;
 
     tx.commit().await.unwrap();
 

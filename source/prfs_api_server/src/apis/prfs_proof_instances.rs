@@ -19,6 +19,11 @@ struct GetPrfsProofInstancesRequest {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+struct GetPrfsProofInstancesByShortIdRespPayload {
+    prfs_proof_instance: PrfsProofInstance,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
 struct GetPrfsProofInstancesRespPayload {
     page: u32,
     prfs_proof_instances_syn1: Vec<PrfsProofInstanceSyn1>,
@@ -31,7 +36,6 @@ pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Bod
     let state = state.clone();
 
     let pool = &state.db2.pool;
-    // let mut tx = pool.begin().await.unwrap();
 
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
@@ -43,22 +47,59 @@ pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Bod
         Some(proof_instance_id) => {
             let prfs_proof_instances_syn1 =
                 db_apis::get_prfs_proof_instance_syn1(pool, &proof_instance_id).await;
+
+            // let prfs_proof_instances_syn1 =
+            //     db_apis::get_prfs_proof_instance_syn1(pool, &proof_instance_id).await;
+
             let resp = ApiResponse::new_success(GetPrfsProofInstancesRespPayload {
                 page: req.page,
                 prfs_proof_instances_syn1,
             });
+
             return Ok(resp.into_hyper_response());
         }
         None => {
             let prfs_proof_instances_syn1 =
                 db_apis::get_prfs_proof_instances_syn1(pool, req.limit).await;
+
             let resp = ApiResponse::new_success(GetPrfsProofInstancesRespPayload {
                 page: req.page,
                 prfs_proof_instances_syn1,
             });
+
             return Ok(resp.into_hyper_response());
         }
     };
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct GetPrfsProofInstanceByShortIdRequest {
+    short_id: String,
+}
+
+pub async fn get_prfs_proof_instance_by_short_id(
+    req: Request<Body>,
+) -> Result<Response<Body>, Infallible> {
+    println!("get proof types");
+
+    let state = req.data::<Arc<ServerState>>().unwrap();
+    let state = state.clone();
+    let pool = &state.db2.pool;
+
+    let bytes = body::to_bytes(req.into_body()).await.unwrap();
+    let body_str = String::from_utf8(bytes.to_vec()).unwrap();
+    let req = serde_json::from_str::<GetPrfsProofInstanceByShortIdRequest>(&body_str).unwrap();
+
+    println!("req: {:?}", req);
+
+    let prfs_proof_instance =
+        db_apis::get_prfs_proof_instance_by_short_id(pool, &req.short_id).await;
+
+    let resp = ApiResponse::new_success(GetPrfsProofInstancesByShortIdRespPayload {
+        prfs_proof_instance,
+    });
+
+    return Ok(resp.into_hyper_response());
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -89,9 +130,13 @@ pub async fn create_prfs_proof_instance(req: Request<Body>) -> Result<Response<B
 
     // println!("req: {:?}", req);
 
+    let proof_instance_id_128 = req.proof_instance_id.as_u128();
+    let short_id = &base62::encode(proof_instance_id_128)[..8];
+
     let prfs_proof_instance = PrfsProofInstance {
         proof_instance_id: req.proof_instance_id,
         proof_type_id: req.proof_type_id,
+        short_id: short_id.to_string(),
         proof: req.proof.to_vec(),
         public_inputs: req.public_inputs.clone(),
         created_at: chrono::offset::Utc::now(),

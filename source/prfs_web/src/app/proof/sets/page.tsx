@@ -9,13 +9,13 @@ import Widget, { TopWidgetTitle, WidgetLabel } from "@/components/widget/Widget"
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
-import Card from "@/components/card/Card";
-import CardRow from "@/components/card_row/CardRow";
 import SetTable from "@/components/set_table/SetTable";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { paths } from "@/paths";
+import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
+import { SpacedBetweenArea } from "@/components/area/Area";
 
 const Sets: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -25,28 +25,26 @@ const Sets: React.FC = () => {
 
   return (
     <DefaultLayout>
-      <CardRow>
-        <Card>
-          <Widget>
-            <TopWidgetTitle>
-              <div className={styles.titleInner}>
-                <WidgetLabel>{i18n.sets}</WidgetLabel>
-                <Button variant="transparent_aqua_blue_1" disabled>
-                  <Link href={`${paths.proof__sets}?create`}>
-                    <AiFillPlusCircle />
-                    <span>{i18n.create_set.toUpperCase()}</span>
-                  </Link>
-                </Button>
-              </div>
-            </TopWidgetTitle>
-            <PaddedTableWrapper>
-              <div className={styles.tableContainer}>
-                <SetTable />
-              </div>
-            </PaddedTableWrapper>
-          </Widget>
-        </Card>
-      </CardRow>
+      <ContentAreaHeader>
+        <SpacedBetweenArea>
+          <WidgetLabel>{i18n.sets}</WidgetLabel>
+          <Button variant="transparent_aqua_blue_1" disabled>
+            <Link href={`${paths.proof__sets}?create`}>
+              <AiFillPlusCircle />
+              <span>{i18n.create_set.toUpperCase()}</span>
+            </Link>
+          </Button>
+        </SpacedBetweenArea>
+      </ContentAreaHeader>
+      <ContentAreaRow>
+        <Widget>
+          <PaddedTableWrapper>
+            <div className={styles.tableContainer}>
+              <SetTable />
+            </div>
+          </PaddedTableWrapper>
+        </Widget>
+      </ContentAreaRow>
     </DefaultLayout>
   );
 };

@@ -3,9 +3,6 @@
 import React from "react";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import * as prfsApi from "@taigalabs/prfs-api-js";
-
-import styles from "./CircuitDropdown.module.scss";
-import { i18nContext } from "@/contexts/i18n";
 import Dropdown, {
   CreateDropdownListArgs,
   DropdownData,
@@ -13,6 +10,10 @@ import Dropdown, {
 } from "@taigalabs/prfs-react-components/src/dropdown/Dropdown";
 import DropdownEntry from "@taigalabs/prfs-react-components/src/dropdown/DropdownEntry";
 import DropdownList from "@taigalabs/prfs-react-components/src/dropdown/DropdownList";
+import { PrfsCircuitSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsCircuitSyn1";
+
+import styles from "./CircuitDropdown.module.scss";
+import { i18nContext } from "@/contexts/i18n";
 
 const CircuitEntry: React.FC<CircuitEntryProps> = ({ val }) => {
   const i18n = React.useContext(i18nContext);
@@ -50,7 +51,7 @@ const CircuitEntry: React.FC<CircuitEntryProps> = ({ val }) => {
 const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
 
-  const [data, setData] = React.useState<DropdownData<PrfsCircuit>>({
+  const [data, setData] = React.useState<DropdownData<PrfsCircuitSyn1>>({
     page: 0,
     values: [],
   });
@@ -61,8 +62,8 @@ const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSe
         page: 0,
       })
       .then(resp => {
-        const { page, prfs_circuits } = resp.payload;
-        setData({ page, values: prfs_circuits });
+        const { page, prfs_circuits_syn1 } = resp.payload;
+        setData({ page, values: prfs_circuits_syn1 });
       });
   }, [setData]);
 
@@ -79,7 +80,7 @@ const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSe
   }, [selectedVal]);
 
   const createList = React.useCallback(
-    ({ upgradedHandleSelectVal }: CreateDropdownListArgs<PrfsCircuit>) => {
+    ({ upgradedHandleSelectVal }: CreateDropdownListArgs<PrfsCircuitSyn1>) => {
       // console.log(11, data);
       let { values } = data;
 
@@ -113,10 +114,10 @@ const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSe
 export default CircuitDropdown;
 
 export interface CircuitDropdownProps {
-  selectedVal: DropdownSingleSelectedValue<PrfsCircuit> | undefined;
-  handleSelectVal: (val: PrfsCircuit) => void;
+  selectedVal: DropdownSingleSelectedValue<PrfsCircuitSyn1> | undefined;
+  handleSelectVal: (val: PrfsCircuitSyn1) => void;
 }
 
 export interface CircuitEntryProps {
-  val: PrfsCircuit;
+  val: PrfsCircuitSyn1;
 }

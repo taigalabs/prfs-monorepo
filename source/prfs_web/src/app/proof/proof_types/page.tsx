@@ -13,11 +13,11 @@ import Widget, { TopWidgetTitle, WidgetLabel } from "@/components/widget/Widget"
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
-import Card from "@/components/card/Card";
-import CardRow from "@/components/card_row/CardRow";
 import ProofTypeTable from "@/components/proof_type_table/ProofTypeTable";
 import CreateProofTypeForm from "@/components/create_proof_type_form/CreateProofTypeForm";
 import { paths } from "@/paths";
+import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
+import { SpacedBetweenArea } from "@/components/area/Area";
 
 const Proofs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -39,28 +39,28 @@ const Proofs: React.FC = () => {
       {createPage ? (
         <CreateProofTypeForm />
       ) : (
-        <CardRow>
-          <Card>
+        <>
+          <ContentAreaHeader>
+            <SpacedBetweenArea>
+              <WidgetLabel>{i18n.proof_types}</WidgetLabel>
+              <Button variant="transparent_aqua_blue_1">
+                <Link href={`${paths.proof__proof_types}?create`}>
+                  <AiFillFolderAdd />
+                  <span>{i18n.create_proof_type.toUpperCase()}</span>
+                </Link>
+              </Button>
+            </SpacedBetweenArea>
+          </ContentAreaHeader>
+          <ContentAreaRow>
             <Widget>
-              <TopWidgetTitle>
-                <div className={styles.header}>
-                  <WidgetLabel>{i18n.proof_types}</WidgetLabel>
-                  <Button className={styles.iconBtn} variant="transparent_aqua_blue_1">
-                    <Link href={`${paths.proof__proof_types}?create`}>
-                      <AiFillFolderAdd />
-                      <span>{i18n.create_proof_type.toUpperCase()}</span>
-                    </Link>
-                  </Button>
-                </div>
-              </TopWidgetTitle>
               <PaddedTableWrapper>
                 <div className={styles.tableContainer}>
                   <ProofTypeTable />
                 </div>
               </PaddedTableWrapper>
             </Widget>
-          </Card>
-        </CardRow>
+          </ContentAreaRow>
+        </>
       )}
     </DefaultLayout>
   );

@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
-import { CircuitDriver } from "@taigalabs/prfs-entities/bindings/CircuitDriver";
+import { PrfsCircuitDriver } from "@taigalabs/prfs-entities/bindings/PrfsCircuitDriver";
 
 import styles from "./DriverSummary.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -22,7 +22,7 @@ const DriverSummary: React.FC<DriverSummaryProps> = ({ driver }) => {
         <ColumnarSummaryColumn>
           <ColumnarSummaryCell>
             <ColumnarSummaryCellHeader>{i18n.driver_id}</ColumnarSummaryCellHeader>
-            <div>{driver.driver_id}</div>
+            <div>{driver.circuit_driver_id}</div>
           </ColumnarSummaryCell>
           <ColumnarSummaryCell>
             <ColumnarSummaryCellHeader>{i18n.author}</ColumnarSummaryCellHeader>
@@ -59,5 +59,5 @@ const DriverSummary: React.FC<DriverSummaryProps> = ({ driver }) => {
 export default DriverSummary;
 
 interface DriverSummaryProps {
-  driver: CircuitDriver | undefined;
+  driver: PrfsCircuitDriver | undefined;
 }

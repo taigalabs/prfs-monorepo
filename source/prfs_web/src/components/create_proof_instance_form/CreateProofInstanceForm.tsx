@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { ethers } from "ethers";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4, parse as parseUuid } from "uuid";
 import { useRouter } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
@@ -19,11 +19,11 @@ import Widget, {
   WidgetLabel,
   WidgetPaddedBody,
 } from "@/components/widget/Widget";
-import CardRow from "@/components/card_row/CardRow";
-import Card from "@/components/card/Card";
 import { stateContext } from "@/contexts/state";
 import ProofTypeDropdown from "@/components/proof_type_dropdown/ProofTypeDropdown";
 import { paths } from "@/paths";
+import { ContentAreaRow } from "../content_area/ContentArea";
+import b62 from "@/functions/base62";
 
 const prfs = new PrfsSDK("test");
 
@@ -33,6 +33,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   const { localPrfsAccount } = state;
   const router = useRouter();
 
+  const [errMsg, setErrMsg] = React.useState("");
   const [formAlert, setFormAlert] = React.useState("");
   const [selectedProofType, setSelectedProofType] = React.useState<PrfsProofType | undefined>();
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
@@ -102,20 +103,26 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
       console.log("took %s ms to create a proof", duration);
 
-      let proof_instance_id = uuidv4();
+      const proof_instance_id = uuidv4();
 
       console.log("try inserting proof", proveReceipt);
-      const resp = await prfsApi.createPrfsProofInstance({
-        proof_instance_id,
-        sig: prfsAccount.sig,
-        proof_type_id: selectedProofType.proof_type_id,
-        proof: Array.from(proof),
-        public_inputs,
-      });
+      try {
+        const resp = await prfsApi.createPrfsProofInstance({
+          proof_instance_id,
+          sig: prfsAccount.sig,
+          proof_type_id: selectedProofType.proof_type_id,
+          proof: Array.from(proof),
+          public_inputs,
+        });
 
-      router.push(`${paths.proof__proof_instances}/${resp.payload.proof_instance_id}`);
+        router.push(`${paths.proof__proof_instances}/${resp.payload.proof_instance_id}`);
+      } catch (err: any) {
+        console.error(err);
+
+        setErrMsg(err);
+      }
     }
-  }, [selectedProofType, setFormAlert, localPrfsAccount, proofGenElement]);
+  }, [selectedProofType, setFormAlert, localPrfsAccount, proofGenElement, setErrMsg]);
 
   return (
     <div className={styles.wrapper}>
@@ -147,25 +154,25 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
         </WidgetPaddedBody>
       </Widget>
 
+      {errMsg.length > 0 && <div>{errMsg}</div>}
+
       {selectedProofType && (
         <Fade>
-          <CardRow>
-            <Card>
-              <Widget>
-                <WidgetHeader>
-                  <WidgetLabel>{i18n.get_ready_to_make_proof}</WidgetLabel>
-                </WidgetHeader>
-                <WidgetPaddedBody>
-                  <div id="prfs-sdk-container"></div>
-                  <div className={styles.btnRow}>
-                    <Button variant="aqua_blue_1" handleClick={handleClickCreateProofInstance}>
-                      {i18n.create_proof_instance}
-                    </Button>
-                  </div>
-                </WidgetPaddedBody>
-              </Widget>
-            </Card>
-          </CardRow>
+          <ContentAreaRow>
+            <Widget>
+              <WidgetHeader>
+                <WidgetLabel>{i18n.get_ready_to_make_proof}</WidgetLabel>
+              </WidgetHeader>
+              <WidgetPaddedBody>
+                <div id="prfs-sdk-container"></div>
+                <div className={styles.btnRow}>
+                  <Button variant="aqua_blue_1" handleClick={handleClickCreateProofInstance}>
+                    {i18n.create_proof_instance}
+                  </Button>
+                </div>
+              </WidgetPaddedBody>
+            </Widget>
+          </ContentAreaRow>
         </Fade>
       )}
 

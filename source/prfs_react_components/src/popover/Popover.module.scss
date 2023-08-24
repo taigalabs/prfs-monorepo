@@ -4,11 +4,11 @@
 }
 
 .base {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  width: 100%;
+  /* width: 100%; */
 }
 
 .popover {

@@ -53,3 +53,18 @@ export async function getPrfsProofInstances(req: GetPrfsProofInstancesRequest) {
     throw err;
   }
 }
+
+export async function getPrfsProofInstanceByShortId(req: { short_id: string }) {
+  try {
+    let resp: PrfsApiResponse<{
+      prfs_proof_instance: PrfsProofInstance;
+    }> = await api({
+      path: `get_prfs_proof_instance_by_short_id`,
+      req,
+    });
+    return resp;
+  } catch (err) {
+    console.log("error fetching", err);
+    throw err;
+  }
+}

@@ -1,11 +1,22 @@
-.wrapper {
+.base {
+  /* border: 1px solid blue; */
+}
+
+.popover {
+  background-color: var(--white-100);
   line-height: 16px;
-  padding: 8px 12px;
   color: var(--gray-30);
+  padding: 3px 0;
 
   li {
     display: flex;
     align-items: center;
+    padding: 10px 12px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--bright-gray-50);
+    }
   }
 
   li:not(:first-child) {

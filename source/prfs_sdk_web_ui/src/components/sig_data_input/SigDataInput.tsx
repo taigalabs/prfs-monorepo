@@ -10,9 +10,6 @@ import { i18nContext } from "@/contexts/i18n";
 
 const Signed: React.FC<SignedProps> = ({ sig }) => {
   const i18n = React.useContext(i18nContext);
-  // const shortSig = sig.substring(2, 6);
-  //
-  console.log(sig);
 
   return (
     <div

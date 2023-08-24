@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { CircuitType } from "@taigalabs/prfs-entities/bindings/CircuitType";
+import { PrfsCircuitType } from "@taigalabs/prfs-entities/bindings/PrfsCircuitType";
 
 import styles from "./CircuitTypeSummary.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -48,5 +48,5 @@ const CircuitTypeSummary: React.FC<CircuitSummaryProps> = ({ circuitType }) => {
 export default CircuitTypeSummary;
 
 interface CircuitSummaryProps {
-  circuitType: CircuitType | undefined;
+  circuitType: PrfsCircuitType | undefined;
 }

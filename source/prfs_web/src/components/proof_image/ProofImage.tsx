@@ -12,7 +12,6 @@ const ProofImage: React.FC<ProofImageProps> = ({ src }) => {
         src={src}
         onError={ev => {
           ev.currentTarget.src = ProofImagePlaceHolder.src;
-          console.log(5555);
         }}
       />
     </div>

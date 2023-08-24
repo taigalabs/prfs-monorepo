@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
-import { CircuitDriver } from "@taigalabs/prfs-entities/bindings/CircuitDriver";
+import { PrfsCircuitDriver } from "@taigalabs/prfs-entities/bindings/PrfsCircuitDriver";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 import Table, {
   TableBody,

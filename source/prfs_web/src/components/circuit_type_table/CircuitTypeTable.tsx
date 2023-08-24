@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
-import { CircuitType } from "@taigalabs/prfs-entities/bindings/CircuitType";
+import { PrfsCircuitType } from "@taigalabs/prfs-entities/bindings/PrfsCircuitType";
 import Table, {
   TableBody,
   TableRow,
@@ -21,7 +21,7 @@ const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({
   handleSelectVal,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const [data, setData] = React.useState<TableData<CircuitType>>({ page: 0, values: [] });
+  const [data, setData] = React.useState<TableData<PrfsCircuitType>>({ page: 0, values: [] });
 
   const handleChangeProofPage = React.useCallback(async (page: number) => {
     try {
@@ -120,6 +120,6 @@ export default CircuitTypeTable;
 
 export interface CircuitTypeTableProps {
   selectType?: "checkbox" | "radio";
-  selectedVal?: CircuitType;
-  handleSelectVal?: (row: CircuitType) => void;
+  selectedVal?: PrfsCircuitType;
+  handleSelectVal?: (row: PrfsCircuitType) => void;
 }

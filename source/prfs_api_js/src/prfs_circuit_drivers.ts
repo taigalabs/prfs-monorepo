@@ -1,25 +1,25 @@
 import { PrfsApiResponse } from "./types";
-import { CircuitDriver } from "@taigalabs/prfs-entities/bindings/CircuitDriver";
+import { PrfsCircuitDriver } from "@taigalabs/prfs-entities/bindings/PrfsCircuitDriver";
 
 import { api } from "./utils";
 
 export interface GetNativeCircuitDriversRequest {
   page: number;
-  driver_id?: string;
+  circuit_driver_id?: string;
 }
 
 export type GetNativeCircuitDriversResponse = PrfsApiResponse<{
   page: number;
-  prfs_circuit_drivers: CircuitDriver[];
+  prfs_circuit_drivers: PrfsCircuitDriver[];
 }>;
 
 export async function getPrfsNativeCircuitDrivers({
   page,
-  driver_id,
+  circuit_driver_id,
 }: GetNativeCircuitDriversRequest) {
   let req: GetNativeCircuitDriversRequest = {
     page,
-    driver_id,
+    circuit_driver_id,
   };
 
   try {

@@ -1,20 +1,23 @@
 use crate::{responses::ApiResponse, state::ServerState};
 use hyper::{body, Body, Request, Response};
 use prfs_circuit_circom::CircuitBuildJson;
+use prfs_db_interface::db_apis;
+use prfs_entities::syn_entities::PrfsCircuitSyn1;
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
+use uuid::Uuid;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct GetCircuitsRequest {
     page: u32,
-    circuit_id: Option<String>,
+    circuit_id: Option<Uuid>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 struct GetCircuitsRespPayload {
     page: usize,
-    prfs_circuits: Vec<CircuitBuildJson>,
+    prfs_circuits_syn1: Vec<PrfsCircuitSyn1>,
 }
 
 pub async fn get_prfs_native_circuits(req: Request<Body>) -> Result<Response<Body>, Infallible> {
@@ -23,6 +26,8 @@ pub async fn get_prfs_native_circuits(req: Request<Body>) -> Result<Response<Bod
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
 
+    let pool = &state.db2.pool;
+
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
     let req = serde_json::from_str::<GetCircuitsRequest>(&body_str)
@@ -30,21 +35,15 @@ pub async fn get_prfs_native_circuits(req: Request<Body>) -> Result<Response<Bod
 
     println!("req: {:?}", req);
 
-    let mut circuits = vec![];
-    if let Some(circuit_id) = req.circuit_id {
-        match state.local_assets.circuits.get(&circuit_id) {
-            Some(c) => circuits.push(c.clone()),
-            None => {}
-        };
+    let prfs_circuits_syn1 = if let Some(circuit_id) = req.circuit_id {
+        db_apis::get_prfs_circuit_syn1(&pool, &circuit_id).await
     } else {
-        for (_, circuit) in &state.local_assets.circuits {
-            circuits.push(circuit.clone());
-        }
-    }
+        db_apis::get_prfs_circuits_syn1(&pool).await
+    };
 
     let resp = ApiResponse::new_success(GetCircuitsRespPayload {
         page: 0,
-        prfs_circuits: circuits,
+        prfs_circuits_syn1,
     });
 
     return Ok(resp.into_hyper_response());

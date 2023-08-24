@@ -27,7 +27,7 @@ pub async fn get_prfs_proof_type(
             desc: row.get("desc"),
             circuit_id: row.get("circuit_id"),
             circuit_inputs: row.get("circuit_inputs"),
-            driver_id: row.get("driver_id"),
+            circuit_driver_id: row.get("circuit_driver_id"),
             driver_properties: row.get("driver_properties"),
             created_at: row.get("created_at"),
         })
@@ -53,7 +53,7 @@ pub async fn get_prfs_proof_types(pool: &Pool<Postgres>) -> Vec<PrfsProofType> {
             desc: row.get("desc"),
             circuit_id: row.get("circuit_id"),
             circuit_inputs: row.get("circuit_inputs"),
-            driver_id: row.get("driver_id"),
+            circuit_driver_id: row.get("circuit_driver_id"),
             driver_properties: row.get("driver_properties"),
             created_at: row.get("created_at"),
         })
@@ -62,16 +62,14 @@ pub async fn get_prfs_proof_types(pool: &Pool<Postgres>) -> Vec<PrfsProofType> {
     return prfs_proof_types;
 }
 
-pub async fn insert_prfs_proof_types(
+pub async fn insert_prfs_proof_type(
     tx: &mut Transaction<'_, Postgres>,
-    proof_types: &Vec<PrfsProofType>,
+    proof_type: &PrfsProofType,
 ) -> i64 {
     let query = "INSERT INTO prfs_proof_types \
 (proof_type_id, author, label, \"desc\", circuit_id, circuit_inputs,\
-driver_id, driver_properties, expression, img_url, img_caption) \
+circuit_driver_id, driver_properties, expression, img_url, img_caption) \
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) returning id";
-
-    let proof_type = proof_types.get(0).unwrap();
 
     let row = sqlx::query(query)
         .bind(&proof_type.proof_type_id)
@@ -80,7 +78,7 @@ VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) returning id";
         .bind(&proof_type.desc)
         .bind(&proof_type.circuit_id)
         .bind(&proof_type.circuit_inputs)
-        .bind(&proof_type.driver_id)
+        .bind(&proof_type.circuit_driver_id)
         .bind(&proof_type.driver_properties)
         .bind(&proof_type.expression)
         .bind(&proof_type.img_url)

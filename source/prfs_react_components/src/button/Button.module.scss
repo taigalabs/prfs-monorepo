@@ -1,33 +1,22 @@
 .wrapper {
+  cursor: pointer;
+
   a {
     display: flex;
     align-items: center;
   }
 }
 
-.a {
+.white_1 {
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px,
+    rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
   border-radius: 4px;
-  background-color: #cddfdf;
-  color: var(--blue-black-50);
-  font-weight: 500;
   padding: 8px 12px;
-
-  &:hover {
-    background-color: #b9c8c8;
-    cursor: pointer;
-  }
-}
-
-.b {
-  border-radius: 4px;
-  background-color: var(--bright-green-50);
-  color: var(--blue-black-50);
   font-weight: 700;
-  padding: 8px 12px;
+  color: var(--aqua-blue-50);
 
   &:hover {
-    background-color: var(--bright-green-30);
-    cursor: pointer;
+    background-color: var(--bright-gray-40);
   }
 }
 
@@ -42,27 +31,11 @@
 
   &:hover {
     background-color: #445dc6;
-    cursor: pointer;
-  }
-}
-
-.transparent_a {
-  border: 1px solid gray;
-  border-radius: 1px;
-  color: var(--gray-30);
-  font-weight: 500;
-  padding: 8px 12px;
-
-  &:hover {
-    color: var(--black-20);
-    background-color: var(--bright-gray-40);
-    cursor: pointer;
   }
 }
 
 .text_aqua_blue_1 {
   color: var(--aqua-blue-50);
-  cursor: pointer;
 
   &:hover {
     text-decoration: underline;
@@ -78,14 +51,16 @@
   align-items: center;
 
   svg {
-    margin-right: 0.25em;
-    font-size: 1.2em;
+    font-size: 1.1em;
+  }
+
+  svg + span {
+    margin-left: 0.2em;
   }
 
   &:hover {
     color: var(--aqua-blue-40);
     background-color: var(--bright-gray-40);
-    cursor: pointer;
   }
 }
 
@@ -101,32 +76,16 @@
   align-items: center;
 
   svg {
-    margin-right: 0.25em;
     font-size: 1.2em;
+  }
+
+  svg + span {
+    margin-left: 0.2em;
   }
 
   &:hover {
     color: var(--aqua-blue-40);
     background-color: var(--bright-aqua-blue-60);
-    cursor: pointer;
-  }
-}
-
-.transparent_d {
-  border-radius: 3px;
-  color: var(--gray-20);
-  font-weight: 500;
-  padding: 10px 12px;
-  display: flex;
-  align-items: center;
-
-  svg {
-    margin-right: 0.25em;
-    font-size: 1.2em;
-  }
-
-  &:hover {
-    background-color: var(--bright-gray-40);
     cursor: pointer;
   }
 }
