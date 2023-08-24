@@ -24,6 +24,7 @@ import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/Con
 import PublicInputsView from "@/components/public_inputs_view/PublicInputsView";
 import { SpacedBetweenArea } from "@/components/area/Area";
 import ProofView from "@/components/proof_view/ProofView";
+import ProofBanner from "@/components/proof_banner/ProofBanner";
 
 const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   let i18n = React.useContext(i18nContext);
@@ -75,12 +76,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
         <ContentAreaRow>
           <Widget>
             <div className={styles.singleColRow}>
-              <div className={styles.summary}>
-                <ProofImage src={proofInstance.img_url} />
-                <div className={styles.expression}>{proofInstance.expression}</div>
-                <ProofInstanceQRCode proofInstance={proofInstance} />
-              </div>
-              <div className={styles.right}></div>
+              <ProofBanner proofInstance={proofInstance} />
             </div>
 
             <div className={styles.singleColRow}>
