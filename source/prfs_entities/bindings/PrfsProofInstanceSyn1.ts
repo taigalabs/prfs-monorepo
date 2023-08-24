@@ -6,7 +6,8 @@ export interface PrfsProofInstanceSyn1 {
   proof: Array<number>;
   short_id: string;
   expression: string;
-  img_url: string;
+  img_url: string | null;
+  img_caption: string | null;
   circuit_id: string;
   circuit_driver_id: string;
   proof_desc: string;

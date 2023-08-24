@@ -16,7 +16,7 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance }) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.left}>
-        <ProofImage src={proofInstance.img_url} />
+        <ProofImage img_url={proofInstance.img_url} img_caption={proofInstance.img_caption} />
         <div className={styles.expression}>{proofInstance.expression}</div>
       </div>
       <div className={styles.right}>
