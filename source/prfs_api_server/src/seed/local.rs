@@ -1,11 +1,13 @@
 use crate::{
     paths::PATHS,
-    seed::json::{CircuitDriversJson, CircuitInputTypesJson, CircuitTypesJson},
+    seed::json::{CircuitDriversJson, CircuitInputTypesJson, CircuitTypesJson, ProofTypesJson},
 };
 use colored::Colorize;
 use prfs_circuit_circom::{CircuitBuildJson, CircuitBuildListJson};
 use prfs_entities::{
-    entities::{PrfsCircuit, PrfsCircuitDriver, PrfsCircuitInputType, PrfsCircuitType},
+    entities::{
+        PrfsCircuit, PrfsCircuitDriver, PrfsCircuitInputType, PrfsCircuitType, PrfsProofType,
+    },
     syn_entities::PrfsCircuitSyn1,
 };
 use std::{
@@ -97,4 +99,21 @@ pub fn load_circuit_input_types() -> HashMap<String, PrfsCircuitInputType> {
     }
 
     return m;
+}
+
+pub fn load_proof_types() -> HashMap<String, PrfsProofType> {
+    println!("\n{} proof types", "Loading".green());
+
+    let json_path = PATHS.data.join("proof_types.json");
+    let b = std::fs::read(&json_path).expect(&format!("file not exists, {:?}", json_path));
+    let json: ProofTypesJson = serde_json::from_slice(&b).unwrap();
+
+    let mut m = HashMap::new();
+    for proof_type in json.proof_types {
+        println!("Reading proof type, name: {}", proof_type.proof_type_id);
+
+        m.insert(proof_type.proof_type_id.to_string(), proof_type.clone());
+    }
+
+    m
 }

@@ -109,7 +109,7 @@ pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
         created_at: chrono::offset::Utc::now(),
     };
 
-    let id = db_apis::insert_prfs_proof_types(&mut tx, &vec![prfs_proof_type]).await;
+    let id = db_apis::insert_prfs_proof_type(&mut tx, &prfs_proof_type).await;
 
     tx.commit().await.unwrap();
 

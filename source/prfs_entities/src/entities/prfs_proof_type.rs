@@ -5,7 +5,7 @@ use std::collections::HashMap;
 use ts_rs::TS;
 use uuid::Uuid;
 
-#[derive(Debug, Serialize, Deserialize, TS)]
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
 pub struct PrfsProofType {
     #[ts(type = "string")]

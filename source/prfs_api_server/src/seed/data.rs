@@ -1,5 +1,6 @@
 use crate::seed::local::{
     load_circuit_drivers, load_circuit_input_types, load_circuit_types, load_circuits,
+    load_proof_types,
 };
 use chrono::{DateTime, NaiveDateTime, TimeZone, Utc};
 use prfs_db_interface::database2::Database2;
@@ -19,6 +20,7 @@ pub async fn truncate(db: &Database2) {
         "prfs_circuit_input_types",
         "prfs_circuit_types",
         "prfs_circuits",
+        "prfs_proof_types",
     ];
 
     for table in tables {
@@ -64,6 +66,11 @@ pub async fn upload(db: &Database2) {
 
     for circuit in circuits.values() {
         db_apis::insert_prfs_circuit(&mut tx, circuit).await;
+    }
+
+    let proof_types = load_proof_types();
+    for proof_type in proof_types.values() {
+        db_apis::insert_prfs_proof_type(&mut tx, proof_type).await;
     }
 
     tx.commit().await.unwrap();
