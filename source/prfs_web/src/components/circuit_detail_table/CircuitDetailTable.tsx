@@ -13,22 +13,6 @@ import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import Table2, { RecordData } from "@/components/table2/Table2";
 
-// type RecordData = {
-//   label: string;
-//   value: any;
-// };
-
-// const defaultData: RecordData[] = [
-//   {
-//     label: "tanner",
-//     value: "linsley",
-//   },
-//   {
-//     label: "tandy",
-//     value: "miller",
-//   },
-// ];
-
 const columnHelper = createColumnHelper<RecordData>();
 
 const CircuitDetailTable: React.FC<CircuitDetailTableProps> = ({ circuit }) => {

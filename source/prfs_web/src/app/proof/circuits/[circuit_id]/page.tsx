@@ -6,24 +6,20 @@ import { useRouter } from "next/navigation";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsCircuitSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsCircuitSyn1";
 import { RawCircuitInputMeta } from "@taigalabs/prfs-entities/bindings/RawCircuitInputMeta";
-import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 
 import styles from "./Circuit.module.scss";
 import { stateContext } from "@/contexts/state";
-import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
+import Widget, { WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import { paths } from "@/paths";
-import CircuitSummary from "@/components/circuit_summary/CircuitSummary";
 import DriverPropInstanceTable from "@/components/driver_prop_instance_table/DriverPropInstanceTable";
 import RawCircuitInputMetaTable from "@/components/raw_circuit_input_meta_table/RawCircuitInputMetaTable";
 import CircuitInputMetaTable from "@/components/circuit_input_meta_table/CircuitInputMetaTable";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
-import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
-import Table2 from "@/components/table2/Table2";
 import CircuitDetailTable from "@/components/circuit_detail_table/CircuitDetailTable";
 
 const Circuit: React.FC<CircuitProps> = ({ params }) => {
@@ -70,11 +66,9 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
 
       <div className={styles.contentBody}>
         <ContentAreaRow>
-          <Widget>
-            <div className={styles.singleColRow}>
-              <CircuitDetailTable circuit={circuit} />
-            </div>
-          </Widget>
+          <div className={styles.singleColRow}>
+            <CircuitDetailTable circuit={circuit} />
+          </div>
         </ContentAreaRow>
 
         {circuit && (

@@ -15,12 +15,12 @@ import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
-import DriverSummary from "@/components/driver_summary/DriverSummary";
 import DriverPropsMetaTable from "@/components/driver_props_meta_table/DriverPropsMetaTable";
 import CircuitTypeList from "@/components/circuit_type_list/CircuitTypeList";
 import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
 import { paths } from "@/paths";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
+import DriverDetailTable from "@/components/driver_detail_table/DriverDetailTable";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -60,37 +60,29 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
         <WidgetLabel>{programSummaryLabel}</WidgetLabel>
       </ContentAreaHeader>
 
-      <ContentAreaRow>
-        <Widget>
-          <PaddedSummaryWrapper>
-            <DriverSummary driver={driver} />
-          </PaddedSummaryWrapper>
-        </Widget>
-      </ContentAreaRow>
+      <div className={styles.contentBody}>
+        <ContentAreaRow>
+          <div className={styles.singleColRow}>
+            <DriverDetailTable driver={driver} />
+          </div>
+        </ContentAreaRow>
 
-      <ContentAreaRow>
-        <Widget>
-          <WidgetHeader>
-            <WidgetLabel>{i18n.driver_properties_meta}</WidgetLabel>
-          </WidgetHeader>
-          <PaddedTableWrapper>
+        <ContentAreaRow>
+          <div className={styles.singleColRow}>
+            <div className={styles.tableTitle}>{i18n.driver_properties_meta}</div>
             <DriverPropsMetaTable
               driverPropsMeta={driver?.driver_properties_meta as DriverPropertyMeta[]}
             />
-          </PaddedTableWrapper>
-        </Widget>
-      </ContentAreaRow>
+          </div>
+        </ContentAreaRow>
 
-      <ContentAreaRow>
-        <Widget>
-          <WidgetHeader>
-            <WidgetLabel>{i18n.circuit_types}</WidgetLabel>
-          </WidgetHeader>
-          <PaddedTableWrapper>
+        <ContentAreaRow>
+          <div className={styles.singleColRow}>
+            <div className={styles.tableTitle}>{i18n.circuit_types}</div>
             <CircuitTypeList circuit_types={driver?.circuit_types} />
-          </PaddedTableWrapper>
-        </Widget>
-      </ContentAreaRow>
+          </div>
+        </ContentAreaRow>
+      </div>
     </DefaultLayout>
   );
 };
