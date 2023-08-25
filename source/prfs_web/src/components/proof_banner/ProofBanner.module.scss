@@ -38,6 +38,7 @@
 .url {
   margin-top: auto;
   font-size: 12px;
+  color: var(--gray-30);
 }
 
 .menu {
@@ -45,4 +46,12 @@
   position: absolute;
   top: 10px;
   right: 10px;
+  color: var(--gray-50);
+
+  svg {
+    cursor: pointer;
+    &:hover {
+      color: var(--black-00);
+    }
+  }
 }

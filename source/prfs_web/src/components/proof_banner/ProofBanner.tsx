@@ -11,6 +11,7 @@ import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import ProofImage from "../proof_image/ProofImage";
 import ProofInstanceQRCode from "../proof_instance_qrcode/ProofInstanceQRCode";
+import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
 
 const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance }) => {
   const i18n = React.useContext(i18nContext);
@@ -37,7 +38,16 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance }) => {
     return { prioritizedValues: values, url };
   }, [proofInstance]);
 
-  console.log(11, prioritizedValues);
+  const createBase = React.useCallback((_: boolean) => {
+    return <AiOutlineQrcode />;
+  }, []);
+
+  const createPopover = React.useCallback(
+    (_: React.Dispatch<React.SetStateAction<any>>) => {
+      return <ProofInstanceQRCode proofInstance={proofInstance} />;
+    },
+    [proofInstance]
+  );
 
   return (
     <div className={styles.wrapper}>
@@ -50,7 +60,7 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance }) => {
         <div className={styles.url}>{url}</div>
       </div>
       <div className={styles.menu}>
-        <AiOutlineQrcode />
+        <Popover createBase={createBase} createPopover={createPopover} />
       </div>
     </div>
   );
