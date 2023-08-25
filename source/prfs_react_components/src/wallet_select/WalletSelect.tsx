@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { MdOutlineKeyboardArrowDown } from "react-icons/md";
+import { MdKeyboardArrowDown } from "@react-icons/all-files/md/MdKeyboardArrowDown";
 
 import styles from "./WalletSelect.module.scss";
 import MetamaskSvg from "@/assets/svg/MetaMask_Fox.svg";
@@ -40,7 +40,7 @@ const WalletSelect: React.FC<WalletSelectProps> = ({
         <div className={styles.imgContainer}>
           <Image src={MetamaskSvg} width={24} height={24} alt={selectedWallet.value} />
         </div>
-        <MdOutlineKeyboardArrowDown />
+        <MdKeyboardArrowDown />
       </div>
     );
   }, [selectedWallet, handleSelectWallet]);

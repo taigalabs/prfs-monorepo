@@ -88,6 +88,7 @@ export default {
   proofs: "Proofs",
   forest: "Forest",
   proof: "Proof",
+  show_more: "Show more",
   url: "URL",
   vote: "Vote",
   enrollment: "Enrollment",

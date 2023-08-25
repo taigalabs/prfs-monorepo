@@ -1,6 +1,6 @@
 import React, { MouseEventHandler } from "react";
 import classNames from "classnames";
-import { MdFilterList } from "react-icons/md";
+import { MdFilterList } from "@react-icons/all-files/md/MdFilterList";
 
 import styles from "./Table.module.scss";
 

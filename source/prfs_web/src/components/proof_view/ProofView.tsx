@@ -7,12 +7,13 @@ import styles from "./ProofView.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 
 const ProofView: React.FC<ProofViewProps> = ({ proof }) => {
-  let i18n = React.useContext(i18nContext);
+  const i18n = React.useContext(i18nContext);
+  const [showMore, setShowMore] = React.useState(false);
 
   const proofElem = React.useMemo(() => {
     const el = Buffer.from(proof).toString("hex");
     return el;
-  }, [proof]);
+  }, [proof, setShowMore]);
 
   return (
     <>
@@ -23,7 +24,10 @@ const ProofView: React.FC<ProofViewProps> = ({ proof }) => {
         />
       </Head>
       <div className={styles.wrapper}>
-        <div className={styles.value}>{proofElem}</div>
+        <div className={styles.value}>
+          {proofElem}
+          <span>{i18n.show_more}</span>
+        </div>
       </div>
     </>
   );
