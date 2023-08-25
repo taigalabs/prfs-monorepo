@@ -5,15 +5,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
-import {
-  PaddedTableWrapper,
-  TableCurrentPageLimitWarning,
-} from "@taigalabs/prfs-react-components/src/table/Table";
+import { TableCurrentPageLimitWarning } from "@taigalabs/prfs-react-components/src/table/Table";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 
 import styles from "./Set.module.scss";
 import { stateContext } from "@/contexts/state";
-import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
+import { WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
@@ -71,10 +68,11 @@ const Set: React.FC<SetProps> = ({ params }) => {
 
         <ContentAreaRow>
           <div className={styles.singleColRow}>
-            <div className={styles.tableContainer}>{i18n.elements}</div>
+            <div className={styles.tableTitle}>{i18n.elements}</div>
+            <div className={styles.tableContainer}>
+              <SetElementTable setId={params.set_id} />
+            </div>
           </div>
-          <TableCurrentPageLimitWarning />
-          <SetElementTable setId={params.set_id} />
         </ContentAreaRow>
       </div>
     </DefaultLayout>
