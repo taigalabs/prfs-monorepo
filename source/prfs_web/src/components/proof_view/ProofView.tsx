@@ -6,14 +6,23 @@ import Head from "next/head";
 import styles from "./ProofView.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 
+const DEFAULT_LENGTH = 32;
+
 const ProofView: React.FC<ProofViewProps> = ({ proof }) => {
   const i18n = React.useContext(i18nContext);
   const [showMore, setShowMore] = React.useState(false);
 
   const proofElem = React.useMemo(() => {
-    const el = Buffer.from(proof).toString("hex");
+    let buf;
+    if (!showMore) {
+      buf = Buffer.from(proof.slice(DEFAULT_LENGTH));
+    } else {
+      buf = Buffer.from(proof);
+    }
+
+    const el = buf.toString("hex");
     return el;
-  }, [proof, setShowMore]);
+  }, [proof, showMore]);
 
   return (
     <>

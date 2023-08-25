@@ -3,7 +3,6 @@ import cn from "classnames";
 
 import styles from "./CreateProofProgress.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 
 const CreateProofProgress: React.FC<CreateProofProgressProps> = ({ terminalLog, isCompleted }) => {
   const i18n = React.useContext(i18nContext);
