@@ -1,6 +1,5 @@
 import React from "react";
 import cn from "classnames";
-// import { RiArrowUpSLine } from "react-icons/ri";
 
 import styles from "./CreateProofProgress.module.scss";
 import { i18nContext } from "@/contexts/i18n";
