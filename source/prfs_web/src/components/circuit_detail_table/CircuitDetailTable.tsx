@@ -13,65 +13,32 @@ import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import Table2 from "@/components/table2/Table2";
 
-type Person = {
-  firstName: string;
-  lastName: string;
-  age: number;
-  visits: number;
-  status: string;
-  progress: number;
+type RecordData = {
+  label: string;
+  value: any;
 };
 
-const defaultData: Person[] = [
+const defaultData: RecordData[] = [
   {
-    firstName: "tanner",
-    lastName: "linsley",
-    age: 24,
-    visits: 100,
-    status: "In Relationship",
-    progress: 50,
+    label: "tanner",
+    value: "linsley",
   },
   {
-    firstName: "tandy",
-    lastName: "miller",
-    age: 40,
-    visits: 40,
-    status: "Single",
-    progress: 80,
-  },
-  {
-    firstName: "joe",
-    lastName: "dirte",
-    age: 45,
-    visits: 20,
-    status: "Complicated",
-    progress: 10,
+    label: "tandy",
+    value: "miller",
   },
 ];
 
-const columnHelper = createColumnHelper<Person>();
+const columnHelper = createColumnHelper<RecordData>();
 
 const columns = [
-  columnHelper.accessor("firstName", {
+  columnHelper.accessor("label", {
     cell: info => info.getValue(),
   }),
-  columnHelper.accessor(row => row.lastName, {
+  columnHelper.accessor(row => row.value, {
     id: "lastName",
     cell: info => <i>{info.getValue()}</i>,
     header: () => <span>Last Name</span>,
-  }),
-  columnHelper.accessor("age", {
-    header: () => "Age",
-    cell: info => info.renderValue(),
-  }),
-  columnHelper.accessor("visits", {
-    header: () => <span>Visits</span>,
-  }),
-  columnHelper.accessor("status", {
-    header: "Status",
-  }),
-  columnHelper.accessor("progress", {
-    header: "Profile Progress",
   }),
 ];
 
