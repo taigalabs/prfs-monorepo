@@ -92,7 +92,9 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
 
             <div className={styles.singleColRow}>
               <div className={styles.tableContainer}>
-                <div className={styles.title}>{i18n.proof}</div>
+                <div className={styles.title}>
+                  {i18n.proof} ({proofInstance.proof.length} bytes)
+                </div>
                 <ProofView proof={proofInstance.proof} />
               </div>
             </div>
