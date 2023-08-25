@@ -24,50 +24,10 @@ const SetElementTable2: React.FC<SetElementTable2Props> = ({ setId }) => {
         header: "Info",
         accessorFn: row => row.pos_w,
         cell: info => info.getValue(),
-        // columns: [
-        //   {
-        //     accessorKey: "id",
-        //     cell: info => info.getValue(),
-        //   },
-        //   {
-        //     accessorFn: row => row.val,
-        //     id: "val",
-        //     cell: info => info.getValue(),
-        //     header: () => <span>Last Name</span>,
-        //     footer: props => props.column.id,
-        //   },
-        // ],
       },
       {
         header: "Value",
         accessorFn: row => row.val,
-        // columns: [
-        //   {
-        //     accessorKey: "age",
-        //     header: () => "Age",
-        //     footer: props => props.column.id,
-        //   },
-        //   {
-        //     header: "More Info",
-        //     columns: [
-        //       {
-        //         accessorKey: "visits",
-        //         header: () => <span>Visits</span>,
-        //         footer: props => props.column.id,
-        //       },
-        //       {
-        //         accessorKey: "status",
-        //         header: "Status",
-        //         footer: props => props.column.id,
-        //       },
-        //       {
-        //         accessorKey: "progress",
-        //         header: "Profile Progress",
-        //         footer: props => props.column.id,
-        //       },
-        //     ],
-        //   },
-        // ],
       },
     ],
     []
@@ -88,6 +48,8 @@ const SetElementTable2: React.FC<SetElementTable2Props> = ({ setId }) => {
   // });
 
   React.useMemo(async () => {
+    console.log(111, pageIndex, pageSize);
+
     const { payload } = await prfsApi.getSetElements({
       page_idx: pageIndex,
       page_size: pageSize,
@@ -97,9 +59,7 @@ const SetElementTable2: React.FC<SetElementTable2Props> = ({ setId }) => {
     const { prfs_tree_nodes } = payload;
 
     setData(prfs_tree_nodes);
-  }, [setId, setData]);
-
-  // const defaultData = React.useMemo(() => [], []);
+  }, [setId, setData, pageIndex, pageSize]);
 
   const pagination = React.useMemo(
     () => ({

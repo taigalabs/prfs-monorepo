@@ -6,6 +6,7 @@ use routerify::prelude::*;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
+use uuid::Uuid;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct NodePos {
@@ -66,9 +67,9 @@ pub async fn get_prfs_tree_nodes(req: Request<Body>) -> Result<Response<Body>, I
 
 #[derive(Serialize, Deserialize, Debug)]
 struct GetPrfsTreeLeafNodesRequest {
-    page_idx: u32,
-    page_size: u32,
-    set_id: String,
+    page_idx: i32,
+    page_size: i32,
+    set_id: Uuid,
 }
 
 pub async fn get_prfs_tree_leaf_nodes_by_set_id(
@@ -78,7 +79,6 @@ pub async fn get_prfs_tree_leaf_nodes_by_set_id(
     let state = state.clone();
 
     let pool = &state.db2.pool;
-    // let mut tx = pool.begin().await.unwrap();
 
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
@@ -86,19 +86,10 @@ pub async fn get_prfs_tree_leaf_nodes_by_set_id(
 
     println!("req {:?}", req);
 
-    let set_id = req.set_id.to_string();
-
-    let where_clause = format!(
-        "where set_id = '{}' AND pos_h = 0 limit {}",
-        set_id.to_string(),
-        req.page_size,
-    );
-
-    println!("where_clause, {}", where_clause);
-
-    let prfs_tree_nodes = db_apis::get_prfs_tree_nodes(pool, &where_clause)
-        .await
-        .expect("get nodes fail");
+    let prfs_tree_nodes =
+        db_apis::get_prfs_tree_nodes_by_set_id(pool, &req.set_id, req.page_idx, req.page_size)
+            .await
+            .expect("get nodes fail");
 
     let resp = ApiResponse::new_success(GetPrfsTreeNodesResponse { prfs_tree_nodes });
 
