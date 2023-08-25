@@ -18,6 +18,7 @@ import SetElementTable from "@/components/set_element_table/SetElementTable";
 import SetDetailTable from "@/components/set_detail_table/SetDetailTable";
 import { paths } from "@/paths";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
+import SetElementTable2 from "@/components/set_element_table/SetElementTable2";
 
 const Set: React.FC<SetProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -30,7 +31,8 @@ const Set: React.FC<SetProps> = ({ params }) => {
   React.useEffect(() => {
     prfsApi
       .getSets({
-        page: 0,
+        page_idx: 0,
+        page_size: 30,
         set_id: params.set_id,
       })
       .then(resp => {
@@ -69,6 +71,7 @@ const Set: React.FC<SetProps> = ({ params }) => {
         <ContentAreaRow>
           <div className={styles.singleColRow}>
             <div className={styles.tableTitle}>{i18n.elements}</div>
+            <SetElementTable2 setId={params.set_id} />
             <SetElementTable setId={params.set_id} />
           </div>
         </ContentAreaRow>

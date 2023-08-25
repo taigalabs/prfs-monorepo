@@ -9,6 +9,8 @@ export interface NodePos {
 }
 
 export interface GetPrfsTreeNodesRequest {
+  page_idx: number;
+  page_size: number;
   set_id: String;
   pos: NodePos[];
 }

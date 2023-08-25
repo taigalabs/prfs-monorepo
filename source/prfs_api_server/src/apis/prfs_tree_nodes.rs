@@ -66,8 +66,8 @@ pub async fn get_prfs_tree_nodes(req: Request<Body>) -> Result<Response<Body>, I
 
 #[derive(Serialize, Deserialize, Debug)]
 struct GetPrfsTreeLeafNodesRequest {
-    page: u32,
-    limit: u32,
+    page_idx: u32,
+    page_size: u32,
     set_id: String,
 }
 
@@ -91,7 +91,7 @@ pub async fn get_prfs_tree_leaf_nodes_by_set_id(
     let where_clause = format!(
         "where set_id = '{}' AND pos_h = 0 limit {}",
         set_id.to_string(),
-        req.limit,
+        req.page_size,
     );
 
     println!("where_clause, {}", where_clause);

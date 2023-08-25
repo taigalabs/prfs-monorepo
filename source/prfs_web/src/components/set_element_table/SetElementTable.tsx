@@ -23,8 +23,8 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId }) => {
     async (page: number) => {
       return prfsApi
         .getSetElements({
-          page,
-          limit: 20,
+          page_idx: page,
+          page_size: 20,
           set_id: setId,
         })
         .then(resp => {
