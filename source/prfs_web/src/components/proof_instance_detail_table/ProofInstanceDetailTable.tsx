@@ -9,9 +9,9 @@ import Table, {
   TableRecordData,
   TableRow,
 } from "@taigalabs/prfs-react-components/src/table/Table";
-import { AiFillCheckCircle, AiOutlineCopy } from "react-icons/ai";
+import { AiFillCheckCircle } from "@react-icons/all-files/ai/AiFillCheckCircle";
+import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
-import { BsFillCheckCircleFill } from "react-icons/bs";
 import dayjs from "dayjs";
 
 import styles from "./ProofInstanceDetailTable.module.scss";
@@ -90,7 +90,7 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
           <td className={styles.label}>{i18n.verified}</td>
           <td className={cn(styles.value, styles.verified)}>
             <div className={styles.cell}>
-              <BsFillCheckCircleFill />
+              <AiFillCheckCircle />
               <span>{i18n.verified}</span>
             </div>
           </td>

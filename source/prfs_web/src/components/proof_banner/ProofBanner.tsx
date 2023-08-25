@@ -4,7 +4,7 @@ import QRCode from "qrcode";
 import { useRouter } from "next/navigation";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
-import { AiOutlineQrcode } from "react-icons/ai";
+import { AiOutlineQrcode } from "@react-icons/all-files/ai/AiOutlineQrcode";
 
 import styles from "./ProofBanner.module.scss";
 import { i18nContext } from "@/contexts/i18n";

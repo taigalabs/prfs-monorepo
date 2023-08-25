@@ -1,12 +1,11 @@
 import React from "react";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import { AiFillTwitterSquare } from "react-icons/ai";
-import { BsTelegram } from "react-icons/bs";
-import { BiLogoDiscord } from "react-icons/bi";
+import { AiFillTwitterSquare } from "@react-icons/all-files/ai/AiFillTwitterSquare";
+import { FaTelegram } from "@react-icons/all-files/fa/FaTelegram";
+import { FaDiscord } from "@react-icons/all-files/fa/FaDiscord";
 import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
-import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
-import { IoMdArrowDropdown } from "react-icons/io";
+import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
 
 import styles from "./SocialSharePopover.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -25,8 +24,6 @@ const SocialSharePopover: React.FC<SocialSharePopoverProps> = () => {
 
   const createPopover = React.useCallback(
     (setIsOpen: React.Dispatch<React.SetStateAction<any>>) => {
-      // const shortWalletAddr = walletAddr.substring(0, 15);
-
       return (
         <ul className={styles.popover}>
           <li>
@@ -34,11 +31,11 @@ const SocialSharePopover: React.FC<SocialSharePopoverProps> = () => {
             <span>{i18n.twitter}</span>
           </li>
           <li>
-            <BsTelegram />
+            <FaTelegram />
             <span>{i18n.telegram}</span>
           </li>
           <li>
-            <BiLogoDiscord />
+            <FaDiscord />
             <span>{i18n.discord}</span>
           </li>
         </ul>

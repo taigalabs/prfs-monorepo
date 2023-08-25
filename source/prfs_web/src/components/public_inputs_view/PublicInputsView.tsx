@@ -1,11 +1,4 @@
 import React from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import * as prfsApi from "@taigalabs/prfs-api-js";
-import Link from "next/link";
-import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
-import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
-import Head from "next/head";
-import { AiOutlineCopy } from "react-icons/ai";
 import Table, { TableBody, TableRow } from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./PublicInputsView.module.scss";

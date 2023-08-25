@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
 import { usePathname } from "next/navigation";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 

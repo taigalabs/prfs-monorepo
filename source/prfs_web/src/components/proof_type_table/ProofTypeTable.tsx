@@ -12,7 +12,6 @@ import Table, {
   TableData,
   TableSearch,
 } from "@taigalabs/prfs-react-components/src/table/Table";
-import { MdFilterList } from "react-icons/md";
 import dayjs from "dayjs";
 
 import styles from "./ProofTypeTable.module.scss";
