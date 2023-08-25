@@ -19,14 +19,12 @@ pub async fn get_prfs_tree_nodes(
             let pos_h = n.try_get("pos_h").expect("pos_h should exist");
             let val = n.try_get("val").expect("val should exist");
             let set_id = n.try_get("set_id").expect("set_id should exist");
-            // let set_id2 = n.try_get("set_id").expect("set_id should exist");
 
             PrfsTreeNode {
                 pos_w,
                 pos_h,
                 val,
                 set_id,
-                // set_id2,
             }
         })
         .collect();
@@ -34,7 +32,7 @@ pub async fn get_prfs_tree_nodes(
     Ok(nodes)
 }
 
-pub async fn get_prfs_tree_nodes_by_set_id(
+pub async fn get_prfs_tree_leaf_nodes_by_set_id(
     pool: &Pool<Postgres>,
     set_id: &Uuid,
     page_idx: i32,
@@ -48,10 +46,11 @@ LIMIT $3
 "#;
 
     println!("query: {}", query);
+    let offset = page_idx * page_size;
 
     let rows = sqlx::query(&query)
         .bind(&set_id)
-        .bind(&page_idx)
+        .bind(&offset)
         .bind(&page_size)
         .fetch_all(pool)
         .await
@@ -70,7 +69,6 @@ LIMIT $3
                 pos_h,
                 val,
                 set_id,
-                // set_id2,
             }
         })
         .collect();
@@ -83,7 +81,7 @@ pub async fn get_prfs_tree_root(
     set_id: &String,
 ) -> Result<PrfsTreeNode, DbInterfaceError> {
     let query = format!("SELECT * from prfs_tree_nodes where set_id=$1 and pos_h=31 and pos_w=0",);
-    // println!("stmt: {}", stmt);
+    // println!("query: {}", query);
 
     let row = sqlx::query(&query)
         .bind(&set_id)

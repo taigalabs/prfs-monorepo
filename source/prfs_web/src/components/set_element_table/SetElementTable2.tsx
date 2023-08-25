@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import {
   PaginationState,
@@ -8,11 +7,9 @@ import {
   ColumnDef,
   flexRender,
 } from "@tanstack/react-table";
-
-// import { QueryClient, QueryClientProvider, useQuery } from "react-query";
+import { PrfsTreeNode } from "@taigalabs/prfs-entities/bindings/PrfsTreeNode";
 
 import styles from "./SetElementTable2.module.scss";
-import { PrfsTreeNode } from "@taigalabs/prfs-entities/bindings/PrfsTreeNode";
 
 const SetElementTable2: React.FC<SetElementTable2Props> = ({ setId }) => {
   const rerender = React.useReducer(() => ({}), {})[1];
@@ -37,15 +34,6 @@ const SetElementTable2: React.FC<SetElementTable2Props> = ({ setId }) => {
     pageIndex: 0,
     pageSize: 20,
   });
-
-  // const fetchDataOptions = {
-  //   pageIndex,
-  //   pageSize,
-  // };
-
-  // const dataQuery = useQuery(["data", fetchDataOptions], () => fetchData(fetchDataOptions), {
-  //   keepPreviousData: true,
-  // });
 
   React.useMemo(async () => {
     console.log(111, pageIndex, pageSize);

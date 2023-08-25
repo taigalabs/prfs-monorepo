@@ -87,7 +87,7 @@ pub async fn get_prfs_tree_leaf_nodes_by_set_id(
     println!("req {:?}", req);
 
     let prfs_tree_nodes =
-        db_apis::get_prfs_tree_nodes_by_set_id(pool, &req.set_id, req.page_idx, req.page_size)
+        db_apis::get_prfs_tree_leaf_nodes_by_set_id(pool, &req.set_id, req.page_idx, req.page_size)
             .await
             .expect("get nodes fail");
 
