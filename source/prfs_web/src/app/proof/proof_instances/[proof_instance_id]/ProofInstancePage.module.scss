@@ -7,23 +7,14 @@
   }
 }
 
-.row {
-  display: flex;
-  padding: 40px 30px 0;
-
-  .right {
-    margin-left: 24px;
-  }
-}
-
 .singleColRow {
   display: flex;
   padding: 40px 30px 0;
-}
 
-.singleColRow:first-child {
-  display: flex;
-  padding: 20px 30px 0;
+  &:first-child {
+    display: flex;
+    padding: 20px 30px 0;
+  }
 }
 
 .expression {

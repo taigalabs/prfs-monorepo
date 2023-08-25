@@ -68,59 +68,48 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
         <WidgetLabel>{topWidgetLabel}</WidgetLabel>
       </ContentAreaHeader>
 
-      <ContentAreaRow>
-        <Widget>
-          <PaddedSummaryWrapper>
-            <CircuitDetailTable circuit={circuit} />
-            <CircuitSummary circuit={circuit} />
-          </PaddedSummaryWrapper>
-        </Widget>
-      </ContentAreaRow>
-
-      {circuit && (
+      <div className={styles.contentBody}>
         <ContentAreaRow>
           <Widget>
-            <WidgetHeader>
-              <WidgetLabel>
-                {i18n.driver_properties} ({circuit.circuit_driver_id})
-              </WidgetLabel>
-            </WidgetHeader>
-            <PaddedTableWrapper>
-              <DriverPropInstanceTable driver_properties={circuit.driver_properties} />
-            </PaddedTableWrapper>
+            <div className={styles.singleColRow}>
+              <CircuitDetailTable circuit={circuit} />
+            </div>
           </Widget>
         </ContentAreaRow>
-      )}
 
-      {circuit && (
-        <ContentAreaRow>
-          <Widget>
-            <WidgetHeader>
-              <WidgetLabel>{i18n.circuit_inputs}</WidgetLabel>
-            </WidgetHeader>
-            <PaddedTableWrapper>
+        {circuit && (
+          <ContentAreaRow>
+            <div className={styles.singleColRow}>
+              <div className={styles.tableTitle}>
+                {i18n.driver_properties} ({circuit.circuit_driver_id})
+              </div>
+              <DriverPropInstanceTable driver_properties={circuit.driver_properties} />
+            </div>
+          </ContentAreaRow>
+        )}
+
+        {circuit && (
+          <ContentAreaRow>
+            <div className={styles.singleColRow}>
+              <div className={styles.tableTitle}>{i18n.circuit_inputs}</div>
               <CircuitInputMetaTable
                 circuit_inputs_meta={circuit.circuit_inputs_meta as CircuitInputMeta[]}
               />
-            </PaddedTableWrapper>
-          </Widget>
-        </ContentAreaRow>
-      )}
+            </div>
+          </ContentAreaRow>
+        )}
 
-      {circuit && (
-        <ContentAreaRow>
-          <Widget>
-            <WidgetHeader>
-              <WidgetLabel>{i18n.raw_circuit_inputs}</WidgetLabel>
-            </WidgetHeader>
-            <PaddedTableWrapper>
+        {circuit && (
+          <ContentAreaRow>
+            <div className={styles.singleColRow}>
+              <div className={styles.tableTitle}>{i18n.raw_circuit_inputs}</div>
               <RawCircuitInputMetaTable
                 raw_circuit_inputs_meta={circuit.raw_circuit_inputs_meta as RawCircuitInputMeta[]}
               />
-            </PaddedTableWrapper>
-          </Widget>
-        </ContentAreaRow>
-      )}
+            </div>
+          </ContentAreaRow>
+        )}
+      </div>
     </DefaultLayout>
   );
 };

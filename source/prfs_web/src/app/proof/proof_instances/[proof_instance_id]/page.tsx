@@ -72,33 +72,31 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
         </ContentAreaHeader>
 
         <ContentAreaRow>
-          <Widget>
-            <div className={styles.singleColRow}>
-              <ProofBanner proofInstance={proofInstance} />
-            </div>
+          <div className={styles.singleColRow}>
+            <ProofBanner proofInstance={proofInstance} />
+          </div>
 
-            <div className={styles.singleColRow}>
-              <div className={styles.tableContainer}>
-                <ProofInstanceDetailTable proofInstance={proofInstance} />
-              </div>
+          <div className={styles.singleColRow}>
+            <div className={styles.tableContainer}>
+              <ProofInstanceDetailTable proofInstance={proofInstance} />
             </div>
+          </div>
 
-            <div className={styles.singleColRow}>
-              <div className={styles.tableContainer}>
-                <div className={styles.title}>{i18n.public_inputs}</div>
-                <PublicInputsView publicInputs={proofInstance.public_inputs} />
-              </div>
+          <div className={styles.singleColRow}>
+            <div className={styles.tableContainer}>
+              <div className={styles.title}>{i18n.public_inputs}</div>
+              <PublicInputsView publicInputs={proofInstance.public_inputs} />
             </div>
+          </div>
 
-            <div className={styles.singleColRow}>
-              <div className={styles.tableContainer}>
-                <div className={styles.title}>
-                  {i18n.proof} ({proofInstance.proof.length} bytes)
-                </div>
-                <ProofView proof={proofInstance.proof} />
+          <div className={styles.singleColRow}>
+            <div className={styles.tableContainer}>
+              <div className={styles.title}>
+                {i18n.proof} ({proofInstance.proof.length} bytes)
               </div>
+              <ProofView proof={proofInstance.proof} />
             </div>
-          </Widget>
+          </div>
         </ContentAreaRow>
       </DefaultLayout>
     )

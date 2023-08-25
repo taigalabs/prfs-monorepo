@@ -21,7 +21,7 @@ const DriverSummary: React.FC<DriverSummaryProps> = ({ driver }) => {
       <ColumnarSummary>
         <ColumnarSummaryColumn>
           <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.driver_id}</ColumnarSummaryCellHeader>
+            <ColumnarSummaryCellHeader>{i18n.circuit_driver_id}</ColumnarSummaryCellHeader>
             <div>{driver.circuit_driver_id}</div>
           </ColumnarSummaryCell>
           <ColumnarSummaryCell>

@@ -54,7 +54,7 @@ const CircuitSummary: React.FC<CircuitSummaryProps> = ({ circuit }) => {
             <div>{circuit.desc}</div>
           </ColumnarSummaryCell>
           <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.driver_id}</ColumnarSummaryCellHeader>
+            <ColumnarSummaryCellHeader>{i18n.circuit_driver_id}</ColumnarSummaryCellHeader>
             <div>
               <Link href={`${paths.proof__circuit_drivers}/${circuit.circuit_driver_id}`}>
                 {circuit.circuit_driver_id}
@@ -69,7 +69,7 @@ const CircuitSummary: React.FC<CircuitSummaryProps> = ({ circuit }) => {
 
         <ColumnarSummaryColumn>
           <ColumnarSummaryCell>
-            <ColumnarSummaryCellHeader>{i18n.num_inputs}</ColumnarSummaryCellHeader>
+            <ColumnarSummaryCellHeader>{i18n.num_public_inputs}</ColumnarSummaryCellHeader>
             <div>{circuit.raw_circuit_inputs_meta.length}</div>
           </ColumnarSummaryCell>
           <ColumnarSummaryCell>
