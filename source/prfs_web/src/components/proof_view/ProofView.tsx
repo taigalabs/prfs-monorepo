@@ -51,9 +51,11 @@ const ProofView: React.FC<ProofViewProps> = ({ proof }) => {
       </Head>
       <div className={styles.wrapper}>
         <div className={styles.value}>{proofElem}</div>
-        <TextButton variant="aqua_blue_1" handleClick={handleClickShowMore}>
-          {i18n.show_more}
-        </TextButton>
+        {!showMore && (
+          <TextButton variant="aqua_blue_1" handleClick={handleClickShowMore}>
+            {i18n.show_more}
+          </TextButton>
+        )}
       </div>
     </>
   );
