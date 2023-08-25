@@ -69,9 +69,7 @@ const Set: React.FC<SetProps> = ({ params }) => {
         <ContentAreaRow>
           <div className={styles.singleColRow}>
             <div className={styles.tableTitle}>{i18n.elements}</div>
-            <div className={styles.tableContainer}>
-              <SetElementTable setId={params.set_id} />
-            </div>
+            <SetElementTable setId={params.set_id} />
           </div>
         </ContentAreaRow>
       </div>
