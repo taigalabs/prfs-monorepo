@@ -14,7 +14,7 @@ import {
 import styles from "./SetElementTable2.module.scss";
 import { PrfsTreeNode } from "@taigalabs/prfs-entities/bindings/PrfsTreeNode";
 
-const SetElementTable2: React.FC<SetElementTable2Props> = ({ setId }) => {
+const SetElementTable2: React.FC<SetElementTable2Props> = ({ setId, prfsSet }) => {
   const rerender = React.useReducer(() => ({}), {})[1];
   const [data, setData] = React.useState<PrfsTreeNode[]>([]);
 
