@@ -18,8 +18,7 @@ import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import SetElementTable from "@/components/set_element_table/SetElementTable";
-import SetSummary from "@/components/set_summary/SetSummary";
-import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
+import SetDetailTable from "@/components/set_detail_table/SetDetailTable";
 import { paths } from "@/paths";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 
@@ -60,25 +59,24 @@ const Set: React.FC<SetProps> = ({ params }) => {
         </Link>
         <WidgetLabel>{setTableLabel}</WidgetLabel>
       </ContentAreaHeader>
-      <ContentAreaRow>
-        <Widget>
-          <PaddedSummaryWrapper>
-            <SetSummary set={set} />
-          </PaddedSummaryWrapper>
-        </Widget>
-      </ContentAreaRow>
 
-      <ContentAreaRow>
-        <Widget>
-          <WidgetHeader>
-            <WidgetLabel>{i18n.elements}</WidgetLabel>
-          </WidgetHeader>
-          <PaddedTableWrapper>
-            <TableCurrentPageLimitWarning />
-            <SetElementTable setId={params.set_id} />
-          </PaddedTableWrapper>
-        </Widget>
-      </ContentAreaRow>
+      <div className={styles.contentBody}>
+        <ContentAreaRow>
+          <div className={styles.singleColRow}>
+            <div className={styles.tableContainer}>
+              <SetDetailTable set={set} />
+            </div>
+          </div>
+        </ContentAreaRow>
+
+        <ContentAreaRow>
+          <div className={styles.singleColRow}>
+            <div className={styles.tableContainer}>{i18n.elements}</div>
+          </div>
+          <TableCurrentPageLimitWarning />
+          <SetElementTable setId={params.set_id} />
+        </ContentAreaRow>
+      </div>
     </DefaultLayout>
   );
 };
