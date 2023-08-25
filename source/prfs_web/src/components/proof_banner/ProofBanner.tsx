@@ -57,7 +57,10 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance }) => {
       <div className={styles.content}>
         <div className={styles.expression}>{proofInstance.expression}</div>
         <div className={styles.prioritizedValues}>{prioritizedValues.join(",")}</div>
-        <div className={styles.url}>{url}</div>
+        <div className={styles.bottom}>
+          <div>By {proofInstance.proof_label}</div>
+          <div className={styles.url}>{url}</div>
+        </div>
       </div>
       <div className={styles.menu}>
         <Popover createBase={createBase} createPopover={createPopover} />

@@ -2,7 +2,7 @@
   "proof_types": [
     {
       "proof_type_id": "00000000-0000-0000-0000-000000000000",
-      "label": "Prove you have 0.0001 ETH",
+      "label": "0.0001ETH ownership proof",
       "author": "PRFS",
       "desc": "Prove you are one of the wallet owners of a list of all wallets that have 0.0001-0.0002 ETH",
       "expression": "Owns 0.0001 ETH",
