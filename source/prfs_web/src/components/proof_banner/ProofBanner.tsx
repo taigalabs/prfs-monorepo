@@ -16,8 +16,6 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance }) => {
   const i18n = React.useContext(i18nContext);
 
   const { prioritizedValues, url } = React.useMemo(() => {
-    console.log(11, proofInstance);
-
     const { public_inputs_meta, public_inputs, short_id } = proofInstance;
 
     const url = `${process.env.NEXT_PUBLIC_PRFS_WEB_ENDPOINT}/p/${short_id}`;
@@ -51,9 +49,8 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance }) => {
         <div className={styles.prioritizedValues}>{prioritizedValues.join(",")}</div>
         <div className={styles.url}>{url}</div>
       </div>
-      <div className={styles.right}>
+      <div className={styles.menu}>
         <AiOutlineQrcode />
-        {/* <ProofInstanceQRCode proofInstance={proofInstance} /> */}
       </div>
     </div>
   );

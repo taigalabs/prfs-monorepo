@@ -2,6 +2,7 @@
   padding: 4px 10px;
   display: flex;
   align-items: center;
+  position: relative;
   width: 420px;
 
   border-radius: 4px;
@@ -12,6 +13,7 @@
       rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
   }
 }
+
 .imgContainer {
   display: flex;
   align-items: center;
@@ -36,4 +38,11 @@
 .url {
   margin-top: auto;
   font-size: 12px;
+}
+
+.menu {
+  font-size: 20px;
+  position: absolute;
+  top: 7px;
+  right: 7px;
 }
