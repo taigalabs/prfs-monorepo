@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import cn from "classnames";
-import { useRouter } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import Table, {
   TableBody,
