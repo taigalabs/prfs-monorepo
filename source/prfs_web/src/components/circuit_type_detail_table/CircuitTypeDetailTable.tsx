@@ -8,51 +8,43 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import styles from "./DriverDetailTable.module.scss";
+import styles from "./CircuitTypeDetailTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import Table2, { RecordData } from "@/components/table2/Table2";
-import { PrfsCircuitDriver } from "@taigalabs/prfs-entities/bindings/PrfsCircuitDriver";
+import { PrfsCircuitType } from "@taigalabs/prfs-entities/bindings/PrfsCircuitType";
 
 const columnHelper = createColumnHelper<RecordData>();
 
-const DriverDetailTable: React.FC<DriverDetailTableProps> = ({ driver }) => {
+const CircuitTypeDetailTable: React.FC<CircuitTypeDetailTableProps> = ({ circuit_type }) => {
   const i18n = React.useContext(i18nContext);
 
   const data = React.useMemo(() => {
-    if (!driver) {
+    if (!circuit_type) {
       return [];
     }
 
     const ret: RecordData[] = [
       {
-        label: i18n.circuit_driver_id,
-        value: driver.circuit_driver_id,
-      },
-      {
-        label: i18n.driver_repository_url,
-        value: driver.driver_repository_url,
-      },
-      {
-        label: i18n.version,
-        value: driver.version,
-      },
-      {
-        label: i18n.author,
-        value: driver.author,
+        label: i18n.circuit_type,
+        value: circuit_type.circuit_type,
       },
       {
         label: i18n.description,
-        value: driver.desc,
+        value: circuit_type.desc,
+      },
+      {
+        label: i18n.author,
+        value: circuit_type.author,
       },
       {
         label: i18n.created_at,
-        value: driver.created_at,
+        value: circuit_type.created_at,
       },
     ];
 
     return ret;
-  }, [driver]);
+  }, [circuit_type]);
 
   const columns = [
     columnHelper.accessor("label", {
@@ -64,11 +56,11 @@ const DriverDetailTable: React.FC<DriverDetailTableProps> = ({ driver }) => {
     }),
   ];
 
-  return driver && <Table2 data={data} columns={columns} headless />;
+  return circuit_type && <Table2 data={data} columns={columns} headless />;
 };
 
-export default DriverDetailTable;
+export default CircuitTypeDetailTable;
 
-interface DriverDetailTableProps {
-  driver: PrfsCircuitDriver | undefined;
+interface CircuitTypeDetailTableProps {
+  circuit_type: PrfsCircuitType | undefined;
 }
