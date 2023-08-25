@@ -28,6 +28,25 @@ export async function getSets(req: GetSetsRequest) {
   }
 }
 
+export interface GetPrfsSetBySetIdRequest {
+  page_idx: number;
+  page_size: number;
+  set_id: string;
+}
+
+export async function getPrfsSetBySetId(req: GetPrfsSetBySetIdRequest) {
+  try {
+    let resp: GetSetsResponse = await api({
+      path: "get_prfs_set_by_set_id",
+      req,
+    });
+    return resp;
+  } catch (err) {
+    console.log("error fetching", err);
+    throw err;
+  }
+}
+
 export interface GetSetElementsRequest {
   page_idx: number;
   page_size: number;

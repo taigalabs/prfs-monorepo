@@ -32,7 +32,7 @@ const Set: React.FC<SetProps> = ({ params }) => {
     prfsApi
       .getSets({
         page_idx: 0,
-        page_size: 30,
+        page_size: 20,
         set_id: params.set_id,
       })
       .then(resp => {

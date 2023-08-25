@@ -14,7 +14,7 @@ import {
 import styles from "./SetElementTable2.module.scss";
 import { PrfsTreeNode } from "@taigalabs/prfs-entities/bindings/PrfsTreeNode";
 
-const SetElementTable2: React.FC<SetElementTable2Props> = ({ setId, prfsSet }) => {
+const SetElementTable2: React.FC<SetElementTable2Props> = ({ setId }) => {
   const rerender = React.useReducer(() => ({}), {})[1];
   const [data, setData] = React.useState<PrfsTreeNode[]>([]);
 
@@ -35,7 +35,7 @@ const SetElementTable2: React.FC<SetElementTable2Props> = ({ setId, prfsSet }) =
 
   const [{ pageIndex, pageSize }, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 10,
+    pageSize: 20,
   });
 
   // const fetchDataOptions = {
@@ -79,7 +79,6 @@ const SetElementTable2: React.FC<SetElementTable2Props> = ({ setId, prfsSet }) =
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
-    debugTable: true,
   });
 
   return (

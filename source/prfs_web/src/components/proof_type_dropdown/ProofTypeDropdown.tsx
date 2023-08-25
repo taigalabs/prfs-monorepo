@@ -37,7 +37,7 @@ const ProofTypeEntry: React.FC<CircuitEntryProps> = ({ val }) => {
             <div>{val.circuit_driver_id}</div>
           </div>
           <div className={styles.item}>
-            <div>{i18n.num_inputs}:</div>
+            <div>{i18n.num_public_inputs}:</div>
             <div>{Object.keys(val.circuit_inputs).length}</div>
           </div>
         </div>

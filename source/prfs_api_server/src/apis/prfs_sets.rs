@@ -5,12 +5,12 @@ use prfs_entities::entities::PrfsSet;
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
+use uuid::Uuid;
 
 #[derive(Serialize, Deserialize, Debug)]
-struct GetSetsRequest {
-    page_idx: u32,
-    page_size: u32,
-    set_id: Option<uuid::Uuid>,
+struct GetPrfsSetsRequest {
+    page_idx: i32,
+    page_size: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -24,28 +24,45 @@ pub async fn get_prfs_sets(req: Request<Body>) -> Result<Response<Body>, Infalli
     let state = state.clone();
 
     let pool = &state.db2.pool;
-    // let mut tx = pool.begin().await.unwrap();
 
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let req =
-        serde_json::from_str::<GetSetsRequest>(&body_str).expect("req request should be parsable");
+    let req = serde_json::from_str::<GetPrfsSetsRequest>(&body_str)
+        .expect("req request should be parsable");
 
-    if let Some(set_id) = req.set_id {
-        let prfs_set = db_apis::get_prfs_set(pool, &set_id).await.unwrap();
-        // let merkle_root = state.db2.get_prfs_tree_root(&set_id).await.unwrap();
-
-        let resp = ApiResponse::new_success(GetSetsRespPayload {
-            page: 0,
-            prfs_sets: vec![prfs_set],
-        });
-
-        return Ok(resp.into_hyper_response());
-    }
-
-    let prfs_sets = db_apis::get_prfs_sets(pool).await.unwrap();
+    let prfs_sets = db_apis::get_prfs_sets(pool, req.page_idx, req.page_size)
+        .await
+        .unwrap();
 
     let resp = ApiResponse::new_success(GetSetsRespPayload { page: 0, prfs_sets });
+
+    return Ok(resp.into_hyper_response());
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct GetPrfsSetBySetIdRequest {
+    set_id: Uuid,
+}
+
+pub async fn get_prfs_set_by_set_id(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+    let state = req.data::<Arc<ServerState>>().unwrap();
+    let state = state.clone();
+
+    let pool = &state.db2.pool;
+
+    let bytes = body::to_bytes(req.into_body()).await.unwrap();
+    let body_str = String::from_utf8(bytes.to_vec()).unwrap();
+    let req = serde_json::from_str::<GetPrfsSetBySetIdRequest>(&body_str)
+        .expect("req request should be parsable");
+
+    let prfs_set = db_apis::get_prfs_set_by_set_id(pool, &req.set_id)
+        .await
+        .unwrap();
+
+    let resp = ApiResponse::new_success(GetSetsRespPayload {
+        page: 0,
+        prfs_sets: vec![prfs_set],
+    });
 
     return Ok(resp.into_hyper_response());
 }

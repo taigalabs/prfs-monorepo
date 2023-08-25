@@ -7,7 +7,7 @@ use chrono::{DateTime, Utc};
 use prfs_entities::entities::PrfsSet;
 use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 
-pub async fn get_prfs_set(
+pub async fn get_prfs_set_by_set_id(
     pool: &Pool<Postgres>,
     set_id: &uuid::Uuid,
 ) -> Result<PrfsSet, DbInterfaceError> {
@@ -52,10 +52,27 @@ pub async fn get_prfs_set(
     Ok(s)
 }
 
-pub async fn get_prfs_sets(pool: &Pool<Postgres>) -> Result<Vec<PrfsSet>, DbInterfaceError> {
-    let query = format!("SELECT * from prfs_sets");
+pub async fn get_prfs_sets(
+    pool: &Pool<Postgres>,
+    page_idx: i32,
+    page_size: i32,
+) -> Result<Vec<PrfsSet>, DbInterfaceError> {
+    let query = r#"
+SELECT * 
+FROM prfs_sets
+ORDER BY created_at
+LIMIT $1
+OFFSET $2
+"#;
 
-    let rows = sqlx::query(&query).fetch_all(pool).await.unwrap();
+    let offset = page_idx * page_size;
+
+    let rows = sqlx::query(&query)
+        .bind(page_size)
+        .bind(offset)
+        .fetch_all(pool)
+        .await
+        .unwrap();
 
     let prfs_sets: Vec<PrfsSet> = rows
         .iter()

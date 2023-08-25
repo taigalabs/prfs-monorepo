@@ -55,7 +55,8 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
   React.useEffect(() => {
     prfsApi
       .getSets({
-        page: 0,
+        page_idx: 0,
+        page_size: 20,
       })
       .then(resp => {
         const { page, prfs_sets } = resp.payload;

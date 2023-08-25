@@ -37,13 +37,9 @@ const Sets: React.FC = () => {
         </SpacedBetweenArea>
       </ContentAreaHeader>
       <ContentAreaRow>
-        <Widget>
-          <PaddedTableWrapper>
-            <div className={styles.tableContainer}>
-              <SetTable />
-            </div>
-          </PaddedTableWrapper>
-        </Widget>
+        <PaddedTableWrapper>
+          <SetTable />
+        </PaddedTableWrapper>
       </ContentAreaRow>
     </DefaultLayout>
   );

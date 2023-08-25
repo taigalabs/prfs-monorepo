@@ -70,6 +70,10 @@ pub fn make_router(
             prfs_sets::get_prfs_sets,
         )
         .post(
+            format!("{}/get_prfs_set_by_set_id", PREFIX),
+            prfs_sets::get_prfs_set_by_set_id,
+        )
+        .post(
             format!("{}/get_prfs_proof_types", PREFIX),
             prfs_proof_types::get_prfs_proof_types,
         )
