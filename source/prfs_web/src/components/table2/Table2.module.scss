@@ -113,10 +113,39 @@
 
 .table2Pagination {
   display: flex;
-  font-size: 14px;
+  height: 20px;
+  font-size: 13px;
+  margin: 6px 0;
+  justify-content: flex-end;
+  color: var(--gray-40);
 
   > div {
     display: flex;
     align-items: center;
+    height: 100%;
+  }
+
+  > div:not(:last-child) {
+    margin-right: 28px;
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+  }
+
+  .rowsPerPage {
+    select {
+      width: 60px;
+      text-align: right;
+    }
+
+    span {
+      margin-right: 12px;
+    }
+  }
+
+  .arrowGroup {
+    font-size: 20px;
   }
 }

@@ -66,8 +66,8 @@ export function Table2Pagination<T>({ table, pageSize }: Table2PaginationProps<T
 
   return (
     <div className={styles.table2Pagination}>
-      <div>
-        {i18n.rows_per_page}
+      <div className={styles.rowsPerPage}>
+        <span>{i18n.rows_per_page}</span>
         <select
           value={pageSize}
           onChange={e => {
@@ -77,10 +77,10 @@ export function Table2Pagination<T>({ table, pageSize }: Table2PaginationProps<T
           {pageSizeSelectElem}
         </select>
       </div>
-      <div>
+      <div className={styles.pageLocation}>
         <div>{pageLocation}</div>
       </div>
-      <div>
+      <div className={styles.arrowGroup}>
         <button
           className={styles.first}
           onClick={() => table.setPageIndex(0)}
