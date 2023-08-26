@@ -26,7 +26,6 @@ const columns: ColumnDef<PrfsTreeNode>[] = [
 ];
 
 const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet }) => {
-  // const rerender = React.useReducer(() => ({}), {})[1];
   const [data, setData] = React.useState<PrfsTreeNode[]>([]);
 
   const [{ pageIndex, pageSize }, setPagination] = React.useState<PaginationState>({

@@ -19,8 +19,6 @@ use uuid::Uuid;
 use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
 
 pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    println!("get proof types");
-
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
 

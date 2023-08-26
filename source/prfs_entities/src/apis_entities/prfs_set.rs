@@ -5,12 +5,14 @@ use ts_rs::TS;
 use uuid::Uuid;
 
 #[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
 pub struct GetPrfsSetBySetIdRequest {
     #[ts(type = "string")]
     pub set_id: Uuid,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
 pub struct GetPrfsSetBySetIdResponse {
     pub prfs_set: PrfsSet,
 }
