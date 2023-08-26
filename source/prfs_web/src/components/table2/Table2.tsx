@@ -114,62 +114,6 @@ export function Table2Pagination<T>({ table, pageSize }: Table2PaginationProps<T
   );
 }
 
-// export function Table2Component<T>({ data, columns, headless, footer }: Table2ComponentProps<T>) {
-//   const rerender = React.useReducer(() => ({}), {})[1];
-
-//   const table = useReactTable({
-//     data,
-//     columns,
-//     getCoreRowModel: getCoreRowModel(),
-//   });
-
-//   return (
-//     <div className={styles.wrapper}>
-//       <table>
-//         {headless ? null : (
-//           <thead className={styles.table2Head}>
-//             {table.getHeaderGroups().map(headerGroup => (
-//               <tr className={styles.tableRow} key={headerGroup.id}>
-//                 {headerGroup.headers.map(header => (
-//                   <th key={header.id}>
-//                     {header.isPlaceholder
-//                       ? null
-//                       : flexRender(header.column.columnDef.header, header.getContext())}
-//                   </th>
-//                 ))}
-//               </tr>
-//             ))}
-//           </thead>
-//         )}
-//         <tbody>
-//           {table.getRowModel().rows.map(row => (
-//             <tr className={styles.tableRow} key={row.id}>
-//               {row.getVisibleCells().map(cell => (
-//                 <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
-//               ))}
-//             </tr>
-//           ))}
-//         </tbody>
-//         {footer ? (
-//           <tfoot>
-//             {table.getFooterGroups().map(footerGroup => (
-//               <tr className={styles.tableRow} key={footerGroup.id}>
-//                 {footerGroup.headers.map(header => (
-//                   <th key={header.id}>
-//                     {header.isPlaceholder
-//                       ? null
-//                       : flexRender(header.column.columnDef.footer, header.getContext())}
-//                   </th>
-//                 ))}
-//               </tr>
-//             ))}
-//           </tfoot>
-//         ) : null}
-//       </table>
-//     </div>
-//   );
-// }
-
 export default Table2;
 
 export interface Table2Props {
@@ -179,13 +123,6 @@ export interface Table2Props {
 export interface Table2PaginationProps<T> {
   table: Table<T>;
   pageSize: number;
-}
-
-export interface Table2ComponentProps<T> {
-  data: T[];
-  columns: ColumnDef<T, any>[];
-  headless?: boolean;
-  footer?: boolean;
 }
 
 export interface RecordData {
