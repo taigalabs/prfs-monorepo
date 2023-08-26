@@ -112,4 +112,11 @@
 }
 
 .table2Pagination {
+  display: flex;
+  font-size: 14px;
+
+  > div {
+    display: flex;
+    align-items: center;
+  }
 }
