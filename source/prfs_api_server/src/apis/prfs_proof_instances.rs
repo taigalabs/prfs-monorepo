@@ -7,12 +7,9 @@ use prfs_entities::apis_entities::{
     GetPrfsProofInstanceByShortIdRequest, GetPrfsProofInstancesByShortIdResponse,
     GetPrfsProofInstancesRequest, GetPrfsProofInstancesResponse,
 };
-use prfs_entities::{
-    entities::{CircuitInput, PrfsProofInstance, PrfsProofType, PrfsSet},
-    syn_entities::PrfsProofInstanceSyn1,
-};
+use prfs_entities::entities::{CircuitInput, PrfsProofInstance, PrfsProofType, PrfsSet};
 use routerify::prelude::*;
-use std::{collections::HashMap, convert::Infallible, sync::Arc};
+use std::{convert::Infallible, sync::Arc};
 
 use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
 

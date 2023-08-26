@@ -1,4 +1,3 @@
-use chrono::{DateTime, NaiveDate, NaiveDateTime};
 use hyper::{body, Body, Request, Response};
 use prfs_db_interface::db_apis;
 use prfs_entities::{
@@ -21,7 +20,6 @@ pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, 
     let state = state.clone();
 
     let pool = &state.db2.pool;
-    // let mut tx = pool.begin().await.unwrap();
 
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();

@@ -32,7 +32,7 @@ export async function getPrfsProofInstanceByInstanceId(
   req: GetPrfsProofInstanceByInstanceIdRequest
 ) {
   return (await api({
-    path: `get_prfs_proof_instances_by_instance_id`,
+    path: `get_prfs_proof_instance_by_instance_id`,
     req,
   })) as PrfsApiResponse<GetPrfsProofInstanceByInstanceIdResponse>;
 }

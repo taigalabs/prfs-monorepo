@@ -17,8 +17,6 @@ async fn main() -> Result<(), ApiServerError> {
     let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     println!("manifest_dir: {:?}", manifest_dir);
 
-    // let local_assets = local::load_local_assets();
-
     let pg_endpoint = &ENVS.postgres_endpoint;
     let pg_username = &ENVS.postgres_username;
     let pg_pw = &ENVS.postgres_pw;

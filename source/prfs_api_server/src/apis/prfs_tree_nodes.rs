@@ -1,15 +1,10 @@
 use hyper::{body, header, Body, Request, Response};
 use prfs_db_interface::db_apis;
-use prfs_entities::{
-    apis_entities::{
-        GetPrfsTreeLeafIndicesRequest, GetPrfsTreeLeafNodesRequest, GetPrfsTreeNodesByPosRequest,
-        GetPrfsTreeNodesResponse,
-    },
-    entities::PrfsTreeNode,
+use prfs_entities::apis_entities::{
+    GetPrfsTreeLeafIndicesRequest, GetPrfsTreeLeafNodesRequest, GetPrfsTreeNodesByPosRequest,
+    GetPrfsTreeNodesResponse,
 };
 use routerify::prelude::*;
-use rust_decimal::Decimal;
-use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
 use uuid::Uuid;
 

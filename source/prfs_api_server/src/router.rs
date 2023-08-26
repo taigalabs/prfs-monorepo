@@ -89,6 +89,7 @@ pub fn make_router(
             format!("{}/create_prfs_proof_type", PREFIX),
             prfs_proof_types::create_prfs_proof_types,
         )
+        .post("*", middleware::not_found_handler)
         .err_handler_with_info(middleware::error_handler)
         .build()?;
 
