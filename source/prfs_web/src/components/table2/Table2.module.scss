@@ -1,37 +1,3 @@
-.wrapper {
-  table {
-    width: 100%;
-    /* border: 1px solid lightgray; */
-  }
-
-  tbody {
-    /* border-bottom: 1px solid lightgray; */
-  }
-}
-
-.tableRow {
-  border-bottom: 1px solid var(--bright-gray-35);
-
-  > td {
-    padding: 7px 12px;
-    position: relative;
-    /* white-space: nowrap; */
-    // word-wrap: break-word;
-  }
-
-  a {
-    color: var(--aqua-blue-50);
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
-.tableRow.selectedRow {
-  background-color: var(--bright-green-90);
-  border: 1px solid var(--green-80);
-}
-
 .pageLimitWarning {
   background-color: var(--bright-gray-55);
   padding: 11px 20px;
@@ -85,10 +51,6 @@
     text-align: left;
     // word-wrap: break-word;
   }
-
-  th:last-child {
-    /* width: 100%; */
-  }
 }
 
 .table2Body {
@@ -113,7 +75,7 @@
 
 .table2Pagination {
   display: flex;
-  height: 20px;
+  align-items: center;
   font-size: 13px;
   margin: 6px 0;
   justify-content: flex-end;
@@ -129,11 +91,6 @@
     margin-right: 28px;
   }
 
-  button {
-    display: flex;
-    align-items: center;
-  }
-
   .rowsPerPage {
     select {
       width: 60px;
@@ -146,6 +103,24 @@
   }
 
   .arrowGroup {
-    font-size: 20px;
+    button {
+      border-radius: 24px;
+      width: 24px;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      color: var(--black-20);
+
+      &:hover {
+        background-color: var(--bright-gray-40);
+      }
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      background-color: inherit;
+      color: var(--gray-50);
+    }
   }
 }

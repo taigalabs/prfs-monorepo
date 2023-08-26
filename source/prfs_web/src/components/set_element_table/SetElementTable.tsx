@@ -15,7 +15,7 @@ import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 
 const columns: ColumnDef<PrfsTreeNode>[] = [
   {
-    header: "Info",
+    header: "Position",
     accessorFn: row => row.pos_w,
     cell: info => info.getValue(),
   },
