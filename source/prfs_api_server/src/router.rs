@@ -66,8 +66,12 @@ pub fn make_router(
             prfs_tree_nodes::get_prfs_tree_nodes_by_pos,
         )
         .post(
-            format!("{}/get_prfs_tree_leaf_nodes", PREFIX),
-            prfs_tree_nodes::get_prfs_tree_leaf_nodes,
+            format!("{}/get_prfs_tree_leaf_nodes_by_set_id", PREFIX),
+            prfs_tree_nodes::get_prfs_tree_leaf_nodes_by_set_id,
+        )
+        .post(
+            format!("{}/get_prfs_tree_leaf_indices", PREFIX),
+            prfs_tree_nodes::get_prfs_tree_leaf_indices,
         )
         .post(
             format!("{}/get_prfs_sets", PREFIX),

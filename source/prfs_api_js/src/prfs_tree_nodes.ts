@@ -23,7 +23,7 @@ export async function getPrfsTreeLeafNodes(req: GetPrfsTreeLeafNodesRequest) {
 
 export async function getPrfsTreeLeafIndicesRequest(req: GetPrfsTreeLeafIndicesRequest) {
   return (await api({
-    path: `get_prfs_tree_leaf_nodes`,
+    path: `get_prfs_tree_leaf_indices`,
     req,
   })) as PrfsApiResponse<GetPrfsTreeNodesResponse>;
 }

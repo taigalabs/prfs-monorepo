@@ -28,25 +28,7 @@ pub async fn get_prfs_tree_nodes_by_pos(req: Request<Body>) -> Result<Response<B
 
     println!("req {:?}", req);
 
-    let set_id = req.set_id.to_string();
-
-    let whre: Vec<String> = req
-        .pos
-        .iter()
-        .map(|mp| format!("(pos_w = {} and pos_h = {})", mp.pos_w, mp.pos_h))
-        .collect();
-
-    let whre = whre.join(" OR ");
-
-    let where_clause = format!(
-        "where set_id = '{}' AND ({}) ORDER BY pos_h",
-        set_id.to_string(),
-        whre,
-    );
-
-    println!("where_clause, {}", where_clause);
-
-    let prfs_tree_nodes = db_apis::get_prfs_tree_nodes(pool, &where_clause)
+    let prfs_tree_nodes = db_apis::get_prfs_tree_nodes_by_pos(pool, &req.set_id, &req.pos)
         .await
         .expect("get nodes fail");
 
@@ -55,7 +37,9 @@ pub async fn get_prfs_tree_nodes_by_pos(req: Request<Body>) -> Result<Response<B
     Ok(resp.into_hyper_response())
 }
 
-pub async fn get_prfs_tree_leaf_nodes(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+pub async fn get_prfs_tree_leaf_nodes_by_set_id(
+    req: Request<Body>,
+) -> Result<Response<Body>, Infallible> {
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
 
@@ -71,6 +55,27 @@ pub async fn get_prfs_tree_leaf_nodes(req: Request<Body>) -> Result<Response<Bod
         db_apis::get_prfs_tree_leaf_nodes_by_set_id(pool, &req.set_id, req.page_idx, req.page_size)
             .await
             .expect("get nodes fail");
+
+    let resp = ApiResponse::new_success(GetPrfsTreeNodesResponse { prfs_tree_nodes });
+
+    return Ok(resp.into_hyper_response());
+}
+
+pub async fn get_prfs_tree_leaf_indices(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+    let state = req.data::<Arc<ServerState>>().unwrap();
+    let state = state.clone();
+
+    let pool = &state.db2.pool;
+
+    let bytes = body::to_bytes(req.into_body()).await.unwrap();
+    let body_str = String::from_utf8(bytes.to_vec()).unwrap();
+    let req = serde_json::from_str::<GetPrfsTreeLeafIndicesRequest>(&body_str).unwrap();
+
+    println!("req {:?}", req);
+
+    let prfs_tree_nodes = db_apis::get_prfs_tree_leaf_indices(pool, &req.set_id, &req.leaf_vals)
+        .await
+        .expect("get nodes fail");
 
     let resp = ApiResponse::new_success(GetPrfsTreeNodesResponse { prfs_tree_nodes });
 

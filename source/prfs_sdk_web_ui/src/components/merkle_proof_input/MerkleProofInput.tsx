@@ -112,7 +112,9 @@ const MerkleProofModal: React.FC<MerkleProofModalProps> = ({
       });
 
       setIsOpen(false);
-    } catch (err) {}
+    } catch (err) {
+      console.error(err);
+    }
   }, [circuitInput, walletAddr, prfsSet, setFormValues, setIsOpen]);
 
   return (

@@ -16,7 +16,8 @@ pub struct NodePos {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetPrfsTreeNodesByPosRequest {
-    pub set_id: String,
+    #[ts(type = "'<Uuid>' | string")]
+    pub set_id: Uuid,
     pub pos: Vec<NodePos>,
 }
 
@@ -39,6 +40,8 @@ pub struct GetPrfsTreeLeafNodesRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetPrfsTreeLeafIndicesRequest {
-    pub set_id: String,
+    #[ts(type = "'<Uuid>' | string")]
+    pub set_id: Uuid,
+
     pub leaf_vals: Vec<String>,
 }

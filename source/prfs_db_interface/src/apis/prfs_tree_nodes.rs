@@ -1,12 +1,72 @@
 use crate::{database2::Database2, DbInterfaceError};
+use prfs_entities::apis_entities::NodePos;
 use prfs_entities::entities::PrfsTreeNode;
 use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 use uuid::Uuid;
 
-pub async fn get_prfs_tree_nodes(
+pub async fn get_prfs_tree_nodes_by_pos(
     pool: &Pool<Postgres>,
-    where_clause: &str,
+    set_id: &Uuid,
+    // where_clause: &str,
+    pos: &Vec<NodePos>,
 ) -> Result<Vec<PrfsTreeNode>, DbInterfaceError> {
+    let whre: Vec<String> = pos
+        .iter()
+        .map(|mp| format!("(pos_w = {} and pos_h = {})", mp.pos_w, mp.pos_h))
+        .collect();
+
+    let whre = whre.join(" OR ");
+
+    let where_clause = format!(
+        "where set_id = '{}' AND ({}) ORDER BY pos_h",
+        set_id.to_string(),
+        whre,
+    );
+
+    println!("where_clause, {}", where_clause);
+    let query = format!("SELECT * from prfs_tree_nodes nodes {}", where_clause);
+    println!("query: {}", query);
+
+    let rows = sqlx::query(&query).fetch_all(pool).await.unwrap();
+
+    let nodes: Vec<PrfsTreeNode> = rows
+        .iter()
+        .map(|n| {
+            let pos_w = n.try_get("pos_w").expect("pos_w should exist");
+            let pos_h = n.try_get("pos_h").expect("pos_h should exist");
+            let val = n.try_get("val").expect("val should exist");
+            let set_id = n.try_get("set_id").expect("set_id should exist");
+
+            PrfsTreeNode {
+                pos_w,
+                pos_h,
+                val,
+                set_id,
+            }
+        })
+        .collect();
+
+    Ok(nodes)
+}
+
+pub async fn get_prfs_tree_leaf_indices(
+    pool: &Pool<Postgres>,
+    set_id: &Uuid,
+    leaf_vals: &Vec<String>,
+) -> Result<Vec<PrfsTreeNode>, DbInterfaceError> {
+    let mut leaf_clause = vec![];
+
+    for val in leaf_vals {
+        let l = format!("val = '{}'", val.to_lowercase());
+        leaf_clause.push(l);
+    }
+
+    let where_clause = format!(
+        "where set_id = '{}' AND pos_h = 0 AND {}",
+        set_id.to_string(),
+        leaf_clause.join(" or ")
+    );
+
     let query = format!("SELECT * from prfs_tree_nodes nodes {}", where_clause);
     println!("query: {}", query);
 
@@ -78,7 +138,7 @@ LIMIT $3
 
 pub async fn get_prfs_tree_root(
     pool: &Pool<Postgres>,
-    set_id: &String,
+    set_id: &Uuid,
 ) -> Result<PrfsTreeNode, DbInterfaceError> {
     let query = format!("SELECT * from prfs_tree_nodes where set_id=$1 and pos_h=31 and pos_w=0",);
     // println!("query: {}", query);

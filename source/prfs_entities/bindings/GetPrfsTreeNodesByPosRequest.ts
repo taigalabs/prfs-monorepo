@@ -2,6 +2,6 @@
 import type { NodePos } from "./NodePos";
 
 export interface GetPrfsTreeNodesByPosRequest {
-  set_id: string;
+  set_id: "<Uuid>" | string;
   pos: Array<NodePos>;
 }
