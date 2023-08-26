@@ -27,7 +27,7 @@ const Set: React.FC<SetProps> = ({ params }) => {
   useLocalWallet(dispatch);
   const router = useRouter();
 
-  const [set, setSet] = React.useState<PrfsSet>();
+  const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
   React.useEffect(() => {
     prfsApi
       .getSets({
@@ -39,14 +39,14 @@ const Set: React.FC<SetProps> = ({ params }) => {
         const { prfs_sets } = resp.payload;
 
         if (prfs_sets.length > 0) {
-          setSet(prfs_sets[0]);
+          setPrfsSet(prfs_sets[0]);
         } else {
           console.error("Set not found");
 
           // router.push(paths.proof__sets);
         }
       });
-  }, [setSet]);
+  }, [setPrfsSet]);
 
   let setTableLabel = `${i18n.set} summary for ${params.set_id}`;
 
@@ -63,7 +63,7 @@ const Set: React.FC<SetProps> = ({ params }) => {
         <ContentAreaRow>
           <div className={styles.singleColRow}>
             <div className={styles.tableContainer}>
-              <SetDetailTable set={set} />
+              <SetDetailTable prfsSet={prfsSet} />
             </div>
           </div>
         </ContentAreaRow>
@@ -71,8 +71,7 @@ const Set: React.FC<SetProps> = ({ params }) => {
         <ContentAreaRow>
           <div className={styles.singleColRow}>
             <div className={styles.tableTitle}>{i18n.elements}</div>
-            <SetElementTable2 setId={params.set_id} />
-            {/* <SetElementTable setId={params.set_id} /> */}
+            <SetElementTable2 setId={params.set_id} prfsSet={prfsSet} />
           </div>
         </ContentAreaRow>
       </div>
