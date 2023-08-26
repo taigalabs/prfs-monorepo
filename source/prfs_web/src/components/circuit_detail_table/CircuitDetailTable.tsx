@@ -11,12 +11,7 @@ import {
 import styles from "./CircuitDetailTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import Table2, {
-  RecordData,
-  Table2Body,
-  Table2Component,
-  Table2Head,
-} from "@/components/table2/Table2";
+import Table2, { RecordData, Table2Body, Table2Head } from "@/components/table2/Table2";
 
 const columnHelper = createColumnHelper<RecordData>();
 

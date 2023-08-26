@@ -12,7 +12,7 @@ import {
 import styles from "./ProofTypeDetailTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import Table2, { RecordData, Table2Component } from "../table2/Table2";
+import Table2, { RecordData, Table2Body, Table2Head } from "../table2/Table2";
 
 const columnHelper = createColumnHelper<RecordData>();
 
@@ -64,7 +64,51 @@ const ProofTypeDetailTable: React.FC<ProofTypeDetailTableProps> = ({ proofType }
     return ret;
   }, [proofType]);
 
-  return proofType && <Table2Component data={data} columns={columns} headless />;
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
+
+  return (
+    proofType && (
+      <div className={styles.wrapper}>
+        <Table2>
+          <Table2Head>
+            {table.getHeaderGroups().map(headerGroup => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map(header => {
+                  return (
+                    <th key={header.id} colSpan={header.colSpan}>
+                      {header.isPlaceholder ? null : (
+                        <div>{flexRender(header.column.columnDef.header, header.getContext())}</div>
+                      )}
+                    </th>
+                  );
+                })}
+              </tr>
+            ))}
+          </Table2Head>
+
+          <Table2Body>
+            {table.getRowModel().rows.map(row => {
+              return (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map(cell => {
+                    return (
+                      <td key={cell.id}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </Table2Body>
+        </Table2>
+      </div>
+    )
+  );
 };
 
 export default ProofTypeDetailTable;
