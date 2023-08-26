@@ -2,8 +2,9 @@ use chrono::{DateTime, NaiveDate, NaiveDateTime};
 use hyper::{body, Body, Request, Response};
 use prfs_db_interface::db_apis;
 use prfs_entities::apis_entities::{
-    GetPrfsProofInstanceByShortIdRequest, GetPrfsProofInstancesByInstanceIdRequest,
-    GetPrfsProofInstancesByInstanceIdResponse, GetPrfsProofInstancesByShortIdResponse,
+    CreatePrfsProofInstanceRequest, CreatePrfsProofInstanceResponse,
+    GetPrfsProofInstanceByInstanceIdRequest, GetPrfsProofInstanceByInstanceIdResponse,
+    GetPrfsProofInstanceByShortIdRequest, GetPrfsProofInstancesByShortIdResponse,
     GetPrfsProofInstancesRequest, GetPrfsProofInstancesResponse,
 };
 use prfs_entities::sqlx;
@@ -50,14 +51,14 @@ pub async fn get_prfs_proof_instance_by_instance_id(
 
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let req = serde_json::from_str::<GetPrfsProofInstancesByInstanceIdRequest>(&body_str).unwrap();
+    let req = serde_json::from_str::<GetPrfsProofInstanceByInstanceIdRequest>(&body_str).unwrap();
 
     println!("req: {:?}", req);
 
     let prfs_proof_instance_syn1 =
         db_apis::get_prfs_proof_instance_syn1_by_instance_id(pool, &req.proof_instance_id).await;
 
-    let resp = ApiResponse::new_success(GetPrfsProofInstancesByInstanceIdResponse {
+    let resp = ApiResponse::new_success(GetPrfsProofInstanceByInstanceIdResponse {
         prfs_proof_instance_syn1,
     });
 
@@ -87,20 +88,6 @@ pub async fn get_prfs_proof_instance_by_short_id(
     });
 
     return Ok(resp.into_hyper_response());
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct CreatePrfsProofInstanceRequest {
-    proof_instance_id: uuid::Uuid,
-    sig: String,
-    proof_type_id: uuid::Uuid,
-    proof: Vec<u8>,
-    public_inputs: sqlx::types::Json<serde_json::Value>,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct CreatePrfsProofInstanceRespPayload {
-    proof_instance_id: uuid::Uuid,
 }
 
 pub async fn create_prfs_proof_instance(req: Request<Body>) -> Result<Response<Body>, Infallible> {
@@ -134,7 +121,7 @@ pub async fn create_prfs_proof_instance(req: Request<Body>) -> Result<Response<B
 
     tx.commit().await.unwrap();
 
-    let resp = ApiResponse::new_success(CreatePrfsProofInstanceRespPayload { proof_instance_id });
+    let resp = ApiResponse::new_success(CreatePrfsProofInstanceResponse { proof_instance_id });
 
     return Ok(resp.into_hyper_response());
 }

@@ -9,7 +9,6 @@ use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
 use uuid::Uuid;
-// use prfs_entities::apis_entities::
 
 #[derive(Serialize, Deserialize, Debug)]
 struct GetPrfsSetsRequest {

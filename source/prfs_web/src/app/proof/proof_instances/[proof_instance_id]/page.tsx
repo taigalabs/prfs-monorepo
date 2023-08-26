@@ -38,13 +38,11 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
     async function fn() {
       const proof_instance_id = decodeURIComponent(params.proof_instance_id);
       try {
-        let { payload } = await prfsApi.getPrfsProofInstances({
-          page: 0,
+        let { payload } = await prfsApi.getPrfsProofInstanceByInstanceId({
           proof_instance_id,
         });
 
-        const { prfs_proof_instances_syn1 } = payload;
-        setProofInstance(prfs_proof_instances_syn1[0]);
+        setProofInstance(payload.prfs_proof_instance_syn1);
       } catch (err) {
         console.error("Proof instance is not found, invalid access");
         // router.push(paths.proof__proof_instances);

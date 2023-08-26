@@ -17,14 +17,14 @@ pub struct GetPrfsProofInstancesRequest {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetPrfsProofInstancesByInstanceIdRequest {
+pub struct GetPrfsProofInstanceByInstanceIdRequest {
     #[ts(type = "string")]
     pub proof_instance_id: Uuid,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetPrfsProofInstancesByInstanceIdResponse {
+pub struct GetPrfsProofInstanceByInstanceIdResponse {
     pub prfs_proof_instance_syn1: PrfsProofInstanceSyn1,
 }
 
@@ -45,4 +45,27 @@ pub struct GetPrfsProofInstancesResponse {
 #[ts(export)]
 pub struct GetPrfsProofInstanceByShortIdRequest {
     pub short_id: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct CreatePrfsProofInstanceRequest {
+    #[ts(type = "'<Uuid>' | string")]
+    pub proof_instance_id: Uuid,
+
+    pub sig: String,
+
+    #[ts(type = "'<Uuid>' | string")]
+    pub proof_type_id: Uuid,
+    pub proof: Vec<u8>,
+
+    #[ts(type = "Record<string, any>")]
+    pub public_inputs: sqlx::types::Json<serde_json::Value>,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct CreatePrfsProofInstanceResponse {
+    #[ts(type = "'<Uuid>' | string")]
+    pub proof_instance_id: uuid::Uuid,
 }
