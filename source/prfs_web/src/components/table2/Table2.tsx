@@ -8,11 +8,10 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { MdFilterList } from "@react-icons/all-files/md/MdFilterList";
-// import { MdKeyboardArrowLeft } from "@react-icons/all-files/md/MdKeyboardArrowLeft";
-import KeyboardDoubleArrowLeft from "@mui/icons-material/KeyboardDoubleArrowLeft";
-import KeyboardDoubleArrowRight from "@mui/icons-material/KeyboardDoubleArrowRight";
-import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import KeyboardDoubleArrowLeft from "@taigalabs/prfs-react-components/src/material_icons/KeyboardDoubleArrowLeft";
+import KeyboardDoubleArrowRight from "@taigalabs/prfs-react-components/src/material_icons/KeyboardDoubleArrowRight";
+import KeyboardArrowLeft from "@taigalabs/prfs-react-components/src/material_icons/KeyboardArrowLeft";
+import KeyboardArrowRight from "@taigalabs/prfs-react-components/src/material_icons/KeyboardArrowRight";
 
 import styles from "./Table2.module.scss";
 import { i18nContext } from "@/contexts/i18n";

@@ -12,7 +12,6 @@
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
     "@floating-ui/react": "^0.24.8",
-    "@mui/icons-material": "^5.14.6",
     "@phosphor-icons/react": "^2.0.10",
     "@react-icons/all-files": "^4.1.0",
     "@tabler/icons-react": "^2.32.0",
@@ -41,6 +40,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@svgr/webpack": "^8.1.0",
     "@types/node": "20.3.1",
     "@types/qrcode": "^1.5.1",
     "@types/react": "18.2.12",
@@ -50,6 +50,7 @@
     "dotenv": "^16.3.1",
     "eslint": "8.26.0",
     "eslint-config-next": "13.4.6",
+    "install": "^0.13.0",
     "prettier": "^2.7.1",
     "ts-node": "^10.9.1",
     "typescript": "5.1.6"
