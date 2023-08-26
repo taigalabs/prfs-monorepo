@@ -74,23 +74,26 @@ pub async fn get_prfs_proof_instance_by_short_id(
 
 pub async fn get_prfs_proof_instances_syn1(
     pool: &Pool<Postgres>,
-    limit: i32,
+    page_idx: i32,
+    page_size: i32,
 ) -> Vec<PrfsProofInstanceSyn1> {
+    // let offset = page_idx * page_size;
     let query = r#"
 SELECT ppi.*, ppt.expression, ppt.img_url, ppt.label as proof_label, ppt.desc as proof_desc,
 ppt.circuit_driver_id, ppt.circuit_id, ppt.img_caption, pct.public_inputs_meta
 FROM prfs_proof_instances ppi
 INNER JOIN prfs_proof_types ppt ON ppi.proof_type_id=ppt.proof_type_id
 INNER JOIN prfs_circuit_types pct ON pct.circuit_type=ppt.circuit_type
-limit $1
+ORDER BY ppi.created_at
+OFFSET $1
+LIMIT $2
 "#;
 
     println!("query: {}", query);
 
-    let limit = Decimal::from(20);
-
     let rows = sqlx::query(query)
-        .bind(&limit)
+        .bind(page_idx * page_size)
+        .bind(&page_size)
         .fetch_all(pool)
         .await
         .unwrap();

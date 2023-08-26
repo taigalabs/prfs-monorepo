@@ -31,7 +31,7 @@ pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Bod
     println!("req: {:?}", req);
 
     let prfs_proof_instances_syn1 =
-        db_apis::get_prfs_proof_instances_syn1(pool, req.page_size).await;
+        db_apis::get_prfs_proof_instances_syn1(pool, req.page_idx, req.page_size).await;
 
     let resp = ApiResponse::new_success(GetPrfsProofInstancesResponse {
         page_idx: req.page_idx,
