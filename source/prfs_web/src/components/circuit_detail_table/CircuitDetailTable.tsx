@@ -11,9 +11,24 @@ import {
 import styles from "./CircuitDetailTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import Table2, { RecordData, Table2Component } from "@/components/table2/Table2";
+import Table2, {
+  RecordData,
+  Table2Body,
+  Table2Component,
+  Table2Head,
+} from "@/components/table2/Table2";
 
 const columnHelper = createColumnHelper<RecordData>();
+
+const columns = [
+  columnHelper.accessor("label", {
+    cell: info => info.getValue(),
+  }),
+  columnHelper.accessor(row => row.value, {
+    id: "value",
+    cell: info => <i>{info.getValue()}</i>,
+  }),
+];
 
 const CircuitDetailTable: React.FC<CircuitDetailTableProps> = ({ circuit }) => {
   const i18n = React.useContext(i18nContext);
@@ -85,18 +100,53 @@ const CircuitDetailTable: React.FC<CircuitDetailTableProps> = ({ circuit }) => {
     return ret;
   }, [circuit]);
 
-  const columns = [
-    columnHelper.accessor("label", {
-      cell: info => info.getValue(),
-    }),
-    columnHelper.accessor(row => row.value, {
-      id: "value",
-      cell: info => <i>{info.getValue()}</i>,
-    }),
-  ];
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
 
-  return circuit && <Table2Component data={data} columns={columns} headless />;
+  return (
+    circuit && (
+      <div className={styles.wrapper}>
+        <Table2>
+          <Table2Head>
+            {table.getHeaderGroups().map(headerGroup => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map(header => {
+                  return (
+                    <th key={header.id} colSpan={header.colSpan}>
+                      {header.isPlaceholder ? null : (
+                        <div>{flexRender(header.column.columnDef.header, header.getContext())}</div>
+                      )}
+                    </th>
+                  );
+                })}
+              </tr>
+            ))}
+          </Table2Head>
+
+          <Table2Body>
+            {table.getRowModel().rows.map(row => {
+              return (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map(cell => {
+                    return (
+                      <td key={cell.id}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </Table2Body>
+        </Table2>
+      </div>
+    )
+  );
 };
+// <Table2Component data={data} columns={columns} headless />;
 
 export default CircuitDetailTable;
 

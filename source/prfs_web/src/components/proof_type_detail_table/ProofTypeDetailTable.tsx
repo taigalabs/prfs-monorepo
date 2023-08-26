@@ -16,6 +16,16 @@ import Table2, { RecordData, Table2Component } from "../table2/Table2";
 
 const columnHelper = createColumnHelper<RecordData>();
 
+const columns = [
+  columnHelper.accessor("label", {
+    cell: info => <div className={styles.label}>{info.getValue()}</div>,
+  }),
+  columnHelper.accessor(row => row.value, {
+    id: "value",
+    cell: info => info.getValue(),
+  }),
+];
+
 const ProofTypeDetailTable: React.FC<ProofTypeDetailTableProps> = ({ proofType }) => {
   const i18n = React.useContext(i18nContext);
 
@@ -53,16 +63,6 @@ const ProofTypeDetailTable: React.FC<ProofTypeDetailTableProps> = ({ proofType }
 
     return ret;
   }, [proofType]);
-
-  const columns = [
-    columnHelper.accessor("label", {
-      cell: info => <div className={styles.label}>{info.getValue()}</div>,
-    }),
-    columnHelper.accessor(row => row.value, {
-      id: "value",
-      cell: info => info.getValue(),
-    }),
-  ];
 
   return proofType && <Table2Component data={data} columns={columns} headless />;
 };
