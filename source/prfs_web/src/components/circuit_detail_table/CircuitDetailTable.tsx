@@ -11,7 +11,7 @@ import {
 import styles from "./CircuitDetailTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import Table2, { RecordData } from "@/components/table2/Table2";
+import Table2, { RecordData, Table2Component } from "@/components/table2/Table2";
 
 const columnHelper = createColumnHelper<RecordData>();
 
@@ -95,7 +95,7 @@ const CircuitDetailTable: React.FC<CircuitDetailTableProps> = ({ circuit }) => {
     }),
   ];
 
-  return circuit && <Table2 data={data} columns={columns} headless />;
+  return circuit && <Table2Component data={data} columns={columns} headless />;
 };
 
 export default CircuitDetailTable;

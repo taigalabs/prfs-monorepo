@@ -12,7 +12,7 @@ import {
 import styles from "./ProofTypeDetailTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import Table2, { RecordData } from "../table2/Table2";
+import Table2, { RecordData, Table2Component } from "../table2/Table2";
 
 const columnHelper = createColumnHelper<RecordData>();
 
@@ -64,7 +64,7 @@ const ProofTypeDetailTable: React.FC<ProofTypeDetailTableProps> = ({ proofType }
     }),
   ];
 
-  return proofType && <Table2 data={data} columns={columns} headless />;
+  return proofType && <Table2Component data={data} columns={columns} headless />;
 };
 
 export default ProofTypeDetailTable;

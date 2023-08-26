@@ -11,7 +11,7 @@ import {
 import styles from "./CircuitTypeDetailTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import Table2, { RecordData } from "@/components/table2/Table2";
+import Table2, { RecordData, Table2Component } from "@/components/table2/Table2";
 import { PrfsCircuitType } from "@taigalabs/prfs-entities/bindings/PrfsCircuitType";
 
 const columnHelper = createColumnHelper<RecordData>();
@@ -56,7 +56,7 @@ const CircuitTypeDetailTable: React.FC<CircuitTypeDetailTableProps> = ({ circuit
     }),
   ];
 
-  return circuit_type && <Table2 data={data} columns={columns} headless />;
+  return circuit_type && <Table2Component data={data} columns={columns} headless />;
 };
 
 export default CircuitTypeDetailTable;

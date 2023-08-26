@@ -22,7 +22,23 @@ export const TableSearch: React.FC<TableSearchProps> = ({ children }) => {
   );
 };
 
-function Table2<T>({ data, columns, headless, footer }: Table2Props<T>) {
+export const Table2: React.FC<Table2Props> = ({ children }) => {
+  return <table className={styles.table2}>{children}</table>;
+};
+
+export const Table2Head: React.FC<Table2Props> = ({ children }) => {
+  return <thead className={styles.table2Head}>{children}</thead>;
+};
+
+export const Table2Body: React.FC<Table2Props> = ({ children }) => {
+  return <tbody className={styles.table2Body}>{children}</tbody>;
+};
+
+export const Table2Pagination: React.FC<Table2Props> = ({ children }) => {
+  return <div className={styles.table2Pagination}>{children}</div>;
+};
+
+export function Table2Component<T>({ data, columns, headless, footer }: Table2ComponentProps<T>) {
   const rerender = React.useReducer(() => ({}), {})[1];
 
   const table = useReactTable({
@@ -35,7 +51,7 @@ function Table2<T>({ data, columns, headless, footer }: Table2Props<T>) {
     <div className={styles.wrapper}>
       <table>
         {headless ? null : (
-          <thead className={styles.tableHeader}>
+          <thead className={styles.table2Head}>
             {table.getHeaderGroups().map(headerGroup => (
               <tr className={styles.tableRow} key={headerGroup.id}>
                 {headerGroup.headers.map(header => (
@@ -80,7 +96,11 @@ function Table2<T>({ data, columns, headless, footer }: Table2Props<T>) {
 
 export default Table2;
 
-export interface Table2Props<T> {
+export interface Table2Props {
+  children: React.ReactNode;
+}
+
+export interface Table2ComponentProps<T> {
   data: T[];
   columns: ColumnDef<T, any>[];
   headless?: boolean;

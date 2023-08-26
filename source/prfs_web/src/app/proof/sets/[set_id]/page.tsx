@@ -72,7 +72,7 @@ const Set: React.FC<SetProps> = ({ params }) => {
           <div className={styles.singleColRow}>
             <div className={styles.tableTitle}>{i18n.elements}</div>
             <SetElementTable2 setId={params.set_id} />
-            <SetElementTable setId={params.set_id} />
+            {/* <SetElementTable setId={params.set_id} /> */}
           </div>
         </ContentAreaRow>
       </div>

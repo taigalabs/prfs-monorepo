@@ -11,7 +11,7 @@ import {
 import styles from "./DriverDetailTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import Table2, { RecordData } from "@/components/table2/Table2";
+import Table2, { RecordData, Table2Component } from "@/components/table2/Table2";
 import { PrfsCircuitDriver } from "@taigalabs/prfs-entities/bindings/PrfsCircuitDriver";
 
 const columnHelper = createColumnHelper<RecordData>();
@@ -64,7 +64,7 @@ const DriverDetailTable: React.FC<DriverDetailTableProps> = ({ driver }) => {
     }),
   ];
 
-  return driver && <Table2 data={data} columns={columns} headless />;
+  return driver && <Table2Component data={data} columns={columns} headless />;
 };
 
 export default DriverDetailTable;
