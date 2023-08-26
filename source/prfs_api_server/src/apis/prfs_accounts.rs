@@ -5,16 +5,13 @@ use crate::{
 use hyper::{body, Body, Request, Response};
 use prfs_db_interface::db_apis;
 use prfs_entities::{
-    apis_entities::{SignUpRequest, SignUpResponse},
+    apis_entities::{SignInRequest, SignInResponse, SignUpRequest, SignUpResponse},
     entities::PrfsAccount,
 };
 use routerify::prelude::*;
-use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
 
 pub async fn sign_up_prfs_account(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    println!("sign up prfs");
-
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
 
@@ -55,17 +52,6 @@ pub async fn sign_up_prfs_account(req: Request<Body>) -> Result<Response<Body>, 
     return Ok(resp.into_hyper_response());
 }
 
-#[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "camelCase")]
-struct SignInRequest {
-    sig: String,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct SignInRespPayload {
-    prfs_account: PrfsAccount,
-}
-
 pub async fn sign_in_prfs_account(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     println!("sign in prfs");
 
@@ -92,7 +78,7 @@ pub async fn sign_in_prfs_account(req: Request<Body>) -> Result<Response<Body>, 
 
     let prfs_account = prfs_accounts.get(0).unwrap().clone();
 
-    let resp = ApiResponse::new_success(SignInRespPayload { prfs_account });
+    let resp = ApiResponse::new_success(SignInResponse { prfs_account });
 
     return Ok(resp.into_hyper_response());
 }

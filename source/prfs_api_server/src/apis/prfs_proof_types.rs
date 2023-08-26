@@ -10,7 +10,6 @@ use prfs_entities::{
     sqlx::types::Json,
 };
 use routerify::prelude::*;
-use rust_decimal::Decimal;
 use std::{convert::Infallible, sync::Arc};
 
 use crate::{responses::ApiResponse, state::ServerState, ApiServerError};

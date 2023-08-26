@@ -7,9 +7,7 @@ use prfs_entities::{
     syn_entities::PrfsCircuitSyn1,
 };
 use routerify::prelude::*;
-use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
-use uuid::Uuid;
 
 pub async fn get_prfs_native_circuits(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     println!("get circuits");
