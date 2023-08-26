@@ -46,6 +46,10 @@ pub fn make_router(
             prfs_proof_instances::get_prfs_proof_instances,
         )
         .post(
+            format!("{}/get_prfs_proof_instance_by_instance_id", PREFIX),
+            prfs_proof_instances::get_prfs_proof_instance_by_instance_id,
+        )
+        .post(
             format!("{}/get_prfs_proof_instance_by_short_id", PREFIX),
             prfs_proof_instances::get_prfs_proof_instance_by_short_id,
         )

@@ -1,11 +1,15 @@
 use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
 use hyper::{body, Body, Request, Response};
 use prfs_db_interface::db_apis;
-use prfs_entities::entities::PrfsSet;
+use prfs_entities::{
+    apis_entities::{GetPrfsSetBySetIdRequest, GetPrfsSetBySetIdResponse},
+    entities::PrfsSet,
+};
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
 use uuid::Uuid;
+// use prfs_entities::apis_entities::
 
 #[derive(Serialize, Deserialize, Debug)]
 struct GetPrfsSetsRequest {
@@ -15,7 +19,8 @@ struct GetPrfsSetsRequest {
 
 #[derive(Serialize, Deserialize, Debug)]
 struct GetSetsRespPayload {
-    page: usize,
+    page_idx: i32,
+    page_size: i32,
     prfs_sets: Vec<PrfsSet>,
 }
 
@@ -34,14 +39,13 @@ pub async fn get_prfs_sets(req: Request<Body>) -> Result<Response<Body>, Infalli
         .await
         .unwrap();
 
-    let resp = ApiResponse::new_success(GetSetsRespPayload { page: 0, prfs_sets });
+    let resp = ApiResponse::new_success(GetSetsRespPayload {
+        page_idx: req.page_idx,
+        page_size: req.page_size,
+        prfs_sets,
+    });
 
     return Ok(resp.into_hyper_response());
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct GetPrfsSetBySetIdRequest {
-    set_id: Uuid,
 }
 
 pub async fn get_prfs_set_by_set_id(req: Request<Body>) -> Result<Response<Body>, Infallible> {
@@ -59,10 +63,7 @@ pub async fn get_prfs_set_by_set_id(req: Request<Body>) -> Result<Response<Body>
         .await
         .unwrap();
 
-    let resp = ApiResponse::new_success(GetSetsRespPayload {
-        page: 0,
-        prfs_sets: vec![prfs_set],
-    });
+    let resp = ApiResponse::new_success(GetPrfsSetBySetIdResponse { prfs_set });
 
     return Ok(resp.into_hyper_response());
 }

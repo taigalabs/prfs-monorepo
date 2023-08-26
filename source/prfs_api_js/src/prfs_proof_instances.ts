@@ -31,9 +31,12 @@ export async function createPrfsProofInstance(req: CreatePrfsProofInstanceReques
 }
 
 export interface GetPrfsProofInstancesRequest {
-  page: number;
-  limit?: number;
-  proof_instance_id?: string;
+  page_idx: number;
+  page_size: number;
+}
+
+export interface GetPrfsProofInstancesByInstanceIdRequest {
+  proof_instance_id: string;
 }
 
 export type GetPrfsProofInstancesResponse = PrfsApiResponse<{
