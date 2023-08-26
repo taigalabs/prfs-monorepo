@@ -34,7 +34,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet }) => 
   });
 
   React.useMemo(async () => {
-    const { payload } = await prfsApi.getSetElements({
+    const { payload } = await prfsApi.getPrfsSetElements({
       page_idx: pageIndex,
       page_size: pageSize,
       set_id: setId,

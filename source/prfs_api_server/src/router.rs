@@ -58,12 +58,12 @@ pub fn make_router(
             prfs_accounts::sign_in_prfs_account,
         )
         .post(
-            format!("{}/get_prfs_tree_nodes", PREFIX),
-            prfs_tree_nodes::get_prfs_tree_nodes,
+            format!("{}/get_prfs_set_elements", PREFIX),
+            prfs_tree_nodes::get_prfs_tree_nodes_by_pos,
         )
         .post(
-            format!("{}/get_prfs_tree_leaf_nodes_by_set_id", PREFIX),
-            prfs_tree_nodes::get_prfs_tree_leaf_nodes_by_set_id,
+            format!("{}/get_prfs_tree_nodes_by_pos", PREFIX),
+            prfs_tree_nodes::get_prfs_tree_nodes_by_pos,
         )
         .post(
             format!("{}/get_prfs_tree_leaf_nodes", PREFIX),

@@ -27,24 +27,16 @@ const Set: React.FC<SetProps> = ({ params }) => {
   const router = useRouter();
 
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
-  React.useEffect(() => {
-    prfsApi
-      .getSets({
-        page_idx: 0,
-        page_size: 20,
+  React.useMemo(async () => {
+    try {
+      const { payload } = await prfsApi.getPrfsSetBySetId({
         set_id: params.set_id,
-      })
-      .then(resp => {
-        const { prfs_sets } = resp.payload;
-
-        if (prfs_sets.length > 0) {
-          setPrfsSet(prfs_sets[0]);
-        } else {
-          console.error("Set not found");
-
-          // router.push(paths.proof__sets);
-        }
       });
+
+      setPrfsSet(payload.prfs_set);
+    } catch (err) {
+      console.error(err);
+    }
   }, [setPrfsSet]);
 
   let setTableLabel = `${i18n.set} summary for ${params.set_id}`;

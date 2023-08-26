@@ -24,14 +24,14 @@ const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSele
 
   const handleChangePage = React.useCallback(async (page: number) => {
     return prfsApi
-      .getSets({
+      .getPrfsSets({
         page_idx: page,
         page_size: 20,
       })
       .then(resp => {
-        const { page, prfs_sets } = resp.payload;
+        const { page_idx, prfs_sets } = resp.payload;
         return {
-          page,
+          page: page_idx,
           values: prfs_sets,
         };
       });

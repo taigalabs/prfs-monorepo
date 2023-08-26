@@ -65,6 +65,8 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
     setData(prfs_proof_instances_syn1);
   }, [setData, pageIndex, pageSize]);
 
+  console.log(22, data);
+
   const pagination = React.useMemo(() => {
     return {
       pageIndex,

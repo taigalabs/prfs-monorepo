@@ -56,7 +56,7 @@ const MerkleProofModal: React.FC<MerkleProofModalProps> = ({
     const setId = circuitInput.value;
 
     try {
-      const leafNodesData = await prfsApi.getPrfsTreeLeafNodes({
+      const leafNodesData = await prfsApi.getPrfsTreeLeafIndicesRequest({
         set_id: setId,
         leaf_vals: [walletAddr],
       });
@@ -82,7 +82,7 @@ const MerkleProofModal: React.FC<MerkleProofModalProps> = ({
 
       console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
 
-      const siblingNodesData = await prfsApi.getPrfsTreeNodes({
+      const siblingNodesData = await prfsApi.getPrfsTreeNodesByPos({
         set_id: setId,
         pos: siblingPos,
       });
@@ -152,17 +152,14 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   React.useEffect(() => {
     async function fn() {
       if (circuitInput.ref === "PRFS_SET") {
-        const { payload } = await prfsApi.getSets({ page: 0, set_id: circuitInput.value });
-
-        if (payload.prfs_sets.length > 0) {
-          const prfsSet = payload.prfs_sets[0];
-          setPrfsSet(prfsSet);
-        } else {
-          console.error("Prfs set not found");
-        }
+        const { payload } = await prfsApi.getPrfsSetBySetId({
+          set_id: circuitInput.value,
+        });
+        setPrfsSet(payload.prfs_set);
+      } else {
+        console.error("Prfs set not found");
       }
     }
-
     fn().then();
   }, [circuitInput, setPrfsSet]);
 

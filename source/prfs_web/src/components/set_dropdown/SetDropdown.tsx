@@ -52,16 +52,18 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
     values: [],
   });
 
-  React.useEffect(() => {
-    prfsApi
-      .getSets({
+  React.useMemo(async () => {
+    try {
+      const { payload } = await prfsApi.getPrfsSets({
         page_idx: 0,
         page_size: 20,
-      })
-      .then(resp => {
-        const { page, prfs_sets } = resp.payload;
-        setData({ page, values: prfs_sets });
       });
+
+      const { page_idx, prfs_sets } = payload;
+      setData({ page: page_idx, values: prfs_sets });
+    } catch (err) {
+      console.error(err);
+    }
   }, [setData]);
 
   const createBase = React.useCallback(() => {
