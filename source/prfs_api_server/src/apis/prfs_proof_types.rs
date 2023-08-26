@@ -1,28 +1,19 @@
-use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
 use chrono::{DateTime, NaiveDate, NaiveDateTime};
 use hyper::{body, Body, Request, Response};
 use prfs_db_interface::db_apis;
 use prfs_entities::{
+    apis_entities::{
+        CreatePrfsProofTypesRequest, CreatePrfsProofTypesResponse, GetPrfsProofTypeResponse,
+        GetPrfsProofTypesRequest,
+    },
     entities::{CircuitInput, PrfsProofType, PrfsSet},
     sqlx::types::Json,
 };
 use routerify::prelude::*;
 use rust_decimal::Decimal;
-use serde::{Deserialize, Serialize};
-use std::{collections::HashMap, convert::Infallible, sync::Arc};
-use uuid::Uuid;
+use std::{convert::Infallible, sync::Arc};
 
-#[derive(Serialize, Deserialize, Debug)]
-struct GetPrfsProofTypesRequest {
-    page: u32,
-    proof_type_id: Option<uuid::Uuid>,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct GetPrfsProofTypeRespPayload {
-    page: u32,
-    prfs_proof_types: Vec<PrfsProofType>,
-}
+use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
 
 pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     println!("get proof types");
@@ -42,7 +33,7 @@ pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, 
     match req.proof_type_id {
         Some(proof_type_id) => {
             let prfs_proof_types = db_apis::get_prfs_proof_type(pool, &proof_type_id).await;
-            let resp = ApiResponse::new_success(GetPrfsProofTypeRespPayload {
+            let resp = ApiResponse::new_success(GetPrfsProofTypeResponse {
                 page: req.page,
                 prfs_proof_types,
             });
@@ -50,34 +41,13 @@ pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, 
         }
         None => {
             let prfs_proof_types = db_apis::get_prfs_proof_types(pool).await;
-            let resp = ApiResponse::new_success(GetPrfsProofTypeRespPayload {
+            let resp = ApiResponse::new_success(GetPrfsProofTypeResponse {
                 page: req.page,
                 prfs_proof_types,
             });
             return Ok(resp.into_hyper_response());
         }
     };
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct CreatePrfsProofTypesRequest {
-    proof_type_id: uuid::Uuid,
-    author: String,
-    label: String,
-    desc: String,
-    circuit_id: Uuid,
-    circuit_type: String,
-    circuit_driver_id: String,
-    expression: String,
-    img_url: Option<String>,
-    img_caption: Option<String>,
-    circuit_inputs: Vec<CircuitInput>,
-    driver_properties: HashMap<String, String>,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct CreatePrfsProofTypesRespPayload {
-    id: i64,
 }
 
 pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, Infallible> {
@@ -115,7 +85,7 @@ pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
 
     tx.commit().await.unwrap();
 
-    let resp = ApiResponse::new_success(CreatePrfsProofTypesRespPayload { id });
+    let resp = ApiResponse::new_success(CreatePrfsProofTypesResponse { id });
 
     return Ok(resp.into_hyper_response());
 }

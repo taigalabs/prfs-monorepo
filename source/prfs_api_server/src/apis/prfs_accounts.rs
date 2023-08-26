@@ -4,22 +4,13 @@ use crate::{
 };
 use hyper::{body, Body, Request, Response};
 use prfs_db_interface::db_apis;
-use prfs_entities::entities::PrfsAccount;
+use prfs_entities::{
+    apis_entities::{SignUpRequest, SignUpResponse},
+    entities::PrfsAccount,
+};
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
-
-#[derive(Serialize, Deserialize, Debug)]
-struct SignUpRequest {
-    sig: String,
-    avatarColor: String,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct SignUpRespPayload {
-    id: String,
-    sig: String,
-}
 
 pub async fn sign_up_prfs_account(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     println!("sign up prfs");
@@ -56,7 +47,7 @@ pub async fn sign_up_prfs_account(req: Request<Body>) -> Result<Response<Body>, 
 
     tx.commit().await.unwrap();
 
-    let resp = ApiResponse::new_success(SignUpRespPayload {
+    let resp = ApiResponse::new_success(SignUpResponse {
         sig: sig.to_string(),
         id: sig[..10].to_string(),
     });

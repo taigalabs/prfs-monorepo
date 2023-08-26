@@ -1,22 +1,13 @@
 use crate::{responses::ApiResponse, state::ServerState};
 use hyper::{body, Body, Request, Response};
 use prfs_db_interface::db_apis;
-use prfs_entities::entities::PrfsCircuitDriver;
+use prfs_entities::{
+    apis_entities::{GetCircuitDriversRequest, GetCircuitDriversResponse},
+    entities::PrfsCircuitDriver,
+};
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
-
-#[derive(Serialize, Deserialize, Debug)]
-struct GetCircuitDriversRequest {
-    page: u32,
-    circuit_driver_id: Option<String>,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct GetCircuitDriversRespPayload {
-    page: usize,
-    prfs_circuit_drivers: Vec<PrfsCircuitDriver>,
-}
 
 pub async fn get_prfs_native_circuit_drivers(
     req: Request<Body>,
@@ -39,7 +30,7 @@ pub async fn get_prfs_native_circuit_drivers(
         db_apis::get_prfs_circuit_drivers(&pool).await
     };
 
-    let resp = ApiResponse::new_success(GetCircuitDriversRespPayload {
+    let resp = ApiResponse::new_success(GetCircuitDriversResponse {
         page: 0,
         prfs_circuit_drivers,
     });

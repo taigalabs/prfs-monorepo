@@ -1,29 +1,16 @@
-use crate::{responses::ApiResponse, state::ServerState};
 use hyper::{body, header, Body, Request, Response};
 use prfs_db_interface::db_apis;
-use prfs_entities::entities::PrfsTreeNode;
+use prfs_entities::{
+    apis_entities::{GetPrfsTreeNodesRequest, GetPrfsTreeNodesResponse},
+    entities::PrfsTreeNode,
+};
 use routerify::prelude::*;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
 use uuid::Uuid;
 
-#[derive(Serialize, Deserialize, Debug)]
-struct NodePos {
-    pub pos_w: Decimal,
-    pub pos_h: i32,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct GetPrfsTreeNodesRequest {
-    set_id: String,
-    pos: Vec<NodePos>,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct GetPrfsTreeNodesResponse {
-    prfs_tree_nodes: Vec<PrfsTreeNode>,
-}
+use crate::{responses::ApiResponse, state::ServerState};
 
 pub async fn get_prfs_tree_nodes(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     let state = req.data::<Arc<ServerState>>().unwrap();

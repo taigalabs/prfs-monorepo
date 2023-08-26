@@ -1,22 +1,13 @@
 use crate::{responses::ApiResponse, state::ServerState};
 use hyper::{body, Body, Request, Response};
 use prfs_db_interface::db_apis;
-use prfs_entities::entities::{PrfsCircuitDriver, PrfsCircuitType};
+use prfs_entities::{
+    apis_entities::{GetCircuitTypesRequest, GetCircuitTypesResponse},
+    entities::{PrfsCircuitDriver, PrfsCircuitType},
+};
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
-
-#[derive(Serialize, Deserialize, Debug)]
-struct GetCircuitTypesRequest {
-    page: u32,
-    circuit_type: Option<String>,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct GetCircuitTypesRespPayload {
-    page: usize,
-    prfs_circuit_types: Vec<PrfsCircuitType>,
-}
 
 pub async fn get_prfs_native_circuit_types(
     req: Request<Body>,
@@ -39,7 +30,7 @@ pub async fn get_prfs_native_circuit_types(
         db_apis::get_prfs_circuit_types(&pool).await
     };
 
-    let resp = ApiResponse::new_success(GetCircuitTypesRespPayload {
+    let resp = ApiResponse::new_success(GetCircuitTypesResponse {
         page: 0,
         prfs_circuit_types,
     });
