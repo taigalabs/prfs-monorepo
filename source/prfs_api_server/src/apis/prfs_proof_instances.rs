@@ -11,6 +11,7 @@ use prfs_entities::entities::{CircuitInput, PrfsProofInstance, PrfsProofType, Pr
 use routerify::prelude::*;
 use std::{convert::Infallible, sync::Arc};
 
+use crate::server::request::parse_req;
 use crate::server::state::ServerState;
 use crate::{responses::ApiResponse, ApiServerError};
 
@@ -18,13 +19,9 @@ pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Bod
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
 
+    let req: GetPrfsProofInstancesRequest = parse_req(req).await;
+
     let pool = &state.db2.pool;
-
-    let bytes = body::to_bytes(req.into_body()).await.unwrap();
-    let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let req = serde_json::from_str::<GetPrfsProofInstancesRequest>(&body_str).unwrap();
-
-    println!("req: {:?}", req);
 
     let prfs_proof_instances_syn1 =
         db_apis::get_prfs_proof_instances_syn1(pool, req.page_idx, req.page_size).await;
@@ -40,15 +37,11 @@ pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Bod
 pub async fn get_prfs_proof_instance_by_instance_id(
     req: Request<Body>,
 ) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap();
-    let state = state.clone();
+    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+
+    let req: GetPrfsProofInstanceByInstanceIdRequest = parse_req(req).await;
+
     let pool = &state.db2.pool;
-
-    let bytes = body::to_bytes(req.into_body()).await.unwrap();
-    let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let req = serde_json::from_str::<GetPrfsProofInstanceByInstanceIdRequest>(&body_str).unwrap();
-
-    println!("req: {:?}", req);
 
     let prfs_proof_instance_syn1 =
         db_apis::get_prfs_proof_instance_syn1_by_instance_id(pool, &req.proof_instance_id).await;
@@ -63,17 +56,11 @@ pub async fn get_prfs_proof_instance_by_instance_id(
 pub async fn get_prfs_proof_instance_by_short_id(
     req: Request<Body>,
 ) -> Result<Response<Body>, Infallible> {
-    println!("get proof types");
+    let state = req.data::<Arc<ServerState>>().unwrap().clone();
 
-    let state = req.data::<Arc<ServerState>>().unwrap();
-    let state = state.clone();
+    let req: GetPrfsProofInstanceByShortIdRequest = parse_req(req).await;
+
     let pool = &state.db2.pool;
-
-    let bytes = body::to_bytes(req.into_body()).await.unwrap();
-    let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let req = serde_json::from_str::<GetPrfsProofInstanceByShortIdRequest>(&body_str).unwrap();
-
-    println!("req: {:?}", req);
 
     let prfs_proof_instance =
         db_apis::get_prfs_proof_instance_by_short_id(pool, &req.short_id).await;
@@ -86,18 +73,12 @@ pub async fn get_prfs_proof_instance_by_short_id(
 }
 
 pub async fn create_prfs_proof_instance(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap();
-    let state = state.clone();
+    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+
+    let req: CreatePrfsProofInstanceRequest = parse_req(req).await;
 
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
-
-    let bytes = body::to_bytes(req.into_body()).await.unwrap();
-    let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let req = serde_json::from_str::<CreatePrfsProofInstanceRequest>(&body_str)
-        .expect("req request should be parsable");
-
-    // println!("req: {:?}", req);
 
     let proof_instance_id_128 = req.proof_instance_id.as_u128();
     let short_id = &base62::encode(proof_instance_id_128)[..8];

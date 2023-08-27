@@ -2,27 +2,20 @@ use crate::{database2::Database2, DbInterfaceError};
 use prfs_entities::entities::PrfsAccount;
 use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 
-pub async fn get_prfs_accounts(
+pub async fn get_prfs_account_by_sig(
     pool: &Pool<Postgres>,
     sig: &String,
-) -> Result<Vec<PrfsAccount>, DbInterfaceError> {
+) -> Result<PrfsAccount, DbInterfaceError> {
     let query = "SELECT * from prfs_accounts where sig=$1";
 
-    let rows = sqlx::query(query).bind(&sig).fetch_all(pool).await.unwrap();
+    let row = sqlx::query(query).bind(&sig).fetch_one(pool).await.unwrap();
 
-    let prfs_accounts: Vec<PrfsAccount> = rows
-        .iter()
-        .map(|row| {
-            let prfs_account = PrfsAccount {
-                sig: row.get("sig"),
-                avatar_color: row.get("avatar_color"),
-            };
+    let prfs_account = PrfsAccount {
+        sig: row.get("sig"),
+        avatar_color: row.get("avatar_color"),
+    };
 
-            prfs_account
-        })
-        .collect();
-
-    Ok(prfs_accounts)
+    Ok(prfs_account)
 }
 
 pub async fn insert_prfs_account(

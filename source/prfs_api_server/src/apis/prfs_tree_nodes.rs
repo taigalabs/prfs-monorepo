@@ -8,20 +8,17 @@ use routerify::prelude::*;
 use std::{convert::Infallible, sync::Arc};
 use uuid::Uuid;
 
-use crate::{responses::ApiResponse, server::state::ServerState};
+use crate::{
+    responses::ApiResponse,
+    server::{request::parse_req, state::ServerState},
+};
 
 pub async fn get_prfs_tree_nodes_by_pos(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap();
-    let state = state.clone();
+    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+
+    let req: GetPrfsTreeNodesByPosRequest = parse_req(req).await;
 
     let pool = &state.db2.pool;
-
-    let bytes = body::to_bytes(req.into_body()).await.unwrap();
-    let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let req = serde_json::from_str::<GetPrfsTreeNodesByPosRequest>(&body_str)
-        .expect("get_nodes request should be parsable");
-
-    println!("req {:?}", req);
 
     let prfs_tree_nodes = db_apis::get_prfs_tree_nodes_by_pos(pool, &req.set_id, &req.pos)
         .await
@@ -35,16 +32,11 @@ pub async fn get_prfs_tree_nodes_by_pos(req: Request<Body>) -> Result<Response<B
 pub async fn get_prfs_tree_leaf_nodes_by_set_id(
     req: Request<Body>,
 ) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap();
-    let state = state.clone();
+    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+
+    let req: GetPrfsTreeLeafNodesRequest = parse_req(req).await;
 
     let pool = &state.db2.pool;
-
-    let bytes = body::to_bytes(req.into_body()).await.unwrap();
-    let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let req = serde_json::from_str::<GetPrfsTreeLeafNodesRequest>(&body_str).unwrap();
-
-    println!("req {:?}", req);
 
     let prfs_tree_nodes =
         db_apis::get_prfs_tree_leaf_nodes_by_set_id(pool, &req.set_id, req.page_idx, req.page_size)
@@ -57,16 +49,11 @@ pub async fn get_prfs_tree_leaf_nodes_by_set_id(
 }
 
 pub async fn get_prfs_tree_leaf_indices(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap();
-    let state = state.clone();
+    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+
+    let req: GetPrfsTreeLeafIndicesRequest = parse_req(req).await;
 
     let pool = &state.db2.pool;
-
-    let bytes = body::to_bytes(req.into_body()).await.unwrap();
-    let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let req = serde_json::from_str::<GetPrfsTreeLeafIndicesRequest>(&body_str).unwrap();
-
-    println!("req {:?}", req);
 
     let prfs_tree_nodes = db_apis::get_prfs_tree_leaf_indices(pool, &req.set_id, &req.leaf_vals)
         .await

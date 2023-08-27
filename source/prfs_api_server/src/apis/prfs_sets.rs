@@ -7,16 +7,16 @@ use prfs_entities::apis_entities::{
 use routerify::prelude::*;
 use std::{convert::Infallible, sync::Arc};
 
-use crate::{responses::ApiResponse, server::state::ServerState, ApiServerError};
+use crate::{
+    responses::ApiResponse,
+    server::{request::parse_req, state::ServerState},
+    ApiServerError,
+};
 
 pub async fn get_prfs_sets(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap();
-    let state = state.clone();
+    let state = req.data::<Arc<ServerState>>().unwrap().clone();
 
-    let bytes = body::to_bytes(req.into_body()).await.unwrap();
-    let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let req = serde_json::from_str::<GetPrfsSetsRequest>(&body_str)
-        .expect("req request should be parsable");
+    let req: GetPrfsSetsRequest = parse_req(req).await;
 
     let pool = &state.db2.pool;
 
@@ -34,15 +34,11 @@ pub async fn get_prfs_sets(req: Request<Body>) -> Result<Response<Body>, Infalli
 }
 
 pub async fn get_prfs_set_by_set_id(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap();
-    let state = state.clone();
+    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+
+    let req: GetPrfsSetBySetIdRequest = parse_req(req).await;
 
     let pool = &state.db2.pool;
-
-    let bytes = body::to_bytes(req.into_body()).await.unwrap();
-    let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let req = serde_json::from_str::<GetPrfsSetBySetIdRequest>(&body_str)
-        .expect("req request should be parsable");
 
     let prfs_set = db_apis::get_prfs_set_by_set_id(pool, &req.set_id)
         .await
@@ -53,22 +49,22 @@ pub async fn get_prfs_set_by_set_id(req: Request<Body>) -> Result<Response<Body>
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn get_prfs_set_elements(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap();
-    let state = state.clone();
+// pub async fn get_prfs_set_elements(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+//     let state = req.data::<Arc<ServerState>>().unwrap();
+//     let state = state.clone();
 
-    let pool = &state.db2.pool;
+//     let pool = &state.db2.pool;
 
-    let bytes = body::to_bytes(req.into_body()).await.unwrap();
-    let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let req = serde_json::from_str::<GetPrfsTreeLeafNodesRequest>(&body_str)
-        .expect("req request should be parsable");
+//     let bytes = body::to_bytes(req.into_body()).await.unwrap();
+//     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
+//     let req = serde_json::from_str::<GetPrfsTreeLeafNodesRequest>(&body_str)
+//         .expect("req request should be parsable");
 
-    let prfs_set = db_apis::get_prfs_set_by_set_id(pool, &req.set_id)
-        .await
-        .unwrap();
+//     let prfs_set = db_apis::get_prfs_set_by_set_id(pool, &req.set_id)
+//         .await
+//         .unwrap();
 
-    let resp = ApiResponse::new_success(GetPrfsSetBySetIdResponse { prfs_set });
+//     let resp = ApiResponse::new_success(GetPrfsSetBySetIdResponse { prfs_set });
 
-    return Ok(resp.into_hyper_response());
-}
+//     return Ok(resp.into_hyper_response());
+// }

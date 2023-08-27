@@ -11,21 +11,18 @@ use prfs_entities::{
 use routerify::prelude::*;
 use std::{convert::Infallible, sync::Arc};
 
-use crate::{responses::ApiResponse, server::state::ServerState, ApiServerError};
+use crate::{
+    responses::ApiResponse,
+    server::{request::parse_req, state::ServerState},
+    ApiServerError,
+};
 
 pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    println!("get proof types");
+    let state = req.data::<Arc<ServerState>>().unwrap().clone();
 
-    let state = req.data::<Arc<ServerState>>().unwrap();
-    let state = state.clone();
+    let req: GetPrfsProofTypesRequest = parse_req(req).await;
 
     let pool = &state.db2.pool;
-
-    let bytes = body::to_bytes(req.into_body()).await.unwrap();
-    let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let req = serde_json::from_str::<GetPrfsProofTypesRequest>(&body_str).unwrap();
-
-    println!("req: {:?}", req);
 
     match req.proof_type_id {
         Some(proof_type_id) => {
@@ -48,18 +45,12 @@ pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, 
 }
 
 pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap();
-    let state = state.clone();
+    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+
+    let req: CreatePrfsProofTypesRequest = parse_req(req).await;
 
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
-
-    let bytes = body::to_bytes(req.into_body()).await.unwrap();
-    let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let req = serde_json::from_str::<CreatePrfsProofTypesRequest>(&body_str)
-        .expect("req request should be parsable");
-
-    println!("req: {:?}", req);
 
     let prfs_proof_type = PrfsProofType {
         proof_type_id: req.proof_type_id,
