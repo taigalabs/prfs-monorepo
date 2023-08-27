@@ -18,6 +18,7 @@ import SetElementTable from "@/components/set_element_table/SetElementTable";
 import SetDetailTable from "@/components/set_detail_table/SetDetailTable";
 import { paths } from "@/paths";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
+import EditableTable from "@/components/editable_table/EditableTable";
 
 const Set: React.FC<SetProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -62,7 +63,8 @@ const Set: React.FC<SetProps> = ({ params }) => {
         <ContentAreaRow>
           <div className={styles.singleColRow}>
             <div className={styles.tableTitle}>{i18n.elements}</div>
-            <SetElementTable setId={params.set_id} prfsSet={prfsSet} />
+            <EditableTable />
+            {/* <SetElementTable setId={params.set_id} prfsSet={prfsSet} /> */}
           </div>
         </ContentAreaRow>
       </div>
