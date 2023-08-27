@@ -8,14 +8,14 @@ import { api } from "./utils";
 
 export async function getPrfsCircuits(req: GetPrfsCircuitsRequest) {
   return (await api({
-    path: `get_prfs_native_circuits`,
+    path: `get_prfs_circuits`,
     req,
   })) as PrfsApiResponse<GetPrfsCircuitsResponse>;
 }
 
 export async function getPrfsCircuitByCircuitId(req: GetPrfsCircuitByCircuitIdRequest) {
   return (await api({
-    path: `get_prfs_native_circuits`,
+    path: `get_prfs_circuit_by_circuit_id`,
     req,
   })) as PrfsApiResponse<GetPrfsCircuitByCircuitIdResponse>;
 }

@@ -35,15 +35,12 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
   React.useEffect(() => {
     async function fn() {
       try {
-        const { payload } = await prfsApi.getPrfsNativeCircuits({
-          page: 0,
+        const { payload } = await prfsApi.getPrfsCircuitByCircuitId({
           circuit_id: params.circuit_id,
         });
 
-        const { prfs_circuits_syn1 } = payload;
-
-        if (prfs_circuits_syn1.length > 0) {
-          setCircuit(prfs_circuits_syn1[0]);
+        const { prfs_circuit_syn1 } = payload;
+          setCircuit(prfs_circuit_syn1);
         } else {
           // router.push(paths.proof__circuits);
         }

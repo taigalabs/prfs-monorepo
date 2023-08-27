@@ -32,93 +32,47 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
   handleSelectVal,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const [data, setData] = React.useState<TableData<PrfsCircuit>>({ page: 0, values: [] });
+  const router = useRouter();
 
-  const handleChangeProofPage = React.useCallback(async (page: number) => {
-    return prfsApi
-      .getPrfsNativeCircuits({
-        page,
-      })
-      .then(resp => {
-        const { page, prfs_circuits_syn1 } = resp.payload;
-        return {
-          page,
-          values: prfs_circuits_syn1,
-        };
-      });
-  }, []);
+  const columns = React.useMemo(() => {
+    const cols: ColumnDef<PrfsCircuit>[] = [
+      {
+        id: "circuit_id",
+        header: i18n.circuit_id,
+        accessorFn: row => row.circuit_id,
+        cell: info => info.getValue(),
+      },
+      {
+        header: i18n.label,
+        accessorFn: row => row.label,
+        cell: info => info.getValue(),
+      },
+      {
+        header: i18n.description,
+        accessorFn: row => row.desc,
+        cell: info => info.getValue(),
+      },
+      {
+        header: i18n.author,
+        accessorFn: row => row.author,
+        cell: info => info.getValue(),
+      },
+      {
+        header: i18n.created_at,
+        accessorFn: row => row.created_at,
+        cell: info => {
+          const val = info.getValue() as any;
+          const createdAt = dayjs(val).format("YYYY-MM-DD");
+          return createdAt;
+        },
+      },
+    ];
 
-  // React.useEffect(() => {
-  //   handleChangeProofPage(0).then(res => {
-  //     setData(res);
-  //   });
-  // }, [handleChangeProofPage, setData]);
+    return cols;
+  }, [i18n]);
 
-  // const rowsElem = React.useMemo(() => {
-  //   let { page, values } = data;
+  const [data, setData] = React.useState<PrfsCircuit[]>([]);
 
-  //   let rows: React.ReactNode[] = [];
-  //   if (values === undefined || values.length < 1) {
-  //     return rows;
-  //   }
-
-  //   for (let val of values) {
-  //     const onClickRow = handleSelectVal
-  //       ? (_ev: React.MouseEvent) => {
-  //           handleSelectVal(val);
-  //         }
-  //       : undefined;
-
-  //     const isSelected = selectedVal && selectedVal.circuit_id === val.circuit_id;
-  //     const selType = selectType || "radio";
-
-  //     const createdAt = dayjs(val.created_at).format("YYYY-MM-DD");
-
-  //     let row = (
-  //       <TableRow key={val.circuit_id} onClickRow={onClickRow} isSelected={isSelected}>
-  //         {selectedVal && (
-  //           <td className={styles.radio}>
-  //             <input type={selType} checked={isSelected} readOnly />
-  //           </td>
-  //         )}
-  //         <td className={styles.circuit_id}>
-  //           <Link href={`${paths.proof__circuits}/${val.circuit_id}`}>{val.circuit_id}</Link>
-  //         </td>
-  //         <td className={styles.label}>{val.label}</td>
-  //         <td className={styles.desc}>{val.desc}</td>
-  //         <td className={styles.author}>{val.author}</td>
-  //         <td className={styles.createdAt}>{createdAt}</td>
-  //       </TableRow>
-  //     );
-
-  //     rows.push(row);
-  //   }
-
-  //   return rows;
-  // }, [data]);
-
-  // return (
-  //   <div>
-  //     <TableSearch>
-  //       <input placeholder={i18n.circuit_search_guide} />
-  //     </TableSearch>
-
-  //     <Table>
-  //       <TableHeader>
-  //         <TableRow>
-  //           {handleSelectVal && <th className={styles.radio}></th>}
-  //           <th className={styles.circuit_id}>{i18n.circuit_id}</th>
-  //           <th className={styles.label}>{i18n.label}</th>
-  //           <th className={styles.desc}>{i18n.description}</th>
-  //           <th className={styles.author}>{i18n.author}</th>
-  //           <th className={styles.createdAt}>{i18n.created_at}</th>
-  //         </TableRow>
-  //       </TableHeader>
-  //       <TableBody>{rowsElem}</TableBody>
-  //     </Table>
-  //   </div>
-  // );
-  //
   const [{ pageIndex, pageSize }, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
     pageSize: 20,
@@ -126,27 +80,12 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
 
   React.useEffect(() => {
     async function fn() {
-      // const { payload } = await prfsApi.getPrfsProofInstances({
-      //   page_idx: pageIndex,
-      //   page_size: pageSize,
-      // });
-
-      // const { prfs_proof_instances_syn1 } = payload;
-
-      // setData(prfs_proof_instances_syn1);
-
-    const { payload } = await prfsApi
-      .getPrfsNativeCircuits({
-          page_idx: pageIndex,
+      const { payload } = await prfsApi.getPrfsCircuits({
+        page_idx: pageIndex,
+        page_size: pageSize,
       });
 
-        const { page, prfs_circuits_syn1 } = resp.payload;
-        return {
-          page,
-          values: prfs_circuits_syn1,
-        };
-      });
-      setData(prfs_proof_instances_syn1);
+      setData(payload.prfs_circuits_syn1);
     }
 
     fn().then();
@@ -160,9 +99,6 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
   }, [pageIndex, pageSize]);
 
   const table = useReactTable({
-    meta: {
-      priorityCol,
-    },
     data,
     columns,
     state: {
@@ -176,29 +112,28 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
   return (
     <div className={styles.wrapper}>
       <TableSearch>
-        <input placeholder={i18n.proof_instance_search_guide} />
+        <input placeholder={i18n.circuit_search_guide} />
       </TableSearch>
       <Table2>
         <Table2Head>
           <tr>
-            <th className={styles.imgCol} />
-            <th>{i18n.proof_instance_id}</th>
-            <th>{i18n.proof_type}</th>
-            <th>{i18n.expression}</th>
-            <th>{i18n.prioritized_public_input}</th>
+            <th>{i18n.circuit_id}</th>
+            <th>{i18n.label}</th>
+            <th>{i18n.description}</th>
+            <th>{i18n.author}</th>
             <th>{i18n.created_at}</th>
           </tr>
         </Table2Head>
 
         <Table2Body>
           {table.getRowModel().rows.map(row => {
-            const proofInstanceId = row.getValue("proof_instance_id") as string;
+            const circuitId = row.getValue("circuit_id") as string;
 
             return (
               <tr
                 key={row.id}
                 onClick={() => {
-                  router.push(`${paths.proof__proof_instances}/${proofInstanceId}`);
+                  router.push(`${paths.proof__circuits}/${circuitId}`);
                 }}
               >
                 {row.getVisibleCells().map(cell => {

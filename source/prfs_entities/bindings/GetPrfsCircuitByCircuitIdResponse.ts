@@ -2,5 +2,5 @@
 import type { PrfsCircuitSyn1 } from "./PrfsCircuitSyn1";
 
 export interface GetPrfsCircuitByCircuitIdResponse {
-  prfs_circuits_syn1: PrfsCircuitSyn1;
+  prfs_circuit_syn1: PrfsCircuitSyn1;
 }

@@ -1,3 +1,11 @@
+.wrapper {
+  tbody {
+    tr {
+      cursor: pointer;
+    }
+  }
+}
+
 .label {
   width: 160px;
 }
@@ -9,14 +17,6 @@
 .public_inputs {
   width: 100%;
   word-wrap: break-word;
-}
-
-.wrapper {
-  tbody {
-    tr {
-      cursor: pointer;
-    }
-  }
 }
 
 .imgCol {
