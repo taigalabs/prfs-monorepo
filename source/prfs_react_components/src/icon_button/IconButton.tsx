@@ -1,8 +1,7 @@
 import React, { MouseEventHandler } from "react";
 import cn from "classnames";
-import { PiDotsNineBold } from "react-icons/pi";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { RxHamburgerMenu } from "react-icons/rx";
+import { DotsNine } from "@phosphor-icons/react";
+import { GiHamburgerMenu } from "@react-icons/all-files/gi/GiHamburgerMenu";
 
 import styles from "./IconButton.module.scss";
 
@@ -10,9 +9,9 @@ const IconButton: React.FC<IconButtonProps> = ({ className, handleClick, variant
   const iconElem = React.useMemo(() => {
     switch (variant) {
       case "dots":
-        return <PiDotsNineBold />;
+        return <DotsNine />;
       case "hamburger":
-        return <RxHamburgerMenu />;
+        return <GiHamburgerMenu />;
       default:
         null;
     }

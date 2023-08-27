@@ -1,83 +1,116 @@
-"use client";
-
 import React from "react";
-import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
+import {
+  PaginationState,
+  useReactTable,
+  getCoreRowModel,
+  ColumnDef,
+  flexRender,
+} from "@tanstack/react-table";
 import { PrfsTreeNode } from "@taigalabs/prfs-entities/bindings/PrfsTreeNode";
-import Table, {
-  TableBody,
-  TableHeader,
-  TableRecordData,
-  TableRow,
-  TableData,
-} from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./SetElementTable.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import Table2, { Table2Body, Table2Head, Table2Pagination } from "../table2/Table2";
+import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 
-const SetElementTable: React.FC<SetElementTableProps> = ({ setId }) => {
-  const i18n = React.useContext(i18nContext);
-  const [data, setData] = React.useState<TableData<PrfsTreeNode>>({ page: 0, values: [] });
+const columns: ColumnDef<PrfsTreeNode>[] = [
+  {
+    header: "Position",
+    accessorFn: row => row.pos_w,
+    cell: info => info.getValue(),
+  },
+  {
+    header: "Value",
+    accessorFn: row => row.val,
+  },
+];
 
-  const handleChangePage = React.useCallback(
-    async (page: number) => {
-      return prfsApi
-        .getSetElements({
-          page,
-          limit: 20,
-          set_id: setId,
-        })
-        .then(resp => {
-          const { page, prfs_tree_nodes } = resp.payload;
+const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet }) => {
+  const [data, setData] = React.useState<PrfsTreeNode[]>([]);
 
-          return {
-            page,
-            values: prfs_tree_nodes,
-          };
-        });
-    },
-    [setId]
-  );
+  const [{ pageIndex, pageSize }, setPagination] = React.useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 20,
+  });
 
   React.useEffect(() => {
-    Promise.resolve(handleChangePage(0)).then(res => {
-      setData(res);
-    });
-  }, [setData, handleChangePage]);
+    async function fn() {
+      const { payload } = await prfsApi.getPrfsTreeLeafNodesBySetId({
+        page_idx: pageIndex,
+        page_size: pageSize,
+        set_id: setId,
+      });
 
-  const rowsElem = React.useMemo(() => {
-    // console.log(1, data);
-    let { page, values } = data;
+      const { prfs_tree_nodes } = payload;
 
-    let rows: React.ReactNode[] = [];
-    if (values === undefined || values.length < 1) {
-      return rows;
+      setData(prfs_tree_nodes);
     }
 
-    for (let val of values) {
-      let row = (
-        <TableRow key={val.pos_w}>
-          <td className={styles.id}>{val.pos_w}</td>
-          <td className={styles.val}>{val.val}</td>
-        </TableRow>
-      );
+    fn().then();
+  }, [setId, setData, pageIndex, pageSize]);
 
-      rows.push(row);
-    }
+  const pagination = React.useMemo(() => {
+    return {
+      pageIndex,
+      pageSize,
+    };
+  }, [pageIndex, pageSize]);
 
-    return rows;
-  }, [data]);
+  const table = useReactTable({
+    meta: {
+      cardinality: prfsSet ? Number(prfsSet.cardinality) : -1,
+    },
+    data,
+    columns,
+    pageCount: prfsSet ? Math.ceil(Number(prfsSet.cardinality) / pageSize) : -1,
+    state: {
+      pagination,
+    },
+    onPaginationChange: setPagination,
+    getCoreRowModel: getCoreRowModel(),
+    manualPagination: true,
+  });
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <th className={styles.id}>{i18n.id}</th>
-          <th className={styles.val}>{i18n.value}</th>
-        </TableRow>
-      </TableHeader>
-      <TableBody>{rowsElem}</TableBody>
-    </Table>
+    prfsSet && (
+      <div className={styles.wrapper}>
+        <Table2>
+          <Table2Head>
+            {table.getHeaderGroups().map(headerGroup => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map(header => {
+                  return (
+                    <th key={header.id} colSpan={header.colSpan}>
+                      {header.isPlaceholder ? null : (
+                        <div>{flexRender(header.column.columnDef.header, header.getContext())}</div>
+                      )}
+                    </th>
+                  );
+                })}
+              </tr>
+            ))}
+          </Table2Head>
+
+          <Table2Body>
+            {table.getRowModel().rows.map(row => {
+              return (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map(cell => {
+                    return (
+                      <td key={cell.id}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </Table2Body>
+        </Table2>
+
+        <Table2Pagination table={table} />
+      </div>
+    )
   );
 };
 
@@ -85,4 +118,5 @@ export default SetElementTable;
 
 export interface SetElementTableProps {
   setId: string;
+  prfsSet: PrfsSet | undefined;
 }

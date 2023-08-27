@@ -13,20 +13,19 @@ const spartanDriverGen: CircuitDriverGen = {
     let prfsHandlers;
     try {
       prfsHandlers = await initWasm();
+      const circuit = await fetchCircuit(driverProps.circuit_url);
+
+      const args = {
+        handlers: prfsHandlers,
+        wtnsGenUrl: driverProps.wtns_gen_url,
+        circuit,
+      };
+
+      const obj = new SpartanDriver(args);
+      return obj;
     } catch (err) {
       throw err;
     }
-
-    const circuit = await fetchCircuit(driverProps.circuit_url);
-
-    const args = {
-      handlers: prfsHandlers,
-      wtnsGenUrl: driverProps.wtns_gen_url,
-      circuit,
-    };
-
-    const obj = new SpartanDriver(args);
-    return obj;
   },
 };
 

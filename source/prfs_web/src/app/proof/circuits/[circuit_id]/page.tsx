@@ -6,23 +6,21 @@ import { useRouter } from "next/navigation";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsCircuitSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsCircuitSyn1";
 import { RawCircuitInputMeta } from "@taigalabs/prfs-entities/bindings/RawCircuitInputMeta";
-import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 
 import styles from "./Circuit.module.scss";
 import { stateContext } from "@/contexts/state";
-import Widget, { TopWidgetTitle, WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
+import Widget, { WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import { paths } from "@/paths";
-import CircuitSummary from "@/components/circuit_summary/CircuitSummary";
 import DriverPropInstanceTable from "@/components/driver_prop_instance_table/DriverPropInstanceTable";
 import RawCircuitInputMetaTable from "@/components/raw_circuit_input_meta_table/RawCircuitInputMetaTable";
 import CircuitInputMetaTable from "@/components/circuit_input_meta_table/CircuitInputMetaTable";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
-import { PaddedSummaryWrapper } from "@/components/columnal_summary/ColumnarSummary";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
+import CircuitDetailTable from "@/components/circuit_detail_table/CircuitDetailTable";
 
 const Circuit: React.FC<CircuitProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -37,18 +35,11 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
   React.useEffect(() => {
     async function fn() {
       try {
-        const { payload } = await prfsApi.getPrfsNativeCircuits({
-          page: 0,
+        const { payload } = await prfsApi.getPrfsCircuitByCircuitId({
           circuit_id: params.circuit_id,
         });
 
-        const { prfs_circuits_syn1 } = payload;
-
-        if (prfs_circuits_syn1.length > 0) {
-          setCircuit(prfs_circuits_syn1[0]);
-        } else {
-          // router.push(paths.proof__circuits);
-        }
+        setCircuit(payload.prfs_circuit_syn1);
       } catch (err) {
         console.error(err);
       }
@@ -65,57 +56,47 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
         </Link>
         <WidgetLabel>{topWidgetLabel}</WidgetLabel>
       </ContentAreaHeader>
-      <ContentAreaRow>
-        <Widget>
-          <PaddedSummaryWrapper>
-            <CircuitSummary circuit={circuit} />
-          </PaddedSummaryWrapper>
-        </Widget>
-      </ContentAreaRow>
 
-      {circuit && (
+      <div className={styles.contentBody}>
         <ContentAreaRow>
-          <Widget>
-            <WidgetHeader>
-              <WidgetLabel>
-                {i18n.driver_properties} ({circuit.circuit_driver_id})
-              </WidgetLabel>
-            </WidgetHeader>
-            <PaddedTableWrapper>
-              <DriverPropInstanceTable driver_properties={circuit.driver_properties} />
-            </PaddedTableWrapper>
-          </Widget>
+          <div className={styles.singleColRow}>
+            <CircuitDetailTable circuit={circuit} />
+          </div>
         </ContentAreaRow>
-      )}
-      {circuit && (
-        <ContentAreaRow>
-          <Widget>
-            <WidgetHeader>
-              <WidgetLabel>{i18n.circuit_inputs}</WidgetLabel>
-            </WidgetHeader>
-            <PaddedTableWrapper>
+
+        {circuit && (
+          <ContentAreaRow>
+            <div className={styles.singleColRow}>
+              <div className={styles.tableTitle}>
+                {i18n.driver_properties} ({circuit.circuit_driver_id})
+              </div>
+              <DriverPropInstanceTable driver_properties={circuit.driver_properties} />
+            </div>
+          </ContentAreaRow>
+        )}
+
+        {circuit && (
+          <ContentAreaRow>
+            <div className={styles.singleColRow}>
+              <div className={styles.tableTitle}>{i18n.circuit_inputs}</div>
               <CircuitInputMetaTable
                 circuit_inputs_meta={circuit.circuit_inputs_meta as CircuitInputMeta[]}
               />
-            </PaddedTableWrapper>
-          </Widget>
-        </ContentAreaRow>
-      )}
+            </div>
+          </ContentAreaRow>
+        )}
 
-      {circuit && (
-        <ContentAreaRow>
-          <Widget>
-            <WidgetHeader>
-              <WidgetLabel>{i18n.raw_circuit_inputs}</WidgetLabel>
-            </WidgetHeader>
-            <PaddedTableWrapper>
+        {circuit && (
+          <ContentAreaRow>
+            <div className={styles.singleColRow}>
+              <div className={styles.tableTitle}>{i18n.raw_circuit_inputs}</div>
               <RawCircuitInputMetaTable
                 raw_circuit_inputs_meta={circuit.raw_circuit_inputs_meta as RawCircuitInputMeta[]}
               />
-            </PaddedTableWrapper>
-          </Widget>
-        </ContentAreaRow>
-      )}
+            </div>
+          </ContentAreaRow>
+        )}
+      </div>
     </DefaultLayout>
   );
 };

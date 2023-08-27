@@ -1,16 +1,11 @@
 import React from "react";
 import cn from "classnames";
-import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import * as prfsApi from "@taigalabs/prfs-api-js";
-import {
-  ListenClickOutsideMsg,
-  StopClickOutsideMsg,
-  sendMsgToParent,
-} from "@taigalabs/prfs-sdk-web";
 import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
-import { TbMathPi } from "react-icons/tb";
-import { MdForest, MdOutlineHowToVote, MdGroups } from "react-icons/md";
+import { IconMathPi } from "@tabler/icons-react";
+import ForestIcon from "@taigalabs/prfs-react-components/src/material_icons/Forest";
+import HowToVoteIcon from "@taigalabs/prfs-react-components/src/material_icons/HowToVote";
+import GroupIcon from "@taigalabs/prfs-react-components/src/material_icons/Group";
 
 import styles from "./PrfsAppsPopover.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -23,25 +18,25 @@ const Modal: React.FC<MerkleProofModalProps> = ({}) => {
     <ul className={styles.modal}>
       <li>
         <div className={styles.appItem}>
-          <TbMathPi />
+          <IconMathPi />
           <span>{i18n.proof}</span>
         </div>
       </li>
       <li className={styles.inactive}>
         <div className={styles.appItem}>
-          <MdForest />
+          <ForestIcon />
           <span>{i18n.forest}</span>
         </div>
       </li>
       <li className={styles.inactive}>
         <div className={styles.appItem}>
-          <MdOutlineHowToVote />
+          <HowToVoteIcon />
           <span>{i18n.vote}</span>
         </div>
       </li>
       <li className={styles.inactive}>
         <div className={styles.appItem}>
-          <MdGroups />
+          <GroupIcon />
           <span>{i18n.enrollment}</span>
         </div>
       </li>

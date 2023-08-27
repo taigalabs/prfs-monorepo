@@ -1,21 +1,17 @@
 import React from "react";
 import cn from "classnames";
 import Link from "next/link";
-import { FaAngleRight } from "react-icons/fa6";
-import { FaHatWizard } from "react-icons/fa6";
-import { FaHome } from "react-icons/fa";
-import { MdSpaceDashboard, MdOutlineDocumentScanner } from "react-icons/md";
-import { IoDocumentTextOutline, IoDocument } from "react-icons/io5";
-import { GrDocumentText } from "react-icons/gr";
-import { AiFillFolder } from "react-icons/ai";
-import { PiCircuitry, PiCircuitryFill } from "react-icons/pi";
-import { AiTwotoneTool } from "react-icons/ai";
-import { TbTable, TbTableAlias } from "react-icons/tb";
+import { FaHatWizard } from "@react-icons/all-files/fa/FaHatWizard";
+import { MdDashboard } from "@react-icons/all-files/md/MdDashboard";
+import { IoDocumentTextOutline } from "@react-icons/all-files/io5/IoDocumentTextOutline";
+import { IoDocument } from "@react-icons/all-files/io5/IoDocument";
+import { AiTwotoneTool } from "@react-icons/all-files/ai/AiTwotoneTool";
+import { Circuitry } from "@phosphor-icons/react";
+import { IconTable, IconTableAlias } from "@tabler/icons-react";
 
 import styles from "./LeftBar.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import ActiveLink from "@/components/active_link/ActiveLink";
-import ProjectMeta from "../project_meta/ProjectMeta";
 import { paths } from "@/paths";
 
 const Leftbar: React.FC<any> = () => {
@@ -39,7 +35,7 @@ const Leftbar: React.FC<any> = () => {
           <li>
             <ActiveLink href={paths.proof} exact activeClassName={styles.activeLink}>
               <div className={styles.button}>
-                <MdSpaceDashboard />
+                <MdDashboard />
                 <span>{i18n.dashboard}</span>
               </div>
             </ActiveLink>
@@ -73,7 +69,7 @@ const Leftbar: React.FC<any> = () => {
           <li>
             <ActiveLink href={paths.proof__circuits} activeClassName={styles.activeLink}>
               <div className={cn(styles.button)}>
-                <PiCircuitry />
+                <Circuitry />
                 <span>{i18n.circuits}</span>
               </div>
             </ActiveLink>
@@ -89,7 +85,7 @@ const Leftbar: React.FC<any> = () => {
           <li>
             <ActiveLink href={paths.proof__circuit_types} activeClassName={styles.activeLink}>
               <div className={styles.button}>
-                <PiCircuitryFill />
+                <Circuitry />
                 <span>{i18n.circuit_types}</span>
               </div>
             </ActiveLink>
@@ -104,7 +100,7 @@ const Leftbar: React.FC<any> = () => {
           <li>
             <ActiveLink href={paths.proof__sets} activeClassName={styles.activeLink}>
               <div className={cn(styles.button)}>
-                <TbTable />
+                <IconTable size={16} />
                 <span>{i18n.sets}</span>
               </div>
             </ActiveLink>
@@ -112,7 +108,7 @@ const Leftbar: React.FC<any> = () => {
           <li>
             <ActiveLink href={paths.proof__dynamic_sets} activeClassName={styles.activeLink}>
               <div className={cn(styles.button)}>
-                <TbTableAlias />
+                <IconTableAlias size={16} />
                 <span>{i18n.dynamic_sets}</span>
               </div>
             </ActiveLink>

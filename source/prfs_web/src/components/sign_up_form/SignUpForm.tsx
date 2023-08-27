@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import { useRouter } from "next/navigation";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import TextButton from "@taigalabs/prfs-react-components/src/text_button/TextButton";
 
 import styles from "./SignUpForm.module.scss";
 import { stateContext } from "@/contexts/state";
@@ -166,9 +167,9 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
           </Button>
         </div>
         <div>
-          <Button variant="text_aqua_blue_1" handleClick={handleClickSignIn}>
+          <TextButton variant="aqua_blue_1" handleClick={handleClickSignIn}>
             {i18n.sign_in_to_existing}
-          </Button>
+          </TextButton>
         </div>
       </div>
     </div>

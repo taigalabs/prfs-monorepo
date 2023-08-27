@@ -20,7 +20,7 @@ pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
     let tasks: Vec<Box<dyn BuildTask>> = vec![
         Box::new(BuildPrfsEntitiesTSBindingTask),
         Box::new(BuildJsDependenciesTask),
-        Box::new(CompileCircuitsTask),
+        // Box::new(CompileCircuitsTask),
         Box::new(BuildPrfsDriverSpartanWasmTask),
         Box::new(BuildPrfsDriverSpartanJsTask),
     ];

@@ -114,18 +114,18 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
 
   React.useEffect(() => {
     async function fn() {
-      const { driver_id, driver_properties } = proofType;
+      const { circuit_driver_id, driver_properties } = proofType;
       const driverProperties = interpolateSystemAssetEndpoint(
         driver_properties,
         ASSET_SERVER_ENDPOINT
       );
 
       try {
-        const driver = await initDriver(driver_id, driverProperties);
-        setSystemMsg(`${i18n.driver}: ${driver_id}`);
+        const driver = await initDriver(circuit_driver_id, driverProperties);
+        setSystemMsg(`${i18n.driver}: ${circuit_driver_id}`);
         setDriver(driver);
       } catch (err) {
-        setSystemMsg(`Driver init failed, id: ${driver_id}, err: ${err}`);
+        setSystemMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
       }
     }
 
@@ -222,7 +222,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
 
       <div className={styles.footer}>
         <div className={styles.systemMsg}>
-          <div>{systemMsg}</div>
+          <span>{systemMsg}</span>
         </div>
         <div className={styles.sdkMeta}>
           {i18n.prfs_web_sdk} {process.env.NEXT_PUBLIC_VERSION}

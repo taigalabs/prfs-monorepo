@@ -8,49 +8,50 @@ use prfs_entities::{
 use rust_decimal::Decimal;
 use uuid::Uuid;
 
-pub async fn get_prfs_circuit_syn1(
+pub async fn get_prfs_circuit_syn1_by_circuit_id(
     pool: &Pool<Postgres>,
     circuit_id: &Uuid,
-) -> Vec<PrfsCircuitSyn1> {
+) -> PrfsCircuitSyn1 {
     let query = r#"
 select pc.*, pct.circuit_inputs_meta from prfs_circuits pc inner join prfs_circuit_types pct 
 on pc.circuit_type=pct.circuit_type where pc.circuit_id=$1"#;
 
     println!("query: {}", query);
 
-    let rows = sqlx::query(query)
+    let row = sqlx::query(query)
         .bind(&circuit_id)
-        .fetch_all(pool)
+        .fetch_one(pool)
         .await
         .unwrap();
 
-    let circuits_syn1 = rows
-        .iter()
-        .map(|row| PrfsCircuitSyn1 {
-            circuit_id: row.get("circuit_id"),
-            circuit_type: row.get("circuit_type"),
-            label: row.get("label"),
-            desc: row.get("desc"),
-            author: row.get("author"),
-            num_public_inputs: row.get("num_public_inputs"),
-            circuit_dsl: row.get("circuit_dsl"),
-            arithmetization: row.get("arithmetization"),
-            proof_algorithm: row.get("proof_algorithm"),
-            elliptic_curve: row.get("elliptic_curve"),
-            finite_field: row.get("finite_field"),
-            circuit_driver_id: row.get("circuit_driver_id"),
-            driver_version: row.get("driver_version"),
-            driver_properties: row.get("driver_properties"),
-            circuit_inputs_meta: row.get("circuit_inputs_meta"),
-            raw_circuit_inputs_meta: row.get("raw_circuit_inputs_meta"),
-            created_at: row.get("created_at"),
-        })
-        .collect();
+    let circuit_syn1 = PrfsCircuitSyn1 {
+        circuit_id: row.get("circuit_id"),
+        circuit_type: row.get("circuit_type"),
+        label: row.get("label"),
+        desc: row.get("desc"),
+        author: row.get("author"),
+        num_public_inputs: row.get("num_public_inputs"),
+        circuit_dsl: row.get("circuit_dsl"),
+        arithmetization: row.get("arithmetization"),
+        proof_algorithm: row.get("proof_algorithm"),
+        elliptic_curve: row.get("elliptic_curve"),
+        finite_field: row.get("finite_field"),
+        circuit_driver_id: row.get("circuit_driver_id"),
+        driver_version: row.get("driver_version"),
+        driver_properties: row.get("driver_properties"),
+        circuit_inputs_meta: row.get("circuit_inputs_meta"),
+        raw_circuit_inputs_meta: row.get("raw_circuit_inputs_meta"),
+        created_at: row.get("created_at"),
+    };
 
-    return circuits_syn1;
+    return circuit_syn1;
 }
 
-pub async fn get_prfs_circuits_syn1(pool: &Pool<Postgres>) -> Vec<PrfsCircuitSyn1> {
+pub async fn get_prfs_circuits_syn1(
+    pool: &Pool<Postgres>,
+    page_idx: i32,
+    page_size: i32,
+) -> Vec<PrfsCircuitSyn1> {
     let query = r#"
 select pc.*, pct.circuit_inputs_meta from prfs_circuits pc inner join prfs_circuit_types pct 
 on pc.circuit_type=pct.circuit_type"#;

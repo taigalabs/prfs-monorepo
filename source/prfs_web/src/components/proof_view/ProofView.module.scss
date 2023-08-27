@@ -1,6 +1,11 @@
 .wrapper {
   width: 100%;
   word-break: break-all;
+  padding: 0px 8px;
+
+  button {
+    margin-top: 6px;
+  }
 }
 
 .label {
@@ -9,9 +14,18 @@
 
 .value {
   font-family: "JetBrains Mono", monospace;
-  padding: 6px 8px;
-  border: 1px solid var(--bright-gray-31);
+  /* border: 1px solid var(--bright-gray-31); */
   border-radius: 5px;
   font-size: 13px;
   margin-top: 12px;
+}
+
+.line {
+  display: flex;
+
+  > p:first-child {
+    width: 40px;
+    margin-right: 16px;
+    text-align: right;
+  }
 }

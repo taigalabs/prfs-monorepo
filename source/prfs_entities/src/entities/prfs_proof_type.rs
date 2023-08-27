@@ -18,7 +18,9 @@ pub struct PrfsProofType {
     pub img_url: Option<String>,
     pub img_caption: Option<String>,
 
-    pub circuit_id: String,
+    #[ts(type = "string")]
+    pub circuit_id: Uuid,
+    pub circuit_type: String,
     pub circuit_driver_id: String,
 
     #[ts(type = "Record<number, any>")]

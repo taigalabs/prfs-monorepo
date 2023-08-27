@@ -4,9 +4,42 @@
   justify-content: center;
   width: 100px;
   height: 100px;
+  position: relative;
+  /* border: 1px solid black; */
+  border-radius: 20px;
+  overflow: hidden;
 
   img {
     max-width: 100px;
     max-height: 100px;
+    object-fit: contain;
+  }
+}
+
+.placeholder {
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(121, 9, 118, 0.7945378835127801) 33%,
+    rgba(59, 67, 130, 1) 94%
+  );
+}
+
+.caption {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  right: 0;
+  bottom: 5px;
+
+  p {
+    font-size: 11px;
+    border-radius: 8px;
+    background-color: var(--gray-10);
+    color: var(--white-100);
+    padding: 1px 5px;
+    opacity: 0.8;
   }
 }

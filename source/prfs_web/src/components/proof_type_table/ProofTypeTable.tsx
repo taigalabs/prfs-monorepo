@@ -1,99 +1,156 @@
-"use client";
-
 import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import Table, {
-  TableBody,
-  TableHeader,
-  TableRecordData,
-  TableRow,
-  TableData,
-  TableSearch,
-} from "@taigalabs/prfs-react-components/src/table/Table";
-import { MdFilterList } from "react-icons/md";
+import { TableSearch } from "@taigalabs/prfs-react-components/src/table/Table";
 import dayjs from "dayjs";
+import {
+  ColumnDef,
+  PaginationState,
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { useRouter } from "next/navigation";
 
 import styles from "./ProofTypeTable.module.scss";
+import Table2, { Table2Body, Table2Head, Table2Pagination } from "@/components/table2/Table2";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
+import ProofImage from "../proof_image/ProofImage";
 
 const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
   const i18n = React.useContext(i18nContext);
-  const [data, setData] = React.useState<TableData<PrfsProofType>>({ page: 0, values: [] });
+  const [data, setData] = React.useState<PrfsProofType[]>([]);
+  const router = useRouter();
 
-  const handleChangePage = React.useCallback(async (page: number) => {
-    return prfsApi
-      .getPrfsProofTypes({
-        page,
-      })
-      .then(resp => {
-        const { page, prfs_proof_types } = resp.payload;
-        return {
-          page,
-          values: prfs_proof_types,
-        };
-      });
-  }, []);
+  const columns = React.useMemo(() => {
+    const cols: ColumnDef<PrfsProofType>[] = [
+      {
+        id: "img_url",
+        accessorFn: row => row.img_url,
+        cell: info => {
+          const img_url = info.getValue() as string;
+
+          return (
+            <div className={styles.imgCol}>
+              <ProofImage img_url={img_url} size={50} />
+            </div>
+          );
+        },
+      },
+      {
+        id: "proof_type_id",
+        header: i18n.proof_type_id,
+        accessorFn: row => row.proof_type_id,
+        cell: info => info.getValue(),
+      },
+      {
+        id: "label",
+        accessorFn: row => row.label,
+        cell: info => info.getValue(),
+      },
+      {
+        id: "desc",
+        accessorFn: row => row.desc,
+        cell: info => info.getValue(),
+      },
+      {
+        id: "circuit_id",
+        accessorFn: row => row.circuit_id,
+        cell: info => info.getValue(),
+      },
+      {
+        id: "created_at",
+        accessorFn: row => row.created_at,
+        cell: info => {
+          return dayjs(info.getValue() as string).format("YYYY-MM-DD");
+        },
+      },
+    ];
+
+    return cols;
+  }, [i18n]);
+
+  const [{ pageIndex, pageSize }, setPagination] = React.useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 20,
+  });
 
   React.useEffect(() => {
-    Promise.resolve(handleChangePage(0)).then(res => {
-      setData(res);
-    });
-  }, [setData, handleChangePage]);
+    async function fn() {
+      const { payload } = await prfsApi.getPrfsProofTypes({
+        page_idx: pageIndex,
+        page_size: pageSize,
+      });
 
-  const rowsElem = React.useMemo(() => {
-    // console.log(1, data);
-
-    let { page, values } = data;
-
-    let rows: React.ReactNode[] = [];
-    if (values === undefined || values.length < 1) {
-      return rows;
+      setData(payload.prfs_proof_types);
     }
 
-    for (let val of values) {
-      const createdAt = dayjs(val.created_at).format("YYYY-MM-DD");
+    fn().then();
+  }, [setData, pageIndex, pageSize]);
 
-      let row = (
-        <TableRow key={val.proof_type_id}>
-          <td className={styles.proofTypeId}>
-            <Link href={`${paths.proof__proof_types}/${val.proof_type_id}`}>
-              {val.proof_type_id}
-            </Link>
-          </td>
-          <td className={styles.label}>{val.label}</td>
-          <td className={styles.desc}>{val.desc}</td>
-          <td className={styles.circuitId}>{val.circuit_id}</td>
-          <td className={styles.createdAt}>{createdAt}</td>
-        </TableRow>
-      );
+  const pagination = React.useMemo(() => {
+    return {
+      pageIndex,
+      pageSize,
+    };
+  }, [pageIndex, pageSize]);
 
-      rows.push(row);
-    }
-
-    return rows;
-  }, [data]);
+  const table = useReactTable({
+    data,
+    columns,
+    state: {
+      pagination,
+    },
+    onPaginationChange: setPagination,
+    getCoreRowModel: getCoreRowModel(),
+    manualPagination: true,
+  });
 
   return (
     <div className={styles.wrapper}>
       <TableSearch>
         <input placeholder={i18n.proof_type_search_guide} />
       </TableSearch>
-      <Table>
-        <TableHeader>
-          <TableRow>
+      <Table2>
+        <Table2Head>
+          <tr>
+            <th className={styles.imgCol}></th>
             <th className={styles.proofTypeId}>{i18n.proof_type_id}</th>
             <th className={styles.label}>{i18n.label}</th>
             <th className={styles.desc}>{i18n.description}</th>
             <th className={styles.circuitId}>{i18n.circuit_id}</th>
             <th className={styles.createdAt}>{i18n.created_at}</th>
-            <th></th>
-          </TableRow>
-        </TableHeader>
-        <TableBody>{rowsElem}</TableBody>
-      </Table>
+          </tr>
+        </Table2Head>
+
+        <Table2Body>
+          {table.getRowModel().rows.map(row => {
+            const proofTypeId = row.getValue("proof_type_id") as string;
+
+            return (
+              <tr
+                key={row.id}
+                onClick={() => {
+                  router.push(`${paths.proof__proof_types}/${proofTypeId}`);
+                }}
+              >
+                {row.getVisibleCells().map(cell => {
+                  return (
+                    <td key={cell.id}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </Table2Body>
+      </Table2>
+
+      <Table2Pagination table={table} />
     </div>
   );
 };

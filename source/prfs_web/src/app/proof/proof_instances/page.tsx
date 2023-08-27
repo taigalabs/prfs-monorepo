@@ -4,7 +4,7 @@ import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
-import { HiMiniDocumentPlus } from "react-icons/hi2";
+import { HiDocumentAdd } from "@react-icons/all-files/hi/HiDocumentAdd";
 import Link from "next/link";
 
 import styles from "./Proofs.module.scss";
@@ -46,7 +46,7 @@ const Proofs: React.FC = () => {
               <WidgetLabel>{i18n.proof_instances}</WidgetLabel>
               <Button variant="transparent_aqua_blue_1">
                 <Link href={`${paths.proof__proof_instances}?create`}>
-                  <HiMiniDocumentPlus />
+                  <HiDocumentAdd />
                   <span>{i18n.create_proof_instance.toUpperCase()}</span>
                 </Link>
               </Button>

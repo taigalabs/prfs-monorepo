@@ -7,14 +7,13 @@ use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
 use std::{io::Write, process::Command};
 
 pub fn run() {
-    let now = Utc::now();
-    let timestamp = now.timestamp_millis();
+    let circuit_version = "0.0.1".to_string();
 
     println!(
-        "{} building {}, timestamp: {}",
+        "{} building {}, circuit_version: {}",
         "Start".green(),
         env!("CARGO_PKG_NAME"),
-        timestamp
+        circuit_version
     );
 
     clean_build();
@@ -24,13 +23,13 @@ pub fn run() {
     let mut circuit_list = vec![];
     for mut circuit in &mut circuits_json.circuits {
         compile_circuits(&circuit);
-        make_spartan(&circuit, timestamp);
-        create_build_json(&mut circuit, timestamp);
+        make_spartan(&circuit, &circuit_version);
+        create_build_json(&mut circuit, &circuit_version);
 
         circuit_list.push(circuit.circuit_id.to_string());
     }
 
-    create_list_json(&circuit_list, timestamp);
+    create_list_json(&circuit_list, &circuit_version);
 }
 
 fn clean_build() {
@@ -39,7 +38,7 @@ fn clean_build() {
     }
 }
 
-fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind, timestamp: i64) -> String {
+fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind, circuit_version: &str) -> String {
     match file_kind {
         FileKind::R1CS => {
             format!("{}/{}.r1cs", &circuit.circuit_id, &circuit.label,)
@@ -47,7 +46,7 @@ fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind, timestamp: i64) 
         FileKind::Spartan => {
             format!(
                 "{}/{}_{}.spartan.circuit",
-                circuit.circuit_id, circuit.label, timestamp
+                circuit.circuit_id, circuit.label, circuit_version
             )
         }
         FileKind::WtnsGen => {
@@ -59,7 +58,7 @@ fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind, timestamp: i64) 
     }
 }
 
-fn make_spartan(circuit: &PrfsCircuit, timestamp: i64) {
+fn make_spartan(circuit: &PrfsCircuit, circuit_version: &String) {
     let raw_public_inputs: Vec<&RawCircuitInputMeta> = circuit
         .raw_circuit_inputs_meta
         .iter()
@@ -72,14 +71,16 @@ fn make_spartan(circuit: &PrfsCircuit, timestamp: i64) {
         "num_public_input AND # of public raw input should be equal",
     );
 
-    let r1cs_src_path = PATHS
-        .build
-        .join(get_path_segment(circuit, FileKind::R1CS, timestamp));
-
-    let spartan_circuit_path =
+    let r1cs_src_path =
         PATHS
             .build
-            .join(get_path_segment(circuit, FileKind::Spartan, timestamp));
+            .join(get_path_segment(circuit, FileKind::R1CS, circuit_version));
+
+    let spartan_circuit_path = PATHS.build.join(get_path_segment(
+        circuit,
+        FileKind::Spartan,
+        circuit_version,
+    ));
 
     circuit_reader::make_spartan_instance(
         &r1cs_src_path,
@@ -137,9 +138,9 @@ fn compile_circuits(circuit: &PrfsCircuit) {
     };
 }
 
-fn create_build_json(circuit: &mut PrfsCircuit, timestamp: i64) {
-    let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen, timestamp);
-    let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan, timestamp);
+fn create_build_json(circuit: &mut PrfsCircuit, circuit_version: &String) {
+    let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen, circuit_version);
+    let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan, circuit_version);
 
     let wtns_gen_url = circuit.driver_properties.get_mut("wtns_gen_url").unwrap();
     *wtns_gen_url = format!("prfs://{}", wtns_gen_path);
@@ -147,13 +148,8 @@ fn create_build_json(circuit: &mut PrfsCircuit, timestamp: i64) {
     let circuit_url = circuit.driver_properties.get_mut("circuit_url").unwrap();
     *circuit_url = format!("prfs://{}", spartan_circuit_path);
 
-    let naive = NaiveDateTime::from_timestamp_millis(timestamp).unwrap();
-    let datetime: DateTime<Utc> = DateTime::from_utc(naive, Utc);
-
-    circuit.created_at = datetime;
-
     let circuit_build_json = CircuitBuildJson {
-        timestamp,
+        circuit_version: circuit_version.to_string(),
         circuit: circuit.clone(),
     };
 
@@ -172,9 +168,9 @@ fn create_build_json(circuit: &mut PrfsCircuit, timestamp: i64) {
     );
 }
 
-fn create_list_json(circuits_json: &Vec<String>, timestamp: i64) {
+fn create_list_json(circuits_json: &Vec<String>, circuit_version: &String) {
     let build_list_json = CircuitBuildListJson {
-        timestamp,
+        circuit_version: circuit_version.to_string(),
         circuits: circuits_json.clone(),
     };
 

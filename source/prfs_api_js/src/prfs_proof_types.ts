@@ -1,5 +1,9 @@
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
+import { GetPrfsProofTypesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypesRequest";
+import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
+import { GetPrfsProofTypeByProofTypeIdResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdResponse";
+import { GetPrfsProofTypesResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypesResponse";
+import { CreatePrfsProofTypeResponse } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofTypeResponse";
 
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
@@ -10,6 +14,7 @@ export interface CreatePrfsProofTypeRequest {
   author: string;
   proof_type_id: string;
   circuit_id: string;
+  circuit_type: string;
   circuit_inputs: Record<string, CircuitInput>;
   expression: string;
   img_url: string | null;
@@ -18,40 +23,23 @@ export interface CreatePrfsProofTypeRequest {
   driver_properties: Record<string, any>;
 }
 
-export type CreatePrfsProofTypeResponse = PrfsApiResponse<{}>;
-
 export async function createPrfsProofType(req: CreatePrfsProofTypeRequest) {
-  try {
-    let resp: CreatePrfsProofTypeResponse = await api({
-      path: `create_prfs_proof_type`,
-      req,
-    });
-    return resp;
-  } catch (err) {
-    console.log("error fetching", err);
-    throw err;
-  }
+  return (await api({
+    path: `create_prfs_proof_type`,
+    req,
+  })) as PrfsApiResponse<CreatePrfsProofTypeResponse>;
 }
-
-export interface GetPrfsProofTypesRequest {
-  page: number;
-  proof_type_id?: string;
-}
-
-export type GetPrfsProofTypesResponse = PrfsApiResponse<{
-  page: number;
-  prfs_proof_types: PrfsProofType[];
-}>;
 
 export async function getPrfsProofTypes(req: GetPrfsProofTypesRequest) {
-  try {
-    let resp: GetPrfsProofTypesResponse = await api({
-      path: `get_prfs_proof_types`,
-      req,
-    });
-    return resp;
-  } catch (err) {
-    console.log("error fetching", err);
-    throw err;
-  }
+  return (await api({
+    path: `get_prfs_proof_types`,
+    req,
+  })) as PrfsApiResponse<GetPrfsProofTypesResponse>;
+}
+
+export async function getPrfsProofTypeByProofTypeId(req: GetPrfsProofTypeByProofTypeIdRequest) {
+  return (await api({
+    path: `get_prfs_proof_type_by_proof_type_id`,
+    req,
+  })) as PrfsApiResponse<GetPrfsProofTypeByProofTypeIdResponse>;
 }

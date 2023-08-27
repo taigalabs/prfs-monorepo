@@ -2,7 +2,7 @@
 
 import React from "react";
 import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
-import { AiFillPlusCircle } from "react-icons/ai";
+import { AiFillPlusCircle } from "@react-icons/all-files/ai/AiFillPlusCircle";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 

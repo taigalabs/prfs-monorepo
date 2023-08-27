@@ -1,5 +1,6 @@
 import React from "react";
-import { IoMdArrowDropup, IoMdArrowDropdown } from "react-icons/io";
+import { IoMdArrowDropup } from "@react-icons/all-files/io/IoMdArrowDropup";
+import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
 import { flip, useFloating, useClick, useInteractions, useDismiss } from "@floating-ui/react";
 
 import styles from "./Dropdown.module.scss";

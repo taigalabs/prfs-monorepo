@@ -1,9 +1,8 @@
 import React from "react";
 import cn from "classnames";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { AiOutlineCheck } from "react-icons/ai";
 import { GetSignatureMsg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
-import { FaSignature } from "react-icons/fa6";
+import { FaSignature } from "@react-icons/all-files/fa/FaSignature";
 
 import styles from "./SigDataInput.module.scss";
 import { i18nContext } from "@/contexts/i18n";

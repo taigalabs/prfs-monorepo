@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import cn from "classnames";
-import { BsWallet2 } from "react-icons/bs";
 
 import styles from "./AccountPopover.module.scss";
 import localStore from "@/storage/localStore";

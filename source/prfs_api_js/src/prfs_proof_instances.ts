@@ -1,70 +1,45 @@
-import { PrfsProofInstance } from "@taigalabs/prfs-entities/bindings/PrfsProofInstance";
-import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
+import { GetPrfsProofInstancesByShortIdResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstancesByShortIdResponse";
+import { GetPrfsProofInstanceByShortIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstanceByShortIdRequest";
+import { GetPrfsProofInstancesResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstancesResponse";
+import { GetPrfsProofInstancesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstancesRequest";
+import { GetPrfsProofInstanceByInstanceIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstanceByInstanceIdRequest";
+import { GetPrfsProofInstanceByInstanceIdResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstanceByInstanceIdResponse";
+import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
+import { CreatePrfsProofInstanceResponse } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceResponse";
 
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
 
-export interface CreatePrfsProofInstanceRequest {
-  proof_instance_id: string;
-  sig: string;
-  proof_type_id: string;
-  proof: number[];
-  public_inputs: Record<string, any>;
-}
-
-export type CreatePrfsProofInstanceResponse = PrfsApiResponse<{
-  proof_instance_id: string;
-}>;
+export type CreatePrfsProofInstanceApiResponse = PrfsApiResponse<CreatePrfsProofInstanceResponse>;
 
 export async function createPrfsProofInstance(req: CreatePrfsProofInstanceRequest) {
-  try {
-    let resp: CreatePrfsProofInstanceResponse = await api({
-      path: `create_prfs_proof_instance`,
-      req,
-    });
-
-    return resp;
-  } catch (err) {
-    console.log("error fetching", err);
-    throw err;
-  }
+  return (await api({
+    path: `create_prfs_proof_instance`,
+    req,
+  })) as PrfsApiResponse<CreatePrfsProofInstanceResponse>;
 }
 
-export interface GetPrfsProofInstancesRequest {
-  page: number;
-  limit?: number;
-  proof_instance_id?: string;
-}
-
-export type GetPrfsProofInstancesResponse = PrfsApiResponse<{
-  page: number;
-  prfs_proof_instances_syn1: PrfsProofInstanceSyn1[];
-}>;
+export type GetPrfsProofInstancesApiResponse = PrfsApiResponse<GetPrfsProofInstancesResponse>;
 
 export async function getPrfsProofInstances(req: GetPrfsProofInstancesRequest) {
-  try {
-    let resp: GetPrfsProofInstancesResponse = await api({
-      path: `get_prfs_proof_instances`,
-      req,
-    });
-    return resp;
-  } catch (err) {
-    console.log("error fetching", err);
-    throw err;
-  }
+  return (await api({
+    path: `get_prfs_proof_instances`,
+    req,
+  })) as PrfsApiResponse<GetPrfsProofInstancesResponse>;
 }
 
-export async function getPrfsProofInstanceByShortId(req: { short_id: string }) {
-  try {
-    let resp: PrfsApiResponse<{
-      prfs_proof_instance: PrfsProofInstance;
-    }> = await api({
-      path: `get_prfs_proof_instance_by_short_id`,
-      req,
-    });
-    return resp;
-  } catch (err) {
-    console.log("error fetching", err);
-    throw err;
-  }
+export async function getPrfsProofInstanceByInstanceId(
+  req: GetPrfsProofInstanceByInstanceIdRequest
+) {
+  return (await api({
+    path: `get_prfs_proof_instance_by_instance_id`,
+    req,
+  })) as PrfsApiResponse<GetPrfsProofInstanceByInstanceIdResponse>;
+}
+
+export async function getPrfsProofInstanceByShortId(req: GetPrfsProofInstanceByShortIdRequest) {
+  return (await api({
+    path: `get_prfs_proof_instance_by_short_id`,
+    req,
+  })) as PrfsApiResponse<GetPrfsProofInstancesByShortIdResponse>;
 }

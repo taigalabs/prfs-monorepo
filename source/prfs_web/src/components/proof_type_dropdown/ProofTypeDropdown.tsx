@@ -33,11 +33,11 @@ const ProofTypeEntry: React.FC<CircuitEntryProps> = ({ val }) => {
             <p>{val.circuit_id}</p>
           </div>
           <div className={styles.item}>
-            <div>{i18n.driver_id}:</div>
-            <div>{val.driver_id}</div>
+            <div>{i18n.circuit_driver_id}:</div>
+            <div>{val.circuit_driver_id}</div>
           </div>
           <div className={styles.item}>
-            <div>{i18n.num_inputs}:</div>
+            <div>{i18n.num_public_inputs}:</div>
             <div>{Object.keys(val.circuit_inputs).length}</div>
           </div>
         </div>
@@ -57,11 +57,12 @@ const ProofTypeDropdown: React.FC<ProofTypeDropdownProps> = ({ selectedVal, hand
   React.useEffect(() => {
     prfsApi
       .getPrfsProofTypes({
-        page: 0,
+        page_idx: 0,
+        page_size: 20,
       })
       .then(resp => {
-        const { page, prfs_proof_types } = resp.payload;
-        setData({ page, values: prfs_proof_types });
+        const { page_idx, prfs_proof_types } = resp.payload;
+        setData({ page: page_idx, values: prfs_proof_types });
       });
   }, [setData]);
 

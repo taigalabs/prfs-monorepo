@@ -1,0 +1,16 @@
+.wrapper {
+  cursor: pointer;
+
+  a {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.aqua_blue_1 {
+  color: var(--aqua-blue-50);
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

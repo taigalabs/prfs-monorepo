@@ -31,7 +31,7 @@ const CircuitEntry: React.FC<CircuitEntryProps> = ({ val }) => {
             <p>{val.proof_algorithm}</p>
           </div>
           <div className={styles.item}>
-            <div>{i18n.num_inputs}:</div>
+            <div>{i18n.num_public_inputs}:</div>
             <div>{val.raw_circuit_inputs_meta.length}</div>
           </div>
           <div className={styles.item}>

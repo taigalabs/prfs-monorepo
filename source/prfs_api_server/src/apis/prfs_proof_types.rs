@@ -1,96 +1,64 @@
-use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
-use chrono::{DateTime, NaiveDate, NaiveDateTime};
 use hyper::{body, Body, Request, Response};
 use prfs_db_interface::db_apis;
 use prfs_entities::{
+    apis_entities::{
+        CreatePrfsProofTypeRequest, CreatePrfsProofTypeResponse,
+        GetPrfsProofTypeByProofTypeIdRequest, GetPrfsProofTypeByProofTypeIdResponse,
+        GetPrfsProofTypesRequest, GetPrfsProofTypesResponse,
+    },
     entities::{CircuitInput, PrfsProofType, PrfsSet},
     sqlx::types::Json,
 };
 use routerify::prelude::*;
-use rust_decimal::Decimal;
-use serde::{Deserialize, Serialize};
-use std::{collections::HashMap, convert::Infallible, sync::Arc};
+use std::{convert::Infallible, sync::Arc};
 
-#[derive(Serialize, Deserialize, Debug)]
-struct GetPrfsProofTypesRequest {
-    page: u32,
-    proof_type_id: Option<uuid::Uuid>,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct GetPrfsProofTypeRespPayload {
-    page: u32,
-    prfs_proof_types: Vec<PrfsProofType>,
-}
+use crate::{
+    responses::ApiResponse,
+    server::{request::parse_req, state::ServerState},
+    ApiServerError,
+};
 
 pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    println!("get proof types");
+    let state = req.data::<Arc<ServerState>>().unwrap().clone();
 
-    let state = req.data::<Arc<ServerState>>().unwrap();
-    let state = state.clone();
+    let req: GetPrfsProofTypesRequest = parse_req(req).await;
 
     let pool = &state.db2.pool;
-    // let mut tx = pool.begin().await.unwrap();
 
-    let bytes = body::to_bytes(req.into_body()).await.unwrap();
-    let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let req = serde_json::from_str::<GetPrfsProofTypesRequest>(&body_str).unwrap();
+    let prfs_proof_types = db_apis::get_prfs_proof_types(pool).await;
 
-    println!("req: {:?}", req);
+    let resp = ApiResponse::new_success(GetPrfsProofTypesResponse {
+        page_idx: req.page_idx,
+        prfs_proof_types,
+    });
 
-    match req.proof_type_id {
-        Some(proof_type_id) => {
-            let prfs_proof_types = db_apis::get_prfs_proof_type(pool, &proof_type_id).await;
-            let resp = ApiResponse::new_success(GetPrfsProofTypeRespPayload {
-                page: req.page,
-                prfs_proof_types,
-            });
-            return Ok(resp.into_hyper_response());
-        }
-        None => {
-            let prfs_proof_types = db_apis::get_prfs_proof_types(pool).await;
-            let resp = ApiResponse::new_success(GetPrfsProofTypeRespPayload {
-                page: req.page,
-                prfs_proof_types,
-            });
-            return Ok(resp.into_hyper_response());
-        }
-    };
+    return Ok(resp.into_hyper_response());
 }
 
-#[derive(Serialize, Deserialize, Debug)]
-struct CreatePrfsProofTypesRequest {
-    proof_type_id: uuid::Uuid,
-    author: String,
-    label: String,
-    desc: String,
-    circuit_id: String,
-    circuit_driver_id: String,
-    expression: String,
-    img_url: Option<String>,
-    img_caption: Option<String>,
-    circuit_inputs: Vec<CircuitInput>,
-    driver_properties: HashMap<String, String>,
-}
+pub async fn get_prfs_proof_type_by_proof_type_id(
+    req: Request<Body>,
+) -> Result<Response<Body>, Infallible> {
+    let state = req.data::<Arc<ServerState>>().unwrap().clone();
 
-#[derive(Serialize, Deserialize, Debug)]
-struct CreatePrfsProofTypesRespPayload {
-    id: i64,
+    let req: GetPrfsProofTypeByProofTypeIdRequest = parse_req(req).await;
+
+    let pool = &state.db2.pool;
+
+    let prfs_proof_type =
+        db_apis::get_prfs_proof_type_by_proof_type_id(pool, &req.proof_type_id).await;
+
+    let resp = ApiResponse::new_success(GetPrfsProofTypeByProofTypeIdResponse { prfs_proof_type });
+
+    return Ok(resp.into_hyper_response());
 }
 
 pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap();
-    let state = state.clone();
+    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+
+    let req: CreatePrfsProofTypeRequest = parse_req(req).await;
 
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
-
-    let bytes = body::to_bytes(req.into_body()).await.unwrap();
-    let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let req = serde_json::from_str::<CreatePrfsProofTypesRequest>(&body_str)
-        .expect("req request should be parsable");
-
-    println!("req: {:?}", req);
 
     let prfs_proof_type = PrfsProofType {
         proof_type_id: req.proof_type_id,
@@ -100,8 +68,8 @@ pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
         expression: req.expression.to_string(),
         img_url: req.img_url,
         img_caption: req.img_caption,
-
-        circuit_id: req.circuit_id.to_string(),
+        circuit_id: req.circuit_id,
+        circuit_type: req.circuit_type.to_string(),
         circuit_driver_id: req.circuit_driver_id.to_string(),
         circuit_inputs: Json::from(req.circuit_inputs.clone()),
         driver_properties: Json::from(req.driver_properties.clone()),
@@ -113,7 +81,7 @@ pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
 
     tx.commit().await.unwrap();
 
-    let resp = ApiResponse::new_success(CreatePrfsProofTypesRespPayload { id });
+    let resp = ApiResponse::new_success(CreatePrfsProofTypeResponse { id });
 
     return Ok(resp.into_hyper_response());
 }

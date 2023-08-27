@@ -40,8 +40,7 @@ const ProofGen: React.FC<ProofGenProps> = () => {
         let payload;
         try {
           payload = (
-            await prfsApi.getPrfsProofTypes({
-              page: 0,
+            await prfsApi.getPrfsProofTypeByProofTypeId({
               proof_type_id: proofTypeId,
             })
           ).payload;
@@ -49,11 +48,11 @@ const ProofGen: React.FC<ProofGenProps> = () => {
           return;
         }
 
-        if (payload.prfs_proof_types.length > 0) {
-          const proof_type = payload.prfs_proof_types[0];
+        if (payload.prfs_proof_type) {
+          const proof_type = payload.prfs_proof_type;
           const circuitInputCount = Object.keys(proof_type.circuit_inputs).length;
           const docHeight = calcFormHeight(circuitInputCount);
-          console.log("docHeight", docHeight);
+          // console.log("docHeight", docHeight);
 
           await sendMsgToParent(
             new HandshakeMsg({

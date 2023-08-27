@@ -14,10 +14,13 @@ export const snarkJsWitnessGen = async (input: any, wasmFile: string) => {
   return witness;
 };
 
-export async function fetchCircuit(url: string) {
+export async function fetchCircuit(url: string): Promise<Uint8Array> {
   const response = await fetch(url);
-  const circuit = await response.arrayBuffer();
+  if (!response.ok) {
+    throw new Error(`Fetch circuit failed, url: ${url}`);
+  }
 
+  const circuit = await response.arrayBuffer();
   return new Uint8Array(circuit);
 }
 

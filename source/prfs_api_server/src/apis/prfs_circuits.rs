@@ -1,50 +1,51 @@
-use crate::{responses::ApiResponse, state::ServerState};
+use crate::{
+    responses::ApiResponse,
+    server::{request::parse_req, state::ServerState},
+};
 use hyper::{body, Body, Request, Response};
 use prfs_circuit_circom::CircuitBuildJson;
 use prfs_db_interface::db_apis;
-use prfs_entities::syn_entities::PrfsCircuitSyn1;
+use prfs_entities::{
+    apis_entities::{
+        GetPrfsCircuitByCircuitIdRequest, GetPrfsCircuitByCircuitIdResponse,
+        GetPrfsCircuitsRequest, GetPrfsCircuitsResponse,
+    },
+    syn_entities::PrfsCircuitSyn1,
+};
 use routerify::prelude::*;
-use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
-use uuid::Uuid;
 
-#[derive(Serialize, Deserialize, Debug)]
-struct GetCircuitsRequest {
-    page: u32,
-    circuit_id: Option<Uuid>,
-}
+pub async fn get_prfs_circuits(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+    let state = req.data::<Arc<ServerState>>().unwrap().clone();
 
-#[derive(Serialize, Deserialize, Debug)]
-struct GetCircuitsRespPayload {
-    page: usize,
-    prfs_circuits_syn1: Vec<PrfsCircuitSyn1>,
-}
-
-pub async fn get_prfs_native_circuits(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    println!("get circuits");
-
-    let state = req.data::<Arc<ServerState>>().unwrap();
-    let state = state.clone();
+    let req: GetPrfsCircuitsRequest = parse_req(req).await;
 
     let pool = &state.db2.pool;
 
-    let bytes = body::to_bytes(req.into_body()).await.unwrap();
-    let body_str = String::from_utf8(bytes.to_vec()).unwrap();
-    let req = serde_json::from_str::<GetCircuitsRequest>(&body_str)
-        .expect("req request should be parsable");
+    let prfs_circuits_syn1 =
+        db_apis::get_prfs_circuits_syn1(&pool, req.page_idx, req.page_size).await;
 
-    println!("req: {:?}", req);
-
-    let prfs_circuits_syn1 = if let Some(circuit_id) = req.circuit_id {
-        db_apis::get_prfs_circuit_syn1(&pool, &circuit_id).await
-    } else {
-        db_apis::get_prfs_circuits_syn1(&pool).await
-    };
-
-    let resp = ApiResponse::new_success(GetCircuitsRespPayload {
-        page: 0,
+    let resp = ApiResponse::new_success(GetPrfsCircuitsResponse {
+        page_idx: req.page_idx,
         prfs_circuits_syn1,
     });
+
+    return Ok(resp.into_hyper_response());
+}
+
+pub async fn get_prfs_circuit_by_circuit_id(
+    req: Request<Body>,
+) -> Result<Response<Body>, Infallible> {
+    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+
+    let req: GetPrfsCircuitByCircuitIdRequest = parse_req(req).await;
+
+    let pool = &state.db2.pool;
+
+    let prfs_circuit_syn1 =
+        db_apis::get_prfs_circuit_syn1_by_circuit_id(&pool, &req.circuit_id).await;
+
+    let resp = ApiResponse::new_success(GetPrfsCircuitByCircuitIdResponse { prfs_circuit_syn1 });
 
     return Ok(resp.into_hyper_response());
 }

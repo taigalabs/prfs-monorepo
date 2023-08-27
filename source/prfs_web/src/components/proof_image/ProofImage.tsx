@@ -3,17 +3,25 @@ import React from "react";
 import styles from "./ProofImage.module.scss";
 import ProofImagePlaceHolder from "@/static/svgs/proof_img_placeholder_1.svg";
 
-const ProofImage: React.FC<ProofImageProps> = ({ src }) => {
+const ProofImage: React.FC<ProofImageProps> = ({ img_url, img_caption, size }) => {
+  const style: React.CSSProperties = {};
+  if (size) {
+    style.width = size;
+    style.height = size;
+  }
+
   return (
-    <div className={styles.wrapper}>
-      <img
-        crossOrigin="anonymous"
-        alt="Proof image"
-        src={src}
-        onError={ev => {
-          ev.currentTarget.src = ProofImagePlaceHolder.src;
-        }}
-      />
+    <div className={styles.wrapper} style={style}>
+      {img_url ? (
+        <img crossOrigin="anonymous" alt="Proof image" src={img_url} style={style} />
+      ) : (
+        <div className={styles.placeholder} style={style}></div>
+      )}
+      {img_caption && (
+        <div className={styles.caption}>
+          <p>{img_caption}</p>
+        </div>
+      )}
     </div>
   );
 };
@@ -21,5 +29,7 @@ const ProofImage: React.FC<ProofImageProps> = ({ src }) => {
 export default ProofImage;
 
 export interface ProofImageProps {
-  src: string;
+  img_url: string | null;
+  img_caption?: string | null;
+  size?: number;
 }
