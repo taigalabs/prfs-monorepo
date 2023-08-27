@@ -3,5 +3,6 @@ import type { PrfsProofInstanceSyn1 } from "./PrfsProofInstanceSyn1";
 
 export interface GetPrfsProofInstancesResponse {
   page_idx: number;
+  table_row_count: number;
   prfs_proof_instances_syn1: Array<PrfsProofInstanceSyn1>;
 }

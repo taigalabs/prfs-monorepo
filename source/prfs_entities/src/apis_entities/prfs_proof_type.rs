@@ -9,22 +9,33 @@ use crate::entities::{CircuitInput, PrfsProofType, PrfsSet};
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetPrfsProofTypesRequest {
-    pub page: u32,
-
-    #[ts(type = "'<Uuid>' | string | null")]
-    pub proof_type_id: Option<Uuid>,
+    pub page_idx: i32,
+    pub page_size: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetPrfsProofTypeResponse {
-    pub page: u32,
+pub struct GetPrfsProofTypesResponse {
+    pub page_idx: i32,
     pub prfs_proof_types: Vec<PrfsProofType>,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct CreatePrfsProofTypesRequest {
+pub struct GetPrfsProofTypeByProofTypeIdRequest {
+    #[ts(type = "'<Uuid>' | string")]
+    pub proof_type_id: Uuid,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetPrfsProofTypeByProofTypeIdResponse {
+    pub prfs_proof_type: PrfsProofType,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct CreatePrfsProofTypeRequest {
     #[ts(type = "'<Uuid>' | string")]
     pub proof_type_id: Uuid,
     pub author: String,
@@ -44,6 +55,6 @@ pub struct CreatePrfsProofTypesRequest {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct CreatePrfsProofTypesResponse {
+pub struct CreatePrfsProofTypeResponse {
     pub id: i64,
 }

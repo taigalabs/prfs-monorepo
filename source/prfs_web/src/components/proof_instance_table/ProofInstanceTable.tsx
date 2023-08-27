@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 import styles from "./ProofInstanceTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import Table2, { Table2Body, Table2Head, Table2Pagination } from "../table2/Table2";
+import Table2, { Table2Body, Table2Head, Table2Pagination } from "@/components/table2/Table2";
 import ProofImage from "../proof_image/ProofImage";
 import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
 

@@ -87,6 +87,10 @@ pub fn make_router(
             prfs_proof_types::get_prfs_proof_types,
         )
         .post(
+            format!("{}/get_prfs_proof_type_by_proof_type_id", PREFIX),
+            prfs_proof_types::get_prfs_proof_type_by_proof_type_id,
+        )
+        .post(
             format!("{}/create_prfs_proof_type", PREFIX),
             prfs_proof_types::create_prfs_proof_types,
         )

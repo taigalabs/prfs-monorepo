@@ -2,8 +2,9 @@ use hyper::{body, Body, Request, Response};
 use prfs_db_interface::db_apis;
 use prfs_entities::{
     apis_entities::{
-        CreatePrfsProofTypesRequest, CreatePrfsProofTypesResponse, GetPrfsProofTypeResponse,
-        GetPrfsProofTypesRequest,
+        CreatePrfsProofTypeRequest, CreatePrfsProofTypeResponse,
+        GetPrfsProofTypeByProofTypeIdRequest, GetPrfsProofTypeByProofTypeIdResponse,
+        GetPrfsProofTypesRequest, GetPrfsProofTypesResponse,
     },
     entities::{CircuitInput, PrfsProofType, PrfsSet},
     sqlx::types::Json,
@@ -24,30 +25,37 @@ pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, 
 
     let pool = &state.db2.pool;
 
-    match req.proof_type_id {
-        Some(proof_type_id) => {
-            let prfs_proof_types = db_apis::get_prfs_proof_type(pool, &proof_type_id).await;
-            let resp = ApiResponse::new_success(GetPrfsProofTypeResponse {
-                page: req.page,
-                prfs_proof_types,
-            });
-            return Ok(resp.into_hyper_response());
-        }
-        None => {
-            let prfs_proof_types = db_apis::get_prfs_proof_types(pool).await;
-            let resp = ApiResponse::new_success(GetPrfsProofTypeResponse {
-                page: req.page,
-                prfs_proof_types,
-            });
-            return Ok(resp.into_hyper_response());
-        }
-    };
+    let prfs_proof_types = db_apis::get_prfs_proof_types(pool).await;
+
+    let resp = ApiResponse::new_success(GetPrfsProofTypesResponse {
+        page_idx: req.page_idx,
+        prfs_proof_types,
+    });
+
+    return Ok(resp.into_hyper_response());
+}
+
+pub async fn get_prfs_proof_type_by_proof_type_id(
+    req: Request<Body>,
+) -> Result<Response<Body>, Infallible> {
+    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+
+    let req: GetPrfsProofTypeByProofTypeIdRequest = parse_req(req).await;
+
+    let pool = &state.db2.pool;
+
+    let prfs_proof_type =
+        db_apis::get_prfs_proof_type_by_proof_type_id(pool, &req.proof_type_id).await;
+
+    let resp = ApiResponse::new_success(GetPrfsProofTypeByProofTypeIdResponse { prfs_proof_type });
+
+    return Ok(resp.into_hyper_response());
 }
 
 pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     let state = req.data::<Arc<ServerState>>().unwrap().clone();
 
-    let req: CreatePrfsProofTypesRequest = parse_req(req).await;
+    let req: CreatePrfsProofTypeRequest = parse_req(req).await;
 
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
@@ -73,7 +81,7 @@ pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body
 
     tx.commit().await.unwrap();
 
-    let resp = ApiResponse::new_success(CreatePrfsProofTypesResponse { id });
+    let resp = ApiResponse::new_success(CreatePrfsProofTypeResponse { id });
 
     return Ok(resp.into_hyper_response());
 }

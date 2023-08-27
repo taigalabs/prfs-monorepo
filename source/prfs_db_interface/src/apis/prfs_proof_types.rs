@@ -2,39 +2,37 @@ use crate::database2::Database2;
 use prfs_entities::entities::PrfsProofType;
 use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 use rust_decimal::Decimal;
+use uuid::Uuid;
 
-pub async fn get_prfs_proof_type(
+pub async fn get_prfs_proof_type_by_proof_type_id(
     pool: &Pool<Postgres>,
-    proof_type_id: &uuid::Uuid,
-) -> Vec<PrfsProofType> {
+    proof_type_id: &Uuid,
+) -> PrfsProofType {
     let query = "SELECT * from prfs_proof_types where proof_type_id=$1";
 
-    let rows = sqlx::query(query)
+    let row = sqlx::query(query)
         .bind(&proof_type_id)
-        .fetch_all(pool)
+        .fetch_one(pool)
         .await
         .unwrap();
 
-    let prfs_proof_types: Vec<PrfsProofType> = rows
-        .iter()
-        .map(|row| PrfsProofType {
-            proof_type_id: row.get("proof_type_id"),
-            expression: row.get("expression"),
-            img_url: row.get("img_url"),
-            img_caption: row.get("img_caption"),
-            label: row.get("label"),
-            author: row.get("author"),
-            desc: row.get("desc"),
-            circuit_id: row.get("circuit_id"),
-            circuit_type: row.get("circuit_type"),
-            circuit_inputs: row.get("circuit_inputs"),
-            circuit_driver_id: row.get("circuit_driver_id"),
-            driver_properties: row.get("driver_properties"),
-            created_at: row.get("created_at"),
-        })
-        .collect();
+    let ret = PrfsProofType {
+        proof_type_id: row.get("proof_type_id"),
+        expression: row.get("expression"),
+        img_url: row.get("img_url"),
+        img_caption: row.get("img_caption"),
+        label: row.get("label"),
+        author: row.get("author"),
+        desc: row.get("desc"),
+        circuit_id: row.get("circuit_id"),
+        circuit_type: row.get("circuit_type"),
+        circuit_inputs: row.get("circuit_inputs"),
+        circuit_driver_id: row.get("circuit_driver_id"),
+        driver_properties: row.get("driver_properties"),
+        created_at: row.get("created_at"),
+    };
 
-    return prfs_proof_types;
+    return ret;
 }
 
 pub async fn get_prfs_proof_types(pool: &Pool<Postgres>) -> Vec<PrfsProofType> {
