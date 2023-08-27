@@ -80,6 +80,7 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
   }, [pageIndex, pageSize]);
 
   const table = useReactTable({
+    meta: { a: 1 },
     data,
     columns,
     // pageCount: prfsSet ? Number(prfsSet.cardinality) : -1,
@@ -126,7 +127,8 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
           })}
         </Table2Body>
       </Table2>
-      <Table2Pagination table={table} pageSize={pageSize} />
+
+      <Table2Pagination table={table} />
     </div>
   );
 

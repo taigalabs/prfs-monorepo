@@ -34,7 +34,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet }) => 
   });
 
   React.useMemo(async () => {
-    const { payload } = await prfsApi.getPrfsSetElements({
+    const { payload } = await prfsApi.getPrfsTreeLeafNodesBySetId({
       page_idx: pageIndex,
       page_size: pageSize,
       set_id: setId,
@@ -53,6 +53,9 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet }) => 
   }, [pageIndex, pageSize]);
 
   const table = useReactTable({
+    meta: {
+      cardinality: prfsSet ? Number(prfsSet.cardinality) : -1,
+    },
     data,
     columns,
     pageCount: prfsSet ? Math.ceil(Number(prfsSet.cardinality) / pageSize) : -1,
@@ -101,7 +104,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet }) => 
           </Table2Body>
         </Table2>
 
-        <Table2Pagination table={table} pageSize={pageSize} />
+        <Table2Pagination table={table} />
       </div>
     )
   );

@@ -24,9 +24,9 @@ export async function getPrfsSetBySetId(req: GetPrfsSetBySetIdRequest) {
   })) as PrfsApiResponse<GetPrfsSetBySetIdResponse>;
 }
 
-export async function getPrfsSetElements(req: GetPrfsTreeLeafNodesRequest) {
-  return (await api({
-    path: "get_prfs_tree_leaf_nodes",
-    req,
-  })) as PrfsApiResponse<GetPrfsTreeNodesResponse>;
-}
+// export async function getPrfsSetElements(req: GetPrfsTreeLeafNodesRequest) {
+//   return (await api({
+//     path: "get_prfs_tree_leaf_nodes",
+//     req,
+//   })) as PrfsApiResponse<GetPrfsTreeNodesResponse>;
+// }

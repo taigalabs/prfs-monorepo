@@ -14,9 +14,9 @@ export async function getPrfsTreeNodesByPos(req: GetPrfsTreeNodesByPosRequest) {
   })) as PrfsApiResponse<GetPrfsTreeNodesResponse>;
 }
 
-export async function getPrfsTreeLeafNodes(req: GetPrfsTreeLeafNodesRequest) {
+export async function getPrfsTreeLeafNodesBySetId(req: GetPrfsTreeLeafNodesRequest) {
   return (await api({
-    path: `get_prfs_tree_leaf_nodes`,
+    path: `get_prfs_tree_leaf_nodes_by_set_id`,
     req,
   })) as PrfsApiResponse<GetPrfsTreeNodesResponse>;
 }

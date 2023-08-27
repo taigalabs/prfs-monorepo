@@ -40,7 +40,7 @@ export const Table2Body: React.FC<Table2Props> = ({ children }) => {
   return <tbody className={styles.table2Body}>{children}</tbody>;
 };
 
-export function Table2Pagination<T>({ table, pageSize }: Table2PaginationProps<T>) {
+export function Table2Pagination<T>({ table }: Table2PaginationProps<T>) {
   const i18n = React.useContext(i18nContext);
   const { pagination } = table.getState();
 
@@ -58,19 +58,24 @@ export function Table2Pagination<T>({ table, pageSize }: Table2PaginationProps<T
 
   const pageLocation = React.useMemo(() => {
     const { pageSize, pageIndex } = pagination;
+    const { meta } = table.options;
+
+    const cardinality = meta && (meta as Table2Meta).cardinality;
 
     const elemStartNo = pageIndex * pageSize + 1;
-    const elemEndNo = (pageIndex + 1) * pageSize;
+    const elemEndNo = cardinality
+      ? Math.min(cardinality, (pageIndex + 1) * pageSize)
+      : (pageIndex + 1) * pageSize;
 
-    return `${elemStartNo} - ${elemEndNo} of ${table.getPageCount()}`;
-  }, [pagination]);
+    return `${elemStartNo} - ${elemEndNo} ${cardinality ? "of " + cardinality : ""}`;
+  }, [pagination, table]);
 
   return (
     <div className={styles.table2Pagination}>
       <div className={styles.rowsPerPage}>
         <span>{i18n.rows_per_page}</span>
         <select
-          value={pageSize}
+          value={pagination.pageSize}
           onChange={e => {
             table.setPageSize(Number(e.target.value));
           }}
@@ -123,7 +128,6 @@ export interface Table2Props {
 
 export interface Table2PaginationProps<T> {
   table: Table<T>;
-  pageSize: number;
 }
 
 export interface RecordData {
@@ -133,4 +137,8 @@ export interface RecordData {
 
 export interface TableSearchProps {
   children: React.ReactNode;
+}
+
+export interface Table2Meta {
+  cardinality: number;
 }
