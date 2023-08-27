@@ -7,16 +7,27 @@ use crate::syn_entities::PrfsCircuitSyn1;
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetCircuitsRequest {
-    pub page: u32,
-
-    #[ts(type = "'<Uuid>' | string | null")]
-    pub circuit_id: Option<Uuid>,
+pub struct GetPrfsCircuitsRequest {
+    pub page_idx: i32,
+    pub page_size: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetCircuitsResponse {
-    pub page: usize,
+pub struct GetPrfsCircuitsResponse {
+    pub page_idx: i32,
     pub prfs_circuits_syn1: Vec<PrfsCircuitSyn1>,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetPrfsCircuitByCircuitIdRequest {
+    #[ts(type = "'<Uuid>' | string")]
+    pub circuit_id: Uuid,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetPrfsCircuitByCircuitIdResponse {
+    pub prfs_circuit_syn1: PrfsCircuitSyn1,
 }
