@@ -9,16 +9,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import * as prfsApi from "@taigalabs/prfs-api-js";
-import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
-import Table, {
-  TableBody,
-  TableHeader,
-  TableRecordData,
-  TableData,
-  TableRow,
-  TableSearch,
-} from "@taigalabs/prfs-react-components/src/table/Table";
+import { TableSearch } from "@taigalabs/prfs-react-components/src/table/Table";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 
@@ -134,15 +126,6 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
       pageSize,
     };
   }, [pageIndex, pageSize]);
-
-  const handleClickRow = React.useCallback(
-    (proofInstanceId: string) => {
-      return (ev: React.MouseEvent) => {
-        router.push(`${paths.proof__proof_instances}/${proofInstanceId}`);
-      };
-    },
-    [router]
-  );
 
   const table = useReactTable({
     meta: {

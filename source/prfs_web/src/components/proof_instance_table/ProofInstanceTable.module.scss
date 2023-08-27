@@ -11,6 +11,14 @@
   word-wrap: break-word;
 }
 
+.wrapper {
+  tbody {
+    tr {
+      cursor: pointer;
+    }
+  }
+}
+
 .imgCol {
   width: 50px;
 }
