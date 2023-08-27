@@ -33,16 +33,20 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet }) => 
     pageSize: 20,
   });
 
-  React.useMemo(async () => {
-    const { payload } = await prfsApi.getPrfsTreeLeafNodesBySetId({
-      page_idx: pageIndex,
-      page_size: pageSize,
-      set_id: setId,
-    });
+  React.useEffect(() => {
+    async function fn() {
+      const { payload } = await prfsApi.getPrfsTreeLeafNodesBySetId({
+        page_idx: pageIndex,
+        page_size: pageSize,
+        set_id: setId,
+      });
 
-    const { prfs_tree_nodes } = payload;
+      const { prfs_tree_nodes } = payload;
 
-    setData(prfs_tree_nodes);
+      setData(prfs_tree_nodes);
+    }
+
+    fn().then();
   }, [setId, setData, pageIndex, pageSize]);
 
   const pagination = React.useMemo(() => {

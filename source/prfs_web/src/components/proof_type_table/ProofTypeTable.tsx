@@ -112,7 +112,7 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
   return (
     <div className={styles.wrapper}>
       <TableSearch>
-        <input placeholder={i18n.proof_instance_search_guide} />
+        <input placeholder={i18n.proof_type_search_guide} />
       </TableSearch>
       <Table2>
         <Table2Head>
