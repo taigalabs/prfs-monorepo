@@ -39,11 +39,7 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
           circuit_id: params.circuit_id,
         });
 
-        const { prfs_circuit_syn1 } = payload;
-          setCircuit(prfs_circuit_syn1);
-        } else {
-          // router.push(paths.proof__circuits);
-        }
+        setCircuit(payload.prfs_circuit_syn1);
       } catch (err) {
         console.error(err);
       }

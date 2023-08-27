@@ -28,8 +28,8 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
   const columns = React.useMemo(() => {
     const cols: ColumnDef<PrfsProofType>[] = [
       {
-        id: "image_url",
-        header: i18n.image_url,
+        id: "img_url",
+        accessorFn: row => row.img_url,
         cell: info => {
           const img_url = info.getValue() as string;
 
