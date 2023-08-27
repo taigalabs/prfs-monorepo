@@ -55,7 +55,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet }) => 
   const table = useReactTable({
     data,
     columns,
-    pageCount: prfsSet ? Number(prfsSet.cardinality) : -1,
+    pageCount: prfsSet ? Math.ceil(Number(prfsSet.cardinality) / pageSize) : -1,
     state: {
       pagination,
     },

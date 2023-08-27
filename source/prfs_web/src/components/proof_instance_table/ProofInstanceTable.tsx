@@ -26,7 +26,7 @@ import dayjs from "dayjs";
 import styles from "./ProofInstanceTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import Table2, { Table2Body } from "../table2/Table2";
+import Table2, { Table2Body, Table2Head, Table2Pagination } from "../table2/Table2";
 
 const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
   selectType,
@@ -54,15 +54,20 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
     pageSize: 20,
   });
 
-  React.useMemo(async () => {
-    const { payload } = await prfsApi.getPrfsProofInstances({
-      page_idx: pageIndex,
-      page_size: pageSize,
-    });
+  React.useEffect(() => {
+    async function fn() {
+      console.log(33);
+      const { payload } = await prfsApi.getPrfsProofInstances({
+        page_idx: pageIndex,
+        page_size: pageSize,
+      });
 
-    const { prfs_proof_instances_syn1 } = payload;
+      const { prfs_proof_instances_syn1 } = payload;
 
-    setData(prfs_proof_instances_syn1);
+      setData(prfs_proof_instances_syn1);
+    }
+
+    fn().then();
   }, [setData, pageIndex, pageSize]);
 
   console.log(22, data);
@@ -77,6 +82,7 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
   const table = useReactTable({
     data,
     columns,
+    // pageCount: prfsSet ? Number(prfsSet.cardinality) : -1,
     state: {
       pagination,
     },
@@ -88,6 +94,22 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
   return (
     <div className={styles.wrapper}>
       <Table2>
+        <Table2Head>
+          {table.getHeaderGroups().map(headerGroup => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map(header => {
+                return (
+                  <th key={header.id} colSpan={header.colSpan}>
+                    {header.isPlaceholder ? null : (
+                      <div>{flexRender(header.column.columnDef.header, header.getContext())}</div>
+                    )}
+                  </th>
+                );
+              })}
+            </tr>
+          ))}
+        </Table2Head>
+
         <Table2Body>
           {table.getRowModel().rows.map(row => {
             return (
@@ -104,6 +126,7 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
           })}
         </Table2Body>
       </Table2>
+      <Table2Pagination table={table} pageSize={pageSize} />
     </div>
   );
 

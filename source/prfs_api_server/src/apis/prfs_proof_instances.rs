@@ -1,5 +1,4 @@
-use chrono::{DateTime, NaiveDate, NaiveDateTime};
-use hyper::{body, Body, Request, Response};
+use hyper::{Body, Request, Response};
 use prfs_db_interface::db_apis;
 use prfs_entities::apis_entities::{
     CreatePrfsProofInstanceRequest, CreatePrfsProofInstanceResponse,
@@ -7,13 +6,13 @@ use prfs_entities::apis_entities::{
     GetPrfsProofInstanceByShortIdRequest, GetPrfsProofInstancesByShortIdResponse,
     GetPrfsProofInstancesRequest, GetPrfsProofInstancesResponse,
 };
-use prfs_entities::entities::{CircuitInput, PrfsProofInstance, PrfsProofType, PrfsSet};
+use prfs_entities::entities::PrfsProofInstance;
 use routerify::prelude::*;
 use std::{convert::Infallible, sync::Arc};
 
+use crate::responses::ApiResponse;
 use crate::server::request::parse_req;
 use crate::server::state::ServerState;
-use crate::{responses::ApiResponse, ApiServerError};
 
 pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     let state = req.data::<Arc<ServerState>>().unwrap();
@@ -23,11 +22,12 @@ pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Bod
 
     let pool = &state.db2.pool;
 
-    let prfs_proof_instances_syn1 =
+    let (prfs_proof_instances_syn1, table_row_count) =
         db_apis::get_prfs_proof_instances_syn1(pool, req.page_idx, req.page_size).await;
 
     let resp = ApiResponse::new_success(GetPrfsProofInstancesResponse {
         page_idx: req.page_idx,
+        table_row_count,
         prfs_proof_instances_syn1,
     });
 

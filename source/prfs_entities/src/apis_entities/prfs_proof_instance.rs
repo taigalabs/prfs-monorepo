@@ -38,6 +38,7 @@ pub struct GetPrfsProofInstancesByShortIdResponse {
 #[ts(export)]
 pub struct GetPrfsProofInstancesResponse {
     pub page_idx: i32,
+    pub table_row_count: f32,
     pub prfs_proof_instances_syn1: Vec<PrfsProofInstanceSyn1>,
 }
 

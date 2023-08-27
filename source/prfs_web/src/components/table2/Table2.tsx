@@ -61,6 +61,7 @@ export function Table2Pagination<T>({ table, pageSize }: Table2PaginationProps<T
 
     const elemStartNo = pageIndex * pageSize + 1;
     const elemEndNo = (pageIndex + 1) * pageSize;
+
     return `${elemStartNo} - ${elemEndNo} of ${table.getPageCount()}`;
   }, [pagination]);
 

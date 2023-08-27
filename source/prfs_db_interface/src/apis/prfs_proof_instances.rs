@@ -76,8 +76,16 @@ pub async fn get_prfs_proof_instances_syn1(
     pool: &Pool<Postgres>,
     page_idx: i32,
     page_size: i32,
-) -> Vec<PrfsProofInstanceSyn1> {
-    // let offset = page_idx * page_size;
+) -> (Vec<PrfsProofInstanceSyn1>, f32) {
+    let table_row_count: f32 = {
+        let query = r#"
+SELECT reltuples AS estimate FROM pg_class where relname = 'prfs_proof_instances';
+"#;
+        let row = sqlx::query(query).fetch_one(pool).await.unwrap();
+
+        row.get("estimate")
+    };
+
     let query = r#"
 SELECT ppi.*, ppt.expression, ppt.img_url, ppt.label as proof_label, ppt.desc as proof_desc,
 ppt.circuit_driver_id, ppt.circuit_id, ppt.img_caption, pct.public_inputs_meta
@@ -89,7 +97,7 @@ OFFSET $1
 LIMIT $2
 "#;
 
-    println!("query: {}", query);
+    // println!("query: {}", query);
 
     let rows = sqlx::query(query)
         .bind(page_idx * page_size)
@@ -118,7 +126,7 @@ LIMIT $2
         })
         .collect();
 
-    return prfs_proof_instances;
+    return (prfs_proof_instances, table_row_count);
 }
 
 pub async fn get_prfs_proof_instances(
