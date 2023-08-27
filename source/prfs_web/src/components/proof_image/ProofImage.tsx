@@ -10,8 +10,6 @@ const ProofImage: React.FC<ProofImageProps> = ({ img_url, img_caption, size }) =
     style.height = size;
   }
 
-  console.log(1, img_url);
-
   return (
     <div className={styles.wrapper} style={style}>
       {img_url ? (

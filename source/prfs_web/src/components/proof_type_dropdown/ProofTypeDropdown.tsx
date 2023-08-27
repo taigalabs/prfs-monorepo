@@ -57,11 +57,12 @@ const ProofTypeDropdown: React.FC<ProofTypeDropdownProps> = ({ selectedVal, hand
   React.useEffect(() => {
     prfsApi
       .getPrfsProofTypes({
-        page: 0,
+        page_idx: 0,
+        page_size: 20,
       })
       .then(resp => {
-        const { page, prfs_proof_types } = resp.payload;
-        setData({ page, values: prfs_proof_types });
+        const { page_idx, prfs_proof_types } = resp.payload;
+        setData({ page: page_idx, values: prfs_proof_types });
       });
   }, [setData]);
 
