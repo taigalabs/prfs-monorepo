@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
@@ -14,82 +12,66 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { useRouter } from "next/navigation";
 
 import styles from "./ProofTypeTable.module.scss";
 import Table2, { Table2Body, Table2Head, Table2Pagination } from "@/components/table2/Table2";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
+import ProofImage from "../proof_image/ProofImage";
 
 const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
   const i18n = React.useContext(i18nContext);
-  // const [data, setData] = React.useState<TableData<PrfsProofType>>({ page: 0, values: [] });
   const [data, setData] = React.useState<PrfsProofType[]>([]);
+  const router = useRouter();
 
   const columns = React.useMemo(() => {
     const cols: ColumnDef<PrfsProofType>[] = [
       {
-        id: "proof_instance_id",
+        id: "image_url",
+        header: i18n.image_url,
+        cell: info => {
+          const img_url = info.getValue() as string;
+
+          return (
+            <div className={styles.imgCol}>
+              <ProofImage img_url={img_url} size={50} />
+            </div>
+          );
+        },
+      },
+      {
+        id: "proof_type_id",
         header: i18n.proof_type_id,
         accessorFn: row => row.proof_type_id,
         cell: info => info.getValue(),
+      },
+      {
+        id: "label",
+        accessorFn: row => row.label,
+        cell: info => info.getValue(),
+      },
+      {
+        id: "desc",
+        accessorFn: row => row.desc,
+        cell: info => info.getValue(),
+      },
+      {
+        id: "circuit_id",
+        accessorFn: row => row.circuit_id,
+        cell: info => info.getValue(),
+      },
+      {
+        id: "created_at",
+        accessorFn: row => row.created_at,
+        cell: info => {
+          return dayjs(info.getValue() as string).format("YYYY-MM-DD");
+        },
       },
     ];
 
     return cols;
   }, [i18n]);
-
-  // const handleChangePage = React.useCallback(async (page: number) => {
-  //   return prfsApi
-  //     .getPrfsProofTypes({
-  //       page,
-  //     })
-  //     .then(resp => {
-  //       const { page, prfs_proof_types } = resp.payload;
-  //       return {
-  //         page,
-  //         values: prfs_proof_types,
-  //       };
-  //     });
-  // }, []);
-
-  // React.useEffect(() => {
-  //   Promise.resolve(handleChangePage(0)).then(res => {
-  //     setData(res);
-  //   });
-  // }, [setData, handleChangePage]);
-
-  // const rowsElem = React.useMemo(() => {
-  //   // console.log(1, data);
-
-  //   let { page, values } = data;
-
-  //   let rows: React.ReactNode[] = [];
-  //   if (values === undefined || values.length < 1) {
-  //     return rows;
-  //   }
-
-  //   for (let val of values) {
-  //     const createdAt = dayjs(val.created_at).format("YYYY-MM-DD");
-
-  //     let row = (
-  //       <TableRow key={val.proof_type_id}>
-  //         <td className={styles.proofTypeId}>
-  //           <Link href={`${paths.proof__proof_types}/${val.proof_type_id}`}>
-  //             {val.proof_type_id}
-  //           </Link>
-  //         </td>
-  //         <td className={styles.label}>{val.label}</td>
-  //         <td className={styles.desc}>{val.desc}</td>
-  //         <td className={styles.circuitId}>{val.circuit_id}</td>
-  //         <td className={styles.createdAt}>{createdAt}</td>
-  //       </TableRow>
-  //     );
-
-  //     rows.push(row);
-  //   }
-
-  //   return rows;
-  // }, [data]);
 
   const [{ pageIndex, pageSize }, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
@@ -135,24 +117,24 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
       <Table2>
         <Table2Head>
           <tr>
-            <th className={styles.imgCol} />
-            <th>{i18n.proof_instance_id}</th>
-            <th>{i18n.proof_type}</th>
-            <th>{i18n.expression}</th>
-            <th>{i18n.prioritized_public_input}</th>
-            <th>{i18n.created_at}</th>
+            <th className={styles.imgCol}></th>
+            <th className={styles.proofTypeId}>{i18n.proof_type_id}</th>
+            <th className={styles.label}>{i18n.label}</th>
+            <th className={styles.desc}>{i18n.description}</th>
+            <th className={styles.circuitId}>{i18n.circuit_id}</th>
+            <th className={styles.createdAt}>{i18n.created_at}</th>
           </tr>
         </Table2Head>
 
         <Table2Body>
           {table.getRowModel().rows.map(row => {
-            // const proofInstanceId = row.getValue("proof_instance_id") as string;
+            const proofTypeId = row.getValue("proof_type_id") as string;
 
             return (
               <tr
                 key={row.id}
                 onClick={() => {
-                  // router.push(`${paths.proof__proof_instances}/${proofInstanceId}`);
+                  router.push(`${paths.proof__proof_types}/${proofTypeId}`);
                 }}
               >
                 {row.getVisibleCells().map(cell => {
@@ -171,27 +153,6 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
       <Table2Pagination table={table} />
     </div>
   );
-
-  // return (
-  //   <div className={styles.wrapper}>
-  //     <TableSearch>
-  //       <input placeholder={i18n.proof_type_search_guide} />
-  //     </TableSearch>
-  //     <Table>
-  //       <TableHeader>
-  //         <TableRow>
-  //           <th className={styles.proofTypeId}>{i18n.proof_type_id}</th>
-  //           <th className={styles.label}>{i18n.label}</th>
-  //           <th className={styles.desc}>{i18n.description}</th>
-  //           <th className={styles.circuitId}>{i18n.circuit_id}</th>
-  //           <th className={styles.createdAt}>{i18n.created_at}</th>
-  //           <th></th>
-  //         </TableRow>
-  //       </TableHeader>
-  //       <TableBody>{rowsElem}</TableBody>
-  //     </Table>
-  //   </div>
-  // );
 };
 
 export default ProofTypeTable;

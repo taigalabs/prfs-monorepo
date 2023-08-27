@@ -28,20 +28,15 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
 
   const [proofType, setProofType] = React.useState<PrfsProofType>();
   React.useEffect(() => {
-    prfsApi
-      .getPrfsProofTypes({
-        page: 0,
+    async function fn() {
+      const { payload } = await prfsApi.getPrfsProofTypeByProofTypeId({
         proof_type_id: params.proof_type_id,
-      })
-      .then(resp => {
-        const { prfs_proof_types } = resp.payload;
-
-        if (prfs_proof_types.length > 0) {
-          setProofType(prfs_proof_types[0]);
-        } else {
-          router.push("/programs");
-        }
       });
+
+      setProofType(payload.prfs_proof_type);
+    }
+
+    fn().then();
   }, [setProofType]);
 
   const proofTypeSummaryLabel = `${i18n.proof_type_summary_label} ${params.proof_type_id}`;

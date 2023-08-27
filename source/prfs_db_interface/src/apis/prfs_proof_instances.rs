@@ -24,7 +24,7 @@ WHERE ppi.proof_instance_id=$1
         .bind(&proof_instance_id)
         .fetch_one(pool)
         .await
-        .unwrap();
+        .expect(&format!("proof_instance_id: {}", proof_instance_id));
 
     let prfs_proof_instance = PrfsProofInstanceSyn1 {
         proof_instance_id: row.get("proof_instance_id"),

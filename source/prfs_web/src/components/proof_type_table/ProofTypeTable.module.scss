@@ -1,4 +1,9 @@
 .wrapper {
+  tbody {
+    tr {
+      cursor: pointer;
+    }
+  }
 }
 
 .proofTypeId {
