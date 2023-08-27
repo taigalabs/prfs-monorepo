@@ -7,8 +7,6 @@ const HideOnMount: React.FC<HideOnMountProps> = ({ children }) => {
   const timerRef = React.useRef<number | null>(null);
 
   React.useEffect(() => {
-    console.log(22, timerRef.current);
-
     timerRef.current = Date.now();
   }, [setShow, timerRef]);
 
