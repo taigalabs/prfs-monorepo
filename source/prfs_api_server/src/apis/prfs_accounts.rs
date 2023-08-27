@@ -1,6 +1,6 @@
 use crate::{
     responses::{ApiResponse, ResponseCode},
-    state::ServerState,
+    server::state::ServerState,
 };
 use hyper::{body, Body, Request, Response};
 use prfs_db_interface::db_apis;

@@ -11,7 +11,7 @@ use prfs_entities::{
 use routerify::prelude::*;
 use std::{convert::Infallible, sync::Arc};
 
-use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
+use crate::{responses::ApiResponse, server::state::ServerState, ApiServerError};
 
 pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     println!("get proof types");

@@ -2,14 +2,15 @@ use crate::apis::{
     prfs_accounts, prfs_circuit_drivers, prfs_circuit_types, prfs_circuits, prfs_proof_instances,
     prfs_proof_types, prfs_sets, prfs_tree_nodes,
 };
-use crate::middleware;
-use crate::state::ServerState;
 use crate::ApiServerError;
 use hyper::{header, Body, Request, Response};
 use routerify::{Middleware, Router};
 use routerify_cors::enable_cors_all;
 use std::convert::Infallible;
 use std::sync::Arc;
+
+use super::middleware;
+use super::state::ServerState;
 
 const PREFIX: &str = "/api/v0";
 

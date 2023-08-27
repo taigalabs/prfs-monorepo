@@ -1,4 +1,4 @@
-use crate::{responses::ApiResponse, state::ServerState};
+use crate::{responses::ApiResponse, server::state::ServerState};
 use hyper::{body, Body, Request, Response};
 use prfs_circuit_circom::CircuitBuildJson;
 use prfs_db_interface::db_apis;

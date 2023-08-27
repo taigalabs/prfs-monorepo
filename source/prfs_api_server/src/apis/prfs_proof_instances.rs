@@ -11,7 +11,8 @@ use prfs_entities::entities::{CircuitInput, PrfsProofInstance, PrfsProofType, Pr
 use routerify::prelude::*;
 use std::{convert::Infallible, sync::Arc};
 
-use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
+use crate::server::state::ServerState;
+use crate::{responses::ApiResponse, ApiServerError};
 
 pub async fn get_prfs_proof_instances(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     let state = req.data::<Arc<ServerState>>().unwrap();

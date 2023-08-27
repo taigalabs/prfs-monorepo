@@ -22,6 +22,7 @@ pub async fn not_found_handler(_req: Request<Body>) -> Result<Response<Body>, In
 }
 
 pub async fn error_handler(err: routerify::RouteError, _: RequestInfo) -> Response<Body> {
+    println!("123123");
     eprintln!("{}", err);
 
     Response::builder()

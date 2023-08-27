@@ -8,7 +8,7 @@ use routerify::prelude::*;
 use std::{convert::Infallible, sync::Arc};
 use uuid::Uuid;
 
-use crate::{responses::ApiResponse, state::ServerState};
+use crate::{responses::ApiResponse, server::state::ServerState};
 
 pub async fn get_prfs_tree_nodes_by_pos(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     let state = req.data::<Arc<ServerState>>().unwrap();

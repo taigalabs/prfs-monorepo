@@ -7,18 +7,18 @@ use prfs_entities::apis_entities::{
 use routerify::prelude::*;
 use std::{convert::Infallible, sync::Arc};
 
-use crate::{responses::ApiResponse, state::ServerState, ApiServerError};
+use crate::{responses::ApiResponse, server::state::ServerState, ApiServerError};
 
 pub async fn get_prfs_sets(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
 
-    let pool = &state.db2.pool;
-
     let bytes = body::to_bytes(req.into_body()).await.unwrap();
     let body_str = String::from_utf8(bytes.to_vec()).unwrap();
     let req = serde_json::from_str::<GetPrfsSetsRequest>(&body_str)
         .expect("req request should be parsable");
+
+    let pool = &state.db2.pool;
 
     let prfs_sets = db_apis::get_prfs_sets(pool, req.page_idx, req.page_size)
         .await
