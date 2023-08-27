@@ -10,17 +10,15 @@ const ProofImage: React.FC<ProofImageProps> = ({ img_url, img_caption, size }) =
     style.height = size;
   }
 
+  console.log(1, img_url);
+
   return (
     <div className={styles.wrapper} style={style}>
-      <img
-        crossOrigin="anonymous"
-        alt="Proof image"
-        src={img_url || ProofImagePlaceHolder.src}
-        onError={ev => {
-          ev.currentTarget.src = ProofImagePlaceHolder.src;
-        }}
-        style={style}
-      />
+      {img_url ? (
+        <img crossOrigin="anonymous" alt="Proof image" src={img_url} style={style} />
+      ) : (
+        <div className={styles.placeholder} style={style}></div>
+      )}
       {img_caption && (
         <div className={styles.caption}>
           <p>{img_caption}</p>

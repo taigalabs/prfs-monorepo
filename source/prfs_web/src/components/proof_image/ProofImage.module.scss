@@ -16,6 +16,16 @@
   }
 }
 
+.placeholder {
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(121, 9, 118, 0.7945378835127801) 33%,
+    rgba(59, 67, 130, 1) 94%
+  );
+}
+
 .caption {
   position: absolute;
   display: flex;
