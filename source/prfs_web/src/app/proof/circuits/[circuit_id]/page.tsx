@@ -17,7 +17,6 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import { paths } from "@/paths";
 import DriverPropsTable from "@/components/driver_props_table/DriverPropsTable";
 import RawCircuitInputMetaTable from "@/components/raw_circuit_input_meta_table/RawCircuitInputMetaTable";
-import CircuitInputMetaTable from "@/components/circuit_input_meta_table/CircuitInputMetaTable";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 import CircuitDetailTable from "@/components/circuit_detail_table/CircuitDetailTable";
