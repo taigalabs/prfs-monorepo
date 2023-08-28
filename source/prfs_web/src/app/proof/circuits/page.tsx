@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { AiFillPlusCircle } from "@react-icons/all-files/ai/AiFillPlusCircle";
 
@@ -16,6 +15,7 @@ import Link from "next/link";
 import { paths } from "@/paths";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 import { SpacedBetweenArea } from "@/components/area/Area";
+import { PaddedTableWrapper } from "@/components/table2/Table2";
 
 const Circuits: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -37,13 +37,11 @@ const Circuits: React.FC = () => {
         </SpacedBetweenArea>
       </ContentAreaHeader>
       <ContentAreaRow>
-        <Widget>
-          <PaddedTableWrapper>
-            <div className={styles.circuitTableContainer}>
-              <CircuitTable />
-            </div>
-          </PaddedTableWrapper>
-        </Widget>
+        <PaddedTableWrapper>
+          <div className={styles.circuitTableContainer}>
+            <CircuitTable />
+          </div>
+        </PaddedTableWrapper>
       </ContentAreaRow>
     </DefaultLayout>
   );

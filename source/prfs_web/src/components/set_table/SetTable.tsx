@@ -4,7 +4,6 @@ import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
-import { TableRow, TableData, TableSearch } from "@taigalabs/prfs-react-components/src/table/Table";
 import {
   ColumnDef,
   PaginationState,
@@ -19,7 +18,7 @@ import { useRouter } from "next/navigation";
 import styles from "./SetTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import Table2, { Table2Body, Table2Head, Table2Pagination } from "../table2/Table2";
+import Table2, { Table2Body, Table2Head, Table2Pagination, TableSearch } from "../table2/Table2";
 
 const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);

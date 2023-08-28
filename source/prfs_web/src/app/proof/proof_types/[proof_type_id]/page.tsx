@@ -4,11 +4,10 @@ import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 
 import styles from "./ProofType.module.scss";
 import { stateContext } from "@/contexts/state";
-import Widget, { WidgetHeader, WidgetLabel } from "@/components/widget/Widget";
+import { WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
@@ -18,6 +17,7 @@ import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/Arrow
 import { paths } from "@/paths";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 import ProofTypeDetailTable from "@/components/proof_type_detail_table/ProofTypeDetailTable";
+import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -60,7 +60,9 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
         <ContentAreaRow>
           <div className={styles.singleColRow}>
             <div className={styles.tableTitle}>{i18n.circuit_inputs}</div>
-            {proofType && <CircuitInputTable circuit_inputs={proofType.circuit_inputs} />}
+            {proofType && (
+              <CircuitInputTable circuit_inputs={proofType.circuit_inputs as CircuitInput[]} />
+            )}
           </div>
         </ContentAreaRow>
       </div>

@@ -1,14 +1,13 @@
 "use client";
 
 import React from "react";
-import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import { AiFillPlusCircle } from "@react-icons/all-files/ai/AiFillPlusCircle";
 
 import styles from "./CircuitDriverPage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Widget, { TopWidgetTitle, WidgetLabel } from "@/components/widget/Widget";
+import { WidgetLabel } from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
@@ -16,6 +15,7 @@ import DriverTable from "@/components/driver_table/DriverTable";
 import { paths } from "@/paths";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 import { SpacedBetweenArea } from "@/components/area/Area";
+import { PaddedTableWrapper } from "@/components/table2/Table2";
 
 const Programs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -37,13 +37,11 @@ const Programs: React.FC = () => {
         </SpacedBetweenArea>
       </ContentAreaHeader>
       <ContentAreaRow>
-        <Widget>
-          <PaddedTableWrapper>
-            <div className={styles.tableContainer}>
-              <DriverTable />
-            </div>
-          </PaddedTableWrapper>
-        </Widget>
+        <PaddedTableWrapper>
+          <div className={styles.tableContainer}>
+            <DriverTable />
+          </div>
+        </PaddedTableWrapper>
       </ContentAreaRow>
     </DefaultLayout>
   );

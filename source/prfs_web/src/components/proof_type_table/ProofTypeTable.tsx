@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import { TableSearch } from "@taigalabs/prfs-react-components/src/table/Table";
 import dayjs from "dayjs";
 import {
   ColumnDef,
@@ -15,7 +14,12 @@ import {
 import { useRouter } from "next/navigation";
 
 import styles from "./ProofTypeTable.module.scss";
-import Table2, { Table2Body, Table2Head, Table2Pagination } from "@/components/table2/Table2";
+import Table2, {
+  Table2Body,
+  Table2Head,
+  Table2Pagination,
+  TableSearch,
+} from "@/components/table2/Table2";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import ProofImage from "../proof_image/ProofImage";

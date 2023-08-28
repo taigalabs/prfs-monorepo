@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
-import { TableCurrentPageLimitWarning } from "@taigalabs/prfs-react-components/src/table/Table";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 
 import styles from "./Set.module.scss";

@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 import { AiFillPlusCircle } from "@react-icons/all-files/ai/AiFillPlusCircle";
 
 import styles from "./Sets.module.scss";
@@ -16,6 +15,7 @@ import Link from "next/link";
 import { paths } from "@/paths";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 import { SpacedBetweenArea } from "@/components/area/Area";
+import { PaddedTableWrapper } from "@/components/table2/Table2";
 
 const Sets: React.FC = () => {
   const i18n = React.useContext(i18nContext);

@@ -28,6 +28,10 @@ export const TableSearch: React.FC<TableSearchProps> = ({ children }) => {
   );
 };
 
+export const PaddedTableWrapper: React.FC<PaddedTableWrapperProps> = ({ children }) => {
+  return <div className={styles.paddedTableWrapper}>{children}</div>;
+};
+
 export const Table2: React.FC<Table2Props> = ({ children }) => {
   return <table className={styles.table2}>{children}</table>;
 };
@@ -141,4 +145,8 @@ export interface TableSearchProps {
 
 export interface Table2Meta {
   cardinality: number;
+}
+
+export interface PaddedTableWrapperProps {
+  children: React.ReactNode;
 }
