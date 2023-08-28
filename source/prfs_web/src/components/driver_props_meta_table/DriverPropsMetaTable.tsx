@@ -45,7 +45,7 @@ const DriverPropsMetaTable: React.FC<DriverPropsMetaTableProps> = ({ driverProps
     if (driverPropsMeta) {
       setData(driverPropsMeta);
     }
-  }, [setData]);
+  }, [setData, driverPropsMeta]);
 
   const table = useReactTable({
     data,

@@ -15,10 +15,10 @@ import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import DriverPropsMetaTable from "@/components/driver_props_meta_table/DriverPropsMetaTable";
-import CircuitTypeList from "@/components/circuit_type_list/CircuitTypeList";
 import { paths } from "@/paths";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 import DriverDetailTable from "@/components/driver_detail_table/DriverDetailTable";
+import SupportingCircuitTypeTable from "@/components/supporting_circuit_type_table/SupportingCircuitTypeTable";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -72,7 +72,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
         <ContentAreaRow>
           <div className={styles.singleColRow}>
             <div className={styles.tableTitle}>{i18n.circuit_types}</div>
-            <CircuitTypeList circuit_types={driver?.circuit_types} />
+            <SupportingCircuitTypeTable circuit_types={driver?.circuit_types} />
           </div>
         </ContentAreaRow>
       </div>
