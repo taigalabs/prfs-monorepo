@@ -63,7 +63,7 @@ const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {
           <ContentAreaRow>
             <div className={styles.singleColRow}>
               <div className={styles.tableTitle}>
-                {i18n.driver_inputs_meta} ({circuitType.circuit_type})
+                {i18n.circuit_inputs} ({circuitType.circuit_type})
               </div>
               <CircuitInputsMetaTable
                 circuit_inputs_meta={circuitType.circuit_inputs_meta as CircuitInputMeta[]}
