@@ -1,6 +1,9 @@
-.key {
-}
-
-.val {
-  width: 100%;
+.wrapper {
+  tbody {
+    tr {
+      td:first-child {
+        font-weight: 500;
+      }
+    }
+  }
 }

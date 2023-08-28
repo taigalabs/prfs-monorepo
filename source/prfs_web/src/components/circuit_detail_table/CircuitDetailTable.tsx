@@ -105,22 +105,6 @@ const CircuitDetailTable: React.FC<CircuitDetailTableProps> = ({ circuit }) => {
     circuit && (
       <div className={styles.wrapper}>
         <Table2>
-          <Table2Head>
-            {table.getHeaderGroups().map(headerGroup => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map(header => {
-                  return (
-                    <th key={header.id} colSpan={header.colSpan}>
-                      {header.isPlaceholder ? null : (
-                        <div>{flexRender(header.column.columnDef.header, header.getContext())}</div>
-                      )}
-                    </th>
-                  );
-                })}
-              </tr>
-            ))}
-          </Table2Head>
-
           <Table2Body>
             {table.getRowModel().rows.map(row => {
               return (

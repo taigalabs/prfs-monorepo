@@ -1,5 +1,4 @@
 import React from "react";
-import Table, { TableBody, TableRow } from "@taigalabs/prfs-react-components/src/table/Table";
 import {
   ColumnDef,
   createColumnHelper,
@@ -16,32 +15,6 @@ const LEVEL2_PREFIX = "$2__";
 
 const PublicInputTable: React.FC<PublicInputTableProps> = ({ publicInputs }) => {
   let i18n = React.useContext(i18nContext);
-
-  // const valueElem = React.useMemo(() => {
-  //   let elems = [];
-
-  //   for (const [key, value] of Object.entries(publicInputs)) {
-  //     let elem = (
-  //       <TableRow key={key}>
-  //         <td className={styles.label}>{key}</td>
-  //         <td className={styles.value}>{JSON.stringify(value)}</td>
-  //         <td></td>
-  //       </TableRow>
-  //     );
-
-  //     elems.push(elem);
-  //   }
-
-  //   return elems;
-  // }, [publicInputs]);
-
-  // return (
-  //   <div className={styles.wrapper}>
-  //     <Table>
-  //       <TableBody>{valueElem}</TableBody>
-  //     </Table>
-  //   </div>
-  // );
 
   const data = React.useMemo(() => {
     const ret: RecordData[] = [];
@@ -129,8 +102,6 @@ const PublicInputTable: React.FC<PublicInputTableProps> = ({ publicInputs }) => 
       </Table2>
     </div>
   );
-
-  return 3;
 };
 
 export default PublicInputTable;
