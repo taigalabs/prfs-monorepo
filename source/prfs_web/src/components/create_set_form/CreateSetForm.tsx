@@ -23,8 +23,7 @@ import { stateContext } from "@/contexts/state";
 import CircuitInputConfigSection from "@/components/circuit_input_config_section/CircuitInputConfigSection";
 import { paths } from "@/paths";
 import FormTextareaInput from "@/components/form/FormTextareaInput";
-import { ContentAreaRow } from "../content_area/ContentArea";
-import { PrfsCircuitSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsCircuitSyn1";
+import { ContentAreaRow } from "@/components/content_area/ContentArea";
 
 const CreateSetForm: React.FC<CreateSetFormProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -32,34 +31,15 @@ const CreateSetForm: React.FC<CreateSetFormProps> = () => {
   const { localPrfsAccount } = state;
   const router = useRouter();
 
-  const [circuitInputs, setCircuitInputs] = React.useState<CircuitInput[]>([]);
-  const [name, setName] = React.useState("");
-  const [imgUrl, setImgUrl] = React.useState(null);
-  const [imgCaption, setImgCaption] = React.useState(null);
+  const [label, setLabel] = React.useState("");
   const [desc, setDesc] = React.useState("");
-  const [expression, setExpression] = React.useState("");
-  const [selectedCircuit, setSelectedCircuit] = React.useState<PrfsCircuitSyn1 | undefined>();
   const [errMsg, setErrMsg] = React.useState("");
 
-  const handleSelectCircuit = React.useCallback(
-    (val: PrfsCircuitSyn1) => {
-      setSelectedCircuit(val);
-    },
-    [setSelectedCircuit]
-  );
-
-  const handleChangeName = React.useCallback(
+  const handleChangeLabel = React.useCallback(
     (ev: any) => {
-      setName(ev.target.value);
+      setLabel(ev.target.value);
     },
-    [setName]
-  );
-
-  const handleChangeExpression = React.useCallback(
-    (ev: any) => {
-      setExpression(ev.target.value);
-    },
-    [setExpression]
+    [setLabel]
   );
 
   const handleChangeDesc = React.useCallback(
@@ -67,20 +47,6 @@ const CreateSetForm: React.FC<CreateSetFormProps> = () => {
       setDesc(ev.target.value);
     },
     [setDesc]
-  );
-
-  const handleChangeImgUrl = React.useCallback(
-    (ev: any) => {
-      setImgUrl(ev.target.value);
-    },
-    [setImgUrl]
-  );
-
-  const handleChangeImgCaption = React.useCallback(
-    (ev: any) => {
-      setImgUrl(ev.target.value);
-    },
-    [setImgCaption]
   );
 
   const handleClickCreateProofType = React.useCallback(async () => {
@@ -96,59 +62,23 @@ const CreateSetForm: React.FC<CreateSetFormProps> = () => {
       return null;
     }
 
-    if (name === undefined || name.length < 1) {
-      setErrMsg("Name should be defined");
+    if (label.length < 1) {
+      setErrMsg("Label should be defined");
       return;
     }
 
-    if (selectedCircuit === undefined) {
-      setErrMsg("Circuit should be selected");
-      return;
-    }
-
-    if (desc === undefined || desc.length < 1) {
+    if (desc.length < 1) {
       setErrMsg("Description should be given");
       return;
-    }
-
-    if (expression === undefined || expression.length < 1) {
-      setErrMsg("Expression should be given");
-      return;
-    }
-
-    const newCircuitInputs: Record<number, CircuitInput> = {};
-    const circuit_inputs_meta = selectedCircuit.circuit_inputs_meta as CircuitInputMeta[];
-
-    for (const [idx, input] of circuit_inputs_meta.entries()) {
-      switch (input.ref) {
-        case "PRFS_SET":
-          if (!circuitInputs[idx]) {
-            setErrMsg(`public input is undefined, idx: ${idx}`);
-            return;
-          }
-
-          newCircuitInputs[idx] = circuitInputs[idx];
-          break;
-
-        default:
-          newCircuitInputs[idx] = {
-            name: input.name,
-            label: input.label,
-            type: input.type,
-            desc: input.desc,
-            value: "",
-            ref: null,
-          };
-      }
     }
 
     setErrMsg("");
 
     let proof_type_id = uuidv4();
 
-    let createPrfsProofTypeRequest = {
+    let createPrfsSetRequest = {
       proof_type_id,
-      label: name,
+      label,
       desc,
       img_url: imgUrl,
       img_caption: imgCaption,
@@ -162,7 +92,7 @@ const CreateSetForm: React.FC<CreateSetFormProps> = () => {
     };
 
     try {
-      await prfsApi.createPrfsProofType(createPrfsProofTypeRequest);
+      await prfsApi.createPrfsSet(createPrfsSetRequest);
       router.push(paths.proof__proof_types);
     } catch (err: any) {
       console.error(err);
@@ -175,17 +105,17 @@ const CreateSetForm: React.FC<CreateSetFormProps> = () => {
     <div className={styles.wrapper}>
       <TopWidgetTitle>
         <div className={styles.header}>
-          <Link href={paths.proof__proof_instances}>
+          <Link href={paths.proof__dynamic_sets}>
             <ArrowButton variant="left" />
           </Link>
-          <WidgetLabel>{i18n.create_proof_type}</WidgetLabel>
+          <WidgetLabel>{i18n.create_dynamic_set}</WidgetLabel>
         </div>
       </TopWidgetTitle>
 
       <ContentAreaRow>
         <Widget>
           <WidgetPaddedBody>
-            <div className={styles.desc}>{i18n.create_proof_type_subtitle}</div>
+            <div className={styles.desc}>{i18n.create_dynamic_set_subtitle}</div>
             <div className={styles.textInputContainer}>
               <FormTextInput label={i18n.name} handleChange={handleChangeName} />
             </div>
@@ -208,32 +138,6 @@ const CreateSetForm: React.FC<CreateSetFormProps> = () => {
           </WidgetPaddedBody>
         </Widget>
       </ContentAreaRow>
-
-      <ContentAreaRow>
-        <Widget>
-          <WidgetHeader>
-            <WidgetLabel>{i18n.choose_circuit}</WidgetLabel>
-          </WidgetHeader>
-          <WidgetPaddedBody>
-            <div className={styles.dropdownContainer}>
-              <div>{i18n.circuit}</div>
-              <CircuitDropdown
-                selectedVal={selectedCircuit}
-                handleSelectVal={handleSelectCircuit}
-              />
-            </div>
-          </WidgetPaddedBody>
-        </Widget>
-      </ContentAreaRow>
-
-      {selectedCircuit && (
-        <ContentAreaRow>
-          <CircuitInputConfigSection
-            circuitInputsMeta={selectedCircuit.circuit_inputs_meta as CircuitInputMeta[]}
-            setCircuitInputs={setCircuitInputs}
-          />
-        </ContentAreaRow>
-      )}
 
       <WidgetPaddedBody>
         <div className={styles.errMsg} style={{ opacity: errMsg.length > 0 ? 1 : 0 }}>

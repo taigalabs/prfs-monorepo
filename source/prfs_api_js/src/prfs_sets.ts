@@ -18,6 +18,13 @@ export async function getPrfsSets(req: GetPrfsSetsRequest) {
   })) as PrfsApiResponse<GetPrfsSetsResponse>;
 }
 
+export async function createPrfsSet(req: GetPrfsSetsRequest) {
+  return (await api({
+    path: "create_prfs_set",
+    req,
+  })) as PrfsApiResponse<GetPrfsSetsResponse>;
+}
+
 export async function getPrfsSetsBySetType(req: GetPrfsSetsBySetTypeRequest) {
   return (await api({
     path: "get_prfs_sets_by_set_type",

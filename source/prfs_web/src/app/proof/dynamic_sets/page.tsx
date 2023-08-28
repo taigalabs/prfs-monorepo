@@ -47,10 +47,10 @@ const DynamicSets: React.FC = () => {
           <ContentAreaHeader>
             <SpacedBetweenArea>
               <WidgetLabel>{i18n.dynamic_sets}</WidgetLabel>
-              <Button variant="transparent_aqua_blue_1" disabled>
-                <Link href={`${paths.proof__sets}?create`}>
+              <Button variant="transparent_aqua_blue_1">
+                <Link href={`${paths.proof__dynamic_sets}?create`}>
                   <AiFillPlusCircle />
-                  <span>{i18n.create_set.toUpperCase()}</span>
+                  <span>{i18n.create_dynamic_set.toUpperCase()}</span>
                 </Link>
               </Button>
             </SpacedBetweenArea>

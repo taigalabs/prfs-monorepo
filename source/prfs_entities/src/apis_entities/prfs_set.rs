@@ -40,3 +40,20 @@ pub struct GetPrfsSetsBySetTypeRequest {
     pub page_size: i32,
     pub set_type: PrfsSetType,
 }
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct CreatePrfsSetRequest {
+    #[ts(type = "'<Uuid>' | string")]
+    pub set_id: Uuid,
+    pub set_type: PrfsSetType,
+    pub label: String,
+    pub author: String,
+    pub desc: String,
+    pub hash_algorithm: String,
+    pub cardinality: i64,
+    pub merkle_root: String,
+    pub element_type: String,
+    pub finite_field: String,
+    pub elliptic_curve: String,
+}

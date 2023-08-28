@@ -1,0 +1,49 @@
+.wrapper {
+  max-width: 760px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  a {
+    margin-right: 14px;
+  }
+}
+
+.textInputContainer {
+  &:not(:first-child) {
+    margin-top: 21px;
+  }
+
+  input,
+  textarea {
+    max-width: 535px;
+    font-size: 14px;
+  }
+}
+
+.dropdownContainer {
+  width: 535px;
+
+  > div:first-child {
+    margin-bottom: 5px;
+  }
+}
+
+.errMsg {
+  border: 1px solid red;
+  border-radius: 5px;
+  color: red;
+  transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  margin-bottom: 24px;
+  width: 420px;
+  padding: 7px 8px;
+}
+
+.desc {
+  width: 520px;
+  color: var(--gray-31);
+  line-height: 1.52em;
+}

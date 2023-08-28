@@ -33,9 +33,3 @@ pub enum PrfsSetType {
     Static,
     Dynamic,
 }
-
-// impl std::fmt::Display for PrfsSetType {
-//     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-//         write!(f, "(123)",)
-//     }
-// }
