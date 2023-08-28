@@ -1,67 +1,86 @@
-"use client";
-
 import React from "react";
 import Link from "next/link";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import { DriverPropertyMeta } from "@taigalabs/prfs-entities/bindings/DriverPropertyMeta";
-import Table, {
-  TableBody,
-  TableHeader,
-  TableData,
-  TableRecordData,
-  TableRow,
-} from "@taigalabs/prfs-react-components/src/table/Table";
+import {
+  ColumnDef,
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 
 import styles from "./DriverPropsMetaTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
+import Table2, { RecordData, Table2Body, Table2Head } from "@/components/table2/Table2";
 
 const DriverPropsMetaTable: React.FC<DriverPropsMetaTableProps> = ({ driverPropsMeta }) => {
   const i18n = React.useContext(i18nContext);
-  const [data, setData] = React.useState<TableData<DriverPropertyMeta>>({
-    page: 0,
-    values: [],
-  });
+
+  const columns = React.useMemo(() => {
+    const cols: ColumnDef<DriverPropertyMeta>[] = [
+      {
+        header: i18n.type,
+        accessorFn: row => row.type,
+        cell: info => info.getValue(),
+      },
+      {
+        header: i18n.label,
+        accessorFn: row => row.label,
+        cell: info => info.getValue(),
+      },
+      {
+        header: i18n.description,
+        accessorFn: row => row.desc,
+        cell: info => info.getValue(),
+      },
+    ];
+
+    return cols;
+  }, [i18n]);
+
+  const [data, setData] = React.useState<DriverPropertyMeta[]>([]);
 
   React.useEffect(() => {
     if (driverPropsMeta) {
-      setData({ page: 0, values: driverPropsMeta });
+      setData(driverPropsMeta);
     }
-  }, [driverPropsMeta, setData]);
+  }, [setData]);
 
-  const rowsElem = React.useMemo(() => {
-    let { values } = data;
-
-    let rows: React.ReactNode[] = [];
-    if (values.length < 1) {
-      return rows;
-    }
-
-    for (const val of values) {
-      let row = (
-        <TableRow key={val.label}>
-          <td className={styles.label}>{val.label}</td>
-          <td className={styles.value}>{val.desc}</td>
-          <td className={styles.value}>{val.type}</td>
-        </TableRow>
-      );
-
-      rows.push(row);
-    }
-
-    return rows;
-  }, [data]);
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <th className={styles.label}>{i18n.label}</th>
-          <th className={styles.value}>{i18n.description}</th>
-          <th className={styles.value}>{i18n.type}</th>
-        </TableRow>
-      </TableHeader>
-      <TableBody>{rowsElem}</TableBody>
-    </Table>
+    <div className={styles.wrapper}>
+      <Table2>
+        <Table2Head>
+          <tr>
+            <th>{i18n.type}</th>
+            <th>{i18n.label}</th>
+            <th>{i18n.description}</th>
+          </tr>
+        </Table2Head>
+
+        <Table2Body>
+          {table.getRowModel().rows.map(row => {
+            return (
+              <tr key={row.id}>
+                {row.getVisibleCells().map(cell => {
+                  return (
+                    <td key={cell.id}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </Table2Body>
+      </Table2>
+    </div>
   );
 };
 
