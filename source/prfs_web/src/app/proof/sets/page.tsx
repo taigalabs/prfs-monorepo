@@ -13,7 +13,11 @@ import SetTable from "@/components/set_table/SetTable";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import { paths } from "@/paths";
-import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
+import {
+  ContentAreaBody,
+  ContentAreaHeader,
+  ContentAreaRow,
+} from "@/components/content_area/ContentArea";
 import { SpacedBetweenArea } from "@/components/area/Area";
 import { PaddedTableWrapper } from "@/components/table2/Table2";
 
@@ -36,11 +40,14 @@ const Sets: React.FC = () => {
           </Button>
         </SpacedBetweenArea>
       </ContentAreaHeader>
-      <ContentAreaRow>
-        <PaddedTableWrapper>
-          <SetTable />
-        </PaddedTableWrapper>
-      </ContentAreaRow>
+
+      <ContentAreaBody>
+        <ContentAreaRow>
+          <PaddedTableWrapper>
+            <SetTable />
+          </PaddedTableWrapper>
+        </ContentAreaRow>
+      </ContentAreaBody>
     </DefaultLayout>
   );
 };
