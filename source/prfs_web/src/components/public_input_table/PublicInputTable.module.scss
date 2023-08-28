@@ -1,0 +1,15 @@
+.wrapper {
+  width: 100%;
+
+  tbody {
+    tr {
+      td:first-child {
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+.level2 {
+  margin-left: 24px;
+}

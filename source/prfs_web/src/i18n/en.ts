@@ -28,6 +28,7 @@ export default {
   desc_1: "a",
   desc_2: "b",
   desc_3: "c",
+  key: "Key",
   value: "Value",
   learn: "Learn",
   search: "Search",
