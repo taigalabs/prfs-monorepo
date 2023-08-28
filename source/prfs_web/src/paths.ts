@@ -14,5 +14,5 @@ export const paths = {
   proof__circuit_drivers: "/proof/circuit_drivers",
   proof__circuit_types: "/proof/circuit_types",
   proof__sets: "/proof/sets",
-  proof__dynamic_sets: "/proof/#dynamic_sets",
+  proof__dynamic_sets: "/proof/dynamic_sets",
 };
