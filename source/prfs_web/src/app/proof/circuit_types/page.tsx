@@ -13,7 +13,11 @@ import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import CircuitTypeTable from "@/components/circuit_type_table/CircuitTypeTable";
 import { paths } from "@/paths";
-import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
+import {
+  ContentAreaBody,
+  ContentAreaHeader,
+  ContentAreaRow,
+} from "@/components/content_area/ContentArea";
 import { SpacedBetweenArea } from "@/components/area/Area";
 import { PaddedTableWrapper } from "@/components/table2/Table2";
 
@@ -36,13 +40,14 @@ const CircuitTypes: React.FC = () => {
           </Button>
         </SpacedBetweenArea>
       </ContentAreaHeader>
-      <ContentAreaRow>
-        <PaddedTableWrapper>
-          <div className={styles.tableContainer}>
+
+      <ContentAreaBody>
+        <ContentAreaRow>
+          <PaddedTableWrapper>
             <CircuitTypeTable />
-          </div>
-        </PaddedTableWrapper>
-      </ContentAreaRow>
+          </PaddedTableWrapper>
+        </ContentAreaRow>
+      </ContentAreaBody>
     </DefaultLayout>
   );
 };

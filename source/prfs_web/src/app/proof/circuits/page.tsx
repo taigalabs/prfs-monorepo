@@ -13,7 +13,11 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import CircuitTable from "@/components/circuit_table/CircuitTable";
 import Link from "next/link";
 import { paths } from "@/paths";
-import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
+import {
+  ContentAreaBody,
+  ContentAreaHeader,
+  ContentAreaRow,
+} from "@/components/content_area/ContentArea";
 import { SpacedBetweenArea } from "@/components/area/Area";
 import { PaddedTableWrapper } from "@/components/table2/Table2";
 
@@ -36,13 +40,14 @@ const Circuits: React.FC = () => {
           </Button>
         </SpacedBetweenArea>
       </ContentAreaHeader>
-      <ContentAreaRow>
-        <PaddedTableWrapper>
-          <div className={styles.circuitTableContainer}>
+
+      <ContentAreaBody>
+        <ContentAreaRow>
+          <PaddedTableWrapper>
             <CircuitTable />
-          </div>
-        </PaddedTableWrapper>
-      </ContentAreaRow>
+          </PaddedTableWrapper>
+        </ContentAreaRow>
+      </ContentAreaBody>
     </DefaultLayout>
   );
 };

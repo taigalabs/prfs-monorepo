@@ -15,7 +15,11 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import ProofInstanceTable from "@/components/proof_instance_table/ProofInstanceTable";
 import CreateProofInstanceForm from "@/components/create_proof_instance_form/CreateProofInstanceForm";
 import { paths } from "@/paths";
-import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
+import {
+  ContentAreaBody,
+  ContentAreaHeader,
+  ContentAreaRow,
+} from "@/components/content_area/ContentArea";
 import { SpacedBetweenArea } from "@/components/area/Area";
 import { PaddedTableWrapper } from "@/components/table2/Table2";
 
@@ -52,13 +56,13 @@ const Proofs: React.FC = () => {
               </Button>
             </SpacedBetweenArea>
           </ContentAreaHeader>
-          <ContentAreaRow>
-            <PaddedTableWrapper>
-              <div className={styles.tableContainer}>
+          <ContentAreaBody>
+            <ContentAreaRow>
+              <PaddedTableWrapper>
                 <ProofInstanceTable />
-              </div>
-            </PaddedTableWrapper>
-          </ContentAreaRow>
+              </PaddedTableWrapper>
+            </ContentAreaRow>
+          </ContentAreaBody>
         </>
       )}
     </DefaultLayout>
