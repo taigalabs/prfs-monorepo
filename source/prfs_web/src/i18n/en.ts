@@ -90,6 +90,7 @@ export default {
   proofs: "Proofs",
   forest: "Forest",
   proof: "Proof",
+  circuit_driver_search_guide: "Search circuit drivers",
   show_more: "Show more",
   url: "URL",
   vote: "Vote",

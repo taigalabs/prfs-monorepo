@@ -13,13 +13,13 @@ import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsPro
 import { TableSearch } from "@taigalabs/prfs-react-components/src/table/Table";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
+import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
 
 import styles from "./ProofInstanceTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import Table2, { Table2Body, Table2Head, Table2Pagination } from "@/components/table2/Table2";
-import ProofImage from "../proof_image/ProofImage";
-import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
+import ProofImage from "@/components/proof_image/ProofImage";
 
 const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
   selectType,

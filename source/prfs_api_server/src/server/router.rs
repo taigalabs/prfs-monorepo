@@ -43,8 +43,12 @@ pub fn make_router(
             prfs_circuit_types::get_prfs_circuit_type_by_circuit_type,
         )
         .post(
-            format!("{}/get_prfs_native_circuit_drivers", PREFIX),
-            prfs_circuit_drivers::get_prfs_native_circuit_drivers,
+            format!("{}/get_prfs_circuit_drivers", PREFIX),
+            prfs_circuit_drivers::get_prfs_circuit_drivers,
+        )
+        .post(
+            format!("{}/get_prfs_circuit_driver_by_driver_id", PREFIX),
+            prfs_circuit_drivers::get_prfs_circuit_driver_by_driver_id,
         )
         .post(
             format!("{}/create_prfs_proof_instance", PREFIX),
