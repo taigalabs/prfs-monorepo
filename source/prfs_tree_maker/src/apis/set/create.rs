@@ -14,6 +14,7 @@ pub async fn create_set(
 
     let prfs_set = PrfsSet {
         set_id: uuid::Uuid::default(),
+        set_type: set_json.set.set_type.to_string(),
         label: set_json.set.label.to_string(),
         author: set_json.set.author.to_string(),
         desc: set_json.set.desc.to_string(),

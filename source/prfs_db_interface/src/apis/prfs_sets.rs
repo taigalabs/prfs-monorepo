@@ -4,7 +4,7 @@ use crate::{
     DbInterfaceError,
 };
 use chrono::{DateTime, Utc};
-use prfs_entities::entities::PrfsSet;
+use prfs_entities::entities::{PrfsSet, PrfsSetType};
 use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 
 pub async fn get_prfs_set_by_set_id(
@@ -34,6 +34,7 @@ pub async fn get_prfs_set_by_set_id(
         .try_get("elliptic_curve")
         .expect("invalid element_curve");
     let finite_field: String = row.try_get("finite_field").expect("invalid finite_field");
+    let set_type: PrfsSetType = row.try_get("set_type").expect("invalid set_type");
 
     let s = PrfsSet {
         set_id,
@@ -47,6 +48,7 @@ pub async fn get_prfs_set_by_set_id(
         element_type,
         elliptic_curve,
         finite_field,
+        set_type,
     };
 
     Ok(s)
@@ -90,6 +92,7 @@ OFFSET $2
             let elliptic_curve: String =
                 r.try_get("elliptic_curve").expect("invalid element_curve");
             let finite_field: String = r.try_get("finite_field").expect("invalid finite_field");
+            let set_type: PrfsSetType = r.try_get("set_type").expect("invalid set_type");
 
             PrfsSet {
                 set_id,
@@ -103,6 +106,7 @@ OFFSET $2
                 element_type,
                 elliptic_curve,
                 finite_field,
+                set_type,
             }
         })
         .collect();
