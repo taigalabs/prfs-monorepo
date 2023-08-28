@@ -15,12 +15,13 @@ import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import { paths } from "@/paths";
-import DriverPropInstanceTable from "@/components/driver_prop_instance_table/DriverPropInstanceTable";
+import DriverPropsTable from "@/components/driver_props_table/DriverPropsTable";
 import RawCircuitInputMetaTable from "@/components/raw_circuit_input_meta_table/RawCircuitInputMetaTable";
 import CircuitInputMetaTable from "@/components/circuit_input_meta_table/CircuitInputMetaTable";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 import CircuitDetailTable from "@/components/circuit_detail_table/CircuitDetailTable";
+import CircuitInputsMetaTable from "@/components/circuit_inputs_meta_table/CircuitInputsMetaTable";
 
 const Circuit: React.FC<CircuitProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -70,7 +71,7 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
               <div className={styles.tableTitle}>
                 {i18n.driver_properties} ({circuit.circuit_driver_id})
               </div>
-              <DriverPropInstanceTable driver_properties={circuit.driver_properties} />
+              <DriverPropsTable driver_properties={circuit.driver_properties} />
             </div>
           </ContentAreaRow>
         )}
@@ -79,7 +80,7 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
           <ContentAreaRow>
             <div className={styles.singleColRow}>
               <div className={styles.tableTitle}>{i18n.circuit_inputs}</div>
-              <CircuitInputMetaTable
+              <CircuitInputsMetaTable
                 circuit_inputs_meta={circuit.circuit_inputs_meta as CircuitInputMeta[]}
               />
             </div>

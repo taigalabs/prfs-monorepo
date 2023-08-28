@@ -10,11 +10,11 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import styles from "./DriverPropInstanceTable.module.scss";
+import styles from "./DriverPropsTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Table2, { RecordData, Table2Body, Table2Head } from "@/components/table2/Table2";
 
-const DriverPropInstanceTable: React.FC<DriverPropInstanceTableProps> = ({
+const DriverPropsTable: React.FC<DriverPropsTableProps> = ({
   driver_properties,
   selectType,
   selectedVal,
@@ -88,9 +88,9 @@ const DriverPropInstanceTable: React.FC<DriverPropInstanceTableProps> = ({
   );
 };
 
-export default DriverPropInstanceTable;
+export default DriverPropsTable;
 
-interface DriverPropInstanceTableProps {
+interface DriverPropsTableProps {
   driver_properties: Record<string, any>;
   selectType?: "checkbox" | "radio";
   selectedVal?: PrfsCircuit;
