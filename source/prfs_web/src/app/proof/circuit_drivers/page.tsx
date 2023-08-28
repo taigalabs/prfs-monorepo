@@ -13,7 +13,11 @@ import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import DriverTable from "@/components/driver_table/DriverTable";
 import { paths } from "@/paths";
-import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
+import {
+  ContentAreaBody,
+  ContentAreaHeader,
+  ContentAreaRow,
+} from "@/components/content_area/ContentArea";
 import { SpacedBetweenArea } from "@/components/area/Area";
 import { PaddedTableWrapper } from "@/components/table2/Table2";
 
@@ -36,13 +40,15 @@ const Programs: React.FC = () => {
           </Button>
         </SpacedBetweenArea>
       </ContentAreaHeader>
-      <ContentAreaRow>
-        <PaddedTableWrapper>
-          <div className={styles.tableContainer}>
-            <DriverTable />
-          </div>
-        </PaddedTableWrapper>
-      </ContentAreaRow>
+      <ContentAreaBody>
+        <ContentAreaRow>
+          <PaddedTableWrapper>
+            <div className={styles.tableContainer}>
+              <DriverTable />
+            </div>
+          </PaddedTableWrapper>
+        </ContentAreaRow>
+      </ContentAreaBody>
     </DefaultLayout>
   );
 };
