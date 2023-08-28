@@ -8,9 +8,8 @@ import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
-import { PrfsCircuitSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsCircuitSyn1";
 
-import styles from "./CreateProofTypeForm.module.scss";
+import styles from "./CreateSetForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Widget, {
   TopWidgetTitle,
@@ -25,8 +24,9 @@ import CircuitInputConfigSection from "@/components/circuit_input_config_section
 import { paths } from "@/paths";
 import FormTextareaInput from "@/components/form/FormTextareaInput";
 import { ContentAreaRow } from "../content_area/ContentArea";
+import { PrfsCircuitSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsCircuitSyn1";
 
-const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
+const CreateSetForm: React.FC<CreateSetFormProps> = () => {
   const i18n = React.useContext(i18nContext);
   const { state } = React.useContext(stateContext);
   const { localPrfsAccount } = state;
@@ -248,6 +248,6 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   );
 };
 
-export default CreateProofTypeForm;
+export default CreateSetForm;
 
-export interface CreateProofTypeFormProps {}
+export interface CreateSetFormProps {}

@@ -20,6 +20,8 @@ import {
 } from "@/components/content_area/ContentArea";
 import { SpacedBetweenArea } from "@/components/area/Area";
 import { PaddedTableWrapper } from "@/components/table2/Table2";
+import { useSearchParams } from "next/navigation";
+import CreateSetForm from "@/components/create_set_form/CreateSetForm";
 
 const Sets: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -44,7 +46,7 @@ const Sets: React.FC = () => {
       <ContentAreaBody>
         <ContentAreaRow>
           <PaddedTableWrapper>
-            <SetTable />
+            <SetTable setType="Static" />
           </PaddedTableWrapper>
         </ContentAreaRow>
       </ContentAreaBody>

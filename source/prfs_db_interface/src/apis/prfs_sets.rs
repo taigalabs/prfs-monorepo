@@ -114,6 +114,69 @@ OFFSET $2
     Ok(prfs_sets)
 }
 
+pub async fn get_prfs_sets_by_set_type(
+    pool: &Pool<Postgres>,
+    set_type: PrfsSetType,
+    page_idx: i32,
+    page_size: i32,
+) -> Result<Vec<PrfsSet>, DbInterfaceError> {
+    let query = r#"
+SELECT * 
+FROM prfs_sets
+WHERE set_type=$1
+ORDER BY created_at
+LIMIT $2
+OFFSET $3
+"#;
+
+    let offset = page_idx * page_size;
+
+    let rows = sqlx::query(&query)
+        .bind(set_type)
+        .bind(page_size)
+        .bind(offset)
+        .fetch_all(pool)
+        .await
+        .unwrap();
+
+    let prfs_sets: Vec<PrfsSet> = rows
+        .iter()
+        .map(|r| {
+            let set_id: uuid::Uuid = r.try_get("set_id").expect("invalid set_id");
+            let label: String = r.try_get("label").expect("invalid label");
+            let author: String = r.try_get("author").expect("invalid author");
+            let desc: String = r.try_get("desc").expect("invalid desc");
+            let hash_algorithm: String =
+                r.try_get("hash_algorithm").expect("invalid hash_algorithm");
+            let cardinality: i64 = r.try_get("cardinality").expect("invalid cardinality");
+            let created_at: DateTime<Utc> = r.try_get("created_at").expect("invalid created_at");
+            let merkle_root: String = r.try_get("merkle_root").expect("invalid merkle_root");
+            let element_type: String = r.try_get("element_type").expect("invalid element_type");
+            let elliptic_curve: String =
+                r.try_get("elliptic_curve").expect("invalid element_curve");
+            let finite_field: String = r.try_get("finite_field").expect("invalid finite_field");
+            let set_type: PrfsSetType = r.try_get("set_type").expect("invalid set_type");
+
+            PrfsSet {
+                set_id,
+                label,
+                author,
+                desc,
+                hash_algorithm,
+                cardinality,
+                created_at,
+                merkle_root,
+                element_type,
+                elliptic_curve,
+                finite_field,
+                set_type,
+            }
+        })
+        .collect();
+
+    Ok(prfs_sets)
+}
+
 pub async fn insert_prfs_set(
     tx: &mut Transaction<'_, Postgres>,
     prfs_set: &PrfsSet,

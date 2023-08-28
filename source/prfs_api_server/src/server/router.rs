@@ -91,6 +91,10 @@ pub fn make_router(
             prfs_sets::get_prfs_sets,
         )
         .post(
+            format!("{}/get_prfs_sets_by_set_type", PREFIX),
+            prfs_sets::get_prfs_sets_by_set_type,
+        )
+        .post(
             format!("{}/get_prfs_set_by_set_id", PREFIX),
             prfs_sets::get_prfs_set_by_set_id,
         )

@@ -22,8 +22,14 @@ import Table2, {
   Table2Pagination,
   TableSearch,
 } from "@/components/table2/Table2";
+import { PrfsSetType } from "@taigalabs/prfs-entities/bindings/PrfsSetType";
 
-const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSelectVal }) => {
+const SetTable: React.FC<SetTableProps> = ({
+  selectType,
+  selectedVal,
+  handleSelectVal,
+  setType,
+}) => {
   const i18n = React.useContext(i18nContext);
   const [data, setData] = React.useState<PrfsSet[]>([]);
   const router = useRouter();
@@ -70,9 +76,10 @@ const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSele
 
   React.useEffect(() => {
     async function fn() {
-      const { payload } = await prfsApi.getPrfsSets({
+      const { payload } = await prfsApi.getPrfsSetsBySetType({
         page_idx: pageIndex,
         page_size: 20,
+        set_type: setType,
       });
 
       setData(payload.prfs_sets);
@@ -150,4 +157,5 @@ export interface SetTableProps {
   selectType?: "checkbox" | "radio";
   selectedVal?: PrfsSet;
   handleSelectVal?: (row: PrfsSet) => void;
+  setType: PrfsSetType;
 }
