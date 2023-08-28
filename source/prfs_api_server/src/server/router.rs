@@ -35,8 +35,12 @@ pub fn make_router(
             prfs_circuits::get_prfs_circuit_by_circuit_id,
         )
         .post(
-            format!("{}/get_prfs_native_circuit_types", PREFIX),
-            prfs_circuit_types::get_prfs_native_circuit_types,
+            format!("{}/get_prfs_circuit_types", PREFIX),
+            prfs_circuit_types::get_prfs_circuit_types,
+        )
+        .post(
+            format!("{}/get_prfs_circuit_type_by_circuit_type", PREFIX),
+            prfs_circuit_types::get_prfs_circuit_type_by_circuit_type,
         )
         .post(
             format!("{}/get_prfs_native_circuit_drivers", PREFIX),

@@ -1,35 +1,21 @@
 import { PrfsApiResponse } from "./types";
-import { PrfsCircuitType } from "@taigalabs/prfs-entities/bindings/PrfsCircuitType";
+import { GetPrfsCircuitTypesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitTypesRequest";
+import { GetPrfsCircuitTypesResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitTypesResponse";
+import { GetPrfsCircuitTypeByCircuitTypeRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitTypeByCircuitTypeRequest";
+import { GetPrfsCircuitTypeByCircuitTypeResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitTypeByCircuitTypeResponse";
 
 import { api } from "./utils";
 
-export interface GetNativeCircuitTypesRequest {
-  page: number;
-  circuit_type_id?: string;
+export async function getPrfsCircuitTypes(req: GetPrfsCircuitTypesRequest) {
+  return (await api({
+    path: `get_prfs_circuit_types`,
+    req,
+  })) as PrfsApiResponse<GetPrfsCircuitTypesResponse>;
 }
 
-export type GetNativeCircuitTypesResponse = PrfsApiResponse<{
-  page: number;
-  prfs_circuit_types: PrfsCircuitType[];
-}>;
-
-export async function getPrfsNativeCircuitTypes({
-  page,
-  circuit_type_id,
-}: GetNativeCircuitTypesRequest) {
-  let req: GetNativeCircuitTypesRequest = {
-    page,
-    circuit_type_id,
-  };
-
-  try {
-    let resp: GetNativeCircuitTypesResponse = await api({
-      path: `get_prfs_native_circuit_types`,
-      req,
-    });
-    return resp;
-  } catch (err) {
-    console.log("error fetching", err);
-    throw err;
-  }
+export async function getPrfsCircuitTypeByCircuitType(req: GetPrfsCircuitTypeByCircuitTypeRequest) {
+  return (await api({
+    path: `get_prfs_circuit_type_by_circuit_type`,
+    req,
+  })) as PrfsApiResponse<GetPrfsCircuitTypeByCircuitTypeResponse>;
 }

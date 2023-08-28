@@ -30,10 +30,10 @@ from prfs_circuit_types"#;
     return circuit_types;
 }
 
-pub async fn get_prfs_circuit_types_by_circuit_type(
+pub async fn get_prfs_circuit_type_by_circuit_type(
     pool: &Pool<Postgres>,
     circuit_type: &String,
-) -> Vec<PrfsCircuitType> {
+) -> PrfsCircuitType {
     let query = r#"
 select *
 from prfs_circuit_types
@@ -41,23 +41,20 @@ where circuit_type=$1"#;
 
     println!("query: {}", query);
 
-    let rows = sqlx::query(query)
+    let row = sqlx::query(query)
         .bind(&circuit_type)
-        .fetch_all(pool)
+        .fetch_one(pool)
         .await
         .unwrap();
 
-    let circuit_types = rows
-        .iter()
-        .map(|row| PrfsCircuitType {
-            circuit_type: row.get("circuit_type"),
-            desc: row.get("desc"),
-            author: row.get("author"),
-            circuit_inputs_meta: row.get("circuit_inputs_meta"),
-            public_inputs_meta: row.get("public_inputs_meta"),
-            created_at: row.get("created_at"),
-        })
-        .collect();
+    let circuit_types = PrfsCircuitType {
+        circuit_type: row.get("circuit_type"),
+        desc: row.get("desc"),
+        author: row.get("author"),
+        circuit_inputs_meta: row.get("circuit_inputs_meta"),
+        public_inputs_meta: row.get("public_inputs_meta"),
+        created_at: row.get("created_at"),
+    };
 
     return circuit_types;
 }

@@ -22,28 +22,23 @@ import CircuitTypeDetailTable from "@/components/circuit_type_detail_table/Circu
 const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
   const { dispatch } = React.useContext(stateContext);
-  const router = useRouter();
   const [circuitType, setCircuitType] = React.useState<PrfsCircuitType>();
 
-  const topWidgetLabel = `${i18n.circuit_type} - ${params.circuit_type_id}`;
+  const topWidgetLabel = `${i18n.circuit_type} - ${params.circuit_type}`;
 
   useLocalWallet(dispatch);
 
   React.useEffect(() => {
-    prfsApi
-      .getPrfsNativeCircuitTypes({
-        page: 0,
-        circuit_type_id: params.circuit_type_id,
-      })
-      .then(resp => {
-        const { prfs_circuit_types } = resp.payload;
-
-        if (prfs_circuit_types.length > 0) {
-          setCircuitType(prfs_circuit_types[0]);
-        } else {
-          router.push("/circuits");
-        }
+    async function fn() {
+      const { payload } = await prfsApi.getPrfsCircuitTypeByCircuitType({
+        circuit_type: params.circuit_type,
       });
+
+      const { prfs_circuit_type } = payload;
+      setCircuitType(prfs_circuit_type);
+    }
+
+    fn().then();
   }, [setCircuitType]);
 
   return (
@@ -85,6 +80,6 @@ export default CircuitType;
 
 interface CircuitTypeProps {
   params: {
-    circuit_type_id: string;
+    circuit_type: string;
   };
 }
