@@ -30,6 +30,7 @@ export default {
   desc_3: "c",
   key: "Key",
   value: "Value",
+  meta: "Meta",
   learn: "Learn",
   search: "Search",
   search_guide: "Search for a proof (type), circuits, sets and others",
@@ -83,10 +84,12 @@ export default {
   select_proof_type: "Select a proof type",
   configuration: "Configuration",
   create_proof_type: "Create proof type",
+  create_set_element: "Create set element",
   create_proof_instance_subtitle:
     "Proofs allow you to make an undeniable, anonymous claim. Start by choosing a specific proof type you want to make",
   create_proof_type_subtitle:
     "Proof instances are created based upon the type that is preconfigured. Start by choosing the circuit (program) and the reference values.",
+  create_dynamic_set_element_subtitle: "You can add a new item to dynamic sets",
   proofs: "Proofs",
   forest: "Forest",
   proof: "Proof",
@@ -106,6 +109,7 @@ export default {
   create_proof: "Create proof",
   proof_dashboard: "Proof dashboard",
   create_proof_instance: "Create proof instance",
+  compute_merkle_root: "Compute Merkle root",
   create: "Create",
   create_circuit: "Create circuit",
   create_set: "Create set",
