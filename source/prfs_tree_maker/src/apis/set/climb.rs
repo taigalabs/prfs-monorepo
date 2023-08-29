@@ -68,6 +68,7 @@ pub async fn create_tree_nodes(
             let n = PrfsTreeNode {
                 pos_w: Decimal::from(idx),
                 pos_h: (d + 1) as i32,
+                meta: None,
                 val,
                 set_id,
                 // set_id2: uuid::Uuid::default(),

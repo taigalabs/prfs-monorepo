@@ -25,8 +25,8 @@ const CircuitInputTable: React.FC<CircuitInputTableProps> = ({ circuit_inputs })
         cell: info => info.getValue(),
       },
       {
-        header: i18n.description,
-        accessorFn: row => row.desc,
+        header: i18n.value,
+        accessorFn: row => row.value,
         cell: info => info.getValue(),
       },
       {

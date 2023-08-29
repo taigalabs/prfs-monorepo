@@ -41,6 +41,8 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
 
   const proofTypeSummaryLabel = `${i18n.proof_type_summary_label} ${params.proof_type_id}`;
 
+  console.log(22, proofType?.circuit_inputs);
+
   return (
     <DefaultLayout>
       <ContentAreaHeader>
