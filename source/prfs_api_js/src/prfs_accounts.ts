@@ -1,16 +1,21 @@
+import { PrfsAccount } from "@taigalabs/prfs-entities/bindings/PrfsAccount";
+import { SignUpRequest } from "@taigalabs/prfs-entities/bindings/SignUpRequest";
+import { SignUpResponse } from "@taigalabs/prfs-entities/bindings/SignUpResponse";
+import { SignInRequest } from "@taigalabs/prfs-entities/bindings/SignInRequest";
+import { SignInResponse } from "@taigalabs/prfs-entities/bindings/SignInResponse";
+
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
-import { PrfsAccount } from "@taigalabs/prfs-entities/bindings/PrfsAccount";
 
-export interface SignUpRequest {
-  sig: string;
-  avatarColor: string;
-}
+// export interface SignUpRequest {
+//   sig: string;
+//   avatarColor: string;
+// }
 
-export type SignUpResponse = PrfsApiResponse<{
-  sig: string;
-  id: string;
-}>;
+// export type SignUpResponse = PrfsApiResponse<{
+//   sig: string;
+//   id: string;
+// }>;
 
 export async function signUpPrfsAccount(req: SignUpRequest) {
   try {
@@ -26,13 +31,13 @@ export async function signUpPrfsAccount(req: SignUpRequest) {
   }
 }
 
-export interface SignInRequest {
-  sig: string;
-}
+// export interface SignInRequest {
+//   sig: string;
+// }
 
-export type SignInResponse = PrfsApiResponse<{
-  prfs_account: PrfsAccount;
-}>;
+// export type SignInResponse = PrfsApiResponse<{
+//   prfs_account: PrfsAccount;
+// }>;
 
 export async function signInPrfsAccount(req: SignInRequest) {
   try {

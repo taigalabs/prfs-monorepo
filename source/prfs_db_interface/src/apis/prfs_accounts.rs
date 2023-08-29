@@ -1,4 +1,4 @@
-use crate::{database2::Database2, DbInterfaceError};
+use crate::DbInterfaceError;
 use prfs_entities::entities::PrfsAccount;
 use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 
@@ -24,7 +24,7 @@ pub async fn insert_prfs_account(
 ) -> Result<String, DbInterfaceError> {
     let query = "INSERT INTO prfs_accounts \
             (sig, avatar_color) \
-            VALUES ($1) returning sig";
+            VALUES ($1, $2) returning sig";
 
     let row = sqlx::query(query)
         .bind(&prfs_account.sig)

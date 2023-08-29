@@ -1,5 +1,4 @@
 import { PrfsApiResponse } from "./types";
-import { PrfsCircuitDriver } from "@taigalabs/prfs-entities/bindings/PrfsCircuitDriver";
 import { GetPrfsCircuitDriversRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitDriversRequest";
 import { GetPrfsCircuitDriversResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitDriversResponse";
 import { GetPrfsCircuitDriverByDriverIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitDriverByDriverIdRequest";
