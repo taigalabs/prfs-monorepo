@@ -2,6 +2,7 @@ use crate::{database2::Database2, DbInterfaceError};
 use prfs_entities::apis_entities::NodePos;
 use prfs_entities::entities::PrfsTreeNode;
 use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
+use rust_decimal::Decimal;
 use uuid::Uuid;
 
 pub async fn get_prfs_tree_nodes_by_pos(
@@ -201,4 +202,54 @@ pub async fn insert_prfs_tree_nodes(
     let result = sqlx::query(&query).execute(&mut **tx).await.unwrap();
 
     Ok(result.rows_affected())
+}
+
+pub async fn get_largest_pos_w_tree_leaf_node(
+    pool: &Pool<Postgres>,
+    set_id: &Uuid,
+) -> Result<Option<Decimal>, DbInterfaceError> {
+    let query = r#"
+SELECT * FROM prfs_tree_nodes
+where set_id=$1 and pos_h=31
+ORDER BY pos_w desc
+"#;
+    // println!("query: {}", query);
+
+    let row = sqlx::query(&query)
+        .bind(&set_id)
+        .fetch_optional(pool)
+        .await
+        .unwrap();
+
+    if let Some(r) = row {
+        let pos_w: Decimal = r.get("pos_w");
+
+        Ok(Some(pos_w))
+    } else {
+        return Ok(None);
+    }
+}
+
+pub async fn insert_prfs_tree_node(
+    tx: &mut Transaction<'_, Postgres>,
+    node: &PrfsTreeNode,
+) -> Result<Decimal, DbInterfaceError> {
+    let query = r#"
+INSERT INTO prfs_tree_nodes
+(set_id, pos_w, pos_h, val, meta
+VALUES ($1, $2, $3, $4, $5) returning pos_w"#;
+
+    let row = sqlx::query(query)
+        .bind(&node.set_id)
+        .bind(&node.pos_w)
+        .bind(&node.pos_h)
+        .bind(&node.val)
+        .bind(&node.meta)
+        .fetch_one(&mut **tx)
+        .await
+        .unwrap();
+
+    let pos_w: Decimal = row.get("pos_w");
+
+    return Ok(pos_w);
 }

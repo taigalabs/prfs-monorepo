@@ -1,11 +1,16 @@
 use hyper::{body, Body, Request, Response};
 use prfs_db_interface::db_apis;
-use prfs_entities::apis_entities::{
-    CreatePrfsSetRequest, CreatePrfsSetResponse, GetPrfsSetBySetIdRequest,
-    GetPrfsSetBySetIdResponse, GetPrfsSetsBySetTypeRequest, GetPrfsSetsRequest,
-    GetPrfsSetsResponse, GetPrfsTreeLeafNodesRequest,
+use prfs_entities::{
+    apis_entities::{
+        CreatePrfsDynamicSetElementRequest, CreatePrfsDynamicSetElementResponse,
+        CreatePrfsSetRequest, CreatePrfsSetResponse, GetPrfsSetBySetIdRequest,
+        GetPrfsSetBySetIdResponse, GetPrfsSetsBySetTypeRequest, GetPrfsSetsRequest,
+        GetPrfsSetsResponse, GetPrfsTreeLeafNodesRequest,
+    },
+    entities::PrfsTreeNode,
 };
 use routerify::prelude::*;
+use rust_decimal::Decimal;
 use std::{convert::Infallible, sync::Arc};
 
 use crate::{
@@ -75,6 +80,43 @@ pub async fn create_prfs_set(req: Request<Body>) -> Result<Response<Body>, Infal
     let resp = ApiResponse::new_success(CreatePrfsSetResponse { set_id });
 
     tx.commit().await.unwrap();
+
+    return Ok(resp.into_hyper_response());
+}
+
+pub async fn create_prfs_dynamic_set_element(
+    req: Request<Body>,
+) -> Result<Response<Body>, Infallible> {
+    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+    let req: CreatePrfsDynamicSetElementRequest = parse_req(req).await;
+    let pool = &state.db2.pool;
+    let mut tx = pool.begin().await.unwrap();
+
+    let largest_pos_w = db_apis::get_largest_pos_w_tree_leaf_node(&pool, &req.set_id)
+        .await
+        .unwrap();
+
+    let pos_w = if let Some(pos_w) = largest_pos_w {
+        pos_w + Decimal::from(1)
+    } else {
+        Decimal::from(0)
+    };
+
+    let node = PrfsTreeNode {
+        pos_w,
+        pos_h: 0,
+        val: req.val.to_string(),
+        meta: Some(req.meta),
+        set_id: req.set_id,
+    };
+
+    let pos_w = db_apis::insert_prfs_tree_node(&mut tx, &node)
+        .await
+        .unwrap();
+
+    tx.commit().await.unwrap();
+
+    let resp = ApiResponse::new_success(CreatePrfsDynamicSetElementResponse { pos_w });
 
     return Ok(resp.into_hyper_response());
 }

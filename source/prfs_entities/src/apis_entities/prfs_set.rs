@@ -56,3 +56,19 @@ pub struct CreatePrfsSetResponse {
     #[ts(type = "string")]
     pub set_id: Uuid,
 }
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct CreatePrfsDynamicSetElementRequest {
+    #[ts(type = "string")]
+    pub set_id: Uuid,
+    pub val: String,
+    pub meta: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct CreatePrfsDynamicSetElementResponse {
+    #[ts(type = "number")]
+    pub pos_w: Decimal,
+}

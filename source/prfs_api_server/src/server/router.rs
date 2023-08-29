@@ -75,6 +75,10 @@ pub fn make_router(
             prfs_tree_nodes::get_prfs_tree_nodes_by_pos,
         )
         .post(
+            format!("{}/create_prfs_dynamic_set_element", PREFIX),
+            prfs_sets::create_prfs_dynamic_set_element,
+        )
+        .post(
             format!("{}/get_prfs_tree_nodes_by_pos", PREFIX),
             prfs_tree_nodes::get_prfs_tree_nodes_by_pos,
         )

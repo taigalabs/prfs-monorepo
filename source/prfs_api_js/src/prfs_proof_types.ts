@@ -30,6 +30,13 @@ export async function createPrfsProofType(req: CreatePrfsProofTypeRequest) {
   })) as PrfsApiResponse<CreatePrfsProofTypeResponse>;
 }
 
+export async function addPrfsDynamicSetElement(req: CreatePrfsProofTypeRequest) {
+  return (await api({
+    path: `add_prfs_dynamic_set_element`,
+    req,
+  })) as PrfsApiResponse<CreatePrfsProofTypeResponse>;
+}
+
 export async function getPrfsProofTypes(req: GetPrfsProofTypesRequest) {
   return (await api({
     path: `get_prfs_proof_types`,
