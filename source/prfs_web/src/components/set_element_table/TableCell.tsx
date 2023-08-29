@@ -1,18 +1,21 @@
+import { PrfsTreeNode } from "@taigalabs/prfs-entities/bindings/PrfsTreeNode";
+import { CellContext } from "@tanstack/react-table";
 import { useState, useEffect, ChangeEvent } from "react";
-import "./table.css";
 
 type Option = {
   label: string;
   value: string;
 };
 
-export const TableCell = ({ getValue, row, column, table }: any) => {
+export const TableCell = ({ getValue, row, column, table }: CellContext<PrfsTreeNode, any>) => {
   const initialValue = getValue();
-  const columnMeta = column.columnDef.meta;
-  const tableMeta = table.options.meta;
+  const columnMeta = column.columnDef.meta as any;
+  const tableMeta = table.options.meta as any;
   const [value, setValue] = useState(initialValue);
 
   useEffect(() => {
+    console.log(44, row.index);
+
     setValue(initialValue);
   }, [initialValue]);
 
@@ -24,8 +27,6 @@ export const TableCell = ({ getValue, row, column, table }: any) => {
     setValue(e.target.value);
     tableMeta?.updateData(row.index, column.id, e.target.value);
   };
-
-  console.log(55, row.id);
 
   if (tableMeta?.editedRows[row.id]) {
     return columnMeta?.type === "select" ? (
@@ -45,5 +46,6 @@ export const TableCell = ({ getValue, row, column, table }: any) => {
       />
     );
   }
+
   return <span>{value}</span>;
 };

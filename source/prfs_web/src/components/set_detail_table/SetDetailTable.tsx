@@ -100,7 +100,9 @@ const SetDetailTable: React.FC<SetDetailTableProps> = ({ prfsSet }) => {
                   {row.getVisibleCells().map(cell => {
                     return (
                       <td key={cell.id}>
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        <div className={styles.cell}>
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </div>
                       </td>
                     );
                   })}

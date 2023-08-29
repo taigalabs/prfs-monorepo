@@ -1,3 +1,16 @@
+.wrapper {
+  tbody {
+    td {
+      vertical-align: top;
+    }
+  }
+}
+
 .label {
   font-weight: 500;
+}
+
+.cell {
+  max-width: 500px;
+  word-wrap: break-word;
 }

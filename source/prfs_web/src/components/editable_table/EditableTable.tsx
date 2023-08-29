@@ -1,11 +1,57 @@
 import React from "react";
 import { useState } from "react";
-import { Student, data as defaultData } from "./data";
+import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { createColumnHelper } from "@tanstack/react-table";
+
 import "./table.css";
 
-import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { columns } from "./columns";
+import { Student, data as defaultData } from "./data";
 import { FooterCell } from "./FooterCell";
+import { TableCell } from "./TableCell";
+import { EditCell } from "./EditCell";
+
+const columnHelper = createColumnHelper<Student>();
+
+export const columns = [
+  columnHelper.accessor("studentId", {
+    header: "Student ID",
+    cell: TableCell,
+    meta: {
+      type: "number",
+    },
+  }),
+  columnHelper.accessor("name", {
+    header: "Full Name",
+    cell: TableCell,
+    meta: {
+      type: "text",
+    },
+  }),
+  columnHelper.accessor("dateOfBirth", {
+    header: "Date Of Birth",
+    cell: TableCell,
+    meta: {
+      type: "date",
+    },
+  }),
+  columnHelper.accessor("major", {
+    header: "Major",
+    cell: TableCell,
+    meta: {
+      type: "select",
+      options: [
+        { value: "Computer Science", label: "Computer Science" },
+        { value: "Communications", label: "Communications" },
+        { value: "Business", label: "Business" },
+        { value: "Psychology", label: "Psychology" },
+      ],
+    },
+  }),
+  columnHelper.display({
+    id: "edit",
+    cell: EditCell,
+  }),
+];
 
 const EditableTable = () => {
   const [data, setData] = useState(() => [...defaultData]);
@@ -71,7 +117,7 @@ const EditableTable = () => {
   });
 
   return (
-    <article className="table-container">
+    <div className="table-container">
       <table>
         <thead>
           {table.getHeaderGroups().map(headerGroup => (
@@ -103,8 +149,8 @@ const EditableTable = () => {
           </tr>
         </tfoot>
       </table>
-      {/* <pre>{JSON.stringify(data, null, "\t")}</pre> */}
-    </article>
+      <pre>{JSON.stringify(data, null, "\t")}</pre>
+    </div>
   );
 };
 

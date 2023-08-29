@@ -16,6 +16,8 @@ pub struct PrfsSet {
     pub author: String,
     pub desc: String,
     pub hash_algorithm: String,
+    pub meta: String,
+
     pub cardinality: i64,
     pub merkle_root: String,
     pub element_type: String,
