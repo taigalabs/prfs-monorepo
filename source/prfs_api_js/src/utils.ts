@@ -1,3 +1,5 @@
+import JSONbig from "json-bigint";
+
 let PRFS_API_SERVER_ENDPOINT: string;
 
 if (typeof process !== "undefined") {
@@ -14,7 +16,7 @@ export async function api({ path, req }: ApiArg) {
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify(req),
+      body: JSONbig.stringify(req),
     });
 
     return await res.json();

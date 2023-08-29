@@ -204,6 +204,9 @@ importers:
       ethers:
         specifier: ^5
         version: 5.7.2
+      json-bigint:
+        specifier: ^1.0.0
+        version: 1.0.0
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -211,6 +214,9 @@ importers:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
     devDependencies:
+      '@types/json-bigint':
+        specifier: ^1.0.1
+        version: 1.0.1
       '@types/node':
         specifier: ^20.4.9
         version: 20.4.9
@@ -6482,6 +6488,10 @@ packages:
     dependencies:
       expect: 29.6.1
       pretty-format: 29.6.1
+    dev: true
+
+  /@types/json-bigint@1.0.1:
+    resolution: {integrity: sha512-zpchZLNsNuzJHi6v64UBoFWAvQlPhch7XAi36FkH6tL1bbbmimIF+cS7vwkzY4u5RaSWMoflQfu+TshMPPw8uw==}
     dev: true
 
   /@types/json-schema@7.0.12:
@@ -14486,6 +14496,12 @@ packages:
     resolution: {integrity: sha512-OYu7XEzjkCQ3C5Ps3QIZsQfNpqoJyZZA99wd9aWd05NCtC5pWOkShK2mkL6HXQR6/Cy2lbNdPlZBpuQHXE63gA==}
     engines: {node: '>=4'}
     hasBin: true
+
+  /json-bigint@1.0.0:
+    resolution: {integrity: sha512-SiPv/8VpZuWbvLSMtTDU8hEfrZWg/mH/nV/b4o0CYbSxu1UIQPLdwKOCIyLQX+VIPO5vrLX3i8qtqFyhdPSUSQ==}
+    dependencies:
+      bignumber.js: 9.1.1
+    dev: false
 
   /json-buffer@3.0.1:
     resolution: {integrity: sha512-4bV5BfR2mqfQTJm+V5tPPdf+ZpuhiIvTuAB5g8kcrXOZpTT/QwwVRWBywX1ozr6lEuPdbHxwaJlm9G6mI2sfSQ==}

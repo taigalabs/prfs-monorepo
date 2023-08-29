@@ -74,5 +74,7 @@ pub async fn create_prfs_set(req: Request<Body>) -> Result<Response<Body>, Infal
 
     let resp = ApiResponse::new_success(CreatePrfsSetResponse { set_id });
 
+    tx.commit().await.unwrap();
+
     return Ok(resp.into_hyper_response());
 }

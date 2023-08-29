@@ -53,5 +53,6 @@ pub struct CreatePrfsSetRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct CreatePrfsSetResponse {
-    pub set_id: String,
+    #[ts(type = "string")]
+    pub set_id: Uuid,
 }

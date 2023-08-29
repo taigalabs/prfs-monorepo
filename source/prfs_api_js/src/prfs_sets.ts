@@ -7,6 +7,7 @@ import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetP
 import { GetPrfsSetBySetIdResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdResponse";
 import { GetPrfsTreeNodesResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesResponse";
 import { GetPrfsTreeLeafNodesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafNodesRequest";
+import { CreatePrfsSetRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsSetRequest";
 
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
@@ -18,7 +19,7 @@ export async function getPrfsSets(req: GetPrfsSetsRequest) {
   })) as PrfsApiResponse<GetPrfsSetsResponse>;
 }
 
-export async function createPrfsSet(req: GetPrfsSetsRequest) {
+export async function createPrfsSet(req: CreatePrfsSetRequest) {
   return (await api({
     path: "create_prfs_set",
     req,

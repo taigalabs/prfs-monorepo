@@ -24,6 +24,7 @@ import CircuitInputConfigSection from "@/components/circuit_input_config_section
 import { paths } from "@/paths";
 import FormTextareaInput from "@/components/form/FormTextareaInput";
 import { ContentAreaRow } from "@/components/content_area/ContentArea";
+import { PrfsSetType } from "@taigalabs/prfs-entities/bindings/PrfsSetType";
 
 const CreateSetForm: React.FC<CreateSetFormProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -49,7 +50,7 @@ const CreateSetForm: React.FC<CreateSetFormProps> = () => {
     [setDesc]
   );
 
-  const handleClickCreateProofType = React.useCallback(async () => {
+  const handleCreateSet = React.useCallback(async () => {
     if (!localPrfsAccount) {
       setErrMsg("User is not signed in");
       return;
@@ -74,32 +75,31 @@ const CreateSetForm: React.FC<CreateSetFormProps> = () => {
 
     setErrMsg("");
 
-    let proof_type_id = uuidv4();
-
     let createPrfsSetRequest = {
-      proof_type_id,
-      label,
-      desc,
-      // img_url: imgUrl,
-      // img_caption: imgCaption,
-      // expression,
-      author: prfsAccount.sig,
-      // circuit_id: selectedCircuit.circuit_id,
-      // circuit_type: selectedCircuit.circuit_type,
-      // circuit_inputs: newCircuitInputs,
-      // circuit_driver_id: selectedCircuit.circuit_driver_id,
-      // driver_properties: selectedCircuit.driver_properties,
+      prfs_set_ins1: {
+        set_id: uuidv4(),
+        set_type: "Dynamic" as PrfsSetType,
+        label,
+        author: prfsAccount.sig,
+        desc,
+        hash_algorithm: "",
+        cardinality: BigInt(0),
+        merkle_root: "",
+        element_type: "",
+        finite_field: "",
+        elliptic_curve: "",
+      },
     };
 
     try {
       await prfsApi.createPrfsSet(createPrfsSetRequest);
-      router.push(paths.proof__proof_types);
+      router.push(paths.proof__dynamic_sets);
     } catch (err: any) {
       console.error(err);
 
       setErrMsg(err.toString());
     }
-  }, [circuitInputs, selectedCircuit, name, setErrMsg, desc, localPrfsAccount]);
+  }, [label, setErrMsg, desc, localPrfsAccount]);
 
   return (
     <div className={styles.wrapper}>
@@ -117,7 +117,7 @@ const CreateSetForm: React.FC<CreateSetFormProps> = () => {
           <WidgetPaddedBody>
             <div className={styles.desc}>{i18n.create_dynamic_set_subtitle}</div>
             <div className={styles.textInputContainer}>
-              <FormTextInput label={i18n.name} handleChange={handleChangeName} />
+              <FormTextInput label={i18n.label} handleChange={handleChangeLabel} />
             </div>
             <div className={styles.textInputContainer}>
               <FormTextareaInput
@@ -125,15 +125,6 @@ const CreateSetForm: React.FC<CreateSetFormProps> = () => {
                 handleChange={handleChangeDesc}
                 rows={4}
               />
-            </div>
-            <div className={styles.textInputContainer}>
-              <FormTextInput label={i18n.expression} handleChange={handleChangeExpression} />
-            </div>
-            <div className={styles.textInputContainer}>
-              <FormTextInput label={i18n.image_url} handleChange={handleChangeImgUrl} />
-            </div>
-            <div className={styles.textInputContainer}>
-              <FormTextInput label={i18n.image_caption} handleChange={handleChangeImgCaption} />
             </div>
           </WidgetPaddedBody>
         </Widget>
@@ -144,8 +135,8 @@ const CreateSetForm: React.FC<CreateSetFormProps> = () => {
           {errMsg}
         </div>
 
-        <Button variant="aqua_blue_1" handleClick={handleClickCreateProofType}>
-          {i18n.create_proof_type}
+        <Button variant="aqua_blue_1" handleClick={handleCreateSet}>
+          {i18n.create_dynamic_set}
         </Button>
       </WidgetPaddedBody>
     </div>

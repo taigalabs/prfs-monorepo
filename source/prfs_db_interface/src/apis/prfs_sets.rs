@@ -9,6 +9,7 @@ use prfs_entities::{
     entities::{PrfsSet, PrfsSetType},
     ins_entities::PrfsSetIns1,
 };
+use uuid::Uuid;
 
 pub async fn get_prfs_set_by_set_id(
     pool: &Pool<Postgres>,
@@ -183,10 +184,10 @@ OFFSET $3
 pub async fn insert_prfs_set_ins1(
     tx: &mut Transaction<'_, Postgres>,
     prfs_set: &PrfsSetIns1,
-) -> Result<String, DbInterfaceError> {
+) -> Result<Uuid, DbInterfaceError> {
     let query = r#"
-"INSERT INTO prfs_sets (set_id, set_type, label, author, 'desc', hash_algorithm, cardinality,
-merkle_root, element_type, finite_field, elliptic_curve) VALUES ($1, $2, $3, $4, $5, $6, $7, $8
+INSERT INTO prfs_sets (set_id, set_type, label, author, "desc", hash_algorithm, cardinality,
+merkle_root, element_type, finite_field, elliptic_curve) VALUES ($1, $2, $3, $4, $5, $6, $7, $8,
 $9, $10, $11) returning set_id"#;
 
     let row = sqlx::query(&query)
@@ -205,7 +206,7 @@ $9, $10, $11) returning set_id"#;
         .await
         .expect(&format!("insertion failed, set_id: {}", prfs_set.set_id));
 
-    let set_id: String = row.get("set_id");
+    let set_id: Uuid = row.get("set_id");
 
     return Ok(set_id);
 }
