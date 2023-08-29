@@ -1,6 +1,7 @@
 import React from "react";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import {
+  Row,
   PaginationState,
   useReactTable,
   getCoreRowModel,
@@ -9,6 +10,7 @@ import {
   createColumnHelper,
 } from "@tanstack/react-table";
 import { PrfsTreeNode } from "@taigalabs/prfs-entities/bindings/PrfsTreeNode";
+import { useVirtual } from "react-virtual";
 
 import styles from "./SetElementTable.module.scss";
 import Table2, { Table2Body, Table2Head, Table2Pagination } from "@/components/table2/Table2";
@@ -48,7 +50,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
 
   const [{ pageIndex, pageSize }, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 20,
+    pageSize: 5000,
   });
 
   React.useEffect(() => {
@@ -152,48 +154,81 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
     manualPagination: true,
   });
 
-  console.log(22, editedRows);
+  const tableContainerRef = React.useRef<HTMLDivElement>(null);
+
+  const { rows } = table.getRowModel();
+  const rowVirtualizer = useVirtual({
+    parentRef: tableContainerRef,
+    size: rows.length,
+    overscan: 10,
+  });
+
+  const { virtualItems: virtualRows, totalSize } = rowVirtualizer;
+
+  console.log(22, virtualRows.length, totalSize);
+
+  const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0;
+  const paddingBottom =
+    virtualRows.length > 0 ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0) : 0;
 
   return (
     prfsSet && (
       <div className={styles.wrapper}>
-        <Table2>
-          <Table2Head>
-            {table.getHeaderGroups().map(headerGroup => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map(header => (
-                  <th key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(header.column.columnDef.header, header.getContext())}
-                  </th>
-                ))}
+        <div className={styles.tableContainer} ref={tableContainerRef}>
+          <Table2>
+            <Table2Head>
+              {table.getHeaderGroups().map(headerGroup => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map(header => (
+                    <th key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(header.column.columnDef.header, header.getContext())}
+                    </th>
+                  ))}
+                </tr>
+              ))}
+            </Table2Head>
+
+            <Table2Body>
+              {paddingTop > 0 && (
+                <tr>
+                  <td style={{ height: `${paddingTop}px` }} />
+                </tr>
+              )}
+              {virtualRows.map(virtualRow => {
+                const row = rows[virtualRow.index] as Row<PrfsTreeNode>;
+                return (
+                  <tr key={row.id}>
+                    {row.getVisibleCells().map(cell => {
+                      return (
+                        <td key={cell.id}>
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+              {paddingBottom > 0 && (
+                <tr>
+                  <td style={{ height: `${paddingBottom}px` }} />
+                </tr>
+              )}
+            </Table2Body>
+
+            <tfoot>
+              <tr>
+                <th colSpan={table.getCenterLeafColumns().length} align="right">
+                  <FooterCell table={table} />
+                </th>
               </tr>
-            ))}
-          </Table2Head>
+            </tfoot>
+          </Table2>
 
-          <Table2Body>
-            {table.getRowModel().rows.map(row => (
-              <tr key={row.id}>
-                {row.getVisibleCells().map(cell => (
-                  <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
-                ))}
-              </tr>
-            ))}
-          </Table2Body>
-
-          <tfoot>
-            <tr>
-              <th colSpan={table.getCenterLeafColumns().length} align="right">
-                <FooterCell table={table} />
-              </th>
-            </tr>
-          </tfoot>
-        </Table2>
-
+          {/* <pre>{JSON.stringify(data, null, "\t")}</pre> */}
+        </div>
         <Table2Pagination table={table} />
-
-        {/* <pre>{JSON.stringify(data, null, "\t")}</pre> */}
       </div>
     )
   );

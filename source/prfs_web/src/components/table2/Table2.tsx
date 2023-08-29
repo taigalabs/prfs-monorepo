@@ -51,7 +51,7 @@ export function Table2Pagination<T>({ table }: Table2PaginationProps<T>) {
   const pageSizeSelectElem = React.useMemo(() => {
     return (
       <>
-        {[10, 20, 30, 40, 50].map(pageSize => (
+        {[10, 20, 30, 40, 50, 100, 1000, 5000].map(pageSize => (
           <option key={pageSize} value={pageSize}>
             {pageSize}
           </option>
