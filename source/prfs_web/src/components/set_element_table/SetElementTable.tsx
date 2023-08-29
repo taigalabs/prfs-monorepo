@@ -2,7 +2,6 @@ import React from "react";
 import cn from "classnames";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import {
-  Row,
   PaginationState,
   useReactTable,
   getCoreRowModel,
@@ -24,22 +23,6 @@ import { EditableCell } from "./TableCell";
 import { i18nContext } from "@/contexts/i18n";
 
 const columnHelper = createColumnHelper<PrfsTreeNode>();
-
-function useSkipper() {
-  const shouldSkipRef = React.useRef(true);
-  const shouldSkip = shouldSkipRef.current;
-
-  // Wrap a function with this to skip a pagination reset temporarily
-  const skip = React.useCallback(() => {
-    shouldSkipRef.current = false;
-  }, []);
-
-  React.useEffect(() => {
-    shouldSkipRef.current = true;
-  });
-
-  return [shouldSkip, skip] as const;
-}
 
 const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, editable }) => {
   const i18n = React.useContext(i18nContext);
@@ -99,7 +82,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
     };
   }, [pageIndex, pageSize]);
 
-  const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
+  console.log(1, pageIndex);
 
   const table = useReactTable({
     data,
@@ -111,12 +94,12 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
-    autoResetPageIndex,
+    // autoResetPageIndex,
     meta: {
       cardinality: prfsSet ? Number(prfsSet.cardinality) : -1,
       updateData: (rowIndex: number, columnId: string, value: unknown) => {
         // Skip page index reset until after next rerender
-        skipAutoResetPageIndex();
+        // skipAutoResetPageIndex();
         setData(old =>
           old.map((row, index) => {
             if (index === rowIndex) {
@@ -173,8 +156,6 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
               ))}
             </Table2Body>
           </Table2>
-
-          {/* <pre>{JSON.stringify(data, null, "\t")}</pre> */}
         </div>
         <Table2Pagination table={table} />
       </div>
