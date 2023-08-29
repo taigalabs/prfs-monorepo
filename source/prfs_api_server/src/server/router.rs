@@ -87,6 +87,10 @@ pub fn make_router(
             prfs_tree_nodes::get_prfs_tree_leaf_indices,
         )
         .post(
+            format!("{}/create_prfs_set", PREFIX),
+            prfs_sets::create_prfs_set,
+        )
+        .post(
             format!("{}/get_prfs_sets", PREFIX),
             prfs_sets::get_prfs_sets,
         )

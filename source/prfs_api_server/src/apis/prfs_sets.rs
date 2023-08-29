@@ -1,9 +1,9 @@
 use hyper::{body, Body, Request, Response};
 use prfs_db_interface::db_apis;
 use prfs_entities::apis_entities::{
-    CreatePrfsSetRequest, GetPrfsSetBySetIdRequest, GetPrfsSetBySetIdResponse,
-    GetPrfsSetsBySetTypeRequest, GetPrfsSetsRequest, GetPrfsSetsResponse,
-    GetPrfsTreeLeafNodesRequest,
+    CreatePrfsSetRequest, CreatePrfsSetResponse, GetPrfsSetBySetIdRequest,
+    GetPrfsSetBySetIdResponse, GetPrfsSetsBySetTypeRequest, GetPrfsSetsRequest,
+    GetPrfsSetsResponse, GetPrfsTreeLeafNodesRequest,
 };
 use routerify::prelude::*;
 use std::{convert::Infallible, sync::Arc};
@@ -66,15 +66,13 @@ pub async fn create_prfs_set(req: Request<Body>) -> Result<Response<Body>, Infal
     let state = req.data::<Arc<ServerState>>().unwrap().clone();
     let req: CreatePrfsSetRequest = parse_req(req).await;
     let pool = &state.db2.pool;
+    let mut tx = pool.begin().await.unwrap();
 
-    let prfs_sets = db_apis::insert_prfs_set(pool).await.unwrap();
-    // insert_prfs_set()
+    let set_id = db_apis::insert_prfs_set_ins1(&mut tx, &req.prfs_set_ins1)
+        .await
+        .unwrap();
 
-    let resp = ApiResponse::new_success(GetPrfsSetsResponse {
-        page_idx: req.page_idx,
-        page_size: req.page_size,
-        prfs_sets,
-    });
+    let resp = ApiResponse::new_success(CreatePrfsSetResponse { set_id });
 
     return Ok(resp.into_hyper_response());
 }

@@ -3,7 +3,10 @@ use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 use uuid::Uuid;
 
-use crate::entities::{PrfsSet, PrfsSetType};
+use crate::{
+    entities::{PrfsSet, PrfsSetType},
+    ins_entities::PrfsSetIns1,
+};
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
@@ -44,16 +47,11 @@ pub struct GetPrfsSetsBySetTypeRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct CreatePrfsSetRequest {
-    #[ts(type = "'<Uuid>' | string")]
-    pub set_id: Uuid,
-    pub set_type: PrfsSetType,
-    pub label: String,
-    pub author: String,
-    pub desc: String,
-    pub hash_algorithm: String,
-    pub cardinality: i64,
-    pub merkle_root: String,
-    pub element_type: String,
-    pub finite_field: String,
-    pub elliptic_curve: String,
+    pub prfs_set_ins1: PrfsSetIns1,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct CreatePrfsSetResponse {
+    pub set_id: String,
 }
