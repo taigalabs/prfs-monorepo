@@ -116,7 +116,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       return;
     }
 
-    const newCircuitInputs: Record<number, CircuitInput> = {};
+    const newCircuitInputs: CircuitInput[] = [];
     const circuit_inputs_meta = selectedCircuit.circuit_inputs_meta as CircuitInputMeta[];
 
     for (const [idx, input] of circuit_inputs_meta.entries()) {

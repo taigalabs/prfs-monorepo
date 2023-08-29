@@ -52,7 +52,7 @@ pub async fn get_prfs_proof_type_by_proof_type_id(
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn create_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+pub async fn create_prfs_proof_type(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     let state = req.data::<Arc<ServerState>>().unwrap().clone();
 
     let req: CreatePrfsProofTypeRequest = parse_req(req).await;
