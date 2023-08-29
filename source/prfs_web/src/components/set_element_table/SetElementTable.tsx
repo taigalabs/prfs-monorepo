@@ -163,47 +163,6 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
 
   console.log(22, editedRows);
 
-  // return (
-  // prfsSet && (
-  //   <div className={styles.wrapper}>
-  //     <Table2>
-  //       <Table2Head>
-  //         {table.getHeaderGroups().map(headerGroup => (
-  //           <tr key={headerGroup.id}>
-  //             {headerGroup.headers.map(header => {
-  //               return (
-  //                 <th key={header.id} colSpan={header.colSpan}>
-  //                   {header.isPlaceholder ? null : (
-  //                     <div>{flexRender(header.column.columnDef.header, header.getContext())}</div>
-  //                   )}
-  //                 </th>
-  //               );
-  //             })}
-  //           </tr>
-  //         ))}
-  //       </Table2Head>
-
-  //       <Table2Body>
-  //         {table.getRowModel().rows.map(row => {
-  //           return (
-  //             <tr key={row.id}>
-  //               {row.getVisibleCells().map(cell => {
-  //                 return (
-  //                   <td key={cell.id}>
-  //                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
-  //                   </td>
-  //                 );
-  //               })}
-  //             </tr>
-  //           );
-  //         })}
-  //       </Table2Body>
-  //     </Table2>
-
-  //     <Table2Pagination table={table} />
-  //   </div>
-  // )
-
   return (
     prfsSet && (
       <div className={styles.wrapper}>
@@ -242,6 +201,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
         </Table2>
 
         <Table2Pagination table={table} />
+
         {/* <pre>{JSON.stringify(data, null, "\t")}</pre> */}
       </div>
     )
@@ -253,5 +213,5 @@ export default SetElementTable;
 export interface SetElementTableProps {
   setId: string;
   prfsSet: PrfsSet | undefined;
-  ediable?: boolean;
+  editable?: boolean;
 }

@@ -27,16 +27,20 @@ const Set: React.FC<SetProps> = ({ params }) => {
   const router = useRouter();
 
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
-  React.useMemo(async () => {
-    try {
-      const { payload } = await prfsApi.getPrfsSetBySetId({
-        set_id: params.set_id,
-      });
+  React.useEffect(() => {
+    async function fn() {
+      try {
+        const { payload } = await prfsApi.getPrfsSetBySetId({
+          set_id: params.set_id,
+        });
 
-      setPrfsSet(payload.prfs_set);
-    } catch (err) {
-      console.error(err);
+        setPrfsSet(payload.prfs_set);
+      } catch (err) {
+        console.error(err);
+      }
     }
+
+    fn().then();
   }, [setPrfsSet]);
 
   let setTableLabel = `${i18n.set} summary for ${params.set_id}`;
