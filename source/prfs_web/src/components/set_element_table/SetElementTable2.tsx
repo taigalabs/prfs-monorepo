@@ -21,6 +21,15 @@ import { EditCell } from "./EditCell";
 const columnHelper = createColumnHelper<PrfsTreeNode>();
 
 const columns: ColumnDef<PrfsTreeNode, any>[] = [
+  // {
+  //   header: "Position",
+  //   accessorFn: row => row.pos_w,
+  //   cell: info => info.getValue(),
+  // },
+  // {
+  //   header: "Value",
+  //   accessorFn: row => row.val,
+  // },
   columnHelper.accessor("pos_w", {
     header: "Position",
     cell: TableCell,
