@@ -99,7 +99,7 @@ const DynamicSet: React.FC<SetProps> = ({ params }) => {
                     </Button>
                   </li>
                 </ul>
-                <SetElementTable setId={params.set_id} prfsSet={prfsSet} />
+                <SetElementTable setId={params.set_id} prfsSet={prfsSet} editable />
               </div>
             </ContentAreaRow>
           </div>

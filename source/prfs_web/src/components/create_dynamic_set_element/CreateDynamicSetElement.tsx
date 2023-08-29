@@ -3,26 +3,15 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import * as prfsApi from "@taigalabs/prfs-api-js";
-import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
-import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
-import { PrfsCircuitSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsCircuitSyn1";
 
 import styles from "./CreateDynamicSetElement.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Widget, {
-  TopWidgetTitle,
-  WidgetHeader,
-  WidgetLabel,
-  WidgetPaddedBody,
-} from "@/components/widget/Widget";
+import Widget, { TopWidgetTitle, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
 import FormTextInput from "@/components/form/FormTextInput";
-import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { stateContext } from "@/contexts/state";
-import CircuitInputConfigSection from "@/components/circuit_input_config_section/CircuitInputConfigSection";
 import { paths } from "@/paths";
-import FormTextareaInput from "@/components/form/FormTextareaInput";
 import { ContentAreaRow } from "../content_area/ContentArea";
 
 export const CreateDynamicSetElement: React.FC<CreateDynamicSetElementProps> = ({ setId }) => {
@@ -44,7 +33,7 @@ export const CreateDynamicSetElement: React.FC<CreateDynamicSetElementProps> = (
 
   const handleChangeMeta = React.useCallback(
     (ev: any) => {
-      handleChangeMeta(ev.target.value);
+      setMeta(ev.target.value);
     },
     [setMeta]
   );
@@ -71,12 +60,13 @@ export const CreateDynamicSetElement: React.FC<CreateDynamicSetElementProps> = (
 
     let createDynamicSetElementRequest = {
       set_id: setId,
-      value,
+      val: value,
       meta,
     };
 
     try {
-      // await prfsApi.createPrfsProofType(createPrfsProofTypeRequest);
+      await prfsApi.createPrfsDynamicSetElement(createDynamicSetElementRequest);
+      console.log(111);
       // router.push(paths.proof__proof_types);
     } catch (err: any) {
       console.error(err);

@@ -236,7 +236,7 @@ pub async fn insert_prfs_tree_node(
 ) -> Result<Decimal, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_tree_nodes
-(set_id, pos_w, pos_h, val, meta
+(set_id, pos_w, pos_h, val, "meta")
 VALUES ($1, $2, $3, $4, $5) returning pos_w"#;
 
     let row = sqlx::query(query)

@@ -8,6 +8,8 @@ import { GetPrfsSetBySetIdResponse } from "@taigalabs/prfs-entities/bindings/Get
 import { GetPrfsTreeNodesResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesResponse";
 import { GetPrfsTreeLeafNodesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafNodesRequest";
 import { CreatePrfsSetRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsSetRequest";
+import { CreatePrfsDynamicSetElementRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsDynamicSetElementRequest";
+import { CreatePrfsDynamicSetElementResponse } from "@taigalabs/prfs-entities/bindings/CreatePrfsDynamicSetElementResponse";
 
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
@@ -38,4 +40,11 @@ export async function getPrfsSetBySetId(req: GetPrfsSetBySetIdRequest) {
     path: "get_prfs_set_by_set_id",
     req,
   })) as PrfsApiResponse<GetPrfsSetBySetIdResponse>;
+}
+
+export async function createPrfsDynamicSetElement(req: CreatePrfsDynamicSetElementRequest) {
+  return (await api({
+    path: `create_prfs_dynamic_set_element`,
+    req,
+  })) as PrfsApiResponse<CreatePrfsDynamicSetElementResponse>;
 }
