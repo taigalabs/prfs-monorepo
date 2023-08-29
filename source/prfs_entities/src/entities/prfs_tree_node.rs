@@ -10,6 +10,7 @@ pub struct PrfsTreeNode {
 
     pub pos_h: i32,
     pub val: String,
+    pub meta: Option<String>,
 
     #[ts(type = "string")]
     pub set_id: uuid::Uuid,

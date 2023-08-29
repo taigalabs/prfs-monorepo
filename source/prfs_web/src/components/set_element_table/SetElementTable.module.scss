@@ -2,6 +2,7 @@
   width: 100%;
 
   table {
+    color: var(--gray-33);
     // border: 1px solid black;
   }
 }
@@ -9,4 +10,19 @@
 .tableContainer {
   /* max-height: 700px; */
   /* overflow: auto; */
+}
+
+.pos_w {
+  width: 60px;
+}
+
+.value {
+}
+
+.editableCell {
+  display: flex;
+
+  svg {
+    margin-left: 5px;
+  }
 }

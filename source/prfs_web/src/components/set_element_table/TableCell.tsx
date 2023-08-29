@@ -2,17 +2,15 @@ import React from "react";
 import { PrfsTreeNode } from "@taigalabs/prfs-entities/bindings/PrfsTreeNode";
 import { CellContext } from "@tanstack/react-table";
 import { useState, useEffect, ChangeEvent } from "react";
+import { BsPencil } from "@react-icons/all-files/bs/BsPencil";
 
-type Option = {
-  label: string;
-  value: string;
-};
+import styles from "./SetElementTable.module.scss";
 
-export const TableCell = ({ getValue, row, column, table }: CellContext<PrfsTreeNode, any>) => {
+export const EditableCell = ({ getValue, row, column, table }: CellContext<PrfsTreeNode, any>) => {
   const initialValue = getValue();
+
   // We need to keep and update the state of the cell normally
   const [value, setValue] = React.useState(initialValue);
-
   const [isEdit, setIsEdit] = React.useState(false);
 
   const meta = table.options.meta as any;
@@ -27,9 +25,16 @@ export const TableCell = ({ getValue, row, column, table }: CellContext<PrfsTree
     setValue(initialValue);
   }, [initialValue]);
 
-  return isEdit ? (
-    <input value={value as string} onChange={e => setValue(e.target.value)} onBlur={onBlur} />
-  ) : (
-    <div>{value}</div>
+  return (
+    <div className={styles.editableCell}>
+      {isEdit ? (
+        <input value={value as string} onChange={e => setValue(e.target.value)} onBlur={onBlur} />
+      ) : (
+        <>
+          <p>{value}</p>
+          <BsPencil />
+        </>
+      )}
+    </div>
   );
 };

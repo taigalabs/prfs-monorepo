@@ -36,10 +36,12 @@ pub async fn get_prfs_tree_nodes_by_pos(
             let pos_h = n.try_get("pos_h").expect("pos_h should exist");
             let val = n.try_get("val").expect("val should exist");
             let set_id = n.try_get("set_id").expect("set_id should exist");
+            let meta = n.get("meta");
 
             PrfsTreeNode {
                 pos_w,
                 pos_h,
+                meta,
                 val,
                 set_id,
             }
@@ -79,10 +81,12 @@ pub async fn get_prfs_tree_leaf_indices(
             let pos_h = n.try_get("pos_h").expect("pos_h should exist");
             let val = n.try_get("val").expect("val should exist");
             let set_id = n.try_get("set_id").expect("set_id should exist");
+            let meta = n.get("meta");
 
             PrfsTreeNode {
                 pos_w,
                 pos_h,
+                meta,
                 val,
                 set_id,
             }
@@ -123,11 +127,13 @@ LIMIT $3
             let pos_h = n.try_get("pos_h").expect("pos_h should exist");
             let val = n.try_get("val").expect("val should exist");
             let set_id = n.try_get("set_id").expect("set_id should exist");
+            let meta = n.get("meta");
 
             PrfsTreeNode {
                 pos_w,
                 pos_h,
                 val,
+                meta,
                 set_id,
             }
         })
@@ -153,13 +159,14 @@ pub async fn get_prfs_tree_root(
     let pos_h = row.try_get("pos_h").expect("pos_h should exist");
     let val = row.try_get("val").expect("val should exist");
     let set_id = row.try_get("set_id").expect("set_id should exist");
+    let meta = row.get("meta");
 
     let n = PrfsTreeNode {
         pos_w,
         pos_h,
         val,
         set_id,
-        // set_id2,
+        meta,
     };
 
     Ok(n)
@@ -173,7 +180,7 @@ pub async fn insert_prfs_tree_nodes(
     let mut values = Vec::with_capacity(nodes.len());
 
     for n in nodes {
-        let val = format!("({}, {}, '{}', '{}')", n.pos_w, n.pos_h, n.val, n.set_id);
+        let val = format!("({}, {}, '{}', '{}')", n.pos_w, n.pos_h, n.val, n.set_id,);
         values.push(val);
     }
 

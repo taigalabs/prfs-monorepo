@@ -1,4 +1,5 @@
 import React from "react";
+import cn from "classnames";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import {
   Row,
@@ -19,9 +20,7 @@ import Table2, {
   Table2Pagination,
   TableSearch,
 } from "@/components/table2/Table2";
-import { FooterCell } from "./FooterCell";
-import { TableCell } from "./TableCell";
-import { EditCell } from "./EditCell";
+import { EditableCell } from "./TableCell";
 import { i18nContext } from "@/contexts/i18n";
 
 const columnHelper = createColumnHelper<PrfsTreeNode>();
@@ -45,21 +44,18 @@ function useSkipper() {
 const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, editable }) => {
   const i18n = React.useContext(i18nContext);
   const [data, setData] = React.useState<PrfsTreeNode[]>(() => []);
-  const [originalData, setOriginalData] = React.useState<PrfsTreeNode[]>(() => []);
-  const [editedRows, setEditedRows] = React.useState({});
 
   const columns = React.useMemo<ColumnDef<PrfsTreeNode, any>[]>(
     () => [
       columnHelper.accessor("pos_w", {
         header: "Position",
-        cell: TableCell,
         meta: {
           type: "text",
         },
       }),
       columnHelper.accessor("val", {
         header: "Value",
-        cell: TableCell,
+        cell: EditableCell,
         meta: {
           type: "text",
         },
@@ -84,11 +80,10 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
       const { prfs_tree_nodes } = payload;
 
       setData(prfs_tree_nodes);
-      setOriginalData(() => [...prfs_tree_nodes]);
     }
 
     fn().then();
-  }, [setId, setData, pageIndex, pageSize, setOriginalData]);
+  }, [setId, setData, pageIndex, pageSize]);
 
   const pagination = React.useMemo(() => {
     return {
@@ -109,58 +104,9 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
+    autoResetPageIndex,
     meta: {
       cardinality: prfsSet ? Number(prfsSet.cardinality) : -1,
-      // editedRows,
-      // setEditedRows,
-      autoResetPageIndex,
-      // revertData: (rowIndex: number, revert: boolean) => {
-      //   if (revert) {
-      //     setData(old =>
-      //       old.map((row, index) => (index === rowIndex ? originalData[rowIndex] : row))
-      //     );
-      //   } else {
-      //     setOriginalData(old =>
-      //       old.map((row, index) => (index === rowIndex ? data[rowIndex] : row))
-      //     );
-      //   }
-      // },
-      // addRow: () => {
-      //   const setFunc = (old: PrfsTreeNode[]) => {
-      //     console.log("old len", old.length);
-
-      //     const newRow: PrfsTreeNode = {
-      //       pos_w: 0,
-      //       pos_h: 0,
-      //       val: "",
-      //       set_id: setId,
-      //     };
-
-      //     return [...old, newRow];
-      //   };
-
-      //   setEditedRows((prev: any) => ({
-      //     ...prev,
-      //     [data.length]: true,
-      //   }));
-
-      //   setData(setFunc);
-      //   setOriginalData(setFunc);
-      // },
-      // removeRow: (rowIndex: number) => {
-      //   const setFilterFunc = (old: PrfsTreeNode[]) =>
-      //     old.filter((_row: PrfsTreeNode, index: number) => index !== rowIndex);
-
-      //   setData(setFilterFunc);
-      //   setOriginalData(setFilterFunc);
-      // },
-      // removeSelectedRows: (selectedRows: number[]) => {
-      //   const setFilterFunc = (old: PrfsTreeNode[]) =>
-      //     old.filter((_row, index) => !selectedRows.includes(index));
-
-      //   setData(setFilterFunc);
-      //   setOriginalData(setFilterFunc);
-      // },
       updateData: (rowIndex: number, columnId: string, value: unknown) => {
         // Skip page index reset until after next rerender
         skipAutoResetPageIndex();
@@ -186,6 +132,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
           <TableSearch>
             <input placeholder={i18n.set_search_guide} />
           </TableSearch>
+
           <Table2>
             <Table2Head>
               {table.getHeaderGroups().map(headerGroup => (
@@ -205,7 +152,13 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
               {table.getRowModel().rows.map(row => (
                 <tr key={row.id}>
                   {row.getVisibleCells().map(cell => (
-                    <td key={cell.id}>
+                    <td
+                      className={cn({
+                        [styles.pos_w]: cell.column.id === "pos_w",
+                        [styles.value]: cell.column.id === "value",
+                      })}
+                      key={cell.id}
+                    >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}
