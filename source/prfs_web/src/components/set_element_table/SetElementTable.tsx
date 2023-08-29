@@ -55,7 +55,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
       }),
       columnHelper.accessor("val", {
         header: "Value",
-        cell: EditableCell,
+        cell: editable ? EditableCell : ctx => ctx.getValue(),
         meta: {
           type: "text",
         },

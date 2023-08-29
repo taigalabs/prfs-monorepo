@@ -22,7 +22,18 @@
 .editableCell {
   display: flex;
 
-  svg {
+  button {
+    cursor: pointer;
     margin-left: 5px;
+
+    &:hover {
+      color: var(--black-00);
+    }
+  }
+
+  input {
+    padding: 2px 3px;
+    width: 400px;
+    border-bottom: 1px solid var(--gray-60);
   }
 }

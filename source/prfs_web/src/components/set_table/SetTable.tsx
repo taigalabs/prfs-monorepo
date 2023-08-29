@@ -130,7 +130,15 @@ const SetTable: React.FC<SetTableProps> = ({
               <tr
                 key={row.id}
                 onClick={() => {
-                  router.push(`${paths.proof__sets}/${setId}`);
+                  switch (setType) {
+                    case "Dynamic": {
+                      router.push(`${paths.proof__dynamic_sets}/${setId}`);
+                      break;
+                    }
+                    case "Static": {
+                      router.push(`${paths.proof__sets}/${setId}`);
+                    }
+                  }
                 }}
               >
                 {row.getVisibleCells().map(cell => {
