@@ -80,15 +80,15 @@ const CreateSetForm: React.FC<CreateSetFormProps> = () => {
       proof_type_id,
       label,
       desc,
-      img_url: imgUrl,
-      img_caption: imgCaption,
-      expression,
+      // img_url: imgUrl,
+      // img_caption: imgCaption,
+      // expression,
       author: prfsAccount.sig,
-      circuit_id: selectedCircuit.circuit_id,
-      circuit_type: selectedCircuit.circuit_type,
-      circuit_inputs: newCircuitInputs,
-      circuit_driver_id: selectedCircuit.circuit_driver_id,
-      driver_properties: selectedCircuit.driver_properties,
+      // circuit_id: selectedCircuit.circuit_id,
+      // circuit_type: selectedCircuit.circuit_type,
+      // circuit_inputs: newCircuitInputs,
+      // circuit_driver_id: selectedCircuit.circuit_driver_id,
+      // driver_properties: selectedCircuit.driver_properties,
     };
 
     try {
