@@ -66,8 +66,8 @@ export const CreateDynamicSetElement: React.FC<CreateDynamicSetElementProps> = (
 
     try {
       await prfsApi.createPrfsDynamicSetElement(createDynamicSetElementRequest);
-      console.log(111);
-      // router.push(paths.proof__proof_types);
+
+      router.push(`${paths.proof__dynamic_sets}/${setId}`);
     } catch (err: any) {
       console.error(err);
 

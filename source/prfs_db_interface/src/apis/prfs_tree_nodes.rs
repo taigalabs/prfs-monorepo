@@ -210,7 +210,7 @@ pub async fn get_largest_pos_w_tree_leaf_node(
 ) -> Result<Option<Decimal>, DbInterfaceError> {
     let query = r#"
 SELECT * FROM prfs_tree_nodes
-where set_id=$1 and pos_h=31
+where set_id=$1 and pos_h=0
 ORDER BY pos_w desc
 "#;
     // println!("query: {}", query);
