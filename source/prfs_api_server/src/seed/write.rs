@@ -3,12 +3,16 @@ use prfs_db_interface::database2::Database2;
 use prfs_db_interface::db_apis;
 use prfs_entities::entities::PrfsProofType;
 use prfs_entities::sqlx::{self, types::Json};
+use std::path::PathBuf;
 
 use super::read::load_dynamic_sets;
+use crate::paths::PATHS;
+use crate::seed::json::SetElementRecord;
 use crate::seed::read::{
     load_circuit_drivers, load_circuit_input_types, load_circuit_types, load_circuits,
     load_proof_types,
 };
+use crate::seed::utils;
 
 pub async fn truncate(db: &Database2) {
     println!("Truncating tables...");
@@ -40,61 +44,110 @@ pub async fn upload(db: &Database2) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    {
-        let circuit_drivers = load_circuit_drivers();
-        println!("circuit_drivers: {:#?}", circuit_drivers);
+    // upload_circuit_drivers(&db).await;
+    // upload_circuit_types(&db).await;
+    // upload_circuit_input_types(&db).await;
+    // upload_circuits(&db).await;
+    // upload_proof_types(&db).await;
+    upload_dynamic_sets(&db).await;
 
-        for circuit_driver in circuit_drivers.values() {
-            let circuit_driver_id =
-                db_apis::insert_prfs_circuit_driver(&mut tx, circuit_driver).await;
-            println!("Inserted circuit_driver, id: {}", circuit_driver_id);
-        }
+    tx.commit().await.unwrap();
+}
+
+async fn upload_circuit_drivers(db: &Database2) {
+    let pool = &db.pool;
+    let mut tx = pool.begin().await.unwrap();
+
+    let circuit_drivers = load_circuit_drivers();
+    println!("circuit_drivers: {:#?}", circuit_drivers);
+
+    for circuit_driver in circuit_drivers.values() {
+        let circuit_driver_id = db_apis::insert_prfs_circuit_driver(&mut tx, circuit_driver).await;
+        println!("Inserted circuit_driver, id: {}", circuit_driver_id);
     }
 
-    {
-        let circuit_types = load_circuit_types();
-        println!("circuit_types: {:#?}", circuit_types);
+    tx.commit().await.unwrap();
+}
 
-        for circuit_type in circuit_types.values() {
-            db_apis::insert_prfs_circuit_type(&mut tx, circuit_type).await;
-        }
+async fn upload_circuit_types(db: &Database2) {
+    let pool = &db.pool;
+    let mut tx = pool.begin().await.unwrap();
+
+    let circuit_types = load_circuit_types();
+    println!("circuit_types: {:#?}", circuit_types);
+
+    for circuit_type in circuit_types.values() {
+        db_apis::insert_prfs_circuit_type(&mut tx, circuit_type).await;
     }
 
-    {
-        let circuit_input_types = load_circuit_input_types();
-        println!("circuit_input_types: {:#?}", circuit_input_types);
+    tx.commit().await.unwrap();
+}
 
-        for circuit_input_type in circuit_input_types.values() {
-            db_apis::insert_prfs_circuit_input_type(&mut tx, circuit_input_type).await;
-        }
+async fn upload_circuit_input_types(db: &Database2) {
+    let pool = &db.pool;
+    let mut tx = pool.begin().await.unwrap();
+
+    let circuit_input_types = load_circuit_input_types();
+    println!("circuit_input_types: {:#?}", circuit_input_types);
+
+    for circuit_input_type in circuit_input_types.values() {
+        db_apis::insert_prfs_circuit_input_type(&mut tx, circuit_input_type).await;
     }
 
-    {
-        let circuits = load_circuits();
-        println!("circuits: {:#?}", circuits);
+    tx.commit().await.unwrap();
+}
 
-        for circuit in circuits.values() {
-            db_apis::insert_prfs_circuit(&mut tx, circuit).await;
-        }
+async fn upload_circuits(db: &Database2) {
+    let pool = &db.pool;
+    let mut tx = pool.begin().await.unwrap();
+
+    let circuits = load_circuits();
+    println!("circuits: {:#?}", circuits);
+
+    for circuit in circuits.values() {
+        db_apis::insert_prfs_circuit(&mut tx, circuit).await;
     }
 
-    {
-        let proof_types = load_proof_types();
-        println!("proof types: {:#?}", proof_types);
+    tx.commit().await.unwrap();
+}
 
-        for proof_type in proof_types.values() {
-            db_apis::insert_prfs_proof_type(&mut tx, proof_type).await;
-        }
+async fn upload_proof_types(db: &Database2) {
+    let pool = &db.pool;
+    let mut tx = pool.begin().await.unwrap();
+
+    let proof_types = load_proof_types();
+    println!("proof types: {:#?}", proof_types);
+
+    for proof_type in proof_types.values() {
+        db_apis::insert_prfs_proof_type(&mut tx, proof_type).await;
     }
 
-    {
-        let sets = load_dynamic_sets();
-        println!("sets: {:#?}", sets);
+    tx.commit().await.unwrap();
+}
 
-        for prfs_set in sets.values() {
-            let set_id = db_apis::upsert_prfs_set(&mut tx, prfs_set).await.unwrap();
-            println!("Inserted set_id: {}", set_id);
+async fn upload_dynamic_sets(db: &Database2) {
+    let pool = &db.pool;
+    let mut tx = pool.begin().await.unwrap();
+
+    let dynamic_sets = load_dynamic_sets();
+    println!("sets: {:#?}", dynamic_sets);
+
+    for dynamic_set in dynamic_sets.values() {
+        let elements_path = PATHS.data.join(&dynamic_set.elements_path);
+
+        let mut rdr = csv::Reader::from_path(elements_path).unwrap();
+
+        for result in rdr.deserialize() {
+            let record: SetElementRecord = result.unwrap();
+
+            println!("{:?}", record);
         }
+
+        // let set_id = db_apis::upsert_prfs_set(&mut tx, &dynamic_set.prfs_set)
+        //     .await
+        //     .unwrap();
+
+        // println!("Inserted set_id: {}", set_id);
     }
 
     tx.commit().await.unwrap();
