@@ -24,5 +24,5 @@ pub struct ProofTypesJson {
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct DynamicSetsJson {
-    pub prfs_sets: Vec<PrfsSet>,
+    pub dynamic_sets: Vec<PrfsSet>,
 }

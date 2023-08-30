@@ -1,6 +1,6 @@
 use crate::{database2::Database2, DbInterfaceError};
 use prfs_entities::apis_entities::NodePos;
-use prfs_entities::entities::PrfsTreeNode;
+use prfs_entities::entities::{PrfsSetType, PrfsTreeNode};
 use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 use rust_decimal::Decimal;
 use uuid::Uuid;
@@ -8,7 +8,6 @@ use uuid::Uuid;
 pub async fn get_prfs_tree_nodes_by_pos(
     pool: &Pool<Postgres>,
     set_id: &Uuid,
-    // where_clause: &str,
     pos: &Vec<NodePos>,
 ) -> Result<Vec<PrfsTreeNode>, DbInterfaceError> {
     let whre: Vec<String> = pos

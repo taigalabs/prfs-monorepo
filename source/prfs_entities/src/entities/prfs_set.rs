@@ -1,7 +1,7 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use sqlx;
-use strum_macros::EnumString;
+use strum_macros::{Display, EnumString};
 use ts_rs::TS;
 use uuid::Uuid;
 
@@ -27,7 +27,7 @@ pub struct PrfsSet {
     pub created_at: DateTime<Utc>,
 }
 
-#[derive(TS, Clone, Debug, Serialize, Deserialize, sqlx::Type, EnumString)]
+#[derive(TS, Clone, Debug, Serialize, Deserialize, sqlx::Type, EnumString, Display)]
 #[ts(export)]
 #[sqlx(type_name = "VARCHAR")]
 pub enum PrfsSetType {

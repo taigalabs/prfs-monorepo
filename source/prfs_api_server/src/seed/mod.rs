@@ -1,4 +1,5 @@
-pub mod data;
 pub mod db;
 mod json;
 mod read;
+pub mod write;
+

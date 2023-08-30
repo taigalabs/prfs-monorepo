@@ -126,7 +126,7 @@ pub async fn create_tree_nodes(
     );
 
     prfs_set.merkle_root = merkle_root.to_string();
-    db_apis::insert_prfs_set(tx, &prfs_set, true).await.unwrap();
+    db_apis::upsert_prfs_set(tx, &prfs_set).await.unwrap();
 
     Ok(merkle_root)
 }

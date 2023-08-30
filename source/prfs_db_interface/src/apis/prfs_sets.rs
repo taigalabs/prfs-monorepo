@@ -4,7 +4,7 @@ use crate::{
     DbInterfaceError,
 };
 use chrono::{DateTime, Utc};
-use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
+use prfs_entities::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use prfs_entities::{
     entities::{PrfsSet, PrfsSetType},
     ins_entities::PrfsSetIns1,
@@ -214,57 +214,63 @@ $9, $10, $11) returning set_id"#;
 pub async fn insert_prfs_set(
     tx: &mut Transaction<'_, Postgres>,
     prfs_set: &PrfsSet,
-    update_on_conflict: bool,
-) -> Result<String, DbInterfaceError> {
-    let cols = concat_cols(&[
-        "set_id",
-        "label",
-        "author",
-        "desc",
-        "hash_algorithm",
-        "cardinality",
-        "merkle_root",
-        "element_type",
-        "elliptic_curve",
-        "finite_field",
-    ]);
-
-    let vals = concat_values(&[
-        &prfs_set.set_id.to_string(),
-        &prfs_set.label,
-        &prfs_set.author,
-        &prfs_set.desc,
-        &prfs_set.hash_algorithm,
-        &prfs_set.cardinality.to_string(),
-        &prfs_set.merkle_root,
-        &prfs_set.element_type,
-        &prfs_set.elliptic_curve,
-        &prfs_set.finite_field,
-    ]);
-
-    let query = if update_on_conflict {
-        format!(
-            "INSERT INTO prfs_sets ({}) VALUES ({}) \
-                ON CONFLICT (set_id) DO UPDATE SET cardinality = excluded.cardinality, \
-                merkle_root = excluded.merkle_root, updated_at = now() returning set_id",
-            cols, vals,
-        )
-    } else {
-        format!(
-            "INSERT INTO prfs_sets ({}) VALUES ({}) \
-                ON CONFLICT DO NOTHING returning set_id",
-            cols, vals,
-        )
-    };
-
-    println!("query: {}", query);
+) -> Result<Uuid, DbInterfaceError> {
+    let query = r#"
+INSERT INTO prfs_sets (set_id, set_type, label, author, "desc", hash_algorithm, cardinality,
+merkle_root, element_type, elliptic_curve, finite_field)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+"#;
 
     let row = sqlx::query(&query)
+        .bind(&prfs_set.set_id)
+        .bind(&prfs_set.set_type)
+        .bind(&prfs_set.label)
+        .bind(&prfs_set.author)
+        .bind(&prfs_set.desc)
+        .bind(&prfs_set.hash_algorithm)
+        .bind(&prfs_set.cardinality)
+        .bind(&prfs_set.merkle_root)
+        .bind(&prfs_set.element_type)
+        .bind(&prfs_set.elliptic_curve)
+        .bind(&prfs_set.finite_field)
         .fetch_one(&mut **tx)
         .await
         .expect(&format!("insertion failed, set_id: {}", prfs_set.set_id));
 
-    let set_id: String = row.try_get("set_id").unwrap();
+    let set_id: Uuid = row.try_get("set_id").unwrap();
+
+    Ok(set_id)
+}
+
+pub async fn upsert_prfs_set(
+    tx: &mut Transaction<'_, Postgres>,
+    prfs_set: &PrfsSet,
+) -> Result<Uuid, DbInterfaceError> {
+    let query = r#"
+INSERT INTO prfs_sets (set_id, set_type, label, author, "desc", hash_algorithm, cardinality,
+merkle_root, element_type, elliptic_curve, finite_field) 
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) 
+ON CONFLICT (set_id) DO UPDATE SET cardinality = excluded.cardinality,
+merkle_root = excluded.merkle_root, updated_at = now() returning set_id
+"#;
+
+    let row = sqlx::query(&query)
+        .bind(&prfs_set.set_id)
+        .bind(&prfs_set.set_type)
+        .bind(&prfs_set.label)
+        .bind(&prfs_set.author)
+        .bind(&prfs_set.desc)
+        .bind(&prfs_set.hash_algorithm)
+        .bind(&prfs_set.cardinality)
+        .bind(&prfs_set.merkle_root)
+        .bind(&prfs_set.element_type)
+        .bind(&prfs_set.elliptic_curve)
+        .bind(&prfs_set.finite_field)
+        .fetch_one(&mut **tx)
+        .await
+        .expect(&format!("insertion failed, set_id: {}", prfs_set.set_id));
+
+    let set_id: Uuid = row.try_get("set_id").unwrap();
 
     Ok(set_id)
 }

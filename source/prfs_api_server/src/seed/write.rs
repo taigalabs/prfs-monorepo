@@ -1,15 +1,14 @@
-use crate::seed::read::{
-    load_circuit_drivers, load_circuit_input_types, load_circuit_types, load_circuits,
-    load_proof_types,
-};
 use chrono::{DateTime, NaiveDateTime, TimeZone, Utc};
 use prfs_db_interface::database2::Database2;
 use prfs_db_interface::db_apis;
 use prfs_entities::entities::PrfsProofType;
 use prfs_entities::sqlx::{self, types::Json};
-use std::collections::HashMap;
 
 use super::read::load_dynamic_sets;
+use crate::seed::read::{
+    load_circuit_drivers, load_circuit_input_types, load_circuit_types, load_circuits,
+    load_proof_types,
+};
 
 pub async fn truncate(db: &Database2) {
     println!("Truncating tables...");
@@ -87,14 +86,13 @@ pub async fn upload(db: &Database2) {
             db_apis::insert_prfs_proof_type(&mut tx, proof_type).await;
         }
     }
+
     {
         let sets = load_dynamic_sets();
         println!("sets: {:#?}", sets);
 
         for prfs_set in sets.values() {
-            db_apis::insert_prfs_set(&mut tx, prfs_set, true)
-                .await
-                .unwrap();
+            db_apis::upsert_prfs_set(&mut tx, prfs_set).await.unwrap();
         }
     }
 

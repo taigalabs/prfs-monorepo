@@ -34,14 +34,7 @@ pub async fn create_set(
         set_json.set.label
     );
 
-    let set_id = db_apis::insert_prfs_set(tx, &prfs_set, false)
-        .await
-        .unwrap();
-    assert!(
-        set_id.len() > 0,
-        "Set needs to be inserted, set_id: {}",
-        set_json.set.set_id
-    );
+    let set_id = db_apis::insert_prfs_set(tx, &prfs_set).await.unwrap();
 
     println!("Inserted prfs_set, id: {:?}", set_id);
 
