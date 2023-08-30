@@ -125,10 +125,10 @@ async fn upload_dynamic_sets(db: &Database2) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    let dynamic_sets = load_dynamic_sets();
+    let mut dynamic_sets = load_dynamic_sets();
     println!("sets: {:#?}", dynamic_sets);
 
-    for dynamic_set in dynamic_sets.values() {
+    for dynamic_set in dynamic_sets.values_mut() {
         let set_id = db_apis::upsert_prfs_set(&mut tx, &dynamic_set.prfs_set)
             .await
             .unwrap();
@@ -150,6 +150,12 @@ async fn upload_dynamic_sets(db: &Database2) {
 
             nodes.push(prfs_tree_node);
         }
+
+        let mut prfs_set = &mut dynamic_set.prfs_set;
+
+        prfs_tree_maker::apis::set::climb::create_tree_nodes(&mut tx, &mut prfs_set, &nodes)
+            .await
+            .unwrap();
 
         let rows_affected = db_apis::insert_prfs_tree_nodes(&mut tx, &nodes, true)
             .await

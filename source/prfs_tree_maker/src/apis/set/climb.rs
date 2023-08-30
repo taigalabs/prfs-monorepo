@@ -8,9 +8,8 @@ use rust_decimal::Decimal;
 use std::time::SystemTime;
 
 pub async fn create_tree_nodes(
-    pool: &Pool<Postgres>,
+    // pool: &Pool<Postgres>,
     tx: &mut Transaction<'_, Postgres>,
-    // set_json: &SetJson,
     prfs_set: &mut PrfsSet,
     leaves: &Vec<PrfsTreeNode>,
 ) -> Result<String, TreeMakerError> {

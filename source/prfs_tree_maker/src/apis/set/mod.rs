@@ -1,7 +1,7 @@
-mod climb;
-mod create;
-mod json;
-mod leaf;
+pub mod climb;
+pub mod create;
+pub mod json;
+pub mod leaf;
 
 use crate::envs::ENVS;
 use clap::ArgMatches;
@@ -31,9 +31,8 @@ pub async fn create_set(_sub_matches: &ArgMatches) {
             .unwrap();
 
     let merkle_root = climb::create_tree_nodes(
-        &pool,
+        // &pool,
         &mut tx,
-        // &set_json,
         &mut prfs_set,
         &prfs_tree_nodes,
     )
