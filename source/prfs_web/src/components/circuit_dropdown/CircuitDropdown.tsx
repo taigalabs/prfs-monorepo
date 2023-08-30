@@ -58,12 +58,13 @@ const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSe
 
   React.useEffect(() => {
     prfsApi
-      .getPrfsNativeCircuits({
-        page: 0,
+      .getPrfsCircuits({
+        page_idx: 0,
+        page_size: 0,
       })
       .then(resp => {
-        const { page, prfs_circuits_syn1 } = resp.payload;
-        setData({ page, values: prfs_circuits_syn1 });
+        const { page_idx, prfs_circuits_syn1 } = resp.payload;
+        setData({ page: page_idx, values: prfs_circuits_syn1 });
       });
   }, [setData]);
 

@@ -2,6 +2,52 @@
   width: 100%;
 
   table {
+    color: var(--gray-33);
     // border: 1px solid black;
+  }
+}
+
+.tableContainer {
+  /* max-height: 700px; */
+  /* overflow: auto; */
+}
+
+.pos_w {
+  width: 60px;
+}
+
+.value {
+}
+
+.editableCell {
+  input {
+    padding: 2px 3px;
+    width: 400px;
+    border-bottom: 1px solid var(--gray-60);
+  }
+
+  button {
+    cursor: pointer;
+    margin-left: 5px;
+
+    &:hover {
+      color: var(--black-00);
+    }
+  }
+}
+
+.normalMode {
+  display: flex;
+
+  button {
+    margin-left: 5px;
+  }
+}
+
+.editMode {
+  display: flex;
+
+  button {
+    margin-left: 3px;
   }
 }

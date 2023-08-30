@@ -1,6 +1,7 @@
 {
   "set": {
     "set_id": "0.20_eth_2",
+    "set_type": "Static",
     "label": "0.20-0.30 ETH OWNERSHIP",
     "desc": "Addresses that own from 0.20 to 0.30 Ethereum",
     "author": "SYSTEM_NATIVE",

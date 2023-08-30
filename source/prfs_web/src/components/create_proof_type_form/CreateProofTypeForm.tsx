@@ -8,6 +8,7 @@ import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
+import { PrfsCircuitSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsCircuitSyn1";
 
 import styles from "./CreateProofTypeForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -24,7 +25,6 @@ import CircuitInputConfigSection from "@/components/circuit_input_config_section
 import { paths } from "@/paths";
 import FormTextareaInput from "@/components/form/FormTextareaInput";
 import { ContentAreaRow } from "../content_area/ContentArea";
-import { PrfsCircuitSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsCircuitSyn1";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -116,7 +116,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       return;
     }
 
-    const newCircuitInputs: Record<number, CircuitInput> = {};
+    const newCircuitInputs: CircuitInput[] = [];
     const circuit_inputs_meta = selectedCircuit.circuit_inputs_meta as CircuitInputMeta[];
 
     for (const [idx, input] of circuit_inputs_meta.entries()) {

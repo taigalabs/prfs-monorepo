@@ -35,12 +35,20 @@ pub fn make_router(
             prfs_circuits::get_prfs_circuit_by_circuit_id,
         )
         .post(
-            format!("{}/get_prfs_native_circuit_types", PREFIX),
-            prfs_circuit_types::get_prfs_native_circuit_types,
+            format!("{}/get_prfs_circuit_types", PREFIX),
+            prfs_circuit_types::get_prfs_circuit_types,
         )
         .post(
-            format!("{}/get_prfs_native_circuit_drivers", PREFIX),
-            prfs_circuit_drivers::get_prfs_native_circuit_drivers,
+            format!("{}/get_prfs_circuit_type_by_circuit_type", PREFIX),
+            prfs_circuit_types::get_prfs_circuit_type_by_circuit_type,
+        )
+        .post(
+            format!("{}/get_prfs_circuit_drivers", PREFIX),
+            prfs_circuit_drivers::get_prfs_circuit_drivers,
+        )
+        .post(
+            format!("{}/get_prfs_circuit_driver_by_driver_id", PREFIX),
+            prfs_circuit_drivers::get_prfs_circuit_driver_by_driver_id,
         )
         .post(
             format!("{}/create_prfs_proof_instance", PREFIX),
@@ -67,6 +75,10 @@ pub fn make_router(
             prfs_tree_nodes::get_prfs_tree_nodes_by_pos,
         )
         .post(
+            format!("{}/create_prfs_dynamic_set_element", PREFIX),
+            prfs_sets::create_prfs_dynamic_set_element,
+        )
+        .post(
             format!("{}/get_prfs_tree_nodes_by_pos", PREFIX),
             prfs_tree_nodes::get_prfs_tree_nodes_by_pos,
         )
@@ -79,8 +91,16 @@ pub fn make_router(
             prfs_tree_nodes::get_prfs_tree_leaf_indices,
         )
         .post(
+            format!("{}/create_prfs_set", PREFIX),
+            prfs_sets::create_prfs_set,
+        )
+        .post(
             format!("{}/get_prfs_sets", PREFIX),
             prfs_sets::get_prfs_sets,
+        )
+        .post(
+            format!("{}/get_prfs_sets_by_set_type", PREFIX),
+            prfs_sets::get_prfs_sets_by_set_type,
         )
         .post(
             format!("{}/get_prfs_set_by_set_id", PREFIX),
@@ -96,7 +116,11 @@ pub fn make_router(
         )
         .post(
             format!("{}/create_prfs_proof_type", PREFIX),
-            prfs_proof_types::create_prfs_proof_types,
+            prfs_proof_types::create_prfs_proof_type,
+        )
+        .post(
+            format!("{}/update_prfs_tree_node", PREFIX),
+            prfs_tree_nodes::update_prfs_tree_node,
         )
         .post("*", middleware::not_found_handler)
         .err_handler_with_info(middleware::error_handler)

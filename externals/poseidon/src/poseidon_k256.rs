@@ -1,7 +1,6 @@
-use crate::{k256_consts, Poseidon, PoseidonConstants, PoseidonError};
+use crate::{k256_consts, Poseidon, PoseidonConstants};
 use ff::PrimeField;
 pub use secq256k1::field::field_secp::FieldElement;
-use secq256k1::field::BaseField;
 
 #[allow(dead_code)]
 pub fn hash(input: Vec<FieldElement>) -> FieldElement {

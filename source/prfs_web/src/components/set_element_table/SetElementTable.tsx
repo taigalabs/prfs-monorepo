@@ -1,4 +1,5 @@
 import React from "react";
+import cn from "classnames";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import {
   PaginationState,
@@ -6,27 +7,52 @@ import {
   getCoreRowModel,
   ColumnDef,
   flexRender,
+  createColumnHelper,
 } from "@tanstack/react-table";
 import { PrfsTreeNode } from "@taigalabs/prfs-entities/bindings/PrfsTreeNode";
-
-import styles from "./SetElementTable.module.scss";
-import Table2, { Table2Body, Table2Head, Table2Pagination } from "../table2/Table2";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 
-const columns: ColumnDef<PrfsTreeNode>[] = [
-  {
-    header: "Position",
-    accessorFn: row => row.pos_w,
-    cell: info => info.getValue(),
-  },
-  {
-    header: "Value",
-    accessorFn: row => row.val,
-  },
-];
+import styles from "./SetElementTable.module.scss";
+import Table2, {
+  Table2Body,
+  Table2Head,
+  Table2Pagination,
+  TableSearch,
+} from "@/components/table2/Table2";
+import { EditableCell } from "./TableCell";
+import { i18nContext } from "@/contexts/i18n";
 
-const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet }) => {
-  const [data, setData] = React.useState<PrfsTreeNode[]>([]);
+const columnHelper = createColumnHelper<PrfsTreeNode>();
+
+const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, editable }) => {
+  const i18n = React.useContext(i18nContext);
+  const [data, setData] = React.useState<PrfsTreeNode[]>(() => []);
+
+  const columns = React.useMemo<ColumnDef<PrfsTreeNode, any>[]>(
+    () => [
+      columnHelper.accessor("pos_w", {
+        header: "Position",
+        meta: {
+          type: "text",
+        },
+      }),
+      columnHelper.accessor("val", {
+        header: "Value",
+        cell: editable ? EditableCell : ctx => ctx.getValue(),
+        meta: {
+          type: "text",
+        },
+      }),
+      columnHelper.accessor("meta", {
+        header: "Meta",
+        cell: editable ? EditableCell : ctx => ctx.getValue(),
+        meta: {
+          type: "text",
+        },
+      }),
+    ],
+    []
+  );
 
   const [{ pageIndex, pageSize }, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
@@ -57,9 +83,6 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet }) => 
   }, [pageIndex, pageSize]);
 
   const table = useReactTable({
-    meta: {
-      cardinality: prfsSet ? Number(prfsSet.cardinality) : -1,
-    },
     data,
     columns,
     pageCount: prfsSet ? Math.ceil(Number(prfsSet.cardinality) / pageSize) : -1,
@@ -69,45 +92,86 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet }) => 
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
+    meta: {
+      cardinality: prfsSet ? Number(prfsSet.cardinality) : -1,
+      updateData: async function <Key extends keyof PrfsTreeNode>(
+        rowIndex: number,
+        columnId: Key,
+        value: unknown
+      ) {
+        console.log(11, rowIndex, columnId, value);
+
+        const node = data[rowIndex];
+        console.log(22, node);
+        if (node) {
+          node[columnId] = value as any;
+        }
+        console.log(33, node);
+
+        try {
+          const { payload } = await prfsApi.updatePrfsTreeNodeRequest({ prfs_tree_node: node });
+          console.log(44, payload);
+
+          setData(old =>
+            old.map((row, index) => {
+              if (index === rowIndex) {
+                return {
+                  ...old[rowIndex],
+                  [columnId]: value,
+                };
+              }
+              return row;
+            })
+          );
+        } catch (err) {
+          console.error(err);
+        }
+      },
+    },
   });
 
   return (
     prfsSet && (
       <div className={styles.wrapper}>
-        <Table2>
-          <Table2Head>
-            {table.getHeaderGroups().map(headerGroup => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map(header => {
-                  return (
-                    <th key={header.id} colSpan={header.colSpan}>
-                      {header.isPlaceholder ? null : (
-                        <div>{flexRender(header.column.columnDef.header, header.getContext())}</div>
-                      )}
+        <div className={styles.tableContainer}>
+          <TableSearch>
+            <input placeholder={i18n.set_search_guide} />
+          </TableSearch>
+
+          <Table2>
+            <Table2Head>
+              {table.getHeaderGroups().map(headerGroup => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map(header => (
+                    <th key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(header.column.columnDef.header, header.getContext())}
                     </th>
-                  );
-                })}
-              </tr>
-            ))}
-          </Table2Head>
-
-          <Table2Body>
-            {table.getRowModel().rows.map(row => {
-              return (
-                <tr key={row.id}>
-                  {row.getVisibleCells().map(cell => {
-                    return (
-                      <td key={cell.id}>
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </td>
-                    );
-                  })}
+                  ))}
                 </tr>
-              );
-            })}
-          </Table2Body>
-        </Table2>
+              ))}
+            </Table2Head>
 
+            <Table2Body>
+              {table.getRowModel().rows.map(row => (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map(cell => (
+                    <td
+                      className={cn({
+                        [styles.pos_w]: cell.column.id === "pos_w",
+                        [styles.value]: cell.column.id === "value",
+                      })}
+                      key={cell.id}
+                    >
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </Table2Body>
+          </Table2>
+        </div>
         <Table2Pagination table={table} />
       </div>
     )
@@ -119,4 +183,5 @@ export default SetElementTable;
 export interface SetElementTableProps {
   setId: string;
   prfsSet: PrfsSet | undefined;
+  editable?: boolean;
 }

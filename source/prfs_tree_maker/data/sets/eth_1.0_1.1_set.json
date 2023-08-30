@@ -1,6 +1,7 @@
 {
   "set": {
     "set_id": "eth_1.0_1.05",
+    "set_type": "Static",
     "label": "1.0-1.05 ETH OWNERSHIP",
     "desc": "test",
     "author": "SYSTEM_NATIVE",

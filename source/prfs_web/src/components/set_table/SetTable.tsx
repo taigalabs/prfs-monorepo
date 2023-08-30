@@ -1,10 +1,7 @@
-"use client";
-
 import React from "react";
 import Link from "next/link";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
-import { TableRow, TableData, TableSearch } from "@taigalabs/prfs-react-components/src/table/Table";
 import {
   ColumnDef,
   PaginationState,
@@ -19,9 +16,20 @@ import { useRouter } from "next/navigation";
 import styles from "./SetTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import Table2, { Table2Body, Table2Head, Table2Pagination } from "../table2/Table2";
+import Table2, {
+  Table2Body,
+  Table2Head,
+  Table2Pagination,
+  TableSearch,
+} from "@/components/table2/Table2";
+import { PrfsSetType } from "@taigalabs/prfs-entities/bindings/PrfsSetType";
 
-const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSelectVal }) => {
+const SetTable: React.FC<SetTableProps> = ({
+  selectType,
+  selectedVal,
+  handleSelectVal,
+  setType,
+}) => {
   const i18n = React.useContext(i18nContext);
   const [data, setData] = React.useState<PrfsSet[]>([]);
   const router = useRouter();
@@ -68,9 +76,10 @@ const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSele
 
   React.useEffect(() => {
     async function fn() {
-      const { payload } = await prfsApi.getPrfsSets({
+      const { payload } = await prfsApi.getPrfsSetsBySetType({
         page_idx: pageIndex,
         page_size: 20,
+        set_type: setType,
       });
 
       setData(payload.prfs_sets);
@@ -121,7 +130,15 @@ const SetTable: React.FC<SetTableProps> = ({ selectType, selectedVal, handleSele
               <tr
                 key={row.id}
                 onClick={() => {
-                  router.push(`${paths.proof__sets}/${setId}`);
+                  switch (setType) {
+                    case "Dynamic": {
+                      router.push(`${paths.proof__dynamic_sets}/${setId}`);
+                      break;
+                    }
+                    case "Static": {
+                      router.push(`${paths.proof__sets}/${setId}`);
+                    }
+                  }
                 }}
               >
                 {row.getVisibleCells().map(cell => {
@@ -148,4 +165,5 @@ export interface SetTableProps {
   selectType?: "checkbox" | "radio";
   selectedVal?: PrfsSet;
   handleSelectVal?: (row: PrfsSet) => void;
+  setType: PrfsSetType;
 }

@@ -19,7 +19,7 @@ import { paths } from "@/paths";
 import ProofImage from "@/components/proof_image/ProofImage";
 import SocialSharePopover from "@/components/social_share_popover/SocialSharePopover";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
-import PublicInputsView from "@/components/public_inputs_view/PublicInputsView";
+import PublicInputTable from "@/components/public_input_table/PublicInputTable";
 import { SpacedBetweenArea } from "@/components/area/Area";
 import ProofView from "@/components/proof_view/ProofView";
 import ProofBanner from "@/components/proof_banner/ProofBanner";
@@ -83,7 +83,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
           <div className={styles.singleColRow}>
             <div className={styles.tableContainer}>
               <div className={styles.title}>{i18n.public_inputs}</div>
-              <PublicInputsView publicInputs={proofInstance.public_inputs} />
+              <PublicInputTable publicInputs={proofInstance.public_inputs} />
             </div>
           </div>
 

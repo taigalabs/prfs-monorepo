@@ -17,10 +17,6 @@ import { checkSanity } from "@/functions/sanity";
 const BASE_HEIGHT = 100;
 const HEIGHT_PER_INPUT = 61;
 
-const PARENT_MSG_HANDLER = {
-  registered: false,
-};
-
 const ProofGen: React.FC<ProofGenProps> = () => {
   const i18n = React.useContext(i18nContext);
 

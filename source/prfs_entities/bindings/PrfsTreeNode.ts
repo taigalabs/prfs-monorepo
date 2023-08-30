@@ -4,5 +4,6 @@ export interface PrfsTreeNode {
   pos_w: number;
   pos_h: number;
   val: string;
+  meta: string | null;
   set_id: string;
 }

@@ -3,21 +3,25 @@
 import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 import { HiDocumentAdd } from "@react-icons/all-files/hi/HiDocumentAdd";
 import Link from "next/link";
 
 import styles from "./Proofs.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Widget, { TopWidgetTitle, WidgetLabel } from "@/components/widget/Widget";
+import { WidgetLabel } from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import ProofInstanceTable from "@/components/proof_instance_table/ProofInstanceTable";
 import CreateProofInstanceForm from "@/components/create_proof_instance_form/CreateProofInstanceForm";
 import { paths } from "@/paths";
-import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
+import {
+  ContentAreaBody,
+  ContentAreaHeader,
+  ContentAreaRow,
+} from "@/components/content_area/ContentArea";
 import { SpacedBetweenArea } from "@/components/area/Area";
+import { PaddedTableWrapper } from "@/components/table2/Table2";
 
 const Proofs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -52,15 +56,13 @@ const Proofs: React.FC = () => {
               </Button>
             </SpacedBetweenArea>
           </ContentAreaHeader>
-          <ContentAreaRow>
-            <Widget>
+          <ContentAreaBody>
+            <ContentAreaRow>
               <PaddedTableWrapper>
-                <div className={styles.tableContainer}>
-                  <ProofInstanceTable />
-                </div>
+                <ProofInstanceTable />
               </PaddedTableWrapper>
-            </Widget>
-          </ContentAreaRow>
+            </ContentAreaRow>
+          </ContentAreaBody>
         </>
       )}
     </DefaultLayout>

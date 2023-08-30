@@ -1,35 +1,21 @@
 import { PrfsApiResponse } from "./types";
-import { PrfsCircuitDriver } from "@taigalabs/prfs-entities/bindings/PrfsCircuitDriver";
+import { GetPrfsCircuitDriversRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitDriversRequest";
+import { GetPrfsCircuitDriversResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitDriversResponse";
+import { GetPrfsCircuitDriverByDriverIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitDriverByDriverIdRequest";
+import { GetPrfsCircuitDriverByDriverIdResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitDriverByDriverIdResponse";
 
 import { api } from "./utils";
 
-export interface GetNativeCircuitDriversRequest {
-  page: number;
-  circuit_driver_id?: string;
+export async function getPrfsCircuitDrivers(req: GetPrfsCircuitDriversRequest) {
+  return (await api({
+    path: `get_prfs_circuit_drivers`,
+    req,
+  })) as PrfsApiResponse<GetPrfsCircuitDriversResponse>;
 }
 
-export type GetNativeCircuitDriversResponse = PrfsApiResponse<{
-  page: number;
-  prfs_circuit_drivers: PrfsCircuitDriver[];
-}>;
-
-export async function getPrfsNativeCircuitDrivers({
-  page,
-  circuit_driver_id,
-}: GetNativeCircuitDriversRequest) {
-  let req: GetNativeCircuitDriversRequest = {
-    page,
-    circuit_driver_id,
-  };
-
-  try {
-    let resp: GetNativeCircuitDriversResponse = await api({
-      path: `get_prfs_native_circuit_drivers`,
-      req,
-    });
-    return resp;
-  } catch (err) {
-    console.log("error fetching", err);
-    throw err;
-  }
+export async function getPrfsCircuitDriverByDriverId(req: GetPrfsCircuitDriverByDriverIdRequest) {
+  return (await api({
+    path: `get_prfs_circuit_driver_by_driver_id`,
+    req,
+  })) as PrfsApiResponse<GetPrfsCircuitDriverByDriverIdResponse>;
 }

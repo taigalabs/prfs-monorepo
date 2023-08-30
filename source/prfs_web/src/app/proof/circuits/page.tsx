@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { AiFillPlusCircle } from "@react-icons/all-files/ai/AiFillPlusCircle";
 
@@ -14,8 +13,13 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import CircuitTable from "@/components/circuit_table/CircuitTable";
 import Link from "next/link";
 import { paths } from "@/paths";
-import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
+import {
+  ContentAreaBody,
+  ContentAreaHeader,
+  ContentAreaRow,
+} from "@/components/content_area/ContentArea";
 import { SpacedBetweenArea } from "@/components/area/Area";
+import { PaddedTableWrapper } from "@/components/table2/Table2";
 
 const Circuits: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -36,15 +40,14 @@ const Circuits: React.FC = () => {
           </Button>
         </SpacedBetweenArea>
       </ContentAreaHeader>
-      <ContentAreaRow>
-        <Widget>
+
+      <ContentAreaBody>
+        <ContentAreaRow>
           <PaddedTableWrapper>
-            <div className={styles.circuitTableContainer}>
-              <CircuitTable />
-            </div>
+            <CircuitTable />
           </PaddedTableWrapper>
-        </Widget>
-      </ContentAreaRow>
+        </ContentAreaRow>
+      </ContentAreaBody>
     </DefaultLayout>
   );
 };

@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 import { AiFillPlusCircle } from "@react-icons/all-files/ai/AiFillPlusCircle";
 
 import styles from "./Sets.module.scss";
@@ -14,8 +13,15 @@ import SetTable from "@/components/set_table/SetTable";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import { paths } from "@/paths";
-import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
+import {
+  ContentAreaBody,
+  ContentAreaHeader,
+  ContentAreaRow,
+} from "@/components/content_area/ContentArea";
 import { SpacedBetweenArea } from "@/components/area/Area";
+import { PaddedTableWrapper } from "@/components/table2/Table2";
+import { useSearchParams } from "next/navigation";
+import CreateSetForm from "@/components/create_set_form/CreateSetForm";
 
 const Sets: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -36,11 +42,14 @@ const Sets: React.FC = () => {
           </Button>
         </SpacedBetweenArea>
       </ContentAreaHeader>
-      <ContentAreaRow>
-        <PaddedTableWrapper>
-          <SetTable />
-        </PaddedTableWrapper>
-      </ContentAreaRow>
+
+      <ContentAreaBody>
+        <ContentAreaRow>
+          <PaddedTableWrapper>
+            <SetTable setType="Static" />
+          </PaddedTableWrapper>
+        </ContentAreaRow>
+      </ContentAreaBody>
     </DefaultLayout>
   );
 };

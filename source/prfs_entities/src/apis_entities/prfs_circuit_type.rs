@@ -7,14 +7,26 @@ use crate::entities::PrfsCircuitType;
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetCircuitTypesRequest {
-    pub page: u32,
-    pub circuit_type: Option<String>,
+pub struct GetPrfsCircuitTypesRequest {
+    pub page_idx: i32,
+    pub page_size: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetCircuitTypesResponse {
-    pub page: usize,
+pub struct GetPrfsCircuitTypesResponse {
+    pub page_idx: i32,
     pub prfs_circuit_types: Vec<PrfsCircuitType>,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetPrfsCircuitTypeByCircuitTypeRequest {
+    pub circuit_type: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetPrfsCircuitTypeByCircuitTypeResponse {
+    pub prfs_circuit_type: PrfsCircuitType,
 }

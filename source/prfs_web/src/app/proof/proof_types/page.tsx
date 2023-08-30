@@ -2,7 +2,6 @@
 
 import React from "react";
 import { useSearchParams } from "next/navigation";
-import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table/Table";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { AiFillFolderAdd } from "@react-icons/all-files/ai/AiFillFolderAdd";
 import Link from "next/link";
@@ -18,6 +17,7 @@ import CreateProofTypeForm from "@/components/create_proof_type_form/CreateProof
 import { paths } from "@/paths";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 import { SpacedBetweenArea } from "@/components/area/Area";
+import { PaddedTableWrapper } from "@/components/table2/Table2";
 
 const Proofs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -52,13 +52,11 @@ const Proofs: React.FC = () => {
             </SpacedBetweenArea>
           </ContentAreaHeader>
           <ContentAreaRow>
-            <Widget>
-              <PaddedTableWrapper>
-                <div className={styles.tableContainer}>
-                  <ProofTypeTable />
-                </div>
-              </PaddedTableWrapper>
-            </Widget>
+            <PaddedTableWrapper>
+              <div className={styles.tableContainer}>
+                <ProofTypeTable />
+              </div>
+            </PaddedTableWrapper>
           </ContentAreaRow>
         </>
       )}

@@ -1,8 +1,9 @@
-import { PrfsTreeNode } from "@taigalabs/prfs-entities/bindings/PrfsTreeNode";
 import { GetPrfsTreeLeafNodesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafNodesRequest";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
 import { GetPrfsTreeNodesResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesResponse";
+import { UpdatePrfsTreeNodeRequest } from "@taigalabs/prfs-entities/bindings/UpdatePrfsTreeNodeRequest";
+import { UpdatePrfsTreeNodeResponse } from "@taigalabs/prfs-entities/bindings/UpdatePrfsTreeNodeResponse";
 
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
@@ -26,4 +27,11 @@ export async function getPrfsTreeLeafIndicesRequest(req: GetPrfsTreeLeafIndicesR
     path: `get_prfs_tree_leaf_indices`,
     req,
   })) as PrfsApiResponse<GetPrfsTreeNodesResponse>;
+}
+
+export async function updatePrfsTreeNodeRequest(req: UpdatePrfsTreeNodeRequest) {
+  return (await api({
+    path: `update_prfs_tree_node`,
+    req,
+  })) as PrfsApiResponse<UpdatePrfsTreeNodeResponse>;
 }

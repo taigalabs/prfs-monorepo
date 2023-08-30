@@ -47,6 +47,10 @@ const SetDetailTable: React.FC<SetDetailTableProps> = ({ prfsSet }) => {
         value: prfsSet.label,
       },
       {
+        label: i18n.set_type,
+        value: prfsSet.set_type,
+      },
+      {
         label: i18n.cardinality,
         value: prfsSet.cardinality,
       },
@@ -100,7 +104,9 @@ const SetDetailTable: React.FC<SetDetailTableProps> = ({ prfsSet }) => {
                   {row.getVisibleCells().map(cell => {
                     return (
                       <td key={cell.id}>
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        <div className={styles.cell}>
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </div>
                       </td>
                     );
                   })}

@@ -1,21 +1,19 @@
-.tableWrapper {
-  table-layout: fixed;
-  width: 100%;
-}
+.wrapper {
+  tbody {
+    tr {
+      td:first-child {
+        vertical-align: top;
+        font-weight: 500;
+        width: 230px;
+      }
 
-.rows {
-}
-
-.label {
-  vertical-align: top;
-  font-weight: 500;
-  width: 230px;
-}
-
-.value {
-  word-wrap: break-word;
-  word-break: break-all;
-  width: 490px;
+      /* td:last-child { */
+      /*   word-wrap: break-word; */
+      /*   word-break: break-all; */
+      /*   width: 490px; */
+      /* } */
+    }
+  }
 }
 
 .verified {

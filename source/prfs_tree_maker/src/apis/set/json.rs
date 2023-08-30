@@ -1,5 +1,6 @@
 use crate::paths::PATHS;
 use colored::Colorize;
+use prfs_entities::entities::PrfsSetType;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -10,6 +11,7 @@ pub struct SetJson {
 #[derive(Serialize, Deserialize, Debug)]
 pub struct SetDetail {
     pub set_id: uuid::Uuid,
+    pub set_type: PrfsSetType,
     pub label: String,
     pub desc: String,
     pub author: String,

@@ -19,12 +19,14 @@ pub struct SignUpResponse {
     pub sig: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
 pub struct SignInRequest {
     pub sig: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
 pub struct SignInResponse {
     pub prfs_account: PrfsAccount,
 }

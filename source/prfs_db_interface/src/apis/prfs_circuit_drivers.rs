@@ -9,7 +9,7 @@ use rust_decimal::Decimal;
 pub async fn get_prfs_circuit_driver_by_circuit_driver_id(
     pool: &Pool<Postgres>,
     circuit_driver_id: &String,
-) -> Vec<PrfsCircuitDriver> {
+) -> PrfsCircuitDriver {
     let query = r#"
 SELECT * 
 FROM prfs_circuit_drivers
@@ -17,28 +17,25 @@ WHERE circuit_driver_id=$1"#;
 
     println!("query: {}", query);
 
-    let rows = sqlx::query(query)
+    let row = sqlx::query(query)
         .bind(&circuit_driver_id)
-        .fetch_all(pool)
+        .fetch_one(pool)
         .await
         .unwrap();
 
-    let prfs_circuit_drivers: Vec<PrfsCircuitDriver> = rows
-        .iter()
-        .map(|row| PrfsCircuitDriver {
-            circuit_driver_id: row.get("circuit_driver_id"),
-            label: row.get("label"),
-            driver_repository_url: row.get("driver_repository_url"),
-            version: row.get("version"),
-            author: row.get("author"),
-            desc: row.get("desc"),
-            circuit_types: row.get("circuit_types"),
-            driver_properties_meta: row.get("driver_properties_meta"),
-            created_at: row.get("created_at"),
-        })
-        .collect();
+    let prfs_circuit_driver = PrfsCircuitDriver {
+        circuit_driver_id: row.get("circuit_driver_id"),
+        label: row.get("label"),
+        driver_repository_url: row.get("driver_repository_url"),
+        version: row.get("version"),
+        author: row.get("author"),
+        desc: row.get("desc"),
+        circuit_types: row.get("circuit_types"),
+        driver_properties_meta: row.get("driver_properties_meta"),
+        created_at: row.get("created_at"),
+    };
 
-    return prfs_circuit_drivers;
+    return prfs_circuit_driver;
 }
 
 pub async fn get_prfs_circuit_drivers(pool: &Pool<Postgres>) -> Vec<PrfsCircuitDriver> {

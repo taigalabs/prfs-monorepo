@@ -1,64 +1,87 @@
-"use client";
-
 import React from "react";
 import Link from "next/link";
 import { RawCircuitInputMeta } from "@taigalabs/prfs-entities/bindings/RawCircuitInputMeta";
-import Table, {
-  TableBody,
-  TableHeader,
-  TableRecordData,
-  TableRow,
-  TableData,
-} from "@taigalabs/prfs-react-components/src/table/Table";
+import {
+  ColumnDef,
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 
 import styles from "./RawCircuitInputMetaTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
+import Table2, { Table2Body, Table2Head } from "@/components/table2/Table2";
 
 const RawCircuitInputMetaTable: React.FC<RawCircuitInputMetaTableProps> = ({
   raw_circuit_inputs_meta,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const [data, _] = React.useState<TableData<RawCircuitInputMeta>>({
-    page: 0,
-    values: raw_circuit_inputs_meta,
+
+  const columns = React.useMemo(() => {
+    const cols: ColumnDef<RawCircuitInputMeta>[] = [
+      {
+        header: i18n.type,
+        accessorFn: row => row.type,
+        cell: info => info.getValue(),
+      },
+      {
+        header: i18n.label,
+        accessorFn: row => row.label,
+        cell: info => info.getValue(),
+      },
+      {
+        header: i18n.description,
+        accessorFn: row => row.desc,
+        cell: info => info.getValue(),
+      },
+      {
+        header: i18n.reference,
+        accessorFn: row => row.public,
+        cell: info => info.getValue(),
+      },
+    ];
+
+    return cols;
+  }, [i18n]);
+
+  const [data, setData] = React.useState<RawCircuitInputMeta[]>(raw_circuit_inputs_meta);
+
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
   });
 
-  const rowsElem = React.useMemo(() => {
-    let { values } = data;
-
-    let rows: React.ReactNode[] = [];
-    if (values === undefined || values.length < 1) {
-      return rows;
-    }
-
-    for (let val of values) {
-      let row = (
-        <TableRow key={val.label}>
-          <td className={styles.label}>{val.label}</td>
-          <td className={styles.type}>{val.type}</td>
-          <td className={styles.public}>{val.public.toString()}</td>
-          <td className={styles.desc}>{val.desc}</td>
-        </TableRow>
-      );
-
-      rows.push(row);
-    }
-
-    return rows;
-  }, [data]);
-
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <th className={styles.label}>{i18n.label}</th>
-          <th className={styles.type}>{i18n.type}</th>
-          <th className={styles.public}>{i18n.public}</th>
-          <th className={styles.desc}>{i18n.description}</th>
-        </TableRow>
-      </TableHeader>
-      <TableBody>{rowsElem}</TableBody>
-    </Table>
+    <div className={styles.wrapper}>
+      <Table2>
+        <Table2Head>
+          <tr>
+            <th>{i18n.type}</th>
+            <th>{i18n.label}</th>
+            <th>{i18n.description}</th>
+            <th>{i18n.public}</th>
+          </tr>
+        </Table2Head>
+
+        <Table2Body>
+          {table.getRowModel().rows.map(row => {
+            return (
+              <tr key={row.id}>
+                {row.getVisibleCells().map(cell => {
+                  return (
+                    <td key={cell.id}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </Table2Body>
+      </Table2>
+    </div>
   );
 };
 

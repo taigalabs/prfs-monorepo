@@ -48,6 +48,7 @@ pub async fn create_leaves_without_offset(
         let node = PrfsTreeNode {
             pos_w: Decimal::from_u64(idx as u64).unwrap(),
             pos_h: 0,
+            meta: None,
             val: account.addr.to_string(),
             set_id,
         };
