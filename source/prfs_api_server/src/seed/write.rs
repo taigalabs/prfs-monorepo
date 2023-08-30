@@ -42,17 +42,12 @@ pub async fn truncate(db: &Database2) {
 }
 
 pub async fn upload(db: &Database2) {
-    let pool = &db.pool;
-    let mut tx = pool.begin().await.unwrap();
-
     // upload_circuit_drivers(&db).await;
     // upload_circuit_types(&db).await;
     // upload_circuit_input_types(&db).await;
     // upload_circuits(&db).await;
     // upload_proof_types(&db).await;
     upload_dynamic_sets(&db).await;
-
-    tx.commit().await.unwrap();
 }
 
 async fn upload_circuit_drivers(db: &Database2) {
