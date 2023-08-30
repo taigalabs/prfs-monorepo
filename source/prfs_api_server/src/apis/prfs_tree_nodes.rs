@@ -1,8 +1,9 @@
 use hyper::{body, header, Body, Request, Response};
 use prfs_db_interface::db_apis;
 use prfs_entities::apis_entities::{
-    GetPrfsTreeLeafIndicesRequest, GetPrfsTreeLeafNodesRequest, GetPrfsTreeNodesByPosRequest,
-    GetPrfsTreeNodesResponse, UpdatePrfsTreeNodeRequest, UpdatePrfsTreeNodeResponse,
+    GetPrfsTreeLeafIndicesRequest, GetPrfsTreeLeafNodesBySetIdRequest,
+    GetPrfsTreeNodesByPosRequest, GetPrfsTreeNodesResponse, UpdatePrfsTreeNodeRequest,
+    UpdatePrfsTreeNodeResponse,
 };
 use routerify::prelude::*;
 use std::{convert::Infallible, sync::Arc};
@@ -34,7 +35,7 @@ pub async fn get_prfs_tree_leaf_nodes_by_set_id(
 ) -> Result<Response<Body>, Infallible> {
     let state = req.data::<Arc<ServerState>>().unwrap().clone();
 
-    let req: GetPrfsTreeLeafNodesRequest = parse_req(req).await;
+    let req: GetPrfsTreeLeafNodesBySetIdRequest = parse_req(req).await;
 
     let pool = &state.db2.pool;
 

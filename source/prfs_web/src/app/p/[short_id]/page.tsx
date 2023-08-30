@@ -2,7 +2,8 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import * as prfsApi from "@taigalabs/prfs-api-js";
+// import * as prfsApi from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 
 import { stateContext } from "@/contexts/state";
 import styles from "./Home.module.scss";
@@ -18,7 +19,10 @@ const ShortIdPage: React.FC<ShortIdPageProps> = ({ params }) => {
     async function fn() {
       if (params.short_id) {
         try {
-          const { payload } = await prfsApi.getPrfsProofInstanceByShortId({
+          // const { payload } = await prfsApi.getPrfsProofInstanceByShortId({
+          //   short_id: params.short_id,
+          // });
+          const { payload } = await prfsApi2("get_prfs_proof_instance_by_short_id", {
             short_id: params.short_id,
           });
 

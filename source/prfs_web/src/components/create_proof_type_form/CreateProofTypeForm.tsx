@@ -2,7 +2,8 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
-import * as prfsApi from "@taigalabs/prfs-api-js";
+// import * as prfsApi from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
@@ -162,7 +163,9 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     };
 
     try {
-      await prfsApi.createPrfsProofType(createPrfsProofTypeRequest);
+      // await prfsApi.createPrfsProofType(createPrfsProofTypeRequest);
+      await prfsApi2("create_prfs_proof_type", createPrfsProofTypeRequest);
+
       router.push(paths.proof__proof_types);
     } catch (err: any) {
       console.error(err);

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import * as prfsApi from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 
@@ -65,7 +66,8 @@ export const CreateDynamicSetElement: React.FC<CreateDynamicSetElementProps> = (
     };
 
     try {
-      await prfsApi.createPrfsDynamicSetElement(createDynamicSetElementRequest);
+      // await prfsApi.createPrfsDynamicSetElement(createDynamicSetElementRequest);
+      await prfsApi2("create_prfs_dynamic_set_element", createDynamicSetElementRequest);
 
       router.push(`${paths.proof__dynamic_sets}/${setId}`);
     } catch (err: any) {

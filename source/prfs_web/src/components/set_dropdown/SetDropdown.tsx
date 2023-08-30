@@ -1,7 +1,6 @@
-"use client";
-
 import React from "react";
-import * as prfsApi from "@taigalabs/prfs-api-js";
+// import * as prfsApi from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 
 import styles from "./SetDropdown.module.scss";
@@ -54,7 +53,11 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
 
   React.useMemo(async () => {
     try {
-      const { payload } = await prfsApi.getPrfsSets({
+      // const { payload } = await prfsApi.getPrfsSets({
+      //   page_idx: 0,
+      //   page_size: 20,
+      // });
+      const { payload } = await prfsApi2("get_prfs_sets", {
         page_idx: 0,
         page_size: 20,
       });

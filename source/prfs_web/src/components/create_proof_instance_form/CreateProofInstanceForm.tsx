@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import * as prfsApi from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
@@ -107,7 +108,15 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
       console.log("try inserting proof", proveReceipt);
       try {
-        const resp = await prfsApi.createPrfsProofInstance({
+        // const resp = await prfsApi.createPrfsProofInstance({
+        //   proof_instance_id,
+        //   sig: prfsAccount.sig,
+        //   proof_type_id: selectedProofType.proof_type_id,
+        //   proof: Array.from(proof),
+        //   public_inputs,
+        // });
+
+        const { payload } = await prfsApi2("create_prfs_proof_instance", {
           proof_instance_id,
           sig: prfsAccount.sig,
           proof_type_id: selectedProofType.proof_type_id,
@@ -115,7 +124,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
           public_inputs,
         });
 
-        router.push(`${paths.proof__proof_instances}/${resp.payload.proof_instance_id}`);
+        router.push(`${paths.proof__proof_instances}/${payload.proof_instance_id}`);
       } catch (err: any) {
         console.error(err);
 

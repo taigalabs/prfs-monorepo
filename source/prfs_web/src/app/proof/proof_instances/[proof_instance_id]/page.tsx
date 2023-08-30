@@ -3,6 +3,7 @@
 import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import * as prfsApi from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Link from "next/link";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
@@ -38,7 +39,11 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
     async function fn() {
       const proof_instance_id = decodeURIComponent(params.proof_instance_id);
       try {
-        let { payload } = await prfsApi.getPrfsProofInstanceByInstanceId({
+        // let { payload } = await prfsApi.getPrfsProofInstanceByInstanceId({
+        //   proof_instance_id,
+        // });
+
+        const { payload } = await prfsApi2("get_prfs_proof_instance_by_instance_id", {
           proof_instance_id,
         });
 

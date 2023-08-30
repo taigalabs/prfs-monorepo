@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import * as prfsApi from "@taigalabs/prfs-api-js";
+// import * as prfsApi from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import {
   ColumnDef,
@@ -76,7 +77,12 @@ const SetTable: React.FC<SetTableProps> = ({
 
   React.useEffect(() => {
     async function fn() {
-      const { payload } = await prfsApi.getPrfsSetsBySetType({
+      // const { payload } = await prfsApi.getPrfsSetsBySetType({
+      //   page_idx: pageIndex,
+      //   page_size: 20,
+      //   set_type: setType,
+      // });
+      const { payload } = await prfsApi2("get_prfs_sets_by_set_type", {
         page_idx: pageIndex,
         page_size: 20,
         set_type: setType,

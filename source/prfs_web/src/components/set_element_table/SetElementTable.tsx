@@ -1,6 +1,7 @@
 import React from "react";
 import cn from "classnames";
-import * as prfsApi from "@taigalabs/prfs-api-js";
+// import * as prfsApi from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import {
   PaginationState,
   useReactTable,
@@ -61,7 +62,12 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
 
   React.useEffect(() => {
     async function fn() {
-      const { payload } = await prfsApi.getPrfsTreeLeafNodesBySetId({
+      // const { payload } = await prfsApi.getPrfsTreeLeafNodesBySetId({
+      //   page_idx: pageIndex,
+      //   page_size: pageSize,
+      //   set_id: setId,
+      // });
+      const { payload } = await prfsApi2("get_prfs_tree_leaf_nodes_by_set_id", {
         page_idx: pageIndex,
         page_size: pageSize,
         set_id: setId,
@@ -109,8 +115,8 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
         console.log(33, node);
 
         try {
-          const { payload } = await prfsApi.updatePrfsTreeNodeRequest({ prfs_tree_node: node });
-          console.log(44, payload);
+          // const { payload } = await prfsApi.updatePrfsTreeNodeRequest({ prfs_tree_node: node });
+          await prfsApi2("update_prfs_tree_node", { prfs_tree_node: node });
 
           setData(old =>
             old.map((row, index) => {

@@ -3,6 +3,7 @@ import { useConnect, metamaskWallet } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
 import { useRouter } from "next/navigation";
 import * as prfsApi from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./SignInForm.module.scss";
@@ -11,10 +12,8 @@ import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalle
 import localStore from "@/storage/localStore";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import { i18nContext } from "@/contexts/i18n";
-import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
-import { FormSubtitle, FormTitle, FormTitleRow } from "@/components/form/Form";
+import { FormTitle } from "@/components/form/Form";
 import FormTextInput from "@/components/form/FormTextInput";
-import StrikeThroughText from "@/components/strike_through_text/StrikeThroughText";
 import { paths } from "@/paths";
 
 const metamaskConfig = metamaskWallet();
@@ -152,7 +151,8 @@ export async function signIn(walletAddr: string, passhash: string, signer: ether
 
   try {
     let sig = await signer.signMessage(passhash);
-    let resp = await prfsApi.signInPrfsAccount({ sig });
+    // let resp = await prfsApi.signInPrfsAccount({ sig });
+    const resp = await prfsApi2("sign_in_prfs_account", { sig });
 
     if (resp.error) {
       throw new Error(resp.error);

@@ -3,7 +3,7 @@ use prfs_db_interface::db_apis;
 use prfs_entities::apis_entities::{
     CreatePrfsProofInstanceRequest, CreatePrfsProofInstanceResponse,
     GetPrfsProofInstanceByInstanceIdRequest, GetPrfsProofInstanceByInstanceIdResponse,
-    GetPrfsProofInstanceByShortIdRequest, GetPrfsProofInstancesByShortIdResponse,
+    GetPrfsProofInstanceByShortIdRequest, GetPrfsProofInstanceByShortIdResponse,
     GetPrfsProofInstancesRequest, GetPrfsProofInstancesResponse,
 };
 use prfs_entities::entities::PrfsProofInstance;
@@ -65,7 +65,7 @@ pub async fn get_prfs_proof_instance_by_short_id(
     let prfs_proof_instance =
         db_apis::get_prfs_proof_instance_by_short_id(pool, &req.short_id).await;
 
-    let resp = ApiResponse::new_success(GetPrfsProofInstancesByShortIdResponse {
+    let resp = ApiResponse::new_success(GetPrfsProofInstanceByShortIdResponse {
         prfs_proof_instance,
     });
 

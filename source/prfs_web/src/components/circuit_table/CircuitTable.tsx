@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import * as prfsApi from "@taigalabs/prfs-api-js";
+// import * as prfsApi from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import {
   ColumnDef,
@@ -77,7 +78,11 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
 
   React.useEffect(() => {
     async function fn() {
-      const { payload } = await prfsApi.getPrfsCircuits({
+      // const { payload } = await prfsApi.getPrfsCircuits({
+      //   page_idx: pageIndex,
+      //   page_size: pageSize,
+      // });
+      const { payload } = await prfsApi2("get_prfs_circuits", {
         page_idx: pageIndex,
         page_size: pageSize,
       });

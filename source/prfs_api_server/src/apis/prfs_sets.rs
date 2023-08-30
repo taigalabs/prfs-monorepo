@@ -5,7 +5,7 @@ use prfs_entities::{
         CreatePrfsDynamicSetElementRequest, CreatePrfsDynamicSetElementResponse,
         CreatePrfsSetRequest, CreatePrfsSetResponse, GetPrfsSetBySetIdRequest,
         GetPrfsSetBySetIdResponse, GetPrfsSetsBySetTypeRequest, GetPrfsSetsRequest,
-        GetPrfsSetsResponse, GetPrfsTreeLeafNodesRequest,
+        GetPrfsSetsResponse,
     },
     entities::PrfsTreeNode,
 };

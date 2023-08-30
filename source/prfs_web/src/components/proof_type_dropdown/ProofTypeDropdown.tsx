@@ -1,7 +1,6 @@
-"use client";
-
 import React from "react";
-import * as prfsApi from "@taigalabs/prfs-api-js";
+// import * as prfsApi from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import styles from "./ProofTypeDropdown.module.scss";
@@ -55,15 +54,20 @@ const ProofTypeDropdown: React.FC<ProofTypeDropdownProps> = ({ selectedVal, hand
   });
 
   React.useEffect(() => {
-    prfsApi
-      .getPrfsProofTypes({
+    async function fn() {
+      // const { payload } = await prfsApi.getPrfsProofTypes({
+      //   page_idx: 0,
+      //   page_size: 20,
+      // });
+      const { payload } = await prfsApi2("get_prfs_proof_types", {
         page_idx: 0,
         page_size: 20,
-      })
-      .then(resp => {
-        const { page_idx, prfs_proof_types } = resp.payload;
-        setData({ page: page_idx, values: prfs_proof_types });
       });
+
+      setData({ page: payload.page_idx, values: payload.prfs_proof_types });
+    }
+
+    fn().then();
   }, [setData]);
 
   const createBase = React.useCallback(() => {

@@ -29,7 +29,7 @@ pub struct GetPrfsTreeNodesResponse {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetPrfsTreeLeafNodesRequest {
+pub struct GetPrfsTreeLeafNodesBySetIdRequest {
     pub page_idx: i32,
     pub page_size: i32,
 
