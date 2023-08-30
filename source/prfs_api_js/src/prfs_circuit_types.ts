@@ -6,16 +6,16 @@ import { GetPrfsCircuitTypeByCircuitTypeResponse } from "@taigalabs/prfs-entitie
 
 import { api } from "./utils";
 
-export async function getPrfsCircuitTypes(req: GetPrfsCircuitTypesRequest) {
-  return (await api({
-    path: `get_prfs_circuit_types`,
-    req,
-  })) as PrfsApiResponse<GetPrfsCircuitTypesResponse>;
-}
+// export async function getPrfsCircuitTypes(req: GetPrfsCircuitTypesRequest) {
+//   return (await api({
+//     path: `get_prfs_circuit_types`,
+//     req,
+//   })) as PrfsApiResponse<GetPrfsCircuitTypesResponse>;
+// }
 
-export async function getPrfsCircuitTypeByCircuitType(req: GetPrfsCircuitTypeByCircuitTypeRequest) {
-  return (await api({
-    path: `get_prfs_circuit_type_by_circuit_type`,
-    req,
-  })) as PrfsApiResponse<GetPrfsCircuitTypeByCircuitTypeResponse>;
-}
+// export async function getPrfsCircuitTypeByCircuitType(req: GetPrfsCircuitTypeByCircuitTypeRequest) {
+//   return (await api({
+//     path: `get_prfs_circuit_type_by_circuit_type`,
+//     req,
+//   })) as PrfsApiResponse<GetPrfsCircuitTypeByCircuitTypeResponse>;
+// }

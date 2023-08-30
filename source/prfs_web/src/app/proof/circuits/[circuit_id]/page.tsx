@@ -3,7 +3,8 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import * as prfsApi from "@taigalabs/prfs-api-js";
+// import * as prfsApi from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsCircuitSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsCircuitSyn1";
 import { RawCircuitInputMeta } from "@taigalabs/prfs-entities/bindings/RawCircuitInputMeta";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
@@ -35,7 +36,10 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
   React.useEffect(() => {
     async function fn() {
       try {
-        const { payload } = await prfsApi.getPrfsCircuitByCircuitId({
+        // const { payload } = await prfsApi.getPrfsCircuitByCircuitId({
+        //   circuit_id: params.circuit_id,
+        // });
+        const { payload } = await prfsApi2("get_prfs_circuit_by_circuit_id", {
           circuit_id: params.circuit_id,
         });
 

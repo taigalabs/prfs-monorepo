@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as prfsApi from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 import { PrfsCircuitType } from "@taigalabs/prfs-entities/bindings/PrfsCircuitType";
 
@@ -30,7 +31,10 @@ const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {
 
   React.useEffect(() => {
     async function fn() {
-      const { payload } = await prfsApi.getPrfsCircuitTypeByCircuitType({
+      // const { payload } = await prfsApi.getPrfsCircuitTypeByCircuitType({
+      //   circuit_type: params.circuit_type,
+      // });
+      const { payload } = await prfsApi2("get_prfs_circuit_type_by_circuit_type", {
         circuit_type: params.circuit_type,
       });
 

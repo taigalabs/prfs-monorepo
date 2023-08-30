@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import * as prfsApi from "@taigalabs/prfs-api-js";
+// import * as prfsApi from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsCircuitDriver } from "@taigalabs/prfs-entities/bindings/PrfsCircuitDriver";
 import {
   ColumnDef,
@@ -58,7 +59,11 @@ const DriverTable: React.FC<DriverTableProps> = ({ selectType, selectedVal, hand
 
   React.useEffect(() => {
     async function fn() {
-      const { payload } = await prfsApi.getPrfsCircuitDrivers({
+      // const { payload } = await prfsApi.getPrfsCircuitDrivers({
+      //   page_idx: pageIndex,
+      //   page_size: pageSize,
+      // });
+      const { payload } = await prfsApi2("get_prfs_circuit_drivers", {
         page_idx: pageIndex,
         page_size: pageSize,
       });

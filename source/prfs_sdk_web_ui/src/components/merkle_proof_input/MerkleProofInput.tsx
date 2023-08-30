@@ -3,6 +3,7 @@ import cn from "classnames";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import * as prfsApi from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import {
   ListenClickOutsideMsg,
   StopClickOutsideMsg,
@@ -56,13 +57,18 @@ const MerkleProofModal: React.FC<MerkleProofModalProps> = ({
     const setId = circuitInput.value;
 
     try {
-      const leafNodesData = await prfsApi.getPrfsTreeLeafIndicesRequest({
+      // const leafNodesData = await prfsApi.getPrfsTreeLeafIndicesRequest({
+      //   set_id: setId,
+      //   leaf_vals: [walletAddr],
+      // });
+      //
+      const { payload } = await prfsApi2("get_prfs_tree_leaf_indices", {
         set_id: setId,
         leaf_vals: [walletAddr],
       });
 
       let pos_w = null;
-      for (const node of leafNodesData.payload.prfs_tree_nodes) {
+      for (const node of payload.prfs_tree_nodes) {
         if (node.val === walletAddr.toLowerCase()) {
           pos_w = node.pos_w;
         }
@@ -82,7 +88,11 @@ const MerkleProofModal: React.FC<MerkleProofModalProps> = ({
 
       console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
 
-      const siblingNodesData = await prfsApi.getPrfsTreeNodesByPos({
+      // const siblingNodesData = await prfsApi.getPrfsTreeNodesByPos({
+      //   set_id: setId,
+      //   pos: siblingPos,
+      // });
+      const siblingNodesData = await prfsApi2("get_prfs_tree_nodes_by_pos", {
         set_id: setId,
         pos: siblingPos,
       });
@@ -154,9 +164,14 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   React.useEffect(() => {
     async function fn() {
       if (circuitInput.ref === "PRFS_SET") {
-        const { payload } = await prfsApi.getPrfsSetBySetId({
+        // const { payload } = await prfsApi.getPrfsSetBySetId({
+        //   set_id: circuitInput.value,
+        // });
+        //
+        const { payload } = await prfsApi2("get_prfs_set_by_set_id", {
           set_id: circuitInput.value,
         });
+
         setPrfsSet(payload.prfs_set);
       } else {
         console.error("Prfs set not found");

@@ -3,6 +3,7 @@ import { useConnect, metamaskWallet } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
 import { useRouter } from "next/navigation";
 import * as prfsApi from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import TextButton from "@taigalabs/prfs-react-components/src/text_button/TextButton";
 
@@ -11,8 +12,7 @@ import { stateContext } from "@/contexts/state";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import { i18nContext } from "@/contexts/i18n";
-import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
-import { FormTitle, FormTitleRow } from "@/components/form/Form";
+import { FormTitle } from "@/components/form/Form";
 import FormTextInput from "@/components/form/FormTextInput";
 import { paths } from "@/paths";
 
@@ -89,10 +89,11 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
       const avatarColor = Math.floor(Math.random() * 16777215).toString(16);
 
       try {
-        let resp = await prfsApi.signUpPrfsAccount({
-          sig,
-          avatarColor,
-        });
+        // let resp = await prfsApi.signUpPrfsAccount({
+        //   sig,
+        //   avatarColor,
+        // });
+        const resp = await prfsApi2("sign_up_prfs_account", { sig, avatarColor });
 
         if (resp.error) {
           throw new Error(resp.error);

@@ -30,7 +30,7 @@ pub struct GetPrfsProofInstanceByInstanceIdResponse {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetPrfsProofInstancesByShortIdResponse {
+pub struct GetPrfsProofInstanceByShortIdResponse {
     pub prfs_proof_instance: PrfsProofInstance,
 }
 

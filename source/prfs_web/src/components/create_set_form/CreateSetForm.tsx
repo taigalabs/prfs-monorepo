@@ -2,25 +2,16 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
-import * as prfsApi from "@taigalabs/prfs-api-js";
-import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
-import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
+// import * as prfsApi from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
-import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 
 import styles from "./CreateSetForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Widget, {
-  TopWidgetTitle,
-  WidgetHeader,
-  WidgetLabel,
-  WidgetPaddedBody,
-} from "@/components/widget/Widget";
+import Widget, { TopWidgetTitle, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
 import FormTextInput from "@/components/form/FormTextInput";
-import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
 import { stateContext } from "@/contexts/state";
-import CircuitInputConfigSection from "@/components/circuit_input_config_section/CircuitInputConfigSection";
 import { paths } from "@/paths";
 import FormTextareaInput from "@/components/form/FormTextareaInput";
 import { ContentAreaRow } from "@/components/content_area/ContentArea";
@@ -92,7 +83,8 @@ const CreateSetForm: React.FC<CreateSetFormProps> = () => {
     };
 
     try {
-      await prfsApi.createPrfsSet(createPrfsSetRequest);
+      // await prfsApi.createPrfsSet(createPrfsSetRequest);
+      await prfsApi2("create_prfs_set", createPrfsSetRequest);
       router.push(paths.proof__dynamic_sets);
     } catch (err: any) {
       console.error(err);

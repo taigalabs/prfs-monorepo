@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import * as prfsApi from "@taigalabs/prfs-api-js";
+// import * as prfsApi from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsCircuitType } from "@taigalabs/prfs-entities/bindings/PrfsCircuitType";
 import dayjs from "dayjs";
 import {
@@ -71,7 +72,11 @@ const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({
 
   React.useEffect(() => {
     async function fn() {
-      const { payload } = await prfsApi.getPrfsCircuitTypes({
+      // const { payload } = await prfsApi.getPrfsCircuitTypes({
+      //   page_idx: pageIndex,
+      //   page_size: pageSize,
+      // });
+      const { payload } = await prfsApi2("get_prfs_circuit_types", {
         page_idx: pageIndex,
         page_size: pageSize,
       });

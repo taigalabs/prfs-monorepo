@@ -3,7 +3,8 @@
 import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import * as prfsApi from "@taigalabs/prfs-api-js";
+// import * as prfsApi from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { HandshakeMsg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 import NoSSR from "@taigalabs/prfs-react-components/src/no_ssr/NoSSR";
 
@@ -33,33 +34,36 @@ const ProofGen: React.FC<ProofGenProps> = () => {
       console.log("proofTypeId: %s", proofTypeId);
 
       if (proofTypeId) {
-        let payload;
         try {
-          payload = (
-            await prfsApi.getPrfsProofTypeByProofTypeId({
-              proof_type_id: proofTypeId,
-            })
-          ).payload;
+          // payload = (
+          //   await prfsApi.getPrfsProofTypeByProofTypeId({
+          //     proof_type_id: proofTypeId,
+          //   })
+          // ).payload;
+
+          const { payload } = await prfsApi2("get_prfs_proof_type_by_proof_type_id", {
+            proof_type_id: proofTypeId,
+          });
+
+          if (payload.prfs_proof_type) {
+            const proof_type = payload.prfs_proof_type;
+            const circuitInputCount = Object.keys(proof_type.circuit_inputs).length;
+            const docHeight = calcFormHeight(circuitInputCount);
+            // console.log("docHeight", docHeight);
+
+            await sendMsgToParent(
+              new HandshakeMsg({
+                docHeight,
+              })
+            );
+
+            setDocHeight(docHeight);
+            setProofType(proof_type);
+          } else {
+            console.log("PrfsProofType not found");
+          }
         } catch (err) {
-          return;
-        }
-
-        if (payload.prfs_proof_type) {
-          const proof_type = payload.prfs_proof_type;
-          const circuitInputCount = Object.keys(proof_type.circuit_inputs).length;
-          const docHeight = calcFormHeight(circuitInputCount);
-          // console.log("docHeight", docHeight);
-
-          await sendMsgToParent(
-            new HandshakeMsg({
-              docHeight,
-            })
-          );
-
-          setDocHeight(docHeight);
-          setProofType(proof_type);
-        } else {
-          console.log("PrfsProofType not found");
+          console.error(err);
         }
       }
     }

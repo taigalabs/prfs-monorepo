@@ -2,7 +2,8 @@
 
 import React from "react";
 import Link from "next/link";
-import * as prfsApi from "@taigalabs/prfs-api-js";
+// import * as prfsApi from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import styles from "./ProofType.module.scss";
@@ -29,7 +30,10 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
   const [proofType, setProofType] = React.useState<PrfsProofType>();
   React.useEffect(() => {
     async function fn() {
-      const { payload } = await prfsApi.getPrfsProofTypeByProofTypeId({
+      // const { payload } = await prfsApi.getPrfsProofTypeByProofTypeId({
+      //   proof_type_id: params.proof_type_id,
+      // });
+      const { payload } = await prfsApi2("get_prfs_proof_type_by_proof_type_id", {
         proof_type_id: params.proof_type_id,
       });
 

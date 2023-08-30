@@ -4,7 +4,8 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
-import * as prfsApi from "@taigalabs/prfs-api-js";
+// import * as prfsApi from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
@@ -41,7 +42,11 @@ const DynamicSet: React.FC<SetProps> = ({ params }) => {
   React.useEffect(() => {
     async function fn() {
       try {
-        const { payload } = await prfsApi.getPrfsSetBySetId({
+        // const { payload } = await prfsApi.getPrfsSetBySetId({
+        //   set_id: params.set_id,
+        // });
+
+        const { payload } = await prfsApi2("get_prfs_set_by_set_id", {
           set_id: params.set_id,
         });
 

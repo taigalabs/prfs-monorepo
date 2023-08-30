@@ -8,7 +8,8 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import * as prfsApi from "@taigalabs/prfs-api-js";
+// import * as prfsApi from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
@@ -111,11 +112,15 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
 
   React.useEffect(() => {
     async function fn() {
-      const { payload } = await prfsApi.getPrfsProofInstances({
+      // const { payload } = await prfsApi.getPrfsProofInstances({
+      //   page_idx: pageIndex,
+      //   page_size: pageSize,
+      // });
+
+      const { payload } = await prfsApi2("get_prfs_proof_instances", {
         page_idx: pageIndex,
         page_size: pageSize,
       });
-
       const { prfs_proof_instances_syn1 } = payload;
 
       setData(prfs_proof_instances_syn1);
