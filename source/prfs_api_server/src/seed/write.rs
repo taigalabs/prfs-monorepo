@@ -92,7 +92,8 @@ pub async fn upload(db: &Database2) {
         println!("sets: {:#?}", sets);
 
         for prfs_set in sets.values() {
-            db_apis::upsert_prfs_set(&mut tx, prfs_set).await.unwrap();
+            let set_id = db_apis::upsert_prfs_set(&mut tx, prfs_set).await.unwrap();
+            println!("Inserted set_id: {}", set_id);
         }
     }
 

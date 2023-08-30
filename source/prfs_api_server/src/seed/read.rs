@@ -120,7 +120,7 @@ pub fn load_proof_types() -> HashMap<String, PrfsProofType> {
 pub fn load_dynamic_sets() -> HashMap<String, PrfsSet> {
     println!("\n{} dynamic sets", "Loading".green());
 
-    let json_path = PATHS.data.join("dynamic_sets.json");
+    let json_path = PATHS.data.join("sets/dynamic_sets.json");
     let json: DynamicSetsJson = read_json(&json_path);
 
     let mut m = HashMap::new();

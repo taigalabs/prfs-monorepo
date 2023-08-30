@@ -250,8 +250,9 @@ pub async fn upsert_prfs_set(
 INSERT INTO prfs_sets (set_id, set_type, label, author, "desc", hash_algorithm, cardinality,
 merkle_root, element_type, elliptic_curve, finite_field) 
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) 
-ON CONFLICT (set_id) DO UPDATE SET cardinality = excluded.cardinality,
-merkle_root = excluded.merkle_root, updated_at = now() returning set_id
+ON CONFLICT (set_id) DO UPDATE SET (cardinality, merkle_root,updated_at) = (excluded.cardinality,
+excluded.merkle_root, now())
+RETURNING set_id
 "#;
 
     let row = sqlx::query(&query)
