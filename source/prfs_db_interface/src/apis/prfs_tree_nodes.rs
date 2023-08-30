@@ -177,8 +177,6 @@ pub async fn insert_prfs_tree_nodes(
     nodes: &[PrfsTreeNode],
     update_on_conflict: bool,
 ) -> Result<u64, DbInterfaceError> {
-    // let mut values = Vec::with_capacity(nodes.len());
-
     let mut query_builder: QueryBuilder<Postgres> =
         QueryBuilder::new("INSERT INTO prfs_tree_nodes (pos_w, pos_h, val, meta, set_id)");
 
@@ -196,25 +194,6 @@ pub async fn insert_prfs_tree_nodes(
     }
 
     let query = query_builder.build();
-
-    // for n in nodes {
-    //     let val = format!("({}, {}, '{}', '{}')", n.pos_w, n.pos_h, n.val, n.set_id,);
-    //     values.push(val);
-    // }
-
-    // let query = if update_on_conflict {
-    //     format!(
-    //         "INSERT INTO prfs_tree_nodes (pos_w, pos_h, val, set_id) VALUES {} ON CONFLICT \
-    //                 (pos_w, pos_h, set_id) {}",
-    //         values.join(","),
-    //         "DO UPDATE SET val = excluded.val, updated_at = now()",
-    //     )
-    // } else {
-    //     format!(
-    //         "INSERT INTO prfs_tree_nodes (pos_w, pos_h, val, set_id) VALUES {} ON CONFLICT DO NOTHING",
-    //         values.join(","),
-    //     )
-    // };
 
     let result = query.execute(&mut **tx).await.unwrap();
 
