@@ -47,21 +47,6 @@ import { UpdatePrfsTreeNodeResponse } from "@taigalabs/prfs-entities/bindings/Up
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
 
-// export async function signUpPrfsAccount(req: SignUpRequest) {
-//   return (await api({
-//     path: `sign_up_prfs_account`,
-//     req,
-//   })) as PrfsApiResponse<SignUpResponse>;
-// }
-
-// export async function signInPrfsAccount(req: SignInRequest) {
-//   return (await api({
-//     path: `sign_in_prfs_account`,
-//     req,
-//   })) as PrfsApiResponse<SignInResponse>;
-// }
-//
-
 type RequestName =
   | "sign_up_prfs_account"
   | "sign_in_prfs_account"

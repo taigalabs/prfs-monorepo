@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-// import * as prfsApi from "@taigalabs/prfs-api-js";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsCircuitDriver } from "@taigalabs/prfs-entities/bindings/PrfsCircuitDriver";
 import { useRouter } from "next/navigation";
@@ -31,10 +30,6 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
 
   React.useEffect(() => {
     async function fn() {
-      // const { payload } = await prfsApi.getPrfsCircuitDriverByDriverId({
-      //   circuit_driver_id: params.circuit_driver_id,
-      // });
-
       const { payload } = await prfsApi2("get_prfs_circuit_driver_by_driver_id", {
         circuit_driver_id: params.circuit_driver_id,
       });
