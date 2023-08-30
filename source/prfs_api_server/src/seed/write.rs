@@ -1,8 +1,9 @@
 use chrono::{DateTime, NaiveDateTime, TimeZone, Utc};
 use prfs_db_interface::database2::Database2;
 use prfs_db_interface::db_apis;
-use prfs_entities::entities::PrfsProofType;
+use prfs_entities::entities::{PrfsProofType, PrfsTreeNode};
 use prfs_entities::sqlx::{self, types::Json};
+use rust_decimal::Decimal;
 use std::path::PathBuf;
 
 use super::read::load_dynamic_sets;
@@ -133,21 +134,33 @@ async fn upload_dynamic_sets(db: &Database2) {
     println!("sets: {:#?}", dynamic_sets);
 
     for dynamic_set in dynamic_sets.values() {
+        let set_id = db_apis::upsert_prfs_set(&mut tx, &dynamic_set.prfs_set)
+            .await
+            .unwrap();
         let elements_path = PATHS.data.join(&dynamic_set.elements_path);
 
         let mut rdr = csv::Reader::from_path(elements_path).unwrap();
 
-        for result in rdr.deserialize() {
+        let mut nodes = vec![];
+        for (idx, result) in rdr.deserialize().enumerate() {
             let record: SetElementRecord = result.unwrap();
 
-            println!("{:?}", record);
+            let prfs_tree_node = PrfsTreeNode {
+                pos_w: Decimal::from(idx),
+                pos_h: 0,
+                val: record.val,
+                meta: Some(record.meta),
+                set_id,
+            };
+
+            nodes.push(prfs_tree_node);
         }
 
-        // let set_id = db_apis::upsert_prfs_set(&mut tx, &dynamic_set.prfs_set)
-        //     .await
-        //     .unwrap();
+        let rows_affected = db_apis::insert_prfs_tree_nodes(&mut tx, &nodes, true)
+            .await
+            .unwrap();
 
-        // println!("Inserted set_id: {}", set_id);
+        println!("Rows affected: {}", rows_affected);
     }
 
     tx.commit().await.unwrap();

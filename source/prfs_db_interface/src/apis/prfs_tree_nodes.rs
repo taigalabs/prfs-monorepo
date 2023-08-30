@@ -1,7 +1,7 @@
 use crate::{database2::Database2, DbInterfaceError};
 use prfs_entities::apis_entities::NodePos;
 use prfs_entities::entities::{PrfsSetType, PrfsTreeNode};
-use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
+use prfs_entities::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use rust_decimal::Decimal;
 use uuid::Uuid;
 
@@ -177,28 +177,46 @@ pub async fn insert_prfs_tree_nodes(
     nodes: &[PrfsTreeNode],
     update_on_conflict: bool,
 ) -> Result<u64, DbInterfaceError> {
-    let mut values = Vec::with_capacity(nodes.len());
+    // let mut values = Vec::with_capacity(nodes.len());
 
-    for n in nodes {
-        let val = format!("({}, {}, '{}', '{}')", n.pos_w, n.pos_h, n.val, n.set_id,);
-        values.push(val);
+    let mut query_builder: QueryBuilder<Postgres> =
+        QueryBuilder::new("INSERT INTO prfs_tree_nodes (pos_w, pos_h, val, meta, set_id)");
+
+    query_builder.push_values(nodes, |mut b, node| {
+        b.push_bind(node.pos_w)
+            .push_bind(node.pos_h)
+            .push_bind(node.val.clone())
+            .push_bind(node.meta.clone())
+            .push_bind(node.set_id);
+    });
+
+    if update_on_conflict {
+        query_builder.push("ON CONFLICT (pos_w, pos_h, set_id)");
+        query_builder.push("DO UPDATE SET val = excluded.val, updated_at = now()");
     }
 
-    let query = if update_on_conflict {
-        format!(
-            "INSERT INTO prfs_tree_nodes (pos_w, pos_h, val, set_id) VALUES {} ON CONFLICT \
-                    (pos_w, pos_h, set_id) {}",
-            values.join(","),
-            "DO UPDATE SET val = excluded.val, updated_at = now()",
-        )
-    } else {
-        format!(
-            "INSERT INTO prfs_tree_nodes (pos_w, pos_h, val, set_id) VALUES {} ON CONFLICT DO NOTHING",
-            values.join(","),
-        )
-    };
+    let query = query_builder.build();
 
-    let result = sqlx::query(&query).execute(&mut **tx).await.unwrap();
+    // for n in nodes {
+    //     let val = format!("({}, {}, '{}', '{}')", n.pos_w, n.pos_h, n.val, n.set_id,);
+    //     values.push(val);
+    // }
+
+    // let query = if update_on_conflict {
+    //     format!(
+    //         "INSERT INTO prfs_tree_nodes (pos_w, pos_h, val, set_id) VALUES {} ON CONFLICT \
+    //                 (pos_w, pos_h, set_id) {}",
+    //         values.join(","),
+    //         "DO UPDATE SET val = excluded.val, updated_at = now()",
+    //     )
+    // } else {
+    //     format!(
+    //         "INSERT INTO prfs_tree_nodes (pos_w, pos_h, val, set_id) VALUES {} ON CONFLICT DO NOTHING",
+    //         values.join(","),
+    //     )
+    // };
+
+    let result = query.execute(&mut **tx).await.unwrap();
 
     Ok(result.rows_affected())
 }
