@@ -132,6 +132,13 @@ async fn upload_dynamic_sets(db: &Database2) {
         let set_id = db_apis::upsert_prfs_set(&mut tx, &dynamic_set.prfs_set)
             .await
             .unwrap();
+
+        let rows_updated = db_apis::delete_prfs_tree_nodes(&mut tx, &set_id)
+            .await
+            .unwrap();
+
+        println!("Deleted {} prfs tree nodes", rows_updated);
+
         let elements_path = PATHS.data.join(&dynamic_set.elements_path);
 
         let mut rdr = csv::Reader::from_path(elements_path).unwrap();
@@ -152,6 +159,7 @@ async fn upload_dynamic_sets(db: &Database2) {
         }
 
         let mut prfs_set = &mut dynamic_set.prfs_set;
+        prfs_set.cardinality = nodes.len() as i64;
 
         prfs_tree_maker::apis::set::climb::create_tree_nodes(&mut tx, &mut prfs_set, &nodes)
             .await
