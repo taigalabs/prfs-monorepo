@@ -253,3 +253,31 @@ VALUES ($1, $2, $3, $4, $5) returning pos_w"#;
 
     return Ok(pos_w);
 }
+
+pub async fn update_prfs_tree_node(
+    tx: &mut Transaction<'_, Postgres>,
+    node: &PrfsTreeNode,
+) -> Result<Decimal, DbInterfaceError> {
+    let query = r#"
+INSERT INTO prfs_tree_nodes
+(set_id, pos_w, pos_h, val, "meta")
+VALUES ($1, $2, $3, $4, $5)
+ON CONFLICT (pos_w, pos_h, set_id) DO UPDATE SET val=excluded.val, meta=excluded.meta,
+updated_at = now()
+returning pos_w
+"#;
+
+    let row = sqlx::query(query)
+        .bind(&node.set_id)
+        .bind(&node.pos_w)
+        .bind(&node.pos_h)
+        .bind(&node.val)
+        .bind(&node.meta)
+        .fetch_one(&mut **tx)
+        .await
+        .unwrap();
+
+    let pos_w: Decimal = row.get("pos_w");
+
+    return Ok(pos_w);
+}

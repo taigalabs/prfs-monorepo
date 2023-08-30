@@ -45,3 +45,16 @@ pub struct GetPrfsTreeLeafIndicesRequest {
 
     pub leaf_vals: Vec<String>,
 }
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct UpdatePrfsTreeNodeRequest {
+    pub prfs_tree_node: PrfsTreeNode,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct UpdatePrfsTreeNodeResponse {
+    #[ts(type = "number")]
+    pub pos_w: Decimal,
+}

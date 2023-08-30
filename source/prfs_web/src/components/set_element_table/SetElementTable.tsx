@@ -82,8 +82,6 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
     };
   }, [pageIndex, pageSize]);
 
-  console.log(1, pageIndex);
-
   const table = useReactTable({
     data,
     columns,
@@ -94,23 +92,40 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
-    // autoResetPageIndex,
     meta: {
       cardinality: prfsSet ? Number(prfsSet.cardinality) : -1,
-      updateData: (rowIndex: number, columnId: string, value: unknown) => {
-        // Skip page index reset until after next rerender
-        // skipAutoResetPageIndex();
-        setData(old =>
-          old.map((row, index) => {
-            if (index === rowIndex) {
-              return {
-                ...old[rowIndex]!,
-                [columnId]: value,
-              };
-            }
-            return row;
-          })
-        );
+      updateData: async function <Key extends keyof PrfsTreeNode>(
+        rowIndex: number,
+        columnId: Key,
+        value: unknown
+      ) {
+        console.log(11, rowIndex, columnId, value);
+
+        const node = data[rowIndex];
+        console.log(22, node);
+        if (node) {
+          node[columnId] = value as any;
+        }
+        console.log(33, node);
+
+        try {
+          const { payload } = await prfsApi.updatePrfsTreeNodeRequest({ prfs_tree_node: node });
+          console.log(44, payload);
+
+          setData(old =>
+            old.map((row, index) => {
+              if (index === rowIndex) {
+                return {
+                  ...old[rowIndex],
+                  [columnId]: value,
+                };
+              }
+              return row;
+            })
+          );
+        } catch (err) {
+          console.error(err);
+        }
       },
     },
   });

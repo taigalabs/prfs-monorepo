@@ -2,7 +2,7 @@ use hyper::{body, header, Body, Request, Response};
 use prfs_db_interface::db_apis;
 use prfs_entities::apis_entities::{
     GetPrfsTreeLeafIndicesRequest, GetPrfsTreeLeafNodesRequest, GetPrfsTreeNodesByPosRequest,
-    GetPrfsTreeNodesResponse,
+    GetPrfsTreeNodesResponse, UpdatePrfsTreeNodeRequest, UpdatePrfsTreeNodeResponse,
 };
 use routerify::prelude::*;
 use std::{convert::Infallible, sync::Arc};
@@ -60,6 +60,25 @@ pub async fn get_prfs_tree_leaf_indices(req: Request<Body>) -> Result<Response<B
         .expect("get nodes fail");
 
     let resp = ApiResponse::new_success(GetPrfsTreeNodesResponse { prfs_tree_nodes });
+
+    return Ok(resp.into_hyper_response());
+}
+
+pub async fn update_prfs_tree_node(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+
+    let req: UpdatePrfsTreeNodeRequest = parse_req(req).await;
+
+    let pool = &state.db2.pool;
+    let mut tx = pool.begin().await.unwrap();
+
+    let pos_w = db_apis::update_prfs_tree_node(&mut tx, &req.prfs_tree_node)
+        .await
+        .expect("get nodes fail");
+
+    let resp = ApiResponse::new_success(UpdatePrfsTreeNodeResponse { pos_w });
+
+    tx.commit().await.unwrap();
 
     return Ok(resp.into_hyper_response());
 }
