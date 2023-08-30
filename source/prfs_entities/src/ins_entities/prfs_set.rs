@@ -18,6 +18,7 @@ pub struct PrfsSetIns1 {
     pub hash_algorithm: String,
     pub cardinality: i64,
     pub merkle_root: String,
+    pub tree_depth: i16,
     pub element_type: String,
     pub finite_field: String,
     pub elliptic_curve: String,

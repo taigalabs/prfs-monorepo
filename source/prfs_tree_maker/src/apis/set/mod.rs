@@ -30,10 +30,15 @@ pub async fn create_set(_sub_matches: &ArgMatches) {
             .await
             .unwrap();
 
-    let merkle_root =
-        climb::create_tree_nodes(&pool, &mut tx, &set_json, &mut prfs_set, &prfs_tree_nodes)
-            .await
-            .unwrap();
+    let merkle_root = climb::create_tree_nodes(
+        &pool,
+        &mut tx,
+        // &set_json,
+        &mut prfs_set,
+        &prfs_tree_nodes,
+    )
+    .await
+    .unwrap();
 
     tx.commit().await.unwrap();
 

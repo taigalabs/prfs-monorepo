@@ -17,6 +17,7 @@ pub struct PrfsSet {
     pub desc: String,
     pub hash_algorithm: String,
 
+    pub tree_depth: i16,
     pub cardinality: i64,
     pub merkle_root: String,
     pub element_type: String,

@@ -1,8 +1,7 @@
-use std::path::PathBuf;
-
 use prfs_entities::entities::{PrfsCircuitDriver, PrfsProofType, PrfsSet};
 use prfs_entities::entities::{PrfsCircuitInputType, PrfsCircuitType};
 use serde::{Deserialize, Serialize};
+use std::path::PathBuf;
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct CircuitDriversJson {

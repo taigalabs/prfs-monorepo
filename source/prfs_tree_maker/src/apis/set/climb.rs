@@ -10,13 +10,13 @@ use std::time::SystemTime;
 pub async fn create_tree_nodes(
     pool: &Pool<Postgres>,
     tx: &mut Transaction<'_, Postgres>,
-    set_json: &SetJson,
+    // set_json: &SetJson,
     prfs_set: &mut PrfsSet,
     leaves: &Vec<PrfsTreeNode>,
 ) -> Result<String, TreeMakerError> {
-    let set_label = set_json.set.label.to_string();
-    let depth = set_json.set.tree_depth as usize;
-    let set_id = set_json.set.set_id;
+    let set_label = prfs_set.label.to_string();
+    let depth = prfs_set.tree_depth as usize;
+    let set_id = prfs_set.set_id;
 
     println!(
         "{} tree nodes set label: {}, set_id: {}, depth: {}",

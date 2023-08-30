@@ -20,6 +20,7 @@ pub async fn create_set(
         desc: set_json.set.desc.to_string(),
         hash_algorithm: set_json.set.hash_algorithm.to_string(),
         cardinality: set_json.set.cardinality,
+        tree_depth: set_json.set.tree_depth,
         merkle_root: set_json.set.merkle_root.to_string(),
         element_type: set_json.set.element_type.to_string(),
         elliptic_curve: set_json.set.elliptic_curve.to_string(),

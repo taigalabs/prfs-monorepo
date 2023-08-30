@@ -17,7 +17,7 @@ pub struct SetDetail {
     pub author: String,
     pub src_set_label: String,
     pub where_clause: String,
-    pub tree_depth: u32,
+    pub tree_depth: i16,
     pub hash_algorithm: String,
     pub element_type: String,
     pub cardinality: i64,
