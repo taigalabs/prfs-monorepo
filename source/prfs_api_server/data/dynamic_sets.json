@@ -1,0 +1,18 @@
+{
+  "dynamic_sets": [
+    {
+      "set_id": "",
+      "set_type": "",
+      "label": "",
+      "author": "",
+      "desc": "",
+      "hash_algorithm": "",
+      "cardinality": 0,
+      "merkle_root": "",
+      "element_type": "",
+      "finite_field": "",
+      "elliptic_curve": "",
+      "created_at": ""
+    }
+  ]
+}

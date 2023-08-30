@@ -5,7 +5,7 @@ use strum_macros::EnumString;
 use ts_rs::TS;
 use uuid::Uuid;
 
-#[derive(TS, Debug, Serialize, Deserialize)]
+#[derive(TS, Clone, Debug, Serialize, Deserialize)]
 #[ts(export)]
 pub struct PrfsSet {
     #[ts(type = "string")]

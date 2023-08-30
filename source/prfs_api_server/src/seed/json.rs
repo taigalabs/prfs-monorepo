@@ -1,4 +1,4 @@
-use prfs_entities::entities::{PrfsCircuitDriver, PrfsProofType};
+use prfs_entities::entities::{PrfsCircuitDriver, PrfsProofType, PrfsSet};
 use prfs_entities::entities::{PrfsCircuitInputType, PrfsCircuitType};
 use serde::{Deserialize, Serialize};
 
@@ -20,4 +20,9 @@ pub struct CircuitInputTypesJson {
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct ProofTypesJson {
     pub proof_types: Vec<PrfsProofType>,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct DynamicSetsJson {
+    pub prfs_sets: Vec<PrfsSet>,
 }
