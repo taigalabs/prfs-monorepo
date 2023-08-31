@@ -10,6 +10,7 @@ export interface PrfsSetIns1 {
   hash_algorithm: string;
   cardinality: bigint;
   merkle_root: string;
+  tree_depth: number;
   element_type: string;
   finite_field: string;
   elliptic_curve: string;

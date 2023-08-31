@@ -142,6 +142,45 @@ LIMIT $3
     Ok(nodes)
 }
 
+pub async fn get_prfs_tree_leaf_nodes_all_by_set_id(
+    pool: &Pool<Postgres>,
+    set_id: &Uuid,
+) -> Result<Vec<PrfsTreeNode>, DbInterfaceError> {
+    let query = r#"
+SELECT * from prfs_tree_nodes nodes where set_id=$1 and pos_h=0 
+ORDER BY pos_w ASC
+"#;
+
+    println!("query: {}", query);
+
+    let rows = sqlx::query(&query)
+        .bind(&set_id)
+        .fetch_all(pool)
+        .await
+        .unwrap();
+
+    let nodes: Vec<PrfsTreeNode> = rows
+        .iter()
+        .map(|n| {
+            let pos_w = n.try_get("pos_w").expect("pos_w should exist");
+            let pos_h = n.try_get("pos_h").expect("pos_h should exist");
+            let val = n.try_get("val").expect("val should exist");
+            let set_id = n.try_get("set_id").expect("set_id should exist");
+            let meta = n.get("meta");
+
+            PrfsTreeNode {
+                pos_w,
+                pos_h,
+                val,
+                meta,
+                set_id,
+            }
+        })
+        .collect();
+
+    Ok(nodes)
+}
+
 pub async fn get_prfs_tree_root(
     pool: &Pool<Postgres>,
     set_id: &Uuid,

@@ -82,7 +82,7 @@ pub struct ComputePrfsSetMerkleRootRequest {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct ComputePrfsSetMerkleResponse {
+pub struct ComputePrfsSetMerkleRootResponse {
     #[ts(type = "string")]
     pub set_id: Uuid,
     pub merkle_root: String,

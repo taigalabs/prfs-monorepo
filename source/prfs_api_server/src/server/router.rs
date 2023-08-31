@@ -122,6 +122,10 @@ pub fn make_router(
             format!("{}/update_prfs_tree_node", PREFIX),
             prfs_tree_nodes::update_prfs_tree_node,
         )
+        .post(
+            format!("{}/compute_prfs_set_merkle_root", PREFIX),
+            prfs_sets::compute_prfs_set_merkle_root,
+        )
         .post("*", middleware::not_found_handler)
         .err_handler_with_info(middleware::error_handler)
         .build()?;
