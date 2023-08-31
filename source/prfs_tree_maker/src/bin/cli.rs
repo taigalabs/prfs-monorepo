@@ -1,11 +1,9 @@
+mod cmds;
+
 use chrono::Utc;
 use clap::{command, Arg};
 use colored::Colorize;
-use prfs_tree_maker::{
-    apis::{revisit, scan, scan_genesis, set},
-    envs::ENVS,
-    logger, TreeMakerError,
-};
+use prfs_tree_maker::{apis, envs::ENVS, logger, TreeMakerError};
 
 #[tokio::main]
 async fn main() {
@@ -40,16 +38,16 @@ async fn run_cli_command() -> Result<(), TreeMakerError> {
 
     match matches.subcommand() {
         Some(("scan_genesis", sub_matches)) => {
-            scan_genesis::scan_genesis(sub_matches).await;
+            cmds::scan_genesis::run(sub_matches).await;
         }
         Some(("scan", sub_matches)) => {
-            scan::scan_ledger(sub_matches).await;
+            cmds::scan::run(sub_matches).await;
         }
         Some(("set", sub_matches)) => {
-            set::create_set(sub_matches).await;
+            cmds::set::run(sub_matches).await;
         }
         Some(("revisit", sub_matches)) => {
-            revisit::revisit(sub_matches).await;
+            cmds::revisit::run(sub_matches).await;
         }
         _ => unreachable!("Subcommand not defined"),
     }

@@ -71,7 +71,8 @@ type RequestName =
   | "get_prfs_tree_nodes_by_pos"
   | "get_prfs_tree_leaf_nodes_by_set_id"
   | "get_prfs_tree_leaf_indices"
-  | "update_prfs_tree_node";
+  | "update_prfs_tree_node"
+  | "compute_prfs_set_merkle_root";
 
 type Req<T extends RequestName> = //
   T extends "sign_up_prfs_account"
@@ -121,6 +122,8 @@ type Req<T extends RequestName> = //
     : T extends "get_prfs_tree_leaf_indices"
     ? GetPrfsTreeLeafIndicesRequest
     : T extends "update_prfs_tree_node"
+    ? UpdatePrfsTreeNodeRequest
+    : T extends "compute_prfs_set_merkle_root"
     ? UpdatePrfsTreeNodeRequest
     : never;
 
@@ -173,6 +176,8 @@ type Resp<T> = //
     ? PrfsApiResponse<GetPrfsTreeNodesResponse>
     : T extends "update_prfs_tree_node"
     ? PrfsApiResponse<UpdatePrfsTreeNodeResponse>
+    : T extends "compute_prfs_set_merkle_root"
+    ? UpdatePrfsTreeNodeRequest
     : any;
 
 export async function prfsApi2<T extends RequestName>(name: T, req: Req<T>): Promise<Resp<T>> {

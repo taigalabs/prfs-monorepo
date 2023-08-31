@@ -2,10 +2,11 @@ use hyper::{body, Body, Request, Response};
 use prfs_db_interface::db_apis;
 use prfs_entities::{
     apis_entities::{
+        ComputePrfsSetMerkleResponse, ComputePrfsSetMerkleRootRequest,
         CreatePrfsDynamicSetElementRequest, CreatePrfsDynamicSetElementResponse,
         CreatePrfsSetRequest, CreatePrfsSetResponse, GetPrfsSetBySetIdRequest,
         GetPrfsSetBySetIdResponse, GetPrfsSetsBySetTypeRequest, GetPrfsSetsRequest,
-        GetPrfsSetsResponse,
+        GetPrfsSetsResponse, UpdatePrfsTreeNodeRequest,
     },
     entities::PrfsTreeNode,
 };
@@ -121,4 +122,28 @@ pub async fn create_prfs_dynamic_set_element(
     let resp = ApiResponse::new_success(CreatePrfsDynamicSetElementResponse { pos_w });
 
     return Ok(resp.into_hyper_response());
+}
+
+pub async fn compute_prfs_set_merkle_root(
+    req: Request<Body>,
+) -> Result<Response<Body>, Infallible> {
+    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+
+    let req: ComputePrfsSetMerkleRootRequest = parse_req(req).await;
+
+    let pool = &state.db2.pool;
+    let mut tx = pool.begin().await.unwrap();
+
+    // let pos_w = db_apis::update_prfs_tree_node(&mut tx, &req.prfs_tree_node)
+    //     .await
+    //     .expect("get nodes fail");
+    // prfs_tree_maker::apis::create_set();
+
+    panic!();
+
+    // let resp = ApiResponse::new_success(ComputePrfsSetMerkleResponse { pos_w });
+
+    // tx.commit().await.unwrap();
+
+    // return Ok(resp.into_hyper_response());
 }

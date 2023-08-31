@@ -3,6 +3,7 @@ use prfs_db_interface::database2::Database2;
 use prfs_db_interface::db_apis;
 use prfs_entities::entities::{PrfsProofType, PrfsTreeNode};
 use prfs_entities::sqlx::{self, types::Json};
+use prfs_tree_maker::tree_maker_apis;
 use rust_decimal::Decimal;
 use std::path::PathBuf;
 
@@ -161,7 +162,7 @@ async fn upload_dynamic_sets(db: &Database2) {
         let mut prfs_set = &mut dynamic_set.prfs_set;
         prfs_set.cardinality = nodes.len() as i64;
 
-        prfs_tree_maker::apis::set::climb::create_tree_nodes(&mut tx, &mut prfs_set, &nodes)
+        tree_maker_apis::create_tree_nodes(&mut tx, &mut prfs_set, &nodes)
             .await
             .unwrap();
 
