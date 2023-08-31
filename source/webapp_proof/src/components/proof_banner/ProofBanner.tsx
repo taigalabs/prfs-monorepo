@@ -12,6 +12,7 @@ import { paths } from "@/paths";
 import ProofImage from "../proof_image/ProofImage";
 import ProofInstanceQRCode from "../proof_instance_qrcode/ProofInstanceQRCode";
 import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
+import { envs } from "@/envs";
 
 const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance }) => {
   const i18n = React.useContext(i18nContext);
@@ -19,7 +20,7 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance }) => {
   const { prioritizedValues, url } = React.useMemo(() => {
     const { public_inputs_meta, public_inputs, short_id } = proofInstance;
 
-    const url = `${process.env.NEXT_PUBLIC_PRFS_WEB_ENDPOINT}/p/${short_id}`;
+    const url = `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/p/${short_id}`;
 
     let accessors = [];
     let values = [];

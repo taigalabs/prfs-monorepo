@@ -252,4 +252,4 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 
 export default CreateProofTypeForm;
 
-export interface CreateProofTypeFormProps { }
+export interface CreateProofTypeFormProps {}

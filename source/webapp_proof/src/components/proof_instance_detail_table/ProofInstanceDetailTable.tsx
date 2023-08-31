@@ -18,6 +18,7 @@ import styles from "./ProofInstanceDetailTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
 import Table2, { RecordData, Table2Body } from "../table2/Table2";
+import { envs } from "@/envs";
 
 const columnHelper = createColumnHelper<RecordData>();
 
@@ -35,7 +36,7 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
   const i18n = React.useContext(i18nContext);
 
   const url = React.useMemo(() => {
-    return `${process.env.NEXT_PUBLIC_PRFS_WEB_ENDPOINT}/p/${proofInstance.short_id}`;
+    return `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/p/${proofInstance.short_id}`;
   }, [proofInstance]);
 
   const handleClickCopy = React.useCallback(() => {
@@ -65,7 +66,7 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
       return [];
     }
 
-    const url = `${process.env.NEXT_PUBLIC_PRFS_WEB_ENDPOINT}/p/${proofInstance.short_id}`;
+    const url = `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/p/${proofInstance.short_id}`;
 
     const ret: RecordData[] = [
       {

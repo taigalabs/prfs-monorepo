@@ -22,8 +22,9 @@ import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
 import SigDataInput from "@/components/sig_data_input/SigDataInput";
 import { createProof } from "@/functions/proof";
 import CreateProofProgress from "@/components/create_proof_progress/CreateProofProgress";
+import { envs } from "@/envs";
 
-const ASSET_SERVER_ENDPOINT = process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
+const ASSET_SERVER_ENDPOINT = envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
 enum CreateProofPage {
   INPUT,
@@ -225,7 +226,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
           <span>{systemMsg}</span>
         </div>
         <div className={styles.sdkMeta}>
-          {i18n.prfs_web_sdk} {process.env.NEXT_PUBLIC_VERSION}
+          {i18n.prfs_web_sdk} {envs.NEXT_PUBLIC_VERSION}
         </div>
       </div>
     </div>
