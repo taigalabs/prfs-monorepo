@@ -27,18 +27,8 @@ const Masthead: React.FC<any> = () => {
   const { state } = React.useContext(stateContext);
   const { dispatch } = React.useContext(stateContext);
   const { localPrfsAccount } = state;
-  const path = usePathname();
-  const [appName, setAppName] = React.useState("");
 
   useLocalWallet(dispatch);
-
-  React.useEffect(() => {
-    const pathSegments = path.split("/");
-    if (pathSegments.length > 1) {
-      const appName = pathSegments[1];
-      setAppName(appName.charAt(0).toUpperCase() + appName.slice(1));
-    }
-  }, [path, setAppName]);
 
   return (
     <div className={styles.wrapper}>
@@ -49,7 +39,7 @@ const Masthead: React.FC<any> = () => {
               <Logo variant="simple" />
             </Link>
           </div>
-          <div className={styles.appName}>{appName}</div>
+          <div className={styles.appName}>{i18n.proof}</div>
           <div className={styles.betaTag}>Beta</div>
         </div>
         <div className={styles.mainMenu}>
