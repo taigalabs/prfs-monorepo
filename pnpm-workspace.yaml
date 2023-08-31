@@ -3,16 +3,17 @@ packages:
 
   - "source/e2e_test_web"
 
+  - "source/prfs_circuit_circom"
+
   - "source/prfs_driver_spartan_js"
   - "source/prfs_driver_interface"
 
   - "source/prfs_crypto_js"
   - "source/prfs_api_js"
-  - "source/prfs_web"
   - "source/prfs_entities"
-
-  - "source/prfs_circuit_circom"
 
   - "source/prfs_sdk_web"
   - "source/prfs_sdk_web_ui"
   - "source/prfs_react_components"
+
+  - "source/webapp_proof"
