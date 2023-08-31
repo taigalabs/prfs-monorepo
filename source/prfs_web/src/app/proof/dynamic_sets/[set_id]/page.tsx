@@ -4,7 +4,6 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
-// import * as prfsApi from "@taigalabs/prfs-api-js";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
@@ -29,6 +28,7 @@ const DynamicSet: React.FC<SetProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
   const { dispatch } = React.useContext(stateContext);
   const [createPage, setCreatePage] = React.useState(false);
+  const [isComputingMerkleRoot, setIsComputingMerkleRoot] = React.useState(false);
 
   useLocalWallet(dispatch);
   const searchParams = useSearchParams();
@@ -42,10 +42,6 @@ const DynamicSet: React.FC<SetProps> = ({ params }) => {
   React.useEffect(() => {
     async function fn() {
       try {
-        // const { payload } = await prfsApi.getPrfsSetBySetId({
-        //   set_id: params.set_id,
-        // });
-
         const { payload } = await prfsApi2("get_prfs_set_by_set_id", {
           set_id: params.set_id,
         });
@@ -58,6 +54,20 @@ const DynamicSet: React.FC<SetProps> = ({ params }) => {
 
     fn().then();
   }, [setPrfsSet]);
+
+  const handleClickComputeMerkleRoot = React.useCallback(async () => {
+    if (prfsSet) {
+      const { set_id } = prfsSet;
+
+      setIsComputingMerkleRoot(true);
+      const { payload } = await prfsApi2("compute_prfs_set_merkle_root", {
+        set_id,
+      });
+
+      console.log("Computed merkle root, %o", payload);
+      setIsComputingMerkleRoot(false);
+    }
+  }, [prfsSet, setIsComputingMerkleRoot]);
 
   let setTableLabel = `${i18n.set} summary for ${params.set_id}`;
 
@@ -75,7 +85,11 @@ const DynamicSet: React.FC<SetProps> = ({ params }) => {
                 </Link>
                 <WidgetLabel>{setTableLabel}</WidgetLabel>
               </div>
-              <Button variant="transparent_aqua_blue_1">
+              <Button
+                variant="transparent_aqua_blue_1"
+                handleClick={handleClickComputeMerkleRoot}
+                disabled={isComputingMerkleRoot}
+              >
                 <Sigma />
                 <span>{i18n.compute_merkle_root.toUpperCase()}</span>
               </Button>

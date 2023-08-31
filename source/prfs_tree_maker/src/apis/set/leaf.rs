@@ -91,7 +91,7 @@ pub async fn create_leaves_without_offset(
     );
 
     prfs_set.cardinality = total_count as i64;
-    db_apis::insert_prfs_set(tx, &prfs_set, true).await.unwrap();
+    db_apis::upsert_prfs_set(tx, &prfs_set).await.unwrap();
 
     Ok(nodes)
 }

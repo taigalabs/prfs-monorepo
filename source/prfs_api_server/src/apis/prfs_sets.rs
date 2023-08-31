@@ -2,13 +2,15 @@ use hyper::{body, Body, Request, Response};
 use prfs_db_interface::db_apis;
 use prfs_entities::{
     apis_entities::{
+        ComputePrfsSetMerkleRootRequest, ComputePrfsSetMerkleRootResponse,
         CreatePrfsDynamicSetElementRequest, CreatePrfsDynamicSetElementResponse,
         CreatePrfsSetRequest, CreatePrfsSetResponse, GetPrfsSetBySetIdRequest,
         GetPrfsSetBySetIdResponse, GetPrfsSetsBySetTypeRequest, GetPrfsSetsRequest,
-        GetPrfsSetsResponse,
+        GetPrfsSetsResponse, UpdatePrfsTreeNodeRequest,
     },
     entities::PrfsTreeNode,
 };
+use prfs_tree_maker::tree_maker_apis;
 use routerify::prelude::*;
 use rust_decimal::Decimal;
 use std::{convert::Infallible, sync::Arc};
@@ -119,6 +121,38 @@ pub async fn create_prfs_dynamic_set_element(
     tx.commit().await.unwrap();
 
     let resp = ApiResponse::new_success(CreatePrfsDynamicSetElementResponse { pos_w });
+
+    return Ok(resp.into_hyper_response());
+}
+
+pub async fn compute_prfs_set_merkle_root(
+    req: Request<Body>,
+) -> Result<Response<Body>, Infallible> {
+    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+
+    let req: ComputePrfsSetMerkleRootRequest = parse_req(req).await;
+
+    let pool = &state.db2.pool;
+    let mut tx = pool.begin().await.unwrap();
+
+    let mut prfs_set = db_apis::get_prfs_set_by_set_id(pool, &req.set_id)
+        .await
+        .unwrap();
+
+    let leaf_nodes = db_apis::get_prfs_tree_leaf_nodes_all_by_set_id(pool, &req.set_id)
+        .await
+        .unwrap();
+
+    let merkle_root = tree_maker_apis::create_tree_nodes(&mut tx, &mut prfs_set, &leaf_nodes)
+        .await
+        .unwrap();
+
+    tx.commit().await.unwrap();
+
+    let resp = ApiResponse::new_success(ComputePrfsSetMerkleRootResponse {
+        set_id: req.set_id,
+        merkle_root,
+    });
 
     return Ok(resp.into_hyper_response());
 }

@@ -1,14 +1,13 @@
 use crate::{database2::Database2, DbInterfaceError};
 use prfs_entities::apis_entities::NodePos;
-use prfs_entities::entities::PrfsTreeNode;
-use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
+use prfs_entities::entities::{PrfsSetType, PrfsTreeNode};
+use prfs_entities::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use rust_decimal::Decimal;
 use uuid::Uuid;
 
 pub async fn get_prfs_tree_nodes_by_pos(
     pool: &Pool<Postgres>,
     set_id: &Uuid,
-    // where_clause: &str,
     pos: &Vec<NodePos>,
 ) -> Result<Vec<PrfsTreeNode>, DbInterfaceError> {
     let whre: Vec<String> = pos
@@ -143,6 +142,45 @@ LIMIT $3
     Ok(nodes)
 }
 
+pub async fn get_prfs_tree_leaf_nodes_all_by_set_id(
+    pool: &Pool<Postgres>,
+    set_id: &Uuid,
+) -> Result<Vec<PrfsTreeNode>, DbInterfaceError> {
+    let query = r#"
+SELECT * from prfs_tree_nodes nodes where set_id=$1 and pos_h=0 
+ORDER BY pos_w ASC
+"#;
+
+    println!("query: {}", query);
+
+    let rows = sqlx::query(&query)
+        .bind(&set_id)
+        .fetch_all(pool)
+        .await
+        .unwrap();
+
+    let nodes: Vec<PrfsTreeNode> = rows
+        .iter()
+        .map(|n| {
+            let pos_w = n.try_get("pos_w").expect("pos_w should exist");
+            let pos_h = n.try_get("pos_h").expect("pos_h should exist");
+            let val = n.try_get("val").expect("val should exist");
+            let set_id = n.try_get("set_id").expect("set_id should exist");
+            let meta = n.get("meta");
+
+            PrfsTreeNode {
+                pos_w,
+                pos_h,
+                val,
+                meta,
+                set_id,
+            }
+        })
+        .collect();
+
+    Ok(nodes)
+}
+
 pub async fn get_prfs_tree_root(
     pool: &Pool<Postgres>,
     set_id: &Uuid,
@@ -178,28 +216,25 @@ pub async fn insert_prfs_tree_nodes(
     nodes: &[PrfsTreeNode],
     update_on_conflict: bool,
 ) -> Result<u64, DbInterfaceError> {
-    let mut values = Vec::with_capacity(nodes.len());
+    let mut query_builder: QueryBuilder<Postgres> =
+        QueryBuilder::new("INSERT INTO prfs_tree_nodes (pos_w, pos_h, val, meta, set_id)");
 
-    for n in nodes {
-        let val = format!("({}, {}, '{}', '{}')", n.pos_w, n.pos_h, n.val, n.set_id,);
-        values.push(val);
+    query_builder.push_values(nodes, |mut b, node| {
+        b.push_bind(node.pos_w)
+            .push_bind(node.pos_h)
+            .push_bind(node.val.clone())
+            .push_bind(node.meta.clone())
+            .push_bind(node.set_id);
+    });
+
+    if update_on_conflict {
+        query_builder.push("ON CONFLICT (pos_w, pos_h, set_id)");
+        query_builder.push("DO UPDATE SET val = excluded.val, updated_at = now()");
     }
 
-    let query = if update_on_conflict {
-        format!(
-            "INSERT INTO prfs_tree_nodes (pos_w, pos_h, val, set_id) VALUES {} ON CONFLICT \
-                    (pos_w, pos_h, set_id) {}",
-            values.join(","),
-            "DO UPDATE SET val = excluded.val, updated_at = now()",
-        )
-    } else {
-        format!(
-            "INSERT INTO prfs_tree_nodes (pos_w, pos_h, val, set_id) VALUES {} ON CONFLICT DO NOTHING",
-            values.join(","),
-        )
-    };
+    let query = query_builder.build();
 
-    let result = sqlx::query(&query).execute(&mut **tx).await.unwrap();
+    let result = query.execute(&mut **tx).await.unwrap();
 
     Ok(result.rows_affected())
 }
@@ -280,4 +315,22 @@ returning pos_w
     let pos_w: Decimal = row.get("pos_w");
 
     return Ok(pos_w);
+}
+
+pub async fn delete_prfs_tree_nodes(
+    tx: &mut Transaction<'_, Postgres>,
+    set_id: &Uuid,
+) -> Result<u64, DbInterfaceError> {
+    let query = r#"
+DELETE FROM prfs_tree_nodes
+WHERE set_id=$1
+"#;
+
+    let result = sqlx::query(query)
+        .bind(&set_id)
+        .execute(&mut **tx)
+        .await
+        .unwrap();
+
+    return Ok(result.rows_affected());
 }
