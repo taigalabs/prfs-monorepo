@@ -18,8 +18,7 @@ const HomePage: React.FC = () => {
   return (
     <DefaultLayout>
       <div className={styles.container}>
-        <div className={styles.leftColumn}></div>
-        <div className={styles.rightColumn}>power</div>
+        <h1>generator simple ui</h1>
       </div>
     </DefaultLayout>
   );

@@ -20,6 +20,7 @@ fn main() {
         .subcommand(command!("build"))
         .subcommand(command!("e2e_test_web"))
         .subcommand(command!("dev_webapp_proof").arg(Arg::new("extra_args")))
+        .subcommand(command!("dev_webapp_generator").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_sdk_web_ui").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_asset_server"))
         .subcommand(command!("dev_api_server"))
@@ -41,6 +42,9 @@ fn main() {
         }
         Some(("dev_webapp_proof", sub_matches)) => {
             cmds::dev_webapp_proof::run(sub_matches);
+        }
+        Some(("dev_webapp_generator", sub_matches)) => {
+            cmds::dev_webapp_generator::run(sub_matches);
         }
         Some(("dev_sdk_web_ui", sub_matches)) => {
             cmds::dev_sdk_web_ui::run(sub_matches);
