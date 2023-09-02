@@ -27,9 +27,9 @@ impl BuildTask for BuildPrfsEntitiesTSBindingTask {
 
         assert!(status.success());
 
-        if let Ok(_) = which(PRETTIERD) {
-            format_ts_files(&PATHS.prfs_entities_bindings);
-        }
+        which(PRETTIERD).ok().unwrap();
+
+        format_ts_files(&PATHS.prfs_entities_bindings);
 
         Ok(())
     }
