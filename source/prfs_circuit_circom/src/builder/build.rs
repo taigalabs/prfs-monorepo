@@ -23,6 +23,7 @@ pub fn run() {
     let mut circuit_list = vec![];
     for mut circuit in &mut circuits_json.circuits {
         compile_circuits(&circuit);
+        analyze_circuit(&circuit, &circuit_version);
         make_spartan(&circuit, &circuit_version);
         create_build_json(&mut circuit, &circuit_version);
 
@@ -136,6 +137,19 @@ fn compile_circuits(circuit: &PrfsCircuit) {
             circuit_driver_id.as_str()
         ),
     };
+}
+
+fn analyze_circuit(circuit: &PrfsCircuit, circuit_version: &String) {
+    let circuit_driver_id = &circuit.circuit_driver_id;
+
+    let r1cs_src_path =
+        PATHS
+            .build
+            .join(get_path_segment(circuit, FileKind::R1CS, circuit_version));
+
+    prfs_circom_analyzer::analyze(&r1cs_src_path);
+
+    // let (r1cs, _) = load_r1cs_from_bin_file::<AffinePoint>(&circuit_file);
 }
 
 fn create_build_json(circuit: &mut PrfsCircuit, circuit_version: &String) {

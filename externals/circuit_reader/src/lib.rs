@@ -1,6 +1,6 @@
 mod circom_reader;
 
-use circom_reader::{load_r1cs_from_bin_file, R1CS};
+pub use circom_reader::{load_r1cs_from_bin_file, R1CS};
 use colored::Colorize;
 use ff::PrimeField;
 use libspartan::Instance;
@@ -43,8 +43,8 @@ pub fn make_spartan_instance(
     println!("Success writing spartan circuit to {:?}", output_path);
 }
 
-pub fn load_as_spartan_inst(circuit_file: &PathBuf, num_pub_inputs: usize) -> Instance {
-    let (r1cs, _) = load_r1cs_from_bin_file::<AffinePoint>(&circuit_file);
+pub fn load_as_spartan_inst(circuit_path: &PathBuf, num_pub_inputs: usize) -> Instance {
+    let (r1cs, _) = load_r1cs_from_bin_file::<AffinePoint>(&circuit_path);
     let spartan_inst = convert_to_spartan_r1cs(&r1cs, num_pub_inputs);
     spartan_inst
 }

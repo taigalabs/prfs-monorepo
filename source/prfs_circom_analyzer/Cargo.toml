@@ -1,0 +1,17 @@
+[package]
+name = "prfs_circom_analyzer"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bincode = "1.3.3"
+secq256k1 = { path = "../../externals/secq256k1" }
+spartan = { path = "../../externals/Spartan-secq" }
+ff = "0.12.0"
+byteorder = "1.4.3"
+group = "0.12.0"
+itertools = "0.9.0"
+colored = "2.0"
+circuit_reader = { path = "../../externals/circuit_reader" }
