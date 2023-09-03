@@ -13,13 +13,19 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import ExploreTechSection from "@/components/explore_tech_section/ExploreTechSection";
 import LatestPrfsUpdateSection from "@/components/latest_prfs_update_section/LatestPrfsUpdateSection";
 import ProjectMeta from "@/components/project_meta/ProjectMeta";
-import { envs } from '@/envs';
+import { envs } from "@/envs";
 
 const HomePage: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
 
-  return envs.NEXT_PUBLIC_IS_TEASER === "yes" ? <Teaser /> : (
+  React.useEffect(() => {
+    router.push(paths.proof_instances);
+  }, []);
+
+  return envs.NEXT_PUBLIC_IS_TEASER === "yes" ? (
+    <Teaser />
+  ) : (
     <DefaultLayout>
       <div className={styles.container}>
         <div className={styles.leftColumn}></div>
@@ -36,7 +42,6 @@ const HomePage: React.FC = () => {
         </div>
       </div>
     </DefaultLayout>
-
   );
 };
 
