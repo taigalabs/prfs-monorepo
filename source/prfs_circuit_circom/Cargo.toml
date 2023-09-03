@@ -16,4 +16,3 @@ uuid = { version = "1.4.1", features = ["v4", "serde"] }
 
 circuit_reader = { path = "../../externals/circuit_reader" }
 prfs_entities = { path = "../prfs_entities" }
-prfs_circom_analyzer = { path = "../prfs_circom_analyzer" }
