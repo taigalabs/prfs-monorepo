@@ -20,11 +20,11 @@
   }
 }
 
-.appItem {
+.appEntry {
   display: flex;
   align-items: center;
   cursor: pointer;
-  padding: 12px 6px;
+  padding: 12px 16px;
   font-size: 15px;
 
   &:hover {
@@ -33,7 +33,7 @@
 
   svg {
     font-size: 18px;
-    margin-right: 6px;
+    margin-right: 10px;
   }
 }
 

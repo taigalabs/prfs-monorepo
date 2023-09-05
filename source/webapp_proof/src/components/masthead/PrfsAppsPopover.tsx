@@ -1,8 +1,7 @@
 import React from "react";
 import cn from "classnames";
-import * as prfsApi from "@taigalabs/prfs-api-js";
 import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
-import { IconMathPi } from "@tabler/icons-react";
+import TbMathPi from "@taigalabs/prfs-react-components/src/tabler_icons/TbMathPi";
 import MiForest from "@taigalabs/prfs-react-components/src/material_icons/MiForest";
 import MiHowToVote from "@taigalabs/prfs-react-components/src/material_icons/MiHowToVote";
 
@@ -16,19 +15,19 @@ const Modal: React.FC<MerkleProofModalProps> = ({}) => {
   return (
     <ul className={styles.modal}>
       <li>
-        <div className={styles.appItem}>
-          <IconMathPi />
+        <div className={styles.appEntry}>
+          <TbMathPi />
           <span>{i18n.proof}</span>
         </div>
       </li>
       <li className={styles.inactive}>
-        <div className={styles.appItem}>
+        <div className={styles.appEntry}>
           <MiHowToVote />
           <span>{i18n.vote}</span>
         </div>
       </li>
       <li className={styles.inactive}>
-        <div className={styles.appItem}>
+        <div className={styles.appEntry}>
           <MiForest />
           <span>{i18n.forest}</span>
         </div>

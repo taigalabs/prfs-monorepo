@@ -348,6 +348,9 @@ importers:
       '@react-icons/all-files':
         specifier: ^4.1.0
         version: 4.1.0(react@18.2.0)
+      '@tabler/icons-react':
+        specifier: ^2.32.0
+        version: 2.32.0(react@18.2.0)
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -628,9 +631,6 @@ importers:
       '@react-icons/all-files':
         specifier: ^4.1.0
         version: 4.1.0(react@18.2.0)
-      '@tabler/icons-react':
-        specifier: ^2.32.0
-        version: 2.32.0(react@18.2.0)
       '@taigalabs/prfs-api-js':
         specifier: '*'
         version: link:../prfs_api_js

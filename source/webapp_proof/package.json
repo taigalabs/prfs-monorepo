@@ -14,7 +14,6 @@
     "@floating-ui/react": "^0.24.8",
     "@phosphor-icons/react": "^2.0.10",
     "@react-icons/all-files": "^4.1.0",
-    "@tabler/icons-react": "^2.32.0",
     "@taigalabs/prfs-api-js": "*",
     "@taigalabs/prfs-crypto-js": "*",
     "@taigalabs/prfs-driver-interface": "*",
