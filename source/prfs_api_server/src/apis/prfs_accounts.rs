@@ -7,6 +7,7 @@ use prfs_db_interface::db_apis;
 use prfs_entities::{
     apis_entities::{SignInRequest, SignInResponse, SignUpRequest, SignUpResponse},
     entities::PrfsAccount,
+    sqlx::types::Json,
 };
 use routerify::prelude::*;
 use std::{convert::Infallible, sync::Arc};
@@ -21,6 +22,7 @@ pub async fn sign_up_prfs_account(req: Request<Body>) -> Result<Response<Body>, 
     let prfs_account = PrfsAccount {
         sig: req.sig.to_string(),
         avatar_color: req.avatarColor.to_string(),
+        policy_ids: Json::from(vec![]),
     };
 
     let sig = db_apis::insert_prfs_account(&mut tx, &prfs_account)
