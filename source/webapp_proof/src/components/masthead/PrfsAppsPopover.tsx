@@ -24,20 +24,14 @@ const Modal: React.FC<MerkleProofModalProps> = ({}) => {
       </li>
       <li className={styles.inactive}>
         <div className={styles.appItem}>
-          <ForestIcon />
-          <span>{i18n.forest}</span>
-        </div>
-      </li>
-      <li className={styles.inactive}>
-        <div className={styles.appItem}>
           <HowToVoteIcon />
           <span>{i18n.vote}</span>
         </div>
       </li>
       <li className={styles.inactive}>
         <div className={styles.appItem}>
-          <GroupIcon />
-          <span>{i18n.enrollment}</span>
+          <ForestIcon />
+          <span>{i18n.forest}</span>
         </div>
       </li>
     </ul>

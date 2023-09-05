@@ -3,22 +3,20 @@
 }
 
 .popoverWrapper {
-  border-radius: 14px;
+  border-radius: 2px;
   background-color: var(--white-100);
+  overflow: hidden;
 }
 
 .modal {
-  border-radius: 38px;
   background-color: var(--white-100);
-  margin: 12px 6px;
-  padding: 8px 0;
+  margin: 4px 0px;
+  padding: 4px 0;
   width: 160px;
   display: flex;
   flex-direction: column;
 
   > li {
-    // display: inline-block;
-    padding: 0px 6px;
   }
 }
 
@@ -30,7 +28,6 @@
   font-size: 15px;
 
   &:hover {
-    border-radius: 5px;
     background-color: var(--bright-gray-50);
   }
 
