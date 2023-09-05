@@ -61,7 +61,6 @@ const AccountPopover: React.FC<AccountPopoverProps> = ({ localPrfsAccount }) => 
         <div className={styles.base} style={{ backgroundColor: avatarColor }}>
           <div className={styles.id}>{s}</div>
         </div>
-        // {/* <div className={styles.wallet}>{/* <BsWallet2 /> */}</div> */}
       );
     },
     [prfsAccount]
@@ -69,8 +68,6 @@ const AccountPopover: React.FC<AccountPopoverProps> = ({ localPrfsAccount }) => 
 
   const createPopover = React.useCallback(
     (setIsOpen: React.Dispatch<React.SetStateAction<any>>) => {
-      // const shortWalletAddr = walletAddr.substring(0, 15);
-
       return <AccountModal setIsOpen={setIsOpen} localPrfsAccount={localPrfsAccount} />;
     },
     []

@@ -9,7 +9,6 @@ import styles from "./CircuitDriverPage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { WidgetLabel } from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
-// import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import DriverTable from "@/components/driver_table/DriverTable";
 import { paths } from "@/paths";
@@ -24,8 +23,6 @@ import { useAppDispatch } from "@/state/hooks";
 
 const Programs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
-  // const { dispatch } = React.useContext(stateContext);
-
   const dispatch = useAppDispatch();
   useLocalWallet(dispatch);
 

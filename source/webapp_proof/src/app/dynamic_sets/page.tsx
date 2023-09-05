@@ -5,7 +5,6 @@ import { AiFillPlusCircle } from "@react-icons/all-files/ai/AiFillPlusCircle";
 import { useSearchParams } from "next/navigation";
 
 import styles from "./DynamicSets.module.scss";
-// import { stateContext } from "@/contexts/state";
 import Widget, { TopWidgetTitle, WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
@@ -22,11 +21,10 @@ import {
 import { SpacedBetweenArea } from "@/components/area/Area";
 import { PaddedTableWrapper } from "@/components/table2/Table2";
 import CreateSetForm from "@/components/create_set_form/CreateSetForm";
-import { useAppDispatch, useAppSelector } from "@/state/hooks";
+import { useAppDispatch } from "@/state/hooks";
 
 const DynamicSets: React.FC = () => {
   const i18n = React.useContext(i18nContext);
-  // const { dispatch } = React.useContext(stateContext);
 
   const dispatch = useAppDispatch();
   useLocalWallet(dispatch);

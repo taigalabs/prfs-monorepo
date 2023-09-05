@@ -6,7 +6,6 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import styles from "./ProofType.module.scss";
-// import { stateContext } from "@/contexts/state";
 import { WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
@@ -21,11 +20,9 @@ import { useAppDispatch } from "@/state/hooks";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
-  // const { dispatch } = React.useContext(stateContext);
 
   const dispatch = useAppDispatch();
   useLocalWallet(dispatch);
-  // const router = useRouter();
 
   const [proofType, setProofType] = React.useState<PrfsProofType>();
   React.useEffect(() => {

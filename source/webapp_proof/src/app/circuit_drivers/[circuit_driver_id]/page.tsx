@@ -4,12 +4,10 @@ import React from "react";
 import Link from "next/link";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsCircuitDriver } from "@taigalabs/prfs-entities/bindings/PrfsCircuitDriver";
-import { useRouter } from "next/navigation";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 import { DriverPropertyMeta } from "@taigalabs/prfs-entities/bindings/DriverPropertyMeta";
 
 import styles from "./Program.module.scss";
-// import { stateContext } from "@/contexts/state";
 import { WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
@@ -23,8 +21,6 @@ import { useAppDispatch } from "@/state/hooks";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
-  // const { dispatch } = React.useContext(stateContext);
-  const router = useRouter();
   const [driver, setDriver] = React.useState<PrfsCircuitDriver>();
 
   const dispatch = useAppDispatch();

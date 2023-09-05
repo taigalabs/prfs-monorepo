@@ -9,7 +9,6 @@ import { RawCircuitInputMeta } from "@taigalabs/prfs-entities/bindings/RawCircui
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 
 import styles from "./Circuit.module.scss";
-// import { stateContext } from "@/contexts/state";
 import { WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
@@ -25,7 +24,6 @@ import { useAppDispatch } from "@/state/hooks";
 
 const Circuit: React.FC<CircuitProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
-  // const { dispatch } = React.useContext(stateContext);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [circuit, setCircuit] = React.useState<PrfsCircuitSyn1>();

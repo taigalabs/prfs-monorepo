@@ -10,7 +10,6 @@ import styles from "./Proofs.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { WidgetLabel } from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
-// import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import ProofInstanceTable from "@/components/proof_instance_table/ProofInstanceTable";
 import CreateProofInstanceForm from "@/components/create_proof_instance_form/CreateProofInstanceForm";
@@ -26,7 +25,6 @@ import { useAppDispatch } from "@/state/hooks";
 
 const Proofs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
-  // const { dispatch } = React.useContext(stateContext);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const searchParams = useSearchParams();

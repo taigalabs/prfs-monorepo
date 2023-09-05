@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Link from "next/link";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
@@ -9,14 +9,11 @@ import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsPro
 
 import styles from "./ProofInstancePage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Widget, { TopWidgetTitle, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
+import { WidgetLabel } from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
-// import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import ProofInstanceDetailTable from "@/components/proof_instance_detail_table/ProofInstanceDetailTable";
-import ProofInstanceQRCode from "@/components/proof_instance_qrcode/ProofInstanceQRCode";
 import { paths } from "@/paths";
-import ProofImage from "@/components/proof_image/ProofImage";
 import SocialSharePopover from "@/components/social_share_popover/SocialSharePopover";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 import PublicInputTable from "@/components/public_input_table/PublicInputTable";
@@ -27,7 +24,6 @@ import { useAppDispatch } from "@/state/hooks";
 
 const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   let i18n = React.useContext(i18nContext);
-  // const { dispatch } = React.useContext(stateContext);
   const router = useRouter();
 
   const dispatch = useAppDispatch();

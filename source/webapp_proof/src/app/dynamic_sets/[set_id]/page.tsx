@@ -12,7 +12,6 @@ import { HiDocumentAdd } from "@react-icons/all-files/hi/HiDocumentAdd";
 import { Sigma } from "@phosphor-icons/react";
 
 import styles from "./DynamicSet.module.scss";
-// import { stateContext } from "@/contexts/state";
 import { WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
@@ -27,7 +26,6 @@ import { useAppDispatch, useAppSelector } from "@/state/hooks";
 
 const DynamicSet: React.FC<SetProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
-  // const { dispatch } = React.useContext(stateContext);
   const [createPage, setCreatePage] = React.useState(false);
   const [isComputingMerkleRoot, setIsComputingMerkleRoot] = React.useState(false);
   const dispatch = useAppDispatch();
