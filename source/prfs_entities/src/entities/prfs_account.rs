@@ -6,4 +6,13 @@ use ts_rs::TS;
 pub struct PrfsAccount {
     pub sig: String,
     pub avatar_color: String,
+
+    #[ts(type = "string[]")]
+    pub driver_properties: sqlx::types::Json<Vec<PolicyItem>>,
+}
+
+#[derive(TS, Debug, Serialize, Deserialize, Clone)]
+#[ts(export)]
+pub struct PolicyItem {
+    pub label: String,
 }
