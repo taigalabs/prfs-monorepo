@@ -8,10 +8,10 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { MdFilterList } from "@react-icons/all-files/md/MdFilterList";
-import KeyboardDoubleArrowLeft from "@taigalabs/prfs-react-components/src/material_icons/KeyboardDoubleArrowLeft";
-import KeyboardDoubleArrowRight from "@taigalabs/prfs-react-components/src/material_icons/KeyboardDoubleArrowRight";
-import KeyboardArrowLeft from "@taigalabs/prfs-react-components/src/material_icons/KeyboardArrowLeft";
-import KeyboardArrowRight from "@taigalabs/prfs-react-components/src/material_icons/KeyboardArrowRight";
+import MiKeyboardArrowLeft from "@taigalabs/prfs-react-components/src/material_icons/MiKeyboardArrowLeft";
+import MiKeyboardArrowRight from "@taigalabs/prfs-react-components/src/material_icons/MiKeyboardArrowRight";
+import MiKeyboardDoubleArrowLeft from "@taigalabs/prfs-react-components/src/material_icons/MiKeyboardDoubleArrowLeft";
+import MiKeyboardDoubleArrowRight from "@taigalabs/prfs-react-components/src/material_icons/MiKeyboardArrowRight";
 
 import styles from "./Table2.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -96,28 +96,28 @@ export function Table2Pagination<T>({ table }: Table2PaginationProps<T>) {
           onClick={() => table.setPageIndex(0)}
           disabled={!table.getCanPreviousPage()}
         >
-          <KeyboardDoubleArrowLeft />
+          <MiKeyboardDoubleArrowLeft />
         </button>
         <button
           className={styles.prev}
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          <KeyboardArrowLeft />
+          <MiKeyboardArrowLeft />
         </button>
         <button
           className={styles.next}
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
-          <KeyboardArrowRight />
+          <MiKeyboardArrowRight />
         </button>
         <button
           className={styles.last}
           onClick={() => table.setPageIndex(table.getPageCount() - 1)}
           disabled={!table.getCanNextPage()}
         >
-          <KeyboardDoubleArrowRight />
+          <MiKeyboardDoubleArrowRight />
         </button>
       </div>
     </div>

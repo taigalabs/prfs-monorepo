@@ -3,9 +3,8 @@ import cn from "classnames";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
 import { IconMathPi } from "@tabler/icons-react";
-import ForestIcon from "@taigalabs/prfs-react-components/src/material_icons/Forest";
-import HowToVoteIcon from "@taigalabs/prfs-react-components/src/material_icons/HowToVote";
-import GroupIcon from "@taigalabs/prfs-react-components/src/material_icons/Group";
+import MiForest from "@taigalabs/prfs-react-components/src/material_icons/MiForest";
+import MiHowToVote from "@taigalabs/prfs-react-components/src/material_icons/MiHowToVote";
 
 import styles from "./PrfsAppsPopover.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -24,13 +23,13 @@ const Modal: React.FC<MerkleProofModalProps> = ({}) => {
       </li>
       <li className={styles.inactive}>
         <div className={styles.appItem}>
-          <HowToVoteIcon />
+          <MiHowToVote />
           <span>{i18n.vote}</span>
         </div>
       </li>
       <li className={styles.inactive}>
         <div className={styles.appItem}>
-          <ForestIcon />
+          <MiForest />
           <span>{i18n.forest}</span>
         </div>
       </li>
