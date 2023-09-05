@@ -8,7 +8,7 @@ import styles from "./Circuits.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { WidgetLabel } from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
-import { stateContext } from "@/contexts/state";
+// import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import CircuitTable from "@/components/circuit_table/CircuitTable";
 import Link from "next/link";
@@ -20,11 +20,13 @@ import {
 } from "@/components/content_area/ContentArea";
 import { SpacedBetweenArea } from "@/components/area/Area";
 import { PaddedTableWrapper } from "@/components/table2/Table2";
+import { useAppDispatch } from "@/state/hooks";
 
 const Circuits: React.FC = () => {
   let i18n = React.useContext(i18nContext);
-  const { dispatch } = React.useContext(stateContext);
-
+  // const { dispatch } = React.useContext(stateContext);
+  //
+  const dispatch = useAppDispatch();
   useLocalWallet(dispatch);
 
   return (

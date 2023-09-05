@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
-import TbMathPi from "@taigalabs/prfs-react-components/src/tabler_icons/TbMathPi";
+import { TbMathPi } from "@taigalabs/prfs-react-components/src/tabler_icons/TbMathPi";
 import MiForest from "@taigalabs/prfs-react-components/src/material_icons/MiForest";
 import MiHowToVote from "@taigalabs/prfs-react-components/src/material_icons/MiHowToVote";
 

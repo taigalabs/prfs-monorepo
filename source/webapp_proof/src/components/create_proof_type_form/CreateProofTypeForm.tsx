@@ -20,17 +20,19 @@ import Widget, {
 } from "@/components/widget/Widget";
 import FormTextInput from "@/components/form/FormTextInput";
 import CircuitDropdown from "@/components/circuit_dropdown/CircuitDropdown";
-import { stateContext } from "@/contexts/state";
+// import { stateContext } from "@/contexts/state";
 import CircuitInputConfigSection from "@/components/circuit_input_config_section/CircuitInputConfigSection";
 import { paths } from "@/paths";
 import FormTextareaInput from "@/components/form/FormTextareaInput";
 import { ContentAreaRow } from "../content_area/ContentArea";
+import { useAppSelector } from "@/state/hooks";
 
 const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
   const i18n = React.useContext(i18nContext);
-  const { state } = React.useContext(stateContext);
-  const { localPrfsAccount } = state;
+  // const { state } = React.useContext(stateContext);
+  // const { localPrfsAccount } = state;
   const router = useRouter();
+  const localPrfsAccount = useAppSelector(state => state.user.localPrfsAccount);
 
   const [circuitInputs, setCircuitInputs] = React.useState<CircuitInput[]>([]);
   const [name, setName] = React.useState("");
@@ -153,7 +155,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
       img_url: imgUrl,
       img_caption: imgCaption,
       expression,
-      author: prfsAccount.sig,
+      author: prfsAccount.account_id,
       circuit_id: selectedCircuit.circuit_id,
       circuit_type: selectedCircuit.circuit_type,
       circuit_inputs: newCircuitInputs,

@@ -10,7 +10,7 @@ import styles from "./ProofTypes.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { WidgetLabel } from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
-import { stateContext } from "@/contexts/state";
+// import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import ProofTypeTable from "@/components/proof_type_table/ProofTypeTable";
 import CreateProofTypeForm from "@/components/create_proof_type_form/CreateProofTypeForm";
@@ -18,10 +18,11 @@ import { paths } from "@/paths";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 import { SpacedBetweenArea } from "@/components/area/Area";
 import { PaddedTableWrapper } from "@/components/table2/Table2";
+import { useAppDispatch } from "@/state/hooks";
 
 const Proofs: React.FC = () => {
   let i18n = React.useContext(i18nContext);
-  const { dispatch } = React.useContext(stateContext);
+  // const { dispatch } = React.useContext(stateContext);
 
   const searchParams = useSearchParams();
   const [createPage, setCreatePage] = React.useState(false);
@@ -32,6 +33,7 @@ const Proofs: React.FC = () => {
     setCreatePage(createPage);
   }, [searchParams]);
 
+  const dispatch = useAppDispatch();
   useLocalWallet(dispatch);
 
   return (

@@ -6,25 +6,26 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import styles from "./ProofType.module.scss";
-import { stateContext } from "@/contexts/state";
+// import { stateContext } from "@/contexts/state";
 import { WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
-import { useRouter } from "next/navigation";
 import CircuitInputTable from "@/components/circuit_input_table/CircuitInputTable";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 import { paths } from "@/paths";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 import ProofTypeDetailTable from "@/components/proof_type_detail_table/ProofTypeDetailTable";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
+import { useAppDispatch } from "@/state/hooks";
 
 const Program: React.FC<ProgramProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
-  const { dispatch } = React.useContext(stateContext);
+  // const { dispatch } = React.useContext(stateContext);
 
+  const dispatch = useAppDispatch();
   useLocalWallet(dispatch);
-  const router = useRouter();
+  // const router = useRouter();
 
   const [proofType, setProofType] = React.useState<PrfsProofType>();
   React.useEffect(() => {
@@ -40,8 +41,6 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
   }, [setProofType]);
 
   const proofTypeSummaryLabel = `${i18n.proof_type_summary_label} ${params.proof_type_id}`;
-
-  console.log(22, proofType?.circuit_inputs);
 
   return (
     <DefaultLayout>

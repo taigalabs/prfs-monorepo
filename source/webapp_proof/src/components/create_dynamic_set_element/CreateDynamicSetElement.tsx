@@ -10,15 +10,17 @@ import styles from "./CreateDynamicSetElement.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Widget, { TopWidgetTitle, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
 import FormTextInput from "@/components/form/FormTextInput";
-import { stateContext } from "@/contexts/state";
+// import { stateContext } from "@/contexts/state";
 import { paths } from "@/paths";
 import { ContentAreaRow } from "../content_area/ContentArea";
+import { useAppSelector } from "@/state/hooks";
 
 export const CreateDynamicSetElement: React.FC<CreateDynamicSetElementProps> = ({ setId }) => {
   const i18n = React.useContext(i18nContext);
-  const { state } = React.useContext(stateContext);
-  const { localPrfsAccount } = state;
+  // const { state } = React.useContext(stateContext);
+  // const { localPrfsAccount } = state;
   const router = useRouter();
+  const localPrfsAccount = useAppSelector(state => state.user.localPrfsAccount);
 
   const [value, setValue] = React.useState("");
   const [meta, setMeta] = React.useState("");

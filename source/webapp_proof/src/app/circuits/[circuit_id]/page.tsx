@@ -9,7 +9,7 @@ import { RawCircuitInputMeta } from "@taigalabs/prfs-entities/bindings/RawCircui
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 
 import styles from "./Circuit.module.scss";
-import { stateContext } from "@/contexts/state";
+// import { stateContext } from "@/contexts/state";
 import { WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
@@ -21,10 +21,12 @@ import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInput
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 import CircuitDetailTable from "@/components/circuit_detail_table/CircuitDetailTable";
 import CircuitInputsMetaTable from "@/components/circuit_inputs_meta_table/CircuitInputsMetaTable";
+import { useAppDispatch } from "@/state/hooks";
 
 const Circuit: React.FC<CircuitProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
-  const { dispatch } = React.useContext(stateContext);
+  // const { dispatch } = React.useContext(stateContext);
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const [circuit, setCircuit] = React.useState<PrfsCircuitSyn1>();
 
@@ -35,9 +37,6 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
   React.useEffect(() => {
     async function fn() {
       try {
-        // const { payload } = await prfsApi.getPrfsCircuitByCircuitId({
-        //   circuit_id: params.circuit_id,
-        // });
         const { payload } = await prfsApi2("get_prfs_circuit_by_circuit_id", {
           circuit_id: params.circuit_id,
         });

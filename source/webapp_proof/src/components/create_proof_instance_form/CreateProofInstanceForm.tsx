@@ -19,18 +19,20 @@ import Widget, {
   WidgetLabel,
   WidgetPaddedBody,
 } from "@/components/widget/Widget";
-import { stateContext } from "@/contexts/state";
+// import { stateContext } from "@/contexts/state";
 import ProofTypeDropdown from "@/components/proof_type_dropdown/ProofTypeDropdown";
 import { paths } from "@/paths";
 import { ContentAreaRow } from "../content_area/ContentArea";
+import { useAppSelector } from "@/state/hooks";
 
 const prfs = new PrfsSDK("test");
 
 const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   const i18n = React.useContext(i18nContext);
-  const { state } = React.useContext(stateContext);
-  const { localPrfsAccount } = state;
+  // const { state } = React.useContext(stateContext);
+  // const { localPrfsAccount } = state;
   const router = useRouter();
+  const localPrfsAccount = useAppSelector(state => state.user.localPrfsAccount);
 
   const [errMsg, setErrMsg] = React.useState("");
   const [formAlert, setFormAlert] = React.useState("");
@@ -108,7 +110,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       try {
         const { payload } = await prfsApi2("create_prfs_proof_instance", {
           proof_instance_id,
-          sig: prfsAccount.sig,
+          account_id: prfsAccount.account_id,
           proof_type_id: selectedProofType.proof_type_id,
           proof: Array.from(proof),
           public_inputs,
@@ -182,4 +184,4 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
 
 export default CreateProofInstanceForm;
 
-export interface CreateProofInstanceFormProps { }
+export interface CreateProofInstanceFormProps {}

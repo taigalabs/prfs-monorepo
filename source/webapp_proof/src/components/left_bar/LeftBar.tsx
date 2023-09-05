@@ -7,7 +7,9 @@ import { IoDocumentTextOutline } from "@react-icons/all-files/io5/IoDocumentText
 import { IoDocument } from "@react-icons/all-files/io5/IoDocument";
 import { AiTwotoneTool } from "@react-icons/all-files/ai/AiTwotoneTool";
 import { Circuitry } from "@phosphor-icons/react";
-import { IconTable, IconTableAlias } from "@tabler/icons-react";
+// import { IconTable, IconTableAlias } from "@tabler/icons-react";
+import { TbTable } from "@taigalabs/prfs-react-components/src/tabler_icons/TbTable";
+import { TbTableAlias } from "@taigalabs/prfs-react-components/src/tabler_icons/TbTableAlias";
 
 import styles from "./LeftBar.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -100,7 +102,7 @@ const Leftbar: React.FC<any> = () => {
           <li>
             <ActiveLink href={paths.sets} activeClassName={styles.activeLink}>
               <div className={cn(styles.button)}>
-                <IconTable size={16} />
+                <TbTable />
                 <span>{i18n.sets}</span>
               </div>
             </ActiveLink>
@@ -108,7 +110,7 @@ const Leftbar: React.FC<any> = () => {
           <li>
             <ActiveLink href={paths.dynamic_sets} activeClassName={styles.activeLink}>
               <div className={cn(styles.button)}>
-                <IconTableAlias size={16} />
+                <TbTableAlias />
                 <span>{i18n.dynamic_sets}</span>
               </div>
             </ActiveLink>

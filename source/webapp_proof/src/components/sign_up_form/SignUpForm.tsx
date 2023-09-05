@@ -88,14 +88,14 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
       const wallet = await connect(metamaskConfig);
       const signer = await wallet.getSigner();
       const sig = await signer.signMessage(passhash);
-      const avatarColor = Math.floor(Math.random() * 16777215).toString(16);
+      const avatar_color = Math.floor(Math.random() * 16777215).toString(16);
 
       try {
         // let resp = await prfsApi.signUpPrfsAccount({
         //   sig,
         //   avatarColor,
         // });
-        const resp = await prfsApi2("sign_up_prfs_account", { sig, avatarColor });
+        const resp = await prfsApi2("sign_up_prfs_account", { account_id: sig, avatar_color });
 
         if (resp.error) {
           throw new Error(resp.error);

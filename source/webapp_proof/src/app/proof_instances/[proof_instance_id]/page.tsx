@@ -11,7 +11,7 @@ import styles from "./ProofInstancePage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Widget, { TopWidgetTitle, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
-import { stateContext } from "@/contexts/state";
+// import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import ProofInstanceDetailTable from "@/components/proof_instance_detail_table/ProofInstanceDetailTable";
 import ProofInstanceQRCode from "@/components/proof_instance_qrcode/ProofInstanceQRCode";
@@ -23,12 +23,14 @@ import PublicInputTable from "@/components/public_input_table/PublicInputTable";
 import { SpacedBetweenArea } from "@/components/area/Area";
 import ProofView from "@/components/proof_view/ProofView";
 import ProofBanner from "@/components/proof_banner/ProofBanner";
+import { useAppDispatch } from "@/state/hooks";
 
 const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   let i18n = React.useContext(i18nContext);
-  const { dispatch } = React.useContext(stateContext);
+  // const { dispatch } = React.useContext(stateContext);
   const router = useRouter();
 
+  const dispatch = useAppDispatch();
   useLocalWallet(dispatch);
 
   const topWidgetLabel = `${i18n.proof_instance} ${params.proof_instance_id}`;

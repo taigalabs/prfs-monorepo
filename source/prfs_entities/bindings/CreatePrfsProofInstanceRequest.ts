@@ -2,7 +2,7 @@
 
 export interface CreatePrfsProofInstanceRequest {
   proof_instance_id: "<Uuid>" | string;
-  sig: string;
+  account_id: string;
   proof_type_id: "<Uuid>" | string;
   proof: Array<number>;
   public_inputs: Record<string, any>;

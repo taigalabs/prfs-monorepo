@@ -54,7 +54,7 @@ pub struct CreatePrfsProofInstanceRequest {
     #[ts(type = "'<Uuid>' | string")]
     pub proof_instance_id: Uuid,
 
-    pub sig: String,
+    pub account_id: String,
 
     #[ts(type = "'<Uuid>' | string")]
     pub proof_type_id: Uuid,
