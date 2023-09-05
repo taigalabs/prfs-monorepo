@@ -92,9 +92,9 @@ pub fn load_prfs_accounts() -> HashMap<String, PrfsAccount> {
 
     let mut m = HashMap::new();
     for acc in json.prfs_accounts {
-        println!("Reading account, name: {}", acc.sig);
+        println!("Reading account, id: {}", acc.account_id);
 
-        m.insert(acc.sig.to_string(), acc.clone());
+        m.insert(acc.account_id.to_string(), acc);
     }
 
     return m;

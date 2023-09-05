@@ -31,6 +31,7 @@ const DynamicSet: React.FC<SetProps> = ({ params }) => {
   const [isComputingMerkleRoot, setIsComputingMerkleRoot] = React.useState(false);
 
   useLocalWallet(dispatch);
+
   const searchParams = useSearchParams();
   React.useEffect(() => {
     let createPage = searchParams.get("create") !== null;
@@ -62,6 +63,7 @@ const DynamicSet: React.FC<SetProps> = ({ params }) => {
       setIsComputingMerkleRoot(true);
       const { payload } = await prfsApi2("compute_prfs_set_merkle_root", {
         set_id,
+        // account_sig
       });
 
       console.log("Computed merkle root, %o", payload);

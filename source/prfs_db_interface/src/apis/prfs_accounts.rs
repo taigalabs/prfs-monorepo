@@ -11,7 +11,7 @@ pub async fn get_prfs_account_by_sig(
     let row = sqlx::query(query).bind(&sig).fetch_one(pool).await.unwrap();
 
     let prfs_account = PrfsAccount {
-        sig: row.get("sig"),
+        account_id: row.get("account_id"),
         avatar_color: row.get("avatar_color"),
         policy_ids: row.get("policy_ids"),
     };
@@ -24,11 +24,11 @@ pub async fn insert_prfs_account(
     prfs_account: &PrfsAccount,
 ) -> Result<String, DbInterfaceError> {
     let query = "INSERT INTO prfs_accounts \
-            (sig, avatar_color, policy_ids) \
+            (account_id, avatar_color, policy_ids) \
             VALUES ($1, $2, $3) returning sig";
 
     let row = sqlx::query(query)
-        .bind(&prfs_account.sig)
+        .bind(&prfs_account.account_id)
         .bind(&prfs_account.avatar_color)
         .bind(&prfs_account.policy_ids)
         .fetch_one(&mut **tx)

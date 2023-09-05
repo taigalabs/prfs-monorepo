@@ -98,8 +98,6 @@ pub async fn create_prfs_dynamic_set_element(
         .await
         .unwrap();
 
-    println!("111 {:?}", largest_pos_w);
-
     let pos_w = if let Some(pos_w) = largest_pos_w {
         pos_w + Decimal::from(1)
     } else {

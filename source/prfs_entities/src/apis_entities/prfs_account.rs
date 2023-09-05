@@ -8,8 +8,8 @@ use crate::entities::PrfsAccount;
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct SignUpRequest {
-    pub sig: String,
-    pub avatarColor: String,
+    pub account_id: String,
+    pub avatar_color: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

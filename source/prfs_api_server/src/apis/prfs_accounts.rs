@@ -20,8 +20,8 @@ pub async fn sign_up_prfs_account(req: Request<Body>) -> Result<Response<Body>, 
     let mut tx = pool.begin().await.unwrap();
 
     let prfs_account = PrfsAccount {
-        sig: req.sig.to_string(),
-        avatar_color: req.avatarColor.to_string(),
+        account_id: req.account_id.to_string(),
+        avatar_color: req.avatar_color.to_string(),
         policy_ids: Json::from(vec![]),
     };
 

@@ -1,9 +1,11 @@
 import { PrfsAccount } from "@taigalabs/prfs-entities/bindings/PrfsAccount";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 import {
-  Action,
+  // Action,
   LoadPrfsAccountAction,
-  SignInAction,
+  // SignInAction,
+  SignInActionPayload,
   SignOutAction,
   SignUpAction,
 } from "./actions";
@@ -14,30 +16,45 @@ export interface LocalPrfsAccount {
   walletAddr: string;
 }
 
-export interface AppState {
+export interface UserState {
   localPrfsAccount: LocalPrfsAccount | undefined;
 }
 
-const reducer = (state: AppState, action: Action) => {
+export const userReducer = createSlice({
+  name: "user",
+  initialState: {
+    localPrfsAccount: undefined,
+  },
+  reducers: {
+    signIn: (state: UserState, action: PayloadAction<SignInActionPayload>) => {
+      return handleSignIn(state, action);
+    },
+    signUp: (state, action) => {
+      return handleSignUp(state, action);
+    },
+    loadPrfsAccount: (state, action) => {
+      return handleLoadPrfsAccount(state, action);
+    },
+    signOut: (state, ation) => {
+      return handleSignOut(state, action);
+    },
+  },
   // console.log("reducer, action: %o", action);
 
-  switch (action.type) {
-    case "sign_in":
-      return handleSignIn(state, action);
-    case "sign_up":
-      return handleSignUp(state, action);
-    case "load_prfs_account":
-      return handleLoadPrfsAccount(state, action);
-    case "sign_out":
-      return handleSignOut(state, action);
-    default:
-      throw new Error("no action handler");
-  }
-};
+  // switch (action.type) {
+  //   // case "sign_in":
+  //   case "sign_up":
+  //     return handleSignUp(state, action);
+  //   case "load_prfs_account":
+  //     return handleLoadPrfsAccount(state, action);
+  //   case "sign_out":
+  //     return handleSignOut(state, action);
+  //   default:
+  //     throw new Error("no action handler");
+  // }
+});
 
-export default reducer;
-
-function handleSignIn(state: AppState, action: SignInAction): AppState {
+function handleSignIn(state: UserState, action: SignInAction): AppState {
   localStore.putPrfsAccount(action.payload.prfsAccount, action.payload.walletAddr);
 
   return {

@@ -32,7 +32,7 @@ const AccountModal: React.FC<AccountModalProps> = ({ localPrfsAccount }) => {
     <div className={styles.modal}>
       <div className={styles.info}>
         <p className={styles.infoLabel}>{i18n.signature}</p>
-        <p className={styles.value}>{prfsAccount && prfsAccount.sig}</p>
+        <p className={styles.value}>{prfsAccount && prfsAccount.account_id}</p>
       </div>
       <div className={styles.info}>
         <p className={styles.infoLabel}>{i18n.wallet_addr}</p>
@@ -55,8 +55,8 @@ const AccountPopover: React.FC<AccountPopoverProps> = ({ localPrfsAccount }) => 
         return null;
       }
 
-      const { sig, avatar_color } = prfsAccount;
-      const s = sig.substring(2, 6);
+      const { account_id, avatar_color } = prfsAccount;
+      const s = account_id.substring(2, 6);
       const avatarColor = `#${avatar_color}`;
 
       return (

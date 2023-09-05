@@ -8,12 +8,12 @@ export type LoadPrfsAccountAction = {
   };
 };
 
-export type SignInAction = {
-  type: "sign_in";
-  payload: {
-    prfsAccount: PrfsAccount;
-    walletAddr: string;
-  };
+export type SignInActionPayload = {
+  // type: "sign_in";
+  // payload: {
+  prfsAccount: PrfsAccount;
+  walletAddr: string;
+  // };
 };
 
 export type SignOutAction = {
@@ -29,4 +29,4 @@ export type SignUpAction = {
   };
 };
 
-export type Action = SignInAction | SignUpAction | SignOutAction | LoadPrfsAccountAction;
+// export type Action = SignInAction | SignUpAction | SignOutAction | LoadPrfsAccountAction;
