@@ -1,15 +1,7 @@
 import { PrfsAccount } from "@taigalabs/prfs-entities/bindings/PrfsAccount";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-import {
-  LoadPrfsAccountPayload,
-  // Action,
-  // LoadPrfsAccountAction,
-  // SignInAction,
-  SignInPayload,
-  SignOutPayload,
-  SignUpPayload,
-} from "./actions";
+import { LoadPrfsAccountPayload, SignInPayload, SignOutPayload, SignUpPayload } from "./actions";
 import localStore from "@/storage/localStore";
 import { RootState } from "./store";
 
@@ -20,10 +12,12 @@ export interface LocalPrfsAccount {
 
 export interface UserState {
   localPrfsAccount: LocalPrfsAccount | undefined;
+  temp: number;
 }
 
 const initialState: UserState = {
   localPrfsAccount: undefined,
+  temp: 0,
 };
 
 export const userSlice = createSlice({
@@ -31,75 +25,42 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     signIn: (state: UserState, action: PayloadAction<SignInPayload>) => {
-      handleSignIn(state, action);
+      return handleSignIn(state, action);
     },
     signUp: (state, action) => {
-      handleSignUp(state, action);
+      return handleSignUp(state, action);
     },
-    loadPrfsAccount: (state, action) => {
-      handleLoadPrfsAccount(state, action);
+    loadPrfsAccount: (state, action: PayloadAction<LoadPrfsAccountPayload>) => {
+      return handleLoadPrfsAccount(state, action);
     },
     signOut: (state, action) => {
-      handleSignOut(state, action);
+      return handleSignOut(state, action);
     },
   },
-  // console.log("reducer, action: %o", action);
-
-  // switch (action.type) {
-  //   // case "sign_in":
-  //   case "sign_up":
-  //     return handleSignUp(state, action);
-  //   case "load_prfs_account":
-  //     return handleLoadPrfsAccount(state, action);
-  //   case "sign_out":
-  //     return handleSignOut(state, action);
-  //   default:
-  //     throw new Error("no action handler");
-  // }
 });
 
 export const { signIn, signUp, loadPrfsAccount, signOut } = userSlice.actions;
-
-export const selectLocalPrfsAccount = (state: RootState) => state.user.localPrfsAccount;
 
 export default userSlice.reducer;
 
 function handleSignIn(state: UserState, action: PayloadAction<SignInPayload>) {
   localStore.putPrfsAccount(action.payload.prfsAccount, action.payload.walletAddr);
 
-  // return {
-  //   ...state,
-  //   localPrfsAccount: {
-  //     prfsAccount: action.payload.prfsAccount,
-  //     walletAddr: action.payload.walletAddr,
-  //   },
-  // };
-
-  state.localPrfsAccount = {
-    prfsAccount: action.payload.prfsAccount,
-    walletAddr: action.payload.walletAddr,
+  state = {
+    ...state,
+    localPrfsAccount: {
+      prfsAccount: action.payload.prfsAccount,
+      walletAddr: action.payload.walletAddr,
+    },
   };
 }
 
-function handleSignUp(state: UserState, action: PayloadAction<SignUpPayload>) {
-  // return {
-  //   ...state,
-  // };
-}
+function handleSignUp(state: UserState, action: PayloadAction<SignUpPayload>) {}
 
 function handleLoadPrfsAccount(state: UserState, action: PayloadAction<LoadPrfsAccountPayload>) {
-  // return {
-  //   ...state,
-  //   localPrfsAccount: {
-  //     // sig: action.payload.sig,
-  //     // id: action.payload.id,
-  //     prfsAccount: action.payload.prfsAccount,
-  //     walletAddr: action.payload.walletAddr,
-  //   },
-  // };
-  state.localPrfsAccount = {
-    prfsAccount: action.payload.prfsAccount,
-    walletAddr: action.payload.walletAddr,
+  return {
+    ...state,
+    localPrfsAccount: action.payload.localPrfsAccount,
   };
 }
 

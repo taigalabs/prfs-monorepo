@@ -37,7 +37,7 @@ pub async fn insert_prfs_policy_item(
         .await
         .unwrap();
 
-    let sig: String = row.get("policy_id");
+    let policy_id: String = row.get("policy_id");
 
-    return Ok(sig);
+    return Ok(policy_id);
 }

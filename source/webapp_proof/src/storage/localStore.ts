@@ -30,7 +30,10 @@ function getPrfsAccount(): LocalPrfsAccount | null {
 
   const { account_id } = prfsAccount;
 
+  console.log(44, account_id);
+
   if (account_id === undefined || walletAddr === null) {
+    removePrfsAccount();
     return null;
   }
 

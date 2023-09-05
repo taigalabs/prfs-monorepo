@@ -1,11 +1,8 @@
 import { PrfsAccount } from "@taigalabs/prfs-entities/bindings/PrfsAccount";
+import { LocalPrfsAccount } from "./userReducer";
 
 export type LoadPrfsAccountPayload = {
-  // type: "load_prfs_account";
-  // payload: {
-  prfsAccount: PrfsAccount;
-  walletAddr: string;
-  // };
+  localPrfsAccount: LocalPrfsAccount;
 };
 
 export type SignInPayload = {

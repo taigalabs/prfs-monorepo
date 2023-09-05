@@ -15,6 +15,7 @@ import { FormTitle } from "@/components/form/Form";
 import FormTextInput from "@/components/form/FormTextInput";
 import { paths } from "@/paths";
 import { useAppDispatch } from "@/state/hooks";
+import { signIn } from "@/state/userReducer";
 
 const metamaskConfig = metamaskWallet();
 
@@ -68,19 +69,18 @@ const SignInForm: React.FC<SignInFormProps> = () => {
       const walletAddr = await wallet.getAddress();
 
       try {
-        let resp = await signIn(walletAddr, passhash, signer);
+        let resp = await doSignIn(walletAddr, passhash, signer);
 
         if (!resp.payload.prfs_account) {
           throw new Error("Invalid response. Does not contain prfs account");
         }
 
-        dispatch({
-          type: "sign_in",
-          payload: {
+        dispatch(
+          signIn({
             prfsAccount: resp.payload.prfs_account,
             walletAddr,
-          },
-        });
+          })
+        );
 
         router.push(paths.__);
       } catch (err) {
@@ -131,14 +131,11 @@ const SignInForm: React.FC<SignInFormProps> = () => {
   );
 };
 
-{
-  /* <StrikeThroughText>{i18n.new_to_prfs}</StrikeThroughText> */
-}
 export default SignInForm;
 
 export interface SignInFormProps {}
 
-export async function signIn(walletAddr: string, passhash: string, signer: ethers.Signer) {
+export async function doSignIn(walletAddr: string, passhash: string, signer: ethers.Signer) {
   if (walletAddr.length < 1) {
     throw new Error("Connect a wallet first");
   }

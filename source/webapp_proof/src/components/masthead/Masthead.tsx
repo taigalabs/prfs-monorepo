@@ -24,8 +24,6 @@ const ConnectButton = () => {
 
 const Masthead: React.FC<any> = () => {
   const i18n = React.useContext(i18nContext);
-  // const { state } = React.useContext(stateContext);
-  // const { dispatch } = React.useContext(stateContext);
   const dispatch = useAppDispatch();
   useLocalWallet(dispatch);
 
