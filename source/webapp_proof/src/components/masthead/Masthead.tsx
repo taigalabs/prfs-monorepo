@@ -6,10 +6,11 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Logo from "@/components/logo/Logo";
-import { stateContext } from "@/contexts/state";
+// import { stateContext } from "@/contexts/state";
 import PrfsAppsPopover from "./PrfsAppsPopover";
 import AccountPopover from "./AccountPopover";
 import useLocalWallet from "@/hooks/useLocalWallet";
+import { useAppDispatch, useAppSelector } from "@/state/hooks";
 
 const ConnectButton = () => {
   const i18n = React.useContext(i18nContext);
@@ -23,11 +24,12 @@ const ConnectButton = () => {
 
 const Masthead: React.FC<any> = () => {
   const i18n = React.useContext(i18nContext);
-  const { state } = React.useContext(stateContext);
-  const { dispatch } = React.useContext(stateContext);
-  const { localPrfsAccount } = state;
-
+  // const { state } = React.useContext(stateContext);
+  // const { dispatch } = React.useContext(stateContext);
+  const dispatch = useAppDispatch();
   useLocalWallet(dispatch);
+
+  const localPrfsAccount = useAppSelector(state => state.user.localPrfsAccount);
 
   return (
     <div className={styles.wrapper}>

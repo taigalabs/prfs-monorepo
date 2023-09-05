@@ -12,7 +12,7 @@ import { HiDocumentAdd } from "@react-icons/all-files/hi/HiDocumentAdd";
 import { Sigma } from "@phosphor-icons/react";
 
 import styles from "./DynamicSet.module.scss";
-import { stateContext } from "@/contexts/state";
+// import { stateContext } from "@/contexts/state";
 import { WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
@@ -23,14 +23,17 @@ import { paths } from "@/paths";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 import { SpacedBetweenArea } from "@/components/area/Area";
 import { CreateDynamicSetElement } from "@/components/create_dynamic_set_element/CreateDynamicSetElement";
+import { useAppDispatch, useAppSelector } from "@/state/hooks";
 
 const DynamicSet: React.FC<SetProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
-  const { dispatch } = React.useContext(stateContext);
+  // const { dispatch } = React.useContext(stateContext);
   const [createPage, setCreatePage] = React.useState(false);
   const [isComputingMerkleRoot, setIsComputingMerkleRoot] = React.useState(false);
-
+  const dispatch = useAppDispatch();
   useLocalWallet(dispatch);
+
+  const localPrfsAccount = useAppSelector(state => state.user.localPrfsAccount);
 
   const searchParams = useSearchParams();
   React.useEffect(() => {
@@ -57,19 +60,23 @@ const DynamicSet: React.FC<SetProps> = ({ params }) => {
   }, [setPrfsSet]);
 
   const handleClickComputeMerkleRoot = React.useCallback(async () => {
-    if (prfsSet) {
+    if (prfsSet && localPrfsAccount) {
       const { set_id } = prfsSet;
+      const { prfsAccount } = localPrfsAccount;
+      const { account_id } = prfsAccount;
 
-      setIsComputingMerkleRoot(true);
-      const { payload } = await prfsApi2("compute_prfs_set_merkle_root", {
-        set_id,
-        // account_sig
-      });
+      if (prfsAccount) {
+        setIsComputingMerkleRoot(true);
+        const { payload } = await prfsApi2("compute_prfs_set_merkle_root", {
+          set_id,
+          account_id,
+        });
 
-      console.log("Computed merkle root, %o", payload);
-      setIsComputingMerkleRoot(false);
+        console.log("Computed merkle root, %o", payload);
+        setIsComputingMerkleRoot(false);
+      }
     }
-  }, [prfsSet, setIsComputingMerkleRoot]);
+  }, [prfsSet, setIsComputingMerkleRoot, localPrfsAccount]);
 
   let setTableLabel = `${i18n.set} summary for ${params.set_id}`;
 

@@ -7,7 +7,6 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./SignInForm.module.scss";
-import { stateContext } from "@/contexts/state";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
 import localStore from "@/storage/localStore";
 import useLocalWallet from "@/hooks/useLocalWallet";
@@ -15,6 +14,7 @@ import { i18nContext } from "@/contexts/i18n";
 import { FormTitle } from "@/components/form/Form";
 import FormTextInput from "@/components/form/FormTextInput";
 import { paths } from "@/paths";
+import { useAppDispatch } from "@/state/hooks";
 
 const metamaskConfig = metamaskWallet();
 
@@ -22,9 +22,7 @@ const SignInForm: React.FC<SignInFormProps> = () => {
   const i18n = React.useContext(i18nContext);
   const connect = useConnect();
   const router = useRouter();
-
-  const { dispatch } = React.useContext(stateContext);
-  useLocalWallet(dispatch);
+  const dispatch = useAppDispatch();
 
   const [walletAddr, setWalletAddr] = React.useState("");
   const [passcode, setPasscode] = React.useState("");
@@ -151,8 +149,7 @@ export async function signIn(walletAddr: string, passhash: string, signer: ether
 
   try {
     let sig = await signer.signMessage(passhash);
-    // let resp = await prfsApi.signInPrfsAccount({ sig });
-    const resp = await prfsApi2("sign_in_prfs_account", { sig });
+    const resp = await prfsApi2("sign_in_prfs_account", { account_id: sig });
 
     if (resp.error) {
       throw new Error(resp.error);

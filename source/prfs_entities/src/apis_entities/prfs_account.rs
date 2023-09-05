@@ -15,14 +15,13 @@ pub struct SignUpRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct SignUpResponse {
-    pub id: String,
-    pub sig: String,
+    pub account_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct SignInRequest {
-    pub sig: String,
+    pub account_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

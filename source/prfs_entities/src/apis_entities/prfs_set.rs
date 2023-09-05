@@ -78,7 +78,7 @@ pub struct CreatePrfsDynamicSetElementResponse {
 pub struct ComputePrfsSetMerkleRootRequest {
     #[ts(type = "string")]
     pub set_id: Uuid,
-    pub account_sig: String,
+    pub account_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

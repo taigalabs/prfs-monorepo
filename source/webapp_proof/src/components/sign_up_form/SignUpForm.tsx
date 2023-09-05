@@ -8,21 +8,23 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import TextButton from "@taigalabs/prfs-react-components/src/text_button/TextButton";
 
 import styles from "./SignUpForm.module.scss";
-import { stateContext } from "@/contexts/state";
+// import { stateContext } from "@/contexts/state";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import { i18nContext } from "@/contexts/i18n";
 import { FormTitle } from "@/components/form/Form";
 import FormTextInput from "@/components/form/FormTextInput";
 import { paths } from "@/paths";
+import { useAppDispatch } from "@/state/hooks";
 
 const metamaskConfig = metamaskWallet();
 
 const SignUpForm: React.FC<SignUpFormProps> = () => {
   let i18n = React.useContext(i18nContext);
   const connect = useConnect();
-  const { dispatch } = React.useContext(stateContext);
+  // const { dispatch } = React.useContext(stateContext);
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   useLocalWallet(dispatch);
 

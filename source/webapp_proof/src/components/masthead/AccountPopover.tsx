@@ -6,15 +6,18 @@ import cn from "classnames";
 import styles from "./AccountPopover.module.scss";
 import localStore from "@/storage/localStore";
 import { i18nContext } from "@/contexts/i18n";
-import { stateContext } from "@/contexts/state";
-import { LocalPrfsAccount } from "@/state/reducer";
+// import { stateContext } from "@/contexts/state";
+// import { LocalPrfsAccount } from "@/state/reducer";
 import { paths } from "@/paths";
 import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
+import { useAppDispatch } from "@/state/hooks";
+import { LocalPrfsAccount } from "@/state/userReducer";
 
 const AccountModal: React.FC<AccountModalProps> = ({ localPrfsAccount }) => {
   const i18n = React.useContext(i18nContext);
-  const { dispatch } = React.useContext(stateContext);
+  // const { dispatch } = React.useContext(stateContext);
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const { prfsAccount, walletAddr } = localPrfsAccount;
 

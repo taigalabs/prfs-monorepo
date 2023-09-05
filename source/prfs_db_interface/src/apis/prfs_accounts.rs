@@ -2,13 +2,17 @@ use crate::DbInterfaceError;
 use prfs_entities::entities::PrfsAccount;
 use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 
-pub async fn get_prfs_account_by_sig(
+pub async fn get_prfs_account_by_account_id(
     pool: &Pool<Postgres>,
-    sig: &String,
+    account_id: &String,
 ) -> Result<PrfsAccount, DbInterfaceError> {
-    let query = "SELECT * from prfs_accounts where sig=$1";
+    let query = "SELECT * from prfs_accounts where account_id=$1";
 
-    let row = sqlx::query(query).bind(&sig).fetch_one(pool).await.unwrap();
+    let row = sqlx::query(query)
+        .bind(&account_id)
+        .fetch_one(pool)
+        .await
+        .unwrap();
 
     let prfs_account = PrfsAccount {
         account_id: row.get("account_id"),
@@ -25,7 +29,7 @@ pub async fn insert_prfs_account(
 ) -> Result<String, DbInterfaceError> {
     let query = "INSERT INTO prfs_accounts \
             (account_id, avatar_color, policy_ids) \
-            VALUES ($1, $2, $3) returning sig";
+            VALUES ($1, $2, $3) returning account_id";
 
     let row = sqlx::query(query)
         .bind(&prfs_account.account_id)
@@ -35,7 +39,7 @@ pub async fn insert_prfs_account(
         .await
         .unwrap();
 
-    let sig: String = row.get("sig");
+    let account_id: String = row.get("account_id");
 
-    return Ok(sig);
+    return Ok(account_id);
 }

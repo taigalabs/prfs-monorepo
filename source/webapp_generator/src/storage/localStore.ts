@@ -26,15 +26,15 @@ function getPrfsAccount(): LocalPrfsAccount | null {
     return null;
   }
 
-  const sig = prfsAccount.sig;
+  const { account_id } = prfsAccount;
 
   let walletAddr = window.localStorage.getItem(PRFS_WALLET_ADDR);
 
-  if (sig === null || walletAddr === null) {
+  if (account_id === null || walletAddr === null) {
     return null;
   }
 
-  if (sig !== null && sig.length < 1) {
+  if (account_id !== null && account_id.length < 1) {
     removePrfsAccount();
   }
 
