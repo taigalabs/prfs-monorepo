@@ -1,10 +1,6 @@
 import React from "react";
-// import * as prfsApi from "@taigalabs/prfs-api-js";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
-
-import styles from "./SetDropdown.module.scss";
-import { i18nContext } from "@/contexts/i18n";
 import Dropdown, {
   CreateDropdownListArgs,
   DropdownData,
@@ -12,6 +8,9 @@ import Dropdown, {
 } from "@taigalabs/prfs-react-components/src/dropdown/Dropdown";
 import DropdownEntry from "@taigalabs/prfs-react-components/src/dropdown/DropdownEntry";
 import DropdownList from "@taigalabs/prfs-react-components/src/dropdown/DropdownList";
+
+import styles from "./SetDropdown.module.scss";
+import { i18nContext } from "@/contexts/i18n";
 
 const SetEntry: React.FC<SetEntryProps> = ({ val }) => {
   const i18n = React.useContext(i18nContext);
@@ -53,10 +52,6 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
 
   React.useMemo(async () => {
     try {
-      // const { payload } = await prfsApi.getPrfsSets({
-      //   page_idx: 0,
-      //   page_size: 20,
-      // });
       const { payload } = await prfsApi2("get_prfs_sets", {
         page_idx: 0,
         page_size: 20,
@@ -94,7 +89,6 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
       let entries = [];
       for (let val of values) {
         const handleClickEntry = () => {
-          // console.log(11, val);
           upgradedHandleSelectVal(val);
         };
 

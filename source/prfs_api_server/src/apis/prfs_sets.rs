@@ -133,6 +133,19 @@ pub async fn compute_prfs_set_merkle_root(
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
+    let required_policy = String::from("COMPUTE_MERKLE_ROOT");
+
+    let prfs_account = db_apis::get_prfs_account_by_account_id(pool, &req.account_id)
+        .await
+        .unwrap();
+
+    println!("prfs_account: {:?}", prfs_account);
+
+    if !prfs_account.policy_ids.contains(&required_policy) {
+        let resp = ApiResponse::new_error("no policy attached".to_string());
+        return Ok(resp.into_hyper_response());
+    }
+
     let mut prfs_set = db_apis::get_prfs_set_by_set_id(pool, &req.set_id)
         .await
         .unwrap();
