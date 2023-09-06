@@ -7,7 +7,6 @@ import { IoDocumentTextOutline } from "@react-icons/all-files/io5/IoDocumentText
 import { IoDocument } from "@react-icons/all-files/io5/IoDocument";
 import { AiTwotoneTool } from "@react-icons/all-files/ai/AiTwotoneTool";
 import { Circuitry } from "@phosphor-icons/react";
-// import { IconTable, IconTableAlias } from "@tabler/icons-react";
 import { TbTable } from "@taigalabs/prfs-react-components/src/tabler_icons/TbTable";
 import { TbTableAlias } from "@taigalabs/prfs-react-components/src/tabler_icons/TbTableAlias";
 
