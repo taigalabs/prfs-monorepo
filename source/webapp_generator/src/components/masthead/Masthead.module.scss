@@ -1,14 +1,15 @@
 .wrapper {
   align-items: center;
   display: flex;
-  justify-content: space-between;
-  padding: 14px 0;
+  padding: 14px 24px;
 
   ul {
     display: flex;
   }
 
-  border: 1px solid black;
+  > div {
+    flex: 1;
+  }
 }
 
 .searchBarContainer {
@@ -18,6 +19,13 @@
 .leftMenu {
   display: flex;
   align-items: center;
+
+  ul {
+    padding-left: 42px;
+    display: inline-flex;
+    align-items: center;
+    height: 30px;
+  }
 }
 
 .logoContainer {
@@ -47,4 +55,10 @@
     width: 100%;
     // padding: 5px 6px;
   }
+}
+
+.rightMenu {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }

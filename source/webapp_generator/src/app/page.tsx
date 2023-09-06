@@ -4,12 +4,11 @@ import React from "react";
 import { useRouter } from "next/navigation";
 
 import styles from "./HomePage.module.scss";
-import { paths } from "@/paths";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
-import useLocalWallet from "@/hooks/useLocalWallet";
 import Masthead from "@/components/masthead/Masthead";
 import ContentArea from "@/components/content_area/ContentArea";
+import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 
 const HomePage: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -19,7 +18,9 @@ const HomePage: React.FC = () => {
     <DefaultLayout>
       <Masthead />
       <ContentArea>
-        <div className={styles.container}></div>
+        <div className={styles.container}>
+          <CreateProofForm />
+        </div>
       </ContentArea>
     </DefaultLayout>
   );

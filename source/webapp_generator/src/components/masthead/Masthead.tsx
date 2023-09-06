@@ -27,14 +27,12 @@ const Masthead: React.FC = () => {
         </div>
         <ul>
           <li>{i18n.proof}</li>
-          <li>3</li>
-          <li>3</li>
         </ul>
       </div>
       <div>
         <SearchBar />
       </div>
-      <div>account</div>
+      <div className={styles.rightMenu}>account</div>
     </div>
   );
 };
