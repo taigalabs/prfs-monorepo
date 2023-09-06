@@ -3,6 +3,8 @@ use byteorder::{LittleEndian, ReadBytesExt};
 use ff::PrimeField;
 use group::Group;
 use itertools::Itertools;
+use std::fs::OpenOptions;
+use std::path::Path;
 use std::{
     collections::HashMap,
     io::{BufReader, Error, ErrorKind, Read, Result, Seek, SeekFrom},
@@ -39,8 +41,6 @@ pub struct R1CSFile<Fr: PrimeField> {
     pub constraints: Vec<Constraint<Fr>>,
     pub wire_mapping: Vec<u64>,
 }
-use std::fs::OpenOptions;
-use std::path::Path;
 
 pub fn load_r1cs_from_bin_file<G1: Group>(filename: &Path) -> (R1CS<G1::Scalar>, Vec<usize>) {
     let reader = OpenOptions::new()
@@ -50,7 +50,7 @@ pub fn load_r1cs_from_bin_file<G1: Group>(filename: &Path) -> (R1CS<G1::Scalar>,
     load_r1cs_from_bin::<G1, _>(BufReader::new(reader))
 }
 
-pub fn load_r1cs_from_bin<G1: Group, R: Read + Seek>(reader: R) -> (R1CS<G1::Scalar>, Vec<usize>) {
+fn load_r1cs_from_bin<G1: Group, R: Read + Seek>(reader: R) -> (R1CS<G1::Scalar>, Vec<usize>) {
     let file = from_reader::<G1, R>(reader).expect("unable to read.");
     let num_inputs = (1 + file.header.n_pub_in + file.header.n_pub_out) as usize;
     let num_variables = file.header.n_wires as usize;

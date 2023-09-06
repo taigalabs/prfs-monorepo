@@ -1,0 +1,133 @@
+.pageLimitWarning {
+  background-color: var(--bright-gray-55);
+  padding: 11px 20px;
+}
+
+.tableSearch {
+  border-top: 1px solid var(--bright-gray-31);
+  border-bottom: 1px solid var(--bright-gray-31);
+  display: flex;
+  align-items: center;
+  color: var(--gray-50);
+  height: 40px;
+  padding: 0 15px;
+
+  .guide {
+    color: var(--black-00);
+    font-weight: 500;
+    margin-right: 15px;
+
+    svg {
+      margin-right: 4px;
+    }
+  }
+
+  input {
+    padding: 3px 4px;
+    width: 410px;
+  }
+}
+
+.table2 {
+  width: 100%;
+}
+
+.table2Head {
+  background-color: var(--bright-gray-54);
+  padding: 0px 0px;
+  width: 100%;
+  color: var(--black-00);
+
+  tr {
+    /* border-top: 1px solid var(--bright-gray-31); */
+    border-bottom: 1px solid var(--bright-gray-31);
+  }
+
+  th {
+    font-weight: 500;
+    padding: 6px 12px;
+    position: relative;
+    white-space: nowrap;
+    text-align: left;
+  }
+}
+
+.table2Body {
+  tr {
+    border-bottom: 1px solid var(--bright-gray-35);
+
+    &:hover {
+      background-color: var(--bright-gray-55);
+    }
+  }
+
+  td {
+    padding: 7px 12px;
+    position: relative;
+    /* white-space: nowrap; */
+    // word-wrap: break-word;
+  }
+
+  a {
+    color: var(--aqua-blue-50);
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.table2Pagination {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  margin: 8px 0;
+  justify-content: flex-end;
+  color: var(--gray-40);
+
+  > div {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  > div:not(:last-child) {
+    margin-right: 28px;
+  }
+
+  .rowsPerPage {
+    select {
+      width: 60px;
+      text-align: right;
+    }
+
+    span {
+      margin-right: 12px;
+    }
+  }
+
+  .arrowGroup {
+    button {
+      border-radius: 24px;
+      width: 24px;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      color: var(--black-20);
+
+      &:hover {
+        background-color: var(--bright-gray-40);
+      }
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      background-color: inherit;
+      color: var(--gray-50);
+    }
+  }
+}
+
+.paddedTableWrapper {
+  padding: 0 24px 0 32px;
+}

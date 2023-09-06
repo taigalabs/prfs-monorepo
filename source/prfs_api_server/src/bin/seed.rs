@@ -12,7 +12,7 @@ async fn main() -> Result<(), ApiServerError> {
 
     let db = seed::db::connect_db(Endpoint::Dev).await;
 
-    seed::write::truncate(&db).await;
+    // seed::write::truncate(&db).await;
 
     seed::write::upload(&db).await;
 

@@ -20,9 +20,14 @@ pub struct Paths {
     pub prfs_driver_spartan_js: PathBuf,
     pub prfs_driver_spartan_wasm: PathBuf,
     pub prfs_driver_spartan_wasm_build: PathBuf,
-    pub prfs_web: PathBuf,
+
+    //
     pub prfs_sdk_web: PathBuf,
     pub prfs_sdk_web_ui: PathBuf,
+
+    //
+    pub webapp_proof: PathBuf,
+    pub webapp_generator: PathBuf,
 }
 
 impl Paths {
@@ -47,7 +52,6 @@ impl Paths {
         let prfs_asset_server_assets = curr_dir.join("source/prfs_asset_server/assets");
         let prfs_asset_server_assets_local = curr_dir.join("source/prfs_asset_server/assets/local");
 
-        let prfs_web = curr_dir.join("source/prfs_web");
         let e2e_test_web = curr_dir.join("source/e2e_test_web");
         let prfs_api_server = curr_dir.join("source/prfs_api_server");
 
@@ -59,6 +63,9 @@ impl Paths {
 
         let prfs_sdk_web = curr_dir.join("source/prfs_sdk_web");
         let prfs_sdk_web_ui = curr_dir.join("source/prfs_sdk_web_ui");
+
+        let webapp_proof = curr_dir.join("source/webapp_proof");
+        let webapp_generator = curr_dir.join("source/webapp_generator");
 
         let p = Paths {
             curr_dir,
@@ -79,9 +86,11 @@ impl Paths {
             prfs_asset_server_assets,
             prfs_asset_server_assets_local,
 
-            prfs_web,
             prfs_sdk_web,
             prfs_sdk_web_ui,
+
+            webapp_proof,
+            webapp_generator,
 
             e2e_test_web,
         };

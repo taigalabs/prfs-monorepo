@@ -1,0 +1,42 @@
+.isOpen {
+  background-color: var(--bright-gray-50);
+}
+
+.popoverWrapper {
+  border-radius: 2px;
+  background-color: var(--white-100);
+  overflow: hidden;
+}
+
+.modal {
+  background-color: var(--white-100);
+  margin: 4px 0px;
+  padding: 4px 0;
+  width: 160px;
+  display: flex;
+  flex-direction: column;
+
+  > li {
+  }
+}
+
+.appEntry {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 12px 16px;
+  font-size: 15px;
+
+  &:hover {
+    background-color: var(--bright-gray-50);
+  }
+
+  svg {
+    font-size: 18px;
+    margin-right: 10px;
+  }
+}
+
+.inactive {
+  color: var(--gray-70);
+}

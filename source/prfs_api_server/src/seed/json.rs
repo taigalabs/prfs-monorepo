@@ -1,4 +1,6 @@
-use prfs_entities::entities::{PrfsCircuitDriver, PrfsProofType, PrfsSet};
+use prfs_entities::entities::{
+    PrfsAccount, PrfsCircuitDriver, PrfsPolicyItem, PrfsProofType, PrfsSet,
+};
 use prfs_entities::entities::{PrfsCircuitInputType, PrfsCircuitType};
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
@@ -16,6 +18,16 @@ pub struct CircuitTypesJson {
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct CircuitInputTypesJson {
     pub circuit_input_types: Vec<PrfsCircuitInputType>,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct PrfsAccountsJson {
+    pub prfs_accounts: Vec<PrfsAccount>,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct PrfsPolicyItemsJson {
+    pub prfs_policy_items: Vec<PrfsPolicyItem>,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]

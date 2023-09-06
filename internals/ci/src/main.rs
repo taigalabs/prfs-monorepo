@@ -19,13 +19,14 @@ fn main() {
         .arg_required_else_help(true)
         .subcommand(command!("build"))
         .subcommand(command!("e2e_test_web"))
-        .subcommand(command!("dev_prfs_web").arg(Arg::new("extra_args")))
+        .subcommand(command!("dev_webapp_proof").arg(Arg::new("extra_args")))
+        .subcommand(command!("dev_webapp_generator").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_sdk_web_ui").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_asset_server"))
         .subcommand(command!("dev_api_server"))
         .subcommand(command!("seed_api_server"))
         .subcommand(command!("run_docker_postgres").arg(Arg::new("extra_args")))
-        .subcommand(command!("start_prfs_web").arg(Arg::new("extra_args")))
+        .subcommand(command!("start_webapp_proof").arg(Arg::new("extra_args")))
         .get_matches();
 
     let now = Utc::now();
@@ -39,14 +40,17 @@ fn main() {
         Some(("e2e_test_web", sub_matches)) => {
             cmds::e2e_test_web::run(sub_matches);
         }
-        Some(("dev_prfs_web", sub_matches)) => {
-            cmds::dev_prfs_web::run(sub_matches);
+        Some(("dev_webapp_proof", sub_matches)) => {
+            cmds::dev_webapp_proof::run(sub_matches);
+        }
+        Some(("dev_webapp_generator", sub_matches)) => {
+            cmds::dev_webapp_generator::run(sub_matches);
         }
         Some(("dev_sdk_web_ui", sub_matches)) => {
             cmds::dev_sdk_web_ui::run(sub_matches);
         }
-        Some(("start_prfs_web", sub_matches)) => {
-            cmds::start_prfs_web::run(sub_matches);
+        Some(("start_webapp_proof", sub_matches)) => {
+            cmds::start_webapp_proof::run(sub_matches);
         }
         Some(("dev_asset_server", sub_matches)) => {
             cmds::dev_asset_server::run(sub_matches);

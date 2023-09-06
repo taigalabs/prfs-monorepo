@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  /* flex-direction: column; */
+  /* border: 1px solid green; */
+}
+
+.leftColumn {
+  flex-grow: 1;
+
+  /* border: 1px solid red; */
+}
+
+.rightColumn {
+  padding-top: 18px;
+  padding-right: 12px;
+  width: 360px;
+  /* border: 1px solid blue; */
+}
+
+.sectionWrapper:not(:first-child) {
+  margin-top: 21px;
+}

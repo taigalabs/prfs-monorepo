@@ -1,7 +1,7 @@
 import React, { MouseEventHandler } from "react";
 import cn from "classnames";
 import { DotsNine } from "@phosphor-icons/react";
-import { GiHamburgerMenu } from "@react-icons/all-files/gi/GiHamburgerMenu";
+import { AiOutlineMenu } from "@react-icons/all-files/ai/AiOutlineMenu";
 
 import styles from "./IconButton.module.scss";
 
@@ -11,7 +11,7 @@ const IconButton: React.FC<IconButtonProps> = ({ className, handleClick, variant
       case "dots":
         return <DotsNine />;
       case "hamburger":
-        return <GiHamburgerMenu />;
+        return <AiOutlineMenu />;
       default:
         null;
     }

@@ -1,0 +1,37 @@
+.body {
+  padding-top: 24px;
+}
+
+.placeholder {
+  height: 49px;
+}
+
+.floatingHeader {
+  display: flex;
+  justify-content: center;
+  height: 49px;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  z-index: 1;
+}
+
+.content {
+  display: flex;
+  /* background-color: rgba(255, 255, 255, 0.5); */
+  background-color: var(--white-100);
+  align-items: center;
+  width: 100%;
+  min-width: 1100px;
+  max-width: 1500px;
+  height: 100%;
+  padding-left: 260 + 24px;
+  padding-right: 15px;
+  /* backdrop-filter: blur(10px); */
+
+  border-bottom: 1px solid var(--bright-gray-31);
+}
+
+.row:not(:last-child) {
+  margin-bottom: 44px;
+}

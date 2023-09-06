@@ -2,4 +2,5 @@
 
 export interface ComputePrfsSetMerkleRootRequest {
   set_id: string;
+  account_id: string;
 }

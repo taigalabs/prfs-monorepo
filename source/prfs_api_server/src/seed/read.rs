@@ -3,7 +3,7 @@ use crate::{
     seed::{
         json::{
             CircuitDriversJson, CircuitInputTypesJson, CircuitTypesJson, DynamicSetsJson,
-            ProofTypesJson,
+            PrfsAccountsJson, PrfsPolicyItemsJson, ProofTypesJson,
         },
         utils,
     },
@@ -12,8 +12,8 @@ use colored::Colorize;
 use prfs_circuit_circom::{CircuitBuildJson, CircuitBuildListJson};
 use prfs_entities::{
     entities::{
-        PrfsCircuit, PrfsCircuitDriver, PrfsCircuitInputType, PrfsCircuitType, PrfsProofType,
-        PrfsSet,
+        PrfsAccount, PrfsCircuit, PrfsCircuitDriver, PrfsCircuitInputType, PrfsCircuitType,
+        PrfsPolicyItem, PrfsProofType, PrfsSet,
     },
     syn_entities::PrfsCircuitSyn1,
 };
@@ -57,7 +57,7 @@ pub fn load_circuits() -> HashMap<String, PrfsCircuit> {
 pub fn load_circuit_drivers() -> HashMap<String, PrfsCircuitDriver> {
     println!("\n{} circuit drivers", "Loading".green());
 
-    let json_path = PATHS.data.join("circuit_drivers.json");
+    let json_path = PATHS.data.join("prfs_circuit_drivers.json");
     let json: CircuitDriversJson = utils::read_json(&json_path);
 
     let mut m = HashMap::new();
@@ -71,7 +71,7 @@ pub fn load_circuit_drivers() -> HashMap<String, PrfsCircuitDriver> {
 pub fn load_circuit_types() -> HashMap<String, PrfsCircuitType> {
     println!("\n{} circuit types", "Loading".green());
 
-    let json_path = PATHS.data.join("circuit_types.json");
+    let json_path = PATHS.data.join("prfs_circuit_types.json");
     let json: CircuitTypesJson = utils::read_json(&json_path);
 
     let mut m = HashMap::new();
@@ -84,10 +84,42 @@ pub fn load_circuit_types() -> HashMap<String, PrfsCircuitType> {
     return m;
 }
 
+pub fn load_prfs_accounts() -> HashMap<String, PrfsAccount> {
+    println!("\n{} circuit input types", "Loading".green());
+
+    let json_path = PATHS.data.join("prfs_accounts.json");
+    let json: PrfsAccountsJson = utils::read_json(&json_path);
+
+    let mut m = HashMap::new();
+    for acc in json.prfs_accounts {
+        println!("Reading account, id: {}", acc.account_id);
+
+        m.insert(acc.account_id.to_string(), acc);
+    }
+
+    return m;
+}
+
+pub fn load_policy_items() -> HashMap<String, PrfsPolicyItem> {
+    println!("\n{} prfs policy items", "Loading".green());
+
+    let json_path = PATHS.data.join("prfs_policy_items.json");
+    let json: PrfsPolicyItemsJson = utils::read_json(&json_path);
+
+    let mut m = HashMap::new();
+    for policy in json.prfs_policy_items {
+        println!("Reading policy, id: {}", policy.policy_id);
+
+        m.insert(policy.policy_id.to_string(), policy);
+    }
+
+    return m;
+}
+
 pub fn load_circuit_input_types() -> HashMap<String, PrfsCircuitInputType> {
     println!("\n{} circuit input types", "Loading".green());
 
-    let json_path = PATHS.data.join("circuit_input_types.json");
+    let json_path = PATHS.data.join("prfs_circuit_input_types.json");
     let json: CircuitInputTypesJson = utils::read_json(&json_path);
 
     let mut m = HashMap::new();
@@ -109,7 +141,7 @@ pub fn load_circuit_input_types() -> HashMap<String, PrfsCircuitInputType> {
 pub fn load_proof_types() -> HashMap<String, PrfsProofType> {
     println!("\n{} proof types", "Loading".green());
 
-    let json_path = PATHS.data.join("proof_types.json");
+    let json_path = PATHS.data.join("prfs_proof_types.json");
     let json: ProofTypesJson = utils::read_json(&json_path);
 
     let mut m = HashMap::new();
