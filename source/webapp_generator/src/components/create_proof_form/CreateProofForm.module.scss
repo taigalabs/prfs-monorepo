@@ -1,6 +1,12 @@
 .wrapper {
   width: 520px;
-  height: 420px;
   border: 1px solid black;
   border-radius: 5px;
+  padding: 6px 7px;
+}
+
+.proofTypeRow {
+  background-color: var(--bright-gray-40);
+  border-radius: 5px;
+  padding: 10px 12px;
 }
