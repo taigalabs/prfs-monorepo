@@ -8,7 +8,7 @@ import { ThirdwebProvider } from "@thirdweb-dev/react";
 import { Provider as StateProvider } from "react-redux";
 
 import { I18nProvider } from "@/contexts/i18n";
-// import { store } from "@/state/store";
+import { store } from "@/state/store";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
