@@ -3,6 +3,13 @@
 import "@taigalabs/prfs-react-components/src/react_components.scss";
 import "./globals.scss";
 
+import React from "react";
+import { ThirdwebProvider } from "@thirdweb-dev/react";
+import { Provider as StateProvider } from "react-redux";
+
+import { I18nProvider } from "@/contexts/i18n";
+// import { store } from "@/state/store";
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -15,7 +22,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body suppressHydrationWarning={true}>{children}</body>
+      <body suppressHydrationWarning={true}>
+        <ParentProvider>{children}</ParentProvider>
+      </body>
     </html>
   );
 }
+
+const ParentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return (
+    <ThirdwebProvider activeChain="ethereum">
+      <StateProvider store={store}>
+        <I18nProvider>{children}</I18nProvider>
+      </StateProvider>
+    </ThirdwebProvider>
+  );
+};
