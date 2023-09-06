@@ -2,11 +2,8 @@ import React from "react";
 import classNames from "classnames";
 
 import styles from "./Logo.module.scss";
-import { i18nContext } from "@/contexts/i18n";
 
 const Logo: React.FC<LogoProps> = ({ variant }) => {
-  const i18n = React.useContext(i18nContext);
-
   return (
     <div
       className={classNames({
@@ -14,7 +11,7 @@ const Logo: React.FC<LogoProps> = ({ variant }) => {
         [styles.big]: variant === "big",
       })}
     >
-      {i18n.prfs}
+      Prfs
     </div>
   );
 };

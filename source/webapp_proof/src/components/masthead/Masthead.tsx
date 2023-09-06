@@ -2,10 +2,10 @@ import React from "react";
 import Link from "next/link";
 import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Logo from "@taigalabs/prfs-react-components/src/logo/Logo";
 
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Logo from "@/components/logo/Logo";
 // import { stateContext } from "@/contexts/state";
 import PrfsAppsPopover from "./PrfsAppsPopover";
 import AccountPopover from "./AccountPopover";
@@ -36,9 +36,9 @@ const Masthead: React.FC<any> = () => {
           <div className={styles.logoContainer}>
             <Link href="/">
               <Logo variant="simple" />
+              <div className={styles.appName}>{i18n.proof}</div>
             </Link>
           </div>
-          <div className={styles.appName}>{i18n.proof}</div>
           <div className={styles.betaTag}>Beta</div>
         </div>
         <div className={styles.mainMenu}>

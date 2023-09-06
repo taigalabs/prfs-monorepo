@@ -1,4 +1,5 @@
 export default {
+  explorer: "Explorer",
   prfs_copyright: "© 2023 Prfs",
   explore_technologies: "Explore technologies",
   latest_prfs_updates: "Latest Prfs updates",
