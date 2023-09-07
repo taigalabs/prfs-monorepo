@@ -13,7 +13,7 @@ const CreateProofForm: React.FC = () => {
     <div className={styles.wrapper}>
       <div className={styles.proofTypeRow}>
         <p>{i18n.you_would_like_to_prove}</p>
-        <div className={styles.select}>input</div>
+        <div className={styles.select}>{i18n.choose_proof_type}</div>
       </div>
       <div></div>
       <div className={styles.btnContainer}>
