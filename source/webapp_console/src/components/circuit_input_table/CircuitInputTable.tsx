@@ -29,8 +29,13 @@ const CircuitInputTable: React.FC<CircuitInputTableProps> = ({ circuit_inputs })
         cell: info => info.getValue(),
       },
       {
-        header: i18n.reference,
-        accessorFn: row => row.ref,
+        header: i18n.ref_type,
+        accessorFn: row => row.ref_type,
+        cell: info => info.getValue(),
+      },
+      {
+        header: i18n.ref_value,
+        accessorFn: row => row.ref_value,
         cell: info => info.getValue(),
       },
     ];

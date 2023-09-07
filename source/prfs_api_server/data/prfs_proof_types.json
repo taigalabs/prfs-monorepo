@@ -13,7 +13,6 @@
       "circuit_driver_id": "SPARTAN_CIRCOM_1",
       "circuit_inputs": [
         {
-          "ref": null,
           "desc": "Message over which a signature is made",
           "name": "sigData",
           "type": "SIG_DATA_1",
@@ -21,12 +20,13 @@
           "value": ""
         },
         {
-          "ref": "PRFS_SET",
+          "ref_type": "PRFS_SET",
+          "ref_value": "00000000-0000-0000-0000-000000000001",
           "desc": "Vector commitment (Merkle root) of a set",
           "name": "merkleProof",
           "type": "MERKLE_PROOF_1",
           "label": "Merkle proof",
-          "value": "00000000-0000-0000-0000-000000000001"
+          "value": ""
         }
       ],
       "driver_properties": {
@@ -49,7 +49,6 @@
       "circuit_driver_id": "SPARTAN_CIRCOM_1",
       "circuit_inputs": [
         {
-          "ref": null,
           "desc": "Message over which a signature is made",
           "name": "sigData",
           "type": "SIG_DATA_1",
@@ -57,12 +56,13 @@
           "value": ""
         },
         {
-          "ref": "PRFS_SET",
+          "ref_type": "PRFS_SET",
+          "ref_id": "PRFS_SET",
           "desc": "Vector commitment (Merkle root) of a set",
           "name": "merkleProof",
           "type": "MERKLE_PROOF_1",
           "label": "Merkle proof",
-          "value": "10000000-0000-0000-0000-100000000000"
+          "value": ""
         }
       ],
       "driver_properties": {

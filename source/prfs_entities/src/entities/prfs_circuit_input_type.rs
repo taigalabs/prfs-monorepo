@@ -10,11 +10,11 @@ pub struct CircuitInputMeta {
     pub r#type: String,
     pub desc: String,
 
-    #[serde(default = "default_ref")]
-    pub r#ref: String,
+    #[serde(default = "default_ref_type")]
+    pub ref_type: String,
 }
 
-fn default_ref() -> String {
+fn default_ref_type() -> String {
     String::from("")
 }
 

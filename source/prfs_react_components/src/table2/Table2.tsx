@@ -14,7 +14,6 @@ import MiKeyboardDoubleArrowLeft from "../material_icons/MiKeyboardDoubleArrowLe
 import MiKeyboardDoubleArrowRight from "../material_icons/MiKeyboardArrowRight";
 
 import styles from "./Table2.module.scss";
-// import { i18nContext } from "@/contexts/i18n";
 
 export const TableSearch: React.FC<TableSearchProps> = ({ children }) => {
   return (

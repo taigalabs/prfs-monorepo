@@ -41,5 +41,6 @@ pub struct CircuitInput {
     pub r#type: String,
     pub desc: String,
     pub value: String,
-    pub r#ref: Option<String>,
+    pub ref_type: Option<String>,
+    pub ref_value: Option<String>,
 }

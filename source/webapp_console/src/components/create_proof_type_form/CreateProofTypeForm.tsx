@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
@@ -119,7 +118,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     const circuit_inputs_meta = selectedCircuit.circuit_inputs_meta as CircuitInputMeta[];
 
     for (const [idx, input] of circuit_inputs_meta.entries()) {
-      switch (input.ref) {
+      switch (input.ref_type) {
         case "PRFS_SET":
           if (!circuitInputs[idx]) {
             setErrMsg(`public input is undefined, idx: ${idx}`);
@@ -136,7 +135,8 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             type: input.type,
             desc: input.desc,
             value: "",
-            ref: null,
+            ref_type: null,
+            ref_value: null,
           };
       }
     }

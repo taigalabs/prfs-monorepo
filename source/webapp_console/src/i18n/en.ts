@@ -141,6 +141,8 @@ export default {
   proof_algorithm: "Proof algorithm",
   arithmetization: "Arithmetization",
   reference: "Reference",
+  ref_type: "Ref type",
+  ref_value: "Ref value",
   references: "References",
   set: "Set",
   set_type: "Set type",

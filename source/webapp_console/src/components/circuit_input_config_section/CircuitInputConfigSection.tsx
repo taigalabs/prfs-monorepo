@@ -19,7 +19,7 @@ const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
   const setVals: Record<string, any> = {};
 
   circuitInputsMeta.forEach((input, idx) => {
-    if (input.ref === "PRFS_SET") {
+    if (input.ref_type === "PRFS_SET") {
       const [selectedSet, setSelectedSet] = React.useState<
         DropdownSingleSelectedValue<PrfsSet> | undefined
       >();
@@ -34,8 +34,9 @@ const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
               label: input.label,
               type: input.type,
               desc: input.desc,
-              value: val.set_id,
-              ref: input.ref,
+              value: "",
+              ref_type: input.ref_type,
+              ref_value: val.set_id,
             };
             return newVal;
           });
@@ -53,7 +54,7 @@ const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
 
     for (const [idx, [_, input]] of Object.entries(circuitInputsMeta).entries()) {
       let inputValue: React.ReactElement;
-      switch (input.ref) {
+      switch (input.ref_type) {
         case "PRFS_SET":
           inputValue = (
             <div>
