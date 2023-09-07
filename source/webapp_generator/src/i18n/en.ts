@@ -133,6 +133,8 @@ export default {
   circuit_types: "Circuit types",
   computed: "Computed",
   choose_circuit: "Choose a circuit",
+  select: "Select",
+  choose: "Choose",
   choose_proof_type: "Choose a proof type",
   get_ready_to_make_proof: "Get ready to make a proof",
   choose_set: "Choose a set",
