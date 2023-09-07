@@ -1,12 +1,32 @@
 .wrapper {
   width: 520px;
-  border: 1px solid black;
+  border: 1px solid var(--gray-50);
   border-radius: 5px;
   padding: 6px 7px;
 }
 
 .proofTypeRow {
-  background-color: var(--bright-gray-40);
+  /* background-color: var(--bright-gray-40); */
   border-radius: 5px;
-  padding: 10px 12px;
+  padding: 15px 12px 10px;
+}
+
+.select {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  border: 1px solid var(--bright-gray-40);
+  border-radius: 40px;
+  font-size: 24px;
+  margin-top: 11px;
+}
+
+.btnContainer {
+  margin-top: 12px;
+
+  button {
+    font-size: 1.32em;
+    height: 42px;
+    width: 100%;
+  }
 }

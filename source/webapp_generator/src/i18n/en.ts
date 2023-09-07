@@ -121,6 +121,7 @@ export default {
   proof_wizard: "Proof wizard",
   proof_wizard_sublabel: "Which proof can I create?",
   proof_type: "Proof type",
+  you_would_like_to_prove: "You'd like to prove",
   image: "Image",
   proof_type_summary_label: "Proof type summary for",
   proof_types: "Proof types",

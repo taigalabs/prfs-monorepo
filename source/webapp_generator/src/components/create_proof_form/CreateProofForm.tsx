@@ -1,5 +1,6 @@
 import React from "react";
 import { useRouter } from "next/navigation";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./CreateProofForm.module.scss";
 import { paths } from "@/paths";
@@ -11,10 +12,15 @@ const CreateProofForm: React.FC = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.proofTypeRow}>
-        <p>{i18n.proof_type}</p>
-        <div>input</div>
+        <p>{i18n.you_would_like_to_prove}</p>
+        <div className={styles.select}>input</div>
       </div>
       <div></div>
+      <div className={styles.btnContainer}>
+        <Button variant="aqua_blue_1" handleClick={() => {}}>
+          {i18n.create_proof}
+        </Button>
+      </div>
     </div>
   );
 };
