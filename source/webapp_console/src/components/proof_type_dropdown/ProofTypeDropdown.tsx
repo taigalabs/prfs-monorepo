@@ -1,5 +1,4 @@
 import React from "react";
-// import * as prfsApi from "@taigalabs/prfs-api-js";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
@@ -55,10 +54,6 @@ const ProofTypeDropdown: React.FC<ProofTypeDropdownProps> = ({ selectedVal, hand
 
   React.useEffect(() => {
     async function fn() {
-      // const { payload } = await prfsApi.getPrfsProofTypes({
-      //   page_idx: 0,
-      //   page_size: 20,
-      // });
       const { payload } = await prfsApi2("get_prfs_proof_types", {
         page_idx: 0,
         page_size: 20,
@@ -84,7 +79,6 @@ const ProofTypeDropdown: React.FC<ProofTypeDropdownProps> = ({ selectedVal, hand
 
   const createList = React.useCallback(
     ({ upgradedHandleSelectVal }: CreateDropdownListArgs<PrfsProofType>) => {
-      // console.log(11, data);
       let { values } = data;
 
       if (values === undefined) {

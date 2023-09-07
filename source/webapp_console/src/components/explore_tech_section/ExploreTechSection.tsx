@@ -6,7 +6,7 @@ import TransparentWidget, {
   TransparentWidgetData,
   TransparentWidgetEntry,
   TransparentWidgetHeader,
-} from "../transparent_widget/TransparentWidget";
+} from "@/components/transparent_widget/TransparentWidget";
 
 const exploreTechData: TransparentWidgetData[] = [
   {

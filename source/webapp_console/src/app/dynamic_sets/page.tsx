@@ -3,6 +3,7 @@
 import React from "react";
 import { AiFillPlusCircle } from "@react-icons/all-files/ai/AiFillPlusCircle";
 import { useSearchParams } from "next/navigation";
+import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table2/Table2";
 
 import styles from "./DynamicSets.module.scss";
 import Widget, { TopWidgetTitle, WidgetLabel } from "@/components/widget/Widget";
@@ -19,7 +20,6 @@ import {
   ContentAreaRow,
 } from "@/components/content_area/ContentArea";
 import { SpacedBetweenArea } from "@/components/area/Area";
-import { PaddedTableWrapper } from "@/components/table2/Table2";
 import CreateSetForm from "@/components/create_set_form/CreateSetForm";
 import { useAppDispatch } from "@/state/hooks";
 

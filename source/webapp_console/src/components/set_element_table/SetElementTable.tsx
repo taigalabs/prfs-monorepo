@@ -1,6 +1,5 @@
 import React from "react";
 import cn from "classnames";
-// import * as prfsApi from "@taigalabs/prfs-api-js";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import {
   PaginationState,
@@ -12,14 +11,14 @@ import {
 } from "@tanstack/react-table";
 import { PrfsTreeNode } from "@taigalabs/prfs-entities/bindings/PrfsTreeNode";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
-
-import styles from "./SetElementTable.module.scss";
 import Table2, {
   Table2Body,
   Table2Head,
   Table2Pagination,
   TableSearch,
-} from "@/components/table2/Table2";
+} from "@taigalabs/prfs-react-components/src/table2/Table2";
+
+import styles from "./SetElementTable.module.scss";
 import { EditableCell } from "./TableCell";
 import { i18nContext } from "@/contexts/i18n";
 

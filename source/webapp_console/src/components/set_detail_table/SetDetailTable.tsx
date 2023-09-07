@@ -1,16 +1,14 @@
 import React from "react";
-import Link from "next/link";
 import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import Table2, { RecordData, Table2Body } from "@taigalabs/prfs-react-components/src/table2/Table2";
 
 import styles from "./SetDetailTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { paths } from "@/paths";
-import Table2, { RecordData, Table2Body, Table2Head } from "@/components/table2/Table2";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 
 const columnHelper = createColumnHelper<RecordData>();

@@ -1,11 +1,8 @@
 import React from "react";
-import Link from "next/link";
 import cn from "classnames";
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { AiFillCheckCircle } from "@react-icons/all-files/ai/AiFillCheckCircle";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
-import dayjs from "dayjs";
 import {
   ColumnDef,
   createColumnHelper,
@@ -13,11 +10,11 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import Table2, { RecordData, Table2Body } from "@taigalabs/prfs-react-components/src/table2/Table2";
 
 import styles from "./ProofInstanceDetailTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
-import Table2, { RecordData, Table2Body } from "../table2/Table2";
 import { envs } from "@/envs";
 
 const columnHelper = createColumnHelper<RecordData>();
@@ -36,7 +33,7 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
   const i18n = React.useContext(i18nContext);
 
   const url = React.useMemo(() => {
-    return `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/p/${proofInstance.short_id}`;
+    return `${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/p/${proofInstance.short_id}`;
   }, [proofInstance]);
 
   const handleClickCopy = React.useCallback(() => {
@@ -66,7 +63,7 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
       return [];
     }
 
-    const url = `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/p/${proofInstance.short_id}`;
+    const url = `${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/p/${proofInstance.short_id}`;
 
     const ret: RecordData[] = [
       {

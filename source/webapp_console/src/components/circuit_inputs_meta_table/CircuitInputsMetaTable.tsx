@@ -1,7 +1,5 @@
 import React from "react";
-import Link from "next/link";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
-import { PrfsCircuitDriver } from "@taigalabs/prfs-entities/bindings/PrfsCircuitDriver";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 import {
   ColumnDef,
@@ -10,9 +8,9 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import Table2, { Table2Body, Table2Head } from "@taigalabs/prfs-react-components/src/table2/Table2";
 
 import styles from "./CircuitInputsMetaTable.module.scss";
-import Table2, { Table2Body, Table2Head } from "@/components/table2/Table2";
 import { i18nContext } from "@/contexts/i18n";
 
 const CircuitInputsMetaTable: React.FC<CircuitInputsMetaTableProps> = ({

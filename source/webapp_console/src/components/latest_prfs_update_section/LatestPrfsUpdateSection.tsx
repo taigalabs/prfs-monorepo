@@ -6,7 +6,7 @@ import TransparentWidget, {
   TransparentWidgetData,
   TransparentWidgetHeader,
   TransparentWidgetEntry,
-} from "../transparent_widget/TransparentWidget";
+} from "@/components/transparent_widget/TransparentWidget";
 
 const latestPrfsData: TransparentWidgetData[] = [
   {

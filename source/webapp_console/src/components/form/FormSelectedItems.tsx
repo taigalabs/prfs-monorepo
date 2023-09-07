@@ -7,8 +7,6 @@ export const FormSelectedItemsEntry: React.FC<FormSelectedItemsEntryProps> = ({ 
 };
 
 const FormSelectedItems: React.FC<FormSelectedItemsProps> = ({ children, label }) => {
-  // const i18n = React.useContext(i18nContext);
-
   return (
     <div>
       <div>{label}</div>

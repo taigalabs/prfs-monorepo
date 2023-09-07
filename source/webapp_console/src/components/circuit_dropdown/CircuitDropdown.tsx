@@ -1,8 +1,6 @@
 "use client";
 
 import React from "react";
-// import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
-import * as prfsApi from "@taigalabs/prfs-api-js";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Dropdown, {
   CreateDropdownListArgs,
@@ -59,16 +57,6 @@ const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSe
 
   React.useEffect(() => {
     async function fn() {
-      // prfsApi
-      //   .getPrfsCircuits({
-      //     page_idx: 0,
-      //     page_size: 0,
-      //   })
-      //   .then(resp => {
-      //     const { page_idx, prfs_circuits_syn1 } = resp.payload;
-      //     setData({ page: page_idx, values: prfs_circuits_syn1 });
-      //   });
-      //
       const { payload } = await prfsApi2("get_prfs_circuits", {
         page_idx: 0,
         page_size: 0,
@@ -94,7 +82,6 @@ const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSe
 
   const createList = React.useCallback(
     ({ upgradedHandleSelectVal }: CreateDropdownListArgs<PrfsCircuitSyn1>) => {
-      // console.log(11, data);
       let { values } = data;
 
       if (values === undefined) {

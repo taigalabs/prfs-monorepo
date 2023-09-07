@@ -1,7 +1,6 @@
 import React from "react";
 
 import styles from "./ProofImage.module.scss";
-import ProofImagePlaceHolder from "@/static/svgs/proof_img_placeholder_1.svg";
 
 const ProofImage: React.FC<ProofImageProps> = ({ img_url, img_caption, size }) => {
   const style: React.CSSProperties = {};

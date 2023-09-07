@@ -4,6 +4,7 @@ import React from "react";
 import { useSearchParams } from "next/navigation";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { AiFillFolderAdd } from "@react-icons/all-files/ai/AiFillFolderAdd";
+import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table2/Table2";
 import Link from "next/link";
 
 import styles from "./ProofTypes.module.scss";
@@ -16,7 +17,6 @@ import CreateProofTypeForm from "@/components/create_proof_type_form/CreateProof
 import { paths } from "@/paths";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 import { SpacedBetweenArea } from "@/components/area/Area";
-import { PaddedTableWrapper } from "@/components/table2/Table2";
 import { useAppDispatch } from "@/state/hooks";
 
 const Proofs: React.FC = () => {

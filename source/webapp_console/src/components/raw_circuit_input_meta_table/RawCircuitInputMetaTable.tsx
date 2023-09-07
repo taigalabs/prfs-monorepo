@@ -8,10 +8,10 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import Table2, { Table2Body, Table2Head } from "@taigalabs/prfs-react-components/src/table2/Table2";
 
 import styles from "./RawCircuitInputMetaTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Table2, { Table2Body, Table2Head } from "@/components/table2/Table2";
 
 const RawCircuitInputMetaTable: React.FC<RawCircuitInputMetaTableProps> = ({
   raw_circuit_inputs_meta,

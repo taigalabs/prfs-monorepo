@@ -10,7 +10,6 @@ import styles from "./CreateSetForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Widget, { TopWidgetTitle, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
 import FormTextInput from "@/components/form/FormTextInput";
-// import { stateContext } from "@/contexts/state";
 import { paths } from "@/paths";
 import FormTextareaInput from "@/components/form/FormTextareaInput";
 import { ContentAreaRow } from "@/components/content_area/ContentArea";
@@ -19,8 +18,6 @@ import { useAppSelector } from "@/state/hooks";
 
 const CreateSetForm: React.FC<CreateSetFormProps> = () => {
   const i18n = React.useContext(i18nContext);
-  // const { state } = React.useContext(stateContext);
-  // const { localPrfsAccount } = state;
   const router = useRouter();
 
   const localPrfsAccount = useAppSelector(state => state.user.localPrfsAccount);
@@ -86,7 +83,6 @@ const CreateSetForm: React.FC<CreateSetFormProps> = () => {
     };
 
     try {
-      // await prfsApi.createPrfsSet(createPrfsSetRequest);
       await prfsApi2("create_prfs_set", createPrfsSetRequest);
       router.push(paths.dynamic_sets);
     } catch (err: any) {

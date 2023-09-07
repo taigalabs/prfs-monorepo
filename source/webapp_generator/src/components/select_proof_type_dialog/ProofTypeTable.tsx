@@ -22,7 +22,7 @@ import Table2, {
 import styles from "./ProofTypeTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import ProofImage from "../proof_image/ProofImage";
+// import ProofImage from "../proof_image/ProofImage";
 
 const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -38,9 +38,7 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
           const img_url = info.getValue() as string;
 
           return (
-            <div className={styles.imgCol}>
-              <ProofImage img_url={img_url} size={50} />
-            </div>
+            <div className={styles.imgCol}>{/* <ProofImage img_url={img_url} size={50} /> */}</div>
           );
         },
       },

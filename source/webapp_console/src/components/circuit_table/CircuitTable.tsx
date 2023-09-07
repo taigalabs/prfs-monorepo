@@ -12,16 +12,16 @@ import {
 } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
-
-import styles from "./CircuitTable.module.scss";
-import { i18nContext } from "@/contexts/i18n";
-import { paths } from "@/paths";
 import Table2, {
   Table2Body,
   Table2Head,
   Table2Pagination,
   TableSearch,
-} from "@/components/table2/Table2";
+} from "@taigalabs/prfs-react-components/src/table2/Table2";
+
+import styles from "./CircuitTable.module.scss";
+import { i18nContext } from "@/contexts/i18n";
+import { paths } from "@/paths";
 
 const CircuitTable: React.FC<CircuitTableProps> = ({
   selectType,

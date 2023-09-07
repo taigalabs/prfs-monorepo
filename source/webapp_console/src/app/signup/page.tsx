@@ -5,16 +5,14 @@ import React from "react";
 import styles from "./SignUp.module.scss";
 import SignInLayout from "@/layouts/sign_in_layout/SignInLayout";
 import { i18nContext } from "@/contexts/i18n";
-// import { stateContext } from "@/contexts/state";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import SignUpForm from "@/components/sign_up_form/SignUpForm";
 import { useAppDispatch } from "@/state/hooks";
 
 const SignUp: React.FC = () => {
   let i18n = React.useContext(i18nContext);
-  // const { dispatch } = React.useContext(stateContext);
-  const dispatch = useAppDispatch();
 
+  const dispatch = useAppDispatch();
   useLocalWallet(dispatch);
 
   return (

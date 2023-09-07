@@ -1,6 +1,4 @@
 import React from "react";
-import * as prfsApi from "@taigalabs/prfs-api-js";
-import Link from "next/link";
 import Head from "next/head";
 import TextButton from "@taigalabs/prfs-react-components/src/text_button/TextButton";
 

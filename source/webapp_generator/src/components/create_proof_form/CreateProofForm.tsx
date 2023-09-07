@@ -1,11 +1,9 @@
 import React from "react";
-import { useRouter } from "next/navigation";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./CreateProofForm.module.scss";
-import { paths } from "@/paths";
 import { i18nContext } from "@/contexts/i18n";
-import SelectProofTypeDialog from "./SelectProofTypeDialog";
+import SelectProofTypeDialog from "@/components/select_proof_type_dialog/SelectProofTypeDialog";
 
 const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);

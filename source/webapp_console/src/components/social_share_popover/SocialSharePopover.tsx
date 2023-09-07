@@ -1,5 +1,4 @@
 import React from "react";
-import * as prfsApi from "@taigalabs/prfs-api-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { AiFillTwitterSquare } from "@react-icons/all-files/ai/AiFillTwitterSquare";
 import { FaTelegram } from "@react-icons/all-files/fa/FaTelegram";

@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import * as prfsApi from "@taigalabs/prfs-api-js";
 import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 import {
   ColumnDef,
@@ -9,10 +8,10 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import Table2, { Table2Body } from "@taigalabs/prfs-react-components/src/table2/Table2";
 
 import styles from "./SupportingCircuitTypeTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Table2, { RecordData, Table2Body, Table2Head } from "@/components/table2/Table2";
 
 const SupportingCircuitTypeTable: React.FC<SupportingCircuitTypeTableProps> = ({
   circuit_types,

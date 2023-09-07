@@ -1,8 +1,6 @@
 import React from "react";
-import Link from "next/link";
 
 import styles from "./Widget.module.scss";
-import { i18nContext } from "@/contexts/i18n";
 
 export const TopWidgetTitle: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return <div className={styles.topWidgetTitle}>{children}</div>;

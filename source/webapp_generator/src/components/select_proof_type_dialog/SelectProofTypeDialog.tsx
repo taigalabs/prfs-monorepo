@@ -15,8 +15,9 @@ import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 
 import styles from "./SelectProofTypeDialog.module.scss";
 import { i18nContext } from "@/contexts/i18n";
+import ProofTypeTable from "./ProofTypeTable";
 
-const Dialog: React.FC = () => {
+const SelectProofTypeDialog: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -51,17 +52,7 @@ const Dialog: React.FC = () => {
                   aria-describedby={descriptionId}
                   {...getFloatingProps()}
                 >
-                  <h2 id={headingId}>Delete balloon</h2>
-                  <p id={descriptionId}>This action cannot be undone.</p>
-                  <button
-                    onClick={() => {
-                      console.log("Deleted.");
-                      setIsOpen(false);
-                    }}
-                  >
-                    Confirm
-                  </button>
-                  <button onClick={() => setIsOpen(false)}>Cancel</button>
+                  <ProofTypeTable />
                 </div>
               </FloatingFocusManager>
             </FloatingOverlay>
@@ -72,4 +63,4 @@ const Dialog: React.FC = () => {
   );
 };
 
-export default Dialog;
+export default SelectProofTypeDialog;

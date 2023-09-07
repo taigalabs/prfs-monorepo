@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { v4 as uuidv4 } from "uuid";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
@@ -10,15 +9,12 @@ import styles from "./CreateDynamicSetElement.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Widget, { TopWidgetTitle, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
 import FormTextInput from "@/components/form/FormTextInput";
-// import { stateContext } from "@/contexts/state";
 import { paths } from "@/paths";
 import { ContentAreaRow } from "../content_area/ContentArea";
 import { useAppSelector } from "@/state/hooks";
 
 export const CreateDynamicSetElement: React.FC<CreateDynamicSetElementProps> = ({ setId }) => {
   const i18n = React.useContext(i18nContext);
-  // const { state } = React.useContext(stateContext);
-  // const { localPrfsAccount } = state;
   const router = useRouter();
   const localPrfsAccount = useAppSelector(state => state.user.localPrfsAccount);
 
@@ -67,7 +63,6 @@ export const CreateDynamicSetElement: React.FC<CreateDynamicSetElementProps> = (
     };
 
     try {
-      // await prfsApi.createPrfsDynamicSetElement(createDynamicSetElementRequest);
       await prfsApi2("create_prfs_dynamic_set_element", createDynamicSetElementRequest);
 
       router.push(`${paths.dynamic_sets}/${setId}`);

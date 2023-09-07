@@ -3,6 +3,7 @@
 import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { AiFillPlusCircle } from "@react-icons/all-files/ai/AiFillPlusCircle";
+import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table2/Table2";
 
 import styles from "./Circuits.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -18,7 +19,6 @@ import {
   ContentAreaRow,
 } from "@/components/content_area/ContentArea";
 import { SpacedBetweenArea } from "@/components/area/Area";
-import { PaddedTableWrapper } from "@/components/table2/Table2";
 import { useAppDispatch } from "@/state/hooks";
 
 const Circuits: React.FC = () => {

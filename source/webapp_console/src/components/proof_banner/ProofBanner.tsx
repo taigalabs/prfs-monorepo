@@ -1,26 +1,19 @@
 import React from "react";
-import Link from "next/link";
-import QRCode from "qrcode";
-import { useRouter } from "next/navigation";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
 import { AiOutlineQrcode } from "@react-icons/all-files/ai/AiOutlineQrcode";
 
 import styles from "./ProofBanner.module.scss";
-import { i18nContext } from "@/contexts/i18n";
-import { paths } from "@/paths";
 import ProofImage from "../proof_image/ProofImage";
 import ProofInstanceQRCode from "../proof_instance_qrcode/ProofInstanceQRCode";
 import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
 import { envs } from "@/envs";
 
 const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance }) => {
-  const i18n = React.useContext(i18nContext);
-
   const { prioritizedValues, url } = React.useMemo(() => {
     const { public_inputs_meta, public_inputs, short_id } = proofInstance;
 
-    const url = `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/p/${short_id}`;
+    const url = `${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/p/${short_id}`;
 
     let accessors = [];
     let values = [];

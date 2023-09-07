@@ -8,13 +8,13 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { MdFilterList } from "@react-icons/all-files/md/MdFilterList";
-import MiKeyboardArrowLeft from "@taigalabs/prfs-react-components/src/material_icons/MiKeyboardArrowLeft";
-import MiKeyboardArrowRight from "@taigalabs/prfs-react-components/src/material_icons/MiKeyboardArrowRight";
-import MiKeyboardDoubleArrowLeft from "@taigalabs/prfs-react-components/src/material_icons/MiKeyboardDoubleArrowLeft";
-import MiKeyboardDoubleArrowRight from "@taigalabs/prfs-react-components/src/material_icons/MiKeyboardArrowRight";
+import MiKeyboardArrowLeft from "../material_icons/MiKeyboardArrowLeft";
+import MiKeyboardArrowRight from "../material_icons/MiKeyboardArrowRight";
+import MiKeyboardDoubleArrowLeft from "../material_icons/MiKeyboardDoubleArrowLeft";
+import MiKeyboardDoubleArrowRight from "../material_icons/MiKeyboardArrowRight";
 
 import styles from "./Table2.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+// import { i18nContext } from "@/contexts/i18n";
 
 export const TableSearch: React.FC<TableSearchProps> = ({ children }) => {
   return (
@@ -45,7 +45,6 @@ export const Table2Body: React.FC<Table2Props> = ({ children }) => {
 };
 
 export function Table2Pagination<T>({ table }: Table2PaginationProps<T>) {
-  const i18n = React.useContext(i18nContext);
   const { pagination } = table.getState();
 
   const pageSizeSelectElem = React.useMemo(() => {
@@ -77,7 +76,7 @@ export function Table2Pagination<T>({ table }: Table2PaginationProps<T>) {
   return (
     <div className={styles.table2Pagination}>
       <div className={styles.rowsPerPage}>
-        <span>{i18n.rows_per_page}</span>
+        <span>rows_per_page</span>
         <select
           value={pagination.pageSize}
           onChange={e => {

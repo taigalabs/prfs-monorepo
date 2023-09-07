@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 
 import styles from "./Teaser.module.scss";
 import { i18nContext } from "@/contexts/i18n";

@@ -1,13 +1,12 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import Table2, { Table2Body, Table2Head } from "@taigalabs/prfs-react-components/src/table2/Table2";
 
 import styles from "./CircuitInputTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Table2, { Table2Body, Table2Head } from "@/components/table2/Table2";
 
 const CircuitInputTable: React.FC<CircuitInputTableProps> = ({ circuit_inputs }) => {
   const i18n = React.useContext(i18nContext);

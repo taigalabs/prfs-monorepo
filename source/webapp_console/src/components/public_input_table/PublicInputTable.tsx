@@ -6,10 +6,14 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import Table2, {
+  RecordData,
+  Table2Body,
+  Table2Head,
+} from "@taigalabs/prfs-react-components/src/table2/Table2";
 
 import styles from "./PublicInputTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Table2, { RecordData, Table2Body, Table2Head } from "@/components/table2/Table2";
 
 const LEVEL2_PREFIX = "$2__";
 
