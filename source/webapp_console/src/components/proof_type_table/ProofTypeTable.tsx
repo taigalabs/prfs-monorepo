@@ -120,14 +120,17 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
       </TableSearch>
       <Table2>
         <Table2Head>
-          <tr>
-            <th className={styles.imgCol}></th>
-            <th className={styles.proofTypeId}>{i18n.proof_type_id}</th>
-            <th className={styles.label}>{i18n.label}</th>
-            <th className={styles.desc}>{i18n.description}</th>
-            <th className={styles.circuitId}>{i18n.circuit_id}</th>
-            <th className={styles.createdAt}>{i18n.created_at}</th>
-          </tr>
+          {table.getHeaderGroups().map(headerGroup => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map(header => (
+                <th key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(header.column.columnDef.header, header.getContext())}
+                </th>
+              ))}
+            </tr>
+          ))}
         </Table2Head>
 
         <Table2Body>

@@ -57,7 +57,7 @@
         },
         {
           "ref_type": "PRFS_SET",
-          "ref_id": "PRFS_SET",
+          "ref_value": "10000000-0000-0000-0000-100000000000",
           "desc": "Vector commitment (Merkle root) of a set",
           "name": "merkleProof",
           "type": "MERKLE_PROOF_1",

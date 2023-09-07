@@ -151,14 +151,17 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
       </TableSearch>
       <Table2>
         <Table2Head>
-          <tr>
-            <th className={styles.imgCol} />
-            <th>{i18n.proof_instance_id}</th>
-            <th>{i18n.proof_type}</th>
-            <th>{i18n.expression}</th>
-            <th>{i18n.prioritized_public_input}</th>
-            <th>{i18n.created_at}</th>
-          </tr>
+          {table.getHeaderGroups().map(headerGroup => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map(header => (
+                <th key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(header.column.columnDef.header, header.getContext())}
+                </th>
+              ))}
+            </tr>
+          ))}
         </Table2Head>
 
         <Table2Body>
