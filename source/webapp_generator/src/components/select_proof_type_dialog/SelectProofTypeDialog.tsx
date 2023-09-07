@@ -17,7 +17,7 @@ import styles from "./SelectProofTypeDialog.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import ProofTypeTable from "./ProofTypeTable";
 
-const SelectProofTypeDialog: React.FC = () => {
+const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSelectProofType }) => {
   const i18n = React.useContext(i18nContext);
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -52,7 +52,7 @@ const SelectProofTypeDialog: React.FC = () => {
                   aria-describedby={descriptionId}
                   {...getFloatingProps()}
                 >
-                  <ProofTypeTable />
+                  <ProofTypeTable handleSelectVal={handleSelectProofType} />
                 </div>
               </FloatingFocusManager>
             </FloatingOverlay>
@@ -64,3 +64,7 @@ const SelectProofTypeDialog: React.FC = () => {
 };
 
 export default SelectProofTypeDialog;
+
+export interface SelectProofTypeDialogProps {
+  handleSelectProofType: (proofTypeId: string) => void;
+}

@@ -23,7 +23,7 @@ import styles from "./ProofTypeTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 
-const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
+const ProofTypeTable: React.FC<ProofTypeTableProps> = ({ handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
   const [data, setData] = React.useState<PrfsProofType[]>([]);
   const router = useRouter();
@@ -45,7 +45,27 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
       },
       {
         id: "label",
-        accessorFn: row => row.label,
+        accessorFn: row => ({
+          label: row.label,
+          proof_type_id: row.proof_type_id,
+        }),
+        cell: info => {
+          const { label, proof_type_id } = info.getValue() as {
+            label: string;
+            proof_type_id: string;
+          };
+
+          return (
+            <div>
+              <p>{label}</p>
+              <p>{proof_type_id}</p>
+            </div>
+          );
+        },
+      },
+      {
+        id: "proof_type_id",
+        accessorFn: row => row.proof_type_id,
         cell: info => info.getValue(),
       },
     ];
@@ -82,6 +102,9 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
     data,
     columns,
     state: {
+      columnVisibility: {
+        proof_type_id: false,
+      },
       pagination,
     },
     onPaginationChange: setPagination,
@@ -100,12 +123,7 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
             const proofTypeId = row.getValue("proof_type_id") as string;
 
             return (
-              <tr
-                key={row.id}
-                onClick={() => {
-                  router.push(`${paths.proof_types}/${proofTypeId}`);
-                }}
-              >
+              <tr key={row.id} onClick={() => handleSelectVal(proofTypeId)}>
                 {row.getVisibleCells().map(cell => {
                   return (
                     <td key={cell.id}>
@@ -124,4 +142,6 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
 
 export default ProofTypeTable;
 
-export interface ProofTypeTableProps {}
+export interface ProofTypeTableProps {
+  handleSelectVal: (proofTypeId: string) => void;
+}

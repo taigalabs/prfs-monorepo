@@ -8,12 +8,16 @@ import SelectProofTypeDialog from "@/components/select_proof_type_dialog/SelectP
 const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
 
+  const handleSelectProofType = React.useCallback((proofTypeId: string) => {
+    console.log(111, proofTypeId);
+  }, []);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.proofTypeRow}>
         <p>{i18n.you_would_like_to_prove}</p>
         <div className={styles.select}>
-          <SelectProofTypeDialog />
+          <SelectProofTypeDialog handleSelectProofType={handleSelectProofType} />
         </div>
       </div>
       <div></div>
