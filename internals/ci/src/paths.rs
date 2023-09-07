@@ -26,7 +26,7 @@ pub struct Paths {
     pub prfs_sdk_web_ui: PathBuf,
 
     //
-    pub webapp_proof: PathBuf,
+    pub webapp_console: PathBuf,
     pub webapp_generator: PathBuf,
 }
 
@@ -64,7 +64,7 @@ impl Paths {
         let prfs_sdk_web = curr_dir.join("source/prfs_sdk_web");
         let prfs_sdk_web_ui = curr_dir.join("source/prfs_sdk_web_ui");
 
-        let webapp_proof = curr_dir.join("source/webapp_proof");
+        let webapp_console = curr_dir.join("source/webapp_console");
         let webapp_generator = curr_dir.join("source/webapp_generator");
 
         let p = Paths {
@@ -89,7 +89,7 @@ impl Paths {
             prfs_sdk_web,
             prfs_sdk_web_ui,
 
-            webapp_proof,
+            webapp_console,
             webapp_generator,
 
             e2e_test_web,

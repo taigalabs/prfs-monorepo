@@ -484,7 +484,7 @@ importers:
         specifier: 5.1.6
         version: 5.1.6
 
-  source/webapp_generator:
+  source/webapp_console:
     dependencies:
       '@ethereumjs/util':
         specifier: ^8.0.3
@@ -501,9 +501,6 @@ importers:
       '@reduxjs/toolkit':
         specifier: ^1.9.5
         version: 1.9.5(react-redux@8.1.2)(react@18.2.0)
-      '@tabler/icons-react':
-        specifier: ^2.32.0
-        version: 2.32.0(react@18.2.0)
       '@taigalabs/prfs-api-js':
         specifier: '*'
         version: link:../prfs_api_js
@@ -629,7 +626,7 @@ importers:
         specifier: 5.1.6
         version: 5.1.6
 
-  source/webapp_proof:
+  source/webapp_generator:
     dependencies:
       '@ethereumjs/util':
         specifier: ^8.0.3
@@ -646,6 +643,9 @@ importers:
       '@reduxjs/toolkit':
         specifier: ^1.9.5
         version: 1.9.5(react-redux@8.1.2)(react@18.2.0)
+      '@tabler/icons-react':
+        specifier: ^2.32.0
+        version: 2.32.0(react@18.2.0)
       '@taigalabs/prfs-api-js':
         specifier: '*'
         version: link:../prfs_api_js

@@ -16,5 +16,5 @@ packages:
   - "source/prfs_sdk_web_ui"
   - "source/prfs_react_components"
 
-  - "source/webapp_proof"
+  - "source/webapp_console"
   - "source/webapp_generator"
