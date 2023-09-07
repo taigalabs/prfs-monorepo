@@ -2,9 +2,9 @@
 
 import React from "react";
 import Link from "next/link";
+import Logo from "@taigalabs/prfs-react-components/src/logo/Logo";
 
 import styles from "./SignInLayout.module.scss";
-import Logo from "@/components/logo/Logo";
 import { i18nContext } from "@/contexts/i18n";
 
 const SignInLayout: React.FC<SignInLayoutProps> = ({ children }) => {
