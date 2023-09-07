@@ -27,7 +27,6 @@ const Masthead: React.FC = () => {
       <div className={styles.leftMenu}>
         <div className={styles.logoContainer}>
           <Logo variant="simple" />
-          <div className={styles.appName}>{i18n.proof}</div>
         </div>
         <ul>
           <li>
