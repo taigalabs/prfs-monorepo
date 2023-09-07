@@ -44,12 +44,6 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
         },
       },
       {
-        id: "proof_type_id",
-        header: i18n.proof_type_id,
-        accessorFn: row => `${row.proof_type_id} ${row.desc}`,
-        cell: info => info.getValue(),
-      },
-      {
         id: "label",
         accessorFn: row => row.label,
         cell: info => info.getValue(),
@@ -138,8 +132,6 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
           })}
         </Table2Body>
       </Table2>
-
-      <Table2Pagination table={table} />
     </div>
   );
 };
