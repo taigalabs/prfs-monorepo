@@ -16,7 +16,6 @@ const CreateProofForm: React.FC = () => {
         <p>{i18n.you_would_like_to_prove}</p>
         <div className={styles.select}>
           <SelectProofTypeDialog />
-          {/* <span>{i18n.choose_type}</span> */}
         </div>
       </div>
       <div></div>

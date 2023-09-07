@@ -11,6 +11,7 @@ import {
   FloatingOverlay,
   FloatingPortal,
 } from "@floating-ui/react";
+import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 
 import styles from "./SelectProofTypeDialog.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -40,29 +41,31 @@ const Dialog: React.FC = () => {
       </div>
       <FloatingPortal>
         {isOpen && (
-          <FloatingOverlay className={styles.dialogOverlay} lockScroll>
-            <FloatingFocusManager context={context}>
-              <div
-                className={styles.dialog}
-                ref={refs.setFloating}
-                aria-labelledby={headingId}
-                aria-describedby={descriptionId}
-                {...getFloatingProps()}
-              >
-                <h2 id={headingId}>Delete balloon</h2>
-                <p id={descriptionId}>This action cannot be undone.</p>
-                <button
-                  onClick={() => {
-                    console.log("Deleted.");
-                    setIsOpen(false);
-                  }}
+          <Fade>
+            <FloatingOverlay className={styles.dialogOverlay} lockScroll>
+              <FloatingFocusManager context={context}>
+                <div
+                  className={styles.dialog}
+                  ref={refs.setFloating}
+                  aria-labelledby={headingId}
+                  aria-describedby={descriptionId}
+                  {...getFloatingProps()}
                 >
-                  Confirm
-                </button>
-                <button onClick={() => setIsOpen(false)}>Cancel</button>
-              </div>
-            </FloatingFocusManager>
-          </FloatingOverlay>
+                  <h2 id={headingId}>Delete balloon</h2>
+                  <p id={descriptionId}>This action cannot be undone.</p>
+                  <button
+                    onClick={() => {
+                      console.log("Deleted.");
+                      setIsOpen(false);
+                    }}
+                  >
+                    Confirm
+                  </button>
+                  <button onClick={() => setIsOpen(false)}>Cancel</button>
+                </div>
+              </FloatingFocusManager>
+            </FloatingOverlay>
+          </Fade>
         )}
       </FloatingPortal>
     </div>

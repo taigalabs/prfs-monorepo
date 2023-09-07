@@ -8,7 +8,6 @@
 }
 
 .proofTypeRow {
-  /* background-color: var(--bright-gray-40); */
   border-radius: 5px;
   padding: 15px 12px 10px;
 }
@@ -16,12 +15,7 @@
 .select {
   display: inline-flex;
   align-items: center;
-  /* height: 40px; */
-  /* border: 1px solid var(--bright-gray-40); */
-  /* border-radius: 6px; */
-  /* font-size: 24px; */
   margin-top: 14px;
-  /* padding: 0 15px; */
   cursor: pointer;
 
   button {
@@ -35,7 +29,6 @@
   margin-top: 15px;
 
   button {
-    /* font-size: 1.32em; */
     height: 42px;
     width: 100%;
   }

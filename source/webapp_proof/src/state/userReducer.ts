@@ -12,12 +12,10 @@ export interface LocalPrfsAccount {
 
 export interface UserState {
   localPrfsAccount: LocalPrfsAccount | undefined;
-  temp: number;
 }
 
 const initialState: UserState = {
   localPrfsAccount: undefined,
-  temp: 0,
 };
 
 export const userSlice = createSlice({
