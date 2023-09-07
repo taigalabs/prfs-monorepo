@@ -95,20 +95,6 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
         <input placeholder={i18n.proof_type_search_guide} />
       </TableSearch>
       <Table2>
-        <Table2Head>
-          {table.getHeaderGroups().map(headerGroup => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map(header => (
-                <th key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(header.column.columnDef.header, header.getContext())}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </Table2Head>
-
         <Table2Body>
           {table.getRowModel().rows.map(row => {
             const proofTypeId = row.getValue("proof_type_id") as string;
