@@ -5,6 +5,7 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import styles from "./CreateProofForm.module.scss";
 import { paths } from "@/paths";
 import { i18nContext } from "@/contexts/i18n";
+import Dialog from "./Dialog";
 
 const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -14,7 +15,8 @@ const CreateProofForm: React.FC = () => {
       <div className={styles.proofTypeRow}>
         <p>{i18n.you_would_like_to_prove}</p>
         <div className={styles.select}>
-          <span>{i18n.choose_type}</span>
+          <Dialog />
+          {/* <span>{i18n.choose_type}</span> */}
         </div>
       </div>
       <div></div>
