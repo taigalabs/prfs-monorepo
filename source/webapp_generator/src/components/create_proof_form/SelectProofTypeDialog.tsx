@@ -12,7 +12,7 @@ import {
   FloatingPortal,
 } from "@floating-ui/react";
 
-import styles from "./Dialog.module.scss";
+import styles from "./SelectProofTypeDialog.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 
 const Dialog: React.FC = () => {
@@ -35,9 +35,9 @@ const Dialog: React.FC = () => {
 
   return (
     <div className={styles.wrapper}>
-      <button ref={refs.setReference} {...getReferenceProps()}>
-        {i18n.choose_type.toUpperCase()}
-      </button>
+      <div ref={refs.setReference} {...getReferenceProps()}>
+        <Button variant="white_gray_1">{i18n.choose_type.toUpperCase()}</Button>
+      </div>
       <FloatingPortal>
         {isOpen && (
           <FloatingOverlay className={styles.dialogOverlay} lockScroll>
