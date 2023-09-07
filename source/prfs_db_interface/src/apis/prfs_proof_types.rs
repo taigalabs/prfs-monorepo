@@ -6,7 +6,7 @@ use uuid::Uuid;
 
 pub async fn get_prfs_proof_type_by_proof_type_id(
     pool: &Pool<Postgres>,
-    proof_type_id: &Uuid,
+    proof_type_id: &String,
 ) -> PrfsProofType {
     let query = "SELECT * from prfs_proof_types where proof_type_id=$1";
 

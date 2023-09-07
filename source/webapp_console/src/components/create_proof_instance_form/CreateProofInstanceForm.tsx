@@ -19,7 +19,6 @@ import Widget, {
   WidgetLabel,
   WidgetPaddedBody,
 } from "@/components/widget/Widget";
-// import { stateContext } from "@/contexts/state";
 import ProofTypeDropdown from "@/components/proof_type_dropdown/ProofTypeDropdown";
 import { paths } from "@/paths";
 import { ContentAreaRow } from "../content_area/ContentArea";
@@ -29,8 +28,6 @@ const prfs = new PrfsSDK("test");
 
 const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   const i18n = React.useContext(i18nContext);
-  // const { state } = React.useContext(stateContext);
-  // const { localPrfsAccount } = state;
   const router = useRouter();
   const localPrfsAccount = useAppSelector(state => state.user.localPrfsAccount);
 

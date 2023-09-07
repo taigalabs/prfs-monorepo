@@ -2,7 +2,7 @@
 import type { CircuitInput } from "./CircuitInput";
 
 export interface CreatePrfsProofTypeRequest {
-  proof_type_id: "<Uuid>" | string;
+  proof_type_id: string;
   author: string;
   label: string;
   desc: string;

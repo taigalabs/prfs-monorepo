@@ -23,8 +23,7 @@ pub struct GetPrfsProofTypesResponse {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetPrfsProofTypeByProofTypeIdRequest {
-    #[ts(type = "'<Uuid>' | string")]
-    pub proof_type_id: Uuid,
+    pub proof_type_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -36,8 +35,7 @@ pub struct GetPrfsProofTypeByProofTypeIdResponse {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct CreatePrfsProofTypeRequest {
-    #[ts(type = "'<Uuid>' | string")]
-    pub proof_type_id: Uuid,
+    pub proof_type_id: String,
     pub author: String,
     pub label: String,
     pub desc: String,

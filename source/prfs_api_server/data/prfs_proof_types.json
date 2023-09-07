@@ -1,7 +1,7 @@
 {
   "proof_types": [
     {
-      "proof_type_id": "10000000-0000-0000-0000-000000000000",
+      "proof_type_id": "ETH_0_0001_1",
       "label": "0.0001ETH ownership proof",
       "author": "Prfs",
       "desc": "Prove you are one of the wallet owners of a list of all wallets that have 0.0001-0.0002 ETH",
@@ -37,7 +37,7 @@
       "created_at": "2023-05-01T16:39:57-08:00"
     },
     {
-      "proof_type_id": "10000000-0000-0000-0000-000000000001",
+      "proof_type_id": "BAYC_1",
       "label": "Bored Ape Yacht Club holder proof",
       "author": "Prfs",
       "desc": "Prove you are one of the holders of BAYC tokens",
