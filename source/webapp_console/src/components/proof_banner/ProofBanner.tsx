@@ -2,9 +2,9 @@ import React from "react";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
 import { AiOutlineQrcode } from "@react-icons/all-files/ai/AiOutlineQrcode";
+import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
 
 import styles from "./ProofBanner.module.scss";
-import ProofImage from "../proof_image/ProofImage";
 import ProofInstanceQRCode from "../proof_instance_qrcode/ProofInstanceQRCode";
 import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
 import { envs } from "@/envs";
@@ -46,7 +46,7 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance }) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.imgContainer}>
-        <ProofImage img_url={proofInstance.img_url} img_caption={proofInstance.img_caption} />
+        <CaptionedImg img_url={proofInstance.img_url} img_caption={proofInstance.img_caption} />
       </div>
       <div className={styles.content}>
         <div className={styles.expression}>{proofInstance.expression}</div>

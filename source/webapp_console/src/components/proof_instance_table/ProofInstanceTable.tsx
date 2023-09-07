@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 import {
   ColumnDef,
   PaginationState,
@@ -19,11 +18,11 @@ import Table2, {
   Table2Pagination,
   TableSearch,
 } from "@taigalabs/prfs-react-components/src/table2/Table2";
+import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
 
 import styles from "./ProofInstanceTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import ProofImage from "@/components/proof_image/ProofImage";
 
 const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
   selectType,
@@ -44,7 +43,7 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
 
           return (
             <div className={styles.imgCol}>
-              <ProofImage img_url={img_url} size={50} />
+              <CaptionedImg img_url={img_url} size={50} />
             </div>
           );
         },

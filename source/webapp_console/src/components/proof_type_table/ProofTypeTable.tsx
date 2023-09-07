@@ -18,11 +18,11 @@ import Table2, {
   Table2Pagination,
   TableSearch,
 } from "@taigalabs/prfs-react-components/src/table2/Table2";
+import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
 
 import styles from "./ProofTypeTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import ProofImage from "../proof_image/ProofImage";
 
 const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -39,7 +39,7 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
 
           return (
             <div className={styles.imgCol}>
-              <ProofImage img_url={img_url} size={50} />
+              <CaptionedImg img_url={img_url} size={50} />
             </div>
           );
         },

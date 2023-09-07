@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import dayjs from "dayjs";
 import {
   ColumnDef,
   PaginationState,
@@ -18,11 +17,11 @@ import Table2, {
   Table2Pagination,
   TableSearch,
 } from "@taigalabs/prfs-react-components/src/table2/Table2";
+import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
 
 import styles from "./ProofTypeTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-// import ProofImage from "../proof_image/ProofImage";
 
 const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -38,37 +37,22 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
           const img_url = info.getValue() as string;
 
           return (
-            <div className={styles.imgCol}>{/* <ProofImage img_url={img_url} size={50} /> */}</div>
+            <div className={styles.imgCol}>
+              <CaptionedImg img_url={img_url} size={50} />
+            </div>
           );
         },
       },
       {
         id: "proof_type_id",
         header: i18n.proof_type_id,
-        accessorFn: row => row.proof_type_id,
+        accessorFn: row => `${row.proof_type_id} ${row.desc}`,
         cell: info => info.getValue(),
       },
       {
         id: "label",
         accessorFn: row => row.label,
         cell: info => info.getValue(),
-      },
-      {
-        id: "desc",
-        accessorFn: row => row.desc,
-        cell: info => info.getValue(),
-      },
-      {
-        id: "circuit_id",
-        accessorFn: row => row.circuit_id,
-        cell: info => info.getValue(),
-      },
-      {
-        id: "created_at",
-        accessorFn: row => row.created_at,
-        cell: info => {
-          return dayjs(info.getValue() as string).format("YYYY-MM-DD");
-        },
       },
     ];
 
