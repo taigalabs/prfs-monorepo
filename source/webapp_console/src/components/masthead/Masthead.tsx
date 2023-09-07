@@ -36,7 +36,7 @@ const Masthead: React.FC<any> = () => {
           <div className={styles.logoContainer}>
             <Link href="/">
               <Logo variant="simple" />
-              <div className={styles.appName}>{i18n.proof}</div>
+              <div className={styles.appName}>{i18n.console}</div>
             </Link>
           </div>
           <div className={styles.betaTag}>Beta</div>
