@@ -13,12 +13,14 @@ const CreateProofForm: React.FC = () => {
     <div className={styles.wrapper}>
       <div className={styles.proofTypeRow}>
         <p>{i18n.you_would_like_to_prove}</p>
-        <div className={styles.select}>{i18n.choose}...</div>
+        <div className={styles.select}>
+          <span>{i18n.choose_type}</span>
+        </div>
       </div>
       <div></div>
       <div className={styles.btnContainer}>
         <Button variant="aqua_blue_1" handleClick={() => {}}>
-          {i18n.create_proof}
+          {i18n.create_proof.toUpperCase()}
         </Button>
       </div>
     </div>

@@ -135,6 +135,7 @@ export default {
   choose_circuit: "Choose a circuit",
   select: "Select",
   choose: "Choose",
+  choose_type: "Choose type",
   choose_proof_type: "Choose a proof type",
   get_ready_to_make_proof: "Get ready to make a proof",
   choose_set: "Choose a set",
