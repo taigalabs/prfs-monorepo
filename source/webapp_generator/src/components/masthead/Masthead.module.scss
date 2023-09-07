@@ -12,8 +12,12 @@
   }
 }
 
-.searchBarContainer {
-  // width:
+.appName {
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 1.545rem;
+  color: var(--gray-50);
+  letter-spacing: -0.021em;
 }
 
 .leftMenu {

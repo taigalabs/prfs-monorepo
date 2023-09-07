@@ -94,6 +94,7 @@ export default {
   proofs: "Proofs",
   forest: "Forest",
   proof: "Proof",
+  generator: "Generator",
   create_dynamic_set_subtitle: "Dynamic sets allow you to build a table and modify it later",
   circuit_driver_search_guide: "Search circuit drivers",
   show_more: "Show more",
