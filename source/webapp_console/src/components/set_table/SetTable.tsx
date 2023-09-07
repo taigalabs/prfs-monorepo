@@ -113,13 +113,17 @@ const SetTable: React.FC<SetTableProps> = ({
       </TableSearch>
       <Table2>
         <Table2Head>
-          <tr>
-            <th className={styles.set_id}>{i18n.set_id}</th>
-            <th className={styles.label}>{i18n.label}</th>
-            <th className={styles.desc}>{i18n.description}</th>
-            <th className={styles.cardinality}>{i18n.cardinality}</th>
-            <th className={styles.createdAt}>{i18n.created_at}</th>
-          </tr>
+          {table.getHeaderGroups().map(headerGroup => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map(header => (
+                <th key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(header.column.columnDef.header, header.getContext())}
+                </th>
+              ))}
+            </tr>
+          ))}
         </Table2Head>
 
         <Table2Body>

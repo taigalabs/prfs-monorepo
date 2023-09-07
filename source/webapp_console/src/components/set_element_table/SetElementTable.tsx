@@ -61,11 +61,6 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
 
   React.useEffect(() => {
     async function fn() {
-      // const { payload } = await prfsApi.getPrfsTreeLeafNodesBySetId({
-      //   page_idx: pageIndex,
-      //   page_size: pageSize,
-      //   set_id: setId,
-      // });
       const { payload } = await prfsApi2("get_prfs_tree_leaf_nodes_by_set_id", {
         page_idx: pageIndex,
         page_size: pageSize,

@@ -82,10 +82,17 @@ const PublicInputTable: React.FC<PublicInputTableProps> = ({ publicInputs }) => 
     <div className={styles.wrapper}>
       <Table2>
         <Table2Head>
-          <tr>
-            <th>{i18n.name}</th>
-            <th>{i18n.value}</th>
-          </tr>
+          {table.getHeaderGroups().map(headerGroup => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map(header => (
+                <th key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(header.column.columnDef.header, header.getContext())}
+                </th>
+              ))}
+            </tr>
+          ))}
         </Table2Head>
 
         <Table2Body>
