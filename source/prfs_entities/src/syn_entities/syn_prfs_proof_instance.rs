@@ -10,8 +10,7 @@ pub struct PrfsProofInstanceSyn1 {
     #[ts(type = "string")]
     pub proof_instance_id: Uuid,
 
-    #[ts(type = "string")]
-    pub proof_type_id: Uuid,
+    pub proof_type_id: String,
 
     pub proof: Vec<u8>,
     pub short_id: String,
