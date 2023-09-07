@@ -1,6 +1,5 @@
 import React from "react";
 import cn from "classnames";
-import Link from "next/link";
 import { FaHatWizard } from "@react-icons/all-files/fa/FaHatWizard";
 import { MdDashboard } from "@react-icons/all-files/md/MdDashboard";
 import { IoDocumentTextOutline } from "@react-icons/all-files/io5/IoDocumentTextOutline";
@@ -9,10 +8,10 @@ import { AiTwotoneTool } from "@react-icons/all-files/ai/AiTwotoneTool";
 import { Circuitry } from "@phosphor-icons/react";
 import { TbTable } from "@taigalabs/prfs-react-components/src/tabler_icons/TbTable";
 import { TbTableAlias } from "@taigalabs/prfs-react-components/src/tabler_icons/TbTableAlias";
+import ActiveLink from "@taigalabs/prfs-react-components/src/active_link/ActiveLink";
 
 import styles from "./LeftBar.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import ActiveLink from "@/components/active_link/ActiveLink";
 import { paths } from "@/paths";
 
 const Leftbar: React.FC<any> = () => {

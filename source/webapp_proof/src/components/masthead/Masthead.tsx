@@ -2,6 +2,7 @@ import React from "react";
 import Logo from "@taigalabs/prfs-react-components/src/logo/Logo";
 import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
 import Link from "next/link";
+import ActiveLink from "@taigalabs/prfs-react-components/src/active_link/ActiveLink";
 
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -26,18 +27,28 @@ const Masthead: React.FC = () => {
       <div className={styles.leftMenu}>
         <div className={styles.logoContainer}>
           <Logo variant="simple" />
-          <div className={styles.appName}>{i18n.generator}</div>
+          <div className={styles.appName}>{i18n.proof}</div>
         </div>
         <ul>
           <li>
-            <Link href={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}>{i18n.console}</Link>
+            <ActiveLink href={paths.generate}>{i18n.generate}</ActiveLink>
+          </li>
+          <li>
+            <ActiveLink href={paths.explorer}>{i18n.explorer}</ActiveLink>
           </li>
         </ul>
       </div>
       <div>
         <SearchBar />
       </div>
-      <div className={styles.rightMenu}>account</div>
+      <div className={styles.rightMenu}>
+        <ul>
+          <li>
+            <Link href={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}>{i18n.console}</Link>
+          </li>
+          <li>account</li>
+        </ul>
+      </div>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import Link, { LinkProps } from "next/link";
 import { usePathname } from "next/navigation";
-import classnames from "classnames";
+import cn from "classnames";
 
 import styles from "./ActiveLink.module.scss";
 
@@ -11,7 +11,7 @@ const ActiveLink = ({ children, href, exact, activeClassName }: ActiveLinkProps 
 
   return (
     <Link
-      className={classnames({
+      className={cn({
         [styles.wrapper]: true,
         [styles.active]: isActive,
         ...(activeClassName && { [activeClassName]: isActive }),
