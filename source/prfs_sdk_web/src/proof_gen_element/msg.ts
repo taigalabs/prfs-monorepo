@@ -177,57 +177,35 @@ type Req<T extends MsgType> = //
     ? ProveReceipt
     : never;
 
-type Resp<T> = //
-  T extends "sign_up_prfs_account"
-    ? PrfsApiResponse<SignUpResponse>
-    : T extends "sign_in_prfs_account"
-    ? PrfsApiResponse<SignInResponse>
-    : T extends "get_prfs_circuit_drivers"
-    ? PrfsApiResponse<GetPrfsCircuitDriversResponse>
-    : T extends "get_prfs_circuit_driver_by_driver_id"
-    ? PrfsApiResponse<GetPrfsCircuitDriverByDriverIdResponse>
-    : T extends "get_prfs_circuit_types"
-    ? PrfsApiResponse<GetPrfsCircuitTypesResponse>
-    : T extends "get_prfs_circuit_type_by_circuit_type"
-    ? PrfsApiResponse<GetPrfsCircuitTypeByCircuitTypeResponse>
-    : T extends "get_prfs_circuits"
-    ? PrfsApiResponse<GetPrfsCircuitsResponse>
-    : T extends "get_prfs_circuit_by_circuit_id"
-    ? PrfsApiResponse<GetPrfsCircuitByCircuitIdResponse>
-    : T extends "create_prfs_proof_instance"
-    ? PrfsApiResponse<CreatePrfsProofInstanceResponse>
-    : T extends "get_prfs_proof_instances"
-    ? PrfsApiResponse<GetPrfsProofInstancesResponse>
-    : T extends "get_prfs_proof_instance_by_instance_id"
-    ? PrfsApiResponse<GetPrfsProofInstanceByInstanceIdResponse>
-    : T extends "get_prfs_proof_instance_by_short_id"
-    ? PrfsApiResponse<GetPrfsProofInstanceByShortIdResponse>
-    : T extends "create_prfs_proof_type"
-    ? PrfsApiResponse<CreatePrfsProofTypeResponse>
-    : T extends "get_prfs_proof_types"
-    ? PrfsApiResponse<GetPrfsProofTypesResponse>
-    : T extends "get_prfs_proof_type_by_proof_type_id"
-    ? PrfsApiResponse<GetPrfsProofTypeByProofTypeIdResponse>
-    : T extends "get_prfs_sets"
-    ? PrfsApiResponse<GetPrfsSetsResponse>
-    : T extends "create_prfs_set"
-    ? PrfsApiResponse<CreatePrfsSetResponse>
-    : T extends "get_prfs_sets_by_set_type"
-    ? PrfsApiResponse<GetPrfsSetsResponse>
-    : T extends "get_prfs_set_by_set_id"
-    ? PrfsApiResponse<GetPrfsSetBySetIdResponse>
-    : T extends "create_prfs_dynamic_set_element"
-    ? PrfsApiResponse<CreatePrfsDynamicSetElementResponse>
-    : T extends "get_prfs_tree_nodes_by_pos"
-    ? PrfsApiResponse<GetPrfsTreeNodesResponse>
-    : T extends "get_prfs_tree_leaf_nodes_by_set_id"
-    ? PrfsApiResponse<GetPrfsTreeNodesResponse>
-    : T extends "get_prfs_tree_leaf_indices"
-    ? PrfsApiResponse<GetPrfsTreeNodesResponse>
-    : T extends "update_prfs_tree_node"
-    ? PrfsApiResponse<UpdatePrfsTreeNodeResponse>
-    : T extends "compute_prfs_set_merkle_root"
-    ? PrfsApiResponse<ComputePrfsSetMerkleRootResponse>
+type Resp<T extends MsgType> = //
+  T extends "HANDSHAKE"
+    ? HandshakePayload
+    : T extends "HANDSHAKE_RESPONSE"
+    ? HandshakeResponsePayload
+    : T extends "GET_ADDRESS"
+    ? string
+    : T extends "GET_ADDRESS_RESPONSE"
+    ? string
+    : T extends "GET_SIGNATURE"
+    ? GetSignaturePayload
+    : T extends "GET_SIGNATURE_RESPONSE"
+    ? GetSignatureResponsePayload
+    : T extends "LISTEN_CLICK_OUTSIDE"
+    ? void
+    : T extends "LISTEN_CLICK_OUTSIDE_RESPONSE"
+    ? boolean
+    : T extends "LISTEN_CREATE_PROOF"
+    ? void
+    : T extends "LISTEN_CREATE_PROOF_RESPONSE"
+    ? boolean
+    : T extends "STOP_CLICK_OUTSIDE"
+    ? void
+    : T extends "STOP_CLICK_OUTSIDE_RESPONSE"
+    ? void
+    : T extends "CREATE_PROOF"
+    ? void
+    : T extends "CREATE_PROOF_RESPONSE"
+    ? ProveReceipt
     : any;
 
 // export async function prfsApi2<T extends RequestName>(name: T, req: Req<T>): Promise<Resp<T>> {

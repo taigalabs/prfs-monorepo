@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 
 import { handleChildMessage } from "./handle_child_msg";
 import { sendMsgToChild } from "./send_msg";
-import { CreateProofMsg } from "./msg";
+// import { CreateProofMsg } from "./msg";
 import { ProveReceipt, ProveResult } from "@taigalabs/prfs-driver-interface";
 
 export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
