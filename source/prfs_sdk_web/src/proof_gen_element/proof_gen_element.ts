@@ -5,6 +5,7 @@ import { handleChildMessage } from "./handle_child_msg";
 import { sendMsgToChild } from "./send_msg";
 // import { CreateProofMsg } from "./msg";
 import { ProveReceipt, ProveResult } from "@taigalabs/prfs-driver-interface";
+import { Msg } from "./msg";
 
 export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
 export const LOADING_SPAN_ID = "prfs-sdk-loading";
@@ -89,7 +90,7 @@ class ProofGenElement {
     }
 
     try {
-      const proofResp: ProveReceipt = await sendMsgToChild(new CreateProofMsg(), this.state.iframe);
+      const proofResp = await sendMsgToChild(new Msg("CREATE_PROOF", undefined), this.state.iframe);
 
       return proofResp;
     } catch (err) {

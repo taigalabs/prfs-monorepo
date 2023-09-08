@@ -4,8 +4,10 @@ import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import * as prfsApi from "@taigalabs/prfs-api-js";
 import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 import {
-  CreateProofResponseMsg,
-  GetAddressMsg,
+  // MsgBase,
+  // CreateProofResponseMsg,
+  // GetAddressMsg,
+  Msg,
   MsgType,
   sendMsgToParent,
 } from "@taigalabs/prfs-sdk-web";
@@ -72,7 +74,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
       if (ev.ports.length > 0) {
         const type: MsgType = ev.data.type;
 
-        if (type === MsgType.CREATE_PROOF) {
+        if (type === "CREATE_PROOF") {
           if (!driver) {
             return;
           }
@@ -100,7 +102,8 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
 
             proofGenEventListener("plain", `Proof created in ${proveReceipt.duration}ms`);
 
-            ev.ports[0].postMessage(new CreateProofResponseMsg(proveReceipt));
+            // ev.ports[0].postMessage(new CreateProofResponseMsg(proveReceipt));
+            ev.ports[0].postMessage(new Msg("CREATE_PROOF_RESPONSE", proveReceipt));
           } catch (err) {}
         }
       }
@@ -136,7 +139,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
   }, [proofType, setSystemMsg, setDriver, setCreateProofPage]);
 
   const handleClickConnectWallet = React.useCallback(async () => {
-    const addr = await sendMsgToParent(new GetAddressMsg(""));
+    const addr = await sendMsgToParent(new Msg("GET_ADDRESS", ""));
 
     setWalletAddr(addr);
   }, [setWalletAddr]);

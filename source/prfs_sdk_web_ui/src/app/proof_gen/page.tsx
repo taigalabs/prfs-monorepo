@@ -4,7 +4,10 @@ import React from "react";
 import { useSearchParams } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import { HandshakeMsg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
+import {
+  // HandshakeMsg, MsgType,
+  sendMsgToParent,
+} from "@taigalabs/prfs-sdk-web";
 import NoSSR from "@taigalabs/prfs-react-components/src/no_ssr/NoSSR";
 
 import styles from "./ProofGen.module.scss";
@@ -41,12 +44,16 @@ const ProofGen: React.FC<ProofGenProps> = () => {
             const circuitInputCount = Object.keys(proof_type.circuit_inputs).length;
             const docHeight = calcFormHeight(circuitInputCount);
 
-            await sendMsgToParent(
-              new HandshakeMsg({
+            await sendMsgToParent({
+              type: "HANDSHAKE",
+              payload: {
                 docHeight,
-              })
-            );
+              },
+            });
 
+            // new HandshakeMsg({
+            //   docHeight,
+            // })
             setDocHeight(docHeight);
             setProofType(proof_type);
           } else {

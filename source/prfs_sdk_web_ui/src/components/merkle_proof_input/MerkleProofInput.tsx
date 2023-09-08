@@ -4,8 +4,9 @@ import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import {
-  ListenClickOutsideMsg,
-  StopClickOutsideMsg,
+  Msg,
+  // ListenClickOutsideMsg,
+  // StopClickOutsideMsg,
   sendMsgToParent,
 } from "@taigalabs/prfs-sdk-web";
 import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
@@ -26,7 +27,8 @@ const MerkleProofModal: React.FC<MerkleProofModalProps> = ({
   const i18n = React.useContext(i18nContext);
 
   React.useEffect(() => {
-    sendMsgToParent(new ListenClickOutsideMsg());
+    // sendMsgToParent(new ListenClickOutsideMsg());
+    sendMsgToParent(new Msg("LISTEN_CLICK_OUTSIDE", undefined));
 
     function eventListener(ev: MessageEvent) {
       const { type } = ev.data;
@@ -39,7 +41,8 @@ const MerkleProofModal: React.FC<MerkleProofModalProps> = ({
     window.addEventListener("message", eventListener);
 
     return () => {
-      sendMsgToParent(new StopClickOutsideMsg());
+      // sendMsgToParent(new StopClickOutsideMsg());
+      sendMsgToParent(new Msg("STOP_CLICK_OUTSIDE", undefined));
       window.removeEventListener("message", eventListener);
     };
   }, []);
@@ -154,7 +157,8 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
 
   const handleClickCreate = React.useCallback(async () => {
     console.log(55);
-    await sendMsgToParent();
+    // await sendMsgToParent(new ListenClickOutsideMsg());
+    await sendMsgToParent(new Msg("LISTEN_CLICK_OUTSIDE", undefined));
     // console.log("handle click");
   }, [value, setFormValues]);
 

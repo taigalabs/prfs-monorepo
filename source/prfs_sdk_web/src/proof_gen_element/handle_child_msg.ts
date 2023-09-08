@@ -1,13 +1,17 @@
 import { hashPersonalMessage } from "@ethereumjs/util";
 import { listenClickOutside, removeClickListener } from "./outside_event";
 import {
-  GetAddressResponseMsg,
-  GetSignatureMsgPayload,
-  GetSignatureResponseMsg,
+  GetSignaturePayload,
   HandshakePayload,
-  HandshakeResponseMsg,
-  ListenClickOutsideMsg,
-  ListenClickOutsideResponseMsg,
+  Msg,
+  // GetAddressResponseMsg,
+  // GetSignatureMsgPayload,
+  // GetSignatureResponseMsg,
+  // HandshakePayload,
+  // MsgBase,
+  // HandshakeResponseMsg,
+  // ListenClickOutsideMsg,
+  // ListenClickOutsideResponseMsg,
   MsgType,
 } from "./msg";
 import { LOADING_SPAN_ID, ProofGenElementOptions, ProofGenElementState } from "./proof_gen_element";
@@ -29,12 +33,13 @@ export function handleChildMessage(
 
       switch (type) {
         case "HANDSHAKE": {
-          const handshakePayload: HandshakePayload = ev.data.payload;
+          const handshakePayload = ev.data.payload as HandshakePayload;
 
           const { docHeight } = handshakePayload;
           iframe.style.height = `${docHeight}px`;
 
-          ev.ports[0].postMessage(new HandshakeResponseMsg({}));
+          // ev.ports[0].postMessage(new HandshakeResponseMsg({}));
+          ev.ports[0].postMessage(new Msg("HANDSHAKE_RESPONSE", {}));
 
           const loading = document.getElementById(LOADING_SPAN_ID);
           if (loading) {
@@ -50,21 +55,28 @@ export function handleChildMessage(
           const signer = provider.getSigner();
           const addr = await signer.getAddress();
 
-          ev.ports[0].postMessage(new GetAddressResponseMsg(addr));
+          // ev.ports[0].postMessage(new GetAddressResponseMsg(addr));
+          ev.ports[0].postMessage(new Msg("GET_ADDRESS_RESPONSE", addr));
 
           break;
         }
 
         case "GET_SIGNATURE": {
-          const { msgRaw } = ev.data.payload as GetSignatureMsgPayload;
+          const { msgRaw } = ev.data.payload as GetSignaturePayload;
 
           await provider.send("eth_requestAccounts", []);
           const signer = provider.getSigner();
           const msgHash = hashPersonalMessage(Buffer.from(msgRaw));
           const sig = await signer.signMessage(msgRaw);
 
+          // ev.ports[0].postMessage(
+          //   new GetSignatureResponseMsg({
+          //     msgHash,
+          //     sig,
+          //   })
+          // );
           ev.ports[0].postMessage(
-            new GetSignatureResponseMsg({
+            new Msg("GET_SIGNATURE_RESPONSE", {
               msgHash,
               sig,
             })
@@ -77,10 +89,12 @@ export function handleChildMessage(
           if (!state.clickOutsideListener) {
             const outsideClickListener = listenClickOutside(iframe);
             state.clickOutsideListener = outsideClickListener;
-            ev.ports[0].postMessage(new ListenClickOutsideResponseMsg(true));
+            // ev.ports[0].postMessage(new ListenClickOutsideResponseMsg(true));
+            ev.ports[0].postMessage(new Msg("LISTEN_CLICK_OUTSIDE_RESPONSE", true));
           }
 
-          ev.ports[0].postMessage(new ListenClickOutsideResponseMsg(false));
+          // ev.ports[0].postMessage(new ListenClickOutsideResponseMsg(false));
+          ev.ports[0].postMessage(new Msg("LISTEN_CLICK_OUTSIDE_RESPONSE", false));
 
           break;
         }

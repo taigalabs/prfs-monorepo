@@ -19,17 +19,36 @@ import { ProveReceipt, ProveResult } from "@taigalabs/prfs-driver-interface";
 //   DRIVER_LOAD_RESULT_RESPONSE = "DRIVER_LOAD_RESULT_RESPONSE",
 // }
 
-export class MsgBase<T, R> {
-  error?: any;
-  type: MsgType;
-  payload: T | undefined;
-  _type?: R;
+// export class MsgBase<T extends MsgType, R extends RespMsgType<T>> {
+//   error?: any;
+//   type: MsgType;
+//   payload: Payload<T> | any;
 
-  constructor(type: MsgType, payload: T, error?: any) {
+//   resp_msg_type?: R;
+
+//   constructor(type: MsgType, payload: Payload<T>, error?: any) {
+//     this.type = type;
+//     this.payload = payload || {};
+//     this.error = error;
+//   }
+// }
+//
+export class Msg<T extends MsgType> implements MsgInterface<T> {
+  error?: any;
+  type: T;
+  payload: any;
+
+  constructor(type: T, payload: ReqPayload<T>, error?: any) {
     this.type = type;
-    this.payload = payload;
+    this.payload = payload || {};
     this.error = error;
   }
+}
+
+export interface MsgInterface<T extends MsgType> {
+  error?: any;
+  type: T;
+  payload: ReqPayload<T>;
 }
 
 // export class HandshakeMsg extends MsgBase<HandshakePayload, HandshakeResponsePayload> {
@@ -43,14 +62,20 @@ export class MsgBase<T, R> {
 //     super(MsgType.HANDSHAKE_RESPONSE, payload);
 //   }
 // }
-
+//
 export interface HandshakePayload {
   docHeight: number;
 }
 
-export interface HandshakeResponsePayload {
-  // prfsAssetEndpoint: string;
-}
+export interface HandshakeRespPayload {}
+
+// export interface HandshakeMsg extends MsgInterface<HandshakePayload, HandshakeRespPayload> {
+//   type: "HANDSHAKE";
+// }
+
+// export interface HandshakeRespMsg extends MsgInterface<HandshakeRespPayload, never> {
+//   type: "HANDSHAKE_RESPONSE";
+// }
 
 // export class GetAddressMsg extends MsgBase<string, string> {
 //   constructor(payload: string) {
@@ -130,7 +155,7 @@ export interface GetSignatureResponsePayload {
 //   }
 // }
 
-type MsgType =
+export type MsgType =
   | "HANDSHAKE"
   | "HANDSHAKE_RESPONSE"
   | "GET_ADDRESS"
@@ -146,11 +171,13 @@ type MsgType =
   | "CREATE_PROOF"
   | "CREATE_PROOF_RESPONSE";
 
-type Req<T extends MsgType> = //
+// export type RespMsg<T> = T extends HandshakeMsg ? HandshakeRespMsg : never;
+
+export type ReqPayload<T extends MsgType> = //
   T extends "HANDSHAKE"
     ? HandshakePayload
     : T extends "HANDSHAKE_RESPONSE"
-    ? HandshakeResponsePayload
+    ? HandshakeRespPayload
     : T extends "GET_ADDRESS"
     ? string
     : T extends "GET_ADDRESS_RESPONSE"
@@ -177,40 +204,33 @@ type Req<T extends MsgType> = //
     ? ProveReceipt
     : never;
 
-type Resp<T extends MsgType> = //
+export type RespPayload<T extends MsgType> = //
   T extends "HANDSHAKE"
-    ? HandshakePayload
+    ? HandshakeRespPayload
     : T extends "HANDSHAKE_RESPONSE"
-    ? HandshakeResponsePayload
+    ? never
     : T extends "GET_ADDRESS"
     ? string
     : T extends "GET_ADDRESS_RESPONSE"
-    ? string
+    ? never
     : T extends "GET_SIGNATURE"
-    ? GetSignaturePayload
-    : T extends "GET_SIGNATURE_RESPONSE"
     ? GetSignatureResponsePayload
+    : T extends "GET_SIGNATURE_RESPONSE"
+    ? never
     : T extends "LISTEN_CLICK_OUTSIDE"
-    ? void
+    ? boolean
     : T extends "LISTEN_CLICK_OUTSIDE_RESPONSE"
-    ? boolean
+    ? never
     : T extends "LISTEN_CREATE_PROOF"
-    ? void
-    : T extends "LISTEN_CREATE_PROOF_RESPONSE"
     ? boolean
+    : T extends "LISTEN_CREATE_PROOF_RESPONSE"
+    ? never
     : T extends "STOP_CLICK_OUTSIDE"
     ? void
     : T extends "STOP_CLICK_OUTSIDE_RESPONSE"
     ? void
     : T extends "CREATE_PROOF"
-    ? void
-    : T extends "CREATE_PROOF_RESPONSE"
     ? ProveReceipt
-    : any;
-
-// export async function prfsApi2<T extends RequestName>(name: T, req: Req<T>): Promise<Resp<T>> {
-//   return (await api({
-//     path: name,
-//     req,
-//   })) as Resp<T>;
-// }
+    : T extends "CREATE_PROOF_RESPONSE"
+    ? never
+    : never;
