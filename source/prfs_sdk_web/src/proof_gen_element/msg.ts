@@ -82,7 +82,11 @@ export type ReqPayload<T extends MsgType> = //
     : T extends "OPEN_DIALOG"
     ? void
     : T extends "OPEN_DIALOG_RESPONSE"
+    ? boolean
+    : T extends "CLOSE_DIALOG"
     ? void
+    : T extends "CLOSE_DIALOG_RESPONSE"
+    ? boolean
     : never;
 
 export type RespPayload<T extends MsgType> = //
@@ -115,7 +119,7 @@ export type RespPayload<T extends MsgType> = //
     : T extends "CREATE_PROOF_RESPONSE"
     ? void
     : T extends "OPEN_DIALOG"
-    ? void
+    ? boolean
     : T extends "OPEN_DIALOG_RESPONSE"
-    ? void
+    ? never
     : never;

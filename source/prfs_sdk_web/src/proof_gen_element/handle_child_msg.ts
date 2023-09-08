@@ -111,16 +111,26 @@ export function handleChildMessage(
               const outsideClickListener = listenClickOutsideIFrame(iframe);
               state.clickOutsideIFrameListener = outsideClickListener;
 
-              ev.ports[0].postMessage(new Msg("LISTEN_CLICK_OUTSIDE_RESPONSE", true));
+              ev.ports[0].postMessage(new Msg("OPEN_DIALOG_RESPONSE", true));
             }
 
-            ev.ports[0].postMessage(new Msg("LISTEN_CLICK_OUTSIDE_RESPONSE", false));
+            ev.ports[0].postMessage(new Msg("OPEN_DIALOG_RESPONSE", false));
           }
 
           break;
         }
 
         case "CLOSE_DIALOG": {
+          const { portal } = state;
+          if (portal) {
+            portal.style.display = "none";
+          }
+
+          if (state.clickOutsideIFrameListener) {
+            removeClickListener(state.clickOutsideIFrameListener);
+            state.clickOutsideIFrameListener = undefined;
+          }
+
           break;
         }
 

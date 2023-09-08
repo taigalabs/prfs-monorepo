@@ -26,8 +26,8 @@ const MerkleProofDialog: React.FC<MerkleProofDialogProps> = ({
   // }, [setIsOpen]);
 
   React.useEffect(() => {
-    console.log(22, setIsOpen);
-    sendMsgToParent(new Msg("LISTEN_CLICK_OUTSIDE", undefined));
+    console.log(55);
+    sendMsgToParent(new Msg("OPEN_DIALOG", undefined));
 
     function eventListener(ev: MessageEvent) {
       const { type } = ev.data;
@@ -40,7 +40,8 @@ const MerkleProofDialog: React.FC<MerkleProofDialogProps> = ({
     window.addEventListener("message", eventListener);
 
     return () => {
-      sendMsgToParent(new Msg("STOP_CLICK_OUTSIDE", undefined));
+      console.log(66);
+      sendMsgToParent(new Msg("CLOSE_DIALOG", undefined));
       window.removeEventListener("message", eventListener);
     };
   }, [setIsOpen]);
