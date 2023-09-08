@@ -1,19 +1,10 @@
 import { hashPersonalMessage } from "@ethereumjs/util";
-import { listenClickOutside, removeClickListener } from "./outside_event";
 import {
-  GetSignaturePayload,
-  HandshakePayload,
-  Msg,
-  // GetAddressResponseMsg,
-  // GetSignatureMsgPayload,
-  // GetSignatureResponseMsg,
-  // HandshakePayload,
-  // MsgBase,
-  // HandshakeResponseMsg,
-  // ListenClickOutsideMsg,
-  // ListenClickOutsideResponseMsg,
-  MsgType,
-} from "./msg";
+  listenClickOutsideDialog,
+  listenClickOutsideIFrame,
+  removeClickListener,
+} from "./outside_event";
+import { GetSignaturePayload, HandshakePayload, Msg, MsgType } from "./msg";
 import { LOADING_SPAN_ID, ProofGenElementOptions, ProofGenElementState } from "./proof_gen_element";
 
 export function handleChildMessage(
@@ -38,8 +29,7 @@ export function handleChildMessage(
           const { docHeight } = handshakePayload;
           iframe.style.height = `${docHeight}px`;
 
-          // ev.ports[0].postMessage(new HandshakeResponseMsg({}));
-          ev.ports[0].postMessage(new Msg("HANDSHAKE_RESPONSE", {}));
+          ev.ports[0].postMessage(new Msg("HANDSHAKE_RESPONSE", undefined));
 
           const loading = document.getElementById(LOADING_SPAN_ID);
           if (loading) {
@@ -69,12 +59,6 @@ export function handleChildMessage(
           const msgHash = hashPersonalMessage(Buffer.from(msgRaw));
           const sig = await signer.signMessage(msgRaw);
 
-          // ev.ports[0].postMessage(
-          //   new GetSignatureResponseMsg({
-          //     msgHash,
-          //     sig,
-          //   })
-          // );
           ev.ports[0].postMessage(
             new Msg("GET_SIGNATURE_RESPONSE", {
               msgHash,
@@ -86,23 +70,55 @@ export function handleChildMessage(
         }
 
         case "LISTEN_CLICK_OUTSIDE": {
-          if (!state.clickOutsideListener) {
-            const outsideClickListener = listenClickOutside(iframe);
-            state.clickOutsideListener = outsideClickListener;
-            // ev.ports[0].postMessage(new ListenClickOutsideResponseMsg(true));
+          if (!state.clickOutsideIFrameListener) {
+            const outsideClickListener = listenClickOutsideIFrame(iframe);
+            state.clickOutsideIFrameListener = outsideClickListener;
+
             ev.ports[0].postMessage(new Msg("LISTEN_CLICK_OUTSIDE_RESPONSE", true));
           }
 
-          // ev.ports[0].postMessage(new ListenClickOutsideResponseMsg(false));
           ev.ports[0].postMessage(new Msg("LISTEN_CLICK_OUTSIDE_RESPONSE", false));
 
           break;
         }
 
         case "STOP_CLICK_OUTSIDE": {
-          if (state.clickOutsideListener) {
-            removeClickListener(state.clickOutsideListener);
-            state.clickOutsideListener = undefined;
+          if (state.clickOutsideIFrameListener) {
+            removeClickListener(state.clickOutsideIFrameListener);
+            state.clickOutsideIFrameListener = undefined;
+          }
+
+          break;
+        }
+
+        case "OPEN_DIALOG": {
+          // const html = ev.data.payload as string;
+
+          const { portal } = state;
+          if (portal) {
+            portal.style.inset = "0px";
+            portal.style.background = "rgba(0, 0, 0, 0.8)";
+            portal.style.display = "grid";
+            portal.style.placeItems = "center";
+            portal.style.zIndex = "10000";
+
+            const div = document.createElement("div");
+            div.innerText = "wow";
+            div.style.backgroundColor = "#ffffff";
+            div.style.width = "500px";
+
+            if (!state.clickOutsideDialogListener) {
+              const outsideDialogClickListener = listenClickOutsideDialog(div, () => {
+                portal.style.display = "none";
+                while (portal.lastChild) {
+                  portal.removeChild(portal.lastChild);
+                }
+              });
+
+              state.clickOutsideDialogListener = outsideDialogClickListener;
+            }
+
+            portal.appendChild(div);
           }
 
           break;

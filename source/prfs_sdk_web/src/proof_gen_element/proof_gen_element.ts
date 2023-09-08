@@ -1,14 +1,13 @@
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { ethers } from "ethers";
 
 import { handleChildMessage } from "./handle_child_msg";
 import { sendMsgToChild } from "./send_msg";
-// import { CreateProofMsg } from "./msg";
-import { ProveReceipt, ProveResult } from "@taigalabs/prfs-driver-interface";
+import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { Msg } from "./msg";
 
 export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
 export const LOADING_SPAN_ID = "prfs-sdk-loading";
+export const PORTAL_ID = "prfs-sdk-portal";
 const SDK_ENDPOINT = "http://localhost:3010";
 
 const singleton: {
@@ -24,8 +23,10 @@ class ProofGenElement {
   constructor(options: ProofGenElementOptions) {
     this.options = options;
     this.state = {
-      clickOutsideListener: undefined,
+      clickOutsideIFrameListener: undefined,
+      clickOutsideDialogListener: undefined,
       iframe: undefined,
+      portal: undefined,
     };
   }
 
@@ -80,6 +81,14 @@ class ProofGenElement {
       singleton.msgEventListener = msgEventListener;
 
       this.state.iframe = iframe;
+
+      const portal = document.createElement("div");
+      portal.id = PORTAL_ID;
+      portal.style.position = "fixed";
+
+      document.body.appendChild(portal);
+
+      this.state.portal = portal;
     });
   }
 
@@ -108,6 +117,8 @@ export interface ProofGenElementOptions {
 }
 
 export interface ProofGenElementState {
-  clickOutsideListener: ((event: MouseEvent) => void) | undefined;
+  clickOutsideIFrameListener: ((event: MouseEvent) => void) | undefined;
+  clickOutsideDialogListener: ((event: MouseEvent) => void) | undefined;
   iframe: HTMLIFrameElement | undefined;
+  portal: HTMLDivElement | undefined;
 }

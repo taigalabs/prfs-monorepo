@@ -1,3 +1,4 @@
+import ReactDom from "react-dom/server";
 import React from "react";
 import cn from "classnames";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
@@ -27,7 +28,6 @@ const MerkleProofModal: React.FC<MerkleProofModalProps> = ({
   const i18n = React.useContext(i18nContext);
 
   React.useEffect(() => {
-    // sendMsgToParent(new ListenClickOutsideMsg());
     sendMsgToParent(new Msg("LISTEN_CLICK_OUTSIDE", undefined));
 
     function eventListener(ev: MessageEvent) {
@@ -41,7 +41,6 @@ const MerkleProofModal: React.FC<MerkleProofModalProps> = ({
     window.addEventListener("message", eventListener);
 
     return () => {
-      // sendMsgToParent(new StopClickOutsideMsg());
       sendMsgToParent(new Msg("STOP_CLICK_OUTSIDE", undefined));
       window.removeEventListener("message", eventListener);
     };
@@ -157,9 +156,8 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
 
   const handleClickCreate = React.useCallback(async () => {
     console.log(55);
-    // await sendMsgToParent(new ListenClickOutsideMsg());
-    await sendMsgToParent(new Msg("LISTEN_CLICK_OUTSIDE", undefined));
-    // console.log("handle click");
+
+    await sendMsgToParent(new Msg("OPEN_DIALOG", "p[ower]"));
   }, [value, setFormValues]);
 
   React.useEffect(() => {
