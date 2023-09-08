@@ -6,6 +6,7 @@ import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { Msg } from "./msg";
 
 export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
+export const PLACEHOLDER_ID = "prfs-sdk-placeholder";
 export const LOADING_SPAN_ID = "prfs-sdk-loading";
 export const PORTAL_ID = "prfs-sdk-portal";
 const SDK_ENDPOINT = "http://localhost:3010";
@@ -26,6 +27,7 @@ class ProofGenElement {
       clickOutsideIFrameListener: undefined,
       clickOutsideDialogListener: undefined,
       iframe: undefined,
+      wrapper: undefined,
       portal: undefined,
     };
   }
@@ -61,13 +63,20 @@ class ProofGenElement {
       iframe.style.height = "320px";
       iframe.style.border = "none";
       iframe.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
-      // iframe.style.border = "1px solid gray";
+      iframe.style.position = "absolute";
+      iframe.style.inset = "0px";
+
+      const placeholderDiv = document.createElement("div");
+      placeholderDiv.id = PLACEHOLDER_ID;
+      placeholderDiv.style.width = "494px";
+      placeholderDiv.style.height = "320px";
 
       const wrapperDiv = document.createElement("div");
       wrapperDiv.style.position = "relative";
 
       wrapperDiv.appendChild(loadingSpan);
       wrapperDiv.appendChild(iframe);
+      // wrapperDiv.appendChild(placeholderDiv);
 
       container!.append(wrapperDiv);
 
@@ -77,7 +86,7 @@ class ProofGenElement {
         window.removeEventListener("message", singleton.msgEventListener);
       }
 
-      const msgEventListener = handleChildMessage(resolve, options, iframe, this.state);
+      const msgEventListener = handleChildMessage(resolve, options, this.state);
       singleton.msgEventListener = msgEventListener;
 
       this.state.iframe = iframe;
@@ -120,5 +129,6 @@ export interface ProofGenElementState {
   clickOutsideIFrameListener: ((event: MouseEvent) => void) | undefined;
   clickOutsideDialogListener: ((event: MouseEvent) => void) | undefined;
   iframe: HTMLIFrameElement | undefined;
+  wrapper: HTMLDivElement | undefined;
   portal: HTMLDivElement | undefined;
 }

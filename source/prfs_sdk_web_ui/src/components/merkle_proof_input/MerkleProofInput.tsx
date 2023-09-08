@@ -1,16 +1,10 @@
-import ReactDom from "react-dom/server";
 import React from "react";
 import cn from "classnames";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import {
-  Msg,
-  // ListenClickOutsideMsg,
-  // StopClickOutsideMsg,
-  sendMsgToParent,
-} from "@taigalabs/prfs-sdk-web";
-import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
+import { Msg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
+// import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
 import { PRFS_SDK_CLICK_OUTSIDE_EVENT_TYPE } from "@taigalabs/prfs-sdk-web/src/proof_gen_element/outside_event";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import { SpartanMerkleProof } from "@taigalabs/prfs-driver-spartan-js";
@@ -157,7 +151,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   const handleClickCreate = React.useCallback(async () => {
     console.log(55);
 
-    await sendMsgToParent(new Msg("OPEN_DIALOG", "p[ower]"));
+    await sendMsgToParent(new Msg("OPEN_DIALOG", undefined));
   }, [value, setFormValues]);
 
   React.useEffect(() => {

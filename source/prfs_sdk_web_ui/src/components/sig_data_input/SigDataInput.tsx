@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { GetSignatureMsg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
+import { Msg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 import { FaSignature } from "@react-icons/all-files/fa/FaSignature";
 
 import styles from "./SigDataInput.module.scss";
@@ -46,7 +46,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
     if (value) {
       const msgRaw = value.msgRaw;
       const { msgHash, sig } = await sendMsgToParent(
-        new GetSignatureMsg({
+        new Msg("GET_SIGNATURE", {
           msgRaw,
         })
       );

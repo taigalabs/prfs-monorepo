@@ -10,7 +10,6 @@ import { LOADING_SPAN_ID, ProofGenElementOptions, ProofGenElementState } from ".
 export function handleChildMessage(
   resolve: (value: any) => void,
   options: ProofGenElementOptions,
-  iframe: HTMLIFrameElement,
   state: ProofGenElementState
 ) {
   console.log("Attaching child msg handler");
@@ -27,6 +26,12 @@ export function handleChildMessage(
           const handshakePayload = ev.data.payload as HandshakePayload;
 
           const { docHeight } = handshakePayload;
+          const { iframe } = state;
+
+          if (!iframe) {
+            return;
+          }
+
           iframe.style.height = `${docHeight}px`;
 
           ev.ports[0].postMessage(new Msg("HANDSHAKE_RESPONSE", undefined));
@@ -45,7 +50,6 @@ export function handleChildMessage(
           const signer = provider.getSigner();
           const addr = await signer.getAddress();
 
-          // ev.ports[0].postMessage(new GetAddressResponseMsg(addr));
           ev.ports[0].postMessage(new Msg("GET_ADDRESS_RESPONSE", addr));
 
           break;
@@ -70,8 +74,8 @@ export function handleChildMessage(
         }
 
         case "LISTEN_CLICK_OUTSIDE": {
-          if (!state.clickOutsideIFrameListener) {
-            const outsideClickListener = listenClickOutsideIFrame(iframe);
+          if (!state.clickOutsideIFrameListener && state.iframe) {
+            const outsideClickListener = listenClickOutsideIFrame(state.iframe);
             state.clickOutsideIFrameListener = outsideClickListener;
 
             ev.ports[0].postMessage(new Msg("LISTEN_CLICK_OUTSIDE_RESPONSE", true));
@@ -92,33 +96,24 @@ export function handleChildMessage(
         }
 
         case "OPEN_DIALOG": {
-          // const html = ev.data.payload as string;
-
-          const { portal } = state;
-          if (portal) {
+          const { portal, iframe } = state;
+          if (portal && iframe) {
             portal.style.inset = "0px";
             portal.style.background = "rgba(0, 0, 0, 0.8)";
             portal.style.display = "grid";
             portal.style.placeItems = "center";
             portal.style.zIndex = "10000";
+            portal.style.pointerEvents = "none";
 
-            const div = document.createElement("div");
-            div.innerText = "wow";
-            div.style.backgroundColor = "#ffffff";
-            div.style.width = "500px";
+            if (!state.clickOutsideIFrameListener) {
+              console.log(555);
+              const outsideClickListener = listenClickOutsideIFrame(iframe);
+              state.clickOutsideIFrameListener = outsideClickListener;
 
-            if (!state.clickOutsideDialogListener) {
-              const outsideDialogClickListener = listenClickOutsideDialog(div, () => {
-                portal.style.display = "none";
-                while (portal.lastChild) {
-                  portal.removeChild(portal.lastChild);
-                }
-              });
-
-              state.clickOutsideDialogListener = outsideDialogClickListener;
+              ev.ports[0].postMessage(new Msg("LISTEN_CLICK_OUTSIDE_RESPONSE", true));
             }
 
-            portal.appendChild(div);
+            ev.ports[0].postMessage(new Msg("LISTEN_CLICK_OUTSIDE_RESPONSE", false));
           }
 
           break;

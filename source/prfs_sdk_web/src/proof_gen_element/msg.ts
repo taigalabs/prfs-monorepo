@@ -79,7 +79,7 @@ export type ReqPayload<T extends MsgType> = //
     : T extends "CREATE_PROOF_RESPONSE"
     ? ProveReceipt
     : T extends "OPEN_DIALOG"
-    ? string
+    ? void
     : T extends "OPEN_DIALOG_RESPONSE"
     ? void
     : never;
