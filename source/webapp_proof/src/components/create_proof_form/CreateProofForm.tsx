@@ -34,5 +34,6 @@ export default CreateProofForm;
 
 export interface ProofTypeItem {
   proofTypeId: string;
+  label: string;
   imgUrl: string | null;
 }

@@ -134,8 +134,17 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = ({ handleSelectVal }) => {
             const proofTypeId = row.getValue("proof_type_id") as string;
             const imgUrl = row.getValue("img_url") as string | null;
 
+            // Synthetic data type
+            const label = row.getValue("label") as {
+              label: string;
+              proof_type_id: string;
+            };
+
             return (
-              <tr key={row.id} onClick={() => handleSelectVal({ proofTypeId, imgUrl })}>
+              <tr
+                key={row.id}
+                onClick={() => handleSelectVal({ proofTypeId, label: label.label, imgUrl })}
+              >
                 {row.getVisibleCells().map(cell => {
                   return (
                     <td key={cell.id}>

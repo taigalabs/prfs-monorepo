@@ -55,7 +55,7 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSel
           {selectedProofTypeItem ? (
             <div className={styles.chooseProofTypeBtnInner}>
               <CaptionedImg img_url={selectedProofTypeItem.imgUrl} size={32} />
-              <p>{selectedProofTypeItem.proofTypeId}</p>
+              <p>{selectedProofTypeItem.label}</p>
             </div>
           ) : (
             i18n.choose_type.toUpperCase()
