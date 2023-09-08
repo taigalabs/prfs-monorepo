@@ -1,4 +1,7 @@
 .wrapper {
+  max-height: 650px;
+  overflow-y: auto;
+
   tr {
     cursor: pointer;
   }
