@@ -3,10 +3,6 @@
   display: flex;
   padding: 14px 24px;
 
-  ul {
-    display: flex;
-  }
-
   > div {
     flex: 1;
   }
@@ -29,6 +25,10 @@
     display: inline-flex;
     align-items: center;
     height: 30px;
+  }
+
+  li:not(:first-child) {
+    margin-left: 24px;
   }
 }
 
@@ -65,4 +65,15 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+
+  ul {
+    padding-left: 42px;
+    display: inline-flex;
+    align-items: center;
+    height: 30px;
+  }
+
+  li:not(:first-child) {
+    margin-left: 24px;
+  }
 }
