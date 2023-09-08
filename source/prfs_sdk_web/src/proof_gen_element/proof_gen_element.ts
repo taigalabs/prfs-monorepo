@@ -62,7 +62,7 @@ class ProofGenElement {
       iframe.style.width = "494px";
       iframe.style.height = "320px";
       iframe.style.border = "none";
-      iframe.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
+      // iframe.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
       iframe.style.position = "absolute";
       iframe.style.zIndex = "10010";
       iframe.style.inset = "0px";

@@ -18,23 +18,6 @@ export function listenClickOutsideIFrame(element: HTMLIFrameElement) {
   return outsideClickListener;
 }
 
-export function listenClickOutsideDialog(
-  element: HTMLDivElement,
-  callback: (elem: HTMLDivElement) => void
-) {
-  function outsideClickListener(event: MouseEvent) {
-    if (!element.contains(event.target as any)) {
-      console.log(555);
-
-      callback(element);
-    }
-  }
-
-  document.addEventListener("click", outsideClickListener);
-
-  return outsideClickListener;
-}
-
 // source (2018-03-11): https://github.com/jquery/jquery/blob/master/src/css/hiddenVisibleSelectors.js
 function isVisible(elem: HTMLElement) {
   return !!elem && !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);

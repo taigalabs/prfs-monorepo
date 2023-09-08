@@ -1,9 +1,5 @@
 import { hashPersonalMessage } from "@ethereumjs/util";
-import {
-  listenClickOutsideDialog,
-  listenClickOutsideIFrame,
-  removeClickListener,
-} from "./outside_event";
+import { listenClickOutsideIFrame, removeClickListener } from "./outside_event";
 import { GetSignaturePayload, HandshakePayload, Msg, MsgType } from "./msg";
 import { LOADING_SPAN_ID, ProofGenElementOptions, ProofGenElementState } from "./proof_gen_element";
 
