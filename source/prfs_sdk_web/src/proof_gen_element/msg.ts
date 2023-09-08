@@ -16,7 +16,8 @@ export type MsgType =
   | "CREATE_PROOF"
   | "CREATE_PROOF_RESPONSE"
   | "OPEN_DIALOG"
-  | "OPEN_DIALOG_RESPONSE";
+  | "OPEN_DIALOG_RESPONSE"
+  | "CLOSE_DIALOG";
 
 export class Msg<T extends MsgType> implements MsgInterface<T> {
   error?: any;

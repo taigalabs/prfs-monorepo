@@ -27,7 +27,7 @@ class ProofGenElement {
       clickOutsideIFrameListener: undefined,
       clickOutsideDialogListener: undefined,
       iframe: undefined,
-      wrapper: undefined,
+      placeholder: undefined,
       portal: undefined,
     };
   }
@@ -70,13 +70,14 @@ class ProofGenElement {
       placeholderDiv.id = PLACEHOLDER_ID;
       placeholderDiv.style.width = "494px";
       placeholderDiv.style.height = "320px";
+      placeholderDiv.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
 
       const wrapperDiv = document.createElement("div");
       wrapperDiv.style.position = "relative";
 
       wrapperDiv.appendChild(loadingSpan);
       wrapperDiv.appendChild(iframe);
-      // wrapperDiv.appendChild(placeholderDiv);
+      wrapperDiv.appendChild(placeholderDiv);
 
       container!.append(wrapperDiv);
 
@@ -90,6 +91,7 @@ class ProofGenElement {
       singleton.msgEventListener = msgEventListener;
 
       this.state.iframe = iframe;
+      this.state.placeholder = placeholderDiv;
 
       const portal = document.createElement("div");
       portal.id = PORTAL_ID;
@@ -129,6 +131,6 @@ export interface ProofGenElementState {
   clickOutsideIFrameListener: ((event: MouseEvent) => void) | undefined;
   clickOutsideDialogListener: ((event: MouseEvent) => void) | undefined;
   iframe: HTMLIFrameElement | undefined;
-  wrapper: HTMLDivElement | undefined;
+  placeholder: HTMLDivElement | undefined;
   portal: HTMLDivElement | undefined;
 }
