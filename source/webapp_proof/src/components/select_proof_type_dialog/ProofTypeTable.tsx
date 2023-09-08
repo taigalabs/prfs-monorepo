@@ -14,7 +14,6 @@ import { useRouter } from "next/navigation";
 import Table2, {
   Table2Body,
   Table2Head,
-  Table2Pagination,
   TableSearch,
 } from "@taigalabs/prfs-react-components/src/table2/Table2";
 import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
@@ -28,6 +27,11 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = ({ handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
   const [data, setData] = React.useState<PrfsProofType[]>([]);
   const router = useRouter();
+
+  const handleClickExternalLink = React.useCallback((ev: React.MouseEvent, url: string) => {
+    ev.stopPropagation();
+    window.open(url, "_blank");
+  }, []);
 
   const columns = React.useMemo(() => {
     const cols: ColumnDef<PrfsProofType>[] = [
@@ -56,14 +60,16 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = ({ handleSelectVal }) => {
             proof_type_id: string;
           };
 
+          const url = `${process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/proof_types/${proof_type_id}`;
+
           return (
             <div>
               <div className={styles.label}>
                 <p>{label}</p>
                 <div className={styles.icon}>
-                  <Link>
+                  <div onClick={ev => handleClickExternalLink(ev, url)}>
                     <BiLinkExternal />
-                  </Link>
+                  </div>
                 </div>
               </div>
               <p className={styles.proofTypeId}>{proof_type_id}</p>
