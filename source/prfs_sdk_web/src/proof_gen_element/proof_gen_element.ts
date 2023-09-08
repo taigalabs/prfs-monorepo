@@ -53,7 +53,7 @@ class ProofGenElement {
 
       const iframe = document.createElement("iframe");
       iframe.id = PROOF_GEN_IFRAME_ID;
-      iframe.src = `${SDK_ENDPOINT}/proof_gen?proofTypeId=${options.proofType.proof_type_id}`;
+      iframe.src = `${SDK_ENDPOINT}/proof_gen?proofTypeId=${options.proofTypeId}`;
       iframe.allow = "cross-origin-isolated";
       iframe.style.width = "494px";
       iframe.style.height = "320px";
@@ -101,7 +101,7 @@ class ProofGenElement {
 export default ProofGenElement;
 
 export interface ProofGenElementOptions {
-  proofType: PrfsProofType;
+  proofTypeId: string;
   provider: ethers.providers.Web3Provider;
   handleCreateProof: ({ proof, publicInput }: any) => void;
 }

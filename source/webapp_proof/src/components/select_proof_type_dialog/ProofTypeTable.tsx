@@ -8,7 +8,6 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useRouter } from "next/navigation";
 import Table2, {
   Table2Body,
   TableSearch,
@@ -23,7 +22,6 @@ import { ProofTypeItem } from "../create_proof_form/CreateProofForm";
 const ProofTypeTable: React.FC<ProofTypeTableProps> = ({ handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
   const [data, setData] = React.useState<PrfsProofType[]>([]);
-  const router = useRouter();
 
   const handleClickExternalLink = React.useCallback((ev: React.MouseEvent, url: string) => {
     ev.stopPropagation();

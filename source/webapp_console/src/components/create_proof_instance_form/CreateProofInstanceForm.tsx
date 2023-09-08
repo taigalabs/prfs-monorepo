@@ -53,7 +53,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
 
         const proofGenElement = prfs.create("proof-gen", {
-          proofType: selectedProofType,
+          proofTypeId: selectedProofType.proof_type_id,
           provider,
           handleCreateProof,
         });

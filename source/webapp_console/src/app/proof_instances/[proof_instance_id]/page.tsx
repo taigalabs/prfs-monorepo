@@ -43,7 +43,6 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
         setProofInstance(payload.prfs_proof_instance_syn1);
       } catch (err) {
         console.error("Proof instance is not found, invalid access");
-        // router.push(paths.proof__proof_instances);
       }
     }
 
