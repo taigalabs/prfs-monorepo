@@ -1,9 +1,8 @@
 "use client";
 
 import React from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-// import * as prfsApi from "@taigalabs/prfs-api-js";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { HandshakeMsg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 import NoSSR from "@taigalabs/prfs-react-components/src/no_ssr/NoSSR";
@@ -12,10 +11,9 @@ import styles from "./ProofGen.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
-import Loading from "@/components/loading/Loading";
 import { checkSanity } from "@/functions/sanity";
 
-const BASE_HEIGHT = 100;
+const BASE_HEIGHT = 60;
 const HEIGHT_PER_INPUT = 61;
 
 const ProofGen: React.FC<ProofGenProps> = () => {
@@ -31,16 +29,9 @@ const ProofGen: React.FC<ProofGenProps> = () => {
 
     async function fn() {
       let proofTypeId = searchParams.get("proofTypeId");
-      console.log("proofTypeId: %s", proofTypeId);
 
       if (proofTypeId) {
         try {
-          // payload = (
-          //   await prfsApi.getPrfsProofTypeByProofTypeId({
-          //     proof_type_id: proofTypeId,
-          //   })
-          // ).payload;
-
           const { payload } = await prfsApi2("get_prfs_proof_type_by_proof_type_id", {
             proof_type_id: proofTypeId,
           });
@@ -49,7 +40,6 @@ const ProofGen: React.FC<ProofGenProps> = () => {
             const proof_type = payload.prfs_proof_type;
             const circuitInputCount = Object.keys(proof_type.circuit_inputs).length;
             const docHeight = calcFormHeight(circuitInputCount);
-            // console.log("docHeight", docHeight);
 
             await sendMsgToParent(
               new HandshakeMsg({

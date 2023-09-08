@@ -200,15 +200,15 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
         style={{ opacity: createProofPage === CreateProofPage.INPUT ? 1 : 0 }}
       >
         <div className={styles.form} style={{ height: docHeight }}>
-          <div className={styles.inputContainer}>
-            <WalletSelect
-              selectedWallet={selectedWalletType}
-              handleSelectWallet={handleSelectWalletType}
-              walletAddr={walletAddr}
-              handleChangeWalletAddr={setWalletAddr}
-              handleClickConnectWallet={handleClickConnectWallet}
-            />
-          </div>
+          {/* <div className={styles.inputContainer}> */}
+          {/*   <WalletSelect */}
+          {/*     selectedWallet={selectedWalletType} */}
+          {/*     handleSelectWallet={handleSelectWalletType} */}
+          {/*     walletAddr={walletAddr} */}
+          {/*     handleChangeWalletAddr={setWalletAddr} */}
+          {/*     handleClickConnectWallet={handleClickConnectWallet} */}
+          {/*   /> */}
+          {/* </div> */}
           {circuitInputsElem}
         </div>
       </div>

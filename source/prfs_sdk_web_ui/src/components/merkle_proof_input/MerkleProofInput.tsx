@@ -153,6 +153,8 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
 
   const handleClickCreate = React.useCallback(async () => {
+    console.log(55);
+    await sendMsgToParent();
     // console.log("handle click");
   }, [value, setFormValues]);
 
@@ -224,7 +226,8 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
       <div className={styles.wrapper}>
         <input placeholder={`${i18n.set} - ${prfsSet.label}`} value={displayValue} readOnly />
         <div className={styles.btnGroup}>
-          <Popover createBase={createBase} createPopover={createPopover} />
+          <button onClick={handleClickCreate}>{i18n.create}</button>
+          {/* <Popover createBase={createBase} createPopover={createPopover} /> */}
         </div>
       </div>
     )
