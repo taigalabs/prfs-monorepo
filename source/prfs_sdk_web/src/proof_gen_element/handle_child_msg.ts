@@ -96,21 +96,34 @@ export function handleChildMessage(
         case "OPEN_DIALOG": {
           const { portal, iframe } = state;
           if (portal && iframe) {
-            portal.style.inset = "0px";
-            portal.style.background = "rgba(0, 0, 0, 0.8)";
-            portal.style.display = "grid";
-            portal.style.placeItems = "center";
-            portal.style.zIndex = "10000";
-            portal.style.pointerEvents = "none";
+            const offsets = iframe.getBoundingClientRect();
+
+            // portal.style.inset = "0px";
+            // portal.style.background = "rgba(0, 0, 0, 0.8)";
+            // portal.style.display = "grid";
+            // portal.style.placeItems = "center";
+            // portal.style.zIndex = "10000";
+            // portal.style.pointerEvents = "none";
+            // iframe.style.position = 'fi'
 
             if (!state.clickOutsideIFrameListener) {
               const outsideClickListener = listenClickOutsideIFrame(iframe);
               state.clickOutsideIFrameListener = outsideClickListener;
 
-              ev.ports[0].postMessage(new Msg("OPEN_DIALOG_RESPONSE", true));
+              ev.ports[0].postMessage(
+                new Msg("OPEN_DIALOG_RESPONSE", {
+                  top: offsets.top,
+                  left: offsets.left,
+                })
+              );
             }
 
-            ev.ports[0].postMessage(new Msg("OPEN_DIALOG_RESPONSE", false));
+            ev.ports[0].postMessage(
+              new Msg("OPEN_DIALOG_RESPONSE", {
+                top: offsets.top,
+                left: offsets.left,
+              })
+            );
           }
 
           break;

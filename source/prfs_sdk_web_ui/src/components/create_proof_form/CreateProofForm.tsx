@@ -1,16 +1,8 @@
 import React from "react";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import * as prfsApi from "@taigalabs/prfs-api-js";
 import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
-import {
-  // MsgBase,
-  // CreateProofResponseMsg,
-  // GetAddressMsg,
-  Msg,
-  MsgType,
-  sendMsgToParent,
-} from "@taigalabs/prfs-sdk-web";
+import { Msg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 import WalletSelect, {
   WalletTypeValue,
 } from "@taigalabs/prfs-react-components/src/wallet_select/WalletSelect";

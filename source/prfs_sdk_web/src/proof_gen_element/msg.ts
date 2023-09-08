@@ -50,6 +50,11 @@ export interface GetSignatureResponsePayload {
   sig: string;
 }
 
+export interface OpenDialogRespPayload {
+  top: number;
+  left: number;
+}
+
 export type ReqPayload<T extends MsgType> = //
   T extends "HANDSHAKE"
     ? HandshakePayload
@@ -82,7 +87,7 @@ export type ReqPayload<T extends MsgType> = //
     : T extends "OPEN_DIALOG"
     ? void
     : T extends "OPEN_DIALOG_RESPONSE"
-    ? boolean
+    ? OpenDialogRespPayload
     : T extends "CLOSE_DIALOG"
     ? void
     : T extends "CLOSE_DIALOG_RESPONSE"
@@ -119,7 +124,7 @@ export type RespPayload<T extends MsgType> = //
     : T extends "CREATE_PROOF_RESPONSE"
     ? void
     : T extends "OPEN_DIALOG"
-    ? boolean
+    ? OpenDialogRespPayload
     : T extends "OPEN_DIALOG_RESPONSE"
     ? never
     : never;

@@ -46,11 +46,12 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   const headingId = useId();
   const descriptionId = useId();
 
-  const handleClickCreate = React.useCallback(async () => {
-    console.log(55);
+  // const handleClickCreate = React.useCallback(async () => {
+  //   // console.log(55);
 
-    await sendMsgToParent(new Msg("OPEN_DIALOG", undefined));
-  }, [value, setFormValues]);
+  //   const { top, left } = await sendMsgToParent(new Msg("OPEN_DIALOG", undefined));
+  //   console.log(22, top, left);
+  // }, [value, setFormValues]);
 
   React.useEffect(() => {
     async function fn() {

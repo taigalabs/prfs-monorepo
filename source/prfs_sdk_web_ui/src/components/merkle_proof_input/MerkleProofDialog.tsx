@@ -26,24 +26,29 @@ const MerkleProofDialog: React.FC<MerkleProofDialogProps> = ({
   // }, [setIsOpen]);
 
   React.useEffect(() => {
-    console.log(55);
-    sendMsgToParent(new Msg("OPEN_DIALOG", undefined));
+    async function fn() {
+      const { top, left } = await sendMsgToParent(new Msg("OPEN_DIALOG", undefined));
 
-    function eventListener(ev: MessageEvent) {
-      const { type } = ev.data;
+      console.log(11, top, left);
 
-      if (type && type === PRFS_SDK_CLICK_OUTSIDE_EVENT_TYPE) {
-        setIsOpen(false);
+      function eventListener(ev: MessageEvent) {
+        const { type } = ev.data;
+
+        if (type && type === PRFS_SDK_CLICK_OUTSIDE_EVENT_TYPE) {
+          setIsOpen(false);
+        }
       }
+
+      window.addEventListener("message", eventListener);
+
+      return () => {
+        console.log(66);
+        sendMsgToParent(new Msg("CLOSE_DIALOG", undefined));
+        window.removeEventListener("message", eventListener);
+      };
     }
 
-    window.addEventListener("message", eventListener);
-
-    return () => {
-      console.log(66);
-      sendMsgToParent(new Msg("CLOSE_DIALOG", undefined));
-      window.removeEventListener("message", eventListener);
-    };
+    fn().then();
   }, [setIsOpen]);
 
   const handleCreateMerkleProof = React.useCallback(async () => {
