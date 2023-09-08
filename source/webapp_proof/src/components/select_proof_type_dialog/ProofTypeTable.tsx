@@ -18,6 +18,7 @@ import Table2, {
   TableSearch,
 } from "@taigalabs/prfs-react-components/src/table2/Table2";
 import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
+import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 
 import styles from "./ProofTypeTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -57,8 +58,15 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = ({ handleSelectVal }) => {
 
           return (
             <div>
-              <p>{label}</p>
-              <p>{proof_type_id}</p>
+              <div className={styles.label}>
+                <p>{label}</p>
+                <div className={styles.icon}>
+                  <Link>
+                    <BiLinkExternal />
+                  </Link>
+                </div>
+              </div>
+              <p className={styles.proofTypeId}>{proof_type_id}</p>
             </div>
           );
         },

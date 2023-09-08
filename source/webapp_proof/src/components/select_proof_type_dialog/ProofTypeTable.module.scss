@@ -1,0 +1,39 @@
+.wrapper {
+  tr {
+    cursor: pointer;
+  }
+}
+
+.label {
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+
+  p {
+    font-weight: 500;
+  }
+
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    height: 24px;
+    width: 24px;
+    border-radius: 24px;
+
+    svg {
+      color: var(--aqua-blue-50);
+    }
+
+    &:hover {
+      background-color: var(--bright-gray-30);
+    }
+  }
+}
+
+.proofTypeId {
+  margin-top: 2px;
+  font-size: 13px;
+  font-weight: 300;
+}

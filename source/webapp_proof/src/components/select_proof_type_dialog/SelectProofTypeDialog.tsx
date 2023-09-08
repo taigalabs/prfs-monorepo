@@ -12,6 +12,7 @@ import {
   FloatingPortal,
 } from "@floating-ui/react";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
+import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 
 import styles from "./SelectProofTypeDialog.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -35,6 +36,14 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSel
   const headingId = useId();
   const descriptionId = useId();
 
+  const extendedProofTypeClickHandler = React.useCallback(
+    (proofTypeId: string) => {
+      setIsOpen(false);
+      handleSelectProofType(proofTypeId);
+    },
+    [handleSelectProofType, setIsOpen]
+  );
+
   return (
     <div className={styles.wrapper}>
       <div ref={refs.setReference} {...getReferenceProps()}>
@@ -52,7 +61,13 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSel
                   aria-describedby={descriptionId}
                   {...getFloatingProps()}
                 >
-                  <ProofTypeTable handleSelectVal={handleSelectProofType} />
+                  <div className={styles.header}>
+                    <div className={styles.title}>{i18n.choose_proof_type}</div>
+                    <div className={styles.btnArea}>
+                      <AiOutlineClose />
+                    </div>
+                  </div>
+                  <ProofTypeTable handleSelectVal={extendedProofTypeClickHandler} />
                 </div>
               </FloatingFocusManager>
             </FloatingOverlay>

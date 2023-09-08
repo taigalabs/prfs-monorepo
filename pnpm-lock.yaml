@@ -629,7 +629,7 @@ importers:
         specifier: 5.1.6
         version: 5.1.6
 
-  source/webapp_generator:
+  source/webapp_proof:
     dependencies:
       '@ethereumjs/util':
         specifier: ^8.0.3
