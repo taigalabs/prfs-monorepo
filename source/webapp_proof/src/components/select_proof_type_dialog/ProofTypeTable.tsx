@@ -1,11 +1,9 @@
 import React from "react";
-import Link from "next/link";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import {
   ColumnDef,
   PaginationState,
-  createColumnHelper,
   flexRender,
   getCoreRowModel,
   useReactTable,
@@ -13,7 +11,6 @@ import {
 import { useRouter } from "next/navigation";
 import Table2, {
   Table2Body,
-  Table2Head,
   TableSearch,
 } from "@taigalabs/prfs-react-components/src/table2/Table2";
 import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
@@ -21,7 +18,7 @@ import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 
 import styles from "./ProofTypeTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { paths } from "@/paths";
+import { ProofTypeItem } from "../create_proof_form/CreateProofForm";
 
 const ProofTypeTable: React.FC<ProofTypeTableProps> = ({ handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
@@ -135,9 +132,10 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = ({ handleSelectVal }) => {
         <Table2Body>
           {table.getRowModel().rows.map(row => {
             const proofTypeId = row.getValue("proof_type_id") as string;
+            const imgUrl = row.getValue("img_url") as string | null;
 
             return (
-              <tr key={row.id} onClick={() => handleSelectVal(proofTypeId)}>
+              <tr key={row.id} onClick={() => handleSelectVal({ proofTypeId, imgUrl })}>
                 {row.getVisibleCells().map(cell => {
                   return (
                     <td key={cell.id}>
@@ -157,5 +155,5 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = ({ handleSelectVal }) => {
 export default ProofTypeTable;
 
 export interface ProofTypeTableProps {
-  handleSelectVal: (proofTypeId: string) => void;
+  handleSelectVal: (proofTypeItem: ProofTypeItem) => void;
 }
