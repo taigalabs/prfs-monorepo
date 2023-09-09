@@ -54,13 +54,6 @@ class ProofGenElement {
 
       container.style.position = "relative";
 
-      // const msgSpan = document.createElement("span");
-      // msgSpan.id = MSG_SPAN_ID;
-      // msgSpan.innerText = "PRFS SDK is launching...";
-      // msgSpan.style.position = "absolute";
-      // msgSpan.style.top = "12px";
-      // msgSpan.style.left = "12px";
-
       const iframe = document.createElement("iframe");
       iframe.id = PROOF_GEN_IFRAME_ID;
       iframe.src = `${SDK_ENDPOINT}/proof_gen?proofTypeId=${options.proofTypeId}`;

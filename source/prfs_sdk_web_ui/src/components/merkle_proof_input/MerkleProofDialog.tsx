@@ -14,13 +14,13 @@ import { Msg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 
 const MerkleProofDialog: React.FC<MerkleProofDialogProps> = ({
   prfsSet,
-  value,
   circuitInput,
   handleClickSubmit,
-  // setFormValues,
+  toggleDialog,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [walletAddr, setWalletAddr] = React.useState("");
+  const [value, setValue] = React.useState<SpartanMerkleProof>();
   const [merkleProofValue, setMerkleProofValue] = React.useState("");
 
   React.useEffect(() => {
@@ -93,24 +93,23 @@ const MerkleProofDialog: React.FC<MerkleProofDialogProps> = ({
         pathIndices,
       };
 
-      handleClickSubmit(merkleProof);
-
-      // setFormValues((prevVals: any) => {
-      //   return {
-      //     ...prevVals,
-      //     [circuitInput.name]: merkleProof,
-      //   };
-      // });
+      setValue(merkleProof);
     } catch (err) {
       console.error(err);
     }
-  }, [circuitInput, walletAddr, prfsSet, handleClickSubmit]);
+  }, [circuitInput, walletAddr, prfsSet, setValue]);
 
   const handleClickConnectWallet = React.useCallback(async () => {
     const addr = await sendMsgToParent(new Msg("GET_ADDRESS", ""));
 
     setWalletAddr(addr);
   }, [setWalletAddr]);
+
+  const extendedHandleClickSubmit = React.useCallback(() => {
+    if (value) {
+      handleClickSubmit(value);
+    }
+  }, [value, handleClickSubmit]);
 
   return (
     <div className={styles.wrapper}>
@@ -152,8 +151,12 @@ const MerkleProofDialog: React.FC<MerkleProofDialogProps> = ({
         </fieldset>
       </div>
       <div className={styles.dialogBtnRow}>
-        <Button variant="transparent_black_1">{i18n.submit.toUpperCase()}</Button>
-        <Button variant="transparent_black_1">{i18n.cancel.toUpperCase()}</Button>
+        <Button variant="transparent_black_1" handleClick={extendedHandleClickSubmit}>
+          {i18n.submit.toUpperCase()}
+        </Button>
+        <Button variant="transparent_black_1" handleClick={toggleDialog}>
+          {i18n.cancel.toUpperCase()}
+        </Button>
       </div>
     </div>
   );
@@ -164,7 +167,6 @@ export default MerkleProofDialog;
 export interface MerkleProofDialogProps {
   prfsSet: PrfsSet | undefined;
   circuitInput: CircuitInput;
-  value: SpartanMerkleProof | undefined;
-  // setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   handleClickSubmit: (merkleProof: SpartanMerkleProof) => void;
+  toggleDialog: () => Promise<void>;
 }

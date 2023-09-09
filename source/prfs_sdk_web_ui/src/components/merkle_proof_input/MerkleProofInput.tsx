@@ -158,9 +158,9 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
                       >
                         <MerkleProofDialog
                           prfsSet={prfsSet}
-                          value={value}
                           circuitInput={circuitInput}
                           handleClickSubmit={handleClickSubmit}
+                          toggleDialog={toggleDialog}
                         />
                       </div>
                     </FloatingFocusManager>

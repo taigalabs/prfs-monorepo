@@ -92,15 +92,12 @@ export function handleChildMessage(
 
           const wrapperDiv = state.wrapperDiv as HTMLDivElement;
           const placeholderDiv = state.placeholderDiv as HTMLDivElement;
-          // const msgSpan = state.msgSpan as HTMLSpanElement;
           const offsets = wrapperDiv.getBoundingClientRect();
 
           wrapperDiv.style.position = "fixed";
           wrapperDiv.style.inset = "0px";
           wrapperDiv.style.width = "100vw";
           wrapperDiv.style.height = "100vh";
-
-          // msgSpan.style.opacity = "1";
 
           ev.ports[0].postMessage(
             new Msg("OPEN_DIALOG_RESPONSE", {
@@ -122,9 +119,11 @@ export function handleChildMessage(
 
         case "CLOSE_DIALOG": {
           const wrapperDiv = state.wrapperDiv as HTMLDivElement;
+          const { calcWidth, calcHeight } = state;
+
           wrapperDiv.style.position = "absolute";
-          wrapperDiv.style.width = "auto";
-          wrapperDiv.style.height = "auto";
+          wrapperDiv.style.width = `${calcWidth}px`;
+          wrapperDiv.style.height = `${calcHeight}px`;
 
           ev.ports[0].postMessage(new Msg("CLOSE_DIALOG", undefined));
 
