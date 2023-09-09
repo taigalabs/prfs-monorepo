@@ -1,9 +1,14 @@
-import { CircuitDriver, ProveReceipt, ProveResult } from "@taigalabs/prfs-driver-interface";
+import {
+  CircuitDriver,
+  LogEventType,
+  ProveReceipt,
+  ProveResult,
+} from "@taigalabs/prfs-driver-interface";
 
 export async function createProof(
   driver: CircuitDriver,
   formValues: Record<string, any>,
-  eventListener: (type: string, msg: string) => void
+  eventListener: (type: LogEventType, msg: string) => void
 ): Promise<ProveReceipt> {
   console.log("Proving...");
 

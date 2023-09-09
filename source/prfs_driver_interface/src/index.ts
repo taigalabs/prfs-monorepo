@@ -13,7 +13,7 @@ export interface CircuitDriver {
 export interface ProveArgs<T> {
   inputs: T;
   circuitType: string;
-  eventListener: (type: string, msg: string) => void;
+  eventListener: (type: LogEventType, msg: string) => void;
 }
 
 export interface VerifyArgs {
@@ -32,3 +32,5 @@ export interface ProveReceipt {
   proveResult: ProveResult;
   duration: number;
 }
+
+export type LogEventType = "debug" | "info";

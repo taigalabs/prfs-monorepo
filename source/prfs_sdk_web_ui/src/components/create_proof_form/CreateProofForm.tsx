@@ -1,7 +1,7 @@
 import React from "react";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
+import { CircuitDriver, LogEventType } from "@taigalabs/prfs-driver-interface";
 import { Msg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 
@@ -12,9 +12,7 @@ import { delay } from "@/functions/interval";
 import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
 import SigDataInput from "@/components/sig_data_input/SigDataInput";
 import { createProof } from "@/functions/proof";
-import CreateProofProgress, {
-  TerminalLogItem,
-} from "@/components/create_proof_progress/CreateProofProgress";
+import CreateProofProgress from "@/components/create_proof_progress/CreateProofProgress";
 import { envs } from "@/envs";
 
 const ASSET_SERVER_ENDPOINT = envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
@@ -29,20 +27,20 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
 
   const [systemMsg, setSystemMsg] = React.useState("Loading driver...");
   const [createProofPage, setCreateProofPage] = React.useState(CreateProofPage.INPUT);
-  const [terminalLog, setTerminalLog] = React.useState<TerminalLogItem[]>([]);
+  const [terminalLog, setTerminalLog] = React.useState<React.ReactNode[]>([]);
   const [driver, setDriver] = React.useState<CircuitDriver>();
   const [isCompleted, setIsCompleted] = React.useState(false);
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
 
   const proofGenEventListener = React.useCallback(
-    (type: string, msg: string) => {
+    (type: LogEventType, msg: string) => {
       setTerminalLog(oldVals => {
-        // const elem = (
-        //   <p className={type} key={oldVals.length}>
-        //     {msg}
-        //   </p>
-        // );
-        return [...oldVals, { type, msg }];
+        const elem = (
+          <p className={type} key={oldVals.length}>
+            {msg}
+          </p>
+        );
+        return [...oldVals, elem];
       });
     },
     [setTerminalLog]
@@ -60,19 +58,19 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
 
           validateFormValues(formValues);
           setCreateProofPage(CreateProofPage.PROGRESS);
-          proofGenEventListener("plain", `Process starts in 3 seconds`);
+          proofGenEventListener("debug", `Process starts in 3 seconds`);
 
           await delay(3000);
 
           proofGenEventListener(
-            "plain",
+            "debug",
             `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
           );
 
           try {
             const proveReceipt = await createProof(driver, formValues, proofGenEventListener);
 
-            proofGenEventListener("plain", `Proof created in ${proveReceipt.duration}ms`);
+            proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
 
             ev.ports[0].postMessage(new Msg("CREATE_PROOF_RESPONSE", proveReceipt));
           } catch (err) {}
@@ -175,7 +173,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
       {createProofPage === CreateProofPage.PROGRESS && (
         <div className={styles.terminalPage}>
           <Fade>
-            <CreateProofProgress terminalLog={terminalLog} isCompleted={isCompleted} />
+            <CreateProofProgress terminalLogElem={terminalLog} isCompleted={isCompleted} />
           </Fade>
         </div>
       )}

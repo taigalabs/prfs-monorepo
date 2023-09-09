@@ -66,7 +66,7 @@ export default class SpartanDriver implements CircuitDriver {
     const { r, s, v } = fromSig(sig);
     const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash);
 
-    eventListener("plain", "Computed ECDSA pub input");
+    eventListener("debug", "Computed ECDSA pub input");
 
     const circuitPubInput = new CircuitPubInput(
       merkleProof.root,
@@ -99,7 +99,7 @@ export default class SpartanDriver implements CircuitDriver {
     // console.log("witnessGenInput: %o", witnessGenInput);
     const witness = await snarkJsWitnessGen(witnessGenInput, this.wtnsGenUrl);
 
-    eventListener("plain", "Computed witness gen input");
+    eventListener("info", "Computed witness gen input");
 
     const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
 
