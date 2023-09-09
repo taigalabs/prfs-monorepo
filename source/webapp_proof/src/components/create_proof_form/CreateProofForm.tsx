@@ -2,9 +2,11 @@ import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
+import cn from "classnames";
 import { v4 as uuidv4 } from "uuid";
 import { ethers } from "ethers";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 
 import styles from "./CreateProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -17,6 +19,7 @@ const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const [selectedProofTypeItem, setSelectedProofTypeItem] = React.useState<ProofTypeItem>();
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
+  const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt>();
 
   const handleSelectProofType = React.useCallback(
     (proofTypeItem: ProofTypeItem) => {
@@ -63,50 +66,65 @@ const CreateProofForm: React.FC = () => {
     const proveReceipt = await proofGenElement.createProof();
 
     if (proveReceipt) {
-      const { duration, proveResult } = proveReceipt;
-      const { proof, publicInputSer } = proveResult;
-      const public_inputs = JSON.parse(publicInputSer);
+      setProveReceipt(proveReceipt);
+      // const { duration, proveResult } = proveReceipt;
+      // const { proof, publicInputSer } = proveResult;
+      // const public_inputs = JSON.parse(publicInputSer);
 
-      console.log("took %s ms to create a proof", duration);
+      // console.log("took %s ms to create a proof", duration);
 
-      const proof_instance_id = uuidv4();
+      // const proof_instance_id = uuidv4();
 
-      console.log("try inserting proof", proveReceipt);
-      try {
-        const { payload } = await prfsApi2("create_prfs_proof_instance", {
-          proof_instance_id,
-          account_id: null,
-          proof_type_id: selectedProofTypeItem.proofTypeId,
-          proof: Array.from(proof),
-          public_inputs,
-        });
+      // console.log("try inserting proof", proveReceipt);
+      // try {
+      //   const { payload } = await prfsApi2("create_prfs_proof_instance", {
+      //     proof_instance_id,
+      //     account_id: null,
+      //     proof_type_id: selectedProofTypeItem.proofTypeId,
+      //     proof: Array.from(proof),
+      //     public_inputs,
+      //   });
 
-        // router.push(`${paths.proof_instances}/${payload.proof_instance_id}`);
-      } catch (err: any) {
-        console.error(err);
-        return;
-      }
+      //   // router.push(`${paths.proof_instances}/${payload.proof_instance_id}`);
+      // } catch (err: any) {
+      //   console.error(err);
+      //   return;
+      // }
     }
-  }, [selectedProofTypeItem, proofGenElement]);
+  }, [selectedProofTypeItem, proofGenElement, setProveReceipt]);
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.proofTypeRow}>
-        <p>{i18n.you_would_like_to_prove}</p>
-        <div className={styles.select}>
-          <SelectProofTypeDialog handleSelectProofType={handleSelectProofType} />
+      <div
+        className={cn({
+          [styles.formWrapper]: true,
+          [styles.successShadow]: !!proveReceipt,
+        })}
+      >
+        <div className={styles.proofTypeRow}>
+          <p>{i18n.you_would_like_to_prove}</p>
+          <div className={styles.select}>
+            <SelectProofTypeDialog handleSelectProofType={handleSelectProofType} />
+          </div>
+        </div>
+        {selectedProofTypeItem && (
+          <Fade>
+            <div id="prfs-sdk-container"></div>
+          </Fade>
+        )}
+        <div className={styles.createProofBtn}>
+          <Button variant="aqua_blue_1" handleClick={handleClickCreateProof}>
+            {i18n.create_proof.toUpperCase()}
+          </Button>
         </div>
       </div>
-      {selectedProofTypeItem && (
+      {proveReceipt && (
         <Fade>
-          <div id="prfs-sdk-container"></div>
+          <div className={styles.bottomRow}>
+            <p className={styles.successMsg}>{i18n.prove_success_msg}</p>
+          </div>
         </Fade>
       )}
-      <div className={styles.createProofBtn}>
-        <Button variant="aqua_blue_1" handleClick={handleClickCreateProof}>
-          {i18n.create_proof.toUpperCase()}
-        </Button>
-      </div>
     </div>
   );
 };
