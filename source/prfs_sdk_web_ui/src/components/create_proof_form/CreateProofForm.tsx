@@ -1,17 +1,8 @@
 import React from "react";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import * as prfsApi from "@taigalabs/prfs-api-js";
 import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
-import {
-  CreateProofResponseMsg,
-  GetAddressMsg,
-  MsgType,
-  sendMsgToParent,
-} from "@taigalabs/prfs-sdk-web";
-import WalletSelect, {
-  WalletTypeValue,
-} from "@taigalabs/prfs-react-components/src/wallet_select/WalletSelect";
+import { Msg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 
 import styles from "./CreateProofForm.module.scss";
@@ -39,18 +30,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
   const [terminalLog, setTerminalLog] = React.useState<React.ReactNode[]>([]);
   const [driver, setDriver] = React.useState<CircuitDriver>();
   const [isCompleted, setIsCompleted] = React.useState(false);
-  const [selectedWalletType, setSelectedWalletType] = React.useState<WalletTypeValue>({
-    value: "metamask",
-  });
-  const [walletAddr, setWalletAddr] = React.useState("");
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
-
-  const handleSelectWalletType = React.useCallback(
-    (_ev: React.ChangeEvent) => {
-      // noop
-    },
-    [setSelectedWalletType]
-  );
 
   const proofGenEventListener = React.useCallback(
     (type: string, msg: string) => {
@@ -72,15 +52,13 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
       if (ev.ports.length > 0) {
         const type: MsgType = ev.data.type;
 
-        if (type === MsgType.CREATE_PROOF) {
+        if (type === "CREATE_PROOF") {
           if (!driver) {
             return;
           }
 
           validateFormValues(formValues);
-
           setCreateProofPage(CreateProofPage.PROGRESS);
-
           proofGenEventListener("plain", `Process starts in 3 seconds`);
 
           await delay(3000);
@@ -91,16 +69,11 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
           );
 
           try {
-            const proveReceipt = await createProof(
-              driver,
-              formValues,
-              walletAddr,
-              proofGenEventListener
-            );
+            const proveReceipt = await createProof(driver, formValues, proofGenEventListener);
 
             proofGenEventListener("plain", `Proof created in ${proveReceipt.duration}ms`);
 
-            ev.ports[0].postMessage(new CreateProofResponseMsg(proveReceipt));
+            ev.ports[0].postMessage(new Msg("CREATE_PROOF_RESPONSE", proveReceipt));
           } catch (err) {}
         }
       }
@@ -111,7 +84,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
     return () => {
       window.removeEventListener("message", eventListener);
     };
-  }, [proofType, formValues, walletAddr, setTerminalLog, setIsCompleted]);
+  }, [proofType, formValues, setTerminalLog, setIsCompleted]);
 
   React.useEffect(() => {
     async function fn() {
@@ -135,12 +108,6 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
     }, 1000);
   }, [proofType, setSystemMsg, setDriver, setCreateProofPage]);
 
-  const handleClickConnectWallet = React.useCallback(async () => {
-    const addr = await sendMsgToParent(new GetAddressMsg(""));
-
-    setWalletAddr(addr);
-  }, [setWalletAddr]);
-
   const circuitInputsElem = React.useMemo(() => {
     const obj: Record<any, CircuitInput> = proofType.circuit_inputs;
 
@@ -151,7 +118,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
         case "MERKLE_PROOF_1": {
           inputElem = (
             <MerkleProofInput
-              walletAddr={walletAddr}
+              // walletAddr={walletAddr}
               circuitInput={val}
               value={formValues[val.name] as any}
               setFormValues={setFormValues}
@@ -187,7 +154,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
     });
 
     return entriesElem;
-  }, [proofType, formValues, setFormValues, walletAddr]);
+  }, [proofType, formValues, setFormValues]);
 
   if (!proofType) {
     return null;
@@ -200,15 +167,6 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
         style={{ opacity: createProofPage === CreateProofPage.INPUT ? 1 : 0 }}
       >
         <div className={styles.form} style={{ height: docHeight }}>
-          <div className={styles.inputContainer}>
-            <WalletSelect
-              selectedWallet={selectedWalletType}
-              handleSelectWallet={handleSelectWalletType}
-              walletAddr={walletAddr}
-              handleChangeWalletAddr={setWalletAddr}
-              handleClickConnectWallet={handleClickConnectWallet}
-            />
-          </div>
           {circuitInputsElem}
         </div>
       </div>

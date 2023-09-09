@@ -9,6 +9,7 @@ const Button: React.FC<ButtonProps> = ({ children, className, handleClick, varia
       className={classnames({
         [styles.wrapper]: true,
         [styles.aqua_blue_1]: variant === "aqua_blue_1",
+        [styles.black_1]: variant === "black_1",
         [className || ""]: true,
       })}
       onClick={handleClick}
@@ -22,7 +23,7 @@ const Button: React.FC<ButtonProps> = ({ children, className, handleClick, varia
 export default Button;
 
 export interface ButtonProps {
-  variant: "aqua_blue_1";
+  variant: "aqua_blue_1" | "black_1";
   className?: string;
   children: React.ReactNode;
   disabled?: boolean;

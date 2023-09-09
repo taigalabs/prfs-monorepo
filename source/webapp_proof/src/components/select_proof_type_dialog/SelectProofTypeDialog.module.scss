@@ -1,0 +1,37 @@
+.wrapper {
+}
+
+.chooseProofTypeBtnInner {
+  display: flex;
+  align-items: center;
+}
+
+.dialogOverlay {
+  background: rgba(0, 0, 0, 0.8);
+  display: grid;
+  place-items: center;
+}
+
+.dialog {
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 520px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 15px;
+  padding: 8px 12px;
+}
+
+.title {
+  font-weight: 500;
+}
+
+.btnArea {
+  display: flex;
+  align-items: center;
+}

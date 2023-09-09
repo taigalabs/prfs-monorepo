@@ -1,0 +1,35 @@
+.wrapper {
+  width: 500px;
+  /* border: 1px solid var(--gray-50); */
+  border-radius: 5px;
+  padding: 6px 7px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px,
+    rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
+}
+
+.proofTypeRow {
+  border-radius: 5px;
+  padding: 15px 12px 10px;
+}
+
+.select {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 14px;
+  cursor: pointer;
+
+  button {
+    height: 40px;
+    padding: 0 15px;
+    border-radius: 40px;
+  }
+}
+
+.createProofBtn {
+  margin-top: 4px;
+
+  button {
+    height: 42px;
+    width: 100%;
+  }
+}

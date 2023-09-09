@@ -8,8 +8,7 @@ use uuid::Uuid;
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
 pub struct PrfsProofType {
-    #[ts(type = "string")]
-    pub proof_type_id: Uuid,
+    pub proof_type_id: String,
 
     pub label: String,
     pub author: String,
@@ -41,5 +40,6 @@ pub struct CircuitInput {
     pub r#type: String,
     pub desc: String,
     pub value: String,
-    pub r#ref: Option<String>,
+    pub ref_type: Option<String>,
+    pub ref_value: Option<String>,
 }

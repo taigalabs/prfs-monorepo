@@ -1,68 +1,52 @@
 import React from "react";
-import Link from "next/link";
+import Logo from "@taigalabs/prfs-react-components/src/logo/Logo";
 import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Link from "next/link";
+import ActiveLink from "@taigalabs/prfs-react-components/src/active_link/ActiveLink";
 
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Logo from "@/components/logo/Logo";
-// import { stateContext } from "@/contexts/state";
-import PrfsAppsPopover from "./PrfsAppsPopover";
-import AccountPopover from "./AccountPopover";
-import useLocalWallet from "@/hooks/useLocalWallet";
-import { useAppDispatch, useAppSelector } from "@/state/hooks";
+import { paths } from "@/paths";
 
-const ConnectButton = () => {
+const SearchBar = () => {
   const i18n = React.useContext(i18nContext);
 
   return (
-    <Button variant="transparent_aqua_blue_1_light">
-      <Link href="/signin">{i18n.connect}</Link>
-    </Button>
+    <div className={styles.searchBar}>
+      <FaSearch />
+      <input placeholder={i18n.search_guide} />
+    </div>
   );
 };
 
-const Masthead: React.FC<any> = () => {
+const Masthead: React.FC = () => {
   const i18n = React.useContext(i18nContext);
-  const dispatch = useAppDispatch();
-  useLocalWallet(dispatch);
-
-  const localPrfsAccount = useAppSelector(state => state.user.localPrfsAccount);
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.inner}>
-        <div className={styles.leftMenu}>
-          <div className={styles.logoContainer}>
-            <Link href="/">
-              <Logo variant="simple" />
-            </Link>
-          </div>
-          <div className={styles.appName}>{i18n.proof}</div>
-          <div className={styles.betaTag}>Beta</div>
+      <div className={styles.leftMenu}>
+        <div className={styles.logoContainer}>
+          <Logo variant="simple" />
         </div>
-        <div className={styles.mainMenu}>
-          <div className={styles.search}>
-            <FaSearch />
-            <input placeholder={i18n.search_guide} />
-          </div>
-        </div>
-        <div className={styles.rightMenu}>
-          <li className={styles.inactive}>
-            <button>{i18n.learn.toUpperCase()}</button>
-          </li>
-          <li className={styles.inactive}>
-            <button>{i18n.sdk_api.toUpperCase()}</button>
+        <ul>
+          <li>
+            <ActiveLink href={paths.generate}>{i18n.generate}</ActiveLink>
           </li>
           <li>
-            <PrfsAppsPopover />
+            <ActiveLink href={paths.explorer}>{i18n.explorer}</ActiveLink>
           </li>
-          {localPrfsAccount ? (
-            <AccountPopover localPrfsAccount={localPrfsAccount} />
-          ) : (
-            <ConnectButton />
-          )}
-        </div>
+        </ul>
+      </div>
+      <div>
+        <SearchBar />
+      </div>
+      <div className={styles.rightMenu}>
+        <ul>
+          <li>
+            <Link href={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}>{i18n.console}</Link>
+          </li>
+          <li>account</li>
+        </ul>
       </div>
     </div>
   );

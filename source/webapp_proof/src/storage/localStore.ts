@@ -1,4 +1,4 @@
-import { LocalPrfsAccount } from "@/state/userReducer";
+import { LocalPrfsAccount } from "@/state/reducer";
 import { PrfsAccount } from "@taigalabs/prfs-entities/bindings/PrfsAccount";
 
 const PRFS_ACCOUNT = "prfs_account";
@@ -26,14 +26,11 @@ function getPrfsAccount(): LocalPrfsAccount | null {
     return null;
   }
 
-  let walletAddr = window.localStorage.getItem(PRFS_WALLET_ADDR);
-
   const { account_id } = prfsAccount;
 
-  console.log(44, account_id);
+  let walletAddr = window.localStorage.getItem(PRFS_WALLET_ADDR);
 
-  if (account_id === undefined || walletAddr === null) {
-    removePrfsAccount();
+  if (account_id === null || walletAddr === null) {
     return null;
   }
 
@@ -44,6 +41,8 @@ function getPrfsAccount(): LocalPrfsAccount | null {
   if (walletAddr !== null && walletAddr.length < 1) {
     removePrfsAccount();
   }
+
+  // let id = sig.substring(0, 10);
 
   return {
     prfsAccount,

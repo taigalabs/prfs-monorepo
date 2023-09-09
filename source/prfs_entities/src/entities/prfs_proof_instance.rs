@@ -9,11 +9,8 @@ pub struct PrfsProofInstance {
     #[ts(type = "string")]
     pub proof_instance_id: Uuid,
 
-    #[ts(type = "string")]
-    pub proof_type_id: Uuid,
-
+    pub proof_type_id: String,
     pub short_id: String,
-
     pub proof: Vec<u8>,
 
     #[ts(type = "Record<string, any>")]
