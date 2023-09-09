@@ -4,6 +4,7 @@ import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import { SpartanMerkleProof } from "@taigalabs/prfs-driver-spartan-js";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./MerkleProofDialog.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -138,7 +139,10 @@ const MerkleProofDialog: React.FC<MerkleProofDialogProps> = ({
           </div>
         </fieldset>
       </div>
-      <div className={styles.btnRow}></div>
+      <div className={styles.dialogBtnRow}>
+        <Button variant="transparent_black_1">{i18n.submit.toUpperCase()}</Button>
+        <Button variant="transparent_black_1">{i18n.cancel.toUpperCase()}</Button>
+      </div>
     </div>
   );
 };

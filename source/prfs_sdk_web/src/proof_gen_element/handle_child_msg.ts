@@ -1,7 +1,7 @@
 import { hashPersonalMessage } from "@ethereumjs/util";
 import { listenClickOutsideIFrame, removeClickListener } from "./outside_event";
-import { GetSignaturePayload, HandshakePayload, Msg, MsgType } from "./msg";
-import { LOADING_SPAN_ID, ProofGenElementOptions, ProofGenElementState } from "./proof_gen_element";
+import { GetSignaturePayload, HandshakePayload, Msg, MsgType, OpenDialogPayload } from "./msg";
+import { MSG_SPAN_ID, ProofGenElementOptions, ProofGenElementState } from "./proof_gen_element";
 
 export function handleChildMessage(
   resolve: (value: any) => void,
@@ -22,23 +22,16 @@ export function handleChildMessage(
           const handshakePayload = ev.data.payload as HandshakePayload;
 
           const { docHeight } = handshakePayload;
-          const { iframe, placeholder, wrapper } = state;
-
-          if (!iframe || !placeholder || !wrapper) {
-            console.error("sdk elements are not defined");
-            return;
-          }
+          const wrapperDiv = state.wrapperDiv as HTMLDivElement;
+          const placeholderDiv = state.placeholderDiv as HTMLDivElement;
 
           state.calcHeight = docHeight;
-          wrapper.style.height = `${docHeight}px`;
-          placeholder.style.height = `${docHeight}px`;
+          wrapperDiv.style.height = `${docHeight}px`;
+          placeholderDiv.style.height = `${docHeight}px`;
 
           ev.ports[0].postMessage(new Msg("HANDSHAKE_RESPONSE", undefined));
 
-          const loading = document.getElementById(LOADING_SPAN_ID);
-          if (loading) {
-            loading.style.display = "none";
-          }
+          placeholderDiv.innerText = "";
 
           resolve(1);
           break;
@@ -95,13 +88,19 @@ export function handleChildMessage(
         }
 
         case "OPEN_DIALOG": {
-          const wrapper = state.wrapper as HTMLDivElement;
-          const offsets = wrapper!.getBoundingClientRect();
+          const { duration } = ev.data.payload as OpenDialogPayload;
 
-          wrapper.style.position = "fixed";
-          wrapper.style.inset = "0px";
-          wrapper.style.width = "100vw";
-          wrapper.style.height = "100vh";
+          const wrapperDiv = state.wrapperDiv as HTMLDivElement;
+          const placeholderDiv = state.placeholderDiv as HTMLDivElement;
+          // const msgSpan = state.msgSpan as HTMLSpanElement;
+          const offsets = wrapperDiv.getBoundingClientRect();
+
+          wrapperDiv.style.position = "fixed";
+          wrapperDiv.style.inset = "0px";
+          wrapperDiv.style.width = "100vw";
+          wrapperDiv.style.height = "100vh";
+
+          // msgSpan.style.opacity = "1";
 
           ev.ports[0].postMessage(
             new Msg("OPEN_DIALOG_RESPONSE", {
@@ -110,14 +109,22 @@ export function handleChildMessage(
             })
           );
 
+          if (placeholderDiv) {
+            placeholderDiv.innerText = "Opening dialog...";
+          }
+
+          window.setTimeout(() => {
+            placeholderDiv.innerText = "";
+          }, duration);
+
           break;
         }
 
         case "CLOSE_DIALOG": {
-          const wrapper = state.wrapper as HTMLDivElement;
-          wrapper.style.position = "absolute";
-          wrapper.style.width = "auto";
-          wrapper.style.height = "auto";
+          const wrapperDiv = state.wrapperDiv as HTMLDivElement;
+          wrapperDiv.style.position = "absolute";
+          wrapperDiv.style.width = "auto";
+          wrapperDiv.style.height = "auto";
 
           ev.ports[0].postMessage(new Msg("CLOSE_DIALOG", undefined));
 

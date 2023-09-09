@@ -38,6 +38,27 @@
   }
 }
 
+.transparent_black_1 {
+  border-radius: 3px;
+  color: var(--black-00);
+  font-weight: 500;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+
+  svg {
+    font-size: 1.1em;
+  }
+
+  svg + span {
+    margin-left: 0.2em;
+  }
+
+  &:hover {
+    background-color: var(--bright-gray-40);
+  }
+}
+
 .transparent_aqua_blue_1 {
   border-radius: 3px;
   color: var(--aqua-blue-50);
@@ -58,10 +79,10 @@
     color: var(--aqua-blue-40);
     background-color: var(--bright-gray-40);
   }
-}
 
-.transparent_aqua_blue_1:disabled {
-  color: var(--aqua-blue-90);
+  &:disabled {
+    color: var(--aqua-blue-90);
+  }
 }
 
 .transparent_aqua_blue_1_light {

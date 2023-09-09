@@ -78,19 +78,11 @@
 }
 
 .dialogBtnRow {
+  margin-top: 14px;
   display: flex;
-  justify-content: space-between;
-  margin-top: 11px;
+  justify-content: flex-end;
 
-  button:not(:disabled) {
-    color: var(--aqua-blue-50);
-    cursor: pointer;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  button:disabled {
-    color: var(--aqua-blue-90);
+  button:not(:first-child) {
+    margin-left: 7px;
   }
 }

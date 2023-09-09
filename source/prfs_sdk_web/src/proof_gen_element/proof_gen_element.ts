@@ -7,7 +7,7 @@ import { Msg } from "./msg";
 
 export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
 export const PLACEHOLDER_ID = "prfs-sdk-placeholder";
-export const LOADING_SPAN_ID = "prfs-sdk-loading";
+export const MSG_SPAN_ID = "prfs-sdk-msg";
 export const PORTAL_ID = "prfs-sdk-portal";
 const SDK_ENDPOINT = "http://localhost:3010";
 
@@ -28,10 +28,11 @@ class ProofGenElement {
       calcHeight: 320,
       clickOutsideIFrameListener: undefined,
       clickOutsideDialogListener: undefined,
-      wrapper: undefined,
+      // msgSpan: undefined,
+      wrapperDiv: undefined,
       iframe: undefined,
-      placeholder: undefined,
-      portal: undefined,
+      placeholderDiv: undefined,
+      portalDiv: undefined,
     };
   }
 
@@ -53,12 +54,12 @@ class ProofGenElement {
 
       container.style.position = "relative";
 
-      const loadingSpan = document.createElement("span");
-      loadingSpan.id = LOADING_SPAN_ID;
-      loadingSpan.innerText = "PRFS SDK is launching...";
-      loadingSpan.style.position = "absolute";
-      loadingSpan.style.top = "12px";
-      loadingSpan.style.left = "12px";
+      // const msgSpan = document.createElement("span");
+      // msgSpan.id = MSG_SPAN_ID;
+      // msgSpan.innerText = "PRFS SDK is launching...";
+      // msgSpan.style.position = "absolute";
+      // msgSpan.style.top = "12px";
+      // msgSpan.style.left = "12px";
 
       const iframe = document.createElement("iframe");
       iframe.id = PROOF_GEN_IFRAME_ID;
@@ -72,6 +73,8 @@ class ProofGenElement {
 
       const placeholderDiv = document.createElement("div");
       placeholderDiv.id = PLACEHOLDER_ID;
+      placeholderDiv.innerText = "PRFS SDK is launching...";
+      placeholderDiv.style.padding = "12px";
       placeholderDiv.style.width = `${calcWidth}px`;
       placeholderDiv.style.height = `${calcHeight}px`;
       placeholderDiv.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
@@ -83,7 +86,7 @@ class ProofGenElement {
       wrapperDiv.style.height = `${calcHeight}px`;
       wrapperDiv.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
 
-      wrapperDiv.appendChild(loadingSpan);
+      // wrapperDiv.appendChild(msgSpan);
       wrapperDiv.appendChild(iframe);
 
       container.appendChild(wrapperDiv);
@@ -95,9 +98,10 @@ class ProofGenElement {
       document.body.appendChild(portal);
 
       this.state.iframe = iframe;
-      this.state.placeholder = placeholderDiv;
-      this.state.wrapper = wrapperDiv;
-      this.state.portal = portal;
+      // this.state.msgSpan = msgSpan;
+      this.state.placeholderDiv = placeholderDiv;
+      this.state.wrapperDiv = wrapperDiv;
+      this.state.portalDiv = portal;
 
       if (singleton.msgEventListener) {
         console.warn("Remove already registered Prfs sdk message event listener");
@@ -139,8 +143,9 @@ export interface ProofGenElementState {
   clickOutsideDialogListener: ((event: MouseEvent) => void) | undefined;
   calcHeight: number;
   calcWidth: number;
-  wrapper: HTMLDivElement | undefined;
+  wrapperDiv: HTMLDivElement | undefined;
+  // msgSpan: HTMLSpanElement | undefined;
   iframe: HTMLIFrameElement | undefined;
-  placeholder: HTMLDivElement | undefined;
-  portal: HTMLDivElement | undefined;
+  placeholderDiv: HTMLDivElement | undefined;
+  portalDiv: HTMLDivElement | undefined;
 }

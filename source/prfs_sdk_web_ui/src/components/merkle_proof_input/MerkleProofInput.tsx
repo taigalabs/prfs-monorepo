@@ -39,7 +39,12 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
       if (!isOpen) {
         dispatch(setInnerOpacity(0));
 
-        const { top, left } = await sendMsgToParent(new Msg("OPEN_DIALOG", undefined));
+        const duration = 300;
+        const { top, left } = await sendMsgToParent(
+          new Msg("OPEN_DIALOG", {
+            duration,
+          })
+        );
 
         dispatch(
           setInnerPos({
@@ -51,7 +56,8 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         window.setTimeout(() => {
           setIsOpen(isOpen => !isOpen);
           dispatch(setInnerOpacity(1));
-        }, 200);
+        }, duration);
+
         return;
       } else {
         dispatch(
@@ -158,7 +164,6 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
 export default MerkleProofInput;
 
 export interface MerkleProofInputProps {
-  // walletAddr: string;
   circuitInput: CircuitInput;
   value: SpartanMerkleProof | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;

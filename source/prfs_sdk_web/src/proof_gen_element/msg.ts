@@ -51,6 +51,10 @@ export interface GetSignatureResponsePayload {
   sig: string;
 }
 
+export interface OpenDialogPayload {
+  duration: number;
+}
+
 export interface OpenDialogRespPayload {
   top: number;
   left: number;
@@ -86,7 +90,7 @@ export type ReqPayload<T extends MsgType> = //
     : T extends "CREATE_PROOF_RESPONSE"
     ? ProveReceipt
     : T extends "OPEN_DIALOG"
-    ? void
+    ? OpenDialogPayload
     : T extends "OPEN_DIALOG_RESPONSE"
     ? OpenDialogRespPayload
     : T extends "CLOSE_DIALOG"
