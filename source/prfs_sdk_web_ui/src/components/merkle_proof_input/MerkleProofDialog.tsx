@@ -16,37 +16,6 @@ const MerkleProofDialog: React.FC<MerkleProofDialogProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
 
-  // const extendedProofTypeClickHandler = React.useCallback(() => {
-  //   setIsOpen(false);
-  //   // setSelectedProofTypeItem(proofTypeItem);
-  //   // handleSelectProofType(proofTypeItem);
-  // }, [setIsOpen]);
-
-  // React.useEffect(() => {
-  //   async function fn() {
-  //     const { top, left } = await sendMsgToParent(new Msg("OPEN_DIALOG", undefined));
-
-  //     console.log(11, top, left);
-
-  //     function eventListener(ev: MessageEvent) {
-  //       const { type } = ev.data;
-
-  //       if (type && type === PRFS_SDK_CLICK_OUTSIDE_EVENT_TYPE) {
-  //         setIsOpen(false);
-  //       }
-  //     }
-
-  //     window.addEventListener("message", eventListener);
-
-  //     return () => {
-  //       sendMsgToParent(new Msg("CLOSE_DIALOG", undefined));
-  //       window.removeEventListener("message", eventListener);
-  //     };
-  //   }
-
-  //   fn().then();
-  // }, [setIsOpen]);
-
   const handleCreateMerkleProof = React.useCallback(async () => {
     if (walletAddr.length < 1) {
       return;

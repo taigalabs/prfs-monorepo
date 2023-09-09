@@ -35,7 +35,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   const [isOpen, setIsOpen] = React.useState(false);
   const dispatch = useAppDispatch();
 
-  const handleClickCreate = React.useCallback(async () => {
+  const toggleDialog = React.useCallback(async () => {
     try {
       if (!isOpen) {
         const { top, left } = await sendMsgToParent(new Msg("OPEN_DIALOG", undefined));
@@ -63,7 +63,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
 
   const { refs, context } = useFloating({
     open: isOpen,
-    onOpenChange: handleClickCreate,
+    onOpenChange: toggleDialog,
   });
 
   const click = useClick(context);
