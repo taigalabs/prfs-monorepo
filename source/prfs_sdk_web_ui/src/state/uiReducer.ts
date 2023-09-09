@@ -1,8 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-import { RootState } from "./store";
-
 export interface UIState {
+  innerOpacity: number;
   innerPos: {
     top: number;
     left: number;
@@ -10,6 +9,7 @@ export interface UIState {
 }
 
 const initialState: UIState = {
+  innerOpacity: 1,
   innerPos: {
     top: 0,
     left: 0,
@@ -20,6 +20,12 @@ export const uiSlice = createSlice({
   name: "ui",
   initialState,
   reducers: {
+    setInnerOpacity: (state: UIState, action: PayloadAction<number>) => {
+      return {
+        ...state,
+        innerOpacity: action.payload,
+      };
+    },
     setInnerPos: (state: UIState, action: PayloadAction<Position>) => {
       let { top, left } = action.payload;
 
@@ -27,12 +33,11 @@ export const uiSlice = createSlice({
         ...state,
         innerPos: { top, left },
       };
-      // return handleSignIn(state, action);
     },
   },
 });
 
-export const { setInnerPos } = uiSlice.actions;
+export const { setInnerPos, setInnerOpacity } = uiSlice.actions;
 
 export default uiSlice.reducer;
 

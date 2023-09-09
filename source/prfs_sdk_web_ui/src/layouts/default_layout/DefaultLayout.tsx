@@ -6,13 +6,15 @@ import styles from "./DefaultLayout.module.scss";
 import { useAppSelector } from "@/state/hooks";
 
 const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
-  let { top, left } = useAppSelector(state => state.ui.innerPos);
+  const { top, left } = useAppSelector(state => state.ui.innerPos);
+  const opacity = useAppSelector(state => state.ui.innerOpacity);
+
   // console.log(11, innerPos);
 
   return (
     <div
       className={styles.wrapper}
-      style={{ position: "absolute", top: `${top}px`, left: `${left}px` }}
+      style={{ position: "absolute", top: `${top}px`, left: `${left}px`, opacity }}
     >
       {children}
     </div>

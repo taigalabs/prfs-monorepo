@@ -22,7 +22,7 @@ import styles from "./MerkleProofInput.module.scss";
 import MerkleProofDialog from "./MerkleProofDialog";
 import { i18nContext } from "@/contexts/i18n";
 import { useAppDispatch } from "@/state/hooks";
-import { setInnerPos } from "@/state/uiReducer";
+import { setInnerOpacity, setInnerPos } from "@/state/uiReducer";
 
 const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   circuitInput,
@@ -37,6 +37,8 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   const toggleDialog = React.useCallback(async () => {
     try {
       if (!isOpen) {
+        dispatch(setInnerOpacity(0));
+
         const { top, left } = await sendMsgToParent(new Msg("OPEN_DIALOG", undefined));
 
         dispatch(
@@ -45,6 +47,12 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
             left,
           })
         );
+
+        window.setTimeout(() => {
+          setIsOpen(isOpen => !isOpen);
+          dispatch(setInnerOpacity(1));
+        }, 200);
+        return;
       } else {
         dispatch(
           setInnerPos({
@@ -52,12 +60,14 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
             left: 0,
           })
         );
+
         await sendMsgToParent(new Msg("CLOSE_DIALOG", undefined));
+        setIsOpen(isOpen => !isOpen);
+        return;
       }
     } catch (err) {
       console.error(err);
     }
-    setIsOpen(isOpen => !isOpen);
   }, [isOpen, setIsOpen]);
 
   const { refs, context } = useFloating({

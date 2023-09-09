@@ -96,22 +96,19 @@ export function handleChildMessage(
 
         case "OPEN_DIALOG": {
           const { wrapper } = state;
-          if (wrapper) {
-            const offsets = wrapper.getBoundingClientRect();
+          const offsets = wrapper!.getBoundingClientRect();
 
-            wrapper.style.position = "fixed";
-            wrapper.style.inset = "0px";
-            wrapper.style.width = "100vw";
-            wrapper.style.height = "100vh";
+          wrapper!.style.position = "fixed";
+          wrapper!.style.inset = "0px";
+          wrapper!.style.width = "100vw";
+          wrapper!.style.height = "100vh";
 
-            ev.ports[0].postMessage(
-              new Msg("OPEN_DIALOG_RESPONSE", {
-                top: offsets.top,
-                left: offsets.left,
-              })
-            );
-          }
-
+          ev.ports[0].postMessage(
+            new Msg("OPEN_DIALOG_RESPONSE", {
+              top: offsets.top,
+              left: offsets.left,
+            })
+          );
           break;
         }
 
