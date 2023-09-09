@@ -122,6 +122,20 @@ const CreateProofForm: React.FC = () => {
         <Fade>
           <div className={styles.bottomRow}>
             <p className={styles.successMsg}>{i18n.prove_success_msg}</p>
+            <div className={styles.postCreateMenu}>
+              <p>poweprower</p>
+              <ul>
+                <li>
+                  <Button variant="transparent_black_1">power</Button>
+                </li>
+                <li>
+                  <Button variant="transparent_black_1">power</Button>
+                </li>
+                <li>
+                  <Button variant="transparent_black_1">power</Button>
+                </li>
+              </ul>
+            </div>
           </div>
         </Fade>
       )}
