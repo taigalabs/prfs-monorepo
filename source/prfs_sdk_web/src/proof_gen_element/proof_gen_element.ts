@@ -44,7 +44,6 @@ class ProofGenElement {
 
       if (!container) {
         console.error(`No target element named, ${containerName}`);
-
         reject("no target element");
       }
 
@@ -87,8 +86,8 @@ class ProofGenElement {
       wrapperDiv.appendChild(loadingSpan);
       wrapperDiv.appendChild(iframe);
 
-      container!.appendChild(wrapperDiv);
-      container!.appendChild(placeholderDiv);
+      container.appendChild(wrapperDiv);
+      container.appendChild(placeholderDiv);
 
       const portal = document.createElement("div");
       portal.id = PORTAL_ID;

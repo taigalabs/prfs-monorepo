@@ -95,13 +95,13 @@ export function handleChildMessage(
         }
 
         case "OPEN_DIALOG": {
-          const { wrapper } = state;
+          const wrapper = state.wrapper as HTMLDivElement;
           const offsets = wrapper!.getBoundingClientRect();
 
-          wrapper!.style.position = "fixed";
-          wrapper!.style.inset = "0px";
-          wrapper!.style.width = "100vw";
-          wrapper!.style.height = "100vh";
+          wrapper.style.position = "fixed";
+          wrapper.style.inset = "0px";
+          wrapper.style.width = "100vw";
+          wrapper.style.height = "100vh";
 
           ev.ports[0].postMessage(
             new Msg("OPEN_DIALOG_RESPONSE", {
@@ -109,14 +109,15 @@ export function handleChildMessage(
               left: offsets.left,
             })
           );
+
           break;
         }
 
         case "CLOSE_DIALOG": {
-          const { wrapper } = state;
-          wrapper!.style.position = "absolute";
-          wrapper!.style.width = "auto";
-          wrapper!.style.height = "auto";
+          const wrapper = state.wrapper as HTMLDivElement;
+          wrapper.style.position = "absolute";
+          wrapper.style.width = "auto";
+          wrapper.style.height = "auto";
 
           ev.ports[0].postMessage(new Msg("CLOSE_DIALOG", undefined));
 
