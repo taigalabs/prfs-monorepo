@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import { ethers } from "ethers";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
+import SocialSharePopover from "@taigalabs/prfs-react-components/src/social_share_popover/SocialSharePopover";
 
 import styles from "./CreateProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -127,6 +128,9 @@ const CreateProofForm: React.FC = () => {
               <ul>
                 <li>
                   <Button variant="transparent_black_1">{i18n.upload}</Button>
+                </li>
+                <li>
+                  <SocialSharePopover />
                 </li>
               </ul>
             </div>
