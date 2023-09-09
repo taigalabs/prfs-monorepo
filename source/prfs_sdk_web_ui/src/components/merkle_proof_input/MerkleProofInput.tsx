@@ -36,17 +36,30 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   const dispatch = useAppDispatch();
 
   const handleClickCreate = React.useCallback(async () => {
-    const { top, left } = await sendMsgToParent(new Msg("OPEN_DIALOG", undefined));
-    console.log(22, top, left);
-    dispatch(
-      setInnerPos({
-        top,
-        left,
-      })
-    );
+    try {
+      if (!isOpen) {
+        const { top, left } = await sendMsgToParent(new Msg("OPEN_DIALOG", undefined));
 
+        dispatch(
+          setInnerPos({
+            top,
+            left,
+          })
+        );
+      } else {
+        dispatch(
+          setInnerPos({
+            top: 0,
+            left: 0,
+          })
+        );
+        await sendMsgToParent(new Msg("CLOSE_DIALOG", undefined));
+      }
+    } catch (err) {
+      console.error(err);
+    }
     setIsOpen(isOpen => !isOpen);
-  }, [setIsOpen]);
+  }, [isOpen, setIsOpen]);
 
   const { refs, context } = useFloating({
     open: isOpen,
@@ -118,7 +131,6 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
                         <MerkleProofDialog
                           prfsSet={prfsSet}
                           walletAddr={walletAddr}
-                          setIsOpen={setIsOpen}
                           circuitInput={circuitInput}
                           setFormValues={setFormValues}
                         />

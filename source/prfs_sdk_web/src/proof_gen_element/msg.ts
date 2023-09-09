@@ -17,7 +17,8 @@ export type MsgType =
   | "CREATE_PROOF_RESPONSE"
   | "OPEN_DIALOG"
   | "OPEN_DIALOG_RESPONSE"
-  | "CLOSE_DIALOG";
+  | "CLOSE_DIALOG"
+  | "CLOSE_DIALOG_RESPONSE";
 
 export class Msg<T extends MsgType> implements MsgInterface<T> {
   error?: any;
@@ -91,7 +92,7 @@ export type ReqPayload<T extends MsgType> = //
     : T extends "CLOSE_DIALOG"
     ? void
     : T extends "CLOSE_DIALOG_RESPONSE"
-    ? boolean
+    ? void
     : never;
 
 export type RespPayload<T extends MsgType> = //
@@ -127,4 +128,8 @@ export type RespPayload<T extends MsgType> = //
     ? OpenDialogRespPayload
     : T extends "OPEN_DIALOG_RESPONSE"
     ? never
+    : T extends "CLOSE_DIALOG"
+    ? void
+    : T extends "CLOSE_DIALOG_RESPONSE"
+    ? void
     : never;

@@ -2,8 +2,6 @@ import React from "react";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import { Msg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
-import { PRFS_SDK_CLICK_OUTSIDE_EVENT_TYPE } from "@taigalabs/prfs-sdk-web/src/proof_gen_element/outside_event";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import { SpartanMerkleProof } from "@taigalabs/prfs-driver-spartan-js";
 
@@ -13,7 +11,6 @@ import { i18nContext } from "@/contexts/i18n";
 const MerkleProofDialog: React.FC<MerkleProofDialogProps> = ({
   prfsSet,
   walletAddr,
-  setIsOpen,
   circuitInput,
   setFormValues,
 }) => {
@@ -122,11 +119,11 @@ const MerkleProofDialog: React.FC<MerkleProofDialogProps> = ({
         };
       });
 
-      setIsOpen(false);
+      // setIsOpen(false);
     } catch (err) {
       console.error(err);
     }
-  }, [circuitInput, walletAddr, prfsSet, setFormValues, setIsOpen]);
+  }, [circuitInput, walletAddr, prfsSet, setFormValues]);
 
   return (
     <div className={styles.popoverWrapper}>
@@ -155,6 +152,6 @@ export interface MerkleProofDialogProps {
   prfsSet: PrfsSet | undefined;
   walletAddr: string;
   circuitInput: CircuitInput;
-  setIsOpen: React.Dispatch<React.SetStateAction<any>>;
+  // setIsOpen: React.Dispatch<React.SetStateAction<any>>;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
 }

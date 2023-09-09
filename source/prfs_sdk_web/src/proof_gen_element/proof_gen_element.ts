@@ -68,8 +68,6 @@ class ProofGenElement {
       iframe.style.border = "none";
       // iframe.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
       iframe.style.position = "absolute";
-      iframe.style.zIndex = "10010";
-      iframe.style.inset = "0px";
       iframe.style.width = "100%";
       iframe.style.height = "100%";
 
@@ -81,6 +79,7 @@ class ProofGenElement {
 
       const wrapperDiv = document.createElement("div");
       wrapperDiv.style.position = "absolute";
+      wrapperDiv.style.zIndex = "10010";
       wrapperDiv.style.width = `${calcWidth}px`;
       wrapperDiv.style.height = `${calcHeight}px`;
       wrapperDiv.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
@@ -91,6 +90,16 @@ class ProofGenElement {
       container!.appendChild(wrapperDiv);
       container!.appendChild(placeholderDiv);
 
+      const portal = document.createElement("div");
+      portal.id = PORTAL_ID;
+      portal.style.position = "fixed";
+      document.body.appendChild(portal);
+
+      this.state.iframe = iframe;
+      this.state.placeholder = placeholderDiv;
+      this.state.wrapper = wrapperDiv;
+      this.state.portal = portal;
+
       if (singleton.msgEventListener) {
         console.warn("Remove already registered Prfs sdk message event listener");
 
@@ -99,18 +108,6 @@ class ProofGenElement {
 
       const msgEventListener = handleChildMessage(resolve, options, this.state);
       singleton.msgEventListener = msgEventListener;
-
-      this.state.iframe = iframe;
-      this.state.placeholder = placeholderDiv;
-      this.state.wrapper = wrapperDiv;
-
-      const portal = document.createElement("div");
-      portal.id = PORTAL_ID;
-      portal.style.position = "fixed";
-
-      document.body.appendChild(portal);
-
-      this.state.portal = portal;
     });
   }
 

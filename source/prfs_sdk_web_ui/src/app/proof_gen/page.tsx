@@ -19,7 +19,6 @@ const HEIGHT_PER_INPUT = 61;
 const ProofGen: React.FC<ProofGenProps> = () => {
   const i18n = React.useContext(i18nContext);
 
-  const [data, setData] = React.useState();
   const searchParams = useSearchParams();
   const [proofType, setProofType] = React.useState<PrfsProofType>();
   const [docHeight, setDocHeight] = React.useState<number>();

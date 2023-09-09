@@ -95,34 +95,14 @@ export function handleChildMessage(
         }
 
         case "OPEN_DIALOG": {
-          const { portal, iframe } = state;
-          if (portal && iframe) {
-            const offsets = iframe.getBoundingClientRect();
+          const { wrapper } = state;
+          if (wrapper) {
+            const offsets = wrapper.getBoundingClientRect();
 
-            // iframe.style.position = "fixed";
-            // iframe.style.inset = "0px";
-            // iframe.style.width = "100vw";
-            // iframe.style.height = "100vh";
-
-            // portal.style.inset = "0px";
-            // portal.style.background = "rgba(0, 0, 0, 0.8)";
-            // portal.style.display = "grid";
-            // portal.style.placeItems = "center";
-            // portal.style.zIndex = "10000";
-            // portal.style.pointerEvents = "none";
-            // iframe.style.position = 'fi'
-
-            if (!state.clickOutsideIFrameListener) {
-              const outsideClickListener = listenClickOutsideIFrame(iframe);
-              state.clickOutsideIFrameListener = outsideClickListener;
-
-              ev.ports[0].postMessage(
-                new Msg("OPEN_DIALOG_RESPONSE", {
-                  top: offsets.top,
-                  left: offsets.left,
-                })
-              );
-            }
+            wrapper.style.position = "fixed";
+            wrapper.style.inset = "0px";
+            wrapper.style.width = "100vw";
+            wrapper.style.height = "100vh";
 
             ev.ports[0].postMessage(
               new Msg("OPEN_DIALOG_RESPONSE", {
@@ -136,15 +116,12 @@ export function handleChildMessage(
         }
 
         case "CLOSE_DIALOG": {
-          const { portal } = state;
-          if (portal) {
-            // portal.style.display = "none";
-          }
+          const { wrapper } = state;
+          wrapper!.style.position = "absolute";
+          wrapper!.style.width = "auto";
+          wrapper!.style.height = "auto";
 
-          if (state.clickOutsideIFrameListener) {
-            removeClickListener(state.clickOutsideIFrameListener);
-            state.clickOutsideIFrameListener = undefined;
-          }
+          ev.ports[0].postMessage(new Msg("CLOSE_DIALOG", undefined));
 
           break;
         }
