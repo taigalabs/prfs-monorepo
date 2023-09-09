@@ -158,7 +158,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
 export default MerkleProofInput;
 
 export interface MerkleProofInputProps {
-  walletAddr: string;
+  // walletAddr: string;
   circuitInput: CircuitInput;
   value: SpartanMerkleProof | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
