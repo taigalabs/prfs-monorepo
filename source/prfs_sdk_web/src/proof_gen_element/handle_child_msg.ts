@@ -22,14 +22,15 @@ export function handleChildMessage(
           const handshakePayload = ev.data.payload as HandshakePayload;
 
           const { docHeight } = handshakePayload;
-          const { iframe, placeholder } = state;
+          const { iframe, placeholder, wrapper } = state;
 
-          if (!iframe || !placeholder) {
+          if (!iframe || !placeholder || !wrapper) {
             console.error("sdk elements are not defined");
             return;
           }
 
-          iframe.style.height = `${docHeight}px`;
+          state.calcHeight = docHeight;
+          wrapper.style.height = `${docHeight}px`;
           placeholder.style.height = `${docHeight}px`;
 
           ev.ports[0].postMessage(new Msg("HANDSHAKE_RESPONSE", undefined));
@@ -98,6 +99,11 @@ export function handleChildMessage(
           if (portal && iframe) {
             const offsets = iframe.getBoundingClientRect();
 
+            // iframe.style.position = "fixed";
+            // iframe.style.inset = "0px";
+            // iframe.style.width = "100vw";
+            // iframe.style.height = "100vh";
+
             // portal.style.inset = "0px";
             // portal.style.background = "rgba(0, 0, 0, 0.8)";
             // portal.style.display = "grid";
@@ -132,7 +138,7 @@ export function handleChildMessage(
         case "CLOSE_DIALOG": {
           const { portal } = state;
           if (portal) {
-            portal.style.display = "none";
+            // portal.style.display = "none";
           }
 
           if (state.clickOutsideIFrameListener) {

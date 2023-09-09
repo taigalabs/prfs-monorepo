@@ -8,8 +8,6 @@ const useLocalWallet = (dispatch: AppDispatch) => {
   React.useEffect(() => {
     let localPrfsAccount = localStore.getPrfsAccount();
 
-    console.log(55, localPrfsAccount);
-
     if (localPrfsAccount !== null) {
       dispatch(loadPrfsAccount({ localPrfsAccount }));
     }

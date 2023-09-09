@@ -24,8 +24,11 @@ class ProofGenElement {
   constructor(options: ProofGenElementOptions) {
     this.options = options;
     this.state = {
+      calcWidth: 494,
+      calcHeight: 320,
       clickOutsideIFrameListener: undefined,
       clickOutsideDialogListener: undefined,
+      wrapper: undefined,
       iframe: undefined,
       placeholder: undefined,
       portal: undefined,
@@ -36,7 +39,8 @@ class ProofGenElement {
     const { options } = this;
 
     return new Promise((resolve, reject) => {
-      const container = document.querySelector(containerName);
+      const container = document.querySelector(containerName) as HTMLDivElement;
+      const { calcHeight, calcWidth } = this.state;
 
       if (!container) {
         console.error(`No target element named, ${containerName}`);
@@ -47,6 +51,8 @@ class ProofGenElement {
       while (container!.firstChild) {
         container!.removeChild(container!.lastChild!);
       }
+
+      container.style.position = "relative";
 
       const loadingSpan = document.createElement("span");
       loadingSpan.id = LOADING_SPAN_ID;
@@ -59,28 +65,31 @@ class ProofGenElement {
       iframe.id = PROOF_GEN_IFRAME_ID;
       iframe.src = `${SDK_ENDPOINT}/proof_gen?proofTypeId=${options.proofTypeId}`;
       iframe.allow = "cross-origin-isolated";
-      iframe.style.width = "494px";
-      iframe.style.height = "320px";
       iframe.style.border = "none";
       // iframe.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
       iframe.style.position = "absolute";
       iframe.style.zIndex = "10010";
       iframe.style.inset = "0px";
+      iframe.style.width = "100%";
+      iframe.style.height = "100%";
 
       const placeholderDiv = document.createElement("div");
       placeholderDiv.id = PLACEHOLDER_ID;
-      placeholderDiv.style.width = "494px";
-      placeholderDiv.style.height = "320px";
+      placeholderDiv.style.width = `${calcWidth}px`;
+      placeholderDiv.style.height = `${calcHeight}px`;
       placeholderDiv.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
 
       const wrapperDiv = document.createElement("div");
-      wrapperDiv.style.position = "relative";
+      wrapperDiv.style.position = "absolute";
+      wrapperDiv.style.width = `${calcWidth}px`;
+      wrapperDiv.style.height = `${calcHeight}px`;
+      wrapperDiv.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
 
       wrapperDiv.appendChild(loadingSpan);
       wrapperDiv.appendChild(iframe);
-      wrapperDiv.appendChild(placeholderDiv);
 
-      container!.append(wrapperDiv);
+      container!.appendChild(wrapperDiv);
+      container!.appendChild(placeholderDiv);
 
       if (singleton.msgEventListener) {
         console.warn("Remove already registered Prfs sdk message event listener");
@@ -93,6 +102,7 @@ class ProofGenElement {
 
       this.state.iframe = iframe;
       this.state.placeholder = placeholderDiv;
+      this.state.wrapper = wrapperDiv;
 
       const portal = document.createElement("div");
       portal.id = PORTAL_ID;
@@ -131,6 +141,9 @@ export interface ProofGenElementOptions {
 export interface ProofGenElementState {
   clickOutsideIFrameListener: ((event: MouseEvent) => void) | undefined;
   clickOutsideDialogListener: ((event: MouseEvent) => void) | undefined;
+  calcHeight: number;
+  calcWidth: number;
+  wrapper: HTMLDivElement | undefined;
   iframe: HTMLIFrameElement | undefined;
   placeholder: HTMLDivElement | undefined;
   portal: HTMLDivElement | undefined;

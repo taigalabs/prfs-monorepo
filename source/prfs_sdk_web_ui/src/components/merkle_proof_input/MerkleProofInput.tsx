@@ -21,6 +21,8 @@ import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import styles from "./MerkleProofInput.module.scss";
 import MerkleProofDialog from "./MerkleProofDialog";
 import { i18nContext } from "@/contexts/i18n";
+import { useAppDispatch } from "@/state/hooks";
+import { setInnerPos } from "@/state/uiReducer";
 
 const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   walletAddr,
@@ -31,10 +33,24 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
   const [isOpen, setIsOpen] = React.useState(false);
+  const dispatch = useAppDispatch();
+
+  const handleClickCreate = React.useCallback(async () => {
+    const { top, left } = await sendMsgToParent(new Msg("OPEN_DIALOG", undefined));
+    console.log(22, top, left);
+    dispatch(
+      setInnerPos({
+        top,
+        left,
+      })
+    );
+
+    setIsOpen(isOpen => !isOpen);
+  }, [setIsOpen]);
 
   const { refs, context } = useFloating({
     open: isOpen,
-    onOpenChange: setIsOpen,
+    onOpenChange: handleClickCreate,
   });
 
   const click = useClick(context);
@@ -45,13 +61,6 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
 
   const headingId = useId();
   const descriptionId = useId();
-
-  // const handleClickCreate = React.useCallback(async () => {
-  //   // console.log(55);
-
-  //   const { top, left } = await sendMsgToParent(new Msg("OPEN_DIALOG", undefined));
-  //   console.log(22, top, left);
-  // }, [value, setFormValues]);
 
   React.useEffect(() => {
     async function fn() {

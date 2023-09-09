@@ -25,31 +25,30 @@ const MerkleProofDialog: React.FC<MerkleProofDialogProps> = ({
   //   // handleSelectProofType(proofTypeItem);
   // }, [setIsOpen]);
 
-  React.useEffect(() => {
-    async function fn() {
-      const { top, left } = await sendMsgToParent(new Msg("OPEN_DIALOG", undefined));
+  // React.useEffect(() => {
+  //   async function fn() {
+  //     const { top, left } = await sendMsgToParent(new Msg("OPEN_DIALOG", undefined));
 
-      console.log(11, top, left);
+  //     console.log(11, top, left);
 
-      function eventListener(ev: MessageEvent) {
-        const { type } = ev.data;
+  //     function eventListener(ev: MessageEvent) {
+  //       const { type } = ev.data;
 
-        if (type && type === PRFS_SDK_CLICK_OUTSIDE_EVENT_TYPE) {
-          setIsOpen(false);
-        }
-      }
+  //       if (type && type === PRFS_SDK_CLICK_OUTSIDE_EVENT_TYPE) {
+  //         setIsOpen(false);
+  //       }
+  //     }
 
-      window.addEventListener("message", eventListener);
+  //     window.addEventListener("message", eventListener);
 
-      return () => {
-        console.log(66);
-        sendMsgToParent(new Msg("CLOSE_DIALOG", undefined));
-        window.removeEventListener("message", eventListener);
-      };
-    }
+  //     return () => {
+  //       sendMsgToParent(new Msg("CLOSE_DIALOG", undefined));
+  //       window.removeEventListener("message", eventListener);
+  //     };
+  //   }
 
-    fn().then();
-  }, [setIsOpen]);
+  //   fn().then();
+  // }, [setIsOpen]);
 
   const handleCreateMerkleProof = React.useCallback(async () => {
     if (walletAddr.length < 1) {

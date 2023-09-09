@@ -3,12 +3,20 @@
 import React from "react";
 
 import styles from "./DefaultLayout.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { useAppSelector } from "@/state/hooks";
 
 const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
-  const i18n = React.useContext(i18nContext);
+  let { top, left } = useAppSelector(state => state.ui.innerPos);
+  // console.log(11, innerPos);
 
-  return <div className={styles.wrapper}>{children}</div>;
+  return (
+    <div
+      className={styles.wrapper}
+      style={{ position: "absolute", top: `${top}px`, left: `${left}px` }}
+    >
+      {children}
+    </div>
+  );
 };
 
 export default DefaultLayout;
