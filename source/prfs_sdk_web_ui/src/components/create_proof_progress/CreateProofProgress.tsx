@@ -7,8 +7,15 @@ import { i18nContext } from "@/contexts/i18n";
 const CreateProofProgress: React.FC<CreateProofProgressProps> = ({ terminalLog, isCompleted }) => {
   const i18n = React.useContext(i18nContext);
 
-  React.useEffect(() => {
-    // console.log(55, terminalLog);
+  const logElem = React.useMemo(() => {
+    console.log(11, terminalLog.length);
+    return terminalLog.map((item, idx) => {
+      return (
+        <p className={item.type} key={idx}>
+          {item.msg}
+        </p>
+      );
+    });
   }, [terminalLog]);
 
   return (
@@ -27,7 +34,7 @@ const CreateProofProgress: React.FC<CreateProofProgressProps> = ({ terminalLog, 
           [styles.isCompleted]: isCompleted,
         })}
       >
-        {terminalLog}
+        {logElem}
       </div>
     </div>
   );
@@ -36,6 +43,11 @@ const CreateProofProgress: React.FC<CreateProofProgressProps> = ({ terminalLog, 
 export default CreateProofProgress;
 
 export interface CreateProofProgressProps {
-  terminalLog: React.ReactNode;
+  terminalLog: TerminalLogItem[];
   isCompleted: boolean;
+}
+
+export interface TerminalLogItem {
+  type: string;
+  msg: string;
 }

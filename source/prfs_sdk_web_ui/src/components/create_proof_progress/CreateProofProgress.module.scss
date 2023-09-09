@@ -23,7 +23,7 @@
 
 .title {
   color: var(--black-100);
-  margin-bottom: 5px;
+  margin-bottom: 3px;
   font-weight: 600;
 }
 
@@ -32,7 +32,8 @@
   padding: 4px 6px;
   font-size: 12px;
   border-radius: 5px;
-  height: 85px;
+  height: 65px;
+  overflow-y: auto;
   color: var(--gray-20);
   border: 1px solid var(--gray-70);
 

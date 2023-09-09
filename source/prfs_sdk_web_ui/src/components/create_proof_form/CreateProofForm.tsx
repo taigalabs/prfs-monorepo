@@ -12,7 +12,9 @@ import { delay } from "@/functions/interval";
 import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
 import SigDataInput from "@/components/sig_data_input/SigDataInput";
 import { createProof } from "@/functions/proof";
-import CreateProofProgress from "@/components/create_proof_progress/CreateProofProgress";
+import CreateProofProgress, {
+  TerminalLogItem,
+} from "@/components/create_proof_progress/CreateProofProgress";
 import { envs } from "@/envs";
 
 const ASSET_SERVER_ENDPOINT = envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
@@ -27,7 +29,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
 
   const [systemMsg, setSystemMsg] = React.useState("Loading driver...");
   const [createProofPage, setCreateProofPage] = React.useState(CreateProofPage.INPUT);
-  const [terminalLog, setTerminalLog] = React.useState<React.ReactNode[]>([]);
+  const [terminalLog, setTerminalLog] = React.useState<TerminalLogItem[]>([]);
   const [driver, setDriver] = React.useState<CircuitDriver>();
   const [isCompleted, setIsCompleted] = React.useState(false);
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
@@ -35,13 +37,12 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
   const proofGenEventListener = React.useCallback(
     (type: string, msg: string) => {
       setTerminalLog(oldVals => {
-        const elem = (
-          <p className={type} key={oldVals.length}>
-            {msg}
-          </p>
-        );
-
-        return [...oldVals, elem];
+        // const elem = (
+        //   <p className={type} key={oldVals.length}>
+        //     {msg}
+        //   </p>
+        // );
+        return [...oldVals, { type, msg }];
       });
     },
     [setTerminalLog]
@@ -84,7 +85,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
     return () => {
       window.removeEventListener("message", eventListener);
     };
-  }, [proofType, formValues, setTerminalLog, setIsCompleted]);
+  }, [proofType, formValues, setIsCompleted]);
 
   React.useEffect(() => {
     async function fn() {
