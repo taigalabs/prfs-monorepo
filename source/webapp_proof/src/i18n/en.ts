@@ -110,6 +110,9 @@ export default {
   proof_instances: "Proof instances",
   create_proof: "Create proof",
   prove_success_msg: "Hey, anon! You are now under the shadow",
+  upload: "Upload",
+  proof_upload_guide:
+    "Share your proof by uploading it to Prfs. Soon, we will give you an option to sign in so that you can more effectively manage your past proofs.",
   proof_dashboard: "Proof dashboard",
   create_proof_instance: "Create proof instance",
   compute_merkle_root: "Compute Merkle root",

@@ -121,18 +121,12 @@ const CreateProofForm: React.FC = () => {
       {proveReceipt && (
         <Fade>
           <div className={styles.bottomRow}>
-            <p className={styles.successMsg}>{i18n.prove_success_msg}</p>
             <div className={styles.postCreateMenu}>
-              <p>poweprower</p>
+              <p className={styles.successMsg}>{i18n.prove_success_msg}</p>
+              <p>{i18n.proof_upload_guide}</p>
               <ul>
                 <li>
-                  <Button variant="transparent_black_1">power</Button>
-                </li>
-                <li>
-                  <Button variant="transparent_black_1">power</Button>
-                </li>
-                <li>
-                  <Button variant="transparent_black_1">power</Button>
+                  <Button variant="transparent_black_1">{i18n.upload}</Button>
                 </li>
               </ul>
             </div>
