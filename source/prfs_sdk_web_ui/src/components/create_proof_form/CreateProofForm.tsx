@@ -29,7 +29,6 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
   const [createProofPage, setCreateProofPage] = React.useState(CreateProofPage.INPUT);
   const [terminalLog, setTerminalLog] = React.useState<React.ReactNode[]>([]);
   const [driver, setDriver] = React.useState<CircuitDriver>();
-  const [isCompleted, setIsCompleted] = React.useState(false);
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
 
   const proofGenEventListener = React.useCallback(
@@ -83,7 +82,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
     return () => {
       window.removeEventListener("message", eventListener);
     };
-  }, [proofType, formValues, setIsCompleted]);
+  }, [proofType, formValues]);
 
   React.useEffect(() => {
     async function fn() {
@@ -173,7 +172,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
       {createProofPage === CreateProofPage.PROGRESS && (
         <div className={styles.terminalPage}>
           <Fade>
-            <CreateProofProgress terminalLogElem={terminalLog} isCompleted={isCompleted} />
+            <CreateProofProgress terminalLogElem={terminalLog} />
           </Fade>
         </div>
       )}

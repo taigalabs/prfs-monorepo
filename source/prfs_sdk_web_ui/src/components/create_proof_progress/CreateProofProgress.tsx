@@ -4,10 +4,7 @@ import cn from "classnames";
 import styles from "./CreateProofProgress.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 
-const CreateProofProgress: React.FC<CreateProofProgressProps> = ({
-  terminalLogElem,
-  isCompleted,
-}) => {
+const CreateProofProgress: React.FC<CreateProofProgressProps> = ({ terminalLogElem }) => {
   const i18n = React.useContext(i18nContext);
   const [logCount, setLogCount] = React.useState(0);
   const logRef = React.useRef(null);
@@ -37,7 +34,6 @@ const CreateProofProgress: React.FC<CreateProofProgressProps> = ({
         ref={logRef}
         className={cn({
           [styles.terminal]: true,
-          [styles.isCompleted]: isCompleted,
         })}
       >
         {terminalLogElem}
@@ -50,5 +46,4 @@ export default CreateProofProgress;
 
 export interface CreateProofProgressProps {
   terminalLogElem: React.ReactNode[];
-  isCompleted: boolean;
 }
