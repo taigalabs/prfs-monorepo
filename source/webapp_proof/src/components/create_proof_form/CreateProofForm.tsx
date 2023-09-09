@@ -2,7 +2,9 @@ import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
+import { v4 as uuidv4 } from "uuid";
 import { ethers } from "ethers";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 
 import styles from "./CreateProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -47,6 +49,46 @@ const CreateProofForm: React.FC = () => {
     fn().then();
   }, [selectedProofTypeItem, handleCreateProof, setProofGenElement]);
 
+  const handleClickCreateProof = React.useCallback(async () => {
+    if (!selectedProofTypeItem) {
+      console.error("proof type is not selected");
+      return;
+    }
+
+    if (!proofGenElement) {
+      console.error("PRFS sdk is undefined");
+      return;
+    }
+
+    const proveReceipt = await proofGenElement.createProof();
+
+    if (proveReceipt) {
+      const { duration, proveResult } = proveReceipt;
+      const { proof, publicInputSer } = proveResult;
+      const public_inputs = JSON.parse(publicInputSer);
+
+      console.log("took %s ms to create a proof", duration);
+
+      const proof_instance_id = uuidv4();
+
+      console.log("try inserting proof", proveReceipt);
+      try {
+        const { payload } = await prfsApi2("create_prfs_proof_instance", {
+          proof_instance_id,
+          account_id: null,
+          proof_type_id: selectedProofTypeItem.proofTypeId,
+          proof: Array.from(proof),
+          public_inputs,
+        });
+
+        // router.push(`${paths.proof_instances}/${payload.proof_instance_id}`);
+      } catch (err: any) {
+        console.error(err);
+        return;
+      }
+    }
+  }, [selectedProofTypeItem, proofGenElement]);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.proofTypeRow}>
@@ -61,7 +103,7 @@ const CreateProofForm: React.FC = () => {
         </Fade>
       )}
       <div className={styles.createProofBtn}>
-        <Button variant="aqua_blue_1" handleClick={() => {}}>
+        <Button variant="aqua_blue_1" handleClick={handleClickCreateProof}>
           {i18n.create_proof.toUpperCase()}
         </Button>
       </div>
