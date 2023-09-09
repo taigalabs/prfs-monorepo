@@ -63,7 +63,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
           await delay(3000);
 
           proofGenEventListener(
-            "debug",
+            "info",
             `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
           );
 
