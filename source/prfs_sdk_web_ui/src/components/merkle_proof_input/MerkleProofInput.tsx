@@ -25,7 +25,6 @@ import { useAppDispatch } from "@/state/hooks";
 import { setInnerPos } from "@/state/uiReducer";
 
 const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
-  walletAddr,
   circuitInput,
   value,
   setFormValues,
@@ -114,7 +113,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         <div className={styles.btnGroup}>
           <div>
             <div ref={refs.setReference} {...getReferenceProps()}>
-              <Button variant="white_gray_1">{i18n.create}</Button>
+              <button>{i18n.create}</button>
             </div>
             <FloatingPortal>
               {isOpen && (
@@ -130,7 +129,6 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
                       >
                         <MerkleProofDialog
                           prfsSet={prfsSet}
-                          walletAddr={walletAddr}
                           circuitInput={circuitInput}
                           setFormValues={setFormValues}
                         />

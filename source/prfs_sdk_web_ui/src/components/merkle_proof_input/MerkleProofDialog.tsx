@@ -7,14 +7,15 @@ import { SpartanMerkleProof } from "@taigalabs/prfs-driver-spartan-js";
 
 import styles from "./MerkleProofDialog.module.scss";
 import { i18nContext } from "@/contexts/i18n";
+import { Msg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 
 const MerkleProofDialog: React.FC<MerkleProofDialogProps> = ({
   prfsSet,
-  walletAddr,
   circuitInput,
   setFormValues,
 }) => {
   const i18n = React.useContext(i18nContext);
+  const [walletAddr, setWalletAddr] = React.useState("");
 
   const handleCreateMerkleProof = React.useCallback(async () => {
     if (walletAddr.length < 1) {
@@ -94,23 +95,50 @@ const MerkleProofDialog: React.FC<MerkleProofDialogProps> = ({
     }
   }, [circuitInput, walletAddr, prfsSet, setFormValues]);
 
+  const handleClickConnectWallet = React.useCallback(async () => {
+    const addr = await sendMsgToParent(new Msg("GET_ADDRESS", ""));
+
+    setWalletAddr(addr);
+  }, [setWalletAddr]);
+
   return (
-    <div className={styles.popoverWrapper}>
-      <div>
-        <p>{i18n.wallet_address}</p>
-        <div className={styles.addrInputBox}>
-          <input className={styles.addrInput} value={walletAddr} readOnly />
-        </div>
+    <div className={styles.wrapper}>
+      <div className={styles.header}>
+        <p>{i18n.type_merkle_proof}</p>
       </div>
-      <div className={styles.popoverBtnRow}>
-        <div className={styles.leftBtnGroup}>
-          <button onClick={handleCreateMerkleProof}>{i18n.create_merkle_path_label}</button>
-          <span> {prfsSet?.set_id}</span>
+      <div className={styles.row}>
+        <div>
+          <span>
+            {i18n.merkle_proof}
+            {" - "}
+          </span>
+          <span> {prfsSet?.label}</span>
         </div>
-        <div className={styles.rightBtnGroup}>
-          <button disabled>{i18n.edit_raw}</button>
-        </div>
+        <textarea className={styles.merkleProofInput} />
       </div>
+      <div className={styles.row}>
+        <fieldset className={styles.merkleWizard}>
+          <legend>
+            <p className={styles.guide}>{i18n.create_merkle_proof_guide}</p>
+          </legend>
+          <p>{i18n.wallet_address}</p>
+          <div className={styles.addrInputBox}>
+            <input
+              className={styles.addrInput}
+              value={walletAddr}
+              readOnly
+              placeholder={i18n.address_input_placeholder}
+            />
+            <button className={styles.connectBtn} onClick={handleClickConnectWallet}>
+              {i18n.connect}
+            </button>
+          </div>
+          <div className={styles.createBtnContainer}>
+            <button onClick={handleCreateMerkleProof}>{i18n.create_merkle_path_label}</button>
+          </div>
+        </fieldset>
+      </div>
+      <div className={styles.btnRow}></div>
     </div>
   );
 };
@@ -119,8 +147,6 @@ export default MerkleProofDialog;
 
 export interface MerkleProofDialogProps {
   prfsSet: PrfsSet | undefined;
-  walletAddr: string;
   circuitInput: CircuitInput;
-  // setIsOpen: React.Dispatch<React.SetStateAction<any>>;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
 }

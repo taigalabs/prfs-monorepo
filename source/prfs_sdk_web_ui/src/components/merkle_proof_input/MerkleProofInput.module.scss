@@ -6,7 +6,7 @@
 
 .dialog {
   background-color: white;
-  border-radius: 10px;
+  border-radius: 5px;
   overflow: hidden;
   max-width: 520px;
 }
@@ -42,6 +42,11 @@
   display: flex;
   position: absolute;
   right: 7px;
+
+  button {
+    cursor: pointer;
+    color: var(--aqua-blue-50);
+  }
 }
 
 .rawBtn {
