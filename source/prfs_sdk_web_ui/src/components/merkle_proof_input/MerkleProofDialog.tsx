@@ -1,4 +1,5 @@
 import React from "react";
+import JSONbig from "json-bigint";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
@@ -13,11 +14,19 @@ import { Msg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 
 const MerkleProofDialog: React.FC<MerkleProofDialogProps> = ({
   prfsSet,
+  value,
   circuitInput,
-  setFormValues,
+  handleClickSubmit,
+  // setFormValues,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [walletAddr, setWalletAddr] = React.useState("");
+  const [merkleProofValue, setMerkleProofValue] = React.useState("");
+
+  React.useEffect(() => {
+    const v = JSONbig.stringify(value, undefined, 2);
+    setMerkleProofValue(v);
+  }, [value, setMerkleProofValue]);
 
   const handleCreateMerkleProof = React.useCallback(async () => {
     if (walletAddr.length < 1) {
@@ -84,18 +93,18 @@ const MerkleProofDialog: React.FC<MerkleProofDialogProps> = ({
         pathIndices,
       };
 
-      setFormValues((prevVals: any) => {
-        return {
-          ...prevVals,
-          [circuitInput.name]: merkleProof,
-        };
-      });
+      handleClickSubmit(merkleProof);
 
-      // setIsOpen(false);
+      // setFormValues((prevVals: any) => {
+      //   return {
+      //     ...prevVals,
+      //     [circuitInput.name]: merkleProof,
+      //   };
+      // });
     } catch (err) {
       console.error(err);
     }
-  }, [circuitInput, walletAddr, prfsSet, setFormValues]);
+  }, [circuitInput, walletAddr, prfsSet, handleClickSubmit]);
 
   const handleClickConnectWallet = React.useCallback(async () => {
     const addr = await sendMsgToParent(new Msg("GET_ADDRESS", ""));
@@ -116,7 +125,7 @@ const MerkleProofDialog: React.FC<MerkleProofDialogProps> = ({
           </span>
           <span> {prfsSet?.label}</span>
         </div>
-        <textarea className={styles.merkleProofInput} />
+        <textarea className={styles.merkleProofInput} value={merkleProofValue} readOnly />
       </div>
       <div className={styles.row}>
         <fieldset className={styles.merkleWizard}>
@@ -155,5 +164,7 @@ export default MerkleProofDialog;
 export interface MerkleProofDialogProps {
   prfsSet: PrfsSet | undefined;
   circuitInput: CircuitInput;
-  setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  value: SpartanMerkleProof | undefined;
+  // setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  handleClickSubmit: (merkleProof: SpartanMerkleProof) => void;
 }

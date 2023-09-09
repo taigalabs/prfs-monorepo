@@ -3,9 +3,6 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 import { Msg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
-import WalletSelect, {
-  WalletTypeValue,
-} from "@taigalabs/prfs-react-components/src/wallet_select/WalletSelect";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 
 import styles from "./CreateProofForm.module.scss";

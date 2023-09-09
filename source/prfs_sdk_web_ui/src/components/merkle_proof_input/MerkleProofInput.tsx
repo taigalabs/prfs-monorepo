@@ -4,7 +4,6 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { Msg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import { SpartanMerkleProof } from "@taigalabs/prfs-driver-spartan-js";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import {
   useFloating,
   useDismiss,
@@ -122,6 +121,20 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
     return "";
   }, [value]);
 
+  const handleClickSubmit = React.useCallback(
+    (merkleProof: SpartanMerkleProof) => {
+      setFormValues((prevVals: any) => {
+        return {
+          ...prevVals,
+          [circuitInput.name]: merkleProof,
+        };
+      });
+
+      toggleDialog();
+    },
+    [setFormValues, toggleDialog]
+  );
+
   return (
     prfsSet && (
       <div className={styles.wrapper}>
@@ -145,8 +158,9 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
                       >
                         <MerkleProofDialog
                           prfsSet={prfsSet}
+                          value={value}
                           circuitInput={circuitInput}
-                          setFormValues={setFormValues}
+                          handleClickSubmit={handleClickSubmit}
                         />
                       </div>
                     </FloatingFocusManager>
