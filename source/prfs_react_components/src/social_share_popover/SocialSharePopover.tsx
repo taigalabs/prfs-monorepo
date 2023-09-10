@@ -12,11 +12,12 @@ import {
 import { AiFillTwitterSquare } from "@react-icons/all-files/ai/AiFillTwitterSquare";
 import { FaTelegram } from "@react-icons/all-files/fa/FaTelegram";
 import { FaDiscord } from "@react-icons/all-files/fa/FaDiscord";
+import Fade from "../fade/Fade";
 
 import styles from "./SocialSharePopover.module.scss";
 import Button from "../button/Button";
 
-function SocialSharePopover({ placement, offset, popoverClassName }: SocialSharePopoverProps) {
+function SocialSharePopover({ placement, offset }: SocialSharePopoverProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, floatingStyles, context } = useFloating({
     placement: placement ? placement : "bottom-start",
@@ -28,14 +29,6 @@ function SocialSharePopover({ placement, offset, popoverClassName }: SocialShare
   const click = useClick(context);
   const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
 
-  // const popoverElem = React.useMemo(() => {
-  //   return createPopover(setIsOpen);
-  // }, [createPopover]);
-
-  // const baseElem = React.useMemo(() => {
-  //   return createBase(isOpen);
-  // }, [createBase, isOpen]);
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.base} ref={refs.setReference} {...getReferenceProps()} role="button">
@@ -43,26 +36,27 @@ function SocialSharePopover({ placement, offset, popoverClassName }: SocialShare
       </div>
       {isOpen && (
         <div
-          className={cn(styles.popover, popoverClassName, "1")}
+          className={cn(styles.popover)}
           ref={refs.setFloating}
           style={floatingStyles}
           {...getFloatingProps()}
         >
-          <ul>
-            <li>
-              <AiFillTwitterSquare />
-              <span>Twitter</span>
-            </li>
-            <li>
-              <FaTelegram />
-              <span>Telegram</span>
-            </li>
-            <li>
-              <FaDiscord />
-              <span>Discord</span>
-            </li>
-          </ul>
-          {/* {popoverElem} */}
+          <Fade>
+            <ul className={styles.menuList}>
+              <li>
+                <AiFillTwitterSquare />
+                <span>Twitter</span>
+              </li>
+              <li>
+                <FaTelegram />
+                <span>Telegram</span>
+              </li>
+              <li>
+                <FaDiscord />
+                <span>Discord</span>
+              </li>
+            </ul>
+          </Fade>
         </div>
       )}
     </div>
@@ -72,9 +66,6 @@ function SocialSharePopover({ placement, offset, popoverClassName }: SocialShare
 export default SocialSharePopover;
 
 export interface SocialSharePopoverProps {
-  // createBase: (isOpen: boolean) => React.ReactNode;
   offset?: number;
-  // createPopover: (setIsOpen: React.Dispatch<React.SetStateAction<any>>) => React.ReactNode;
-  popoverClassName?: string;
   placement?: Placement;
 }

@@ -8,6 +8,7 @@ import { ethers } from "ethers";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import SocialSharePopover from "@taigalabs/prfs-react-components/src/social_share_popover/SocialSharePopover";
+import { FaCloudMoon } from "@react-icons/all-files/fa/FaCloudMoon";
 
 import styles from "./CreateProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -123,16 +124,21 @@ const CreateProofForm: React.FC = () => {
         <Fade>
           <div className={styles.bottomRow}>
             <div className={styles.postCreateMenu}>
-              <p className={styles.successMsg}>{i18n.prove_success_msg}</p>
-              <p>{i18n.proof_upload_guide}</p>
-              <ul>
-                <li>
-                  <Button variant="transparent_black_1">{i18n.upload}</Button>
-                </li>
-                <li>
-                  <SocialSharePopover />
-                </li>
-              </ul>
+              <div className={styles.successMsg}>
+                <FaCloudMoon />
+                <p>{i18n.prove_success_msg}</p>
+              </div>
+              <div className={styles.uploadSection}>
+                <p>{i18n.proof_upload_guide}</p>
+                <ul>
+                  <li>
+                    <Button variant="transparent_black_1">{i18n.upload.toUpperCase()}</Button>
+                  </li>
+                  <li>
+                    <SocialSharePopover />
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </Fade>

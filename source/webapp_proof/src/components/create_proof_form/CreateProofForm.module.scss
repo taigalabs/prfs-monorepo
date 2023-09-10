@@ -49,15 +49,27 @@
   padding: 11px 9px;
 }
 
-.successMsg {
-  color: var(--dark-purple-41);
-}
-
 .postCreateMenu {
-  margin-top: 20px;
+  margin-top: 14px;
 
   ul {
     display: flex;
     align-items: center;
   }
+}
+
+.successMsg {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+
+  svg {
+    font-size: 20px;
+    margin-right: 5px;
+  }
+}
+
+.uploadSection {
+  margin-top: 8px;
+  line-height: 18px;
 }
