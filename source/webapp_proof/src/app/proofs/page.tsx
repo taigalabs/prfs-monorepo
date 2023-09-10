@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { useSearchParams } from "next/navigation";
 import {
   ColumnDef,
@@ -22,78 +23,85 @@ import Masthead from "@/components/masthead/Masthead";
 import ContentArea from "@/components/content_area/ContentArea";
 
 import { fetchData, Person, PersonApiResponse } from "./makeData";
+import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
+import { GetPrfsProofInstancesResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstancesResponse";
 
 const fetchSize = 25;
 
-const ExplorerPage: React.FC = () => {
+const ProofsPage: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
 
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
-  // const [sorting, setSorting] = React.useState<SortingState>([]);
 
-  const columns = React.useMemo<ColumnDef<Person>[]>(
+  const columns = React.useMemo<ColumnDef<PrfsProofInstanceSyn1>[]>(
     () => [
       {
-        accessorKey: "id",
+        accessorFn: row => row.proof_instance_id,
         header: "ID",
-        size: 60,
       },
-      {
-        accessorKey: "firstName",
-        cell: info => info.getValue(),
-      },
-      {
-        accessorFn: row => row.lastName,
-        id: "lastName",
-        cell: info => info.getValue(),
-        header: () => <span>Last Name</span>,
-      },
-      {
-        accessorKey: "age",
-        header: () => "Age",
-        size: 50,
-      },
-      {
-        accessorKey: "visits",
-        header: () => <span>Visits</span>,
-        size: 50,
-      },
-      {
-        accessorKey: "status",
-        header: "Status",
-      },
-      {
-        accessorKey: "progress",
-        header: "Profile Progress",
-        size: 80,
-      },
-      {
-        accessorKey: "createdAt",
-        header: "Created At",
-        cell: info => info.getValue<Date>().toLocaleString(),
-      },
+      // {
+      //   accessorFn: row => row.lastName,
+      //   id: "lastName",
+      //   cell: info => info.getValue(),
+      //   header: () => <span>Last Name</span>,
+      // },
+      // {
+      //   accessorKey: "age",
+      //   header: () => "Age",
+      //   size: 50,
+      // },
+      // {
+      //   accessorKey: "visits",
+      //   header: () => <span>Visits</span>,
+      //   size: 50,
+      // },
+      // {
+      //   accessorKey: "status",
+      //   header: "Status",
+      // },
+      // {
+      //   accessorKey: "progress",
+      //   header: "Profile Progress",
+      //   size: 80,
+      // },
+      // {
+      //   accessorKey: "createdAt",
+      //   header: "Created At",
+      //   cell: info => info.getValue<Date>().toLocaleString(),
+      // },
     ],
     []
   );
 
-  const { data, fetchNextPage, isFetching, isLoading } = useInfiniteQuery<PersonApiResponse>(
-    ["table-data"],
-    async ({ pageParam = 0 }) => {
-      const start = pageParam * fetchSize;
-      const fetchedData = fetchData(start, fetchSize);
-      return fetchedData;
-    },
-    {
-      getNextPageParam: (_lastGroup, groups) => groups.length,
-      keepPreviousData: true,
-      refetchOnWindowFocus: false,
-    }
-  );
+  const { data, fetchNextPage, isFetching, isLoading } =
+    useInfiniteQuery<GetPrfsProofInstancesResponse>(
+      ["table-data"],
+      async ({ pageParam = 0 }) => {
+        const start = pageParam * fetchSize;
+        // const fetchedData = fetchData(start, fetchSize);
+        // return fetchedData;
+        const { payload } = await prfsApi2("get_prfs_proof_instances", {
+          page_idx: start,
+          page_size: fetchSize,
+        });
+        // const { prfs_proof_instances_syn1 } = payload;
+        // return prfs_proof_instances_syn1;
+        return payload;
+      },
+      {
+        getNextPageParam: (_lastGroup, groups) => groups.length,
+        keepPreviousData: true,
+        refetchOnWindowFocus: false,
+      }
+    );
 
-  //we must flatten the array of arrays from the useInfiniteQuery hook
-  const flatData = React.useMemo(() => data?.pages?.flatMap(page => page.data) ?? [], [data]);
-  const totalDBRowCount = data?.pages?.[0]?.meta?.totalRowCount ?? 0;
+  // we must flatten the array of arrays from the useInfiniteQuery hook
+  const flatData = React.useMemo(
+    () => data?.pages?.flatMap(page => page.prfs_proof_instances_syn1) ?? [],
+    [data]
+  );
+  const totalDBRowCount = data?.pages?.[0]?.table_row_count ?? 0;
   const totalFetched = flatData.length;
 
   // called on scroll and possibly on mount to fetch more data
@@ -187,7 +195,7 @@ const ExplorerPage: React.FC = () => {
                   </tr>
                 )}
                 {virtualRows.map(virtualRow => {
-                  const row = rows[virtualRow.index] as Row<Person>;
+                  const row = rows[virtualRow.index] as Row<PrfsProofInstanceSyn1>;
                   return (
                     <tr key={row.id}>
                       {row.getVisibleCells().map(cell => {
@@ -217,4 +225,4 @@ const ExplorerPage: React.FC = () => {
   );
 };
 
-export default ExplorerPage;
+export default ProofsPage;
