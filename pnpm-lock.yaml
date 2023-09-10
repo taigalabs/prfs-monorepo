@@ -661,6 +661,9 @@ importers:
       '@ethereumjs/util':
         specifier: ^8.0.3
         version: 8.1.0
+      '@faker-js/faker':
+        specifier: ^7.6.0
+        version: 7.6.0
       '@floating-ui/react':
         specifier: ^0.24.8
         version: 0.24.8(react-dom@18.2.0)(react@18.2.0)
@@ -697,6 +700,9 @@ importers:
       '@taigalabs/prfs-sdk-web':
         specifier: '*'
         version: link:../prfs_sdk_web
+      '@tanstack/react-query':
+        specifier: ^4.35.0
+        version: 4.35.0(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-table':
         specifier: ^8.9.3
         version: 8.9.3(react-dom@18.2.0)(react@18.2.0)
@@ -3526,6 +3532,11 @@ packages:
       '@ethersproject/properties': 5.7.0
       '@ethersproject/strings': 5.7.0
 
+  /@faker-js/faker@7.6.0:
+    resolution: {integrity: sha512-XK6BTq1NDMo9Xqw/YkYyGjSsg44fbNwYRx7QK2CuoQgyy+f1rrTDHoExVM5PsyXCtfl2vs2vVJ0MN0yN6LppRw==}
+    engines: {node: '>=14.0.0', npm: '>=6.0.0'}
+    dev: false
+
   /@floating-ui/core@1.3.1:
     resolution: {integrity: sha512-Bu+AMaXNjrpjh41znzHqaz3r2Nr8hHuHZT6V2LBKMhyMl0FgKA62PNYbqnfgmzOhoWZj70Zecisbo4H1rotP5g==}
     dev: false
@@ -6204,12 +6215,12 @@ packages:
     resolution: {integrity: sha512-w1oNvrnqFipoBEy2/0X4/IHo2aLsijuz4QRi/HizxqiaoMfmWG5X2DpEYTw9WnGvFmixpu/rtQsQAr7Wr0Mc2w==}
     dev: false
 
-  /@tanstack/query-core@4.29.23:
-    resolution: {integrity: sha512-4BMHPrkfYmLP+NvqbbkV7Mk1nnphu+bNmxhhuB0+EMjKA7VfyFCfiyiTf55RRDgLaevyb9LrFK16lHW2owF52w==}
+  /@tanstack/query-core@4.35.0:
+    resolution: {integrity: sha512-4GMcKQuLZQi6RFBiBZNsLhl+hQGYScRZ5ZoVq8QAzfqz9M7vcGin/2YdSESwl7WaV+Qzsb5CZOAbMBes4lNTnA==}
     dev: false
 
-  /@tanstack/react-query@4.29.23(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-u59dPBJHeyeRDSrHN3M8FT65yZDT0uPlaFDFd4K2wmDreHguRlk9t578X+cp1Cj+4oksQCE+wv09A5ZH7Odx6g==}
+  /@tanstack/react-query@4.35.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-LLYDNnM9ewYHgjm2rzhk4KG/puN2rdoqCUD+N9+V7SwlsYwJk5ypX58rpkoZAhFyZ+KmFUJ7Iv2lIEOoUqydIg==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -6220,7 +6231,7 @@ packages:
       react-native:
         optional: true
     dependencies:
-      '@tanstack/query-core': 4.29.23
+      '@tanstack/query-core': 4.35.0
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       use-sync-external-store: 1.2.0(react@18.2.0)
@@ -6277,7 +6288,7 @@ packages:
       '@solana/web3.js':
         optional: true
     dependencies:
-      '@tanstack/react-query': 4.29.23(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/react-query': 4.35.0(react-dom@18.2.0)(react@18.2.0)
       '@thirdweb-dev/chains': 0.1.34
       '@thirdweb-dev/generated-abis': 0.0.1
       '@thirdweb-dev/sdk': 3.10.35(ethers@5.7.2)(typescript@5.1.6)
@@ -6350,7 +6361,7 @@ packages:
       '@radix-ui/react-tabs': 1.0.4(@types/react-dom@18.2.5)(@types/react@18.2.12)(react-dom@18.2.0)(react@18.2.0)
       '@radix-ui/react-tooltip': 1.0.6(@types/react-dom@18.2.5)(@types/react@18.2.12)(react-dom@18.2.0)(react@18.2.0)
       '@react-icons/all-files': 4.1.0(react@18.2.0)
-      '@tanstack/react-query': 4.29.23(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/react-query': 4.35.0(react-dom@18.2.0)(react@18.2.0)
       '@thirdweb-dev/chains': 0.1.34
       '@thirdweb-dev/react-core': 3.14.15(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(ethers@5.7.2)(localforage@1.10.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
       '@thirdweb-dev/sdk': 3.10.35(ethers@5.7.2)(typescript@5.1.6)
