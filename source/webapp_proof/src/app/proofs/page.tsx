@@ -9,7 +9,6 @@ import {
   getCoreRowModel,
   getSortedRowModel,
   Row,
-  SortingState,
   useReactTable,
 } from "@tanstack/react-table";
 import { QueryClient, QueryClientProvider, useInfiniteQuery } from "@tanstack/react-query";
@@ -30,12 +29,8 @@ const ExplorerPage: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
 
-  const rerender = React.useReducer(() => ({}), {})[1];
-
-  //we need a reference to the scrolling element for logic down below
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
-
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  // const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const columns = React.useMemo<ColumnDef<Person>[]>(
     () => [
@@ -82,12 +77,11 @@ const ExplorerPage: React.FC = () => {
     []
   );
 
-  //react-query has an useInfiniteQuery hook just for this situation!
   const { data, fetchNextPage, isFetching, isLoading } = useInfiniteQuery<PersonApiResponse>(
-    ["table-data", sorting], //adding sorting state as key causes table to reset and fetch from new beginning upon sort
+    ["table-data"],
     async ({ pageParam = 0 }) => {
       const start = pageParam * fetchSize;
-      const fetchedData = fetchData(start, fetchSize, sorting); //pretend api call
+      const fetchedData = fetchData(start, fetchSize);
       return fetchedData;
     },
     {
@@ -102,12 +96,14 @@ const ExplorerPage: React.FC = () => {
   const totalDBRowCount = data?.pages?.[0]?.meta?.totalRowCount ?? 0;
   const totalFetched = flatData.length;
 
-  //called on scroll and possibly on mount to fetch more data as the user scrolls and reaches bottom of table
+  // called on scroll and possibly on mount to fetch more data
+  // as the user scrolls and reaches bottom of table
   const fetchMoreOnBottomReached = React.useCallback(
     (containerRefElement?: HTMLDivElement | null) => {
       if (containerRefElement) {
         const { scrollHeight, scrollTop, clientHeight } = containerRefElement;
-        //once the user has scrolled within 300px of the bottom of the table, fetch more data if there is any
+        // once the user has scrolled within 300px of the bottom of the table,
+        // fetch more data if there is any
         if (
           scrollHeight - scrollTop - clientHeight < 300 &&
           !isFetching &&
@@ -120,7 +116,8 @@ const ExplorerPage: React.FC = () => {
     [fetchNextPage, isFetching, totalFetched, totalDBRowCount]
   );
 
-  //a check on mount and after a fetch to see if the table is already scrolled to the bottom and immediately needs to fetch more data
+  // a check on mount and after a fetch to see if the table is already
+  // scrolled to the bottom and immediately needs to fetch more data
   React.useEffect(() => {
     fetchMoreOnBottomReached(tableContainerRef.current);
   }, [fetchMoreOnBottomReached]);
@@ -128,10 +125,7 @@ const ExplorerPage: React.FC = () => {
   const table = useReactTable({
     data: flatData,
     columns,
-    state: {
-      sorting,
-    },
-    onSortingChange: setSorting,
+    state: {},
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     debugTable: true,
@@ -139,7 +133,6 @@ const ExplorerPage: React.FC = () => {
 
   const { rows } = table.getRowModel();
 
-  //Virtualizing is optional, but might be necessary if we are going to potentially have hundreds or thousands of rows
   const rowVirtualizer = useVirtual({
     parentRef: tableContainerRef,
     size: rows.length,
@@ -155,81 +148,72 @@ const ExplorerPage: React.FC = () => {
   }
 
   return (
-    <div className={styles.wrapper}>
-      <div className="h-2" />
-      <div
-        className={styles.container}
-        onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
-        ref={tableContainerRef}
-      >
-        <table>
-          <thead>
-            {table.getHeaderGroups().map(headerGroup => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map(header => {
-                  return (
-                    <th
-                      key={header.id}
-                      colSpan={header.colSpan}
-                      style={{ width: header.getSize() }}
-                    >
-                      {header.isPlaceholder ? null : (
-                        <div
-                          {...{
-                            className: header.column.getCanSort()
-                              ? "cursor-pointer select-none"
-                              : "",
-                            onClick: header.column.getToggleSortingHandler(),
-                          }}
+    <DefaultLayout>
+      <Masthead />
+      <ContentArea>
+        <div className={styles.wrapper}>
+          <div className="h-2" />
+          <div
+            className={styles.container}
+            onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
+            ref={tableContainerRef}
+          >
+            <table>
+              <thead>
+                {table.getHeaderGroups().map(headerGroup => (
+                  <tr key={headerGroup.id}>
+                    {headerGroup.headers.map(header => {
+                      return (
+                        <th
+                          key={header.id}
+                          colSpan={header.colSpan}
+                          style={{ width: header.getSize() }}
                         >
-                          {flexRender(header.column.columnDef.header, header.getContext())}
-                          {{
-                            asc: " 🔼",
-                            desc: " 🔽",
-                          }[header.column.getIsSorted() as string] ?? null}
-                        </div>
-                      )}
-                    </th>
+                          {header.isPlaceholder ? null : (
+                            <div>
+                              {flexRender(header.column.columnDef.header, header.getContext())}
+                            </div>
+                          )}
+                        </th>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </thead>
+              <tbody>
+                {paddingTop > 0 && (
+                  <tr>
+                    <td style={{ height: `${paddingTop}px` }} />
+                  </tr>
+                )}
+                {virtualRows.map(virtualRow => {
+                  const row = rows[virtualRow.index] as Row<Person>;
+                  return (
+                    <tr key={row.id}>
+                      {row.getVisibleCells().map(cell => {
+                        return (
+                          <td key={cell.id}>
+                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                          </td>
+                        );
+                      })}
+                    </tr>
                   );
                 })}
-              </tr>
-            ))}
-          </thead>
-          <tbody>
-            {paddingTop > 0 && (
-              <tr>
-                <td style={{ height: `${paddingTop}px` }} />
-              </tr>
-            )}
-            {virtualRows.map(virtualRow => {
-              const row = rows[virtualRow.index] as Row<Person>;
-              return (
-                <tr key={row.id}>
-                  {row.getVisibleCells().map(cell => {
-                    return (
-                      <td key={cell.id}>
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-            {paddingBottom > 0 && (
-              <tr>
-                <td style={{ height: `${paddingBottom}px` }} />
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-      <div>
-        Fetched {flatData.length} of {totalDBRowCount} Rows.
-      </div>
-      <div>
-        <button onClick={() => rerender()}>Force Rerender</button>
-      </div>
-    </div>
+                {paddingBottom > 0 && (
+                  <tr>
+                    <td style={{ height: `${paddingBottom}px` }} />
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+          <div>
+            Fetched {flatData.length} of {totalDBRowCount} Rows.
+          </div>
+        </div>
+      </ContentArea>
+    </DefaultLayout>
   );
 };
 

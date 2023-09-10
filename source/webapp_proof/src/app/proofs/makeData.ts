@@ -58,20 +58,20 @@ const data = makeData(1000);
 console.log(55, data);
 
 //simulates a backend api
-export const fetchData = (start: number, size: number, sorting: SortingState) => {
+export const fetchData = (start: number, size: number) => {
   console.log("fetch", start, size);
 
   const dbData = [...data];
-  if (sorting.length) {
-    const sort = sorting[0] as ColumnSort;
-    const { id, desc } = sort as { id: keyof Person; desc: boolean };
-    dbData.sort((a, b) => {
-      if (desc) {
-        return a[id] < b[id] ? 1 : -1;
-      }
-      return a[id] > b[id] ? 1 : -1;
-    });
-  }
+  // if (sorting.length) {
+  //   const sort = sorting[0] as ColumnSort;
+  //   const { id, desc } = sort as { id: keyof Person; desc: boolean };
+  //   dbData.sort((a, b) => {
+  //     if (desc) {
+  //       return a[id] < b[id] ? 1 : -1;
+  //     }
+  //     return a[id] > b[id] ? 1 : -1;
+  //   });
+  // }
 
   return {
     data: dbData.slice(start, start + size),
