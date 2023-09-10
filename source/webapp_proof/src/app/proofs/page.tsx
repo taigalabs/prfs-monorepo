@@ -14,11 +14,6 @@ import ContentArea from "@/components/content_area/ContentArea";
 const ExplorerPage: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
-  // const searchParams = useSearchParams();
-
-  // React.useEffect(() => {
-  //   const proofInstanceId = searchParams.get("proofInstanceId");
-  // }, [searchParams]);
 
   return (
     <DefaultLayout>

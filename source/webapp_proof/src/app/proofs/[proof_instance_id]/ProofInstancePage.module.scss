@@ -1,53 +1,5 @@
-.navigation {
+.container {
   display: flex;
-  align-items: center;
-
-  a {
-    margin-right: 5px;
-  }
-}
-
-.singleColRow {
-  display: flex;
-  padding: 40px 30px 0;
-
-  &:first-child {
-    display: flex;
-    padding: 20px 30px 0;
-  }
-}
-
-.expression {
-  margin-left: 23px;
-}
-
-.tableContainer {
-  width: 100%;
-
-  .title {
-    font-weight: 500;
-    font-size: 1.3em;
-    margin-bottom: 5px;
-  }
-}
-
-.social {
-  line-height: 16px;
-  padding: 8px 12px;
-  color: var(--gray-30);
-
-  li {
-    display: flex;
-    align-items: center;
-  }
-
-  li:not(:first-child) {
-    margin-top: 8px;
-  }
-
-  svg {
-    color: var(--gray-20);
-    font-size: 16px;
-    margin-right: 4px;
-  }
+  justify-content: center;
+  padding: 82px 0;
 }
