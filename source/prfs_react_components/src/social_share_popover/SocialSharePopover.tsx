@@ -31,17 +31,22 @@ function SocialSharePopover({ placement, offset }: SocialSharePopoverProps) {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.base} ref={refs.setReference} {...getReferenceProps()} role="button">
+      <div
+        className={cn({ [styles.base]: true, [styles.isOpen]: isOpen })}
+        ref={refs.setReference}
+        {...getReferenceProps()}
+        role="button"
+      >
         <Button variant="transparent_black_1">SHARE</Button>
       </div>
       {isOpen && (
-        <div
-          className={cn(styles.popover)}
-          ref={refs.setFloating}
-          style={floatingStyles}
-          {...getFloatingProps()}
-        >
-          <Fade>
+        <Fade>
+          <div
+            className={cn(styles.popover)}
+            ref={refs.setFloating}
+            style={floatingStyles}
+            {...getFloatingProps()}
+          >
             <ul className={styles.menuList}>
               <li>
                 <AiFillTwitterSquare />
@@ -56,8 +61,8 @@ function SocialSharePopover({ placement, offset }: SocialSharePopoverProps) {
                 <span>Discord</span>
               </li>
             </ul>
-          </Fade>
-        </div>
+          </div>
+        </Fade>
       )}
     </div>
   );

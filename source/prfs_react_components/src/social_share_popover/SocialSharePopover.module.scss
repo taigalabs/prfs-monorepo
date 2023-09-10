@@ -4,6 +4,12 @@
   overflow: hidden;
 }
 
+.isOpen {
+  button {
+    background-color: var(--bright-gray-50);
+  }
+}
+
 .menuList {
   display: flex;
   flex-direction: column;

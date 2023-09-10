@@ -9,11 +9,13 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import SocialSharePopover from "@taigalabs/prfs-react-components/src/social_share_popover/SocialSharePopover";
 import { FaCloudMoon } from "@react-icons/all-files/fa/FaCloudMoon";
+import { useRouter } from "next/navigation";
 
 import styles from "./CreateProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import SelectProofTypeDialog from "@/components/select_proof_type_dialog/SelectProofTypeDialog";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
+import { paths } from "@/paths";
 
 const prfs = new PrfsSDK("test");
 
@@ -22,6 +24,7 @@ const CreateProofForm: React.FC = () => {
   const [selectedProofTypeItem, setSelectedProofTypeItem] = React.useState<ProofTypeItem>();
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt>();
+  const router = useRouter();
 
   const handleSelectProofType = React.useCallback(
     (proofTypeItem: ProofTypeItem) => {
@@ -69,31 +72,36 @@ const CreateProofForm: React.FC = () => {
 
     if (proveReceipt) {
       setProveReceipt(proveReceipt);
-      // const { duration, proveResult } = proveReceipt;
-      // const { proof, publicInputSer } = proveResult;
-      // const public_inputs = JSON.parse(publicInputSer);
-
-      // console.log("took %s ms to create a proof", duration);
-
-      // const proof_instance_id = uuidv4();
-
-      // console.log("try inserting proof", proveReceipt);
-      // try {
-      //   const { payload } = await prfsApi2("create_prfs_proof_instance", {
-      //     proof_instance_id,
-      //     account_id: null,
-      //     proof_type_id: selectedProofTypeItem.proofTypeId,
-      //     proof: Array.from(proof),
-      //     public_inputs,
-      //   });
-
-      //   // router.push(`${paths.proof_instances}/${payload.proof_instance_id}`);
-      // } catch (err: any) {
-      //   console.error(err);
-      //   return;
-      // }
     }
   }, [selectedProofTypeItem, proofGenElement, setProveReceipt]);
+
+  const handleClickUpload = React.useCallback(async () => {
+    if (proveReceipt && selectedProofTypeItem) {
+      const { duration, proveResult } = proveReceipt;
+      const { proof, publicInputSer } = proveResult;
+      const public_inputs = JSON.parse(publicInputSer);
+
+      console.log("took %s ms to create a proof", duration);
+
+      const proof_instance_id = uuidv4();
+
+      console.log("try inserting proof", proveReceipt);
+      try {
+        const { payload } = await prfsApi2("create_prfs_proof_instance", {
+          proof_instance_id,
+          account_id: null,
+          proof_type_id: selectedProofTypeItem.proofTypeId,
+          proof: Array.from(proof),
+          public_inputs,
+        });
+
+        router.push(`${paths.explorer}?proofInstanceId=${payload.proof_instance_id}`);
+      } catch (err: any) {
+        console.error(err);
+        return;
+      }
+    }
+  }, [proveReceipt]);
 
   return (
     <div className={styles.wrapper}>
@@ -130,12 +138,16 @@ const CreateProofForm: React.FC = () => {
               </div>
               <div className={styles.uploadSection}>
                 <p>{i18n.proof_upload_guide}</p>
-                <ul>
+                <ul className={styles.btnGroup}>
                   <li>
-                    <Button variant="transparent_black_1">{i18n.upload.toUpperCase()}</Button>
+                    <Button variant="transparent_black_1" handleClick={handleClickUpload}>
+                      {i18n.upload_and_view_proof.toUpperCase()}
+                    </Button>
                   </li>
                   <li>
-                    <SocialSharePopover />
+                    <Button variant="transparent_black_1" handleClick={handleClickUpload} disabled>
+                      {i18n.just_view_proof.toUpperCase()}
+                    </Button>
                   </li>
                 </ul>
               </div>
