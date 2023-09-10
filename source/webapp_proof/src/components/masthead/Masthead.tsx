@@ -47,7 +47,7 @@ const Masthead: React.FC = () => {
           <li>
             <Link href={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}>{i18n.console}</Link>
           </li>
-          <li>account</li>
+          <li>{i18n.account}</li>
         </ul>
       </div>
     </div>

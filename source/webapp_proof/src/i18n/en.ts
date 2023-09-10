@@ -184,6 +184,7 @@ export default {
   hash: "Hash",
   hash_and_sign_in: "Hash & Sign in",
   create_new_prfs_account: "Create a new Prfs account",
+  account: "Account",
   passcode: "Passcode",
   passcode_confirm: "Confirm passcode",
   passhash: "Passhash",
