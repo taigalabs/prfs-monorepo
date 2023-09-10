@@ -19,8 +19,9 @@ import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/Con
 import PublicInputTable from "@/components/public_input_table/PublicInputTable";
 import { SpacedBetweenArea } from "@/components/area/Area";
 import ProofView from "@/components/proof_view/ProofView";
-import ProofBanner from "@/components/proof_banner/ProofBanner";
+import ProofBanner from "@taigalabs/prfs-react-components/src/proof_banner/ProofBanner";
 import { useAppDispatch } from "@/state/hooks";
+import { envs } from "@/envs";
 
 const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   let i18n = React.useContext(i18nContext);
@@ -68,7 +69,10 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
 
         <ContentAreaRow>
           <div className={styles.singleColRow}>
-            <ProofBanner proofInstance={proofInstance} />
+            <ProofBanner
+              proofInstance={proofInstance}
+              webappConsoleEndpoint={envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
+            />
           </div>
 
           <div className={styles.singleColRow}>

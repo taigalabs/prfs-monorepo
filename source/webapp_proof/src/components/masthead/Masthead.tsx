@@ -30,10 +30,12 @@ const Masthead: React.FC = () => {
         </div>
         <ul>
           <li>
-            <ActiveLink href={paths.generate}>{i18n.generate}</ActiveLink>
+            <ActiveLink href={paths.generate} exact>
+              {i18n.generate}
+            </ActiveLink>
           </li>
           <li>
-            <ActiveLink href={paths.explorer}>{i18n.explorer}</ActiveLink>
+            <ActiveLink href={paths.proofs}>{i18n.proofs}</ActiveLink>
           </li>
         </ul>
       </div>

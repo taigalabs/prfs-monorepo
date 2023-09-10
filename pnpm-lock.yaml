@@ -351,6 +351,9 @@ importers:
       '@tabler/icons-react':
         specifier: ^2.32.0
         version: 2.32.0(react@18.2.0)
+      '@taigalabs/prfs-entities':
+        specifier: '*'
+        version: link:../prfs_entities
       '@tanstack/react-table':
         specifier: ^8.9.3
         version: 8.9.3(react-dom@18.2.0)(react@18.2.0)
@@ -360,6 +363,9 @@ importers:
       next:
         specifier: 13.4.19
         version: 13.4.19(react-dom@18.2.0)(react@18.2.0)(sass@1.63.6)
+      qrcode:
+        specifier: ^1.5.3
+        version: 1.5.3
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -367,6 +373,9 @@ importers:
       '@types/node':
         specifier: 20.3.1
         version: 20.3.1
+      '@types/qrcode':
+        specifier: ^1.5.1
+        version: 1.5.1
       '@types/react':
         specifier: 18.2.12
         version: 18.2.12

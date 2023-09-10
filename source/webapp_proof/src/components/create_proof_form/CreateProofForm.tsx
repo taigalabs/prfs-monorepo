@@ -95,7 +95,7 @@ const CreateProofForm: React.FC = () => {
           public_inputs,
         });
 
-        router.push(`${paths.explorer}?proofInstanceId=${payload.proof_instance_id}`);
+        router.push(`${paths.proofs}/${payload.proof_instance_id}`);
       } catch (err: any) {
         console.error(err);
         return;

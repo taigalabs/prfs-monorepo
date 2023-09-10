@@ -2,18 +2,18 @@ import React from "react";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
 import { AiOutlineQrcode } from "@react-icons/all-files/ai/AiOutlineQrcode";
-import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
+import Popover from "../popover/Popover";
 
+import CaptionedImg from "../captioned_img/CaptionedImg";
 import styles from "./ProofBanner.module.scss";
 import ProofInstanceQRCode from "../proof_instance_qrcode/ProofInstanceQRCode";
-import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
-import { envs } from "@/envs";
+// import { envs } from "@/envs";
 
-const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance }) => {
+const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance, webappConsoleEndpoint }) => {
   const { prioritizedValues, url } = React.useMemo(() => {
     const { public_inputs_meta, public_inputs, short_id } = proofInstance;
 
-    const url = `${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/p/${short_id}`;
+    const url = `${webappConsoleEndpoint}/p/${short_id}`;
 
     let accessors = [];
     let values = [];
@@ -67,4 +67,5 @@ export default ProofBanner;
 
 export interface ProofBannerProps {
   proofInstance: PrfsProofInstanceSyn1;
+  webappConsoleEndpoint: string;
 }
