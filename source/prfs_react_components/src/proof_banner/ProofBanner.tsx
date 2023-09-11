@@ -6,14 +6,17 @@ import Popover from "../popover/Popover";
 
 import CaptionedImg from "../captioned_img/CaptionedImg";
 import styles from "./ProofBanner.module.scss";
-import ProofInstanceQRCode from "../proof_instance_qrcode/ProofInstanceQRCode";
-// import { envs } from "@/envs";
+import QRCodeView from "../qrcode_view/QRCodeView";
+
+const QRDialog = () => {
+  return <div>33</div>;
+};
 
 const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance, webappConsoleEndpoint }) => {
-  const { prioritizedValues, url } = React.useMemo(() => {
+  const { prioritizedValues, shortUrl } = React.useMemo(() => {
     const { public_inputs_meta, public_inputs, short_id } = proofInstance;
 
-    const url = `${webappConsoleEndpoint}/p/${short_id}`;
+    const shortUrl = `${webappConsoleEndpoint}/p/${short_id}`;
 
     let accessors = [];
     let values = [];
@@ -29,7 +32,7 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance, webappConsoleE
       }
     }
 
-    return { prioritizedValues: values, url };
+    return { prioritizedValues: values, shortUrl };
   }, [proofInstance]);
 
   const createBase = React.useCallback((_: boolean) => {
@@ -38,9 +41,9 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance, webappConsoleE
 
   const createPopover = React.useCallback(
     (_: React.Dispatch<React.SetStateAction<any>>) => {
-      return <ProofInstanceQRCode proofInstance={proofInstance} />;
+      return <QRCodeView data={shortUrl} />;
     },
-    [proofInstance]
+    [shortUrl]
   );
 
   return (
@@ -53,7 +56,7 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance, webappConsoleE
         <div className={styles.prioritizedValues}>{prioritizedValues.join(",")}</div>
         <div className={styles.bottom}>
           <div>By {proofInstance.proof_label}</div>
-          <div className={styles.url}>{url}</div>
+          <div className={styles.url}>{shortUrl}</div>
         </div>
       </div>
       <div className={styles.menu}>

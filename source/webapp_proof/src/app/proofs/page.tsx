@@ -12,7 +12,7 @@ import {
   Row,
   useReactTable,
 } from "@tanstack/react-table";
-import { QueryClient, QueryClientProvider, useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtual } from "react-virtual";
 
 import styles from "./ProofsPage.module.scss";
