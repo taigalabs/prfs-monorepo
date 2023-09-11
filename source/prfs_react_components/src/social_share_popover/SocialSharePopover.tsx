@@ -12,8 +12,9 @@ import {
 import { AiFillTwitterSquare } from "@react-icons/all-files/ai/AiFillTwitterSquare";
 import { FaTelegram } from "@react-icons/all-files/fa/FaTelegram";
 import { FaDiscord } from "@react-icons/all-files/fa/FaDiscord";
-import Fade from "../fade/Fade";
+import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
 
+import Fade from "../fade/Fade";
 import styles from "./SocialSharePopover.module.scss";
 import Button from "../button/Button";
 
@@ -37,7 +38,10 @@ function SocialSharePopover({ placement, offset }: SocialSharePopoverProps) {
         {...getReferenceProps()}
         role="button"
       >
-        <Button variant="transparent_black_1">SHARE</Button>
+        <Button variant="transparent_aqua_blue_1">
+          <span>{"share".toUpperCase()}</span>
+          <IoMdArrowDropdown />
+        </Button>
       </div>
       {isOpen && (
         <Fade>

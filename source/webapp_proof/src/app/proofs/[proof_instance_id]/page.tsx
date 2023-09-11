@@ -3,7 +3,9 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import ProofBanner from "@taigalabs/prfs-react-components/src/proof_banner/ProofBanner";
@@ -57,7 +59,11 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
                   </Link>
                   <p className={styles.headerLabel}>{headerLabel}</p>
                 </div>
-                <div className={styles.row}>
+                <div className={styles.buttonRow}>
+                  <Button variant="transparent_aqua_blue_1">
+                    <AiOutlineCopy />
+                    <span>{i18n.copy_url.toUpperCase()}</span>
+                  </Button>
                   <SocialSharePopover />
                 </div>
               </div>
