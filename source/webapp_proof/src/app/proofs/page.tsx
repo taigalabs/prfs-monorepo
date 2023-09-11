@@ -40,6 +40,10 @@ const ProofsPage: React.FC = () => {
         accessorFn: row => row.proof_instance_id,
         header: "ID",
       },
+      {
+        accessorFn: row => row.proof_label,
+        header: "Label",
+      },
       // {
       //   accessorFn: row => row.lastName,
       //   id: "lastName",
@@ -65,11 +69,11 @@ const ProofsPage: React.FC = () => {
       //   header: "Profile Progress",
       //   size: 80,
       // },
-      // {
-      //   accessorKey: "createdAt",
-      //   header: "Created At",
-      //   cell: info => info.getValue<Date>().toLocaleString(),
-      // },
+      {
+        accessorFn: row => row.created_at,
+        header: "Created At",
+        cell: info => info.getValue(),
+      },
     ],
     []
   );
@@ -136,7 +140,7 @@ const ProofsPage: React.FC = () => {
     state: {},
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    debugTable: true,
+    // debugTable: true,
   });
 
   const { rows } = table.getRowModel();
@@ -160,64 +164,37 @@ const ProofsPage: React.FC = () => {
       <Masthead />
       <ContentArea>
         <div className={styles.wrapper}>
-          <div className="h-2" />
           <div
-            className={styles.container}
+            className={styles.feedContainer}
             onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
             ref={tableContainerRef}
           >
-            <table>
-              <thead>
-                {table.getHeaderGroups().map(headerGroup => (
-                  <tr key={headerGroup.id}>
-                    {headerGroup.headers.map(header => {
+            <div>
+              {paddingTop > 0 && (
+                <div>
+                  <div style={{ height: `${paddingTop}px` }} />
+                </div>
+              )}
+              {virtualRows.map(virtualRow => {
+                const row = rows[virtualRow.index] as Row<PrfsProofInstanceSyn1>;
+                return (
+                  <div key={row.id} className={styles.row}>
+                    {row.getVisibleCells().map(cell => {
                       return (
-                        <th
-                          key={header.id}
-                          colSpan={header.colSpan}
-                          style={{ width: header.getSize() }}
-                        >
-                          {header.isPlaceholder ? null : (
-                            <div>
-                              {flexRender(header.column.columnDef.header, header.getContext())}
-                            </div>
-                          )}
-                        </th>
+                        <div key={cell.id}>
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </div>
                       );
                     })}
-                  </tr>
-                ))}
-              </thead>
-              <tbody>
-                {paddingTop > 0 && (
-                  <tr>
-                    <td style={{ height: `${paddingTop}px` }} />
-                  </tr>
-                )}
-                {virtualRows.map(virtualRow => {
-                  const row = rows[virtualRow.index] as Row<PrfsProofInstanceSyn1>;
-                  return (
-                    <tr key={row.id}>
-                      {row.getVisibleCells().map(cell => {
-                        return (
-                          <td key={cell.id}>
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  );
-                })}
-                {paddingBottom > 0 && (
-                  <tr>
-                    <td style={{ height: `${paddingBottom}px` }} />
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-          <div>
-            Fetched {flatData.length} of {totalDBRowCount} Rows.
+                  </div>
+                );
+              })}
+              {paddingBottom > 0 && (
+                <div>
+                  <div style={{ height: `${paddingBottom}px` }} />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </ContentArea>
