@@ -65,9 +65,11 @@ const QRDialog: React.FC<QRDialogProps> = ({ data }) => {
                 >
                   <div className={styles.QRContainer}>
                     <div className={styles.btnRow}>
-                      <AiOutlineClose />
+                      <button onClick={() => {}}>
+                        <AiOutlineClose />
+                      </button>
                     </div>
-                    <QRCodeView data={data} />
+                    <QRCodeView data={data} size={150} />
                   </div>
                 </div>
               </FloatingFocusManager>
