@@ -1,5 +1,17 @@
 .container {
   display: flex;
   justify-content: center;
-  padding: 82px 0;
+  padding: 62px 0;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  align-items: center;
+}
+
+.proofDetailContainer {
+  margin-top: 22px;
+  border: 1px solid black;
 }

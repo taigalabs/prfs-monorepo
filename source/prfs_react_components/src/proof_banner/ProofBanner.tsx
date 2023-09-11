@@ -1,12 +1,9 @@
 import React from "react";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
-import { AiOutlineQrcode } from "@react-icons/all-files/ai/AiOutlineQrcode";
-import Popover from "../popover/Popover";
 
 import CaptionedImg from "../captioned_img/CaptionedImg";
 import styles from "./ProofBanner.module.scss";
-// import QRCodeView from "../qrcode_view/QRCodeView";
 import QRDialog from "./QRDialog";
 
 const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance, webappConsoleEndpoint }) => {

@@ -44,13 +44,15 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
       <ContentArea>
         <div className={styles.container}>
           {proofInstance ? (
-            <>
+            <div className={styles.inner}>
               <ProofBanner
                 proofInstance={proofInstance}
                 webappConsoleEndpoint={envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
               />
-              <ProofDetailView proofInstance={proofInstance} />
-            </>
+              <div className={styles.proofDetailContainer}>
+                <ProofDetailView proofInstance={proofInstance} />
+              </div>
+            </div>
           ) : (
             <div>Loading...</div>
           )}

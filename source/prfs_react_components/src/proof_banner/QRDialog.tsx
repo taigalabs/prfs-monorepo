@@ -22,7 +22,6 @@ import Button from "../button/Button";
 
 const QRDialog: React.FC<QRDialogProps> = ({ data }) => {
   const [isOpen, setIsOpen] = React.useState(false);
-  // const [selectedProofTypeItem, setSelectedProofTypeItem] = React.useState<ProofTypeItem>();
 
   const { refs, context } = useFloating({
     open: isOpen,
