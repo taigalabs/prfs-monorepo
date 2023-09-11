@@ -14,8 +14,10 @@ import { useRouter } from "next/navigation";
 import styles from "./CreateProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import SelectProofTypeDialog from "@/components/select_proof_type_dialog/SelectProofTypeDialog";
+import T from "@/components/select_proof_type_dialog/T";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 import { paths } from "@/paths";
+import QRDialog from "@taigalabs/prfs-react-components/src/proof_banner/QRDialog";
 
 const prfs = new PrfsSDK("test");
 
@@ -115,6 +117,8 @@ const CreateProofForm: React.FC = () => {
           <p>{i18n.you_would_like_to_prove}</p>
           <div className={styles.select}>
             <SelectProofTypeDialog handleSelectProofType={handleSelectProofType} />
+            {/* <T handleSelectProofType={() => {}} /> */}
+            {/* <QRDialog data="power" /> */}
           </div>
         </div>
         {selectedProofTypeItem && (

@@ -18,6 +18,7 @@ import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 
 import styles from "./QRDialog.module.scss";
 import QRCodeView from "../qrcode_view/QRCodeView";
+import Button from "../button/Button";
 
 const QRDialog: React.FC<QRDialogProps> = ({ data }) => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -37,16 +38,18 @@ const QRDialog: React.FC<QRDialogProps> = ({ data }) => {
   const headingId = useId();
   const descriptionId = useId();
 
-  const extendedProofTypeClickHandler = React.useCallback(() => {
-    setIsOpen(false);
-    // setSelectedProofTypeItem(proofTypeItem);
-    // handleSelectProofType(proofTypeItem);
-  }, [setIsOpen]);
+  // const extendedProofTypeClickHandler = React.useCallback(() => {
+  //   setIsOpen(false);
+  //   // setSelectedProofTypeItem(proofTypeItem);
+  //   // handleSelectProofType(proofTypeItem);
+  // }, [setIsOpen]);
 
   return (
     <div className={styles.wrapper}>
       <div ref={refs.setReference} {...getReferenceProps()}>
-        <AiOutlineQrcode />
+        <button>
+          <AiOutlineQrcode />
+        </button>
       </div>
       <FloatingPortal>
         {isOpen && (
@@ -60,7 +63,10 @@ const QRDialog: React.FC<QRDialogProps> = ({ data }) => {
                   aria-describedby={descriptionId}
                   {...getFloatingProps()}
                 >
-                  <div>
+                  <div className={styles.QRContainer}>
+                    <div className={styles.btnRow}>
+                      <AiOutlineClose />
+                    </div>
                     <QRCodeView data={data} />
                   </div>
                 </div>

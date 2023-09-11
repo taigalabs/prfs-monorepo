@@ -14,6 +14,8 @@ import {
 } from "@tanstack/react-table";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtual } from "react-virtual";
+import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
+import { GetPrfsProofInstancesResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstancesResponse";
 
 import styles from "./ProofsPage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -21,10 +23,6 @@ import { paths } from "@/paths";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import Masthead from "@/components/masthead/Masthead";
 import ContentArea from "@/components/content_area/ContentArea";
-
-import { fetchData, Person, PersonApiResponse } from "./makeData";
-import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
-import { GetPrfsProofInstancesResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstancesResponse";
 
 const fetchSize = 25;
 
