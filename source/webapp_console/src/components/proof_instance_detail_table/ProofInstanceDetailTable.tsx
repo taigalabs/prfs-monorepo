@@ -11,11 +11,13 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import Table2, { RecordData, Table2Body } from "@taigalabs/prfs-react-components/src/table2/Table2";
+import Link from "next/link";
 
 import styles from "./ProofInstanceDetailTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
 import { envs } from "@/envs";
+import { paths } from "@/paths";
 
 const columnHelper = createColumnHelper<RecordData>();
 
@@ -67,12 +69,8 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
 
     const ret: RecordData[] = [
       {
-        label: i18n.set_id,
+        label: i18n.proof_instance_id,
         value: proofInstance.proof_instance_id,
-      },
-      {
-        label: i18n.proof_type_id,
-        value: proofInstance.proof_type_id,
       },
       {
         label: i18n.proof_label,
@@ -106,15 +104,33 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
       },
       {
         label: i18n.proof_type_id,
-        value: proofInstance.proof_type_id,
+        value: (
+          <div>
+            <Link href={`${paths.proof_types}/${proofInstance.proof_type_id}`}>
+              {proofInstance.proof_type_id}
+            </Link>
+          </div>
+        ),
       },
       {
         label: i18n.circuit_driver_id,
-        value: proofInstance.circuit_driver_id,
+        value: (
+          <div>
+            <Link href={`${paths.circuit_drivers}/${proofInstance.circuit_driver_id}`}>
+              {proofInstance.circuit_driver_id}
+            </Link>
+          </div>
+        ),
       },
       {
         label: i18n.circuit_id,
-        value: proofInstance.circuit_id,
+        value: (
+          <div>
+            <Link href={`${paths.circuits}/${proofInstance.circuit_id}`}>
+              {proofInstance.circuit_id}
+            </Link>
+          </div>
+        ),
       },
     ];
 
