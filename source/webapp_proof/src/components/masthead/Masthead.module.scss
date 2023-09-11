@@ -38,6 +38,11 @@
   font-size: 1.545rem;
 }
 
+.searchBarContainer {
+  display: flex;
+  justify-content: center;
+}
+
 .searchBar {
   border: 1px solid var(--gray-70);
   width: 80%;

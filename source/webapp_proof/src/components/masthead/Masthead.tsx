@@ -39,7 +39,7 @@ const Masthead: React.FC = () => {
           </li>
         </ul>
       </div>
-      <div>
+      <div className={styles.searchBarContainer}>
         <SearchBar />
       </div>
       <div className={styles.rightMenu}>
