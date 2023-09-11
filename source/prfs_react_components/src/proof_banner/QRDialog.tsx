@@ -38,11 +38,9 @@ const QRDialog: React.FC<QRDialogProps> = ({ data }) => {
   const headingId = useId();
   const descriptionId = useId();
 
-  // const extendedProofTypeClickHandler = React.useCallback(() => {
-  //   setIsOpen(false);
-  //   // setSelectedProofTypeItem(proofTypeItem);
-  //   // handleSelectProofType(proofTypeItem);
-  // }, [setIsOpen]);
+  const handleClickClose = React.useCallback(() => {
+    setIsOpen(false);
+  }, [setIsOpen]);
 
   return (
     <div className={styles.wrapper}>
@@ -65,11 +63,11 @@ const QRDialog: React.FC<QRDialogProps> = ({ data }) => {
                 >
                   <div className={styles.QRContainer}>
                     <div className={styles.btnRow}>
-                      <button onClick={() => {}}>
+                      <button onClick={handleClickClose}>
                         <AiOutlineClose />
                       </button>
                     </div>
-                    <QRCodeView data={data} size={150} />
+                    <QRCodeView data={data} size={210} />
                   </div>
                 </div>
               </FloatingFocusManager>

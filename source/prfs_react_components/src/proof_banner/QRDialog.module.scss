@@ -6,16 +6,27 @@
 
 .dialog {
   background-color: white;
-  border-radius: 10px;
+  border-radius: 5px;
   overflow: hidden;
   max-width: 520px;
 }
 
 .QRContainer {
+  padding: 8px;
 }
 
 .btnRow {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+
+  button {
+    color: var(--gray-30);
+    cursor: pointer;
+    font-size: 22px;
+
+    &:hover {
+      color: var(--black-00);
+    }
+  }
 }

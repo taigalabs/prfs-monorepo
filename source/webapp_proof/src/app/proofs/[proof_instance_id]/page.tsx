@@ -14,6 +14,7 @@ import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import Masthead from "@/components/masthead/Masthead";
 import ContentArea from "@/components/content_area/ContentArea";
 import { envs } from "@/envs";
+import ProofDetailView from "@/components/proof_detail_view/ProofDetailView";
 
 const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -42,11 +43,16 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
       <Masthead />
       <ContentArea>
         <div className={styles.container}>
-          {proofInstance && (
-            <ProofBanner
-              proofInstance={proofInstance}
-              webappConsoleEndpoint={envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
-            />
+          {proofInstance ? (
+            <>
+              <ProofBanner
+                proofInstance={proofInstance}
+                webappConsoleEndpoint={envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
+              />
+              <ProofDetailView proofInstance={proofInstance} />
+            </>
+          ) : (
+            <div>Loading...</div>
           )}
         </div>
       </ContentArea>
