@@ -38,7 +38,7 @@ const ProofsPage: React.FC = () => {
     () => [
       {
         accessorFn: row => row.proof_instance_id,
-        header: "ID",
+        header: "Proof instance id",
       },
       {
         accessorFn: row => row.proof_label,
@@ -83,14 +83,11 @@ const ProofsPage: React.FC = () => {
       ["table-data"],
       async ({ pageParam = 0 }) => {
         const start = pageParam * fetchSize;
-        // const fetchedData = fetchData(start, fetchSize);
-        // return fetchedData;
+
         const { payload } = await prfsApi2("get_prfs_proof_instances", {
           page_idx: start,
           page_size: fetchSize,
         });
-        // const { prfs_proof_instances_syn1 } = payload;
-        // return prfs_proof_instances_syn1;
         return payload;
       },
       {

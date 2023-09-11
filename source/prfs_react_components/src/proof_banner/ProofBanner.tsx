@@ -6,11 +6,8 @@ import Popover from "../popover/Popover";
 
 import CaptionedImg from "../captioned_img/CaptionedImg";
 import styles from "./ProofBanner.module.scss";
-import QRCodeView from "../qrcode_view/QRCodeView";
-
-const QRDialog = () => {
-  return <div>33</div>;
-};
+// import QRCodeView from "../qrcode_view/QRCodeView";
+import QRDialog from "./QRDialog";
 
 const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance, webappConsoleEndpoint }) => {
   const { prioritizedValues, shortUrl } = React.useMemo(() => {
@@ -35,16 +32,16 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance, webappConsoleE
     return { prioritizedValues: values, shortUrl };
   }, [proofInstance]);
 
-  const createBase = React.useCallback((_: boolean) => {
-    return <AiOutlineQrcode />;
-  }, []);
+  // const createBase = React.useCallback((_: boolean) => {
+  //   return <AiOutlineQrcode />;
+  // }, []);
 
-  const createPopover = React.useCallback(
-    (_: React.Dispatch<React.SetStateAction<any>>) => {
-      return <QRCodeView data={shortUrl} />;
-    },
-    [shortUrl]
-  );
+  // const createPopover = React.useCallback(
+  //   (_: React.Dispatch<React.SetStateAction<any>>) => {
+  //     return <QRCodeView data={shortUrl} />;
+  //   },
+  //   [shortUrl]
+  // );
 
   return (
     <div className={styles.wrapper}>
@@ -60,7 +57,8 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance, webappConsoleE
         </div>
       </div>
       <div className={styles.menu}>
-        <Popover createBase={createBase} createPopover={createPopover} />
+        {/* <Popover createBase={createBase} createPopover={createPopover} /> */}
+        <QRDialog data={shortUrl} />
       </div>
     </div>
   );

@@ -1,0 +1,12 @@
+.dialogOverlay {
+  background: rgba(0, 0, 0, 0.8);
+  display: grid;
+  place-items: center;
+}
+
+.dialog {
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 520px;
+}
