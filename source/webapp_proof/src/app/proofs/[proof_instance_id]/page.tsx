@@ -3,9 +3,11 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
+import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import ProofBanner from "@taigalabs/prfs-react-components/src/proof_banner/ProofBanner";
+import SocialSharePopover from "@taigalabs/prfs-react-components/src/social_share_popover/SocialSharePopover";
 
 import styles from "./ProofInstancePage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -15,6 +17,7 @@ import Masthead from "@/components/masthead/Masthead";
 import ContentArea from "@/components/content_area/ContentArea";
 import { envs } from "@/envs";
 import ProofDetailView from "@/components/proof_detail_view/ProofDetailView";
+import Link from "next/link";
 
 const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -38,6 +41,8 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
     fn().then();
   }, [setProofInstance]);
 
+  const headerLabel = `${i18n.proof_instance} ${params.proof_instance_id}`;
+
   return (
     <DefaultLayout>
       <Masthead />
@@ -45,12 +50,27 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
         <div className={styles.container}>
           {proofInstance ? (
             <div className={styles.inner}>
-              <ProofBanner
-                proofInstance={proofInstance}
-                webappConsoleEndpoint={envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
-              />
-              <div className={styles.proofDetailContainer}>
-                <ProofDetailView proofInstance={proofInstance} />
+              <div className={styles.header}>
+                <div className={styles.row}>
+                  <Link href={paths.proofs}>
+                    <ArrowButton variant="left" />
+                  </Link>
+                  <p className={styles.headerLabel}>{headerLabel}</p>
+                </div>
+                <div className={styles.row}>
+                  <SocialSharePopover />
+                </div>
+              </div>
+              <div className={styles.content}>
+                <div className={styles.bannerContainer}>
+                  <ProofBanner
+                    proofInstance={proofInstance}
+                    webappConsoleEndpoint={envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
+                  />
+                </div>
+                <div className={styles.proofDetailContainer}>
+                  <ProofDetailView proofInstance={proofInstance} />
+                </div>
               </div>
             </div>
           ) : (

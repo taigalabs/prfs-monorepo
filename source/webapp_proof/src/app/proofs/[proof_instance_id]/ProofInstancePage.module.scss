@@ -1,17 +1,39 @@
 .container {
   display: flex;
   justify-content: center;
-  padding: 62px 0;
+  padding: 32px 0;
 }
 
 .inner {
   display: flex;
   flex-direction: column;
-  width: 500px;
+  width: 490px;
   align-items: center;
 }
 
+.header {
+  width: 100%;
+
+  .row {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.headerLabel {
+  font-size: 18px;
+}
+
+.content {
+  margin-top: 36px;
+}
+
+.bannerContainer {
+  display: flex;
+  justify-content: center;
+}
+
 .proofDetailContainer {
-  margin-top: 22px;
-  border: 1px solid black;
+  margin-top: 32px;
+  /* border: 1px solid black; */
 }

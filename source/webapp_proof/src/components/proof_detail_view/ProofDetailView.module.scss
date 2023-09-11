@@ -9,3 +9,13 @@
 
 .desc {
 }
+
+.url {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+
+  svg {
+    font-size: 18px;
+  }
+}
