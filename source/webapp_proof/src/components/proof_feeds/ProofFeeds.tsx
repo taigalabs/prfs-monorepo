@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { useSearchParams } from "next/navigation";
 import {
+  Cell,
   ColumnDef,
   flexRender,
   getCoreRowModel,
@@ -24,13 +25,19 @@ import ContentArea from "@/components/content_area/ContentArea";
 
 const fetchSize = 25;
 
-const Entry: React.FC<EntryProps> = ({ row }) => {
+const RowItem: React.FC<EntryProps> = ({ row }) => {
   const cells = row.getVisibleCells();
-  const [proofInstanceId, proofLabel, imgUrl] = cells;
-  // console.log(55, cells);
-  const a = flexRender(proofInstanceId.column.columnDef.cell, proofInstanceId.getContext());
+  const [proofInstanceIdCell, proofLabelCell, imgUrlCell] = cells;
 
-  return <div>{a}</div>;
+  const proofInstanceId = renderCell(proofInstanceIdCell);
+  const proofLabel = renderCell(proofLabelCell);
+
+  return (
+    <div className={styles.rowItem}>
+      {proofInstanceId}
+      {proofLabel}
+    </div>
+  );
 };
 
 const ProofFeeds: React.FC = () => {
@@ -180,18 +187,7 @@ const ProofFeeds: React.FC = () => {
           )}
           {virtualRows.map(virtualRow => {
             const row = rows[virtualRow.index] as Row<PrfsProofInstanceSyn1>;
-            return (
-              <div key={row.id} className={styles.row}>
-                <Entry row={row} />
-                {/* {row.getVisibleCells().map(cell => { */}
-                {/*   return ( */}
-                {/*     <div key={cell.id}> */}
-                {/*       {flexRender(cell.column.columnDef.cell, cell.getContext())} */}
-                {/*     </div> */}
-                {/*   ); */}
-                {/* })} */}
-              </div>
-            );
+            return <RowItem key={row.id} row={row} />;
           })}
           {paddingBottom > 0 && (
             <div>
@@ -208,4 +204,8 @@ export default ProofFeeds;
 
 export interface EntryProps {
   row: Row<PrfsProofInstanceSyn1>;
+}
+
+function renderCell(cell: Cell<PrfsProofInstanceSyn1, unknown>) {
+  return flexRender(cell.column.columnDef.cell, cell.getContext());
 }
