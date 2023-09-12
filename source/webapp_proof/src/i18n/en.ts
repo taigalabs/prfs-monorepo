@@ -115,6 +115,7 @@ export default {
   upload: "Upload",
   upload_and_view_proof: "Upload and view proof",
   just_view_proof: "Just view proof",
+  proof_creation_summary_msg: "You have successfully created a proof in",
   proof_upload_guide:
     "Share your proof by uploading it to Prfs. Later, we will introduce an (zero-knowledge) account mechanism to let you manage your past proofs.",
   proof_dashboard: "Proof dashboard",

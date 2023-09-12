@@ -99,6 +99,10 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
         value: proofInstance.created_at,
       },
       {
+        label: i18n.prfs_ack_sig,
+        value: proofInstance.prfs_ack_sig,
+      },
+      {
         label: i18n.proof_type_description,
         value: proofInstance.proof_desc,
       },

@@ -11,7 +11,7 @@ pub async fn get_prfs_proof_instance_syn1_by_instance_id(
 ) -> PrfsProofInstanceSyn1 {
     let query = r#"
 SELECT ppi.*, ppt.expression, ppt.img_url, ppt.label as proof_label, ppt.desc as proof_desc,
-ppt.circuit_driver_id, ppt.circuit_id, ppt.img_caption, pct.public_inputs_meta
+ppt.circuit_driver_id, ppt.circuit_id, ppt.img_caption, pct.public_inputs_meta,
 FROM prfs_proof_instances ppi
 INNER JOIN prfs_proof_types ppt ON ppi.proof_type_id=ppt.proof_type_id
 INNER JOIN prfs_circuit_types pct ON pct.circuit_type=ppt.circuit_type
@@ -29,6 +29,7 @@ WHERE ppi.proof_instance_id=$1
     let prfs_proof_instance = PrfsProofInstanceSyn1 {
         proof_instance_id: row.get("proof_instance_id"),
         proof_type_id: row.get("proof_type_id"),
+        prfs_ack_sig: row.get("prfs_ack_sig"),
         proof: row.get("proof"),
         short_id: row.get("short_id"),
         expression: row.get("expression"),
@@ -63,6 +64,7 @@ pub async fn get_prfs_proof_instance_by_short_id(
     let prfs_proof_instance = PrfsProofInstance {
         proof_instance_id: row.get("proof_instance_id"),
         short_id: row.get("short_id"),
+        prfs_ack_sig: row.get("prfs_ack_sig"),
         proof_type_id: row.get("proof_type_id"),
         proof: row.get("proof"),
         public_inputs: row.get("public_inputs"),
@@ -88,7 +90,7 @@ SELECT reltuples AS estimate FROM pg_class where relname = 'prfs_proof_instances
 
     let query = r#"
 SELECT ppi.*, ppt.expression, ppt.img_url, ppt.label as proof_label, ppt.desc as proof_desc,
-ppt.circuit_driver_id, ppt.circuit_id, ppt.img_caption, pct.public_inputs_meta
+ppt.circuit_driver_id, ppt.circuit_id, ppt.img_caption, pct.public_inputs_meta,
 FROM prfs_proof_instances ppi
 INNER JOIN prfs_proof_types ppt ON ppi.proof_type_id=ppt.proof_type_id
 INNER JOIN prfs_circuit_types pct ON pct.circuit_type=ppt.circuit_type
@@ -111,6 +113,7 @@ LIMIT $2
         .map(|row| PrfsProofInstanceSyn1 {
             proof_instance_id: row.get("proof_instance_id"),
             proof_type_id: row.get("proof_type_id"),
+            prfs_ack_sig: row.get("prfs_ack_sig"),
             proof: row.get("proof"),
             short_id: row.get("short_id"),
             expression: row.get("expression"),
@@ -150,6 +153,7 @@ pub async fn get_prfs_proof_instances(
         .map(|row| PrfsProofInstance {
             proof_instance_id: row.get("proof_instance_id"),
             proof_type_id: row.get("proof_type_id"),
+            prfs_ack_sig: row.get("prfs_ack_sig"),
             short_id: row.get("short_id"),
             proof: vec![],
             public_inputs: row.get("public_inputs"),
@@ -165,7 +169,7 @@ pub async fn insert_prfs_proof_instances(
     proof_instances: &Vec<PrfsProofInstance>,
 ) -> uuid::Uuid {
     let query = "INSERT INTO prfs_proof_instances \
-            (proof_instance_id, proof_type_id, proof, public_inputs, short_id)
+            (proof_instance_id, proof_type_id, proof, public_inputs, short_id, prfs_ack_sig)
             VALUES ($1, $2, $3, $4, $5) returning proof_instance_id";
 
     let proof_instance = proof_instances.get(0).unwrap();
@@ -176,6 +180,7 @@ pub async fn insert_prfs_proof_instances(
         .bind(&proof_instance.proof)
         .bind(&proof_instance.public_inputs)
         .bind(&proof_instance.short_id)
+        .bind(&proof_instance.prfs_ack_sig)
         .fetch_one(&mut **tx)
         .await
         .unwrap();

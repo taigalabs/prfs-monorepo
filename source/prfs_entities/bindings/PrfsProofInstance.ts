@@ -6,5 +6,6 @@ export interface PrfsProofInstance {
   short_id: string;
   proof: Array<number>;
   public_inputs: Record<string, any>;
+  prfs_ack_sig: string;
   created_at: string;
 }

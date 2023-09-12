@@ -84,15 +84,6 @@ pub async fn create_prfs_proof_instance(req: Request<Body>) -> Result<Response<B
     let proof_instance_id_128 = req.proof_instance_id.as_u128();
     let short_id = &base62::encode(proof_instance_id_128)[..8];
 
-    let prfs_proof_instance = PrfsProofInstance {
-        proof_instance_id: req.proof_instance_id,
-        proof_type_id: req.proof_type_id,
-        short_id: short_id.to_string(),
-        proof: req.proof.to_vec(),
-        public_inputs: req.public_inputs.clone(),
-        created_at: chrono::offset::Utc::now(),
-    };
-
     let partial_proof = req.proof[..10]
         .iter()
         .map(|n| n.to_string())
@@ -103,12 +94,22 @@ pub async fn create_prfs_proof_instance(req: Request<Body>) -> Result<Response<B
         req.proof_instance_id, partial_proof,
     );
 
-    let ack_sign = state
+    let prfs_ack_sig = state
         .wallet
         .sign_message(ack_msg)
         .await
         .unwrap()
         .to_string();
+
+    let prfs_proof_instance = PrfsProofInstance {
+        proof_instance_id: req.proof_instance_id,
+        proof_type_id: req.proof_type_id,
+        short_id: short_id.to_string(),
+        proof: req.proof.to_vec(),
+        public_inputs: req.public_inputs.clone(),
+        prfs_ack_sig: prfs_ack_sig.to_string(),
+        created_at: chrono::offset::Utc::now(),
+    };
 
     let proof_instance_id =
         db_apis::insert_prfs_proof_instances(&mut tx, &vec![prfs_proof_instance]).await;
@@ -117,7 +118,7 @@ pub async fn create_prfs_proof_instance(req: Request<Body>) -> Result<Response<B
 
     let resp = ApiResponse::new_success(CreatePrfsProofInstanceResponse {
         proof_instance_id,
-        ack_sign,
+        prfs_ack_sig,
     });
 
     return Ok(resp.into_hyper_response());

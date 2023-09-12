@@ -22,6 +22,7 @@ pub struct PrfsProofInstanceSyn1 {
     pub circuit_driver_id: String,
     pub proof_desc: String,
     pub proof_label: String,
+    pub prfs_ack_sig: String,
 
     #[ts(type = "Record<string, any>[]")]
     pub public_inputs_meta: sqlx::types::Json<Vec<PublicInputMeta>>,

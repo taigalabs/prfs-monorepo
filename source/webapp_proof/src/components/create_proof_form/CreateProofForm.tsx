@@ -10,14 +10,13 @@ import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import SocialSharePopover from "@taigalabs/prfs-react-components/src/social_share_popover/SocialSharePopover";
 import { FaCloudMoon } from "@react-icons/all-files/fa/FaCloudMoon";
 import { useRouter } from "next/navigation";
+import QRDialog from "@taigalabs/prfs-react-components/src/proof_banner/QRDialog";
+import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
 import styles from "./CreateProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import SelectProofTypeDialog from "@/components/select_proof_type_dialog/SelectProofTypeDialog";
-import T from "@/components/select_proof_type_dialog/T";
-import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 import { paths } from "@/paths";
-import QRDialog from "@taigalabs/prfs-react-components/src/proof_banner/QRDialog";
 
 const prfs = new PrfsSDK("test");
 
@@ -117,8 +116,6 @@ const CreateProofForm: React.FC = () => {
           <p>{i18n.you_would_like_to_prove}</p>
           <div className={styles.select}>
             <SelectProofTypeDialog handleSelectProofType={handleSelectProofType} />
-            {/* <T handleSelectProofType={() => {}} /> */}
-            {/* <QRDialog data="power" /> */}
           </div>
         </div>
         {selectedProofTypeItem && (
@@ -141,7 +138,11 @@ const CreateProofForm: React.FC = () => {
                 <p>{i18n.prove_success_msg}</p>
               </div>
               <div className={styles.uploadSection}>
-                <p>{i18n.proof_upload_guide}</p>
+                <p>
+                  <span>{i18n.proof_creation_summary_msg} </span>
+                  <i>{Math.floor((proveReceipt.duration / 1000) * 1000) / 1000} secs. </i>
+                  <span>{i18n.proof_upload_guide}</span>
+                </p>
                 <ul className={styles.btnGroup}>
                   <li>
                     <Button variant="transparent_black_1" handleClick={handleClickUpload}>
@@ -149,7 +150,7 @@ const CreateProofForm: React.FC = () => {
                     </Button>
                   </li>
                   <li>
-                    <Button variant="transparent_black_1" handleClick={handleClickUpload} disabled>
+                    <Button variant="transparent_black_1" handleClick={() => {}} disabled>
                       {i18n.just_view_proof.toUpperCase()}
                     </Button>
                   </li>
