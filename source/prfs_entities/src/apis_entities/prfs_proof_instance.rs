@@ -67,4 +67,6 @@ pub struct CreatePrfsProofInstanceRequest {
 pub struct CreatePrfsProofInstanceResponse {
     #[ts(type = "'<Uuid>' | string")]
     pub proof_instance_id: uuid::Uuid,
+
+    pub ack_sign: String,
 }
