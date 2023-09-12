@@ -22,22 +22,22 @@ import { deserializePublicInput, serializePublicInput } from "./serialize";
 
 export default class SpartanDriver implements CircuitDriver {
   handlers: PrfsHandlers;
-  wtnsGenUrl: string;
   circuit: Uint8Array;
+  wtnsGen: Uint8Array;
 
   constructor(args: SpartanDriverCtorArgs) {
     this.handlers = args.handlers;
 
     if (args.circuit === undefined) {
-      throw new Error("Spartan cannot be instantiated without circuitUrl");
+      throw new Error("Spartan cannot be instantiated without circuit");
     }
 
-    if (args.wtnsGenUrl === undefined) {
-      throw new Error("Spartan cannot be instantiated without wtnsGenUrl");
+    if (args.wtnsGen === undefined) {
+      throw new Error("Spartan cannot be instantiated without wtnsGen");
     }
 
     this.circuit = args.circuit;
-    this.wtnsGenUrl = args.wtnsGenUrl;
+    this.wtnsGen = args.wtnsGen;
   }
 
   async getBuildStatus(): Promise<BuildStatus> {
@@ -57,91 +57,107 @@ export default class SpartanDriver implements CircuitDriver {
   }
 
   async prove(args: ProveArgs<MembershipProveInputs>): Promise<ProveReceipt> {
-    const { inputs, eventListener } = args;
-    const { sigData, merkleProof } = inputs;
-    const { msgRaw, msgHash, sig } = sigData;
+    try {
+      const { inputs, eventListener } = args;
+      const { sigData, merkleProof } = inputs;
+      const { msgRaw, msgHash, sig } = sigData;
+      // console.log("inputs: %o", inputs);
 
-    // console.log("inputs: %o", inputs);
+      const { r, s, v } = fromSig(sig);
 
-    const { r, s, v } = fromSig(sig);
-    const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash);
+      const poseidon = this.newPoseidon();
+      const serialNo = await poseidon([s, BigInt(0)]);
 
-    eventListener("plain", "Computed ECDSA pub input");
+      const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash);
 
-    const circuitPubInput = new CircuitPubInput(
-      merkleProof.root,
-      effEcdsaPubInput.Tx,
-      effEcdsaPubInput.Ty,
-      effEcdsaPubInput.Ux,
-      effEcdsaPubInput.Uy
-    );
+      eventListener("debug", "Computed ECDSA pub input");
 
-    const publicInput = new PublicInput(r, v, msgRaw, msgHash, circuitPubInput);
-    const m = new BN(msgHash).mod(SECP256K1_P);
+      const circuitPubInput = new CircuitPubInput(
+        merkleProof.root,
+        effEcdsaPubInput.Tx,
+        effEcdsaPubInput.Ty,
+        effEcdsaPubInput.Ux,
+        effEcdsaPubInput.Uy,
+        serialNo
+      );
 
-    const witnessGenInput = {
-      r,
-      s,
-      m: BigInt(m.toString()),
+      const publicInput = new PublicInput(r, v, msgRaw, msgHash, circuitPubInput);
+      const m = new BN(msgHash).mod(SECP256K1_P);
 
-      // merkle root
-      root: merkleProof.root,
-      siblings: merkleProof.siblings,
-      pathIndices: merkleProof.pathIndices,
+      const witnessGenInput = {
+        r,
+        s,
+        m: BigInt(m.toString()),
 
-      // Eff ECDSA PubInput
-      Tx: effEcdsaPubInput.Tx,
-      Ty: effEcdsaPubInput.Ty,
-      Ux: effEcdsaPubInput.Ux,
-      Uy: effEcdsaPubInput.Uy,
-    };
+        // merkle root
+        root: merkleProof.root,
+        siblings: merkleProof.siblings,
+        pathIndices: merkleProof.pathIndices,
 
-    // console.log("witnessGenInput: %o", witnessGenInput);
-    const witness = await snarkJsWitnessGen(witnessGenInput, this.wtnsGenUrl);
+        // Eff ECDSA PubInput
+        Tx: effEcdsaPubInput.Tx,
+        Ty: effEcdsaPubInput.Ty,
+        Ux: effEcdsaPubInput.Ux,
+        Uy: effEcdsaPubInput.Uy,
 
-    eventListener("plain", "Computed witness gen input");
+        serialNo,
+      };
 
-    const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
+      // console.log("witnessGenInput: %o", witnessGenInput);
+      const witness = await snarkJsWitnessGen(witnessGenInput, this.wtnsGen);
 
-    const prev = performance.now();
-    const proof = await this.handlers.prove(this.circuit, witness.data, circuitPublicInput);
-    const now = performance.now();
+      eventListener("info", "Computed witness gen input");
 
-    return {
-      duration: now - prev,
-      proveResult: {
-        proof,
-        publicInputSer: serializePublicInput(publicInput),
-      },
-    };
+      const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
+
+      const prev = performance.now();
+      const proof = await this.handlers.prove(this.circuit, witness.data, circuitPublicInput);
+      const now = performance.now();
+
+      return {
+        duration: now - prev,
+        proveResult: {
+          proof,
+          publicInputSer: serializePublicInput(publicInput),
+        },
+      };
+    } catch (err) {
+      console.error("Error creating a proof, err: %o", err);
+
+      return Promise.reject(err);
+    }
   }
 
   async verify(args: VerifyArgs): Promise<boolean> {
-    const { inputs } = args;
-    const { proof, publicInputSer } = inputs;
-
-    const publicInput = deserializePublicInput(publicInputSer);
-    const isPubInputValid = verifyEffEcdsaPubInput(publicInput as PublicInput);
-
-    let isProofValid;
     try {
+      const { inputs } = args;
+      const { proof, publicInputSer } = inputs;
+
+      const publicInput = deserializePublicInput(publicInputSer);
+      const isPubInputValid = verifyEffEcdsaPubInput(publicInput as PublicInput);
+
+      let isProofValid;
       isProofValid = await this.handlers.verify(
         this.circuit,
         proof,
         publicInput.circuitPubInput.serialize()
       );
-    } catch (_e) {
       isProofValid = false;
-    }
 
-    return isProofValid && isPubInputValid;
+      return isProofValid && isPubInputValid;
+    } catch (err) {
+      console.error("Error verifying a proof, err: %o", err);
+
+      return Promise.reject(err);
+    }
   }
 }
 
 export interface SpartanDriverCtorArgs {
   handlers: PrfsHandlers;
-  wtnsGenUrl: string;
+  // wtnsGenUrl: string;
   circuit: Uint8Array;
+  wtnsGen: Uint8Array;
 }
 
 export interface MembershipProveInputs {

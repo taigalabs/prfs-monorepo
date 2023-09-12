@@ -3,18 +3,9 @@ pragma circom 2.1.2;
 include "./secp256k1/mul.circom";
 include "../../node_modules/circomlib/circuits/bitify.circom";
 
-/**
- *  ECDSA
- *  ====================
- *  
- */
-template ECDSA() {
+template ECDSA2() {
     var bits = 256;
 
-    //
-    signal input r;
-
-    signal input m;
     signal input s;
 
     signal input Tx; // T = r^-1 * R
@@ -25,15 +16,6 @@ template ECDSA() {
     signal output pubKeyX;
     signal output pubKeyY;
   
-    /* const u1 = m.mul(sInv).mod(SECP256K1_N); */
-    /* const u2 = new BN(r as any).mul(sInv).mod(SECP256K1_N); */
-    /* let p1 = ec.curve.g.mul(u1); */
-    /* let p2 = q.mul(u2); */
-    /* let p3 = p1.add(p2); */
-
-    /* component a1 = Secp256k1Mul(); */
-    /* a1.scalar <== u1; */
-
     // sMultT = s * T
     component sMultT = Secp256k1Mul();
     sMultT.scalar <== s;

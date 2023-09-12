@@ -109,12 +109,17 @@ const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({
       </TableSearch>
       <Table2>
         <Table2Head>
-          <tr>
-            <th className={styles.circuit_type}>{i18n.circuit_type}</th>
-            <th className={styles.desc}>{i18n.description}</th>
-            <th className={styles.author}>{i18n.author}</th>
-            <th className={styles.createdAt}>{i18n.created_at}</th>
-          </tr>
+          {table.getHeaderGroups().map(headerGroup => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map(header => (
+                <th key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(header.column.columnDef.header, header.getContext())}
+                </th>
+              ))}
+            </tr>
+          ))}
         </Table2Head>
 
         <Table2Body>

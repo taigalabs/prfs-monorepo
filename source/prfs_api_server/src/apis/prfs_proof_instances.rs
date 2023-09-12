@@ -1,3 +1,4 @@
+use ethers_signers::Signer;
 use hyper::{Body, Request, Response};
 use prfs_db_interface::db_apis;
 use prfs_entities::apis_entities::{
@@ -83,12 +84,30 @@ pub async fn create_prfs_proof_instance(req: Request<Body>) -> Result<Response<B
     let proof_instance_id_128 = req.proof_instance_id.as_u128();
     let short_id = &base62::encode(proof_instance_id_128)[..8];
 
+    let partial_proof = req.proof[..10]
+        .iter()
+        .map(|n| n.to_string())
+        .collect::<String>();
+
+    let ack_msg = format!(
+        "ack/proof_instance_id:{}/partial_proof:{}",
+        req.proof_instance_id, partial_proof,
+    );
+
+    let prfs_ack_sig = state
+        .wallet
+        .sign_message(ack_msg)
+        .await
+        .unwrap()
+        .to_string();
+
     let prfs_proof_instance = PrfsProofInstance {
         proof_instance_id: req.proof_instance_id,
         proof_type_id: req.proof_type_id,
         short_id: short_id.to_string(),
         proof: req.proof.to_vec(),
         public_inputs: req.public_inputs.clone(),
+        prfs_ack_sig: prfs_ack_sig.to_string(),
         created_at: chrono::offset::Utc::now(),
     };
 
@@ -97,7 +116,10 @@ pub async fn create_prfs_proof_instance(req: Request<Body>) -> Result<Response<B
 
     tx.commit().await.unwrap();
 
-    let resp = ApiResponse::new_success(CreatePrfsProofInstanceResponse { proof_instance_id });
+    let resp = ApiResponse::new_success(CreatePrfsProofInstanceResponse {
+        proof_instance_id,
+        prfs_ack_sig,
+    });
 
     return Ok(resp.into_hyper_response());
 }

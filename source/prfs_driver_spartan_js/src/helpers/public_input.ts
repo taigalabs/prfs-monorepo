@@ -18,8 +18,7 @@ export const SECP256K1_N = new BN(
 
 /**
  * Public inputs that are passed into the membership circuit
- * This doesn't include the public values that aren't passed into the circuit,
- * which are the group element R and the msgHash.
+ * This doesn't include the public values that aren't passed into the circuit
  */
 export class CircuitPubInput {
   merkleRoot: bigint;
@@ -27,35 +26,59 @@ export class CircuitPubInput {
   Ty: bigint;
   Ux: bigint;
   Uy: bigint;
+  serialNo: bigint;
 
-  constructor(merkleRoot: bigint, Tx: bigint, Ty: bigint, Ux: bigint, Uy: bigint) {
+  constructor(
+    merkleRoot: bigint,
+    Tx: bigint,
+    Ty: bigint,
+    Ux: bigint,
+    Uy: bigint,
+    serialNo: bigint
+  ) {
     this.merkleRoot = merkleRoot;
     this.Tx = Tx;
     this.Ty = Ty;
     this.Ux = Ux;
     this.Uy = Uy;
+    this.serialNo = serialNo;
   }
 
   serialize(): Uint8Array {
-    let serialized = new Uint8Array(32 * 5);
+    try {
+      const elems = [this.merkleRoot, this.Tx, this.Ty, this.Ux, this.Uy, this.serialNo];
 
-    serialized.set(bigIntToBytes(this.merkleRoot, 32), 0);
-    serialized.set(bigIntToBytes(this.Tx, 32), 32);
-    serialized.set(bigIntToBytes(this.Ty, 32), 64);
-    serialized.set(bigIntToBytes(this.Ux, 32), 96);
-    serialized.set(bigIntToBytes(this.Uy, 32), 128);
+      let serialized = new Uint8Array(32 * elems.length);
 
-    return serialized;
+      serialized.set(bigIntToBytes(elems[0], 32), 0);
+      serialized.set(bigIntToBytes(elems[1], 32), 32);
+      serialized.set(bigIntToBytes(elems[2], 32), 64);
+      serialized.set(bigIntToBytes(elems[3], 32), 96);
+      serialized.set(bigIntToBytes(elems[4], 32), 128);
+      serialized.set(bigIntToBytes(elems[5], 32), 160);
+      return serialized;
+    } catch (err) {
+      console.error(err);
+
+      throw err;
+    }
   }
 
   static deserialize(serialized: Uint8Array): CircuitPubInput {
-    const merkleRoot = bytesToBigInt(serialized.slice(0, 32));
-    const Tx = bytesToBigInt(serialized.slice(32, 64));
-    const Ty = bytesToBigInt(serialized.slice(64, 96));
-    const Ux = bytesToBigInt(serialized.slice(96, 128));
-    const Uy = bytesToBigInt(serialized.slice(128, 160));
+    try {
+      const merkleRoot = bytesToBigInt(serialized.slice(0, 32));
+      const Tx = bytesToBigInt(serialized.slice(32, 64));
+      const Ty = bytesToBigInt(serialized.slice(64, 96));
+      const Ux = bytesToBigInt(serialized.slice(96, 128));
+      const Uy = bytesToBigInt(serialized.slice(128, 160));
+      const serialNo = bytesToBigInt(serialized.slice(160, 192));
 
-    return new CircuitPubInput(merkleRoot, Tx, Ty, Ux, Uy);
+      return new CircuitPubInput(merkleRoot, Tx, Ty, Ux, Uy, serialNo);
+    } catch (err) {
+      console.error(err);
+
+      throw err;
+    }
   }
 }
 

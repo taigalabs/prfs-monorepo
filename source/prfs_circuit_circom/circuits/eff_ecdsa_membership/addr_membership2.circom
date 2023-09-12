@@ -4,6 +4,7 @@ include "./eff_ecdsa.circom";
 include "./ecdsa.circom";
 include "./tree.circom";
 include "./to_address/zk-identity/eth.circom";
+include "../poseidon/poseidon.circom";
 
 include "./bigint.circom";
 include "./secp256k1_func.circom";
@@ -25,26 +26,32 @@ template AddrMembership2(nLevels, n, k) {
     signal input Ty; 
     signal input Ux;
     signal input Uy;
+
     signal input m;
     signal input r;
     signal input s;
+    signal input serialNo;
 
     // merkle proof
     signal input root;
     signal input pathIndices[nLevels];
     signal input siblings[nLevels];
 
-    component ecdsa = ECDSA();
+    component ecdsa = ECDSA2();
     ecdsa.Tx <== Tx;
     ecdsa.Ty <== Ty;
     ecdsa.Ux <== Ux;
     ecdsa.Uy <== Uy;
     ecdsa.s <== s;
-    ecdsa.r <== r;
-    ecdsa.m <== m;
 
     // log("ecdsa pubKeyX", ecdsa.pubKeyX);
     // log("ecdsa pubKeyY", ecdsa.pubKeyY);
+
+    // Serial number
+    component poseidon = Poseidon();
+    poseidon.inputs[0] <== s;
+    poseidon.inputs[1] <== 0;
+    serialNo === poseidon.out;
 
     component pubKeyXBits = Num2Bits(256);
     pubKeyXBits.in <== ecdsa.pubKeyX;

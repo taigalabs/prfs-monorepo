@@ -1,4 +1,4 @@
-import { LocalPrfsAccount } from "@/state/reducer";
+import { LocalPrfsAccount } from "@/state/userReducer";
 import { PrfsAccount } from "@taigalabs/prfs-entities/bindings/PrfsAccount";
 
 const PRFS_ACCOUNT = "prfs_account";

@@ -2,4 +2,5 @@
 
 export interface CreatePrfsProofInstanceResponse {
   proof_instance_id: "<Uuid>" | string;
+  prfs_ack_sig: string;
 }

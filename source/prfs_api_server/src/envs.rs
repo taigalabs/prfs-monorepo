@@ -17,6 +17,9 @@ pub struct Envs {
 
     #[serde(default = "default_postgres_pw")]
     pub postgres_pw: String,
+
+    #[serde(default = "default_prfs_api_private_key")]
+    pub prfs_api_private_key: String,
 }
 
 impl Envs {
@@ -46,4 +49,8 @@ fn default_postgres_username() -> String {
 
 fn default_postgres_pw() -> String {
     "some postgres pw".to_string()
+}
+
+fn default_prfs_api_private_key() -> String {
+    "63e64e77016fd8a1adeb1a88b77171517b1c2acfa8f7885d581252ce031db47c".to_string()
 }

@@ -1,0 +1,34 @@
+.popover {
+  box-shadow: 0 4px 9px 3px rgba(0, 0, 0, 0.15), 0 1px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.isOpen {
+  button {
+    background-color: var(--bright-gray-50);
+  }
+}
+
+.menuList {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--white-100);
+  width: 140px;
+
+  padding: 4px 0;
+
+  li {
+    cursor: pointer;
+    width: 100%;
+    padding: 8px 15px;
+    &:hover {
+      background-color: var(--bright-gray-50);
+    }
+  }
+
+  svg {
+    margin-right: 5px;
+  }
+}

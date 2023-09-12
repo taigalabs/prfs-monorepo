@@ -27,6 +27,7 @@ fn main() {
         .subcommand(command!("seed_api_server"))
         .subcommand(command!("run_docker_postgres").arg(Arg::new("extra_args")))
         .subcommand(command!("start_webapp_console").arg(Arg::new("extra_args")))
+        .subcommand(command!("start_webapp_proof").arg(Arg::new("extra_args")))
         .get_matches();
 
     let now = Utc::now();
@@ -51,6 +52,9 @@ fn main() {
         }
         Some(("start_webapp_console", sub_matches)) => {
             cmds::start_webapp_console::run(sub_matches);
+        }
+        Some(("start_webapp_proof", sub_matches)) => {
+            cmds::start_webapp_proof::run(sub_matches);
         }
         Some(("dev_asset_server", sub_matches)) => {
             cmds::dev_asset_server::run(sub_matches);

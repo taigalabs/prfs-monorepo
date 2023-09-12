@@ -2,14 +2,21 @@ import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
+import cn from "classnames";
 import { v4 as uuidv4 } from "uuid";
 import { ethers } from "ethers";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
+import SocialSharePopover from "@taigalabs/prfs-react-components/src/social_share_popover/SocialSharePopover";
+import { FaCloudMoon } from "@react-icons/all-files/fa/FaCloudMoon";
+import { useRouter } from "next/navigation";
+import QRDialog from "@taigalabs/prfs-react-components/src/proof_banner/QRDialog";
+import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
 import styles from "./CreateProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import SelectProofTypeDialog from "@/components/select_proof_type_dialog/SelectProofTypeDialog";
-import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
+import { paths } from "@/paths";
 
 const prfs = new PrfsSDK("test");
 
@@ -17,6 +24,8 @@ const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const [selectedProofTypeItem, setSelectedProofTypeItem] = React.useState<ProofTypeItem>();
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
+  const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt>();
+  const router = useRouter();
 
   const handleSelectProofType = React.useCallback(
     (proofTypeItem: ProofTypeItem) => {
@@ -63,6 +72,12 @@ const CreateProofForm: React.FC = () => {
     const proveReceipt = await proofGenElement.createProof();
 
     if (proveReceipt) {
+      setProveReceipt(proveReceipt);
+    }
+  }, [selectedProofTypeItem, proofGenElement, setProveReceipt]);
+
+  const handleClickUpload = React.useCallback(async () => {
+    if (proveReceipt && selectedProofTypeItem) {
       const { duration, proveResult } = proveReceipt;
       const { proof, publicInputSer } = proveResult;
       const public_inputs = JSON.parse(publicInputSer);
@@ -81,32 +96,70 @@ const CreateProofForm: React.FC = () => {
           public_inputs,
         });
 
-        // router.push(`${paths.proof_instances}/${payload.proof_instance_id}`);
+        router.push(`${paths.proofs}/${payload.proof_instance_id}`);
       } catch (err: any) {
         console.error(err);
         return;
       }
     }
-  }, [selectedProofTypeItem, proofGenElement]);
+  }, [proveReceipt]);
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.proofTypeRow}>
-        <p>{i18n.you_would_like_to_prove}</p>
-        <div className={styles.select}>
-          <SelectProofTypeDialog handleSelectProofType={handleSelectProofType} />
+      <div
+        className={cn({
+          [styles.formWrapper]: true,
+          [styles.successShadow]: !!proveReceipt,
+        })}
+      >
+        <div className={styles.proofTypeRow}>
+          <p>{i18n.you_would_like_to_prove}</p>
+          <div className={styles.select}>
+            <SelectProofTypeDialog handleSelectProofType={handleSelectProofType} />
+          </div>
+        </div>
+        {selectedProofTypeItem && (
+          <Fade>
+            <div id="prfs-sdk-container"></div>
+          </Fade>
+        )}
+        <div className={styles.createProofBtn}>
+          <Button variant="aqua_blue_1" handleClick={handleClickCreateProof}>
+            {i18n.create_proof.toUpperCase()}
+          </Button>
         </div>
       </div>
-      {selectedProofTypeItem && (
+      {proveReceipt && (
         <Fade>
-          <div id="prfs-sdk-container"></div>
+          <div className={styles.bottomRow}>
+            <div className={styles.postCreateMenu}>
+              <div className={styles.successMsg}>
+                <FaCloudMoon />
+                <p>{i18n.prove_success_msg}</p>
+              </div>
+              <div className={styles.uploadSection}>
+                <p>
+                  <span>{i18n.proof_creation_summary_msg} </span>
+                  <i>{Math.floor((proveReceipt.duration / 1000) * 1000) / 1000} secs. </i>
+                  <span>{i18n.proof_upload_guide}</span>
+                </p>
+                <ul className={styles.btnGroup}>
+                  <li>
+                    <Button variant="transparent_black_1" handleClick={handleClickUpload}>
+                      {i18n.upload_and_view_proof.toUpperCase()}
+                    </Button>
+                  </li>
+                  <li>
+                    <Button variant="transparent_black_1" handleClick={() => {}} disabled>
+                      {i18n.just_view_proof.toUpperCase()}
+                    </Button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </Fade>
       )}
-      <div className={styles.createProofBtn}>
-        <Button variant="aqua_blue_1" handleClick={handleClickCreateProof}>
-          {i18n.create_proof.toUpperCase()}
-        </Button>
-      </div>
     </div>
   );
 };

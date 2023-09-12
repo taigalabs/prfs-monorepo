@@ -4,12 +4,21 @@ import cn from "classnames";
 import styles from "./CreateProofProgress.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 
-const CreateProofProgress: React.FC<CreateProofProgressProps> = ({ terminalLog, isCompleted }) => {
+const CreateProofProgress: React.FC<CreateProofProgressProps> = ({ terminalLogElem }) => {
   const i18n = React.useContext(i18nContext);
+  const [logCount, setLogCount] = React.useState(0);
+  const logRef = React.useRef(null);
 
   React.useEffect(() => {
-    // console.log(55, terminalLog);
-  }, [terminalLog]);
+    if (terminalLogElem.length !== logCount) {
+      if (logRef.current) {
+        const div = logRef.current as HTMLDivElement;
+        div.scrollTop = div.scrollHeight;
+      }
+
+      setLogCount(terminalLogElem.length);
+    }
+  }, [terminalLogElem, logCount, setLogCount, logRef]);
 
   return (
     <div className={styles.wrapper}>
@@ -22,12 +31,12 @@ const CreateProofProgress: React.FC<CreateProofProgressProps> = ({ terminalLog, 
         <p>{i18n.start_create_proof_guide_2}</p>
       </div>
       <div
+        ref={logRef}
         className={cn({
           [styles.terminal]: true,
-          [styles.isCompleted]: isCompleted,
         })}
       >
-        {terminalLog}
+        {terminalLogElem}
       </div>
     </div>
   );
@@ -36,6 +45,5 @@ const CreateProofProgress: React.FC<CreateProofProgressProps> = ({ terminalLog, 
 export default CreateProofProgress;
 
 export interface CreateProofProgressProps {
-  terminalLog: React.ReactNode;
-  isCompleted: boolean;
+  terminalLogElem: React.ReactNode[];
 }

@@ -1,0 +1,47 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 82px 0;
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-family: arial, sans-serif;
+    table-layout: fixed;
+    width: 100%;
+  }
+
+  thead {
+    background: lightgray;
+    margin: 0;
+    position: sticky;
+    top: 0;
+  }
+
+  th {
+    border-bottom: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+    padding: 2px 4px;
+    text-align: left;
+  }
+
+  td {
+    padding: 6px;
+  }
+
+  .container {
+    border: 1px solid lightgray;
+    height: 500px;
+    max-width: 900px !important;
+    overflow: auto;
+  }
+}
+
+.feedContainer {
+  width: 500px;
+  border: 1px solid gray;
+}
+
+.row {
+  padding: 5px 0;
+}

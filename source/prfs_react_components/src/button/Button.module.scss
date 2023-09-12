@@ -57,6 +57,15 @@
   &:hover {
     background-color: var(--bright-gray-40);
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--gray-50);
+  }
+
+  &:disabled:hover {
+    background-color: transparent;
+  }
 }
 
 .transparent_aqua_blue_1 {

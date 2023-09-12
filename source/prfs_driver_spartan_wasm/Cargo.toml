@@ -27,7 +27,7 @@ spartan = { path = "../../externals/Spartan-secq", features=["multicore"] }
 secq256k1 = { path = "../../externals/secq256k1" }
 prfs_crypto = { path = "../prfs_crypto" }
 
-#wasm
+# wasm
 wasm-bindgen = { version = "0.2.87", features = ["serde-serialize"] }
 wasm-bindgen-rayon = { version = "1.0", optional = true }
 console_error_panic_hook = "0.1.7"

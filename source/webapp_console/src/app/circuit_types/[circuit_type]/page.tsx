@@ -2,20 +2,18 @@
 
 import React from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 import { PrfsCircuitType } from "@taigalabs/prfs-entities/bindings/PrfsCircuitType";
+import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 
 import styles from "./CircuitType.module.scss";
-// import { stateContext } from "@/contexts/state";
 import { WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import CircuitInputsMetaTable from "@/components/circuit_inputs_meta_table/CircuitInputsMetaTable";
 import { paths } from "@/paths";
-import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 import CircuitTypeDetailTable from "@/components/circuit_type_detail_table/CircuitTypeDetailTable";
 import { useAppDispatch } from "@/state/hooks";

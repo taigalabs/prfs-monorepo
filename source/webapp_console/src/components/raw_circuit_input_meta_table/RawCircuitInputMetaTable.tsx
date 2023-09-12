@@ -36,9 +36,9 @@ const RawCircuitInputMetaTable: React.FC<RawCircuitInputMetaTableProps> = ({
         cell: info => info.getValue(),
       },
       {
-        header: i18n.reference,
+        header: i18n.public,
         accessorFn: row => row.public,
-        cell: info => info.getValue(),
+        cell: info => (info.getValue() ? i18n.public : ""),
       },
     ];
 
@@ -69,7 +69,6 @@ const RawCircuitInputMetaTable: React.FC<RawCircuitInputMetaTableProps> = ({
             </tr>
           ))}
         </Table2Head>
-
         <Table2Body>
           {table.getRowModel().rows.map(row => {
             return (

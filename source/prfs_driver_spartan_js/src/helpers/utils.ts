@@ -2,7 +2,7 @@
 const snarkJs = require("snarkjs");
 import { fromRpcSig } from "@ethereumjs/util";
 
-export const snarkJsWitnessGen = async (input: any, wasmFile: string) => {
+export const snarkJsWitnessGen = async (input: any, wasmFile: string | Uint8Array) => {
   const witness: {
     type: string;
     data?: any;
@@ -14,10 +14,10 @@ export const snarkJsWitnessGen = async (input: any, wasmFile: string) => {
   return witness;
 };
 
-export async function fetchCircuit(url: string): Promise<Uint8Array> {
+export async function fetchAsset(url: string): Promise<Uint8Array> {
   const response = await fetch(url);
   if (!response.ok) {
-    throw new Error(`Fetch circuit failed, url: ${url}`);
+    throw new Error(`Fetch asset failed, url: ${url}`);
   }
 
   const circuit = await response.arrayBuffer();

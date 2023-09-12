@@ -18,6 +18,7 @@ export default {
   image_url: "Image URL",
   image_caption: "Image caption",
   created_at: "Created at",
+  prfs_ack_sig: "Prfs ack signature",
   proof_description: "Proof description",
   proof_type_description: "Proof type description",
   logo_label: "Prfs",
