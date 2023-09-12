@@ -24,6 +24,15 @@ import ContentArea from "@/components/content_area/ContentArea";
 
 const fetchSize = 25;
 
+const Entry: React.FC<EntryProps> = ({ row }) => {
+  const cells = row.getVisibleCells();
+  const [proofInstanceId, proofLabel, imgUrl] = cells;
+  // console.log(55, cells);
+  const a = flexRender(proofInstanceId.column.columnDef.cell, proofInstanceId.getContext());
+
+  return <div>{a}</div>;
+};
+
 const ProofFeeds: React.FC = () => {
   const i18n = React.useContext(i18nContext);
 
@@ -38,6 +47,10 @@ const ProofFeeds: React.FC = () => {
       {
         accessorFn: row => row.proof_label,
         header: "Label",
+      },
+      {
+        accessorFn: row => row.img_url,
+        header: "Img url",
       },
       // {
       //   accessorFn: row => row.lastName,
@@ -169,13 +182,14 @@ const ProofFeeds: React.FC = () => {
             const row = rows[virtualRow.index] as Row<PrfsProofInstanceSyn1>;
             return (
               <div key={row.id} className={styles.row}>
-                {row.getVisibleCells().map(cell => {
-                  return (
-                    <div key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </div>
-                  );
-                })}
+                <Entry row={row} />
+                {/* {row.getVisibleCells().map(cell => { */}
+                {/*   return ( */}
+                {/*     <div key={cell.id}> */}
+                {/*       {flexRender(cell.column.columnDef.cell, cell.getContext())} */}
+                {/*     </div> */}
+                {/*   ); */}
+                {/* })} */}
               </div>
             );
           })}
@@ -191,3 +205,7 @@ const ProofFeeds: React.FC = () => {
 };
 
 export default ProofFeeds;
+
+export interface EntryProps {
+  row: Row<PrfsProofInstanceSyn1>;
+}
