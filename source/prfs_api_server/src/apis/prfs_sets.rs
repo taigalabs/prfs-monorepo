@@ -150,6 +150,15 @@ pub async fn compute_prfs_set_merkle_root(
         .await
         .unwrap();
 
+    let deleted_row_count = db_apis::delete_prfs_non_leaf_nodes_by_set_id(&mut tx, &req.set_id)
+        .await
+        .unwrap();
+
+    println!(
+        "Deleted non leaf nodes, count: {}, set_id: {}",
+        deleted_row_count, &req.set_id
+    );
+
     let leaf_nodes = db_apis::get_prfs_tree_leaf_nodes_all_by_set_id(pool, &req.set_id)
         .await
         .unwrap();
