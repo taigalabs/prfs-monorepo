@@ -66,7 +66,7 @@ export default class SpartanDriver implements CircuitDriver {
       const { r, s, v } = fromSig(sig);
 
       const poseidon = this.newPoseidon();
-      const serialNo = await poseidon([s, BigInt(1)]);
+      const serialNo = await poseidon([s, BigInt(0)]);
 
       const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash);
 

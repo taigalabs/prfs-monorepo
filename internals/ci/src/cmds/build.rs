@@ -21,7 +21,7 @@ pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
         // Box::new(BuildPrfsEntitiesTSBindingTask),
         // Box::new(BuildJsDependenciesTask),
         Box::new(CompileCircuitsTask),
-        Box::new(BuildPrfsDriverSpartanWasmTask),
+        // Box::new(BuildPrfsDriverSpartanWasmTask),
         Box::new(BuildPrfsDriverSpartanJsTask),
     ];
 
