@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { useRouter } from "next/navigation";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
@@ -17,19 +15,17 @@ import { useVirtual } from "react-virtual";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import { GetPrfsProofInstancesResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstancesResponse";
 
-import styles from "./ProofsPage.module.scss";
+import styles from "./ProofFeeds.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import Masthead from "@/components/masthead/Masthead";
 import ContentArea from "@/components/content_area/ContentArea";
-import ProofFeeds from "@/components/proof_feeds/ProofFeeds";
 
 const fetchSize = 25;
 
-const ProofsPage: React.FC = () => {
+const ProofFeeds: React.FC = () => {
   const i18n = React.useContext(i18nContext);
-  const router = useRouter();
 
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
 
@@ -156,15 +152,41 @@ const ProofsPage: React.FC = () => {
   }
 
   return (
-    <DefaultLayout>
-      <Masthead />
-      <ContentArea>
-        <div className={styles.wrapper}>
-          <ProofFeeds />
+    <div className={styles.wrapper}>
+      <div
+        className={styles.feedContainer}
+        onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
+        ref={tableContainerRef}
+      >
+        <div>
+          {paddingTop > 0 && (
+            <div>
+              <div style={{ height: `${paddingTop}px` }} />
+            </div>
+          )}
+          {virtualRows.map(virtualRow => {
+            const row = rows[virtualRow.index] as Row<PrfsProofInstanceSyn1>;
+            return (
+              <div key={row.id} className={styles.row}>
+                {row.getVisibleCells().map(cell => {
+                  return (
+                    <div key={cell.id}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+          {paddingBottom > 0 && (
+            <div>
+              <div style={{ height: `${paddingBottom}px` }} />
+            </div>
+          )}
         </div>
-      </ContentArea>
-    </DefaultLayout>
+      </div>
+    </div>
   );
 };
 
-export default ProofsPage;
+export default ProofFeeds;
