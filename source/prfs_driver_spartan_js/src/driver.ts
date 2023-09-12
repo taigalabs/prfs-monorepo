@@ -22,22 +22,22 @@ import { deserializePublicInput, serializePublicInput } from "./serialize";
 
 export default class SpartanDriver implements CircuitDriver {
   handlers: PrfsHandlers;
-  wtnsGenUrl: string;
   circuit: Uint8Array;
+  wtnsGen: Uint8Array;
 
   constructor(args: SpartanDriverCtorArgs) {
     this.handlers = args.handlers;
 
     if (args.circuit === undefined) {
-      throw new Error("Spartan cannot be instantiated without circuitUrl");
+      throw new Error("Spartan cannot be instantiated without circuit");
     }
 
-    if (args.wtnsGenUrl === undefined) {
-      throw new Error("Spartan cannot be instantiated without wtnsGenUrl");
+    if (args.wtnsGen === undefined) {
+      throw new Error("Spartan cannot be instantiated without wtnsGen");
     }
 
     this.circuit = args.circuit;
-    this.wtnsGenUrl = args.wtnsGenUrl;
+    this.wtnsGen = args.wtnsGen;
   }
 
   async getBuildStatus(): Promise<BuildStatus> {
@@ -97,7 +97,7 @@ export default class SpartanDriver implements CircuitDriver {
     };
 
     // console.log("witnessGenInput: %o", witnessGenInput);
-    const witness = await snarkJsWitnessGen(witnessGenInput, this.wtnsGenUrl);
+    const witness = await snarkJsWitnessGen(witnessGenInput, this.wtnsGen);
 
     eventListener("info", "Computed witness gen input");
 
@@ -140,8 +140,9 @@ export default class SpartanDriver implements CircuitDriver {
 
 export interface SpartanDriverCtorArgs {
   handlers: PrfsHandlers;
-  wtnsGenUrl: string;
+  // wtnsGenUrl: string;
   circuit: Uint8Array;
+  wtnsGen: Uint8Array;
 }
 
 export interface MembershipProveInputs {
