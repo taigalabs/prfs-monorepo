@@ -9,6 +9,7 @@ import { Circuitry } from "@phosphor-icons/react";
 import { TbTable } from "@taigalabs/prfs-react-components/src/tabler_icons/TbTable";
 import { TbTableAlias } from "@taigalabs/prfs-react-components/src/tabler_icons/TbTableAlias";
 import ActiveLink from "@taigalabs/prfs-react-components/src/active_link/ActiveLink";
+import { FaVoteYea } from "@react-icons/all-files/fa/FaVoteYea";
 
 import styles from "./LeftBar.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -58,6 +59,19 @@ const Leftbar: React.FC<any> = () => {
               <div className={styles.button}>
                 <IoDocument />
                 <span>{i18n.proof_types}</span>
+              </div>
+            </ActiveLink>
+          </li>
+        </ul>
+      </div>
+      <div className={styles.section}>
+        <ul>
+          <li className={styles.category}>{i18n.votes}</li>
+          <li>
+            <ActiveLink href={paths.votes} activeClassName={styles.activeLink}>
+              <div className={cn(styles.button)}>
+                <FaVoteYea />
+                <span>{i18n.votes}</span>
               </div>
             </ActiveLink>
           </li>

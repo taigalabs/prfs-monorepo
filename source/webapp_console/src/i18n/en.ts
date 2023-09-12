@@ -100,6 +100,7 @@ export default {
   show_more: "Show more",
   url: "URL",
   vote: "Vote",
+  votes: "Votes",
   enrollment: "Enrollment",
   talk: "Talk",
   beta: "Beta",

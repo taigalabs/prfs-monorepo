@@ -9,6 +9,7 @@ export const paths = {
   proof_wizard: "/#proof_wizard",
   proof_instances: "/proof_instances",
   proof_types: "/proof_types",
+  votes: "/votes",
   circuits: "/circuits",
   circuit_drivers: "/circuit_drivers",
   circuit_types: "/circuit_types",
