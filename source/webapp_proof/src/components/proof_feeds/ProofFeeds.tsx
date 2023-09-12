@@ -22,6 +22,7 @@ import { paths } from "@/paths";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import Masthead from "@/components/masthead/Masthead";
 import ContentArea from "@/components/content_area/ContentArea";
+import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
 
 const fetchSize = 25;
 
@@ -31,9 +32,11 @@ const RowItem: React.FC<EntryProps> = ({ row }) => {
 
   const proofInstanceId = renderCell(proofInstanceIdCell);
   const proofLabel = renderCell(proofLabelCell);
+  const imgUrl = renderCell(imgUrlCell);
 
   return (
     <div className={styles.rowItem}>
+      <div>{imgUrl}</div>
       {proofInstanceId}
       {proofLabel}
     </div>
@@ -58,6 +61,15 @@ const ProofFeeds: React.FC = () => {
       {
         accessorFn: row => row.img_url,
         header: "Img url",
+        cell: info => {
+          const img_url = info.getValue() as string;
+
+          return (
+            <div className={styles.imgCol}>
+              <CaptionedImg img_url={img_url} size={50} />
+            </div>
+          );
+        },
       },
       // {
       //   accessorFn: row => row.lastName,

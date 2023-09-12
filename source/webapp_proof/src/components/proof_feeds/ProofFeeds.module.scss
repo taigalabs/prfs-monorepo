@@ -2,8 +2,8 @@
   width: 100vw;
   height: 100vh;
   border: 1px solid blue;
-  padding-left: calc(50vw - 250px);
-  padding-right: calc(50vw - 250px);
+  padding-left: calc(50vw - 260px);
+  padding-right: calc(50vw - 260px);
 }
 
 .topPlaceholder {
@@ -11,10 +11,12 @@
 }
 
 .feedContainer {
-  width: calc(100vh - 80px);
+  width: 100%;
 }
 
 .rowItem {
   padding: 5px 0;
   border: 1px solid gray;
+  display: flex;
+  align-items: center;
 }
