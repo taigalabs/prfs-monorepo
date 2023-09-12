@@ -153,6 +153,7 @@ const ProofFeeds: React.FC = () => {
 
   return (
     <div className={styles.wrapper}>
+      <div className={styles.topPlaceholder} />
       <div
         className={styles.feedContainer}
         onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
