@@ -64,6 +64,13 @@ export default class SpartanDriver implements CircuitDriver {
     // console.log("inputs: %o", inputs);
 
     const { r, s, v } = fromSig(sig);
+
+    //
+    const poseidon = this.newPoseidon();
+    const posResult = await poseidon([s, BigInt(0)]);
+    console.log(666, posResult);
+    //
+
     const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash);
 
     eventListener("debug", "Computed ECDSA pub input");

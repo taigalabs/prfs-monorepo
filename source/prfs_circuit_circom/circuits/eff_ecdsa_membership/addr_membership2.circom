@@ -41,16 +41,14 @@ template AddrMembership2(nLevels, n, k) {
     ecdsa.Ux <== Ux;
     ecdsa.Uy <== Uy;
     ecdsa.s <== s;
-    // ecdsa.r <== r;
-    // ecdsa.m <== m;
 
     // log("ecdsa pubKeyX", ecdsa.pubKeyX);
     // log("ecdsa pubKeyY", ecdsa.pubKeyY);
     component poseidon = Poseidon();
     poseidon.inputs[0] <== s;
-    poseidon.inputs[1] <== s;
+    poseidon.inputs[1] <== 0;
     // signal posResult;
-    log("pos result", poseidon.out);
+    log("pos result11", poseidon.out);
 
     component pubKeyXBits = Num2Bits(256);
     pubKeyXBits.in <== ecdsa.pubKeyX;
