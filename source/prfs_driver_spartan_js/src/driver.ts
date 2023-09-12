@@ -57,91 +57,99 @@ export default class SpartanDriver implements CircuitDriver {
   }
 
   async prove(args: ProveArgs<MembershipProveInputs>): Promise<ProveReceipt> {
-    const { inputs, eventListener } = args;
-    const { sigData, merkleProof } = inputs;
-    const { msgRaw, msgHash, sig } = sigData;
+    try {
+      const { inputs, eventListener } = args;
+      const { sigData, merkleProof } = inputs;
+      const { msgRaw, msgHash, sig } = sigData;
+      // console.log("inputs: %o", inputs);
 
-    // console.log("inputs: %o", inputs);
+      const { r, s, v } = fromSig(sig);
 
-    const { r, s, v } = fromSig(sig);
+      const poseidon = this.newPoseidon();
+      const serialNo = await poseidon([s, BigInt(0)]);
 
-    //
-    const poseidon = this.newPoseidon();
-    const posResult = await poseidon([s, BigInt(0)]);
-    console.log(666, posResult);
-    //
+      const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash);
 
-    const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash);
+      eventListener("debug", "Computed ECDSA pub input");
 
-    eventListener("debug", "Computed ECDSA pub input");
+      const circuitPubInput = new CircuitPubInput(
+        merkleProof.root,
+        effEcdsaPubInput.Tx,
+        effEcdsaPubInput.Ty,
+        effEcdsaPubInput.Ux,
+        effEcdsaPubInput.Uy,
+        serialNo
+      );
 
-    const circuitPubInput = new CircuitPubInput(
-      merkleProof.root,
-      effEcdsaPubInput.Tx,
-      effEcdsaPubInput.Ty,
-      effEcdsaPubInput.Ux,
-      effEcdsaPubInput.Uy
-    );
+      const publicInput = new PublicInput(r, v, msgRaw, msgHash, circuitPubInput);
+      const m = new BN(msgHash).mod(SECP256K1_P);
 
-    const publicInput = new PublicInput(r, v, msgRaw, msgHash, circuitPubInput);
-    const m = new BN(msgHash).mod(SECP256K1_P);
+      const witnessGenInput = {
+        r,
+        s,
+        m: BigInt(m.toString()),
 
-    const witnessGenInput = {
-      r,
-      s,
-      m: BigInt(m.toString()),
+        // merkle root
+        root: merkleProof.root,
+        siblings: merkleProof.siblings,
+        pathIndices: merkleProof.pathIndices,
 
-      // merkle root
-      root: merkleProof.root,
-      siblings: merkleProof.siblings,
-      pathIndices: merkleProof.pathIndices,
+        // Eff ECDSA PubInput
+        Tx: effEcdsaPubInput.Tx,
+        Ty: effEcdsaPubInput.Ty,
+        Ux: effEcdsaPubInput.Ux,
+        Uy: effEcdsaPubInput.Uy,
 
-      // Eff ECDSA PubInput
-      Tx: effEcdsaPubInput.Tx,
-      Ty: effEcdsaPubInput.Ty,
-      Ux: effEcdsaPubInput.Ux,
-      Uy: effEcdsaPubInput.Uy,
-    };
+        serialNo,
+      };
 
-    // console.log("witnessGenInput: %o", witnessGenInput);
-    const witness = await snarkJsWitnessGen(witnessGenInput, this.wtnsGen);
+      // console.log("witnessGenInput: %o", witnessGenInput);
+      const witness = await snarkJsWitnessGen(witnessGenInput, this.wtnsGen);
 
-    eventListener("info", "Computed witness gen input");
+      eventListener("info", "Computed witness gen input");
 
-    const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
+      const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
 
-    const prev = performance.now();
-    const proof = await this.handlers.prove(this.circuit, witness.data, circuitPublicInput);
-    const now = performance.now();
+      const prev = performance.now();
+      const proof = await this.handlers.prove(this.circuit, witness.data, circuitPublicInput);
+      const now = performance.now();
 
-    return {
-      duration: now - prev,
-      proveResult: {
-        proof,
-        publicInputSer: serializePublicInput(publicInput),
-      },
-    };
+      return {
+        duration: now - prev,
+        proveResult: {
+          proof,
+          publicInputSer: serializePublicInput(publicInput),
+        },
+      };
+    } catch (err) {
+      console.error("Error creating a proof, err: %o", err);
+
+      return Promise.reject(err);
+    }
   }
 
   async verify(args: VerifyArgs): Promise<boolean> {
-    const { inputs } = args;
-    const { proof, publicInputSer } = inputs;
-
-    const publicInput = deserializePublicInput(publicInputSer);
-    const isPubInputValid = verifyEffEcdsaPubInput(publicInput as PublicInput);
-
-    let isProofValid;
     try {
+      const { inputs } = args;
+      const { proof, publicInputSer } = inputs;
+
+      const publicInput = deserializePublicInput(publicInputSer);
+      const isPubInputValid = verifyEffEcdsaPubInput(publicInput as PublicInput);
+
+      let isProofValid;
       isProofValid = await this.handlers.verify(
         this.circuit,
         proof,
         publicInput.circuitPubInput.serialize()
       );
-    } catch (_e) {
       isProofValid = false;
-    }
 
-    return isProofValid && isPubInputValid;
+      return isProofValid && isPubInputValid;
+    } catch (err) {
+      console.error("Error verifying a proof, err: %o", err);
+
+      return Promise.reject(err);
+    }
   }
 }
 
