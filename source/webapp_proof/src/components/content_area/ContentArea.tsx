@@ -6,6 +6,10 @@ const ContentArea: React.FC<ContentAreaProps> = ({ children }) => {
   return <div>{children}</div>;
 };
 
+export const TopPlaceholder = () => {
+  return <div className={styles.mastheadPlaceholder} />;
+};
+
 export default ContentArea;
 
 export interface ContentAreaProps {
