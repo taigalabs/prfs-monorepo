@@ -26,7 +26,7 @@ async fn main() -> Result<(), ApiServerError> {
         .await
         .unwrap();
 
-    let server_state = Arc::new(ServerState { db2 });
+    let server_state = Arc::new(ServerState::new(db2).unwrap());
 
     let router = router::make_router(server_state).expect("make_router fail");
     let service = RouterService::new(router).expect("router service init fail");
