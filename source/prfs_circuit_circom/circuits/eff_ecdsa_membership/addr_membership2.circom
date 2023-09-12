@@ -46,12 +46,12 @@ template AddrMembership2(nLevels, n, k) {
 
     // log("ecdsa pubKeyX", ecdsa.pubKeyX);
     // log("ecdsa pubKeyY", ecdsa.pubKeyY);
+
+    // Serial number
     component poseidon = Poseidon();
     poseidon.inputs[0] <== s;
     poseidon.inputs[1] <== 0;
-    // signal posResult;
-    log("serialNo33", serialNo);
-    log("pos result11", poseidon.out);
+    serialNo === poseidon.out;
 
     component pubKeyXBits = Num2Bits(256);
     pubKeyXBits.in <== ecdsa.pubKeyX;
