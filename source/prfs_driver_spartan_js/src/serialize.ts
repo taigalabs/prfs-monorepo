@@ -2,7 +2,7 @@ import { CircuitPubInput, PublicInput } from "./helpers/public_input";
 
 export function serializePublicInput(publicInput: PublicInput): string {
   const { circuitPubInput, msgHash, r, rV, msgRaw } = publicInput;
-  const { merkleRoot, Tx, Ty, Ux, Uy } = circuitPubInput;
+  const { merkleRoot, Tx, Ty, Ux, Uy, serialNo } = circuitPubInput;
 
   const publicInputSer: PublicInputSerObject = {
     r: r.toString(),
@@ -15,6 +15,7 @@ export function serializePublicInput(publicInput: PublicInput): string {
       Ty: Ty.toString() + "n",
       Ux: Ux.toString() + "n",
       Uy: Uy.toString() + "n",
+      serialNo: serialNo.toString() + "n",
     },
   };
 
@@ -35,7 +36,8 @@ export function deserializePublicInput(publicInputSer: string): PublicInput {
       BigInt(circuitPubInput.Tx.substring(0, circuitPubInput.Tx.length - 1)),
       BigInt(circuitPubInput.Ty.substring(0, circuitPubInput.Ty.length - 1)),
       BigInt(circuitPubInput.Ux.substring(0, circuitPubInput.Ux.length - 1)),
-      BigInt(circuitPubInput.Uy.substring(0, circuitPubInput.Uy.length - 1))
+      BigInt(circuitPubInput.Uy.substring(0, circuitPubInput.Uy.length - 1)),
+      BigInt(circuitPubInput.Uy.substring(0, circuitPubInput.serialNo.length - 1))
     )
   );
 
@@ -53,5 +55,6 @@ interface PublicInputSerObject {
     Ty: string;
     Ux: string;
     Uy: string;
+    serialNo: string;
   };
 }

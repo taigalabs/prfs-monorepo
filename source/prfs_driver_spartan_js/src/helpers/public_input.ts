@@ -18,8 +18,7 @@ export const SECP256K1_N = new BN(
 
 /**
  * Public inputs that are passed into the membership circuit
- * This doesn't include the public values that aren't passed into the circuit,
- * which are the group element R and the msgHash.
+ * This doesn't include the public values that aren't passed into the circuit
  */
 export class CircuitPubInput {
   merkleRoot: bigint;
@@ -27,13 +26,22 @@ export class CircuitPubInput {
   Ty: bigint;
   Ux: bigint;
   Uy: bigint;
+  serialNo: bigint;
 
-  constructor(merkleRoot: bigint, Tx: bigint, Ty: bigint, Ux: bigint, Uy: bigint) {
+  constructor(
+    merkleRoot: bigint,
+    Tx: bigint,
+    Ty: bigint,
+    Ux: bigint,
+    Uy: bigint,
+    serialNo: bigint
+  ) {
     this.merkleRoot = merkleRoot;
     this.Tx = Tx;
     this.Ty = Ty;
     this.Ux = Ux;
     this.Uy = Uy;
+    this.serialNo = serialNo;
   }
 
   serialize(): Uint8Array {
@@ -44,6 +52,7 @@ export class CircuitPubInput {
     serialized.set(bigIntToBytes(this.Ty, 32), 64);
     serialized.set(bigIntToBytes(this.Ux, 32), 96);
     serialized.set(bigIntToBytes(this.Uy, 32), 128);
+    serialized.set(bigIntToBytes(this.serialNo, 32), 160);
 
     return serialized;
   }
@@ -54,8 +63,9 @@ export class CircuitPubInput {
     const Ty = bytesToBigInt(serialized.slice(64, 96));
     const Ux = bytesToBigInt(serialized.slice(96, 128));
     const Uy = bytesToBigInt(serialized.slice(128, 160));
+    const serialNo = bytesToBigInt(serialized.slice(160, 192));
 
-    return new CircuitPubInput(merkleRoot, Tx, Ty, Ux, Uy);
+    return new CircuitPubInput(merkleRoot, Tx, Ty, Ux, Uy, serialNo);
   }
 }
 

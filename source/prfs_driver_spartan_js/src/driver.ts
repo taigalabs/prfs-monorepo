@@ -65,11 +65,9 @@ export default class SpartanDriver implements CircuitDriver {
 
     const { r, s, v } = fromSig(sig);
 
-    //
     const poseidon = this.newPoseidon();
-    const posResult = await poseidon([s, BigInt(0)]);
-    console.log(666, posResult);
-    //
+    const serialNo = await poseidon([s, BigInt(0)]);
+    console.log("serialNo111", serialNo);
 
     const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash);
 
@@ -80,7 +78,8 @@ export default class SpartanDriver implements CircuitDriver {
       effEcdsaPubInput.Tx,
       effEcdsaPubInput.Ty,
       effEcdsaPubInput.Ux,
-      effEcdsaPubInput.Uy
+      effEcdsaPubInput.Uy,
+      serialNo
     );
 
     const publicInput = new PublicInput(r, v, msgRaw, msgHash, circuitPubInput);
@@ -101,6 +100,8 @@ export default class SpartanDriver implements CircuitDriver {
       Ty: effEcdsaPubInput.Ty,
       Ux: effEcdsaPubInput.Ux,
       Uy: effEcdsaPubInput.Uy,
+
+      serialNo,
     };
 
     // console.log("witnessGenInput: %o", witnessGenInput);
@@ -113,6 +114,8 @@ export default class SpartanDriver implements CircuitDriver {
     const prev = performance.now();
     const proof = await this.handlers.prove(this.circuit, witness.data, circuitPublicInput);
     const now = performance.now();
+
+    console.log(123123);
 
     return {
       duration: now - prev,

@@ -26,9 +26,11 @@ template AddrMembership2(nLevels, n, k) {
     signal input Ty; 
     signal input Ux;
     signal input Uy;
+
     signal input m;
     signal input r;
     signal input s;
+    signal input serialNo;
 
     // merkle proof
     signal input root;
@@ -48,6 +50,7 @@ template AddrMembership2(nLevels, n, k) {
     poseidon.inputs[0] <== s;
     poseidon.inputs[1] <== 0;
     // signal posResult;
+    log("serialNo33", serialNo);
     log("pos result11", poseidon.out);
 
     component pubKeyXBits = Num2Bits(256);
