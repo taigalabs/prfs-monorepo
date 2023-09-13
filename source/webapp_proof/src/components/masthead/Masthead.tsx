@@ -24,30 +24,30 @@ const Masthead: React.FC = () => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.leftMenu}>
-        <div className={styles.logoContainer}>
-          <Link href={paths.__}>
-            <Logo variant="simple" />
-            <p className={styles.appName}>{i18n.proof}</p>
-          </Link>
-          <p className={styles.betaTag}>Beta</p>
+      <div className={styles.inner}>
+        <div className={styles.leftGroup}>
+          <div className={styles.logoContainer}>
+            <Link href={paths.__}>
+              <Logo variant="simple" />
+              <p className={styles.appName}>{i18n.proof}</p>
+            </Link>
+            <p className={styles.betaTag}>Beta</p>
+          </div>
+          <ul className={styles.leftMenu}>
+            <li>
+              <ActiveLink href={paths.generate} exact>
+                {i18n.generate}
+              </ActiveLink>
+            </li>
+            <li>
+              <ActiveLink href={paths.proofs}>{i18n.proofs}</ActiveLink>
+            </li>
+          </ul>
         </div>
-        <ul>
-          <li>
-            <ActiveLink href={paths.generate} exact>
-              {i18n.generate}
-            </ActiveLink>
-          </li>
-          <li>
-            <ActiveLink href={paths.proofs}>{i18n.proofs}</ActiveLink>
-          </li>
-        </ul>
-      </div>
-      <div className={styles.searchBarContainer}>
-        <SearchBar />
-      </div>
-      <div className={styles.rightMenu}>
-        <ul>
+        <div className={styles.searchBarContainer}>
+          <SearchBar />
+        </div>
+        <ul className={styles.rightGroup}>
           <li>
             <Link href={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}>{i18n.console}</Link>
           </li>

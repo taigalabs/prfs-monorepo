@@ -6,9 +6,9 @@
 }
 
 .borderBox {
-  width: 520px;
+  width: 480px;
   height: 100vh;
-  border: 1px solid red;
+  border: 1px solid var(--bright-gray-30);
 }
 
 .topPlaceholder {
@@ -16,9 +16,8 @@
 }
 
 .feedContainer {
-  /* border: 1px solid blue; */
   position: fixed;
   top: 0;
-  left: calc(50vw - 260px);
-  right: calc(50vw - 260px);
+  left: calc(50vw - 240px);
+  right: calc(50vw - 240px);
 }

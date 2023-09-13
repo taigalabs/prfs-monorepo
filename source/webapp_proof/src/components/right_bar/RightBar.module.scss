@@ -1,0 +1,11 @@
+.wrapper {
+  top: 0;
+  left: calc(50vw + 240px);
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 20px;
+  width: 320px;
+  height: 100vh;
+  overflow-x: hidden;
+}
