@@ -1,13 +1,13 @@
 import React from "react";
 import cn from "classnames";
 import Link from "next/link";
+import { GrMonitor } from "@react-icons/all-files/gr/GrMonitor";
+import { FaVoteYea } from "@react-icons/all-files/fa/FaVoteYea";
 
 import styles from "./PrfsAppsPopover.module.scss";
 import IconButton from "../icon_button/IconButton";
 import Popover from "../popover/Popover";
 import { TbMathPi } from "../tabler_icons/TbMathPi";
-import MiForest from "../material_icons/MiForest";
-import MiHowToVote from "../material_icons/MiHowToVote";
 
 const i18n = {
   proof: "Proof",
@@ -30,12 +30,13 @@ const Modal: React.FC<MerkleProofModalProps> = ({
       </li>
       <li>
         <Link className={styles.appEntry} href={webappConsoleEndpoint}>
+          <GrMonitor />
           <span>{i18n.console}</span>
         </Link>
       </li>
       <li>
         <Link className={styles.appEntry} href={webappPollEndpoint}>
-          <MiHowToVote />
+          <FaVoteYea />
           <span>{i18n.poll}</span>
         </Link>
       </li>

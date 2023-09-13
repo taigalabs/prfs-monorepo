@@ -101,6 +101,8 @@ export default {
   url: "URL",
   vote: "Vote",
   votes: "Votes",
+  poll: "Poll",
+  polls: "Polls",
   bucket: "Bucket",
   buckets: "Buckets",
   enrollment: "Enrollment",
