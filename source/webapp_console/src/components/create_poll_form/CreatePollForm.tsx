@@ -20,25 +20,20 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
   const router = useRouter();
   const localPrfsAccount = useAppSelector(state => state.user.localPrfsAccount);
 
-  const [name, setName] = React.useState("");
-  const [desc, setDesc] = React.useState("");
+  const [formData, setFormData] = React.useState({});
   const [errMsg, setErrMsg] = React.useState("");
 
-  const handleChangeName = React.useCallback(
+  const handleChangeFormData = React.useCallback(
     (ev: any) => {
-      setName(ev.target.value);
+      setFormData(oldState => ({
+        ...oldState,
+        [ev.target.name]: ev.target.value,
+      }));
     },
-    [setName]
+    [setFormData]
   );
 
-  const handleChangeDesc = React.useCallback(
-    (ev: any) => {
-      setDesc(ev.target.value);
-    },
-    [setDesc]
-  );
-
-  const handleClickCreatePoll = React.useCallback(() => {}, []);
+  const handleClickCreatePoll = React.useCallback(() => {}, [formData]);
 
   return (
     <div className={styles.wrapper}>
@@ -56,12 +51,13 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
           <WidgetPaddedBody>
             <div className={styles.desc}>{i18n.create_poll_subtitle}</div>
             <div className={styles.textInputContainer}>
-              <FormTextInput label={i18n.label} handleChange={handleChangeName} />
+              <FormTextInput label={i18n.label} name="label" handleChange={handleChangeFormData} />
             </div>
             <div className={styles.textInputContainer}>
               <FormTextareaInput
+                name="desc"
                 label={i18n.description}
-                handleChange={handleChangeDesc}
+                handleChange={handleChangeFormData}
                 rows={4}
               />
             </div>

@@ -76,11 +76,9 @@ const CreateProofForm: React.FC = () => {
 
   const handleClickUpload = React.useCallback(async () => {
     if (proveReceipt && selectedProofTypeItem) {
-      const { duration, proveResult } = proveReceipt;
+      const { proveResult } = proveReceipt;
       const { proof, publicInputSer } = proveResult;
       const public_inputs = JSON.parse(publicInputSer);
-
-      console.log("took %s ms to create a proof", duration);
 
       const proof_instance_id = uuidv4();
 

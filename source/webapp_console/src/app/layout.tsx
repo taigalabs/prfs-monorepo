@@ -6,6 +6,7 @@ import "./globals.scss";
 import React from "react";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import { Provider as StateProvider } from "react-redux";
+import { PrfsReactComponentsI18NProvider } from "@taigalabs/prfs-react-components/src/contexts/i18nContext";
 
 import { I18nProvider } from "@/contexts/i18n";
 import { store } from "@/state/store";
@@ -33,7 +34,9 @@ const ParentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) =
   return (
     <ThirdwebProvider activeChain="ethereum">
       <StateProvider store={store}>
-        <I18nProvider>{children}</I18nProvider>
+        <PrfsReactComponentsI18NProvider>
+          <I18nProvider>{children}</I18nProvider>
+        </PrfsReactComponentsI18NProvider>
       </StateProvider>
     </ThirdwebProvider>
   );
