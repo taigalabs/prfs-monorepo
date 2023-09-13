@@ -20,6 +20,7 @@ import ContentArea, { TopPlaceholder } from "@/components/content_area/ContentAr
 import { envs } from "@/envs";
 import ProofDetailView from "@/components/proof_detail_view/ProofDetailView";
 import Link from "next/link";
+import Masthead from "@/components/masthead/Masthead";
 
 const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -47,7 +48,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
 
   return (
     <DefaultLayout>
-      <LeftBar />
+      <Masthead />
       <ContentArea>
         <TopPlaceholder />
         <div className={styles.container}>
