@@ -1,0 +1,21 @@
+.wrapper {
+  padding: 5px 0;
+  border: 1px solid gray;
+  display: flex;
+  align-items: center;
+}
+
+.label {
+  font-weight: 500;
+}
+
+.header {
+  > span:not(:first-child) {
+    margin-left: 2px;
+    color: var(--gray-30);
+  }
+}
+
+.prioritizedValues {
+  margin-top: 3px;
+}

@@ -1,8 +1,14 @@
 .wrapper {
   width: 100vw;
   height: 100vh;
-  padding-left: calc(50vw - 260px);
-  padding-right: calc(50vw - 260px);
+  display: flex;
+  justify-content: center;
+}
+
+.borderBox {
+  width: 520px;
+  height: 100vh;
+  border: 1px solid red;
 }
 
 .topPlaceholder {
@@ -10,12 +16,9 @@
 }
 
 .feedContainer {
-  width: 100%;
-}
-
-.rowItem {
-  padding: 5px 0;
-  border: 1px solid gray;
-  display: flex;
-  align-items: center;
+  /* border: 1px solid blue; */
+  position: fixed;
+  top: 0;
+  left: calc(50vw - 260px);
+  right: calc(50vw - 260px);
 }

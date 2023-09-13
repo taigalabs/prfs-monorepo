@@ -19,33 +19,10 @@ import styles from "./ProofFeeds.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
 import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
+import dayjs from "dayjs";
+import RowItem from "./RowItem";
 
 const fetchSize = 25;
-
-const RowItem: React.FC<EntryProps> = ({ row }) => {
-  const cells = row.getVisibleCells();
-  const [imgUrlCell, proofLabelCell, createdAtCell, prioritizedValuesCell] = cells;
-
-  const imgUrl = renderCell(imgUrlCell);
-  const proofLabel = renderCell(proofLabelCell);
-  const createdAt = renderCell(createdAtCell);
-  const prioritizedValues = renderCell(prioritizedValuesCell);
-
-  console.log(22, prioritizedValues);
-
-  return (
-    <div className={styles.rowItem}>
-      <div>{imgUrl}</div>
-      <div>
-        <div>
-          <span>{proofLabel}</span>
-          <span className={styles.createdAt}>{createdAt}</span>
-        </div>
-        <div>{prioritizedValues}</div>
-      </div>
-    </div>
-  );
-};
 
 const ProofFeeds: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -73,7 +50,11 @@ const ProofFeeds: React.FC = () => {
       {
         accessorFn: row => row.created_at,
         header: "Created At",
-        cell: info => info.getValue(),
+        cell: info => {
+          const val = info.getValue() as string;
+          const day = dayjs(val);
+          return day.format("YYYY-MM-DD");
+        },
       },
       {
         accessorFn: row => row,
@@ -173,45 +154,38 @@ const ProofFeeds: React.FC = () => {
   const paddingBottom =
     virtualRows.length > 0 ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0) : 0;
 
-  if (isLoading) {
-    return <>Loading...</>;
-  }
-
   return (
     <div className={styles.wrapper}>
-      <div className={styles.topPlaceholder} />
-      <div
-        className={styles.feedContainer}
-        onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
-        ref={tableContainerRef}
-      >
-        <div>
-          {paddingTop > 0 && (
-            <div>
-              <div style={{ height: `${paddingTop}px` }} />
-            </div>
-          )}
-          {virtualRows.map(virtualRow => {
-            const row = rows[virtualRow.index] as Row<PrfsProofInstanceSyn1>;
-            return <RowItem key={row.id} row={row} />;
-          })}
-          {paddingBottom > 0 && (
-            <div>
-              <div style={{ height: `${paddingBottom}px` }} />
-            </div>
-          )}
+      <div className={styles.borderBox} />
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <div
+          className={styles.feedContainer}
+          onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
+          ref={tableContainerRef}
+        >
+          <div className={styles.topPlaceholder} />
+          <div>
+            {paddingTop > 0 && (
+              <div>
+                <div style={{ height: `${paddingTop}px` }} />
+              </div>
+            )}
+            {virtualRows.map(virtualRow => {
+              const row = rows[virtualRow.index] as Row<PrfsProofInstanceSyn1>;
+              return <RowItem key={row.id} row={row} />;
+            })}
+            {paddingBottom > 0 && (
+              <div>
+                <div style={{ height: `${paddingBottom}px` }} />
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
 
 export default ProofFeeds;
-
-export interface EntryProps {
-  row: Row<PrfsProofInstanceSyn1>;
-}
-
-function renderCell(cell: Cell<PrfsProofInstanceSyn1, unknown>) {
-  return flexRender(cell.column.columnDef.cell, cell.getContext());
-}
