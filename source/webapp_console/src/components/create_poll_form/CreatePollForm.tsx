@@ -30,34 +30,15 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
   const router = useRouter();
   const localPrfsAccount = useAppSelector(state => state.user.localPrfsAccount);
 
-  const [circuitInputs, setCircuitInputs] = React.useState<CircuitInput[]>([]);
   const [name, setName] = React.useState("");
-  const [imgUrl, setImgUrl] = React.useState(null);
-  const [imgCaption, setImgCaption] = React.useState(null);
   const [desc, setDesc] = React.useState("");
-  const [expression, setExpression] = React.useState("");
-  const [selectedCircuit, setSelectedCircuit] = React.useState<PrfsCircuitSyn1 | undefined>();
   const [errMsg, setErrMsg] = React.useState("");
-
-  const handleSelectCircuit = React.useCallback(
-    (val: PrfsCircuitSyn1) => {
-      setSelectedCircuit(val);
-    },
-    [setSelectedCircuit]
-  );
 
   const handleChangeName = React.useCallback(
     (ev: any) => {
       setName(ev.target.value);
     },
     [setName]
-  );
-
-  const handleChangeExpression = React.useCallback(
-    (ev: any) => {
-      setExpression(ev.target.value);
-    },
-    [setExpression]
   );
 
   const handleChangeDesc = React.useCallback(
@@ -67,109 +48,7 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
     [setDesc]
   );
 
-  const handleChangeImgUrl = React.useCallback(
-    (ev: any) => {
-      setImgUrl(ev.target.value);
-    },
-    [setImgUrl]
-  );
-
-  const handleChangeImgCaption = React.useCallback(
-    (ev: any) => {
-      setImgUrl(ev.target.value);
-    },
-    [setImgCaption]
-  );
-
-  const handleClickCreateProofType = React.useCallback(async () => {
-    if (!localPrfsAccount) {
-      setErrMsg("User is not signed in");
-      return;
-    }
-
-    const { prfsAccount } = localPrfsAccount;
-
-    if (!prfsAccount) {
-      setErrMsg("Invalid local prfs account");
-      return null;
-    }
-
-    if (name === undefined || name.length < 1) {
-      setErrMsg("Name should be defined");
-      return;
-    }
-
-    if (selectedCircuit === undefined) {
-      setErrMsg("Circuit should be selected");
-      return;
-    }
-
-    if (desc === undefined || desc.length < 1) {
-      setErrMsg("Description should be given");
-      return;
-    }
-
-    if (expression === undefined || expression.length < 1) {
-      setErrMsg("Expression should be given");
-      return;
-    }
-
-    const newCircuitInputs: CircuitInput[] = [];
-    const circuit_inputs_meta = selectedCircuit.circuit_inputs_meta as CircuitInputMeta[];
-
-    for (const [idx, input] of circuit_inputs_meta.entries()) {
-      switch (input.ref_type) {
-        case "PRFS_SET":
-          if (!circuitInputs[idx]) {
-            setErrMsg(`public input is undefined, idx: ${idx}`);
-            return;
-          }
-
-          newCircuitInputs[idx] = circuitInputs[idx];
-          break;
-
-        default:
-          newCircuitInputs[idx] = {
-            name: input.name,
-            label: input.label,
-            type: input.type,
-            desc: input.desc,
-            value: "",
-            ref_type: null,
-            ref_value: null,
-          };
-      }
-    }
-
-    setErrMsg("");
-
-    let proof_type_id = uuidv4();
-
-    let createPrfsProofTypeRequest = {
-      proof_type_id,
-      label: name,
-      desc,
-      img_url: imgUrl,
-      img_caption: imgCaption,
-      expression,
-      author: prfsAccount.account_id,
-      circuit_id: selectedCircuit.circuit_id,
-      circuit_type: selectedCircuit.circuit_type,
-      circuit_inputs: newCircuitInputs,
-      circuit_driver_id: selectedCircuit.circuit_driver_id,
-      driver_properties: selectedCircuit.driver_properties,
-    };
-
-    try {
-      await prfsApi2("create_prfs_proof_type", createPrfsProofTypeRequest);
-
-      router.push(paths.proof_types);
-    } catch (err: any) {
-      console.error(err);
-
-      setErrMsg(err.toString());
-    }
-  }, [circuitInputs, selectedCircuit, name, setErrMsg, desc, localPrfsAccount]);
+  const handleClickCreatePoll = React.useCallback(() => {}, []);
 
   return (
     <div className={styles.wrapper}>
@@ -185,9 +64,9 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
       <ContentAreaRow>
         <Widget>
           <WidgetPaddedBody>
-            <div className={styles.desc}>{i18n.create_proof_type_subtitle}</div>
+            <div className={styles.desc}>{i18n.create_poll_subtitle}</div>
             <div className={styles.textInputContainer}>
-              <FormTextInput label={i18n.name} handleChange={handleChangeName} />
+              <FormTextInput label={i18n.label} handleChange={handleChangeName} />
             </div>
             <div className={styles.textInputContainer}>
               <FormTextareaInput
@@ -195,15 +74,6 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
                 handleChange={handleChangeDesc}
                 rows={4}
               />
-            </div>
-            <div className={styles.textInputContainer}>
-              <FormTextInput label={i18n.expression} handleChange={handleChangeExpression} />
-            </div>
-            <div className={styles.textInputContainer}>
-              <FormTextInput label={i18n.image_url} handleChange={handleChangeImgUrl} />
-            </div>
-            <div className={styles.textInputContainer}>
-              <FormTextInput label={i18n.image_caption} handleChange={handleChangeImgCaption} />
             </div>
           </WidgetPaddedBody>
         </Widget>
@@ -214,7 +84,7 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
           {errMsg}
         </div>
 
-        <Button variant="aqua_blue_1" handleClick={handleClickCreateProofType}>
+        <Button variant="aqua_blue_1" handleClick={handleClickCreatePoll}>
           {i18n.create_poll}
         </Button>
       </WidgetPaddedBody>

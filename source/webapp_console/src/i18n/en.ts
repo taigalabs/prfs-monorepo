@@ -90,6 +90,8 @@ export default {
     "Proofs allow you to make an undeniable, anonymous claim. Start by choosing a specific proof type you want to make",
   create_proof_type_subtitle:
     "Proof instances are created based upon the type that is preconfigured. Start by choosing the circuit (program) and the reference values.",
+  create_poll_subtitle:
+    "Polls are a great way to pick thoughts. Start by choosing proof type that participants should submit",
   create_dynamic_set_element_subtitle: "You can add a new item to dynamic sets",
   proofs: "Proofs",
   forest: "Forest",
