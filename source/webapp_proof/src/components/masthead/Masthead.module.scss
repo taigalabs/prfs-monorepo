@@ -20,6 +20,14 @@
   letter-spacing: -0.021em;
 }
 
+.betaTag {
+  padding: 0px 2px;
+  transform: translateY(-7px);
+  font-size: 12px;
+  letter-spacing: -0.01em;
+  color: var(--gray-30);
+}
+
 .leftMenu {
   display: flex;
   align-items: center;

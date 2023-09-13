@@ -1,7 +1,6 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import { useSearchParams } from "next/navigation";
 import {
   Cell,
   ColumnDef,
@@ -18,46 +17,42 @@ import { GetPrfsProofInstancesResponse } from "@taigalabs/prfs-entities/bindings
 
 import styles from "./ProofFeeds.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { paths } from "@/paths";
-import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
-import Masthead from "@/components/masthead/Masthead";
-import ContentArea from "@/components/content_area/ContentArea";
 import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
+import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
 
 const fetchSize = 25;
 
 const RowItem: React.FC<EntryProps> = ({ row }) => {
   const cells = row.getVisibleCells();
-  const [proofInstanceIdCell, proofLabelCell, imgUrlCell] = cells;
+  const [imgUrlCell, proofLabelCell, createdAtCell, prioritizedValuesCell] = cells;
 
-  const proofInstanceId = renderCell(proofInstanceIdCell);
-  const proofLabel = renderCell(proofLabelCell);
   const imgUrl = renderCell(imgUrlCell);
+  const proofLabel = renderCell(proofLabelCell);
+  const createdAt = renderCell(createdAtCell);
+  const prioritizedValues = renderCell(prioritizedValuesCell);
+
+  console.log(22, prioritizedValues);
 
   return (
     <div className={styles.rowItem}>
       <div>{imgUrl}</div>
-      {proofInstanceId}
-      {proofLabel}
+      <div>
+        <div>
+          <span>{proofLabel}</span>
+          <span className={styles.createdAt}>{createdAt}</span>
+        </div>
+        <div>{prioritizedValues}</div>
+      </div>
     </div>
   );
 };
 
 const ProofFeeds: React.FC = () => {
   const i18n = React.useContext(i18nContext);
-
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
 
   const columns = React.useMemo<ColumnDef<PrfsProofInstanceSyn1>[]>(
     () => [
-      {
-        accessorFn: row => row.proof_instance_id,
-        header: "Proof instance id",
-      },
-      {
-        accessorFn: row => row.proof_label,
-        header: "Label",
-      },
       {
         accessorFn: row => row.img_url,
         header: "Img url",
@@ -71,35 +66,35 @@ const ProofFeeds: React.FC = () => {
           );
         },
       },
-      // {
-      //   accessorFn: row => row.lastName,
-      //   id: "lastName",
-      //   cell: info => info.getValue(),
-      //   header: () => <span>Last Name</span>,
-      // },
-      // {
-      //   accessorKey: "age",
-      //   header: () => "Age",
-      //   size: 50,
-      // },
-      // {
-      //   accessorKey: "visits",
-      //   header: () => <span>Visits</span>,
-      //   size: 50,
-      // },
-      // {
-      //   accessorKey: "status",
-      //   header: "Status",
-      // },
-      // {
-      //   accessorKey: "progress",
-      //   header: "Profile Progress",
-      //   size: 80,
-      // },
+      {
+        accessorFn: row => row.proof_label,
+        header: "Label",
+      },
       {
         accessorFn: row => row.created_at,
         header: "Created At",
         cell: info => info.getValue(),
+      },
+      {
+        accessorFn: row => row,
+        header: "Prioritized inputs",
+        cell: info => {
+          const row = info.getValue() as PrfsProofInstanceSyn1;
+
+          const { public_inputs } = row;
+
+          let values = [];
+          for (const meta of row.public_inputs_meta as PublicInputMeta[]) {
+            if (meta.show_priority === 0) {
+              const { name } = meta;
+              if (public_inputs[name]) {
+                values.push(public_inputs[name]);
+              }
+            }
+          }
+
+          return values;
+        },
       },
     ],
     []
@@ -164,7 +159,6 @@ const ProofFeeds: React.FC = () => {
     state: {},
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    // debugTable: true,
   });
 
   const { rows } = table.getRowModel();

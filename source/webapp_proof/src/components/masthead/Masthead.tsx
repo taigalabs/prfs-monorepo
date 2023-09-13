@@ -26,7 +26,11 @@ const Masthead: React.FC = () => {
     <div className={styles.wrapper}>
       <div className={styles.leftMenu}>
         <div className={styles.logoContainer}>
-          <Logo variant="simple" />
+          <Link href={paths.__}>
+            <Logo variant="simple" />
+            <p className={styles.appName}>{i18n.proof}</p>
+          </Link>
+          <p className={styles.betaTag}>Beta</p>
         </div>
         <ul>
           <li>

@@ -12,17 +12,13 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance, webappConsoleE
 
     const shortUrl = `${webappConsoleEndpoint}/p/${short_id}`;
 
-    let accessors = [];
     let values = [];
     for (const meta of public_inputs_meta as PublicInputMeta[]) {
       if (meta.show_priority === 0) {
-        accessors.push(meta.name);
-      }
-    }
-
-    for (const accessor of accessors) {
-      if (public_inputs[accessor]) {
-        values.push(public_inputs[accessor]);
+        const { name } = meta;
+        if (public_inputs[name]) {
+          values.push(public_inputs[name]);
+        }
       }
     }
 

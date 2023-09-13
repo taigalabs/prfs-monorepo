@@ -12,7 +12,6 @@ import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 
 const HomePage: React.FC = () => {
   const i18n = React.useContext(i18nContext);
-  const router = useRouter();
 
   return (
     <DefaultLayout>
