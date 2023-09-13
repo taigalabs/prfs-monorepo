@@ -21,12 +21,14 @@ import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/Cap
 import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
 import dayjs from "dayjs";
 import RowItem from "./RowItem";
+import { paths } from "@/paths";
 
 const fetchSize = 25;
 
 const ProofFeeds: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const columns = React.useMemo<ColumnDef<PrfsProofInstanceSyn1>[]>(
     () => [
@@ -76,6 +78,10 @@ const ProofFeeds: React.FC = () => {
 
           return values;
         },
+      },
+      {
+        accessorFn: row => row.proof_instance_id,
+        header: "Proof instance id",
       },
     ],
     []
@@ -174,6 +180,7 @@ const ProofFeeds: React.FC = () => {
             )}
             {virtualRows.map(virtualRow => {
               const row = rows[virtualRow.index] as Row<PrfsProofInstanceSyn1>;
+
               return <RowItem key={row.id} row={row} />;
             })}
             {paddingBottom > 0 && (

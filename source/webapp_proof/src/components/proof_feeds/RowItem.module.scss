@@ -2,9 +2,14 @@
   padding: 9px 12px;
   display: flex;
   align-items: center;
+  cursor: pointer;
 
   &:not(:first-child) {
     border-top: 1px solid var(--bright-gray-30);
+  }
+
+  &:hover {
+    background-color: var(--bright-gray-52);
   }
 }
 
