@@ -23,7 +23,7 @@ import {
 import { SpacedBetweenArea } from "@/components/area/Area";
 import { useAppDispatch } from "@/state/hooks";
 
-const Proofs: React.FC = () => {
+const BucketsPage: React.FC = () => {
   let i18n = React.useContext(i18nContext);
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -47,7 +47,7 @@ const Proofs: React.FC = () => {
         <>
           <ContentAreaHeader>
             <SpacedBetweenArea>
-              <WidgetLabel>{i18n.votes}</WidgetLabel>
+              <WidgetLabel>{i18n.buckets}</WidgetLabel>
               <Button variant="transparent_aqua_blue_1">
                 {/* <Link href={`${paths.proof_instances}?create`}> */}
                 {/*   <HiDocumentAdd /> */}
@@ -69,4 +69,4 @@ const Proofs: React.FC = () => {
   );
 };
 
-export default Proofs;
+export default BucketsPage;
