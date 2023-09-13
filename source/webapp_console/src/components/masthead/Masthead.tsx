@@ -6,7 +6,6 @@ import Logo from "@taigalabs/prfs-react-components/src/logo/Logo";
 
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-// import { stateContext } from "@/contexts/state";
 import PrfsAppsPopover from "./PrfsAppsPopover";
 import AccountPopover from "./AccountPopover";
 import useLocalWallet from "@/hooks/useLocalWallet";

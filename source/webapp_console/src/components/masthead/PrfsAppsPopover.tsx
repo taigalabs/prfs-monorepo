@@ -4,6 +4,7 @@ import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
 import { TbMathPi } from "@taigalabs/prfs-react-components/src/tabler_icons/TbMathPi";
 import MiForest from "@taigalabs/prfs-react-components/src/material_icons/MiForest";
 import MiHowToVote from "@taigalabs/prfs-react-components/src/material_icons/MiHowToVote";
+import Link from "next/link";
 
 import styles from "./PrfsAppsPopover.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -15,10 +16,10 @@ const Modal: React.FC<MerkleProofModalProps> = ({}) => {
   return (
     <ul className={styles.modal}>
       <li>
-        <div className={styles.appEntry}>
+        <Link className={styles.appEntry} href={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
           <TbMathPi />
           <span>{i18n.proof}</span>
-        </div>
+        </Link>
       </li>
       <li className={styles.inactive}>
         <div className={styles.appEntry}>
