@@ -9,7 +9,7 @@ import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/Arrow
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
 import { PrfsCircuitSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsCircuitSyn1";
 
-import styles from "./CreateProofTypeForm.module.scss";
+import styles from "./CreatePoll.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import Widget, {
   TopWidgetTitle,
@@ -25,7 +25,7 @@ import FormTextareaInput from "@/components/form/FormTextareaInput";
 import { ContentAreaRow } from "@/components/content_area/ContentArea";
 import { useAppSelector } from "@/state/hooks";
 
-const CreatePollForm: React.FC<CreateProofTypeFormProps> = () => {
+const CreatePollForm: React.FC<CreatePollFormProps> = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const localPrfsAccount = useAppSelector(state => state.user.localPrfsAccount);
@@ -175,10 +175,10 @@ const CreatePollForm: React.FC<CreateProofTypeFormProps> = () => {
     <div className={styles.wrapper}>
       <TopWidgetTitle>
         <div className={styles.header}>
-          <Link href={paths.proof_instances}>
+          <Link href={paths.polls}>
             <ArrowButton variant="left" />
           </Link>
-          <WidgetLabel>{i18n.create_proof_type}</WidgetLabel>
+          <WidgetLabel>{i18n.create_poll}</WidgetLabel>
         </div>
       </TopWidgetTitle>
 
@@ -209,39 +209,13 @@ const CreatePollForm: React.FC<CreateProofTypeFormProps> = () => {
         </Widget>
       </ContentAreaRow>
 
-      <ContentAreaRow>
-        <Widget>
-          <WidgetHeader>
-            <WidgetLabel>{i18n.choose_circuit}</WidgetLabel>
-          </WidgetHeader>
-          <WidgetPaddedBody>
-            <div className={styles.dropdownContainer}>
-              <div>{i18n.circuit}</div>
-              <CircuitDropdown
-                selectedVal={selectedCircuit}
-                handleSelectVal={handleSelectCircuit}
-              />
-            </div>
-          </WidgetPaddedBody>
-        </Widget>
-      </ContentAreaRow>
-
-      {selectedCircuit && (
-        <ContentAreaRow>
-          <CircuitInputConfigSection
-            circuitInputsMeta={selectedCircuit.circuit_inputs_meta as CircuitInputMeta[]}
-            setCircuitInputs={setCircuitInputs}
-          />
-        </ContentAreaRow>
-      )}
-
       <WidgetPaddedBody>
         <div className={styles.errMsg} style={{ opacity: errMsg.length > 0 ? 1 : 0 }}>
           {errMsg}
         </div>
 
         <Button variant="aqua_blue_1" handleClick={handleClickCreateProofType}>
-          {i18n.create_proof_type}
+          {i18n.create_poll}
         </Button>
       </WidgetPaddedBody>
     </div>

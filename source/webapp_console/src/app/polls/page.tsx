@@ -12,8 +12,6 @@ import { i18nContext } from "@/contexts/i18n";
 import { WidgetLabel } from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
-import ProofInstanceTable from "@/components/proof_instance_table/ProofInstanceTable";
-import CreateProofInstanceForm from "@/components/create_proof_instance_form/CreateProofInstanceForm";
 import { paths } from "@/paths";
 import {
   ContentAreaBody,
@@ -22,6 +20,7 @@ import {
 } from "@/components/content_area/ContentArea";
 import { SpacedBetweenArea } from "@/components/area/Area";
 import { useAppDispatch } from "@/state/hooks";
+import CreatePollForm from "@/components/create_poll_form/CreatePollForm";
 
 const PollsPage: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -42,7 +41,7 @@ const PollsPage: React.FC = () => {
   return (
     <DefaultLayout>
       {createPage ? (
-        <CreateProofInstanceForm />
+        <CreatePollForm />
       ) : (
         <>
           <ContentAreaHeader>
