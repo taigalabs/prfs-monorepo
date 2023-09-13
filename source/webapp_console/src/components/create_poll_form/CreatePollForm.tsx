@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
 
 import styles from "./CreatePoll.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -60,6 +61,9 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
                 handleChange={handleChangeFormData}
                 rows={4}
               />
+            </div>
+            <div>
+              <SelectProofTypeDialog handleSelectProofType={() => {}} />
             </div>
           </WidgetPaddedBody>
         </Widget>
