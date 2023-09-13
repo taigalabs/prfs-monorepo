@@ -29,7 +29,7 @@ const Masthead: React.FC = () => {
           <div className={styles.logoContainer}>
             <Link href={paths.__}>
               <Logo variant="simple" />
-              <p className={styles.appName}>{i18n.proof}</p>
+              <p className={styles.appName}>{i18n.poll}</p>
             </Link>
             <p className={styles.betaTag}>Beta</p>
           </div>

@@ -96,6 +96,8 @@ export default {
   proofs: "Proofs",
   forest: "Forest",
   proof: "Proof",
+  polls: "Polls",
+  poll: "Poll",
   loading: "Loading",
   generator: "Generator",
   create_dynamic_set_subtitle: "Dynamic sets allow you to build a table and modify it later",
