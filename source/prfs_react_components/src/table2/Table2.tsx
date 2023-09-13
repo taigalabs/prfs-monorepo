@@ -75,7 +75,7 @@ export function Table2Pagination<T>({ table }: Table2PaginationProps<T>) {
   return (
     <div className={styles.table2Pagination}>
       <div className={styles.rowsPerPage}>
-        <span>rows_per_page</span>
+        <span>Rows per page</span>
         <select
           value={pagination.pageSize}
           onChange={e => {

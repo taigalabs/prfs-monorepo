@@ -74,7 +74,7 @@ class ProofGenElement {
 
       const wrapperDiv = document.createElement("div");
       wrapperDiv.style.position = "absolute";
-      wrapperDiv.style.zIndex = "110";
+      // wrapperDiv.style.zIndex = "110";
       wrapperDiv.style.width = `${calcWidth}px`;
       wrapperDiv.style.height = `${calcHeight}px`;
       wrapperDiv.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";

@@ -89,7 +89,12 @@
   justify-content: flex-end;
   font-size: 15px;
 
-  li:not(:first-child) {
+  > li {
+    display: flex;
+    align-items: center;
+  }
+
+  > li:not(:first-child) {
     margin-left: 24px;
   }
 }
