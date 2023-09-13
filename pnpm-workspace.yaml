@@ -18,3 +18,4 @@ packages:
 
   - "source/webapp_console"
   - "source/webapp_proof"
+  - "source/webapp_poll"

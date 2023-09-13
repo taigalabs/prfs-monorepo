@@ -1,0 +1,24 @@
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+.borderBox {
+  width: 480px;
+  height: 100vh;
+  border-left: 1px solid var(--bright-gray-30);
+  border-right: 1px solid var(--bright-gray-30);
+}
+
+.topPlaceholder {
+  height: 80px;
+}
+
+.feedContainer {
+  position: fixed;
+  top: 0;
+  left: calc(50vw - 240px);
+  right: calc(50vw - 240px);
+}
