@@ -11,7 +11,7 @@ import { MdFilterList } from "@react-icons/all-files/md/MdFilterList";
 import MiKeyboardArrowLeft from "../material_icons/MiKeyboardArrowLeft";
 import MiKeyboardArrowRight from "../material_icons/MiKeyboardArrowRight";
 import MiKeyboardDoubleArrowLeft from "../material_icons/MiKeyboardDoubleArrowLeft";
-import MiKeyboardDoubleArrowRight from "../material_icons/MiKeyboardArrowRight";
+import MiKeyboardDoubleArrowRight from "../material_icons/MiKeyboardDoubleArrowRight";
 
 import styles from "./Table2.module.scss";
 

@@ -7,10 +7,8 @@ import { v4 as uuidv4 } from "uuid";
 import { ethers } from "ethers";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
-import SocialSharePopover from "@taigalabs/prfs-react-components/src/social_share_popover/SocialSharePopover";
 import { FaCloudMoon } from "@react-icons/all-files/fa/FaCloudMoon";
 import { useRouter } from "next/navigation";
-import QRDialog from "@taigalabs/prfs-react-components/src/proof_banner/QRDialog";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
 import styles from "./CreateProofForm.module.scss";

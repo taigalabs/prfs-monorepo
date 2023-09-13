@@ -77,7 +77,9 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSel
                   <div className={styles.header}>
                     <div className={styles.title}>{i18n.choose_proof_type}</div>
                     <div className={styles.btnArea}>
-                      <AiOutlineClose />
+                      <button onClick={() => setIsOpen(false)}>
+                        <AiOutlineClose />
+                      </button>
                     </div>
                   </div>
                   <ProofTypeTable handleSelectVal={extendedProofTypeClickHandler} />
