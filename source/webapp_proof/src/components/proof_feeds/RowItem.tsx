@@ -16,7 +16,7 @@ const RowItem: React.FC<EntryProps> = ({ row }) => {
 
   return (
     <div className={styles.wrapper}>
-      <div>{imgUrl}</div>
+      <div className={styles.leftCol}>{imgUrl}</div>
       <div className={styles.rightCol}>
         <div className={styles.header}>
           <span className={styles.label}>{proofLabel}</span>
