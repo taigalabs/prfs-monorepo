@@ -1,0 +1,71 @@
+.wrapper {
+  max-width: 760px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  a {
+    margin-right: 14px;
+  }
+}
+
+.desc {
+  width: 520px;
+  color: var(--gray-31);
+  line-height: 1.52em;
+}
+
+.textInputContainer {
+  &:not(:first-child) {
+    margin-top: 15px;
+  }
+
+  input {
+    max-width: 535px;
+  }
+}
+
+.dropdownContainer {
+  width: 535px;
+
+  > div:first-child {
+    margin-bottom: 5px;
+  }
+}
+
+.alert {
+  color: red;
+  margin: 12px 0;
+}
+
+.programSectionWrapper {
+  .item:not(:first-child) {
+    margin-top: 20px;
+  }
+
+  .label {
+    color: var(--gray-30);
+  }
+
+  .value {
+    margin-top: 9px;
+  }
+
+  a {
+    color: var(--green-51);
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.sdkContainer {
+  margin-top: 32px;
+}
+
+.btnRow {
+  margin-top: 24px;
+}

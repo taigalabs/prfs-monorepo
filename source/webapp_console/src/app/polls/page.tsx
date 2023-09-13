@@ -49,10 +49,10 @@ const PollsPage: React.FC = () => {
             <SpacedBetweenArea>
               <WidgetLabel>{i18n.polls}</WidgetLabel>
               <Button variant="transparent_aqua_blue_1">
-                {/* <Link href={`${paths.proof_instances}?create`}> */}
-                {/*   <HiDocumentAdd /> */}
-                {/*   <span>{i18n.create_proof_instance.toUpperCase()}</span> */}
-                {/* </Link> */}
+                <Link href={`${paths.polls}?create`}>
+                  <HiDocumentAdd />
+                  <span>{i18n.create_poll.toUpperCase()}</span>
+                </Link>
               </Button>
             </SpacedBetweenArea>
           </ContentAreaHeader>

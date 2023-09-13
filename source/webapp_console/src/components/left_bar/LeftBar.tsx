@@ -82,7 +82,7 @@ const Leftbar: React.FC<any> = () => {
         <ul>
           <li className={styles.category}>{i18n.polls}</li>
           <li>
-            <ActiveLink href={paths.votes} activeClassName={styles.activeLink}>
+            <ActiveLink href={paths.polls} activeClassName={styles.activeLink}>
               <div className={cn(styles.button)}>
                 <FaVoteYea />
                 <span>{i18n.polls}</span>
