@@ -1,5 +1,5 @@
 import React from "react";
-// import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import {
   ColumnDef,
@@ -85,11 +85,11 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = ({ handleSelectVal }) => {
 
   React.useEffect(() => {
     async function fn() {
-      // const { payload } = await prfsApi2("get_prfs_proof_types", {
-      //   page_idx: pageIndex,
-      //   page_size: pageSize,
-      // });
-      // setData(payload.prfs_proof_types);
+      const { payload } = await prfsApi2("get_prfs_proof_types", {
+        page_idx: pageIndex,
+        page_size: pageSize,
+      });
+      setData(payload.prfs_proof_types);
     }
 
     fn().then();

@@ -351,6 +351,9 @@ importers:
       '@tabler/icons-react':
         specifier: ^2.32.0
         version: 2.32.0(react@18.2.0)
+      '@taigalabs/prfs-api-js':
+        specifier: '*'
+        version: link:../prfs_api_js
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities

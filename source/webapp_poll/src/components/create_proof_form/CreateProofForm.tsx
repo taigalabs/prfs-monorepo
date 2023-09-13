@@ -10,10 +10,10 @@ import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { FaCloudMoon } from "@react-icons/all-files/fa/FaCloudMoon";
 import { useRouter } from "next/navigation";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
+import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
 
 import styles from "./CreateProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import SelectProofTypeDialog from "@/components/select_proof_type_dialog/SelectProofTypeDialog";
 import { paths } from "@/paths";
 
 const prfs = new PrfsSDK("test");
