@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../button/Button";
+import cn from "classnames";
 import {
   useFloating,
   useDismiss,
@@ -11,16 +11,20 @@ import {
   FloatingOverlay,
   FloatingPortal,
 } from "@floating-ui/react";
-import Fade from "../fade/Fade";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 
+import Fade from "../fade/Fade";
+import Button from "../button/Button";
 import styles from "./SelectProofTypeDialog.module.scss";
 import { i18nContext } from "../contexts/i18nContext";
 import ProofTypeTable from "./ProofTypeTable";
 import { ProofTypeItem } from "./ProofTypeTable";
 import CaptionedImg from "../captioned_img/CaptionedImg";
 
-const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSelectProofType }) => {
+const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
+  handleSelectProofType,
+  zIndex,
+}) => {
   const i18n = React.useContext(i18nContext);
   const [isOpen, setIsOpen] = React.useState(false);
   const [selectedProofTypeItem, setSelectedProofTypeItem] = React.useState<ProofTypeItem>();
@@ -50,7 +54,7 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSel
 
   return (
     <div className={styles.wrapper}>
-      <div ref={refs.setReference} {...getReferenceProps()}>
+      <div className={styles.base} ref={refs.setReference} {...getReferenceProps()}>
         <Button variant="white_gray_1">
           {selectedProofTypeItem ? (
             <div className={styles.chooseProofTypeBtnInner}>
@@ -64,8 +68,8 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSel
       </div>
       <FloatingPortal>
         {isOpen && (
-          <Fade>
-            <FloatingOverlay className={styles.dialogOverlay} lockScroll>
+          <FloatingOverlay style={{ zIndex: zIndex || 200 }}>
+            <Fade className={styles.dialogOverlay}>
               <FloatingFocusManager context={context}>
                 <div
                   className={styles.dialog}
@@ -85,8 +89,8 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSel
                   <ProofTypeTable handleSelectVal={extendedProofTypeClickHandler} />
                 </div>
               </FloatingFocusManager>
-            </FloatingOverlay>
-          </Fade>
+            </Fade>
+          </FloatingOverlay>
         )}
       </FloatingPortal>
     </div>
@@ -97,4 +101,5 @@ export default SelectProofTypeDialog;
 
 export interface SelectProofTypeDialogProps {
   handleSelectProofType: (proofTypeItem: ProofTypeItem) => void;
+  zIndex?: number;
 }

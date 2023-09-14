@@ -67,19 +67,6 @@ const Leftbar: React.FC<any> = () => {
       </div>
       <div className={styles.section}>
         <ul>
-          <li className={styles.category}>{i18n.buckets}</li>
-          <li>
-            <ActiveLink href={paths.buckets} activeClassName={styles.activeLink}>
-              <div className={cn(styles.button)}>
-                <FaBitbucket />
-                <span>{i18n.buckets}</span>
-              </div>
-            </ActiveLink>
-          </li>
-        </ul>
-      </div>
-      <div className={styles.section}>
-        <ul>
           <li className={styles.category}>{i18n.polls}</li>
           <li>
             <ActiveLink href={paths.polls} activeClassName={styles.activeLink}>
@@ -138,6 +125,19 @@ const Leftbar: React.FC<any> = () => {
               <div className={cn(styles.button)}>
                 <TbTableAlias />
                 <span>{i18n.dynamic_sets}</span>
+              </div>
+            </ActiveLink>
+          </li>
+        </ul>
+      </div>
+      <div className={styles.section}>
+        <ul>
+          <li className={styles.category}>{i18n.buckets}</li>
+          <li>
+            <ActiveLink href={paths.buckets} activeClassName={styles.activeLink}>
+              <div className={cn(styles.button)}>
+                <FaBitbucket />
+                <span>{i18n.buckets}</span>
               </div>
             </ActiveLink>
           </li>

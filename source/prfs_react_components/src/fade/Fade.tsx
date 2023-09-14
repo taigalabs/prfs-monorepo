@@ -1,8 +1,9 @@
 import React from "react";
+import cn from "classnames";
 
 import styles from "./Fade.module.scss";
 
-const Fade: React.FC<FadeProps> = ({ children }) => {
+const Fade: React.FC<FadeProps> = ({ children, className }) => {
   const [opacity, setOpacity] = React.useState(0);
 
   React.useEffect(() => {
@@ -13,7 +14,7 @@ const Fade: React.FC<FadeProps> = ({ children }) => {
 
   return (
     <div
-      className={styles.wrapper}
+      className={cn(styles.wrapper, className)}
       style={{
         opacity,
       }}
@@ -27,4 +28,5 @@ export default Fade;
 
 export interface FadeProps {
   children: React.ReactNode;
+  className?: string;
 }
