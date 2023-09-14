@@ -7,6 +7,8 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 import { useMutation } from "@tanstack/react-query";
 import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
+import { ProofTypeItem } from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/ProofTypeTable";
+import { CreatePrfsPollRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsPollRequest";
 
 import styles from "./CreatePoll.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -16,16 +18,46 @@ import { paths } from "@/paths";
 import FormTextareaInput from "@/components/form/FormTextareaInput";
 import { ContentAreaRow } from "@/components/content_area/ContentArea";
 import { useAppSelector } from "@/state/hooks";
-import { CreatePrfsPollRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsPollRequest";
-import { ProofTypeItem } from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/ProofTypeTable";
-import QuestionBlock from "./QuestionBlock";
+import QuestionBlock, { PollQuestion } from "./QuestionBlock";
 
 const CreatePollForm: React.FC<CreatePollFormProps> = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const localPrfsAccount = useAppSelector(state => state.user.localPrfsAccount);
 
-  const [questions, setQuestions] = React.useState([]);
+  const [questions, setQuestions] = React.useState<PollQuestion[]>([
+    {
+      type: "multiple_choice",
+      label: "",
+      required: true,
+      choices: [
+        {
+          label: "",
+        },
+      ],
+    },
+  ]);
+
+  const handleChangeQuestions = React.useCallback(
+    (idx: number, ev: React.ChangeEvent) => {
+      const target = ev.target as HTMLInputElement;
+      const { name, value } = target;
+
+      console.log(11, idx, name, value);
+
+      setQuestions(oldVals => {
+        const newVals = [...oldVals];
+        newVals[idx] = {
+          ...newVals[idx],
+          [name]: value,
+        };
+
+        return newVals;
+      });
+    },
+    [setQuestions]
+  );
+
   const [formData, setFormData] = React.useState<CreatePollFormData>({
     plural_voting: "single",
   });
@@ -84,10 +116,20 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
   }, [formData, localPrfsAccount, mutation, router]);
 
   const questionsElem = React.useMemo(() => {
-    return questions.map(question => {
-      return <QuestionBlock question={question} />;
+    return questions.map((question, idx) => {
+      return (
+        <QuestionBlock
+          key={idx}
+          question={question}
+          idx={idx}
+          handleChangeQuestions={handleChangeQuestions}
+          setQuestions={setQuestions}
+        />
+      );
     });
-  }, [questions]);
+  }, [questions, handleChangeQuestions, setQuestions]);
+
+  console.log(141, questions);
 
   return (
     <div className={styles.wrapper}>

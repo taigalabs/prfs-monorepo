@@ -1,0 +1,20 @@
+.wrapper {
+}
+
+.inputBox {
+  textarea {
+    border: 1px solid var(--gray-80);
+    border-radius: 3px;
+  }
+
+  &:not(:first-child) {
+    margin-top: 14px;
+  }
+}
+
+.choice {
+  input {
+    border: 1px solid var(--gray-80);
+    border-radius: 3px;
+  }
+}
