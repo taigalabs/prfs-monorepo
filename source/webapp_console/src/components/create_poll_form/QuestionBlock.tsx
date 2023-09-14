@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
-import { handleChildMessage } from "@taigalabs/prfs-sdk-web/src/proof_gen_element/handle_child_msg";
+import { IoAddCircleOutline } from "@react-icons/all-files/io5/IoAddCircleOutline";
 
 import styles from "./QuestionBlock.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -43,6 +43,7 @@ const QuestionBlock: React.FC<QuestionBlockProps> = ({
     return question.choices?.map((choice, idx) => {
       return (
         <div className={cn(styles.choice)} key={idx}>
+          <div className={styles.symbol} />
           <input value={choice.label} onChange={ev => handleChangeChoices(idx, ev)} />
         </div>
       );
@@ -65,27 +66,36 @@ const QuestionBlock: React.FC<QuestionBlockProps> = ({
     [idx, setQuestions]
   );
 
+  const handleChangeQuestionsExtended = React.useCallback(
+    (ev: React.ChangeEvent) => {
+      handleChangeQuestions(idx, ev);
+    },
+    [idx, handleChangeQuestions]
+  );
+
   return (
     <div className={styles.wrapper}>
       <p className={styles.questionNo}>{idx + 1}</p>
-      <div className={styles.topRow}>
-        <div className={styles.label}>
-          <textarea name="label" onChange={ev => handleChangeQuestions(idx, ev)} rows={2} />
+      <div className={styles.main}>
+        <div className={styles.topRow}>
+          <div className={styles.label}>
+            <textarea name="label" onChange={handleChangeQuestionsExtended} rows={2} />
+          </div>
+          <div className={styles.questionType}>
+            <select name="type" onChange={handleChangeQuestionsExtended}>
+              <option>{i18n.multiple_choice}</option>
+              {/* <option>{i18n.checkboxes}</option> */}
+            </select>
+          </div>
         </div>
-        <div className={styles.questionType}>
-          <select name="type" onChange={ev => handleChangeQuestions(idx, ev)}>
-            <option>{i18n.multiple_choice}</option>
-            {/* <option>{i18n.checkboxes}</option> */}
-          </select>
+        <div className={styles.inputSection}>
+          <div>{choicesElem}</div>
         </div>
-      </div>
-      <div className={styles.inputSection}>
-        <div>{choicesElem}</div>
-      </div>
-      <div className={styles.btnRow}>
-        <Button variant="transparent_black_1" name="add_choice" handleClick={handleClickAddChoice}>
-          {i18n.add_choice}
-        </Button>
+        <div className={styles.btnRow}>
+          <button name="add_choice" onClick={handleClickAddChoice}>
+            <IoAddCircleOutline />
+          </button>
+        </div>
       </div>
     </div>
   );
