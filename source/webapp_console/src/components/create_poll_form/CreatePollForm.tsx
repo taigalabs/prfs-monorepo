@@ -62,8 +62,23 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
                 rows={4}
               />
             </div>
-            <div>
+            <div className={styles.textInputContainer}>
+              <div className={styles.inputLabel}>{i18n.choose_proof_type}</div>
               <SelectProofTypeDialog handleSelectProofType={() => {}} />
+            </div>
+            <div className={styles.textInputContainer}>
+              <div className={styles.inputLabel}>{i18n.choose_plural_voting}</div>
+              <div>
+                <label>
+                  <input type="radio" value="Male" name="gender" /> Male
+                </label>
+                <label>
+                  <input type="radio" value="Female" name="gender" /> Female
+                </label>
+                <label>
+                  <input type="radio" value="Other" name="gender" /> Other
+                </label>
+              </div>
             </div>
           </WidgetPaddedBody>
         </Widget>
