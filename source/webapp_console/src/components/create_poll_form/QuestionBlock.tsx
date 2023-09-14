@@ -42,7 +42,7 @@ const QuestionBlock: React.FC<QuestionBlockProps> = ({
   const choicesElem = React.useMemo(() => {
     return question.choices?.map((choice, idx) => {
       return (
-        <div className={cn(styles.choice, styles.inputSection)} key={idx}>
+        <div className={cn(styles.choice)} key={idx}>
           <input value={choice.label} onChange={ev => handleChangeChoices(idx, ev)} />
         </div>
       );
@@ -75,10 +75,13 @@ const QuestionBlock: React.FC<QuestionBlockProps> = ({
         <p>{i18n.question_type}</p>
         <select name="type" onChange={ev => handleChangeQuestions(idx, ev)}>
           <option>{i18n.multiple_choice}</option>
-          <option>{i18n.checkboxes}</option>
+          {/* <option>{i18n.checkboxes}</option> */}
         </select>
       </div>
-      <div>{choicesElem}</div>
+      <div className={styles.inputSection}>
+        <p>{i18n.choices}</p>
+        <div>{choicesElem}</div>
+      </div>
       <div className={styles.btnRow}>
         <Button variant="transparent_black_1" name="add_choice" handleClick={handleClickAddChoice}>
           {i18n.add_choice}

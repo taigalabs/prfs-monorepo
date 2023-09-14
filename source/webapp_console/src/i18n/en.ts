@@ -148,6 +148,7 @@ export default {
   singular: "Singular",
   plural: "Plural",
   multiple_choice: "Multiple choice",
+  choices: "Choices",
   add_choice: "Add choice",
   checkboxes: "Checkboxes",
   plural_voting: "Plural voting",
