@@ -70,13 +70,12 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
               <div className={styles.inputLabel}>{i18n.choose_plural_voting}</div>
               <div>
                 <label>
-                  <input type="radio" value="Male" name="gender" /> Male
+                  <input type="radio" value="single" name="gender" />
+                  <span>{i18n.single}</span>
                 </label>
                 <label>
-                  <input type="radio" value="Female" name="gender" /> Female
-                </label>
-                <label>
-                  <input type="radio" value="Other" name="gender" /> Other
+                  <input type="radio" value="plural" name="gender" />
+                  <span>{i18n.plural}</span>
                 </label>
               </div>
             </div>
