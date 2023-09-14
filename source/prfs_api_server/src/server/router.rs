@@ -127,6 +127,10 @@ pub fn make_router(
             prfs_sets::compute_prfs_set_merkle_root,
         )
         .post(
+            format!("{}/get_prfs_polls", PREFIX),
+            prfs_polls::get_prfs_polls,
+        )
+        .post(
             format!("{}/create_prfs_poll", PREFIX),
             prfs_polls::create_prfs_poll,
         )

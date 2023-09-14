@@ -1,3 +1,4 @@
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 use uuid::Uuid;
@@ -12,4 +13,7 @@ pub struct PrfsPoll {
     pub plural_voting: bool,
     pub proof_type_id: String,
     pub author: String,
+
+    #[ts(type = "number")]
+    pub created_at: DateTime<Utc>,
 }

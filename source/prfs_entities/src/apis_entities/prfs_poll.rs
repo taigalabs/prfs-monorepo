@@ -4,9 +4,23 @@ use ts_rs::TS;
 use uuid::Uuid;
 
 use crate::{
-    entities::{PrfsProofInstance, PrfsSet},
+    entities::{PrfsPoll, PrfsProofInstance, PrfsSet},
     syn_entities::PrfsProofInstanceSyn1,
 };
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetPrfsPollsRequest {
+    pub page_idx: i32,
+    pub page_size: i32,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetPrfsPollsResponse {
+    pub page_idx: i32,
+    pub prfs_polls: Vec<PrfsPoll>,
+}
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]

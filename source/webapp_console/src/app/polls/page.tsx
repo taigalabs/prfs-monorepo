@@ -21,6 +21,7 @@ import {
 import { SpacedBetweenArea } from "@/components/area/Area";
 import { useAppDispatch } from "@/state/hooks";
 import CreatePollForm from "@/components/create_poll_form/CreatePollForm";
+import PollTable from "@/components/poll_table/PollTable";
 
 const PollsPage: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -57,9 +58,9 @@ const PollsPage: React.FC = () => {
           </ContentAreaHeader>
           <ContentAreaBody>
             <ContentAreaRow>
-              {/* <PaddedTableWrapper> */}
-              {/*   <ProofInstanceTable /> */}
-              {/* </PaddedTableWrapper> */}
+              <PaddedTableWrapper>
+                <PollTable />
+              </PaddedTableWrapper>
             </ContentAreaRow>
           </ContentAreaBody>
         </>

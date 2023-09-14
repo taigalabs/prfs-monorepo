@@ -4,25 +4,31 @@ use prfs_entities::entities::{PrfsAccount, PrfsPolicyItem, PrfsPoll};
 use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 use uuid::Uuid;
 
-// pub async fn get_policy_item_policy_id(
-//     pool: &Pool<Postgres>,
-//     policy_id: &String,
-// ) -> Result<PrfsPolicyItem, DbInterfaceError> {
-//     let query = "SELECT * from prfs_policy_item where policy_id=$1";
+pub async fn get_prfs_polls(
+    pool: &Pool<Postgres>,
+    page_idx: i32,
+    page_size: i32,
+) -> Result<Vec<PrfsPoll>, DbInterfaceError> {
+    let query = r#"
+SELECT * from prfs_polls
+"#;
 
-//     let row = sqlx::query(query)
-//         .bind(&policy_id)
-//         .fetch_one(pool)
-//         .await
-//         .unwrap();
+    let rows = sqlx::query(query).fetch_all(pool).await.unwrap();
 
-//     let prfs_policy_item = PrfsPolicyItem {
-//         policy_id: row.get("policy_id"),
-//         description: row.get("description"),
-//     };
+    let prfs_polls = rows
+        .iter()
+        .map(|row| PrfsPoll {
+            poll_id: row.get("poll_id"),
+            label: row.get("label"),
+            plural_voting: row.get("plural_voting"),
+            proof_type_id: row.get("proof_type_id"),
+            author: row.get("author"),
+            created_at: row.get("created_at"),
+        })
+        .collect();
 
-//     Ok(prfs_policy_item)
-// }
+    return Ok(prfs_polls);
+}
 
 pub async fn insert_prfs_poll(
     tx: &mut Transaction<'_, Postgres>,
