@@ -12,7 +12,12 @@ import { CreatePrfsPollRequest } from "@taigalabs/prfs-entities/bindings/CreateP
 
 import styles from "./CreatePoll.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Widget, { TopWidgetTitle, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
+import Widget, {
+  TopWidgetTitle,
+  WidgetHeader,
+  WidgetLabel,
+  WidgetPaddedBody,
+} from "@/components/widget/Widget";
 import FormTextInput from "@/components/form/FormTextInput";
 import { paths } from "@/paths";
 import FormTextareaInput from "@/components/form/FormTextareaInput";
@@ -196,8 +201,10 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
 
       <ContentAreaRow>
         <Widget>
+          <WidgetHeader>
+            <p className={styles.sectionTitle}>{i18n.questions}</p>
+          </WidgetHeader>
           <WidgetPaddedBody>
-            <div className={styles.sectionTitle}>{i18n.questions}</div>
             <div>{questionsElem}</div>
             <div className={styles.btnRow}>
               <Button variant="transparent_aqua_blue_1" handleClick={handleClickAddQuestion}>
