@@ -7,7 +7,7 @@ import { HiDocumentAdd } from "@react-icons/all-files/hi/HiDocumentAdd";
 import Link from "next/link";
 import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table2/Table2";
 
-import styles from "./VotesPage.module.scss";
+import styles from "./PollsPage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { WidgetLabel } from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";

@@ -30,7 +30,7 @@ const PollPage: React.FC<PollPageProps> = ({ params }) => {
   const topWidgetLabel = `${i18n.polls} ${params.poll_id}`;
 
   const { isLoading, data } = useQuery({
-    queryKey: ["get_prfs_proof_instances"],
+    queryKey: ["get_prfs_poll_by_poll_id"],
     queryFn: async () => {
       const { payload } = await prfsApi2("get_prfs_poll_by_poll_id", { poll_id: pollId });
       return payload;
@@ -42,7 +42,7 @@ const PollPage: React.FC<PollPageProps> = ({ params }) => {
       <ContentAreaHeader>
         <SpacedBetweenArea>
           <div className={styles.navigation}>
-            <Link href={paths.proof_instances}>
+            <Link href={paths.polls}>
               <ArrowButton variant="left" />
             </Link>
             <WidgetLabel>{topWidgetLabel}</WidgetLabel>

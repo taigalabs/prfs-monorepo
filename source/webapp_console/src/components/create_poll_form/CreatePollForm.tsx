@@ -18,12 +18,14 @@ import { ContentAreaRow } from "@/components/content_area/ContentArea";
 import { useAppSelector } from "@/state/hooks";
 import { CreatePrfsPollRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsPollRequest";
 import { ProofTypeItem } from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/ProofTypeTable";
+import QuestionBlock from "./QuestionBlock";
 
 const CreatePollForm: React.FC<CreatePollFormProps> = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const localPrfsAccount = useAppSelector(state => state.user.localPrfsAccount);
 
+  const [questions, setQuestions] = React.useState([]);
   const [formData, setFormData] = React.useState<CreatePollFormData>({
     plural_voting: "single",
   });
@@ -81,6 +83,12 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
     }
   }, [formData, localPrfsAccount, mutation, router]);
 
+  const questionsElem = React.useMemo(() => {
+    return questions.map(question => {
+      return <QuestionBlock question={question} />;
+    });
+  }, [questions]);
+
   return (
     <div className={styles.wrapper}>
       <TopWidgetTitle>
@@ -116,13 +124,25 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
               <div className={styles.radioGroup} onChange={handleChangeFormData}>
                 <label>
                   <input type="radio" value="single" name="plural_voting" defaultChecked />
-                  <span>{i18n.single}</span>
+                  <span>{i18n.singular}</span>
                 </label>
                 <label>
                   <input type="radio" value="plural" name="plural_voting" />
                   <span>{i18n.plural}</span>
                 </label>
               </div>
+            </div>
+          </WidgetPaddedBody>
+        </Widget>
+      </ContentAreaRow>
+
+      <ContentAreaRow>
+        <Widget>
+          <WidgetPaddedBody>
+            <div className={styles.desc}>{i18n.questions}</div>
+            <div>{questionsElem}</div>
+            <div>
+              <Button variant="transparent_aqua_blue_1">{i18n.add_question}</Button>
             </div>
           </WidgetPaddedBody>
         </Widget>
