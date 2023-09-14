@@ -39,12 +39,9 @@
   }
 }
 
-.dropdownContainer {
-  width: 535px;
-
-  > div:first-child {
-    margin-bottom: 5px;
-  }
+.sectionTitle {
+  font-size: 1.14em;
+  margin-bottom: 15px;
 }
 
 .errMsg {

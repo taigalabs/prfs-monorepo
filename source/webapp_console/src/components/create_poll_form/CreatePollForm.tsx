@@ -197,7 +197,7 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
       <ContentAreaRow>
         <Widget>
           <WidgetPaddedBody>
-            <div className={styles.desc}>{i18n.questions}</div>
+            <div className={styles.sectionTitle}>{i18n.questions}</div>
             <div>{questionsElem}</div>
             <div className={styles.btnRow}>
               <Button variant="transparent_aqua_blue_1" handleClick={handleClickAddQuestion}>

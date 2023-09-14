@@ -2,6 +2,10 @@
 }
 
 .inputSection {
+  > p {
+    margin-bottom: 5px;
+  }
+
   textarea,
   input {
     border: 1px solid var(--gray-40);
