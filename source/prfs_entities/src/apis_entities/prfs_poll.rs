@@ -40,3 +40,16 @@ pub struct CreatePrfsPollResponse {
     #[ts(type = "string")]
     pub poll_id: Uuid,
 }
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetPrfsPollByPollIdRequest {
+    #[ts(type = "string")]
+    pub poll_id: Uuid,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetPrfsPollByPollIdResponse {
+    pub prfs_poll: PrfsPoll,
+}

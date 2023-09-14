@@ -30,6 +30,34 @@ SELECT * from prfs_polls
     return Ok(prfs_polls);
 }
 
+pub async fn get_prfs_poll_by_poll_id(
+    pool: &Pool<Postgres>,
+    poll_id: &Uuid,
+) -> Result<PrfsPoll, DbInterfaceError> {
+    let query = r#"
+SELECT *
+FROM prfs_polls
+WHERE poll_id=$1
+"#;
+
+    let row = sqlx::query(query)
+        .bind(&poll_id)
+        .fetch_one(pool)
+        .await
+        .unwrap();
+
+    let prfs_poll = PrfsPoll {
+        poll_id: row.get("poll_id"),
+        label: row.get("label"),
+        plural_voting: row.get("plural_voting"),
+        proof_type_id: row.get("proof_type_id"),
+        author: row.get("author"),
+        created_at: row.get("created_at"),
+    };
+
+    return Ok(prfs_poll);
+}
+
 pub async fn insert_prfs_poll(
     tx: &mut Transaction<'_, Postgres>,
     prfs_poll: &CreatePrfsPollRequest,

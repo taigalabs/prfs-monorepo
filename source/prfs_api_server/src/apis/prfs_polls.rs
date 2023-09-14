@@ -2,7 +2,8 @@ use ethers_signers::Signer;
 use hyper::{Body, Request, Response};
 use prfs_db_interface::db_apis;
 use prfs_entities::apis_entities::{
-    CreatePrfsPollRequest, CreatePrfsPollResponse, GetPrfsPollsRequest, GetPrfsPollsResponse,
+    CreatePrfsPollRequest, CreatePrfsPollResponse, GetPrfsPollByPollIdRequest,
+    GetPrfsPollByPollIdResponse, GetPrfsPollsRequest, GetPrfsPollsResponse,
 };
 use prfs_entities::entities::{PrfsPoll, PrfsProofInstance};
 use routerify::prelude::*;
@@ -28,6 +29,22 @@ pub async fn get_prfs_polls(req: Request<Body>) -> Result<Response<Body>, Infall
         page_idx: req.page_idx,
         prfs_polls,
     });
+
+    return Ok(resp.into_hyper_response());
+}
+
+pub async fn get_prfs_poll_by_poll_id(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+
+    let req: GetPrfsPollByPollIdRequest = parse_req(req).await;
+
+    let pool = &state.db2.pool;
+
+    let prfs_poll = db_apis::get_prfs_poll_by_poll_id(&pool, &req.poll_id)
+        .await
+        .unwrap();
+
+    let resp = ApiResponse::new_success(GetPrfsPollByPollIdResponse { prfs_poll });
 
     return Ok(resp.into_hyper_response());
 }

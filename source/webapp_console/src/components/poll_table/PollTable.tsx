@@ -27,7 +27,6 @@ import { useQuery } from "@tanstack/react-query";
 
 const PollTable: React.FC<PollTableProps> = ({ selectType, selectedVal, handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
-  const [priorityCol, setPriorityCol] = React.useState<string>();
   const router = useRouter();
 
   const columns = React.useMemo(() => {
@@ -46,7 +45,7 @@ const PollTable: React.FC<PollTableProps> = ({ selectType, selectedVal, handleSe
       {
         header: i18n.plural_voting,
         accessorFn: row => row.plural_voting,
-        cell: info => info.getValue(),
+        cell: info => (info.getValue() ? i18n.plural : ""),
       },
       {
         header: i18n.created_at,
@@ -60,16 +59,14 @@ const PollTable: React.FC<PollTableProps> = ({ selectType, selectedVal, handleSe
     ];
 
     return cols;
-  }, [i18n, priorityCol]);
-
-  const [data, setData] = React.useState<PrfsPoll[]>([]);
+  }, [i18n]);
 
   const [{ pageIndex, pageSize }, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
     pageSize: 20,
   });
 
-  const query = useQuery({
+  const { isLoading, data } = useQuery({
     queryKey: ["get_prfs_proof_instances"],
     queryFn: async () => {
       const { payload } = await prfsApi2("get_prfs_polls", {
@@ -80,22 +77,6 @@ const PollTable: React.FC<PollTableProps> = ({ selectType, selectedVal, handleSe
     },
   });
 
-  console.log(123, query);
-
-  // React.useEffect(() => {
-  //   async function fn() {
-  //     const { payload } = await prfsApi2("get_prfs_proof_instances", {
-  //       page_idx: pageIndex,
-  //       page_size: pageSize,
-  //     });
-  //     const { prfs_proof_instances_syn1 } = payload;
-
-  //     setData(prfs_proof_instances_syn1);
-  //   }
-
-  //   fn().then();
-  // }, [setData, pageIndex, pageSize]);
-
   const pagination = React.useMemo(() => {
     return {
       pageIndex,
@@ -104,10 +85,8 @@ const PollTable: React.FC<PollTableProps> = ({ selectType, selectedVal, handleSe
   }, [pageIndex, pageSize]);
 
   const table = useReactTable({
-    meta: {
-      priorityCol,
-    },
-    data,
+    meta: {},
+    data: data?.prfs_polls || [],
     columns,
     state: {
       pagination,
@@ -122,44 +101,48 @@ const PollTable: React.FC<PollTableProps> = ({ selectType, selectedVal, handleSe
       <TableSearch>
         <input placeholder={i18n.proof_instance_search_guide} />
       </TableSearch>
-      <Table2>
-        <Table2Head>
-          {table.getHeaderGroups().map(headerGroup => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map(header => (
-                <th key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(header.column.columnDef.header, header.getContext())}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </Table2Head>
-
-        <Table2Body>
-          {table.getRowModel().rows.map(row => {
-            const proofInstanceId = row.getValue("proof_instance_id") as string;
-
-            return (
-              <tr
-                key={row.id}
-                onClick={() => {
-                  router.push(`${paths.proof_instances}/${proofInstanceId}`);
-                }}
-              >
-                {row.getVisibleCells().map(cell => {
-                  return (
-                    <td key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </td>
-                  );
-                })}
+      {isLoading ? (
+        <>Loading...</>
+      ) : (
+        <Table2>
+          <Table2Head>
+            {table.getHeaderGroups().map(headerGroup => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map(header => (
+                  <th key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(header.column.columnDef.header, header.getContext())}
+                  </th>
+                ))}
               </tr>
-            );
-          })}
-        </Table2Body>
-      </Table2>
+            ))}
+          </Table2Head>
+
+          <Table2Body>
+            {table.getRowModel().rows.map(row => {
+              const pollId = row.getValue("poll_id") as string;
+
+              return (
+                <tr
+                  key={row.id}
+                  onClick={() => {
+                    router.push(`${paths.polls}/${pollId}`);
+                  }}
+                >
+                  {row.getVisibleCells().map(cell => {
+                    return (
+                      <td key={cell.id}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </Table2Body>
+        </Table2>
+      )}
 
       <Table2Pagination table={table} />
     </div>
