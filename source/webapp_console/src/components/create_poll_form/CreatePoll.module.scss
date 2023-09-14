@@ -29,6 +29,16 @@
   margin-bottom: 5px;
 }
 
+.radioGroup {
+  span {
+    margin-left: 3px;
+  }
+
+  label:not(:first-child) {
+    margin-left: 12px;
+  }
+}
+
 .dropdownContainer {
   width: 535px;
 

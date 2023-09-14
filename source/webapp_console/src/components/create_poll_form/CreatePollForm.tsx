@@ -68,13 +68,13 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
             </div>
             <div className={styles.textInputContainer}>
               <div className={styles.inputLabel}>{i18n.choose_plural_voting}</div>
-              <div>
+              <div className={styles.radioGroup} onChange={handleChangeFormData}>
                 <label>
-                  <input type="radio" value="single" name="gender" />
+                  <input type="radio" value="single" name="plural_voting" />
                   <span>{i18n.single}</span>
                 </label>
                 <label>
-                  <input type="radio" value="plural" name="gender" />
+                  <input type="radio" value="plural" name="plural_voting" />
                   <span>{i18n.plural}</span>
                 </label>
               </div>
