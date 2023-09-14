@@ -1,6 +1,8 @@
 use crate::DbInterfaceError;
+use prfs_entities::apis_entities::CreatePrfsPollRequest;
 use prfs_entities::entities::{PrfsAccount, PrfsPolicyItem, PrfsPoll};
 use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
+use uuid::Uuid;
 
 // pub async fn get_policy_item_policy_id(
 //     pool: &Pool<Postgres>,
@@ -24,20 +26,24 @@ use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 
 pub async fn insert_prfs_poll(
     tx: &mut Transaction<'_, Postgres>,
-    prfs_poll: &PrfsPoll,
-) -> Result<String, DbInterfaceError> {
-    let query = "INSERT INTO prfs_polls \
-            (policy_id, description) \
-            VALUES ($1, $2) returning policy_id";
+    prfs_poll: &CreatePrfsPollRequest,
+) -> Result<Uuid, DbInterfaceError> {
+    let query = r#"
+INSERT INTO prfs_polls
+(poll_id, label, plural_voting, proof_type_id, author)
+VALUES ($1, $2, $3, $4, $5) returning poll_id"#;
 
     let row = sqlx::query(query)
-        // .bind(&prfs_policy_item.policy_id)
-        // .bind(&prfs_policy_item.description)
+        .bind(&prfs_poll.poll_id)
+        .bind(&prfs_poll.label)
+        .bind(&prfs_poll.plural_voting)
+        .bind(&prfs_poll.proof_type_id)
+        .bind(&prfs_poll.author)
         .fetch_one(&mut **tx)
         .await
         .unwrap();
 
-    let policy_id: String = row.get("policy_id");
+    let poll_id: Uuid = row.get("poll_id");
 
-    return Ok(policy_id);
+    return Ok(poll_id);
 }

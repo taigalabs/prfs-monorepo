@@ -555,6 +555,9 @@ importers:
       '@taigalabs/prfs-sdk-web':
         specifier: '*'
         version: link:../prfs_sdk_web
+      '@tanstack/react-query':
+        specifier: ^4.35.0
+        version: 4.35.0(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-table':
         specifier: ^8.9.3
         version: 8.9.3(react-dom@18.2.0)(react@18.2.0)
@@ -616,6 +619,9 @@ importers:
       '@svgr/webpack':
         specifier: ^8.1.0
         version: 8.1.0
+      '@tanstack/eslint-plugin-query':
+        specifier: ^4.34.1
+        version: 4.34.1(eslint@8.26.0)
       '@types/node':
         specifier: 20.3.1
         version: 20.3.1
@@ -918,6 +924,9 @@ importers:
       '@svgr/webpack':
         specifier: ^8.1.0
         version: 8.1.0
+      '@tanstack/eslint-plugin-query':
+        specifier: ^4.34.1
+        version: 4.34.1(eslint@8.26.0)
       '@types/node':
         specifier: 20.3.1
         version: 20.3.1
@@ -6368,6 +6377,14 @@ packages:
   /@tabler/icons@2.32.0:
     resolution: {integrity: sha512-w1oNvrnqFipoBEy2/0X4/IHo2aLsijuz4QRi/HizxqiaoMfmWG5X2DpEYTw9WnGvFmixpu/rtQsQAr7Wr0Mc2w==}
     dev: false
+
+  /@tanstack/eslint-plugin-query@4.34.1(eslint@8.26.0):
+    resolution: {integrity: sha512-RflOwyXamuHhuMX5RL6wtKiVw9Hi5Hhiv9gW2/ICVc4omflB+GflrxwvQ+EWRKrSRv3C0YcR0UzRxuiZ4mLq7Q==}
+    peerDependencies:
+      eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
+    dependencies:
+      eslint: 8.26.0
+    dev: true
 
   /@tanstack/query-core@4.35.0:
     resolution: {integrity: sha512-4GMcKQuLZQi6RFBiBZNsLhl+hQGYScRZ5ZoVq8QAzfqz9M7vcGin/2YdSESwl7WaV+Qzsb5CZOAbMBes4lNTnA==}

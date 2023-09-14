@@ -74,7 +74,8 @@ type RequestName =
   | "get_prfs_tree_leaf_nodes_by_set_id"
   | "get_prfs_tree_leaf_indices"
   | "update_prfs_tree_node"
-  | "compute_prfs_set_merkle_root";
+  | "compute_prfs_set_merkle_root"
+  | "create_prfs_poll";
 
 type Req<T extends RequestName> = //
   T extends "sign_up_prfs_account"
@@ -126,6 +127,8 @@ type Req<T extends RequestName> = //
     : T extends "update_prfs_tree_node"
     ? UpdatePrfsTreeNodeRequest
     : T extends "compute_prfs_set_merkle_root"
+    ? ComputePrfsSetMerkleRootRequest
+    : T extends "create_prfs_poll"
     ? ComputePrfsSetMerkleRootRequest
     : never;
 

@@ -6,7 +6,7 @@ use uuid::Uuid;
 #[ts(export)]
 pub struct PrfsPoll {
     #[ts(type = "string")]
-    pub ballot_id: Uuid,
+    pub poll_id: Uuid,
 
     pub label: String,
     pub plural_voting: bool,

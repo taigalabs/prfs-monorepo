@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import { useMutation } from "@tanstack/react-query";
 import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
 
 import styles from "./CreatePoll.module.scss";
@@ -34,7 +35,15 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
     [setFormData]
   );
 
-  const handleClickCreatePoll = React.useCallback(() => {}, [formData]);
+  const mutation = useMutation({
+    mutationFn: createPrfsPollReq => {
+      return prfsApi2("create_prfs_poll", createPrfsPollReq);
+    },
+  });
+
+  const handleClickCreatePoll = React.useCallback(() => {
+    const poll_id = uuidv4();
+  }, [formData, localPrfsAccount]);
 
   return (
     <div className={styles.wrapper}>

@@ -10,12 +10,19 @@ use crate::{
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct CreatePrfsPoll {}
+pub struct CreatePrfsPollRequest {
+    #[ts(type = "string")]
+    pub poll_id: Uuid,
+
+    pub label: String,
+    pub plural_voting: bool,
+    pub proof_type_id: String,
+    pub author: String,
+}
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct CreatePrfsPollResponse {
-    pub page_idx: i32,
-    pub table_row_count: f32,
-    pub prfs_proof_instances_syn1: Vec<PrfsProofInstanceSyn1>,
+    #[ts(type = "string")]
+    pub poll_id: Uuid,
 }
