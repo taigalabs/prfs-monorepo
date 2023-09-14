@@ -1,4 +1,5 @@
 import React from "react";
+import cn from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
@@ -41,7 +42,7 @@ const QuestionBlock: React.FC<QuestionBlockProps> = ({
   const choicesElem = React.useMemo(() => {
     return question.choices?.map((choice, idx) => {
       return (
-        <div className={styles.choice} key={idx}>
+        <div className={cn(styles.choice, styles.inputSection)} key={idx}>
           <input value={choice.label} onChange={ev => handleChangeChoices(idx, ev)} />
         </div>
       );
@@ -66,11 +67,11 @@ const QuestionBlock: React.FC<QuestionBlockProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.inputBox}>
+      <div className={styles.inputSection}>
         <p>{i18n.label}</p>
         <textarea name="label" onChange={ev => handleChangeQuestions(idx, ev)} rows={2} />
       </div>
-      <div className={styles.inputBox}>
+      <div className={styles.inputSection}>
         <p>{i18n.question_type}</p>
         <select name="type" onChange={ev => handleChangeQuestions(idx, ev)}>
           <option>{i18n.multiple_choice}</option>
@@ -78,10 +79,10 @@ const QuestionBlock: React.FC<QuestionBlockProps> = ({
         </select>
       </div>
       <div>{choicesElem}</div>
-      <div>
-        <button name="add_choice" onClick={handleClickAddChoice}>
+      <div className={styles.btnRow}>
+        <Button variant="transparent_black_1" name="add_choice" handleClick={handleClickAddChoice}>
           {i18n.add_choice}
-        </button>
+        </Button>
       </div>
     </div>
   );

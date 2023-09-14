@@ -43,7 +43,7 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
       const target = ev.target as HTMLInputElement;
       const { name, value } = target;
 
-      console.log(11, idx, name, value);
+      // console.log(11, idx, name, value);
 
       setQuestions(oldVals => {
         const newVals = [...oldVals];
@@ -96,6 +96,24 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
     [setFormData]
   );
 
+  const handleClickAddQuestion = React.useCallback(() => {
+    setQuestions(oldVals => {
+      return [
+        ...oldVals,
+        {
+          type: "multiple_choice",
+          label: "",
+          required: true,
+          choices: [
+            {
+              label: "",
+            },
+          ],
+        },
+      ];
+    });
+  }, [setQuestions]);
+
   const handleClickCreatePoll = React.useCallback(async () => {
     if (formData) {
       if (formData.label && formData.plural_voting && formData.proof_type_id && localPrfsAccount) {
@@ -128,8 +146,6 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
       );
     });
   }, [questions, handleChangeQuestions, setQuestions]);
-
-  console.log(141, questions);
 
   return (
     <div className={styles.wrapper}>
@@ -183,8 +199,10 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
           <WidgetPaddedBody>
             <div className={styles.desc}>{i18n.questions}</div>
             <div>{questionsElem}</div>
-            <div>
-              <Button variant="transparent_aqua_blue_1">{i18n.add_question}</Button>
+            <div className={styles.btnRow}>
+              <Button variant="transparent_aqua_blue_1" handleClick={handleClickAddQuestion}>
+                {i18n.add_question}
+              </Button>
             </div>
           </WidgetPaddedBody>
         </Widget>
