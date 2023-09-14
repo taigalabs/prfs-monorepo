@@ -14,6 +14,15 @@ pub struct PrfsPoll {
     pub proof_type_id: String,
     pub author: String,
 
+    #[ts(type = "Record<string, any>[]")]
+    pub questions: sqlx::types::Json<Vec<PollQuestion>>,
+
     #[ts(type = "number")]
     pub created_at: DateTime<Utc>,
+}
+
+#[derive(TS, Debug, Serialize, Deserialize, Clone)]
+#[ts(export)]
+pub struct PollQuestion {
+    label: String,
 }

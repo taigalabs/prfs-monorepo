@@ -4,12 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 import { IoAddCircleOutline } from "@react-icons/all-files/io5/IoAddCircleOutline";
 
 import styles from "./QuestionBlock.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import FormTextareaInput from "../form/FormTextareaInput";
 
 const QuestionBlock: React.FC<QuestionBlockProps> = ({
   question,
@@ -18,7 +16,7 @@ const QuestionBlock: React.FC<QuestionBlockProps> = ({
   setQuestions,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const router = useRouter();
+  // const router = useRouter();
 
   const handleChangeChoices = React.useCallback(
     (choiceIdx: number, ev: React.ChangeEvent) => {

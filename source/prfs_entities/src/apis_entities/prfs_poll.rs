@@ -4,7 +4,7 @@ use ts_rs::TS;
 use uuid::Uuid;
 
 use crate::{
-    entities::{PrfsPoll, PrfsProofInstance, PrfsSet},
+    entities::{PollQuestion, PrfsPoll, PrfsProofInstance, PrfsSet},
     syn_entities::PrfsProofInstanceSyn1,
 };
 
@@ -32,6 +32,9 @@ pub struct CreatePrfsPollRequest {
     pub plural_voting: bool,
     pub proof_type_id: String,
     pub author: String,
+
+    #[ts(type = "Record<string, any>[]")]
+    pub questions: sqlx::types::Json<Vec<PollQuestion>>,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
