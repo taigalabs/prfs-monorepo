@@ -67,19 +67,19 @@ const QuestionBlock: React.FC<QuestionBlockProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.inputSection}>
-        <p>{i18n.label}</p>
-        <textarea name="label" onChange={ev => handleChangeQuestions(idx, ev)} rows={2} />
+      <p className={styles.questionNo}>{idx + 1}</p>
+      <div className={styles.topRow}>
+        <div className={styles.label}>
+          <textarea name="label" onChange={ev => handleChangeQuestions(idx, ev)} rows={2} />
+        </div>
+        <div className={styles.questionType}>
+          <select name="type" onChange={ev => handleChangeQuestions(idx, ev)}>
+            <option>{i18n.multiple_choice}</option>
+            {/* <option>{i18n.checkboxes}</option> */}
+          </select>
+        </div>
       </div>
       <div className={styles.inputSection}>
-        <p>{i18n.question_type}</p>
-        <select name="type" onChange={ev => handleChangeQuestions(idx, ev)}>
-          <option>{i18n.multiple_choice}</option>
-          {/* <option>{i18n.checkboxes}</option> */}
-        </select>
-      </div>
-      <div className={styles.inputSection}>
-        <p>{i18n.choices}</p>
         <div>{choicesElem}</div>
       </div>
       <div className={styles.btnRow}>
