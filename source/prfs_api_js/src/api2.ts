@@ -45,6 +45,8 @@ import { UpdatePrfsTreeNodeRequest } from "@taigalabs/prfs-entities/bindings/Upd
 import { UpdatePrfsTreeNodeResponse } from "@taigalabs/prfs-entities/bindings/UpdatePrfsTreeNodeResponse";
 import { ComputePrfsSetMerkleRootRequest } from "@taigalabs/prfs-entities/bindings/ComputePrfsSetMerkleRootRequest";
 import { ComputePrfsSetMerkleRootResponse } from "@taigalabs/prfs-entities/bindings/ComputePrfsSetMerkleRootResponse";
+import { CreatePrfsPollRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsPollRequest";
+import { CreatePrfsPollResponse } from "@taigalabs/prfs-entities/bindings/CreatePrfsPollResponse";
 
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
@@ -129,7 +131,7 @@ type Req<T extends RequestName> = //
     : T extends "compute_prfs_set_merkle_root"
     ? ComputePrfsSetMerkleRootRequest
     : T extends "create_prfs_poll"
-    ? ComputePrfsSetMerkleRootRequest
+    ? CreatePrfsPollRequest
     : never;
 
 type Resp<T> = //
@@ -183,6 +185,8 @@ type Resp<T> = //
     ? PrfsApiResponse<UpdatePrfsTreeNodeResponse>
     : T extends "compute_prfs_set_merkle_root"
     ? PrfsApiResponse<ComputePrfsSetMerkleRootResponse>
+    : T extends "create_prfs_poll"
+    ? PrfsApiResponse<CreatePrfsPollResponse>
     : any;
 
 export async function prfsApi2<T extends RequestName>(name: T, req: Req<T>): Promise<Resp<T>> {

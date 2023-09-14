@@ -16,34 +16,70 @@ import { paths } from "@/paths";
 import FormTextareaInput from "@/components/form/FormTextareaInput";
 import { ContentAreaRow } from "@/components/content_area/ContentArea";
 import { useAppSelector } from "@/state/hooks";
+import { CreatePrfsPollRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsPollRequest";
+import { ProofTypeItem } from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/ProofTypeTable";
 
 const CreatePollForm: React.FC<CreatePollFormProps> = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const localPrfsAccount = useAppSelector(state => state.user.localPrfsAccount);
 
-  const [formData, setFormData] = React.useState({});
+  const [formData, setFormData] = React.useState<CreatePollFormData>({
+    plural_voting: "single",
+  });
   const [errMsg, setErrMsg] = React.useState("");
 
   const handleChangeFormData = React.useCallback(
     (ev: any) => {
-      setFormData(oldState => ({
-        ...oldState,
-        [ev.target.name]: ev.target.value,
-      }));
+      setFormData(oldState => {
+        if (oldState) {
+          return {
+            ...oldState,
+            [ev.target.name]: ev.target.value,
+          };
+        } else {
+          return {
+            [ev.target.name]: ev.target.value,
+          };
+        }
+      });
     },
     [setFormData]
   );
 
   const mutation = useMutation({
-    mutationFn: createPrfsPollReq => {
-      return prfsApi2("create_prfs_poll", createPrfsPollReq);
+    mutationFn: (req: CreatePrfsPollRequest) => {
+      return prfsApi2("create_prfs_poll", req);
     },
   });
 
-  const handleClickCreatePoll = React.useCallback(() => {
-    const poll_id = uuidv4();
-  }, [formData, localPrfsAccount]);
+  const handleSelectProofType = React.useCallback(
+    (proofTypeItem: ProofTypeItem) => {
+      setFormData(oldState => {
+        return { ...oldState, ["proof_type_id"]: proofTypeItem.proofTypeId };
+      });
+    },
+    [setFormData]
+  );
+
+  const handleClickCreatePoll = React.useCallback(async () => {
+    if (formData) {
+      if (formData.label && formData.plural_voting && formData.proof_type_id && localPrfsAccount) {
+        const poll_id = uuidv4();
+        const { account_id } = localPrfsAccount.prfsAccount;
+
+        await mutation.mutateAsync({
+          poll_id,
+          plural_voting: formData.plural_voting === "plural",
+          label: formData.label,
+          proof_type_id: formData.proof_type_id,
+          author: account_id,
+        });
+
+        router.push(paths.polls);
+      }
+    }
+  }, [formData, localPrfsAccount, mutation, router]);
 
   return (
     <div className={styles.wrapper}>
@@ -73,13 +109,13 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
             </div>
             <div className={styles.textInputContainer}>
               <div className={styles.inputLabel}>{i18n.choose_proof_type}</div>
-              <SelectProofTypeDialog handleSelectProofType={() => {}} />
+              <SelectProofTypeDialog handleSelectProofType={handleSelectProofType} />
             </div>
             <div className={styles.textInputContainer}>
               <div className={styles.inputLabel}>{i18n.choose_plural_voting}</div>
               <div className={styles.radioGroup} onChange={handleChangeFormData}>
                 <label>
-                  <input type="radio" value="single" name="plural_voting" />
+                  <input type="radio" value="single" name="plural_voting" defaultChecked />
                   <span>{i18n.single}</span>
                 </label>
                 <label>
@@ -108,3 +144,9 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
 export default CreatePollForm;
 
 export interface CreatePollFormProps {}
+
+interface CreatePollFormData {
+  label?: string;
+  plural_voting?: string;
+  proof_type_id?: string;
+}
