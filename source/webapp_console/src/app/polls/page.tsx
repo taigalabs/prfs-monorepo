@@ -9,7 +9,7 @@ import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table2/
 
 import styles from "./PollsPage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { WidgetLabel } from "@/components/widget/Widget";
+import { TopWidgetTitle, WidgetLabel } from "@/components/widget/Widget";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import { paths } from "@/paths";
@@ -21,7 +21,9 @@ import {
 import { SpacedBetweenArea } from "@/components/area/Area";
 import { useAppDispatch } from "@/state/hooks";
 import CreatePollForm from "@/components/create_poll_form/CreatePollForm";
+import CreatePollPage from "./CreatePollPage";
 import PollTable from "@/components/poll_table/PollTable";
+import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 
 const PollsPage: React.FC = () => {
   let i18n = React.useContext(i18nContext);
@@ -42,7 +44,7 @@ const PollsPage: React.FC = () => {
   return (
     <DefaultLayout>
       {createPage ? (
-        <CreatePollForm />
+        <CreatePollPage />
       ) : (
         <>
           <ContentAreaHeader>

@@ -12,36 +12,34 @@ import { CreatePrfsPollRequest } from "@taigalabs/prfs-entities/bindings/CreateP
 
 import styles from "./CreatePoll.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import Widget, {
-  TopWidgetTitle,
-  WidgetHeader,
-  WidgetLabel,
-  WidgetPaddedBody,
-} from "@/components/widget/Widget";
+import Widget, { WidgetHeader, WidgetPaddedBody } from "@/components/widget/Widget";
 import FormTextInput from "@/components/form/FormTextInput";
 import { paths } from "@/paths";
 import FormTextareaInput from "@/components/form/FormTextareaInput";
 import { ContentAreaRow } from "@/components/content_area/ContentArea";
 import { useAppSelector } from "@/state/hooks";
 import QuestionBlock, { PollQuestion } from "./QuestionBlock";
+import { PrfsPoll } from "@taigalabs/prfs-entities/bindings/PrfsPoll";
 
-const CreatePollForm: React.FC<CreatePollFormProps> = () => {
+const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const localPrfsAccount = useAppSelector(state => state.user.localPrfsAccount);
 
-  const [questions, setQuestions] = React.useState<PollQuestion[]>([
-    {
-      type: "multiple_choice",
-      label: "",
-      required: true,
-      choices: [
-        {
-          label: "",
-        },
-      ],
-    },
-  ]);
+  const [questions, setQuestions] = React.useState<PollQuestion[]>(
+    (poll?.questions as PollQuestion[]) || [
+      {
+        type: "multiple_choice",
+        label: "",
+        required: true,
+        choices: [
+          {
+            label: "",
+          },
+        ],
+      },
+    ]
+  );
 
   const handleChangeQuestions = React.useCallback(
     (idx: number, ev: React.ChangeEvent) => {
@@ -63,8 +61,20 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
     [setQuestions]
   );
 
-  const [formData, setFormData] = React.useState<CreatePollFormData>({
-    plural_voting: "single",
+  const [formData, setFormData] = React.useState<CreatePollFormData>(() => {
+    if (poll) {
+      return {
+        label: poll.label,
+        poll_id: poll.poll_id,
+        plural_voting: poll.plural_voting ? "Plural" : "Singular",
+        proof_type_id: poll.proof_type_id,
+        author: poll.author,
+      };
+    } else {
+      return {
+        plural_voting: "single",
+      };
+    }
   });
   const [errMsg, setErrMsg] = React.useState("");
 
@@ -122,7 +132,7 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
   const handleClickCreatePoll = React.useCallback(async () => {
     if (formData) {
       if (formData.label && formData.plural_voting && formData.proof_type_id && localPrfsAccount) {
-        const poll_id = uuidv4();
+        const poll_id = formData.proof_type_id || uuidv4();
         const { account_id } = localPrfsAccount.prfsAccount;
 
         await mutation.mutateAsync({
@@ -153,17 +163,10 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
     });
   }, [questions, handleChangeQuestions, setQuestions]);
 
+  console.log(1, questions, formData);
+
   return (
     <div className={styles.wrapper}>
-      <TopWidgetTitle>
-        <div className={styles.header}>
-          <Link href={paths.polls}>
-            <ArrowButton variant="left" />
-          </Link>
-          <WidgetLabel>{i18n.create_poll}</WidgetLabel>
-        </div>
-      </TopWidgetTitle>
-
       <ContentAreaRow>
         <Widget>
           <WidgetPaddedBody>
@@ -222,7 +225,7 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
         </div>
 
         <Button variant="aqua_blue_1" handleClick={handleClickCreatePoll}>
-          {i18n.create_poll}
+          {poll ? i18n.update_poll : i18n.create_poll}
         </Button>
       </WidgetPaddedBody>
     </div>
@@ -231,7 +234,9 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
 
 export default CreatePollForm;
 
-export interface CreatePollFormProps {}
+export interface CreatePollFormProps {
+  poll?: PrfsPoll;
+}
 
 interface CreatePollFormData {
   label?: string;

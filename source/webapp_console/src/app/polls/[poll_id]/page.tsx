@@ -18,6 +18,7 @@ import { SpacedBetweenArea } from "@/components/area/Area";
 import { useAppDispatch } from "@/state/hooks";
 import { useQuery } from "@tanstack/react-query";
 import PollDetailTable from "@/components/poll_detail_table/PollDetailTable";
+import CreatePollForm from "@/components/create_poll_form/CreatePollForm";
 
 const PollPage: React.FC<PollPageProps> = ({ params }) => {
   let i18n = React.useContext(i18nContext);
@@ -37,6 +38,8 @@ const PollPage: React.FC<PollPageProps> = ({ params }) => {
     },
   });
 
+  console.log(11, data?.prfs_poll);
+
   return (
     <DefaultLayout>
       <ContentAreaHeader>
@@ -53,26 +56,7 @@ const PollPage: React.FC<PollPageProps> = ({ params }) => {
         </SpacedBetweenArea>
       </ContentAreaHeader>
 
-      {isLoading ? (
-        <>Loading...</>
-      ) : (
-        <ContentAreaRow>
-          <div className={styles.singleColRow}>
-            <div className={styles.tableContainer}>
-              <PollDetailTable poll={data!.prfs_poll} />
-            </div>
-          </div>
-
-          {/* <div className={styles.singleColRow}> */}
-          {/*   <div className={styles.tableContainer}> */}
-          {/*     <div className={styles.title}> */}
-          {/*       {i18n.proof} ({proofInstance.proof.length} bytes) */}
-          {/*     </div> */}
-          {/*     <ProofView proof={proofInstance.proof} /> */}
-          {/*   </div> */}
-          {/* </div> */}
-        </ContentAreaRow>
-      )}
+      {isLoading ? <>Loading...</> : <CreatePollForm poll={data!.prfs_poll} />}
     </DefaultLayout>
   );
 };

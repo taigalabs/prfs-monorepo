@@ -123,6 +123,7 @@ export default {
   proof_dashboard: "Proof dashboard",
   create_proof_instance: "Create proof instance",
   create_poll: "Create poll",
+  update_poll: "Update poll",
   compute_merkle_root: "Compute Merkle root",
   create: "Create",
   create_circuit: "Create circuit",
