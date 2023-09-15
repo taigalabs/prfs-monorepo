@@ -35,13 +35,13 @@ const Masthead: React.FC = () => {
           </div>
           <ul className={styles.leftMenu}>
             <li>
-              <ActiveLink href={paths.create} exact>
-                {i18n.create}
+              <ActiveLink href={paths.__} exact>
+                {i18n.polls}
               </ActiveLink>
             </li>
             <li>
-              <ActiveLink href={paths.__} exact>
-                {i18n.polls}
+              <ActiveLink href={paths.create} exact>
+                {i18n.create}
               </ActiveLink>
             </li>
           </ul>
