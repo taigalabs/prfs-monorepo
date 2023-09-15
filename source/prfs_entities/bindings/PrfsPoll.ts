@@ -6,6 +6,7 @@ export interface PrfsPoll {
   plural_voting: boolean;
   proof_type_id: string;
   author: string;
+  description: string;
   questions: Record<string, any>[];
   created_at: number;
 }

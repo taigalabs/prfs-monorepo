@@ -47,7 +47,7 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
       const target = ev.target as HTMLInputElement;
       const { name, value } = target;
 
-      console.log(11, idx, name, value);
+      // console.log(11, idx, name, value);
 
       setQuestions(oldVals => {
         const newVals = [...oldVals];
@@ -67,13 +67,13 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
       return {
         label: poll.label,
         poll_id: poll.poll_id,
-        plural_voting: poll.plural_voting ? "Plural" : "Singular",
+        plural_voting: poll.plural_voting ? "true" : "false",
         proof_type_id: poll.proof_type_id,
         author: poll.author,
       };
     } else {
       return {
-        plural_voting: "single",
+        plural_voting: "false",
       };
     }
   });
@@ -136,11 +136,9 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
         const poll_id = poll?.poll_id || uuidv4();
         const { account_id } = localPrfsAccount.prfsAccount;
 
-        console.log(22, questions);
-
         await mutation.mutateAsync({
           poll_id,
-          plural_voting: formData.plural_voting === "plural",
+          plural_voting: formData.plural_voting === "true",
           label: formData.label,
           proof_type_id: formData.proof_type_id,
           author: account_id,
@@ -173,14 +171,20 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
           <WidgetPaddedBody>
             <div className={styles.desc}>{i18n.create_poll_subtitle}</div>
             <div className={styles.textInputContainer}>
-              <FormTextInput label={i18n.label} name="label" handleChange={handleChangeFormData} />
+              <FormTextInput
+                label={i18n.label}
+                name="label"
+                value={formData.label}
+                handleChange={handleChangeFormData}
+              />
             </div>
             <div className={styles.textInputContainer}>
               <FormTextareaInput
                 name="desc"
                 label={i18n.description}
+                value={formData.desc}
                 handleChange={handleChangeFormData}
-                rows={4}
+                rows={2}
               />
             </div>
             <div className={styles.textInputContainer}>
@@ -189,15 +193,19 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
             </div>
             <div className={styles.textInputContainer}>
               <div className={styles.inputLabel}>{i18n.choose_plural_voting}</div>
-              <div className={styles.radioGroup} onChange={handleChangeFormData}>
-                <label>
-                  <input type="radio" value="single" name="plural_voting" defaultChecked />
-                  <span>{i18n.singular}</span>
-                </label>
-                <label>
-                  <input type="radio" value="plural" name="plural_voting" />
-                  <span>{i18n.plural}</span>
-                </label>
+              <div className={styles.radioGroup}>
+                <select value={formData.plural_voting} onChange={handleChangeFormData}>
+                  <option value="true">{i18n.true}</option>
+                  <option value="false">{i18n.false}</option>
+                </select>
+                {/* <label> */}
+                {/*   <input type="radio" value="single" name="plural_voting" /> */}
+                {/*   <span>{i18n.singular}</span> */}
+                {/* </label> */}
+                {/* <label> */}
+                {/*   <input type="radio" value="plural" name="plural_voting" /> */}
+                {/*   <span>{i18n.plural}</span> */}
+                {/* </label> */}
               </div>
             </div>
           </WidgetPaddedBody>
@@ -241,6 +249,7 @@ export interface CreatePollFormProps {
 
 interface CreatePollFormData {
   label?: string;
+  desc?: string;
   plural_voting?: string;
   proof_type_id?: string;
 }

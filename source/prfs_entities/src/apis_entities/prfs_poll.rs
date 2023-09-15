@@ -32,6 +32,7 @@ pub struct CreatePrfsPollRequest {
     pub plural_voting: bool,
     pub proof_type_id: String,
     pub author: String,
+    pub description: String,
 
     #[ts(type = "Record<string, any>[]")]
     pub questions: sqlx::types::Json<Vec<PollQuestion>>,

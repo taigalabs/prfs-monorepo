@@ -1,9 +1,6 @@
 import React from "react";
 import cn from "classnames";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { IoAddCircleOutline } from "@react-icons/all-files/io5/IoAddCircleOutline";
 import { PollQuestion } from "@taigalabs/prfs-entities/bindings/PollQuestion";
 
@@ -18,9 +15,6 @@ const QuestionBlock: React.FC<QuestionBlockProps> = ({
   setQuestions,
 }) => {
   const i18n = React.useContext(i18nContext);
-  // const router = useRouter();
-  //
-  // console.log(22, question);
 
   const handleChangeChoices = React.useCallback(
     (choiceIdx: number, ev: React.ChangeEvent) => {
@@ -81,10 +75,15 @@ const QuestionBlock: React.FC<QuestionBlockProps> = ({
       <div className={styles.main}>
         <div className={styles.topRow}>
           <div className={styles.label}>
-            <textarea name="label" onChange={handleChangeQuestionsExtended} rows={2} />
+            <textarea
+              name="label"
+              value={question.label}
+              onChange={handleChangeQuestionsExtended}
+              rows={2}
+            />
           </div>
           <div className={styles.questionType}>
-            <select name="type" onChange={handleChangeQuestionsExtended}>
+            <select name="type" onChange={handleChangeQuestionsExtended} value={question.type}>
               <option value={"MultipleChoice" as PollQuestionType}>{i18n.multiple_choice}</option>
               {/* <option>{i18n.checkboxes}</option> */}
             </select>

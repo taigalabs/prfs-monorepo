@@ -4,6 +4,8 @@ export default {
   latest_prfs_updates: "Latest Prfs updates",
   github: "Github",
   terms: "Terms",
+  true: "True",
+  false: "False",
   privacy: "Privacy",
   language: "Language",
   feedback: "Feedback",
