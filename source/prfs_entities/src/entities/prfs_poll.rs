@@ -25,4 +25,23 @@ pub struct PrfsPoll {
 #[ts(export)]
 pub struct PollQuestion {
     label: String,
+    r#type: PollQuestionType,
+    required: bool,
+
+    #[ts(type = "Record<string, any>[]")]
+    choices: sqlx::types::Json<Vec<PollQuestionChoice>>,
+}
+
+#[derive(TS, Debug, Serialize, Deserialize, Clone)]
+#[ts(export)]
+pub enum PollQuestionType {
+    MultipleChoice,
+    Checkboxes,
+    Text,
+}
+
+#[derive(TS, Debug, Serialize, Deserialize, Clone)]
+#[ts(export)]
+pub struct PollQuestionChoice {
+    label: String,
 }

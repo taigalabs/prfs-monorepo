@@ -5,9 +5,11 @@ import { useRouter } from "next/navigation";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { IoAddCircleOutline } from "@react-icons/all-files/io5/IoAddCircleOutline";
+import { PollQuestion } from "@taigalabs/prfs-entities/bindings/PollQuestion";
 
 import styles from "./QuestionBlock.module.scss";
 import { i18nContext } from "@/contexts/i18n";
+import { PollQuestionType } from "@taigalabs/prfs-entities/bindings/PollQuestionType";
 
 const QuestionBlock: React.FC<QuestionBlockProps> = ({
   question,
@@ -17,6 +19,8 @@ const QuestionBlock: React.FC<QuestionBlockProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   // const router = useRouter();
+  //
+  // console.log(22, question);
 
   const handleChangeChoices = React.useCallback(
     (choiceIdx: number, ev: React.ChangeEvent) => {
@@ -81,7 +85,7 @@ const QuestionBlock: React.FC<QuestionBlockProps> = ({
           </div>
           <div className={styles.questionType}>
             <select name="type" onChange={handleChangeQuestionsExtended}>
-              <option>{i18n.multiple_choice}</option>
+              <option value={"MultipleChoice" as PollQuestionType}>{i18n.multiple_choice}</option>
               {/* <option>{i18n.checkboxes}</option> */}
             </select>
           </div>
@@ -106,15 +110,4 @@ export interface QuestionBlockProps {
   idx: number;
   handleChangeQuestions: (idx: number, ev: React.ChangeEvent) => void;
   setQuestions: React.Dispatch<React.SetStateAction<PollQuestion[]>>;
-}
-
-export interface PollQuestion {
-  type: "multiple_choice" | "checkboxes" | "text";
-  label: string;
-  required: boolean;
-  choices: PollQuestionChoice[];
-}
-
-export interface PollQuestionChoice {
-  label: string;
 }

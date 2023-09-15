@@ -4,11 +4,11 @@ import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 import { useMutation } from "@tanstack/react-query";
 import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
 import { ProofTypeItem } from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/ProofTypeTable";
 import { CreatePrfsPollRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsPollRequest";
+import { PollQuestion } from "@taigalabs/prfs-entities/bindings/PollQuestion";
 
 import styles from "./CreatePoll.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -18,8 +18,9 @@ import { paths } from "@/paths";
 import FormTextareaInput from "@/components/form/FormTextareaInput";
 import { ContentAreaRow } from "@/components/content_area/ContentArea";
 import { useAppSelector } from "@/state/hooks";
-import QuestionBlock, { PollQuestion } from "./QuestionBlock";
+import QuestionBlock from "./QuestionBlock";
 import { PrfsPoll } from "@taigalabs/prfs-entities/bindings/PrfsPoll";
+import { PollQuestionType } from "@taigalabs/prfs-entities/bindings/PollQuestionType";
 
 const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
   const i18n = React.useContext(i18nContext);
@@ -29,7 +30,7 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
   const [questions, setQuestions] = React.useState<PollQuestion[]>(
     (poll?.questions as PollQuestion[]) || [
       {
-        type: "multiple_choice",
+        type: "MultipleChoice" as PollQuestionType,
         label: "",
         required: true,
         choices: [
@@ -46,7 +47,7 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
       const target = ev.target as HTMLInputElement;
       const { name, value } = target;
 
-      // console.log(11, idx, name, value);
+      console.log(11, idx, name, value);
 
       setQuestions(oldVals => {
         const newVals = [...oldVals];
@@ -116,7 +117,7 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
       return [
         ...oldVals,
         {
-          type: "multiple_choice",
+          type: "MultipleChoice",
           label: "",
           required: true,
           choices: [
@@ -132,8 +133,10 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
   const handleClickCreatePoll = React.useCallback(async () => {
     if (formData) {
       if (formData.label && formData.plural_voting && formData.proof_type_id && localPrfsAccount) {
-        const poll_id = formData.proof_type_id || uuidv4();
+        const poll_id = poll?.poll_id || uuidv4();
         const { account_id } = localPrfsAccount.prfsAccount;
+
+        console.log(22, questions);
 
         await mutation.mutateAsync({
           poll_id,
@@ -162,8 +165,6 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
       );
     });
   }, [questions, handleChangeQuestions, setQuestions]);
-
-  console.log(1, questions, formData);
 
   return (
     <div className={styles.wrapper}>

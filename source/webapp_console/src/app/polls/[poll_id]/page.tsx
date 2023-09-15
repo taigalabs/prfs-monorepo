@@ -28,7 +28,7 @@ const PollPage: React.FC<PollPageProps> = ({ params }) => {
   useLocalWallet(dispatch);
 
   const pollId = decodeURIComponent(params.poll_id);
-  const topWidgetLabel = `${i18n.polls} ${params.poll_id}`;
+  const topWidgetLabel = `${i18n.poll} ${params.poll_id}`;
 
   const { isLoading, data } = useQuery({
     queryKey: ["get_prfs_poll_by_poll_id"],
@@ -37,8 +37,6 @@ const PollPage: React.FC<PollPageProps> = ({ params }) => {
       return payload;
     },
   });
-
-  console.log(11, data?.prfs_poll);
 
   return (
     <DefaultLayout>
