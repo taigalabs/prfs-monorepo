@@ -142,6 +142,7 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
           label: formData.label,
           proof_type_id: formData.proof_type_id,
           author: account_id,
+          description: formData.description || "",
           questions,
         });
 
@@ -164,6 +165,8 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
     });
   }, [questions, handleChangeQuestions, setQuestions]);
 
+  console.log(33, formData);
+
   return (
     <div className={styles.wrapper}>
       <ContentAreaRow>
@@ -180,9 +183,9 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
             </div>
             <div className={styles.textInputContainer}>
               <FormTextareaInput
-                name="desc"
+                name="description"
                 label={i18n.description}
-                value={formData.desc}
+                value={formData.description}
                 handleChange={handleChangeFormData}
                 rows={2}
               />
@@ -249,7 +252,7 @@ export interface CreatePollFormProps {
 
 interface CreatePollFormData {
   label?: string;
-  desc?: string;
+  description?: string;
   plural_voting?: string;
   proof_type_id?: string;
 }

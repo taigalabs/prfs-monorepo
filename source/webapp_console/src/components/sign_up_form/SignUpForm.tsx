@@ -123,6 +123,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
       <div className={styles.inputGroup}>
         <div className={styles.passcode}>
           <FormTextInput
+            name="password"
             type="password"
             label={i18n.passcode}
             handleChange={handleChangePasscode}
@@ -130,6 +131,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         </div>
         <div className={styles.passcode}>
           <FormTextInput
+            name="password_confirm"
             type="password"
             label={i18n.passcode_confirm}
             handleChange={handleChangePasscodeConfirm}
@@ -143,7 +145,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         </div>
         {passhash && (
           <div className={styles.hashResult}>
-            <FormTextInput label={i18n.passhash} value={passhash} />
+            <FormTextInput label={i18n.passhash} name="passhash" value={passhash} />
           </div>
         )}
       </div>

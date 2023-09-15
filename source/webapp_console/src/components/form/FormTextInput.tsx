@@ -15,17 +15,19 @@ const FormTextInput: React.FC<FormTextInputProps> = ({
     <div className={styles.formTextInputWrapper}>
       <div className={styles.label}>{label}</div>
       <div>
-        {value ? (
-          <input
-            name={name || ""}
-            className={styles.readOnly}
-            type={inputType}
-            value={value}
-            readOnly
-          />
-        ) : (
-          <input name={name || ""} type={inputType} onChange={handleChange} />
-        )}
+        <input
+          name={name}
+          className={styles.readOnly}
+          type={inputType}
+          value={value}
+          onChange={handleChange}
+        />
+        {/* {value ? ( */}
+        {/*   <input name={name || ""} className={styles.readOnly} type={inputType} value={value} /> */}
+        {/* )  */}
+        {/*   : ( */}
+        {/*   <input name={name || ""} type={inputType} onChange={handleChange} /> */}
+        {/* )} */}
       </div>
     </div>
   );
@@ -34,7 +36,7 @@ const FormTextInput: React.FC<FormTextInputProps> = ({
 export default FormTextInput;
 
 export interface FormTextInputProps {
-  name?: string;
+  name: string;
   label: string;
   value?: string | number;
   handleChange?: ChangeEventHandler;

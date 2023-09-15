@@ -91,10 +91,10 @@ export const CreateDynamicSetElement: React.FC<CreateDynamicSetElementProps> = (
           <WidgetPaddedBody>
             <div className={styles.desc}>{i18n.create_dynamic_set_element_subtitle}</div>
             <div className={styles.textInputContainer}>
-              <FormTextInput label={i18n.value} handleChange={handleChangeValue} />
+              <FormTextInput label={i18n.value} name="value" handleChange={handleChangeValue} />
             </div>
             <div className={styles.textInputContainer}>
-              <FormTextInput label={i18n.meta} handleChange={handleChangeMeta} />
+              <FormTextInput label={i18n.meta} name="meta" handleChange={handleChangeMeta} />
             </div>
           </WidgetPaddedBody>
         </Widget>

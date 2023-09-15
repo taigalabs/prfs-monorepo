@@ -107,7 +107,7 @@ const SignInForm: React.FC<SignInFormProps> = () => {
         </div>
         {passhash.length > 0 && (
           <div className={styles.hashResult}>
-            <FormTextInput label={i18n.passhash} value={passhash} />
+            <FormTextInput label={i18n.passhash} name="passhash" value={passhash} />
           </div>
         )}
       </div>
