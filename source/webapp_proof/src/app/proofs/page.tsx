@@ -15,11 +15,10 @@ const ProofsPage: React.FC = () => {
     <DefaultLayout>
       <Masthead />
       <ContentArea>
-        <div className={styles.wrapper}>
+        <div className={styles.feedContainer}>
           <ProofFeeds />
         </div>
       </ContentArea>
-      {/* <RightBar /> */}
     </DefaultLayout>
   );
 };

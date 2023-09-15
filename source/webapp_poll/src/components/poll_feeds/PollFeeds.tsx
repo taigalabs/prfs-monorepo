@@ -18,14 +18,14 @@ import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/Cap
 import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
 import dayjs from "dayjs";
 
-import styles from "./ProofFeeds.module.scss";
+import styles from "./PollFeeds.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import RowItem from "./RowItem";
 import { paths } from "@/paths";
 
 const fetchSize = 25;
 
-const ProofFeeds: React.FC = () => {
+const PollFeeds: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -163,15 +163,15 @@ const ProofFeeds: React.FC = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.borderBox} />
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : (
-        <div
-          className={styles.feedContainer}
-          onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
-          ref={tableContainerRef}
-        >
-          <div className={styles.topPlaceholder} />
+      <div
+        className={styles.feedContainer}
+        onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
+        ref={tableContainerRef}
+      >
+        <div className={styles.topPlaceholder} />
+        {isLoading ? (
+          <>Loading...</>
+        ) : (
           <div>
             {paddingTop > 0 && (
               <div>
@@ -189,10 +189,10 @@ const ProofFeeds: React.FC = () => {
               </div>
             )}
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
 
-export default ProofFeeds;
+export default PollFeeds;
