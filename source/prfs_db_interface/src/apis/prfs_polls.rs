@@ -22,6 +22,7 @@ SELECT * from prfs_polls
             label: row.get("label"),
             plural_voting: row.get("plural_voting"),
             proof_type_id: row.get("proof_type_id"),
+            questions: row.get("questions"),
             author: row.get("author"),
             created_at: row.get("created_at"),
         })
@@ -51,6 +52,7 @@ WHERE poll_id=$1
         label: row.get("label"),
         plural_voting: row.get("plural_voting"),
         proof_type_id: row.get("proof_type_id"),
+        questions: row.get("questions"),
         author: row.get("author"),
         created_at: row.get("created_at"),
     };
