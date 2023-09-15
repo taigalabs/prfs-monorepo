@@ -69,6 +69,7 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
         poll_id: poll.poll_id,
         plural_voting: poll.plural_voting ? "true" : "false",
         proof_type_id: poll.proof_type_id,
+        description: poll.description,
         author: poll.author,
       };
     } else {
@@ -197,18 +198,14 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
             <div className={styles.textInputContainer}>
               <div className={styles.inputLabel}>{i18n.choose_plural_voting}</div>
               <div className={styles.radioGroup}>
-                <select value={formData.plural_voting} onChange={handleChangeFormData}>
+                <select
+                  name="plural_voting"
+                  value={formData.plural_voting}
+                  onChange={handleChangeFormData}
+                >
                   <option value="true">{i18n.true}</option>
                   <option value="false">{i18n.false}</option>
                 </select>
-                {/* <label> */}
-                {/*   <input type="radio" value="single" name="plural_voting" /> */}
-                {/*   <span>{i18n.singular}</span> */}
-                {/* </label> */}
-                {/* <label> */}
-                {/*   <input type="radio" value="plural" name="plural_voting" /> */}
-                {/*   <span>{i18n.plural}</span> */}
-                {/* </label> */}
               </div>
             </div>
           </WidgetPaddedBody>

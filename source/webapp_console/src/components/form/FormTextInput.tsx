@@ -19,15 +19,9 @@ const FormTextInput: React.FC<FormTextInputProps> = ({
           name={name}
           className={styles.readOnly}
           type={inputType}
-          value={value}
+          value={value || ""}
           onChange={handleChange}
         />
-        {/* {value ? ( */}
-        {/*   <input name={name || ""} className={styles.readOnly} type={inputType} value={value} /> */}
-        {/* )  */}
-        {/*   : ( */}
-        {/*   <input name={name || ""} type={inputType} onChange={handleChange} /> */}
-        {/* )} */}
       </div>
     </div>
   );
