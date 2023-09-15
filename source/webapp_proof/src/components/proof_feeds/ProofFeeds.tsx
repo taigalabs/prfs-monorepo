@@ -89,7 +89,7 @@ const ProofFeeds: React.FC = () => {
 
   const { data, fetchNextPage, isFetching, isLoading } =
     useInfiniteQuery<GetPrfsProofInstancesResponse>(
-      ["table-data"],
+      ["get_prfs_proof_instances"],
       async ({ pageParam = 0 }) => {
         const start = pageParam * fetchSize;
 

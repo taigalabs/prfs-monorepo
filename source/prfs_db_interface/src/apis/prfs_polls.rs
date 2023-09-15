@@ -8,7 +8,16 @@ pub async fn get_prfs_polls(
     pool: &Pool<Postgres>,
     page_idx: i32,
     page_size: i32,
-) -> Result<Vec<PrfsPoll>, DbInterfaceError> {
+) -> Result<(Vec<PrfsPoll>, f32), DbInterfaceError> {
+    let table_row_count: f32 = {
+        let query = r#"
+SELECT reltuples AS estimate FROM pg_class where relname = 'prfs_proof_instances';
+"#;
+        let row = sqlx::query(query).fetch_one(pool).await.unwrap();
+
+        row.get("estimate")
+    };
+
     let query = r#"
 SELECT * from prfs_polls
 "#;
@@ -29,7 +38,7 @@ SELECT * from prfs_polls
         })
         .collect();
 
-    return Ok(prfs_polls);
+    return Ok((prfs_polls, table_row_count));
 }
 
 pub async fn get_prfs_poll_by_poll_id(

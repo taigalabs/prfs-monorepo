@@ -21,12 +21,13 @@ pub async fn get_prfs_polls(req: Request<Body>) -> Result<Response<Body>, Infall
 
     let pool = &state.db2.pool;
 
-    let prfs_polls = db_apis::get_prfs_polls(&pool, req.page_idx, req.page_size)
+    let (prfs_polls, table_row_count) = db_apis::get_prfs_polls(&pool, req.page_idx, req.page_size)
         .await
         .unwrap();
 
     let resp = ApiResponse::new_success(GetPrfsPollsResponse {
         page_idx: req.page_idx,
+        table_row_count,
         prfs_polls,
     });
 

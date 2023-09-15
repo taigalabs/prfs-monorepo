@@ -19,6 +19,7 @@ pub struct GetPrfsPollsRequest {
 #[ts(export)]
 pub struct GetPrfsPollsResponse {
     pub page_idx: i32,
+    pub table_row_count: f32,
     pub prfs_polls: Vec<PrfsPoll>,
 }
 

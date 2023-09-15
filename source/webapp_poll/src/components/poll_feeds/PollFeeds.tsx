@@ -12,16 +12,18 @@ import {
 } from "@tanstack/react-table";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtual } from "react-virtual";
-import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
-import { GetPrfsProofInstancesResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstancesResponse";
+// import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
+// import { GetPrfsProofInstancesResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstancesResponse";
 import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
 import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
+import { GetPrfsPollsResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsPollsResponse";
 import dayjs from "dayjs";
 
 import styles from "./PollFeeds.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import RowItem from "./RowItem";
 import { paths } from "@/paths";
+import { PrfsPoll } from "@taigalabs/prfs-entities/bindings/PrfsPoll";
 
 const fetchSize = 25;
 
@@ -30,23 +32,10 @@ const PollFeeds: React.FC = () => {
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  const columns = React.useMemo<ColumnDef<PrfsProofInstanceSyn1>[]>(
+  const columns = React.useMemo<ColumnDef<PrfsPoll>[]>(
     () => [
       {
-        accessorFn: row => row.img_url,
-        header: "Img url",
-        cell: info => {
-          const img_url = info.getValue() as string;
-
-          return (
-            <div className={styles.imgCol}>
-              <CaptionedImg img_url={img_url} size={50} />
-            </div>
-          );
-        },
-      },
-      {
-        accessorFn: row => row.proof_label,
+        accessorFn: row => row.label,
         header: "Label",
       },
       {
@@ -59,52 +48,30 @@ const PollFeeds: React.FC = () => {
         },
       },
       {
-        accessorFn: row => row,
-        header: "Prioritized inputs",
-        cell: info => {
-          const row = info.getValue() as PrfsProofInstanceSyn1;
-
-          const { public_inputs } = row;
-
-          let values = [];
-          for (const meta of row.public_inputs_meta as PublicInputMeta[]) {
-            if (meta.show_priority === 0) {
-              const { name } = meta;
-              if (public_inputs[name]) {
-                values.push(public_inputs[name]);
-              }
-            }
-          }
-
-          return values;
-        },
-      },
-      {
-        accessorFn: row => row.proof_instance_id,
-        header: "Proof instance id",
+        accessorFn: row => row.description,
+        header: "Description",
       },
     ],
     []
   );
 
-  const { data, fetchNextPage, isFetching, isLoading } =
-    useInfiniteQuery<GetPrfsProofInstancesResponse>(
-      ["table-data"],
-      async ({ pageParam = 0 }) => {
-        const start = pageParam * fetchSize;
+  const { data, fetchNextPage, isFetching, isLoading } = useInfiniteQuery<GetPrfsPollsResponse>(
+    ["get"],
+    async ({ pageParam = 0 }) => {
+      const start = pageParam * fetchSize;
 
-        const { payload } = await prfsApi2("get_prfs_proof_instances", {
-          page_idx: start,
-          page_size: fetchSize,
-        });
-        return payload;
-      },
-      {
-        getNextPageParam: (_lastGroup, groups) => groups.length,
-        keepPreviousData: true,
-        refetchOnWindowFocus: false,
-      }
-    );
+      const { payload } = await prfsApi2("get_prfs_proof_instances", {
+        page_idx: start,
+        page_size: fetchSize,
+      });
+      return payload;
+    },
+    {
+      getNextPageParam: (_lastGroup, groups) => groups.length,
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+    }
+  );
 
   // we must flatten the array of arrays from the useInfiniteQuery hook
   const flatData = React.useMemo(
@@ -179,7 +146,7 @@ const PollFeeds: React.FC = () => {
               </div>
             )}
             {virtualRows.map(virtualRow => {
-              const row = rows[virtualRow.index] as Row<PrfsProofInstanceSyn1>;
+              const row = rows[virtualRow.index] as Row<PrfsPoll>;
 
               return <RowItem key={row.id} row={row} />;
             })}
