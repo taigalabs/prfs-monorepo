@@ -56,11 +56,11 @@ const PollFeeds: React.FC = () => {
   );
 
   const { data, fetchNextPage, isFetching, isLoading } = useInfiniteQuery<GetPrfsPollsResponse>(
-    ["get"],
+    ["get_prfs_polls"],
     async ({ pageParam = 0 }) => {
       const start = pageParam * fetchSize;
 
-      const { payload } = await prfsApi2("get_prfs_proof_instances", {
+      const { payload } = await prfsApi2("get_prfs_polls", {
         page_idx: start,
         page_size: fetchSize,
       });
@@ -74,10 +74,7 @@ const PollFeeds: React.FC = () => {
   );
 
   // we must flatten the array of arrays from the useInfiniteQuery hook
-  const flatData = React.useMemo(
-    () => data?.pages?.flatMap(page => page.prfs_proof_instances_syn1) ?? [],
-    [data]
-  );
+  const flatData = React.useMemo(() => data?.pages?.flatMap(page => page.prfs_polls) ?? [], [data]);
   const totalDBRowCount = data?.pages?.[0]?.table_row_count ?? 0;
   const totalFetched = flatData.length;
 

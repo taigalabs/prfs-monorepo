@@ -3,5 +3,6 @@ import type { PrfsPoll } from "./PrfsPoll";
 
 export interface GetPrfsPollsResponse {
   page_idx: number;
+  table_row_count: number;
   prfs_polls: Array<PrfsPoll>;
 }

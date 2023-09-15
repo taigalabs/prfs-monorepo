@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import styles from "./RowItem.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
+import { PrfsPoll } from "@taigalabs/prfs-entities/bindings/PrfsPoll";
 
 const RowItem: React.FC<EntryProps> = ({ row }) => {
   const router = useRouter();
@@ -13,27 +14,27 @@ const RowItem: React.FC<EntryProps> = ({ row }) => {
   const [imgUrlCell, proofLabelCell, createdAtCell, prioritizedValuesCell, proofInstanceIdCell] =
     cells;
 
-  const imgUrl = renderCell(imgUrlCell);
-  const proofLabel = renderCell(proofLabelCell);
-  const createdAt = renderCell(createdAtCell);
-  const prioritizedValues = renderCell(prioritizedValuesCell);
-  const proofInstanceId = proofInstanceIdCell.getValue();
+  // const imgUrl = renderCell(imgUrlCell);
+  // const proofLabel = renderCell(proofLabelCell);
+  // const createdAt = renderCell(createdAtCell);
+  // const prioritizedValues = renderCell(prioritizedValuesCell);
+  // const proofInstanceId = proofInstanceIdCell.getValue();
 
   const handleClickRow = React.useCallback(() => {
-    router.push(`${paths.proofs}/${proofInstanceId}`);
+    // router.push(`${paths.proofs}/${proofInstanceId}`);
   }, [row, router]);
 
   return (
     <div className={styles.wrapper} onClick={handleClickRow}>
-      <div className={styles.leftCol}>{imgUrl}</div>
-      <div className={styles.rightCol}>
-        <div className={styles.header}>
-          <span className={styles.label}>{proofLabel}</span>
-          <span>{"·"}</span>
-          <span className={styles.createdAt}>{createdAt}</span>
-        </div>
-        <div className={styles.prioritizedValues}>{prioritizedValues}</div>
-      </div>
+      {/* <div className={styles.leftCol}>{imgUrl}</div> */}
+      {/* <div className={styles.rightCol}> */}
+      {/*   <div className={styles.header}> */}
+      {/*     <span className={styles.label}>{proofLabel}</span> */}
+      {/*     <span>{"·"}</span> */}
+      {/*     <span className={styles.createdAt}>{createdAt}</span> */}
+      {/*   </div> */}
+      {/*   <div className={styles.prioritizedValues}>{prioritizedValues}</div> */}
+      {/* </div> */}
     </div>
   );
 };
@@ -41,7 +42,7 @@ const RowItem: React.FC<EntryProps> = ({ row }) => {
 export default RowItem;
 
 export interface EntryProps {
-  row: Row<PrfsProofInstanceSyn1>;
+  row: Row<PrfsPoll>;
 }
 
 function renderCell(cell: Cell<PrfsProofInstanceSyn1, unknown>) {
