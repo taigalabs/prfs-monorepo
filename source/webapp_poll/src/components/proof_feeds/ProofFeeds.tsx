@@ -14,12 +14,12 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtual } from "react-virtual";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import { GetPrfsProofInstancesResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstancesResponse";
-
-import styles from "./ProofFeeds.module.scss";
-import { i18nContext } from "@/contexts/i18n";
 import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
 import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
 import dayjs from "dayjs";
+
+import styles from "./ProofFeeds.module.scss";
+import { i18nContext } from "@/contexts/i18n";
 import RowItem from "./RowItem";
 import { paths } from "@/paths";
 

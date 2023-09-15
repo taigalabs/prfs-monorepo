@@ -15,27 +15,28 @@ import styles from "./ProofInstancePage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
-import LeftBar from "@/components/left_bar/LeftBar";
+// import LeftBar from "@/components/left_bar/LeftBar";
 import ContentArea, { TopPlaceholder } from "@/components/content_area/ContentArea";
 import { envs } from "@/envs";
 import ProofDetailView from "@/components/proof_detail_view/ProofDetailView";
 import Link from "next/link";
 import Masthead from "@/components/masthead/Masthead";
+import { PrfsPoll } from "@taigalabs/prfs-entities/bindings/PrfsPoll";
 
-const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
+const PollPage: React.FC<PollPageProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
 
-  const [proofInstance, setProofInstance] = React.useState<PrfsProofInstanceSyn1>();
+  const [proofInstance, setProofInstance] = React.useState<PrfsPoll>();
   React.useEffect(() => {
     async function fn() {
-      const proof_instance_id = decodeURIComponent(params.proof_instance_id);
+      const poll_id = decodeURIComponent(params.poll_id);
       try {
-        const { payload } = await prfsApi2("get_prfs_proof_instance_by_instance_id", {
-          proof_instance_id,
+        const { payload } = await prfsApi2("get_prfs_poll_by_poll_id", {
+          poll_id,
         });
 
-        setProofInstance(payload.prfs_proof_instance_syn1);
+        setProofInstance(payload.prfs_poll);
       } catch (err) {
         console.error("Proof instance is not found, invalid access");
       }
@@ -44,7 +45,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
     fn().then();
   }, [setProofInstance]);
 
-  const headerLabel = `${i18n.proof_instance} ${params.proof_instance_id}`;
+  const headerLabel = `${i18n.proof_instance} ${params.poll_id}`;
 
   return (
     <DefaultLayout>
@@ -56,7 +57,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
             <div className={styles.inner}>
               <div className={styles.header}>
                 <div className={styles.row}>
-                  <Link href={paths.proofs}>
+                  <Link href={paths.polls}>
                     <ArrowButton variant="left" />
                   </Link>
                   <p className={styles.headerLabel}>{headerLabel}</p>
@@ -70,14 +71,8 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
                 </div>
               </div>
               <div className={styles.content}>
-                <div className={styles.bannerContainer}>
-                  <ProofBanner
-                    proofInstance={proofInstance}
-                    webappConsoleEndpoint={envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
-                  />
-                </div>
                 <div className={styles.proofDetailContainer}>
-                  <ProofDetailView proofInstance={proofInstance} />
+                  {/* <ProofDetailView proofInstance={proofInstance} /> */}
                 </div>
               </div>
             </div>
@@ -90,10 +85,10 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   );
 };
 
-export default ProofInstancePage;
+export default PollPage;
 
-interface ProofInstancePageProps {
+interface PollPageProps {
   params: {
-    proof_instance_id: string;
+    poll_id: string;
   };
 }

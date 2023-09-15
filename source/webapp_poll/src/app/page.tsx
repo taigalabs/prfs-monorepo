@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
 
 import styles from "./HomePage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -17,9 +16,7 @@ const HomePage: React.FC = () => {
     <DefaultLayout>
       <Masthead />
       <ContentArea>
-        <div className={styles.container}>
-          <CreateProofForm />
-        </div>
+        <div className={styles.container}>{/* <CreateProofForm /> */}</div>
       </ContentArea>
     </DefaultLayout>
   );

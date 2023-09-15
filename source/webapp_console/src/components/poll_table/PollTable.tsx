@@ -11,14 +11,12 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsPoll } from "@taigalabs/prfs-entities/bindings/PrfsPoll";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
-import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
 import Table2, {
   Table2Body,
   Table2Head,
   Table2Pagination,
   TableSearch,
 } from "@taigalabs/prfs-react-components/src/table2/Table2";
-import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
 
 import styles from "./PollTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";

@@ -1,5 +1,5 @@
 export const paths = {
   __: "/",
-  generate: "/",
-  proofs: "/proofs",
+  create: "/create",
+  polls: "/polls",
 };
