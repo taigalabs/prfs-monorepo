@@ -66,8 +66,8 @@ pub async fn insert_prfs_poll(
 ) -> Result<Uuid, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_polls
-(poll_id, label, plural_voting, proof_type_id, author)
-VALUES ($1, $2, $3, $4, $5) returning poll_id"#;
+(poll_id, label, plural_voting, proof_type_id, author, questions)
+VALUES ($1, $2, $3, $4, $5, $6) returning poll_id"#;
 
     let row = sqlx::query(query)
         .bind(&prfs_poll.poll_id)
@@ -75,6 +75,7 @@ VALUES ($1, $2, $3, $4, $5) returning poll_id"#;
         .bind(&prfs_poll.plural_voting)
         .bind(&prfs_poll.proof_type_id)
         .bind(&prfs_poll.author)
+        .bind(&prfs_poll.questions)
         .fetch_one(&mut **tx)
         .await
         .unwrap();

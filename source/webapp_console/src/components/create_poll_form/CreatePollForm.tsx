@@ -125,17 +125,16 @@ const CreatePollForm: React.FC<CreatePollFormProps> = () => {
         const poll_id = uuidv4();
         const { account_id } = localPrfsAccount.prfsAccount;
 
-        console.log(123, questions);
+        await mutation.mutateAsync({
+          poll_id,
+          plural_voting: formData.plural_voting === "plural",
+          label: formData.label,
+          proof_type_id: formData.proof_type_id,
+          author: account_id,
+          questions,
+        });
 
-        // await mutation.mutateAsync({
-        //   poll_id,
-        //   plural_voting: formData.plural_voting === "plural",
-        //   label: formData.label,
-        //   proof_type_id: formData.proof_type_id,
-        //   author: account_id,
-        // });
-
-        // router.push(paths.polls);
+        router.push(paths.polls);
       }
     }
   }, [formData, localPrfsAccount, mutation, router, questions]);
