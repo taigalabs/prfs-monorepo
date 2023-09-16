@@ -7,18 +7,14 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
-import ProofBanner from "@taigalabs/prfs-react-components/src/proof_banner/ProofBanner";
 import SocialSharePopover from "@taigalabs/prfs-react-components/src/social_share_popover/SocialSharePopover";
 
 import styles from "./ProofInstancePage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
-// import LeftBar from "@/components/left_bar/LeftBar";
 import ContentArea, { TopPlaceholder } from "@/components/content_area/ContentArea";
 import { envs } from "@/envs";
-import ProofDetailView from "@/components/proof_detail_view/ProofDetailView";
 import Link from "next/link";
 import Masthead from "@/components/masthead/Masthead";
 import { PrfsPoll } from "@taigalabs/prfs-entities/bindings/PrfsPoll";
