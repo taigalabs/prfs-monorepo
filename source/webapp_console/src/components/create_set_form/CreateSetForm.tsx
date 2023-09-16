@@ -112,6 +112,7 @@ const CreateSetForm: React.FC<CreateSetFormProps> = () => {
             </div>
             <div className={styles.textInputContainer}>
               <FormTextareaInput
+                name="description"
                 label={i18n.description}
                 handleChange={handleChangeDesc}
                 rows={4}

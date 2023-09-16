@@ -179,7 +179,7 @@ const ProofFeeds: React.FC = () => {
               </div>
             )}
             {virtualRows.map(virtualRow => {
-              const row = rows[virtualRow.index] as Row<PrfsPoll>;
+              const row = rows[virtualRow.index] as Row<PrfsProofInstanceSyn1>;
 
               return <RowItem key={row.id} row={row} />;
             })}
