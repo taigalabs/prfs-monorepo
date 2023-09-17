@@ -47,7 +47,7 @@ const PollResultPage: React.FC<PollResultPageProps> = ({ pollId }) => {
             <div className={styles.inner}>
               <div className={styles.header}>
                 <div className={styles.row}>
-                  <Link href={paths.polls}>
+                  <Link href={paths.__}>
                     <ArrowButton variant="left" />
                   </Link>
                   <p className={styles.headerLabel}>{headerLabel}</p>
