@@ -11,30 +11,26 @@ import { PrfsPoll } from "@taigalabs/prfs-entities/bindings/PrfsPoll";
 const RowItem: React.FC<EntryProps> = ({ row }) => {
   const router = useRouter();
   const cells = row.getVisibleCells();
-  const [imgUrlCell, proofLabelCell, createdAtCell, prioritizedValuesCell, proofInstanceIdCell] =
-    cells;
+  const [labelCell, createdAtCell, descCell, pollIdCell] = cells;
 
-  // const imgUrl = renderCell(imgUrlCell);
-  // const proofLabel = renderCell(proofLabelCell);
-  // const createdAt = renderCell(createdAtCell);
-  // const prioritizedValues = renderCell(prioritizedValuesCell);
-  // const proofInstanceId = proofInstanceIdCell.getValue();
+  const label = renderCell(labelCell);
+  const desc = renderCell(descCell);
+  const createdAt = renderCell(createdAtCell);
+  const pollId = pollIdCell.getValue();
 
   const handleClickRow = React.useCallback(() => {
-    // router.push(`${paths.proofs}/${proofInstanceId}`);
-  }, [row, router]);
+    router.push(`${paths.polls}/${pollId}`);
+  }, [router, pollId]);
 
   return (
     <div className={styles.wrapper} onClick={handleClickRow}>
-      {/* <div className={styles.leftCol}>{imgUrl}</div> */}
-      {/* <div className={styles.rightCol}> */}
-      {/*   <div className={styles.header}> */}
-      {/*     <span className={styles.label}>{proofLabel}</span> */}
-      {/*     <span>{"·"}</span> */}
-      {/*     <span className={styles.createdAt}>{createdAt}</span> */}
-      {/*   </div> */}
-      {/*   <div className={styles.prioritizedValues}>{prioritizedValues}</div> */}
-      {/* </div> */}
+      <div className={styles.rightCol}>
+        <div className={styles.header}>
+          <p className={styles.label}>{label}</p>
+          <p className={styles.desc}>{desc}</p>
+          <span className={styles.createdAt}>{createdAt}</span>
+        </div>
+      </div>
     </div>
   );
 };
@@ -45,6 +41,6 @@ export interface EntryProps {
   row: Row<PrfsPoll>;
 }
 
-function renderCell(cell: Cell<PrfsProofInstanceSyn1, unknown>) {
+function renderCell(cell: Cell<PrfsPoll, unknown>) {
   return flexRender(cell.column.columnDef.cell, cell.getContext());
 }

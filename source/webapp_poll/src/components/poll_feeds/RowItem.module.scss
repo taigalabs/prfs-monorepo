@@ -1,11 +1,14 @@
 .wrapper {
-  padding: 9px 12px;
+  padding: 11px 12px;
   display: flex;
   align-items: center;
   cursor: pointer;
+  border: 1px solid var(--bright-gray-30);
+  border-radius: 5px;
 
   &:not(:first-child) {
-    border-top: 1px solid var(--bright-gray-30);
+    /* border-top: 1px solid var(--bright-gray-30); */
+    margin-top: 15px;
   }
 
   &:hover {

@@ -12,10 +12,6 @@ import {
 } from "@tanstack/react-table";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtual } from "react-virtual";
-// import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
-// import { GetPrfsProofInstancesResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstancesResponse";
-import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
-import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
 import { GetPrfsPollsResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsPollsResponse";
 import dayjs from "dayjs";
 
@@ -25,7 +21,7 @@ import RowItem from "./RowItem";
 import { paths } from "@/paths";
 import { PrfsPoll } from "@taigalabs/prfs-entities/bindings/PrfsPoll";
 
-const fetchSize = 25;
+const fetchSize = 15;
 
 const PollFeeds: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -50,6 +46,10 @@ const PollFeeds: React.FC = () => {
       {
         accessorFn: row => row.description,
         header: "Description",
+      },
+      {
+        accessorFn: row => row.poll_id,
+        header: "Poll Id",
       },
     ],
     []
@@ -126,7 +126,7 @@ const PollFeeds: React.FC = () => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.borderBox} />
+      {/* <div className={styles.borderBox} /> */}
       <div
         className={styles.feedContainer}
         onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
