@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
@@ -13,11 +13,8 @@ import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import ContentArea, { TopPlaceholder } from "@/components/content_area/ContentArea";
-import { envs } from "@/envs";
 import Link from "next/link";
 import Masthead from "@/components/masthead/Masthead";
-import { PrfsPoll } from "@taigalabs/prfs-entities/bindings/PrfsPoll";
-import PollView from "@/components/poll_view/PollView";
 import { useQuery } from "@tanstack/react-query";
 import PollResultView from "@/components/poll_result_view/PollResultView";
 
