@@ -3,6 +3,7 @@ import { Cell, flexRender, Row } from "@tanstack/react-table";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import { useRouter } from "next/navigation";
 import { PrfsPoll } from "@taigalabs/prfs-entities/bindings/PrfsPoll";
+import { PollQuestion } from "@taigalabs/prfs-entities/bindings/PollQuestion";
 
 import styles from "./PollView.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -11,13 +12,26 @@ import { paths } from "@/paths";
 const PollView: React.FC<PollViewProps> = ({ poll }) => {
   const router = useRouter();
 
+  const questionsElem = React.useMemo(() => {
+    return poll.questions.map((qst, idx) => {
+      const question = qst as PollQuestion;
+      return (
+        <div key={idx}>
+          <p>{question.label}</p>
+        </div>
+      );
+    });
+  }, [poll]);
+
   console.log(22, poll);
 
   return (
     <div className={styles.wrapper}>
       <div>
-        <p>{poll.label}</p>
+        <p className={styles.label}>{poll.label}</p>
+        <p className={styles.desc}>{poll.description}</p>
       </div>
+      <div className={styles.questions}>{questionsElem}</div>
     </div>
   );
 };
