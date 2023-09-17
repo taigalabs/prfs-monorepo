@@ -67,6 +67,7 @@ export default {
   raw_circuit_inputs: "Raw circuit inputs",
   circuit: "Circuit",
   rows_per_page: "Rows per page",
+  submit: "Submit",
   circuit_summary_label: "Circuit summary for",
   proof_instance: "Proof instance",
   proof_instance_detail: "Proof instance detail",

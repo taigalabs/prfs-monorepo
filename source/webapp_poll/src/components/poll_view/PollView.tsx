@@ -9,8 +9,10 @@ import styles from "./PollView.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import Question from "./Question";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 const PollView: React.FC<PollViewProps> = ({ poll }) => {
+  const i18n = React.useContext(i18nContext);
   const router = useRouter();
 
   const questionsElem = React.useMemo(() => {
@@ -20,8 +22,6 @@ const PollView: React.FC<PollViewProps> = ({ poll }) => {
     });
   }, [poll]);
 
-  console.log(22, poll);
-
   return (
     <div className={styles.wrapper}>
       <div>
@@ -29,6 +29,9 @@ const PollView: React.FC<PollViewProps> = ({ poll }) => {
         <p className={styles.desc}>{poll.description}</p>
       </div>
       <div className={styles.questions}>{questionsElem}</div>
+      <div className={styles.btnRow}>
+        <Button variant="aqua_blue_1">{i18n.submit}</Button>
+      </div>
     </div>
   );
 };

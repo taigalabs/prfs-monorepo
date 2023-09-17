@@ -1,8 +1,26 @@
 .wrapper {
   &:not(:first-child) {
-    margin-top: 15px;
+    margin-top: 35px;
   }
 }
 
 .idx {
+  margin-right: 6px;
+}
+
+.label {
+  font-size: 1.28em;
+  font-weight: 500;
+}
+
+.choices {
+  margin-top: 8px;
+}
+
+.choice {
+  margin: 5px 0;
+
+  input {
+    margin-right: 5px;
+  }
 }
