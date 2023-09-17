@@ -8,6 +8,7 @@ import { PollQuestion } from "@taigalabs/prfs-entities/bindings/PollQuestion";
 import styles from "./PollView.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
+import Question from "./Question";
 
 const PollView: React.FC<PollViewProps> = ({ poll }) => {
   const router = useRouter();
@@ -15,11 +16,7 @@ const PollView: React.FC<PollViewProps> = ({ poll }) => {
   const questionsElem = React.useMemo(() => {
     return poll.questions.map((qst, idx) => {
       const question = qst as PollQuestion;
-      return (
-        <div key={idx}>
-          <p>{question.label}</p>
-        </div>
-      );
+      return <Question key={idx} idx={idx} question={question} />;
     });
   }, [poll]);
 
