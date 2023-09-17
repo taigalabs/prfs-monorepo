@@ -3,6 +3,7 @@ import Logo from "@taigalabs/prfs-react-components/src/logo/Logo";
 import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
 import Link from "next/link";
 import ActiveLink from "@taigalabs/prfs-react-components/src/active_link/ActiveLink";
+import PrfsAppsPopover from "@taigalabs/prfs-react-components/src/prfs_apps_popover/PrfsAppsPopover";
 
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -24,28 +25,36 @@ const Masthead: React.FC = () => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.leftMenu}>
-        <div className={styles.logoContainer}>
-          <Logo variant="simple" />
+      <div className={styles.inner}>
+        <div className={styles.leftGroup}>
+          <div className={styles.logoContainer}>
+            <Link href={paths.__}>
+              <Logo variant="simple" />
+              <p className={styles.appName}>{i18n.proof}</p>
+            </Link>
+            <p className={styles.betaTag}>Beta</p>
+          </div>
+          <ul className={styles.leftMenu}>
+            <li>
+              <ActiveLink href={paths.generate} exact>
+                {i18n.generate}
+              </ActiveLink>
+            </li>
+            <li>
+              <ActiveLink href={paths.proofs}>{i18n.proofs}</ActiveLink>
+            </li>
+          </ul>
         </div>
-        <ul>
+        <div className={styles.searchBarContainer}>
+          <SearchBar />
+        </div>
+        <ul className={styles.rightGroup}>
           <li>
-            <ActiveLink href={paths.generate} exact>
-              {i18n.generate}
-            </ActiveLink>
-          </li>
-          <li>
-            <ActiveLink href={paths.proofs}>{i18n.proofs}</ActiveLink>
-          </li>
-        </ul>
-      </div>
-      <div className={styles.searchBarContainer}>
-        <SearchBar />
-      </div>
-      <div className={styles.rightMenu}>
-        <ul>
-          <li>
-            <Link href={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}>{i18n.console}</Link>
+            <PrfsAppsPopover
+              webappPollEndpoint={process.env.NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT}
+              webappProofEndpoint={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
+              webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
+            />
           </li>
           <li>{i18n.account}</li>
         </ul>

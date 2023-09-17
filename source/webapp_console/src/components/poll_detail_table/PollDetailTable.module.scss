@@ -1,0 +1,52 @@
+.wrapper {
+  tbody {
+    tr {
+      td:first-child {
+        vertical-align: top;
+        font-weight: 500;
+        width: 230px;
+      }
+
+      /* td:last-child { */
+      /*   word-wrap: break-word; */
+      /*   word-break: break-all; */
+      /*   width: 490px; */
+      /* } */
+    }
+  }
+}
+
+.verified {
+  svg {
+    margin-right: 4px;
+    font-size: 16px;
+    color: var(--green-60);
+  }
+}
+
+.cell {
+  display: flex;
+}
+
+.url {
+  button {
+    cursor: pointer;
+    margin-left: 3px;
+    display: flex;
+    align-items: center;
+  }
+
+  svg {
+    font-size: 16px;
+  }
+}
+
+.copyBtnTooltip {
+  padding: 4px 5px;
+  background-color: var(--gray-30);
+  border-radius: 5px;
+  color: var(--white-100);
+  width: 100px;
+  text-align: center;
+  font-size: 13px;
+}

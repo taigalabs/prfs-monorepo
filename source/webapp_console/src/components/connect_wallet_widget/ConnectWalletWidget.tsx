@@ -44,7 +44,7 @@ const ConnectWalletWidget: React.FC<ConnectWalletWidgetProps> = ({ handleConnect
       </div>
       {walletAddr && (
         <div className={styles.walletAddr}>
-          <FormTextInput label={i18n.wallet_addr} value={walletAddr} />
+          <FormTextInput name="wallet_addr" label={i18n.wallet_addr} value={walletAddr} />
         </div>
       )}
     </div>

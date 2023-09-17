@@ -1,11 +1,28 @@
 .wrapper {
-  align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
   display: flex;
   padding: 14px 24px;
+  height: 60px;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--white-100);
+  z-index: 100;
+}
 
-  > div {
-    flex: 1;
-  }
+.inner {
+  display: flex;
+  align-items: center;
+  max-width: 1280px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.leftGroup {
+  display: flex;
+  flex: 1;
 }
 
 .appName {
@@ -16,20 +33,12 @@
   letter-spacing: -0.021em;
 }
 
-.leftMenu {
-  display: flex;
-  align-items: center;
-
-  ul {
-    padding-left: 42px;
-    display: inline-flex;
-    align-items: center;
-    height: 30px;
-  }
-
-  li:not(:first-child) {
-    margin-left: 24px;
-  }
+.betaTag {
+  padding: 0px 2px;
+  transform: translateY(-7px);
+  font-size: 12px;
+  letter-spacing: -0.01em;
+  color: var(--gray-30);
 }
 
 .logoContainer {
@@ -38,16 +47,27 @@
   font-size: 1.545rem;
 }
 
+.leftMenu {
+  margin-left: 32px;
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+
+  li:not(:first-child) {
+    margin-left: 24px;
+  }
+}
+
 .searchBarContainer {
+  width: 480px;
   display: flex;
   justify-content: center;
+  flex: 1;
 }
 
 .searchBar {
   border: 1px solid var(--gray-70);
-  width: 80%;
-  min-width: 450px;
-  max-width: 550px;
+  width: 100%;
   height: 36px;
   display: flex;
   align-items: center;
@@ -62,23 +82,21 @@
     margin-left: 9px;
     outline: none;
     width: 100%;
-    // padding: 5px 6px;
   }
 }
 
-.rightMenu {
+.rightGroup {
   display: flex;
-  align-items: center;
+  flex: 1;
   justify-content: flex-end;
+  font-size: 15px;
 
-  ul {
-    padding-left: 42px;
-    display: inline-flex;
+  > li {
+    display: flex;
     align-items: center;
-    height: 30px;
   }
 
-  li:not(:first-child) {
+  > li:not(:first-child) {
     margin-left: 24px;
   }
 }

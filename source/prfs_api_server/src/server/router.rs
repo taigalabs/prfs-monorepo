@@ -1,6 +1,6 @@
 use crate::apis::{
-    prfs_accounts, prfs_circuit_drivers, prfs_circuit_types, prfs_circuits, prfs_proof_instances,
-    prfs_proof_types, prfs_sets, prfs_tree_nodes,
+    prfs_accounts, prfs_circuit_drivers, prfs_circuit_types, prfs_circuits, prfs_polls,
+    prfs_proof_instances, prfs_proof_types, prfs_sets, prfs_tree_nodes,
 };
 use crate::ApiServerError;
 use hyper::{header, Body, Request, Response};
@@ -125,6 +125,26 @@ pub fn make_router(
         .post(
             format!("{}/compute_prfs_set_merkle_root", PREFIX),
             prfs_sets::compute_prfs_set_merkle_root,
+        )
+        .post(
+            format!("{}/get_prfs_polls", PREFIX),
+            prfs_polls::get_prfs_polls,
+        )
+        .post(
+            format!("{}/get_prfs_poll_by_poll_id", PREFIX),
+            prfs_polls::get_prfs_poll_by_poll_id,
+        )
+        .post(
+            format!("{}/get_prfs_poll_result_by_poll_id", PREFIX),
+            prfs_polls::get_prfs_poll_result_by_poll_id,
+        )
+        .post(
+            format!("{}/submit_prfs_poll_response", PREFIX),
+            prfs_polls::submit_prfs_poll_response,
+        )
+        .post(
+            format!("{}/create_prfs_poll", PREFIX),
+            prfs_polls::create_prfs_poll,
         )
         .post("*", middleware::not_found_handler)
         .err_handler_with_info(middleware::error_handler)

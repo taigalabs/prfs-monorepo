@@ -36,6 +36,7 @@ export default {
   see_more: "See more",
   search: "Search",
   search_guide: "Search for a proof (type), circuits, sets and others",
+  search_proof_guide: "Search for a proof (type)",
   browse: "Browse",
   set_id: "Set id",
   type: "Type",

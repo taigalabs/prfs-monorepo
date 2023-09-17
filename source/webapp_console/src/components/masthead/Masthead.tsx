@@ -3,11 +3,10 @@ import Link from "next/link";
 import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Logo from "@taigalabs/prfs-react-components/src/logo/Logo";
+import PrfsAppsPopover from "@taigalabs/prfs-react-components/src/prfs_apps_popover/PrfsAppsPopover";
 
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-// import { stateContext } from "@/contexts/state";
-import PrfsAppsPopover from "./PrfsAppsPopover";
 import AccountPopover from "./AccountPopover";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
@@ -36,7 +35,7 @@ const Masthead: React.FC<any> = () => {
           <div className={styles.logoContainer}>
             <Link href="/">
               <Logo variant="simple" />
-              <div className={styles.appName}>{i18n.console}</div>
+              <p className={styles.appName}>{i18n.console}</p>
             </Link>
           </div>
           <div className={styles.betaTag}>Beta</div>
@@ -55,7 +54,11 @@ const Masthead: React.FC<any> = () => {
             <button>{i18n.sdk_api.toUpperCase()}</button>
           </li>
           <li>
-            <PrfsAppsPopover />
+            <PrfsAppsPopover
+              webappProofEndpoint={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
+              webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
+              webappPollEndpoint={process.env.NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT}
+            />
           </li>
           {localPrfsAccount ? (
             <AccountPopover localPrfsAccount={localPrfsAccount} />

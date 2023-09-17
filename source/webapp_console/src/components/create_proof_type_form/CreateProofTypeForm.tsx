@@ -187,23 +187,36 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
           <WidgetPaddedBody>
             <div className={styles.desc}>{i18n.create_proof_type_subtitle}</div>
             <div className={styles.textInputContainer}>
-              <FormTextInput label={i18n.name} handleChange={handleChangeName} />
+              <FormTextInput label={i18n.name} name="name" handleChange={handleChangeName} />
             </div>
             <div className={styles.textInputContainer}>
               <FormTextareaInput
+                name="description"
                 label={i18n.description}
                 handleChange={handleChangeDesc}
                 rows={4}
               />
             </div>
             <div className={styles.textInputContainer}>
-              <FormTextInput label={i18n.expression} handleChange={handleChangeExpression} />
+              <FormTextInput
+                label={i18n.expression}
+                name="expression"
+                handleChange={handleChangeExpression}
+              />
             </div>
             <div className={styles.textInputContainer}>
-              <FormTextInput label={i18n.image_url} handleChange={handleChangeImgUrl} />
+              <FormTextInput
+                label={i18n.image_url}
+                name="input_url"
+                handleChange={handleChangeImgUrl}
+              />
             </div>
             <div className={styles.textInputContainer}>
-              <FormTextInput label={i18n.image_caption} handleChange={handleChangeImgCaption} />
+              <FormTextInput
+                label={i18n.image_caption}
+                name="image_caption"
+                handleChange={handleChangeImgCaption}
+              />
             </div>
           </WidgetPaddedBody>
         </Widget>

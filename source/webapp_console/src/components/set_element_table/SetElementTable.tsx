@@ -32,6 +32,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
     () => [
       columnHelper.accessor("pos_w", {
         header: "Position",
+        size: 80,
         meta: {
           type: "text",
         },
@@ -39,6 +40,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
       columnHelper.accessor("val", {
         header: "Value",
         cell: editable ? EditableCell : ctx => ctx.getValue(),
+        size: 300,
         meta: {
           type: "text",
         },
@@ -49,6 +51,10 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
         meta: {
           type: "text",
         },
+      }),
+      columnHelper.display({
+        id: "empty",
+        cell: () => "",
       }),
     ],
     []
@@ -99,17 +105,12 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
         columnId: Key,
         value: unknown
       ) {
-        console.log(11, rowIndex, columnId, value);
-
         const node = data[rowIndex];
-        console.log(22, node);
         if (node) {
           node[columnId] = value as any;
         }
-        console.log(33, node);
 
         try {
-          // const { payload } = await prfsApi.updatePrfsTreeNodeRequest({ prfs_tree_node: node });
           await prfsApi2("update_prfs_tree_node", { prfs_tree_node: node });
 
           setData(old =>
@@ -142,13 +143,20 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
             <Table2Head>
               {table.getHeaderGroups().map(headerGroup => (
                 <tr key={headerGroup.id}>
-                  {headerGroup.headers.map(header => (
-                    <th key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(header.column.columnDef.header, header.getContext())}
-                    </th>
-                  ))}
+                  {headerGroup.headers.map(header => {
+                    return (
+                      <th
+                        key={header.id}
+                        style={{
+                          width: header.getSize(),
+                        }}
+                      >
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(header.column.columnDef.header, header.getContext())}
+                      </th>
+                    );
+                  })}
                 </tr>
               ))}
             </Table2Head>
@@ -157,13 +165,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
               {table.getRowModel().rows.map(row => (
                 <tr key={row.id}>
                   {row.getVisibleCells().map(cell => (
-                    <td
-                      className={cn({
-                        [styles.pos_w]: cell.column.id === "pos_w",
-                        [styles.value]: cell.column.id === "value",
-                      })}
-                      key={cell.id}
-                    >
+                    <td key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}

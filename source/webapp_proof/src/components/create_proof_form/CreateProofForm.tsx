@@ -7,15 +7,13 @@ import { v4 as uuidv4 } from "uuid";
 import { ethers } from "ethers";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
-import SocialSharePopover from "@taigalabs/prfs-react-components/src/social_share_popover/SocialSharePopover";
 import { FaCloudMoon } from "@react-icons/all-files/fa/FaCloudMoon";
 import { useRouter } from "next/navigation";
-import QRDialog from "@taigalabs/prfs-react-components/src/proof_banner/QRDialog";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
+import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
 
 import styles from "./CreateProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import SelectProofTypeDialog from "@/components/select_proof_type_dialog/SelectProofTypeDialog";
 import { paths } from "@/paths";
 
 const prfs = new PrfsSDK("test");
@@ -78,11 +76,9 @@ const CreateProofForm: React.FC = () => {
 
   const handleClickUpload = React.useCallback(async () => {
     if (proveReceipt && selectedProofTypeItem) {
-      const { duration, proveResult } = proveReceipt;
+      const { proveResult } = proveReceipt;
       const { proof, publicInputSer } = proveResult;
       const public_inputs = JSON.parse(publicInputSer);
-
-      console.log("took %s ms to create a proof", duration);
 
       const proof_instance_id = uuidv4();
 

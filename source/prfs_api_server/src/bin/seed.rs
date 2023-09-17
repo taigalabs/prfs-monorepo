@@ -1,18 +1,12 @@
 use prfs_api_server::seed;
 use prfs_api_server::seed::db::Endpoint;
 use prfs_api_server::ApiServerError;
-use prfs_db_interface::database2::Database2;
-use prfs_db_interface::db_apis;
-use prfs_entities::sqlx;
-use prfs_entities::sqlx::Row;
 
 #[tokio::main]
 async fn main() -> Result<(), ApiServerError> {
     println!("Starting backend seeding...");
 
     let db = seed::db::connect_db(Endpoint::Dev).await;
-
-    // seed::write::truncate(&db).await;
 
     seed::write::upload(&db).await;
 

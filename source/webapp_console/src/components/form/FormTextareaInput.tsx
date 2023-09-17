@@ -3,6 +3,7 @@ import React, { ChangeEventHandler } from "react";
 import styles from "./Form.module.scss";
 
 const FormTextareaInput: React.FC<FormTextareaInputProps> = ({
+  name,
   label,
   value,
   handleChange,
@@ -12,11 +13,13 @@ const FormTextareaInput: React.FC<FormTextareaInputProps> = ({
     <div className={styles.formTextInputWrapper}>
       <div className={styles.label}>{label}</div>
       <div>
-        {value ? (
-          <textarea className={styles.readOnly} value={value} readOnly rows={rows} />
-        ) : (
-          <textarea onChange={handleChange} rows={rows} />
-        )}
+        <textarea
+          name={name}
+          className={styles.readOnly}
+          value={value || ""}
+          rows={rows}
+          onChange={handleChange}
+        />
       </div>
     </div>
   );
@@ -25,6 +28,7 @@ const FormTextareaInput: React.FC<FormTextareaInputProps> = ({
 export default FormTextareaInput;
 
 export interface FormTextareaInputProps {
+  name: string;
   label: string;
   value?: string | number;
   handleChange?: ChangeEventHandler;

@@ -317,6 +317,24 @@ returning pos_w
     return Ok(pos_w);
 }
 
+pub async fn delete_prfs_non_leaf_nodes_by_set_id(
+    tx: &mut Transaction<'_, Postgres>,
+    set_id: &Uuid,
+) -> Result<u64, DbInterfaceError> {
+    let query = r#"
+DELETE FROM prfs_tree_nodes
+WHERE set_id=$1 AND pos_h!=0
+"#;
+
+    let result = sqlx::query(query)
+        .bind(&set_id)
+        .execute(&mut **tx)
+        .await
+        .unwrap();
+
+    return Ok(result.rows_affected());
+}
+
 pub async fn delete_prfs_tree_nodes(
     tx: &mut Transaction<'_, Postgres>,
     set_id: &Uuid,

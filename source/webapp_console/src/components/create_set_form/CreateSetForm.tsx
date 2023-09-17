@@ -108,10 +108,11 @@ const CreateSetForm: React.FC<CreateSetFormProps> = () => {
           <WidgetPaddedBody>
             <div className={styles.desc}>{i18n.create_dynamic_set_subtitle}</div>
             <div className={styles.textInputContainer}>
-              <FormTextInput label={i18n.label} handleChange={handleChangeLabel} />
+              <FormTextInput label={i18n.label} name="label" handleChange={handleChangeLabel} />
             </div>
             <div className={styles.textInputContainer}>
               <FormTextareaInput
+                name="description"
                 label={i18n.description}
                 handleChange={handleChangeDesc}
                 rows={4}

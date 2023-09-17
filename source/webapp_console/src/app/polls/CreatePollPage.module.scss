@@ -1,0 +1,13 @@
+.wrapper {
+  max-width: 760px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  a {
+    margin-right: 14px;
+  }
+}

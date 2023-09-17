@@ -15,11 +15,12 @@ import styles from "./ProofInstancePage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
-import Masthead from "@/components/masthead/Masthead";
-import ContentArea from "@/components/content_area/ContentArea";
+import LeftBar from "@/components/left_bar/LeftBar";
+import ContentArea, { TopPlaceholder } from "@/components/content_area/ContentArea";
 import { envs } from "@/envs";
 import ProofDetailView from "@/components/proof_detail_view/ProofDetailView";
 import Link from "next/link";
+import Masthead from "@/components/masthead/Masthead";
 
 const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -49,6 +50,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
     <DefaultLayout>
       <Masthead />
       <ContentArea>
+        <TopPlaceholder />
         <div className={styles.container}>
           {proofInstance ? (
             <div className={styles.inner}>

@@ -38,6 +38,7 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
       {
         id: i18n.image_url,
         accessorFn: row => row.img_url,
+        header: "Image",
         cell: info => {
           const img_url = info.getValue() as string;
 

@@ -17,6 +17,7 @@
     "@phosphor-icons/react": "^2.0.10",
     "@react-icons/all-files": "^4.1.0",
     "@taigalabs/prfs-entities": "*",
+    "@taigalabs/prfs-api-js": "*",
     "@tabler/icons-react": "^2.32.0",
     "@tanstack/react-table": "^8.9.3",
     "@floating-ui/react": "^0.24.8"

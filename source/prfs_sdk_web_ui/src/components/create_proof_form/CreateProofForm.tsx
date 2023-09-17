@@ -116,7 +116,6 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
         case "MERKLE_PROOF_1": {
           inputElem = (
             <MerkleProofInput
-              // walletAddr={walletAddr}
               circuitInput={val}
               value={formValues[val.name] as any}
               setFormValues={setFormValues}
