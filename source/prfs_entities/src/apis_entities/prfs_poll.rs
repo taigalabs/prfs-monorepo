@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
@@ -57,4 +59,19 @@ pub struct GetPrfsPollByPollIdRequest {
 #[ts(export)]
 pub struct GetPrfsPollByPollIdResponse {
     pub prfs_poll: PrfsPoll,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct SubmitPrfsPollResponseRequest {
+    #[ts(type = "string")]
+    pub poll_id: Uuid,
+
+    #[ts(type = "string")]
+    pub proof_instance_id: Uuid,
+
+    pub serial_no: String,
+
+    #[ts(type = "Record<string, string>[]")]
+    pub value: sqlx::types::Json<HashMap<String, String>>,
 }

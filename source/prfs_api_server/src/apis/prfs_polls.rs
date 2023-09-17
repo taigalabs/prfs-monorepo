@@ -4,6 +4,7 @@ use prfs_db_interface::db_apis;
 use prfs_entities::apis_entities::{
     CreatePrfsPollRequest, CreatePrfsPollResponse, GetPrfsPollByPollIdRequest,
     GetPrfsPollByPollIdResponse, GetPrfsPollsRequest, GetPrfsPollsResponse,
+    SubmitPrfsPollResponseRequest,
 };
 use prfs_entities::entities::{PrfsPoll, PrfsProofInstance};
 use routerify::prelude::*;
@@ -55,6 +56,24 @@ pub async fn create_prfs_poll(req: Request<Body>) -> Result<Response<Body>, Infa
     let state = state.clone();
 
     let req: CreatePrfsPollRequest = parse_req(req).await;
+
+    let pool = &state.db2.pool;
+    let mut tx = pool.begin().await.unwrap();
+
+    let poll_id = db_apis::insert_prfs_poll(&mut tx, &req).await.unwrap();
+
+    tx.commit().await.unwrap();
+
+    let resp = ApiResponse::new_success(CreatePrfsPollResponse { poll_id });
+
+    return Ok(resp.into_hyper_response());
+}
+
+pub async fn cast_ballot(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+    let state = req.data::<Arc<ServerState>>().unwrap();
+    let state = state.clone();
+
+    let req: SubmitPrfsPollResponseRequest = parse_req(req).await;
 
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();

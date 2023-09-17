@@ -1,26 +1,56 @@
 import React from "react";
-import { Cell, flexRender, Row } from "@tanstack/react-table";
-import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import { useRouter } from "next/navigation";
 import { PrfsPoll } from "@taigalabs/prfs-entities/bindings/PrfsPoll";
 import { PollQuestion } from "@taigalabs/prfs-entities/bindings/PollQuestion";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 
 import styles from "./PollView.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import Question from "./Question";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import { useMutation } from "@tanstack/react-query";
 
 const PollView: React.FC<PollViewProps> = ({ poll }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
 
+  const [formData, setFormData] = React.useState<Record<string, any>>({});
+  const handleChangeForm = React.useCallback(
+    (ev: React.ChangeEvent | React.FormEvent) => {
+      const target = ev.target as any;
+
+      const { name, value } = target;
+
+      setFormData(oldVal => {
+        return {
+          ...oldVal,
+          [name]: value,
+        };
+      });
+    },
+    [setFormData]
+  );
+
   const questionsElem = React.useMemo(() => {
     return poll.questions.map((qst, idx) => {
       const question = qst as PollQuestion;
-      return <Question key={idx} idx={idx} question={question} />;
+      return (
+        <Question
+          key={idx}
+          questionIdx={idx}
+          question={question}
+          handleChangeForm={handleChangeForm}
+        />
+      );
     });
-  }, [poll]);
+  }, [poll, setFormData]);
+
+  const mutation = useMutation(() => {});
+
+  const handleClickSubmit = React.useCallback(() => {
+    console.log(22, formData);
+  }, [formData]);
 
   return (
     <div className={styles.wrapper}>
@@ -30,7 +60,9 @@ const PollView: React.FC<PollViewProps> = ({ poll }) => {
       </div>
       <div className={styles.questions}>{questionsElem}</div>
       <div className={styles.btnRow}>
-        <Button variant="aqua_blue_1">{i18n.submit}</Button>
+        <Button variant="aqua_blue_1" handleClick={handleClickSubmit}>
+          {i18n.submit}
+        </Button>
       </div>
     </div>
   );
