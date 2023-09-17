@@ -14,6 +14,6 @@ pub struct PrfsPollResponse {
     pub proof_instance_id: Uuid,
     pub serial_no: String,
 
-    #[ts(type = "Record<string, string>")]
-    pub value: sqlx::types::Json<HashMap<String, String>>,
+    #[ts(type = "string[]")]
+    pub value: sqlx::types::Json<Vec<String>>,
 }

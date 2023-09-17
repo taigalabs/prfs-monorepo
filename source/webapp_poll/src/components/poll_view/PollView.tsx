@@ -1,6 +1,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { PrfsPoll } from "@taigalabs/prfs-entities/bindings/PrfsPoll";
+import { v4 as uuidv4 } from "uuid";
 import { PollQuestion } from "@taigalabs/prfs-entities/bindings/PollQuestion";
 import { SubmitPrfsPollResponseRequest } from "@taigalabs/prfs-entities/bindings/SubmitPrfsPollResponseRequest";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
@@ -22,7 +23,7 @@ const PollView: React.FC<PollViewProps> = ({ poll }) => {
   const router = useRouter();
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
 
-  const [formData, setFormData] = React.useState<Record<string, any>>({});
+  const [formData, setFormData] = React.useState<string[]>([]);
   const handleChangeForm = React.useCallback(
     (ev: React.ChangeEvent | React.FormEvent) => {
       const target = ev.target as any;
@@ -30,10 +31,10 @@ const PollView: React.FC<PollViewProps> = ({ poll }) => {
       const { name, value } = target;
 
       setFormData(oldVal => {
-        return {
-          ...oldVal,
-          [name]: value,
-        };
+        const newVal = [...oldVal];
+        newVal[Number(name)] = value;
+
+        return newVal;
       });
     },
     [setFormData]
@@ -79,14 +80,42 @@ const PollView: React.FC<PollViewProps> = ({ poll }) => {
 
   const handleClickSubmit = React.useCallback(async () => {
     if (proofGenElement) {
+      console.log(formData);
       const proveReceipt = await proofGenElement.createProof();
 
-      //     await mutation.mutateAsync({
-      // poll_id: poll.poll_id;
-      // proof_instance_id:;
-      // serial_no: string;
-      // value: Record<string, string>[];
-      //     });
+      if (proveReceipt === null) {
+        throw new Error("prove is not created");
+      }
+
+      const { proveResult } = proveReceipt;
+      const { proof, publicInputSer } = proveResult;
+      const public_inputs = JSON.parse(publicInputSer);
+
+      const serialNo = public_inputs.circuitPubInput.serialNo;
+      if (!serialNo) {
+        throw new Error("Serial no does not exist");
+      }
+
+      const proof_instance_id = uuidv4();
+
+      console.log("try submiting poll", proveReceipt);
+      try {
+        await mutation.mutateAsync({
+          proof_instance_id,
+          account_id: null,
+          proof_type_id: poll.proof_type_id,
+          proof: Array.from(proof),
+          public_inputs,
+          poll_id: poll.poll_id,
+          serial_no: serialNo,
+          value: formData,
+        });
+
+        window.location.reload();
+      } catch (err: any) {
+        console.error(err);
+        return;
+      }
     }
   }, [formData, proofGenElement, mutation, poll]);
 

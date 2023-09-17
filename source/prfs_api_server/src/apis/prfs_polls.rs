@@ -72,11 +72,43 @@ pub async fn create_prfs_poll(req: Request<Body>) -> Result<Response<Body>, Infa
 pub async fn submit_prfs_poll_response(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
+    let pool = &state.db2.pool;
+    let mut tx = pool.begin().await.unwrap();
 
     let req: SubmitPrfsPollResponseRequest = parse_req(req).await;
 
-    let pool = &state.db2.pool;
-    let mut tx = pool.begin().await.unwrap();
+    let proof_instance_id_128 = req.proof_instance_id.as_u128();
+    let short_id = &base62::encode(proof_instance_id_128)[..8];
+
+    let partial_proof = req.proof[..10]
+        .iter()
+        .map(|n| n.to_string())
+        .collect::<String>();
+
+    let ack_msg = format!(
+        "ack/proof_instance_id:{}/partial_proof:{}",
+        req.proof_instance_id, partial_proof,
+    );
+
+    let prfs_ack_sig = state
+        .wallet
+        .sign_message(ack_msg)
+        .await
+        .unwrap()
+        .to_string();
+
+    let prfs_proof_instance = PrfsProofInstance {
+        proof_instance_id: req.proof_instance_id,
+        proof_type_id: req.proof_type_id.to_string(),
+        short_id: short_id.to_string(),
+        proof: req.proof.to_vec(),
+        public_inputs: req.public_inputs.clone(),
+        prfs_ack_sig: prfs_ack_sig.to_string(),
+        created_at: chrono::offset::Utc::now(),
+    };
+
+    let proof_instance_id =
+        db_apis::insert_prfs_proof_instances(&mut tx, &vec![prfs_proof_instance]).await;
 
     let poll_id = db_apis::insert_prfs_poll_response(&mut tx, &req)
         .await

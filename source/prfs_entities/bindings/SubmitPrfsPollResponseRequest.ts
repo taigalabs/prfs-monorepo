@@ -2,7 +2,11 @@
 
 export interface SubmitPrfsPollResponseRequest {
   poll_id: string;
-  proof_instance_id: string;
   serial_no: string;
-  value: Record<string, string>[];
+  value: string[];
+  proof_instance_id: string;
+  account_id: string | null;
+  proof_type_id: string;
+  proof: Array<number>;
+  public_inputs: Record<string, any>;
 }

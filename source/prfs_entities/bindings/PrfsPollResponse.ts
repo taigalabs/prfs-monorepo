@@ -4,5 +4,5 @@ export interface PrfsPollResponse {
   poll_id: string;
   proof_instance_id: string;
   serial_no: string;
-  value: Record<string, string>;
+  value: string[];
 }
