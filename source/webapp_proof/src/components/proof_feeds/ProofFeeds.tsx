@@ -14,16 +14,16 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtual } from "react-virtual";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import { GetPrfsProofInstancesResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstancesResponse";
-
-import styles from "./ProofFeeds.module.scss";
-import { i18nContext } from "@/contexts/i18n";
 import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
 import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
 import dayjs from "dayjs";
+
+import styles from "./ProofFeeds.module.scss";
+import { i18nContext } from "@/contexts/i18n";
 import RowItem from "./RowItem";
 import { paths } from "@/paths";
 
-const fetchSize = 25;
+const fetchSize = 15;
 
 const ProofFeeds: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -162,16 +162,16 @@ const ProofFeeds: React.FC = () => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.borderBox} />
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : (
-        <div
-          className={styles.feedContainer}
-          onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
-          ref={tableContainerRef}
-        >
-          <div className={styles.topPlaceholder} />
+      {/* <div className={styles.borderBox} /> */}
+      <div
+        className={styles.feedContainer}
+        onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
+        ref={tableContainerRef}
+      >
+        <div className={styles.topPlaceholder} />
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : (
           <div>
             {paddingTop > 0 && (
               <div>
@@ -189,8 +189,8 @@ const ProofFeeds: React.FC = () => {
               </div>
             )}
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
