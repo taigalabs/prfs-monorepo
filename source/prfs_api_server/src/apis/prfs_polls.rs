@@ -3,7 +3,8 @@ use hyper::{Body, Request, Response};
 use prfs_db_interface::db_apis;
 use prfs_entities::apis_entities::{
     CreatePrfsPollRequest, CreatePrfsPollResponse, GetPrfsPollByPollIdRequest,
-    GetPrfsPollByPollIdResponse, GetPrfsPollsRequest, GetPrfsPollsResponse,
+    GetPrfsPollByPollIdResponse, GetPrfsPollResultByPollIdRequest,
+    GetPrfsPollResultByPollIdResponse, GetPrfsPollsRequest, GetPrfsPollsResponse,
     SubmitPrfsPollResponseRequest, SubmitPrfsPollResponseResponse,
 };
 use prfs_entities::entities::{PrfsPoll, PrfsProofInstance};
@@ -47,6 +48,26 @@ pub async fn get_prfs_poll_by_poll_id(req: Request<Body>) -> Result<Response<Bod
         .unwrap();
 
     let resp = ApiResponse::new_success(GetPrfsPollByPollIdResponse { prfs_poll });
+
+    return Ok(resp.into_hyper_response());
+}
+
+pub async fn get_prfs_poll_result_by_poll_id(
+    req: Request<Body>,
+) -> Result<Response<Body>, Infallible> {
+    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+
+    let req: GetPrfsPollResultByPollIdRequest = parse_req(req).await;
+
+    let pool = &state.db2.pool;
+
+    let prfs_poll_responses = db_apis::get_prfs_poll_responses_by_poll_id(&pool, &req.poll_id)
+        .await
+        .unwrap();
+
+    let resp = ApiResponse::new_success(GetPrfsPollResultByPollIdResponse {
+        prfs_poll_responses,
+    });
 
     return Ok(resp.into_hyper_response());
 }

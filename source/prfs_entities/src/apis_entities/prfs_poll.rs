@@ -1,7 +1,6 @@
-use std::collections::HashMap;
-
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 use ts_rs::TS;
 use uuid::Uuid;
 
@@ -51,6 +50,13 @@ pub struct CreatePrfsPollResponse {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetPrfsPollByPollIdRequest {
+    #[ts(type = "string")]
+    pub poll_id: Uuid,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetPrfsPollResultByPollIdRequest {
     #[ts(type = "string")]
     pub poll_id: Uuid,
 }

@@ -135,6 +135,10 @@ pub fn make_router(
             prfs_polls::get_prfs_poll_by_poll_id,
         )
         .post(
+            format!("{}/get_prfs_poll_result_by_poll_id", PREFIX),
+            prfs_polls::get_prfs_poll_result_by_poll_id,
+        )
+        .post(
             format!("{}/submit_prfs_poll_response", PREFIX),
             prfs_polls::submit_prfs_poll_response,
         )

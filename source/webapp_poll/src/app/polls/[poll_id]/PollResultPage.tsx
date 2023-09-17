@@ -19,31 +19,23 @@ import Masthead from "@/components/masthead/Masthead";
 import { PrfsPoll } from "@taigalabs/prfs-entities/bindings/PrfsPoll";
 import PollView from "@/components/poll_view/PollView";
 import { useQuery } from "@tanstack/react-query";
-import PollResultPage from "./PollResultPage";
+import PollResultView from "@/components/poll_result_view/PollResultView";
 
-const PollPage: React.FC<PollPageProps> = ({ params }) => {
+const PollResultPage: React.FC<PollResultPageProps> = ({ pollId }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const isResultPage = searchParams.get("result") !== null;
-
-  const pollId = React.useMemo(() => {
-    return decodeURIComponent(params.poll_id);
-  }, [params]);
 
   const { isLoading, data } = useQuery({
     queryKey: ["get_prfs_poll_by_poll_id"],
     queryFn: async () => {
-      const { payload } = await prfsApi2("get_prfs_poll_by_poll_id", { poll_id: pollId });
+      const { payload } = await prfsApi2("get_prfs_poll_result_by_poll_id", { poll_id: pollId });
       return payload;
     },
   });
 
-  const headerLabel = `${i18n.poll} ${params.poll_id}`;
+  const headerLabel = `${i18n.poll_result} ${pollId}`;
 
-  return isResultPage ? (
-    <PollResultPage pollId={pollId} />
-  ) : (
+  return (
     <DefaultLayout>
       <Masthead />
       <ContentArea>
@@ -62,11 +54,9 @@ const PollPage: React.FC<PollPageProps> = ({ params }) => {
                 </div>
                 <div className={styles.buttonRow}>
                   <div>
-                    <Link href="?result">
-                      <Button variant="transparent_aqua_blue_1">
-                        <span>{i18n.view_result.toUpperCase()}</span>
-                      </Button>
-                    </Link>
+                    <Button variant="transparent_aqua_blue_1">
+                      <span>{i18n.view_result.toUpperCase()}</span>
+                    </Button>
                   </div>
                   <div className={styles.rightBtnGroup}>
                     <Button variant="transparent_aqua_blue_1">
@@ -79,7 +69,7 @@ const PollPage: React.FC<PollPageProps> = ({ params }) => {
               </div>
               <div className={styles.content}>
                 <div className={styles.proofDetailContainer}>
-                  <PollView poll={data!.prfs_poll} />
+                  <PollResultView poll_responses={data!.prfs_poll_responses} />
                 </div>
               </div>
             </div>
@@ -90,10 +80,8 @@ const PollPage: React.FC<PollPageProps> = ({ params }) => {
   );
 };
 
-export default PollPage;
+export default PollResultPage;
 
-interface PollPageProps {
-  params: {
-    poll_id: string;
-  };
+export interface PollResultPageProps {
+  pollId: string;
 }

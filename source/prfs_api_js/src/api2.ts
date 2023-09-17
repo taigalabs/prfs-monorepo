@@ -53,6 +53,8 @@ import { GetPrfsPollByPollIdRequest } from "@taigalabs/prfs-entities/bindings/Ge
 import { GetPrfsPollByPollIdResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsPollByPollIdResponse";
 import { SubmitPrfsPollResponseRequest } from "@taigalabs/prfs-entities/bindings/SubmitPrfsPollResponseRequest";
 import { SubmitPrfsPollResponseResponse } from "@taigalabs/prfs-entities/bindings/SubmitPrfsPollResponseResponse";
+import { GetPrfsPollResultByPollIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsPollResultByPollIdRequest";
+import { GetPrfsPollResultByPollIdResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsPollResultByPollIdResponse";
 
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
@@ -86,7 +88,8 @@ type RequestName =
   | "create_prfs_poll"
   | "get_prfs_polls"
   | "get_prfs_poll_by_poll_id"
-  | "submit_prfs_poll_response";
+  | "submit_prfs_poll_response"
+  | "get_prfs_poll_result_by_poll_id";
 
 type Req<T extends RequestName> = //
   T extends "sign_up_prfs_account"
@@ -147,6 +150,8 @@ type Req<T extends RequestName> = //
     ? GetPrfsPollByPollIdRequest
     : T extends "submit_prfs_poll_response"
     ? SubmitPrfsPollResponseRequest
+    : T extends "get_prfs_poll_result_by_poll_id"
+    ? GetPrfsPollResultByPollIdRequest
     : never;
 
 type Resp<T> = //
@@ -208,6 +213,8 @@ type Resp<T> = //
     ? PrfsApiResponse<GetPrfsPollByPollIdResponse>
     : T extends "submit_prfs_poll_response"
     ? PrfsApiResponse<SubmitPrfsPollResponseResponse>
+    : T extends "get_prfs_poll_result_by_poll_id"
+    ? PrfsApiResponse<GetPrfsPollResultByPollIdResponse>
     : any;
 
 export async function prfsApi2<T extends RequestName>(name: T, req: Req<T>): Promise<Resp<T>> {
