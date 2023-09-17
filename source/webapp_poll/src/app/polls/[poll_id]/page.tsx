@@ -2,14 +2,13 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import SocialSharePopover from "@taigalabs/prfs-react-components/src/social_share_popover/SocialSharePopover";
 
-import styles from "./ProofInstancePage.module.scss";
+import styles from "./PollPage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
@@ -18,30 +17,26 @@ import { envs } from "@/envs";
 import Link from "next/link";
 import Masthead from "@/components/masthead/Masthead";
 import { PrfsPoll } from "@taigalabs/prfs-entities/bindings/PrfsPoll";
+import PollView from "@/components/poll_view/PollView";
+import { useQuery } from "@tanstack/react-query";
 
 const PollPage: React.FC<PollPageProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
 
-  const [proofInstance, setProofInstance] = React.useState<PrfsPoll>();
-  React.useEffect(() => {
-    async function fn() {
-      const poll_id = decodeURIComponent(params.poll_id);
-      try {
-        const { payload } = await prfsApi2("get_prfs_poll_by_poll_id", {
-          poll_id,
-        });
+  const pollId = React.useMemo(() => {
+    return decodeURIComponent(params.poll_id);
+  }, [params]);
 
-        setProofInstance(payload.prfs_poll);
-      } catch (err) {
-        console.error("Proof instance is not found, invalid access");
-      }
-    }
+  const { isLoading, data } = useQuery({
+    queryKey: ["get_prfs_poll_by_poll_id"],
+    queryFn: async () => {
+      const { payload } = await prfsApi2("get_prfs_poll_by_poll_id", { poll_id: pollId });
+      return payload;
+    },
+  });
 
-    fn().then();
-  }, [setProofInstance]);
-
-  const headerLabel = `${i18n.proof_instance} ${params.poll_id}`;
+  const headerLabel = `${i18n.poll} ${params.poll_id}`;
 
   return (
     <DefaultLayout>
@@ -49,7 +44,9 @@ const PollPage: React.FC<PollPageProps> = ({ params }) => {
       <ContentArea>
         <TopPlaceholder />
         <div className={styles.container}>
-          {proofInstance ? (
+          {isLoading ? (
+            <>Loading...</>
+          ) : (
             <div className={styles.inner}>
               <div className={styles.header}>
                 <div className={styles.row}>
@@ -68,12 +65,10 @@ const PollPage: React.FC<PollPageProps> = ({ params }) => {
               </div>
               <div className={styles.content}>
                 <div className={styles.proofDetailContainer}>
-                  {/* <ProofDetailView proofInstance={proofInstance} /> */}
+                  <PollView poll={data!.prfs_poll} />
                 </div>
               </div>
             </div>
-          ) : (
-            <div>Loading...</div>
           )}
         </div>
       </ContentArea>

@@ -27,7 +27,9 @@ const PollPage: React.FC<PollPageProps> = ({ params }) => {
   const dispatch = useAppDispatch();
   useLocalWallet(dispatch);
 
-  const pollId = decodeURIComponent(params.poll_id);
+  const pollId = React.useMemo(() => {
+    return decodeURIComponent(params.poll_id);
+  }, [params]);
   const topWidgetLabel = `${i18n.poll} ${params.poll_id}`;
 
   const { isLoading, data } = useQuery({
