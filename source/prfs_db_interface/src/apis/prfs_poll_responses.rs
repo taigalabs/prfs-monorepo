@@ -49,7 +49,7 @@ pub async fn insert_prfs_poll_response(
     let query = r#"
 INSERT INTO prfs_poll_responses
 (poll_id, value, proof_instance_id, serial_no)
-VALUES ($1, $2, $3, $4, $5, $6, $7) returning poll_id"#;
+VALUES ($1, $2, $3, $4) returning poll_id"#;
 
     let row = sqlx::query(query)
         .bind(&submit_poll_response_req.poll_id)
