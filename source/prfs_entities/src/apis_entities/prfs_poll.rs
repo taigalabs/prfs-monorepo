@@ -75,3 +75,10 @@ pub struct SubmitPrfsPollResponseRequest {
     #[ts(type = "Record<string, string>[]")]
     pub value: sqlx::types::Json<HashMap<String, String>>,
 }
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct SubmitPrfsPollResponseResponse {
+    #[ts(type = "string")]
+    pub poll_id: Uuid,
+}

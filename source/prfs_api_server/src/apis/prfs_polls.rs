@@ -4,7 +4,7 @@ use prfs_db_interface::db_apis;
 use prfs_entities::apis_entities::{
     CreatePrfsPollRequest, CreatePrfsPollResponse, GetPrfsPollByPollIdRequest,
     GetPrfsPollByPollIdResponse, GetPrfsPollsRequest, GetPrfsPollsResponse,
-    SubmitPrfsPollResponseRequest,
+    SubmitPrfsPollResponseRequest, SubmitPrfsPollResponseResponse,
 };
 use prfs_entities::entities::{PrfsPoll, PrfsProofInstance};
 use routerify::prelude::*;
@@ -84,7 +84,7 @@ pub async fn submit_prfs_poll_response(req: Request<Body>) -> Result<Response<Bo
 
     tx.commit().await.unwrap();
 
-    let resp = ApiResponse::new_success(CreatePrfsPollResponse { poll_id });
+    let resp = ApiResponse::new_success(SubmitPrfsPollResponseResponse { poll_id });
 
     return Ok(resp.into_hyper_response());
 }

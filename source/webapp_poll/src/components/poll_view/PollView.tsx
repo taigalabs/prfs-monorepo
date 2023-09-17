@@ -2,17 +2,18 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { PrfsPoll } from "@taigalabs/prfs-entities/bindings/PrfsPoll";
 import { PollQuestion } from "@taigalabs/prfs-entities/bindings/PollQuestion";
+import { SubmitPrfsPollResponseRequest } from "@taigalabs/prfs-entities/bindings/SubmitPrfsPollResponseRequest";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@tanstack/react-query";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import { ethers } from "ethers";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
 import styles from "./PollView.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import Question from "./Question";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
 const prfs = new PrfsSDK("test");
 
@@ -70,19 +71,24 @@ const PollView: React.FC<PollViewProps> = ({ poll }) => {
     });
   }, [poll, setFormData]);
 
-  // const mutation = useMutation({
-  //   mutationFn: (req: CreatePrfsPollRequest) => {
-  //     return prfsApi2("create_prfs_poll", req);
-  //   },
-  // });
+  const mutation = useMutation({
+    mutationFn: (req: SubmitPrfsPollResponseRequest) => {
+      return prfsApi2("submit_prfs_poll_response", req);
+    },
+  });
 
   const handleClickSubmit = React.useCallback(async () => {
     if (proofGenElement) {
       const proveReceipt = await proofGenElement.createProof();
 
-      console.log(22, formData, proveReceipt);
+      //     await mutation.mutateAsync({
+      // poll_id: poll.poll_id;
+      // proof_instance_id:;
+      // serial_no: string;
+      // value: Record<string, string>[];
+      //     });
     }
-  }, [formData, proofGenElement]);
+  }, [formData, proofGenElement, mutation, poll]);
 
   return (
     <div className={styles.wrapper}>
