@@ -19,7 +19,7 @@ pub async fn get_prfs_poll_responses_by_poll_id(
 
     let query = r#"
 SELECT * 
-FROM prfs_polls
+FROM prfs_poll_responses
 WHERE poll_id=$1
 "#;
 
