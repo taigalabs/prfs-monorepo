@@ -69,7 +69,7 @@ pub async fn create_prfs_poll(req: Request<Body>) -> Result<Response<Body>, Infa
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn cast_ballot(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+pub async fn submit_prfs_poll_response(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
 
@@ -78,7 +78,9 @@ pub async fn cast_ballot(req: Request<Body>) -> Result<Response<Body>, Infallibl
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    let poll_id = db_apis::insert_prfs_poll(&mut tx, &req).await.unwrap();
+    let poll_id = db_apis::insert_prfs_poll_response(&mut tx, &req)
+        .await
+        .unwrap();
 
     tx.commit().await.unwrap();
 

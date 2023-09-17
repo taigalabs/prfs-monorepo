@@ -49,10 +49,12 @@ const PollView: React.FC<PollViewProps> = ({ poll }) => {
       });
 
       await proofGenElement.mount("#prfs-sdk-container");
+
+      setProofGenElement(proofGenElement);
     }
 
     fn().then();
-  }, [poll]);
+  }, [poll, setProofGenElement]);
 
   const questionsElem = React.useMemo(() => {
     return poll.questions.map((qst, idx) => {
