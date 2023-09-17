@@ -21,6 +21,11 @@
 
   .buttonRow {
     display: flex;
+    justify-content: space-between;
+  }
+
+  .rightBtnGroup {
+    display: flex;
     align-items: center;
     justify-content: flex-end;
   }

@@ -186,6 +186,7 @@ export default {
   sign_in_desc: "Or <a href='/signup'>create</a> a new Prfs account",
   copyright: "© 2023 Prfs. All rights reserved.",
   copy_url: "Copy URL",
+  view_result: "View result",
   wallet_addr: "Wallet address",
   new_to_prfs: "New to Prfs?",
   hash: "Hash",

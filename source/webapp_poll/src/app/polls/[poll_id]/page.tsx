@@ -56,11 +56,18 @@ const PollPage: React.FC<PollPageProps> = ({ params }) => {
                   <p className={styles.headerLabel}>{headerLabel}</p>
                 </div>
                 <div className={styles.buttonRow}>
-                  <Button variant="transparent_aqua_blue_1">
-                    <AiOutlineCopy />
-                    <span>{i18n.copy_url.toUpperCase()}</span>
-                  </Button>
-                  <SocialSharePopover />
+                  <div>
+                    <Button variant="transparent_aqua_blue_1">
+                      <span>{i18n.view_result.toUpperCase()}</span>
+                    </Button>
+                  </div>
+                  <div className={styles.rightBtnGroup}>
+                    <Button variant="transparent_aqua_blue_1">
+                      <AiOutlineCopy />
+                      <span>{i18n.copy_url.toUpperCase()}</span>
+                    </Button>
+                    <SocialSharePopover />
+                  </div>
                 </div>
               </div>
               <div className={styles.content}>
