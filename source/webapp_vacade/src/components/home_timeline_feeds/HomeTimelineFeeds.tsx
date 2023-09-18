@@ -29,6 +29,7 @@ const fetchSize = 15;
 const HomeTimelineFeeds: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
+  const rightBarContainerRef = React.useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   const columns = React.useMemo<ColumnDef<PrfsProofInstanceSyn1>[]>(
@@ -119,10 +120,22 @@ const HomeTimelineFeeds: React.FC = () => {
   // as the user scrolls and reaches bottom of table
   const fetchMoreOnBottomReached = React.useCallback(
     (containerRefElement?: HTMLDivElement | null) => {
-      if (containerRefElement) {
+      // console.log(55, containerRefElement, rightBarContainerRef);
+      if (containerRefElement && rightBarContainerRef.current) {
         const { scrollHeight, scrollTop, clientHeight } = containerRefElement;
         // once the user has scrolled within 300px of the bottom of the table,
         // fetch more data if there is any
+        //
+        const { scrollHeight: sh, scrollTop: st, clientHeight: ch } = rightBarContainerRef.current;
+        console.log(clientHeight, scrollTop, sh, st, ch);
+        const bottomY = clientHeight + scrollTop;
+
+        if (bottomY >= ch) {
+          rightBarContainerRef.current.classList.add("fixed");
+        } else {
+          rightBarContainerRef.current.classList.remove("fixed");
+        }
+
         if (
           scrollHeight - scrollTop - clientHeight < 300 &&
           !isFetching &&
@@ -132,7 +145,7 @@ const HomeTimelineFeeds: React.FC = () => {
         }
       }
     },
-    [fetchNextPage, isFetching, totalFetched, totalDBRowCount]
+    [fetchNextPage, isFetching, totalFetched, totalDBRowCount, rightBarContainerRef]
   );
 
   // a check on mount and after a fetch to see if the table is already
@@ -192,7 +205,7 @@ const HomeTimelineFeeds: React.FC = () => {
             </div>
           )}
         </div>
-        <div className={styles.rightBarContainer}>
+        <div className={styles.rightBarContainer} ref={rightBarContainerRef}>
           <RightBar />
         </div>
       </div>

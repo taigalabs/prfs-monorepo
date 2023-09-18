@@ -3,6 +3,11 @@
   height: 100%;
 
   /* border: 1px solid yellow; */
+  :global(.fixed) {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+  }
 }
 
 .right {
@@ -11,13 +16,20 @@
 .feedContainer {
   height: 100vh;
   overflow-y: auto;
-  /* padding-left: calc(50vw - 240px); */
   padding-right: calc(50vw - 600px + 370px);
   display: flex;
+  /* flex-direction: column; */
+}
+
+.t {
+  position: sticky;
+  top: 0px;
 }
 
 .main {
   width: 600px;
+  height: max-content;
+  border: 1px solid yellow;
 }
 
 .header {
@@ -30,11 +42,12 @@
 }
 
 .rightBarContainer {
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   width: 370px;
   border: 1px solid red;
 
-  position: sticky;
-  top: 0px;
+  /* position: absolute; */
+  /* top: 0px; */
+  height: 1300px;
 }

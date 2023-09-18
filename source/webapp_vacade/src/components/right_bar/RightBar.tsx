@@ -24,9 +24,14 @@ const RightBar: React.FC = () => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.searchBarContainer}>
-        <SearchBar />
-      </div>
+      {/* {Array.from(Array(100)).map((a, idx) => { */}
+      {/*   return <div key={idx}>3</div>; */}
+      {/* })} */}
+      {/* <div className={styles.searchBarContainer}> */}
+      {/*   <SearchBar /> */}
+      {/*   <div> */}
+      {/*   </div> */}
+      {/* </div> */}
     </div>
   );
 };
