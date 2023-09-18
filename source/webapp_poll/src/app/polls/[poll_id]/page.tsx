@@ -79,7 +79,7 @@ const PollPage: React.FC<PollPageProps> = ({ params }) => {
               </div>
               <div className={styles.content}>
                 <div className={styles.proofDetailContainer}>
-                  <PollView poll={data!.prfs_poll} />
+                  {data && <PollView poll={data.prfs_poll} />}
                 </div>
               </div>
             </div>
