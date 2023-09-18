@@ -1,12 +1,16 @@
 .wrapper {
-  top: 0;
-  left: calc(50vw - 480px);
-  position: fixed;
+  /* top: 0; */
+  /* left: calc(50vw - 480px); */
+  /* position: fixed; */
   display: flex;
   flex-direction: column;
-  padding: 14px 24px;
-  width: 240px;
-  height: 100vh;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  width: 250px;
+  /* padding-left: calc(50vw - 600px); */
+  /* width: 240px; */
+  /* height: 100vh; */
+  /* flex-grow: 1; */
 
   border: 1px solid blue;
 }

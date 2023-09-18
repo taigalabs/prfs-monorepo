@@ -23,7 +23,9 @@ body {
   overflow: auto;
   display: flex;
   flex-direction: column;
+
   background-color: var(--black-25);
+  color: var(--bright-gray-70);
 }
 
 body::-webkit-scrollbar-track {

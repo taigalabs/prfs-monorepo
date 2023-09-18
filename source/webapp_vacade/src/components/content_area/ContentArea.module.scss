@@ -1,4 +1,18 @@
-.wrapper {
+.contentLeft {
+  display: flex;
+  flex-grow: 1;
+  width: calc(50vw - 625px + 250px);
+  justify-content: flex-end;
+
+  border: 1px solid blue;
+}
+
+.contentMain {
+  display: flex;
+  flex-grow: 1;
+  width: calc(50vw - 625px + 1000px);
+
+  border: 1px solid red;
 }
 
 .mastheadPlaceholder {

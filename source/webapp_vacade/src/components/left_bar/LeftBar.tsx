@@ -8,16 +8,16 @@ import styles from "./LeftBar.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 
-const SearchBar = () => {
-  const i18n = React.useContext(i18nContext);
+// const SearchBar = () => {
+//   const i18n = React.useContext(i18nContext);
 
-  return (
-    <div className={styles.searchBar}>
-      <FaSearch />
-      <input placeholder={i18n.search_guide} />
-    </div>
-  );
-};
+//   return (
+//     <div className={styles.searchBar}>
+//       <FaSearch />
+//       <input placeholder={i18n.search_guide} />
+//     </div>
+//   );
+// };
 
 const LeftBar: React.FC = () => {
   const i18n = React.useContext(i18nContext);
