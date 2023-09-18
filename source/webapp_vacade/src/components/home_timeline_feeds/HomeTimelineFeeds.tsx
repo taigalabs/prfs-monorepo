@@ -22,6 +22,7 @@ import styles from "./HomeTimelineFeeds.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import FeedItem from "./FeedItem";
+import RightBar from "../right_bar/RightBar";
 
 const fetchSize = 15;
 
@@ -168,7 +169,7 @@ const HomeTimelineFeeds: React.FC = () => {
         ref={tableContainerRef}
       >
         <div className={styles.main}>
-          <div className={styles.topPlaceholder} />
+          <div className={styles.header}>55</div>
           {isLoading ? (
             <div>Loading...</div>
           ) : (
@@ -191,7 +192,9 @@ const HomeTimelineFeeds: React.FC = () => {
             </div>
           )}
         </div>
-        <div className={styles.rightBarContainer}>right side</div>
+        <div className={styles.rightBarContainer}>
+          <RightBar />
+        </div>
       </div>
     </div>
   );
