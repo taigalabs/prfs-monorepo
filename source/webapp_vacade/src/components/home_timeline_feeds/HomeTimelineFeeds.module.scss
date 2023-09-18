@@ -4,3 +4,27 @@
 
   border: 1px solid yellow;
 }
+
+.right {
+}
+
+.topPlaceholder {
+  height: 80px;
+}
+
+.feedContainer {
+  height: 100vh;
+  overflow-y: auto;
+  /* padding-left: calc(50vw - 240px); */
+  padding-right: calc(50vw - 600px + 370px);
+  display: flex;
+}
+
+.main {
+  width: 600px;
+}
+
+.rightBarContainer {
+  width: 370px;
+  border: 1px solid red;
+}

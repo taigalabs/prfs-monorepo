@@ -20,7 +20,6 @@ import dayjs from "dayjs";
 
 import styles from "./HomeTimelineFeeds.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-// import RowItem from "./RowItem";
 import { paths } from "@/paths";
 import FeedItem from "./FeedItem";
 
@@ -163,34 +162,36 @@ const HomeTimelineFeeds: React.FC = () => {
 
   return (
     <div className={styles.wrapper}>
-      {/* <div className={styles.borderBox} /> */}
       <div
         className={styles.feedContainer}
         onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
         ref={tableContainerRef}
       >
-        <div className={styles.topPlaceholder} />
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : (
-          <div>
-            {paddingTop > 0 && (
-              <div>
-                <div style={{ height: `${paddingTop}px` }} />
-              </div>
-            )}
-            {virtualRows.map(virtualRow => {
-              const row = rows[virtualRow.index] as Row<PrfsProofInstanceSyn1>;
+        <div className={styles.main}>
+          <div className={styles.topPlaceholder} />
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : (
+            <div>
+              {paddingTop > 0 && (
+                <div>
+                  <div style={{ height: `${paddingTop}px` }} />
+                </div>
+              )}
+              {virtualRows.map(virtualRow => {
+                const row = rows[virtualRow.index] as Row<PrfsProofInstanceSyn1>;
 
-              return <FeedItem key={row.id} row={row} />;
-            })}
-            {paddingBottom > 0 && (
-              <div>
-                <div style={{ height: `${paddingBottom}px` }} />
-              </div>
-            )}
-          </div>
-        )}
+                return <FeedItem key={row.id} row={row} />;
+              })}
+              {paddingBottom > 0 && (
+                <div>
+                  <div style={{ height: `${paddingBottom}px` }} />
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+        <div className={styles.rightBarContainer}>right side</div>
       </div>
     </div>
   );
