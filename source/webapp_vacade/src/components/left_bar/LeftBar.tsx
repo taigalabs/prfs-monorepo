@@ -26,24 +26,19 @@ const LeftBar: React.FC = () => {
     <div className={styles.wrapper}>
       <div className={styles.logoContainer}>
         <Link href={paths.__}>
-          <Logo variant="simple" />
-          <p className={styles.appName}>{i18n.proof}</p>
+          <p>{i18n.vacade}</p>
         </Link>
         <p className={styles.betaTag}>Beta</p>
       </div>
       <ul className={styles.mainMenu}>
         <li>
-          <ActiveLink href={paths.generate} exact>
-            {i18n.generate}
+          <ActiveLink href={paths.__} exact>
+            {i18n.home}
           </ActiveLink>
         </li>
         <li>
-          <ActiveLink href={paths.proofs}>{i18n.proofs}</ActiveLink>
+          <ActiveLink href={paths.proofs}>{i18n.crypto}</ActiveLink>
         </li>
-        <li>
-          <Link href={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}>{i18n.console}</Link>
-        </li>
-        <li>{i18n.account}</li>
       </ul>
     </div>
   );

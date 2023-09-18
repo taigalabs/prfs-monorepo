@@ -1,6 +1,11 @@
 .container {
   display: flex;
-  padding: 102px 0 82px;
   align-items: center;
   justify-content: center;
+
+  border: 1px solid black;
+  height: 100vh;
+  padding-left: calc(50vw - 240px);
+  padding-right: calc(50vw - 240px);
 }
+

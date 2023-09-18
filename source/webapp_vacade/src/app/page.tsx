@@ -1,25 +1,23 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
 
 import styles from "./HomePage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import ContentArea from "@/components/content_area/ContentArea";
-import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
-import Masthead from "@/components/masthead/Masthead";
+import LeftBar from "@/components/left_bar/LeftBar";
+import HomeTimelineFeeds from "@/components/home_timeline_feeds/HomeTimelineFeeds";
 
 const HomePage: React.FC = () => {
   const i18n = React.useContext(i18nContext);
 
   return (
     <DefaultLayout>
-      <Masthead />
+      <LeftBar />
       <ContentArea>
         <div className={styles.container}>
-          123123
-          {/* <CreateProofForm /> */}
+          <HomeTimelineFeeds />
         </div>
       </ContentArea>
     </DefaultLayout>
