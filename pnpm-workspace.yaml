@@ -19,4 +19,4 @@ packages:
   - "source/webapp_console"
   - "source/webapp_proof"
   - "source/webapp_poll"
-  - "source/webapp_forest"
+  - "source/webapp_vacade"

@@ -18,7 +18,8 @@ const HomePage: React.FC = () => {
       <Masthead />
       <ContentArea>
         <div className={styles.container}>
-          <CreateProofForm />
+          123123
+          {/* <CreateProofForm /> */}
         </div>
       </ContentArea>
     </DefaultLayout>

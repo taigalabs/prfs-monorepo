@@ -32,6 +32,7 @@ function createEnvs() {
   const env_dev: Envs = {
     NEXT_PUBLIC_IS_TEASER: teaser ? "yes" : "no",
     NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT: "http://localhost:3000",
+    NEXT_PUBLIC_WEBAPP_VACADE_ENDPOINT: "http://localhost:3022",
     NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT: "http://localhost:3020",
     NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT: "http://localhost:3021",
     NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: "http://localhost:4000",
@@ -43,6 +44,7 @@ function createEnvs() {
     NEXT_PUBLIC_IS_TEASER: teaser ? "yes" : "no",
     NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT: "http://console.prfs.xyz",
     NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT: "http://prfs.xyz",
+    NEXT_PUBLIC_WEBAPP_VACADE_ENDPOINT: "http://vacade.prfs.xyz",
     NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT: "http://poll.prfs.xyz",
     NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: "https://api.prfs.xyz",
     NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "https://asset.prfs.xyz",

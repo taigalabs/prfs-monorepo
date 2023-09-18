@@ -28,7 +28,7 @@ pub struct Paths {
     //
     pub webapp_console: PathBuf,
     pub webapp_proof: PathBuf,
-    pub webapp_forest: PathBuf,
+    pub webapp_vacade: PathBuf,
     pub webapp_poll: PathBuf,
 }
 
@@ -69,7 +69,7 @@ impl Paths {
         let webapp_console = curr_dir.join("source/webapp_console");
         let webapp_proof = curr_dir.join("source/webapp_proof");
         let webapp_poll = curr_dir.join("source/webapp_poll");
-        let webapp_forest = curr_dir.join("source/webapp_forest");
+        let webapp_vacade = curr_dir.join("source/webapp_vacade");
 
         let p = Paths {
             curr_dir,
@@ -96,7 +96,7 @@ impl Paths {
             webapp_console,
             webapp_proof,
             webapp_poll,
-            webapp_forest,
+            webapp_vacade,
 
             e2e_test_web,
         };
