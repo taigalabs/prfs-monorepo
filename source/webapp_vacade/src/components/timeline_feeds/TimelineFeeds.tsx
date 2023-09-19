@@ -23,10 +23,11 @@ import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import FeedItem from "./FeedItem";
 import RightBar from "@/components/right_bar/RightBar";
+import TimelineHeader from "./TimelineHeader";
 
 const fetchSize = 15;
 
-const TimelineFeeds: React.FC<TimelineFeedsProps> = () => {
+const TimelineFeeds: React.FC<TimelineFeedsProps> = ({ channelId }) => {
   const i18n = React.useContext(i18nContext);
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement>(null);
@@ -186,7 +187,9 @@ const TimelineFeeds: React.FC<TimelineFeedsProps> = () => {
         ref={tableContainerRef}
       >
         <div className={styles.main}>
-          <div className={styles.header}>{i18n.home}</div>
+          <div className={styles.headerContainer}>
+            <TimelineHeader channelId={channelId} />
+          </div>
           {isLoading ? (
             <div>Loading...</div>
           ) : (

@@ -3,7 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 
-import styles from "./PostPage.module.scss";
+import styles from "./ThreadPage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { ContentMain, ContentLeft } from "@/components/content_area/ContentArea";
@@ -11,7 +11,7 @@ import LeftBar from "@/components/left_bar/LeftBar";
 import TimelineFeeds from "@/components/timeline_feeds/TimelineFeeds";
 import { paths } from "@/paths";
 
-const PostPage: React.FC<PostPageProps> = () => {
+const ThreadPage: React.FC<ThreadPageProps> = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
 
@@ -31,10 +31,10 @@ const PostPage: React.FC<PostPageProps> = () => {
   );
 };
 
-export default PostPage;
+export default ThreadPage;
 
-export interface PostPageProps {
+export interface ThreadPageProps {
   params: {
-    post_id: string;
+    thread_id: string;
   };
 }
