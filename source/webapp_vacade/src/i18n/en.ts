@@ -96,6 +96,7 @@ export default {
   proofs: "Proofs",
   crypto: "Crypto",
   defi: "DeFi",
+  nft: "NFT",
   forest: "Forest",
   proof: "Proof",
   vacade: "Vaçade",

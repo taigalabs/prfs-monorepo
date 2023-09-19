@@ -26,6 +26,9 @@ const LeftBar: React.FC = () => {
         <li>
           <ActiveLink href={`${paths.c}/defi`}>{i18n.defi}</ActiveLink>
         </li>
+        <li>
+          <ActiveLink href={`${paths.c}/nft`}>{i18n.nft}</ActiveLink>
+        </li>
       </ul>
     </div>
   );
