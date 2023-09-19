@@ -16,7 +16,7 @@ const ChannelPage: React.FC = () => {
   const router = useRouter();
 
   React.useEffect(() => {
-    router.push(`${paths.c}/crypto`);
+    // router.push(`${paths.c}/crypto`);
   }, [router]);
 
   return (
