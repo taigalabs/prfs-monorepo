@@ -22,7 +22,7 @@ import styles from "./HomeTimelineFeeds.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import FeedItem from "./FeedItem";
-import RightBar from "../right_bar/RightBar";
+import RightBar from "@/components/right_bar/RightBar";
 
 const fetchSize = 15;
 
@@ -127,13 +127,13 @@ const HomeTimelineFeeds: React.FC = () => {
         // fetch more data if there is any
         //
         const { scrollHeight: sh, scrollTop: st, clientHeight: ch } = rightBarContainerRef.current;
-        console.log(clientHeight, scrollTop, sh, st, ch);
-        const bottomY = clientHeight + scrollTop;
+        // console.log(clientHeight, scrollTop, sh, st, ch);
+        const delta = clientHeight + scrollTop - ch;
 
-        if (bottomY >= ch) {
-          rightBarContainerRef.current.classList.add("fixed");
+        if (delta >= 0) {
+          rightBarContainerRef.current.style.marginTop = `${delta}px`;
         } else {
-          rightBarContainerRef.current.classList.remove("fixed");
+          rightBarContainerRef.current.style.marginTop = "0px";
         }
 
         if (

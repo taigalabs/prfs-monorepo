@@ -4,7 +4,7 @@
   width: calc(50vw - 625px + 250px);
   justify-content: flex-end;
 
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
 }
 
 .contentMain {
@@ -12,9 +12,8 @@
   flex-grow: 1;
   width: calc(50vw - 625px + 1000px);
   height: 100vh;
-  /* overflow-y: auto; */
 
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 
 .mastheadPlaceholder {

@@ -3,14 +3,6 @@
   height: 100%;
 
   /* border: 1px solid yellow; */
-  :global(.fixed) {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-  }
-}
-
-.right {
 }
 
 .feedContainer {
@@ -18,18 +10,11 @@
   overflow-y: auto;
   padding-right: calc(50vw - 600px + 370px);
   display: flex;
-  /* flex-direction: column; */
-}
-
-.t {
-  position: sticky;
-  top: 0px;
 }
 
 .main {
   width: 600px;
   height: max-content;
-  border: 1px solid yellow;
 }
 
 .header {
@@ -42,12 +27,11 @@
 }
 
 .rightBarContainer {
-  display: inline-flex;
+  display: flex;
   justify-content: center;
   width: 370px;
-  border: 1px solid red;
+  height: max-content;
+  padding: 25px 0 55px;
 
-  /* position: absolute; */
-  /* top: 0px; */
-  height: 1300px;
+  /* border: 1px solid white; */
 }
