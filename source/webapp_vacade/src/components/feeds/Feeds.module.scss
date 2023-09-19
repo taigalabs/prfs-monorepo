@@ -12,6 +12,13 @@
   padding-right: calc(50vw - 600px + 370px);
 }
 
+.container {
+  border: 1px solid lightgray;
+  height: 500px;
+  max-width: 900px !important;
+  overflow: auto;
+}
+
 .headerContainer {
   top: 0px;
   position: sticky;

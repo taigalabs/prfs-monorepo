@@ -27,9 +27,11 @@
   border-right: 1px solid var(--gray-30);
 }
 
-.contentMainCenterWrap {
+.contentMainInfiniteScroll {
   height: 100vh;
   overflow-y: auto;
   display: flex;
   padding-right: calc(50vw - 600px + 370px);
+
+  border: 1px solid yellow;
 }

@@ -24,7 +24,10 @@ import { paths } from "@/paths";
 import FeedItem from "./FeedItem";
 import RightBar from "@/components/right_bar/RightBar";
 import TimelineHeader from "./TimelineHeader";
-import { ContentMainCenter, ContentMainCenterWrap } from "../content_area/ContentArea";
+import {
+  ContentMainCenter,
+  ContentMainInfiniteScroll,
+} from "@/components/content_area/ContentArea";
 
 const fetchSize = 15;
 
@@ -32,6 +35,7 @@ const TimelineFeeds: React.FC<TimelineFeedsProps> = ({ channelId }) => {
   const i18n = React.useContext(i18nContext);
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement>(null);
+  const rref = React.useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   const columns = React.useMemo<ColumnDef<PrfsProofInstanceSyn1>[]>(
@@ -123,20 +127,22 @@ const TimelineFeeds: React.FC<TimelineFeedsProps> = ({ channelId }) => {
   const fetchMoreOnBottomReached = React.useCallback(
     (containerRefElement?: HTMLDivElement | null) => {
       // console.log(55, containerRefElement, rightBarContainerRef);
-      if (containerRefElement && rightBarContainerRef.current) {
+      if (containerRefElement) {
         const { scrollHeight, scrollTop, clientHeight } = containerRefElement;
 
-        const { scrollHeight: sh, scrollTop: st, clientHeight: ch } = rightBarContainerRef.current;
-        // console.log(clientHeight, scrollTop, sh, st, ch);
+        const { scrollHeight: sh, scrollTop: st, clientHeight: ch } = rightBarContainerRef.current!;
+        console.log(clientHeight, scrollTop, sh, st, ch);
 
         if (ch < clientHeight) {
-          rightBarContainerRef.current.style.marginTop = `${scrollTop}px`;
+          rightBarContainerRef.current!.style.marginTop = `0px`;
         } else {
           const delta = clientHeight + scrollTop - ch;
           if (delta >= 0) {
-            rightBarContainerRef.current.style.marginTop = `${delta}px`;
+            // console.log(11, delta);
+            // rightBarContainerRef.current.style.marginTop = `${delta}px`;
+            rref.current!.style.marginTop = `${delta}px`;
           } else {
-            rightBarContainerRef.current.style.marginTop = "0px";
+            rightBarContainerRef.current!.style.marginTop = "0px";
           }
         }
 
@@ -151,7 +157,7 @@ const TimelineFeeds: React.FC<TimelineFeedsProps> = ({ channelId }) => {
         }
       }
     },
-    [fetchNextPage, isFetching, totalFetched, totalDBRowCount, rightBarContainerRef]
+    [fetchNextPage, isFetching, totalFetched, totalDBRowCount, rightBarContainerRef, rref]
   );
 
   // a check on mount and after a fetch to see if the table is already
@@ -182,15 +188,15 @@ const TimelineFeeds: React.FC<TimelineFeedsProps> = ({ channelId }) => {
 
   return (
     <div className={styles.wrapper}>
-      <div
-        className={styles.feedContainer}
+      <ContentMainInfiniteScroll
+        // className={styles.feedContainer}
         onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
-        ref={tableContainerRef}
+        dRef={tableContainerRef}
       >
         <ContentMainCenter>
-          <div className={styles.headerContainer}>
-            <TimelineHeader channelId={channelId} />
-          </div>
+          {/* <div className={styles.headerContainer}> */}
+          {/*   <TimelineHeader channelId={channelId} /> */}
+          {/* </div> */}
           {isLoading ? (
             <div>Loading...</div>
           ) : (
@@ -200,10 +206,11 @@ const TimelineFeeds: React.FC<TimelineFeedsProps> = ({ channelId }) => {
                   <div style={{ height: `${paddingTop}px` }} />
                 </div>
               )}
-              {virtualRows.map(virtualRow => {
+              {virtualRows.map((virtualRow, idx) => {
                 const row = rows[virtualRow.index] as Row<PrfsProofInstanceSyn1>;
+                console.log(idx);
 
-                return <FeedItem key={row.id} row={row} />;
+                return <FeedItem key={row.id} row={row} no={idx} />;
               })}
               {paddingBottom > 0 && (
                 <div>
@@ -213,10 +220,14 @@ const TimelineFeeds: React.FC<TimelineFeedsProps> = ({ channelId }) => {
             </div>
           )}
         </ContentMainCenter>
-        <div className={styles.rightBarContainer} ref={rightBarContainerRef}>
-          <RightBar />
+        <div ref={rightBarContainerRef}>
+          <div ref={rref}></div>
+          <div className={styles.rightBarContainer}>
+            <RightBar />
+            <div className={styles.t}>3</div>
+          </div>
         </div>
-      </div>
+      </ContentMainInfiniteScroll>
     </div>
   );
 };

@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
-    "@faker-js/faker": "^7.6.0",
+    "@faker-js/faker": "^8.0.2",
     "@floating-ui/react": "^0.24.8",
     "@phosphor-icons/react": "^2.0.10",
     "@react-icons/all-files": "^4.1.0",
@@ -28,6 +28,9 @@
     "@tanstack/react-table": "^8.9.3",
     "@thirdweb-dev/react": "^3.14.13",
     "@thirdweb-dev/sdk": "^3.10.33",
+    "react-intersection-observer": "^8.33.1",
+    "axios": "^0.21.1",
+    "isomorphic-unfetch": "3.0.0",
     "classnames": "^2.3.2",
     "dayjs": "^1.11.9",
     "elliptic": "^6.5.4",

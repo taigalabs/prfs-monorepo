@@ -7,7 +7,7 @@ import styles from "./FeedItem.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 
-const FeedItem: React.FC<FeedItemProps> = ({ row }) => {
+const FeedItem: React.FC<FeedItemProps> = ({ row, no }) => {
   const router = useRouter();
   const cells = row.getVisibleCells();
   const [imgUrlCell, proofLabelCell, createdAtCell, prioritizedValuesCell, proofInstanceIdCell] =
@@ -25,6 +25,7 @@ const FeedItem: React.FC<FeedItemProps> = ({ row }) => {
 
   return (
     <div className={styles.wrapper} onClick={handleClickRow}>
+      {no}
       <div className={styles.leftCol}>{imgUrl}</div>
       <div className={styles.rightCol}>
         <div className={styles.header}>
@@ -42,6 +43,7 @@ export default FeedItem;
 
 export interface FeedItemProps {
   row: Row<PrfsProofInstanceSyn1>;
+  no: number;
 }
 
 function renderCell(cell: Cell<PrfsProofInstanceSyn1, unknown>) {
