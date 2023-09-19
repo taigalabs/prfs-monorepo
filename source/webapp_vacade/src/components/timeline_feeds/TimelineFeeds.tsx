@@ -24,7 +24,7 @@ import { paths } from "@/paths";
 import FeedItem from "./FeedItem";
 import RightBar from "@/components/right_bar/RightBar";
 import TimelineHeader from "./TimelineHeader";
-import { ContentMainCenter } from "../content_area/ContentArea";
+import { ContentMainCenter, ContentMainCenterWrap } from "../content_area/ContentArea";
 
 const fetchSize = 15;
 

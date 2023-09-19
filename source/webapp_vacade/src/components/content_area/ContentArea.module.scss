@@ -26,3 +26,10 @@
   border-left: 1px solid var(--gray-30);
   border-right: 1px solid var(--gray-30);
 }
+
+.contentMainCenterWrap {
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  padding-right: calc(50vw - 600px + 370px);
+}
