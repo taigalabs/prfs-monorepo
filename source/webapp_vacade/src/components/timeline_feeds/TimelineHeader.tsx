@@ -1,5 +1,6 @@
 import React from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./TimelineHeader.module.scss";
@@ -20,7 +21,9 @@ const TimelineHeader: React.FC<TimelineHeaderProps> = ({ channelId }) => {
         <span>{cId}</span>
       </div>
       <div className={styles.btnRow}>
-        <PostDialog />
+        <Link href={`${paths.c}/${channelId}?post`}>
+          <Button variant="white_black_1">{i18n.post}</Button>
+        </Link>
       </div>
     </div>
   );

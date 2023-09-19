@@ -17,10 +17,13 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./PostDialog.module.scss";
 import { i18nContext } from "@/contexts/i18n";
+import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
+import { ProofTypeItem } from "../create_proof_form/CreateProofForm";
 
 const PostDialog: React.FC<PostDialogProps> = () => {
   const i18n = React.useContext(i18nContext);
   const [isOpen, setIsOpen] = React.useState(false);
+  const [selectedProofTypeItem, setSelectedProofTypeItem] = React.useState<ProofTypeItem>();
 
   const { refs, context } = useFloating({
     open: isOpen,
@@ -36,6 +39,13 @@ const PostDialog: React.FC<PostDialogProps> = () => {
   const headingId = useId();
   const descriptionId = useId();
 
+  const handleSelectProofType = React.useCallback(
+    (proofTypeItem: ProofTypeItem) => {
+      setSelectedProofTypeItem(proofTypeItem);
+    },
+    [setSelectedProofTypeItem]
+  );
+
   const extendedProofTypeClickHandler = React.useCallback(() => {
     setIsOpen(false);
     // setSelectedProofTypeItem(proofTypeItem);
@@ -49,7 +59,7 @@ const PostDialog: React.FC<PostDialogProps> = () => {
       </div>
       <FloatingPortal>
         {isOpen && (
-          <FloatingOverlay>
+          <FloatingOverlay style={{ zIndex: 100 }}>
             <Fade className={styles.dialogOverlay}>
               <FloatingFocusManager context={context}>
                 <div
@@ -61,13 +71,23 @@ const PostDialog: React.FC<PostDialogProps> = () => {
                 >
                   <div className={styles.header}>
                     <div className={styles.title}>{i18n.choose_proof_type}</div>
-                    <div className={styles.btnArea}>
+                    <div className={styles.topBtnRow}>
                       <button onClick={() => setIsOpen(false)}>
                         <AiOutlineClose />
                       </button>
                     </div>
                   </div>
-                  33
+                  <div className={styles.body}>55</div>
+                  <div className={styles.bottomBtnRow}>
+                    <div className={styles.selectProofType}>
+                      <SelectProofTypeDialog handleSelectProofType={handleSelectProofType} />
+                    </div>
+                    {selectedProofTypeItem && (
+                      <Fade>
+                        <div id="prfs-sdk-container"></div>
+                      </Fade>
+                    )}
+                  </div>
                 </div>
               </FloatingFocusManager>
             </Fade>

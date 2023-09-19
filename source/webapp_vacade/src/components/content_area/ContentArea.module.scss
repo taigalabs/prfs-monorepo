@@ -19,3 +19,10 @@
 .mastheadPlaceholder {
   height: 60px;
 }
+
+.contentMainCenter {
+  width: 600px;
+  height: max-content;
+  border-left: 1px solid var(--gray-30);
+  border-right: 1px solid var(--gray-30);
+}

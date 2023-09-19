@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 import styles from "./ChannelPage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -14,10 +15,11 @@ import { paths } from "@/paths";
 const ChannelPage: React.FC<ChannelPageProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
+  const searchParams = useSearchParams();
 
-  React.useEffect(() => {
-    // router.push(`${paths.c}/crypto`);
-  }, [router]);
+  const isPostPage = searchParams.get("post") !== null;
+
+  console.log(111, isPostPage);
 
   return (
     <DefaultLayout>
@@ -26,7 +28,11 @@ const ChannelPage: React.FC<ChannelPageProps> = ({ params }) => {
       </ContentLeft>
       <ContentMain>
         <div className={styles.container}>
-          <TimelineFeeds channelId={params.channel_id} />
+          {isPostPage ? (
+            <div>333333333333333</div>
+          ) : (
+            <TimelineFeeds channelId={params.channel_id} />
+          )}
         </div>
       </ContentMain>
     </DefaultLayout>

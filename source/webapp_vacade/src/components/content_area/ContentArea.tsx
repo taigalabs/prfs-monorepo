@@ -10,6 +10,10 @@ export const ContentLeft: React.FC<ContentAreaProps> = ({ children }) => {
   return <div className={styles.contentLeft}>{children}</div>;
 };
 
+export const ContentMainCenter: React.FC<ContentAreaProps> = ({ children }) => {
+  return <div className={styles.contentMainCenter}>{children}</div>;
+};
+
 export const TopPlaceholder = () => {
   return <div className={styles.mastheadPlaceholder} />;
 };

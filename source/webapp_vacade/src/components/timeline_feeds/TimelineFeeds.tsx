@@ -24,6 +24,7 @@ import { paths } from "@/paths";
 import FeedItem from "./FeedItem";
 import RightBar from "@/components/right_bar/RightBar";
 import TimelineHeader from "./TimelineHeader";
+import { ContentMainCenter } from "../content_area/ContentArea";
 
 const fetchSize = 15;
 
@@ -186,7 +187,7 @@ const TimelineFeeds: React.FC<TimelineFeedsProps> = ({ channelId }) => {
         onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
         ref={tableContainerRef}
       >
-        <div className={styles.main}>
+        <ContentMainCenter>
           <div className={styles.headerContainer}>
             <TimelineHeader channelId={channelId} />
           </div>
@@ -211,7 +212,7 @@ const TimelineFeeds: React.FC<TimelineFeedsProps> = ({ channelId }) => {
               )}
             </div>
           )}
-        </div>
+        </ContentMainCenter>
         <div className={styles.rightBarContainer} ref={rightBarContainerRef}>
           <RightBar />
         </div>
