@@ -6,7 +6,11 @@ import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 
 const TimelineHeader: React.FC<TimelineHeaderProps> = ({ channelId }) => {
-  return <div className={styles.wrapper}>{channelId}</div>;
+  const cId = React.useMemo(() => {
+    return channelId.charAt(0).toUpperCase() + channelId.slice(1);
+  }, [channelId]);
+
+  return <div className={styles.wrapper}>{cId}</div>;
 };
 
 export default TimelineHeader;
