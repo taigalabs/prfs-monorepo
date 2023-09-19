@@ -95,6 +95,7 @@ export default {
   create_dynamic_set_element_subtitle: "You can add a new item to dynamic sets",
   proofs: "Proofs",
   crypto: "Crypto",
+  defi: "DeFi",
   forest: "Forest",
   proof: "Proof",
   vacade: "Vaçade",

@@ -8,17 +8,6 @@ import styles from "./LeftBar.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 
-// const SearchBar = () => {
-//   const i18n = React.useContext(i18nContext);
-
-//   return (
-//     <div className={styles.searchBar}>
-//       <FaSearch />
-//       <input placeholder={i18n.search_guide} />
-//     </div>
-//   );
-// };
-
 const LeftBar: React.FC = () => {
   const i18n = React.useContext(i18nContext);
 
@@ -32,12 +21,10 @@ const LeftBar: React.FC = () => {
       </div>
       <ul className={styles.mainMenu}>
         <li>
-          <ActiveLink href={paths.__} exact>
-            {i18n.home}
-          </ActiveLink>
+          <ActiveLink href={`${paths.c}/crypto`}>{i18n.crypto}</ActiveLink>
         </li>
         <li>
-          <ActiveLink href={paths.proofs}>{i18n.crypto}</ActiveLink>
+          <ActiveLink href={`${paths.c}/defi`}>{i18n.defi}</ActiveLink>
         </li>
       </ul>
     </div>
