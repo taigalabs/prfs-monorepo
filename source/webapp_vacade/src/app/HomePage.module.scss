@@ -2,10 +2,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 100vh;
+  flex-grow: 1;
 
   /* border: 1px solid white; */
-  height: 100vh;
-  /* padding-left: calc(50vw - 240px); */
-  /* padding-right: calc(50vw - 240px); */
-  flex-grow: 1;
 }

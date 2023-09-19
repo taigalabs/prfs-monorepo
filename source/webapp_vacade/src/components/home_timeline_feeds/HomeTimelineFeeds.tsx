@@ -123,19 +123,23 @@ const HomeTimelineFeeds: React.FC = () => {
       // console.log(55, containerRefElement, rightBarContainerRef);
       if (containerRefElement && rightBarContainerRef.current) {
         const { scrollHeight, scrollTop, clientHeight } = containerRefElement;
-        // once the user has scrolled within 300px of the bottom of the table,
-        // fetch more data if there is any
-        //
+
         const { scrollHeight: sh, scrollTop: st, clientHeight: ch } = rightBarContainerRef.current;
         // console.log(clientHeight, scrollTop, sh, st, ch);
-        const delta = clientHeight + scrollTop - ch;
 
-        if (delta >= 0) {
-          rightBarContainerRef.current.style.marginTop = `${delta}px`;
+        if (ch < clientHeight) {
+          rightBarContainerRef.current.style.marginTop = `${scrollTop}px`;
         } else {
-          rightBarContainerRef.current.style.marginTop = "0px";
+          const delta = clientHeight + scrollTop - ch;
+          if (delta >= 0) {
+            rightBarContainerRef.current.style.marginTop = `${delta}px`;
+          } else {
+            rightBarContainerRef.current.style.marginTop = "0px";
+          }
         }
 
+        // once the user has scrolled within 300px of the bottom of the table,
+        // fetch more data if there is any
         if (
           scrollHeight - scrollTop - clientHeight < 300 &&
           !isFetching &&
