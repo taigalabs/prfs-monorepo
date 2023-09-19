@@ -1,5 +1,24 @@
 .wrapper {
   display: flex;
+  flex-direction: column;
+  height: 110px;
+
+  > div {
+    flex-grow: 1;
+  }
+}
+
+.title {
+  display: flex;
   align-items: center;
-  height: 120px;
+}
+
+.btnRow {
+  display: flex;
+  align-items: center;
+
+  button {
+    padding: 7px 20px;
+    border-radius: 20px;
+  }
 }

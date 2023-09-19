@@ -99,6 +99,7 @@ export default {
   nft: "NFT",
   forest: "Forest",
   proof: "Proof",
+  post: "Post",
   vacade: "Vaçade",
   loading: "Loading",
   generator: "Generator",
