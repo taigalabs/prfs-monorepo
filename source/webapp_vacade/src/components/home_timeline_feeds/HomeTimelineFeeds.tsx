@@ -186,7 +186,7 @@ const HomeTimelineFeeds: React.FC = () => {
         ref={tableContainerRef}
       >
         <div className={styles.main}>
-          <div className={styles.header}>55</div>
+          <div className={styles.header}>{i18n.home}</div>
           {isLoading ? (
             <div>Loading...</div>
           ) : (
