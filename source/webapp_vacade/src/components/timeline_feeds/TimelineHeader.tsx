@@ -5,6 +5,7 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import styles from "./TimelineHeader.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
+import PostDialog from "@/components/post_dialog/PostDialog";
 
 const TimelineHeader: React.FC<TimelineHeaderProps> = ({ channelId }) => {
   const i18n = React.useContext(i18nContext);
@@ -19,7 +20,7 @@ const TimelineHeader: React.FC<TimelineHeaderProps> = ({ channelId }) => {
         <span>{cId}</span>
       </div>
       <div className={styles.btnRow}>
-        <Button variant="white_gray_1">{i18n.post}</Button>
+        <PostDialog />
       </div>
     </div>
   );
