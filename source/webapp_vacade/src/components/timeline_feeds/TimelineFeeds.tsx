@@ -18,7 +18,7 @@ import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/Cap
 import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
 import dayjs from "dayjs";
 
-import styles from "./HomeTimelineFeeds.module.scss";
+import styles from "./TimelineFeeds.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import FeedItem from "./FeedItem";
@@ -26,7 +26,7 @@ import RightBar from "@/components/right_bar/RightBar";
 
 const fetchSize = 15;
 
-const HomeTimelineFeeds: React.FC = () => {
+const TimelineFeeds: React.FC<TimelineFeedsProps> = () => {
   const i18n = React.useContext(i18nContext);
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement>(null);
@@ -217,4 +217,8 @@ const HomeTimelineFeeds: React.FC = () => {
   );
 };
 
-export default HomeTimelineFeeds;
+export default TimelineFeeds;
+
+export interface TimelineFeedsProps {
+  channelId: string;
+}
