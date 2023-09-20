@@ -2,10 +2,10 @@ import React from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import {
+  ContentMainBody,
   ContentMainCenter,
   ContentMainHeader,
   ContentMainInfiniteScroll,
-  ContentMainPlaceholder,
   ContentMainRight,
 } from "@/components/content_area/ContentArea";
 import TimelineHeader from "@/components/timeline_feeds/TimelineHeader";
@@ -102,9 +102,8 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
             <ContentMainHeader>
               <TimelineHeader channelId={channelId} />
             </ContentMainHeader>
-            <div
+            <ContentMainBody
               style={{
-                paddingTop: 114,
                 position: "absolute",
                 top: 0,
                 left: 0,
@@ -112,7 +111,6 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
                 transform: `translateY(${items[0].start}px)`,
               }}
             >
-              {/* <ContentMainPlaceholder /> */}
               {items.map(virtualRow => {
                 const isLoaderRow = virtualRow.index > allRows.length - 1;
                 const post = allRows[virtualRow.index];
@@ -131,7 +129,7 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
                   </div>
                 );
               })}
-            </div>
+            </ContentMainBody>
           </ContentMainCenter>
           <ContentMainRight>
             <RightBar />

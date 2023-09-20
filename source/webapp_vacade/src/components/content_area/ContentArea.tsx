@@ -30,12 +30,20 @@ export const ContentMainCenter: React.FC<ContentAreaProps> = ({ children, style 
   );
 };
 
-export const ContentMainHeader: React.FC<ContentMainHeaderProps> = ({ children }) => {
-  return <div className={styles.contentMainHeader}>{children}</div>;
+export const ContentMainHeader: React.FC<ContentMainHeaderProps> = ({ children, style }) => {
+  return (
+    <div className={styles.contentMainHeader} style={style}>
+      {children}
+    </div>
+  );
 };
 
-export const ContentMainPlaceholder: React.FC = () => {
-  return <div className={styles.contentMainPlaceholder}></div>;
+export const ContentMainBody: React.FC<ContentMainBodyProps> = ({ style, children }) => {
+  return (
+    <div className={styles.contentMainBody} style={style}>
+      {children}
+    </div>
+  );
 };
 
 export const ContentMainRight: React.FC<ContentMainHeaderProps> = ({ children }) => {
@@ -58,5 +66,11 @@ export interface ContentMainInfiniteScrollProps {
 }
 
 export interface ContentMainHeaderProps {
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+}
+
+export interface ContentMainBodyProps {
+  style?: React.CSSProperties;
   children: React.ReactNode;
 }
