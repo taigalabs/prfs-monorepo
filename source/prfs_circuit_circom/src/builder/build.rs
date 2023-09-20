@@ -99,7 +99,7 @@ fn make_spartan(circuit: &PrfsCircuit, circuit_version: &String) {
 }
 
 fn read_circuits_json() -> CircuitsJson {
-    let circuits_json_path = PATHS.data.join("circuits2.json");
+    let circuits_json_path = PATHS.data.join("circuits.json");
     println!("Read circuits.json path: {:?}", circuits_json_path);
 
     circuits_json_path.try_exists().unwrap();

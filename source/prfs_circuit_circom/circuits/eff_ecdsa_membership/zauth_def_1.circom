@@ -20,22 +20,13 @@ include "./secp256k1_func.circom";
  *  ECDSA signature in EfficientECDSA(), and converted to an address by Keccak
  *  hashing the public key in PubkeyToAddress().
  */
-template AddrMembership2(nLevels) {
-    // eff ecdsa
+template ZAuth1() {
     signal input Tx; 
     signal input Ty; 
     signal input Ux;
     signal input Uy;
 
-    signal input m;
-    signal input r;
     signal input s;
-    signal input serialNo;
-
-    // merkle proof
-    signal input root;
-    signal input pathIndices[nLevels];
-    signal input siblings[nLevels];
 
     component ecdsa = ECDSA2();
     ecdsa.Tx <== Tx;
@@ -43,15 +34,6 @@ template AddrMembership2(nLevels) {
     ecdsa.Ux <== Ux;
     ecdsa.Uy <== Uy;
     ecdsa.s <== s;
-
-    // log("ecdsa pubKeyX", ecdsa.pubKeyX);
-    // log("ecdsa pubKeyY", ecdsa.pubKeyY);
-
-    // Serial number
-    component poseidon = Poseidon();
-    poseidon.inputs[0] <== s;
-    poseidon.inputs[1] <== 0;
-    serialNo === poseidon.out;
 
     component pubKeyXBits = Num2Bits(256);
     pubKeyXBits.in <== ecdsa.pubKeyX;
@@ -66,18 +48,18 @@ template AddrMembership2(nLevels) {
         pubToAddr.pubkeyBits[i + 256] <== pubKeyXBits.out[i];
     }
 
-    // log("public addr (leaf)", pubToAddr.address);
+    log("addr", pubToAddr.address);
 
-    component merkleProof = MerkleTreeInclusionProof(nLevels);
-    merkleProof.leaf <== pubToAddr.address;
+    /* component merkleProof = MerkleTreeInclusionProof(nLevels); */
+    /* merkleProof.leaf <== pubToAddr.address; */
 
-    for (var i = 0; i < nLevels; i++) {
-        merkleProof.pathIndices[i] <== pathIndices[i];
-        merkleProof.siblings[i] <== siblings[i];
-    }
+    /* for (var i = 0; i < nLevels; i++) { */
+    /*     merkleProof.pathIndices[i] <== pathIndices[i]; */
+    /*     merkleProof.siblings[i] <== siblings[i]; */
+    /* } */
 
-    // log("root (given)", root); 
-    // log("merkleProof root", merkleProof.root);
+    /* // log("root (given)", root);  */
+    /* // log("merkleProof root", merkleProof.root); */
 
-    root === merkleProof.root;
+    /* root === merkleProof.root; */
 }
