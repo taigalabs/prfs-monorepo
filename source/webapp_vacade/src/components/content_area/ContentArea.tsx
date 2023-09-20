@@ -42,6 +42,10 @@ export const ContentMainRight: React.FC<ContentMainHeaderProps> = ({ children })
   return <div className={styles.contentMainRight}>{children}</div>;
 };
 
+export const ContentMainTitle: React.FC<ContentMainHeaderProps> = ({ children }) => {
+  return <div className={styles.contentMainTitle}>{children}</div>;
+};
+
 export interface ContentAreaProps {
   children: React.ReactNode;
   style?: React.CSSProperties;

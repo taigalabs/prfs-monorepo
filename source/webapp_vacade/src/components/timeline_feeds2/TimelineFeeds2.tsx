@@ -104,6 +104,7 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
             </ContentMainHeader>
             <div
               style={{
+                paddingTop: 114,
                 position: "absolute",
                 top: 0,
                 left: 0,
@@ -111,7 +112,7 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
                 transform: `translateY(${items[0].start}px)`,
               }}
             >
-              <ContentMainPlaceholder />
+              {/* <ContentMainPlaceholder /> */}
               {items.map(virtualRow => {
                 const isLoaderRow = virtualRow.index > allRows.length - 1;
                 const post = allRows[virtualRow.index];

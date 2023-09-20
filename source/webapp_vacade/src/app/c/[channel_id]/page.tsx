@@ -28,7 +28,11 @@ const ChannelPage: React.FC<ChannelPageProps> = ({ params }) => {
       </ContentLeft>
       <ContentMain>
         <div className={styles.container}>
-          {isPostPage ? <CreatePostForm /> : <TimelineFeeds2 channelId={params.channel_id} />}
+          {isPostPage ? (
+            <CreatePostForm channelId={params.channel_id} />
+          ) : (
+            <TimelineFeeds2 channelId={params.channel_id} />
+          )}
         </div>
       </ContentMain>
     </DefaultLayout>
