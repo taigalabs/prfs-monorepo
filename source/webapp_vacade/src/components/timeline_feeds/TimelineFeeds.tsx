@@ -189,7 +189,6 @@ const TimelineFeeds: React.FC<TimelineFeedsProps> = ({ channelId }) => {
   return (
     <div className={styles.wrapper}>
       <ContentMainInfiniteScroll
-        // className={styles.feedContainer}
         onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
         dRef={tableContainerRef}
       >

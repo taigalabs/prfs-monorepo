@@ -1,6 +1,6 @@
 .contentLeft {
   display: flex;
-  flex-grow: 1;
+  /* flex-grow: 1; */
   width: calc(50vw - 625px + 250px);
   justify-content: flex-end;
 
@@ -10,7 +10,7 @@
 .contentMain {
   display: flex;
   flex-grow: 1;
-  width: calc(50vw - 625px + 1000px);
+  /* width: calc(50vw - 625px + 1000px); */
   height: 100vh;
 
   /* border: 1px solid red; */
@@ -22,16 +22,57 @@
 
 .contentMainCenter {
   width: 600px;
-  height: max-content;
+  min-height: 100%;
   border-left: 1px solid var(--gray-30);
   border-right: 1px solid var(--gray-30);
+  position: relative;
+
+  /* border: 1px solid red; */
+  overflow: hidden;
 }
 
 .contentMainInfiniteScroll {
   height: 100vh;
-  overflow-y: auto;
   display: flex;
-  padding-right: calc(50vw - 600px + 370px);
+  overflow-y: auto;
+  contain: "strict";
+  /* padding-right: calc(50vw - 600px + 370px); */
 
-  border: 1px solid yellow;
+  /* border: 1px solid yellow; */
+}
+
+.contentMainHeader {
+  position: fixed;
+  top: 0;
+  left: calc(50vw - 625px + 250px);
+  width: 600px;
+  z-index: 1;
+  height: 114px;
+
+  border-bottom: 1px solid var(--gray-30);
+  border-left: 1px solid var(--gray-30);
+  border-right: 1px solid var(--gray-30);
+
+  background-color: var(--black-25);
+  display: flex;
+  align-items: center;
+  font-size: 1.29em;
+  font-weight: 600;
+  padding: 0 18px;
+}
+
+.contentMainPlaceholder {
+  height: 114px;
+}
+
+.contentMainRight {
+  position: sticky;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 370px;
+  height: max-content;
+  padding: 25px 0 55px;
+
+  /* border: 1px solid white; */
 }

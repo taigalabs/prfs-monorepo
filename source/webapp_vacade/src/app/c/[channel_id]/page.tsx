@@ -11,9 +11,8 @@ import { ContentMain, ContentLeft } from "@/components/content_area/ContentArea"
 import LeftBar from "@/components/left_bar/LeftBar";
 import TimelineFeeds from "@/components/timeline_feeds/TimelineFeeds";
 import { paths } from "@/paths";
-import Feeds from "@/components/feeds/Feeds";
-import Feeds2 from "@/components/feeds2/Feeds2";
-import Feeds3 from "@/components/feeds3/Feeds3";
+import TimelineFeeds2 from "@/components/timeline_feeds2/TimelineFeeds2";
+import CreatePostForm from "@/components/create_post_form/CreatePostForm";
 
 const ChannelPage: React.FC<ChannelPageProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -22,8 +21,6 @@ const ChannelPage: React.FC<ChannelPageProps> = ({ params }) => {
 
   const isPostPage = searchParams.get("post") !== null;
 
-  console.log(111, isPostPage);
-
   return (
     <DefaultLayout>
       <ContentLeft>
@@ -31,7 +28,7 @@ const ChannelPage: React.FC<ChannelPageProps> = ({ params }) => {
       </ContentLeft>
       <ContentMain>
         <div className={styles.container}>
-          {isPostPage ? <div>333333333333333</div> : <Feeds3 />}
+          {isPostPage ? <CreatePostForm /> : <TimelineFeeds2 channelId={params.channel_id} />}
         </div>
       </ContentMain>
     </DefaultLayout>
@@ -44,8 +41,4 @@ export interface ChannelPageProps {
   params: {
     channel_id: string;
   };
-}
-
-{
-  /* <TimelineFeeds channelId={params.channel_id} /> */
 }

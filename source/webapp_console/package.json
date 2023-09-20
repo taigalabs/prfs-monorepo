@@ -31,7 +31,7 @@
     "elliptic": "^6.5.4",
     "ethers": "^5",
     "ffjavascript": "^0.2.59",
-    "next": "13.4.19",
+    "next": "13.5.1",
     "qrcode": "^1.5.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
