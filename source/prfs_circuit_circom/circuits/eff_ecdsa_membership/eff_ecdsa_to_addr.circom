@@ -10,7 +10,6 @@ include "./to_address/zk-identity/eth.circom";
  *  Converts inputted efficient ECDSA signature to an address.
  */
 template EfficientECDSAToAddr() {
-    var bits = 256;
     signal input s;
     signal input Tx; // T = r^-1 * R
     signal input Ty; 

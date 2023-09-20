@@ -46,7 +46,11 @@ pub fn load_r1cs_from_bin_file<G1: Group>(filename: &Path) -> (R1CS<G1::Scalar>,
     let reader = OpenOptions::new()
         .read(true)
         .open(filename)
-        .expect("unable to open.");
+        .expect(&format!(
+            "load_r1cs failed, unable to open, filename: {:?}",
+            filename.to_str(),
+        ));
+
     load_r1cs_from_bin::<G1, _>(BufReader::new(reader))
 }
 
