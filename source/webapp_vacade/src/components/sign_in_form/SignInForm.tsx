@@ -11,18 +11,22 @@ import { paths } from "@/paths";
 const SignInForm: React.FC<{}> = () => {
   const i18n = React.useContext(i18nContext);
 
+  const handleClickSignUp = React.useCallback(() => {}, []);
+
+  const handleClickSignIn = React.useCallback(() => {}, []);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.left}>
         <p className={styles.bigLogo}>{i18n.vacade}</p>
       </div>
       <div className={styles.right}>
-        <div className={styles.signUpBtn}>
+        <button className={styles.signUpBtn} onClick={handleClickSignUp}>
           <p>{i18n.sign_up_with_zauth}</p>
-        </div>
-        <div className={styles.signInBtn}>
+        </button>
+        <button className={styles.signInBtn} onClick={handleClickSignIn}>
           <p>{i18n.sign_in_with_zauth}</p>
-        </div>
+        </button>
       </div>
     </div>
   );
