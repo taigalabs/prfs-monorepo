@@ -15,7 +15,6 @@ const SignInForm: React.FC<SignInFormProps> = () => {
   const i18n = React.useContext(i18nContext);
   const connect = useConnect();
   const router = useRouter();
-  // const dispatch = useAppDispatch();
 
   const [walletAddr, setWalletAddr] = React.useState("");
   const [passcode, setPasscode] = React.useState("");
@@ -49,6 +48,13 @@ const SignInForm: React.FC<SignInFormProps> = () => {
 
     fn().then();
   }, [passcode, setPasshash]);
+
+  const handleClickConnectWallet = React.useCallback(async () => {
+    const wallet = await connect(metamaskConfig);
+    const signer = await wallet.getSigner();
+
+    console.log(22, signer);
+  }, []);
 
   const handleClickSignUp = React.useCallback(() => {
     // router.push(paths.signup);
@@ -91,26 +97,13 @@ const SignInForm: React.FC<SignInFormProps> = () => {
           handleSelectWallet={() => {}}
           walletAddr=""
           handleChangeWalletAddr={() => {}}
-          handleClickConnectWallet={() => {
-            return Promise.resolve();
-          }}
+          handleClickConnectWallet={handleClickConnectWallet}
         />
       </div>
       <div className={styles.inputGroup}>
         <div className={styles.passcode}>
-          <p className={styles.label}>Passcode</p>
-          <input type="password" onChange={handleChangePasscode} />
+          <input type="password" placeholder={i18n.passcode} onChange={handleChangePasscode} />
         </div>
-        <div className={styles.hashBtnRow}>
-          <Button variant="transparent_aqua_blue_1" handleClick={handleClickHash}>
-            {i18n.hash}
-          </Button>
-        </div>
-        {passhash.length > 0 && (
-          <div className={styles.hashResult}>
-            {/* <FormTextInput label={i18n.passhash} name="passhash" value={passhash} /> */}
-          </div>
-        )}
       </div>
       <div>{signInAlert.length > 0 && <div className={styles.signInAlert}>{signInAlert}</div>}</div>
       <div className={styles.btnRow}>
