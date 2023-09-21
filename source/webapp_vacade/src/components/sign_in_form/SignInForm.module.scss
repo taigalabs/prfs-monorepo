@@ -1,0 +1,22 @@
+.wrapper {
+  display: flex;
+
+  > div {
+    width: 400px;
+    height: 500px;
+
+    border: 1px solid white;
+  }
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+}

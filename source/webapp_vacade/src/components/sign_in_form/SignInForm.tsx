@@ -11,7 +11,12 @@ import { paths } from "@/paths";
 const SignInForm: React.FC<{}> = () => {
   const i18n = React.useContext(i18nContext);
 
-  return <div className={styles.wrapper}>power</div>;
+  return (
+    <div className={styles.wrapper}>
+      <div className={styles.left}>123</div>
+      <div className={styles.right}>right</div>
+    </div>
+  );
 };
 
 export default SignInForm;
