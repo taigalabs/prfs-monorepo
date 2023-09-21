@@ -7,10 +7,10 @@ const useLocalWallet = (dispatch: any) => {
     let prfsAccount = localStore.getPrfsAccount();
 
     if (prfsAccount !== null) {
-      // dispatch({
-      //   type: "load_prfs_account",
-      //   payload: prfsAccount,
-      // });
+      dispatch({
+        type: "load_prfs_account",
+        payload: prfsAccount,
+      });
     }
   }, []);
 };

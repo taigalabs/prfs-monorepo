@@ -13,15 +13,28 @@ import TimelineFeeds from "@/components/timeline_feeds/TimelineFeeds";
 import { paths } from "@/paths";
 import TimelineFeeds2 from "@/components/timeline_feeds2/TimelineFeeds2";
 import CreatePostForm from "@/components/create_post_form/CreatePostForm";
+import { useAppSelector } from "@/state/hooks";
+import useLocalWallet from "@/hooks/useLocalWallet";
+import { useDispatch } from "react-redux";
 
 const ChannelPage: React.FC<ChannelPageProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const searchParams = useSearchParams();
+  const dispatch = useDispatch();
+
+  const localPrfsAccount = useAppSelector(state => state.user.localPrfsAccount);
+  useLocalWallet(dispatch);
+
+  React.useEffect(() => {
+    if (!localPrfsAccount) {
+      router.push(`${paths.sign_in}`);
+    }
+  }, [router]);
 
   const isPostPage = searchParams.get("post") !== null;
 
-  return (
+  return localPrfsAccount ? (
     <DefaultLayout>
       <ContentLeft>
         <LeftBar />
@@ -36,6 +49,8 @@ const ChannelPage: React.FC<ChannelPageProps> = ({ params }) => {
         </div>
       </ContentMain>
     </DefaultLayout>
+  ) : (
+    <div>Redirecting...</div>
   );
 };
 

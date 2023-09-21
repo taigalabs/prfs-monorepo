@@ -8,6 +8,7 @@ import WalletSelect from "@taigalabs/prfs-react-components/src/wallet_select/Wal
 
 import styles from "./SignInForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
+import { sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 
 const metamaskConfig = metamaskWallet();
 
@@ -73,11 +74,13 @@ const SignInForm: React.FC<SignInFormProps> = () => {
           throw new Error("Invalid response. Does not contain prfs account");
         }
 
-        // dispatch();
+        // sendMsgToParent()
+        console.log(22, resp.payload.prfs_account);
+
         // signIn({
         //   prfsAccount: resp.payload.prfs_account,
         //   walletAddr,
-        // })
+        // });
 
         // router.push(paths.__);
       } catch (err) {
