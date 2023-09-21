@@ -8,7 +8,6 @@ import WalletSelect from "@taigalabs/prfs-react-components/src/wallet_select/Wal
 
 import styles from "./SignInForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-// import { useAppDispatch } from "@/state/hooks";
 
 const metamaskConfig = metamaskWallet();
 
