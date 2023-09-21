@@ -4,6 +4,7 @@ import "@taigalabs/prfs-react-components/src/react_components.scss";
 import "./globals.scss";
 
 import { Provider as StateProvider } from "react-redux";
+import { ThirdwebProvider } from "@thirdweb-dev/react";
 
 import { I18nProvider } from "@/contexts/i18n";
 import { store } from "@/state/store";
@@ -29,8 +30,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 const ParentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <StateProvider store={store}>
-      <I18nProvider>{children}</I18nProvider>
-    </StateProvider>
+    <ThirdwebProvider activeChain="ethereum">
+      <StateProvider store={store}>
+        <I18nProvider>{children}</I18nProvider>
+      </StateProvider>
+    </ThirdwebProvider>
   );
 };

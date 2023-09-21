@@ -1,0 +1,59 @@
+.wrapper {
+  /* border: 1px solid var(--gray-70); */
+  border-radius: 5px;
+}
+
+.inputGroup {
+  margin-top: 26px;
+
+  input {
+    border-radius: 3px;
+    border: 1px solid var(--gray-70);
+    padding: 7px 8px;
+  }
+}
+
+.passcode {
+  .label {
+    margin-bottom: 5px;
+  }
+}
+
+.hashBtnRow {
+  margin-top: 15px;
+}
+
+.hashResult {
+  margin-top: 13px;
+}
+
+.btnRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+
+.signUpBtn {
+  cursor: pointer;
+  color: var(--aqua-blue-50);
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.signInAlert {
+  margin-left: 25px;
+  max-width: 390px;
+  max-height: 70px;
+  overflow-y: scroll;
+
+  color: red;
+  word-wrap: break-word;
+}
+
+.suggestion {
+  width: 280px;
+  color: var(--gray-40);
+}

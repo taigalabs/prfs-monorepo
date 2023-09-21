@@ -112,6 +112,7 @@ export default {
   finite_field: "Finite field",
   merkle_root: "Merkle root",
   prfs: "Prfs",
+  zauth: "ZAuth",
   metamask: "Metamask",
   metamask_desc:
     "We currently support Metamask. Check out how you install install it if you haven't already",
