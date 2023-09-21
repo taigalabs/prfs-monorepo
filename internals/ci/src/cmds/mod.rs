@@ -6,7 +6,6 @@ pub mod dev_webapp_console;
 pub mod dev_webapp_poll;
 pub mod dev_webapp_proof;
 pub mod dev_webapp_vacade;
-pub mod dev_zauth_ui;
 pub mod e2e_test_web;
 pub mod run_docker_postgres;
 pub mod seed_api_server;

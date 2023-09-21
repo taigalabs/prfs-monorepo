@@ -16,9 +16,6 @@ packages:
   - "source/prfs_sdk_web_ui"
   - "source/prfs_react_components"
 
-  - "source/prfs_zauth_sdk"
-  - "source/prfs_zauth_ui"
-
   - "source/webapp_console"
   - "source/webapp_proof"
   - "source/webapp_poll"
