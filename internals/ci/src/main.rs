@@ -22,6 +22,7 @@ fn main() {
         .subcommand(command!("dev_webapp_console").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_webapp_proof").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_webapp_poll").arg(Arg::new("extra_args")))
+        .subcommand(command!("dev_zauth_ui").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_webapp_vacade").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_sdk_web_ui").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_asset_server"))
@@ -59,6 +60,9 @@ fn main() {
         }
         Some(("dev_sdk_web_ui", sub_matches)) => {
             cmds::dev_sdk_web_ui::run(sub_matches);
+        }
+        Some(("dev_zauth_ui", sub_matches)) => {
+            cmds::dev_zauth_ui::run(sub_matches);
         }
         Some(("start_webapp_console", sub_matches)) => {
             cmds::start_webapp_console::run(sub_matches);

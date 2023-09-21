@@ -15,7 +15,7 @@ pub fn run(matches: &ArgMatches) {
 }
 
 fn run_docker(_extra_args: Vec<&str>) {
-    let script = PATHS.internals_ci_docker_postgres.join("run.sh");
+    let script = PATHS.internals_docker_postgres.join("run.sh");
 
     let status = Command::new(BASH)
         .args([script.to_str().unwrap()])
