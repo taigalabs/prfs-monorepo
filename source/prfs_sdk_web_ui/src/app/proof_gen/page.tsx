@@ -27,7 +27,9 @@ const ProofGen: React.FC<ProofGenProps> = () => {
     checkSanity();
 
     async function fn() {
-      let proofTypeId = searchParams.get("proofTypeId");
+      const proofTypeId = searchParams.get("proofTypeId");
+      const theme = searchParams.get("theme") || "light";
+      document.documentElement.setAttribute("data-theme", theme);
 
       if (proofTypeId) {
         try {

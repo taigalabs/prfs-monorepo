@@ -18,7 +18,7 @@ export class PrfsSDK {
       }
       case "zauth-sign-in": {
         return new ProofGenElement({
-          proofTypeId: "",
+          proofTypeId: "ZAUTH_1",
           provider: options.provider,
           handleCreateProof: options.handleCreateProof,
         });

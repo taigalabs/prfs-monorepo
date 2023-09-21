@@ -67,3 +67,11 @@
 
   --white-100: #fff;
 }
+
+[data-theme="light"] {
+  --text-color-1: #000;
+}
+
+[data-theme="dark"] {
+  --text-color-1: #fff;
+}
