@@ -183,6 +183,8 @@ export default {
     "We currently support Metamask. Check out how you install install it if you haven't already",
   credential: "Credential",
   sign_up: "Sign up",
+  sign_up_with_zauth: "Sign up with ZAuth",
+  sign_in_with_zauth: "Sign in with ZAuth",
   sign_up_desc:
     "Sign up for Prfs. To learn more about account registration, visit our upcoming blog",
   sign_in: "Sign in",

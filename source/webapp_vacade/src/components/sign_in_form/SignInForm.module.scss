@@ -1,22 +1,52 @@
 .wrapper {
   display: flex;
+  gap: 160px;
 
   > div {
-    width: 400px;
+    width: 410px;
     height: 500px;
 
-    border: 1px solid white;
+    /* border: 1px solid yellow; */
   }
 }
 
 .left {
   display: flex;
   align-items: center;
-  justify-items: center;
+  justify-content: center;
+}
+
+.bigLogo {
+  font-size: 7.745em;
 }
 
 .right {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  row-gap: 18px;
+}
+
+.signUpBtn {
+  display: flex;
   align-items: center;
-  justify-items: center;
+  justify-content: center;
+  border-radius: 20px;
+
+  height: 38px;
+  color: var(--gray-20);
+  background-color: var(--bright-gray-60);
+  width: 220px;
+}
+
+.signInBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  border: 1px solid var(--gray-60);
+
+  height: 38px;
+  width: 220px;
 }

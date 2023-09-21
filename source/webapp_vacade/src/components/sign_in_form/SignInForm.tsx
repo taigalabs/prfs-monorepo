@@ -13,8 +13,17 @@ const SignInForm: React.FC<{}> = () => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.left}>123</div>
-      <div className={styles.right}>right</div>
+      <div className={styles.left}>
+        <p className={styles.bigLogo}>{i18n.vacade}</p>
+      </div>
+      <div className={styles.right}>
+        <div className={styles.signUpBtn}>
+          <p>{i18n.sign_up_with_zauth}</p>
+        </div>
+        <div className={styles.signInBtn}>
+          <p>{i18n.sign_in_with_zauth}</p>
+        </div>
+      </div>
     </div>
   );
 };
