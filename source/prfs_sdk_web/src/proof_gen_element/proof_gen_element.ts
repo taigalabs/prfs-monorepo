@@ -4,6 +4,7 @@ import { handleChildMessage } from "./handle_child_msg";
 import { sendMsgToChild } from "./send_msg";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { Msg } from "./msg";
+import { ProofGenOptions, ZAuthSignInOptions } from "../element_options";
 
 export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
 export const PLACEHOLDER_ID = "prfs-sdk-placeholder";
@@ -18,10 +19,10 @@ const singleton: {
 };
 
 class ProofGenElement {
-  options: ProofGenElementOptions;
+  options: ProofGenOptions;
   state: ProofGenElementState;
 
-  constructor(options: ProofGenElementOptions) {
+  constructor(options: ProofGenOptions) {
     this.options = options;
     this.state = {
       calcWidth: 494,
@@ -124,12 +125,6 @@ class ProofGenElement {
 }
 
 export default ProofGenElement;
-
-export interface ProofGenElementOptions {
-  proofTypeId: string;
-  provider: ethers.providers.Web3Provider;
-  handleCreateProof: ({ proof, publicInput }: any) => void;
-}
 
 export interface ProofGenElementState {
   clickOutsideIFrameListener: ((event: MouseEvent) => void) | undefined;

@@ -5,10 +5,10 @@ import { useRouter } from "next/navigation";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import WalletSelect from "@taigalabs/prfs-react-components/src/wallet_select/WalletSelect";
+import { Msg, sendMsgToParent } from "@taigalabs/prfs-zauth-sdk";
 
 import styles from "./SignInForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 
 const metamaskConfig = metamaskWallet();
 
@@ -61,39 +61,36 @@ const SignInForm: React.FC<SignInFormProps> = () => {
     // router.push(paths.signup);
   }, [router]);
 
-  const handleClickSignIn = React.useCallback(() => {
-    async function fn() {
-      const wallet = await connect(metamaskConfig);
-      const signer = await wallet.getSigner();
-      const walletAddr = await wallet.getAddress();
+  const handleClickSignIn = React.useCallback(async () => {
+    const wallet = await connect(metamaskConfig);
+    const signer = await wallet.getSigner();
+    const walletAddr = await wallet.getAddress();
 
-      try {
-        let resp = await doSignIn(walletAddr, passhash, signer);
+    try {
+      const resp = await doSignIn(walletAddr, passhash, signer);
 
-        if (!resp.payload.prfs_account) {
-          throw new Error("Invalid response. Does not contain prfs account");
-        }
-
-        // sendMsgToParent()
-        console.log(22, resp.payload.prfs_account);
-
-        // signIn({
-        //   prfsAccount: resp.payload.prfs_account,
-        //   walletAddr,
-        // });
-
-        // router.push(paths.__);
-      } catch (err) {
-        console.log(err);
-        setSignInAlert((err as string).toString());
+      if (!resp.payload.prfs_account) {
+        throw new Error("Invalid response. Does not contain prfs account");
       }
-    }
 
-    fn().then();
+      // sendMsgToParent()
+      console.log(22, resp.payload.prfs_account);
+
+      // signIn({
+      //   prfsAccount: resp.payload.prfs_account,
+      //   walletAddr,
+      // });
+
+      // router.push(paths.__);
+    } catch (err) {
+      console.log(err);
+      setSignInAlert((err as string).toString());
+    }
   }, [walletAddr, passhash, setSignInAlert]);
 
   return (
     <div className={styles.wrapper}>
+      <div id=""></div>
       <div className={styles.inputGroup}>
         <WalletSelect
           selectedWallet={{ value: "metamask" }}

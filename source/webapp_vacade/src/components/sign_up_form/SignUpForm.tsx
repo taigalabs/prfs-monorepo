@@ -13,7 +13,7 @@ import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof
 
 const prfs = new PrfsSDK("test");
 
-const SignInForm: React.FC<{}> = () => {
+const SignUpForm: React.FC<{}> = () => {
   const i18n = React.useContext(i18nContext);
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
 
@@ -24,27 +24,6 @@ const SignInForm: React.FC<{}> = () => {
 
   const handleClickSignIn = React.useCallback(() => {
     window.open(`${process.env.NEXT_PUBLIC_PRFS_ZAUTH_ENDPOINT}/sign_in`, "_blank");
-  }, []);
-
-  const handleCreateProof = React.useCallback(({ proof, publicInput }: any) => {
-    console.log("Created proof!", proof, publicInput);
-  }, []);
-
-  React.useEffect(() => {
-    async function fn() {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-
-      const proofGenElement = prfs.create("zauth-sign-in", {
-        provider,
-        handleCreateProof,
-      });
-
-      await proofGenElement.mount("#prfs-sdk-container");
-
-      setProofGenElement(proofGenElement);
-    }
-
-    fn().then();
   }, []);
 
   return (
@@ -65,7 +44,6 @@ const SignInForm: React.FC<{}> = () => {
   );
 };
 
-export default SignInForm;
-{
-  /* <div id="prfs-sdk-container"></div> */
-}
+export default SignUpForm;
+
+export interface SignUpFormProps {}
