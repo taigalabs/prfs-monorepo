@@ -21,6 +21,7 @@ export class PrfsSDK {
           proofTypeId: "ZAUTH_1",
           provider: options.provider,
           handleCreateProof: options.handleCreateProof,
+          theme: "dark",
         });
       }
     }
