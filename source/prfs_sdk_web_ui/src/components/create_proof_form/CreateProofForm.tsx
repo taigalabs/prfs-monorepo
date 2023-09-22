@@ -18,17 +18,18 @@ import Passcode from "../passcode/Passcode";
 
 const ASSET_SERVER_ENDPOINT = envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
-enum CreateProofPage {
-  INPUT,
-  PROGRESS,
+enum CreateProofStatus {
+  Loaded,
+  InProgress,
 }
 
 const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight }) => {
   const i18n = React.useContext(i18nContext);
 
   const [systemMsg, setSystemMsg] = React.useState("Loading driver...");
-  const [createProofPage, setCreateProofPage] = React.useState(CreateProofPage.INPUT);
+  const [createProofStatus, setCreateProofStatus] = React.useState(CreateProofStatus.Loaded);
   const [terminalLog, setTerminalLog] = React.useState<React.ReactNode[]>([]);
+  // const [terminalLog, setTerminalLog] = React.useState<string>("");
   const [driver, setDriver] = React.useState<CircuitDriver>();
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
 
@@ -49,6 +50,11 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
   const handleChangeValue = React.useCallback((ev: React.ChangeEvent) => {}, [setFormValues]);
 
   React.useEffect(() => {
+    proofGenEventListener(
+      "info",
+      `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
+    );
+
     async function eventListener(ev: MessageEvent) {
       if (ev.ports.length > 0) {
         const type: MsgType = ev.data.type;
@@ -59,7 +65,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
           }
 
           validateFormValues(formValues);
-          setCreateProofPage(CreateProofPage.PROGRESS);
+          setCreateProofStatus(CreateProofStatus.InProgress);
           proofGenEventListener("debug", `Process starts in 3 seconds`);
 
           await delay(3000);
@@ -97,7 +103,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
 
       try {
         const driver = await initDriver(circuit_driver_id, driverProperties);
-        setSystemMsg(`${i18n.driver}: ${circuit_driver_id}`);
+        setSystemMsg(`${circuit_driver_id}`);
         setDriver(driver);
       } catch (err) {
         setSystemMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
@@ -107,7 +113,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
     window.setTimeout(() => {
       fn().then();
     }, 1000);
-  }, [proofType, setSystemMsg, setDriver, setCreateProofPage]);
+  }, [proofType, setSystemMsg, setDriver, setCreateProofStatus]);
 
   const circuitInputsElem = React.useMemo(() => {
     const obj: Record<any, CircuitInput> = proofType.circuit_inputs;
@@ -172,31 +178,27 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
 
   return (
     <div className={styles.wrapper} style={{ height: docHeight }}>
-      <div
-        className={styles.inputPage}
-        style={{ opacity: createProofPage === CreateProofPage.INPUT ? 1 : 0 }}
-      >
+      <div className={styles.inputPage}>
         <div className={styles.form}>{circuitInputsElem}</div>
       </div>
 
-      {createProofPage === CreateProofPage.PROGRESS && (
-        <div className={styles.terminalPage}>
+      {
+        <div className={styles.terminalContainer}>
           <Fade>
             <CreateProofProgress terminalLogElem={terminalLog} />
           </Fade>
         </div>
-      )}
+      }
 
       <div className={styles.footer}>
         <div>
           <div className={styles.systemMsg}>
-            <span>{systemMsg}</span>
-          </div>
-          <div className={styles.sdkMeta}>
-            {i18n.prfs_web_sdk} {envs.NEXT_PUBLIC_VERSION}
+            <span>
+              {systemMsg} ({i18n.prfs} {envs.NEXT_PUBLIC_VERSION})
+            </span>
           </div>
         </div>
-        <div>123</div>
+        <div></div>
       </div>
     </div>
   );

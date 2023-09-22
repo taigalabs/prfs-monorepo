@@ -22,20 +22,15 @@ const CreateProofProgress: React.FC<CreateProofProgressProps> = ({ terminalLogEl
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.guide}>
-        <p className={styles.title}>{i18n.proof_creation_title}</p>
-        <p>
-          <button onClick={() => {}}>Abort now</button> if you are running other CPU-intensive
-          tasks. Do not refresh the page
-        </p>
-        <p>{i18n.start_create_proof_guide_2}</p>
-      </div>
-      <div
-        ref={logRef}
-        className={cn({
-          [styles.terminal]: true,
-        })}
-      >
+      {/* <div className={styles.guide}> */}
+      {/*   <p className={styles.title}>{i18n.proof_creation_title}</p> */}
+      {/*   <p> */}
+      {/*     <button onClick={() => {}}>Abort now</button> if you are running other CPU-intensive */}
+      {/*     tasks. Do not refresh the page */}
+      {/*   </p> */}
+      {/*   <p>{i18n.start_create_proof_guide_2}</p> */}
+      {/* </div> */}
+      <div ref={logRef} className={styles.terminal}>
         {terminalLogElem}
       </div>
     </div>

@@ -43,6 +43,7 @@ class ProofGenElement {
     return new Promise((resolve, reject) => {
       const container = document.querySelector(containerName) as HTMLDivElement;
       const { calcHeight, calcWidth } = this.state;
+      const wrapperZIndex = options.wrapperZIndex || "200";
 
       if (!container) {
         console.error(`No target element named, ${containerName}`);
@@ -81,6 +82,7 @@ class ProofGenElement {
       wrapperDiv.style.height = `${calcHeight}px`;
       wrapperDiv.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
       wrapperDiv.style.overflow = "hidden";
+      wrapperDiv.style.zIndex = wrapperZIndex;
 
       // wrapperDiv.appendChild(msgSpan);
       wrapperDiv.appendChild(iframe);

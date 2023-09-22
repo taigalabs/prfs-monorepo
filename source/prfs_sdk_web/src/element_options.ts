@@ -5,10 +5,12 @@ export interface ProofGenOptions {
   provider: ethers.providers.Web3Provider;
   handleCreateProof: ({ proof, publicInput }: any) => void;
   theme?: "dark";
+  wrapperZIndex?: string;
 }
 
 export interface ZAuthSignInOptions {
   provider: ethers.providers.Web3Provider;
   handleCreateProof: ({ proof, publicInput }: any) => void;
   theme?: "dark";
+  wrapperZIndex?: string;
 }
