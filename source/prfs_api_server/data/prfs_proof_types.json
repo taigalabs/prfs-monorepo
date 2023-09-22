@@ -145,10 +145,10 @@
       "created_at": "2023-09-21T16:39:57-08:00"
     },
     {
-      "proof_type_id": "ZAUTH_SIGN_IN_1",
+      "proof_type_id": "ZAUTH_SIGN_UP_1",
       "label": "ZAuth",
       "author": "Prfs",
-      "desc": "ZAuth sign in",
+      "desc": "ZAuth sign up",
       "expression": "Passes ZAuth",
       "img_url": "https://prfs-asset-1.s3.ap-northeast-2.amazonaws.com/padlock-clipart-design-illustration-free-png.webp",
       "img_caption": "0.0001",
