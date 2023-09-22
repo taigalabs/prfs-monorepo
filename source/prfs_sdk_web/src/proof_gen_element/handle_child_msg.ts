@@ -1,11 +1,12 @@
 import { hashPersonalMessage } from "@ethereumjs/util";
 import { listenClickOutsideIFrame, removeClickListener } from "./outside_event";
 import { GetSignaturePayload, HandshakePayload, Msg, MsgType, OpenDialogPayload } from "./msg";
-import { MSG_SPAN_ID, ProofGenElementOptions, ProofGenElementState } from "./proof_gen_element";
+import { ProofGenElementState } from "./proof_gen_element";
+import { ProofGenOptions } from "@/element_options";
 
 export function handleChildMessage(
   resolve: (value: any) => void,
-  options: ProofGenElementOptions,
+  options: ProofGenOptions,
   state: ProofGenElementState
 ) {
   console.log("Attaching child msg handler");

@@ -23,7 +23,7 @@ enum CreateProofPage {
   PROGRESS,
 }
 
-const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType }) => {
+const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight }) => {
   const i18n = React.useContext(i18nContext);
 
   const [systemMsg, setSystemMsg] = React.useState("Loading driver...");
@@ -171,7 +171,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType }) => {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} style={{ height: docHeight }}>
       <div
         className={styles.inputPage}
         style={{ opacity: createProofPage === CreateProofPage.INPUT ? 1 : 0 }}
@@ -206,6 +206,7 @@ export default CreateProofForm;
 
 export interface CreateProofFormProps {
   proofType: PrfsProofType;
+  docHeight: number;
   // handleCreateProof: (proof: Uint8Array, publicInput: any) => void;
 }
 

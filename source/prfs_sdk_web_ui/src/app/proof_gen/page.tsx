@@ -21,7 +21,8 @@ const ProofGen: React.FC<ProofGenProps> = () => {
 
   const searchParams = useSearchParams();
   const [proofType, setProofType] = React.useState<PrfsProofType>();
-  const [docHeight, setDocHeight] = React.useState<number>();
+  const [docHeight, setDocHeight] = React.useState<number>(320);
+  const [docWidth, setDocWidth] = React.useState<number>(484);
 
   React.useEffect(() => {
     checkSanity();
@@ -29,6 +30,7 @@ const ProofGen: React.FC<ProofGenProps> = () => {
     async function fn() {
       const proofTypeId = searchParams.get("proofTypeId");
       const theme = searchParams.get("theme") || "light";
+      const docWidth = Number(searchParams.get("docWidth"));
       document.documentElement.setAttribute("data-theme", theme);
 
       if (proofTypeId) {
@@ -47,7 +49,9 @@ const ProofGen: React.FC<ProofGenProps> = () => {
                 docHeight,
               })
             );
+
             setDocHeight(docHeight);
+            setDocWidth(docWidth);
             setProofType(proof_type);
           } else {
             console.log("PrfsProofType not found");
@@ -59,15 +63,15 @@ const ProofGen: React.FC<ProofGenProps> = () => {
     }
 
     fn().then();
-  }, [searchParams, setProofType, setDocHeight]);
+  }, [searchParams, setProofType, setDocHeight, setDocWidth]);
 
   return (
     proofType &&
     docHeight && (
       <NoSSR>
-        <DefaultLayout>
+        <DefaultLayout docHeight={docHeight} docWidth={docWidth}>
           <div className={styles.wrapper}></div>
-          <CreateProofForm proofType={proofType} />
+          <CreateProofForm proofType={proofType} docHeight={docHeight} />
         </DefaultLayout>
       </NoSSR>
     )

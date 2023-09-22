@@ -57,7 +57,7 @@ class ProofGenElement {
 
       const iframe = document.createElement("iframe");
       iframe.id = PROOF_GEN_IFRAME_ID;
-      iframe.src = `${SDK_ENDPOINT}/proof_gen?proofTypeId=${options.proofTypeId}&theme=${options.theme}`;
+      iframe.src = `${SDK_ENDPOINT}/proof_gen?proofTypeId=${options.proofTypeId}&theme=${options.theme}&docWidth=${calcWidth}`;
       iframe.allow = "cross-origin-isolated";
       iframe.style.border = "none";
       // iframe.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
@@ -77,9 +77,10 @@ class ProofGenElement {
       wrapperDiv.style.position = "absolute";
       // wrapperDiv.style.zIndex = "110";
       wrapperDiv.style.width = `${calcWidth}px`;
-      wrapperDiv.style.border = `1px solid black`;
+      // wrapperDiv.style.border = `1px solid black`;
       wrapperDiv.style.height = `${calcHeight}px`;
       wrapperDiv.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
+      wrapperDiv.style.overflow = "hidden";
 
       // wrapperDiv.appendChild(msgSpan);
       wrapperDiv.appendChild(iframe);
