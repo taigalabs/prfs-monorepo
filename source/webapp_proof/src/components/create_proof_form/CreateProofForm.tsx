@@ -116,7 +116,7 @@ const CreateProofForm: React.FC = () => {
         </div>
         {selectedProofTypeItem && (
           <Fade>
-            <div id="prfs-sdk-container"></div>
+            <div id="prfs-sdk-container" className={styles.sdkContainer}></div>
           </Fade>
         )}
         <div className={styles.createProofBtn}>

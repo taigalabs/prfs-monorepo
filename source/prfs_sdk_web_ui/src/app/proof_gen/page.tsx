@@ -13,7 +13,7 @@ import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { checkSanity } from "@/functions/sanity";
 
-const BASE_HEIGHT = 65;
+const BASE_HEIGHT = 55;
 const HEIGHT_PER_INPUT = 61;
 
 const ProofGen: React.FC<ProofGenProps> = () => {
