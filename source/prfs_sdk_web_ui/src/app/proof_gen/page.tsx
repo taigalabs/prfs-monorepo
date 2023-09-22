@@ -66,7 +66,8 @@ const ProofGen: React.FC<ProofGenProps> = () => {
     docHeight && (
       <NoSSR>
         <DefaultLayout>
-          <CreateProofForm proofType={proofType} docHeight={docHeight} />
+          <div className={styles.wrapper}></div>
+          <CreateProofForm proofType={proofType} />
         </DefaultLayout>
       </NoSSR>
     )

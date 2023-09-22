@@ -25,7 +25,7 @@ class ProofGenElement {
   constructor(options: ProofGenOptions) {
     this.options = options;
     this.state = {
-      calcWidth: 494,
+      calcWidth: 484,
       calcHeight: 320,
       clickOutsideIFrameListener: undefined,
       clickOutsideDialogListener: undefined,
@@ -77,6 +77,7 @@ class ProofGenElement {
       wrapperDiv.style.position = "absolute";
       // wrapperDiv.style.zIndex = "110";
       wrapperDiv.style.width = `${calcWidth}px`;
+      wrapperDiv.style.border = `1px solid black`;
       wrapperDiv.style.height = `${calcHeight}px`;
       wrapperDiv.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
 

@@ -23,7 +23,7 @@ enum CreateProofPage {
   PROGRESS,
 }
 
-const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight }) => {
+const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType }) => {
   const i18n = React.useContext(i18nContext);
 
   const [systemMsg, setSystemMsg] = React.useState("Loading driver...");
@@ -171,14 +171,12 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
   }
 
   return (
-    <div className={styles.wrapper} style={{ height: docHeight }}>
+    <div className={styles.wrapper}>
       <div
         className={styles.inputPage}
         style={{ opacity: createProofPage === CreateProofPage.INPUT ? 1 : 0 }}
       >
-        <div className={styles.form} style={{ height: docHeight }}>
-          {circuitInputsElem}
-        </div>
+        <div className={styles.form}>{circuitInputsElem}</div>
       </div>
 
       {createProofPage === CreateProofPage.PROGRESS && (
@@ -190,12 +188,15 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
       )}
 
       <div className={styles.footer}>
-        <div className={styles.systemMsg}>
-          <span>{systemMsg}</span>
+        <div>
+          <div className={styles.systemMsg}>
+            <span>{systemMsg}</span>
+          </div>
+          <div className={styles.sdkMeta}>
+            {i18n.prfs_web_sdk} {envs.NEXT_PUBLIC_VERSION}
+          </div>
         </div>
-        <div className={styles.sdkMeta}>
-          {i18n.prfs_web_sdk} {envs.NEXT_PUBLIC_VERSION}
-        </div>
+        <div>123</div>
       </div>
     </div>
   );
@@ -205,7 +206,6 @@ export default CreateProofForm;
 
 export interface CreateProofFormProps {
   proofType: PrfsProofType;
-  docHeight: number;
   // handleCreateProof: (proof: Uint8Array, publicInput: any) => void;
 }
 
