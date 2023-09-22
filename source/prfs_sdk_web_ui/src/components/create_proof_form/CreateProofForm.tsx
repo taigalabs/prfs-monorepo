@@ -46,6 +46,8 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
     [setTerminalLog]
   );
 
+  const handleChangeValue = React.useCallback((ev: React.ChangeEvent) => {}, [setFormValues]);
+
   React.useEffect(() => {
     async function eventListener(ev: MessageEvent) {
       if (ev.ports.length > 0) {
@@ -139,7 +141,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
             <Passcode
               circuitInput={val}
               value={formValues[val.name] as any}
-              setFormValues={setFormValues}
+              handleChangeValue={handleChangeValue}
             />
           );
           break;
