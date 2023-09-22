@@ -37,7 +37,7 @@ const SignUpForm: React.FC<{}> = () => {
     async function fn() {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-      const proofGenElement = prfs.create("zauth-sign-in", {
+      const proofGenElement = prfs.create("zauth-sign-up", {
         provider,
         handleCreateProof,
       });
