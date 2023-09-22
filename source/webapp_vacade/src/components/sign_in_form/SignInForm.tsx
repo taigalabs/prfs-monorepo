@@ -10,6 +10,7 @@ import styles from "./SignInForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 const prfs = new PrfsSDK("test");
 
@@ -53,13 +54,18 @@ const SignInForm: React.FC<{}> = () => {
         <p className={styles.bigLogo}>{i18n.vacade}</p>
       </div>
       <div className={styles.right}>
-        <div id="prfs-sdk-container"></div>
-        {/* <button className={styles.signUpBtn} onClick={handleClickSignUp}> */}
-        {/*   <p>{i18n.sign_up_with_zauth}</p> */}
-        {/* </button> */}
-        <button className={styles.signInBtn} onClick={handleClickSignIn}>
-          <p>{i18n.sign_in_with_zauth}</p>
-        </button>
+        <div>
+          <div id="prfs-sdk-container"></div>
+          <button className={styles.signInBtn} onClick={handleClickSignIn}>
+            {i18n.sign_in}
+          </button>
+        </div>
+        <div className={styles.createAccount}>
+          <p>{i18n.not_have_an_account}</p>
+          <button className={styles.signUpBtn} onClick={handleClickSignIn}>
+            {i18n.create_account}
+          </button>
+        </div>
       </div>
     </div>
   );
