@@ -14,6 +14,7 @@ import SigDataInput from "@/components/sig_data_input/SigDataInput";
 import { createProof } from "@/functions/proof";
 import CreateProofProgress from "@/components/create_proof_progress/CreateProofProgress";
 import { envs } from "@/envs";
+import Passcode from "../passcode/Passcode";
 
 const ASSET_SERVER_ENDPOINT = envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
@@ -126,6 +127,16 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
         case "SIG_DATA_1": {
           inputElem = (
             <SigDataInput
+              circuitInput={val}
+              value={formValues[val.name] as any}
+              setFormValues={setFormValues}
+            />
+          );
+          break;
+        }
+        case "PASSCODE_1": {
+          inputElem = (
+            <Passcode
               circuitInput={val}
               value={formValues[val.name] as any}
               setFormValues={setFormValues}
