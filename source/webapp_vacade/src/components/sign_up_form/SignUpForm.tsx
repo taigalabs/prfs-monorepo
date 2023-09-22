@@ -6,7 +6,7 @@ import ActiveLink from "@taigalabs/prfs-react-components/src/active_link/ActiveL
 import { ethers } from "ethers";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 
-import styles from "./SignInForm.module.scss";
+import styles from "./SignUpForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
@@ -33,9 +33,7 @@ const SignUpForm: React.FC<{}> = () => {
       </div>
       <div className={styles.right}>
         <div id="prfs-sdk-container"></div>
-        {/* <button className={styles.signUpBtn} onClick={handleClickSignUp}> */}
-        {/*   <p>{i18n.sign_up_with_zauth}</p> */}
-        {/* </button> */}
+        123123
         <button className={styles.signInBtn} onClick={handleClickSignIn}>
           <p>{i18n.sign_in_with_zauth}</p>
         </button>

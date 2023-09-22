@@ -10,7 +10,7 @@ import { paths } from "@/paths";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import { useAppSelector } from "@/state/hooks";
 import SignInLayout from "@/layouts/sign_in_layout/SignInLayout";
-import SignInForm from "@/components/sign_in_form/SignInForm";
+import SignUpForm from "@/components/sign_up_form/SignUpForm";
 
 const SignUpPage: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -28,7 +28,7 @@ const SignUpPage: React.FC = () => {
 
   return (
     <SignInLayout>
-      <SignInForm />
+      <SignUpForm />
     </SignInLayout>
   );
 };
