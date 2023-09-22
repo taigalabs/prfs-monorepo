@@ -5,6 +5,8 @@ import Link from "next/link";
 import ActiveLink from "@taigalabs/prfs-react-components/src/active_link/ActiveLink";
 import { ethers } from "ethers";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
+import { useRouter } from "next/navigation";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./SignUpForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -16,14 +18,36 @@ const prfs = new PrfsSDK("test");
 const SignUpForm: React.FC<{}> = () => {
   const i18n = React.useContext(i18nContext);
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
+  const router = useRouter();
 
   const handleClickSignUp = React.useCallback(() => {
-    window.open(`${process.env.NEXT_PUBLIC_PRFS_ZAUTH_ENDPOINT}/sign_up`, "_blank");
-    window.addEventListener("message", event => console.log(11, event));
-  }, []);
+    router.push(paths.sign_up);
+  }, [router]);
 
   const handleClickSignIn = React.useCallback(() => {
-    window.open(`${process.env.NEXT_PUBLIC_PRFS_ZAUTH_ENDPOINT}/sign_in`, "_blank");
+    console.log(111);
+    // window.open(`${process.env.NEXT_PUBLIC_PRFS_ZAUTH_ENDPOINT}/sign_in`, "_blank");
+  }, []);
+
+  const handleCreateProof = React.useCallback(({ proof, publicInput }: any) => {
+    console.log("Created proof!", proof, publicInput);
+  }, []);
+
+  React.useEffect(() => {
+    async function fn() {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+      const proofGenElement = prfs.create("zauth-sign-in", {
+        provider,
+        handleCreateProof,
+      });
+
+      await proofGenElement.mount("#prfs-sdk-container");
+
+      setProofGenElement(proofGenElement);
+    }
+
+    fn().then();
   }, []);
 
   return (
@@ -32,16 +56,21 @@ const SignUpForm: React.FC<{}> = () => {
         <p className={styles.bigLogo}>{i18n.vacade}</p>
       </div>
       <div className={styles.right}>
-        <div id="prfs-sdk-container"></div>
-        123123
-        <button className={styles.signInBtn} onClick={handleClickSignIn}>
-          <p>{i18n.sign_in_with_zauth}</p>
-        </button>
+        <div>
+          <div id="prfs-sdk-container"></div>
+          <button className={styles.signInBtn} onClick={handleClickSignIn}>
+            {i18n.sign_in}
+          </button>
+        </div>
+        <div className={styles.createAccount}>
+          <p>{i18n.already_have_an_account}</p>
+          <button className={styles.signUpBtn} onClick={handleClickSignUp}>
+            {i18n.sign_in}
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
 export default SignUpForm;
-
-export interface SignUpFormProps {}

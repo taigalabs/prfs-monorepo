@@ -18,7 +18,15 @@ export class PrfsSDK {
       }
       case "zauth-sign-in": {
         return new ProofGenElement({
-          proofTypeId: "ZAUTH_1",
+          proofTypeId: "ZAUTH_SIGN_IN_1",
+          provider: options.provider,
+          handleCreateProof: options.handleCreateProof,
+          theme: "dark",
+        });
+      }
+      case "zauth-sign-up": {
+        return new ProofGenElement({
+          proofTypeId: "ZAUTH_SIGN_UP_1",
           provider: options.provider,
           handleCreateProof: options.handleCreateProof,
           theme: "dark",
@@ -28,7 +36,7 @@ export class PrfsSDK {
   }
 }
 
-export type ElementType = "proof-gen" | "zauth-sign-in";
+export type ElementType = "proof-gen" | "zauth-sign-in" | "zauth-sign-up";
 
 export interface ElementOptions {
   "proof-gen": ProofGenOptions;
