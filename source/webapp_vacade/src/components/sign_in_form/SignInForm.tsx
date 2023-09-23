@@ -24,14 +24,14 @@ const SignInForm: React.FC<{}> = () => {
     router.push(paths.sign_up);
   }, [router]);
 
-  const handleClickSignIn = React.useCallback(() => {
-    console.log(111);
-    // window.open(`${process.env.NEXT_PUBLIC_PRFS_ZAUTH_ENDPOINT}/sign_in`, "_blank");
-  }, []);
+  const handleClickSignIn = React.useCallback(async () => {
+    if (proofGenElement) {
+      console.log(111);
 
-  const handleCreateProof = React.useCallback(({ proof, publicInput }: any) => {
-    console.log("Created proof!", proof, publicInput);
-  }, []);
+      const formValues = await proofGenElement.getFormValues();
+      console.log(22, formValues);
+    }
+  }, [proofGenElement]);
 
   React.useEffect(() => {
     async function fn() {
@@ -39,7 +39,6 @@ const SignInForm: React.FC<{}> = () => {
 
       const proofGenElement = prfs.create("zauth-sign-in", {
         provider,
-        handleCreateProof,
       });
 
       await proofGenElement.mount("#prfs-sdk-container");
@@ -74,6 +73,3 @@ const SignInForm: React.FC<{}> = () => {
 };
 
 export default SignInForm;
-{
-  /* <div id="prfs-sdk-container"></div> */
-}
