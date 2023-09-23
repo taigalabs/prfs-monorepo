@@ -159,7 +159,7 @@
         {
           "desc": "passcode",
           "name": "passcode",
-          "type": "PASSCODE_1",
+          "type": "PASSCODE",
           "label": "Passcode",
           "value": ""
         }
@@ -186,7 +186,7 @@
         {
           "desc": "passcode",
           "name": "passcode",
-          "type": "PASSCODE_CONFIRM_1",
+          "type": "PASSCODE_CONFIRM",
           "label": "Passcode",
           "value": "",
           "units": 2

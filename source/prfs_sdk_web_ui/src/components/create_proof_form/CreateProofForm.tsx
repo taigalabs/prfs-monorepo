@@ -71,30 +71,40 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
       if (ev.ports.length > 0) {
         const type: MsgType = ev.data.type;
 
-        if (type === "CREATE_PROOF") {
-          if (!driver) {
-            return;
+        switch (type) {
+          case "CREATE_PROOF": {
+            if (!driver) {
+              return;
+            }
+
+            try {
+              validateForm(formValues, proofType.circuit_inputs as CircuitInput[]);
+              setCreateProofStatus(CreateProofStatus.InProgress);
+              proofGenEventListener("debug", `Process starts in 3 seconds`);
+
+              await delay(3000);
+
+              proofGenEventListener(
+                "info",
+                `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
+              );
+
+              const proveReceipt = await createProof(driver, formValues, proofGenEventListener);
+
+              proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
+
+              ev.ports[0].postMessage(new Msg("CREATE_PROOF_RESPONSE", proveReceipt));
+            } catch (err) {
+              console.error(err);
+            }
+
+            break;
           }
 
-          validateForm(formValues, proofType.circuit_inputs as CircuitInput[]);
-          // return;
-          setCreateProofStatus(CreateProofStatus.InProgress);
-          proofGenEventListener("debug", `Process starts in 3 seconds`);
-
-          await delay(3000);
-
-          proofGenEventListener(
-            "info",
-            `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
-          );
-
-          try {
-            const proveReceipt = await createProof(driver, formValues, proofGenEventListener);
-
-            proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
-
-            ev.ports[0].postMessage(new Msg("CREATE_PROOF_RESPONSE", proveReceipt));
-          } catch (err) {}
+          case "GET_FORM_VALUES": {
+            ev.ports[0].postMessage(new Msg("GET_FORM_VALUES_RESPONSE", {}));
+            break;
+          }
         }
       }
     }
@@ -158,7 +168,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
           );
           break;
         }
-        case "PASSCODE_1": {
+        case "PASSCODE": {
           entriesElem.push(
             <Input label={input.label} key={idx}>
               <Passcode
@@ -171,7 +181,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
           );
           break;
         }
-        case "PASSCODE_CONFIRM_1": {
+        case "PASSCODE_CONFIRM": {
           entriesElem.push(
             <Input label={input.label} key={idx}>
               <Passcode

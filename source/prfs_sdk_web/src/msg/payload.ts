@@ -18,25 +18,9 @@ export type MsgType =
   | "OPEN_DIALOG"
   | "OPEN_DIALOG_RESPONSE"
   | "CLOSE_DIALOG"
-  | "CLOSE_DIALOG_RESPONSE";
-
-export class Msg<T extends MsgType> implements MsgInterface<T> {
-  error?: any;
-  type: T;
-  payload: any;
-
-  constructor(type: T, payload: ReqPayload<T>, error?: any) {
-    this.type = type;
-    this.payload = payload || {};
-    this.error = error;
-  }
-}
-
-export interface MsgInterface<T extends MsgType> {
-  error?: any;
-  type: T;
-  payload: ReqPayload<T>;
-}
+  | "CLOSE_DIALOG_RESPONSE"
+  | "GET_FORM_VALUES"
+  | "GET_FORM_VALUES_RESPONSE";
 
 export interface HandshakePayload {
   docHeight: number;
@@ -97,6 +81,10 @@ export type ReqPayload<T extends MsgType> = //
     ? void
     : T extends "CLOSE_DIALOG_RESPONSE"
     ? void
+    : T extends "GET_FORM_VALUES"
+    ? void
+    : T extends "GET_FORM_VALUES_RESPONSE"
+    ? void
     : never;
 
 export type RespPayload<T extends MsgType> = //
@@ -135,5 +123,9 @@ export type RespPayload<T extends MsgType> = //
     : T extends "CLOSE_DIALOG"
     ? void
     : T extends "CLOSE_DIALOG_RESPONSE"
+    ? void
+    : T extends "GET_FORM_VALUES"
+    ? void
+    : T extends "GET_FORM_VALUES_RESPONSE"
     ? void
     : never;

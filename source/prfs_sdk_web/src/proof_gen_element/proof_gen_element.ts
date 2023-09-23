@@ -1,10 +1,10 @@
 import { ethers } from "ethers";
 
 import { handleChildMessage } from "./handle_child_msg";
-import { sendMsgToChild } from "./send_msg";
+import { sendMsgToChild } from "../msg";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
-import { Msg } from "./msg";
 import { ProofGenOptions, ZAuthSignInOptions } from "../element_options";
+import { Msg } from "@/msg/msg";
 
 export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
 export const PLACEHOLDER_ID = "prfs-sdk-placeholder";
