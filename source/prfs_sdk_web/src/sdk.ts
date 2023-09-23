@@ -20,7 +20,7 @@ export class PrfsSDK {
         return new ProofGenElement({
           proofTypeId: "ZAUTH_SIGN_IN_1",
           provider: options.provider,
-          handleCreateProof: options.handleCreateProof,
+          // handleCreateProof: options.handleCreateProof,
           theme: "dark",
         });
       }
@@ -28,7 +28,7 @@ export class PrfsSDK {
         return new ProofGenElement({
           proofTypeId: "ZAUTH_SIGN_UP_1",
           provider: options.provider,
-          handleCreateProof: options.handleCreateProof,
+          // handleCreateProof: options.handleCreateProof,
           theme: "dark",
         });
       }

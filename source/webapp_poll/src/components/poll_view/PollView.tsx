@@ -48,7 +48,6 @@ const PollView: React.FC<PollViewProps> = ({ poll }) => {
         const proofGenElement = prfs.create("proof-gen", {
           proofTypeId: poll.proof_type_id,
           provider,
-          handleCreateProof: () => {},
         });
 
         await proofGenElement.mount("#prfs-sdk-container");

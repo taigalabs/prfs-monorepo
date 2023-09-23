@@ -8,11 +8,12 @@ import styles from "./Passcode.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 
 const Passcode: React.FC<PasscodeProps> = ({ handleChangeValue, name, placeholder, value }) => {
-  const i18n = React.useContext(i18nContext);
+  // const i18n = React.useContext(i18nContext);
 
   return (
     <div className={styles.sigDataInputWrapper}>
       <input
+        type="password"
         name={name}
         placeholder={placeholder}
         value={value || ""}

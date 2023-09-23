@@ -32,10 +32,6 @@ const CreateProofForm: React.FC = () => {
     [setSelectedProofTypeItem]
   );
 
-  const handleCreateProof = React.useCallback(({ proof, publicInput }: any) => {
-    console.log("Created proof!", proof, publicInput);
-  }, []);
-
   React.useEffect(() => {
     async function fn() {
       if (selectedProofTypeItem) {
@@ -44,7 +40,6 @@ const CreateProofForm: React.FC = () => {
         const proofGenElement = prfs.create("proof-gen", {
           proofTypeId: selectedProofTypeItem.proofTypeId,
           provider,
-          handleCreateProof,
         });
 
         await proofGenElement.mount("#prfs-sdk-container");
@@ -54,7 +49,7 @@ const CreateProofForm: React.FC = () => {
     }
 
     fn().then();
-  }, [selectedProofTypeItem, handleCreateProof, setProofGenElement]);
+  }, [selectedProofTypeItem, setProofGenElement]);
 
   const handleClickCreateProof = React.useCallback(async () => {
     if (!selectedProofTypeItem) {

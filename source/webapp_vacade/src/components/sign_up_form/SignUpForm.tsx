@@ -14,6 +14,7 @@ import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 import { useMutation } from "@tanstack/react-query";
+import { SignUpRequest } from "@taigalabs/prfs-entities/bindings/SignUpRequest";
 
 const prfs = new PrfsSDK("test");
 
@@ -23,8 +24,8 @@ const SignUpForm: React.FC<{}> = () => {
   const router = useRouter();
 
   const mutation = useMutation({
-    mutationFn: (req: CreatePrfsPollRequest) => {
-      return prfsApi2("create_prfs_poll", req);
+    mutationFn: (req: SignUpRequest) => {
+      return prfsApi2("sign_up_prfs_account", req);
     },
   });
 
@@ -40,21 +41,16 @@ const SignUpForm: React.FC<{}> = () => {
       const avatar_color = Math.floor(Math.random() * 16777215).toString(16);
 
       try {
-        const resp = await prfsApi2("sign_up_prfs_account", { account_id: sig, avatar_color });
-
-        // router.push(paths.signin);
+        await mutation.mutateAsync({ account_id: sig, avatar_color });
+        router.push(paths.sign_in);
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     }
-  }, [proofGenElement, router]);
+  }, [proofGenElement, router, mutation]);
 
   const handleClickSignIn = React.useCallback(() => {
     router.push(paths.sign_in);
-  }, []);
-
-  const handleCreateProof = React.useCallback(({ proof, publicInput }: any) => {
-    console.log("Created proof!", proof, publicInput);
   }, []);
 
   React.useEffect(() => {
@@ -63,7 +59,6 @@ const SignUpForm: React.FC<{}> = () => {
 
       const proofGenElement = prfs.create("zauth-sign-up", {
         provider,
-        handleCreateProof,
       });
 
       await proofGenElement.mount("#prfs-sdk-container");

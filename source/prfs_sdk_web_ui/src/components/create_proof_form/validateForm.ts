@@ -3,9 +3,7 @@ import { ethers } from "ethers";
 import { Msg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 
 export async function validateForm(formValues: any, circuitInputs: CircuitInput[]) {
-  const newFormValues = {
-    ...formValues,
-  };
+  const newFormValues: Record<string, any> = {};
 
   for (const input of circuitInputs) {
     if (input.type === "PASSCODE_CONFIRM") {
