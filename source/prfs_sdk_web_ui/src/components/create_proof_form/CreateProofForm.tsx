@@ -77,6 +77,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
           }
 
           validateForm(formValues, proofType.circuit_inputs as CircuitInput[]);
+          // return;
           setCreateProofStatus(CreateProofStatus.InProgress);
           proofGenEventListener("debug", `Process starts in 3 seconds`);
 

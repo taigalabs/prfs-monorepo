@@ -35,6 +35,7 @@ const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
               type: input.type,
               desc: input.desc,
               value: "",
+              units: 1,
               ref_type: input.ref_type,
               ref_value: val.set_id,
             };
