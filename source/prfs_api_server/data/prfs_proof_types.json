@@ -184,20 +184,9 @@
       "circuit_driver_id": "SPARTAN_CIRCOM_1",
       "circuit_inputs": [
         {
-          "ref_type": "PASSCODE",
-          "ref_value": "passcode",
-          "desc": "passcode",
-          "name": "passcode",
-          "type": "PASSCODE_1",
-          "label": "Passcode",
-          "value": ""
-        },
-        {
-          "ref_type": "PASSCODE_CONFIRM",
-          "ref_value": "passcode",
           "desc": "passcode confirm",
-          "name": "passcode_confirm",
-          "type": "PASSCODE_1",
+          "name": "passcode",
+          "type": "PASSCODE_CONFIRM_1",
           "label": "Passcode confirm",
           "value": ""
         }

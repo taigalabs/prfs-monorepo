@@ -20,13 +20,21 @@ const SignUpForm: React.FC<{}> = () => {
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
   const router = useRouter();
 
-  const handleClickSignUp = React.useCallback(() => {
-    router.push(paths.sign_up);
-  }, [router]);
+  const handleClickSignUp = React.useCallback(async () => {
+    if (!proofGenElement) {
+      console.error("PRFS sdk is undefined");
+      return;
+    }
+
+    const proveReceipt = await proofGenElement.createProof();
+
+    // if (proveReceipt) {
+    //   setProveReceipt(proveReceipt);
+    // }
+  }, [proofGenElement, router]);
 
   const handleClickSignIn = React.useCallback(() => {
-    console.log(111);
-    // window.open(`${process.env.NEXT_PUBLIC_PRFS_ZAUTH_ENDPOINT}/sign_in`, "_blank");
+    router.push(paths.sign_in);
   }, []);
 
   const handleCreateProof = React.useCallback(({ proof, publicInput }: any) => {
@@ -58,13 +66,13 @@ const SignUpForm: React.FC<{}> = () => {
       <div className={styles.right}>
         <div>
           <div id="prfs-sdk-container"></div>
-          <button className={styles.signInBtn} onClick={handleClickSignIn}>
-            {i18n.sign_in}
+          <button className={styles.signInBtn} onClick={handleClickSignUp}>
+            {i18n.sign_up}
           </button>
         </div>
         <div className={styles.createAccount}>
           <p>{i18n.already_have_an_account}</p>
-          <button className={styles.signUpBtn} onClick={handleClickSignUp}>
+          <button className={styles.signUpBtn} onClick={handleClickSignIn}>
             {i18n.sign_in}
           </button>
         </div>

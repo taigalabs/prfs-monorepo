@@ -15,6 +15,8 @@ import { createProof } from "@/functions/proof";
 import CreateProofProgress from "@/components/create_proof_progress/CreateProofProgress";
 import { envs } from "@/envs";
 import Passcode from "../passcode/Passcode";
+import Input from "./Input";
+import { validateForm } from "./validateForm";
 
 const ASSET_SERVER_ENDPOINT = envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
@@ -46,7 +48,18 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
     [setTerminalLog]
   );
 
-  const handleChangeValue = React.useCallback((ev: React.ChangeEvent) => {}, [setFormValues]);
+  const handleChangeValue = React.useCallback(
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      const { name } = ev.target;
+      setFormValues(oldVals => {
+        return {
+          ...oldVals,
+          [name]: ev.target.value,
+        };
+      });
+    },
+    [setFormValues]
+  );
 
   React.useEffect(() => {
     proofGenEventListener(
@@ -63,7 +76,8 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
             return;
           }
 
-          validateFormValues(formValues);
+          validateForm(formValues, proofType.circuit_inputs as CircuitInput[]);
+          // return;
           setCreateProofStatus(CreateProofStatus.InProgress);
           proofGenEventListener("debug", `Process starts in 3 seconds`);
 
@@ -90,7 +104,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
     return () => {
       window.removeEventListener("message", eventListener);
     };
-  }, [proofType, formValues]);
+  }, [proofType, formValues, driver]);
 
   React.useEffect(() => {
     async function fn() {
@@ -115,58 +129,148 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
   }, [proofType, setSystemMsg, setDriver, setCreateProofStatus]);
 
   const circuitInputsElem = React.useMemo(() => {
-    const obj: Record<any, CircuitInput> = proofType.circuit_inputs;
+    const circuit_inputs = proofType.circuit_inputs as CircuitInput[];
 
-    const entriesElem = Object.entries(obj).map(([key, val]) => {
-      let inputElem: React.ReactElement;
-
-      switch (val.type) {
+    const entriesElem = [];
+    for (const [idx, input] of circuit_inputs.entries()) {
+      switch (input.type) {
         case "MERKLE_PROOF_1": {
-          inputElem = (
-            <MerkleProofInput
-              circuitInput={val}
-              value={formValues[val.name] as any}
-              setFormValues={setFormValues}
-            />
+          entriesElem.push(
+            <Input circuitInput={input} key={idx}>
+              <MerkleProofInput
+                circuitInput={input}
+                value={formValues[input.name] as any}
+                setFormValues={setFormValues}
+              />
+            </Input>
           );
           break;
         }
         case "SIG_DATA_1": {
-          inputElem = (
-            <SigDataInput
-              circuitInput={val}
-              value={formValues[val.name] as any}
-              setFormValues={setFormValues}
-            />
+          entriesElem.push(
+            <Input circuitInput={input} key={idx}>
+              <SigDataInput
+                circuitInput={input}
+                value={formValues[input.name] as any}
+                setFormValues={setFormValues}
+              />
+            </Input>
           );
           break;
         }
         case "PASSCODE_1": {
-          inputElem = (
-            <Passcode
-              circuitInput={val}
-              value={formValues[val.name] as any}
-              handleChangeValue={handleChangeValue}
-            />
+          entriesElem.push(
+            <Input circuitInput={input} key={idx}>
+              <Passcode
+                circuitInput={input}
+                value={formValues[input.name] as any}
+                handleChangeValue={handleChangeValue}
+              />
+            </Input>
+          );
+          break;
+        }
+        case "PASSCODE_CONFIRM_1": {
+          entriesElem.push(
+            <Input circuitInput={input} key={idx}>
+              <Passcode
+                circuitInput={input}
+                value={formValues[input.name] as any}
+                handleChangeValue={handleChangeValue}
+              />
+            </Input>
+          );
+
+          entriesElem.push(
+            <Input circuitInput={input} key={`${idx}-confirm`}>
+              <Passcode
+                circuitInput={input}
+                value={formValues[input.name] as any}
+                handleChangeValue={handleChangeValue}
+              />
+            </Input>
           );
           break;
         }
         default: {
           console.error(`Cannot handle circuit input of this type`);
 
-          inputElem = <input placeholder="Cannot handle circuit input of this type" />;
+          entriesElem.push(
+            <Input circuitInput={input} key={idx}>
+              <input placeholder="Cannot handle circuit input of this type" />
+            </Input>
+          );
         }
       }
+    }
 
-      return (
-        <div className={styles.circuitInputEntry} key={key}>
-          <div className={styles.entryMeta}>
-            <div className={styles.entryLabel}>{val.label}</div>
-          </div>
-          <div className={styles.inputContainer}>{inputElem}</div>
-        </div>
-      );
-    });
+    // const entriesElem = Object.entries(obj).map(([key, val]) => {
+    //   let inputElem: React.ReactElement;
+
+    //   switch (val.type) {
+    //     case "MERKLE_PROOF_1": {
+    //       inputElem = (
+    //         <MerkleProofInput
+    //           circuitInput={val}
+    //           value={formValues[val.name] as any}
+    //           setFormValues={setFormValues}
+    //         />
+    //       );
+    //       break;
+    //     }
+    //     case "SIG_DATA_1": {
+    //       inputElem = (
+    //         <SigDataInput
+    //           circuitInput={val}
+    //           value={formValues[val.name] as any}
+    //           setFormValues={setFormValues}
+    //         />
+    //       );
+    //       break;
+    //     }
+    //     case "PASSCODE_1": {
+    //       inputElem = (
+    //         <Passcode
+    //           circuitInput={val}
+    //           value={formValues[val.name] as any}
+    //           handleChangeValue={handleChangeValue}
+    //         />
+    //       );
+    //       break;
+    //     }
+    //     case "PASSCODE_CONFIRM_1": {
+    //       inputElem = (
+    //         <>
+    //           <Passcode
+    //             circuitInput={val}
+    //             value={formValues[val.name] as any}
+    //             handleChangeValue={handleChangeValue}
+    //           />
+    //           <Passcode
+    //             circuitInput={val}
+    //             value={formValues[val.name] as any}
+    //             handleChangeValue={handleChangeValue}
+    //           />
+    //         </>
+    //       );
+    //       break;
+    //     }
+    //     default: {
+    //       console.error(`Cannot handle circuit input of this type`);
+
+    //       inputElem = <input placeholder="Cannot handle circuit input of this type" />;
+    //     }
+    //   }
+
+    //   return (
+    //     <div className={styles.circuitInputEntry} key={key}>
+    //       <div className={styles.entryMeta}>
+    //         <div className={styles.entryLabel}>{val.label}</div>
+    //       </div>
+    //       <div className={styles.inputContainer}>{inputElem}</div>
+    //     </div>
+    //   );
+    // });
 
     return entriesElem;
   }, [proofType, formValues, setFormValues]);
@@ -208,9 +312,4 @@ export default CreateProofForm;
 export interface CreateProofFormProps {
   proofType: PrfsProofType;
   docHeight: number;
-  // handleCreateProof: (proof: Uint8Array, publicInput: any) => void;
-}
-
-function validateFormValues(_formValues: any) {
-  // noop
 }
