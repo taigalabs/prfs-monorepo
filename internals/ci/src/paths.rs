@@ -33,9 +33,6 @@ pub struct Paths {
     pub webapp_proof: PathBuf,
     pub webapp_vacade: PathBuf,
     pub webapp_poll: PathBuf,
-
-    //
-    pub prfs_zauth_ui: PathBuf,
 }
 
 impl Paths {
@@ -72,9 +69,6 @@ impl Paths {
         let prfs_sdk_web = curr_dir.join("source/prfs_sdk_web");
         let prfs_sdk_web_ui = curr_dir.join("source/prfs_sdk_web_ui");
 
-        let prfs_zauth_sdk = curr_dir.join("source/prfs_zauth_sdk");
-        let prfs_zauth_ui = curr_dir.join("source/prfs_zauth_ui");
-
         let webapp_console = curr_dir.join("source/webapp_console");
         let webapp_proof = curr_dir.join("source/webapp_proof");
         let webapp_poll = curr_dir.join("source/webapp_poll");
@@ -108,8 +102,6 @@ impl Paths {
             webapp_vacade,
 
             e2e_test_web,
-
-            prfs_zauth_ui,
         };
 
         println!(
