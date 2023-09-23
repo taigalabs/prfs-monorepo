@@ -2,7 +2,7 @@ import { PrfsAccount } from "@taigalabs/prfs-entities/bindings/PrfsAccount";
 import { LocalPrfsAccount } from "./userReducer";
 
 export type LoadPrfsAccountPayload = {
-  localPrfsAccount: LocalPrfsAccount;
+  localPrfsAccount: LocalPrfsAccount | null;
 };
 
 export type SignInPayload = {

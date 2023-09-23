@@ -16,18 +16,15 @@ const HomePage: React.FC = () => {
   const dispatch = useDispatch();
 
   const localPrfsAccount = useAppSelector(state => state.user.localPrfsAccount);
-
-  console.log(11, localPrfsAccount);
-
   useLocalWallet(dispatch);
 
   React.useEffect(() => {
     if (localPrfsAccount) {
       router.push(`${paths.c}/crypto`);
-    } else {
+    } else if (localPrfsAccount === null) {
       router.push(`${paths.sign_in}`);
     }
-  }, [router]);
+  }, [router, localPrfsAccount]);
 
   return <div>Redirecting...</div>;
 };

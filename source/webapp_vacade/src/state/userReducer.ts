@@ -3,7 +3,6 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 import { LoadPrfsAccountPayload, SignInPayload, SignOutPayload, SignUpPayload } from "./actions";
 import localStore from "@/storage/localStore";
-import { RootState } from "./store";
 
 export interface LocalPrfsAccount {
   prfsAccount: PrfsAccount;
@@ -11,7 +10,7 @@ export interface LocalPrfsAccount {
 }
 
 export interface UserState {
-  localPrfsAccount: LocalPrfsAccount | undefined;
+  localPrfsAccount: LocalPrfsAccount | null | undefined;
 }
 
 const initialState: UserState = {

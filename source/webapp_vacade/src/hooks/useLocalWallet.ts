@@ -1,17 +1,14 @@
 import React from "react";
 
 import localStore from "@/storage/localStore";
+import { AppDispatch } from "@/state/store";
+import { loadPrfsAccount } from "@/state/userReducer";
 
-const useLocalWallet = (dispatch: any) => {
+const useLocalWallet = (dispatch: AppDispatch) => {
   React.useEffect(() => {
-    let prfsAccount = localStore.getPrfsAccount();
+    const localPrfsAccount = localStore.getPrfsAccount();
 
-    if (prfsAccount !== null) {
-      dispatch({
-        type: "load_prfs_account",
-        payload: prfsAccount,
-      });
-    }
+    dispatch(loadPrfsAccount({ localPrfsAccount }));
   }, []);
 };
 
