@@ -1,6 +1,12 @@
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
+import { ethers } from "ethers";
+import { Msg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 
-export function validateForm(formValues: any, circuitInputs: CircuitInput[]) {
+export async function validateForm(formValues: any, circuitInputs: CircuitInput[]) {
+  const newFormValues = {
+    ...formValues,
+  };
+
   for (const input of circuitInputs) {
     if (input.type === "PASSCODE_CONFIRM") {
       const val = formValues[input.name];
@@ -17,8 +23,21 @@ export function validateForm(formValues: any, circuitInputs: CircuitInput[]) {
       if (val !== val2) {
         throw new InputError(`${input.name}-confirm`, "value not identical");
       }
+
+      const prfs_pw_msg = `PRFS_PW_${val}`;
+      const pw_hash = ethers.utils.hashMessage(prfs_pw_msg);
+
+      const { sig } = await sendMsgToParent(
+        new Msg("GET_SIGNATURE", {
+          msgRaw: pw_hash,
+        })
+      );
+
+      newFormValues[input.name] = sig;
     }
   }
+
+  return newFormValues;
 }
 
 export class InputError extends Error {

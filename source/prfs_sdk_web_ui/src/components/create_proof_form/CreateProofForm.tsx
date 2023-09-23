@@ -78,7 +78,11 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
             }
 
             try {
-              validateForm(formValues, proofType.circuit_inputs as CircuitInput[]);
+              const newFormValues = await validateForm(
+                formValues,
+                proofType.circuit_inputs as CircuitInput[]
+              );
+
               setCreateProofStatus(CreateProofStatus.InProgress);
               proofGenEventListener("debug", `Process starts in 3 seconds`);
 
@@ -102,7 +106,12 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
           }
 
           case "GET_FORM_VALUES": {
-            ev.ports[0].postMessage(new Msg("GET_FORM_VALUES_RESPONSE", formValues));
+            const newFormValues = await validateForm(
+              formValues,
+              proofType.circuit_inputs as CircuitInput[]
+            );
+
+            ev.ports[0].postMessage(new Msg("GET_FORM_VALUES_RESPONSE", newFormValues));
             break;
           }
         }

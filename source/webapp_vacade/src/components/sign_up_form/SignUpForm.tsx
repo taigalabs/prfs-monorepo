@@ -7,11 +7,13 @@ import { ethers } from "ethers";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import { useRouter } from "next/navigation";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 
 import styles from "./SignUpForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
+import { useMutation } from "@tanstack/react-query";
 
 const prfs = new PrfsSDK("test");
 
@@ -20,6 +22,12 @@ const SignUpForm: React.FC<{}> = () => {
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
   const router = useRouter();
 
+  const mutation = useMutation({
+    mutationFn: (req: CreatePrfsPollRequest) => {
+      return prfsApi2("create_prfs_poll", req);
+    },
+  });
+
   const handleClickSignUp = React.useCallback(async () => {
     if (!proofGenElement) {
       console.error("PRFS sdk is undefined");
@@ -27,10 +35,18 @@ const SignUpForm: React.FC<{}> = () => {
     }
 
     const formValues = await proofGenElement.getFormValues();
+    if (formValues) {
+      const sig = formValues.passcode as string;
+      const avatar_color = Math.floor(Math.random() * 16777215).toString(16);
 
-    // if (proveReceipt) {
-    //   setProveReceipt(proveReceipt);
-    // }
+      try {
+        const resp = await prfsApi2("sign_up_prfs_account", { account_id: sig, avatar_color });
+
+        // router.push(paths.signin);
+      } catch (err) {
+        console.log(err);
+      }
+    }
   }, [proofGenElement, router]);
 
   const handleClickSignIn = React.useCallback(() => {
