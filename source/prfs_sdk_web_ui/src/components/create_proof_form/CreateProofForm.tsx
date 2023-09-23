@@ -34,6 +34,8 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
   const [driver, setDriver] = React.useState<CircuitDriver>();
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
 
+  console.log(22, proofType);
+
   const proofGenEventListener = React.useCallback(
     (type: LogEventType, msg: string) => {
       setTerminalLog(oldVals => {

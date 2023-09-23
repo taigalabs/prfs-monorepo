@@ -40,6 +40,14 @@ pub struct CircuitInput {
     pub r#type: String,
     pub desc: String,
     pub value: String,
+
+    #[serde(default = "default_units")]
+    pub units: i16,
+
     pub ref_type: Option<String>,
     pub ref_value: Option<String>,
+}
+
+fn default_units() -> i16 {
+    1
 }

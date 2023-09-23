@@ -188,7 +188,8 @@
           "name": "passcode",
           "type": "PASSCODE_CONFIRM_1",
           "label": "Passcode confirm",
-          "value": ""
+          "value": "",
+          "units": 2
         }
       ],
       "driver_properties": {
