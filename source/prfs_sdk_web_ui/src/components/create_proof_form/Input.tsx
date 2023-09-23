@@ -16,13 +16,13 @@ import CreateProofProgress from "@/components/create_proof_progress/CreateProofP
 import { envs } from "@/envs";
 import Passcode from "../passcode/Passcode";
 
-const Input: React.FC<InputProps> = ({ circuitInput, children }) => {
+const Input: React.FC<InputProps> = ({ children, label }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
     <div className={styles.circuitInputEntry}>
       <div className={styles.entryMeta}>
-        <div className={styles.entryLabel}>{circuitInput.label}</div>
+        <div className={styles.entryLabel}>{label}</div>
       </div>
       <div className={styles.inputContainer}>{children}</div>
     </div>
@@ -32,6 +32,6 @@ const Input: React.FC<InputProps> = ({ circuitInput, children }) => {
 export default Input;
 
 export interface InputProps {
-  circuitInput: CircuitInput;
+  label: string;
   children: React.ReactNode;
 }

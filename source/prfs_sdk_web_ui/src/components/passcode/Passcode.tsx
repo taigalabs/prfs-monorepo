@@ -7,14 +7,14 @@ import { FaSignature } from "@react-icons/all-files/fa/FaSignature";
 import styles from "./Passcode.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 
-const Passcode: React.FC<PasscodeProps> = ({ circuitInput, value, handleChangeValue }) => {
+const Passcode: React.FC<PasscodeProps> = ({ handleChangeValue, name, placeholder, value }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
     <div className={styles.sigDataInputWrapper}>
       <input
-        name={circuitInput.name}
-        placeholder={circuitInput.desc}
+        name={name}
+        placeholder={placeholder}
         value={value || ""}
         onChange={handleChangeValue}
       />
@@ -25,7 +25,8 @@ const Passcode: React.FC<PasscodeProps> = ({ circuitInput, value, handleChangeVa
 export default Passcode;
 
 export interface PasscodeProps {
-  circuitInput: CircuitInput;
-  value: undefined;
+  name: string;
+  placeholder: string;
+  value: string;
   handleChangeValue: (ev: React.ChangeEvent<HTMLInputElement>) => void;
 }
