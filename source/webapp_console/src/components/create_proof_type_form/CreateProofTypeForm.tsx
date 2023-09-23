@@ -130,6 +130,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
 
         default:
           newCircuitInputs[idx] = {
+            units: 1,
             name: input.name,
             label: input.label,
             type: input.type,
