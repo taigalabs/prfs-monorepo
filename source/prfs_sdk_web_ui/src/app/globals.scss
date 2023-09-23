@@ -1,6 +1,15 @@
 :root {
 }
 
+html {
+  color: var(--text-color-1);
+}
+
+input,
+textarea {
+  color: var(--text-color-1);
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
   }

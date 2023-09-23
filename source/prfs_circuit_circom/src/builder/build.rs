@@ -4,7 +4,7 @@ use crate::{
 use chrono::{DateTime, NaiveDateTime, Utc};
 use colored::Colorize;
 use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
-use std::{io::Write, process::Command};
+use std::{io::Write, path::PathBuf, process::Command};
 
 pub fn run() {
     let circuit_version = "0.0.1".to_string();
@@ -41,7 +41,16 @@ fn clean_build() {
 fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind, circuit_version: &str) -> String {
     match file_kind {
         FileKind::R1CS => {
-            format!("{}/{}.r1cs", &circuit.circuit_id, &circuit.label,)
+            let instance_path = &circuit.driver_properties.get("instance_path").unwrap();
+            let circuit_src_path = PATHS.circuits.join(&instance_path);
+            let file_stem = circuit_src_path
+                .file_stem()
+                .unwrap()
+                .to_os_string()
+                .into_string()
+                .unwrap();
+
+            format!("{}/{}.r1cs", &circuit.circuit_id, file_stem)
         }
         FileKind::Spartan => {
             format!(

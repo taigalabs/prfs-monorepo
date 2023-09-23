@@ -1,4 +1,5 @@
-import { Msg, MsgType, MsgInterface, ReqPayload, RespPayload } from "./msg";
+import { Msg, MsgInterface } from "./msg";
+import { MsgType, RespPayload } from "./payload";
 
 export async function sendMsgToChild<T extends MsgType>(
   msg: Msg<T>,

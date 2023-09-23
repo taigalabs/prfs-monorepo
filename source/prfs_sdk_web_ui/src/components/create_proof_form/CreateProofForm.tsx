@@ -14,19 +14,22 @@ import SigDataInput from "@/components/sig_data_input/SigDataInput";
 import { createProof } from "@/functions/proof";
 import CreateProofProgress from "@/components/create_proof_progress/CreateProofProgress";
 import { envs } from "@/envs";
+import Passcode from "../passcode/Passcode";
+import Input from "./Input";
+import { validateForm } from "./validateForm";
 
 const ASSET_SERVER_ENDPOINT = envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
-enum CreateProofPage {
-  INPUT,
-  PROGRESS,
+enum CreateProofStatus {
+  Loaded,
+  InProgress,
 }
 
 const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight }) => {
   const i18n = React.useContext(i18nContext);
 
   const [systemMsg, setSystemMsg] = React.useState("Loading driver...");
-  const [createProofPage, setCreateProofPage] = React.useState(CreateProofPage.INPUT);
+  const [createProofStatus, setCreateProofStatus] = React.useState(CreateProofStatus.Loaded);
   const [terminalLog, setTerminalLog] = React.useState<React.ReactNode[]>([]);
   const [driver, setDriver] = React.useState<CircuitDriver>();
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
@@ -45,34 +48,72 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
     [setTerminalLog]
   );
 
+  const handleChangeValue = React.useCallback(
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      const { name } = ev.target;
+      setFormValues(oldVals => {
+        return {
+          ...oldVals,
+          [name]: ev.target.value,
+        };
+      });
+    },
+    [setFormValues]
+  );
+
   React.useEffect(() => {
+    proofGenEventListener(
+      "info",
+      `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
+    );
+
     async function eventListener(ev: MessageEvent) {
       if (ev.ports.length > 0) {
         const type: MsgType = ev.data.type;
 
-        if (type === "CREATE_PROOF") {
-          if (!driver) {
-            return;
+        switch (type) {
+          case "CREATE_PROOF": {
+            if (!driver) {
+              return;
+            }
+
+            try {
+              const newFormValues = await validateForm(
+                formValues,
+                proofType.circuit_inputs as CircuitInput[]
+              );
+
+              setCreateProofStatus(CreateProofStatus.InProgress);
+              proofGenEventListener("debug", `Process starts in 3 seconds`);
+
+              await delay(3000);
+
+              proofGenEventListener(
+                "info",
+                `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
+              );
+
+              const proveReceipt = await createProof(driver, formValues, proofGenEventListener);
+
+              proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
+
+              ev.ports[0].postMessage(new Msg("CREATE_PROOF_RESPONSE", proveReceipt));
+            } catch (err) {
+              console.error(err);
+            }
+
+            break;
           }
 
-          validateFormValues(formValues);
-          setCreateProofPage(CreateProofPage.PROGRESS);
-          proofGenEventListener("debug", `Process starts in 3 seconds`);
+          case "GET_FORM_VALUES": {
+            const newFormValues = await validateForm(
+              formValues,
+              proofType.circuit_inputs as CircuitInput[]
+            );
 
-          await delay(3000);
-
-          proofGenEventListener(
-            "info",
-            `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
-          );
-
-          try {
-            const proveReceipt = await createProof(driver, formValues, proofGenEventListener);
-
-            proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
-
-            ev.ports[0].postMessage(new Msg("CREATE_PROOF_RESPONSE", proveReceipt));
-          } catch (err) {}
+            ev.ports[0].postMessage(new Msg("GET_FORM_VALUES_RESPONSE", newFormValues));
+            break;
+          }
         }
       }
     }
@@ -82,7 +123,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
     return () => {
       window.removeEventListener("message", eventListener);
     };
-  }, [proofType, formValues]);
+  }, [proofType, formValues, driver]);
 
   React.useEffect(() => {
     async function fn() {
@@ -94,7 +135,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
 
       try {
         const driver = await initDriver(circuit_driver_id, driverProperties);
-        setSystemMsg(`${i18n.driver}: ${circuit_driver_id}`);
+        setSystemMsg(`${circuit_driver_id}`);
         setDriver(driver);
       } catch (err) {
         setSystemMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
@@ -104,51 +145,86 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
     window.setTimeout(() => {
       fn().then();
     }, 1000);
-  }, [proofType, setSystemMsg, setDriver, setCreateProofPage]);
+  }, [proofType, setSystemMsg, setDriver, setCreateProofStatus]);
 
   const circuitInputsElem = React.useMemo(() => {
-    const obj: Record<any, CircuitInput> = proofType.circuit_inputs;
+    const circuit_inputs = proofType.circuit_inputs as CircuitInput[];
 
-    const entriesElem = Object.entries(obj).map(([key, val]) => {
-      let inputElem: React.ReactElement;
-
-      switch (val.type) {
+    const entriesElem = [];
+    for (const [idx, input] of circuit_inputs.entries()) {
+      switch (input.type) {
         case "MERKLE_PROOF_1": {
-          inputElem = (
-            <MerkleProofInput
-              circuitInput={val}
-              value={formValues[val.name] as any}
-              setFormValues={setFormValues}
-            />
+          entriesElem.push(
+            <Input label={input.label} key={idx}>
+              <MerkleProofInput
+                circuitInput={input}
+                value={formValues[input.name] as any}
+                setFormValues={setFormValues}
+              />
+            </Input>
           );
           break;
         }
         case "SIG_DATA_1": {
-          inputElem = (
-            <SigDataInput
-              circuitInput={val}
-              value={formValues[val.name] as any}
-              setFormValues={setFormValues}
-            />
+          entriesElem.push(
+            <Input label={input.label} key={idx}>
+              <SigDataInput
+                circuitInput={input}
+                value={formValues[input.name] as any}
+                setFormValues={setFormValues}
+              />
+            </Input>
+          );
+          break;
+        }
+        case "PASSCODE": {
+          entriesElem.push(
+            <Input label={input.label} key={idx}>
+              <Passcode
+                name={input.name}
+                placeholder={input.desc}
+                value={formValues[input.name]}
+                handleChangeValue={handleChangeValue}
+              />
+            </Input>
+          );
+          break;
+        }
+        case "PASSCODE_CONFIRM": {
+          entriesElem.push(
+            <Input label={input.label} key={idx}>
+              <Passcode
+                name={input.name}
+                placeholder={input.desc}
+                value={formValues[input.name]}
+                handleChangeValue={handleChangeValue}
+              />
+            </Input>
+          );
+
+          entriesElem.push(
+            <Input label={`${input.label} confirm`} key={`${idx}-2`}>
+              <Passcode
+                name={`${input.name}-confirm`}
+                placeholder={input.desc}
+                value={formValues[`${input.name}-confirm`]}
+                handleChangeValue={handleChangeValue}
+              />
+            </Input>
           );
           break;
         }
         default: {
           console.error(`Cannot handle circuit input of this type`);
 
-          inputElem = <input placeholder="Cannot handle circuit input of this type" />;
+          entriesElem.push(
+            <Input label={input.label} key={idx}>
+              <input placeholder="Cannot handle circuit input of this type" />
+            </Input>
+          );
         }
       }
-
-      return (
-        <div className={styles.circuitInputEntry} key={key}>
-          <div className={styles.entryMeta}>
-            <div className={styles.entryLabel}>{val.label}</div>
-          </div>
-          <div className={styles.inputContainer}>{inputElem}</div>
-        </div>
-      );
-    });
+    }
 
     return entriesElem;
   }, [proofType, formValues, setFormValues]);
@@ -159,17 +235,12 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
 
   return (
     <div className={styles.wrapper} style={{ height: docHeight }}>
-      <div
-        className={styles.inputPage}
-        style={{ opacity: createProofPage === CreateProofPage.INPUT ? 1 : 0 }}
-      >
-        <div className={styles.form} style={{ height: docHeight }}>
-          {circuitInputsElem}
-        </div>
+      <div className={styles.inputPage}>
+        <div className={styles.form}>{circuitInputsElem}</div>
       </div>
 
-      {createProofPage === CreateProofPage.PROGRESS && (
-        <div className={styles.terminalPage}>
+      {createProofStatus === CreateProofStatus.InProgress && (
+        <div className={styles.terminalContainer}>
           <Fade>
             <CreateProofProgress terminalLogElem={terminalLog} />
           </Fade>
@@ -177,12 +248,14 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
       )}
 
       <div className={styles.footer}>
-        <div className={styles.systemMsg}>
-          <span>{systemMsg}</span>
+        <div>
+          <div className={styles.systemMsg}>
+            <span>
+              {systemMsg} ({i18n.prfs} {envs.NEXT_PUBLIC_VERSION})
+            </span>
+          </div>
         </div>
-        <div className={styles.sdkMeta}>
-          {i18n.prfs_web_sdk} {envs.NEXT_PUBLIC_VERSION}
-        </div>
+        <div></div>
       </div>
     </div>
   );
@@ -193,9 +266,4 @@ export default CreateProofForm;
 export interface CreateProofFormProps {
   proofType: PrfsProofType;
   docHeight: number;
-  // handleCreateProof: (proof: Uint8Array, publicInput: any) => void;
-}
-
-function validateFormValues(_formValues: any) {
-  // noop
 }

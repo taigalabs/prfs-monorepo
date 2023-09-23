@@ -66,7 +66,9 @@ const PollResultPage: React.FC<PollResultPageProps> = ({ pollId }) => {
               </div>
               <div className={styles.content}>
                 <div className={styles.proofDetailContainer}>
-                  <PollResultView poll_responses={data!.prfs_poll_responses} />
+                  {data?.prfs_poll_responses && (
+                    <PollResultView poll_responses={data.prfs_poll_responses} />
+                  )}
                 </div>
               </div>
             </div>

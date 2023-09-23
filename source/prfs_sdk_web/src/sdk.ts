@@ -1,4 +1,5 @@
-import ProofGenElement, { ProofGenElementOptions } from "./proof_gen_element/proof_gen_element";
+import { ProofGenOptions, ZAuthSignInOptions } from "./element_options";
+import ProofGenElement from "./proof_gen_element/proof_gen_element";
 
 export class PrfsSDK {
   token: string;
@@ -13,14 +14,31 @@ export class PrfsSDK {
   ) {
     switch (elementType) {
       case "proof-gen": {
-        return new ProofGenElement(options);
+        return new ProofGenElement(options as ProofGenOptions);
+      }
+      case "zauth-sign-in": {
+        return new ProofGenElement({
+          proofTypeId: "ZAUTH_SIGN_IN_1",
+          provider: options.provider,
+          // handleCreateProof: options.handleCreateProof,
+          theme: "dark",
+        });
+      }
+      case "zauth-sign-up": {
+        return new ProofGenElement({
+          proofTypeId: "ZAUTH_SIGN_UP_1",
+          provider: options.provider,
+          // handleCreateProof: options.handleCreateProof,
+          theme: "dark",
+        });
       }
     }
   }
 }
 
-export type ElementType = "proof-gen";
+export type ElementType = "proof-gen" | "zauth-sign-in" | "zauth-sign-up";
 
 export interface ElementOptions {
-  "proof-gen": ProofGenElementOptions;
+  "proof-gen": ProofGenOptions;
+  "zauth-sign-in": ZAuthSignInOptions;
 }

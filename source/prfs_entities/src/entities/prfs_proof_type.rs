@@ -22,7 +22,7 @@ pub struct PrfsProofType {
     pub circuit_type: String,
     pub circuit_driver_id: String,
 
-    #[ts(type = "Record<number, any>")]
+    #[ts(type = "Record<string, any>[]")]
     pub circuit_inputs: sqlx::types::Json<Vec<CircuitInput>>,
 
     #[ts(type = "Record<string, any>")]
@@ -40,6 +40,14 @@ pub struct CircuitInput {
     pub r#type: String,
     pub desc: String,
     pub value: String,
+
+    #[serde(default = "default_units")]
+    pub units: i16,
+
     pub ref_type: Option<String>,
     pub ref_value: Option<String>,
+}
+
+fn default_units() -> i16 {
+    1
 }

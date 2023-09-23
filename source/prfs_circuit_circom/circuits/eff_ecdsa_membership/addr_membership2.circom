@@ -20,7 +20,7 @@ include "./secp256k1_func.circom";
  *  ECDSA signature in EfficientECDSA(), and converted to an address by Keccak
  *  hashing the public key in PubkeyToAddress().
  */
-template AddrMembership2(nLevels, n, k) {
+template AddrMembership2(nLevels) {
     // eff ecdsa
     signal input Tx; 
     signal input Ty; 

@@ -9,7 +9,8 @@ lazy_static! {
 #[derive(Debug)]
 pub struct Paths {
     pub curr_dir: PathBuf,
-    pub internals_ci_docker_postgres: PathBuf,
+
+    pub internals_docker_postgres: PathBuf,
     pub e2e_test_web: PathBuf,
     pub prfs_circuit_circom: PathBuf,
     pub prfs_api_server: PathBuf,
@@ -17,6 +18,8 @@ pub struct Paths {
     pub prfs_asset_server_assets: PathBuf,
     pub prfs_asset_server_assets_local: PathBuf,
     pub prfs_entities_bindings: PathBuf,
+
+    // driver
     pub prfs_driver_spartan_js: PathBuf,
     pub prfs_driver_spartan_wasm: PathBuf,
     pub prfs_driver_spartan_wasm_build: PathBuf,
@@ -28,6 +31,7 @@ pub struct Paths {
     //
     pub webapp_console: PathBuf,
     pub webapp_proof: PathBuf,
+    pub webapp_vacade: PathBuf,
     pub webapp_poll: PathBuf,
 }
 
@@ -45,7 +49,7 @@ impl Paths {
             }
         }
 
-        let internals_ci_docker_postgres = curr_dir.join("internals/ci/docker_postgres");
+        let internals_docker_postgres = curr_dir.join("internals/docker_postgres");
 
         let prfs_circuit_circom = curr_dir.join("source/prfs_circuit_circom");
 
@@ -68,11 +72,12 @@ impl Paths {
         let webapp_console = curr_dir.join("source/webapp_console");
         let webapp_proof = curr_dir.join("source/webapp_proof");
         let webapp_poll = curr_dir.join("source/webapp_poll");
+        let webapp_vacade = curr_dir.join("source/webapp_vacade");
 
         let p = Paths {
             curr_dir,
 
-            internals_ci_docker_postgres,
+            internals_docker_postgres,
 
             prfs_driver_spartan_js,
             prfs_driver_spartan_wasm,
@@ -94,6 +99,7 @@ impl Paths {
             webapp_console,
             webapp_proof,
             webapp_poll,
+            webapp_vacade,
 
             e2e_test_web,
         };

@@ -1,0 +1,29 @@
+.wrapper {
+}
+
+.label {
+  font-weight: 500;
+  font-size: 1.5em;
+  margin-bottom: 8px;
+}
+
+.desc {
+}
+
+.url {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+
+  svg {
+    font-size: 18px;
+  }
+}
+
+.link {
+  margin-top: 25px;
+
+  a {
+    color: var(--aqua-blue-50);
+  }
+}

@@ -1,9 +1,10 @@
 import { ethers } from "ethers";
+import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 
 import { handleChildMessage } from "./handle_child_msg";
-import { sendMsgToChild } from "./send_msg";
-import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
-import { Msg } from "./msg";
+import { sendMsgToChild } from "../msg";
+import { ProofGenOptions, ZAuthSignInOptions } from "../element_options";
+import { Msg } from "../msg";
 
 export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
 export const PLACEHOLDER_ID = "prfs-sdk-placeholder";
@@ -18,13 +19,13 @@ const singleton: {
 };
 
 class ProofGenElement {
-  options: ProofGenElementOptions;
+  options: ProofGenOptions;
   state: ProofGenElementState;
 
-  constructor(options: ProofGenElementOptions) {
+  constructor(options: ProofGenOptions) {
     this.options = options;
     this.state = {
-      calcWidth: 494,
+      calcWidth: 484,
       calcHeight: 320,
       clickOutsideIFrameListener: undefined,
       clickOutsideDialogListener: undefined,
@@ -42,6 +43,7 @@ class ProofGenElement {
     return new Promise((resolve, reject) => {
       const container = document.querySelector(containerName) as HTMLDivElement;
       const { calcHeight, calcWidth } = this.state;
+      const wrapperZIndex = options.wrapperZIndex || "200";
 
       if (!container) {
         console.error(`No target element named, ${containerName}`);
@@ -56,7 +58,7 @@ class ProofGenElement {
 
       const iframe = document.createElement("iframe");
       iframe.id = PROOF_GEN_IFRAME_ID;
-      iframe.src = `${SDK_ENDPOINT}/proof_gen?proofTypeId=${options.proofTypeId}`;
+      iframe.src = `${SDK_ENDPOINT}/proof_gen?proofTypeId=${options.proofTypeId}&theme=${options.theme}&docWidth=${calcWidth}`;
       iframe.allow = "cross-origin-isolated";
       iframe.style.border = "none";
       // iframe.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
@@ -76,8 +78,11 @@ class ProofGenElement {
       wrapperDiv.style.position = "absolute";
       // wrapperDiv.style.zIndex = "110";
       wrapperDiv.style.width = `${calcWidth}px`;
+      // wrapperDiv.style.border = `1px solid black`;
       wrapperDiv.style.height = `${calcHeight}px`;
       wrapperDiv.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
+      wrapperDiv.style.overflow = "hidden";
+      wrapperDiv.style.zIndex = wrapperZIndex;
 
       // wrapperDiv.appendChild(msgSpan);
       wrapperDiv.appendChild(iframe);
@@ -121,15 +126,27 @@ class ProofGenElement {
       return null;
     }
   }
+
+  async getFormValues(): Promise<Record<string, any> | null> {
+    if (!this.state.iframe) {
+      console.error("iframe is not created");
+      return null;
+    }
+
+    try {
+      const formValues = await sendMsgToChild(
+        new Msg("GET_FORM_VALUES", undefined),
+        this.state.iframe
+      );
+
+      return formValues;
+    } catch (err) {
+      return null;
+    }
+  }
 }
 
 export default ProofGenElement;
-
-export interface ProofGenElementOptions {
-  proofTypeId: string;
-  provider: ethers.providers.Web3Provider;
-  handleCreateProof: ({ proof, publicInput }: any) => void;
-}
 
 export interface ProofGenElementState {
   clickOutsideIFrameListener: ((event: MouseEvent) => void) | undefined;
@@ -137,7 +154,6 @@ export interface ProofGenElementState {
   calcHeight: number;
   calcWidth: number;
   wrapperDiv: HTMLDivElement | undefined;
-  // msgSpan: HTMLSpanElement | undefined;
   iframe: HTMLIFrameElement | undefined;
   placeholderDiv: HTMLDivElement | undefined;
   portalDiv: HTMLDivElement | undefined;

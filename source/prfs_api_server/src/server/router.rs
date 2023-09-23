@@ -1,6 +1,6 @@
 use crate::apis::{
     prfs_accounts, prfs_circuit_drivers, prfs_circuit_types, prfs_circuits, prfs_polls,
-    prfs_proof_instances, prfs_proof_types, prfs_sets, prfs_tree_nodes,
+    prfs_proof_instances, prfs_proof_types, prfs_sets, prfs_tree_nodes, vacade_posts,
 };
 use crate::ApiServerError;
 use hyper::{header, Body, Request, Response};
@@ -145,6 +145,10 @@ pub fn make_router(
         .post(
             format!("{}/create_prfs_poll", PREFIX),
             prfs_polls::create_prfs_poll,
+        )
+        .post(
+            format!("{}/create_vacade_post", PREFIX),
+            vacade_posts::create_vacade_post,
         )
         .post("*", middleware::not_found_handler)
         .err_handler_with_info(middleware::error_handler)
