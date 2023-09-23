@@ -89,7 +89,11 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
       ) : status === "error" ? (
         <span>Error: {(error as Error).message}</span>
       ) : (
-        <ContentMainInfiniteScroll dRef={parentRef} onScroll={handleScroll}>
+        <ContentMainInfiniteScroll
+          dRef={parentRef}
+          onScroll={handleScroll}
+          style={{ height: "500px" }}
+        >
           <ContentMainCenter
             style={{
               height: `${rowVirtualizer.getTotalSize()}px`,
@@ -113,6 +117,7 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
 
                 return (
                   <div
+                    className={styles.row}
                     key={virtualRow.index}
                     data-index={virtualRow.index}
                     ref={rowVirtualizer.measureElement}
