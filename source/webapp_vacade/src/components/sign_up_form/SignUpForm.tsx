@@ -26,7 +26,7 @@ const SignUpForm: React.FC<{}> = () => {
       return;
     }
 
-    const proveReceipt = await proofGenElement.createProof();
+    const formValues = await proofGenElement.getFormValues();
 
     // if (proveReceipt) {
     //   setProveReceipt(proveReceipt);

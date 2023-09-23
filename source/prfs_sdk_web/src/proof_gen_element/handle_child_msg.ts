@@ -3,7 +3,7 @@ import { listenClickOutsideIFrame, removeClickListener } from "./outside_event";
 import { GetSignaturePayload, HandshakePayload, MsgType, OpenDialogPayload } from "../msg/payload";
 import { ProofGenElementState } from "./proof_gen_element";
 import { ProofGenOptions } from "../element_options";
-import { Msg } from "@/msg/msg";
+import { Msg } from "../msg";
 
 export function handleChildMessage(
   resolve: (value: any) => void,

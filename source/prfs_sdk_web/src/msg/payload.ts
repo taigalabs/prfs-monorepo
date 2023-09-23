@@ -84,7 +84,7 @@ export type ReqPayload<T extends MsgType> = //
     : T extends "GET_FORM_VALUES"
     ? void
     : T extends "GET_FORM_VALUES_RESPONSE"
-    ? void
+    ? Record<string, any>
     : never;
 
 export type RespPayload<T extends MsgType> = //
@@ -125,7 +125,7 @@ export type RespPayload<T extends MsgType> = //
     : T extends "CLOSE_DIALOG_RESPONSE"
     ? void
     : T extends "GET_FORM_VALUES"
-    ? void
+    ? Record<string, any>
     : T extends "GET_FORM_VALUES_RESPONSE"
     ? void
     : never;

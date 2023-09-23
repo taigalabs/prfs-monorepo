@@ -1,10 +1,10 @@
 import { ethers } from "ethers";
+import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 
 import { handleChildMessage } from "./handle_child_msg";
 import { sendMsgToChild } from "../msg";
-import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { ProofGenOptions, ZAuthSignInOptions } from "../element_options";
-import { Msg } from "@/msg/msg";
+import { Msg } from "../msg";
 
 export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
 export const PLACEHOLDER_ID = "prfs-sdk-placeholder";
@@ -126,6 +126,24 @@ class ProofGenElement {
       return null;
     }
   }
+
+  async getFormValues(): Promise<Record<string, any> | null> {
+    if (!this.state.iframe) {
+      console.error("iframe is not created");
+      return null;
+    }
+
+    try {
+      const formValues = await sendMsgToChild(
+        new Msg("GET_FORM_VALUES", undefined),
+        this.state.iframe
+      );
+
+      return formValues;
+    } catch (err) {
+      return null;
+    }
+  }
 }
 
 export default ProofGenElement;
@@ -136,7 +154,6 @@ export interface ProofGenElementState {
   calcHeight: number;
   calcWidth: number;
   wrapperDiv: HTMLDivElement | undefined;
-  // msgSpan: HTMLSpanElement | undefined;
   iframe: HTMLIFrameElement | undefined;
   placeholderDiv: HTMLDivElement | undefined;
   portalDiv: HTMLDivElement | undefined;

@@ -102,7 +102,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
           }
 
           case "GET_FORM_VALUES": {
-            ev.ports[0].postMessage(new Msg("GET_FORM_VALUES_RESPONSE", {}));
+            ev.ports[0].postMessage(new Msg("GET_FORM_VALUES_RESPONSE", formValues));
             break;
           }
         }
