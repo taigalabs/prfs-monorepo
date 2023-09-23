@@ -27,7 +27,7 @@ const ChannelPage: React.FC<ChannelPageProps> = ({ params }) => {
   useLocalWallet(dispatch);
 
   React.useEffect(() => {
-    if (!localPrfsAccount) {
+    if (localPrfsAccount === null) {
       router.push(`${paths.sign_in}`);
     }
   }, [router]);
@@ -50,7 +50,7 @@ const ChannelPage: React.FC<ChannelPageProps> = ({ params }) => {
       </ContentMain>
     </DefaultLayout>
   ) : (
-    <div>Redirecting...</div>
+    <div>Loading...</div>
   );
 };
 
