@@ -136,8 +136,6 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
     for (const [idx, input] of circuit_inputs.entries()) {
       switch (input.type) {
         case "MERKLE_PROOF_1": {
-          input.ref_value;
-
           entriesElem.push(
             <MerkleProofInput
               key={idx}

@@ -23,6 +23,9 @@ import { i18nContext } from "@/contexts/i18n";
 import { useAppDispatch } from "@/state/hooks";
 import { setInnerOpacity, setInnerPos } from "@/state/uiReducer";
 import { FormInput, FormInputTitleRow } from "../form_input/FormInput";
+import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
+import { useMutation } from "@tanstack/react-query";
+import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 
 const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   circuitInput,
@@ -32,7 +35,14 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
   const [isOpen, setIsOpen] = React.useState(false);
+  const [walletAddr, setWalletAddr] = React.useState("");
   const dispatch = useAppDispatch();
+
+  const mutation = useMutation({
+    mutationFn: (req: GetPrfsTreeLeafIndicesRequest) => {
+      return prfsApi2("get_prfs_tree_leaf_indices", req);
+    },
+  });
 
   const toggleDialog = React.useCallback(async () => {
     try {
@@ -110,18 +120,6 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
     fn().then();
   }, [circuitInput, setPrfsSet]);
 
-  const displayValue = React.useMemo(() => {
-    if (value) {
-      const { root, pathIndices, siblings } = value;
-      const rt = `Root: ${root.toString().substring(0, 6)}..`;
-      const paths = `Paths[${pathIndices.length}]: ${pathIndices.slice(0, 6).join(",")}..`;
-      const sibs = `Siblings[${siblings.length}]`;
-      return `${rt} / ${paths} / ${sibs}`;
-    }
-
-    return "";
-  }, [value]);
-
   const handleClickSubmit = React.useCallback(
     (merkleProof: SpartanMerkleProof) => {
       setFormValues((prevVals: any) => {
@@ -136,21 +134,96 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
     [setFormValues, toggleDialog]
   );
 
+  const handleClickGetAddress = React.useCallback(async () => {
+    if (!prfsSet) {
+      return;
+    }
+
+    const addr = await sendMsgToParent(new Msg("GET_ADDRESS", ""));
+
+    const { set_id } = prfsSet;
+
+    try {
+      // const { payload } = await prfsApi2("get_prfs_tree_leaf_indices", {
+      //   set_id,
+      //   leaf_vals: [addr],
+      // });
+
+      const { payload } = await mutation.mutateAsync({
+        set_id,
+        leaf_vals: [addr],
+      });
+
+      let pos_w = null;
+      for (const node of payload.prfs_tree_nodes) {
+        if (node.val === addr.toLowerCase()) {
+          pos_w = node.pos_w;
+        }
+      }
+
+      if (pos_w === null) {
+        throw new Error("Address is not part of a set");
+      }
+
+      const leafIdx = Number(pos_w);
+      const siblingPath = makeSiblingPath(32, leafIdx);
+      const pathIndices = makePathIndices(32, leafIdx);
+
+      const siblingPos = siblingPath.map((pos_w, idx) => {
+        return { pos_h: idx, pos_w };
+      });
+
+      console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
+
+      const siblingNodesData = await prfsApi2("get_prfs_tree_nodes_by_pos", {
+        set_id,
+        pos: siblingPos,
+      });
+
+      let siblings: BigInt[] = [];
+      for (const node of siblingNodesData.payload.prfs_tree_nodes) {
+        siblings[node.pos_h] = BigInt(node.val);
+      }
+
+      for (let idx = 0; idx < 32; idx += 1) {
+        if (siblings[idx] === undefined) {
+          siblings[idx] = BigInt(0);
+        }
+      }
+
+      const merkleProof: SpartanMerkleProof = {
+        root: BigInt(prfsSet.merkle_root),
+        siblings: siblings as bigint[],
+        pathIndices,
+      };
+
+      setFormValues((prevVals: any) => {
+        return {
+          ...prevVals,
+          [circuitInput.name]: merkleProof,
+        };
+      });
+
+      setWalletAddr(addr);
+    } catch (err) {
+      console.error(err);
+    }
+  }, [setWalletAddr, setFormValues, prfsSet]);
+
   return (
     prfsSet && (
       <FormInput>
         <FormInputTitleRow>
           <div>
-            <p>{circuitInput.label}</p>
-            <p className={styles.setLabel}>({prfsSet.label})</p>
+            <p className={styles.title}>
+              {circuitInput.label}
+              <span className={styles.setLabel}>({prfsSet.label})</span>
+            </p>
           </div>
-        </FormInputTitleRow>
-        <div className={styles.wrapper}>
-          <input placeholder={`${circuitInput.desc}`} value={displayValue} readOnly />
-          <div className={styles.btnGroup}>
+          <div>
             <div>
-              <div ref={refs.setReference} {...getReferenceProps()}>
-                <button>{i18n.create}</button>
+              <div className={styles.btnGroup} ref={refs.setReference} {...getReferenceProps()}>
+                <button>{i18n.raw}</button>
               </div>
               <FloatingPortal>
                 {isOpen && (
@@ -177,6 +250,12 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
                 )}
               </FloatingPortal>
             </div>
+          </div>
+        </FormInputTitleRow>
+        <div className={styles.wrapper}>
+          <input placeholder={`${circuitInput.desc}`} value={walletAddr} readOnly />
+          <div className={styles.btnGroup}>
+            <button onClick={handleClickGetAddress}>{i18n.put_address}</button>
           </div>
         </div>
       </FormInput>

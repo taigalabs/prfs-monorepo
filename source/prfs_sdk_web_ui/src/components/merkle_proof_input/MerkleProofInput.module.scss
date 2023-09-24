@@ -36,8 +36,13 @@
   }
 }
 
+.title {
+  display: flex;
+  align-items: center;
+}
+
 .setLabel {
-  font-size: 10px;
+  margin-left: 4px;
 }
 
 .btnGroup {
