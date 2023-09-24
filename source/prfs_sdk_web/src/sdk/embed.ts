@@ -1,7 +1,7 @@
-import { ProofGenOptions, ZAuthSignInOptions } from "./element_options";
-import ProofGenElement from "./proof_gen_element/proof_gen_element";
+import { ProofGenOptions, ZAuthSignInOptions } from "../element_options";
+import ProofGenElement from "../proof_gen_element/proof_gen_element";
 
-export class PrfsSDK {
+export class PrfsEmbedSDK {
   token: string;
 
   constructor(token: string) {

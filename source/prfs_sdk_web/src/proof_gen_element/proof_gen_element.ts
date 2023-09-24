@@ -58,7 +58,7 @@ class ProofGenElement {
 
       const iframe = document.createElement("iframe");
       iframe.id = PROOF_GEN_IFRAME_ID;
-      iframe.src = `${SDK_ENDPOINT}/proof_gen?proofTypeId=${options.proofTypeId}&theme=${options.theme}&docWidth=${calcWidth}`;
+      iframe.src = `${SDK_ENDPOINT}/embed/proof_gen?proofTypeId=${options.proofTypeId}&theme=${options.theme}&docWidth=${calcWidth}`;
       iframe.allow = "cross-origin-isolated";
       iframe.style.border = "none";
       // iframe.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";

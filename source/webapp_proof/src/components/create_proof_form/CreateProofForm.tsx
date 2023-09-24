@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
-import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
+import { PrfsEmbedSDK } from "@taigalabs/prfs-sdk-web";
 import cn from "classnames";
 import { v4 as uuidv4 } from "uuid";
 import { ethers } from "ethers";
@@ -16,7 +16,7 @@ import styles from "./CreateProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 
-const prfs = new PrfsSDK("test");
+const prfs = new PrfsEmbedSDK("test");
 
 const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
