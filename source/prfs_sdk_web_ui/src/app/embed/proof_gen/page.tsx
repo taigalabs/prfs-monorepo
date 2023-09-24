@@ -14,7 +14,7 @@ import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import { checkSanity } from "@/functions/sanity";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 
-const BASE_HEIGHT = 49;
+const BASE_HEIGHT = 59;
 const HEIGHT_PER_INPUT = 58;
 
 const ProofGen: React.FC<ProofGenProps> = () => {
@@ -42,7 +42,6 @@ const ProofGen: React.FC<ProofGenProps> = () => {
 
           if (payload.prfs_proof_type) {
             const proof_type = payload.prfs_proof_type;
-            // const circuitInputCount = Object.keys(proof_type.circuit_inputs).length;
             const docHeight = calcFormHeight(proof_type.circuit_inputs as CircuitInput[]);
 
             await sendMsgToParent(

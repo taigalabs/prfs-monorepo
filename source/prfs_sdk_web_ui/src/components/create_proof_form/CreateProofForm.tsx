@@ -30,20 +30,13 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
 
   const [systemMsg, setSystemMsg] = React.useState("Loading driver...");
   const [createProofStatus, setCreateProofStatus] = React.useState(CreateProofStatus.Loaded);
-  const [terminalLog, setTerminalLog] = React.useState<React.ReactNode[]>([]);
+  const [terminalLog, setTerminalLog] = React.useState<string>("");
   const [driver, setDriver] = React.useState<CircuitDriver>();
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
 
   const proofGenEventListener = React.useCallback(
     (type: LogEventType, msg: string) => {
-      setTerminalLog(oldVals => {
-        const elem = (
-          <p className={type} key={oldVals.length}>
-            {msg}
-          </p>
-        );
-        return [...oldVals, elem];
-      });
+      setTerminalLog(msg);
     },
     [setTerminalLog]
   );
@@ -62,11 +55,6 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
   );
 
   React.useEffect(() => {
-    proofGenEventListener(
-      "info",
-      `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
-    );
-
     async function eventListener(ev: MessageEvent) {
       if (ev.ports.length > 0) {
         const type: MsgType = ev.data.type;
@@ -233,13 +221,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
         <div className={styles.form}>{circuitInputsElem}</div>
       </div>
 
-      {createProofStatus === CreateProofStatus.InProgress && (
-        <div className={styles.terminalContainer}>
-          <Fade>
-            <CreateProofProgress terminalLogElem={terminalLog} />
-          </Fade>
-        </div>
-      )}
+      <div className={styles.terminalLogContainer}>{terminalLog}</div>
 
       <div className={styles.footer}>
         <div>
