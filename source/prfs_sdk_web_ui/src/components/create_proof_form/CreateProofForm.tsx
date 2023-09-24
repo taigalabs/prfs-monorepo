@@ -16,7 +16,7 @@ import CreateProofProgress from "@/components/create_proof_progress/CreateProofP
 import { envs } from "@/envs";
 import Passcode from "../passcode/Passcode";
 import Input from "./Input";
-import { validateForm } from "./validateForm";
+import { validateInputs } from "../../validate";
 
 const ASSET_SERVER_ENDPOINT = envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
@@ -78,10 +78,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
             }
 
             try {
-              const newFormValues = await validateForm(
-                formValues,
-                proofType.circuit_inputs as CircuitInput[]
-              );
+              const newFormValues = await validateInputs(formValues, proofType);
 
               setCreateProofStatus(CreateProofStatus.InProgress);
               proofGenEventListener("debug", `Process starts in 3 seconds`);
@@ -93,7 +90,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
                 `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
               );
 
-              const proveReceipt = await createProof(driver, formValues, proofGenEventListener);
+              const proveReceipt = await createProof(driver, newFormValues, proofGenEventListener);
 
               proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
 
@@ -106,10 +103,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
           }
 
           case "GET_FORM_VALUES": {
-            const newFormValues = await validateForm(
-              formValues,
-              proofType.circuit_inputs as CircuitInput[]
-            );
+            const newFormValues = await validateInputs(formValues, proofType);
 
             ev.ports[0].postMessage(new Msg("GET_FORM_VALUES_RESPONSE", newFormValues));
             break;
