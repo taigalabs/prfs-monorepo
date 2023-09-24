@@ -22,6 +22,7 @@ import MerkleProofDialog from "./MerkleProofDialog";
 import { i18nContext } from "@/contexts/i18n";
 import { useAppDispatch } from "@/state/hooks";
 import { setInnerOpacity, setInnerPos } from "@/state/uiReducer";
+import { FormInput, FormInputTitleRow } from "../form_input/FormInput";
 
 const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   circuitInput,
@@ -137,40 +138,48 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
 
   return (
     prfsSet && (
-      <div className={styles.wrapper}>
-        <input placeholder={`${i18n.set} - ${prfsSet.label}`} value={displayValue} readOnly />
-        <div className={styles.btnGroup}>
+      <FormInput>
+        <FormInputTitleRow>
           <div>
-            <div ref={refs.setReference} {...getReferenceProps()}>
-              <button>{i18n.create}</button>
+            <p>{circuitInput.label}</p>
+            <p className={styles.setLabel}>({prfsSet.label})</p>
+          </div>
+        </FormInputTitleRow>
+        <div className={styles.wrapper}>
+          <input placeholder={`${circuitInput.desc}`} value={displayValue} readOnly />
+          <div className={styles.btnGroup}>
+            <div>
+              <div ref={refs.setReference} {...getReferenceProps()}>
+                <button>{i18n.create}</button>
+              </div>
+              <FloatingPortal>
+                {isOpen && (
+                  <Fade>
+                    <FloatingOverlay className={styles.dialogOverlay} lockScroll>
+                      <FloatingFocusManager context={context}>
+                        <div
+                          className={styles.dialog}
+                          ref={refs.setFloating}
+                          aria-labelledby={headingId}
+                          aria-describedby={descriptionId}
+                          {...getFloatingProps()}
+                        >
+                          <MerkleProofDialog
+                            prfsSet={prfsSet}
+                            circuitInput={circuitInput}
+                            handleClickSubmit={handleClickSubmit}
+                            toggleDialog={toggleDialog}
+                          />
+                        </div>
+                      </FloatingFocusManager>
+                    </FloatingOverlay>
+                  </Fade>
+                )}
+              </FloatingPortal>
             </div>
-            <FloatingPortal>
-              {isOpen && (
-                <Fade>
-                  <FloatingOverlay className={styles.dialogOverlay} lockScroll>
-                    <FloatingFocusManager context={context}>
-                      <div
-                        className={styles.dialog}
-                        ref={refs.setFloating}
-                        aria-labelledby={headingId}
-                        aria-describedby={descriptionId}
-                        {...getFloatingProps()}
-                      >
-                        <MerkleProofDialog
-                          prfsSet={prfsSet}
-                          circuitInput={circuitInput}
-                          handleClickSubmit={handleClickSubmit}
-                          toggleDialog={toggleDialog}
-                        />
-                      </div>
-                    </FloatingFocusManager>
-                  </FloatingOverlay>
-                </Fade>
-              )}
-            </FloatingPortal>
           </div>
         </div>
-      </div>
+      </FormInput>
     )
   );
 };

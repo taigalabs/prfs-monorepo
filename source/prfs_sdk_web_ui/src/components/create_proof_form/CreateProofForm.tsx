@@ -15,7 +15,7 @@ import { createProof } from "@/functions/proof";
 import CreateProofProgress from "@/components/create_proof_progress/CreateProofProgress";
 import { envs } from "@/envs";
 import Passcode from "../passcode/Passcode";
-import Input, { InputTitleRow } from "./Input";
+import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
 import { validateInputs } from "../../validate";
 
 const ASSET_SERVER_ENDPOINT = envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
@@ -136,78 +136,58 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
     for (const [idx, input] of circuit_inputs.entries()) {
       switch (input.type) {
         case "MERKLE_PROOF_1": {
+          input.ref_value;
+
           entriesElem.push(
-            <Input key={idx}>
-              <InputTitleRow>
-                <p>{input.label}</p>
-              </InputTitleRow>
-              <MerkleProofInput
-                circuitInput={input}
-                value={formValues[input.name] as any}
-                setFormValues={setFormValues}
-              />
-            </Input>
+            <MerkleProofInput
+              key={idx}
+              circuitInput={input}
+              value={formValues[input.name] as any}
+              setFormValues={setFormValues}
+            />
           );
           break;
         }
         case "SIG_DATA_1": {
           entriesElem.push(
-            <Input key={idx}>
-              <InputTitleRow>
-                <p>{input.label}</p>
-              </InputTitleRow>
-              <SigDataInput
-                circuitInput={input}
-                value={formValues[input.name] as any}
-                setFormValues={setFormValues}
-              />
-            </Input>
+            <SigDataInput
+              key={idx}
+              circuitInput={input}
+              value={formValues[input.name] as any}
+              setFormValues={setFormValues}
+            />
           );
           break;
         }
         case "PASSCODE": {
           entriesElem.push(
-            <Input key={idx}>
-              <InputTitleRow>
-                <p>{input.label}</p>
-              </InputTitleRow>
-              <Passcode
-                name={input.name}
-                placeholder={input.desc}
-                value={formValues[input.name]}
-                handleChangeValue={handleChangeValue}
-              />
-            </Input>
+            <Passcode
+              key={idx}
+              circuitInput={input}
+              value={formValues[input.name]}
+              handleChangeValue={handleChangeValue}
+            />
           );
           break;
         }
         case "PASSCODE_CONFIRM": {
           entriesElem.push(
-            <Input key={idx}>
-              <InputTitleRow>
-                <p>{input.label}</p>
-              </InputTitleRow>
-              <Passcode
-                name={input.name}
-                placeholder={input.desc}
-                value={formValues[input.name]}
-                handleChangeValue={handleChangeValue}
-              />
-            </Input>
+            <Passcode
+              key={idx}
+              circuitInput={input}
+              value={formValues[input.name]}
+              handleChangeValue={handleChangeValue}
+            />
           );
 
           entriesElem.push(
-            <Input key={`${idx}-2`}>
-              <InputTitleRow>
-                <p>{`${input.label} confirm`}</p>
-              </InputTitleRow>
-              <Passcode
-                name={`${input.name}-confirm`}
-                placeholder={input.desc}
-                value={formValues[`${input.name}-confirm`]}
-                handleChangeValue={handleChangeValue}
-              />
-            </Input>
+            <Passcode
+              key={`${idx}-confirm`}
+              confirm
+              circuitInput={input}
+              value={formValues[input.name]}
+              handleChangeValue={handleChangeValue}
+            />
           );
           break;
         }
@@ -215,12 +195,12 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
           console.error(`Cannot handle circuit input of this type`);
 
           entriesElem.push(
-            <Input key={idx}>
-              <InputTitleRow>
+            <FormInput key={idx}>
+              <FormInputTitleRow>
                 <p>{input.label}</p>
-              </InputTitleRow>
+              </FormInputTitleRow>
               <input placeholder="Cannot handle circuit input of this type" />
-            </Input>
+            </FormInput>
           );
         }
       }

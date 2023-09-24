@@ -6,6 +6,7 @@ import { FaSignature } from "@react-icons/all-files/fa/FaSignature";
 
 import styles from "./SigDataInput.module.scss";
 import { i18nContext } from "@/contexts/i18n";
+import { FormInput, FormInputTitleRow } from "../form_input/FormInput";
 
 const Signed: React.FC<SignedProps> = ({ sig }) => {
   const i18n = React.useContext(i18nContext);
@@ -63,15 +64,20 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
   }, [value, setFormValues]);
 
   return (
-    <div className={styles.sigDataInputWrapper}>
-      <input placeholder={circuitInput.desc} value={value?.msgRaw || ""} readOnly />
-      <div className={styles.btnGroup}>
-        <Signed sig={value?.sig} />
-        <button className={styles.connectBtn} onClick={handleClickSign}>
-          {i18n.sign}
-        </button>
+    <FormInput>
+      <FormInputTitleRow>
+        <p>{circuitInput.label}</p>
+      </FormInputTitleRow>
+      <div className={styles.sigDataInputWrapper}>
+        <input placeholder={circuitInput.desc} value={value?.msgRaw || ""} readOnly />
+        <div className={styles.btnGroup}>
+          <Signed sig={value?.sig} />
+          <button className={styles.connectBtn} onClick={handleClickSign}>
+            {i18n.sign}
+          </button>
+        </div>
       </div>
-    </div>
+    </FormInput>
   );
 };
 
