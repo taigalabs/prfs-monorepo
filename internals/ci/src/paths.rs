@@ -26,7 +26,7 @@ pub struct Paths {
 
     //
     pub prfs_sdk_web: PathBuf,
-    pub prfs_sdk_web_ui: PathBuf,
+    pub prfs_sdk_web_elements: PathBuf,
 
     //
     pub webapp_console: PathBuf,
@@ -67,7 +67,7 @@ impl Paths {
         let prfs_driver_spartan_wasm_build = curr_dir.join("source/prfs_driver_spartan_wasm/build");
 
         let prfs_sdk_web = curr_dir.join("source/prfs_sdk_web");
-        let prfs_sdk_web_ui = curr_dir.join("source/prfs_sdk_web_ui");
+        let prfs_sdk_web_elements = curr_dir.join("source/prfs_sdk_web_elements");
 
         let webapp_console = curr_dir.join("source/webapp_console");
         let webapp_proof = curr_dir.join("source/webapp_proof");
@@ -94,7 +94,7 @@ impl Paths {
             prfs_asset_server_assets_local,
 
             prfs_sdk_web,
-            prfs_sdk_web_ui,
+            prfs_sdk_web_elements,
 
             webapp_console,
             webapp_proof,
