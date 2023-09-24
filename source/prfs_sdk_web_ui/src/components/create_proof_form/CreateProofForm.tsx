@@ -15,7 +15,7 @@ import { createProof } from "@/functions/proof";
 import CreateProofProgress from "@/components/create_proof_progress/CreateProofProgress";
 import { envs } from "@/envs";
 import Passcode from "../passcode/Passcode";
-import Input from "./Input";
+import Input, { InputTitleRow } from "./Input";
 import { validateInputs } from "../../validate";
 
 const ASSET_SERVER_ENDPOINT = envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
@@ -137,7 +137,10 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
       switch (input.type) {
         case "MERKLE_PROOF_1": {
           entriesElem.push(
-            <Input label={input.label} key={idx}>
+            <Input key={idx}>
+              <InputTitleRow>
+                <p>{input.label}</p>
+              </InputTitleRow>
               <MerkleProofInput
                 circuitInput={input}
                 value={formValues[input.name] as any}
@@ -149,7 +152,10 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
         }
         case "SIG_DATA_1": {
           entriesElem.push(
-            <Input label={input.label} key={idx}>
+            <Input key={idx}>
+              <InputTitleRow>
+                <p>{input.label}</p>
+              </InputTitleRow>
               <SigDataInput
                 circuitInput={input}
                 value={formValues[input.name] as any}
@@ -161,7 +167,10 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
         }
         case "PASSCODE": {
           entriesElem.push(
-            <Input label={input.label} key={idx}>
+            <Input key={idx}>
+              <InputTitleRow>
+                <p>{input.label}</p>
+              </InputTitleRow>
               <Passcode
                 name={input.name}
                 placeholder={input.desc}
@@ -174,7 +183,10 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
         }
         case "PASSCODE_CONFIRM": {
           entriesElem.push(
-            <Input label={input.label} key={idx}>
+            <Input key={idx}>
+              <InputTitleRow>
+                <p>{input.label}</p>
+              </InputTitleRow>
               <Passcode
                 name={input.name}
                 placeholder={input.desc}
@@ -185,7 +197,10 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
           );
 
           entriesElem.push(
-            <Input label={`${input.label} confirm`} key={`${idx}-2`}>
+            <Input key={`${idx}-2`}>
+              <InputTitleRow>
+                <p>{`${input.label} confirm`}</p>
+              </InputTitleRow>
               <Passcode
                 name={`${input.name}-confirm`}
                 placeholder={input.desc}
@@ -200,7 +215,10 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
           console.error(`Cannot handle circuit input of this type`);
 
           entriesElem.push(
-            <Input label={input.label} key={idx}>
+            <Input key={idx}>
+              <InputTitleRow>
+                <p>{input.label}</p>
+              </InputTitleRow>
               <input placeholder="Cannot handle circuit input of this type" />
             </Input>
           );
@@ -217,9 +235,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
 
   return (
     <div className={styles.wrapper} style={{ height: docHeight }}>
-      <div className={styles.inputPage}>
-        <div className={styles.form}>{circuitInputsElem}</div>
-      </div>
+      <div className={styles.form}>{circuitInputsElem}</div>
 
       <div className={styles.terminalLogContainer}>{terminalLog}</div>
 

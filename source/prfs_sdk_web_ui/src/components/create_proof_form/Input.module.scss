@@ -1,0 +1,31 @@
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+
+  &:not(:first-child) {
+    margin-top: 8px;
+  }
+}
+
+.inputTitleRow {
+  margin-bottom: 4px;
+}
+
+.inputContainer {
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.circuitInputsTitle {
+  font-weight: 500;
+  font-size: 0.81em;
+  color: var(--gray-30);
+}
+
+.entryMeta {
+  display: flex;
+}
+
+.circuitInputEntry:not(:first-child) {
+  margin-top: 12px;
+}

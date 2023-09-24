@@ -14,28 +14,7 @@
   flex-direction: column;
   position: relative;
   word-wrap: break-word;
-  min-height: 100%;
   overflow: hidden;
-  height: 100%;
-}
-
-.inputContainer {
-  height: 40px;
-  flex-shrink: 0;
-}
-
-.circuitInputsTitle {
-  font-weight: 500;
-  font-size: 0.81em;
-  color: var(--gray-30);
-}
-
-.circuitInputEntry:not(:first-child) {
-  margin-top: 12px;
-}
-
-.entryMeta {
-  display: flex;
 }
 
 .btnRow {

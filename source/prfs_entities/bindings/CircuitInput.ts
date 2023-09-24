@@ -7,6 +7,7 @@ export interface CircuitInput {
   desc: string;
   value: string;
   units: number;
+  element_type: string | null;
   ref_type: string | null;
   ref_value: string | null;
 }
