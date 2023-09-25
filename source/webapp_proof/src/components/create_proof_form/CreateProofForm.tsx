@@ -20,7 +20,7 @@ import { useMutation } from "@tanstack/react-query";
 import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
 import CreateProofModule from "../create_proof_module/CreateProofModule";
 
-const prfs = new PrfsEmbedSDK("test");
+// const prfs = new PrfsEmbedSDK("test");
 
 const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -55,16 +55,16 @@ const CreateProofForm: React.FC = () => {
       return;
     }
 
-    if (!proofGenElement) {
-      console.error("PRFS sdk is undefined");
-      return;
-    }
+    // if (!proofGenElement) {
+    //   console.error("PRFS sdk is undefined");
+    //   return;
+    // }
 
-    const proveReceipt = await proofGenElement.createProof();
+    // const proveReceipt = await proofGenElement.createProof();
 
-    if (proveReceipt) {
-      setProveReceipt(proveReceipt);
-    }
+    // if (proveReceipt) {
+    //   setProveReceipt(proveReceipt);
+    // }
   }, [selectedProofTypeItem, proofGenElement, setProveReceipt]);
 
   const handleClickUpload = React.useCallback(async () => {

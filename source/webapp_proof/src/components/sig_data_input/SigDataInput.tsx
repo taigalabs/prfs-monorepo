@@ -1,12 +1,14 @@
 import React from "react";
 import cn from "classnames";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { Msg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
+// import { Msg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 import { FaSignature } from "@react-icons/all-files/fa/FaSignature";
+import { hashPersonalMessage } from "@ethereumjs/util";
 
 import styles from "./SigDataInput.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { FormInput, FormInputTitleRow } from "../form_input/FormInput";
+import { useSignMessage } from "wagmi";
 
 const Signed: React.FC<SignedProps> = ({ sig }) => {
   const i18n = React.useContext(i18nContext);
@@ -25,6 +27,8 @@ const Signed: React.FC<SignedProps> = ({ sig }) => {
 
 const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFormValues }) => {
   const i18n = React.useContext(i18nContext);
+  const [message, setMessage] = React.useState("");
+  const { signMessage } = useSignMessage();
 
   React.useEffect(() => {
     if (value === undefined) {
@@ -46,11 +50,14 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
   const handleClickSign = React.useCallback(async () => {
     if (value) {
       const msgRaw = value.msgRaw;
-      const { msgHash, sig } = await sendMsgToParent(
-        new Msg("GET_SIGNATURE", {
-          msgRaw,
-        })
-      );
+      // const { msgHash, sig } = await sendMsgToParent(
+      //   new Msg("GET_SIGNATURE", {
+      //     msgRaw,
+      //   })
+      // );
+
+      const msgHash = hashPersonalMessage(Buffer.from(msgRaw));
+      const sig = signMessage({ message: msgRaw });
 
       setFormValues(oldVals => ({
         ...oldVals,
@@ -61,7 +68,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
         },
       }));
     }
-  }, [value, setFormValues]);
+  }, [value, setFormValues, signMessage]);
 
   return (
     <FormInput>

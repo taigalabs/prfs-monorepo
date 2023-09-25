@@ -147,8 +147,6 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   );
 
   const handleClickGetAddress = React.useCallback(async () => {
-    console.log(22, address);
-
     if (!prfsSet) {
       return;
     }

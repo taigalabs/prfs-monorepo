@@ -117,6 +117,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType }) => {
 
       try {
         const driver = await initDriver(circuit_driver_id, driverProperties);
+
         setSystemMsg(`${circuit_driver_id}`);
         setDriver(driver);
       } catch (err) {
