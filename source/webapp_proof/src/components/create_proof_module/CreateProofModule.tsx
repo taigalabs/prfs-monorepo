@@ -16,7 +16,7 @@ import CreateProofProgress from "../create_proof_progress/CreateProofProgress";
 import { envs } from "@/envs";
 import Passcode from "../passcode/Passcode";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
-import { validateInputs } from "../../validate";
+import { validateInputs } from "@/validate";
 
 const ASSET_SERVER_ENDPOINT = envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
@@ -221,7 +221,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType }) => {
         <div>
           <div className={styles.systemMsg}>
             <span>
-              {systemMsg} ({i18n.prfs} {envs.NEXT_PUBLIC_VERSION})
+              {systemMsg} ({i18n.prfs} {envs.NEXT_PUBLIC_ZAUTH_VERSION})
             </span>
           </div>
         </div>

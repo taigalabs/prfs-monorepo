@@ -21,7 +21,7 @@ import styles from "./MerkleProofInput.module.scss";
 import MerkleProofDialog from "./MerkleProofDialog";
 import { i18nContext } from "@/contexts/i18n";
 import { useAppDispatch } from "@/state/hooks";
-import { setInnerOpacity, setInnerPos } from "@/state/uiReducer";
+// import { setInnerOpacity, setInnerPos } from "@/state/uiReducer";
 import { FormInput, FormInputTitleRow } from "../form_input/FormInput";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";

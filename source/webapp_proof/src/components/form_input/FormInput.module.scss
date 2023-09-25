@@ -1,0 +1,14 @@
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+
+  &:not(:first-child) {
+    margin-top: 8px;
+  }
+}
+
+.inputTitleRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
