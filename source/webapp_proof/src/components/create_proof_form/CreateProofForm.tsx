@@ -15,6 +15,7 @@ import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_p
 import styles from "./CreateProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
+import CreateProofModule from "@taigalabs/prfs-sdk-web-elements/src/components/create_proof_module/CreateProofModule";
 
 const prfs = new PrfsEmbedSDK("test");
 
@@ -37,14 +38,14 @@ const CreateProofForm: React.FC = () => {
       if (selectedProofTypeItem) {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-        const proofGenElement = prfs.create("proof-gen", {
-          proofTypeId: selectedProofTypeItem.proofTypeId,
-          provider,
-        });
+        // const proofGenElement = prfs.create("proof-gen", {
+        //   proofTypeId: selectedProofTypeItem.proofTypeId,
+        //   provider,
+        // });
 
-        await proofGenElement.mount("#prfs-sdk-container");
+        // await proofGenElement.mount("#prfs-sdk-container");
 
-        setProofGenElement(proofGenElement);
+        // setProofGenElement(proofGenElement);
       }
     }
 
@@ -112,7 +113,9 @@ const CreateProofForm: React.FC = () => {
         {selectedProofTypeItem && (
           <Fade>
             <div className={styles.sdkArea}>
-              <div id="prfs-sdk-container" className={styles.sdkContainer}></div>
+              <div className={styles.sdkContainer}>
+                <CreateProofModule />
+              </div>
             </div>
           </Fade>
         )}

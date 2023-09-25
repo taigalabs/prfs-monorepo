@@ -24,6 +24,7 @@
     "@taigalabs/prfs-entities": "*",
     "@taigalabs/prfs-react-components": "*",
     "@taigalabs/prfs-sdk-web": "*",
+    "@taigalabs/prfs-sdk-web-elements": "*",
     "@tanstack/react-query": "^4.35.0",
     "@tanstack/react-table": "^8.9.3",
     "@thirdweb-dev/react": "^3.14.13",

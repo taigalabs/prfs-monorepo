@@ -37,6 +37,7 @@ function createEnvs() {
     NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: "http://localhost:4000",
     NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "http://localhost:4010/assets",
     NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT: "http://localhost:3010",
+    NEXT_PUBLIC_ZAUTH_VERSION: "0.1.0",
   };
 
   const env_prod: Envs = {
@@ -47,6 +48,7 @@ function createEnvs() {
     NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: "https://api.prfs.xyz",
     NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "https://asset.prfs.xyz",
     NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT: "https://sdk.prfs.xyz",
+    NEXT_PUBLIC_ZAUTH_VERSION: "0.1.0",
   };
 
   const envs = production ? env_prod : env_dev;

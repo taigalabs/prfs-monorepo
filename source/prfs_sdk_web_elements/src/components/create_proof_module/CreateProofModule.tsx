@@ -5,7 +5,7 @@ import { CircuitDriver, LogEventType } from "@taigalabs/prfs-driver-interface";
 import { Msg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 
-import styles from "./CreateProofForm.module.scss";
+import styles from "./CreateProofModule.module.scss";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
 import { i18nContext } from "@/contexts/i18n";
 import { delay } from "@/functions/interval";
@@ -25,7 +25,7 @@ enum CreateProofStatus {
   InProgress,
 }
 
-const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight }) => {
+const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType }) => {
   const i18n = React.useContext(i18nContext);
 
   const [systemMsg, setSystemMsg] = React.useState("Loading driver...");
@@ -212,7 +212,7 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
   }
 
   return (
-    <div className={styles.wrapper} style={{ height: docHeight }}>
+    <div className={styles.wrapper}>
       <div className={styles.form}>{circuitInputsElem}</div>
 
       <div className={styles.terminalLogContainer}>{terminalLog}</div>
@@ -231,9 +231,9 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({ proofType, docHeight 
   );
 };
 
-export default CreateProofForm;
+export default CreateProofModule;
 
-export interface CreateProofFormProps {
+export interface CreateProofModuleProps {
   proofType: PrfsProofType;
-  docHeight: number;
+  // docHeight: number;
 }
