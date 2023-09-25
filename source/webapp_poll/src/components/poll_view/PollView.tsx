@@ -45,14 +45,14 @@ const PollView: React.FC<PollViewProps> = ({ poll }) => {
       if (poll) {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-        const proofGenElement = prfs.create("proof-gen", {
-          proofTypeId: poll.proof_type_id,
-          provider,
-        });
+        // const proofGenElement = prfs.create("proof-gen", {
+        //   proofTypeId: poll.proof_type_id,
+        //   provider,
+        // });
 
-        await proofGenElement.mount("#prfs-sdk-container");
+        // await proofGenElement.mount("#prfs-sdk-container");
 
-        setProofGenElement(proofGenElement);
+        // setProofGenElement(proofGenElement);
       }
     }
 

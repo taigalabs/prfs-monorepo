@@ -1,5 +1,6 @@
 import React from "react";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
+import { ethers } from "ethers";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { Msg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
@@ -21,11 +22,13 @@ import styles from "./MerkleProofInput.module.scss";
 import MerkleProofDialog from "./MerkleProofDialog";
 import { i18nContext } from "@/contexts/i18n";
 import { useAppDispatch } from "@/state/hooks";
-// import { setInnerOpacity, setInnerPos } from "@/state/uiReducer";
 import { FormInput, FormInputTitleRow } from "../form_input/FormInput";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
+import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
+import { useAccount } from "wagmi";
+// import { useAddress, useSigner } from "@thirdweb-dev/react";
 
 const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   circuitInput,
@@ -37,10 +40,17 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   const [isOpen, setIsOpen] = React.useState(false);
   const [walletAddr, setWalletAddr] = React.useState("");
   const dispatch = useAppDispatch();
+  const { address, isConnected } = useAccount();
 
-  const { mutateAsync } = useMutation({
+  const { mutateAsync: GetPrfsTreeLeafIndices } = useMutation({
     mutationFn: (req: GetPrfsTreeLeafIndicesRequest) => {
       return prfsApi2("get_prfs_tree_leaf_indices", req);
+    },
+  });
+
+  const { mutateAsync: getPrfsSetBySetId } = useMutation({
+    mutationFn: (req: GetPrfsSetBySetIdRequest) => {
+      return prfsApi2("get_prfs_set_by_set_id", req);
     },
   });
 
@@ -102,13 +112,15 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
 
   React.useEffect(() => {
     async function fn() {
+      console.log(555, circuitInput);
+
       if (circuitInput.ref_type === "PRFS_SET") {
         if (!circuitInput.ref_value) {
           console.error("Prfs set ref value is not provided");
           return;
         }
 
-        const { payload } = await prfsApi2("get_prfs_set_by_set_id", {
+        const { payload } = await getPrfsSetBySetId({
           set_id: circuitInput.ref_value,
         });
 
@@ -118,7 +130,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
       }
     }
     fn().then();
-  }, [circuitInput, setPrfsSet]);
+  }, [circuitInput, setPrfsSet, getPrfsSetBySetId]);
 
   const handleClickSubmit = React.useCallback(
     (merkleProof: SpartanMerkleProof) => {
@@ -135,28 +147,32 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   );
 
   const handleClickGetAddress = React.useCallback(async () => {
+    console.log(22, address);
+
     if (!prfsSet) {
       return;
     }
 
-    const addr = await sendMsgToParent(new Msg("GET_ADDRESS", ""));
+    if (!address) {
+      return;
+    }
 
     const { set_id } = prfsSet;
 
-    try {
-      // const { payload } = await prfsApi2("get_prfs_tree_leaf_indices", {
-      //   set_id,
-      //   leaf_vals: [addr],
-      // });
+    // const provider = new ethers.providers.Web3Provider(window.ethereum);
+    // await provider.send("eth_requestAccounts", []);
+    // const signer = provider.getSigner();
+    // const addr = await signer.getAddress();
 
-      const { payload } = await mutateAsync({
+    try {
+      const { payload } = await GetPrfsTreeLeafIndices({
         set_id,
-        leaf_vals: [addr],
+        leaf_vals: [address],
       });
 
       let pos_w = null;
       for (const node of payload.prfs_tree_nodes) {
-        if (node.val === addr.toLowerCase()) {
+        if (node.val === address.toLowerCase()) {
           pos_w = node.pos_w;
         }
       }
@@ -204,11 +220,11 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         };
       });
 
-      setWalletAddr(addr);
+      setWalletAddr(address);
     } catch (err) {
       console.error(err);
     }
-  }, [setWalletAddr, setFormValues, prfsSet, mutateAsync]);
+  }, [setWalletAddr, setFormValues, prfsSet, GetPrfsTreeLeafIndices]);
 
   return (
     prfsSet && (
