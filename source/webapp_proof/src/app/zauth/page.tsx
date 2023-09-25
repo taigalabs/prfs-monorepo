@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { Msg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
-import CreateProofModule from "@taigalabs/prfs-sdk-web-elements/src/components/create_proof_module/CreateProofModule";
 import NoSSR from "@taigalabs/prfs-react-components/src/no_ssr/NoSSR";
 
 import styles from "./ProofGen.module.scss";
@@ -13,6 +12,7 @@ import { i18nContext } from "@/contexts/i18n";
 import { checkSanity } from "@/functions/sanity";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import ZAuthLayout from "@/layouts/zauth_layout/ZAuthLayout";
+import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
 
 const BASE_HEIGHT = 59;
 const HEIGHT_PER_INPUT = 58;

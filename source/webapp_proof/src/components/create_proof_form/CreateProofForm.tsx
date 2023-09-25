@@ -49,26 +49,6 @@ const CreateProofForm: React.FC = () => {
     [setSelectedProofTypeItem, mutateAsync, setProofType]
   );
 
-  React.useEffect(() => {
-    async function fn() {
-      if (selectedProofTypeItem) {
-        // const provider = new ethers.providers.Web3Provider(window.ethereum);
-        // const { payload } = await mutateAsync({
-        //   proof_type_id: selectedProofTypeItem.proofTypeId,
-        // });
-        // console.log(22, payload);
-        // const proofGenElement = prfs.create("proof-gen", {
-        //   proofTypeId: selectedProofTypeItem.proofTypeId,
-        //   provider,
-        // });
-        // await proofGenElement.mount("#prfs-sdk-container");
-        // setProofGenElement(proofGenElement);
-      }
-    }
-
-    fn().then();
-  }, [selectedProofTypeItem, setProofGenElement, mutateAsync]);
-
   const handleClickCreateProof = React.useCallback(async () => {
     if (!selectedProofTypeItem) {
       console.error("proof type is not selected");
@@ -130,9 +110,7 @@ const CreateProofForm: React.FC = () => {
         {proofType && (
           <Fade>
             <div className={styles.sdkArea}>
-              <div className={styles.sdkContainer}>
-                <CreateProofModule proofType={proofType} />
-              </div>
+              <CreateProofModule proofType={proofType} />
             </div>
           </Fade>
         )}

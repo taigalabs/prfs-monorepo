@@ -47,7 +47,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   const toggleDialog = React.useCallback(async () => {
     try {
       if (!isOpen) {
-        dispatch(setInnerOpacity(0));
+        // dispatch(setInnerOpacity(0));
 
         const duration = 300;
         const { top, left } = await sendMsgToParent(
@@ -56,26 +56,26 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
           })
         );
 
-        dispatch(
-          setInnerPos({
-            top,
-            left,
-          })
-        );
+        // dispatch(
+        //   setInnerPos({
+        //     top,
+        //     left,
+        //   })
+        // );
 
         window.setTimeout(() => {
           setIsOpen(isOpen => !isOpen);
-          dispatch(setInnerOpacity(1));
+          // dispatch(setInnerOpacity(1));
         }, duration);
 
         return;
       } else {
-        dispatch(
-          setInnerPos({
-            top: 0,
-            left: 0,
-          })
-        );
+        // dispatch(
+        //   setInnerPos({
+        //     top: 0,
+        //     left: 0,
+        //   })
+        // );
 
         await sendMsgToParent(new Msg("CLOSE_DIALOG", undefined));
         setIsOpen(isOpen => !isOpen);
