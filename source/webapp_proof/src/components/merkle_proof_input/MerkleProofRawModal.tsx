@@ -8,11 +8,11 @@ import { SpartanMerkleProof } from "@taigalabs/prfs-driver-spartan-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import TextButton from "@taigalabs/prfs-react-components/src/text_button/TextButton";
 
-import styles from "./MerkleProofDialog.module.scss";
+import styles from "./MerkleProofRawModal.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { Msg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 
-const MerkleProofDialog: React.FC<MerkleProofDialogProps> = ({
+const MerkleProofRawModal: React.FC<MerkleProofRawModalProps> = ({
   prfsSet,
   circuitInput,
   handleClickSubmit,
@@ -166,9 +166,9 @@ const MerkleProofDialog: React.FC<MerkleProofDialogProps> = ({
   );
 };
 
-export default MerkleProofDialog;
+export default MerkleProofRawModal;
 
-export interface MerkleProofDialogProps {
+export interface MerkleProofRawModalProps {
   prfsSet: PrfsSet | undefined;
   circuitInput: CircuitInput;
   handleClickSubmit: (merkleProof: SpartanMerkleProof) => void;

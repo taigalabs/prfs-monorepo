@@ -2,8 +2,9 @@ import React from "react";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { ethers } from "ethers";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import { Msg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
+import { RiEqualizerLine } from "@react-icons/all-files/ri/RiEqualizerLine";
+import WalletDialog from "@taigalabs/prfs-react-components/src/wallet_dialog/WalletDialog";
 import { SpartanMerkleProof } from "@taigalabs/prfs-driver-spartan-js";
 import {
   useFloating,
@@ -20,7 +21,7 @@ import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import { useAccount } from "wagmi";
 
 import styles from "./MerkleProofInput.module.scss";
-import MerkleProofDialog from "./MerkleProofDialog";
+import MerkleProofRawModal from "./MerkleProofRawModal";
 import { i18nContext } from "@/contexts/i18n";
 import { useAppDispatch } from "@/state/hooks";
 import { FormInput, FormInputTitleRow } from "../form_input/FormInput";
@@ -28,6 +29,7 @@ import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   circuitInput,
@@ -189,8 +191,11 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
           </div>
           <div>
             <div>
-              <div className={styles.btnGroup} ref={refs.setReference} {...getReferenceProps()}>
-                <button>{i18n.raw}</button>
+              <div className={styles.btnRow} ref={refs.setReference} {...getReferenceProps()}>
+                <button>
+                  <RiEqualizerLine />
+                  {i18n.raw.toUpperCase()}
+                </button>
               </div>
               <FloatingPortal>
                 {isOpen && (
@@ -204,7 +209,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
                           aria-describedby={descriptionId}
                           {...getFloatingProps()}
                         >
-                          <MerkleProofDialog
+                          <MerkleProofRawModal
                             prfsSet={prfsSet}
                             circuitInput={circuitInput}
                             handleClickSubmit={handleClickSubmit}
@@ -222,7 +227,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         <div className={styles.wrapper}>
           <input placeholder={`${circuitInput.desc}`} value={walletAddr} readOnly />
           <div className={styles.btnGroup}>
-            <button onClick={handleClickGetAddress}>{i18n.put_address}</button>
+            <WalletDialog />
           </div>
         </div>
       </FormInput>

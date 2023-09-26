@@ -49,6 +49,23 @@
   margin-left: 4px;
 }
 
+.btnRow {
+  button {
+    display: flex;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--gray-30);
+
+    &:hover {
+      color: var(--black-00);
+    }
+  }
+
+  svg {
+    margin-right: 3px;
+  }
+}
+
 .btnGroup {
   align-items: center;
   display: flex;
