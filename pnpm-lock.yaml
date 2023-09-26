@@ -365,7 +365,7 @@ importers:
         version: 2.3.2
       next:
         specifier: 13.5.1
-        version: 13.5.1(react-dom@18.2.0)(react@18.2.0)(sass@1.63.6)
+        version: 13.5.1(@babel/core@7.22.9)(react-dom@18.2.0)(react@18.2.0)(sass@1.63.6)
       qrcode:
         specifier: ^1.5.3
         version: 1.5.3
@@ -407,118 +407,6 @@ importers:
       rollup:
         specifier: ^3.27.2
         version: 3.27.2
-      typescript:
-        specifier: 5.1.6
-        version: 5.1.6
-
-  source/prfs_sdk_web_elements:
-    dependencies:
-      '@ethereumjs/util':
-        specifier: ^8.0.3
-        version: 8.1.0
-      '@floating-ui/react':
-        specifier: ^0.24.8
-        version: 0.24.8(react-dom@18.2.0)(react@18.2.0)
-      '@react-icons/all-files':
-        specifier: ^4.1.0
-        version: 4.1.0(react@18.2.0)
-      '@reduxjs/toolkit':
-        specifier: ^1.9.5
-        version: 1.9.5(react-redux@8.1.2)(react@18.2.0)
-      '@taigalabs/prfs-api-js':
-        specifier: '*'
-        version: link:../prfs_api_js
-      '@taigalabs/prfs-crypto-js':
-        specifier: '*'
-        version: link:../prfs_crypto_js
-      '@taigalabs/prfs-driver-interface':
-        specifier: '*'
-        version: link:../prfs_driver_interface
-      '@taigalabs/prfs-driver-spartan-js':
-        specifier: '*'
-        version: link:../prfs_driver_spartan_js
-      '@taigalabs/prfs-entities':
-        specifier: '*'
-        version: link:../prfs_entities
-      '@taigalabs/prfs-react-components':
-        specifier: '*'
-        version: link:../prfs_react_components
-      '@taigalabs/prfs-sdk-web':
-        specifier: '*'
-        version: link:../prfs_sdk_web
-      '@tanstack/react-query':
-        specifier: ^4.35.0
-        version: 4.35.0(react-dom@18.2.0)(react@18.2.0)
-      classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
-      elliptic:
-        specifier: ^6.5.4
-        version: 6.5.4
-      ethers:
-        specifier: ^5
-        version: 5.7.2
-      ffjavascript:
-        specifier: ^0.2.59
-        version: 0.2.59
-      json-bigint:
-        specifier: ^1.0.0
-        version: 1.0.0
-      next:
-        specifier: 13.5.1
-        version: 13.5.1(react-dom@18.2.0)(react@18.2.0)(sass@1.63.6)
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-redux:
-        specifier: ^8.1.2
-        version: 8.1.2(@types/react-dom@18.2.5)(@types/react@18.2.12)(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1)
-      readline:
-        specifier: ^1.3.0
-        version: 1.3.0
-      redux-logger:
-        specifier: ^3.0.6
-        version: 3.0.6
-      sass:
-        specifier: ^1.63.6
-        version: 1.63.6
-      snarkjs:
-        specifier: 0.7.0
-        version: 0.7.0
-    devDependencies:
-      '@types/json-bigint':
-        specifier: ^1.0.1
-        version: 1.0.1
-      '@types/node':
-        specifier: 20.3.1
-        version: 20.3.1
-      '@types/react':
-        specifier: 18.2.12
-        version: 18.2.12
-      '@types/react-dom':
-        specifier: 18.2.5
-        version: 18.2.5
-      '@types/redux-logger':
-        specifier: ^3.0.9
-        version: 3.0.9
-      chalk:
-        specifier: 4.1.0
-        version: 4.1.0
-      dotenv:
-        specifier: ^16.3.1
-        version: 16.3.1
-      eslint:
-        specifier: 8.26.0
-        version: 8.26.0
-      eslint-config-next:
-        specifier: 13.4.6
-        version: 13.4.6(eslint@8.26.0)(typescript@5.1.6)
-      prettier:
-        specifier: ^2.7.1
-        version: 2.8.8
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@20.3.1)(typescript@5.1.6)
       typescript:
         specifier: 5.1.6
         version: 5.1.6
@@ -17051,47 +16939,6 @@ packages:
     resolution: {integrity: sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==}
 
   /next@13.5.1(@babel/core@7.22.9)(react-dom@18.2.0)(react@18.2.0)(sass@1.63.6):
-    resolution: {integrity: sha512-GIudNR7ggGUZoIL79mSZcxbXK9f5pwAIPZxEM8+j2yLqv5RODg4TkmUlaKSYVqE1bPQueamXSqdC3j7axiTSEg==}
-    engines: {node: '>=16.14.0'}
-    hasBin: true
-    peerDependencies:
-      '@opentelemetry/api': ^1.1.0
-      react: ^18.2.0
-      react-dom: ^18.2.0
-      sass: ^1.3.0
-    peerDependenciesMeta:
-      '@opentelemetry/api':
-        optional: true
-      sass:
-        optional: true
-    dependencies:
-      '@next/env': 13.5.1
-      '@swc/helpers': 0.5.2
-      busboy: 1.6.0
-      caniuse-lite: 1.0.30001516
-      postcss: 8.4.14
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-      sass: 1.63.6
-      styled-jsx: 5.1.1(@babel/core@7.22.9)(react@18.2.0)
-      watchpack: 2.4.0
-      zod: 3.21.4
-    optionalDependencies:
-      '@next/swc-darwin-arm64': 13.5.1
-      '@next/swc-darwin-x64': 13.5.1
-      '@next/swc-linux-arm64-gnu': 13.5.1
-      '@next/swc-linux-arm64-musl': 13.5.1
-      '@next/swc-linux-x64-gnu': 13.5.1
-      '@next/swc-linux-x64-musl': 13.5.1
-      '@next/swc-win32-arm64-msvc': 13.5.1
-      '@next/swc-win32-ia32-msvc': 13.5.1
-      '@next/swc-win32-x64-msvc': 13.5.1
-    transitivePeerDependencies:
-      - '@babel/core'
-      - babel-plugin-macros
-    dev: false
-
-  /next@13.5.1(react-dom@18.2.0)(react@18.2.0)(sass@1.63.6):
     resolution: {integrity: sha512-GIudNR7ggGUZoIL79mSZcxbXK9f5pwAIPZxEM8+j2yLqv5RODg4TkmUlaKSYVqE1bPQueamXSqdC3j7axiTSEg==}
     engines: {node: '>=16.14.0'}
     hasBin: true

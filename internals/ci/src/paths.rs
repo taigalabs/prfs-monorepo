@@ -26,7 +26,6 @@ pub struct Paths {
 
     //
     pub prfs_sdk_web: PathBuf,
-    pub prfs_sdk_web_elements: PathBuf,
 
     //
     pub webapp_console: PathBuf,
@@ -94,7 +93,6 @@ impl Paths {
             prfs_asset_server_assets_local,
 
             prfs_sdk_web,
-            prfs_sdk_web_elements,
 
             webapp_console,
             webapp_proof,
