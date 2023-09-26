@@ -19,6 +19,7 @@ import styles from "./WalletDialog.module.scss";
 import Fade from "../fade/Fade";
 import Button from "../button/Button";
 import { i18nContext } from "../contexts/i18nContext";
+import WalletModal from "./WalletModal";
 
 const WalletDialog: React.FC<WalletDialogProps> = ({
   // circuitInput,
@@ -161,24 +162,13 @@ const WalletDialog: React.FC<WalletDialogProps> = ({
                       aria-describedby={descriptionId}
                       {...getFloatingProps()}
                     >
-                      {/* <MerkleProofRawModal */}
-                      {/*   prfsSet={prfsSet} */}
-                      {/*   circuitInput={circuitInput} */}
-                      {/*   handleClickSubmit={handleClickSubmit} */}
-                      {/*   setIsOpen={setIsOpen} */}
-                      {/* /> */}
+                      <WalletModal />
                     </div>
                   </FloatingFocusManager>
                 </Fade>
               </FloatingOverlay>
             )}
           </FloatingPortal>
-        </div>
-      </div>
-      <div className={styles.wrapper}>
-        {/* <input placeholder={`${circuitInput.desc}`} value={walletAddr} readOnly /> */}
-        <div className={styles.btnGroup}>
-          {/* <button onClick={handleClickGetAddress}>{i18n.put_address}</button> */}
         </div>
       </div>
     </div>
