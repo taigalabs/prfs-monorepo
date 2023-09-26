@@ -54,3 +54,12 @@
   color: var(--gray-40);
   margin: 3px 0;
 }
+
+.createProofBtn {
+  margin-top: 10px;
+
+  button {
+    height: 42px;
+    width: 100%;
+  }
+}

@@ -12,7 +12,7 @@ export default {
   raw: "Raw",
   put_address: "Put address",
   merkle_proof: "Merkle proof",
-  sign: "sign",
+  sign: "Sign",
   type_merkle_proof: "Type merkle proof",
   feedback: "Feedback",
   id: "Id",

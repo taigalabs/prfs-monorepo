@@ -1,10 +1,8 @@
 import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
-import { PrfsEmbedSDK } from "@taigalabs/prfs-sdk-web";
 import cn from "classnames";
 import { v4 as uuidv4 } from "uuid";
-import { ethers } from "ethers";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { FaCloudMoon } from "@react-icons/all-files/fa/FaCloudMoon";
@@ -20,8 +18,6 @@ import { useMutation } from "@tanstack/react-query";
 import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
 import CreateProofModule from "../create_proof_module/CreateProofModule";
 
-// const prfs = new PrfsEmbedSDK("test");
-
 const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const [selectedProofTypeItem, setSelectedProofTypeItem] = React.useState<ProofTypeItem>();
@@ -30,7 +26,7 @@ const CreateProofForm: React.FC = () => {
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt>();
   const router = useRouter();
 
-  const { mutateAsync } = useMutation({
+  const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
       return prfsApi2("get_prfs_proof_type_by_proof_type_id", req);
     },
@@ -40,32 +36,25 @@ const CreateProofForm: React.FC = () => {
     async (proofTypeItem: ProofTypeItem) => {
       setSelectedProofTypeItem(proofTypeItem);
 
-      const { payload } = await mutateAsync({
+      const { payload } = await getPrfsProofTypeByProofTypeIdRequest({
         proof_type_id: proofTypeItem.proofTypeId,
       });
 
       setProofType(payload.prfs_proof_type);
     },
-    [setSelectedProofTypeItem, mutateAsync, setProofType]
+    [setSelectedProofTypeItem, getPrfsProofTypeByProofTypeIdRequest, setProofType]
   );
 
-  const handleClickCreateProof = React.useCallback(async () => {
-    if (!selectedProofTypeItem) {
-      console.error("proof type is not selected");
-      return;
-    }
-
-    // if (!proofGenElement) {
-    //   console.error("PRFS sdk is undefined");
-    //   return;
-    // }
-
-    // const proveReceipt = await proofGenElement.createProof();
-
-    // if (proveReceipt) {
-    //   setProveReceipt(proveReceipt);
-    // }
-  }, [selectedProofTypeItem, proofGenElement, setProveReceipt]);
+  const handleCreateProof = React.useCallback(
+    async (err: any, proveReceipt: ProveReceipt | null) => {
+      if (err) {
+        console.error(err);
+      } else if (proveReceipt !== null) {
+        setProveReceipt(proveReceipt);
+      }
+    },
+    [selectedProofTypeItem, proofGenElement, setProveReceipt]
+  );
 
   const handleClickUpload = React.useCallback(async () => {
     if (proveReceipt && selectedProofTypeItem) {
@@ -110,15 +99,10 @@ const CreateProofForm: React.FC = () => {
         {proofType && (
           <Fade>
             <div className={styles.sdkArea}>
-              <CreateProofModule proofType={proofType} />
+              <CreateProofModule proofType={proofType} handleCreateProof={handleCreateProof} />
             </div>
           </Fade>
         )}
-        <div className={styles.createProofBtn}>
-          <Button variant="aqua_blue_1" handleClick={handleClickCreateProof}>
-            {i18n.create_proof.toUpperCase()}
-          </Button>
-        </div>
       </div>
       {proveReceipt && (
         <Fade>

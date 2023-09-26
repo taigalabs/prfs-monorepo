@@ -1,9 +1,7 @@
 import React from "react";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { CircuitDriver, LogEventType } from "@taigalabs/prfs-driver-interface";
-import { Msg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
-import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
+import { CircuitDriver, LogEventType, ProveReceipt } from "@taigalabs/prfs-driver-interface";
 
 import styles from "./CreateProofModule.module.scss";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
@@ -12,11 +10,11 @@ import { delay } from "@/functions/interval";
 import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
 import SigDataInput from "@/components/sig_data_input/SigDataInput";
 import { createProof } from "@/functions/proof";
-import CreateProofProgress from "../create_proof_progress/CreateProofProgress";
 import { envs } from "@/envs";
-import Passcode from "../passcode/Passcode";
+import Passcode from "@/components/passcode/Passcode";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
 import { validateInputs } from "@/validate";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 const ASSET_SERVER_ENDPOINT = envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
@@ -25,7 +23,7 @@ enum CreateProofStatus {
   InProgress,
 }
 
-const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType }) => {
+const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handleCreateProof }) => {
   const i18n = React.useContext(i18nContext);
 
   const [systemMsg, setSystemMsg] = React.useState("Loading driver...");
@@ -54,58 +52,29 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType }) => {
     [setFormValues]
   );
 
-  React.useEffect(() => {
-    async function eventListener(ev: MessageEvent) {
-      if (ev.ports.length > 0) {
-        const type: MsgType = ev.data.type;
+  const handleClickCreateProof = React.useCallback(async () => {
+    if (driver) {
+      try {
+        const newFormValues = await validateInputs(formValues, proofType);
 
-        switch (type) {
-          case "CREATE_PROOF": {
-            if (!driver) {
-              return;
-            }
+        setCreateProofStatus(CreateProofStatus.InProgress);
+        proofGenEventListener("debug", `Process starts in 3 seconds`);
 
-            try {
-              const newFormValues = await validateInputs(formValues, proofType);
+        await delay(3000);
+        proofGenEventListener(
+          "info",
+          `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
+        );
 
-              setCreateProofStatus(CreateProofStatus.InProgress);
-              proofGenEventListener("debug", `Process starts in 3 seconds`);
+        const proveReceipt = await createProof(driver, newFormValues, proofGenEventListener);
+        proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
 
-              await delay(3000);
-
-              proofGenEventListener(
-                "info",
-                `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
-              );
-
-              const proveReceipt = await createProof(driver, newFormValues, proofGenEventListener);
-
-              proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
-
-              ev.ports[0].postMessage(new Msg("CREATE_PROOF_RESPONSE", proveReceipt));
-            } catch (err) {
-              console.error(err);
-            }
-
-            break;
-          }
-
-          case "GET_FORM_VALUES": {
-            const newFormValues = await validateInputs(formValues, proofType);
-
-            ev.ports[0].postMessage(new Msg("GET_FORM_VALUES_RESPONSE", newFormValues));
-            break;
-          }
-        }
+        handleCreateProof(null, proveReceipt);
+      } catch (err) {
+        handleCreateProof(err, null);
       }
     }
-
-    window.addEventListener("message", eventListener);
-
-    return () => {
-      window.removeEventListener("message", eventListener);
-    };
-  }, [proofType, formValues, driver]);
+  }, [driver, formValues, proofType, handleCreateProof]);
 
   React.useEffect(() => {
     async function fn() {
@@ -125,9 +94,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType }) => {
       }
     }
 
-    window.setTimeout(() => {
-      fn().then();
-    }, 1000);
+    fn().then();
   }, [proofType, setSystemMsg, setDriver, setCreateProofStatus]);
 
   const circuitInputsElem = React.useMemo(() => {
@@ -226,7 +193,12 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType }) => {
             </span>
           </div>
         </div>
-        <div></div>
+      </div>
+
+      <div className={styles.createProofBtn}>
+        <Button variant="aqua_blue_1" handleClick={handleClickCreateProof}>
+          {i18n.create_proof.toUpperCase()}
+        </Button>
       </div>
     </div>
   );
@@ -236,5 +208,5 @@ export default CreateProofModule;
 
 export interface CreateProofModuleProps {
   proofType: PrfsProofType;
-  // docHeight: number;
+  handleCreateProof: (err: any, proveReceipt: ProveReceipt | null) => void;
 }
