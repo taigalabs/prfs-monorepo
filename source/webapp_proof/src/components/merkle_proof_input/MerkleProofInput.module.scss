@@ -1,7 +1,11 @@
-.dialogOverlay {
-  background: rgba(0, 0, 0, 0.7);
+.fadeOverlay {
+  background: rgba(0, 0, 0, 0.8);
   display: grid;
   place-items: center;
+  z-index: 300;
+  transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  position: absolute;
+  inset: 0;
 }
 
 .dialog {

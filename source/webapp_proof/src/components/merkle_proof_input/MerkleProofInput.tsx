@@ -33,6 +33,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   circuitInput,
   value,
   setFormValues,
+  zIndex,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
@@ -102,6 +103,8 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   );
 
   const handleClickGetAddress = React.useCallback(async () => {
+    console.log(222, prfsSet, address);
+
     if (!prfsSet) {
       return;
     }
@@ -191,8 +194,8 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
               </div>
               <FloatingPortal>
                 {isOpen && (
-                  <Fade>
-                    <FloatingOverlay className={styles.dialogOverlay} lockScroll>
+                  <FloatingOverlay style={{ zIndex: zIndex || 200 }}>
+                    <Fade className={styles.fadeOverlay}>
                       <FloatingFocusManager context={context}>
                         <div
                           className={styles.dialog}
@@ -209,8 +212,8 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
                           />
                         </div>
                       </FloatingFocusManager>
-                    </FloatingOverlay>
-                  </Fade>
+                    </Fade>
+                  </FloatingOverlay>
                 )}
               </FloatingPortal>
             </div>
@@ -233,4 +236,5 @@ export interface MerkleProofInputProps {
   circuitInput: CircuitInput;
   value: SpartanMerkleProof | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  zIndex?: number;
 }

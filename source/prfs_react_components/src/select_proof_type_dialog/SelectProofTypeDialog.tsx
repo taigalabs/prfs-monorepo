@@ -69,7 +69,7 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
       <FloatingPortal>
         {isOpen && (
           <FloatingOverlay style={{ zIndex: zIndex || 200 }}>
-            <Fade className={styles.dialogOverlay}>
+            <Fade className={styles.fadeOverlay}>
               <FloatingFocusManager context={context}>
                 <div
                   className={styles.dialog}
