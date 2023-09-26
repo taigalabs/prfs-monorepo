@@ -10,7 +10,7 @@ import { fetchAsset } from "./helpers/utils";
 
 const spartanDriverGen: CircuitDriverGen = {
   async newInstance(driverProps: SpartanCircomDriverProperties): Promise<CircuitDriver> {
-    console.log("Creating a driver instance, props: %o", driverProps);
+    // console.log("Creating a driver instance, props: %o", driverProps);
 
     let prfsHandlers;
     try {
