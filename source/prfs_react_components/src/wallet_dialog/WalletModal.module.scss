@@ -1,2 +1,22 @@
 .wrapper {
+  padding: 26px 28px;
+}
+
+.connectList {
+  display: flex;
+  flex-direction: column;
+
+  li:not(:first-child) {
+    margin-top: 15px;
+  }
+
+  button {
+    border: 1px solid var(--gray-70);
+    border-radius: 20px;
+    padding: 10px 15px;
+    cursor: pointer;
+    &:hover {
+      background: var(--bright-gray-30);
+    }
+  }
 }
