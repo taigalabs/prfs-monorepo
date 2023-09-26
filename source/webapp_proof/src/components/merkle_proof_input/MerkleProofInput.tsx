@@ -106,8 +106,6 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
 
   const handleChangeAddress = React.useCallback(
     async (addr: any) => {
-      console.log(222, prfsSet, addr);
-
       if (!prfsSet) {
         return;
       }
@@ -195,38 +193,36 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
             </p>
           </div>
           <div>
-            <div>
-              <div className={styles.btnRow} ref={refs.setReference} {...getReferenceProps()}>
-                <button>
-                  <RiEqualizerLine />
-                  {i18n.raw.toUpperCase()}
-                </button>
-              </div>
-              <FloatingPortal>
-                {isOpen && (
-                  <FloatingOverlay style={{ zIndex: zIndex || 200 }}>
-                    <Fade className={styles.fadeOverlay}>
-                      <FloatingFocusManager context={context}>
-                        <div
-                          className={styles.dialog}
-                          ref={refs.setFloating}
-                          aria-labelledby={headingId}
-                          aria-describedby={descriptionId}
-                          {...getFloatingProps()}
-                        >
-                          <MerkleProofRawModal
-                            prfsSet={prfsSet}
-                            circuitInput={circuitInput}
-                            handleClickSubmit={handleClickSubmit}
-                            setIsOpen={setIsOpen}
-                          />
-                        </div>
-                      </FloatingFocusManager>
-                    </Fade>
-                  </FloatingOverlay>
-                )}
-              </FloatingPortal>
+            <div className={styles.btnRow} ref={refs.setReference} {...getReferenceProps()}>
+              <button>
+                <RiEqualizerLine />
+                {i18n.raw.toUpperCase()}
+              </button>
             </div>
+            <FloatingPortal>
+              {isOpen && (
+                <FloatingOverlay style={{ zIndex: zIndex || 200 }}>
+                  <Fade className={styles.fadeOverlay}>
+                    <FloatingFocusManager context={context}>
+                      <div
+                        className={styles.dialog}
+                        ref={refs.setFloating}
+                        aria-labelledby={headingId}
+                        aria-describedby={descriptionId}
+                        {...getFloatingProps()}
+                      >
+                        <MerkleProofRawModal
+                          prfsSet={prfsSet}
+                          circuitInput={circuitInput}
+                          handleClickSubmit={handleClickSubmit}
+                          setIsOpen={setIsOpen}
+                        />
+                      </div>
+                    </FloatingFocusManager>
+                  </Fade>
+                </FloatingOverlay>
+              )}
+            </FloatingPortal>
           </div>
         </FormInputTitleRow>
         <div className={styles.inputWrapper}>

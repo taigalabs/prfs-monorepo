@@ -52,8 +52,6 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
       const msgHash = hashPersonalMessage(Buffer.from(msgRaw));
       const sig = await signMessageAsync({ message: msgRaw });
 
-      console.log(55, sig);
-
       setFormValues(oldVals => ({
         ...oldVals,
         [circuitInput.name]: {
@@ -70,10 +68,14 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
       <FormInputTitleRow>
         <p>{circuitInput.label}</p>
       </FormInputTitleRow>
-      <div className={styles.sigDataInputWrapper}>
+      <div
+        className={cn({
+          [styles.inputWrapper]: true,
+          [styles.isInputValid]: value && value.sig.length > 0,
+        })}
+      >
         <input placeholder={circuitInput.desc} value={value?.msgRaw || ""} readOnly />
         <div className={styles.btnGroup}>
-          <Signed sig={value?.sig} />
           <button className={styles.connectBtn} onClick={handleClickSign}>
             {i18n.sign}
           </button>

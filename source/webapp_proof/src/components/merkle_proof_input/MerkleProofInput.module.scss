@@ -50,10 +50,11 @@
 }
 
 .btnRow {
+  font-size: 12px;
+
   button {
     display: flex;
     cursor: pointer;
-    font-weight: 500;
     color: var(--gray-30);
 
     &:hover {
