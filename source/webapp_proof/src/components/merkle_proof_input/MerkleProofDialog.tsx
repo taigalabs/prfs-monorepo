@@ -1,4 +1,4 @@
-import React from "react";
+import React, { SetStateAction } from "react";
 import JSONbig from "json-bigint";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
@@ -16,7 +16,7 @@ const MerkleProofDialog: React.FC<MerkleProofDialogProps> = ({
   prfsSet,
   circuitInput,
   handleClickSubmit,
-  toggleDialog,
+  setIsOpen,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [walletAddr, setWalletAddr] = React.useState("");
@@ -105,6 +105,10 @@ const MerkleProofDialog: React.FC<MerkleProofDialogProps> = ({
     setWalletAddr(addr);
   }, [setWalletAddr]);
 
+  const handleClickCancel = React.useCallback(() => {
+    setIsOpen(false);
+  }, [setIsOpen]);
+
   const extendedHandleClickSubmit = React.useCallback(() => {
     if (value) {
       handleClickSubmit(value);
@@ -154,7 +158,7 @@ const MerkleProofDialog: React.FC<MerkleProofDialogProps> = ({
         <Button variant="transparent_black_1" handleClick={extendedHandleClickSubmit}>
           {i18n.submit.toUpperCase()}
         </Button>
-        <Button variant="transparent_black_1" handleClick={toggleDialog}>
+        <Button variant="transparent_black_1" handleClick={handleClickCancel}>
           {i18n.cancel.toUpperCase()}
         </Button>
       </div>
@@ -168,5 +172,5 @@ export interface MerkleProofDialogProps {
   prfsSet: PrfsSet | undefined;
   circuitInput: CircuitInput;
   handleClickSubmit: (merkleProof: SpartanMerkleProof) => void;
-  toggleDialog: () => Promise<void>;
+  setIsOpen: (b: boolean) => void;
 }

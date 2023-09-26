@@ -17,6 +17,7 @@ import {
   FloatingPortal,
 } from "@floating-ui/react";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
+import { useAccount } from "wagmi";
 
 import styles from "./MerkleProofInput.module.scss";
 import MerkleProofDialog from "./MerkleProofDialog";
@@ -27,8 +28,6 @@ import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
-import { useAccount } from "wagmi";
-// import { useAddress, useSigner } from "@thirdweb-dev/react";
 
 const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   circuitInput,
@@ -54,51 +53,9 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
     },
   });
 
-  const toggleDialog = React.useCallback(async () => {
-    try {
-      if (!isOpen) {
-        // dispatch(setInnerOpacity(0));
-
-        const duration = 300;
-        const { top, left } = await sendMsgToParent(
-          new Msg("OPEN_DIALOG", {
-            duration,
-          })
-        );
-
-        // dispatch(
-        //   setInnerPos({
-        //     top,
-        //     left,
-        //   })
-        // );
-
-        window.setTimeout(() => {
-          setIsOpen(isOpen => !isOpen);
-          // dispatch(setInnerOpacity(1));
-        }, duration);
-
-        return;
-      } else {
-        // dispatch(
-        //   setInnerPos({
-        //     top: 0,
-        //     left: 0,
-        //   })
-        // );
-
-        await sendMsgToParent(new Msg("CLOSE_DIALOG", undefined));
-        setIsOpen(isOpen => !isOpen);
-        return;
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }, [isOpen, setIsOpen]);
-
   const { refs, context } = useFloating({
     open: isOpen,
-    onOpenChange: toggleDialog,
+    onOpenChange: setIsOpen,
   });
 
   const click = useClick(context);
@@ -112,8 +69,6 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
 
   React.useEffect(() => {
     async function fn() {
-      console.log(555, circuitInput);
-
       if (circuitInput.ref_type === "PRFS_SET") {
         if (!circuitInput.ref_value) {
           console.error("Prfs set ref value is not provided");
@@ -141,9 +96,9 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         };
       });
 
-      toggleDialog();
+      setIsOpen(false);
     },
-    [setFormValues, toggleDialog]
+    [setFormValues, setIsOpen]
   );
 
   const handleClickGetAddress = React.useCallback(async () => {
@@ -156,11 +111,6 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
     }
 
     const { set_id } = prfsSet;
-
-    // const provider = new ethers.providers.Web3Provider(window.ethereum);
-    // await provider.send("eth_requestAccounts", []);
-    // const signer = provider.getSigner();
-    // const addr = await signer.getAddress();
 
     try {
       const { payload } = await GetPrfsTreeLeafIndices({
@@ -255,7 +205,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
                             prfsSet={prfsSet}
                             circuitInput={circuitInput}
                             handleClickSubmit={handleClickSubmit}
-                            toggleDialog={toggleDialog}
+                            setIsOpen={setIsOpen}
                           />
                         </div>
                       </FloatingFocusManager>

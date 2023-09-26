@@ -866,12 +866,6 @@ importers:
       '@tanstack/react-table':
         specifier: ^8.9.3
         version: 8.9.3(react-dom@18.2.0)(react@18.2.0)
-      '@thirdweb-dev/react':
-        specifier: ^3.14.13
-        version: 3.14.15(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@thirdweb-dev/sdk@3.10.35)(@types/react-dom@18.2.5)(@types/react@18.2.12)(ethers@5.7.2)(localforage@1.10.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
-      '@thirdweb-dev/sdk':
-        specifier: ^3.10.33
-        version: 3.10.35(ethers@5.7.2)(typescript@5.1.6)
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -1035,12 +1029,6 @@ importers:
       '@tanstack/react-virtual':
         specifier: 3.0.0-beta.60
         version: 3.0.0-beta.60(react@18.2.0)
-      '@thirdweb-dev/react':
-        specifier: ^3.14.13
-        version: 3.14.15(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@thirdweb-dev/sdk@3.10.35)(@types/react-dom@18.2.5)(@types/react@18.2.12)(ethers@5.7.2)(localforage@1.10.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
-      '@thirdweb-dev/sdk':
-        specifier: ^3.10.33
-        version: 3.10.35(ethers@5.7.2)(typescript@5.1.6)
       '@tiptap/extension-color':
         specifier: ^2.1.10
         version: 2.1.10(@tiptap/core@2.1.10)(@tiptap/extension-text-style@2.1.10)
