@@ -10,13 +10,13 @@ import { useRouter } from "next/navigation";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import { useMutation } from "@tanstack/react-query";
+import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
 
 import styles from "./CreateProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import { useMutation } from "@tanstack/react-query";
-import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
-import CreateProofModule from "../create_proof_module/CreateProofModule";
+import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
 
 const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
