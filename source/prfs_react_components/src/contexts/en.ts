@@ -114,6 +114,8 @@ export default {
   finite_field: "Finite field",
   merkle_root: "Merkle root",
   prfs: "Prfs",
+  close: "Close",
+  disconnect: "Disconnect",
   put_address: "Put address",
   raw: "Raw",
   metamask: "Metamask",

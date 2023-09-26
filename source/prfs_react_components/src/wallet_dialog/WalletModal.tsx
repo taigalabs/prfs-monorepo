@@ -3,27 +3,45 @@ import { Connector, useAccount, useConnect, useDisconnect, useEnsName } from "wa
 import cn from "classnames";
 
 import styles from "./WalletModal.module.scss";
+import Button from "../button/Button";
+import { i18nContext } from "../contexts/i18nContext";
 
 const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
   ensName,
   address,
   connector,
-  disconnect,
+  handleClickDisconnect,
+  handleClickClose,
 }) => {
+  const i18n = React.useContext(i18nContext);
+
   return (
-    <div>
-      <div>{ensName ? `${ensName} (${address})` : address}</div>
-      <div>Connected to {connector.name}</div>
-      <button onClick={() => disconnect()}>Disconnect</button>
+    <div className={styles.connectInfo}>
+      <div className={styles.connector}>
+        Connected to <b>{connector.name}</b>
+      </div>
+      <div className={styles.address}>{ensName ? `${ensName} (${address})` : address}</div>
+      <div className={styles.btnRow}>
+        <Button variant="transparent_black_1" handleClick={handleClickDisconnect}>
+          {i18n.disconnect}
+        </Button>
+        <Button variant="transparent_aqua_blue_1" handleClick={handleClickClose}>
+          {i18n.close}
+        </Button>
+      </div>
     </div>
   );
 };
 
-const WalletModal = () => {
+const WalletModal: React.FC<WalletModalProps> = ({ handleClickClose }) => {
   const { address, connector, isConnected } = useAccount();
   const { data: ensName } = useEnsName({ address });
   const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
   const { disconnect } = useDisconnect();
+
+  const handleClickDisconnect = React.useCallback(() => {
+    disconnect();
+  }, [disconnect]);
 
   const connectorsElem = React.useMemo(() => {
     return (
@@ -41,16 +59,6 @@ const WalletModal = () => {
     );
   }, [connectors]);
 
-  if (isConnected && connector) {
-    return (
-      <div>
-        <div>{ensName ? `${ensName} (${address})` : address}</div>
-        <div>Connected to {connector.name}</div>
-        <button onClick={() => disconnect()}>Disconnect</button>
-      </div>
-    );
-  }
-
   return (
     <div className={styles.wrapper}>
       {isConnected && connector ? (
@@ -58,7 +66,8 @@ const WalletModal = () => {
           ensName={ensName}
           address={address}
           connector={connector}
-          disconnect={disconnect}
+          handleClickDisconnect={handleClickDisconnect}
+          handleClickClose={handleClickClose}
         />
       ) : (
         connectorsElem
@@ -71,11 +80,14 @@ const WalletModal = () => {
 
 export default WalletModal;
 
-export interface WalletModalProps {}
+export interface WalletModalProps {
+  handleClickClose: () => void;
+}
 
 interface ConnectedInfoProps {
   ensName: string | null | undefined;
   address: `0x${string}` | undefined;
   connector: Connector<any, any>;
-  disconnect: () => void;
+  handleClickDisconnect: () => void;
+  handleClickClose: () => void;
 }

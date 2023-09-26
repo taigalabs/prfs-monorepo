@@ -1,5 +1,5 @@
 .wrapper {
-  padding: 26px 28px;
+  padding: 32px 38px;
 }
 
 .connectList {
@@ -19,4 +19,24 @@
       background: var(--bright-gray-30);
     }
   }
+}
+
+.connectedInfo {
+}
+
+.connector {
+  b {
+    font-weight: 500;
+  }
+}
+
+.address {
+  color: var(--gray-20);
+  margin: 18px 0;
+}
+
+.btnRow {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 41px;
 }

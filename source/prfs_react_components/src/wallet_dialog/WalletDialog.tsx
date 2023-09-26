@@ -31,14 +31,6 @@ const WalletDialog: React.FC<WalletDialogProps> = ({
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
   const [isOpen, setIsOpen] = React.useState(false);
   const [walletAddr, setWalletAddr] = React.useState("");
-  // const dispatch = useAppDispatch();
-  // const { address, isConnected } = useAccount();
-
-  // const { mutateAsync: GetPrfsTreeLeafIndices } = useMutation({
-  //   mutationFn: (req: GetPrfsTreeLeafIndicesRequest) => {
-  //     return prfsApi2("get_prfs_tree_leaf_indices", req);
-  //   },
-  // });
 
   const { refs, context } = useFloating({
     open: isOpen,
@@ -50,98 +42,12 @@ const WalletDialog: React.FC<WalletDialogProps> = ({
   const dismiss = useDismiss(context, { outsidePressEvent: "mousedown" });
 
   const { getReferenceProps, getFloatingProps } = useInteractions([click, role, dismiss]);
-
   const headingId = useId();
   const descriptionId = useId();
 
-  // const handleClickSubmit = React.useCallback(
-  //   (merkleProof: SpartanMerkleProof) => {
-  //     setFormValues((prevVals: any) => {
-  //       return {
-  //         ...prevVals,
-  //         [circuitInput.name]: merkleProof,
-  //       };
-  //     });
-
-  //     setIsOpen(false);
-  //   },
-  //   [setFormValues, setIsOpen]
-  // );
-
-  // const handleClickGetAddress = React.useCallback(async () => {
-  //   console.log(222, prfsSet, address);
-
-  //   if (!prfsSet) {
-  //     return;
-  //   }
-
-  //   if (!address) {
-  //     return;
-  //   }
-
-  //   const { set_id } = prfsSet;
-
-  //   try {
-  //     const { payload } = await GetPrfsTreeLeafIndices({
-  //       set_id,
-  //       leaf_vals: [address],
-  //     });
-
-  //     let pos_w = null;
-  //     for (const node of payload.prfs_tree_nodes) {
-  //       if (node.val === address.toLowerCase()) {
-  //         pos_w = node.pos_w;
-  //       }
-  //     }
-
-  //     if (pos_w === null) {
-  //       throw new Error("Address is not part of a set");
-  //     }
-
-  //     const leafIdx = Number(pos_w);
-  //     const siblingPath = makeSiblingPath(32, leafIdx);
-  //     const pathIndices = makePathIndices(32, leafIdx);
-
-  //     const siblingPos = siblingPath.map((pos_w, idx) => {
-  //       return { pos_h: idx, pos_w };
-  //     });
-
-  //     console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
-
-  //     const siblingNodesData = await prfsApi2("get_prfs_tree_nodes_by_pos", {
-  //       set_id,
-  //       pos: siblingPos,
-  //     });
-
-  //     let siblings: BigInt[] = [];
-  //     for (const node of siblingNodesData.payload.prfs_tree_nodes) {
-  //       siblings[node.pos_h] = BigInt(node.val);
-  //     }
-
-  //     for (let idx = 0; idx < 32; idx += 1) {
-  //       if (siblings[idx] === undefined) {
-  //         siblings[idx] = BigInt(0);
-  //       }
-  //     }
-
-  //     const merkleProof: SpartanMerkleProof = {
-  //       root: BigInt(prfsSet.merkle_root),
-  //       siblings: siblings as bigint[],
-  //       pathIndices,
-  //     };
-
-  //     setFormValues((prevVals: any) => {
-  //       return {
-  //         ...prevVals,
-  //         [circuitInput.name]: merkleProof,
-  //       };
-  //     });
-
-  //     // setWalletAddr(address);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // }, [setWalletAddr, setFormValues, prfsSet]);
+  const handleClickClose = React.useCallback(() => {
+    setIsOpen(false);
+  }, [setIsOpen]);
 
   return (
     <div>
@@ -162,7 +68,7 @@ const WalletDialog: React.FC<WalletDialogProps> = ({
                       aria-describedby={descriptionId}
                       {...getFloatingProps()}
                     >
-                      <WalletModal />
+                      <WalletModal handleClickClose={handleClickClose} />
                     </div>
                   </FloatingFocusManager>
                 </Fade>
