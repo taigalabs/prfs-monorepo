@@ -1,10 +1,12 @@
 import React from "react";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
+import cn from "classnames";
 import { ethers } from "ethers";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import { RiEqualizerLine } from "@react-icons/all-files/ri/RiEqualizerLine";
 import WalletDialog from "@taigalabs/prfs-react-components/src/wallet_dialog/WalletDialog";
+import { AiOutlineCheck } from "@react-icons/all-files/ai/AiOutlineCheck";
 import { SpartanMerkleProof } from "@taigalabs/prfs-driver-spartan-js";
 import {
   useFloating,
@@ -18,7 +20,6 @@ import {
   FloatingPortal,
 } from "@floating-ui/react";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
-import { useAccount } from "wagmi";
 
 import styles from "./MerkleProofInput.module.scss";
 import MerkleProofRawModal from "./MerkleProofRawModal";
@@ -29,7 +30,6 @@ import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   circuitInput,
@@ -40,9 +40,9 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isInputValid, setIsInputValid] = React.useState(false);
   const [walletAddr, setWalletAddr] = React.useState("");
   const dispatch = useAppDispatch();
-  const { address, isConnected } = useAccount();
 
   const { mutateAsync: GetPrfsTreeLeafIndices } = useMutation({
     mutationFn: (req: GetPrfsTreeLeafIndicesRequest) => {
@@ -104,80 +104,85 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
     [setFormValues, setIsOpen]
   );
 
-  const handleClickGetAddress = React.useCallback(async () => {
-    console.log(222, prfsSet, address);
+  const handleChangeAddress = React.useCallback(
+    async (addr: any) => {
+      console.log(222, prfsSet, addr);
 
-    if (!prfsSet) {
-      return;
-    }
+      if (!prfsSet) {
+        return;
+      }
 
-    if (!address) {
-      return;
-    }
+      if (!addr) {
+        return;
+      }
 
-    const { set_id } = prfsSet;
+      setWalletAddr(addr);
 
-    try {
-      const { payload } = await GetPrfsTreeLeafIndices({
-        set_id,
-        leaf_vals: [address],
-      });
+      const { set_id } = prfsSet;
 
-      let pos_w = null;
-      for (const node of payload.prfs_tree_nodes) {
-        if (node.val === address.toLowerCase()) {
-          pos_w = node.pos_w;
+      try {
+        const { payload } = await GetPrfsTreeLeafIndices({
+          set_id,
+          leaf_vals: [addr],
+        });
+
+        let pos_w = null;
+        for (const node of payload.prfs_tree_nodes) {
+          if (node.val === addr.toLowerCase()) {
+            pos_w = node.pos_w;
+          }
         }
-      }
 
-      if (pos_w === null) {
-        throw new Error("Address is not part of a set");
-      }
-
-      const leafIdx = Number(pos_w);
-      const siblingPath = makeSiblingPath(32, leafIdx);
-      const pathIndices = makePathIndices(32, leafIdx);
-
-      const siblingPos = siblingPath.map((pos_w, idx) => {
-        return { pos_h: idx, pos_w };
-      });
-
-      console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
-
-      const siblingNodesData = await prfsApi2("get_prfs_tree_nodes_by_pos", {
-        set_id,
-        pos: siblingPos,
-      });
-
-      let siblings: BigInt[] = [];
-      for (const node of siblingNodesData.payload.prfs_tree_nodes) {
-        siblings[node.pos_h] = BigInt(node.val);
-      }
-
-      for (let idx = 0; idx < 32; idx += 1) {
-        if (siblings[idx] === undefined) {
-          siblings[idx] = BigInt(0);
+        if (pos_w === null) {
+          throw new Error("Address is not part of a set");
         }
-      }
 
-      const merkleProof: SpartanMerkleProof = {
-        root: BigInt(prfsSet.merkle_root),
-        siblings: siblings as bigint[],
-        pathIndices,
-      };
+        const leafIdx = Number(pos_w);
+        const siblingPath = makeSiblingPath(32, leafIdx);
+        const pathIndices = makePathIndices(32, leafIdx);
 
-      setFormValues((prevVals: any) => {
-        return {
-          ...prevVals,
-          [circuitInput.name]: merkleProof,
+        const siblingPos = siblingPath.map((pos_w, idx) => {
+          return { pos_h: idx, pos_w };
+        });
+
+        console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
+
+        const siblingNodesData = await prfsApi2("get_prfs_tree_nodes_by_pos", {
+          set_id,
+          pos: siblingPos,
+        });
+
+        let siblings: BigInt[] = [];
+        for (const node of siblingNodesData.payload.prfs_tree_nodes) {
+          siblings[node.pos_h] = BigInt(node.val);
+        }
+
+        for (let idx = 0; idx < 32; idx += 1) {
+          if (siblings[idx] === undefined) {
+            siblings[idx] = BigInt(0);
+          }
+        }
+
+        const merkleProof: SpartanMerkleProof = {
+          root: BigInt(prfsSet.merkle_root),
+          siblings: siblings as bigint[],
+          pathIndices,
         };
-      });
 
-      setWalletAddr(address);
-    } catch (err) {
-      console.error(err);
-    }
-  }, [setWalletAddr, setFormValues, prfsSet, GetPrfsTreeLeafIndices]);
+        setFormValues((prevVals: any) => {
+          return {
+            ...prevVals,
+            [circuitInput.name]: merkleProof,
+          };
+        });
+
+        setIsInputValid(true);
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    [setWalletAddr, setFormValues, prfsSet, GetPrfsTreeLeafIndices, setIsInputValid]
+  );
 
   return (
     prfsSet && (
@@ -224,10 +229,10 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
             </div>
           </div>
         </FormInputTitleRow>
-        <div className={styles.wrapper}>
+        <div className={styles.inputWrapper}>
           <input placeholder={`${circuitInput.desc}`} value={walletAddr} readOnly />
           <div className={styles.btnGroup}>
-            <WalletDialog />
+            <WalletDialog handleChangeAddress={handleChangeAddress} />
           </div>
         </div>
       </FormInput>

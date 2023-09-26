@@ -15,7 +15,7 @@
   max-width: 520px;
 }
 
-.wrapper {
+.inputWrapper {
   display: flex;
   align-items: center;
   position: relative;
@@ -28,7 +28,7 @@
     height: 100%;
     border: 1px solid var(--gray-70);
     border-radius: 3px;
-    padding-left: 7px;
+    padding-left: 8px;
     padding-right: 60px;
     outline: none;
 
@@ -91,4 +91,14 @@
 
 .isOpen {
   text-decoration: underline;
+}
+
+.check {
+  position: absolute;
+  left: 7px;
+  color: var(--gray-70);
+
+  &.isInputValid {
+    color: green;
+  }
 }

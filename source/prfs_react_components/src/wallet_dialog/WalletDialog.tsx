@@ -21,12 +21,7 @@ import Button from "../button/Button";
 import { i18nContext } from "../contexts/i18nContext";
 import WalletModal from "./WalletModal";
 
-const WalletDialog: React.FC<WalletDialogProps> = ({
-  // circuitInput,
-  // value,
-  // setFormValues,
-  zIndex,
-}) => {
+const WalletDialog: React.FC<WalletDialogProps> = ({ handleChangeAddress, zIndex }) => {
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
   const [isOpen, setIsOpen] = React.useState(false);
@@ -54,7 +49,7 @@ const WalletDialog: React.FC<WalletDialogProps> = ({
       <div>
         <div>
           <div className={styles.btnRow} ref={refs.setReference} {...getReferenceProps()}>
-            <button>{i18n.put_address}</button>
+            <button>{i18n.address}</button>
           </div>
           <FloatingPortal>
             {isOpen && (
@@ -68,7 +63,10 @@ const WalletDialog: React.FC<WalletDialogProps> = ({
                       aria-describedby={descriptionId}
                       {...getFloatingProps()}
                     >
-                      <WalletModal handleClickClose={handleClickClose} />
+                      <WalletModal
+                        handleClickClose={handleClickClose}
+                        handleChangeAddress={handleChangeAddress}
+                      />
                     </div>
                   </FloatingFocusManager>
                 </Fade>
@@ -87,5 +85,6 @@ export interface WalletDialogProps {
   // circuitInput: CircuitInput;
   // value: SpartanMerkleProof | undefined;
   // setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  handleChangeAddress: (addr: any) => void;
   zIndex?: number;
 }

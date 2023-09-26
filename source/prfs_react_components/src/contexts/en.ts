@@ -117,6 +117,7 @@ export default {
   close: "Close",
   disconnect: "Disconnect",
   put_address: "Put address",
+  address: "Address",
   raw: "Raw",
   metamask: "Metamask",
   metamask_desc:

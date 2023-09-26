@@ -20,7 +20,9 @@ const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
       <div className={styles.connector}>
         Connected to <b>{connector.name}</b>
       </div>
-      <div className={styles.address}>{ensName ? `${ensName} (${address})` : address}</div>
+      <div className={styles.address}>
+        <button onClick={handleClickClose}>{ensName ? `${ensName} (${address})` : address}</button>
+      </div>
       <div className={styles.btnRow}>
         <Button variant="transparent_black_1" handleClick={handleClickDisconnect}>
           {i18n.disconnect}
@@ -33,7 +35,7 @@ const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
   );
 };
 
-const WalletModal: React.FC<WalletModalProps> = ({ handleClickClose }) => {
+const WalletModal: React.FC<WalletModalProps> = ({ handleClickClose, handleChangeAddress }) => {
   const { address, connector, isConnected } = useAccount();
   const { data: ensName } = useEnsName({ address });
   const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
@@ -42,6 +44,13 @@ const WalletModal: React.FC<WalletModalProps> = ({ handleClickClose }) => {
   const handleClickDisconnect = React.useCallback(() => {
     disconnect();
   }, [disconnect]);
+
+  React.useEffect(() => {
+    console.log(1111, address);
+    if (address) {
+      handleChangeAddress(address);
+    }
+  }, [address, handleChangeAddress]);
 
   const connectorsElem = React.useMemo(() => {
     return (
@@ -82,6 +91,7 @@ export default WalletModal;
 
 export interface WalletModalProps {
   handleClickClose: () => void;
+  handleChangeAddress: (addr: any) => void;
 }
 
 interface ConnectedInfoProps {

@@ -33,6 +33,14 @@
 .address {
   color: var(--gray-20);
   margin: 18px 0;
+
+  button {
+    cursor: pointer;
+
+    &:hover {
+      color: var(--black-00);
+    }
+  }
 }
 
 .btnRow {
