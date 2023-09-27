@@ -13,7 +13,7 @@ pub fn setup_local_assets() {
         std::fs::remove_dir_all(&PATHS.assets).unwrap();
     }
 
-    // copy_circuits();
+    copy_circuits();
     copy_drivers();
 }
 

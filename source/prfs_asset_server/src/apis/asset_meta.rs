@@ -10,6 +10,7 @@ use tokio::io::AsyncWriteExt;
 
 use super::request::parse_req;
 use super::response::ApiResponse;
+use crate::envs::ENVS;
 use crate::paths::PATHS;
 use crate::server::ServerState;
 
@@ -19,10 +20,10 @@ pub async fn get_asset_meta(req: Request<Body>) -> Result<Response<Body>, Infall
 
     let req: GetAssetMetaRequest = parse_req(req).await;
 
-    // let (prfs_proof_instances_syn1, table_row_count) =
-    //     db_apis::get_prfs_proof_instances_syn1(pool, req.page_idx, req.page_size).await;
-
-    let resp = ApiResponse::new_success(GetAssetMetaResponse {});
+    let resp = ApiResponse::new_success(GetAssetMetaResponse {
+        driver_id: req.driver_id,
+        asset_urls: vec![],
+    });
 
     return Ok(resp.into_hyper_response());
 }
