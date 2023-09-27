@@ -1,6 +1,6 @@
 import React from "react";
 
-import styles from "./DefaultLayout.module.scss";
+import styles from "./ZAuthLayout.module.scss";
 // import { useAppSelector } from "@/state/hooks";
 
 const ZAuthLayout: React.FC<DefaultLayoutProps> = ({ children }) => {

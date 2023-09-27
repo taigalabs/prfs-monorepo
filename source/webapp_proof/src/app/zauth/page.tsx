@@ -7,7 +7,7 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { Msg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 import NoSSR from "@taigalabs/prfs-react-components/src/no_ssr/NoSSR";
 
-import styles from "./ProofGen.module.scss";
+import styles from "./ZAuthPage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { checkSanity } from "@/functions/sanity";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
