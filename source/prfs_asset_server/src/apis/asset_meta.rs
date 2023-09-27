@@ -1,7 +1,7 @@
 use hyper::header::CONTENT_TYPE;
 use hyper::{Body, Request, Response, StatusCode};
 use multer::Multipart;
-use prfs_entities::apis_entities::{GetAssetMetaRequest, GetAssetMetaResponse};
+use prfs_entities::asset_entities::{GetAssetMetaRequest, GetAssetMetaResponse};
 use routerify::prelude::*;
 use std::convert::Infallible;
 use std::sync::Arc;
