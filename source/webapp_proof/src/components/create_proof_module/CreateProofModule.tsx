@@ -85,10 +85,18 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
       );
 
       try {
-        const driver = await initDriver(circuit_driver_id, driverProperties);
-
-        setSystemMsg(`${circuit_driver_id}`);
-        setDriver(driver);
+        const script = document.createElement("script");
+        script.src = "http://localhost:4010/assets/drivers/bundle.js";
+        script.id = "spartan";
+        script.type = "text/javascript";
+        script.crossOrigin = "anonymous";
+        document.body.appendChild(script);
+        script.onload = async () => {
+          console.log(222);
+          const driver = await initDriver(circuit_driver_id, driverProperties);
+        };
+        // setSystemMsg(`${circuit_driver_id}`);
+        // setDriver(driver);
       } catch (err) {
         setSystemMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
       }

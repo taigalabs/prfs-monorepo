@@ -8,8 +8,18 @@ export async function initDriver(
     case "SPARTAN_CIRCOM_1": {
       console.log("initDriver()");
 
-      const mod = await import(`@taigalabs/prfs-driver-spartan-js?version=${Date.now()}`);
-      const driver = await mod.default.newInstance(driverProps);
+      const { newInstance } = window.prfsDriverSpartanJs;
+      // console.log(333, a);
+
+      // const mod = await import('@taigalabs/prfs-driver-spartan-js');
+      // const mod = await import(
+      //   /* webpackIgnore: true */ `http://localhost:4010/assets/drivers/bundle.js?now=${Date.now()}`
+      // );
+
+      // console.log(22, mod);
+
+      // const driver = await mod.default.newInstance(driverProps);
+      const driver = await newInstance(driverProps);
       return driver;
     }
     default:
@@ -29,4 +39,10 @@ export function interpolateSystemAssetEndpoint(
   }
 
   return ret;
+}
+
+declare global {
+  interface Window {
+    prfsDriverSpartanJs: any;
+  }
 }
