@@ -1,10 +1,11 @@
-use crate::apis::assets;
-use crate::state::ServerState;
 use hyper::{Body, Request, Response, StatusCode};
 use routerify::prelude::*;
 use routerify::{Middleware, RequestInfo, Router};
 use routerify_cors::enable_cors_all;
 use std::convert::Infallible;
+
+use super::ServerState;
+use crate::apis::assets;
 
 pub fn make_router(server_state: ServerState) -> Router<Body, Infallible> {
     Router::builder()
@@ -12,6 +13,7 @@ pub fn make_router(server_state: ServerState) -> Router<Body, Infallible> {
         .middleware(Middleware::pre(logger))
         .middleware(enable_cors_all())
         .get("/", home_handler)
+        .get("/asset_meta/", assets::get_assets)
         .get("/assets/*", assets::get_assets)
         .post("/upload", assets::upload_assets)
         .err_handler_with_info(error_handler)

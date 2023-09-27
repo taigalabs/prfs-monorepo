@@ -1,3 +1,4 @@
+mod assets;
 mod prfs_account;
 mod prfs_circuit;
 mod prfs_circuit_driver;
@@ -9,6 +10,7 @@ mod prfs_proof_type;
 mod prfs_set;
 mod prfs_tree_node;
 
+pub use assets::*;
 pub use prfs_account::*;
 pub use prfs_circuit::*;
 pub use prfs_circuit_driver::*;

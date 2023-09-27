@@ -1,5 +1,3 @@
-use crate::paths::PATHS;
-use crate::state::ServerState;
 use hyper::header::CONTENT_TYPE;
 use hyper::{Body, Request, Response, StatusCode};
 use multer::Multipart;
@@ -7,6 +5,9 @@ use routerify::prelude::*;
 use std::convert::Infallible;
 use tokio::fs::File;
 use tokio::io::AsyncWriteExt;
+
+use crate::paths::PATHS;
+use crate::server::ServerState;
 
 pub async fn get_assets(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     let state = req.data::<ServerState>().unwrap();

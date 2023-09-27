@@ -11,7 +11,7 @@
   "scripts": {
     "clean-build": "rm -rf ./build",
     "clean-build-cjs": "rm -rf ./build_cjs",
-    "build": "webpack --config webpack.config.js",
+    "build": "pnpm run clean-build && webpack --config webpack.config.js",
     "build-pkg": "pnpm run clean-build && tsc",
     "build-cjs": "pnpm run clean-build-cjs && tsc --project tsconfig.cjs.json",
     "prepublishOnly": "pnpm run build-pkg",

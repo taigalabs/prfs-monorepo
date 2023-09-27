@@ -19,6 +19,7 @@ multer = "2.0"
 lazy_static = "1.4"
 
 prfs_circuit_circom = { path = "../prfs_circuit_circom" }
+prfs_entities = { path = "../prfs_entities" }
 
 [[bin]]
 name = "server"

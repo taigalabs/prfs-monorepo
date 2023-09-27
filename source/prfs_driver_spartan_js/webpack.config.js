@@ -2,6 +2,7 @@
 
 const path = require("path");
 const nodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+const webpack = require("webpack");
 
 module.exports = /** @type { import('webpack').Configuration } */ ({
   entry: "./src/index.ts",
@@ -14,6 +15,7 @@ module.exports = /** @type { import('webpack').Configuration } */ ({
     },
     libraryExport: "default",
     libraryTarget: "var",
+    publicPath: "/",
   },
   mode: "development",
   module: {
@@ -31,5 +33,11 @@ module.exports = /** @type { import('webpack').Configuration } */ ({
       fs: false,
     },
   },
-  plugins: [new nodePolyfillPlugin()],
+  plugins: [
+    new nodePolyfillPlugin(),
+
+    new webpack.optimize.LimitChunkCountPlugin({
+      maxChunks: 1,
+    }),
+  ],
 });
