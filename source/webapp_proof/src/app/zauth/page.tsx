@@ -71,7 +71,7 @@ const ProofGen: React.FC<ProofGenProps> = () => {
       <NoSSR>
         <ZAuthLayout>
           <div className={styles.wrapper}></div>
-          <CreateProofModule proofType={proofType} />
+          <CreateProofModule proofType={proofType} handleCreateProof={() => {}} />
         </ZAuthLayout>
       </NoSSR>
     )
