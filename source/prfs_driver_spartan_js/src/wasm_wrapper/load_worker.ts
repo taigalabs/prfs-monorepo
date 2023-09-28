@@ -1,7 +1,7 @@
 import * as Comlink from "comlink";
 
 export async function initWasm() {
-  const worker = new Worker(new URL("./wasm_worker.ts", import.meta.url), {
+  const worker = new Worker(new URL("./wasm_worker.js", import.meta.url), {
     type: "module",
   });
 

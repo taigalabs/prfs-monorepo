@@ -26,6 +26,10 @@ enum CreateProofStatus {
   InProgress,
 }
 
+const singleton = {
+  state: false,
+};
+
 const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handleCreateProof }) => {
   const i18n = React.useContext(i18nContext);
 
@@ -90,24 +94,41 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
       const { circuit_driver_id, driver_properties } = proofType;
       const driverProperties = interpolateSystemAssetEndpoint(
         driver_properties,
-        ASSET_SERVER_ENDPOINT
+        `${ASSET_SERVER_ENDPOINT}/assets/circuits/`
       );
 
       try {
-        const { payload } = await getPrfsAssetMetaRequest({ driver_id: circuit_driver_id });
-        console.log(55, payload);
-        // const script = document.createElement("script");
-        // script.src = "http://localhost:4010/assets/drivers/bundle.js";
-        // script.id = "spartan";
-        // script.type = "text/javascript";
-        // script.crossOrigin = "anonymous";
-        // document.body.appendChild(script);
-        // script.onload = async () => {
-        //   console.log(222);
-        //   const driver = await initDriver(circuit_driver_id, driverProperties);
-        // };
-        // setSystemMsg(`${circuit_driver_id}`);
-        // setDriver(driver);
+        if (singleton.state) {
+          return;
+        }
+
+        // const { payload } = await getPrfsAssetMetaRequest({ driver_id: circuit_driver_id });
+        // console.log(55, payload);
+
+        // const scriptsLoad = [];
+        // for (const url of payload.asset_urls) {
+        //   const script = document.createElement("script");
+        //   script.src = url;
+        //   script.id = "spartan";
+        //   script.type = "text/javascript";
+        //   script.crossOrigin = "anonymous";
+        //   document.body.appendChild(script);
+        //   const p = new Promise(res => {
+        //     script.onload = async () => {
+        //       console.log(222);
+        //       res(0);
+        //     };
+        //   });
+        //   scriptsLoad.push(p);
+        // }
+
+        // const result = await Promise.all(scriptsLoad);
+        // console.log(22, result);
+        singleton.state = true;
+
+        const driver = await initDriver(circuit_driver_id, driverProperties);
+        setSystemMsg(`${circuit_driver_id}`);
+        setDriver(driver);
       } catch (err) {
         setSystemMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
       }

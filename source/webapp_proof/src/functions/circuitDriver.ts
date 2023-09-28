@@ -8,19 +8,24 @@ export async function initDriver(
     case "SPARTAN_CIRCOM_1": {
       console.log("initDriver()");
 
-      const { newInstance } = window.prfsDriverSpartanJs;
+      // const { newInstance } = window.prfsDriverSpartanJs;
       // console.log(333, a);
 
-      // const mod = await import('@taigalabs/prfs-driver-spartan-js');
-      // const mod = await import(
-      //   /* webpackIgnore: true */ `http://localhost:4010/assets/drivers/bundle.js?now=${Date.now()}`
-      // );
+      try {
+        console.log(222);
+        const mod = await import("@taigalabs/prfs-driver-spartan-js");
+        // const mod = await import(
+        //   /* webpackIgnore: true */ `http://localhost:4010/assets/drivers/bundle.js?now=${Date.now()}`
+        // );
 
-      // console.log(22, mod);
+        console.log(22, mod);
 
-      // const driver = await mod.default.newInstance(driverProps);
-      const driver = await newInstance(driverProps);
-      return driver;
+        const driver = await mod.default.newInstance(driverProps);
+        // const driver = await newInstance(driverProps);
+        return driver;
+      } catch (err) {
+        console.error(err);
+      }
     }
     default:
       throw new Error(`This driver is not supported, ${driverId}`);
