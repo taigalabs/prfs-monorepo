@@ -2,7 +2,7 @@ import React from "react";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { CircuitDriver, LogEventType } from "@taigalabs/prfs-driver-interface";
-import { Msg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
+import { Msg, MsgType, sendMsgToChild, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
 import { i18nContext } from "@/contexts/i18n";
@@ -17,17 +17,11 @@ const state: ProofGenModuleState = {
 };
 
 function proofGenEventListener(type: LogEventType, msg: string) {
-  console.log(33, type, msg);
-  // setTerminalLog(msg);
+  sendMsgToParent(new Msg("PROOF_GEN_EVENT", { type, msg }));
 }
 
 export async function setupProofGen() {
   console.log("handshake 111");
-
-  // proofGenEventListener(
-  //   "info",
-  //   `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
-  // );
 
   async function eventListener(ev: MessageEvent) {
     const { driver } = state;
@@ -45,6 +39,11 @@ export async function setupProofGen() {
           if (!driver) {
             return;
           }
+
+          proofGenEventListener(
+            "info",
+            `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
+          );
 
           const proveReceipt = await createProof(driver, payload, proofGenEventListener);
 

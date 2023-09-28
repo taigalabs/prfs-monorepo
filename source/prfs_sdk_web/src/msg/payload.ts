@@ -1,4 +1,4 @@
-import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
+import { LogEventType, ProveReceipt } from "@taigalabs/prfs-driver-interface";
 
 export type MsgType =
   | "HANDSHAKE"
@@ -11,16 +11,16 @@ export type MsgType =
   | "GET_SIGNATURE_RESPONSE"
   | "CREATE_PROOF"
   | "CREATE_PROOF_RESPONSE"
-  | "GET_FORM_VALUES"
-  | "GET_FORM_VALUES_RESPONSE";
+  | "PROOF_GEN_EVENT"
+  | "PROOF_GEN_EVENT_RESPONSE";
 
-export interface HandshakePayload {
-  // docHeight: number;
-}
+export interface HandshakePayload {}
 
-export interface HandshakeResponsePayload {
-  // circuit_driver_id: string;
-  // driver_properties: Record<string, any>;
+export interface HandshakeResponsePayload {}
+
+export interface ProofGenEventPayload {
+  type: LogEventType;
+  msg: string;
 }
 
 export interface LoadDriverPayload {
@@ -35,15 +35,6 @@ export interface GetSignaturePayload {
 export interface GetSignatureResponsePayload {
   msgHash: Buffer;
   sig: string;
-}
-
-export interface OpenDialogPayload {
-  duration: number;
-}
-
-export interface OpenDialogRespPayload {
-  top: number;
-  left: number;
 }
 
 export type ReqPayload<T extends MsgType> = //
@@ -67,6 +58,8 @@ export type ReqPayload<T extends MsgType> = //
     ? Record<string, any>
     : T extends "CREATE_PROOF_RESPONSE"
     ? ProveReceipt
+    : T extends "PROOF_GEN_EVENT"
+    ? ProofGenEventPayload
     : never;
 
 export type RespPayload<T extends MsgType> = //
@@ -90,4 +83,8 @@ export type RespPayload<T extends MsgType> = //
     ? ProveReceipt
     : T extends "CREATE_PROOF_RESPONSE"
     ? void
+    : T extends "PROOF_GEN_EVENT"
+    ? never
+    : T extends "PROOF_GEN_EVENT_RESPONSE"
+    ? never
     : never;

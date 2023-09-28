@@ -1,6 +1,6 @@
 import { hashPersonalMessage } from "@ethereumjs/util";
 import { listenClickOutsideIFrame, removeClickListener } from "./outside_event";
-import { GetSignaturePayload, HandshakePayload, MsgType, OpenDialogPayload } from "../msg/payload";
+import { GetSignaturePayload, HandshakePayload, MsgType } from "../msg/payload";
 import { ProofGenElementState } from "./proof_gen_element";
 import { ProofGenOptions } from "../element_options";
 import { Msg } from "../msg";
@@ -11,6 +11,8 @@ export function handleChildMessage(
   state: ProofGenElementState
 ) {
   console.log("Attaching child msg handler");
+
+  const { proofGenEventListener } = options;
 
   const msgEventListener = async (ev: MessageEvent) => {
     if (ev.ports.length > 0) {
@@ -25,6 +27,13 @@ export function handleChildMessage(
           ev.ports[0].postMessage(new Msg("HANDSHAKE_RESPONSE", {}));
 
           resolve(1);
+          break;
+        }
+
+        case "PROOF_GEN_EVENT": {
+          const { payload } = ev.data;
+
+          proofGenEventListener(payload.type, payload.msg);
           break;
         }
 

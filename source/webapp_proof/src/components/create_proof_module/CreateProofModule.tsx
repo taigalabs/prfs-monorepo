@@ -10,18 +10,14 @@ import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
 import styles from "./CreateProofModule.module.scss";
-import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
 import { i18nContext } from "@/contexts/i18n";
 import { delay } from "@/functions/interval";
 import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
 import SigDataInput from "@/components/sig_data_input/SigDataInput";
-import { createProof } from "@/functions/proof";
 import { envs } from "@/envs";
 import Passcode from "@/components/passcode/Passcode";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
 import { validateInputs } from "@/validate";
-
-const ASSET_SERVER_ENDPOINT = envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -29,10 +25,6 @@ enum CreateProofStatus {
   Loaded,
   InProgress,
 }
-
-const singleton = {
-  state: false,
-};
 
 const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handleCreateProof }) => {
   const i18n = React.useContext(i18nContext);
@@ -79,18 +71,12 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
 
         await delay(3000);
 
-        proofGenElement.createProof(newFormValues);
-        // proofGenEventListener(
-        //   "info",
-        //   `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
-        // );
-        //
-        // proofGenElement.createProof()
+        const proveReceipt = await proofGenElement.createProof(newFormValues);
+        proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
 
         // const proveReceipt = await createProof(driver, newFormValues, proofGenEventListener);
-        // proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
 
-        // handleCreateProof(null, proveReceipt);
+        handleCreateProof(null, proveReceipt);
       } catch (err) {
         handleCreateProof(err, null);
       }
@@ -111,6 +97,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
           circuit_driver_id,
           driver_properties,
           sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
+          proofGenEventListener: proofGenEventListener,
         });
 
         setProofGenElement(elem);
