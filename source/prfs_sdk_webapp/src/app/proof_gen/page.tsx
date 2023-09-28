@@ -1,13 +1,27 @@
 "use client";
 
 import React from "react";
+import { setupProofGen } from "./setupProofGen";
 
-import { i18nContext } from "@/contexts/i18n";
-import { useProofGen } from "./useProofGen";
+const state = {
+  isBusy: false,
+};
 
 const ProofGen: React.FC<ProofGenProps> = () => {
   React.useEffect(() => {
-    const proofGen = setupProofGen();
+    async function fn() {
+      if (!state.isBusy) {
+        state.isBusy = true;
+        console.log(123123);
+        try {
+          const prfGen = await setupProofGen();
+        } catch (err) {
+          state.isBusy = false;
+        }
+      }
+    }
+
+    fn().then();
   }, []);
 
   return null;

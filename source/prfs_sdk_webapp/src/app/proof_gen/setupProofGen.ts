@@ -12,12 +12,16 @@ import { envs } from "@/envs";
 
 const ASSET_SERVER_ENDPOINT = envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
-export async function setupProofGen() {
-  // const [driver, setDriver] = React.useState<CircuitDriver>();
-  const state = {
-    driver: undefined,
-  };
+const state: ProofGenModuleState = {
+  driver: null,
+};
 
+function proofGenEventListener(type: LogEventType, msg: string) {
+  console.log(33, type, msg);
+  // setTerminalLog(msg);
+}
+
+export async function setupProofGen() {
   console.log("handshake 111");
 
   // proofGenEventListener(
@@ -42,6 +46,10 @@ export async function setupProofGen() {
             return;
           }
 
+          const proveReceipt = await createProof(driver, payload, proofGenEventListener);
+
+          ev.ports[0].postMessage(new Msg("CREATE_PROOF_RESPONSE", proveReceipt));
+
           // try {
           //   const newFormValues = await validateForm(
           //     formValues,
@@ -57,8 +65,6 @@ export async function setupProofGen() {
           //     "info",
           //     `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
           //   );
-
-          //   const proveReceipt = await createProof(driver, formValues, proofGenEventListener);
 
           //   proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
 
@@ -81,7 +87,8 @@ export async function setupProofGen() {
 
           try {
             const driver = await initDriver(circuit_driver_id, driverProperties);
-            // setDriver(driver);
+            state.driver = driver;
+
             ev.ports[0].postMessage(new Msg("LOAD_DRIVER_RESPONSE", circuit_driver_id));
           } catch (err) {
             console.error(err);
@@ -99,4 +106,8 @@ export async function setupProofGen() {
   return () => {
     window.removeEventListener("message", eventListener);
   };
+}
+
+export interface ProofGenModuleState {
+  driver: CircuitDriver | null;
 }
