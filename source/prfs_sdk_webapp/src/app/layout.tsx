@@ -4,9 +4,12 @@ import "@taigalabs/prfs-react-components/src/react_components.scss";
 import "./globals.scss";
 
 import { Provider as StateProvider } from "react-redux";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { I18nProvider } from "@/contexts/i18n";
 import { store } from "@/state/store";
+
+const queryClient = new QueryClient();
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -29,8 +32,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 const ParentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <StateProvider store={store}>
-      <I18nProvider>{children}</I18nProvider>
-    </StateProvider>
+    <QueryClientProvider client={queryClient}>
+      <StateProvider store={store}>
+        <I18nProvider>{children}</I18nProvider>
+      </StateProvider>
+    </QueryClientProvider>
   );
 };

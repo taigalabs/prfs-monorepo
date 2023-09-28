@@ -1,8 +1,10 @@
-import { ProveReceipt, ProveResult } from "@taigalabs/prfs-driver-interface";
+import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 
 export type MsgType =
   | "HANDSHAKE"
   | "HANDSHAKE_RESPONSE"
+  | "SET_DRIVER"
+  | "SET_DRIVER_RESPONSE"
   | "GET_ADDRESS"
   | "GET_ADDRESS_RESPONSE"
   | "GET_SIGNATURE"
@@ -23,7 +25,17 @@ export type MsgType =
   | "GET_FORM_VALUES_RESPONSE";
 
 export interface HandshakePayload {
-  docHeight: number;
+  // docHeight: number;
+}
+
+export interface HandshakeResponsePayload {
+  // circuit_driver_id: string;
+  // driver_properties: Record<string, any>;
+}
+
+export interface SetDriverPayload {
+  circuit_driver_id: string;
+  driver_properties: Record<string, any>;
 }
 
 export interface GetSignaturePayload {
@@ -48,11 +60,13 @@ export type ReqPayload<T extends MsgType> = //
   T extends "HANDSHAKE"
     ? HandshakePayload
     : T extends "HANDSHAKE_RESPONSE"
-    ? void
+    ? HandshakeResponsePayload
     : T extends "GET_ADDRESS"
     ? string
     : T extends "GET_ADDRESS_RESPONSE"
     ? string
+    : T extends "SET_DRIVER"
+    ? SetDriverPayload
     : T extends "GET_SIGNATURE"
     ? GetSignaturePayload
     : T extends "GET_SIGNATURE_RESPONSE"
@@ -99,6 +113,8 @@ export type RespPayload<T extends MsgType> = //
     : T extends "GET_SIGNATURE"
     ? GetSignatureResponsePayload
     : T extends "GET_SIGNATURE_RESPONSE"
+    ? never
+    : T extends "SET_DRIVER"
     ? never
     : T extends "LISTEN_CLICK_OUTSIDE"
     ? boolean

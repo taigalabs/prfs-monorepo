@@ -20,6 +20,7 @@
     "@taigalabs/prfs-react-components": "*",
     "@taigalabs/prfs-entities": "*",
     "@taigalabs/prfs-sdk-web": "*",
+    "@tanstack/react-query": "^4.35.0",
     "classnames": "^2.3.2",
     "elliptic": "^6.5.4",
     "ethers": "^5",

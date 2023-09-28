@@ -4,7 +4,6 @@ import "@taigalabs/prfs-react-components/src/react_components.scss";
 import "./globals.scss";
 
 import React from "react";
-// import { ThirdwebProvider } from "@thirdweb-dev/react";
 import { Provider as StateProvider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PrfsReactComponentsI18NProvider } from "@taigalabs/prfs-react-components/src/contexts/i18nContext";

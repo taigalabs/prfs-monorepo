@@ -97,29 +97,34 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
   React.useEffect(() => {
     async function fn() {
       const { circuit_driver_id, driver_properties } = proofType;
-      const driverProperties = interpolateSystemAssetEndpoint(
-        driver_properties,
-        `${ASSET_SERVER_ENDPOINT}/assets/circuits/`
-      );
+      // const driverProperties = interpolateSystemAssetEndpoint(
+      //   driver_properties,
+      //   `${ASSET_SERVER_ENDPOINT}/assets/circuits/`
+      // );
 
       try {
         if (singleton.state) {
           return;
         }
 
-        const proofGenElement = prfsSDK.create("proof-gen", {
+        const proofGenElement = await prfsSDK.create("proof-gen", {
           proofTypeId: proofType.proof_type_id,
-          // provider,
+          circuit_driver_id,
+          driver_properties,
         });
 
-        await proofGenElement.mount();
-        setProofGenElement(proofGenElement);
+        // await proofGenElement.mount({
+        //   circuit_driver_id,
+        //   driver_properties,
+        // });
+
+        // setProofGenElement(proofGenElement);
 
         singleton.state = true;
 
-        const driver = await initDriver(circuit_driver_id, driverProperties);
-        setSystemMsg(`${circuit_driver_id}`);
-        setDriver(driver);
+        // const driver = await initDriver(circuit_driver_id, driverProperties);
+        // setSystemMsg(`${circuit_driver_id}`);
+        // setDriver(driver);
       } catch (err) {
         setSystemMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
       }

@@ -21,19 +21,10 @@ export function handleChildMessage(
 
       switch (type) {
         case "HANDSHAKE": {
-          const handshakePayload = ev.data.payload as HandshakePayload;
+          // const handshakePayload = ev.data.payload as HandshakePayload;
+          //
 
-          // const { docHeight } = handshakePayload;
-          // const wrapperDiv = state.wrapperDiv as HTMLDivElement;
-          // const placeholderDiv = state.placeholderDiv as HTMLDivElement;
-
-          // state.calcHeight = docHeight;
-          // wrapperDiv.style.height = `${docHeight}px`;
-          // placeholderDiv.style.height = `${docHeight}px`;
-
-          ev.ports[0].postMessage(new Msg("HANDSHAKE_RESPONSE", undefined));
-
-          // placeholderDiv.innerText = "";
+          ev.ports[0].postMessage(new Msg("HANDSHAKE_RESPONSE", {}));
 
           resolve(1);
           break;
