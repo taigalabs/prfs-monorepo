@@ -23,6 +23,7 @@ fn main() {
         .subcommand(command!("dev_webapp_proof").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_webapp_poll").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_webapp_vacade").arg(Arg::new("extra_args")))
+        .subcommand(command!("dev_sdk_webapp").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_asset_server"))
         .subcommand(command!("dev_api_server"))
         .subcommand(command!("seed_api_server"))
@@ -43,6 +44,9 @@ fn main() {
         }
         Some(("e2e_test_web", sub_matches)) => {
             cmds::e2e_test_web::run(sub_matches);
+        }
+        Some(("dev_sdk_webapp", sub_matches)) => {
+            cmds::dev_sdk_webapp::run(sub_matches);
         }
         Some(("dev_webapp_console", sub_matches)) => {
             cmds::dev_webapp_console::run(sub_matches);

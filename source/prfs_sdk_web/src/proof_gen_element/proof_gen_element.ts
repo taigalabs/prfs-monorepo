@@ -11,6 +11,7 @@ export const PLACEHOLDER_ID = "prfs-sdk-placeholder";
 export const MSG_SPAN_ID = "prfs-sdk-msg";
 export const PORTAL_ID = "prfs-sdk-portal";
 const SDK_ENDPOINT = "http://localhost:3010";
+const CONTAINER_ID = "prfs-sdk-container";
 
 const singleton: {
   msgEventListener: any;
@@ -37,16 +38,17 @@ class ProofGenElement {
     };
   }
 
-  async mount(containerName: string): Promise<HTMLIFrameElement> {
+  async mount(_containerId?: string): Promise<HTMLIFrameElement> {
     const { options } = this;
+    const containerId = _containerId || CONTAINER_ID;
 
     return new Promise((resolve, reject) => {
-      const container = document.querySelector(containerName) as HTMLDivElement;
-      const { calcHeight, calcWidth } = this.state;
-      const wrapperZIndex = options.wrapperZIndex || "200";
+      const container = document.querySelector(containerId) as HTMLDivElement;
+      // const { calcHeight, calcWidth } = this.state;
+      // const wrapperZIndex = options.wrapperZIndex || "200";
 
       if (!container) {
-        console.error(`No target element named, ${containerName}`);
+        console.error(`No target element named, ${containerId}`);
         reject("no target element");
       }
 
@@ -58,7 +60,7 @@ class ProofGenElement {
 
       const iframe = document.createElement("iframe");
       iframe.id = PROOF_GEN_IFRAME_ID;
-      iframe.src = `${SDK_ENDPOINT}/embed/proof_gen?proofTypeId=${options.proofTypeId}&theme=${options.theme}&docWidth=${calcWidth}`;
+      iframe.src = `${SDK_ENDPOINT}/embed/proof_gen?proofTypeId=${options.proofTypeId}`;
       iframe.allow = "cross-origin-isolated";
       iframe.style.border = "none";
       // iframe.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
@@ -66,46 +68,49 @@ class ProofGenElement {
       iframe.style.width = "100%";
       iframe.style.height = "100%";
 
-      const placeholderDiv = document.createElement("div");
-      placeholderDiv.id = PLACEHOLDER_ID;
-      placeholderDiv.innerText = "PRFS SDK is launching...";
-      placeholderDiv.style.padding = "12px";
-      placeholderDiv.style.width = `${calcWidth}px`;
-      placeholderDiv.style.height = `${calcHeight}px`;
-      placeholderDiv.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
+      // const placeholderDiv = document.createElement("div");
+      // placeholderDiv.id = PLACEHOLDER_ID;
+      // placeholderDiv.innerText = "PRFS SDK is launching...";
+      // placeholderDiv.style.padding = "12px";
+      // placeholderDiv.style.width = `${calcWidth}px`;
+      // placeholderDiv.style.height = `${calcHeight}px`;
+      // placeholderDiv.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
 
       const wrapperDiv = document.createElement("div");
       wrapperDiv.style.position = "absolute";
       // wrapperDiv.style.zIndex = "110";
-      wrapperDiv.style.width = `${calcWidth}px`;
+      // wrapperDiv.style.width = `${calcWidth}px`;
       // wrapperDiv.style.border = `1px solid black`;
-      wrapperDiv.style.height = `${calcHeight}px`;
-      wrapperDiv.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
-      wrapperDiv.style.overflow = "hidden";
-      wrapperDiv.style.zIndex = wrapperZIndex;
+      // wrapperDiv.style.height = `${calcHeight}px`;
+      // wrapperDiv.style.transition = "height 0.35s ease 0s, opacity 0.4s ease 0.1s";
+      // wrapperDiv.style.overflow = "hidden";
+      // wrapperDiv.style.zIndex = wrapperZIndex;
 
       // wrapperDiv.appendChild(msgSpan);
       wrapperDiv.appendChild(iframe);
 
       container.appendChild(wrapperDiv);
-      container.appendChild(placeholderDiv);
+      // container.appendChild(placeholderDiv);
 
-      const portal = document.createElement("div");
-      portal.id = PORTAL_ID;
-      portal.style.position = "fixed";
-      document.body.appendChild(portal);
+      // const portal = document.createElement("div");
+      // portal.id = PORTAL_ID;
+      // portal.style.position = "fixed";
 
       this.state.iframe = iframe;
       // this.state.msgSpan = msgSpan;
-      this.state.placeholderDiv = placeholderDiv;
+      // this.state.placeholderDiv = placeholderDiv;
       this.state.wrapperDiv = wrapperDiv;
-      this.state.portalDiv = portal;
+      // this.state.portalDiv = portal;
+
+      document.body.appendChild(container);
 
       if (singleton.msgEventListener) {
         console.warn("Remove already registered Prfs sdk message event listener");
 
         window.removeEventListener("message", singleton.msgEventListener);
       }
+
+      console.log("listening child messages");
 
       const msgEventListener = handleChildMessage(resolve, options, this.state);
       singleton.msgEventListener = msgEventListener;

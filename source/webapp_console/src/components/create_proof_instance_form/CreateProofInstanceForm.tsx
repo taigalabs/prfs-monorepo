@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import { v4 as uuidv4, parse as parseUuid } from "uuid";
 import { useRouter } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import { PrfsEmbedSDK } from "@taigalabs/prfs-sdk-web";
+import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
@@ -24,7 +24,7 @@ import { paths } from "@/paths";
 import { ContentAreaRow } from "../content_area/ContentArea";
 import { useAppSelector } from "@/state/hooks";
 
-const prfs = new PrfsEmbedSDK("test");
+const prfs = new PrfsSDK("test");
 
 const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   const i18n = React.useContext(i18nContext);

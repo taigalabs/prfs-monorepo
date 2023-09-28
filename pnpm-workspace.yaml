@@ -13,6 +13,7 @@ packages:
   - "source/prfs_entities"
 
   - "source/prfs_sdk_web"
+  - "source/prfs_sdk_webapp"
   - "source/prfs_react_components"
 
   - "source/webapp_console"

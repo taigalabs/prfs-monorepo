@@ -6,6 +6,7 @@ import { CircuitDriver, LogEventType, ProveReceipt } from "@taigalabs/prfs-drive
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useMutation } from "wagmi";
 import { prfsAssetApi } from "@taigalabs/prfs-api-js";
+import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 
 import styles from "./CreateProofModule.module.scss";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
@@ -18,8 +19,11 @@ import { envs } from "@/envs";
 import Passcode from "@/components/passcode/Passcode";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
 import { validateInputs } from "@/validate";
+import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
 const ASSET_SERVER_ENDPOINT = envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
+
+const prfsSDK = new PrfsSDK("prfs-proof");
 
 enum CreateProofStatus {
   Loaded,
@@ -38,6 +42,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
   const [terminalLog, setTerminalLog] = React.useState<string>("");
   const [driver, setDriver] = React.useState<CircuitDriver>();
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
+  const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
 
   const { mutateAsync: getPrfsAssetMetaRequest } = useMutation({
     mutationFn: (req: GetPrfsAssetMetaRequest) => {
@@ -102,28 +107,14 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
           return;
         }
 
-        // const { payload } = await getPrfsAssetMetaRequest({ driver_id: circuit_driver_id });
-        // console.log(55, payload);
+        const proofGenElement = prfsSDK.create("proof-gen", {
+          proofTypeId: proofType.proof_type_id,
+          // provider,
+        });
 
-        // const scriptsLoad = [];
-        // for (const url of payload.asset_urls) {
-        //   const script = document.createElement("script");
-        //   script.src = url;
-        //   script.id = "spartan";
-        //   script.type = "text/javascript";
-        //   script.crossOrigin = "anonymous";
-        //   document.body.appendChild(script);
-        //   const p = new Promise(res => {
-        //     script.onload = async () => {
-        //       console.log(222);
-        //       res(0);
-        //     };
-        //   });
-        //   scriptsLoad.push(p);
-        // }
+        await proofGenElement.mount();
+        setProofGenElement(proofGenElement);
 
-        // const result = await Promise.all(scriptsLoad);
-        // console.log(22, result);
         singleton.state = true;
 
         const driver = await initDriver(circuit_driver_id, driverProperties);
