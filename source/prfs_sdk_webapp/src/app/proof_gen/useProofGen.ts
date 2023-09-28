@@ -20,7 +20,6 @@ export function useProofGen() {
 
     async function fn() {
       window.addEventListener("message", eventListener);
-
       await sendMsgToParent(new Msg("HANDSHAKE", {}));
     }
 
@@ -32,12 +31,17 @@ export function useProofGen() {
     async function eventListener(ev: MessageEvent) {
       if (ev.ports.length > 0) {
         const type: MsgType = ev.data.type;
+        console.log("Msg, type: %s", type);
 
         switch (type) {
           case "CREATE_PROOF": {
             if (!driver) {
               return;
             }
+
+            const { payload } = ev.data;
+
+            console.log("create proof", payload);
 
             // try {
             //   const newFormValues = await validateForm(
@@ -68,8 +72,6 @@ export function useProofGen() {
           }
 
           case "LOAD_DRIVER": {
-            console.log(111, "load driver", ev.data);
-
             const { payload } = ev.data;
             const { circuit_driver_id, driver_properties } = payload;
 

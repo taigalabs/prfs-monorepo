@@ -41,12 +41,18 @@ class ProofGenElement {
       return null;
     }
 
+    if (!sdkEndpoint) {
+      console.error("SDK endpoint is not defined");
+      return null;
+    }
+
     const containerId = CONTAINER_ID;
 
     await new Promise(async resolve => {
       const container = document.createElement("div");
       container.id = containerId;
-      container.style.position = "relative";
+      container.style.width = "0px";
+      container.style.height = "0px";
 
       const iframe = document.createElement("iframe");
       iframe.id = PROOF_GEN_IFRAME_ID;
@@ -88,18 +94,16 @@ class ProofGenElement {
     return this.state.iframe!;
   }
 
-  async createProof(args?: Record<string, any>): Promise<ProveReceipt | null> {
+  async createProof(args: Record<string, any>): Promise<ProveReceipt> {
     if (!this.state.iframe) {
-      console.error("iframe is not created");
-      return null;
+      throw new Error("iframe is not created");
     }
 
     try {
-      const proofResp = await sendMsgToChild(new Msg("CREATE_PROOF", undefined), this.state.iframe);
-
+      const proofResp = await sendMsgToChild(new Msg("CREATE_PROOF", args), this.state.iframe);
       return proofResp;
     } catch (err) {
-      return null;
+      throw new Error(`Error creating proof: ${err}`);
     }
   }
 }

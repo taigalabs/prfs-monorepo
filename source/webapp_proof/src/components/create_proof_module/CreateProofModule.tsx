@@ -78,10 +78,14 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
         proofGenEventListener("debug", `Process starts in 3 seconds`);
 
         await delay(3000);
+
+        proofGenElement.createProof(newFormValues);
         // proofGenEventListener(
         //   "info",
         //   `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
         // );
+        //
+        // proofGenElement.createProof()
 
         // const proveReceipt = await createProof(driver, newFormValues, proofGenEventListener);
         // proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
@@ -106,6 +110,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
           proofTypeId: proofType.proof_type_id,
           circuit_driver_id,
           driver_properties,
+          sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
         });
 
         setProofGenElement(elem);

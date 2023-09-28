@@ -9,16 +9,8 @@ export type MsgType =
   | "GET_ADDRESS_RESPONSE"
   | "GET_SIGNATURE"
   | "GET_SIGNATURE_RESPONSE"
-  | "LISTEN_CLICK_OUTSIDE"
-  | "LISTEN_CLICK_OUTSIDE_RESPONSE"
-  | "STOP_CLICK_OUTSIDE"
-  | "STOP_CLICK_OUTSIDE_RESPONSE"
   | "CREATE_PROOF"
   | "CREATE_PROOF_RESPONSE"
-  | "OPEN_DIALOG"
-  | "OPEN_DIALOG_RESPONSE"
-  | "CLOSE_DIALOG"
-  | "CLOSE_DIALOG_RESPONSE"
   | "GET_FORM_VALUES"
   | "GET_FORM_VALUES_RESPONSE";
 
@@ -72,7 +64,7 @@ export type ReqPayload<T extends MsgType> = //
     : T extends "GET_SIGNATURE_RESPONSE"
     ? GetSignatureResponsePayload
     : T extends "CREATE_PROOF"
-    ? void
+    ? Record<string, any>
     : T extends "CREATE_PROOF_RESPONSE"
     ? ProveReceipt
     : never;
@@ -94,32 +86,8 @@ export type RespPayload<T extends MsgType> = //
     ? string
     : T extends "LOAD_DRIVER_RESPONSE"
     ? never
-    : T extends "LISTEN_CLICK_OUTSIDE"
-    ? boolean
-    : T extends "LISTEN_CLICK_OUTSIDE_RESPONSE"
-    ? never
-    : T extends "LISTEN_CREATE_PROOF"
-    ? boolean
-    : T extends "LISTEN_CREATE_PROOF_RESPONSE"
-    ? never
-    : T extends "STOP_CLICK_OUTSIDE"
-    ? void
-    : T extends "STOP_CLICK_OUTSIDE_RESPONSE"
-    ? void
     : T extends "CREATE_PROOF"
     ? ProveReceipt
     : T extends "CREATE_PROOF_RESPONSE"
-    ? void
-    : T extends "OPEN_DIALOG"
-    ? OpenDialogRespPayload
-    : T extends "OPEN_DIALOG_RESPONSE"
-    ? never
-    : T extends "CLOSE_DIALOG"
-    ? void
-    : T extends "CLOSE_DIALOG_RESPONSE"
-    ? void
-    : T extends "GET_FORM_VALUES"
-    ? Record<string, any>
-    : T extends "GET_FORM_VALUES_RESPONSE"
     ? void
     : never;
