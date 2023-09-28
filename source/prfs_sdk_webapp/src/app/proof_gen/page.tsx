@@ -12,7 +12,6 @@ const ProofGen: React.FC<ProofGenProps> = () => {
     async function fn() {
       if (!state.isBusy) {
         state.isBusy = true;
-        console.log(123123);
         try {
           const prfGen = await setupProofGen();
         } catch (err) {

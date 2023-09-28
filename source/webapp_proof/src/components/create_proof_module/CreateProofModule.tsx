@@ -2,7 +2,7 @@ import React from "react";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { GetPrfsAssetMetaRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAssetMetaRequest";
-import { CircuitDriver, LogEventType, ProveReceipt } from "@taigalabs/prfs-driver-interface";
+import { LogEventType, ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useMutation } from "wagmi";
 import { prfsAssetApi } from "@taigalabs/prfs-api-js";
@@ -73,8 +73,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
 
         const proveReceipt = await proofGenElement.createProof(newFormValues);
         proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
-
-        // const proveReceipt = await createProof(driver, newFormValues, proofGenEventListener);
 
         handleCreateProof(null, proveReceipt);
       } catch (err) {
