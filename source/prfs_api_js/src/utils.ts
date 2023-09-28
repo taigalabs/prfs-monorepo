@@ -1,16 +1,8 @@
 import JSONbig from "json-bigint";
 
-let PRFS_API_SERVER_ENDPOINT: string;
-
-if (typeof process !== "undefined") {
-  PRFS_API_SERVER_ENDPOINT = `${process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT}/api/v0`;
-} else {
-  throw new Error("process is undefined");
-}
-
-export async function api({ path, req }: ApiArg) {
+export async function api({ path, req }: ApiArg, endpoint: string) {
   try {
-    let res = await fetch(`${PRFS_API_SERVER_ENDPOINT}/${path}`, {
+    let res = await fetch(`${endpoint}/${path}`, {
       method: "POST",
       mode: "cors",
       headers: {

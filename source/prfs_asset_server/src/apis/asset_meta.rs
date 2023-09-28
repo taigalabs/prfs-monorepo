@@ -8,7 +8,7 @@ use super::request::parse_req;
 use super::response::ApiResponse;
 use crate::server::ServerState;
 
-pub async fn get_asset_meta(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+pub async fn get_prfs_asset_meta(req: Request<Body>) -> Result<Response<Body>, Infallible> {
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
 

@@ -1,7 +1,11 @@
 import React from "react";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
+import { GetPrfsAssetMetaRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsAssetMetaRequest";
 import { CircuitDriver, LogEventType, ProveReceipt } from "@taigalabs/prfs-driver-interface";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import { useMutation } from "wagmi";
+import { prfsAssetApi } from "@taigalabs/prfs-api-js";
 
 import styles from "./CreateProofModule.module.scss";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
@@ -14,8 +18,6 @@ import { envs } from "@/envs";
 import Passcode from "@/components/passcode/Passcode";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
 import { validateInputs } from "@/validate";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import { useMutation } from "wagmi";
 
 const ASSET_SERVER_ENDPOINT = envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
@@ -33,9 +35,9 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
   const [driver, setDriver] = React.useState<CircuitDriver>();
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
 
-  const mutation = useMutation({
-    mutationFn: (req: SignUpRequest) => {
-      return prfsApi2("sign_up_prfs_account", req);
+  const { mutateAsync: getPrfsAssetMetaRequest } = useMutation({
+    mutationFn: (req: GetPrfsAssetMetaRequest) => {
+      return prfsAssetApi("get_prfs_asset_meta_request", req);
     },
   });
 
@@ -92,16 +94,18 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
       );
 
       try {
-        const script = document.createElement("script");
-        script.src = "http://localhost:4010/assets/drivers/bundle.js";
-        script.id = "spartan";
-        script.type = "text/javascript";
-        script.crossOrigin = "anonymous";
-        document.body.appendChild(script);
-        script.onload = async () => {
-          console.log(222);
-          const driver = await initDriver(circuit_driver_id, driverProperties);
-        };
+        const { payload } = await getPrfsAssetMetaRequest({ driver_id: circuit_driver_id });
+        console.log(55, payload);
+        // const script = document.createElement("script");
+        // script.src = "http://localhost:4010/assets/drivers/bundle.js";
+        // script.id = "spartan";
+        // script.type = "text/javascript";
+        // script.crossOrigin = "anonymous";
+        // document.body.appendChild(script);
+        // script.onload = async () => {
+        //   console.log(222);
+        //   const driver = await initDriver(circuit_driver_id, driverProperties);
+        // };
         // setSystemMsg(`${circuit_driver_id}`);
         // setDriver(driver);
       } catch (err) {
@@ -110,7 +114,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
     }
 
     fn().then();
-  }, [proofType, setSystemMsg, setDriver, setCreateProofStatus]);
+  }, [proofType, setSystemMsg, setDriver, setCreateProofStatus, getPrfsAssetMetaRequest]);
 
   const circuitInputsElem = React.useMemo(() => {
     const circuit_inputs = proofType.circuit_inputs as CircuitInput[];
