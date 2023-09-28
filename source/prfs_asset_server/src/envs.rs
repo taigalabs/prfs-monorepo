@@ -15,7 +15,7 @@ pub struct Envs {
 
 impl Envs {
     pub fn new() -> Envs {
-        dotenv().unwrap();
+        dotenv().expect("Env not found");
 
         match envy::from_env::<Envs>() {
             Ok(envs) => {

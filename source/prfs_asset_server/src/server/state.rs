@@ -1,3 +1,4 @@
+use colored::Colorize;
 use hyper_staticfile::Static;
 
 use crate::{envs::ENVS, paths::PATHS};
@@ -23,6 +24,8 @@ impl ServerState {
                 ENVS.asset_server_endpoint,
                 filename.unwrap().to_str().unwrap()
             );
+
+            println!("{} driver asset: {}", "Loading".green(), f);
 
             driver_asset_urls.push(f);
         }

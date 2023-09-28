@@ -6,6 +6,7 @@ use prfs_asset_server::server::{make_router, ServerState};
 use prfs_asset_server::{local, AssetServerError};
 use routerify::RouterService;
 use std::net::SocketAddr;
+use std::sync::Arc;
 
 #[tokio::main]
 async fn main() -> Result<(), AssetServerError> {
@@ -13,7 +14,7 @@ async fn main() -> Result<(), AssetServerError> {
 
     local::setup_local_assets();
 
-    let server_state = ServerState::init();
+    let server_state = Arc::new(ServerState::init());
 
     let router = make_router(server_state);
     let service = RouterService::new(router).unwrap();

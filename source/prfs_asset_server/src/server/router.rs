@@ -3,11 +3,12 @@ use routerify::prelude::*;
 use routerify::{Middleware, RequestInfo, Router};
 use routerify_cors::enable_cors_all;
 use std::convert::Infallible;
+use std::sync::Arc;
 
 use super::ServerState;
 use crate::apis::{asset_meta, assets};
 
-pub fn make_router(server_state: ServerState) -> Router<Body, Infallible> {
+pub fn make_router(server_state: Arc<ServerState>) -> Router<Body, Infallible> {
     Router::builder()
         .data(server_state)
         .middleware(Middleware::pre(logger))
@@ -15,7 +16,7 @@ pub fn make_router(server_state: ServerState) -> Router<Body, Infallible> {
         .get("/", home_handler)
         .get("/assets/*", assets::get_assets)
         .post("/upload", assets::upload_assets)
-        .get(
+        .post(
             "/api/v0/get_prfs_asset_meta/",
             asset_meta::get_prfs_asset_meta,
         )

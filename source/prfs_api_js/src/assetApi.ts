@@ -4,7 +4,7 @@ import { GetPrfsAssetMetaResponse } from "@taigalabs/prfs-entities/bindings/GetP
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
 
-type RequestName = "get_prfs_asset_meta_request";
+type RequestName = "get_prfs_asset_meta";
 
 type Req<T extends RequestName> = //
   T extends "get_prfs_asset_meta" ? GetPrfsAssetMetaRequest : never;

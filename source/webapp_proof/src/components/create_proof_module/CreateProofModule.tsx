@@ -37,7 +37,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
 
   const { mutateAsync: getPrfsAssetMetaRequest } = useMutation({
     mutationFn: (req: GetPrfsAssetMetaRequest) => {
-      return prfsAssetApi("get_prfs_asset_meta_request", req);
+      return prfsAssetApi("get_prfs_asset_meta", req);
     },
   });
 
