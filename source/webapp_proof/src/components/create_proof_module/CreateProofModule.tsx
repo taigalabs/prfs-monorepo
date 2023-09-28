@@ -7,6 +7,7 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useMutation } from "wagmi";
 import { prfsAssetApi } from "@taigalabs/prfs-api-js";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
+import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
 import styles from "./CreateProofModule.module.scss";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
@@ -19,7 +20,6 @@ import { envs } from "@/envs";
 import Passcode from "@/components/passcode/Passcode";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
 import { validateInputs } from "@/validate";
-import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
 const ASSET_SERVER_ENDPOINT = envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 

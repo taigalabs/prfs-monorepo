@@ -14,8 +14,10 @@ const SDK_ENDPOINT = "http://localhost:3010";
 const CONTAINER_ID = "prfs-sdk-container";
 
 const singleton: {
+  isMounted: boolean;
   msgEventListener: any;
 } = {
+  isMounted: false,
   msgEventListener: undefined,
 };
 
@@ -32,9 +34,13 @@ class ProofGenElement {
     };
   }
 
-  async mount(): Promise<HTMLIFrameElement> {
+  async mount(): Promise<HTMLIFrameElement | null> {
     const { options } = this;
-    console.log("Mounting sdk, options: %o", options);
+    console.log("Mounting sdk, options: %o, sdk_endpoint: %s", options, SDK_ENDPOINT);
+
+    if (singleton.isMounted) {
+      return null;
+    }
 
     const containerId = CONTAINER_ID;
 
@@ -48,8 +54,9 @@ class ProofGenElement {
       iframe.src = `${SDK_ENDPOINT}/proof_gen?proofTypeId=${options.proofTypeId}`;
       iframe.allow = "cross-origin-isolated";
       iframe.style.border = "none";
-
       this.state.iframe = iframe;
+
+      container.appendChild(iframe);
       document.body.appendChild(container);
 
       if (singleton.msgEventListener) {
@@ -62,12 +69,15 @@ class ProofGenElement {
 
       const msgEventListener = handleChildMessage(resolve, options, this.state);
       singleton.msgEventListener = msgEventListener;
+      singleton.isMounted = true;
     });
 
     const { circuit_driver_id, driver_properties } = options;
 
+    console.log("load driver");
+
     await sendMsgToChild(
-      new Msg("SET_DRIVER", {
+      new Msg("LOAD_DRIVER", {
         circuit_driver_id,
         driver_properties,
       }),
