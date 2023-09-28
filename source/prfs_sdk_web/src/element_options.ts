@@ -1,5 +1,3 @@
-import { ethers } from "ethers";
-
 export interface ProofGenOptions {
   proofTypeId: string;
   circuit_driver_id: string;

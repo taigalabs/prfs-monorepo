@@ -14,37 +14,17 @@ export function handleChildMessage(
 
   const msgEventListener = async (ev: MessageEvent) => {
     if (ev.ports.length > 0) {
-      // const { provider } = options;
-
       const type: MsgType = ev.data.type;
+
       console.log("child says, data: %o, ports: %o", ev.data, ev.ports);
 
       switch (type) {
         case "HANDSHAKE": {
           // const handshakePayload = ev.data.payload as HandshakePayload;
-          //
 
           ev.ports[0].postMessage(new Msg("HANDSHAKE_RESPONSE", {}));
 
           resolve(1);
-          break;
-        }
-
-        case "GET_SIGNATURE": {
-          const { msgRaw } = ev.data.payload as GetSignaturePayload;
-
-          // await provider.send("eth_requestAccounts", []);
-          // const signer = provider.getSigner();
-          // const msgHash = hashPersonalMessage(Buffer.from(msgRaw));
-          // const sig = await signer.signMessage(msgRaw);
-
-          // ev.ports[0].postMessage(
-          //   new Msg("GET_SIGNATURE_RESPONSE", {
-          //     msgHash,
-          //     sig,
-          //   })
-          // );
-
           break;
         }
 
