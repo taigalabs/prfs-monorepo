@@ -11,8 +11,6 @@ export type MsgType =
   | "GET_SIGNATURE_RESPONSE"
   | "LISTEN_CLICK_OUTSIDE"
   | "LISTEN_CLICK_OUTSIDE_RESPONSE"
-  | "LISTEN_CREATE_PROOF"
-  | "LISTEN_CREATE_PROOF_RESPONSE"
   | "STOP_CLICK_OUTSIDE"
   | "STOP_CLICK_OUTSIDE_RESPONSE"
   | "CREATE_PROOF"
@@ -67,38 +65,16 @@ export type ReqPayload<T extends MsgType> = //
     ? string
     : T extends "LOAD_DRIVER"
     ? LoadDriverPayload
+    : T extends "LOAD_DRIVER_RESPONSE"
+    ? string
     : T extends "GET_SIGNATURE"
     ? GetSignaturePayload
     : T extends "GET_SIGNATURE_RESPONSE"
     ? GetSignatureResponsePayload
-    : T extends "LISTEN_CLICK_OUTSIDE"
-    ? void
-    : T extends "LISTEN_CLICK_OUTSIDE_RESPONSE"
-    ? boolean
-    : T extends "LISTEN_CREATE_PROOF"
-    ? void
-    : T extends "LISTEN_CREATE_PROOF_RESPONSE"
-    ? boolean
-    : T extends "STOP_CLICK_OUTSIDE"
-    ? void
-    : T extends "STOP_CLICK_OUTSIDE_RESPONSE"
-    ? void
     : T extends "CREATE_PROOF"
     ? void
     : T extends "CREATE_PROOF_RESPONSE"
     ? ProveReceipt
-    : T extends "OPEN_DIALOG"
-    ? OpenDialogPayload
-    : T extends "OPEN_DIALOG_RESPONSE"
-    ? OpenDialogRespPayload
-    : T extends "CLOSE_DIALOG"
-    ? void
-    : T extends "CLOSE_DIALOG_RESPONSE"
-    ? void
-    : T extends "GET_FORM_VALUES"
-    ? void
-    : T extends "GET_FORM_VALUES_RESPONSE"
-    ? Record<string, any>
     : never;
 
 export type RespPayload<T extends MsgType> = //
@@ -115,6 +91,8 @@ export type RespPayload<T extends MsgType> = //
     : T extends "GET_SIGNATURE_RESPONSE"
     ? never
     : T extends "LOAD_DRIVER"
+    ? string
+    : T extends "LOAD_DRIVER_RESPONSE"
     ? never
     : T extends "LISTEN_CLICK_OUTSIDE"
     ? boolean

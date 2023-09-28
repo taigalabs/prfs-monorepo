@@ -16,17 +16,12 @@ import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
 import { delay } from "@/functions/interval";
-
-const BASE_HEIGHT = 49;
-const HEIGHT_PER_INPUT = 58;
+import { useProofGen } from "./useProofGen";
 
 const ProofGen: React.FC<ProofGenProps> = () => {
   const i18n = React.useContext(i18nContext);
 
-  // const searchParams = useSearchParams();
-  // const [proofType, setProofType] = React.useState<PrfsProofType>();
-  // const [docHeight, setDocHeight] = React.useState<number>(320);
-  // const [docWidth, setDocWidth] = React.useState<number>(484);
+  const proofGen = useProofGen();
 
   // const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
   //   mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
@@ -83,13 +78,7 @@ const ProofGen: React.FC<ProofGenProps> = () => {
   //   fn().then();
   // }, [searchParams, setProofType]);
 
-  return (
-    <NoSSR>
-      <DefaultLayout>
-        <CreateProofForm />
-      </DefaultLayout>
-    </NoSSR>
-  );
+  return null;
 };
 
 export default ProofGen;

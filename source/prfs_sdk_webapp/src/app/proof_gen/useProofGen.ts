@@ -3,33 +3,17 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { CircuitDriver, LogEventType } from "@taigalabs/prfs-driver-interface";
 import { Msg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
-import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 
-import styles from "./CreateProofForm.module.scss";
 import { initDriver, interpolateSystemAssetEndpoint } from "@/functions/circuitDriver";
 import { i18nContext } from "@/contexts/i18n";
 import { delay } from "@/functions/interval";
-import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
-import SigDataInput from "@/components/sig_data_input/SigDataInput";
 import { createProof } from "@/functions/proof";
-import CreateProofProgress from "@/components/create_proof_progress/CreateProofProgress";
 import { envs } from "@/envs";
-import Passcode from "../passcode/Passcode";
-import Input from "./Input";
-import { validateForm } from "./validateForm";
 
 const ASSET_SERVER_ENDPOINT = envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
-enum CreateProofStatus {
-  Loaded,
-  InProgress,
-}
-
-const CreateProofForm: React.FC<CreateProofFormProps> = ({}) => {
-  const i18n = React.useContext(i18nContext);
-
+export function useProofGen() {
   const [driver, setDriver] = React.useState<CircuitDriver>();
-  const [formValues, setFormValues] = React.useState<Record<string, any>>({});
 
   React.useEffect(() => {
     console.log("handshake 111");
@@ -84,7 +68,24 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({}) => {
           }
 
           case "LOAD_DRIVER": {
-            console.log(111, "load driver");
+            console.log(111, "load driver", ev.data);
+
+            const { payload } = ev.data;
+            const { circuit_driver_id, driver_properties } = payload;
+
+            const driverProperties = interpolateSystemAssetEndpoint(
+              driver_properties,
+              `${ASSET_SERVER_ENDPOINT}/assets/circuits`
+            );
+
+            try {
+              const driver = await initDriver(circuit_driver_id, driverProperties);
+              setDriver(driver);
+              ev.ports[0].postMessage(new Msg("LOAD_DRIVER_RESPONSE", circuit_driver_id));
+            } catch (err) {
+              console.error(err);
+            }
+
             break;
           }
         }
@@ -97,35 +98,4 @@ const CreateProofForm: React.FC<CreateProofFormProps> = ({}) => {
       window.removeEventListener("message", eventListener);
     };
   }, []);
-
-  // React.useEffect(() => {
-  //   async function fn() {
-  //     const { circuit_driver_id, driver_properties } = proofType;
-  //     const driverProperties = interpolateSystemAssetEndpoint(
-  //       driver_properties,
-  //       ASSET_SERVER_ENDPOINT
-  //     );
-
-  //     try {
-  //       const driver = await initDriver(circuit_driver_id, driverProperties);
-  //       setSystemMsg(`${circuit_driver_id}`);
-  //       setDriver(driver);
-  //     } catch (err) {
-  //       setSystemMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
-  //     }
-  //   }
-
-  //   window.setTimeout(() => {
-  //     fn().then();
-  //   }, 1000);
-  // }, [proofType, setSystemMsg, setDriver, setCreateProofStatus]);
-
-  return <div className={styles.wrapper}>5</div>;
-};
-
-export default CreateProofForm;
-
-export interface CreateProofFormProps {
-  // proofType: PrfsProofType;
-  // docHeight: number;
 }

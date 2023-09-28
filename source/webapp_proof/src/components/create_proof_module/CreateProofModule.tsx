@@ -40,9 +40,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
   const [systemMsg, setSystemMsg] = React.useState("Loading driver...");
   const [createProofStatus, setCreateProofStatus] = React.useState(CreateProofStatus.Loaded);
   const [terminalLog, setTerminalLog] = React.useState<string>("");
-  const [driver, setDriver] = React.useState<CircuitDriver>();
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
-  const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
+  const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
 
   const { mutateAsync: getPrfsAssetMetaRequest } = useMutation({
     mutationFn: (req: GetPrfsAssetMetaRequest) => {
@@ -71,7 +70,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
   );
 
   const handleClickCreateProof = React.useCallback(async () => {
-    if (driver) {
+    if (proofGenElement) {
       try {
         const newFormValues = await validateInputs(formValues, proofType);
 
@@ -79,59 +78,45 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
         proofGenEventListener("debug", `Process starts in 3 seconds`);
 
         await delay(3000);
-        proofGenEventListener(
-          "info",
-          `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
-        );
+        // proofGenEventListener(
+        //   "info",
+        //   `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
+        // );
 
-        const proveReceipt = await createProof(driver, newFormValues, proofGenEventListener);
-        proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
+        // const proveReceipt = await createProof(driver, newFormValues, proofGenEventListener);
+        // proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
 
-        handleCreateProof(null, proveReceipt);
+        // handleCreateProof(null, proveReceipt);
       } catch (err) {
         handleCreateProof(err, null);
       }
     }
-  }, [driver, formValues, proofType, handleCreateProof]);
+  }, [formValues, proofType, handleCreateProof, proofGenElement]);
 
   React.useEffect(() => {
     async function fn() {
       const { circuit_driver_id, driver_properties } = proofType;
-      // const driverProperties = interpolateSystemAssetEndpoint(
-      //   driver_properties,
-      //   `${ASSET_SERVER_ENDPOINT}/assets/circuits/`
-      // );
 
       try {
-        if (singleton.state) {
+        if (proofGenElement !== null) {
           return;
         }
 
-        const proofGenElement = await prfsSDK.create("proof-gen", {
+        const elem = await prfsSDK.create("proof-gen", {
           proofTypeId: proofType.proof_type_id,
           circuit_driver_id,
           driver_properties,
         });
 
-        // await proofGenElement.mount({
-        //   circuit_driver_id,
-        //   driver_properties,
-        // });
-
-        // setProofGenElement(proofGenElement);
-
-        singleton.state = true;
-
-        // const driver = await initDriver(circuit_driver_id, driverProperties);
-        // setSystemMsg(`${circuit_driver_id}`);
-        // setDriver(driver);
+        setProofGenElement(elem);
+        setSystemMsg(circuit_driver_id);
       } catch (err) {
         setSystemMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
       }
     }
 
     fn().then();
-  }, [proofType, setSystemMsg, setDriver, setCreateProofStatus, getPrfsAssetMetaRequest]);
+  }, [proofType, proofGenElement, setSystemMsg, setCreateProofStatus, getPrfsAssetMetaRequest]);
 
   const circuitInputsElem = React.useMemo(() => {
     const circuit_inputs = proofType.circuit_inputs as CircuitInput[];

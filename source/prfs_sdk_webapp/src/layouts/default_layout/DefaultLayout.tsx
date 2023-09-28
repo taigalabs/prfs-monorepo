@@ -3,7 +3,7 @@ import React from "react";
 import styles from "./DefaultLayout.module.scss";
 import { useAppSelector } from "@/state/hooks";
 
-const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children, }) => {
+const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   const { top, left } = useAppSelector(state => state.ui.innerPos);
   const opacity = useAppSelector(state => state.ui.innerOpacity);
 

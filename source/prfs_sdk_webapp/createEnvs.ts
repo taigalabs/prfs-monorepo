@@ -24,16 +24,22 @@ function createEnvs() {
 
   console.log("cli args: %j", values);
 
-  const envs = {
-    NEXT_PUBLIC_VERSION: "0.1.0",
-    NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: values.production
-      ? "https://api.prfs.xyz"
-      : "http://localhost:4000",
-    NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: values.production
-      ? "https://asset.prfs.xyz"
-      : "http://localhost:4010/assets",
+  const { production } = values;
+
+  const env_dev: Envs = {
+    NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: "http://localhost:4000",
+    NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "http://localhost:4010",
+    NEXT_PUBLIC_PRFS_SDK_VERSION: "0.1.0",
   };
-  console.log("%s envs to %s", chalk.green("Writing"), DOT_ENV_PATH);
+
+  const env_prod: Envs = {
+    NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: "https://api.prfs.xyz",
+    NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "https://asset.prfs.xyz",
+    NEXT_PUBLIC_PRFS_SDK_VERSION: "0.1.0",
+  };
+
+  const envs = production ? env_prod : env_dev;
+  console.log("Writing envs to %s, envs: %o", DOT_ENV_PATH, envs);
 
   writeEnvsToDotEnv(envs);
 }
