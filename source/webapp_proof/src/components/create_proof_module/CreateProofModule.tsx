@@ -15,6 +15,7 @@ import Passcode from "@/components/passcode/Passcode";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
 import { validateInputs } from "@/validate";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import { useMutation } from "wagmi";
 
 const ASSET_SERVER_ENDPOINT = envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
 
@@ -31,6 +32,12 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
   const [terminalLog, setTerminalLog] = React.useState<string>("");
   const [driver, setDriver] = React.useState<CircuitDriver>();
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
+
+  const mutation = useMutation({
+    mutationFn: (req: SignUpRequest) => {
+      return prfsApi2("sign_up_prfs_account", req);
+    },
+  });
 
   const proofGenEventListener = React.useCallback(
     (type: LogEventType, msg: string) => {

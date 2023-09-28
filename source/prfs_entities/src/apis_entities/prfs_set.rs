@@ -5,7 +5,7 @@ use uuid::Uuid;
 
 use crate::{
     entities::{PrfsSet, PrfsSetType},
-    ins_entities::PrfsSetIns1,
+    syn_entities::PrfsSetIns1,
 };
 
 #[derive(Serialize, Deserialize, Debug, TS)]

@@ -10,19 +10,26 @@ pub struct ServerState {
 impl ServerState {
     pub fn init() -> ServerState {
         let static_serve = Static::new(&PATHS.assets);
-        // state.driver_asset_urls
-        // ENVS.asset_server_endpoint;
 
         let drivers_path = std::fs::read_dir(&PATHS.assets_drivers).unwrap();
 
+        let mut driver_asset_urls = vec![];
+
         for fd in drivers_path {
             let fd = fd.unwrap().path();
-            println!("111, fd: {:?}", fd);
+            let filename = fd.file_name();
+            let f = format!(
+                "{}/assets/drivers/{}",
+                ENVS.asset_server_endpoint,
+                filename.unwrap().to_str().unwrap()
+            );
+
+            driver_asset_urls.push(f);
         }
 
         ServerState {
             static_serve,
-            driver_asset_urls: vec![],
+            driver_asset_urls,
         }
     }
 }

@@ -7,7 +7,7 @@ use chrono::{DateTime, Utc};
 use prfs_entities::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use prfs_entities::{
     entities::{PrfsSet, PrfsSetType},
-    ins_entities::PrfsSetIns1,
+    syn_entities::PrfsSetIns1,
 };
 use uuid::Uuid;
 
