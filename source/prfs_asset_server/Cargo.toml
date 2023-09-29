@@ -2,7 +2,7 @@
 name = "prfs_asset_server"
 version = "0.1.0"
 edition = "2021"
-default-run = "server"
+default-run = "prfs_asset_server"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -24,5 +24,5 @@ prfs_circuit_circom = { path = "../prfs_circuit_circom" }
 prfs_entities = { path = "../prfs_entities" }
 
 [[bin]]
-name = "server"
+name = "prfs_asset_server"
 path = "src/bin/server.rs"

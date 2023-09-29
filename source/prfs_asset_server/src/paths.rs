@@ -10,7 +10,7 @@ lazy_static! {
 pub struct Paths {
     pub assets: PathBuf,
     pub assets_circuits: PathBuf,
-    pub assets_drivers: PathBuf,
+    // pub assets_drivers: PathBuf,
     pub ws_prfs_driver_spartan_js: PathBuf,
 }
 
@@ -28,7 +28,7 @@ impl Paths {
         let p = Paths {
             assets,
             assets_circuits,
-            assets_drivers,
+            // assets_drivers,
             ws_prfs_driver_spartan_js,
         };
 
