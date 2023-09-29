@@ -9,11 +9,7 @@ import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 const Home: React.FC = () => {
   const i18n = React.useContext(i18nContext);
 
-  return (
-    <DefaultLayout>
-      Invalid access. Check URL
-    </DefaultLayout>
-  );
+  return <DefaultLayout>Invalid access. Check URL</DefaultLayout>;
 };
 
 export default Home;
