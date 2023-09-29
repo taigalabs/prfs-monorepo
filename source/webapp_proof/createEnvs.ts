@@ -42,9 +42,9 @@ function createEnvs() {
 
   const env_prod: Envs = {
     NEXT_PUBLIC_IS_TEASER: teaser ? "yes" : "no",
-    NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT: "http://console.prfs.xyz",
-    NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT: "http://prfs.xyz",
-    NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT: "http://poll.prfs.xyz",
+    NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT: "https://console.prfs.xyz",
+    NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT: "https://prfs.xyz",
+    NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT: "https://poll.prfs.xyz",
     NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: "https://api.prfs.xyz",
     NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "https://asset.prfs.xyz",
     NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT: "https://sdk.prfs.xyz",
