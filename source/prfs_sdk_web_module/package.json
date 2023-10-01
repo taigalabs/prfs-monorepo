@@ -1,5 +1,5 @@
 {
-  "name": "@taigalabs/prfs-sdk-webapp",
+  "name": "@taigalabs/prfs-sdk-web-module",
   "version": "0.1.0",
   "private": true,
   "scripts": {
