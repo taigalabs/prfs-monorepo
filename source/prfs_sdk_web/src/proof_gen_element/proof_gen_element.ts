@@ -38,6 +38,7 @@ class ProofGenElement {
     const { sdkEndpoint } = options;
 
     if (singleton.isMounted) {
+      console.warn('sdk is already mounted')
       return null;
     }
 
@@ -47,6 +48,16 @@ class ProofGenElement {
     }
 
     const containerId = CONTAINER_ID;
+
+    const d = await fetch(`${sdkEndpoint}/api/`, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({}),
+    });
+    console.log(2, d);
 
     await new Promise(async resolve => {
       const container = document.createElement("div");
@@ -63,18 +74,28 @@ class ProofGenElement {
 
       container.appendChild(iframe);
       document.body.appendChild(container);
+      console.log(555);
 
-      if (singleton.msgEventListener) {
-        console.warn("Remove already registered Prfs sdk message event listener");
-        window.removeEventListener("message", singleton.msgEventListener);
+
+      if (iframe.contentWindow) {
+        iframe.contentWindow.onerror = () => {
+          console.log(55555555);
+        }
+
       }
 
-      console.log("listening child messages");
-      const msgEventListener = handleChildMessage(resolve, options, this.state);
+      // if (singleton.msgEventListener) {
+      //   console.warn("Remove already registered Prfs sdk message event listener");
+      //   window.removeEventListener("message", singleton.msgEventListener);
+      // }
 
-      singleton.msgEventListener = msgEventListener;
-      singleton.isMounted = true;
+      // console.log("listening child messages");
+      // const msgEventListener = handleChildMessage(resolve, options, this.state);
+
+      // singleton.msgEventListener = msgEventListener;
     });
+
+    console.log(1313);
 
     const { circuit_driver_id, driver_properties } = options;
 
@@ -91,6 +112,7 @@ class ProofGenElement {
     console.log("driver version", driverVersion);
     this.state.driverVersion = driverVersion;
 
+    singleton.isMounted = true;
     return this.state.iframe!;
   }
 

@@ -16,7 +16,9 @@ export class PrfsSDK {
       switch (elementType) {
         case "proof-gen": {
           const elem = new ProofGenElement(options as ProofGenOptions);
-          await elem.mount();
+          const a = await elem.mount();
+
+          console.log(55, a);
 
           return elem;
         }
