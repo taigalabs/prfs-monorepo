@@ -10,6 +10,7 @@ lazy_static! {
 pub struct Paths {
     pub curr_dir: PathBuf,
 
+    pub internals_docker: PathBuf,
     pub internals_docker_postgres: PathBuf,
     pub e2e_test_web: PathBuf,
     pub prfs_circuit_circom: PathBuf,
@@ -49,6 +50,7 @@ impl Paths {
             }
         }
 
+        let internals_docker = curr_dir.join("internals/docker");
         let internals_docker_postgres = curr_dir.join("internals/docker_postgres");
 
         let prfs_circuit_circom = curr_dir.join("source/prfs_circuit_circom");
@@ -77,6 +79,7 @@ impl Paths {
         let p = Paths {
             curr_dir,
 
+            internals_docker,
             internals_docker_postgres,
 
             prfs_driver_spartan_js,

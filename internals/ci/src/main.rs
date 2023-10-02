@@ -27,11 +27,14 @@ fn main() {
         .subcommand(command!("dev_asset_server"))
         .subcommand(command!("dev_api_server"))
         .subcommand(command!("seed_api_server"))
-        .subcommand(command!("run_docker_postgres").arg(Arg::new("extra_args")))
         .subcommand(command!("start_webapp_console").arg(Arg::new("extra_args")))
         .subcommand(command!("start_webapp_proof").arg(Arg::new("extra_args")))
         .subcommand(command!("start_webapp_poll").arg(Arg::new("extra_args")))
         .subcommand(command!("start_webapp_vacade").arg(Arg::new("extra_args")))
+        //
+        .subcommand(command!("docker_run_postgres").arg(Arg::new("extra_args")))
+        .subcommand(command!("docker_run_webapp_console").arg(Arg::new("extra_args")))
+        .subcommand(command!("docker_run_webapp_proof").arg(Arg::new("extra_args")))
         .get_matches();
 
     let now = Utc::now();
@@ -81,8 +84,15 @@ fn main() {
         Some(("seed_api_server", sub_matches)) => {
             cmds::seed_api_server::run(sub_matches);
         }
-        Some(("run_docker_postgres", sub_matches)) => {
-            cmds::run_docker_postgres::run(sub_matches);
+        //
+        Some(("docker_run_postgres", sub_matches)) => {
+            cmds::docker_run_postgres::run(sub_matches);
+        }
+        Some(("docker_run_webapp_console", sub_matches)) => {
+            cmds::docker_run_webapp_console::run(sub_matches);
+        }
+        Some(("docker_run_webapp_proof", sub_matches)) => {
+            cmds::docker_run_webapp_proof::run(sub_matches);
         }
         _ => unreachable!("Subcommand not defined"),
     }
