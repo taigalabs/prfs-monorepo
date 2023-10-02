@@ -6,7 +6,7 @@ pub const PRETTIERD: &str = "prettierd";
 pub const JS_ENGINE: &str = "pnpm";
 pub const NODE_VERSION: &str = "v18.17.0";
 pub const WASM_PACK_VERSION: &str = "wasm-pack 0.12.1";
-pub const RUST_NIGHTLY_TOOLCHAIN: &str = "nightly-2023-05-22-x86_64-unknown-linux-gnu";
+pub const RUST_NIGHTLY_TOOLCHAIN: &str = "nightly-2023-10-02-x86_64-unknown-linux-gnu";
 
 pub fn check_wasm_pack() {
     let output = Command::new("wasm-pack")
