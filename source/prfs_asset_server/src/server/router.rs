@@ -1,4 +1,4 @@
-use hyper::{Body, Request, Response, StatusCode};
+use hyper::{header, Body, Request, Response, StatusCode};
 use routerify::prelude::*;
 use routerify::{Middleware, RequestInfo, Router};
 use routerify_cors::enable_cors_all;
@@ -13,7 +13,7 @@ pub fn make_router(server_state: Arc<ServerState>) -> Router<Body, Infallible> {
         .data(server_state)
         .middleware(Middleware::pre(logger))
         .middleware(enable_cors_all())
-        .get("/", home_handler)
+        .get("/", status_handler)
         .get("/assets/*", assets::get_assets)
         .post("/upload", assets::upload_assets)
         .post(
@@ -25,10 +25,17 @@ pub fn make_router(server_state: Arc<ServerState>) -> Router<Body, Infallible> {
         .unwrap()
 }
 
-async fn home_handler(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    // let state = req.data::<State>().unwrap();
+async fn status_handler(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
+    println!("status handler!");
 
-    Ok(Response::new(Body::from("Home page")))
+    let data = "prfs asset server is working".to_string();
+
+    let res = Response::builder()
+        .header(header::CONTENT_TYPE, "application/json")
+        .body(Body::from(data))
+        .unwrap();
+
+    Ok(res)
 }
 
 async fn logger(req: Request<Body>) -> Result<Request<Body>, Infallible> {

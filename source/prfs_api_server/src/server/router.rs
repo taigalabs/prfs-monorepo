@@ -157,10 +157,10 @@ pub fn make_router(
     Ok(r)
 }
 
-pub async fn status_handler(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
+async fn status_handler(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
     println!("status handler!");
 
-    let data = "Ok".to_string();
+    let data = "prfs api server is working".to_string();
 
     let res = Response::builder()
         .header(header::CONTENT_TYPE, "application/json")
