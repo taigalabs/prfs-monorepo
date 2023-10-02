@@ -1,20 +1,28 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST() {
-  return NextResponse.json({
-    status: 'Ok',
-  });
+function getCorsHeaders(req: NextRequest) {
+  const origin = req.headers.get("origin");
+
+  return {
+    "Access-Control-Allow-Origin": origin || "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+  };
 }
 
-export async function OPTIONS() {
-  const res = new NextResponse();
-  res.headers.append("Content-Type", "application/json");
-  res.headers.append("Allow", "GET,POST,OPTIONS");
-  res.headers.append("Access-Control-Allow-Methods", "GET,OPTIONS,POST");
-  res.headers.append(
-    "Access-Control-Allow-Headers",
-    "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Authorization, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
+export async function POST(req: NextRequest) {
+  return NextResponse.json(
+    { status: "Ok" },
+    {
+      status: 200,
+      headers: getCorsHeaders(req),
+    }
   );
+}
 
-  return res;
+export async function OPTIONS(req: NextRequest) {
+  return new NextResponse(null, {
+    status: 204,
+    headers: getCorsHeaders(req),
+  });
 }

@@ -40,6 +40,7 @@ export class PrfsSDK {
           throw new Error(`Not supported element type, ${elementType}`);
       }
     } catch (err) {
+      console.error(err);
       throw new Error(`Error creating prfs SDK ${err}`);
     }
   }

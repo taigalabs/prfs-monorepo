@@ -2,7 +2,7 @@ import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 
 import { handleChildMessage } from "./handle_child_msg";
 import { sendMsgToChild } from "../msg";
-import { ProofGenOptions, ZAuthSignInOptions } from "../element_options";
+import { ProofGenOptions } from "../element_options";
 import { Msg } from "../msg";
 
 export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
@@ -49,15 +49,17 @@ class ProofGenElement {
 
     const containerId = CONTAINER_ID;
 
-    // const d = await fetch(`${sdkEndpoint}/api/`, {
-    //   method: "POST",
-    //   mode: "cors",
-    //   headers: {
-    //     "Content-type": "application/json",
-    //   },
-    //   body: JSON.stringify({}),
-    // });
-    // console.log(2, d);
+    try {
+      await fetch(`${sdkEndpoint}/api`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "cors",
+      });
+    } catch (err) {
+      throw new Error("sdk endpoint is not responding");
+    }
 
     await new Promise(async resolve => {
       const container = document.createElement("div");
