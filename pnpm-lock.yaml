@@ -423,7 +423,7 @@ importers:
         specifier: 5.1.6
         version: 5.1.6
 
-  source/prfs_sdk_webapp:
+  source/prfs_sdk_web_module:
     dependencies:
       '@ethereumjs/util':
         specifier: ^8.0.3

@@ -16,7 +16,7 @@ pub async fn get_prfs_asset_meta(req: Request<Body>) -> Result<Response<Body>, I
 
     let resp = ApiResponse::new_success(GetPrfsAssetMetaResponse {
         driver_id: req.driver_id,
-        asset_urls: state.driver_asset_urls.clone(),
+        // asset_urls: state.driver_asset_urls.clone(),
     });
 
     return Ok(resp.into_hyper_response());

@@ -13,5 +13,5 @@ pub struct GetPrfsAssetMetaRequest {
 #[ts(export)]
 pub struct GetPrfsAssetMetaResponse {
     pub driver_id: String,
-    pub asset_urls: Vec<String>,
+    // pub asset_urls: Vec<String>,
 }

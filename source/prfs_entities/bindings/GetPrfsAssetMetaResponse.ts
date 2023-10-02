@@ -2,5 +2,4 @@
 
 export interface GetPrfsAssetMetaResponse {
   driver_id: string;
-  asset_urls: Array<string>;
 }
