@@ -16,6 +16,6 @@ RUN apt-get -qq install nodejs --yes
 # install pnpm
 RUN npm install -g pnpm
 
-RUN pnpm install
+RUN pnpm install --force
 
-CMD ["./ci dev_webapp_proof"]
+CMD ["./ci", "dev_webapp_proof"]

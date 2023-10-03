@@ -31,4 +31,19 @@ fn run_docker(_extra_args: Vec<&str>) {
         .expect(&format!("{} command failed to start", JS_ENGINE));
 
     assert!(status.success());
+
+    let status = Command::new(deps::DOCKER)
+        .args([
+            "run",
+            "-d",
+            "--rm",
+            "-p",
+            "3000:3000",
+            "-t",
+            "prfs_webapp_proof",
+        ])
+        .status()
+        .expect(&format!("{} command failed to start", JS_ENGINE));
+
+    assert!(status.success());
 }
