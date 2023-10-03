@@ -18,4 +18,4 @@ RUN npm install -g pnpm
 
 RUN pnpm install --force
 
-CMD ["./ci", "dev_webapp_proof"]
+CMD ["./ci", "start_webapp_proof"]
