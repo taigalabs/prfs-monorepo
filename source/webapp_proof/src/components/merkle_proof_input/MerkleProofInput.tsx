@@ -7,7 +7,7 @@ import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import { RiEqualizerLine } from "@react-icons/all-files/ri/RiEqualizerLine";
 import WalletDialog from "@taigalabs/prfs-react-components/src/wallet_dialog/WalletDialog";
 import { AiOutlineCheck } from "@react-icons/all-files/ai/AiOutlineCheck";
-import { SpartanMerkleProof } from "@taigalabs/prfs-driver-spartan-js";
+import { SpartanMerkleProof } from "@taigalabs/prfs-driver-interface";
 import {
   useFloating,
   useDismiss,
