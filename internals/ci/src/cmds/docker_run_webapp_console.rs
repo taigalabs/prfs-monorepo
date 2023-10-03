@@ -15,16 +15,20 @@ pub fn run(matches: &ArgMatches) {
 }
 
 fn run_docker(_extra_args: Vec<&str>) {
+    let tag = "prfs_webapp_console";
+
     let df_path = PATHS.internals_docker.join("webapp_console/Dockerfile");
+    println!("df_path: {:?}", df_path);
 
     let status = Command::new(deps::DOCKER)
-        .args([
-            "build",
-            "-t",
-            "prfs_webapp_console",
-            "-f",
-            df_path.to_str().unwrap(),
-        ])
+        .args(["build", "-t", tag, "-f", df_path.to_str().unwrap(), "."])
+        .status()
+        .expect(&format!("{} command failed to start", JS_ENGINE));
+
+    assert!(status.success());
+
+    let status = Command::new(deps::DOCKER)
+        .args(["run", "-d", "--rm", "-p", "3020:3020", "-t", tag])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));
 

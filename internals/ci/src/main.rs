@@ -18,6 +18,8 @@ fn main() {
         .propagate_version(true)
         .arg_required_else_help(true)
         .subcommand(command!("build"))
+        .subcommand(command!("build_prfs_driver_spartan_js"))
+        //
         .subcommand(command!("e2e_test_web"))
         .subcommand(command!("dev_webapp_console").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_webapp_proof").arg(Arg::new("extra_args")))
@@ -46,6 +48,10 @@ fn main() {
         Some(("build", sub_matches)) => {
             cmds::build::run(sub_matches, &timestamp);
         }
+        Some(("build_prfs_driver_spartan_js", sub_matches)) => {
+            cmds::build_prfs_driver_spartan_js::run(sub_matches, &timestamp);
+        }
+        //
         Some(("e2e_test_web", sub_matches)) => {
             cmds::e2e_test_web::run(sub_matches);
         }

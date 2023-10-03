@@ -13,6 +13,9 @@ RUN apt-get -qq install curl --yes
 RUN curl -sL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt-get -qq install nodejs --yes
 
+# libssl
+RUN apt install libssl-dev
+
 # install wasm-pack
 RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 

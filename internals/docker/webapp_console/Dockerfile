@@ -1,8 +1,21 @@
-FROM rust:1.67
+FROM rust:1.72
 
-WORKDIR /usr/src/myapp
+EXPOSE 3020
+
+WORKDIR /usr/prfs-monorepo
+
 COPY . .
 
-RUN cargo install --path .
+# install nodejs 18
+RUN apt-get -qq update
+RUN apt-get -qq upgrade --yes
+RUN apt-get -qq install curl --yes
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash -
+RUN apt-get -qq install nodejs --yes
 
-CMD ["myapp"]
+# install pnpm
+RUN npm install -g pnpm
+
+RUN pnpm install
+
+CMD ["./ci", "start_webapp_console"]

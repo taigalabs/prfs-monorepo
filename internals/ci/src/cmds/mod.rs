@@ -1,4 +1,5 @@
 pub mod build;
+pub mod build_prfs_driver_spartan_js;
 pub mod dev_api_server;
 pub mod dev_asset_server;
 pub mod dev_sdk_web_module;
