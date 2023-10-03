@@ -22,7 +22,7 @@ fn run_docker(_extra_args: Vec<&str>) {
         .args([
             "build",
             "-t",
-            "my-rust-app",
+            "prfs_webapp_proof",
             "-f",
             df_path.to_str().unwrap(),
             ".",

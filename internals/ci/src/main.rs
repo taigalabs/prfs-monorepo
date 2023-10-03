@@ -35,6 +35,7 @@ fn main() {
         .subcommand(command!("docker_run_postgres").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_run_webapp_console").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_run_webapp_proof").arg(Arg::new("extra_args")))
+        .subcommand(command!("docker_run_api_server").arg(Arg::new("extra_args")))
         .get_matches();
 
     let now = Utc::now();
@@ -93,6 +94,9 @@ fn main() {
         }
         Some(("docker_run_webapp_proof", sub_matches)) => {
             cmds::docker_run_webapp_proof::run(sub_matches);
+        }
+        Some(("docker_run_api_server", sub_matches)) => {
+            cmds::docker_run_api_server::run(sub_matches);
         }
         _ => unreachable!("Subcommand not defined"),
     }

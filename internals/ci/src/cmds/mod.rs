@@ -14,6 +14,7 @@ pub mod start_webapp_proof;
 pub mod start_webapp_vacade;
 
 //
+pub mod docker_run_api_server;
 pub mod docker_run_postgres;
 pub mod docker_run_webapp_console;
 pub mod docker_run_webapp_proof;
