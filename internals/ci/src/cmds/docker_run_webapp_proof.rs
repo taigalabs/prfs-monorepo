@@ -21,11 +21,11 @@ fn run_docker(_extra_args: Vec<&str>) {
     let status = Command::new(deps::DOCKER)
         .args([
             "build",
-            ".",
             "-t",
             "my-rust-app",
             "-f",
             df_path.to_str().unwrap(),
+            ".",
         ])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));

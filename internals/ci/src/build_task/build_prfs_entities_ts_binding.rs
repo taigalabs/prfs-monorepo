@@ -30,9 +30,9 @@ impl BuildTask for BuildPrfsEntitiesTSBindingTask {
 
         if let None = which(PRETTIERD).ok() {
             println!("{} not found, not formatting", PRETTIERD.bright_yellow());
+        } else {
+            format_ts_files(&PATHS.prfs_entities_bindings);
         }
-
-        format_ts_files(&PATHS.prfs_entities_bindings);
 
         Ok(())
     }

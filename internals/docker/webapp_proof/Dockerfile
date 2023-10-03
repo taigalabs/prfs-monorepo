@@ -4,20 +4,20 @@ WORKDIR /usr/prfs-monorepo
 
 COPY . .
 
-RUN apt-get -qq update \
-  && apt-get -qq upgrade --yes \
-  && apt-get -qq install curl --yes \
-  && curl -sL https://deb.nodesource.com/setup_18.x | bash - \
-  && apt-get -qq install nodejs --yes 
+# install nodejs 18
+RUN apt-get -qq update
+RUN apt-get -qq upgrade --yes
+RUN  apt-get -qq install curl --yes
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash -
+RUN apt-get -qq install nodejs --yes
 
-RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh \
-  && git clone https://github.com/taigalabs/circom-secq.git \
-  && echo $HOME \
+# install wasm-pack
+RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+# install circom-secq
+RUN git clone https://github.com/taigalabs/circom-secq.git \
   && cd circom-secq \
   && cargo install --path circom \
-  && which circom \
-  && mv /usr/local/cargo/bin/circom /usr/local/cargo/bin/circom-secq \
-  && which circom-secq
+  && mv /usr/local/cargo/bin/circom /usr/local/cargo/bin/circom-secq
 
-# RUN ./ci build
-
+RUN ./ci dev_api_server
