@@ -50,6 +50,8 @@ const Masthead: React.FC = () => {
           <SearchBar />
         </div>
         <ul className={styles.rightGroup}>
+          <li>{i18n.tutorial}</li>
+          <li>{i18n.docs}</li>
           <li>
             <PrfsAppsPopover
               webappPollEndpoint={process.env.NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT}
@@ -57,7 +59,7 @@ const Masthead: React.FC = () => {
               webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
             />
           </li>
-          <li>{i18n.account}</li>
+          {/* <li>{i18n.account}</li> */}
         </ul>
       </div>
     </div>
