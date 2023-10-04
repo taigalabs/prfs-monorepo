@@ -18,7 +18,7 @@ async fn main() -> Result<(), AssetServerError> {
 
     let router = make_router(server_state);
     let service = RouterService::new(router).unwrap();
-    let addr: SocketAddr = ([127, 0, 0, 1], 4010).into();
+    let addr: SocketAddr = ([0, 0, 0, 0], 4010).into();
     let server = Server::bind(&addr).serve(service);
 
     println!("Server is running on: {}", addr);

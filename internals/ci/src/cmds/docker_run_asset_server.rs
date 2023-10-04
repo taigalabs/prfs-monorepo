@@ -28,7 +28,7 @@ fn run_docker(_extra_args: Vec<&str>) {
     assert!(status.success());
 
     let status = Command::new(deps::DOCKER)
-        .args(["run", "-d", "--rm", "-p", "4010:4010", "-t", tag])
+        .args(["run", "-p", "4010:4010", "-d", "--rm", "-t", tag])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));
 

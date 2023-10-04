@@ -15,22 +15,46 @@ pub fn run(matches: &ArgMatches) {
 }
 
 fn run_docker(_extra_args: Vec<&str>) {
-    let tag = "prfs_postgres";
-
-    let df_path = PATHS.internals_docker.join("webapp_console/Dockerfile");
-    println!("df_path: {:?}", df_path);
-
     let status = Command::new(deps::DOCKER)
-        .args(["build", "-t", tag, "-f", df_path.to_str().unwrap(), "."])
+        .args(["pull", "postgres"])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));
 
     assert!(status.success());
 
     let status = Command::new(deps::DOCKER)
-        .args(["run", "-d", "--rm", "-p", "3020:3020", "-t", tag])
+        .args([
+            "run",
+            "--name",
+            "prfs_postgres",
+            "-p",
+            "5433:5432",
+            "-e",
+            "POSTGRES_USER=postgres",
+            "-e",
+            "POSTGRES_USER=postgres",
+            "-e",
+            "POSTGRES_PASSWORD=postgres",
+            "-e",
+            "POSTGRES_DB=postgres",
+            "-d",
+            "postgres",
+        ])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));
 
     assert!(status.success());
 }
+
+// docker pull postgres
+// docker stop prfs_postgres || true && \
+// docker rm prfs_postgres || true && \
+
+// docker run\
+//     --name prfs_postgres\
+//     -p 5433:5432\
+//     -e POSTGRES_USER=postgres\
+//     -e POSTGRES_PASSWORD=postgres\
+//     -e POSTGRES_DB=postgres\
+//     -d\
+//     postgres
