@@ -1,7 +1,6 @@
 use crate::paths::PATHS;
 use crate::utils::copy_dir_all;
 use colored::Colorize;
-use prfs_circuit_circom::get_build_fs_path;
 
 pub fn setup_local_assets() {
     if PATHS.assets.exists() {
