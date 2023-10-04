@@ -28,11 +28,14 @@ pub fn make_router(server_state: Arc<ServerState>) -> Router<Body, Infallible> {
 async fn status_handler(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
     println!("status handler!");
 
-    let data = "prfs asset server is working".to_string();
+    // let data = "prfs asset server is working".to_string();
+    let data = serde_json::json!({
+        "status": "Ok",
+    });
 
     let res = Response::builder()
         .header(header::CONTENT_TYPE, "application/json")
-        .body(Body::from(data))
+        .body(Body::from(data.to_string()))
         .unwrap();
 
     Ok(res)

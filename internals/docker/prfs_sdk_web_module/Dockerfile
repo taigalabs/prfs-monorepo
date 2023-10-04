@@ -1,6 +1,6 @@
 FROM rust:1.72
 
-EXPOSE 3000
+EXPOSE 3010
 
 WORKDIR /usr/prfs-monorepo
 
