@@ -37,6 +37,7 @@ fn main() {
         .subcommand(command!("start_webapp_proof").arg(Arg::new("extra_args")))
         .subcommand(command!("start_webapp_poll").arg(Arg::new("extra_args")))
         .subcommand(command!("start_webapp_vacade").arg(Arg::new("extra_args")))
+        .subcommand(command!("start_sdk_web_module").arg(Arg::new("extra_args")))
         //
         .subcommand(command!("docker_run_postgres").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_run_webapp_console").arg(Arg::new("extra_args")))
@@ -76,6 +77,9 @@ fn main() {
         }
         Some(("dev_webapp_vacade", sub_matches)) => {
             cmds::dev_webapp_vacade::run(sub_matches);
+        }
+        Some(("start_sdk_web_module", sub_matches)) => {
+            cmds::start_sdk_web_module::run(sub_matches);
         }
         Some(("start_webapp_console", sub_matches)) => {
             cmds::start_webapp_console::run(sub_matches);
