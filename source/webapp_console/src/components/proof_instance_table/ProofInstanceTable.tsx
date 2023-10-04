@@ -19,11 +19,11 @@ import Table2, {
   TableSearch,
 } from "@taigalabs/prfs-react-components/src/table2/Table2";
 import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
+import { useQuery } from "@tanstack/react-query";
 
 import styles from "./ProofInstanceTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import { useQuery } from "@tanstack/react-query";
 
 const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
   selectType,
