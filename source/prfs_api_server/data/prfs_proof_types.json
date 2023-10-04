@@ -13,19 +13,20 @@
       "circuit_driver_id": "SPARTAN_CIRCOM_1",
       "circuit_inputs": [
         {
+          "ref_type": "PRFS_SET",
+          "ref_value": "00000000-0000-0000-0000-000000000001",
+          "desc": "Who you are among those",
+          "name": "merkleProof",
+          "type": "MERKLE_PROOF_1",
+          "element_type": "ADDRESS",
+          "label": "One of them",
+          "value": ""
+        },
+        {
           "desc": "Message over which a signature is made",
           "name": "sigData",
           "type": "SIG_DATA_1",
           "label": "Signature",
-          "value": ""
-        },
-        {
-          "ref_type": "PRFS_SET",
-          "ref_value": "00000000-0000-0000-0000-000000000001",
-          "desc": "Vector commitment (Merkle root) of a set",
-          "name": "merkleProof",
-          "type": "MERKLE_PROOF_1",
-          "label": "Merkle proof",
           "value": ""
         }
       ],
@@ -49,19 +50,20 @@
       "circuit_driver_id": "SPARTAN_CIRCOM_1",
       "circuit_inputs": [
         {
+          "ref_type": "PRFS_SET",
+          "ref_value": "10000000-0000-0000-0000-100000000000",
+          "desc": "Who you are among those",
+          "name": "merkleProof",
+          "type": "MERKLE_PROOF_1",
+          "element_type": "ADDRESS",
+          "label": "One of them",
+          "value": ""
+        },
+        {
           "desc": "Message over which a signature is made",
           "name": "sigData",
           "type": "SIG_DATA_1",
           "label": "Signature",
-          "value": ""
-        },
-        {
-          "ref_type": "PRFS_SET",
-          "ref_value": "10000000-0000-0000-0000-100000000000",
-          "desc": "Vector commitment (Merkle root) of a set",
-          "name": "merkleProof",
-          "type": "MERKLE_PROOF_1",
-          "label": "Merkle proof",
           "value": ""
         }
       ],
@@ -85,19 +87,20 @@
       "circuit_driver_id": "SPARTAN_CIRCOM_1",
       "circuit_inputs": [
         {
+          "ref_type": "PRFS_SET",
+          "ref_value": "10000000-0000-0000-0000-000000000001",
+          "desc": "Who you are among those",
+          "name": "merkleProof",
+          "type": "MERKLE_PROOF_1",
+          "label": "Merkle proof",
+          "element_type": "ADDRESS",
+          "value": ""
+        },
+        {
           "desc": "Message over which a signature is made",
           "name": "sigData",
           "type": "SIG_DATA_1",
           "label": "Signature",
-          "value": ""
-        },
-        {
-          "ref_type": "PRFS_SET",
-          "ref_value": "10000000-0000-0000-0000-000000000001",
-          "desc": "Vector commitment (Merkle root) of a set",
-          "name": "merkleProof",
-          "type": "MERKLE_PROOF_1",
-          "label": "Merkle proof",
           "value": ""
         }
       ],
@@ -121,19 +124,20 @@
       "circuit_driver_id": "SPARTAN_CIRCOM_1",
       "circuit_inputs": [
         {
+          "ref_type": "PRFS_SET",
+          "ref_value": "10000000-0000-0000-0000-100000000002",
+          "desc": "Who you are among those",
+          "name": "merkleProof",
+          "type": "MERKLE_PROOF_1",
+          "label": "Merkle proof",
+          "element_type": "ADDRESS",
+          "value": ""
+        },
+        {
           "desc": "Message over which a signature is made",
           "name": "sigData",
           "type": "SIG_DATA_1",
           "label": "Signature",
-          "value": ""
-        },
-        {
-          "ref_type": "PRFS_SET",
-          "ref_value": "10000000-0000-0000-0000-100000000002",
-          "desc": "Vector commitment (Merkle root) of a set",
-          "name": "merkleProof",
-          "type": "MERKLE_PROOF_1",
-          "label": "Merkle proof",
           "value": ""
         }
       ],

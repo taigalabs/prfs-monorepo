@@ -135,6 +135,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             label: input.label,
             type: input.type,
             desc: input.desc,
+            element_type: null,
             value: "",
             ref_type: null,
             ref_value: null,

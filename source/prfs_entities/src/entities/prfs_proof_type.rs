@@ -44,6 +44,8 @@ pub struct CircuitInput {
     #[serde(default = "default_units")]
     pub units: i16,
 
+    pub element_type: Option<String>,
+
     pub ref_type: Option<String>,
     pub ref_value: Option<String>,
 }

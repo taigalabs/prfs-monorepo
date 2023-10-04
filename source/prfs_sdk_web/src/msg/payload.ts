@@ -1,29 +1,31 @@
-import { ProveReceipt, ProveResult } from "@taigalabs/prfs-driver-interface";
+import { LogEventType, ProveReceipt } from "@taigalabs/prfs-driver-interface";
 
 export type MsgType =
   | "HANDSHAKE"
   | "HANDSHAKE_RESPONSE"
+  | "LOAD_DRIVER"
+  | "LOAD_DRIVER_RESPONSE"
   | "GET_ADDRESS"
   | "GET_ADDRESS_RESPONSE"
   | "GET_SIGNATURE"
   | "GET_SIGNATURE_RESPONSE"
-  | "LISTEN_CLICK_OUTSIDE"
-  | "LISTEN_CLICK_OUTSIDE_RESPONSE"
-  | "LISTEN_CREATE_PROOF"
-  | "LISTEN_CREATE_PROOF_RESPONSE"
-  | "STOP_CLICK_OUTSIDE"
-  | "STOP_CLICK_OUTSIDE_RESPONSE"
   | "CREATE_PROOF"
   | "CREATE_PROOF_RESPONSE"
-  | "OPEN_DIALOG"
-  | "OPEN_DIALOG_RESPONSE"
-  | "CLOSE_DIALOG"
-  | "CLOSE_DIALOG_RESPONSE"
-  | "GET_FORM_VALUES"
-  | "GET_FORM_VALUES_RESPONSE";
+  | "PROOF_GEN_EVENT"
+  | "PROOF_GEN_EVENT_RESPONSE";
 
-export interface HandshakePayload {
-  docHeight: number;
+export interface HandshakePayload {}
+
+export interface HandshakeResponsePayload {}
+
+export interface ProofGenEventPayload {
+  type: LogEventType;
+  msg: string;
+}
+
+export interface LoadDriverPayload {
+  circuit_driver_id: string;
+  driver_properties: Record<string, any>;
 }
 
 export interface GetSignaturePayload {
@@ -35,56 +37,29 @@ export interface GetSignatureResponsePayload {
   sig: string;
 }
 
-export interface OpenDialogPayload {
-  duration: number;
-}
-
-export interface OpenDialogRespPayload {
-  top: number;
-  left: number;
-}
-
 export type ReqPayload<T extends MsgType> = //
   T extends "HANDSHAKE"
     ? HandshakePayload
     : T extends "HANDSHAKE_RESPONSE"
-    ? void
+    ? HandshakeResponsePayload
     : T extends "GET_ADDRESS"
     ? string
     : T extends "GET_ADDRESS_RESPONSE"
+    ? string
+    : T extends "LOAD_DRIVER"
+    ? LoadDriverPayload
+    : T extends "LOAD_DRIVER_RESPONSE"
     ? string
     : T extends "GET_SIGNATURE"
     ? GetSignaturePayload
     : T extends "GET_SIGNATURE_RESPONSE"
     ? GetSignatureResponsePayload
-    : T extends "LISTEN_CLICK_OUTSIDE"
-    ? void
-    : T extends "LISTEN_CLICK_OUTSIDE_RESPONSE"
-    ? boolean
-    : T extends "LISTEN_CREATE_PROOF"
-    ? void
-    : T extends "LISTEN_CREATE_PROOF_RESPONSE"
-    ? boolean
-    : T extends "STOP_CLICK_OUTSIDE"
-    ? void
-    : T extends "STOP_CLICK_OUTSIDE_RESPONSE"
-    ? void
     : T extends "CREATE_PROOF"
-    ? void
+    ? Record<string, any>
     : T extends "CREATE_PROOF_RESPONSE"
     ? ProveReceipt
-    : T extends "OPEN_DIALOG"
-    ? OpenDialogPayload
-    : T extends "OPEN_DIALOG_RESPONSE"
-    ? OpenDialogRespPayload
-    : T extends "CLOSE_DIALOG"
-    ? void
-    : T extends "CLOSE_DIALOG_RESPONSE"
-    ? void
-    : T extends "GET_FORM_VALUES"
-    ? void
-    : T extends "GET_FORM_VALUES_RESPONSE"
-    ? Record<string, any>
+    : T extends "PROOF_GEN_EVENT"
+    ? ProofGenEventPayload
     : never;
 
 export type RespPayload<T extends MsgType> = //
@@ -100,32 +75,16 @@ export type RespPayload<T extends MsgType> = //
     ? GetSignatureResponsePayload
     : T extends "GET_SIGNATURE_RESPONSE"
     ? never
-    : T extends "LISTEN_CLICK_OUTSIDE"
-    ? boolean
-    : T extends "LISTEN_CLICK_OUTSIDE_RESPONSE"
+    : T extends "LOAD_DRIVER"
+    ? string
+    : T extends "LOAD_DRIVER_RESPONSE"
     ? never
-    : T extends "LISTEN_CREATE_PROOF"
-    ? boolean
-    : T extends "LISTEN_CREATE_PROOF_RESPONSE"
-    ? never
-    : T extends "STOP_CLICK_OUTSIDE"
-    ? void
-    : T extends "STOP_CLICK_OUTSIDE_RESPONSE"
-    ? void
     : T extends "CREATE_PROOF"
     ? ProveReceipt
     : T extends "CREATE_PROOF_RESPONSE"
     ? void
-    : T extends "OPEN_DIALOG"
-    ? OpenDialogRespPayload
-    : T extends "OPEN_DIALOG_RESPONSE"
+    : T extends "PROOF_GEN_EVENT"
     ? never
-    : T extends "CLOSE_DIALOG"
-    ? void
-    : T extends "CLOSE_DIALOG_RESPONSE"
-    ? void
-    : T extends "GET_FORM_VALUES"
-    ? Record<string, any>
-    : T extends "GET_FORM_VALUES_RESPONSE"
-    ? void
+    : T extends "PROOF_GEN_EVENT_RESPONSE"
+    ? never
     : never;

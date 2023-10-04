@@ -35,7 +35,7 @@ function createEnvs() {
     NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT: "http://localhost:3020",
     NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT: "http://localhost:3021",
     NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: "http://localhost:4000",
-    NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "http://localhost:4010/assets",
+    NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "http://localhost:4010",
     NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT: "http://localhost:3010",
   };
 

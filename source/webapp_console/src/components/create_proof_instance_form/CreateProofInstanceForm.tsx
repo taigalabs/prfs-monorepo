@@ -48,14 +48,14 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       if (selectedProofType) {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-        const proofGenElement = prfs.create("proof-gen", {
-          proofTypeId: selectedProofType.proof_type_id,
-          provider,
-        });
+        // const proofGenElement = prfs.create("proof-gen", {
+        //   proofTypeId: selectedProofType.proof_type_id,
+        //   provider,
+        // });
 
-        await proofGenElement.mount("#prfs-sdk-container");
+        // await proofGenElement.mount("#prfs-sdk-container");
 
-        setProofGenElement(proofGenElement);
+        // setProofGenElement(proofGenElement);
       }
     }
 
@@ -87,34 +87,34 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       return;
     }
 
-    const proveReceipt = await proofGenElement.createProof();
+    // const proveReceipt = await proofGenElement.createProof();
 
-    if (proveReceipt) {
-      const { duration, proveResult } = proveReceipt;
-      const { proof, publicInputSer } = proveResult;
-      const public_inputs = JSON.parse(publicInputSer);
+    // if (proveReceipt) {
+    //   const { duration, proveResult } = proveReceipt;
+    //   const { proof, publicInputSer } = proveResult;
+    //   const public_inputs = JSON.parse(publicInputSer);
 
-      console.log("took %s ms to create a proof", duration);
+    //   console.log("took %s ms to create a proof", duration);
 
-      const proof_instance_id = uuidv4();
+    //   const proof_instance_id = uuidv4();
 
-      console.log("try inserting proof", proveReceipt);
-      try {
-        const { payload } = await prfsApi2("create_prfs_proof_instance", {
-          proof_instance_id,
-          account_id: prfsAccount.account_id,
-          proof_type_id: selectedProofType.proof_type_id,
-          proof: Array.from(proof),
-          public_inputs,
-        });
+    //   console.log("try inserting proof", proveReceipt);
+    //   try {
+    //     const { payload } = await prfsApi2("create_prfs_proof_instance", {
+    //       proof_instance_id,
+    //       account_id: prfsAccount.account_id,
+    //       proof_type_id: selectedProofType.proof_type_id,
+    //       proof: Array.from(proof),
+    //       public_inputs,
+    //     });
 
-        router.push(`${paths.proof_instances}/${payload.proof_instance_id}`);
-      } catch (err: any) {
-        console.error(err);
+    //     router.push(`${paths.proof_instances}/${payload.proof_instance_id}`);
+    //   } catch (err: any) {
+    //     console.error(err);
 
-        setErrMsg(err);
-      }
-    }
+    //     setErrMsg(err);
+    //   }
+    // }
   }, [selectedProofType, setFormAlert, localPrfsAccount, proofGenElement, setErrMsg]);
 
   return (

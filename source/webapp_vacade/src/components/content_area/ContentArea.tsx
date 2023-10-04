@@ -14,9 +14,16 @@ export const ContentMainInfiniteScroll: React.FC<ContentMainInfiniteScrollProps>
   children,
   onScroll,
   dRef,
+  style,
 }) => {
   return (
-    <div className={styles.contentMainInfiniteScroll} {...{}} onScroll={onScroll} ref={dRef}>
+    <div
+      className={styles.contentMainInfiniteScroll}
+      {...{}}
+      onScroll={onScroll}
+      ref={dRef}
+      style={style}
+    >
       {children}
     </div>
   );
@@ -63,6 +70,7 @@ export interface ContentMainInfiniteScrollProps {
   children: React.ReactNode;
   onScroll?: React.UIEventHandler;
   dRef?: React.RefObject<HTMLDivElement>;
+  style?: React.CSSProperties;
 }
 
 export interface ContentMainHeaderProps {

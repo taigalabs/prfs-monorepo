@@ -114,6 +114,11 @@ export default {
   finite_field: "Finite field",
   merkle_root: "Merkle root",
   prfs: "Prfs",
+  close: "Close",
+  disconnect: "Disconnect",
+  put_address: "Put address",
+  address: "Address",
+  raw: "Raw",
   metamask: "Metamask",
   metamask_desc:
     "We currently support Metamask. Check out how you install install it if you haven't already",

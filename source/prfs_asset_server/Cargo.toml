@@ -2,7 +2,7 @@
 name = "prfs_asset_server"
 version = "0.1.0"
 edition = "2021"
-default-run = "server"
+default-run = "prfs_asset_server"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -17,9 +17,12 @@ serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 multer = "2.0"
 lazy_static = "1.4"
+dotenvy = "0.15"
+envy = "0.4"
 
 prfs_circuit_circom = { path = "../prfs_circuit_circom" }
+prfs_entities = { path = "../prfs_entities" }
 
 [[bin]]
-name = "server"
+name = "prfs_asset_server"
 path = "src/bin/server.rs"

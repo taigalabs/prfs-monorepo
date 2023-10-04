@@ -37,6 +37,7 @@
   padding: 0px 0px;
   width: 100%;
   color: var(--black-00);
+  font-size: 13px;
 
   tr {
     /* border-top: 1px solid var(--bright-gray-31); */
@@ -45,7 +46,7 @@
 
   th {
     font-weight: 500;
-    padding: 6px 12px;
+    padding: 4px 12px;
     position: relative;
     white-space: nowrap;
     text-align: left;
@@ -53,6 +54,8 @@
 }
 
 .table2Body {
+  font-size: 13px;
+
   tr {
     border-bottom: 1px solid var(--bright-gray-35);
 
@@ -62,7 +65,7 @@
   }
 
   td {
-    padding: 7px 12px;
+    padding: 4px 12px;
     position: relative;
     /* white-space: nowrap; */
     word-break: break-all;
@@ -129,5 +132,5 @@
 }
 
 .paddedTableWrapper {
-  padding: 0 24px 0 32px;
+  /* padding: 0 24px 0 32px; */
 }

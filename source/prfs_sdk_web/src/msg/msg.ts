@@ -5,7 +5,7 @@ export class Msg<T extends MsgType> implements MsgInterface<T> {
   type: T;
   payload: any;
 
-  constructor(type: T, payload: ReqPayload<T>, error?: any) {
+  constructor(type: T, payload?: ReqPayload<T>, error?: any) {
     this.type = type;
     this.payload = payload || {};
     this.error = error;

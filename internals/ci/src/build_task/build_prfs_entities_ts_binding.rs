@@ -5,6 +5,7 @@ use crate::{
     paths::PATHS,
     BuildHandle, CiError,
 };
+use colored::Colorize;
 use std::process::Command;
 use which::which;
 
@@ -27,9 +28,11 @@ impl BuildTask for BuildPrfsEntitiesTSBindingTask {
 
         assert!(status.success());
 
-        which(PRETTIERD).ok().unwrap();
-
-        format_ts_files(&PATHS.prfs_entities_bindings);
+        if let None = which(PRETTIERD).ok() {
+            println!("{} not found, not formatting", PRETTIERD.red());
+        } else {
+            format_ts_files(&PATHS.prfs_entities_bindings);
+        }
 
         Ok(())
     }

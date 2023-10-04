@@ -56,15 +56,12 @@ function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
 
 async function initHandlers() {
   if (!(await threads())) {
-    console.log("threads no support");
+    console.error("threads no support");
     return;
-  } else {
-    console.log("threads are supported!");
   }
 
   const prfsWasm = await import("./build");
 
-  console.log("wasmBytes found, len: %o", wasmBytes.byteLength);
   prfsWasm.initSync(wasmBytes);
 
   console.log("Web worker: threads are available, concurrency: %o", navigator.hardwareConcurrency);

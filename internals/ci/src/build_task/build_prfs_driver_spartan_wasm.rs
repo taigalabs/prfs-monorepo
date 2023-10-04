@@ -45,7 +45,7 @@ fn build_wasm(build_handle: &mut BuildHandle) {
             "--target",
             "web",
             "--out-dir",
-            prfs_wasm_build_path,
+            &prfs_wasm_build_path,
             "--out-name",
             &out_name,
             "--",

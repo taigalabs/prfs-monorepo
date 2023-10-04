@@ -17,6 +17,8 @@ async function fetchServerPage(
   limit: number,
   offset: number = 0
 ): Promise<{ rows: string[]; nextOffset: number | undefined }> {
+  console.log("fetch", limit, offset);
+
   const rows = new Array(limit).fill(0).map((e, i) => `Async loaded row #${i + offset * limit}`);
 
   await new Promise(r => setTimeout(r, 500));
@@ -41,27 +43,24 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
     overscan: 5,
   });
 
-  const fetchMoreOnBottomReached = React.useCallback(
-    (containerRefElement?: HTMLDivElement | null) => {
-      // console.log(55, containerRefElement, rightBarContainerRef.current);
-      if (containerRefElement && rightBarContainerRef.current) {
-        const { scrollHeight, scrollTop, clientHeight } = containerRefElement;
-        const { scrollHeight: sh, scrollTop: st, clientHeight: ch } = rightBarContainerRef.current!;
+  const handleScroll = React.useCallback(() => {
+    // console.log(55, containerRefElement, rightBarContainerRef.current);
+    if (parentRef.current && rightBarContainerRef.current) {
+      const { scrollHeight, scrollTop, clientHeight } = parentRef.current;
+      const { scrollHeight: sh, scrollTop: st, clientHeight: ch } = rightBarContainerRef.current!;
 
-        if (ch < clientHeight) {
-          rightBarContainerRef.current!.style.top = `0px`;
+      if (ch < clientHeight) {
+        rightBarContainerRef.current!.style.top = `0px`;
+      } else {
+        const delta = clientHeight + scrollTop - ch;
+        if (delta >= 0) {
+          rightBarContainerRef.current.style.transform = `translateY(${delta}px)`;
         } else {
-          const delta = clientHeight + scrollTop - ch;
-          if (delta >= 0) {
-            rightBarContainerRef.current.style.transform = `translateY(${delta}px)`;
-          } else {
-            rightBarContainerRef.current!.style.transform = "translateY(0px)";
-          }
+          rightBarContainerRef.current!.style.transform = "translateY(0px)";
         }
       }
-    },
-    [fetchNextPage, isFetching, rightBarContainerRef.current]
-  );
+    }
+  }, [isFetching, parentRef.current, rightBarContainerRef.current]);
 
   React.useEffect(() => {
     const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse();
@@ -92,7 +91,8 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
       ) : (
         <ContentMainInfiniteScroll
           dRef={parentRef}
-          onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
+          onScroll={handleScroll}
+          style={{ height: "500px" }}
         >
           <ContentMainCenter
             style={{
@@ -117,6 +117,7 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
 
                 return (
                   <div
+                    className={styles.row}
                     key={virtualRow.index}
                     data-index={virtualRow.index}
                     ref={rowVirtualizer.measureElement}

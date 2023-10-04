@@ -4,12 +4,13 @@ import {
   ProveResult,
   ProveReceipt,
   VerifyArgs,
+  SpartanMerkleProof,
 } from "@taigalabs/prfs-driver-interface";
 import { BN } from "bn.js";
 
 import { Tree } from "./helpers/tree";
 import { makePoseidon } from "./helpers/poseidon";
-import { PrfsHandlers, AsyncHashFn, BuildStatus, SpartanMerkleProof } from "./types";
+import { PrfsHandlers, AsyncHashFn, BuildStatus } from "./types";
 import { fromSig, snarkJsWitnessGen } from "./helpers/utils";
 import {
   CircuitPubInput,

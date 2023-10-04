@@ -217,9 +217,20 @@ type Resp<T> = //
     ? PrfsApiResponse<GetPrfsPollResultByPollIdResponse>
     : any;
 
+let PRFS_API_SERVER_ENDPOINT: string;
+
+if (typeof process !== "undefined") {
+  PRFS_API_SERVER_ENDPOINT = `${process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT}/api/v0`;
+} else {
+  throw new Error("process is undefined");
+}
+
 export async function prfsApi2<T extends RequestName>(name: T, req: Req<T>): Promise<Resp<T>> {
-  return (await api({
-    path: name,
-    req,
-  })) as Resp<T>;
+  return (await api(
+    {
+      path: name,
+      req,
+    },
+    PRFS_API_SERVER_ENDPOINT
+  )) as Resp<T>;
 }

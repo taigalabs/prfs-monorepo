@@ -1,73 +1,60 @@
 import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
-import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import cn from "classnames";
 import { v4 as uuidv4 } from "uuid";
-import { ethers } from "ethers";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { FaCloudMoon } from "@react-icons/all-files/fa/FaCloudMoon";
 import { useRouter } from "next/navigation";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
+import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import { useMutation } from "@tanstack/react-query";
+import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
 
 import styles from "./CreateProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-
-const prfs = new PrfsSDK("test");
+import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
 
 const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const [selectedProofTypeItem, setSelectedProofTypeItem] = React.useState<ProofTypeItem>();
+  const [proofType, setProofType] = React.useState<PrfsProofType>();
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt>();
   const router = useRouter();
 
-  const handleSelectProofType = React.useCallback(
-    (proofTypeItem: ProofTypeItem) => {
-      setSelectedProofTypeItem(proofTypeItem);
+  const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
+    mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
+      return prfsApi2("get_prfs_proof_type_by_proof_type_id", req);
     },
-    [setSelectedProofTypeItem]
+  });
+
+  const handleSelectProofType = React.useCallback(
+    async (proofTypeItem: ProofTypeItem) => {
+      setSelectedProofTypeItem(proofTypeItem);
+
+      const { payload } = await getPrfsProofTypeByProofTypeIdRequest({
+        proof_type_id: proofTypeItem.proofTypeId,
+      });
+
+      setProofType(payload.prfs_proof_type);
+    },
+    [setSelectedProofTypeItem, getPrfsProofTypeByProofTypeIdRequest, setProofType]
   );
 
-  React.useEffect(() => {
-    async function fn() {
-      if (selectedProofTypeItem) {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-
-        const proofGenElement = prfs.create("proof-gen", {
-          proofTypeId: selectedProofTypeItem.proofTypeId,
-          provider,
-        });
-
-        await proofGenElement.mount("#prfs-sdk-container");
-
-        setProofGenElement(proofGenElement);
+  const handleCreateProof = React.useCallback(
+    async (err: any, proveReceipt: ProveReceipt | null) => {
+      if (err) {
+        console.error(err);
+      } else if (proveReceipt !== null) {
+        setProveReceipt(proveReceipt);
       }
-    }
-
-    fn().then();
-  }, [selectedProofTypeItem, setProofGenElement]);
-
-  const handleClickCreateProof = React.useCallback(async () => {
-    if (!selectedProofTypeItem) {
-      console.error("proof type is not selected");
-      return;
-    }
-
-    if (!proofGenElement) {
-      console.error("PRFS sdk is undefined");
-      return;
-    }
-
-    const proveReceipt = await proofGenElement.createProof();
-
-    if (proveReceipt) {
-      setProveReceipt(proveReceipt);
-    }
-  }, [selectedProofTypeItem, proofGenElement, setProveReceipt]);
+    },
+    [selectedProofTypeItem, proofGenElement, setProveReceipt]
+  );
 
   const handleClickUpload = React.useCallback(async () => {
     if (proveReceipt && selectedProofTypeItem) {
@@ -109,16 +96,13 @@ const CreateProofForm: React.FC = () => {
             <SelectProofTypeDialog handleSelectProofType={handleSelectProofType} />
           </div>
         </div>
-        {selectedProofTypeItem && (
+        {proofType && (
           <Fade>
-            <div id="prfs-sdk-container" className={styles.sdkContainer}></div>
+            <div className={styles.sdkArea}>
+              <CreateProofModule proofType={proofType} handleCreateProof={handleCreateProof} />
+            </div>
           </Fade>
         )}
-        <div className={styles.createProofBtn}>
-          <Button variant="aqua_blue_1" handleClick={handleClickCreateProof}>
-            {i18n.create_proof.toUpperCase()}
-          </Button>
-        </div>
       </div>
       {proveReceipt && (
         <Fade>

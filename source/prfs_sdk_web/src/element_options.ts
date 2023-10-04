@@ -1,16 +1,17 @@
-import { ethers } from "ethers";
+import { LogEventType } from "@taigalabs/prfs-driver-interface";
 
 export interface ProofGenOptions {
   proofTypeId: string;
-  provider: ethers.providers.Web3Provider;
-  // handleCreateProof: ({ proof, publicInput }: any) => void;
-  theme?: "dark";
-  wrapperZIndex?: string;
+  circuit_driver_id: string;
+  driver_properties: Record<string, any>;
+  sdkEndpoint: string;
+  proofGenEventListener: (type: LogEventType, msg: string) => void;
 }
 
 export interface ZAuthSignInOptions {
-  provider: ethers.providers.Web3Provider;
-  // handleCreateProof: ({ proof, publicInput }: any) => void;
-  theme?: "dark";
-  wrapperZIndex?: string;
+  proofTypeId: string;
+  circuit_driver_id: string;
+  driver_properties: Record<string, any>;
+  sdkEndpoint: string;
+  proofGenEventListener: (type: LogEventType, msg: string) => void;
 }

@@ -1,5 +1,7 @@
 import { AsyncIncrementalMerkleTree } from "@taigalabs/async-incremental-merkle-tree";
-import { SpartanMerkleProof, AsyncHashFn } from "../types";
+import { SpartanMerkleProof } from "@taigalabs/prfs-driver-interface";
+
+import { AsyncHashFn } from "../types";
 import { bytesToBigInt } from "./utils";
 
 export class Tree {

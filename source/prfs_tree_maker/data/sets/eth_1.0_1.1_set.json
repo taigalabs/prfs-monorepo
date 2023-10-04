@@ -2,7 +2,7 @@
   "set": {
     "set_id": "eth_1.0_1.05",
     "set_type": "Static",
-    "label": "1.0-1.05 ETH OWNERSHIP",
+    "label": "1.0-1.05 ETH OWNERS",
     "desc": "test",
     "author": "SYSTEM_NATIVE",
     "src_set_label": "eth_accounts",

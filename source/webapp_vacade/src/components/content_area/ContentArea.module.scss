@@ -34,11 +34,12 @@
 .contentMainInfiniteScroll {
   height: 100vh;
   display: flex;
+  overflow-x: hidden;
   overflow-y: auto;
-  contain: "strict";
+  // contain: "strict";
   /* padding-right: calc(50vw - 600px + 370px); */
 
-  /* border: 1px solid yellow; */
+  border: 1px solid yellow;
 }
 
 .contentMainHeader {
