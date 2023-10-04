@@ -14,7 +14,6 @@ pub fn setup_local_assets() {
     }
 
     copy_circuits();
-    // copy_drivers();
 }
 
 fn copy_circuits() {
@@ -37,22 +36,3 @@ fn copy_circuits() {
 
     copy_dir_all(circuits_build_path, &PATHS.assets_circuits).unwrap();
 }
-
-// fn copy_drivers() {
-//     let drivers_dist_path = PATHS.ws_prfs_driver_spartan_js.join("dist");
-
-//     assert!(
-//         drivers_dist_path.exists(),
-//         "drivers dist path should exist, path: {:?}",
-//         drivers_dist_path
-//     );
-
-//     println!(
-//         "{} src: {:?}, dest: {:?}",
-//         "Copying".green(),
-//         drivers_dist_path,
-//         &PATHS.assets_drivers
-//     );
-
-//     copy_dir_all(drivers_dist_path, &PATHS.assets_drivers).unwrap();
-// }

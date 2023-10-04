@@ -21,6 +21,7 @@ pub mod build_prfs_driver_spartan_js;
 
 // docker
 pub mod docker_run_api_server;
+pub mod docker_run_asset_server;
 pub mod docker_run_postgres;
 pub mod docker_run_webapp_console;
 pub mod docker_run_webapp_proof;

@@ -1,5 +1,5 @@
 use crate::{
-    deps::{self, BASH, DOCKER, JS_ENGINE},
+    deps::{self, DOCKER, JS_ENGINE},
     paths::PATHS,
 };
 use clap::ArgMatches;
@@ -15,7 +15,7 @@ pub fn run(matches: &ArgMatches) {
 }
 
 fn run_docker(_extra_args: Vec<&str>) {
-    let tag = "prfs_webapp_console";
+    let tag = "prfs_postgres";
 
     let df_path = PATHS.internals_docker.join("webapp_console/Dockerfile");
     println!("df_path: {:?}", df_path);

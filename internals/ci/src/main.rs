@@ -38,11 +38,12 @@ fn main() {
         .subcommand(command!("start_webapp_poll").arg(Arg::new("extra_args")))
         .subcommand(command!("start_webapp_vacade").arg(Arg::new("extra_args")))
         .subcommand(command!("start_sdk_web_module").arg(Arg::new("extra_args")))
-        //
+        // docker
         .subcommand(command!("docker_run_postgres").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_run_webapp_console").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_run_webapp_proof").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_run_api_server").arg(Arg::new("extra_args")))
+        .subcommand(command!("docker_run_asset_server").arg(Arg::new("extra_args")))
         .get_matches();
 
     let now = Utc::now();
@@ -50,6 +51,7 @@ fn main() {
     println!("{} ci: {} ({})", "Starting".green(), now, timestamp);
 
     match matches.subcommand() {
+        // build
         Some(("build", sub_matches)) => {
             cmds::build::run(sub_matches, &timestamp);
         }
@@ -59,10 +61,7 @@ fn main() {
         Some(("build_circuits", sub_matches)) => {
             cmds::build_circuits::run(sub_matches, &timestamp);
         }
-        //
-        Some(("e2e_test_web", sub_matches)) => {
-            cmds::e2e_test_web::run(sub_matches);
-        }
+        // dev mode
         Some(("dev_sdk_web_module", sub_matches)) => {
             cmds::dev_sdk_web_module::run(sub_matches);
         }
@@ -78,6 +77,13 @@ fn main() {
         Some(("dev_webapp_vacade", sub_matches)) => {
             cmds::dev_webapp_vacade::run(sub_matches);
         }
+        Some(("dev_asset_server", sub_matches)) => {
+            cmds::dev_asset_server::run(sub_matches);
+        }
+        Some(("dev_api_server", sub_matches)) => {
+            cmds::dev_api_server::run(sub_matches);
+        }
+        // prod mode
         Some(("start_sdk_web_module", sub_matches)) => {
             cmds::start_sdk_web_module::run(sub_matches);
         }
@@ -93,16 +99,7 @@ fn main() {
         Some(("start_webapp_vacade", sub_matches)) => {
             cmds::start_webapp_vacade::run(sub_matches);
         }
-        Some(("dev_asset_server", sub_matches)) => {
-            cmds::dev_asset_server::run(sub_matches);
-        }
-        Some(("dev_api_server", sub_matches)) => {
-            cmds::dev_api_server::run(sub_matches);
-        }
-        Some(("seed_api_server", sub_matches)) => {
-            cmds::seed_api_server::run(sub_matches);
-        }
-        //
+        // docker
         Some(("docker_run_postgres", sub_matches)) => {
             cmds::docker_run_postgres::run(sub_matches);
         }
@@ -114,6 +111,16 @@ fn main() {
         }
         Some(("docker_run_api_server", sub_matches)) => {
             cmds::docker_run_api_server::run(sub_matches);
+        }
+        Some(("docker_run_asset_server", sub_matches)) => {
+            cmds::docker_run_asset_server::run(sub_matches);
+        }
+        //
+        Some(("e2e_test_web", sub_matches)) => {
+            cmds::e2e_test_web::run(sub_matches);
+        }
+        Some(("seed_api_server", sub_matches)) => {
+            cmds::seed_api_server::run(sub_matches);
         }
         _ => unreachable!("Subcommand not defined"),
     }

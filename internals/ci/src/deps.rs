@@ -1,6 +1,6 @@
 use std::process::Command;
 
-pub const BASH: &str = "bash";
+pub const CARGO: &str = "cargo";
 pub const DOCKER: &str = "docker";
 pub const PRETTIERD: &str = "prettierd";
 pub const JS_ENGINE: &str = "pnpm";

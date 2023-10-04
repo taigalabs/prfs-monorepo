@@ -1,5 +1,5 @@
 use crate::{
-    deps::{self, DOCKER, JS_ENGINE},
+    deps::{self, JS_ENGINE},
     paths::PATHS,
 };
 use clap::ArgMatches;
@@ -15,9 +15,9 @@ pub fn run(matches: &ArgMatches) {
 }
 
 fn run_docker(_extra_args: Vec<&str>) {
-    let tag = "prfs_webapp_console";
+    let tag = "prfs_asset_server";
 
-    let df_path = PATHS.internals_docker.join("webapp_console/Dockerfile");
+    let df_path = PATHS.internals_docker.join("prfs_asset_server/Dockerfile");
     println!("tag: {}, df_path: {:?}", tag, df_path);
 
     let status = Command::new(deps::DOCKER)
@@ -28,7 +28,7 @@ fn run_docker(_extra_args: Vec<&str>) {
     assert!(status.success());
 
     let status = Command::new(deps::DOCKER)
-        .args(["run", "-d", "--rm", "-p", "3020:3020", "-t", tag])
+        .args(["run", "-d", "--rm", "-p", "4010:4010", "-t", tag])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));
 

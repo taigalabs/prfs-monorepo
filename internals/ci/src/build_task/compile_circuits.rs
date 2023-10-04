@@ -1,5 +1,5 @@
 use super::task::BuildTask;
-use crate::{paths::PATHS, BuildHandle, CiError};
+use crate::{deps, paths::PATHS, BuildHandle, CiError};
 use colored::Colorize;
 use serde::{Deserialize, Serialize};
 use std::process::Command;
@@ -31,13 +31,11 @@ impl BuildTask for CompileCircuitsTask {
 }
 
 fn run_app() {
-    let bin = "cargo";
-
-    let status = Command::new(bin)
+    let status = Command::new(deps::CARGO)
         .current_dir(&PATHS.prfs_circuit_circom)
         .args(["run", "-p", "prfs_circuit_circom"])
         .status()
-        .expect(&format!("{} command failed to start", bin));
+        .expect(&format!("{} command failed to start", deps::CARGO));
 
     assert!(status.success());
 }
