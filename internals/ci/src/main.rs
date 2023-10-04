@@ -17,10 +17,13 @@ fn main() {
         .version("v0.1")
         .propagate_version(true)
         .arg_required_else_help(true)
+        // build
         .subcommand(command!("build"))
         .subcommand(command!("build_prfs_driver_spartan_js"))
+        .subcommand(command!("build_circuits"))
         //
         .subcommand(command!("e2e_test_web"))
+        // dev mode
         .subcommand(command!("dev_webapp_console").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_webapp_proof").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_webapp_poll").arg(Arg::new("extra_args")))
@@ -29,6 +32,7 @@ fn main() {
         .subcommand(command!("dev_asset_server"))
         .subcommand(command!("dev_api_server"))
         .subcommand(command!("seed_api_server"))
+        // prod mode
         .subcommand(command!("start_webapp_console").arg(Arg::new("extra_args")))
         .subcommand(command!("start_webapp_proof").arg(Arg::new("extra_args")))
         .subcommand(command!("start_webapp_poll").arg(Arg::new("extra_args")))
@@ -50,6 +54,9 @@ fn main() {
         }
         Some(("build_prfs_driver_spartan_js", sub_matches)) => {
             cmds::build_prfs_driver_spartan_js::run(sub_matches, &timestamp);
+        }
+        Some(("build_circuits", sub_matches)) => {
+            cmds::build_circuits::run(sub_matches, &timestamp);
         }
         //
         Some(("e2e_test_web", sub_matches)) => {
