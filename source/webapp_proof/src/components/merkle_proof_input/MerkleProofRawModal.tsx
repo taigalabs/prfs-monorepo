@@ -4,9 +4,9 @@ import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
-import { SpartanMerkleProof } from "@taigalabs/prfs-driver-spartan-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import TextButton from "@taigalabs/prfs-react-components/src/text_button/TextButton";
+import { SpartanMerkleProof } from "@taigalabs/prfs-driver-interface";
 
 import styles from "./MerkleProofRawModal.module.scss";
 import { i18nContext } from "@/contexts/i18n";
