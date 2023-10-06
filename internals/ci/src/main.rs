@@ -104,6 +104,9 @@ fn main() {
         Some(("start_webapp_vacade", sub_matches)) => {
             cmds::start_webapp_vacade::run(sub_matches);
         }
+        Some(("start_docs_website", sub_matches)) => {
+            cmds::start_docs_website::run(sub_matches);
+        }
         // docker
         Some(("docker_run_postgres", sub_matches)) => {
             cmds::docker_run_postgres::run(sub_matches);
