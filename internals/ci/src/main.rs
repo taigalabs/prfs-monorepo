@@ -29,6 +29,7 @@ fn main() {
         .subcommand(command!("dev_webapp_poll").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_webapp_vacade").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_sdk_web_module").arg(Arg::new("extra_args")))
+        .subcommand(command!("dev_docs_website").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_asset_server"))
         .subcommand(command!("dev_api_server"))
         .subcommand(command!("seed_api_server"))
@@ -38,6 +39,7 @@ fn main() {
         .subcommand(command!("start_webapp_poll").arg(Arg::new("extra_args")))
         .subcommand(command!("start_webapp_vacade").arg(Arg::new("extra_args")))
         .subcommand(command!("start_sdk_web_module").arg(Arg::new("extra_args")))
+        .subcommand(command!("start_docs_website").arg(Arg::new("extra_args")))
         // docker
         .subcommand(command!("docker_run_postgres").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_run_webapp_console").arg(Arg::new("extra_args")))
@@ -84,6 +86,9 @@ fn main() {
         Some(("dev_api_server", sub_matches)) => {
             cmds::dev_api_server::run(sub_matches);
         }
+        Some(("dev_docs_website", sub_matches)) => {
+            cmds::dev_docs_website::run(sub_matches);
+        }
         // prod mode
         Some(("start_sdk_web_module", sub_matches)) => {
             cmds::start_sdk_web_module::run(sub_matches);
@@ -99,6 +104,9 @@ fn main() {
         }
         Some(("start_webapp_vacade", sub_matches)) => {
             cmds::start_webapp_vacade::run(sub_matches);
+        }
+        Some(("start_docs_website", sub_matches)) => {
+            cmds::start_docs_website::run(sub_matches);
         }
         // docker
         Some(("docker_run_postgres", sub_matches)) => {

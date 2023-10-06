@@ -3,6 +3,8 @@ packages:
 
   - "source/e2e_test_web"
 
+  - "source/docs_website"
+
   - "source/prfs_circuit_circom"
 
   - "source/prfs_driver_spartan_js"

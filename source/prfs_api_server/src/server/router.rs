@@ -6,6 +6,7 @@ use crate::ApiServerError;
 use hyper::{header, Body, Request, Response};
 use routerify::{Middleware, Router};
 use routerify_cors::enable_cors_all;
+use serde_json::json;
 use std::convert::Infallible;
 use std::sync::Arc;
 
@@ -158,9 +159,10 @@ pub fn make_router(
 }
 
 async fn status_handler(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    println!("status handler!");
-
-    let data = "prfs api server is working".to_string();
+    let data = r#"
+        {
+            "status": "Ok",
+        }"#;
 
     let res = Response::builder()
         .header(header::CONTENT_TYPE, "application/json")
