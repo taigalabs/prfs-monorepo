@@ -39,6 +39,7 @@ fn main() {
         .subcommand(command!("start_webapp_poll").arg(Arg::new("extra_args")))
         .subcommand(command!("start_webapp_vacade").arg(Arg::new("extra_args")))
         .subcommand(command!("start_sdk_web_module").arg(Arg::new("extra_args")))
+        .subcommand(command!("start_docs_website").arg(Arg::new("extra_args")))
         // docker
         .subcommand(command!("docker_run_postgres").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_run_webapp_console").arg(Arg::new("extra_args")))
