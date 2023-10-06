@@ -114,6 +114,7 @@ export default {
   talk: "Talk",
   beta: "Beta",
   docs: "Docs",
+  tutorial: "Tutorial",
   dashboard: "Dashboard",
   sdk_api: "SDK/API",
   new: "New",

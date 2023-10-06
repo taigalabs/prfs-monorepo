@@ -34,24 +34,21 @@ const columns = [
 const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ proofInstance }) => {
   const i18n = React.useContext(i18nContext);
 
-  const url = React.useMemo(() => {
-    return `${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/p/${proofInstance.short_id}`;
+  const shortURL = React.useMemo(() => {
+    return `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/p/${proofInstance.short_id}`;
   }, [proofInstance]);
 
   const handleClickCopy = React.useCallback(() => {
-    navigator.clipboard.writeText(url);
-  }, [url]);
+    navigator.clipboard.writeText(shortURL);
+  }, [shortURL]);
 
-  const createCopyButton = React.useCallback(
-    (_: boolean) => {
-      return (
-        <button onClick={handleClickCopy}>
-          <AiOutlineCopy />
-        </button>
-      );
-    },
-    [url]
-  );
+  const createCopyButton = React.useCallback((_: boolean) => {
+    return (
+      <button onClick={handleClickCopy}>
+        <AiOutlineCopy />
+      </button>
+    );
+  }, []);
 
   const createCopyButtonTooltip = React.useCallback(
     (_: React.Dispatch<React.SetStateAction<any>>) => {
@@ -65,7 +62,7 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
       return [];
     }
 
-    const url = `${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/p/${proofInstance.short_id}`;
+    // const url = `${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/p/${proofInstance.short_id}`;
 
     const ret: RecordData[] = [
       {
@@ -80,7 +77,7 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
         label: i18n.share_url,
         value: (
           <div className={cn(styles.cell, styles.url)}>
-            <span>{url}</span>
+            <span>{shortURL}</span>
             <Popover createBase={createCopyButton} createPopover={createCopyButtonTooltip} />
           </div>
         ),

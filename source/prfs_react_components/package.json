@@ -18,7 +18,7 @@
     "@taigalabs/prfs-entities": "*",
     "@tanstack/react-table": "^8.9.3",
     "classnames": "^2.3.2",
-    "next": "13.5.1",
+    "next": "13.5.4",
     "qrcode": "^1.5.3",
     "react": "18.2.0",
     "viem": "^1.12.2",

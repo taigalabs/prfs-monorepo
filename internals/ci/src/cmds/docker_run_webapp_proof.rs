@@ -33,4 +33,6 @@ fn run_docker(_extra_args: Vec<&str>) {
         .expect(&format!("{} command failed to start", JS_ENGINE));
 
     assert!(status.success());
+
+    println!("Started docker container, webapp_proof");
 }

@@ -19,6 +19,7 @@ import Table2, {
   TableSearch,
 } from "@taigalabs/prfs-react-components/src/table2/Table2";
 import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
+import { useQuery } from "@tanstack/react-query";
 
 import styles from "./ProofInstanceTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -109,8 +110,19 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
     pageSize: 20,
   });
 
+  // const { isLoading, data } = useQuery({
+  //   queryKey: ["get_prfs_proof_instance_by_short_id"],
+  //   queryFn: async () => {
+  //     const { payload } = await prfsApi2("get_prfs_proof_instance_by_short_id", {
+  //       short_id: params.short_id,
+  //     });
+  //     return payload;
+  //   },
+  // });
+
   React.useEffect(() => {
     async function fn() {
+      //
       const { payload } = await prfsApi2("get_prfs_proof_instances", {
         page_idx: pageIndex,
         page_size: pageSize,
