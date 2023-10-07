@@ -2,7 +2,6 @@
 
 import React from "react";
 
-import styles from "./Logo.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 
 const Title = () => {

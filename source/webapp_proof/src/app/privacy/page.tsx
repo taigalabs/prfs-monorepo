@@ -1,10 +1,10 @@
 import React from "react";
-import TermsLayout, { TermsHeader, TermsBody } from "@/layouts/terms_layout/TermsLayout";
 import Logo from "@taigalabs/prfs-react-components/src/logo/Logo";
 import Link from "next/link";
 
 import styles from "./PrivacyPage.module.scss";
 import Title from "./Title";
+import TermsLayout, { TermsHeader, TermsBody } from "@/layouts/terms_layout/TermsLayout";
 import { paths } from "@/paths";
 
 const PrivacyPage = () => {
