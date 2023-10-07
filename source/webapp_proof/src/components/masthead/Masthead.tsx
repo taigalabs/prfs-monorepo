@@ -53,7 +53,9 @@ const Masthead: React.FC<MastheadProps> = ({ variant }) => {
         )}
         <ul className={styles.rightGroup}>
           <li>{i18n.tutorial}</li>
-          <li>{i18n.docs}</li>
+          <li>
+            <Link href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>{i18n.docs}</Link>
+          </li>
           <li>
             <PrfsAppsPopover
               webappPollEndpoint={process.env.NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT}
