@@ -12,13 +12,17 @@
 
   .logo {
     width: 95px;
+
+    > div {
+      cursor: pointer;
+    }
   }
 
   .title {
     display: flex;
     align-items: center;
     font-size: 18px;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.089em;
   }
 }
 

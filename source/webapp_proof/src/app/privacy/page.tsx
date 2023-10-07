@@ -1,9 +1,11 @@
 import React from "react";
 import TermsLayout, { TermsHeader, TermsBody } from "@/layouts/terms_layout/TermsLayout";
 import Logo from "@taigalabs/prfs-react-components/src/logo/Logo";
+import Link from "next/link";
 
 import styles from "./PrivacyPage.module.scss";
 import Title from "./Title";
+import { paths } from "@/paths";
 
 const PrivacyPage = () => {
   return (
@@ -12,7 +14,9 @@ const PrivacyPage = () => {
         <div className={styles.headerContainer}>
           <div className={styles.inner}>
             <div className={styles.logo}>
-              <Logo variant="big" />
+              <Link href={paths.__}>
+                <Logo variant="big" />
+              </Link>
             </div>
             <div className={styles.title}>
               <Title />
