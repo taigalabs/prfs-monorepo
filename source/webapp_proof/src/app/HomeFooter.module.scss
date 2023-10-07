@@ -6,5 +6,13 @@
   border-top: 1px solid var(--bright-gray-30);
   height: 46px;
   color: var(--gray-30);
-  justify-content: flex-end;
+  justify-content: space-between;
+}
+
+.rightList {
+  display: flex;
+
+  li:not(:first-child) {
+    margin-left: 28px;
+  }
 }

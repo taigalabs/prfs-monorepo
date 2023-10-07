@@ -14,9 +14,14 @@ const HomeFooter: React.FC<HomeFooterProps> = () => {
   return (
     <div className={styles.wrapper}>
       <div></div>
-      <div>
-        <Link href={paths.privacy}>{i18n.privacy}</Link>
-      </div>
+      <ul className={styles.rightList}>
+        <li>
+          <Link href={process.env.NEXT_PUBLIC_TAIGALABS_ENDPOINT}>{i18n.taigalabs}</Link>
+        </li>
+        <li>
+          <Link href={paths.privacy}>{i18n.privacy}</Link>
+        </li>
+      </ul>
     </div>
   );
 };

@@ -11,18 +11,18 @@
   }
 
   .logo {
+    display: flex;
+    justify-content: flex-end;
     width: 95px;
-
-    > div {
-      cursor: pointer;
-    }
+    font-size: 1.73em;
+    padding-right: 14px;
   }
 
   .title {
     display: flex;
     align-items: center;
     font-size: 18px;
-    letter-spacing: 0.089em;
+    letter-spacing: 0.049em;
   }
 }
 
@@ -36,10 +36,12 @@
   }
 
   h1 {
-    line-height: 55px;
+    font-weight: 500;
+    line-height: 59px;
   }
 
   h2 {
+    font-weight: 500;
     line-height: 44px;
   }
 
