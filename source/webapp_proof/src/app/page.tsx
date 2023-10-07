@@ -8,10 +8,8 @@ import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout, { DefaultBody, DefaultFooter } from "@/layouts/default_layout/DefaultLayout";
 import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 import Masthead from "@/components/masthead/Masthead";
-import { paths } from "@/paths";
-// import Logo from "@taigalabs/prfs-react-components/src/logo/Logo";
 import ImageLogo from "@/components/image_logo/ImageLogo";
-// import Icon from "./prfs_logo2.svg";
+import HomeFooter from "./HomeFooter";
 
 const HomePage: React.FC = () => {
   return (
@@ -28,7 +26,7 @@ const HomePage: React.FC = () => {
         </div>
       </DefaultBody>
       <DefaultFooter>
-        <div className={styles.homeFooter}>123</div>
+        <HomeFooter />
       </DefaultFooter>
     </DefaultLayout>
   );

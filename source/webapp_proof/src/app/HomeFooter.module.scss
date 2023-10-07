@@ -1,0 +1,10 @@
+.wrapper {
+  display: flex;
+  padding: 0 32px;
+  align-items: center;
+  background-color: var(--bright-gray-40);
+  border-top: 1px solid var(--bright-gray-30);
+  height: 46px;
+  color: var(--gray-30);
+  justify-content: flex-end;
+}
