@@ -21,34 +21,34 @@ const SearchBar = () => {
   );
 };
 
-const Masthead: React.FC = () => {
+const Masthead: React.FC<MastheadProps> = ({ variant }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.inner}>
-        <div className={styles.leftGroup}>
-          <div className={styles.logoContainer}>
-            <Link href={paths.__}>
-              <Logo variant="simple" />
-              <p className={styles.appName}>{i18n.proof}</p>
-            </Link>
-            <p className={styles.betaTag}>Beta</p>
-          </div>
-          <ul className={styles.leftMenu}>
-            <li>
-              <ActiveLink href={paths.generate} exact>
-                {i18n.generate}
-              </ActiveLink>
-            </li>
-            <li>
-              <ActiveLink href={paths.proofs}>{i18n.proofs}</ActiveLink>
-            </li>
-          </ul>
-        </div>
-        <div className={styles.searchBarContainer}>
-          <SearchBar />
-        </div>
+        {variant !== "mini" && (
+          <>
+            <div className={styles.leftGroup}>
+              <Link href={paths.__}>
+                <Logo variant="simple" appName={i18n.proof} beta />
+              </Link>
+              <ul className={styles.leftMenu}>
+                <li>
+                  <ActiveLink href={paths.generate} exact>
+                    {i18n.generate}
+                  </ActiveLink>
+                </li>
+                <li>
+                  <ActiveLink href={paths.proofs}>{i18n.proofs}</ActiveLink>
+                </li>
+              </ul>
+            </div>
+            <div className={styles.searchBarContainer}>
+              <SearchBar />
+            </div>
+          </>
+        )}
         <ul className={styles.rightGroup}>
           <li>{i18n.tutorial}</li>
           <li>{i18n.docs}</li>
@@ -67,3 +67,7 @@ const Masthead: React.FC = () => {
 };
 
 export default Masthead;
+
+export interface MastheadProps {
+  variant?: "mini";
+}

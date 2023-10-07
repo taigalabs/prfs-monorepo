@@ -5,8 +5,7 @@ import { useRouter } from "next/navigation";
 
 import styles from "./HomePage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
-import ContentArea from "@/components/content_area/ContentArea";
+import DefaultLayout, { DefaultBody } from "@/layouts/default_layout/DefaultLayout";
 import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 import Masthead from "@/components/masthead/Masthead";
 import Link from "next/link";
@@ -18,19 +17,15 @@ const HomePage: React.FC = () => {
 
   return (
     <DefaultLayout>
-      <Masthead />
-      <ContentArea>
+      <Masthead variant="mini" />
+      <DefaultBody>
         <div className={styles.container}>
-          <div className={styles.logoContainer}>
-            <Link href={paths.__}>
-              <Logo variant="simple" />
-              <p className={styles.appName}>{i18n.proof}</p>
-            </Link>
-            <p className={styles.betaTag}>Beta</p>
+          <div>
+            <Logo variant="simple" appName={i18n.proof} beta />
+            <CreateProofForm />
           </div>
-          <CreateProofForm />
         </div>
-      </ContentArea>
+      </DefaultBody>
     </DefaultLayout>
   );
 };
