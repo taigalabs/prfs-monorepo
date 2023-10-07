@@ -14,9 +14,9 @@ import SocialSharePopover from "@taigalabs/prfs-react-components/src/social_shar
 import styles from "./ProofInstancePage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
+import DefaultLayout, { DefaultBody } from "@/layouts/default_layout/DefaultLayout";
 import LeftBar from "@/components/left_bar/LeftBar";
-import ContentArea, { TopPlaceholder } from "@/components/content_area/ContentArea";
+import { TopPlaceholder } from "@/components/content_area/ContentArea";
 import { envs } from "@/envs";
 import ProofDetailView from "@/components/proof_detail_view/ProofDetailView";
 import Link from "next/link";
@@ -49,7 +49,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   return (
     <DefaultLayout>
       <Masthead />
-      <ContentArea>
+      <DefaultBody>
         <TopPlaceholder />
         <div className={styles.container}>
           {proofInstance ? (
@@ -85,7 +85,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
             <div>Loading...</div>
           )}
         </div>
-      </ContentArea>
+      </DefaultBody>
     </DefaultLayout>
   );
 };

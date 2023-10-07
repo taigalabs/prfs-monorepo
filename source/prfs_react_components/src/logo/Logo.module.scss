@@ -1,12 +1,33 @@
-.simple {
-  display: inline;
-  font-weight: 500;
-  letter-spacing: 0.0181em;
+.wrapper {
+  display: flex;
+  align-items: center;
 }
 
 .big {
   display: inline;
   font-weight: 500;
   letter-spacing: 0.0281em;
-  font-size: 2.01em;
+  /* font-size: 2.145rem; */
+}
+
+.simple {
+  display: inline;
+  font-weight: 500;
+  letter-spacing: 0.0181em;
+  /* font-size: 1.545rem; */
+}
+
+.appName {
+  display: inline-block;
+  margin-left: 5px;
+  color: var(--gray-50);
+  letter-spacing: -0.021em;
+}
+
+.betaTag {
+  padding: 0px 2px;
+  transform: translateY(-7px);
+  font-size: 12px;
+  letter-spacing: -0.01em;
+  color: var(--gray-30);
 }

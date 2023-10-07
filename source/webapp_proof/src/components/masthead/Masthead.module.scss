@@ -15,7 +15,7 @@
 .inner {
   display: flex;
   align-items: center;
-  max-width: 1280px;
+  /* max-width: 1280px; */
   width: 100%;
   justify-content: space-between;
 }
@@ -23,22 +23,6 @@
 .leftGroup {
   display: flex;
   flex: 1;
-}
-
-.appName {
-  display: inline-block;
-  margin-left: 5px;
-  font-size: 1.545rem;
-  color: var(--gray-50);
-  letter-spacing: -0.021em;
-}
-
-.betaTag {
-  padding: 0px 2px;
-  transform: translateY(-7px);
-  font-size: 12px;
-  letter-spacing: -0.01em;
-  color: var(--gray-30);
 }
 
 .logoContainer {

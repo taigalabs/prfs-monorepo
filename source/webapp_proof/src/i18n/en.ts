@@ -6,6 +6,7 @@ export default {
   github: "Github",
   terms: "Terms",
   privacy: "Privacy",
+  taigalabs: "Taiga labs",
   language: "Language",
   cancel: "Cancel",
   submit: "Submit",

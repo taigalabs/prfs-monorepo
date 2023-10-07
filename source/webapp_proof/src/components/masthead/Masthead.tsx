@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Logo from "@taigalabs/prfs-react-components/src/logo/Logo";
 import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
@@ -21,37 +23,39 @@ const SearchBar = () => {
   );
 };
 
-const Masthead: React.FC = () => {
+const Masthead: React.FC<MastheadProps> = ({ variant }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.inner}>
-        <div className={styles.leftGroup}>
-          <div className={styles.logoContainer}>
-            <Link href={paths.__}>
-              <Logo variant="simple" />
-              <p className={styles.appName}>{i18n.proof}</p>
-            </Link>
-            <p className={styles.betaTag}>Beta</p>
-          </div>
-          <ul className={styles.leftMenu}>
-            <li>
-              <ActiveLink href={paths.generate} exact>
-                {i18n.generate}
-              </ActiveLink>
-            </li>
-            <li>
-              <ActiveLink href={paths.proofs}>{i18n.proofs}</ActiveLink>
-            </li>
-          </ul>
-        </div>
-        <div className={styles.searchBarContainer}>
-          <SearchBar />
-        </div>
+        {variant !== "mini" && (
+          <>
+            <div className={styles.leftGroup}>
+              <Link href={paths.__}>
+                <Logo variant="simple" appName={i18n.proof} beta />
+              </Link>
+              <ul className={styles.leftMenu}>
+                <li>
+                  <ActiveLink href={paths.generate} exact>
+                    {i18n.generate}
+                  </ActiveLink>
+                </li>
+                <li>
+                  <ActiveLink href={paths.proofs}>{i18n.proofs}</ActiveLink>
+                </li>
+              </ul>
+            </div>
+            <div className={styles.searchBarContainer}>
+              <SearchBar />
+            </div>
+          </>
+        )}
         <ul className={styles.rightGroup}>
           <li>{i18n.tutorial}</li>
-          <li>{i18n.docs}</li>
+          <li>
+            <Link href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>{i18n.docs}</Link>
+          </li>
           <li>
             <PrfsAppsPopover
               webappPollEndpoint={process.env.NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT}
@@ -67,3 +71,7 @@ const Masthead: React.FC = () => {
 };
 
 export default Masthead;
+
+export interface MastheadProps {
+  variant?: "mini";
+}
