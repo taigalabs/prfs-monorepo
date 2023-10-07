@@ -3,3 +3,15 @@
   flex-direction: column;
   flex-grow: 1;
 }
+
+.header {
+  display: flex;
+  border-bottom: 1px solid var(--gray-70);
+  height: 51px;
+  position: fixed;
+  width: 100%;
+  background-color: var(--white-100);
+}
+
+.body {
+}
