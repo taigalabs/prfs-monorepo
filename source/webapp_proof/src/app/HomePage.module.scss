@@ -11,3 +11,10 @@
   justify-content: center;
   font-size: 2.245rem;
 }
+
+.homeFooter {
+  display: flex;
+  align-items: center;
+  background-color: var(--bright-gray-30);
+  height: 46px;
+}

@@ -7,7 +7,7 @@ import Image from "next/image";
 
 import styles from "./HomePage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import DefaultLayout, { DefaultBody } from "@/layouts/default_layout/DefaultLayout";
+import DefaultLayout, { DefaultBody, DefaultFooter } from "@/layouts/default_layout/DefaultLayout";
 import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 import Masthead from "@/components/masthead/Masthead";
 import { paths } from "@/paths";
@@ -30,6 +30,9 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </DefaultBody>
+      <DefaultFooter>
+        <div className={styles.homeFooter}>power</div>
+      </DefaultFooter>
     </DefaultLayout>
   );
 };
