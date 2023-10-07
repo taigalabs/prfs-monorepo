@@ -15,7 +15,7 @@ const PrivacyPage = () => {
           <div className={styles.inner}>
             <div className={styles.logo}>
               <Link href={paths.__}>
-                <Logo variant="big" />
+                <Logo variant="simple" />
               </Link>
             </div>
             <div className={styles.title}>
