@@ -1,27 +1,28 @@
 .wrapper {
   display: flex;
   align-items: center;
+  font-family: "Chivo", "sans-serif";
 }
 
 .big {
-  display: inline;
+  /* display: inline; */
   font-weight: 500;
-  letter-spacing: 0.0281em;
+  /* letter-spacing: 0.0281em; */
   /* font-size: 2.145rem; */
 }
 
 .simple {
-  display: inline;
+  /* display: inline; */
   font-weight: 500;
-  letter-spacing: 0.0181em;
+  /* letter-spacing: 0.0181em; */
   /* font-size: 1.545rem; */
 }
 
 .appName {
-  display: inline-block;
+  /* display: inline-block; */
   margin-left: 5px;
   color: var(--gray-50);
-  letter-spacing: -0.021em;
+  letter-spacing: -0.031em;
 }
 
 .betaTag {
