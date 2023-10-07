@@ -14,7 +14,10 @@
 
 .homeFooter {
   display: flex;
+  padding: 0 32px;
   align-items: center;
-  background-color: var(--bright-gray-30);
+  background-color: var(--bright-gray-40);
   height: 46px;
+  color: var(--gray-30);
+  justify-content: flex-end;
 }

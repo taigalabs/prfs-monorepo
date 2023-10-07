@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Logo from "@taigalabs/prfs-react-components/src/logo/Logo";
 import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
