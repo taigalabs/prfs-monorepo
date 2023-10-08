@@ -34,6 +34,8 @@ pub fn prove(
     vars: &[u8],
     public_inputs: &[u8],
 ) -> Result<Vec<u8>, PrfsDriverSpartanWasmError> {
+    log(&format!("SPARTAN_WASM()"));
+
     let witness = load_witness_from_bin_reader::<F1, _>(vars).unwrap();
 
     let witness_bytes = witness
@@ -64,16 +66,26 @@ pub fn prove(
 
     let input = Assignment::new(&input).unwrap();
 
-    let mut prover_transcript = Transcript::new(b"nizk_example");
+    let mut prover_transcript = Transcript::new(b"spartan_prove");
+
+    log(&format!("SPARTAN_WASM: start NIZK::prove"));
 
     // produce a proof of satisfiability
-    let proof = NIZK::prove(
+    let proof = match NIZK::prove(
         &circuit,
         assignment.clone(),
         &input,
         &gens,
         &mut prover_transcript,
-    );
+        // Box::new(log),
+    ) {
+        Ok(p) => p,
+        Err(err) => {
+            log(&format!("Error nizk proving, err: {}", err));
+
+            return Err(err.into());
+        }
+    };
 
     Ok(bincode::serialize(&proof).unwrap())
 }

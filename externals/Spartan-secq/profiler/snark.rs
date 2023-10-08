@@ -43,7 +43,8 @@ pub fn main() {
       &inputs,
       &gens,
       &mut prover_transcript,
-    );
+    )
+    .unwrap();
 
     let mut encoder = ZlibEncoder::new(Vec::new(), Compression::default());
     bincode::serialize_into(&mut encoder, &proof).unwrap();

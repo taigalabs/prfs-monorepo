@@ -147,7 +147,7 @@ impl R1CSProof {
     gens: &R1CSGens,
     transcript: &mut Transcript,
     random_tape: &mut RandomTape,
-  ) -> (R1CSProof, Vec<Scalar>, Vec<Scalar>) {
+  ) -> Result<(R1CSProof, Vec<Scalar>, Vec<Scalar>), ProofVerifyError> {
     let timer_prove = Timer::new("R1CSProof::prove");
     transcript.append_protocol_name(R1CSProof::protocol_name());
 
@@ -325,7 +325,7 @@ impl R1CSProof {
 
     timer_prove.stop();
 
-    (
+    Ok((
       R1CSProof {
         comm_vars,
         sc_proof_phase1,
@@ -344,7 +344,7 @@ impl R1CSProof {
       },
       rx,
       ry,
-    )
+    ))
   }
 
   pub fn verify(
@@ -589,7 +589,8 @@ mod tests {
       &gens,
       &mut prover_transcript,
       &mut random_tape,
-    );
+    )
+    .unwrap();
 
     let inst_evals = inst.evaluate(&rx, &ry);
 
