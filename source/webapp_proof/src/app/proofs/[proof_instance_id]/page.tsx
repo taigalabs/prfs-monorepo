@@ -11,7 +11,7 @@ import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsPro
 import ProofBanner from "@taigalabs/prfs-react-components/src/proof_banner/ProofBanner";
 import SocialSharePopover from "@taigalabs/prfs-react-components/src/social_share_popover/SocialSharePopover";
 
-import styles from "./ProofInstancePage.module.scss";
+import styles from "./page.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import DefaultLayout, { DefaultBody } from "@/layouts/default_layout/DefaultLayout";

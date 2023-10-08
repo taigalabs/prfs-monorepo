@@ -13,6 +13,7 @@ import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import Script from "next/script";
 
+// import "@/i18n/i18n2";
 import { I18nProvider } from "@/contexts/i18n";
 import { store } from "@/state/store";
 
