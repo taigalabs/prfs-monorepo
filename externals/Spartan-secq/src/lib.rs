@@ -348,8 +348,6 @@ impl SNARK {
     gens: &SNARKGens,
     transcript: &mut Transcript,
   ) -> Result<Self, SpartanSecqError> {
-    console::log_1(&format!("secq::prove()").into());
-
     let timer_prove = Timer::new("SNARK::prove");
 
     // we create a Transcript object seeded with a random Scalar
@@ -510,6 +508,8 @@ impl NIZK {
     gens: &NIZKGens,
     transcript: &mut Transcript,
   ) -> Result<Self, SpartanSecqError> {
+    console::log_1(&format!("secq::prove()").into());
+
     let timer_prove = Timer::new("NIZK::prove");
     // we create a Transcript object seeded with a random Scalar
     // to aid the prover produce its randomness
@@ -530,6 +530,7 @@ impl NIZK {
         }
       };
 
+      console::log_1(&format!("secq: padded vars").into());
       let (proof, rx, ry) = R1CSProof::prove(
         &inst.inst,
         padded_vars.assignment,

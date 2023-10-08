@@ -96,7 +96,7 @@ pub fn prove(
 
     let mut prover_transcript = Transcript::new(b"spartan_prove");
 
-    console::log_1(&"SPARTAN_WASM: start NIZK::prove".into());
+    console::log_1(&"SPARTAN_WASM: start NIZK::prove 2".into());
 
     // produce a proof of satisfiability
     let proof = match NIZK::prove(

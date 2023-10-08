@@ -96,8 +96,6 @@ class ProofGenElement {
 
     const { circuit_driver_id, driver_properties } = options;
 
-    console.log("send load driver");
-
     const driverVersion = await sendMsgToChild(
       new Msg("LOAD_DRIVER", {
         circuit_driver_id,

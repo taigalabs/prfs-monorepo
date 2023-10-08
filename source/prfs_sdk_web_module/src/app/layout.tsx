@@ -33,12 +33,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 const ParentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <NoSSR>
-      <QueryClientProvider client={queryClient}>
-        <StateProvider store={store}>
-          <I18nProvider>{children}</I18nProvider>
-        </StateProvider>
-      </QueryClientProvider>
-    </NoSSR>
+    <QueryClientProvider client={queryClient}>
+      <StateProvider store={store}>
+        <I18nProvider>
+          <NoSSR>{children}</NoSSR>
+        </I18nProvider>
+      </StateProvider>
+    </QueryClientProvider>
   );
 };

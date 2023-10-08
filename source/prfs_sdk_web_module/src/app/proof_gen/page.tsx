@@ -17,13 +17,15 @@ const ProofGen: React.FC<ProofGenProps> = () => {
         } catch (err) {
           state.isBusy = false;
         }
+      } else {
+        console.log("Busy, aborting request");
       }
     }
 
     fn().then();
   }, []);
 
-  return null;
+  return <>Loaded</>;
 };
 
 export default ProofGen;

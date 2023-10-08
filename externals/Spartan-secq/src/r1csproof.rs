@@ -20,6 +20,8 @@ use core::iter;
 use merlin::Transcript;
 use serde::{Deserialize, Serialize};
 
+use web_sys::console;
+
 #[derive(Serialize, Deserialize, Debug)]
 pub struct R1CSProof {
   comm_vars: PolyCommitment,
@@ -149,6 +151,8 @@ impl R1CSProof {
     transcript: &mut Transcript,
     random_tape: &mut RandomTape,
   ) -> Result<(R1CSProof, Vec<Scalar>, Vec<Scalar>), SpartanSecqError> {
+    console::log_1(&format!("secq: r1cs proof").into());
+
     let timer_prove = Timer::new("R1CSProof::prove");
     transcript.append_protocol_name(R1CSProof::protocol_name());
 
@@ -172,6 +176,8 @@ impl R1CSProof {
       (poly_vars, comm_vars, blinds_vars)
     };
     timer_commit.stop();
+
+    console::log_1(&format!("secq: poly commit").into());
 
     let timer_sc_proof_phase1 = Timer::new("prove_sc_phase_one");
 
@@ -331,6 +337,8 @@ impl R1CSProof {
       random_tape,
     );
     timer_polyeval.stop();
+
+    console::log_1(&format!("secq: poly eval complete").into());
 
     // prove the final step of sum-check #2
     let blind_eval_Z_at_ry = (Scalar::one() - ry[0]) * blind_eval;
