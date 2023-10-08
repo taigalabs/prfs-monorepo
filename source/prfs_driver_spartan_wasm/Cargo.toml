@@ -34,8 +34,6 @@ console_error_panic_hook = "0.1.7"
 web-sys = { version = "0.3.60", features = ["console"] }
 serde-wasm-bindgen = "0.4.5"
 
-# prfs_lib = { path = "../prfs_lib" }
-
 [dev-dependencies]
 rs_merkle = "1.4.1"
 primitive-types = "0.12.1"

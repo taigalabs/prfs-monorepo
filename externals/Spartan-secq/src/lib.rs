@@ -43,6 +43,8 @@ use serde::{Deserialize, Serialize};
 use timer::Timer;
 use transcript::{AppendToTranscript, ProofTranscript};
 
+use web_sys::console;
+
 /// `ComputationCommitment` holds a public preprocessed NP statement (e.g., R1CS)
 pub struct ComputationCommitment {
   comm: R1CSCommitment,
@@ -346,6 +348,8 @@ impl SNARK {
     gens: &SNARKGens,
     transcript: &mut Transcript,
   ) -> Result<Self, SpartanSecqError> {
+    console::log_1(&format!("secq::prove()").into());
+
     let timer_prove = Timer::new("SNARK::prove");
 
     // we create a Transcript object seeded with a random Scalar
