@@ -1,4 +1,5 @@
 mod api;
+mod spartan_secq;
 pub mod wasm;
 
 #[cfg(test)]
