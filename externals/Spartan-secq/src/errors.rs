@@ -1,6 +1,8 @@
 use core::fmt::Debug;
 use thiserror::Error;
 
+pub type SpartanSecqError = Box<dyn std::error::Error + Send + Sync>;
+
 #[derive(Error, Debug)]
 pub enum ProofVerifyError {
   #[error("Proof verification failed")]

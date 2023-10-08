@@ -34,7 +34,7 @@ pub fn prove(
     vars: &[u8],
     public_inputs: &[u8],
 ) -> Result<Vec<u8>, PrfsDriverSpartanWasmError> {
-    log(&format!("SPARTAN_WASM()"));
+    log(&format!("SPARTAN_WASM"));
 
     let witness = load_witness_from_bin_reader::<F1, _>(vars).unwrap();
 
@@ -43,8 +43,25 @@ pub fn prove(
         .map(|w| w.to_repr().into())
         .collect::<Vec<[u8; 32]>>();
 
-    let assignment = Assignment::new(&witness_bytes).unwrap();
-    let circuit: Instance = bincode::deserialize(&circuit).unwrap();
+    log(&format!("SPARTAN_WASM: retrieved witness bytes"));
+
+    let assignment = match Assignment::new(&witness_bytes) {
+        Ok(a) => a,
+        Err(err) => {
+            log(&format!("Error creating new assignment, err: {:?}", err));
+
+            return Err(format!("Error creating new assignment, err: {:?}", err).into());
+        }
+    };
+
+    let circuit: Instance = match bincode::deserialize(&circuit) {
+        Ok(c) => c,
+        Err(err) => {
+            log(&format!("Error deserializing circuit, err: {}", err));
+
+            return Err(format!("Error deserializing circuit, err: {}", err).into());
+        }
+    };
 
     let num_cons = circuit.inst.get_num_cons();
     let num_vars = circuit.inst.get_num_vars();
@@ -57,14 +74,24 @@ pub fn prove(
 
     let mut input: Vec<[u8; 32]> = Vec::new();
     for i in 0..num_inputs {
-        input.push(
-            public_inputs[(i * 32)..((i + 1) * 32)]
-                .try_into()
-                .expect("input convert failed"),
-        );
+        input.push(match public_inputs[(i * 32)..((i + 1) * 32)].try_into() {
+            Ok(i) => i,
+            Err(err) => {
+                log(&format!("public input nums are not fit, err: {}", err));
+
+                return Err(format!("public input nums are not fit, err: {}", err).into());
+            }
+        });
     }
 
-    let input = Assignment::new(&input).unwrap();
+    let input = match Assignment::new(&input) {
+        Ok(i) => i,
+        Err(err) => {
+            log(&format!("Error assigning, err: {:?}", err));
+
+            return Err(format!("Error assigning, err: {:?}", err).into());
+        }
+    };
 
     let mut prover_transcript = Transcript::new(b"spartan_prove");
 

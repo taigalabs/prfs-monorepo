@@ -31,7 +31,7 @@ mod transcript;
 mod unipoly;
 
 use core::cmp::max;
-use errors::{ProofVerifyError, R1CSError};
+use errors::{ProofVerifyError, R1CSError, SpartanSecqError};
 use merlin::Transcript;
 use r1csinstance::{
   R1CSCommitment, R1CSCommitmentGens, R1CSDecommitment, R1CSEvalProof, R1CSInstance,
@@ -345,7 +345,7 @@ impl SNARK {
     inputs: &InputsAssignment,
     gens: &SNARKGens,
     transcript: &mut Transcript,
-  ) -> Result<Self, ProofVerifyError> {
+  ) -> Result<Self, SpartanSecqError> {
     let timer_prove = Timer::new("SNARK::prove");
 
     // we create a Transcript object seeded with a random Scalar
@@ -505,7 +505,7 @@ impl NIZK {
     input: &InputsAssignment,
     gens: &NIZKGens,
     transcript: &mut Transcript,
-  ) -> Result<Self, ProofVerifyError> {
+  ) -> Result<Self, SpartanSecqError> {
     let timer_prove = Timer::new("NIZK::prove");
     // we create a Transcript object seeded with a random Scalar
     // to aid the prover produce its randomness

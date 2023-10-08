@@ -14,6 +14,7 @@ use super::sparse_mlpoly::{SparsePolyEntry, SparsePolynomial};
 use super::sumcheck::ZKSumcheckInstanceProof;
 use super::timer::Timer;
 use super::transcript::{AppendToTranscript, ProofTranscript};
+use crate::errors::SpartanSecqError;
 use crate::group::DecompressEncodedPoint;
 use core::iter;
 use merlin::Transcript;
@@ -147,12 +148,14 @@ impl R1CSProof {
     gens: &R1CSGens,
     transcript: &mut Transcript,
     random_tape: &mut RandomTape,
-  ) -> Result<(R1CSProof, Vec<Scalar>, Vec<Scalar>), ProofVerifyError> {
+  ) -> Result<(R1CSProof, Vec<Scalar>, Vec<Scalar>), SpartanSecqError> {
     let timer_prove = Timer::new("R1CSProof::prove");
     transcript.append_protocol_name(R1CSProof::protocol_name());
 
     // we currently require the number of |inputs| + 1 to be at most number of vars
-    assert!(input.len() < vars.len());
+    if !(input.len() < vars.len()) {
+      return Err("input should be shorter than vars".into());
+    }
 
     input.append_to_transcript(b"input", transcript);
 
@@ -201,10 +204,23 @@ impl R1CSProof {
       transcript,
       random_tape,
     );
-    assert_eq!(poly_tau.len(), 1);
-    assert_eq!(poly_Az.len(), 1);
-    assert_eq!(poly_Bz.len(), 1);
-    assert_eq!(poly_Cz.len(), 1);
+
+    if poly_tau.len() != 1 {
+      return Err("poly tau should be 1".into());
+    }
+
+    if poly_Az.len() != 1 {
+      return Err("poly Ax should be 1".into());
+    }
+
+    if poly_Bz.len() != 1 {
+      return Err("poly Bz should be 1".into());
+    }
+
+    if poly_Cz.len() != 1 {
+      return Err("poly Cz should be 1".into());
+    }
+
     timer_sc_proof_phase1.stop();
 
     let (tau_claim, Az_claim, Bz_claim, Cz_claim) =
@@ -228,6 +244,7 @@ impl R1CSProof {
 
     let (proof_prod, comm_Az_claim, comm_Bz_claim, comm_prod_Az_Bz_claims) = {
       let prod = Az_claim * Bz_claim;
+
       ProductProof::prove(
         &gens.gens_sc.gens_1,
         transcript,
@@ -238,7 +255,7 @@ impl R1CSProof {
         &Bz_blind,
         &prod,
         &prod_Az_Bz_blind,
-      )
+      )?
     };
 
     comm_Az_claim.append_to_transcript(b"comm_Az_claim", transcript);
@@ -274,8 +291,14 @@ impl R1CSProof {
       let (evals_A, evals_B, evals_C) =
         inst.compute_eval_table_sparse(inst.get_num_cons(), z.len(), &evals_rx);
 
-      assert_eq!(evals_A.len(), evals_B.len());
-      assert_eq!(evals_A.len(), evals_C.len());
+      if evals_A.len() != evals_B.len() {
+        return Err(format!("evals_A should be equal to evals_B").into());
+      }
+
+      if evals_A.len() != evals_C.len() {
+        return Err(format!("evals_A should be equal to evals_C").into());
+      }
+
       (0..evals_A.len())
         .map(|i| r_A * evals_A[i] + r_B * evals_B[i] + r_C * evals_C[i])
         .collect::<Vec<Scalar>>()
