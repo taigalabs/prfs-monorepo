@@ -38,8 +38,8 @@ async function eventListener(ev: MessageEvent) {
         );
 
         try {
-          // const proveReceipt = await createProof(driver, payload, proofGenEventListener);
-          // ev.ports[0].postMessage(new Msg("CREATE_PROOF_RESPONSE", proveReceipt));
+          const proveReceipt = await createProof(driver, payload, proofGenEventListener);
+          ev.ports[0].postMessage(new Msg("CREATE_PROOF_RESPONSE", proveReceipt));
         } catch (err) {
           ev.ports[0].postMessage(new Msg("CREATE_PROOF_RESPONSE", undefined, err));
         }
@@ -56,14 +56,14 @@ async function eventListener(ev: MessageEvent) {
           `${ASSET_SERVER_ENDPOINT}/assets/circuits`
         );
 
-        // try {
-        //   const driver = await initDriver(circuit_driver_id, driverProperties);
-        //   state.driver = driver;
+        try {
+          const driver = await initDriver(circuit_driver_id, driverProperties);
+          state.driver = driver;
 
-        //   ev.ports[0].postMessage(new Msg("LOAD_DRIVER_RESPONSE", circuit_driver_id));
-        // } catch (err) {
-        //   console.error(err);
-        // }
+          ev.ports[0].postMessage(new Msg("LOAD_DRIVER_RESPONSE", circuit_driver_id));
+        } catch (err) {
+          console.error(err);
+        }
 
         break;
       }
@@ -71,17 +71,15 @@ async function eventListener(ev: MessageEvent) {
   }
 }
 
-// export async function setupProofGen() {
-//   window.addEventListener("message", eventListener);
-//   await sendMsgToParent(new Msg("HANDSHAKE", {}));
+export async function setupProofGen() {
+  window.addEventListener("message", eventListener);
+  await sendMsgToParent(new Msg("HANDSHAKE", {}));
 
-//   return () => {
-//     window.removeEventListener("message", eventListener);
-//   };
-// }
+  return () => {
+    window.removeEventListener("message", eventListener);
+  };
+}
 
 export interface ProofGenModuleState {
   driver: CircuitDriver | null;
 }
-
-export default 3;

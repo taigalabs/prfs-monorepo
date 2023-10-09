@@ -1,6 +1,6 @@
 console.log(33);
 
-import setupProofGen from "./setupProofGen";
+import { setupProofGen } from "./setupProofGen";
 
 console.log(44, setupProofGen);
 
