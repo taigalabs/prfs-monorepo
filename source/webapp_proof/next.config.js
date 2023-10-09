@@ -27,12 +27,6 @@ module.exports = (phase, { defaultConfig }) => {
 
     webpack: (config, { isServer, dev }) => {
       config.resolve.fallback = { fs: false };
-      config.experiments = {
-        ...config.experiments,
-        asyncWebAssembly: true,
-      };
-      config.output.webassemblyModuleFilename =
-        isServer && !dev ? "../static/wasm/[modulehash].wasm" : "static/wasm/[modulehash].wasm";
 
       const fileLoaderRule = config.module.rules.find(rule => rule.test?.test?.(".svg"));
 
@@ -56,24 +50,6 @@ module.exports = (phase, { defaultConfig }) => {
       fileLoaderRule.exclude = /\.svg$/i;
 
       return config;
-    },
-
-    async headers() {
-      return [
-        {
-          source: "/(.*)",
-          headers: [
-            {
-              key: "Cross-Origin-Embedder-Policy",
-              value: "require-corp",
-            },
-            {
-              key: "Cross-Origin-Opener-Policy",
-              value: "same-origin",
-            },
-          ],
-        },
-      ];
     },
 
     eslint: {
