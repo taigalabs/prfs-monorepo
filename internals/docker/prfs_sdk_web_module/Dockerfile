@@ -31,6 +31,4 @@ RUN npm install -g pnpm
 
 RUN pnpm install
 
-RUN ./ci build_prfs_driver_spartan_js
-
 CMD ["./ci", "start_sdk_web_module"]

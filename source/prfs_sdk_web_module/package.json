@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "create-envs": "ts-node createEnvs.ts",
-    "dev": "next dev -p 3010",
-    "build": "rimraf ./.next && next build",
-    "build2": "webpack build && cp index.html dist/",
-    "serve": "ts-node server.ts",
-    "start": "next start -p 3010",
+    "dev2": "next dev -p 3010",
+    "build2": "rimraf ./.next && next build",
+    "build": "webpack build && cp index.html dist/",
+    "start": "ts-node server.ts",
+    "start2": "next start -p 3010",
     "lint": "next lint"
   },
   "dependencies": {
