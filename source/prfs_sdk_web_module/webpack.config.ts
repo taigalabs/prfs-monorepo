@@ -2,8 +2,9 @@ import "dotenv/config";
 
 import path from "path";
 import webpack from "webpack";
-import "webpack-dev-server";
 import NodePolyfillPlugin from "node-polyfill-webpack-plugin";
+
+const idProd = process.env.NODE_ENV === "production";
 
 const str = JSON.stringify;
 
@@ -40,9 +41,14 @@ const config: webpack.Configuration | webpack.WebpackOptionsNormalized = {
       ),
     }),
   ],
+  experiments: { asyncWebAssembly: true },
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "index.js",
+    // not used
+    webassemblyModuleFilename: idProd
+      ? "../static/wasm/[modulehash].wasm"
+      : "static/wasm/[modulehash].wasm",
   },
   devServer: {
     static: {
@@ -51,6 +57,7 @@ const config: webpack.Configuration | webpack.WebpackOptionsNormalized = {
     headers: {
       "Cross-Origin-Embedder-Policy": "require-corp",
       "Cross-Origin-Opener-Policy": "same-origin",
+      "Cross-Origin-Resource-Policy": "cross-origin",
     },
     client: {
       overlay: { warnings: false },
