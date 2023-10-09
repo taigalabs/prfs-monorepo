@@ -51,6 +51,7 @@ const config: webpack.Configuration | webpack.WebpackOptionsNormalized = {
       : "static/wasm/[modulehash].wasm",
   },
   devServer: {
+    port: 3010,
     static: {
       directory: path.join(__dirname, "dist"),
     },
