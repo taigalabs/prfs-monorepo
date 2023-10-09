@@ -31,6 +31,7 @@ function createEnvs() {
 
   const env_dev: Envs = {
     NEXT_PUBLIC_IS_TEASER: teaser ? "yes" : "no",
+    NEXT_PUBLIC_CODE_REPOSITORY_URL: "https://github.com/taigalabs/prfs-monorepo",
     NEXT_PUBLIC_TAIGALABS_ENDPOINT: "http://localhost:3060",
     NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT: "http://localhost:3020",
     NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT: "http://localhost:3000",
@@ -44,6 +45,7 @@ function createEnvs() {
 
   const env_prod: Envs = {
     NEXT_PUBLIC_IS_TEASER: teaser ? "yes" : "no",
+    NEXT_PUBLIC_CODE_REPOSITORY_URL: "https://github.com/taigalabs/prfs-monorepo",
     NEXT_PUBLIC_TAIGALABS_ENDPOINT: "https://www.taigalabs.xyz",
     NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT: "https://console.prfs.xyz",
     NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT: "https://www.prfs.xyz",
