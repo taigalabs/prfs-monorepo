@@ -13,7 +13,8 @@ compiler.watch({}, (err, stats) => {
   }
 
   if (stats) {
-    console.log(stats.toJson("normal"));
+    console.log("\nWebpack compilation");
+    console.log(stats.toJson("minimal").assetsByChunkName);
   }
 });
 
