@@ -34,11 +34,9 @@ const Masthead: React.FC<any> = () => {
         <div className={styles.leftMenu}>
           <div className={styles.logoContainer}>
             <Link href="/">
-              <Logo variant="simple" />
-              <p className={styles.appName}>{i18n.console}</p>
+              <Logo variant="simple" appName={i18n.console} beta />
             </Link>
           </div>
-          <div className={styles.betaTag}>Beta</div>
         </div>
         <div className={styles.mainMenu}>
           <div className={styles.search}>

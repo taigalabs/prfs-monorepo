@@ -41,30 +41,24 @@ const Proofs: React.FC = () => {
 
   return (
     <DefaultLayout>
-      {createPage ? (
-        <CreateProofInstanceForm />
-      ) : (
-        <>
-          <ContentAreaHeader>
-            <SpacedBetweenArea>
-              <WidgetLabel>{i18n.proof_instances}</WidgetLabel>
-              <Button variant="transparent_aqua_blue_1">
-                <Link href={`${process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}`}>
-                  <HiDocumentAdd />
-                  <span>{i18n.create_proof_instance.toUpperCase()}</span>
-                </Link>
-              </Button>
-            </SpacedBetweenArea>
-          </ContentAreaHeader>
-          <ContentAreaBody>
-            <ContentAreaRow>
-              <PaddedTableWrapper>
-                <ProofInstanceTable />
-              </PaddedTableWrapper>
-            </ContentAreaRow>
-          </ContentAreaBody>
-        </>
-      )}
+      <ContentAreaHeader>
+        <SpacedBetweenArea>
+          <WidgetLabel>{i18n.proof_instances}</WidgetLabel>
+          <Button variant="transparent_aqua_blue_1">
+            <Link href={`${process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}`}>
+              <HiDocumentAdd />
+              <span>{i18n.create_proof_instance.toUpperCase()}</span>
+            </Link>
+          </Button>
+        </SpacedBetweenArea>
+      </ContentAreaHeader>
+      <ContentAreaBody>
+        <ContentAreaRow>
+          <PaddedTableWrapper>
+            <ProofInstanceTable />
+          </PaddedTableWrapper>
+        </ContentAreaRow>
+      </ContentAreaBody>
     </DefaultLayout>
   );
 };

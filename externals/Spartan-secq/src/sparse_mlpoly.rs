@@ -66,7 +66,7 @@ impl Derefs {
   }
 
   pub fn commit(&self, gens: &PolyCommitmentGens) -> DerefsCommitment {
-    let (comm_ops_val, _blinds) = self.comb.commit(gens, None);
+    let (comm_ops_val, _blinds) = self.comb.commit(gens, None).unwrap();
     DerefsCommitment { comm_ops_val }
   }
 }
@@ -494,8 +494,8 @@ impl SparseMatPolynomial {
     let batch_size = sparse_polys.len();
     let dense = SparseMatPolynomial::multi_sparse_to_dense_rep(sparse_polys);
 
-    let (comm_comb_ops, _blinds_comb_ops) = dense.comb_ops.commit(&gens.gens_ops, None);
-    let (comm_comb_mem, _blinds_comb_mem) = dense.comb_mem.commit(&gens.gens_mem, None);
+    let (comm_comb_ops, _blinds_comb_ops) = dense.comb_ops.commit(&gens.gens_ops, None).unwrap();
+    let (comm_comb_mem, _blinds_comb_mem) = dense.comb_mem.commit(&gens.gens_mem, None).unwrap();
 
     (
       SparseMatPolyCommitment {
@@ -1609,7 +1609,7 @@ impl SparsePolynomial {
 #[cfg(test)]
 mod tests {
   use super::*;
-  use rand_core::{RngCore, OsRng};
+  use rand_core::{OsRng, RngCore};
   #[test]
   fn check_sparse_polyeval_proof() {
     let mut csprng: OsRng = OsRng;

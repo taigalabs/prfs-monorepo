@@ -1,5 +1,10 @@
 const dotenv = require("dotenv");
 
+const withNextIntl = require("next-intl/plugin")(
+  // This is the default (also the `src` folder is supported out of the box)
+  "./i18n.ts"
+);
+
 (() => {
   const envObj = {};
   dotenv.config({ processEnv: envObj });
@@ -74,8 +79,10 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   experimental: {
-    logging: "verbose",
+    logging: {
+      level: "verbose",
+    },
   },
 };
 
-module.exports = nextConfig;
+module.exports = withNextIntl(nextConfig);

@@ -4,9 +4,9 @@ use crate::apis::{
 };
 use crate::ApiServerError;
 use hyper::{header, Body, Request, Response};
+use routerify::prelude::RequestExt;
 use routerify::{Middleware, Router};
 use routerify_cors::enable_cors_all;
-use serde_json::json;
 use std::convert::Infallible;
 use std::sync::Arc;
 
@@ -158,15 +158,16 @@ pub fn make_router(
     Ok(r)
 }
 
-async fn status_handler(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let data = r#"
-        {
-            "status": "Ok",
-        }"#;
+async fn status_handler(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+
+    let data = serde_json::json!({
+        "status": state.to_status(),
+    });
 
     let res = Response::builder()
         .header(header::CONTENT_TYPE, "application/json")
-        .body(Body::from(data))
+        .body(Body::from(data.to_string()))
         .unwrap();
 
     Ok(res)

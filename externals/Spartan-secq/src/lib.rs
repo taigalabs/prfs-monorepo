@@ -31,7 +31,7 @@ mod transcript;
 mod unipoly;
 
 use core::cmp::max;
-use errors::{ProofVerifyError, R1CSError};
+use errors::{ProofVerifyError, R1CSError, SpartanSecqError};
 use merlin::Transcript;
 use r1csinstance::{
   R1CSCommitment, R1CSCommitmentGens, R1CSDecommitment, R1CSEvalProof, R1CSInstance,
@@ -42,6 +42,8 @@ use scalar::Scalar;
 use serde::{Deserialize, Serialize};
 use timer::Timer;
 use transcript::{AppendToTranscript, ProofTranscript};
+
+use web_sys::console;
 
 /// `ComputationCommitment` holds a public preprocessed NP statement (e.g., R1CS)
 pub struct ComputationCommitment {
@@ -345,7 +347,7 @@ impl SNARK {
     inputs: &InputsAssignment,
     gens: &SNARKGens,
     transcript: &mut Transcript,
-  ) -> Self {
+  ) -> Result<Self, SpartanSecqError> {
     let timer_prove = Timer::new("SNARK::prove");
 
     // we create a Transcript object seeded with a random Scalar
@@ -375,7 +377,7 @@ impl SNARK {
           &gens.gens_r1cs_sat,
           transcript,
           &mut random_tape,
-        )
+        )?
       };
 
       let proof_encoded: Vec<u8> = bincode::serialize(&proof).unwrap();
@@ -413,11 +415,11 @@ impl SNARK {
     };
 
     timer_prove.stop();
-    SNARK {
+    Ok(SNARK {
       r1cs_sat_proof,
       inst_evals,
       r1cs_eval_proof,
-    }
+    })
   }
 
   /// A method to verify the SNARK proof of the satisfiability of an R1CS instance
@@ -505,7 +507,9 @@ impl NIZK {
     input: &InputsAssignment,
     gens: &NIZKGens,
     transcript: &mut Transcript,
-  ) -> Self {
+  ) -> Result<Self, SpartanSecqError> {
+    console::log_1(&format!("secq::prove 1").into());
+
     let timer_prove = Timer::new("NIZK::prove");
     // we create a Transcript object seeded with a random Scalar
     // to aid the prover produce its randomness
@@ -526,6 +530,7 @@ impl NIZK {
         }
       };
 
+      console::log_1(&format!("secq: padded vars").into());
       let (proof, rx, ry) = R1CSProof::prove(
         &inst.inst,
         padded_vars.assignment,
@@ -533,7 +538,7 @@ impl NIZK {
         &gens.gens_r1cs_sat,
         transcript,
         &mut random_tape,
-      );
+      )?;
       let proof_encoded: Vec<u8> = bincode::serialize(&proof).unwrap();
       Timer::print(&format!("len_r1cs_sat_proof {:?}", proof_encoded.len()));
       (proof, rx, ry)
@@ -541,10 +546,10 @@ impl NIZK {
 
     timer_prove.stop();
 
-    NIZK {
+    Ok(NIZK {
       r1cs_sat_proof,
       r: (rx, ry),
-    }
+    })
   }
 
   /// A method to verify a NIZK proof of the satisfiability of an R1CS instance
@@ -622,6 +627,7 @@ mod tests {
     // verify the proof
     let mut verifier_transcript = Transcript::new(b"example");
     assert!(proof
+      .unwrap()
       .verify(&comm, &inputs, &mut verifier_transcript, &gens)
       .is_ok());
   }
@@ -727,6 +733,7 @@ mod tests {
     // verify the SNARK
     let mut verifier_transcript = Transcript::new(b"snark_example");
     assert!(proof
+      .unwrap()
       .verify(&comm, &assignment_inputs, &mut verifier_transcript, &gens)
       .is_ok());
 
@@ -746,6 +753,7 @@ mod tests {
     // verify the NIZK
     let mut verifier_transcript = Transcript::new(b"nizk_example");
     assert!(proof
+      .unwrap()
       .verify(&inst, &assignment_inputs, &mut verifier_transcript, &gens)
       .is_ok());
   }

@@ -19,7 +19,7 @@ const Logo: React.FC<LogoProps> = ({ variant, appName, beta }) => {
       >
         {i18n.prfs}
       </p>
-      {appName && <p className={styles.appName}>appName</p>}
+      {appName && <p className={styles.appName}>{appName}</p>}
       {beta && <p className={styles.betaTag}>Beta</p>}
     </div>
   );

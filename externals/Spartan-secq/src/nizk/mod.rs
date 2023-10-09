@@ -6,6 +6,7 @@ use super::math::Math;
 use super::random::RandomTape;
 use super::scalar::Scalar;
 use super::transcript::{AppendToTranscript, ProofTranscript};
+use crate::errors::SpartanSecqError;
 use crate::group::DecompressEncodedPoint;
 use merlin::Transcript;
 use serde::{Deserialize, Serialize};
@@ -167,12 +168,15 @@ impl ProductProof {
     rY: &Scalar,
     z: &Scalar,
     rZ: &Scalar,
-  ) -> (
-    ProductProof,
-    CompressedGroup,
-    CompressedGroup,
-    CompressedGroup,
-  ) {
+  ) -> Result<
+    (
+      ProductProof,
+      CompressedGroup,
+      CompressedGroup,
+      CompressedGroup,
+    ),
+    SpartanSecqError,
+  > {
     transcript.append_protocol_name(ProductProof::protocol_name());
 
     // produce five random Scalar
@@ -198,9 +202,16 @@ impl ProductProof {
     beta.append_to_transcript(b"beta", transcript);
 
     let delta = {
+      let x = match X.decompress() {
+        Some(x) => x,
+        None => {
+          return Err(format!("X decompress failed").into());
+        }
+      };
       let gens_X = &MultiCommitGens {
         n: 1,
-        G: vec![X.decompress().unwrap()],
+        // G: vec![X.decompress().unwrap()],
+        G: vec![x],
         h: gens_n.h,
       };
       b3.commit(&b5, gens_X).compress()
@@ -216,7 +227,7 @@ impl ProductProof {
     let z5 = b5 + c * (rZ - rX * y);
     let z = [z1, z2, z3, z4, z5];
 
-    (
+    Ok((
       ProductProof {
         alpha,
         beta,
@@ -226,7 +237,7 @@ impl ProductProof {
       X,
       Y,
       Z,
-    )
+    ))
   }
 
   fn check_equality(
@@ -652,7 +663,8 @@ mod tests {
       &rY,
       &z,
       &rZ,
-    );
+    )
+    .unwrap();
 
     let mut verifier_transcript = Transcript::new(b"example");
     assert!(proof

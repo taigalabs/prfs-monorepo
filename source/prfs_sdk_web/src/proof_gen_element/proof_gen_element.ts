@@ -72,6 +72,7 @@ class ProofGenElement {
       iframe.src = `${sdkEndpoint}/proof_gen?proofTypeId=${options.proofTypeId}`;
       iframe.allow = "cross-origin-isolated";
       iframe.style.border = "none";
+      iframe.style.display = "none";
       this.state.iframe = iframe;
 
       container.appendChild(iframe);
@@ -95,8 +96,6 @@ class ProofGenElement {
     });
 
     const { circuit_driver_id, driver_properties } = options;
-
-    console.log("send load driver");
 
     const driverVersion = await sendMsgToChild(
       new Msg("LOAD_DRIVER", {

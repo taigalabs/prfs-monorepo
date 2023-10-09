@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import styles from "./ProofsPage.module.scss";
+import styles from "./page.module.scss";
 import DefaultLayout, { DefaultBody } from "@/layouts/default_layout/DefaultLayout";
 import Masthead from "@/components/masthead/Masthead";
 import ProofFeeds from "@/components/proof_feeds/ProofFeeds";
