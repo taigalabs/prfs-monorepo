@@ -72,6 +72,7 @@ class ProofGenElement {
       iframe.src = `${sdkEndpoint}/proof_gen?proofTypeId=${options.proofTypeId}`;
       iframe.allow = "cross-origin-isolated";
       iframe.style.border = "none";
+      iframe.style.display = "none";
       this.state.iframe = iframe;
 
       container.appendChild(iframe);
