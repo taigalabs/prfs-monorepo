@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { setupProofGen } from "./setupProofGen";
 
 const state = {
   isBusy: false,
@@ -13,6 +12,8 @@ const ProofGen: React.FC<ProofGenProps> = () => {
       if (!state.isBusy) {
         state.isBusy = true;
         try {
+          const { setupProofGen } = await import("./setupProofGen");
+
           const prfGen = await setupProofGen();
         } catch (err) {
           state.isBusy = false;
@@ -25,7 +26,7 @@ const ProofGen: React.FC<ProofGenProps> = () => {
     fn().then();
   }, []);
 
-  return <>Loaded</>;
+  return <></>;
 };
 
 export default ProofGen;

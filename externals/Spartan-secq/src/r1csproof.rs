@@ -158,6 +158,8 @@ impl R1CSProof {
 
     // we currently require the number of |inputs| + 1 to be at most number of vars
     if !(input.len() < vars.len()) {
+      console::log_1(&format!("secq: iput should be shorter than vars").into());
+
       return Err("input should be shorter than vars".into());
     }
 
@@ -169,7 +171,15 @@ impl R1CSProof {
       let poly_vars = DensePolynomial::new(vars.clone());
 
       // produce a commitment to the satisfying assignment
-      let (comm_vars, blinds_vars) = poly_vars.commit(&gens.gens_pc, Some(random_tape));
+      console::log_1(&format!("secq: start poly commit").into());
+      let (comm_vars, blinds_vars) = match poly_vars.commit(&gens.gens_pc, Some(random_tape)) {
+        Ok(r) => r,
+        Err(err) => {
+          console::log_1(&format!("secq: Error poly committing, err: {}", err).into());
+
+          return Err(err);
+        }
+      };
 
       // add the commitment to the prover's transcript
       comm_vars.append_to_transcript(b"poly_commitment", transcript);
@@ -177,7 +187,7 @@ impl R1CSProof {
     };
     timer_commit.stop();
 
-    console::log_1(&format!("secq: poly commit").into());
+    console::log_1(&format!("secq: Done poly commit").into());
 
     let timer_sc_proof_phase1 = Timer::new("prove_sc_phase_one");
 

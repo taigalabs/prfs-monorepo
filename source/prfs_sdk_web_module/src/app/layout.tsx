@@ -1,7 +1,6 @@
 "use client";
 
 import "@taigalabs/prfs-react-components/src/react_components.scss";
-import NoSSR from "@taigalabs/prfs-react-components/src/no_ssr/NoSSR";
 import "./globals.scss";
 
 import { Provider as StateProvider } from "react-redux";
@@ -35,9 +34,7 @@ const ParentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) =
   return (
     <QueryClientProvider client={queryClient}>
       <StateProvider store={store}>
-        <I18nProvider>
-          <NoSSR>{children}</NoSSR>
-        </I18nProvider>
+        <I18nProvider>{children}</I18nProvider>
       </StateProvider>
     </QueryClientProvider>
   );

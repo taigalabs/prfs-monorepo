@@ -7,10 +7,13 @@ use super::nizk::{DotProductProofGens, DotProductProofLog};
 use super::random::RandomTape;
 use super::scalar::Scalar;
 use super::transcript::{AppendToTranscript, ProofTranscript};
+use crate::errors::SpartanSecqError;
 use crate::group::DecompressEncodedPoint;
 use core::ops::Index;
 use merlin::Transcript;
 use serde::{Deserialize, Serialize};
+
+use web_sys::console;
 
 #[cfg(feature = "multicore")]
 use rayon::prelude::*;
@@ -180,27 +183,41 @@ impl DensePolynomial {
     &self,
     gens: &PolyCommitmentGens,
     random_tape: Option<&mut RandomTape>,
-  ) -> (PolyCommitment, PolyCommitmentBlinds) {
+  ) -> Result<(PolyCommitment, PolyCommitmentBlinds), SpartanSecqError> {
     let n = self.Z.len();
     let ell = self.get_num_vars();
-    assert_eq!(n, ell.pow2());
+
+    if n != ell.pow2() {
+      console::log_1(&format!("n should be equal to ell").into());
+
+      return Err("n should be equal to ell".into());
+    }
 
     let (left_num_vars, right_num_vars) = EqPolynomial::compute_factored_lens(ell);
     let L_size = left_num_vars.pow2();
     let R_size = right_num_vars.pow2();
-    assert_eq!(L_size * R_size, n);
+
+    if L_size * R_size != n {
+      console::log_1(&format!("L size * R size should be equal to n").into());
+
+      return Err("L size * R size should be equal to n".into());
+    }
 
     let blinds = if let Some(t) = random_tape {
+      console::log_1(&format!("secq: commiting random vector").into());
+
       PolyCommitmentBlinds {
         blinds: t.random_vector(b"poly_blinds", L_size),
       }
     } else {
+      console::log_1(&format!("secq: commiting zero vector").into());
+
       PolyCommitmentBlinds {
         blinds: vec![Scalar::zero(); L_size],
       }
     };
 
-    (self.commit_inner(&blinds.blinds, &gens.gens.gens_n), blinds)
+    Ok((self.commit_inner(&blinds.blinds, &gens.gens.gens_n), blinds))
   }
 
   pub fn bound(&self, L: &[Scalar]) -> Vec<Scalar> {
@@ -578,7 +595,7 @@ mod tests {
     assert_eq!(eval, (28_usize).to_scalar());
 
     let gens = PolyCommitmentGens::new(poly.get_num_vars(), b"test-two");
-    let (poly_commitment, blinds) = poly.commit(&gens, None);
+    let (poly_commitment, blinds) = poly.commit(&gens, None).unwrap();
 
     let mut random_tape = RandomTape::new(b"proof");
     let mut prover_transcript = Transcript::new(b"example");
