@@ -498,6 +498,9 @@ importers:
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
+      cors:
+        specifier: ^2.8.5
+        version: 2.8.5
       elliptic:
         specifier: ^6.5.4
         version: 6.5.4
@@ -516,6 +519,9 @@ importers:
       next:
         specifier: 13.5.4
         version: 13.5.4(react-dom@18.2.0)(react@18.2.0)(sass@1.63.6)
+      qs:
+        specifier: ^6.11.2
+        version: 6.11.2
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -544,6 +550,9 @@ importers:
       '@types/node':
         specifier: 20.3.1
         version: 20.3.1
+      '@types/qs':
+        specifier: ^6.9.8
+        version: 6.9.8
       '@types/react':
         specifier: 18.2.12
         version: 18.2.12
@@ -8228,6 +8237,10 @@ packages:
       '@types/node': 20.4.9
     dev: true
 
+  /@types/qs@6.9.8:
+    resolution: {integrity: sha512-u95svzDlTysU5xecFNTgfFG5RUWu1A9P0VzgpcIiGZA9iraHOdSzcxMxQ55DyeRaGCSxQi7LxXDI4rzq/MYfdg==}
+    dev: true
+
   /@types/react-dom@18.2.5:
     resolution: {integrity: sha512-sRQsOS/sCLnpQhR4DSKGTtWFE3FZjpQa86KPVbhUqdYMRZ9FEFcfAytKhR/vUG2rH1oFbOOej6cuD7MFSobDRQ==}
     dependencies:
@@ -11661,7 +11674,6 @@ packages:
     dependencies:
       object-assign: 4.1.1
       vary: 1.1.2
-    dev: true
 
   /cose-base@1.0.3:
     resolution: {integrity: sha512-s9whTXInMSgAp/NVXVNuVxVKzGH2qck3aQlVHxDCdAEPgtMKwc4Wq6/QKhgdEdgbLSi9rBTAcPoRa6JpiG4ksg==}

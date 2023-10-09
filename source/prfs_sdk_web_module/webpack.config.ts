@@ -1,6 +1,5 @@
 import path from "path";
 import webpack from "webpack";
-const nodeExternals = require("webpack-node-externals");
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 const config: webpack.Configuration = {
@@ -24,21 +23,11 @@ const config: webpack.Configuration = {
       crypto: require.resolve("crypto-browserify"),
     },
   },
-  plugins: [
-    // new CircularDependencyPlugin({
-    //   failOnError: true,
-    //   exclude: /node_modules/,
-    //   cwd: process.cwd(),
-    // }),
-    new NodePolyfillPlugin(),
-  ],
+  plugins: [new NodePolyfillPlugin()],
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "index.js",
   },
-  // ignoreWarnings: [
-  //   /Circular dependency between chunks with runtime/
-  // ],
 };
 
 export default config;
