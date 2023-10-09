@@ -1,7 +1,11 @@
 import express from "express";
 import cors from "cors";
+import path from "path";
 
 const PORT = 3010;
+
+const distPath = path.resolve(__dirname, "../dist");
+console.log("distPath", distPath);
 
 const app = express();
 
@@ -14,7 +18,7 @@ app.use((_, res, next) => {
   next();
 });
 
-app.use("/proof_gen", express.static("dist"));
+app.use("/proof_gen", express.static(distPath));
 
 app.get("/", (_, res) => {
   res.send({

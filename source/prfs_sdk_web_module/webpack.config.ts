@@ -8,7 +8,7 @@ const idProd = process.env.NODE_ENV === "production";
 
 const str = JSON.stringify;
 
-const config: webpack.Configuration | webpack.WebpackOptionsNormalized = {
+const config: webpack.Configuration = {
   mode: "production",
   entry: path.resolve(__dirname, "src/index.ts"),
   module: {
@@ -49,20 +49,6 @@ const config: webpack.Configuration | webpack.WebpackOptionsNormalized = {
     webassemblyModuleFilename: idProd
       ? "../static/wasm/[modulehash].wasm"
       : "static/wasm/[modulehash].wasm",
-  },
-  devServer: {
-    port: 3010,
-    static: {
-      directory: path.join(__dirname, "dist"),
-    },
-    headers: {
-      "Cross-Origin-Embedder-Policy": "require-corp",
-      "Cross-Origin-Opener-Policy": "same-origin",
-      "Cross-Origin-Resource-Policy": "cross-origin",
-    },
-    client: {
-      overlay: { warnings: false },
-    },
   },
 };
 

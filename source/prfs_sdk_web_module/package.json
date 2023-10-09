@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "create-envs": "ts-node createEnvs.ts",
-    "dev": "webpack serve",
+    "dev": "ts-node ./server/dev.server.ts",
     "build": "webpack build && cp index.html dist/",
-    "start": "ts-node server.ts"
+    "start": "ts-node ./server/server.ts"
   },
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
@@ -62,6 +62,7 @@
     "ts-node": "^10.9.1",
     "typescript": "5.1.6",
     "webpack": "^5.88.2",
+    "webpack-dev-middleware": "^6.1.1",
     "webpack-dev-server": "^4.15.1",
     "webpack-node-externals": "^3.0.0"
   },

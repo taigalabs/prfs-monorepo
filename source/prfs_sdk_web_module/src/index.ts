@@ -5,7 +5,7 @@ async function main() {
   const parsed = qs.parse(window.location.search);
   console.log("query string", parsed);
 
-  const subscribe = await setupProofGen();
+  const unsubscribe = await setupProofGen();
 }
 
 main().then();
