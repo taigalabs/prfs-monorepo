@@ -1,9 +1,15 @@
 import React from "react";
+import type { Metadata } from "next";
 import Script from "next/script";
 import "@taigalabs/prfs-react-components/src/react_components.scss";
 
 import "./globals.scss";
 import TopProvider from "@/components/top_provider/TopProvider";
+
+export const metadata: Metadata = {
+  title: "Prfs",
+  description: "Where proofs are made",
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
