@@ -7,7 +7,7 @@
     "dev": "next dev -p 3010",
     "build": "rimraf ./.next && next build",
     "build2": "webpack build && cp index.html dist/",
-    "serve": "node server.js",
+    "serve": "ts-node server.ts",
     "start": "next start -p 3010",
     "lint": "next lint"
   },
@@ -42,6 +42,8 @@
     "snarkjs": "0.7.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.14",
+    "@types/express": "^4.17.18",
     "@types/json-bigint": "^1.0.1",
     "@types/node": "20.3.1",
     "@types/qs": "^6.9.8",

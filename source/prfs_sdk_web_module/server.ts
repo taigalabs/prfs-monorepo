@@ -1,12 +1,13 @@
-const express = require("express");
-const app = express();
-const cors = require("cors");
+import express from "express";
+import cors from "cors";
 
 const PORT = 3010;
 
+const app = express();
+
 app.use(cors());
 
-app.use((req, res, next) => {
+app.use((_, res, next) => {
   res.set("Cross-Origin-Embedder-Policy", "require-corp");
   res.set("Cross-Origin-Opener-Policy", "same-origin");
   res.set("Cross-Origin-Resource-Policy", "cross-origin");
@@ -15,13 +16,13 @@ app.use((req, res, next) => {
 
 app.use("/proof_gen", express.static("dist"));
 
-app.get("/", (req, res) => {
+app.get("/", (_, res) => {
   res.send({
     status: "Ok",
   });
 });
 
-app.post("/api", (req, res) => {
+app.post("/api", (_, res) => {
   res.send({
     status: "Ok",
   });

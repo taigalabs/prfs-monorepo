@@ -1,6 +1,6 @@
 import path from "path";
 import webpack from "webpack";
-const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+import NodePolyfillPlugin from "node-polyfill-webpack-plugin";
 
 const config: webpack.Configuration = {
   mode: "production",
