@@ -78,6 +78,16 @@ module.exports = (phase, { defaultConfig }) => {
         level: "verbose",
       },
     },
+    images: {
+      remotePatterns: [
+        {
+          protocol: "https",
+          hostname: "**.amazonaws.com",
+          port: "",
+          pathname: "/**",
+        },
+      ],
+    },
   };
 
   return nextConfig;

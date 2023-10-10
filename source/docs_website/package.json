@@ -8,6 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@taigalabs/prfs-react-components": "*",
     "next": "13.5.4",
     "nextra": "2.13.2",
     "nextra-theme-docs": "2.13.2",
