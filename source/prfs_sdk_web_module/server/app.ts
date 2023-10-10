@@ -3,6 +3,7 @@ import cors from "cors";
 import path from "path";
 
 const PORT = 3010;
+
 const distPath = path.resolve(__dirname, "../dist");
 console.log("distPath", distPath);
 
