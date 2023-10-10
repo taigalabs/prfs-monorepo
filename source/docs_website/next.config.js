@@ -56,4 +56,5 @@ const nextConfig = (phase, { defaultConfig }) => {
 
   return nextConfig;
 };
+
 module.exports = withNextra(nextConfig);
