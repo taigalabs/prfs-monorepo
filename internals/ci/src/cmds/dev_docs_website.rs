@@ -16,14 +16,14 @@ pub fn run(matches: &ArgMatches) {
 }
 
 fn run_app(extra_args: Vec<&str>) {
-    // let extra_args = [vec!["create-envs"], extra_args].concat();
+    let extra_args = [vec!["create-envs"], extra_args].concat();
 
-    // let status = Command::new(JS_ENGINE)
-    //     .current_dir(&PATHS.webapp_poll)
-    //     .args(extra_args)
-    //     .status()
-    //     .expect(&format!("{} command failed to start", JS_ENGINE));
-    // assert!(status.success());
+    let status = Command::new(JS_ENGINE)
+        .current_dir(&PATHS.docs_website)
+        .args(extra_args)
+        .status()
+        .expect(&format!("{} command failed to start", JS_ENGINE));
+    assert!(status.success());
 
     let status = Command::new(JS_ENGINE)
         .current_dir(&PATHS.docs_website)

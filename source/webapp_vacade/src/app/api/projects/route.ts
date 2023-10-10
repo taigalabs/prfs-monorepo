@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 // an endpoint for getting projects data
 export async function POST(req: Request) {
   console.log(5555, req.url);
+
   const { searchParams } = new URL(req.url);
   const cs = searchParams.get("cursor");
   const cursor = parseInt(cs!) || 0;

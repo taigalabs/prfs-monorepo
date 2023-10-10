@@ -40,22 +40,22 @@ const Modal: React.FC<MerkleProofModalProps> = ({
   return (
     <ul className={styles.modal}>
       <li>
-        <Link className={styles.appEntry} href={webappProofEndpoint}>
+        <a className={styles.appEntry} href={webappProofEndpoint}>
           <TbMathPi />
           <span>{i18n.proof}</span>
-        </Link>
+        </a>
       </li>
       <li>
-        <Link className={styles.appEntry} href={webappConsoleEndpoint}>
+        <a className={styles.appEntry} href={webappConsoleEndpoint}>
           <GrMonitor />
           <span>{i18n.console}</span>
-        </Link>
+        </a>
       </li>
       <li>
-        <Link className={styles.appEntry} href={webappPollEndpoint}>
+        <a className={styles.appEntry} href={webappPollEndpoint}>
           <FaVoteYea />
           <span>{i18n.poll}</span>
-        </Link>
+        </a>
       </li>
     </ul>
   );
