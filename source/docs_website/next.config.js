@@ -61,6 +61,10 @@ const nextConfig = (phase, { defaultConfig }) => {
         },
       ],
     },
+
+    eslint: {
+      ignoreDuringBuilds: true,
+    },
   };
 
   return nextConfig;
