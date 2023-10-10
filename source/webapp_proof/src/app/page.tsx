@@ -15,7 +15,7 @@ const HomePage = () => {
         <div className={styles.container}>
           <div className={styles._inner}>
             <div className={styles.logoContainer}>
-              <ImageLogo width={180} />
+              <ImageLogo width={166} />
             </div>
             <CreateProofForm />
           </div>

@@ -1,3 +1,12 @@
+const dotenv = require("dotenv");
+
+(() => {
+  const envObj = {};
+  dotenv.config({ processEnv: envObj });
+  console.log("Parsing env variables...");
+  console.log(envObj);
+})();
+
 const withNextra = require("nextra")({
   theme: "nextra-theme-docs",
   themeConfig: "./theme.config.tsx",
