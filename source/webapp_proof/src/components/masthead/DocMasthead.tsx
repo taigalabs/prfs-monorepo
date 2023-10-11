@@ -11,7 +11,7 @@ import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
 
-const DocMasthead: React.FC<DocMastheadProps> = () => {
+const DocMasthead: React.FC<DocMastheadProps> = ({ title }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
@@ -21,8 +21,8 @@ const DocMasthead: React.FC<DocMastheadProps> = () => {
           <Link href={paths.__}>
             <div className={styles.logo}>
               <ImageLogo width={45} />
-              <span className={styles.appName}>{i18n.proof}</span>
-              <span className={styles.betaTag}>{i18n.beta}</span>
+              {title && <span className={styles.title}>{title}</span>}
+              {/* <span className={styles.betaTag}>{i18n.beta}</span> */}
             </div>
           </Link>
         </div>
@@ -43,4 +43,6 @@ const DocMasthead: React.FC<DocMastheadProps> = () => {
 
 export default DocMasthead;
 
-export interface DocMastheadProps {}
+export interface DocMastheadProps {
+  title?: string;
+}
