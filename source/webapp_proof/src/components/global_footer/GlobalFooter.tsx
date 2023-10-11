@@ -6,6 +6,7 @@ import Link from "next/link";
 import styles from "./GlobalFooter.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
+import LatestTimestamp from "@/components/latest_timestamp/LatestTimestamp";
 
 const GlobalFooter: React.FC<GlobalFooterProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -15,7 +16,10 @@ const GlobalFooter: React.FC<GlobalFooterProps> = () => {
       <ul className={styles.leftList}>
         <li>{i18n.english}</li>
         <li>
-          <Link href={paths.updates}>{i18n.updates}</Link>
+          <Link href={paths.updates}>
+            <span>{i18n.updates} </span>
+            <LatestTimestamp />
+          </Link>
         </li>
       </ul>
       <ul className={styles.rightList}>

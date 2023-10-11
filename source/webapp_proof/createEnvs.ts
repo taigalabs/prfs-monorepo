@@ -9,6 +9,7 @@ const DOT_ENV_PATH = path.resolve(".env");
 
 async function run() {
   console.log("%s createEnvs.ts prfs web launch", chalk.green("Launching"));
+
   const ts = await getGitTimestamp();
   createEnvs(ts);
 }
