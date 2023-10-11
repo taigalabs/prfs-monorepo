@@ -2,39 +2,5 @@
   display: flex;
   justify-content: center;
   padding: 35px 0;
-
-  .inner {
-    width: 720px;
-  }
-
-  h1 {
-    font-weight: 500;
-    line-height: 59px;
-  }
-
-  h2 {
-    font-weight: 500;
-    line-height: 44px;
-  }
-
-  p {
-    margin-bottom: 16px;
-    line-height: 24px;
-  }
-
-  ul {
-    list-style: none;
-    margin-left: 0;
-    padding-left: 0;
-  }
-
-  li {
-    padding-left: 1em;
-    text-indent: -1em;
-  }
-
-  li:before {
-    content: "+";
-    padding-right: 5px;
-  }
+  width: 720px;
 }

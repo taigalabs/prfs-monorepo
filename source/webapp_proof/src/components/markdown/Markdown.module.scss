@@ -1,24 +1,27 @@
 .markdown {
-  .ul {
+  h1 {
+    font-weight: 500;
+    line-height: 59px;
+  }
+
+  h2 {
+    font-weight: 500;
+    line-height: 44px;
+  }
+
+  p {
+    margin-bottom: 16px;
+    line-height: 24px;
+  }
+
+  ul {
     padding-left: 2em;
     list-style-type: disc;
   }
 
-  .li {
+  li {
     list-style-type: disc;
   }
-}
-
-.h1 {
-}
-
-.h2 {
-}
-
-.h3 {
-}
-
-.p {
 }
 
 .ul {
