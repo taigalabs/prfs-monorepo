@@ -2,6 +2,10 @@ import React from "react";
 
 import styles from "./Markdown.module.scss";
 
+export const Markdown: React.FC<MarkdownComponentProps> = ({ children }) => {
+  return <div className={styles.markdown}>{children}</div>;
+};
+
 export const H1: React.FC<MarkdownComponentProps> = ({ children }) => {
   return <h1 className={styles.h1}>{children}</h1>;
 };

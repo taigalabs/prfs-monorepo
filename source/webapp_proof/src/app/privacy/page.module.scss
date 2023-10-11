@@ -1,35 +1,7 @@
-.headerContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-
-  .inner {
-    display: flex;
-    width: 910px;
-    // border: 1px solid blue;
-  }
-
-  .logo {
-    display: flex;
-    justify-content: flex-end;
-    width: 95px;
-    font-size: 1.73em;
-    padding-right: 14px;
-  }
-
-  .title {
-    display: flex;
-    align-items: center;
-    font-size: 18px;
-    letter-spacing: 0.049em;
-  }
-}
-
 .bodyContainer {
   display: flex;
   justify-content: center;
-  padding: calc(42px + 51px) 0;
+  padding: 35px 0;
 
   .inner {
     width: 720px;
