@@ -1,4 +1,7 @@
 import type { MDXComponents } from "mdx/types";
+
+import { H1, Ul, Li } from "./components/markdown/Markdown";
+
 // import Image from "next/image";
 
 // This file allows you to provide custom React components
@@ -9,7 +12,9 @@ import type { MDXComponents } from "mdx/types";
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
     // Allows customizing built-in components, e.g. to add styling.
-    // h1: ({ children }) => <h1 style={{ fontSize: "100px" }}>{children}</h1>,
+    h1: ({ children }) => <H1>{children}</H1>,
+    ul: ({ children }) => <Ul>{children}</Ul>,
+    li: ({ children }) => <Li>{children}</Li>,
     // img: props => <Image sizes="100vw" style={{ width: "100%", height: "auto" }} {...props} />,
     ...components,
   };
