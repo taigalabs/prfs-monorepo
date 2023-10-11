@@ -10,11 +10,15 @@ import { paths } from "@/paths";
 const HomeFooter: React.FC<HomeFooterProps> = () => {
   const i18n = React.useContext(i18nContext);
 
+  console.log(22, process.env.power);
+
   return (
     <div className={styles.wrapper}>
       <ul className={styles.leftList}>
         <li>{i18n.english}</li>
-        <li>{i18n.updates}</li>
+        <li>
+          <Link href={paths.updates}>{i18n.updates}</Link>
+        </li>
       </ul>
       <ul className={styles.rightList}>
         <li>
