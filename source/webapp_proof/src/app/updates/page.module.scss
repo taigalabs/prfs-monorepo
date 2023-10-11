@@ -1,7 +1,6 @@
-.wrapper {
-}
-
-.content {
-  border: 1px solid blue;
-  width: 700px;
+.bodyContainer {
+  display: flex;
+  justify-content: center;
+  padding: 35px 0;
+  width: 720px;
 }

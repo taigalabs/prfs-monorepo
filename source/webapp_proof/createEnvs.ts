@@ -1,60 +1,19 @@
-// @ts-nocheck
-
 import { parseArgs } from "node:util";
 import fs from "fs";
 import path from "path";
 import chalk from "chalk";
-import { unified } from "unified";
-import remarkParse from "remark-parse";
-import remarkRehype from "remark-rehype";
-import rehypeSanitize from "rehype-sanitize";
-import rehypeStringify from "rehype-stringify";
 import { Envs } from "./src/envs";
-//
-// const { parseArgs } = require("node:util");
-// const fs = require("fs");
-// const path = require("path");
-// const chalk = require("chalk");
+import child_process from "child_process";
 
-// const remarkParse = require("remark-parse");
-
-// const { unified } = import("unified");
-// const { Envs } = require("./src/envs");
-
-const __dirname = path.resolve();
 const DOT_ENV_PATH = path.resolve(".env");
-const UPDATES_PATH = path.resolve(__dirname, "./src/updates");
 
 async function run() {
   console.log("%s createEnvs.ts prfs web launch", chalk.green("Launching"));
-
-  const mds = await processMds();
-
-  console.log(1, mds);
-
-  createEnvs({
-    mds,
-  });
+  const ts = await getGitTimestamp();
+  createEnvs(ts);
 }
 
-async function processMds() {
-  const fd = fs.readdirSync(UPDATES_PATH);
-
-  const { unified } = await import("unified");
-  console.log(11, fd, unified);
-
-  const file = await unified()
-    .use(remarkParse) // Convert into markdown AST
-    .use(remarkRehype) // Transform to HTML AST
-    .use(rehypeSanitize) // Sanitize HTML input
-    .use(rehypeStringify) // Convert AST into serialized HTML
-    .process("Hello, Next.js!");
-
-  return 3;
-  // return String(file);
-}
-
-function createEnvs({ mds }) {
+function createEnvs(ts: string) {
   const { values } = parseArgs({
     options: {
       production: {
@@ -70,10 +29,9 @@ function createEnvs({ mds }) {
 
   const { production, teaser } = values;
 
-  /** @type {import('src/env').Envs} */
-  const env_dev = {
+  const env_dev: Envs = {
     NEXT_PUBLIC_IS_TEASER: teaser ? "yes" : "no",
-    NEXT_PUBLIC_UPDATE_TIMESTAMP: "",
+    NEXT_PUBLIC_UPDATE_TIMESTAMP: ts,
     NEXT_PUBLIC_CODE_REPOSITORY_URL: "https://github.com/taigalabs/prfs-monorepo",
     NEXT_PUBLIC_TAIGALABS_ENDPOINT: "http://localhost:3060",
     NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT: "http://localhost:3020",
@@ -86,10 +44,9 @@ function createEnvs({ mds }) {
     NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT: "http://localhost:3061",
   };
 
-  /** @type {import('src/env').Envs} */
-  const env_prod = {
+  const env_prod: Envs = {
     NEXT_PUBLIC_IS_TEASER: teaser ? "yes" : "no",
-    NEXT_PUBLIC_UPDATE_TIMESTAMP: "",
+    NEXT_PUBLIC_UPDATE_TIMESTAMP: ts,
     NEXT_PUBLIC_CODE_REPOSITORY_URL: "https://github.com/taigalabs/prfs-monorepo",
     NEXT_PUBLIC_TAIGALABS_ENDPOINT: "https://www.taigalabs.xyz",
     NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT: "https://console.prfs.xyz",
@@ -108,7 +65,7 @@ function createEnvs({ mds }) {
   writeEnvsToDotEnv(envs);
 }
 
-function writeEnvsToDotEnv(envs) {
+function writeEnvsToDotEnv(envs: Envs) {
   let ws = fs.createWriteStream(DOT_ENV_PATH);
 
   for (const [key, val] of Object.entries(envs)) {
@@ -118,8 +75,12 @@ function writeEnvsToDotEnv(envs) {
   ws.close();
 }
 
-run().then();
+async function getGitTimestamp() {
+  const output = child_process.execSync(
+    `TZ=UTC0 git show --quiet --date='format-local:%Y%m%d' --format="%cd"`
+  );
 
-// interface CreateEnvsArgs {
-//   mds: any;
-// }
+  return output.toString();
+}
+
+run().then();
