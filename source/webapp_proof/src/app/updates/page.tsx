@@ -10,7 +10,7 @@ import UpdatesMD from "@/updates/23h2.mdx";
 const UpdatesPage = () => {
   return (
     <DefaultLayout>
-      <Masthead variant="mini" />
+      <Masthead />
       <DefaultBody>
         <div>
           <UpdatesMD />

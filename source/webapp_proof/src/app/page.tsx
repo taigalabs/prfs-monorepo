@@ -10,7 +10,7 @@ import HomeFooter from "@/components/home_footer/HomeFooter";
 const HomePage = () => {
   return (
     <DefaultLayout>
-      <Masthead variant="mini" />
+      <Masthead />
       <DefaultBody>
         <div className={styles.container}>
           <div className={styles._inner}>

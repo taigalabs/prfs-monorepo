@@ -6,24 +6,12 @@ import styles from "./page.module.scss";
 import Title from "./Title";
 import TermsLayout, { TermsHeader, TermsBody } from "@/layouts/terms_layout/TermsLayout";
 import { paths } from "@/paths";
+import DocMasthead from "@/components/masthead/DocMasthead";
 
 const PrivacyPage = () => {
   return (
     <TermsLayout>
-      <TermsHeader>
-        <div className={styles.headerContainer}>
-          <div className={styles.inner}>
-            <div className={styles.logo}>
-              <Link href={paths.__}>
-                <Logo variant="simple" />
-              </Link>
-            </div>
-            <div className={styles.title}>
-              <Title />
-            </div>
-          </div>
-        </div>
-      </TermsHeader>
+      <DocMasthead />
       <TermsBody>
         <div className={styles.bodyContainer}>
           <div className={styles.inner}>

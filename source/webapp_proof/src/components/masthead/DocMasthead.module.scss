@@ -10,6 +10,7 @@
   align-items: center;
   background-color: var(--white-100);
   z-index: 100;
+  border-bottom: 1px solid var(--gray-70);
 }
 
 .inner {
@@ -20,26 +21,23 @@
   justify-content: space-between;
 }
 
-.leftGroup {
+.logo {
   display: flex;
-  flex: 1;
-}
-
-.logoContainer {
-  display: flex;
-  align-items: center;
+  /* align-items: center; */
   font-size: 1.545rem;
 }
 
-.leftMenu {
-  margin-left: 32px;
-  display: flex;
-  align-items: center;
-  font-size: 15px;
+.appName {
+  margin-left: 5px;
+  color: var(--gray-50);
+  letter-spacing: -0.011em;
+}
 
-  li:not(:first-child) {
-    margin-left: 24px;
-  }
+.betaTag {
+  padding: 0px 2px;
+  font-size: 12px;
+  letter-spacing: -0.01em;
+  color: var(--gray-30);
 }
 
 .rightGroup {
