@@ -1,9 +1,10 @@
-const dotenv = require("dotenv");
+// const dotenv = require("dotenv");
+// const withMDX = require("@next/mdx")();
 
-// const withNextIntl = require("next-intl/plugin")(
-//   // This is the default (also the `src` folder is supported out of the box)
-//   "./i18n.ts"
-// );
+import mdx from "@next/mdx";
+
+const withMDX = mdx();
+import dotenv from "dotenv";
 
 (() => {
   const envObj = {};
@@ -12,9 +13,10 @@ const dotenv = require("dotenv");
   console.log(envObj);
 })();
 
-module.exports = (phase, { defaultConfig }) => {
+export default (phase, { defaultConfig }) => {
   /** @type {import('next').NextConfig} */
   const nextConfig = {
+    pageExtensions: ["js", "jsx", "mdx", "md", "ts", "tsx"],
     reactStrictMode: true,
     swcMinify: true,
 
@@ -90,5 +92,5 @@ module.exports = (phase, { defaultConfig }) => {
     },
   };
 
-  return nextConfig;
+  return withMDX(nextConfig);
 };

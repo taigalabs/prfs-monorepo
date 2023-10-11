@@ -7,6 +7,7 @@ export default {
   terms: "Terms",
   privacy: "Privacy",
   english: "English",
+  updates: "Updates",
   taigalabs: "Taiga labs",
   code: "Code",
   language: "Language",

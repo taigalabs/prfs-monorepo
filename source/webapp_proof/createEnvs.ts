@@ -2,18 +2,19 @@ import { parseArgs } from "node:util";
 import fs from "fs";
 import path from "path";
 import chalk from "chalk";
-
 import { Envs } from "./src/envs";
+import child_process from "child_process";
 
 const DOT_ENV_PATH = path.resolve(".env");
 
-function run() {
+async function run() {
   console.log("%s createEnvs.ts prfs web launch", chalk.green("Launching"));
 
-  createEnvs();
+  const ts = await getGitTimestamp();
+  createEnvs(ts);
 }
 
-function createEnvs() {
+function createEnvs(ts: string) {
   const { values } = parseArgs({
     options: {
       production: {
@@ -31,6 +32,7 @@ function createEnvs() {
 
   const env_dev: Envs = {
     NEXT_PUBLIC_IS_TEASER: teaser ? "yes" : "no",
+    NEXT_PUBLIC_UPDATE_TIMESTAMP: ts,
     NEXT_PUBLIC_CODE_REPOSITORY_URL: "https://github.com/taigalabs/prfs-monorepo",
     NEXT_PUBLIC_TAIGALABS_ENDPOINT: "http://localhost:3060",
     NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT: "http://localhost:3020",
@@ -45,6 +47,7 @@ function createEnvs() {
 
   const env_prod: Envs = {
     NEXT_PUBLIC_IS_TEASER: teaser ? "yes" : "no",
+    NEXT_PUBLIC_UPDATE_TIMESTAMP: ts,
     NEXT_PUBLIC_CODE_REPOSITORY_URL: "https://github.com/taigalabs/prfs-monorepo",
     NEXT_PUBLIC_TAIGALABS_ENDPOINT: "https://www.taigalabs.xyz",
     NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT: "https://console.prfs.xyz",
@@ -73,4 +76,12 @@ function writeEnvsToDotEnv(envs: Envs) {
   ws.close();
 }
 
-run();
+async function getGitTimestamp() {
+  const output = child_process.execSync(
+    `TZ=UTC0 git show --quiet --date='format-local:%Y%m%d' --format="%cd"`
+  );
+
+  return output.toString();
+}
+
+run().then();

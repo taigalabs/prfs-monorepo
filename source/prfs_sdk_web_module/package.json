@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "clean": "rimraf dist/",
     "create-envs": "ts-node createEnvs.ts",
     "dev": "ts-node ./server/dev.server.ts",
     "build": "webpack build && cp index.html dist/",
@@ -64,7 +65,5 @@
     "webpack": "^5.88.2",
     "webpack-node-externals": "^3.0.0"
   },
-  "browser": {
-    "crypto": false
-  }
+  "packageManager": "pnpm@8.9.0"
 }

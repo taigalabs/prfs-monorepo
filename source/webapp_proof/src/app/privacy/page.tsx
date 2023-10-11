@@ -1,32 +1,18 @@
 import React from "react";
-import Logo from "@taigalabs/prfs-react-components/src/logo/Logo";
-import Link from "next/link";
 
 import styles from "./page.module.scss";
-import Title from "./Title";
-import TermsLayout, { TermsHeader, TermsBody } from "@/layouts/terms_layout/TermsLayout";
-import { paths } from "@/paths";
+import PrivacyMasthead from "./PrivacyMasthead";
+import DefaultLayout, { DefaultBody, DefaultFooter } from "@/layouts/default_layout/DefaultLayout";
+import { Markdown } from "@/components/markdown/Markdown";
+import DocFooter from "@/components/global_footer/DocFooter";
 
 const PrivacyPage = () => {
   return (
-    <TermsLayout>
-      <TermsHeader>
-        <div className={styles.headerContainer}>
-          <div className={styles.inner}>
-            <div className={styles.logo}>
-              <Link href={paths.__}>
-                <Logo variant="simple" />
-              </Link>
-            </div>
-            <div className={styles.title}>
-              <Title />
-            </div>
-          </div>
-        </div>
-      </TermsHeader>
-      <TermsBody>
+    <DefaultLayout>
+      <PrivacyMasthead />
+      <DefaultBody>
         <div className={styles.bodyContainer}>
-          <div className={styles.inner}>
+          <Markdown>
             <h1>Privacy Policy for Taigalabs</h1>
 
             <p>
@@ -253,10 +239,13 @@ const PrivacyPage = () => {
               If you have any questions or suggestions about our Privacy Policy, do not hesitate to
               contact us.
             </p>
-          </div>
+          </Markdown>
         </div>
-      </TermsBody>
-    </TermsLayout>
+      </DefaultBody>
+      <DefaultFooter>
+        <DocFooter />
+      </DefaultFooter>
+    </DefaultLayout>
   );
 };
 

@@ -5,24 +5,24 @@ import styles from "./page.module.scss";
 import DefaultLayout, { DefaultBody, DefaultFooter } from "@/layouts/default_layout/DefaultLayout";
 import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 import Masthead from "@/components/masthead/Masthead";
-import HomeFooter from "@/components/home_footer/HomeFooter";
+import GlobalFooter from "@/components/global_footer/GlobalFooter";
 
 const HomePage = () => {
   return (
     <DefaultLayout>
-      <Masthead variant="mini" />
+      <Masthead />
       <DefaultBody>
         <div className={styles.container}>
           <div className={styles._inner}>
             <div className={styles.logoContainer}>
-              <ImageLogo width={166} />
+              <ImageLogo width={150} />
             </div>
             <CreateProofForm />
           </div>
         </div>
       </DefaultBody>
       <DefaultFooter>
-        <HomeFooter />
+        <GlobalFooter />
       </DefaultFooter>
     </DefaultLayout>
   );

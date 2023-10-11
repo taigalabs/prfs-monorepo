@@ -3,17 +3,24 @@
 import React from "react";
 import Link from "next/link";
 
-import styles from "./HomeFooter.module.scss";
+import styles from "./GlobalFooter.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
+import LatestTimestamp from "@/components/latest_timestamp/LatestTimestamp";
 
-const HomeFooter: React.FC<HomeFooterProps> = () => {
+const GlobalFooter: React.FC<GlobalFooterProps> = () => {
   const i18n = React.useContext(i18nContext);
 
   return (
     <div className={styles.wrapper}>
-      <ul>
+      <ul className={styles.leftList}>
         <li>{i18n.english}</li>
+        <li>
+          <Link href={paths.updates}>
+            <span>{i18n.updates} </span>
+            <LatestTimestamp />
+          </Link>
+        </li>
       </ul>
       <ul className={styles.rightList}>
         <li>
@@ -30,6 +37,6 @@ const HomeFooter: React.FC<HomeFooterProps> = () => {
   );
 };
 
-export default HomeFooter;
+export default GlobalFooter;
 
-export interface HomeFooterProps {}
+export interface GlobalFooterProps {}

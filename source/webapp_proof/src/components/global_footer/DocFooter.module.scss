@@ -2,17 +2,20 @@
   display: flex;
   padding: 0 32px;
   align-items: center;
-  background-color: var(--bright-gray-40);
+  /* background-color: var(--bright-gray-40); */
   border-top: 1px solid var(--bright-gray-30);
   height: 46px;
   color: var(--gray-30);
   justify-content: space-between;
+
+  ul {
+    display: flex;
+
+    li:not(:first-child) {
+      margin-left: 28px;
+    }
+  }
 }
 
-.rightList {
-  display: flex;
-
-  li:not(:first-child) {
-    margin-left: 28px;
-  }
+.leftList {
 }
