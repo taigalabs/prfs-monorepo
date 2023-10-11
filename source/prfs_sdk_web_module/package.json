@@ -65,7 +65,5 @@
     "webpack": "^5.88.2",
     "webpack-node-externals": "^3.0.0"
   },
-  "browser": {
-    "crypto": false
-  }
+  "packageManager": "pnpm@8.9.0"
 }

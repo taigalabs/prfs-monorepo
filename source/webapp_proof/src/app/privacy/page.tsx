@@ -1,17 +1,13 @@
 import React from "react";
-import Logo from "@taigalabs/prfs-react-components/src/logo/Logo";
-import Link from "next/link";
 
 import styles from "./page.module.scss";
-import Title from "./Title";
-import TermsLayout, { TermsHeader, TermsBody } from "@/layouts/terms_layout/TermsLayout";
-import { paths } from "@/paths";
-import DocMasthead from "@/components/masthead/DocMasthead";
+import TermsLayout, { TermsBody } from "@/layouts/terms_layout/TermsLayout";
+import PrivacyMasthead from "./PrivacyMasthead";
 
 const PrivacyPage = () => {
   return (
     <TermsLayout>
-      <DocMasthead />
+      <PrivacyMasthead />
       <TermsBody>
         <div className={styles.bodyContainer}>
           <div className={styles.inner}>
