@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "clean": "rimraf dist/",
     "create-envs": "ts-node createEnvs.ts",
     "dev": "ts-node ./server/dev.server.ts",
     "build": "webpack build && cp index.html dist/",

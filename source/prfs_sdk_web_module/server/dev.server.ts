@@ -1,21 +1,30 @@
+import fs from "fs";
 import webpack from "webpack";
-// import path from "path";
+import path from "path";
 
 import webpackConfig from "../webpack.config";
 import { createApp } from "./app";
 
-const compiler = webpack(webpackConfig);
+const DIST_PATH = path.resolve(__dirname, "../dist/index.html");
+const INDEX_HTML_PATH = path.resolve(__dirname, "../index.html");
 
-console.log("Start webpack compilation, watching");
-compiler.watch({}, (err, stats) => {
-  if (err) {
-    console.error(err);
-  }
+(() => {
+  console.log("Copying file, src: %s, dst: %s", INDEX_HTML_PATH, DIST_PATH);
+  fs.copyFileSync(INDEX_HTML_PATH, DIST_PATH);
 
-  if (stats) {
-    console.log("\nWebpack compilation");
-    console.log(stats.toJson("minimal").assetsByChunkName);
-  }
-});
+  const compiler = webpack(webpackConfig);
 
-createApp();
+  console.log("Start webpack compilation, watching");
+  compiler.watch({}, (err, stats) => {
+    if (err) {
+      console.error(err);
+    }
+
+    if (stats) {
+      console.log("\nWebpack compilation");
+      console.log(stats.toJson("minimal").assetsByChunkName);
+    }
+  });
+
+  createApp();
+})();
