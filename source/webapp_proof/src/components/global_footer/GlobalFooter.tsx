@@ -3,14 +3,12 @@
 import React from "react";
 import Link from "next/link";
 
-import styles from "./HomeFooter.module.scss";
+import styles from "./GlobalFooter.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 
-const HomeFooter: React.FC<HomeFooterProps> = () => {
+const GlobalFooter: React.FC<GlobalFooterProps> = () => {
   const i18n = React.useContext(i18nContext);
-
-  console.log(22, process.env.power);
 
   return (
     <div className={styles.wrapper}>
@@ -35,6 +33,6 @@ const HomeFooter: React.FC<HomeFooterProps> = () => {
   );
 };
 
-export default HomeFooter;
+export default GlobalFooter;
 
-export interface HomeFooterProps {}
+export interface GlobalFooterProps {}

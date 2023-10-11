@@ -5,7 +5,7 @@ import styles from "./page.module.scss";
 import DefaultLayout, { DefaultBody, DefaultFooter } from "@/layouts/default_layout/DefaultLayout";
 import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 import Masthead from "@/components/masthead/Masthead";
-import HomeFooter from "@/components/home_footer/HomeFooter";
+import GlobalFooter from "@/components/global_footer/GlobalFooter";
 
 const HomePage = () => {
   return (
@@ -22,7 +22,7 @@ const HomePage = () => {
         </div>
       </DefaultBody>
       <DefaultFooter>
-        <HomeFooter />
+        <GlobalFooter />
       </DefaultFooter>
     </DefaultLayout>
   );

@@ -2,7 +2,7 @@ import React from "react";
 
 import styles from "./page.module.scss";
 import DefaultLayout, { DefaultBody, DefaultFooter } from "@/layouts/default_layout/DefaultLayout";
-import HomeFooter from "@/components/home_footer/HomeFooter";
+import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import UpdatesMD from "@/updates/23h2.mdx";
 import UpdatesMasthead from "./UpdatesMasthead";
 
@@ -11,12 +11,12 @@ const UpdatesPage = () => {
     <DefaultLayout>
       <UpdatesMasthead />
       <DefaultBody>
-        <div>
+        <div className={styles.content}>
           <UpdatesMD />
         </div>
       </DefaultBody>
       <DefaultFooter>
-        <HomeFooter />
+        <GlobalFooter />
       </DefaultFooter>
     </DefaultLayout>
   );

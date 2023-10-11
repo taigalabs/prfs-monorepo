@@ -10,7 +10,7 @@ import { i18nContext } from "@/contexts/i18n";
 const PrivacyMasthead = () => {
   const i18n = React.useContext(i18nContext);
 
-  return <DocMasthead title={i18n.privacy} titleHref={paths.__} />;
+  return <DocMasthead title={i18n.privacy} titleHref={paths.privacy} />;
 };
 
 export default PrivacyMasthead;
