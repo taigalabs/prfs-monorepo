@@ -1,9 +1,5 @@
 const dotenv = require("dotenv");
-
-// const withNextIntl = require("next-intl/plugin")(
-//   // This is the default (also the `src` folder is supported out of the box)
-//   "./i18n.ts"
-// );
+const withMDX = require("@next/mdx")();
 
 (() => {
   const envObj = {};
@@ -15,6 +11,7 @@ const dotenv = require("dotenv");
 module.exports = (phase, { defaultConfig }) => {
   /** @type {import('next').NextConfig} */
   const nextConfig = {
+    pageExtensions: ["js", "jsx", "mdx", "md", "ts", "tsx"],
     reactStrictMode: true,
     swcMinify: true,
 
@@ -90,5 +87,5 @@ module.exports = (phase, { defaultConfig }) => {
     },
   };
 
-  return nextConfig;
+  return withMDX(nextConfig);
 };

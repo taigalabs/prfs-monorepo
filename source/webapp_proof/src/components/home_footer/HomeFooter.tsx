@@ -12,8 +12,9 @@ const HomeFooter: React.FC<HomeFooterProps> = () => {
 
   return (
     <div className={styles.wrapper}>
-      <ul>
+      <ul className={styles.leftList}>
         <li>{i18n.english}</li>
+        <li>{i18n.updates}</li>
       </ul>
       <ul className={styles.rightList}>
         <li>

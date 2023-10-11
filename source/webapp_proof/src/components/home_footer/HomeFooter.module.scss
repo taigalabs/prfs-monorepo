@@ -7,12 +7,15 @@
   height: 46px;
   color: var(--gray-30);
   justify-content: space-between;
+
+  ul {
+    display: flex;
+
+    li:not(:first-child) {
+      margin-left: 28px;
+    }
+  }
 }
 
-.rightList {
-  display: flex;
-
-  li:not(:first-child) {
-    margin-left: 28px;
-  }
+.leftList {
 }
