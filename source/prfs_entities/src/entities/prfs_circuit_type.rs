@@ -10,7 +10,7 @@ pub struct PrfsCircuitType {
     pub desc: String,
     pub author: String,
 
-    #[ts(type = "number")]
+    #[ts(type = "string")]
     pub created_at: DateTime<Utc>,
 
     #[ts(type = "Record<string, any>[]")]

@@ -21,7 +21,7 @@ pub struct PrfsCircuitDriver {
     #[ts(type = "Record<string, any>[]")]
     pub driver_properties_meta: sqlx::types::Json<Vec<DriverPropertyMeta>>,
 
-    #[ts(type = "number")]
+    #[ts(type = "string")]
     pub created_at: DateTime<Utc>,
 }
 

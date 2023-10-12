@@ -24,7 +24,7 @@ pub struct PrfsSet {
     pub finite_field: String,
     pub elliptic_curve: String,
 
-    #[ts(type = "number")]
+    #[ts(type = "string")]
     pub created_at: DateTime<Utc>,
 }
 

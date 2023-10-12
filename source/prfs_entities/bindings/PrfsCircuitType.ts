@@ -4,7 +4,7 @@ export interface PrfsCircuitType {
   circuit_type: string;
   desc: string;
   author: string;
-  created_at: number;
+  created_at: string;
   circuit_inputs_meta: Record<string, any>[];
   public_inputs_meta: Record<string, any>[];
 }

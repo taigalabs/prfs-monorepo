@@ -9,5 +9,5 @@ export interface PrfsCircuitDriver {
   desc: string;
   circuit_types: string[];
   driver_properties_meta: Record<string, any>[];
-  created_at: number;
+  created_at: string;
 }
