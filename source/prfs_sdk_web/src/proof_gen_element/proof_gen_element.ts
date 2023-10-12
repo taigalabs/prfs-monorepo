@@ -1,6 +1,6 @@
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 
-import { handleChildMessage } from "./handle_child_msg";
+import { MsgEventListener, handleChildMessage } from "./handle_child_msg";
 import { sendMsgToChild } from "../msg";
 import { ProofGenOptions } from "../element_options";
 import { Msg } from "../msg";
@@ -11,8 +11,14 @@ export const MSG_SPAN_ID = "prfs-sdk-msg";
 export const PORTAL_ID = "prfs-sdk-portal";
 const CONTAINER_ID = "prfs-sdk-container";
 
+export enum ProofGenElementStatus {
+  UnInitiated,
+  InProgress,
+  Initialized,
+}
+
 const singleton: ProofGenElementSingleton = {
-  msgEventListener: undefined,
+  status: ProofGenElementStatus.UnInitiated,
 };
 
 class ProofGenElement {
@@ -24,19 +30,22 @@ class ProofGenElement {
     this.state = {
       iframe: undefined,
       driverVersion: undefined,
+      msgEventListener: undefined,
     };
   }
 
   async mount(): Promise<HTMLIFrameElement | null> {
+    if (singleton.status !== ProofGenElementStatus.UnInitiated) {
+      console.warn("sdk is not mountable, status: %s", singleton.status);
+      return null;
+    }
+
+    singleton.status = ProofGenElementStatus.InProgress;
+
     const { options } = this;
     console.log("Mounting sdk, options: %o, ", options, singleton);
 
     const { sdkEndpoint } = options;
-
-    if (singleton.msgEventListener) {
-      console.warn("sdk is already mounted");
-      return null;
-    }
 
     if (!sdkEndpoint) {
       console.error("SDK endpoint is not defined");
@@ -74,16 +83,10 @@ class ProofGenElement {
     container.appendChild(iframe);
     document.body.appendChild(container);
 
-    if (singleton.msgEventListener) {
-      console.warn("Remove already registered Prfs sdk message event listener");
-      // window.removeEventListener("message", singleton.msgEventListener);
-      return null;
-    }
-
     const msgEventListener = await handleChildMessage(options);
-    singleton.msgEventListener = msgEventListener;
+    this.state.msgEventListener = msgEventListener;
 
-    console.log("listening child messages", singleton);
+    singleton.status = ProofGenElementStatus.Initialized;
 
     const { circuit_driver_id, driver_properties } = options;
 
@@ -120,8 +123,9 @@ export default ProofGenElement;
 export interface ProofGenElementState {
   iframe: HTMLIFrameElement | undefined;
   driverVersion: string | undefined;
+  msgEventListener: MsgEventListener | undefined;
 }
 
 export interface ProofGenElementSingleton {
-  msgEventListener: any;
+  status: ProofGenElementStatus;
 }

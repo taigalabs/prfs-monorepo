@@ -14,7 +14,7 @@ export async function handleChildMessage(options: ProofGenOptions) {
       if (ev.ports.length > 0) {
         const type: MsgType = ev.data.type;
 
-        console.log("child says, data: %o, ports: %o", ev.data, ev.ports);
+        // console.log("child says, data: %o, ports: %o", ev.data, ev.ports);
 
         switch (type) {
           case "HANDSHAKE": {
