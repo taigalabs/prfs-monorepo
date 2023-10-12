@@ -176,24 +176,23 @@
       "created_at": "2023-09-01T16:39:57-08:00"
     },
     {
-      "proof_type_id": "ZAUTH_SIGN_UP_1",
-      "label": "ZAuth",
+      "proof_type_id": "SIMPLE_HASH_1",
+      "label": "Simple hash 1",
       "author": "Prfs",
-      "desc": "ZAuth sign up",
-      "expression": "Passes ZAuth",
+      "desc": "Simple hash",
+      "expression": "Knows hash argument",
       "img_url": "https://prfs-asset-1.s3.ap-northeast-2.amazonaws.com/padlock-clipart-design-illustration-free-png.webp",
-      "img_caption": "0.0001",
-      "circuit_id": "00000000-0000-0000-0000-000000000000",
-      "circuit_type": "MEMBERSHIP_PROOF_1",
+      "img_caption": "",
+      "circuit_id": "00000000-0000-0000-0000-000000000001",
+      "circuit_type": "SIMPLE_HASH_1",
       "circuit_driver_id": "SPARTAN_CIRCOM_1",
       "circuit_inputs": [
         {
-          "desc": "passcode",
-          "name": "passcode",
-          "type": "PASSCODE_CONFIRM",
-          "label": "Passcode",
-          "value": "",
-          "units": 2
+          "desc": "Message over which a signature is made",
+          "name": "sigData",
+          "type": "SIG_DATA_1",
+          "label": "Signature",
+          "value": ""
         }
       ],
       "driver_properties": {
