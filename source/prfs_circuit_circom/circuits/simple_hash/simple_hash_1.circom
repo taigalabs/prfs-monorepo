@@ -10,34 +10,11 @@ include "../eff_ecdsa_membership/secp256k1_func.circom";
 include "../poseidon/poseidon.circom";
 
 template SimpleHash1() {
-    signal input Tx; 
-    signal input Ty; 
-    signal input Ux;
-    signal input Uy;
-
     signal input s;
+    signal input image;
 
-    component ecdsa = ECDSA2();
-    ecdsa.Tx <== Tx;
-    ecdsa.Ty <== Ty;
-    ecdsa.Ux <== Ux;
-    ecdsa.Uy <== Uy;
-    ecdsa.s <== s;
-
-    component pubKeyXBits = Num2Bits(256);
-    pubKeyXBits.in <== ecdsa.pubKeyX;
-
-    component pubKeyYBits = Num2Bits(256);
-    pubKeyYBits.in <== ecdsa.pubKeyY;
-
-    component pubToAddr = PubkeyToAddress();
-
-    for (var i = 0; i < 256; i++) {
-        pubToAddr.pubkeyBits[i] <== pubKeyYBits.out[i];
-        pubToAddr.pubkeyBits[i + 256] <== pubKeyXBits.out[i];
-    }
-
-    log("addr", pubToAddr.address);
+    log("s", s);
+    log("image", image);
 
     /* component merkleProof = MerkleTreeInclusionProof(nLevels); */
     /* merkleProof.leaf <== pubToAddr.address; */

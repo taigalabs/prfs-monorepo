@@ -31,11 +31,19 @@ impl BuildTask for CompileCircuitsTask {
 }
 
 fn run_app() {
-    let status = Command::new(deps::CARGO)
+    let status = Command::new(deps::JS_ENGINE)
         .current_dir(&PATHS.prfs_circuit_circom)
-        .args(["run", "-p", "prfs_circuit_circom"])
+        .args(["run", "create-bindings"])
         .status()
         .expect(&format!("{} command failed to start", deps::CARGO));
 
     assert!(status.success());
+
+    // let status = Command::new(deps::CARGO)
+    //     .current_dir(&PATHS.prfs_circuit_circom)
+    //     .args(["run", "-p", "prfs_circuit_circom"])
+    //     .status()
+    //     .expect(&format!("{} command failed to start", deps::CARGO));
+
+    // assert!(status.success());
 }
