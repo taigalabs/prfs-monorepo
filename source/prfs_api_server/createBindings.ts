@@ -3,7 +3,7 @@ import fs from "fs";
 import chalk from "chalk";
 
 const TS_PATH = path.resolve(__dirname, "./data/ts");
-const JSON_PATH = path.resolve(__dirname, "./data/json");
+const JSON_PATH = path.resolve(__dirname, "./data/json_bindings");
 
 function createBindings() {
   emptyJsonPath();
