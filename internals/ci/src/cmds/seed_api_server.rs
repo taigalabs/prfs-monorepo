@@ -1,4 +1,4 @@
-use crate::paths::PATHS;
+use crate::{deps, paths::PATHS};
 use clap::ArgMatches;
 use std::process::Command;
 
@@ -7,12 +7,19 @@ pub fn run(_matches: &ArgMatches) {
 }
 
 fn run_app() {
-    let bin = "cargo";
-    let status = Command::new(bin)
+    let status = Command::new(deps::JS_ENGINE)
         .current_dir(&PATHS.prfs_api_server)
-        .args(["run", "--release", "-p", "prfs_api_server", "--bin", "seed"])
+        .args(["run", "create-bindings"])
         .status()
-        .expect(&format!("{} command failed to start", bin));
+        .expect(&format!("{} command failed to start", deps::CARGO));
 
     assert!(status.success());
+
+    // let status = Command::new(deps::CARGO)
+    //     .current_dir(&PATHS.prfs_api_server)
+    //     .args(["run", "--release", "-p", "prfs_api_server", "--bin", "seed"])
+    //     .status()
+    //     .expect(&format!("{} command failed to start", deps::CARGO));
+
+    // assert!(status.success());
 }

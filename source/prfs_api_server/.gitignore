@@ -3,5 +3,3 @@ log_files/**/*
 .env
 !sample.env
 seed.json
-
-data/json
