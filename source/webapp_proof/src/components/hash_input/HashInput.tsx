@@ -11,10 +11,9 @@ const HashInput: React.FC<HashInputProps> = ({ circuitInput, value, setFormValue
 
   React.useEffect(() => {
     if (value === undefined) {
-      const defaultSigData: SigData = {
-        msgRaw: "default message",
-        msgHash: Buffer.from(""),
-        sig: "",
+      const defaultSigData: HashData = {
+        msgRaw: BigInt(0),
+        msgHash: BigInt(0),
       };
 
       setFormValues(oldVals => {
@@ -29,6 +28,7 @@ const HashInput: React.FC<HashInputProps> = ({ circuitInput, value, setFormValue
   const handleClickHash = React.useCallback(async () => {
     if (value) {
       const msgRaw = value.msgRaw;
+
       // const msgHash = hashPersonalMessage(Buffer.from(msgRaw));
 
       setFormValues(oldVals => ({
@@ -49,10 +49,9 @@ const HashInput: React.FC<HashInputProps> = ({ circuitInput, value, setFormValue
       <div
         className={cn({
           [styles.inputWrapper]: true,
-          [styles.isInputValid]: value && value.sig.length > 0,
         })}
       >
-        <input placeholder={circuitInput.desc} value={value?.msgRaw || ""} readOnly />
+        <input placeholder={circuitInput.desc} value={value?.msgRaw.toString() || ""} readOnly />
         <div className={styles.btnGroup}>
           <button className={styles.connectBtn} onClick={handleClickHash}>
             {i18n.hash}
@@ -65,14 +64,13 @@ const HashInput: React.FC<HashInputProps> = ({ circuitInput, value, setFormValue
 
 export default HashInput;
 
-export interface SigData {
-  msgRaw: string;
-  msgHash: Buffer;
-  sig: string;
+export interface HashData {
+  msgRaw: bigint;
+  msgHash: bigint;
 }
 
 export interface HashInputProps {
   circuitInput: CircuitInput;
-  value: SigData | undefined;
+  value: HashData | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
 }

@@ -9,7 +9,7 @@ export interface CircuitDriver {
   prove(args: ProveArgs<any>): Promise<ProveReceipt>;
   verify(args: VerifyArgs): Promise<boolean>;
   getBuildStatus(): Promise<any>;
-  [key: string]: any;
+  hash(args: bigint[]): Promise<bigint>;
 }
 
 export interface ProveArgs<T> {

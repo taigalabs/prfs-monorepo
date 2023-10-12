@@ -113,6 +113,19 @@ class ProofGenElement {
       throw new Error(`Error creating proof: ${err}`);
     }
   }
+
+  async hash(args: Record<string, any>): Promise<any> {
+    if (!this.state.iframe) {
+      throw new Error("iframe is not created");
+    }
+
+    try {
+      const ret = await sendMsgToChild(new Msg("HASH", args as any), this.state.iframe);
+      return ret;
+    } catch (err) {
+      throw new Error(`Error creating proof: ${err}`);
+    }
+  }
 }
 
 export default ProofGenElement;

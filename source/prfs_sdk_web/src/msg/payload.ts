@@ -12,7 +12,9 @@ export type MsgType =
   | "CREATE_PROOF"
   | "CREATE_PROOF_RESPONSE"
   | "PROOF_GEN_EVENT"
-  | "PROOF_GEN_EVENT_RESPONSE";
+  | "PROOF_GEN_EVENT_RESPONSE"
+  | "HASH"
+  | "HASH_RESPONSE";
 
 export interface HandshakePayload {}
 
@@ -35,6 +37,14 @@ export interface GetSignaturePayload {
 export interface GetSignatureResponsePayload {
   msgHash: Buffer;
   sig: string;
+}
+
+export interface HashPayload {
+  msg: string;
+}
+
+export interface HashResponsePayload {
+  msgHash: Buffer;
 }
 
 export type ReqPayload<T extends MsgType> = //
@@ -60,6 +70,8 @@ export type ReqPayload<T extends MsgType> = //
     ? ProveReceipt
     : T extends "PROOF_GEN_EVENT"
     ? ProofGenEventPayload
+    : T extends "HASH"
+    ? HashResponsePayload
     : never;
 
 export type RespPayload<T extends MsgType> = //
@@ -87,4 +99,6 @@ export type RespPayload<T extends MsgType> = //
     ? never
     : T extends "PROOF_GEN_EVENT_RESPONSE"
     ? never
+    : T extends "HASH_RESPONSE"
+    ? HashResponsePayload
     : never;

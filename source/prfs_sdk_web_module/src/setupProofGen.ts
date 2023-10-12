@@ -67,6 +67,18 @@ async function eventListener(ev: MessageEvent) {
 
         break;
       }
+
+      case "HASH": {
+        const { payload } = ev.data;
+
+        if (!driver) {
+          return;
+        }
+
+        // driver.prove()
+
+        break;
+      }
     }
   }
 }

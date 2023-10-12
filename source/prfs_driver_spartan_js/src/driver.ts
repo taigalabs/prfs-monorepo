@@ -49,8 +49,11 @@ export default class SpartanDriver implements CircuitDriver {
     return this.handlers.makeMerkleProof(leaves, leafIdx, depth);
   }
 
-  newPoseidon() {
-    return makePoseidon(this.handlers);
+  async hash(args: bigint[]): Promise<bigint> {
+    const poseidon = makePoseidon(this.handlers);
+    const ret = await poseidon(args);
+
+    return ret;
   }
 
   async newTree(depth: number, hash: AsyncHashFn): Promise<Tree> {
@@ -66,7 +69,7 @@ export default class SpartanDriver implements CircuitDriver {
 
       const { r, s, v } = fromSig(sig);
 
-      const poseidon = this.newPoseidon();
+      const poseidon = makePoseidon(this.handlers);
       const serialNo = await poseidon([s, BigInt(0)]);
 
       const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash);
