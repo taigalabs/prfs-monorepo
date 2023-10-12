@@ -17,7 +17,7 @@ use crate::seed::read::{
 use crate::seed::utils;
 
 pub async fn upload(db: &Database2) {
-    upload_circuit_drivers(&db).await;
+    // upload_circuit_drivers(&db).await;
     upload_circuit_types(&db).await;
     upload_circuit_input_types(&db).await;
     upload_circuits(&db).await;

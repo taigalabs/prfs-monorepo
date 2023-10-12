@@ -7,10 +7,10 @@ const ADDR_MEMBERSHIP2_1_WTNS_GEN_URL =
   "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1_js/addr_membership2_1.wasm";
 
 const SIMPLE_HASH_1_CIRCUIT_URL =
-  "prfs://00000000-0000-0000-0000-000000000001/simple_hash_1.0.1.spartan.circuit";
+  "prfs://00000000-0000-0000-0000-000000000001/simple_hash_1_1.spartan.circuit";
 
 const SIMPLE_HASH_1_WTNS_GEN_URL =
-  "prfs://00000000-0000-0000-0000-000000000001/simple_hash_1_js/simple_hash_1.wasm";
+  "prfs://00000000-0000-0000-0000-000000000001/simple_hash_1_1js/simple_hash_1_1.wasm";
 
 const proof_types: PrfsProofType[] = [
   {
