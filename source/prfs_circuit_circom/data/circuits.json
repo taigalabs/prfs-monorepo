@@ -15,8 +15,10 @@
       "finite_field": "Z_(2^256-2^32-977)",
       "circuit_driver_id": "SPARTAN_CIRCOM_1",
       "driver_version": "0.1.0",
+      "build_properties": {
+        "instance_path": "instances/addr_membership2_1.circom"
+      },
       "driver_properties": {
-        "instance_path": "instances/addr_membership2_1.circom",
         "wtns_gen_url": "",
         "circuit_url": ""
       },
@@ -97,10 +99,12 @@
       "proof_algorithm": "Spartan",
       "elliptic_curve": "Secp256k1",
       "finite_field": "Z_(2^256-2^32-977)",
+      "build_properties": {
+        "instance_path": "instances/simple_hash_1.circom"
+      },
       "circuit_driver_id": "SPARTAN_CIRCOM_1",
       "driver_version": "0.1.0",
       "driver_properties": {
-        "instance_path": "instances/simple_hash_1.circom",
         "wtns_gen_url": "",
         "circuit_url": ""
       },

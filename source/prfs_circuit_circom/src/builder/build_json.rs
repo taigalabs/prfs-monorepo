@@ -10,6 +10,5 @@ pub struct CircuitBuildListJson {
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct CircuitBuildJson {
     // pub circuit_version: String,
-    #[serde(flatten)]
     pub circuit: PrfsCircuit,
 }

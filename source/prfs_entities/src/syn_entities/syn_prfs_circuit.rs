@@ -27,6 +27,9 @@ pub struct PrfsCircuitSyn1 {
     #[ts(type = "Record<string, string>")]
     pub driver_properties: sqlx::types::Json<HashMap<String, String>>,
 
+    #[ts(type = "Record<string, string>")]
+    pub build_properties: sqlx::types::Json<HashMap<String, String>>,
+
     #[ts(type = "Record<string, any>[]")]
     pub circuit_inputs_meta: sqlx::types::Json<Vec<CircuitInputMeta>>,
 

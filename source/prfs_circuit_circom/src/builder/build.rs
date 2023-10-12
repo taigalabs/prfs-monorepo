@@ -34,7 +34,7 @@ fn clean_build() {
 fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind) -> String {
     match file_kind {
         FileKind::R1CS => {
-            let instance_path = &circuit.driver_properties.get("instance_path").unwrap();
+            let instance_path = &circuit.build_properties.get("instance_path").unwrap();
             let circuit_src_path = PATHS.circuits.join(&instance_path);
             let file_stem = circuit_src_path
                 .file_stem()
@@ -100,7 +100,7 @@ fn compile_circuits(circuit: &PrfsCircuit) {
 
     match circuit_driver_id.as_str() {
         driver_id::SPARTAN_CIRCOM_DRIVER_ID => {
-            let instance_path = &circuit.driver_properties.get("instance_path").unwrap();
+            let instance_path = &circuit.build_properties.get("instance_path").unwrap();
 
             let circuit_src_path = PATHS.circuits.join(&instance_path);
             println!("circuit_src_path: {:?}", circuit_src_path);

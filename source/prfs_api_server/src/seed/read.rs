@@ -26,10 +26,8 @@ pub fn load_circuits() -> HashMap<String, PrfsCircuit> {
 
     for circuit_name in build_list_json.circuits {
         let circuit_build_json_path = build_path.join(format!("{}/{}", circuit_name, "build.json"));
-        println!(
-            "Reading circuit, name: {:?}",
-            circuit_build_json_path.file_name()
-        );
+
+        println!("Reading circuit, json_path: {:?}", circuit_build_json_path,);
 
         let json: CircuitBuildJson = utils::read_json(&circuit_build_json_path);
 
