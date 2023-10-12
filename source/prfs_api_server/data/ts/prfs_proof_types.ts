@@ -10,7 +10,15 @@ const SIMPLE_HASH_1_CIRCUIT_URL =
   "prfs://00000000-0000-0000-0000-000000000001/simple_hash_1_1.spartan.circuit";
 
 const SIMPLE_HASH_1_WTNS_GEN_URL =
-  "prfs://00000000-0000-0000-0000-000000000001/simple_hash_1_1js/simple_hash_1_1.wasm";
+  "prfs://00000000-0000-0000-0000-000000000001/simple_hash_1_1_js/simple_hash_1_1.wasm";
+
+const sig_data_circuit_input = {
+  desc: "Message over which a signature is made",
+  name: "sigData",
+  type: "SIG_DATA_1",
+  label: "Signature",
+  value: "",
+};
 
 const proof_types: PrfsProofType[] = [
   {
@@ -35,13 +43,7 @@ const proof_types: PrfsProofType[] = [
         label: "One of them",
         value: "",
       },
-      {
-        desc: "Message over which a signature is made",
-        name: "sigData",
-        type: "SIG_DATA_1",
-        label: "Signature",
-        value: "",
-      },
+      sig_data_circuit_input,
     ],
     driver_properties: {
       circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
@@ -71,13 +73,7 @@ const proof_types: PrfsProofType[] = [
         label: "One of them",
         value: "",
       },
-      {
-        desc: "Message over which a signature is made",
-        name: "sigData",
-        type: "SIG_DATA_1",
-        label: "Signature",
-        value: "",
-      },
+      sig_data_circuit_input,
     ],
     driver_properties: {
       circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
@@ -107,13 +103,7 @@ const proof_types: PrfsProofType[] = [
         element_type: "ADDRESS",
         value: "",
       },
-      {
-        desc: "Message over which a signature is made",
-        name: "sigData",
-        type: "SIG_DATA_1",
-        label: "Signature",
-        value: "",
-      },
+      sig_data_circuit_input,
     ],
     driver_properties: {
       circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
@@ -195,15 +185,7 @@ const proof_types: PrfsProofType[] = [
     circuit_id: "00000000-0000-0000-0000-000000000001",
     circuit_type: "SIMPLE_HASH_1",
     circuit_driver_id: "SPARTAN_CIRCOM_1",
-    circuit_inputs: [
-      {
-        desc: "Message over which a signature is made",
-        name: "sigData",
-        type: "SIG_DATA_1",
-        label: "Signature",
-        value: "",
-      },
-    ],
+    circuit_inputs: [sig_data_circuit_input],
     driver_properties: {
       circuit_url: SIMPLE_HASH_1_CIRCUIT_URL,
       wtns_gen_url: SIMPLE_HASH_1_WTNS_GEN_URL,
