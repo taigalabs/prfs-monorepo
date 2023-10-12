@@ -46,7 +46,6 @@ const proof_types: PrfsProofType[] = [
     driver_properties: {
       circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
       wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
-      instance_path: "instances/addr_membership2_1.circom",
     },
     created_at: "2023-05-01T16:39:57-08:00",
   },
@@ -81,11 +80,8 @@ const proof_types: PrfsProofType[] = [
       },
     ],
     driver_properties: {
-      circuit_url:
-        "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_0.0.1.spartan.circuit",
-      wtns_gen_url:
-        "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_js/addr_membership2.wasm",
-      instance_path: "instances/addr_membership2.circom",
+      circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
+      wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
     },
     created_at: "2023-08-01T16:39:57-08:00",
   },
@@ -120,11 +116,8 @@ const proof_types: PrfsProofType[] = [
       },
     ],
     driver_properties: {
-      circuit_url:
-        "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_0.0.1.spartan.circuit",
-      wtns_gen_url:
-        "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_js/addr_membership2.wasm",
-      instance_path: "instances/addr_membership2.circom",
+      circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
+      wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
     },
     created_at: "2023-05-01T16:39:57-08:00",
   },
@@ -159,11 +152,8 @@ const proof_types: PrfsProofType[] = [
       },
     ],
     driver_properties: {
-      circuit_url:
-        "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_0.0.1.spartan.circuit",
-      wtns_gen_url:
-        "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_js/addr_membership2.wasm",
-      instance_path: "instances/addr_membership2.circom",
+      circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
+      wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
     },
     created_at: "2023-09-21T16:39:57-08:00",
   },
@@ -189,11 +179,8 @@ const proof_types: PrfsProofType[] = [
       },
     ],
     driver_properties: {
-      circuit_url:
-        "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_0.0.1.spartan.circuit",
-      wtns_gen_url:
-        "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_js/addr_membership2.wasm",
-      instance_path: "instances/addr_membership2.circom",
+      circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
+      wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
     },
     created_at: "2023-09-01T16:39:57-08:00",
   },
@@ -220,7 +207,6 @@ const proof_types: PrfsProofType[] = [
     driver_properties: {
       circuit_url: SIMPLE_HASH_1_CIRCUIT_URL,
       wtns_gen_url: SIMPLE_HASH_1_WTNS_GEN_URL,
-      instance_path: "instances/simple_hash_1.circom",
     },
     created_at: "2023-09-01T16:39:57-08:00",
   },
