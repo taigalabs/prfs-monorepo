@@ -4,14 +4,14 @@ import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { FaSignature } from "@react-icons/all-files/fa/FaSignature";
 import { hashPersonalMessage } from "@ethereumjs/util";
 
-import styles from "./SigDataInput.module.scss";
+import styles from "./HashInput.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { FormInput, FormInputTitleRow } from "../form_input/FormInput";
 import { useSignMessage } from "wagmi";
 
-const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFormValues }) => {
+const HashInput: React.FC<HashInputProps> = ({ circuitInput, value, setFormValues }) => {
   const i18n = React.useContext(i18nContext);
-  const [message, setMessage] = React.useState("");
+  // const [message, setMessage] = React.useState("");
   const { signMessageAsync } = useSignMessage();
 
   React.useEffect(() => {
@@ -31,7 +31,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
     }
   }, [value, setFormValues]);
 
-  const handleClickSign = React.useCallback(async () => {
+  const handleClickHash = React.useCallback(async () => {
     if (value) {
       const msgRaw = value.msgRaw;
       const msgHash = hashPersonalMessage(Buffer.from(msgRaw));
@@ -61,8 +61,8 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
       >
         <input placeholder={circuitInput.desc} value={value?.msgRaw || ""} readOnly />
         <div className={styles.btnGroup}>
-          <button className={styles.connectBtn} onClick={handleClickSign}>
-            {i18n.sign}
+          <button className={styles.connectBtn} onClick={handleClickHash}>
+            {i18n.hash}
           </button>
         </div>
       </div>
@@ -70,7 +70,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
   );
 };
 
-export default SigDataInput;
+export default HashInput;
 
 export interface SigData {
   msgRaw: string;
@@ -78,7 +78,7 @@ export interface SigData {
   sig: string;
 }
 
-export interface SigDataInputProps {
+export interface HashInputProps {
   circuitInput: CircuitInput;
   value: SigData | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;

@@ -4,7 +4,6 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "create-envs2": "node createEnvs.js",
     "create-envs": "ts-node --esm createEnvs.ts",
     "dev": "next dev -p 3000",
     "build": "next build",

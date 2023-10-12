@@ -18,6 +18,7 @@ import { envs } from "@/envs";
 import Passcode from "@/components/passcode/Passcode";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
 import { validateInputs } from "@/validate";
+import HashInput from "../hash_input/HashInput";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -128,6 +129,17 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
         case "SIG_DATA_1": {
           entriesElem.push(
             <SigDataInput
+              key={idx}
+              circuitInput={input}
+              value={formValues[input.name] as any}
+              setFormValues={setFormValues}
+            />
+          );
+          break;
+        }
+        case "HASH_DATA_1": {
+          entriesElem.push(
+            <HashInput
               key={idx}
               circuitInput={input}
               value={formValues[input.name] as any}

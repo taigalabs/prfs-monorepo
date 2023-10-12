@@ -11,11 +11,7 @@ export const MSG_SPAN_ID = "prfs-sdk-msg";
 export const PORTAL_ID = "prfs-sdk-portal";
 const CONTAINER_ID = "prfs-sdk-container";
 
-const singleton: {
-  isMounted: boolean;
-  msgEventListener: any;
-} = {
-  isMounted: false,
+const singleton: ProofGenElementSingleton = {
   msgEventListener: undefined,
 };
 
@@ -37,7 +33,7 @@ class ProofGenElement {
 
     const { sdkEndpoint } = options;
 
-    if (singleton.isMounted) {
+    if (singleton.msgEventListener) {
       console.warn("sdk is already mounted");
       return null;
     }
@@ -61,39 +57,39 @@ class ProofGenElement {
       throw new Error("sdk endpoint is not responding");
     }
 
-    await new Promise(async resolve => {
-      const container = document.createElement("div");
-      container.id = containerId;
-      container.style.width = "0px";
-      container.style.height = "0px";
+    // await new Promise(async resolve => {
+    const container = document.createElement("div");
+    container.id = containerId;
+    container.style.width = "0px";
+    container.style.height = "0px";
 
-      const iframe = document.createElement("iframe");
-      iframe.id = PROOF_GEN_IFRAME_ID;
-      iframe.src = `${sdkEndpoint}/proof_gen?proofTypeId=${options.proofTypeId}`;
-      iframe.allow = "cross-origin-isolated";
-      iframe.style.border = "none";
-      iframe.style.display = "none";
-      this.state.iframe = iframe;
+    const iframe = document.createElement("iframe");
+    iframe.id = PROOF_GEN_IFRAME_ID;
+    iframe.src = `${sdkEndpoint}/proof_gen?proofTypeId=${options.proofTypeId}`;
+    iframe.allow = "cross-origin-isolated";
+    iframe.style.border = "none";
+    iframe.style.display = "none";
+    this.state.iframe = iframe;
 
-      container.appendChild(iframe);
-      document.body.appendChild(container);
+    container.appendChild(iframe);
+    document.body.appendChild(container);
 
-      if (iframe.contentWindow) {
-        iframe.contentWindow.onerror = () => {
-          console.log(55555555);
-        };
-      }
+    if (iframe.contentWindow) {
+      iframe.contentWindow.onerror = () => {
+        console.log(55555555);
+      };
+    }
 
-      if (singleton.msgEventListener) {
-        console.warn("Remove already registered Prfs sdk message event listener");
-        window.removeEventListener("message", singleton.msgEventListener);
-      }
+    if (singleton.msgEventListener) {
+      console.warn("Remove already registered Prfs sdk message event listener");
+      window.removeEventListener("message", singleton.msgEventListener);
+    }
 
-      console.log("listening child messages");
-      const msgEventListener = handleChildMessage(resolve, options, this.state);
+    console.log("listening child messages");
+    const msgEventListener = await handleChildMessage(options);
 
-      singleton.msgEventListener = msgEventListener;
-    });
+    singleton.msgEventListener = msgEventListener;
+    // });
 
     const { circuit_driver_id, driver_properties } = options;
 
@@ -102,13 +98,12 @@ class ProofGenElement {
         circuit_driver_id,
         driver_properties,
       }),
-      this.state.iframe!
+      iframe
     );
 
     console.log("driver version", driverVersion);
     this.state.driverVersion = driverVersion;
 
-    singleton.isMounted = true;
     return this.state.iframe!;
   }
 
@@ -131,4 +126,8 @@ export default ProofGenElement;
 export interface ProofGenElementState {
   iframe: HTMLIFrameElement | undefined;
   driverVersion: string | undefined;
+}
+
+export interface ProofGenElementSingleton {
+  msgEventListener: any;
 }

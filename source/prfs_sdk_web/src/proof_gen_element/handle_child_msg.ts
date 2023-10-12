@@ -1,49 +1,50 @@
-import { hashPersonalMessage } from "@ethereumjs/util";
-import { listenClickOutsideIFrame, removeClickListener } from "./outside_event";
-import { GetSignaturePayload, HandshakePayload, MsgType } from "../msg/payload";
-import { ProofGenElementState } from "./proof_gen_element";
+import { MsgType } from "../msg/payload";
 import { ProofGenOptions } from "../element_options";
 import { Msg } from "../msg";
 
-export function handleChildMessage(
-  resolve: (value: any) => void,
-  options: ProofGenOptions,
-  state: ProofGenElementState
-) {
+export async function handleChildMessage(options: ProofGenOptions) {
   console.log("Attaching child msg handler");
 
   const { proofGenEventListener } = options;
 
-  const msgEventListener = async (ev: MessageEvent) => {
-    if (ev.ports.length > 0) {
-      const type: MsgType = ev.data.type;
+  return new Promise(resolve => {
+    let listener: (ev: MessageEvent) => Promise<void>;
 
-      console.log("child says, data: %o, ports: %o", ev.data, ev.ports);
+    const msgEventListener = async (ev: MessageEvent) => {
+      if (ev.ports.length > 0) {
+        const type: MsgType = ev.data.type;
 
-      switch (type) {
-        case "HANDSHAKE": {
-          // const handshakePayload = ev.data.payload as HandshakePayload;
+        console.log("child says, data: %o, ports: %o", ev.data, ev.ports);
 
-          ev.ports[0].postMessage(new Msg("HANDSHAKE_RESPONSE", {}));
+        switch (type) {
+          case "HANDSHAKE": {
+            // const handshakePayload = ev.data.payload as HandshakePayload;
 
-          resolve(1);
-          break;
+            ev.ports[0].postMessage(new Msg("HANDSHAKE_RESPONSE", {}));
+
+            if (listener) {
+              resolve(listener);
+            }
+
+            break;
+          }
+
+          case "PROOF_GEN_EVENT": {
+            const { payload } = ev.data;
+
+            proofGenEventListener(payload.type, payload.msg);
+            break;
+          }
+
+          default:
+            console.error(`[parent] invalid msg type, ${type}`);
         }
-
-        case "PROOF_GEN_EVENT": {
-          const { payload } = ev.data;
-
-          proofGenEventListener(payload.type, payload.msg);
-          break;
-        }
-
-        default:
-          console.error(`[parent] invalid msg type, ${type}`);
       }
-    }
-  };
+    };
 
-  window.addEventListener("message", msgEventListener);
+    listener = msgEventListener;
+    window.addEventListener("message", msgEventListener);
 
-  return msgEventListener;
+    return msgEventListener;
+  });
 }

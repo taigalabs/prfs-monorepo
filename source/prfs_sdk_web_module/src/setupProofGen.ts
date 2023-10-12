@@ -20,7 +20,7 @@ async function eventListener(ev: MessageEvent) {
 
   if (ev.ports.length > 0) {
     const type: MsgType = ev.data.type;
-    console.log("Msg, type: %s", type);
+    // console.log("Msg, type: %s", type);
 
     switch (type) {
       case "CREATE_PROOF": {
