@@ -1,5 +1,17 @@
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
+const ADDR_MEMBERSHIP2_1_CIRCUIT_URL =
+  "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1.spartan.circuit";
+
+const ADDR_MEMBERSHIP2_1_WTNS_GEN_URL =
+  "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1_js/addr_membership2_1.wasm";
+
+const SIMPLE_HASH_1_CIRCUIT_URL =
+  "prfs://00000000-0000-0000-0000-000000000001/simple_hash_1.0.1.spartan.circuit";
+
+const SIMPLE_HASH_1_WTNS_GEN_URL =
+  "prfs://00000000-0000-0000-0000-000000000001/simple_hash_1_js/simple_hash_1.wasm";
+
 const proof_types: PrfsProofType[] = [
   {
     proof_type_id: "ETH_0_0001_1",
@@ -32,11 +44,9 @@ const proof_types: PrfsProofType[] = [
       },
     ],
     driver_properties: {
-      circuit_url:
-        "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_0.0.1.spartan.circuit",
-      wtns_gen_url:
-        "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_js/addr_membership2.wasm",
-      instance_path: "instances/addr_membership2.circom",
+      circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
+      wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
+      instance_path: "instances/addr_membership2_1.circom",
     },
     created_at: "2023-05-01T16:39:57-08:00",
   },
@@ -193,8 +203,7 @@ const proof_types: PrfsProofType[] = [
     author: "Prfs",
     desc: "Simple hash",
     expression: "Knows hash argument",
-    img_url:
-      "https://prfs-asset-1.s3.ap-northeast-2.amazonaws.com/padlock-clipart-design-illustration-free-png.webp",
+    img_url: "https://prfs-asset-1.s3.ap-northeast-2.amazonaws.com/hash.png",
     img_caption: "",
     circuit_id: "00000000-0000-0000-0000-000000000001",
     circuit_type: "SIMPLE_HASH_1",
@@ -209,11 +218,9 @@ const proof_types: PrfsProofType[] = [
       },
     ],
     driver_properties: {
-      circuit_url:
-        "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_0.0.1.spartan.circuit",
-      wtns_gen_url:
-        "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_js/addr_membership2.wasm",
-      instance_path: "instances/addr_membership2.circom",
+      circuit_url: SIMPLE_HASH_1_CIRCUIT_URL,
+      wtns_gen_url: SIMPLE_HASH_1_WTNS_GEN_URL,
+      instance_path: "instances/simple_hash_1.circom",
     },
     created_at: "2023-09-01T16:39:57-08:00",
   },

@@ -7,14 +7,7 @@ use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
 use std::{io::Write, path::PathBuf, process::Command};
 
 pub fn run() {
-    let circuit_version = "0.0.1".to_string();
-
-    println!(
-        "{} building {}, circuit_version: {}",
-        "Start".green(),
-        env!("CARGO_PKG_NAME"),
-        circuit_version
-    );
+    println!("{} building {}", "Start".green(), env!("CARGO_PKG_NAME"),);
 
     clean_build();
 
@@ -23,13 +16,13 @@ pub fn run() {
     let mut circuit_list = vec![];
     for mut circuit in &mut circuits_json.circuits {
         compile_circuits(&circuit);
-        make_spartan(&circuit, &circuit_version);
-        create_build_json(&mut circuit, &circuit_version);
+        make_spartan(&circuit);
+        create_build_json(&mut circuit);
 
         circuit_list.push(circuit.circuit_id.to_string());
     }
 
-    create_list_json(&circuit_list, &circuit_version);
+    create_list_json(&circuit_list);
 }
 
 fn clean_build() {
@@ -38,7 +31,7 @@ fn clean_build() {
     }
 }
 
-fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind, circuit_version: &str) -> String {
+fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind) -> String {
     match file_kind {
         FileKind::R1CS => {
             let instance_path = &circuit.driver_properties.get("instance_path").unwrap();
@@ -53,10 +46,7 @@ fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind, circuit_version:
             format!("{}/{}.r1cs", &circuit.circuit_id, file_stem)
         }
         FileKind::Spartan => {
-            format!(
-                "{}/{}_{}.spartan.circuit",
-                circuit.circuit_id, circuit.label, circuit_version
-            )
+            format!("{}/{}.spartan.circuit", circuit.circuit_id, circuit.label)
         }
         FileKind::WtnsGen => {
             format!(
@@ -67,7 +57,7 @@ fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind, circuit_version:
     }
 }
 
-fn make_spartan(circuit: &PrfsCircuit, circuit_version: &String) {
+fn make_spartan(circuit: &PrfsCircuit) {
     let raw_public_inputs: Vec<&RawCircuitInputMeta> = circuit
         .raw_circuit_inputs_meta
         .iter()
@@ -80,16 +70,11 @@ fn make_spartan(circuit: &PrfsCircuit, circuit_version: &String) {
         "num_public_input AND # of public raw input should be equal",
     );
 
-    let r1cs_src_path =
-        PATHS
-            .build
-            .join(get_path_segment(circuit, FileKind::R1CS, circuit_version));
+    let r1cs_src_path = PATHS.build.join(get_path_segment(circuit, FileKind::R1CS));
 
-    let spartan_circuit_path = PATHS.build.join(get_path_segment(
-        circuit,
-        FileKind::Spartan,
-        circuit_version,
-    ));
+    let spartan_circuit_path = PATHS
+        .build
+        .join(get_path_segment(circuit, FileKind::Spartan));
 
     circuit_reader::make_spartan_instance(
         &r1cs_src_path,
@@ -147,9 +132,9 @@ fn compile_circuits(circuit: &PrfsCircuit) {
     };
 }
 
-fn create_build_json(circuit: &mut PrfsCircuit, circuit_version: &String) {
-    let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen, circuit_version);
-    let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan, circuit_version);
+fn create_build_json(circuit: &mut PrfsCircuit) {
+    let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen);
+    let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan);
 
     let wtns_gen_url = circuit.driver_properties.get_mut("wtns_gen_url").unwrap();
     *wtns_gen_url = format!("prfs://{}", wtns_gen_path);
@@ -158,7 +143,6 @@ fn create_build_json(circuit: &mut PrfsCircuit, circuit_version: &String) {
     *circuit_url = format!("prfs://{}", spartan_circuit_path);
 
     let circuit_build_json = CircuitBuildJson {
-        circuit_version: circuit_version.to_string(),
         circuit: circuit.clone(),
     };
 
@@ -177,9 +161,9 @@ fn create_build_json(circuit: &mut PrfsCircuit, circuit_version: &String) {
     );
 }
 
-fn create_list_json(circuits_json: &Vec<String>, circuit_version: &String) {
+fn create_list_json(circuits_json: &Vec<String>) {
     let build_list_json = CircuitBuildListJson {
-        circuit_version: circuit_version.to_string(),
+        // circuit_version: circuit_version.to_string(),
         circuits: circuits_json.clone(),
     };
 
