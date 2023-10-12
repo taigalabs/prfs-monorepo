@@ -1,6 +1,7 @@
 import path from "path";
 import fs from "fs";
 import chalk from "chalk";
+import JSONBig from "json-bigint";
 
 const TS_PATH = path.resolve(__dirname, "./data/ts");
 const JSON_PATH = path.resolve(__dirname, "./data/json_bindings");
@@ -14,8 +15,8 @@ function createBindings() {
     const filepath = path.resolve(TS_PATH, file);
     const mod = require(filepath).default;
 
-    const str = JSON.stringify(mod, null, 2);
-    const destPath = path.resolve(JSON_PATH, `${path.basename(file)}.json`);
+    const str = JSONBig.stringify(mod, null, 2);
+    const destPath = path.resolve(JSON_PATH, `${path.parse(file).name}.json`);
 
     console.log("%s json binding, file: %s", chalk.green("Creating"), file);
     fs.writeFileSync(destPath, str);

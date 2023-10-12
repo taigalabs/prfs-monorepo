@@ -9,6 +9,8 @@
     "@taigalabs/prfs-entities": "*"
   },
   "devDependencies": {
+    "@types/json-bigint": "^1.0.1",
+    "json-bigint": "^1.0.0",
     "chalk": "4.1.0",
     "jest": "^29.3.1",
     "ts-jest": "^29.0.3",

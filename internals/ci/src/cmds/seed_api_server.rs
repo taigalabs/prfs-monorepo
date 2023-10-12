@@ -15,11 +15,18 @@ fn run_app() {
 
     assert!(status.success());
 
-    // let status = Command::new(deps::CARGO)
-    //     .current_dir(&PATHS.prfs_api_server)
-    //     .args(["run", "--release", "-p", "prfs_api_server", "--bin", "seed"])
-    //     .status()
-    //     .expect(&format!("{} command failed to start", deps::CARGO));
+    let status = Command::new(deps::CARGO)
+        .current_dir(&PATHS.prfs_api_server)
+        .args([
+            "run",
+            "--release",
+            "-p",
+            "prfs_api_server",
+            "--bin",
+            "prfs_api_server_seed",
+        ])
+        .status()
+        .expect(&format!("{} command failed to start", deps::CARGO));
 
-    // assert!(status.success());
+    assert!(status.success());
 }
