@@ -7,7 +7,7 @@ export async function handleChildMessage(options: ProofGenOptions) {
 
   const { proofGenEventListener } = options;
 
-  return new Promise(resolve => {
+  const ret = await new Promise<MsgEventListener>(resolve => {
     let listener: (ev: MessageEvent) => Promise<void>;
 
     const msgEventListener = async (ev: MessageEvent) => {
@@ -44,7 +44,9 @@ export async function handleChildMessage(options: ProofGenOptions) {
 
     listener = msgEventListener;
     window.addEventListener("message", msgEventListener);
-
-    return msgEventListener;
   });
+
+  return ret;
 }
+
+export type MsgEventListener = (ev: MessageEvent) => Promise<void>;

@@ -29,7 +29,7 @@ class ProofGenElement {
 
   async mount(): Promise<HTMLIFrameElement | null> {
     const { options } = this;
-    console.log("Mounting sdk, options: %o, ", options);
+    console.log("Mounting sdk, options: %o, ", options, singleton);
 
     const { sdkEndpoint } = options;
 
@@ -74,22 +74,16 @@ class ProofGenElement {
     container.appendChild(iframe);
     document.body.appendChild(container);
 
-    if (iframe.contentWindow) {
-      iframe.contentWindow.onerror = () => {
-        console.log(55555555);
-      };
-    }
-
     if (singleton.msgEventListener) {
       console.warn("Remove already registered Prfs sdk message event listener");
-      window.removeEventListener("message", singleton.msgEventListener);
+      // window.removeEventListener("message", singleton.msgEventListener);
+      return null;
     }
 
-    console.log("listening child messages");
     const msgEventListener = await handleChildMessage(options);
-
     singleton.msgEventListener = msgEventListener;
-    // });
+
+    console.log("listening child messages", singleton);
 
     const { circuit_driver_id, driver_properties } = options;
 
