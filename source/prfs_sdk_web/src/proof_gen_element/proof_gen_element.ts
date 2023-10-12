@@ -6,8 +6,6 @@ import { ProofGenOptions } from "../element_options";
 import { Msg } from "../msg";
 
 export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
-export const PLACEHOLDER_ID = "prfs-sdk-placeholder";
-export const MSG_SPAN_ID = "prfs-sdk-msg";
 export const PORTAL_ID = "prfs-sdk-portal";
 const CONTAINER_ID = "prfs-sdk-container";
 
@@ -66,7 +64,6 @@ class ProofGenElement {
       throw new Error("sdk endpoint is not responding");
     }
 
-    // await new Promise(async resolve => {
     const container = document.createElement("div");
     container.id = containerId;
     container.style.width = "0px";

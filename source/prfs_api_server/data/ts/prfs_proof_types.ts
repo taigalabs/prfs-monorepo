@@ -20,6 +20,14 @@ const sig_data_circuit_input = {
   value: "",
 };
 
+const simple_hash_1 = {
+  desc: "Hash data",
+  name: "hashData",
+  type: "HASH_DATA_1",
+  label: "Hash data",
+  value: "",
+};
+
 const proof_types: PrfsProofType[] = [
   {
     proof_type_id: "ETH_0_0001_1",
@@ -185,7 +193,7 @@ const proof_types: PrfsProofType[] = [
     circuit_id: "00000000-0000-0000-0000-000000000001",
     circuit_type: "SIMPLE_HASH_1",
     circuit_driver_id: "SPARTAN_CIRCOM_1",
-    circuit_inputs: [sig_data_circuit_input],
+    circuit_inputs: [simple_hash_1],
     driver_properties: {
       circuit_url: SIMPLE_HASH_1_CIRCUIT_URL,
       wtns_gen_url: SIMPLE_HASH_1_WTNS_GEN_URL,

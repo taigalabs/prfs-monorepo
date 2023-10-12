@@ -1,18 +1,13 @@
 import React from "react";
 import cn from "classnames";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { FaSignature } from "@react-icons/all-files/fa/FaSignature";
-import { hashPersonalMessage } from "@ethereumjs/util";
 
 import styles from "./HashInput.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { FormInput, FormInputTitleRow } from "../form_input/FormInput";
-import { useSignMessage } from "wagmi";
+import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
 
 const HashInput: React.FC<HashInputProps> = ({ circuitInput, value, setFormValues }) => {
   const i18n = React.useContext(i18nContext);
-  // const [message, setMessage] = React.useState("");
-  const { signMessageAsync } = useSignMessage();
 
   React.useEffect(() => {
     if (value === undefined) {
@@ -34,19 +29,17 @@ const HashInput: React.FC<HashInputProps> = ({ circuitInput, value, setFormValue
   const handleClickHash = React.useCallback(async () => {
     if (value) {
       const msgRaw = value.msgRaw;
-      const msgHash = hashPersonalMessage(Buffer.from(msgRaw));
-      const sig = await signMessageAsync({ message: msgRaw });
+      // const msgHash = hashPersonalMessage(Buffer.from(msgRaw));
 
       setFormValues(oldVals => ({
         ...oldVals,
         [circuitInput.name]: {
           msgRaw,
-          msgHash,
-          sig,
+          // msgHash,
         },
       }));
     }
-  }, [value, setFormValues, signMessageAsync]);
+  }, [value, setFormValues]);
 
   return (
     <FormInput>

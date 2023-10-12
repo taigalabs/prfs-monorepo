@@ -182,10 +182,10 @@
     "circuit_driver_id": "SPARTAN_CIRCOM_1",
     "circuit_inputs": [
       {
-        "desc": "Message over which a signature is made",
-        "name": "sigData",
-        "type": "SIG_DATA_1",
-        "label": "Signature",
+        "desc": "Hash data",
+        "name": "hashData",
+        "type": "HASH_DATA_1",
+        "label": "Hash data",
         "value": ""
       }
     ],
