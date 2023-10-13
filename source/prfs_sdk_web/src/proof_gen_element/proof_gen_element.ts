@@ -32,12 +32,13 @@ class ProofGenElement {
     };
   }
 
-  async mount(): Promise<HTMLIFrameElement | null> {
+  async mount(): Promise<HTMLIFrameElement> {
     console.log("mount");
 
     if (singleton.status !== ProofGenElementStatus.UnInitiated) {
-      console.warn("sdk is not mountable, status: %s", singleton.status);
-      return null;
+      // console.warn("sdk is not mountable, status: %s", singleton.status);
+
+      throw new Error(`sdk is not mountable, status: ${singleton.status}`);
     }
 
     singleton.status = ProofGenElementStatus.InProgress;
@@ -48,11 +49,9 @@ class ProofGenElement {
     const { sdkEndpoint } = options;
 
     if (!sdkEndpoint) {
-      console.error("SDK endpoint is not defined");
-      return null;
+      throw new Error("SDK endpoint is not defined");
+      // return null;
     }
-
-    const containerId = CONTAINER_ID;
 
     try {
       await fetch(`${sdkEndpoint}/api`, {
@@ -67,7 +66,7 @@ class ProofGenElement {
     }
 
     const container = document.createElement("div");
-    container.id = containerId;
+    container.id = CONTAINER_ID;
     container.style.width = "0px";
     container.style.height = "0px";
 

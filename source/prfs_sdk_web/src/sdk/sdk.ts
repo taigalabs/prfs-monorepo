@@ -41,6 +41,7 @@ export class PrfsSDK {
       }
     } catch (err) {
       console.error(err);
+
       throw new Error(`Error creating prfs SDK ${err}`);
     }
   }
