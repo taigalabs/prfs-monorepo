@@ -15,7 +15,7 @@ function createBindings() {
     const filepath = path.resolve(TS_PATH, file);
     const mod = require(filepath).default;
 
-    const str = JSONBig.stringify(mod, null, 2);
+    const str = JSONBig.stringify(mod, null, 2) + "\n";
     const destPath = path.resolve(JSON_PATH, `${path.parse(file).name}.json`);
 
     console.log("%s json binding, file: %s", chalk.green("Creating"), file);
