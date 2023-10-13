@@ -35,6 +35,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
   const [terminalLog, setTerminalLog] = React.useState<string>("");
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
+  // const elemRef = React.useRef<ProofGenElement | null>(null);
 
   const { mutateAsync: getPrfsAssetMetaRequest } = useMutation({
     mutationFn: (req: GetPrfsAssetMetaRequest) => {
@@ -99,6 +100,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
           proofGenEventListener: proofGenEventListener,
         });
 
+        console.log(11, elem);
+
         setProofGenElement(elem);
         setSystemMsg(circuit_driver_id);
       } catch (err) {
@@ -107,7 +110,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
     }
 
     fn().then();
-  }, [proofType, proofGenElement, setSystemMsg, setCreateProofStatus, getPrfsAssetMetaRequest]);
+  }, [proofType, setProofGenElement, setSystemMsg, setCreateProofStatus, getPrfsAssetMetaRequest]);
 
   const circuitInputsElem = React.useMemo(() => {
     if (!proofGenElement) {
@@ -148,7 +151,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
               circuitInput={input}
               value={formValues[input.name] as any}
               setFormValues={setFormValues}
-              proofGenElement={proofGenElement!}
+              proofGenElement={proofGenElement}
             />
           );
           break;

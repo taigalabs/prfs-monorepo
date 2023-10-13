@@ -9,14 +9,8 @@ export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
 export const PORTAL_ID = "prfs-sdk-portal";
 const CONTAINER_ID = "prfs-sdk-container";
 
-export enum ProofGenElementStatus {
-  UnInitiated,
-  InProgress,
-  Initialized,
-}
-
 const singleton: ProofGenElementSingleton = {
-  status: ProofGenElementStatus.UnInitiated,
+  msgEventListener: undefined,
 };
 
 class ProofGenElement {
@@ -28,21 +22,10 @@ class ProofGenElement {
     this.state = {
       iframe: undefined,
       driverVersion: undefined,
-      msgEventListener: undefined,
     };
   }
 
   async mount(): Promise<HTMLIFrameElement> {
-    console.log("mount");
-
-    if (singleton.status !== ProofGenElementStatus.UnInitiated) {
-      // console.warn("sdk is not mountable, status: %s", singleton.status);
-
-      throw new Error(`sdk is not mountable, status: ${singleton.status}`);
-    }
-
-    singleton.status = ProofGenElementStatus.InProgress;
-
     const { options } = this;
     console.log("Mounting sdk, options: %o, ", options, singleton);
 
@@ -50,7 +33,6 @@ class ProofGenElement {
 
     if (!sdkEndpoint) {
       throw new Error("SDK endpoint is not defined");
-      // return null;
     }
 
     try {
@@ -84,9 +66,15 @@ class ProofGenElement {
     document.body.appendChild(container);
 
     const msgEventListener = await handleChildMessage(options);
-    this.state.msgEventListener = msgEventListener;
 
-    singleton.status = ProofGenElementStatus.Initialized;
+    if (singleton.msgEventListener) {
+      console.warn("msgEventListener already exists, removing the old one");
+
+      window.removeEventListener("message", singleton.msgEventListener);
+    }
+
+    singleton.msgEventListener = msgEventListener;
+    window.addEventListener("message", msgEventListener);
 
     const { circuit_driver_id, driver_properties } = options;
 
@@ -142,9 +130,8 @@ export default ProofGenElement;
 export interface ProofGenElementState {
   iframe: HTMLIFrameElement | undefined;
   driverVersion: string | undefined;
-  msgEventListener: MsgEventListener | undefined;
 }
 
 export interface ProofGenElementSingleton {
-  status: ProofGenElementStatus;
+  msgEventListener: MsgEventListener | undefined;
 }
