@@ -39,8 +39,8 @@ const CircuitTypeDetailTable: React.FC<CircuitTypeDetailTableProps> = ({ circuit
 
     const ret: RecordData[] = [
       {
-        label: i18n.circuit_type,
-        value: circuit_type.circuit_type,
+        label: i18n.label,
+        value: circuit_type.label,
       },
       {
         label: i18n.description,

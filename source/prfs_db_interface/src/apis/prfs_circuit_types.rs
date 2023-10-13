@@ -18,7 +18,7 @@ from prfs_circuit_types"#;
     let circuit_types = rows
         .iter()
         .map(|row| PrfsCircuitType {
-            circuit_type: row.get("circuit_type"),
+            label: row.get("label"),
             desc: row.get("desc"),
             author: row.get("author"),
             circuit_inputs_meta: row.get("circuit_inputs_meta"),
@@ -30,25 +30,25 @@ from prfs_circuit_types"#;
     return circuit_types;
 }
 
-pub async fn get_prfs_circuit_type_by_circuit_type(
+pub async fn get_prfs_circuit_type_by_label(
     pool: &Pool<Postgres>,
-    circuit_type: &String,
+    label: &String,
 ) -> PrfsCircuitType {
     let query = r#"
 select *
 from prfs_circuit_types
-where circuit_type=$1"#;
+where label=$1"#;
 
     println!("query: {}", query);
 
     let row = sqlx::query(query)
-        .bind(&circuit_type)
+        .bind(&label)
         .fetch_one(pool)
         .await
         .unwrap();
 
     let circuit_types = PrfsCircuitType {
-        circuit_type: row.get("circuit_type"),
+        label: row.get("label"),
         desc: row.get("desc"),
         author: row.get("author"),
         circuit_inputs_meta: row.get("circuit_inputs_meta"),
@@ -65,11 +65,11 @@ pub async fn insert_prfs_circuit_type(
 ) -> String {
     let query = r#"
 INSERT INTO prfs_circuit_types
-(circuit_type, "desc", author, circuit_inputs_meta, public_inputs_meta)
-VALUES ($1, $2, $3, $4, $5) returning circuit_type"#;
+(label, "desc", author, circuit_inputs_meta, public_inputs_meta)
+VALUES ($1, $2, $3, $4, $5) returning label"#;
 
     let row = sqlx::query(query)
-        .bind(&circuit_type.circuit_type)
+        .bind(&circuit_type.label)
         .bind(&circuit_type.desc)
         .bind(&circuit_type.author)
         .bind(&circuit_type.circuit_inputs_meta)
@@ -78,9 +78,9 @@ VALUES ($1, $2, $3, $4, $5) returning circuit_type"#;
         .await
         .unwrap();
 
-    let circuit_type: String = row.get("circuit_type");
+    let label: String = row.get("label");
 
-    println!("circuit_type: {}", circuit_type);
+    println!("label: {}", label);
 
-    circuit_type
+    label
 }

@@ -66,9 +66,9 @@ pub fn load_circuit_types() -> HashMap<String, PrfsCircuitType> {
 
     let mut m = HashMap::new();
     for circuit_type in circuit_types {
-        println!("Reading circuit_type, name: {}", circuit_type.circuit_type);
+        println!("Reading circuit_type, name: {}", circuit_type.label);
 
-        m.insert(circuit_type.circuit_type.to_string(), circuit_type.clone());
+        m.insert(circuit_type.label.to_string(), circuit_type.clone());
     }
 
     return m;

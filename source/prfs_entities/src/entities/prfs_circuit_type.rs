@@ -1,12 +1,14 @@
 use super::CircuitInputMeta;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
+use strum_macros::{Display, EnumString};
 use ts_rs::TS;
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
 pub struct PrfsCircuitType {
-    pub circuit_type: CircuitType,
+    // CircuitTableLabel
+    pub label: String,
     pub desc: String,
     pub author: String,
 
@@ -36,10 +38,10 @@ fn default_show_priority() -> i16 {
     3
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[derive(Debug, Serialize, Deserialize, Clone, TS, Display)]
 #[allow(non_camel_case_types)]
 #[ts(export)]
-pub enum CircuitType {
+pub enum CircuitTypeLabel {
     MEMBERSHIP_PROOF_1,
     SIMPLE_HASH_1,
 }

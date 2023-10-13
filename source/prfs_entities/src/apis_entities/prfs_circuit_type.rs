@@ -21,8 +21,8 @@ pub struct GetPrfsCircuitTypesResponse {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetPrfsCircuitTypeByCircuitTypeRequest {
-    pub circuit_type: String,
+pub struct GetPrfsCircuitTypeByLabelRequest {
+    pub label: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]

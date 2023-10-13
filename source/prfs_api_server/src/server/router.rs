@@ -40,8 +40,8 @@ pub fn make_router(
             prfs_circuit_types::get_prfs_circuit_types,
         )
         .post(
-            format!("{}/get_prfs_circuit_type_by_circuit_type", PREFIX),
-            prfs_circuit_types::get_prfs_circuit_type_by_circuit_type,
+            format!("{}/get_prfs_circuit_type_by_label", PREFIX),
+            prfs_circuit_types::get_prfs_circuit_type_by_label,
         )
         .post(
             format!("{}/get_prfs_circuit_drivers", PREFIX),
