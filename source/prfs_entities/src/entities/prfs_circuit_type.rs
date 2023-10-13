@@ -6,7 +6,7 @@ use ts_rs::TS;
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
 pub struct PrfsCircuitType {
-    pub circuit_type: String,
+    pub circuit_type: CircuitType,
     pub desc: String,
     pub author: String,
 
@@ -34,4 +34,12 @@ pub struct PublicInputMeta {
 
 fn default_show_priority() -> i16 {
     3
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, TS)]
+#[allow(non_camel_case_types)]
+#[ts(export)]
+pub enum CircuitType {
+    MEMBERSHIP_PROOF_1,
+    SIMPLE_HASH_1,
 }

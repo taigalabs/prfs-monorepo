@@ -72,6 +72,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
 
         await delay(3000);
 
+        console.log(1, newFormValues);
+
         const proveReceipt = await proofGenElement.createProof(newFormValues);
         proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
 

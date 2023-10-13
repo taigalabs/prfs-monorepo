@@ -184,7 +184,7 @@ const proof_types: PrfsProofType[] = [
   },
   {
     proof_type_id: "SIMPLE_HASH_1",
-    label: "Simple hash 1",
+    label: "Simple hash",
     author: "Prfs",
     desc: "Simple hash",
     expression: "Knows hash argument",
