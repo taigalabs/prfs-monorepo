@@ -2,8 +2,8 @@ export * from "./helpers/public_input";
 export * from "./types";
 
 import { CircuitDriver, CircuitDriverGen } from "@taigalabs/prfs-driver-interface";
-import { SpartanCircomDriverProperties } from "./driver_props";
 
+import { SpartanCircomDriverProperties } from "./driver_props";
 import SpartanDriver, { SpartanDriverCtorArgs } from "./driver";
 import { initWasm } from "./wasm_wrapper/load_worker";
 import { fetchAsset } from "./helpers/utils";

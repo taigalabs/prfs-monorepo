@@ -110,6 +110,10 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
   }, [proofType, proofGenElement, setSystemMsg, setCreateProofStatus, getPrfsAssetMetaRequest]);
 
   const circuitInputsElem = React.useMemo(() => {
+    if (!proofGenElement) {
+      return null;
+    }
+
     const circuit_inputs = proofType.circuit_inputs as CircuitInput[];
 
     const entriesElem = [];

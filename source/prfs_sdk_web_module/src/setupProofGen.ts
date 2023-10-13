@@ -1,5 +1,5 @@
 import { CircuitDriver, LogEventType } from "@taigalabs/prfs-driver-interface";
-import { Msg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
+import { HashPayload, Msg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 
 import { initDriver, interpolateSystemAssetEndpoint } from "./functions/circuitDriver";
 import { createProof } from "./functions/proof";
@@ -70,10 +70,18 @@ async function eventListener(ev: MessageEvent) {
 
       case "HASH": {
         const { payload } = ev.data;
+        const { msg } = payload as HashPayload;
 
         if (!driver) {
           return;
         }
+
+        const msgHash = await driver.hash(msg);
+        ev.ports[0].postMessage(
+          new Msg("HASH_RESPONSE", {
+            msgHash,
+          })
+        );
 
         // driver.hash();
 

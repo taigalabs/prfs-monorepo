@@ -34,8 +34,11 @@ const HashInput: React.FC<HashInputProps> = ({
   const handleClickHash = React.useCallback(async () => {
     if (value) {
       const msgRaw = value.msgRaw;
+      console.log(123123, msgRaw);
 
-      proofGenElement.hash([msgRaw]);
+      const msgHash = await proofGenElement.hash([msgRaw]);
+
+      console.log(222, msgHash);
 
       // const msgHash = hashPersonalMessage(Buffer.from(msgRaw));
 

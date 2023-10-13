@@ -36,9 +36,6 @@ export async function handleChildMessage(options: ProofGenOptions) {
             break;
           }
 
-          case "HASH_RESPONSE": {
-          }
-
           default:
             console.error(`[parent] invalid msg type, ${type}`);
         }

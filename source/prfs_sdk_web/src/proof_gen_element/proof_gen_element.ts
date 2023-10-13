@@ -33,6 +33,8 @@ class ProofGenElement {
   }
 
   async mount(): Promise<HTMLIFrameElement | null> {
+    console.log("mount");
+
     if (singleton.status !== ProofGenElementStatus.UnInitiated) {
       console.warn("sdk is not mountable, status: %s", singleton.status);
       return null;
@@ -75,6 +77,8 @@ class ProofGenElement {
     iframe.allow = "cross-origin-isolated";
     iframe.style.border = "none";
     iframe.style.display = "none";
+
+    console.log("attaching iframe");
     this.state.iframe = iframe;
 
     container.appendChild(iframe);
@@ -98,7 +102,7 @@ class ProofGenElement {
     console.log("driver version", driverVersion);
     this.state.driverVersion = driverVersion;
 
-    return this.state.iframe!;
+    return this.state.iframe;
   }
 
   async createProof(args: Record<string, any>): Promise<ProveReceipt> {
@@ -114,19 +118,20 @@ class ProofGenElement {
     }
   }
 
-  async hash(args: bigint[]): Promise<any> {
+  async hash(args: bigint[]): Promise<bigint> {
     if (!this.state.iframe) {
       throw new Error("iframe is not created");
     }
 
     try {
-      const ret = await sendMsgToChild(
+      const resp = await sendMsgToChild(
         new Msg("HASH", {
           msg: args,
         }),
         this.state.iframe
       );
-      return ret;
+
+      return resp.msgHash;
     } catch (err) {
       throw new Error(`Error creating proof: ${err}`);
     }

@@ -44,7 +44,7 @@ export interface HashPayload {
 }
 
 export interface HashResponsePayload {
-  msgHash: Buffer;
+  msgHash: bigint;
 }
 
 export type ReqPayload<T extends MsgType> = //
@@ -72,6 +72,8 @@ export type ReqPayload<T extends MsgType> = //
     ? ProofGenEventPayload
     : T extends "HASH"
     ? HashPayload
+    : T extends "HASH_RESPONSE"
+    ? HashResponsePayload
     : never;
 
 export type RespPayload<T extends MsgType> = //
