@@ -18,7 +18,7 @@ import { envs } from "@/envs";
 import Passcode from "@/components/passcode/Passcode";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
 import { validateInputs } from "@/validate";
-import HashInput from "../hash_input/HashInput";
+import HashInput from "@/components/hash_input/HashInput";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -71,8 +71,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
         proofGenEventListener("debug", `Process starts in 3 seconds`);
 
         await delay(3000);
-
-        console.log(1, newFormValues);
 
         const proveReceipt = await proofGenElement.createProof(newFormValues);
         proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
@@ -146,6 +144,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
               circuitInput={input}
               value={formValues[input.name] as any}
               setFormValues={setFormValues}
+              proofGenElement={proofGenElement!}
             />
           );
           break;
@@ -198,7 +197,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
     }
 
     return entriesElem;
-  }, [proofType, formValues, setFormValues]);
+  }, [proofType, formValues, setFormValues, proofGenElement]);
 
   if (!proofType) {
     return null;

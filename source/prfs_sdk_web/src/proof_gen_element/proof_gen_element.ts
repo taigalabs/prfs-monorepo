@@ -114,13 +114,18 @@ class ProofGenElement {
     }
   }
 
-  async hash(args: Record<string, any>): Promise<any> {
+  async hash(args: bigint[]): Promise<any> {
     if (!this.state.iframe) {
       throw new Error("iframe is not created");
     }
 
     try {
-      const ret = await sendMsgToChild(new Msg("HASH", args as any), this.state.iframe);
+      const ret = await sendMsgToChild(
+        new Msg("HASH", {
+          msg: args,
+        }),
+        this.state.iframe
+      );
       return ret;
     } catch (err) {
       throw new Error(`Error creating proof: ${err}`);

@@ -5,8 +5,14 @@ import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import styles from "./HashInput.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
+import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
-const HashInput: React.FC<HashInputProps> = ({ circuitInput, value, setFormValues }) => {
+const HashInput: React.FC<HashInputProps> = ({
+  circuitInput,
+  value,
+  setFormValues,
+  proofGenElement,
+}) => {
   const i18n = React.useContext(i18nContext);
 
   React.useEffect(() => {
@@ -28,6 +34,8 @@ const HashInput: React.FC<HashInputProps> = ({ circuitInput, value, setFormValue
   const handleClickHash = React.useCallback(async () => {
     if (value) {
       const msgRaw = value.msgRaw;
+
+      proofGenElement.hash([msgRaw]);
 
       // const msgHash = hashPersonalMessage(Buffer.from(msgRaw));
 
@@ -73,4 +81,5 @@ export interface HashInputProps {
   circuitInput: CircuitInput;
   value: HashData | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  proofGenElement: ProofGenElement;
 }

@@ -75,7 +75,7 @@ async function eventListener(ev: MessageEvent) {
           return;
         }
 
-        // driver.prove()
+        // driver.hash();
 
         break;
       }

@@ -40,7 +40,7 @@ export interface GetSignatureResponsePayload {
 }
 
 export interface HashPayload {
-  msg: string;
+  msg: bigint[];
 }
 
 export interface HashResponsePayload {
@@ -71,7 +71,7 @@ export type ReqPayload<T extends MsgType> = //
     : T extends "PROOF_GEN_EVENT"
     ? ProofGenEventPayload
     : T extends "HASH"
-    ? HashResponsePayload
+    ? HashPayload
     : never;
 
 export type RespPayload<T extends MsgType> = //
@@ -99,6 +99,6 @@ export type RespPayload<T extends MsgType> = //
     ? never
     : T extends "PROOF_GEN_EVENT_RESPONSE"
     ? never
-    : T extends "HASH_RESPONSE"
+    : T extends "HASH"
     ? HashResponsePayload
     : never;
