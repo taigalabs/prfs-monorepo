@@ -4,21 +4,20 @@ import { MsgEventListener, handleChildMessage } from "./handle_child_msg";
 import { sendMsgToChild } from "../msg";
 import { ProofGenOptions } from "../element_options";
 import { Msg } from "../msg";
+import { ProofGenElementState, ProofGenElementSubscriber, SubscribedMsg } from "./types";
 
 export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
 export const PORTAL_ID = "prfs-sdk-portal";
 const CONTAINER_ID = "prfs-sdk-container";
 
-const singleton: ProofGenElementSingleton = {
-  msgEventListener: undefined,
-};
-
 class ProofGenElement {
   options: ProofGenOptions;
   public state: ProofGenElementState;
+  subscribers: ProofGenElementSubscriber[];
 
   constructor(options: ProofGenOptions) {
     this.options = options;
+    this.subscribers = [];
     this.state = {
       iframe: undefined,
       driverVersion: undefined,
@@ -27,7 +26,7 @@ class ProofGenElement {
 
   async mount(): Promise<HTMLIFrameElement> {
     const { options } = this;
-    console.log("Mounting sdk, options: %o, ", options, singleton);
+    console.log("Mounting sdk, options: %o", options);
 
     const { sdkEndpoint } = options;
 
@@ -63,31 +62,31 @@ class ProofGenElement {
     this.state.iframe = iframe;
 
     container.appendChild(iframe);
+
+    const oldContainer = document.getElementById(CONTAINER_ID);
+    if (oldContainer) {
+      oldContainer.remove();
+    }
     document.body.appendChild(container);
 
-    const msgEventListener = await handleChildMessage(options);
-
-    if (singleton.msgEventListener) {
-      console.warn("msgEventListener already exists, removing the old one");
-
-      window.removeEventListener("message", singleton.msgEventListener);
-    }
-
-    singleton.msgEventListener = msgEventListener;
-    window.addEventListener("message", msgEventListener);
+    await handleChildMessage(options);
 
     const { circuit_driver_id, driver_properties } = options;
-
-    const driverVersion = await sendMsgToChild(
+    sendMsgToChild(
       new Msg("LOAD_DRIVER", {
         circuit_driver_id,
         driver_properties,
       }),
       iframe
-    );
+    ).then(driverVersion => {
+      console.log("Driver version", driverVersion);
+      this.state.driverVersion = driverVersion;
 
-    console.log("driver version", driverVersion);
-    this.state.driverVersion = driverVersion;
+      emit(this.subscribers, {
+        type: "DRIVER_LOADED",
+        data: driverVersion,
+      });
+    });
 
     return this.state.iframe;
   }
@@ -123,15 +122,18 @@ class ProofGenElement {
       throw new Error(`Error creating proof: ${err}`);
     }
   }
+
+  subscribe(subscriber: (type: SubscribedMsg) => void): ProofGenElement {
+    this.subscribers.push(subscriber);
+
+    return this;
+  }
+}
+
+function emit(subscribers: ProofGenElementSubscriber[], msg: SubscribedMsg) {
+  for (const scb of subscribers) {
+    scb(msg);
+  }
 }
 
 export default ProofGenElement;
-
-export interface ProofGenElementState {
-  iframe: HTMLIFrameElement | undefined;
-  driverVersion: string | undefined;
-}
-
-export interface ProofGenElementSingleton {
-  msgEventListener: MsgEventListener | undefined;
-}

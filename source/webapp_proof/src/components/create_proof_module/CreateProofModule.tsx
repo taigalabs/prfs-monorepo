@@ -35,7 +35,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
   const [terminalLog, setTerminalLog] = React.useState<string>("");
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
-  // const elemRef = React.useRef<ProofGenElement | null>(null);
 
   const { mutateAsync: getPrfsAssetMetaRequest } = useMutation({
     mutationFn: (req: GetPrfsAssetMetaRequest) => {
@@ -88,10 +87,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
       const { circuit_driver_id, driver_properties } = proofType;
 
       try {
-        if (proofGenElement !== null) {
-          return;
-        }
-
         const elem = await prfsSDK.create("proof-gen", {
           proofTypeId: proofType.proof_type_id,
           circuit_driver_id,
@@ -100,10 +95,14 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
           proofGenEventListener: proofGenEventListener,
         });
 
-        console.log(11, elem);
+        console.log("created");
+
+        elem.subscribe(msg => {
+          // console.log(11, msg);
+          setSystemMsg(msg.data);
+        });
 
         setProofGenElement(elem);
-        setSystemMsg(circuit_driver_id);
       } catch (err) {
         setSystemMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
       }
