@@ -6,7 +6,6 @@ include "../eff_ecdsa_membership/tree.circom";
 include "../eff_ecdsa_membership/to_address/zk-identity/eth.circom";
 include "../eff_ecdsa_membership/bigint.circom";
 include "../eff_ecdsa_membership/secp256k1_func.circom";
-
 include "../poseidon/poseidon.circom";
 
 template SimpleHash1() {
@@ -15,6 +14,12 @@ template SimpleHash1() {
 
     log("s", s);
     log("image", image);
+
+    component poseidon = Poseidon();
+    poseidon.inputs[0] <== s;
+    poseidon.inputs[1] <== 0;
+
+    log("pos out", poseidon.out);
 
     /* component merkleProof = MerkleTreeInclusionProof(nLevels); */
     /* merkleProof.leaf <== pubToAddr.address; */

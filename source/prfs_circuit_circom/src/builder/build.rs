@@ -10,10 +10,10 @@ pub fn run() {
 
     clean_build();
 
-    let mut circuits_json = read_circuits_json();
+    let mut circuits = read_circuits_json();
 
     let mut circuit_list = vec![];
-    for mut circuit in &mut circuits_json.circuits {
+    for mut circuit in &mut circuits {
         compile_circuits(&circuit);
         make_spartan(&circuit);
         create_build_json(&mut circuit);
@@ -82,14 +82,14 @@ fn make_spartan(circuit: &PrfsCircuit) {
     );
 }
 
-fn read_circuits_json() -> CircuitsJson {
-    let circuits_json_path = PATHS.data.join("circuits.json");
+fn read_circuits_json() -> Vec<PrfsCircuit> {
+    let circuits_json_path = PATHS.data.join("json_bindings/circuits.json");
     println!("Read circuits.json path: {:?}", circuits_json_path);
 
     circuits_json_path.try_exists().unwrap();
 
     let bytes = std::fs::read(circuits_json_path).unwrap();
-    let circuits: CircuitsJson = serde_json::from_slice(&bytes).unwrap();
+    let circuits: Vec<PrfsCircuit> = serde_json::from_slice(&bytes).unwrap();
 
     return circuits;
 }
