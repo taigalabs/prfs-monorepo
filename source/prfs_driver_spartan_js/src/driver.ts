@@ -62,76 +62,24 @@ export default class SpartanDriver implements CircuitDriver {
 
   async prove(args: ProveArgs<MembershipProveInputs>): Promise<ProveReceipt> {
     try {
-      const { inputs, circuitType, eventListener } = args;
+      // const { inputs, circuitType, eventListener } = args;
 
-      console.log(11, circuitType);
+      console.log(11, args.circuitType);
 
-      return Promise.reject("1");
+      switch (args.circuitType) {
+        case "SIMPLE_HASH_1": {
+          const { proveSimpleHash } = await import("./prove/simple_hash");
 
-      console.log(123123);
+          return proveSimpleHash(args, this.handlers, this.wtnsGen, this.circuit);
+        }
+        case "MEMBERSHIP_PROOF_1": {
+          const { proveMembership } = await import("./prove/membership_proof_1");
 
-      const { sigData, merkleProof } = inputs;
-      const { msgRaw, msgHash, sig } = sigData;
-      // console.log("inputs: %o", inputs);
-
-      const { r, s, v } = fromSig(sig);
-
-      const poseidon = makePoseidon(this.handlers);
-      const serialNo = await poseidon([s, BigInt(0)]);
-
-      const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash);
-
-      eventListener("debug", "Computed ECDSA pub input");
-
-      const circuitPubInput = new CircuitPubInput(
-        merkleProof.root,
-        effEcdsaPubInput.Tx,
-        effEcdsaPubInput.Ty,
-        effEcdsaPubInput.Ux,
-        effEcdsaPubInput.Uy,
-        serialNo
-      );
-
-      const publicInput = new PublicInput(r, v, msgRaw, msgHash, circuitPubInput);
-      const m = new BN(msgHash).mod(SECP256K1_P);
-
-      const witnessGenInput = {
-        r,
-        s,
-        m: BigInt(m.toString()),
-
-        // merkle root
-        root: merkleProof.root,
-        siblings: merkleProof.siblings,
-        pathIndices: merkleProof.pathIndices,
-
-        // Eff ECDSA PubInput
-        Tx: effEcdsaPubInput.Tx,
-        Ty: effEcdsaPubInput.Ty,
-        Ux: effEcdsaPubInput.Ux,
-        Uy: effEcdsaPubInput.Uy,
-
-        serialNo,
-      };
-
-      // console.log("witnessGenInput: %o", witnessGenInput);
-      const witness = await snarkJsWitnessGen(witnessGenInput, this.wtnsGen);
-
-      eventListener("info", "Computed witness gen input");
-
-      const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
-
-      const prev = performance.now();
-      const proof = await this.handlers.prove(this.circuit, witness.data, circuitPublicInput);
-      const now = performance.now();
-
-      return {
-        duration: now - prev,
-        proveResult: {
-          proof,
-          publicInputSer: serializePublicInput(publicInput),
-        },
-      };
+          return proveMembership(args, this.handlers, this.wtnsGen, this.circuit);
+        }
+        default:
+          throw new Error(`Unknown circuit type: ${args.circuitType}`);
+      }
     } catch (err) {
       console.error("Error creating a proof, err: %o", err);
 

@@ -1,3 +1,5 @@
+declare module "wasm-feature-detect";
+
 import { SpartanMerkleProof } from "@taigalabs/prfs-driver-interface";
 import { PublicInput } from "./helpers/public_input";
 import { Tree } from "./helpers/tree";
