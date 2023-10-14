@@ -42,7 +42,7 @@ pub struct CreatePrfsProofTypeRequest {
 
     #[ts(type = "'<Uuid>' | string")]
     pub circuit_id: Uuid,
-    pub circuit_type: String,
+    pub circuit_type_id: String,
     pub circuit_driver_id: String,
     pub expression: String,
     pub img_url: Option<String>,

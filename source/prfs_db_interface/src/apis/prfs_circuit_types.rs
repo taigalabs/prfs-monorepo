@@ -18,7 +18,7 @@ from prfs_circuit_types"#;
     let circuit_types = rows
         .iter()
         .map(|row| PrfsCircuitType {
-            label: row.get("label"),
+            circuit_type_id: row.get("circuit_type_id"),
             desc: row.get("desc"),
             author: row.get("author"),
             circuit_inputs_meta: row.get("circuit_inputs_meta"),
@@ -48,7 +48,7 @@ where label=$1"#;
         .unwrap();
 
     let circuit_types = PrfsCircuitType {
-        label: row.get("label"),
+        circuit_type_id: row.get("circuit_type_id"),
         desc: row.get("desc"),
         author: row.get("author"),
         circuit_inputs_meta: row.get("circuit_inputs_meta"),
@@ -65,11 +65,11 @@ pub async fn insert_prfs_circuit_type(
 ) -> String {
     let query = r#"
 INSERT INTO prfs_circuit_types
-(label, "desc", author, circuit_inputs_meta, public_inputs_meta)
+(circuit_type_id, "desc", author, circuit_inputs_meta, public_inputs_meta)
 VALUES ($1, $2, $3, $4, $5) returning label"#;
 
     let row = sqlx::query(query)
-        .bind(&circuit_type.label)
+        .bind(&circuit_type.circuit_type_id)
         .bind(&circuit_type.desc)
         .bind(&circuit_type.author)
         .bind(&circuit_type.circuit_inputs_meta)

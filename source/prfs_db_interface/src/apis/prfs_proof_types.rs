@@ -25,7 +25,7 @@ pub async fn get_prfs_proof_type_by_proof_type_id(
         author: row.get("author"),
         desc: row.get("desc"),
         circuit_id: row.get("circuit_id"),
-        circuit_type: row.get("circuit_type"),
+        circuit_type_id: row.get("circuit_type_id"),
         circuit_inputs: row.get("circuit_inputs"),
         circuit_driver_id: row.get("circuit_driver_id"),
         driver_properties: row.get("driver_properties"),
@@ -51,7 +51,7 @@ pub async fn get_prfs_proof_types(pool: &Pool<Postgres>) -> Vec<PrfsProofType> {
             author: row.get("author"),
             desc: row.get("desc"),
             circuit_id: row.get("circuit_id"),
-            circuit_type: row.get("circuit_type"),
+            circuit_type_id: row.get("circuit_type_id"),
             circuit_inputs: row.get("circuit_inputs"),
             circuit_driver_id: row.get("circuit_driver_id"),
             driver_properties: row.get("driver_properties"),
@@ -68,7 +68,7 @@ pub async fn insert_prfs_proof_type(
 ) -> i64 {
     let query = "INSERT INTO prfs_proof_types \
 (proof_type_id, author, label, \"desc\", circuit_id, circuit_inputs,\
-circuit_driver_id, driver_properties, expression, img_url, img_caption, circuit_type) \
+circuit_driver_id, driver_properties, expression, img_url, img_caption, circuit_type_id) \
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) returning id";
 
     let row = sqlx::query(query)
@@ -83,7 +83,7 @@ VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) returning id";
         .bind(&proof_type.expression)
         .bind(&proof_type.img_url)
         .bind(&proof_type.img_caption)
-        .bind(&proof_type.circuit_type)
+        .bind(&proof_type.circuit_type_id)
         .fetch_one(&mut **tx)
         .await
         .unwrap();

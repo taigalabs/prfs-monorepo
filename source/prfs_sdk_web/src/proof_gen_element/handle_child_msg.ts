@@ -1,5 +1,5 @@
 import { MsgType } from "../msg/payload";
-import { ProofGenOptions } from "../element_options";
+import { ProofGenOptions } from "../sdk/element_options";
 import { Msg } from "../msg";
 
 const singleton: ProofGenElementSingleton = {

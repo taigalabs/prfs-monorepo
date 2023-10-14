@@ -7,8 +7,7 @@ use ts_rs::TS;
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
 pub struct PrfsCircuitType {
-    // CircuitTableLabel
-    pub label: String,
+    pub circuit_type_id: String,
     pub desc: String,
     pub author: String,
 
@@ -41,7 +40,7 @@ fn default_show_priority() -> i16 {
 #[derive(Debug, Serialize, Deserialize, Clone, TS, Display)]
 #[allow(non_camel_case_types)]
 #[ts(export)]
-pub enum CircuitTypeLabel {
+pub enum CircuitTypeId {
     MEMBERSHIP_PROOF_1,
     SIMPLE_HASH_1,
 }

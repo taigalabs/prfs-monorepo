@@ -2,7 +2,7 @@ import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 
 import { MsgEventListener, handleChildMessage } from "./handle_child_msg";
 import { sendMsgToChild } from "../msg";
-import { ProofGenOptions } from "../element_options";
+import { ProofGenOptions } from "../sdk/element_options";
 import { Msg } from "../msg";
 import { ProofGenElementState, ProofGenElementSubscriber, SubscribedMsg } from "./types";
 
@@ -12,7 +12,7 @@ const CONTAINER_ID = "prfs-sdk-container";
 
 class ProofGenElement {
   options: ProofGenOptions;
-  public state: ProofGenElementState;
+  state: ProofGenElementState;
   subscribers: ProofGenElementSubscriber[];
 
   constructor(options: ProofGenOptions) {
