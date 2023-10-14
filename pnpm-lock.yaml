@@ -361,7 +361,11 @@ importers:
 
   source/prfs_crypto_js: {}
 
-  source/prfs_driver_interface: {}
+  source/prfs_driver_interface:
+    dependencies:
+      '@taigalabs/prfs-entities':
+        specifier: '*'
+        version: link:../prfs_entities
 
   source/prfs_driver_spartan_js:
     dependencies:

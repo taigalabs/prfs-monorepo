@@ -32,6 +32,11 @@ const HashInput: React.FC<HashInputProps> = ({
   }, [value, setFormValues]);
 
   const handleClickHash = React.useCallback(async () => {
+    if (!proofGenElement.state.driverVersion) {
+      console.warn("Driver is not yet loaded");
+      return null;
+    }
+
     if (value) {
       const msgRaw = value.msgRaw;
       console.log(123123, msgRaw);
@@ -40,13 +45,11 @@ const HashInput: React.FC<HashInputProps> = ({
 
       console.log(222, msgHash);
 
-      // const msgHash = hashPersonalMessage(Buffer.from(msgRaw));
-
       setFormValues(oldVals => ({
         ...oldVals,
         [circuitInput.name]: {
           msgRaw,
-          // msgHash,
+          msgHash,
         },
       }));
     }

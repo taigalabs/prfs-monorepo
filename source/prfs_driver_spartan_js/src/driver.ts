@@ -62,7 +62,12 @@ export default class SpartanDriver implements CircuitDriver {
 
   async prove(args: ProveArgs<MembershipProveInputs>): Promise<ProveReceipt> {
     try {
-      const { inputs, eventListener } = args;
+      const { inputs, circuitType, eventListener } = args;
+
+      console.log(11, circuitType);
+
+      throw new Error("1");
+
       const { sigData, merkleProof } = inputs;
       const { msgRaw, msgHash, sig } = sigData;
       // console.log("inputs: %o", inputs);
