@@ -6,7 +6,7 @@ use hyper::{body, Body, Request, Response};
 use prfs_db_interface::db_apis;
 use prfs_entities::{
     apis_entities::{
-        GetPrfsCircuitTypeByCircuitTypeResponse, GetPrfsCircuitTypeByLabelRequest,
+        GetPrfsCircuitTypeByCircuitTypeIdRequest, GetPrfsCircuitTypeByCircuitTypeIdResponse,
         GetPrfsCircuitTypesRequest, GetPrfsCircuitTypesResponse,
     },
     entities::{PrfsCircuitDriver, PrfsCircuitType},
@@ -39,14 +39,15 @@ pub async fn get_prfs_circuit_type_by_label(
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
 
-    let req: GetPrfsCircuitTypeByLabelRequest = parse_req(req).await;
+    let req: GetPrfsCircuitTypeByCircuitTypeIdRequest = parse_req(req).await;
 
     let pool = &state.db2.pool;
 
-    let prfs_circuit_type = db_apis::get_prfs_circuit_type_by_label(&pool, &req.label).await;
+    let prfs_circuit_type =
+        db_apis::get_prfs_circuit_type_by_label(&pool, &req.circuit_type_id).await;
 
     let resp =
-        ApiResponse::new_success(GetPrfsCircuitTypeByCircuitTypeResponse { prfs_circuit_type });
+        ApiResponse::new_success(GetPrfsCircuitTypeByCircuitTypeIdResponse { prfs_circuit_type });
 
     return Ok(resp.into_hyper_response());
 }

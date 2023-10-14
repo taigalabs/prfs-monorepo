@@ -30,7 +30,7 @@ WHERE circuit_driver_id=$1"#;
         version: row.get("version"),
         author: row.get("author"),
         desc: row.get("desc"),
-        circuit_types: row.get("circuit_types"),
+        circuit_type_ids: row.get("circuit_type_ids"),
         driver_properties_meta: row.get("driver_properties_meta"),
         created_at: row.get("created_at"),
     };
@@ -56,7 +56,7 @@ FROM prfs_circuit_drivers"#;
             version: row.get("version"),
             author: row.get("author"),
             desc: row.get("desc"),
-            circuit_types: row.get("circuit_types"),
+            circuit_type_ids: row.get("circuit_type_ids"),
             driver_properties_meta: row.get("driver_properties_meta"),
             created_at: row.get("created_at"),
         })
@@ -71,7 +71,7 @@ pub async fn insert_prfs_circuit_driver(
 ) -> String {
     let query = r#"
 INSERT INTO prfs_circuit_drivers
-(circuit_driver_id, driver_repository_url, version, author, "desc", circuit_types,
+(circuit_driver_id, driver_repository_url, version, author, "desc", circuit_type_ids,
 driver_properties_meta, label)
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8) returning circuit_driver_id"#;
 
@@ -81,7 +81,7 @@ VALUES ($1, $2, $3, $4, $5, $6, $7, $8) returning circuit_driver_id"#;
         .bind(&circuit_driver.version)
         .bind(&circuit_driver.author)
         .bind(&circuit_driver.desc)
-        .bind(&circuit_driver.circuit_types)
+        .bind(&circuit_driver.circuit_type_ids)
         .bind(&circuit_driver.driver_properties_meta)
         .bind(&circuit_driver.label)
         .fetch_one(&mut **tx)

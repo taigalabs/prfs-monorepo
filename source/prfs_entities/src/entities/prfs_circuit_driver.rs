@@ -16,7 +16,7 @@ pub struct PrfsCircuitDriver {
     pub desc: String,
 
     #[ts(type = "string[]")]
-    pub circuit_types: sqlx::types::Json<Vec<String>>,
+    pub circuit_type_ids: sqlx::types::Json<Vec<String>>,
 
     #[ts(type = "Record<string, any>[]")]
     pub driver_properties_meta: sqlx::types::Json<Vec<DriverPropertyMeta>>,

@@ -2,7 +2,7 @@ import { PrfsCircuitType } from "@taigalabs/prfs-entities/bindings/PrfsCircuitTy
 
 const circuit_types: PrfsCircuitType[] = [
   {
-    label: "MEMBERSHIP_PROOF_1",
+    circuit_type_id: "MEMBERSHIP_PROOF_1",
     author: "SYSTEM_NATIVE",
     created_at: "2023-05-01T16:39:57-08:00",
     desc: "Group membership proof",
@@ -57,7 +57,7 @@ const circuit_types: PrfsCircuitType[] = [
     ],
   },
   {
-    label: "SIMPLE_HASH_1",
+    circuit_type_id: "SIMPLE_HASH_1",
     author: "SYSTEM_NATIVE",
     created_at: "2023-10-01T16:39:57-08:00",
     desc: "Simple hash proof 1",

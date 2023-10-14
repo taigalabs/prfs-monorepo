@@ -27,7 +27,7 @@ const circuit_drivers: PrfsCircuitDriver[] = [
     author: "Personae Labs",
     created_at: "2023-05-01T16:39:57-08:00",
     desc: "High-speed zkSNARKs without trusted setup",
-    circuit_types: ["MEMBERSHIP_PROOF_1"],
+    circuit_type_ids: ["MEMBERSHIP_PROOF_1"],
   },
 ];
 

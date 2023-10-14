@@ -66,7 +66,7 @@ pub async fn insert_prfs_circuit_type(
     let query = r#"
 INSERT INTO prfs_circuit_types
 (circuit_type_id, "desc", author, circuit_inputs_meta, public_inputs_meta)
-VALUES ($1, $2, $3, $4, $5) returning label"#;
+VALUES ($1, $2, $3, $4, $5) returning circuit_type_id"#;
 
     let row = sqlx::query(query)
         .bind(&circuit_type.circuit_type_id)
@@ -78,9 +78,9 @@ VALUES ($1, $2, $3, $4, $5) returning label"#;
         .await
         .unwrap();
 
-    let label: String = row.get("label");
+    let circuit_type_id: String = row.get("circuit_type_id");
 
-    println!("label: {}", label);
+    println!("circuit_type_id: {}", circuit_type_id);
 
-    label
+    circuit_type_id
 }

@@ -7,7 +7,7 @@ export interface PrfsCircuitDriver {
   version: string;
   author: string;
   desc: string;
-  circuit_types: string[];
+  circuit_type_ids: string[];
   driver_properties_meta: Record<string, any>[];
   created_at: string;
 }

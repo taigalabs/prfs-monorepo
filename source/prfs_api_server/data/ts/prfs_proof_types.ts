@@ -38,7 +38,7 @@ const proof_types: PrfsProofType[] = [
     img_url: "https://prfs-asset-1.s3.ap-northeast-2.amazonaws.com/Ethereum_logo_translucent.svg",
     img_caption: "0.0001",
     circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type: "MEMBERSHIP_PROOF_1",
+    circuit_type_id: "MEMBERSHIP_PROOF_1",
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [
       {
@@ -68,7 +68,7 @@ const proof_types: PrfsProofType[] = [
     img_url: "https://prfs-asset-1.s3.ap-northeast-2.amazonaws.com/bayc-footer.webp",
     img_caption: "",
     circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type: "MEMBERSHIP_PROOF_1",
+    circuit_type_id: "MEMBERSHIP_PROOF_1",
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [
       {
@@ -98,7 +98,7 @@ const proof_types: PrfsProofType[] = [
     img_url: "https://prfs-asset-1.s3.ap-northeast-2.amazonaws.com/nonce.jpeg",
     img_caption: "",
     circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type: "MEMBERSHIP_PROOF_1",
+    circuit_type_id: "MEMBERSHIP_PROOF_1",
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [
       {
@@ -128,7 +128,7 @@ const proof_types: PrfsProofType[] = [
     img_url: "https://prfs-asset-1.s3.ap-northeast-2.amazonaws.com/aave.png",
     img_caption: "150",
     circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type: "MEMBERSHIP_PROOF_1",
+    circuit_type_id: "MEMBERSHIP_PROOF_1",
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [
       {
@@ -165,7 +165,7 @@ const proof_types: PrfsProofType[] = [
       "https://prfs-asset-1.s3.ap-northeast-2.amazonaws.com/padlock-clipart-design-illustration-free-png.webp",
     img_caption: "0.0001",
     circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type: "MEMBERSHIP_PROOF_1",
+    circuit_type_id: "MEMBERSHIP_PROOF_1",
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [
       {
@@ -191,7 +191,7 @@ const proof_types: PrfsProofType[] = [
     img_url: "https://prfs-asset-1.s3.ap-northeast-2.amazonaws.com/hash.png",
     img_caption: "",
     circuit_id: "00000000-0000-0000-0000-000000000001",
-    circuit_type: "SIMPLE_HASH_1",
+    circuit_type_id: "SIMPLE_HASH_1",
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [simple_hash_1],
     driver_properties: {
