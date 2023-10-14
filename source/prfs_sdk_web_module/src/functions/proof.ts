@@ -14,7 +14,7 @@ export async function createProof(
 
   const proveReceipt = await driver.prove({
     inputs: formValues,
-    circuitType: "MEMBERSHIP_PROOF_1",
+    circuitTypeId: "MEMBERSHIP_PROOF_1",
     eventListener,
   });
 

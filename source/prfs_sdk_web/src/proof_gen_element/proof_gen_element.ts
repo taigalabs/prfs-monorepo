@@ -91,13 +91,19 @@ class ProofGenElement {
     return this.state.iframe;
   }
 
-  async createProof(args: Record<string, any>): Promise<ProveReceipt> {
+  async createProof(inputs: any, circuitTypeId: string): Promise<ProveReceipt> {
     if (!this.state.iframe) {
       throw new Error("iframe is not created");
     }
 
     try {
-      const proofResp = await sendMsgToChild(new Msg("CREATE_PROOF", args), this.state.iframe);
+      const proofResp = await sendMsgToChild(
+        new Msg("CREATE_PROOF", {
+          inputs,
+          circuitTypeId,
+        }),
+        this.state.iframe
+      );
       return proofResp;
     } catch (err) {
       throw new Error(`Error creating proof: ${err}`);

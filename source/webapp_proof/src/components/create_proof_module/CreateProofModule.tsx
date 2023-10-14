@@ -66,16 +66,16 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
   const handleClickCreateProof = React.useCallback(async () => {
     if (proofGenElement) {
       try {
-        const newFormValues = await validateInputs(formValues, proofType);
+        const inputs = await validateInputs(formValues, proofType);
 
         setCreateProofStatus(CreateProofStatus.InProgress);
         proofGenEventListener("debug", `Process starts in 3 seconds`);
 
         await delay(3000);
 
-        console.log(22, newFormValues);
+        console.log(22, inputs);
 
-        const proveReceipt = await proofGenElement.createProof(newFormValues);
+        const proveReceipt = await proofGenElement.createProof(inputs, proofType.circuit_type_id);
         proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
 
         handleCreateProof(null, proveReceipt);

@@ -1,5 +1,11 @@
 import { CircuitDriver, LogEventType } from "@taigalabs/prfs-driver-interface";
-import { HashPayload, Msg, MsgType, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
+import {
+  CreateProofPayload,
+  HashPayload,
+  Msg,
+  MsgType,
+  sendMsgToParent,
+} from "@taigalabs/prfs-sdk-web";
 
 import { initDriver, interpolateSystemAssetEndpoint } from "./functions/circuitDriver";
 import { createProof } from "./functions/proof";
@@ -24,7 +30,7 @@ async function eventListener(ev: MessageEvent) {
 
     switch (type) {
       case "CREATE_PROOF": {
-        const { payload } = ev.data;
+        const payload = ev.data.payload as CreateProofPayload;
 
         console.log("create proof", payload, driver);
 

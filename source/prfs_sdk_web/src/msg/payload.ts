@@ -30,6 +30,11 @@ export interface LoadDriverPayload {
   driver_properties: Record<string, any>;
 }
 
+export interface CreateProofPayload {
+  inputs: any;
+  circuitTypeId: string;
+}
+
 export interface GetSignaturePayload {
   msgRaw: string;
 }
@@ -65,7 +70,7 @@ export type ReqPayload<T extends MsgType> = //
     : T extends "GET_SIGNATURE_RESPONSE"
     ? GetSignatureResponsePayload
     : T extends "CREATE_PROOF"
-    ? Record<string, any>
+    ? CreateProofPayload
     : T extends "CREATE_PROOF_RESPONSE"
     ? ProveReceipt
     : T extends "PROOF_GEN_EVENT"
