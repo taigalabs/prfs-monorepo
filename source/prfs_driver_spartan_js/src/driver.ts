@@ -1,25 +1,16 @@
 import {
   CircuitDriver,
   ProveArgs,
-  ProveResult,
   ProveReceipt,
   VerifyArgs,
   SpartanMerkleProof,
 } from "@taigalabs/prfs-driver-interface";
-import { BN } from "bn.js";
 
 import { Tree } from "./helpers/tree";
 import { makePoseidon } from "./helpers/poseidon";
 import { PrfsHandlers, AsyncHashFn, BuildStatus } from "./types";
-import { fromSig, snarkJsWitnessGen } from "./helpers/utils";
-import {
-  CircuitPubInput,
-  PublicInput,
-  SECP256K1_P,
-  computeEffEcdsaPubInput2,
-  verifyEffEcdsaPubInput,
-} from "./helpers/public_input";
-import { deserializePublicInput, serializePublicInput } from "./serialize";
+import { PublicInput, verifyEffEcdsaPubInput } from "./helpers/public_input";
+import { deserializePublicInput } from "./serialize";
 
 export default class SpartanDriver implements CircuitDriver {
   handlers: PrfsHandlers;
@@ -64,9 +55,9 @@ export default class SpartanDriver implements CircuitDriver {
     try {
       // const { inputs, circuitType, eventListener } = args;
 
-      console.log(11, args.circuitType);
+      console.log(11, args.circuitTypeId);
 
-      switch (args.circuitType) {
+      switch (args.circuitTypeId) {
         case "SIMPLE_HASH_1": {
           const { proveSimpleHash } = await import("./prove/simple_hash");
 
@@ -78,7 +69,7 @@ export default class SpartanDriver implements CircuitDriver {
           return proveMembership(args, this.handlers, this.wtnsGen, this.circuit);
         }
         default:
-          throw new Error(`Unknown circuit type: ${args.circuitType}`);
+          throw new Error(`Unknown circuit type: ${args.circuitTypeId}`);
       }
     } catch (err) {
       console.error("Error creating a proof, err: %o", err);
@@ -114,7 +105,6 @@ export default class SpartanDriver implements CircuitDriver {
 
 export interface SpartanDriverCtorArgs {
   handlers: PrfsHandlers;
-  // wtnsGenUrl: string;
   circuit: Uint8Array;
   wtnsGen: Uint8Array;
 }

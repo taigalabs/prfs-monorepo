@@ -36,11 +36,3 @@ pub struct PublicInputMeta {
 fn default_show_priority() -> i16 {
     3
 }
-
-#[derive(Debug, Serialize, Deserialize, Clone, TS, Display)]
-#[allow(non_camel_case_types)]
-#[ts(export)]
-pub enum CircuitTypeId {
-    MEMBERSHIP_PROOF_1,
-    SIMPLE_HASH_1,
-}

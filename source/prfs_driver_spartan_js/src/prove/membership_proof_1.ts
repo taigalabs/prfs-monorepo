@@ -19,9 +19,9 @@ export async function proveMembership(
   wtnsGen: Uint8Array,
   circuit: Uint8Array
 ): Promise<ProveReceipt> {
-  console.log(123123);
-
   const { inputs, eventListener } = args;
+
+  console.log(123123, inputs);
 
   const { sigData, merkleProof } = inputs;
   const { msgRaw, msgHash, sig } = sigData;

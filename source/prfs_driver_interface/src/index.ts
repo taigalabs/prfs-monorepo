@@ -1,5 +1,3 @@
-import { CircuitTypeId } from "@taigalabs/prfs-entities/bindings/CircuitTypeId";
-
 export type * from "./types";
 
 export interface CircuitDriverGen {
@@ -16,7 +14,7 @@ export interface CircuitDriver {
 
 export interface ProveArgs<T> {
   inputs: T;
-  circuitTypeId: CircuitTypeId;
+  circuitTypeId: string;
   eventListener: (type: LogEventType, msg: string) => void;
 }
 

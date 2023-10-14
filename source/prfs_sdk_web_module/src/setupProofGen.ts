@@ -7,7 +7,7 @@ import {
   sendMsgToParent,
 } from "@taigalabs/prfs-sdk-web";
 
-import { initDriver, interpolateSystemAssetEndpoint } from "./functions/circuitDriver";
+import { initDriver, interpolateSystemAssetEndpoint } from "./circuitDriver";
 import { createProof } from "./functions/proof";
 import { envs } from "./envs";
 
