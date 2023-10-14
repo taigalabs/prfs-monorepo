@@ -66,7 +66,9 @@ export default class SpartanDriver implements CircuitDriver {
 
       console.log(11, circuitType);
 
-      throw new Error("1");
+      return Promise.reject("1");
+
+      console.log(123123);
 
       const { sigData, merkleProof } = inputs;
       const { msgRaw, msgHash, sig } = sigData;
