@@ -78,3 +78,25 @@ export interface BuildStatus {
   wasmThreadSupport: string;
   wasmModulePath: string;
 }
+
+export interface SpartanDriverCtorArgs {
+  handlers: PrfsHandlers;
+  circuit: Uint8Array;
+  wtnsGen: Uint8Array;
+}
+
+export interface MembershipProveInputs {
+  sigData: {
+    msgRaw: string;
+    msgHash: Buffer;
+    sig: string;
+  };
+  merkleProof: SpartanMerkleProof;
+}
+
+export interface SimpleHashProveArgs {
+  hashData: {
+    msgRaw: bigint;
+    msgHash: bigint;
+  };
+}

@@ -1,7 +1,7 @@
 import { BN } from "bn.js";
 import { ProveArgs, ProveReceipt } from "@taigalabs/prfs-driver-interface";
 
-import { MembershipProveInputs } from "../driver";
+import { MembershipProveInputs } from "../types";
 import { fromSig, snarkJsWitnessGen } from "../helpers/utils";
 import { makePoseidon } from "../helpers/poseidon";
 import { PrfsHandlers } from "../types";

@@ -8,7 +8,13 @@ import {
 
 import { Tree } from "./helpers/tree";
 import { makePoseidon } from "./helpers/poseidon";
-import { PrfsHandlers, AsyncHashFn, BuildStatus } from "./types";
+import {
+  PrfsHandlers,
+  AsyncHashFn,
+  BuildStatus,
+  MembershipProveInputs,
+  SpartanDriverCtorArgs,
+} from "./types";
 import { PublicInput, verifyEffEcdsaPubInput } from "./helpers/public_input";
 import { deserializePublicInput } from "./serialize";
 
@@ -51,7 +57,7 @@ export default class SpartanDriver implements CircuitDriver {
     return await Tree.newInstance(depth, hash);
   }
 
-  async prove(args: ProveArgs<MembershipProveInputs>): Promise<ProveReceipt> {
+  async prove(args: ProveArgs<any>): Promise<ProveReceipt> {
     try {
       // const { inputs, circuitType, eventListener } = args;
 
@@ -101,19 +107,4 @@ export default class SpartanDriver implements CircuitDriver {
       return Promise.reject(err);
     }
   }
-}
-
-export interface SpartanDriverCtorArgs {
-  handlers: PrfsHandlers;
-  circuit: Uint8Array;
-  wtnsGen: Uint8Array;
-}
-
-export interface MembershipProveInputs {
-  sigData: {
-    msgRaw: string;
-    msgHash: Buffer;
-    sig: string;
-  };
-  merkleProof: SpartanMerkleProof;
 }

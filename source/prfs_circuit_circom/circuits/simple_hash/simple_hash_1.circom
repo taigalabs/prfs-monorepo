@@ -9,14 +9,14 @@ include "../eff_ecdsa_membership/secp256k1_func.circom";
 include "../poseidon/poseidon.circom";
 
 template SimpleHash1() {
-    signal input s;
-    signal input image;
+    signal input msgRaw;
+    signal input msgHash;
 
-    log("s", s);
-    log("image", image);
+    log("msgRaw", msgRaw);
+    log("msgHash", msgHash);
 
     component poseidon = Poseidon();
-    poseidon.inputs[0] <== s;
+    poseidon.inputs[0] <== msgRaw;
     poseidon.inputs[1] <== 0;
 
     log("pos out", poseidon.out);

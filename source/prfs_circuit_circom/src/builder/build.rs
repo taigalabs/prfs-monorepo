@@ -15,7 +15,7 @@ pub fn run() {
     let mut circuit_list = vec![];
     for mut circuit in &mut circuits {
         compile_circuits(&circuit);
-        make_spartan(&circuit);
+        make_spartan(&mut circuit);
         create_build_json(&mut circuit);
 
         circuit_list.push(circuit.circuit_id.to_string());
@@ -56,18 +56,19 @@ fn get_path_segment(circuit: &PrfsCircuit, file_kind: FileKind) -> String {
     }
 }
 
-fn make_spartan(circuit: &PrfsCircuit) {
+fn make_spartan(circuit: &mut PrfsCircuit) {
     let raw_public_inputs: Vec<&RawCircuitInputMeta> = circuit
         .raw_circuit_inputs_meta
         .iter()
         .filter(|raw_input| return raw_input.public)
         .collect();
 
-    assert_eq!(
-        raw_public_inputs.len(),
-        circuit.num_public_inputs as usize,
-        "num_public_input AND # of public raw input should be equal",
+    println!(
+        "Public input counts from 'raw_public_inputs': {}",
+        raw_public_inputs.len()
     );
+
+    circuit.num_public_inputs = raw_public_inputs.len() as i16;
 
     let r1cs_src_path = PATHS.build.join(get_path_segment(circuit, FileKind::R1CS));
 

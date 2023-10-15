@@ -22,7 +22,7 @@ pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
         // Box::new(BuildJsDependenciesTask),
         Box::new(CompileCircuitsTask),
         // Box::new(BuildPrfsDriverSpartanWasmTask),
-        // Box::new(BuildPrfsDriverSpartanJsTask),
+        Box::new(BuildPrfsDriverSpartanJsTask),
     ];
 
     run_tasks(sub_matches, tasks, build_handle).expect("Ci failed");
