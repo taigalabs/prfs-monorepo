@@ -39,11 +39,11 @@ const HashInput: React.FC<HashInputProps> = ({
 
     if (value) {
       const msgRaw = value.msgRaw;
-      console.log(123123, msgRaw);
+      console.log("msg raw", msgRaw);
 
-      const msgHash = await proofGenElement.hash([msgRaw]);
+      const msgHash = await proofGenElement.hash([msgRaw, BigInt(0)]);
 
-      console.log(222, msgHash);
+      console.log("msg hash", msgHash);
 
       setFormValues(oldVals => ({
         ...oldVals,

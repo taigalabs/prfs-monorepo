@@ -21,6 +21,8 @@ template SimpleHash1() {
 
     log("pos out", poseidon.out);
 
+    poseidon.out === msgHash;
+
     /* component merkleProof = MerkleTreeInclusionProof(nLevels); */
     /* merkleProof.leaf <== pubToAddr.address; */
 
