@@ -2,9 +2,9 @@ import { ProveArgs, ProveReceipt } from "@taigalabs/prfs-driver-interface";
 
 import { PrfsHandlers } from "@/types";
 import { makePoseidon } from "@/utils/poseidon";
-// import { CircuitPubInput, PublicInput } from "@/provers/membership_proof/public_input";
 import { bigIntToBytes, snarkJsWitnessGen } from "@/utils/utils";
 import { BN } from "bn.js";
+import { SimpleHashPublicInput } from "./public_input";
 
 export async function proveSimpleHash(
   args: ProveArgs<SimpleHashProveArgs>,
@@ -32,7 +32,7 @@ export async function proveSimpleHash(
   //   serialNo
   // );
 
-  // const publicInput = new PublicInput(r, v, msgRaw, msgHash, circuitPubInput);
+  const publicInput = new SimpleHashPublicInput(msgRaw, msgHash, circuitPubInput);
   // const m = new BN(msgRaw).mod(SECP256K1_P);
 
   const witnessGenInput = {
@@ -57,8 +57,7 @@ export async function proveSimpleHash(
     duration: now - prev,
     proveResult: {
       proof,
-      publicInputSer: "",
-      //serializePublicInput(publicInput),
+      publicInputSer: publicInput.serialize(),
     },
   };
 }
