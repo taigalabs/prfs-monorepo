@@ -1,18 +1,22 @@
 import { BN } from "bn.js";
-import { ProveArgs, ProveReceipt, VerifyArgs } from "@taigalabs/prfs-driver-interface";
+import {
+  ProveArgs,
+  ProveReceipt,
+  SpartanMerkleProof,
+  VerifyArgs,
+} from "@taigalabs/prfs-driver-interface";
 
-import { MembershipProveInputs } from "@/types";
 import { fromSig, snarkJsWitnessGen } from "@/utils/utils";
 import { makePoseidon } from "@/utils/poseidon";
 import { PrfsHandlers } from "@/types";
 import {
-  CircuitPubInput,
-  PublicInput,
-  SECP256K1_P,
+  MembershipProofCircuitPubInput,
+  MembershipProofPublicInput,
   computeEffEcdsaPubInput,
   verifyEffEcdsaPubInput,
 } from "./public_input";
 import { deserializePublicInput, serializePublicInput } from "./serialize";
+import { SECP256K1_P } from "@/math/secp256k1";
 
 export async function proveMembership(
   args: ProveArgs<MembershipProveInputs>,
@@ -37,7 +41,7 @@ export async function proveMembership(
 
   eventListener("debug", "Computed ECDSA pub input");
 
-  const circuitPubInput = new CircuitPubInput(
+  const circuitPubInput = new MembershipProofCircuitPubInput(
     merkleProof.root,
     effEcdsaPubInput.Tx,
     effEcdsaPubInput.Ty,
@@ -46,7 +50,7 @@ export async function proveMembership(
     serialNo
   );
 
-  const publicInput = new PublicInput(r, v, msgRaw, msgHash, circuitPubInput);
+  const publicInput = new MembershipProofPublicInput(r, v, msgRaw, msgHash, circuitPubInput);
   const m = new BN(msgHash).mod(SECP256K1_P);
 
   const witnessGenInput = {
@@ -98,11 +102,20 @@ export async function verifyMembership(
   const { proof, publicInputSer } = inputs;
 
   const publicInput = deserializePublicInput(publicInputSer);
-  const isPubInputValid = verifyEffEcdsaPubInput(publicInput as PublicInput);
+  const isPubInputValid = verifyEffEcdsaPubInput(publicInput as MembershipProofPublicInput);
 
   let isProofValid;
   isProofValid = await handlers.verify(circuit, proof, publicInput.circuitPubInput.serialize());
   isProofValid = false;
 
   return isProofValid && isPubInputValid;
+}
+
+export interface MembershipProveInputs {
+  sigData: {
+    msgRaw: string;
+    msgHash: Buffer;
+    sig: string;
+  };
+  merkleProof: SpartanMerkleProof;
 }

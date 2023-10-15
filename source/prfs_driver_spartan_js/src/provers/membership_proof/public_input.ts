@@ -2,25 +2,34 @@ import { ec as EC } from "elliptic";
 import BN from "bn.js";
 
 import { bytesToBigInt, bigIntToBytes } from "@/utils/utils";
-import { EffECDSAPubInput, EffECDSAPubInput2 } from "@/types";
+import { EffECDSAPubInput } from "@/types";
+import { SECP256K1_N } from "@/math/secp256k1";
 
 const ec = new EC("secp256k1");
 
-export const SECP256K1_P = new BN(
-  "fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f",
-  16
-);
+export class MembershipProofPublicInput {
+  r: bigint;
+  rV: bigint;
+  msgRaw: string;
+  msgHash: Buffer;
+  circuitPubInput: MembershipProofCircuitPubInput;
 
-export const SECP256K1_N = new BN(
-  "fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141",
-  16
-);
+  constructor(
+    r: bigint,
+    v: bigint,
+    msgRaw: string,
+    msgHash: Buffer,
+    circuitPubInput: MembershipProofCircuitPubInput
+  ) {
+    this.r = r;
+    this.rV = v;
+    this.msgRaw = msgRaw;
+    this.msgHash = msgHash;
+    this.circuitPubInput = circuitPubInput;
+  }
+}
 
-/**
- * Public inputs that are passed into the membership circuit
- * This doesn't include the public values that aren't passed into the circuit
- */
-export class CircuitPubInput {
+export class MembershipProofCircuitPubInput {
   merkleRoot: bigint;
   Tx: bigint;
   Ty: bigint;
@@ -64,7 +73,7 @@ export class CircuitPubInput {
     }
   }
 
-  static deserialize(serialized: Uint8Array): CircuitPubInput {
+  static deserialize(serialized: Uint8Array): MembershipProofCircuitPubInput {
     try {
       const merkleRoot = bytesToBigInt(serialized.slice(0, 32));
       const Tx = bytesToBigInt(serialized.slice(32, 64));
@@ -73,34 +82,12 @@ export class CircuitPubInput {
       const Uy = bytesToBigInt(serialized.slice(128, 160));
       const serialNo = bytesToBigInt(serialized.slice(160, 192));
 
-      return new CircuitPubInput(merkleRoot, Tx, Ty, Ux, Uy, serialNo);
+      return new MembershipProofCircuitPubInput(merkleRoot, Tx, Ty, Ux, Uy, serialNo);
     } catch (err) {
       console.error(err);
 
       throw err;
     }
-  }
-}
-
-export class PublicInput {
-  r: bigint;
-  rV: bigint;
-  msgRaw: string;
-  msgHash: Buffer;
-  circuitPubInput: CircuitPubInput;
-
-  constructor(
-    r: bigint,
-    v: bigint,
-    msgRaw: string,
-    msgHash: Buffer,
-    circuitPubInput: CircuitPubInput
-  ) {
-    this.r = r;
-    this.rV = v;
-    this.msgRaw = msgRaw;
-    this.msgHash = msgHash;
-    this.circuitPubInput = circuitPubInput;
   }
 }
 
@@ -139,46 +126,7 @@ export const computeEffEcdsaPubInput = (
   };
 };
 
-// /**
-//  * Compute the group elements T and U for efficient ecdsa
-//  * https://personaelabs.org/posts/efficient-ecdsa-1/
-//  */
-// export const computeEffEcdsaPubInput2 = (
-//   r: bigint,
-//   v: bigint,
-//   msgHash: Buffer
-// ): EffECDSAPubInput2 => {
-//   const isYOdd = (v - BigInt(27)) % BigInt(2);
-//   const rPoint = ec.keyFromPublic(
-//     ec.curve.pointFromX(new BN(r as any), isYOdd).encode("hex"),
-//     "hex"
-//   );
-
-//   // Get the group element: -(m * r^−1 * G)
-//   const rInv = new BN(r as any).invm(SECP256K1_N);
-
-//   // w = -(r^-1 * msg)
-//   const w = rInv.mul(new BN(msgHash)).neg().umod(SECP256K1_N);
-
-//   // U = -(w * G) = -(r^-1 * msg * G)
-//   const U = ec.curve.g.mul(w);
-
-//   // T = r^-1 * R
-//   const T = rPoint.getPublic().mul(rInv);
-
-//   return {
-//     Tx: BigInt(T.getX().toString()),
-//     Ty: BigInt(T.getY().toString()),
-//     Ux: BigInt(U.getX().toString()),
-//     Uy: BigInt(U.getY().toString()),
-//     // sInv: BigInt(sInv.toString()),
-//   };
-// };
-
-/**
- * Verify the public values of the efficient ECDSA circuit
- */
-export const verifyEffEcdsaPubInput = (pubInput: PublicInput): boolean => {
+export const verifyEffEcdsaPubInput = (pubInput: MembershipProofPublicInput): boolean => {
   const expectedCircuitInput = computeEffEcdsaPubInput(pubInput.r, pubInput.rV, pubInput.msgHash);
 
   const circuitPubInput = pubInput.circuitPubInput;

@@ -1,7 +1,7 @@
 declare module "wasm-feature-detect";
 
 import { SpartanMerkleProof } from "@taigalabs/prfs-driver-interface";
-import { PublicInput } from "@/provers/membership_proof/public_input";
+// import { MembershipProofPublicInput } from "@/provers/membership_proof/public_input";
 import { Tree } from "./utils/tree";
 
 export declare type PrfsWasmType = typeof import("./wasm_wrapper/build");
@@ -13,16 +13,9 @@ export interface EffECDSAPubInput {
   Uy: bigint;
 }
 
-export interface EffECDSAPubInput2 {
-  Tx: bigint;
-  Ty: bigint;
-  Ux: bigint;
-  Uy: bigint;
-}
-
 export interface NIZK {
   proof: Uint8Array;
-  publicInput: PublicInput;
+  publicInput: any;
 }
 
 export interface ProverConfig {
@@ -83,20 +76,4 @@ export interface SpartanDriverCtorArgs {
   handlers: PrfsHandlers;
   circuit: Uint8Array;
   wtnsGen: Uint8Array;
-}
-
-export interface MembershipProveInputs {
-  sigData: {
-    msgRaw: string;
-    msgHash: Buffer;
-    sig: string;
-  };
-  merkleProof: SpartanMerkleProof;
-}
-
-export interface SimpleHashProveArgs {
-  hashData: {
-    msgRaw: bigint;
-    msgHash: bigint;
-  };
 }

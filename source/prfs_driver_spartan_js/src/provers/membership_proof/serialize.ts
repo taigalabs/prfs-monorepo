@@ -1,6 +1,6 @@
-import { CircuitPubInput, PublicInput } from "./public_input";
+import { MembershipProofCircuitPubInput, MembershipProofPublicInput } from "./public_input";
 
-export function serializePublicInput(publicInput: PublicInput): string {
+export function serializePublicInput(publicInput: MembershipProofPublicInput): string {
   const { circuitPubInput, msgHash, r, rV, msgRaw } = publicInput;
   const { merkleRoot, Tx, Ty, Ux, Uy, serialNo } = circuitPubInput;
 
@@ -22,16 +22,16 @@ export function serializePublicInput(publicInput: PublicInput): string {
   return JSON.stringify(publicInputSer);
 }
 
-export function deserializePublicInput(publicInputSer: string): PublicInput {
+export function deserializePublicInput(publicInputSer: string): MembershipProofPublicInput {
   const { r, rV, msgHash, circuitPubInput, msgRaw }: PublicInputSerObject =
     JSON.parse(publicInputSer);
 
-  const publicInput = new PublicInput(
+  const publicInput = new MembershipProofPublicInput(
     BigInt(r),
     BigInt(rV),
     msgRaw,
     Buffer.from(msgHash),
-    new CircuitPubInput(
+    new MembershipProofCircuitPubInput(
       BigInt(circuitPubInput.merkleRoot.substring(0, circuitPubInput.merkleRoot.length - 1)),
       BigInt(circuitPubInput.Tx.substring(0, circuitPubInput.Tx.length - 1)),
       BigInt(circuitPubInput.Ty.substring(0, circuitPubInput.Ty.length - 1)),

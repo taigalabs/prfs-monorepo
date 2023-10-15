@@ -1,9 +1,8 @@
 import { ProveArgs, ProveReceipt } from "@taigalabs/prfs-driver-interface";
 
-import { SimpleHashProveArgs } from "@/types";
 import { PrfsHandlers } from "@/types";
 import { makePoseidon } from "@/utils/poseidon";
-import { CircuitPubInput, PublicInput, SECP256K1_P } from "@/provers/membership_proof/public_input";
+// import { CircuitPubInput, PublicInput } from "@/provers/membership_proof/public_input";
 import { bigIntToBytes, snarkJsWitnessGen } from "@/utils/utils";
 import { BN } from "bn.js";
 
@@ -61,5 +60,12 @@ export async function proveSimpleHash(
       publicInputSer: "",
       //serializePublicInput(publicInput),
     },
+  };
+}
+
+export interface SimpleHashProveArgs {
+  hashData: {
+    msgRaw: bigint;
+    msgHash: bigint;
   };
 }
