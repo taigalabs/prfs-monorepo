@@ -3,27 +3,46 @@ import {
   ProveArgs,
   ProveReceipt,
   VerifyArgs,
-  SpartanMerkleProof,
 } from "@taigalabs/prfs-driver-interface";
 
-import { Tree } from "./helpers/tree";
-import { makePoseidon } from "./helpers/poseidon";
-import {
-  PrfsHandlers,
-  AsyncHashFn,
-  BuildStatus,
-  MembershipProveInputs,
-  SpartanDriverCtorArgs,
-} from "./types";
-import { PublicInput, verifyEffEcdsaPubInput } from "./helpers/public_input";
-import { deserializePublicInput } from "./serialize";
+import { Tree } from "./utils/tree";
+import { makePoseidon } from "./utils/poseidon";
+import { PrfsHandlers, AsyncHashFn, BuildStatus, SpartanDriverCtorArgs } from "./types";
+import { PublicInput, verifyEffEcdsaPubInput } from "@/provers/membership_proof/public_input";
+import { deserializePublicInput } from "@/provers/membership_proof/serialize";
+import { initWasm } from "./wasm_wrapper/load_worker";
+import { fetchAsset } from "./utils/utils";
 
 export default class SpartanDriver implements CircuitDriver {
   handlers: PrfsHandlers;
   circuit: Uint8Array;
   wtnsGen: Uint8Array;
 
-  constructor(args: SpartanDriverCtorArgs) {
+  static async newInstance(driverProps: SpartanCircomDriverProperties): Promise<CircuitDriver> {
+    console.log("Creating a driver instance, props: %o", driverProps);
+
+    let prfsHandlers;
+    try {
+      prfsHandlers = await initWasm();
+
+      const ts = Date.now();
+      const circuit = await fetchAsset(`${driverProps.circuit_url}?version=${ts}`);
+      const wtnsGen = await fetchAsset(`${driverProps.wtns_gen_url}?version=${ts}`);
+
+      const args: SpartanDriverCtorArgs = {
+        handlers: prfsHandlers,
+        wtnsGen,
+        circuit,
+      };
+
+      const obj = new SpartanDriver(args);
+      return obj;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  private constructor(args: SpartanDriverCtorArgs) {
     this.handlers = args.handlers;
 
     if (args.circuit === undefined) {
@@ -60,17 +79,16 @@ export default class SpartanDriver implements CircuitDriver {
   async prove(args: ProveArgs<any>): Promise<ProveReceipt> {
     try {
       // const { inputs, circuitType, eventListener } = args;
-
       console.log(11, args.circuitTypeId);
 
       switch (args.circuitTypeId) {
         case "SIMPLE_HASH_1": {
-          const { proveSimpleHash } = await import("./prove/simple_hash");
+          const { proveSimpleHash } = await import("./provers/simple_hash/simple_hash");
 
           return proveSimpleHash(args, this.handlers, this.wtnsGen, this.circuit);
         }
         case "MEMBERSHIP_PROOF_1": {
-          const { proveMembership } = await import("./prove/membership_proof_1");
+          const { proveMembership } = await import("./provers/membership_proof/membership_proof_1");
 
           return proveMembership(args, this.handlers, this.wtnsGen, this.circuit);
         }
@@ -86,6 +104,23 @@ export default class SpartanDriver implements CircuitDriver {
 
   async verify(args: VerifyArgs): Promise<boolean> {
     try {
+      console.log(11, args.circuitTypeId);
+
+      switch (args.circuitTypeId) {
+        case "SIMPLE_HASH_1": {
+          break;
+        }
+        case "MEMBERSHIP_PROOF_1": {
+          const { verifyMembership } = await import(
+            "./provers/membership_proof/membership_proof_1"
+          );
+
+          break;
+        }
+        default:
+          throw new Error(`Unknown circuit type: ${args.circuitTypeId}`);
+      }
+
       const { inputs } = args;
       const { proof, publicInputSer } = inputs;
 
@@ -107,4 +142,10 @@ export default class SpartanDriver implements CircuitDriver {
       return Promise.reject(err);
     }
   }
+}
+
+export interface SpartanCircomDriverProperties {
+  instance_path: string;
+  wtns_gen_url: string;
+  circuit_url: string;
 }

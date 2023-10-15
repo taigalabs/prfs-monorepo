@@ -23,6 +23,7 @@ export interface VerifyArgs {
     proof: Uint8Array;
     publicInputSer: string;
   };
+  circuitTypeId: string;
 }
 
 export interface ProveResult {

@@ -1,17 +1,12 @@
 import { BN } from "bn.js";
-import { ProveArgs, ProveReceipt } from "@taigalabs/prfs-driver-interface";
+import { ProveArgs, ProveReceipt, VerifyArgs } from "@taigalabs/prfs-driver-interface";
 
-import { MembershipProveInputs } from "../types";
-import { fromSig, snarkJsWitnessGen } from "../helpers/utils";
-import { makePoseidon } from "../helpers/poseidon";
-import { PrfsHandlers } from "../types";
-import {
-  CircuitPubInput,
-  PublicInput,
-  SECP256K1_P,
-  computeEffEcdsaPubInput2,
-} from "../helpers/public_input";
-import { serializePublicInput } from "../serialize";
+import { MembershipProveInputs } from "@/types";
+import { fromSig, snarkJsWitnessGen } from "@/utils/utils";
+import { makePoseidon } from "@/utils/poseidon";
+import { PrfsHandlers } from "@/types";
+import { CircuitPubInput, PublicInput, SECP256K1_P, computeEffEcdsaPubInput } from "./public_input";
+import { serializePublicInput } from "./serialize";
 
 export async function proveMembership(
   args: ProveArgs<MembershipProveInputs>,
@@ -32,7 +27,7 @@ export async function proveMembership(
   const poseidon = makePoseidon(handlers);
   const serialNo = await poseidon([s, BigInt(0)]);
 
-  const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash);
+  const effEcdsaPubInput = computeEffEcdsaPubInput(r, v, msgHash);
 
   eventListener("debug", "Computed ECDSA pub input");
 
@@ -86,3 +81,10 @@ export async function proveMembership(
     },
   };
 }
+
+export function verifyMembership(
+  args: VerifyArgs,
+  handlers: PrfsHandlers,
+  wtnsGen: Uint8Array,
+  circuit: Uint8Array
+) {}

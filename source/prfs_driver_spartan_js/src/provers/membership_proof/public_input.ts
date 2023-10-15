@@ -1,8 +1,8 @@
 import { ec as EC } from "elliptic";
 import BN from "bn.js";
 
-import { bytesToBigInt, bigIntToBytes } from "./utils";
-import { EffECDSAPubInput, EffECDSAPubInput2 } from "../types";
+import { bytesToBigInt, bigIntToBytes } from "@/utils/utils";
+import { EffECDSAPubInput, EffECDSAPubInput2 } from "@/types";
 
 const ec = new EC("secp256k1");
 
@@ -139,41 +139,41 @@ export const computeEffEcdsaPubInput = (
   };
 };
 
-/**
- * Compute the group elements T and U for efficient ecdsa
- * https://personaelabs.org/posts/efficient-ecdsa-1/
- */
-export const computeEffEcdsaPubInput2 = (
-  r: bigint,
-  v: bigint,
-  msgHash: Buffer
-): EffECDSAPubInput2 => {
-  const isYOdd = (v - BigInt(27)) % BigInt(2);
-  const rPoint = ec.keyFromPublic(
-    ec.curve.pointFromX(new BN(r as any), isYOdd).encode("hex"),
-    "hex"
-  );
+// /**
+//  * Compute the group elements T and U for efficient ecdsa
+//  * https://personaelabs.org/posts/efficient-ecdsa-1/
+//  */
+// export const computeEffEcdsaPubInput2 = (
+//   r: bigint,
+//   v: bigint,
+//   msgHash: Buffer
+// ): EffECDSAPubInput2 => {
+//   const isYOdd = (v - BigInt(27)) % BigInt(2);
+//   const rPoint = ec.keyFromPublic(
+//     ec.curve.pointFromX(new BN(r as any), isYOdd).encode("hex"),
+//     "hex"
+//   );
 
-  // Get the group element: -(m * r^−1 * G)
-  const rInv = new BN(r as any).invm(SECP256K1_N);
+//   // Get the group element: -(m * r^−1 * G)
+//   const rInv = new BN(r as any).invm(SECP256K1_N);
 
-  // w = -(r^-1 * msg)
-  const w = rInv.mul(new BN(msgHash)).neg().umod(SECP256K1_N);
+//   // w = -(r^-1 * msg)
+//   const w = rInv.mul(new BN(msgHash)).neg().umod(SECP256K1_N);
 
-  // U = -(w * G) = -(r^-1 * msg * G)
-  const U = ec.curve.g.mul(w);
+//   // U = -(w * G) = -(r^-1 * msg * G)
+//   const U = ec.curve.g.mul(w);
 
-  // T = r^-1 * R
-  const T = rPoint.getPublic().mul(rInv);
+//   // T = r^-1 * R
+//   const T = rPoint.getPublic().mul(rInv);
 
-  return {
-    Tx: BigInt(T.getX().toString()),
-    Ty: BigInt(T.getY().toString()),
-    Ux: BigInt(U.getX().toString()),
-    Uy: BigInt(U.getY().toString()),
-    // sInv: BigInt(sInv.toString()),
-  };
-};
+//   return {
+//     Tx: BigInt(T.getX().toString()),
+//     Ty: BigInt(T.getY().toString()),
+//     Ux: BigInt(U.getX().toString()),
+//     Uy: BigInt(U.getY().toString()),
+//     // sInv: BigInt(sInv.toString()),
+//   };
+// };
 
 /**
  * Verify the public values of the efficient ECDSA circuit

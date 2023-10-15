@@ -1,10 +1,10 @@
 import { ProveArgs, ProveReceipt } from "@taigalabs/prfs-driver-interface";
 
-import { SimpleHashProveArgs } from "../types";
-import { PrfsHandlers } from "../types";
-import { makePoseidon } from "../helpers/poseidon";
-import { CircuitPubInput, PublicInput, SECP256K1_P } from "../helpers/public_input";
-import { bigIntToBytes, snarkJsWitnessGen } from "../helpers/utils";
+import { SimpleHashProveArgs } from "@/types";
+import { PrfsHandlers } from "@/types";
+import { makePoseidon } from "@/utils/poseidon";
+import { CircuitPubInput, PublicInput, SECP256K1_P } from "@/provers/membership_proof/public_input";
+import { bigIntToBytes, snarkJsWitnessGen } from "@/utils/utils";
 import { BN } from "bn.js";
 
 export async function proveSimpleHash(

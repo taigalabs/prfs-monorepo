@@ -1,4 +1,4 @@
-import { CircuitPubInput, PublicInput } from "./helpers/public_input";
+import { CircuitPubInput, PublicInput } from "./public_input";
 
 export function serializePublicInput(publicInput: PublicInput): string {
   const { circuitPubInput, msgHash, r, rV, msgRaw } = publicInput;

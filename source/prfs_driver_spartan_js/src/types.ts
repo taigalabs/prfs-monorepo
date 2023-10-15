@@ -1,8 +1,8 @@
 declare module "wasm-feature-detect";
 
 import { SpartanMerkleProof } from "@taigalabs/prfs-driver-interface";
-import { PublicInput } from "./helpers/public_input";
-import { Tree } from "./helpers/tree";
+import { PublicInput } from "@/provers/membership_proof/public_input";
+import { Tree } from "./utils/tree";
 
 export declare type PrfsWasmType = typeof import("./wasm_wrapper/build");
 
