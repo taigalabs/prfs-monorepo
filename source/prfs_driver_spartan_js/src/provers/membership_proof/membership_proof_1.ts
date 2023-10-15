@@ -5,8 +5,14 @@ import { MembershipProveInputs } from "@/types";
 import { fromSig, snarkJsWitnessGen } from "@/utils/utils";
 import { makePoseidon } from "@/utils/poseidon";
 import { PrfsHandlers } from "@/types";
-import { CircuitPubInput, PublicInput, SECP256K1_P, computeEffEcdsaPubInput } from "./public_input";
-import { serializePublicInput } from "./serialize";
+import {
+  CircuitPubInput,
+  PublicInput,
+  SECP256K1_P,
+  computeEffEcdsaPubInput,
+  verifyEffEcdsaPubInput,
+} from "./public_input";
+import { deserializePublicInput, serializePublicInput } from "./serialize";
 
 export async function proveMembership(
   args: ProveArgs<MembershipProveInputs>,
@@ -82,9 +88,21 @@ export async function proveMembership(
   };
 }
 
-export function verifyMembership(
+export async function verifyMembership(
   args: VerifyArgs,
   handlers: PrfsHandlers,
   wtnsGen: Uint8Array,
   circuit: Uint8Array
-) {}
+) {
+  const { inputs } = args;
+  const { proof, publicInputSer } = inputs;
+
+  const publicInput = deserializePublicInput(publicInputSer);
+  const isPubInputValid = verifyEffEcdsaPubInput(publicInput as PublicInput);
+
+  let isProofValid;
+  isProofValid = await handlers.verify(circuit, proof, publicInput.circuitPubInput.serialize());
+  isProofValid = false;
+
+  return isProofValid && isPubInputValid;
+}

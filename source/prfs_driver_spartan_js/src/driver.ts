@@ -8,8 +8,6 @@ import {
 import { Tree } from "./utils/tree";
 import { makePoseidon } from "./utils/poseidon";
 import { PrfsHandlers, AsyncHashFn, BuildStatus, SpartanDriverCtorArgs } from "./types";
-import { PublicInput, verifyEffEcdsaPubInput } from "@/provers/membership_proof/public_input";
-import { deserializePublicInput } from "@/provers/membership_proof/serialize";
 import { initWasm } from "./wasm_wrapper/load_worker";
 import { fetchAsset } from "./utils/utils";
 
@@ -108,34 +106,18 @@ export default class SpartanDriver implements CircuitDriver {
 
       switch (args.circuitTypeId) {
         case "SIMPLE_HASH_1": {
-          break;
+          return Promise.reject(1);
         }
         case "MEMBERSHIP_PROOF_1": {
           const { verifyMembership } = await import(
             "./provers/membership_proof/membership_proof_1"
           );
 
-          break;
+          return verifyMembership(args, this.handlers, this.wtnsGen, this.circuit);
         }
         default:
           throw new Error(`Unknown circuit type: ${args.circuitTypeId}`);
       }
-
-      const { inputs } = args;
-      const { proof, publicInputSer } = inputs;
-
-      const publicInput = deserializePublicInput(publicInputSer);
-      const isPubInputValid = verifyEffEcdsaPubInput(publicInput as PublicInput);
-
-      let isProofValid;
-      isProofValid = await this.handlers.verify(
-        this.circuit,
-        proof,
-        publicInput.circuitPubInput.serialize()
-      );
-      isProofValid = false;
-
-      return isProofValid && isPubInputValid;
     } catch (err) {
       console.error("Error verifying a proof, err: %o", err);
 
