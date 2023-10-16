@@ -1,0 +1,35 @@
+.wrapper {
+  margin-top: 14px;
+  padding: 16px 20px 10px;
+  border: 1px solid var(--bright-gray-30);
+
+  ul {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.successMsg {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  color: green;
+
+  svg {
+    font-size: 20px;
+    margin-right: 5px;
+  }
+}
+
+.uploadSection {
+  margin-top: 14px;
+  line-height: 21px;
+
+  .btnGroup {
+    margin-top: 11px;
+
+    li:not(:first-child) {
+      margin-left: 5px;
+    }
+  }
+}

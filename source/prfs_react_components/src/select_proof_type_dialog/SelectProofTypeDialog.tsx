@@ -62,7 +62,7 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
               <p>{selectedProofTypeItem.label}</p>
             </div>
           ) : (
-            i18n.choose_type.toUpperCase()
+            i18n.select_what_you_want_to_prove
           )}
         </Button>
       </div>
