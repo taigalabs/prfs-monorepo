@@ -129,18 +129,20 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) =>
                         })
                       }
                     >
-                      <div className={styles.imgCol}>
-                        <CaptionedImg img_url={proofType.img_url} size={50} />
+                      <div className={styles.left}>
+                        <CaptionedImg img_url={proofType.img_url} size={40} />
                       </div>
-                      <div className={styles.label}>
-                        <p>{proofType.label}</p>
-                        <div className={styles.icon}>
-                          <div onClick={ev => handleClickExternalLink(ev, url)}>
-                            <BiLinkExternal />
+                      <div className={styles.right}>
+                        <div className={styles.label}>
+                          <span>{proofType.label}</span>
+                          <div className={styles.icon}>
+                            <div onClick={ev => handleClickExternalLink(ev, url)}>
+                              <BiLinkExternal />
+                            </div>
                           </div>
                         </div>
+                        <p className={styles.proofTypeId}>{proofType.proof_type_id}</p>
                       </div>
-                      <p className={styles.proofTypeId}>{proofType.proof_type_id}</p>
                     </div>
                   )}
                 </div>

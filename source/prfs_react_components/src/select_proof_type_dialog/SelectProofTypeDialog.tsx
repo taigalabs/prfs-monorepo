@@ -93,7 +93,7 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
             ) : (
               <>
                 <FaSearch />
-                <p className={styles.label}>{i18n.find_what_to_prove}</p>
+                <p className={styles.placeholder}>{i18n.find_what_to_prove}</p>
               </>
             )}
           </div>

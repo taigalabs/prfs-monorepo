@@ -1,5 +1,7 @@
 .wrapper {
   width: 510px;
+  margin-top: 20px;
+  border: 1px solid blue;
 }
 
 .formWrapper {
@@ -7,7 +9,6 @@
   flex-direction: column;
   justify-content: center;
   /* border: 1px solid var(--bright-gray-30); */
-  border: 1px solid blue;
   border-radius: 5px;
   /* padding: 8px 7px 10px; */
   transition: box-shadow 600ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
