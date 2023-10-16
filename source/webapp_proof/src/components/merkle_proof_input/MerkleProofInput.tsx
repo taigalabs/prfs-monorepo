@@ -1,7 +1,6 @@
 import React from "react";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import cn from "classnames";
-import { ethers } from "ethers";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import { RiEqualizerLine } from "@react-icons/all-files/ri/RiEqualizerLine";

@@ -42,6 +42,11 @@
   width: 100%;
 }
 
+.computedValue {
+  background-color: var(--bright-gray-40);
+  border-radius: 0 0 5px 5px;
+}
+
 .title {
   display: flex;
   align-items: center;
