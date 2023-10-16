@@ -86,6 +86,7 @@ export interface HashData {
 export interface HashInputProps {
   circuitInput: CircuitInput;
   value: HashData | undefined;
+  error: string | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   proofGenElement: ProofGenElement;
 }

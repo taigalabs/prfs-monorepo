@@ -34,6 +34,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
   const [createProofStatus, setCreateProofStatus] = React.useState(CreateProofStatus.Loaded);
   const [terminalLog, setTerminalLog] = React.useState<string>("");
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
+  const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
   const didTryInitialize = React.useRef(false);
 
@@ -53,6 +54,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
       const { name } = ev.target;
+
       setFormValues(oldVals => {
         return {
           ...oldVals,
@@ -72,8 +74,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
         proofGenEventListener("debug", `Process starts in 3 seconds`);
 
         await delay(3000);
-
-        console.log(22, inputs);
 
         const proveReceipt = await proofGenElement.createProof(inputs, proofType.circuit_type_id);
         proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
@@ -133,6 +133,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
               key={idx}
               circuitInput={input}
               value={formValues[input.name] as any}
+              error={formErrors[input.name]}
               setFormValues={setFormValues}
             />
           );
@@ -144,6 +145,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
               key={idx}
               circuitInput={input}
               value={formValues[input.name] as any}
+              error={formErrors[input.name]}
               setFormValues={setFormValues}
             />
           );
@@ -155,6 +157,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
               key={idx}
               circuitInput={input}
               value={formValues[input.name] as any}
+              error={formErrors[input.name]}
               setFormValues={setFormValues}
               proofGenElement={proofGenElement}
             />

@@ -81,5 +81,6 @@ export interface SigData {
 export interface SigDataInputProps {
   circuitInput: CircuitInput;
   value: SigData | undefined;
+  error: string | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
 }
