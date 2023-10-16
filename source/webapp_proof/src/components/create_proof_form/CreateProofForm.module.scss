@@ -44,8 +44,11 @@
   }
 }
 
-.bottomRow {
-  /* padding: 6px 9px 11px; */
+.welcomeRow {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  color: var(--gray-20);
 }
 
 .sdkRow {

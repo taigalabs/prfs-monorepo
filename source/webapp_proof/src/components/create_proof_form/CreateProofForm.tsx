@@ -104,6 +104,7 @@ const CreateProofForm: React.FC = () => {
         <div className={styles.proofTypeRow}>
           <SelectProofTypeDialog handleSelectProofType={handleSelectProofType} />
         </div>
+        {!proofType && <div className={styles.welcomeRow}>{i18n.create_and_share_proofs}</div>}
         {proofType && (
           <div className={styles.sdkRow}>
             <Fade>
