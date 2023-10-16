@@ -16,7 +16,7 @@ pub struct GetPrfsProofTypesRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetPrfsProofTypesResponse {
-    pub page_idx: i32,
+    pub next_idx: i32,
     pub prfs_proof_types: Vec<PrfsProofType>,
 }
 

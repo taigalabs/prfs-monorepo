@@ -24,6 +24,7 @@ import styles from "./SelectProofTypeDialog.module.scss";
 import { i18nContext } from "../contexts/i18nContext";
 import ProofTypeModal, { type ProofTypeItem } from "./ProofTypeModal";
 import CaptionedImg from "../captioned_img/CaptionedImg";
+import ProofTypeModal2 from "./ProofTypeModal2";
 
 const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
   handleSelectProofType,
@@ -107,15 +108,7 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
             aria-describedby={descriptionId}
             {...getFloatingProps()}
           >
-            <div className={styles.header}>
-              <div className={styles.title}>{i18n.choose_proof_type}</div>
-              <div className={styles.btnArea}>
-                <button onClick={() => setIsOpen(false)}>
-                  <AiOutlineClose />
-                </button>
-              </div>
-            </div>
-            <ProofTypeModal handleSelectVal={extendedProofTypeClickHandler} />
+            <ProofTypeModal2 handleSelectVal={extendedProofTypeClickHandler} />
           </div>
         </FloatingFocusManager>
       )}
