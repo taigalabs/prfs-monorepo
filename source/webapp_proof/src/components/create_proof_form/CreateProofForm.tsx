@@ -19,6 +19,7 @@ import styles from "./CreateProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
+import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
 
 const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -31,6 +32,12 @@ const CreateProofForm: React.FC = () => {
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
       return prfsApi2("get_prfs_proof_type_by_proof_type_id", req);
+    },
+  });
+
+  const { mutateAsync: createPrfsProofInstance } = useMutation({
+    mutationFn: (req: CreatePrfsProofInstanceRequest) => {
+      return prfsApi2("create_prfs_proof_instance", req);
     },
   });
 
@@ -68,7 +75,7 @@ const CreateProofForm: React.FC = () => {
 
       console.log("try inserting proof", proveReceipt);
       try {
-        const { payload } = await prfsApi2("create_prfs_proof_instance", {
+        const { payload } = await createPrfsProofInstance({
           proof_instance_id,
           account_id: null,
           proof_type_id: selectedProofTypeItem.proofTypeId,
