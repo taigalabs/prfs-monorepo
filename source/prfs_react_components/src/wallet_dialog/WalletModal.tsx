@@ -16,13 +16,16 @@ const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
 
-  const addr = React.useMemo(() => {
-    if (address) {
-      return address.substring(0, 5) + "..." + address.substring(address.length - 3);
-    } else {
-      return "";
-    }
-  }, [address]);
+  // const addr = React.useMemo(() => {
+  //   if (address) {
+  //     return "";
+  //     // return address.substring(0, 5) + "..." + address.substring(address.length - 3);
+  //   } else {
+  //     return "";
+  //   }
+  // }, [address]);
+  //
+  console.log(11, address);
 
   return (
     <div className={styles.connectInfo}>
@@ -30,7 +33,13 @@ const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
         Connected to <b>{connector.name}</b>
       </div>
       <div className={styles.address}>
-        <button onClick={handleChangeAddress}>{addr}</button>
+        <button
+          onClick={() => {
+            handleChangeAddress(address);
+          }}
+        >
+          {address}
+        </button>
       </div>
       <div className={styles.btnRow}>
         <Button variant="transparent_black_1" handleClick={handleClickDisconnect}>

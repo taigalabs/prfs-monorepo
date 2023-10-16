@@ -111,7 +111,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   );
 
   const handleChangeAddress = React.useCallback(
-    async (addr: any) => {
+    async (addr: string) => {
       if (isOpen) {
         setIsOpen(false);
       }
@@ -135,9 +135,10 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         };
       });
 
-      const { set_id } = prfsSet;
+      const { set_id, merkle_root } = prfsSet;
 
       try {
+        console.log(12);
         const { payload } = await GetPrfsTreeLeafIndices({
           set_id,
           leaf_vals: [addr],
@@ -181,7 +182,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         }
 
         const merkleProof: SpartanMerkleProof = {
-          root: BigInt(prfsSet.merkle_root),
+          root: BigInt(merkle_root),
           siblings: siblings as bigint[],
           pathIndices,
         };

@@ -19,9 +19,8 @@ import WalletModal from "./WalletModal";
 
 const WalletDialog: React.FC<WalletDialogProps> = ({ handleChangeAddress, zIndex }) => {
   const i18n = React.useContext(i18nContext);
-  const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
   const [isOpen, setIsOpen] = React.useState(false);
-  const [walletAddr, setWalletAddr] = React.useState("");
+  // const [walletAddr, setWalletAddr] = React.useState("");
 
   const { refs, context } = useFloating({
     open: isOpen,
