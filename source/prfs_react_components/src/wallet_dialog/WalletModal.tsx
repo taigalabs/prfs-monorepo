@@ -46,7 +46,6 @@ const WalletModal: React.FC<WalletModalProps> = ({ handleClickClose, handleChang
   }, [disconnect]);
 
   React.useEffect(() => {
-    console.log(1111, address);
     if (address) {
       handleChangeAddress(address);
     }
