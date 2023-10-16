@@ -23,6 +23,7 @@ fn run_docker(_extra_args: Vec<&str>) {
             "-f",
             docker_compose_yml_path.to_str().unwrap(),
             "build",
+            "--no-cache",
         ])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));

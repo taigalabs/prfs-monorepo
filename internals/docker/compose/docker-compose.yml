@@ -1,8 +1,5 @@
 services:
   prfs_sdk_web_module:
-    image: postgres
-  web:
     build: ../prfs_sdk_web_module
     ports:
       - "3010:3010"
-    command: python manage.py runserver 0.0.0.0:8000
