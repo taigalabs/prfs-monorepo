@@ -2,7 +2,6 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
@@ -15,23 +14,30 @@ import styles from "./page.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import DefaultLayout, { DefaultBody } from "@/layouts/default_layout/DefaultLayout";
-import LeftBar from "@/components/left_bar/LeftBar";
 import { TopPlaceholder } from "@/components/content_area/ContentArea";
 import { envs } from "@/envs";
 import ProofDetailView from "@/components/proof_detail_view/ProofDetailView";
 import Link from "next/link";
 import Masthead from "@/components/masthead/Masthead";
+import { useMutation } from "wagmi";
+import { GetPrfsProofInstanceByInstanceIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstanceByInstanceIdRequest";
 
 const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
+
+  const { mutateAsync: getPrfsProofInstanceByInstanceIdRequest } = useMutation({
+    mutationFn: (req: GetPrfsProofInstanceByInstanceIdRequest) => {
+      return prfsApi2("get_prfs_proof_instance_by_instance_id", req);
+    },
+  });
 
   const [proofInstance, setProofInstance] = React.useState<PrfsProofInstanceSyn1>();
   React.useEffect(() => {
     async function fn() {
       const proof_instance_id = decodeURIComponent(params.proof_instance_id);
       try {
-        const { payload } = await prfsApi2("get_prfs_proof_instance_by_instance_id", {
+        const { payload } = await getPrfsProofInstanceByInstanceIdRequest({
           proof_instance_id,
         });
 
@@ -42,7 +48,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
     }
 
     fn().then();
-  }, [setProofInstance]);
+  }, [setProofInstance, getPrfsProofInstanceByInstanceIdRequest]);
 
   const headerLabel = `${i18n.proof_instance} ${params.proof_instance_id}`;
 
