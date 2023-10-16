@@ -16,12 +16,6 @@
 }
 
 .inputWrapper {
-  display: flex;
-  align-items: center;
-  position: relative;
-  height: 40px;
-  width: 100%;
-
   input {
     font-size: 14px;
     width: 100%;
@@ -38,6 +32,14 @@
         rgba(5, 115, 225, 0.25) 0px 0px 0px 3px, rgba(0, 0, 0, 0.08) 0px 1px 1px 0px;
     }
   }
+}
+
+.interactiveArea {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 40px;
+  width: 100%;
 }
 
 .title {
@@ -76,30 +78,5 @@
   button {
     cursor: pointer;
     color: var(--aqua-blue-50);
-  }
-}
-
-.rawBtn {
-  cursor: not-allowed;
-  color: var(--aqua-blue-90);
-  margin-right: 7px;
-}
-
-.createBtn {
-  cursor: pointer;
-  color: var(--aqua-blue-50);
-}
-
-.isOpen {
-  text-decoration: underline;
-}
-
-.check {
-  position: absolute;
-  left: 7px;
-  color: var(--gray-70);
-
-  &.isInputValid {
-    color: green;
   }
 }

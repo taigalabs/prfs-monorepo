@@ -226,10 +226,13 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
           </div>
         </FormInputTitleRow>
         <div className={styles.inputWrapper}>
-          <input placeholder={`${circuitInput.desc}`} value={walletAddr} readOnly />
-          <div className={styles.btnGroup}>
-            <WalletDialog handleChangeAddress={handleChangeAddress} />
+          <div className={styles.interactiveArea}>
+            <input placeholder={`${circuitInput.desc}`} value={walletAddr} readOnly />
+            <div className={styles.btnGroup}>
+              <WalletDialog handleChangeAddress={handleChangeAddress} />
+            </div>
           </div>
+          <div className={styles.computedValue}>value</div>
         </div>
       </FormInput>
     )
