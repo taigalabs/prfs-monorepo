@@ -18,14 +18,9 @@ export async function proveSimpleHash(
   const { msgRaw, msgHash } = hashData;
   console.log("hashData: %o", inputs);
 
-  // const poseidon = makePoseidon(handlers);
-  // const serialNo = await poseidon([s, BigInt(0)]);
-
-  // eventListener("debug", "Computed ECDSA pub input");
-
   const circuitPubInput = new SimpleHashCircuitPubInput(msgHash);
 
-  const publicInput = new SimpleHashPublicInput(msgHash, circuitPubInput);
+  const publicInput = new SimpleHashPublicInput(circuitPubInput);
 
   const witnessGenInput = {
     msgRaw,
@@ -38,8 +33,6 @@ export async function proveSimpleHash(
   eventListener("info", "Computed witness gen input");
 
   const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
-  // const circuitPublicInput = new Uint8Array(32 * 1);
-  // circuitPublicInput.set(bigIntToBytes(msgHash, 32), 0);
 
   const prev = performance.now();
   const proof = await handlers.prove(circuit, witness.data, circuitPublicInput);

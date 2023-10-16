@@ -8,16 +8,20 @@ import { SECP256K1_N } from "@/math/secp256k1";
 const ec = new EC("secp256k1");
 
 export class SimpleHashPublicInput {
-  msgHash: bigint;
   circuitPubInput: SimpleHashCircuitPubInput;
 
-  constructor(msgHash: bigint, circuitPubInput: SimpleHashCircuitPubInput) {
-    this.msgHash = msgHash;
+  constructor(circuitPubInput: SimpleHashCircuitPubInput) {
     this.circuitPubInput = circuitPubInput;
   }
 
   serialize(): string {
-    return "";
+    const publicInputSer = {
+      circuitPubInput: {
+        msgHash: this.circuitPubInput.msgHash.toString() + "n",
+      },
+    };
+
+    return JSON.stringify(publicInputSer);
   }
 }
 
