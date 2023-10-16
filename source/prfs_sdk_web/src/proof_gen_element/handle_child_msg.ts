@@ -7,8 +7,6 @@ const singleton: ProofGenElementSingleton = {
 };
 
 export async function handleChildMessage(options: ProofGenOptions) {
-  console.log("Attaching child msg handler");
-
   const { proofGenEventListener } = options;
 
   const ret = await new Promise(resolve => {
@@ -47,6 +45,7 @@ export async function handleChildMessage(options: ProofGenOptions) {
       window.removeEventListener("message", singleton.msgEventListener);
     }
 
+    console.log("Attaching child msg handler");
     singleton.msgEventListener = msgEventListener;
     window.addEventListener("message", msgEventListener);
   });

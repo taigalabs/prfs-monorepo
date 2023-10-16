@@ -5,9 +5,10 @@ import { GetPrfsAssetMetaRequest } from "@taigalabs/prfs-entities/bindings/GetPr
 import { LogEventType, ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useMutation } from "wagmi";
-import { prfsAssetApi } from "@taigalabs/prfs-api-js";
+import { prfsApi2, prfsAssetApi } from "@taigalabs/prfs-api-js";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
+import { useQuery } from "@tanstack/react-query";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -19,6 +20,7 @@ import Passcode from "@/components/passcode/Passcode";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
 import { validateInputs } from "@/validate";
 import HashInput from "@/components/hash_input/HashInput";
+import { GetPrfsPollByPollIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsPollByPollIdRequest";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -37,12 +39,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
   const didTryInitialize = React.useRef(false);
-
-  const { mutateAsync: getPrfsAssetMetaRequest } = useMutation({
-    mutationFn: (req: GetPrfsAssetMetaRequest) => {
-      return prfsAssetApi("get_prfs_asset_meta", req);
-    },
-  });
 
   const proofGenEventListener = React.useCallback(
     (type: LogEventType, msg: string) => {
@@ -115,7 +111,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
     }
 
     fn().then();
-  }, [proofType, setProofGenElement, setSystemMsg, setCreateProofStatus, getPrfsAssetMetaRequest]);
+  }, [proofType, setProofGenElement, setSystemMsg, setCreateProofStatus]);
 
   const circuitInputsElem = React.useMemo(() => {
     if (!proofGenElement) {
