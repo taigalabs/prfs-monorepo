@@ -30,6 +30,20 @@ import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
 
+const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
+  const val = React.useMemo(() => {
+    return (
+      "Root: " +
+      value.root.toString().substring(0, 6) +
+      "... / First sibling: " +
+      value.siblings[0].toString().substring(0, 6) +
+      "..."
+    );
+  }, [value]);
+
+  return <div className={styles.computedValue}>{val}</div>;
+};
+
 const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   circuitInput,
   value,
@@ -257,7 +271,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
               <WalletDialog handleChangeAddress={handleChangeAddress} />
             </div>
           </div>
-          {value && <div className={styles.computedValue}>value</div>}
+          {value && <ComputedValue value={value} />}
         </div>
       </FormInput>
     )
@@ -273,4 +287,8 @@ export interface MerkleProofInputProps {
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
   zIndex?: number;
+}
+
+export interface ComputedValueProps {
+  value: SpartanMerkleProof;
 }
