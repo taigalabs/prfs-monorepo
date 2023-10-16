@@ -12,7 +12,9 @@ export type MsgType =
   | "CREATE_PROOF"
   | "CREATE_PROOF_RESPONSE"
   | "PROOF_GEN_EVENT"
-  | "PROOF_GEN_EVENT_RESPONSE";
+  | "PROOF_GEN_EVENT_RESPONSE"
+  | "HASH"
+  | "HASH_RESPONSE";
 
 export interface HandshakePayload {}
 
@@ -28,6 +30,11 @@ export interface LoadDriverPayload {
   driver_properties: Record<string, any>;
 }
 
+export interface CreateProofPayload {
+  inputs: any;
+  circuitTypeId: string;
+}
+
 export interface GetSignaturePayload {
   msgRaw: string;
 }
@@ -35,6 +42,14 @@ export interface GetSignaturePayload {
 export interface GetSignatureResponsePayload {
   msgHash: Buffer;
   sig: string;
+}
+
+export interface HashPayload {
+  msg: bigint[];
+}
+
+export interface HashResponsePayload {
+  msgHash: bigint;
 }
 
 export type ReqPayload<T extends MsgType> = //
@@ -55,11 +70,15 @@ export type ReqPayload<T extends MsgType> = //
     : T extends "GET_SIGNATURE_RESPONSE"
     ? GetSignatureResponsePayload
     : T extends "CREATE_PROOF"
-    ? Record<string, any>
+    ? CreateProofPayload
     : T extends "CREATE_PROOF_RESPONSE"
     ? ProveReceipt
     : T extends "PROOF_GEN_EVENT"
     ? ProofGenEventPayload
+    : T extends "HASH"
+    ? HashPayload
+    : T extends "HASH_RESPONSE"
+    ? HashResponsePayload
     : never;
 
 export type RespPayload<T extends MsgType> = //
@@ -87,4 +106,6 @@ export type RespPayload<T extends MsgType> = //
     ? never
     : T extends "PROOF_GEN_EVENT_RESPONSE"
     ? never
+    : T extends "HASH"
+    ? HashResponsePayload
     : never;

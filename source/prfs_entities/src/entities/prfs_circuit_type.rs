@@ -1,16 +1,17 @@
 use super::CircuitInputMeta;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
+use strum_macros::{Display, EnumString};
 use ts_rs::TS;
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
 pub struct PrfsCircuitType {
-    pub circuit_type: String,
+    pub circuit_type_id: String,
     pub desc: String,
     pub author: String,
 
-    #[ts(type = "number")]
+    #[ts(type = "string")]
     pub created_at: DateTime<Utc>,
 
     #[ts(type = "Record<string, any>[]")]

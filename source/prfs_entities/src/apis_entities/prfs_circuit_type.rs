@@ -21,12 +21,12 @@ pub struct GetPrfsCircuitTypesResponse {
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetPrfsCircuitTypeByCircuitTypeRequest {
-    pub circuit_type: String,
+pub struct GetPrfsCircuitTypeByCircuitTypeIdRequest {
+    pub circuit_type_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetPrfsCircuitTypeByCircuitTypeResponse {
+pub struct GetPrfsCircuitTypeByCircuitTypeIdResponse {
     pub prfs_circuit_type: PrfsCircuitType,
 }

@@ -69,7 +69,7 @@ pub async fn create_prfs_proof_type(req: Request<Body>) -> Result<Response<Body>
         img_url: req.img_url,
         img_caption: req.img_caption,
         circuit_id: req.circuit_id,
-        circuit_type: req.circuit_type.to_string(),
+        circuit_type_id: req.circuit_type_id.to_string(),
         circuit_driver_id: req.circuit_driver_id.to_string(),
         circuit_inputs: Json::from(req.circuit_inputs.clone()),
         driver_properties: Json::from(req.driver_properties.clone()),

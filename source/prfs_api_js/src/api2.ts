@@ -8,8 +8,8 @@ import { GetPrfsCircuitDriverByDriverIdRequest } from "@taigalabs/prfs-entities/
 import { GetPrfsCircuitDriverByDriverIdResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitDriverByDriverIdResponse";
 import { GetPrfsCircuitTypesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitTypesRequest";
 import { GetPrfsCircuitTypesResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitTypesResponse";
-import { GetPrfsCircuitTypeByCircuitTypeRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitTypeByCircuitTypeRequest";
-import { GetPrfsCircuitTypeByCircuitTypeResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitTypeByCircuitTypeResponse";
+import { GetPrfsCircuitTypeByCircuitTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitTypeByCircuitTypeIdRequest";
+import { GetPrfsCircuitTypeByCircuitTypeIdResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitTypeByCircuitTypeIdResponse";
 import { GetPrfsCircuitsRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitsRequest";
 import { GetPrfsCircuitsResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitsResponse";
 import { GetPrfsCircuitByCircuitIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitByCircuitIdRequest";
@@ -65,7 +65,7 @@ type RequestName =
   | "get_prfs_circuit_drivers"
   | "get_prfs_circuit_driver_by_driver_id"
   | "get_prfs_circuit_types"
-  | "get_prfs_circuit_type_by_circuit_type"
+  | "get_prfs_circuit_type_by_circuit_type_id"
   | "get_prfs_circuits"
   | "get_prfs_circuit_by_circuit_id"
   | "create_prfs_proof_instance"
@@ -102,8 +102,8 @@ type Req<T extends RequestName> = //
     ? GetPrfsCircuitDriverByDriverIdRequest
     : T extends "get_prfs_circuit_types"
     ? GetPrfsCircuitTypesRequest
-    : T extends "get_prfs_circuit_type_by_circuit_type"
-    ? GetPrfsCircuitTypeByCircuitTypeRequest
+    : T extends "get_prfs_circuit_type_by_circuit_type_id"
+    ? GetPrfsCircuitTypeByCircuitTypeIdRequest
     : T extends "get_prfs_circuits"
     ? GetPrfsCircuitsRequest
     : T extends "get_prfs_circuit_by_circuit_id"
@@ -165,8 +165,8 @@ type Resp<T> = //
     ? PrfsApiResponse<GetPrfsCircuitDriverByDriverIdResponse>
     : T extends "get_prfs_circuit_types"
     ? PrfsApiResponse<GetPrfsCircuitTypesResponse>
-    : T extends "get_prfs_circuit_type_by_circuit_type"
-    ? PrfsApiResponse<GetPrfsCircuitTypeByCircuitTypeResponse>
+    : T extends "get_prfs_circuit_type_by_circuit_type_id"
+    ? PrfsApiResponse<GetPrfsCircuitTypeByCircuitTypeIdResponse>
     : T extends "get_prfs_circuits"
     ? PrfsApiResponse<GetPrfsCircuitsResponse>
     : T extends "get_prfs_circuit_by_circuit_id"

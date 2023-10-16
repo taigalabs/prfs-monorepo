@@ -7,7 +7,7 @@ export interface CreatePrfsProofTypeRequest {
   label: string;
   desc: string;
   circuit_id: "<Uuid>" | string;
-  circuit_type: string;
+  circuit_type_id: string;
   circuit_driver_id: string;
   expression: string;
   img_url: string | null;

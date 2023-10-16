@@ -18,6 +18,7 @@ import { envs } from "@/envs";
 import Passcode from "@/components/passcode/Passcode";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
 import { validateInputs } from "@/validate";
+import HashInput from "@/components/hash_input/HashInput";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -34,6 +35,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
   const [terminalLog, setTerminalLog] = React.useState<string>("");
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
+  const didTryInitialize = React.useRef(false);
 
   const { mutateAsync: getPrfsAssetMetaRequest } = useMutation({
     mutationFn: (req: GetPrfsAssetMetaRequest) => {
@@ -64,14 +66,16 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
   const handleClickCreateProof = React.useCallback(async () => {
     if (proofGenElement) {
       try {
-        const newFormValues = await validateInputs(formValues, proofType);
+        const inputs = await validateInputs(formValues, proofType);
 
         setCreateProofStatus(CreateProofStatus.InProgress);
         proofGenEventListener("debug", `Process starts in 3 seconds`);
 
         await delay(3000);
 
-        const proveReceipt = await proofGenElement.createProof(newFormValues);
+        console.log(22, inputs);
+
+        const proveReceipt = await proofGenElement.createProof(inputs, proofType.circuit_type_id);
         proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
 
         handleCreateProof(null, proveReceipt);
@@ -83,13 +87,14 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
 
   React.useEffect(() => {
     async function fn() {
+      if (didTryInitialize.current) {
+        return;
+      }
+      didTryInitialize.current = true;
+
       const { circuit_driver_id, driver_properties } = proofType;
 
       try {
-        if (proofGenElement !== null) {
-          return;
-        }
-
         const elem = await prfsSDK.create("proof-gen", {
           proofTypeId: proofType.proof_type_id,
           circuit_driver_id,
@@ -98,17 +103,25 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
           proofGenEventListener: proofGenEventListener,
         });
 
+        elem.subscribe(msg => {
+          setSystemMsg(msg.data);
+        });
+
         setProofGenElement(elem);
-        setSystemMsg(circuit_driver_id);
+        return elem;
       } catch (err) {
         setSystemMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
       }
     }
 
     fn().then();
-  }, [proofType, proofGenElement, setSystemMsg, setCreateProofStatus, getPrfsAssetMetaRequest]);
+  }, [proofType, setProofGenElement, setSystemMsg, setCreateProofStatus, getPrfsAssetMetaRequest]);
 
   const circuitInputsElem = React.useMemo(() => {
+    if (!proofGenElement) {
+      return null;
+    }
+
     const circuit_inputs = proofType.circuit_inputs as CircuitInput[];
 
     const entriesElem = [];
@@ -132,6 +145,18 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
               circuitInput={input}
               value={formValues[input.name] as any}
               setFormValues={setFormValues}
+            />
+          );
+          break;
+        }
+        case "HASH_DATA_1": {
+          entriesElem.push(
+            <HashInput
+              key={idx}
+              circuitInput={input}
+              value={formValues[input.name] as any}
+              setFormValues={setFormValues}
+              proofGenElement={proofGenElement}
             />
           );
           break;
@@ -184,7 +209,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
     }
 
     return entriesElem;
-  }, [proofType, formValues, setFormValues]);
+  }, [proofType, formValues, setFormValues, proofGenElement]);
 
   if (!proofType) {
     return null;

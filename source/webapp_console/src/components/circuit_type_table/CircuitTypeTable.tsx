@@ -33,9 +33,9 @@ const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({
   const columns = React.useMemo(() => {
     const cols: ColumnDef<PrfsCircuitType>[] = [
       {
-        id: "circuit_type",
-        header: i18n.circuit_type,
-        accessorFn: row => row.circuit_type,
+        id: "label",
+        header: i18n.label,
+        accessorFn: row => row.label,
         cell: info => info.getValue(),
       },
       {

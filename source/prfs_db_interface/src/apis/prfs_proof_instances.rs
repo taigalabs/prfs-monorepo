@@ -14,7 +14,7 @@ SELECT ppi.*, ppt.expression, ppt.img_url, ppt.label as proof_label, ppt.desc as
 ppt.circuit_driver_id, ppt.circuit_id, ppt.img_caption, pct.public_inputs_meta
 FROM prfs_proof_instances ppi
 INNER JOIN prfs_proof_types ppt ON ppi.proof_type_id=ppt.proof_type_id
-INNER JOIN prfs_circuit_types pct ON pct.circuit_type=ppt.circuit_type
+INNER JOIN prfs_circuit_types pct ON pct.circuit_type_id=ppt.circuit_type_id
 WHERE ppi.proof_instance_id=$1
 "#;
 
@@ -93,7 +93,7 @@ SELECT ppi.*, ppt.expression, ppt.img_url, ppt.label as proof_label, ppt.desc as
 ppt.circuit_driver_id, ppt.circuit_id, ppt.img_caption, pct.public_inputs_meta
 FROM prfs_proof_instances ppi
 INNER JOIN prfs_proof_types ppt ON ppi.proof_type_id=ppt.proof_type_id
-INNER JOIN prfs_circuit_types pct ON pct.circuit_type=ppt.circuit_type
+INNER JOIN prfs_circuit_types pct ON pct.circuit_type_id=ppt.circuit_type_id
 ORDER BY ppi.created_at
 OFFSET $1
 LIMIT $2

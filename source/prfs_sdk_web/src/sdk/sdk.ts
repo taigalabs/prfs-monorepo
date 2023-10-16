@@ -1,4 +1,4 @@
-import { ProofGenOptions, ZAuthSignInOptions } from "../element_options";
+import { ProofGenOptions, ZAuthSignInOptions } from "../sdk/element_options";
 import ProofGenElement from "../proof_gen_element/proof_gen_element";
 
 export class PrfsSDK {
@@ -41,6 +41,7 @@ export class PrfsSDK {
       }
     } catch (err) {
       console.error(err);
+
       throw new Error(`Error creating prfs SDK ${err}`);
     }
   }

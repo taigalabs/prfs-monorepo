@@ -1,6 +1,8 @@
+declare module "wasm-feature-detect";
+
 import { SpartanMerkleProof } from "@taigalabs/prfs-driver-interface";
-import { PublicInput } from "./helpers/public_input";
-import { Tree } from "./helpers/tree";
+// import { MembershipProofPublicInput } from "@/provers/membership_proof/public_input";
+import { Tree } from "./utils/tree";
 
 export declare type PrfsWasmType = typeof import("./wasm_wrapper/build");
 
@@ -11,16 +13,9 @@ export interface EffECDSAPubInput {
   Uy: bigint;
 }
 
-export interface EffECDSAPubInput2 {
-  Tx: bigint;
-  Ty: bigint;
-  Ux: bigint;
-  Uy: bigint;
-}
-
 export interface NIZK {
   proof: Uint8Array;
-  publicInput: PublicInput;
+  publicInput: any;
 }
 
 export interface ProverConfig {
@@ -75,4 +70,10 @@ export interface PrfsMerkleProof {
 export interface BuildStatus {
   wasmThreadSupport: string;
   wasmModulePath: string;
+}
+
+export interface SpartanDriverCtorArgs {
+  handlers: PrfsHandlers;
+  circuit: Uint8Array;
+  wtnsGen: Uint8Array;
 }

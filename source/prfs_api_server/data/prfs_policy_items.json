@@ -1,8 +1,0 @@
-{
-  "prfs_policy_items": [
-    {
-      "policy_id": "COMPUTE_MERKLE_ROOT",
-      "description": "Compute Merkle Root"
-    }
-  ]
-}

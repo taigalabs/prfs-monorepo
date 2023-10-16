@@ -1,0 +1,6 @@
+[
+  {
+    "policy_id": "COMPUTE_MERKLE_ROOT",
+    "description": "Compute Merkle Root"
+  }
+]

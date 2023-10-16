@@ -4,17 +4,18 @@ import {
   ProveReceipt,
   ProveResult,
 } from "@taigalabs/prfs-driver-interface";
+import { CreateProofPayload } from "@taigalabs/prfs-sdk-web";
 
 export async function createProof(
   driver: CircuitDriver,
-  formValues: Record<string, any>,
+  payload: CreateProofPayload,
   eventListener: (type: LogEventType, msg: string) => void
 ): Promise<ProveReceipt> {
   console.log("Proving...");
 
   const proveReceipt = await driver.prove({
-    inputs: formValues,
-    circuitType: "MEMBERSHIP_PROOF_1",
+    inputs: payload.inputs,
+    circuitTypeId: payload.circuitTypeId,
     eventListener,
   });
 

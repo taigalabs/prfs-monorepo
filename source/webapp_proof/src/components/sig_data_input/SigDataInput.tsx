@@ -9,21 +9,6 @@ import { i18nContext } from "@/contexts/i18n";
 import { FormInput, FormInputTitleRow } from "../form_input/FormInput";
 import { useSignMessage } from "wagmi";
 
-const Signed: React.FC<SignedProps> = ({ sig }) => {
-  const i18n = React.useContext(i18nContext);
-
-  return (
-    <div
-      className={cn({
-        [styles.signed]: true,
-        [styles.signComplete]: sig && sig.length > 0,
-      })}
-    >
-      <FaSignature />
-    </div>
-  );
-};
-
 const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFormValues }) => {
   const i18n = React.useContext(i18nContext);
   const [message, setMessage] = React.useState("");
@@ -97,8 +82,4 @@ export interface SigDataInputProps {
   circuitInput: CircuitInput;
   value: SigData | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
-}
-
-interface SignedProps {
-  sig: string | undefined;
 }

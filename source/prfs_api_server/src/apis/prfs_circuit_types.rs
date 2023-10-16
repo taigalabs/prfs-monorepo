@@ -6,7 +6,7 @@ use hyper::{body, Body, Request, Response};
 use prfs_db_interface::db_apis;
 use prfs_entities::{
     apis_entities::{
-        GetPrfsCircuitTypeByCircuitTypeRequest, GetPrfsCircuitTypeByCircuitTypeResponse,
+        GetPrfsCircuitTypeByCircuitTypeIdRequest, GetPrfsCircuitTypeByCircuitTypeIdResponse,
         GetPrfsCircuitTypesRequest, GetPrfsCircuitTypesResponse,
     },
     entities::{PrfsCircuitDriver, PrfsCircuitType},
@@ -33,21 +33,21 @@ pub async fn get_prfs_circuit_types(req: Request<Body>) -> Result<Response<Body>
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn get_prfs_circuit_type_by_circuit_type(
+pub async fn get_prfs_circuit_type_by_label(
     req: Request<Body>,
 ) -> Result<Response<Body>, Infallible> {
     let state = req.data::<Arc<ServerState>>().unwrap();
     let state = state.clone();
 
-    let req: GetPrfsCircuitTypeByCircuitTypeRequest = parse_req(req).await;
+    let req: GetPrfsCircuitTypeByCircuitTypeIdRequest = parse_req(req).await;
 
     let pool = &state.db2.pool;
 
     let prfs_circuit_type =
-        db_apis::get_prfs_circuit_type_by_circuit_type(&pool, &req.circuit_type).await;
+        db_apis::get_prfs_circuit_type_by_label(&pool, &req.circuit_type_id).await;
 
     let resp =
-        ApiResponse::new_success(GetPrfsCircuitTypeByCircuitTypeResponse { prfs_circuit_type });
+        ApiResponse::new_success(GetPrfsCircuitTypeByCircuitTypeIdResponse { prfs_circuit_type });
 
     return Ok(resp.into_hyper_response());
 }

@@ -1,53 +1,38 @@
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 
-import { handleChildMessage } from "./handle_child_msg";
+import { MsgEventListener, handleChildMessage } from "./handle_child_msg";
 import { sendMsgToChild } from "../msg";
-import { ProofGenOptions } from "../element_options";
+import { ProofGenOptions } from "../sdk/element_options";
 import { Msg } from "../msg";
+import { ProofGenElementState, ProofGenElementSubscriber, SubscribedMsg } from "./types";
 
 export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
-export const PLACEHOLDER_ID = "prfs-sdk-placeholder";
-export const MSG_SPAN_ID = "prfs-sdk-msg";
 export const PORTAL_ID = "prfs-sdk-portal";
 const CONTAINER_ID = "prfs-sdk-container";
 
-const singleton: {
-  isMounted: boolean;
-  msgEventListener: any;
-} = {
-  isMounted: false,
-  msgEventListener: undefined,
-};
-
 class ProofGenElement {
   options: ProofGenOptions;
-  public state: ProofGenElementState;
+  state: ProofGenElementState;
+  subscribers: ProofGenElementSubscriber[];
 
   constructor(options: ProofGenOptions) {
     this.options = options;
+    this.subscribers = [];
     this.state = {
       iframe: undefined,
       driverVersion: undefined,
     };
   }
 
-  async mount(): Promise<HTMLIFrameElement | null> {
+  async mount(): Promise<HTMLIFrameElement> {
     const { options } = this;
-    console.log("Mounting sdk, options: %o, ", options);
+    console.log("Mounting sdk, options: %o", options);
 
     const { sdkEndpoint } = options;
 
-    if (singleton.isMounted) {
-      console.warn("sdk is already mounted");
-      return null;
-    }
-
     if (!sdkEndpoint) {
-      console.error("SDK endpoint is not defined");
-      return null;
+      throw new Error("SDK endpoint is not defined");
     }
-
-    const containerId = CONTAINER_ID;
 
     try {
       await fetch(`${sdkEndpoint}/api`, {
@@ -61,74 +46,100 @@ class ProofGenElement {
       throw new Error("sdk endpoint is not responding");
     }
 
-    await new Promise(async resolve => {
-      const container = document.createElement("div");
-      container.id = containerId;
-      container.style.width = "0px";
-      container.style.height = "0px";
+    const container = document.createElement("div");
+    container.id = CONTAINER_ID;
+    container.style.width = "0px";
+    container.style.height = "0px";
 
-      const iframe = document.createElement("iframe");
-      iframe.id = PROOF_GEN_IFRAME_ID;
-      iframe.src = `${sdkEndpoint}/proof_gen?proofTypeId=${options.proofTypeId}`;
-      iframe.allow = "cross-origin-isolated";
-      iframe.style.border = "none";
-      iframe.style.display = "none";
-      this.state.iframe = iframe;
+    const iframe = document.createElement("iframe");
+    iframe.id = PROOF_GEN_IFRAME_ID;
+    iframe.src = `${sdkEndpoint}/proof_gen?proofTypeId=${options.proofTypeId}`;
+    iframe.allow = "cross-origin-isolated";
+    iframe.style.border = "none";
+    iframe.style.display = "none";
 
-      container.appendChild(iframe);
-      document.body.appendChild(container);
+    console.log("attaching iframe");
+    this.state.iframe = iframe;
 
-      if (iframe.contentWindow) {
-        iframe.contentWindow.onerror = () => {
-          console.log(55555555);
-        };
-      }
+    container.appendChild(iframe);
 
-      if (singleton.msgEventListener) {
-        console.warn("Remove already registered Prfs sdk message event listener");
-        window.removeEventListener("message", singleton.msgEventListener);
-      }
+    const oldContainer = document.getElementById(CONTAINER_ID);
+    if (oldContainer) {
+      oldContainer.remove();
+    }
+    document.body.appendChild(container);
 
-      console.log("listening child messages");
-      const msgEventListener = handleChildMessage(resolve, options, this.state);
-
-      singleton.msgEventListener = msgEventListener;
-    });
+    await handleChildMessage(options);
 
     const { circuit_driver_id, driver_properties } = options;
-
-    const driverVersion = await sendMsgToChild(
+    sendMsgToChild(
       new Msg("LOAD_DRIVER", {
         circuit_driver_id,
         driver_properties,
       }),
-      this.state.iframe!
-    );
+      iframe
+    ).then(driverVersion => {
+      console.log("Driver version", driverVersion);
+      this.state.driverVersion = driverVersion;
 
-    console.log("driver version", driverVersion);
-    this.state.driverVersion = driverVersion;
+      emit(this.subscribers, {
+        type: "DRIVER_LOADED",
+        data: driverVersion,
+      });
+    });
 
-    singleton.isMounted = true;
-    return this.state.iframe!;
+    return this.state.iframe;
   }
 
-  async createProof(args: Record<string, any>): Promise<ProveReceipt> {
+  async createProof(inputs: any, circuitTypeId: string): Promise<ProveReceipt> {
     if (!this.state.iframe) {
       throw new Error("iframe is not created");
     }
 
     try {
-      const proofResp = await sendMsgToChild(new Msg("CREATE_PROOF", args), this.state.iframe);
+      const proofResp = await sendMsgToChild(
+        new Msg("CREATE_PROOF", {
+          inputs,
+          circuitTypeId,
+        }),
+        this.state.iframe
+      );
       return proofResp;
     } catch (err) {
       throw new Error(`Error creating proof: ${err}`);
     }
   }
+
+  async hash(args: bigint[]): Promise<bigint> {
+    if (!this.state.iframe) {
+      throw new Error("iframe is not created");
+    }
+
+    try {
+      const resp = await sendMsgToChild(
+        new Msg("HASH", {
+          msg: args,
+        }),
+        this.state.iframe
+      );
+
+      return resp.msgHash;
+    } catch (err) {
+      throw new Error(`Error creating proof: ${err}`);
+    }
+  }
+
+  subscribe(subscriber: (type: SubscribedMsg) => void): ProofGenElement {
+    this.subscribers.push(subscriber);
+
+    return this;
+  }
+}
+
+function emit(subscribers: ProofGenElementSubscriber[], msg: SubscribedMsg) {
+  for (const scb of subscribers) {
+    scb(msg);
+  }
 }
 
 export default ProofGenElement;
-
-export interface ProofGenElementState {
-  iframe: HTMLIFrameElement | undefined;
-  driverVersion: string | undefined;
-}

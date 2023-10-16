@@ -22,6 +22,9 @@ pub struct PrfsCircuit {
     pub elliptic_curve: String,
     pub finite_field: String,
 
+    #[ts(type = "Record<string, string>")]
+    pub build_properties: sqlx::types::Json<HashMap<String, String>>,
+
     pub circuit_driver_id: String,
     pub driver_version: String,
 

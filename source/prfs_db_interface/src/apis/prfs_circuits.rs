@@ -31,6 +31,7 @@ on pc.circuit_type=pct.circuit_type where pc.circuit_id=$1"#;
         desc: row.get("desc"),
         author: row.get("author"),
         num_public_inputs: row.get("num_public_inputs"),
+        build_properties: row.get("build_properties"),
         circuit_dsl: row.get("circuit_dsl"),
         arithmetization: row.get("arithmetization"),
         proof_algorithm: row.get("proof_algorithm"),
@@ -72,6 +73,7 @@ on pc.circuit_type=pct.circuit_type"#;
             circuit_dsl: row.get("circuit_dsl"),
             arithmetization: row.get("arithmetization"),
             proof_algorithm: row.get("proof_algorithm"),
+            build_properties: row.get("build_properties"),
             elliptic_curve: row.get("elliptic_curve"),
             finite_field: row.get("finite_field"),
             circuit_driver_id: row.get("circuit_driver_id"),
@@ -94,9 +96,10 @@ pub async fn insert_prfs_circuit(
 INSERT INTO prfs_circuits
 (circuit_id, circuit_type, label, "desc", author, num_public_inputs, circuit_dsl, arithmetization,
 proof_algorithm, elliptic_curve, finite_field, circuit_driver_id, driver_version,
-driver_properties, raw_circuit_inputs_meta
+driver_properties, raw_circuit_inputs_meta, build_properties
 )
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) returning circuit_id"#;
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+returning circuit_id"#;
 
     let row = sqlx::query(query)
         .bind(&circuit.circuit_id)
@@ -114,6 +117,7 @@ VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) return
         .bind(&circuit.driver_version)
         .bind(&circuit.driver_properties)
         .bind(&circuit.raw_circuit_inputs_meta)
+        .bind(&circuit.build_properties)
         .fetch_one(&mut **tx)
         .await
         .unwrap();

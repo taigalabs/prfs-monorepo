@@ -1,32 +1,46 @@
 import {
   CircuitDriver,
   ProveArgs,
-  ProveResult,
   ProveReceipt,
   VerifyArgs,
-  SpartanMerkleProof,
 } from "@taigalabs/prfs-driver-interface";
-import { BN } from "bn.js";
 
-import { Tree } from "./helpers/tree";
-import { makePoseidon } from "./helpers/poseidon";
-import { PrfsHandlers, AsyncHashFn, BuildStatus } from "./types";
-import { fromSig, snarkJsWitnessGen } from "./helpers/utils";
-import {
-  CircuitPubInput,
-  PublicInput,
-  SECP256K1_P,
-  computeEffEcdsaPubInput2,
-  verifyEffEcdsaPubInput,
-} from "./helpers/public_input";
-import { deserializePublicInput, serializePublicInput } from "./serialize";
+import { Tree } from "./utils/tree";
+import { makePoseidon } from "./utils/poseidon";
+import { PrfsHandlers, AsyncHashFn, BuildStatus, SpartanDriverCtorArgs } from "./types";
+import { initWasm } from "./wasm_wrapper/load_worker";
+import { fetchAsset } from "./utils/utils";
 
 export default class SpartanDriver implements CircuitDriver {
   handlers: PrfsHandlers;
   circuit: Uint8Array;
   wtnsGen: Uint8Array;
 
-  constructor(args: SpartanDriverCtorArgs) {
+  static async newInstance(driverProps: SpartanCircomDriverProperties): Promise<CircuitDriver> {
+    console.log("Creating a driver instance, props: %o", driverProps);
+
+    let prfsHandlers;
+    try {
+      prfsHandlers = await initWasm();
+
+      const ts = Date.now();
+      const circuit = await fetchAsset(`${driverProps.circuit_url}?version=${ts}`);
+      const wtnsGen = await fetchAsset(`${driverProps.wtns_gen_url}?version=${ts}`);
+
+      const args: SpartanDriverCtorArgs = {
+        handlers: prfsHandlers,
+        wtnsGen,
+        circuit,
+      };
+
+      const obj = new SpartanDriver(args);
+      return obj;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  private constructor(args: SpartanDriverCtorArgs) {
     this.handlers = args.handlers;
 
     if (args.circuit === undefined) {
@@ -49,79 +63,36 @@ export default class SpartanDriver implements CircuitDriver {
     return this.handlers.makeMerkleProof(leaves, leafIdx, depth);
   }
 
-  newPoseidon() {
-    return makePoseidon(this.handlers);
+  async hash(args: bigint[]): Promise<bigint> {
+    const poseidon = makePoseidon(this.handlers);
+    const ret = await poseidon(args);
+
+    return ret;
   }
 
   async newTree(depth: number, hash: AsyncHashFn): Promise<Tree> {
     return await Tree.newInstance(depth, hash);
   }
 
-  async prove(args: ProveArgs<MembershipProveInputs>): Promise<ProveReceipt> {
+  async prove(args: ProveArgs<any>): Promise<ProveReceipt> {
     try {
-      const { inputs, eventListener } = args;
-      const { sigData, merkleProof } = inputs;
-      const { msgRaw, msgHash, sig } = sigData;
-      // console.log("inputs: %o", inputs);
+      // const { inputs, circuitType, eventListener } = args;
+      console.log(11, args.circuitTypeId);
 
-      const { r, s, v } = fromSig(sig);
+      switch (args.circuitTypeId) {
+        case "SIMPLE_HASH_1": {
+          const { proveSimpleHash } = await import("./provers/simple_hash/simple_hash");
 
-      const poseidon = this.newPoseidon();
-      const serialNo = await poseidon([s, BigInt(0)]);
+          return proveSimpleHash(args, this.handlers, this.wtnsGen, this.circuit);
+        }
+        case "MEMBERSHIP_PROOF_1": {
+          const { proveMembership } = await import("./provers/membership_proof/membership_proof_1");
 
-      const effEcdsaPubInput = computeEffEcdsaPubInput2(r, v, msgHash);
-
-      eventListener("debug", "Computed ECDSA pub input");
-
-      const circuitPubInput = new CircuitPubInput(
-        merkleProof.root,
-        effEcdsaPubInput.Tx,
-        effEcdsaPubInput.Ty,
-        effEcdsaPubInput.Ux,
-        effEcdsaPubInput.Uy,
-        serialNo
-      );
-
-      const publicInput = new PublicInput(r, v, msgRaw, msgHash, circuitPubInput);
-      const m = new BN(msgHash).mod(SECP256K1_P);
-
-      const witnessGenInput = {
-        r,
-        s,
-        m: BigInt(m.toString()),
-
-        // merkle root
-        root: merkleProof.root,
-        siblings: merkleProof.siblings,
-        pathIndices: merkleProof.pathIndices,
-
-        // Eff ECDSA PubInput
-        Tx: effEcdsaPubInput.Tx,
-        Ty: effEcdsaPubInput.Ty,
-        Ux: effEcdsaPubInput.Ux,
-        Uy: effEcdsaPubInput.Uy,
-
-        serialNo,
-      };
-
-      // console.log("witnessGenInput: %o", witnessGenInput);
-      const witness = await snarkJsWitnessGen(witnessGenInput, this.wtnsGen);
-
-      eventListener("info", "Computed witness gen input");
-
-      const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
-
-      const prev = performance.now();
-      const proof = await this.handlers.prove(this.circuit, witness.data, circuitPublicInput);
-      const now = performance.now();
-
-      return {
-        duration: now - prev,
-        proveResult: {
-          proof,
-          publicInputSer: serializePublicInput(publicInput),
-        },
-      };
+          return proveMembership(args, this.handlers, this.wtnsGen, this.circuit);
+        }
+        default:
+          throw new Error(`Unknown circuit type: ${args.circuitTypeId}`);
+      }
     } catch (err) {
       console.error("Error creating a proof, err: %o", err);
 
@@ -131,21 +102,22 @@ export default class SpartanDriver implements CircuitDriver {
 
   async verify(args: VerifyArgs): Promise<boolean> {
     try {
-      const { inputs } = args;
-      const { proof, publicInputSer } = inputs;
+      console.log(11, args.circuitTypeId);
 
-      const publicInput = deserializePublicInput(publicInputSer);
-      const isPubInputValid = verifyEffEcdsaPubInput(publicInput as PublicInput);
+      switch (args.circuitTypeId) {
+        case "SIMPLE_HASH_1": {
+          return Promise.reject(1);
+        }
+        case "MEMBERSHIP_PROOF_1": {
+          const { verifyMembership } = await import(
+            "./provers/membership_proof/membership_proof_1"
+          );
 
-      let isProofValid;
-      isProofValid = await this.handlers.verify(
-        this.circuit,
-        proof,
-        publicInput.circuitPubInput.serialize()
-      );
-      isProofValid = false;
-
-      return isProofValid && isPubInputValid;
+          return verifyMembership(args, this.handlers, this.wtnsGen, this.circuit);
+        }
+        default:
+          throw new Error(`Unknown circuit type: ${args.circuitTypeId}`);
+      }
     } catch (err) {
       console.error("Error verifying a proof, err: %o", err);
 
@@ -154,18 +126,8 @@ export default class SpartanDriver implements CircuitDriver {
   }
 }
 
-export interface SpartanDriverCtorArgs {
-  handlers: PrfsHandlers;
-  // wtnsGenUrl: string;
-  circuit: Uint8Array;
-  wtnsGen: Uint8Array;
-}
-
-export interface MembershipProveInputs {
-  sigData: {
-    msgRaw: string;
-    msgHash: Buffer;
-    sig: string;
-  };
-  merkleProof: SpartanMerkleProof;
+export interface SpartanCircomDriverProperties {
+  instance_path: string;
+  wtns_gen_url: string;
+  circuit_url: string;
 }

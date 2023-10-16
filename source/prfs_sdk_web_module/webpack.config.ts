@@ -9,7 +9,7 @@ const idProd = process.env.NODE_ENV === "production";
 const str = JSON.stringify;
 
 const config: webpack.Configuration = {
-  mode: "production",
+  mode: "development",
   entry: path.resolve(__dirname, "src/index.ts"),
   module: {
     rules: [

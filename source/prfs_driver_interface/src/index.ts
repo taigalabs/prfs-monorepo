@@ -9,12 +9,12 @@ export interface CircuitDriver {
   prove(args: ProveArgs<any>): Promise<ProveReceipt>;
   verify(args: VerifyArgs): Promise<boolean>;
   getBuildStatus(): Promise<any>;
-  [key: string]: any;
+  hash(args: bigint[]): Promise<bigint>;
 }
 
 export interface ProveArgs<T> {
   inputs: T;
-  circuitType: string;
+  circuitTypeId: string;
   eventListener: (type: LogEventType, msg: string) => void;
 }
 
@@ -23,6 +23,7 @@ export interface VerifyArgs {
     proof: Uint8Array;
     publicInputSer: string;
   };
+  circuitTypeId: string;
 }
 
 export interface ProveResult {

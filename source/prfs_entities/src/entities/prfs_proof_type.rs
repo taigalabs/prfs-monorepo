@@ -19,7 +19,7 @@ pub struct PrfsProofType {
 
     #[ts(type = "string")]
     pub circuit_id: Uuid,
-    pub circuit_type: String,
+    pub circuit_type_id: String,
     pub circuit_driver_id: String,
 
     #[ts(type = "Record<string, any>[]")]
@@ -28,7 +28,7 @@ pub struct PrfsProofType {
     #[ts(type = "Record<string, any>")]
     pub driver_properties: sqlx::types::Json<HashMap<String, String>>,
 
-    #[ts(type = "number")]
+    #[ts(type = "string")]
     pub created_at: DateTime<Utc>,
 }
 
