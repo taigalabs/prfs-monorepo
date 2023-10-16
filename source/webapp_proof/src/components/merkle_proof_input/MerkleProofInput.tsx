@@ -219,8 +219,6 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
     ]
   );
 
-  console.log(11, value);
-
   return (
     prfsSet && (
       <FormInput>

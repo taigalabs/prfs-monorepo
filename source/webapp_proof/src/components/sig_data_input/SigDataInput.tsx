@@ -11,25 +11,44 @@ import { useSignMessage } from "wagmi";
 
 const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFormValues }) => {
   const i18n = React.useContext(i18nContext);
-  const [message, setMessage] = React.useState("");
+  // const [message, setMessage] = React.useState("");
   const { signMessageAsync } = useSignMessage();
 
-  React.useEffect(() => {
-    if (value === undefined) {
-      const defaultSigData: SigData = {
-        msgRaw: "default message",
-        msgHash: Buffer.from(""),
-        sig: "",
-      };
+  // React.useEffect(() => {
+  //   if (value === undefined) {
+  //     const defaultSigData: SigData = {
+  //       msgRaw: "",
+  //       msgHash: Buffer.from(""),
+  //       sig: "",
+  //     };
+
+  //     setFormValues(oldVals => {
+  //       return {
+  //         ...oldVals,
+  //         [circuitInput.name]: defaultSigData,
+  //       };
+  //     });
+  //   }
+  // }, [value, setFormValues]);
+
+  const handleChangeRaw = React.useCallback(
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      const { value } = ev.target;
 
       setFormValues(oldVals => {
+        const oldVal = oldVals[circuitInput.name] || {};
+
         return {
           ...oldVals,
-          [circuitInput.name]: defaultSigData,
+          [circuitInput.name]: {
+            ...oldVal,
+            msgRaw: value,
+          },
         };
       });
-    }
-  }, [value, setFormValues]);
+    },
+    [setFormValues]
+  );
 
   const handleClickSign = React.useCallback(async () => {
     if (value) {
@@ -48,6 +67,8 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
     }
   }, [value, setFormValues, signMessageAsync]);
 
+  console.log(22, value);
+
   return (
     <FormInput>
       <FormInputTitleRow>
@@ -56,10 +77,13 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
       <div
         className={cn({
           [styles.inputWrapper]: true,
-          [styles.isInputValid]: value && value.sig.length > 0,
         })}
       >
-        <input placeholder={circuitInput.desc} value={value?.msgRaw || ""} readOnly />
+        <input
+          placeholder={circuitInput.desc}
+          value={value?.msgRaw || ""}
+          onChange={handleChangeRaw}
+        />
         <div className={styles.btnGroup}>
           <button className={styles.connectBtn} onClick={handleClickSign}>
             {i18n.sign}
