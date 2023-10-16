@@ -4,7 +4,7 @@ import { PrfsHandlers } from "@/types";
 import { makePoseidon } from "@/utils/poseidon";
 import { bigIntToBytes, snarkJsWitnessGen } from "@/utils/utils";
 import { BN } from "bn.js";
-import { SimpleHashPublicInput } from "./public_input";
+import { SimpleHashCircuitPubInput, SimpleHashPublicInput } from "./public_input";
 
 export async function proveSimpleHash(
   args: ProveArgs<SimpleHashProveArgs>,
@@ -23,17 +23,9 @@ export async function proveSimpleHash(
 
   // eventListener("debug", "Computed ECDSA pub input");
 
-  // const circuitPubInput = new CircuitPubInput(
-  //   merkleProof.root,
-  //   effEcdsaPubInput.Tx,
-  //   effEcdsaPubInput.Ty,
-  //   effEcdsaPubInput.Ux,
-  //   effEcdsaPubInput.Uy,
-  //   serialNo
-  // );
+  const circuitPubInput = new SimpleHashCircuitPubInput(msgHash);
 
-  const publicInput = new SimpleHashPublicInput(msgRaw, msgHash, circuitPubInput);
-  // const m = new BN(msgRaw).mod(SECP256K1_P);
+  const publicInput = new SimpleHashPublicInput(msgHash, circuitPubInput);
 
   const witnessGenInput = {
     msgRaw,
@@ -45,9 +37,9 @@ export async function proveSimpleHash(
 
   eventListener("info", "Computed witness gen input");
 
-  // const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
-  const circuitPublicInput = new Uint8Array(32 * 1);
-  circuitPublicInput.set(bigIntToBytes(msgHash, 32), 0);
+  const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
+  // const circuitPublicInput = new Uint8Array(32 * 1);
+  // circuitPublicInput.set(bigIntToBytes(msgHash, 32), 0);
 
   const prev = performance.now();
   const proof = await handlers.prove(circuit, witness.data, circuitPublicInput);
