@@ -96,7 +96,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
     fn().then();
   }, [circuitInput, setPrfsSet, getPrfsSetBySetId]);
 
-  const handleClickSubmit = React.useCallback(
+  const handleClickRawSubmit = React.useCallback(
     (merkleProof: SpartanMerkleProof) => {
       setFormValues((prevVals: any) => {
         return {
@@ -112,10 +112,6 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
 
   const handleChangeAddress = React.useCallback(
     async (addr: string) => {
-      if (isOpen) {
-        setIsOpen(false);
-      }
-
       if (!prfsSet) {
         return;
       }
@@ -138,7 +134,6 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
       const { set_id, merkle_root } = prfsSet;
 
       try {
-        console.log(12);
         const { payload } = await GetPrfsTreeLeafIndices({
           set_id,
           leaf_vals: [addr],
@@ -207,7 +202,6 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
       setIsInputValid,
       setFormErrors,
       setIsOpen,
-      isOpen,
     ]
   );
 
@@ -245,7 +239,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
                         <MerkleProofRawModal
                           prfsSet={prfsSet}
                           circuitInput={circuitInput}
-                          handleClickSubmit={handleClickSubmit}
+                          handleClickRawSubmit={handleClickRawSubmit}
                           setIsOpen={setIsOpen}
                         />
                       </div>

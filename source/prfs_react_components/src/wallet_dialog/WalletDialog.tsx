@@ -39,6 +39,14 @@ const WalletDialog: React.FC<WalletDialogProps> = ({ handleChangeAddress, zIndex
     setIsOpen(false);
   }, [setIsOpen]);
 
+  const extendedHandleChangeAddress = React.useCallback(
+    (addr: string) => {
+      handleChangeAddress(addr);
+      setIsOpen(false);
+    },
+    [handleChangeAddress, setIsOpen]
+  );
+
   return (
     <div className={styles.wrapper}>
       <div>
@@ -60,7 +68,7 @@ const WalletDialog: React.FC<WalletDialogProps> = ({ handleChangeAddress, zIndex
                     >
                       <WalletModal
                         handleClickClose={handleClickClose}
-                        handleChangeAddress={handleChangeAddress}
+                        handleChangeAddress={extendedHandleChangeAddress}
                       />
                     </div>
                   </FloatingFocusManager>
@@ -77,9 +85,6 @@ const WalletDialog: React.FC<WalletDialogProps> = ({ handleChangeAddress, zIndex
 export default WalletDialog;
 
 export interface WalletDialogProps {
-  // circuitInput: CircuitInput;
-  // value: SpartanMerkleProof | undefined;
-  // setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
-  handleChangeAddress: (addr: any) => void;
+  handleChangeAddress: (addr: string) => void;
   zIndex?: number;
 }

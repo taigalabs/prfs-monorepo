@@ -15,7 +15,7 @@ import { Msg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 const MerkleProofRawModal: React.FC<MerkleProofRawModalProps> = ({
   prfsSet,
   circuitInput,
-  handleClickSubmit,
+  handleClickRawSubmit,
   setIsOpen,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -34,9 +34,9 @@ const MerkleProofRawModal: React.FC<MerkleProofRawModalProps> = ({
 
   const extendedHandleClickSubmit = React.useCallback(() => {
     if (value) {
-      handleClickSubmit(value);
+      handleClickRawSubmit(value);
     }
-  }, [value, handleClickSubmit]);
+  }, [value, handleClickRawSubmit]);
 
   return (
     <div className={styles.wrapper}>
@@ -74,6 +74,6 @@ export default MerkleProofRawModal;
 export interface MerkleProofRawModalProps {
   prfsSet: PrfsSet | undefined;
   circuitInput: CircuitInput;
-  handleClickSubmit: (merkleProof: SpartanMerkleProof) => void;
+  handleClickRawSubmit: (merkleProof: SpartanMerkleProof) => void;
   setIsOpen: (b: boolean) => void;
 }
