@@ -83,4 +83,5 @@ export interface SigDataInputProps {
   value: SigData | undefined;
   error: string | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
 }

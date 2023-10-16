@@ -15,13 +15,19 @@ const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
 
+  const addr = React.useMemo(() => {
+    address.substring(0, 5) + address.substring(address.length - 5, address.length);
+  }, [address]);
+  if (address) {
+  }
+
   return (
     <div className={styles.connectInfo}>
       <div className={styles.connector}>
         Connected to <b>{connector.name}</b>
       </div>
       <div className={styles.address}>
-        <button onClick={handleClickClose}>{ensName ? `${ensName} (${address})` : address}</button>
+        <button onClick={handleClickClose}>{address}</button>
       </div>
       <div className={styles.btnRow}>
         <Button variant="transparent_black_1" handleClick={handleClickDisconnect}>
@@ -47,7 +53,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ handleClickClose, handleChang
 
   React.useEffect(() => {
     if (address) {
-      handleChangeAddress(address);
+      // handleChangeAddress(address);
     }
   }, [address, handleChangeAddress]);
 

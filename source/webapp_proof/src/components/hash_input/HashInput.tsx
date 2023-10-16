@@ -10,6 +10,8 @@ import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof
 const HashInput: React.FC<HashInputProps> = ({
   circuitInput,
   value,
+  error,
+  setFormErrors,
   setFormValues,
   proofGenElement,
 }) => {
@@ -88,5 +90,6 @@ export interface HashInputProps {
   value: HashData | undefined;
   error: string | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
   proofGenElement: ProofGenElement;
 }

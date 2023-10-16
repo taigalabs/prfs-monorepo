@@ -33,6 +33,8 @@ import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/
 const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   circuitInput,
   value,
+  error,
+  setFormErrors,
   setFormValues,
   zIndex,
 }) => {
@@ -118,7 +120,16 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         return;
       }
 
+      if (error) {
+      }
+
       setWalletAddr(addr);
+      setFormErrors((prevVals: any) => {
+        return {
+          ...prevVals,
+          [circuitInput.name]: undefined,
+        };
+      });
 
       const { set_id } = prfsSet;
 
@@ -183,7 +194,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         console.error(err);
       }
     },
-    [setWalletAddr, setFormValues, prfsSet, GetPrfsTreeLeafIndices, setIsInputValid]
+    [setWalletAddr, setFormValues, prfsSet, GetPrfsTreeLeafIndices, setIsInputValid, setFormErrors]
   );
 
   console.log(11, value);
@@ -238,7 +249,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
               <WalletDialog handleChangeAddress={handleChangeAddress} />
             </div>
           </div>
-          <div className={styles.computedValue}>value</div>
+          {value && <div className={styles.computedValue}>value</div>}
         </div>
       </FormInput>
     )
@@ -252,5 +263,6 @@ export interface MerkleProofInputProps {
   value: SpartanMerkleProof | undefined;
   error: string | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
   zIndex?: number;
 }

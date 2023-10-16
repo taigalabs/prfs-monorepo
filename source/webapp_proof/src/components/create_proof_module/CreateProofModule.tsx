@@ -135,6 +135,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
               value={formValues[input.name] as any}
               error={formErrors[input.name]}
               setFormValues={setFormValues}
+              setFormErrors={setFormErrors}
             />
           );
           break;
@@ -147,6 +148,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
               value={formValues[input.name] as any}
               error={formErrors[input.name]}
               setFormValues={setFormValues}
+              setFormErrors={setFormErrors}
             />
           );
           break;
@@ -159,6 +161,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
               value={formValues[input.name] as any}
               error={formErrors[input.name]}
               setFormValues={setFormValues}
+              setFormErrors={setFormErrors}
               proofGenElement={proofGenElement}
             />
           );
