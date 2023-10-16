@@ -112,6 +112,10 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
 
   const handleChangeAddress = React.useCallback(
     async (addr: any) => {
+      if (isOpen) {
+        setIsOpen(false);
+      }
+
       if (!prfsSet) {
         return;
       }
@@ -194,7 +198,16 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         console.error(err);
       }
     },
-    [setWalletAddr, setFormValues, prfsSet, GetPrfsTreeLeafIndices, setIsInputValid, setFormErrors]
+    [
+      setWalletAddr,
+      setFormValues,
+      prfsSet,
+      GetPrfsTreeLeafIndices,
+      setIsInputValid,
+      setFormErrors,
+      setIsOpen,
+      isOpen,
+    ]
   );
 
   console.log(11, value);

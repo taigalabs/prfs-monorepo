@@ -37,13 +37,13 @@
 }
 
 .address {
-  border: 1px solid var(--gray-50);
-  border-radius: 20px;
-  padding: 10px 12px;
-  color: var(--gray-20);
   margin: 18px 0;
 
   button {
+    border: 1px solid var(--gray-50);
+    border-radius: 20px;
+    padding: 10px 12px;
+    color: var(--gray-20);
     cursor: pointer;
 
     &:hover {
@@ -55,5 +55,5 @@
 .btnRow {
   display: flex;
   justify-content: space-between;
-  margin-top: 41px;
+  margin-top: 30px;
 }
