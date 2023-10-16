@@ -8,19 +8,6 @@ import styles from "./ProofTypeModal2.module.scss";
 import CaptionedImg from "../captioned_img/CaptionedImg";
 import { ProofTypeItem } from "./ProofTypeModal";
 
-// async function fetchServerPage(
-//   limit: number,
-//   offset: number = 0
-// ): Promise<{ rows: string[]; nextOffset: number | undefined }> {
-//   console.log("fetch", limit, offset);
-
-//   const rows = new Array(limit).fill(0).map((e, i) => `Async loaded row #${i + offset * limit}`);
-
-//   await new Promise(r => setTimeout(r, 500));
-
-//   return { rows, nextOffset: offset + 1 };
-// }
-
 const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) => {
   const handleClickExternalLink = React.useCallback((ev: React.MouseEvent, url: string) => {
     ev.stopPropagation();
