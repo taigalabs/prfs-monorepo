@@ -12,6 +12,8 @@ import {
   FloatingPortal,
 } from "@floating-ui/react";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
+import { BsSearch } from "@react-icons/all-files/bs/BsSearch";
+import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
 
 import Fade from "../fade/Fade";
 import Button from "../button/Button";
@@ -56,14 +58,19 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
     <div className={styles.wrapper}>
       <div className={styles.base} ref={refs.setReference} {...getReferenceProps()}>
         <Button variant="white_gray_1">
-          {selectedProofTypeItem ? (
-            <div className={styles.chooseProofTypeBtnInner}>
-              <CaptionedImg img_url={selectedProofTypeItem.imgUrl} size={32} />
-              <p>{selectedProofTypeItem.label}</p>
-            </div>
-          ) : (
-            i18n.select_what_you_want_to_prove
-          )}
+          <div className={styles.chooseProofTypeBtnInner}>
+            {selectedProofTypeItem ? (
+              <>
+                <CaptionedImg img_url={selectedProofTypeItem.imgUrl} size={32} />
+                <p>{selectedProofTypeItem.label}</p>
+              </>
+            ) : (
+              <>
+                <FaSearch />
+                <p>{i18n.find_what_to_prove}</p>
+              </>
+            )}
+          </div>
         </Button>
       </div>
       <FloatingPortal>

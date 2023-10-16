@@ -62,7 +62,7 @@ export default {
   select_wallet: "Select a wallet",
   select_proof_type: "Select a proof type",
   choose_type: "Choose type",
-  select_what_you_want_to_prove: "Select what you want to prove",
+  find_what_to_prove: "Find what to prove",
   configuration: "Configuration",
   create_proof_type: "Create a proof type",
   proof_type_search_guide: "Search proof types",
