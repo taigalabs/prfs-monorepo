@@ -1,25 +1,32 @@
 import React from "react";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
-
-import styles from "./ProofTypeModal2.module.scss";
-import { ProofTypeItem } from "./ProofTypeModal";
+import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 
-async function fetchServerPage(
-  limit: number,
-  offset: number = 0
-): Promise<{ rows: string[]; nextOffset: number | undefined }> {
-  console.log("fetch", limit, offset);
+import styles from "./ProofTypeModal2.module.scss";
+import CaptionedImg from "../captioned_img/CaptionedImg";
+import { ProofTypeItem } from "./ProofTypeModal";
 
-  const rows = new Array(limit).fill(0).map((e, i) => `Async loaded row #${i + offset * limit}`);
+// async function fetchServerPage(
+//   limit: number,
+//   offset: number = 0
+// ): Promise<{ rows: string[]; nextOffset: number | undefined }> {
+//   console.log("fetch", limit, offset);
 
-  await new Promise(r => setTimeout(r, 500));
+//   const rows = new Array(limit).fill(0).map((e, i) => `Async loaded row #${i + offset * limit}`);
 
-  return { rows, nextOffset: offset + 1 };
-}
+//   await new Promise(r => setTimeout(r, 500));
+
+//   return { rows, nextOffset: offset + 1 };
+// }
 
 const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) => {
+  const handleClickExternalLink = React.useCallback((ev: React.MouseEvent, url: string) => {
+    ev.stopPropagation();
+    window.open(url, "_blank");
+  }, []);
+
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery(
       ["projects"],
@@ -32,50 +39,19 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) =>
         return payload;
       },
       {
-        getNextPageParam: lastPage => lastPage.nextOffset,
+        getNextPageParam: lastPage => lastPage.next_idx,
       }
     );
 
-  const allRows = data ? data.pages.flatMap(d => d.rows) : [];
+  const allRows = data ? data.pages.flatMap(d => d.prfs_proof_types) : [];
   const parentRef = React.useRef<HTMLDivElement | null>(null);
-  const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
 
   const rowVirtualizer = useVirtualizer({
     count: hasNextPage ? allRows.length + 1 : allRows.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 100,
+    estimateSize: () => 60,
     overscan: 5,
   });
-
-  // const { isLoading, data } = useQuery({
-  //   queryKey: ["get_prfs_proof_instances"],
-  //   queryFn: async () => {
-  //     const { payload } = await prfsApi2("get_prfs_proof_types", {
-  //       page_idx: pageIndex,
-  //       page_size: pageSize,
-  //     });
-  //     setData(payload.prfs_proof_types);
-  //   },
-  // });
-
-  const handleScroll = React.useCallback(() => {
-    // console.log(55, containerRefElement, rightBarContainerRef.current);
-    if (parentRef.current && rightBarContainerRef.current) {
-      const { scrollHeight, scrollTop, clientHeight } = parentRef.current;
-      const { scrollHeight: sh, scrollTop: st, clientHeight: ch } = rightBarContainerRef.current!;
-
-      if (ch < clientHeight) {
-        rightBarContainerRef.current!.style.top = `0px`;
-      } else {
-        const delta = clientHeight + scrollTop - ch;
-        if (delta >= 0) {
-          rightBarContainerRef.current.style.transform = `translateY(${delta}px)`;
-        } else {
-          rightBarContainerRef.current!.style.transform = "translateY(0px)";
-        }
-      }
-    }
-  }, [isFetching, parentRef.current, rightBarContainerRef.current]);
 
   React.useEffect(() => {
     const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse();
@@ -106,9 +82,8 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) =>
       ) : (
         <div
           ref={parentRef}
-          onScroll={handleScroll}
           style={{
-            height: "500px",
+            height: "300px",
             overflow: "auto",
           }}
         >
@@ -120,7 +95,8 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) =>
           >
             {items.map(virtualRow => {
               const isLoaderRow = virtualRow.index > allRows.length - 1;
-              const post = allRows[virtualRow.index];
+              const proofType = allRows[virtualRow.index];
+              const url = `${process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/proof_types/${proofType.proof_type_id}`;
 
               return (
                 <div
@@ -136,7 +112,37 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) =>
                   data-index={virtualRow.index}
                   ref={rowVirtualizer.measureElement}
                 >
-                  {isLoaderRow ? (hasNextPage ? "Loading more..." : "Nothing more to load") : post}
+                  {isLoaderRow ? (
+                    hasNextPage ? (
+                      "Loading more..."
+                    ) : (
+                      "Nothing more to load"
+                    )
+                  ) : (
+                    <div
+                      className={styles.row}
+                      onClick={() =>
+                        handleSelectVal({
+                          proofTypeId: proofType.proof_type_id,
+                          label: proofType.label,
+                          imgUrl: proofType.img_url,
+                        })
+                      }
+                    >
+                      <div className={styles.imgCol}>
+                        <CaptionedImg img_url={proofType.img_url} size={50} />
+                      </div>
+                      <div className={styles.label}>
+                        <p>{proofType.label}</p>
+                        <div className={styles.icon}>
+                          <div onClick={ev => handleClickExternalLink(ev, url)}>
+                            <BiLinkExternal />
+                          </div>
+                        </div>
+                      </div>
+                      <p className={styles.proofTypeId}>{proofType.proof_type_id}</p>
+                    </div>
+                  )}
                 </div>
               );
             })}

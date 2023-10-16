@@ -34,7 +34,7 @@ const ChannelPage: React.FC<ChannelPageProps> = ({ params }) => {
 
   const isPostPage = searchParams.get("post") !== null;
 
-  return localPrfsAccount ? (
+  return (
     <DefaultLayout>
       <ContentLeft>
         <LeftBar />
@@ -49,8 +49,6 @@ const ChannelPage: React.FC<ChannelPageProps> = ({ params }) => {
         </div>
       </ContentMain>
     </DefaultLayout>
-  ) : (
-    <div>Loading...</div>
   );
 };
 

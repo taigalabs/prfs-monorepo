@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 
 import styles from "./HomePage.module.scss";
@@ -18,15 +18,17 @@ const HomePage: React.FC = () => {
   const localPrfsAccount = useAppSelector(state => state.user.localPrfsAccount);
   useLocalWallet(dispatch);
 
-  React.useEffect(() => {
-    if (localPrfsAccount) {
-      router.push(`${paths.c}/crypto`);
-    } else if (localPrfsAccount === null) {
-      router.push(`${paths.sign_in}`);
-    }
-  }, [router, localPrfsAccount]);
+  // React.useEffect(() => {
+  //   if (localPrfsAccount) {
+  //     router.push(`${paths.c}/crypto`);
+  //   } else if (localPrfsAccount === null) {
+  //     router.push(`${paths.sign_in}`);
+  //   }
+  // }, [router, localPrfsAccount]);
 
-  return <div>Redirecting...</div>;
+  redirect(`${paths.c}/crypto`);
+
+  // return <div>Redirecting...</div>;
 };
 
 export default HomePage;

@@ -89,34 +89,35 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
       ) : status === "error" ? (
         <span>Error: {(error as Error).message}</span>
       ) : (
-        <ContentMainInfiniteScroll
-          dRef={parentRef}
+        <div
+          ref={parentRef}
           onScroll={handleScroll}
-          style={{ height: "500px" }}
+          style={{ height: "500px", overflow: "auto", border: "1px solid yellow" }}
         >
-          <ContentMainCenter
+          <div
             style={{
               height: `${rowVirtualizer.getTotalSize()}px`,
+              position: "relative",
             }}
           >
-            <ContentMainHeader>
-              <TimelineHeader channelId={channelId} />
-            </ContentMainHeader>
-            <ContentMainBody
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                transform: `translateY(${items[0].start}px)`,
-              }}
-            >
+            {/* <ContentMainHeader> */}
+            {/*   <TimelineHeader channelId={channelId} /> */}
+            {/* </ContentMainHeader> */}
+            <div>
               {items.map(virtualRow => {
                 const isLoaderRow = virtualRow.index > allRows.length - 1;
                 const post = allRows[virtualRow.index];
 
                 return (
                   <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: `${virtualRow.size}px`,
+                      transform: `translateY(${virtualRow.start}px)`,
+                    }}
                     className={styles.row}
                     key={virtualRow.index}
                     data-index={virtualRow.index}
@@ -130,12 +131,12 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
                   </div>
                 );
               })}
-            </ContentMainBody>
-          </ContentMainCenter>
+            </div>
+          </div>
           <ContentMainRight>
             <RightBar />
           </ContentMainRight>
-        </ContentMainInfiniteScroll>
+        </div>
       )}
       <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
     </div>
