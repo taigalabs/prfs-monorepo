@@ -79,16 +79,19 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
           [styles.inputWrapper]: true,
         })}
       >
-        <input
-          placeholder={circuitInput.desc}
-          value={value?.msgRaw || ""}
-          onChange={handleChangeRaw}
-        />
-        <div className={styles.btnGroup}>
-          <button className={styles.connectBtn} onClick={handleClickSign}>
-            {i18n.sign}
-          </button>
+        <div className={styles.interactiveArea}>
+          <input
+            placeholder={circuitInput.desc}
+            value={value?.msgRaw || ""}
+            onChange={handleChangeRaw}
+          />
+          <div className={styles.btnGroup}>
+            <button className={styles.connectBtn} onClick={handleClickSign}>
+              {i18n.sign}
+            </button>
+          </div>
         </div>
+        <div>power</div>
       </div>
     </FormInput>
   );
