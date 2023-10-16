@@ -1,7 +1,10 @@
 .wrapper {
   width: 510px;
   margin-top: 20px;
-  /* border: 1px solid blue; */
+  display: flex;
+  justify-content: center;
+
+  border: 1px solid blue;
 }
 
 .formWrapper {
@@ -45,7 +48,8 @@
   /* padding: 6px 9px 11px; */
 }
 
-.sdkArea {
-  display: flex;
-  justify-content: center;
+.sdkRow {
+  margin-top: 22px;
+  /* display: flex; */
+  /* justify-content: center; */
 }

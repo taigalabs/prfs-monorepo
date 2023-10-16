@@ -26,10 +26,7 @@ import ProofTypeModal, { type ProofTypeItem } from "./ProofTypeModal";
 import CaptionedImg from "../captioned_img/CaptionedImg";
 import ProofTypeModal2 from "./ProofTypeModal2";
 
-const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
-  handleSelectProofType,
-  zIndex,
-}) => {
+const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSelectProofType }) => {
   const i18n = React.useContext(i18nContext);
   const [selectedProofTypeItem, setSelectedProofTypeItem] = React.useState<ProofTypeItem>();
   const [isOpen, setIsOpen] = React.useState(false);
@@ -60,11 +57,9 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
     [handleSelectProofType, setIsOpen]
   );
 
-  console.log(11, isOpen);
-
   return (
     <div className={styles.wrapper}>
-      <div className={styles.base} ref={refs.setReference} {...getReferenceProps()}>
+      <div ref={refs.setReference} {...getReferenceProps()}>
         <div
           className={cn({
             [styles.chooseProofTypeBtnWrapper]: true,
@@ -76,7 +71,7 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
             <div className={styles.btnInner}>
               {selectedProofTypeItem ? (
                 <>
-                  <CaptionedImg img_url={selectedProofTypeItem.imgUrl} size={32} />
+                  <CaptionedImg img_url={selectedProofTypeItem.imgUrl} size={30} />
                   <p className={styles.label}>{selectedProofTypeItem.label}</p>
                 </>
               ) : (
@@ -112,5 +107,4 @@ export default SelectProofTypeDialog;
 
 export interface SelectProofTypeDialogProps {
   handleSelectProofType: (proofTypeItem: ProofTypeItem) => void;
-  zIndex?: number;
 }

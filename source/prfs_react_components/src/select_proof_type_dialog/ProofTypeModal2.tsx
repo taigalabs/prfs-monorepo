@@ -116,7 +116,7 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) =>
                       }
                     >
                       <div className={styles.left}>
-                        <CaptionedImg img_url={proofType.img_url} size={40} />
+                        <CaptionedImg img_url={proofType.img_url} size={30} />
                       </div>
                       <div className={styles.right}>
                         <div className={styles.label}>

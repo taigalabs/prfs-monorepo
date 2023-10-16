@@ -102,15 +102,14 @@ const CreateProofForm: React.FC = () => {
         })}
       >
         <div className={styles.proofTypeRow}>
-          {/* <p>{i18n.you_would_like_to_prove}</p> */}
           <SelectProofTypeDialog handleSelectProofType={handleSelectProofType} />
         </div>
         {proofType && (
-          <Fade>
-            <div className={styles.sdkArea}>
+          <div className={styles.sdkRow}>
+            <Fade>
               <CreateProofModule proofType={proofType} handleCreateProof={handleCreateProof} />
-            </div>
-          </Fade>
+            </Fade>
+          </div>
         )}
       </div>
       {proveReceipt && (
