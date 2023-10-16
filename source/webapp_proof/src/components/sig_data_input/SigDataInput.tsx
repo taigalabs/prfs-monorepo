@@ -3,37 +3,36 @@ import cn from "classnames";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { FaSignature } from "@react-icons/all-files/fa/FaSignature";
 import { hashPersonalMessage } from "@ethereumjs/util";
+import { useSignMessage } from "wagmi";
 
 import styles from "./SigDataInput.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { FormInput, FormInputTitleRow } from "../form_input/FormInput";
-import { useSignMessage } from "wagmi";
+
+const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
+  const val = React.useMemo(() => {
+    if (value && value.sig) {
+      return value.sig.substring(0, 14) + "...";
+    } else {
+      return "";
+    }
+  }, [value]);
+
+  return <div className={styles.computedValue}>{val}</div>;
+};
 
 const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFormValues }) => {
   const i18n = React.useContext(i18nContext);
-  // const [message, setMessage] = React.useState("");
   const { signMessageAsync } = useSignMessage();
-
-  // React.useEffect(() => {
-  //   if (value === undefined) {
-  //     const defaultSigData: SigData = {
-  //       msgRaw: "",
-  //       msgHash: Buffer.from(""),
-  //       sig: "",
-  //     };
-
-  //     setFormValues(oldVals => {
-  //       return {
-  //         ...oldVals,
-  //         [circuitInput.name]: defaultSigData,
-  //       };
-  //     });
-  //   }
-  // }, [value, setFormValues]);
 
   const handleChangeRaw = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
-      const { value } = ev.target;
+      if (value) {
+        value.sig = "";
+        value.msgHash = Buffer.from("");
+      }
+
+      const newVal = ev.target.value;
 
       setFormValues(oldVals => {
         const oldVal = oldVals[circuitInput.name] || {};
@@ -42,12 +41,12 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
           ...oldVals,
           [circuitInput.name]: {
             ...oldVal,
-            msgRaw: value,
+            msgRaw: newVal,
           },
         };
       });
     },
-    [setFormValues]
+    [setFormValues, value]
   );
 
   const handleClickSign = React.useCallback(async () => {
@@ -67,18 +66,12 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
     }
   }, [value, setFormValues, signMessageAsync]);
 
-  console.log(22, value);
-
   return (
     <FormInput>
       <FormInputTitleRow>
         <p>{circuitInput.label}</p>
       </FormInputTitleRow>
-      <div
-        className={cn({
-          [styles.inputWrapper]: true,
-        })}
-      >
+      <div className={styles.inputWrapper}>
         <div className={styles.interactiveArea}>
           <input
             placeholder={circuitInput.desc}
@@ -91,7 +84,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
             </button>
           </div>
         </div>
-        <div>power</div>
+        {value?.sig && <ComputedValue value={value} />}
       </div>
     </FormInput>
   );
@@ -111,4 +104,8 @@ export interface SigDataInputProps {
   error: string | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+}
+
+export interface ComputedValueProps {
+  value: SigData | undefined;
 }
