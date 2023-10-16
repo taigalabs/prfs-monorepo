@@ -17,29 +17,30 @@ pub fn run(matches: &ArgMatches) {
 fn run_docker(_extra_args: Vec<&str>) {
     let docker_compose_yml_path = PATHS.internals_docker.join("compose/docker-compose.yml");
 
-    let status = Command::new(deps::DOCKER)
-        .args([
-            "compose",
-            "-f",
-            docker_compose_yml_path.to_str().unwrap(),
-            "build",
-            "--no-cache",
-        ])
-        .status()
-        .expect(&format!("{} command failed to start", JS_ENGINE));
+    // let status = Command::new(deps::DOCKER)
+    //     .args([
+    //         "compose",
+    //         "-f",
+    //         docker_compose_yml_path.to_str().unwrap(),
+    //         "build",
+    //         "--no-cache",
+    //     ])
+    //     .status()
+    //     .expect(&format!("{} command failed to start", JS_ENGINE));
 
-    assert!(status.success());
+    // assert!(status.success());
     //
 
     let status = Command::new(deps::DOCKER)
         .args([
             "compose",
-            "--build",
-            "--no-deps",
             "-f",
             docker_compose_yml_path.to_str().unwrap(),
             "up",
-            "prfs_sdk_web_module",
+            "--detach",
+            "--build",
+            "--no-deps",
+            // "prfs_sdk_web_module",
         ])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));

@@ -1,5 +1,19 @@
 services:
   prfs_sdk_web_module:
-    build: ../prfs_sdk_web_module
+    build:
+      context: ../../../
+      dockerfile: ./internals/docker/prfs_sdk_web_module/Dockerfile
     ports:
       - "3010:3010"
+  prfs_api_server:
+    build:
+      context: ../../../
+      dockerfile: ./internals/docker/prfs_api_server/Dockerfile
+    ports:
+      - "4000:4000"
+  prfs_asset_server:
+    build:
+      context: ../../../
+      dockerfile: ./internals/docker/prfs_asset_server/Dockerfile
+    ports:
+      - "4010:4010"
