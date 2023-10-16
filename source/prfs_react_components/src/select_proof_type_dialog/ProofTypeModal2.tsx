@@ -84,7 +84,6 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) =>
               const isLoaderRow = virtualRow.index > allRows.length - 1;
               const proofType = allRows[virtualRow.index];
               const url = `${process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/proof_types/${proofType.proof_type_id}`;
-
               return (
                 <div
                   style={{
@@ -138,7 +137,7 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) =>
           </div>
         </div>
       )}
-      <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
+      {/* <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div> */}
     </div>
   );
 };

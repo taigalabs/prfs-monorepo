@@ -13,10 +13,7 @@
   }
 }
 
-.chooseProofTypeBtnInner {
-  display: flex;
-  align-items: center;
-
+.chooseProofTypeBtnWrapper {
   .label {
     margin-left: 5px;
   }
@@ -25,10 +22,21 @@
     margin-left: 5px;
     font-size: 15px;
   }
-}
 
-.wide {
-  width: 100%;
+  &.wide {
+    width: 100%;
+  }
+
+  &.isOpen {
+    button {
+      border-radius: 20px 20px 0 0;
+    }
+  }
+
+  .btnInner {
+    display: flex;
+    align-items: center;
+  }
 }
 
 .fadeOverlay {
@@ -41,11 +49,14 @@
   inset: 0;
 }
 
-.dialog {
+.modalWrapper {
   background-color: white;
-  border-radius: 10px;
+  border-radius: 0 0 20px 20px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 2px 0px,
+    rgba(0, 0, 0, 0.15) 0px 1.1443px 3.43289px 0.288591px;
   overflow: hidden;
-  max-width: 520px;
+  width: 100%;
+  max-width: 510px;
 }
 
 .header {

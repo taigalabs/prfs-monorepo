@@ -31,30 +31,14 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
   zIndex,
 }) => {
   const i18n = React.useContext(i18nContext);
-  // const [isOpen, setIsOpen] = React.useState(false);
   const [selectedProofTypeItem, setSelectedProofTypeItem] = React.useState<ProofTypeItem>();
-
-  // const { refs, context } = useFloating({
-  //   open: isOpen,
-  //   onOpenChange: setIsOpen,
-  // });
-
-  // const click = useClick(context);
-  // const role = useRole(context);
-  // const dismiss = useDismiss(context, { outsidePressEvent: "mousedown" });
-
-  // const { getReferenceProps, getFloatingProps } = useInteractions([click, role, dismiss]);
-
-  // const headingId = useId();
-  const descriptionId = useId();
-
   const [isOpen, setIsOpen] = React.useState(false);
 
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
-    placement: "bottom-end",
-    middleware: [offset(10), flip({ fallbackAxisSideDirection: "end" }), shift()],
+    placement: "bottom-start",
+    middleware: [offset(0), flip({ fallbackAxisSideDirection: "end" }), shift()],
     whileElementsMounted: autoUpdate,
   });
 
@@ -65,6 +49,7 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
   const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss, role]);
 
   const headingId = useId();
+  const descriptionId = useId();
 
   const extendedProofTypeClickHandler = React.useCallback(
     (proofTypeItem: ProofTypeItem) => {
@@ -75,39 +60,46 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
     [handleSelectProofType, setIsOpen]
   );
 
+  console.log(11, isOpen);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.base} ref={refs.setReference} {...getReferenceProps()}>
-        <Button variant="white_gray_1">
-          <div
-            className={cn({
-              [styles.chooseProofTypeBtnInner]: true,
-              [styles.wide]: !selectedProofTypeItem,
-            })}
-          >
-            {selectedProofTypeItem ? (
-              <>
-                <CaptionedImg img_url={selectedProofTypeItem.imgUrl} size={32} />
-                <p className={styles.label}>{selectedProofTypeItem.label}</p>
-              </>
-            ) : (
-              <>
-                <FaSearch />
-                <p className={styles.placeholder}>{i18n.find_what_to_prove}</p>
-              </>
-            )}
-          </div>
-        </Button>
+        <div
+          className={cn({
+            [styles.chooseProofTypeBtnWrapper]: true,
+            [styles.wide]: !selectedProofTypeItem,
+            [styles.isOpen]: !!isOpen,
+          })}
+        >
+          <Button variant="white_gray_1">
+            <div className={styles.btnInner}>
+              {selectedProofTypeItem ? (
+                <>
+                  <CaptionedImg img_url={selectedProofTypeItem.imgUrl} size={32} />
+                  <p className={styles.label}>{selectedProofTypeItem.label}</p>
+                </>
+              ) : (
+                <>
+                  <FaSearch />
+                  <p className={styles.placeholder}>{i18n.find_what_to_prove}</p>
+                </>
+              )}
+            </div>
+          </Button>
+        </div>
       </div>
       {isOpen && (
         <FloatingFocusManager context={context}>
           <div
-            className={styles.dialog}
+            className={styles.modalWrapper}
             ref={refs.setFloating}
+            style={floatingStyles}
             aria-labelledby={headingId}
             aria-describedby={descriptionId}
             {...getFloatingProps()}
           >
+            {/* power */}
             <ProofTypeModal2 handleSelectVal={extendedProofTypeClickHandler} />
           </div>
         </FloatingFocusManager>
