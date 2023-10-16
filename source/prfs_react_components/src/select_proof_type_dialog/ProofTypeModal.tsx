@@ -12,7 +12,7 @@ import Table2, { Table2Body, TableSearch } from "../table2/Table2";
 import CaptionedImg from "../captioned_img/CaptionedImg";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 
-import styles from "./ProofTypeTable.module.scss";
+import styles from "./ProofTypeModal.module.scss";
 import { i18nContext } from "../contexts/i18nContext";
 
 const ProofTypeTable: React.FC<ProofTypeTableProps> = ({ handleSelectVal }) => {

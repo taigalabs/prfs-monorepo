@@ -25,10 +25,10 @@
 }
 
 .select {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  /* margin-top: 14px; */
   cursor: pointer;
+  width: 100%;
 }
 
 .createProofBtn {
