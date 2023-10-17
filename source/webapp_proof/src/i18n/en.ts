@@ -131,8 +131,7 @@ export default {
   upload_and_view_proof: "Upload and view proof",
   view_proof: "View proof",
   proof_creation_summary_msg: "You have successfully created a proof in",
-  proof_upload_guide:
-    "Share your proof by uploading it to Prfs. Later, we will introduce an (zero-knowledge) account mechanism to let you manage your past proofs.",
+  proof_upload_guide: "Share your proof by uploading it to Prfs.",
   proof_dashboard: "Proof dashboard",
   create_proof_instance: "Create proof instance",
   compute_merkle_root: "Compute Merkle root",

@@ -8,11 +8,7 @@ import {
   useInteractions,
   useId,
   FloatingFocusManager,
-  FloatingOverlay,
-  FloatingPortal,
   offset,
-  flip,
-  shift,
   autoUpdate,
 } from "@floating-ui/react";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
@@ -40,7 +36,6 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
   handleSelectProofType,
 }) => {
   const i18n = React.useContext(i18nContext);
-  // const [selectedProofTypeItem, setSelectedProofTypeItem] = React.useState<PrfsProofType>();
   const [isOpen, setIsOpen] = React.useState(false);
 
   const { refs, floatingStyles, context } = useFloating({
@@ -63,7 +58,6 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
   const extendedProofTypeClickHandler = React.useCallback(
     (proofType: PrfsProofType) => {
       setIsOpen(false);
-      // setSelectedProofTypeItem(proofType);
       handleSelectProofType(proofType);
     },
     [handleSelectProofType, setIsOpen]

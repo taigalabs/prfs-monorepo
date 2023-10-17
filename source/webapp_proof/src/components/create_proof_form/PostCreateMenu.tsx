@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import { useMutation } from "@tanstack/react-query";
 import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
+import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
 
 import styles from "./PostCreateMenu.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -53,33 +54,40 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({ proveReceipt, proofType
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>
-        {/* <FaCheck /> */}
         <p>{i18n.prove_success_msg}</p>
       </div>
+      <div className={styles.proofTypeRow}>
+        <div className={styles.button}>
+          <CaptionedImg img_url={proofType.img_url} size={32} />
+          <p className={styles.label}>{proofType.label}</p>
+        </div>
+      </div>
       <div className={styles.uploadSection}>
-        <p>
-          <span>{i18n.proof_creation_summary_msg} </span>
-          <i>{Math.floor((proveReceipt.duration / 1000) * 1000) / 1000} secs. </i>
-          <span>{i18n.proof_upload_guide}</span>
-        </p>
-        <ul className={styles.btnGroup}>
+        <span>{i18n.proof_creation_summary_msg} </span>
+        <i>{Math.floor((proveReceipt.duration / 1000) * 1000) / 1000} secs. </i>
+        <span>{i18n.proof_upload_guide}</span>
+      </div>
+
+      <div className={styles.btnGroup}>
+        <ul>
+          <li>
+            <button className={styles.verifyBtn} disabled>
+              {i18n.verify}
+            </button>
+          </li>
+        </ul>
+        <ul>
           <li>
             <Button variant="aqua_blue_1" handleClick={handleClickUpload}>
               {i18n.upload}
             </Button>
           </li>
-          <li>
-            <Button variant="transparent_black_1" handleClick={() => {}} disabled>
-              {i18n.verify.toUpperCase()}
-            </Button>
-          </li>
-          <li>
-            <Button variant="transparent_black_1" handleClick={() => {}} disabled>
-              {i18n.view_proof.toUpperCase()}
-            </Button>
-          </li>
         </ul>
       </div>
+
+      {/* <div className={styles.footer}> */}
+      {/*   <button disabled>{i18n.view_proof}</button> */}
+      {/* </div> */}
     </div>
   );
 };
