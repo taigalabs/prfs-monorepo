@@ -98,7 +98,7 @@ const CreateProofForm: React.FC = () => {
       <div
         className={cn({
           [styles.formWrapper]: true,
-          [styles.successShadow]: !!proveReceipt,
+          [styles.proofTypeChosen]: !!proofType,
         })}
       >
         <div className={styles.proofTypeRow}>

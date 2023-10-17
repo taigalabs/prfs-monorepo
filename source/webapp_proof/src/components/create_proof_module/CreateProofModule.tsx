@@ -221,22 +221,19 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
     <div className={styles.wrapper}>
       <div className={styles.form}>{circuitInputsElem}</div>
 
-      <div className={styles.terminalLogContainer}>{terminalLog}</div>
-
-      <div className={styles.footer}>
-        <div>
-          <div className={styles.systemMsg}>
-            <span>
-              {systemMsg} ({i18n.prfs} {envs.NEXT_PUBLIC_ZAUTH_VERSION})
-            </span>
-          </div>
-        </div>
-      </div>
-
       <div className={styles.createProofBtn}>
         <Button variant="aqua_blue_1" handleClick={handleClickCreateProof}>
-          {i18n.create_proof.toUpperCase()}
+          {i18n.create_proof}
         </Button>
+      </div>
+
+      <div className={styles.footer}>
+        <div className={styles.systemMsg}>
+          <span>
+            {systemMsg} ({i18n.prfs} {envs.NEXT_PUBLIC_ZAUTH_VERSION})
+          </span>
+        </div>
+        <div className={styles.terminalLogContainer}>{terminalLog}</div>
       </div>
     </div>
   );

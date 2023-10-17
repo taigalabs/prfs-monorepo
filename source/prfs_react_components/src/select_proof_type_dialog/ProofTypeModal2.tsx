@@ -18,7 +18,6 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) =>
     useInfiniteQuery(
       ["projects"],
       async ({ pageParam = 0 }) => {
-        // fetchServerPage(10, pageParam)
         const { payload } = await prfsApi2("get_prfs_proof_types", {
           page_idx: pageParam,
           page_size: 5,
@@ -36,7 +35,7 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) =>
   const rowVirtualizer = useVirtualizer({
     count: hasNextPage ? allRows.length + 1 : allRows.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 60,
+    estimateSize: () => 44,
     overscan: 5,
   });
 
@@ -84,8 +83,10 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) =>
               const isLoaderRow = virtualRow.index > allRows.length - 1;
               const proofType = allRows[virtualRow.index];
               const url = `${process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/proof_types/${proofType.proof_type_id}`;
+
               return (
                 <div
+                  className={styles.row}
                   style={{
                     position: "absolute",
                     top: 0,
@@ -96,6 +97,13 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) =>
                   }}
                   key={virtualRow.index}
                   data-index={virtualRow.index}
+                  onClick={() =>
+                    handleSelectVal({
+                      proofTypeId: proofType.proof_type_id,
+                      label: proofType.label,
+                      imgUrl: proofType.img_url,
+                    })
+                  }
                   ref={rowVirtualizer.measureElement}
                 >
                   {isLoaderRow ? (
@@ -105,31 +113,22 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) =>
                       "Nothing more to load"
                     )
                   ) : (
-                    <div
-                      className={styles.row}
-                      onClick={() =>
-                        handleSelectVal({
-                          proofTypeId: proofType.proof_type_id,
-                          label: proofType.label,
-                          imgUrl: proofType.img_url,
-                        })
-                      }
-                    >
+                    <>
                       <div className={styles.left}>
-                        <CaptionedImg img_url={proofType.img_url} size={30} />
+                        <CaptionedImg img_url={proofType.img_url} size={32} />
                       </div>
                       <div className={styles.right}>
                         <div className={styles.label}>
                           <span>{proofType.label}</span>
                           <div className={styles.icon}>
                             <div onClick={ev => handleClickExternalLink(ev, url)}>
-                              <BiLinkExternal />
+                              {/* <BiLinkExternal /> */}
                             </div>
                           </div>
                         </div>
                         <p className={styles.proofTypeId}>{proofType.proof_type_id}</p>
                       </div>
-                    </div>
+                    </>
                   )}
                 </div>
               );
@@ -137,7 +136,6 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) =>
           </div>
         </div>
       )}
-      {/* <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div> */}
     </div>
   );
 };

@@ -27,6 +27,14 @@ import ProofTypeModal, { type ProofTypeItem } from "./ProofTypeModal";
 import CaptionedImg from "../captioned_img/CaptionedImg";
 import ProofTypeModal2 from "./ProofTypeModal2";
 
+const SearchIcon = () => {
+  return (
+    <div className={styles.searchIcon}>
+      <IoIosSearch />
+    </div>
+  );
+};
+
 const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSelectProofType }) => {
   const i18n = React.useContext(i18nContext);
   const [selectedProofTypeItem, setSelectedProofTypeItem] = React.useState<ProofTypeItem>();
@@ -36,7 +44,7 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSel
     open: isOpen,
     onOpenChange: setIsOpen,
     placement: "bottom-start",
-    middleware: [offset(0), flip({ fallbackAxisSideDirection: "end" }), shift()],
+    middleware: [offset(0)],
     whileElementsMounted: autoUpdate,
   });
 
@@ -61,31 +69,21 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSel
   return (
     <div
       className={cn({
-        [styles.chooseProofTypeBtnWrapper]: true,
-        [styles.wide]: !selectedProofTypeItem,
+        [styles.wrapper]: true,
+        [styles.proofTypeChosen]: !!selectedProofTypeItem,
         [styles.isOpen]: !!isOpen,
       })}
-      // style={{ position: "relative", height: 44 }}
-      ref={refs.setReference}
-      {...getReferenceProps()}
     >
-      {/* <div */}
-      {/*   className={cn({ */}
-      {/*     [styles.chooseProofTypeBtnWrapper]: true, */}
-      {/*     [styles.wide]: !selectedProofTypeItem, */}
-      {/*     [styles.isOpen]: !!isOpen, */}
-      {/*   })} */}
-      {/* > */}
-      <Button variant="white_gray_1">
+      <button className={styles.button} ref={refs.setReference} {...getReferenceProps()}>
         {selectedProofTypeItem ? (
           <div className={styles.proofTypeBtn}>
-            <CaptionedImg img_url={selectedProofTypeItem.imgUrl} size={30} />
+            <CaptionedImg img_url={selectedProofTypeItem.imgUrl} size={32} />
             <p className={styles.label}>{selectedProofTypeItem.label}</p>
           </div>
         ) : (
           <div className={styles.placeholderBtn}>
             <div>
-              {isOpen && <FaSearch />}
+              {isOpen && <SearchIcon />}
               <p className={styles.placeholder}>{i18n.find_what_to_prove}</p>
             </div>
             <div>
@@ -93,8 +91,7 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSel
             </div>
           </div>
         )}
-      </Button>
-      {/* </div> */}
+      </button>
       {isOpen && (
         <FloatingFocusManager context={context}>
           <div
@@ -105,7 +102,6 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSel
             aria-describedby={descriptionId}
             {...getFloatingProps()}
           >
-            {/* power */}
             <ProofTypeModal2 handleSelectVal={extendedProofTypeClickHandler} />
           </div>
         </FloatingFocusManager>
