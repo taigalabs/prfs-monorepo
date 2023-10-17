@@ -5,9 +5,10 @@ import { GetPrfsAssetMetaRequest } from "@taigalabs/prfs-entities/bindings/GetPr
 import { LogEventType, ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useMutation } from "wagmi";
-import { prfsAssetApi } from "@taigalabs/prfs-api-js";
+import { prfsApi2, prfsAssetApi } from "@taigalabs/prfs-api-js";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
+import { useQuery } from "@tanstack/react-query";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -19,6 +20,7 @@ import Passcode from "@/components/passcode/Passcode";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
 import { validateInputs } from "@/validate";
 import HashInput from "@/components/hash_input/HashInput";
+import { GetPrfsPollByPollIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsPollByPollIdRequest";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -34,14 +36,9 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
   const [createProofStatus, setCreateProofStatus] = React.useState(CreateProofStatus.Loaded);
   const [terminalLog, setTerminalLog] = React.useState<string>("");
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
+  const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
   const didTryInitialize = React.useRef(false);
-
-  const { mutateAsync: getPrfsAssetMetaRequest } = useMutation({
-    mutationFn: (req: GetPrfsAssetMetaRequest) => {
-      return prfsAssetApi("get_prfs_asset_meta", req);
-    },
-  });
 
   const proofGenEventListener = React.useCallback(
     (type: LogEventType, msg: string) => {
@@ -53,6 +50,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
       const { name } = ev.target;
+
       setFormValues(oldVals => {
         return {
           ...oldVals,
@@ -72,8 +70,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
         proofGenEventListener("debug", `Process starts in 3 seconds`);
 
         await delay(3000);
-
-        console.log(22, inputs);
 
         const proveReceipt = await proofGenElement.createProof(inputs, proofType.circuit_type_id);
         proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
@@ -115,7 +111,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
     }
 
     fn().then();
-  }, [proofType, setProofGenElement, setSystemMsg, setCreateProofStatus, getPrfsAssetMetaRequest]);
+  }, [proofType, setProofGenElement, setSystemMsg, setCreateProofStatus]);
 
   const circuitInputsElem = React.useMemo(() => {
     if (!proofGenElement) {
@@ -133,7 +129,9 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
               key={idx}
               circuitInput={input}
               value={formValues[input.name] as any}
+              error={formErrors[input.name]}
               setFormValues={setFormValues}
+              setFormErrors={setFormErrors}
             />
           );
           break;
@@ -144,7 +142,9 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
               key={idx}
               circuitInput={input}
               value={formValues[input.name] as any}
+              error={formErrors[input.name]}
               setFormValues={setFormValues}
+              setFormErrors={setFormErrors}
             />
           );
           break;
@@ -155,7 +155,9 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
               key={idx}
               circuitInput={input}
               value={formValues[input.name] as any}
+              error={formErrors[input.name]}
               setFormValues={setFormValues}
+              setFormErrors={setFormErrors}
               proofGenElement={proofGenElement}
             />
           );
@@ -219,22 +221,19 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
     <div className={styles.wrapper}>
       <div className={styles.form}>{circuitInputsElem}</div>
 
-      <div className={styles.terminalLogContainer}>{terminalLog}</div>
-
-      <div className={styles.footer}>
-        <div>
-          <div className={styles.systemMsg}>
-            <span>
-              {systemMsg} ({i18n.prfs} {envs.NEXT_PUBLIC_ZAUTH_VERSION})
-            </span>
-          </div>
-        </div>
-      </div>
-
       <div className={styles.createProofBtn}>
         <Button variant="aqua_blue_1" handleClick={handleClickCreateProof}>
-          {i18n.create_proof.toUpperCase()}
+          {i18n.create_proof}
         </Button>
+      </div>
+
+      <div className={styles.footer}>
+        <div className={styles.systemMsg}>
+          <span>
+            {systemMsg} ({i18n.prfs} {envs.NEXT_PUBLIC_ZAUTH_VERSION})
+          </span>
+        </div>
+        <div className={styles.terminalLogContainer}>{terminalLog}</div>
       </div>
     </div>
   );

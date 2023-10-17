@@ -1,5 +1,5 @@
 import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
-import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-spartan-js/build/driver";
+import type { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-spartan-js/build/driver";
 
 export async function initDriver(
   driverId: string,

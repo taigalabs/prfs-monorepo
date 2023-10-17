@@ -5,7 +5,7 @@ use crate::{
         build_prfs_driver_spartan_js::BuildPrfsDriverSpartanJsTask,
         build_prfs_driver_spartan_wasm::BuildPrfsDriverSpartanWasmTask,
         build_prfs_entities_ts_binding::BuildPrfsEntitiesTSBindingTask,
-        compile_circuits::CompileCircuitsTask, task::BuildTask,
+        compile_circuits::CompileCircuitsTask, run_tasks::run_tasks, task::BuildTask,
     },
     CiError,
 };
@@ -18,43 +18,12 @@ pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
     };
 
     let tasks: Vec<Box<dyn BuildTask>> = vec![
-        // Box::new(BuildPrfsEntitiesTSBindingTask),
+        Box::new(BuildPrfsEntitiesTSBindingTask),
         // Box::new(BuildJsDependenciesTask),
         // Box::new(CompileCircuitsTask),
         // Box::new(BuildPrfsDriverSpartanWasmTask),
-        Box::new(BuildPrfsDriverSpartanJsTask),
+        // Box::new(BuildPrfsDriverSpartanJsTask),
     ];
 
     run_tasks(sub_matches, tasks, build_handle).expect("Ci failed");
-}
-
-fn run_tasks(
-    _matches: &ArgMatches,
-    tasks: Vec<Box<dyn BuildTask>>,
-    mut build_handle: BuildHandle,
-) -> Result<(), CiError> {
-    for t in &tasks {
-        println!(
-            "\n{} a task: {}",
-            "Executing".green().bold(),
-            t.name().cyan().bold()
-        );
-
-        match t.run(&mut build_handle) {
-            Ok(_) => (),
-            Err(err) => {
-                println!("Error executing task, err: {}", err.to_string());
-
-                return Err(err);
-            }
-        }
-    }
-
-    println!(
-        "{} building, tasks done: {}",
-        "Success".green(),
-        tasks.len()
-    );
-
-    Ok(())
 }

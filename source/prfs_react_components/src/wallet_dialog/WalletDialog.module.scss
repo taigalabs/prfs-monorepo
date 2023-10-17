@@ -2,7 +2,7 @@
 }
 
 .fadeOverlay {
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.4);
   display: grid;
   place-items: center;
   z-index: 300;
@@ -15,5 +15,7 @@
   background-color: white;
   border-radius: 5px;
   overflow: hidden;
-  max-width: 520px;
+  max-width: 400px;
+  width: 100%;
+  min-width: 320px;
 }

@@ -28,7 +28,7 @@ pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, 
     let prfs_proof_types = db_apis::get_prfs_proof_types(pool).await;
 
     let resp = ApiResponse::new_success(GetPrfsProofTypesResponse {
-        page_idx: req.page_idx,
+        next_idx: req.page_idx + 1,
         prfs_proof_types,
     });
 

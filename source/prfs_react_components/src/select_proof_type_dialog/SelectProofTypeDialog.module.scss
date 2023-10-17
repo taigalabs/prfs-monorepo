@@ -1,19 +1,88 @@
 .wrapper {
-}
-
-.base {
-  display: inline-flex;
+  width: 100%;
+  height: 44px;
+  display: flex;
+  padding-left: 26px;
+  padding-right: 26px;
+  position: relative;
+  color: var(--black-10);
 
   button {
-    height: 40px;
-    padding: 0 15px;
+    width: 100%;
+    height: 44px;
+    padding-left: 18px;
+    padding-right: 10px;
     border-radius: 40px;
+  }
+
+  .label {
+    font-size: 16px;
+    margin-left: 8px;
+  }
+
+  .placeholder {
+    margin-left: 8px;
+    font-size: 16px;
+  }
+
+  &.proofTypeChosen {
+    padding-left: 3px;
+
+    button {
+      /* width: 100%; */
+      width: auto;
+      padding-left: 8px;
+      padding-right: 10px;
+    }
+  }
+
+  &.isOpen {
+    margin-left: -2px;
+    padding-left: 0px;
+    padding-right: 0px;
+    width: calc(100% + 4px);
+
+    button {
+      border: none;
+      box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 2px 0px,
+        rgba(0, 0, 0, 0.15) 0px 1.1443px 3.43289px 0.288591px;
+      width: 100%;
+      padding-left: 14px;
+      border-radius: 20px 20px 0 0;
+    }
   }
 }
 
-.chooseProofTypeBtnInner {
+.button {
+  background-color: var(--white-100);
+  border: 1px solid var(--bright-gray-30);
+  cursor: pointer;
+
+  &:hover {
+    border: 1px solid rgba(223, 225, 229, 0);
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(0, 0, 0, 0.15) 0px 2px 6px 2px;
+  }
+}
+
+.proofTypeBtn {
   display: flex;
   align-items: center;
+}
+
+.placeholderBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  > div {
+    display: flex;
+    align-items: center;
+  }
+
+  > div:nth-child(2) {
+    font-size: 24px;
+    color: var(--blue-50);
+  }
 }
 
 .fadeOverlay {
@@ -26,11 +95,14 @@
   inset: 0;
 }
 
-.dialog {
+.modalWrapper {
   background-color: white;
-  border-radius: 10px;
+  border-radius: 0 0 20px 20px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 2px 0px,
+    rgba(0, 0, 0, 0.15) 0px 1.1443px 3.43289px 0.288591px;
   overflow: hidden;
-  max-width: 520px;
+  width: 100%;
+  z-index: 100;
 }
 
 .header {
@@ -41,15 +113,11 @@
   padding: 8px 12px;
 }
 
-.title {
-  font-weight: 500;
-}
-
-.btnArea {
+.searchIcon {
   display: flex;
   align-items: center;
-
-  button {
-    cursor: pointer;
-  }
+  justify-content: center;
+  width: 32px;
+  font-size: 20px;
+  color: var(--gray-50);
 }

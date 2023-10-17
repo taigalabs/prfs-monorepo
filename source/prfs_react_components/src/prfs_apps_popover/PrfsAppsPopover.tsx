@@ -51,12 +51,12 @@ const Modal: React.FC<MerkleProofModalProps> = ({
           <span>{i18n.console}</span>
         </a>
       </li>
-      <li>
-        <a className={styles.appEntry} href={webappPollEndpoint}>
-          <FaVoteYea />
-          <span>{i18n.poll}</span>
-        </a>
-      </li>
+      {/* <li> */}
+      {/*   <a className={styles.appEntry} href={webappPollEndpoint}> */}
+      {/*     <FaVoteYea /> */}
+      {/*     <span>{i18n.poll}</span> */}
+      {/*   </a> */}
+      {/* </li> */}
     </ul>
   );
 };

@@ -1,7 +1,6 @@
 import React from "react";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import cn from "classnames";
-import { ethers } from "ethers";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import { RiEqualizerLine } from "@react-icons/all-files/ri/RiEqualizerLine";
@@ -24,16 +23,32 @@ import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import styles from "./MerkleProofInput.module.scss";
 import MerkleProofRawModal from "./MerkleProofRawModal";
 import { i18nContext } from "@/contexts/i18n";
-import { useAppDispatch } from "@/state/hooks";
 import { FormInput, FormInputTitleRow } from "../form_input/FormInput";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
+import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
+
+const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
+  const val = React.useMemo(() => {
+    return (
+      "Root: " +
+      value.root.toString().substring(0, 6) +
+      "... / First sibling: " +
+      value.siblings[0].toString().substring(0, 6) +
+      "..."
+    );
+  }, [value]);
+
+  return <div className={styles.computedValue}>{val}</div>;
+};
 
 const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   circuitInput,
   value,
+  error,
+  setFormErrors,
   setFormValues,
   zIndex,
 }) => {
@@ -42,7 +57,6 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   const [isOpen, setIsOpen] = React.useState(false);
   const [isInputValid, setIsInputValid] = React.useState(false);
   const [walletAddr, setWalletAddr] = React.useState("");
-  const dispatch = useAppDispatch();
 
   const { mutateAsync: GetPrfsTreeLeafIndices } = useMutation({
     mutationFn: (req: GetPrfsTreeLeafIndicesRequest) => {
@@ -53,6 +67,12 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   const { mutateAsync: getPrfsSetBySetId } = useMutation({
     mutationFn: (req: GetPrfsSetBySetIdRequest) => {
       return prfsApi2("get_prfs_set_by_set_id", req);
+    },
+  });
+
+  const { mutateAsync: getPrfsTreeNodesByPosRequest } = useMutation({
+    mutationFn: (req: GetPrfsTreeNodesByPosRequest) => {
+      return prfsApi2("get_prfs_tree_nodes_by_pos", req);
     },
   });
 
@@ -90,7 +110,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
     fn().then();
   }, [circuitInput, setPrfsSet, getPrfsSetBySetId]);
 
-  const handleClickSubmit = React.useCallback(
+  const handleClickRawSubmit = React.useCallback(
     (merkleProof: SpartanMerkleProof) => {
       setFormValues((prevVals: any) => {
         return {
@@ -105,7 +125,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   );
 
   const handleChangeAddress = React.useCallback(
-    async (addr: any) => {
+    async (addr: string) => {
       if (!prfsSet) {
         return;
       }
@@ -114,9 +134,18 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         return;
       }
 
-      setWalletAddr(addr);
+      if (error) {
+      }
 
-      const { set_id } = prfsSet;
+      setWalletAddr(addr);
+      setFormErrors((prevVals: any) => {
+        return {
+          ...prevVals,
+          [circuitInput.name]: undefined,
+        };
+      });
+
+      const { set_id, merkle_root } = prfsSet;
 
       try {
         const { payload } = await GetPrfsTreeLeafIndices({
@@ -145,7 +174,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
 
         console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
 
-        const siblingNodesData = await prfsApi2("get_prfs_tree_nodes_by_pos", {
+        const siblingNodesData = await getPrfsTreeNodesByPosRequest({
           set_id,
           pos: siblingPos,
         });
@@ -162,7 +191,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         }
 
         const merkleProof: SpartanMerkleProof = {
-          root: BigInt(prfsSet.merkle_root),
+          root: BigInt(merkle_root),
           siblings: siblings as bigint[],
           pathIndices,
         };
@@ -179,7 +208,15 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         console.error(err);
       }
     },
-    [setWalletAddr, setFormValues, prfsSet, GetPrfsTreeLeafIndices, setIsInputValid]
+    [
+      setWalletAddr,
+      setFormValues,
+      prfsSet,
+      GetPrfsTreeLeafIndices,
+      setIsInputValid,
+      setFormErrors,
+      setIsOpen,
+    ]
   );
 
   return (
@@ -214,7 +251,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
                         <MerkleProofRawModal
                           prfsSet={prfsSet}
                           circuitInput={circuitInput}
-                          handleClickSubmit={handleClickSubmit}
+                          handleClickRawSubmit={handleClickRawSubmit}
                           setIsOpen={setIsOpen}
                         />
                       </div>
@@ -226,10 +263,13 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
           </div>
         </FormInputTitleRow>
         <div className={styles.inputWrapper}>
-          <input placeholder={`${circuitInput.desc}`} value={walletAddr} readOnly />
-          <div className={styles.btnGroup}>
-            <WalletDialog handleChangeAddress={handleChangeAddress} />
+          <div className={styles.interactiveArea}>
+            <input placeholder={`${circuitInput.desc}`} value={walletAddr} readOnly />
+            <div className={styles.btnGroup}>
+              <WalletDialog handleChangeAddress={handleChangeAddress} />
+            </div>
           </div>
+          {value && <ComputedValue value={value} />}
         </div>
       </FormInput>
     )
@@ -241,6 +281,12 @@ export default MerkleProofInput;
 export interface MerkleProofInputProps {
   circuitInput: CircuitInput;
   value: SpartanMerkleProof | undefined;
+  error: string | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
   zIndex?: number;
+}
+
+export interface ComputedValueProps {
+  value: SpartanMerkleProof;
 }

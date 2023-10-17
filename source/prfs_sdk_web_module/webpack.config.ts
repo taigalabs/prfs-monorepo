@@ -4,7 +4,7 @@ import path from "path";
 import webpack from "webpack";
 import NodePolyfillPlugin from "node-polyfill-webpack-plugin";
 
-const idProd = process.env.NODE_ENV === "production";
+const isProd = process.env.NODE_ENV === "production";
 
 const str = JSON.stringify;
 
@@ -46,7 +46,7 @@ const config: webpack.Configuration = {
     path: path.resolve(__dirname, "dist"),
     filename: "index.js",
     // not used
-    webassemblyModuleFilename: idProd
+    webassemblyModuleFilename: isProd
       ? "../static/wasm/[modulehash].wasm"
       : "static/wasm/[modulehash].wasm",
   },

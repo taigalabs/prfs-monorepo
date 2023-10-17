@@ -1,6 +1,5 @@
 import React from "react";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
-import { RiEqualizerLine } from "@react-icons/all-files/ri/RiEqualizerLine";
 import {
   useFloating,
   useDismiss,
@@ -12,20 +11,16 @@ import {
   FloatingOverlay,
   FloatingPortal,
 } from "@floating-ui/react";
-import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
-import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 
 import styles from "./WalletDialog.module.scss";
 import Fade from "../fade/Fade";
-import Button from "../button/Button";
 import { i18nContext } from "../contexts/i18nContext";
 import WalletModal from "./WalletModal";
 
 const WalletDialog: React.FC<WalletDialogProps> = ({ handleChangeAddress, zIndex }) => {
   const i18n = React.useContext(i18nContext);
-  const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
   const [isOpen, setIsOpen] = React.useState(false);
-  const [walletAddr, setWalletAddr] = React.useState("");
+  // const [walletAddr, setWalletAddr] = React.useState("");
 
   const { refs, context } = useFloating({
     open: isOpen,
@@ -44,8 +39,16 @@ const WalletDialog: React.FC<WalletDialogProps> = ({ handleChangeAddress, zIndex
     setIsOpen(false);
   }, [setIsOpen]);
 
+  const extendedHandleChangeAddress = React.useCallback(
+    (addr: string) => {
+      handleChangeAddress(addr);
+      setIsOpen(false);
+    },
+    [handleChangeAddress, setIsOpen]
+  );
+
   return (
-    <div>
+    <div className={styles.wrapper}>
       <div>
         <div>
           <div className={styles.btnRow} ref={refs.setReference} {...getReferenceProps()}>
@@ -65,7 +68,7 @@ const WalletDialog: React.FC<WalletDialogProps> = ({ handleChangeAddress, zIndex
                     >
                       <WalletModal
                         handleClickClose={handleClickClose}
-                        handleChangeAddress={handleChangeAddress}
+                        handleChangeAddress={extendedHandleChangeAddress}
                       />
                     </div>
                   </FloatingFocusManager>
@@ -82,9 +85,6 @@ const WalletDialog: React.FC<WalletDialogProps> = ({ handleChangeAddress, zIndex
 export default WalletDialog;
 
 export interface WalletDialogProps {
-  // circuitInput: CircuitInput;
-  // value: SpartanMerkleProof | undefined;
-  // setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
-  handleChangeAddress: (addr: any) => void;
+  handleChangeAddress: (addr: string) => void;
   zIndex?: number;
 }

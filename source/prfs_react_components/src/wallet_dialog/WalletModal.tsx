@@ -12,8 +12,23 @@ const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
   connector,
   handleClickDisconnect,
   handleClickClose,
+  handleChangeAddress,
 }) => {
   const i18n = React.useContext(i18nContext);
+
+  const addr = React.useMemo(() => {
+    if (address) {
+      return address.substring(0, 5) + "..." + address.substring(address.length - 3);
+    } else {
+      return "";
+    }
+  }, [address]);
+  //
+  console.log(11, address);
+
+  const extendedHandleChangeAddress = React.useCallback(() => {
+    handleChangeAddress(address as string);
+  }, [handleChangeAddress, address]);
 
   return (
     <div className={styles.connectInfo}>
@@ -21,7 +36,7 @@ const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
         Connected to <b>{connector.name}</b>
       </div>
       <div className={styles.address}>
-        <button onClick={handleClickClose}>{ensName ? `${ensName} (${address})` : address}</button>
+        <button onClick={extendedHandleChangeAddress}>{addr}</button>
       </div>
       <div className={styles.btnRow}>
         <Button variant="transparent_black_1" handleClick={handleClickDisconnect}>
@@ -44,13 +59,6 @@ const WalletModal: React.FC<WalletModalProps> = ({ handleClickClose, handleChang
   const handleClickDisconnect = React.useCallback(() => {
     disconnect();
   }, [disconnect]);
-
-  React.useEffect(() => {
-    console.log(1111, address);
-    if (address) {
-      handleChangeAddress(address);
-    }
-  }, [address, handleChangeAddress]);
 
   const connectorsElem = React.useMemo(() => {
     return (
@@ -75,6 +83,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ handleClickClose, handleChang
           ensName={ensName}
           address={address}
           connector={connector}
+          handleChangeAddress={handleChangeAddress}
           handleClickDisconnect={handleClickDisconnect}
           handleClickClose={handleClickClose}
         />
@@ -98,6 +107,7 @@ interface ConnectedInfoProps {
   ensName: string | null | undefined;
   address: `0x${string}` | undefined;
   connector: Connector<any, any>;
+  handleChangeAddress: (addr: string) => void;
   handleClickDisconnect: () => void;
   handleClickClose: () => void;
 }

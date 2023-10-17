@@ -1,19 +1,22 @@
 .inputWrapper {
   position: relative;
   display: flex;
-  align-items: center;
-  height: 40px;
+  flex-direction: column;
+  border: 1px solid var(--gray-70);
+  border-radius: 3px;
+
+  .interactiveArea {
+    display: flex;
+    align-items: center;
+  }
 
   input {
-    color: var(--gray-50);
+    /* color: var(--gray-50); */
+    height: 40px;
     font-size: 14px;
     width: 100%;
-    height: 100%;
     padding-left: 7px;
     padding-right: 40px;
-    height: 100%;
-    border: 1px solid var(--gray-70);
-    border-radius: 3px;
     outline: none;
 
     &:focus {
@@ -36,8 +39,9 @@
   align-items: center;
 }
 
-.isInputValid {
-  input {
-    color: var(--black-00);
-  }
+.computedValue {
+  padding: 3px 7px;
+  border-top: 1px solid var(--bright-gray-30);
+  color: var(--gray-50);
+  font-size: 0.91em;
 }

@@ -8,91 +8,101 @@ import {
   useInteractions,
   useId,
   FloatingFocusManager,
-  FloatingOverlay,
-  FloatingPortal,
+  offset,
+  autoUpdate,
 } from "@floating-ui/react";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
+import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
+import { IoIosSearch } from "@react-icons/all-files/io/IoIosSearch";
+import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import Fade from "../fade/Fade";
 import Button from "../button/Button";
 import styles from "./SelectProofTypeDialog.module.scss";
 import { i18nContext } from "../contexts/i18nContext";
-import ProofTypeTable from "./ProofTypeTable";
-import { ProofTypeItem } from "./ProofTypeTable";
 import CaptionedImg from "../captioned_img/CaptionedImg";
+import ProofTypeModal2 from "./ProofTypeModal2";
+
+const SearchIcon = () => {
+  return (
+    <div className={styles.searchIcon}>
+      <IoIosSearch />
+    </div>
+  );
+};
 
 const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
+  proofType,
   handleSelectProofType,
-  zIndex,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [isOpen, setIsOpen] = React.useState(false);
-  const [selectedProofTypeItem, setSelectedProofTypeItem] = React.useState<ProofTypeItem>();
 
-  const { refs, context } = useFloating({
+  const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
+    placement: "bottom-start",
+    middleware: [offset(0)],
+    whileElementsMounted: autoUpdate,
   });
 
   const click = useClick(context);
+  const dismiss = useDismiss(context);
   const role = useRole(context);
-  const dismiss = useDismiss(context, { outsidePressEvent: "mousedown" });
 
-  const { getReferenceProps, getFloatingProps } = useInteractions([click, role, dismiss]);
+  const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss, role]);
 
   const headingId = useId();
   const descriptionId = useId();
 
   const extendedProofTypeClickHandler = React.useCallback(
-    (proofTypeItem: ProofTypeItem) => {
+    (proofType: PrfsProofType) => {
       setIsOpen(false);
-      setSelectedProofTypeItem(proofTypeItem);
-      handleSelectProofType(proofTypeItem);
+      handleSelectProofType(proofType);
     },
     [handleSelectProofType, setIsOpen]
   );
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.base} ref={refs.setReference} {...getReferenceProps()}>
-        <Button variant="white_gray_1">
-          {selectedProofTypeItem ? (
-            <div className={styles.chooseProofTypeBtnInner}>
-              <CaptionedImg img_url={selectedProofTypeItem.imgUrl} size={32} />
-              <p>{selectedProofTypeItem.label}</p>
+    <div
+      className={cn({
+        [styles.wrapper]: true,
+        [styles.proofTypeChosen]: !!proofType,
+        [styles.isOpen]: !!isOpen,
+      })}
+    >
+      <button className={styles.button} ref={refs.setReference} {...getReferenceProps()}>
+        {proofType ? (
+          <div className={styles.proofTypeBtn}>
+            <CaptionedImg img_url={proofType.img_url} size={32} />
+            <p className={styles.label}>{proofType.label}</p>
+          </div>
+        ) : (
+          <div className={styles.placeholderBtn}>
+            <div>
+              {isOpen && <SearchIcon />}
+              <p className={styles.placeholder}>{i18n.find_what_to_prove}</p>
             </div>
-          ) : (
-            i18n.choose_type.toUpperCase()
-          )}
-        </Button>
-      </div>
-      <FloatingPortal>
-        {isOpen && (
-          <FloatingOverlay style={{ zIndex: zIndex || 200 }}>
-            <Fade className={styles.fadeOverlay}>
-              <FloatingFocusManager context={context}>
-                <div
-                  className={styles.dialog}
-                  ref={refs.setFloating}
-                  aria-labelledby={headingId}
-                  aria-describedby={descriptionId}
-                  {...getFloatingProps()}
-                >
-                  <div className={styles.header}>
-                    <div className={styles.title}>{i18n.choose_proof_type}</div>
-                    <div className={styles.btnArea}>
-                      <button onClick={() => setIsOpen(false)}>
-                        <AiOutlineClose />
-                      </button>
-                    </div>
-                  </div>
-                  <ProofTypeTable handleSelectVal={extendedProofTypeClickHandler} />
-                </div>
-              </FloatingFocusManager>
-            </Fade>
-          </FloatingOverlay>
+            <div>
+              <IoIosSearch />
+            </div>
+          </div>
         )}
-      </FloatingPortal>
+      </button>
+      {isOpen && (
+        <FloatingFocusManager context={context}>
+          <div
+            className={styles.modalWrapper}
+            ref={refs.setFloating}
+            style={floatingStyles}
+            aria-labelledby={headingId}
+            aria-describedby={descriptionId}
+            {...getFloatingProps()}
+          >
+            <ProofTypeModal2 handleSelectVal={extendedProofTypeClickHandler} />
+          </div>
+        </FloatingFocusManager>
+      )}
     </div>
   );
 };
@@ -100,6 +110,6 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
 export default SelectProofTypeDialog;
 
 export interface SelectProofTypeDialogProps {
-  handleSelectProofType: (proofTypeItem: ProofTypeItem) => void;
-  zIndex?: number;
+  proofType: PrfsProofType | undefined;
+  handleSelectProofType: (proofType: PrfsProofType) => void;
 }

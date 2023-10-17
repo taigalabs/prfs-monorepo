@@ -15,7 +15,7 @@ import { Msg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 const MerkleProofRawModal: React.FC<MerkleProofRawModalProps> = ({
   prfsSet,
   circuitInput,
-  handleClickSubmit,
+  handleClickRawSubmit,
   setIsOpen,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -34,9 +34,9 @@ const MerkleProofRawModal: React.FC<MerkleProofRawModalProps> = ({
 
   const extendedHandleClickSubmit = React.useCallback(() => {
     if (value) {
-      handleClickSubmit(value);
+      handleClickRawSubmit(value);
     }
-  }, [value, handleClickSubmit]);
+  }, [value, handleClickRawSubmit]);
 
   return (
     <div className={styles.wrapper}>
@@ -51,32 +51,12 @@ const MerkleProofRawModal: React.FC<MerkleProofRawModalProps> = ({
           </span>
           <span> {prfsSet?.label}</span>
         </div>
-        <textarea className={styles.merkleProofInput} value={merkleProofValue} readOnly />
+        <textarea
+          className={styles.merkleProofInput}
+          value="This is currently not supported"
+          readOnly
+        />
       </div>
-      {/* <div className={styles.row}> */}
-      {/*   <fieldset className={styles.merkleWizard}> */}
-      {/*     <legend> */}
-      {/*       <p className={styles.guide}>{i18n.create_merkle_proof_guide}</p> */}
-      {/*     </legend> */}
-      {/*     <p>{i18n.wallet_address}</p> */}
-      {/*     <div className={styles.addrInputBox}> */}
-      {/*       <input */}
-      {/*         className={styles.addrInput} */}
-      {/*         value={walletAddr} */}
-      {/*         readOnly */}
-      {/*         placeholder={i18n.address_input_placeholder} */}
-      {/*       /> */}
-      {/*       <button className={styles.connectBtn} onClick={handleClickConnectWallet}> */}
-      {/*         {i18n.connect} */}
-      {/*       </button> */}
-      {/*     </div> */}
-      {/*     <div className={styles.createBtnContainer}> */}
-      {/*       <TextButton variant="aqua_blue_1" handleClick={handleCreateMerkleProof}> */}
-      {/*         {i18n.create_merkle_path_label} */}
-      {/*       </TextButton> */}
-      {/*     </div> */}
-      {/*   </fieldset> */}
-      {/* </div> */}
       <div className={styles.dialogBtnRow}>
         <Button variant="transparent_black_1" handleClick={extendedHandleClickSubmit}>
           {i18n.submit.toUpperCase()}
@@ -94,6 +74,6 @@ export default MerkleProofRawModal;
 export interface MerkleProofRawModalProps {
   prfsSet: PrfsSet | undefined;
   circuitInput: CircuitInput;
-  handleClickSubmit: (merkleProof: SpartanMerkleProof) => void;
+  handleClickRawSubmit: (merkleProof: SpartanMerkleProof) => void;
   setIsOpen: (b: boolean) => void;
 }

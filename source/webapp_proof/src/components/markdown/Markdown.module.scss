@@ -1,12 +1,26 @@
 .markdown {
+  font-size: 15px;
+
   h1 {
-    font-weight: 500;
+    font-weight: 600;
     line-height: 59px;
   }
 
   h2 {
-    font-weight: 500;
+    font-size: 1.67em;
+    font-weight: 600;
     line-height: 44px;
+    border-bottom: 1px solid var(--gray-70);
+    margin-top: 24px;
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-size: 1.53em;
+    font-weight: 600;
+    line-height: 40px;
+    margin-top: 24px;
+    margin-bottom: 14px;
   }
 
   p {
@@ -17,10 +31,12 @@
   ul {
     padding-left: 2em;
     list-style-type: disc;
+    margin-bottom: 16px;
   }
 
   li {
     list-style-type: disc;
+    line-height: 20px;
   }
 }
 
