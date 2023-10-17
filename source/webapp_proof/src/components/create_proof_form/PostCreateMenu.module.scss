@@ -1,6 +1,6 @@
 .wrapper {
   padding: 2px 42px;
-  border: 1px solid var(--bright-gray-30);
+  /* border: 1px solid var(--bright-gray-30); */
 
   ul {
     display: flex;
@@ -31,7 +31,7 @@
     align-items: center;
     background-color: var(--white-100);
     border: 1px solid var(--bright-gray-30);
-    cursor: pointer;
+    cursor: default;
     border-radius: 40px;
     height: 44px;
     padding-left: 18px;
