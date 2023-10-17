@@ -22,6 +22,7 @@ import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
 import PostCreateMenu from "./PostCreateMenu";
+import LogoContainer from "./LogoContainer";
 
 const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -94,31 +95,34 @@ const CreateProofForm: React.FC = () => {
   }, [proveReceipt]);
 
   return (
-    <div className={styles.wrapper}>
-      <div
-        className={cn({
-          [styles.formWrapper]: true,
-          [styles.proofTypeChosen]: !!proofType,
-        })}
-      >
-        <div className={styles.proofTypeRow}>
-          <SelectProofTypeDialog handleSelectProofType={handleSelectProofType} />
-        </div>
-        {!proofType && <div className={styles.welcomeRow}>{i18n.create_and_share_proofs}</div>}
-        {proofType && (
-          <div className={styles.sdkRow}>
-            <Fade>
-              <CreateProofModule proofType={proofType} handleCreateProof={handleCreateProof} />
-            </Fade>
+    <>
+      <LogoContainer proofTypeChosen={!!proofType} />
+      <div className={styles.createProofForm}>
+        <div
+          className={cn({
+            [styles.formWrapper]: true,
+            [styles.proofTypeChosen]: !!proofType,
+          })}
+        >
+          <div className={styles.proofTypeRow}>
+            <SelectProofTypeDialog handleSelectProofType={handleSelectProofType} />
           </div>
+          {!proofType && <div className={styles.welcomeRow}>{i18n.create_and_share_proofs}</div>}
+          {proofType && (
+            <div className={styles.sdkRow}>
+              <Fade>
+                <CreateProofModule proofType={proofType} handleCreateProof={handleCreateProof} />
+              </Fade>
+            </div>
+          )}
+        </div>
+        {proveReceipt && (
+          <Fade>
+            <PostCreateMenu proveReceipt={proveReceipt} handleClickUpload={handleClickUpload} />
+          </Fade>
         )}
       </div>
-      {proveReceipt && (
-        <Fade>
-          <PostCreateMenu proveReceipt={proveReceipt} handleClickUpload={handleClickUpload} />
-        </Fade>
-      )}
-    </div>
+    </>
   );
 };
 

@@ -14,9 +14,6 @@ const HomePage = () => {
       <DefaultBody>
         <div className={styles.container}>
           <div className={styles._inner}>
-            <div className={styles.logoContainer}>
-              <ImageLogo width={130} />
-            </div>
             <CreateProofForm />
           </div>
         </div>
