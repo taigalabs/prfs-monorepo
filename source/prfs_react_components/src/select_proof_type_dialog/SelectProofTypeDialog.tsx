@@ -59,35 +59,42 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSel
   );
 
   return (
-    <div className={styles.wrapper}>
-      <div ref={refs.setReference} {...getReferenceProps()}>
-        <div
-          className={cn({
-            [styles.chooseProofTypeBtnWrapper]: true,
-            [styles.wide]: !selectedProofTypeItem,
-            [styles.isOpen]: !!isOpen,
-          })}
-        >
-          <Button variant="white_gray_1">
-            {selectedProofTypeItem ? (
-              <div className={styles.proofTypeBtn}>
-                <CaptionedImg img_url={selectedProofTypeItem.imgUrl} size={30} />
-                <p className={styles.label}>{selectedProofTypeItem.label}</p>
-              </div>
-            ) : (
-              <div className={styles.placeholderBtn}>
-                <div>
-                  {isOpen && <FaSearch />}
-                  <p className={styles.placeholder}>{i18n.find_what_to_prove}</p>
-                </div>
-                <div>
-                  <IoIosSearch />
-                </div>
-              </div>
-            )}
-          </Button>
-        </div>
-      </div>
+    <div
+      className={cn({
+        [styles.chooseProofTypeBtnWrapper]: true,
+        [styles.wide]: !selectedProofTypeItem,
+        [styles.isOpen]: !!isOpen,
+      })}
+      // style={{ position: "relative", height: 44 }}
+      ref={refs.setReference}
+      {...getReferenceProps()}
+    >
+      {/* <div */}
+      {/*   className={cn({ */}
+      {/*     [styles.chooseProofTypeBtnWrapper]: true, */}
+      {/*     [styles.wide]: !selectedProofTypeItem, */}
+      {/*     [styles.isOpen]: !!isOpen, */}
+      {/*   })} */}
+      {/* > */}
+      <Button variant="white_gray_1">
+        {selectedProofTypeItem ? (
+          <div className={styles.proofTypeBtn}>
+            <CaptionedImg img_url={selectedProofTypeItem.imgUrl} size={30} />
+            <p className={styles.label}>{selectedProofTypeItem.label}</p>
+          </div>
+        ) : (
+          <div className={styles.placeholderBtn}>
+            <div>
+              {isOpen && <FaSearch />}
+              <p className={styles.placeholder}>{i18n.find_what_to_prove}</p>
+            </div>
+            <div>
+              <IoIosSearch />
+            </div>
+          </div>
+        )}
+      </Button>
+      {/* </div> */}
       {isOpen && (
         <FloatingFocusManager context={context}>
           <div

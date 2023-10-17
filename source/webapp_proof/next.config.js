@@ -1,7 +1,7 @@
-import mdx from "@next/mdx";
+const mdx = require("@next/mdx");
 
 const withMDX = mdx();
-import dotenv from "dotenv";
+const dotenv = require("dotenv");
 
 (() => {
   const envObj = {};
@@ -10,7 +10,7 @@ import dotenv from "dotenv";
   console.log(envObj);
 })();
 
-export default (phase, { defaultConfig }) => {
+module.exports = (phase, { defaultConfig }) => {
   /** @type {import('next').NextConfig} */
   const nextConfig = {
     pageExtensions: ["js", "jsx", "mdx", "md", "ts", "tsx"],
