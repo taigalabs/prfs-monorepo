@@ -18,12 +18,12 @@ import {
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
 import { IoIosSearch } from "@react-icons/all-files/io/IoIosSearch";
+import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import Fade from "../fade/Fade";
 import Button from "../button/Button";
 import styles from "./SelectProofTypeDialog.module.scss";
 import { i18nContext } from "../contexts/i18nContext";
-import ProofTypeModal, { type ProofTypeItem } from "./ProofTypeModal";
 import CaptionedImg from "../captioned_img/CaptionedImg";
 import ProofTypeModal2 from "./ProofTypeModal2";
 
@@ -35,9 +35,12 @@ const SearchIcon = () => {
   );
 };
 
-const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSelectProofType }) => {
+const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
+  proofType,
+  handleSelectProofType,
+}) => {
   const i18n = React.useContext(i18nContext);
-  const [selectedProofTypeItem, setSelectedProofTypeItem] = React.useState<ProofTypeItem>();
+  // const [selectedProofTypeItem, setSelectedProofTypeItem] = React.useState<PrfsProofType>();
   const [isOpen, setIsOpen] = React.useState(false);
 
   const { refs, floatingStyles, context } = useFloating({
@@ -58,10 +61,10 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSel
   const descriptionId = useId();
 
   const extendedProofTypeClickHandler = React.useCallback(
-    (proofTypeItem: ProofTypeItem) => {
+    (proofType: PrfsProofType) => {
       setIsOpen(false);
-      setSelectedProofTypeItem(proofTypeItem);
-      handleSelectProofType(proofTypeItem);
+      // setSelectedProofTypeItem(proofType);
+      handleSelectProofType(proofType);
     },
     [handleSelectProofType, setIsOpen]
   );
@@ -70,15 +73,15 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSel
     <div
       className={cn({
         [styles.wrapper]: true,
-        [styles.proofTypeChosen]: !!selectedProofTypeItem,
+        [styles.proofTypeChosen]: !!proofType,
         [styles.isOpen]: !!isOpen,
       })}
     >
       <button className={styles.button} ref={refs.setReference} {...getReferenceProps()}>
-        {selectedProofTypeItem ? (
+        {proofType ? (
           <div className={styles.proofTypeBtn}>
-            <CaptionedImg img_url={selectedProofTypeItem.imgUrl} size={32} />
-            <p className={styles.label}>{selectedProofTypeItem.label}</p>
+            <CaptionedImg img_url={proofType.img_url} size={32} />
+            <p className={styles.label}>{proofType.label}</p>
           </div>
         ) : (
           <div className={styles.placeholderBtn}>
@@ -113,5 +116,6 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSel
 export default SelectProofTypeDialog;
 
 export interface SelectProofTypeDialogProps {
-  handleSelectProofType: (proofTypeItem: ProofTypeItem) => void;
+  proofType: PrfsProofType | undefined;
+  handleSelectProofType: (proofType: PrfsProofType) => void;
 }

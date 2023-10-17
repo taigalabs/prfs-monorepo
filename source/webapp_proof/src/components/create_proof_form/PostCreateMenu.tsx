@@ -1,32 +1,59 @@
 import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import cn from "classnames";
-import { v4 as uuidv4 } from "uuid";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
-import { FaCloudMoon } from "@react-icons/all-files/fa/FaCloudMoon";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { useRouter } from "next/navigation";
-import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
-import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import { v4 as uuidv4 } from "uuid";
 import { useMutation } from "@tanstack/react-query";
-import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
 import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
 
 import styles from "./PostCreateMenu.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
+import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
-const PostCreateMenu: React.FC<PostCreateMenuProps> = ({ proveReceipt, handleClickUpload }) => {
+const PostCreateMenu: React.FC<PostCreateMenuProps> = ({ proveReceipt, proofType }) => {
   const i18n = React.useContext(i18nContext);
+  const router = useRouter();
+
+  const { mutateAsync: createPrfsProofInstance } = useMutation({
+    mutationFn: (req: CreatePrfsProofInstanceRequest) => {
+      return prfsApi2("create_prfs_proof_instance", req);
+    },
+  });
+
+  const handleClickUpload = React.useCallback(async () => {
+    if (proveReceipt && proofType) {
+      const { proveResult } = proveReceipt;
+      const { proof, publicInputSer } = proveResult;
+      const public_inputs = JSON.parse(publicInputSer);
+
+      const proof_instance_id = uuidv4();
+
+      console.log("try inserting proof", proveReceipt);
+      try {
+        const { payload } = await createPrfsProofInstance({
+          proof_instance_id,
+          account_id: null,
+          proof_type_id: proofType.proof_type_id,
+          proof: Array.from(proof),
+          public_inputs,
+        });
+
+        router.push(`${paths.proofs}/${payload.proof_instance_id}`);
+      } catch (err: any) {
+        console.error(err);
+        return;
+      }
+    }
+  }, [proveReceipt]);
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.successMsg}>
-        <FaCheck />
+      <div className={styles.title}>
+        {/* <FaCheck /> */}
         <p>{i18n.prove_success_msg}</p>
       </div>
       <div className={styles.uploadSection}>
@@ -37,8 +64,8 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({ proveReceipt, handleCli
         </p>
         <ul className={styles.btnGroup}>
           <li>
-            <Button variant="transparent_black_1" handleClick={handleClickUpload}>
-              {i18n.upload_and_view_proof.toUpperCase()}
+            <Button variant="aqua_blue_1" handleClick={handleClickUpload}>
+              {i18n.upload}
             </Button>
           </li>
           <li>
@@ -60,6 +87,6 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({ proveReceipt, handleCli
 export default PostCreateMenu;
 
 export interface PostCreateMenuProps {
+  proofType: PrfsProofType;
   proveReceipt: ProveReceipt;
-  handleClickUpload: () => Promise<void>;
 }

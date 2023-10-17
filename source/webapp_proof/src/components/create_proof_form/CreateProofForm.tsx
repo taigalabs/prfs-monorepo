@@ -26,7 +26,7 @@ import LogoContainer from "./LogoContainer";
 
 const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
-  const [selectedProofTypeItem, setSelectedProofTypeItem] = React.useState<ProofTypeItem>();
+  // const [selectedProofTypeItem, setSelectedProofTypeItem] = React.useState<ProofTypeItem>();
   const [proofType, setProofType] = React.useState<PrfsProofType>();
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt>();
@@ -45,16 +45,16 @@ const CreateProofForm: React.FC = () => {
   });
 
   const handleSelectProofType = React.useCallback(
-    async (proofTypeItem: ProofTypeItem) => {
-      setSelectedProofTypeItem(proofTypeItem);
+    async (proofType: PrfsProofType) => {
+      // setSelectedProofTypeItem(proofTypeItem);
 
       const { payload } = await getPrfsProofTypeByProofTypeIdRequest({
-        proof_type_id: proofTypeItem.proofTypeId,
+        proof_type_id: proofType.proof_type_id,
       });
 
       setProofType(payload.prfs_proof_type);
     },
-    [setSelectedProofTypeItem, getPrfsProofTypeByProofTypeIdRequest, setProofType]
+    [getPrfsProofTypeByProofTypeIdRequest, setProofType]
   );
 
   const handleCreateProof = React.useCallback(
@@ -65,11 +65,11 @@ const CreateProofForm: React.FC = () => {
         setProveReceipt(proveReceipt);
       }
     },
-    [selectedProofTypeItem, proofGenElement, setProveReceipt]
+    [proofGenElement, setProveReceipt]
   );
 
   const handleClickUpload = React.useCallback(async () => {
-    if (proveReceipt && selectedProofTypeItem) {
+    if (proveReceipt && proofType) {
       const { proveResult } = proveReceipt;
       const { proof, publicInputSer } = proveResult;
       const public_inputs = JSON.parse(publicInputSer);
@@ -81,7 +81,7 @@ const CreateProofForm: React.FC = () => {
         const { payload } = await createPrfsProofInstance({
           proof_instance_id,
           account_id: null,
-          proof_type_id: selectedProofTypeItem.proofTypeId,
+          proof_type_id: proofType.proof_type_id,
           proof: Array.from(proof),
           public_inputs,
         });
@@ -98,28 +98,32 @@ const CreateProofForm: React.FC = () => {
     <>
       <LogoContainer proofTypeChosen={!!proofType} />
       <div className={styles.createProofForm}>
-        <div
-          className={cn({
-            [styles.formWrapper]: true,
-            [styles.proofTypeChosen]: !!proofType,
-          })}
-        >
-          <div className={styles.proofTypeRow}>
-            <SelectProofTypeDialog handleSelectProofType={handleSelectProofType} />
-          </div>
-          {!proofType && <div className={styles.welcomeRow}>{i18n.create_and_share_proofs}</div>}
-          {proofType && (
-            <div className={styles.sdkRow}>
-              <Fade>
-                <CreateProofModule proofType={proofType} handleCreateProof={handleCreateProof} />
-              </Fade>
-            </div>
-          )}
-        </div>
-        {proveReceipt && (
+        {proveReceipt ? (
           <Fade>
-            <PostCreateMenu proveReceipt={proveReceipt} handleClickUpload={handleClickUpload} />
+            <PostCreateMenu proveReceipt={proveReceipt} proofType={proofType!} />
           </Fade>
+        ) : (
+          <div
+            className={cn({
+              [styles.formWrapper]: true,
+              [styles.proofTypeChosen]: !!proofType,
+            })}
+          >
+            <div className={styles.proofTypeRow}>
+              <SelectProofTypeDialog
+                proofType={proofType}
+                handleSelectProofType={handleSelectProofType}
+              />
+            </div>
+            {!proofType && <div className={styles.welcomeRow}>{i18n.create_and_share_proofs}</div>}
+            {proofType && (
+              <div className={styles.sdkRow}>
+                <Fade>
+                  <CreateProofModule proofType={proofType} handleCreateProof={handleCreateProof} />
+                </Fade>
+              </div>
+            )}
+          </div>
         )}
       </div>
     </>

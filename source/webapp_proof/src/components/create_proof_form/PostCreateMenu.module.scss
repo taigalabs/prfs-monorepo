@@ -1,6 +1,5 @@
 .wrapper {
-  margin-top: 14px;
-  padding: 16px 20px 10px;
+  padding: 12px 32px 10px;
   border: 1px solid var(--bright-gray-30);
 
   ul {
@@ -9,11 +8,12 @@
   }
 }
 
-.successMsg {
+.title {
   display: flex;
   align-items: center;
-  font-weight: 500;
-  color: green;
+  justify-content: center;
+  // color: green;
+  font-size: 20px;
 
   svg {
     font-size: 20px;

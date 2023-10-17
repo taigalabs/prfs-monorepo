@@ -6,7 +6,7 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 
 import styles from "./ProofTypeModal2.module.scss";
 import CaptionedImg from "../captioned_img/CaptionedImg";
-import { ProofTypeItem } from "./ProofTypeModal";
+import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) => {
   const handleClickExternalLink = React.useCallback((ev: React.MouseEvent, url: string) => {
@@ -97,12 +97,13 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) =>
                   }}
                   key={virtualRow.index}
                   data-index={virtualRow.index}
-                  onClick={() =>
-                    handleSelectVal({
-                      proofTypeId: proofType.proof_type_id,
-                      label: proofType.label,
-                      imgUrl: proofType.img_url,
-                    })
+                  onClick={
+                    () => handleSelectVal(proofType)
+                    // {
+                    //   proofTypeId: proofType.proof_type_id,
+                    //   label: proofType.label,
+                    //   imgUrl: proofType.img_url,
+                    // })
                   }
                   ref={rowVirtualizer.measureElement}
                 >
@@ -143,5 +144,5 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) =>
 export default ProofTypeModal2;
 
 export interface ProofTypeModal2Props {
-  handleSelectVal: (item: ProofTypeItem) => void;
+  handleSelectVal: (item: PrfsProofType) => void;
 }

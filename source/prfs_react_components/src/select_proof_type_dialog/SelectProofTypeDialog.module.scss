@@ -43,6 +43,9 @@
     width: calc(100% + 4px);
 
     button {
+      border: none;
+      box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 2px 0px,
+        rgba(0, 0, 0, 0.15) 0px 1.1443px 3.43289px 0.288591px;
       width: 100%;
       padding-left: 14px;
       border-radius: 20px 20px 0 0;
@@ -51,15 +54,12 @@
 }
 
 .button {
-  /* color: var(--gray-40); */
-  /* font-weight: 500; */
-  background-color: #fff;
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 2px 0px,
-    rgba(0, 0, 0, 0.15) 0px 1.1443px 3.43289px 0.288591px;
+  background-color: var(--white-100);
+  border: 1px solid var(--bright-gray-30);
   cursor: pointer;
 
   &:hover {
-    background-color: var(--bright-gray-53);
+    border: 1px solid rgba(223, 225, 229, 0);
     box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(0, 0, 0, 0.15) 0px 2px 6px 2px;
   }
 }
