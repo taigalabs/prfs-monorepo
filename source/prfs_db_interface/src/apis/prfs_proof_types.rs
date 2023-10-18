@@ -40,9 +40,19 @@ pub async fn get_prfs_proof_types(
     page_idx: i32,
     page_size: i32,
 ) -> Vec<PrfsProofType> {
-    let query = "SELECT * from prfs_proof_types";
+    let query = r#"
+SELECT * FROM prfs_proof_types
+ORDER BY updated_at
+LIMIT $1
+OFFSET $2
+"#;
 
-    let rows = sqlx::query(query).fetch_all(pool).await.unwrap();
+    let rows = sqlx::query(query)
+        .bind(&page_size)
+        .bind(&page_idx)
+        .fetch_all(pool)
+        .await
+        .unwrap();
 
     let prfs_proof_types: Vec<PrfsProofType> = rows
         .iter()

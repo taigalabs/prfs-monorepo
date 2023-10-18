@@ -9,8 +9,7 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { FaCloudMoon } from "@react-icons/all-files/fa/FaCloudMoon";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
-import { useRouter } from "next/navigation";
-import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
+import { useRouter, useSearchParams } from "next/navigation";
 import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { useMutation } from "@tanstack/react-query";
@@ -26,11 +25,16 @@ import LogoContainer from "./LogoContainer";
 
 const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
-  // const [selectedProofTypeItem, setSelectedProofTypeItem] = React.useState<ProofTypeItem>();
   const [proofType, setProofType] = React.useState<PrfsProofType>();
-  const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt>();
   const router = useRouter();
+
+  const searchParams = useSearchParams();
+
+  React.useEffect(() => {
+    const a = searchParams.get("tutorial");
+    console.log(22, a);
+  }, [searchParams]);
 
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
@@ -65,7 +69,7 @@ const CreateProofForm: React.FC = () => {
         setProveReceipt(proveReceipt);
       }
     },
-    [proofGenElement, setProveReceipt]
+    [setProveReceipt]
   );
 
   const handleClickUpload = React.useCallback(async () => {

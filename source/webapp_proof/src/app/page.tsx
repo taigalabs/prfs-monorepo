@@ -1,5 +1,4 @@
 import React from "react";
-import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
 
 import styles from "./page.module.scss";
 import DefaultLayout, { DefaultBody, DefaultFooter } from "@/layouts/default_layout/DefaultLayout";
