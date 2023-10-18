@@ -6,7 +6,7 @@ import styles from "./LogoContainer.module.scss";
 
 const LogoContainer: React.FC<LogoContainerProps> = ({ proofTypeChosen }) => {
   return (
-    <div className={cn({ [styles.wrapper]: true, [styles.small]: proofTypeChosen })}>
+    <div className={cn({ [styles.wrapper]: true, [styles.proofTypeChosen]: proofTypeChosen })}>
       <ImageLogo width={proofTypeChosen ? 55 : 140} />
     </div>
   );

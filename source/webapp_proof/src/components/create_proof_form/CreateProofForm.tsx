@@ -1,12 +1,10 @@
 "use client";
 
 import React from "react";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import cn from "classnames";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
-import { useSearchParams } from "next/navigation";
 import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { useMutation } from "@tanstack/react-query";
@@ -17,11 +15,21 @@ import { i18nContext } from "@/contexts/i18n";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
 import PostCreateMenu from "./PostCreateMenu";
 import LogoContainer from "./LogoContainer";
+import { useSearchParams } from "next/navigation";
+import Tutorial from "../tutorial/Tutorial";
 
 const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const [proofType, setProofType] = React.useState<PrfsProofType>();
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt>();
+  const searchParams = useSearchParams();
+
+  const isTutorial = React.useMemo(() => {
+    if (searchParams.get("tutorial") !== null) {
+      return true;
+    }
+    return false;
+  }, [searchParams]);
 
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
@@ -53,6 +61,7 @@ const CreateProofForm: React.FC = () => {
 
   return (
     <div className={styles.wrapper}>
+      {isTutorial && <Tutorial />}
       <LogoContainer proofTypeChosen={!!proofType} />
       <div className={cn({ [styles.formArea]: true, [styles.proofTypeChosen]: !!proofType })}>
         {proveReceipt ? (

@@ -8,7 +8,8 @@ import PrfsAppsPopover from "@taigalabs/prfs-react-components/src/prfs_apps_popo
 
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { paths } from "@/paths";
+
+const searchParamKeys = ["tutorial"];
 
 const Masthead: React.FC<MastheadProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -18,7 +19,7 @@ const Masthead: React.FC<MastheadProps> = () => {
       <div className={styles.inner}>
         <ul className={styles.rightGroup}>
           <li>
-            <ActiveLink href={`/?tutorial`}>{i18n.tutorial}</ActiveLink>
+            <Link href={`/?tutorial`}>{i18n.tutorial}</Link>
           </li>
           <li>
             <Link href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>{i18n.docs}</Link>
