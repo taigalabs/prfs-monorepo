@@ -6,7 +6,7 @@ import { Metadata } from "next";
 import TopProvider from "./TopProvider";
 
 export const metadata: Metadata = {
-  title: "Prfs",
+  title: "Prfs Console",
   description: "Where proofs are made",
 };
 
