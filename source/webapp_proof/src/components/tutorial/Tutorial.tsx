@@ -1,16 +1,59 @@
 import React from "react";
-import Logo from "@taigalabs/prfs-react-components/src/logo/Logo";
 import Link from "next/link";
-import ActiveLink from "@taigalabs/prfs-react-components/src/active_link/ActiveLink";
-import PrfsAppsPopover from "@taigalabs/prfs-react-components/src/prfs_apps_popover/PrfsAppsPopover";
 
 import styles from "./Tutorial.module.scss";
 import { i18nContext } from "@/contexts/i18n";
+import {
+  FloatingPortal,
+  autoUpdate,
+  offset,
+  useDismiss,
+  useFloating,
+  useFocus,
+  useHover,
+  useInteractions,
+  useRole,
+} from "@floating-ui/react";
 
 const Tutorial: React.FC<TutorialProps> = () => {
-  const i18n = React.useContext(i18nContext);
+  const [isOpen, setIsOpen] = React.useState(false);
 
-  return <div className={styles.wrapper}>power</div>;
+  const { refs, floatingStyles, context } = useFloating({
+    open: isOpen,
+    onOpenChange: setIsOpen,
+    placement: "right",
+    // Make sure the tooltip stays on the screen
+    whileElementsMounted: autoUpdate,
+    middleware: [offset(5)],
+  });
+
+  // Event listeners to change the open state
+  const hover = useHover(context, { move: false });
+  const focus = useFocus(context);
+  const dismiss = useDismiss(context);
+  // Role props for screen readers
+  const role = useRole(context, { role: "tooltip" });
+
+  // Merge all the interactions into prop getters
+  const { getReferenceProps, getFloatingProps } = useInteractions([hover, focus, dismiss, role]);
+
+  return (
+    <>
+      <div className={styles.base} ref={refs.setReference} {...getReferenceProps()}></div>
+      <FloatingPortal>
+        {true && (
+          <div
+            className="Tooltip"
+            ref={refs.setFloating}
+            style={floatingStyles}
+            {...getFloatingProps()}
+          >
+            tutorial
+          </div>
+        )}
+      </FloatingPortal>
+    </>
+  );
 };
 
 export default Tutorial;
