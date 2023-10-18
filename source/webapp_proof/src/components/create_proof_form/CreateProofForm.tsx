@@ -4,21 +4,16 @@ import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import cn from "classnames";
-import { v4 as uuidv4 } from "uuid";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
-import { FaCloudMoon } from "@react-icons/all-files/fa/FaCloudMoon";
-import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
-import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
 
 import styles from "./CreateProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { paths } from "@/paths";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
 import PostCreateMenu from "./PostCreateMenu";
 import LogoContainer from "./LogoContainer";
@@ -27,13 +22,12 @@ const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const [proofType, setProofType] = React.useState<PrfsProofType>();
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt>();
-  const router = useRouter();
 
   const searchParams = useSearchParams();
 
   React.useEffect(() => {
     const a = searchParams.get("tutorial");
-    console.log(22, a);
+    // console.log(22, a);
   }, [searchParams]);
 
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
@@ -42,16 +36,8 @@ const CreateProofForm: React.FC = () => {
     },
   });
 
-  const { mutateAsync: createPrfsProofInstance } = useMutation({
-    mutationFn: (req: CreatePrfsProofInstanceRequest) => {
-      return prfsApi2("create_prfs_proof_instance", req);
-    },
-  });
-
   const handleSelectProofType = React.useCallback(
     async (proofType: PrfsProofType) => {
-      // setSelectedProofTypeItem(proofTypeItem);
-
       const { payload } = await getPrfsProofTypeByProofTypeIdRequest({
         proof_type_id: proofType.proof_type_id,
       });
@@ -72,36 +58,10 @@ const CreateProofForm: React.FC = () => {
     [setProveReceipt]
   );
 
-  const handleClickUpload = React.useCallback(async () => {
-    if (proveReceipt && proofType) {
-      const { proveResult } = proveReceipt;
-      const { proof, publicInputSer } = proveResult;
-      const public_inputs = JSON.parse(publicInputSer);
-
-      const proof_instance_id = uuidv4();
-
-      console.log("try inserting proof", proveReceipt);
-      try {
-        const { payload } = await createPrfsProofInstance({
-          proof_instance_id,
-          account_id: null,
-          proof_type_id: proofType.proof_type_id,
-          proof: Array.from(proof),
-          public_inputs,
-        });
-
-        router.push(`${paths.proofs}/${payload.proof_instance_id}`);
-      } catch (err: any) {
-        console.error(err);
-        return;
-      }
-    }
-  }, [proveReceipt]);
-
   return (
-    <>
+    <div className={styles.wrapper}>
       <LogoContainer proofTypeChosen={!!proofType} />
-      <div className={styles.createProofForm}>
+      <div className={cn({ [styles.formArea]: true, [styles.proofTypeChosen]: !!proofType })}>
         {proveReceipt ? (
           <Fade>
             <PostCreateMenu proveReceipt={proveReceipt} proofType={proofType!} />
@@ -130,7 +90,7 @@ const CreateProofForm: React.FC = () => {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

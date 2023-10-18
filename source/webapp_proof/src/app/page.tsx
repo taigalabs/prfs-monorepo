@@ -12,7 +12,7 @@ const HomePage = () => {
       <Masthead />
       <DefaultBody>
         <div className={styles.container}>
-          <div className={styles._inner}>
+          <div className={styles.inner}>
             <CreateProofForm />
           </div>
         </div>
