@@ -23,13 +23,6 @@ const CreateProofForm: React.FC = () => {
   const [proofType, setProofType] = React.useState<PrfsProofType>();
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt>();
 
-  const searchParams = useSearchParams();
-
-  React.useEffect(() => {
-    const a = searchParams.get("tutorial");
-    // console.log(22, a);
-  }, [searchParams]);
-
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
       return prfsApi2("get_prfs_proof_type_by_proof_type_id", req);
