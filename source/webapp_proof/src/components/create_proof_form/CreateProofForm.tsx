@@ -69,12 +69,12 @@ const CreateProofForm: React.FC = () => {
             })}
           >
             <div className={styles.proofTypeRow}>
-              <TutorialStepper steps={[1]}>
-                <SelectProofTypeDialog
-                  proofType={proofType}
-                  handleSelectProofType={handleSelectProofType}
-                />
-              </TutorialStepper>
+              {/* <TutorialStepper steps={[1]}> */}
+              <SelectProofTypeDialog
+                proofType={proofType}
+                handleSelectProofType={handleSelectProofType}
+              />
+              {/* </TutorialStepper> */}
             </div>
             {!proofType && (
               <div className={styles.welcomeRow}>

@@ -68,24 +68,26 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
         [styles.isOpen]: !!isOpen,
       })}
     >
-      <button className={styles.button} ref={refs.setReference} {...getReferenceProps()}>
-        {proofType ? (
-          <div className={styles.proofTypeBtn}>
-            <CaptionedImg img_url={proofType.img_url} size={32} />
-            <p className={styles.label}>{proofType.label}</p>
-          </div>
-        ) : (
-          <div className={styles.placeholderBtn}>
-            <div>
-              {isOpen && <SearchIcon />}
-              <p className={styles.placeholder}>{i18n.find_what_to_prove}</p>
+      <TutorialStepper steps={[1]} fullWidth mainAxisOffset={20} crossAxisOffset={15}>
+        <button className={styles.button} ref={refs.setReference} {...getReferenceProps()}>
+          {proofType ? (
+            <div className={styles.proofTypeBtn}>
+              <CaptionedImg img_url={proofType.img_url} size={32} />
+              <p className={styles.label}>{proofType.label}</p>
             </div>
-            <div>
-              <IoIosSearch />
+          ) : (
+            <div className={styles.placeholderBtn}>
+              <div>
+                {isOpen && <SearchIcon />}
+                <p className={styles.placeholder}>{i18n.find_what_to_prove}</p>
+              </div>
+              <div>
+                <IoIosSearch />
+              </div>
             </div>
-          </div>
-        )}
-      </button>
+          )}
+        </button>
+      </TutorialStepper>
       {isOpen && (
         <FloatingFocusManager context={context}>
           <div

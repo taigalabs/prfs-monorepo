@@ -34,7 +34,7 @@ pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, 
     };
 
     let resp = ApiResponse::new_success(GetPrfsProofTypesResponse {
-        next_idx: req.page_idx + 1,
+        next_idx,
         prfs_proof_types,
     });
 

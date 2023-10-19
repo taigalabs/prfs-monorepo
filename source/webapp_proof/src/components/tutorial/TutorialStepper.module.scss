@@ -4,6 +4,10 @@
   /* width: 100%; */
 }
 
+.fullWidth {
+  width: 100%;
+}
+
 .tooltip {
   position: relative;
 
@@ -18,19 +22,6 @@
     animation-duration: 3s;
     animation-iteration-count: infinite;
   }
-}
-
-.circle {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 10px;
-  background-color: #329d8e;
-  animation-name: radiating;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(0.455, 0.03, 0.515, 0.955);
-  animation-delay: -0.4s;
 }
 
 @keyframes radiating {

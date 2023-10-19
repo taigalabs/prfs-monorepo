@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import cn from "classnames";
 import { useSearchParams } from "next/navigation";
 import Tutorial1MD from "@/markdown/tutorial/tutorial_1.mdx";
 import {
@@ -21,7 +22,13 @@ import styles from "./TutorialStepper.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 
-const TutorialStepper: React.FC<TutorialStepperProps> = ({ children, steps }) => {
+const TutorialStepper: React.FC<TutorialStepperProps> = ({
+  children,
+  steps,
+  fullWidth,
+  mainAxisOffset,
+  crossAxisOffset,
+}) => {
   const searchParams = useSearchParams();
 
   const { refs, floatingStyles, context } = useFloating({
@@ -29,8 +36,8 @@ const TutorialStepper: React.FC<TutorialStepperProps> = ({ children, steps }) =>
     whileElementsMounted: autoUpdate,
     middleware: [
       offset({
-        mainAxis: 10,
-        crossAxis: 5,
+        mainAxis: mainAxisOffset || 10,
+        crossAxis: crossAxisOffset || 5,
       }),
       flip({
         fallbackAxisSideDirection: "start",
@@ -55,7 +62,11 @@ const TutorialStepper: React.FC<TutorialStepperProps> = ({ children, steps }) =>
 
   return steps.includes(step) ? (
     <>
-      <div className={styles.wrapper} ref={refs.setReference} {...getReferenceProps()}>
+      <div
+        className={cn({ [styles.wrapper]: true, [styles.fullWidth]: fullWidth })}
+        ref={refs.setReference}
+        {...getReferenceProps()}
+      >
         {children}
       </div>
       <FloatingPortal>
@@ -77,4 +88,7 @@ export default TutorialStepper;
 export interface TutorialStepperProps {
   children: React.ReactNode;
   steps: number[];
+  fullWidth?: boolean;
+  mainAxisOffset?: number;
+  crossAxisOffset?: number;
 }
