@@ -1,12 +1,13 @@
 .wrapper {
   position: fixed;
-  top: 80px;
+  top: 95px;
   right: 0;
   width: 300px;
-  margin-right: 60px;
-  height: 100px;
-
-  border: 1px solid red;
+  margin-right: 42px;
+  border: 1px solid var(--gray-70);
+  border-radius: 3px;
+  padding: 12px 10px;
+  line-height: 1.33;
 }
 
 .base {
