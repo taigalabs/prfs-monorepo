@@ -10,10 +10,10 @@ import styles from "./Tutorial.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 
-const Stage: React.FC<StageProps> = ({ stage }) => {
+const Stage: React.FC<StageProps> = ({ step }) => {
   const i18n = React.useContext(i18nContext);
 
-  switch (stage) {
+  switch (step) {
     case "1":
       return <Tutorial1MD />;
     case "2":
@@ -26,17 +26,17 @@ const Stage: React.FC<StageProps> = ({ stage }) => {
 const Tutorial: React.FC<TutorialProps> = () => {
   const searchParams = useSearchParams();
 
-  const stage = React.useMemo(() => {
-    const s = searchParams.get("tutorial");
+  const step = React.useMemo(() => {
+    const s = searchParams.get("tutorialStep");
     if (s) {
       return s;
     }
   }, [searchParams]);
 
   return (
-    stage && (
+    step && (
       <div className={styles.wrapper}>
-        <Stage stage={stage} />
+        <Stage step={step} />
       </div>
     )
   );
@@ -47,5 +47,5 @@ export default Tutorial;
 export interface TutorialProps {}
 
 export interface StageProps {
-  stage: string;
+  step: string;
 }

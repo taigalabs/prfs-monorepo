@@ -45,7 +45,7 @@ const Row: React.FC<RowProps> = ({ proofType, handleSelectVal }) => {
 const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) => {
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery(
-      ["projects"],
+      ["get_prfs_proof_types"],
       async ({ pageParam = 0 }) => {
         const { payload } = await prfsApi2("get_prfs_proof_types", {
           page_idx: pageParam,
@@ -54,7 +54,7 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) =>
         return payload;
       },
       {
-        getNextPageParam: lastPage => lastPage.next_idx,
+        getNextPageParam: lastPage => (lastPage.next_idx > -1 ? lastPage.next_idx : undefined),
       }
     );
 

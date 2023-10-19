@@ -40,6 +40,8 @@ pub async fn get_prfs_proof_types(
     page_idx: i32,
     page_size: i32,
 ) -> Vec<PrfsProofType> {
+    let offset = page_idx * page_size;
+
     let query = r#"
 SELECT * FROM prfs_proof_types
 ORDER BY updated_at
@@ -49,7 +51,7 @@ OFFSET $2
 
     let rows = sqlx::query(query)
         .bind(&page_size)
-        .bind(&page_idx)
+        .bind(&offset)
         .fetch_all(pool)
         .await
         .unwrap();
