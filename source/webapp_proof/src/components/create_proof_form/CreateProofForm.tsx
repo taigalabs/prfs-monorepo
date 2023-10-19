@@ -17,6 +17,9 @@ import PostCreateMenu from "./PostCreateMenu";
 import LogoContainer from "./LogoContainer";
 import { useSearchParams } from "next/navigation";
 import Tutorial from "../tutorial/Tutorial";
+import Link from "next/link";
+import { paths } from "@/paths";
+import TutorialStepper from "../tutorial/TutorialStepper";
 
 const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -75,12 +78,19 @@ const CreateProofForm: React.FC = () => {
             })}
           >
             <div className={styles.proofTypeRow}>
-              <SelectProofTypeDialog
-                proofType={proofType}
-                handleSelectProofType={handleSelectProofType}
-              />
+              <TutorialStepper stages={[1]}>
+                <SelectProofTypeDialog
+                  proofType={proofType}
+                  handleSelectProofType={handleSelectProofType}
+                />
+              </TutorialStepper>
             </div>
-            {!proofType && <div className={styles.welcomeRow}>{i18n.create_and_share_proofs}</div>}
+            {!proofType && (
+              <div className={styles.welcomeRow}>
+                <span>{i18n.create_and_share_proofs}</span>
+                <Link href={`${paths.__}/?tutorial=1`}>How?</Link>
+              </div>
+            )}
             {proofType && (
               <div className={styles.sdkRow}>
                 <Fade>

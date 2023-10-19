@@ -45,6 +45,11 @@
   display: flex;
   justify-content: center;
   color: var(--gray-20);
+
+  a {
+    margin-left: 5px;
+    color: var(--aqua-blue-50);
+  }
 }
 
 .sdkRow {
