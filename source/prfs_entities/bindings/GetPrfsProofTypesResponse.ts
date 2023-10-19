@@ -2,6 +2,6 @@
 import type { PrfsProofType } from "./PrfsProofType";
 
 export interface GetPrfsProofTypesResponse {
-  next_idx: number | null;
+  next_idx: number;
   prfs_proof_types: Array<PrfsProofType>;
 }

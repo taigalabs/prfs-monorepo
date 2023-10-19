@@ -28,13 +28,13 @@ pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, 
     let prfs_proof_types = db_apis::get_prfs_proof_types(pool, req.page_idx, req.page_size).await;
 
     let next_idx = if (prfs_proof_types.len() as i32) < req.page_size {
-        None
+        -1
     } else {
-        Some(req.page_idx + 1)
+        req.page_idx + 1
     };
 
     let resp = ApiResponse::new_success(GetPrfsProofTypesResponse {
-        next_idx,
+        next_idx: req.page_idx + 1,
         prfs_proof_types,
     });
 
