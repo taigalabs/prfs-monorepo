@@ -1,5 +1,5 @@
 import React from "react";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
@@ -95,7 +95,7 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) =>
       ) : status === "error" ? (
         <span>Error: {(error as Error).message}</span>
       ) : (
-        <TutorialStepper stages={[2]}>
+        <TutorialStepper steps={[2]}>
           <div
             ref={parentRef}
             style={{

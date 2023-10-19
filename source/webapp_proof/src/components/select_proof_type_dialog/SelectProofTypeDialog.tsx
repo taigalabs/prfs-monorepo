@@ -68,7 +68,6 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
         [styles.isOpen]: !!isOpen,
       })}
     >
-      {/* <TutorialStepper stages={[1]}> */}
       <button className={styles.button} ref={refs.setReference} {...getReferenceProps()}>
         {proofType ? (
           <div className={styles.proofTypeBtn}>
@@ -87,7 +86,6 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
           </div>
         )}
       </button>
-      {/* </TutorialStepper> */}
       {isOpen && (
         <FloatingFocusManager context={context}>
           <div

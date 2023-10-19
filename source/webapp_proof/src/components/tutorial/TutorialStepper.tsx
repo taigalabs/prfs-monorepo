@@ -10,7 +10,6 @@ import {
   offset,
   flip,
   shift,
-  useHover,
   useFocus,
   useDismiss,
   useRole,
@@ -22,19 +21,17 @@ import styles from "./TutorialStepper.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 
-const TutorialStepper: React.FC<TutorialStepperProps> = ({ children, stages }) => {
+const TutorialStepper: React.FC<TutorialStepperProps> = ({ children, steps }) => {
   const searchParams = useSearchParams();
 
-  const [isOpen, setIsOpen] = React.useState(false);
-
   const { refs, floatingStyles, context } = useFloating({
-    open: isOpen,
-    onOpenChange: setIsOpen,
     placement: "top-start",
-    // Make sure the tooltip stays on the screen
     whileElementsMounted: autoUpdate,
     middleware: [
-      offset(5),
+      offset({
+        mainAxis: 10,
+        crossAxis: 5,
+      }),
       flip({
         fallbackAxisSideDirection: "start",
       }),
@@ -42,18 +39,13 @@ const TutorialStepper: React.FC<TutorialStepperProps> = ({ children, stages }) =
     ],
   });
 
-  // Event listeners to change the open state
-  const hover = useHover(context, { move: false });
   const focus = useFocus(context);
   const dismiss = useDismiss(context);
-  // Role props for screen readers
   const role = useRole(context, { role: "tooltip" });
+  const { getReferenceProps, getFloatingProps } = useInteractions([focus, dismiss, role]);
 
-  // Merge all the interactions into prop getters
-  const { getReferenceProps, getFloatingProps } = useInteractions([hover, focus, dismiss, role]);
-
-  const stage = React.useMemo(() => {
-    const s = searchParams.get("tutorial");
+  const step = React.useMemo(() => {
+    const s = searchParams.get("tutorialStep");
     if (s) {
       return +s;
     } else {
@@ -61,7 +53,7 @@ const TutorialStepper: React.FC<TutorialStepperProps> = ({ children, stages }) =
     }
   }, [searchParams]);
 
-  return stages.includes(stage) ? (
+  return steps.includes(step) ? (
     <>
       <div className={styles.wrapper} ref={refs.setReference} {...getReferenceProps()}>
         {children}
@@ -78,13 +70,11 @@ const TutorialStepper: React.FC<TutorialStepperProps> = ({ children, stages }) =
   ) : (
     children
   );
-
-  // return stages.includes(stage) ? <div className={styles.wrapper}>{children}</div> : children;
 };
 
 export default TutorialStepper;
 
 export interface TutorialStepperProps {
   children: React.ReactNode;
-  stages: number[];
+  steps: number[];
 }
