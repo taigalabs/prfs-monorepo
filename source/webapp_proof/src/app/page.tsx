@@ -5,6 +5,7 @@ import DefaultLayout, { DefaultBody, DefaultFooter } from "@/layouts/default_lay
 import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 import Masthead from "@/components/masthead/Masthead";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
+import Tutorial from "@/components/tutorial/Tutorial";
 
 const HomePage = () => {
   return (
@@ -13,6 +14,7 @@ const HomePage = () => {
       <DefaultBody>
         <div className={styles.container}>
           <div className={styles.inner}>
+            <Tutorial />
             <CreateProofForm />
           </div>
         </div>

@@ -61,7 +61,6 @@ const CreateProofForm: React.FC = () => {
 
   return (
     <div className={styles.wrapper}>
-      {isTutorial && <Tutorial />}
       <LogoContainer proofTypeChosen={!!proofType} />
       <div className={cn({ [styles.formArea]: true, [styles.proofTypeChosen]: !!proofType })}>
         {proveReceipt ? (
