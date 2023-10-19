@@ -477,9 +477,6 @@ importers:
       '@tanstack/react-table':
         specifier: ^8.9.3
         version: 8.9.3(react-dom@18.2.0)(react@18.2.0)
-      '@tanstack/react-virtual':
-        specifier: 3.0.0-beta.60
-        version: 3.0.0-beta.60(react@18.2.0)
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -1043,6 +1040,9 @@ importers:
       '@tanstack/react-table':
         specifier: ^8.9.3
         version: 8.9.3(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/react-virtual':
+        specifier: 3.0.0-beta.60
+        version: 3.0.0-beta.60(react@18.2.0)
       classnames:
         specifier: ^2.3.2
         version: 2.3.2

@@ -1,6 +1,7 @@
 export default {
   explorer: "Explorer",
   prfs_copyright: "© 2023 Prfs",
+  find_what_to_prove: "Find what to prove",
   explore_technologies: "Explore technologies",
   latest_prfs_updates: "Latest Prfs updates",
   github: "Github",

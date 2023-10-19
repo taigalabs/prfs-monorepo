@@ -26,6 +26,7 @@
     "@taigalabs/prfs-react-components": "*",
     "@taigalabs/prfs-sdk-web": "*",
     "@tanstack/react-query": "^4.35.0",
+    "@tanstack/react-virtual": "3.0.0-beta.60",
     "@tanstack/react-table": "^8.9.3",
     "classnames": "^2.3.2",
     "dayjs": "^1.11.9",

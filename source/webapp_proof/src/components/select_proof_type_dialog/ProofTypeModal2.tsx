@@ -3,10 +3,11 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
+import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import styles from "./ProofTypeModal2.module.scss";
-import CaptionedImg from "../captioned_img/CaptionedImg";
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import TutorialStepper from "../tutorial/TutorialStepper";
 
 const Row: React.FC<RowProps> = ({ proofType, handleSelectVal }) => {
   const url = `${process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/proof_types/${proofType.proof_type_id}`;
@@ -94,50 +95,55 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) =>
       ) : status === "error" ? (
         <span>Error: {(error as Error).message}</span>
       ) : (
-        <div
-          ref={parentRef}
-          style={{
-            height: "300px",
-            overflow: "auto",
-          }}
-        >
+        <TutorialStepper stages={[2]}>
           <div
+            ref={parentRef}
             style={{
-              height: `${rowVirtualizer.getTotalSize()}px`,
-              position: "relative",
+              height: "300px",
+              overflow: "auto",
             }}
           >
-            {items.map(virtualRow => {
-              const isLoaderRow = virtualRow.index > allRows.length - 1;
+            <div
+              style={{
+                height: `${rowVirtualizer.getTotalSize()}px`,
+                position: "relative",
+              }}
+            >
+              {items.map(virtualRow => {
+                const isLoaderRow = virtualRow.index > allRows.length - 1;
 
-              return (
-                <div
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: `${virtualRow.size}px`,
-                    transform: `translateY(${virtualRow.start}px)`,
-                  }}
-                  key={virtualRow.index}
-                  data-index={virtualRow.index}
-                  ref={rowVirtualizer.measureElement}
-                >
-                  {isLoaderRow ? (
-                    hasNextPage ? (
-                      "Loading more..."
+                return (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: `${virtualRow.size}px`,
+                      transform: `translateY(${virtualRow.start}px)`,
+                    }}
+                    key={virtualRow.index}
+                    data-index={virtualRow.index}
+                    ref={rowVirtualizer.measureElement}
+                  >
+                    {isLoaderRow ? (
+                      hasNextPage ? (
+                        "Loading more..."
+                      ) : (
+                        "Nothing more to load"
+                      )
                     ) : (
-                      "Nothing more to load"
-                    )
-                  ) : (
-                    <Row proofType={allRows[virtualRow.index]} handleSelectVal={handleSelectVal} />
-                  )}
-                </div>
-              );
-            })}
+                      <Row
+                        proofType={allRows[virtualRow.index]}
+                        handleSelectVal={handleSelectVal}
+                      />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        </TutorialStepper>
       )}
     </div>
   );

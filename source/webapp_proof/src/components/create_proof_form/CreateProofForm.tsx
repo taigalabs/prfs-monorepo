@@ -5,33 +5,25 @@ import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import cn from "classnames";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
-import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 import styles from "./CreateProofForm.module.scss";
+import SelectProofTypeDialog from "@/components/select_proof_type_dialog/SelectProofTypeDialog";
 import { i18nContext } from "@/contexts/i18n";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
 import PostCreateMenu from "./PostCreateMenu";
 import LogoContainer from "./LogoContainer";
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
 import { paths } from "@/paths";
-import TutorialStepper from "../tutorial/TutorialStepper";
+import TutorialStepper from "@/components/tutorial/TutorialStepper";
 
 const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const [proofType, setProofType] = React.useState<PrfsProofType>();
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt>();
-  const searchParams = useSearchParams();
-
-  const isTutorial = React.useMemo(() => {
-    if (searchParams.get("tutorial") !== null) {
-      return true;
-    }
-    return false;
-  }, [searchParams]);
 
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
