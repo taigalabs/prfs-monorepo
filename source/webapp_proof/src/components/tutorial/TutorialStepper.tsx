@@ -18,6 +18,8 @@ const TutorialStepper: React.FC<TutorialStepperProps> = ({ children, stages }) =
     const s = searchParams.get("tutorial");
     if (s) {
       return +s;
+    } else {
+      return -1;
     }
   }, [searchParams]);
 
@@ -27,10 +29,12 @@ const TutorialStepper: React.FC<TutorialStepperProps> = ({ children, stages }) =
     }
   }, [stage, router]);
 
-  return (
+  return stages.includes(stage) ? (
     <div className={styles.wrapper} onClick={handleClick}>
       {children}
     </div>
+  ) : (
+    children
   );
 };
 
