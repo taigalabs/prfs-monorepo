@@ -77,7 +77,7 @@ const CreateProofForm: React.FC = () => {
             {!proofType && (
               <div className={styles.welcomeRow}>
                 <span>{i18n.create_and_share_proofs}</span>
-                <Link href={`${paths.__}/?tutorial=1`}>How?</Link>
+                <Link href={`${paths.__}/?tutorialStep=1`}>How?</Link>
               </div>
             )}
             {proofType && (
