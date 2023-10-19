@@ -16,7 +16,6 @@ import CreateProofModule from "@/components/create_proof_module/CreateProofModul
 import PostCreateMenu from "./PostCreateMenu";
 import LogoContainer from "./LogoContainer";
 import { useSearchParams } from "next/navigation";
-import Tutorial from "../tutorial/Tutorial";
 import Link from "next/link";
 import { paths } from "@/paths";
 import TutorialStepper from "../tutorial/TutorialStepper";
