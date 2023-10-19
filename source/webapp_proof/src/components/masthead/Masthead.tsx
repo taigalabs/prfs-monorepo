@@ -17,19 +17,21 @@ const Masthead: React.FC<MastheadProps> = () => {
   const searchParams = useSearchParams();
 
   const isTutorial = React.useMemo(() => {
-    if (searchParams.get("tutorial") !== null) {
+    if (searchParams.get("tutorial")) {
       return true;
     }
     return false;
   }, [searchParams]);
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cn({ [styles.wrapper]: true, [styles.isTutorial]: isTutorial })}>
       <div className={styles.inner}>
         <ul className={styles.rightGroup}>
           <li>
-            <Link href={`${paths.__}?tutorial`}>
-              <p className={cn({ [styles.isTutorial]: isTutorial })}>{i18n.tutorial}</p>
+            <Link href={`${paths.__}?tutorial=1`}>
+              <p className={cn({ [styles.tutorial]: true, [styles.isTutorial]: isTutorial })}>
+                {i18n.tutorial}
+              </p>
             </Link>
           </li>
           <li>
