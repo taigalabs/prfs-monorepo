@@ -12,6 +12,7 @@
   z-index: 100;
 
   &.isTutorial {
+    background-color: rgba(0, 0, 0, 0.62);
   }
 }
 
@@ -61,6 +62,24 @@
   }
 }
 
-.tutorial.isTutorial {
-  color: blue;
+.tutorialBtn {
+  svg {
+    display: none;
+  }
+}
+
+.tutorialBtn.isTutorial {
+  background-color: white;
+  border-radius: 3px;
+  padding: 5px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--aqua-blue-40);
+  display: flex;
+  align-items: center;
+
+  svg {
+    display: block;
+    margin-left: 4px;
+  }
 }

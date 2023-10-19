@@ -5,6 +5,7 @@ import cn from "classnames";
 import Link from "next/link";
 import ActiveLink from "@taigalabs/prfs-react-components/src/active_link/ActiveLink";
 import PrfsAppsPopover from "@taigalabs/prfs-react-components/src/prfs_apps_popover/PrfsAppsPopover";
+import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -23,14 +24,23 @@ const Masthead: React.FC<MastheadProps> = () => {
     return false;
   }, [searchParams]);
 
+  const tutorialUrl = React.useMemo(() => {
+    if (isTutorial) {
+      return paths.__;
+    } else {
+      return `${paths.__}?tutorial=1`;
+    }
+  }, [isTutorial]);
+
   return (
     <div className={cn({ [styles.wrapper]: true, [styles.isTutorial]: isTutorial })}>
       <div className={styles.inner}>
         <ul className={styles.rightGroup}>
           <li>
-            <Link href={`${paths.__}?tutorial=1`}>
-              <p className={cn({ [styles.tutorial]: true, [styles.isTutorial]: isTutorial })}>
-                {i18n.tutorial}
+            <Link href={tutorialUrl}>
+              <p className={cn({ [styles.tutorialBtn]: true, [styles.isTutorial]: isTutorial })}>
+                <span>{i18n.tutorial}</span>
+                <AiOutlineClose />
               </p>
             </Link>
           </li>

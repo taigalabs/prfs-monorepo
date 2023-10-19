@@ -23,8 +23,6 @@ const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
       return "";
     }
   }, [address]);
-  //
-  console.log(11, address);
 
   const extendedHandleChangeAddress = React.useCallback(() => {
     handleChangeAddress(address as string);
