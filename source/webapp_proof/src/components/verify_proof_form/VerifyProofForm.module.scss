@@ -2,6 +2,11 @@
 }
 
 .publicInputRow {
-  display: flex;
-  align-items: center;
+  /* display: flex; */
+  /* align-items: center; */
+  margin-bottom: 12px;
+
+  > p:first-child {
+    margin-bottom: 4px;
+  }
 }
