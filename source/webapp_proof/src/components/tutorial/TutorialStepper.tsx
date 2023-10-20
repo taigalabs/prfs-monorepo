@@ -21,6 +21,7 @@ import {
 import styles from "./TutorialStepper.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
+import { useAppSelector } from "@/state/hooks";
 
 const TutorialStepper: React.FC<TutorialStepperProps> = ({
   children,
@@ -51,14 +52,16 @@ const TutorialStepper: React.FC<TutorialStepperProps> = ({
   const role = useRole(context, { role: "tooltip" });
   const { getReferenceProps, getFloatingProps } = useInteractions([focus, dismiss, role]);
 
-  const step = React.useMemo(() => {
-    const s = searchParams.get("tutorialStep");
-    if (s) {
-      return +s;
-    } else {
-      return -1;
-    }
-  }, [searchParams]);
+  const step = useAppSelector(state => state.tutorial.tutorialStep);
+
+  // const step = React.useMemo(() => {
+  //   const s = searchParams.get("tutorialStep");
+  //   if (s) {
+  //     return +s;
+  //   } else {
+  //     return -1;
+  //   }
+  // }, [searchParams]);
 
   return steps.includes(step) ? (
     <>

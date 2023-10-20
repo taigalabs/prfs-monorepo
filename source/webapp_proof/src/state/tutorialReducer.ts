@@ -22,9 +22,15 @@ export const tutorialSlice = createSlice({
         tutorialStep: state.tutorialStep + 1,
       };
     },
+    goPrevStep: (state: TutorialState, _action: PayloadAction<void>) => {
+      return {
+        ...state,
+        tutorialStep: state.tutorialStep - 1,
+      };
+    },
   },
 });
 
-export const { goNextStep } = tutorialSlice.actions;
+export const { goNextStep, goPrevStep } = tutorialSlice.actions;
 
 export default tutorialSlice.reducer;

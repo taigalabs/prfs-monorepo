@@ -9,6 +9,10 @@
     display: flex;
     align-items: center;
   }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 .aqua_blue_1 {
@@ -22,6 +26,10 @@
 
   &:hover {
     background-color: #445dc6;
+  }
+
+  &:disabled {
+    color: var(--gray-50);
   }
 }
 

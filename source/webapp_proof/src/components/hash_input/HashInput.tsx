@@ -8,6 +8,9 @@ import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput"
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 import { isNumber } from "util";
 import { bigIntToBuffer, bufferToBigInt } from "@ethereumjs/util";
+import { useSelector } from "react-redux";
+import { tutorialSlice } from "@/state/tutorialReducer";
+import { useAppSelector } from "@/state/hooks";
 
 const HashInput: React.FC<HashInputProps> = ({
   circuitInput,
