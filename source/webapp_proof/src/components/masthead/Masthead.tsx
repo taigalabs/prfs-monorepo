@@ -18,7 +18,7 @@ const Masthead: React.FC<MastheadProps> = () => {
   const searchParams = useSearchParams();
 
   const isTutorial = React.useMemo(() => {
-    if (searchParams.get("tutorialStep")) {
+    if (searchParams.get("tutorial_id")) {
       return true;
     }
     return false;

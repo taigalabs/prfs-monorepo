@@ -71,12 +71,15 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({ proveReceipt, proofType
       <div className={styles.btnGroup}>
         <ul>
           <li>
+            <Button variant="transparent_aqua_blue_1">{i18n.start_over}</Button>
+          </li>
+        </ul>
+        <ul>
+          <li>
             <button className={styles.verifyBtn} disabled>
               {i18n.verify}
             </button>
           </li>
-        </ul>
-        <ul>
           <li>
             <Button variant="aqua_blue_1" handleClick={handleClickUpload}>
               {i18n.upload}

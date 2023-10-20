@@ -15,15 +15,15 @@ export async function proveSimpleHash(
   const { inputs, eventListener } = args;
 
   const { hashData } = inputs;
-  const { msgRaw, msgHash } = hashData;
+  const { msgRaw, msgRawInt, msgHash } = hashData;
   console.log("hashData: %o", inputs);
 
   const circuitPubInput = new SimpleHashCircuitPubInput(msgHash);
 
-  const publicInput = new SimpleHashPublicInput(circuitPubInput);
+  const publicInput = new SimpleHashPublicInput(msgRaw, msgRawInt, circuitPubInput);
 
   const witnessGenInput = {
-    msgRaw,
+    msgRawInt,
     msgHash,
   };
 
@@ -49,7 +49,8 @@ export async function proveSimpleHash(
 
 export interface SimpleHashProveArgs {
   hashData: {
-    msgRaw: bigint;
+    msgRaw: string;
+    msgRawInt: bigint;
     msgHash: bigint;
   };
 }

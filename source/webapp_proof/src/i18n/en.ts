@@ -176,6 +176,7 @@ export default {
   references: "References",
   set: "Set",
   set_type: "Set type",
+  start_over: "Start over",
   sets: "Sets",
   dynamic_sets: "Dynamic sets",
   connect: "Connect",

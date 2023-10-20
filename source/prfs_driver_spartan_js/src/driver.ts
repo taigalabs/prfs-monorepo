@@ -76,9 +76,6 @@ export default class SpartanDriver implements CircuitDriver {
 
   async prove(args: ProveArgs<any>): Promise<ProveReceipt> {
     try {
-      // const { inputs, circuitType, eventListener } = args;
-      console.log(11, args.circuitTypeId);
-
       switch (args.circuitTypeId) {
         case "SIMPLE_HASH_1": {
           const { proveSimpleHash } = await import("./provers/simple_hash/simple_hash");

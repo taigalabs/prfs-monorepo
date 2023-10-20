@@ -10,9 +10,13 @@ const ec = new EC("secp256k1");
 const JSONbigNative = JSONBig({ useNativeBigInt: true });
 
 export class SimpleHashPublicInput {
+  msgRaw: string;
+  msgRawInt: bigint;
   circuitPubInput: SimpleHashCircuitPubInput;
 
-  constructor(circuitPubInput: SimpleHashCircuitPubInput) {
+  constructor(msgRaw: string, msgRawInt: bigint, circuitPubInput: SimpleHashCircuitPubInput) {
+    this.msgRaw = msgRaw;
+    this.msgRawInt = msgRawInt;
     this.circuitPubInput = circuitPubInput;
   }
 
