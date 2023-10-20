@@ -57,12 +57,13 @@
   button {
     height: 36px;
     padding: 0 20px;
-    font-weight: 500;
   }
 }
 
 .footer {
-  margin-top: 16px;
+  margin-top: 26px;
+  border-top: 1px solid var(--bright-gray-30);
+  padding-top: 14px;
 
   .verifyBtn {
     display: flex;
@@ -70,6 +71,7 @@
     align-items: center;
     cursor: pointer;
     border-radius: 5px;
+    color: var(--black-20);
 
     svg {
       transition: all 0.25s ease-out;

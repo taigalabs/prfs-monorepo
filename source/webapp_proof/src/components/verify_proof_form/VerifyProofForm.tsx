@@ -47,7 +47,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ proveReceipt, proofTy
         } else {
           elems.push(
             <div className={styles.publicInputRow} key={`${key}-${count}`}>
-              <p>{key}</p>
+              <p className={styles.key}>{key}</p>
               <p>{obj[key]}</p>
             </div>
           );
