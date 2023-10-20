@@ -61,10 +61,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
           {proofInstance ? (
             <div className={styles.inner}>
               <div className={styles.header}>
-                <div className={styles.row}>
-                  <Link href={paths.proofs}>
-                    <ArrowButton variant="left" />
-                  </Link>
+                <div className={styles.titleRow}>
                   <p className={styles.headerLabel}>{headerLabel}</p>
                 </div>
                 <div className={styles.buttonRow}>

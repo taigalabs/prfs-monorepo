@@ -14,6 +14,7 @@ import styles from "./PostCreateMenu.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import TutorialStepper from "../tutorial/TutorialStepper";
 
 const PostCreateMenu: React.FC<PostCreateMenuProps> = ({ proveReceipt, proofType }) => {
   const i18n = React.useContext(i18nContext);
@@ -81,9 +82,11 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({ proveReceipt, proofType
             </button>
           </li>
           <li>
-            <Button variant="aqua_blue_1" handleClick={handleClickUpload}>
-              {i18n.upload}
-            </Button>
+            <TutorialStepper steps={[3]}>
+              <Button variant="aqua_blue_1" handleClick={handleClickUpload}>
+                {i18n.upload}
+              </Button>
+            </TutorialStepper>
           </li>
         </ul>
       </div>

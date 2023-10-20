@@ -1,23 +1,13 @@
 "use client";
 
 import React from "react";
+import { redirect } from "next/navigation";
 
 import styles from "./page.module.scss";
-import DefaultLayout, { DefaultBody } from "@/layouts/default_layout/DefaultLayout";
-import Masthead from "@/components/masthead/Masthead";
-import ProofFeeds from "@/components/proof_feeds/ProofFeeds";
+import { paths } from "@/paths";
 
 const ProofsPage: React.FC = () => {
-  return (
-    <DefaultLayout>
-      <Masthead />
-      <DefaultBody>
-        <div className={styles.feedContainer}>
-          <ProofFeeds />
-        </div>
-      </DefaultBody>
-    </DefaultLayout>
-  );
+  redirect(paths.__);
 };
 
 export default ProofsPage;

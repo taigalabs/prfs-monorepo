@@ -5,6 +5,7 @@ import Link from "next/link";
 import { redirect, useSearchParams } from "next/navigation";
 import Tutorial1MD from "@/markdown/tutorial/tutorial_1.mdx";
 import Tutorial2MD from "@/markdown/tutorial/tutorial_2.mdx";
+import Tutorial3MD from "@/markdown/tutorial/tutorial_3.mdx";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useRouter } from "next/navigation";
 
@@ -24,6 +25,8 @@ const Stage: React.FC<StageProps> = ({ step }) => {
       return <Tutorial1MD />;
     case 2:
       return <Tutorial2MD />;
+    case 3:
+      return <Tutorial3MD />;
     default:
       return <div>Invalid stage</div>;
   }
@@ -56,8 +59,6 @@ const Tutorial: React.FC<TutorialProps> = () => {
       dispatch(goNextStep());
     }
   }, [step, router, dispatch]);
-
-  console.log(11, step, isTutorial);
 
   return (
     isTutorial &&

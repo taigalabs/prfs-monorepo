@@ -14,9 +14,10 @@
 .header {
   width: 100%;
 
-  .row {
+  .titleRow {
     display: flex;
     align-items: center;
+    justify-content: center;
   }
 
   .buttonRow {
