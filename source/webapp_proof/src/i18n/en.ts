@@ -57,6 +57,8 @@ export default {
   proof_instance_id: "Proof instance id",
   url_is_copied: "URL is copied",
   proof_type_id: "Proof type id",
+  prev: "Prev",
+  next: "Next",
   create_and_share_proofs: "Create and share proofs",
   proof_label: "Proof label",
   short_id: "Short id",

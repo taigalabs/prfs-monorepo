@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Tutorial1MD from "@/markdown/tutorial/tutorial_1.mdx";
 import Tutorial2MD from "@/markdown/tutorial/tutorial_2.mdx";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./Tutorial.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -25,6 +26,7 @@ const Stage: React.FC<StageProps> = ({ step }) => {
 
 const Tutorial: React.FC<TutorialProps> = () => {
   const searchParams = useSearchParams();
+  const i18n = React.useContext(i18nContext);
 
   const step = React.useMemo(() => {
     const s = searchParams.get("tutorialStep");
@@ -36,7 +38,12 @@ const Tutorial: React.FC<TutorialProps> = () => {
   return (
     step && (
       <div className={styles.wrapper}>
+        <p className={styles.progress}>({step} / 9)</p>
         <Stage step={step} />
+        <div className={styles.btnRow}>
+          <Button variant="transparent_aqua_blue_1">{i18n.prev}</Button>
+          <Button variant="aqua_blue_1">{i18n.next}</Button>
+        </div>
       </div>
     )
   );
