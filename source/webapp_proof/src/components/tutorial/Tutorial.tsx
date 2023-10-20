@@ -38,24 +38,25 @@ const Tutorial: React.FC<TutorialProps> = () => {
       if (+s > 0) {
         return +s;
       }
-      router.replace(`${paths.__}/?tutorialStep=1`);
+      return -1;
     }
-    return -1;
+    return null;
   }, [searchParams]);
 
-  // if (step && step < 1) {
-  //   router.replace(`${paths.__}/?tutorialStep=1`);
-  // }
-
   const handleClickPrev = React.useCallback(() => {
-    if (step > 0) {
+    if (step && step > 0) {
       router.push(`${paths.__}/?tutorialStep=${Math.max(step - 1, 0)}`);
     }
   }, [step, router]);
 
   const handleClickNext = React.useCallback(() => {}, [step]);
 
+  if (step && step < 1) {
+    router.replace(`${paths.__}/?tutorialStep=1`);
+  }
+
   return (
+    step &&
     step > 0 && (
       <div className={styles.wrapper}>
         <p className={styles.progress}>({step} / 9)</p>
