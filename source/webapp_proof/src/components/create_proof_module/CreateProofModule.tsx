@@ -16,6 +16,7 @@ import Passcode from "@/components/passcode/Passcode";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
 import { validateInputs } from "@/validate";
 import HashInput from "@/components/hash_input/HashInput";
+import TutorialStepper from "../tutorial/TutorialStepper";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -214,14 +215,14 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.form}>{circuitInputsElem}</div>
-
+      <TutorialStepper steps={[2]}>
+        <div className={styles.form}>{circuitInputsElem}</div>
+      </TutorialStepper>
       <div className={styles.createProofBtn}>
         <Button variant="aqua_blue_1" handleClick={handleClickCreateProof}>
           {i18n.create_proof}
         </Button>
       </div>
-
       <div className={styles.footer}>
         <div className={styles.systemMsg}>
           <span>
