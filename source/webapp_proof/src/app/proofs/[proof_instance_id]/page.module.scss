@@ -17,13 +17,19 @@
   .titleRow {
     display: flex;
     align-items: center;
-    justify-content: center;
+    /* justify-content: center; */
   }
 
   .buttonRow {
+    margin-top: 8px;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
+
+    ul {
+      display: flex;
+      align-items: center;
+    }
   }
 }
 

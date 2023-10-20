@@ -9,6 +9,7 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import ProofBanner from "@taigalabs/prfs-react-components/src/proof_banner/ProofBanner";
 import SocialSharePopover from "@taigalabs/prfs-react-components/src/social_share_popover/SocialSharePopover";
+import { HiOutlineDesktopComputer } from "@react-icons/all-files/hi/HiOutlineDesktopComputer";
 
 import styles from "./page.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -62,14 +63,29 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
             <div className={styles.inner}>
               <div className={styles.header}>
                 <div className={styles.titleRow}>
+                  <ArrowButton variant="left" />
                   <p className={styles.headerLabel}>{headerLabel}</p>
                 </div>
                 <div className={styles.buttonRow}>
-                  <Button variant="transparent_aqua_blue_1">
-                    <AiOutlineCopy />
-                    <span>{i18n.copy_url.toUpperCase()}</span>
-                  </Button>
-                  <SocialSharePopover />
+                  <ul>
+                    <li>
+                      <Button variant="transparent_aqua_blue_1">
+                        <HiOutlineDesktopComputer />
+                        <span>{i18n.go_to_console.toUpperCase()}</span>
+                      </Button>
+                    </li>
+                  </ul>
+                  <ul>
+                    <li>
+                      <Button variant="transparent_aqua_blue_1">
+                        <AiOutlineCopy />
+                        <span>{i18n.copy_url.toUpperCase()}</span>
+                      </Button>
+                    </li>
+                    <li>
+                      <SocialSharePopover />
+                    </li>
+                  </ul>
                 </div>
               </div>
               <div className={styles.content}>
