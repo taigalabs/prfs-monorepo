@@ -28,7 +28,7 @@ const Masthead: React.FC<MastheadProps> = () => {
     if (isTutorial) {
       return paths.__;
     } else {
-      return `${paths.__}?tutorialStep=1`;
+      return `${paths.__}?tutorial_id=simple_hash`;
     }
   }, [isTutorial]);
 

@@ -32,15 +32,12 @@ const Tutorial: React.FC<TutorialProps> = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
 
-  const step = React.useMemo(() => {
-    const s = searchParams.get("tutorialStep");
-    if (s) {
-      if (+s > 0) {
-        return +s;
-      }
-      return -1;
+  const isTutorial = React.useMemo(() => {
+    const s = searchParams.get("tutorial_id");
+    if (s !== null) {
+      return true;
     }
-    return null;
+    return false;
   }, [searchParams]);
 
   const handleClickPrev = React.useCallback(() => {

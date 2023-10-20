@@ -7,6 +7,7 @@ import { i18nContext } from "@/contexts/i18n";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 import { isNumber } from "util";
+import { bigIntToBuffer, bufferToBigInt } from "@ethereumjs/util";
 
 const HashInput: React.FC<HashInputProps> = ({
   circuitInput,
@@ -21,7 +22,7 @@ const HashInput: React.FC<HashInputProps> = ({
   React.useEffect(() => {
     if (value === undefined) {
       const defaultHashData: HashData = {
-        msgRaw: BigInt(0),
+        msgRaw: "",
         msgHash: BigInt(0),
       };
 
@@ -38,9 +39,9 @@ const HashInput: React.FC<HashInputProps> = ({
     (ev: React.ChangeEvent<HTMLInputElement>) => {
       const newVal = ev.target.value;
 
-      if (isNaN(+newVal)) {
-        return;
-      }
+      // if (isNaN(+newVal)) {
+      //   return;
+      // }
 
       setFormValues(oldVals => {
         const oldVal = oldVals[circuitInput.name] || {};
@@ -67,7 +68,9 @@ const HashInput: React.FC<HashInputProps> = ({
       const msgRaw = value.msgRaw;
       console.log("msg raw", msgRaw);
 
-      const msgHash = await proofGenElement.hash([msgRaw, BigInt(0)]);
+      const msg = bufferToBigInt(Buffer.from(msgRaw));
+
+      const msgHash = await proofGenElement.hash([msg, BigInt(0)]);
 
       console.log("msg hash", msgHash);
 
@@ -109,7 +112,7 @@ const HashInput: React.FC<HashInputProps> = ({
 export default HashInput;
 
 export interface HashData {
-  msgRaw: bigint;
+  msgRaw: string;
   msgHash: bigint;
 }
 
