@@ -25,7 +25,12 @@ enum CreateProofStatus {
   InProgress,
 }
 
-const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handleCreateProof }) => {
+const CreateProofModule: React.FC<CreateProofModuleProps> = ({
+  proofType,
+  handleCreateProof,
+  proofGenElement,
+  setProofGenElement,
+}) => {
   const i18n = React.useContext(i18nContext);
 
   const [systemMsg, setSystemMsg] = React.useState("Loading driver...");
@@ -33,7 +38,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({ proofType, handle
   const [terminalLog, setTerminalLog] = React.useState<string>("");
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
-  const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
   const didTryInitialize = React.useRef(false);
 
   const proofGenEventListener = React.useCallback(
@@ -240,4 +244,6 @@ export default CreateProofModule;
 export interface CreateProofModuleProps {
   proofType: PrfsProofType;
   handleCreateProof: (err: any, proveReceipt: ProveReceipt | null) => void;
+  proofGenElement: ProofGenElement | null;
+  setProofGenElement: React.Dispatch<React.SetStateAction<ProofGenElement | null>>;
 }

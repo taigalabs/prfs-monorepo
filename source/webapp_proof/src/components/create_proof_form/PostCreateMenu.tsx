@@ -9,22 +9,34 @@ import { v4 as uuidv4 } from "uuid";
 import { useMutation } from "@tanstack/react-query";
 import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
 import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
+import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
 
 import styles from "./PostCreateMenu.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import TutorialStepper from "../tutorial/TutorialStepper";
+import TutorialStepper from "@/components//tutorial/TutorialStepper";
+import VerifyProofForm from "../verify_proof_form/VerifyProofForm";
+import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
-const PostCreateMenu: React.FC<PostCreateMenuProps> = ({ proveReceipt, proofType }) => {
+const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
+  proveReceipt,
+  proofType,
+  proofGenElement,
+}) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
+  const [isVerifyOpen, setIsVerifyOpen] = React.useState(false);
 
   const { mutateAsync: createPrfsProofInstance } = useMutation({
     mutationFn: (req: CreatePrfsProofInstanceRequest) => {
       return prfsApi2("create_prfs_proof_instance", req);
     },
   });
+
+  const handleClickVerify = React.useCallback(() => {
+    setIsVerifyOpen(s => !s);
+  }, [setIsVerifyOpen]);
 
   const handleClickUpload = React.useCallback(async () => {
     if (proveReceipt && proofType) {
@@ -76,11 +88,15 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({ proveReceipt, proofType
           </li>
         </ul>
         <ul>
-          <li>
-            <button className={styles.verifyBtn} disabled>
-              {i18n.verify}
-            </button>
-          </li>
+          {/* <li> */}
+          {/*   <Button */}
+          {/*     variant="transparent_aqua_blue_1" */}
+          {/*     className={styles.verifyBtn} */}
+          {/*     handleClick={handleClickVerify} */}
+          {/*   > */}
+          {/*     {i18n.verify} */}
+          {/*   </Button> */}
+          {/* </li> */}
           <li>
             <TutorialStepper steps={[3]}>
               <Button variant="aqua_blue_1" handleClick={handleClickUpload}>
@@ -91,9 +107,21 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({ proveReceipt, proofType
         </ul>
       </div>
 
-      {/* <div className={styles.footer}> */}
-      {/*   <button disabled>{i18n.view_proof}</button> */}
-      {/* </div> */}
+      <div className={styles.footer}>
+        <button
+          className={cn({ [styles.verifyBtn]: true, [styles.isVerifyOpen]: isVerifyOpen })}
+          onClick={handleClickVerify}
+        >
+          <span>{i18n.verify}</span>
+          <IoMdArrowDropdown />
+        </button>
+      </div>
+
+      {isVerifyOpen && (
+        <div className={styles.verifyProofFormRow}>
+          <VerifyProofForm proveReceipt={proveReceipt} proofType={proofType} />
+        </div>
+      )}
     </div>
   );
 };
@@ -103,4 +131,5 @@ export default PostCreateMenu;
 export interface PostCreateMenuProps {
   proofType: PrfsProofType;
   proveReceipt: ProveReceipt;
+  proofGenElement: ProofGenElement | null;
 }

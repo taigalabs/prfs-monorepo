@@ -47,6 +47,14 @@ const TutorialStepper: React.FC<TutorialStepperProps> = ({
     ],
   });
 
+  const isTutorial = React.useMemo(() => {
+    if (searchParams.get("tutorial_id")) {
+      return true;
+    } else {
+      return false;
+    }
+  }, [searchParams]);
+
   const focus = useFocus(context);
   const dismiss = useDismiss(context);
   const role = useRole(context, { role: "tooltip" });
@@ -54,16 +62,7 @@ const TutorialStepper: React.FC<TutorialStepperProps> = ({
 
   const step = useAppSelector(state => state.tutorial.tutorialStep);
 
-  // const step = React.useMemo(() => {
-  //   const s = searchParams.get("tutorialStep");
-  //   if (s) {
-  //     return +s;
-  //   } else {
-  //     return -1;
-  //   }
-  // }, [searchParams]);
-
-  return steps.includes(step) ? (
+  return isTutorial && steps.includes(step) ? (
     <>
       <div
         className={cn({ [styles.wrapper]: true, [styles.fullWidth]: fullWidth })}

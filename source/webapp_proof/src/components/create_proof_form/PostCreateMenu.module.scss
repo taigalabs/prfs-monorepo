@@ -59,14 +59,30 @@
     padding: 0 20px;
     font-weight: 500;
   }
-
-  .verifyBtn {
-    border: 1px solid var(--bright-gray-30);
-    border-radius: 5px;
-    color: var(--gray-50);
-  }
 }
 
 .footer {
-  margin-top: 12px;
+  margin-top: 16px;
+
+  .verifyBtn {
+    display: flex;
+    font-size: 13px;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 5px;
+
+    svg {
+      transition: all 0.25s ease-out;
+    }
+  }
+
+  .isVerifyOpen {
+    svg {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.verifyProofFormRow {
+  margin-top: 18px;
 }

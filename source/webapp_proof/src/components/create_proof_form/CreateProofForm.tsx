@@ -19,11 +19,13 @@ import PostCreateMenu from "./PostCreateMenu";
 import LogoContainer from "./LogoContainer";
 import { paths } from "@/paths";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
+import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
 const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const [proofType, setProofType] = React.useState<PrfsProofType>();
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt>();
+  const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
 
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
@@ -59,7 +61,11 @@ const CreateProofForm: React.FC = () => {
       <div className={cn({ [styles.formArea]: true, [styles.proofTypeChosen]: !!proofType })}>
         {proveReceipt ? (
           <Fade>
-            <PostCreateMenu proveReceipt={proveReceipt} proofType={proofType!} />
+            <PostCreateMenu
+              proveReceipt={proveReceipt}
+              proofType={proofType!}
+              proofGenElement={proofGenElement}
+            />
           </Fade>
         ) : (
           <div
@@ -83,7 +89,12 @@ const CreateProofForm: React.FC = () => {
             {proofType && (
               <div className={styles.sdkRow}>
                 <Fade>
-                  <CreateProofModule proofType={proofType} handleCreateProof={handleCreateProof} />
+                  <CreateProofModule
+                    proofType={proofType}
+                    handleCreateProof={handleCreateProof}
+                    proofGenElement={proofGenElement}
+                    setProofGenElement={setProofGenElement}
+                  />
                 </Fade>
               </div>
             )}

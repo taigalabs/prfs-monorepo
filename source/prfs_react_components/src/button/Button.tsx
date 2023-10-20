@@ -21,7 +21,7 @@ const Button: React.FC<ButtonProps> = ({
         [styles.transparent_aqua_blue_1_light]: variant === "transparent_aqua_blue_1_light",
         [styles.white_gray_1]: variant === "white_gray_1",
         [styles.white_black_1]: variant === "white_black_1",
-        [className || ""]: true,
+        [className || ""]: !!className,
       })}
       {...(name && { name })}
       onClick={handleClick}
