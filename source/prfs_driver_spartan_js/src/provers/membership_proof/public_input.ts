@@ -18,21 +18,21 @@ export class MembershipProofPublicInput {
 
   constructor(
     r: bigint,
-    v: bigint,
+    rV: bigint,
     msgRaw: string,
     msgHash: Buffer,
     circuitPubInput: MembershipProofCircuitPubInput
   ) {
     this.r = r;
-    this.rV = v;
+    this.rV = rV;
     this.msgRaw = msgRaw;
     this.msgHash = msgHash;
     this.circuitPubInput = circuitPubInput;
   }
 
   serialize(): string {
-    // const { circuitPubInput, msgHash, r, rV, msgRaw } = this;
-    // const { merkleRoot, Tx, Ty, Ux, Uy, serialNo } = circuitPubInput;
+    const { circuitPubInput, msgHash, r, rV, msgRaw } = this;
+    const { merkleRoot, Tx, Ty, Ux, Uy, serialNo } = circuitPubInput;
 
     // const publicInputSer: MembershipProofPubInputSerObject = {
     //   r: r.toString(),
@@ -75,8 +75,29 @@ export class MembershipProofPublicInput {
 
     // return publicInput;
 
-    const obj = JSONbigNative.parse(publicInputSer);
-    return obj as MembershipProofPublicInput;
+    const obj = JSONbigNative.parse(publicInputSer) as MembershipProofPublicInput;
+    console.log("deserialize public input ser", obj);
+
+    const circuitPubInputObj = obj.circuitPubInput;
+
+    const circuitPubInput = new MembershipProofCircuitPubInput(
+      circuitPubInputObj.merkleRoot,
+      circuitPubInputObj.Tx,
+      circuitPubInputObj.Ty,
+      circuitPubInputObj.Ux,
+      circuitPubInputObj.Uy,
+      circuitPubInputObj.serialNo
+    );
+
+    console.log(221);
+
+    return new MembershipProofPublicInput(
+      obj.r,
+      obj.rV,
+      obj.msgRaw,
+      Buffer.from(JSON.stringify(obj.msgHash)),
+      circuitPubInput
+    );
   }
 }
 
@@ -151,23 +172,34 @@ export const computeEffEcdsaPubInput = (
   v: bigint,
   msgHash: Buffer
 ): EffECDSAPubInput => {
+  console.log(1, r, v, msgHash);
   const isYOdd = (v - BigInt(27)) % BigInt(2);
   const rPoint = ec.keyFromPublic(
     ec.curve.pointFromX(new BN(r as any), isYOdd).encode("hex"),
     "hex"
   );
 
+  console.log(2);
+
   // Get the group element: -(m * r^−1 * G)
   const rInv = new BN(r as any).invm(SECP256K1_N);
+
+  console.log(3);
 
   // w = -(r^-1 * msg)
   const w = rInv.mul(new BN(msgHash)).neg().umod(SECP256K1_N);
 
+  console.log(4);
+
   // U = -(w * G) = -(r^-1 * msg * G)
   const U = ec.curve.g.mul(w);
 
+  console.log(5);
+
   // T = r^-1 * R
   const T = rPoint.getPublic().mul(rInv);
+
+  console.log(6);
 
   return {
     Tx: BigInt(T.getX().toString()),

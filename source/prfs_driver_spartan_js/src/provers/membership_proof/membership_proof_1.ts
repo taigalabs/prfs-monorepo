@@ -92,8 +92,20 @@ export async function proveMembership(
   }
   const now = performance.now();
 
+  const a1 = publicInput.serialize();
+  console.log("a1", a1);
+  const a2 = MembershipProofPublicInput.deserialize(a1);
+  console.log("a2", a2);
+
+  const a3 = a2.circuitPubInput.serialize();
+  console.log("a3", a3, circuitPublicInput);
+  console.log("circuitPublicInput", circuitPublicInput);
+
   const temp = await handlers.verify(circuit, proof, circuitPublicInput);
   console.log(222, temp);
+
+  const temp2 = await handlers.verify(circuit, proof, a3);
+  console.log(333, temp2);
 
   return {
     duration: now - prev,
@@ -112,10 +124,12 @@ export async function verifyMembership(
   const { proveResult } = args;
   const { proof, publicInputSer } = proveResult;
 
-  const publicInput = MembershipProofPublicInput.deserialize(publicInputSer);
-  const isPubInputValid = verifyEffEcdsaPubInput(publicInput as MembershipProofPublicInput);
+  console.log("verifyMembership", proof, publicInputSer);
 
-  console.log("verifyMembership", proof, publicInput);
+  const publicInput = MembershipProofPublicInput.deserialize(publicInputSer);
+  console.log("publicInput: %o", publicInput);
+
+  const isPubInputValid = verifyEffEcdsaPubInput(publicInput as MembershipProofPublicInput);
 
   let isProofValid;
   try {
