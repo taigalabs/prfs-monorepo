@@ -99,7 +99,7 @@ pub fn prove(
     Ok(bincode::serialize(&proof).unwrap())
 }
 
-#[wasm_bindgen]
+// #[wasm_bindgen]
 pub fn prove2(circuit: &[u8], vars: &[u8], public_inputs: &[u8]) -> Result<Vec<u8>, JsValue> {
     let witness = load_witness_from_bin_reader::<F1, _>(vars).unwrap();
     let witness_bytes = witness
