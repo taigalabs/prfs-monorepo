@@ -63,8 +63,11 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
     return elems;
   }, [proveReceipt]);
 
-  const proofRaw = React.useMemo(() => {
-    return utils.hexlify(proveReceipt.proveResult.proof);
+  const [proofRaw, size] = React.useMemo(() => {
+    return [
+      utils.hexlify(proveReceipt.proveResult.proof),
+      proveReceipt.proveResult.proof.byteLength,
+    ];
   }, [proveReceipt]);
 
   const height = isVerifyOpen ? publicInputElems.length * 40 + 550 : 0;
@@ -81,6 +84,12 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
             <div className={styles.title}>{i18n.proof}</div>
             <div className={styles.data}>
               <div className={styles.placeholder} />
+              <div className={styles.proofSizeRow}>
+                <p className={styles.label}>{i18n.proof_size}</p>
+                <p>
+                  {size} {i18n.bytes.toLowerCase()}
+                </p>
+              </div>
               {proofRaw}
               <div className={styles.placeholder} />
             </div>

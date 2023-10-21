@@ -40,11 +40,18 @@
     top: 0;
     right: 18px;
     background-color: var(--white-100);
-    height: 38px;
+    height: 44px;
     font-size: 14px;
     font-weight: 500;
     display: flex;
     align-items: center;
+  }
+
+  .proofSizeRow {
+    margin-bottom: 14px;
+    .label {
+      font-weight: 500;
+    }
   }
 
   .data {
@@ -55,7 +62,7 @@
     height: 360px;
 
     .placeholder {
-      height: 38px;
+      height: 44px;
     }
   }
 
