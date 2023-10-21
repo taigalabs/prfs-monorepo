@@ -14,10 +14,12 @@ import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
+import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
 const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
   proveReceipt,
   proofType,
+  proofGenElement,
   isVerifyOpen,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -77,8 +79,12 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
       {isVerifyOpen && (
         <Fade delay={300}>
           <div className={styles.publicInputSection}>
-            <div className={styles.title}>{i18n.public_inputs}</div>
-            <div>{publicInputElems}</div>
+            <div className={styles.placeholder} />
+            <div className={styles.data}>
+              <div className={styles.title}>{i18n.public_inputs}</div>
+              <div>{publicInputElems}</div>
+            </div>
+            <div className={styles.placeholder} />
           </div>
           <div className={styles.proofRawSection}>
             <div className={styles.title}>{i18n.proof}</div>
@@ -94,6 +100,10 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
               <div className={styles.placeholder} />
             </div>
             <div className={styles.footer} />
+          </div>
+          <div className={styles.driverSection}>
+            <p className={styles.label}>{i18n.circuit_driver}</p>
+            <p>{proofType.circuit_driver_id}</p>
           </div>
           <div className={styles.btnRow}>
             <Button
@@ -116,4 +126,5 @@ export interface VerifyProofFormProps {
   proofType: PrfsProofType;
   proveReceipt: ProveReceipt;
   isVerifyOpen: boolean;
+  proofGenElement: ProofGenElement | null;
 }

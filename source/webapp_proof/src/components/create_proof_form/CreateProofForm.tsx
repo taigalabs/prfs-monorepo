@@ -64,7 +64,7 @@ const CreateProofForm: React.FC = () => {
             <PostCreateMenu
               proveReceipt={proveReceipt}
               proofType={proofType!}
-              proofGenElement={proofGenElement}
+              proofGenElement={proofGenElement!}
             />
           </Fade>
         ) : (
@@ -75,10 +75,12 @@ const CreateProofForm: React.FC = () => {
             })}
           >
             <div className={styles.proofTypeRow}>
-              <SelectProofTypeDialog
-                proofType={proofType}
-                handleSelectProofType={handleSelectProofType}
-              />
+              <TutorialStepper steps={[1]} fullWidth mainAxisOffset={20} crossAxisOffset={15}>
+                <SelectProofTypeDialog
+                  proofType={proofType}
+                  handleSelectProofType={handleSelectProofType}
+                />
+              </TutorialStepper>
             </div>
             {!proofType && (
               <div className={styles.welcomeRow}>

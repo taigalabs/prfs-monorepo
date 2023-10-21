@@ -20,6 +20,7 @@ import TutorialStepper from "@/components//tutorial/TutorialStepper";
 import VerifyProofForm from "../verify_proof_form/VerifyProofForm";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
+import Link from "next/link";
 
 const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
   proveReceipt,
@@ -86,7 +87,9 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
       <div className={styles.btnGroup}>
         <ul>
           <li>
-            <Button variant="transparent_aqua_blue_1">{i18n.start_over}</Button>
+            <Link href={paths.__}>
+              <Button variant="transparent_aqua_blue_1">{i18n.start_over}</Button>
+            </Link>
           </li>
         </ul>
         <ul>
@@ -117,6 +120,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
             proveReceipt={proveReceipt}
             proofType={proofType}
             isVerifyOpen={isVerifyOpen}
+            proofGenElement={proofGenElement}
           />
         </div>
       </div>
@@ -129,5 +133,5 @@ export default PostCreateMenu;
 export interface PostCreateMenuProps {
   proofType: PrfsProofType;
   proveReceipt: ProveReceipt;
-  proofGenElement: ProofGenElement | null;
+  proofGenElement: ProofGenElement;
 }
