@@ -34,6 +34,8 @@ export async function verifyProof(
       circuitTypeId: payload.circuitTypeId,
     });
 
+    console.log("verifyResult: %o", verifyResult);
+
     return { verifyResult };
   } catch (err: any) {
     return { verifyResult: false, error: err };

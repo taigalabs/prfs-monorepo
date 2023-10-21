@@ -115,6 +115,8 @@ export async function verifyMembership(
   const publicInput = MembershipProofPublicInput.deserialize(publicInputSer);
   const isPubInputValid = verifyEffEcdsaPubInput(publicInput as MembershipProofPublicInput);
 
+  console.log("verifyMembership", proof, publicInput);
+
   let isProofValid;
   try {
     isProofValid = await handlers.verify(circuit, proof, publicInput.circuitPubInput.serialize());

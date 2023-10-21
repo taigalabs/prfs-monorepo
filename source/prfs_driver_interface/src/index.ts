@@ -1,4 +1,4 @@
-export type * from "./types";
+export * from "./types";
 
 export interface CircuitDriverGen {
   newInstance(driverProps: any): Promise<CircuitDriver>;
