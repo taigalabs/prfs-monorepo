@@ -7,6 +7,8 @@ fn check_nizk() {
     println!("check_nizk()");
 
     let root = std::env::current_dir().unwrap();
+    println!("root: {:?}", root);
+
     let circuit = std::fs::read(root.join("test_circuit/test_circuit.circuit")).unwrap();
     let vars = std::fs::read(root.join("test_circuit/witness.wtns")).unwrap();
     // println!("vars: {:?}", vars);
@@ -26,7 +28,7 @@ fn check_nizk() {
     )
     .unwrap();
 
-    println!("\nproof: {:?}", proof);
+    println!("\nproof len: {:?}", proof.len());
 
     let result = verify(
         circuit.as_slice(),

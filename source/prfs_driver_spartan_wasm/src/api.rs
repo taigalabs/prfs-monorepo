@@ -16,7 +16,7 @@ pub fn prove(
     vars: &[u8],
     public_inputs: &[u8],
 ) -> Result<Vec<u8>, PrfsDriverSpartanWasmError> {
-    console::log_1(&format!("SPARTAN_WASM").into());
+    // console::log_1(&format!("SPARTAN_WASM").into());
 
     let witness = load_witness_from_bin_reader::<F1, _>(vars).unwrap();
 
@@ -25,12 +25,12 @@ pub fn prove(
         .map(|w| w.to_repr().into())
         .collect::<Vec<[u8; 32]>>();
 
-    console::log_1(&format!("SPARTAN_WASM: retrieved witness bytes").into());
+    // console::log_1(&format!("SPARTAN_WASM: retrieved witness bytes").into());
 
     let assignment = match Assignment::new(&witness_bytes) {
         Ok(a) => a,
         Err(err) => {
-            console::log_1(&format!("Error creating new assignment, err: {:?}", err).into());
+            // console::log_1(&format!("Error creating new assignment, err: {:?}", err).into());
 
             return Err(format!("Error creating new assignment, err: {:?}", err).into());
         }
@@ -39,7 +39,7 @@ pub fn prove(
     let circuit: Instance = match bincode::deserialize(&circuit) {
         Ok(c) => c,
         Err(err) => {
-            console::log_1(&format!("Error deserializing circuit, err: {}", err).into());
+            // console::log_1(&format!("Error deserializing circuit, err: {}", err).into());
 
             return Err(format!("Error deserializing circuit, err: {}", err).into());
         }
@@ -59,7 +59,7 @@ pub fn prove(
         input.push(match public_inputs[(i * 32)..((i + 1) * 32)].try_into() {
             Ok(i) => i,
             Err(err) => {
-                console::log_1(&format!("public input nums are not fit, err: {}", err).into());
+                // console::log_1(&format!("public input nums are not fit, err: {}", err).into());
 
                 return Err(format!("public input nums are not fit, err: {}", err).into());
             }
@@ -69,7 +69,7 @@ pub fn prove(
     let input = match Assignment::new(&input) {
         Ok(i) => i,
         Err(err) => {
-            console::log_1(&format!("Error assigning, err: {:?}", err).into());
+            // console::log_1(&format!("Error assigning, err: {:?}", err).into());
 
             return Err(format!("Error assigning, err: {:?}", err).into());
         }
@@ -77,7 +77,7 @@ pub fn prove(
 
     let mut prover_transcript = Transcript::new(b"spartan_prove");
 
-    console::log_1(&"SPARTAN_WASM: start NIZK::prove 2".into());
+    // console::log_1(&"SPARTAN_WASM: start NIZK::prove 2".into());
 
     // produce a proof of satisfiability
     let proof = match NIZK::prove(
@@ -89,7 +89,7 @@ pub fn prove(
     ) {
         Ok(p) => p,
         Err(err) => {
-            console::log_1(&format!("Error nizk proving, err: {}", err).into());
+            // console::log_1(&format!("Error nizk proving, err: {}", err).into());
 
             return Err(err.into());
         }

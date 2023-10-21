@@ -188,7 +188,7 @@ impl DensePolynomial {
     let ell = self.get_num_vars();
 
     if n != ell.pow2() {
-      console::log_1(&format!("n should be equal to ell").into());
+      // console::log_1(&format!("n should be equal to ell").into());
 
       return Err("n should be equal to ell".into());
     }
@@ -198,19 +198,19 @@ impl DensePolynomial {
     let R_size = right_num_vars.pow2();
 
     if L_size * R_size != n {
-      console::log_1(&format!("L size * R size should be equal to n").into());
+      // console::log_1(&format!("L size * R size should be equal to n").into());
 
       return Err("L size * R size should be equal to n".into());
     }
 
     let blinds = if let Some(t) = random_tape {
-      console::log_1(&format!("secq: commiting random vector").into());
+      // console::log_1(&format!("secq: commiting random vector").into());
 
       PolyCommitmentBlinds {
         blinds: t.random_vector(b"poly_blinds", L_size),
       }
     } else {
-      console::log_1(&format!("secq: commiting zero vector").into());
+      // console::log_1(&format!("secq: commiting zero vector").into());
 
       PolyCommitmentBlinds {
         blinds: vec![Scalar::zero(); L_size],
