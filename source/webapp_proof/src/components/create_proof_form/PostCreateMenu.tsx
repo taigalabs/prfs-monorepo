@@ -121,13 +121,13 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
             <IoIosArrowDown />
           </button>
         </div>
-        {isVerifyOpen && (
-          <Fade>
-            <div className={styles.verifyFormWrapper}>
-              <VerifyProofForm proveReceipt={proveReceipt} proofType={proofType} />
-            </div>
-          </Fade>
-        )}
+        <div className={styles.verifyFormWrapper}>
+          <VerifyProofForm
+            proveReceipt={proveReceipt}
+            proofType={proofType}
+            isVerifyOpen={isVerifyOpen}
+          />
+        </div>
       </div>
     </div>
   );

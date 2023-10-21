@@ -1,16 +1,19 @@
 .wrapper {
   font-size: 13px;
-}
-
-.title {
-  font-weight: 500;
-  margin-bottom: 15px;
+  transition: height 0.4s ease-out;
 }
 
 .publicInputSection {
+  margin-top: 24px;
   padding: 18px;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px,
     rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+
+  .title {
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
 }
 
 .publicInputRow {
@@ -26,16 +29,43 @@
 }
 
 .proofRawSection {
+  position: relative;
   margin-top: 28px;
-  padding: 18px;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px,
     rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
-  height: 420px;
-  overflow-y: auto;
+
+  .title {
+    position: absolute;
+    left: 18px;
+    top: 0;
+    right: 18px;
+    background-color: var(--white-100);
+    height: 38px;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+  }
 
   .data {
+    padding: 0px 18px;
     width: 100%;
     word-break: break-word;
+    overflow-y: auto;
+    height: 360px;
+
+    .placeholder {
+      height: 38px;
+    }
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 18px;
+    height: 38px;
+    background-color: var(--white-100);
   }
 }
 

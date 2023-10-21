@@ -90,7 +90,7 @@
 .verifyProofFormRow {
   border-top: 1px solid var(--bright-gray-30);
   border-bottom: 1px solid var(--bright-gray-30);
-  margin-top: 38px;
+  margin: 38px 0;
   padding: 14px;
 
   &.isVerifyOpen {
@@ -102,5 +102,5 @@
 }
 
 .verifyFormWrapper {
-  margin-top: 18px;
+  /* margin-top: 22px; */
 }

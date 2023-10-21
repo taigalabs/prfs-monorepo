@@ -1,9 +1,6 @@
 import { PrfsAccount } from "@taigalabs/prfs-entities/bindings/PrfsAccount";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-// import { LoadPrfsAccountPayload, SignInPayload, SignOutPayload, SignUpPayload } from "./actions";
-// import { RootState } from "./store";
-
 export interface TutorialState {
   tutorialStep: number;
 }
