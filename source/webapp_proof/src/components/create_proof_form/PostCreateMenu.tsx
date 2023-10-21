@@ -74,7 +74,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
       <div className={styles.proofTypeRow}>
         <div className={styles.button}>
           <CaptionedImg img_url={proofType.img_url} size={32} />
-          <p className={styles.label}>{proofType.label}</p>
+          <p className={styles.proofTypeLabel}>{proofType.label}</p>
         </div>
       </div>
       <div className={styles.uploadSection}>
@@ -90,15 +90,6 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
           </li>
         </ul>
         <ul>
-          {/* <li> */}
-          {/*   <button */}
-          {/*     className={cn({ [styles.verifyBtn]: true, [styles.isVerifyOpen]: isVerifyOpen })} */}
-          {/*     onClick={handleClickVerify} */}
-          {/*   > */}
-          {/*     <span>{i18n.verify}</span> */}
-          {/*     <IoMdArrowDropdown /> */}
-          {/*   </button> */}
-          {/* </li> */}
           <li>
             <TutorialStepper steps={[3]}>
               <Button variant="aqua_blue_1" handleClick={handleClickUpload}>
