@@ -37,6 +37,8 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
           proofType.circuit_type_id
         );
 
+        console.log(11, verifyReceipt);
+
         if (verifyReceipt.verifyResult) {
           setVerifiedStatus(VerifiedStatus.Valid);
         } else {
@@ -127,7 +129,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
               })}
               handleClick={handleClickVerify}
             >
-              {i18n.verify}
+              {verifiedStatus === VerifiedStatus.Valid ? i18n.verified : i18n.verify}
             </Button>
           </div>
         </Fade>

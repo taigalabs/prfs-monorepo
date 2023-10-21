@@ -15,7 +15,7 @@ import {
   computeEffEcdsaPubInput,
   verifyEffEcdsaPubInput,
 } from "./public_input";
-import { deserializePublicInput, serializePublicInput } from "./serialize";
+// import { deserializePublicInput, serializePublicInput } from "./serialize";
 import { SECP256K1_P } from "@/math/secp256k1";
 
 export async function proveMembership(
@@ -25,13 +25,10 @@ export async function proveMembership(
   circuit: Uint8Array
 ): Promise<ProveReceipt> {
   const { inputs, eventListener } = args;
-
-  console.log(123123, inputs);
-
   const { sigData, merkleProof } = inputs;
   const { msgRaw, msgHash, sig } = sigData;
-  // console.log("inputs: %o", inputs);
 
+  // console.log("inputs: %o", inputs);
   const { r, s, v } = fromSig(sig);
 
   const poseidon = makePoseidon(handlers);
@@ -87,7 +84,7 @@ export async function proveMembership(
     duration: now - prev,
     proveResult: {
       proof,
-      publicInputSer: serializePublicInput(publicInput),
+      publicInputSer: publicInput.serialize(),
     },
   };
 }
@@ -95,13 +92,12 @@ export async function proveMembership(
 export async function verifyMembership(
   args: VerifyArgs,
   handlers: PrfsHandlers,
-  wtnsGen: Uint8Array,
   circuit: Uint8Array
 ) {
-  const { inputs } = args;
-  const { proof, publicInputSer } = inputs;
+  const { proveResult } = args;
+  const { proof, publicInputSer } = proveResult;
 
-  const publicInput = deserializePublicInput(publicInputSer);
+  const publicInput = MembershipProofPublicInput.deserialize(publicInputSer);
   const isPubInputValid = verifyEffEcdsaPubInput(publicInput as MembershipProofPublicInput);
 
   let isProofValid;
