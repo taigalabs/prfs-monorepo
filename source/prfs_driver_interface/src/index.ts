@@ -36,4 +36,9 @@ export interface ProveReceipt {
   duration: number;
 }
 
+export interface VerifyReceipt {
+  verifyResult: boolean;
+  error?: string;
+}
+
 export type LogEventType = "debug" | "info";

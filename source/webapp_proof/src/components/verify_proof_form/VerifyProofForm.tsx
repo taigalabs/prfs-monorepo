@@ -24,6 +24,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
+  const [isVerified, setIsVerified] = React.useState(false);
 
   // const { mutateAsync: createPrfsProofInstance } = useMutation({
   //   mutationFn: (req: CreatePrfsProofInstanceRequest) => {
@@ -33,7 +34,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
 
   const handleClickVerify = React.useCallback(() => {
     // setIsVerifyOpen(s => !s);
-  }, []);
+  }, [setIsVerified]);
 
   const publicInputElems = React.useMemo(() => {
     const obj = JSON.parse(proveReceipt.proveResult.publicInputSer);
@@ -108,7 +109,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
           <div className={styles.btnRow}>
             <Button
               variant="transparent_aqua_blue_1"
-              className={styles.verifyBtn}
+              className={cn(styles.verifyBtn, { [styles.isVerified]: isVerified })}
               handleClick={handleClickVerify}
             >
               {i18n.verify}
