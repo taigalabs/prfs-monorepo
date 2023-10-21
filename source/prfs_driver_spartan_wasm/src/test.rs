@@ -21,12 +21,16 @@ fn check_nizk() {
 
     println!("\npublic_inputs: {:?}", public_inputs);
 
-    let proof = prove(
+    let proof = prove2(
         circuit.as_slice(),
         vars.as_slice(),
         public_inputs.as_slice(),
     )
     .unwrap();
+
+    // let proof_path = root.join("proof.bin");
+    // fs::write(proof_path, &proof).unwrap();
+    // let proof = std::fs::read(proof_path).unwrap();
 
     println!("\nproof len: {:?}", proof.len());
 
