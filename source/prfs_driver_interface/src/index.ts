@@ -19,7 +19,7 @@ export interface ProveArgs<T> {
 }
 
 export interface VerifyArgs {
-  inputs: {
+  proveResult: {
     proof: Uint8Array;
     publicInputSer: string;
   };

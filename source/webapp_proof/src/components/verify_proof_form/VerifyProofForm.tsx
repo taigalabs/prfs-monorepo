@@ -1,11 +1,9 @@
 import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import cn from "classnames";
-import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
-import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { utils } from "ethers";
 
@@ -16,6 +14,12 @@ import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
+enum VerifiedStatus {
+  None,
+  Valid,
+  Invalid,
+}
+
 const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
   proveReceipt,
   proofType,
@@ -23,18 +27,26 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
   isVerifyOpen,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const router = useRouter();
-  const [isVerified, setIsVerified] = React.useState(false);
+  const [verifiedStatus, setVerifiedStatus] = React.useState(VerifiedStatus.None);
 
-  // const { mutateAsync: createPrfsProofInstance } = useMutation({
-  //   mutationFn: (req: CreatePrfsProofInstanceRequest) => {
-  //     return prfsApi2("create_prfs_proof_instance", req);
-  //   },
-  // });
+  const handleClickVerify = React.useCallback(async () => {
+    if (verifiedStatus === VerifiedStatus.None) {
+      try {
+        const verifyReceipt = await proofGenElement.verifyProof(
+          proveReceipt.proveResult,
+          proofType.circuit_type_id
+        );
 
-  const handleClickVerify = React.useCallback(() => {
-    // setIsVerifyOpen(s => !s);
-  }, [setIsVerified]);
+        if (verifyReceipt.verifyResult) {
+          setVerifiedStatus(VerifiedStatus.Valid);
+        } else {
+          setVerifiedStatus(VerifiedStatus.Invalid);
+        }
+      } catch (err) {
+        setVerifiedStatus(VerifiedStatus.Invalid);
+      }
+    }
+  }, [verifiedStatus, setVerifiedStatus, proofGenElement]);
 
   const publicInputElems = React.useMemo(() => {
     const obj = JSON.parse(proveReceipt.proveResult.publicInputSer);
@@ -109,7 +121,10 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
           <div className={styles.btnRow}>
             <Button
               variant="transparent_aqua_blue_1"
-              className={cn(styles.verifyBtn, { [styles.isVerified]: isVerified })}
+              className={cn(styles.verifyBtn, {
+                [styles.isValid]: verifiedStatus === VerifiedStatus.Valid,
+                [styles.isInvalid]: verifiedStatus === VerifiedStatus.Invalid,
+              })}
               handleClick={handleClickVerify}
             >
               {i18n.verify}
@@ -127,5 +142,5 @@ export interface VerifyProofFormProps {
   proofType: PrfsProofType;
   proveReceipt: ProveReceipt;
   isVerifyOpen: boolean;
-  proofGenElement: ProofGenElement | null;
+  proofGenElement: ProofGenElement;
 }

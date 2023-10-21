@@ -38,7 +38,7 @@ export interface CreateProofPayload {
 }
 
 export interface VerifyProofPayload {
-  inputs: any;
+  proveResult: any;
   circuitTypeId: string;
 }
 

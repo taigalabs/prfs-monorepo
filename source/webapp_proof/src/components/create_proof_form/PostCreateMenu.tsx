@@ -87,9 +87,9 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
       <div className={styles.btnGroup}>
         <ul>
           <li>
-            <Link href={paths.__}>
+            <a href={paths.__}>
               <Button variant="transparent_aqua_blue_1">{i18n.start_over}</Button>
-            </Link>
+            </a>
           </li>
         </ul>
         <ul>
