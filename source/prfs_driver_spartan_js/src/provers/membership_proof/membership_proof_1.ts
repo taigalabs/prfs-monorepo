@@ -2,6 +2,7 @@ import { BN } from "bn.js";
 import {
   ProveArgs,
   ProveReceipt,
+  SigData,
   SpartanMerkleProof,
   VerifyArgs,
 } from "@taigalabs/prfs-driver-interface";
@@ -54,7 +55,13 @@ export async function proveMembership(
     serialNo
   );
 
-  const publicInput = new MembershipProofPublicInput(r, v, msgRaw, msgHash, circuitPubInput);
+  const publicInput = new MembershipProofPublicInput(
+    r,
+    v,
+    msgRaw,
+    Buffer.from(msgHash),
+    circuitPubInput
+  );
   const m = new BN(msgHash).mod(SECP256K1_P);
 
   const witnessGenInput = {
@@ -143,10 +150,11 @@ export async function verifyMembership(
 }
 
 export interface MembershipProveInputs {
-  sigData: {
-    msgRaw: string;
-    msgHash: Buffer;
-    sig: string;
-  };
+  sigData: SigData;
+  // {
+  //   msgRaw: string;
+  //   msgHash: Uint8Array;
+  //   sig: string;
+  // };
   merkleProof: SpartanMerkleProof;
 }

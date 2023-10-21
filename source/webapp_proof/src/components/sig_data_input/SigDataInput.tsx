@@ -8,6 +8,7 @@ import { useSignMessage } from "wagmi";
 import styles from "./SigDataInput.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { FormInput, FormInputTitleRow } from "../form_input/FormInput";
+import { SigData } from "@taigalabs/prfs-driver-interface";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -55,13 +56,20 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
       const msgHash = hashPersonalMessage(Buffer.from(msgRaw));
       const sig = await signMessageAsync({ message: msgRaw });
 
+      const newValue: SigData = {
+        msgRaw,
+        msgHash,
+        sig,
+      };
+
       setFormValues(oldVals => ({
         ...oldVals,
-        [circuitInput.name]: {
-          msgRaw,
-          msgHash,
-          sig,
-        },
+        [circuitInput.name]: newValue,
+        // {
+        //   msgRaw,
+        //   msgHash,
+        //   sig,
+        // },
       }));
     }
   }, [value, setFormValues, signMessageAsync]);
@@ -92,11 +100,11 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
 
 export default SigDataInput;
 
-export interface SigData {
-  msgRaw: string;
-  msgHash: Buffer;
-  sig: string;
-}
+// export interface SigData {
+//   msgRaw: string;
+//   msgHash: Buffer;
+//   sig: string;
+// }
 
 export interface SigDataInputProps {
   circuitInput: CircuitInput;

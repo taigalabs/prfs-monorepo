@@ -6,3 +6,9 @@ export interface SpartanMerkleProof {
   siblings: bigint[];
   pathIndices: number[];
 }
+
+export interface SigData {
+  msgRaw: string;
+  msgHash: Buffer;
+  sig: string;
+}

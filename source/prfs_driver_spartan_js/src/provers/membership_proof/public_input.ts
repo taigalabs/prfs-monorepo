@@ -95,7 +95,7 @@ export class MembershipProofPublicInput {
       obj.r,
       obj.rV,
       obj.msgRaw,
-      Buffer.from(JSON.stringify(obj.msgHash)),
+      Buffer.from(obj.msgHash),
       circuitPubInput
     );
   }
