@@ -25,14 +25,21 @@ export async function proveMembership(
   circuit: Uint8Array
 ): Promise<ProveReceipt> {
   const { inputs, eventListener } = args;
+  console.log("inputs: %o", inputs);
+
   const { sigData, merkleProof } = inputs;
   const { msgRaw, msgHash, sig } = sigData;
 
-  // console.log("inputs: %o", inputs);
   const { r, s, v } = fromSig(sig);
 
   const poseidon = makePoseidon(handlers);
-  const serialNo = await poseidon([s, BigInt(0)]);
+
+  let serialNo;
+  try {
+    serialNo = await poseidon([s, BigInt(0)]);
+  } catch (err) {
+    throw new Error(`Error Poseidon hashing, err: ${err}`);
+  }
 
   const effEcdsaPubInput = computeEffEcdsaPubInput(r, v, msgHash);
 
@@ -77,10 +84,15 @@ export async function proveMembership(
   const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
 
   const prev = performance.now();
-  const proof = await handlers.prove(circuit, witness.data, circuitPublicInput);
+  let proof;
+  try {
+    proof = await handlers.prove(circuit, witness.data, circuitPublicInput);
+  } catch (err) {
+    throw new Error(`Error calling prove(), err: ${err}`);
+  }
   const now = performance.now();
 
-  const temp = await handlers.verify(circuit, witness.data, circuitPublicInput);
+  const temp = await handlers.verify(circuit, proof, circuitPublicInput);
   console.log(222, temp);
 
   return {
@@ -104,7 +116,11 @@ export async function verifyMembership(
   const isPubInputValid = verifyEffEcdsaPubInput(publicInput as MembershipProofPublicInput);
 
   let isProofValid;
-  isProofValid = await handlers.verify(circuit, proof, publicInput.circuitPubInput.serialize());
+  try {
+    isProofValid = await handlers.verify(circuit, proof, publicInput.circuitPubInput.serialize());
+  } catch (err) {
+    throw new Error(`Error calling verify(), err: ${err}`);
+  }
   isProofValid = false;
 
   return isProofValid && isPubInputValid;

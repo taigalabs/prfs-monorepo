@@ -1,6 +1,7 @@
 use super::task::BuildTask;
-use crate::{deps::JS_ENGINE, paths::PATHS, BuildHandle, CiError};
 use std::process::Command;
+
+use crate::{deps::JS_ENGINE, paths::PATHS, BuildHandle, CiError};
 
 pub struct BuildPrfsDriverSpartanJsTask;
 
