@@ -60,31 +60,47 @@
   }
 }
 
-.footer {
-  margin-top: 26px;
-  border-top: 1px solid var(--bright-gray-30);
-  padding-top: 14px;
+.verifyBtn {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  /* font-size: 13px; */
+  align-items: center;
+  cursor: pointer;
+  border-radius: 5px;
+  color: var(--black-20);
 
-  .verifyBtn {
-    display: flex;
-    font-size: 13px;
-    align-items: center;
-    cursor: pointer;
-    border-radius: 5px;
-    color: var(--black-20);
-
-    svg {
-      transition: all 0.25s ease-out;
-    }
-  }
-
-  .isVerifyOpen {
-    svg {
-      transform: rotate(180deg);
-    }
+  svg {
+    transition: all 0.25s ease-out;
   }
 }
 
+.isVerifyOpen {
+  svg {
+    transform: rotate(180deg);
+  }
+}
+
+.footer {
+  margin-top: 26px;
+  /* border-top: 1px solid var(--bright-gray-30); */
+  padding-top: 14px;
+}
+
 .verifyProofFormRow {
+  border-top: 1px solid var(--bright-gray-30);
+  border-bottom: 1px solid var(--bright-gray-30);
   margin-top: 38px;
+  padding: 14px;
+
+  &.isVerifyOpen {
+    height: auto;
+  }
+
+  .titleRow {
+  }
+}
+
+.verifyFormWrapper {
+  margin-top: 18px;
 }

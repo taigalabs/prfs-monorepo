@@ -10,6 +10,7 @@ import { useMutation } from "@tanstack/react-query";
 import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
 import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
 import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
+import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
 
 import styles from "./PostCreateMenu.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -90,13 +91,13 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
         </ul>
         <ul>
           {/* <li> */}
-          {/*   <Button */}
-          {/*     variant="transparent_aqua_blue_1" */}
-          {/*     className={styles.verifyBtn} */}
-          {/*     handleClick={handleClickVerify} */}
+          {/*   <button */}
+          {/*     className={cn({ [styles.verifyBtn]: true, [styles.isVerifyOpen]: isVerifyOpen })} */}
+          {/*     onClick={handleClickVerify} */}
           {/*   > */}
-          {/*     {i18n.verify} */}
-          {/*   </Button> */}
+          {/*     <span>{i18n.verify}</span> */}
+          {/*     <IoMdArrowDropdown /> */}
+          {/*   </button> */}
           {/* </li> */}
           <li>
             <TutorialStepper steps={[3]}>
@@ -108,23 +109,26 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
         </ul>
       </div>
 
-      <div className={styles.footer}>
-        <button
-          className={cn({ [styles.verifyBtn]: true, [styles.isVerifyOpen]: isVerifyOpen })}
-          onClick={handleClickVerify}
-        >
-          <span>{i18n.verify}</span>
-          <IoMdArrowDropdown />
-        </button>
-      </div>
-
-      {isVerifyOpen && (
-        <div className={styles.verifyProofFormRow}>
-          <Fade>
-            <VerifyProofForm proveReceipt={proveReceipt} proofType={proofType} />
-          </Fade>
+      <div
+        className={cn({ [styles.verifyProofFormRow]: true, [styles.isVerifyOpen]: isVerifyOpen })}
+      >
+        <div className={styles.titleRow}>
+          <button
+            className={cn({ [styles.verifyBtn]: true, [styles.isVerifyOpen]: isVerifyOpen })}
+            onClick={handleClickVerify}
+          >
+            <span>{i18n.verify}</span>
+            <IoIosArrowDown />
+          </button>
         </div>
-      )}
+        {isVerifyOpen && (
+          <Fade>
+            <div className={styles.verifyFormWrapper}>
+              <VerifyProofForm proveReceipt={proveReceipt} proofType={proofType} />
+            </div>
+          </Fade>
+        )}
+      </div>
     </div>
   );
 };

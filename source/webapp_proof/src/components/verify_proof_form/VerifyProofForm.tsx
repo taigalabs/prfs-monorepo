@@ -3,20 +3,19 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import cn from "classnames";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
-import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
-import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
+import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import { utils } from "ethers";
 
 import styles from "./VerifyProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import TutorialStepper from "@/components//tutorial/TutorialStepper";
+import TutorialStepper from "@/components/tutorial/TutorialStepper";
 
 const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ proveReceipt, proofType }) => {
-  // const i18n = React.useContext(i18nContext);
+  const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const [isVerifyOpen, setIsVerifyOpen] = React.useState(false);
 
@@ -60,7 +59,31 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ proveReceipt, proofTy
     return elems;
   }, [proveReceipt]);
 
-  return <div className={styles.wrapper}>{publicInputElems}</div>;
+  const proofRaw = React.useMemo(() => {
+    return utils.hexlify(proveReceipt.proveResult.proof);
+  }, [proveReceipt]);
+
+  return (
+    <div className={styles.wrapper}>
+      <div className={styles.publicInputSection}>
+        <div className={styles.title}>{i18n.public_inputs}</div>
+        <div>{publicInputElems}</div>
+      </div>
+      <div className={styles.proofRawSection}>
+        <div className={styles.title}>{i18n.proof}</div>
+        <div className={styles.data}>{proofRaw}</div>
+      </div>
+      <div className={styles.btnRow}>
+        <Button
+          variant="transparent_aqua_blue_1"
+          className={styles.verifyBtn}
+          handleClick={handleClickVerify}
+        >
+          {i18n.verify}
+        </Button>
+      </div>
+    </div>
+  );
 };
 
 export default VerifyProofForm;

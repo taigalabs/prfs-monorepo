@@ -13,10 +13,10 @@ const HomePage = () => {
       <Masthead />
       <DefaultBody>
         <div className={styles.container}>
-          <div className={styles.inner}>
-            <Tutorial />
-            <CreateProofForm />
-          </div>
+          {/* <div className={styles.inner}> */}
+          <Tutorial />
+          <CreateProofForm />
+          {/* </div> */}
         </div>
       </DefaultBody>
       <DefaultFooter>
