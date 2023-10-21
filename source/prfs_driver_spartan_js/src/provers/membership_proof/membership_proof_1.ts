@@ -80,6 +80,9 @@ export async function proveMembership(
   const proof = await handlers.prove(circuit, witness.data, circuitPublicInput);
   const now = performance.now();
 
+  const temp = await handlers.verify(circuit, witness.data, circuitPublicInput);
+  console.log(222, temp);
+
   return {
     duration: now - prev,
     proveResult: {
