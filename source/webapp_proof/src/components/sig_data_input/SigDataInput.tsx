@@ -2,7 +2,7 @@ import React from "react";
 import cn from "classnames";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { FaSignature } from "@react-icons/all-files/fa/FaSignature";
-import { hashPersonalMessage } from "@ethereumjs/util";
+import { bufferToHex, hashPersonalMessage, toBuffer } from "@ethereumjs/util";
 import { useSignMessage } from "wagmi";
 
 import styles from "./SigDataInput.module.scss";
@@ -30,7 +30,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
     (ev: React.ChangeEvent<HTMLInputElement>) => {
       if (value) {
         value.sig = "";
-        value.msgHash = Buffer.from("");
+        value.msgHash = "";
       }
 
       const newVal = ev.target.value;
@@ -56,20 +56,20 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
       const msgHash = hashPersonalMessage(Buffer.from(msgRaw));
       const sig = await signMessageAsync({ message: msgRaw });
 
+      // let m = bufferToHex(msgHash);
+      // console.log(1, msgHash);
+      // console.log(2, m);
+      // console.log(3, toBuffer(m));
+
       const newValue: SigData = {
         msgRaw,
-        msgHash,
+        msgHash: bufferToHex(msgHash),
         sig,
       };
 
       setFormValues(oldVals => ({
         ...oldVals,
         [circuitInput.name]: newValue,
-        // {
-        //   msgRaw,
-        //   msgHash,
-        //   sig,
-        // },
       }));
     }
   }, [value, setFormValues, signMessageAsync]);
@@ -99,12 +99,6 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
 };
 
 export default SigDataInput;
-
-// export interface SigData {
-//   msgRaw: string;
-//   msgHash: Buffer;
-//   sig: string;
-// }
 
 export interface SigDataInputProps {
   circuitInput: CircuitInput;

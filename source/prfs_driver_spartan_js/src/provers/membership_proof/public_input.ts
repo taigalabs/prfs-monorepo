@@ -1,6 +1,8 @@
 import { ec as EC } from "elliptic";
 import BN from "bn.js";
 import JSONBig from "json-bigint";
+import { bufferToHex, toBuffer } from "@ethereumjs/util";
+import { BufferString } from "@taigalabs/prfs-driver-interface";
 
 import { bytesToBigInt, bigIntToBytes } from "@/utils/utils";
 import { EffECDSAPubInput } from "@/types";
@@ -13,14 +15,14 @@ export class MembershipProofPublicInput {
   r: bigint;
   rV: bigint;
   msgRaw: string;
-  msgHash: Buffer;
+  msgHash: BufferString;
   circuitPubInput: MembershipProofCircuitPubInput;
 
   constructor(
     r: bigint,
     rV: bigint,
     msgRaw: string,
-    msgHash: Buffer,
+    msgHash: BufferString,
     circuitPubInput: MembershipProofCircuitPubInput
   ) {
     this.r = r;
@@ -89,15 +91,7 @@ export class MembershipProofPublicInput {
       circuitPubInputObj.serialNo
     );
 
-    console.log(221);
-
-    return new MembershipProofPublicInput(
-      obj.r,
-      obj.rV,
-      obj.msgRaw,
-      Buffer.from(obj.msgHash),
-      circuitPubInput
-    );
+    return new MembershipProofPublicInput(obj.r, obj.rV, obj.msgRaw, obj.msgHash, circuitPubInput);
   }
 }
 
@@ -173,44 +167,45 @@ export const computeEffEcdsaPubInput = (
   msgHash: Buffer
 ): EffECDSAPubInput => {
   console.log(1, r, v, msgHash);
-  const isYOdd = (v - BigInt(27)) % BigInt(2);
-  const rPoint = ec.keyFromPublic(
-    ec.curve.pointFromX(new BN(r as any), isYOdd).encode("hex"),
-    "hex"
-  );
 
-  console.log(2);
+  try {
+    const isYOdd = (v - BigInt(27)) % BigInt(2);
+    const rPoint = ec.keyFromPublic(
+      ec.curve.pointFromX(new BN(r as any), isYOdd).encode("hex"),
+      "hex"
+    );
 
-  // Get the group element: -(m * r^−1 * G)
-  const rInv = new BN(r as any).invm(SECP256K1_N);
+    // Get the group element: -(m * r^−1 * G)
+    const rInv = new BN(r as any).invm(SECP256K1_N);
 
-  console.log(3);
+    // w = -(r^-1 * msg)
+    const w = rInv.mul(new BN(msgHash)).neg().umod(SECP256K1_N);
 
-  // w = -(r^-1 * msg)
-  const w = rInv.mul(new BN(msgHash)).neg().umod(SECP256K1_N);
+    // U = -(w * G) = -(r^-1 * msg * G)
+    const U = ec.curve.g.mul(w);
 
-  console.log(4);
+    // T = r^-1 * R
+    const T = rPoint.getPublic().mul(rInv);
 
-  // U = -(w * G) = -(r^-1 * msg * G)
-  const U = ec.curve.g.mul(w);
-
-  console.log(5);
-
-  // T = r^-1 * R
-  const T = rPoint.getPublic().mul(rInv);
-
-  console.log(6);
-
-  return {
-    Tx: BigInt(T.getX().toString()),
-    Ty: BigInt(T.getY().toString()),
-    Ux: BigInt(U.getX().toString()),
-    Uy: BigInt(U.getY().toString()),
-  };
+    return {
+      Tx: BigInt(T.getX().toString()),
+      Ty: BigInt(T.getY().toString()),
+      Ux: BigInt(U.getX().toString()),
+      Uy: BigInt(U.getY().toString()),
+    };
+  } catch (err) {
+    throw new Error(`Couldn't compute EffEcdsaPubInput, err: ${err}`);
+  }
 };
 
 export const verifyEffEcdsaPubInput = (pubInput: MembershipProofPublicInput): boolean => {
-  const expectedCircuitInput = computeEffEcdsaPubInput(pubInput.r, pubInput.rV, pubInput.msgHash);
+  const expectedCircuitInput = computeEffEcdsaPubInput(
+    pubInput.r,
+    pubInput.rV,
+    toBuffer(pubInput.msgHash)
+  );
+
+  console.log(2323);
 
   const circuitPubInput = pubInput.circuitPubInput;
 
