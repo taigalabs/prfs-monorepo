@@ -14,11 +14,13 @@ import { paths } from "@/paths";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
+import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 
 const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
 
 enum VerifiedStatus {
   None,
+  InProgress,
   Valid,
   Invalid,
 }
@@ -43,6 +45,13 @@ const VerifyButton: React.FC<VerifyButtonProps> = ({ verifiedStatus, handleClick
         </Button>
       );
 
+    case VerifiedStatus.InProgress:
+      return (
+        <Button variant="transparent_black_1" className={styles.progressBtn}>
+          <Spinner color="black" />
+        </Button>
+      );
+
     default:
       return (
         <Button variant="transparent_blue_1" className={styles.verifyBtn} handleClick={handleClick}>
@@ -64,12 +73,12 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
   const handleClickVerify = React.useCallback(async () => {
     if (verifiedStatus === VerifiedStatus.None) {
       try {
+        setVerifiedStatus(VerifiedStatus.InProgress);
+
         const verifyReceipt = await proofGenElement.verifyProof(
           proveReceipt.proveResult,
           proofType.circuit_type_id
         );
-
-        console.log(11, verifyReceipt);
 
         if (verifyReceipt.verifyResult) {
           setVerifiedStatus(VerifiedStatus.Valid);
