@@ -27,12 +27,13 @@ export async function proveMembership(
   circuit: Uint8Array
 ): Promise<ProveReceipt> {
   const { inputs, eventListener } = args;
-  console.log("inputs: %o", inputs);
 
   const { sigData, merkleProof } = inputs;
   const { msgRaw, msgHash, sig } = sigData;
 
   const { r, s, v } = fromSig(sig);
+
+  console.log("inputs: %o, rsv", inputs, r, s, v);
 
   const poseidon = makePoseidon(handlers);
 

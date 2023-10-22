@@ -1,4 +1,5 @@
 import React from "react";
+import cn from "classnames";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
@@ -91,7 +92,7 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({ handleSelectVal }) =>
   return (
     <div className={styles.wrapper}>
       {status === "loading" ? (
-        <p>Loading...</p>
+        <p className={cn(styles.row, styles.loading)}>Loading...</p>
       ) : status === "error" ? (
         <span>Error: {(error as Error).message}</span>
       ) : (

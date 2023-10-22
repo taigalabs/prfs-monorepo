@@ -3,6 +3,12 @@
   background-color: var(--white-100);
 }
 
+.loading {
+  &:hover {
+    background-color: inherit;
+  }
+}
+
 .row {
   display: flex;
   align-items: center;

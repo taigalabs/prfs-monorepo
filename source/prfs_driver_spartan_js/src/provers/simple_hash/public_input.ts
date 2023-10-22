@@ -7,7 +7,7 @@ import { EffECDSAPubInput } from "@/types";
 import { SECP256K1_N } from "@/math/secp256k1";
 
 const ec = new EC("secp256k1");
-const JSONbigNative = JSONBig({ useNativeBigInt: true });
+const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
 
 export class SimpleHashPublicInput {
   msgRaw: string;
