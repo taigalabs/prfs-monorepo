@@ -222,9 +222,9 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       <TutorialStepper steps={[2]}>
         <div className={styles.form}>{circuitInputsElem}</div>
       </TutorialStepper>
-      <div className={styles.createProofBtn}>
-        <Button variant="aqua_blue_1" handleClick={handleClickCreateProof}>
-          {i18n.create_proof}
+      <div className={styles.btnRow}>
+        <Button variant="blue_1" handleClick={handleClickCreateProof}>
+          {i18n.create.toUpperCase()}
         </Button>
       </div>
       <div className={styles.footer}>

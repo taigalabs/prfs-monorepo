@@ -16,6 +16,7 @@ const Button: React.FC<ButtonProps> = ({
       className={classnames({
         [styles.wrapper]: true,
         [styles.aqua_blue_1]: variant === "aqua_blue_1",
+        [styles.blue_1]: variant === "blue_1",
         [styles.transparent_black_1]: variant === "transparent_black_1",
         [styles.transparent_aqua_blue_1]: variant === "transparent_aqua_blue_1",
         [styles.transparent_aqua_blue_1_light]: variant === "transparent_aqua_blue_1_light",
@@ -37,6 +38,7 @@ export default Button;
 export interface ButtonProps {
   variant:
     | "aqua_blue_1"
+    | "blue_1"
     | "transparent_black_1"
     | "transparent_aqua_blue_1"
     | "transparent_aqua_blue_1_light"
