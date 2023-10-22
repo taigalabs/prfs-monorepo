@@ -12,6 +12,7 @@ import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/Cap
 import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
 import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
+import JSONBig from "json-bigint";
 
 import styles from "./PostCreateMenu.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -19,6 +20,8 @@ import { paths } from "@/paths";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import TutorialStepper from "@/components//tutorial/TutorialStepper";
 import VerifyProofForm from "../verify_proof_form/VerifyProofForm";
+
+const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
 
 const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
   proveReceipt,
@@ -43,7 +46,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
     if (proveReceipt && proofType) {
       const { proveResult } = proveReceipt;
       const { proof, publicInputSer } = proveResult;
-      const public_inputs = JSON.parse(publicInputSer);
+      const public_inputs = JSONbigNative.parse(publicInputSer);
 
       const proof_instance_id = uuidv4();
 
@@ -115,7 +118,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
         </div>
         <div className={styles.verifyFormWrapper}>
           <VerifyProofForm
-            proveReceipt={proveReceipt}
+            proveResult={proveReceipt.proveResult}
             proofType={proofType}
             isVerifyOpen={isVerifyOpen}
             proofGenElement={proofGenElement}

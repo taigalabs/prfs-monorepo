@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import cn from "classnames";
-import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
+import { ProveResult } from "@taigalabs/prfs-driver-interface";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
@@ -62,7 +62,7 @@ const VerifyButton: React.FC<VerifyButtonProps> = ({ verifiedStatus, handleClick
 };
 
 const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
-  proveReceipt,
+  proveResult,
   proofType,
   proofGenElement,
   isVerifyOpen,
@@ -76,7 +76,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
         setVerifiedStatus(VerifiedStatus.InProgress);
 
         const verifyReceipt = await proofGenElement.verifyProof(
-          proveReceipt.proveResult,
+          proveResult,
           proofType.circuit_type_id
         );
 
@@ -92,7 +92,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
   }, [verifiedStatus, setVerifiedStatus, proofGenElement]);
 
   const publicInputElems = React.useMemo(() => {
-    const obj = JSONbigNative.parse(proveReceipt.proveResult.publicInputSer);
+    const obj = JSONbigNative.parse(proveResult.publicInputSer);
     const elems: React.ReactNode[] = [];
 
     function loopThroughJSON(obj: Record<string, any>, count: number) {
@@ -121,14 +121,11 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
     loopThroughJSON(obj, 0);
 
     return elems;
-  }, [proveReceipt]);
+  }, [proveResult]);
 
   const [proofRaw, size] = React.useMemo(() => {
-    return [
-      utils.hexlify(proveReceipt.proveResult.proof),
-      proveReceipt.proveResult.proof.byteLength,
-    ];
-  }, [proveReceipt]);
+    return [utils.hexlify(proveResult.proof), proveResult.proof.byteLength];
+  }, [proveResult]);
 
   // const height = isVerifyOpen ? publicInputElems.length * 40 + 550 : 0;
 
@@ -176,7 +173,7 @@ export default VerifyProofForm;
 
 export interface VerifyProofFormProps {
   proofType: PrfsProofType;
-  proveReceipt: ProveReceipt;
+  proveResult: ProveResult;
   isVerifyOpen: boolean;
   proofGenElement: ProofGenElement;
 }
