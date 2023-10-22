@@ -5,6 +5,7 @@ import cn from "classnames";
 import Link from "next/link";
 import { GrMonitor } from "@react-icons/all-files/gr/GrMonitor";
 import { FaVoteYea } from "@react-icons/all-files/fa/FaVoteYea";
+import { BsThreeDots } from "@react-icons/all-files/bs/BsThreeDots";
 import {
   FloatingFocusManager,
   FloatingOverlay,
@@ -88,12 +89,15 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
   return (
     <div className={styles.wrapper}>
       <div ref={refs.setReference} {...getReferenceProps()}>
-        <IconButton
-          className={cn({
-            [styles.isOpen]: isOpen,
-          })}
-          variant="hamburger"
-        />
+        <button className={styles.iconBtn}>
+          <BsThreeDots />
+        </button>
+        {/* <IconButton */}
+        {/*   className={cn({ */}
+        {/*     [styles.isOpen]: isOpen, */}
+        {/*   })} */}
+        {/*   variant="hamburger" */}
+        {/* /> */}
       </div>
       {isOpen && (
         <FloatingFocusManager context={context} modal={false}>

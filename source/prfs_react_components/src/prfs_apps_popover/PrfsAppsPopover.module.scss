@@ -43,3 +43,10 @@
 .inactive {
   color: var(--gray-70);
 }
+
+.iconBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+}
