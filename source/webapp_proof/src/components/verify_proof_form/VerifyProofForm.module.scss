@@ -98,9 +98,36 @@
 }
 
 .btnRow {
+  display: flex;
+  align-items: center;
   margin-top: 20px;
 
   button {
     border: 1px solid var(--bright-gray-30);
+    height: 36px;
+    display: flex;
+    align-items: center;
+
+    svg {
+      margin-right: 3px;
+    }
+  }
+
+  .validBtn {
+    color: var(--gray-30);
+    background-color: transparent;
+
+    svg {
+      color: green;
+    }
+  }
+
+  .invalidBtn {
+    color: var(--gray-30);
+    background-color: transparent;
+
+    svg {
+      color: red;
+    }
   }
 }

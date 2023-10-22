@@ -2,8 +2,8 @@ import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import cn from "classnames";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
-import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
+import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
+import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { utils } from "ethers";
 import JSONBig from "json-bigint";
@@ -22,6 +22,35 @@ enum VerifiedStatus {
   Valid,
   Invalid,
 }
+
+const VerifyButton: React.FC<VerifyButtonProps> = ({ verifiedStatus, handleClick }) => {
+  const i18n = React.useContext(i18nContext);
+
+  switch (verifiedStatus) {
+    case VerifiedStatus.Valid:
+      return (
+        <Button variant="transparent_black_1" className={styles.validBtn}>
+          <FaCheck />
+          <span>{i18n.verified}</span>
+        </Button>
+      );
+
+    case VerifiedStatus.Invalid:
+      return (
+        <Button variant="transparent_black_1" className={styles.invalidBtn}>
+          <AiOutlineClose />
+          <span>{i18n.invalid}</span>
+        </Button>
+      );
+
+    default:
+      return (
+        <Button variant="transparent_blue_1" className={styles.verifyBtn} handleClick={handleClick}>
+          {i18n.verify}
+        </Button>
+      );
+  }
+};
 
 const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
   proveReceipt,
@@ -126,16 +155,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
             <p>{proofType.circuit_driver_id}</p>
           </div>
           <div className={styles.btnRow}>
-            <Button
-              variant="transparent_aqua_blue_1"
-              className={cn(styles.verifyBtn, {
-                [styles.isValid]: verifiedStatus === VerifiedStatus.Valid,
-                [styles.isInvalid]: verifiedStatus === VerifiedStatus.Invalid,
-              })}
-              handleClick={handleClickVerify}
-            >
-              {verifiedStatus === VerifiedStatus.Valid ? i18n.verified : i18n.verify}
-            </Button>
+            <VerifyButton verifiedStatus={verifiedStatus} handleClick={handleClickVerify} />
           </div>
         </Fade>
       )}
@@ -150,4 +170,9 @@ export interface VerifyProofFormProps {
   proveReceipt: ProveReceipt;
   isVerifyOpen: boolean;
   proofGenElement: ProofGenElement;
+}
+
+export interface VerifyButtonProps {
+  verifiedStatus: VerifiedStatus;
+  handleClick: () => Promise<void>;
 }

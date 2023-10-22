@@ -65,8 +65,6 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
     }
   }, [proveReceipt]);
 
-  console.log(222, proveReceipt);
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>

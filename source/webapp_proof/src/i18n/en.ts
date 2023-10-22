@@ -65,6 +65,7 @@ export default {
   share_url: "Share URL",
   verify: "Verify",
   verified: "Verified",
+  invalid: "Invalid",
   proof_type_search_guide: "Search proof types",
   proof_instance_search_guide: "Search proof instances",
   driver_search_guide: "Search cicuit drivers",
