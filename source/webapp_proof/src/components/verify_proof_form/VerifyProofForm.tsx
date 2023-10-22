@@ -63,7 +63,9 @@ const VerifyButton: React.FC<VerifyButtonProps> = ({ verifiedStatus, handleClick
 
 const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
   proveResult,
-  proofType,
+  // proofType,
+  circuitTypeId,
+  circuitDriverId,
   proofGenElement,
   isVerifyOpen,
 }) => {
@@ -75,10 +77,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
       try {
         setVerifiedStatus(VerifiedStatus.InProgress);
 
-        const verifyReceipt = await proofGenElement.verifyProof(
-          proveResult,
-          proofType.circuit_type_id
-        );
+        const verifyReceipt = await proofGenElement.verifyProof(proveResult, circuitTypeId);
 
         if (verifyReceipt.verifyResult) {
           setVerifiedStatus(VerifiedStatus.Valid);
@@ -158,7 +157,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
           </div>
           <div className={styles.driverSection}>
             <p className={styles.label}>{i18n.circuit_driver}</p>
-            <p>{proofType.circuit_driver_id}</p>
+            <p>{circuitDriverId}</p>
           </div>
           <div className={styles.btnRow}>
             <VerifyButton verifiedStatus={verifiedStatus} handleClick={handleClickVerify} />
@@ -172,7 +171,8 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
 export default VerifyProofForm;
 
 export interface VerifyProofFormProps {
-  proofType: PrfsProofType;
+  circuitTypeId: string;
+  circuitDriverId: string;
   proveResult: ProveResult;
   isVerifyOpen: boolean;
   proofGenElement: ProofGenElement;

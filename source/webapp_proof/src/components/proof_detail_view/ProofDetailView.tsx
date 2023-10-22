@@ -22,8 +22,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstance }) => {
     } as ProveResult;
   }, [proofInstance]);
 
-  // proofInstance.circuit_;
-  proofInstance.circuit_driver_id;
+  const proofGenElement = React.useMemo(() => {}, []);
 
   return (
     <div className={styles.wrapper}>
@@ -33,8 +32,9 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstance }) => {
         <div>
           {/* <VerifyProofForm */}
           {/*   proveResult={proveResult} */}
-          {/*   proofType={proofInstance.proof_type_id} */}
-          {/*   isVerifyOpen={isVerifyOpen} */}
+          {/*   circuitTypeId={proofInstance.circuit_type_id} */}
+          {/*   circuitDriverId={proofInstance.circuit_driver_id} */}
+          {/*   isVerifyOpen={true} */}
           {/*   proofGenElement={proofGenElement} */}
           {/* /> */}
         </div>

@@ -119,7 +119,8 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
         <div className={styles.verifyFormWrapper}>
           <VerifyProofForm
             proveResult={proveReceipt.proveResult}
-            proofType={proofType}
+            circuitDriverId={proofType.circuit_driver_id}
+            circuitTypeId={proofType.circuit_type_id}
             isVerifyOpen={isVerifyOpen}
             proofGenElement={proofGenElement}
           />
