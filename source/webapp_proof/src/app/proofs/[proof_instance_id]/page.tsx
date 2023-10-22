@@ -24,6 +24,7 @@ import { useMutation } from "wagmi";
 import { GetPrfsProofInstanceByInstanceIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstanceByInstanceIdRequest";
 import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
 import Tutorial from "@/components/tutorial/Tutorial";
+import TutorialStepper from "@/components/tutorial/TutorialStepper";
 
 const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -97,10 +98,12 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
               </div>
               <div className={styles.content}>
                 <div className={styles.bannerContainer}>
-                  <ProofBanner
-                    proofInstance={proofInstance}
-                    webappConsoleEndpoint={envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
-                  />
+                  <TutorialStepper steps={[5]}>
+                    <ProofBanner
+                      proofInstance={proofInstance}
+                      webappConsoleEndpoint={envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
+                    />
+                  </TutorialStepper>
                 </div>
                 <div className={styles.proofDetailContainer}>
                   <ProofDetailView proofInstance={proofInstance} />

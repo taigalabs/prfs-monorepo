@@ -6,6 +6,8 @@ import { redirect, usePathname, useSearchParams } from "next/navigation";
 import Tutorial1MD from "@/components/tutorial_contents/tutorial_1.mdx";
 import Tutorial2MD from "@/components/tutorial_contents/tutorial_2.mdx";
 import Tutorial3MD from "@/components/tutorial_contents/tutorial_3.mdx";
+import Tutorial4MD from "@/components/tutorial_contents/tutorial_4.mdx";
+import Tutorial5MD from "@/components/tutorial_contents/tutorial_5.mdx";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import { useRouter } from "next/navigation";
@@ -29,6 +31,10 @@ const Stage: React.FC<StageProps> = ({ step }) => {
       return <Tutorial2MD />;
     case 3:
       return <Tutorial3MD />;
+    case 4:
+      return <Tutorial4MD />;
+    case 5:
+      return <Tutorial5MD />;
     default:
       return <div>Invalid stage</div>;
   }
