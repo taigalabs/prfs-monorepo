@@ -7,7 +7,7 @@ import { useSignMessage } from "wagmi";
 
 import styles from "./SigDataInput.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { FormInput, FormInputTitleRow } from "../form_input/FormInput";
+import { FormInput, FormInputTitleRow, InputWrapper } from "@/components/form_input/FormInput";
 import { BufferHex, SigData } from "@taigalabs/prfs-driver-interface";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
@@ -74,7 +74,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
       <FormInputTitleRow>
         <p>{circuitInput.label}</p>
       </FormInputTitleRow>
-      <div className={styles.inputWrapper}>
+      <InputWrapper>
         <div className={styles.interactiveArea}>
           <input
             placeholder={circuitInput.desc}
@@ -88,7 +88,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
           </div>
         </div>
         {value?.sig && <ComputedValue value={value} />}
-      </div>
+      </InputWrapper>
     </FormInput>
   );
 };
