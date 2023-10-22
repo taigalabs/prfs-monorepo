@@ -13,6 +13,12 @@ export const tutorialSlice = createSlice({
   name: "tutorial",
   initialState,
   reducers: {
+    resetStep: (state: TutorialState, _action: PayloadAction<void>) => {
+      return {
+        ...state,
+        tutorialStep: 1,
+      };
+    },
     goNextStep: (state: TutorialState, _action: PayloadAction<void>) => {
       return {
         ...state,
@@ -28,6 +34,6 @@ export const tutorialSlice = createSlice({
   },
 });
 
-export const { goNextStep, goPrevStep } = tutorialSlice.actions;
+export const { goNextStep, goPrevStep, resetStep } = tutorialSlice.actions;
 
 export default tutorialSlice.reducer;

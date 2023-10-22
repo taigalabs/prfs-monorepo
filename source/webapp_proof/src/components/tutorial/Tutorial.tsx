@@ -14,7 +14,7 @@ import styles from "./Tutorial.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
-import { goNextStep, goPrevStep } from "@/state/tutorialReducer";
+import { goNextStep, goPrevStep, resetStep } from "@/state/tutorialReducer";
 import MarkdownWrapper from "./MarkdownWrapper";
 
 const STEP_COUNT = 9;
@@ -69,7 +69,8 @@ const Tutorial: React.FC<TutorialProps> = () => {
     newParams.delete("tutorial_id");
 
     router.replace(`${pathname}?${newParams.toString()}`);
-  }, [pathname, router, searchParams]);
+    dispatch(resetStep());
+  }, [pathname, router, searchParams, dispatch]);
 
   return (
     isTutorial &&
