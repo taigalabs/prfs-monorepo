@@ -22,6 +22,7 @@ import Link from "next/link";
 import Masthead from "@/components/masthead/Masthead";
 import { useMutation } from "wagmi";
 import { GetPrfsProofInstanceByInstanceIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstanceByInstanceIdRequest";
+import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
 
 const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -62,8 +63,12 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
           {proofInstance ? (
             <div className={styles.inner}>
               <div className={styles.header}>
+                <div className={styles.logoContainer}>
+                  <a href={paths.__}>
+                    <ImageLogo width={45} />
+                  </a>
+                </div>
                 <div className={styles.titleRow}>
-                  <ArrowButton variant="left" />
                   <p className={styles.headerLabel}>{headerLabel}</p>
                 </div>
                 <div className={styles.buttonRow}>
@@ -71,7 +76,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
                     <li>
                       <Button variant="transparent_aqua_blue_1">
                         <HiOutlineDesktopComputer />
-                        <span>{i18n.go_to_console.toUpperCase()}</span>
+                        <span>{i18n.console.toUpperCase()}</span>
                       </Button>
                     </li>
                   </ul>
@@ -101,7 +106,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
               </div>
             </div>
           ) : (
-            <div>Loading...</div>
+            <div className={styles.loading}>Loading...</div>
           )}
         </div>
       </DefaultBody>

@@ -10,16 +10,11 @@ import { paths } from "@/paths";
 const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstance }) => {
   const i18n = React.useContext(i18nContext);
 
-  const url = `${process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/proof_instances/${proofInstance.proof_instance_id}`;
-
   return (
     <div className={styles.wrapper}>
-      <div>
+      <div className={styles.content}>
         <p className={styles.label}>{proofInstance.proof_label}</p>
         <p className={styles.desc}>{proofInstance.proof_desc}</p>
-      </div>
-      <div className={styles.link}>
-        <Link href={url}>{i18n.see_more}</Link>
       </div>
     </div>
   );

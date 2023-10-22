@@ -205,6 +205,7 @@ export default {
   copyright: "© 2023 Prfs. All rights reserved.",
   copy_url: "Copy URL",
   go_to_console: "Go to console",
+  console: "Console",
   wallet_addr: "Wallet address",
   new_to_prfs: "New to Prfs?",
   hash: "Hash",
