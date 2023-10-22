@@ -97,7 +97,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
         </ul>
         <ul>
           <li>
-            <TutorialStepper steps={[3]}>
+            <TutorialStepper steps={[4]}>
               <Button variant="blue_1" handleClick={handleClickUpload}>
                 {i18n.upload}
               </Button>
@@ -110,13 +110,15 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
         className={cn({ [styles.verifyProofFormRow]: true, [styles.isVerifyOpen]: isVerifyOpen })}
       >
         <div className={styles.titleRow}>
-          <button
-            className={cn({ [styles.verifyBtn]: true, [styles.isVerifyOpen]: isVerifyOpen })}
-            onClick={handleClickVerify}
-          >
-            <span>{i18n.verify}</span>
-            <IoIosArrowDown />
-          </button>
+          <TutorialStepper steps={[3]}>
+            <button
+              className={cn({ [styles.verifyBtn]: true, [styles.isVerifyOpen]: isVerifyOpen })}
+              onClick={handleClickVerify}
+            >
+              <span>{i18n.verify}</span>
+              <IoIosArrowDown />
+            </button>
+          </TutorialStepper>
         </div>
         <div className={styles.verifyFormWrapper}>
           <VerifyProofForm

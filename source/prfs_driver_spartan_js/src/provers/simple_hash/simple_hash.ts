@@ -17,7 +17,7 @@ export async function proveSimpleHash(
   const { msgRaw, msgRawInt, msgHash } = hashData;
 
   const circuitPubInput = new SimpleHashCircuitPubInput(msgHash);
-  const publicInput = new SimpleHashPublicInput(msgRaw, msgRawInt, circuitPubInput);
+  const publicInput = new SimpleHashPublicInput(circuitPubInput);
 
   const witnessGenInput = {
     msgRawInt,
@@ -34,9 +34,6 @@ export async function proveSimpleHash(
   const prev = performance.now();
   const proof = await handlers.prove(circuit, witness.data, circuitPublicInput);
   const now = performance.now();
-
-  const t = await handlers.verify(circuit, proof, circuitPublicInput);
-  console.log(444, t, circuitPublicInput, publicInput.serialize());
 
   return {
     duration: now - prev,

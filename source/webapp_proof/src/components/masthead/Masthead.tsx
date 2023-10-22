@@ -37,12 +37,12 @@ const Masthead: React.FC<MastheadProps> = () => {
       <div className={styles.inner}>
         <ul className={styles.rightGroup}>
           <li className={styles.menu}>
-            <Link href={tutorialUrl}>
+            <a href={tutorialUrl}>
               <p className={cn({ [styles.tutorialBtn]: true, [styles.isTutorial]: isTutorial })}>
                 <span>{i18n.tutorial}</span>
                 <AiOutlineClose />
               </p>
-            </Link>
+            </a>
           </li>
           <li className={styles.menu}>
             <Link href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>{i18n.docs}</Link>
