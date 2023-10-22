@@ -10,6 +10,7 @@
   align-items: center;
   /* background-color: var(--white-100); */
   z-index: 100;
+  font-size: 13px;
 
   &.isTutorial {
     background-color: rgba(0, 0, 0, 0.62);
@@ -39,7 +40,6 @@
   margin-left: 32px;
   display: flex;
   align-items: center;
-  font-size: 14px;
 
   li:not(:first-child) {
     margin-left: 24px;
@@ -50,7 +50,6 @@
   display: flex;
   flex: 1;
   justify-content: flex-end;
-  font-size: 14px;
 
   > li {
     display: flex;
@@ -59,6 +58,10 @@
 
   > li:not(:first-child) {
     margin-left: 24px;
+  }
+
+  .menu:hover {
+    text-decoration: underline;
   }
 }
 
@@ -72,7 +75,7 @@
   background-color: white;
   border-radius: 3px;
   padding: 5px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--aqua-blue-40);
   display: flex;

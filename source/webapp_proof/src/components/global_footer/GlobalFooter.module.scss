@@ -14,6 +14,10 @@
     li:not(:first-child) {
       margin-left: 28px;
     }
+
+    li > a:hover {
+      text-decoration: underline;
+    }
   }
 }
 

@@ -36,7 +36,7 @@ const Masthead: React.FC<MastheadProps> = () => {
     <div className={cn({ [styles.wrapper]: true, [styles.isTutorial]: isTutorial })}>
       <div className={styles.inner}>
         <ul className={styles.rightGroup}>
-          <li>
+          <li className={styles.menu}>
             <Link href={tutorialUrl}>
               <p className={cn({ [styles.tutorialBtn]: true, [styles.isTutorial]: isTutorial })}>
                 <span>{i18n.tutorial}</span>
@@ -44,7 +44,7 @@ const Masthead: React.FC<MastheadProps> = () => {
               </p>
             </Link>
           </li>
-          <li>
+          <li className={styles.menu}>
             <Link href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>{i18n.docs}</Link>
           </li>
           <li>
