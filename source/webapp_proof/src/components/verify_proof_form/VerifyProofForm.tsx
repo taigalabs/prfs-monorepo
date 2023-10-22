@@ -65,10 +65,13 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
             loopThroughJSON(obj[key], count + 1);
           }
         } else {
+          console.log(11, obj[key]);
+          const val = obj[key].toString();
+
           elems.push(
             <div className={styles.publicInputRow} key={`${key}-${count}`}>
               <p className={styles.key}>{key}</p>
-              <p>{obj[key]}</p>
+              <p>{val}</p>
             </div>
           );
         }

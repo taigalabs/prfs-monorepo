@@ -19,8 +19,6 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import TutorialStepper from "@/components//tutorial/TutorialStepper";
 import VerifyProofForm from "../verify_proof_form/VerifyProofForm";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
-import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
-import Link from "next/link";
 
 const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
   proveReceipt,
@@ -66,6 +64,8 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
       }
     }
   }, [proveReceipt]);
+
+  console.log(222, proveReceipt);
 
   return (
     <div className={styles.wrapper}>

@@ -3,6 +3,7 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { LogEventType, ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
@@ -27,7 +28,7 @@ enum CreateProofStatus {
 
 const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   proofType,
-  handleCreateProof,
+  handleCreateProofResult,
   proofGenElement,
   setProofGenElement,
 }) => {
@@ -69,17 +70,17 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         setCreateProofStatus(CreateProofStatus.InProgress);
         proofGenEventListener("debug", `Process starts in 3 seconds`);
 
-        await delay(3000);
-
         const proveReceipt = await proofGenElement.createProof(inputs, proofType.circuit_type_id);
         proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
 
-        handleCreateProof(null, proveReceipt);
+        setCreateProofStatus(CreateProofStatus.Loaded);
+
+        handleCreateProofResult(null, proveReceipt);
       } catch (err) {
-        handleCreateProof(err, null);
+        handleCreateProofResult(err, null);
       }
     }
-  }, [formValues, proofType, handleCreateProof, proofGenElement]);
+  }, [formValues, proofType, handleCreateProofResult, proofGenElement]);
 
   React.useEffect(() => {
     async function fn() {
@@ -224,7 +225,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       </TutorialStepper>
       <div className={styles.btnRow}>
         <Button variant="blue_1" handleClick={handleClickCreateProof}>
-          {i18n.create.toUpperCase()}
+          {createProofStatus === CreateProofStatus.Loaded ? i18n.create.toUpperCase() : <Spinner />}
         </Button>
       </div>
       <div className={styles.footer}>
@@ -243,7 +244,7 @@ export default CreateProofModule;
 
 export interface CreateProofModuleProps {
   proofType: PrfsProofType;
-  handleCreateProof: (err: any, proveReceipt: ProveReceipt | null) => void;
+  handleCreateProofResult: (err: any, proveReceipt: ProveReceipt | null) => void;
   proofGenElement: ProofGenElement | null;
   setProofGenElement: React.Dispatch<React.SetStateAction<ProofGenElement | null>>;
 }
