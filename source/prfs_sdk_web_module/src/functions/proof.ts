@@ -18,8 +18,6 @@ export async function createProof(
     eventListener,
   });
 
-  console.log("proveResult: %o", proveReceipt.proveResult);
-
   return proveReceipt;
 }
 
@@ -33,8 +31,6 @@ export async function verifyProof(
       proveResult: payload.proveResult,
       circuitTypeId: payload.circuitTypeId,
     });
-
-    console.log("verifyResult: %o", verifyResult);
 
     return { verifyResult };
   } catch (err: any) {

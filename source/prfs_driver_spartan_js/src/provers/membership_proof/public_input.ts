@@ -2,7 +2,7 @@ import { ec as EC } from "elliptic";
 import BN from "bn.js";
 import JSONBig from "json-bigint";
 import { bufferToHex, toBuffer } from "@ethereumjs/util";
-import { BufferString } from "@taigalabs/prfs-driver-interface";
+import { BufferHex } from "@taigalabs/prfs-driver-interface";
 
 import { bytesToBigInt, bigIntToBytes } from "@/utils/utils";
 import { EffECDSAPubInput } from "@/types";
@@ -15,14 +15,14 @@ export class MembershipProofPublicInput {
   r: bigint;
   rV: bigint;
   msgRaw: string;
-  msgHash: BufferString;
+  msgHash: BufferHex;
   circuitPubInput: MembershipProofCircuitPubInput;
 
   constructor(
     r: bigint,
     rV: bigint,
     msgRaw: string,
-    msgHash: BufferString,
+    msgHash: BufferHex,
     circuitPubInput: MembershipProofCircuitPubInput
   ) {
     this.r = r;
@@ -33,52 +33,11 @@ export class MembershipProofPublicInput {
   }
 
   serialize(): string {
-    const { circuitPubInput, msgHash, r, rV, msgRaw } = this;
-    const { merkleRoot, Tx, Ty, Ux, Uy, serialNo } = circuitPubInput;
-
-    // const publicInputSer: MembershipProofPubInputSerObject = {
-    //   r: r.toString(),
-    //   rV: rV.toString(),
-    //   msgHash: [...msgHash],
-    //   msgRaw,
-    //   circuitPubInput: {
-    //     merkleRoot: merkleRoot.toString() + "n",
-    //     Tx: Tx.toString() + "n",
-    //     Ty: Ty.toString() + "n",
-    //     Ux: Ux.toString() + "n",
-    //     Uy: Uy.toString() + "n",
-    //     serialNo: serialNo.toString() + "n",
-    //   },
-    // };
-
-    // return JSON.stringify(publicInputSer);
-
     return JSONbigNative.stringify(this);
   }
 
   static deserialize(publicInputSer: string): MembershipProofPublicInput {
-    // const { r, rV, msgHash, circuitPubInput, msgRaw }: MembershipProofPubInputSerObject =
-    //   JSON.parse(publicInputSer);
-
-    // const publicInput = new MembershipProofPublicInput(
-    //   BigInt(r),
-    //   BigInt(rV),
-    //   msgRaw,
-    //   Buffer.from(msgHash),
-    //   new MembershipProofCircuitPubInput(
-    //     BigInt(circuitPubInput.merkleRoot.substring(0, circuitPubInput.merkleRoot.length - 1)),
-    //     BigInt(circuitPubInput.Tx.substring(0, circuitPubInput.Tx.length - 1)),
-    //     BigInt(circuitPubInput.Ty.substring(0, circuitPubInput.Ty.length - 1)),
-    //     BigInt(circuitPubInput.Ux.substring(0, circuitPubInput.Ux.length - 1)),
-    //     BigInt(circuitPubInput.Uy.substring(0, circuitPubInput.Uy.length - 1)),
-    //     BigInt(circuitPubInput.Uy.substring(0, circuitPubInput.serialNo.length - 1))
-    //   )
-    // );
-
-    // return publicInput;
-
     const obj = JSONbigNative.parse(publicInputSer) as MembershipProofPublicInput;
-    console.log("deserialize public input ser", obj);
 
     const circuitPubInputObj = obj.circuitPubInput;
 
@@ -133,9 +92,7 @@ export class MembershipProofCircuitPubInput {
       serialized.set(bigIntToBytes(elems[5], 32), 160);
       return serialized;
     } catch (err) {
-      console.error(err);
-
-      throw err;
+      throw new Error(`Cannot serialize circuit pub input, err: ${err}`);
     }
   }
 
@@ -150,9 +107,7 @@ export class MembershipProofCircuitPubInput {
 
       return new MembershipProofCircuitPubInput(merkleRoot, Tx, Ty, Ux, Uy, serialNo);
     } catch (err) {
-      console.error(err);
-
-      throw err;
+      throw new Error(`Cannot deserialize circuit pub input, err: ${err}`);
     }
   }
 }
@@ -166,8 +121,6 @@ export const computeEffEcdsaPubInput = (
   v: bigint,
   msgHash: Buffer
 ): EffECDSAPubInput => {
-  console.log(1, r, v, msgHash);
-
   let isYOdd: bigint;
   try {
     isYOdd = (v - BigInt(27)) % BigInt(2);
@@ -219,8 +172,6 @@ export const verifyEffEcdsaPubInput = (pubInput: MembershipProofPublicInput): bo
     toBuffer(pubInput.msgHash)
   );
 
-  console.log(2323);
-
   const circuitPubInput = pubInput.circuitPubInput;
 
   const isValid =
@@ -231,18 +182,3 @@ export const verifyEffEcdsaPubInput = (pubInput: MembershipProofPublicInput): bo
 
   return isValid;
 };
-
-interface MembershipProofPubInputSerObject {
-  r: string;
-  rV: string;
-  msgRaw: string;
-  msgHash: number[];
-  circuitPubInput: {
-    merkleRoot: string;
-    Tx: string;
-    Ty: string;
-    Ux: string;
-    Uy: string;
-    serialNo: string;
-  };
-}

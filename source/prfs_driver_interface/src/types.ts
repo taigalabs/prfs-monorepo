@@ -9,9 +9,8 @@ export interface SpartanMerkleProof {
 
 export interface SigData {
   msgRaw: string;
-  msgHash: BufferString;
+  msgHash: BufferHex;
   sig: string;
 }
 
-export type BufferString = string;
-// `0x${string}`
+export type BufferHex = `0x${string}`;

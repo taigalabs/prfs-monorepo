@@ -8,7 +8,7 @@ import { useSignMessage } from "wagmi";
 import styles from "./SigDataInput.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { FormInput, FormInputTitleRow } from "../form_input/FormInput";
-import { SigData } from "@taigalabs/prfs-driver-interface";
+import { BufferHex, SigData } from "@taigalabs/prfs-driver-interface";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -30,7 +30,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
     (ev: React.ChangeEvent<HTMLInputElement>) => {
       if (value) {
         value.sig = "";
-        value.msgHash = "";
+        value.msgHash = "0x0";
       }
 
       const newVal = ev.target.value;
@@ -56,14 +56,9 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
       const msgHash = hashPersonalMessage(Buffer.from(msgRaw));
       const sig = await signMessageAsync({ message: msgRaw });
 
-      // let m = bufferToHex(msgHash);
-      // console.log(1, msgHash);
-      // console.log(2, m);
-      // console.log(3, toBuffer(m));
-
       const newValue: SigData = {
         msgRaw,
-        msgHash: bufferToHex(msgHash),
+        msgHash: bufferToHex(msgHash) as BufferHex,
         sig,
       };
 
