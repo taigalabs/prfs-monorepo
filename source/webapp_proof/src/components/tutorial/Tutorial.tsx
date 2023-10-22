@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { redirect, useSearchParams } from "next/navigation";
+import { redirect, usePathname, useSearchParams } from "next/navigation";
 import Tutorial1MD from "@/components/tutorial_contents/tutorial_1.mdx";
 import Tutorial2MD from "@/components/tutorial_contents/tutorial_2.mdx";
 import Tutorial3MD from "@/components/tutorial_contents/tutorial_3.mdx";
@@ -36,6 +36,7 @@ const Stage: React.FC<StageProps> = ({ step }) => {
 
 const Tutorial: React.FC<TutorialProps> = () => {
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -63,15 +64,12 @@ const Tutorial: React.FC<TutorialProps> = () => {
   }, [step, router, dispatch]);
 
   const handleClickClose = React.useCallback(() => {
-    // router.refresh()
-    // router.replace()
-    const a = searchParams.toString();
+    const oldParams = searchParams.toString();
+    const newParams = new URLSearchParams(oldParams);
+    newParams.delete("tutorial_id");
 
-    const b = new URLSearchParams(a);
-    b.delete("tutorial_id");
-    const c = b.toString();
-    console.log(11, a, b, c);
-  }, [router, searchParams]);
+    router.replace(`${pathname}?${newParams.toString()}`);
+  }, [pathname, router, searchParams]);
 
   return (
     isTutorial &&

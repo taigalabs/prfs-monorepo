@@ -4,7 +4,7 @@ import cn from "classnames";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import { useMutation } from "@tanstack/react-query";
 import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
@@ -29,6 +29,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
   proofGenElement,
 }) => {
   const i18n = React.useContext(i18nContext);
+  const searchParams = useSearchParams();
   const router = useRouter();
   const [isVerifyOpen, setIsVerifyOpen] = React.useState(false);
 
@@ -59,14 +60,15 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
           proof: Array.from(proof),
           public_inputs,
         });
+        const params = searchParams.toString();
 
-        router.push(`${paths.proofs}/${payload.proof_instance_id}`);
+        router.push(`${paths.proofs}/${payload.proof_instance_id}?${params}`);
       } catch (err: any) {
         console.error(err);
         return;
       }
     }
-  }, [proveReceipt]);
+  }, [proveReceipt, searchParams]);
 
   return (
     <div className={styles.wrapper}>

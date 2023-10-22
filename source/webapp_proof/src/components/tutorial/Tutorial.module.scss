@@ -12,7 +12,9 @@
 
 .header {
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  margin-bottom: 17px;
 
   button {
     cursor: pointer;
@@ -21,7 +23,6 @@
 
 .progress {
   color: var(--gray-50);
-  margin-bottom: 17px;
 }
 
 .btnRow {

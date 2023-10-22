@@ -23,6 +23,7 @@ import Masthead from "@/components/masthead/Masthead";
 import { useMutation } from "wagmi";
 import { GetPrfsProofInstanceByInstanceIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstanceByInstanceIdRequest";
 import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
+import Tutorial from "@/components/tutorial/Tutorial";
 
 const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
@@ -60,6 +61,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
       <DefaultBody>
         <TopPlaceholder />
         <div className={styles.container}>
+          <Tutorial />
           {proofInstance ? (
             <div className={styles.inner}>
               <div className={styles.header}>
