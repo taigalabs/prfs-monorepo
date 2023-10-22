@@ -89,7 +89,7 @@ const CreateProofForm: React.FC = () => {
               </div>
             )}
             {proofType && (
-              <div className={styles.sdkRow}>
+              <div className={styles.moduleWrapper}>
                 <Fade>
                   <CreateProofModule
                     proofType={proofType}

@@ -88,14 +88,14 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
         <ul>
           <li>
             <a href={paths.__}>
-              <Button variant="transparent_aqua_blue_1">{i18n.start_over}</Button>
+              <Button variant="transparent_blue_1">{i18n.start_over}</Button>
             </a>
           </li>
         </ul>
         <ul>
           <li>
             <TutorialStepper steps={[3]}>
-              <Button variant="aqua_blue_1" handleClick={handleClickUpload}>
+              <Button variant="blue_1" handleClick={handleClickUpload}>
                 {i18n.upload}
               </Button>
             </TutorialStepper>
