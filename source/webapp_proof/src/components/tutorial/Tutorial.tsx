@@ -15,6 +15,7 @@ import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { goNextStep, goPrevStep } from "@/state/tutorialReducer";
+import MarkdownWrapper from "./MarkdownWrapper";
 
 const STEP_COUNT = 9;
 
@@ -63,7 +64,14 @@ const Tutorial: React.FC<TutorialProps> = () => {
 
   const handleClickClose = React.useCallback(() => {
     // router.refresh()
-  }, [router]);
+    // router.replace()
+    const a = searchParams.toString();
+
+    const b = new URLSearchParams(a);
+    b.delete("tutorial_id");
+    const c = b.toString();
+    console.log(11, a, b, c);
+  }, [router, searchParams]);
 
   return (
     isTutorial &&
@@ -71,9 +79,13 @@ const Tutorial: React.FC<TutorialProps> = () => {
       <div className={styles.wrapper}>
         <div className={styles.header}>
           <p className={styles.progress}>({step} / 9)</p>
-          <AiOutlineClose onClick={handleClickClose} />
+          <button>
+            <AiOutlineClose onClick={handleClickClose} />
+          </button>
         </div>
-        <Stage step={step} />
+        <MarkdownWrapper>
+          <Stage step={step} />
+        </MarkdownWrapper>
         <div className={styles.btnRow}>
           <Button
             variant="transparent_aqua_blue_1"
