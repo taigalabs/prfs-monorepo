@@ -11,6 +11,7 @@ import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/binding
 import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
 import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
 import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
+import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
 import styles from "./PostCreateMenu.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -18,7 +19,6 @@ import { paths } from "@/paths";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import TutorialStepper from "@/components//tutorial/TutorialStepper";
 import VerifyProofForm from "../verify_proof_form/VerifyProofForm";
-import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
 const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
   proveReceipt,

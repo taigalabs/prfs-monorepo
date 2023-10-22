@@ -48,7 +48,11 @@
 
   a {
     margin-left: 5px;
-    color: var(--aqua-blue-50);
+    color: var(--dark-blue-50);
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { utils } from "ethers";
+import JSONBig from "json-bigint";
 
 import styles from "./VerifyProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -13,6 +14,8 @@ import { paths } from "@/paths";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
+
+const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
 
 enum VerifiedStatus {
   None,
@@ -51,7 +54,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
   }, [verifiedStatus, setVerifiedStatus, proofGenElement]);
 
   const publicInputElems = React.useMemo(() => {
-    const obj = JSON.parse(proveReceipt.proveResult.publicInputSer);
+    const obj = JSONbigNative.parse(proveReceipt.proveResult.publicInputSer);
     const elems: React.ReactNode[] = [];
 
     function loopThroughJSON(obj: Record<string, any>, count: number) {

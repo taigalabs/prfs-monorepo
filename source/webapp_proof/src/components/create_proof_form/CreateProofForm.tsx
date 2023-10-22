@@ -44,7 +44,7 @@ const CreateProofForm: React.FC = () => {
     [getPrfsProofTypeByProofTypeIdRequest, setProofType]
   );
 
-  const handleCreateProof = React.useCallback(
+  const handleCreateProofResult = React.useCallback(
     async (err: any, proveReceipt: ProveReceipt | null) => {
       if (err) {
         console.error(err);
@@ -93,7 +93,7 @@ const CreateProofForm: React.FC = () => {
                 <Fade>
                   <CreateProofModule
                     proofType={proofType}
-                    handleCreateProof={handleCreateProof}
+                    handleCreateProofResult={handleCreateProofResult}
                     proofGenElement={proofGenElement}
                     setProofGenElement={setProofGenElement}
                   />
