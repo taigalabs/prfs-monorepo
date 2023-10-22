@@ -6,6 +6,7 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
+import cn from "classnames";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -224,8 +225,19 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         <div className={styles.form}>{circuitInputsElem}</div>
       </TutorialStepper>
       <div className={styles.btnRow}>
-        <Button variant="blue_1" handleClick={handleClickCreateProof}>
-          {createProofStatus === CreateProofStatus.Loaded ? i18n.create.toUpperCase() : <Spinner />}
+        {createProofStatus === CreateProofStatus.InProgress && (
+          <div className={styles.spinnerWrapper}>
+            <Spinner color="black" size={38} />
+          </div>
+        )}
+        <Button
+          variant="blue_1"
+          handleClick={handleClickCreateProof}
+          className={cn({
+            [styles.inProgress]: createProofStatus === CreateProofStatus.InProgress,
+          })}
+        >
+          {i18n.create.toUpperCase()}
         </Button>
       </div>
       <div className={styles.footer}>

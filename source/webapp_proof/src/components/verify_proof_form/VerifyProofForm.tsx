@@ -68,13 +68,12 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
             loopThroughJSON(obj[key], count + 1);
           }
         } else {
-          console.log(11, obj[key]);
           const val = obj[key].toString();
 
           elems.push(
             <div className={styles.publicInputRow} key={`${key}-${count}`}>
               <p className={styles.key}>{key}</p>
-              <p>{val}</p>
+              <p className={styles.value}>{val}</p>
             </div>
           );
         }
@@ -93,12 +92,12 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
     ];
   }, [proveReceipt]);
 
-  const height = isVerifyOpen ? publicInputElems.length * 40 + 550 : 0;
+  // const height = isVerifyOpen ? publicInputElems.length * 40 + 550 : 0;
 
   return (
-    <div className={styles.wrapper} style={{ height }}>
+    <div className={styles.wrapper}>
       {isVerifyOpen && (
-        <Fade delay={300}>
+        <Fade>
           <div className={styles.publicInputSection}>
             <div className={styles.placeholder} />
             <div className={styles.data}>

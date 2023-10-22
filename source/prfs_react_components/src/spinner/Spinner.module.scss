@@ -4,8 +4,7 @@
   height: 40px;
 }
 
-.wrapper:before {
-  content: "";
+.inner {
   position: absolute;
   display: block;
   inset: 20%;

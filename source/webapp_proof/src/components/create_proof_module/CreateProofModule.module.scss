@@ -18,9 +18,19 @@
 }
 
 .btnRow {
+  position: relative;
   display: flex;
   justify-content: flex-end;
   margin-top: 28px;
+
+  .spinnerWrapper {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40px;
+  }
 
   button {
     font-weight: 500;
@@ -45,4 +55,8 @@
   .terminalLogContainer {
     text-align: center;
   }
+}
+
+.inProgress {
+  background-color: var(--blue-10);
 }

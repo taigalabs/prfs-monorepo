@@ -117,7 +117,6 @@ export async function verifyMembership(
   } catch (err) {
     throw new Error(`Error calling verify(), err: ${err}`);
   }
-  isProofValid = false;
 
   return isProofValid && isPubInputValid;
 }
