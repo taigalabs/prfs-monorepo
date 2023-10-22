@@ -3,10 +3,11 @@
 import React from "react";
 import Link from "next/link";
 import { redirect, useSearchParams } from "next/navigation";
-import Tutorial1MD from "@/markdown/tutorial/tutorial_1.mdx";
-import Tutorial2MD from "@/markdown/tutorial/tutorial_2.mdx";
-import Tutorial3MD from "@/markdown/tutorial/tutorial_3.mdx";
+import Tutorial1MD from "@/components/tutorial_contents/tutorial_1.mdx";
+import Tutorial2MD from "@/components/tutorial_contents/tutorial_2.mdx";
+import Tutorial3MD from "@/components/tutorial_contents/tutorial_3.mdx";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import { useRouter } from "next/navigation";
 
 import styles from "./Tutorial.module.scss";
@@ -60,11 +61,18 @@ const Tutorial: React.FC<TutorialProps> = () => {
     }
   }, [step, router, dispatch]);
 
+  const handleClickClose = React.useCallback(() => {
+    // router.refresh()
+  }, [router]);
+
   return (
     isTutorial &&
     step > 0 && (
       <div className={styles.wrapper}>
-        <p className={styles.progress}>({step} / 9)</p>
+        <div className={styles.header}>
+          <p className={styles.progress}>({step} / 9)</p>
+          <AiOutlineClose onClick={handleClickClose} />
+        </div>
         <Stage step={step} />
         <div className={styles.btnRow}>
           <Button

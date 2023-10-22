@@ -10,6 +10,11 @@
   line-height: 1.33;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
 .progress {
   color: var(--gray-50);
   margin-bottom: 17px;
