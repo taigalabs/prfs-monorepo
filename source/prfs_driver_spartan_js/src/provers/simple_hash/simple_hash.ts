@@ -1,11 +1,10 @@
 import { ProveArgs, ProveReceipt, VerifyArgs } from "@taigalabs/prfs-driver-interface";
+import { BN } from "bn.js";
 
 import { PrfsHandlers } from "@/types";
 import { makePoseidon } from "@/utils/poseidon";
 import { bigIntToBytes, snarkJsWitnessGen } from "@/utils/utils";
-import { BN } from "bn.js";
 import { SimpleHashCircuitPubInput, SimpleHashPublicInput } from "./public_input";
-// import { deserializePublicInput } from "./serialize";
 
 export async function proveSimpleHash(
   args: ProveArgs<SimpleHashProveArgs>,
@@ -36,6 +35,9 @@ export async function proveSimpleHash(
   const proof = await handlers.prove(circuit, witness.data, circuitPublicInput);
   const now = performance.now();
 
+  const t = await handlers.verify(circuit, proof, circuitPublicInput);
+  console.log(444, t, circuitPublicInput, publicInput.serialize());
+
   return {
     duration: now - prev,
     proveResult: {
@@ -53,12 +55,19 @@ export async function verifyMembership(
   const { proveResult } = args;
   const { proof, publicInputSer } = proveResult;
 
-  const publicInput = SimpleHashPublicInput.deserialize(publicInputSer);
-  // const isPubInputValid = verifyEffEcdsaPubInput(publicInput as MembershipProofPublicInput);
+  let publicInput;
+  try {
+    publicInput = SimpleHashPublicInput.deserialize(publicInputSer);
+  } catch (err) {
+    throw new Error(`Error deserializing public input, err: ${err}`);
+  }
 
   let isProofValid;
-  isProofValid = await handlers.verify(circuit, proof, publicInput.circuitPubInput.serialize());
-  isProofValid = false;
+  try {
+    isProofValid = await handlers.verify(circuit, proof, publicInput.circuitPubInput.serialize());
+  } catch (err) {
+    throw new Error(`Error verifying, err: ${err}`);
+  }
 
   return isProofValid;
 }

@@ -106,9 +106,7 @@ export default class SpartanDriver implements CircuitDriver {
           return verifyMembership(args, this.handlers, this.circuit);
         }
         case "MEMBERSHIP_PROOF_1": {
-          const { verifyMembership } = await import(
-            "./provers/membership_proof/membership_proof_1"
-          );
+          const { verifyMembership } = await import("./provers/simple_hash/simple_hash");
 
           return verifyMembership(args, this.handlers, this.circuit);
         }

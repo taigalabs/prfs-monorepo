@@ -12,13 +12,17 @@ export async function createProof(
   payload: CreateProofPayload,
   eventListener: (type: LogEventType, msg: string) => void
 ): Promise<ProveReceipt> {
-  const proveReceipt = await driver.prove({
-    inputs: payload.inputs,
-    circuitTypeId: payload.circuitTypeId,
-    eventListener,
-  });
-
-  return proveReceipt;
+  try {
+    const proveReceipt = await driver.prove({
+      inputs: payload.inputs,
+      circuitTypeId: payload.circuitTypeId,
+      eventListener,
+    });
+    return proveReceipt;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
 }
 
 export async function verifyProof(
@@ -34,6 +38,7 @@ export async function verifyProof(
 
     return { verifyResult };
   } catch (err: any) {
+    console.error(err);
     return { verifyResult: false, error: err };
   }
 }
