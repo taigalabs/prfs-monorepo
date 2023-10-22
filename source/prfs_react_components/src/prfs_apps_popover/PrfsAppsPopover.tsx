@@ -22,10 +22,10 @@ import {
 } from "@floating-ui/react";
 
 import styles from "./PrfsAppsPopover.module.scss";
-import IconButton from "../icon_button/IconButton";
 import Popover from "../popover/Popover";
 import { TbMathPi } from "../tabler_icons/TbMathPi";
 import Fade from "../fade/Fade";
+import IconButton from "../icon_button/IconButton";
 
 const i18n = {
   proof: "Proof",
@@ -41,19 +41,19 @@ const Modal: React.FC<MerkleProofModalProps> = ({
   return (
     <ul className={styles.modal}>
       <li>
-        <a className={styles.appEntry} href={webappProofEndpoint}>
+        <a className={styles.appItem} href={webappProofEndpoint}>
           <TbMathPi />
           <span>{i18n.proof}</span>
         </a>
       </li>
       <li>
-        <a className={styles.appEntry} href={webappConsoleEndpoint}>
+        <a className={styles.appItem} href={webappConsoleEndpoint}>
           <GrMonitor />
           <span>{i18n.console}</span>
         </a>
       </li>
       {/* <li> */}
-      {/*   <a className={styles.appEntry} href={webappPollEndpoint}> */}
+      {/*   <a className={styles.appItem} href={webappPollEndpoint}> */}
       {/*     <FaVoteYea /> */}
       {/*     <span>{i18n.poll}</span> */}
       {/*   </a> */}
@@ -88,16 +88,16 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <div ref={refs.setReference} {...getReferenceProps()}>
-        <button className={styles.iconBtn}>
+      <div
+        className={cn({
+          [styles.isOpen]: !!isOpen,
+        })}
+        ref={refs.setReference}
+        {...getReferenceProps()}
+      >
+        <IconButton variant="bright_gray_1">
           <BsThreeDots />
-        </button>
-        {/* <IconButton */}
-        {/*   className={cn({ */}
-        {/*     [styles.isOpen]: isOpen, */}
-        {/*   })} */}
-        {/*   variant="hamburger" */}
-        {/* /> */}
+        </IconButton>
       </div>
       {isOpen && (
         <FloatingFocusManager context={context} modal={false}>
