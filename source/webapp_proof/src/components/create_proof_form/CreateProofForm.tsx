@@ -8,11 +8,10 @@ import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
-import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
 
 import styles from "./CreateProofForm.module.scss";
-import SelectProofTypeDialog from "@/components/select_proof_type_dialog/SelectProofTypeDialog";
 import { i18nContext } from "@/contexts/i18n";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
 import PostCreateMenu from "./PostCreateMenu";
@@ -79,6 +78,7 @@ const CreateProofForm: React.FC = () => {
                 <SelectProofTypeDialog
                   proofType={proofType}
                   handleSelectProofType={handleSelectProofType}
+                  webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
                 />
               </TutorialStepper>
             </div>
