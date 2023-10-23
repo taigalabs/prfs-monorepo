@@ -17,18 +17,19 @@ pub fn run(matches: &ArgMatches) {
 fn run_docker(_extra_args: Vec<&str>) {
     let tag = "prfs_api_server";
 
-    let df_path = PATHS.internals_docker.join("prfs_api_server/Dockerfile");
-    println!("tag: {}, df_path: {:?}", tag, df_path);
+    let docker_compose_yml_path = PATHS.internals_docker.join("compose/docker-compose.yml");
 
     let status = Command::new(deps::DOCKER)
-        .args(["build", "-t", tag, "-f", df_path.to_str().unwrap(), "."])
-        .status()
-        .expect(&format!("{} command failed to start", JS_ENGINE));
-
-    assert!(status.success());
-
-    let status = Command::new(deps::DOCKER)
-        .args(["run", "-p", "4000:4000", "-d", "--rm", "-t", tag])
+        .args([
+            "compose",
+            "-f",
+            docker_compose_yml_path.to_str().unwrap(),
+            "up",
+            "--detach",
+            "--build",
+            "--no-deps",
+            "prfs_api_server",
+        ])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));
 
