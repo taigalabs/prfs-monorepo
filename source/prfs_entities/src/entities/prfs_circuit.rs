@@ -11,7 +11,7 @@ pub struct PrfsCircuit {
     #[ts(type = "string")]
     pub circuit_id: Uuid,
 
-    pub circuit_type: String,
+    pub circuit_type_id: String,
     pub label: String,
     pub desc: String,
     pub author: String,

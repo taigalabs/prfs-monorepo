@@ -33,7 +33,7 @@ pub async fn get_prfs_circuit_types(req: Request<Body>) -> Result<Response<Body>
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn get_prfs_circuit_type_by_label(
+pub async fn get_prfs_circuit_type_by_circuit_type_id(
     req: Request<Body>,
 ) -> Result<Response<Body>, Infallible> {
     let state = req.data::<Arc<ServerState>>().unwrap();
@@ -44,7 +44,7 @@ pub async fn get_prfs_circuit_type_by_label(
     let pool = &state.db2.pool;
 
     let prfs_circuit_type =
-        db_apis::get_prfs_circuit_type_by_label(&pool, &req.circuit_type_id).await;
+        db_apis::get_prfs_circuit_type_by_circuit_type_id(&pool, &req.circuit_type_id).await;
 
     let resp =
         ApiResponse::new_success(GetPrfsCircuitTypeByCircuitTypeIdResponse { prfs_circuit_type });

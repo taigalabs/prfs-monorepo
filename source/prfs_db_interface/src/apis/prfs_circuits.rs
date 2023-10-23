@@ -13,8 +13,11 @@ pub async fn get_prfs_circuit_syn1_by_circuit_id(
     circuit_id: &Uuid,
 ) -> PrfsCircuitSyn1 {
     let query = r#"
-select pc.*, pct.circuit_inputs_meta from prfs_circuits pc inner join prfs_circuit_types pct 
-on pc.circuit_type=pct.circuit_type where pc.circuit_id=$1"#;
+SELECT pc.*, pct.circuit_inputs_meta 
+FROM prfs_circuits pc 
+INNER JOIN prfs_circuit_types pct 
+ON pc.circuit_type_id=pct.circuit_type_id
+WHERE pc.circuit_id=$1"#;
 
     println!("query: {}", query);
 
@@ -26,7 +29,7 @@ on pc.circuit_type=pct.circuit_type where pc.circuit_id=$1"#;
 
     let circuit_syn1 = PrfsCircuitSyn1 {
         circuit_id: row.get("circuit_id"),
-        circuit_type: row.get("circuit_type"),
+        circuit_type_id: row.get("circuit_type_id"),
         label: row.get("label"),
         desc: row.get("desc"),
         author: row.get("author"),
@@ -54,8 +57,10 @@ pub async fn get_prfs_circuits_syn1(
     page_size: i32,
 ) -> Vec<PrfsCircuitSyn1> {
     let query = r#"
-select pc.*, pct.circuit_inputs_meta from prfs_circuits pc inner join prfs_circuit_types pct 
-on pc.circuit_type=pct.circuit_type"#;
+SELECT pc.*, pct.circuit_inputs_meta 
+FROM prfs_circuits pc 
+INNER JOIN prfs_circuit_types pct 
+ON pc.circuit_type_id=pct.circuit_type_id"#;
 
     println!("query: {}", query);
 
@@ -65,7 +70,7 @@ on pc.circuit_type=pct.circuit_type"#;
         .iter()
         .map(|row| PrfsCircuitSyn1 {
             circuit_id: row.get("circuit_id"),
-            circuit_type: row.get("circuit_type"),
+            circuit_type_id: row.get("circuit_type_id"),
             label: row.get("label"),
             desc: row.get("desc"),
             author: row.get("author"),
@@ -94,16 +99,17 @@ pub async fn insert_prfs_circuit(
 ) -> Uuid {
     let query = r#"
 INSERT INTO prfs_circuits
-(circuit_id, circuit_type, label, "desc", author, num_public_inputs, circuit_dsl, arithmetization,
-proof_algorithm, elliptic_curve, finite_field, circuit_driver_id, driver_version,
+(circuit_id, circuit_type_id, label, "desc", author, num_public_inputs, circuit_dsl, 
+arithmetization, proof_algorithm, elliptic_curve, finite_field, circuit_driver_id, driver_version,
 driver_properties, raw_circuit_inputs_meta, build_properties
 )
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
-returning circuit_id"#;
+RETURNING circuit_id
+"#;
 
     let row = sqlx::query(query)
         .bind(&circuit.circuit_id)
-        .bind(&circuit.circuit_type)
+        .bind(&circuit.circuit_type_id)
         .bind(&circuit.label)
         .bind(&circuit.desc)
         .bind(&circuit.author)

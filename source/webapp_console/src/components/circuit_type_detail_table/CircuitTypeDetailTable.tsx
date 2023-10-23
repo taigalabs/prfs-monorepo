@@ -12,10 +12,10 @@ import Table2, {
   Table2Body,
   Table2Head,
 } from "@taigalabs/prfs-react-components/src/table2/Table2";
+import { PrfsCircuitType } from "@taigalabs/prfs-entities/bindings/PrfsCircuitType";
 
 import styles from "./CircuitTypeDetailTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { PrfsCircuitType } from "@taigalabs/prfs-entities/bindings/PrfsCircuitType";
 
 const columnHelper = createColumnHelper<RecordData>();
 
@@ -39,8 +39,8 @@ const CircuitTypeDetailTable: React.FC<CircuitTypeDetailTableProps> = ({ circuit
 
     const ret: RecordData[] = [
       {
-        label: i18n.label,
-        value: circuit_type.label,
+        label: i18n.circuit_type_id,
+        value: circuit_type.circuit_type_id,
       },
       {
         label: i18n.description,

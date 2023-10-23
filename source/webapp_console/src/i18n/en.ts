@@ -25,6 +25,7 @@ export default {
   proof_type_description: "Proof type description",
   logo_label: "Prfs",
   label: "Label",
+  circuit_type_id: "Circuit type id",
   circuit_type: "Circuit type",
   ref: "Ref",
   redirecting: "Redirecting...",

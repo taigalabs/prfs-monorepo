@@ -33,9 +33,9 @@ const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({
   const columns = React.useMemo(() => {
     const cols: ColumnDef<PrfsCircuitType>[] = [
       {
-        id: "label",
-        header: i18n.label,
-        accessorFn: row => row.label,
+        id: "circuit_type_id",
+        header: i18n.circuit_type_id,
+        accessorFn: row => row.circuit_type_id,
         cell: info => info.getValue(),
       },
       {
@@ -124,13 +124,13 @@ const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({
 
         <Table2Body>
           {table.getRowModel().rows.map(row => {
-            const circuitType = row.getValue("circuit_type") as string;
+            const circuitTypeId = row.getValue("circuit_type_id") as string;
 
             return (
               <tr
                 key={row.id}
                 onClick={() => {
-                  router.push(`${paths.circuit_types}/${circuitType}`);
+                  router.push(`${paths.circuit_types}/${circuitTypeId}`);
                 }}
               >
                 {row.getVisibleCells().map(cell => {

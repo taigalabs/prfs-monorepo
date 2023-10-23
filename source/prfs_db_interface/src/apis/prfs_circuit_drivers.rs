@@ -41,7 +41,8 @@ WHERE circuit_driver_id=$1"#;
 pub async fn get_prfs_circuit_drivers(pool: &Pool<Postgres>) -> Vec<PrfsCircuitDriver> {
     let query = r#"
 SELECT * 
-FROM prfs_circuit_drivers"#;
+FROM prfs_circuit_drivers
+"#;
 
     println!("query: {}", query);
 
