@@ -126,8 +126,6 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
     return [utils.hexlify(proveResult.proof), proveResult.proof.byteLength];
   }, [proveResult]);
 
-  // const height = isVerifyOpen ? publicInputElems.length * 40 + 550 : 0;
-
   return (
     <div className={styles.wrapper}>
       {isVerifyOpen && (

@@ -16,10 +16,7 @@ import { paths } from "@/paths";
 import VerifyProofForm from "@/components/verify_proof_form/VerifyProofForm";
 import { ProveReceipt, ProveResult } from "@taigalabs/prfs-driver-interface";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
-import { TopPlaceholder } from "@/components/content_area/ContentArea";
 import { envs } from "@/envs";
-import Masthead from "@/components/masthead/Masthead";
-import Tutorial from "@/components/tutorial/Tutorial";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
@@ -40,7 +37,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstance }) => {
     } as ProveResult;
   }, [proofInstance]);
 
-  const consoleUrl = `${process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/proof_instances/${proofInstance.proof_instance_id}`;
+  const consoleUrl = `${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/proof_instances/${proofInstance.proof_instance_id}`;
 
   React.useEffect(() => {
     async function fn() {
@@ -89,7 +86,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstance }) => {
           <ul>
             <li>
               <Link href={consoleUrl}>
-                <Button variant="transparent_aqua_blue_1">
+                <Button variant="transparent_blue_1">
                   <HiOutlineDesktopComputer />
                   <span>{i18n.console.toUpperCase()}</span>
                 </Button>
@@ -98,7 +95,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstance }) => {
           </ul>
           <ul>
             <li>
-              <Button variant="transparent_aqua_blue_1">
+              <Button variant="transparent_blue_1">
                 <AiOutlineCopy />
                 <span>{i18n.copy_url.toUpperCase()}</span>
               </Button>
