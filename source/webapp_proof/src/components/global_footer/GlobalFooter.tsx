@@ -16,8 +16,8 @@ const GlobalFooter: React.FC<GlobalFooterProps> = () => {
       <ul className={styles.leftList}>
         <li>{i18n.english}</li>
         <li>
-          <Link href={paths.updates}>
-            <span>{i18n.updates} </span>
+          <Link className={styles.updates} href={paths.updates}>
+            <span>{i18n.updates}</span>
             <LatestTimestamp />
           </Link>
         </li>

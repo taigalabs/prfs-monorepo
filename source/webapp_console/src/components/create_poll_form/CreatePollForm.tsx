@@ -6,7 +6,6 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useMutation } from "@tanstack/react-query";
 import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
-import { ProofTypeItem } from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/ProofTypeTable";
 import { CreatePrfsPollRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsPollRequest";
 import { PollQuestion } from "@taigalabs/prfs-entities/bindings/PollQuestion";
 
@@ -21,11 +20,14 @@ import { useAppSelector } from "@/state/hooks";
 import QuestionBlock from "./QuestionBlock";
 import { PrfsPoll } from "@taigalabs/prfs-entities/bindings/PrfsPoll";
 import { PollQuestionType } from "@taigalabs/prfs-entities/bindings/PollQuestionType";
+import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
 
 const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const localPrfsAccount = useAppSelector(state => state.user.localPrfsAccount);
+  const [proofType, setProofType] = React.useState<PrfsProofType>();
 
   const [questions, setQuestions] = React.useState<PollQuestion[]>(
     (poll?.questions as PollQuestion[]) || [
@@ -98,19 +100,39 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
     [setFormData]
   );
 
+  const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
+    mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
+      return prfsApi2("get_prfs_proof_type_by_proof_type_id", req);
+    },
+  });
+
   const mutation = useMutation({
     mutationFn: (req: CreatePrfsPollRequest) => {
       return prfsApi2("create_prfs_poll", req);
     },
   });
 
+  // const handleSelectProofType = React.useCallback(
+  //   (proofType: PrfsProofType) => {
+  //     setFormData(oldState => {
+  //       return { ...oldState, ["proof_type_id"]: proofType.proof_type_id };
+  //     });
+  //   },
+  //   [setFormData]
+  // );
+
   const handleSelectProofType = React.useCallback(
-    (proofTypeItem: ProofTypeItem) => {
+    async (proofType: PrfsProofType) => {
+      const { payload } = await getPrfsProofTypeByProofTypeIdRequest({
+        proof_type_id: proofType.proof_type_id,
+      });
+
+      setProofType(payload.prfs_proof_type);
       setFormData(oldState => {
-        return { ...oldState, ["proof_type_id"]: proofTypeItem.proofTypeId };
+        return { ...oldState, ["proof_type_id"]: proofType.proof_type_id };
       });
     },
-    [setFormData]
+    [getPrfsProofTypeByProofTypeIdRequest, setProofType, setFormData]
   );
 
   const handleClickAddQuestion = React.useCallback(() => {
@@ -166,8 +188,6 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
     });
   }, [questions, handleChangeQuestions, setQuestions]);
 
-  console.log(33, formData);
-
   return (
     <div className={styles.wrapper}>
       <ContentAreaRow>
@@ -193,7 +213,11 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
             </div>
             <div className={styles.textInputContainer}>
               <div className={styles.inputLabel}>{i18n.choose_proof_type}</div>
-              <SelectProofTypeDialog handleSelectProofType={handleSelectProofType} />
+              <SelectProofTypeDialog
+                proofType={proofType}
+                handleSelectProofType={handleSelectProofType}
+                webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
+              />
             </div>
             <div className={styles.textInputContainer}>
               <div className={styles.inputLabel}>{i18n.choose_plural_voting}</div>

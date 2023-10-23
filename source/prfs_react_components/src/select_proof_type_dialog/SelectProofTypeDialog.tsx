@@ -13,12 +13,11 @@ import {
 } from "@floating-ui/react";
 import { IoIosSearch } from "@react-icons/all-files/io/IoIosSearch";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
 
 import styles from "./SelectProofTypeDialog.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "../contexts/i18nContext";
 import ProofTypeModal2 from "./ProofTypeModal2";
-import TutorialStepper from "../tutorial/TutorialStepper";
+import CaptionedImg from "../captioned_img/CaptionedImg";
 
 const SearchIcon = () => {
   return (
@@ -31,6 +30,7 @@ const SearchIcon = () => {
 const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
   proofType,
   handleSelectProofType,
+  webappConsoleEndpoint,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -96,7 +96,10 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
             aria-describedby={descriptionId}
             {...getFloatingProps()}
           >
-            <ProofTypeModal2 handleSelectVal={extendedProofTypeClickHandler} />
+            <ProofTypeModal2
+              handleSelectVal={extendedProofTypeClickHandler}
+              webappConsoleEndpoint={webappConsoleEndpoint}
+            />
           </div>
         </FloatingFocusManager>
       )}
@@ -109,4 +112,5 @@ export default SelectProofTypeDialog;
 export interface SelectProofTypeDialogProps {
   proofType: PrfsProofType | undefined;
   handleSelectProofType: (proofType: PrfsProofType) => void;
+  webappConsoleEndpoint: string;
 }

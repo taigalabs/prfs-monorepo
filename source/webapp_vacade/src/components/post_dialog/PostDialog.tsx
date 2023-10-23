@@ -14,7 +14,7 @@ import {
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import { ProofTypeItem } from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/ProofTypeTable";
+// import { ProofTypeItem } from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/ProofTypeTable";
 
 import styles from "./PostDialog.module.scss";
 import { i18nContext } from "@/contexts/i18n";

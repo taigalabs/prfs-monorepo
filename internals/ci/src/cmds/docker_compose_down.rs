@@ -14,8 +14,12 @@ pub fn run(matches: &ArgMatches) {
     run_docker(extra_args);
 }
 
-fn run_docker(_extra_args: Vec<&str>) {
+fn run_docker(extra_args: Vec<&str>) {
+    println!("extra_args: {:?}", extra_args);
+
     let docker_compose_yml_path = PATHS.internals_docker.join("compose/docker-compose.yml");
+
+    let args = extra_args.join(" ");
 
     let status = Command::new(deps::DOCKER)
         .args([
@@ -23,6 +27,7 @@ fn run_docker(_extra_args: Vec<&str>) {
             "-f",
             docker_compose_yml_path.to_str().unwrap(),
             "down",
+            &args,
         ])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));

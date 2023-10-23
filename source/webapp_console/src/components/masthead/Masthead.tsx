@@ -45,11 +45,10 @@ const Masthead: React.FC<any> = () => {
           </div>
         </div>
         <div className={styles.rightMenu}>
-          <li className={styles.inactive}>
-            <button>{i18n.learn.toUpperCase()}</button>
-          </li>
-          <li className={styles.inactive}>
-            <button>{i18n.sdk_api.toUpperCase()}</button>
+          <li>
+            <a href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>
+              <button>{i18n.docs}</button>
+            </a>
           </li>
           <li>
             <PrfsAppsPopover

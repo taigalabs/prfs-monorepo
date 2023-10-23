@@ -30,19 +30,19 @@ from prfs_circuit_types"#;
     return circuit_types;
 }
 
-pub async fn get_prfs_circuit_type_by_label(
+pub async fn get_prfs_circuit_type_by_circuit_type_id(
     pool: &Pool<Postgres>,
-    label: &String,
+    circuit_type_id: &String,
 ) -> PrfsCircuitType {
     let query = r#"
-select *
-from prfs_circuit_types
-where label=$1"#;
+SELECT *
+FROM prfs_circuit_types
+WHERE circuit_type_id=$1"#;
 
     println!("query: {}", query);
 
     let row = sqlx::query(query)
-        .bind(&label)
+        .bind(&circuit_type_id)
         .fetch_one(pool)
         .await
         .unwrap();
@@ -66,7 +66,8 @@ pub async fn insert_prfs_circuit_type(
     let query = r#"
 INSERT INTO prfs_circuit_types
 (circuit_type_id, "desc", author, circuit_inputs_meta, public_inputs_meta)
-VALUES ($1, $2, $3, $4, $5) returning circuit_type_id"#;
+VALUES ($1, $2, $3, $4, $5)
+RETURNING circuit_type_id"#;
 
     let row = sqlx::query(query)
         .bind(&circuit_type.circuit_type_id)

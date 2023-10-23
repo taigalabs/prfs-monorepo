@@ -20,18 +20,17 @@ import { useAppDispatch } from "@/state/hooks";
 
 const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
-  // const { dispatch } = React.useContext(stateContext);
   const [circuitType, setCircuitType] = React.useState<PrfsCircuitType>();
 
-  const topWidgetLabel = `${i18n.circuit_type} - ${params.circuit_type}`;
+  const topWidgetLabel = `${i18n.circuit_type} - ${params.circuit_type_id}`;
 
   const dispatch = useAppDispatch();
   useLocalWallet(dispatch);
 
   React.useEffect(() => {
     async function fn() {
-      const { payload } = await prfsApi2("get_prfs_circuit_type_by_circuit_type", {
-        circuit_type: params.circuit_type,
+      const { payload } = await prfsApi2("get_prfs_circuit_type_by_circuit_type_id", {
+        circuit_type_id: params.circuit_type_id,
       });
 
       const { prfs_circuit_type } = payload;
@@ -63,7 +62,7 @@ const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {
           <ContentAreaRow>
             <div className={styles.singleColRow}>
               <div className={styles.tableTitle}>
-                {i18n.circuit_inputs} ({circuitType.circuit_type})
+                {i18n.circuit_inputs} ({circuitType.circuit_type_id})
               </div>
               <CircuitInputsMetaTable
                 circuit_inputs_meta={circuitType.circuit_inputs_meta as CircuitInputMeta[]}
@@ -80,6 +79,6 @@ export default CircuitType;
 
 interface CircuitTypeProps {
   params: {
-    circuit_type: string;
+    circuit_type_id: string;
   };
 }

@@ -10,7 +10,6 @@ import cn from "classnames";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { delay } from "@/functions/interval";
 import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
 import SigDataInput from "@/components/sig_data_input/SigDataInput";
 import { envs } from "@/envs";
@@ -18,7 +17,7 @@ import Passcode from "@/components/passcode/Passcode";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
 import { validateInputs } from "@/validate";
 import HashInput from "@/components/hash_input/HashInput";
-import TutorialStepper from "../tutorial/TutorialStepper";
+import TutorialStepper from "@/components/tutorial/TutorialStepper";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
