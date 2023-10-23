@@ -18,7 +18,7 @@ const LatestTimestamp: React.FC<LatestTimestampProps> = () => {
     }
   }, []);
 
-  return isRecentlyUpdated && <span className={styles.wrapper}>{i18n.new}</span>;
+  return isRecentlyUpdated && <p className={styles.wrapper}>{i18n.new}</p>;
 };
 
 export default LatestTimestamp;
