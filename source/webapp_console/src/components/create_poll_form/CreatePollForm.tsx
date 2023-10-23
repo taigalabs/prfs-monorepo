@@ -5,8 +5,8 @@ import { v4 as uuidv4 } from "uuid";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useMutation } from "@tanstack/react-query";
-import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
-import { ProofTypeItem } from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/ProofTypeTable";
+// import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
+// import { ProofTypeItem } from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/ProofTypeTable";
 import { CreatePrfsPollRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsPollRequest";
 import { PollQuestion } from "@taigalabs/prfs-entities/bindings/PollQuestion";
 
@@ -21,6 +21,7 @@ import { useAppSelector } from "@/state/hooks";
 import QuestionBlock from "./QuestionBlock";
 import { PrfsPoll } from "@taigalabs/prfs-entities/bindings/PrfsPoll";
 import { PollQuestionType } from "@taigalabs/prfs-entities/bindings/PollQuestionType";
+import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
   const i18n = React.useContext(i18nContext);
@@ -105,9 +106,9 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
   });
 
   const handleSelectProofType = React.useCallback(
-    (proofTypeItem: ProofTypeItem) => {
+    (proofType: PrfsProofType) => {
       setFormData(oldState => {
-        return { ...oldState, ["proof_type_id"]: proofTypeItem.proofTypeId };
+        return { ...oldState, ["proof_type_id"]: proofType.proof_type_id };
       });
     },
     [setFormData]
@@ -193,7 +194,7 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
             </div>
             <div className={styles.textInputContainer}>
               <div className={styles.inputLabel}>{i18n.choose_proof_type}</div>
-              <SelectProofTypeDialog handleSelectProofType={handleSelectProofType} />
+              {/* <SelectProofTypeDialog handleSelectProofType={handleSelectProofType} /> */}
             </div>
             <div className={styles.textInputContainer}>
               <div className={styles.inputLabel}>{i18n.choose_plural_voting}</div>
