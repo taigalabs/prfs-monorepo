@@ -46,7 +46,7 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
   const i18n = React.useContext(i18nContext);
 
   const [data, setData] = React.useState<DropdownData<PrfsSet>>({
-    page: 0,
+    page_idx: 0,
     values: [],
   });
 
@@ -58,7 +58,7 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
       });
 
       const { page_idx, prfs_sets } = payload;
-      setData({ page: page_idx, values: prfs_sets });
+      setData({ page_idx, values: prfs_sets });
     } catch (err) {
       console.error(err);
     }

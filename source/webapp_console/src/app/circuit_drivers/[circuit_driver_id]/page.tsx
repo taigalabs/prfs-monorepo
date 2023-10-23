@@ -70,7 +70,7 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
         <ContentAreaRow>
           <div className={styles.singleColRow}>
             <div className={styles.tableTitle}>{i18n.circuit_types}</div>
-            <SupportingCircuitTypeTable circuit_types={driver?.circuit_types} />
+            <SupportingCircuitTypeTable circuit_type_ids={driver?.circuit_type_ids} />
           </div>
         </ContentAreaRow>
       </div>

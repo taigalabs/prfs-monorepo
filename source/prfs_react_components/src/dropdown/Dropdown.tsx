@@ -77,6 +77,6 @@ export interface CreateDropdownListArgs<T> {
 export type DropdownSingleSelectedValue<T> = T;
 
 export type DropdownData<T> = {
-  page: number;
+  page_idx: number;
   values: T[];
 };

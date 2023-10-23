@@ -48,7 +48,7 @@ const ProofTypeDropdown: React.FC<ProofTypeDropdownProps> = ({ selectedVal, hand
   const i18n = React.useContext(i18nContext);
 
   const [data, setData] = React.useState<DropdownData<PrfsProofType>>({
-    page: 0,
+    page_idx: 0,
     values: [],
   });
 
@@ -59,7 +59,7 @@ const ProofTypeDropdown: React.FC<ProofTypeDropdownProps> = ({ selectedVal, hand
         page_size: 20,
       });
 
-      setData({ page: payload.page_idx, values: payload.prfs_proof_types });
+      setData({ page_idx: payload.next_idx, values: payload.prfs_proof_types });
     }
 
     fn().then();

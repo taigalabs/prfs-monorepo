@@ -2,7 +2,7 @@
 
 export interface PrfsCircuit {
   circuit_id: string;
-  circuit_type: string;
+  circuit_type_id: string;
   label: string;
   desc: string;
   author: string;

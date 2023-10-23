@@ -14,7 +14,7 @@ import styles from "./SupportingCircuitTypeTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 
 const SupportingCircuitTypeTable: React.FC<SupportingCircuitTypeTableProps> = ({
-  circuit_types,
+  circuit_type_ids,
 }) => {
   const i18n = React.useContext(i18nContext);
 
@@ -33,10 +33,10 @@ const SupportingCircuitTypeTable: React.FC<SupportingCircuitTypeTableProps> = ({
   const [data, setData] = React.useState<string[]>([]);
 
   React.useEffect(() => {
-    if (circuit_types) {
-      setData(circuit_types);
+    if (circuit_type_ids) {
+      setData(circuit_type_ids);
     }
-  }, [, setData, circuit_types]);
+  }, [, setData, circuit_type_ids]);
 
   const table = useReactTable({
     data,
@@ -45,7 +45,7 @@ const SupportingCircuitTypeTable: React.FC<SupportingCircuitTypeTableProps> = ({
   });
 
   return (
-    circuit_types && (
+    circuit_type_ids && (
       <div className={styles.wrapper}>
         <Table2>
           <Table2Body>
@@ -72,7 +72,7 @@ const SupportingCircuitTypeTable: React.FC<SupportingCircuitTypeTableProps> = ({
 export default SupportingCircuitTypeTable;
 
 export interface SupportingCircuitTypeTableProps {
-  circuit_types: string[] | undefined;
+  circuit_type_ids: string[] | undefined;
   selectType?: "checkbox" | "radio";
   selectedVal?: PrfsCircuit;
   handleSelectVal?: (row: PrfsCircuit) => void;

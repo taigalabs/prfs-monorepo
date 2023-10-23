@@ -51,7 +51,7 @@ const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSe
   const i18n = React.useContext(i18nContext);
 
   const [data, setData] = React.useState<DropdownData<PrfsCircuitSyn1>>({
-    page: 0,
+    page_idx: 0,
     values: [],
   });
 
@@ -62,7 +62,7 @@ const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSe
         page_size: 0,
       });
 
-      setData({ page: payload.page_idx, values: payload.prfs_circuits_syn1 });
+      setData({ page_idx: payload.page_idx, values: payload.prfs_circuits_syn1 });
     }
 
     fn().then();
