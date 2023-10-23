@@ -74,7 +74,9 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   experimental: {
-    logging: "verbose",
+    // logging: {
+    //   level: "verbose",
+    // },
   },
 };
 
