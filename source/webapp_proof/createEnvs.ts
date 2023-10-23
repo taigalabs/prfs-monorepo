@@ -78,7 +78,7 @@ function writeEnvsToDotEnv(envs: Envs) {
 
 async function getGitTimestamp() {
   const output = child_process.execSync(
-    `TZ=UTC0 git show --quiet --date='format-local:%Y%m%d' --format="%cd"`
+    `TZ=UTC0 git show --quiet --date=iso-strict --format="%cd"`
   );
 
   return output.toString();
