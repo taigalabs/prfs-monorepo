@@ -508,7 +508,7 @@ impl NIZK {
     gens: &NIZKGens,
     transcript: &mut Transcript,
   ) -> Result<Self, SpartanSecqError> {
-    console::log_1(&format!("secq::prove 1").into());
+    // console::log_1(&format!("secq::prove 1").into());
 
     let timer_prove = Timer::new("NIZK::prove");
     // we create a Transcript object seeded with a random Scalar
@@ -530,7 +530,7 @@ impl NIZK {
         }
       };
 
-      console::log_1(&format!("secq: padded vars").into());
+      // console::log_1(&format!("secq: padded vars").into());
       let (proof, rx, ry) = R1CSProof::prove(
         &inst.inst,
         padded_vars.assignment,

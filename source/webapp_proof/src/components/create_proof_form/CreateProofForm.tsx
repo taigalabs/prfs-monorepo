@@ -1,36 +1,31 @@
 "use client";
 
 import React from "react";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import cn from "classnames";
-import { v4 as uuidv4 } from "uuid";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
-import { FaCloudMoon } from "@react-icons/all-files/fa/FaCloudMoon";
-import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
-import { useRouter } from "next/navigation";
-import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
-import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
-import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 import styles from "./CreateProofForm.module.scss";
+import SelectProofTypeDialog from "@/components/select_proof_type_dialog/SelectProofTypeDialog";
 import { i18nContext } from "@/contexts/i18n";
-import { paths } from "@/paths";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
 import PostCreateMenu from "./PostCreateMenu";
 import LogoContainer from "./LogoContainer";
+import { paths } from "@/paths";
+import TutorialStepper from "@/components/tutorial/TutorialStepper";
+import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
 const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
-  // const [selectedProofTypeItem, setSelectedProofTypeItem] = React.useState<ProofTypeItem>();
   const [proofType, setProofType] = React.useState<PrfsProofType>();
-  const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt>();
-  const router = useRouter();
+  const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
 
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
@@ -38,16 +33,8 @@ const CreateProofForm: React.FC = () => {
     },
   });
 
-  const { mutateAsync: createPrfsProofInstance } = useMutation({
-    mutationFn: (req: CreatePrfsProofInstanceRequest) => {
-      return prfsApi2("create_prfs_proof_instance", req);
-    },
-  });
-
   const handleSelectProofType = React.useCallback(
     async (proofType: PrfsProofType) => {
-      // setSelectedProofTypeItem(proofTypeItem);
-
       const { payload } = await getPrfsProofTypeByProofTypeIdRequest({
         proof_type_id: proofType.proof_type_id,
       });
@@ -57,7 +44,7 @@ const CreateProofForm: React.FC = () => {
     [getPrfsProofTypeByProofTypeIdRequest, setProofType]
   );
 
-  const handleCreateProof = React.useCallback(
+  const handleCreateProofResult = React.useCallback(
     async (err: any, proveReceipt: ProveReceipt | null) => {
       if (err) {
         console.error(err);
@@ -65,42 +52,20 @@ const CreateProofForm: React.FC = () => {
         setProveReceipt(proveReceipt);
       }
     },
-    [proofGenElement, setProveReceipt]
+    [setProveReceipt]
   );
 
-  const handleClickUpload = React.useCallback(async () => {
-    if (proveReceipt && proofType) {
-      const { proveResult } = proveReceipt;
-      const { proof, publicInputSer } = proveResult;
-      const public_inputs = JSON.parse(publicInputSer);
-
-      const proof_instance_id = uuidv4();
-
-      console.log("try inserting proof", proveReceipt);
-      try {
-        const { payload } = await createPrfsProofInstance({
-          proof_instance_id,
-          account_id: null,
-          proof_type_id: proofType.proof_type_id,
-          proof: Array.from(proof),
-          public_inputs,
-        });
-
-        router.push(`${paths.proofs}/${payload.proof_instance_id}`);
-      } catch (err: any) {
-        console.error(err);
-        return;
-      }
-    }
-  }, [proveReceipt]);
-
   return (
-    <>
+    <div className={styles.wrapper}>
       <LogoContainer proofTypeChosen={!!proofType} />
-      <div className={styles.createProofForm}>
+      <div className={cn({ [styles.formArea]: true, [styles.proofTypeChosen]: !!proofType })}>
         {proveReceipt ? (
           <Fade>
-            <PostCreateMenu proveReceipt={proveReceipt} proofType={proofType!} />
+            <PostCreateMenu
+              proveReceipt={proveReceipt}
+              proofType={proofType!}
+              proofGenElement={proofGenElement!}
+            />
           </Fade>
         ) : (
           <div
@@ -110,23 +75,35 @@ const CreateProofForm: React.FC = () => {
             })}
           >
             <div className={styles.proofTypeRow}>
-              <SelectProofTypeDialog
-                proofType={proofType}
-                handleSelectProofType={handleSelectProofType}
-              />
+              <TutorialStepper steps={[1]} fullWidth mainAxisOffset={20} crossAxisOffset={15}>
+                <SelectProofTypeDialog
+                  proofType={proofType}
+                  handleSelectProofType={handleSelectProofType}
+                />
+              </TutorialStepper>
             </div>
-            {!proofType && <div className={styles.welcomeRow}>{i18n.create_and_share_proofs}</div>}
+            {!proofType && (
+              <div className={styles.welcomeRow}>
+                <span>{i18n.create_and_share_proofs}</span>
+                <Link href={`${paths.__}/?tutorialStep=1`}>How?</Link>
+              </div>
+            )}
             {proofType && (
-              <div className={styles.sdkRow}>
+              <div className={styles.moduleWrapper}>
                 <Fade>
-                  <CreateProofModule proofType={proofType} handleCreateProof={handleCreateProof} />
+                  <CreateProofModule
+                    proofType={proofType}
+                    handleCreateProofResult={handleCreateProofResult}
+                    proofGenElement={proofGenElement}
+                    setProofGenElement={setProofGenElement}
+                  />
                 </Fade>
               </div>
             )}
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

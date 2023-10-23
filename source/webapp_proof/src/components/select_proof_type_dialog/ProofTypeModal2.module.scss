@@ -3,6 +3,12 @@
   background-color: var(--white-100);
 }
 
+.loading {
+  &:hover {
+    background-color: inherit;
+  }
+}
+
 .row {
   display: flex;
   align-items: center;
@@ -27,29 +33,28 @@
   }
 }
 
-.label {
+.labelRow {
   font-size: 16px;
   line-height: 18px;
   display: flex;
   align-items: center;
 
-  /* .icon { */
-  /*   display: flex; */
-  /*   align-items: center; */
-  /*   justify-content: center; */
-  /*   margin-left: 5px; */
-  /*   height: 24px; */
-  /*   width: 24px; */
-  /*   border-radius: 24px; */
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    padding: 3px;
+    border-radius: 24px;
 
-  /*   svg { */
-  /*     color: var(--aqua-blue-50); */
-  /*   } */
+    svg {
+      color: var(--gray-20);
+    }
 
-  /*   &:hover { */
-  /*     background-color: var(--bright-gray-30); */
-  /*   } */
-  /* } */
+    &:hover {
+      background-color: var(--bright-gray-30);
+    }
+  }
 }
 
 .proofTypeId {

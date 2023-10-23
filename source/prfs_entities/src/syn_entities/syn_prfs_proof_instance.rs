@@ -17,8 +17,10 @@ pub struct PrfsProofInstanceSyn1 {
     pub expression: String,
     pub img_url: Option<String>,
     pub img_caption: Option<String>,
+
     #[ts(type = "string")]
     pub circuit_id: Uuid,
+    pub circuit_type_id: String,
     pub circuit_driver_id: String,
     pub proof_desc: String,
     pub proof_label: String,

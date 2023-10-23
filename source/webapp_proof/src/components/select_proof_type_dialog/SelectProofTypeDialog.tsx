@@ -11,17 +11,14 @@ import {
   offset,
   autoUpdate,
 } from "@floating-ui/react";
-import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
-import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
 import { IoIosSearch } from "@react-icons/all-files/io/IoIosSearch";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
 
-import Fade from "../fade/Fade";
-import Button from "../button/Button";
 import styles from "./SelectProofTypeDialog.module.scss";
-import { i18nContext } from "../contexts/i18nContext";
-import CaptionedImg from "../captioned_img/CaptionedImg";
+import { i18nContext } from "@/contexts/i18n";
 import ProofTypeModal2 from "./ProofTypeModal2";
+import TutorialStepper from "../tutorial/TutorialStepper";
 
 const SearchIcon = () => {
   return (

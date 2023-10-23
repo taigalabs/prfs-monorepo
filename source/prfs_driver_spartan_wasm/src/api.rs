@@ -6,36 +6,18 @@ use merlin::Transcript;
 use prfs_crypto::{hash_from_bytes, MerkleProof};
 use secq256k1::affine::Group;
 use std::io::{Error, Read};
-use wasm_bindgen::prelude::wasm_bindgen;
+use wasm_bindgen::{prelude::*, Clamped};
 use web_sys::console;
 
 pub type G1 = secq256k1::AffinePoint;
 pub type F1 = <G1 as Group>::Scalar;
-
-// #[wasm_bindgen]
-// extern "C" {
-//     // Use `js_namespace` here to bind `console.log(..)` instead of just
-//     // `log(..)`
-//     #[wasm_bindgen(js_namespace = console)]
-//     fn log(s: &str);
-
-//     // // The `console.log` is quite polymorphic, so we can bind it with multiple
-//     // // signatures. Note that we need to use `js_name` to ensure we always call
-//     // // `log` in JS.
-//     // #[wasm_bindgen(js_namespace = console, js_name = log)]
-//     // fn log_u32(a: u32);
-
-//     // // Multiple arguments too!
-//     // #[wasm_bindgen(js_namespace = console, js_name = log)]
-//     // fn log_many(a: &str, b: &str);
-// }
 
 pub fn prove(
     circuit: &[u8],
     vars: &[u8],
     public_inputs: &[u8],
 ) -> Result<Vec<u8>, PrfsDriverSpartanWasmError> {
-    console::log_1(&format!("SPARTAN_WASM").into());
+    // console::log_1(&format!("SPARTAN_WASM").into());
 
     let witness = load_witness_from_bin_reader::<F1, _>(vars).unwrap();
 
@@ -44,12 +26,12 @@ pub fn prove(
         .map(|w| w.to_repr().into())
         .collect::<Vec<[u8; 32]>>();
 
-    console::log_1(&format!("SPARTAN_WASM: retrieved witness bytes").into());
+    // console::log_1(&format!("SPARTAN_WASM: retrieved witness bytes").into());
 
     let assignment = match Assignment::new(&witness_bytes) {
         Ok(a) => a,
         Err(err) => {
-            console::log_1(&format!("Error creating new assignment, err: {:?}", err).into());
+            // console::log_1(&format!("Error creating new assignment, err: {:?}", err).into());
 
             return Err(format!("Error creating new assignment, err: {:?}", err).into());
         }
@@ -58,7 +40,7 @@ pub fn prove(
     let circuit: Instance = match bincode::deserialize(&circuit) {
         Ok(c) => c,
         Err(err) => {
-            console::log_1(&format!("Error deserializing circuit, err: {}", err).into());
+            // console::log_1(&format!("Error deserializing circuit, err: {}", err).into());
 
             return Err(format!("Error deserializing circuit, err: {}", err).into());
         }
@@ -78,7 +60,7 @@ pub fn prove(
         input.push(match public_inputs[(i * 32)..((i + 1) * 32)].try_into() {
             Ok(i) => i,
             Err(err) => {
-                console::log_1(&format!("public input nums are not fit, err: {}", err).into());
+                // console::log_1(&format!("public input nums are not fit, err: {}", err).into());
 
                 return Err(format!("public input nums are not fit, err: {}", err).into());
             }
@@ -88,7 +70,7 @@ pub fn prove(
     let input = match Assignment::new(&input) {
         Ok(i) => i,
         Err(err) => {
-            console::log_1(&format!("Error assigning, err: {:?}", err).into());
+            // console::log_1(&format!("Error assigning, err: {:?}", err).into());
 
             return Err(format!("Error assigning, err: {:?}", err).into());
         }
@@ -96,7 +78,7 @@ pub fn prove(
 
     let mut prover_transcript = Transcript::new(b"spartan_prove");
 
-    console::log_1(&"SPARTAN_WASM: start NIZK::prove 2".into());
+    // console::log_1(&"SPARTAN_WASM: start NIZK::prove 2".into());
 
     // produce a proof of satisfiability
     let proof = match NIZK::prove(
@@ -105,15 +87,53 @@ pub fn prove(
         &input,
         &gens,
         &mut prover_transcript,
-        // Box::new(log),
     ) {
         Ok(p) => p,
         Err(err) => {
-            console::log_1(&format!("Error nizk proving, err: {}", err).into());
+            // console::log_1(&format!("Error nizk proving, err: {}", err).into());
 
             return Err(err.into());
         }
     };
+
+    Ok(bincode::serialize(&proof).unwrap())
+}
+
+// #[wasm_bindgen]
+pub fn prove2(circuit: &[u8], vars: &[u8], public_inputs: &[u8]) -> Result<Vec<u8>, JsValue> {
+    let witness = load_witness_from_bin_reader::<F1, _>(vars).unwrap();
+    let witness_bytes = witness
+        .iter()
+        .map(|w| w.to_repr().into())
+        .collect::<Vec<[u8; 32]>>();
+
+    let assignment = Assignment::new(&witness_bytes).unwrap();
+    let circuit: Instance = bincode::deserialize(&circuit).unwrap();
+
+    let num_cons = circuit.inst.get_num_cons();
+    let num_vars = circuit.inst.get_num_vars();
+    let num_inputs = circuit.inst.get_num_inputs();
+
+    // produce public parameters
+    let gens = NIZKGens::new(num_cons, num_vars, num_inputs);
+
+    let mut input = Vec::new();
+    for i in 0..num_inputs {
+        input.push(public_inputs[(i * 32)..((i + 1) * 32)].try_into().unwrap());
+    }
+    let input = Assignment::new(&input).unwrap();
+
+    let mut prover_transcript = Transcript::new(b"nizk_example");
+
+    // produce a proof of satisfiability
+    let proof = NIZK::prove(
+        &circuit,
+        assignment.clone(),
+        &input,
+        &gens,
+        &mut prover_transcript,
+    )
+    .unwrap();
 
     Ok(bincode::serialize(&proof).unwrap())
 }

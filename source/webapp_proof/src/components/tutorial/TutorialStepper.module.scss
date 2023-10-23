@@ -1,0 +1,36 @@
+.wrapper {
+  /* border: 2px solid #3e1aea; */
+  /* border-radius: 5px; */
+  /* width: 100%; */
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.tooltip {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    background-color: #ff962c;
+    animation-name: radiating;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+  }
+}
+
+@keyframes radiating {
+  from {
+    -webkit-transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    -webkit-transform: scale(4);
+    opacity: 0;
+  }
+}

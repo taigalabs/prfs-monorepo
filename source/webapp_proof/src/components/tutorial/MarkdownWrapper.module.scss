@@ -1,0 +1,51 @@
+.wrapper {
+  min-height: 300px;
+  max-height: 45vh;
+  overflow-y: auto;
+
+  h1 {
+    font-size: 1.41em;
+    font-weight: 500;
+    margin-bottom: 18px;
+  }
+
+  h2 {
+    font-size: 1.31em;
+    font-weight: 500;
+    margin-top: 22px;
+    margin-bottom: 16px;
+  }
+
+  p {
+    line-height: 24px;
+    margin-bottom: 12px;
+  }
+
+  ul,
+  ol {
+    margin: 18px 0;
+  }
+
+  ol li {
+    list-style-type: decimal;
+    list-style-position: inside;
+  }
+
+  li {
+    line-height: 24px;
+  }
+
+  code {
+    background-color: rgba(175, 184, 193, 0.2);
+    padding: 0.2em 0.4em;
+    border-radius: 6px;
+  }
+}
+
+.orangeDot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: orange;
+  border-radius: 10px;
+}

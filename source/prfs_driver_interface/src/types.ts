@@ -6,3 +6,11 @@ export interface SpartanMerkleProof {
   siblings: bigint[];
   pathIndices: number[];
 }
+
+export interface SigData {
+  msgRaw: string;
+  msgHash: BufferHex;
+  sig: string;
+}
+
+export type BufferHex = `0x${string}`;

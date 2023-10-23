@@ -3,34 +3,42 @@ import {
   LogEventType,
   ProveReceipt,
   ProveResult,
+  VerifyReceipt,
 } from "@taigalabs/prfs-driver-interface";
-import { CreateProofPayload } from "@taigalabs/prfs-sdk-web";
+import { CreateProofPayload, VerifyProofPayload } from "@taigalabs/prfs-sdk-web";
 
 export async function createProof(
   driver: CircuitDriver,
   payload: CreateProofPayload,
   eventListener: (type: LogEventType, msg: string) => void
 ): Promise<ProveReceipt> {
-  console.log("Proving...");
+  try {
+    const proveReceipt = await driver.prove({
+      inputs: payload.inputs,
+      circuitTypeId: payload.circuitTypeId,
+      eventListener,
+    });
+    return proveReceipt;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
 
-  const proveReceipt = await driver.prove({
-    inputs: payload.inputs,
-    circuitTypeId: payload.circuitTypeId,
-    eventListener,
-  });
+export async function verifyProof(
+  driver: CircuitDriver,
+  payload: VerifyProofPayload,
+  _eventListener: (type: LogEventType, msg: string) => void
+): Promise<VerifyReceipt> {
+  try {
+    const verifyResult = await driver.verify({
+      proveResult: payload.proveResult,
+      circuitTypeId: payload.circuitTypeId,
+    });
 
-  console.log("proveResult: %o", proveReceipt.proveResult);
-  console.log(
-    "Raw proof size (excluding public input)",
-    proveReceipt.proveResult.proof.length,
-    "bytes"
-  );
-
-  // const isVerified = await driver.verify({
-  //   inputs: proveResult,
-  // });
-
-  // console.log("isVerified: %o", isVerified);
-
-  return proveReceipt;
+    return { verifyResult };
+  } catch (err: any) {
+    console.error(err);
+    return { verifyResult: false, error: err };
+  }
 }

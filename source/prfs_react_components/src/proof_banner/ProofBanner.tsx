@@ -34,7 +34,7 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance, webappConsoleE
         <div className={styles.expression}>{proofInstance.expression}</div>
         <div className={styles.prioritizedValues}>{prioritizedValues.join(",")}</div>
         <div className={styles.bottom}>
-          <div>By {proofInstance.proof_label}</div>
+          <div>{proofInstance.proof_label}</div>
           <div className={styles.url}>{shortUrl}</div>
         </div>
       </div>

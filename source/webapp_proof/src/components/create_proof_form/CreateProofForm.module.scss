@@ -1,9 +1,15 @@
-.createProofForm {
-  width: 510px;
+.wrapper {
+}
+
+.formArea {
+  width: 518px;
   display: flex;
   justify-content: center;
+  padding: 3px 0;
 
-  /* border: 1px solid blue; */
+  .proofTypeChosen {
+    padding: 14px 14px 34px;
+  }
 }
 
 .formWrapper {
@@ -38,8 +44,17 @@
   display: flex;
   justify-content: center;
   color: var(--gray-20);
+
+  a {
+    margin-left: 5px;
+    color: var(--dark-blue-50);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
-.sdkRow {
-  margin-top: 22px;
+.moduleWrapper {
+  margin-top: 24px;
 }

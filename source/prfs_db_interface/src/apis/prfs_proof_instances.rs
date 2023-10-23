@@ -11,7 +11,7 @@ pub async fn get_prfs_proof_instance_syn1_by_instance_id(
 ) -> PrfsProofInstanceSyn1 {
     let query = r#"
 SELECT ppi.*, ppt.expression, ppt.img_url, ppt.label as proof_label, ppt.desc as proof_desc,
-ppt.circuit_driver_id, ppt.circuit_id, ppt.img_caption, pct.public_inputs_meta
+ppt.circuit_driver_id, ppt.circuit_id, ppt.img_caption, pct.public_inputs_meta, ppt.circuit_type_id
 FROM prfs_proof_instances ppi
 INNER JOIN prfs_proof_types ppt ON ppi.proof_type_id=ppt.proof_type_id
 INNER JOIN prfs_circuit_types pct ON pct.circuit_type_id=ppt.circuit_type_id
@@ -42,6 +42,7 @@ WHERE ppi.proof_instance_id=$1
         proof_label: row.get("proof_label"),
         public_inputs: row.get("public_inputs"),
         created_at: row.get("created_at"),
+        circuit_type_id: row.get("circuit_type_id"),
     };
 
     return prfs_proof_instance;
@@ -90,7 +91,7 @@ SELECT reltuples AS estimate FROM pg_class where relname = 'prfs_proof_instances
 
     let query = r#"
 SELECT ppi.*, ppt.expression, ppt.img_url, ppt.label as proof_label, ppt.desc as proof_desc,
-ppt.circuit_driver_id, ppt.circuit_id, ppt.img_caption, pct.public_inputs_meta
+ppt.circuit_driver_id, ppt.circuit_id, ppt.img_caption, pct.public_inputs_meta, ppt.circuit_type_id
 FROM prfs_proof_instances ppi
 INNER JOIN prfs_proof_types ppt ON ppi.proof_type_id=ppt.proof_type_id
 INNER JOIN prfs_circuit_types pct ON pct.circuit_type_id=ppt.circuit_type_id
@@ -126,6 +127,7 @@ LIMIT $2
             public_inputs_meta: row.get("public_inputs_meta"),
             public_inputs: row.get("public_inputs"),
             created_at: row.get("created_at"),
+            circuit_type_id: row.get("circuit_type_id"),
         })
         .collect();
 

@@ -4,11 +4,12 @@ import {
   HashPayload,
   Msg,
   MsgType,
+  VerifyProofPayload,
   sendMsgToParent,
 } from "@taigalabs/prfs-sdk-web";
 
 import { initDriver, interpolateSystemAssetEndpoint } from "./circuitDriver";
-import { createProof } from "./functions/proof";
+import { createProof, verifyProof } from "./functions/proof";
 import { envs } from "./envs";
 
 const ASSET_SERVER_ENDPOINT = envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
@@ -31,7 +32,6 @@ async function eventListener(ev: MessageEvent) {
     switch (type) {
       case "CREATE_PROOF": {
         const payload = ev.data.payload as CreateProofPayload;
-
         console.log("create proof", payload, driver);
 
         if (!driver) {
@@ -48,6 +48,29 @@ async function eventListener(ev: MessageEvent) {
           ev.ports[0].postMessage(new Msg("CREATE_PROOF_RESPONSE", proveReceipt));
         } catch (err) {
           ev.ports[0].postMessage(new Msg("CREATE_PROOF_RESPONSE", undefined, err));
+        }
+
+        break;
+      }
+
+      case "VERIFY_PROOF": {
+        const payload = ev.data.payload as VerifyProofPayload;
+        console.log("verify proof", payload, driver);
+
+        if (!driver) {
+          return;
+        }
+
+        proofGenEventListener(
+          "info",
+          `Start verifying... hardware concurrency: ${window.navigator.hardwareConcurrency}`
+        );
+
+        try {
+          const verifyReceipt = await verifyProof(driver, payload, proofGenEventListener);
+          ev.ports[0].postMessage(new Msg("VERIFY_PROOF_RESPONSE", verifyReceipt));
+        } catch (err) {
+          ev.ports[0].postMessage(new Msg("VERIFY_PROOF_RESPONSE", undefined, err));
         }
 
         break;

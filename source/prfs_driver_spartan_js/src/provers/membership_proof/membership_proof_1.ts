@@ -2,9 +2,11 @@ import { BN } from "bn.js";
 import {
   ProveArgs,
   ProveReceipt,
+  SigData,
   SpartanMerkleProof,
   VerifyArgs,
 } from "@taigalabs/prfs-driver-interface";
+import { toBuffer } from "@ethereumjs/util";
 
 import { fromSig, snarkJsWitnessGen } from "@/utils/utils";
 import { makePoseidon } from "@/utils/poseidon";
@@ -15,7 +17,6 @@ import {
   computeEffEcdsaPubInput,
   verifyEffEcdsaPubInput,
 } from "./public_input";
-import { deserializePublicInput, serializePublicInput } from "./serialize";
 import { SECP256K1_P } from "@/math/secp256k1";
 
 export async function proveMembership(
@@ -26,18 +27,20 @@ export async function proveMembership(
 ): Promise<ProveReceipt> {
   const { inputs, eventListener } = args;
 
-  console.log(123123, inputs);
-
   const { sigData, merkleProof } = inputs;
   const { msgRaw, msgHash, sig } = sigData;
-  // console.log("inputs: %o", inputs);
 
   const { r, s, v } = fromSig(sig);
-
   const poseidon = makePoseidon(handlers);
-  const serialNo = await poseidon([s, BigInt(0)]);
 
-  const effEcdsaPubInput = computeEffEcdsaPubInput(r, v, msgHash);
+  let serialNo;
+  try {
+    serialNo = await poseidon([s, BigInt(0)]);
+  } catch (err) {
+    throw new Error(`Error Poseidon hashing, err: ${err}`);
+  }
+
+  const effEcdsaPubInput = computeEffEcdsaPubInput(r, v, toBuffer(msgHash));
 
   eventListener("debug", "Computed ECDSA pub input");
 
@@ -51,7 +54,7 @@ export async function proveMembership(
   );
 
   const publicInput = new MembershipProofPublicInput(r, v, msgRaw, msgHash, circuitPubInput);
-  const m = new BN(msgHash).mod(SECP256K1_P);
+  const m = new BN(toBuffer(msgHash)).mod(SECP256K1_P);
 
   const witnessGenInput = {
     r,
@@ -80,14 +83,19 @@ export async function proveMembership(
   const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
 
   const prev = performance.now();
-  const proof = await handlers.prove(circuit, witness.data, circuitPublicInput);
+  let proof;
+  try {
+    proof = await handlers.prove(circuit, witness.data, circuitPublicInput);
+  } catch (err) {
+    throw new Error(`Error calling prove(), err: ${err}`);
+  }
   const now = performance.now();
 
   return {
     duration: now - prev,
     proveResult: {
       proof,
-      publicInputSer: serializePublicInput(publicInput),
+      publicInputSer: publicInput.serialize(),
     },
   };
 }
@@ -95,27 +103,25 @@ export async function proveMembership(
 export async function verifyMembership(
   args: VerifyArgs,
   handlers: PrfsHandlers,
-  wtnsGen: Uint8Array,
   circuit: Uint8Array
 ) {
-  const { inputs } = args;
-  const { proof, publicInputSer } = inputs;
+  const { proveResult } = args;
+  const { proof, publicInputSer } = proveResult;
 
-  const publicInput = deserializePublicInput(publicInputSer);
+  const publicInput = MembershipProofPublicInput.deserialize(publicInputSer);
   const isPubInputValid = verifyEffEcdsaPubInput(publicInput as MembershipProofPublicInput);
 
   let isProofValid;
-  isProofValid = await handlers.verify(circuit, proof, publicInput.circuitPubInput.serialize());
-  isProofValid = false;
+  try {
+    isProofValid = await handlers.verify(circuit, proof, publicInput.circuitPubInput.serialize());
+  } catch (err) {
+    throw new Error(`Error calling verify(), err: ${err}`);
+  }
 
   return isProofValid && isPubInputValid;
 }
 
 export interface MembershipProveInputs {
-  sigData: {
-    msgRaw: string;
-    msgHash: Buffer;
-    sig: string;
-  };
+  sigData: SigData;
   merkleProof: SpartanMerkleProof;
 }

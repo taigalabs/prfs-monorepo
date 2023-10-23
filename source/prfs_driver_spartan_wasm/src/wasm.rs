@@ -8,24 +8,6 @@ use web_sys::console;
 #[cfg(feature = "multicore")]
 pub use wasm_bindgen_rayon::init_thread_pool;
 
-// #[wasm_bindgen]
-// extern "C" {
-//     // Use `js_namespace` here to bind `console.log(..)` instead of just
-//     // `log(..)`
-//     #[wasm_bindgen(js_namespace = console)]
-//     fn log(s: &str);
-
-//     // The `console.log` is quite polymorphic, so we can bind it with multiple
-//     // signatures. Note that we need to use `js_name` to ensure we always call
-//     // `log` in JS.
-//     #[wasm_bindgen(js_namespace = console, js_name = log)]
-//     fn log_u32(a: u32);
-
-//     // Multiple arguments too!
-//     #[wasm_bindgen(js_namespace = console, js_name = log)]
-//     fn log_many(a: &str, b: &str);
-// }
-
 #[wasm_bindgen]
 pub fn init_panic_hook() {
     console_error_panic_hook::set_once();
@@ -43,9 +25,9 @@ pub fn get_build_status() -> Result<String, JsValue> {
 pub fn prove(circuit: &[u8], vars: &[u8], public_inputs: &[u8]) -> Result<Vec<u8>, JsValue> {
     // log(&format!("prove() public_inputs: {:?}", public_inputs));
 
-    return match api::prove(circuit, vars, public_inputs) {
+    return match api::prove2(circuit, vars, public_inputs) {
         Ok(p) => Ok(p),
-        Err(err) => Err(JsValue::from_str(&err.to_string())),
+        Err(err) => Err(err),
     };
 }
 

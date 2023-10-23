@@ -151,14 +151,14 @@ impl R1CSProof {
     transcript: &mut Transcript,
     random_tape: &mut RandomTape,
   ) -> Result<(R1CSProof, Vec<Scalar>, Vec<Scalar>), SpartanSecqError> {
-    console::log_1(&format!("secq: r1cs proof").into());
+    // console::log_1(&format!("secq: r1cs proof").into());
 
     let timer_prove = Timer::new("R1CSProof::prove");
     transcript.append_protocol_name(R1CSProof::protocol_name());
 
     // we currently require the number of |inputs| + 1 to be at most number of vars
     if !(input.len() < vars.len()) {
-      console::log_1(&format!("secq: iput should be shorter than vars").into());
+      // console::log_1(&format!("secq: iput should be shorter than vars").into());
 
       return Err("input should be shorter than vars".into());
     }
@@ -171,11 +171,11 @@ impl R1CSProof {
       let poly_vars = DensePolynomial::new(vars.clone());
 
       // produce a commitment to the satisfying assignment
-      console::log_1(&format!("secq: start poly commit").into());
+      // console::log_1(&format!("secq: start poly commit").into());
       let (comm_vars, blinds_vars) = match poly_vars.commit(&gens.gens_pc, Some(random_tape)) {
         Ok(r) => r,
         Err(err) => {
-          console::log_1(&format!("secq: Error poly committing, err: {}", err).into());
+          // console::log_1(&format!("secq: Error poly committing, err: {}", err).into());
 
           return Err(err);
         }
@@ -187,7 +187,7 @@ impl R1CSProof {
     };
     timer_commit.stop();
 
-    console::log_1(&format!("secq: Done poly commit").into());
+    // console::log_1(&format!("secq: Done poly commit").into());
 
     let timer_sc_proof_phase1 = Timer::new("prove_sc_phase_one");
 
@@ -348,7 +348,7 @@ impl R1CSProof {
     );
     timer_polyeval.stop();
 
-    console::log_1(&format!("secq: poly eval complete").into());
+    // console::log_1(&format!("secq: poly eval complete").into());
 
     // prove the final step of sum-check #2
     let blind_eval_Z_at_ry = (Scalar::one() - ry[0]) * blind_eval;

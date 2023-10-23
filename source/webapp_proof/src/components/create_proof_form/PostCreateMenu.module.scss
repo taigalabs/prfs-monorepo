@@ -37,6 +37,10 @@
     padding-left: 18px;
     padding-right: 18px;
   }
+
+  .proofTypeLabel {
+    margin-left: 5px;
+  }
 }
 
 .uploadSection {
@@ -51,22 +55,56 @@
   margin-top: 28px;
 
   li:not(:first-child) {
-    margin-left: 5px;
+    margin-left: 12px;
   }
 
   button {
     height: 36px;
     padding: 0 20px;
-    font-weight: 500;
   }
+}
 
-  .verifyBtn {
-    border: 1px solid var(--bright-gray-30);
-    border-radius: 5px;
-    color: var(--gray-50);
+.verifyBtn {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  /* font-size: 13px; */
+  align-items: center;
+  cursor: pointer;
+  border-radius: 5px;
+  color: var(--black-20);
+
+  svg {
+    transition: all 0.25s ease-out;
+  }
+}
+
+.isVerifyOpen {
+  > svg {
+    transform: rotate(180deg);
   }
 }
 
 .footer {
-  margin-top: 12px;
+  margin-top: 26px;
+  /* border-top: 1px solid var(--bright-gray-30); */
+  padding-top: 14px;
+}
+
+.verifyProofFormRow {
+  border-top: 1px solid var(--bright-gray-30);
+  border-bottom: 1px solid var(--bright-gray-30);
+  margin: 38px 0;
+  padding: 14px;
+
+  &.isVerifyOpen {
+    height: auto;
+  }
+
+  .titleRow {
+  }
+}
+
+.verifyFormWrapper {
+  /* margin-top: 22px; */
 }

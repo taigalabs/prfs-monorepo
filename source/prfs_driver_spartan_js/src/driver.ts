@@ -76,9 +76,6 @@ export default class SpartanDriver implements CircuitDriver {
 
   async prove(args: ProveArgs<any>): Promise<ProveReceipt> {
     try {
-      // const { inputs, circuitType, eventListener } = args;
-      console.log(11, args.circuitTypeId);
-
       switch (args.circuitTypeId) {
         case "SIMPLE_HASH_1": {
           const { proveSimpleHash } = await import("./provers/simple_hash/simple_hash");
@@ -102,18 +99,18 @@ export default class SpartanDriver implements CircuitDriver {
 
   async verify(args: VerifyArgs): Promise<boolean> {
     try {
-      console.log(11, args.circuitTypeId);
-
       switch (args.circuitTypeId) {
         case "SIMPLE_HASH_1": {
-          return Promise.reject(1);
+          const { verifyMembership } = await import("./provers/simple_hash/simple_hash");
+
+          return verifyMembership(args, this.handlers, this.circuit);
         }
         case "MEMBERSHIP_PROOF_1": {
           const { verifyMembership } = await import(
             "./provers/membership_proof/membership_proof_1"
           );
 
-          return verifyMembership(args, this.handlers, this.wtnsGen, this.circuit);
+          return verifyMembership(args, this.handlers, this.circuit);
         }
         default:
           throw new Error(`Unknown circuit type: ${args.circuitTypeId}`);

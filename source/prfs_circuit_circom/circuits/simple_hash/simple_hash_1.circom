@@ -9,30 +9,17 @@ include "../eff_ecdsa_membership/secp256k1_func.circom";
 include "../poseidon/poseidon.circom";
 
 template SimpleHash1() {
-    signal input msgRaw;
+    signal input msgRawInt;
     signal input msgHash;
 
-    log("msgRaw", msgRaw);
+    log("msgRawInt", msgRawInt);
     log("msgHash", msgHash);
 
     component poseidon = Poseidon();
-    poseidon.inputs[0] <== msgRaw;
+    poseidon.inputs[0] <== msgRawInt;
     poseidon.inputs[1] <== 0;
 
     log("pos out", poseidon.out);
 
     poseidon.out === msgHash;
-
-    /* component merkleProof = MerkleTreeInclusionProof(nLevels); */
-    /* merkleProof.leaf <== pubToAddr.address; */
-
-    /* for (var i = 0; i < nLevels; i++) { */
-    /*     merkleProof.pathIndices[i] <== pathIndices[i]; */
-    /*     merkleProof.siblings[i] <== siblings[i]; */
-    /* } */
-
-    /* // log("root (given)", root);  */
-    /* // log("merkleProof root", merkleProof.root); */
-
-    /* root === merkleProof.root; */
 }

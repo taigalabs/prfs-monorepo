@@ -1,31 +1,56 @@
 import { ec as EC } from "elliptic";
 import BN from "bn.js";
+import JSONBig from "json-bigint";
+import { bufferToHex, toBuffer } from "@ethereumjs/util";
+import { BufferHex } from "@taigalabs/prfs-driver-interface";
 
 import { bytesToBigInt, bigIntToBytes } from "@/utils/utils";
 import { EffECDSAPubInput } from "@/types";
 import { SECP256K1_N } from "@/math/secp256k1";
 
 const ec = new EC("secp256k1");
+const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
 
 export class MembershipProofPublicInput {
   r: bigint;
   rV: bigint;
   msgRaw: string;
-  msgHash: Buffer;
+  msgHash: BufferHex;
   circuitPubInput: MembershipProofCircuitPubInput;
 
   constructor(
     r: bigint,
-    v: bigint,
+    rV: bigint,
     msgRaw: string,
-    msgHash: Buffer,
+    msgHash: BufferHex,
     circuitPubInput: MembershipProofCircuitPubInput
   ) {
     this.r = r;
-    this.rV = v;
+    this.rV = rV;
     this.msgRaw = msgRaw;
     this.msgHash = msgHash;
     this.circuitPubInput = circuitPubInput;
+  }
+
+  serialize(): string {
+    return JSONbigNative.stringify(this);
+  }
+
+  static deserialize(publicInputSer: string): MembershipProofPublicInput {
+    const obj = JSONbigNative.parse(publicInputSer) as MembershipProofPublicInput;
+
+    const circuitPubInputObj = obj.circuitPubInput;
+
+    const circuitPubInput = new MembershipProofCircuitPubInput(
+      circuitPubInputObj.merkleRoot,
+      circuitPubInputObj.Tx,
+      circuitPubInputObj.Ty,
+      circuitPubInputObj.Ux,
+      circuitPubInputObj.Uy,
+      circuitPubInputObj.serialNo
+    );
+
+    return new MembershipProofPublicInput(obj.r, obj.rV, obj.msgRaw, obj.msgHash, circuitPubInput);
   }
 }
 
@@ -67,9 +92,7 @@ export class MembershipProofCircuitPubInput {
       serialized.set(bigIntToBytes(elems[5], 32), 160);
       return serialized;
     } catch (err) {
-      console.error(err);
-
-      throw err;
+      throw new Error(`Cannot serialize circuit pub input, err: ${err}`);
     }
   }
 
@@ -84,9 +107,7 @@ export class MembershipProofCircuitPubInput {
 
       return new MembershipProofCircuitPubInput(merkleRoot, Tx, Ty, Ux, Uy, serialNo);
     } catch (err) {
-      console.error(err);
-
-      throw err;
+      throw new Error(`Cannot deserialize circuit pub input, err: ${err}`);
     }
   }
 }
@@ -100,17 +121,35 @@ export const computeEffEcdsaPubInput = (
   v: bigint,
   msgHash: Buffer
 ): EffECDSAPubInput => {
-  const isYOdd = (v - BigInt(27)) % BigInt(2);
-  const rPoint = ec.keyFromPublic(
-    ec.curve.pointFromX(new BN(r as any), isYOdd).encode("hex"),
-    "hex"
-  );
+  let isYOdd: bigint;
+  try {
+    isYOdd = (v - BigInt(27)) % BigInt(2);
+  } catch (err) {
+    throw new Error(`Couldn't decide if Y is odd, err: ${err}`);
+  }
+
+  let rPoint: EC.KeyPair;
+  try {
+    rPoint = ec.keyFromPublic(ec.curve.pointFromX(new BN(r as any), isYOdd).encode("hex"), "hex");
+  } catch (err) {
+    throw new Error(`Couldn't derive keypair, err: ${err}`);
+  }
 
   // Get the group element: -(m * r^−1 * G)
-  const rInv = new BN(r as any).invm(SECP256K1_N);
+  let rInv: BN;
+  try {
+    rInv = new BN(r as any).invm(SECP256K1_N);
+  } catch (err) {
+    throw new Error(`Couldnt make rInv, err: ${err}`);
+  }
 
   // w = -(r^-1 * msg)
-  const w = rInv.mul(new BN(msgHash)).neg().umod(SECP256K1_N);
+  let w: BN;
+  try {
+    w = rInv.mul(new BN(msgHash)).neg().umod(SECP256K1_N);
+  } catch (err) {
+    throw new Error(`Couldnt make w, err: ${err}`);
+  }
 
   // U = -(w * G) = -(r^-1 * msg * G)
   const U = ec.curve.g.mul(w);
@@ -127,7 +166,11 @@ export const computeEffEcdsaPubInput = (
 };
 
 export const verifyEffEcdsaPubInput = (pubInput: MembershipProofPublicInput): boolean => {
-  const expectedCircuitInput = computeEffEcdsaPubInput(pubInput.r, pubInput.rV, pubInput.msgHash);
+  const expectedCircuitInput = computeEffEcdsaPubInput(
+    pubInput.r,
+    pubInput.rV,
+    toBuffer(pubInput.msgHash)
+  );
 
   const circuitPubInput = pubInput.circuitPubInput;
 

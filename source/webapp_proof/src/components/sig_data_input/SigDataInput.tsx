@@ -2,12 +2,13 @@ import React from "react";
 import cn from "classnames";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { FaSignature } from "@react-icons/all-files/fa/FaSignature";
-import { hashPersonalMessage } from "@ethereumjs/util";
+import { bufferToHex, hashPersonalMessage, toBuffer } from "@ethereumjs/util";
 import { useSignMessage } from "wagmi";
 
 import styles from "./SigDataInput.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { FormInput, FormInputTitleRow } from "../form_input/FormInput";
+import { FormInput, FormInputTitleRow, InputWrapper } from "@/components/form_input/FormInput";
+import { BufferHex, SigData } from "@taigalabs/prfs-driver-interface";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -29,7 +30,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
     (ev: React.ChangeEvent<HTMLInputElement>) => {
       if (value) {
         value.sig = "";
-        value.msgHash = Buffer.from("");
+        value.msgHash = "0x0";
       }
 
       const newVal = ev.target.value;
@@ -55,13 +56,15 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
       const msgHash = hashPersonalMessage(Buffer.from(msgRaw));
       const sig = await signMessageAsync({ message: msgRaw });
 
+      const newValue: SigData = {
+        msgRaw,
+        msgHash: bufferToHex(msgHash) as BufferHex,
+        sig,
+      };
+
       setFormValues(oldVals => ({
         ...oldVals,
-        [circuitInput.name]: {
-          msgRaw,
-          msgHash,
-          sig,
-        },
+        [circuitInput.name]: newValue,
       }));
     }
   }, [value, setFormValues, signMessageAsync]);
@@ -71,7 +74,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
       <FormInputTitleRow>
         <p>{circuitInput.label}</p>
       </FormInputTitleRow>
-      <div className={styles.inputWrapper}>
+      <InputWrapper>
         <div className={styles.interactiveArea}>
           <input
             placeholder={circuitInput.desc}
@@ -85,18 +88,12 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
           </div>
         </div>
         {value?.sig && <ComputedValue value={value} />}
-      </div>
+      </InputWrapper>
     </FormInput>
   );
 };
 
 export default SigDataInput;
-
-export interface SigData {
-  msgRaw: string;
-  msgHash: Buffer;
-  sig: string;
-}
 
 export interface SigDataInputProps {
   circuitInput: CircuitInput;

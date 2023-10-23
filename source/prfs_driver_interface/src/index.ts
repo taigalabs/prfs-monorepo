@@ -1,4 +1,4 @@
-export type * from "./types";
+export * from "./types";
 
 export interface CircuitDriverGen {
   newInstance(driverProps: any): Promise<CircuitDriver>;
@@ -19,7 +19,7 @@ export interface ProveArgs<T> {
 }
 
 export interface VerifyArgs {
-  inputs: {
+  proveResult: {
     proof: Uint8Array;
     publicInputSer: string;
   };
@@ -34,6 +34,11 @@ export interface ProveResult {
 export interface ProveReceipt {
   proveResult: ProveResult;
   duration: number;
+}
+
+export interface VerifyReceipt {
+  verifyResult: boolean;
+  error?: string;
 }
 
 export type LogEventType = "debug" | "info";

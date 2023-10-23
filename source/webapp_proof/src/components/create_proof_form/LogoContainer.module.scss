@@ -1,9 +1,18 @@
 .wrapper {
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
   margin-bottom: 24px;
+  height: 28vh;
+  max-height: 280px;
+
+  > div {
+    margin-top: auto;
+  }
 }
 
-.small {
-  margin-bottom: 20px;
+.proofTypeChosen {
+  margin-bottom: 14px;
+  max-height: 160px;
 }

@@ -1,18 +1,14 @@
-"use client";
-
 import "@taigalabs/prfs-react-components/src/react_components.scss";
 import "./globals.scss";
 
 import React from "react";
-import { ThirdwebProvider } from "@thirdweb-dev/react";
-import { Provider as StateProvider } from "react-redux";
-import { PrfsReactComponentsI18NProvider } from "@taigalabs/prfs-react-components/src/contexts/i18nContext";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Metadata } from "next";
+import TopProvider from "./TopProvider";
 
-import { I18nProvider } from "@/contexts/i18n";
-import { store } from "@/state/store";
-
-const queryClient = new QueryClient();
+export const metadata: Metadata = {
+  title: "Prfs Console",
+  description: "Where proofs are made",
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -31,22 +27,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body suppressHydrationWarning={true}>
-        <ParentProvider>{children}</ParentProvider>
+        <TopProvider>{children}</TopProvider>
       </body>
     </html>
   );
 }
-
-const ParentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <ThirdwebProvider activeChain="ethereum">
-        <StateProvider store={store}>
-          <PrfsReactComponentsI18NProvider>
-            <I18nProvider>{children}</I18nProvider>
-          </PrfsReactComponentsI18NProvider>
-        </StateProvider>
-      </ThirdwebProvider>
-    </QueryClientProvider>
-  );
-};

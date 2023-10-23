@@ -17,22 +17,33 @@
   overflow: hidden;
 }
 
-.createProofBtn {
-  margin-top: 26px;
+.btnRow {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 28px;
+
+  .spinnerWrapper {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40px;
+  }
 
   button {
     font-weight: 500;
     height: 38px;
-    width: 100%;
   }
 }
 
 .footer {
   display: flex;
   flex-direction: column;
-  margin-top: 16px;
+  margin-top: 20px;
   width: 100%;
-  color: var(--gray-20);
+  color: var(--gray-30);
   font-size: 12px;
 
   /* border: 1px solid red; */
@@ -44,4 +55,8 @@
   .terminalLogContainer {
     text-align: center;
   }
+}
+
+.inProgress {
+  background-color: var(--blue-10);
 }

@@ -1,9 +1,15 @@
 .container {
   display: flex;
-  padding: 102px 0 82px;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
+
+  /* border: 1px solid blue; */
 }
+
+/* .inner { */
+/*   margin-bottom: 0px; */
+/* } */
 
 .logoContainer {
   display: flex;

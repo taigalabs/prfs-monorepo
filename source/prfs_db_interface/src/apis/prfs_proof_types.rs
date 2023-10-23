@@ -35,10 +35,26 @@ pub async fn get_prfs_proof_type_by_proof_type_id(
     return ret;
 }
 
-pub async fn get_prfs_proof_types(pool: &Pool<Postgres>) -> Vec<PrfsProofType> {
-    let query = "SELECT * from prfs_proof_types";
+pub async fn get_prfs_proof_types(
+    pool: &Pool<Postgres>,
+    page_idx: i32,
+    page_size: i32,
+) -> Vec<PrfsProofType> {
+    let offset = page_idx * page_size;
 
-    let rows = sqlx::query(query).fetch_all(pool).await.unwrap();
+    let query = r#"
+SELECT * FROM prfs_proof_types
+ORDER BY updated_at
+LIMIT $1
+OFFSET $2
+"#;
+
+    let rows = sqlx::query(query)
+        .bind(&page_size)
+        .bind(&offset)
+        .fetch_all(pool)
+        .await
+        .unwrap();
 
     let prfs_proof_types: Vec<PrfsProofType> = rows
         .iter()

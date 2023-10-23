@@ -3,16 +3,19 @@ import BN from "bn.js";
 import JSONBig from "json-bigint";
 
 import { bytesToBigInt, bigIntToBytes } from "@/utils/utils";
-import { EffECDSAPubInput } from "@/types";
 import { SECP256K1_N } from "@/math/secp256k1";
 
 const ec = new EC("secp256k1");
-const JSONbigNative = JSONBig({ useNativeBigInt: true });
+const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
 
 export class SimpleHashPublicInput {
+  // msgRaw: string;
+  // msgRawInt: bigint;
   circuitPubInput: SimpleHashCircuitPubInput;
 
   constructor(circuitPubInput: SimpleHashCircuitPubInput) {
+    // this.msgRaw = msgRaw;
+    // this.msgRawInt = msgRawInt;
     this.circuitPubInput = circuitPubInput;
   }
 
@@ -21,9 +24,13 @@ export class SimpleHashPublicInput {
   }
 
   static deserialize(publicInputSer: string): SimpleHashPublicInput {
-    const obj = JSONbigNative.parse(publicInputSer);
+    const obj = JSONbigNative.parse(publicInputSer) as SimpleHashPublicInput;
 
-    return obj as SimpleHashPublicInput;
+    const circuitPubInputObj = obj.circuitPubInput;
+
+    const circuitPubInput = new SimpleHashCircuitPubInput(circuitPubInputObj.msgHash);
+
+    return new SimpleHashPublicInput(circuitPubInput);
   }
 }
 

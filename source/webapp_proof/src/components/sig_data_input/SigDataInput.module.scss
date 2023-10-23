@@ -1,42 +1,9 @@
-.inputWrapper {
-  position: relative;
+.interactiveArea {
   display: flex;
-  flex-direction: column;
-  border: 1px solid var(--gray-70);
-  border-radius: 3px;
-
-  .interactiveArea {
-    display: flex;
-    align-items: center;
-  }
-
-  input {
-    /* color: var(--gray-50); */
-    height: 40px;
-    font-size: 14px;
-    width: 100%;
-    padding-left: 7px;
-    padding-right: 40px;
-    outline: none;
-
-    &:focus {
-      border: 1px solid var(--blue-50-alpha50);
-      box-shadow: rgba(0, 0, 0, 0.03) 0px 1px 1px 0px, rgba(0, 0, 0, 0.02) 0px 3px 6px 0px,
-        rgba(5, 115, 225, 0.25) 0px 0px 0px 3px, rgba(0, 0, 0, 0.08) 0px 1px 1px 0px;
-    }
-  }
-
-  button {
-    cursor: pointer;
-    color: var(--aqua-blue-50);
-  }
-}
-
-.btnGroup {
-  display: flex;
-  position: absolute;
-  right: 7px;
   align-items: center;
+  position: relative;
+  height: 40px;
+  width: 100%;
 }
 
 .computedValue {
@@ -44,4 +11,16 @@
   border-top: 1px solid var(--bright-gray-30);
   color: var(--gray-50);
   font-size: 0.91em;
+}
+
+.btnGroup {
+  align-items: center;
+  display: flex;
+  position: absolute;
+  right: 7px;
+
+  button {
+    cursor: pointer;
+    color: var(--blue-30);
+  }
 }

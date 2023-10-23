@@ -23,7 +23,7 @@ import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import styles from "./MerkleProofInput.module.scss";
 import MerkleProofRawModal from "./MerkleProofRawModal";
 import { i18nContext } from "@/contexts/i18n";
-import { FormInput, FormInputTitleRow } from "../form_input/FormInput";
+import { FormInput, FormInputTitleRow, InputWrapper } from "../form_input/FormInput";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
@@ -262,7 +262,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
             </FloatingPortal>
           </div>
         </FormInputTitleRow>
-        <div className={styles.inputWrapper}>
+        <InputWrapper>
           <div className={styles.interactiveArea}>
             <input placeholder={`${circuitInput.desc}`} value={walletAddr} readOnly />
             <div className={styles.btnGroup}>
@@ -270,7 +270,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
             </div>
           </div>
           {value && <ComputedValue value={value} />}
-        </div>
+        </InputWrapper>
       </FormInput>
     )
   );

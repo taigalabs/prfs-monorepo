@@ -1,4 +1,4 @@
-import { LogEventType, ProveReceipt } from "@taigalabs/prfs-driver-interface";
+import { LogEventType, ProveReceipt, VerifyReceipt } from "@taigalabs/prfs-driver-interface";
 
 export type MsgType =
   | "HANDSHAKE"
@@ -11,6 +11,8 @@ export type MsgType =
   | "GET_SIGNATURE_RESPONSE"
   | "CREATE_PROOF"
   | "CREATE_PROOF_RESPONSE"
+  | "VERIFY_PROOF"
+  | "VERIFY_PROOF_RESPONSE"
   | "PROOF_GEN_EVENT"
   | "PROOF_GEN_EVENT_RESPONSE"
   | "HASH"
@@ -32,6 +34,11 @@ export interface LoadDriverPayload {
 
 export interface CreateProofPayload {
   inputs: any;
+  circuitTypeId: string;
+}
+
+export interface VerifyProofPayload {
+  proveResult: any;
   circuitTypeId: string;
 }
 
@@ -79,6 +86,10 @@ export type ReqPayload<T extends MsgType> = //
     ? HashPayload
     : T extends "HASH_RESPONSE"
     ? HashResponsePayload
+    : T extends "VERIFY_PROOF"
+    ? VerifyProofPayload
+    : T extends "VERIFY_PROOF_RESPONSE"
+    ? VerifyReceipt
     : never;
 
 export type RespPayload<T extends MsgType> = //
@@ -108,4 +119,8 @@ export type RespPayload<T extends MsgType> = //
     ? never
     : T extends "HASH"
     ? HashResponsePayload
+    : T extends "VERIFY_PROOF"
+    ? VerifyReceipt
+    : T extends "VERIFY_PROOF_RESPONSE"
+    ? void
     : never;

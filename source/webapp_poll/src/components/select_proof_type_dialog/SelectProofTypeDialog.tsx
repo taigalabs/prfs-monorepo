@@ -17,7 +17,7 @@ import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import styles from "./SelectProofTypeDialog.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import ProofTypeTable from "./ProofTypeTable";
-import { ProofTypeItem } from "../create_proof_form/CreateProofForm";
+import { ProofTypeItem } from "@/components/create_proof_form/CreateProofForm";
 import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
 
 const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSelectProofType }) => {

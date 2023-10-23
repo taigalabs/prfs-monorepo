@@ -1,9 +1,9 @@
-import { ProveArgs, ProveReceipt } from "@taigalabs/prfs-driver-interface";
+import { ProveArgs, ProveReceipt, VerifyArgs } from "@taigalabs/prfs-driver-interface";
+import { BN } from "bn.js";
 
 import { PrfsHandlers } from "@/types";
 import { makePoseidon } from "@/utils/poseidon";
 import { bigIntToBytes, snarkJsWitnessGen } from "@/utils/utils";
-import { BN } from "bn.js";
 import { SimpleHashCircuitPubInput, SimpleHashPublicInput } from "./public_input";
 
 export async function proveSimpleHash(
@@ -13,17 +13,14 @@ export async function proveSimpleHash(
   circuit: Uint8Array
 ): Promise<ProveReceipt> {
   const { inputs, eventListener } = args;
-
   const { hashData } = inputs;
-  const { msgRaw, msgHash } = hashData;
-  console.log("hashData: %o", inputs);
+  const { msgRaw, msgRawInt, msgHash } = hashData;
 
   const circuitPubInput = new SimpleHashCircuitPubInput(msgHash);
-
   const publicInput = new SimpleHashPublicInput(circuitPubInput);
 
   const witnessGenInput = {
-    msgRaw,
+    msgRawInt,
     msgHash,
   };
 
@@ -47,9 +44,35 @@ export async function proveSimpleHash(
   };
 }
 
+export async function verifyMembership(
+  args: VerifyArgs,
+  handlers: PrfsHandlers,
+  circuit: Uint8Array
+) {
+  const { proveResult } = args;
+  const { proof, publicInputSer } = proveResult;
+
+  let publicInput;
+  try {
+    publicInput = SimpleHashPublicInput.deserialize(publicInputSer);
+  } catch (err) {
+    throw new Error(`Error deserializing public input, err: ${err}`);
+  }
+
+  let isProofValid;
+  try {
+    isProofValid = await handlers.verify(circuit, proof, publicInput.circuitPubInput.serialize());
+  } catch (err) {
+    throw new Error(`Error verifying, err: ${err}`);
+  }
+
+  return isProofValid;
+}
+
 export interface SimpleHashProveArgs {
   hashData: {
-    msgRaw: bigint;
+    msgRaw: string;
+    msgRawInt: bigint;
     msgHash: bigint;
   };
 }
