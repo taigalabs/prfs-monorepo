@@ -29,6 +29,7 @@ import TutorialStepper from "@/components/tutorial/TutorialStepper";
 const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
+  const [consoleUrl, setConsoleUrl] = React.useState("");
 
   const { mutateAsync: getPrfsProofInstanceByInstanceIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofInstanceByInstanceIdRequest) => {
@@ -46,13 +47,16 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
         });
 
         setProofInstance(payload.prfs_proof_instance_syn1);
+
+        const url = `${process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/proof_instances/${proof_instance_id}`;
+        setConsoleUrl(url);
       } catch (err) {
         console.error("Proof instance is not found, invalid access");
       }
     }
 
     fn().then();
-  }, [setProofInstance, getPrfsProofInstanceByInstanceIdRequest]);
+  }, [setProofInstance, getPrfsProofInstanceByInstanceIdRequest, setConsoleUrl]);
 
   const headerLabel = `${i18n.proof_instance} ${params.proof_instance_id}`;
 
@@ -77,10 +81,12 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
                 <div className={styles.buttonRow}>
                   <ul>
                     <li>
-                      <Button variant="transparent_aqua_blue_1">
-                        <HiOutlineDesktopComputer />
-                        <span>{i18n.console.toUpperCase()}</span>
-                      </Button>
+                      <Link href={consoleUrl}>
+                        <Button variant="transparent_aqua_blue_1">
+                          <HiOutlineDesktopComputer />
+                          <span>{i18n.console.toUpperCase()}</span>
+                        </Button>
+                      </Link>
                     </li>
                   </ul>
                   <ul>
