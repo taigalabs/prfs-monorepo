@@ -58,6 +58,7 @@ export default {
   url_is_copied: "URL is copied",
   proof_type_id: "Proof type id",
   prev: "Prev",
+  finish: "Finish",
   next: "Next",
   create_and_share_proofs: "Create and share proofs",
   proof_label: "Proof label",

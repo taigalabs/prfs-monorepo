@@ -19,7 +19,7 @@ import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { goNextStep, goPrevStep, resetStep } from "@/state/tutorialReducer";
 import MarkdownWrapper from "./MarkdownWrapper";
 
-const STEP_COUNT = 9;
+const STEP_COUNT = 5;
 
 const Stage: React.FC<StageProps> = ({ step }) => {
   const i18n = React.useContext(i18nContext);
@@ -78,12 +78,16 @@ const Tutorial: React.FC<TutorialProps> = () => {
     dispatch(resetStep());
   }, [pathname, router, searchParams, dispatch]);
 
+  const isLastStep = step === STEP_COUNT;
+
   return (
     isTutorial &&
     step > 0 && (
       <div className={styles.wrapper}>
         <div className={styles.header}>
-          <p className={styles.progress}>({step} / 9)</p>
+          <p className={styles.progress}>
+            ({step} / {STEP_COUNT})
+          </p>
           <button>
             <AiOutlineClose onClick={handleClickClose} />
           </button>
@@ -99,9 +103,19 @@ const Tutorial: React.FC<TutorialProps> = () => {
           >
             {i18n.prev}
           </Button>
-          <Button variant="aqua_blue_1" handleClick={handleClickNext}>
-            {i18n.next}
-          </Button>
+          {isLastStep ? (
+            <Button
+              className={styles.finishBtn}
+              variant="transparent_aqua_blue_1"
+              handleClick={handleClickClose}
+            >
+              {i18n.finish}
+            </Button>
+          ) : (
+            <Button variant="aqua_blue_1" handleClick={handleClickNext}>
+              {i18n.next}
+            </Button>
+          )}
         </div>
       </div>
     )
