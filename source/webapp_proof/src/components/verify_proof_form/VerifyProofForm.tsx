@@ -160,7 +160,9 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
             <p>{circuitDriverId}</p>
           </div>
           <div className={styles.btnRow}>
-            <VerifyButton verifiedStatus={verifiedStatus} handleClick={handleClickVerify} />
+            <TutorialStepper steps={[3]}>
+              <VerifyButton verifiedStatus={verifiedStatus} handleClick={handleClickVerify} />
+            </TutorialStepper>
           </div>
         </Fade>
       )}
