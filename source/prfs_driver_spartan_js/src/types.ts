@@ -78,7 +78,8 @@ export interface SpartanDriverCtorArgs {
 }
 
 export interface SpartanCircomDriverProperties {
-  instance_path: string;
+  // instance_path: string;
+  version: string;
   wtns_gen_url: string;
   circuit_url: string;
 }

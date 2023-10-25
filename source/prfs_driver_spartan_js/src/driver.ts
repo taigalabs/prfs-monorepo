@@ -29,9 +29,17 @@ export default class SpartanDriver implements CircuitDriver {
     try {
       prfsHandlers = await initWasm();
 
+      const { circuit_url, wtns_gen_url, version } = driverProps;
+
       const ts = Date.now();
-      const circuit = await fetchAsset(`${driverProps.circuit_url}?version=${ts}`);
-      const wtnsGen = await fetchAsset(`${driverProps.wtns_gen_url}?version=${ts}`);
+
+      let vs: string = ts.toString();
+      if (version) {
+        vs = version;
+      }
+
+      const circuit = await fetchAsset(`${circuit_url}?version=${vs}`);
+      const wtnsGen = await fetchAsset(`${wtns_gen_url}?version=${vs}`);
 
       const args: SpartanDriverCtorArgs = {
         handlers: prfsHandlers,
