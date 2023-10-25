@@ -28,13 +28,14 @@ function createEnvs() {
 
   const env_dev: Envs = {
     NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: "http://localhost:4000",
-    NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "http://localhost:4010",
+    // NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "http://localhost:4010",
+    NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "https://prfs-asset-2.s3.ap-northeast-2.amazonaws.com",
     NEXT_PUBLIC_PRFS_SDK_VERSION: "0.1.0",
   };
 
   const env_prod: Envs = {
     NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: "https://api.prfs.xyz",
-    NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "https://asset.prfs.xyz",
+    NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "https://prfs-asset-2.s3.ap-northeast-2.amazonaws.com",
     NEXT_PUBLIC_PRFS_SDK_VERSION: "0.1.0",
   };
 

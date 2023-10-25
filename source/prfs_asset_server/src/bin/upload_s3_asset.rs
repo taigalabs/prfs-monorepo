@@ -8,7 +8,6 @@ use aws_sdk_s3::{
 use colored::Colorize;
 use dotenvy::dotenv;
 use prfs_asset_server::{envs::ENVS, local, paths::PATHS};
-use std::path::Path;
 use walkdir::WalkDir;
 
 const PRFS_BUCKET: &str = "prfs-asset-2";
@@ -31,10 +30,7 @@ async fn main() -> Result<(), aws_sdk_s3::Error> {
     let client = Client::new(&config);
 
     load_buckets(&client).await?;
-
     put_objects(&client).await?;
-
-    // uplaod_object(&client, PRFS_BUCKET, "foo").await?;
 
     Ok(())
 }
