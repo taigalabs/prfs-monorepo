@@ -18,6 +18,8 @@ use std::{
 // use super::json::DynamicSetJson;
 
 pub fn load_circuits() -> HashMap<String, PrfsCircuit> {
+    println!("\n{} circuits", "Loading".green());
+
     let build_list_json = prfs_circuit_circom::access::read_circuit_artifacts();
     let build_path = prfs_circuit_circom::access::get_build_fs_path();
 
