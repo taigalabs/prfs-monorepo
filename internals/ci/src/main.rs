@@ -34,6 +34,8 @@ fn main() {
         .subcommand(command!("dev_api_server"))
         .subcommand(command!("seed_api_server"))
         // prod mode
+        .subcommand(command!("start_api_server").arg(Arg::new("extra_args")))
+        .subcommand(command!("start_asset_server").arg(Arg::new("extra_args")))
         .subcommand(command!("start_webapp_console").arg(Arg::new("extra_args")))
         .subcommand(command!("start_webapp_proof").arg(Arg::new("extra_args")))
         .subcommand(command!("start_webapp_poll").arg(Arg::new("extra_args")))
@@ -92,6 +94,12 @@ fn main() {
             cmds::dev_docs_website::run(sub_matches);
         }
         // prod mode
+        Some(("start_api_server", sub_matches)) => {
+            cmds::start_api_server::run(sub_matches);
+        }
+        Some(("start_asset_server", sub_matches)) => {
+            cmds::start_asset_server::run(sub_matches);
+        }
         Some(("start_sdk_web_module", sub_matches)) => {
             cmds::start_sdk_web_module::run(sub_matches);
         }

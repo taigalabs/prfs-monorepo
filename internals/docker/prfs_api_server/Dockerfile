@@ -16,4 +16,4 @@ RUN apt-get -qq install nodejs --yes
 # libssl
 RUN apt install libssl-dev
 
-CMD ["./ci", "dev_api_server"]
+CMD ["./ci", "start_api_server"]

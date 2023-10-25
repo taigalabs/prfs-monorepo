@@ -28,4 +28,4 @@ RUN ./ci build_circuits
 # libssl
 RUN apt install libssl-dev
 
-CMD ["./ci", "dev_asset_server"]
+CMD ["./ci", "start_asset_server"]
