@@ -49,7 +49,7 @@ fn main() {
         .subcommand(command!("docker_run_sdk_web_module").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_run_api_server").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_run_asset_server").arg(Arg::new("extra_args")))
-        .subcommand(command!("docker_compose_default").arg(Arg::new("extra_args")))
+        .subcommand(command!("docker_run_default").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_compose_down").arg(Arg::new("extra_args")))
         .get_matches();
 
@@ -137,8 +137,8 @@ fn main() {
         Some(("docker_run_asset_server", sub_matches)) => {
             cmds::docker_run_asset_server::run(sub_matches);
         }
-        Some(("docker_compose_default", sub_matches)) => {
-            cmds::docker_compose_default::run(sub_matches);
+        Some(("docker_run_default", sub_matches)) => {
+            cmds::docker_run_default::run(sub_matches);
         }
         Some(("docker_compose_down", sub_matches)) => {
             cmds::docker_compose_down::run(sub_matches);

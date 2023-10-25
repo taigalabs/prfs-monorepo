@@ -1,5 +1,6 @@
+mod utils;
+
 use crate::paths::PATHS;
-use crate::utils::copy_dir_all;
 use colored::Colorize;
 
 pub fn setup_local_assets() {
@@ -33,5 +34,5 @@ fn copy_circuits() {
         &PATHS.assets_circuits
     );
 
-    copy_dir_all(circuits_build_path, &PATHS.assets_circuits).unwrap();
+    utils::copy_dir_all(circuits_build_path, &PATHS.assets_circuits).unwrap();
 }

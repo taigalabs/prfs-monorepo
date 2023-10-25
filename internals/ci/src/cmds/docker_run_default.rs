@@ -26,6 +26,8 @@ fn run_docker(_extra_args: Vec<&str>) {
             "--detach",
             "--build",
             "--no-deps",
+            "prfs_api_server",
+            "prfs_sdk_web_module",
         ])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));
