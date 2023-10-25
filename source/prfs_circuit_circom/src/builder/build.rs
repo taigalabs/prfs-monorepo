@@ -1,6 +1,4 @@
-use crate::{
-    driver_id, paths::PATHS, CircuitBuildJson, CircuitBuildListJson, CircuitsJson, FileKind,
-};
+use crate::{driver_id, paths::PATHS, CircuitBuildListJson, CircuitsJson, FileKind};
 use colored::Colorize;
 use prfs_entities::entities::{PrfsCircuit, RawCircuitInputMeta};
 use std::{io::Write, path::PathBuf, process::Command};
@@ -16,7 +14,7 @@ pub fn run() {
     for mut circuit in &mut circuits {
         compile_circuits(&circuit);
         make_spartan(&mut circuit);
-        create_build_json(&mut circuit);
+        create_circuit_json(&mut circuit);
 
         circuit_list.push(circuit.circuit_id.to_string());
     }
@@ -132,7 +130,7 @@ fn compile_circuits(circuit: &PrfsCircuit) {
     };
 }
 
-fn create_build_json(circuit: &mut PrfsCircuit) {
+fn create_circuit_json(circuit: &mut PrfsCircuit) {
     let wtns_gen_path = get_path_segment(&circuit, FileKind::WtnsGen);
     let spartan_circuit_path = get_path_segment(&circuit, FileKind::Spartan);
 
@@ -142,22 +140,22 @@ fn create_build_json(circuit: &mut PrfsCircuit) {
     let circuit_url = circuit.driver_properties.get_mut("circuit_url").unwrap();
     *circuit_url = format!("prfs://{}", spartan_circuit_path);
 
-    let circuit_build_json = CircuitBuildJson {
-        circuit: circuit.clone(),
-    };
+    // let circuit_build_json = CircuitBuildJson {
+    //     circuit: circuit.clone(),
+    // };
 
-    let build_json_path = PATHS
+    let circuit_json_path = PATHS
         .build
-        .join(format!("{}/build.json", circuit.circuit_id));
-    let mut fd = std::fs::File::create(&build_json_path).unwrap();
-    let build_json_str = serde_json::to_string_pretty(&circuit_build_json).unwrap();
-    fd.write_all(&build_json_str.into_bytes()).unwrap();
+        .join(format!("{}/circuit.json", circuit.circuit_id));
+    let mut fd = std::fs::File::create(&circuit_json_path).unwrap();
+    let circuit_json_str = serde_json::to_string_pretty(&circuit).unwrap();
+    fd.write_all(&circuit_json_str.into_bytes()).unwrap();
 
     println!(
         "{} build.json, path: {:?}, build_json: {:#?}",
         "Created".green(),
-        build_json_path,
-        circuit_build_json,
+        circuit_json_path,
+        circuit,
     );
 }
 

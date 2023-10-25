@@ -1,6 +1,6 @@
 use crate::{paths::PATHS, seed::utils};
 use colored::Colorize;
-use prfs_circuit_circom::{CircuitBuildJson, CircuitBuildListJson};
+use prfs_circuit_circom::CircuitBuildListJson;
 use prfs_entities::{
     entities::{
         PrfsAccount, PrfsCircuit, PrfsCircuitDriver, PrfsCircuitInputType, PrfsCircuitType,
@@ -27,20 +27,18 @@ pub fn load_circuits() -> HashMap<String, PrfsCircuit> {
     let mut circuit_ids = HashSet::new();
 
     for circuit_name in build_list_json.circuits {
-        let circuit_build_json_path = build_path.join(format!("{}/{}", circuit_name, "build.json"));
+        let circuit_json_path = build_path.join(format!("{}/{}", circuit_name, "circuit.json"));
 
-        println!("Reading circuit, json_path: {:?}", circuit_build_json_path,);
+        println!("Reading circuit, json_path: {:?}", circuit_json_path,);
 
-        let json: CircuitBuildJson = utils::read_json(&circuit_build_json_path);
+        let circuit_json: PrfsCircuit = utils::read_json(&circuit_json_path);
 
-        if circuit_ids.contains(&json.circuit.circuit_id.to_string()) {
-            panic!("Duplicate circuit id, build_json: {:?}", json);
+        if circuit_ids.contains(&circuit_json.circuit_id.to_string()) {
+            panic!("Duplicate circuit id, circuit_json: {:?}", circuit_json);
         }
 
-        let c = json.circuit;
-
-        circuit_ids.insert(c.circuit_id.to_string());
-        circuits.insert(circuit_name, c.clone());
+        circuit_ids.insert(circuit_json.circuit_id.to_string());
+        circuits.insert(circuit_name, circuit_json.clone());
     }
 
     circuits
