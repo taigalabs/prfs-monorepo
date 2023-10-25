@@ -1,5 +1,3 @@
-use std::path::Path;
-
 use aws_config::meta::region::RegionProviderChain;
 use aws_sdk_s3::{
     error::SdkError,
@@ -9,9 +7,11 @@ use aws_sdk_s3::{
 };
 use colored::Colorize;
 use dotenvy::dotenv;
-use prfs_asset_server::{envs::ENVS, local};
+use prfs_asset_server::{envs::ENVS, local, paths::PATHS};
+use std::path::Path;
+use walkdir::WalkDir;
 
-const PRFS_BUCKET: &str = "prfs-asset-1";
+const PRFS_BUCKET: &str = "prfs-asset-2";
 
 #[tokio::main]
 async fn main() -> Result<(), aws_sdk_s3::Error> {
@@ -32,6 +32,10 @@ async fn main() -> Result<(), aws_sdk_s3::Error> {
 
     load_buckets(&client).await?;
 
+    put_objects(&client).await?;
+
+    // uplaod_object(&client, PRFS_BUCKET, "foo").await?;
+
     Ok(())
 }
 
@@ -49,13 +53,30 @@ async fn load_buckets(client: &Client) -> Result<(), aws_sdk_s3::Error> {
     Ok(())
 }
 
+async fn put_objects(client: &Client) -> Result<(), aws_sdk_s3::Error> {
+    let circuits_path = &PATHS.assets_circuits;
+
+    let list_json_path = circuits_path.join("list.json");
+
+    // upload_object(&client, PRFS_BUCKET, list_json_path, "list.json").await?;
+
+    for entry in WalkDir::new(circuits_path) {
+        let entry = entry.unwrap();
+
+        let proper_path = entry.path().strip_prefix(&PATHS.__).unwrap();
+        println!("proper_path: {:?}", proper_path);
+    }
+
+    Ok(())
+}
+
 async fn upload_object(
     client: &Client,
     bucket_name: &str,
-    file_name: &str,
+    file_path: impl AsRef<std::path::Path>,
     key: &str,
 ) -> Result<PutObjectOutput, SdkError<PutObjectError>> {
-    let body = ByteStream::from_path(Path::new(file_name)).await;
+    let body = ByteStream::from_path(file_path).await;
     client
         .put_object()
         .bucket(bucket_name)
