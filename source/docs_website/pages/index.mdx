@@ -1,12 +1,35 @@
 # Prfs
 
-Prfs is a software library and API enabling **creating and sharing** proofs in zero-knowledge.
+Prfs is a software-as-a-service enabling users and businesses to easily benefit from **client-side
+verifiable computing**.
 
-Zero-knowledge proofs, especially in a consumer grade machine, don't get created as fast as they
-could. Speed aside, it entails mathematical concepts that are not readily comprehensible.
+[Verifiable computing](/verifiable_computing) is a cryptographic method for an agent to argue that 
+she knows all the values to be calculated leading up to the solution of a **mathematical 
+function**. Values that are submitted as part of an argument are compressed and encrypted so that 
+verifiers **cannot obtain more knowledge** other than if the argument is valid.
 
-Prfs API abstracts away the **cryptographic inner workings** and are designed to be executed
-**reasonably fast** in the client side. In this documentation, we will walk you through the core
-concepts and functionalities Prfs provide.
+Depending on the choice of a *function*, it opens up a possibilitiy of some unseen behaviors of an 
+agent. Whether an individual or institution, an agent can say, for example,
 
-## Document in construction...
+- I know the password of an account (without revealing the password)
+- I processed a long sequence of data and the aggregated result is this. (computation
+outsouring)
+- I am someone in the qualified group (without revealing who exactly she is)
+
+Interesting as it seems, such mathematical proofs don't get created as fast as we imagine
+especially in a consumer grade machine, Speed aside, it entails mathematical concepts that are not 
+readily comprehensible.
+
+Prfs is designed to abstract away the **mathematical inner workings** of such a cryptographic
+primitive and runs **reasonably fast** in the client side. 
+
+In this documentation, we will walk you through the core concepts and functionalities Prfs provide.
+
+## Applications
+Prfs provides different applications to streamline 
+
+- Proof
+- Console
+
+### Prfs Proof
+

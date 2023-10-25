@@ -5,8 +5,8 @@
   "scripts": {
     "clean": "rimraf dist/",
     "create-envs": "ts-node createEnvs.ts",
-    "dev": "ts-node ./server/dev.server.ts",
-    "build": "webpack build && cp index.html dist/",
+    "dev": "pnpm run create-envs && ts-node ./server/dev.server.ts",
+    "build": "pnpm run create-envs --production && webpack build && cp index.html dist/",
     "start": "ts-node ./server/server.ts"
   },
   "dependencies": {

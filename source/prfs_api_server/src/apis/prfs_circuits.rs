@@ -3,7 +3,6 @@ use crate::{
     server::{request::parse_req, state::ServerState},
 };
 use hyper::{body, Body, Request, Response};
-use prfs_circuit_circom::CircuitBuildJson;
 use prfs_db_interface::db_apis;
 use prfs_entities::{
     apis_entities::{

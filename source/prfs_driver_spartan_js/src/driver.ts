@@ -7,7 +7,13 @@ import {
 
 import { Tree } from "./utils/tree";
 import { makePoseidon } from "./utils/poseidon";
-import { PrfsHandlers, AsyncHashFn, BuildStatus, SpartanDriverCtorArgs } from "./types";
+import {
+  PrfsHandlers,
+  AsyncHashFn,
+  BuildStatus,
+  SpartanDriverCtorArgs,
+  SpartanCircomDriverProperties,
+} from "./types";
 import { initWasm } from "./wasm_wrapper/load_worker";
 import { fetchAsset } from "./utils/utils";
 
@@ -23,9 +29,19 @@ export default class SpartanDriver implements CircuitDriver {
     try {
       prfsHandlers = await initWasm();
 
+      const { circuit_url, wtns_gen_url, version } = driverProps;
+
       const ts = Date.now();
-      const circuit = await fetchAsset(`${driverProps.circuit_url}?version=${ts}`);
-      const wtnsGen = await fetchAsset(`${driverProps.wtns_gen_url}?version=${ts}`);
+
+      let vs: string = ts.toString();
+      if (version) {
+        vs = version;
+      }
+
+      const [circuit, wtnsGen] = await Promise.all([
+        fetchAsset(`${circuit_url}?version=${vs}`),
+        fetchAsset(`${wtns_gen_url}?version=${vs}`),
+      ]);
 
       const args: SpartanDriverCtorArgs = {
         handlers: prfsHandlers,
@@ -121,10 +137,4 @@ export default class SpartanDriver implements CircuitDriver {
       return Promise.reject(err);
     }
   }
-}
-
-export interface SpartanCircomDriverProperties {
-  instance_path: string;
-  wtns_gen_url: string;
-  circuit_url: string;
 }

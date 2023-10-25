@@ -11,5 +11,6 @@
     "eslint-plugin-react": "7.32.1",
     "eslint-plugin-react-hooks": "4.6.0",
     "eslint-plugin-security": "1.7.0"
-  }
+  },
+  "packageManager": "^pnpm@8.9.2"
 }

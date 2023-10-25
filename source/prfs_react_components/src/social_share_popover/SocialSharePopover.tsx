@@ -38,7 +38,7 @@ function SocialSharePopover({ placement, offset }: SocialSharePopoverProps) {
         {...getReferenceProps()}
         role="button"
       >
-        <Button variant="transparent_aqua_blue_1">
+        <Button variant="transparent_blue_1">
           <span>{"share".toUpperCase()}</span>
           <IoMdArrowDropdown />
         </Button>

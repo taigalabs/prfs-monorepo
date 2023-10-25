@@ -1,7 +1,6 @@
 declare module "wasm-feature-detect";
 
 import { SpartanMerkleProof } from "@taigalabs/prfs-driver-interface";
-// import { MembershipProofPublicInput } from "@/provers/membership_proof/public_input";
 import { Tree } from "./utils/tree";
 
 export declare type PrfsWasmType = typeof import("./wasm_wrapper/build");
@@ -76,4 +75,11 @@ export interface SpartanDriverCtorArgs {
   handlers: PrfsHandlers;
   circuit: Uint8Array;
   wtnsGen: Uint8Array;
+}
+
+export interface SpartanCircomDriverProperties {
+  // instance_path: string;
+  version: string;
+  wtns_gen_url: string;
+  circuit_url: string;
 }

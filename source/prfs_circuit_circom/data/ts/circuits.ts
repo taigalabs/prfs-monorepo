@@ -3,7 +3,7 @@ import { PrfsCircuit } from "@taigalabs/prfs-entities/bindings/PrfsCircuit";
 const circuits: PrfsCircuit[] = [
   {
     circuit_id: "00000000-0000-0000-0000-000000000000",
-    circuit_type: "MEMBERSHIP_PROOF_1",
+    circuit_type_id: "MEMBERSHIP_PROOF_1",
     created_at: "2023-05-01T16:39:57-08:00",
     label: "addr_membership2_1",
     author: "SYSTEM_NATIVE",
@@ -89,7 +89,7 @@ const circuits: PrfsCircuit[] = [
   },
   {
     circuit_id: "00000000-0000-0000-0000-000000000001",
-    circuit_type: "SIMPLE_HASH_1",
+    circuit_type_id: "SIMPLE_HASH_1",
     created_at: "2023-10-01T16:39:57-08:00",
     label: "simple_hash_1_1",
     author: "SYSTEM_NATIVE",

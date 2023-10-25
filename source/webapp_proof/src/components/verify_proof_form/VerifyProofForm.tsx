@@ -126,8 +126,6 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
     return [utils.hexlify(proveResult.proof), proveResult.proof.byteLength];
   }, [proveResult]);
 
-  // const height = isVerifyOpen ? publicInputElems.length * 40 + 550 : 0;
-
   return (
     <div className={styles.wrapper}>
       {isVerifyOpen && (
@@ -160,7 +158,9 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
             <p>{circuitDriverId}</p>
           </div>
           <div className={styles.btnRow}>
-            <VerifyButton verifiedStatus={verifiedStatus} handleClick={handleClickVerify} />
+            <TutorialStepper steps={[3]}>
+              <VerifyButton verifiedStatus={verifiedStatus} handleClick={handleClickVerify} />
+            </TutorialStepper>
           </div>
         </Fade>
       )}

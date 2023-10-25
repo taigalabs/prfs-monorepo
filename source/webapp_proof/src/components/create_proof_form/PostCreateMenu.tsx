@@ -19,7 +19,7 @@ import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import TutorialStepper from "@/components//tutorial/TutorialStepper";
-import VerifyProofForm from "../verify_proof_form/VerifyProofForm";
+import VerifyProofForm from "@/components/verify_proof_form/VerifyProofForm";
 
 const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
 

@@ -1,4 +1,54 @@
 .wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 510px;
+  align-items: center;
+}
+
+.header {
+  width: 100%;
+
+  .logoContainer {
+    display: flex;
+    justify-content: center;
+  }
+
+  .titleRow {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+  }
+
+  .buttonRow {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    ul {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+.headerLabel {
+  font-size: 18px;
+}
+
+.content {
+  margin-top: 36px;
+}
+
+.bannerContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.proofDetailContainer {
+  margin-top: 32px;
+  /* border: 1px solid black; */
 }
 
 .content {

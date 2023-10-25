@@ -30,6 +30,7 @@
       }
     ],
     "driver_properties": {
+      "version": "0.0.1",
       "circuit_url": "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1.spartan.circuit",
       "wtns_gen_url": "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1_js/addr_membership2_1.wasm"
     },
@@ -54,7 +55,7 @@
         "name": "merkleProof",
         "type": "MERKLE_PROOF_1",
         "element_type": "ADDRESS",
-        "label": "One of them",
+        "label": "Member",
         "value": ""
       },
       {
@@ -66,6 +67,7 @@
       }
     ],
     "driver_properties": {
+      "version": "0.0.1",
       "circuit_url": "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1.spartan.circuit",
       "wtns_gen_url": "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1_js/addr_membership2_1.wasm"
     },
@@ -89,7 +91,7 @@
         "desc": "Who you are among those",
         "name": "merkleProof",
         "type": "MERKLE_PROOF_1",
-        "label": "Merkle proof",
+        "label": "Member",
         "element_type": "ADDRESS",
         "value": ""
       },
@@ -102,6 +104,7 @@
       }
     ],
     "driver_properties": {
+      "version": "0.0.1",
       "circuit_url": "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1.spartan.circuit",
       "wtns_gen_url": "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1_js/addr_membership2_1.wasm"
     },
@@ -125,7 +128,7 @@
         "desc": "Who you are among those",
         "name": "merkleProof",
         "type": "MERKLE_PROOF_1",
-        "label": "Merkle proof",
+        "label": "Member",
         "element_type": "ADDRESS",
         "value": ""
       },
@@ -138,6 +141,7 @@
       }
     ],
     "driver_properties": {
+      "version": "0.0.1",
       "circuit_url": "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1.spartan.circuit",
       "wtns_gen_url": "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1_js/addr_membership2_1.wasm"
     },
@@ -164,6 +168,7 @@
       }
     ],
     "driver_properties": {
+      "version": "0.0.1",
       "circuit_url": "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1.spartan.circuit",
       "wtns_gen_url": "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1_js/addr_membership2_1.wasm"
     },
@@ -190,6 +195,7 @@
       }
     ],
     "driver_properties": {
+      "version": "0.0.1",
       "circuit_url": "prfs://00000000-0000-0000-0000-000000000001/simple_hash_1_1.spartan.circuit",
       "wtns_gen_url": "prfs://00000000-0000-0000-0000-000000000001/simple_hash_1_1_js/simple_hash_1_1.wasm"
     },

@@ -30,6 +30,8 @@
   &::before {
     content: "";
     position: absolute;
+    z-index: 1;
+    pointer-events: none;
     inset: 0;
     border: 1px solid var(--gray-60);
     border-radius: 5px;
@@ -42,6 +44,7 @@
     padding-left: 8px;
     padding-right: 60px;
     outline: none;
+    border: none;
     // border: 1px solid red;
   }
 }

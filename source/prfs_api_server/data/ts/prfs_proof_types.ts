@@ -54,6 +54,7 @@ const proof_types: PrfsProofType[] = [
       sig_data_circuit_input,
     ],
     driver_properties: {
+      version: "0.0.1",
       circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
       wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
     },
@@ -84,6 +85,7 @@ const proof_types: PrfsProofType[] = [
       sig_data_circuit_input,
     ],
     driver_properties: {
+      version: "0.0.1",
       circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
       wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
     },
@@ -114,6 +116,7 @@ const proof_types: PrfsProofType[] = [
       sig_data_circuit_input,
     ],
     driver_properties: {
+      version: "0.0.1",
       circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
       wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
     },
@@ -150,6 +153,7 @@ const proof_types: PrfsProofType[] = [
       },
     ],
     driver_properties: {
+      version: "0.0.1",
       circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
       wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
     },
@@ -177,6 +181,7 @@ const proof_types: PrfsProofType[] = [
       },
     ],
     driver_properties: {
+      version: "0.0.1",
       circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
       wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
     },
@@ -195,6 +200,7 @@ const proof_types: PrfsProofType[] = [
     circuit_driver_id: "SPARTAN_CIRCOM_1",
     circuit_inputs: [simple_hash_1],
     driver_properties: {
+      version: "0.0.1",
       circuit_url: SIMPLE_HASH_1_CIRCUIT_URL,
       wtns_gen_url: SIMPLE_HASH_1_WTNS_GEN_URL,
     },

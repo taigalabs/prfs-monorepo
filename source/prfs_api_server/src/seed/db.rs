@@ -14,11 +14,17 @@ pub struct PostgresCredential {
 
 pub async fn connect_db(endpoint: Endpoint) -> Database2 {
     let credential = match endpoint {
-        Endpoint::Local => PostgresCredential {
-            endpoint: "localhost:5455".to_string(),
-            username: "postgres".to_string(),
-            pw: "postgres".to_string(),
-        },
+        Endpoint::Local => {
+            let endpoint = "localhost:5455".to_string();
+            let username = ENVS.postgres_username.to_string();
+            let pw = ENVS.postgres_pw.to_string();
+
+            PostgresCredential {
+                endpoint,
+                username,
+                pw,
+            }
+        }
         Endpoint::Dev => {
             let endpoint = ENVS.postgres_endpoint.to_string();
             let username = ENVS.postgres_username.to_string();
