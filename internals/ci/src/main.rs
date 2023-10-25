@@ -21,8 +21,6 @@ fn main() {
         .subcommand(command!("build"))
         .subcommand(command!("build_prfs_driver_spartan_js"))
         .subcommand(command!("build_circuits"))
-        //
-        .subcommand(command!("e2e_test_web"))
         // dev mode
         .subcommand(command!("dev_webapp_console").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_webapp_proof").arg(Arg::new("extra_args")))
@@ -32,7 +30,6 @@ fn main() {
         .subcommand(command!("dev_docs_website").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_asset_server"))
         .subcommand(command!("dev_api_server"))
-        .subcommand(command!("seed_api_server"))
         // prod mode
         .subcommand(command!("start_api_server").arg(Arg::new("extra_args")))
         .subcommand(command!("start_asset_server").arg(Arg::new("extra_args")))
@@ -51,6 +48,11 @@ fn main() {
         .subcommand(command!("docker_run_asset_server").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_run_default").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_down_all").arg(Arg::new("extra_args")))
+        // misc
+        .subcommand(command!("seed_api_server"))
+        .subcommand(command!("upload_s3_asset"))
+        // test
+        .subcommand(command!("e2e_test_web"))
         .get_matches();
 
     let now = Utc::now();
@@ -143,12 +145,16 @@ fn main() {
         Some(("docker_down_all", sub_matches)) => {
             cmds::docker_down_all::run(sub_matches);
         }
-        //
-        Some(("e2e_test_web", sub_matches)) => {
-            cmds::e2e_test_web::run(sub_matches);
-        }
+        // misc
         Some(("seed_api_server", sub_matches)) => {
             cmds::seed_api_server::run(sub_matches);
+        }
+        Some(("upload_s3_asset", sub_matches)) => {
+            cmds::upload_s3_asset::run(sub_matches);
+        }
+        // test
+        Some(("e2e_test_web", sub_matches)) => {
+            cmds::e2e_test_web::run(sub_matches);
         }
         _ => unreachable!("Subcommand not defined"),
     }

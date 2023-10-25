@@ -19,8 +19,6 @@ fn run_docker(extra_args: Vec<&str>) {
 
     let docker_compose_yml_path = PATHS.internals_docker.join("compose/docker-compose.yml");
 
-    let args = extra_args.join(" ");
-
     let status = Command::new(deps::DOCKER)
         .args([
             "compose",

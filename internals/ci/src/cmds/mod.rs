@@ -33,5 +33,9 @@ pub mod docker_run_sdk_web_module;
 pub mod docker_run_webapp_console;
 pub mod docker_run_webapp_proof;
 
-pub mod e2e_test_web;
+// misc
 pub mod seed_api_server;
+pub mod upload_s3_asset;
+
+// test
+pub mod e2e_test_web;

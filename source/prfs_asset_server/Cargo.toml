@@ -19,6 +19,8 @@ multer = "2.0"
 lazy_static = "1.4"
 dotenvy = "0.15"
 envy = "0.4"
+aws-config = "0.56.1"
+aws-sdk-s3 = "0.33.0"
 
 prfs_circuit_circom = { path = "../prfs_circuit_circom" }
 prfs_entities = { path = "../prfs_entities" }
@@ -26,3 +28,7 @@ prfs_entities = { path = "../prfs_entities" }
 [[bin]]
 name = "prfs_asset_server"
 path = "src/bin/server.rs"
+
+[[bin]]
+name = "prfs_asset_server_upload_s3"
+path = "src/bin/upload_s3.rs"

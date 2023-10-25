@@ -1,5 +1,4 @@
 pub mod apis;
-pub mod deploy;
 pub mod envs;
 pub mod local;
 pub mod paths;
