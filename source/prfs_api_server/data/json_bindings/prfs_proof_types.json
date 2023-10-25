@@ -30,6 +30,7 @@
       }
     ],
     "driver_properties": {
+      "version": "0.0.1",
       "circuit_url": "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1.spartan.circuit",
       "wtns_gen_url": "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1_js/addr_membership2_1.wasm"
     },
@@ -66,6 +67,7 @@
       }
     ],
     "driver_properties": {
+      "version": "0.0.1",
       "circuit_url": "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1.spartan.circuit",
       "wtns_gen_url": "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1_js/addr_membership2_1.wasm"
     },
@@ -102,6 +104,7 @@
       }
     ],
     "driver_properties": {
+      "version": "0.0.1",
       "circuit_url": "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1.spartan.circuit",
       "wtns_gen_url": "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1_js/addr_membership2_1.wasm"
     },
@@ -138,6 +141,7 @@
       }
     ],
     "driver_properties": {
+      "version": "0.0.1",
       "circuit_url": "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1.spartan.circuit",
       "wtns_gen_url": "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1_js/addr_membership2_1.wasm"
     },
@@ -164,6 +168,7 @@
       }
     ],
     "driver_properties": {
+      "version": "0.0.1",
       "circuit_url": "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1.spartan.circuit",
       "wtns_gen_url": "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1_js/addr_membership2_1.wasm"
     },
@@ -190,6 +195,7 @@
       }
     ],
     "driver_properties": {
+      "version": "0.0.1",
       "circuit_url": "prfs://00000000-0000-0000-0000-000000000001/simple_hash_1_1.spartan.circuit",
       "wtns_gen_url": "prfs://00000000-0000-0000-0000-000000000001/simple_hash_1_1_js/simple_hash_1_1.wasm"
     },

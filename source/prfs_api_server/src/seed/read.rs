@@ -15,8 +15,6 @@ use std::{
     path::PathBuf,
 };
 
-// use super::json::DynamicSetJson;
-
 pub fn load_circuits() -> HashMap<String, PrfsCircuit> {
     println!("\n{} circuits", "Loading".green());
 
