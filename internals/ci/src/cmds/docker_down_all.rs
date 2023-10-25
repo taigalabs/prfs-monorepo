@@ -27,7 +27,6 @@ fn run_docker(extra_args: Vec<&str>) {
             "-f",
             docker_compose_yml_path.to_str().unwrap(),
             "down",
-            &args,
         ])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));

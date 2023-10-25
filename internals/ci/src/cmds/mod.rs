@@ -24,7 +24,7 @@ pub mod build_circuits;
 pub mod build_prfs_driver_spartan_js;
 
 // docker
-pub mod docker_compose_down;
+pub mod docker_down_all;
 pub mod docker_run_api_server;
 pub mod docker_run_asset_server;
 pub mod docker_run_default;
