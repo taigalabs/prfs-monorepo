@@ -2,12 +2,18 @@ use aws_config::meta::region::RegionProviderChain;
 use aws_sdk_s3::Client;
 use colored::Colorize;
 use dotenvy::dotenv;
+use prfs_asset_server::envs::ENVS;
 
 #[tokio::main]
 async fn main() -> Result<(), aws_sdk_s3::Error> {
-    println!("{} {}", "Starting".green(), env!("CARGO_PKG_NAME"),);
+    println!(
+        "{} pkg: {}, curr_dir: {:?}",
+        "Starting".green(),
+        env!("CARGO_PKG_NAME"),
+        std::env::current_dir(),
+    );
 
-    dotenv().expect("Env not found");
+    dotenv().unwrap();
 
     let region_provider = RegionProviderChain::default_provider().or_else("us-east-1");
     let config = aws_config::from_env().region(region_provider).load().await;
@@ -21,7 +27,6 @@ async fn main() -> Result<(), aws_sdk_s3::Error> {
         println!("{}", bucket.name().unwrap_or_default());
     }
 
-    println!();
     println!("Found {} buckets.", num_buckets);
 
     Ok(())

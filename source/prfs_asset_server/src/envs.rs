@@ -9,8 +9,14 @@ lazy_static! {
 
 #[derive(Deserialize, Debug)]
 pub struct Envs {
-    #[serde(default = "default_asset_server_endpoint")]
-    pub asset_server_endpoint: String,
+    #[serde(default = "default_aws_access_key_id")]
+    pub aws_access_key_id: String,
+
+    #[serde(default = "default_aws_secret_access_key")]
+    pub aws_secret_access_key: String,
+
+    #[serde(default = "default_aws_default_region")]
+    pub aws_default_region: String,
 }
 
 impl Envs {
@@ -30,6 +36,13 @@ impl Envs {
     pub fn check(&self) {}
 }
 
-fn default_asset_server_endpoint() -> String {
-    "http://localhost:4010".to_string()
+fn default_aws_access_key_id() -> String {
+    "NOT_NEEDED_IN_DEVELOPMENT".to_string()
+}
+
+fn default_aws_secret_access_key() -> String {
+    "NOT_NEEDED_IN_DEVELOPMENT".to_string()
+}
+fn default_aws_default_region() -> String {
+    "NOT_NEEDED_IN_DEVELOPMENT".to_string()
 }

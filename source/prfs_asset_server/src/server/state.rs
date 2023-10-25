@@ -11,22 +11,6 @@ impl ServerState {
     pub fn init() -> ServerState {
         let static_serve = Static::new(&PATHS.assets);
 
-        // let drivers_path = std::fs::read_dir(&PATHS.assets_drivers).unwrap();
-
-        // for fd in drivers_path {
-        //     let fd = fd.unwrap().path();
-        //     let filename = fd.file_name();
-        //     let f = format!(
-        //         "{}/assets/drivers/{}",
-        //         ENVS.asset_server_endpoint,
-        //         filename.unwrap().to_str().unwrap()
-        //     );
-
-        //     println!("{} driver asset: {}", "Loading".green(), f);
-
-        //     driver_asset_urls.push(f);
-        // }
-
         ServerState { static_serve }
     }
 }

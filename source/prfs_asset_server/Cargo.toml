@@ -30,5 +30,5 @@ name = "prfs_asset_server"
 path = "src/bin/server.rs"
 
 [[bin]]
-name = "prfs_asset_server_upload_s3"
-path = "src/bin/upload_s3.rs"
+name = "upload_s3_asset"
+path = "src/bin/upload_s3_asset.rs"

@@ -9,13 +9,7 @@ pub fn run(_matches: &ArgMatches) {
 fn run_app() {
     let status = Command::new(deps::CARGO)
         .current_dir(&PATHS.prfs_asset_server)
-        .args([
-            "run",
-            "-p",
-            "prfs_asset_server",
-            "--bin",
-            "prfs_asset_server_upload_s3",
-        ])
+        .args(["run", "-p", "prfs_asset_server", "--bin", "upload_s3_asset"])
         .status()
         .expect(&format!("{} command failed to start", deps::CARGO));
 

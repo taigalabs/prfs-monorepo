@@ -11,12 +11,19 @@ use std::{net::SocketAddr, path::PathBuf};
 
 #[tokio::main]
 async fn main() -> Result<(), ApiServerError> {
-    println!("{} {}...", "Starting".green(), env!("CARGO_PKG_NAME"));
+    println!(
+        "{} pkg: {}, curr_dir: {:?}",
+        "Starting".green(),
+        env!("CARGO_PKG_NAME"),
+        std::env::current_dir(),
+    );
 
     ENVS.check();
 
     let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     println!("manifest_dir: {:?}", manifest_dir);
+
+    println!("33 {}", ENVS.postgres_pw);
 
     let pg_endpoint = &ENVS.postgres_endpoint;
     let pg_username = &ENVS.postgres_username;
