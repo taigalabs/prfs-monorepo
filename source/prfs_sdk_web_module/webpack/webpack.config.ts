@@ -8,9 +8,13 @@ const isProd = process.env.NODE_ENV === "production";
 
 const str = JSON.stringify;
 
+const entryPath = path.resolve(__dirname, "../src/index.ts");
+const distPath = path.resolve(__dirname, "../dist/");
+console.log("webpack entryPath: %s, distPath: %s", entryPath, distPath);
+
 const config: webpack.Configuration = {
   mode: "development",
-  entry: path.resolve(__dirname, "src/index.ts"),
+  entry: entryPath,
   module: {
     rules: [
       {
@@ -43,7 +47,7 @@ const config: webpack.Configuration = {
   ],
   experiments: { asyncWebAssembly: true },
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: distPath,
     filename: "index.js",
     // not used
     webassemblyModuleFilename: isProd
@@ -52,13 +56,4 @@ const config: webpack.Configuration = {
   },
 };
 
-export const devConfig: webpack.Configuration = {
-  ...config,
-};
-
-export const prodConfig: webpack.Configuration = {
-  ...config,
-  mode: "production",
-};
-
-// export default config;
+export default config;
