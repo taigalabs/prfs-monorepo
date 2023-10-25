@@ -56,15 +56,20 @@ async fn load_buckets(client: &Client) -> Result<(), aws_sdk_s3::Error> {
 async fn put_objects(client: &Client) -> Result<(), aws_sdk_s3::Error> {
     let circuits_path = &PATHS.assets_circuits;
 
-    let list_json_path = circuits_path.join("list.json");
-
+    // let list_json_path = circuits_path.join("list.json");
     // upload_object(&client, PRFS_BUCKET, list_json_path, "list.json").await?;
 
     for entry in WalkDir::new(circuits_path) {
         let entry = entry.unwrap();
 
-        let proper_path = entry.path().strip_prefix(&PATHS.__).unwrap();
-        println!("proper_path: {:?}", proper_path);
+        let file_path = entry.path();
+
+        if !file_path.is_dir() {
+            let key = file_path.strip_prefix(&PATHS.__).unwrap().to_str().unwrap();
+            println!("file_path: {:?}, key: {:?}", file_path, key);
+
+            upload_object(client, PRFS_BUCKET, file_path, key).await?;
+        }
     }
 
     Ok(())
