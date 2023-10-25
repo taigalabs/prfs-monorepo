@@ -7,7 +7,13 @@ import {
 
 import { Tree } from "./utils/tree";
 import { makePoseidon } from "./utils/poseidon";
-import { PrfsHandlers, AsyncHashFn, BuildStatus, SpartanDriverCtorArgs } from "./types";
+import {
+  PrfsHandlers,
+  AsyncHashFn,
+  BuildStatus,
+  SpartanDriverCtorArgs,
+  SpartanCircomDriverProperties,
+} from "./types";
 import { initWasm } from "./wasm_wrapper/load_worker";
 import { fetchAsset } from "./utils/utils";
 
@@ -121,10 +127,4 @@ export default class SpartanDriver implements CircuitDriver {
       return Promise.reject(err);
     }
   }
-}
-
-export interface SpartanCircomDriverProperties {
-  instance_path: string;
-  wtns_gen_url: string;
-  circuit_url: string;
 }
