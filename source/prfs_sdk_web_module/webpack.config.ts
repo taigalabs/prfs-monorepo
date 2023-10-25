@@ -52,4 +52,13 @@ const config: webpack.Configuration = {
   },
 };
 
-export default config;
+export const devConfig: webpack.Configuration = {
+  ...config,
+};
+
+export const prodConfig: webpack.Configuration = {
+  ...config,
+  mode: "production",
+};
+
+// export default config;
