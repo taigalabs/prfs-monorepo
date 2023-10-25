@@ -15,8 +15,6 @@ pub fn run(matches: &ArgMatches) {
 }
 
 fn run_docker(_extra_args: Vec<&str>) {
-    let tag = "prfs_api_server";
-
     let docker_compose_yml_path = PATHS.internals_docker.join("compose/docker-compose.yml");
 
     let status = Command::new(deps::DOCKER)
