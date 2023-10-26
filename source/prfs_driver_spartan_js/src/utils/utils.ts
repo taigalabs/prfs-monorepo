@@ -1,6 +1,7 @@
 // @ts-ignore
 const snarkJs = require("snarkjs");
 import { fromRpcSig } from "@ethereumjs/util";
+import { DriverEventListener } from "@taigalabs/prfs-driver-interface";
 
 export const snarkJsWitnessGen = async (input: any, wasmFile: string | Uint8Array) => {
   const witness: {
@@ -14,8 +15,31 @@ export const snarkJsWitnessGen = async (input: any, wasmFile: string | Uint8Arra
   return witness;
 };
 
-export async function fetchAsset(url: string): Promise<Uint8Array> {
+export async function fetchAsset(
+  url: string,
+  eventListener: DriverEventListener,
+): Promise<Uint8Array> {
   const response = await fetch(url);
+
+  if (!response?.body) {
+    throw new Error("Response does not contain body");
+  }
+
+  const reader = response.body.getReader();
+  const chunks = [];
+
+  while (true) {
+    const { done, value } = await reader.read();
+
+    if (done) {
+      break;
+    }
+
+    console.log("value", value);
+
+    // chunks.push(value);
+  }
+
   if (!response.ok) {
     throw new Error(`Fetch asset failed, url: ${url}`);
   }

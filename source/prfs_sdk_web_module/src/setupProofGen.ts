@@ -88,7 +88,9 @@ async function eventListener(ev: MessageEvent) {
         );
 
         try {
-          const driver = await initDriver(circuit_driver_id, driverProperties);
+          const driver = await initDriver(circuit_driver_id, driverProperties, (msg: any) => {
+            console.log(1, msg);
+          });
           state.driver = driver;
 
           ev.ports[0].postMessage(new Msg("LOAD_DRIVER_RESPONSE", circuit_driver_id));

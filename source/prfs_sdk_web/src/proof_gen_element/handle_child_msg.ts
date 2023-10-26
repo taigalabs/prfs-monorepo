@@ -8,12 +8,7 @@ const singleton: ProofGenElementSingleton = {
   msgEventListener: undefined,
 };
 
-export async function handleChildMessage(
-  // options: ProofGenOptions
-  subscribers: ProofGenElementSubscriber[]
-) {
-  // const { proofGenEventListener } = options;
-
+export async function handleChildMessage(subscribers: ProofGenElementSubscriber[]) {
   const ret = await new Promise(resolve => {
     const msgEventListener = (ev: MessageEvent) => {
       if (ev.ports.length > 0) {
@@ -41,7 +36,6 @@ export async function handleChildMessage(
               data: payload.msg,
             });
 
-            // proofGenEventListener(payload.type, payload.msg);
             break;
           }
 

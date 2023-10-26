@@ -41,13 +41,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
   const didTryInitialize = React.useRef(false);
 
-  const handleReceiveMsg = React.useCallback(
-    (type: LogEventType, msg: string) => {
-      setTerminalLog(msg);
-    },
-    [setTerminalLog]
-  );
-
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
       const { name } = ev.target;
@@ -70,7 +63,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         setCreateProofStatus(CreateProofStatus.InProgress);
 
         const proveReceipt = await proofGenElement.createProof(inputs, proofType.circuit_type_id);
-        handleReceiveMsg("info", `Proof created in ${proveReceipt.duration}ms`);
+        setTerminalLog(`Proof created in ${proveReceipt.duration}ms`);
 
         setCreateProofStatus(CreateProofStatus.Loaded);
 
@@ -96,17 +89,19 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           circuit_driver_id,
           driver_properties,
           sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
-          // proofGenEventListener: proofGenEventListener,
         });
 
         elem.subscribe(({ type, data }) => {
+          if (type === "PROOF_GEN_EVENT") {
+          }
+
           if (type === "DRIVER_LOADED") {
             console.log("driver is loaded!!!");
             setSystemMsg(data);
           }
 
           if (type === "PROOF_GEN_EVENT") {
-            console.log(111, data);
+            setTerminalLog(data.data);
           }
         });
 
@@ -247,9 +242,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       </div>
       <div className={styles.footer}>
         <div className={styles.systemMsg}>
-          <span>
-            {systemMsg} ({i18n.prfs} {envs.NEXT_PUBLIC_ZAUTH_VERSION})
-          </span>
+          <p>{proofType.circuit_driver_id}</p>
+          <p>123123</p>
         </div>
         <div className={styles.terminalLogContainer}>{terminalLog}</div>
       </div>

@@ -1,14 +1,18 @@
-import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
+import { CircuitDriver, DriverEventListener } from "@taigalabs/prfs-driver-interface";
 import { SpartanCircomDriverProperties } from "@taigalabs/prfs-driver-spartan-js";
 
 export async function initDriver(
   driverId: string,
-  driverProps: Record<string, any>
+  driverProps: Record<string, any>,
+  eventListener: DriverEventListener,
 ): Promise<CircuitDriver> {
   switch (driverId) {
     case "SPARTAN_CIRCOM_1": {
       const mod = await import("@taigalabs/prfs-driver-spartan-js");
-      const driver = await mod.default.newInstance(driverProps as SpartanCircomDriverProperties);
+      const driver = await mod.default.newInstance(
+        driverProps as SpartanCircomDriverProperties,
+        eventListener,
+      );
       return driver;
     }
     default:
@@ -18,7 +22,7 @@ export async function initDriver(
 
 export function interpolateSystemAssetEndpoint(
   driverProperties: Record<string, any>,
-  prfsAssetEndpoint: string
+  prfsAssetEndpoint: string,
 ): Record<string, any> {
   const ret: Record<string, any> = {};
 
