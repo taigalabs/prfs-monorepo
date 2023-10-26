@@ -21,9 +21,15 @@ import TutorialStepper from "@/components/tutorial/TutorialStepper";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
-enum CreateProofStatus {
+enum LoadDriverStatus {
   Loaded,
   InProgress,
+}
+
+enum CreateProofStatus {
+  StandBy,
+  InProgress,
+  Created,
 }
 
 const CreateProofModule: React.FC<CreateProofModuleProps> = ({
@@ -33,10 +39,10 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   setProofGenElement,
 }) => {
   const i18n = React.useContext(i18nContext);
-
-  const [systemMsg, setSystemMsg] = React.useState("Loading driver...");
-  const [createProofStatus, setCreateProofStatus] = React.useState(CreateProofStatus.Loaded);
-  const [terminalLog, setTerminalLog] = React.useState<string>("");
+  const [driverMsg, setDriverMsg] = React.useState("Loading driver...");
+  const [systemMsg, setSystemMsg] = React.useState<string>("");
+  const [loadDriverStatus, setLoadDriverStatus] = React.useState(LoadDriverStatus.InProgress);
+  const [createProofStatus, setCreateProofStatus] = React.useState(CreateProofStatus.StandBy);
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
   const didTryInitialize = React.useRef(false);
@@ -63,16 +69,16 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         setCreateProofStatus(CreateProofStatus.InProgress);
 
         const proveReceipt = await proofGenElement.createProof(inputs, proofType.circuit_type_id);
-        setTerminalLog(`Proof created in ${proveReceipt.duration}ms`);
+        setSystemMsg(`Proof created in ${proveReceipt.duration}ms`);
 
-        setCreateProofStatus(CreateProofStatus.Loaded);
+        setCreateProofStatus(CreateProofStatus.Created);
 
         handleCreateProofResult(null, proveReceipt);
       } catch (err) {
         handleCreateProofResult(err, null);
       }
     }
-  }, [formValues, proofType, handleCreateProofResult, proofGenElement]);
+  }, [formValues, proofType, handleCreateProofResult, proofGenElement, setSystemMsg]);
 
   React.useEffect(() => {
     async function fn() {
@@ -93,28 +99,35 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
 
         elem.subscribe(({ type, data }) => {
           if (type === "LOAD_DRIVER_EVENT") {
-            console.log("powerpower", data);
+            setDriverMsg(data);
           }
 
           if (type === "DRIVER_LOADED") {
             console.log("driver is loaded!!!");
-            setSystemMsg(data);
+            setLoadDriverStatus(LoadDriverStatus.Loaded);
           }
 
           if (type === "PROOF_GEN_EVENT") {
-            setTerminalLog(data.data);
+            setSystemMsg(data.msg);
           }
         });
 
         setProofGenElement(elem);
         return elem;
       } catch (err) {
-        setSystemMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
+        setDriverMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
       }
     }
 
     fn().then();
-  }, [proofType, setProofGenElement, setSystemMsg, setCreateProofStatus]);
+  }, [
+    proofType,
+    setProofGenElement,
+    setCreateProofStatus,
+    setDriverMsg,
+    setLoadDriverStatus,
+    setSystemMsg,
+  ]);
 
   const circuitInputsElem = React.useMemo(() => {
     if (!proofGenElement) {
@@ -220,6 +233,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     return null;
   }
 
+  console.log(44, systemMsg);
+
   return (
     <div className={styles.wrapper}>
       <TutorialStepper steps={[2]}>
@@ -242,11 +257,13 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         </Button>
       </div>
       <div className={styles.footer}>
-        <div className={styles.systemMsg}>
-          <p>{proofType.circuit_driver_id}</p>
-          <p>{driverMsg}</p>
-        </div>
-        <div className={styles.terminalLogContainer}>{terminalLog}</div>
+        <div className={styles.msg}>{proofType.circuit_driver_id}</div>
+
+        {loadDriverStatus === LoadDriverStatus.InProgress && (
+          <div className={styles.msg}>{driverMsg}</div>
+        )}
+
+        <div className={styles.msg}>{systemMsg}</div>
       </div>
     </div>
   );
