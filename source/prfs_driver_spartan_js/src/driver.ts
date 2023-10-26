@@ -31,11 +31,14 @@ export default class SpartanDriver implements CircuitDriver {
 
       const { circuit_url, wtns_gen_url, version } = driverProps;
 
-      const ts = Date.now();
-
-      let vs: string = ts.toString();
+      let vs: string;
       if (version) {
         vs = version;
+      } else {
+        console.log("Version is not found in driver props, falling back to timestamp");
+
+        const ts = Date.now();
+        vs = ts.toString();
       }
 
       const [circuit, wtnsGen] = await Promise.all([
