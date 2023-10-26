@@ -220,59 +220,57 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   );
 
   return (
-    prfsSet && (
-      <FormInput>
-        <FormInputTitleRow>
-          <div>
-            <p className={styles.title}>
-              {circuitInput.label}
-              <span className={styles.setLabel}>({prfsSet.label})</span>
-            </p>
+    <FormInput>
+      <FormInputTitleRow>
+        <div>
+          <p className={styles.title}>
+            {circuitInput.label}
+            <span className={styles.setLabel}>({prfsSet ? prfsSet.label : i18n.loading})</span>
+          </p>
+        </div>
+        <div>
+          <div className={styles.btnRow} ref={refs.setReference} {...getReferenceProps()}>
+            <button>
+              <RiEqualizerLine />
+              {i18n.raw.toUpperCase()}
+            </button>
           </div>
-          <div>
-            <div className={styles.btnRow} ref={refs.setReference} {...getReferenceProps()}>
-              <button>
-                <RiEqualizerLine />
-                {i18n.raw.toUpperCase()}
-              </button>
-            </div>
-            <FloatingPortal>
-              {isOpen && (
-                <FloatingOverlay style={{ zIndex: zIndex || 200 }}>
-                  <Fade className={styles.fadeOverlay}>
-                    <FloatingFocusManager context={context}>
-                      <div
-                        className={styles.dialog}
-                        ref={refs.setFloating}
-                        aria-labelledby={headingId}
-                        aria-describedby={descriptionId}
-                        {...getFloatingProps()}
-                      >
-                        <MerkleProofRawModal
-                          prfsSet={prfsSet}
-                          circuitInput={circuitInput}
-                          handleClickRawSubmit={handleClickRawSubmit}
-                          setIsOpen={setIsOpen}
-                        />
-                      </div>
-                    </FloatingFocusManager>
-                  </Fade>
-                </FloatingOverlay>
-              )}
-            </FloatingPortal>
+          <FloatingPortal>
+            {isOpen && (
+              <FloatingOverlay style={{ zIndex: zIndex || 200 }}>
+                <Fade className={styles.fadeOverlay}>
+                  <FloatingFocusManager context={context}>
+                    <div
+                      className={styles.dialog}
+                      ref={refs.setFloating}
+                      aria-labelledby={headingId}
+                      aria-describedby={descriptionId}
+                      {...getFloatingProps()}
+                    >
+                      <MerkleProofRawModal
+                        prfsSet={prfsSet}
+                        circuitInput={circuitInput}
+                        handleClickRawSubmit={handleClickRawSubmit}
+                        setIsOpen={setIsOpen}
+                      />
+                    </div>
+                  </FloatingFocusManager>
+                </Fade>
+              </FloatingOverlay>
+            )}
+          </FloatingPortal>
+        </div>
+      </FormInputTitleRow>
+      <InputWrapper>
+        <div className={styles.interactiveArea}>
+          <input placeholder={`${circuitInput.desc}`} value={walletAddr} readOnly />
+          <div className={styles.btnGroup}>
+            <WalletDialog handleChangeAddress={handleChangeAddress} />
           </div>
-        </FormInputTitleRow>
-        <InputWrapper>
-          <div className={styles.interactiveArea}>
-            <input placeholder={`${circuitInput.desc}`} value={walletAddr} readOnly />
-            <div className={styles.btnGroup}>
-              <WalletDialog handleChangeAddress={handleChangeAddress} />
-            </div>
-          </div>
-          {value && <ComputedValue value={value} />}
-        </InputWrapper>
-      </FormInput>
-    )
+        </div>
+        {value && <ComputedValue value={value} />}
+      </InputWrapper>
+    </FormInput>
   );
 };
 

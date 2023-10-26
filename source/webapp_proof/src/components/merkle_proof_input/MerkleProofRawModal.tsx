@@ -40,31 +40,37 @@ const MerkleProofRawModal: React.FC<MerkleProofRawModalProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.header}>
-        <p>{i18n.type_merkle_proof}</p>
-      </div>
-      <div className={styles.row}>
-        <div>
-          <span>
-            {i18n.merkle_proof}
-            {" - "}
-          </span>
-          <span> {prfsSet?.label}</span>
-        </div>
-        <textarea
-          className={styles.merkleProofInput}
-          value="This is currently not supported"
-          readOnly
-        />
-      </div>
-      <div className={styles.dialogBtnRow}>
-        <Button variant="transparent_black_1" handleClick={extendedHandleClickSubmit}>
-          {i18n.submit.toUpperCase()}
-        </Button>
-        <Button variant="transparent_black_1" handleClick={handleClickCancel}>
-          {i18n.cancel.toUpperCase()}
-        </Button>
-      </div>
+      {prfsSet ? (
+        <>
+          <div className={styles.header}>
+            <p>{i18n.type_merkle_proof}</p>
+          </div>
+          <div className={styles.row}>
+            <div>
+              <span>
+                {i18n.merkle_proof}
+                {" - "}
+              </span>
+              <span> {prfsSet?.label}</span>
+            </div>
+            <textarea
+              className={styles.merkleProofInput}
+              value="This is currently not supported"
+              readOnly
+            />
+          </div>
+          <div className={styles.dialogBtnRow}>
+            <Button variant="transparent_black_1" handleClick={extendedHandleClickSubmit}>
+              {i18n.submit.toUpperCase()}
+            </Button>
+            <Button variant="transparent_black_1" handleClick={handleClickCancel}>
+              {i18n.cancel.toUpperCase()}
+            </Button>
+          </div>
+        </>
+      ) : (
+        i18n.loading
+      )}
     </div>
   );
 };
