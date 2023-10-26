@@ -14,20 +14,20 @@ pub fn run(matches: &ArgMatches) {
     run_docker(extra_args);
 }
 
-fn run_docker(extra_args: Vec<&str>) {
-    println!("extra_args: {:?}", extra_args);
-
+fn run_docker(_extra_args: Vec<&str>) {
     let docker_compose_yml_path = PATHS.internals_docker.join("compose/docker-compose.yml");
-
-    let args = extra_args.join(" ");
 
     let status = Command::new(deps::DOCKER)
         .args([
             "compose",
             "-f",
             docker_compose_yml_path.to_str().unwrap(),
-            "down",
-            &args,
+            "up",
+            "--detach",
+            "--build",
+            "--no-deps",
+            "prfs_api_server",
+            "prfs_sdk_web_module",
         ])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));

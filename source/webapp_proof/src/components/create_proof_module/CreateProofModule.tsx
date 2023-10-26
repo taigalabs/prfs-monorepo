@@ -21,9 +21,15 @@ import TutorialStepper from "@/components/tutorial/TutorialStepper";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
-enum CreateProofStatus {
+enum LoadDriverStatus {
   Loaded,
   InProgress,
+}
+
+enum CreateProofStatus {
+  StandBy,
+  InProgress,
+  Created,
 }
 
 const CreateProofModule: React.FC<CreateProofModuleProps> = ({
@@ -33,20 +39,13 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   setProofGenElement,
 }) => {
   const i18n = React.useContext(i18nContext);
-
-  const [systemMsg, setSystemMsg] = React.useState("Loading driver...");
-  const [createProofStatus, setCreateProofStatus] = React.useState(CreateProofStatus.Loaded);
-  const [terminalLog, setTerminalLog] = React.useState<string>("");
+  const [driverMsg, setDriverMsg] = React.useState("Loading driver...");
+  const [systemMsg, setSystemMsg] = React.useState<string>("");
+  const [loadDriverStatus, setLoadDriverStatus] = React.useState(LoadDriverStatus.InProgress);
+  const [createProofStatus, setCreateProofStatus] = React.useState(CreateProofStatus.StandBy);
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
   const didTryInitialize = React.useRef(false);
-
-  const proofGenEventListener = React.useCallback(
-    (type: LogEventType, msg: string) => {
-      setTerminalLog(msg);
-    },
-    [setTerminalLog]
-  );
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,7 +58,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         };
       });
     },
-    [setFormValues]
+    [setFormValues],
   );
 
   const handleClickCreateProof = React.useCallback(async () => {
@@ -68,19 +67,18 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         const inputs = await validateInputs(formValues, proofType);
 
         setCreateProofStatus(CreateProofStatus.InProgress);
-        proofGenEventListener("debug", `Process starts in 3 seconds`);
 
         const proveReceipt = await proofGenElement.createProof(inputs, proofType.circuit_type_id);
-        proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
+        setSystemMsg(`Proof created in ${proveReceipt.duration}ms`);
 
-        setCreateProofStatus(CreateProofStatus.Loaded);
+        setCreateProofStatus(CreateProofStatus.Created);
 
         handleCreateProofResult(null, proveReceipt);
       } catch (err) {
         handleCreateProofResult(err, null);
       }
     }
-  }, [formValues, proofType, handleCreateProofResult, proofGenElement]);
+  }, [formValues, proofType, handleCreateProofResult, proofGenElement, setSystemMsg]);
 
   React.useEffect(() => {
     async function fn() {
@@ -97,22 +95,39 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           circuit_driver_id,
           driver_properties,
           sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
-          proofGenEventListener: proofGenEventListener,
         });
 
-        elem.subscribe(msg => {
-          setSystemMsg(msg.data);
+        elem.subscribe(({ type, data }) => {
+          if (type === "LOAD_DRIVER_EVENT") {
+            setDriverMsg(data);
+          }
+
+          if (type === "DRIVER_LOADED") {
+            console.log("driver is loaded!!!");
+            setLoadDriverStatus(LoadDriverStatus.Loaded);
+          }
+
+          if (type === "PROOF_GEN_EVENT") {
+            setSystemMsg(data.msg);
+          }
         });
 
         setProofGenElement(elem);
         return elem;
       } catch (err) {
-        setSystemMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
+        setDriverMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
       }
     }
 
     fn().then();
-  }, [proofType, setProofGenElement, setSystemMsg, setCreateProofStatus]);
+  }, [
+    proofType,
+    setProofGenElement,
+    setCreateProofStatus,
+    setDriverMsg,
+    setLoadDriverStatus,
+    setSystemMsg,
+  ]);
 
   const circuitInputsElem = React.useMemo(() => {
     if (!proofGenElement) {
@@ -133,7 +148,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
               error={formErrors[input.name]}
               setFormValues={setFormValues}
               setFormErrors={setFormErrors}
-            />
+            />,
           );
           break;
         }
@@ -146,7 +161,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
               error={formErrors[input.name]}
               setFormValues={setFormValues}
               setFormErrors={setFormErrors}
-            />
+            />,
           );
           break;
         }
@@ -160,7 +175,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
               setFormValues={setFormValues}
               setFormErrors={setFormErrors}
               proofGenElement={proofGenElement}
-            />
+            />,
           );
           break;
         }
@@ -171,7 +186,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
               circuitInput={input}
               value={formValues[input.name]}
               handleChangeValue={handleChangeValue}
-            />
+            />,
           );
           break;
         }
@@ -182,7 +197,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
               circuitInput={input}
               value={formValues[input.name]}
               handleChangeValue={handleChangeValue}
-            />
+            />,
           );
 
           entriesElem.push(
@@ -192,7 +207,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
               circuitInput={input}
               value={formValues[input.name]}
               handleChangeValue={handleChangeValue}
-            />
+            />,
           );
           break;
         }
@@ -205,7 +220,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
                 <p>{input.label}</p>
               </FormInputTitleRow>
               <input placeholder="Cannot handle circuit input of this type" />
-            </FormInput>
+            </FormInput>,
           );
         }
       }
@@ -217,6 +232,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   if (!proofType) {
     return null;
   }
+
+  console.log(44, systemMsg);
 
   return (
     <div className={styles.wrapper}>
@@ -240,12 +257,13 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         </Button>
       </div>
       <div className={styles.footer}>
-        <div className={styles.systemMsg}>
-          <span>
-            {systemMsg} ({i18n.prfs} {envs.NEXT_PUBLIC_ZAUTH_VERSION})
-          </span>
-        </div>
-        <div className={styles.terminalLogContainer}>{terminalLog}</div>
+        <div className={styles.msg}>{proofType.circuit_driver_id}</div>
+
+        {loadDriverStatus === LoadDriverStatus.InProgress && (
+          <div className={styles.msg}>{driverMsg}</div>
+        )}
+
+        <div className={styles.msg}>{systemMsg}</div>
       </div>
     </div>
   );

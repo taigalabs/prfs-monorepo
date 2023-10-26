@@ -1,6 +1,5 @@
 use crate::{deps, paths::PATHS};
 use clap::ArgMatches;
-use colored::Colorize;
 use std::process::Command;
 
 pub fn run(_matches: &ArgMatches) {
@@ -9,8 +8,8 @@ pub fn run(_matches: &ArgMatches) {
 
 fn run_app() {
     let status = Command::new(deps::CARGO)
-        .current_dir(&PATHS.prfs_api_server)
-        .args(["run", "-p", "prfs_api_server"])
+        .current_dir(&PATHS.prfs_asset_server)
+        .args(["run", "-p", "prfs_asset_server", "--bin", "seed_assets"])
         .status()
         .expect(&format!("{} command failed to start", deps::CARGO));
 

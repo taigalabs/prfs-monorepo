@@ -21,8 +21,6 @@ fn main() {
         .subcommand(command!("build"))
         .subcommand(command!("build_prfs_driver_spartan_js"))
         .subcommand(command!("build_circuits"))
-        //
-        .subcommand(command!("e2e_test_web"))
         // dev mode
         .subcommand(command!("dev_webapp_console").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_webapp_proof").arg(Arg::new("extra_args")))
@@ -32,8 +30,9 @@ fn main() {
         .subcommand(command!("dev_docs_website").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_asset_server"))
         .subcommand(command!("dev_api_server"))
-        .subcommand(command!("seed_api_server"))
         // prod mode
+        .subcommand(command!("start_api_server").arg(Arg::new("extra_args")))
+        .subcommand(command!("start_asset_server").arg(Arg::new("extra_args")))
         .subcommand(command!("start_webapp_console").arg(Arg::new("extra_args")))
         .subcommand(command!("start_webapp_proof").arg(Arg::new("extra_args")))
         .subcommand(command!("start_webapp_poll").arg(Arg::new("extra_args")))
@@ -47,8 +46,13 @@ fn main() {
         .subcommand(command!("docker_run_sdk_web_module").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_run_api_server").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_run_asset_server").arg(Arg::new("extra_args")))
-        .subcommand(command!("docker_compose_default").arg(Arg::new("extra_args")))
-        .subcommand(command!("docker_compose_down").arg(Arg::new("extra_args")))
+        .subcommand(command!("docker_run_default").arg(Arg::new("extra_args")))
+        .subcommand(command!("docker_down_all").arg(Arg::new("extra_args")))
+        // seed
+        .subcommand(command!("seed_api_data"))
+        .subcommand(command!("seed_assets"))
+        // test
+        .subcommand(command!("e2e_test_web"))
         .get_matches();
 
     let now = Utc::now();
@@ -92,6 +96,12 @@ fn main() {
             cmds::dev_docs_website::run(sub_matches);
         }
         // prod mode
+        Some(("start_api_server", sub_matches)) => {
+            cmds::start_api_server::run(sub_matches);
+        }
+        Some(("start_asset_server", sub_matches)) => {
+            cmds::start_asset_server::run(sub_matches);
+        }
         Some(("start_sdk_web_module", sub_matches)) => {
             cmds::start_sdk_web_module::run(sub_matches);
         }
@@ -129,18 +139,22 @@ fn main() {
         Some(("docker_run_asset_server", sub_matches)) => {
             cmds::docker_run_asset_server::run(sub_matches);
         }
-        Some(("docker_compose_default", sub_matches)) => {
-            cmds::docker_compose_default::run(sub_matches);
+        Some(("docker_run_default", sub_matches)) => {
+            cmds::docker_run_default::run(sub_matches);
         }
-        Some(("docker_compose_down", sub_matches)) => {
-            cmds::docker_compose_down::run(sub_matches);
+        Some(("docker_down_all", sub_matches)) => {
+            cmds::docker_down_all::run(sub_matches);
         }
-        //
+        // misc
+        Some(("seed_api_data", sub_matches)) => {
+            cmds::seed_api_data::run(sub_matches);
+        }
+        Some(("seed_assets", sub_matches)) => {
+            cmds::seed_assets::run(sub_matches);
+        }
+        // test
         Some(("e2e_test_web", sub_matches)) => {
             cmds::e2e_test_web::run(sub_matches);
-        }
-        Some(("seed_api_server", sub_matches)) => {
-            cmds::seed_api_server::run(sub_matches);
         }
         _ => unreachable!("Subcommand not defined"),
     }

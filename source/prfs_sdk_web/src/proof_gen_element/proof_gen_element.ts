@@ -5,6 +5,7 @@ import { sendMsgToChild } from "../msg";
 import { ProofGenOptions } from "../sdk/element_options";
 import { Msg } from "../msg";
 import { ProofGenElementState, ProofGenElementSubscriber, SubscribedMsg } from "./types";
+import emit from "./emit";
 
 export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
 export const PORTAL_ID = "prfs-sdk-portal";
@@ -69,7 +70,7 @@ class ProofGenElement {
     }
     document.body.appendChild(container);
 
-    await handleChildMessage(options);
+    await handleChildMessage(this.subscribers);
 
     const { circuit_driver_id, driver_properties } = options;
     sendMsgToChild(
@@ -79,7 +80,6 @@ class ProofGenElement {
       }),
       iframe
     ).then(driverVersion => {
-      console.log("Driver version", driverVersion);
       this.state.driverVersion = driverVersion;
 
       emit(this.subscribers, {
@@ -154,12 +154,6 @@ class ProofGenElement {
     this.subscribers.push(subscriber);
 
     return this;
-  }
-}
-
-function emit(subscribers: ProofGenElementSubscriber[], msg: SubscribedMsg) {
-  for (const scb of subscribers) {
-    scb(msg);
   }
 }
 

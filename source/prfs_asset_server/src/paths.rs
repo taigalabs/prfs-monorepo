@@ -8,9 +8,9 @@ lazy_static! {
 
 #[derive(Debug)]
 pub struct Paths {
+    pub __: PathBuf,
     pub assets: PathBuf,
     pub assets_circuits: PathBuf,
-    // pub assets_drivers: PathBuf,
     pub ws_prfs_driver_spartan_js: PathBuf,
 }
 
@@ -20,15 +20,14 @@ impl Paths {
         let assets = manifest_dir.join("assets");
 
         let assets_circuits = manifest_dir.join("assets/circuits");
-        let assets_drivers = manifest_dir.join("assets/drivers");
 
         let workspace = workspace_dir();
         let ws_prfs_driver_spartan_js = workspace.join("source/prfs_driver_spartan_js");
 
         let p = Paths {
+            __: manifest_dir,
             assets,
             assets_circuits,
-            // assets_drivers,
             ws_prfs_driver_spartan_js,
         };
 

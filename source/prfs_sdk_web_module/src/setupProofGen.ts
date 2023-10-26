@@ -12,7 +12,7 @@ import { initDriver, interpolateSystemAssetEndpoint } from "./circuitDriver";
 import { createProof, verifyProof } from "./functions/proof";
 import { envs } from "./envs";
 
-const ASSET_SERVER_ENDPOINT = envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT;
+const ASSET_ACCESS_ENDPOINT = envs.NEXT_PUBLIC_PRFS_ASSET_ACCESS_ENDPOINT;
 
 const state: ProofGenModuleState = {
   driver: null,
@@ -40,7 +40,7 @@ async function eventListener(ev: MessageEvent) {
 
         proofGenEventListener(
           "info",
-          `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
+          `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`,
         );
 
         try {
@@ -63,7 +63,7 @@ async function eventListener(ev: MessageEvent) {
 
         proofGenEventListener(
           "info",
-          `Start verifying... hardware concurrency: ${window.navigator.hardwareConcurrency}`
+          `Start verifying... hardware concurrency: ${window.navigator.hardwareConcurrency}`,
         );
 
         try {
@@ -80,13 +80,17 @@ async function eventListener(ev: MessageEvent) {
         const { payload } = ev.data;
         const { circuit_driver_id, driver_properties } = payload;
 
+        console.log("Loading driver, access_enpdoint: %s", ASSET_ACCESS_ENDPOINT);
+
         const driverProperties = interpolateSystemAssetEndpoint(
           driver_properties,
-          `${ASSET_SERVER_ENDPOINT}/assets/circuits`
+          `${ASSET_ACCESS_ENDPOINT}/assets/circuits`,
         );
 
         try {
-          const driver = await initDriver(circuit_driver_id, driverProperties);
+          const driver = await initDriver(circuit_driver_id, driverProperties, (msg: string) => {
+            sendMsgToParent(new Msg("LOAD_DRIVER_EVENT", msg));
+          });
           state.driver = driver;
 
           ev.ports[0].postMessage(new Msg("LOAD_DRIVER_RESPONSE", circuit_driver_id));
@@ -109,7 +113,7 @@ async function eventListener(ev: MessageEvent) {
         ev.ports[0].postMessage(
           new Msg("HASH_RESPONSE", {
             msgHash,
-          })
+          }),
         );
 
         // driver.hash();

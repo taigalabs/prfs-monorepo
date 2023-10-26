@@ -1,5 +1,6 @@
 import {
   CircuitDriver,
+  DriverEventListener,
   ProveArgs,
   ProveReceipt,
   VerifyArgs,
@@ -22,7 +23,10 @@ export default class SpartanDriver implements CircuitDriver {
   circuit: Uint8Array;
   wtnsGen: Uint8Array;
 
-  static async newInstance(driverProps: SpartanCircomDriverProperties): Promise<CircuitDriver> {
+  static async newInstance(
+    driverProps: SpartanCircomDriverProperties,
+    eventListener: DriverEventListener,
+  ): Promise<CircuitDriver> {
     console.log("Creating a driver instance, props: %o", driverProps);
 
     let prfsHandlers;
@@ -31,16 +35,19 @@ export default class SpartanDriver implements CircuitDriver {
 
       const { circuit_url, wtns_gen_url, version } = driverProps;
 
-      const ts = Date.now();
-
-      let vs: string = ts.toString();
+      let vs: string;
       if (version) {
         vs = version;
+      } else {
+        console.log("Version is not found in driver props, falling back to timestamp");
+
+        const ts = Date.now();
+        vs = ts.toString();
       }
 
       const [circuit, wtnsGen] = await Promise.all([
-        fetchAsset(`${circuit_url}?version=${vs}`),
-        fetchAsset(`${wtns_gen_url}?version=${vs}`),
+        fetchAsset("circuit", `${circuit_url}?version=${vs}`, eventListener),
+        fetchAsset("wtnsGen", `${wtns_gen_url}?version=${vs}`, eventListener),
       ]);
 
       const args: SpartanDriverCtorArgs = {

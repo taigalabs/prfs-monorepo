@@ -40,7 +40,7 @@ const CreateProofForm: React.FC = () => {
 
       setProofType(payload.prfs_proof_type);
     },
-    [getPrfsProofTypeByProofTypeIdRequest, setProofType]
+    [getPrfsProofTypeByProofTypeIdRequest, setProofType],
   );
 
   const handleCreateProofResult = React.useCallback(
@@ -51,7 +51,7 @@ const CreateProofForm: React.FC = () => {
         setProveReceipt(proveReceipt);
       }
     },
-    [setProveReceipt]
+    [setProveReceipt],
   );
 
   return (

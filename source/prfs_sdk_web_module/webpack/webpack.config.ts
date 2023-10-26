@@ -8,9 +8,13 @@ const isProd = process.env.NODE_ENV === "production";
 
 const str = JSON.stringify;
 
+const entryPath = path.resolve(__dirname, "../src/index.ts");
+const distPath = path.resolve(__dirname, "../dist/");
+console.log("webpack entryPath: %s, distPath: %s", entryPath, distPath);
+
 const config: webpack.Configuration = {
   mode: "development",
-  entry: path.resolve(__dirname, "src/index.ts"),
+  entry: entryPath,
   module: {
     rules: [
       {
@@ -36,14 +40,14 @@ const config: webpack.Configuration = {
       "process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT": str(
         process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT
       ),
-      "process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT": str(
-        process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT
+      "process.env.NEXT_PUBLIC_PRFS_ASSET_ACCESS_ENDPOINT": str(
+        process.env.NEXT_PUBLIC_PRFS_ASSET_ACCESS_ENDPOINT
       ),
     }),
   ],
   experiments: { asyncWebAssembly: true },
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: distPath,
     filename: "index.js",
     // not used
     webassemblyModuleFilename: isProd

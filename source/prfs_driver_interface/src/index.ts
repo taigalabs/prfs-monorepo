@@ -1,7 +1,9 @@
 export * from "./types";
 
+export type DriverEventListener = (msg: string) => void;
+
 export interface CircuitDriverGen {
-  newInstance(driverProps: any): Promise<CircuitDriver>;
+  newInstance(driverProps: any, eventListener: DriverEventListener): Promise<CircuitDriver>;
   [key: string]: any;
 }
 
