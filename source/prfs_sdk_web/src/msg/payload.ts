@@ -4,6 +4,7 @@ export type MsgType =
   | "HANDSHAKE"
   | "HANDSHAKE_RESPONSE"
   | "LOAD_DRIVER"
+  | "LOAD_DRIVER_EVENT"
   | "LOAD_DRIVER_RESPONSE"
   | "GET_ADDRESS"
   | "GET_ADDRESS_RESPONSE"
@@ -70,6 +71,8 @@ export type ReqPayload<T extends MsgType> = //
     ? string
     : T extends "LOAD_DRIVER"
     ? LoadDriverPayload
+    : T extends "LOAD_DRIVER_EVENT"
+    ? string
     : T extends "LOAD_DRIVER_RESPONSE"
     ? string
     : T extends "GET_SIGNATURE"
@@ -107,6 +110,8 @@ export type RespPayload<T extends MsgType> = //
     ? never
     : T extends "LOAD_DRIVER"
     ? string
+    : T extends "LOAD_DRIVER_EVENT"
+    ? never
     : T extends "LOAD_DRIVER_RESPONSE"
     ? never
     : T extends "CREATE_PROOF"

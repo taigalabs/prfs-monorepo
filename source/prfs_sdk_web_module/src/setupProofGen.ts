@@ -40,7 +40,7 @@ async function eventListener(ev: MessageEvent) {
 
         proofGenEventListener(
           "info",
-          `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`
+          `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`,
         );
 
         try {
@@ -63,7 +63,7 @@ async function eventListener(ev: MessageEvent) {
 
         proofGenEventListener(
           "info",
-          `Start verifying... hardware concurrency: ${window.navigator.hardwareConcurrency}`
+          `Start verifying... hardware concurrency: ${window.navigator.hardwareConcurrency}`,
         );
 
         try {
@@ -84,12 +84,12 @@ async function eventListener(ev: MessageEvent) {
 
         const driverProperties = interpolateSystemAssetEndpoint(
           driver_properties,
-          `${ASSET_ACCESS_ENDPOINT}/assets/circuits`
+          `${ASSET_ACCESS_ENDPOINT}/assets/circuits`,
         );
 
         try {
-          const driver = await initDriver(circuit_driver_id, driverProperties, (msg: any) => {
-            console.log(1, msg);
+          const driver = await initDriver(circuit_driver_id, driverProperties, (msg: string) => {
+            sendMsgToParent(new Msg("LOAD_DRIVER_EVENT", msg));
           });
           state.driver = driver;
 
@@ -113,7 +113,7 @@ async function eventListener(ev: MessageEvent) {
         ev.ports[0].postMessage(
           new Msg("HASH_RESPONSE", {
             msgHash,
-          })
+          }),
         );
 
         // driver.hash();

@@ -29,11 +29,24 @@ export async function handleChildMessage(subscribers: ProofGenElementSubscriber[
           case "PROOF_GEN_EVENT": {
             const { payload } = ev.data;
 
-            console.log("proof gen event", payload);
+            // console.log("proof gen event", payload);
 
             emit(subscribers, {
               type: payload.type,
               data: payload.msg,
+            });
+
+            break;
+          }
+
+          case "LOAD_DRIVER_EVENT": {
+            const { payload } = ev.data;
+
+            // console.log("load driver event", payload);
+
+            emit(subscribers, {
+              type: "LOAD_DRIVER_EVENT",
+              data: payload,
             });
 
             break;

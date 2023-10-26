@@ -52,7 +52,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         };
       });
     },
-    [setFormValues]
+    [setFormValues],
   );
 
   const handleClickCreateProof = React.useCallback(async () => {
@@ -92,7 +92,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         });
 
         elem.subscribe(({ type, data }) => {
-          if (type === "PROOF_GEN_EVENT") {
+          if (type === "LOAD_DRIVER_EVENT") {
+            console.log("powerpower", data);
           }
 
           if (type === "DRIVER_LOADED") {
@@ -134,7 +135,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
               error={formErrors[input.name]}
               setFormValues={setFormValues}
               setFormErrors={setFormErrors}
-            />
+            />,
           );
           break;
         }
@@ -147,7 +148,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
               error={formErrors[input.name]}
               setFormValues={setFormValues}
               setFormErrors={setFormErrors}
-            />
+            />,
           );
           break;
         }
@@ -161,7 +162,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
               setFormValues={setFormValues}
               setFormErrors={setFormErrors}
               proofGenElement={proofGenElement}
-            />
+            />,
           );
           break;
         }
@@ -172,7 +173,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
               circuitInput={input}
               value={formValues[input.name]}
               handleChangeValue={handleChangeValue}
-            />
+            />,
           );
           break;
         }
@@ -183,7 +184,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
               circuitInput={input}
               value={formValues[input.name]}
               handleChangeValue={handleChangeValue}
-            />
+            />,
           );
 
           entriesElem.push(
@@ -193,7 +194,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
               circuitInput={input}
               value={formValues[input.name]}
               handleChangeValue={handleChangeValue}
-            />
+            />,
           );
           break;
         }
@@ -206,7 +207,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
                 <p>{input.label}</p>
               </FormInputTitleRow>
               <input placeholder="Cannot handle circuit input of this type" />
-            </FormInput>
+            </FormInput>,
           );
         }
       }
@@ -243,7 +244,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       <div className={styles.footer}>
         <div className={styles.systemMsg}>
           <p>{proofType.circuit_driver_id}</p>
-          <p>123123</p>
+          <p>{driverMsg}</p>
         </div>
         <div className={styles.terminalLogContainer}>{terminalLog}</div>
       </div>

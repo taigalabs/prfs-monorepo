@@ -46,8 +46,8 @@ export default class SpartanDriver implements CircuitDriver {
       }
 
       const [circuit, wtnsGen] = await Promise.all([
-        fetchAsset(`${circuit_url}?version=${vs}`, eventListener),
-        fetchAsset(`${wtns_gen_url}?version=${vs}`, eventListener),
+        fetchAsset("circuit", `${circuit_url}?version=${vs}`, eventListener),
+        fetchAsset("wtnsGen", `${wtns_gen_url}?version=${vs}`, eventListener),
       ]);
 
       const args: SpartanDriverCtorArgs = {

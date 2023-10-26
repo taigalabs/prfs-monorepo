@@ -1,5 +1,7 @@
 // @ts-ignore
 const snarkJs = require("snarkjs");
+
+import throttle from "lodash.throttle";
 import { fromRpcSig } from "@ethereumjs/util";
 import { DriverEventListener } from "@taigalabs/prfs-driver-interface";
 
@@ -16,6 +18,7 @@ export const snarkJsWitnessGen = async (input: any, wasmFile: string | Uint8Arra
 };
 
 export async function fetchAsset(
+  assetName: string,
   url: string,
   eventListener: DriverEventListener,
 ): Promise<Uint8Array> {
@@ -25,9 +28,25 @@ export async function fetchAsset(
     throw new Error("Response does not contain body");
   }
 
-  const reader = response.body.getReader();
-  const chunks = [];
+  const contentLen = response.headers.get("Content-Length");
+  const totalLen = typeof contentLen === "string" && parseInt(contentLen);
 
+  if (!totalLen) {
+    throw new Error("Content length is not parsable");
+  }
+
+  const emitProgress = throttle(
+    (val: string) => {
+      eventListener(val);
+    },
+    500,
+    { leading: true, trailing: true },
+  );
+
+  const reader = response.body.getReader();
+  const chunks: Uint8Array[] = [];
+
+  let receivedLen = 0;
   while (true) {
     const { done, value } = await reader.read();
 
@@ -35,17 +54,31 @@ export async function fetchAsset(
       break;
     }
 
-    console.log("value", value);
+    chunks.push(value);
 
-    // chunks.push(value);
+    receivedLen += value.length;
+
+    if (typeof totalLen === "number") {
+      const step = parseFloat((receivedLen / totalLen).toFixed(2)) * 100;
+
+      emitProgress(`${assetName} [${step} / 100]`);
+    }
   }
 
   if (!response.ok) {
     throw new Error(`Fetch asset failed, url: ${url}`);
   }
 
-  const circuit = await response.arrayBuffer();
-  return new Uint8Array(circuit);
+  // const circuit = await response.arrayBuffer();
+  const arr = new Uint8Array(totalLen);
+
+  let offset = 0;
+  for (const chunk of chunks) {
+    arr.set(chunk, offset);
+    offset += chunk.length;
+  }
+
+  return arr;
 }
 
 export const bytesToBigInt = (bytes: Uint8Array): bigint =>
