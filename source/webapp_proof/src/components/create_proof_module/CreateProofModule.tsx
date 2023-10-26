@@ -41,7 +41,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
   const didTryInitialize = React.useRef(false);
 
-  const proofGenEventListener = React.useCallback(
+  const handleReceiveMsg = React.useCallback(
     (type: LogEventType, msg: string) => {
       setTerminalLog(msg);
     },
@@ -70,7 +70,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         setCreateProofStatus(CreateProofStatus.InProgress);
 
         const proveReceipt = await proofGenElement.createProof(inputs, proofType.circuit_type_id);
-        proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
+        handleReceiveMsg("info", `Proof created in ${proveReceipt.duration}ms`);
 
         setCreateProofStatus(CreateProofStatus.Loaded);
 
@@ -96,16 +96,18 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           circuit_driver_id,
           driver_properties,
           sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
-          proofGenEventListener: proofGenEventListener,
+          // proofGenEventListener: proofGenEventListener,
         });
 
         elem.subscribe(({ type, data }) => {
           if (type === "DRIVER_LOADED") {
             console.log("driver is loaded!!!");
+            setSystemMsg(data);
           }
 
-          console.log(111, data);
-          setSystemMsg(data);
+          if (type === "PROOF_GEN_EVENT") {
+            console.log(111, data);
+          }
         });
 
         setProofGenElement(elem);
