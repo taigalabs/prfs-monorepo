@@ -1,13 +1,18 @@
 import { MsgType } from "../msg/payload";
 import { ProofGenOptions } from "../sdk/element_options";
 import { Msg } from "../msg";
+import { ProofGenElementSubscriber } from "./types";
+import emit from "./emit";
 
 const singleton: ProofGenElementSingleton = {
   msgEventListener: undefined,
 };
 
-export async function handleChildMessage(options: ProofGenOptions) {
-  const { proofGenEventListener } = options;
+export async function handleChildMessage(
+  // options: ProofGenOptions
+  subscribers: ProofGenElementSubscriber[]
+) {
+  // const { proofGenEventListener } = options;
 
   const ret = await new Promise(resolve => {
     const msgEventListener = (ev: MessageEvent) => {
@@ -29,7 +34,14 @@ export async function handleChildMessage(options: ProofGenOptions) {
           case "PROOF_GEN_EVENT": {
             const { payload } = ev.data;
 
-            proofGenEventListener(payload.type, payload.msg);
+            console.log("proof gen event", payload);
+
+            emit(subscribers, {
+              type: payload.type,
+              data: payload.msg,
+            });
+
+            // proofGenEventListener(payload.type, payload.msg);
             break;
           }
 

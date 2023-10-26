@@ -68,7 +68,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         const inputs = await validateInputs(formValues, proofType);
 
         setCreateProofStatus(CreateProofStatus.InProgress);
-        proofGenEventListener("debug", `Process starts in 3 seconds`);
 
         const proveReceipt = await proofGenElement.createProof(inputs, proofType.circuit_type_id);
         proofGenEventListener("info", `Proof created in ${proveReceipt.duration}ms`);
@@ -100,8 +99,13 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           proofGenEventListener: proofGenEventListener,
         });
 
-        elem.subscribe(msg => {
-          setSystemMsg(msg.data);
+        elem.subscribe(({ type, data }) => {
+          if (type === "DRIVER_LOADED") {
+            console.log("driver is loaded!!!");
+          }
+
+          console.log(111, data);
+          setSystemMsg(data);
         });
 
         setProofGenElement(elem);
