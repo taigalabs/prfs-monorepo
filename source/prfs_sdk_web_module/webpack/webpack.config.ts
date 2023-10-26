@@ -40,8 +40,8 @@ const config: webpack.Configuration = {
       "process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT": str(
         process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT
       ),
-      "process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT": str(
-        process.env.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT
+      "process.env.NEXT_PUBLIC_PRFS_ASSET_ACCESS_ENDPOINT": str(
+        process.env.NEXT_PUBLIC_PRFS_ASSET_ACCESS_ENDPOINT
       ),
     }),
   ],

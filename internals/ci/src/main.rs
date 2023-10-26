@@ -48,9 +48,9 @@ fn main() {
         .subcommand(command!("docker_run_asset_server").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_run_default").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_down_all").arg(Arg::new("extra_args")))
-        // misc
-        .subcommand(command!("seed_api_server"))
-        .subcommand(command!("upload_s3_asset"))
+        // seed
+        .subcommand(command!("seed_api_data"))
+        .subcommand(command!("seed_assets"))
         // test
         .subcommand(command!("e2e_test_web"))
         .get_matches();
@@ -146,11 +146,11 @@ fn main() {
             cmds::docker_down_all::run(sub_matches);
         }
         // misc
-        Some(("seed_api_server", sub_matches)) => {
-            cmds::seed_api_server::run(sub_matches);
+        Some(("seed_api_data", sub_matches)) => {
+            cmds::seed_api_data::run(sub_matches);
         }
-        Some(("upload_s3_asset", sub_matches)) => {
-            cmds::upload_s3_asset::run(sub_matches);
+        Some(("seed_assets", sub_matches)) => {
+            cmds::seed_assets::run(sub_matches);
         }
         // test
         Some(("e2e_test_web", sub_matches)) => {
