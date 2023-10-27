@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import cn from "classnames";
+import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
@@ -100,11 +101,23 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
             </a>
           </li>
         </ul>
-        <div>{isCreatePrfsProofInstanceLoading && <span>...isLoading</span>}</div>
+        <div>
+          {isCreatePrfsProofInstanceLoading && (
+            <div className={styles.spinnerWrapper}>
+              <Spinner color="black" size={28} />
+            </div>
+          )}
+        </div>
         <ul>
           <li>
             <TutorialStepper steps={[4]}>
-              <Button variant="blue_1" handleClick={handleClickUpload}>
+              <Button
+                variant="blue_1"
+                handleClick={handleClickUpload}
+                className={cn({
+                  [styles.inProgress]: !!isCreatePrfsProofInstanceLoading,
+                })}
+              >
                 {i18n.upload}
               </Button>
             </TutorialStepper>
