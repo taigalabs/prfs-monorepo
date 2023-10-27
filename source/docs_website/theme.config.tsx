@@ -1,8 +1,8 @@
 import React from "react";
 import { DocsThemeConfig } from "nextra-theme-docs";
+import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
 
 import Footer from "@/components/footer/Footer";
-import ImageLogo from "@/components/image_logo/ImageLogo";
 import Navigation from "@/components/navigation/Navigation";
 import NavbarExtraContent from "@/components/navbar_extra_content/NavbarExtraContent";
 

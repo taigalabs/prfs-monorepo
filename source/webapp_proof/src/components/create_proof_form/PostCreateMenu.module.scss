@@ -1,5 +1,5 @@
 .wrapper {
-  padding: 2px 42px;
+  padding: 2px 21px;
   /* border: 1px solid var(--bright-gray-30); */
 
   ul {
@@ -62,6 +62,10 @@
     height: 36px;
     padding: 0 20px;
   }
+
+  .inProgress {
+    background-color: var(--blue-10);
+  }
 }
 
 .verifyBtn {
@@ -94,7 +98,7 @@
 .verifyProofFormRow {
   border-top: 1px solid var(--bright-gray-30);
   border-bottom: 1px solid var(--bright-gray-30);
-  margin: 38px 0;
+  margin: 38px 0 48px;
   padding: 14px;
 
   &.isVerifyOpen {
@@ -107,4 +111,10 @@
 
 .verifyFormWrapper {
   /* margin-top: 22px; */
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    padding: 2px 0px 140px;
+  }
 }

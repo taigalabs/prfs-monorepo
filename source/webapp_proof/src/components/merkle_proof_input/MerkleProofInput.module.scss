@@ -68,3 +68,18 @@
     color: var(--aqua-blue-50);
   }
 }
+
+@media screen and (max-width: 480px) {
+  .title {
+    align-items: normal;
+    flex-direction: column;
+  }
+
+  .setLabel {
+    margin-left: 0px;
+  }
+
+  .right {
+    align-self: stretch;
+  }
+}

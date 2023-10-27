@@ -45,7 +45,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const [createProofStatus, setCreateProofStatus] = React.useState(CreateProofStatus.StandBy);
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
-  const didTryInitialize = React.useRef(false);
+  const lastInitProofTypeId = React.useRef<string | null>(null);
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,10 +82,10 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
 
   React.useEffect(() => {
     async function fn() {
-      if (didTryInitialize.current) {
+      if (lastInitProofTypeId.current && lastInitProofTypeId.current === proofType.proof_type_id) {
         return;
       }
-      didTryInitialize.current = true;
+      lastInitProofTypeId.current = proofType.proof_type_id;
 
       const { circuit_driver_id, driver_properties } = proofType;
 
@@ -232,8 +232,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   if (!proofType) {
     return null;
   }
-
-  console.log(44, systemMsg);
 
   return (
     <div className={styles.wrapper}>

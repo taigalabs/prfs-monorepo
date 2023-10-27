@@ -21,14 +21,18 @@ import TutorialStepper from "@/components/tutorial/TutorialStepper";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
-const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
+const JSONbigNative = JSONBig({
+  useNativeBigInt: true,
+  alwaysParseAsBig: true,
+  storeAsString: true,
+});
 
 const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstance }) => {
   const i18n = React.useContext(i18nContext);
   const didTryInitialize = React.useRef(false);
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
 
-  const headerLabel = `${i18n.proof_instance} ${proofInstance.proof_instance_id}`;
+  const headerLabel = `${i18n.proof} ${proofInstance.proof_instance_id}`;
 
   const proveResult = React.useMemo(() => {
     return {
@@ -111,7 +115,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstance }) => {
           <TutorialStepper steps={[5]}>
             <ProofBanner
               proofInstance={proofInstance}
-              webappConsoleEndpoint={envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
+              webappProofEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
             />
           </TutorialStepper>
         </div>

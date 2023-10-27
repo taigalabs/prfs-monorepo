@@ -65,3 +65,14 @@
     line-height: 1.49;
   }
 }
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    width: 100%;
+    padding: 0 6px;
+  }
+
+  .headerLabel {
+    font-size: 16px;
+  }
+}

@@ -53,8 +53,7 @@
         "name": "hashArgRaw",
         "label": "Hash arg raw",
         "desc": "Hash arg raw",
-        "type": "string",
-        "show_priority": 0
+        "type": "string"
       },
       {
         "name": "hashArgHash",

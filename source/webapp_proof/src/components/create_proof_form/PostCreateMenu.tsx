@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import cn from "classnames";
+import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
@@ -21,7 +22,11 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import TutorialStepper from "@/components//tutorial/TutorialStepper";
 import VerifyProofForm from "@/components/verify_proof_form/VerifyProofForm";
 
-const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
+const JSONbigNative = JSONBig({
+  useNativeBigInt: true,
+  alwaysParseAsBig: true,
+  storeAsString: true,
+});
 
 const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
   proveReceipt,
@@ -33,11 +38,12 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
   const router = useRouter();
   const [isVerifyOpen, setIsVerifyOpen] = React.useState(false);
 
-  const { mutateAsync: createPrfsProofInstance } = useMutation({
-    mutationFn: (req: CreatePrfsProofInstanceRequest) => {
-      return prfsApi2("create_prfs_proof_instance", req);
-    },
-  });
+  const { mutateAsync: createPrfsProofInstance, isLoading: isCreatePrfsProofInstanceLoading } =
+    useMutation({
+      mutationFn: (req: CreatePrfsProofInstanceRequest) => {
+        return prfsApi2("create_prfs_proof_instance", req);
+      },
+    });
 
   const handleClickVerify = React.useCallback(() => {
     setIsVerifyOpen(s => !s);
@@ -95,10 +101,23 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
             </a>
           </li>
         </ul>
+        <div>
+          {isCreatePrfsProofInstanceLoading && (
+            <div className={styles.spinnerWrapper}>
+              <Spinner color="black" size={28} />
+            </div>
+          )}
+        </div>
         <ul>
           <li>
             <TutorialStepper steps={[4]}>
-              <Button variant="blue_1" handleClick={handleClickUpload}>
+              <Button
+                variant="blue_1"
+                handleClick={handleClickUpload}
+                className={cn({
+                  [styles.inProgress]: !!isCreatePrfsProofInstanceLoading,
+                })}
+              >
                 {i18n.upload}
               </Button>
             </TutorialStepper>

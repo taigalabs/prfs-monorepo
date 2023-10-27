@@ -1,3 +1,7 @@
 {
-  "index": "Prfs"
+  "index": "Introduction",
+  "getting_started": "Getting started",
+  "circuit_driver": "Circuit driver",
+  "proof_systems": "Proof systems",
+  "concepts": ""
 }

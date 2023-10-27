@@ -2,16 +2,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100px;
-  height: 100px;
+  // width: 100px;
+  // height: 100px;
   position: relative;
-  /* border: 1px solid black; */
   border-radius: 20px;
   overflow: hidden;
+  width: inherit;
+  /* border: 1px solid black; */
 
   img {
-    max-width: 100px;
-    max-height: 100px;
+    width: inherit;
+    // max-width: 100px;
+    // max-height: 100px;
     object-fit: contain;
   }
 }

@@ -9,10 +9,23 @@
 
   > div {
     margin-top: auto;
+    max-width: 140px;
   }
 }
 
 .proofTypeChosen {
   margin-bottom: 14px;
   max-height: 160px;
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    height: auto;
+    margin-top: 15px;
+    margin-bottom: 14px;
+
+    > div {
+      max-width: 120px;
+    }
+  }
 }

@@ -12,6 +12,7 @@
   display: flex;
   align-items: center;
   margin-right: 12px;
+  width: 50px;
 }
 
 .content {
@@ -21,8 +22,20 @@
   padding: 7px 0;
 }
 
+.prioritizedValues {
+  font-size: 13px;
+  font-style: italic;
+  width: 240px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.proofLabel {
+}
+
 .expression {
-  font-size: 21px;
+  font-size: 18px;
   font-weight: 500;
 }
 
@@ -33,7 +46,8 @@
 }
 
 .url {
-  font-size: 12px;
+  margin-top: 4px;
+  font-size: 11px;
 }
 
 .menu {
@@ -48,5 +62,11 @@
     &:hover {
       color: var(--black-00);
     }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    width: 340px;
   }
 }

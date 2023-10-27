@@ -14,17 +14,7 @@ const withNextra = require("nextra")({
 
 const nextConfig = (phase, { defaultConfig }) => {
   /** @type {import('next').NextConfig} */
-  const nextConfig = {
-    reactStrictMode: true,
-    swcMinify: true,
-
-    // till we set up proper build pipeline
-    transpilePackages: [
-      "@taigalabs/prfs-sdk-web",
-      "@taigalabs/prfs-api-js",
-      "@taigalabs/prfs-react-components",
-    ],
-
+  const cfg = {
     webpack: (config, { isServer, dev }) => {
       config.resolve.fallback = { fs: false };
 
@@ -43,7 +33,7 @@ const nextConfig = (phase, { defaultConfig }) => {
           issuer: /\.[jt]sx?$/,
           resourceQuery: { not: /url/ }, // exclude if *.svg?url
           use: ["@svgr/webpack"],
-        }
+        },
       );
 
       // Modify the file loader rule to ignore *.svg, since we have it handled now.
@@ -67,7 +57,18 @@ const nextConfig = (phase, { defaultConfig }) => {
     },
   };
 
-  return nextConfig;
+  return cfg;
 };
 
-module.exports = withNextra(nextConfig);
+const cfg = withNextra(nextConfig);
+
+// withNextra() removes some properties, thus adding after
+cfg.reactStrictMode = true;
+cfg.swcMinify = true;
+cfg.transpilePackages = [
+  "@taigalabs/prfs-sdk-web",
+  "@taigalabs/prfs-api-js",
+  "@taigalabs/prfs-react-components",
+];
+
+module.exports = cfg;

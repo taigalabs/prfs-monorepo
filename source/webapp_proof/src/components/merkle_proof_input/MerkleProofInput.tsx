@@ -121,7 +121,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
 
       setIsOpen(false);
     },
-    [setFormValues, setIsOpen]
+    [setFormValues, setIsOpen],
   );
 
   const handleChangeAddress = React.useCallback(
@@ -154,6 +154,8 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         });
 
         let pos_w = null;
+        // console.log("nodes", payload.prfs_tree_nodes);
+
         for (const node of payload.prfs_tree_nodes) {
           if (node.val === addr.toLowerCase()) {
             pos_w = node.pos_w;
@@ -216,7 +218,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
       setIsInputValid,
       setFormErrors,
       setIsOpen,
-    ]
+    ],
   );
 
   return (
@@ -224,11 +226,11 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
       <FormInputTitleRow>
         <div>
           <p className={styles.title}>
-            {circuitInput.label}
+            <span>{circuitInput.label}</span>
             <span className={styles.setLabel}>({prfsSet ? prfsSet.label : i18n.loading})</span>
           </p>
         </div>
-        <div>
+        <div className={styles.right}>
           <div className={styles.btnRow} ref={refs.setReference} {...getReferenceProps()}>
             <button>
               <RiEqualizerLine />

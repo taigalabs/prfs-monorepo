@@ -111,7 +111,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
             <div className={styles.publicInputRow} key={`${key}-${count}`}>
               <p className={styles.key}>{key}</p>
               <p className={styles.value}>{val}</p>
-            </div>
+            </div>,
           );
         }
       }
