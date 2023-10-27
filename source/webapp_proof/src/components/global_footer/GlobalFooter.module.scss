@@ -31,3 +31,15 @@
     margin-left: 4px;
   }
 }
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    height: auto;
+    flex-direction: column;
+    padding: 12px;
+
+    ul:not(:first-child) {
+      margin-top: 10px;
+    }
+  }
+}
