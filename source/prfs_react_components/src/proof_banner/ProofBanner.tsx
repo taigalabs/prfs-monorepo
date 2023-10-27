@@ -10,7 +10,7 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance, webappProofEnd
   const { prioritizedValues, shortUrl } = React.useMemo(() => {
     const { public_inputs_meta, public_inputs, short_id } = proofInstance;
 
-    console.log(11, public_inputs_meta);
+    console.log(11, public_inputs_meta, public_inputs);
 
     const shortUrl = `${webappProofEndpoint}/p/${short_id}`;
 

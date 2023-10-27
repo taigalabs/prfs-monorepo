@@ -28,7 +28,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstance }) => {
   const didTryInitialize = React.useRef(false);
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
 
-  const headerLabel = `${i18n.proof_instance} ${proofInstance.proof_instance_id}`;
+  const headerLabel = `${i18n.proof} ${proofInstance.proof_instance_id}`;
 
   const proveResult = React.useMemo(() => {
     return {

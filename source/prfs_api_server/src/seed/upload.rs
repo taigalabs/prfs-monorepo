@@ -7,21 +7,20 @@ use prfs_tree_maker::tree_maker_apis;
 use rust_decimal::Decimal;
 use std::path::PathBuf;
 
-use super::read::load_dynamic_sets;
 use crate::paths::PATHS;
 use crate::seed::json::SetElementRecord;
-use crate::seed::read::{
+use crate::seed::local::{
     load_circuit_drivers, load_circuit_input_types, load_circuit_types, load_circuits,
-    load_policy_items, load_prfs_accounts, load_proof_types,
+    load_dynamic_sets, load_policy_items, load_prfs_accounts, load_proof_types,
 };
 use crate::seed::utils;
 
 pub async fn upload(db: &Database2) {
     // upload_circuit_drivers(&db).await;
-    // upload_circuit_types(&db).await;
+    upload_circuit_types(&db).await;
     // upload_circuit_input_types(&db).await;
     // upload_circuits(&db).await;
-    upload_proof_types(&db).await;
+    // upload_proof_types(&db).await;
     // upload_dynamic_sets(&db).await;
     // upload_policy_items(&db).await;
     // upload_prfs_accounts(&db).await;

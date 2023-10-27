@@ -1,5 +1,5 @@
 pub mod db;
 mod json;
-mod read;
+mod local;
+pub mod upload;
 pub mod utils;
-pub mod write;

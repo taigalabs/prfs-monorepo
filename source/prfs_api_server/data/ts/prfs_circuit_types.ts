@@ -72,7 +72,7 @@ const circuit_types: PrfsCircuitType[] = [
     ],
     public_inputs_meta: [
       {
-        name: "hash image",
+        name: "msgHash",
         label: "hash image",
         desc: "Hash image",
         type: "STRING",
