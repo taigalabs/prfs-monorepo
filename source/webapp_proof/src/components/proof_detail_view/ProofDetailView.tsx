@@ -111,7 +111,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstance }) => {
           <TutorialStepper steps={[5]}>
             <ProofBanner
               proofInstance={proofInstance}
-              webappConsoleEndpoint={envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
+              webappProofEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
             />
           </TutorialStepper>
         </div>

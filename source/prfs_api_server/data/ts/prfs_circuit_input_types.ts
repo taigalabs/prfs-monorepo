@@ -56,7 +56,6 @@ const circuit_input_types: PrfsCircuitInputType[] = [
         label: "Hash arg raw",
         desc: "Hash arg raw",
         type: "string",
-        show_priority: 0,
       },
       {
         name: "hashArgHash",

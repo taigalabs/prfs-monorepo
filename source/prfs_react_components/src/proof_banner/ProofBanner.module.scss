@@ -22,8 +22,15 @@
   padding: 7px 0;
 }
 
+.prioritizedValues {
+  font-style: italic;
+}
+
+.proofLabel {
+}
+
 .expression {
-  font-size: 21px;
+  font-size: 19px;
   font-weight: 500;
 }
 
@@ -34,7 +41,8 @@
 }
 
 .url {
-  font-size: 12px;
+  margin-top: 4px;
+  font-size: 11px;
 }
 
 .menu {
