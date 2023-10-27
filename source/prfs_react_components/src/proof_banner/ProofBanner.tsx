@@ -13,8 +13,6 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance, webappProofEnd
 
     const public_inputs = proofInstance.public_inputs as ProofPublicInput;
 
-    console.log(11, public_inputs_meta, public_inputs);
-
     const shortUrl = `${webappProofEndpoint}/p/${short_id}`;
 
     let values = [];
@@ -23,12 +21,13 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance, webappProofEnd
         const { name } = meta;
 
         if (public_inputs[name]) {
-          values.push(public_inputs[name]);
+          values.push(`${name} ${public_inputs[name]}`);
         }
 
         if (public_inputs.circuitPubInput && public_inputs.circuitPubInput[name]) {
           const val = public_inputs.circuitPubInput[name].toString();
-          values.push(val);
+
+          values.push(`${name} ${val}`);
         }
       }
     }

@@ -21,7 +21,11 @@ import TutorialStepper from "@/components/tutorial/TutorialStepper";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
-const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
+const JSONbigNative = JSONBig({
+  useNativeBigInt: true,
+  alwaysParseAsBig: true,
+  storeAsString: true,
+});
 
 const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstance }) => {
   const i18n = React.useContext(i18nContext);

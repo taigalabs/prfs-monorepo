@@ -23,14 +23,19 @@
 }
 
 .prioritizedValues {
+  font-size: 13px;
   font-style: italic;
+  width: 240px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .proofLabel {
 }
 
 .expression {
-  font-size: 19px;
+  font-size: 18px;
   font-weight: 500;
 }
 

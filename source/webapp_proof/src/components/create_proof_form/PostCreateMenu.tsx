@@ -21,7 +21,11 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import TutorialStepper from "@/components//tutorial/TutorialStepper";
 import VerifyProofForm from "@/components/verify_proof_form/VerifyProofForm";
 
-const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
+const JSONbigNative = JSONBig({
+  useNativeBigInt: true,
+  alwaysParseAsBig: true,
+  storeAsString: true,
+});
 
 const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
   proveReceipt,
@@ -33,11 +37,12 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
   const router = useRouter();
   const [isVerifyOpen, setIsVerifyOpen] = React.useState(false);
 
-  const { mutateAsync: createPrfsProofInstance } = useMutation({
-    mutationFn: (req: CreatePrfsProofInstanceRequest) => {
-      return prfsApi2("create_prfs_proof_instance", req);
-    },
-  });
+  const { mutateAsync: createPrfsProofInstance, isLoading: isCreatePrfsProofInstanceLoading } =
+    useMutation({
+      mutationFn: (req: CreatePrfsProofInstanceRequest) => {
+        return prfsApi2("create_prfs_proof_instance", req);
+      },
+    });
 
   const handleClickVerify = React.useCallback(() => {
     setIsVerifyOpen(s => !s);
@@ -95,6 +100,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
             </a>
           </li>
         </ul>
+        <div>{isCreatePrfsProofInstanceLoading && <span>...isLoading</span>}</div>
         <ul>
           <li>
             <TutorialStepper steps={[4]}>
