@@ -9,6 +9,7 @@
 
   > div {
     margin-top: auto;
+    max-width: 140px;
   }
 }
 
@@ -22,5 +23,9 @@
     height: auto;
     margin-top: 15px;
     margin-bottom: 14px;
+
+    > div {
+      max-width: 120px;
+    }
   }
 }

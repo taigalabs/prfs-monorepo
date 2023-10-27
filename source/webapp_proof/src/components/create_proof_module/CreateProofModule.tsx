@@ -233,8 +233,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     return null;
   }
 
-  console.log(44, systemMsg);
-
   return (
     <div className={styles.wrapper}>
       <TutorialStepper steps={[2]}>

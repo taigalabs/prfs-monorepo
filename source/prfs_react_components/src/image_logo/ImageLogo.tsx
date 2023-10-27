@@ -17,5 +17,5 @@ const ImageLogo: React.FC<ImageLogoProps> = ({ width }) => {
 export default ImageLogo;
 
 export interface ImageLogoProps {
-  width?: number;
+  width?: number | "auto";
 }
