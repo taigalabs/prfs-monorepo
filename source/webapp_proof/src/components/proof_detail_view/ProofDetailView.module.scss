@@ -65,3 +65,9 @@
     line-height: 1.49;
   }
 }
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    width: 100%;
+  }
+}

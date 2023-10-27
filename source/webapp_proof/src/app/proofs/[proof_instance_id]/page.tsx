@@ -11,8 +11,9 @@ import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo
 
 import styles from "./page.module.scss";
 import { i18nContext } from "@/contexts/i18n";
+import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import { paths } from "@/paths";
-import DefaultLayout, { DefaultBody } from "@/layouts/default_layout/DefaultLayout";
+import DefaultLayout, { DefaultBody, DefaultFooter } from "@/layouts/default_layout/DefaultLayout";
 import { TopPlaceholder } from "@/components/content_area/ContentArea";
 import ProofDetailView from "@/components/proof_detail_view/ProofDetailView";
 import Masthead from "@/components/masthead/Masthead";
@@ -58,6 +59,10 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
           )}
         </div>
       </DefaultBody>
+
+      <DefaultFooter>
+        <GlobalFooter />
+      </DefaultFooter>
     </DefaultLayout>
   );
 };
