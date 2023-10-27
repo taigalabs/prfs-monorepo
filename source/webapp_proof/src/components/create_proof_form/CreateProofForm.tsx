@@ -57,9 +57,9 @@ const CreateProofForm: React.FC = () => {
   return (
     <div className={styles.wrapper}>
       {proofType ? (
-        <Link href={paths.__}>
+        <a href={paths.__}>
           <LogoContainer proofTypeChosen={!!proofType} />
-        </Link>
+        </a>
       ) : (
         <LogoContainer proofTypeChosen={!!proofType} />
       )}

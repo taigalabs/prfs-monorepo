@@ -154,6 +154,8 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         });
 
         let pos_w = null;
+        // console.log("nodes", payload.prfs_tree_nodes);
+
         for (const node of payload.prfs_tree_nodes) {
           if (node.val === addr.toLowerCase()) {
             pos_w = node.pos_w;
