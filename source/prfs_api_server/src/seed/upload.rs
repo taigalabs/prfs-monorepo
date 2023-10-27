@@ -17,11 +17,11 @@ use crate::seed::utils;
 
 pub async fn upload(db: &Database2) {
     // upload_circuit_drivers(&db).await;
-    upload_circuit_types(&db).await;
+    // upload_circuit_types(&db).await;
     // upload_circuit_input_types(&db).await;
     // upload_circuits(&db).await;
-    // upload_proof_types(&db).await;
-    // upload_dynamic_sets(&db).await;
+    upload_proof_types(&db).await;
+    upload_dynamic_sets(&db).await;
     // upload_policy_items(&db).await;
     // upload_prfs_accounts(&db).await;
 }
@@ -186,7 +186,8 @@ async fn upload_dynamic_sets(db: &Database2) {
 
         let elements_path = PATHS.data.join(&dynamic_set.elements_path);
 
-        let mut rdr = csv::Reader::from_path(elements_path).unwrap();
+        let mut rdr = csv::Reader::from_path(elements_path)
+            .expect(&format!("elements_path: {}", dynamic_set.elements_path));
 
         let mut nodes = vec![];
         for (idx, result) in rdr.deserialize().enumerate() {

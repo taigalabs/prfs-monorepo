@@ -71,7 +71,7 @@ const dynamic_sets: DynamicSetJson[] = [
       elliptic_curve: "Secp256k1",
       created_at: "2023-10-26T00:00:00-00:00",
     },
-    elements_path: "sets/consumer_crypto_hackers.csv",
+    elements_path: "sets/consumer_crypto_hackers_231027.csv",
   },
 ];
 
