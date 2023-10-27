@@ -1,4 +1,7 @@
 .wrapper {
+  width: 100%;
+
+  // border: 1px solid red;
 }
 
 .formArea {
@@ -57,4 +60,10 @@
 
 .moduleWrapper {
   margin-top: 24px;
+}
+
+@media screen and (max-width: 480px) {
+  .formArea {
+    width: 100%;
+  }
 }
