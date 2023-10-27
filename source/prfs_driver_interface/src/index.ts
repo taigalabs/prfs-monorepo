@@ -43,4 +43,9 @@ export interface VerifyReceipt {
   error?: string;
 }
 
+export interface ProofPublicInput {
+  circuitPubInput: Record<string, any>;
+  [key: string]: any;
+}
+
 export type LogEventType = "debug" | "info";

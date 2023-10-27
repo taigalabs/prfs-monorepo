@@ -29,7 +29,7 @@ export async function handleChildMessage(subscribers: ProofGenElementSubscriber[
           case "PROOF_GEN_EVENT": {
             const { payload } = ev.data;
 
-            console.log("proof gen event", payload);
+            // console.log("proof gen event", payload);
 
             emit(subscribers, {
               type: "PROOF_GEN_EVENT",

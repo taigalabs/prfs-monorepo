@@ -1,4 +1,5 @@
 import React from "react";
+import { ProofPublicInput } from "@taigalabs/prfs-driver-interface";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
 
@@ -8,7 +9,9 @@ import QRDialog from "./QRDialog";
 
 const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance, webappProofEndpoint }) => {
   const { prioritizedValues, shortUrl } = React.useMemo(() => {
-    const { public_inputs_meta, public_inputs, short_id } = proofInstance;
+    const { public_inputs_meta, short_id } = proofInstance;
+
+    const public_inputs = proofInstance.public_inputs as ProofPublicInput;
 
     console.log(11, public_inputs_meta, public_inputs);
 
@@ -18,8 +21,14 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance, webappProofEnd
     for (const meta of public_inputs_meta as PublicInputMeta[]) {
       if (meta.show_priority === 0) {
         const { name } = meta;
+
         if (public_inputs[name]) {
           values.push(public_inputs[name]);
+        }
+
+        if (public_inputs.circuitPubInput && public_inputs.circuitPubInput[name]) {
+          const val = public_inputs.circuitPubInput[name].toString();
+          values.push(val);
         }
       }
     }
