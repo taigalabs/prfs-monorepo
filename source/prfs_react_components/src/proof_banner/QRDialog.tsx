@@ -1,7 +1,5 @@
 import React from "react";
-import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
 import { AiOutlineQrcode } from "@react-icons/all-files/ai/AiOutlineQrcode";
-import Popover from "../popover/Popover";
 import {
   useFloating,
   useDismiss,
@@ -18,7 +16,6 @@ import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 
 import styles from "./QRDialog.module.scss";
 import QRCodeView from "../qrcode_view/QRCodeView";
-import Button from "../button/Button";
 
 const QRDialog: React.FC<QRDialogProps> = ({ data }) => {
   const [isOpen, setIsOpen] = React.useState(false);
