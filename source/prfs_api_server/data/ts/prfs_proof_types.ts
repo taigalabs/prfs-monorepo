@@ -220,7 +220,7 @@ const proof_types: PrfsProofType[] = [
     circuit_inputs: [
       {
         ref_type: "PRFS_SET",
-        ref_value: "00000000-0000-0000-0000-000000000003",
+        ref_value: "10000000-0000-0000-0000-100000000003",
         desc: "Who you are among those",
         name: "merkleProof",
         type: "MERKLE_PROOF_1",
