@@ -5,9 +5,11 @@
   width: 300px;
   margin-right: 24px;
   border: 1px solid var(--bright-gray-30);
+  background-color: rgba(255, 255, 255, 0.8);
   border-radius: 3px;
   padding: 18px 18px;
   line-height: 1.33;
+  z-index: 1;
 }
 
 .header {
@@ -33,4 +35,15 @@
 
 .finishBtn {
   border: 1px solid var(--gray-70);
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    top: auto;
+    bottom: 45px;
+    width: 340px;
+    margin-right: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }

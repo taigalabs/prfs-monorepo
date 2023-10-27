@@ -49,3 +49,10 @@
   background-color: orange;
   border-radius: 10px;
 }
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    min-height: 40px;
+    max-height: 100px;
+  }
+}
