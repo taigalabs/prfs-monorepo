@@ -86,3 +86,9 @@
     margin-left: 4px;
   }
 }
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    padding: 14px 7px;
+  }
+}

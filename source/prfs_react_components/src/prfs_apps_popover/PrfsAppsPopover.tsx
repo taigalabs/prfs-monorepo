@@ -26,39 +26,39 @@ import Popover from "../popover/Popover";
 import { TbMathPi } from "../tabler_icons/TbMathPi";
 import Fade from "../fade/Fade";
 import IconButton from "../icon_button/IconButton";
-
-const i18n = {
-  proof: "Proof",
-  poll: "Poll",
-  console: "Console",
-};
+import { i18nContext } from "../contexts/i18nContext";
 
 const Modal: React.FC<MerkleProofModalProps> = ({
   webappProofEndpoint,
   webappConsoleEndpoint,
   webappPollEndpoint,
 }) => {
+  const i18n = React.useContext(i18nContext);
+
   return (
-    <ul className={styles.modal}>
-      <li>
-        <a className={styles.appItem} href={webappProofEndpoint}>
-          <TbMathPi />
-          <span>{i18n.proof}</span>
-        </a>
-      </li>
-      <li>
-        <a className={styles.appItem} href={webappConsoleEndpoint}>
-          <GrMonitor />
-          <span>{i18n.console}</span>
-        </a>
-      </li>
-      {/* <li> */}
-      {/*   <a className={styles.appItem} href={webappPollEndpoint}> */}
-      {/*     <FaVoteYea /> */}
-      {/*     <span>{i18n.poll}</span> */}
-      {/*   </a> */}
-      {/* </li> */}
-    </ul>
+    <div className={styles.modal}>
+      <ul>
+        <li>
+          <a className={styles.appItem} href={webappProofEndpoint}>
+            <span>{i18n.documentation}</span>
+          </a>
+        </li>
+      </ul>
+      <ul>
+        <li>
+          <a className={styles.appItem} href={webappProofEndpoint}>
+            <TbMathPi />
+            <span>{i18n.proof}</span>
+          </a>
+        </li>
+        <li>
+          <a className={styles.appItem} href={webappConsoleEndpoint}>
+            <GrMonitor />
+            <span>{i18n.console}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
   );
 };
 

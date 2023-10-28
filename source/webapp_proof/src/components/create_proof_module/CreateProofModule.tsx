@@ -65,14 +65,11 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     if (proofGenElement) {
       try {
         const inputs = await validateInputs(formValues, proofType);
-
         setCreateProofStatus(CreateProofStatus.InProgress);
 
         const proveReceipt = await proofGenElement.createProof(inputs, proofType.circuit_type_id);
         setSystemMsg(`Proof created in ${proveReceipt.duration}ms`);
-
         setCreateProofStatus(CreateProofStatus.Created);
-
         handleCreateProofResult(null, proveReceipt);
       } catch (err) {
         handleCreateProofResult(err, null);
