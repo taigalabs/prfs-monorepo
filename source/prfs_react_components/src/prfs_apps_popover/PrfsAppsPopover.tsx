@@ -37,14 +37,14 @@ const Modal: React.FC<MerkleProofModalProps> = ({
 
   return (
     <div className={styles.modal}>
-      <ul>
+      <ul className={styles.auxMenu}>
         <li>
           <a className={styles.appItem} href={webappProofEndpoint}>
             <span>{i18n.documentation}</span>
           </a>
         </li>
       </ul>
-      <ul>
+      <ul className={styles.appMenu}>
         <li>
           <a className={styles.appItem} href={webappProofEndpoint}>
             <TbMathPi />
