@@ -115,8 +115,9 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
                 variant="blue_1"
                 handleClick={handleClickUpload}
                 className={cn({
-                  [styles.inProgress]: !!isCreatePrfsProofInstanceLoading,
+                  [styles.inProgress]: isCreatePrfsProofInstanceLoading,
                 })}
+                disabled={isCreatePrfsProofInstanceLoading}
               >
                 {i18n.upload}
               </Button>
