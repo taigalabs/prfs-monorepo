@@ -14,7 +14,8 @@ const HomePage = () => {
       <DefaultBody>
         <div className={styles.container}>
           <Tutorial />
-          <CreateProofForm />
+          <SearchProofTypeForm />
+          {/* <CreateProofForm /> */}
         </div>
       </DefaultBody>
       <DefaultFooter>

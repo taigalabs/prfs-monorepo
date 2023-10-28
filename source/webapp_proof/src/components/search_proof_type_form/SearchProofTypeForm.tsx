@@ -15,7 +15,7 @@ import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_p
 import styles from "./CreateProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
-import PostCreateMenu from "./PostCreateMenu";
+// import PostCreateMenu from "./PostCreateMenu";
 import LogoContainer from "./LogoContainer";
 import { paths } from "@/paths";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
