@@ -1,7 +1,8 @@
 {
   "index": "Introduction",
   "getting_started": "Getting started",
-  "proof_systems": "Proof systems",
+  "tutorial": "Tutorial",
   "concepts": "Concepts",
-  "circuit_driver": "Circuit driver"
+  "proof_systems": "Proof systems",
+  "circuit_drivers": "Circuit drivers"
 }
