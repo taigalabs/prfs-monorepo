@@ -4,7 +4,7 @@ import React from "react";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import cn from "classnames";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import { useRouter, useSearchParams } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { useMutation } from "@tanstack/react-query";
@@ -28,11 +28,22 @@ const CreateProofForm: React.FC = () => {
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
+  const proofTypeId = searchParams.get("proof_type_id");
 
   React.useEffect(() => {
-    const proofTypeId = searchParams.get("proof_type_id");
-    console.log(11, proofTypeId);
-  }, [searchParams]);
+    async function fn() {
+      if (proofTypeId) {
+        const { payload } = await getPrfsProofTypeByProofTypeIdRequest({
+          proof_type_id: proofTypeId,
+        });
+
+        setProofType(payload.prfs_proof_type);
+      } else {
+      }
+    }
+
+    fn().then();
+  }, [proofTypeId]);
 
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
@@ -42,14 +53,9 @@ const CreateProofForm: React.FC = () => {
 
   const handleSelectProofType = React.useCallback(
     async (proofType: PrfsProofType) => {
-      const { payload } = await getPrfsProofTypeByProofTypeIdRequest({
-        proof_type_id: proofType.proof_type_id,
-      });
-
-      // setProofType(payload.prfs_proof_type);
-      router.push(`${paths.create}?proof_type=${payload.prfs_proof_type}`);
+      router.push(`${paths.create}?proof_type_id=${proofType.proof_type_id}`);
     },
-    [getPrfsProofTypeByProofTypeIdRequest, setProofType, router],
+    [getPrfsProofTypeByProofTypeIdRequest, router],
   );
 
   const handleCreateProofResult = React.useCallback(
@@ -63,15 +69,15 @@ const CreateProofForm: React.FC = () => {
     [setProveReceipt],
   );
 
+  if (!proofTypeId) {
+    redirect(paths.__);
+  }
+
   return (
     <div className={styles.wrapper}>
-      {proofType ? (
-        <a href={paths.__}>
-          <LogoContainer proofTypeChosen={!!proofType} />
-        </a>
-      ) : (
-        <LogoContainer proofTypeChosen={!!proofType} />
-      )}
+      <a href={paths.__}>
+        <LogoContainer proofTypeChosen={true} />
+      </a>
       <div className={cn({ [styles.formArea]: true, [styles.proofTypeChosen]: !!proofType })}>
         {proveReceipt ? (
           <Fade>
@@ -97,24 +103,18 @@ const CreateProofForm: React.FC = () => {
                 />
               </TutorialStepper>
             </div>
-            {!proofType && (
-              <div className={styles.welcomeRow}>
-                <span>{i18n.create_and_share_proofs}</span>
-                <Link href={`${paths.__}/?tutorial_id=simple_hash`}>How?</Link>
-              </div>
-            )}
-            {proofType && (
-              <div className={styles.moduleWrapper}>
-                <Fade>
+            <div className={styles.moduleWrapper}>
+              <Fade>
+                {proofType && (
                   <CreateProofModule
                     proofType={proofType}
                     handleCreateProofResult={handleCreateProofResult}
                     proofGenElement={proofGenElement}
                     setProofGenElement={setProofGenElement}
                   />
-                </Fade>
-              </div>
-            )}
+                )}
+              </Fade>
+            </div>
           </div>
         )}
       </div>
