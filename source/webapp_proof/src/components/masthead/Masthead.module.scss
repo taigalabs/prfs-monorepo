@@ -65,6 +65,11 @@
   }
 }
 
+.bigScreen {
+  display: flex;
+  align-items: center;
+}
+
 .tutorialBtn {
   svg {
     display: none;
