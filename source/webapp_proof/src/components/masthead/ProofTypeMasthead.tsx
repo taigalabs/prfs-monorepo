@@ -12,8 +12,14 @@ import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import { useSearchParams } from "next/navigation";
 import LogoContainer from "@/components/logo_container/LogoContainer";
+import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
+import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
 
-const ProofTypeMasthead: React.FC<MastheadProps> = () => {
+const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
+  proofType,
+  handleSelectProofType,
+}) => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
 
@@ -27,19 +33,19 @@ const ProofTypeMasthead: React.FC<MastheadProps> = () => {
   return (
     <div className={cn({ [styles.wrapper]: true, [styles.isTutorial]: isTutorial })}>
       <div className={styles.inner}>
-        <div>
+        <div className={styles.logoArea}>
           <a href={paths.__}>
-            <LogoContainer proofTypeChosen={true} />
+            <ImageLogo width={55} />
           </a>
         </div>
-        <div>
-          {/* <SelectProofTypeDialog */}
-          {/*   proofType={proofType} */}
-          {/*   handleSelectProofType={handleSelectProofType} */}
-          {/*   webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT} */}
-          {/* /> */}
+        <div className={styles.searchArea}>
+          <SelectProofTypeDialog
+            proofType={proofType}
+            handleSelectProofType={handleSelectProofType}
+            webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
+          />
         </div>
-        <ul className={styles.rightGroup}>
+        <ul className={styles.rightArea}>
           <li className={styles.menu}>
             <a href={tutorialUrl}>
               <p className={cn({ [styles.tutorialBtn]: true, [styles.isTutorial]: isTutorial })}>
@@ -67,4 +73,7 @@ const ProofTypeMasthead: React.FC<MastheadProps> = () => {
 
 export default ProofTypeMasthead;
 
-export interface MastheadProps {}
+export interface ProofTypeMastheadProps {
+  proofType: PrfsProofType | undefined;
+  handleSelectProofType: (proofType: PrfsProofType) => void;
+}
