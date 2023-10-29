@@ -78,9 +78,9 @@ const CreateProofForm: React.FC = () => {
     <>
       <ProofTypeMasthead proofType={proofType} handleSelectProofType={handleSelectProofType} />
       <div className={styles.wrapper}>
-        <a href={paths.__}>
-          <LogoContainer proofTypeChosen={true} />
-        </a>
+        {/* <a href={paths.__}> */}
+        {/*   <LogoContainer proofTypeChosen={true} /> */}
+        {/* </a> */}
         <div className={cn({ [styles.formArea]: true, [styles.proofTypeChosen]: !!proofType })}>
           {proveReceipt ? (
             <Fade>
@@ -97,15 +97,6 @@ const CreateProofForm: React.FC = () => {
                 [styles.proofTypeChosen]: !!proofType,
               })}
             >
-              <div className={styles.proofTypeRow}>
-                {/* <TutorialStepper steps={[1]} fullWidth mainAxisOffset={20} crossAxisOffset={15}> */}
-                {/*   <SelectProofTypeDialog */}
-                {/*     proofType={proofType} */}
-                {/*     handleSelectProofType={handleSelectProofType} */}
-                {/*     webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT} */}
-                {/*   /> */}
-                {/* </TutorialStepper> */}
-              </div>
               <div className={styles.moduleWrapper}>
                 <Fade>
                   {proofType && (
