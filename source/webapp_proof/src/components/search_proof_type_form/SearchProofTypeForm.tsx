@@ -12,7 +12,7 @@ import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/b
 import Link from "next/link";
 import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
 
-import styles from "./CreateProofForm.module.scss";
+import styles from "./SearchProofTypeForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
 // import PostCreateMenu from "./PostCreateMenu";
@@ -41,7 +41,7 @@ const SearchProofTypeForm: React.FC = () => {
       });
 
       // setProofType(payload.prfs_proof_type);
-      router.push(`${paths.create}?proof_type=${payload.prfs_proof_type}`);
+      router.push(`${paths.create}?proof_type_id=${payload.prfs_proof_type.proof_type_id}`);
     },
     [getPrfsProofTypeByProofTypeIdRequest, setProofType, router],
   );
@@ -59,13 +59,7 @@ const SearchProofTypeForm: React.FC = () => {
 
   return (
     <div className={styles.wrapper}>
-      {proofType ? (
-        <a href={paths.__}>
-          <LogoContainer proofTypeChosen={!!proofType} />
-        </a>
-      ) : (
-        <LogoContainer proofTypeChosen={!!proofType} />
-      )}
+      <LogoContainer proofTypeChosen={false} />
       <div className={cn({ [styles.formArea]: true, [styles.proofTypeChosen]: !!proofType })}>
         <div
           className={cn({
@@ -82,24 +76,10 @@ const SearchProofTypeForm: React.FC = () => {
               />
             </TutorialStepper>
           </div>
-          {!proofType && (
-            <div className={styles.welcomeRow}>
-              <span>{i18n.create_and_share_proofs}</span>
-              <Link href={`${paths.__}/?tutorial_id=simple_hash`}>How?</Link>
-            </div>
-          )}
-          {proofType && (
-            <div className={styles.moduleWrapper}>
-              <Fade>
-                <CreateProofModule
-                  proofType={proofType}
-                  handleCreateProofResult={handleCreateProofResult}
-                  proofGenElement={proofGenElement}
-                  setProofGenElement={setProofGenElement}
-                />
-              </Fade>
-            </div>
-          )}
+          <div className={styles.welcomeRow}>
+            <span>{i18n.create_and_share_proofs}</span>
+            <Link href={`${paths.__}/?tutorial_id=simple_hash`}>How?</Link>
+          </div>
         </div>
       </div>
     </div>

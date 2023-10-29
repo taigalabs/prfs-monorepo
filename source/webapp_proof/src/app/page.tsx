@@ -6,6 +6,7 @@ import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 import Masthead from "@/components/masthead/Masthead";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import Tutorial from "@/components/tutorial/Tutorial";
+import SearchProofTypeForm from "@/components/search_proof_type_form/SearchProofTypeForm";
 
 const HomePage = () => {
   return (

@@ -1,0 +1,77 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  // border: 1px solid red;
+}
+
+.formArea {
+  width: 518px;
+  display: flex;
+  justify-content: center;
+  padding: 3px 0;
+
+  .proofTypeChosen {
+    padding: 14px 14px 34px;
+  }
+}
+
+.formWrapper {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.proofTypeRow {
+  border-radius: 5px;
+}
+
+.select {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: 100%;
+}
+
+.createProofBtn {
+  margin-top: 10px;
+
+  button {
+    height: 42px;
+    width: 100%;
+  }
+}
+
+.welcomeRow {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  color: var(--gray-20);
+
+  a {
+    margin-left: 5px;
+    color: var(--dark-blue-50);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.moduleWrapper {
+  margin-top: 24px;
+}
+
+@media screen and (max-width: 480px) {
+  .formArea {
+    width: 100%;
+    padding: 0 10px;
+
+    .proofTypeChosen {
+      padding: 9px 0px 34px;
+    }
+  }
+}

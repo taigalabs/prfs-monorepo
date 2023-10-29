@@ -4,7 +4,7 @@ import React from "react";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import cn from "classnames";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { useMutation } from "@tanstack/react-query";
@@ -27,6 +27,12 @@ const CreateProofForm: React.FC = () => {
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt>();
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  React.useEffect(() => {
+    const proofTypeId = searchParams.get("proof_type_id");
+    console.log(11, proofTypeId);
+  }, [searchParams]);
 
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {

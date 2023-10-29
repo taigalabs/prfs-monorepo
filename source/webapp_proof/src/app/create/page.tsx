@@ -6,14 +6,8 @@ import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 import Masthead from "@/components/masthead/Masthead";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import Tutorial from "@/components/tutorial/Tutorial";
-import { useSearchParams } from "next/navigation";
 
 const CreatePage = () => {
-  const searchParams = useSearchParams();
-
-  const proofType = searchParams.get("proof_type");
-  console.log(22, proofType);
-
   return (
     <DefaultLayout>
       <Masthead />
