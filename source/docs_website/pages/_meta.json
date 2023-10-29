@@ -4,5 +4,6 @@
   "tutorial": "Tutorial",
   "concepts": "Concepts",
   "proof_systems": "Proof systems",
-  "circuit_drivers": "Circuit drivers"
+  "circuit_drivers": "Circuit drivers",
+  "reference_values": "Reference values"
 }
