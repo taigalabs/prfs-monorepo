@@ -85,10 +85,33 @@
 
 @media screen and (max-width: 480px) {
   .wrapper {
-    padding: 14px 7px;
+    padding: 6px 7px;
+    height: 102px;
   }
 
   .bigScreen {
     display: none;
+  }
+
+  .logoArea {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 40px;
+    margin-top: 6px;
+    border: 1px solid blue;
+  }
+
+  .searchArea {
+    flex: 1;
+    margin-top: 43px;
+  }
+
+  .rightArea {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 6px;
+    border: 1px solid blue;
   }
 }
