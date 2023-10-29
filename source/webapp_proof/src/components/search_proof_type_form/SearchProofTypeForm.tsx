@@ -16,12 +16,12 @@ import styles from "./CreateProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
 // import PostCreateMenu from "./PostCreateMenu";
-import LogoContainer from "./LogoContainer";
+import LogoContainer from "@/components/logo_container/LogoContainer";
 import { paths } from "@/paths";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
-const CreateProofForm: React.FC = () => {
+const SearchProofTypeForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const [proofType, setProofType] = React.useState<PrfsProofType>();
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt>();
@@ -67,59 +67,43 @@ const CreateProofForm: React.FC = () => {
         <LogoContainer proofTypeChosen={!!proofType} />
       )}
       <div className={cn({ [styles.formArea]: true, [styles.proofTypeChosen]: !!proofType })}>
-        {proveReceipt ? (
-          <Fade>
-            <PostCreateMenu
-              proveReceipt={proveReceipt}
-              proofType={proofType!}
-              proofGenElement={proofGenElement!}
-            />
-          </Fade>
-        ) : (
-          <div
-            className={cn({
-              [styles.formWrapper]: true,
-              [styles.proofTypeChosen]: !!proofType,
-            })}
-          >
-            <div className={styles.proofTypeRow}>
-              <TutorialStepper steps={[1]} fullWidth mainAxisOffset={20} crossAxisOffset={15}>
-                <SelectProofTypeDialog
-                  proofType={proofType}
-                  handleSelectProofType={handleSelectProofType}
-                  webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
-                />
-              </TutorialStepper>
-            </div>
-            {!proofType && (
-              <div className={styles.welcomeRow}>
-                <span>{i18n.create_and_share_proofs}</span>
-                <Link href={`${paths.__}/?tutorial_id=simple_hash`}>How?</Link>
-              </div>
-            )}
-            {proofType && (
-              <div className={styles.moduleWrapper}>
-                <Fade>
-                  <CreateProofModule
-                    proofType={proofType}
-                    handleCreateProofResult={handleCreateProofResult}
-                    proofGenElement={proofGenElement}
-                    setProofGenElement={setProofGenElement}
-                  />
-                </Fade>
-              </div>
-            )}
+        <div
+          className={cn({
+            [styles.formWrapper]: true,
+            [styles.proofTypeChosen]: !!proofType,
+          })}
+        >
+          <div className={styles.proofTypeRow}>
+            <TutorialStepper steps={[1]} fullWidth mainAxisOffset={20} crossAxisOffset={15}>
+              <SelectProofTypeDialog
+                proofType={proofType}
+                handleSelectProofType={handleSelectProofType}
+                webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
+              />
+            </TutorialStepper>
           </div>
-        )}
+          {!proofType && (
+            <div className={styles.welcomeRow}>
+              <span>{i18n.create_and_share_proofs}</span>
+              <Link href={`${paths.__}/?tutorial_id=simple_hash`}>How?</Link>
+            </div>
+          )}
+          {proofType && (
+            <div className={styles.moduleWrapper}>
+              <Fade>
+                <CreateProofModule
+                  proofType={proofType}
+                  handleCreateProofResult={handleCreateProofResult}
+                  proofGenElement={proofGenElement}
+                  setProofGenElement={setProofGenElement}
+                />
+              </Fade>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
-export default CreateProofForm;
-
-export interface ProofTypeItem {
-  proofTypeId: string;
-  label: string;
-  imgUrl: string | null;
-}
+export default SearchProofTypeForm;
