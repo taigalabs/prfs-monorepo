@@ -1,0 +1,104 @@
+.wrapper {
+  top: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
+  display: flex;
+  padding: 14px 24px;
+  height: 56px;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--white-100);
+  z-index: 10;
+  font-size: 13px;
+  border-bottom: 1px solid var(--gray-70);
+
+  &.isTutorial {
+    background-color: rgba(0, 0, 0, 0.62);
+  }
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  /* max-width: 1280px; */
+  width: 100%;
+  justify-content: space-between;
+}
+
+.leftGroup {
+  display: flex;
+  flex: 1;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  font-size: 1.545rem;
+}
+
+.leftMenu {
+  margin-left: 32px;
+  display: flex;
+  align-items: center;
+
+  li:not(:first-child) {
+    margin-left: 24px;
+  }
+}
+
+.rightGroup {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+
+  .menu {
+    display: flex;
+    align-items: center;
+  }
+
+  > li:not(:first-child) {
+    margin-left: 24px;
+  }
+
+  .menu:hover {
+    text-decoration: underline;
+  }
+}
+
+.bigScreen {
+  display: flex;
+  align-items: center;
+}
+
+.tutorialBtn {
+  svg {
+    display: none;
+  }
+}
+
+.tutorialBtn.isTutorial {
+  background-color: white;
+  border-radius: 3px;
+  padding: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--aqua-blue-40);
+  display: flex;
+  align-items: center;
+
+  svg {
+    display: block;
+    margin-left: 4px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    padding: 14px 7px;
+  }
+
+  .bigScreen {
+    display: none;
+  }
+}

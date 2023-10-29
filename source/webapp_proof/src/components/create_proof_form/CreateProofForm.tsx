@@ -16,7 +16,7 @@ import styles from "./CreateProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
 import PostCreateMenu from "./PostCreateMenu";
-import LogoContainer from "./LogoContainer";
+import LogoContainer from "@/components/logo_container/LogoContainer";
 import { paths } from "@/paths";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
