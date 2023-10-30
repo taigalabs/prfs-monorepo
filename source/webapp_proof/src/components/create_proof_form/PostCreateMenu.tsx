@@ -10,7 +10,6 @@ import { v4 as uuidv4 } from "uuid";
 import { useMutation } from "@tanstack/react-query";
 import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
 import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
-import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
 import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 import JSONBig from "json-bigint";
@@ -82,8 +81,8 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
         <p>{i18n.prove_success_msg}</p>
       </div>
       <div className={styles.proofTypeRow}>
-        <div className={styles.button}>
-          <CaptionedImg img_url={proofType.img_url} size={32} />
+        <div className={styles.proofType}>
+          <CaptionedImg img_url={proofType.img_url} size={20} />
           <p className={styles.proofTypeLabel}>{proofType.label}</p>
         </div>
       </div>
@@ -92,7 +91,6 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
         <i>{Math.floor((proveReceipt.duration / 1000) * 1000) / 1000} secs. </i>
         <span>{i18n.proof_upload_guide}</span>
       </div>
-
       <div className={styles.btnGroup}>
         <ul>
           <li>
@@ -125,7 +123,6 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
           </li>
         </ul>
       </div>
-
       <div
         className={cn({ [styles.verifyProofFormRow]: true, [styles.isVerifyOpen]: isVerifyOpen })}
       >

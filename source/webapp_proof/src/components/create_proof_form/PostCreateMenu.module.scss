@@ -1,5 +1,6 @@
 .wrapper {
-  padding: 2px 21px;
+  padding: 0px 21px;
+  margin-top: 34px;
   /* border: 1px solid var(--bright-gray-30); */
 
   ul {
@@ -26,16 +27,16 @@
   justify-content: center;
   margin-top: 20px;
 
-  .button {
+  .proofType {
     display: flex;
     align-items: center;
-    background-color: var(--white-100);
+    background-color: #f9f9f6;
     border: 1px solid var(--bright-gray-30);
     cursor: default;
-    border-radius: 40px;
-    height: 44px;
-    padding-left: 18px;
-    padding-right: 18px;
+    border-radius: 5px;
+    height: 28px;
+    padding-left: 6px;
+    padding-right: 6px;
   }
 
   .proofTypeLabel {
