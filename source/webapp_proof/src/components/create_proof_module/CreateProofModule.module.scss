@@ -38,6 +38,15 @@
   }
 }
 
+.driverMsg {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 20px;
+  width: 100%;
+  color: var(--gray-30);
+  font-size: 12px;
+}
+
 .footer {
   display: flex;
   flex-direction: column;

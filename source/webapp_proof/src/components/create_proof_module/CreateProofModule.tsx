@@ -232,6 +232,12 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
 
   return (
     <div className={styles.wrapper}>
+      <div className={styles.driverMsg}>
+        <div className={styles.msg}>{proofType.circuit_driver_id}</div>
+        {loadDriverStatus === LoadDriverStatus.InProgress && (
+          <div className={styles.msg}>{driverMsg}</div>
+        )}
+      </div>
       <TutorialStepper steps={[2]}>
         <div className={styles.form}>{circuitInputsElem}</div>
       </TutorialStepper>
@@ -252,12 +258,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         </Button>
       </div>
       <div className={styles.footer}>
-        <div className={styles.msg}>{proofType.circuit_driver_id}</div>
-
-        {loadDriverStatus === LoadDriverStatus.InProgress && (
-          <div className={styles.msg}>{driverMsg}</div>
-        )}
-
         <div className={styles.msg}>{systemMsg}</div>
       </div>
     </div>

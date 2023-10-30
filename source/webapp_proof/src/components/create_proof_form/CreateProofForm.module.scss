@@ -11,7 +11,7 @@
   width: 518px;
   display: flex;
   justify-content: center;
-  padding: 3px 0;
+  /* padding: 3px 0; */
 
   .proofTypeChosen {
     padding: 14px 14px 34px;
@@ -62,7 +62,6 @@
 }
 
 .moduleWrapper {
-  margin-top: 24px;
 }
 
 @media screen and (max-width: 480px) {

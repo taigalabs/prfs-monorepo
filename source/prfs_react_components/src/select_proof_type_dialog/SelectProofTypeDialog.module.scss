@@ -26,12 +26,14 @@
   }
 
   &.proofTypeChosen {
-    padding-left: 3px;
+    padding-left: 0px;
+    padding-right: 6px;
 
     button {
       /* width: 100%; */
-      width: auto;
-      padding-left: 8px;
+      /* width: auto; */
+      width: calc(100% + 4px);
+      padding-left: 12px;
       padding-right: 10px;
     }
   }
@@ -69,6 +71,14 @@
   align-items: center;
 }
 
+.searchBtn {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  color: var(--blue-50);
+  margin-left: auto;
+}
+
 .placeholderBtn {
   display: flex;
   align-items: center;
@@ -77,11 +87,6 @@
   > div {
     display: flex;
     align-items: center;
-  }
-
-  > div:nth-child(2) {
-    font-size: 24px;
-    color: var(--blue-50);
   }
 }
 

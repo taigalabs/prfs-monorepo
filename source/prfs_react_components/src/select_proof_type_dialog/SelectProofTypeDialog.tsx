@@ -57,7 +57,7 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
       setIsOpen(false);
       handleSelectProofType(proofType);
     },
-    [handleSelectProofType, setIsOpen]
+    [handleSelectProofType, setIsOpen],
   );
 
   return (
@@ -73,6 +73,9 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
           <div className={styles.proofTypeBtn}>
             <CaptionedImg img_url={proofType.img_url} size={32} />
             <p className={styles.label}>{proofType.label}</p>
+            <div className={styles.searchBtn}>
+              <IoIosSearch />
+            </div>
           </div>
         ) : (
           <div className={styles.placeholderBtn}>
@@ -80,7 +83,7 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
               {isOpen && <SearchIcon />}
               <p className={styles.placeholder}>{i18n.find_what_to_prove}</p>
             </div>
-            <div>
+            <div className={styles.searchBtn}>
               <IoIosSearch />
             </div>
           </div>

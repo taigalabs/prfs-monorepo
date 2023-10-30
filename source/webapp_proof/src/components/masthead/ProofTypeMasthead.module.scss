@@ -5,13 +5,13 @@
   position: fixed;
   display: flex;
   padding: 14px 24px;
-  height: 139px;
+  height: 89px;
   justify-content: center;
   align-items: center;
   background-color: var(--white-100);
   z-index: 10;
   font-size: 13px;
-  border-bottom: 1px solid var(--gray-70);
+  border-bottom: 1px solid var(--bright-gray-30);
 
   &.isTutorial {
     background-color: rgba(0, 0, 0, 0.62);
@@ -31,7 +31,7 @@
 
 .searchArea {
   flex: 0 0 518px;
-  border: 1px solid red;
+  // border: 1px solid red;
 }
 
 .rightArea {
