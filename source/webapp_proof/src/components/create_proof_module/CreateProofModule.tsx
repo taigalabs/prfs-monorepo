@@ -1,7 +1,7 @@
 import React from "react";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { LogEventType, ProveReceipt } from "@taigalabs/prfs-driver-interface";
+import { DriverEventType, ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
@@ -94,18 +94,19 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
         });
 
-        elem.subscribe(({ type, data }) => {
-          if (type === "LOAD_DRIVER_EVENT") {
-            setDriverMsg(data);
+        elem.subscribe(msg => {
+          console.log(1, msg);
+          if (msg.type === "LOAD_DRIVER_EVENT") {
+            setDriverMsg(msg.payload);
           }
 
-          if (type === "DRIVER_LOADED") {
+          if (msg.type === "LOAD_DRIVER") {
             // console.log("driver is loaded!!!");
             setLoadDriverStatus(LoadDriverStatus.Loaded);
           }
 
-          if (type === "PROOF_GEN_EVENT") {
-            setSystemMsg(data.msg);
+          if (msg.type === "CREATE_PROOF_EVENT") {
+            setSystemMsg("");
           }
         });
 

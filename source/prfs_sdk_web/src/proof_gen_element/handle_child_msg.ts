@@ -30,7 +30,7 @@ export async function handleChildMessage(subscribers: ProofGenElementSubscriber[
 
             emit(subscribers, {
               type: "CREATE_PROOF_EVENT",
-              data: payload,
+              payload,
             });
 
             break;
@@ -42,7 +42,7 @@ export async function handleChildMessage(subscribers: ProofGenElementSubscriber[
 
             emit(subscribers, {
               type: "LOAD_DRIVER_EVENT",
-              data: payload,
+              payload,
             });
 
             break;

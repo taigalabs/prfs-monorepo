@@ -78,13 +78,13 @@ class ProofGenElement {
         circuit_driver_id,
         driver_properties,
       }),
-      iframe
+      iframe,
     ).then(driverVersion => {
       this.state.driverVersion = driverVersion;
 
       emit(this.subscribers, {
-        type: "DRIVER_LOADED",
-        data: driverVersion,
+        type: "LOAD_DRIVER",
+        payload: driverVersion,
       });
     });
 
@@ -102,7 +102,7 @@ class ProofGenElement {
           inputs,
           circuitTypeId,
         }),
-        this.state.iframe
+        this.state.iframe,
       );
 
       return proveReceipt;
@@ -122,7 +122,7 @@ class ProofGenElement {
           proveResult,
           circuitTypeId,
         }),
-        this.state.iframe
+        this.state.iframe,
       );
 
       return verifyReceipt;
@@ -141,7 +141,7 @@ class ProofGenElement {
         new Msg("HASH", {
           msg: args,
         }),
-        this.state.iframe
+        this.state.iframe,
       );
 
       return resp.msgHash;
@@ -150,7 +150,7 @@ class ProofGenElement {
     }
   }
 
-  subscribe(subscriber: (type: SubscribedMsg) => void): ProofGenElement {
+  subscribe(subscriber: (msg: SubscribedMsg) => void): ProofGenElement {
     this.subscribers.push(subscriber);
 
     return this;

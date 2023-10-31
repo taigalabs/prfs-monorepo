@@ -18,10 +18,6 @@ const state: ProofGenModuleState = {
   driver: null,
 };
 
-// function proofGenEventListener(type: LogEventType, msg: string) {
-// sendMsgToParent(new Msg("PROOF_GEN_EVENT", { type, msg }));
-// }
-
 async function eventListener(ev: MessageEvent) {
   const { driver } = state;
 
@@ -38,10 +34,6 @@ async function eventListener(ev: MessageEvent) {
           return;
         }
 
-        // proofGenEventListener(
-        //   "info",
-        //   `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`,
-        // );
         sendMsgToParent(
           new Msg("CREATE_PROOF_EVENT", {
             type: "info",
@@ -69,10 +61,6 @@ async function eventListener(ev: MessageEvent) {
           return;
         }
 
-        // proofGenEventListener(
-        //   "info",
-        //   `Start verifying... hardware concurrency: ${window.navigator.hardwareConcurrency}`,
-        // );
         sendMsgToParent(
           new Msg("VERIFY_PROOF_EVENT", {
             type: "info",
@@ -108,6 +96,7 @@ async function eventListener(ev: MessageEvent) {
             circuit_driver_id,
             driverProperties,
             (ev: DriverEvent) => {
+              console.log(333, ev.payload);
               sendMsgToParent(new Msg("LOAD_DRIVER_EVENT", ev.payload));
             },
           );
