@@ -1,7 +1,6 @@
 import {
   CircuitDriver,
   DriverEvent,
-  DriverEventType,
   ProveReceipt,
   VerifyReceipt,
 } from "@taigalabs/prfs-driver-interface";

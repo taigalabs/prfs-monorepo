@@ -1,7 +1,7 @@
 import React from "react";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { DriverEventType, ProveReceipt } from "@taigalabs/prfs-driver-interface";
+import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
@@ -32,6 +32,16 @@ enum CreateProofStatus {
   Created,
 }
 
+const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress }) => {
+  React.useMemo(() => {
+    for (const key in progress) {
+      console.log(11, key);
+    }
+  }, [progress]);
+
+  return <div>33</div>;
+};
+
 const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   proofType,
   handleCreateProofResult,
@@ -39,7 +49,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   setProofGenElement,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const [driverMsg, setDriverMsg] = React.useState("Loading driver...");
+  const [loadDriverProgress, setLoadDriverProgress] = React.useState<Record<string, any>>({});
   const [systemMsg, setSystemMsg] = React.useState<string>("");
   const [loadDriverStatus, setLoadDriverStatus] = React.useState(LoadDriverStatus.InProgress);
   const [createProofStatus, setCreateProofStatus] = React.useState(CreateProofStatus.StandBy);
@@ -99,7 +109,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           const { type, payload } = ev;
 
           if (type === "LOAD_DRIVER_EVENT") {
-            setDriverMsg(payload);
+            ev.payload;
+            setLoadDriverProgress(payload);
           }
 
           if (type === "LOAD_DRIVER_SUCCESS") {
@@ -115,7 +126,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         setProofGenElement(elem);
         return elem;
       } catch (err) {
-        setDriverMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
+        // setDriverMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
       }
     }
 
@@ -124,7 +135,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     proofType,
     setProofGenElement,
     setCreateProofStatus,
-    setDriverMsg,
+    setLoadDriverProgress,
     setLoadDriverStatus,
     setSystemMsg,
   ]);
@@ -237,6 +248,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     <div className={styles.wrapper}>
       <div className={styles.driverMsg}>
         <div className={styles.msg}>{proofType.circuit_driver_id}</div>
+        <LoadDriverProgress progress={loadDriverProgress} />
         {/* {loadDriverStatus === LoadDriverStatus.InProgress && ( */}
         {/*   <div className={styles.msg}>{driverMsg}</div> */}
         {/* )} */}
@@ -274,4 +286,8 @@ export interface CreateProofModuleProps {
   handleCreateProofResult: (err: any, proveReceipt: ProveReceipt | null) => void;
   proofGenElement: ProofGenElement | null;
   setProofGenElement: React.Dispatch<React.SetStateAction<ProofGenElement | null>>;
+}
+
+export interface LoadDriverProgressProps {
+  progress: Record<string, any>;
 }
