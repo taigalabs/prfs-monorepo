@@ -1,4 +1,8 @@
-import { DriverEventType, ProveReceipt, VerifyReceipt } from "@taigalabs/prfs-driver-interface";
+import {
+  LoadDriverEventPayload,
+  ProveReceipt,
+  VerifyReceipt,
+} from "@taigalabs/prfs-driver-interface";
 
 export type MsgType =
   | "HANDSHAKE"
@@ -76,7 +80,7 @@ export type ReqPayload<T extends MsgType> = //
     : T extends "LOAD_DRIVER_RESPONSE"
     ? string
     : T extends "LOAD_DRIVER_EVENT"
-    ? string
+    ? LoadDriverEventPayload
     : T extends "GET_SIGNATURE"
     ? GetSignaturePayload
     : T extends "GET_SIGNATURE_RESPONSE"

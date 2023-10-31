@@ -12,7 +12,6 @@ export async function sendMsgToChild<T extends MsgType>(
 
 export async function sendMsgToParent<T extends MsgType>(msg: Msg<T>): Promise<RespPayload<T>> {
   return sendMsg(msg, (msg: Msg<T>, channel: MessageChannel) => {
-    console.log(55, msg);
     window.parent.postMessage(msg, "*", [channel.port2]);
   });
 }

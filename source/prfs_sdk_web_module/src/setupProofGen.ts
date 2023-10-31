@@ -96,7 +96,6 @@ async function eventListener(ev: MessageEvent) {
             circuit_driver_id,
             driverProperties,
             (ev: DriverEvent) => {
-              console.log(333, ev.payload);
               sendMsgToParent(new Msg("LOAD_DRIVER_EVENT", ev.payload));
             },
           );

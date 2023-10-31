@@ -1,11 +1,7 @@
+import { DriverEvent, DriverEventListener } from "./events";
+
 export * from "./types";
-
-export interface DriverEvent {
-  type: DriverEventType;
-  payload: any;
-}
-
-export type DriverEventListener = (ev: DriverEvent) => void;
+export * from "./events";
 
 export interface CircuitDriverGen {
   newInstance(driverProps: any, eventListener: DriverEventListener): Promise<CircuitDriver>;
@@ -52,5 +48,3 @@ export interface ProofPublicInput {
   circuitPubInput: Record<string, any>;
   [key: string]: any;
 }
-
-export type DriverEventType = "CREATE_PROOF_EVENT" | "VERIFY_PROOF_EVENT" | "LOAD_DRIVER_EVENT";

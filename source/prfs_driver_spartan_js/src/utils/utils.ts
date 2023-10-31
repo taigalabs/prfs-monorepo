@@ -64,8 +64,8 @@ export async function fetchAsset(
       emitProgress({
         type: "LOAD_DRIVER_EVENT",
         payload: {
-          action: "fetch_asset",
-          msg: `${assetName} [${step} / 100]`,
+          asset_label: assetName,
+          progress: step,
         },
       });
     }
