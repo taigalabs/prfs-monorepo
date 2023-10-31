@@ -2,7 +2,7 @@
   "index": "Introduction",
   "getting_started": "Getting started",
   "tutorial": "Tutorial",
-  "concepts": "Concepts",
+  "core_concepts": "Core concepts",
   "proof_systems": "Proof systems",
   "circuit_drivers": "Circuit drivers",
   "reference_values": "Reference values"
