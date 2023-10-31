@@ -62,9 +62,8 @@
 }
 
 .tutorialBtn {
-  svg {
-    display: none;
-  }
+  display: flex;
+  align-items: center;
 }
 
 .tutorialBtn.isTutorial {

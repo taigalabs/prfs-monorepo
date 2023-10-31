@@ -15,6 +15,7 @@ import LogoContainer from "@/components/logo_container/LogoContainer";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
 import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
+import { IoMdSchool } from "@react-icons/all-files/io/IoMdSchool";
 
 const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
   proofType,
@@ -48,10 +49,18 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
         <ul className={styles.rightArea}>
           <li className={styles.menu}>
             <a href={tutorialUrl}>
-              <p className={cn({ [styles.tutorialBtn]: true, [styles.isTutorial]: isTutorial })}>
-                <span>{i18n.tutorial}</span>
-                <AiOutlineClose />
-              </p>
+              <div className={cn(styles.tutorialBtn, { [styles.isTutorial]: isTutorial })}>
+                {isTutorial ? (
+                  <>
+                    <span>{i18n.tutorial}</span>
+                    <AiOutlineClose />
+                  </>
+                ) : (
+                  <>
+                    <IoMdSchool />
+                  </>
+                )}
+              </div>
             </a>
           </li>
           <li className={cn(styles.bigScreen)}>
