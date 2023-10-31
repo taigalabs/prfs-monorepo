@@ -1,8 +1,8 @@
 export * from "./types";
 
 export interface DriverEvent {
-  type: string;
-  msg: any;
+  type: DriverEventType;
+  payload: any;
 }
 
 export type DriverEventListener = (ev: DriverEvent) => void;
@@ -22,7 +22,7 @@ export interface CircuitDriver {
 export interface ProveArgs<T> {
   inputs: T;
   circuitTypeId: string;
-  eventListener: (type: LogEventType, msg: string) => void;
+  eventListener: (ev: DriverEvent) => void;
 }
 
 export interface VerifyArgs {
@@ -53,4 +53,4 @@ export interface ProofPublicInput {
   [key: string]: any;
 }
 
-export type LogEventType = "debug" | "info";
+export type DriverEventType = "CREATE_PROOF_EVENT" | "VERIFY_PROOF_EVENT" | "LOAD_DRIVER_EVENT";

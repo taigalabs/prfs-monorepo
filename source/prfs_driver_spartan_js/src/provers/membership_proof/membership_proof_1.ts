@@ -23,7 +23,7 @@ export async function proveMembership(
   args: ProveArgs<MembershipProveInputs>,
   handlers: PrfsHandlers,
   wtnsGen: Uint8Array,
-  circuit: Uint8Array
+  circuit: Uint8Array,
 ): Promise<ProveReceipt> {
   const { inputs, eventListener } = args;
 
@@ -42,7 +42,10 @@ export async function proveMembership(
 
   const effEcdsaPubInput = computeEffEcdsaPubInput(r, v, toBuffer(msgHash));
 
-  eventListener("debug", "Computed ECDSA pub input");
+  eventListener({
+    type: "CREATE_PROOF_EVENT",
+    payload: "Computed ECDSA pub input",
+  });
 
   const circuitPubInput = new MembershipProofCircuitPubInput(
     merkleProof.root,
@@ -50,7 +53,7 @@ export async function proveMembership(
     effEcdsaPubInput.Ty,
     effEcdsaPubInput.Ux,
     effEcdsaPubInput.Uy,
-    serialNo
+    serialNo,
   );
 
   const publicInput = new MembershipProofPublicInput(r, v, msgRaw, msgHash, circuitPubInput);
@@ -78,7 +81,7 @@ export async function proveMembership(
   // console.log("witnessGenInput: %o", witnessGenInput);
   const witness = await snarkJsWitnessGen(witnessGenInput, wtnsGen);
 
-  eventListener("info", "Computed witness gen input");
+  eventListener({ type: "CREATE_PROOF_EVENT", payload: "Computed witness gen input" });
 
   const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
 
@@ -103,7 +106,7 @@ export async function proveMembership(
 export async function verifyMembership(
   args: VerifyArgs,
   handlers: PrfsHandlers,
-  circuit: Uint8Array
+  circuit: Uint8Array,
 ) {
   const { proveResult } = args;
   const { proof, publicInputSer } = proveResult;

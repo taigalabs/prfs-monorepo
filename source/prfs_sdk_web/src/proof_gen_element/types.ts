@@ -10,4 +10,4 @@ export interface SubscribedMsg {
   data: any;
 }
 
-export type SubscribedMsgType = "DRIVER_LOADED" | "PROOF_GEN_EVENT" | "LOAD_DRIVER_EVENT";
+export type SubscribedMsgType = "LOAD_DRIVER" | "CREATE_PROOF_EVENT" | "LOAD_DRIVER_EVENT";

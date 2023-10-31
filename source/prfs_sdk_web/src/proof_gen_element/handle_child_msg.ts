@@ -26,13 +26,13 @@ export async function handleChildMessage(subscribers: ProofGenElementSubscriber[
             break;
           }
 
-          case "PROOF_GEN_EVENT": {
+          case "CREATE_PROOF_EVENT": {
             const { payload } = ev.data;
 
             // console.log("proof gen event", payload);
 
             emit(subscribers, {
-              type: "PROOF_GEN_EVENT",
+              type: "CREATE_PROOF_EVENT",
               data: payload,
             });
 
