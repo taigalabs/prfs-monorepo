@@ -1,3 +1,8 @@
+.base {
+  display: flex;
+  align-items: center;
+}
+
 .isOpen {
   button {
     background-color: var(--bright-gray-30);

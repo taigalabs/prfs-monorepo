@@ -87,17 +87,17 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
   const headingId = useId();
 
   return (
-    <div className={styles.wrapper}>
+    <>
       <div
-        className={cn({
+        className={cn(styles.base, {
           [styles.isOpen]: !!isOpen,
         })}
         ref={refs.setReference}
         {...getReferenceProps()}
       >
-        <IconButton variant="bright_gray_1">
-          <BsThreeDots />
-        </IconButton>
+        {/* <IconButton variant="bright_gray_1"> */}
+        <BsThreeDots />
+        {/* </IconButton> */}
       </div>
       {isOpen && (
         <FloatingFocusManager context={context} modal={false}>
@@ -117,7 +117,7 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
           </div>
         </FloatingFocusManager>
       )}
-    </div>
+    </>
   );
 };
 

@@ -47,7 +47,7 @@ const Masthead: React.FC<MastheadProps> = () => {
           <li className={cn(styles.bigScreen)}>
             <Link href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>{i18n.docs}</Link>
           </li>
-          <li>
+          <li className={styles.menu}>
             <PrfsAppsPopover
               webappPollEndpoint={process.env.NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT}
               webappProofEndpoint={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}

@@ -6,6 +6,7 @@ import Link from "next/link";
 import ActiveLink from "@taigalabs/prfs-react-components/src/active_link/ActiveLink";
 import PrfsAppsPopover from "@taigalabs/prfs-react-components/src/prfs_apps_popover/PrfsAppsPopover";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
+import { BsBook } from "@react-icons/all-files/bs/BsBook";
 
 import styles from "./ProofTypeMasthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -63,8 +64,10 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
               </div>
             </a>
           </li>
-          <li className={cn(styles.bigScreen)}>
-            <Link href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>{i18n.docs}</Link>
+          <li className={cn(styles.menu, styles.bigScreen)}>
+            <Link href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>
+              <BsBook />
+            </Link>
           </li>
           <li>
             <PrfsAppsPopover

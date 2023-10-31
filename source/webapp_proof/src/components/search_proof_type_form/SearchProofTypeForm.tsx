@@ -3,7 +3,7 @@
 import React from "react";
 import cn from "classnames";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
@@ -18,6 +18,7 @@ import TutorialStepper from "@/components/tutorial/TutorialStepper";
 
 const SearchProofTypeForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
+  const searchParams = useSearchParams();
   const [proofType, setProofType] = React.useState<PrfsProofType>();
   const router = useRouter();
 
@@ -29,9 +30,10 @@ const SearchProofTypeForm: React.FC = () => {
 
   const handleSelectProofType = React.useCallback(
     async (proofType: PrfsProofType) => {
-      router.push(`${paths.create}?proof_type_id=${proofType.proof_type_id}`);
+      const params = searchParams.toString();
+      router.push(`${paths.create}?proof_type_id=${proofType.proof_type_id}&${params}`);
     },
-    [getPrfsProofTypeByProofTypeIdRequest, router],
+    [getPrfsProofTypeByProofTypeIdRequest, router, searchParams],
   );
 
   return (

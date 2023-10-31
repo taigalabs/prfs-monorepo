@@ -40,7 +40,7 @@ const Stage: React.FC<StageProps> = ({ step }) => {
   }
 };
 
-const Tutorial: React.FC<TutorialProps> = () => {
+const Tutorial: React.FC<TutorialProps> = ({ top }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const i18n = React.useContext(i18nContext);
@@ -83,7 +83,7 @@ const Tutorial: React.FC<TutorialProps> = () => {
   return (
     isTutorial &&
     step > 0 && (
-      <div className={styles.wrapper}>
+      <div className={styles.wrapper} style={{ top }}>
         <div className={styles.header}>
           <p className={styles.progress}>
             ({step} / {STEP_COUNT})
@@ -124,7 +124,9 @@ const Tutorial: React.FC<TutorialProps> = () => {
 
 export default Tutorial;
 
-export interface TutorialProps {}
+export interface TutorialProps {
+  top?: number;
+}
 
 export interface StageProps {
   step: number;

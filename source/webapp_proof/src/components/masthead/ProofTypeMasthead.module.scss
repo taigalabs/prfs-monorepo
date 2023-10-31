@@ -10,8 +10,9 @@
   align-items: center;
   background-color: var(--white-100);
   z-index: 10;
-  font-size: 13px;
+  font-size: 24px;
   border-bottom: 1px solid var(--bright-gray-30);
+  color: var(--gray-30);
 
   &.isTutorial {
     background-color: rgba(0, 0, 0, 0.62);
@@ -45,6 +46,11 @@
   .menu {
     display: flex;
     align-items: center;
+
+    > a {
+      display: flex;
+      align-items: center;
+    }
   }
 
   > li:not(:first-child) {
