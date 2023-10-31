@@ -78,6 +78,13 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>
+        <p>
+          <img
+            src="https://d1w1533jipmvi2.cloudfront.net/tata_Emojione_1F389.svg.png"
+            alt="tada"
+            crossOrigin=""
+          />
+        </p>
         <p>{i18n.prove_success_msg}</p>
       </div>
       <div className={styles.proofTypeRow}>
