@@ -42,7 +42,12 @@
       padding-left: 12px;
       padding-right: 10px;
       border: 1px solid rgba(223, 225, 229, 0);
-      box-shadow: 0 2px 8px 1px rgba(64, 60, 67, 0.24);
+      box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
+
+      &:hover {
+        box-shadow: 0 2px 8px 1px rgba(64, 60, 67, 0.24);
+        border-color: rgba(223, 225, 229, 0);
+      }
     }
   }
 
