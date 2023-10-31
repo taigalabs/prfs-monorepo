@@ -1,5 +1,4 @@
 import { MsgType } from "../msg/payload";
-import { ProofGenOptions } from "../sdk/element_options";
 import { Msg } from "../msg";
 import { ProofGenElementSubscriber } from "./types";
 import emit from "./emit";
@@ -13,7 +12,6 @@ export async function handleChildMessage(subscribers: ProofGenElementSubscriber[
     const msgEventListener = (ev: MessageEvent) => {
       if (ev.ports.length > 0) {
         const type: MsgType = ev.data.type;
-
         // console.log("child says, data: %o, ports: %o", ev.data, ev.ports);
 
         switch (type) {
@@ -28,7 +26,6 @@ export async function handleChildMessage(subscribers: ProofGenElementSubscriber[
 
           case "CREATE_PROOF_EVENT": {
             const { payload } = ev.data;
-
             // console.log("proof gen event", payload);
 
             emit(subscribers, {
@@ -41,7 +38,6 @@ export async function handleChildMessage(subscribers: ProofGenElementSubscriber[
 
           case "LOAD_DRIVER_EVENT": {
             const { payload } = ev.data;
-
             // console.log("load driver event", payload);
 
             emit(subscribers, {

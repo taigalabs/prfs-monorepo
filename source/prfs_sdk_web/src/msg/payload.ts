@@ -12,10 +12,12 @@ export type MsgType =
   | "GET_SIGNATURE_RESPONSE"
   | "CREATE_PROOF"
   | "CREATE_PROOF_RESPONSE"
-  | "VERIFY_PROOF"
-  | "VERIFY_PROOF_RESPONSE"
   | "CREATE_PROOF_EVENT"
   | "CREATE_PROOF_EVENT_RESPONSE"
+  | "VERIFY_PROOF"
+  | "VERIFY_PROOF_RESPONSE"
+  | "VERIFY_PROOF_EVENT"
+  | "VERIFY_PROOF_EVENT_RESPONSE"
   | "HASH"
   | "HASH_RESPONSE";
 
@@ -23,9 +25,9 @@ export interface HandshakePayload {}
 
 export interface HandshakeResponsePayload {}
 
-export interface CreateProofEventPayload {
-  type: DriverEventType;
-  payload: any;
+export interface LogEventPayload {
+  type: "debug" | "info";
+  payload: string;
 }
 
 export interface LoadDriverPayload {
@@ -84,7 +86,7 @@ export type ReqPayload<T extends MsgType> = //
     : T extends "CREATE_PROOF_RESPONSE"
     ? ProveReceipt
     : T extends "CREATE_PROOF_EVENT"
-    ? CreateProofEventPayload
+    ? LogEventPayload
     : T extends "HASH"
     ? HashPayload
     : T extends "HASH_RESPONSE"
@@ -93,6 +95,8 @@ export type ReqPayload<T extends MsgType> = //
     ? VerifyProofPayload
     : T extends "VERIFY_PROOF_RESPONSE"
     ? VerifyReceipt
+    : T extends "VERIFY_PROOF_EVENT"
+    ? LogEventPayload
     : never;
 
 export type RespPayload<T extends MsgType> = //

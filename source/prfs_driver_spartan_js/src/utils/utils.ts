@@ -61,7 +61,13 @@ export async function fetchAsset(
     if (typeof totalLen === "number") {
       const step = parseFloat((receivedLen / totalLen).toFixed(2)) * 100;
 
-      emitProgress({ type: "FETCH_ASSET", msg: `${assetName} [${step} / 100]` });
+      emitProgress({
+        type: "LOAD_DRIVER_EVENT",
+        payload: {
+          action: "fetch_asset",
+          msg: `${assetName} [${step} / 100]`,
+        },
+      });
     }
   }
 

@@ -28,7 +28,7 @@ export async function createProof(
 export async function verifyProof(
   driver: CircuitDriver,
   payload: VerifyProofPayload,
-  _eventListener: (type: DriverEventType, msg: string) => void,
+  eventListener: (ev: DriverEvent) => void,
 ): Promise<VerifyReceipt> {
   try {
     const verifyResult = await driver.verify({
