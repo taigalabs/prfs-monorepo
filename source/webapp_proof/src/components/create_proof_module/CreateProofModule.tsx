@@ -12,7 +12,6 @@ import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
 import SigDataInput from "@/components/sig_data_input/SigDataInput";
-import { envs } from "@/envs";
 import Passcode from "@/components/passcode/Passcode";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
 import { validateInputs } from "@/validate";
@@ -33,13 +32,21 @@ enum CreateProofStatus {
 }
 
 const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress }) => {
-  React.useMemo(() => {
+  const el = React.useMemo(() => {
+    const elems = [];
     for (const key in progress) {
-      console.log(11, key);
+      elems.push(
+        <div key={key}>
+          <p>{key}</p>
+          <p>{progress[key]}</p>
+        </div>,
+      );
     }
+
+    return elems;
   }, [progress]);
 
-  return <div>33</div>;
+  return <div>{el}</div>;
 };
 
 const CreateProofModule: React.FC<CreateProofModuleProps> = ({
@@ -109,8 +116,12 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           const { type, payload } = ev;
 
           if (type === "LOAD_DRIVER_EVENT") {
-            ev.payload;
-            setLoadDriverProgress(payload);
+            if (payload.asset_label && payload.progress) {
+              setLoadDriverProgress(oldVal => ({
+                ...oldVal,
+                [payload.asset_label!]: payload.progress,
+              }));
+            }
           }
 
           if (type === "LOAD_DRIVER_SUCCESS") {
