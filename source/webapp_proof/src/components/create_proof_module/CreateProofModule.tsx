@@ -100,7 +100,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           }
 
           if (type === "DRIVER_LOADED") {
-            console.log("driver is loaded!!!");
+            // console.log("driver is loaded!!!");
             setLoadDriverStatus(LoadDriverStatus.Loaded);
           }
 
