@@ -36,9 +36,9 @@ const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress }) => 
     const elems = [];
     for (const key in progress) {
       elems.push(
-        <div key={key}>
+        <div key={key} className={styles.progressRow}>
           <p>{key}</p>
-          <p>{progress[key]}</p>
+          <p>...{progress[key]}%</p>
         </div>,
       );
     }
