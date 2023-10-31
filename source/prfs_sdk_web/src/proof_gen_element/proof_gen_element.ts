@@ -4,7 +4,7 @@ import { MsgEventListener, handleChildMessage } from "./handle_child_msg";
 import { sendMsgToChild } from "../msg";
 import { ProofGenOptions } from "../sdk/element_options";
 import { Msg } from "../msg";
-import { ProofGenElementState, ProofGenElementSubscriber, SubscribedMsg } from "./types";
+import { ProofGenElementState, ProofGenElementSubscriber, ProofGenEvent } from "./types";
 import emit from "./emit";
 
 export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
@@ -83,7 +83,7 @@ class ProofGenElement {
       this.state.driverVersion = driverVersion;
 
       emit(this.subscribers, {
-        type: "LOAD_DRIVER",
+        type: "LOAD_DRIVER_SUCCESS",
         payload: driverVersion,
       });
     });
@@ -150,7 +150,7 @@ class ProofGenElement {
     }
   }
 
-  subscribe(subscriber: (msg: SubscribedMsg) => void): ProofGenElement {
+  subscribe(subscriber: (ev: ProofGenEvent) => void): ProofGenElement {
     this.subscribers.push(subscriber);
 
     return this;

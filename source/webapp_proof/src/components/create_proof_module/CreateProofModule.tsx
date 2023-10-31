@@ -94,18 +94,20 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
         });
 
-        elem.subscribe(msg => {
-          console.log(1, msg);
-          if (msg.type === "LOAD_DRIVER_EVENT") {
-            setDriverMsg(msg.payload);
+        elem.subscribe(ev => {
+          console.log(1, ev);
+          const { type, payload } = ev;
+
+          if (type === "LOAD_DRIVER_EVENT") {
+            setDriverMsg(payload);
           }
 
-          if (msg.type === "LOAD_DRIVER") {
+          if (type === "LOAD_DRIVER_SUCCESS") {
             // console.log("driver is loaded!!!");
             setLoadDriverStatus(LoadDriverStatus.Loaded);
           }
 
-          if (msg.type === "CREATE_PROOF_EVENT") {
+          if (type === "CREATE_PROOF_EVENT") {
             setSystemMsg("");
           }
         });
@@ -235,9 +237,9 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     <div className={styles.wrapper}>
       <div className={styles.driverMsg}>
         <div className={styles.msg}>{proofType.circuit_driver_id}</div>
-        {loadDriverStatus === LoadDriverStatus.InProgress && (
-          <div className={styles.msg}>{driverMsg}</div>
-        )}
+        {/* {loadDriverStatus === LoadDriverStatus.InProgress && ( */}
+        {/*   <div className={styles.msg}>{driverMsg}</div> */}
+        {/* )} */}
       </div>
       <TutorialStepper steps={[2]}>
         <div className={styles.form}>{circuitInputsElem}</div>
