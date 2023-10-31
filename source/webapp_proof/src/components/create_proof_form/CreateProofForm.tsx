@@ -9,17 +9,13 @@ import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
-import Link from "next/link";
-import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
+import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
 import styles from "./CreateProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
 import PostCreateMenu from "./PostCreateMenu";
-import LogoContainer from "@/components/logo_container/LogoContainer";
 import { paths } from "@/paths";
-import TutorialStepper from "@/components/tutorial/TutorialStepper";
-import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 import ProofTypeMasthead from "../masthead/ProofTypeMasthead";
 
 const CreateProofForm: React.FC = () => {
@@ -95,16 +91,18 @@ const CreateProofForm: React.FC = () => {
               })}
             >
               <div className={styles.moduleWrapper}>
-                <Fade>
-                  {proofType && (
+                {proofType ? (
+                  <Fade>
                     <CreateProofModule
                       proofType={proofType}
                       handleCreateProofResult={handleCreateProofResult}
                       proofGenElement={proofGenElement}
                       setProofGenElement={setProofGenElement}
                     />
-                  )}
-                </Fade>
+                  </Fade>
+                ) : (
+                  <div className={styles.loading}>Loading module...</div>
+                )}
               </div>
             </div>
           )}
