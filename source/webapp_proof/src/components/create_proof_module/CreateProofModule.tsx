@@ -277,28 +277,30 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           <LoadDriverProgress progress={loadDriverProgress} />
         )}
       </div>
-      <div></div>
-      <TutorialStepper steps={[2]}>
-        <div className={styles.form}>{circuitInputsElem}</div>
-      </TutorialStepper>
-      <div className={styles.btnRow}>
-        {createProofStatus === CreateProofStatus.InProgress && (
-          <div className={styles.spinnerWrapper}>
-            <Spinner color="black" size={38} />
-          </div>
-        )}
-        <Button
-          variant="blue_1"
-          handleClick={handleClickCreateProof}
-          className={cn({
-            [styles.inProgress]: createProofStatus === CreateProofStatus.InProgress,
-          })}
-        >
-          {i18n.create.toUpperCase()}
-        </Button>
-      </div>
-      <div className={styles.footer}>
-        <div className={styles.msg}>{systemMsg}</div>
+      <div className={styles.main}>
+        {loadDriverStatus === LoadDriverStatus.InProgress && <div className={styles.overlay} />}
+        <TutorialStepper steps={[2]}>
+          <div className={styles.form}>{circuitInputsElem}</div>
+        </TutorialStepper>
+        <div className={styles.btnRow}>
+          {createProofStatus === CreateProofStatus.InProgress && (
+            <div className={styles.spinnerWrapper}>
+              <Spinner color="black" size={38} />
+            </div>
+          )}
+          <Button
+            variant="blue_1"
+            handleClick={handleClickCreateProof}
+            className={cn({
+              [styles.inProgress]: createProofStatus === CreateProofStatus.InProgress,
+            })}
+          >
+            {i18n.create.toUpperCase()}
+          </Button>
+        </div>
+        <div className={styles.footer}>
+          <div className={styles.msg}>{systemMsg}</div>
+        </div>
       </div>
     </div>
   );

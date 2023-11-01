@@ -8,6 +8,17 @@
   flex-grow: 1;
 }
 
+.main {
+  position: relative;
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: 5;
+  }
+}
+
 .form {
   padding: 0px 0px;
   display: flex;
