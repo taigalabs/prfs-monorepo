@@ -17,6 +17,7 @@ import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput"
 import { validateInputs } from "@/validate";
 import HashInput from "@/components/hash_input/HashInput";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
+import dayjs from "dayjs";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -33,6 +34,7 @@ enum CreateProofStatus {
 
 const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress }) => {
   const el = React.useMemo(() => {
+    console.log(44, progress);
     const elems = [];
     for (const key in progress) {
       elems.push(
@@ -46,7 +48,7 @@ const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress }) => 
     return elems;
   }, [progress]);
 
-  return <div>{el}</div>;
+  return <div className={styles.progressWrapper}>{el}</div>;
 };
 
 const CreateProofModule: React.FC<CreateProofModuleProps> = ({
@@ -56,9 +58,10 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   setProofGenElement,
 }) => {
   const i18n = React.useContext(i18nContext);
+  const [driverMsg, setDriverMsg] = React.useState<string>("");
   const [loadDriverProgress, setLoadDriverProgress] = React.useState<Record<string, any>>({});
-  const [systemMsg, setSystemMsg] = React.useState<string>("");
   const [loadDriverStatus, setLoadDriverStatus] = React.useState(LoadDriverStatus.InProgress);
+  const [systemMsg, setSystemMsg] = React.useState<string>("");
   const [createProofStatus, setCreateProofStatus] = React.useState(CreateProofStatus.StandBy);
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
@@ -102,6 +105,9 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       lastInitProofTypeId.current = proofType.proof_type_id;
 
       const { circuit_driver_id, driver_properties } = proofType;
+      setDriverMsg(`Loading driver ${proofType.circuit_driver_id}...`);
+
+      const since = dayjs();
 
       try {
         const elem = await prfsSDK.create("proof-gen", {
@@ -125,7 +131,11 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           }
 
           if (type === "LOAD_DRIVER_SUCCESS") {
-            // console.log("driver is loaded!!!");
+            const now = dayjs();
+            const diff = now.diff(since, "seconds", true);
+            // const artifactCount = Object.keys(progress).length;
+
+            setDriverMsg(`Circuit driver ${proofType.circuit_driver_id} (${diff} seconds)`);
             setLoadDriverStatus(LoadDriverStatus.Loaded);
           }
 
@@ -149,6 +159,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     setLoadDriverProgress,
     setLoadDriverStatus,
     setSystemMsg,
+    setDriverMsg,
   ]);
 
   const circuitInputsElem = React.useMemo(() => {
@@ -258,11 +269,13 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   return (
     <div className={styles.wrapper}>
       <div className={styles.driverMsg}>
-        <div className={styles.msg}>{proofType.circuit_driver_id}</div>
-        <LoadDriverProgress progress={loadDriverProgress} />
-        {/* {loadDriverStatus === LoadDriverStatus.InProgress && ( */}
-        {/*   <div className={styles.msg}>{driverMsg}</div> */}
-        {/* )} */}
+        <div className={styles.msg}>
+          <span>{driverMsg}</span>
+          {loadDriverStatus === LoadDriverStatus.Loaded && <span>{artifactCountMsg}</span>}
+        </div>
+        {loadDriverStatus === LoadDriverStatus.InProgress && (
+          <LoadDriverProgress progress={loadDriverProgress} />
+        )}
       </div>
       <TutorialStepper steps={[2]}>
         <div className={styles.form}>{circuitInputsElem}</div>
