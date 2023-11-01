@@ -27,7 +27,10 @@ export async function proveSimpleHash(
   // console.log("witnessGenInput: %o", witnessGenInput);
   const witness = await snarkJsWitnessGen(witnessGenInput, wtnsGen);
 
-  eventListener({ type: "CREATE_PROOF_EVENT", payload: "Computed witness gen input" });
+  eventListener({
+    type: "CREATE_PROOF_EVENT",
+    payload: { type: "info", payload: "Computed witness gen input" },
+  });
 
   const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
 

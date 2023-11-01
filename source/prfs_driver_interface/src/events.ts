@@ -2,6 +2,11 @@ export type DriverEvent = LoadDriverEvent | CreateProofEvent | VerifyProofEvent;
 
 export type DriverEventListener = (ev: DriverEvent) => void;
 
+export interface LogEventPayload {
+  type: "debug" | "info";
+  payload: string;
+}
+
 export interface LoadDriverEvent {
   type: "LOAD_DRIVER_EVENT";
   payload: LoadDriverEventPayload;
@@ -25,10 +30,10 @@ export interface LoadDriverSuccessEventPayload {
 
 export interface CreateProofEvent {
   type: "CREATE_PROOF_EVENT";
-  payload: any;
+  payload: LogEventPayload;
 }
 
 export interface VerifyProofEvent {
   type: "VERIFY_PROOF_EVENT";
-  payload: any;
+  payload: LogEventPayload;
 }

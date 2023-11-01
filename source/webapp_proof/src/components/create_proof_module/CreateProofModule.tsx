@@ -116,7 +116,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         });
 
         elem.subscribe(ev => {
-          console.log(1, ev);
           const { type, payload } = ev;
 
           if (type === "LOAD_DRIVER_EVENT") {
@@ -141,7 +140,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           }
 
           if (type === "CREATE_PROOF_EVENT") {
-            setSystemMsg("");
+            console.log(11, payload);
+            // setSystemMsg(payload);
           }
         });
 
@@ -277,6 +277,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           <LoadDriverProgress progress={loadDriverProgress} />
         )}
       </div>
+      <div></div>
       <TutorialStepper steps={[2]}>
         <div className={styles.form}>{circuitInputsElem}</div>
       </TutorialStepper>

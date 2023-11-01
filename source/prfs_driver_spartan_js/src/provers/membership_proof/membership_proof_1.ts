@@ -44,7 +44,7 @@ export async function proveMembership(
 
   eventListener({
     type: "CREATE_PROOF_EVENT",
-    payload: "Computed ECDSA pub input",
+    payload: { type: "info", payload: "Computed ECDSA pub input" },
   });
 
   const circuitPubInput = new MembershipProofCircuitPubInput(
@@ -81,7 +81,13 @@ export async function proveMembership(
   // console.log("witnessGenInput: %o", witnessGenInput);
   const witness = await snarkJsWitnessGen(witnessGenInput, wtnsGen);
 
-  eventListener({ type: "CREATE_PROOF_EVENT", payload: "Computed witness gen input" });
+  eventListener({
+    type: "CREATE_PROOF_EVENT",
+    payload: {
+      type: "info",
+      payload: "Computed witness gen input",
+    },
+  });
 
   const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
 

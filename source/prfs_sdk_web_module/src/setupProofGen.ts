@@ -1,4 +1,10 @@
-import { CircuitDriver, DriverEvent } from "@taigalabs/prfs-driver-interface";
+import {
+  CircuitDriver,
+  DriverEvent,
+  LoadDriverEvent,
+  LoadDriverEventPayload,
+  LogEventPayload,
+} from "@taigalabs/prfs-driver-interface";
 import {
   CreateProofPayload,
   HashPayload,
@@ -43,7 +49,7 @@ async function eventListener(ev: MessageEvent) {
 
         try {
           const proveReceipt = await createProof(driver, payload, ev => {
-            sendMsgToParent(new Msg("CREATE_PROOF_EVENT", ev.payload));
+            sendMsgToParent(new Msg("CREATE_PROOF_EVENT", ev.payload as LogEventPayload));
           });
           ev.ports[0].postMessage(new Msg("CREATE_PROOF_RESPONSE", proveReceipt));
         } catch (err) {
@@ -70,7 +76,7 @@ async function eventListener(ev: MessageEvent) {
 
         try {
           const verifyReceipt = await verifyProof(driver, payload, ev => {
-            sendMsgToParent(new Msg("VERIFY_PROOF_EVENT", ev.payload));
+            sendMsgToParent(new Msg("VERIFY_PROOF_EVENT", ev.payload as LogEventPayload));
           });
           ev.ports[0].postMessage(new Msg("VERIFY_PROOF_RESPONSE", verifyReceipt));
         } catch (err) {
@@ -95,7 +101,7 @@ async function eventListener(ev: MessageEvent) {
             circuit_driver_id,
             driverProperties,
             (ev: DriverEvent) => {
-              sendMsgToParent(new Msg("LOAD_DRIVER_EVENT", ev.payload));
+              sendMsgToParent(new Msg("LOAD_DRIVER_EVENT", ev.payload as LoadDriverEventPayload));
             },
           );
           state.driver = driver;

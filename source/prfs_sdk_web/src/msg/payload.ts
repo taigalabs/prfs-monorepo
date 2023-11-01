@@ -1,4 +1,5 @@
 import {
+  LogEventPayload,
   LoadDriverEventPayload,
   ProveReceipt,
   VerifyReceipt,
@@ -28,11 +29,6 @@ export type MsgType =
 export interface HandshakePayload {}
 
 export interface HandshakeResponsePayload {}
-
-export interface LogEventPayload {
-  type: "debug" | "info";
-  payload: string;
-}
 
 export interface LoadDriverPayload {
   circuit_driver_id: string;
