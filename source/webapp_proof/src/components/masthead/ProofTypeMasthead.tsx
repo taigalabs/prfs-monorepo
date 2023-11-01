@@ -6,16 +6,16 @@ import Link from "next/link";
 import PrfsAppsPopover from "@taigalabs/prfs-react-components/src/prfs_apps_popover/PrfsAppsPopover";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import { BsBook } from "@react-icons/all-files/bs/BsBook";
+import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
+import { useSearchParams } from "next/navigation";
+import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
+import { IoMdSchool } from "@react-icons/all-files/io/IoMdSchool";
 
 import styles from "./ProofTypeMasthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import { useSearchParams } from "next/navigation";
 import LogoContainer from "@/components/logo_container/LogoContainer";
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
-import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
-import { IoMdSchool } from "@react-icons/all-files/io/IoMdSchool";
 
 const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
   proofType,
