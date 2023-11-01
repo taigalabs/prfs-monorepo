@@ -83,8 +83,7 @@ async function eventListener(ev: MessageEvent) {
       case "LOAD_DRIVER": {
         const { payload } = ev.data;
         const { circuit_driver_id, driver_properties } = payload;
-
-        console.log("Loading driver, access_enpdoint: %s", ASSET_ACCESS_ENDPOINT);
+        // console.log("Loading driver, access_enpdoint: %s", ASSET_ACCESS_ENDPOINT);
 
         const driverProperties = interpolateSystemAssetEndpoint(
           driver_properties,
@@ -101,7 +100,12 @@ async function eventListener(ev: MessageEvent) {
           );
           state.driver = driver;
 
-          ev.ports[0].postMessage(new Msg("LOAD_DRIVER_RESPONSE", circuit_driver_id));
+          ev.ports[0].postMessage(
+            new Msg("LOAD_DRIVER_RESPONSE", {
+              circuitDriverId: circuit_driver_id,
+              artifactCount: driver.getArtifactCount(),
+            }),
+          );
         } catch (err) {
           console.error(err);
         }

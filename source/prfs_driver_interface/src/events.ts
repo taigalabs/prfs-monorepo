@@ -13,6 +13,16 @@ export interface LoadDriverEventPayload {
   progress?: number;
 }
 
+export interface LoadDriverSuccessEvent {
+  type: "LOAD_DRIVER_SUCCESS";
+  payload: LoadDriverSuccessEventPayload;
+}
+
+export interface LoadDriverSuccessEventPayload {
+  circuitDriverId: string;
+  artifactCount: number;
+}
+
 export interface CreateProofEvent {
   type: "CREATE_PROOF_EVENT";
   payload: any;

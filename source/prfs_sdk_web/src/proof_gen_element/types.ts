@@ -1,15 +1,15 @@
-import { CreateProofEvent, LoadDriverEvent } from "@taigalabs/prfs-driver-interface";
+import {
+  CreateProofEvent,
+  LoadDriverEvent,
+  LoadDriverSuccessEvent,
+} from "@taigalabs/prfs-driver-interface";
 
 export interface ProofGenElementState {
   iframe: HTMLIFrameElement | undefined;
-  driverVersion: string | undefined;
+  circuitDriverId: string | undefined;
+  artifactCount: number | undefined;
 }
 
 export type ProofGenElementSubscriber = (msg: ProofGenEvent) => void;
 
 export type ProofGenEvent = CreateProofEvent | LoadDriverEvent | LoadDriverSuccessEvent;
-
-export interface LoadDriverSuccessEvent {
-  type: "LOAD_DRIVER_SUCCESS";
-  payload: any;
-}

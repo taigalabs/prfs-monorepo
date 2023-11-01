@@ -58,6 +58,11 @@ export interface GetSignatureResponsePayload {
   sig: string;
 }
 
+export interface LoadDriverResponsePayload {
+  circuitDriverId: string;
+  artifactCount: number;
+}
+
 export interface HashPayload {
   msg: bigint[];
 }
@@ -78,7 +83,7 @@ export type ReqPayload<T extends MsgType> = //
     : T extends "LOAD_DRIVER"
     ? LoadDriverPayload
     : T extends "LOAD_DRIVER_RESPONSE"
-    ? string
+    ? LoadDriverResponsePayload
     : T extends "LOAD_DRIVER_EVENT"
     ? LoadDriverEventPayload
     : T extends "GET_SIGNATURE"
@@ -117,7 +122,7 @@ export type RespPayload<T extends MsgType> = //
     : T extends "GET_SIGNATURE_RESPONSE"
     ? never
     : T extends "LOAD_DRIVER"
-    ? string
+    ? LoadDriverResponsePayload
     : T extends "LOAD_DRIVER_EVENT"
     ? never
     : T extends "LOAD_DRIVER_RESPONSE"

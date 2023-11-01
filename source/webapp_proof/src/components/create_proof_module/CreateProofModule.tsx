@@ -133,9 +133,12 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           if (type === "LOAD_DRIVER_SUCCESS") {
             const now = dayjs();
             const diff = now.diff(since, "seconds", true);
-            // const artifactCount = Object.keys(progress).length;
+            const { artifactCount } = payload;
 
-            setDriverMsg(`Circuit driver ${proofType.circuit_driver_id} (${diff} seconds)`);
+            setDriverMsg(
+              `Circuit driver ${proofType.circuit_driver_id}` +
+                ` (${diff} seconds, ${artifactCount} artifacts)`,
+            );
             setLoadDriverStatus(LoadDriverStatus.Loaded);
           }
 
@@ -271,7 +274,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       <div className={styles.driverMsg}>
         <div className={styles.msg}>
           <span>{driverMsg}</span>
-          {loadDriverStatus === LoadDriverStatus.Loaded && <span>{artifactCountMsg}</span>}
         </div>
         {loadDriverStatus === LoadDriverStatus.InProgress && (
           <LoadDriverProgress progress={loadDriverProgress} />

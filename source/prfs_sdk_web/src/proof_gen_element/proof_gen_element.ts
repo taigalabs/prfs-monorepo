@@ -21,7 +21,8 @@ class ProofGenElement {
     this.subscribers = [];
     this.state = {
       iframe: undefined,
-      driverVersion: undefined,
+      circuitDriverId: undefined,
+      artifactCount: undefined,
     };
   }
 
@@ -79,12 +80,16 @@ class ProofGenElement {
         driver_properties,
       }),
       iframe,
-    ).then(driverVersion => {
-      this.state.driverVersion = driverVersion;
+    ).then(({ circuitDriverId, artifactCount }) => {
+      this.state.circuitDriverId = circuitDriverId;
+      this.state.artifactCount = artifactCount;
 
       emit(this.subscribers, {
         type: "LOAD_DRIVER_SUCCESS",
-        payload: driverVersion,
+        payload: {
+          circuitDriverId,
+          artifactCount,
+        },
       });
     });
 
