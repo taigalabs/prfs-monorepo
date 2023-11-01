@@ -63,11 +63,15 @@ const Modal: React.FC<MerkleProofModalProps> = ({
 };
 
 const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
+  className,
+  isOpenClassName,
   webappProofEndpoint,
   webappConsoleEndpoint,
   webappPollEndpoint,
   zIndex,
 }) => {
+  console.log(11, className, isOpenClassName);
+
   const [isOpen, setIsOpen] = React.useState(false);
 
   const { refs, floatingStyles, context } = useFloating({
@@ -90,14 +94,14 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
     <>
       <div
         className={cn(styles.base, {
-          [styles.isOpen]: !!isOpen,
+          [styles.isOpen]: isOpen,
+          [className!]: !!className,
+          [isOpenClassName!]: !!isOpenClassName && isOpen,
         })}
         ref={refs.setReference}
         {...getReferenceProps()}
       >
-        {/* <IconButton variant="bright_gray_1"> */}
         <BsThreeDots />
-        {/* </IconButton> */}
       </div>
       {isOpen && (
         <FloatingFocusManager context={context} modal={false}>
@@ -124,6 +128,8 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
 export default PrfsAppsPopover;
 
 export interface PrfsAppsPopoverProps {
+  className?: string;
+  isOpenClassName?: string;
   webappPollEndpoint: string;
   webappProofEndpoint: string;
   webappConsoleEndpoint: string;

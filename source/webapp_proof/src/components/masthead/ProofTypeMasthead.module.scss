@@ -45,11 +45,12 @@
   // border: 1px solid blue;
 
   .menu {
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     border-radius: 20px;
 
     > a {
@@ -59,15 +60,15 @@
   }
 
   > li:not(:first-child) {
-    margin-left: 14px;
+    margin-left: 10px;
   }
 
   .appPopover {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
   }
 
   .menu:hover {
@@ -99,6 +100,21 @@
     display: block;
     margin-left: 4px;
   }
+}
+
+.popover {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--bright-gray-40);
+  }
+}
+
+.popoverIsOpen {
+  background-color: var(--bright-gray-30);
 }
 
 @media screen and (max-width: 480px) {
