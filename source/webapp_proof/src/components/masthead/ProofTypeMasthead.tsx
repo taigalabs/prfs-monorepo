@@ -69,7 +69,7 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
               <BsBook />
             </Link>
           </li>
-          <li>
+          <li className={styles.appPopover}>
             <PrfsAppsPopover
               webappPollEndpoint={process.env.NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT}
               webappProofEndpoint={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}

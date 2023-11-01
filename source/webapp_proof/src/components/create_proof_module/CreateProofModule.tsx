@@ -18,6 +18,7 @@ import { validateInputs } from "@/validate";
 import HashInput from "@/components/hash_input/HashInput";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import dayjs from "dayjs";
+import ProofTypeMeta from "./ProofTypeMeta";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -301,6 +302,9 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         <div className={styles.footer}>
           <div className={styles.msg}>{systemMsg}</div>
         </div>
+      </div>
+      <div className={styles.metaArea}>
+        <ProofTypeMeta proofType={proofType} />
       </div>
     </div>
   );

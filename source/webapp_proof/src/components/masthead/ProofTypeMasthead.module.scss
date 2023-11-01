@@ -12,7 +12,6 @@
   z-index: 10;
   font-size: 13px;
   border-bottom: 1px solid var(--bright-gray-30);
-  color: var(--gray-30);
 
   &.isTutorial {
     background-color: rgba(0, 0, 0, 0.62);
@@ -42,11 +41,16 @@
   margin-left: auto;
   margin-right: 0;
   justify-content: flex-end;
+  color: var(--gray-20);
   // border: 1px solid blue;
 
   .menu {
     display: flex;
     align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 20px;
 
     > a {
       display: flex;
@@ -55,11 +59,19 @@
   }
 
   > li:not(:first-child) {
-    margin-left: 24px;
+    margin-left: 14px;
+  }
+
+  .appPopover {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
   }
 
   .menu:hover {
-    text-decoration: underline;
+    background-color: var(--bright-gray-40);
   }
 }
 
