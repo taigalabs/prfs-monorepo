@@ -34,7 +34,6 @@ enum CreateProofStatus {
 
 const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress }) => {
   const el = React.useMemo(() => {
-    console.log(44, progress);
     const elems = [];
     for (const key in progress) {
       elems.push(
@@ -108,7 +107,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       setDriverMsg(`Loading driver ${proofType.circuit_driver_id}...`);
 
       const since = dayjs();
-
       try {
         const elem = await prfsSDK.create("proof-gen", {
           proofTypeId: proofType.proof_type_id,

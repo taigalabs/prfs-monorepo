@@ -66,11 +66,11 @@ const HashInput: React.FC<HashInputProps> = ({
         };
       });
     },
-    [setFormValues, value]
+    [setFormValues, value],
   );
 
   const handleClickHash = React.useCallback(async () => {
-    if (!proofGenElement.state.driverVersion) {
+    if (!proofGenElement.state.circuitDriverId) {
       console.warn("Driver is not yet loaded");
       return null;
     }
