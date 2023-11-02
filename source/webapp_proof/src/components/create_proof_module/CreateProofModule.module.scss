@@ -10,6 +10,7 @@
 
 .main {
   position: relative;
+  padding-bottom: 32px;
 
   .overlay {
     position: absolute;
@@ -91,4 +92,5 @@
 }
 
 .metaArea {
+  border-top: 1px solid var(--bright-gray-30);
 }

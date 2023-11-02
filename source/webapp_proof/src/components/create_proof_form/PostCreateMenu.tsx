@@ -77,22 +77,21 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.title}>
-        <p>
-          <img
-            src="https://d1w1533jipmvi2.cloudfront.net/tata_Emojione_1F389.svg.png"
-            alt="tada"
-            crossOrigin=""
-          />
-        </p>
-        <p>{i18n.prove_success_msg}</p>
-      </div>
-      <div className={styles.proofTypeRow}>
+      <div className={styles.header}>
+        <CaptionedImg
+          img_url="https://d1w1533jipmvi2.cloudfront.net/tata_Emojione_1F389.svg.png"
+          alt="tada"
+          size={48}
+        />
+        <div className={styles.title}>
+          <p>{i18n.prove_success_msg}</p>
+        </div>
         <div className={styles.proofType}>
           <CaptionedImg img_url={proofType.img_url} size={20} />
           <p className={styles.proofTypeLabel}>{proofType.label}</p>
         </div>
       </div>
+      {/* <div className={styles.proofTypeRow}></div> */}
       <div className={styles.uploadSection}>
         <span>{i18n.proof_creation_summary_msg} </span>
         <i>{Math.floor((proveReceipt.duration / 1000) * 1000) / 1000} secs. </i>

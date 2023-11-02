@@ -2,7 +2,7 @@ import React from "react";
 
 import styles from "./CaptionedImg.module.scss";
 
-const CaptionedImg: React.FC<CaptionedImgProps> = ({ img_url, img_caption, size }) => {
+const CaptionedImg: React.FC<CaptionedImgProps> = ({ img_url, img_caption, size, alt }) => {
   const style: React.CSSProperties = {};
   if (size) {
     style.width = size;
@@ -12,7 +12,7 @@ const CaptionedImg: React.FC<CaptionedImgProps> = ({ img_url, img_caption, size 
   return (
     <div className={styles.wrapper} style={style}>
       {img_url ? (
-        <img crossOrigin="anonymous" alt="Proof image" src={img_url} style={style} />
+        <img crossOrigin="anonymous" alt={alt || "Proof image"} src={img_url} style={style} />
       ) : (
         <div className={styles.placeholder} style={style}></div>
       )}
@@ -31,4 +31,5 @@ export interface CaptionedImgProps {
   img_url: string | null;
   img_caption?: string | null;
   size?: number;
+  alt?: string;
 }

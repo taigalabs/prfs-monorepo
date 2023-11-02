@@ -61,7 +61,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const [driverMsg, setDriverMsg] = React.useState<string>("");
   const [loadDriverProgress, setLoadDriverProgress] = React.useState<Record<string, any>>({});
   const [loadDriverStatus, setLoadDriverStatus] = React.useState(LoadDriverStatus.InProgress);
-  const [systemMsg, setSystemMsg] = React.useState<string>("");
+  const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
   const [createProofStatus, setCreateProofStatus] = React.useState(CreateProofStatus.StandBy);
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
@@ -141,8 +141,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           }
 
           if (type === "CREATE_PROOF_EVENT") {
-            console.log(11, payload);
-            // setSystemMsg(payload);
+            setSystemMsg(payload.payload);
           }
         });
 
@@ -299,9 +298,11 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
             {i18n.create.toUpperCase()}
           </Button>
         </div>
-        <div className={styles.footer}>
-          <div className={styles.msg}>{systemMsg}</div>
-        </div>
+        {systemMsg && (
+          <div className={styles.footer}>
+            <div className={styles.msg}>{systemMsg}</div>
+          </div>
+        )}
       </div>
       <div className={styles.metaArea}>
         <ProofTypeMeta proofType={proofType} />
