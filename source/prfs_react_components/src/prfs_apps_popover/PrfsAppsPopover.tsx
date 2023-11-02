@@ -70,8 +70,6 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
   webappPollEndpoint,
   zIndex,
 }) => {
-  console.log(11, className, isOpenClassName);
-
   const [isOpen, setIsOpen] = React.useState(false);
 
   const { refs, floatingStyles, context } = useFloating({
