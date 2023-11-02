@@ -1,16 +1,21 @@
 import React from "react";
 import cn from "classnames";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-
-import styles from "./HashInput.module.scss";
-import { i18nContext } from "@/contexts/i18n";
-import { FormInput, FormInputTitleRow, InputWrapper } from "@/components/form_input/FormInput";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 import { bigIntToBuffer, bufferToBigInt } from "@ethereumjs/util";
 
+import styles from "./HashInput.module.scss";
+import { i18nContext } from "@/contexts/i18n";
+import {
+  FormError,
+  FormInput,
+  FormInputTitleRow,
+  InputWrapper,
+} from "@/components/form_input/FormInput";
+
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
-    if (value && value.msgHash) {
+    if (value && value.msgHash && value.msgRawInt) {
       const msgRawInt = "Msg: " + value.msgRawInt.toString().substring(0, 6) + "...";
       const msgHash = "Msg hash: " + value.msgHash.toString().substring(0, 12) + "...";
 
@@ -36,9 +41,9 @@ const HashInput: React.FC<HashInputProps> = ({
   React.useEffect(() => {
     if (value === undefined) {
       const defaultHashData: HashData = {
-        msgRaw: "",
-        msgRawInt: BigInt(0),
-        msgHash: BigInt(0),
+        msgRaw: null,
+        msgRawInt: null,
+        msgHash: null,
       };
 
       setFormValues(oldVals => {
@@ -52,6 +57,14 @@ const HashInput: React.FC<HashInputProps> = ({
 
   const handleChangeRaw = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
+      if (error && error.length > 0) {
+        setFormErrors(oldVals => {
+          const newVals = { ...oldVals };
+          delete newVals[circuitInput.name];
+          return newVals;
+        });
+      }
+
       const newVal = ev.target.value;
 
       setFormValues(oldVals => {
@@ -66,7 +79,7 @@ const HashInput: React.FC<HashInputProps> = ({
         };
       });
     },
-    [setFormValues, value],
+    [setFormValues, value, setFormErrors],
   );
 
   const handleClickHash = React.useCallback(async () => {
@@ -75,7 +88,7 @@ const HashInput: React.FC<HashInputProps> = ({
       return null;
     }
 
-    if (value) {
+    if (value && value.msgRaw) {
       const msgRaw = value.msgRaw;
       const msgRawInt = bufferToBigInt(Buffer.from(msgRaw));
       const msgHash = await proofGenElement.hash([msgRawInt, BigInt(0)]);
@@ -100,7 +113,7 @@ const HashInput: React.FC<HashInputProps> = ({
         <div className={styles.interactiveArea}>
           <input
             placeholder={circuitInput.desc}
-            value={value?.msgRaw.toString() || ""}
+            value={value?.msgRaw?.toString() || ""}
             onChange={handleChangeRaw}
           />
           <div className={styles.btnGroup}>
@@ -111,6 +124,7 @@ const HashInput: React.FC<HashInputProps> = ({
         </div>
         {!!value?.msgHash && <ComputedValue value={value} />}
       </InputWrapper>
+      {error && <FormError>{error}</FormError>}
     </FormInput>
   );
 };
@@ -118,9 +132,9 @@ const HashInput: React.FC<HashInputProps> = ({
 export default HashInput;
 
 export interface HashData {
-  msgRaw: string;
-  msgRawInt: bigint;
-  msgHash: bigint;
+  msgRaw: string | null;
+  msgRawInt: bigint | null;
+  msgHash: bigint | null;
 }
 
 export interface HashInputProps {

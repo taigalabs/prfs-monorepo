@@ -84,12 +84,17 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const handleClickCreateProof = React.useCallback(async () => {
     if (proofGenElement) {
       try {
-        const inputs = await validateInputs(formValues, proofType);
-        setCreateProofStatus(CreateProofStatus.InProgress);
+        const inputs = await validateInputs(formValues, proofType, setFormErrors);
 
-        const proveReceipt = await proofGenElement.createProof(inputs, proofType.circuit_type_id);
-        setCreateProofStatus(CreateProofStatus.Created);
-        handleCreateProofResult(null, proveReceipt);
+        if (inputs === null) {
+          return;
+        }
+
+        // setCreateProofStatus(CreateProofStatus.InProgress);
+
+        // const proveReceipt = await proofGenElement.createProof(inputs, proofType.circuit_type_id);
+        // setCreateProofStatus(CreateProofStatus.Created);
+        // handleCreateProofResult(null, proveReceipt);
       } catch (err) {
         handleCreateProofResult(err, null);
       }
@@ -260,7 +265,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     }
 
     return entriesElem;
-  }, [proofType, formValues, setFormValues, proofGenElement]);
+  }, [proofType, formValues, setFormValues, proofGenElement, formErrors]);
 
   if (!proofType) {
     return null;
