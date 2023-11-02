@@ -4,11 +4,11 @@
   right: 0;
   position: fixed;
   display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 14px 20px;
   min-width: 824px;
   height: 89px;
-  justify-content: center;
-  align-items: center;
   background-color: var(--white-100);
   z-index: 10;
   font-size: 13px;
@@ -51,7 +51,6 @@
 
   .menu {
     cursor: pointer;
-    /* display: flex; */
     align-items: center;
     justify-content: center;
     width: 40px;
@@ -134,8 +133,11 @@
 @media screen and (max-width: 480px) {
   .wrapper {
     min-width: 0;
-    padding: 6px 7px;
+    padding: 0px 7px;
     height: 102px;
+
+    align-items: flex-start;
+    /* justify-content: center; */
   }
 
   .bigScreen {
@@ -147,6 +149,7 @@
     top: 0;
     left: 0;
     height: 40px;
+    padding: 0 5px;
     margin-top: 4px;
     margin-left: 8px;
     display: flex;
