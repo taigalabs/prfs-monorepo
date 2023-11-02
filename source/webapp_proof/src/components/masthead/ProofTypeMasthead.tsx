@@ -60,9 +60,7 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
           ) : (
             <li className={styles.menu}>
               <a href={tutorialUrl}>
-                <div className={styles.tutorialBtn}>
-                  <IoMdSchool />
-                </div>
+                <IoMdSchool />
               </a>
             </li>
           )}

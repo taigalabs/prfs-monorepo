@@ -3,6 +3,7 @@
   flex-direction: column;
   flex-grow: 1;
   min-height: 660px;
+  min-width: 824px;
 }
 
 .body {
@@ -15,4 +16,14 @@
 .footer {
   margin-top: auto;
   margin-bottom: 0;
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    min-width: 0;
+  }
+
+  .body {
+    padding-top: 102px;
+  }
 }
