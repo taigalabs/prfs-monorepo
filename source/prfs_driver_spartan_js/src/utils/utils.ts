@@ -39,7 +39,7 @@ export async function fetchAsset(
     (val: DriverEvent) => {
       eventListener(val);
     },
-    500,
+    400,
     { leading: true, trailing: true },
   );
 
