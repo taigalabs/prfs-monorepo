@@ -12,12 +12,15 @@ import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/Cap
 const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({ proofType }) => {
   const i18n = React.useContext(i18nContext);
 
-  const { desc } = proofType;
-  const mdHTML = React.useMemo(() => {
-    const md = marked.parse(desc);
-    const res = DOMPurify.sanitize(md);
-    return res;
-  }, [desc]);
+  const [mdHTML, url] = React.useMemo(() => {
+    const { desc } = proofType;
+    const md = DOMPurify.sanitize(marked.parse(desc));
+
+    const url =
+      process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT + "/proof_types/" + proofType.proof_type_id;
+
+    return [md, url];
+  }, [proofType]);
 
   return (
     <div className={styles.wrapper}>
@@ -27,7 +30,7 @@ const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({ proofType }) => {
         </div>
         <div>
           <p>{proofType.proof_type_id}</p>
-          <p>{`${process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/proof_types/${proofType.proof_type_id}`}</p>
+          <p className={styles.url}>{url}</p>
         </div>
       </div>
       <div className={styles.section}>

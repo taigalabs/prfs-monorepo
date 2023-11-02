@@ -8,6 +8,15 @@
 
 .headerSection {
   display: flex;
+  font-size: 14px;
+
+  .left {
+    margin-right: 12px;
+  }
+
+  .url {
+    color: var(--gray-40);
+  }
 }
 
 .title {
