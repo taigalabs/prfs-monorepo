@@ -23,8 +23,6 @@
 }
 
 .modal {
-  // margin: 4px 0px;
-  // padding: 4px 0;
   width: 160px;
   display: flex;
   flex-direction: column;
@@ -48,6 +46,10 @@
 
   &:hover {
     background-color: var(--bright-gray-50);
+  }
+
+  &:focus-visible {
+    outline: none;
   }
 
   svg {
