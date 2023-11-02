@@ -1,6 +1,7 @@
 use chrono::{DateTime, Utc};
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
+use sqlx::Type;
 use std::collections::HashMap;
 use ts_rs::TS;
 use uuid::Uuid;
@@ -37,7 +38,7 @@ pub struct PrfsProofType {
 pub struct CircuitInput {
     pub name: String,
     pub label: String,
-    pub r#type: String,
+    pub r#type: CircuitInputType,
     pub desc: String,
     pub value: String,
 
@@ -52,4 +53,16 @@ pub struct CircuitInput {
 
 fn default_units() -> i16 {
     1
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Type, TS)]
+#[sqlx(type_name = "VARCHAR")]
+#[allow(non_camel_case_types)]
+#[ts(export)]
+pub enum CircuitInputType {
+    HASH_DATA_1,
+    MERKLE_PROOF_1,
+    SIG_DATA_1,
+    PASSCODE,
+    PASSCODE_CONFIRM,
 }

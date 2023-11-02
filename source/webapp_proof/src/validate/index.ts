@@ -16,7 +16,7 @@ export async function validateInputs(inputs: Record<string, any>, proofType: Prf
         const { sig } = await sendMsgToParent(
           new Msg("GET_SIGNATURE", {
             msgRaw: pw_hash,
-          })
+          }),
         );
 
         newFormValues[input.name] = sig;
@@ -44,7 +44,7 @@ export async function validateInputs(inputs: Record<string, any>, proofType: Prf
         const { sig } = await sendMsgToParent(
           new Msg("GET_SIGNATURE", {
             msgRaw: pw_hash,
-          })
+          }),
         );
 
         newFormValues[input.name] = sig;

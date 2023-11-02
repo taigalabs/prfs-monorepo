@@ -6,6 +6,7 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
+import dayjs from "dayjs";
 import cn from "classnames";
 
 import styles from "./CreateProofModule.module.scss";
@@ -17,7 +18,6 @@ import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput"
 import { validateInputs } from "@/validate";
 import HashInput from "@/components/hash_input/HashInput";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
-import dayjs from "dayjs";
 import ProofTypeMeta from "./ProofTypeMeta";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
@@ -88,7 +88,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         setCreateProofStatus(CreateProofStatus.InProgress);
 
         const proveReceipt = await proofGenElement.createProof(inputs, proofType.circuit_type_id);
-        setSystemMsg(`Proof created in ${proveReceipt.duration}ms`);
         setCreateProofStatus(CreateProofStatus.Created);
         handleCreateProofResult(null, proveReceipt);
       } catch (err) {
