@@ -59,6 +59,36 @@
     }
   }
 
+  .tutorialMenu {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+
+    .tutorialBtn {
+      display: flex;
+      align-items: center;
+      background-color: white;
+      border-radius: 3px;
+      padding: 5px;
+      font-weight: 500;
+      color: var(--aqua-blue-40);
+
+      svg {
+        display: block;
+        margin-left: 4px;
+      }
+    }
+
+    svg:first-child {
+      font-size: 20px;
+      margin-right: 4px;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
   > li:not(:first-child) {
     margin-left: 10px;
   }
@@ -79,27 +109,6 @@
 .bigScreen {
   display: flex;
   align-items: center;
-}
-
-.tutorialBtn {
-  display: flex;
-  align-items: center;
-}
-
-.tutorialBtn.isTutorial {
-  background-color: white;
-  border-radius: 3px;
-  padding: 5px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--aqua-blue-40);
-  display: flex;
-  align-items: center;
-
-  svg {
-    display: block;
-    margin-left: 4px;
-  }
 }
 
 .popover {

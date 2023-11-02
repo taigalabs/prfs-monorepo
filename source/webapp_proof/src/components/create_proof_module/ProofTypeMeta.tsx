@@ -26,7 +26,9 @@ const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({ proofType }) => {
     <div className={styles.wrapper}>
       <div className={styles.headerSection}>
         <div className={styles.left}>
-          <CaptionedImg img_url={proofType.img_url} size={28} />
+          <div className={styles.imgContainer}>
+            <CaptionedImg img_url={proofType.img_url} size={18} />
+          </div>
         </div>
         <div>
           <p>{proofType.proof_type_id}</p>
@@ -36,6 +38,8 @@ const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({ proofType }) => {
       <div className={styles.section}>
         <p className={styles.title}>{proofType.label}</p>
         <div dangerouslySetInnerHTML={{ __html: mdHTML }} />
+        <p className={styles.h2}>{i18n.author}</p>
+        <p>{proofType.author}</p>
       </div>
     </div>
   );

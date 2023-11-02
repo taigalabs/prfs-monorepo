@@ -47,22 +47,25 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
           />
         </div>
         <ul className={styles.rightArea}>
-          <li className={styles.menu}>
-            <a href={tutorialUrl}>
-              <div className={cn(styles.tutorialBtn, { [styles.isTutorial]: isTutorial })}>
-                {isTutorial ? (
-                  <>
-                    <span>{i18n.tutorial}</span>
-                    <AiOutlineClose />
-                  </>
-                ) : (
-                  <>
-                    <IoMdSchool />
-                  </>
-                )}
-              </div>
-            </a>
-          </li>
+          {isTutorial ? (
+            <li className={styles.tutorialMenu}>
+              <a href={tutorialUrl}>
+                <div className={cn(styles.tutorialBtn)}>
+                  <IoMdSchool />
+                  <span>{i18n.tutorial}</span>
+                  <AiOutlineClose />
+                </div>
+              </a>
+            </li>
+          ) : (
+            <li className={styles.menu}>
+              <a href={tutorialUrl}>
+                <div className={styles.tutorialBtn}>
+                  <IoMdSchool />
+                </div>
+              </a>
+            </li>
+          )}
           <li className={cn(styles.menu, styles.bigScreen)}>
             <Link href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>
               <BsBook />
