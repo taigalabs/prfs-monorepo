@@ -213,7 +213,7 @@ const proof_types: PrfsProofType[] = [
     desc: "Proves he is one of the hackers at consumer crypto hackathon hosted by Paradigm VC",
     expression: "Is consumer crypto hacker",
     img_url: "https://d1w1533jipmvi2.cloudfront.net/paradigm_logo.jpg",
-    img_caption: "0.0001",
+    img_caption: null,
     circuit_id: "00000000-0000-0000-0000-000000000000",
     circuit_type_id: "MEMBERSHIP_PROOF_1",
     circuit_driver_id: "SPARTAN_CIRCOM_1",

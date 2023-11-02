@@ -9,6 +9,8 @@ import { i18nContext } from "@/contexts/i18n";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 
 const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({ proofType }) => {
+  const i18n = React.useContext(i18nContext);
+
   const { desc } = proofType;
   const mdHTML = React.useMemo(() => {
     const md = marked.parse(desc);
@@ -18,8 +20,17 @@ const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({ proofType }) => {
 
   return (
     <div className={styles.wrapper}>
-      <p className={styles.title}>About {proofType.label}</p>
-      <div dangerouslySetInnerHTML={{ __html: mdHTML }} />
+      <div className={styles.section}>
+        <div className={styles.left}></div>
+        <div>
+          <p className={styles.title}>{i18n.author}</p>
+          <p>{proofType.author}</p>
+        </div>
+      </div>
+      <div className={styles.section}>
+        <p className={styles.title}>{proofType.label}</p>
+        <div dangerouslySetInnerHTML={{ __html: mdHTML }} />
+      </div>
     </div>
   );
 };
