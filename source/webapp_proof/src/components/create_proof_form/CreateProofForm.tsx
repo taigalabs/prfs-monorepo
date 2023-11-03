@@ -25,10 +25,11 @@ const CreateProofForm: React.FC = () => {
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const proofTypeId = searchParams.get("proof_type_id");
 
   React.useEffect(() => {
     async function fn() {
+      const proofTypeId = searchParams.get("proof_type_id");
+
       if (proofTypeId) {
         const { payload } = await getPrfsProofTypeByProofTypeIdRequest({
           proof_type_id: proofTypeId,
@@ -40,7 +41,7 @@ const CreateProofForm: React.FC = () => {
     }
 
     fn().then();
-  }, [proofTypeId]);
+  }, [searchParams]);
 
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
@@ -65,10 +66,6 @@ const CreateProofForm: React.FC = () => {
     },
     [setProveReceipt],
   );
-
-  if (!proofTypeId) {
-    redirect(paths.__);
-  }
 
   return (
     <>
