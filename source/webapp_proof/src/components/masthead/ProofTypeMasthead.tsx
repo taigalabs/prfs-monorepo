@@ -16,7 +16,6 @@ import { IoMdSchool } from "@react-icons/all-files/io/IoMdSchool";
 import styles from "./ProofTypeMasthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import LogoContainer from "@/components/logo_container/LogoContainer";
 
 const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
   proofType,
@@ -37,7 +36,7 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
       <div className={styles.inner}>
         <div className={styles.logoArea}>
           <a href={paths.__}>
-            <ImageLogo width={55} />
+            <ImageLogo width={52} />
           </a>
         </div>
         <div className={styles.searchArea}>

@@ -18,6 +18,7 @@ import PostCreateMenu from "./PostCreateMenu";
 import { paths } from "@/paths";
 import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
 import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
+import { useSelectProofType } from "@/hooks/proofType";
 
 const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -34,6 +35,12 @@ const CreateProofForm: React.FC = () => {
     }
     return false;
   }, [searchParams]);
+
+  const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
+    mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
+      return prfsApi2("get_prfs_proof_type_by_proof_type_id", req);
+    },
+  });
 
   React.useEffect(() => {
     async function fn() {
@@ -58,18 +65,7 @@ const CreateProofForm: React.FC = () => {
     fn().then();
   }, [searchParams, proofTypeIdRef, setProveReceipt]);
 
-  const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
-    mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
-      return prfsApi2("get_prfs_proof_type_by_proof_type_id", req);
-    },
-  });
-
-  const handleSelectProofType = React.useCallback(
-    async (proofType: PrfsProofType) => {
-      router.push(`${paths.create}?proof_type_id=${proofType.proof_type_id}`);
-    },
-    [getPrfsProofTypeByProofTypeIdRequest, router],
-  );
+  const handleSelectProofType = useSelectProofType();
 
   const handleCreateProofResult = React.useCallback(
     async (err: any, proveReceipt: ProveReceipt | null) => {
