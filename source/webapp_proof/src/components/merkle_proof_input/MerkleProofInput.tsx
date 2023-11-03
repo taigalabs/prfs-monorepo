@@ -60,7 +60,6 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
   const [isOpen, setIsOpen] = React.useState(false);
-  const [isInputValid, setIsInputValid] = React.useState(false);
   const [walletAddr, setWalletAddr] = React.useState("");
 
   const { mutateAsync: GetPrfsTreeLeafIndices } = useMutation({
@@ -179,7 +178,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
           return { pos_h: idx, pos_w };
         });
 
-        console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
+        // console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
 
         const siblingNodesData = await getPrfsTreeNodesByPosRequest({
           set_id,
@@ -209,21 +208,11 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
             [circuitInput.name]: merkleProof,
           };
         });
-
-        setIsInputValid(true);
       } catch (err) {
         console.error(err);
       }
     },
-    [
-      setWalletAddr,
-      setFormValues,
-      prfsSet,
-      GetPrfsTreeLeafIndices,
-      setIsInputValid,
-      setFormErrors,
-      setIsOpen,
-    ],
+    [setWalletAddr, setFormValues, prfsSet, GetPrfsTreeLeafIndices, setFormErrors, setIsOpen],
   );
 
   return (

@@ -31,6 +31,7 @@ enum CreateProofStatus {
   StandBy,
   InProgress,
   Created,
+  Error,
 }
 
 const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress }) => {
@@ -94,7 +95,10 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         const proveReceipt = await proofGenElement.createProof(inputs, proofType.circuit_type_id);
         setCreateProofStatus(CreateProofStatus.Created);
         handleCreateProofResult(null, proveReceipt);
-      } catch (err) {
+      } catch (error: unknown) {
+        const err = error as Error;
+        setCreateProofStatus(CreateProofStatus.Error);
+        setSystemMsg(err.toString());
         handleCreateProofResult(err, null);
       }
     }
@@ -303,7 +307,13 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         </div>
         {systemMsg && (
           <div className={styles.footer}>
-            <div className={styles.msg}>{systemMsg}</div>
+            <div
+              className={cn(styles.msg, {
+                [styles.errorMsg]: createProofStatus === CreateProofStatus.Error,
+              })}
+            >
+              {systemMsg}
+            </div>
           </div>
         )}
       </div>

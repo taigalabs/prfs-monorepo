@@ -122,12 +122,6 @@ export interface SigDataInputProps {
   setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
 }
 
-// export interface SigInputData {
-//   msgRaw: string | undefined;
-//   msgHash: BufferHex | undefined;
-//   sig: string | undefined;
-// }
-
 export interface ComputedValueProps {
   value: SigData | undefined;
 }
