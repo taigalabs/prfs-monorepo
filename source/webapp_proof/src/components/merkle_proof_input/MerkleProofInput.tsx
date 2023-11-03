@@ -19,16 +19,22 @@ import {
   FloatingPortal,
 } from "@floating-ui/react";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
-
-import styles from "./MerkleProofInput.module.scss";
-import MerkleProofRawModal from "./MerkleProofRawModal";
-import { i18nContext } from "@/contexts/i18n";
-import { FormInput, FormInputTitleRow, InputWrapper } from "../form_input/FormInput";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
+
+import styles from "./MerkleProofInput.module.scss";
+import MerkleProofRawModal from "./MerkleProofRawModal";
+import { i18nContext } from "@/contexts/i18n";
+import {
+  FormError,
+  FormInput,
+  FormInputTitleRow,
+  InputWrapper,
+} from "@/components/form_input/FormInput";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -55,7 +61,6 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
   const [isOpen, setIsOpen] = React.useState(false);
-  const [isInputValid, setIsInputValid] = React.useState(false);
   const [walletAddr, setWalletAddr] = React.useState("");
 
   const { mutateAsync: GetPrfsTreeLeafIndices } = useMutation({
@@ -174,7 +179,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
           return { pos_h: idx, pos_w };
         });
 
-        console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
+        // console.log("leafIdx: %o, siblingPos: %o", leafIdx, siblingPos);
 
         const siblingNodesData = await getPrfsTreeNodesByPosRequest({
           set_id,
@@ -204,21 +209,11 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
             [circuitInput.name]: merkleProof,
           };
         });
-
-        setIsInputValid(true);
       } catch (err) {
         console.error(err);
       }
     },
-    [
-      setWalletAddr,
-      setFormValues,
-      prfsSet,
-      GetPrfsTreeLeafIndices,
-      setIsInputValid,
-      setFormErrors,
-      setIsOpen,
-    ],
+    [setWalletAddr, setFormValues, prfsSet, GetPrfsTreeLeafIndices, setFormErrors, setIsOpen],
   );
 
   return (
@@ -265,13 +260,23 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
       </FormInputTitleRow>
       <InputWrapper>
         <div className={styles.interactiveArea}>
-          <input placeholder={`${circuitInput.desc}`} value={walletAddr} readOnly />
+          <input
+            className={styles.addressInput}
+            placeholder={`${circuitInput.desc}`}
+            value={walletAddr}
+            readOnly
+          />
           <div className={styles.btnGroup}>
-            <WalletDialog handleChangeAddress={handleChangeAddress} />
+            <WalletDialog handleChangeAddress={handleChangeAddress}>
+              <Button variant="transparent_aqua_blue_1" className={styles.addressBtn}>
+                {i18n.address.toUpperCase()}
+              </Button>
+            </WalletDialog>
           </div>
         </div>
         {value && <ComputedValue value={value} />}
       </InputWrapper>
+      {error && <FormError>{error}</FormError>}
     </FormInput>
   );
 };

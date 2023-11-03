@@ -3,7 +3,7 @@ import { MsgType, RespPayload } from "./payload";
 
 export async function sendMsgToChild<T extends MsgType>(
   msg: Msg<T>,
-  iframe: HTMLIFrameElement
+  iframe: HTMLIFrameElement,
 ): Promise<RespPayload<T>> {
   return sendMsg(msg, (msg: Msg<T>, channel: MessageChannel) => {
     iframe.contentWindow?.postMessage(msg, "*", [channel.port2]);
@@ -18,7 +18,7 @@ export async function sendMsgToParent<T extends MsgType>(msg: Msg<T>): Promise<R
 
 export async function sendMsg<T extends MsgType>(
   msg: Msg<T>,
-  sender: Function
+  sender: Function,
 ): Promise<RespPayload<T>> {
   return new Promise((res, rej) => {
     const channel = new MessageChannel();

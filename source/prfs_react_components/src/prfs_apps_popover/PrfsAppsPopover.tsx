@@ -26,43 +26,45 @@ import Popover from "../popover/Popover";
 import { TbMathPi } from "../tabler_icons/TbMathPi";
 import Fade from "../fade/Fade";
 import IconButton from "../icon_button/IconButton";
-
-const i18n = {
-  proof: "Proof",
-  poll: "Poll",
-  console: "Console",
-};
+import { i18nContext } from "../contexts/i18nContext";
 
 const Modal: React.FC<MerkleProofModalProps> = ({
   webappProofEndpoint,
   webappConsoleEndpoint,
   webappPollEndpoint,
 }) => {
+  const i18n = React.useContext(i18nContext);
+
   return (
-    <ul className={styles.modal}>
-      <li>
-        <a className={styles.appItem} href={webappProofEndpoint}>
-          <TbMathPi />
-          <span>{i18n.proof}</span>
-        </a>
-      </li>
-      <li>
-        <a className={styles.appItem} href={webappConsoleEndpoint}>
-          <GrMonitor />
-          <span>{i18n.console}</span>
-        </a>
-      </li>
-      {/* <li> */}
-      {/*   <a className={styles.appItem} href={webappPollEndpoint}> */}
-      {/*     <FaVoteYea /> */}
-      {/*     <span>{i18n.poll}</span> */}
-      {/*   </a> */}
-      {/* </li> */}
-    </ul>
+    <div className={styles.modal}>
+      <ul className={styles.auxMenu}>
+        <li>
+          <a className={styles.appItem} href={webappProofEndpoint}>
+            <span>{i18n.documentation}</span>
+          </a>
+        </li>
+      </ul>
+      <ul className={styles.appMenu}>
+        <li>
+          <a className={styles.appItem} href={webappProofEndpoint}>
+            <TbMathPi />
+            <span>{i18n.proof}</span>
+          </a>
+        </li>
+        <li>
+          <a className={styles.appItem} href={webappConsoleEndpoint}>
+            <GrMonitor />
+            <span>{i18n.console}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
   );
 };
 
 const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
+  className,
+  isOpenClassName,
   webappProofEndpoint,
   webappConsoleEndpoint,
   webappPollEndpoint,
@@ -87,17 +89,17 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
   const headingId = useId();
 
   return (
-    <div className={styles.wrapper}>
+    <>
       <div
-        className={cn({
-          [styles.isOpen]: !!isOpen,
+        className={cn(styles.base, {
+          [styles.isOpen]: isOpen,
+          [className!]: !!className,
+          [isOpenClassName!]: !!isOpenClassName && isOpen,
         })}
         ref={refs.setReference}
         {...getReferenceProps()}
       >
-        <IconButton variant="bright_gray_1">
-          <BsThreeDots />
-        </IconButton>
+        <BsThreeDots />
       </div>
       {isOpen && (
         <FloatingFocusManager context={context} modal={false}>
@@ -117,13 +119,15 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
           </div>
         </FloatingFocusManager>
       )}
-    </div>
+    </>
   );
 };
 
 export default PrfsAppsPopover;
 
 export interface PrfsAppsPopoverProps {
+  className?: string;
+  isOpenClassName?: string;
   webappPollEndpoint: string;
   webappProofEndpoint: string;
   webappConsoleEndpoint: string;

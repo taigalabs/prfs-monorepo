@@ -10,7 +10,7 @@ export async function proveSimpleHash(
   args: ProveArgs<SimpleHashProveArgs>,
   handlers: PrfsHandlers,
   wtnsGen: Uint8Array,
-  circuit: Uint8Array
+  circuit: Uint8Array,
 ): Promise<ProveReceipt> {
   const { inputs, eventListener } = args;
   const { hashData } = inputs;
@@ -27,7 +27,10 @@ export async function proveSimpleHash(
   // console.log("witnessGenInput: %o", witnessGenInput);
   const witness = await snarkJsWitnessGen(witnessGenInput, wtnsGen);
 
-  eventListener("info", "Computed witness gen input");
+  eventListener({
+    type: "CREATE_PROOF_EVENT",
+    payload: { type: "info", payload: "Computed witness gen input" },
+  });
 
   const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
 
@@ -47,7 +50,7 @@ export async function proveSimpleHash(
 export async function verifyMembership(
   args: VerifyArgs,
   handlers: PrfsHandlers,
-  circuit: Uint8Array
+  circuit: Uint8Array,
 ) {
   const { proveResult } = args;
   const { proof, publicInputSer } = proveResult;

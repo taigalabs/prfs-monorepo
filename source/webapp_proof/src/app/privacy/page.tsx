@@ -2,7 +2,10 @@ import React from "react";
 
 import styles from "./page.module.scss";
 import PrivacyMasthead from "./PrivacyMasthead";
-import DefaultLayout, { DefaultBody, DefaultFooter } from "@/layouts/default_layout/DefaultLayout";
+import DefaultLayout, {
+  DefaultBody,
+  DefaultFooter,
+} from "@/components/layouts/default_layout/DefaultLayout";
 import { Markdown } from "@/components/markdown/Markdown";
 import DocFooter from "@/components/global_footer/DocFooter";
 

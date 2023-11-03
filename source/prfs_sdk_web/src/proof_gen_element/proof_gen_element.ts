@@ -4,7 +4,7 @@ import { MsgEventListener, handleChildMessage } from "./handle_child_msg";
 import { sendMsgToChild } from "../msg";
 import { ProofGenOptions } from "../sdk/element_options";
 import { Msg } from "../msg";
-import { ProofGenElementState, ProofGenElementSubscriber, SubscribedMsg } from "./types";
+import { ProofGenElementState, ProofGenElementSubscriber, ProofGenEvent } from "./types";
 import emit from "./emit";
 
 export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
@@ -21,7 +21,8 @@ class ProofGenElement {
     this.subscribers = [];
     this.state = {
       iframe: undefined,
-      driverVersion: undefined,
+      circuitDriverId: undefined,
+      artifactCount: undefined,
     };
   }
 
@@ -78,13 +79,17 @@ class ProofGenElement {
         circuit_driver_id,
         driver_properties,
       }),
-      iframe
-    ).then(driverVersion => {
-      this.state.driverVersion = driverVersion;
+      iframe,
+    ).then(({ circuitDriverId, artifactCount }) => {
+      this.state.circuitDriverId = circuitDriverId;
+      this.state.artifactCount = artifactCount;
 
       emit(this.subscribers, {
-        type: "DRIVER_LOADED",
-        data: driverVersion,
+        type: "LOAD_DRIVER_SUCCESS",
+        payload: {
+          circuitDriverId,
+          artifactCount,
+        },
       });
     });
 
@@ -102,7 +107,7 @@ class ProofGenElement {
           inputs,
           circuitTypeId,
         }),
-        this.state.iframe
+        this.state.iframe,
       );
 
       return proveReceipt;
@@ -122,7 +127,7 @@ class ProofGenElement {
           proveResult,
           circuitTypeId,
         }),
-        this.state.iframe
+        this.state.iframe,
       );
 
       return verifyReceipt;
@@ -141,7 +146,7 @@ class ProofGenElement {
         new Msg("HASH", {
           msg: args,
         }),
-        this.state.iframe
+        this.state.iframe,
       );
 
       return resp.msgHash;
@@ -150,7 +155,7 @@ class ProofGenElement {
     }
   }
 
-  subscribe(subscriber: (type: SubscribedMsg) => void): ProofGenElement {
+  subscribe(subscriber: (ev: ProofGenEvent) => void): ProofGenElement {
     this.subscribers.push(subscriber);
 
     return this;

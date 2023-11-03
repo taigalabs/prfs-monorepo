@@ -51,7 +51,7 @@
   flex: 1;
   justify-content: flex-end;
 
-  > li {
+  .menu {
     display: flex;
     align-items: center;
   }
@@ -63,6 +63,11 @@
   .menu:hover {
     text-decoration: underline;
   }
+}
+
+.bigScreen {
+  display: flex;
+  align-items: center;
 }
 
 .tutorialBtn {
@@ -84,5 +89,16 @@
   svg {
     display: block;
     margin-left: 4px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    min-width: 320px;
+    padding: 14px 10px;
+  }
+
+  .bigScreen {
+    display: none;
   }
 }

@@ -10,7 +10,6 @@ import { v4 as uuidv4 } from "uuid";
 import { useMutation } from "@tanstack/react-query";
 import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
 import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
-import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
 import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 import JSONBig from "json-bigint";
@@ -54,10 +53,8 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
       const { proveResult } = proveReceipt;
       const { proof, publicInputSer } = proveResult;
       const public_inputs = JSONbigNative.parse(publicInputSer);
-
       const proof_instance_id = uuidv4();
 
-      console.log("try inserting proof", proveReceipt);
       try {
         const { payload } = await createPrfsProofInstance({
           proof_instance_id,
@@ -78,12 +75,17 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.title}>
-        <p>{i18n.prove_success_msg}</p>
-      </div>
-      <div className={styles.proofTypeRow}>
-        <div className={styles.button}>
-          <CaptionedImg img_url={proofType.img_url} size={32} />
+      <div className={styles.header}>
+        <CaptionedImg
+          img_url="https://d1w1533jipmvi2.cloudfront.net/tata_Emojione_1F389.svg.png"
+          alt="tada"
+          size={48}
+        />
+        <div className={styles.title}>
+          <p>{i18n.prove_success_msg}</p>
+        </div>
+        <div className={styles.proofType}>
+          <CaptionedImg img_url={proofType.img_url} size={20} />
           <p className={styles.proofTypeLabel}>{proofType.label}</p>
         </div>
       </div>
@@ -92,7 +94,6 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
         <i>{Math.floor((proveReceipt.duration / 1000) * 1000) / 1000} secs. </i>
         <span>{i18n.proof_upload_guide}</span>
       </div>
-
       <div className={styles.btnGroup}>
         <ul>
           <li>
@@ -115,8 +116,9 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
                 variant="blue_1"
                 handleClick={handleClickUpload}
                 className={cn({
-                  [styles.inProgress]: !!isCreatePrfsProofInstanceLoading,
+                  [styles.inProgress]: isCreatePrfsProofInstanceLoading,
                 })}
+                disabled={isCreatePrfsProofInstanceLoading}
               >
                 {i18n.upload}
               </Button>
@@ -124,7 +126,6 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
           </li>
         </ul>
       </div>
-
       <div
         className={cn({ [styles.verifyProofFormRow]: true, [styles.isVerifyOpen]: isVerifyOpen })}
       >

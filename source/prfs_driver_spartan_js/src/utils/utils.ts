@@ -3,7 +3,7 @@ const snarkJs = require("snarkjs");
 
 import throttle from "lodash.throttle";
 import { fromRpcSig } from "@ethereumjs/util";
-import { DriverEventListener } from "@taigalabs/prfs-driver-interface";
+import { DriverEvent, DriverEventListener } from "@taigalabs/prfs-driver-interface";
 
 export const snarkJsWitnessGen = async (input: any, wasmFile: string | Uint8Array) => {
   const witness: {
@@ -36,10 +36,10 @@ export async function fetchAsset(
   }
 
   const emitProgress = throttle(
-    (val: string) => {
+    (val: DriverEvent) => {
       eventListener(val);
     },
-    500,
+    400,
     { leading: true, trailing: true },
   );
 
@@ -61,7 +61,13 @@ export async function fetchAsset(
     if (typeof totalLen === "number") {
       const step = parseFloat((receivedLen / totalLen).toFixed(2)) * 100;
 
-      emitProgress(`${assetName} [${step} / 100]`);
+      emitProgress({
+        type: "LOAD_DRIVER_EVENT",
+        payload: {
+          asset_label: assetName,
+          progress: step,
+        },
+      });
     }
   }
 

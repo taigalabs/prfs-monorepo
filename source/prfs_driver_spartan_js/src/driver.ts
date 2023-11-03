@@ -78,6 +78,10 @@ export default class SpartanDriver implements CircuitDriver {
     this.wtnsGen = args.wtnsGen;
   }
 
+  getArtifactCount(): number {
+    return 2;
+  }
+
   async getBuildStatus(): Promise<BuildStatus> {
     return this.handlers.getBuildStatus();
   }

@@ -1,6 +1,7 @@
-export * from "./types";
+import { DriverEvent, DriverEventListener } from "./events";
 
-export type DriverEventListener = (msg: string) => void;
+export * from "./types";
+export * from "./events";
 
 export interface CircuitDriverGen {
   newInstance(driverProps: any, eventListener: DriverEventListener): Promise<CircuitDriver>;
@@ -8,6 +9,7 @@ export interface CircuitDriverGen {
 }
 
 export interface CircuitDriver {
+  getArtifactCount(): number;
   prove(args: ProveArgs<any>): Promise<ProveReceipt>;
   verify(args: VerifyArgs): Promise<boolean>;
   getBuildStatus(): Promise<any>;
@@ -17,7 +19,7 @@ export interface CircuitDriver {
 export interface ProveArgs<T> {
   inputs: T;
   circuitTypeId: string;
-  eventListener: (type: LogEventType, msg: string) => void;
+  eventListener: (ev: DriverEvent) => void;
 }
 
 export interface VerifyArgs {
@@ -47,5 +49,3 @@ export interface ProofPublicInput {
   circuitPubInput: Record<string, any>;
   [key: string]: any;
 }
-
-export type LogEventType = "debug" | "info";

@@ -4,27 +4,37 @@ import React from "react";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import cn from "classnames";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
-import Link from "next/link";
-import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
+import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
 import styles from "./CreateProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
 import PostCreateMenu from "./PostCreateMenu";
-import LogoContainer from "./LogoContainer";
 import { paths } from "@/paths";
-import TutorialStepper from "@/components/tutorial/TutorialStepper";
-import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
+import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
+import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
+import { useSelectProofType } from "@/hooks/proofType";
 
 const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const [proofType, setProofType] = React.useState<PrfsProofType>();
+  const proofTypeIdRef = React.useRef<string | null>(null);
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt>();
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const isTutorial = React.useMemo(() => {
+    if (searchParams.get("tutorial_id")) {
+      return true;
+    }
+    return false;
+  }, [searchParams]);
 
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
@@ -32,16 +42,30 @@ const CreateProofForm: React.FC = () => {
     },
   });
 
-  const handleSelectProofType = React.useCallback(
-    async (proofType: PrfsProofType) => {
-      const { payload } = await getPrfsProofTypeByProofTypeIdRequest({
-        proof_type_id: proofType.proof_type_id,
-      });
+  React.useEffect(() => {
+    async function fn() {
+      const proofTypeId = searchParams.get("proof_type_id");
 
-      setProofType(payload.prfs_proof_type);
-    },
-    [getPrfsProofTypeByProofTypeIdRequest, setProofType],
-  );
+      if (proofTypeId) {
+        if (proofTypeIdRef.current && proofTypeIdRef.current !== proofTypeId) {
+          setProveReceipt(undefined);
+        }
+
+        proofTypeIdRef.current = proofTypeId;
+
+        const { payload } = await getPrfsProofTypeByProofTypeIdRequest({
+          proof_type_id: proofTypeId,
+        });
+
+        setProofType(payload.prfs_proof_type);
+      } else {
+      }
+    }
+
+    fn().then();
+  }, [searchParams, proofTypeIdRef, setProveReceipt]);
+
+  const handleSelectProofType = useSelectProofType();
 
   const handleCreateProofResult = React.useCallback(
     async (err: any, proveReceipt: ProveReceipt | null) => {
@@ -55,61 +79,45 @@ const CreateProofForm: React.FC = () => {
   );
 
   return (
-    <div className={styles.wrapper}>
-      {proofType ? (
-        <a href={paths.__}>
-          <LogoContainer proofTypeChosen={!!proofType} />
-        </a>
-      ) : (
-        <LogoContainer proofTypeChosen={!!proofType} />
-      )}
-      <div className={cn({ [styles.formArea]: true, [styles.proofTypeChosen]: !!proofType })}>
-        {proveReceipt ? (
-          <Fade>
-            <PostCreateMenu
-              proveReceipt={proveReceipt}
-              proofType={proofType!}
-              proofGenElement={proofGenElement!}
-            />
-          </Fade>
-        ) : (
-          <div
-            className={cn({
-              [styles.formWrapper]: true,
-              [styles.proofTypeChosen]: !!proofType,
-            })}
-          >
-            <div className={styles.proofTypeRow}>
-              <TutorialStepper steps={[1]} fullWidth mainAxisOffset={20} crossAxisOffset={15}>
-                <SelectProofTypeDialog
-                  proofType={proofType}
-                  handleSelectProofType={handleSelectProofType}
-                  webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
-                />
-              </TutorialStepper>
-            </div>
-            {!proofType && (
-              <div className={styles.welcomeRow}>
-                <span>{i18n.create_and_share_proofs}</span>
-                <Link href={`${paths.__}/?tutorial_id=simple_hash`}>How?</Link>
-              </div>
-            )}
-            {proofType && (
+    <>
+      <ProofTypeMasthead proofType={proofType} handleSelectProofType={handleSelectProofType} />
+      <div className={styles.wrapper}>
+        <div className={cn({ [styles.formArea]: true, [styles.proofTypeChosen]: !!proofType })}>
+          {proveReceipt ? (
+            <Fade>
+              <PostCreateMenu
+                proveReceipt={proveReceipt}
+                proofType={proofType!}
+                proofGenElement={proofGenElement!}
+              />
+            </Fade>
+          ) : (
+            <div
+              className={cn({
+                [styles.formWrapper]: true,
+                [styles.proofTypeChosen]: !!proofType,
+              })}
+            >
               <div className={styles.moduleWrapper}>
-                <Fade>
-                  <CreateProofModule
-                    proofType={proofType}
-                    handleCreateProofResult={handleCreateProofResult}
-                    proofGenElement={proofGenElement}
-                    setProofGenElement={setProofGenElement}
-                  />
-                </Fade>
+                {proofType ? (
+                  <Fade>
+                    <CreateProofModule
+                      proofType={proofType}
+                      handleCreateProofResult={handleCreateProofResult}
+                      proofGenElement={proofGenElement}
+                      setProofGenElement={setProofGenElement}
+                    />
+                  </Fade>
+                ) : (
+                  <div className={styles.loading}>Loading module...</div>
+                )}
               </div>
-            )}
-          </div>
-        )}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+      {isTutorial && <TutorialPlaceholder />}
+    </>
   );
 };
 

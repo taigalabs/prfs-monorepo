@@ -1,5 +1,6 @@
 import React from "react";
-import { DocsThemeConfig } from "nextra-theme-docs";
+import { useRouter } from "next/router";
+import { useConfig, useTheme, type DocsThemeConfig } from "nextra-theme-docs";
 import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
 
 import Footer from "@/components/footer/Footer";
@@ -9,6 +10,18 @@ import NavbarExtraContent from "@/components/navbar_extra_content/NavbarExtraCon
 const config: DocsThemeConfig = {
   darkMode: true,
   docsRepositoryBase: "https://github.com/taigalabs/prfs-monorepo/source/docs_website",
+  useNextSeoProps: function SEO() {
+    const { frontMatter } = useConfig();
+
+    const section = "Prfs";
+    const defaultTitle = frontMatter.overrideTitle || section;
+
+    return {
+      description: frontMatter.description,
+      defaultTitle,
+      titleTemplate: `%s – ${section}`,
+    };
+  },
   footer: {
     component: Footer,
   },

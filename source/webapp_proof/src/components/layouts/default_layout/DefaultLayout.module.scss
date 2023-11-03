@@ -3,6 +3,7 @@
   flex-direction: column;
   flex-grow: 1;
   min-height: 660px;
+  min-width: 1145px;
 }
 
 .body {
@@ -12,7 +13,21 @@
   padding-top: 56px;
 }
 
+.bigTopPadding {
+  padding-top: 89px;
+}
+
 .footer {
   margin-top: auto;
   margin-bottom: 0;
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    min-width: 320px;
+  }
+
+  .body.bigTopPadding {
+    padding-top: 102px;
+  }
 }

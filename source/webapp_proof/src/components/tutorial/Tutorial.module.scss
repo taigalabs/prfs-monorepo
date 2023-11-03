@@ -1,22 +1,31 @@
 .wrapper {
-  position: fixed;
-  top: 95px;
+  position: absolute;
+  top: 26px;
   right: 0;
   width: 300px;
-  margin-right: 24px;
+  margin-right: 12px;
   border: 1px solid var(--bright-gray-30);
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 3px;
-  padding: 18px 18px;
   line-height: 1.33;
   z-index: 1;
+
+  /* border: 1px solid red; */
 }
 
 .header {
+  top: 0;
+  left: 10px;
+  right: 10px;
+  height: 34px;
+  position: absolute;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 17px;
+  font-size: 13px;
+  background-color: var(--white-100);
+
+  /* border: 1px solid blue; */
 
   button {
     cursor: pointer;
@@ -28,9 +37,19 @@
 }
 
 .btnRow {
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  right: 10px;
+  height: 42px;
   display: flex;
   justify-content: space-between;
-  margin-top: 15px;
+  align-items: center;
+  background-color: var(--white-100);
+
+  button {
+    height: 28px;
+  }
 }
 
 .finishBtn {
@@ -39,11 +58,13 @@
 
 @media screen and (max-width: 480px) {
   .wrapper {
+    position: fixed;
     top: auto;
-    bottom: 45px;
+    bottom: 10px;
     width: 340px;
     margin-right: 0;
     left: 50%;
     transform: translateX(-50%);
+    min-height: 240px;
   }
 }

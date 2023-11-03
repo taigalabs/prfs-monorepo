@@ -1,4 +1,9 @@
-import { LogEventType, ProveReceipt, VerifyReceipt } from "@taigalabs/prfs-driver-interface";
+import {
+  LogEventPayload,
+  LoadDriverEventPayload,
+  ProveReceipt,
+  VerifyReceipt,
+} from "@taigalabs/prfs-driver-interface";
 
 export type MsgType =
   | "HANDSHAKE"
@@ -12,21 +17,18 @@ export type MsgType =
   | "GET_SIGNATURE_RESPONSE"
   | "CREATE_PROOF"
   | "CREATE_PROOF_RESPONSE"
+  | "CREATE_PROOF_EVENT"
+  | "CREATE_PROOF_EVENT_RESPONSE"
   | "VERIFY_PROOF"
   | "VERIFY_PROOF_RESPONSE"
-  | "PROOF_GEN_EVENT"
-  | "PROOF_GEN_EVENT_RESPONSE"
+  | "VERIFY_PROOF_EVENT"
+  | "VERIFY_PROOF_EVENT_RESPONSE"
   | "HASH"
   | "HASH_RESPONSE";
 
 export interface HandshakePayload {}
 
 export interface HandshakeResponsePayload {}
-
-export interface ProofGenEventPayload {
-  type: LogEventType;
-  msg: string;
-}
 
 export interface LoadDriverPayload {
   circuit_driver_id: string;
@@ -52,6 +54,11 @@ export interface GetSignatureResponsePayload {
   sig: string;
 }
 
+export interface LoadDriverResponsePayload {
+  circuitDriverId: string;
+  artifactCount: number;
+}
+
 export interface HashPayload {
   msg: bigint[];
 }
@@ -71,10 +78,10 @@ export type ReqPayload<T extends MsgType> = //
     ? string
     : T extends "LOAD_DRIVER"
     ? LoadDriverPayload
-    : T extends "LOAD_DRIVER_EVENT"
-    ? string
     : T extends "LOAD_DRIVER_RESPONSE"
-    ? string
+    ? LoadDriverResponsePayload
+    : T extends "LOAD_DRIVER_EVENT"
+    ? LoadDriverEventPayload
     : T extends "GET_SIGNATURE"
     ? GetSignaturePayload
     : T extends "GET_SIGNATURE_RESPONSE"
@@ -83,8 +90,8 @@ export type ReqPayload<T extends MsgType> = //
     ? CreateProofPayload
     : T extends "CREATE_PROOF_RESPONSE"
     ? ProveReceipt
-    : T extends "PROOF_GEN_EVENT"
-    ? ProofGenEventPayload
+    : T extends "CREATE_PROOF_EVENT"
+    ? LogEventPayload
     : T extends "HASH"
     ? HashPayload
     : T extends "HASH_RESPONSE"
@@ -93,6 +100,8 @@ export type ReqPayload<T extends MsgType> = //
     ? VerifyProofPayload
     : T extends "VERIFY_PROOF_RESPONSE"
     ? VerifyReceipt
+    : T extends "VERIFY_PROOF_EVENT"
+    ? LogEventPayload
     : never;
 
 export type RespPayload<T extends MsgType> = //
@@ -109,7 +118,7 @@ export type RespPayload<T extends MsgType> = //
     : T extends "GET_SIGNATURE_RESPONSE"
     ? never
     : T extends "LOAD_DRIVER"
-    ? string
+    ? LoadDriverResponsePayload
     : T extends "LOAD_DRIVER_EVENT"
     ? never
     : T extends "LOAD_DRIVER_RESPONSE"
@@ -118,9 +127,9 @@ export type RespPayload<T extends MsgType> = //
     ? ProveReceipt
     : T extends "CREATE_PROOF_RESPONSE"
     ? void
-    : T extends "PROOF_GEN_EVENT"
+    : T extends "CREATE_PROOF_EVENT"
     ? never
-    : T extends "PROOF_GEN_EVENT_RESPONSE"
+    : T extends "CREATE_PROOF_EVENT_RESPONSE"
     ? never
     : T extends "HASH"
     ? HashResponsePayload

@@ -33,8 +33,8 @@ const LeftBar: React.FC = () => {
       </div>
       <ul className={styles.mainMenu}>
         <li>
-          <ActiveLink href={paths.generate} exact>
-            {i18n.generate}
+          <ActiveLink href={paths.create} exact>
+            {i18n.create}
           </ActiveLink>
         </li>
         <li>

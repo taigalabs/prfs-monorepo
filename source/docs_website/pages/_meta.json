@@ -1,7 +1,7 @@
 {
   "index": "Introduction",
   "getting_started": "Getting started",
-  "circuit_driver": "Circuit driver",
-  "proof_systems": "Proof systems",
-  "concepts": ""
+  "creating_first_proof": "Creating first proof",
+  "core_concepts": "Core concepts",
+  "api_references": "API references"
 }

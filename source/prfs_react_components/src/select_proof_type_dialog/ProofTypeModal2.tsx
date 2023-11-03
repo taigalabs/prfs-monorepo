@@ -17,7 +17,7 @@ const Row: React.FC<RowProps> = ({ proofType, handleSelectVal, webappConsoleEndp
       ev.stopPropagation();
       window.open(url, "_blank");
     },
-    [url]
+    [url],
   );
 
   const extendedHandleSelectVal = React.useCallback(() => {
@@ -58,7 +58,7 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({
       },
       {
         getNextPageParam: lastPage => (lastPage.next_idx > -1 ? lastPage.next_idx : undefined),
-      }
+      },
     );
 
   const allRows = data ? data.pages.flatMap(d => d.prfs_proof_types) : [];

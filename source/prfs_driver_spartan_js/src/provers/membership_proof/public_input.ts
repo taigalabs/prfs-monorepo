@@ -23,7 +23,7 @@ export class MembershipProofPublicInput {
     rV: bigint,
     msgRaw: string,
     msgHash: BufferHex,
-    circuitPubInput: MembershipProofCircuitPubInput
+    circuitPubInput: MembershipProofCircuitPubInput,
   ) {
     this.r = r;
     this.rV = rV;
@@ -47,7 +47,7 @@ export class MembershipProofPublicInput {
       circuitPubInputObj.Ty,
       circuitPubInputObj.Ux,
       circuitPubInputObj.Uy,
-      circuitPubInputObj.serialNo
+      circuitPubInputObj.serialNo,
     );
 
     return new MembershipProofPublicInput(obj.r, obj.rV, obj.msgRaw, obj.msgHash, circuitPubInput);
@@ -68,7 +68,7 @@ export class MembershipProofCircuitPubInput {
     Ty: bigint,
     Ux: bigint,
     Uy: bigint,
-    serialNo: bigint
+    serialNo: bigint,
   ) {
     this.merkleRoot = merkleRoot;
     this.Tx = Tx;
@@ -119,7 +119,7 @@ export class MembershipProofCircuitPubInput {
 export const computeEffEcdsaPubInput = (
   r: bigint,
   v: bigint,
-  msgHash: Buffer
+  msgHash: Buffer,
 ): EffECDSAPubInput => {
   let isYOdd: bigint;
   try {
@@ -169,7 +169,7 @@ export const verifyEffEcdsaPubInput = (pubInput: MembershipProofPublicInput): bo
   const expectedCircuitInput = computeEffEcdsaPubInput(
     pubInput.r,
     pubInput.rV,
-    toBuffer(pubInput.msgHash)
+    toBuffer(pubInput.msgHash),
   );
 
   const circuitPubInput = pubInput.circuitPubInput;

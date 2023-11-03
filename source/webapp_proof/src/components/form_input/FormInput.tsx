@@ -15,6 +15,10 @@ export const InputWrapper: React.FC<FormInputProps> = ({ children }) => {
   return <div className={styles.inputWrapper}>{children}</div>;
 };
 
+export const FormError: React.FC<FormInputProps> = ({ children }) => {
+  return <div className={styles.formError}>{children}</div>;
+};
+
 export interface FormInputProps {
   children: React.ReactNode;
 }

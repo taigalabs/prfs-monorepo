@@ -1,8 +1,7 @@
 import {
   CircuitDriver,
-  LogEventType,
+  DriverEvent,
   ProveReceipt,
-  ProveResult,
   VerifyReceipt,
 } from "@taigalabs/prfs-driver-interface";
 import { CreateProofPayload, VerifyProofPayload } from "@taigalabs/prfs-sdk-web";
@@ -10,7 +9,7 @@ import { CreateProofPayload, VerifyProofPayload } from "@taigalabs/prfs-sdk-web"
 export async function createProof(
   driver: CircuitDriver,
   payload: CreateProofPayload,
-  eventListener: (type: LogEventType, msg: string) => void
+  eventListener: (ev: DriverEvent) => void,
 ): Promise<ProveReceipt> {
   try {
     const proveReceipt = await driver.prove({
@@ -28,7 +27,7 @@ export async function createProof(
 export async function verifyProof(
   driver: CircuitDriver,
   payload: VerifyProofPayload,
-  _eventListener: (type: LogEventType, msg: string) => void
+  eventListener: (ev: DriverEvent) => void,
 ): Promise<VerifyReceipt> {
   try {
     const verifyResult = await driver.verify({

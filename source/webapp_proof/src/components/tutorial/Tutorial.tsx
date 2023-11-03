@@ -11,10 +11,10 @@ import Tutorial5MD from "@/components/tutorial_contents/tutorial_5.mdx";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import { useRouter } from "next/navigation";
+import cn from "classnames";
 
 import styles from "./Tutorial.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { paths } from "@/paths";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { goNextStep, goPrevStep, resetStep } from "@/state/tutorialReducer";
 import MarkdownWrapper from "./MarkdownWrapper";
@@ -40,7 +40,7 @@ const Stage: React.FC<StageProps> = ({ step }) => {
   }
 };
 
-const Tutorial: React.FC<TutorialProps> = () => {
+const Tutorial: React.FC<TutorialProps> = ({ bigTopMargin }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const i18n = React.useContext(i18nContext);
@@ -83,7 +83,7 @@ const Tutorial: React.FC<TutorialProps> = () => {
   return (
     isTutorial &&
     step > 0 && (
-      <div className={styles.wrapper}>
+      <div className={cn(styles.wrapper, { [styles.bigTopMargin]: bigTopMargin })}>
         <div className={styles.header}>
           <p className={styles.progress}>
             ({step} / {STEP_COUNT})
@@ -124,7 +124,9 @@ const Tutorial: React.FC<TutorialProps> = () => {
 
 export default Tutorial;
 
-export interface TutorialProps {}
+export interface TutorialProps {
+  bigTopMargin?: boolean;
+}
 
 export interface StageProps {
   step: number;

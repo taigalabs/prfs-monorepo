@@ -1,3 +1,9 @@
+.base {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .isOpen {
   button {
     background-color: var(--bright-gray-30);
@@ -9,24 +15,26 @@
 }
 
 .popoverWrapper {
+  background-color: var(--white-100);
   box-shadow: 0 4px 9px 3px rgba(0, 0, 0, 0.15), 0 1px 8px rgba(0, 0, 0, 0.3);
-  /* box-shadow: rgba(101, 119, 134, 0.2) 0px 0px 15px, rgba(101, 119, 134, 0.15) 0px 0px 3px 1px; */
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  /* border: 1px solid #b5bdb7; */
   border-radius: 5px;
   z-index: 10;
 }
 
 .modal {
-  background-color: var(--white-100);
-  margin: 4px 0px;
-  padding: 4px 0;
   width: 160px;
   display: flex;
   flex-direction: column;
+}
 
-  > li {
-  }
+.auxMenu {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--bright-gray-30);
+}
+
+.appMenu {
+  padding: 8px 0;
 }
 
 .appItem {
@@ -34,14 +42,18 @@
   align-items: center;
   cursor: pointer;
   padding: 12px 16px;
-  font-size: 15px;
+  font-size: 14px;
 
   &:hover {
     background-color: var(--bright-gray-50);
   }
 
+  &:focus-visible {
+    outline: none;
+  }
+
   svg {
-    font-size: 18px;
-    margin-right: 10px;
+    // font-size: 14px;
+    margin-right: 4px;
   }
 }

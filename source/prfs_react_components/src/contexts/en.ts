@@ -1,4 +1,7 @@
 export default {
+  docs: "Docs",
+  documentation: "Documentation",
+  console: "Console",
   terminal_scroll_guide: "Scroll to see the inputs",
   find_what_to_prove: "Find what to prove",
   log: "Log",

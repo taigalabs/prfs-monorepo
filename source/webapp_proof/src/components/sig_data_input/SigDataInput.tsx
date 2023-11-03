@@ -7,8 +7,14 @@ import { useSignMessage } from "wagmi";
 
 import styles from "./SigDataInput.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { FormInput, FormInputTitleRow, InputWrapper } from "@/components/form_input/FormInput";
+import {
+  FormError,
+  FormInput,
+  FormInputTitleRow,
+  InputWrapper,
+} from "@/components/form_input/FormInput";
 import { BufferHex, SigData } from "@taigalabs/prfs-driver-interface";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -22,7 +28,13 @@ const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   return <div className={styles.computedValue}>{val}</div>;
 };
 
-const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFormValues }) => {
+const SigDataInput: React.FC<SigDataInputProps> = ({
+  circuitInput,
+  value,
+  setFormValues,
+  error,
+  setFormErrors,
+}) => {
   const i18n = React.useContext(i18nContext);
   const { signMessageAsync } = useSignMessage();
 
@@ -46,8 +58,15 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
           },
         };
       });
+
+      setFormErrors((oldVals: any) => {
+        return {
+          ...oldVals,
+          [circuitInput.name]: undefined,
+        };
+      });
     },
-    [setFormValues, value]
+    [setFormValues, value],
   );
 
   const handleClickSign = React.useCallback(async () => {
@@ -66,8 +85,15 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
         ...oldVals,
         [circuitInput.name]: newValue,
       }));
+    } else {
+      setFormErrors((oldVals: any) => {
+        return {
+          ...oldVals,
+          [circuitInput.name]: "Type some message on which to put a signature",
+        };
+      });
     }
-  }, [value, setFormValues, signMessageAsync]);
+  }, [value, setFormValues, signMessageAsync, setFormErrors]);
 
   return (
     <FormInput>
@@ -82,13 +108,18 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
             onChange={handleChangeRaw}
           />
           <div className={styles.btnGroup}>
-            <button className={styles.connectBtn} onClick={handleClickSign}>
-              {i18n.sign}
-            </button>
+            <Button
+              variant="transparent_aqua_blue_1"
+              className={styles.signBtn}
+              handleClick={handleClickSign}
+            >
+              {i18n.sign.toUpperCase()}
+            </Button>
           </div>
         </div>
         {value?.sig && <ComputedValue value={value} />}
       </InputWrapper>
+      {error && <FormError>{error}</FormError>}
     </FormInput>
   );
 };

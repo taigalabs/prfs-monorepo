@@ -1,0 +1,175 @@
+.wrapper {
+  top: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 20px;
+  min-width: 1125px;
+  height: 89px;
+  background-color: var(--white-100);
+  z-index: 10;
+  font-size: 13px;
+  border-bottom: 1px solid var(--bright-gray-30);
+
+  &.isTutorial {
+    background-color: rgba(0, 0, 0, 0.62);
+  }
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.logoArea {
+  flex: 1;
+  // border: 1px solid blue;
+}
+
+.searchArea {
+  flex: 0 0 518px;
+  // border: 1px solid red;
+}
+
+.rightArea {
+  font-size: 24px;
+  flex: 1;
+  display: flex;
+  margin-left: auto;
+  margin-right: 0;
+  justify-content: flex-end;
+  color: var(--gray-20);
+  // border: 1px solid blue;
+
+  .menu:not(.bigScreen) {
+    display: flex;
+  }
+
+  .menu {
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+
+    > a {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .tutorialMenu {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+
+    .tutorialBtn {
+      display: flex;
+      align-items: center;
+      background-color: white;
+      border-radius: 3px;
+      padding: 5px;
+      font-weight: 500;
+      color: var(--aqua-blue-40);
+
+      svg {
+        display: block;
+        margin-left: 4px;
+      }
+    }
+
+    svg:first-child {
+      font-size: 20px;
+      margin-right: 4px;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  > li:not(:first-child) {
+    margin-left: 6px;
+  }
+
+  .appPopover {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+  }
+
+  .menu:hover {
+    background-color: var(--bright-gray-40);
+  }
+}
+
+.bigScreen {
+  display: flex;
+  align-items: center;
+}
+
+.popover {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--bright-gray-40);
+  }
+}
+
+.popoverIsOpen {
+  background-color: var(--bright-gray-30);
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    min-width: 0;
+    padding: 0px 7px;
+    height: 102px;
+
+    align-items: flex-start;
+    /* justify-content: center; */
+  }
+
+  .bigScreen {
+    display: none;
+  }
+
+  .logoArea {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 40px;
+    padding: 0 5px;
+    margin-top: 4px;
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+
+    /* border: 1px solid blue; */
+  }
+
+  .searchArea {
+    flex: 1;
+    margin-top: 46px;
+  }
+
+  .rightArea {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 4px;
+    margin-right: 8px;
+
+    /* border: 1px solid blue; */
+  }
+}

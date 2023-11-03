@@ -1,0 +1,53 @@
+.wrapper {
+  margin-top: 34px;
+}
+
+.section {
+  margin-top: 10px;
+}
+
+.headerSection {
+  display: flex;
+  font-size: 14px;
+  cursor: pointer;
+
+  .left {
+    margin-right: 12px;
+    display: flex;
+    align-items: center;
+  }
+
+  .url {
+    font-size: 12px;
+    margin-top: 3px;
+    color: var(--gray-31);
+  }
+
+  .imgContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 14px;
+    border: 1px solid var(--bright-gray-30);
+  }
+
+  &:hover {
+    .url {
+      text-decoration: underline;
+    }
+  }
+}
+
+.title {
+  font-weight: 400;
+  font-size: 1.42em;
+  margin: 12px 0 10px;
+}
+
+.h2 {
+  font-size: 1.22em;
+  font-weight: 400;
+  margin: 22px 0 10px;
+}

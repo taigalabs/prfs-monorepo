@@ -63,7 +63,6 @@ const VerifyButton: React.FC<VerifyButtonProps> = ({ verifiedStatus, handleClick
 
 const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
   proveResult,
-  // proofType,
   circuitTypeId,
   circuitDriverId,
   proofGenElement,

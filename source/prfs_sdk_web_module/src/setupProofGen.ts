@@ -1,4 +1,10 @@
-import { CircuitDriver, LogEventType } from "@taigalabs/prfs-driver-interface";
+import {
+  CircuitDriver,
+  DriverEvent,
+  LoadDriverEvent,
+  LoadDriverEventPayload,
+  LogEventPayload,
+} from "@taigalabs/prfs-driver-interface";
 import {
   CreateProofPayload,
   HashPayload,
@@ -18,10 +24,6 @@ const state: ProofGenModuleState = {
   driver: null,
 };
 
-function proofGenEventListener(type: LogEventType, msg: string) {
-  sendMsgToParent(new Msg("PROOF_GEN_EVENT", { type, msg }));
-}
-
 async function eventListener(ev: MessageEvent) {
   const { driver } = state;
 
@@ -38,13 +40,17 @@ async function eventListener(ev: MessageEvent) {
           return;
         }
 
-        proofGenEventListener(
-          "info",
-          `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`,
+        sendMsgToParent(
+          new Msg("CREATE_PROOF_EVENT", {
+            type: "info",
+            payload: `Start proving... hardware concurrency: ${window.navigator.hardwareConcurrency}`,
+          }),
         );
 
         try {
-          const proveReceipt = await createProof(driver, payload, proofGenEventListener);
+          const proveReceipt = await createProof(driver, payload, ev => {
+            sendMsgToParent(new Msg("CREATE_PROOF_EVENT", ev.payload as LogEventPayload));
+          });
           ev.ports[0].postMessage(new Msg("CREATE_PROOF_RESPONSE", proveReceipt));
         } catch (err) {
           ev.ports[0].postMessage(new Msg("CREATE_PROOF_RESPONSE", undefined, err));
@@ -61,13 +67,17 @@ async function eventListener(ev: MessageEvent) {
           return;
         }
 
-        proofGenEventListener(
-          "info",
-          `Start verifying... hardware concurrency: ${window.navigator.hardwareConcurrency}`,
+        sendMsgToParent(
+          new Msg("VERIFY_PROOF_EVENT", {
+            type: "info",
+            payload: `Start verifying... hardware concurrency: ${window.navigator.hardwareConcurrency}`,
+          }),
         );
 
         try {
-          const verifyReceipt = await verifyProof(driver, payload, proofGenEventListener);
+          const verifyReceipt = await verifyProof(driver, payload, ev => {
+            sendMsgToParent(new Msg("VERIFY_PROOF_EVENT", ev.payload as LogEventPayload));
+          });
           ev.ports[0].postMessage(new Msg("VERIFY_PROOF_RESPONSE", verifyReceipt));
         } catch (err) {
           ev.ports[0].postMessage(new Msg("VERIFY_PROOF_RESPONSE", undefined, err));
@@ -79,8 +89,7 @@ async function eventListener(ev: MessageEvent) {
       case "LOAD_DRIVER": {
         const { payload } = ev.data;
         const { circuit_driver_id, driver_properties } = payload;
-
-        console.log("Loading driver, access_enpdoint: %s", ASSET_ACCESS_ENDPOINT);
+        // console.log("Loading driver, access_enpdoint: %s", ASSET_ACCESS_ENDPOINT);
 
         const driverProperties = interpolateSystemAssetEndpoint(
           driver_properties,
@@ -88,12 +97,21 @@ async function eventListener(ev: MessageEvent) {
         );
 
         try {
-          const driver = await initDriver(circuit_driver_id, driverProperties, (msg: string) => {
-            sendMsgToParent(new Msg("LOAD_DRIVER_EVENT", msg));
-          });
+          const driver = await initDriver(
+            circuit_driver_id,
+            driverProperties,
+            (ev: DriverEvent) => {
+              sendMsgToParent(new Msg("LOAD_DRIVER_EVENT", ev.payload as LoadDriverEventPayload));
+            },
+          );
           state.driver = driver;
 
-          ev.ports[0].postMessage(new Msg("LOAD_DRIVER_RESPONSE", circuit_driver_id));
+          ev.ports[0].postMessage(
+            new Msg("LOAD_DRIVER_RESPONSE", {
+              circuitDriverId: circuit_driver_id,
+              artifactCount: driver.getArtifactCount(),
+            }),
+          );
         } catch (err) {
           console.error(err);
         }
