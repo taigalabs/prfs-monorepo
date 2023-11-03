@@ -17,16 +17,14 @@ import Fade from "../fade/Fade";
 import { i18nContext } from "../contexts/i18nContext";
 import WalletModal from "./WalletModal";
 
-const WalletDialog: React.FC<WalletDialogProps> = ({ handleChangeAddress, zIndex }) => {
+const WalletDialog: React.FC<WalletDialogProps> = ({ handleChangeAddress, zIndex, children }) => {
   const i18n = React.useContext(i18nContext);
   const [isOpen, setIsOpen] = React.useState(false);
-  // const [walletAddr, setWalletAddr] = React.useState("");
 
   const { refs, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
   });
-
   const click = useClick(context);
   const role = useRole(context);
   const dismiss = useDismiss(context, { outsidePressEvent: "mousedown" });
@@ -44,41 +42,37 @@ const WalletDialog: React.FC<WalletDialogProps> = ({ handleChangeAddress, zIndex
       handleChangeAddress(addr);
       setIsOpen(false);
     },
-    [handleChangeAddress, setIsOpen]
+    [handleChangeAddress, setIsOpen],
   );
 
   return (
-    <div className={styles.wrapper}>
-      <div>
-        <div>
-          <div className={styles.btnRow} ref={refs.setReference} {...getReferenceProps()}>
-            <button>{i18n.address}</button>
-          </div>
-          <FloatingPortal>
-            {isOpen && (
-              <FloatingOverlay style={{ zIndex: zIndex || 200 }}>
-                <Fade className={styles.fadeOverlay}>
-                  <FloatingFocusManager context={context}>
-                    <div
-                      className={styles.dialog}
-                      ref={refs.setFloating}
-                      aria-labelledby={headingId}
-                      aria-describedby={descriptionId}
-                      {...getFloatingProps()}
-                    >
-                      <WalletModal
-                        handleClickClose={handleClickClose}
-                        handleChangeAddress={extendedHandleChangeAddress}
-                      />
-                    </div>
-                  </FloatingFocusManager>
-                </Fade>
-              </FloatingOverlay>
-            )}
-          </FloatingPortal>
-        </div>
+    <>
+      <div ref={refs.setReference} {...getReferenceProps()}>
+        {children ? children : <button>{i18n.address}</button>}
       </div>
-    </div>
+      <FloatingPortal>
+        {isOpen && (
+          <FloatingOverlay style={{ zIndex: zIndex || 200 }}>
+            <Fade className={styles.fadeOverlay}>
+              <FloatingFocusManager context={context}>
+                <div
+                  className={styles.dialog}
+                  ref={refs.setFloating}
+                  aria-labelledby={headingId}
+                  aria-describedby={descriptionId}
+                  {...getFloatingProps()}
+                >
+                  <WalletModal
+                    handleClickClose={handleClickClose}
+                    handleChangeAddress={extendedHandleChangeAddress}
+                  />
+                </div>
+              </FloatingFocusManager>
+            </Fade>
+          </FloatingOverlay>
+        )}
+      </FloatingPortal>
+    </>
   );
 };
 
@@ -87,4 +81,5 @@ export default WalletDialog;
 export interface WalletDialogProps {
   handleChangeAddress: (addr: string) => void;
   zIndex?: number;
+  children?: React.ReactNode;
 }

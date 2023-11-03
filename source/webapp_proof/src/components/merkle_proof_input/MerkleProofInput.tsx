@@ -34,6 +34,7 @@ import {
   FormInputTitleRow,
   InputWrapper,
 } from "@/components/form_input/FormInput";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -261,7 +262,11 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         <div className={styles.interactiveArea}>
           <input placeholder={`${circuitInput.desc}`} value={walletAddr} readOnly />
           <div className={styles.btnGroup}>
-            <WalletDialog handleChangeAddress={handleChangeAddress} />
+            <WalletDialog handleChangeAddress={handleChangeAddress}>
+              <Button variant="transparent_aqua_blue_1" className={styles.addressBtn}>
+                {i18n.address.toUpperCase()}
+              </Button>
+            </WalletDialog>
           </div>
         </div>
         {value && <ComputedValue value={value} />}

@@ -48,14 +48,6 @@ export default Button;
 
 export interface ButtonProps {
   variant: Variant;
-  // | "aqua_blue_1"
-  // | "blue_1"
-  // | "transparent_blue_1"
-  // | "transparent_black_1"
-  // | "transparent_aqua_blue_1"
-  // | "transparent_aqua_blue_1_light"
-  // | "white_gray_1"
-  // | "white_black_1";
   className?: string;
   name?: string;
   children: React.ReactNode;

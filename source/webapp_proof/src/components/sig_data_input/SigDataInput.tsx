@@ -14,6 +14,7 @@ import {
   InputWrapper,
 } from "@/components/form_input/FormInput";
 import { BufferHex, SigData } from "@taigalabs/prfs-driver-interface";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -100,9 +101,13 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
             onChange={handleChangeRaw}
           />
           <div className={styles.btnGroup}>
-            <button className={styles.connectBtn} onClick={handleClickSign}>
-              {i18n.sign}
-            </button>
+            <Button
+              variant="transparent_aqua_blue_1"
+              className={styles.signBtn}
+              handleClick={handleClickSign}
+            >
+              {i18n.sign.toUpperCase()}
+            </Button>
           </div>
         </div>
         {value?.sig && <ComputedValue value={value} />}

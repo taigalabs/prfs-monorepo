@@ -12,6 +12,7 @@ import {
   FormInputTitleRow,
   InputWrapper,
 } from "@/components/form_input/FormInput";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -117,9 +118,13 @@ const HashInput: React.FC<HashInputProps> = ({
             onChange={handleChangeRaw}
           />
           <div className={styles.btnGroup}>
-            <button className={styles.connectBtn} onClick={handleClickHash}>
-              {i18n.hash}
-            </button>
+            <Button
+              variant="transparent_aqua_blue_1"
+              handleClick={handleClickHash}
+              className={styles.hashBtn}
+            >
+              {i18n.hash.toUpperCase()}
+            </Button>
           </div>
         </div>
         {!!value?.msgHash && <ComputedValue value={value} />}

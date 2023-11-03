@@ -16,6 +16,7 @@ export default {
   submit: "Submit",
   raw: "Raw",
   put_address: "Put address",
+  address: "Address",
   merkle_proof: "Merkle proof",
   sign: "Sign",
   type_merkle_proof: "Type merkle proof",
