@@ -13,7 +13,10 @@ import styles from "./page.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import { paths } from "@/paths";
-import DefaultLayout, { DefaultBody, DefaultFooter } from "@/layouts/default_layout/DefaultLayout";
+import DefaultLayout, {
+  DefaultBody,
+  DefaultFooter,
+} from "@/components/layouts/default_layout/DefaultLayout";
 import { TopPlaceholder } from "@/components/content_area/ContentArea";
 import ProofDetailView from "@/components/proof_detail_view/ProofDetailView";
 import Masthead from "@/components/masthead/Masthead";
