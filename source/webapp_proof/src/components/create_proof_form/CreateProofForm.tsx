@@ -21,6 +21,7 @@ import ProofTypeMasthead from "../masthead/ProofTypeMasthead";
 const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const [proofType, setProofType] = React.useState<PrfsProofType>();
+  const proofTypeIdRef = React.useRef<string | null>(null);
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt>();
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
   const router = useRouter();
@@ -31,6 +32,12 @@ const CreateProofForm: React.FC = () => {
       const proofTypeId = searchParams.get("proof_type_id");
 
       if (proofTypeId) {
+        if (proofTypeIdRef.current && proofTypeIdRef.current !== proofTypeId) {
+          setProveReceipt(undefined);
+        }
+
+        proofTypeIdRef.current = proofTypeId;
+
         const { payload } = await getPrfsProofTypeByProofTypeIdRequest({
           proof_type_id: proofTypeId,
         });
@@ -41,7 +48,7 @@ const CreateProofForm: React.FC = () => {
     }
 
     fn().then();
-  }, [searchParams]);
+  }, [searchParams, proofTypeIdRef, setProveReceipt]);
 
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
