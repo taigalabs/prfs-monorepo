@@ -44,7 +44,7 @@ const Tooltip: React.FC<TooltipProps> = ({ label, children }) => {
         {children}
       </div>
       <FloatingPortal>
-        {true && (
+        {isOpen && (
           <div
             className={styles.tooltip}
             ref={refs.setFloating}

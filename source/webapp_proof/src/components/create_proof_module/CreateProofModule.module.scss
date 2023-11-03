@@ -10,7 +10,9 @@
 
 .main {
   position: relative;
-  padding-bottom: 32px;
+  padding: 20px 15px 32px;
+  border: 1px solid var(--gray-50);
+  border-radius: 6px;
 
   .overlay {
     position: absolute;
@@ -96,5 +98,5 @@
 }
 
 .metaArea {
-  border-top: 1px solid var(--bright-gray-30);
+  /* border-top: 1px solid var(--bright-gray-30); */
 }

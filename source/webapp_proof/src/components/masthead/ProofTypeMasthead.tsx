@@ -67,11 +67,13 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
               </li>
             </Tooltip>
           )}
-          <li className={cn(styles.menu, styles.bigScreen)}>
-            <Link href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>
-              <BsBook />
-            </Link>
-          </li>
+          <Tooltip label={i18n.docs}>
+            <li className={cn(styles.menu, styles.bigScreen)}>
+              <Link href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>
+                <BsBook />
+              </Link>
+            </li>
+          </Tooltip>
           <li className={styles.appPopover}>
             <PrfsAppsPopover
               className={styles.popover}

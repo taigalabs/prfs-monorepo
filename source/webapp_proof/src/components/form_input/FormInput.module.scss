@@ -14,6 +14,7 @@
   margin-bottom: 4px;
   font-size: 14px;
   color: var(--black-27);
+  font-weight: 500;
   padding-left: 2px;
   padding-right: 2px;
 }
@@ -33,7 +34,7 @@
     z-index: 1;
     pointer-events: none;
     inset: 0;
-    border: 1px solid var(--gray-60);
+    border: 1px solid var(--gray-40);
     border-radius: 5px;
   }
 
@@ -45,6 +46,7 @@
     padding-right: 60px;
     outline: none;
     border: none;
+    height: 36px;
     // border: 1px solid red;
   }
 }

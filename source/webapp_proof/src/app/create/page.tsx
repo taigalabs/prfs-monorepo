@@ -15,9 +15,6 @@ const CreatePage = () => {
           <CreateProofForm />
         </div>
       </DefaultBody>
-      <DefaultFooter>
-        <GlobalFooter />
-      </DefaultFooter>
     </DefaultLayout>
   );
 };

@@ -1,0 +1,14 @@
+.wrapper {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 58px;
+  border-top: 1px solid var(--bright-gray-30);
+}
+
+.inner {
+  width: 518px;
+}
