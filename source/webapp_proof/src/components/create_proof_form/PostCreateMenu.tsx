@@ -53,10 +53,8 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
       const { proveResult } = proveReceipt;
       const { proof, publicInputSer } = proveResult;
       const public_inputs = JSONbigNative.parse(publicInputSer);
-
       const proof_instance_id = uuidv4();
 
-      console.log("try inserting proof", proveReceipt);
       try {
         const { payload } = await createPrfsProofInstance({
           proof_instance_id,
@@ -91,7 +89,6 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
           <p className={styles.proofTypeLabel}>{proofType.label}</p>
         </div>
       </div>
-      {/* <div className={styles.proofTypeRow}></div> */}
       <div className={styles.uploadSection}>
         <span>{i18n.proof_creation_summary_msg} </span>
         <i>{Math.floor((proveReceipt.duration / 1000) * 1000) / 1000} secs. </i>
