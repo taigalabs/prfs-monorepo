@@ -3,7 +3,7 @@
   flex-direction: column;
   flex-grow: 1;
   min-height: 660px;
-  min-width: 824px;
+  min-width: 1125px;
 }
 
 .body {
@@ -20,7 +20,7 @@
 
 @media screen and (max-width: 480px) {
   .wrapper {
-    min-width: 0;
+    min-width: 320px;
   }
 
   .body {

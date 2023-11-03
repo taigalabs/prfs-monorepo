@@ -1,19 +1,9 @@
 .container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   flex-grow: 1;
-  /* justify-content: center; */
 
   // border: 1px solid blue;
-}
-
-/* .inner { */
-/*   margin-bottom: 0px; */
-/* } */
-
-.logoContainer {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 24px;
 }

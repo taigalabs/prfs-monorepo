@@ -3,11 +3,11 @@
   top: 95px;
   right: 0;
   width: 300px;
-  margin-right: 24px;
+  margin-right: 12px;
   border: 1px solid var(--bright-gray-30);
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 3px;
-  padding: 18px 18px;
+  padding: 10px 14px;
   line-height: 1.33;
   z-index: 1;
 }
@@ -16,7 +16,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 17px;
+  margin-bottom: 12px;
+  font-size: 13px;
 
   button {
     cursor: pointer;
@@ -30,14 +31,14 @@
 .btnRow {
   display: flex;
   justify-content: space-between;
-  margin-top: 15px;
+  margin-top: 11px;
 }
 
 .finishBtn {
   border: 1px solid var(--gray-70);
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 1120px) {
   .wrapper {
     top: auto;
     bottom: 45px;

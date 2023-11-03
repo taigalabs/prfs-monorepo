@@ -2,6 +2,7 @@
   min-height: 300px;
   max-height: 45vh;
   overflow-y: auto;
+  font-size: 13px;
 
   h1 {
     font-size: 1.41em;
@@ -50,7 +51,7 @@
   border-radius: 10px;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 1120px) {
   .wrapper {
     min-height: 40px;
     max-height: 100px;
