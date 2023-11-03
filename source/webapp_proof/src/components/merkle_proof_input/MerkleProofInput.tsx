@@ -28,7 +28,12 @@ import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/
 import styles from "./MerkleProofInput.module.scss";
 import MerkleProofRawModal from "./MerkleProofRawModal";
 import { i18nContext } from "@/contexts/i18n";
-import { FormInput, FormInputTitleRow, InputWrapper } from "@/components/form_input/FormInput";
+import {
+  FormError,
+  FormInput,
+  FormInputTitleRow,
+  InputWrapper,
+} from "@/components/form_input/FormInput";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -272,6 +277,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         </div>
         {value && <ComputedValue value={value} />}
       </InputWrapper>
+      {error && <FormError>{error}</FormError>}
     </FormInput>
   );
 };

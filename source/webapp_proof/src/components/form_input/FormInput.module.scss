@@ -50,5 +50,8 @@
 }
 
 .formError {
-  color: red;
+  margin-top: 5px;
+  font-size: 13px;
+  padding: 0 3px;
+  color: var(--red-50);
 }

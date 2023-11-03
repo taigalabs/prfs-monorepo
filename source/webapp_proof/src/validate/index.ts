@@ -4,6 +4,7 @@ import { Msg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitInputType } from "@taigalabs/prfs-entities/bindings/CircuitInputType";
 import { HashData } from "@/components/hash_input/HashInput";
+import { SigData, SpartanMerkleProof } from "@taigalabs/prfs-driver-interface";
 
 export async function validateInputs(
   formValues: Record<string, any>,
@@ -13,13 +14,43 @@ export async function validateInputs(
   const newFormValues: Record<string, any> = {};
   const formErrors: Record<string, string> = {};
 
-  console.log(22, formValues);
-
   let hasError = false;
   for (const input of proofType.circuit_inputs) {
     switch (input.type as CircuitInputType) {
+      case "MERKLE_PROOF_1": {
+        const val: SpartanMerkleProof | undefined = formValues[input.name];
+
+        if (!val) {
+          hasError = true;
+          formErrors[input.name] = "Input is empty";
+        } else {
+          const { root, siblings, pathIndices } = val;
+
+          if (!root || !siblings || !pathIndices) {
+            hasError = true;
+            formErrors[input.name] = "Merkle path is not provided. Have you put address?";
+          }
+        }
+
+        break;
+      }
+
       case "SIG_DATA_1": {
-        continue;
+        const val: SigData | undefined = formValues[input.name];
+
+        if (!val) {
+          hasError = true;
+          formErrors[input.name] = "Input is empty";
+        } else {
+          const { sig, msgHash, msgRaw } = val;
+
+          if (!sig || !msgHash || !msgRaw) {
+            hasError = true;
+            formErrors[input.name] = "Signature is not provided. Have you signed?";
+          }
+        }
+
+        break;
       }
 
       case "PASSCODE": {
@@ -34,7 +65,7 @@ export async function validateInputs(
         // );
 
         // newFormValues[input.name] = sig;
-        continue;
+        break;
       }
 
       case "PASSCODE_CONFIRM": {
@@ -64,32 +95,33 @@ export async function validateInputs(
 
         // newFormValues[input.name] = sig;
 
-        continue;
+        break;
       }
 
       case "HASH_DATA_1": {
         const val: HashData | undefined = formValues[input.name];
-        console.log(33, val);
 
         if (!val) {
           hasError = true;
           formErrors[input.name] = "Input is invalid";
-          break;
+        } else {
+          const { msgRaw, msgRawInt, msgHash } = val;
+
+          if (!msgRaw || !msgRawInt || !msgHash) {
+            hasError = true;
+            formErrors[input.name] =
+              "Hashed outcome should be provided. Have you hashed the input?";
+          }
         }
 
-        const { msgRaw, msgRawInt, msgHash } = val;
-        if (!msgRaw || !msgRawInt || !msgHash) {
-          hasError = true;
-          formErrors[input.name] = "Hashed outcome should be provided. Have you hashed the input?";
-          break;
-        }
-        continue;
+        break;
       }
 
-      default:
+      default: {
         hasError = true;
         formErrors[input.name] = "Invalid input";
         break;
+      }
     }
   }
 

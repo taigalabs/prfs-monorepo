@@ -7,7 +7,12 @@ import { useSignMessage } from "wagmi";
 
 import styles from "./SigDataInput.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { FormInput, FormInputTitleRow, InputWrapper } from "@/components/form_input/FormInput";
+import {
+  FormError,
+  FormInput,
+  FormInputTitleRow,
+  InputWrapper,
+} from "@/components/form_input/FormInput";
 import { BufferHex, SigData } from "@taigalabs/prfs-driver-interface";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
@@ -22,7 +27,13 @@ const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   return <div className={styles.computedValue}>{val}</div>;
 };
 
-const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFormValues }) => {
+const SigDataInput: React.FC<SigDataInputProps> = ({
+  circuitInput,
+  value,
+  setFormValues,
+  error,
+  setFormErrors,
+}) => {
   const i18n = React.useContext(i18nContext);
   const { signMessageAsync } = useSignMessage();
 
@@ -46,8 +57,15 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
           },
         };
       });
+
+      setFormErrors((prevVals: any) => {
+        return {
+          ...prevVals,
+          [circuitInput.name]: undefined,
+        };
+      });
     },
-    [setFormValues, value]
+    [setFormValues, value],
   );
 
   const handleClickSign = React.useCallback(async () => {
@@ -89,6 +107,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({ circuitInput, value, setFor
         </div>
         {value?.sig && <ComputedValue value={value} />}
       </InputWrapper>
+      {error && <FormError>{error}</FormError>}
     </FormInput>
   );
 };
@@ -102,6 +121,12 @@ export interface SigDataInputProps {
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
 }
+
+// export interface SigInputData {
+//   msgRaw: string | undefined;
+//   msgHash: BufferHex | undefined;
+//   sig: string | undefined;
+// }
 
 export interface ComputedValueProps {
   value: SigData | undefined;
