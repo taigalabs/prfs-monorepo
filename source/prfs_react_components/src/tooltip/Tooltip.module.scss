@@ -1,0 +1,14 @@
+.wrapper {
+  /* display: flex; */
+  /* align-items: center; */
+}
+
+.tooltip {
+  width: max-content;
+  background-color: #444;
+  color: white;
+  font-size: 90%;
+  padding: 4px 8px;
+  border-radius: 4px;
+  z-index: 10;
+}

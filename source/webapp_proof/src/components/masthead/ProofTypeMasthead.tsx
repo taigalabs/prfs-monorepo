@@ -10,6 +10,7 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
 import { useSearchParams } from "next/navigation";
 import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
+import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 import { IoMdSchool } from "@react-icons/all-files/io/IoMdSchool";
 
 import styles from "./ProofTypeMasthead.module.scss";
@@ -58,11 +59,13 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
               </a>
             </li>
           ) : (
-            <li className={styles.menu}>
-              <a href={tutorialUrl}>
-                <IoMdSchool />
-              </a>
-            </li>
+            <Tooltip label={i18n.tutorial}>
+              <li className={styles.menu}>
+                <a href={tutorialUrl}>
+                  <IoMdSchool />
+                </a>
+              </li>
+            </Tooltip>
           )}
           <li className={cn(styles.menu, styles.bigScreen)}>
             <Link href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>

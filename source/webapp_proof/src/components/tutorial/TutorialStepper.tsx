@@ -32,6 +32,16 @@ const TutorialStepper: React.FC<TutorialStepperProps> = ({
 }) => {
   const searchParams = useSearchParams();
 
+  const isTutorial = React.useMemo(() => {
+    if (searchParams.get("tutorial_id")) {
+      return true;
+    } else {
+      return false;
+    }
+  }, [searchParams]);
+
+  const step = useAppSelector(state => state.tutorial.tutorialStep);
+
   const { refs, floatingStyles, context } = useFloating({
     placement: "top-start",
     whileElementsMounted: autoUpdate,
@@ -46,21 +56,10 @@ const TutorialStepper: React.FC<TutorialStepperProps> = ({
       shift(),
     ],
   });
-
-  const isTutorial = React.useMemo(() => {
-    if (searchParams.get("tutorial_id")) {
-      return true;
-    } else {
-      return false;
-    }
-  }, [searchParams]);
-
   const focus = useFocus(context);
   const dismiss = useDismiss(context);
   const role = useRole(context, { role: "tooltip" });
   const { getReferenceProps, getFloatingProps } = useInteractions([focus, dismiss, role]);
-
-  const step = useAppSelector(state => state.tutorial.tutorialStep);
 
   return isTutorial && steps.includes(step) ? (
     <>
