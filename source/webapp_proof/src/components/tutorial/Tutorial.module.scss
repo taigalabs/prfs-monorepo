@@ -38,6 +38,10 @@
   border: 1px solid var(--gray-70);
 }
 
+.bigTopMargin {
+  top: 115px;
+}
+
 @media screen and (max-width: 480px) {
   .wrapper {
     top: auto;

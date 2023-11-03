@@ -11,7 +11,7 @@ const CreatePage = () => {
     <DefaultLayout>
       <DefaultBody>
         <div className={styles.container}>
-          <Tutorial top={110} />
+          <Tutorial bigTopMargin />
           <CreateProofForm />
         </div>
       </DefaultBody>
