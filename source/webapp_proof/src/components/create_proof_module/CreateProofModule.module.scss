@@ -100,3 +100,9 @@
 .metaArea {
   /* border-top: 1px solid var(--bright-gray-30); */
 }
+
+@media screen and (max-width: 480px) {
+  .main {
+    padding: 20px 4px 20px;
+  }
+}
