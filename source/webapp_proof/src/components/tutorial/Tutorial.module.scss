@@ -7,17 +7,25 @@
   border: 1px solid var(--bright-gray-30);
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 3px;
-  padding: 10px 14px;
   line-height: 1.33;
   z-index: 1;
+
+  /* border: 1px solid red; */
 }
 
 .header {
+  top: 0;
+  left: 10px;
+  right: 10px;
+  height: 34px;
+  position: absolute;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
   font-size: 13px;
+  background-color: var(--white-100);
+
+  /* border: 1px solid blue; */
 
   button {
     cursor: pointer;
@@ -29,26 +37,34 @@
 }
 
 .btnRow {
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  right: 10px;
+  height: 42px;
   display: flex;
   justify-content: space-between;
-  margin-top: 11px;
+  align-items: flex-start;
+  background-color: var(--white-100);
+
+  button {
+    height: 32px;
+  }
 }
 
 .finishBtn {
   border: 1px solid var(--gray-70);
 }
 
-.bigTopMargin {
-  /* top: 115px; */
-}
-
 @media screen and (max-width: 480px) {
   .wrapper {
+    position: fixed;
     top: auto;
-    bottom: 45px;
+    bottom: 10px;
     width: 340px;
     margin-right: 0;
     left: 50%;
     transform: translateX(-50%);
+    min-height: 240px;
   }
 }

@@ -12,7 +12,7 @@ import Tutorial from "@/components/tutorial/Tutorial";
 const CreatePage = () => {
   return (
     <DefaultLayout>
-      <DefaultBody>
+      <DefaultBody bigTopPadding>
         <div className={styles.container}>
           <Tutorial />
           <CreateProofForm />

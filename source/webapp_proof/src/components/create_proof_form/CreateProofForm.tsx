@@ -16,7 +16,8 @@ import { i18nContext } from "@/contexts/i18n";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
 import PostCreateMenu from "./PostCreateMenu";
 import { paths } from "@/paths";
-import ProofTypeMasthead from "../masthead/ProofTypeMasthead";
+import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
+import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
 
 const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -26,6 +27,13 @@ const CreateProofForm: React.FC = () => {
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const isTutorial = React.useMemo(() => {
+    if (searchParams.get("tutorial_id")) {
+      return true;
+    }
+    return false;
+  }, [searchParams]);
 
   React.useEffect(() => {
     async function fn() {
@@ -112,6 +120,7 @@ const CreateProofForm: React.FC = () => {
           )}
         </div>
       </div>
+      {isTutorial && <TutorialPlaceholder />}
     </>
   );
 };

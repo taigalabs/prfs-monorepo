@@ -9,6 +9,9 @@ import SocialSharePopover from "@taigalabs/prfs-react-components/src/social_shar
 import { HiOutlineDesktopComputer } from "@react-icons/all-files/hi/HiOutlineDesktopComputer";
 import Link from "next/link";
 import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import { useMutation } from "wagmi";
+import { GetPrfsProofInstanceByInstanceIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstanceByInstanceIdRequest";
 
 import styles from "./ProofDetailView.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -27,53 +30,96 @@ const JSONbigNative = JSONBig({
   storeAsString: true,
 });
 
-const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstance }) => {
+const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) => {
   const i18n = React.useContext(i18nContext);
   const didTryInitialize = React.useRef(false);
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
 
-  const headerLabel = `${i18n.proof} ${proofInstance.proof_instance_id}`;
+  const { mutateAsync: getPrfsProofInstanceByInstanceIdRequest } = useMutation({
+    mutationFn: (req: GetPrfsProofInstanceByInstanceIdRequest) => {
+      return prfsApi2("get_prfs_proof_instance_by_instance_id", req);
+    },
+  });
 
-  const proveResult = React.useMemo(() => {
-    return {
-      proof: new Uint8Array(proofInstance.proof),
-      publicInputSer: JSONbigNative.stringify(proofInstance.public_inputs),
-    } as ProveResult;
-  }, [proofInstance]);
-
-  const consoleUrl = `${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/proof_instances/${proofInstance.proof_instance_id}`;
-
+  const [proofInstance, setProofInstance] = React.useState<PrfsProofInstanceSyn1>();
   React.useEffect(() => {
     async function fn() {
-      if (didTryInitialize.current) {
-        return;
+      const proof_instance_id = decodeURIComponent(proofInstanceId);
+      try {
+        const { payload } = await getPrfsProofInstanceByInstanceIdRequest({
+          proof_instance_id,
+        });
+
+        setProofInstance(payload.prfs_proof_instance_syn1);
+      } catch (err) {
+        console.error("Proof instance is not found, invalid access");
       }
-      didTryInitialize.current = true;
-
-      // const { circuit_driver_id, driver_properties } = proofInstance.circuit_driver_id;
-
-      // try {
-      //   const elem = await prfsSDK.create("proof-gen", {
-      //     proofTypeId: proofType.proof_type_id,
-      //     circuit_driver_id,
-      //     driver_properties,
-      //     sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
-      //     proofGenEventListener: proofGenEventListener,
-      //   });
-
-      //   elem.subscribe(msg => {
-      //     setSystemMsg(msg.data);
-      //   });
-
-      //   setProofGenElement(elem);
-      //   return elem;
-      // } catch (err) {
-      //   setSystemMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
-      // }
     }
 
     fn().then();
-  }, [proofInstance, setProofGenElement]);
+  }, [setProofInstance, getPrfsProofInstanceByInstanceIdRequest]);
+
+  const ret = React.useMemo(() => {
+    if (proofInstance) {
+      const headerLabel = `${i18n.proof} ${proofInstance.proof_instance_id}`;
+      const consoleUrl = `${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/proof_instances/${proofInstance.proof_instance_id}`;
+
+      const ret = {
+        headerLabel,
+        consoleUrl,
+        proveResult: {
+          proof: new Uint8Array(proofInstance.proof),
+          publicInputSer: JSONbigNative.stringify(proofInstance.public_inputs),
+        } as ProveResult,
+      };
+
+      return ret;
+    }
+
+    return null;
+  }, [proofInstance]);
+
+  // React.useEffect(() => {
+  //   async function fn() {
+  //     if (didTryInitialize.current) {
+  //       return;
+  //     }
+  //     didTryInitialize.current = true;
+
+  //     // const { circuit_driver_id, driver_properties } = proofInstance.circuit_driver_id;
+
+  //     // try {
+  //     //   const elem = await prfsSDK.create("proof-gen", {
+  //     //     proofTypeId: proofType.proof_type_id,
+  //     //     circuit_driver_id,
+  //     //     driver_properties,
+  //     //     sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
+  //     //     proofGenEventListener: proofGenEventListener,
+  //     //   });
+
+  //     //   elem.subscribe(msg => {
+  //     //     setSystemMsg(msg.data);
+  //     //   });
+
+  //     //   setProofGenElement(elem);
+  //     //   return elem;
+  //     // } catch (err) {
+  //     //   setSystemMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
+  //     // }
+  //   }
+
+  //   fn().then();
+  // }, [proofInstance, setProofGenElement]);
+  //
+  if (ret === null || !proofInstance) {
+    return (
+      <div className={styles.wrapper}>
+        <div className={styles.isLoading}>Loading...</div>
+      </div>
+    );
+  }
+
+  const { headerLabel, consoleUrl, proveResult } = ret;
 
   return (
     <div className={styles.wrapper}>
@@ -84,12 +130,12 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstance }) => {
           </a>
         </div>
         <div className={styles.titleRow}>
-          <p className={styles.headerLabel}>{headerLabel}</p>
+          <p className={styles.headerLabel}>{ret.headerLabel}</p>
         </div>
         <div className={styles.buttonRow}>
           <ul>
             <li>
-              <Link href={consoleUrl}>
+              <Link href={ret.consoleUrl}>
                 <Button variant="transparent_blue_1">
                   <HiOutlineDesktopComputer />
                   <span>{i18n.console.toUpperCase()}</span>
@@ -144,5 +190,6 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstance }) => {
 export default ProofDetailView;
 
 export interface ProofDetailViewProps {
-  proofInstance: PrfsProofInstanceSyn1;
+  // proofInstance: PrfsProofInstanceSyn1;
+  proofInstanceId: string;
 }

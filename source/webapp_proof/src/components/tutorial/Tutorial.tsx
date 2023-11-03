@@ -15,7 +15,6 @@ import cn from "classnames";
 
 import styles from "./Tutorial.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { paths } from "@/paths";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { goNextStep, goPrevStep, resetStep } from "@/state/tutorialReducer";
 import MarkdownWrapper from "./MarkdownWrapper";

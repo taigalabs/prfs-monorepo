@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useRouter, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { useQuery } from "@tanstack/react-query";
 
@@ -10,7 +10,6 @@ import { paths } from "@/paths";
 
 const ShortIdPage: React.FC<ShortIdPageProps> = ({ params }) => {
   const i18n = React.useContext(i18nContext);
-  const router = useRouter();
 
   const { isLoading, data } = useQuery({
     queryKey: ["get_prfs_proof_instance_by_short_id"],
