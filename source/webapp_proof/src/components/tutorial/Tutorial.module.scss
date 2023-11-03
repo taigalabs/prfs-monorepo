@@ -1,6 +1,6 @@
 .wrapper {
-  position: fixed;
-  top: 95px;
+  position: absolute;
+  top: 26px;
   right: 0;
   width: 300px;
   margin-right: 12px;
@@ -39,7 +39,7 @@
 }
 
 .bigTopMargin {
-  top: 115px;
+  /* top: 115px; */
 }
 
 @media screen and (max-width: 480px) {
