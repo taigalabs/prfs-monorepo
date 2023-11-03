@@ -2,7 +2,7 @@ import React from "react";
 import cn from "classnames";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
-import { bigIntToBuffer, bufferToBigInt } from "@ethereumjs/util";
+import { bufferToBigInt } from "@ethereumjs/util";
 
 import styles from "./HashInput.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -85,7 +85,6 @@ const HashInput: React.FC<HashInputProps> = ({
 
   const handleClickHash = React.useCallback(async () => {
     if (!proofGenElement.state.circuitDriverId) {
-      console.warn("Driver is not yet loaded");
       return null;
     }
 
@@ -102,6 +101,11 @@ const HashInput: React.FC<HashInputProps> = ({
           msgHash,
         },
       }));
+    } else {
+      setFormErrors(oldVals => {
+        const newVals = { ...oldVals, [circuitInput.name]: "Type some value to hash" };
+        return newVals;
+      });
     }
   }, [value, setFormValues]);
 

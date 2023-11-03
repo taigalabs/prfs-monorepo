@@ -59,9 +59,9 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
         };
       });
 
-      setFormErrors((prevVals: any) => {
+      setFormErrors((oldVals: any) => {
         return {
-          ...prevVals,
+          ...oldVals,
           [circuitInput.name]: undefined,
         };
       });
@@ -85,8 +85,15 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
         ...oldVals,
         [circuitInput.name]: newValue,
       }));
+    } else {
+      setFormErrors((oldVals: any) => {
+        return {
+          ...oldVals,
+          [circuitInput.name]: "Type some message on which to put a signature",
+        };
+      });
     }
-  }, [value, setFormValues, signMessageAsync]);
+  }, [value, setFormValues, signMessageAsync, setFormErrors]);
 
   return (
     <FormInput>

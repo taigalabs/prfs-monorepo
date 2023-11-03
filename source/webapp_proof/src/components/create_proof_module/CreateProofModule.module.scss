@@ -103,7 +103,11 @@
 
 @media screen and (max-width: 480px) {
   .main {
+    /* border: 1px solid transparent; */
     padding: 12px 4px 12px;
+    /* border-bottom: 1px solid var(--gray-40); */
+    /* border-top: 1px solid var(--gray-40); */
+    /* border-radius: 0px; */
   }
 
   .driverMsg {
