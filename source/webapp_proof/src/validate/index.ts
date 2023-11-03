@@ -11,7 +11,6 @@ export async function validateInputs(
   proofType: PrfsProofType,
   setFormErrors: React.Dispatch<React.SetStateAction<Record<string, any>>>,
 ): Promise<Record<string, any> | null> {
-  const newFormValues: Record<string, any> = {};
   const formErrors: Record<string, string> = {};
 
   let hasError = false;
@@ -130,7 +129,7 @@ export async function validateInputs(
     return null;
   }
 
-  return newFormValues;
+  return formValues;
 }
 
 export class InputError extends Error {

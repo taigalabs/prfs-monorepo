@@ -90,11 +90,10 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           return;
         }
 
-        // setCreateProofStatus(CreateProofStatus.InProgress);
-
-        // const proveReceipt = await proofGenElement.createProof(inputs, proofType.circuit_type_id);
-        // setCreateProofStatus(CreateProofStatus.Created);
-        // handleCreateProofResult(null, proveReceipt);
+        setCreateProofStatus(CreateProofStatus.InProgress);
+        const proveReceipt = await proofGenElement.createProof(inputs, proofType.circuit_type_id);
+        setCreateProofStatus(CreateProofStatus.Created);
+        handleCreateProofResult(null, proveReceipt);
       } catch (err) {
         handleCreateProofResult(err, null);
       }
