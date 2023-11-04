@@ -1,13 +1,11 @@
 import express from "express";
 import cors from "cors";
-import path from "path";
+
+import paths from "./paths";
 
 const PORT = 3010;
 
-const distPath = path.resolve(__dirname, "../dist");
-console.log("distPath", distPath);
-
-export function createApp() {
+export async function createApp() {
   const app = express();
 
   app.use(cors());
@@ -19,7 +17,7 @@ export function createApp() {
     next();
   });
 
-  app.use("/proof_gen", express.static(distPath));
+  app.use("/proof_gen", express.static(paths.dist));
 
   app.get("/", (_, res) => {
     res.send({

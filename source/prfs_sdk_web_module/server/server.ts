@@ -1,11 +1,11 @@
 import path from "path";
+import simpleGit from "simple-git";
 
+import paths from "./paths";
 import { createApp } from "./app";
 
-const distPath = path.resolve(__dirname, "../dist");
+// const git = simpleGit(workspacePath);
 
-(() => {
-  console.log("distPath", distPath);
-
+(async () => {
   createApp();
 })();
