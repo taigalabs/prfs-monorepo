@@ -19,7 +19,6 @@ import { validateInputs } from "@/validate";
 import HashInput from "@/components/hash_input/HashInput";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMeta from "./ProofTypeMeta";
-import CreateProofFormFooter from "./CreateProofFormFooter";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 

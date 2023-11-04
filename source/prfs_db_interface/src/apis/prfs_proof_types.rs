@@ -106,7 +106,5 @@ VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) returning id";
 
     let id: i64 = row.get("id");
 
-    println!("id: {}", id);
-
     return id;
 }

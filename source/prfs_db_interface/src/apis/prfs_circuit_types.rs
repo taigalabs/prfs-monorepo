@@ -11,7 +11,7 @@ pub async fn get_prfs_circuit_types(pool: &Pool<Postgres>) -> Vec<PrfsCircuitTyp
 select *
 from prfs_circuit_types"#;
 
-    println!("query: {}", query);
+    // println!("query: {}", query);
 
     let rows = sqlx::query(query).fetch_all(pool).await.unwrap();
 
@@ -39,7 +39,7 @@ SELECT *
 FROM prfs_circuit_types
 WHERE circuit_type_id=$1"#;
 
-    println!("query: {}", query);
+    // println!("query: {}", query);
 
     let row = sqlx::query(query)
         .bind(&circuit_type_id)
@@ -80,8 +80,6 @@ RETURNING circuit_type_id"#;
         .unwrap();
 
     let circuit_type_id: String = row.get("circuit_type_id");
-
-    println!("circuit_type_id: {}", circuit_type_id);
 
     circuit_type_id
 }

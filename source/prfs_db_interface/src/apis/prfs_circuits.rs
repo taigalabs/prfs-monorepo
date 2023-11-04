@@ -19,7 +19,7 @@ INNER JOIN prfs_circuit_types pct
 ON pc.circuit_type_id=pct.circuit_type_id
 WHERE pc.circuit_id=$1"#;
 
-    println!("query: {}", query);
+    // println!("query: {}", query);
 
     let row = sqlx::query(query)
         .bind(&circuit_id)
@@ -62,7 +62,7 @@ FROM prfs_circuits pc
 INNER JOIN prfs_circuit_types pct 
 ON pc.circuit_type_id=pct.circuit_type_id"#;
 
-    println!("query: {}", query);
+    // println!("query: {}", query);
 
     let rows = sqlx::query(query).fetch_all(pool).await.unwrap();
 
