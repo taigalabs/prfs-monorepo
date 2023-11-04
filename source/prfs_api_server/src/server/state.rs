@@ -1,4 +1,4 @@
-use crate::{envs::ENVS, ApiServerError};
+use crate::{envs::ENVS, paths::PATHS, ApiServerError};
 use chrono::{DateTime, Utc};
 use colored::Colorize;
 use ethers_core::{
@@ -6,41 +6,51 @@ use ethers_core::{
     types::TransactionRequest,
 };
 use ethers_signers::{LocalWallet, Signer, Wallet};
+use git2::{Oid, Repository};
 use prfs_db_interface::database2::Database2;
 
 pub struct ServerState {
     pub db2: Database2,
     pub wallet: Wallet<SigningKey>,
-    pub status: ServerStatus,
-}
-
-#[derive(Debug)]
-pub struct ServerStatus {
-    launch_time: DateTime<Utc>,
+    pub launch_time: DateTime<Utc>,
+    pub commit_hash: Oid,
 }
 
 impl ServerState {
-    pub fn new(db2: Database2) -> Result<ServerState, ApiServerError> {
+    pub async fn init() -> Result<ServerState, ApiServerError> {
+        let repo = match Repository::open(&PATHS.workspace_dir) {
+            Ok(repo) => repo,
+            Err(e) => panic!("failed to init: {}", e),
+        };
+
+        let mut revwalk = repo.revwalk().unwrap();
+        revwalk.push_head()?;
+        let commit_hash = revwalk.next().unwrap().unwrap();
+
+        let pg_endpoint = &ENVS.postgres_endpoint;
+        let pg_username = &ENVS.postgres_username;
+        let pg_pw = &ENVS.postgres_pw;
+
+        let db2 = Database2::connect(pg_endpoint, pg_username, pg_pw)
+            .await
+            .unwrap();
         let wallet = ENVS.prfs_api_private_key.parse::<LocalWallet>()?;
 
         let launch_time: DateTime<Utc> = Utc::now();
-        let status = ServerStatus { launch_time };
 
         println!(
-            "{} PRFS api wallet: {:?}, status: {:?}",
+            "{} server state, wallet: {:?}, commit_hash: {}, launch_time: {}",
             "Initialized".green(),
             wallet,
-            status
+            commit_hash,
+            launch_time,
         );
 
         Ok(ServerState {
             db2,
             wallet,
-            status,
+            launch_time,
+            commit_hash,
         })
-    }
-
-    pub fn to_status(&self) -> String {
-        self.status.launch_time.to_string()
     }
 }

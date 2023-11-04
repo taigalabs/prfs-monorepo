@@ -1,5 +1,4 @@
 use colored::Colorize;
-use git2::Repository;
 use hyper::Server;
 use prfs_api_server::envs::ENVS;
 use prfs_api_server::paths::PATHS;
@@ -22,30 +21,7 @@ async fn main() -> Result<(), ApiServerError> {
 
     ENVS.check();
 
-    {
-        let repo = match Repository::open(&PATHS.workspace_dir) {
-            Ok(repo) => repo,
-            Err(e) => panic!("failed to init: {}", e),
-        };
-
-        let mut revwalk = repo.revwalk().unwrap();
-        revwalk.push_head()?;
-        let a = revwalk.next().unwrap();
-        let b = repo.find_commit(a?).unwrap();
-        let t = b.time();
-
-        println!("b: {:?}, t: {:?}", b, t);
-    }
-
-    let pg_endpoint = &ENVS.postgres_endpoint;
-    let pg_username = &ENVS.postgres_username;
-    let pg_pw = &ENVS.postgres_pw;
-
-    let db2 = Database2::connect(pg_endpoint, pg_username, pg_pw)
-        .await
-        .unwrap();
-
-    let server_state = Arc::new(ServerState::new(db2).unwrap());
+    let server_state = Arc::new(ServerState::init().await.unwrap());
 
     let router = router::make_router(server_state).expect("make_router fail");
     let service = RouterService::new(router).expect("router service init fail");
