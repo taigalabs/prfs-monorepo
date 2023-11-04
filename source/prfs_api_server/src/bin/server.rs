@@ -1,6 +1,8 @@
 use colored::Colorize;
+use git2::Repository;
 use hyper::Server;
 use prfs_api_server::envs::ENVS;
+use prfs_api_server::paths::PATHS;
 use prfs_api_server::server::router;
 use prfs_api_server::server::state::ServerState;
 use prfs_api_server::ApiServerError;
@@ -20,10 +22,26 @@ async fn main() -> Result<(), ApiServerError> {
 
     ENVS.check();
 
-    let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    println!("manifest_dir: {:?}", manifest_dir);
+    // let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    // println!("manifest_dir: {:?}", manifest_dir);
 
-    println!("33 {}", ENVS.postgres_pw);
+    {
+        let repo = match Repository::open(&PATHS.workspace_dir) {
+            Ok(repo) => repo,
+            Err(e) => panic!("failed to init: {}", e),
+        };
+
+        // repo.head
+
+        // let s = repo.statuses(None).unwrap();
+        // for a in &s {
+        //     println!("a: {:?}", a.status());
+        // }
+
+        let head = repo.head().unwrap();
+        // let head = head.shorthand().unwrap();
+        println!("h: {:?}", head.name())
+    }
 
     let pg_endpoint = &ENVS.postgres_endpoint;
     let pg_username = &ENVS.postgres_username;
