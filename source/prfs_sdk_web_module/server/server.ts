@@ -1,11 +1,14 @@
-import path from "path";
-import simpleGit from "simple-git";
+import dayjs from "dayjs";
 
-import paths from "./paths";
 import { createApp } from "./app";
-
-// const git = simpleGit(workspacePath);
+import getGitLog from "./git";
 
 (async () => {
-  createApp();
+  const commit_hash = await getGitLog();
+  const now = dayjs().toJSON();
+
+  createApp({
+    commit_hash,
+    launch_time: now,
+  });
 })();

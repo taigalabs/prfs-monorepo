@@ -5,7 +5,10 @@ import paths from "./paths";
 
 const PORT = 3010;
 
-export async function createApp() {
+export async function createApp(args: CreateAppArgs) {
+  console.log("Create express app, args: %o", args);
+  const { commit_hash, launch_time } = args;
+
   const app = express();
 
   app.use(cors());
@@ -22,6 +25,8 @@ export async function createApp() {
   app.get("/", (_, res) => {
     res.send({
       status: "Ok",
+      commit_hash,
+      launch_time,
     });
   });
 
@@ -34,4 +39,9 @@ export async function createApp() {
   app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
 
   return app;
+}
+
+export interface CreateAppArgs {
+  commit_hash: string | undefined;
+  launch_time: string;
 }
