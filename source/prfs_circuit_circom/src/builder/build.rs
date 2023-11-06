@@ -14,6 +14,7 @@ pub fn run() {
     for mut circuit in &mut circuits {
         compile_circuits(&circuit);
         make_spartan(&mut circuit);
+        println!("222");
         create_circuit_json(&mut circuit);
 
         circuit_list.push(circuit.circuit_id.to_string());
