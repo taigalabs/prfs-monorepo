@@ -1,4 +1,4 @@
-mod build;
+mod build_cmd;
 mod build_handle;
 mod cmds;
 mod deps;
