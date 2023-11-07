@@ -139,6 +139,7 @@ version = "0.1.0"
 dependencies = [
  "bincode",
  "byteorder",
+ "colored",
  "ff",
  "group",
  "itertools 0.9.0",
