@@ -1,6 +1,6 @@
 mod circom_reader;
 
-use circom_reader::{load_r1cs_from_bin_file, R1CS};
+pub use circom_reader::{load_r1cs_from_bin_file, R1CS};
 use colored::Colorize;
 use ff::PrimeField;
 use libspartan::Instance;
@@ -33,18 +33,19 @@ pub fn make_spartan_instance(
     // println!("circom_r1cs_path: {:?}", circom_r1cs_path);
 
     let spartan_inst = load_as_spartan_inst(circom_r1cs_path, num_pub_inputs);
+    println!("333");
     let sparta_inst_bytes = bincode::serialize(&spartan_inst).unwrap();
 
     File::create(&output_path)
-        .unwrap()
+        .expect("file has to be created for spartan program")
         .write_all(sparta_inst_bytes.as_slice())
-        .unwrap();
+        .expect("spartan program has to be written");
 
     println!("Success writing spartan circuit to {:?}", output_path);
 }
 
-pub fn load_as_spartan_inst(circuit_file: &PathBuf, num_pub_inputs: usize) -> Instance {
-    let (r1cs, _) = load_r1cs_from_bin_file::<AffinePoint>(&circuit_file);
+pub fn load_as_spartan_inst(circuit_path: &PathBuf, num_pub_inputs: usize) -> Instance {
+    let (r1cs, _) = load_r1cs_from_bin_file::<AffinePoint>(&circuit_path);
     let spartan_inst = convert_to_spartan_r1cs(&r1cs, num_pub_inputs);
     spartan_inst
 }
@@ -61,7 +62,10 @@ fn convert_to_spartan_r1cs<F: PrimeField<Repr = FieldBytes>>(
     let mut B = vec![];
     let mut C = vec![];
 
+    println!("111 {}", num_cons);
+
     for (i, constraint) in r1cs.constraints.iter().enumerate() {
+        println!("i: {}", i);
         let (a, b, c) = constraint;
 
         for (j, coeff) in a.iter() {
@@ -80,6 +84,8 @@ fn convert_to_spartan_r1cs<F: PrimeField<Repr = FieldBytes>>(
             C.push((i, *j, bytes));
         }
     }
+
+    println!("11");
 
     let inst = Instance::new(
         num_cons,
