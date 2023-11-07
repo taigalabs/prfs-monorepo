@@ -10,6 +10,10 @@ import getGitLog from "./git";
 (async () => {
   const destPath = `${paths.dist}/index.html`;
   console.log("Copying file, src: %s, dst: %s", paths.indexHtml, destPath);
+
+  if (!fs.existsSync(paths.dist)) {
+    fs.mkdirSync(paths.dist);
+  }
   fs.copyFileSync(paths.indexHtml, destPath);
 
   console.log("webpack dev config: %j", devConfig);
