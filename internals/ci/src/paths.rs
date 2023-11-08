@@ -16,7 +16,7 @@ pub struct Paths {
     pub internals_docker: PathBuf,
     pub internals_docker_postgres: PathBuf,
     pub e2e_test_web: PathBuf,
-    pub prfs_circuit_circom: PathBuf,
+    pub prfs_circuits_circom: PathBuf,
 
     pub prfs_api_server: PathBuf,
 
@@ -62,7 +62,7 @@ impl Paths {
 
         let docs_website = curr_dir.join("source/docs_website");
 
-        let prfs_circuit_circom = curr_dir.join("source/prfs_circuit_circom");
+        let prfs_circuits_circom = curr_dir.join("source/prfs_circuits_circom");
 
         let prfs_asset_server = curr_dir.join("source/prfs_asset_server");
         let prfs_asset_server_assets = curr_dir.join("source/prfs_asset_server/assets");
