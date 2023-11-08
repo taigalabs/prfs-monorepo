@@ -82,7 +82,8 @@ const CreateProofForm: React.FC = () => {
     <>
       <ProofTypeMasthead proofType={proofType} handleSelectProofType={handleSelectProofType} />
       <div className={styles.wrapper}>
-        <div className={cn({ [styles.formArea]: true, [styles.proofTypeChosen]: !!proofType })}>
+        {/* <div className={cn({ [styles.formArea]: true, [styles.proofTypeChosen]: !!proofType })}> */}
+        <>
           {proveReceipt ? (
             <Fade>
               <PostCreateMenu
@@ -98,23 +99,22 @@ const CreateProofForm: React.FC = () => {
                 [styles.proofTypeChosen]: !!proofType,
               })}
             >
-              <div className={styles.moduleWrapper}>
-                {proofType ? (
-                  <Fade>
-                    <CreateProofModule
-                      proofType={proofType}
-                      handleCreateProofResult={handleCreateProofResult}
-                      proofGenElement={proofGenElement}
-                      setProofGenElement={setProofGenElement}
-                    />
-                  </Fade>
-                ) : (
-                  <div className={styles.loading}>Loading module...</div>
-                )}
-              </div>
+              {proofType ? (
+                <Fade>
+                  <CreateProofModule
+                    proofType={proofType}
+                    handleCreateProofResult={handleCreateProofResult}
+                    proofGenElement={proofGenElement}
+                    setProofGenElement={setProofGenElement}
+                  />
+                </Fade>
+              ) : (
+                <div className={styles.loading}>Loading module...</div>
+              )}
             </div>
           )}
-        </div>
+        </>
+        {/* </div> */}
       </div>
       {isTutorial && <TutorialPlaceholder />}
     </>

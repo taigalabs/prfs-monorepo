@@ -285,40 +285,42 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         )}
       </div>
       <div className={styles.main}>
-        {loadDriverStatus === LoadDriverStatus.InProgress && <div className={styles.overlay} />}
-        <TutorialStepper steps={[2]}>
-          <div className={styles.form}>{circuitInputsElem}</div>
-        </TutorialStepper>
-        <div className={styles.btnRow}>
-          {createProofStatus === CreateProofStatus.InProgress && (
-            <div className={styles.spinnerWrapper}>
-              <Spinner color="black" size={38} />
-            </div>
-          )}
-          <Button
-            variant="blue_1"
-            handleClick={handleClickCreateProof}
-            className={cn({
-              [styles.inProgress]: createProofStatus === CreateProofStatus.InProgress,
-            })}
-          >
-            {i18n.create.toUpperCase()}
-          </Button>
-        </div>
-        {systemMsg && (
-          <div className={styles.footer}>
-            <div
-              className={cn(styles.msg, {
-                [styles.errorMsg]: createProofStatus === CreateProofStatus.Error,
+        <div className={styles.module}>
+          {loadDriverStatus === LoadDriverStatus.InProgress && <div className={styles.overlay} />}
+          <TutorialStepper steps={[2]}>
+            <div className={styles.form}>{circuitInputsElem}</div>
+          </TutorialStepper>
+          <div className={styles.btnRow}>
+            {createProofStatus === CreateProofStatus.InProgress && (
+              <div className={styles.spinnerWrapper}>
+                <Spinner color="black" size={38} />
+              </div>
+            )}
+            <Button
+              variant="blue_1"
+              handleClick={handleClickCreateProof}
+              className={cn({
+                [styles.inProgress]: createProofStatus === CreateProofStatus.InProgress,
               })}
             >
-              {systemMsg}
-            </div>
+              {i18n.create.toUpperCase()}
+            </Button>
           </div>
-        )}
-      </div>
-      <div className={styles.metaArea}>
-        <ProofTypeMeta proofType={proofType} />
+          {systemMsg && (
+            <div className={styles.footer}>
+              <div
+                className={cn(styles.msg, {
+                  [styles.errorMsg]: createProofStatus === CreateProofStatus.Error,
+                })}
+              >
+                {systemMsg}
+              </div>
+            </div>
+          )}
+        </div>
+        <div className={styles.metaArea}>
+          <ProofTypeMeta proofType={proofType} />
+        </div>
       </div>
     </div>
   );
