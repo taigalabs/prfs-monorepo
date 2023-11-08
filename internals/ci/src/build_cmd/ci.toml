@@ -1,0 +1,8 @@
+[build]
+steps = [
+"BuildPrfsEntitiesTSBindingTask",
+"BuildJsDependenciesTask",
+"CompileCircuitsTask",
+"BuildPrfsDriverSpartanWasmTask",
+"BuildPrfsDriverSpartanJsTask",
+]
