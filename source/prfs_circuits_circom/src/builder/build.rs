@@ -8,30 +8,18 @@ pub fn run() {
 
     clean_build();
 
-    let r1cs_src_path = PathBuf::from("/home/ubuntu/work/temp/spartan-ecdsa/./packages/circuits/build/addr_membership/addr_membership.r1cs");
-    let spartan_circuit_path = PathBuf::from("/home/ubuntu/work/temp/spartan-ecdsa/./packages/circuits/build/addr_membership/addr_membership.circuit");
-    let num_public_inputs = 5;
+    let mut circuits = read_circuits_json();
 
-    circuit_reader::make_spartan_instance(
-        &r1cs_src_path,
-        &spartan_circuit_path,
-        num_public_inputs as usize,
-    );
+    let mut circuit_list = vec![];
+    for mut circuit in &mut circuits {
+        compile_circuits(&circuit);
+        make_spartan(&mut circuit);
+        create_circuit_json(&mut circuit);
 
-    println!("123123");
+        circuit_list.push(circuit.circuit_id.to_string());
+    }
 
-    // let mut circuits = read_circuits_json();
-
-    // let mut circuit_list = vec![];
-    // for mut circuit in &mut circuits {
-    //     compile_circuits(&circuit);
-    //     make_spartan(&mut circuit);
-    //     create_circuit_json(&mut circuit);
-
-    //     circuit_list.push(circuit.circuit_id.to_string());
-    // }
-
-    // create_list_json(&circuit_list);
+    create_list_json(&circuit_list);
 }
 
 fn clean_build() {

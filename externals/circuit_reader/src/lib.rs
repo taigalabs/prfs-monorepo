@@ -59,8 +59,6 @@ fn convert_to_spartan_r1cs<F: PrimeField<Repr = FieldBytes>>(
     let mut B = vec![];
     let mut C = vec![];
 
-    println!("111 {}", num_cons);
-
     for (i, constraint) in r1cs.constraints.iter().enumerate() {
         // println!("i: {}", i);
         let (a, b, c) = constraint;
@@ -81,8 +79,6 @@ fn convert_to_spartan_r1cs<F: PrimeField<Repr = FieldBytes>>(
             C.push((i, *j, bytes));
         }
     }
-
-    println!("11");
 
     let inst = Instance::new(
         num_cons,

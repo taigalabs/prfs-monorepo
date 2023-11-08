@@ -148,12 +148,7 @@ impl R1CSInstance {
 
   pub fn get_digest(&self) -> Vec<u8> {
     let mut encoder = ZlibEncoder::new(Vec::new(), Compression::default());
-    println!(
-      "2223 {:?}, {}, {}, {}",
-      encoder, self.num_cons, self.num_vars, self.num_inputs,
-    );
     bincode::serialize_into(&mut encoder, &self).unwrap();
-    println!("222311");
     encoder.finish().unwrap()
   }
 

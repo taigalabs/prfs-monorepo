@@ -161,7 +161,6 @@ impl Instance {
 
       (num_vars_padded, num_cons_padded)
     };
-    println!("444");
 
     let bytes_to_scalar =
       |tups: &[(usize, usize, [u8; 32])]| -> Result<Vec<(usize, usize, Scalar)>, R1CSError> {
@@ -201,7 +200,6 @@ impl Instance {
 
         Ok(mat)
       };
-    println!("44455");
 
     let A_scalar = bytes_to_scalar(A);
     if A_scalar.is_err() {
@@ -218,8 +216,6 @@ impl Instance {
       return Err(C_scalar.err().unwrap());
     }
 
-    println!("444551");
-
     let inst = R1CSInstance::new(
       num_cons_padded,
       num_vars_padded,
@@ -228,10 +224,8 @@ impl Instance {
       &B_scalar.unwrap(),
       &C_scalar.unwrap(),
     );
-    println!("1414");
 
     let digest = inst.get_digest();
-    println!("2323");
 
     Ok(Instance { inst, digest })
   }
