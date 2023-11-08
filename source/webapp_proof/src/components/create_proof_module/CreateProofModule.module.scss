@@ -8,7 +8,13 @@
   flex-grow: 1;
 }
 
+.main {
+  display: flex;
+  flex-direction: row;
+}
+
 .module {
+  order: 1;
   position: relative;
   padding: 20px 16px 20px;
   border: 1px solid var(--gray-40);
