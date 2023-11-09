@@ -34,17 +34,29 @@
 }
 
 .logoArea {
-  width: 215px;
   padding-left: 18px;
-  // border: 1px solid blue;
+  min-width: 80px;
+  /* max-width: 215px; */
+  flex-basis: 215px;
+
+  flex-grow: 0;
+  flex-shrink: 10;
+  border: 1px solid blue;
 }
 
 .searchArea {
-  width: 518px;
-  // border: 1px solid red;
+  flex-grow: 1;
+  /* flex-shrink: 1; */
+  min-width: 650px;
+  border: 1px solid red;
+
+  > div {
+    max-width: 538px;
+  }
 }
 
 .rightArea {
+  /* flex-grow: 1; */
   font-size: 24px;
   display: flex;
   margin-left: auto;
@@ -90,6 +102,11 @@
         display: block;
         margin-left: 4px;
       }
+    }
+
+    .padding {
+      width: 300px;
+      border: 1px solid red;
     }
 
     svg:first-child {

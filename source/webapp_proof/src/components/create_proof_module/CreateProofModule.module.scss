@@ -7,26 +7,29 @@
   overflow: hidden;
   flex-grow: 1;
   align-self: flex-start;
-  /* padding-left: 230px; */
-
-  /* border: 1px solid blue; */
 
   &.isTutorial {
-    /* padding-left: 80px; */
-
     .module {
-      /* min-width: 360px; */
     }
   }
 }
 
 .main {
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.modulePadding {
+  min-width: 14px;
+  max-width: 84px;
+  flex-grow: 1;
+
+  border: 1px solid red;
 }
 
 .module {
-  order: 1;
+  /* order: 1; */
   position: relative;
   padding: 20px 16px 20px;
   border: 1px solid var(--bright-gray-30);
@@ -34,7 +37,7 @@
   flex-grow: 1;
   min-width: 360px;
   max-width: 490px;
-  margin-left: 84px;
+  /* margin-left: 84px; */
 
   .overlay {
     position: absolute;
@@ -120,13 +123,13 @@
 }
 
 .metaArea {
-  order: 0;
+  /* order: 0; */
   /* margin-left: 230px; */
 }
 
 @media screen and (max-width: 480px) {
   .module {
-    order: 0;
+    /* order: 0; */
     padding: 12px 0px 12px;
     margin-left: 0px;
     min-width: 0;
@@ -141,8 +144,12 @@
     margin: 18px 0 18px;
   }
 
+  .modulePadding {
+    display: none;
+  }
+
   .metaArea {
-    order: 1;
+    /* order: 1; */
     margin-top: 24px;
   }
 }

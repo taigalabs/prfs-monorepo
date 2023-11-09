@@ -327,6 +327,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
             </div>
           )}
         </div>
+        <div className={styles.modulePadding} />
         <div className={styles.metaArea}>
           <ProofTypeMeta proofType={proofType} />
         </div>

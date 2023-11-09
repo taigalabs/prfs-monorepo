@@ -51,6 +51,7 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
         <ul className={styles.rightArea}>
           {isTutorial ? (
             <li className={styles.tutorialMenu}>
+              <div className={styles.padding} />
               <a href={tutorialUrl}>
                 <div className={cn(styles.tutorialBtn)}>
                   <IoMdSchool />
