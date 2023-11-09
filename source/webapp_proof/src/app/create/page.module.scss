@@ -5,19 +5,9 @@
   padding-left: 230px;
 }
 
-.leftPadding {
-  width: 230px;
-
-  // border: 1px solid blue;
-}
-
 @media screen and (max-width: 480px) {
   .container {
     flex-direction: column;
     padding-left: 0px;
-  }
-
-  .leftPadding {
-    display: none;
   }
 }
