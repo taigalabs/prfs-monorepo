@@ -38,15 +38,14 @@
 }
 
 .module {
-  /* order: 1; */
   position: relative;
   padding: 20px 16px 20px;
   border: 1px solid var(--bright-gray-30);
   border-radius: 6px;
   flex-grow: 1;
   min-width: 360px;
-  max-width: 490px;
-  /* margin-left: 84px; */
+  max-width: 440px;
+  margin-left: 18px;
 
   .overlay {
     position: absolute;
@@ -123,26 +122,31 @@
 }
 
 .metaArea {
-  min-width: 480px;
+  flex-grow: 1;
+  min-width: 520px;
+  max-width: 530px;
 }
 
 @media screen and (min-width: 480px) and (max-width: 1390px) {
-  .main {
-    border: 1px solid red;
+  .main.isTutorial {
     flex-direction: column;
+
+    .metaArea {
+      margin-top: 24px;
+    }
   }
 }
 
 @media screen and (max-width: 480px) {
+  .main {
+    flex-direction: column;
+  }
+
   .module {
     padding: 12px 0px 12px;
     margin-left: 0px;
     min-width: 0;
     border: none;
-  }
-
-  .main {
-    flex-direction: column;
   }
 
   .driverMsg {

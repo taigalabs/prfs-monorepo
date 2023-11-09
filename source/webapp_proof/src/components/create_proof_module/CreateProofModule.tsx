@@ -8,6 +8,7 @@ import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 import dayjs from "dayjs";
 import cn from "classnames";
+import { useSearchParams } from "next/navigation";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -19,7 +20,6 @@ import { validateInputs } from "@/validate";
 import HashInput from "@/components/hash_input/HashInput";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMeta from "./ProofTypeMeta";
-import { useSearchParams } from "next/navigation";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -293,7 +293,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           <LoadDriverProgress progress={loadDriverProgress} />
         )}
       </div>
-      <div className={styles.main}>
+      <div className={cn(styles.main, { [styles.isTutorial]: isTutorial })}>
         <div className={styles.module}>
           {loadDriverStatus === LoadDriverStatus.InProgress && <div className={styles.overlay} />}
           <TutorialStepper steps={[2]}>
