@@ -83,43 +83,46 @@ const Tutorial: React.FC<TutorialProps> = () => {
   return (
     isTutorial &&
     step > 0 && (
-      <div className={cn(styles.wrapper)}>
-        <div className={styles.header}>
-          <p className={styles.progress}>
-            ({step} / {STEP_COUNT})
-          </p>
-          <button>
-            <AiOutlineClose onClick={handleClickClose} />
-          </button>
-        </div>
-        <div className={styles.body}>
-          <MarkdownWrapper>
-            <Stage step={step} />
-          </MarkdownWrapper>
-          <div className={styles.btnRow}>
-            <Button
-              variant="transparent_aqua_blue_1"
-              handleClick={handleClickPrev}
-              disabled={step === 1}
-            >
-              {i18n.prev}
-            </Button>
-            {isLastStep ? (
+      <>
+        <div className={styles.placeholder} />
+        <div className={cn(styles.wrapper)}>
+          <div className={styles.header}>
+            <p className={styles.progress}>
+              ({step} / {STEP_COUNT})
+            </p>
+            <button>
+              <AiOutlineClose onClick={handleClickClose} />
+            </button>
+          </div>
+          <div className={styles.body}>
+            <MarkdownWrapper>
+              <Stage step={step} />
+            </MarkdownWrapper>
+            <div className={styles.btnRow}>
               <Button
-                className={styles.finishBtn}
                 variant="transparent_aqua_blue_1"
-                handleClick={handleClickClose}
+                handleClick={handleClickPrev}
+                disabled={step === 1}
               >
-                {i18n.finish}
+                {i18n.prev}
               </Button>
-            ) : (
-              <Button variant="aqua_blue_1" handleClick={handleClickNext}>
-                {i18n.next}
-              </Button>
-            )}
+              {isLastStep ? (
+                <Button
+                  className={styles.finishBtn}
+                  variant="transparent_aqua_blue_1"
+                  handleClick={handleClickClose}
+                >
+                  {i18n.finish}
+                </Button>
+              ) : (
+                <Button variant="aqua_blue_1" handleClick={handleClickNext}>
+                  {i18n.next}
+                </Button>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      </>
     )
   );
 };

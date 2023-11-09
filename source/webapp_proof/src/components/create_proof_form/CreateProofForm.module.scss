@@ -32,6 +32,10 @@
 }
 
 @media screen and (max-width: 480px) {
+  .wrapper {
+    margin-right: 0px;
+  }
+
   .formArea {
     width: 100%;
     padding: 0 8px;

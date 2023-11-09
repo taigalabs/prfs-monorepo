@@ -1,3 +1,7 @@
+.placeholder {
+  width: 310px;
+}
+
 .wrapper {
   margin-left: auto;
   /* position: relative; */
@@ -74,7 +78,11 @@
     margin-right: 0;
     left: 50%;
     transform: translateX(-50%);
-    min-height: 240px;
+    /* height: 240px; */
     border: 1px solid var(--bright-gray-30);
+  }
+
+  .placeholder {
+    display: none;
   }
 }
