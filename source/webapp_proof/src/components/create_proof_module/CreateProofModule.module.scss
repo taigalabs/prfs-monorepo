@@ -132,6 +132,7 @@
 @media screen and (max-width: 480px) {
   .main {
     flex-direction: column;
+    align-items: center;
   }
 
   .module {
@@ -139,6 +140,7 @@
     margin-left: 0px;
     min-width: 0;
     border: none;
+    width: 100%;
     /* border-top: 1px solid var(--bright-gray-30); */
     /* border-bottom: 1px solid var(--bright-gray-30); */
     border-radius: 0px;
