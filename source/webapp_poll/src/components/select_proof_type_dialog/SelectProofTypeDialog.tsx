@@ -45,7 +45,7 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSel
       setSelectedProofTypeItem(proofTypeItem);
       handleSelectProofType(proofTypeItem);
     },
-    [handleSelectProofType, setIsOpen]
+    [handleSelectProofType, setIsOpen],
   );
 
   return (

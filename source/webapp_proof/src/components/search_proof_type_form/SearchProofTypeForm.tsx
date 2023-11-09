@@ -8,7 +8,7 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
 import Link from "next/link";
-import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
+import SearchProofDialog from "@taigalabs/prfs-react-components/src/search_proof_dialog/SearchProofDialog";
 
 import styles from "./SearchProofTypeForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -48,7 +48,7 @@ const SearchProofTypeForm: React.FC = () => {
         >
           <div className={styles.proofTypeRow}>
             <TutorialStepper steps={[1]} fullWidth mainAxisOffset={20} crossAxisOffset={15}>
-              <SelectProofTypeDialog
+              <SearchProofDialog
                 proofType={proofType}
                 handleSelectProofType={handleSelectProofType}
                 webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}

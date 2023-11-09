@@ -7,7 +7,7 @@ import PrfsAppsPopover from "@taigalabs/prfs-react-components/src/prfs_apps_popo
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import { BsBook } from "@react-icons/all-files/bs/BsBook";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
+import SearchProofDialog from "@taigalabs/prfs-react-components/src/search_proof_dialog/SearchProofDialog";
 import { useSearchParams } from "next/navigation";
 import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
@@ -18,6 +18,7 @@ import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 
 const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
+  proofInstanceId,
   proofType,
   handleSelectProofType,
 }) => {
@@ -40,7 +41,8 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
           </a>
         </div>
         <div className={styles.searchArea}>
-          <SelectProofTypeDialog
+          <SearchProofDialog
+            proofInstanceId={proofInstanceId}
             proofType={proofType}
             handleSelectProofType={handleSelectProofType}
             webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
