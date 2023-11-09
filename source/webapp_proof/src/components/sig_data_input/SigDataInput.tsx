@@ -10,6 +10,7 @@ import { i18nContext } from "@/contexts/i18n";
 import {
   FormError,
   FormInput,
+  FormInputTitle,
   FormInputTitleRow,
   InputWrapper,
 } from "@/components/form_input/FormInput";
@@ -98,7 +99,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
   return (
     <FormInput>
       <FormInputTitleRow>
-        <p>{circuitInput.label}</p>
+        <FormInputTitle>{circuitInput.label}</FormInputTitle>
       </FormInputTitleRow>
       <InputWrapper>
         <div className={styles.interactiveArea}>

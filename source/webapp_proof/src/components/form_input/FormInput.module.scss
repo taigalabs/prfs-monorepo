@@ -11,10 +11,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   font-size: 14px;
   color: var(--black-27);
-  font-weight: 500;
+  /* font-weight: 500; */
   padding-left: 2px;
   padding-right: 2px;
 }
@@ -34,7 +34,7 @@
     z-index: 1;
     pointer-events: none;
     inset: 0;
-    border: 1px solid var(--gray-40);
+    border: 1px solid var(--bright-gray-31);
     border-radius: 5px;
   }
 
@@ -49,6 +49,12 @@
     height: 36px;
     // border: 1px solid red;
   }
+}
+
+.inputTitle {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
 }
 
 .formError {

@@ -31,6 +31,7 @@ import { i18nContext } from "@/contexts/i18n";
 import {
   FormError,
   FormInput,
+  FormInputTitle,
   FormInputTitleRow,
   InputWrapper,
 } from "@/components/form_input/FormInput";
@@ -220,10 +221,10 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
     <FormInput>
       <FormInputTitleRow>
         <div>
-          <p className={styles.title}>
+          <FormInputTitle>
             <span>{circuitInput.label}</span>
             <span className={styles.setLabel}>({prfsSet ? prfsSet.label : i18n.loading})</span>
-          </p>
+          </FormInputTitle>
         </div>
         <div className={styles.right}>
           <div className={styles.btnRow} ref={refs.setReference} {...getReferenceProps()}>

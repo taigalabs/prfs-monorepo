@@ -7,6 +7,10 @@ export const FormInput: React.FC<FormInputProps> = ({ children }) => {
   return <div className={styles.formInput}>{children}</div>;
 };
 
+export const FormInputTitle: React.FC<FormInputProps> = ({ children }) => {
+  return <p className={styles.inputTitle}>{children}</p>;
+};
+
 export const FormInputTitleRow: React.FC<FormInputProps> = ({ children }) => {
   return <div className={styles.inputTitleRow}>{children}</div>;
 };
