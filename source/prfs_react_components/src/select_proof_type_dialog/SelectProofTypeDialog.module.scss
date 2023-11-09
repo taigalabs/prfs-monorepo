@@ -134,6 +134,9 @@
 
 @media screen and (max-width: 480px) {
   .wrapper {
+    padding-left: 0px;
+    padding-right: 0px;
+
     &.isOpen {
     }
   }

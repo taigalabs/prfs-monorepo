@@ -16,7 +16,7 @@
 
   &.isTutorial {
     background-color: rgba(0, 0, 0, 0.62);
-    padding-left: 0px;
+    /* padding-left: 0px; */
     border-bottom: none;
 
     .logoArea {
@@ -138,12 +138,16 @@
 
 @media screen and (max-width: 480px) {
   .wrapper {
+    position: relative;
+    width: 100vw;
     min-width: 0;
-    padding: 0px 7px;
     height: 102px;
+    margin-right: 0;
+    padding-left: 9px;
+    padding-right: 9px;
 
     align-items: flex-start;
-    /* justify-content: center; */
+    justify-content: center;
   }
 
   .bigScreen {

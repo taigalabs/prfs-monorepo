@@ -92,6 +92,7 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
 export default ProofTypeMasthead;
 
 export interface ProofTypeMastheadProps {
+  proofInstanceId: string | undefined;
   proofType: PrfsProofType | undefined;
   handleSelectProofType: (proofType: PrfsProofType) => void;
 }

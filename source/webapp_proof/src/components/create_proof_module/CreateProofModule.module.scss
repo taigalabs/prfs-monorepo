@@ -127,12 +127,10 @@
 @media screen and (max-width: 480px) {
   .module {
     order: 0;
-    /* border: 1px solid transparent; */
-    padding: 12px 4px 12px;
-    /* border-bottom: 1px solid var(--gray-40); */
-    /* border-top: 1px solid var(--gray-40); */
-    /* border-radius: 0px; */
+    padding: 12px 0px 12px;
     margin-left: 0px;
+    min-width: 0;
+    border: none;
   }
 
   .main {
@@ -145,5 +143,6 @@
 
   .metaArea {
     order: 1;
+    margin-top: 24px;
   }
 }

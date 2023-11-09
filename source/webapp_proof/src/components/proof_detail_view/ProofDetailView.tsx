@@ -10,13 +10,11 @@ import ProofBanner from "@taigalabs/prfs-react-components/src/proof_banner/Proof
 import SocialSharePopover from "@taigalabs/prfs-react-components/src/social_share_popover/SocialSharePopover";
 import { HiOutlineDesktopComputer } from "@react-icons/all-files/hi/HiOutlineDesktopComputer";
 import Link from "next/link";
-import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "wagmi";
 import { GetPrfsProofInstanceByInstanceIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstanceByInstanceIdRequest";
 import { useRouter } from "next/navigation";
-import { ProveReceipt, ProveResult } from "@taigalabs/prfs-driver-interface";
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import { ProveResult } from "@taigalabs/prfs-driver-interface";
 
 import styles from "./ProofDetailView.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -132,7 +130,11 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
 
   return (
     <>
-      <ProofTypeMasthead proofType={undefined} handleSelectProofType={handleSelectProofType} />
+      <ProofTypeMasthead
+        proofInstanceId={proofInstanceId}
+        proofType={undefined}
+        handleSelectProofType={handleSelectProofType}
+      />
       <div className={styles.wrapper}>
         <div className={styles.header}>
           <div className={styles.titleRow}>

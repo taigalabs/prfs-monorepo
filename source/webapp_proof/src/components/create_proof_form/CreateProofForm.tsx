@@ -80,7 +80,11 @@ const CreateProofForm: React.FC = () => {
 
   return (
     <>
-      <ProofTypeMasthead proofType={proofType} handleSelectProofType={handleSelectProofType} />
+      <ProofTypeMasthead
+        proofInstanceId={undefined}
+        proofType={proofType}
+        handleSelectProofType={handleSelectProofType}
+      />
       <div className={styles.wrapper}>
         <>
           {proveReceipt ? (

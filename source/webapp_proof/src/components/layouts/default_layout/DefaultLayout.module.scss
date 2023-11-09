@@ -11,10 +11,10 @@
   justify-content: center;
   flex-grow: 1;
   padding-top: 56px;
-}
 
-.bigTopPadding {
-  padding-top: 89px;
+  &.bigTopPadding {
+    padding-top: 89px;
+  }
 }
 
 .footer {
@@ -27,7 +27,10 @@
     min-width: 320px;
   }
 
-  .body.bigTopPadding {
-    padding-top: 102px;
+  .body {
+    &.bigTopPadding {
+      padding-top: 0;
+      /* padding-top: 102px; */
+    }
   }
 }
