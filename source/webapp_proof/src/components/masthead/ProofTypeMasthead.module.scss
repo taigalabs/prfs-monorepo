@@ -19,7 +19,8 @@
     padding-left: 0px;
 
     .logoArea {
-      width: 80px;
+      flex-shrink: 1;
+      min-width: 80px;
       padding-left: 0px;
     }
   }
@@ -32,14 +33,12 @@
 }
 
 .logoArea {
-  width: 200px;
-  /* flex: 1; */
+  width: 215px;
   padding-left: 18px;
   // border: 1px solid blue;
 }
 
 .searchArea {
-  /* flex: 0 0 518px; */
   width: 518px;
   // border: 1px solid red;
 }

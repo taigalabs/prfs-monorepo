@@ -1,10 +1,13 @@
 .wrapper {
-  position: absolute;
-  top: 26px;
-  right: 0;
+  margin-left: auto;
+  position: relative;
+  /* margin-top: 26px; */
+  /* position: absolute; */
+  /* top: 26px; */
+  /* right: 0; */
   width: 300px;
-  margin-right: 12px;
-  border: 1px solid var(--bright-gray-30);
+  /* margin-right: 12px; */
+  border-left: 1px solid var(--bright-gray-30);
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 3px;
   line-height: 1.33;
@@ -66,5 +69,6 @@
     left: 50%;
     transform: translateX(-50%);
     min-height: 240px;
+    border: 1px solid var(--bright-gray-30);
   }
 }

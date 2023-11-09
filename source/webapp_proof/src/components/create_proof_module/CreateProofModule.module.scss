@@ -6,12 +6,16 @@
   height: 100%;
   overflow: hidden;
   flex-grow: 1;
-  padding-left: 230px;
+  /* padding-left: 230px; */
 
   /* border: 1px solid blue; */
 
   &.isTutorial {
-    padding-left: 80px;
+    /* padding-left: 80px; */
+
+    .module {
+      /* min-width: 360px; */
+    }
   }
 }
 
@@ -26,7 +30,9 @@
   padding: 20px 16px 20px;
   border: 1px solid var(--bright-gray-30);
   border-radius: 6px;
-  width: 490px;
+  flex-grow: 1;
+  min-width: 360px;
+  max-width: 490px;
   margin-left: 84px;
 
   .overlay {
