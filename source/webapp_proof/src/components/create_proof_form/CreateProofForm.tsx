@@ -50,7 +50,6 @@ const CreateProofForm: React.FC = () => {
         if (proofTypeIdRef.current && proofTypeIdRef.current !== proofTypeId) {
           setProveReceipt(undefined);
         }
-
         proofTypeIdRef.current = proofTypeId;
 
         const { payload } = await getPrfsProofTypeByProofTypeIdRequest({
