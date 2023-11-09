@@ -1,13 +1,13 @@
 .wrapper {
   margin-left: auto;
-  position: relative;
-  /* margin-top: 26px; */
-  /* position: absolute; */
-  /* top: 26px; */
-  /* right: 0; */
+  /* position: relative; */
+  position: absolute;
+  top: 10px;
+  right: 10px;
   width: 300px;
   /* margin-right: 12px; */
-  border-left: 1px solid var(--bright-gray-30);
+  border: 1px solid var(--bright-gray-30);
+  border-radius: 3px;
   background-color: rgba(255, 255, 255, 0.9);
   line-height: 1.33;
   z-index: 1;
@@ -16,11 +16,12 @@
 }
 
 .header {
-  top: 0;
-  left: 10px;
-  right: 10px;
   height: 34px;
-  position: absolute;
+  padding: 0 10px;
+  /* top: 0; */
+  /* left: 10px; */
+  /* right: 10px; */
+  /* position: absolute; */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -32,18 +33,24 @@
   button {
     cursor: pointer;
   }
+
+  .progress {
+    color: var(--gray-50);
+  }
 }
 
-.progress {
-  color: var(--gray-50);
+.body {
+  min-height: 300px;
+  max-height: 70vh;
+  overflow-y: auto;
 }
 
 .btnRow {
-  position: absolute;
-  bottom: 0;
-  left: 10px;
-  right: 10px;
-  height: 42px;
+  /* position: absolute; */
+  /* bottom: 0; */
+  /* left: 10px; */
+  /* right: 10px; */
+  padding: 12px 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -69,6 +76,5 @@
     transform: translateX(-50%);
     min-height: 240px;
     border: 1px solid var(--bright-gray-30);
-    border-radius: 3px;
   }
 }
