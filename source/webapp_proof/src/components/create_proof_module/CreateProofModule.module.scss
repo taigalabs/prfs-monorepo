@@ -9,6 +9,10 @@
   padding-left: 230px;
 
   /* border: 1px solid blue; */
+
+  &.isTutorial {
+    padding-left: 80px;
+  }
 }
 
 .main {

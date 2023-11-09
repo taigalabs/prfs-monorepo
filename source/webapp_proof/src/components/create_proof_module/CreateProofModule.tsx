@@ -19,6 +19,7 @@ import { validateInputs } from "@/validate";
 import HashInput from "@/components/hash_input/HashInput";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMeta from "./ProofTypeMeta";
+import { useSearchParams } from "next/navigation";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -67,6 +68,14 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
   const lastInitProofTypeId = React.useRef<string | null>(null);
+  const searchParams = useSearchParams();
+
+  const isTutorial = React.useMemo(() => {
+    if (searchParams.get("tutorial_id")) {
+      return true;
+    }
+    return false;
+  }, [searchParams]);
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -275,7 +284,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
       <div className={styles.driverMsg}>
         <div className={styles.msg}>
           <span>{driverMsg}</span>

@@ -16,6 +16,12 @@
 
   &.isTutorial {
     background-color: rgba(0, 0, 0, 0.62);
+    padding-left: 0px;
+
+    .logoArea {
+      width: 80px;
+      padding-left: 0px;
+    }
   }
 }
 
