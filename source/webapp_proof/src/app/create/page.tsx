@@ -14,7 +14,7 @@ const CreatePage = () => {
     <DefaultLayout>
       <DefaultBody bigTopPadding>
         <div className={styles.container}>
-          <div className={styles.leftPadding} />
+          {/* <div className={styles.leftPadding} /> */}
           <CreateProofForm />
           <Tutorial />
         </div>

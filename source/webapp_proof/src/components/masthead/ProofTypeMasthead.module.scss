@@ -34,8 +34,10 @@
 }
 
 .logoArea {
-  padding-left: 18px;
+  padding: 0 30px;
   width: 220px;
+  display: flex;
+  justify-content: flex-end;
 
   /* border: 1px solid blue; */
 }
@@ -153,7 +155,7 @@
   .wrapper {
     position: relative;
     width: 100vw;
-    min-width: 0;
+    min-width: 360px;
     height: 102px;
     margin-right: 0;
     padding-left: 9px;

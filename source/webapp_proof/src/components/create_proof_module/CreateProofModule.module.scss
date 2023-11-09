@@ -29,14 +29,6 @@
   justify-content: flex-end;
 }
 
-.modulePadding {
-  min-width: 14px;
-  max-width: 84px;
-  flex-grow: 1;
-
-  border: 1px solid red;
-}
-
 .module {
   position: relative;
   padding: 20px 16px 20px;
@@ -44,7 +36,7 @@
   border-radius: 6px;
   flex-grow: 1;
   min-width: 360px;
-  max-width: 440px;
+  max-width: 430px;
   margin-left: 18px;
 
   .overlay {
@@ -132,7 +124,7 @@
     flex-direction: column;
 
     .metaArea {
-      margin-top: 24px;
+      margin-top: 32px;
     }
   }
 }
@@ -147,6 +139,9 @@
     margin-left: 0px;
     min-width: 0;
     border: none;
+    /* border-top: 1px solid var(--bright-gray-30); */
+    /* border-bottom: 1px solid var(--bright-gray-30); */
+    border-radius: 0px;
   }
 
   .driverMsg {
