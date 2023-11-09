@@ -1,8 +1,11 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  width: 510px;
-  align-items: center;
+  /* align-items: center; */
+  flex-grow: 1;
+
+  /* width: 510px; */
+  border: 1px solid blue;
 }
 
 .header {
@@ -21,29 +24,30 @@
   }
 
   .buttonRow {
-    margin-top: 8px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-bottom: 1px solid var(--bright-gray-36);
 
     ul {
       display: flex;
       align-items: center;
     }
   }
-}
 
-.headerLabel {
-  font-size: 18px;
+  .headerLabel {
+    font-size: 18px;
+  }
 }
 
 .content {
-  margin-top: 36px;
-}
+  width: 580px;
+  border: 1px solid red;
 
-.bannerContainer {
-  display: flex;
-  justify-content: center;
+  .bannerContainer {
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .proofDetailContainer {
