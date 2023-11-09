@@ -37,7 +37,7 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
       <div className={styles.inner}>
         <div className={styles.logoArea}>
           <a href={paths.__}>
-            <ImageLogo width={52} />
+            <ImageLogo width={50} />
           </a>
         </div>
         <div className={styles.searchArea}>

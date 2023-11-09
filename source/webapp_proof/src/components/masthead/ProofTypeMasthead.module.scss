@@ -16,7 +16,6 @@
 
   &.isTutorial {
     background-color: rgba(0, 0, 0, 0.62);
-    /* padding-left: 0px; */
     border-bottom: none;
 
     .logoArea {
@@ -54,7 +53,6 @@
 }
 
 .rightArea {
-  /* flex-grow: 1; */
   font-size: 24px;
   display: flex;
   margin-left: auto;
@@ -179,6 +177,9 @@
     margin-left: 8px;
     display: flex;
     align-items: center;
+    width: auto;
+    /* display: flex; */
+    /* justify-content: flex-end; */
 
     /* border: 1px solid blue; */
   }
