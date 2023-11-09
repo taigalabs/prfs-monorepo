@@ -4,17 +4,15 @@
 
 .wrapper {
   margin-left: auto;
-  /* position: relative; */
   position: absolute;
   top: 10px;
   right: 10px;
   width: 300px;
-  /* margin-right: 12px; */
-  border: 1px solid var(--bright-gray-30);
   border-radius: 3px;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: var(--white-100);
   line-height: 1.33;
   z-index: 1;
+  border: 1px solid var(--bright-gray-30);
 
   /* border: 1px solid red; */
 }
@@ -22,10 +20,6 @@
 .header {
   height: 34px;
   padding: 0 10px;
-  /* top: 0; */
-  /* left: 10px; */
-  /* right: 10px; */
-  /* position: absolute; */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -50,10 +44,6 @@
 }
 
 .btnRow {
-  /* position: absolute; */
-  /* bottom: 0; */
-  /* left: 10px; */
-  /* right: 10px; */
   padding: 12px 10px;
   display: flex;
   justify-content: space-between;
@@ -73,16 +63,24 @@
   .wrapper {
     position: fixed;
     top: auto;
-    bottom: 10px;
-    width: 340px;
-    margin-right: 0;
+    right: auto;
+    bottom: 5px;
+    width: calc(100% - 10px);
+    margin: 0;
     left: 50%;
     transform: translateX(-50%);
-    /* height: 240px; */
     border: 1px solid var(--bright-gray-30);
   }
 
+  .body {
+    min-height: 0;
+    max-height: none;
+    height: 200px;
+  }
+
   .placeholder {
-    display: none;
+    height: calc(200px + 44px - 78px);
+    /* display: none; */
+    /* border: 1px solid red; */
   }
 }

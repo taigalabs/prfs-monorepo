@@ -116,7 +116,7 @@ const CreateProofForm: React.FC = () => {
         </>
         {/* </div> */}
       </div>
-      {isTutorial && <TutorialPlaceholder />}
+      {/* {isTutorial && <TutorialPlaceholder />} */}
     </>
   );
 };
