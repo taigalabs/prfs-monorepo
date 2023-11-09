@@ -120,11 +120,13 @@
 }
 
 .metaArea {
+  order: 0;
   /* margin-left: 230px; */
 }
 
 @media screen and (max-width: 480px) {
   .module {
+    order: 0;
     /* border: 1px solid transparent; */
     padding: 12px 4px 12px;
     /* border-bottom: 1px solid var(--gray-40); */
@@ -139,5 +141,9 @@
 
   .driverMsg {
     margin: 18px 0 18px;
+  }
+
+  .metaArea {
+    order: 1;
   }
 }

@@ -35,11 +35,11 @@
 
   &.proofTypeChosen {
     padding-left: 0px;
-    padding-right: 6px;
+    padding-right: 0px;
 
     button {
-      width: calc(100% + 4px);
-      padding-left: 12px;
+      /* width: calc(100% + 4px); */
+      padding-left: 14px;
       padding-right: 10px;
       border: 1px solid rgba(223, 225, 229, 0);
       box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
@@ -52,10 +52,10 @@
   }
 
   &.isOpen {
-    margin-left: -2px;
+    /* margin-left: -2px; */
     padding-left: 0px;
     padding-right: 0px;
-    width: calc(100% + 4px);
+    /* width: calc(100% + 4px); */
 
     button {
       /* border: 1px solid transparent; */
@@ -130,4 +130,11 @@
   width: 32px;
   font-size: 20px;
   color: var(--gray-50);
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    &.isOpen {
+    }
+  }
 }

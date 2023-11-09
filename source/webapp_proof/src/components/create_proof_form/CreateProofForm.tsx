@@ -82,7 +82,6 @@ const CreateProofForm: React.FC = () => {
     <>
       <ProofTypeMasthead proofType={proofType} handleSelectProofType={handleSelectProofType} />
       <div className={styles.wrapper}>
-        {/* <div className={cn({ [styles.formArea]: true, [styles.proofTypeChosen]: !!proofType })}> */}
         <>
           {proveReceipt ? (
             <Fade>
@@ -96,7 +95,6 @@ const CreateProofForm: React.FC = () => {
             <div
               className={cn({
                 [styles.formWrapper]: true,
-                [styles.proofTypeChosen]: !!proofType,
               })}
             >
               {proofType ? (
@@ -114,7 +112,6 @@ const CreateProofForm: React.FC = () => {
             </div>
           )}
         </>
-        {/* </div> */}
       </div>
       {/* {isTutorial && <TutorialPlaceholder />} */}
     </>

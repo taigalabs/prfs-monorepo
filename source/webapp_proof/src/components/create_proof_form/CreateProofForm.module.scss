@@ -8,17 +8,6 @@
   // border: 1px solid red;
 }
 
-.formArea {
-  width: 518px;
-  display: flex;
-  justify-content: center;
-  /* padding: 3px 0; */
-
-  .proofTypeChosen {
-    padding: 14px 14px 34px;
-  }
-}
-
 .formWrapper {
   display: flex;
   width: 100%;
@@ -36,12 +25,7 @@
     margin-right: 0px;
   }
 
-  .formArea {
-    width: 100%;
-    padding: 0 8px;
-
-    .proofTypeChosen {
-      padding: 9px 0px 34px;
-    }
+  .formWrapper {
+    padding: 0 10px;
   }
 }
