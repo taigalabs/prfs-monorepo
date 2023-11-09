@@ -14,7 +14,6 @@
   margin-bottom: 6px;
   font-size: 14px;
   color: var(--black-27);
-  /* font-weight: 500; */
   padding-left: 2px;
   padding-right: 2px;
 }
@@ -53,6 +52,7 @@
 
 .inputTitle {
   display: flex;
+  flex-grow: 1;
   align-items: center;
   font-size: 16px;
 }
