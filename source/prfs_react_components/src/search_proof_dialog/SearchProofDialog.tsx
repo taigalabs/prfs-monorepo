@@ -80,12 +80,12 @@ const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
           </div>
         ) : (
           <div className={styles.placeholderBtn}>
-            <div>
+            <>
               {isOpen && <SearchIcon />}
               <p className={styles.placeholder}>
                 {proofInstanceId ? proofInstanceId : i18n.find_what_to_prove}
               </p>
-            </div>
+            </>
             <div className={styles.searchBtn}>
               <IoIosSearch />
             </div>

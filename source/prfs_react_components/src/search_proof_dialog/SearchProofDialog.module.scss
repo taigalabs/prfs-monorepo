@@ -29,12 +29,15 @@
   }
 
   .placeholder {
-    width: 85%;
-    /* white-space: nowrap; */
-    /* overflow: hidden; */
-    /* text-overflow: ellipsis; */
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 20px;
     margin-left: 8px;
     font-size: 16px;
+
+    /* border: 1px solid blue; */
   }
 
   &.proofTypeChosen {
@@ -82,7 +85,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 
   > div {
     display: flex;
@@ -92,7 +95,7 @@
 
 .searchBtn {
   position: absolute;
-  right: 10px;
+  right: 0px;
   display: flex;
   align-items: center;
   font-size: 24px;
