@@ -6,6 +6,9 @@
   height: 100%;
   overflow: hidden;
   flex-grow: 1;
+  padding-left: 230px;
+
+  /* border: 1px solid blue; */
 }
 
 .main {
@@ -19,6 +22,8 @@
   padding: 20px 16px 20px;
   border: 1px solid var(--gray-40);
   border-radius: 6px;
+  width: 490px;
+  margin-left: 84px;
 
   .overlay {
     position: absolute;
@@ -26,35 +31,35 @@
     background-color: rgba(255, 255, 255, 0.5);
     z-index: 5;
   }
-}
 
-.form {
-  padding: 0px 0px;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  word-wrap: break-word;
-  overflow: hidden;
-}
-
-.btnRow {
-  position: relative;
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 28px;
-
-  .spinnerWrapper {
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    width: 40px;
+  .form {
+    padding: 0px 0px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    word-wrap: break-word;
+    overflow: hidden;
   }
 
-  button {
-    font-weight: 500;
-    height: 38px;
+  .btnRow {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 28px;
+
+    .spinnerWrapper {
+      position: absolute;
+      left: 0;
+      right: 0;
+      margin-left: auto;
+      margin-right: auto;
+      width: 40px;
+    }
+
+    button {
+      font-weight: 500;
+      height: 38px;
+    }
   }
 }
 
@@ -74,7 +79,7 @@
 .driverMsg {
   display: flex;
   flex-direction: column;
-  margin: 0 0 24px;
+  margin: 18px 0 34px;
   width: 100%;
   color: var(--gray-30);
   font-size: 14px;
@@ -101,6 +106,10 @@
 
 .inProgress {
   background-color: var(--blue-10);
+}
+
+.metaArea {
+  /* margin-left: 230px; */
 }
 
 @media screen and (max-width: 480px) {
