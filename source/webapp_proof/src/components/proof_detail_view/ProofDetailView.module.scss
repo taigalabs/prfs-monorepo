@@ -56,19 +56,31 @@
 
 .module {
   width: 340px;
-  /* border-left: 1px solid var(--bright-gray-32); */
-  /* padding-left: 24px; */
   margin-left: 72px;
 }
 
 @media screen and (max-width: 480px) {
   .wrapper {
     width: 100%;
-    padding: 0 6px;
+    padding: 0 10px;
     flex-direction: column;
   }
 
   .headerLabel {
     font-size: 16px;
+  }
+
+  .meta {
+    width: 100%;
+    .proofDetailContainer {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .module {
+    margin-left: 0px;
+
+    width: 100%;
   }
 }
