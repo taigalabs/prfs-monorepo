@@ -1,88 +1,71 @@
 .wrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-grow: 1;
+  padding-bottom: 32px;
 
-  border: 1px solid blue;
+  // border: 1px solid blue;
 }
-
-/* .header { */
-/*   width: 100%; */
-
-/*   .logoContainer { */
-/*     display: flex; */
-/*     justify-content: center; */
-/*   } */
-
-/*   .titleRow { */
-/*     margin-top: 12px; */
-/*     display: flex; */
-/*     align-items: center; */
-/*     /* justify-content: center; */
-/*   } */
-
-/*   .buttonRow { */
-/*     display: flex; */
-/*     align-items: center; */
-/*     justify-content: space-between; */
-/*     border-bottom: 1px solid var(--bright-gray-36); */
-
-/*     ul { */
-/*       display: flex; */
-/*       align-items: center; */
-/*     } */
-/*   } */
-
-/*   .headerLabel { */
-/*     font-size: 18px; */
-/*   } */
-/* } */
 
 .upperRow {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  margin: 18px 0 10px;
 
-  a {
+  .consoleLink {
     display: flex;
     align-items: center;
+    color: var(--aqua-blue-50);
+
+    svg {
+      margin-left: 3px;
+    }
   }
 }
 
 .meta {
   width: 580px;
-  border: 1px solid red;
+  // border: 1px solid red;
 
   .bannerContainer {
     display: flex;
     justify-content: center;
   }
-}
 
-.proofDetailContainer {
-  margin-top: 32px;
-  /* border: 1px solid black; */
-}
+  .content {
+    word-break: break-all;
+    word-wrap: break-word;
 
-.content {
-  word-break: break-all;
-  word-wrap: break-word;
+    .label {
+      font-weight: 500;
+      font-size: 1.5em;
+      margin-bottom: 8px;
+    }
 
-  .label {
-    font-weight: 500;
-    font-size: 1.5em;
-    margin-bottom: 8px;
+    .desc {
+      line-height: 1.49;
+    }
   }
 
-  .desc {
-    line-height: 1.49;
+  .proofDetailContainer {
+    margin-top: 32px;
+    /* border: 1px solid black; */
   }
+}
+
+.module {
+  width: 340px;
+  /* border-left: 1px solid var(--bright-gray-32); */
+  /* padding-left: 24px; */
+  margin-left: 72px;
 }
 
 @media screen and (max-width: 480px) {
   .wrapper {
     width: 100%;
     padding: 0 6px;
+    flex-direction: column;
   }
 
   .headerLabel {

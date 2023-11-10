@@ -69,11 +69,9 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
 
   const ret = React.useMemo(() => {
     if (proofInstance) {
-      const headerLabel = `${i18n.proof} ${proofInstance.proof_instance_id}`;
       const consoleUrl = `${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/proof_instances/${proofInstance.proof_instance_id}`;
 
       const ret = {
-        headerLabel,
         consoleUrl,
         proveResult: {
           proof: new Uint8Array(proofInstance.proof),
@@ -87,38 +85,6 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
     return null;
   }, [proofInstance]);
 
-  // React.useEffect(() => {
-  //   async function fn() {
-  //     if (didTryInitialize.current) {
-  //       return;
-  //     }
-  //     didTryInitialize.current = true;
-
-  //     // const { circuit_driver_id, driver_properties } = proofInstance.circuit_driver_id;
-
-  //     // try {
-  //     //   const elem = await prfsSDK.create("proof-gen", {
-  //     //     proofTypeId: proofType.proof_type_id,
-  //     //     circuit_driver_id,
-  //     //     driver_properties,
-  //     //     sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
-  //     //     proofGenEventListener: proofGenEventListener,
-  //     //   });
-
-  //     //   elem.subscribe(msg => {
-  //     //     setSystemMsg(msg.data);
-  //     //   });
-
-  //     //   setProofGenElement(elem);
-  //     //   return elem;
-  //     // } catch (err) {
-  //     //   setSystemMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
-  //     // }
-  //   }
-
-  //   fn().then();
-  // }, [proofInstance, setProofGenElement]);
-
   if (ret === null || !proofInstance) {
     return (
       <div className={styles.wrapper}>
@@ -127,7 +93,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
     );
   }
 
-  const { headerLabel, consoleUrl, proveResult } = ret;
+  const { consoleUrl, proveResult } = ret;
 
   return (
     <>
@@ -139,7 +105,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
       <div className={styles.wrapper}>
         <div className={styles.meta}>
           <div className={styles.upperRow}>
-            <a href={consoleUrl}>
+            <a className={styles.consoleLink} href={consoleUrl}>
               <p>{i18n.view_in_console}</p>
               <BiLinkExternal />
             </a>
@@ -153,27 +119,26 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
             </TutorialStepper>
           </div>
           <ul>
-            <li>
-              <SocialSharePopover />
-            </li>
+            <li>{/* <SocialSharePopover /> */}</li>
           </ul>
           <div className={styles.proofDetailContainer}>
             <div>
               <div className={styles.content}>
                 <p className={styles.label}>{proofInstance.proof_label}</p>
                 <p className={styles.desc}>{proofInstance.proof_desc}</p>
-                <div>
-                  {/* <VerifyProofForm */}
-                  {/*   proveResult={proveResult} */}
-                  {/*   circuitTypeId={proofInstance.circuit_type_id} */}
-                  {/*   circuitDriverId={proofInstance.circuit_driver_id} */}
-                  {/*   isVerifyOpen={true} */}
-                  {/*   proofGenElement={proofGenElement} */}
-                  {/* /> */}
-                </div>
               </div>
             </div>
           </div>
+        </div>
+        <div className={styles.module}>
+          <VerifyProofForm
+            // proveResult={proveResult}
+            proofInstance={proofInstance}
+            // circuitTypeId={proofInstance.circuit_type_id}
+            circuitDriverId={proofInstance.circuit_driver_id}
+            isVerifyOpen={true}
+            // proofGenElement={proofGenElement}
+          />
         </div>
       </div>
     </>

@@ -97,43 +97,43 @@
   }
 }
 
-.btnRow {
-  display: flex;
-  align-items: center;
-  margin-top: 20px;
+/* .btnRow { */
+/*   display: flex; */
+/*   align-items: center; */
+/*   margin-top: 20px; */
 
-  button {
-    border: 1px solid var(--bright-gray-30);
-    height: 36px;
-    display: flex;
-    align-items: center;
+/*   button { */
+/*     border: 1px solid var(--bright-gray-30); */
+/*     height: 36px; */
+/*     display: flex; */
+/*     align-items: center; */
 
-    svg {
-      margin-right: 3px;
-    }
-  }
+/*     svg { */
+/*       margin-right: 3px; */
+/*     } */
+/*   } */
 
-  .validBtn {
-    color: var(--gray-30);
-    background-color: transparent;
+/*   .validBtn { */
+/*     color: var(--gray-30); */
+/*     background-color: transparent; */
 
-    svg {
-      color: green;
-    }
-  }
+/*     svg { */
+/*       color: green; */
+/*     } */
+/*   } */
 
-  .invalidBtn {
-    color: var(--gray-30);
-    background-color: transparent;
+/*   .invalidBtn { */
+/*     color: var(--gray-30); */
+/*     background-color: transparent; */
 
-    svg {
-      color: red;
-    }
-  }
+/*     svg { */
+/*       color: red; */
+/*     } */
+/*   } */
 
-  .progressBtn {
-    display: flex;
-    width: 80px;
-    justify-content: center;
-  }
-}
+/*   .progressBtn { */
+/*     display: flex; */
+/*     width: 80px; */
+/*     justify-content: center; */
+/*   } */
+/* } */
