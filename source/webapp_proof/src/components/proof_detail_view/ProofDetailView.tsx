@@ -15,6 +15,7 @@ import { useMutation } from "wagmi";
 import { GetPrfsProofInstanceByInstanceIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstanceByInstanceIdRequest";
 import { useRouter } from "next/navigation";
 import { ProveResult } from "@taigalabs/prfs-driver-interface";
+import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 
 import styles from "./ProofDetailView.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -165,6 +166,12 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
         {/* </div> */}
         {/* </div> */}
         <div className={styles.content}>
+          <div className={styles.upperRow}>
+            <a href={consoleUrl}>
+              <p>{i18n.view_in_console}</p>
+              <BiLinkExternal />
+            </a>
+          </div>
           <div className={styles.bannerContainer}>
             <TutorialStepper steps={[5]}>
               <ProofBanner
@@ -173,6 +180,11 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
               />
             </TutorialStepper>
           </div>
+          <ul>
+            <li>
+              <SocialSharePopover />
+            </li>
+          </ul>
           <div className={styles.proofDetailContainer}>
             <div>
               <div className={styles.content}>

@@ -22,6 +22,7 @@ export default {
   type_merkle_proof: "Type merkle proof",
   feedback: "Feedback",
   id: "Id",
+  view_in_console: "View in console",
   name: "Name",
   name_and_description: "Name and description",
   author: "Author",
