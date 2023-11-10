@@ -1,4 +1,5 @@
 export default {
+  share: "Share",
   docs: "Docs",
   documentation: "Documentation",
   console: "Console",

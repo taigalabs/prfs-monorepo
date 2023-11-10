@@ -137,35 +137,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
         handleSelectProofType={handleSelectProofType}
       />
       <div className={styles.wrapper}>
-        {/* <div className={styles.header}> */}
-        {/* <div className={styles.titleRow}> */}
-        {/*   <p className={styles.headerLabel}>{headerLabel}</p> */}
-        {/* </div> */}
-        {/* <div className={styles.buttonRow}> */}
-        {/*   <ul> */}
-        {/*     <li> */}
-        {/*       <Link href={consoleUrl}> */}
-        {/*         <Button variant="transparent_blue_1"> */}
-        {/*           <HiOutlineDesktopComputer /> */}
-        {/*           <span>{i18n.console.toUpperCase()}</span> */}
-        {/*         </Button> */}
-        {/*       </Link> */}
-        {/*     </li> */}
-        {/*   </ul> */}
-        {/*   <ul> */}
-        {/*     <li> */}
-        {/*       <Button variant="transparent_blue_1"> */}
-        {/*         <AiOutlineCopy /> */}
-        {/*         <span>{i18n.copy_url.toUpperCase()}</span> */}
-        {/*       </Button> */}
-        {/*     </li> */}
-        {/*     <li> */}
-        {/*       <SocialSharePopover /> */}
-        {/*     </li> */}
-        {/*   </ul> */}
-        {/* </div> */}
-        {/* </div> */}
-        <div className={styles.content}>
+        <div className={styles.meta}>
           <div className={styles.upperRow}>
             <a href={consoleUrl}>
               <p>{i18n.view_in_console}</p>
