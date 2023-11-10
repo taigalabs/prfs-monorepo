@@ -52,8 +52,8 @@ export async function verifyMembership(
   handlers: PrfsHandlers,
   circuit: Uint8Array,
 ) {
-  const { proveResult } = args;
-  const { proof, publicInputSer } = proveResult;
+  const { proof } = args;
+  const { proofBytes, publicInputSer } = proof;
 
   let publicInput;
   try {
@@ -64,7 +64,11 @@ export async function verifyMembership(
 
   let isProofValid;
   try {
-    isProofValid = await handlers.verify(circuit, proof, publicInput.circuitPubInput.serialize());
+    isProofValid = await handlers.verify(
+      circuit,
+      proofBytes,
+      publicInput.circuitPubInput.serialize(),
+    );
   } catch (err) {
     throw new Error(`Error verifying, err: ${err}`);
   }
