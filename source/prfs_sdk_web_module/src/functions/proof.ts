@@ -31,7 +31,7 @@ export async function verifyProof(
 ): Promise<VerifyReceipt> {
   try {
     const verifyResult = await driver.verify({
-      proveResult: payload.proveResult,
+      proof: payload.proof,
       circuitTypeId: payload.circuitTypeId,
     });
 

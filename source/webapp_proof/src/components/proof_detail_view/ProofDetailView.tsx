@@ -14,7 +14,7 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "wagmi";
 import { GetPrfsProofInstanceByInstanceIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstanceByInstanceIdRequest";
 import { useRouter } from "next/navigation";
-import { ProveResult } from "@taigalabs/prfs-driver-interface";
+import { Proof } from "@taigalabs/prfs-driver-interface";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 
 import styles from "./ProofDetailView.module.scss";
@@ -73,10 +73,10 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
 
       const ret = {
         consoleUrl,
-        proveResult: {
-          proof: new Uint8Array(proofInstance.proof),
+        proof: {
+          proofBytes: new Uint8Array(proofInstance.proof),
           publicInputSer: JSONbigNative.stringify(proofInstance.public_inputs),
-        } as ProveResult,
+        } as Proof,
       };
 
       return ret;
@@ -93,7 +93,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
     );
   }
 
-  const { consoleUrl, proveResult } = ret;
+  const { consoleUrl, proof } = ret;
 
   return (
     <>
@@ -132,7 +132,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
         </div>
         <div className={styles.module}>
           <VerifyProofForm
-            proveResult={proveResult}
+            proof={proof}
             // proofInstance={proofInstance}
             // circuitTypeId={proofInstance.circuit_type_id}
             circuitDriverId={proofInstance.circuit_driver_id}

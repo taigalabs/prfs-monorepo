@@ -50,8 +50,8 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
 
   const handleClickUpload = React.useCallback(async () => {
     if (proveReceipt && proofType) {
-      const { proveResult } = proveReceipt;
-      const { proof, publicInputSer } = proveResult;
+      const { proof } = proveReceipt;
+      const { proofBytes, publicInputSer } = proof;
       const public_inputs = JSONbigNative.parse(publicInputSer);
       const proof_instance_id = uuidv4();
 
@@ -60,7 +60,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
           proof_instance_id,
           account_id: null,
           proof_type_id: proofType.proof_type_id,
-          proof: Array.from(proof),
+          proof: Array.from(proofBytes),
           public_inputs,
         });
         const params = searchParams.toString();
@@ -142,7 +142,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
         </div>
         <div className={styles.verifyFormWrapper}>
           <VerifyProofForm
-            proveResult={proveReceipt.proveResult}
+            proof={proveReceipt.proof}
             circuitDriverId={proofType.circuit_driver_id}
             // circuitTypeId={proofType.circuit_type_id}
             isVerifyOpen={isVerifyOpen}

@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import cn from "classnames";
-import { ProveResult } from "@taigalabs/prfs-driver-interface";
+import { Proof } from "@taigalabs/prfs-driver-interface";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
@@ -63,7 +63,7 @@ const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true })
 // };
 
 const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
-  proveResult,
+  proof,
   // proofInstance,
   // circuitTypeId,
   circuitDriverId,
@@ -92,7 +92,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
   // }, [verifiedStatus, setVerifiedStatus, proofGenElement]);
 
   const publicInputElems = React.useMemo(() => {
-    const obj = JSONbigNative.parse(proveResult.publicInputSer);
+    const obj = JSONbigNative.parse(proof.publicInputSer);
     // const obj = proofInstance.public_inputs;
     const elems: React.ReactNode[] = [];
 
@@ -122,11 +122,11 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
     loopThroughJSON(obj, 0);
 
     return elems;
-  }, [proveResult]);
+  }, [proof]);
 
   const [proofRaw, size] = React.useMemo(() => {
-    return [utils.hexlify(proveResult.proof), proveResult.proof.byteLength];
-  }, [proveResult]);
+    return [utils.hexlify(proof.proofBytes), proof.proofBytes.byteLength];
+  }, [proof]);
 
   return (
     <div className={styles.wrapper}>
@@ -176,7 +176,7 @@ export interface VerifyProofFormProps {
   // circuitTypeId: string;
   // proofInstance: PrfsProofInstanceSyn1;
   circuitDriverId: string;
-  proveResult: ProveResult;
+  proof: Proof;
   isVerifyOpen: boolean;
   // proofGenElement: ProofGenElement;
 }
