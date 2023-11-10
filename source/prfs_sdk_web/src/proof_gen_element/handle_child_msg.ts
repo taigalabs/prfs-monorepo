@@ -48,8 +48,19 @@ export async function handleChildMessage(subscribers: ProofGenElementSubscriber[
             break;
           }
 
+          case "VERIFY_PROOF_EVENT": {
+            const { payload } = ev.data;
+
+            emit(subscribers, {
+              type: "VERIFY_PROOF_EVENT",
+              payload,
+            });
+
+            break;
+          }
+
           default:
-            console.error(`[parent] invalid msg type, ${type}`);
+            console.error(`[proof_gen_element] invalid msg type, ${type}`);
         }
       }
     };

@@ -20,6 +20,7 @@ import { paths } from "@/paths";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import TutorialStepper from "@/components//tutorial/TutorialStepper";
 import VerifyProofForm from "@/components/verify_proof_form/VerifyProofForm";
+import VerifyProofModule from "../verify_proof_form/VerifyProofModule";
 
 const JSONbigNative = JSONBig({
   useNativeBigInt: true,
@@ -147,6 +148,11 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
             // circuitTypeId={proofType.circuit_type_id}
             isVerifyOpen={isVerifyOpen}
             // proofGenElement={proofGenElement}
+          />
+          <VerifyProofModule
+            proofGenElement={proofGenElement}
+            proof={proveReceipt.proof}
+            circuitTypeId={proofType.circuit_type_id}
           />
         </div>
       </div>

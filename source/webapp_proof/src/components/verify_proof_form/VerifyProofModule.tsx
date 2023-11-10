@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import cn from "classnames";
-import { ProveResult } from "@taigalabs/prfs-driver-interface";
+import { Proof } from "@taigalabs/prfs-driver-interface";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
@@ -63,7 +63,7 @@ const VerifyButton: React.FC<VerifyButtonProps> = ({ verifiedStatus, handleClick
 
 const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({
   proofGenElement,
-  proveResult,
+  proof,
   circuitTypeId,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -74,7 +74,7 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({
       try {
         setVerifiedStatus(VerifiedStatus.InProgress);
 
-        const verifyReceipt = await proofGenElement.verifyProof(proveResult, circuitTypeId);
+        const verifyReceipt = await proofGenElement.verifyProof(proof, circuitTypeId);
 
         if (verifyReceipt.verifyResult) {
           setVerifiedStatus(VerifiedStatus.Valid);
@@ -101,7 +101,7 @@ export default VerifyProofModule;
 export interface VerifyProofModuleProps {
   proofGenElement: ProofGenElement;
   circuitTypeId: string;
-  proveResult: ProveResult;
+  proof: Proof;
 }
 
 export interface VerifyButtonProps {
