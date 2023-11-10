@@ -35,13 +35,13 @@ export async function proveSimpleHash(
   const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
 
   const prev = performance.now();
-  const proof = await handlers.prove(circuit, witness.data, circuitPublicInput);
+  const proofBytes = await handlers.prove(circuit, witness.data, circuitPublicInput);
   const now = performance.now();
 
   return {
     duration: now - prev,
-    proveResult: {
-      proof,
+    proof: {
+      proofBytes,
       publicInputSer: publicInput.serialize(),
     },
   };

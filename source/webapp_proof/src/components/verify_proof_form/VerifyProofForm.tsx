@@ -63,8 +63,8 @@ const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true })
 // };
 
 const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
-  // proveResult,
-  proofInstance,
+  proveResult,
+  // proofInstance,
   // circuitTypeId,
   circuitDriverId,
   // proofGenElement,
@@ -92,7 +92,8 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
   // }, [verifiedStatus, setVerifiedStatus, proofGenElement]);
 
   const publicInputElems = React.useMemo(() => {
-    const obj = proofInstance.public_inputs;
+    const obj = JSONbigNative.parse(proveResult.publicInputSer);
+    // const obj = proofInstance.public_inputs;
     const elems: React.ReactNode[] = [];
 
     function loopThroughJSON(obj: Record<string, any>, count: number) {
@@ -121,11 +122,11 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
     loopThroughJSON(obj, 0);
 
     return elems;
-  }, [proofInstance]);
+  }, [proveResult]);
 
   const [proofRaw, size] = React.useMemo(() => {
-    return [utils.hexlify(proofInstance.proof), proofInstance.proof.length];
-  }, [proofInstance]);
+    return [utils.hexlify(proveResult.proof), proveResult.proof.byteLength];
+  }, [proveResult]);
 
   return (
     <div className={styles.wrapper}>
@@ -173,9 +174,9 @@ export default VerifyProofForm;
 
 export interface VerifyProofFormProps {
   // circuitTypeId: string;
-  proofInstance: PrfsProofInstanceSyn1;
+  // proofInstance: PrfsProofInstanceSyn1;
   circuitDriverId: string;
-  // proveResult: ProveResult;
+  proveResult: ProveResult;
   isVerifyOpen: boolean;
   // proofGenElement: ProofGenElement;
 }

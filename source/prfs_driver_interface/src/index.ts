@@ -30,13 +30,13 @@ export interface VerifyArgs {
   circuitTypeId: string;
 }
 
-export interface ProveResult {
-  proof: Uint8Array;
+export interface Proof {
+  proofBytes: Uint8Array;
   publicInputSer: string;
 }
 
 export interface ProveReceipt {
-  proveResult: ProveResult;
+  proof: Proof;
   duration: number;
 }
 

@@ -92,9 +92,9 @@ export async function proveMembership(
   const circuitPublicInput: Uint8Array = publicInput.circuitPubInput.serialize();
 
   const prev = performance.now();
-  let proof;
+  let proofBytes;
   try {
-    proof = await handlers.prove(circuit, witness.data, circuitPublicInput);
+    proofBytes = await handlers.prove(circuit, witness.data, circuitPublicInput);
   } catch (err) {
     throw new Error(`Error calling prove(), err: ${err}`);
   }
@@ -102,8 +102,8 @@ export async function proveMembership(
 
   return {
     duration: now - prev,
-    proveResult: {
-      proof,
+    proof: {
+      proofBytes,
       publicInputSer: publicInput.serialize(),
     },
   };
