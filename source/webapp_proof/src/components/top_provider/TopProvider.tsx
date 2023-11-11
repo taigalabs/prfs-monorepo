@@ -8,7 +8,6 @@ import { WagmiConfig, configureChains, createConfig, mainnet } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
-import Script from "next/script";
 
 import { I18nProvider } from "@/contexts/i18n";
 import { store } from "@/state/store";

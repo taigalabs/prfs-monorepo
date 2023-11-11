@@ -17,15 +17,21 @@ import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { goNextStep, goPrevStep, resetStep } from "@/state/tutorialReducer";
 import MarkdownWrapper from "./MarkdownWrapper";
 
-const Tutorial: React.FC<TutorialProps> = ({ bigTopMargin }) => {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+async function getData() {
+  const data = await fetch("/api");
+  console.log(22, data);
+}
+
+const TutorialFallback: React.FC<TutorialProps> = async ({ bigTopMargin }) => {
+  // const pathname = usePathname();
+  // const searchParams = useSearchParams();
   // const router = useRouter();
   // const i18n = React.useContext(i18nContext);
-
   // const dispatch = useAppDispatch();
 
-  // const step = useAppSelector(state => state.tutorial.tutorialStep);
+  const d = await getData();
+
+  const step = useAppSelector(state => state.tutorial.tutorialStep);
 
   // const isTutorial = React.useMemo(() => {
   //   const s = searchParams.get("tutorial_id");
@@ -57,58 +63,34 @@ const Tutorial: React.FC<TutorialProps> = ({ bigTopMargin }) => {
   // }, [pathname, router, searchParams, dispatch]);
 
   // const isLastStep = step === STEP_COUNT;
-  //
-  // return <Suspense fallback={<div>fallback</div>}>123</Suspense>;
-  return 123;
 
-  // return (
-  //   isTutorial &&
-  //   step > 0 && (
-  //     <>
-  //       <div className={styles.placeholder} />
-  //       <div className={cn(styles.wrapper, { [styles.bigTopMargin]: bigTopMargin })}>
-  //         <div className={styles.header}>
-  //           <p className={styles.progress}>
-  //             ({step} / {STEP_COUNT})
-  //           </p>
-  //           <button>
-  //             <AiOutlineClose onClick={handleClickClose} />
-  //           </button>
-  //         </div>
-  //         <div className={styles.body}>
-  //           <MarkdownWrapper>
-  //             <Stage step={step} />
-  //           </MarkdownWrapper>
-  //           <div className={styles.btnRow}>
-  //             <Button
-  //               variant="transparent_aqua_blue_1"
-  //               handleClick={handleClickPrev}
-  //               disabled={step === 1}
-  //             >
-  //               {i18n.prev}
-  //             </Button>
-  //             {isLastStep ? (
-  //               <Button
-  //                 className={styles.finishBtn}
-  //                 variant="transparent_aqua_blue_1"
-  //                 handleClick={handleClickClose}
-  //               >
-  //                 {i18n.finish}
-  //               </Button>
-  //             ) : (
-  //               <Button variant="aqua_blue_1" handleClick={handleClickNext}>
-  //                 {i18n.next}
-  //               </Button>
-  //             )}
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </>
-  //   )
-  // );
+  return (
+    <>
+      <div className={styles.placeholder} />
+      <div className={cn(styles.wrapper, { [styles.bigTopMargin]: bigTopMargin })}>
+        <div className={styles.header}>
+          <p className={styles.progress}>{/* ({step} / {STEP_COUNT}) */}</p>
+          <button>
+            <AiOutlineClose onClick={() => {}} />
+          </button>
+        </div>
+        <div className={styles.body}>
+          <MarkdownWrapper>{/* <Stage step={step} /> */}</MarkdownWrapper>
+          <div className={styles.btnRow}>
+            <Button variant="transparent_aqua_blue_1" handleClick={() => {}} disabled={step === 1}>
+              {/* {i18n.prev} */}
+            </Button>
+            <Button variant="aqua_blue_1" handleClick={() => {}}>
+              {/* {i18n.next} */}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };
 
-export default Tutorial;
+export default TutorialFallback;
 
 export interface TutorialProps {
   bigTopMargin?: boolean;

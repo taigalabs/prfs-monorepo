@@ -9,16 +9,19 @@ import Masthead from "@/components/masthead/Masthead";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import Tutorial from "@/components/tutorial/Tutorial";
 import SearchProofTypeForm from "@/components/search_proof_type_form/SearchProofTypeForm";
+import TutorialFallback from "@/components/tutorial/TutorialFallback";
 
 const HomePage = () => {
   return (
     <DefaultLayout>
       <DefaultBody noTopPadding>
         <div className={styles.container}>
-          <Suspense fallback={<div>fallback2</div>}>
+          <Suspense fallback={<TutorialFallback />}>
             <Tutorial />
           </Suspense>
-          {/* <Masthead /> */}
+          <Suspense fallback={<div>fallback2</div>}>
+            <Masthead />
+          </Suspense>
           {/* <SearchProofTypeForm /> */}
         </div>
       </DefaultBody>
