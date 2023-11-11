@@ -129,43 +129,39 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
   }, [proof]);
 
   return (
-    <div className={styles.wrapper}>
-      {isVerifyOpen && (
-        <Fade>
-          <div className={styles.publicInputSection}>
-            <div className={styles.placeholder} />
-            <div className={styles.data}>
-              <div className={styles.title}>{i18n.public_inputs}</div>
-              <div>{publicInputElems}</div>
-            </div>
-            <div className={styles.placeholder} />
+    <div className={cn(styles.wrapper, { [styles.isVerifyOpen]: isVerifyOpen })}>
+      <div className={styles.publicInputSection}>
+        <div className={styles.placeholder} />
+        <div className={styles.data}>
+          <div className={styles.title}>{i18n.public_inputs}</div>
+          <div>{publicInputElems}</div>
+        </div>
+        <div className={styles.placeholder} />
+      </div>
+      <div className={styles.proofRawSection}>
+        <div className={styles.title}>{i18n.proof}</div>
+        <div className={styles.data}>
+          <div className={styles.placeholder} />
+          <div className={styles.proofSizeRow}>
+            <p className={styles.label}>{i18n.proof_size}</p>
+            <p>
+              {size} {i18n.bytes.toLowerCase()}
+            </p>
           </div>
-          <div className={styles.proofRawSection}>
-            <div className={styles.title}>{i18n.proof}</div>
-            <div className={styles.data}>
-              <div className={styles.placeholder} />
-              <div className={styles.proofSizeRow}>
-                <p className={styles.label}>{i18n.proof_size}</p>
-                <p>
-                  {size} {i18n.bytes.toLowerCase()}
-                </p>
-              </div>
-              {proofRaw}
-              <div className={styles.placeholder} />
-            </div>
-            <div className={styles.footer} />
-          </div>
-          <div className={styles.driverSection}>
-            <p className={styles.label}>{i18n.circuit_driver}</p>
-            <p>{circuitDriverId}</p>
-          </div>
-          {/* <div className={styles.btnRow}> */}
-          {/*   <TutorialStepper steps={[3]}> */}
-          {/*     <VerifyButton verifiedStatus={verifiedStatus} handleClick={handleClickVerify} /> */}
-          {/*   </TutorialStepper> */}
-          {/* </div> */}
-        </Fade>
-      )}
+          {proofRaw}
+          <div className={styles.placeholder} />
+        </div>
+        <div className={styles.footer} />
+      </div>
+      <div className={styles.driverSection}>
+        <p className={styles.label}>{i18n.circuit_driver}</p>
+        <p>{circuitDriverId}</p>
+      </div>
+      {/* <div className={styles.btnRow}> */}
+      {/*   <TutorialStepper steps={[3]}> */}
+      {/*     <VerifyButton verifiedStatus={verifiedStatus} handleClick={handleClickVerify} /> */}
+      {/*   </TutorialStepper> */}
+      {/* </div> */}
     </div>
   );
 };

@@ -127,21 +127,16 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
           </li>
         </ul>
       </div>
-      <div
-        className={cn({ [styles.verifyProofFormRow]: true, [styles.isVerifyOpen]: isVerifyOpen })}
-      >
-        <div className={styles.titleRow}>
+      <div className={cn(styles.verifyProofFormRow, { [styles.isVerifyOpen]: isVerifyOpen })}>
+        <div>
           <TutorialStepper steps={[3]}>
-            <button
-              className={cn({ [styles.verifyBtn]: true, [styles.isVerifyOpen]: isVerifyOpen })}
-              onClick={handleClickVerify}
-            >
+            <button className={cn(styles.verifyBtn)} onClick={handleClickVerify}>
               <span>{i18n.verify}</span>
               <IoIosArrowDown />
             </button>
           </TutorialStepper>
         </div>
-        <div className={styles.verifyFormWrapper}>
+        <div className={styles.verifyProofFormWrapper}>
           <VerifyProofForm
             proof={proveReceipt.proof}
             circuitDriverId={proofType.circuit_driver_id}
@@ -149,11 +144,11 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
             isVerifyOpen={isVerifyOpen}
             // proofGenElement={proofGenElement}
           />
-          <VerifyProofModule
-            proofGenElement={proofGenElement}
-            proof={proveReceipt.proof}
-            circuitTypeId={proofType.circuit_type_id}
-          />
+          {/* <VerifyProofModule */}
+          {/*   proofGenElement={proofGenElement} */}
+          {/*   proof={proveReceipt.proof} */}
+          {/*   circuitTypeId={proofType.circuit_type_id} */}
+          {/* /> */}
         </div>
       </div>
     </div>

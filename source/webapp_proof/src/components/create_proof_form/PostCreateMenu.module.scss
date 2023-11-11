@@ -50,7 +50,7 @@
   line-height: 21px;
 }
 
-.btnGroup {
+.postCreateBtnGroup {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -86,8 +86,10 @@
 }
 
 .isVerifyOpen {
-  > svg {
-    transform: rotate(180deg);
+  .verifyBtn {
+    svg {
+      transform: rotate(180deg);
+    }
   }
 }
 
@@ -102,6 +104,15 @@
   border-bottom: 1px solid var(--bright-gray-30);
   margin: 38px 0 48px;
   padding: 14px;
+
+  /* &.isVerifyOpen { */
+  /*   height: auto; */
+  /* } */
+}
+
+.verifyProofFormWrapper {
+  height: 0;
+  overflow: hidden;
 
   &.isVerifyOpen {
     height: auto;
