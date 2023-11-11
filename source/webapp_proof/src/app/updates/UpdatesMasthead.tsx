@@ -1,14 +1,12 @@
-"use client";
-
 import React from "react";
 
 import styles from "./page.module.scss";
 import DocMasthead from "@/components/masthead/DocMasthead";
 import { paths } from "@/paths";
-import { i18nContext } from "@/contexts/i18n";
+import { getI18N } from "@/i18n/getI18N";
 
-const UpdatesMasthead = () => {
-  const i18n = React.useContext(i18nContext);
+const UpdatesMasthead = async () => {
+  const i18n = await getI18N();
 
   return <DocMasthead title={i18n.updates} titleHref={paths.updates} />;
 };

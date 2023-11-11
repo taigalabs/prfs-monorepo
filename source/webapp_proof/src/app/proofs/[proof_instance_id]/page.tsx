@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 
 import styles from "./page.module.scss";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
@@ -8,14 +8,19 @@ import DefaultLayout, {
 } from "@/components/layouts/default_layout/DefaultLayout";
 import ProofDetailView from "@/components/proof_detail_view/ProofDetailView";
 import Tutorial from "@/components/tutorial/Tutorial";
+import TutorialFallback from "@/components/tutorial/TutorialFallback";
 
 const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   return (
     <DefaultLayout>
       <DefaultBody noTopPadding>
         <div className={styles.container}>
-          <Tutorial />
-          <ProofDetailView proofInstanceId={params.proof_instance_id} />
+          <Suspense fallback={<TutorialFallback />}>
+            <Tutorial />
+          </Suspense>
+          <Suspense fallback={<TutorialFallback />}>
+            <ProofDetailView proofInstanceId={params.proof_instance_id} />
+          </Suspense>
         </div>
       </DefaultBody>
       <DefaultFooter>
