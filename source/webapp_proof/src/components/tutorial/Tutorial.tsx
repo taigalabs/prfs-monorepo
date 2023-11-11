@@ -21,8 +21,6 @@ import MarkdownWrapper from "./MarkdownWrapper";
 const STEP_COUNT = 5;
 
 const Stage: React.FC<StageProps> = ({ step }) => {
-  const i18n = React.useContext(i18nContext);
-
   switch (step) {
     case 1:
       return <Tutorial1MD />;

@@ -17,7 +17,6 @@ import CreateProofModule from "@/components/create_proof_module/CreateProofModul
 import PostCreateMenu from "./PostCreateMenu";
 import { paths } from "@/paths";
 import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
-import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
 import { useSelectProofType } from "@/hooks/proofType";
 import Tutorial from "../tutorial/Tutorial";
 

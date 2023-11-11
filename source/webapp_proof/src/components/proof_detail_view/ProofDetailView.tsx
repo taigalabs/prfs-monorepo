@@ -1,34 +1,24 @@
 "use client";
 
 import React from "react";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
-import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import JSONBig from "json-bigint";
-import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import ProofBanner from "@taigalabs/prfs-react-components/src/proof_banner/ProofBanner";
 import SocialSharePopover from "@taigalabs/prfs-react-components/src/social_share_popover/SocialSharePopover";
-import { HiOutlineDesktopComputer } from "@react-icons/all-files/hi/HiOutlineDesktopComputer";
-import Link from "next/link";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "wagmi";
 import { GetPrfsProofInstanceByInstanceIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstanceByInstanceIdRequest";
-import { useRouter } from "next/navigation";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 
 import styles from "./ProofDetailView.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { paths } from "@/paths";
 import VerifyProofForm from "@/components/verify_proof_form/VerifyProofForm";
-import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 import { envs } from "@/envs";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
 import Tutorial from "../tutorial/Tutorial";
-
-const prfsSDK = new PrfsSDK("prfs-proof");
 
 const JSONbigNative = JSONBig({
   useNativeBigInt: true,
@@ -38,10 +28,7 @@ const JSONbigNative = JSONBig({
 
 const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) => {
   const i18n = React.useContext(i18nContext);
-  const didTryInitialize = React.useRef(false);
-  const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
   const [proofInstance, setProofInstance] = React.useState<PrfsProofInstanceSyn1>();
-  const router = useRouter();
 
   const { mutateAsync: getPrfsProofInstanceByInstanceIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofInstanceByInstanceIdRequest) => {
