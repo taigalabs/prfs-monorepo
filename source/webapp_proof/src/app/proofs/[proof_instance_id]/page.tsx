@@ -12,7 +12,7 @@ import Tutorial from "@/components/tutorial/Tutorial";
 const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   return (
     <DefaultLayout>
-      <DefaultBody bigTopPadding>
+      <DefaultBody noTopPadding>
         <div className={styles.container}>
           <Tutorial />
           <ProofDetailView proofInstanceId={params.proof_instance_id} />

@@ -54,9 +54,27 @@
   }
 }
 
-.module {
-  width: 340px;
+.proofDetail {
+  display: flex;
+  justify-content: center;
+  // width: 340px;
   margin-left: 72px;
+}
+
+.verifyProofFormWrapper {
+  width: 340px;
+}
+
+@media screen and (min-width: 480px) and (max-width: 1390px) {
+  /* .wrapper { */
+  /*   flex-direction: column; */
+  /* } */
+
+  /* .proofDetail { */
+  /*   width: 580px; */
+  /*   margin-left: 0px; */
+  /*   margin-top: 28px; */
+  /* } */
 }
 
 @media screen and (max-width: 480px) {
@@ -78,7 +96,7 @@
     }
   }
 
-  .module {
+  .proofDetail {
     margin-left: 0px;
 
     width: 100%;
