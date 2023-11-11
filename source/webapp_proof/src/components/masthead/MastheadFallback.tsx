@@ -1,45 +1,22 @@
 import React from "react";
 import cn from "classnames";
 import Link from "next/link";
-import ActiveLink from "@taigalabs/prfs-react-components/src/active_link/ActiveLink";
 import PrfsAppsPopover from "@taigalabs/prfs-react-components/src/prfs_apps_popover/PrfsAppsPopover";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 
 import styles from "./Masthead.module.scss";
-import { i18nContext } from "@/contexts/i18n";
-import { paths } from "@/paths";
-import { useSearchParams } from "next/navigation";
+import { getI18N } from "@/i18n/getI18N";
 
-const Masthead: React.FC<MastheadProps> = () => {
-  const i18n = React.useContext(i18nContext);
-
-  const searchParams = useSearchParams();
-  const isTutorial = React.useMemo(() => {
-    if (searchParams.get("tutorial_id")) {
-      return true;
-    }
-    return false;
-  }, [searchParams]);
-
-  const tutorialUrl = React.useMemo(() => {
-    if (isTutorial) {
-      return paths.__;
-    } else {
-      return `${paths.__}?tutorial_id=simple_hash`;
-    }
-  }, [isTutorial]);
+const MastheadFallback: React.FC<MastheadProps> = async () => {
+  const i18n = await getI18N();
 
   return (
-    <div className={cn({ [styles.wrapper]: true, [styles.isTutorial]: isTutorial })}>
+    <div className={cn(styles.wrapper)}>
       <div className={styles.inner}>
         <ul className={styles.rightGroup}>
           <li className={styles.menu}>
-            <a href={tutorialUrl}>
-              <p className={cn({ [styles.tutorialBtn]: true, [styles.isTutorial]: isTutorial })}>
-                <span>{i18n.tutorial}</span>
-                <AiOutlineClose />
-              </p>
-            </a>
+            <span>{i18n.tutorial}</span>
+            <AiOutlineClose />
           </li>
           <li className={cn(styles.bigScreen)}>
             <Link href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>{i18n.docs}</Link>
@@ -58,6 +35,6 @@ const Masthead: React.FC<MastheadProps> = () => {
   );
 };
 
-export default Masthead;
+export default MastheadFallback;
 
 export interface MastheadProps {}

@@ -53,6 +53,7 @@ const en = {
   search: "Search",
   search_guide: "Search for a proof (type), circuits, sets and others",
   search_proof_guide: "Search for a proof (type)",
+  search_proof_dialog: "Search proof dialog",
   browse: "Browse",
   set_id: "Set id",
   type: "Type",

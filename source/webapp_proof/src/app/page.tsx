@@ -10,6 +10,7 @@ import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import Tutorial from "@/components/tutorial/Tutorial";
 import SearchProofTypeForm from "@/components/search_proof_type_form/SearchProofTypeForm";
 import TutorialFallback from "@/components/tutorial/TutorialFallback";
+import MastheadFallback from "@/components/masthead/MastheadFallback";
 
 const HomePage = () => {
   return (
@@ -19,10 +20,12 @@ const HomePage = () => {
           <Suspense fallback={<TutorialFallback />}>
             <Tutorial />
           </Suspense>
-          <Suspense fallback={<div>fallback2</div>}>
+          <Suspense fallback={<MastheadFallback />}>
             <Masthead />
           </Suspense>
-          {/* <SearchProofTypeForm /> */}
+          <Suspense fallback={<div>fallback2</div>}>
+            <SearchProofTypeForm />
+          </Suspense>
         </div>
       </DefaultBody>
       {/* <DefaultFooter> */}

@@ -90,7 +90,7 @@ const Tutorial: React.FC<TutorialProps> = ({ bigTopMargin }) => {
               ({step} / {STEP_COUNT})
             </p>
             <button>
-              <AiOutlineClose onClick={handleClickClose} />
+              <AiOutlineClose />
             </button>
           </div>
           <div className={styles.body}>
