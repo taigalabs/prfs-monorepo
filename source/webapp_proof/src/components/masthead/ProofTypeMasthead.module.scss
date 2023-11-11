@@ -8,7 +8,7 @@
   justify-content: center;
   padding-right: 20px;
   padding-left: 120px;
-  min-width: 1150px;
+  min-width: 1024px;
   height: 89px;
   background-color: var(--white-100);
   z-index: 10;
@@ -149,7 +149,7 @@
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 1024px) {
   .wrapper {
     /* position: relative; */
     width: 100vw;
@@ -186,6 +186,8 @@
     flex: 1;
     margin-top: 46px;
     min-width: 0px;
+    display: flex;
+    justify-content: center;
   }
 
   .rightArea {

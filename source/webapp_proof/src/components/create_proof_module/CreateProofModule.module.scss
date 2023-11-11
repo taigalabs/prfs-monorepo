@@ -119,17 +119,7 @@
   max-width: 530px;
 }
 
-@media screen and (min-width: 480px) and (max-width: 1390px) {
-  /* .main.isTutorial { */
-  /*   flex-direction: column; */
-
-  /*   .metaArea { */
-  /*     margin-top: 32px; */
-  /*   } */
-  /* } */
-}
-
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 1024px) {
   .main {
     flex-direction: column;
     align-items: center;

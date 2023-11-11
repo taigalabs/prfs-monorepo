@@ -10,7 +10,7 @@
   justify-content: center;
   flex-grow: 1;
   padding-top: 56px;
-  min-width: 1150px;
+  min-width: 1024px;
 
   &.bigTopPadding {
     padding-top: 89px;
@@ -34,7 +34,7 @@
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 1024px) {
   .body {
     min-width: 360px;
 

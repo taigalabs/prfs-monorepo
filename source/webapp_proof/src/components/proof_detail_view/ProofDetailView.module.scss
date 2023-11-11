@@ -2,9 +2,13 @@
   display: flex;
   flex-direction: row;
   flex-grow: 1;
+  flex-shrink: 1;
+  min-width: 0px;
   padding-bottom: 32px;
+  overflow-x: auto;
+  margin-right: 15px;
 
-  // border: 1px solid blue;
+  border: 1px solid blue;
 }
 
 .upperRow {
@@ -63,18 +67,6 @@
 
 .verifyProofFormWrapper {
   width: 340px;
-}
-
-@media screen and (min-width: 480px) and (max-width: 1390px) {
-  /* .wrapper { */
-  /*   flex-direction: column; */
-  /* } */
-
-  /* .proofDetail { */
-  /*   width: 580px; */
-  /*   margin-left: 0px; */
-  /*   margin-top: 28px; */
-  /* } */
 }
 
 @media screen and (max-width: 480px) {

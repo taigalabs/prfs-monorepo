@@ -8,10 +8,16 @@
   border: 1px solid green;
 }
 
+@media screen and (max-width: 1548px) {
+  .container {
+    padding-left: calc((100% - 1319px) / 2 + 30px);
+  }
+}
+
 @media screen and (max-width: 1300px) {
   .container {
     flex-direction: column;
-    padding-left: calc((100% - 1150px) / 2 + 30px);
+    padding-left: 30px;
   }
 }
 

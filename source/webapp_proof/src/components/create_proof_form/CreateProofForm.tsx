@@ -4,7 +4,7 @@ import React from "react";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import cn from "classnames";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import { redirect, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { useMutation } from "@tanstack/react-query";
@@ -21,12 +21,10 @@ import { useSelectProofType } from "@/hooks/proofType";
 import Tutorial from "../tutorial/Tutorial";
 
 const CreateProofForm: React.FC = () => {
-  const i18n = React.useContext(i18nContext);
   const [proofType, setProofType] = React.useState<PrfsProofType>();
   const proofTypeIdRef = React.useRef<string | null>(null);
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt>();
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   const isTutorial = React.useMemo(() => {

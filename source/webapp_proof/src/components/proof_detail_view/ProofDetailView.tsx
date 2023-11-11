@@ -91,6 +91,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
         handleSelectProofType={handleSelectProofType}
       />
       <div className={styles.wrapper}>
+        {/* <div>123</div> */}
         <div className={styles.meta}>
           <div className={styles.upperRow}>
             <a className={styles.consoleLink} href={consoleUrl}>
@@ -106,9 +107,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
               />
             </TutorialStepper>
           </div>
-          <ul>
-            <li>{/* <SocialSharePopover /> */}</li>
-          </ul>
+          <ul></ul>
           <div className={styles.proofDetailContainer}>
             <div>
               <div className={styles.content}>
@@ -138,4 +137,8 @@ export default ProofDetailView;
 export interface ProofDetailViewProps {
   // proofInstance: PrfsProofInstanceSyn1;
   proofInstanceId: string;
+}
+
+{
+  /* <li> <SocialSharePopover /> </li>; */
 }
