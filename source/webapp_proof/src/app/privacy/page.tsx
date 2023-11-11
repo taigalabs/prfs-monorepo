@@ -1,18 +1,22 @@
 import React from "react";
 
 import styles from "./page.module.scss";
-import PrivacyMasthead from "./PrivacyMasthead";
 import DefaultLayout, {
   DefaultBody,
   DefaultFooter,
 } from "@/components/layouts/default_layout/DefaultLayout";
 import { Markdown } from "@/components/markdown/Markdown";
 import DocFooter from "@/components/global_footer/DocFooter";
+import DocMasthead from "@/components/masthead/DocMasthead";
+import { paths } from "@/paths";
+import { getI18N } from "@/i18n/getI18N";
 
-const PrivacyPage = () => {
+const PrivacyPage = async () => {
+  const i18n = await getI18N();
+
   return (
     <DefaultLayout>
-      <PrivacyMasthead />
+      <DocMasthead title={i18n.privacy} titleHref={paths.privacy} />
       <DefaultBody>
         <div className={styles.bodyContainer}>
           <Markdown>
