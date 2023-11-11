@@ -144,11 +144,13 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
             isVerifyOpen={isVerifyOpen}
             // proofGenElement={proofGenElement}
           />
-          <VerifyProofModule
-            proofGenElement={proofGenElement}
-            proof={proveReceipt.proof}
-            circuitTypeId={proofType.circuit_type_id}
-          />
+          <div className={styles.verifyProofModuleWrapper}>
+            <VerifyProofModule
+              proofGenElement={proofGenElement}
+              proof={proveReceipt.proof}
+              circuitTypeId={proofType.circuit_type_id}
+            />
+          </div>
         </div>
       </div>
     </div>

@@ -8,7 +8,7 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { utils } from "ethers";
 import JSONBig from "json-bigint";
 
-import styles from "./VerifyProofForm.module.scss";
+import styles from "./VerifyProofModule.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
