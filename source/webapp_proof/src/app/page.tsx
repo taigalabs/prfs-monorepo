@@ -11,6 +11,7 @@ import Tutorial from "@/components/tutorial/Tutorial";
 import SearchProofTypeForm from "@/components/search_proof_type_form/SearchProofTypeForm";
 import TutorialFallback from "@/components/tutorial/TutorialFallback";
 import MastheadFallback from "@/components/masthead/MastheadFallback";
+import SearchProofTypeFormFallback from "@/components/search_proof_type_form/SearchProofTypeFormFallback";
 
 const HomePage = () => {
   return (
@@ -23,14 +24,14 @@ const HomePage = () => {
           <Suspense fallback={<MastheadFallback />}>
             <Masthead />
           </Suspense>
-          <Suspense fallback={<div>fallback2</div>}>
+          <Suspense fallback={<SearchProofTypeFormFallback />}>
             <SearchProofTypeForm />
           </Suspense>
         </div>
       </DefaultBody>
-      {/* <DefaultFooter> */}
-      {/*   <GlobalFooter /> */}
-      {/* </DefaultFooter> */}
+      <DefaultFooter>
+        <GlobalFooter />
+      </DefaultFooter>
     </DefaultLayout>
   );
 };
