@@ -7,9 +7,12 @@ import "./globals.scss";
 import TopProvider from "@/components/top_provider/TopProvider";
 
 export const metadata: Metadata = {
-  title: "Prfs",
+  robots: {
+    index: true,
+  },
+  title: "Prfs - Create and share proofs",
   description:
-    "Create and share proofs on your own. Backed by blazing-fast and secure zero-knowledge proof technology",
+    "Create and share proofs on your own. Powered by blazing-fast and secure zero-knowledge proof technology",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

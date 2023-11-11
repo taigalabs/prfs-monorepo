@@ -17,7 +17,7 @@ const queryClient = new QueryClient();
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [mainnet],
-  [publicProvider()]
+  [publicProvider()],
 );
 
 const config = createConfig({
