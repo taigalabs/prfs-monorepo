@@ -3,11 +3,17 @@
   display: flex;
   flex-grow: 1;
   padding-left: 230px;
-  /* padding-top: 89px; */
+}
+
+@media screen and (max-width: 1300px) {
+  .container {
+    padding-left: calc((100% - 1150px) / 2 + 30px);
+  }
 }
 
 @media screen and (max-width: 480px) {
   .container {
+    min-width: 0px;
     flex-direction: column;
     padding-left: 0px;
   }

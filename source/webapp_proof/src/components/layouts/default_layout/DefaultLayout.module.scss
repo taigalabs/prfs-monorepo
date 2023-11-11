@@ -3,7 +3,6 @@
   flex-direction: column;
   flex-grow: 1;
   min-height: 660px;
-  min-width: 1200px;
 }
 
 .body {
@@ -11,6 +10,7 @@
   justify-content: center;
   flex-grow: 1;
   padding-top: 56px;
+  min-width: 1150px;
 
   &.bigTopPadding {
     padding-top: 89px;
@@ -32,6 +32,8 @@
   }
 
   .body {
+    min-width: 0px;
+
     &.bigTopPadding {
       padding-top: 0;
       /* padding-top: 102px; */

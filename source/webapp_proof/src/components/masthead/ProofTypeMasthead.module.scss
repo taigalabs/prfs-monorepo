@@ -7,7 +7,8 @@
   align-items: center;
   justify-content: center;
   padding-right: 20px;
-  min-width: 1200px;
+  padding-left: 120px;
+  min-width: 1150px;
   height: 89px;
   background-color: var(--white-100);
   z-index: 10;
@@ -34,7 +35,7 @@
 
 .logoArea {
   padding: 0 30px;
-  width: 220px;
+  /* width: 220px; */
   display: flex;
   justify-content: flex-end;
 
@@ -147,6 +148,12 @@
 
 .popoverIsOpen {
   background-color: var(--bright-gray-30);
+}
+
+@media screen and (max-width: 1300px) {
+  .wrapper {
+    padding-left: calc((100% - 1150px) / 2);
+  }
 }
 
 @media screen and (max-width: 480px) {
