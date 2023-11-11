@@ -1,4 +1,6 @@
-export default {
+const en = {
+  close: "Close",
+  steps: "Steps",
   explorer: "Explorer",
   prfs_copyright: "© 2023 Prfs",
   find_what_to_prove: "Find what to prove",
@@ -222,3 +224,5 @@ export default {
   teaser_1: "Prfs is coming to empower you",
   teaser_2: "to make undeniable, anonymous claims",
 };
+
+export default en;

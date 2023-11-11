@@ -1,7 +1,9 @@
 import { NextResponse, NextRequest } from "next/server";
 
+import en from "@/i18n/en";
+
 export async function GET(request: NextRequest) {
   return NextResponse.json({
-    a: 3,
+    en,
   });
 }
