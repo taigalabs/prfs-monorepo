@@ -1,6 +1,6 @@
 .wrapper {
   padding: 0px 21px;
-  margin-top: 34px;
+  margin: 34px 0;
   width: 510px;
   /* border: 1px solid var(--bright-gray-30); */
 
@@ -86,42 +86,38 @@
   }
 }
 
+.verifyProofFormRow {
+  border-top: 1px solid var(--bright-gray-30);
+  border-bottom: 1px solid var(--bright-gray-30);
+  margin: 38px 0 0;
+  padding: 14px;
+}
+
+.verifyProofFormWrapper {
+  padding: 0 4px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 225ms;
+  opacity: 0;
+}
+
 .isVerifyOpen {
   .verifyBtn {
     svg {
       transform: rotate(180deg);
     }
   }
-}
 
-.footer {
-  margin-top: 26px;
-  /* border-top: 1px solid var(--bright-gray-30); */
-  padding-top: 14px;
-}
-
-.verifyProofFormRow {
-  border-top: 1px solid var(--bright-gray-30);
-  border-bottom: 1px solid var(--bright-gray-30);
-  margin: 38px 0 48px;
-  padding: 14px;
-
-  /* &.isVerifyOpen { */
-  /*   height: auto; */
-  /* } */
-}
-
-.verifyProofFormWrapper {
-  height: 0;
-  overflow: hidden;
-
-  &.isVerifyOpen {
-    height: auto;
+  .verifyProofFormWrapper {
+    max-height: 1200px;
+    opacity: 1;
   }
 }
 
 @media screen and (max-width: 480px) {
   .wrapper {
-    padding: 2px 10px 60px;
+    padding: 0px 10px;
+    width: 100%;
   }
 }

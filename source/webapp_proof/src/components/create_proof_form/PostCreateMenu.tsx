@@ -137,18 +137,18 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
           </TutorialStepper>
         </div>
         <div className={styles.verifyProofFormWrapper}>
-          {/* <VerifyProofForm */}
-          {/*   proof={proveReceipt.proof} */}
-          {/*   circuitDriverId={proofType.circuit_driver_id} */}
-          {/*   // circuitTypeId={proofType.circuit_type_id} */}
-          {/*   isVerifyOpen={isVerifyOpen} */}
-          {/*   // proofGenElement={proofGenElement} */}
-          {/* /> */}
-          {/* <VerifyProofModule */}
-          {/*   proofGenElement={proofGenElement} */}
-          {/*   proof={proveReceipt.proof} */}
-          {/*   circuitTypeId={proofType.circuit_type_id} */}
-          {/* /> */}
+          <VerifyProofForm
+            proof={proveReceipt.proof}
+            circuitDriverId={proofType.circuit_driver_id}
+            // circuitTypeId={proofType.circuit_type_id}
+            isVerifyOpen={isVerifyOpen}
+            // proofGenElement={proofGenElement}
+          />
+          <VerifyProofModule
+            proofGenElement={proofGenElement}
+            proof={proveReceipt.proof}
+            circuitTypeId={proofType.circuit_type_id}
+          />
         </div>
       </div>
     </div>
