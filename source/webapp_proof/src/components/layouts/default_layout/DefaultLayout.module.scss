@@ -10,7 +10,7 @@
   justify-content: center;
   flex-grow: 1;
   padding-top: 56px;
-  /* min-width: 1150px; */
+  min-width: 1150px;
 
   &.bigTopPadding {
     padding-top: 89px;
@@ -26,13 +26,17 @@
   margin-bottom: 0;
 }
 
-@media screen and (max-width: 480px) {
-  .wrapper {
-    min-width: 360px;
-  }
-
+@media screen and (min-width: 481px) {
   .body {
-    min-width: 0px;
+    &.noMinWidth {
+      min-width: 0px;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .body {
+    min-width: 360px;
 
     &.bigTopPadding {
       padding-top: 0;

@@ -4,7 +4,6 @@
   flex-direction: column;
   margin-right: 15px;
   padding-top: 89px;
-  min-width: 1150px;
 
   // border: 1px solid red;
 }
@@ -28,5 +27,9 @@
 
   .formWrapper {
     padding: 0 10px;
+  }
+
+  .loading {
+    padding-left: 12px;
   }
 }

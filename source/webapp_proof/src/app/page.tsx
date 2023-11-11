@@ -16,11 +16,11 @@ import SearchProofTypeFormFallback from "@/components/search_proof_type_form/Sea
 const HomePage = () => {
   return (
     <DefaultLayout>
-      <DefaultBody noTopPadding>
+      <DefaultBody noTopPadding noMinWidth>
         <div className={styles.container}>
-          <Suspense fallback={<TutorialFallback />}>
-            <Tutorial />
-          </Suspense>
+          {/* <Suspense fallback={<TutorialFallback />}> */}
+          {/*   <Tutorial /> */}
+          {/* </Suspense> */}
           <Suspense fallback={<MastheadFallback />}>
             <Masthead />
           </Suspense>

@@ -26,6 +26,7 @@ import { envs } from "@/envs";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
+import Tutorial from "../tutorial/Tutorial";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -134,15 +135,13 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
           <div className={styles.verifyProofFormWrapper}>
             <VerifyProofForm
               proof={proof}
-              // proofInstance={proofInstance}
-              // circuitTypeId={proofInstance.circuit_type_id}
               circuitDriverId={proofInstance.circuit_driver_id}
               isVerifyOpen={true}
-              // proofGenElement={proofGenElement}
             />
           </div>
         </div>
       </div>
+      <Tutorial bigTopMargin />
     </>
   );
 };
