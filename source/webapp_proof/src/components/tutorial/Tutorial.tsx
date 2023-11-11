@@ -40,7 +40,7 @@ const Stage: React.FC<StageProps> = ({ step }) => {
   }
 };
 
-const Tutorial: React.FC<TutorialProps> = () => {
+const Tutorial: React.FC<TutorialProps> = ({ bigTopMargin }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const i18n = React.useContext(i18nContext);
@@ -85,7 +85,7 @@ const Tutorial: React.FC<TutorialProps> = () => {
     step > 0 && (
       <>
         <div className={styles.placeholder} />
-        <div className={cn(styles.wrapper)}>
+        <div className={cn(styles.wrapper, { [styles.bigTopMargin]: bigTopMargin })}>
           <div className={styles.header}>
             <p className={styles.progress}>
               ({step} / {STEP_COUNT})
@@ -129,7 +129,9 @@ const Tutorial: React.FC<TutorialProps> = () => {
 
 export default Tutorial;
 
-export interface TutorialProps {}
+export interface TutorialProps {
+  bigTopMargin?: boolean;
+}
 
 export interface StageProps {
   step: number;

@@ -13,10 +13,10 @@ import SearchProofTypeForm from "@/components/search_proof_type_form/SearchProof
 const HomePage = () => {
   return (
     <DefaultLayout>
-      <Masthead />
-      <DefaultBody>
+      <DefaultBody noTopPadding>
         <div className={styles.container}>
           <Tutorial />
+          <Masthead />
           <SearchProofTypeForm />
         </div>
       </DefaultBody>
