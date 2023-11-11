@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import cn from "classnames";
 
 import styles from "./CreateProofForm.module.scss";
@@ -17,7 +17,7 @@ const CreateProofFormFallback: React.FC = async () => {
             [styles.formWrapper]: true,
           })}
         >
-          {i18n.create_proof}
+          {i18n.create_proof_form}
         </div>
       </div>
     </>

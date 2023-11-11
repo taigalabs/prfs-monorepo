@@ -120,13 +120,13 @@
 }
 
 @media screen and (min-width: 480px) and (max-width: 1390px) {
-  .main.isTutorial {
-    flex-direction: column;
+  /* .main.isTutorial { */
+  /*   flex-direction: column; */
 
-    .metaArea {
-      margin-top: 32px;
-    }
-  }
+  /*   .metaArea { */
+  /*     margin-top: 32px; */
+  /*   } */
+  /* } */
 }
 
 @media screen and (max-width: 480px) {

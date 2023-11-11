@@ -141,6 +141,7 @@ const en = {
   new: "New",
   proof_instances: "Proof instances",
   create_proof: "Create proof",
+  create_proof_form: "Create proof form",
   prove_success_msg: "Successfully created a proof!",
   upload: "Upload",
   upload_and_view_proof: "Upload and view proof",

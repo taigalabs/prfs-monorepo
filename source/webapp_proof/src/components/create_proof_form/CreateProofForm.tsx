@@ -19,6 +19,7 @@ import { paths } from "@/paths";
 import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
 import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
 import { useSelectProofType } from "@/hooks/proofType";
+import Tutorial from "../tutorial/Tutorial";
 
 const CreateProofForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -112,6 +113,7 @@ const CreateProofForm: React.FC = () => {
           <div className={styles.loading}>Loading module...</div>
         )}
       </div>
+      <Tutorial bigTopMargin />
     </>
   );
 };
@@ -123,22 +125,3 @@ export interface ProofTypeItem {
   label: string;
   imgUrl: string | null;
 }
-// <div
-//   className={cn({
-//     [styles.formWrapper]: true,
-//   })}
-// >
-//   {proofType ? (
-//     <Fade>
-//       <CreateProofModule
-//         proofType={proofType}
-//         handleCreateProofResult={handleCreateProofResult}
-//         proofGenElement={proofGenElement}
-//         setProofGenElement={setProofGenElement}
-//       />
-//     </Fade>
-//   ) : (
-//     <div className={styles.loading}>Loading module...</div>
-//   )}
-// </div>
-// )}

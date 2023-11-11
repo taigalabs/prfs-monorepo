@@ -23,20 +23,20 @@ const ProofTypeMastheadFallback: React.FC<ProofTypeMastheadProps> = async () => 
         </div>
         <div className={styles.searchArea}>{i18n.search_proof_dialog}</div>
         <ul className={styles.rightArea}>
-          <Tooltip label={i18n.tutorial}>
-            <li className={styles.menu}>
-              <a>
-                <IoMdSchool />
-              </a>
-            </li>
-          </Tooltip>
-          <Tooltip label={i18n.docs}>
-            <li className={cn(styles.menu, styles.bigScreen)}>
-              <Link href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>
-                <BsBook />
-              </Link>
-            </li>
-          </Tooltip>
+          {/* <Tooltip label={i18n.tutorial}> */}
+          <li className={styles.menu}>
+            <a>
+              <IoMdSchool />
+            </a>
+          </li>
+          {/* </Tooltip> */}
+          {/* <Tooltip label={i18n.docs}> */}
+          <li className={cn(styles.menu, styles.bigScreen)}>
+            <Link href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>
+              <BsBook />
+            </Link>
+          </li>
+          {/* </Tooltip> */}
           <li className={styles.appPopover}>{i18n.prfs_apps}</li>
           {/* <li>{i18n.account}</li> */}
         </ul>

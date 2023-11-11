@@ -7,6 +7,7 @@
 
 @media screen and (max-width: 1300px) {
   .container {
+    flex-direction: column;
     padding-left: calc((100% - 1150px) / 2 + 30px);
   }
 }
@@ -14,7 +15,6 @@
 @media screen and (max-width: 480px) {
   .container {
     min-width: 0px;
-    flex-direction: column;
     padding-left: 0px;
   }
 }
