@@ -95,7 +95,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
         <i>{Math.floor((proveReceipt.duration / 1000) * 1000) / 1000} secs. </i>
         <span>{i18n.proof_upload_guide}</span>
       </div>
-      <div className={styles.btnGroup}>
+      <div className={styles.postCreateBtnGroup}>
         <ul>
           <li>
             <a href={paths.__}>
@@ -137,13 +137,13 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
           </TutorialStepper>
         </div>
         <div className={styles.verifyProofFormWrapper}>
-          <VerifyProofForm
-            proof={proveReceipt.proof}
-            circuitDriverId={proofType.circuit_driver_id}
-            // circuitTypeId={proofType.circuit_type_id}
-            isVerifyOpen={isVerifyOpen}
-            // proofGenElement={proofGenElement}
-          />
+          {/* <VerifyProofForm */}
+          {/*   proof={proveReceipt.proof} */}
+          {/*   circuitDriverId={proofType.circuit_driver_id} */}
+          {/*   // circuitTypeId={proofType.circuit_type_id} */}
+          {/*   isVerifyOpen={isVerifyOpen} */}
+          {/*   // proofGenElement={proofGenElement} */}
+          {/* /> */}
           {/* <VerifyProofModule */}
           {/*   proofGenElement={proofGenElement} */}
           {/*   proof={proveReceipt.proof} */}

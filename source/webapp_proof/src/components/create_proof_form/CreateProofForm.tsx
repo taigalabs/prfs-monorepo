@@ -85,38 +85,33 @@ const CreateProofForm: React.FC = () => {
         handleSelectProofType={handleSelectProofType}
       />
       <div className={styles.wrapper}>
-        <>
-          {proveReceipt ? (
+        {proveReceipt ? (
+          <Fade>
+            <PostCreateMenu
+              proveReceipt={proveReceipt}
+              proofType={proofType!}
+              proofGenElement={proofGenElement!}
+            />
+          </Fade>
+        ) : proofType ? (
+          <div
+            className={cn({
+              [styles.formWrapper]: true,
+            })}
+          >
             <Fade>
-              <PostCreateMenu
-                proveReceipt={proveReceipt}
-                proofType={proofType!}
-                proofGenElement={proofGenElement!}
+              <CreateProofModule
+                proofType={proofType}
+                handleCreateProofResult={handleCreateProofResult}
+                proofGenElement={proofGenElement}
+                setProofGenElement={setProofGenElement}
               />
             </Fade>
-          ) : (
-            <div
-              className={cn({
-                [styles.formWrapper]: true,
-              })}
-            >
-              {proofType ? (
-                <Fade>
-                  <CreateProofModule
-                    proofType={proofType}
-                    handleCreateProofResult={handleCreateProofResult}
-                    proofGenElement={proofGenElement}
-                    setProofGenElement={setProofGenElement}
-                  />
-                </Fade>
-              ) : (
-                <div className={styles.loading}>Loading module...</div>
-              )}
-            </div>
-          )}
-        </>
+          </div>
+        ) : (
+          <div className={styles.loading}>Loading module...</div>
+        )}
       </div>
-      {/* {isTutorial && <TutorialPlaceholder />} */}
     </>
   );
 };
@@ -128,3 +123,22 @@ export interface ProofTypeItem {
   label: string;
   imgUrl: string | null;
 }
+// <div
+//   className={cn({
+//     [styles.formWrapper]: true,
+//   })}
+// >
+//   {proofType ? (
+//     <Fade>
+//       <CreateProofModule
+//         proofType={proofType}
+//         handleCreateProofResult={handleCreateProofResult}
+//         proofGenElement={proofGenElement}
+//         setProofGenElement={setProofGenElement}
+//       />
+//     </Fade>
+//   ) : (
+//     <div className={styles.loading}>Loading module...</div>
+//   )}
+// </div>
+// )}
