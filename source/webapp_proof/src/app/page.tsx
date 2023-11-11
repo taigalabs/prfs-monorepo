@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 
 import styles from "./page.module.scss";
 import DefaultLayout, {
@@ -15,14 +15,16 @@ const HomePage = () => {
     <DefaultLayout>
       <DefaultBody noTopPadding>
         <div className={styles.container}>
-          <Tutorial />
-          <Masthead />
-          <SearchProofTypeForm />
+          <Suspense fallback={<div>fallback2</div>}>
+            <Tutorial />
+          </Suspense>
+          {/* <Masthead /> */}
+          {/* <SearchProofTypeForm /> */}
         </div>
       </DefaultBody>
-      <DefaultFooter>
-        <GlobalFooter />
-      </DefaultFooter>
+      {/* <DefaultFooter> */}
+      {/*   <GlobalFooter /> */}
+      {/* </DefaultFooter> */}
     </DefaultLayout>
   );
 };

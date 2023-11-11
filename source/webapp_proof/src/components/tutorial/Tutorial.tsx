@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
-import Link from "next/link";
-import { redirect, usePathname, useSearchParams } from "next/navigation";
+import React, { Suspense } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 import Tutorial1MD from "@/components/tutorial_contents/tutorial_1.mdx";
 import Tutorial2MD from "@/components/tutorial_contents/tutorial_2.mdx";
 import Tutorial3MD from "@/components/tutorial_contents/tutorial_3.mdx";
@@ -41,10 +40,10 @@ const Stage: React.FC<StageProps> = ({ step }) => {
 };
 
 const Tutorial: React.FC<TutorialProps> = ({ bigTopMargin }) => {
-  const searchParams = useSearchParams();
   const pathname = usePathname();
-  const i18n = React.useContext(i18nContext);
+  const searchParams = useSearchParams();
   const router = useRouter();
+  const i18n = React.useContext(i18nContext);
   const dispatch = useAppDispatch();
 
   const step = useAppSelector(state => state.tutorial.tutorialStep);
