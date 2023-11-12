@@ -13,7 +13,7 @@
 .upperRow {
   display: flex;
   justify-content: flex-end;
-  align-items: center;
+  align-items: flex-end;
   height: 42px;
 
   .consoleLink {
@@ -97,6 +97,10 @@
 
   .meta {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     .proofDetailContainer {
       display: flex;
       justify-content: center;

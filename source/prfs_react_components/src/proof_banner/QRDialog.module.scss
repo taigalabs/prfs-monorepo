@@ -19,12 +19,26 @@
   max-width: 520px;
 }
 
-.closeBtn {
-  position: absolute;
-}
-
 .QRContainer {
+  position: relative;
   padding: 8px;
+
+  .closeBtn {
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-top: 4px;
+    margin-right: 4px;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      background-color: var(--gray-70);
+      border-radius: 14px;
+    }
+  }
 }
 
 .btnRow {
