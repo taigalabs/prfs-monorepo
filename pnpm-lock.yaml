@@ -313,7 +313,7 @@ importers:
         specifier: 5.1.6
         version: 5.1.6
 
-  source/prfs_circuit_circom:
+  source/prfs_circuits_circom:
     dependencies:
       '@ethereumjs/util':
         specifier: ^8.0.3
