@@ -14,14 +14,6 @@
   }
 }
 
-.loaderBarWrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  /* border: 1px solid red; */
-}
-
 .driverMsg {
   display: flex;
   flex-direction: column;
@@ -33,6 +25,18 @@
   .msg {
     min-width: 520px;
     max-width: 530px;
+    display: flex;
+
+    a {
+      cursor: pointer;
+      margin: 0px 3px;
+      display: flex;
+      align-items: center;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 }
 
@@ -51,10 +55,21 @@
   min-width: 360px;
   max-width: 430px;
   margin-left: 18px;
+  overflow: hidden;
+
+  .loaderBarWrapper {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    right: 0;
+
+    /* border: 1px solid red; */
+  }
 
   .overlay {
     position: absolute;
     inset: 0;
+    margin-top: 3px;
     background-color: rgba(255, 255, 255, 0.5);
     z-index: 5;
   }

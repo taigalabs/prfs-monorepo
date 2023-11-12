@@ -9,6 +9,8 @@ import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof
 import dayjs from "dayjs";
 import cn from "classnames";
 import { useSearchParams } from "next/navigation";
+import { Spinner } from "@phosphor-icons/react";
+import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -20,7 +22,7 @@ import { validateInputs } from "@/validate";
 import HashInput from "@/components/hash_input/HashInput";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMeta from "./ProofTypeMeta";
-import { Spinner } from "@phosphor-icons/react";
+import { envs } from "@/envs";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -61,7 +63,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   setProofGenElement,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const [driverMsg, setDriverMsg] = React.useState<string>("");
+  const [driverMsg, setDriverMsg] = React.useState<React.ReactNode>(null);
   const [loadDriverProgress, setLoadDriverProgress] = React.useState<Record<string, any>>({});
   const [loadDriverStatus, setLoadDriverStatus] = React.useState(LoadDriverStatus.StandBy);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
@@ -122,7 +124,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       lastInitProofTypeId.current = proofType.proof_type_id;
 
       const { circuit_driver_id, driver_properties } = proofType;
-      setDriverMsg(`Loading driver ${proofType.circuit_driver_id}...`);
+      setDriverMsg(<span>Loading driver {proofType.circuit_driver_id}...</span>);
 
       const since = dayjs();
       try {
@@ -151,8 +153,17 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
             const { artifactCount } = payload;
 
             setDriverMsg(
-              `Circuit driver ${proofType.circuit_driver_id}` +
-                ` (${diff} seconds, ${artifactCount} artifacts)`,
+              <>
+                <span>Circuit driver </span>
+                <a
+                  href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${circuit_driver_id}`}
+                >
+                  {proofType.circuit_driver_id} <BiLinkExternal />
+                </a>
+                <span>
+                  ({diff} seconds, {artifactCount} artifacts)
+                </span>
+              </>,
             );
             setLoadDriverStatus(LoadDriverStatus.StandBy);
           }
@@ -286,20 +297,18 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
 
   return (
     <>
-      <div className={styles.loaderBarWrapper}>
-        <LoaderBar />
-      </div>
       <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
         <div className={styles.driverMsg}>
-          <div className={styles.msg}>
-            <span>{driverMsg}</span>
-          </div>
+          <div className={styles.msg}>{driverMsg}</div>
           {loadDriverStatus === LoadDriverStatus.InProgress && (
             <LoadDriverProgress progress={loadDriverProgress} />
           )}
         </div>
         <div className={cn(styles.main, { [styles.isTutorial]: isTutorial })}>
           <div className={styles.module}>
+            <div className={styles.loaderBarWrapper}>
+              <LoaderBar />
+            </div>
             {loadDriverStatus === LoadDriverStatus.InProgress && <div className={styles.overlay} />}
             <TutorialStepper steps={[2]}>
               <div className={styles.form}>{circuitInputsElem}</div>
