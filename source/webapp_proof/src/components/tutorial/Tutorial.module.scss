@@ -91,12 +91,3 @@
     height: calc(236px + 40px - 78px);
   }
 }
-
-@media screen and (max-width: 480px) {
-  .placeholder {
-    display: block;
-    height: calc(236px + 40px - 78px);
-    /* display: none; */
-    /* border: 1px solid red; */
-  }
-}

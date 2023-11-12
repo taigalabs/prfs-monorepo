@@ -1,10 +1,19 @@
 .wrapper {
-  border: 1px solid red;
+  /* border: 1px solid red; */
+}
+
+.v1460 {
   width: 310px;
 }
 
+@media screen and (max-width: 1460px) and (min-height: 740px) {
+  .h1460 {
+    height: calc(236px + 14px - 78px);
+  }
+}
+
 @media screen and (max-width: 1460px) {
-  .wrapper.v1460 {
+  .v1460 {
     display: none;
   }
 }

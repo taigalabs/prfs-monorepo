@@ -17,6 +17,7 @@ import { i18nContext } from "@/contexts/i18n";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { goNextStep, goPrevStep, resetStep } from "@/state/tutorialReducer";
 import MarkdownWrapper from "./MarkdownWrapper";
+import { useIsTutorial } from "@/hooks/tutorial";
 
 const STEP_COUNT = 5;
 
@@ -37,7 +38,7 @@ const Stage: React.FC<StageProps> = ({ step }) => {
   }
 };
 
-const Tutorial: React.FC<TutorialProps> = ({ bigTopMargin }) => {
+const Tutorial: React.FC<TutorialProps> = ({ bigTopMargin, variant }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -46,13 +47,7 @@ const Tutorial: React.FC<TutorialProps> = ({ bigTopMargin }) => {
 
   const step = useAppSelector(state => state.tutorial.tutorialStep);
 
-  const isTutorial = React.useMemo(() => {
-    const s = searchParams.get("tutorial_id");
-    if (s !== null) {
-      return true;
-    }
-    return false;
-  }, [searchParams]);
+  const isTutorial = useIsTutorial();
 
   const handleClickPrev = React.useCallback(() => {
     if (step > 1) {
@@ -81,8 +76,12 @@ const Tutorial: React.FC<TutorialProps> = ({ bigTopMargin }) => {
     isTutorial &&
     step > 0 && (
       <>
-        {/* <div className={styles.placeholder} /> */}
-        <div className={cn(styles.wrapper, { [styles.bigTopMargin]: bigTopMargin })}>
+        <div
+          className={cn(styles.wrapper, {
+            [styles.bigTopMargin]: bigTopMargin,
+            [styles.w1502]: variant === "w1502",
+          })}
+        >
           <div className={styles.header}>
             <p className={styles.progress}>
               ({step} / {STEP_COUNT})
@@ -128,6 +127,7 @@ export default Tutorial;
 
 export interface TutorialProps {
   bigTopMargin?: boolean;
+  variant?: "w1502";
 }
 
 export interface StageProps {

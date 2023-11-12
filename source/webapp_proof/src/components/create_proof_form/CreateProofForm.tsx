@@ -28,13 +28,6 @@ const CreateProofForm: React.FC = () => {
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
   const searchParams = useSearchParams();
 
-  const isTutorial = React.useMemo(() => {
-    if (searchParams.get("tutorial_id")) {
-      return true;
-    }
-    return false;
-  }, [searchParams]);
-
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
       return prfsApi2("get_prfs_proof_type_by_proof_type_id", req);
@@ -110,8 +103,9 @@ const CreateProofForm: React.FC = () => {
         ) : (
           <div className={styles.loading}>Loading module...</div>
         )}
+        <TutorialPlaceholder variant="h1460" />
       </div>
-      <TutorialPlaceholder />
+      <TutorialPlaceholder variant="v1460" />
       <Tutorial bigTopMargin />
     </>
   );

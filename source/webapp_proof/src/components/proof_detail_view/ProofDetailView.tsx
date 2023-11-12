@@ -2,6 +2,7 @@
 
 import React from "react";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
+import cn from "classnames";
 import JSONBig from "json-bigint";
 import ProofBanner from "@taigalabs/prfs-react-components/src/proof_banner/ProofBanner";
 import SocialSharePopover from "@taigalabs/prfs-react-components/src/social_share_popover/SocialSharePopover";
@@ -19,6 +20,7 @@ import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
 import Tutorial from "../tutorial/Tutorial";
+import { useIsTutorial } from "@/hooks/tutorial";
 
 const JSONbigNative = JSONBig({
   useNativeBigInt: true,
@@ -37,6 +39,8 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
   });
 
   const handleSelectProofType = useSelectProofType();
+
+  const isTutorial = useIsTutorial();
 
   React.useEffect(() => {
     async function fn() {
@@ -90,8 +94,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
         proofType={undefined}
         handleSelectProofType={handleSelectProofType}
       />
-      <div className={styles.wrapper}>
-        {/* <div>123</div> */}
+      <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
         <div className={styles.meta}>
           <div className={styles.upperRow}>
             <a className={styles.consoleLink} href={consoleUrl}>
@@ -127,7 +130,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
           </div>
         </div>
       </div>
-      <Tutorial bigTopMargin />
+      <Tutorial bigTopMargin variant="w1502" />
     </>
   );
 };

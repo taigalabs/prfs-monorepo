@@ -60,12 +60,21 @@
 .proofDetail {
   display: flex;
   justify-content: center;
-  // width: 340px;
   margin-left: 72px;
 }
 
 .verifyProofFormWrapper {
   width: 340px;
+}
+
+.isTutorial {
+  .proofDetail {
+    margin-left: 32px;
+  }
+
+  .verifyProofFormWrapper {
+    width: 330px;
+  }
 }
 
 @media screen and (max-width: 1300px) {
