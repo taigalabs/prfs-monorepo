@@ -127,7 +127,7 @@ export default Tutorial;
 
 export interface TutorialProps {
   bigTopMargin?: boolean;
-  variant?: "w1502";
+  variant?: "w1502" | "h1502";
 }
 
 export interface StageProps {

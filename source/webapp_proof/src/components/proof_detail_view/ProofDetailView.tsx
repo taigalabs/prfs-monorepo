@@ -21,6 +21,7 @@ import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
 import Tutorial from "../tutorial/Tutorial";
 import { useIsTutorial } from "@/hooks/tutorial";
+import TutorialPlaceholder from "../tutorial/TutorialPlaceholder";
 
 const JSONbigNative = JSONBig({
   useNativeBigInt: true,
@@ -131,6 +132,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
         </div>
       </div>
       <Tutorial bigTopMargin variant="w1502" />
+      <TutorialPlaceholder variant="h1502" />
     </>
   );
 };
