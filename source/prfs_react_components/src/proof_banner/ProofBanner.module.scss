@@ -6,6 +6,10 @@
   width: 390px;
   border-radius: 5px;
   border: 1px solid var(--bright-gray-31);
+
+  &.noBorder {
+    border: 1px solid transparent;
+  }
 }
 
 .imgContainer {

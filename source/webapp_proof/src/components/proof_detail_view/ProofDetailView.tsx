@@ -108,10 +108,10 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
               <ProofBanner
                 proofInstance={proofInstance}
                 webappProofEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
+                noBorder
               />
             </TutorialStepper>
           </div>
-          <ul></ul>
           <div className={styles.proofDetailContainer}>
             <div>
               <div className={styles.content}>

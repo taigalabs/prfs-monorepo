@@ -19,7 +19,6 @@ import QRCodeView from "../qrcode_view/QRCodeView";
 
 const QRDialog: React.FC<QRDialogProps> = ({ data }) => {
   const [isOpen, setIsOpen] = React.useState(false);
-
   const { refs, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
@@ -30,7 +29,6 @@ const QRDialog: React.FC<QRDialogProps> = ({ data }) => {
   const dismiss = useDismiss(context, { outsidePressEvent: "mousedown" });
 
   const { getReferenceProps, getFloatingProps } = useInteractions([click, role, dismiss]);
-
   const headingId = useId();
   const descriptionId = useId();
 
@@ -47,28 +45,28 @@ const QRDialog: React.FC<QRDialogProps> = ({ data }) => {
       </div>
       <FloatingPortal>
         {isOpen && (
-          <Fade>
-            <FloatingOverlay className={styles.dialogOverlay} lockScroll>
-              <FloatingFocusManager context={context}>
-                <div
-                  className={styles.dialog}
-                  ref={refs.setFloating}
-                  aria-labelledby={headingId}
-                  aria-describedby={descriptionId}
-                  {...getFloatingProps()}
-                >
-                  <div className={styles.QRContainer}>
-                    <div className={styles.btnRow}>
-                      <button onClick={handleClickClose}>
+          <FloatingOverlay className={styles.dialogOverlay} lockScroll>
+            <Fade>
+              <div className={styles.backdrop}>
+                <FloatingFocusManager context={context}>
+                  <div
+                    className={styles.dialog}
+                    ref={refs.setFloating}
+                    aria-labelledby={headingId}
+                    aria-describedby={descriptionId}
+                    {...getFloatingProps()}
+                  >
+                    <div className={styles.QRContainer}>
+                      <button className={styles.closeBtn} onClick={handleClickClose}>
                         <AiOutlineClose />
                       </button>
+                      <QRCodeView data={data} size={210} />
                     </div>
-                    <QRCodeView data={data} size={210} />
                   </div>
-                </div>
-              </FloatingFocusManager>
-            </FloatingOverlay>
-          </Fade>
+                </FloatingFocusManager>
+              </div>
+            </Fade>
+          </FloatingOverlay>
         )}
       </FloatingPortal>
     </div>

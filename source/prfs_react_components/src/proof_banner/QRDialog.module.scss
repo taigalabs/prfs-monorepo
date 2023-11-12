@@ -1,8 +1,15 @@
 .dialogOverlay {
+  // display: grid;
+  // place-items: center;
+  z-index: 11;
+}
+
+.backdrop {
   background: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  inset: 0px;
   display: grid;
   place-items: center;
-  z-index: 11;
 }
 
 .dialog {
@@ -10,6 +17,10 @@
   border-radius: 5px;
   overflow: hidden;
   max-width: 520px;
+}
+
+.closeBtn {
+  position: absolute;
 }
 
 .QRContainer {
