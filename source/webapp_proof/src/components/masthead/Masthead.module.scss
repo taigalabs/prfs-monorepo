@@ -13,7 +13,8 @@
   font-size: 13px;
 
   &.isTutorial {
-    background-color: rgba(0, 0, 0, 0.62);
+    border-top: 3px solid var(--aqua-blue-40);
+    border-bottom: 3px solid var(--aqua-blue-40);
   }
 }
 
@@ -77,12 +78,12 @@
 }
 
 .tutorialBtn.isTutorial {
-  background-color: white;
+  background-color: var(--aqua-blue-40);
   border-radius: 3px;
   padding: 5px;
   font-size: 14px;
   font-weight: 500;
-  color: var(--aqua-blue-40);
+  color: var(--white-100);
   display: flex;
   align-items: center;
 
