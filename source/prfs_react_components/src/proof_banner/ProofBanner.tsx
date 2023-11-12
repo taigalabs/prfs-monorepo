@@ -1,4 +1,5 @@
 import React from "react";
+import cn from "classnames";
 import { ProofPublicInput } from "@taigalabs/prfs-driver-interface";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
@@ -7,7 +8,11 @@ import CaptionedImg from "../captioned_img/CaptionedImg";
 import styles from "./ProofBanner.module.scss";
 import QRDialog from "./QRDialog";
 
-const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance, webappProofEndpoint }) => {
+const ProofBanner: React.FC<ProofBannerProps> = ({
+  proofInstance,
+  webappProofEndpoint,
+  noBorder,
+}) => {
   const { prioritizedValues, shortUrl } = React.useMemo(() => {
     const { public_inputs_meta, short_id } = proofInstance;
 
@@ -36,7 +41,7 @@ const ProofBanner: React.FC<ProofBannerProps> = ({ proofInstance, webappProofEnd
   }, [proofInstance]);
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cn(styles.wrapper, { [styles.noBorder]: noBorder })}>
       <div className={styles.imgContainer}>
         <CaptionedImg img_url={proofInstance.img_url} img_caption={proofInstance.img_caption} />
       </div>
@@ -62,4 +67,5 @@ export default ProofBanner;
 export interface ProofBannerProps {
   proofInstance: PrfsProofInstanceSyn1;
   webappProofEndpoint: string;
+  noBorder?: boolean;
 }

@@ -32,8 +32,9 @@
   // border: 1px solid red;
 
   .bannerContainer {
-    display: flex;
-    justify-content: center;
+    display: inline-flex;
+    flex-direction: column;
+    /* justify-content: center; */
   }
 
   .content {
