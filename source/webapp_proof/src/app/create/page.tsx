@@ -7,8 +7,6 @@ import DefaultLayout, {
 } from "@/components/layouts/default_layout/DefaultLayout";
 import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
-import Tutorial from "@/components/tutorial/Tutorial";
-import TutorialFallback from "@/components/tutorial/TutorialFallback";
 import CreateProofFormFallback from "@/components/create_proof_form/CreateProofFormFallback";
 
 const CreatePage = () => {
@@ -19,14 +17,11 @@ const CreatePage = () => {
           <Suspense fallback={<CreateProofFormFallback />}>
             <CreateProofForm />
           </Suspense>
-          {/* <Suspense fallback={<TutorialFallback />}> */}
-          {/*   <Tutorial bigTopMargin /> */}
-          {/* </Suspense> */}
         </div>
       </DefaultBody>
-      <DefaultFooter>
-        <GlobalFooter />
-      </DefaultFooter>
+      {/* <DefaultFooter> */}
+      {/*   <GlobalFooter /> */}
+      {/* </DefaultFooter> */}
     </DefaultLayout>
   );
 };

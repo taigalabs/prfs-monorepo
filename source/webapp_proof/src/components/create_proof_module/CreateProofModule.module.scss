@@ -21,6 +21,11 @@
   width: 100%;
   color: var(--gray-30);
   font-size: 14px;
+
+  .msg {
+    min-width: 520px;
+    max-width: 530px;
+  }
 }
 
 .main {
@@ -138,6 +143,11 @@
 
   .driverMsg {
     margin: 18px 0 18px;
+    align-items: center;
+
+    .msg {
+      min-width: 0px;
+    }
   }
 
   .modulePadding {

@@ -24,7 +24,7 @@
 .inner {
   display: flex;
   align-items: center;
-  width: 100%;
+  flex-grow: 1;
 }
 
 .logoArea {
@@ -32,14 +32,14 @@
   display: flex;
   justify-content: flex-end;
 
-  /* border: 1px solid blue; */
+  border: 1px solid blue;
 }
 
 .searchArea {
   flex-grow: 1;
   min-width: 610px;
 
-  /* border: 1px solid red; */
+  border: 1px solid red;
 
   > div {
     max-width: 538px;

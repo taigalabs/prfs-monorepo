@@ -19,10 +19,17 @@
   padding-top: 24px;
 }
 
+@media screen and (max-width: 1300px) {
+  .wrapper {
+    padding-left: 30px;
+  }
+}
+
 @media screen and (max-width: 1024px) {
   .wrapper {
     margin-right: 0px;
     padding-top: 102px;
+    padding-left: 0px;
   }
 
   .formWrapper {
