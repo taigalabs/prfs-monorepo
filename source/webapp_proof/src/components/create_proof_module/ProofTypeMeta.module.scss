@@ -8,8 +8,8 @@
 
 .headerSection {
   position: relative;
-  height: 68px;
-  border: 1px solid red;
+  height: 70px;
+  /* border-bottom: 1px solid gray; */
 
   .top {
     position: absolute;
@@ -49,10 +49,10 @@
     margin-top: auto;
     display: inline-block;
     font-weight: 400;
-    font-size: 1.42em;
+    font-size: 1.64em;
     cursor: pointer;
     color: var(--blue-11);
-    margin-top: 42px;
+    margin-top: 44px;
 
     &:hover {
       text-decoration: underline;

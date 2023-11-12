@@ -104,7 +104,12 @@
 
   .proofDetail {
     margin-left: 0px;
-
     width: 100%;
+  }
+
+  .isTutorial {
+    .proofDetail {
+      margin-left: 0px;
+    }
   }
 }
