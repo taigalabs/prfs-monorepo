@@ -1,13 +1,11 @@
-"use client";
-
 import React from "react";
 import Link from "next/link";
 
 import styles from "./DocFooter.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { getI18N } from "@/i18n/getI18N";
 
-const DocFooter: React.FC<DocFooterProps> = () => {
-  const i18n = React.useContext(i18nContext);
+const DocFooter: React.FC<DocFooterProps> = async () => {
+  const i18n = await getI18N();
 
   return (
     <div className={styles.wrapper}>

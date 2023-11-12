@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 
 import styles from "./page.module.scss";
 import DefaultLayout, {
@@ -7,15 +7,16 @@ import DefaultLayout, {
 } from "@/components/layouts/default_layout/DefaultLayout";
 import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
-import Tutorial from "@/components/tutorial/Tutorial";
+import CreateProofFormFallback from "@/components/create_proof_form/CreateProofFormFallback";
 
 const CreatePage = () => {
   return (
     <DefaultLayout>
-      <DefaultBody bigTopPadding>
+      <DefaultBody noTopPadding>
         <div className={styles.container}>
-          <Tutorial />
-          <CreateProofForm />
+          <Suspense fallback={<CreateProofFormFallback />}>
+            <CreateProofForm />
+          </Suspense>
         </div>
       </DefaultBody>
       <DefaultFooter>

@@ -2,7 +2,7 @@
   top: 0;
   left: 0;
   right: 0;
-  position: fixed;
+  position: absolute;
   display: flex;
   padding: 14px 24px;
   height: 56px;
@@ -13,14 +13,14 @@
   font-size: 13px;
 
   &.isTutorial {
-    background-color: rgba(0, 0, 0, 0.62);
+    border-top: 3px solid var(--aqua-blue-40);
+    border-bottom: 3px solid var(--aqua-blue-40);
   }
 }
 
 .inner {
   display: flex;
   align-items: center;
-  /* max-width: 1280px; */
   width: 100%;
   justify-content: space-between;
 }
@@ -77,12 +77,12 @@
 }
 
 .tutorialBtn.isTutorial {
-  background-color: white;
+  background-color: var(--aqua-blue-40);
   border-radius: 3px;
   padding: 5px;
   font-size: 14px;
   font-weight: 500;
-  color: var(--aqua-blue-40);
+  color: var(--white-100);
   display: flex;
   align-items: center;
 

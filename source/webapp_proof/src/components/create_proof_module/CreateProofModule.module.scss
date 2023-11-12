@@ -6,49 +6,103 @@
   height: 100%;
   overflow: hidden;
   flex-grow: 1;
+  align-self: flex-start;
+
+  &.isTutorial {
+    .module {
+    }
+  }
+}
+
+.driverMsg {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0 34px;
+  width: 100%;
+  color: var(--gray-30);
+  font-size: 14px;
+
+  .msg {
+    min-width: 520px;
+    max-width: 530px;
+    display: flex;
+
+    a {
+      cursor: pointer;
+      margin-left: 4px;
+      margin-right: 5px;
+      display: flex;
+      align-items: center;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
 }
 
 .main {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.module {
   position: relative;
   padding: 20px 16px 20px;
-  border: 1px solid var(--gray-40);
+  border: 1px solid var(--bright-gray-30);
   border-radius: 6px;
+  flex-grow: 1;
+  min-width: 360px;
+  max-width: 430px;
+  margin-left: 18px;
+  overflow: hidden;
+
+  .loaderBarWrapper {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    right: 0;
+
+    /* border: 1px solid red; */
+  }
 
   .overlay {
     position: absolute;
     inset: 0;
+    margin-top: 3px;
     background-color: rgba(255, 255, 255, 0.5);
     z-index: 5;
   }
-}
 
-.form {
-  padding: 0px 0px;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  word-wrap: break-word;
-  overflow: hidden;
-}
-
-.btnRow {
-  position: relative;
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 28px;
-
-  .spinnerWrapper {
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    width: 40px;
+  .form {
+    padding: 0px 0px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    word-wrap: break-word;
+    overflow: hidden;
   }
 
-  button {
-    font-weight: 500;
-    height: 38px;
+  .btnRow {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 28px;
+
+    .spinnerWrapper {
+      position: absolute;
+      left: 0;
+      right: 0;
+      margin-left: auto;
+      margin-right: auto;
+      width: 40px;
+    }
+
+    button {
+      font-weight: 500;
+      height: 38px;
+    }
   }
 }
 
@@ -63,15 +117,6 @@
       margin-right: 5px;
     }
   }
-}
-
-.driverMsg {
-  display: flex;
-  flex-direction: column;
-  margin: 0 0 24px;
-  width: 100%;
-  color: var(--gray-30);
-  font-size: 14px;
 }
 
 .footer {
@@ -97,16 +142,45 @@
   background-color: var(--blue-10);
 }
 
-@media screen and (max-width: 480px) {
+.metaArea {
+  flex-grow: 1;
+  min-width: 520px;
+  max-width: 530px;
+}
+
+@media screen and (max-width: 1024px) {
   .main {
-    /* border: 1px solid transparent; */
-    padding: 12px 4px 12px;
-    /* border-bottom: 1px solid var(--gray-40); */
-    /* border-top: 1px solid var(--gray-40); */
-    /* border-radius: 0px; */
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .module {
+    padding: 12px 0px 12px;
+    margin-left: 0px;
+    min-width: 0;
+    border: none;
+    width: 100%;
+    /* border-top: 1px solid var(--bright-gray-30); */
+    /* border-bottom: 1px solid var(--bright-gray-30); */
+    border-radius: 0px;
   }
 
   .driverMsg {
-    margin: 0 0 18px;
+    margin: 18px 0 18px;
+    align-items: center;
+
+    .msg {
+      min-width: 0px;
+    }
+  }
+
+  .modulePadding {
+    display: none;
+  }
+
+  .metaArea {
+    width: 100%;
+    margin-top: 24px;
+    min-width: 0px;
   }
 }

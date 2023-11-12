@@ -1,16 +1,20 @@
 import fs from "fs";
 import webpack from "webpack";
-import path from "path";
+import dayjs from "dayjs";
 
 import devConfig from "../webpack/dev.config";
 import { createApp } from "./app";
+import paths from "./paths";
+import getGitLog from "./git";
 
-const DIST_PATH = path.resolve(__dirname, "../dist/index.html");
-const INDEX_HTML_PATH = path.resolve(__dirname, "../index.html");
+(async () => {
+  const destPath = `${paths.dist}/index.html`;
+  console.log("Copying file, src: %s, dst: %s", paths.indexHtml, destPath);
 
-(() => {
-  console.log("Copying file, src: %s, dst: %s", INDEX_HTML_PATH, DIST_PATH);
-  fs.copyFileSync(INDEX_HTML_PATH, DIST_PATH);
+  if (!fs.existsSync(paths.dist)) {
+    fs.mkdirSync(paths.dist);
+  }
+  fs.copyFileSync(paths.indexHtml, destPath);
 
   console.log("webpack dev config: %j", devConfig);
 
@@ -28,5 +32,8 @@ const INDEX_HTML_PATH = path.resolve(__dirname, "../index.html");
     }
   });
 
-  createApp();
+  const commit_hash = await getGitLog();
+  const now = dayjs().toJSON();
+
+  createApp({ commit_hash, launch_time: now });
 })();

@@ -18,7 +18,7 @@ INNER JOIN prfs_circuit_types pct ON pct.circuit_type_id=ppt.circuit_type_id
 WHERE ppi.proof_instance_id=$1
 "#;
 
-    println!("query: {}", query);
+    // println!("query: {}", query);
 
     let row = sqlx::query(query)
         .bind(&proof_instance_id)
@@ -54,7 +54,7 @@ pub async fn get_prfs_proof_instance_by_short_id(
 ) -> PrfsProofInstance {
     let query = "SELECT * from prfs_proof_instances where short_id=$1";
 
-    println!("query: {}", query);
+    // println!("query: {}", query);
 
     let row = sqlx::query(query)
         .bind(&short_id)
@@ -140,7 +140,7 @@ pub async fn get_prfs_proof_instances(
 ) -> Vec<PrfsProofInstance> {
     let query = "SELECT * from prfs_proof_instances limit $1";
 
-    println!("query: {}", query);
+    // println!("query: {}", query);
 
     let limit = Decimal::from(20);
 

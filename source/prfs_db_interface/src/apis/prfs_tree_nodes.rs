@@ -23,9 +23,8 @@ pub async fn get_prfs_tree_nodes_by_pos(
         whre,
     );
 
-    println!("where_clause, {}", where_clause);
     let query = format!("SELECT * from prfs_tree_nodes nodes {}", where_clause);
-    println!("query: {}", query);
+    // println!("query: {}", query);
 
     let rows = sqlx::query(&query).fetch_all(pool).await.unwrap();
 
@@ -70,7 +69,7 @@ pub async fn get_prfs_tree_leaf_indices(
     );
 
     let query = format!("SELECT * from prfs_tree_nodes nodes {}", where_clause);
-    println!("query: {}", query);
+    // println!("query: {}", query);
 
     let rows = sqlx::query(&query).fetch_all(pool).await.unwrap();
 
@@ -109,7 +108,7 @@ OFFSET $2
 LIMIT $3
 "#;
 
-    println!("query: {}", query);
+    // println!("query: {}", query);
     let offset = page_idx * page_size;
 
     let rows = sqlx::query(&query)
@@ -151,7 +150,7 @@ SELECT * from prfs_tree_nodes nodes where set_id=$1 and pos_h=0
 ORDER BY pos_w ASC
 "#;
 
-    println!("query: {}", query);
+    // println!("query: {}", query);
 
     let rows = sqlx::query(&query)
         .bind(&set_id)

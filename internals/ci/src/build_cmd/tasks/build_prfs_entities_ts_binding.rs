@@ -1,6 +1,6 @@
 use super::task::BuildTask;
 use crate::{
-    build_task::ts_rs_format::format_ts_files,
+    build_cmd::ts_rs_format::format_ts_files,
     deps::{JS_ENGINE, PRETTIERD},
     paths::PATHS,
     BuildHandle, CiError,

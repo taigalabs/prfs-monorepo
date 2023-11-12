@@ -2,42 +2,54 @@
   top: 0;
   left: 0;
   right: 0;
-  position: fixed;
+  position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 14px 20px;
-  min-width: 1125px;
+  padding-right: 20px;
+  padding-left: 120px;
+  min-width: 1024px;
   height: 89px;
-  background-color: var(--white-100);
+  /* background-color: var(--white-100); */
   z-index: 10;
   font-size: 13px;
-  border-bottom: 1px solid var(--bright-gray-30);
+  border-bottom: 1px solid var(--bright-gray-36);
 
   &.isTutorial {
-    background-color: rgba(0, 0, 0, 0.62);
+    border-top: 3px solid var(--aqua-blue-40);
+    border-bottom: 3px solid var(--aqua-blue-40);
+    /* background-color: rgba(0, 0, 0, 0.62); */
+    /* border-bottom: none; */
   }
 }
 
 .inner {
   display: flex;
   align-items: center;
-  width: 100%;
+  flex-grow: 1;
 }
 
 .logoArea {
-  flex: 1;
-  // border: 1px solid blue;
+  padding: 0 30px;
+  display: flex;
+  justify-content: flex-end;
+
+  /* border: 1px solid blue; */
 }
 
 .searchArea {
-  flex: 0 0 518px;
-  // border: 1px solid red;
+  flex-grow: 1;
+  min-width: 610px;
+
+  /* border: 1px solid red; */
+
+  > div {
+    max-width: 538px;
+  }
 }
 
 .rightArea {
   font-size: 24px;
-  flex: 1;
   display: flex;
   margin-left: auto;
   margin-right: 0;
@@ -54,6 +66,7 @@
     align-items: center;
     justify-content: center;
     width: 40px;
+    margin-left: 6px;
     height: 40px;
     border-radius: 20px;
 
@@ -71,16 +84,21 @@
     .tutorialBtn {
       display: flex;
       align-items: center;
-      background-color: white;
+      background-color: var(--aqua-blue-40);
       border-radius: 3px;
       padding: 5px;
       font-weight: 500;
-      color: var(--aqua-blue-40);
+      color: var(--white-100);
 
       svg {
         display: block;
         margin-left: 4px;
       }
+    }
+
+    .padding {
+      width: 300px;
+      /* border: 1px solid red; */
     }
 
     svg:first-child {
@@ -93,14 +111,11 @@
     }
   }
 
-  > li:not(:first-child) {
-    margin-left: 6px;
-  }
-
   .appPopover {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-left: 6px;
     width: 40px;
     height: 40px;
   }
@@ -130,14 +145,24 @@
   background-color: var(--bright-gray-30);
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 1300px) {
   .wrapper {
-    min-width: 0;
-    padding: 0px 7px;
+    padding-left: calc((100% - 1150px) / 2);
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .wrapper {
+    /* position: relative; */
+    width: 100vw;
+    min-width: 360px;
     height: 102px;
+    margin-right: 0;
+    padding-left: 10px;
+    padding-right: 10px;
 
     align-items: flex-start;
-    /* justify-content: center; */
+    justify-content: center;
   }
 
   .bigScreen {
@@ -154,6 +179,7 @@
     margin-left: 8px;
     display: flex;
     align-items: center;
+    width: auto;
 
     /* border: 1px solid blue; */
   }
@@ -161,6 +187,9 @@
   .searchArea {
     flex: 1;
     margin-top: 46px;
+    min-width: 0px;
+    display: flex;
+    justify-content: center;
   }
 
   .rightArea {

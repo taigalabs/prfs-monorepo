@@ -20,6 +20,7 @@ import { paths } from "@/paths";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import TutorialStepper from "@/components//tutorial/TutorialStepper";
 import VerifyProofForm from "@/components/verify_proof_form/VerifyProofForm";
+import VerifyProofModule from "../verify_proof_form/VerifyProofModule";
 
 const JSONbigNative = JSONBig({
   useNativeBigInt: true,
@@ -50,8 +51,8 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
 
   const handleClickUpload = React.useCallback(async () => {
     if (proveReceipt && proofType) {
-      const { proveResult } = proveReceipt;
-      const { proof, publicInputSer } = proveResult;
+      const { proof } = proveReceipt;
+      const { proofBytes, publicInputSer } = proof;
       const public_inputs = JSONbigNative.parse(publicInputSer);
       const proof_instance_id = uuidv4();
 
@@ -60,7 +61,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
           proof_instance_id,
           account_id: null,
           proof_type_id: proofType.proof_type_id,
-          proof: Array.from(proof),
+          proof: Array.from(proofBytes),
           public_inputs,
         });
         const params = searchParams.toString();
@@ -94,7 +95,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
         <i>{Math.floor((proveReceipt.duration / 1000) * 1000) / 1000} secs. </i>
         <span>{i18n.proof_upload_guide}</span>
       </div>
-      <div className={styles.btnGroup}>
+      <div className={styles.postCreateBtnGroup}>
         <ul>
           <li>
             <a href={paths.__}>
@@ -126,28 +127,30 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
           </li>
         </ul>
       </div>
-      <div
-        className={cn({ [styles.verifyProofFormRow]: true, [styles.isVerifyOpen]: isVerifyOpen })}
-      >
-        <div className={styles.titleRow}>
+      <div className={cn(styles.verifyProofFormRow, { [styles.isVerifyOpen]: isVerifyOpen })}>
+        <div>
           <TutorialStepper steps={[3]}>
-            <button
-              className={cn({ [styles.verifyBtn]: true, [styles.isVerifyOpen]: isVerifyOpen })}
-              onClick={handleClickVerify}
-            >
+            <button className={cn(styles.verifyBtn)} onClick={handleClickVerify}>
               <span>{i18n.verify}</span>
               <IoIosArrowDown />
             </button>
           </TutorialStepper>
         </div>
-        <div className={styles.verifyFormWrapper}>
+        <div className={styles.verifyProofFormWrapper}>
           <VerifyProofForm
-            proveResult={proveReceipt.proveResult}
+            proof={proveReceipt.proof}
             circuitDriverId={proofType.circuit_driver_id}
-            circuitTypeId={proofType.circuit_type_id}
+            // circuitTypeId={proofType.circuit_type_id}
             isVerifyOpen={isVerifyOpen}
-            proofGenElement={proofGenElement}
+            // proofGenElement={proofGenElement}
           />
+          <div className={styles.verifyProofModuleWrapper}>
+            <VerifyProofModule
+              proofGenElement={proofGenElement}
+              proof={proveReceipt.proof}
+              circuitTypeId={proofType.circuit_type_id}
+            />
+          </div>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 
 import styles from "./page.module.scss";
 import DefaultLayout, {
@@ -9,15 +9,24 @@ import Masthead from "@/components/masthead/Masthead";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import Tutorial from "@/components/tutorial/Tutorial";
 import SearchProofTypeForm from "@/components/search_proof_type_form/SearchProofTypeForm";
+import TutorialFallback from "@/components/tutorial/TutorialFallback";
+import MastheadFallback from "@/components/masthead/MastheadFallback";
+import SearchProofTypeFormFallback from "@/components/search_proof_type_form/SearchProofTypeFormFallback";
 
 const HomePage = () => {
   return (
     <DefaultLayout>
-      <Masthead />
-      <DefaultBody>
+      <DefaultBody noTopPadding noMinWidth>
         <div className={styles.container}>
-          <Tutorial />
-          <SearchProofTypeForm />
+          {/* <Suspense fallback={<TutorialFallback />}> */}
+          {/*   <Tutorial /> */}
+          {/* </Suspense> */}
+          <Suspense fallback={<MastheadFallback />}>
+            <Masthead />
+          </Suspense>
+          <Suspense fallback={<SearchProofTypeFormFallback />}>
+            <SearchProofTypeForm />
+          </Suspense>
         </div>
       </DefaultBody>
       <DefaultFooter>

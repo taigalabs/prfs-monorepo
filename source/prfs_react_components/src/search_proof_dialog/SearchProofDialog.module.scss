@@ -10,12 +10,13 @@
   button {
     width: 100%;
     height: 44px;
-    padding-left: 18px;
+    padding-left: 20px;
     padding-right: 10px;
     border-radius: 40px;
     background-color: var(--white-100);
     border: 1px solid var(--bright-gray-30);
     cursor: pointer;
+    position: relative;
 
     &:hover {
       border: 1px solid transparent;
@@ -29,17 +30,25 @@
   }
 
   .placeholder {
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 20px;
     margin-left: 8px;
     font-size: 16px;
+    width: 88%;
+
+    /* border: 1px solid blue; */
   }
 
   &.proofTypeChosen {
     padding-left: 0px;
-    padding-right: 6px;
+    padding-right: 0px;
 
     button {
-      width: calc(100% + 4px);
-      padding-left: 12px;
+      /* width: calc(100% + 4px); */
+      padding-left: 14px;
       padding-right: 10px;
       border: 1px solid rgba(223, 225, 229, 0);
       box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
@@ -52,20 +61,19 @@
   }
 
   &.isOpen {
-    margin-left: -2px;
     padding-left: 0px;
     padding-right: 0px;
-    width: calc(100% + 4px);
 
     button {
-      /* border: 1px solid transparent; */
-      /* box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, */
-      /*   rgba(0, 0, 0, 0.15) 0px 1.1443px 3.43289px 0.288591px; */
       border: 1px solid rgba(223, 225, 229, 0);
       box-shadow: 0 2px 8px 1px rgba(64, 60, 67, 0.24);
       width: 100%;
       padding-left: 14px;
       border-radius: 20px 20px 0 0;
+    }
+
+    .placeholder {
+      /* width: 75%; */
     }
   }
 }
@@ -75,23 +83,25 @@
   align-items: center;
 }
 
-.searchBtn {
-  display: flex;
-  align-items: center;
-  font-size: 24px;
-  color: var(--blue-50);
-  margin-left: auto;
-}
-
 .placeholderBtn {
+  /* position: relative; */
   display: flex;
   align-items: center;
-  justify-content: space-between;
 
   > div {
     display: flex;
     align-items: center;
   }
+}
+
+.searchBtn {
+  position: absolute;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  color: var(--blue-50);
+  margin-left: auto;
 }
 
 .fadeOverlay {
@@ -130,4 +140,14 @@
   width: 32px;
   font-size: 20px;
   color: var(--gray-50);
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    padding-left: 0px;
+    padding-right: 0px;
+
+    &.isOpen {
+    }
+  }
 }

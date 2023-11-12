@@ -17,7 +17,7 @@ pub fn setup_local_assets() {
 }
 
 fn copy_circuits() {
-    let circuits_build_path = prfs_circuit_circom::get_build_fs_path();
+    let circuits_build_path = prfs_circuits_circom::get_build_fs_path();
 
     assert!(
         circuits_build_path.exists(),

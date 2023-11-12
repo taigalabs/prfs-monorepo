@@ -31,6 +31,7 @@ import { i18nContext } from "@/contexts/i18n";
 import {
   FormError,
   FormInput,
+  FormInputTitle,
   FormInputTitleRow,
   InputWrapper,
 } from "@/components/form_input/FormInput";
@@ -216,15 +217,16 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
     [setWalletAddr, setFormValues, prfsSet, GetPrfsTreeLeafIndices, setFormErrors, setIsOpen],
   );
 
+  const label = React.useMemo(() => {
+    return `${circuitInput.label} (${prfsSet ? prfsSet.label : i18n.loading})`;
+  }, [circuitInput, prfsSet]);
+
   return (
     <FormInput>
       <FormInputTitleRow>
-        <div>
-          <p className={styles.title}>
-            <span>{circuitInput.label}</span>
-            <span className={styles.setLabel}>({prfsSet ? prfsSet.label : i18n.loading})</span>
-          </p>
-        </div>
+        <FormInputTitle>
+          <span className={styles.inputLabel}>{label}</span>
+        </FormInputTitle>
         <div className={styles.right}>
           <div className={styles.btnRow} ref={refs.setReference} {...getReferenceProps()}>
             <button>

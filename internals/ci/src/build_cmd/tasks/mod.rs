@@ -5,4 +5,4 @@ pub mod build_prfs_entities_ts_binding;
 pub mod compile_circuits;
 pub mod run_tasks;
 pub mod task;
-mod ts_rs_format;
+pub mod ts_rs_format;

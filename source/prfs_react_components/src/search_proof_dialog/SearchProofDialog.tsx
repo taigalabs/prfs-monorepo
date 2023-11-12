@@ -14,7 +14,7 @@ import {
 import { IoIosSearch } from "@react-icons/all-files/io/IoIosSearch";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
-import styles from "./SelectProofTypeDialog.module.scss";
+import styles from "./SearchProofDialog.module.scss";
 import { i18nContext } from "../contexts/i18nContext";
 import ProofTypeModal2 from "./ProofTypeModal2";
 import CaptionedImg from "../captioned_img/CaptionedImg";
@@ -27,7 +27,8 @@ const SearchIcon = () => {
   );
 };
 
-const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
+const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
+  proofInstanceId,
   proofType,
   handleSelectProofType,
   webappConsoleEndpoint,
@@ -79,10 +80,12 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
           </div>
         ) : (
           <div className={styles.placeholderBtn}>
-            <div>
+            <>
               {isOpen && <SearchIcon />}
-              <p className={styles.placeholder}>{i18n.find_what_to_prove}</p>
-            </div>
+              <p className={styles.placeholder}>
+                {proofInstanceId ? proofInstanceId : i18n.find_what_to_prove}
+              </p>
+            </>
             <div className={styles.searchBtn}>
               <IoIosSearch />
             </div>
@@ -110,9 +113,10 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({
   );
 };
 
-export default SelectProofTypeDialog;
+export default SearchProofDialog;
 
-export interface SelectProofTypeDialogProps {
+export interface SearchProofDialogProps {
+  proofInstanceId?: string | undefined;
   proofType: PrfsProofType | undefined;
   handleSelectProofType: (proofType: PrfsProofType) => void;
   webappConsoleEndpoint: string;

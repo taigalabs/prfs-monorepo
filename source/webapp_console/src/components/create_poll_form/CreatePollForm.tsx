@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useMutation } from "@tanstack/react-query";
-import SelectProofTypeDialog from "@taigalabs/prfs-react-components/src/select_proof_type_dialog/SelectProofTypeDialog";
+import SearchProofDialog from "@taigalabs/prfs-react-components/src/search_proof_dialog/SearchProofDialog";
 import { CreatePrfsPollRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsPollRequest";
 import { PollQuestion } from "@taigalabs/prfs-entities/bindings/PollQuestion";
 
@@ -41,7 +41,7 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
           },
         ],
       },
-    ]
+    ],
   );
 
   const handleChangeQuestions = React.useCallback(
@@ -61,7 +61,7 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
         return newVals;
       });
     },
-    [setQuestions]
+    [setQuestions],
   );
 
   const [formData, setFormData] = React.useState<CreatePollFormData>(() => {
@@ -97,7 +97,7 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
         }
       });
     },
-    [setFormData]
+    [setFormData],
   );
 
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
@@ -132,7 +132,7 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
         return { ...oldState, ["proof_type_id"]: proofType.proof_type_id };
       });
     },
-    [getPrfsProofTypeByProofTypeIdRequest, setProofType, setFormData]
+    [getPrfsProofTypeByProofTypeIdRequest, setProofType, setFormData],
   );
 
   const handleClickAddQuestion = React.useCallback(() => {
@@ -213,7 +213,7 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
             </div>
             <div className={styles.textInputContainer}>
               <div className={styles.inputLabel}>{i18n.choose_proof_type}</div>
-              <SelectProofTypeDialog
+              <SearchProofDialog
                 proofType={proofType}
                 handleSelectProofType={handleSelectProofType}
                 webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}

@@ -9,6 +9,7 @@ lazy_static! {
 #[allow(non_snake_case)]
 #[derive(Debug)]
 pub struct Paths {
+    pub workspace_dir: PathBuf,
     pub manifest_dir: PathBuf,
     pub data: PathBuf,
 
@@ -19,11 +20,18 @@ impl Paths {
     pub fn new() -> Paths {
         let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         let data = manifest_dir.join("data");
+        let workspace_dir = manifest_dir
+            .parent()
+            .unwrap()
+            .parent()
+            .unwrap()
+            .to_path_buf();
 
         #[allow(non_snake_case)]
         let data__json_bindings = manifest_dir.join("data/json_bindings");
 
         let p = Paths {
+            workspace_dir,
             manifest_dir,
             data,
             data__json_bindings,

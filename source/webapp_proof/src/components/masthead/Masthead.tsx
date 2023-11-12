@@ -3,7 +3,6 @@
 import React from "react";
 import cn from "classnames";
 import Link from "next/link";
-import ActiveLink from "@taigalabs/prfs-react-components/src/active_link/ActiveLink";
 import PrfsAppsPopover from "@taigalabs/prfs-react-components/src/prfs_apps_popover/PrfsAppsPopover";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 
@@ -16,21 +15,12 @@ const Masthead: React.FC<MastheadProps> = () => {
   const i18n = React.useContext(i18nContext);
 
   const searchParams = useSearchParams();
-
-  const isTutorial = React.useMemo(() => {
+  const [isTutorial, tutorialUrl] = React.useMemo(() => {
     if (searchParams.get("tutorial_id")) {
-      return true;
+      return [true, paths.__];
     }
-    return false;
+    return [false, `${paths.__}?tutorial_id=simple_hash`];
   }, [searchParams]);
-
-  const tutorialUrl = React.useMemo(() => {
-    if (isTutorial) {
-      return paths.__;
-    } else {
-      return `${paths.__}?tutorial_id=simple_hash`;
-    }
-  }, [isTutorial]);
 
   return (
     <div className={cn({ [styles.wrapper]: true, [styles.isTutorial]: isTutorial })}>

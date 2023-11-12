@@ -162,7 +162,8 @@ async fn status_handler(req: Request<Body>) -> Result<Response<Body>, Infallible
     let state = req.data::<Arc<ServerState>>().unwrap().clone();
 
     let data = serde_json::json!({
-        "status": state.to_status(),
+        "commit_hash": state.commit_hash.to_string(),
+        "launch_time": state.launch_time.to_string(),
     });
 
     let res = Response::builder()

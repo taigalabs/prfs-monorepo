@@ -25,7 +25,7 @@ circom_witness.wtns
 
 *.ptau
 
-build/
+./build
 
 *.r1cs
 *.sym

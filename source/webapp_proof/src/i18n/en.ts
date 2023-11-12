@@ -1,6 +1,9 @@
-export default {
+const en = {
+  close: "Close",
+  steps: "Steps",
   explorer: "Explorer",
   prfs_copyright: "© 2023 Prfs",
+  prfs_apps: "Prfs apps",
   find_what_to_prove: "Find what to prove",
   explore_technologies: "Explore technologies",
   latest_prfs_updates: "Latest Prfs updates",
@@ -22,6 +25,7 @@ export default {
   type_merkle_proof: "Type merkle proof",
   feedback: "Feedback",
   id: "Id",
+  view_in_console: "View in console",
   name: "Name",
   name_and_description: "Name and description",
   author: "Author",
@@ -50,6 +54,7 @@ export default {
   search: "Search",
   search_guide: "Search for a proof (type), circuits, sets and others",
   search_proof_guide: "Search for a proof (type)",
+  search_proof_dialog: "Search proof dialog",
   browse: "Browse",
   set_id: "Set id",
   type: "Type",
@@ -66,6 +71,7 @@ export default {
   short_id: "Short id",
   share_url: "Share URL",
   verify: "Verify",
+  verify_proof_form: "Verify proof form",
   verified: "Verified",
   invalid: "Invalid",
   proof_type_search_guide: "Search proof types",
@@ -135,6 +141,7 @@ export default {
   new: "New",
   proof_instances: "Proof instances",
   create_proof: "Create proof",
+  create_proof_form: "Create proof form",
   prove_success_msg: "Successfully created a proof!",
   upload: "Upload",
   upload_and_view_proof: "Upload and view proof",
@@ -142,6 +149,7 @@ export default {
   proof_creation_summary_msg: "You have successfully created a proof in",
   proof_upload_guide: "Share your proof by uploading it to Prfs.",
   proof_dashboard: "Proof dashboard",
+  proof_banner: "Proof banner",
   create_proof_instance: "Create proof instance",
   compute_merkle_root: "Compute Merkle root",
   create: "Create",
@@ -221,3 +229,5 @@ export default {
   teaser_1: "Prfs is coming to empower you",
   teaser_2: "to make undeniable, anonymous claims",
 };
+
+export default en;

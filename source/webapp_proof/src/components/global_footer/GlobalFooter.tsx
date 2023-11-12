@@ -1,15 +1,13 @@
-"use client";
-
 import React from "react";
 import Link from "next/link";
 
 import styles from "./GlobalFooter.module.scss";
-import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import LatestTimestamp from "@/components/latest_timestamp/LatestTimestamp";
+import { getI18N } from "@/i18n/getI18N";
 
-const GlobalFooter: React.FC<GlobalFooterProps> = () => {
-  const i18n = React.useContext(i18nContext);
+const GlobalFooter: React.FC<GlobalFooterProps> = async () => {
+  const i18n = await getI18N();
 
   return (
     <div className={styles.wrapper}>

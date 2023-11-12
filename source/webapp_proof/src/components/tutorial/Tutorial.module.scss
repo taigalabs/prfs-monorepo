@@ -1,24 +1,52 @@
-.wrapper {
-  position: absolute;
-  top: 26px;
-  right: 0;
-  width: 300px;
-  margin-right: 12px;
+@mixin smallScreen {
+  position: fixed;
+  top: auto;
+  right: auto;
+  bottom: 5px;
+  width: calc(100% - 10px);
+  min-width: 348px;
+  max-width: 600px;
+  margin: 0;
+  left: 50%;
+  transform: translateX(-50%);
   border: 1px solid var(--bright-gray-30);
-  background-color: rgba(255, 255, 255, 0.9);
+
+  .body {
+    min-height: 0;
+    max-height: none;
+    height: 200px;
+  }
+
+  .placeholder {
+    display: block;
+    height: calc(236px + 40px - 78px);
+  }
+}
+
+.placeholder {
+  width: 310px;
+  border: 1px solid red;
+}
+
+.wrapper {
+  margin-left: auto;
+  position: absolute;
+  top: 10px;
+  margin-top: 56px;
+  right: 10px;
+  width: 300px;
   border-radius: 3px;
+  background-color: var(--white-100);
   line-height: 1.33;
   z-index: 1;
+  border: 1px solid var(--bright-gray-30);
 
   /* border: 1px solid red; */
 }
 
 .header {
-  top: 0;
-  left: 10px;
-  right: 10px;
   height: 34px;
-  position: absolute;
+  padding: 0 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -30,18 +58,20 @@
   button {
     cursor: pointer;
   }
+
+  .progress {
+    color: var(--gray-50);
+  }
 }
 
-.progress {
-  color: var(--gray-50);
+.body {
+  min-height: 300px;
+  max-height: 70vh;
+  overflow-y: auto;
 }
 
 .btnRow {
-  position: absolute;
-  bottom: 0;
-  left: 10px;
-  right: 10px;
-  height: 42px;
+  padding: 12px 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -56,15 +86,18 @@
   border: 1px solid var(--gray-70);
 }
 
-@media screen and (max-width: 480px) {
+.bigTopMargin {
+  margin-top: 89px;
+}
+
+@media screen and (max-width: 1502px) {
+  .wrapper.w1502 {
+    @include smallScreen;
+  }
+}
+
+@media screen and (max-width: 1460px) {
   .wrapper {
-    position: fixed;
-    top: auto;
-    bottom: 10px;
-    width: 340px;
-    margin-right: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    min-height: 240px;
+    @include smallScreen;
   }
 }

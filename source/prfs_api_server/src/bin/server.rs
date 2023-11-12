@@ -1,13 +1,14 @@
 use colored::Colorize;
 use hyper::Server;
 use prfs_api_server::envs::ENVS;
+use prfs_api_server::paths::PATHS;
 use prfs_api_server::server::router;
 use prfs_api_server::server::state::ServerState;
 use prfs_api_server::ApiServerError;
 use prfs_db_interface::database2::Database2;
 use routerify::RouterService;
+use std::net::SocketAddr;
 use std::sync::Arc;
-use std::{net::SocketAddr, path::PathBuf};
 
 #[tokio::main]
 async fn main() -> Result<(), ApiServerError> {
@@ -20,20 +21,7 @@ async fn main() -> Result<(), ApiServerError> {
 
     ENVS.check();
 
-    let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    println!("manifest_dir: {:?}", manifest_dir);
-
-    println!("33 {}", ENVS.postgres_pw);
-
-    let pg_endpoint = &ENVS.postgres_endpoint;
-    let pg_username = &ENVS.postgres_username;
-    let pg_pw = &ENVS.postgres_pw;
-
-    let db2 = Database2::connect(pg_endpoint, pg_username, pg_pw)
-        .await
-        .unwrap();
-
-    let server_state = Arc::new(ServerState::new(db2).unwrap());
+    let server_state = Arc::new(ServerState::init().await.unwrap());
 
     let router = router::make_router(server_state).expect("make_router fail");
     let service = RouterService::new(router).expect("router service init fail");

@@ -1,4 +1,4 @@
-import { ProveReceipt, ProveResult, VerifyReceipt } from "@taigalabs/prfs-driver-interface";
+import { ProveReceipt, Proof, VerifyReceipt } from "@taigalabs/prfs-driver-interface";
 
 import { MsgEventListener, handleChildMessage } from "./handle_child_msg";
 import { sendMsgToChild } from "../msg";
@@ -116,7 +116,7 @@ class ProofGenElement {
     }
   }
 
-  async verifyProof(proveResult: ProveResult, circuitTypeId: string): Promise<VerifyReceipt> {
+  async verifyProof(proof: Proof, circuitTypeId: string): Promise<VerifyReceipt> {
     if (!this.state.iframe) {
       throw new Error("iframe is not created");
     }
@@ -124,7 +124,7 @@ class ProofGenElement {
     try {
       const verifyReceipt = await sendMsgToChild(
         new Msg("VERIFY_PROOF", {
-          proveResult,
+          proof,
           circuitTypeId,
         }),
         this.state.iframe,

@@ -5,7 +5,7 @@ packages:
 
   - "source/docs_website"
 
-  - "source/prfs_circuit_circom"
+  - "source/prfs_circuits_circom"
 
   - "source/prfs_driver_spartan_js"
   - "source/prfs_driver_interface"

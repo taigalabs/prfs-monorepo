@@ -15,7 +15,7 @@ SELECT *
 FROM prfs_circuit_drivers
 WHERE circuit_driver_id=$1"#;
 
-    println!("query: {}", query);
+    // println!("query: {}", query);
 
     let row = sqlx::query(query)
         .bind(&circuit_driver_id)
@@ -44,7 +44,7 @@ SELECT *
 FROM prfs_circuit_drivers
 "#;
 
-    println!("query: {}", query);
+    // println!("query: {}", query);
 
     let rows = sqlx::query(query).fetch_all(pool).await.unwrap();
 

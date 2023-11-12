@@ -38,25 +38,40 @@
   align-items: center;
 }
 
-.setLabel {
-  margin-left: 4px;
+.inputLabel {
+  max-width: 288px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.btnRow {
-  font-size: 12px;
+.setLabel {
+  margin-left: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-  button {
-    display: flex;
-    cursor: pointer;
-    color: var(--gray-30);
+.right {
+  display: flex;
+  align-items: center;
+  .btnRow {
+    font-size: 12px;
 
-    &:hover {
-      color: var(--black-00);
+    button {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      color: var(--gray-30);
+
+      &:hover {
+        color: var(--black-00);
+      }
     }
-  }
 
-  svg {
-    margin-right: 3px;
+    svg {
+      margin-right: 3px;
+    }
   }
 }
 
@@ -74,17 +89,13 @@
 
 .addressBtn {
   font-size: 13px;
-  padding: 6px 6px;
+  padding: 6px 4px;
 }
 
 @media screen and (max-width: 480px) {
   .title {
     align-items: normal;
     flex-direction: column;
-  }
-
-  .setLabel {
-    margin-left: 0px;
   }
 
   .right {

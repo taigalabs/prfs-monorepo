@@ -15,8 +15,6 @@ pub fn make_spartan_instance(
     output_path: &PathBuf,
     num_pub_inputs: usize,
 ) {
-    // let circuit_r1cs_path = PATHS.circuits_build.join(format!("{}.r1cs", &circuit.name));
-    //
     println!("{} spartan instance...", "Generating".green());
 
     // let circom_r1cs_path = args().nth(1).unwrap();
@@ -62,6 +60,7 @@ fn convert_to_spartan_r1cs<F: PrimeField<Repr = FieldBytes>>(
     let mut C = vec![];
 
     for (i, constraint) in r1cs.constraints.iter().enumerate() {
+        // println!("i: {}", i);
         let (a, b, c) = constraint;
 
         for (j, coeff) in a.iter() {

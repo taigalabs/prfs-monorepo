@@ -23,20 +23,20 @@ export interface ProveArgs<T> {
 }
 
 export interface VerifyArgs {
-  proveResult: {
-    proof: Uint8Array;
+  proof: {
+    proofBytes: Uint8Array;
     publicInputSer: string;
   };
   circuitTypeId: string;
 }
 
-export interface ProveResult {
-  proof: Uint8Array;
+export interface Proof {
+  proofBytes: Uint8Array;
   publicInputSer: string;
 }
 
 export interface ProveReceipt {
-  proveResult: ProveResult;
+  proof: Proof;
   duration: number;
 }
 

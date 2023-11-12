@@ -8,7 +8,7 @@ export function useSelectProofType() {
 
   const handleSelectProofType = React.useCallback(
     async (proofType: PrfsProofType) => {
-      router.push(`${paths.create}?proof_type_id=${proofType.proof_type_id}`);
+      router.push(`/${paths.create}?proof_type_id=${proofType.proof_type_id}`);
     },
     [router],
   );

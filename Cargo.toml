@@ -15,7 +15,7 @@ members = [
   "source/prfs_entities",
 
   # prfs cicuits
-  "source/prfs_circuit_circom",
+  "source/prfs_circuits_circom",
 
   # prfs driver
   "source/prfs_driver_spartan_wasm",

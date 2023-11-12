@@ -1,6 +1,6 @@
 mod apis;
 pub mod envs;
-mod paths;
+pub mod paths;
 mod responses;
 pub mod seed;
 pub mod server;

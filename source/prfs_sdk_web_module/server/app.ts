@@ -1,13 +1,14 @@
 import express from "express";
 import cors from "cors";
-import path from "path";
+
+import paths from "./paths";
 
 const PORT = 3010;
 
-const distPath = path.resolve(__dirname, "../dist");
-console.log("distPath", distPath);
+export async function createApp(args: CreateAppArgs) {
+  console.log("Create express app, args: %o", args);
+  const { commit_hash, launch_time } = args;
 
-export function createApp() {
   const app = express();
 
   app.use(cors());
@@ -19,11 +20,13 @@ export function createApp() {
     next();
   });
 
-  app.use("/proof_gen", express.static(distPath));
+  app.use("/proof_gen", express.static(paths.dist));
 
   app.get("/", (_, res) => {
     res.send({
       status: "Ok",
+      commit_hash,
+      launch_time,
     });
   });
 
@@ -36,4 +39,9 @@ export function createApp() {
   app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
 
   return app;
+}
+
+export interface CreateAppArgs {
+  commit_hash: string | undefined;
+  launch_time: string;
 }

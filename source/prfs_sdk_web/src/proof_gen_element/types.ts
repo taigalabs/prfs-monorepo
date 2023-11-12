@@ -2,6 +2,7 @@ import {
   CreateProofEvent,
   LoadDriverEvent,
   LoadDriverSuccessEvent,
+  VerifyProofEvent,
 } from "@taigalabs/prfs-driver-interface";
 
 export interface ProofGenElementState {
@@ -12,4 +13,8 @@ export interface ProofGenElementState {
 
 export type ProofGenElementSubscriber = (msg: ProofGenEvent) => void;
 
-export type ProofGenEvent = CreateProofEvent | LoadDriverEvent | LoadDriverSuccessEvent;
+export type ProofGenEvent =
+  | CreateProofEvent
+  | LoadDriverEvent
+  | LoadDriverSuccessEvent
+  | VerifyProofEvent;

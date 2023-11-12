@@ -1,5 +1,24 @@
 .container {
+  position: relative;
   display: flex;
   flex-direction: column;
-  /* padding: 32px 0; */
+  flex-grow: 1;
+  padding-left: 230px;
+  padding-top: 89px;
+
+  /* border: 1px solid green; */
+}
+
+@media screen and (max-width: 1300px) {
+  .container {
+    padding-left: calc((100% - 1150px) / 2);
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .container {
+    min-width: 0px;
+    padding-left: 0px;
+    padding-top: 102px;
+  }
 }

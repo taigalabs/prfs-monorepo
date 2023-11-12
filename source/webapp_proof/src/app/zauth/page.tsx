@@ -9,9 +9,8 @@ import NoSSR from "@taigalabs/prfs-react-components/src/no_ssr/NoSSR";
 
 import styles from "./ZAuthPage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { checkSanity } from "@/functions/sanity";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import ZAuthLayout from "@/layouts/zauth_layout/ZAuthLayout";
+import ZAuthLayout from "@/components/layouts/zauth_layout/ZAuthLayout";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
 
 const BASE_HEIGHT = 59;
@@ -26,7 +25,7 @@ const ProofGen: React.FC<ProofGenProps> = () => {
   const [docWidth, setDocWidth] = React.useState<number>(484);
 
   React.useEffect(() => {
-    checkSanity();
+    // checkSanity();
 
     async function fn() {
       const proofTypeId = searchParams.get("proofTypeId");
@@ -47,7 +46,7 @@ const ProofGen: React.FC<ProofGenProps> = () => {
             await sendMsgToParent(
               new Msg("HANDSHAKE", {
                 docHeight,
-              })
+              }),
             );
 
             setDocHeight(docHeight);

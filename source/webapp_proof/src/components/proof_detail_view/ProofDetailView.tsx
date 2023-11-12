@@ -1,34 +1,27 @@
 "use client";
 
 import React from "react";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
-import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
+import cn from "classnames";
 import JSONBig from "json-bigint";
-import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import ProofBanner from "@taigalabs/prfs-react-components/src/proof_banner/ProofBanner";
 import SocialSharePopover from "@taigalabs/prfs-react-components/src/social_share_popover/SocialSharePopover";
-import { HiOutlineDesktopComputer } from "@react-icons/all-files/hi/HiOutlineDesktopComputer";
-import Link from "next/link";
-import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "wagmi";
 import { GetPrfsProofInstanceByInstanceIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstanceByInstanceIdRequest";
-import { useRouter } from "next/navigation";
-import { ProveReceipt, ProveResult } from "@taigalabs/prfs-driver-interface";
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import { Proof } from "@taigalabs/prfs-driver-interface";
+import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 
 import styles from "./ProofDetailView.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { paths } from "@/paths";
 import VerifyProofForm from "@/components/verify_proof_form/VerifyProofForm";
-import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 import { envs } from "@/envs";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
-
-const prfsSDK = new PrfsSDK("prfs-proof");
+import Tutorial from "../tutorial/Tutorial";
+import { useIsTutorial } from "@/hooks/tutorial";
+import TutorialPlaceholder from "../tutorial/TutorialPlaceholder";
 
 const JSONbigNative = JSONBig({
   useNativeBigInt: true,
@@ -38,10 +31,7 @@ const JSONbigNative = JSONBig({
 
 const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) => {
   const i18n = React.useContext(i18nContext);
-  const didTryInitialize = React.useRef(false);
-  const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
   const [proofInstance, setProofInstance] = React.useState<PrfsProofInstanceSyn1>();
-  const router = useRouter();
 
   const { mutateAsync: getPrfsProofInstanceByInstanceIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofInstanceByInstanceIdRequest) => {
@@ -50,6 +40,8 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
   });
 
   const handleSelectProofType = useSelectProofType();
+
+  const isTutorial = useIsTutorial();
 
   React.useEffect(() => {
     async function fn() {
@@ -70,16 +62,14 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
 
   const ret = React.useMemo(() => {
     if (proofInstance) {
-      const headerLabel = `${i18n.proof} ${proofInstance.proof_instance_id}`;
       const consoleUrl = `${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/proof_instances/${proofInstance.proof_instance_id}`;
 
       const ret = {
-        headerLabel,
         consoleUrl,
-        proveResult: {
-          proof: new Uint8Array(proofInstance.proof),
+        proof: {
+          proofBytes: new Uint8Array(proofInstance.proof),
           publicInputSer: JSONbigNative.stringify(proofInstance.public_inputs),
-        } as ProveResult,
+        } as Proof,
       };
 
       return ret;
@@ -87,38 +77,6 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
 
     return null;
   }, [proofInstance]);
-
-  // React.useEffect(() => {
-  //   async function fn() {
-  //     if (didTryInitialize.current) {
-  //       return;
-  //     }
-  //     didTryInitialize.current = true;
-
-  //     // const { circuit_driver_id, driver_properties } = proofInstance.circuit_driver_id;
-
-  //     // try {
-  //     //   const elem = await prfsSDK.create("proof-gen", {
-  //     //     proofTypeId: proofType.proof_type_id,
-  //     //     circuit_driver_id,
-  //     //     driver_properties,
-  //     //     sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
-  //     //     proofGenEventListener: proofGenEventListener,
-  //     //   });
-
-  //     //   elem.subscribe(msg => {
-  //     //     setSystemMsg(msg.data);
-  //     //   });
-
-  //     //   setProofGenElement(elem);
-  //     //   return elem;
-  //     // } catch (err) {
-  //     //   setSystemMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
-  //     // }
-  //   }
-
-  //   fn().then();
-  // }, [proofInstance, setProofGenElement]);
 
   if (ret === null || !proofInstance) {
     return (
@@ -128,46 +86,29 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
     );
   }
 
-  const { headerLabel, consoleUrl, proveResult } = ret;
+  const { consoleUrl, proof } = ret;
 
   return (
     <>
-      <ProofTypeMasthead proofType={undefined} handleSelectProofType={handleSelectProofType} />
-      <div className={styles.wrapper}>
-        <div className={styles.header}>
-          <div className={styles.titleRow}>
-            <p className={styles.headerLabel}>{headerLabel}</p>
-          </div>
-          <div className={styles.buttonRow}>
-            <ul>
-              <li>
-                <Link href={consoleUrl}>
-                  <Button variant="transparent_blue_1">
-                    <HiOutlineDesktopComputer />
-                    <span>{i18n.console.toUpperCase()}</span>
-                  </Button>
-                </Link>
-              </li>
-            </ul>
-            <ul>
-              <li>
-                <Button variant="transparent_blue_1">
-                  <AiOutlineCopy />
-                  <span>{i18n.copy_url.toUpperCase()}</span>
-                </Button>
-              </li>
-              <li>
-                <SocialSharePopover />
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className={styles.content}>
+      <ProofTypeMasthead
+        proofInstanceId={proofInstanceId}
+        proofType={undefined}
+        handleSelectProofType={handleSelectProofType}
+      />
+      <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
+        <div className={styles.meta}>
           <div className={styles.bannerContainer}>
+            <div className={styles.upperRow}>
+              <a className={styles.consoleLink} href={consoleUrl}>
+                <p>{i18n.view_in_console}</p>
+                <BiLinkExternal />
+              </a>
+            </div>
             <TutorialStepper steps={[5]}>
               <ProofBanner
                 proofInstance={proofInstance}
                 webappProofEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
+                noBorder
               />
             </TutorialStepper>
           </div>
@@ -176,20 +117,22 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
               <div className={styles.content}>
                 <p className={styles.label}>{proofInstance.proof_label}</p>
                 <p className={styles.desc}>{proofInstance.proof_desc}</p>
-                <div>
-                  {/* <VerifyProofForm */}
-                  {/*   proveResult={proveResult} */}
-                  {/*   circuitTypeId={proofInstance.circuit_type_id} */}
-                  {/*   circuitDriverId={proofInstance.circuit_driver_id} */}
-                  {/*   isVerifyOpen={true} */}
-                  {/*   proofGenElement={proofGenElement} */}
-                  {/* /> */}
-                </div>
               </div>
             </div>
           </div>
         </div>
+        <div className={styles.proofDetail}>
+          <div className={styles.verifyProofFormWrapper}>
+            <VerifyProofForm
+              proof={proof}
+              circuitDriverId={proofInstance.circuit_driver_id}
+              isVerifyOpen={true}
+            />
+          </div>
+        </div>
       </div>
+      <Tutorial bigTopMargin variant="w1502" />
+      <TutorialPlaceholder variant="h1502" />
     </>
   );
 };
@@ -199,4 +142,8 @@ export default ProofDetailView;
 export interface ProofDetailViewProps {
   // proofInstance: PrfsProofInstanceSyn1;
   proofInstanceId: string;
+}
+
+{
+  /* <li> <SocialSharePopover /> </li>; */
 }

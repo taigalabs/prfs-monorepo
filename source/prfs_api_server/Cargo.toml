@@ -33,10 +33,11 @@ tracing-appender = "0.2"
 uuid = { version = "1.4.1", features = ["v4", "serde"] }
 base62 = "2.0.2"
 csv = "1.2.2"
+git2 = "0.18.1"
 
 prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_tree_maker = { path = "../prfs_tree_maker" }
-prfs_circuit_circom = { path = "../prfs_circuit_circom" }
+prfs_circuits_circom = { path = "../prfs_circuits_circom" }
 prfs_entities = { path = "../prfs_entities" }
 
 [[bin]]

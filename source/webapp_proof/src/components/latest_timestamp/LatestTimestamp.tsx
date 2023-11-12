@@ -1,22 +1,34 @@
 import React from "react";
-import Link from "next/link";
 import dayjs from "dayjs";
 
 import styles from "./LatestTimestamp.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { getI18N } from "@/i18n/getI18N";
+// import { isRecentlyUpdated } from "";
+import { isRecentlyUpdated } from "@/project/timestamp";
 
-const LatestTimestamp: React.FC<LatestTimestampProps> = () => {
-  const i18n = React.useContext(i18nContext);
+// async function getIsRecentlyUpdated() {
+// try {
+//   const data = await fetch(`${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/api`);
+//   const json = await data.json();
+//   return json;
+// } catch (err) {
+//   console.error(`Error fetching i18n, ${err}`);
+//   return en;
+// }
+// }
 
-  const isRecentlyUpdated = React.useMemo(() => {
-    const lastDay = dayjs(process.env.NEXT_PUBLIC_UPDATE_TIMESTAMP);
-    const now = dayjs();
-    const d = now.diff(lastDay, "day");
+const LatestTimestamp: React.FC<LatestTimestampProps> = async () => {
+  const i18n = await getI18N();
 
-    if (d <= 7) {
-      return true;
-    }
-  }, []);
+  // const isRecentlyUpdated = React.useMemo(() => {
+  //   const lastDay = dayjs(process.env.NEXT_PUBLIC_UPDATE_TIMESTAMP);
+  //   const now = dayjs();
+  //   const d = now.diff(lastDay, "day");
+
+  //   if (d <= 7) {
+  //     return true;
+  //   }
+  // }, []);
 
   return isRecentlyUpdated && <p className={styles.wrapper}>{i18n.new}</p>;
 };

@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
-import Link from "next/link";
-import { redirect, usePathname, useSearchParams } from "next/navigation";
+import React, { Suspense } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 import Tutorial1MD from "@/components/tutorial_contents/tutorial_1.mdx";
 import Tutorial2MD from "@/components/tutorial_contents/tutorial_2.mdx";
 import Tutorial3MD from "@/components/tutorial_contents/tutorial_3.mdx";
@@ -18,12 +17,11 @@ import { i18nContext } from "@/contexts/i18n";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { goNextStep, goPrevStep, resetStep } from "@/state/tutorialReducer";
 import MarkdownWrapper from "./MarkdownWrapper";
+import { useIsTutorial } from "@/hooks/tutorial";
 
 const STEP_COUNT = 5;
 
 const Stage: React.FC<StageProps> = ({ step }) => {
-  const i18n = React.useContext(i18nContext);
-
   switch (step) {
     case 1:
       return <Tutorial1MD />;
@@ -40,22 +38,16 @@ const Stage: React.FC<StageProps> = ({ step }) => {
   }
 };
 
-const Tutorial: React.FC<TutorialProps> = ({ bigTopMargin }) => {
-  const searchParams = useSearchParams();
+const Tutorial: React.FC<TutorialProps> = ({ bigTopMargin, variant }) => {
   const pathname = usePathname();
-  const i18n = React.useContext(i18nContext);
+  const searchParams = useSearchParams();
   const router = useRouter();
+  const i18n = React.useContext(i18nContext);
   const dispatch = useAppDispatch();
 
   const step = useAppSelector(state => state.tutorial.tutorialStep);
 
-  const isTutorial = React.useMemo(() => {
-    const s = searchParams.get("tutorial_id");
-    if (s !== null) {
-      return true;
-    }
-    return false;
-  }, [searchParams]);
+  const isTutorial = useIsTutorial();
 
   const handleClickPrev = React.useCallback(() => {
     if (step > 1) {
@@ -83,41 +75,50 @@ const Tutorial: React.FC<TutorialProps> = ({ bigTopMargin }) => {
   return (
     isTutorial &&
     step > 0 && (
-      <div className={cn(styles.wrapper, { [styles.bigTopMargin]: bigTopMargin })}>
-        <div className={styles.header}>
-          <p className={styles.progress}>
-            ({step} / {STEP_COUNT})
-          </p>
-          <button>
-            <AiOutlineClose onClick={handleClickClose} />
-          </button>
+      <>
+        <div
+          className={cn(styles.wrapper, {
+            [styles.bigTopMargin]: bigTopMargin,
+            [styles.w1502]: variant === "w1502",
+          })}
+        >
+          <div className={styles.header}>
+            <p className={styles.progress}>
+              ({step} / {STEP_COUNT})
+            </p>
+            <button>
+              <AiOutlineClose onClick={handleClickClose} />
+            </button>
+          </div>
+          <div className={styles.body}>
+            <MarkdownWrapper>
+              <Stage step={step} />
+            </MarkdownWrapper>
+            <div className={styles.btnRow}>
+              <Button
+                variant="transparent_aqua_blue_1"
+                handleClick={handleClickPrev}
+                disabled={step === 1}
+              >
+                {i18n.prev}
+              </Button>
+              {isLastStep ? (
+                <Button
+                  className={styles.finishBtn}
+                  variant="transparent_aqua_blue_1"
+                  handleClick={handleClickClose}
+                >
+                  {i18n.finish}
+                </Button>
+              ) : (
+                <Button variant="aqua_blue_1" handleClick={handleClickNext}>
+                  {i18n.next}
+                </Button>
+              )}
+            </div>
+          </div>
         </div>
-        <MarkdownWrapper>
-          <Stage step={step} />
-        </MarkdownWrapper>
-        <div className={styles.btnRow}>
-          <Button
-            variant="transparent_aqua_blue_1"
-            handleClick={handleClickPrev}
-            disabled={step === 1}
-          >
-            {i18n.prev}
-          </Button>
-          {isLastStep ? (
-            <Button
-              className={styles.finishBtn}
-              variant="transparent_aqua_blue_1"
-              handleClick={handleClickClose}
-            >
-              {i18n.finish}
-            </Button>
-          ) : (
-            <Button variant="aqua_blue_1" handleClick={handleClickNext}>
-              {i18n.next}
-            </Button>
-          )}
-        </div>
-      </div>
+      </>
     )
   );
 };
@@ -126,6 +127,7 @@ export default Tutorial;
 
 export interface TutorialProps {
   bigTopMargin?: boolean;
+  variant?: "w1502" | "h1502";
 }
 
 export interface StageProps {

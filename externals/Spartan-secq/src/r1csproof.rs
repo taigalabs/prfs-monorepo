@@ -20,8 +20,6 @@ use core::iter;
 use merlin::Transcript;
 use serde::{Deserialize, Serialize};
 
-use web_sys::console;
-
 #[derive(Serialize, Deserialize, Debug)]
 pub struct R1CSProof {
   comm_vars: PolyCommitment,

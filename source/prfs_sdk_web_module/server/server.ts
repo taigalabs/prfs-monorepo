@@ -1,11 +1,14 @@
-import path from "path";
+import dayjs from "dayjs";
 
 import { createApp } from "./app";
+import getGitLog from "./git";
 
-const distPath = path.resolve(__dirname, "../dist");
+(async () => {
+  const commit_hash = await getGitLog();
+  const now = dayjs().toJSON();
 
-(() => {
-  console.log("distPath", distPath);
-
-  createApp();
+  createApp({
+    commit_hash,
+    launch_time: now,
+  });
 })();

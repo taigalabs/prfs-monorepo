@@ -41,7 +41,7 @@ export interface CreateProofPayload {
 }
 
 export interface VerifyProofPayload {
-  proveResult: any;
+  proof: any;
   circuitTypeId: string;
 }
 
