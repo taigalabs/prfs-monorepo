@@ -1,2 +1,10 @@
 .wrapper {
+  border: 1px solid red;
+  width: 310px;
+}
+
+@media screen and (max-width: 1460px) {
+  .wrapper.v1460 {
+    display: none;
+  }
 }

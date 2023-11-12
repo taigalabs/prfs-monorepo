@@ -19,6 +19,7 @@ import { paths } from "@/paths";
 import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
 import Tutorial from "../tutorial/Tutorial";
+import TutorialPlaceholder from "../tutorial/TutorialPlaceholder";
 
 const CreateProofForm: React.FC = () => {
   const [proofType, setProofType] = React.useState<PrfsProofType>();
