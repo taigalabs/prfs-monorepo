@@ -81,7 +81,7 @@ const Tutorial: React.FC<TutorialProps> = ({ bigTopMargin }) => {
     isTutorial &&
     step > 0 && (
       <>
-        <div className={styles.placeholder} />
+        {/* <div className={styles.placeholder} /> */}
         <div className={cn(styles.wrapper, { [styles.bigTopMargin]: bigTopMargin })}>
           <div className={styles.header}>
             <p className={styles.progress}>

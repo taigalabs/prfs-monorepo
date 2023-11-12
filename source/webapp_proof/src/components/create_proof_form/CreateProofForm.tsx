@@ -110,7 +110,8 @@ const CreateProofForm: React.FC = () => {
           <div className={styles.loading}>Loading module...</div>
         )}
       </div>
-      {/* <Tutorial bigTopMargin /> */}
+      <TutorialPlaceholder />
+      <Tutorial bigTopMargin />
     </>
   );
 };
