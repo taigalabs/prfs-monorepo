@@ -3,7 +3,7 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
+import LoaderBar from "@taigalabs/prfs-react-components/src/loader_bar/LoaderBar";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 import dayjs from "dayjs";
@@ -20,6 +20,7 @@ import { validateInputs } from "@/validate";
 import HashInput from "@/components/hash_input/HashInput";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMeta from "./ProofTypeMeta";
+import { Spinner } from "@phosphor-icons/react";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -285,7 +286,9 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
 
   return (
     <>
-      123
+      <div className={styles.loaderBarWrapper}>
+        <LoaderBar />
+      </div>
       <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
         <div className={styles.driverMsg}>
           <div className={styles.msg}>
