@@ -7,11 +7,16 @@
 }
 
 .headerSection {
-  cursor: pointer;
+  position: relative;
+  height: 68px;
+  border: 1px solid red;
 
   .top {
+    position: absolute;
+    top: 0;
     display: flex;
     font-size: 14px;
+    cursor: pointer;
 
     .left {
       margin-right: 12px;
@@ -34,17 +39,22 @@
       border-radius: 14px;
       border: 1px solid var(--bright-gray-30);
     }
+
+    &:hover + .title {
+      text-decoration: underline;
+    }
   }
 
   .title {
+    margin-top: auto;
+    display: inline-block;
     font-weight: 400;
     font-size: 1.42em;
-    margin: 12px 0 10px;
+    cursor: pointer;
     color: var(--blue-11);
-  }
+    margin-top: 42px;
 
-  &:hover {
-    .title {
+    &:hover {
       text-decoration: underline;
     }
   }

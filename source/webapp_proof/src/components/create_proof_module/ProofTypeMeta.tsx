@@ -12,7 +12,7 @@ import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/Cap
 const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({ proofType }) => {
   const i18n = React.useContext(i18nContext);
 
-  const [mdHTML, url] = React.useMemo(() => {
+  const [mdHTML, proofTypeUrl] = React.useMemo(() => {
     const { desc } = proofType;
     const md = DOMPurify.sanitize(marked.parse(desc));
 
@@ -25,18 +25,20 @@ const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({ proofType }) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.headerSection}>
-        <div className={styles.top}>
-          <div className={styles.left}>
-            <div className={styles.imgContainer}>
-              <CaptionedImg img_url={proofType.img_url} size={18} />
+        <a href={proofTypeUrl}>
+          <div className={styles.top}>
+            <div className={styles.left}>
+              <div className={styles.imgContainer}>
+                <CaptionedImg img_url={proofType.img_url} size={18} />
+              </div>
+            </div>
+            <div>
+              <p>{proofType.proof_type_id}</p>
+              <p className={styles.url}>{proofTypeUrl}</p>
             </div>
           </div>
-          <div>
-            <p>{proofType.proof_type_id}</p>
-            <p className={styles.url}>{url}</p>
-          </div>
-        </div>
-        <p className={styles.title}>{proofType.label}</p>
+          <span className={styles.title}>{proofType.label}</span>
+        </a>
       </div>
       <div className={styles.section}>
         <div dangerouslySetInnerHTML={{ __html: mdHTML }} />
