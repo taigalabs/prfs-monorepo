@@ -6,7 +6,6 @@
   min-width: 0px;
   padding-bottom: 32px;
   overflow-x: auto;
-  margin-right: 15px;
 
   border: 1px solid blue;
 }
@@ -69,7 +68,13 @@
   width: 340px;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 1300px) {
+  .wrapper {
+    padding-left: 30px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
   .wrapper {
     width: 100%;
     padding: 0 10px 32px;

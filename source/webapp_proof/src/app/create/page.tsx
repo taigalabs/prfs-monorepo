@@ -19,9 +19,9 @@ const CreatePage = () => {
           </Suspense>
         </div>
       </DefaultBody>
-      {/* <DefaultFooter> */}
-      {/*   <GlobalFooter /> */}
-      {/* </DefaultFooter> */}
+      <DefaultFooter>
+        <GlobalFooter />
+      </DefaultFooter>
     </DefaultLayout>
   );
 };

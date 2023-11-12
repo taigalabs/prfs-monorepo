@@ -5,24 +5,11 @@
   padding-left: 230px;
 }
 
-/* @media screen and (max-width: 1460px) { */
-/*   .container { */
-/*     flex-direction: column; */
-/*     padding-left: calc((100% - 1319px) / 2 + 30px); */
-/*   } */
-/* } */
-
 @media screen and (max-width: 1300px) {
   .container {
     padding-left: calc((100% - 1150px) / 2);
   }
 }
-
-/* @media screen and (max-width: 1150px) { */
-/*   .container { */
-/*     padding-left: 30px; */
-/*   } */
-/* } */
 
 @media screen and (max-width: 1024px) {
   .container {
