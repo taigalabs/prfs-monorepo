@@ -306,19 +306,17 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         </div>
         <div className={cn(styles.main, { [styles.isTutorial]: isTutorial })}>
           <div className={styles.module}>
-            <div className={styles.loaderBarWrapper}>
-              <LoaderBar />
-            </div>
+            {loadDriverStatus === LoadDriverStatus.InProgress ||
+              (createProofStatus === CreateProofStatus.InProgress && (
+                <div className={styles.loaderBarWrapper}>
+                  <LoaderBar />
+                </div>
+              ))}
             {loadDriverStatus === LoadDriverStatus.InProgress && <div className={styles.overlay} />}
             <TutorialStepper steps={[2]}>
               <div className={styles.form}>{circuitInputsElem}</div>
             </TutorialStepper>
             <div className={styles.btnRow}>
-              {createProofStatus === CreateProofStatus.InProgress && (
-                <div className={styles.spinnerWrapper}>
-                  <Spinner color="black" size={38} />
-                </div>
-              )}
               <Button
                 variant="blue_1"
                 handleClick={handleClickCreateProof}
