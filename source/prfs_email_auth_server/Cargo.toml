@@ -39,6 +39,7 @@ csv = "1.2.2"
 git2 = "0.18.1"
 
 imap = "2.4.1"
+base64 = "0.21"
 native-tls = { version = "0.2.2" }
 async-imap = { version = "0.9.3", default-features = false}
 async-native-tls = { version = "0.5", default-features = false }

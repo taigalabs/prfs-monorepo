@@ -1,49 +1,64 @@
+use base64;
+use imap;
 use prfs_email_auth_server::envs::ENVS;
 
-fn main() {
-    // To connect to the gmail IMAP server with this you will need to allow unsecure apps access.
-    // See: https://support.google.com/accounts/answer/6010255?hl=en
-    // Look at the gmail_oauth2.rs example on how to connect to a gmail server securely.
-    fetch_inbox_top().unwrap();
+struct GmailOAuth2 {
+    user: String,
+    access_token: String,
 }
 
-fn fetch_inbox_top() -> imap::error::Result<Option<String>> {
+impl imap::Authenticator for GmailOAuth2 {
+    type Response = String;
+    #[allow(unused_variables)]
+    fn process(&self, data: &[u8]) -> Self::Response {
+        format!(
+            "user={}\x01auth=Bearer {}\x01\x01",
+            self.user, self.access_token
+        )
+    }
+}
+
+fn main() {
     let domain = "imap.gmail.com";
     let username = &ENVS.gmail_account;
     let password = &ENVS.gmail_pw;
 
     println!("username: {}, password: {}", username, password);
 
-    let tls = native_tls::TlsConnector::builder().build().unwrap();
-
-    // we pass in the domain twice to check that the server's TLS
-    // certificate is valid for the domain we're connecting to.
-    let client = imap::connect((domain, 993), domain, &tls).unwrap();
-
-    // the client we have here is unauthenticated.
-    // to do anything useful with the e-mails, we need to log in
-    let mut imap_session = client.login(username, password).map_err(|e| e.0)?;
-
-    // we want to fetch the first email in the INBOX mailbox
-    imap_session.select("INBOX")?;
-
-    // fetch message number 1 in this mailbox, along with its RFC822 field.
-    // RFC 822 dictates the format of the body of e-mails
-    let messages = imap_session.fetch("1", "RFC822")?;
-    let message = if let Some(m) = messages.iter().next() {
-        m
-    } else {
-        return Ok(None);
+    let gmail_auth = GmailOAuth2 {
+        user: String::from(username),
+        access_token: String::from("<access_token>"),
     };
 
-    // extract the message's body
-    let body = message.body().expect("message did not have a body!");
-    let body = std::str::from_utf8(body)
-        .expect("message was not valid utf-8")
-        .to_string();
+    let tls = native_tls::TlsConnector::builder().build().unwrap();
 
-    // be nice to the server and log out
-    imap_session.logout()?;
+    // let client = imap::ClientBuilder::new("imap.gmail.com", 993)
+    //     .connect()
+    //     .expect("Could not connect to imap.gmail.com");
 
-    Ok(Some(body))
+    let client = imap::connect((domain, 993), domain, &tls).unwrap();
+
+    let mut imap_session = match client.authenticate("XOAUTH2", &gmail_auth) {
+        Ok(c) => c,
+        Err((e, _unauth_client)) => {
+            println!("error authenticating: {}", e);
+            return;
+        }
+    };
+
+    match imap_session.select("INBOX") {
+        Ok(mailbox) => println!("{}", mailbox),
+        Err(e) => println!("Error selecting INBOX: {}", e),
+    };
+
+    match imap_session.fetch("2", "body[text]") {
+        Ok(msgs) => {
+            for msg in msgs.iter() {
+                print!("{:?}", msg);
+            }
+        }
+        Err(e) => println!("Error Fetching email 2: {}", e),
+    };
+
+    imap_session.logout().unwrap();
 }
