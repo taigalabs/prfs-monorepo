@@ -75,7 +75,6 @@ async function authorize() {
     return client;
   }
 
-  console.log(22, client);
   client = await authenticate({
     scopes: SCOPES,
     keyfilePath: CREDENTIALS_PATH,

@@ -10,14 +10,16 @@ with open('prfs-auth-key.json', 'r') as fd:
     exp = iat + 3600
 
     payload = {'iss': data['client_email'],
-               'sub': '123456-compute@developer.gserviceaccount.com',
-               'aud': 'https://firestore.googleapis.com/',
+               'sub': data['client_email'],
+               'aud': 'https://gmail.googleapis.com/',
                'iat': iat,
                'exp': exp};
 
     print(payload);
 
-    # additional_headers = {'kid': PRIVATE_KEY_ID_FROM_JSON};
-    # signed_jwt = jwt.encode(payload, PRIVATE_KEY_FROM_JSON, headers=additional_headers,
-    #                        algorithm='RS256');
+    additional_headers = {'kid': data['private_key']};
+    signed_jwt = jwt.encode(payload, data['private_key'], headers=additional_headers,
+                           algorithm='RS256');
+
+    print(signed_jwt)
 
