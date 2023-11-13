@@ -22,8 +22,9 @@ pub struct Envs {
     pub prfs_api_private_key: String,
 
     pub gmail_account: String,
-
     pub gmail_pw: String,
+    pub google_oauth_client_id: String,
+    pub google_oauth_client_secret: String,
 }
 
 impl Envs {

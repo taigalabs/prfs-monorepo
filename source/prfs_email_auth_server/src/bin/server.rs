@@ -1,24 +1,32 @@
 use base64;
+use google_oauth::AsyncClient;
 use imap;
 use prfs_email_auth_server::envs::ENVS;
 
-struct GmailOAuth2 {
-    user: String,
-    access_token: String,
+#[tokio::main]
+async fn main() {
+    let client_id = &ENVS.google_oauth_client_id;
+    let id_token = &ENVS.google_oauth_client_secret;
+    println!(
+        "google oauth client_id: {}, id_token: {}",
+        client_id, id_token
+    );
+
+    let client = AsyncClient::new(client_id);
+    /// or, if you want to set the default timeout for fetching certificates from Google, e.g, 30 seconds, you can:
+    /// ```rust
+    /// let client = AsyncClient::new(client_id).timeout(time::Duration::from_sec(30));
+    /// ```
+    let payload = client.validate_id_token(id_token).await.unwrap(); // In production, remember to handle this error.
+
+    // When we get the payload, that mean the id_token is valid.
+    // Usually we use `sub` as the identifier for our user...
+    println!("Hello, I am {}", &payload.sub);
+
+    // run_imap();
 }
 
-impl imap::Authenticator for GmailOAuth2 {
-    type Response = String;
-    #[allow(unused_variables)]
-    fn process(&self, data: &[u8]) -> Self::Response {
-        format!(
-            "user={}\x01auth=Bearer {}\x01\x01",
-            self.user, self.access_token
-        )
-    }
-}
-
-fn main() {
+fn run_imap() {
     let domain = "imap.gmail.com";
     let username = &ENVS.gmail_account;
     let password = &ENVS.gmail_pw;
@@ -61,4 +69,20 @@ fn main() {
     };
 
     imap_session.logout().unwrap();
+}
+
+struct GmailOAuth2 {
+    user: String,
+    access_token: String,
+}
+
+impl imap::Authenticator for GmailOAuth2 {
+    type Response = String;
+    #[allow(unused_variables)]
+    fn process(&self, data: &[u8]) -> Self::Response {
+        format!(
+            "user={}\x01auth=Bearer {}\x01\x01",
+            self.user, self.access_token
+        )
+    }
 }
