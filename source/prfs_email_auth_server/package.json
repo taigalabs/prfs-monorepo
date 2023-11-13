@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "dev": "node app.js"
+    "dev": "ts-node app.ts"
   },
   "dependencies": {
     "@taigalabs/prfs-entities": "*",

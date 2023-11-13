@@ -1,17 +1,18 @@
-const { Auth, google } = require("googleapis");
+import { Auth, google } from "googleapis";
 
 const main = async () => {
   const auth = new Auth.GoogleAuth({
     keyFile: "prfs-auth-key.json",
-    scopes: "https://www.googleapis.com/auth/gmail.imap_admin",
+    scopes: "https://www.googleapis.com/auth/gmail.readonly",
   });
   const client = await auth.getClient();
 
   // Obtain a new drive client, making sure you pass along the auth client
-  const admin = google.admin({ version: "directory_v1", auth: client });
+  const gmail = google.gmail({ version: "v1", auth: client });
+  console.log(123, gmail);
 
-  const groups = await admin.groups.list();
-  console.log(groups.data.groups);
+  // const groups = await admin.groups.list();
+  // console.log(groups.data.groups);
 };
 
 main()
