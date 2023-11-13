@@ -20,6 +20,10 @@ pub struct Envs {
 
     #[serde(default = "default_prfs_api_private_key")]
     pub prfs_api_private_key: String,
+
+    pub gmail_account: String,
+
+    pub gmail_pw: String,
 }
 
 impl Envs {

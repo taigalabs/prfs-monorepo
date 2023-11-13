@@ -5,6 +5,9 @@ edition = "2021"
 default-run = "prfs_email_auth_server"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[features]
+default = ["runtime-tokio"]
+runtime-tokio = ["async-native-tls/runtime-tokio", "async-smtp/runtime-tokio", "async-imap/runtime-tokio"]
 
 [dependencies]
 colored = "2.0"
@@ -35,8 +38,12 @@ base62 = "2.0.2"
 csv = "1.2.2"
 git2 = "0.18.1"
 
-async-imap = "0.9.3"
-async-native-tls = "0.4"
+imap = "2.4.1"
+native-tls = { version = "0.2.2" }
+async-imap = { version = "0.9.3", default-features = false}
+async-native-tls = { version = "0.5", default-features = false }
+async-smtp = { version = "0.8", default-features = false }
+futures = "0.3.29"
 
 prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_tree_maker = { path = "../prfs_tree_maker" }
