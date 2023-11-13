@@ -35,6 +35,9 @@ base62 = "2.0.2"
 csv = "1.2.2"
 git2 = "0.18.1"
 
+async-imap = "0.9.3"
+async-native-tls = "0.4"
+
 prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_tree_maker = { path = "../prfs_tree_maker" }
 prfs_circuits_circom = { path = "../prfs_circuits_circom" }
