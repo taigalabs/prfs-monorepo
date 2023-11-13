@@ -15,7 +15,7 @@ const UpdatesPage = () => {
     <DefaultLayout>
       <UpdatesMasthead />
       <DefaultBody>
-        <div className={styles.bodyContainer}>
+        <div className={styles.container}>
           <Markdown>
             <UpdatesMD />
           </Markdown>
