@@ -2,12 +2,16 @@ use google_gmail1::api::Message;
 use google_gmail1::{chrono, hyper, hyper_rustls, oauth2, FieldMask, Gmail};
 use google_gmail1::{Error, Result};
 use hyper_tls::HttpsConnector;
+use prfs_email_auth_server::envs::ENVS;
 use prfs_email_auth_server::paths::PATHS;
+use prfs_email_auth_server::server::state::ServerState;
 use std::default::Default;
 use std::fs;
 
 #[tokio::main]
 async fn main() {
+    let state = ServerState::init().await;
+
     func().await;
 }
 
@@ -17,7 +21,7 @@ async fn func() {
         .unwrap();
 
     let auth = oauth2::ServiceAccountAuthenticator::builder(service_account_key)
-        .subject("elden@taigalabs.xyz")
+        .subject(&ENVS.gmail_account)
         .build()
         .await
         .unwrap();
@@ -25,23 +29,10 @@ async fn func() {
     let https = HttpsConnector::new();
     let client = hyper::Client::builder().build::<_, hyper::Body>(https);
 
-    // Gmail
-    let mut hub = Gmail::new(
-        client,
-        // hyper::Client::builder().build(
-        //     hyper_tls::HttpsConnectorBuilder::new(), //     .with_native_roots()
-        //                                              //     .https_or_http()
-        //                                              //     .enable_http1()
-        //                                              //     .build(),
-        // ),
-        auth,
-    );
+    let mut hub = Gmail::new(client, auth);
 
-    println!("111");
+    println!("Successfully created a gmail instance");
 
-    // You can configure optional parameters by calling the respective setters at will, and
-    // execute the final call using `upload_resumable(...)`.
-    // Values shown here are possibly random and not representative !
     let result = hub
         .users()
         .messages_list("me")
@@ -66,4 +57,6 @@ async fn func() {
         },
         Ok(res) => println!("Success: {:?}", res),
     }
+
+    // hub.users().watch()
 }
