@@ -4,4 +4,5 @@ log_files/**/*
 !sample.env
 seed.json
 
-prfs-auth-key.json
+prfs_auth_key.json
+prfs_auth_access_token
