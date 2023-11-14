@@ -1,5 +1,5 @@
 import { google } from "googleapis";
-import fs, { access } from "fs";
+import fs from "fs";
 import path from "path";
 
 const KEY_PATH = path.resolve(__dirname, "prfs_auth_key.json");

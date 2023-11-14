@@ -48,6 +48,7 @@ async-native-tls = { version = "0.5", default-features = false }
 async-smtp = { version = "0.8", default-features = false }
 futures = "0.3.29"
 hyper-rustls = "0.24.2"
+yup-oauth2 = { version = "8.3.0", features = ["service_account"] }
 
 prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_tree_maker = { path = "../prfs_tree_maker" }

@@ -1,6 +1,7 @@
 use google_gmail1::api::Message;
 use google_gmail1::{chrono, hyper, hyper_rustls, oauth2, FieldMask, Gmail};
 use google_gmail1::{Error, Result};
+use prfs_email_auth_server::paths::PATHS;
 use std::default::Default;
 use std::fs;
 
@@ -10,22 +11,25 @@ async fn main() {
 }
 
 async fn func() {
-    // Get an ApplicationSecret instance by some means. It contains the `client_id` and
-    // `client_secret`, among other things.
-    let secret: oauth2::ApplicationSecret = Default::default();
-    // Instantiate the authenticator. It will choose a suitable authentication flow for you,
-    // unless you replace  `None` with the desired Flow.
-    // Provide your own `AuthenticatorDelegate` to adjust the way it operates and get feedback about
-    // what's going on. You probably want to bring in your own `TokenStorage` to persist tokens and
-    // retrieve them from storage.
-    let auth = oauth2::InstalledFlowAuthenticator::builder(
-        secret,
-        oauth2::InstalledFlowReturnMethod::HTTPRedirect,
-    )
-    .build()
-    .await
-    .unwrap();
+    let service_account_key = yup_oauth2::read_service_account_key(&PATHS.prfs_auth_key)
+        .await
+        .unwrap();
 
+    // let auth = yup_oauth2::ServiceAccountAuthenticator::builder(service_account_key)
+    //     .build()
+    //     .await
+    //     .unwrap();
+
+    // auth.token(&[""]).await;
+    let auth = oauth2::ServiceAccountAuthenticator::builder(service_account_key)
+        .subject("elden@taigalabs.xyz")
+        .build()
+        .await
+        .unwrap();
+    //
+    // yup_oauth2::ServiceAccountImpersonationAuthenticator::builder()
+
+    // Gmail
     let mut hub = Gmail::new(
         hyper::Client::builder().build(
             hyper_rustls::HttpsConnectorBuilder::new()
@@ -36,25 +40,17 @@ async fn func() {
         ),
         auth,
     );
-    // As the method needs a request, you would usually fill it with the desired information
-    // into the respective structure. Some of the parts shown here might not be applicable !
-    // Values shown here are possibly random and not representative !
-    let mut req = Message::default();
+
+    println!("111");
 
     // You can configure optional parameters by calling the respective setters at will, and
     // execute the final call using `upload_resumable(...)`.
     // Values shown here are possibly random and not representative !
     let result = hub
         .users()
-        .messages_import(req, "userId")
-        .process_for_calendar(true)
-        .never_mark_spam(true)
-        .internal_date_source("Lorem")
-        .deleted(false)
-        .upload_resumable(
-            fs::File::open("file.ext").unwrap(),
-            "application/octet-stream".parse().unwrap(),
-        )
+        .messages_list("me")
+        .add_scopes(["https://mail.google.com"])
+        .doit()
         .await;
 
     match result {

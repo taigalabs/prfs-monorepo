@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node app.ts",
-    "py": "python3 app.py"
+    "example": "ts-node nodejs_example.ts"
   },
   "dependencies": {
     "@google-cloud/local-auth": "1.0.0",
