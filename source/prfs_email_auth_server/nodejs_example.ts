@@ -33,5 +33,6 @@ const ACCESS_TOKEN_PATH = path.resolve(__dirname, "prfs_auth_access_token");
   });
 
   const res = await gmail.users.messages.list({ userId: "me" });
+  // gmail.users.watch()
   console.log(44, res.data);
 })();

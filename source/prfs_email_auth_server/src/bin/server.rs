@@ -1,6 +1,7 @@
 use google_gmail1::api::Message;
 use google_gmail1::{chrono, hyper, hyper_rustls, oauth2, FieldMask, Gmail};
 use google_gmail1::{Error, Result};
+use hyper_tls::HttpsConnector;
 use prfs_email_auth_server::paths::PATHS;
 use std::default::Default;
 use std::fs;
@@ -11,33 +12,28 @@ async fn main() {
 }
 
 async fn func() {
-    let service_account_key = yup_oauth2::read_service_account_key(&PATHS.prfs_auth_key)
+    let service_account_key = oauth2::read_service_account_key(&PATHS.prfs_auth_key)
         .await
         .unwrap();
 
-    // let auth = yup_oauth2::ServiceAccountAuthenticator::builder(service_account_key)
-    //     .build()
-    //     .await
-    //     .unwrap();
-
-    // auth.token(&[""]).await;
     let auth = oauth2::ServiceAccountAuthenticator::builder(service_account_key)
         .subject("elden@taigalabs.xyz")
         .build()
         .await
         .unwrap();
-    //
-    // yup_oauth2::ServiceAccountImpersonationAuthenticator::builder()
+
+    let https = HttpsConnector::new();
+    let client = hyper::Client::builder().build::<_, hyper::Body>(https);
 
     // Gmail
     let mut hub = Gmail::new(
-        hyper::Client::builder().build(
-            hyper_rustls::HttpsConnectorBuilder::new()
-                .with_native_roots()
-                .https_or_http()
-                .enable_http1()
-                .build(),
-        ),
+        client,
+        // hyper::Client::builder().build(
+        //     hyper_tls::HttpsConnectorBuilder::new(), //     .with_native_roots()
+        //                                              //     .https_or_http()
+        //                                              //     .enable_http1()
+        //                                              //     .build(),
+        // ),
         auth,
     );
 
