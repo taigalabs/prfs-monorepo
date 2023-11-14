@@ -466,6 +466,9 @@ importers:
       '@google-cloud/local-auth':
         specifier: 1.0.0
         version: 1.0.0
+      '@googleapis/gmail':
+        specifier: ^6.0.0
+        version: 6.0.0
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
@@ -4213,6 +4216,16 @@ packages:
     dependencies:
       lit: 2.7.6
       three: 0.146.0
+    dev: false
+
+  /@googleapis/gmail@6.0.0:
+    resolution: {integrity: sha512-g/cbKnoO0eWLFzqTfzNtG8OtRnJDsvGlgnJFqhXr8cK7DsI1yLWSYpFci+3OrCjYnw6+efvBODqxXLC4UZ9F+A==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      googleapis-common: 7.0.1
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
     dev: false
 
   /@headlessui/react@1.7.17(react-dom@18.2.0)(react@18.2.0):

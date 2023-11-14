@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@google-cloud/local-auth": "1.0.0",
+    "@googleapis/gmail": "^6.0.0",
     "@taigalabs/prfs-entities": "*",
     "googleapis": "^128.0.0"
   },

@@ -1,12 +1,25 @@
-import { google, gmail_v1 } from "googleapis";
+import { google } from "googleapis";
+import path from "path";
 
-// const auth = new google.auth.GoogleAuth({
-//   keyFile: "prfs-auth-key.json",
-//   scopes: ["https://mail.google.com/"],
-// });
+const KEY_PATH = path.resolve(__dirname, "prfs-auth-key.json");
 
-const auth = gmail_v1.Gmail({
-  version: "v1",
-  keyFile: "./google_service.json",
-  scopes: ["https://www.googleapis.com/auth/gmail.send"],
-});
+(async () => {
+  console.log("KEY_PATH: %s", KEY_PATH);
+
+  const JWT = google.auth.JWT;
+  const authClient = new JWT({
+    keyFile: KEY_PATH,
+    scopes: ["https://mail.google.com"],
+    subject: "elden@taigalabs.xyz", // google admin email address to impersonate
+  });
+
+  await authClient.authorize();
+
+  const gmail = google.gmail({
+    version: "v1",
+    auth: authClient,
+  });
+
+  const res = await gmail.users.messages.list({ userId: "me" });
+  console.log(44, res.data);
+})();
