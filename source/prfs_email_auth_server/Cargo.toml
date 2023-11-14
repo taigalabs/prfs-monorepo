@@ -41,11 +41,13 @@ git2 = "0.18.1"
 imap = "2.4.1"
 base64 = "0.21"
 google-oauth = { version = "1" }
+google-gmail1 = "*"
 native-tls = { version = "0.2.2" }
 async-imap = { version = "0.9.3", default-features = false}
 async-native-tls = { version = "0.5", default-features = false }
 async-smtp = { version = "0.8", default-features = false }
 futures = "0.3.29"
+hyper-rustls = "0.24.2"
 
 prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_tree_maker = { path = "../prfs_tree_maker" }

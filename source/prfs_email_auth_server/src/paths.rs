@@ -12,6 +12,7 @@ pub struct Paths {
     pub workspace_dir: PathBuf,
     pub manifest_dir: PathBuf,
     pub data: PathBuf,
+    pub access_token: PathBuf,
 
     pub data__json_bindings: PathBuf,
 }
@@ -30,9 +31,12 @@ impl Paths {
         #[allow(non_snake_case)]
         let data__json_bindings = manifest_dir.join("data/json_bindings");
 
+        let access_token = manifest_dir.join("prfs_auth_access_token");
+
         let p = Paths {
             workspace_dir,
             manifest_dir,
+            access_token,
             data,
             data__json_bindings,
         };

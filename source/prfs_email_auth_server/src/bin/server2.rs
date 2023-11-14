@@ -20,15 +20,14 @@ use tokio::net::TcpStream;
 async fn main() -> Result<(), EmailAuthServerError> {
     let imap_server = "imap.gmail.com";
     let login = &ENVS.gmail_account;
-    let pw = &ENVS.gmail_pw;
 
-    println!(
-        "imap server: {}, gmail acc: {}, gmail pw: {}",
-        imap_server, login, pw
-    );
+    // println!(
+    //     "imap server: {}, gmail acc: {}, gmail pw: {}",
+    //     imap_server, login, pw
+    // );
 
-    let res = fetch_inbox_top(imap_server, &login, &pw).await?;
-    println!("res: {:?}", res);
+    // let res = fetch_inbox_top(imap_server, &login, &pw).await?;
+    // println!("res: {:?}", res);
 
     Ok(())
 }

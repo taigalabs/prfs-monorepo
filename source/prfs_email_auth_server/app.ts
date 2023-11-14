@@ -15,7 +15,7 @@ const ACCESS_TOKEN_PATH = path.resolve(__dirname, "prfs_auth_access_token");
     subject: "elden@taigalabs.xyz", // google admin email address to impersonate
   });
 
-  await authClient.authorize();
+  // await authClient.authorize();
 
   const accessToken = await authClient.getAccessToken();
   console.log("access token: %s", accessToken);
