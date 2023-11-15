@@ -89,13 +89,6 @@ async fn fetch_emails(hub: Gmail<HttpsConnector<HttpConnector>>) {
                 _ => {}
             };
 
-            // let headers = if let Some(h) = payload.headers {
-            //     h
-            // } else {
-            //     println!("headers does not exist");
-            //     continue;
-            // };
-
             // if let Some(r) = msg_response.raw {
             //     let raw = String::from_utf8(r).unwrap();
             //     println!("raw: {}", raw);
