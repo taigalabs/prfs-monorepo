@@ -74,7 +74,31 @@ async fn fetch_emails(hub: Gmail<HttpsConnector<HttpConnector>>) {
             .await;
 
         if let Ok((_, msg_response)) = handle_resp(result) {
-            println!("msg: {:?}", msg_response);
+            // println!("msg: {:?}", msg_response);
+            let payload = if let Some(p) = msg_response.payload {
+                p
+            } else {
+                continue;
+            };
+
+            let body = if let Some(b) = payload.body {
+                b
+            } else {
+                println!("body does not exist");
+                continue;
+            };
+
+            println!("body: {:?}", body);
+
+            let data = if let Some(d) = body.data {
+                d
+            } else {
+                println!("body data does not exist");
+                continue;
+            };
+
+            let str = String::from_utf8(data).unwrap();
+            println!("str: {}", str);
         } else {
         };
     }
