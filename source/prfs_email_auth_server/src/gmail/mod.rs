@@ -12,6 +12,7 @@ use crate::envs::ENVS;
 use crate::gmail::response::handle_resp;
 use crate::paths::PATHS;
 use crate::server::state::ServerState;
+use crate::vendors::get_vendor;
 
 pub async fn run_gmail_auth(state: Arc<ServerState>) {
     let service_account_key = oauth2::read_service_account_key(&PATHS.prfs_auth_key)
@@ -74,31 +75,31 @@ async fn fetch_emails(hub: Gmail<HttpsConnector<HttpConnector>>) {
             .await;
 
         if let Ok((_, msg_response)) = handle_resp(result) {
-            // println!("msg: {:?}", msg_response);
-            let payload = if let Some(p) = msg_response.payload {
-                p
-            } else {
-                continue;
+            println!("raw: {:?}", msg_response.raw);
+
+            // // println!("msg: {:?}", msg_response);
+            // let payload = if let Some(p) = msg_response.payload {
+            //     p
+            // } else {
+            //     continue;
+            // };
+            //
+
+            match get_vendor(msg_response) {
+                _ => {}
             };
 
-            let body = if let Some(b) = payload.body {
-                b
-            } else {
-                println!("body does not exist");
-                continue;
-            };
+            // let headers = if let Some(h) = payload.headers {
+            //     h
+            // } else {
+            //     println!("headers does not exist");
+            //     continue;
+            // };
 
-            println!("body: {:?}", body);
-
-            let data = if let Some(d) = body.data {
-                d
-            } else {
-                println!("body data does not exist");
-                continue;
-            };
-
-            let str = String::from_utf8(data).unwrap();
-            println!("str: {}", str);
+            // if let Some(r) = msg_response.raw {
+            //     let raw = String::from_utf8(r).unwrap();
+            //     println!("raw: {}", raw);
+            // }
         } else {
         };
     }
