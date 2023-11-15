@@ -2,13 +2,14 @@ mod response;
 
 use google_gmail1::api::Message;
 use google_gmail1::{chrono, hyper, hyper_rustls, oauth2, FieldMask, Gmail};
-use google_gmail1::{Error, Result};
+use google_gmail1::{Error, Result as GmailResult};
 use hyper::client::HttpConnector;
 use hyper_tls::HttpsConnector;
 use std::fs;
 use std::sync::Arc;
 
 use crate::envs::ENVS;
+use crate::gmail::response::handle_resp;
 use crate::paths::PATHS;
 use crate::server::state::ServerState;
 
@@ -41,30 +42,11 @@ async fn fetch_emails(hub: Gmail<HttpsConnector<HttpConnector>>) {
         .users()
         .messages_list("me")
         .q("after:1388552400")
-        .add_scopes(["https://mail.google.com"])
+        .add_scopes(["https://www.googleapis.com/auth/gmail.readonly"])
         .doit()
         .await;
 
-    let (_, msg_response) = match result {
-        Err(e) => match e {
-            // The Error enum provides details about what exactly happened.
-            // You can also just use its `Debug`, `Display` or `Error` traits
-            Error::HttpError(_)
-            | Error::Io(_)
-            | Error::MissingAPIKey
-            | Error::MissingToken(_)
-            | Error::Cancelled
-            | Error::UploadSizeLimitExceeded(_, _)
-            | Error::Failure(_)
-            | Error::BadRequest(_)
-            | Error::FieldClash(_)
-            | Error::JsonDecodeError(_, _) => {
-                println!("Error fetching emails {}", e);
-                return;
-            }
-        },
-        Ok(res) => res,
-    };
+    let (_, msg_response) = handle_resp(result).unwrap();
 
     let messages = if let Some(m) = msg_response.messages {
         m
@@ -84,29 +66,11 @@ async fn fetch_emails(hub: Gmail<HttpsConnector<HttpConnector>>) {
 
         println!("msg_id: {:?}", msg_id);
 
-        let a = hub.users().messages_get("me", &msg_id).doit().await;
-    }
-}
+        let result = hub.users().messages_get("me", &msg_id).doit().await;
 
-pub fn handle_resp<T>(result: Result<(Response<hyper::body::Body>, T), Error>) {
-    let (_, msg_response) = match result {
-        Err(e) => match e {
-            // The Error enum provides details about what exactly happened.
-            // You can also just use its `Debug`, `Display` or `Error` traits
-            Error::HttpError(_)
-            | Error::Io(_)
-            | Error::MissingAPIKey
-            | Error::MissingToken(_)
-            | Error::Cancelled
-            | Error::UploadSizeLimitExceeded(_, _)
-            | Error::Failure(_)
-            | Error::BadRequest(_)
-            | Error::FieldClash(_)
-            | Error::JsonDecodeError(_, _) => {
-                println!("Error fetching emails {}", e);
-                return;
-            }
-        },
-        Ok(res) => res,
-    };
+        if let Ok((_, msg_response)) = handle_resp(result) {
+            println!("msg: {:?}", msg_response);
+        } else {
+        };
+    }
 }
