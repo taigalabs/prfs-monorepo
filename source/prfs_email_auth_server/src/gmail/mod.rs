@@ -42,7 +42,7 @@ async fn fetch_emails(hub: Gmail<HttpsConnector<HttpConnector>>) {
         .users()
         .messages_list("me")
         .q("after:1388552400")
-        .add_scopes(["https://www.googleapis.com/auth/gmail.readonly"])
+        .add_scope("https://mail.google.com")
         .doit()
         .await;
 
@@ -66,7 +66,12 @@ async fn fetch_emails(hub: Gmail<HttpsConnector<HttpConnector>>) {
 
         println!("msg_id: {:?}", msg_id);
 
-        let result = hub.users().messages_get("me", &msg_id).doit().await;
+        let result = hub
+            .users()
+            .messages_get("me", &msg_id)
+            .add_scope("https://mail.google.com")
+            .doit()
+            .await;
 
         if let Ok((_, msg_response)) = handle_resp(result) {
             println!("msg: {:?}", msg_response);
