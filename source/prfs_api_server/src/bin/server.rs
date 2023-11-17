@@ -10,6 +10,8 @@ use routerify::RouterService;
 use std::net::SocketAddr;
 use std::sync::Arc;
 
+const PORT: u16 = 4000;
+
 #[tokio::main]
 async fn main() -> Result<(), ApiServerError> {
     println!(
@@ -26,7 +28,7 @@ async fn main() -> Result<(), ApiServerError> {
     let router = router::make_router(server_state).expect("make_router fail");
     let service = RouterService::new(router).expect("router service init fail");
 
-    let addr = SocketAddr::from(([0, 0, 0, 0], 4000));
+    let addr = SocketAddr::from(([0, 0, 0, 0], PORT));
     let server = Server::bind(&addr).serve(service);
 
     println!("Prfs backend is running on: {}", addr);

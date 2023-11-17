@@ -1161,9 +1161,6 @@ importers:
       uuid:
         specifier: ^9.0.0
         version: 9.0.0
-      viem:
-        specifier: ^1.12.2
-        version: 1.12.2(typescript@5.1.6)
       wagmi:
         specifier: ^1.4.2
         version: 1.4.2(@types/react@18.2.12)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.12.2)
