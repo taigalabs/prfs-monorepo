@@ -20,10 +20,10 @@ pub fn make_router(
         .middleware(Middleware::pre(middleware::logger))
         .middleware(enable_cors_all())
         .get("/", status_handler)
-        .post(
-            format!("{}/sign_up_prfs_account", PREFIX),
-            prfs_accounts::sign_up_prfs_account,
-        )
+        // .post(
+        //     format!("{}/sign_up_prfs_account", PREFIX),
+        //     prfs_accounts::sign_up_prfs_account,
+        // )
         .post("*", middleware::not_found_handler)
         .err_handler_with_info(middleware::error_handler)
         .build()?;

@@ -16,8 +16,8 @@ import CreateProofModule from "@/components/create_proof_module/CreateProofModul
 import PostCreateMenu from "./PostCreateMenu";
 import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
-import Tutorial from "../tutorial/Tutorial";
-import TutorialPlaceholder from "../tutorial/TutorialPlaceholder";
+import Tutorial from "@/components/tutorial/Tutorial";
+import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
 
 const CreateProofForm: React.FC = () => {
   const [proofType, setProofType] = React.useState<PrfsProofType>();
