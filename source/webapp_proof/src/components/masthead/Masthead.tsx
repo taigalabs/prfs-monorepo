@@ -34,7 +34,10 @@ const Masthead: React.FC<MastheadProps> = () => {
               </p>
             </a>
           </li>
-          <li className={cn(styles.bigScreen)}>
+          <li className={cn(styles.menu)}>
+            <Link href={paths.auth}>{i18n.auth}</Link>
+          </li>
+          <li className={cn(styles.bigScreen, styles.menu)}>
             <Link href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>{i18n.docs}</Link>
           </li>
           <li className={styles.menu}>

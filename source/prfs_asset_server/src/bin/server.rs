@@ -9,6 +9,8 @@ use routerify::RouterService;
 use std::net::SocketAddr;
 use std::sync::Arc;
 
+const PORT: u16 = 4010;
+
 #[tokio::main]
 async fn main() -> Result<(), AssetServerError> {
     println!("{} {}", "Starting".green(), env!("CARGO_PKG_NAME"),);
@@ -19,7 +21,7 @@ async fn main() -> Result<(), AssetServerError> {
 
     let router = make_router(server_state);
     let service = RouterService::new(router).unwrap();
-    let addr: SocketAddr = ([0, 0, 0, 0], 4010).into();
+    let addr: SocketAddr = ([0, 0, 0, 0], PORT).into();
     let server = Server::bind(&addr).serve(service);
 
     println!("Server is running on: {}", addr);

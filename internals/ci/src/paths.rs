@@ -25,6 +25,7 @@ pub struct Paths {
     pub prfs_circuits_circom: PathBuf,
 
     pub prfs_api_server: PathBuf,
+    pub prfs_email_auth_server: PathBuf,
 
     //
     pub prfs_asset_server: PathBuf,
@@ -78,6 +79,7 @@ impl Paths {
 
         let e2e_test_web = curr_dir.join("source/e2e_test_web");
         let prfs_api_server = curr_dir.join("source/prfs_api_server");
+        let prfs_email_auth_server = curr_dir.join("source/prfs_email_auth_server");
 
         let prfs_entities_bindings = curr_dir.join("source/prfs_entities/bindings");
 
@@ -112,6 +114,7 @@ impl Paths {
             prfs_entities_bindings,
 
             prfs_api_server,
+            prfs_email_auth_server,
 
             prfs_asset_server,
             prfs_asset_server_assets,

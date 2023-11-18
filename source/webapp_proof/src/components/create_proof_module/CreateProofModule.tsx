@@ -124,6 +124,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       lastInitProofTypeId.current = proofType.proof_type_id;
 
       const { circuit_driver_id, driver_properties } = proofType;
+      setLoadDriverStatus(LoadDriverStatus.InProgress);
       setDriverMsg(<span>Loading driver {proofType.circuit_driver_id}...</span>);
 
       const since = dayjs();

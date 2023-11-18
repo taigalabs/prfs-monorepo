@@ -1,6 +1,12 @@
-.bodyContainer {
+.container {
   display: flex;
   justify-content: center;
   padding: 35px 0;
   width: 720px;
+}
+
+@media screen and (max-width: 1024px) {
+  .container {
+    padding: 35px 10px;
+  }
 }

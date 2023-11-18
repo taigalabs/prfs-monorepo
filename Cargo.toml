@@ -10,6 +10,7 @@ members = [
   "source/prfs_db_interface",
   "source/prfs_tree_maker",
   "source/prfs_api_server",
+  "source/prfs_email_auth_server",
   "source/prfs_asset_server",
   "source/prfs_crypto",
   "source/prfs_entities",

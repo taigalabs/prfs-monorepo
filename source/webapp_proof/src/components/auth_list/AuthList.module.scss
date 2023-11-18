@@ -1,0 +1,38 @@
+.wrapper {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  margin-right: 15px;
+  padding-top: 56px;
+
+  // border: 1px solid red;
+}
+
+.list {
+  margin-top: 32px;
+}
+
+.listItem {
+  button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid var(--bright-gray-30);
+    border-radius: 20px;
+    padding: 8px 16px;
+
+    &:hover {
+      border: 1px solid var(--gray-60);
+    }
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
+
+  p {
+    margin-left: 8px;
+  }
+}
