@@ -12,6 +12,7 @@ import { AiFillPicture } from "@react-icons/all-files/ai/AiFillPicture";
 import styles from "./LeftBar.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
+import PostDialog from "../post_dialog/PostDialog";
 
 const LeftBar: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -45,7 +46,9 @@ const LeftBar: React.FC = () => {
       {/*   </li> */}
       {/* </ul> */}
       <div>
-        <button className={styles.postBtn}>{i18n.post}</button>
+        <PostDialog>
+          <button className={styles.postBtn}>{i18n.post}</button>
+        </PostDialog>
       </div>
     </div>
   );
