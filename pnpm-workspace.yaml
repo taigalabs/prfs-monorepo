@@ -2,6 +2,7 @@ packages:
   - "externals/incremental-merkle-tree"
 
   - "source/e2e_test_web"
+  - "source/prfs_snap"
 
   - "source/docs_website"
 
