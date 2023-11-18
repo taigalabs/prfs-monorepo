@@ -15,7 +15,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = async ({ proofInstanceId
         <ProofTypeMasthead
           proofInstanceId={proofInstanceId}
           proofType={undefined}
-          handleSelectProofType={() => {}}
+          handleSelectProofType={() => { }}
         />
       </Suspense>
       <div className={styles.wrapper}>

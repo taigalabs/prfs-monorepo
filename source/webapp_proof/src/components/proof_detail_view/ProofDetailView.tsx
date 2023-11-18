@@ -103,7 +103,10 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
               <SocialSharePopover />
             </li>
             <li>
-              <SaveProofPopover />
+              <SaveProofPopover
+                proofInstance={proofInstance}
+                proofShortUrl={`${process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/p/${proofInstance.short_id}`}
+              />
             </li>
           </ul>
           <ul>

@@ -8,6 +8,7 @@ import type { Snap } from '../modules/snap/types';
 import { addProof, connectSnap, detectSnaps, getSnap, isFlask, isLocalSnap, shouldDisplayReconnect } from '../modules/snap/utils';
 import { i18nContext } from '../contexts/i18nContext';
 import { defaultSnapOrigin } from '../modules/snap/config';
+import { PrfsProofInstanceSyn1 } from '@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1';
 
 export type MetamaskState = {
   snapsDetected: boolean;
@@ -74,7 +75,10 @@ const reducer: Reducer<MetamaskState, MetamaskDispatch> = (state, action) => {
  * @param props.children - React component to be wrapped by the Provider.
  * @returns JSX.
  */
-const Snaps = () => {
+const Snaps: React.FC<SnapsProps> = ({
+  proofShortUrl,
+  proofInstance,
+}) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const i18n = React.useContext(i18nContext);
 
@@ -191,3 +195,8 @@ const Snaps = () => {
 };
 
 export default Snaps;
+
+export interface SnapsProps {
+  proofShortUrl: string;
+  proofInstance: PrfsProofInstanceSyn1;
+}

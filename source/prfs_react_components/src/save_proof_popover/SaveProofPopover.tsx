@@ -10,12 +10,13 @@ import {
   Placement,
 } from "@floating-ui/react";
 import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
+import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 
 import styles from "./SaveProofPopover.module.scss";
 import { i18nContext } from "../contexts/i18nContext";
 import Snaps from "./Snaps";
 
-function SaveProofPopover({ placement, offset, variant }: SaveProofPopoverProps) {
+function SaveProofPopover({ placement, offset, proofShortUrl, proofInstance }: SaveProofPopoverProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const i18n = React.useContext(i18nContext);
   const { refs, floatingStyles, context } = useFloating({
@@ -50,7 +51,10 @@ function SaveProofPopover({ placement, offset, variant }: SaveProofPopoverProps)
         >
           <ul className={styles.menuList}>
             <li>
-              <Snaps />
+              <Snaps
+                proofInstance={proofInstance}
+                proofShortUrl={proofShortUrl}
+              />
             </li>
           </ul>
         </div>
@@ -62,7 +66,8 @@ function SaveProofPopover({ placement, offset, variant }: SaveProofPopoverProps)
 export default SaveProofPopover;
 
 export interface SaveProofPopoverProps {
-  variant?: "transparent_blue_1" | "transparent_black_1";
   offset?: number;
   placement?: Placement;
+  proofShortUrl: string;
+  proofInstance: PrfsProofInstanceSyn1;
 }
