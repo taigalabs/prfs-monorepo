@@ -49,9 +49,8 @@
 
 .module {
   position: relative;
-  padding: 20px 16px 20px;
-  border: 1px solid var(--bright-gray-30);
-  border-radius: 6px;
+  padding: 20px 20px 20px;
+  border-left: 1px solid var(--bright-gray-30);
   flex-grow: 1;
   min-width: 360px;
   max-width: 430px;
