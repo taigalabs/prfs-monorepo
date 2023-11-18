@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@floating-ui/react": "^0.24.8",
+    "@metamask/providers": "^14.0.0",
     "@phosphor-icons/react": "^2.0.10",
     "@react-icons/all-files": "^4.1.0",
     "@tabler/icons-react": "^2.32.0",

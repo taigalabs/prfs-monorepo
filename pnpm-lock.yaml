@@ -505,6 +505,9 @@ importers:
       '@floating-ui/react':
         specifier: ^0.24.8
         version: 0.24.8(react-dom@18.2.0)(react@18.2.0)
+      '@metamask/providers':
+        specifier: ^14.0.0
+        version: 14.0.1
       '@phosphor-icons/react':
         specifier: ^2.0.10
         version: 2.0.10(react-dom@18.2.0)(react@18.2.0)
@@ -7787,6 +7790,14 @@ packages:
       once: 1.4.0
       readable-stream: 2.3.8
 
+  /@metamask/object-multiplex@2.0.0:
+    resolution: {integrity: sha512-+ItrieVZie3j2LfYE0QkdW3dsEMfMEp419IGx1zyeLqjRZ14iQUPRO0H6CGgfAAoC0x6k2PfCAGRwJUA9BMrqA==}
+    engines: {node: ^16.20 || ^18.16 || >=20}
+    dependencies:
+      once: 1.4.0
+      readable-stream: 3.6.2
+    dev: false
+
   /@metamask/permission-controller@5.0.1(@metamask/approval-controller@4.1.0):
     resolution: {integrity: sha512-dm/8U4yHtq0cwW/vrVpKT9fFyHdGC6BBwW+e1EUwm+OUhOHtwcB08XuAx5XNVfzE/ymbuBYJyE2SgbvOxvd4PQ==}
     engines: {node: '>=16.0.0'}
@@ -7846,6 +7857,26 @@ packages:
       webextension-polyfill: 0.10.0
     transitivePeerDependencies:
       - supports-color
+
+  /@metamask/providers@14.0.1:
+    resolution: {integrity: sha512-9HEeBpIl33uE+7LetKF5zqZ2yOlrqXhJRj2vbZtVEXpy4yfDd7wYhTBI+d5yXqWHdtku9V+5XTAipp5uBU5yvw==}
+    engines: {node: '>=16.0.0'}
+    dependencies:
+      '@metamask/json-rpc-engine': 7.3.0
+      '@metamask/object-multiplex': 2.0.0
+      '@metamask/rpc-errors': 6.1.0
+      '@metamask/safe-event-emitter': 3.0.0
+      '@metamask/utils': 8.2.1
+      detect-browser: 5.3.0
+      extension-port-stream: 3.0.0
+      fast-deep-equal: 3.1.3
+      is-stream: 2.0.0
+      json-rpc-middleware-stream: 5.0.1
+      readable-stream: 3.6.2
+      webextension-polyfill: 0.10.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
 
   /@metamask/rpc-errors@6.1.0:
     resolution: {integrity: sha512-JQElKxai26FpDyRKO/yH732wI+BV90i1u6pOuDOpdADSbppB2g1pPh3AGST1zkZqEE9eIKIUw8UdBQ4rp3VTSg==}
@@ -18797,6 +18828,14 @@ packages:
     dependencies:
       webextension-polyfill: 0.10.0
 
+  /extension-port-stream@3.0.0:
+    resolution: {integrity: sha512-an2S5quJMiy5bnZKEf6AkfH/7r8CzHvhchU40gxN+OM6HPhe7Z9T1FUychcf2M9PpPOO0Hf7BAEfJkw2TDIBDw==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      readable-stream: 4.4.2
+      webextension-polyfill: 0.10.0
+    dev: false
+
   /external-editor@3.1.0:
     resolution: {integrity: sha512-hMQ4CX1p1izmuLYyZqLMO/qGNw10wSv9QDCPfzXfyFrOaCSSoRfqE1Kf1s5an66J5JZC62NewG+mK49jOCtQew==}
     engines: {node: '>=4'}
@@ -23043,7 +23082,6 @@ packages:
       readable-stream: 3.6.2
     transitivePeerDependencies:
       - supports-color
-    dev: true
 
   /json-rpc-random-id@1.0.1:
     resolution: {integrity: sha512-RJ9YYNCkhVDBuP4zN5BBtYAzEl03yq/jIIsyif0JY9qyJuQQZNeDK7anAPKKlyEtLSj2s8h6hNh2F8zO5q7ScA==}
@@ -27327,7 +27365,6 @@ packages:
       events: 3.3.0
       process: 0.11.10
       string_decoder: 1.3.0
-    dev: true
 
   /readable-web-to-node-stream@3.0.2:
     resolution: {integrity: sha512-ePeK6cc1EcKLEhJFt/AebMCLL+GgSKhuygrZ/GLaKZYEecIgIECf4UaUuaByiGtzckwR4ain9VzUh95T1exYGw==}

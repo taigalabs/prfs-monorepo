@@ -1,5 +1,5 @@
 {
-  "name": "@prfs/prfs-snap",
+  "name": "@prfs/prfs-snaps",
   "version": "0.1.0",
   "license": "(MIT-0 OR Apache-2.0)",
   "main": "./dist/bundle.js",

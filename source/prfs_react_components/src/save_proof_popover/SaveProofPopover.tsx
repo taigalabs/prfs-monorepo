@@ -9,16 +9,13 @@ import {
   flip,
   Placement,
 } from "@floating-ui/react";
-import { AiFillTwitterSquare } from "@react-icons/all-files/ai/AiFillTwitterSquare";
-import { FaTelegram } from "@react-icons/all-files/fa/FaTelegram";
-import { FaDiscord } from "@react-icons/all-files/fa/FaDiscord";
 import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
 
 import Fade from "../fade/Fade";
 import styles from "./SaveProofPopover.module.scss";
 import Button from "../button/Button";
 import { i18nContext } from "../contexts/i18nContext";
-import { useConnect } from "wagmi";
+import { connectSnap, getSnap, isLocalSnap } from "../modules/snap/utils";
 
 export const sendHello = async () => {
   // await window.ethereum.request({
@@ -44,23 +41,37 @@ function SaveProofPopover({ placement, offset, variant }: SaveProofPopoverProps)
   const click = useClick(context);
   const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
 
+  const [isFlask, setIsFlask] = React.useState(false);
   const [isSnapEnabled, setIsSnapEnabled] = React.useState(false);
 
+  const isMetaMaskReady = React.useMemo(() => {
+    isLocalSnap(defaultSnapOrigin) ? state.isFlask : state.snapsDetected;
+  }, []);
+
   React.useEffect(() => {
-    const win = window as any;
-    if (win.ethereum) {
-      win.ethereum
-        .request({
-          method: "wallet_invokeSnap",
-          params: { snapId: defaultSnapOrigin, request: { method: "hello" } },
-        })
-        .then((res: any) => {
-          console.log(55, res);
-        })
-        .catch((err: any) => {
-          console.error(44, err);
-        });
+    async function fn() {
+      const win = window as any;
+
+      try {
+        if (win.ethereum) {
+          console.log(111);
+
+          await connectSnap();
+          const installedSnap = await getSnap();
+
+          console.log(51);
+
+          // const res = await win.ethereum.request({
+          //   method: "wallet_invokeSnap",
+          //   params: { snapId: defaultSnapOrigin, request: { method: "hello" } },
+          // });
+        }
+      } catch (err) {
+        console.error(44, err);
+      }
     }
+
+    fn().then();
   }, [setIsSnapEnabled]);
 
   return (
