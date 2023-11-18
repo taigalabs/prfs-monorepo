@@ -160,7 +160,7 @@ const Snaps: React.FC<SnapsProps> = ({ proofShortUrl, proofInstance }) => {
 
   const handleClickSave = React.useCallback(async () => {
     try {
-      console.log(123, proofShortUrl, proofInstance);
+      console.log("Save to Snap", proofShortUrl, proofInstance);
 
       await addProof({
         proof_label: proofInstance.proof_label,
