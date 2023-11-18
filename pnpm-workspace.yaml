@@ -24,4 +24,4 @@ packages:
   - "source/webapp_console"
   - "source/webapp_proof"
   - "source/webapp_poll"
-  - "source/webapp_vacade"
+  - "source/webapp_social"

@@ -1,10 +1,8 @@
-"use client";
-
 import React from "react";
 import { redirect, useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 
-import styles from "./HomePage.module.scss";
+// import styles from "./HomePage.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import useLocalWallet from "@/hooks/useLocalWallet";
