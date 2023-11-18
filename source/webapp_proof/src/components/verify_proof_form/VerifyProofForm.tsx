@@ -19,82 +19,15 @@ import TutorialStepper from "@/components/tutorial/TutorialStepper";
 
 const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
 
-// enum VerifiedStatus {
-//   None,
-//   InProgress,
-//   Valid,
-//   Invalid,
-// }
-
-// const VerifyButton: React.FC<VerifyButtonProps> = ({ verifiedStatus, handleClick }) => {
-//   const i18n = React.useContext(i18nContext);
-
-//   switch (verifiedStatus) {
-//     case VerifiedStatus.Valid:
-//       return (
-//         <Button variant="transparent_black_1" className={styles.validBtn}>
-//           <FaCheck />
-//           <span>{i18n.verified}</span>
-//         </Button>
-//       );
-
-//     case VerifiedStatus.Invalid:
-//       return (
-//         <Button variant="transparent_black_1" className={styles.invalidBtn}>
-//           <AiOutlineClose />
-//           <span>{i18n.invalid}</span>
-//         </Button>
-//       );
-
-//     case VerifiedStatus.InProgress:
-//       return (
-//         <Button variant="transparent_black_1" className={styles.progressBtn}>
-//           <Spinner color="black" />
-//         </Button>
-//       );
-
-//     default:
-//       return (
-//         <Button variant="transparent_blue_1" className={styles.verifyBtn} handleClick={handleClick}>
-//           {i18n.verify}
-//         </Button>
-//       );
-//   }
-// };
-
 const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
   proof,
-  // proofInstance,
-  // circuitTypeId,
   circuitDriverId,
-  // proofGenElement,
   isVerifyOpen,
-  noCard,
 }) => {
   const i18n = React.useContext(i18nContext);
-  // const [verifiedStatus, setVerifiedStatus] = React.useState(VerifiedStatus.None);
-
-  // const handleClickVerify = React.useCallback(async () => {
-  //   if (verifiedStatus === VerifiedStatus.None) {
-  //     try {
-  //       setVerifiedStatus(VerifiedStatus.InProgress);
-
-  //       const verifyReceipt = await proofGenElement.verifyProof(proveResult, circuitTypeId);
-
-  //       if (verifyReceipt.verifyResult) {
-  //         setVerifiedStatus(VerifiedStatus.Valid);
-  //       } else {
-  //         setVerifiedStatus(VerifiedStatus.Invalid);
-  //       }
-  //     } catch (err) {
-  //       setVerifiedStatus(VerifiedStatus.Invalid);
-  //     }
-  //   }
-  // }, [verifiedStatus, setVerifiedStatus, proofGenElement]);
 
   const publicInputElems = React.useMemo(() => {
     const obj = JSONbigNative.parse(proof.publicInputSer);
-    // const obj = proofInstance.public_inputs;
     const elems: React.ReactNode[] = [];
 
     function loopThroughJSON(obj: Record<string, any>, count: number) {
@@ -112,7 +45,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
 
           elems.push(
             <div className={styles.publicInputRow} key={`${key}-${count}`}>
-              <p className={styles.key}>{key}</p>
+              <p className={styles.label}>{key}</p>
               <p className={styles.value}>{val}</p>
             </div>,
           );
@@ -125,19 +58,21 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
     return elems;
   }, [proof]);
 
-  const [proofRaw, size] = React.useMemo(() => {
-    return [utils.hexlify(proof.proofBytes), proof.proofBytes.byteLength];
+  const { proofRaw, size, proofRawMinified } = React.useMemo(() => {
+    const size = proof.proofBytes.byteLength;
+    const proofRaw = utils.hexlify(proof.proofBytes);
+    const proofRawMinified = proofRaw.length > 256 ? proofRaw.substring(0, 256) : proofRaw;
+
+    return { proofRaw, size, proofRawMinified };
   }, [proof]);
 
   return (
     <div
       className={cn(styles.wrapper, {
         [styles.isVerifyOpen]: isVerifyOpen,
-        [styles.noCard]: noCard,
       })}
     >
       <div className={styles.publicInputSection}>
-        <div className={styles.placeholder} />
         <div className={styles.data}>
           <div className={styles.title}>{i18n.public_inputs}</div>
           <div>{publicInputElems}</div>
@@ -145,16 +80,17 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
         <div className={styles.placeholder} />
       </div>
       <div className={styles.proofRawSection}>
-        <div className={styles.title}>{i18n.proof}</div>
         <div className={styles.data}>
-          <div className={styles.placeholder} />
+          <div className={styles.title}>{i18n.proof}</div>
           <div className={styles.proofSizeRow}>
             <p className={styles.label}>{i18n.proof_size}</p>
             <p>
               {size} {i18n.bytes.toLowerCase()}
             </p>
           </div>
-          {proofRaw}
+          <div>
+            <span>{proofRawMinified}</span>
+          </div>
           <div className={styles.placeholder} />
         </div>
         <div className={styles.footer} />
@@ -180,7 +116,7 @@ export interface VerifyProofFormProps {
   circuitDriverId: string;
   proof: Proof;
   isVerifyOpen: boolean;
-  noCard?: boolean;
+  // noCard?: boolean;
   // proofGenElement: ProofGenElement;
 }
 

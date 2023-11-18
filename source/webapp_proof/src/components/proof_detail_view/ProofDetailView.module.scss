@@ -105,10 +105,6 @@
 }
 
 @media screen and (max-width: 1300px) {
-  /* .wrapper { */
-  /*   padding-left: 30px; */
-  /* } */
-
   .topRow {
     padding-left: calc((100% - 1150px) / 2);
   }
@@ -155,5 +151,10 @@
     .proofDetail {
       margin-left: 0px;
     }
+  }
+
+  .verifyProofFormWrapper {
+    padding-left: 0px;
+    border-left: none;
   }
 }
