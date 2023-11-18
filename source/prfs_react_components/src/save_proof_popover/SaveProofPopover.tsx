@@ -15,11 +15,11 @@ import { FaDiscord } from "@react-icons/all-files/fa/FaDiscord";
 import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
 
 import Fade from "../fade/Fade";
-import styles from "./SocialSharePopover.module.scss";
+import styles from "./SaveProofPopover.module.scss";
 import Button from "../button/Button";
 import { i18nContext } from "../contexts/i18nContext";
 
-function SocialSharePopover({ placement, offset, variant }: SocialSharePopoverProps) {
+function SaveProofPopover({ placement, offset, variant }: SaveProofPopoverProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const i18n = React.useContext(i18nContext);
   const { refs, floatingStyles, context } = useFloating({
@@ -41,7 +41,7 @@ function SocialSharePopover({ placement, offset, variant }: SocialSharePopoverPr
         role="button"
       >
         <button>
-          <span>{i18n.share}</span>
+          <span>{i18n.save}</span>
           <IoMdArrowDropdown />
         </button>
       </div>
@@ -52,30 +52,30 @@ function SocialSharePopover({ placement, offset, variant }: SocialSharePopoverPr
           style={floatingStyles}
           {...getFloatingProps()}
         >
-          <ul className={styles.menuList}>
-            <p className={styles.notSupported}>{i18n.not_supported}</p>
-            {/*   <li> */}
-            {/*     <AiFillTwitterSquare /> */}
-            {/*     <span>Twitter</span> */}
-            {/*   </li> */}
-            {/*   <li> */}
-            {/*     <FaTelegram /> */}
-            {/*     <span>Telegram</span> */}
-            {/*   </li> */}
-            {/*   <li> */}
-            {/*     <FaDiscord /> */}
-            {/*     <span>Discord</span> */}
-            {/*   </li> */}
-          </ul>
+          <p className={styles.notSupported}>{i18n.not_supported}</p>
+          {/* <ul className={styles.menuList}> */}
+          {/*   <li> */}
+          {/*     <AiFillTwitterSquare /> */}
+          {/*     <span>Twitter</span> */}
+          {/*   </li> */}
+          {/*   <li> */}
+          {/*     <FaTelegram /> */}
+          {/*     <span>Telegram</span> */}
+          {/*   </li> */}
+          {/*   <li> */}
+          {/*     <FaDiscord /> */}
+          {/*     <span>Discord</span> */}
+          {/*   </li> */}
+          {/* </ul> */}
         </div>
       )}
     </>
   );
 }
 
-export default SocialSharePopover;
+export default SaveProofPopover;
 
-export interface SocialSharePopoverProps {
+export interface SaveProofPopoverProps {
   variant?: "transparent_blue_1" | "transparent_black_1";
   offset?: number;
   placement?: Placement;

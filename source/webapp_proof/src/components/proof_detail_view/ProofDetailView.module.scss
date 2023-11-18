@@ -16,6 +16,14 @@
     /* border: 1px solid gray; */
   }
 
+  ul {
+    display: flex;
+
+    li:not(:first-child) {
+      margin-left: 12px;
+    }
+  }
+
   .link {
     display: flex;
     align-items: center;

@@ -6,6 +6,7 @@ import cn from "classnames";
 import JSONBig from "json-bigint";
 import ProofBanner from "@taigalabs/prfs-react-components/src/proof_banner/ProofBanner";
 import SocialSharePopover from "@taigalabs/prfs-react-components/src/social_share_popover/SocialSharePopover";
+import SaveProofPopover from "@taigalabs/prfs-react-components/src/save_proof_popover/SaveProofPopover";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "wagmi";
 import { GetPrfsProofInstanceByInstanceIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstanceByInstanceIdRequest";
@@ -19,9 +20,9 @@ import { envs } from "@/envs";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
-import Tutorial from "../tutorial/Tutorial";
+import Tutorial from "@/components/tutorial/Tutorial";
 import { useIsTutorial } from "@/hooks/tutorial";
-import TutorialPlaceholder from "../tutorial/TutorialPlaceholder";
+import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
 
 const JSONbigNative = JSONBig({
   useNativeBigInt: true,
@@ -97,9 +98,12 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
       />
       <div className={styles.topRow}>
         <div className={styles.mainMenu}>
-          <ul>
+          <ul className={styles.leftMenu}>
             <li>
               <SocialSharePopover />
+            </li>
+            <li>
+              <SaveProofPopover />
             </li>
           </ul>
           <ul>

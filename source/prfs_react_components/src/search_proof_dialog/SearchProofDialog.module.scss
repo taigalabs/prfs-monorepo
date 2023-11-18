@@ -144,9 +144,10 @@
 
 @media screen and (max-width: 480px) {
   .wrapper {
-    border: 1px solid black;
     padding-left: 0px;
     padding-right: 0px;
+
+    /* border: 1px solid black; */
 
     .placeholder {
       max-width: 290px;
