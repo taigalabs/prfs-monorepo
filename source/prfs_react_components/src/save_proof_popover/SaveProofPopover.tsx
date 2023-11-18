@@ -52,21 +52,14 @@ function SaveProofPopover({ placement, offset, variant }: SaveProofPopoverProps)
           style={floatingStyles}
           {...getFloatingProps()}
         >
-          <p className={styles.notSupported}>{i18n.not_supported}</p>
-          {/* <ul className={styles.menuList}> */}
-          {/*   <li> */}
-          {/*     <AiFillTwitterSquare /> */}
-          {/*     <span>Twitter</span> */}
-          {/*   </li> */}
-          {/*   <li> */}
-          {/*     <FaTelegram /> */}
-          {/*     <span>Telegram</span> */}
-          {/*   </li> */}
-          {/*   <li> */}
-          {/*     <FaDiscord /> */}
-          {/*     <span>Discord</span> */}
-          {/*   </li> */}
-          {/* </ul> */}
+          <ul className={styles.menuList}>
+            <li>
+              <button>
+                <span>Snap</span>
+                <span className={styles.beta}>{i18n.beta}</span>
+              </button>
+            </li>
+          </ul>
         </div>
       )}
     </>

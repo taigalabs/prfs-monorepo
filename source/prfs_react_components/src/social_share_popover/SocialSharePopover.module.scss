@@ -1,5 +1,6 @@
 .base {
   button {
+    cursor: pointer;
     display: flex;
     align-items: center;
     font-size: 13px;
@@ -40,6 +41,14 @@
 
     &:hover {
       background-color: var(--bright-gray-50);
+    }
+
+    button {
+      cursor: pointer;
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
     }
   }
 
