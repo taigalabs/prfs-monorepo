@@ -11,20 +11,9 @@ import {
 } from "@floating-ui/react";
 import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
 
-import Fade from "../fade/Fade";
 import styles from "./SaveProofPopover.module.scss";
-import Button from "../button/Button";
 import { i18nContext } from "../contexts/i18nContext";
-// import { connectSnap, detectSnaps, getSnap, isLocalSnap, isFlask as isMetasMaskFlask } from "../modules/snap/utils";
-// import { defaultSnapOrigin } from "../modules/snap/config";
 import Snaps from "./Snaps";
-
-export const sendHello = async () => {
-  // await window.ethereum.request({
-  //   method: "wallet_invokeSnap",
-  //   params: { snapId: defaultSnapOrigin, request: { method: "hello" } },
-  // });
-};
 
 function SaveProofPopover({ placement, offset, variant }: SaveProofPopoverProps) {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -38,57 +27,6 @@ function SaveProofPopover({ placement, offset, variant }: SaveProofPopoverProps)
   const dismiss = useDismiss(context);
   const click = useClick(context);
   const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
-
-  // const [isFlask, setIsFlask] = React.useState(false);
-  // const [isSnapEnabled, setIsSnapEnabled] = React.useState(false);
-  // const [isSnapsDetected, setIsSnapsDetected] = React.useState(false);
-
-  // const isMetaMaskReady = React.useMemo(() => {
-  //   return isLocalSnap(defaultSnapOrigin) ? isFlask : isSnapsDetected;
-  // }, [isFlask, isSnapsDetected]);
-
-  // React.useEffect(() => {
-  //   const setSnapsCompatibility = async () => {
-  //     const res = await detectSnaps()
-  //     setIsSnapsDetected(res);
-  //   };
-
-  //   const checkIfFlask = async () => {
-  //     const res = await isMetasMaskFlask();
-  //     setIsFlask(res);
-  //   };
-
-  //   setSnapsCompatibility().catch(console.error);
-  //   checkIfFlask();
-  // }, [window.ethereum, setIsSnapsDetected, setIsFlask]);
-
-  // React.useEffect(() => {
-  //   async function fn() {
-  //     const win = window as any;
-
-  //     try {
-  //       if (win.ethereum) {
-  //         console.log(111);
-
-  //         await connectSnap();
-  //         const installedSnap = await getSnap();
-
-  //         console.log('installedSnap');
-
-  //         // const res = await win.ethereum.request({
-  //         //   method: "wallet_invokeSnap",
-  //         //   params: { snapId: defaultSnapOrigin, request: { method: "hello" } },
-  //         // });
-  //       }
-  //     } catch (err) {
-  //       console.error(44, err);
-  //     }
-  //   }
-
-  //   fn().then();
-  // }, [setIsSnapEnabled]);
-
-  // console.log(123, isFlask, isMetaMaskReady, isSnapsDetected, isSnapEnabled);
 
   return (
     <>
@@ -113,10 +51,6 @@ function SaveProofPopover({ placement, offset, variant }: SaveProofPopoverProps)
           <ul className={styles.menuList}>
             <li>
               <Snaps />
-              {/* <button disabled={isSnapEnabled}> */}
-              {/*   <span>Snap</span> */}
-              {/*   <span className={styles.beta}>{i18n.beta}</span> */}
-              {/* </button> */}
             </li>
           </ul>
         </div>

@@ -5,7 +5,7 @@ import { MdRefresh } from "@react-icons/all-files/md/MdRefresh";
 
 import styles from './Snaps.module.scss';
 import type { Snap } from '../modules/snap/types';
-import { connectSnap, detectSnaps, getSnap, isFlask, isLocalSnap, shouldDisplayReconnect } from '../modules/snap/utils';
+import { addProof, connectSnap, detectSnaps, getSnap, isFlask, isLocalSnap, shouldDisplayReconnect } from '../modules/snap/utils';
 import { i18nContext } from '../contexts/i18nContext';
 import { defaultSnapOrigin } from '../modules/snap/config';
 
@@ -154,13 +154,17 @@ const Snaps = () => {
     }
   }, []);
 
-  // return (
-  //   <MetaMaskContext.Provider value={[state, dispatch]}>
-  //     {children}
-  //   </MetaMaskContext.Provider>
-  // );
+  const handleClickSave = React.useCallback(async () => {
+    try {
+      await addProof();
+    } catch (error) {
+      console.error(error);
+      dispatch({ type: MetamaskActions.SetError, payload: error });
+    }
 
-  console.log(111, state);
+  }, []);
+
+  // console.log(111, state);
 
   return (
     <div className={styles.wrapper}>
@@ -172,7 +176,7 @@ const Snaps = () => {
       {!state.installedSnap ? (
         <button onClick={handleConnectClick}>Snap connect</button>
       ) : (
-        <button>
+        <button onClick={handleClickSave}>
           <span>Snap</span>
           <span className={styles.beta}>{i18n.beta}</span>
         </button>
