@@ -96,15 +96,21 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
         handleSelectProofType={handleSelectProofType}
       />
       <div className={styles.topRow}>
-        <ul className={styles.mainMenu}>
-          <li>power</li>
-          <li>
-            <a className={styles.consoleLink} href={consoleUrl}>
-              <p>{i18n.view_in_console}</p>
-              <BiLinkExternal />
-            </a>
-          </li>
-        </ul>
+        <div className={styles.mainMenu}>
+          <ul>
+            <li>
+              <SocialSharePopover />
+            </li>
+          </ul>
+          <ul>
+            <li>
+              <a className={styles.link} href={consoleUrl}>
+                <p>{i18n.view_in_console}</p>
+                <BiLinkExternal />
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
       <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
         <div className={styles.meta}>
@@ -131,7 +137,6 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
               proof={proof}
               circuitDriverId={proofInstance.circuit_driver_id}
               isVerifyOpen={true}
-              noCard
             />
           </div>
         </div>

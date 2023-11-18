@@ -4,13 +4,26 @@
   padding-left: 230px;
 
   border-bottom: 1px solid var(--bright-gray-36);
+  /* border: 1px solid blue; */
 
   .mainMenu {
-    margin-left: 30px;
     display: flex;
+    justify-content: space-between;
     width: 580px;
     align-items: center;
-    border: 1px solid gray;
+    margin-left: 30px;
+
+    /* border: 1px solid gray; */
+  }
+
+  .link {
+    display: flex;
+    align-items: center;
+    color: var(--aqua-blue-50);
+
+    svg {
+      margin-left: 3px;
+    }
   }
 }
 
@@ -32,16 +45,6 @@
   justify-content: flex-end;
   align-items: flex-end;
   height: 42px;
-
-  .consoleLink {
-    display: flex;
-    align-items: center;
-    color: var(--aqua-blue-50);
-
-    svg {
-      margin-left: 3px;
-    }
-  }
 }
 
 .meta {
@@ -120,7 +123,12 @@
 
 @media screen and (max-width: 1024px) {
   .topRow {
-    padding-left: 10px;
+    padding: 0 10px;
+
+    .mainMenu {
+      width: 100%;
+      margin-left: 0;
+    }
   }
 
   .wrapper {
