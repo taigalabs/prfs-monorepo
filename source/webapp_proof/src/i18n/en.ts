@@ -163,6 +163,7 @@ const en = {
   home: "Home",
   proof_wizard: "Proof wizard",
   proof_wizard_sublabel: "Which proof can I create?",
+  proof_raw: "Proof raw",
   proof_type: "Proof type",
   you_would_like_to_prove: "You'd like to prove",
   image: "Image",

@@ -1,21 +1,12 @@
 import React from "react";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import cn from "classnames";
 import { Proof } from "@taigalabs/prfs-driver-interface";
-import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
-import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { utils } from "ethers";
 import JSONBig from "json-bigint";
-import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
-import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
-import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
-import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 
 import styles from "./VerifyProofForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { paths } from "@/paths";
-import TutorialStepper from "@/components/tutorial/TutorialStepper";
+import ProofRawDialog from "./ProofRawDialog";
 
 const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
 
@@ -92,9 +83,9 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
           <div>
             <p>
               <span>{proofRawMinified}</span>
-              <button className={styles.seeMore} onClick={handleClickSeeMoreProofRaw}>
-                {i18n.see_more}
-              </button>
+              <ProofRawDialog proofRaw={proofRaw}>
+                <button className={styles.seeMore}>{i18n.see_more}</button>
+              </ProofRawDialog>
             </p>
           </div>
         </div>

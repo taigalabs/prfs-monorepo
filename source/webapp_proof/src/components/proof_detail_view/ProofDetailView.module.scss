@@ -104,6 +104,10 @@
   }
 }
 
+.isLoading {
+  padding: 0 30px;
+}
+
 @media screen and (max-width: 1300px) {
   .topRow {
     padding-left: calc((100% - 1150px) / 2);
