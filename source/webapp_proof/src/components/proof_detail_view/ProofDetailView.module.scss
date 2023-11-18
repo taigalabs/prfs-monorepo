@@ -47,6 +47,7 @@
 .meta {
   width: 580px;
   margin-left: 30px;
+  margin-top: 20px;
 
   /* border: 1px solid red; */
 
@@ -86,9 +87,11 @@
 .verifyProofFormWrapper {
   width: 340px;
   padding-left: 20px;
-  margin-top: 43px;
+  margin-top: 20px;
 
   border-left: 1px solid var(--bright-gray-31);
+
+  /* border: 1px solid blue; */
 }
 
 .isTutorial {
