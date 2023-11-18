@@ -25,13 +25,17 @@
   .msg {
     min-width: 520px;
     max-width: 530px;
-    display: flex;
+    /* display: flex; */
+
+    span {
+      display: inline-block;
+    }
 
     a {
       cursor: pointer;
       margin-left: 4px;
       margin-right: 5px;
-      display: flex;
+      display: inline-flex;
       align-items: center;
 
       &:hover {
@@ -154,7 +158,7 @@
   }
 
   .module {
-    padding: 12px 0px 12px;
+    padding: 24px 0px 24px;
     margin-left: 0px;
     min-width: 0;
     border: none;
@@ -165,7 +169,7 @@
   }
 
   .driverMsg {
-    margin: 18px 0 18px;
+    margin: 12px 0 12px;
     align-items: center;
 
     .msg {
@@ -181,5 +185,11 @@
     width: 100%;
     margin-top: 24px;
     min-width: 0px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .module {
+    border-bottom: 1px solid var(--bright-gray-30);
   }
 }

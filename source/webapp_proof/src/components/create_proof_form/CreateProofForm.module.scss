@@ -9,6 +9,7 @@
   flex-direction: column;
   margin-right: 15px;
   padding-left: 230px;
+  padding-bottom: 24px;
 
   // border: 1px solid red;
 }
@@ -24,7 +25,7 @@
   padding-top: 24px;
 }
 
-@media screen and (max-width: 1300px) {
+@media screen and (min-width: 1025px) and (max-width: 1300px) {
   .wrapper {
     margin-left: 30px;
     padding-left: calc((100% - 1150px) / 2);
