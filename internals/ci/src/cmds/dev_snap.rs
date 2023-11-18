@@ -8,9 +8,9 @@ pub fn run(_matches: &ArgMatches) {
 }
 
 fn run_app() {
-    let status = Command::new(deps::CARGO)
-        .current_dir(&PATHS.prfs_api_server)
-        .args(["run", "-p", "prfs_api_server"])
+    let status = Command::new(deps::JS_ENGINE)
+        .current_dir(&PATHS.prfs_snap)
+        .args(["run", "start"])
         .status()
         .expect(&format!("{} command failed to start", deps::CARGO));
 

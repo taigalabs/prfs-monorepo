@@ -25,7 +25,7 @@ fn main() {
         .subcommand(command!("dev_webapp_console").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_webapp_proof").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_webapp_poll").arg(Arg::new("extra_args")))
-        .subcommand(command!("dev_webapp_vacade").arg(Arg::new("extra_args")))
+        .subcommand(command!("dev_webapp_social").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_sdk_web_module").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_docs_website").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_asset_server"))
@@ -38,7 +38,7 @@ fn main() {
         .subcommand(command!("start_webapp_console").arg(Arg::new("extra_args")))
         .subcommand(command!("start_webapp_proof").arg(Arg::new("extra_args")))
         .subcommand(command!("start_webapp_poll").arg(Arg::new("extra_args")))
-        .subcommand(command!("start_webapp_vacade").arg(Arg::new("extra_args")))
+        .subcommand(command!("start_webapp_social").arg(Arg::new("extra_args")))
         .subcommand(command!("start_sdk_web_module").arg(Arg::new("extra_args")))
         .subcommand(command!("start_docs_website").arg(Arg::new("extra_args")))
         // docker
@@ -85,8 +85,8 @@ fn main() {
         Some(("dev_webapp_poll", sub_matches)) => {
             cmds::dev_webapp_poll::run(sub_matches);
         }
-        Some(("dev_webapp_vacade", sub_matches)) => {
-            cmds::dev_webapp_vacade::run(sub_matches);
+        Some(("dev_webapp_social", sub_matches)) => {
+            cmds::dev_webapp_social::run(sub_matches);
         }
         Some(("dev_asset_server", sub_matches)) => {
             cmds::dev_asset_server::run(sub_matches);
@@ -99,6 +99,9 @@ fn main() {
         }
         Some(("dev_docs_website", sub_matches)) => {
             cmds::dev_docs_website::run(sub_matches);
+        }
+        Some(("dev_snap", sub_matches)) => {
+            cmds::dev_snap::run(sub_matches);
         }
         // prod mode
         Some(("start_api_server", sub_matches)) => {
@@ -119,8 +122,8 @@ fn main() {
         Some(("start_webapp_poll", sub_matches)) => {
             cmds::start_webapp_poll::run(sub_matches);
         }
-        Some(("start_webapp_vacade", sub_matches)) => {
-            cmds::start_webapp_vacade::run(sub_matches);
+        Some(("start_webapp_social", sub_matches)) => {
+            cmds::start_webapp_social::run(sub_matches);
         }
         Some(("start_docs_website", sub_matches)) => {
             cmds::start_docs_website::run(sub_matches);
