@@ -86,16 +86,10 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
 
   return (
     <div className={styles.wrapper}>
-      {status === "loading" ? (
-        <p>Loading...</p>
-      ) : status === "error" ? (
-        <span>Error: {(error as Error).message}</span>
-      ) : (
-        <div
-          ref={parentRef}
-          onScroll={handleScroll}
-          style={{ height: "500px", overflow: "auto", border: "1px solid yellow" }}
-        >
+      {status === "loading" && <p>Loading...</p>}
+      {status === "error" && <span>Error: {(error as Error).message}</span>}
+      {
+        <div ref={parentRef} className={styles.feedContainer} onScroll={handleScroll}>
           <div
             style={{
               height: `${rowVirtualizer.getTotalSize()}px`,
@@ -139,8 +133,8 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
             <RightBar />
           </ContentMainRight>
         </div>
-      )}
-      <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
+      }
+      {/* <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div> */}
     </div>
   );
 };

@@ -24,9 +24,7 @@ const RightBar: React.FC = () => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.searchBarContainer}>
-        <SearchBar />
-      </div>
+      <div className={styles.searchBarContainer}>rightbar</div>
     </div>
   );
 };

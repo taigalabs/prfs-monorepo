@@ -5,6 +5,13 @@
   overflow-y: auto;
 }
 
+.feedContainer {
+  height: 100vh;
+  overflow-y: auto;
+
+  border: 1px solid blue;
+}
+
 .row {
   height: 100px;
 }
