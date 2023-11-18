@@ -1,4 +1,6 @@
-import type { State } from './utils';
+import { PrfsProofSnapItem } from "@taigalabs/prfs-entities/bindings/PrfsProofSnapItem";
+
+import type { State } from "./utils";
 
 export type BaseParams = { encrypted?: boolean };
 
@@ -8,14 +10,14 @@ export type BaseParams = { encrypted?: boolean };
  */
 // export type AddProofParams = BaseParams & Partial<State>;
 export type AddProofParams = BaseParams & {
-  proof: PrfsProof;
+  proof: PrfsProofSnapItem;
 };
 // export type AddProofParams = {
 //   proof: PrfsProof;
 // };
 
-export interface PrfsProof {
-  label: string;
-  public_inputs: string[];
-  url: string;
-}
+// export interface PrfsProof {
+//   label: string;
+//   public_inputs: string[];
+//   url: string;
+// }

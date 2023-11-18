@@ -1,9 +1,8 @@
-import { ManageStateOperation } from '@metamask/snaps-sdk';
-
-import { PrfsProof } from './types';
+import { ManageStateOperation } from "@metamask/snaps-sdk";
+import { PrfsProofSnapItem } from "@taigalabs/prfs-entities/bindings/PrfsProofSnapItem";
 
 export type State = {
-  proofs: PrfsProof[];
+  proofs: PrfsProofSnapItem[];
 };
 
 const DEFAULT_STATE: State = {
@@ -22,7 +21,7 @@ const DEFAULT_STATE: State = {
  */
 export async function getState(encrypted?: boolean): Promise<State> {
   const state = await snap.request({
-    method: 'snap_manageState',
+    method: "snap_manageState",
 
     params: {
       // For this particular example, we use the `ManageStateOperation.GetState`
@@ -38,7 +37,7 @@ export async function getState(encrypted?: boolean): Promise<State> {
 
   // If the snap does not have state, `state` will be `null`. Instead, we return
   // the default state.
-  return (state as State | null) ?? DEFAULT_STATE;
+  return (state as any | null) ?? DEFAULT_STATE;
 }
 
 /**
@@ -57,7 +56,7 @@ export async function getState(encrypted?: boolean): Promise<State> {
  */
 export async function setState(newState: State, encrypted?: boolean) {
   await snap.request({
-    method: 'snap_manageState',
+    method: "snap_manageState",
 
     params: {
       // For this particular example, we use the `ManageStateOperation.UpdateState`
@@ -84,7 +83,7 @@ export async function setState(newState: State, encrypted?: boolean) {
  */
 export async function clearState(encrypted?: boolean) {
   await snap.request({
-    method: 'snap_manageState',
+    method: "snap_manageState",
 
     // For this particular example, we use the `ManageStateOperation.ClearState`
     // enum value, but you can also use the string value `'clear'` instead.

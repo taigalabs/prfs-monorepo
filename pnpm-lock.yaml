@@ -766,6 +766,9 @@ importers:
       '@metamask/snaps-ui':
         specifier: ^3.0.1
         version: 3.1.0
+      '@taigalabs/prfs-entities':
+        specifier: '*'
+        version: link:../prfs_entities
       buffer:
         specifier: ^6.0.3
         version: 6.0.3

@@ -1,14 +1,14 @@
 import type { OnRpcRequestHandler } from "@metamask/snaps-sdk";
 import { copyable, divider, heading, panel, text } from "@metamask/snaps-ui";
+import { PrfsProofSnapItem } from "@taigalabs/prfs-entities/bindings/PrfsProofSnapItem";
 
-import { PrfsProof } from "./types";
 import { clearState, getState, setState } from "./utils";
 
 export const addProof: OnRpcRequestHandler = async ({ request }) => {
   const params = request.params as any;
   console.log("add_proof", params);
 
-  const proof = params.proof as PrfsProof;
+  const proof = params.proof as PrfsProofSnapItem;
 
   if (proof) {
     const oldState = await getState();

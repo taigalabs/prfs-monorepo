@@ -23,3 +23,8 @@ export type Snap = {
   version: string;
   initialPermissions: Record<string, unknown>;
 };
+
+// export interface PrfsProofSnapItem {
+//   proofLabel: string;
+//   proofShortUrl: string;
+// }

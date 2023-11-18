@@ -1,14 +1,21 @@
-import type { Dispatch, ReactNode, Reducer } from 'react';
-import React, { createContext, useEffect, useReducer } from 'react';
-// import { MdOutlineRefresh } from "react-icons/sru";
+import type { Dispatch, ReactNode, Reducer } from "react";
+import React, { createContext, useEffect, useReducer } from "react";
 import { MdRefresh } from "@react-icons/all-files/md/MdRefresh";
+import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 
-import styles from './Snaps.module.scss';
-import type { Snap } from '../modules/snap/types';
-import { addProof, connectSnap, detectSnaps, getSnap, isFlask, isLocalSnap, shouldDisplayReconnect } from '../modules/snap/utils';
-import { i18nContext } from '../contexts/i18nContext';
-import { defaultSnapOrigin } from '../modules/snap/config';
-import { PrfsProofInstanceSyn1 } from '@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1';
+import styles from "./Snaps.module.scss";
+import type { Snap } from "../modules/snap/types";
+import {
+  addProof,
+  connectSnap,
+  detectSnaps,
+  getSnap,
+  isFlask,
+  isLocalSnap,
+  shouldDisplayReconnect,
+} from "../modules/snap/utils";
+import { i18nContext } from "../contexts/i18nContext";
+import { defaultSnapOrigin } from "../modules/snap/config";
 
 export type MetamaskState = {
   snapsDetected: boolean;
@@ -24,9 +31,7 @@ const initialState: MetamaskState = {
 
 type MetamaskDispatch = { type: MetamaskActions; payload: any };
 
-export const MetaMaskContext = createContext<
-  [MetamaskState, Dispatch<MetamaskDispatch>]
->([
+export const MetaMaskContext = createContext<[MetamaskState, Dispatch<MetamaskDispatch>]>([
   initialState,
   () => {
     /* no op */
@@ -34,10 +39,10 @@ export const MetaMaskContext = createContext<
 ]);
 
 export enum MetamaskActions {
-  SetInstalled = 'SetInstalled',
-  SetSnapsDetected = 'SetSnapsDetected',
-  SetError = 'SetError',
-  SetIsFlask = 'SetIsFlask',
+  SetInstalled = "SetInstalled",
+  SetSnapsDetected = "SetSnapsDetected",
+  SetError = "SetError",
+  SetIsFlask = "SetIsFlask",
 }
 
 const reducer: Reducer<MetamaskState, MetamaskDispatch> = (state, action) => {
@@ -75,10 +80,7 @@ const reducer: Reducer<MetamaskState, MetamaskDispatch> = (state, action) => {
  * @param props.children - React component to be wrapped by the Provider.
  * @returns JSX.
  */
-const Snaps: React.FC<SnapsProps> = ({
-  proofShortUrl,
-  proofInstance,
-}) => {
+const Snaps: React.FC<SnapsProps> = ({ proofShortUrl, proofInstance }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const i18n = React.useContext(i18nContext);
 
@@ -139,9 +141,7 @@ const Snaps: React.FC<SnapsProps> = ({
     };
   }, [state.error]);
 
-  const isMetaMaskReady = isLocalSnap(defaultSnapOrigin)
-    ? state.isFlask
-    : state.snapsDetected;
+  const isMetaMaskReady = isLocalSnap(defaultSnapOrigin) ? state.isFlask : state.snapsDetected;
 
   const handleConnectClick = React.useCallback(async () => {
     try {
@@ -160,23 +160,23 @@ const Snaps: React.FC<SnapsProps> = ({
 
   const handleClickSave = React.useCallback(async () => {
     try {
-      await addProof();
+      console.log(123, proofShortUrl, proofInstance);
+
+      await addProof({
+        proof_label: proofInstance.proof_label,
+        proof_short_url: proofShortUrl,
+      });
     } catch (error) {
       console.error(error);
       dispatch({ type: MetamaskActions.SetError, payload: error });
     }
-
-  }, []);
+  }, [proofShortUrl, proofInstance]);
 
   // console.log(111, state);
 
   return (
     <div className={styles.wrapper}>
-      {!isMetaMaskReady && (
-        <button disabled>
-          Snap (not supported)
-        </button>
-      )}
+      {!isMetaMaskReady && <button disabled>Snap (not supported)</button>}
       {!state.installedSnap ? (
         <button onClick={handleConnectClick}>Snap connect</button>
       ) : (
@@ -191,7 +191,7 @@ const Snaps: React.FC<SnapsProps> = ({
         </button>
       )}
     </div>
-  )
+  );
 };
 
 export default Snaps;

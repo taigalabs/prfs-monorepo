@@ -1,4 +1,5 @@
 import type { MetaMaskInpageProvider } from "@metamask/providers";
+import { PrfsProofSnapItem } from "@taigalabs/prfs-entities/bindings/PrfsProofSnapItem";
 
 import { defaultSnapOrigin } from "./config";
 import type { GetSnapsResponse, Snap } from "./types";
@@ -61,12 +62,12 @@ export const sendHello = async () => {
   });
 };
 
-export const addProof = async () => {
+export const addProof = async (proof: PrfsProofSnapItem) => {
   await window.ethereum.request({
     method: "wallet_invokeSnap",
     params: {
       snapId: defaultSnapOrigin,
-      request: { method: "add_proof", params: { proof: {} } },
+      request: { method: "add_proof", params: { proof } },
     },
   });
 };
@@ -89,7 +90,7 @@ export const isLocalSnap = (snapId: string) => snapId.startsWith("local:");
 
 export const shouldDisplayReconnect = (installedSnap?: Snap) => {
   return installedSnap && isLocalSnap(installedSnap?.id);
-}
+};
 
 /**
  * Tries to detect if one of the injected providers is MetaMask and checks if snaps is available in that MetaMask version.
@@ -149,10 +150,10 @@ export const isFlask = async () => {
 
   try {
     const clientVersion = await provider?.request({
-      method: 'web3_clientVersion',
+      method: "web3_clientVersion",
     });
 
-    const isFlaskDetected = (clientVersion as string[])?.includes('flask');
+    const isFlaskDetected = (clientVersion as string[])?.includes("flask");
 
     return Boolean(provider && isFlaskDetected);
   } catch {
