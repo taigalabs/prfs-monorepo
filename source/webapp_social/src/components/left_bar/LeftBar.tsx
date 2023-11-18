@@ -24,26 +24,29 @@ const LeftBar: React.FC = () => {
           {/* <p className={styles.betaTag}>Beta</p> */}
         </Link>
       </div>
-      <ul className={styles.mainMenu}>
-        <li>
-          <ActiveLink href={`${paths.c}/crypto`}>
-            <BiBitcoin />
-            {i18n.crypto}
-          </ActiveLink>
-        </li>
-        <li>
-          <ActiveLink href={`${paths.c}/defi`}>
-            <AiOutlineStock />
-            {i18n.defi}
-          </ActiveLink>
-        </li>
-        <li>
-          <ActiveLink href={`${paths.c}/nft`}>
-            <AiFillPicture />
-            {i18n.nft}
-          </ActiveLink>
-        </li>
-      </ul>
+      {/* <ul className={styles.mainMenu}> */}
+      {/*   <li> */}
+      {/*     <ActiveLink href={`${paths.c}/crypto`}> */}
+      {/*       <BiBitcoin /> */}
+      {/*       {i18n.crypto} */}
+      {/*     </ActiveLink> */}
+      {/*   </li> */}
+      {/*   <li> */}
+      {/*     <ActiveLink href={`${paths.c}/defi`}> */}
+      {/*       <AiOutlineStock /> */}
+      {/*       {i18n.defi} */}
+      {/*     </ActiveLink> */}
+      {/*   </li> */}
+      {/*   <li> */}
+      {/*     <ActiveLink href={`${paths.c}/nft`}> */}
+      {/*       <AiFillPicture /> */}
+      {/*       {i18n.nft} */}
+      {/*     </ActiveLink> */}
+      {/*   </li> */}
+      {/* </ul> */}
+      <div>
+        <button className={styles.postBtn}>{i18n.post}</button>
+      </div>
     </div>
   );
 };

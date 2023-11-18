@@ -31,9 +31,9 @@ const HomePage: React.FC = () => {
   return (
     <DefaultLayout>
       <ContentLeft>
-        {/* <Suspense> */}
-        {/*   <LeftBar /> */}
-        {/* </Suspense> */}
+        <Suspense>
+          <LeftBar />
+        </Suspense>
       </ContentLeft>
       <ContentMain>
         <div className={styles.container}>

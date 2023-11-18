@@ -25,7 +25,11 @@ async function fetchServerPage(
 
   await new Promise(r => setTimeout(r, 500));
 
-  return { rows, nextOffset: offset + 1 };
+  return {
+    rows,
+    // nextOffset: offset + 1
+    nextOffset: undefined,
+  };
 }
 
 const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
@@ -86,17 +90,21 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
 
   return (
     <div className={styles.wrapper}>
-      {status === "loading" && <p>Loading...</p>}
-      {status === "error" && <span>Error: {(error as Error).message}</span>}
-      {
+      {status === "loading" ? (
+        <p>Loading...</p>
+      ) : status === "error" ? (
+        <span>Error: {(error as Error).message}</span>
+      ) : (
         <div ref={parentRef} className={styles.feedContainer} onScroll={handleScroll}>
-          <div
-            style={{
-              height: `${rowVirtualizer.getTotalSize()}px`,
-              position: "relative",
-            }}
-          >
-            <div>
+          <div className={styles.left}>
+            <div className={styles.placeholder} />
+            <div
+              className={styles.infiniteScroll}
+              style={{
+                height: `${rowVirtualizer.getTotalSize()}px`,
+                position: "relative",
+              }}
+            >
               {items.map(virtualRow => {
                 const isLoaderRow = virtualRow.index > allRows.length - 1;
                 const post = allRows[virtualRow.index];
@@ -126,11 +134,9 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
               })}
             </div>
           </div>
-          <ContentMainRight>
-            <RightBar />
-          </ContentMainRight>
+          <div className={styles.right}></div>
         </div>
-      }
+      )}
       {/* <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div> */}
     </div>
   );
