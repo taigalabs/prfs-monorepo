@@ -24,6 +24,7 @@ pub struct Paths {
     pub e2e_test_web: PathBuf,
     pub prfs_circuits_circom: PathBuf,
 
+    pub prfs_snap: PathBuf,
     pub prfs_api_server: PathBuf,
     pub prfs_email_auth_server: PathBuf,
 
@@ -70,8 +71,8 @@ impl Paths {
         let internals_docker_postgres = curr_dir.join("internals/docker_postgres");
 
         let docs_website = curr_dir.join("source/docs_website");
-
         let prfs_circuits_circom = curr_dir.join("source/prfs_circuits_circom");
+        let prfs_snap = curr_dir.join("source/prfs_snap");
 
         let prfs_asset_server = curr_dir.join("source/prfs_asset_server");
         let prfs_asset_server_assets = curr_dir.join("source/prfs_asset_server/assets");
@@ -110,6 +111,7 @@ impl Paths {
             prfs_driver_spartan_wasm_build,
 
             prfs_circuits_circom,
+            prfs_snap,
 
             prfs_entities_bindings,
 

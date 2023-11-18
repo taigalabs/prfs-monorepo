@@ -29,6 +29,7 @@ fn main() {
         .subcommand(command!("dev_sdk_web_module").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_docs_website").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_asset_server"))
+        .subcommand(command!("dev_snap"))
         .subcommand(command!("dev_api_server"))
         .subcommand(command!("dev_email_auth_server"))
         // prod mode
