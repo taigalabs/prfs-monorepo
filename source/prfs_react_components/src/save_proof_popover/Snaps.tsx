@@ -1,8 +1,13 @@
 import type { Dispatch, ReactNode, Reducer } from 'react';
-import { createContext, useEffect, useReducer } from 'react';
+import React, { createContext, useEffect, useReducer } from 'react';
+// import { MdOutlineRefresh } from "react-icons/sru";
+import { MdRefresh } from "@react-icons/all-files/md/MdRefresh";
 
+import styles from './Snaps.module.scss';
 import type { Snap } from '../modules/snap/types';
-import { detectSnaps, getSnap, isFlask } from '../modules/snap/utils';
+import { connectSnap, detectSnaps, getSnap, isFlask, isLocalSnap, shouldDisplayReconnect } from '../modules/snap/utils';
+import { i18nContext } from '../contexts/i18nContext';
+import { defaultSnapOrigin } from '../modules/snap/config';
 
 export type MetamaskState = {
   snapsDetected: boolean;
@@ -70,11 +75,8 @@ const reducer: Reducer<MetamaskState, MetamaskDispatch> = (state, action) => {
  * @returns JSX.
  */
 const Snaps = () => {
-  // if (typeof window === 'undefined') {
-  //   return <>{children}</>;
-  // }
-
   const [state, dispatch] = useReducer(reducer, initialState);
+  const i18n = React.useContext(i18nContext);
 
   // Find MetaMask Provider and search for Snaps
   // Also checks if MetaMask version is Flask
@@ -133,20 +135,53 @@ const Snaps = () => {
     };
   }, [state.error]);
 
+  const isMetaMaskReady = isLocalSnap(defaultSnapOrigin)
+    ? state.isFlask
+    : state.snapsDetected;
+
+  const handleConnectClick = React.useCallback(async () => {
+    try {
+      await connectSnap();
+      const installedSnap = await getSnap();
+
+      dispatch({
+        type: MetamaskActions.SetInstalled,
+        payload: installedSnap,
+      });
+    } catch (error) {
+      console.error(error);
+      dispatch({ type: MetamaskActions.SetError, payload: error });
+    }
+  }, []);
+
   // return (
   //   <MetaMaskContext.Provider value={[state, dispatch]}>
   //     {children}
   //   </MetaMaskContext.Provider>
   // );
-  //
+
   console.log(111, state);
 
   return (
-    <div>
-      {/* <button disabled={isSnapEnabled}> */}
-      {/*   <span>Snap</span> */}
-      {/*   <span className={styles.beta}>{i18n.beta}</span> */}
-      {/* </button> */}
+    <div className={styles.wrapper}>
+      {!isMetaMaskReady && (
+        <button disabled>
+          Snap (not supported)
+        </button>
+      )}
+      {!state.installedSnap ? (
+        <button onClick={handleConnectClick}>Snap connect</button>
+      ) : (
+        <button>
+          <span>Snap</span>
+          <span className={styles.beta}>{i18n.beta}</span>
+        </button>
+      )}
+      {shouldDisplayReconnect(state.installedSnap) && (
+        <button className={styles.reconnectBtn} onClick={handleConnectClick}>
+          <MdRefresh />
+        </button>
+      )}
     </div>
   )
 };

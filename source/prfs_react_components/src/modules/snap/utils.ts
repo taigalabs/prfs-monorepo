@@ -87,6 +87,10 @@ export const getProofs = async () => {
 
 export const isLocalSnap = (snapId: string) => snapId.startsWith("local:");
 
+export const shouldDisplayReconnect = (installedSnap?: Snap) => {
+  return installedSnap && isLocalSnap(installedSnap?.id);
+}
+
 /**
  * Tries to detect if one of the injected providers is MetaMask and checks if snaps is available in that MetaMask version.
  *
