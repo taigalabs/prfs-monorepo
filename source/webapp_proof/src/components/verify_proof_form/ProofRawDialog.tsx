@@ -61,7 +61,7 @@ const ProofRawDialog: React.FC<ProofRawDialogProps> = ({ proofRaw, children }) =
                     <AiOutlineClose />
                   </button>
                 </div>
-                <p className={styles.data}>{proofRaw}</p>
+                <div className={styles.data}>{proofRaw}</div>
               </div>
             </FloatingFocusManager>
           </FloatingOverlay>

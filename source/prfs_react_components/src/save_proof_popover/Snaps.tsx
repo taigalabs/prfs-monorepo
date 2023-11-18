@@ -69,10 +69,10 @@ const reducer: Reducer<MetamaskState, MetamaskDispatch> = (state, action) => {
  * @param props.children - React component to be wrapped by the Provider.
  * @returns JSX.
  */
-const MetaMaskSnapsProvider = ({ children }: { children: ReactNode }) => {
-  if (typeof window === 'undefined') {
-    return <>{children}</>;
-  }
+const Snaps = () => {
+  // if (typeof window === 'undefined') {
+  //   return <>{children}</>;
+  // }
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -133,11 +133,22 @@ const MetaMaskSnapsProvider = ({ children }: { children: ReactNode }) => {
     };
   }, [state.error]);
 
+  // return (
+  //   <MetaMaskContext.Provider value={[state, dispatch]}>
+  //     {children}
+  //   </MetaMaskContext.Provider>
+  // );
+  //
+  console.log(111, state);
+
   return (
-    <MetaMaskContext.Provider value={[state, dispatch]}>
-      {children}
-    </MetaMaskContext.Provider>
-  );
+    <div>
+      {/* <button disabled={isSnapEnabled}> */}
+      {/*   <span>Snap</span> */}
+      {/*   <span className={styles.beta}>{i18n.beta}</span> */}
+      {/* </button> */}
+    </div>
+  )
 };
 
-export default MetaMaskSnapsProvider;
+export default Snaps;

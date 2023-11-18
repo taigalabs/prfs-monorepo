@@ -79,12 +79,10 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
             </p>
           </div>
           <div>
-            <p>
-              <span>{proofRawMinified}</span>
-              <ProofRawDialog proofRaw={proofRaw}>
-                <button className={styles.seeMore}>{i18n.see_more}</button>
-              </ProofRawDialog>
-            </p>
+            <span>{proofRawMinified}</span>
+            <ProofRawDialog proofRaw={proofRaw}>
+              <button className={styles.seeMore}>{i18n.see_more}</button>
+            </ProofRawDialog>
           </div>
         </div>
       </div>
