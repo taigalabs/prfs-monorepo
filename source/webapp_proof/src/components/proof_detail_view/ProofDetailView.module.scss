@@ -7,7 +7,7 @@
   padding-bottom: 32px;
   overflow-x: auto;
 
-  /* border: 1px solid blue; */
+  border: 1px solid blue;
 }
 
 .upperRow {
@@ -29,7 +29,8 @@
 
 .meta {
   width: 580px;
-  // border: 1px solid red;
+
+  border: 1px solid red;
 
   .bannerContainer {
     display: inline-flex;

@@ -97,13 +97,13 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
       />
       <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
         <div className={styles.meta}>
+          <div className={styles.upperRow}>
+            <a className={styles.consoleLink} href={consoleUrl}>
+              <p>{i18n.view_in_console}</p>
+              <BiLinkExternal />
+            </a>
+          </div>
           <div className={styles.bannerContainer}>
-            <div className={styles.upperRow}>
-              <a className={styles.consoleLink} href={consoleUrl}>
-                <p>{i18n.view_in_console}</p>
-                <BiLinkExternal />
-              </a>
-            </div>
             <TutorialStepper steps={[5]}>
               <ProofBanner
                 proofInstance={proofInstance}
