@@ -43,7 +43,7 @@ const nextConfig = {
         issuer: /\.[jt]sx?$/,
         resourceQuery: { not: /url/ }, // exclude if *.svg?url
         use: ["@svgr/webpack"],
-      }
+      },
     );
 
     // Modify the file loader rule to ignore *.svg, since we have it handled now.
@@ -74,7 +74,7 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   experimental: {
-    logging: "verbose",
+    // logging: "verbose",
   },
 };
 
