@@ -22,9 +22,10 @@
     "test": "jest"
   },
   "dependencies": {
+    "@metamask/rpc-errors": "^6.1.0",
+    "@metamask/snaps-sdk": "^1.1.0",
     "@metamask/snaps-types": "^3.0.1",
     "@metamask/snaps-ui": "^3.0.1",
-    "@metamask/snaps-sdk": "^1.1.0",
     "buffer": "^6.0.3"
   },
   "devDependencies": {

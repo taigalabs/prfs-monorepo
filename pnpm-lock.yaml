@@ -751,6 +751,9 @@ importers:
 
   source/prfs_snap:
     dependencies:
+      '@metamask/rpc-errors':
+        specifier: ^6.1.0
+        version: 6.1.0
       '@metamask/snaps-sdk':
         specifier: ^1.1.0
         version: 1.1.0
