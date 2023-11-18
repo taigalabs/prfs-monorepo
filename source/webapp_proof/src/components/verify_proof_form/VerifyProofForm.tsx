@@ -57,8 +57,6 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
     return { proofRaw, size, proofRawMinified };
   }, [proof]);
 
-  const handleClickSeeMoreProofRaw = React.useCallback(() => {}, [proofRaw]);
-
   return (
     <div
       className={cn(styles.wrapper, {

@@ -78,6 +78,12 @@
 }
 
 @media screen and (min-width: 1024px) {
+  .wrapper {
+    padding-left: 20px;
+    margin-top: 20px;
+    border-left: 1px solid var(--bright-gray-31);
+  }
+
   .publicInputSection {
     box-shadow: none;
 
