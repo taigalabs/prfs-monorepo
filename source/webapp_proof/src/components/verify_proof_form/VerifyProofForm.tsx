@@ -66,6 +66,8 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
     return { proofRaw, size, proofRawMinified };
   }, [proof]);
 
+  const handleClickSeeMoreProofRaw = React.useCallback(() => {}, [proofRaw]);
+
   return (
     <div
       className={cn(styles.wrapper, {
@@ -77,7 +79,6 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
           <div className={styles.title}>{i18n.public_inputs}</div>
           <div>{publicInputElems}</div>
         </div>
-        <div className={styles.placeholder} />
       </div>
       <div className={styles.proofRawSection}>
         <div className={styles.data}>
@@ -89,21 +90,19 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
             </p>
           </div>
           <div>
-            <span>{proofRawMinified}</span>
+            <p>
+              <span>{proofRawMinified}</span>
+              <button className={styles.seeMore} onClick={handleClickSeeMoreProofRaw}>
+                {i18n.see_more}
+              </button>
+            </p>
           </div>
-          <div className={styles.placeholder} />
         </div>
-        <div className={styles.footer} />
       </div>
       <div className={styles.driverSection}>
         <p className={styles.label}>{i18n.circuit_driver}</p>
         <p>{circuitDriverId}</p>
       </div>
-      {/* <div className={styles.btnRow}> */}
-      {/*   <TutorialStepper steps={[3]}> */}
-      {/*     <VerifyButton verifiedStatus={verifiedStatus} handleClick={handleClickVerify} /> */}
-      {/*   </TutorialStepper> */}
-      {/* </div> */}
     </div>
   );
 };
@@ -111,16 +110,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
 export default VerifyProofForm;
 
 export interface VerifyProofFormProps {
-  // circuitTypeId: string;
-  // proofInstance: PrfsProofInstanceSyn1;
   circuitDriverId: string;
   proof: Proof;
   isVerifyOpen: boolean;
-  // noCard?: boolean;
-  // proofGenElement: ProofGenElement;
 }
-
-// export interface VerifyButtonProps {
-//   verifiedStatus: VerifiedStatus;
-//   handleClick: () => Promise<void>;
-// }
