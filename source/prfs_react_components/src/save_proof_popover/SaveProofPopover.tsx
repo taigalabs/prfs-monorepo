@@ -16,6 +16,7 @@ import styles from "./SaveProofPopover.module.scss";
 import Button from "../button/Button";
 import { i18nContext } from "../contexts/i18nContext";
 import { connectSnap, getSnap, isLocalSnap } from "../modules/snap/utils";
+import MetaMaskSnapsProvider from "./MetamaskSnapsProvider";
 
 export const sendHello = async () => {
   // await window.ethereum.request({
@@ -97,10 +98,13 @@ function SaveProofPopover({ placement, offset, variant }: SaveProofPopoverProps)
         >
           <ul className={styles.menuList}>
             <li>
-              <button disabled={isSnapEnabled}>
-                <span>Snap</span>
-                <span className={styles.beta}>{i18n.beta}</span>
-              </button>
+              <MetaMaskSnapsProvider>
+                <button disabled={isSnapEnabled}>
+                  <span>Snap</span>
+                  <span className={styles.beta}>{i18n.beta}</span>
+                </button>
+                {/* {children} */}
+              </MetaMaskSnapsProvider>
             </li>
           </ul>
         </div>
