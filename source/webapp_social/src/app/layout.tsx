@@ -4,6 +4,15 @@ import "./globals.scss";
 import React from "react";
 
 import TopProvider from "@/components/top_provider/TopProvider";
+import { Metadata } from "next/types";
+
+export const metadata: Metadata = {
+  robots: {
+    index: true,
+  },
+  title: "Social",
+  description: "Next generation social",
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

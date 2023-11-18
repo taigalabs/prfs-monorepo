@@ -17,7 +17,6 @@ import Placeholder from "@tiptap/extension-placeholder";
 import styles from "./TextEditor.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import RightBar from "../right_bar/RightBar";
 
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
