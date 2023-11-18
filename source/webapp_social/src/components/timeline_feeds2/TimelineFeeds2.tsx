@@ -96,9 +96,6 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
               position: "relative",
             }}
           >
-            {/* <ContentMainHeader> */}
-            {/*   <TimelineHeader channelId={channelId} /> */}
-            {/* </ContentMainHeader> */}
             <div>
               {items.map(virtualRow => {
                 const isLoaderRow = virtualRow.index > allRows.length - 1;
