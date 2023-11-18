@@ -1,7 +1,6 @@
 .wrapper {
   font-size: 13px;
   transition: height 0.4s ease-out;
-  padding-top: 42px;
 }
 
 .placeholder {
@@ -94,5 +93,15 @@
 
   .label {
     font-weight: 500;
+  }
+}
+
+.noCard {
+  .publicInputSection {
+    box-shadow: none;
+  }
+
+  .proofRawSection {
+    box-shadow: none;
   }
 }

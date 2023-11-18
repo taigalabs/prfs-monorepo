@@ -1,3 +1,19 @@
+.topRow {
+  display: flex;
+  height: 47px;
+  padding-left: 230px;
+
+  border-bottom: 1px solid var(--bright-gray-36);
+
+  .mainMenu {
+    margin-left: 30px;
+    display: flex;
+    width: 580px;
+    align-items: center;
+    border: 1px solid gray;
+  }
+}
+
 .wrapper {
   display: flex;
   flex-direction: row;
@@ -5,9 +21,10 @@
   flex-shrink: 1;
   min-width: 0px;
   padding-bottom: 32px;
+  padding-left: 230px;
   overflow-x: auto;
 
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
 }
 
 .upperRow {
@@ -29,8 +46,9 @@
 
 .meta {
   width: 580px;
+  margin-left: 30px;
 
-  border: 1px solid red;
+  /* border: 1px solid red; */
 
   .bannerContainer {
     display: inline-flex;
@@ -62,11 +80,15 @@
 .proofDetail {
   display: flex;
   justify-content: center;
-  margin-left: 72px;
+  margin-left: 52px;
 }
 
 .verifyProofFormWrapper {
   width: 340px;
+  padding-left: 20px;
+  margin-top: 43px;
+
+  border-left: 1px solid var(--bright-gray-31);
 }
 
 .isTutorial {
@@ -80,12 +102,24 @@
 }
 
 @media screen and (max-width: 1300px) {
+  /* .wrapper { */
+  /*   padding-left: 30px; */
+  /* } */
+
+  .topRow {
+    padding-left: calc((100% - 1150px) / 2);
+  }
+
   .wrapper {
-    padding-left: 30px;
+    padding-left: calc((100% - 1150px) / 2);
   }
 }
 
 @media screen and (max-width: 1024px) {
+  .topRow {
+    padding-left: 10px;
+  }
+
   .wrapper {
     width: 100%;
     padding: 0 10px 32px;
@@ -100,6 +134,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    margin-left: 0px;
     align-items: center;
 
     .proofDetailContainer {

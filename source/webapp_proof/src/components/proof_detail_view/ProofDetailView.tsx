@@ -95,6 +95,12 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
         proofType={undefined}
         handleSelectProofType={handleSelectProofType}
       />
+      <div className={styles.topRow}>
+        <ul className={styles.mainMenu}>
+          <li>power</li>
+          <li>power2</li>
+        </ul>
+      </div>
       <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
         <div className={styles.meta}>
           <div className={styles.upperRow}>
@@ -127,6 +133,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
               proof={proof}
               circuitDriverId={proofInstance.circuit_driver_id}
               isVerifyOpen={true}
+              noCard
             />
           </div>
         </div>

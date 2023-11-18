@@ -69,6 +69,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
   circuitDriverId,
   // proofGenElement,
   isVerifyOpen,
+  noCard,
 }) => {
   const i18n = React.useContext(i18nContext);
   // const [verifiedStatus, setVerifiedStatus] = React.useState(VerifiedStatus.None);
@@ -129,7 +130,12 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
   }, [proof]);
 
   return (
-    <div className={cn(styles.wrapper, { [styles.isVerifyOpen]: isVerifyOpen })}>
+    <div
+      className={cn(styles.wrapper, {
+        [styles.isVerifyOpen]: isVerifyOpen,
+        [styles.noCard]: noCard,
+      })}
+    >
       <div className={styles.publicInputSection}>
         <div className={styles.placeholder} />
         <div className={styles.data}>
@@ -174,6 +180,7 @@ export interface VerifyProofFormProps {
   circuitDriverId: string;
   proof: Proof;
   isVerifyOpen: boolean;
+  noCard?: boolean;
   // proofGenElement: ProofGenElement;
 }
 
