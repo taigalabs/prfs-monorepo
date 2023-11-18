@@ -43,10 +43,11 @@ function SaveProofPopover({ placement, offset, variant }: SaveProofPopoverProps)
 
   const [isFlask, setIsFlask] = React.useState(false);
   const [isSnapEnabled, setIsSnapEnabled] = React.useState(false);
+  const [isSnapsDetected, setIsSnapsDetected] = React.useState(false);
 
   const isMetaMaskReady = React.useMemo(() => {
-    isLocalSnap(defaultSnapOrigin) ? state.isFlask : state.snapsDetected;
-  }, []);
+    isLocalSnap(defaultSnapOrigin) ? isFlask : isSnapsDetected;
+  }, [isFlask, isSnapsDetected]);
 
   React.useEffect(() => {
     async function fn() {
