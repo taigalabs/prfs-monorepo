@@ -44,33 +44,31 @@ const PostDialog: React.FC<PostDialogProps> = ({ children }) => {
       </div>
       <FloatingPortal>
         {isOpen && (
-          <FloatingOverlay style={{ zIndex: 100 }}>
-            <Fade className={styles.dialogOverlay}>
-              <FloatingFocusManager context={context}>
-                <div
-                  className={styles.dialog}
-                  ref={refs.setFloating}
-                  aria-labelledby={headingId}
-                  aria-describedby={descriptionId}
-                  {...getFloatingProps()}
-                >
-                  <div className={styles.header}>
-                    <div className={styles.title}>{i18n.choose_proof_type}</div>
-                    <div className={styles.topBtnRow}>
-                      <button onClick={() => setIsOpen(false)}>
-                        <AiOutlineClose />
-                      </button>
-                    </div>
-                  </div>
-                  <div className={styles.body}>
-                    <TextEditor />
-                  </div>
-                  <div className={styles.footer}>
-                    <button>{i18n.post}</button>
+          <FloatingOverlay className={styles.dialogOverlay}>
+            <FloatingFocusManager context={context}>
+              <div
+                className={styles.dialog}
+                ref={refs.setFloating}
+                aria-labelledby={headingId}
+                aria-describedby={descriptionId}
+                {...getFloatingProps()}
+              >
+                <div className={styles.header}>
+                  <div className={styles.title}>{i18n.choose_proof_type}</div>
+                  <div className={styles.topBtnRow}>
+                    <button onClick={() => setIsOpen(false)}>
+                      <AiOutlineClose />
+                    </button>
                   </div>
                 </div>
-              </FloatingFocusManager>
-            </Fade>
+                <div className={styles.body}>
+                  <TextEditor />
+                </div>
+                <div className={styles.footer}>
+                  <button>{i18n.post}</button>
+                </div>
+              </div>
+            </FloatingFocusManager>
           </FloatingOverlay>
         )}
       </FloatingPortal>
