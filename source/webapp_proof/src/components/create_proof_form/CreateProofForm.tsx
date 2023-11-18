@@ -74,6 +74,7 @@ const CreateProofForm: React.FC = () => {
         proofType={proofType}
         handleSelectProofType={handleSelectProofType}
       />
+      <div className={styles.topRow}></div>
       <div className={styles.wrapper}>
         {proveReceipt ? (
           <Fade>
