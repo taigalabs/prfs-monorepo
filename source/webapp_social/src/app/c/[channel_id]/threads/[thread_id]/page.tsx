@@ -8,7 +8,7 @@ import { i18nContext } from "@/contexts/i18n";
 import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import { ContentMain, ContentLeft } from "@/components/content_area/ContentArea";
 import LeftBar from "@/components/left_bar/LeftBar";
-import TimelineFeeds from "@/components/timeline_feeds/TimelineFeeds";
+// import TimelineFeeds from "@/components/timeline_feeds/TimelineFeeds";
 import { paths } from "@/paths";
 
 const ThreadPage: React.FC<ThreadPageProps> = () => {

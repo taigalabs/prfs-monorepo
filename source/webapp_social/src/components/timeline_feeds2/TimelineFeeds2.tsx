@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
@@ -15,7 +17,7 @@ import styles from "./TimelineFeeds2.module.scss";
 
 async function fetchServerPage(
   limit: number,
-  offset: number = 0
+  offset: number = 0,
 ): Promise<{ rows: string[]; nextOffset: number | undefined }> {
   console.log("fetch", limit, offset);
 

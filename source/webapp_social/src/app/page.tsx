@@ -10,6 +10,8 @@ import { useAppSelector } from "@/state/hooks";
 import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import { ContentLeft, ContentMain } from "@/components/content_area/ContentArea";
 import LeftBar from "@/components/left_bar/LeftBar";
+// import TimelineFeeds from "@/components/timeline_feeds/TimelineFeeds";
+import TimelineFeeds2 from "@/components/timeline_feeds2/TimelineFeeds2";
 
 const HomePage: React.FC = () => {
   // const i18n = React.useContext(i18nContext);
@@ -29,12 +31,16 @@ const HomePage: React.FC = () => {
   return (
     <DefaultLayout>
       <ContentLeft>
-        <Suspense>
-          <LeftBar />
-        </Suspense>
+        {/* <Suspense> */}
+        {/*   <LeftBar /> */}
+        {/* </Suspense> */}
       </ContentLeft>
       <ContentMain>
-        <div className={styles.container}>{/* <TimelineFeeds /> */}</div>
+        <div className={styles.container}>
+          <Suspense>
+            <TimelineFeeds2 channelId="default" />
+          </Suspense>
+        </div>
       </ContentMain>
     </DefaultLayout>
   );
