@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Logo from "@taigalabs/prfs-react-components/src/logo/Logo";
 import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
@@ -18,8 +20,8 @@ const LeftBar: React.FC = () => {
     <div className={styles.wrapper}>
       <div className={styles.logoContainer}>
         <Link href={paths.__}>
-          <p>{i18n.vacade}</p>
-          <p className={styles.betaTag}>Beta</p>
+          <p>{i18n.social}</p>
+          {/* <p className={styles.betaTag}>Beta</p> */}
         </Link>
       </div>
       <ul className={styles.mainMenu}>

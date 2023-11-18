@@ -1,3 +1,5 @@
+"use client";
+
 import { Provider as StateProvider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PrfsReactComponentsI18NProvider } from "@taigalabs/prfs-react-components/src/contexts/i18nContext";
@@ -14,7 +16,7 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   [publicProvider()],
 );
 
-const config = createConfig({
+const wagmiConfig = createConfig({
   autoConnect: true,
   connectors: [
     new MetaMaskConnector({ chains }),
@@ -33,15 +35,15 @@ const queryClient = new QueryClient();
 
 const TopProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <ThirdwebProvider activeChain="ethereum">
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <WagmiConfig config={wagmiConfig}>
         <PrfsReactComponentsI18NProvider>
           <StateProvider store={store}>
             <I18nProvider>{children}</I18nProvider>
           </StateProvider>
         </PrfsReactComponentsI18NProvider>
-      </QueryClientProvider>
-    </ThirdwebProvider>
+      </WagmiConfig>
+    </QueryClientProvider>
   );
 };
 
