@@ -18,6 +18,18 @@ import Fade from "../fade/Fade";
 import styles from "./SaveProofPopover.module.scss";
 import Button from "../button/Button";
 import { i18nContext } from "../contexts/i18nContext";
+import { useConnect } from "wagmi";
+
+export const sendHello = async () => {
+  // await window.ethereum.request({
+  //   method: "wallet_invokeSnap",
+  //   params: { snapId: defaultSnapOrigin, request: { method: "hello" } },
+  // });
+};
+
+export const defaultSnapOrigin =
+  // eslint-disable-next-line no-restricted-globals
+  process.env.SNAP_ORIGIN ?? `local:http://localhost:8080`;
 
 function SaveProofPopover({ placement, offset, variant }: SaveProofPopoverProps) {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -31,6 +43,25 @@ function SaveProofPopover({ placement, offset, variant }: SaveProofPopoverProps)
   const dismiss = useDismiss(context);
   const click = useClick(context);
   const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
+
+  const [isSnapEnabled, setIsSnapEnabled] = React.useState(false);
+
+  React.useEffect(() => {
+    const win = window as any;
+    if (win.ethereum) {
+      win.ethereum
+        .request({
+          method: "wallet_invokeSnap",
+          params: { snapId: defaultSnapOrigin, request: { method: "hello" } },
+        })
+        .then((res: any) => {
+          console.log(55, res);
+        })
+        .catch((err: any) => {
+          console.error(44, err);
+        });
+    }
+  }, [setIsSnapEnabled]);
 
   return (
     <>
@@ -54,7 +85,7 @@ function SaveProofPopover({ placement, offset, variant }: SaveProofPopoverProps)
         >
           <ul className={styles.menuList}>
             <li>
-              <button>
+              <button disabled={isSnapEnabled}>
                 <span>Snap</span>
                 <span className={styles.beta}>{i18n.beta}</span>
               </button>
