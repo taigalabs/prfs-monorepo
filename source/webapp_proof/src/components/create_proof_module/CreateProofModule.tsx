@@ -3,13 +3,13 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import LoaderBar from "@taigalabs/prfs-react-components/src/loader_bar/LoaderBar";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 import dayjs from "dayjs";
 import cn from "classnames";
 import { useSearchParams } from "next/navigation";
-import { Spinner } from "@phosphor-icons/react";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 
 import styles from "./CreateProofModule.module.scss";
@@ -177,7 +177,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         setProofGenElement(elem);
         return elem;
       } catch (err) {
-        // setDriverMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
+        setDriverMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
       }
     }
 
@@ -313,7 +313,11 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
                   <LoaderBar />
                 </div>
               ))}
-            {loadDriverStatus === LoadDriverStatus.InProgress && <div className={styles.overlay} />}
+            {true && (
+              <div className={styles.overlay}>
+                <Spinner size={28} color="#1b62c0" />
+              </div>
+            )}
             <TutorialStepper steps={[2]}>
               <div className={styles.form}>{circuitInputsElem}</div>
             </TutorialStepper>
