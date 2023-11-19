@@ -313,9 +313,9 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
                   <LoaderBar />
                 </div>
               ))}
-            {true && (
+            {loadDriverStatus === LoadDriverStatus.InProgress && (
               <div className={styles.overlay}>
-                <Spinner size={28} color="#1b62c0" />
+                <Spinner size={32} color="#1b62c0" />
               </div>
             )}
             <TutorialStepper steps={[2]}>
