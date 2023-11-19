@@ -13,6 +13,9 @@ import { Color } from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
 import Placeholder from "@tiptap/extension-placeholder";
+import { useMutation } from "wagmi";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
 
 import styles from "./TextEditor.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -71,6 +74,13 @@ const EditorMenuBar = () => {
 const EditorFooter = () => {
   const i18n = React.useContext(i18nContext);
   const { editor } = useCurrentEditor();
+
+  const { mutateAsync: createPrfsProofInstance, isLoading: isCreatePrfsProofInstanceLoading } =
+    useMutation({
+      mutationFn: (req: CreatePrfsProofInstanceRequest) => {
+        return prfsApi2("create_prfs_proof_instance", req);
+      },
+    });
 
   if (!editor) {
     return null;
