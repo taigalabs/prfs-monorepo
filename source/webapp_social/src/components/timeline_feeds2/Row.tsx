@@ -35,6 +35,7 @@ async function fetchServerPage(
 const Row: React.FC<RowProps> = ({ post }) => {
   return (
     <div className={styles.wrapper}>
+      <div className={styles.author}>Anon says</div>
       <div>{post.content}</div>
     </div>
   );
