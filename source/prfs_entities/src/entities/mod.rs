@@ -11,6 +11,7 @@ mod prfs_proof_instance;
 mod prfs_proof_type;
 mod prfs_set;
 mod prfs_tree_node;
+mod social_post;
 
 pub use eth_account::*;
 pub use prfs_account::*;
@@ -25,3 +26,4 @@ pub use prfs_proof_instance::*;
 pub use prfs_proof_type::*;
 pub use prfs_set::*;
 pub use prfs_tree_node::*;
+pub use social_post::*;
