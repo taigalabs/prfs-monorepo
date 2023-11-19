@@ -47,25 +47,28 @@ const PostDialog: React.FC<PostDialogProps> = ({ children }) => {
         {isOpen && (
           <FloatingOverlay className={styles.dialogOverlay}>
             <FloatingFocusManager context={context}>
-              <div
-                className={styles.dialog}
-                ref={refs.setFloating}
-                aria-labelledby={headingId}
-                aria-describedby={descriptionId}
-                {...getFloatingProps()}
-              >
-                <div className={styles.header}>
-                  <div className={styles.title}>{i18n.write_to_social}</div>
-                  <div className={styles.topBtnRow}>
-                    <button onClick={() => setIsOpen(false)}>
-                      <AiOutlineClose />
-                    </button>
+              <>
+                <div
+                  className={styles.dialog}
+                  ref={refs.setFloating}
+                  aria-labelledby={headingId}
+                  aria-describedby={descriptionId}
+                  {...getFloatingProps()}
+                >
+                  <button className={styles.snapBtn}>MetaMask Snap Simulation</button>
+                  <div className={styles.header}>
+                    <div className={styles.title}>{i18n.write_to_social}</div>
+                    <div className={styles.topBtnRow}>
+                      <button onClick={() => setIsOpen(false)}>
+                        <AiOutlineClose />
+                      </button>
+                    </div>
+                  </div>
+                  <div className={styles.body}>
+                    <TextEditor />
                   </div>
                 </div>
-                <div className={styles.body}>
-                  <TextEditor />
-                </div>
-              </div>
+              </>
             </FloatingFocusManager>
           </FloatingOverlay>
         )}

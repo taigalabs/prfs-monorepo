@@ -35,25 +35,9 @@ async function fetchServerPage(
 }
 
 const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
-  // const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
-  //   useInfiniteQuery(["projects"], ctx => fetchServerPage(10, ctx.pageParam), {
-  //     getNextPageParam: lastPage => lastPage.nextOffset,
-  //   });
-
-  // const allRows = data ? data.pages.flatMap(d => d.rows) : [];
-  // const parentRef = React.useRef<HTMLDivElement | null>(null);
-  // const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
-
-  // const rowVirtualizer = useVirtualizer({
-  //   count: hasNextPage ? allRows.length + 1 : allRows.length,
-  //   getScrollElement: () => parentRef.current,
-  //   estimateSize: () => 100,
-  //   overscan: 5,
-  // });
-
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery(
-      ["get_prfs_proof_types"],
+      ["get_social_posts"],
       async ({ pageParam = 0 }) => {
         const { payload } = await prfsApi2("get_social_posts", {
           page_idx: pageParam,
