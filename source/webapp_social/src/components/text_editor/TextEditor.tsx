@@ -1,5 +1,4 @@
 import React from "react";
-import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import {
   EditorProvider,
@@ -14,15 +13,15 @@ import { Color } from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
 import Placeholder from "@tiptap/extension-placeholder";
+import Link from "@tiptap/extension-link";
 import { useMutation } from "wagmi";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
+import { CreateSocialPostRequest } from "@taigalabs/prfs-entities/bindings/CreateSocialPostRequest";
+import { SocialPost } from "@taigalabs/prfs-entities/bindings/SocialPost";
 
 import styles from "./TextEditor.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import { CreateSocialPostRequest } from "@taigalabs/prfs-entities/bindings/CreateSocialPostRequest";
-import { SocialPost } from "@taigalabs/prfs-entities/bindings/SocialPost";
 
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -36,6 +35,11 @@ const extensions = [
       keepMarks: true,
       keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
     },
+  }),
+  Link.extend({
+    inclusive: false,
+  }).configure({
+    autolink: true,
   }),
   Placeholder.configure({
     emptyEditorClass: styles.isEditorEmpty,
@@ -90,7 +94,11 @@ const EditorFooter = () => {
 
   const handleClickPost = React.useCallback(async () => {
     const text = editor.getText();
+    const html = editor.getHTML();
     console.log("text", text);
+    console.log("html", html);
+
+    return;
 
     const post_id = uuidv4();
     const post: SocialPost = {
