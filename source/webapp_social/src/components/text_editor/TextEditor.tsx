@@ -41,7 +41,7 @@ const content = `
   <p><span style="color: blue;">But this one is wrapped in a &lt;span&gt; tag with an inline style attribute, so it’s kept - even if it’s empty for now.</span></p>
 `;
 
-const MenuBar = () => {
+const EditorMenuBar = () => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -68,6 +68,26 @@ const MenuBar = () => {
   );
 };
 
+const EditorFooter = () => {
+  const i18n = React.useContext(i18nContext);
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  const handleClickPost = React.useCallback(() => {
+    const text = editor.getText();
+    console.log(11, text);
+  }, [editor]);
+
+  return (
+    <div className={styles.footer}>
+      <button onClick={handleClickPost}>{i18n.post}</button>
+    </div>
+  );
+};
+
 const TextEditor: React.FC = () => {
   const editor = useEditor({
     extensions,
@@ -79,11 +99,14 @@ const TextEditor: React.FC = () => {
   }
 
   return (
-    <div className={styles.wrapper}>
-      <EditorProvider slotBefore={<MenuBar />} extensions={extensions} content={""}>
-        <></>
-      </EditorProvider>
-    </div>
+    <EditorProvider
+      slotBefore={<EditorMenuBar />}
+      slotAfter={<EditorFooter />}
+      extensions={extensions}
+      content={""}
+    >
+      <div className={styles.wrapper}></div>
+    </EditorProvider>
   );
 };
 

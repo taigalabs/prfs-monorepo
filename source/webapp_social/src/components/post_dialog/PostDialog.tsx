@@ -18,6 +18,7 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import styles from "./PostDialog.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import TextEditor from "@/components/text_editor/TextEditor";
+import { useCurrentEditor } from "@tiptap/react";
 
 const PostDialog: React.FC<PostDialogProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
@@ -63,9 +64,6 @@ const PostDialog: React.FC<PostDialogProps> = ({ children }) => {
                 </div>
                 <div className={styles.body}>
                   <TextEditor />
-                </div>
-                <div className={styles.footer}>
-                  <button>{i18n.post}</button>
                 </div>
               </div>
             </FloatingFocusManager>
