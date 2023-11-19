@@ -92,6 +92,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
   return (
     <>
       <ProofTypeMasthead
+        isActivated
         proofInstanceId={proofInstanceId}
         proofType={undefined}
         handleSelectProofType={handleSelectProofType}
