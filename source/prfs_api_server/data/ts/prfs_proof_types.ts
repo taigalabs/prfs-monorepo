@@ -237,6 +237,37 @@ const proof_types: PrfsProofType[] = [
     },
     created_at: "2023-10-26T16:39:57-08:00",
   },
+  {
+    proof_type_id: "2023_ETH_GLOBAL_ISTANBUL_HACKERS",
+    label: "2023 EthGlobal Istanbul hackers",
+    author: "Prfs",
+    desc: "Proves he is one of the hackers at 2023 EthGlobal Istanbul hackathon",
+    expression: "Is 2023 EthGlobal Istanbul hacker",
+    img_url: "https://d1w1533jipmvi2.cloudfront.net/2023_eth_global_istanbul_logo.png",
+    img_caption: null,
+    circuit_id: "00000000-0000-0000-0000-000000000000",
+    circuit_type_id: "MEMBERSHIP_PROOF_1",
+    circuit_driver_id: "SPARTAN_CIRCOM_1",
+    circuit_inputs: [
+      {
+        ref_type: "PRFS_SET",
+        ref_value: "10000000-0000-0000-0000-100000000004",
+        desc: "Who you are among those",
+        name: "merkleProof",
+        type: "MERKLE_PROOF_1",
+        element_type: "ADDRESS",
+        label: "Member",
+        value: "",
+      },
+      sig_data_circuit_input,
+    ],
+    driver_properties: {
+      version: "0.0.1",
+      circuit_url: ADDR_MEMBERSHIP2_1_CIRCUIT_URL,
+      wtns_gen_url: ADDR_MEMBERSHIP2_1_WTNS_GEN_URL,
+    },
+    created_at: "2023-11-19T16:39:57-08:00",
+  },
 ];
 
 export default proof_types;
