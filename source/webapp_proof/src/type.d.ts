@@ -4,7 +4,7 @@ import { Envs } from "./envs";
 
 declare global {
   interface Window {
-    ethereum?: Web3Provider;
+    ethereum?: any;
     ethers: Web3Provider;
   }
 

@@ -7,11 +7,12 @@ import { MetaMaskInpageProvider } from "@metamask/providers";
  */
 declare global {
   interface Window {
-    ethereum: MetaMaskInpageProvider & {
-      setProvider?: (provider: MetaMaskInpageProvider) => void;
-      detected?: MetaMaskInpageProvider[];
-      providers?: MetaMaskInpageProvider[];
-    };
+    // ethereum: unknown;
+    // MetaMaskInpageProvider & {
+    //   setProvider?: (provider: MetaMaskInpageProvider) => void;
+    //   detected?: MetaMaskInpageProvider[];
+    //   providers?: MetaMaskInpageProvider[];
+    // };
   }
 }
 
@@ -23,8 +24,3 @@ export type Snap = {
   version: string;
   initialPermissions: Record<string, unknown>;
 };
-
-// export interface PrfsProofSnapItem {
-//   proofLabel: string;
-//   proofShortUrl: string;
-// }
