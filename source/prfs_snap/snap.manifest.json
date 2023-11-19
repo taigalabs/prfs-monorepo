@@ -1,9 +1,9 @@
 {
   "version": "0.1.0",
   "description": "Share proofs with Snaps",
-  "proposedName": "TypeScript Example",
+  "proposedName": "Prfs on Snap",
   "source": {
-    "shasum": "HlYL4jMTWchLeExL1DJiah8rrmHPWkY0qujc2MzEKSw=",
+    "shasum": "MhX2qoX725pIJCeoLShvEysWCkL+k01yIP8xdGdfMcE=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
