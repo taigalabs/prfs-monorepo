@@ -73,7 +73,7 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
   const rowVirtualizer = useVirtualizer({
     count: hasNextPage ? allRows.length + 1 : allRows.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 44,
+    estimateSize: () => 100,
     overscan: 5,
   });
 

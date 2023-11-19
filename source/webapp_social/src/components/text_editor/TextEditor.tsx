@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import {
   EditorProvider,
@@ -81,6 +82,7 @@ const EditorMenuBar = () => {
 const EditorFooter = () => {
   const i18n = React.useContext(i18nContext);
   const { editor } = useCurrentEditor();
+  const router = useRouter();
 
   const { mutateAsync: createSocialPost, isLoading: isCreateSocialPostLoading } = useMutation({
     mutationFn: (req: CreateSocialPostRequest) => {
@@ -93,23 +95,26 @@ const EditorFooter = () => {
   }
 
   const handleClickPost = React.useCallback(async () => {
-    const text = editor.getText();
-    const html = editor.getHTML();
-    console.log("text", text);
-    console.log("html", html);
+    try {
+      const html = editor.getHTML();
+      console.log("html", html);
 
-    return;
+      // const text = editor.getText();
+      // console.log("text", text);
 
-    const post_id = uuidv4();
-    const post: SocialPost = {
-      post_id,
-      content: text,
-      channel_id: "default",
-    };
+      const post_id = uuidv4();
+      const post: SocialPost = {
+        post_id,
+        content: html,
+        channel_id: "default",
+      };
 
-    const { payload } = await createSocialPost({ post });
-    console.log("create social post resp", payload);
-  }, [editor, createSocialPost]);
+      const { payload } = await createSocialPost({ post });
+      console.log("create social post resp", payload);
+
+      router.push("/");
+    } catch (err) {}
+  }, [editor, createSocialPost, router]);
 
   return (
     <div className={styles.footer}>
