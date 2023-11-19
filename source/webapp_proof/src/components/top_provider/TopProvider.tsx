@@ -19,7 +19,7 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   [publicProvider()],
 );
 
-const config = createConfig({
+const wagmiConfig = createConfig({
   autoConnect: true,
   connectors: [
     new MetaMaskConnector({ chains }),
@@ -37,7 +37,7 @@ const config = createConfig({
 const TopProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <WagmiConfig config={config}>
+      <WagmiConfig config={wagmiConfig}>
         <PrfsReactComponentsI18NProvider>
           <StateProvider store={store}>
             <I18nProvider>{children}</I18nProvider>

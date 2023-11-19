@@ -1,0 +1,90 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  /* padding-top: 14px; */
+  padding-bottom: 14px;
+  width: 250px;
+
+  /* border: 1px solid blue; */
+}
+
+.appName {
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 1.545rem;
+  color: var(--gray-50);
+  letter-spacing: -0.021em;
+}
+
+.betaTag {
+  padding: 0px 2px;
+  transform: translateY(-7px);
+  font-size: 12px;
+  letter-spacing: -0.01em;
+  color: var(--gray-30);
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  font-size: 1.645rem;
+  height: 52px;
+
+  a {
+    padding: 0 20px;
+    height: 38px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      /* background-color: var(--gray-10); */
+    }
+  }
+}
+
+.mainMenu {
+  display: flex;
+  flex-direction: column;
+  margin-top: 36px;
+  font-size: 20px;
+
+  li {
+    display: flex;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    height: 38px;
+    border-radius: 20px;
+
+    &:hover {
+      background-color: var(--gray-10);
+    }
+  }
+
+  svg {
+    margin-right: 12px;
+    font-size: 24px;
+  }
+
+  li:not(:first-child) {
+    margin-top: 16px;
+  }
+}
+
+.postBtn {
+  cursor: pointer;
+  width: 210px;
+  height: 50px;
+  border: 1px solid var(--gray-50);
+  border-radius: 25px;
+  font-size: 16px;
+  margin-top: 20px;
+
+  &:hover {
+    background-color: var(--bright-gray-31);
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "version": "0.1.0",
+  "description": "Share proofs with Snaps",
+  "proposedName": "Prfs on Snap",
+  "source": {
+    "shasum": "MhX2qoX725pIJCeoLShvEysWCkL+k01yIP8xdGdfMcE=",
+    "location": {
+      "npm": {
+        "filePath": "dist/bundle.js",
+        "iconPath": "images/icon.svg",
+        "packageName": "@prfs/prfs-snap",
+        "registry": "https://registry.npmjs.org/"
+      }
+    }
+  },
+  "initialPermissions": {
+    "snap_dialog": {},
+    "endowment:rpc": {
+      "dapps": true,
+      "snaps": false
+    },
+    "snap_manageState": {}
+  },
+  "manifestVersion": "0.1"
+}

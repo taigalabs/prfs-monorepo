@@ -3,15 +3,15 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding-left: 230px;
-  padding-top: 89px;
+  /* padding-left: 230px; */
+  padding-top: 69px;
 
   /* border: 1px solid green; */
 }
 
 @media screen and (max-width: 1300px) {
   .container {
-    padding-left: calc((100% - 1150px) / 2);
+    /* padding-left: calc((100% - 1150px) / 2); */
   }
 }
 
@@ -19,6 +19,6 @@
   .container {
     min-width: 0px;
     padding-left: 0px;
-    padding-top: 102px;
+    padding-top: 88px;
   }
 }

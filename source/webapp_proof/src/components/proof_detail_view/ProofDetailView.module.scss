@@ -1,22 +1,30 @@
-.wrapper {
+.topRow {
   display: flex;
-  flex-direction: row;
-  flex-grow: 1;
-  flex-shrink: 1;
-  min-width: 0px;
-  padding-bottom: 32px;
-  overflow-x: auto;
+  height: 47px;
+  padding-left: 230px;
+  border-bottom: 1px solid var(--bright-gray-36);
 
   /* border: 1px solid blue; */
-}
 
-.upperRow {
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-  height: 42px;
+  .mainMenu {
+    display: flex;
+    justify-content: space-between;
+    width: 580px;
+    align-items: center;
+    margin-left: 30px;
 
-  .consoleLink {
+    /* border: 1px solid gray; */
+  }
+
+  ul {
+    display: flex;
+
+    li:not(:first-child) {
+      margin-left: 18px;
+    }
+  }
+
+  .link {
     display: flex;
     align-items: center;
     color: var(--aqua-blue-50);
@@ -27,9 +35,32 @@
   }
 }
 
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-width: 0px;
+  padding-bottom: 32px;
+  padding-left: 230px;
+  overflow-x: auto;
+
+  /* border: 1px solid blue; */
+}
+
+.upperRow {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  height: 42px;
+}
+
 .meta {
   width: 580px;
-  // border: 1px solid red;
+  margin-left: 30px;
+  margin-top: 20px;
+
+  /* border: 1px solid red; */
 
   .bannerContainer {
     display: inline-flex;
@@ -61,11 +92,17 @@
 .proofDetail {
   display: flex;
   justify-content: center;
-  margin-left: 72px;
+  margin-left: 52px;
 }
 
 .verifyProofFormWrapper {
   width: 340px;
+  /* padding-left: 20px; */
+  /* margin-top: 20px; */
+
+  /* border-left: 1px solid var(--bright-gray-31); */
+
+  /* border: 1px solid blue; */
 }
 
 .isTutorial {
@@ -78,13 +115,31 @@
   }
 }
 
+.isLoading {
+  padding: 0 30px;
+}
+
 @media screen and (max-width: 1300px) {
+  .topRow {
+    padding-left: calc((100% - 1150px) / 2);
+  }
+
   .wrapper {
-    padding-left: 30px;
+    padding-left: calc((100% - 1150px) / 2);
   }
 }
 
 @media screen and (max-width: 1024px) {
+  .topRow {
+    padding: 0 10px;
+    height: 39px;
+
+    .mainMenu {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+
   .wrapper {
     width: 100%;
     padding: 0 10px 32px;
@@ -99,6 +154,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    margin-left: 0px;
     align-items: center;
 
     .proofDetailContainer {
@@ -116,5 +172,10 @@
     .proofDetail {
       margin-left: 0px;
     }
+  }
+
+  .verifyProofFormWrapper {
+    padding-left: 0px;
+    border-left: none;
   }
 }

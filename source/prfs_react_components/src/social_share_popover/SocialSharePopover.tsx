@@ -32,28 +32,6 @@ function SocialSharePopover({ placement, offset, variant }: SocialSharePopoverPr
   const click = useClick(context);
   const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
 
-  const base = React.useMemo(() => {
-    switch (variant) {
-      case "transparent_blue_1": {
-        return (
-          <Button variant="transparent_blue_1">
-            <span>{"share".toUpperCase()}</span>
-            <IoMdArrowDropdown />
-          </Button>
-        );
-      }
-      default:
-      case "transparent_black_1": {
-        return (
-          <button className={styles.blackBtn}>
-            <span>{i18n.share}</span>
-            <IoMdArrowDropdown />
-          </button>
-        );
-      }
-    }
-  }, [variant]);
-
   return (
     <>
       <div
@@ -62,7 +40,10 @@ function SocialSharePopover({ placement, offset, variant }: SocialSharePopoverPr
         {...getReferenceProps()}
         role="button"
       >
-        {base}
+        <button>
+          <span>{i18n.share}</span>
+          <IoMdArrowDropdown />
+        </button>
       </div>
       {isOpen && (
         <div
@@ -72,18 +53,19 @@ function SocialSharePopover({ placement, offset, variant }: SocialSharePopoverPr
           {...getFloatingProps()}
         >
           <ul className={styles.menuList}>
-            <li>
-              <AiFillTwitterSquare />
-              <span>Twitter</span>
-            </li>
-            <li>
-              <FaTelegram />
-              <span>Telegram</span>
-            </li>
-            <li>
-              <FaDiscord />
-              <span>Discord</span>
-            </li>
+            <p className={styles.notSupported}>{i18n.not_supported}</p>
+            {/*   <li> */}
+            {/*     <AiFillTwitterSquare /> */}
+            {/*     <span>Twitter</span> */}
+            {/*   </li> */}
+            {/*   <li> */}
+            {/*     <FaTelegram /> */}
+            {/*     <span>Telegram</span> */}
+            {/*   </li> */}
+            {/*   <li> */}
+            {/*     <FaDiscord /> */}
+            {/*     <span>Discord</span> */}
+            {/*   </li> */}
           </ul>
         </div>
       )}

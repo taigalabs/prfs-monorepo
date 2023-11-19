@@ -20,7 +20,7 @@ import { paths } from "@/paths";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import TutorialStepper from "@/components//tutorial/TutorialStepper";
 import VerifyProofForm from "@/components/verify_proof_form/VerifyProofForm";
-import VerifyProofModule from "../verify_proof_form/VerifyProofModule";
+import VerifyProofModule from "@/components/verify_proof_module/VerifyProofModule";
 
 const JSONbigNative = JSONBig({
   useNativeBigInt: true,

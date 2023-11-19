@@ -2,6 +2,7 @@ packages:
   - "externals/incremental-merkle-tree"
 
   - "source/e2e_test_web"
+  - "source/prfs_snap"
 
   - "source/docs_website"
 
@@ -23,4 +24,4 @@ packages:
   - "source/webapp_console"
   - "source/webapp_proof"
   - "source/webapp_poll"
-  - "source/webapp_vacade"
+  - "source/webapp_social"

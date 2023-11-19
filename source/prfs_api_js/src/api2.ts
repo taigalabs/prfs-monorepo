@@ -55,6 +55,10 @@ import { SubmitPrfsPollResponseRequest } from "@taigalabs/prfs-entities/bindings
 import { SubmitPrfsPollResponseResponse } from "@taigalabs/prfs-entities/bindings/SubmitPrfsPollResponseResponse";
 import { GetPrfsPollResultByPollIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsPollResultByPollIdRequest";
 import { GetPrfsPollResultByPollIdResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsPollResultByPollIdResponse";
+import { CreateSocialPostRequest } from "@taigalabs/prfs-entities/bindings/CreateSocialPostRequest";
+import { CreateSocialPostResponse } from "@taigalabs/prfs-entities/bindings/CreateSocialPostResponse";
+import { GetSocialPostsRequest } from "@taigalabs/prfs-entities/bindings/GetSocialPostsRequest";
+import { GetSocialPostsResponse } from "@taigalabs/prfs-entities/bindings/GetSocialPostsResponse";
 
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
@@ -89,7 +93,9 @@ type RequestName =
   | "get_prfs_polls"
   | "get_prfs_poll_by_poll_id"
   | "submit_prfs_poll_response"
-  | "get_prfs_poll_result_by_poll_id";
+  | "get_prfs_poll_result_by_poll_id"
+  | "create_social_post"
+  | "get_social_posts";
 
 type Req<T extends RequestName> = //
   T extends "sign_up_prfs_account"
@@ -152,6 +158,10 @@ type Req<T extends RequestName> = //
     ? SubmitPrfsPollResponseRequest
     : T extends "get_prfs_poll_result_by_poll_id"
     ? GetPrfsPollResultByPollIdRequest
+    : T extends "create_social_post"
+    ? CreateSocialPostRequest
+    : T extends "get_social_posts"
+    ? GetSocialPostsRequest
     : never;
 
 type Resp<T> = //
@@ -215,6 +225,10 @@ type Resp<T> = //
     ? PrfsApiResponse<SubmitPrfsPollResponseResponse>
     : T extends "get_prfs_poll_result_by_poll_id"
     ? PrfsApiResponse<GetPrfsPollResultByPollIdResponse>
+    : T extends "create_social_post"
+    ? PrfsApiResponse<CreateSocialPostResponse>
+    : T extends "get_social_posts"
+    ? PrfsApiResponse<GetSocialPostsResponse>
     : any;
 
 let PRFS_API_SERVER_ENDPOINT: string;
@@ -231,6 +245,6 @@ export async function prfsApi2<T extends RequestName>(name: T, req: Req<T>): Pro
       path: name,
       req,
     },
-    PRFS_API_SERVER_ENDPOINT
+    PRFS_API_SERVER_ENDPOINT,
   )) as Resp<T>;
 }

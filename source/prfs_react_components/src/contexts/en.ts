@@ -1,5 +1,6 @@
 export default {
   share: "Share",
+  save: "Save",
   docs: "Docs",
   documentation: "Documentation",
   console: "Console",
@@ -26,6 +27,7 @@ export default {
   language: "Language",
   feedback: "Feedback",
   id: "Id",
+  not_supported: "Not yet supported",
   create: "Create",
   name: "Name",
   name_and_description: "Name and description",
@@ -43,6 +45,7 @@ export default {
   value: "Value",
   learn: "Learn",
   browse: "Browse",
+  beta: "Beta",
   set_id: "Set id",
   type: "Type",
   type_merkle_proof: "Type Merkle proof",

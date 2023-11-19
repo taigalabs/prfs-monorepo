@@ -4,10 +4,11 @@ pub mod dev_asset_server;
 pub mod dev_docs_website;
 pub mod dev_email_auth_server;
 pub mod dev_sdk_web_module;
+pub mod dev_snap;
 pub mod dev_webapp_console;
 pub mod dev_webapp_poll;
 pub mod dev_webapp_proof;
-pub mod dev_webapp_vacade;
+pub mod dev_webapp_social;
 
 // prod mode
 pub mod start_api_server;
@@ -17,7 +18,7 @@ pub mod start_sdk_web_module;
 pub mod start_webapp_console;
 pub mod start_webapp_poll;
 pub mod start_webapp_proof;
-pub mod start_webapp_vacade;
+pub mod start_webapp_social;
 
 // build
 pub mod build;

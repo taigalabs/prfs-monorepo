@@ -24,6 +24,7 @@ pub struct Paths {
     pub e2e_test_web: PathBuf,
     pub prfs_circuits_circom: PathBuf,
 
+    pub prfs_snap: PathBuf,
     pub prfs_api_server: PathBuf,
     pub prfs_email_auth_server: PathBuf,
 
@@ -46,7 +47,7 @@ pub struct Paths {
     // webapps
     pub webapp_console: PathBuf,
     pub webapp_proof: PathBuf,
-    pub webapp_vacade: PathBuf,
+    pub webapp_social: PathBuf,
     pub webapp_poll: PathBuf,
 }
 
@@ -70,8 +71,8 @@ impl Paths {
         let internals_docker_postgres = curr_dir.join("internals/docker_postgres");
 
         let docs_website = curr_dir.join("source/docs_website");
-
         let prfs_circuits_circom = curr_dir.join("source/prfs_circuits_circom");
+        let prfs_snap = curr_dir.join("source/prfs_snap");
 
         let prfs_asset_server = curr_dir.join("source/prfs_asset_server");
         let prfs_asset_server_assets = curr_dir.join("source/prfs_asset_server/assets");
@@ -93,7 +94,7 @@ impl Paths {
         let webapp_console = curr_dir.join("source/webapp_console");
         let webapp_proof = curr_dir.join("source/webapp_proof");
         let webapp_poll = curr_dir.join("source/webapp_poll");
-        let webapp_vacade = curr_dir.join("source/webapp_vacade");
+        let webapp_social = curr_dir.join("source/webapp_social");
 
         let p = Paths {
             curr_dir,
@@ -110,6 +111,7 @@ impl Paths {
             prfs_driver_spartan_wasm_build,
 
             prfs_circuits_circom,
+            prfs_snap,
 
             prfs_entities_bindings,
 
@@ -126,7 +128,7 @@ impl Paths {
             webapp_console,
             webapp_proof,
             webapp_poll,
-            webapp_vacade,
+            webapp_social,
 
             e2e_test_web,
         };

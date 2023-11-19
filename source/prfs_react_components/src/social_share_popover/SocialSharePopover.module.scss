@@ -1,3 +1,16 @@
+.base {
+  button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+  }
+
+  svg {
+    transition: all 0.25s ease-out;
+  }
+}
+
 .popover {
   box-shadow: 0 4px 9px 3px rgba(0, 0, 0, 0.15), 0 1px 8px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
@@ -7,14 +20,10 @@
 
 .isOpen {
   button {
-    background-color: var(--bright-gray-50);
+    svg {
+      transform: rotate(180deg);
+    }
   }
-}
-
-.blackBtn {
-  display: flex;
-  align-items: center;
-  font-size: 13px;
 }
 
 .menuList {
@@ -29,12 +38,25 @@
     cursor: pointer;
     width: 100%;
     padding: 8px 15px;
+
     &:hover {
       background-color: var(--bright-gray-50);
+    }
+
+    button {
+      cursor: pointer;
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
     }
   }
 
   svg {
     margin-right: 5px;
   }
+}
+
+.notSupported {
+  padding: 10px 12px;
 }

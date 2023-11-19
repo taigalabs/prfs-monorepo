@@ -13,3 +13,9 @@ declare module "*.svg" {
 
   export default content;
 }
+
+declare global {
+  interface Window {
+    ethereum?: Web3Provider;
+  }
+}

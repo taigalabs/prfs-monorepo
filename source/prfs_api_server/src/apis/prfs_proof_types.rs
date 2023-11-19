@@ -22,9 +22,7 @@ pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, 
     let state = req.data::<Arc<ServerState>>().unwrap().clone();
 
     let req: GetPrfsProofTypesRequest = parse_req(req).await;
-
     let pool = &state.db2.pool;
-
     let prfs_proof_types = db_apis::get_prfs_proof_types(pool, req.page_idx, req.page_size).await;
 
     let next_idx = if (prfs_proof_types.len() as i32) < req.page_size {

@@ -6,6 +6,7 @@ import cn from "classnames";
 import JSONBig from "json-bigint";
 import ProofBanner from "@taigalabs/prfs-react-components/src/proof_banner/ProofBanner";
 import SocialSharePopover from "@taigalabs/prfs-react-components/src/social_share_popover/SocialSharePopover";
+import SaveProofPopover from "@taigalabs/prfs-react-components/src/save_proof_popover/SaveProofPopover";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "wagmi";
 import { GetPrfsProofInstanceByInstanceIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstanceByInstanceIdRequest";
@@ -19,9 +20,9 @@ import { envs } from "@/envs";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
-import Tutorial from "../tutorial/Tutorial";
+import Tutorial from "@/components/tutorial/Tutorial";
 import { useIsTutorial } from "@/hooks/tutorial";
-import TutorialPlaceholder from "../tutorial/TutorialPlaceholder";
+import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
 
 const JSONbigNative = JSONBig({
   useNativeBigInt: true,
@@ -95,20 +96,36 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
         proofType={undefined}
         handleSelectProofType={handleSelectProofType}
       />
-      <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
-        <div className={styles.meta}>
-          <div className={styles.bannerContainer}>
-            <div className={styles.upperRow}>
-              <a className={styles.consoleLink} href={consoleUrl}>
+      <div className={styles.topRow}>
+        <div className={styles.mainMenu}>
+          <ul className={styles.leftMenu}>
+            <li>
+              <SocialSharePopover />
+            </li>
+            <li>
+              <SaveProofPopover
+                proofInstance={proofInstance}
+                proofShortUrl={`${process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/p/${proofInstance.short_id}`}
+              />
+            </li>
+          </ul>
+          <ul>
+            <li>
+              <a className={styles.link} href={consoleUrl}>
                 <p>{i18n.view_in_console}</p>
                 <BiLinkExternal />
               </a>
-            </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
+        <div className={styles.meta}>
+          <div className={styles.bannerContainer}>
             <TutorialStepper steps={[5]}>
               <ProofBanner
                 proofInstance={proofInstance}
                 webappProofEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
-                noBorder
               />
             </TutorialStepper>
           </div>
