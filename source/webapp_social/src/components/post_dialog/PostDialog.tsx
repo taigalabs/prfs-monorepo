@@ -12,13 +12,15 @@ import {
   FloatingPortal,
 } from "@floating-ui/react";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
-import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import {
+  MetamaskActions,
+  usePrfsSnap,
+} from "@taigalabs/prfs-react-components/src/hooks/use_prfs_snap";
 
 import styles from "./PostDialog.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import TextEditor from "@/components/text_editor/TextEditor";
-import { useCurrentEditor } from "@tiptap/react";
+import OpenSnapDialog from "./OpenSnapDialog";
 
 const PostDialog: React.FC<PostDialogProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
@@ -38,6 +40,22 @@ const PostDialog: React.FC<PostDialogProps> = ({ children }) => {
   const headingId = useId();
   const descriptionId = useId();
 
+  // const { state, dispatch } = usePrfsSnap();
+
+  // const handleClickSnap = React.useCallback(async () => {
+  //   try {
+  //     console.log("Get Proofs from Snap");
+
+  //     // await addProof({
+  //     //   proof_label: proofInstance.proof_label,
+  //     //   proof_short_url: proofShortUrl,
+  //     // });
+  //   } catch (error) {
+  //     console.error(error);
+  //     dispatch({ type: MetamaskActions.SetError, payload: error });
+  //   }
+  // }, []);
+
   return (
     <>
       <div className={styles.base} ref={refs.setReference} {...getReferenceProps()}>
@@ -55,7 +73,7 @@ const PostDialog: React.FC<PostDialogProps> = ({ children }) => {
                   aria-describedby={descriptionId}
                   {...getFloatingProps()}
                 >
-                  <button className={styles.snapBtn}>MetaMask Snap Simulation</button>
+                  <OpenSnapDialog />
                   <div className={styles.header}>
                     <div className={styles.title}>{i18n.write_to_social}</div>
                     <div className={styles.topBtnRow}>

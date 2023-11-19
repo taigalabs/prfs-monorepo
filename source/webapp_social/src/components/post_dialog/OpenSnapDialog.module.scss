@@ -1,0 +1,19 @@
+.wrapper {
+  position: absolute;
+  z-index: 200;
+  top: 15px;
+  right: 15px;
+  background-color: var(--white-100);
+  display: flex;
+  align-items: center;
+}
+
+.snapBtn {
+  padding: 12px 14px;
+}
+
+.reconnectBtn {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 5px;
+}
