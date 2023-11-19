@@ -18,3 +18,17 @@ pub struct CreateSocialPostResponse {
     #[ts(type = "string")]
     pub post_id: Uuid,
 }
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetSocialPostsRequest {
+    pub page_idx: i32,
+    pub page_size: i32,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetSocialPostsResponse {
+    pub next_idx: i32,
+    pub social_posts: Vec<SocialPost>,
+}

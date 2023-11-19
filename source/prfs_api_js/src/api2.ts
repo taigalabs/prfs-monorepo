@@ -57,6 +57,8 @@ import { GetPrfsPollResultByPollIdRequest } from "@taigalabs/prfs-entities/bindi
 import { GetPrfsPollResultByPollIdResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsPollResultByPollIdResponse";
 import { CreateSocialPostRequest } from "@taigalabs/prfs-entities/bindings/CreateSocialPostRequest";
 import { CreateSocialPostResponse } from "@taigalabs/prfs-entities/bindings/CreateSocialPostResponse";
+import { GetSocialPostsRequest } from "@taigalabs/prfs-entities/bindings/GetSocialPostsRequest";
+import { GetSocialPostsResponse } from "@taigalabs/prfs-entities/bindings/GetSocialPostsResponse";
 
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
@@ -158,6 +160,8 @@ type Req<T extends RequestName> = //
     ? GetPrfsPollResultByPollIdRequest
     : T extends "create_social_post"
     ? CreateSocialPostRequest
+    : T extends "get_social_posts"
+    ? GetSocialPostsRequest
     : never;
 
 type Resp<T> = //
@@ -223,6 +227,8 @@ type Resp<T> = //
     ? PrfsApiResponse<GetPrfsPollResultByPollIdResponse>
     : T extends "create_social_post"
     ? PrfsApiResponse<CreateSocialPostResponse>
+    : T extends "get_social_posts"
+    ? GetSocialPostsResponse
     : any;
 
 let PRFS_API_SERVER_ENDPOINT: string;

@@ -14,6 +14,7 @@ import TimelineHeader from "@/components/timeline_feeds/TimelineHeader";
 import RightBar from "@/components/right_bar/RightBar";
 
 import styles from "./TimelineFeeds2.module.scss";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 
 async function fetchServerPage(
   limit: number,
@@ -33,21 +34,66 @@ async function fetchServerPage(
 }
 
 const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
-  const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
-    useInfiniteQuery(["projects"], ctx => fetchServerPage(10, ctx.pageParam), {
-      getNextPageParam: lastPage => lastPage.nextOffset,
-    });
+  // const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
+  //   useInfiniteQuery(["projects"], ctx => fetchServerPage(10, ctx.pageParam), {
+  //     getNextPageParam: lastPage => lastPage.nextOffset,
+  //   });
 
-  const allRows = data ? data.pages.flatMap(d => d.rows) : [];
+  // const allRows = data ? data.pages.flatMap(d => d.rows) : [];
+  // const parentRef = React.useRef<HTMLDivElement | null>(null);
+  // const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
+
+  // const rowVirtualizer = useVirtualizer({
+  //   count: hasNextPage ? allRows.length + 1 : allRows.length,
+  //   getScrollElement: () => parentRef.current,
+  //   estimateSize: () => 100,
+  //   overscan: 5,
+  // });
+
+  const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useInfiniteQuery(
+      ["get_prfs_proof_types"],
+      async ({ pageParam = 0 }) => {
+        const { payload } = await prfsApi2("get_social_posts", {
+          page_idx: pageParam,
+          page_size: 5,
+        });
+        return payload;
+      },
+      {
+        getNextPageParam: lastPage => (lastPage.next_idx > -1 ? lastPage.next_idx : undefined),
+      },
+    );
+
+  const allRows = data ? data.pages.flatMap(d => d.prfs_proof_types) : [];
   const parentRef = React.useRef<HTMLDivElement | null>(null);
-  const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
 
   const rowVirtualizer = useVirtualizer({
     count: hasNextPage ? allRows.length + 1 : allRows.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 100,
+    estimateSize: () => 44,
     overscan: 5,
   });
+
+  React.useEffect(() => {
+    const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse();
+
+    if (!lastItem) {
+      return;
+    }
+
+    if (lastItem.index >= allRows.length - 1 && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [
+    hasNextPage,
+    fetchNextPage,
+    allRows.length,
+    isFetchingNextPage,
+    rowVirtualizer.getVirtualItems(),
+  ]);
+
+  const items = rowVirtualizer.getVirtualItems();
 
   const handleScroll = React.useCallback(() => {
     // console.log(55, containerRefElement, rightBarContainerRef.current);
