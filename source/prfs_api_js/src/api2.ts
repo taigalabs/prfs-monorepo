@@ -228,7 +228,7 @@ type Resp<T> = //
     : T extends "create_social_post"
     ? PrfsApiResponse<CreateSocialPostResponse>
     : T extends "get_social_posts"
-    ? GetSocialPostsResponse
+    ? PrfsApiResponse<GetSocialPostsResponse>
     : any;
 
 let PRFS_API_SERVER_ENDPOINT: string;

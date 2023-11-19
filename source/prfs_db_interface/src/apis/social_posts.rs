@@ -14,7 +14,11 @@ use prfs_entities::{
 };
 use uuid::Uuid;
 
-pub async fn get_social_posts(pool: &Pool<Postgres>) -> Result<Vec<SocialPost>, DbInterfaceError> {
+pub async fn get_social_posts(
+    pool: &Pool<Postgres>,
+    page_idx: i32,
+    page_size: i32,
+) -> Result<Vec<SocialPost>, DbInterfaceError> {
     let query = format!("SELECT * from social_posts");
 
     let rows = sqlx::query(&query).fetch_all(pool).await.unwrap();

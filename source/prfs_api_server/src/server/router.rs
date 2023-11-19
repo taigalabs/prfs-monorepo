@@ -151,6 +151,10 @@ pub fn make_router(
             format!("{}/create_social_post", PREFIX),
             social_posts::create_social_post,
         )
+        .post(
+            format!("{}/get_social_posts", PREFIX),
+            social_posts::get_social_posts,
+        )
         .post("*", middleware::not_found_handler)
         .err_handler_with_info(middleware::error_handler)
         .build()?;

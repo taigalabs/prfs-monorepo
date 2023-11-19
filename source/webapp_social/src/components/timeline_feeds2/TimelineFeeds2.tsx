@@ -15,6 +15,7 @@ import RightBar from "@/components/right_bar/RightBar";
 
 import styles from "./TimelineFeeds2.module.scss";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import Row from "./Row";
 
 async function fetchServerPage(
   limit: number,
@@ -65,8 +66,9 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
       },
     );
 
-  const allRows = data ? data.pages.flatMap(d => d.prfs_proof_types) : [];
+  const allRows = data ? data.pages.flatMap(d => d.social_posts) : [];
   const parentRef = React.useRef<HTMLDivElement | null>(null);
+  const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
 
   const rowVirtualizer = useVirtualizer({
     count: hasNextPage ? allRows.length + 1 : allRows.length,
@@ -92,8 +94,6 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
     isFetchingNextPage,
     rowVirtualizer.getVirtualItems(),
   ]);
-
-  const items = rowVirtualizer.getVirtualItems();
 
   const handleScroll = React.useCallback(() => {
     // console.log(55, containerRefElement, rightBarContainerRef.current);
@@ -170,11 +170,15 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
                     data-index={virtualRow.index}
                     ref={rowVirtualizer.measureElement}
                   >
-                    {isLoaderRow
-                      ? hasNextPage
-                        ? "Loading more..."
-                        : "Nothing more to load"
-                      : post}
+                    {isLoaderRow ? (
+                      hasNextPage ? (
+                        "Loading more..."
+                      ) : (
+                        "Nothing more to load"
+                      )
+                    ) : (
+                      <Row post={post} />
+                    )}
                   </div>
                 );
               })}
