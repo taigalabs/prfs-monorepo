@@ -20,7 +20,7 @@ pub async fn upload(db: &Database2) {
     // upload_circuit_types(&db).await;
     // upload_circuit_input_types(&db).await;
     // upload_circuits(&db).await;
-    upload_proof_types(&db).await;
+    // upload_proof_types(&db).await;
     upload_dynamic_sets(&db).await;
     // upload_policy_items(&db).await;
     // upload_prfs_accounts(&db).await;
