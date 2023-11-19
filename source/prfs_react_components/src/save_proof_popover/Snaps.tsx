@@ -54,7 +54,7 @@ const Snaps: React.FC<SnapsProps> = ({ proofShortUrl, proofInstance, setIsOpen }
       });
 
       setIsOpen(false);
-      window.alert("Proof saved on Snap!");
+      window.alert("Proof URL is saved on Snap!");
     } catch (error) {
       console.error(error);
       dispatch({ type: MetamaskActions.SetError, payload: error });
