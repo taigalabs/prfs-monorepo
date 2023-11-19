@@ -1,5 +1,6 @@
 import React from "react";
 import { useRouter } from "next/navigation";
+import { v4 as uuidv4 } from "uuid";
 import {
   EditorProvider,
   FloatingMenu,
@@ -20,6 +21,8 @@ import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/binding
 import styles from "./TextEditor.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
+import { CreateSocialPostRequest } from "@taigalabs/prfs-entities/bindings/CreateSocialPostRequest";
+import { SocialPost } from "@taigalabs/prfs-entities/bindings/SocialPost";
 
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -75,21 +78,30 @@ const EditorFooter = () => {
   const i18n = React.useContext(i18nContext);
   const { editor } = useCurrentEditor();
 
-  const { mutateAsync: createPrfsProofInstance, isLoading: isCreatePrfsProofInstanceLoading } =
-    useMutation({
-      mutationFn: (req: CreatePrfsProofInstanceRequest) => {
-        return prfsApi2("create_prfs_proof_instance", req);
-      },
-    });
+  const { mutateAsync: createSocialPost, isLoading: isCreateSocialPostLoading } = useMutation({
+    mutationFn: (req: CreateSocialPostRequest) => {
+      return prfsApi2("create_social_post", req);
+    },
+  });
 
   if (!editor) {
     return null;
   }
 
-  const handleClickPost = React.useCallback(() => {
+  const handleClickPost = React.useCallback(async () => {
     const text = editor.getText();
     console.log("text", text);
-  }, [editor]);
+
+    const post_id = uuidv4();
+    const post: SocialPost = {
+      post_id,
+      content: text,
+      channel_id: "default",
+    };
+
+    const { payload } = await createSocialPost({ post });
+    console.log("create social post resp", payload);
+  }, [editor, createSocialPost]);
 
   return (
     <div className={styles.footer}>

@@ -15,7 +15,7 @@ use prfs_entities::{
 use uuid::Uuid;
 
 pub async fn get_social_posts(pool: &Pool<Postgres>) -> Result<Vec<SocialPost>, DbInterfaceError> {
-    let query = format!("SELECT * from prfs_sets");
+    let query = format!("SELECT * from social_posts");
 
     let rows = sqlx::query(&query).fetch_all(pool).await.unwrap();
 
@@ -35,7 +35,7 @@ pub async fn insert_social_post(
     tx: &mut Transaction<'_, Postgres>,
     social_post: &SocialPost,
 ) -> uuid::Uuid {
-    let query = "INSERT INTO social_post \
+    let query = "INSERT INTO social_posts \
             (post_id, content, channel_id)
             VALUES ($1, $2, $3) returning post_id";
 
