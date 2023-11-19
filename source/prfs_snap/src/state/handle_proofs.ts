@@ -4,6 +4,8 @@ import { PrfsProofSnapItem } from "@taigalabs/prfs-entities/bindings/PrfsProofSn
 
 import { clearState, getState, setState } from "./utils";
 
+const MAX_PROOF_COUNT = 5;
+
 export const addProof: OnRpcRequestHandler = async ({ request }) => {
   const params = request.params as any;
   console.log("add_proof", params);
@@ -21,8 +23,19 @@ export const addProof: OnRpcRequestHandler = async ({ request }) => {
       newState.proofs = [];
     }
 
-    if (newState.proofs.length > 9) {
-      newState.proofs.shift();
+    if (newState.proofs.length >= MAX_PROOF_COUNT) {
+      console.log(
+        "Stored proofs are too many, %s max: %s",
+        newState.proofs.length,
+        MAX_PROOF_COUNT,
+      );
+
+      let currLen = newState.proofs.length;
+
+      for (let idx = 0; idx <= currLen - MAX_PROOF_COUNT; idx += 1) {
+        // console.log("remove idx: %s", idx, newState.proofs.length - MAX_PROOF_COUNT);
+        newState.proofs.shift();
+      }
     }
 
     newState.proofs.push(proof);

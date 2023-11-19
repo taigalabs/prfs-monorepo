@@ -1,9 +1,9 @@
 {
   "version": "0.1.0",
-  "description": "An example Snap written in TypeScript.",
+  "description": "Share proofs with Snaps",
   "proposedName": "TypeScript Example",
   "source": {
-    "shasum": "NB+2MNSBYKSDtzWtsDet65J5jtrVtUyPzI8rxJBny5k=",
+    "shasum": "HlYL4jMTWchLeExL1DJiah8rrmHPWkY0qujc2MzEKSw=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
