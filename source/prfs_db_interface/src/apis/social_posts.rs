@@ -19,7 +19,10 @@ pub async fn get_social_posts(
     page_idx: i32,
     page_size: i32,
 ) -> Result<Vec<SocialPost>, DbInterfaceError> {
-    let query = format!("SELECT * from social_posts");
+    let query = r#"
+SELECT * 
+FROM social_posts 
+ORDER BY updated_at DESC"#;
 
     let rows = sqlx::query(&query).fetch_all(pool).await.unwrap();
 
