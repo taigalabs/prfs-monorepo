@@ -1,7 +1,7 @@
 build_tasks = [
-  "BuildPrfsEntitiesTSBindingTask",
+  # "BuildPrfsEntitiesTSBindingTask",
   # "BuildJsDependenciesTask",
   # "CompileCircuitsTask",
   # "BuildPrfsDriverSpartanWasmTask",
-  # "BuildPrfsDriverSpartanJsTask",
+  "BuildPrfsDriverSpartanJsTask",
 ]

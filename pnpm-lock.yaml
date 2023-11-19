@@ -400,8 +400,8 @@ importers:
         specifier: ^4.1.1
         version: 4.1.1
       snarkjs:
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: 0.7.0
+        version: 0.7.0
       wasm-feature-detect:
         specifier: ^1.2.11
         version: 1.5.1
