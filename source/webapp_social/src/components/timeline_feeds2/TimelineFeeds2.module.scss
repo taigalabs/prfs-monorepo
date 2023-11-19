@@ -21,6 +21,7 @@
   }
 
   .infiniteScroll {
+    min-height: calc(100vh - 52px);
     border-left: 1px solid var(--bright-gray-32);
     border-right: 1px solid var(--bright-gray-32);
   }

@@ -11,7 +11,7 @@ import {
 import TimelineHeader from "@/components/timeline_feeds/TimelineHeader";
 import RightBar from "@/components/right_bar/RightBar";
 
-import styles from "./TimelineFeeds2.module.scss";
+import styles from "./Row.module.scss";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { SocialPost } from "@taigalabs/prfs-entities/bindings/SocialPost";
 
@@ -33,8 +33,11 @@ async function fetchServerPage(
 }
 
 const Row: React.FC<RowProps> = ({ post }) => {
-  console.log(123, post);
-  return <div>55</div>;
+  return (
+    <div className={styles.wrapper}>
+      <div>{post.content}</div>
+    </div>
+  );
 };
 
 export default Row;
