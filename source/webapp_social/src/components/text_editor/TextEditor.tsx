@@ -112,7 +112,7 @@ const EditorFooter = () => {
       const { payload } = await createSocialPost({ post });
       console.log("create social post resp", payload);
 
-      router.push("/");
+      window.location.reload();
     } catch (err) {}
   }, [editor, createSocialPost, router]);
 

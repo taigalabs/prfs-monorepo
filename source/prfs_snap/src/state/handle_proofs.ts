@@ -38,11 +38,16 @@ export const getProofs: OnRpcRequestHandler = async ({ request }) => {
   const state = await getState(params?.encrypted);
   console.log("state", state);
 
+  let elems = [];
+  for (const proof of state.proofs) {
+    elems = [...elems, text(proof.proof_label), copyable(proof.proof_short_url)];
+  }
+
   snap.request({
     method: "snap_dialog",
     params: {
       type: "confirmation",
-      content: panel([heading("power"), text(`12312`), divider(), copyable("1313")]),
+      content: panel([heading("Proofs"), ...elems]),
     },
   });
 
