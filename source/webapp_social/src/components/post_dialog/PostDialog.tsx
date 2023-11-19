@@ -55,7 +55,7 @@ const PostDialog: React.FC<PostDialogProps> = ({ children }) => {
                 {...getFloatingProps()}
               >
                 <div className={styles.header}>
-                  <div className={styles.title}>{i18n.choose_proof_type}</div>
+                  <div className={styles.title}>{i18n.write_to_social}</div>
                   <div className={styles.topBtnRow}>
                     <button onClick={() => setIsOpen(false)}>
                       <AiOutlineClose />

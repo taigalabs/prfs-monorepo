@@ -78,7 +78,7 @@ const EditorFooter = () => {
 
   const handleClickPost = React.useCallback(() => {
     const text = editor.getText();
-    console.log(11, text);
+    console.log("text", text);
   }, [editor]);
 
   return (
