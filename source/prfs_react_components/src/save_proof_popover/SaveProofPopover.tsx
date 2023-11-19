@@ -16,7 +16,12 @@ import styles from "./SaveProofPopover.module.scss";
 import { i18nContext } from "../contexts/i18nContext";
 import Snaps from "./Snaps";
 
-function SaveProofPopover({ placement, offset, proofShortUrl, proofInstance }: SaveProofPopoverProps) {
+function SaveProofPopover({
+  placement,
+  offset,
+  proofShortUrl,
+  proofInstance,
+}: SaveProofPopoverProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const i18n = React.useContext(i18nContext);
   const { refs, floatingStyles, context } = useFloating({
@@ -54,6 +59,7 @@ function SaveProofPopover({ placement, offset, proofShortUrl, proofInstance }: S
               <Snaps
                 proofInstance={proofInstance}
                 proofShortUrl={proofShortUrl}
+                setIsOpen={setIsOpen}
               />
             </li>
           </ul>

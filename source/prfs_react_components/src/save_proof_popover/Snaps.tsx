@@ -23,7 +23,7 @@ import { MetamaskActions, usePrfsSnap } from "../hooks/use_prfs_snap";
  * @param props.children - React component to be wrapped by the Provider.
  * @returns JSX.
  */
-const Snaps: React.FC<SnapsProps> = ({ proofShortUrl, proofInstance }) => {
+const Snaps: React.FC<SnapsProps> = ({ proofShortUrl, proofInstance, setIsOpen }) => {
   const i18n = React.useContext(i18nContext);
 
   const { state, dispatch } = usePrfsSnap();
@@ -52,11 +52,14 @@ const Snaps: React.FC<SnapsProps> = ({ proofShortUrl, proofInstance }) => {
         proof_label: proofInstance.proof_label,
         proof_short_url: proofShortUrl,
       });
+
+      setIsOpen(false);
+      window.alert("Proof saved on Snap!");
     } catch (error) {
       console.error(error);
       dispatch({ type: MetamaskActions.SetError, payload: error });
     }
-  }, [proofShortUrl, proofInstance]);
+  }, [proofShortUrl, proofInstance, setIsOpen]);
 
   // console.log(111, state);
 
@@ -85,4 +88,5 @@ export default Snaps;
 export interface SnapsProps {
   proofShortUrl: string;
   proofInstance: PrfsProofInstanceSyn1;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
