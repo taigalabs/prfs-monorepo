@@ -36,6 +36,7 @@
   justify-content: flex-end;
   max-width: 230px;
   flex-grow: 1;
+  flex-shrink: 1;
 
   /* border: 1px solid blue; */
 }
@@ -43,6 +44,8 @@
 .searchArea {
   flex-grow: 1;
   min-width: 610px;
+  flex-basis: 1300px;
+  flex-shrink: 1;
 
   /* border: 1px solid red; */
 
