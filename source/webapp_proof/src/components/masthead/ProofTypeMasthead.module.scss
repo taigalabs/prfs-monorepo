@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: center;
   padding-right: 20px;
-  padding-left: 120px;
+  /* padding-left: 120px; */
   min-width: 1024px;
   height: 69px;
   padding-top: 8px;
@@ -34,6 +34,8 @@
   padding: 0 30px;
   display: flex;
   justify-content: flex-end;
+  max-width: 230px;
+  flex-grow: 1;
 
   /* border: 1px solid blue; */
 }
