@@ -4,7 +4,6 @@ import cn from "classnames";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
-import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { useRouter, useSearchParams } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import { useMutation } from "@tanstack/react-query";
@@ -19,8 +18,8 @@ import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import TutorialStepper from "@/components//tutorial/TutorialStepper";
-import VerifyProofForm from "@/components/verify_proof_form/VerifyProofForm";
 import VerifyProofModule from "@/components/verify_proof_module/VerifyProofModule";
+import ProofDataView from "@/components/proof_data_view/ProofDataView";
 
 const JSONbigNative = JSONBig({
   useNativeBigInt: true,
@@ -137,7 +136,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
           </TutorialStepper>
         </div>
         <div className={styles.verifyProofFormWrapper}>
-          <VerifyProofForm
+          <ProofDataView
             proof={proveReceipt.proof}
             circuitDriverId={proofType.circuit_driver_id}
             isVerifyOpen={isVerifyOpen}

@@ -1,8 +1,14 @@
 .wrapper {
   padding: 0px 21px;
   margin: 34px 0;
-  width: 510px;
+  /* width: 510px; */
+  /* flex-basis: 1158px; */
+  flex-grow: 1;
+  flex-shrink: 1;
+  max-width: 630px;
+
   /* border: 1px solid var(--bright-gray-30); */
+  border: 1px solid blue;
 
   ul {
     display: flex;

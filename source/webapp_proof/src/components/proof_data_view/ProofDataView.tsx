@@ -10,11 +10,7 @@ import ProofRawDialog from "./ProofRawDialog";
 
 const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
 
-const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
-  proof,
-  circuitDriverId,
-  isVerifyOpen,
-}) => {
+const ProofDataView: React.FC<ProofDataViewProps> = ({ proof, circuitDriverId, isVerifyOpen }) => {
   const i18n = React.useContext(i18nContext);
 
   const publicInputElems = React.useMemo(() => {
@@ -94,9 +90,9 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
   );
 };
 
-export default VerifyProofForm;
+export default ProofDataView;
 
-export interface VerifyProofFormProps {
+export interface ProofDataViewProps {
   circuitDriverId: string;
   proof: Proof;
   isVerifyOpen: boolean;

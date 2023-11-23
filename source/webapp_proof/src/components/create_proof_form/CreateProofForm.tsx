@@ -77,28 +77,30 @@ const CreateProofForm: React.FC = () => {
       <div className={styles.topRow}></div>
       <div className={styles.wrapper}>
         <div className={styles.leftPadding} />
-        {proveReceipt ? (
-          <Fade>
-            <PostCreateMenu
-              proveReceipt={proveReceipt}
-              proofType={proofType!}
-              proofGenElement={proofGenElement!}
-            />
-          </Fade>
-        ) : proofType ? (
+        {proofType ? (
           <div
             className={cn({
               [styles.formWrapper]: true,
             })}
           >
-            <Fade>
-              <CreateProofModule
-                proofType={proofType}
-                handleCreateProofResult={handleCreateProofResult}
-                proofGenElement={proofGenElement}
-                setProofGenElement={setProofGenElement}
-              />
-            </Fade>
+            {proveReceipt ? (
+              <Fade>
+                <PostCreateMenu
+                  proveReceipt={proveReceipt}
+                  proofType={proofType!}
+                  proofGenElement={proofGenElement!}
+                />
+              </Fade>
+            ) : (
+              <Fade>
+                <CreateProofModule
+                  proofType={proofType}
+                  handleCreateProofResult={handleCreateProofResult}
+                  proofGenElement={proofGenElement}
+                  setProofGenElement={setProofGenElement}
+                />
+              </Fade>
+            )}
           </div>
         ) : (
           <div className={styles.loading}>Loading module...</div>
