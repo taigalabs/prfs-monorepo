@@ -100,7 +100,7 @@
 }
 
 .verifyProofFormWrapper {
-  padding: 0 4px;
+  padding: 0px 4px;
   max-height: 0;
   overflow: hidden;
   transition: max-height 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
@@ -120,6 +120,7 @@
   }
 
   .verifyProofFormWrapper {
+    padding-top: 14px;
     max-height: 1200px;
     opacity: 1;
   }

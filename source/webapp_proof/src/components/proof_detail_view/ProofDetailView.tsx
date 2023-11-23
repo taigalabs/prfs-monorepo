@@ -15,7 +15,7 @@ import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 
 import styles from "./ProofDetailView.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import VerifyProofForm from "@/components/verify_proof_form/VerifyProofForm";
+import ProofDataView from "@/components/proof_data_view/ProofDataView";
 import { envs } from "@/envs";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
@@ -141,7 +141,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
         </div>
         <div className={styles.proofDetail}>
           <div className={styles.verifyProofFormWrapper}>
-            <VerifyProofForm
+            <ProofDataView
               proof={proof}
               circuitDriverId={proofInstance.circuit_driver_id}
               isVerifyOpen={true}

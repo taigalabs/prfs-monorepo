@@ -4,7 +4,7 @@ import { Proof } from "@taigalabs/prfs-driver-interface";
 import { utils } from "ethers";
 import JSONBig from "json-bigint";
 
-import styles from "./VerifyProofForm.module.scss";
+import styles from "./ProofDataView.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import ProofRawDialog from "./ProofRawDialog";
 
