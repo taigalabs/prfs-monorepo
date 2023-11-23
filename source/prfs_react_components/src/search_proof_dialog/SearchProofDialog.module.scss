@@ -33,10 +33,11 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding-right: 20px;
+    padding-right: 24px;
     margin-left: 8px;
     font-size: 16px;
-    width: 88%;
+    /* width: 88%; */
+    flex-grow: 1;
 
     /* border: 1px solid blue; */
   }
@@ -69,10 +70,6 @@
       width: 100%;
       padding-left: 14px;
       border-radius: 20px 20px 0 0;
-    }
-
-    .placeholder {
-      /* width: 75%; */
     }
   }
 }
@@ -150,7 +147,7 @@
     /* border: 1px solid black; */
 
     .placeholder {
-      max-width: 290px;
+      max-width: 270px;
     }
 
     button {
