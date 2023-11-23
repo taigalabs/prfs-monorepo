@@ -4,7 +4,7 @@
   /* flex-basis: 1158px; */
   flex-grow: 1;
   flex-shrink: 1;
-  max-width: 630px;
+  max-width: 560px;
 
   /* border: 1px solid blue; */
 
@@ -55,6 +55,12 @@
   line-height: 21px;
 }
 
+.uploadBtn {
+  span {
+    margin-left: 4px;
+  }
+}
+
 .postCreateBtnGroup {
   display: flex;
   justify-content: space-between;
@@ -67,11 +73,11 @@
 
   button {
     height: 36px;
-    padding: 0 20px;
+    padding: 0 16px;
   }
 
   .inProgress {
-    background-color: var(--blue-10);
+    background-color: var(--blue-12);
   }
 }
 

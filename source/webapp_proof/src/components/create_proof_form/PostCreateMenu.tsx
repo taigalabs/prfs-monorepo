@@ -12,11 +12,11 @@ import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/Cap
 import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 import JSONBig from "json-bigint";
+import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import styles from "./PostCreateMenu.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import TutorialStepper from "@/components//tutorial/TutorialStepper";
 import VerifyProofModule from "@/components/verify_proof_module/VerifyProofModule";
 import ProofDataView from "@/components/proof_data_view/ProofDataView";
@@ -65,6 +65,8 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
         });
         const params = searchParams.toString();
 
+        console.log(123123);
+
         router.push(`${paths.proofs}/${payload.proof_instance_id}?${params}`);
       } catch (err: any) {
         console.error(err);
@@ -102,25 +104,19 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
             </a>
           </li>
         </ul>
-        <div>
-          {isCreatePrfsProofInstanceLoading && (
-            <div className={styles.spinnerWrapper}>
-              <Spinner color="black" size={28} />
-            </div>
-          )}
-        </div>
         <ul>
           <li>
             <TutorialStepper steps={[4]}>
               <Button
                 variant="blue_1"
                 handleClick={handleClickUpload}
-                className={cn({
+                className={cn(styles.uploadBtn, {
                   [styles.inProgress]: isCreatePrfsProofInstanceLoading,
                 })}
                 disabled={isCreatePrfsProofInstanceLoading}
               >
-                {i18n.upload}
+                {true && <Spinner color="#dadfdf" size={20} />}
+                <span>{i18n.upload}</span>
               </Button>
             </TutorialStepper>
           </li>
