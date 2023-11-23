@@ -22,21 +22,11 @@
   flex-direction: column;
   /* justify-content: center; */
 
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 
 .loading {
   padding-top: 24px;
-}
-
-.leftPadding {
-  flex-grow: 1;
-  flex-shrink: 1;
-  max-width: 230px;
-  min-width: 110px;
-  flex-basis: 110px;
-
-  border: 1px solid blue;
 }
 
 @media screen and (min-width: 1025px) and (max-width: 1300px) {
@@ -59,9 +49,5 @@
 
   .loading {
     padding-left: 12px;
-  }
-
-  .leftPadding {
-    display: none;
   }
 }

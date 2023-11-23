@@ -23,6 +23,7 @@ import { useSelectProofType } from "@/hooks/proofType";
 import Tutorial from "@/components/tutorial/Tutorial";
 import { useIsTutorial } from "@/hooks/tutorial";
 import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
+import LeftPadding from "../left_padding/LeftPadding";
 
 const JSONbigNative = JSONBig({
   useNativeBigInt: true,
@@ -98,50 +99,56 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
         handleSelectProofType={handleSelectProofType}
       />
       <div className={styles.topRow}>
-        <div className={styles.mainMenu}>
-          <ul className={styles.leftMenu}>
-            <li>
-              <SocialSharePopover />
-            </li>
-            <li>
-              <SaveProofPopover
-                proofInstance={proofInstance}
-                proofShortUrl={`${process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/p/${proofInstance.short_id}`}
-              />
-            </li>
-          </ul>
-          <ul>
-            <li>
-              <a className={styles.link} href={consoleUrl}>
-                <p>{i18n.view_in_console}</p>
-                <BiLinkExternal />
-              </a>
-            </li>
-          </ul>
+        <LeftPadding />
+        <div className={styles.content}>
+          <div className={styles.mainMenu}>
+            <ul className={styles.leftMenu}>
+              <li>
+                <SocialSharePopover />
+              </li>
+              <li>
+                <SaveProofPopover
+                  proofInstance={proofInstance}
+                  proofShortUrl={`${process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/p/${proofInstance.short_id}`}
+                />
+              </li>
+            </ul>
+            <ul>
+              <li>
+                <a className={styles.link} href={consoleUrl}>
+                  <p>{i18n.view_in_console}</p>
+                  <BiLinkExternal />
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-      <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
-        <div className={styles.meta}>
-          <div className={styles.bannerContainer}>
-            <TutorialStepper steps={[5]}>
-              <ProofBanner
-                proofInstance={proofInstance}
-                webappProofEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
-              />
-            </TutorialStepper>
-          </div>
-          <div className={styles.proofDetailContainer}>
-            <div>
-              <div className={styles.content}>
-                <p className={styles.label}>{proofInstance.proof_label}</p>
-                <p className={styles.desc}>{proofInstance.proof_desc}</p>
+      <div className={cn(styles.main, { [styles.isTutorial]: isTutorial })}>
+        <LeftPadding />
+        <div className={styles.content}>
+          <div className={styles.meta}>
+            <div className={styles.bannerContainer}>
+              <TutorialStepper steps={[5]}>
+                <ProofBanner
+                  proofInstance={proofInstance}
+                  webappProofEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
+                />
+              </TutorialStepper>
+            </div>
+            <div className={styles.proofDetailContainer}>
+              <div>
+                <div className={styles.content}>
+                  <p className={styles.label}>{proofInstance.proof_label}</p>
+                  <p className={styles.desc}>{proofInstance.proof_desc}</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className={styles.proofDetail}>
-          <div className={styles.verifyProofFormWrapper}>
-            <ProofDataView proof={proof} circuitDriverId={proofInstance.circuit_driver_id} />
+          <div className={styles.proofDetail}>
+            <div className={styles.verifyProofFormWrapper}>
+              <ProofDataView proof={proof} circuitDriverId={proofInstance.circuit_driver_id} />
+            </div>
           </div>
         </div>
       </div>
