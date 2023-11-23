@@ -141,11 +141,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
         </div>
         <div className={styles.proofDetail}>
           <div className={styles.verifyProofFormWrapper}>
-            <ProofDataView
-              proof={proof}
-              circuitDriverId={proofInstance.circuit_driver_id}
-              isVerifyOpen={true}
-            />
+            <ProofDataView proof={proof} circuitDriverId={proofInstance.circuit_driver_id} />
           </div>
         </div>
       </div>
