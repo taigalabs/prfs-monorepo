@@ -65,8 +65,6 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
         });
         const params = searchParams.toString();
 
-        console.log(123123);
-
         router.push(`${paths.proofs}/${payload.proof_instance_id}?${params}`);
       } catch (err: any) {
         console.error(err);

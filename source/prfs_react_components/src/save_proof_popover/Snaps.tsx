@@ -65,8 +65,9 @@ const Snaps: React.FC<SnapsProps> = ({ proofShortUrl, proofInstance, setIsOpen }
 
   return (
     <div className={styles.wrapper}>
-      {!isMetaMaskReady && <button disabled>Snap (not supported)</button>}
-      {!state.installedSnap ? (
+      {!isMetaMaskReady ? (
+        <button disabled>Snap (not supported)</button>
+      ) : !state.installedSnap ? (
         <button onClick={handleClickConnect}>Snap connect</button>
       ) : (
         <button onClick={handleClickSave}>
