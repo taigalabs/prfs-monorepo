@@ -11,7 +11,7 @@
     flex-shrink: 1;
     flex-basis: 1158px;
 
-    border: 1px solid green;
+    /* border: 1px solid green; */
   }
 
   .mainMenu {
@@ -20,7 +20,7 @@
     align-items: center;
     width: 580px;
 
-    border: 1px solid gray;
+    /* border: 1px solid gray; */
   }
 
   ul {
@@ -143,9 +143,15 @@
   }
 
   .main {
-    width: 100%;
-    padding: 0 10px 32px;
-    flex-direction: column;
+    /* width: 100%; */
+    /* padding: 0 10px 32px; */
+    /* flex-direction: column; */
+
+    > .content {
+      width: 100%;
+      // padding: 0 10px 32px;
+      flex-direction: column;
+    }
   }
 
   .headerLabel {
@@ -179,5 +185,6 @@
   .verifyProofFormWrapper {
     padding-left: 0px;
     border-left: none;
+    margin-top: 24px;
   }
 }
