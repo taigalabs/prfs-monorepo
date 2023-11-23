@@ -72,8 +72,11 @@
 }
 
 .meta {
-  width: 580px;
   margin-top: 20px;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-width: 510px;
+  max-width: 640px;
 
   /* border: 1px solid red; */
 
@@ -107,7 +110,8 @@
 .proofDetail {
   display: flex;
   justify-content: center;
-  margin-left: 52px;
+  margin-left: 45px;
+  margin-top: 20px;
 }
 
 .verifyProofFormWrapper {
@@ -143,13 +147,8 @@
   }
 
   .main {
-    /* width: 100%; */
-    /* padding: 0 10px 32px; */
-    /* flex-direction: column; */
-
     > .content {
       width: 100%;
-      // padding: 0 10px 32px;
       flex-direction: column;
     }
   }
@@ -159,11 +158,12 @@
   }
 
   .meta {
-    width: 100%;
     display: flex;
     flex-direction: column;
     margin-left: 0px;
     align-items: center;
+    max-width: none;
+    min-width: 0px;
 
     .proofDetailContainer {
       display: flex;

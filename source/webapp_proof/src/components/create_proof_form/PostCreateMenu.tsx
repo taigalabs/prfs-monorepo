@@ -37,12 +37,15 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
   const router = useRouter();
   const [isVerifyOpen, setIsVerifyOpen] = React.useState(false);
 
-  const { mutateAsync: createPrfsProofInstance, isLoading: isCreatePrfsProofInstanceLoading } =
-    useMutation({
-      mutationFn: (req: CreatePrfsProofInstanceRequest) => {
-        return prfsApi2("create_prfs_proof_instance", req);
-      },
-    });
+  const {
+    mutateAsync: createPrfsProofInstance,
+    isLoading: isCreatePrfsProofInstanceLoading,
+    isSuccess: isCreatePrfsProofInstanceSuccess,
+  } = useMutation({
+    mutationFn: (req: CreatePrfsProofInstanceRequest) => {
+      return prfsApi2("create_prfs_proof_instance", req);
+    },
+  });
 
   const handleClickVerify = React.useCallback(() => {
     setIsVerifyOpen(s => !s);
@@ -75,71 +78,80 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.header}>
-        <CaptionedImg
-          img_url="https://d1w1533jipmvi2.cloudfront.net/tata_Emojione_1F389.svg.png"
-          alt="tada"
-          size={48}
-        />
-        <div className={styles.title}>
-          <p>{i18n.prove_success_msg}</p>
-        </div>
-        <div className={styles.proofType}>
-          <CaptionedImg img_url={proofType.img_url} size={20} />
-          <p className={styles.proofTypeLabel}>{proofType.label}</p>
-        </div>
-      </div>
-      <div className={styles.uploadSection}>
-        <span>{i18n.proof_creation_summary_msg} </span>
-        <i>{Math.floor((proveReceipt.duration / 1000) * 1000) / 1000} secs. </i>
-        <span>{i18n.proof_upload_guide}</span>
-      </div>
-      <div className={styles.postCreateBtnGroup}>
-        <ul>
-          <li>
-            <a href={paths.__}>
-              <Button variant="transparent_blue_1">{i18n.start_over}</Button>
-            </a>
-          </li>
-        </ul>
-        <ul>
-          <li>
-            <TutorialStepper steps={[4]}>
-              <Button
-                variant="blue_1"
-                handleClick={handleClickUpload}
-                className={cn(styles.uploadBtn, {
-                  [styles.inProgress]: isCreatePrfsProofInstanceLoading,
-                })}
-                disabled={isCreatePrfsProofInstanceLoading}
-              >
-                {isCreatePrfsProofInstanceLoading && <Spinner color="#dadfdf" size={20} />}
-                <span>{i18n.upload}</span>
-              </Button>
-            </TutorialStepper>
-          </li>
-        </ul>
-      </div>
-      <div className={cn(styles.verifyProofFormRow, { [styles.isVerifyOpen]: isVerifyOpen })}>
-        <div>
-          <TutorialStepper steps={[3]}>
-            <button className={cn(styles.verifyBtn)} onClick={handleClickVerify}>
-              <span>{i18n.verify}</span>
-              <IoIosArrowDown />
-            </button>
-          </TutorialStepper>
-        </div>
-        <div className={styles.verifyProofFormWrapper}>
-          <ProofDataView proof={proveReceipt.proof} circuitDriverId={proofType.circuit_driver_id} />
-          <div className={styles.verifyProofModuleWrapper}>
-            <VerifyProofModule
-              proofGenElement={proofGenElement}
-              proof={proveReceipt.proof}
-              circuitTypeId={proofType.circuit_type_id}
+      {isCreatePrfsProofInstanceSuccess ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          <div className={styles.header}>
+            <CaptionedImg
+              img_url="https://d1w1533jipmvi2.cloudfront.net/tata_Emojione_1F389.svg.png"
+              alt="tada"
+              size={48}
             />
+            <div className={styles.title}>
+              <p>{i18n.prove_success_msg}</p>
+            </div>
+            <div className={styles.proofType}>
+              <CaptionedImg img_url={proofType.img_url} size={20} />
+              <p className={styles.proofTypeLabel}>{proofType.label}</p>
+            </div>
           </div>
-        </div>
-      </div>
+          <div className={styles.uploadSection}>
+            <span>{i18n.proof_creation_summary_msg} </span>
+            <i>{Math.floor((proveReceipt.duration / 1000) * 1000) / 1000} secs. </i>
+            <span>{i18n.proof_upload_guide}</span>
+          </div>
+          <div className={styles.postCreateBtnGroup}>
+            <ul>
+              <li>
+                <a href={paths.__}>
+                  <Button variant="transparent_blue_1">{i18n.start_over}</Button>
+                </a>
+              </li>
+            </ul>
+            <ul>
+              <li>
+                <TutorialStepper steps={[4]}>
+                  <Button
+                    variant="blue_1"
+                    handleClick={handleClickUpload}
+                    className={cn(styles.uploadBtn, {
+                      [styles.inProgress]: isCreatePrfsProofInstanceLoading,
+                    })}
+                    disabled={isCreatePrfsProofInstanceLoading}
+                  >
+                    {isCreatePrfsProofInstanceLoading && <Spinner color="#dadfdf" size={20} />}
+                    <span>{i18n.upload}</span>
+                  </Button>
+                </TutorialStepper>
+              </li>
+            </ul>
+          </div>
+          <div className={cn(styles.verifyProofFormRow, { [styles.isVerifyOpen]: isVerifyOpen })}>
+            <div>
+              <TutorialStepper steps={[3]}>
+                <button className={cn(styles.verifyBtn)} onClick={handleClickVerify}>
+                  <span>{i18n.verify}</span>
+                  <IoIosArrowDown />
+                </button>
+              </TutorialStepper>
+            </div>
+            <div className={styles.verifyProofFormWrapper}>
+              <ProofDataView
+                proof={proveReceipt.proof}
+                circuitDriverId={proofType.circuit_driver_id}
+              />
+              <div className={styles.verifyProofModuleWrapper}>
+                <VerifyProofModule
+                  proofGenElement={proofGenElement}
+                  proof={proveReceipt.proof}
+                  circuitTypeId={proofType.circuit_type_id}
+                />
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

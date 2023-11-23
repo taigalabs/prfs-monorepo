@@ -1,8 +1,7 @@
 .wrapper {
   font-size: 13px;
   transition: height 0.4s ease-out;
-  padding-left: 20px;
-  margin-top: 20px;
+  padding: 0 20px;
   border-left: 1px solid var(--bright-gray-31);
 }
 
@@ -91,7 +90,7 @@
 @media screen and (max-width: 1024px) {
   .wrapper {
     border-left: none;
-    padding-left: 0px;
+    padding: 0 0;
   }
 
   .title {
