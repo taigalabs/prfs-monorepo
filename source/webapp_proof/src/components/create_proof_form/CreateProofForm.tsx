@@ -76,6 +76,7 @@ const CreateProofForm: React.FC = () => {
       />
       <div className={styles.topRow}></div>
       <div className={styles.wrapper}>
+        <div className={styles.leftPadding} />
         {proveReceipt ? (
           <Fade>
             <PostCreateMenu
