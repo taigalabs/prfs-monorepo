@@ -54,7 +54,7 @@ const ProofDataView: React.FC<ProofDataViewProps> = ({ proof, circuitDriverId, i
   }, [proof]);
 
   return (
-    <div className={cn(styles.wrapper, { [styles.card]: isCard })}>
+    <div className={cn(styles.wrapper, { [styles.isCard]: isCard })}>
       <div className={styles.publicInputSection}>
         <div className={styles.data}>
           <div className={styles.title}>{i18n.public_inputs}</div>

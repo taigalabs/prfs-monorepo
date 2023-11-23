@@ -140,6 +140,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
               <ProofDataView
                 proof={proveReceipt.proof}
                 circuitDriverId={proofType.circuit_driver_id}
+                isCard
               />
               <div className={styles.verifyProofModuleWrapper}>
                 <VerifyProofModule
