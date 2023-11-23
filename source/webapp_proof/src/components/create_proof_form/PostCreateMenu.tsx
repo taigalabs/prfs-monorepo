@@ -115,7 +115,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
                 })}
                 disabled={isCreatePrfsProofInstanceLoading}
               >
-                {true && <Spinner color="#dadfdf" size={20} />}
+                {isCreatePrfsProofInstanceLoading && <Spinner color="#dadfdf" size={20} />}
                 <span>{i18n.upload}</span>
               </Button>
             </TutorialStepper>
