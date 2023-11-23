@@ -10,7 +10,7 @@ import ProofRawDialog from "./ProofRawDialog";
 
 const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
 
-const ProofDataView: React.FC<ProofDataViewProps> = ({ proof, circuitDriverId }) => {
+const ProofDataView: React.FC<ProofDataViewProps> = ({ proof, circuitDriverId, isCard }) => {
   const i18n = React.useContext(i18nContext);
 
   const publicInputElems = React.useMemo(() => {
@@ -54,7 +54,7 @@ const ProofDataView: React.FC<ProofDataViewProps> = ({ proof, circuitDriverId })
   }, [proof]);
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cn(styles.wrapper, { [styles.card]: isCard })}>
       <div className={styles.publicInputSection}>
         <div className={styles.data}>
           <div className={styles.title}>{i18n.public_inputs}</div>
@@ -91,5 +91,6 @@ export default ProofDataView;
 export interface ProofDataViewProps {
   circuitDriverId: string;
   proof: Proof;
+  isCard?: boolean;
   // isVerifyOpen: boolean;
 }

@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   position: relative;
-  width: 390px;
+  /* width: 390px; */
   border-radius: 5px;
   border: 1px solid var(--bright-gray-31);
 
@@ -33,9 +33,6 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-}
-
-.proofLabel {
 }
 
 .expression {
@@ -71,6 +68,6 @@
 
 @media screen and (max-width: 1024px) {
   .wrapper {
-    width: 340px;
+    max-width: 340px;
   }
 }

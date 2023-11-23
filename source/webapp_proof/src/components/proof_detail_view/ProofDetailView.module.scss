@@ -83,6 +83,7 @@
   .bannerContainer {
     display: inline-flex;
     flex-direction: column;
+    width: 100%;
     /* justify-content: center; */
   }
 
@@ -158,12 +159,16 @@
     align-items: center;
     max-width: none;
     min-width: 0px;
-    padding: 0 10px;
+    padding: 0 16px;
     margin-top: 20px;
 
     .proofDetailContainer {
       display: flex;
-      justify-content: center;
+      max-width: 630px;
+      width: 100%;
+      margin-top: 14px;
+
+      /* border: 1px solid blue; */
     }
   }
 
@@ -172,7 +177,7 @@
     border-left: none;
     margin-top: 24px;
     max-width: none;
-    padding: 0 10px;
+    padding: 0 16px;
 
     > div {
       max-width: 630px;
