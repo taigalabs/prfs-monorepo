@@ -18,7 +18,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 580px;
+    flex-grow: 1;
+    min-width: 510px;
+    max-width: 640px;
 
     /* border: 1px solid gray; */
   }
@@ -39,6 +41,12 @@
     svg {
       margin-left: 3px;
     }
+  }
+
+  .rightPadding {
+    width: 370px;
+
+    /* border: 1px solid blue; */
   }
 }
 
@@ -84,7 +92,7 @@
     display: inline-flex;
     flex-direction: column;
     width: 100%;
-    max-width: 630px;
+    max-width: 640px;
   }
 
   .content {
@@ -136,6 +144,12 @@
     .mainMenu {
       width: 100%;
       margin-left: 0;
+      min-width: 0;
+      max-width: none;
+    }
+
+    .rightPadding {
+      display: none;
     }
   }
 

@@ -122,6 +122,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
               </li>
             </ul>
           </div>
+          <div className={styles.rightPadding} />
         </div>
       </div>
       <div className={cn(styles.main, { [styles.isTutorial]: isTutorial })}>
