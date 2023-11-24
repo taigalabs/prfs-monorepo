@@ -1,8 +1,12 @@
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import path from "path";
 import fs from "fs";
 
 const { eth_0_0001_1 } = (() => {
-  const eth_0_0001_1 = fs.readFileSync("../proof_types/ETH_0_0001_1.md");
+  const currDir = path.dirname(__filename);
+  const filePath = path.resolve(currDir, "../proof_types/ETH_0_0001_1.md");
+  console.log(123, filePath);
+  const eth_0_0001_1 = fs.readFileSync(filePath);
 
   console.log(111, eth_0_0001_1);
 

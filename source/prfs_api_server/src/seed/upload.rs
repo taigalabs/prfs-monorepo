@@ -154,6 +154,8 @@ async fn upload_proof_types(db: &Database2) {
     let proof_types = load_proof_types();
     println!("proof types: {:#?}", proof_types);
 
+    return;
+
     sqlx::query("truncate table prfs_proof_types restart identity")
         .execute(&mut *tx)
         .await
