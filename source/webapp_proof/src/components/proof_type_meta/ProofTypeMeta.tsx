@@ -3,6 +3,7 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import cn from "classnames";
 import DOMPurify from "dompurify";
 import * as marked from "marked";
+import dayjs from "dayjs";
 
 import styles from "./ProofTypeMeta.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -20,17 +21,25 @@ const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
 
-  const [mdHTML, proofTypeUrl] = React.useMemo(() => {
-    const url = process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT + "/proof_types/" + proofTypeId;
-
+  const mdHTML = React.useMemo(() => {
     try {
       const md = DOMPurify.sanitize(marked.parse(proofTypeDesc));
-      return [md, url];
+      return md;
     } catch (err) {
       console.error(err);
-      return ["", url];
+      return "";
     }
-  }, [proofTypeId, proofTypeDesc]);
+  }, [proofTypeDesc]);
+
+  const proofTypeUrl = React.useMemo(() => {
+    const url = process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT + "/proof_types/" + proofTypeId;
+    return url;
+  }, [proofTypeId]);
+
+  const _proofTypeCreatedAt = React.useMemo(() => {
+    const createdAt = dayjs(proofTypeCreatedAt).format("YYYY-MM-DD");
+    return createdAt;
+  }, [proofTypeCreatedAt]);
 
   return (
     <div className={styles.wrapper}>
@@ -50,17 +59,17 @@ const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({
           <span className={styles.title}>{proofTypeLabel}</span>
         </a>
       </div>
-      <div className={styles.section}>
+      <div className={styles.descSection}>
         <div dangerouslySetInnerHTML={{ __html: mdHTML }} />
       </div>
-      <div className={styles.section}>
+      <div className={cn(styles.section, styles.topBorder)}>
         <div className={styles.entry}>
           <p className={styles.h2}>{i18n.proof_type_author}</p>
           <p>{proofTypeAuthor}</p>
         </div>
         <div className={styles.entry}>
           <p className={styles.h2}>{i18n.proof_type_created_at}</p>
-          <p>{proofTypeCreatedAt}</p>
+          <p>{_proofTypeCreatedAt}</p>
         </div>
         <div className={styles.entry}>
           <p className={styles.h2}>{i18n.circuit_driver_id}</p>

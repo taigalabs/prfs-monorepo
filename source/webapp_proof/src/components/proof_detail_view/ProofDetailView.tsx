@@ -152,7 +152,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
             </div>
           </div>
           <div className={styles.proofDataContainer}>
-            <ProofDataView proof={proof} circuitDriverId={proofInstance.circuit_driver_id} />
+            <ProofDataView proof={proof} />
           </div>
         </div>
       </div>

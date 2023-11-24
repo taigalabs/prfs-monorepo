@@ -58,7 +58,7 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
       },
       {
         header: i18n.proof_type,
-        accessorFn: row => row.proof_label,
+        accessorFn: row => row.proof_type_label,
         cell: info => info.getValue(),
       },
       {
