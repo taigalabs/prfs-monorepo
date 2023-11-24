@@ -90,7 +90,7 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
 
   return (
     <>
-      <div
+      <button
         className={cn(styles.base, {
           [styles.isOpen]: isOpen,
           [className!]: !!className,
@@ -100,7 +100,7 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
         {...getReferenceProps()}
       >
         <BsThreeDots />
-      </div>
+      </button>
       {isOpen && (
         <FloatingFocusManager context={context} modal={false}>
           <div

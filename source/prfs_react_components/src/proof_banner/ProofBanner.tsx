@@ -36,7 +36,7 @@ const ProofBanner: React.FC<ProofBannerProps> = ({
           const val = _val.length > 8 ? `${_val.substring(0, 20)}...` : _val;
 
           values.push(
-            <p>
+            <p key={name}>
               <span>{name}</span> <span>{val}</span>
             </p>,
           );
