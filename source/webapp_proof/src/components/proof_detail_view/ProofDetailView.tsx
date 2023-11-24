@@ -24,6 +24,7 @@ import Tutorial from "@/components/tutorial/Tutorial";
 import { useIsTutorial } from "@/hooks/tutorial";
 import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
 import LeftPadding from "../left_padding/LeftPadding";
+import ProofTypeMeta from "../proof_type_meta/ProofTypeMeta";
 
 const JSONbigNative = JSONBig({
   useNativeBigInt: true,
@@ -138,12 +139,20 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
               </TutorialStepper>
             </div>
             <div className={styles.proofDetailContainer}>
-              <div>
-                <div className={styles.content}>
-                  <p className={styles.label}>{proofInstance.proof_label}</p>
-                  <p className={styles.desc}>{proofInstance.proof_desc}</p>
-                </div>
-              </div>
+              <ProofTypeMeta
+                proofTypeDesc={proofInstance.proof_type_desc}
+                proofTypeId={proofInstance.proof_type_id}
+                imgUrl={proofInstance.img_url}
+                proofTypeLabel={proofInstance.proof_type_label}
+                proofTypeAuthor={proofInstance.proof_type_author}
+              />
+              {/* <ProofTypeMeta proofType={proofInstance} /> */}
+              {/* <div> */}
+              {/*   <div className={styles.content}> */}
+              {/*     <p className={styles.label}>{proofInstance.proof_label}</p> */}
+              {/*     <p className={styles.desc}>{proofInstance.proof_desc}</p> */}
+              {/*   </div> */}
+              {/* </div> */}
             </div>
           </div>
           <div className={styles.proofDataContainer}>

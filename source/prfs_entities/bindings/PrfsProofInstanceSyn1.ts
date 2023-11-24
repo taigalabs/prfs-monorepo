@@ -11,8 +11,8 @@ export interface PrfsProofInstanceSyn1 {
   circuit_id: string;
   circuit_type_id: string;
   circuit_driver_id: string;
-  proof_desc: string;
-  proof_label: string;
+  proof_type_desc: string;
+  proof_type_label: string;
   prfs_ack_sig: string;
   public_inputs_meta: Record<string, any>[];
   public_inputs: Record<string, any>;

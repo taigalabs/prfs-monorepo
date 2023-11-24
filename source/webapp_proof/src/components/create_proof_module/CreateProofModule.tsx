@@ -21,7 +21,7 @@ import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput"
 import { validateInputs } from "@/validate";
 import HashInput from "@/components/hash_input/HashInput";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
-import ProofTypeMeta from "./ProofTypeMeta";
+import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
@@ -345,7 +345,13 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
             )}
           </div>
           <div className={styles.metaArea}>
-            <ProofTypeMeta proofType={proofType} />
+            <ProofTypeMeta
+              proofTypeDesc={proofType.desc}
+              proofTypeId={proofType.proof_type_id}
+              imgUrl={proofType.img_url}
+              proofTypeLabel={proofType.label}
+              proofTypeAuthor={proofType.author}
+            />
           </div>
         </div>
       </div>

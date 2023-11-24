@@ -6,21 +6,28 @@ import * as marked from "marked";
 
 import styles from "./ProofTypeMeta.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
 
-const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({ proofType }) => {
+const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({
+  proofTypeDesc,
+  proofTypeId,
+  imgUrl,
+  proofTypeLabel,
+  proofTypeAuthor,
+}) => {
   const i18n = React.useContext(i18nContext);
 
   const [mdHTML, proofTypeUrl] = React.useMemo(() => {
-    const { desc } = proofType;
-    const md = DOMPurify.sanitize(marked.parse(desc));
+    const url = process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT + "/proof_types/" + proofTypeId;
 
-    const url =
-      process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT + "/proof_types/" + proofType.proof_type_id;
-
-    return [md, url];
-  }, [proofType]);
+    try {
+      const md = DOMPurify.sanitize(marked.parse(proofTypeDesc));
+      return [md, url];
+    } catch (err) {
+      console.error(err);
+      return ["", url];
+    }
+  }, [proofTypeId, proofTypeDesc]);
 
   return (
     <div className={styles.wrapper}>
@@ -29,21 +36,21 @@ const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({ proofType }) => {
           <div className={styles.top}>
             <div className={styles.left}>
               <div className={styles.imgContainer}>
-                <CaptionedImg img_url={proofType.img_url} size={18} />
+                <CaptionedImg img_url={imgUrl} size={18} />
               </div>
             </div>
             <div>
-              <p>{proofType.proof_type_id}</p>
+              <p>{proofTypeId}</p>
               <p className={styles.url}>{proofTypeUrl}</p>
             </div>
           </div>
-          <span className={styles.title}>{proofType.label}</span>
+          <span className={styles.title}>{proofTypeLabel}</span>
         </a>
       </div>
       <div className={styles.section}>
         <div dangerouslySetInnerHTML={{ __html: mdHTML }} />
         <p className={styles.h2}>{i18n.author}</p>
-        <p>{proofType.author}</p>
+        <p>{proofTypeAuthor}</p>
       </div>
     </div>
   );
@@ -52,5 +59,11 @@ const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({ proofType }) => {
 export default ProofTypeMeta;
 
 export interface ProofTypeMetaProps {
-  proofType: PrfsProofType;
+  proofTypeDesc: string;
+  proofTypeId: string;
+  imgUrl: string | null;
+  proofTypeLabel: string;
+  proofTypeAuthor: string;
+
+  // proofType: PrfsProofType;
 }

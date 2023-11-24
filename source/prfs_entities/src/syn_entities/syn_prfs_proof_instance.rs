@@ -22,8 +22,8 @@ pub struct PrfsProofInstanceSyn1 {
     pub circuit_id: Uuid,
     pub circuit_type_id: String,
     pub circuit_driver_id: String,
-    pub proof_desc: String,
-    pub proof_label: String,
+    pub proof_type_desc: String,
+    pub proof_type_label: String,
     pub prfs_ack_sig: String,
 
     #[ts(type = "Record<string, any>[]")]
