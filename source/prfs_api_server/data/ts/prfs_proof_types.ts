@@ -1,4 +1,15 @@
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import fs from "fs";
+
+const { eth_0_0001_1 } = (() => {
+  const eth_0_0001_1 = fs.readFileSync("../proof_types/ETH_0_0001_1.md");
+
+  console.log(111, eth_0_0001_1);
+
+  return {
+    eth_0_0001_1,
+  };
+})();
 
 const ADDR_MEMBERSHIP2_1_CIRCUIT_URL =
   "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1.spartan.circuit";
