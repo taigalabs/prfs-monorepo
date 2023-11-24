@@ -352,6 +352,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
               proofTypeLabel={proofType.label}
               proofTypeAuthor={proofType.author}
               circuitTypeId={proofType.circuit_type_id}
+              circuitDriverId={proofType.circuit_driver_id}
+              proofTypeCreatedAt={proofType.created_at}
             />
           </div>
         </div>

@@ -15,6 +15,8 @@ const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({
   proofTypeLabel,
   proofTypeAuthor,
   circuitTypeId,
+  circuitDriverId,
+  proofTypeCreatedAt,
 }) => {
   const i18n = React.useContext(i18nContext);
 
@@ -50,13 +52,23 @@ const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({
       </div>
       <div className={styles.section}>
         <div dangerouslySetInnerHTML={{ __html: mdHTML }} />
-        <div>
-          <p className={styles.h2}>{i18n.author}</p>
+      </div>
+      <div className={styles.section}>
+        <div className={styles.entry}>
+          <p className={styles.h2}>{i18n.proof_type_author}</p>
           <p>{proofTypeAuthor}</p>
         </div>
-        <div>
-          <p className={styles.h2}>{i18n.author}</p>
-          <p>{proofTypeAuthor}</p>
+        <div className={styles.entry}>
+          <p className={styles.h2}>{i18n.proof_type_created_at}</p>
+          <p>{proofTypeCreatedAt}</p>
+        </div>
+        <div className={styles.entry}>
+          <p className={styles.h2}>{i18n.circuit_driver_id}</p>
+          <p>{circuitDriverId}</p>
+        </div>
+        <div className={styles.entry}>
+          <p className={styles.h2}>{i18n.circuit_type_id}</p>
+          <p>{circuitTypeId}</p>
         </div>
       </div>
     </div>
@@ -72,4 +84,6 @@ export interface ProofTypeMetaProps {
   proofTypeLabel: string;
   proofTypeAuthor: string;
   circuitTypeId: string;
+  circuitDriverId: string;
+  proofTypeCreatedAt: string;
 }

@@ -20,4 +20,5 @@ export interface PrfsProofInstanceSyn1 {
   proof_type_author: string;
   circuit_desc: string;
   circuit_author: string;
+  proof_type_created_at: string;
 }

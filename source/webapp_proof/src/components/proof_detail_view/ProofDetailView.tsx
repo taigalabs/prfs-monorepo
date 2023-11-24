@@ -23,8 +23,8 @@ import { useSelectProofType } from "@/hooks/proofType";
 import Tutorial from "@/components/tutorial/Tutorial";
 import { useIsTutorial } from "@/hooks/tutorial";
 import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
-import LeftPadding from "../left_padding/LeftPadding";
-import ProofTypeMeta from "../proof_type_meta/ProofTypeMeta";
+import LeftPadding from "@/components/left_padding/LeftPadding";
+import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 
 const JSONbigNative = JSONBig({
   useNativeBigInt: true,
@@ -146,6 +146,8 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
                 proofTypeLabel={proofInstance.proof_type_label}
                 proofTypeAuthor={proofInstance.proof_type_author}
                 circuitTypeId={proofInstance.circuit_type_id}
+                circuitDriverId={proofInstance.circuit_driver_id}
+                proofTypeCreatedAt={proofInstance.proof_type_created_at}
               />
             </div>
           </div>

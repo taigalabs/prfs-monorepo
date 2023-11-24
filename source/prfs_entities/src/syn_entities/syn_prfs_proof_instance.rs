@@ -38,4 +38,7 @@ pub struct PrfsProofInstanceSyn1 {
     pub proof_type_author: String,
     pub circuit_desc: String,
     pub circuit_author: String,
+
+    #[ts(type = "string")]
+    pub proof_type_created_at: DateTime<Utc>,
 }
