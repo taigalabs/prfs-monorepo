@@ -84,7 +84,7 @@
     display: inline-flex;
     flex-direction: column;
     width: 100%;
-    /* justify-content: center; */
+    max-width: 630px;
   }
 
   .content {
@@ -166,7 +166,7 @@
       display: flex;
       max-width: 630px;
       width: 100%;
-      margin-top: 14px;
+      margin-top: 20px;
 
       /* border: 1px solid blue; */
     }
@@ -175,7 +175,7 @@
   .proofDataContainer {
     margin-left: 0px;
     border-left: none;
-    margin-top: 24px;
+    margin-top: 0;
     max-width: none;
     padding: 0 16px;
 
@@ -189,10 +189,4 @@
       margin-left: 0px;
     }
   }
-
-  /* .verifyProofFormWrapper { */
-  /*   padding-left: 0px; */
-  /*   border-left: none; */
-  /*   margin-top: 24px; */
-  /* } */
 }

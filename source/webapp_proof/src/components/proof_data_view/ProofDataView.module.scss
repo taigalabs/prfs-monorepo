@@ -1,10 +1,15 @@
 .wrapper {
-  font-size: 13px;
   transition: height 0.4s ease-out;
+  border-left: 1px solid var(--bright-gray-31);
   padding: 0 20px;
 
-  &:not(.isCard) {
-    border-left: 1px solid var(--bright-gray-31);
+  > div {
+    margin-top: 22px;
+    padding-top: 22px;
+  }
+
+  &.isCard {
+    font-size: 13px;
   }
 }
 
@@ -13,6 +18,8 @@
   position: relative;
   border-radius: 3px;
   word-break: break-all;
+  margin-top: 0px;
+  padding-top: 0px;
 
   .data {
     width: 100%;
@@ -36,8 +43,6 @@
 
 .proofRawSection {
   position: relative;
-  margin-top: 28px;
-  padding-top: 28px;
   box-shadow: none;
   border-top: 1px solid var(--bright-gray-31);
 
@@ -125,26 +130,27 @@
 @media screen and (max-width: 1024px) {
   .wrapper {
     border-left: none;
-    padding: 0px 0px;
+
+    &.isCard {
+      padding: 0px 0px;
+    }
   }
 
   .title {
     background-color: var(--white-100);
     margin-bottom: 14px;
-    font-size: 14px;
-    font-weight: 500;
     display: flex;
     align-items: center;
   }
 
   .label {
     font-size: inherit;
+    font-size: 1.12em;
     font-weight: 500;
+    margin-bottom: 3px;
   }
 
   .publicInputSection {
-    margin-top: 28px;
-    padding-top: 28px;
     border-top: 1px solid var(--bright-gray-31);
   }
 }
