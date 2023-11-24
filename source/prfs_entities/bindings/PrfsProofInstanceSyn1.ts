@@ -17,4 +17,7 @@ export interface PrfsProofInstanceSyn1 {
   public_inputs_meta: Record<string, any>[];
   public_inputs: Record<string, any>;
   created_at: string;
+  proof_type_author: string;
+  circuit_desc: string;
+  circuit_author: string;
 }

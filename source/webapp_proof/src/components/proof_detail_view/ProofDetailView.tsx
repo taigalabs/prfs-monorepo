@@ -147,9 +147,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
             </div>
           </div>
           <div className={styles.proofDataContainer}>
-            {/* <div className={styles.verifyProofFormWrapper}> */}
             <ProofDataView proof={proof} circuitDriverId={proofInstance.circuit_driver_id} />
-            {/* </div> */}
           </div>
         </div>
       </div>
@@ -162,10 +160,5 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
 export default ProofDetailView;
 
 export interface ProofDetailViewProps {
-  // proofInstance: PrfsProofInstanceSyn1;
   proofInstanceId: string;
-}
-
-{
-  /* <li> <SocialSharePopover /> </li>; */
 }

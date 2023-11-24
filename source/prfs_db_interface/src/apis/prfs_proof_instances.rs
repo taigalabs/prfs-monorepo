@@ -11,7 +11,9 @@ pub async fn get_prfs_proof_instance_syn1_by_instance_id(
 ) -> PrfsProofInstanceSyn1 {
     let query = r#"
 SELECT ppi.*, ppt.expression, ppt.img_url, ppt.label as proof_label, ppt.desc as proof_desc,
-ppt.circuit_driver_id, ppt.circuit_id, ppt.img_caption, pct.public_inputs_meta, ppt.circuit_type_id
+ppt.circuit_driver_id, ppt.circuit_id, ppt.img_caption, pct.public_inputs_meta, 
+ppt.circuit_type_id, ppt.author as proof_type_author, pct.desc as circuit_desc,
+pct.author as circuit_author
 FROM prfs_proof_instances ppi
 INNER JOIN prfs_proof_types ppt ON ppi.proof_type_id=ppt.proof_type_id
 INNER JOIN prfs_circuit_types pct ON pct.circuit_type_id=ppt.circuit_type_id
@@ -43,6 +45,9 @@ WHERE ppi.proof_instance_id=$1
         public_inputs: row.get("public_inputs"),
         created_at: row.get("created_at"),
         circuit_type_id: row.get("circuit_type_id"),
+        proof_type_author: row.get("proof_type_author"),
+        circuit_desc: row.get("circuit_desc"),
+        circuit_author: row.get("circuit_author"),
     };
 
     return prfs_proof_instance;
@@ -91,7 +96,9 @@ SELECT reltuples AS estimate FROM pg_class where relname = 'prfs_proof_instances
 
     let query = r#"
 SELECT ppi.*, ppt.expression, ppt.img_url, ppt.label as proof_label, ppt.desc as proof_desc,
-ppt.circuit_driver_id, ppt.circuit_id, ppt.img_caption, pct.public_inputs_meta, ppt.circuit_type_id
+ppt.circuit_driver_id, ppt.circuit_id, ppt.img_caption, pct.public_inputs_meta, 
+ppt.circuit_type_id, ppt.author as proof_type_author, pct.desc as circuit_desc,
+pct.author as circuit_author
 FROM prfs_proof_instances ppi
 INNER JOIN prfs_proof_types ppt ON ppi.proof_type_id=ppt.proof_type_id
 INNER JOIN prfs_circuit_types pct ON pct.circuit_type_id=ppt.circuit_type_id
@@ -128,6 +135,9 @@ LIMIT $2
             public_inputs: row.get("public_inputs"),
             created_at: row.get("created_at"),
             circuit_type_id: row.get("circuit_type_id"),
+            proof_type_author: row.get("proof_type_author"),
+            circuit_desc: row.get("circuit_desc"),
+            circuit_author: row.get("circuit_author"),
         })
         .collect();
 
