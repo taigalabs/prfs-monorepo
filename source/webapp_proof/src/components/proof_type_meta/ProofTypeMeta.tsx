@@ -14,6 +14,7 @@ const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({
   imgUrl,
   proofTypeLabel,
   proofTypeAuthor,
+  circuitTypeId,
 }) => {
   const i18n = React.useContext(i18nContext);
 
@@ -49,8 +50,14 @@ const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({
       </div>
       <div className={styles.section}>
         <div dangerouslySetInnerHTML={{ __html: mdHTML }} />
-        <p className={styles.h2}>{i18n.author}</p>
-        <p>{proofTypeAuthor}</p>
+        <div>
+          <p className={styles.h2}>{i18n.author}</p>
+          <p>{proofTypeAuthor}</p>
+        </div>
+        <div>
+          <p className={styles.h2}>{i18n.author}</p>
+          <p>{proofTypeAuthor}</p>
+        </div>
       </div>
     </div>
   );
@@ -64,6 +71,5 @@ export interface ProofTypeMetaProps {
   imgUrl: string | null;
   proofTypeLabel: string;
   proofTypeAuthor: string;
-
-  // proofType: PrfsProofType;
+  circuitTypeId: string;
 }

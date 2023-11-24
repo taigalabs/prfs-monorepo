@@ -145,14 +145,8 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
                 imgUrl={proofInstance.img_url}
                 proofTypeLabel={proofInstance.proof_type_label}
                 proofTypeAuthor={proofInstance.proof_type_author}
+                circuitTypeId={proofInstance.circuit_type_id}
               />
-              {/* <ProofTypeMeta proofType={proofInstance} /> */}
-              {/* <div> */}
-              {/*   <div className={styles.content}> */}
-              {/*     <p className={styles.label}>{proofInstance.proof_label}</p> */}
-              {/*     <p className={styles.desc}>{proofInstance.proof_desc}</p> */}
-              {/*   </div> */}
-              {/* </div> */}
             </div>
           </div>
           <div className={styles.proofDataContainer}>

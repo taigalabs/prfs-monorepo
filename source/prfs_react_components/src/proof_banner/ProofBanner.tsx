@@ -62,7 +62,7 @@ const ProofBanner: React.FC<ProofBannerProps> = ({
           </div>
           <div className={styles.proofLabel}>
             <IoDocumentTextSharp />
-            <span>{proofInstance.proof_label}</span>
+            <span>{proofInstance.proof_type_label}</span>
           </div>
         </div>
         <div className={styles.prioritizedValues}>{prioritizedValues}</div>

@@ -351,6 +351,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
               imgUrl={proofType.img_url}
               proofTypeLabel={proofType.label}
               proofTypeAuthor={proofType.author}
+              circuitTypeId={proofType.circuit_type_id}
             />
           </div>
         </div>
