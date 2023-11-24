@@ -62,7 +62,7 @@ const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({
       <div className={styles.descSection}>
         <div dangerouslySetInnerHTML={{ __html: mdHTML }} />
       </div>
-      <div className={cn(styles.section, styles.topBorder)}>
+      <div className={styles.section}>
         <div className={styles.entry}>
           <p className={styles.h2}>{i18n.proof_type_author}</p>
           <p>{proofTypeAuthor}</p>
