@@ -9,8 +9,8 @@ pub fn run(_matches: &ArgMatches) {
 
 fn run_app() {
     let status = Command::new(deps::CARGO)
-        .current_dir(&PATHS.prfs_email_auth_server)
-        .args(["run", "-p", "prfs_email_auth_server"])
+        .current_dir(&PATHS.prfs_auth_op_server)
+        .args(["run", "-p", "prfs_auth_op_server"])
         .status()
         .expect(&format!("{} command failed to start", deps::CARGO));
 

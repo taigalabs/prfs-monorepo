@@ -1,8 +1,8 @@
 // dev mode
 pub mod dev_api_server;
 pub mod dev_asset_server;
+pub mod dev_auth_op_server;
 pub mod dev_docs_website;
-pub mod dev_email_auth_server;
 pub mod dev_sdk_web_module;
 pub mod dev_snap;
 pub mod dev_webapp_console;
