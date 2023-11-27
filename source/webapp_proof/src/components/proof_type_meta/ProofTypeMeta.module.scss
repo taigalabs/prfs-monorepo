@@ -4,11 +4,15 @@
 
 .descSection {
   margin-top: 16px;
+
+  h2 {
+    font-weight: 500;
+  }
 }
 
 .section {
   margin-top: 24px;
-  border-top: 1px solid var(--bright-gray-32);
+  /* border-top: 1px solid var(--bright-gray-32); */
 }
 
 .headerSection {
@@ -65,8 +69,13 @@
   }
 }
 
-.h2 {
-  font-size: 1.32em;
-  font-weight: 400;
-  margin: 22px 0 10px;
+.miscSection {
+  margin-top: 54px;
+  /* font-size: 0.95em; */
+
+  .h2 {
+    font-size: 1.32em;
+    font-weight: 400;
+    margin: 22px 0 10px;
+  }
 }

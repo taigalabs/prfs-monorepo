@@ -3,7 +3,7 @@ import cn from "classnames";
 import { ProofPublicInput } from "@taigalabs/prfs-driver-interface";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
-import { IoDocumentTextSharp } from "@react-icons/all-files/io5/IoDocumentTextSharp";
+import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
 
 import CaptionedImg from "../captioned_img/CaptionedImg";
 import styles from "./ProofBanner.module.scss";
@@ -61,7 +61,7 @@ const ProofBanner: React.FC<ProofBannerProps> = ({
             <span>/{proofInstance.short_id}</span>
           </div>
           <div className={styles.proofLabel}>
-            <IoDocumentTextSharp />
+            <IoDocumentOutline />
             <span>{proofInstance.proof_type_label}</span>
           </div>
         </div>

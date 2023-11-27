@@ -178,7 +178,7 @@
     "proof_type_id": "SIMPLE_HASH_1",
     "label": "Simple hash",
     "author": "Prfs",
-    "desc": "Proves he knows the preimage of a cryptographic hash function\n\n## Poseidon hash function\n\nPoseidon is a hash function that can run in zk circuits efficiently.\n",
+    "desc": "Proves he knows the preimage of a cryptographic hash function\n\n## Poseidon hash function\n\nPoseidon is a hash function that is designed to run efficiently in an arithmetic circuit.\nPoesidon maps strings over Fp (for a prime p ≈ 2n) to fixed-length strings over Fp, i.e.,\nPOSEIDON : (F_∗)^p → (F_o)^p, where o is the output length measured in Fp elements (usually,\no = 1). It is constructed by instantiating a sponge function with the POSEIDONπ permutation.\nPOSEIDONπ is a variant of HADESMiMC, albeit instantiated with a fixed and known key.\n",
     "expression": "Knows hash argument",
     "img_url": "https://d1w1533jipmvi2.cloudfront.net/hash.png",
     "img_caption": "",

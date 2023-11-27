@@ -1,7 +1,8 @@
 .wrapper {
   transition: height 0.4s ease-out;
-  border-left: 1px solid var(--bright-gray-31);
-  padding: 0 20px 15px;
+  padding: 18px 20px 18px;
+  border-radius: 10px;
+  background-color: var(--bright-gray-50);
 
   > div {
     margin-top: 22px;
@@ -39,7 +40,11 @@
 
 .label {
   font-weight: 500;
-  font-size: 1.2em;
+  /* font-size: 1.2em; */
+}
+
+.value {
+  /* font-size: 1.2em; */
 }
 
 .proofRawSection {

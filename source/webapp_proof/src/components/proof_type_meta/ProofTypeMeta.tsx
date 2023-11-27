@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 import styles from "./ProofTypeMeta.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
+import { Markdown } from "../markdown/Markdown";
 
 const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({
   proofTypeDesc,
@@ -60,9 +61,11 @@ const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({
         </a>
       </div>
       <div className={styles.descSection}>
-        <div dangerouslySetInnerHTML={{ __html: mdHTML }} />
+        <Markdown>
+          <div dangerouslySetInnerHTML={{ __html: mdHTML }} />
+        </Markdown>
       </div>
-      <div className={styles.section}>
+      <div className={cn(styles.section, styles.miscSection)}>
         <div className={styles.entry}>
           <p className={styles.h2}>{i18n.proof_type_author}</p>
           <p>{proofTypeAuthor}</p>
