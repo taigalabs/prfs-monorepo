@@ -12,39 +12,48 @@
 
 .section {
   margin-top: 24px;
-  /* border-top: 1px solid var(--bright-gray-32); */
 }
 
 .headerSection {
-  position: relative;
-  height: 70px;
-  /* border-bottom: 1px solid gray; */
-
   .top {
-    position: absolute;
-    top: 0;
     display: flex;
     font-size: 14px;
     cursor: pointer;
 
     .left {
       margin-right: 12px;
-      display: flex;
+      display: inline-flex;
       align-items: center;
     }
 
-    .url {
+    .right {
+      display: inline-flex;
+      flex-direction: column;
+
+      /* border: 1px solid blue; */
+    }
+
+    .meta {
       font-size: 12px;
-      margin-top: 3px;
       color: var(--gray-31);
+      max-width: 240px;
+
+      > span {
+        &:not(:first-child) {
+          margin-left: 2px;
+
+          &::before {
+            content: "ꞏ";
+            margin-right: 2px;
+          }
+        }
+      }
     }
 
     .imgContainer {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 28px;
-      height: 28px;
       border-radius: 14px;
       border: 1px solid var(--bright-gray-30);
     }
@@ -61,7 +70,7 @@
     font-size: 1.64em;
     cursor: pointer;
     color: var(--blue-11);
-    margin-top: 44px;
+    margin-top: 4px;
 
     &:hover {
       text-decoration: underline;

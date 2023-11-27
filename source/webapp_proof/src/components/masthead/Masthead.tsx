@@ -5,6 +5,7 @@ import cn from "classnames";
 import Link from "next/link";
 import PrfsAppsPopover from "@taigalabs/prfs-react-components/src/prfs_apps_popover/PrfsAppsPopover";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
+import { BsThreeDots } from "@react-icons/all-files/bs/BsThreeDots";
 
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";

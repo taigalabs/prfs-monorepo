@@ -49,12 +49,16 @@ const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({
           <div className={styles.top}>
             <div className={styles.left}>
               <div className={styles.imgContainer}>
-                <CaptionedImg img_url={imgUrl} size={18} />
+                <CaptionedImg img_url={imgUrl} size={28} />
               </div>
             </div>
-            <div>
+            <div className={styles.right}>
               <p>{proofTypeId}</p>
-              <p className={styles.url}>{proofTypeUrl}</p>
+              <p className={styles.meta}>
+                <span>New proof</span>
+                <span>Not audited</span>
+              </p>
+              {/* <p className={styles.url}>{proofTypeUrl}</p> */}
             </div>
           </div>
           <span className={styles.title}>{proofTypeLabel}</span>
