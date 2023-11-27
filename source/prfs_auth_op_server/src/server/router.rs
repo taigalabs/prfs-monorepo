@@ -7,7 +7,7 @@ use std::sync::Arc;
 
 use super::middleware;
 use super::state::ServerState;
-use crate::apis::prfs_accounts;
+use crate::apis::{prfs_accounts, twitter};
 use crate::EmailAuthServerError;
 
 const PREFIX: &str = "/api/v0";
@@ -20,10 +20,7 @@ pub fn make_router(
         .middleware(Middleware::pre(middleware::logger))
         .middleware(enable_cors_all())
         .get("/", status_handler)
-        // .post(
-        //     format!("{}/sign_up_prfs_account", PREFIX),
-        //     prfs_accounts::sign_up_prfs_account,
-        // )
+        .post("/oauth/twitter", twitter::authenticate_twitter_account)
         .post("*", middleware::not_found_handler)
         .err_handler_with_info(middleware::error_handler)
         .build()?;
