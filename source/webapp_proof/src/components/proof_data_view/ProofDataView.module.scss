@@ -40,11 +40,6 @@
 
 .label {
   font-weight: 500;
-  /* font-size: 1.2em; */
-}
-
-.value {
-  /* font-size: 1.2em; */
 }
 
 .proofRawSection {
@@ -71,13 +66,6 @@
     color: var(--blue-11);
     cursor: pointer;
   }
-}
-
-.proofRawSection {
-  box-shadow: none;
-  border-top: 1px solid var(--bright-gray-31);
-
-  /* border: 1px solid blue; */
 }
 
 .title {
@@ -119,7 +107,6 @@
   }
 
   .title {
-    background-color: var(--white-100);
     margin-bottom: 14px;
     font-size: 14px;
     font-weight: 500;
@@ -136,20 +123,14 @@
 @media screen and (max-width: 1024px) {
   .wrapper {
     border-left: none;
-    padding: 0px 0px;
+    margin-top: 54px;
 
     &.isCard {
       padding: 0px 0px;
     }
-
-    .publicInputSection {
-      margin-top: 22px;
-      padding-top: 22px;
-    }
   }
 
   .title {
-    background-color: var(--white-100);
     margin-bottom: 14px;
     display: flex;
     align-items: center;
@@ -160,9 +141,5 @@
     font-size: 1.12em;
     font-weight: 500;
     margin-bottom: 3px;
-  }
-
-  .publicInputSection {
-    border-top: 1px solid var(--bright-gray-31);
   }
 }
