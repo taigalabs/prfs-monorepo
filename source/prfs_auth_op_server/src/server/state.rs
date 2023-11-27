@@ -39,7 +39,7 @@ impl ServerState {
         let launch_time: DateTime<Utc> = Utc::now();
 
         println!(
-            "{} server state, wallet: {:?}, commit_hash: {}, launch_time: {}",
+            "{} auth op server state, wallet: {:?}, commit_hash: {}, launch_time: {}",
             "Initialized".green(),
             wallet,
             commit_hash,

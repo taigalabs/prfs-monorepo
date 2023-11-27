@@ -20,7 +20,7 @@ pub fn make_router(
         .middleware(Middleware::pre(middleware::logger))
         .middleware(enable_cors_all())
         .get("/", status_handler)
-        .post("/oauth/twitter", twitter::authenticate_twitter_account)
+        .get("/oauth/twitter", twitter::authenticate_twitter_account)
         .post("*", middleware::not_found_handler)
         .err_handler_with_info(middleware::error_handler)
         .build()?;

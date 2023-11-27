@@ -40,6 +40,7 @@ function createEnvs(ts: string) {
     NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT: "http://localhost:3000",
     NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT: "http://localhost:3021",
     NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: "http://localhost:4000",
+    NEXT_PUBLIC_PRFS_AUTH_OP_SERVER_ENDPOINT: "http://localhost:4020",
     NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "http://localhost:4010",
     NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT: "http://localhost:3010",
     NEXT_PUBLIC_ZAUTH_VERSION: "0.1.0",
@@ -56,6 +57,7 @@ function createEnvs(ts: string) {
     NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT: "https://poll.prfs.xyz",
     NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: "https://api.prfs.xyz",
     NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "https://asset.prfs.xyz",
+    NEXT_PUBLIC_PRFS_AUTH_OP_SERVER_ENDPOINT: "http://auth.prfs.xyz",
     NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT: "https://sdk.prfs.xyz",
     NEXT_PUBLIC_ZAUTH_VERSION: "0.1.0",
     NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT: "http://docs.prfs.xyz",
@@ -79,7 +81,7 @@ function writeEnvsToDotEnv(envs: Envs) {
 
 async function getGitTimestamp() {
   const output = child_process.execSync(
-    `TZ=UTC0 git show --quiet --date=iso-strict --format="%cd"`
+    `TZ=UTC0 git show --quiet --date=iso-strict --format="%cd"`,
   );
 
   return output.toString();

@@ -10,11 +10,6 @@ const PORT: u16 = 4020;
 
 #[tokio::main]
 async fn main() {
-    let state = {
-        let s = ServerState::init().await.unwrap();
-        Arc::new(s)
-    };
-
     // run_gmail_auth(state).await;
 
     let server_state = {

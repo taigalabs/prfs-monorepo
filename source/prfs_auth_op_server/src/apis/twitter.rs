@@ -37,8 +37,15 @@ use crate::{
 pub async fn authenticate_twitter_account(
     req: Request<Body>,
 ) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap().clone();
-    let req: AuthenticateRequest = parse_req(req).await;
+    // let state = req.data::<Arc<ServerState>>().unwrap().clone();
+
+    let q = req.uri().query().unwrap();
+
+    let a = url::Url::parse(q).unwrap();
+    println!("123, {}, {}", q, a);
+    // Url
+
+    // let req: AuthenticateRequest = parse_req(req).await;
 
     // let pool = &state.db2.pool;
     // let mut tx = pool.begin().await.unwrap();
@@ -55,9 +62,7 @@ pub async fn authenticate_twitter_account(
 
     // tx.commit().await.unwrap();
 
-    let resp = ApiResponse::new_success(AuthenticateResponse {
-        // account_id: account_id.to_string(),
-    });
+    let resp = ApiResponse::new_success(AuthenticateResponse {});
 
     return Ok(resp.into_hyper_response());
 }
