@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
@@ -21,15 +23,20 @@ function getTwitterOauthUrl() {
     response_type: "code",
     code_challenge: "challenge",
     code_challenge_method: "plain",
-    scope: ["users.read", "tweet.read", "follows.read", "follows.write"].join(" "),
+    scope: ["users.read", "tweet.read", "follows.read", "follows.write"].join("%20"),
   };
 
-  // const qs = new URLSearchParams(options).toString();
-  // const url2 = `${rootUrl}?${qs}`;
+  const qs = new URLSearchParams(options).toString();
+  let a = qs.toString();
+  let b = decodeURIComponent(a);
 
+  // const url2 = `${rootUrl}?${qs}`;
   // return url;
   const url =
     "https://twitter.com/i/oauth2/authorize?response_type=code&client_id=UU9OZ0hNOGVPelVtakgwMlVmeEw6MTpjaQ&redirect_uri=http://127.0.0.1:4020/oauth/twitter&scope=tweet.read%20users.read%20follows.read%20follows.write&state=state&code_challenge=challenge&code_challenge_method=plain";
+
+  console.log(222, a, b);
+  console.log(233, url);
 
   return url;
 }
@@ -41,6 +48,7 @@ const TwitterAuth: React.FC<TwitterAuthProps> = ({}) => {
 
   return (
     <div className={styles.wrapper}>
+      123123
       <a className="a-button row-container" href={url}>
         {/* <Image src={twitterIcon} alt="twitter icon" /> */}
         <p>{" twitter"}</p>
