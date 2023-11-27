@@ -1,7 +1,6 @@
 .wrapper {
   padding: 0px 21px;
   margin: 34px 0;
-  /* flex-basis: 1158px; */
   flex-grow: 1;
   flex-shrink: 1;
   max-width: 560px;
@@ -130,7 +129,7 @@
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 1024px) {
   .wrapper {
     padding: 0px 10px;
     width: 100%;

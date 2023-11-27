@@ -7,11 +7,6 @@
   overflow: hidden;
   flex-grow: 1;
   align-self: flex-start;
-
-  &.isTutorial {
-    .module {
-    }
-  }
 }
 
 .driverMsg {
@@ -51,15 +46,23 @@
   justify-content: flex-end;
 }
 
-.module {
-  position: relative;
-  padding: 20px 20px 20px;
-  border-left: 1px solid var(--bright-gray-30);
+.moduleArea {
+  padding: 0px 20px;
   flex-grow: 1;
-  min-width: 360px;
-  max-width: 430px;
   margin-left: 48px;
-  overflow: hidden;
+
+  /* border: 1px solid blue; */
+
+  .moduleWrapper {
+    min-width: 384px;
+    max-width: 448px;
+    overflow: hidden;
+    position: relative;
+    padding: 22px 20px;
+
+    border: 1px solid var(--bright-gray-30);
+    border-radius: 11px;
+  }
 
   .loaderBarWrapper {
     position: absolute;
@@ -159,19 +162,28 @@
     align-items: center;
   }
 
-  .module {
+  .moduleArea {
     padding: 24px 0px 24px;
     margin-left: 0px;
-    min-width: 0;
     border: none;
-    width: 100%;
-    /* border-top: 1px solid var(--bright-gray-30); */
-    /* border-bottom: 1px solid var(--bright-gray-30); */
     border-radius: 0px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid var(--bright-gray-32);
+
+    .moduleWrapper {
+      border: none;
+      min-width: 0;
+      padding: 0px 0px;
+      width: 100%;
+      padding: 0 10px;
+    }
   }
 
   .driverMsg {
     margin: 12px 0 12px;
+    padding: 0 10px;
     align-items: center;
 
     .msg {
@@ -185,13 +197,8 @@
 
   .metaArea {
     width: 100%;
-    margin-top: 24px;
+    margin-top: 36px;
+    padding: 0 10px;
     min-width: 0px;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .module {
-    border-bottom: 1px solid var(--bright-gray-30);
   }
 }

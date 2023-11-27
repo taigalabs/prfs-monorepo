@@ -58,7 +58,6 @@
   justify-content: flex-start;
   color: var(--gray-34);
   padding-right: 10px;
-  /* width: 158px; */
 
   // border: 1px solid blue;
 
@@ -150,15 +149,8 @@
   background-color: var(--bright-gray-30);
 }
 
-@media screen and (max-width: 1300px) {
-  .wrapper {
-    /* padding-left: calc((100% - 1150px) / 2); */
-  }
-}
-
 @media screen and (max-width: 1024px) {
   .wrapper {
-    /* position: relative; */
     width: 100vw;
     min-width: 360px;
     height: 90px;
@@ -197,6 +189,10 @@
     min-width: 0px;
     display: flex;
     justify-content: center;
+
+    > div {
+      max-width: none;
+    }
   }
 
   .rightArea {

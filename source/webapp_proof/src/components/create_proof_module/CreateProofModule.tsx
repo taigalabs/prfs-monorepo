@@ -306,43 +306,45 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           )}
         </div>
         <div className={cn(styles.main, { [styles.isTutorial]: isTutorial })}>
-          <div className={styles.module}>
-            {loadDriverStatus === LoadDriverStatus.InProgress ||
-              (createProofStatus === CreateProofStatus.InProgress && (
-                <div className={styles.loaderBarWrapper}>
-                  <LoaderBar />
+          <div className={styles.moduleArea}>
+            <div className={styles.moduleWrapper}>
+              {loadDriverStatus === LoadDriverStatus.InProgress ||
+                (createProofStatus === CreateProofStatus.InProgress && (
+                  <div className={styles.loaderBarWrapper}>
+                    <LoaderBar />
+                  </div>
+                ))}
+              {loadDriverStatus === LoadDriverStatus.InProgress && (
+                <div className={styles.overlay}>
+                  <Spinner size={32} color="#1b62c0" />
                 </div>
-              ))}
-            {loadDriverStatus === LoadDriverStatus.InProgress && (
-              <div className={styles.overlay}>
-                <Spinner size={32} color="#1b62c0" />
-              </div>
-            )}
-            <TutorialStepper steps={[2]}>
-              <div className={styles.form}>{circuitInputsElem}</div>
-            </TutorialStepper>
-            <div className={styles.btnRow}>
-              <Button
-                variant="blue_1"
-                handleClick={handleClickCreateProof}
-                className={cn({
-                  [styles.inProgress]: createProofStatus === CreateProofStatus.InProgress,
-                })}
-              >
-                {i18n.create.toUpperCase()}
-              </Button>
-            </div>
-            {systemMsg && (
-              <div className={styles.footer}>
-                <div
-                  className={cn(styles.msg, {
-                    [styles.errorMsg]: createProofStatus === CreateProofStatus.Error,
+              )}
+              <TutorialStepper steps={[2]}>
+                <div className={styles.form}>{circuitInputsElem}</div>
+              </TutorialStepper>
+              <div className={styles.btnRow}>
+                <Button
+                  variant="blue_1"
+                  handleClick={handleClickCreateProof}
+                  className={cn({
+                    [styles.inProgress]: createProofStatus === CreateProofStatus.InProgress,
                   })}
                 >
-                  {systemMsg}
-                </div>
+                  {i18n.create.toUpperCase()}
+                </Button>
               </div>
-            )}
+              {systemMsg && (
+                <div className={styles.footer}>
+                  <div
+                    className={cn(styles.msg, {
+                      [styles.errorMsg]: createProofStatus === CreateProofStatus.Error,
+                    })}
+                  >
+                    {systemMsg}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
           <div className={styles.metaArea}>
             <ProofTypeMeta
