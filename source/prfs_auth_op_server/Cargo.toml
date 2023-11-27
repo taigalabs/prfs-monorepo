@@ -1,8 +1,8 @@
 [package]
-name = "prfs_email_auth_server"
+name = "prfs_auth_op_server"
 version = "0.1.0"
 edition = "2021"
-default-run = "prfs_email_auth_server"
+default-run = "prfs_auth_op_server"
 
 
 [dependencies]
@@ -43,6 +43,6 @@ prfs_entities = { path = "../prfs_entities" }
 
 
 [[bin]]
-name = "prfs_email_auth_server"
+name = "prfs_auth_op_server"
 path = "src/bin/server.rs"
 

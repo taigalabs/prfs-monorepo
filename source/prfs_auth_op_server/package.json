@@ -1,5 +1,5 @@
 {
-  "name": "@taigalabs/prfs-email-auth-server",
+  "name": "@taigalabs/prfs-auth-op-server",
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {

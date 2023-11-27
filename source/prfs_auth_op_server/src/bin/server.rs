@@ -1,7 +1,7 @@
 use hyper::Server;
-use prfs_email_auth_server::gmail::run_gmail_auth;
-use prfs_email_auth_server::server::router::make_router;
-use prfs_email_auth_server::server::state::ServerState;
+use prfs_auth_op_server::gmail::run_gmail_auth;
+use prfs_auth_op_server::server::router::make_router;
+use prfs_auth_op_server::server::state::ServerState;
 use routerify::RouterService;
 use std::net::SocketAddr;
 use std::sync::Arc;
