@@ -32,7 +32,11 @@
 }
 
 .publicInputRow {
-  margin-bottom: 12px;
+  font-size: 13px;
+
+  &:not(:first-child) {
+    margin-top: 16px;
+  }
 
   > p:first-child {
     margin-bottom: 4px;
@@ -44,6 +48,7 @@
 }
 
 .proofRawSection {
+  font-size: 13px;
   position: relative;
   box-shadow: none;
   border-top: 1px solid var(--bright-gray-31);
