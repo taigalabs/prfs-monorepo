@@ -49,7 +49,7 @@ const Snaps: React.FC<SnapsProps> = ({ proofShortUrl, proofInstance, setIsOpen }
       console.log("Save to Snap", proofShortUrl, proofInstance);
 
       await addProof({
-        proof_label: proofInstance.proof_label,
+        proof_label: proofInstance.proof_type_label,
         proof_short_url: proofShortUrl,
       });
 
