@@ -46,7 +46,7 @@ const ProofFeeds: React.FC = () => {
         },
       },
       {
-        accessorFn: row => row.proof_label,
+        accessorFn: row => row.proof_type_label,
         header: "Label",
       },
       {
@@ -84,7 +84,7 @@ const ProofFeeds: React.FC = () => {
         header: "Proof instance id",
       },
     ],
-    []
+    [],
   );
 
   const { data, fetchNextPage, isFetching, isLoading } =
@@ -103,13 +103,13 @@ const ProofFeeds: React.FC = () => {
         getNextPageParam: (_lastGroup, groups) => groups.length,
         keepPreviousData: true,
         refetchOnWindowFocus: false,
-      }
+      },
     );
 
   // we must flatten the array of arrays from the useInfiniteQuery hook
   const flatData = React.useMemo(
     () => data?.pages?.flatMap(page => page.prfs_proof_instances_syn1) ?? [],
-    [data]
+    [data],
   );
   const totalDBRowCount = data?.pages?.[0]?.table_row_count ?? 0;
   const totalFetched = flatData.length;
@@ -131,7 +131,7 @@ const ProofFeeds: React.FC = () => {
         }
       }
     },
-    [fetchNextPage, isFetching, totalFetched, totalDBRowCount]
+    [fetchNextPage, isFetching, totalFetched, totalDBRowCount],
   );
 
   // a check on mount and after a fetch to see if the table is already

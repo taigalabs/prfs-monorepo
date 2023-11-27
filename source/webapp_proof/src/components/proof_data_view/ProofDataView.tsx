@@ -4,17 +4,13 @@ import { Proof } from "@taigalabs/prfs-driver-interface";
 import { utils } from "ethers";
 import JSONBig from "json-bigint";
 
-import styles from "./VerifyProofForm.module.scss";
+import styles from "./ProofDataView.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import ProofRawDialog from "./ProofRawDialog";
 
 const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });
 
-const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
-  proof,
-  circuitDriverId,
-  isVerifyOpen,
-}) => {
+const ProofDataView: React.FC<ProofDataViewProps> = ({ proof, isCard }) => {
   const i18n = React.useContext(i18nContext);
 
   const publicInputElems = React.useMemo(() => {
@@ -58,11 +54,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
   }, [proof]);
 
   return (
-    <div
-      className={cn(styles.wrapper, {
-        [styles.isVerifyOpen]: isVerifyOpen,
-      })}
-    >
+    <div className={cn(styles.wrapper, { [styles.isCard]: isCard })}>
       <div className={styles.publicInputSection}>
         <div className={styles.data}>
           <div className={styles.title}>{i18n.public_inputs}</div>
@@ -86,18 +78,13 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
           </div>
         </div>
       </div>
-      <div className={styles.driverSection}>
-        <p className={styles.label}>{i18n.circuit_driver}</p>
-        <p>{circuitDriverId}</p>
-      </div>
     </div>
   );
 };
 
-export default VerifyProofForm;
+export default ProofDataView;
 
-export interface VerifyProofFormProps {
-  circuitDriverId: string;
+export interface ProofDataViewProps {
   proof: Proof;
-  isVerifyOpen: boolean;
+  isCard?: boolean;
 }

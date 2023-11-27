@@ -1,4 +1,36 @@
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import path from "path";
+import fs from "fs";
+
+const proofTypeIds = {
+  ETH_0_0001_1: "ETH_0_0001_1",
+  BAYC_1: "BAYC_1",
+  NONCE_MEMBER_1: "NONCE_MEMBER_1",
+  AAVE_STAKERS_1: "AAVE_STAKERS_1",
+  ZAUTH_SIGN_IN_1: "ZAUTH_SIGN_IN_1",
+  SIMPLE_HASH_1: "SIMPLE_HASH_1",
+  CONSUMER_CRYPTO_HACKERS_1: "CONSUMER_CRYPTO_HACKERS_1",
+  "2023_ETH_GLOBAL_ISTANBUL_HACKERS": "2023_ETH_GLOBAL_ISTANBUL_HACKERS",
+};
+
+const proofTypes = (() => {
+  const currDir = path.dirname(__filename);
+
+  const proofTypes = { ...proofTypeIds };
+
+  let key: keyof typeof proofTypeIds;
+  for (key in proofTypes) {
+    // console.log(123, key, val);
+
+    const val = proofTypeIds[key];
+    const filePath = path.resolve(currDir, `../proof_types/${val}.md`);
+    const md = fs.readFileSync(filePath).toString();
+
+    proofTypes[key] = md;
+  }
+
+  return proofTypes;
+})();
 
 const ADDR_MEMBERSHIP2_1_CIRCUIT_URL =
   "prfs://00000000-0000-0000-0000-000000000000/addr_membership2_1.spartan.circuit";
@@ -30,10 +62,11 @@ const simple_hash_1 = {
 
 const proof_types: PrfsProofType[] = [
   {
-    proof_type_id: "ETH_0_0001_1",
+    proof_type_id: proofTypeIds.ETH_0_0001_1,
     label: "0.0001ETH ownership",
     author: "Prfs",
-    desc: "Prove you are one of the wallet owners of a list of all wallets that have 0.0001-0.0002 ETH",
+    desc: proofTypes.ETH_0_0001_1,
+    // "Prove you are one of the wallet owners of a list of all wallets that have 0.0001-0.0002 ETH",
     expression: "Owns 0.0001 ETH",
     img_url: "https://d1w1533jipmvi2.cloudfront.net/Ethereum_logo_translucent.svg",
     img_caption: "0.0001",
@@ -61,10 +94,11 @@ const proof_types: PrfsProofType[] = [
     created_at: "2023-05-01T16:39:57-08:00",
   },
   {
-    proof_type_id: "BAYC_1",
+    proof_type_id: proofTypeIds.BAYC_1,
     label: "Bored Ape Yacht Club holder",
     author: "Prfs",
-    desc: "Prove you are one of the holders of BAYC tokens",
+    desc: proofTypes.BAYC_1,
+    // "Prove you are one of the holders of BAYC tokens",
     expression: "Own BAYC token",
     img_url: "https://d1w1533jipmvi2.cloudfront.net/bayc-footer.webp",
     img_caption: "",
@@ -92,10 +126,11 @@ const proof_types: PrfsProofType[] = [
     created_at: "2023-08-01T16:39:57-08:00",
   },
   {
-    proof_type_id: "NONCE_MEMBER_1",
+    proof_type_id: proofTypeIds.NONCE_MEMBER_1,
     label: "Nonce community member",
     author: "Prfs",
-    desc: "This proves a person is a member of Web3 community - Nonce",
+    desc: proofTypes.NONCE_MEMBER_1,
+    // "This proves a person is a member of Web3 community - Nonce",
     expression: "Nonce member",
     img_url: "https://d1w1533jipmvi2.cloudfront.net/nonce.jpeg",
     img_caption: "",
@@ -123,10 +158,11 @@ const proof_types: PrfsProofType[] = [
     created_at: "2023-05-01T16:39:57-08:00",
   },
   {
-    proof_type_id: "AAVE_STAKERS_1",
+    proof_type_id: proofTypeIds.AAVE_STAKERS_1,
     label: "Aave liquid stakers 150",
     author: "Prfs",
-    desc: "Proves one is the liquid staker on Aave",
+    desc: proofTypes.AAVE_STAKERS_1,
+    // "Proves one is the liquid staker on Aave",
     expression: "Is Aave liquid staker",
     img_url: "https://d1w1533jipmvi2.cloudfront.net/aave.png",
     img_caption: "150",
@@ -160,10 +196,11 @@ const proof_types: PrfsProofType[] = [
     created_at: "2023-09-21T16:39:57-08:00",
   },
   {
-    proof_type_id: "ZAUTH_SIGN_IN_1",
+    proof_type_id: proofTypeIds.ZAUTH_SIGN_IN_1,
     label: "ZAuth",
     author: "Prfs",
-    desc: "ZAuth sign in",
+    desc: proofTypes.ZAUTH_SIGN_IN_1,
+    // "ZAuth sign in",
     expression: "Passes ZAuth",
     img_url:
       "https://d1w1533jipmvi2.cloudfront.net/padlock-clipart-design-illustration-free-png.webp",
@@ -188,10 +225,11 @@ const proof_types: PrfsProofType[] = [
     created_at: "2023-09-01T16:39:57-08:00",
   },
   {
-    proof_type_id: "SIMPLE_HASH_1",
+    proof_type_id: proofTypeIds.SIMPLE_HASH_1,
     label: "Simple hash",
     author: "Prfs",
-    desc: "Proves he knows the preimage of a cryptographic hash function",
+    desc: proofTypes.SIMPLE_HASH_1,
+    // "Proves he knows the preimage of a cryptographic hash function",
     expression: "Knows hash argument",
     img_url: "https://d1w1533jipmvi2.cloudfront.net/hash.png",
     img_caption: "",
@@ -207,10 +245,11 @@ const proof_types: PrfsProofType[] = [
     created_at: "2023-09-01T16:39:57-08:00",
   },
   {
-    proof_type_id: "CONSUMER_CRYPTO_HACKERS_1",
+    proof_type_id: proofTypeIds.CONSUMER_CRYPTO_HACKERS_1,
     label: "Consumer crypto hackers",
     author: "Prfs",
-    desc: "Proves he is one of the hackers at consumer crypto hackathon hosted by Paradigm VC",
+    desc: proofTypes.CONSUMER_CRYPTO_HACKERS_1,
+    // "Proves he is one of the hackers at consumer crypto hackathon hosted by Paradigm VC",
     expression: "Is consumer crypto hacker",
     img_url: "https://d1w1533jipmvi2.cloudfront.net/paradigm_logo.jpg",
     img_caption: null,
@@ -238,10 +277,11 @@ const proof_types: PrfsProofType[] = [
     created_at: "2023-10-26T16:39:57-08:00",
   },
   {
-    proof_type_id: "2023_ETH_GLOBAL_ISTANBUL_HACKERS",
+    proof_type_id: proofTypeIds["2023_ETH_GLOBAL_ISTANBUL_HACKERS"],
     label: "2023 EthGlobal Istanbul hackers",
     author: "Prfs",
-    desc: "Proves he is one of the hackers at 2023 EthGlobal Istanbul hackathon",
+    desc: proofTypes["2023_ETH_GLOBAL_ISTANBUL_HACKERS"],
+    // "Proves he is one of the hackers at 2023 EthGlobal Istanbul hackathon",
     expression: "Is 2023 EthGlobal Istanbul hacker",
     img_url: "https://d1w1533jipmvi2.cloudfront.net/2023_eth_global_istanbul_logo.png",
     img_caption: null,

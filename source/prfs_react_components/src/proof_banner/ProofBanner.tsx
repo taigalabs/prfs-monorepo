@@ -3,6 +3,7 @@ import cn from "classnames";
 import { ProofPublicInput } from "@taigalabs/prfs-driver-interface";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 import { PublicInputMeta } from "@taigalabs/prfs-entities/bindings/PublicInputMeta";
+import { IoDocumentOutline } from "@react-icons/all-files/io5/IoDocumentOutline";
 
 import CaptionedImg from "../captioned_img/CaptionedImg";
 import styles from "./ProofBanner.module.scss";
@@ -29,10 +30,18 @@ const ProofBanner: React.FC<ProofBannerProps> = ({
           values.push(`${name} ${public_inputs[name]}`);
         }
 
+        let count = 0;
         if (public_inputs.circuitPubInput && public_inputs.circuitPubInput[name]) {
-          const val = public_inputs.circuitPubInput[name].toString();
+          const _val = public_inputs.circuitPubInput[name].toString();
+          const val = _val.length > 8 ? `${_val.substring(0, 20)}...` : _val;
 
-          values.push(`${name} ${val}`);
+          values.push(
+            <p key={name}>
+              <span>{name}</span> <span>{val}</span>
+            </p>,
+          );
+
+          count += 1;
         }
       }
     }
@@ -46,14 +55,17 @@ const ProofBanner: React.FC<ProofBannerProps> = ({
         <CaptionedImg img_url={proofInstance.img_url} img_caption={proofInstance.img_caption} />
       </div>
       <div className={styles.content}>
-        <div className={styles.expression}>{proofInstance.expression}</div>
-        <div className={styles.prioritizedValues}>{prioritizedValues.join(",")}</div>
-        <div className={styles.bottom}>
-          <div className={styles.proofLabel}>{proofInstance.proof_label}</div>
-          <div className={styles.url}>
-            <a href={shortUrl}>{shortUrl}</a>
+        <div className={styles.title}>{proofInstance.expression}</div>
+        <div className={styles.subtitle}>
+          <div>
+            <span>/{proofInstance.short_id}</span>
+          </div>
+          <div className={styles.proofLabel}>
+            <IoDocumentOutline />
+            <span>{proofInstance.proof_type_label}</span>
           </div>
         </div>
+        <div className={styles.prioritizedValues}>{prioritizedValues}</div>
       </div>
       <div className={styles.menu}>
         <QRDialog data={shortUrl} />

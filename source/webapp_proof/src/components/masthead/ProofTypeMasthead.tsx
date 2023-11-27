@@ -18,6 +18,7 @@ import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 
 const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
+  isActivated,
   proofInstanceId,
   proofType,
   handleSelectProofType,
@@ -42,6 +43,7 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
         </div>
         <div className={styles.searchArea}>
           <SearchProofDialog
+            isActivated={isActivated}
             proofInstanceId={proofInstanceId}
             proofType={proofType}
             handleSelectProofType={handleSelectProofType}
@@ -94,6 +96,7 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
 export default ProofTypeMasthead;
 
 export interface ProofTypeMastheadProps {
+  isActivated?: boolean;
   proofInstanceId: string | undefined;
   proofType: PrfsProofType | undefined;
   handleSelectProofType: (proofType: PrfsProofType) => void;

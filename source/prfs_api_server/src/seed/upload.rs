@@ -20,8 +20,8 @@ pub async fn upload(db: &Database2) {
     // upload_circuit_types(&db).await;
     // upload_circuit_input_types(&db).await;
     // upload_circuits(&db).await;
-    // upload_proof_types(&db).await;
-    upload_dynamic_sets(&db).await;
+    upload_proof_types(&db).await;
+    // upload_dynamic_sets(&db).await;
     // upload_policy_items(&db).await;
     // upload_prfs_accounts(&db).await;
 }
@@ -30,13 +30,13 @@ async fn upload_prfs_accounts(db: &Database2) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
+    let prfs_accounts = load_prfs_accounts();
+    println!("prfs_account: {:#?}", prfs_accounts);
+
     sqlx::query("truncate table prfs_accounts restart identity")
         .execute(&mut *tx)
         .await
         .unwrap();
-
-    let prfs_accounts = load_prfs_accounts();
-    println!("prfs_account: {:#?}", prfs_accounts);
 
     for prfs_account in prfs_accounts.values() {
         let sig = db_apis::insert_prfs_account(&mut tx, prfs_account)
@@ -52,13 +52,13 @@ async fn upload_policy_items(db: &Database2) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
+    let policy_items = load_policy_items();
+    println!("policy items: {:#?}", policy_items);
+
     sqlx::query("truncate table prfs_policy_items restart identity")
         .execute(&mut *tx)
         .await
         .unwrap();
-
-    let policy_items = load_policy_items();
-    println!("policy items: {:#?}", policy_items);
 
     for policy in policy_items.values() {
         let sig = db_apis::insert_prfs_policy_item(&mut tx, policy)
@@ -74,13 +74,13 @@ async fn upload_circuit_drivers(db: &Database2) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
+    let circuit_drivers = load_circuit_drivers();
+    println!("circuit_drivers: {:#?}", circuit_drivers);
+
     sqlx::query("truncate table prfs_circuit_drivers restart identity")
         .execute(&mut *tx)
         .await
         .unwrap();
-
-    let circuit_drivers = load_circuit_drivers();
-    println!("circuit_drivers: {:#?}", circuit_drivers);
 
     for circuit_driver in circuit_drivers.values() {
         let circuit_driver_id = db_apis::insert_prfs_circuit_driver(&mut tx, circuit_driver).await;
@@ -94,13 +94,13 @@ async fn upload_circuit_types(db: &Database2) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
+    let circuit_types = load_circuit_types();
+    println!("circuit_types: {:#?}", circuit_types);
+
     sqlx::query("truncate table prfs_circuit_types restart identity")
         .execute(&mut *tx)
         .await
         .unwrap();
-
-    let circuit_types = load_circuit_types();
-    println!("circuit_types: {:#?}", circuit_types);
 
     for circuit_type in circuit_types.values() {
         db_apis::insert_prfs_circuit_type(&mut tx, circuit_type).await;
@@ -113,13 +113,13 @@ async fn upload_circuit_input_types(db: &Database2) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
+    let circuit_input_types = load_circuit_input_types();
+    println!("circuit_input_types: {:#?}", circuit_input_types);
+
     sqlx::query("truncate table prfs_circuit_input_types restart identity")
         .execute(&mut *tx)
         .await
         .unwrap();
-
-    let circuit_input_types = load_circuit_input_types();
-    println!("circuit_input_types: {:#?}", circuit_input_types);
 
     for circuit_input_type in circuit_input_types.values() {
         db_apis::insert_prfs_circuit_input_type(&mut tx, circuit_input_type).await;
@@ -132,13 +132,13 @@ async fn upload_circuits(db: &Database2) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
+    let circuits = load_circuits();
+    println!("circuits: {:#?}", circuits);
+
     sqlx::query("truncate table prfs_circuits restart identity")
         .execute(&mut *tx)
         .await
         .unwrap();
-
-    let circuits = load_circuits();
-    println!("circuits: {:#?}", circuits);
 
     for circuit in circuits.values() {
         db_apis::insert_prfs_circuit(&mut tx, circuit).await;
@@ -151,13 +151,13 @@ async fn upload_proof_types(db: &Database2) {
     let pool = &db.pool;
     let mut tx = pool.begin().await.unwrap();
 
+    let proof_types = load_proof_types();
+    println!("proof types: {:#?}", proof_types);
+
     sqlx::query("truncate table prfs_proof_types restart identity")
         .execute(&mut *tx)
         .await
         .unwrap();
-
-    let proof_types = load_proof_types();
-    println!("proof types: {:#?}", proof_types);
 
     for proof_type in proof_types.values() {
         db_apis::insert_prfs_proof_type(&mut tx, proof_type).await;

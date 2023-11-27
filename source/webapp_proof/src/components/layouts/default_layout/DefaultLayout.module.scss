@@ -3,6 +3,7 @@
   flex-direction: column;
   flex-grow: 1;
   min-height: 580px;
+  min-width: 1120px;
 }
 
 .body {
@@ -26,21 +27,19 @@
   margin-bottom: 0;
 }
 
-@media screen and (min-width: 481px) {
-  .body {
-    &.noMinWidth {
-      min-width: 0px;
-    }
-  }
-}
-
 @media screen and (max-width: 1024px) {
-  .body {
+  .wrapper {
     min-width: 360px;
+  }
 
+  .body {
     &.bigTopPadding {
       padding-top: 0;
       /* padding-top: 102px; */
+    }
+
+    &.noMinWidth {
+      min-width: 0px;
     }
   }
 }

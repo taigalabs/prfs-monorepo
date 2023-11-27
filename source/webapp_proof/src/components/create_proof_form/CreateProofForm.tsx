@@ -18,6 +18,7 @@ import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
 import Tutorial from "@/components/tutorial/Tutorial";
 import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
+import LeftPadding from "../left_padding/LeftPadding";
 
 const CreateProofForm: React.FC = () => {
   const [proofType, setProofType] = React.useState<PrfsProofType>();
@@ -76,28 +77,31 @@ const CreateProofForm: React.FC = () => {
       />
       <div className={styles.topRow}></div>
       <div className={styles.wrapper}>
-        {proveReceipt ? (
-          <Fade>
-            <PostCreateMenu
-              proveReceipt={proveReceipt}
-              proofType={proofType!}
-              proofGenElement={proofGenElement!}
-            />
-          </Fade>
-        ) : proofType ? (
+        <LeftPadding />
+        {proofType ? (
           <div
             className={cn({
               [styles.formWrapper]: true,
             })}
           >
-            <Fade>
-              <CreateProofModule
-                proofType={proofType}
-                handleCreateProofResult={handleCreateProofResult}
-                proofGenElement={proofGenElement}
-                setProofGenElement={setProofGenElement}
-              />
-            </Fade>
+            {proveReceipt ? (
+              <Fade>
+                <PostCreateMenu
+                  proveReceipt={proveReceipt}
+                  proofType={proofType!}
+                  proofGenElement={proofGenElement!}
+                />
+              </Fade>
+            ) : (
+              <Fade>
+                <CreateProofModule
+                  proofType={proofType}
+                  handleCreateProofResult={handleCreateProofResult}
+                  proofGenElement={proofGenElement}
+                  setProofGenElement={setProofGenElement}
+                />
+              </Fade>
+            )}
           </div>
         ) : (
           <div className={styles.loading}>Loading module...</div>

@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   position: relative;
-  width: 390px;
+  max-width: 390px;
   border-radius: 5px;
   border: 1px solid var(--bright-gray-31);
 
@@ -27,31 +27,38 @@
 }
 
 .prioritizedValues {
-  font-size: 13px;
-  font-style: italic;
-  width: 240px;
+  margin-top: 6px;
+  width: 100%;
+  max-width: 300px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
 .proofLabel {
+  align-items: center;
+  display: flex;
+  margin-left: 12px;
+
+  svg {
+    margin-right: 2px;
+  }
 }
 
-.expression {
+.title {
   font-size: 18px;
   font-weight: 500;
 }
 
-.bottom {
+.subtitle {
   margin-top: auto;
   font-size: 13px;
   color: var(--gray-30);
-}
+  display: flex;
 
-.url {
-  /* margin-top: 4px; */
-  font-size: 11px;
+  > div {
+    display: inline-flex;
+  }
 }
 
 .menu {
@@ -71,6 +78,6 @@
 
 @media screen and (max-width: 1024px) {
   .wrapper {
-    width: 340px;
+    max-width: 340px;
   }
 }

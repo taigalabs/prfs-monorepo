@@ -28,6 +28,7 @@ const SearchIcon = () => {
 };
 
 const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
+  isActivated,
   proofInstanceId,
   proofType,
   handleSelectProofType,
@@ -65,7 +66,7 @@ const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
     <div
       className={cn({
         [styles.wrapper]: true,
-        [styles.proofTypeChosen]: !!proofType,
+        [styles.isActivated]: !!proofType || isActivated,
         [styles.isOpen]: !!isOpen,
       })}
     >
@@ -80,12 +81,10 @@ const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
           </div>
         ) : (
           <div className={styles.placeholderBtn}>
-            <>
-              {isOpen && <SearchIcon />}
-              <p className={styles.placeholder}>
-                {proofInstanceId ? proofInstanceId : i18n.find_what_to_prove}
-              </p>
-            </>
+            {isOpen && <SearchIcon />}
+            <p className={styles.placeholder}>
+              {proofInstanceId ? proofInstanceId : i18n.find_what_to_prove}
+            </p>
             <div className={styles.searchBtn}>
               <IoIosSearch />
             </div>
@@ -116,6 +115,7 @@ const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
 export default SearchProofDialog;
 
 export interface SearchProofDialogProps {
+  isActivated?: boolean;
   proofInstanceId?: string | undefined;
   proofType: PrfsProofType | undefined;
   handleSelectProofType: (proofType: PrfsProofType) => void;

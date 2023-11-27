@@ -15,7 +15,7 @@ import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 
 import styles from "./ProofDetailView.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import VerifyProofForm from "@/components/verify_proof_form/VerifyProofForm";
+import ProofDataView from "@/components/proof_data_view/ProofDataView";
 import { envs } from "@/envs";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
@@ -23,6 +23,8 @@ import { useSelectProofType } from "@/hooks/proofType";
 import Tutorial from "@/components/tutorial/Tutorial";
 import { useIsTutorial } from "@/hooks/tutorial";
 import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
+import LeftPadding from "@/components/left_padding/LeftPadding";
+import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 
 const JSONbigNative = JSONBig({
   useNativeBigInt: true,
@@ -92,59 +94,65 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
   return (
     <>
       <ProofTypeMasthead
+        isActivated
         proofInstanceId={proofInstanceId}
         proofType={undefined}
         handleSelectProofType={handleSelectProofType}
       />
       <div className={styles.topRow}>
-        <div className={styles.mainMenu}>
-          <ul className={styles.leftMenu}>
-            <li>
-              <SocialSharePopover />
-            </li>
-            <li>
-              <SaveProofPopover
-                proofInstance={proofInstance}
-                proofShortUrl={`${process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/p/${proofInstance.short_id}`}
-              />
-            </li>
-          </ul>
-          <ul>
-            <li>
-              <a className={styles.link} href={consoleUrl}>
-                <p>{i18n.view_in_console}</p>
-                <BiLinkExternal />
-              </a>
-            </li>
-          </ul>
+        <LeftPadding />
+        <div className={styles.content}>
+          <div className={styles.mainMenu}>
+            <ul className={styles.leftMenu}>
+              <li>
+                <SocialSharePopover />
+              </li>
+              <li>
+                <SaveProofPopover
+                  proofInstance={proofInstance}
+                  proofShortUrl={`${process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}/p/${proofInstance.short_id}`}
+                />
+              </li>
+            </ul>
+            <ul>
+              <li>
+                <a className={styles.link} href={consoleUrl}>
+                  <p>{i18n.view_in_console}</p>
+                  <BiLinkExternal />
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div className={styles.rightPadding} />
         </div>
       </div>
-      <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
-        <div className={styles.meta}>
-          <div className={styles.bannerContainer}>
-            <TutorialStepper steps={[5]}>
-              <ProofBanner
-                proofInstance={proofInstance}
-                webappProofEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
+      <div className={cn(styles.main, { [styles.isTutorial]: isTutorial })}>
+        <LeftPadding />
+        <div className={styles.content}>
+          <div className={styles.meta}>
+            <div className={styles.bannerContainer}>
+              <TutorialStepper steps={[5]}>
+                <ProofBanner
+                  proofInstance={proofInstance}
+                  webappProofEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
+                />
+              </TutorialStepper>
+            </div>
+            <div className={styles.proofDetailContainer}>
+              <ProofTypeMeta
+                proofTypeDesc={proofInstance.proof_type_desc}
+                proofTypeId={proofInstance.proof_type_id}
+                imgUrl={proofInstance.img_url}
+                proofTypeLabel={proofInstance.proof_type_label}
+                proofTypeAuthor={proofInstance.proof_type_author}
+                circuitTypeId={proofInstance.circuit_type_id}
+                circuitDriverId={proofInstance.circuit_driver_id}
+                proofTypeCreatedAt={proofInstance.proof_type_created_at}
               />
-            </TutorialStepper>
-          </div>
-          <div className={styles.proofDetailContainer}>
-            <div>
-              <div className={styles.content}>
-                <p className={styles.label}>{proofInstance.proof_label}</p>
-                <p className={styles.desc}>{proofInstance.proof_desc}</p>
-              </div>
             </div>
           </div>
-        </div>
-        <div className={styles.proofDetail}>
-          <div className={styles.verifyProofFormWrapper}>
-            <VerifyProofForm
-              proof={proof}
-              circuitDriverId={proofInstance.circuit_driver_id}
-              isVerifyOpen={true}
-            />
+          <div className={styles.proofDataContainer}>
+            <ProofDataView proof={proof} />
           </div>
         </div>
       </div>
@@ -157,10 +165,5 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
 export default ProofDetailView;
 
 export interface ProofDetailViewProps {
-  // proofInstance: PrfsProofInstanceSyn1;
   proofInstanceId: string;
-}
-
-{
-  /* <li> <SocialSharePopover /> </li>; */
 }

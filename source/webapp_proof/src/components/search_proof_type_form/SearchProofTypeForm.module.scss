@@ -8,7 +8,7 @@
 }
 
 .formArea {
-  width: 518px;
+  width: 580px;
   display: flex;
   justify-content: center;
   padding: 3px 0;
@@ -65,7 +65,7 @@
   margin-top: 24px;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 1024px) {
   .formArea {
     width: 100%;
     padding: 0 10px;

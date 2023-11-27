@@ -64,6 +64,7 @@ const Modal: React.FC<MerkleProofModalProps> = ({
 
 const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
   className,
+  children,
   isOpenClassName,
   webappProofEndpoint,
   webappConsoleEndpoint,
@@ -90,7 +91,7 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
 
   return (
     <>
-      <div
+      <button
         className={cn(styles.base, {
           [styles.isOpen]: isOpen,
           [className!]: !!className,
@@ -99,8 +100,8 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
         ref={refs.setReference}
         {...getReferenceProps()}
       >
-        <BsThreeDots />
-      </div>
+        {children ? children : <BsThreeDots />}
+      </button>
       {isOpen && (
         <FloatingFocusManager context={context} modal={false}>
           <div
@@ -132,6 +133,7 @@ export interface PrfsAppsPopoverProps {
   webappProofEndpoint: string;
   webappConsoleEndpoint: string;
   zIndex?: number;
+  children?: React.ReactNode;
 }
 
 export interface MerkleProofModalProps {
