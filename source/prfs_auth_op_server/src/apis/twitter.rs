@@ -13,6 +13,27 @@ use crate::{
     server::{request::parse_req, state::ServerState},
 };
 
+// try {
+//   // POST request to the token url to get the access token
+//   //
+//   const data = { ...twitterOauthTokenParams, code };
+//   console.log("getTwitterOAuthToken: %o", data);
+
+//   const res = await axios.post<TwitterTokenResponse>(
+//     TWITTER_OAUTH_TOKEN_URL,
+//     new URLSearchParams(data).toString(),
+//     {
+//       headers: {
+//         "Content-Type": "application/x-www-form-urlencoded",
+//         // Authorization: `Basic ${BasicAuthToken}`,
+//       },
+//     },
+//   );
+
+//   return res.data;
+// } catch (err) {
+//   return null;
+// }
 pub async fn authenticate_twitter_account(
     req: Request<Body>,
 ) -> Result<Response<Body>, Infallible> {
