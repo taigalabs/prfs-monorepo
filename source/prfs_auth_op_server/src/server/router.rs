@@ -10,6 +10,7 @@ use std::sync::Arc;
 use tokio::net::TcpStream;
 
 use super::io::{full, BoxBody};
+use super::state::ServerState;
 use crate::apis::cors::cors;
 use crate::AuthOpServerError;
 
@@ -18,7 +19,7 @@ const PREFIX: &str = "/api/v0";
 // type GenericError = Box<dyn std::error::Error + Send + Sync>;
 // type Result<T> = std::result::Result<T, GenericError>;
 
-static INDEX: &[u8] = b"<a href=\"test.html\">test.html</a>";
+// static INDEX: &[u8] = b"<a href=\"test.html\">test.html</a>";
 static INTERNAL_SERVER_ERROR: &[u8] = b"Internal Server Error";
 static NOTFOUND: &[u8] = b"Not Found";
 static POST_DATA: &str = r#"{"original": "data"}"#;
@@ -85,10 +86,11 @@ async fn api_get_response() -> Result<Response<BoxBody>, AuthOpServerError> {
 
 pub async fn routes(
     req: Request<hyper::body::Incoming>,
+    server_state: Arc<ServerState>,
 ) -> Result<Response<BoxBody>, AuthOpServerError> {
     return match (req.method(), req.uri().path()) {
         (&Method::OPTIONS, _) => cors(),
-        (&Method::GET, "/") | (&Method::GET, "/index.html") => Ok(Response::new(full(INDEX))),
+        // (&Method::GET, "/") => handle_server_status(),
         (&Method::GET, "/test.html") => client_request_response().await,
         (&Method::POST, "/json_api") => api_post_response(req).await,
         (&Method::GET, "/json_api") => api_get_response().await,
@@ -100,36 +102,6 @@ pub async fn routes(
                 .unwrap())
         }
     };
-
-    // let headers = res.headers_mut();
-
-    // headers.insert(
-    //     header::ACCESS_CONTROL_ALLOW_ORIGIN,
-    //     HeaderValue::from_static("*"),
-    // );
-    // headers.insert(
-    //     header::ACCESS_CONTROL_ALLOW_METHODS,
-    //     HeaderValue::from_static("*"),
-    // );
-    // headers.insert(
-    //     header::ACCESS_CONTROL_ALLOW_HEADERS,
-    //     HeaderValue::from_static("*"),
-    // );
-    // headers.insert(
-    //     header::ACCESS_CONTROL_EXPOSE_HEADERS,
-    //     HeaderValue::from_static("*"),
-    // );
-    //
-    // let resp = Response::new(Full::new(Bytes::from("Hello, World!")));
-
-    // let headers = resp.headers_mut();
-    // headers
-    //     .insert("Access-Control-Allow-Origin", "*")
-    //     .insert("Access-Control-Allow-Headers", "*")
-    //     .header("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
-
-    // Ok(resp)
-    // Ok(Response::new(Full::new(Bytes::from("Hello, World!"))))
 }
 
 // pub fn make_router(
