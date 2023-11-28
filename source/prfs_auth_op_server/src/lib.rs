@@ -6,4 +6,4 @@ mod responses;
 pub mod server;
 mod vendors;
 
-pub type EmailAuthServerError = Box<dyn std::error::Error + Send + Sync>;
+pub type AuthOpServerError = Box<dyn std::error::Error + Send + Sync>;

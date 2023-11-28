@@ -9,12 +9,15 @@ default-run = "prfs_auth_op_server"
 colored = "2.0"
 ethers-signers = "2.0.10"
 ethers-core = "2.0.10"
-tokio = { version = "1.28", features = ["full"] }
+tokio = { version = "1", features = ["full"] }
 tokio-stream = "0.1"
-tokio-postgres = "0.7.7"
+tokio-postgres = "0.7"
 lazy_static = "1.4"
-hyper = "0.14"
+# hyper = { version = "0.14", features = ["full"] }
+hyper = { version = "1.0", features = ["full"] }
+http-body-util = "0.1"
 hyper-tls = "0.5.0"
+hyper-util = { version = "0.1", features = ["full"] }
 routerify = "3"
 routerify-cors = "3"
 serde = { version = "1.0", features = ["derive"] }

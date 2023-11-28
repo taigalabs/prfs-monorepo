@@ -1,4 +1,5 @@
-use hyper::{body, Body, Request, Response};
+use hyper::{body, Request, Response};
+use hyper_util::rt::TokioIo;
 use prfs_db_interface::db_apis;
 use prfs_entities::{
     apis_entities::{AuthenticateRequest, AuthenticateResponse},
@@ -7,11 +8,14 @@ use prfs_entities::{
 };
 use routerify::prelude::*;
 use std::{collections::HashMap, convert::Infallible, sync::Arc};
+use tokio::net::TcpStream;
 
 use crate::{
     responses::{ApiResponse, ResponseCode},
-    server::{request::parse_req, state::ServerState},
+    server::state::ServerState,
 };
+
+const TWITTER_OAUTH_TOKEN_URL: &str = "https://api.twitter.com/2/oauth2/token";
 
 // try {
 //   // POST request to the token url to get the access token
@@ -44,6 +48,29 @@ pub async fn authenticate_twitter_account(
     let code = query_map
         .get("code")
         .expect("twitter account auth needs 'code' value made by Twitter");
+
+    let url = TWITTER_OAUTH_TOKEN_URL.parse::<hyper::Uri>().unwrap();
+
+    // let handle = tokio::task::spawn(async move {
+    //     println!("11111");
+    //     // Get the host and the port
+    //     let host = url.host().expect("uri has no host");
+    //     let port = url.port_u16().unwrap_or(80);
+
+    //     let address = format!("{}:{}", host, port);
+
+    //     // Open a TCP connection to the remote host
+    //     let stream = TcpStream::connect(address).await.unwrap();
+    //     let io = TokioIo::new(stream);
+
+    //     // Perform a TCP handshake
+    //     let (mut sender, conn) = hyper::client::conn::http1::handshake(io).await.unwrap();
+
+    //     // if let Err(err) = conn.await {
+    //     //     println!("Connection failed: {:?}", err);
+    //     // }
+    // })
+    // .await;
 
     let resp = ApiResponse::new_success(AuthenticateResponse {});
 

@@ -1,4 +1,4 @@
-use crate::{envs::ENVS, paths::PATHS, EmailAuthServerError};
+use crate::{envs::ENVS, paths::PATHS, AuthOpServerError};
 use chrono::{DateTime, Utc};
 use colored::Colorize;
 use ethers_core::{
@@ -17,7 +17,7 @@ pub struct ServerState {
 }
 
 impl ServerState {
-    pub async fn init() -> Result<ServerState, EmailAuthServerError> {
+    pub async fn init() -> Result<ServerState, AuthOpServerError> {
         let repo = match Repository::open(&PATHS.workspace_dir) {
             Ok(repo) => repo,
             Err(e) => panic!("failed to init: {}", e),
