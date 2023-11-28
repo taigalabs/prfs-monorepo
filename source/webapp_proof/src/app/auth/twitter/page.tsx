@@ -20,9 +20,6 @@ const AuthPage = () => {
     <DefaultLayout>
       <DefaultBody noTopPadding noMinWidth>
         <div className={styles.container}>
-          {/* <Suspense fallback={<TutorialFallback />}> */}
-          {/*   <Tutorial /> */}
-          {/* </Suspense> */}
           <Suspense fallback={<MastheadFallback />}>
             <Masthead />
           </Suspense>

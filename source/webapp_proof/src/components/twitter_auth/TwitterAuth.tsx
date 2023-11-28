@@ -14,7 +14,9 @@ import { envs } from "@/envs";
 
 const TWITTER_CLIENT_ID = "UU9OZ0hNOGVPelVtakgwMlVmeEw6MTpjaQ"; // give your twitter client id here
 
-// twitter oauth Url constructor
+// const url =
+//   "https://twitter.com/i/oauth2/authorize?response_type=code&client_id=UU9OZ0hNOGVPelVtakgwMlVmeEw6MTpjaQ&redirect_uri=http://127.0.0.1:4020/oauth/twitter&scope=tweet.read%20users.read%20follows.read%20follows.write&state=state&code_challenge=challenge&code_challenge_method=plain";
+
 function getTwitterOauthUrl() {
   const rootUrl = "https://twitter.com/i/oauth2/authorize";
   const options = {
@@ -24,32 +26,17 @@ function getTwitterOauthUrl() {
     response_type: "code",
     code_challenge: "challenge",
     code_challenge_method: "plain",
-    scope: ["users.read", "tweet.read", "follows.read", "follows.write"].join("%20"),
   };
-
-  const scope = "&scope=tweet.read%20users.read%20follows.read%20follows.write";
+  const scope = "scope=tweet.read%20users.read%20follows.read%20follows.write";
 
   const qs = new URLSearchParams(options).toString();
-  let a = qs.toString();
-  let url2 = `${rootUrl}?${decodeURIComponent(
-    a,
-  )}&scope=tweet.read%20users.read%20follows.read%20follows.write&`;
-
-  // const url2 = `${rootUrl}?${qs}`;
-  // return url;
-  const url =
-    "https://twitter.com/i/oauth2/authorize?response_type=code&client_id=UU9OZ0hNOGVPelVtakgwMlVmeEw6MTpjaQ&redirect_uri=http://127.0.0.1:4020/oauth/twitter&scope=tweet.read%20users.read%20follows.read%20follows.write&state=state&code_challenge=challenge&code_challenge_method=plain";
-
-  console.log(222, a, url2, url);
-  // console.log(233, url);
+  let url2 = `${rootUrl}?${decodeURIComponent(qs)}&${scope}`;
 
   return url2;
 }
 
 const TwitterAuth: React.FC<TwitterAuthProps> = ({}) => {
   const url = getTwitterOauthUrl();
-
-  console.log(11, url);
 
   return (
     <div className={styles.wrapper}>

@@ -37,11 +37,10 @@ use crate::{
 pub async fn authenticate_twitter_account(
     req: Request<Body>,
 ) -> Result<Response<Body>, Infallible> {
-    // let state = req.data::<Arc<ServerState>>().unwrap().clone();
-
     let q = req.uri().query().unwrap();
 
     let a = url::Url::parse(q).unwrap();
+
     println!("123, {}, {}", q, a);
     // Url
 
