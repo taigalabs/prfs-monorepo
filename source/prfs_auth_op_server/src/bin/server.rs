@@ -1,6 +1,5 @@
-use hyper::Server;
 use prfs_auth_op_server::gmail::run_gmail_auth;
-use prfs_auth_op_server::server::router::make_router;
+// use prfs_auth_op_server::server::router::make_router;
 use prfs_auth_op_server::server::state::ServerState;
 use routerify::RouterService;
 use std::net::SocketAddr;
@@ -17,10 +16,10 @@ async fn main() {
         Arc::new(s)
     };
 
-    let router = make_router(server_state).unwrap();
-    let service = RouterService::new(router).unwrap();
+    // let router = make_router(server_state).unwrap();
+    // let service = RouterService::new(router).unwrap();
     let addr: SocketAddr = ([0, 0, 0, 0], PORT).into();
-    let server = Server::bind(&addr).serve(service);
+    // let server = Server::bind(&addr).serve(service);
 
     println!("Server is running on: {}", addr);
 
@@ -30,6 +29,6 @@ async fn main() {
 
     tokio::select! {
         _ = tokio::signal::ctrl_c() => {},
-        _ = server => {},
+        // _ = server => {},
     }
 }

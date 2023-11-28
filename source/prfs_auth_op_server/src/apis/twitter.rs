@@ -38,44 +38,44 @@ const TWITTER_OAUTH_TOKEN_URL: &str = "https://api.twitter.com/2/oauth2/token";
 // } catch (err) {
 //   return null;
 // }
-pub async fn authenticate_twitter_account(
-    req: Request<Body>,
-) -> Result<Response<Body>, Infallible> {
-    let q = req.uri().query().unwrap();
-    let parse = url::form_urlencoded::parse(q.as_bytes());
-    let query_map: HashMap<String, String> = parse.into_owned().collect();
+// pub async fn authenticate_twitter_account(
+//     req: Request<Body>,
+// ) -> Result<Response<Body>, Infallible> {
+//     let q = req.uri().query().unwrap();
+//     let parse = url::form_urlencoded::parse(q.as_bytes());
+//     let query_map: HashMap<String, String> = parse.into_owned().collect();
 
-    let code = query_map
-        .get("code")
-        .expect("twitter account auth needs 'code' value made by Twitter");
+//     let code = query_map
+//         .get("code")
+//         .expect("twitter account auth needs 'code' value made by Twitter");
 
-    let url = TWITTER_OAUTH_TOKEN_URL.parse::<hyper::Uri>().unwrap();
+//     let url = TWITTER_OAUTH_TOKEN_URL.parse::<hyper::Uri>().unwrap();
 
-    // let handle = tokio::task::spawn(async move {
-    //     println!("11111");
-    //     // Get the host and the port
-    //     let host = url.host().expect("uri has no host");
-    //     let port = url.port_u16().unwrap_or(80);
+//     // let handle = tokio::task::spawn(async move {
+//     //     println!("11111");
+//     //     // Get the host and the port
+//     //     let host = url.host().expect("uri has no host");
+//     //     let port = url.port_u16().unwrap_or(80);
 
-    //     let address = format!("{}:{}", host, port);
+//     //     let address = format!("{}:{}", host, port);
 
-    //     // Open a TCP connection to the remote host
-    //     let stream = TcpStream::connect(address).await.unwrap();
-    //     let io = TokioIo::new(stream);
+//     //     // Open a TCP connection to the remote host
+//     //     let stream = TcpStream::connect(address).await.unwrap();
+//     //     let io = TokioIo::new(stream);
 
-    //     // Perform a TCP handshake
-    //     let (mut sender, conn) = hyper::client::conn::http1::handshake(io).await.unwrap();
+//     //     // Perform a TCP handshake
+//     //     let (mut sender, conn) = hyper::client::conn::http1::handshake(io).await.unwrap();
 
-    //     // if let Err(err) = conn.await {
-    //     //     println!("Connection failed: {:?}", err);
-    //     // }
-    // })
-    // .await;
+//     //     // if let Err(err) = conn.await {
+//     //     //     println!("Connection failed: {:?}", err);
+//     //     // }
+//     // })
+//     // .await;
 
-    let resp = ApiResponse::new_success(AuthenticateResponse {});
+//     let resp = ApiResponse::new_success(AuthenticateResponse {});
 
-    return Ok(resp.into_hyper_response());
-}
+//     return Ok(resp.into_hyper_response());
+// }
 
 // pub async fn sign_in_prfs_account(req: Request<Body>) -> Result<Response<Body>, Infallible> {
 //     let state = req.data::<Arc<ServerState>>().unwrap().clone();
