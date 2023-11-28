@@ -16,7 +16,7 @@ use crate::AuthOpServerError;
 
 const PORT: u16 = 4020;
 
-pub async fn make_server(server_state: Arc<ServerState>) -> Result<(), AuthOpServerError> {
+pub async fn make_server(server_state: Arc<ServerState>) -> Result<(), Box<dyn std::error::Error>> {
     let addr = SocketAddr::from(([127, 0, 0, 1], PORT));
 
     // let counter = Arc::new(AtomicUsize::new(0));
@@ -57,7 +57,7 @@ pub async fn make_server(server_state: Arc<ServerState>) -> Result<(), AuthOpSer
             // let count = counter.fetch_add(1, Ordering::AcqRel);
             &counter;
             async move {
-                Ok::<_, AuthOpServerError>(Response::new(Full::new(Bytes::from(format!(
+                Ok::<_, hyper::Error>(Response::new(Full::new(Bytes::from(format!(
                     "Request",
                     // count
                 )))))
