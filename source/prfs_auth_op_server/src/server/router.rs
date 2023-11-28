@@ -9,29 +9,20 @@ use std::convert::Infallible;
 use std::sync::Arc;
 use tokio::net::TcpStream;
 
+use super::io::{full, BoxBody};
+use crate::apis::cors::cors;
 use crate::AuthOpServerError;
-
-use super::middleware;
-use super::state::ServerState;
-// use crate::apis::{prfs_accounts, twitter};
 
 const PREFIX: &str = "/api/v0";
 
 // type GenericError = Box<dyn std::error::Error + Send + Sync>;
 // type Result<T> = std::result::Result<T, GenericError>;
-type BoxBody = http_body_util::combinators::BoxBody<Bytes, hyper::Error>;
 
 static INDEX: &[u8] = b"<a href=\"test.html\">test.html</a>";
 static INTERNAL_SERVER_ERROR: &[u8] = b"Internal Server Error";
 static NOTFOUND: &[u8] = b"Not Found";
 static POST_DATA: &str = r#"{"original": "data"}"#;
 static URL: &str = "http://127.0.0.1:1337/json_api";
-
-fn full<T: Into<Bytes>>(chunk: T) -> BoxBody {
-    Full::new(chunk.into())
-        .map_err(|never| match never {})
-        .boxed()
-}
 
 async fn client_request_response() -> Result<Response<BoxBody>, AuthOpServerError> {
     let req = Request::builder()
@@ -96,7 +87,7 @@ pub async fn routes(
     req: Request<hyper::body::Incoming>,
 ) -> Result<Response<BoxBody>, AuthOpServerError> {
     return match (req.method(), req.uri().path()) {
-        (&Method::OPTIONS, _) => Ok(Response::new(full(INDEX))),
+        (&Method::OPTIONS, _) => cors(),
         (&Method::GET, "/") | (&Method::GET, "/index.html") => Ok(Response::new(full(INDEX))),
         (&Method::GET, "/test.html") => client_request_response().await,
         (&Method::POST, "/json_api") => api_post_response(req).await,
