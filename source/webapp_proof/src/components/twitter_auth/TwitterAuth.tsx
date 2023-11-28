@@ -40,7 +40,6 @@ const TwitterAuth: React.FC<TwitterAuthProps> = ({}) => {
 
   return (
     <div className={styles.wrapper}>
-      123123
       <a className="a-button row-container" href={url}>
         {/* <Image src={twitterIcon} alt="twitter icon" /> */}
         <p>{" twitter"}</p>

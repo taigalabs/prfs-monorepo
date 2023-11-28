@@ -6,7 +6,7 @@ use prfs_entities::{
     sqlx::types::Json,
 };
 use routerify::prelude::*;
-use std::{convert::Infallible, sync::Arc};
+use std::{collections::HashMap, convert::Infallible, sync::Arc};
 
 use crate::{
     responses::{ApiResponse, ResponseCode},
@@ -38,28 +38,12 @@ pub async fn authenticate_twitter_account(
     req: Request<Body>,
 ) -> Result<Response<Body>, Infallible> {
     let q = req.uri().query().unwrap();
+    let parse = url::form_urlencoded::parse(q.as_bytes());
+    let query_map: HashMap<String, String> = parse.into_owned().collect();
 
-    let a = url::Url::parse(q).unwrap();
-
-    println!("123, {}, {}", q, a);
-    // Url
-
-    // let req: AuthenticateRequest = parse_req(req).await;
-
-    // let pool = &state.db2.pool;
-    // let mut tx = pool.begin().await.unwrap();
-
-    // let prfs_account = PrfsAccount {
-    //     account_id: req.account_id.to_string(),
-    //     avatar_color: req.avatar_color.to_string(),
-    //     policy_ids: Json::from(vec![]),
-    // };
-
-    // let account_id = db_apis::insert_prfs_account(&mut tx, &prfs_account)
-    //     .await
-    //     .unwrap();
-
-    // tx.commit().await.unwrap();
+    let code = query_map
+        .get("code")
+        .expect("twitter account auth needs 'code' value made by Twitter");
 
     let resp = ApiResponse::new_success(AuthenticateResponse {});
 
