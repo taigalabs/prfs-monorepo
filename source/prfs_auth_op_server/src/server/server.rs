@@ -18,58 +18,29 @@ const PORT: u16 = 4020;
 
 pub async fn make_server(server_state: Arc<ServerState>) -> Result<(), Box<dyn std::error::Error>> {
     let addr = SocketAddr::from(([127, 0, 0, 1], PORT));
-
-    // let counter = Arc::new(AtomicUsize::new(0));
-
-    // We create a TcpListener and bind it to 127.0.0.1:3000
     let listener = TcpListener::bind(addr).await?;
 
-    let counter = Arc::new(AtomicUsize::new(0));
-
-    // We start a loop to continuously accept incoming connections
     loop {
         let (stream, _) = listener.accept().await?;
 
         // Use an adapter to access something implementing `tokio::io` traits as if they implement
         // `hyper::rt` IO traits.
         let io = TokioIo::new(stream);
+        let server_state = server_state.clone();
 
-        let counter = counter.clone();
+        let service = service_fn(move |req: Request<_>| {
+            let s = server_state.clone();
 
-        // let server_state = server_state.clone();
-
-        // let service = service_fn(move |_req| {
-        //     // Get the current count, and also increment by 1, in a single
-        //     // atomic operation.
-        //     // let count = counter.fetch_add(1, Ordering::AcqRel);
-        //     async move {
-        //         let a = Ok::<_, AuthOpServerError>(Response::new(Full::new(Bytes::from(format!(
-        //             "Request #{}",
-        //             0
-        //         )))));
-        //         return a;
-        //         // routes(req, server_state)
-        //     }
-        // });
-        let service = service_fn(move |_req: Request<_>| {
-            // Get the current count, and also increment by 1, in a single
-            // atomic operation.
-            // let count = counter.fetch_add(1, Ordering::AcqRel);
-            &counter;
             async move {
-                Ok::<_, hyper::Error>(Response::new(Full::new(Bytes::from(format!(
-                    "Request",
-                    // count
-                )))))
+                let res = routes(req, s).await.unwrap();
+
+                Ok::<_, hyper::Error>(res)
             }
         });
 
-        // Spawn a tokio task to serve multiple connections concurrently
         tokio::task::spawn(async move {
-            // Finally, we bind the incoming connection to our `hello` service
             if let Err(err) = http1::Builder::new()
                 // `service_fn` converts our function in a `Service`
-                // .serve_connection(io, service_fn(routes))
                 .serve_connection(io, service)
                 .await
             {

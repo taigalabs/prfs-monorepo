@@ -4,7 +4,7 @@ use google_gmail1::api::Message;
 use google_gmail1::{chrono, hyper, hyper_rustls, oauth2, FieldMask, Gmail};
 use google_gmail1::{Error, Result as GmailResult};
 use hyper::client::HttpConnector;
-use hyper_tls::HttpsConnector;
+use hyper_tls_05::HttpsConnector;
 use std::fs;
 use std::sync::Arc;
 
@@ -26,7 +26,7 @@ pub async fn run_gmail_auth(state: Arc<ServerState>) {
         .unwrap();
 
     let https = HttpsConnector::new();
-    let client = hyper::Client::builder().build::<_, hyper::Body>(https);
+    let client = hyper_014::Client::builder().build::<_, hyper_014::Body>(https);
 
     let mut hub = Gmail::new(client, auth);
 
@@ -35,7 +35,7 @@ pub async fn run_gmail_auth(state: Arc<ServerState>) {
         &ENVS.gmail_account
     );
 
-    fetch_emails(hub).await;
+    // fetch_emails(hub).await;
 }
 
 async fn fetch_emails(hub: Gmail<HttpsConnector<HttpConnector>>) {

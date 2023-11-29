@@ -36,7 +36,7 @@ async fn client_request_response() -> Result<Response<BoxBody>, AuthOpServerErro
         .unwrap();
 
     let host = req.uri().host().expect("uri has no host");
-    let port = req.uri().port_u16().expect("uri has no port");
+    let port = req.uri().port_u16().unwrap_or(80);
     let stream = TcpStream::connect(format!("{}:{}", host, port)).await?;
     let io = TokioIo::new(stream);
 
@@ -97,7 +97,6 @@ pub async fn routes(
         (&Method::GET, "/oauth/twitter") => {
             twitter::authenticate_twitter_account(req, server_state).await
         }
-
         (&Method::GET, "/test.html") => client_request_response().await,
         (&Method::POST, "/json_api") => api_post_response(req).await,
         (&Method::GET, "/json_api") => api_get_response().await,

@@ -1,5 +1,13 @@
-use hyper::{body, Request, Response};
-use hyper_util::rt::TokioIo;
+use http_body_util::{BodyExt, Empty, Full};
+use hyper::{
+    body::{self, Buf, Bytes},
+    header, Method, Request, Response,
+};
+use hyper_tls::HttpsConnector;
+use hyper_util::{
+    client::legacy::Client,
+    rt::{TokioExecutor, TokioIo},
+};
 use prfs_db_interface::db_apis;
 use prfs_entities::{
     apis_entities::{AuthenticateRequest, AuthenticateResponse},
@@ -7,16 +15,38 @@ use prfs_entities::{
     sqlx::types::Json,
 };
 use routerify::prelude::*;
-use std::{collections::HashMap, convert::Infallible, sync::Arc};
+use serde::{Deserialize, Serialize};
+use std::{collections::HashMap, convert::Infallible, io::Write, sync::Arc};
 use tokio::net::TcpStream;
 
 use crate::{
     responses::{ApiResponse, ResponseCode},
-    server::{io::BoxBody, state::ServerState},
+    server::{
+        io::{full, BoxBody},
+        state::ServerState,
+    },
     AuthOpServerError,
 };
 
 const TWITTER_OAUTH_TOKEN_URL: &str = "https://api.twitter.com/2/oauth2/token";
+const TWITTER_OAUTH_CLIENT_ID: &str = "UU9OZ0hNOGVPelVtakgwMlVmeEw6MTpjaQ";
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct TwitterOauthTokenParams {
+    client_id: String,
+    code_verifier: String,
+    redirect_uri: String,
+    grant_type: String,
+    code: String,
+}
+
+// filling up the query parameters needed to request for getting the token
+// export const twitterOauthTokenParams = {
+//   client_id: TWITTER_OAUTH_CLIENT_ID,
+//   code_verifier: "challenge",
+//   redirect_uri: `http://127.0.0.1:4020/oauth/twitter`,
+//   grant_type: "authorization_code",
+// };
 
 // try {
 //   // POST request to the token url to get the access token
@@ -51,48 +81,54 @@ pub async fn authenticate_twitter_account(
         .get("code")
         .expect("twitter account auth needs 'code' value made by Twitter");
 
-    let url = TWITTER_OAUTH_TOKEN_URL.parse::<hyper::Uri>().unwrap();
+    println!("code: {}", code);
 
-    // let handle = tokio::task::spawn(async move {
-    //     println!("11111");
-    //     // Get the host and the port
-    //     let host = url.host().expect("uri has no host");
-    //     let port = url.port_u16().unwrap_or(80);
+    let params = TwitterOauthTokenParams {
+        client_id: TWITTER_OAUTH_CLIENT_ID.to_string(),
+        code_verifier: "challenge".to_string(),
+        redirect_uri: "http://127.0.0.1:4020/oauth/twitter".to_string(),
+        grant_type: "authorization_code".to_string(),
+        code: code.to_string(),
+    };
 
-    //     let address = format!("{}:{}", host, port);
+    // let params = serde_json::to_vec(&params).unwrap();
+    let data = serde_urlencoded::to_string(&params).expect("serialize issue");
 
-    //     // Open a TCP connection to the remote host
-    //     let stream = TcpStream::connect(address).await.unwrap();
-    //     let io = TokioIo::new(stream);
+    let req: Request<Full<Bytes>> = Request::builder()
+        .method(Method::POST)
+        .uri(TWITTER_OAUTH_TOKEN_URL)
+        .header(header::CONTENT_TYPE, "application/x-www-form-urlencoded")
+        .body(Full::from(data))
+        .unwrap();
 
-    //     // Perform a TCP handshake
-    //     let (mut sender, conn) = hyper::client::conn::http1::handshake(io).await.unwrap();
+    // let b = req.body();
+    // println!("b: {:?}", b);
 
-    //     // if let Err(err) = conn.await {
-    //     //     println!("Connection failed: {:?}", err);
-    //     // }
-    // })
-    // .await;
+    // let host = req.uri().host().expect("uri has no host");
+    // let port = req.uri().port_u16().unwrap_or(443);
+    // println!("host: {}, port: {}", host, port);
+    println!("req: {:?}", req.body());
 
-    // let resp = ApiResponse::new_success(AuthenticateResponse {});
+    let https = HttpsConnector::new();
+    let client = Client::builder(TokioExecutor::new()).build::<_, Full<Bytes>>(https);
+    let res = client.request(req).await?;
 
-    // return Ok(resp.into_hyper_response());
-    //
-    panic!();
+    println!("123123");
+
+    let body = res.collect().await?.to_bytes();
+    println!("body: {:?}", body);
+
+    // let data = serde_json::to_string(&body).unwrap();
+
+    // let res_body = web_res.into_body().boxed();
+    // let json = serde_json::to_string(res_body.map_frame).unwrap();
+
+    // println!("res_body: {:?}", res_body);
+
+    let resp = Response::builder()
+        .header(header::CONTENT_TYPE, "application/json")
+        .body(full(""))
+        .unwrap();
+
+    Ok(resp)
 }
-
-// pub async fn sign_in_prfs_account(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-//     let state = req.data::<Arc<ServerState>>().unwrap().clone();
-
-//     let req: SignInRequest = parse_req(req).await;
-
-//     let pool = &state.db2.pool;
-
-//     let prfs_account = db_apis::get_prfs_account_by_account_id(pool, &req.account_id)
-//         .await
-//         .unwrap();
-
-//     let resp = ApiResponse::new_success(SignInResponse { prfs_account });
-
-//     return Ok(resp.into_hyper_response());
-// }
