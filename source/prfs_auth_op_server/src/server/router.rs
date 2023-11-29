@@ -11,7 +11,9 @@ use tokio::net::TcpStream;
 
 use super::io::{full, BoxBody};
 use super::state::ServerState;
-use crate::apis::cors::cors;
+use crate::apis::cors::handle_cors;
+use crate::apis::status::handle_server_status;
+use crate::apis::twitter;
 use crate::AuthOpServerError;
 
 const PREFIX: &str = "/api/v0";
@@ -66,6 +68,7 @@ async fn api_post_response(req: Request<Incoming>) -> Result<Response<BoxBody>, 
         .status(StatusCode::OK)
         .header(header::CONTENT_TYPE, "application/json")
         .body(full(json))?;
+
     Ok(response)
 }
 
@@ -89,8 +92,12 @@ pub async fn routes(
     server_state: Arc<ServerState>,
 ) -> Result<Response<BoxBody>, AuthOpServerError> {
     return match (req.method(), req.uri().path()) {
-        (&Method::OPTIONS, _) => cors(),
-        // (&Method::GET, "/") => handle_server_status(),
+        (&Method::OPTIONS, _) => handle_cors(),
+        (&Method::GET, "/") => handle_server_status(req, server_state),
+        (&Method::GET, "/oauth/twitter") => {
+            twitter::authenticate_twitter_account(req, server_state).await
+        }
+
         (&Method::GET, "/test.html") => client_request_response().await,
         (&Method::POST, "/json_api") => api_post_response(req).await,
         (&Method::GET, "/json_api") => api_get_response().await,

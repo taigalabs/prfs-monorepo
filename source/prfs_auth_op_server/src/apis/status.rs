@@ -1,6 +1,10 @@
-use hyper::{Request, Response, StatusCode};
+use std::sync::Arc;
+
+use http_body_util::Full;
+use hyper::{header, Request, Response, StatusCode};
 
 use crate::server::io::{full, BoxBody};
+use crate::server::state::ServerState;
 use crate::AuthOpServerError;
 
 // pub async fn status_handler(req: Request<Body>) -> Result<Response<Body>, Infallible> {
@@ -19,13 +23,18 @@ use crate::AuthOpServerError;
 //     Ok(res)
 // }
 
-pub fn handle_server_status(req: Request<BoxBody>) -> Result<Response<BoxBody>, AuthOpServerError> {
+pub fn handle_server_status(
+    _req: Request<hyper::body::Incoming>,
+    state: Arc<ServerState>,
+) -> Result<Response<BoxBody>, AuthOpServerError> {
+    let data = serde_json::json!({
+        "commit_hash": state.commit_hash.to_string(),
+        "launch_time": state.launch_time.to_string(),
+    });
+
     let resp = Response::builder()
-        .status(StatusCode::OK)
-        .header("Access-Control-Allow-Origin", "*")
-        .header("Access-Control-Allow-Headers", "*")
-        .header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
-        .body(full(""))
+        .header(header::CONTENT_TYPE, "application/json")
+        .body(full(data.to_string()))
         .unwrap();
 
     Ok(resp)

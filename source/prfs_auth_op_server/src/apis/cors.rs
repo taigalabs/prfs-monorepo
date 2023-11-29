@@ -3,7 +3,7 @@ use hyper::{Response, StatusCode};
 use crate::server::io::{full, BoxBody};
 use crate::AuthOpServerError;
 
-pub fn cors() -> Result<Response<BoxBody>, AuthOpServerError> {
+pub fn handle_cors() -> Result<Response<BoxBody>, AuthOpServerError> {
     let resp = Response::builder()
         .status(StatusCode::OK)
         .header("Access-Control-Allow-Origin", "*")
