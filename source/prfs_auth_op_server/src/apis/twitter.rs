@@ -101,12 +101,6 @@ pub async fn authenticate_twitter_account(
         .body(Full::from(data))
         .unwrap();
 
-    // let b = req.body();
-    // println!("b: {:?}", b);
-
-    // let host = req.uri().host().expect("uri has no host");
-    // let port = req.uri().port_u16().unwrap_or(443);
-    // println!("host: {}, port: {}", host, port);
     println!("req: {:?}", req.body());
 
     let https = HttpsConnector::new();
@@ -116,14 +110,8 @@ pub async fn authenticate_twitter_account(
     println!("123123");
 
     let body = res.collect().await?.to_bytes();
+
     println!("body: {:?}", body);
-
-    // let data = serde_json::to_string(&body).unwrap();
-
-    // let res_body = web_res.into_body().boxed();
-    // let json = serde_json::to_string(res_body.map_frame).unwrap();
-
-    // println!("res_body: {:?}", res_body);
 
     let resp = Response::builder()
         .header(header::CONTENT_TYPE, "application/json")
