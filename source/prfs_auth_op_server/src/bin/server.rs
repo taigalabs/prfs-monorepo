@@ -17,7 +17,7 @@ async fn main() {
         Arc::new(s)
     };
 
-    make_server(server_state).await.unwrap();
+    let server = make_server(server_state);
 
     // let router = make_router(server_state).unwrap();
     // let service = RouterService::new(router).unwrap();
@@ -32,6 +32,6 @@ async fn main() {
 
     tokio::select! {
         _ = tokio::signal::ctrl_c() => {},
-        // _ = server => {},
+        _ = server => {},
     }
 }
