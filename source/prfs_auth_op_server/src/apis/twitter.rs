@@ -1,7 +1,7 @@
 use http_body_util::{BodyExt, Empty, Full};
 use hyper::{
     body::{self, Buf, Bytes},
-    header, Method, Request, Response,
+    header, Method, Request, Response, StatusCode,
 };
 use hyper_tls::HttpsConnector;
 use hyper_util::{
@@ -53,6 +53,18 @@ pub struct TwitterOauthSuccessResponse {
     expires_in: i16,
     access_token: String,
     scope: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct TwitterApiSuccessResponse<T> {
+    data: T,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct TwitterGetMeSuccessResponse {
+    id: String,
+    name: String,
+    username: String,
 }
 
 // filling up the query parameters needed to request for getting the token
@@ -137,72 +149,116 @@ pub async fn authenticate_twitter_account(
         RequestContext::Prod => "https://prfs.xyz/auth/twitter",
     };
 
-    let params = TwitterOauthTokenParams {
-        client_id: client_id.to_string(),
-        code_verifier: "challenge".to_string(),
-        redirect_uri: redirect_uri.to_string(),
-        grant_type: "authorization_code".to_string(),
-        code: code.to_string(),
-    };
+    let twitter_resp = {
+        let params = TwitterOauthTokenParams {
+            client_id: client_id.to_string(),
+            code_verifier: "challenge".to_string(),
+            redirect_uri: redirect_uri.to_string(),
+            grant_type: "authorization_code".to_string(),
+            code: code.to_string(),
+        };
 
-    let data = serde_urlencoded::to_string(&params).expect("serialize issue");
-    let twitter_oauth_req: Request<Full<Bytes>> = Request::builder()
-        .method(Method::POST)
-        .uri(TWITTER_OAUTH_TOKEN_URL)
-        .header(header::CONTENT_TYPE, "application/x-www-form-urlencoded")
-        .body(Full::from(data))
-        .unwrap();
-
-    println!("twitter_oauth_req: {:?}", twitter_oauth_req.body());
-
-    let https = HttpsConnector::new();
-    let client = Client::builder(TokioExecutor::new()).build::<_, Full<Bytes>>(https);
-
-    let res = client.request(twitter_oauth_req).await.unwrap();
-    let body = res.collect().await.unwrap().aggregate();
-    let twitter_resp: serde_json::Value = serde_json::from_reader(body.reader()).unwrap();
-
-    let twitter_resp: TwitterOauthSuccessResponse = if let Some(e) = twitter_resp.get("error") {
-        println!(
-            "Twitter Oauth response contains error, {}, resp: {:?}",
-            e, twitter_resp
-        );
-
-        let resp = Response::builder()
-            .header(
-                header::LOCATION,
-                format!("{}?error={}", front_end_redirect_uri, e),
-            )
-            .body(full(""))
+        let data = serde_urlencoded::to_string(&params).expect("serialize issue");
+        let twitter_oauth_req: Request<Full<Bytes>> = Request::builder()
+            .method(Method::POST)
+            .uri(TWITTER_OAUTH_TOKEN_URL)
+            .header(header::CONTENT_TYPE, "application/x-www-form-urlencoded")
+            .body(Full::from(data))
             .unwrap();
 
-        return Ok(resp);
-    } else {
-        serde_json::from_value(twitter_resp).unwrap()
+        println!("twitter_oauth_req: {:?}", twitter_oauth_req.body());
+
+        let https = HttpsConnector::new();
+        let client = Client::builder(TokioExecutor::new()).build::<_, Full<Bytes>>(https);
+
+        let res = client.request(twitter_oauth_req).await.unwrap();
+        let body = res.collect().await.unwrap().aggregate();
+        let twitter_oauth_resp: serde_json::Value = serde_json::from_reader(body.reader()).unwrap();
+
+        let resp: TwitterOauthSuccessResponse = if let Some(e) = twitter_oauth_resp.get("error") {
+            println!(
+                "Twitter Oauth response contains error, {}, resp: {:?}",
+                e, twitter_oauth_resp
+            );
+
+            let resp = Response::builder()
+                .header(
+                    header::LOCATION,
+                    format!("{}?error={}", front_end_redirect_uri, e),
+                )
+                .body(full(""))
+                .unwrap();
+
+            return Ok(resp);
+        } else {
+            serde_json::from_value(twitter_oauth_resp).unwrap()
+        };
+
+        println!("oauth: {:?}", resp);
+
+        resp
     };
 
-    println!("b: {:?}", twitter_resp);
+    let twitter_get_me_resp = {
+        let twitter_get_me_req: Request<Empty<Bytes>> = Request::builder()
+            .method(Method::GET)
+            .uri(TWITTER_GET_ME_URL)
+            .header(
+                header::AUTHORIZATION,
+                format!("Bearer {}", twitter_resp.access_token),
+            )
+            .body(Empty::<Bytes>::new())
+            .unwrap();
 
-    // let twitter_get_me_req: Request<Empty<Bytes>> = Request::builder()
-    //     .method(Method::GET)
-    //     .uri(TWITTER_GET_ME_URL)
-    //     .header(header::CONTENT_TYPE, "application/json")
-    //     .header(
-    //         header::AUTHORIZATION,
-    //         format!("Bearer {}", twitter_resp.access_token),
-    //     )
-    //     .body(Empty::<Bytes>::new())
-    //     .unwrap();
+        let https = HttpsConnector::new();
+        let client = Client::builder(TokioExecutor::new()).build::<_, Empty<Bytes>>(https);
+        let res = client.request(twitter_get_me_req).await.unwrap();
+        let body = res.collect().await.unwrap().aggregate();
 
-    // let https = HttpsConnector::new();
-    // let client = Client::builder(TokioExecutor::new()).build::<_, Empty<Bytes>>(https);
-    // let res = client.request(twitter_get_me_req).await.unwrap();
-    // let body = res.collect().await.unwrap().to_bytes();
+        let twitter_get_me_resp: serde_json::Value =
+            serde_json::from_reader(body.reader()).unwrap();
 
-    // println!("11: {:?}", body);
+        let resp = if let Some(e) = twitter_get_me_resp.get("error") {
+            println!(
+                "Twitter get me response contains error, {}, resp: {:?}",
+                e, twitter_get_me_resp
+            );
+
+            let resp = Response::builder()
+                .header(
+                    header::LOCATION,
+                    format!("{}?error={}", front_end_redirect_uri, e),
+                )
+                .body(full(""))
+                .unwrap();
+
+            return Ok(resp);
+        } else if let Some(d) = twitter_get_me_resp.get("data") {
+            d.to_string()
+        } else {
+            let resp = Response::builder()
+                .header(
+                    header::LOCATION,
+                    format!("{}?error={}", front_end_redirect_uri, "wrong get me resp"),
+                )
+                .body(full(""))
+                .unwrap();
+
+            return Ok(resp);
+        };
+
+        println!("get_me: {:?}", resp);
+
+        resp
+    };
 
     let resp = Response::builder()
-        .header(header::CONTENT_TYPE, "application/json")
+        .status(StatusCode::FOUND)
+        .header(header::LOCATION, front_end_redirect_uri)
+        .header(
+            header::SET_COOKIE,
+            format!("prfs_twitter_get_me={}", twitter_get_me_resp),
+        )
         .body(full(""))
         .unwrap();
 
