@@ -20,7 +20,7 @@ const TWITTER_CLIENT_ID = "UU9OZ0hNOGVPelVtakgwMlVmeEw6MTpjaQ"; // give your twi
 function getTwitterOauthUrl() {
   const rootUrl = "https://twitter.com/i/oauth2/authorize";
   const options = {
-    redirect_uri: `${envs.NEXT_PUBLIC_PRFS_AUTH_OP_SERVER_ENDPOINT}/oauth/twitter`, // client url cannot be http://localhost:3000/ or http://127.0.0.1:3000/
+    redirect_uri: envs.NEXT_PUBLIC_TWITTER_OAUTH_REDIRECT_URL,
     client_id: TWITTER_CLIENT_ID,
     state: "state",
     response_type: "code",

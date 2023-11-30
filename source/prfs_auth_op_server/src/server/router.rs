@@ -13,7 +13,7 @@ use super::io::{full, BoxBody};
 use super::state::ServerState;
 use crate::apis::cors::handle_cors;
 use crate::apis::status::handle_server_status;
-use crate::apis::twitter;
+use crate::apis::twitter::{self, RequestContext};
 use crate::AuthOpServerError;
 
 const PREFIX: &str = "/api/v0";
@@ -95,7 +95,10 @@ pub async fn routes(
         (&Method::OPTIONS, _) => handle_cors(),
         (&Method::GET, "/") => handle_server_status(req, server_state),
         (&Method::GET, "/oauth/twitter") => {
-            twitter::authenticate_twitter_account(req, server_state).await
+            twitter::authenticate_twitter_account(req, server_state, RequestContext::Prod).await
+        }
+        (&Method::GET, "/oauth/twitter/dev") => {
+            twitter::authenticate_twitter_account(req, server_state, RequestContext::Dev).await
         }
         (&Method::GET, "/test.html") => client_request_response().await,
         (&Method::POST, "/json_api") => api_post_response(req).await,
