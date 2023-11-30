@@ -37,6 +37,7 @@ const TWITTER_OAUTH_TOKEN_URL: &str = "https://api.twitter.com/2/oauth2/token";
 const TWITTER_OAUTH_CLIENT_ID_DEV: &str = "UU9OZ0hNOGVPelVtakgwMlVmeEw6MTpjaQ";
 const TWITTER_OAUTH_CLIENT_ID_PROD: &str = "M2RKcktXTkE0N1RsUXVJMjFOY1U6MTpjaQ";
 const TWITTER_GET_ME_URL: &str = "https://api.twitter.com/2/users/me";
+const TWITTER_MANAGE_DM_URL: &str = "https://api.twitter.com/2/dm_conversations/with/{}/messages";
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct TwitterOauthTokenParams {
@@ -199,7 +200,7 @@ pub async fn authenticate_twitter_account(
         resp
     };
 
-    let twitter_get_me_resp = {
+    let twitter_get_me_resp: TwitterGetMeSuccessResponse = {
         let twitter_get_me_req: Request<Empty<Bytes>> = Request::builder()
             .method(Method::GET)
             .uri(TWITTER_GET_ME_URL)
@@ -234,7 +235,7 @@ pub async fn authenticate_twitter_account(
 
             return Ok(resp);
         } else if let Some(d) = twitter_get_me_resp.get("data") {
-            d.to_string()
+            serde_json::from_value(d.clone()).unwrap()
         } else {
             let resp = Response::builder()
                 .header(
@@ -252,13 +253,29 @@ pub async fn authenticate_twitter_account(
         resp
     };
 
+    {
+        twitter_get_me_resp.id;
+
+        let twitter_get_me_req: Request<Empty<Bytes>> = Request::builder()
+            .method(Method::GET)
+            .uri(format!(TWITTER_MANAGE_DM_URL, twitter_get_me_resp.id))
+            .header(
+                header::AUTHORIZATION,
+                format!("Bearer {}", twitter_resp.access_token),
+            )
+            .body(Empty::<Bytes>::new())
+            .unwrap();
+
+        let https = HttpsConnector::new();
+        let client = Client::builder(TokioExecutor::new()).build::<_, Empty<Bytes>>(https);
+        let res = client.request(twitter_get_me_req).await.unwrap();
+        let body = res.collect().await.unwrap().aggregate();
+    }
+
     let resp = Response::builder()
         .status(StatusCode::FOUND)
         .header(header::LOCATION, front_end_redirect_uri)
-        .header(
-            header::SET_COOKIE,
-            format!("prfs_twitter_get_me={}", twitter_get_me_resp),
-        )
+        .header(header::SET_COOKIE, format!("prfs_twitter_get_me={}", 1))
         .body(full(""))
         .unwrap();
 
