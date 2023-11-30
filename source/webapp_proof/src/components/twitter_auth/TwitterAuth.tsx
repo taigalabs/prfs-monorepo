@@ -12,7 +12,7 @@ import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/Cap
 import { Markdown } from "../markdown/Markdown";
 import { envs } from "@/envs";
 
-const TWITTER_CLIENT_ID = "UU9OZ0hNOGVPelVtakgwMlVmeEw6MTpjaQ"; // give your twitter client id here
+const TWITTER_CLIENT_ID = "UU9OZ0hNOGVPelVtakgwMlVmeEw6MTpjaQ";
 
 // const url =
 //   "https://twitter.com/i/oauth2/authorize?response_type=code&client_id=UU9OZ0hNOGVPelVtakgwMlVmeEw6MTpjaQ&redirect_uri=http://127.0.0.1:4020/oauth/twitter&scope=tweet.read%20users.read%20follows.read%20follows.write&state=state&code_challenge=challenge&code_challenge_method=plain";

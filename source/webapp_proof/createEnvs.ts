@@ -40,7 +40,7 @@ function createEnvs(ts: string) {
     NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT: "http://localhost:3000",
     NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT: "http://localhost:3021",
     NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: "http://localhost:4000",
-    NEXT_PUBLIC_TWITTER_OAUTH_REDIRECT_URL: "http://127.0.0.1:4020/oauth/twitter/dev",
+    NEXT_PUBLIC_TWITTER_OAUTH_REDIRECT_URL: "http://localhost:4020/oauth/twitter/dev",
     NEXT_PUBLIC_PRFS_AUTH_OP_SERVER_ENDPOINT: "http://127.0.0.1:4020",
     NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "http://localhost:4010",
     NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT: "http://localhost:3010",

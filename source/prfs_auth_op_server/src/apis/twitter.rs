@@ -34,7 +34,8 @@ pub enum RequestContext {
 }
 
 const TWITTER_OAUTH_TOKEN_URL: &str = "https://api.twitter.com/2/oauth2/token";
-const TWITTER_OAUTH_CLIENT_ID: &str = "UU9OZ0hNOGVPelVtakgwMlVmeEw6MTpjaQ";
+const TWITTER_OAUTH_CLIENT_ID_DEV: &str = "UU9OZ0hNOGVPelVtakgwMlVmeEw6MTpjaQ";
+const TWITTER_OAUTH_CLIENT_ID_PROD: &str = "M2RKcktXTkE0N1RsUXVJMjFOY1U6MTpjaQ";
 const TWITTER_GET_ME_URL: &str = "https://api.twitter.com/2/users/me";
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -122,12 +123,17 @@ pub async fn authenticate_twitter_account(
     println!("code: {}", code);
 
     let redirect_uri = match request_context {
-        RequestContext::Dev => "http://127.0.0.1:3000/auth/twitter/progress",
-        RequestContext::Prod => "https://prfs.xyz/auth/twitter/progress",
+        RequestContext::Dev => "http://localhost:4020/oauth/twitter/dev",
+        RequestContext::Prod => "https://prfs.xyz/oauth/twitter",
+    };
+
+    let client_id = match request_context {
+        RequestContext::Dev => TWITTER_OAUTH_CLIENT_ID_DEV,
+        RequestContext::Prod => TWITTER_OAUTH_CLIENT_ID_PROD,
     };
 
     let params = TwitterOauthTokenParams {
-        client_id: TWITTER_OAUTH_CLIENT_ID.to_string(),
+        client_id: client_id.to_string(),
         code_verifier: "challenge".to_string(),
         redirect_uri: redirect_uri.to_string(),
         grant_type: "authorization_code".to_string(),
@@ -152,7 +158,10 @@ pub async fn authenticate_twitter_account(
     let twitter_resp: serde_json::Value = serde_json::from_reader(body.reader()).unwrap();
 
     let twitter_resp: TwitterOauthSuccessResponse = if let Some(e) = twitter_resp.get("error") {
-        println!("Twitter Oauth response contains error, {}", e);
+        println!(
+            "Twitter Oauth response contains error, {}, resp: {:?}",
+            e, twitter_resp
+        );
 
         let resp = Response::builder()
             .header(header::CONTENT_TYPE, "application/json")
@@ -164,7 +173,7 @@ pub async fn authenticate_twitter_account(
         serde_json::from_value(twitter_resp).unwrap()
     };
 
-    // println!("b: {:?}", body);
+    println!("b: {:?}", twitter_resp);
 
     // let twitter_get_me_req: Request<Empty<Bytes>> = Request::builder()
     //     .method(Method::GET)

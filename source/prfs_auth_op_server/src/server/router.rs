@@ -16,7 +16,7 @@ use crate::apis::status::handle_server_status;
 use crate::apis::twitter::{self, RequestContext};
 use crate::AuthOpServerError;
 
-const PREFIX: &str = "/api/v0";
+// const PREFIX: &str = "/api/v0";
 
 // type GenericError = Box<dyn std::error::Error + Send + Sync>;
 // type Result<T> = std::result::Result<T, GenericError>;
