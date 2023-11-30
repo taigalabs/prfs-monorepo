@@ -36,7 +36,7 @@ function getTwitterOauthUrl() {
 }
 
 const TwitterAuth: React.FC<TwitterAuthProps> = ({}) => {
-  const url = getTwitterOauthUrl();
+  const url = React.useMemo(() => getTwitterOauthUrl(), []);
 
   return (
     <div className={styles.wrapper}>

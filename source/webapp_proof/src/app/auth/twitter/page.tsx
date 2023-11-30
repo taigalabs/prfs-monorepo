@@ -15,7 +15,7 @@ import SearchProofTypeFormFallback from "@/components/search_proof_type_form/Sea
 import AuthList from "@/components/auth_list/AuthList";
 import TwitterAuth from "@/components/twitter_auth/TwitterAuth";
 
-const AuthPage = () => {
+const TwitterAuthPage = () => {
   return (
     <DefaultLayout>
       <DefaultBody noTopPadding noMinWidth>
@@ -35,4 +35,4 @@ const AuthPage = () => {
   );
 };
 
-export default AuthPage;
+export default TwitterAuthPage;

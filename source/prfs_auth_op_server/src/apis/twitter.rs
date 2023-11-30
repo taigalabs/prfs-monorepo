@@ -132,6 +132,11 @@ pub async fn authenticate_twitter_account(
         RequestContext::Prod => TWITTER_OAUTH_CLIENT_ID_PROD,
     };
 
+    let front_end_redirect_uri = match request_context {
+        RequestContext::Dev => "http://localhost:3000/auth/twitter",
+        RequestContext::Prod => "https://prfs.xyz/auth/twitter",
+    };
+
     let params = TwitterOauthTokenParams {
         client_id: client_id.to_string(),
         code_verifier: "challenge".to_string(),
@@ -164,7 +169,10 @@ pub async fn authenticate_twitter_account(
         );
 
         let resp = Response::builder()
-            .header(header::CONTENT_TYPE, "application/json")
+            .header(
+                header::LOCATION,
+                format!("{}?error={}", front_end_redirect_uri, e),
+            )
             .body(full(""))
             .unwrap();
 
