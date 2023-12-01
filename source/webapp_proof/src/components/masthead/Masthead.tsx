@@ -6,6 +6,8 @@ import Link from "next/link";
 import PrfsAppsPopover from "@taigalabs/prfs-react-components/src/prfs_apps_popover/PrfsAppsPopover";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import { BsThreeDots } from "@react-icons/all-files/bs/BsThreeDots";
+import { useRouter } from "next/navigation";
+import { encrypt, decrypt, PrivateKey } from "eciesjs";
 
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -15,6 +17,7 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 const Masthead: React.FC<MastheadProps> = () => {
   const i18n = React.useContext(i18nContext);
+  const router = useRouter();
 
   const searchParams = useSearchParams();
   const [isTutorial, tutorialUrl] = React.useMemo(() => {
@@ -23,6 +26,14 @@ const Masthead: React.FC<MastheadProps> = () => {
     }
     return [false, `${paths.__}?tutorial_id=simple_hash`];
   }, [searchParams]);
+
+  const handleClickSignIn = React.useCallback(() => {
+    const sk = new PrivateKey();
+    const pkHex = sk.publicKey.toHex();
+    const redirect_uri = window.location.toString();
+
+    router.push(`${paths.id}?pk=${pkHex}&redirect_uri=${redirect_uri}`);
+  }, [router]);
 
   return (
     <div className={cn({ [styles.wrapper]: true, [styles.isTutorial]: isTutorial })}>
@@ -52,8 +63,13 @@ const Masthead: React.FC<MastheadProps> = () => {
             />
           </li>
           <li className={styles.menu}>
-            <Button variant="blue_1" className={styles.signInBtn} noTransition>
-              <Link href={paths.id}>{i18n.sign_in}</Link>
+            <Button
+              variant="blue_1"
+              className={styles.signInBtn}
+              noTransition
+              handleClick={handleClickSignIn}
+            >
+              {i18n.sign_in}
             </Button>
           </li>
         </ul>
