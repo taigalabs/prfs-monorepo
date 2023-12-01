@@ -1,5 +1,5 @@
 import React, { MouseEventHandler } from "react";
-import classnames from "classnames";
+import cn from "classnames";
 
 import styles from "./Button.module.scss";
 
@@ -19,20 +19,23 @@ const Button: React.FC<ButtonProps> = ({
   variant,
   disabled,
   name,
+  noTransition,
 }) => {
   return (
     <button
-      className={classnames({
+      className={cn({
         [styles.wrapper]: true,
-        [styles.transparentBtn]: isTransparent(variant),
+        [styles.transparent_btn]: isTransparent(variant),
         [styles.aqua_blue_1]: variant === "aqua_blue_1",
         [styles.blue_1]: variant === "blue_1",
+        [styles.blue_2]: variant === "blue_2",
         [styles.transparent_blue_1]: variant === "transparent_blue_1",
         [styles.transparent_black_1]: variant === "transparent_black_1",
         [styles.transparent_aqua_blue_1]: variant === "transparent_aqua_blue_1",
         [styles.transparent_aqua_blue_1_light]: variant === "transparent_aqua_blue_1_light",
         [styles.white_gray_1]: variant === "white_gray_1",
         [styles.white_black_1]: variant === "white_black_1",
+        [styles.no_transition]: noTransition,
         [className || ""]: !!className,
       })}
       {...(name && { name })}
@@ -53,11 +56,13 @@ export interface ButtonProps {
   children: React.ReactNode;
   disabled?: boolean;
   handleClick?: MouseEventHandler;
+  noTransition?: boolean;
 }
 
 export type Variant =
   | "aqua_blue_1"
   | "blue_1"
+  | "blue_2"
   | "transparent_blue_1"
   | "transparent_black_1"
   | "transparent_aqua_blue_1"

@@ -8,7 +8,9 @@ const IdPage = () => {
   return (
     <IdLayout>
       <IdBody>
-        <SignIn />
+        <Suspense>
+          <SignIn />
+        </Suspense>
       </IdBody>
       {/* <DefaultBody noTopPadding> */}
       {/*   <div className={styles.container}> */}

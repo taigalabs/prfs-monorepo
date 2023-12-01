@@ -4,7 +4,7 @@
   right: 0;
   position: absolute;
   display: flex;
-  padding: 14px 24px;
+  padding: 14px 16px;
   height: 56px;
   justify-content: center;
   align-items: center;
@@ -50,7 +50,7 @@
   display: flex;
   flex: 1;
   justify-content: flex-end;
-  padding-right: 12px;
+  padding-right: 2px;
 
   .menu {
     display: flex;
@@ -61,8 +61,10 @@
     margin-left: 24px;
   }
 
-  .menu:hover {
-    text-decoration: underline;
+  .signInBtn {
+    padding: 9px 23px;
+    font-size: 14px;
+    text-decoration: none;
   }
 }
 
@@ -80,7 +82,7 @@
 .tutorialBtn.isTutorial {
   background-color: var(--aqua-blue-40);
   border-radius: 3px;
-  padding: 5px;
+  padding: 9px 15px;
   font-size: 14px;
   font-weight: 500;
   color: var(--white-100);
@@ -91,6 +93,10 @@
     display: block;
     margin-left: 4px;
   }
+}
+
+.underline:hover {
+  text-decoration: underline;
 }
 
 @media screen and (max-width: 480px) {

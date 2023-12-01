@@ -11,6 +11,7 @@ import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import { useSearchParams } from "next/navigation";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 const Masthead: React.FC<MastheadProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -29,17 +30,19 @@ const Masthead: React.FC<MastheadProps> = () => {
         <ul className={styles.rightGroup}>
           <li className={styles.menu}>
             <a href={tutorialUrl}>
-              <p className={cn({ [styles.tutorialBtn]: true, [styles.isTutorial]: isTutorial })}>
+              <p
+                className={cn(styles.underline, {
+                  [styles.tutorialBtn]: true,
+                  [styles.isTutorial]: isTutorial,
+                })}
+              >
                 <span>{i18n.tutorial}</span>
                 <AiOutlineClose />
               </p>
             </a>
           </li>
-          <li className={cn(styles.menu)}>
+          <li className={cn(styles.menu, styles.underline)}>
             <Link href={paths.auth}>{i18n.auth}</Link>
-          </li>
-          <li className={cn(styles.bigScreen, styles.menu)}>
-            <Link href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>{i18n.docs}</Link>
           </li>
           <li className={styles.menu}>
             <PrfsAppsPopover
@@ -49,7 +52,9 @@ const Masthead: React.FC<MastheadProps> = () => {
             />
           </li>
           <li className={styles.menu}>
-            <Link href={paths.id}>{i18n.log_in}</Link>
+            <Button variant="blue_1" className={styles.signInBtn} noTransition>
+              <Link href={paths.id}>{i18n.sign_in}</Link>
+            </Button>
           </li>
         </ul>
       </div>
