@@ -18,7 +18,7 @@ import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
 import SigDataInput from "@/components/sig_data_input/SigDataInput";
 import Passcode from "@/components/passcode/Passcode";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
-import { validateInputs } from "@/validate";
+import { validateInputs } from "@/functions/validate_inputs";
 import HashInput from "@/components/hash_input/HashInput";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";

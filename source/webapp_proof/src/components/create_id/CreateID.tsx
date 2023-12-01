@@ -17,11 +17,12 @@ import SignInModule, {
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import { paths } from "@/paths";
+import { IdForm } from "@/functions/validate_id";
 
 const CreateID: React.FC = () => {
   const i18n = React.useContext(i18nContext);
 
-  const [formData, setFormData] = React.useState({
+  const [formData, setFormData] = React.useState<IdForm>({
     email: "",
     email_confirm: "",
     password_1: "",
@@ -30,13 +31,13 @@ const CreateID: React.FC = () => {
     password_2_confirm: "",
   });
 
-  const [formErrors, setFormErrors] = React.useState({
-    email: undefined,
-    email_confirm: undefined,
-    password_1: undefined,
-    password_1_confirm: undefined,
-    password_2: undefined,
-    password_2_confirm: undefined,
+  const [formErrors, setFormErrors] = React.useState<IdForm>({
+    email: "",
+    email_confirm: "",
+    password_1: "",
+    password_1_confirm: "",
+    password_2: "",
+    password_2_confirm: "",
   });
 
   const handleChangeValue = React.useCallback(
@@ -58,6 +59,8 @@ const CreateID: React.FC = () => {
 
   const handleClickNext = React.useCallback(() => {
     console.log(123, formData);
+    if (formData) {
+    }
   }, [formData, setFormErrors]);
 
   const emailGuideURL = React.useMemo(() => {
