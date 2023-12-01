@@ -113,7 +113,7 @@ export function validateIdForm(
   if (formValues.password_2 !== formValues.password_2_confirm) {
     setFormErrors(oldVals => ({
       ...oldVals,
-      password_1_confirm: "Password 1s are not identical",
+      password_2_confirm: "Password 2s are not identical",
     }));
 
     return false;

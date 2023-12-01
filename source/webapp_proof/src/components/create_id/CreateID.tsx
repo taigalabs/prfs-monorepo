@@ -38,9 +38,22 @@ const CreateID: React.FC = () => {
       const search = `?${searchParams.toString()}&step=1`;
       router.push(search);
     } else {
+      if (step !== "1") {
+        if (
+          formData.password_1.length === 0 ||
+          formData.password_2.length === 0 ||
+          formData.email.length === 0
+        ) {
+          const params = new URLSearchParams(searchParams?.toString());
+          params.set("step", "1");
+          const url = `?${params.toString()}`;
+          router.push(url);
+        }
+      }
+
       setStep(step);
     }
-  }, [router, searchParams, setStep]);
+  }, [router, searchParams, setStep, formData]);
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,7 +80,7 @@ const CreateID: React.FC = () => {
       params.set("step", "2");
       const url = `?${params.toString()}`;
 
-      router.replace(url);
+      router.push(url);
     }
   }, [formData, setFormErrors, router, searchParams]);
 
