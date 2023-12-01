@@ -1,5 +1,6 @@
 import React, { ChangeEventHandler, HTMLInputTypeAttribute } from "react";
 import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
+import cn from "classnames";
 
 import styles from "./SignInModule.module.scss";
 
@@ -33,12 +34,17 @@ export const SignInModuleBtnRow: React.FC<SignInModuleInputAreaProps> = ({ child
 
 export const SignInInputItem: React.FC<SignInModuleInputProps> = ({
   name,
+  error,
   type,
   placeholder,
   handleChangeValue,
 }) => {
   return (
-    <div className={styles.inputItem}>
+    <div
+      className={cn(styles.inputItem, {
+        [styles.isError]: !!error,
+      })}
+    >
       <input
         name={name}
         className={styles.input}
@@ -46,6 +52,7 @@ export const SignInInputItem: React.FC<SignInModuleInputProps> = ({
         type={type}
         onChange={handleChangeValue}
       />
+      <p className={styles.error}>{error}</p>
     </div>
   );
 };

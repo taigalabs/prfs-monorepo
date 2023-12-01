@@ -63,6 +63,17 @@
     padding: 10px 14px;
     height: 52px;
   }
+
+  .error {
+    padding-top: 6px;
+    color: var(--red-50);
+  }
+}
+
+.inputItem.isError {
+  .input {
+    border-color: var(--red-50);
+  }
 }
 
 .inputGuide {

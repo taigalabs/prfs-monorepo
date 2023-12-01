@@ -17,28 +17,14 @@ import SignInModule, {
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import { paths } from "@/paths";
-import { IdForm, validateIdForm } from "@/functions/validate_id";
+import { IdForm, idFormEmpty, validateIdForm } from "@/functions/validate_id";
 
 const CreateID: React.FC = () => {
   const i18n = React.useContext(i18nContext);
 
-  const [formData, setFormData] = React.useState<IdForm>({
-    email: "",
-    email_confirm: "",
-    password_1: "",
-    password_1_confirm: "",
-    password_2: "",
-    password_2_confirm: "",
-  });
+  const [formData, setFormData] = React.useState<IdForm>(idFormEmpty);
 
-  const [formErrors, setFormErrors] = React.useState<IdForm>({
-    email: "",
-    email_confirm: "",
-    password_1: "",
-    password_1_confirm: "",
-    password_2: "",
-    password_2_confirm: "",
-  });
+  const [formErrors, setFormErrors] = React.useState<IdForm>(idFormEmpty);
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {

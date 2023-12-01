@@ -1,3 +1,12 @@
+export const idFormEmpty: IdForm = {
+  email: "",
+  email_confirm: "",
+  password_1: "",
+  password_1_confirm: "",
+  password_2: "",
+  password_2_confirm: "",
+};
+
 export interface IdForm {
   email: string;
   email_confirm: string;
@@ -33,6 +42,8 @@ export function validateIdForm(
   formValues: IdForm,
   setFormErrors: React.Dispatch<React.SetStateAction<IdForm>>,
 ): boolean {
+  setFormErrors(() => idFormEmpty);
+
   if (!formValues.email || formValues.email.length < 1) {
     setFormErrors(oldVals => ({
       ...oldVals,
