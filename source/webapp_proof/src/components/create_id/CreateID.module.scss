@@ -6,3 +6,9 @@
   display: flex;
   flex-direction: column;
 }
+
+.inputGroup {
+  &:not(:first-child) {
+    margin-top: 42px;
+  }
+}

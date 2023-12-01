@@ -5,7 +5,6 @@ import React from "react";
 import styles from "./CreateID.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import SignInModule, {
-  SignInInput,
   SignInInputItem,
   SignInModuleBtnRow,
   SignInModuleHeader,
@@ -31,17 +30,18 @@ const CreateID: React.FC = () => {
           <SignInModuleTitle>{i18n.create_zauth_identity}</SignInModuleTitle>
         </SignInModuleHeader>
         <SignInModuleInputArea>
-          <div>
-            <SignInInputItem placeholder="power" />
-            <SignInInputItem placeholder="power" />
+          <div className={styles.inputGroup}>
+            <SignInInputItem placeholder={i18n.email} />
+            <SignInInputItem placeholder={i18n.confirm} />
           </div>
-          <div>
-            <SignInInputItem placeholder="power" />
-            <SignInInputItem placeholder="power" />
+          <p className={styles.emailGuide}>{i18n.why_we_ask_for_email}</p>
+          <div className={styles.inputGroup}>
+            <SignInInputItem placeholder={i18n.password_1} />
+            <SignInInputItem placeholder={i18n.confirm} />
           </div>
-          <div>
-            <SignInInputItem placeholder="power" />
-            <SignInInputItem placeholder="power" />
+          <div className={styles.inputGroup}>
+            <SignInInputItem placeholder={i18n.password_2} />
+            <SignInInputItem placeholder={i18n.confirm} />
           </div>
         </SignInModuleInputArea>
         <SignInModuleBtnRow>
