@@ -107,5 +107,14 @@ export function validateIdForm(
     return false;
   }
 
+  if (formValues.password_1 !== formValues.password_2) {
+    setFormErrors(oldVals => ({
+      ...oldVals,
+      password_2: "Password 1 and 2 should be different",
+    }));
+
+    return false;
+  }
+
   return true;
 }
