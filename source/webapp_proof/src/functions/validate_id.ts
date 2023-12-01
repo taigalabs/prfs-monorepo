@@ -44,6 +44,8 @@ export function validateIdForm(
 ): boolean {
   setFormErrors(() => idFormEmpty);
 
+  // console.log(22, formValues);
+
   if (!formValues.email || formValues.email.length < 1) {
     setFormErrors(oldVals => ({
       ...oldVals,
@@ -107,7 +109,7 @@ export function validateIdForm(
     return false;
   }
 
-  if (formValues.password_1 !== formValues.password_2) {
+  if (formValues.password_1 === formValues.password_2) {
     setFormErrors(oldVals => ({
       ...oldVals,
       password_2: "Password 1 and 2 should be different",

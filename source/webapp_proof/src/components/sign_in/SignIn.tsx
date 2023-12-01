@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-
 import styles from "./SignIn.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import SignInModule, {
@@ -14,14 +13,22 @@ import SignInModule, {
 } from "@/components/sign_in_module/SignInModule";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 import { paths } from "@/paths";
 
 const SignIn: React.FC = () => {
   const i18n = React.useContext(i18nContext);
+  const router = useRouter();
 
-  const handleClickNext = React.useCallback(() => {}, []);
+  const handleClickSignIn = React.useCallback(() => {}, [router]);
 
-  const handleClickCreateId = React.useCallback(() => {}, []);
+  const handleClickCreateID = React.useCallback(() => {
+    const { search } = window.location;
+    const url = `${paths.id_create}${search}`;
+
+    router.push(url);
+  }, [router]);
 
   return (
     <div className={styles.wrapper}>
@@ -33,16 +40,14 @@ const SignIn: React.FC = () => {
         </SignInModuleHeader>
         <SignInModuleInputArea>3</SignInModuleInputArea>
         <SignInModuleBtnRow>
-          <Link href={paths.id_create}>
-            <Button variant="transparent_blue_2" noTransition>
-              {i18n.create_id}
-            </Button>
-          </Link>
+          <Button variant="transparent_blue_2" noTransition handleClick={handleClickCreateID}>
+            {i18n.create_id}
+          </Button>
           <Button
             variant="blue_2"
             className={styles.signInBtn}
             noTransition
-            handleClick={handleClickNext}
+            handleClick={handleClickSignIn}
             noShadow
           >
             {i18n.sign_in}
