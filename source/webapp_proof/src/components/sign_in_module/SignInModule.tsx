@@ -31,6 +31,18 @@ export const SignInModuleBtnRow: React.FC<SignInModuleInputAreaProps> = ({ child
   return <div className={styles.btnRow}>{children}</div>;
 };
 
+export const SignInInputItem: React.FC<SignInModuleInputProps> = ({ placeholder }) => {
+  return (
+    <div className={styles.inputItem}>
+      <input className={styles.input} placeholder={placeholder} />
+    </div>
+  );
+};
+
+// export const SignInInput: React.FC<SignInModuleInputProps> = ({ placeholder }) => {
+//   return <input className={styles.input} placeholder={placeholder} />;
+// };
+
 const SignInModule: React.FC<SignInModuleInputAreaProps> = ({ children }) => {
   return <div className={styles.wrapper}>{children}</div>;
 };
@@ -39,4 +51,8 @@ export default SignInModule;
 
 export interface SignInModuleInputAreaProps {
   children: React.ReactNode;
+}
+
+export interface SignInModuleInputProps {
+  placeholder?: string;
 }

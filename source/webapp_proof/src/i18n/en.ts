@@ -131,6 +131,7 @@ const en = {
   log_in: "Log in",
   sign_in: "Sign in",
   use_your_zauth_identity: "Use your ZAuth identity",
+  create_zauth_identity: "Create a ZAuth identity",
   create_id: "Create ID",
   already_have_id: "Already have ID",
   generator: "Generator",

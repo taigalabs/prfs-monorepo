@@ -5,6 +5,8 @@ import React from "react";
 import styles from "./CreateID.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import SignInModule, {
+  SignInInput,
+  SignInInputItem,
   SignInModuleBtnRow,
   SignInModuleHeader,
   SignInModuleInputArea,
@@ -21,20 +23,30 @@ const CreateID: React.FC = () => {
 
   const handleClickNext = React.useCallback(() => {}, []);
 
-  const handleClickCreateId = React.useCallback(() => {}, []);
-
   return (
     <div className={styles.wrapper}>
       <SignInModule>
         <SignInModuleLogoArea />
         <SignInModuleHeader>
-          <SignInModuleTitle>{i18n.sign_in}</SignInModuleTitle>
-          <SignInModuleSubtitle>{i18n.use_your_zauth_identity}</SignInModuleSubtitle>
+          <SignInModuleTitle>{i18n.create_zauth_identity}</SignInModuleTitle>
         </SignInModuleHeader>
-        <SignInModuleInputArea>3</SignInModuleInputArea>
+        <SignInModuleInputArea>
+          <div>
+            <SignInInputItem placeholder="power" />
+            <SignInInputItem placeholder="power" />
+          </div>
+          <div>
+            <SignInInputItem placeholder="power" />
+            <SignInInputItem placeholder="power" />
+          </div>
+          <div>
+            <SignInInputItem placeholder="power" />
+            <SignInInputItem placeholder="power" />
+          </div>
+        </SignInModuleInputArea>
         <SignInModuleBtnRow>
           <Link href={paths.id}>
-            <Button variant="transparent_blue_2" noTransition handleClick={handleClickCreateId}>
+            <Button variant="transparent_blue_2" noTransition>
               {i18n.already_have_id}
             </Button>
           </Link>
