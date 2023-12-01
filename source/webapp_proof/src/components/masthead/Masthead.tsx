@@ -48,7 +48,9 @@ const Masthead: React.FC<MastheadProps> = () => {
               webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
             />
           </li>
-          {/* <li>{i18n.account}</li> */}
+          <li className={styles.menu}>
+            <Link href={paths.auth}>{i18n.log_in}</Link>
+          </li>
         </ul>
       </div>
     </div>
