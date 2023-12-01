@@ -72,7 +72,7 @@ const CreateID: React.FC = () => {
           </Link>
           <Button
             variant="blue_2"
-            className={styles.signInBtn}
+            className={styles.nextBtn}
             noTransition
             handleClick={handleClickNext}
             noShadow
