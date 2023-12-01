@@ -6,6 +6,7 @@ import styles from "./Button.module.scss";
 function isTransparent(variant: Variant) {
   return (
     variant === "transparent_blue_1" ||
+    variant === "transparent_blue_2" ||
     variant === "transparent_black_1" ||
     variant === "transparent_aqua_blue_1" ||
     variant === "transparent_aqua_blue_1_light"
@@ -20,6 +21,7 @@ const Button: React.FC<ButtonProps> = ({
   disabled,
   name,
   noTransition,
+  noShadow,
 }) => {
   return (
     <button
@@ -37,6 +39,7 @@ const Button: React.FC<ButtonProps> = ({
         [styles.white_gray_1]: variant === "white_gray_1",
         [styles.white_black_1]: variant === "white_black_1",
         [styles.no_transition]: noTransition,
+        [styles.no_shadow]: noShadow,
         [className || ""]: !!className,
       })}
       {...(name && { name })}
@@ -58,6 +61,7 @@ export interface ButtonProps {
   disabled?: boolean;
   handleClick?: MouseEventHandler;
   noTransition?: boolean;
+  noShadow?: boolean;
 }
 
 export type Variant =

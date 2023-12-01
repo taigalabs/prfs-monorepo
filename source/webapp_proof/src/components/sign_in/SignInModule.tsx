@@ -32,6 +32,7 @@ const SignInModule: React.FC = () => {
           className={styles.signInBtn}
           noTransition
           handleClick={handleClickNext}
+          noShadow
         >
           {i18n.sign_in}
         </Button>

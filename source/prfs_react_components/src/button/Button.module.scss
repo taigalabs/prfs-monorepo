@@ -29,6 +29,10 @@
   &:active {
     box-shadow: none;
   }
+
+  &:active:not(:disabled) {
+    box-shadow: none;
+  }
 }
 
 .aqua_blue_1 {
@@ -82,7 +86,7 @@
   }
 
   &:active {
-    background-color: var(--blue-13);
+    background-color: var(--blue-120);
   }
 }
 
@@ -169,7 +173,7 @@
   }
 
   &:hover {
-    color: var(--blue-14);
+    color: var(--blue-101);
     background-color: var(--bright-blue-60);
   }
 
@@ -177,9 +181,9 @@
     color: var(--gray-60);
   }
 
-  &:hover:not(:disabled) {
-    color: var(--blue-13);
-    background-color: var(--bright-gray-40);
+  &:active:not(:disabled) {
+    color: var(--blue-101);
+    background-color: var(--bright-blue-50);
   }
 }
 
@@ -227,4 +231,16 @@
 
 .no_transition {
   transition: none;
+}
+
+.no_shadow {
+  box-shadow: none;
+
+  &:hover {
+    box-shadow: none;
+  }
+
+  &:active:not(:disabled) {
+    box-shadow: none;
+  }
 }
