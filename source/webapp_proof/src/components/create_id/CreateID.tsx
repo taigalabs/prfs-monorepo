@@ -39,7 +39,26 @@ const CreateID: React.FC = () => {
     password_2_confirm: undefined,
   });
 
-  const handleClickNext = React.useCallback(() => {}, [formData]);
+  const handleChangeValue = React.useCallback(
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      const name = ev.target.name;
+      const val = ev.target.value;
+
+      if (name) {
+        setFormData(oldVal => {
+          return {
+            ...oldVal,
+            [name]: val,
+          };
+        });
+      }
+    },
+    [formData, setFormData],
+  );
+
+  const handleClickNext = React.useCallback(() => {
+    console.log(123, formData);
+  }, [formData, setFormErrors]);
 
   return (
     <div className={styles.wrapper}>
@@ -50,17 +69,51 @@ const CreateID: React.FC = () => {
         </SignInModuleHeader>
         <SignInModuleInputArea>
           <div className={styles.inputGroup}>
-            <SignInInputItem placeholder={i18n.email} />
-            <SignInInputItem placeholder={i18n.confirm} />
+            <SignInInputItem
+              name="email"
+              placeholder={i18n.email}
+              error={formErrors.email}
+              handleChangeValue={handleChangeValue}
+            />
+            <SignInInputItem
+              name="email_confirm"
+              placeholder={i18n.confirm}
+              error={formErrors.email_confirm}
+              handleChangeValue={handleChangeValue}
+            />
           </div>
           <SignInInputGuide>{i18n.why_we_ask_for_email}</SignInInputGuide>
           <div className={styles.inputGroup}>
-            <SignInInputItem placeholder={i18n.password_1} />
-            <SignInInputItem placeholder={i18n.confirm} />
+            <SignInInputItem
+              name="password_1"
+              placeholder={i18n.password_1}
+              error={formErrors.password_1}
+              handleChangeValue={handleChangeValue}
+              type="password"
+            />
+            <SignInInputItem
+              name="password_1_confirm"
+              placeholder={i18n.confirm}
+              error={formErrors.password_1_confirm}
+              handleChangeValue={handleChangeValue}
+              type="password"
+            />
           </div>
           <div className={styles.inputGroup}>
-            <SignInInputItem placeholder={i18n.password_2} />
-            <SignInInputItem placeholder={i18n.confirm} />
+            <SignInInputItem
+              name="password_2"
+              placeholder={i18n.password_2}
+              error={formErrors.password_2}
+              handleChangeValue={handleChangeValue}
+              type="password"
+            />
+            <SignInInputItem
+              name="password_2_confirm"
+              placeholder={i18n.confirm}
+              error={formErrors.password_2_confirm}
+              handleChangeValue={handleChangeValue}
+              type="password"
+            />
           </div>
           <SignInInputGuide>{i18n.why_we_ask_for_two_passwords}</SignInInputGuide>
         </SignInModuleInputArea>

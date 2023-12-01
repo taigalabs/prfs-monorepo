@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEventHandler, HTMLInputTypeAttribute } from "react";
 import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
 
 import styles from "./SignInModule.module.scss";
@@ -31,10 +31,21 @@ export const SignInModuleBtnRow: React.FC<SignInModuleInputAreaProps> = ({ child
   return <div className={styles.btnRow}>{children}</div>;
 };
 
-export const SignInInputItem: React.FC<SignInModuleInputProps> = ({ placeholder }) => {
+export const SignInInputItem: React.FC<SignInModuleInputProps> = ({
+  name,
+  type,
+  placeholder,
+  handleChangeValue,
+}) => {
   return (
     <div className={styles.inputItem}>
-      <input className={styles.input} placeholder={placeholder} />
+      <input
+        name={name}
+        className={styles.input}
+        placeholder={placeholder}
+        type={type}
+        onChange={handleChangeValue}
+      />
     </div>
   );
 };
@@ -58,5 +69,9 @@ export interface SignInModuleInputAreaProps {
 }
 
 export interface SignInModuleInputProps {
+  name?: string;
+  handleChangeValue: React.ChangeEventHandler;
+  error: string | undefined;
   placeholder?: string;
+  type?: HTMLInputTypeAttribute | undefined;
 }
