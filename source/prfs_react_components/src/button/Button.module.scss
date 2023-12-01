@@ -155,6 +155,34 @@
   }
 }
 
+.transparent_blue_2 {
+  color: var(--blue-15);
+  display: flex;
+  align-items: center;
+
+  svg {
+    font-size: 1.1em;
+  }
+
+  svg + span {
+    margin-left: 0.2em;
+  }
+
+  &:hover {
+    color: var(--blue-14);
+    background-color: var(--bright-blue-60);
+  }
+
+  &:disabled {
+    color: var(--gray-60);
+  }
+
+  &:hover:not(:disabled) {
+    color: var(--blue-13);
+    background-color: var(--bright-gray-40);
+  }
+}
+
 .transparent_aqua_blue_1_light {
   color: var(--aqua-blue-50);
 

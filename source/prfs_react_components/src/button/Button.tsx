@@ -30,6 +30,7 @@ const Button: React.FC<ButtonProps> = ({
         [styles.blue_1]: variant === "blue_1",
         [styles.blue_2]: variant === "blue_2",
         [styles.transparent_blue_1]: variant === "transparent_blue_1",
+        [styles.transparent_blue_2]: variant === "transparent_blue_2",
         [styles.transparent_black_1]: variant === "transparent_black_1",
         [styles.transparent_aqua_blue_1]: variant === "transparent_aqua_blue_1",
         [styles.transparent_aqua_blue_1_light]: variant === "transparent_aqua_blue_1_light",
@@ -64,6 +65,7 @@ export type Variant =
   | "blue_1"
   | "blue_2"
   | "transparent_blue_1"
+  | "transparent_blue_2"
   | "transparent_black_1"
   | "transparent_aqua_blue_1"
   | "transparent_aqua_blue_1_light"

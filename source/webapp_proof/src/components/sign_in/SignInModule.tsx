@@ -19,7 +19,14 @@ const SignInModule: React.FC = () => {
       </div>
       <div className={styles.inputs}></div>
       <div className={styles.btnRow}>
-        <button>po123</button>
+        <Button
+          variant="transparent_blue_2"
+          className={styles.signInBtn}
+          noTransition
+          handleClick={handleClickNext}
+        >
+          {i18n.create_id}
+        </Button>
         <Button
           variant="blue_2"
           className={styles.signInBtn}
