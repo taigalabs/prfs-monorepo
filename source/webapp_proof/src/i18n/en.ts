@@ -135,6 +135,7 @@ const en = {
   use_your_zauth_identity: "Use your ZAuth identity",
   create_zauth_identity: "Create a ZAuth identity",
   why_we_ask_for_email: "Why we ask for email address",
+  why_we_ask_for_two_passwords: "Why we ask for two passwords",
   create_id: "Create ID",
   already_have_id: "Already have ID",
   generator: "Generator",

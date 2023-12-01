@@ -5,6 +5,7 @@ import React from "react";
 import styles from "./CreateID.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import SignInModule, {
+  SignInInputGuide,
   SignInInputItem,
   SignInModuleBtnRow,
   SignInModuleHeader,
@@ -34,7 +35,7 @@ const CreateID: React.FC = () => {
             <SignInInputItem placeholder={i18n.email} />
             <SignInInputItem placeholder={i18n.confirm} />
           </div>
-          <p className={styles.emailGuide}>{i18n.why_we_ask_for_email}</p>
+          <SignInInputGuide>{i18n.why_we_ask_for_email}</SignInInputGuide>
           <div className={styles.inputGroup}>
             <SignInInputItem placeholder={i18n.password_1} />
             <SignInInputItem placeholder={i18n.confirm} />
@@ -43,6 +44,7 @@ const CreateID: React.FC = () => {
             <SignInInputItem placeholder={i18n.password_2} />
             <SignInInputItem placeholder={i18n.confirm} />
           </div>
+          <SignInInputGuide>{i18n.why_we_ask_for_two_passwords}</SignInInputGuide>
         </SignInModuleInputArea>
         <SignInModuleBtnRow>
           <Link href={paths.id}>

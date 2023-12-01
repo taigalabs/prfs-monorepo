@@ -39,6 +39,10 @@ export const SignInInputItem: React.FC<SignInModuleInputProps> = ({ placeholder 
   );
 };
 
+export const SignInInputGuide: React.FC<SignInModuleInputAreaProps> = ({ children }) => {
+  return <button className={styles.inputGuide}>{children}</button>;
+};
+
 // export const SignInInput: React.FC<SignInModuleInputProps> = ({ placeholder }) => {
 //   return <input className={styles.input} placeholder={placeholder} />;
 // };
