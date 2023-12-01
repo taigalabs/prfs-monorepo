@@ -60,6 +60,10 @@ const CreateID: React.FC = () => {
     console.log(123, formData);
   }, [formData, setFormErrors]);
 
+  React.useMemo(() => {
+    const url = `${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}`;
+  }, []);
+
   return (
     <div className={styles.wrapper}>
       <SignInModule>
@@ -82,7 +86,9 @@ const CreateID: React.FC = () => {
               handleChangeValue={handleChangeValue}
             />
           </div>
-          <SignInInputGuide>{i18n.why_we_ask_for_email}</SignInInputGuide>
+          <Link href="https://www.google.com" target="_blank">
+            <SignInInputGuide>{i18n.why_we_ask_for_email}</SignInInputGuide>
+          </Link>
           <div className={styles.inputGroup}>
             <SignInInputItem
               name="password_1"
