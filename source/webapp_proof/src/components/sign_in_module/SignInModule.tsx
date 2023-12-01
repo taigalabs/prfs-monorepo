@@ -11,6 +11,18 @@ export const SignInModuleLogoArea: React.FC = () => {
   );
 };
 
+export const SignInModuleHeader: React.FC<SignInModuleInputAreaProps> = ({ children }) => {
+  return <div className={styles.header}>{children}</div>;
+};
+
+export const SignInModuleTitle: React.FC<SignInModuleInputAreaProps> = ({ children }) => {
+  return <div className={styles.title}>{children}</div>;
+};
+
+export const SignInModuleSubtitle: React.FC<SignInModuleInputAreaProps> = ({ children }) => {
+  return <div className={styles.subtitle}>{children}</div>;
+};
+
 export const SignInModuleInputArea: React.FC<SignInModuleInputAreaProps> = ({ children }) => {
   return <div className={styles.inputArea}>{children}</div>;
 };

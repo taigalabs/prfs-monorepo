@@ -174,9 +174,26 @@
     margin-left: 0.2em;
   }
 
+  span {
+    z-index: 1;
+  }
+
+  .backdrop {
+    border-radius: 4px;
+  }
+
   &:hover {
     color: var(--blue-101);
-    background-color: var(--bright-blue-60);
+
+    .backdrop {
+      background-color: var(--bright-blue-60);
+      top: 0px;
+      bottom: 0px;
+      left: -10px;
+      right: -10px;
+
+      /* border: 1px solid red; */
+    }
   }
 
   &:disabled {
@@ -185,14 +202,15 @@
 
   &:active:not(:disabled) {
     color: var(--blue-101);
-    background-color: var(--bright-blue-50);
-    border: 1px solid red;
 
     .backdrop {
+      background-color: var(--bright-blue-50);
       top: 0px;
       bottom: 0px;
       left: -10px;
       right: -10px;
+
+      /* border: 1px solid red; */
     }
   }
 }

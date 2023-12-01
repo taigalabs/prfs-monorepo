@@ -6,8 +6,11 @@ import styles from "./SignIn.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import SignInModule, {
   SignInModuleBtnRow,
+  SignInModuleHeader,
   SignInModuleInputArea,
   SignInModuleLogoArea,
+  SignInModuleSubtitle,
+  SignInModuleTitle,
 } from "@/components/sign_in_module/SignInModule";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
@@ -19,7 +22,11 @@ const SignIn: React.FC = () => {
     <div className={styles.wrapper}>
       <SignInModule>
         <SignInModuleLogoArea />
-        <SignInModuleInputArea>1</SignInModuleInputArea>
+        <SignInModuleHeader>
+          <SignInModuleTitle>power</SignInModuleTitle>
+          <SignInModuleSubtitle>power2</SignInModuleSubtitle>
+        </SignInModuleHeader>
+        <SignInModuleInputArea>3</SignInModuleInputArea>
         <SignInModuleBtnRow>
           <Button
             variant="transparent_blue_2"

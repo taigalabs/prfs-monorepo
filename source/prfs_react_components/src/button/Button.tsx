@@ -47,7 +47,7 @@ const Button: React.FC<ButtonProps> = ({
       disabled={!!disabled}
     >
       <div className={styles.backdrop} />
-      {children}
+      <span>{children}</span>
     </button>
   );
 };
