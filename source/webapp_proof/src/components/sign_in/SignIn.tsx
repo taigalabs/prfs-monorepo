@@ -4,10 +4,7 @@ import React from "react";
 
 import styles from "./SignIn.module.scss";
 import { I18nProvider } from "@/contexts/i18n";
-
-const SignInModule = () => {
-  return <div>123</div>;
-};
+import SignInModule from "./SignInModule";
 
 const SignIn: React.FC = () => {
   return (

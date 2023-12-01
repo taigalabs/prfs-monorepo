@@ -64,7 +64,7 @@ const Masthead: React.FC<MastheadProps> = () => {
           </li>
           <li className={styles.menu}>
             <Button
-              variant="blue_1"
+              variant="blue_2"
               className={styles.signInBtn}
               noTransition
               handleClick={handleClickSignIn}
