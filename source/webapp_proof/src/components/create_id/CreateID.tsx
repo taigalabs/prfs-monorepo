@@ -21,7 +21,25 @@ import { paths } from "@/paths";
 const CreateID: React.FC = () => {
   const i18n = React.useContext(i18nContext);
 
-  const handleClickNext = React.useCallback(() => {}, []);
+  const [formData, setFormData] = React.useState({
+    email: "",
+    email_confirm: "",
+    password_1: "",
+    password_1_confirm: "",
+    password_2: "",
+    password_2_confirm: "",
+  });
+
+  const [formErrors, setFormErrors] = React.useState({
+    email: undefined,
+    email_confirm: undefined,
+    password_1: undefined,
+    password_1_confirm: undefined,
+    password_2: undefined,
+    password_2_confirm: undefined,
+  });
+
+  const handleClickNext = React.useCallback(() => {}, [formData]);
 
   return (
     <div className={styles.wrapper}>
@@ -59,7 +77,7 @@ const CreateID: React.FC = () => {
             handleClick={handleClickNext}
             noShadow
           >
-            {i18n.sign_in}
+            {i18n.next}
           </Button>
         </SignInModuleBtnRow>
       </SignInModule>
