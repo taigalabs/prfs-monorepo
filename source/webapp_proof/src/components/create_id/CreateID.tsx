@@ -17,7 +17,7 @@ import SignInModule, {
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import { paths } from "@/paths";
-import { IdForm } from "@/functions/validate_id";
+import { IdForm, validateIdForm } from "@/functions/validate_id";
 
 const CreateID: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -58,8 +58,9 @@ const CreateID: React.FC = () => {
   );
 
   const handleClickNext = React.useCallback(() => {
-    console.log(123, formData);
-    if (formData) {
+    const res = validateIdForm(formData, setFormErrors);
+
+    if (res) {
     }
   }, [formData, setFormErrors]);
 
