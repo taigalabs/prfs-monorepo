@@ -92,7 +92,7 @@ export function validateIdForm(
     setFormErrors(oldVals => ({
       ...oldVals,
       password_1:
-        "Password is invalid. It should include at least one special character, one lowercase letter, and one uppercase letter. It should be 15 characters or longer as well",
+        "Password is invalid. It should include at least one special character, one lowercase and one uppercase letters. It should be 15 characters or longer as well",
     }));
 
     return false;
