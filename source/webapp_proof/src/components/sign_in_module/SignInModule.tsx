@@ -6,7 +6,7 @@ import styles from "./SignInModule.module.scss";
 export const SignInModuleLogoArea: React.FC = () => {
   return (
     <div className={styles.logoArea}>
-      <ImageLogo width={50} />
+      <ImageLogo width={46} />
     </div>
   );
 };
