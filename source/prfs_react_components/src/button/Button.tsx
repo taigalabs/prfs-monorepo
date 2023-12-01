@@ -46,6 +46,7 @@ const Button: React.FC<ButtonProps> = ({
       onClick={handleClick}
       disabled={!!disabled}
     >
+      <div className={styles.backdrop} />
       {children}
     </button>
   );
