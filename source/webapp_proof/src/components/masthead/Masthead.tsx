@@ -49,7 +49,7 @@ const Masthead: React.FC<MastheadProps> = () => {
             />
           </li>
           <li className={styles.menu}>
-            <Link href={paths.auth}>{i18n.log_in}</Link>
+            <Link href={paths.id}>{i18n.log_in}</Link>
           </li>
         </ul>
       </div>
