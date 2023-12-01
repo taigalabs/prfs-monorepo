@@ -37,7 +37,7 @@ const TWITTER_OAUTH_TOKEN_URL: &str = "https://api.twitter.com/2/oauth2/token";
 const TWITTER_OAUTH_CLIENT_ID_DEV: &str = "UU9OZ0hNOGVPelVtakgwMlVmeEw6MTpjaQ";
 const TWITTER_OAUTH_CLIENT_ID_PROD: &str = "M2RKcktXTkE0N1RsUXVJMjFOY1U6MTpjaQ";
 const TWITTER_GET_ME_URL: &str = "https://api.twitter.com/2/users/me";
-const TWITTER_MANAGE_DM_URL: &str = "https://api.twitter.com/2/dm_conversations/with/{}/messages";
+const TWITTER_MANAGE_DM_URL: &str = "https://api.twitter.com/2/dm_conversations/with";
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct TwitterOauthTokenParams {
@@ -214,6 +214,9 @@ pub async fn authenticate_twitter_account(
         let https = HttpsConnector::new();
         let client = Client::builder(TokioExecutor::new()).build::<_, Empty<Bytes>>(https);
         let res = client.request(twitter_get_me_req).await.unwrap();
+        // res.into_body
+        let b = res.headers();
+        println!("b123123: {:?}", b);
         let body = res.collect().await.unwrap().aggregate();
 
         let twitter_get_me_resp: serde_json::Value =
@@ -254,22 +257,22 @@ pub async fn authenticate_twitter_account(
     };
 
     {
-        twitter_get_me_resp.id;
+        // twitter_get_me_resp.id;
 
-        let twitter_get_me_req: Request<Empty<Bytes>> = Request::builder()
-            .method(Method::GET)
-            .uri(format!(TWITTER_MANAGE_DM_URL, twitter_get_me_resp.id))
-            .header(
-                header::AUTHORIZATION,
-                format!("Bearer {}", twitter_resp.access_token),
-            )
-            .body(Empty::<Bytes>::new())
-            .unwrap();
+        // let twitter_get_me_req: Request<Empty<Bytes>> = Request::builder()
+        //     .method(Method::GET)
+        //     .uri(format!("{}/{}/messages", twitter_get_me_resp.id))
+        //     .header(
+        //         header::AUTHORIZATION,
+        //         format!("Bearer {}", twitter_resp.access_token),
+        //     )
+        //     .body(Empty::<Bytes>::new())
+        //     .unwrap();
 
-        let https = HttpsConnector::new();
-        let client = Client::builder(TokioExecutor::new()).build::<_, Empty<Bytes>>(https);
-        let res = client.request(twitter_get_me_req).await.unwrap();
-        let body = res.collect().await.unwrap().aggregate();
+        // let https = HttpsConnector::new();
+        // let client = Client::builder(TokioExecutor::new()).build::<_, Empty<Bytes>>(https);
+        // let res = client.request(twitter_get_me_req).await.unwrap();
+        // let body = res.collect().await.unwrap().aggregate();
     }
 
     let resp = Response::builder()
