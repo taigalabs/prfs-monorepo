@@ -60,8 +60,10 @@ const CreateID: React.FC = () => {
     console.log(123, formData);
   }, [formData, setFormErrors]);
 
-  React.useMemo(() => {
-    const url = `${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}`;
+  const emailGuideURL = React.useMemo(() => {
+    const url = `${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`;
+
+    return url;
   }, []);
 
   return (
@@ -86,7 +88,7 @@ const CreateID: React.FC = () => {
               handleChangeValue={handleChangeValue}
             />
           </div>
-          <Link href="https://www.google.com" target="_blank">
+          <Link href={emailGuideURL} target="_blank">
             <SignInInputGuide>{i18n.why_we_ask_for_email}</SignInInputGuide>
           </Link>
           <div className={styles.inputGroup}>
@@ -121,7 +123,9 @@ const CreateID: React.FC = () => {
               type="password"
             />
           </div>
-          <SignInInputGuide>{i18n.why_we_ask_for_two_passwords}</SignInInputGuide>
+          <Link href={emailGuideURL} target="_blank">
+            <SignInInputGuide>{i18n.why_we_ask_for_two_passwords}</SignInInputGuide>
+          </Link>
         </SignInModuleInputArea>
         <SignInModuleBtnRow>
           <Link href={paths.id}>
