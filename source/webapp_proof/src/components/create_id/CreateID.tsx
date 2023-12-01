@@ -64,6 +64,7 @@ const CreateID: React.FC = () => {
 
     if (res) {
       const s = searchParams.toString();
+
       console.log(111, s);
       // router.
     }
@@ -82,6 +83,91 @@ const CreateID: React.FC = () => {
           <Fade>
             <SignInModuleHeader>
               <SignInModuleTitle>{i18n.create_zauth_identity}</SignInModuleTitle>
+              <SignInModuleSubtitle>{i18n.type_information}</SignInModuleSubtitle>
+            </SignInModuleHeader>
+            <SignInModuleInputArea>
+              <div className={styles.inputGroup}>
+                <SignInInputItem
+                  name="email"
+                  placeholder={i18n.email}
+                  error={formErrors.email}
+                  handleChangeValue={handleChangeValue}
+                />
+                <SignInInputItem
+                  name="email_confirm"
+                  placeholder={i18n.confirm}
+                  error={formErrors.email_confirm}
+                  handleChangeValue={handleChangeValue}
+                />
+              </div>
+              <SignInInputGuide>
+                <Link href={emailGuideURL} target="_blank">
+                  {i18n.why_we_ask_for_email}
+                </Link>
+              </SignInInputGuide>
+              <div className={styles.inputGroup}>
+                <SignInInputItem
+                  name="password_1"
+                  placeholder={i18n.password_1}
+                  error={formErrors.password_1}
+                  handleChangeValue={handleChangeValue}
+                  type="password"
+                />
+                <SignInInputItem
+                  name="password_1_confirm"
+                  placeholder={i18n.confirm}
+                  error={formErrors.password_1_confirm}
+                  handleChangeValue={handleChangeValue}
+                  type="password"
+                />
+              </div>
+              <div className={styles.inputGroup}>
+                <SignInInputItem
+                  name="password_2"
+                  placeholder={i18n.password_2}
+                  error={formErrors.password_2}
+                  handleChangeValue={handleChangeValue}
+                  type="password"
+                />
+                <SignInInputItem
+                  name="password_2_confirm"
+                  placeholder={i18n.confirm}
+                  error={formErrors.password_2_confirm}
+                  handleChangeValue={handleChangeValue}
+                  type="password"
+                />
+              </div>
+              <SignInInputGuide>
+                <Link href={emailGuideURL} target="_blank">
+                  {i18n.why_we_ask_for_two_passwords}
+                </Link>
+              </SignInInputGuide>
+            </SignInModuleInputArea>
+            <SignInModuleBtnRow>
+              <Link href={paths.id}>
+                <Button variant="transparent_blue_2" noTransition>
+                  {i18n.already_have_id}
+                </Button>
+              </Link>
+              <Button
+                variant="blue_2"
+                className={styles.nextBtn}
+                noTransition
+                handleClick={handleClickNext}
+                noShadow
+              >
+                {i18n.next}
+              </Button>
+            </SignInModuleBtnRow>
+          </Fade>
+        );
+      }
+      case "2": {
+        return (
+          <Fade>
+            <SignInModuleHeader>
+              <SignInModuleTitle>{i18n.create_zauth_identity}</SignInModuleTitle>
+              <SignInModuleSubtitle>{i18n.check_your_identity}</SignInModuleSubtitle>
             </SignInModuleHeader>
             <SignInModuleInputArea>
               <div className={styles.inputGroup}>
