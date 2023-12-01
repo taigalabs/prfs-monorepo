@@ -34,7 +34,7 @@ function validateEmail(email: any) {
 }
 
 function checkPassword(str: string) {
-  var re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+  var re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{15,}$/;
   return re.test(str);
 }
 
@@ -44,7 +44,7 @@ export function validateIdForm(
 ): boolean {
   setFormErrors(() => idFormEmpty);
 
-  // console.log(22, formValues);
+  console.log(22, formValues);
 
   if (!formValues.email || formValues.email.length < 1) {
     setFormErrors(oldVals => ({
@@ -81,15 +81,6 @@ export function validateIdForm(
     return false;
   }
 
-  if (!formValues.password_1 || formValues.password_1.length < 15) {
-    setFormErrors(oldVals => ({
-      ...oldVals,
-      password_1: "Password should be 15 characters or longer",
-    }));
-
-    return false;
-  }
-
   if (!checkPassword(formValues.password_1)) {
     setFormErrors(oldVals => ({
       ...oldVals,
@@ -101,6 +92,25 @@ export function validateIdForm(
   }
 
   if (formValues.password_1 !== formValues.password_1_confirm) {
+    setFormErrors(oldVals => ({
+      ...oldVals,
+      password_1_confirm: "Password 1s are not identical",
+    }));
+
+    return false;
+  }
+
+  if (!checkPassword(formValues.password_2)) {
+    setFormErrors(oldVals => ({
+      ...oldVals,
+      password_2:
+        "Password is invalid. It should include at least one special character, one lowercase and one uppercase letters. It should be 15 characters or longer as well",
+    }));
+
+    return false;
+  }
+
+  if (formValues.password_2 !== formValues.password_2_confirm) {
     setFormErrors(oldVals => ({
       ...oldVals,
       password_1_confirm: "Password 1s are not identical",
