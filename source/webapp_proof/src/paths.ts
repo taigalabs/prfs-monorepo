@@ -7,4 +7,5 @@ export const paths = {
   updates: "/updates",
   privacy: "/privacy",
   id: "/id",
+  id_create: "/id/create",
 };

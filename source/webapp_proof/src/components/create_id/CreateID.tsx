@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import styles from "./SignIn.module.scss";
+import styles from "./CreateID.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import SignInModule, {
   SignInModuleBtnRow,
@@ -16,7 +16,7 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import { paths } from "@/paths";
 
-const SignIn: React.FC = () => {
+const CreateID: React.FC = () => {
   const i18n = React.useContext(i18nContext);
 
   const handleClickNext = React.useCallback(() => {}, []);
@@ -33,9 +33,9 @@ const SignIn: React.FC = () => {
         </SignInModuleHeader>
         <SignInModuleInputArea>3</SignInModuleInputArea>
         <SignInModuleBtnRow>
-          <Link href={paths.id_create}>
-            <Button variant="transparent_blue_2" noTransition>
-              {i18n.create_id}
+          <Link href={paths.id}>
+            <Button variant="transparent_blue_2" noTransition handleClick={handleClickCreateId}>
+              {i18n.already_have_id}
             </Button>
           </Link>
           <Button
@@ -53,4 +53,4 @@ const SignIn: React.FC = () => {
   );
 };
 
-export default SignIn;
+export default CreateID;

@@ -8,12 +8,19 @@
 }
 
 .header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 16px;
 }
 
 .title {
+  font-size: 1.51em;
 }
 
 .subtitle {
+  padding: 7px 0 1px;
+  font-size: 1.17em;
 }
 
 .logoArea {
@@ -26,4 +33,13 @@
   margin-bottom: 11px;
   margin-top: auto;
   justify-content: space-between;
+
+  > a {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  button {
+    height: 100%;
+  }
 }
