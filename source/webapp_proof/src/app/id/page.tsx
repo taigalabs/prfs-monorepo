@@ -12,16 +12,6 @@ const IdPage = () => {
           <SignIn />
         </Suspense>
       </IdBody>
-      {/* <DefaultBody noTopPadding> */}
-      {/*   <div className={styles.container}> */}
-      {/*     <Suspense fallback={<CreateProofFormFallback />}> */}
-      {/*       <CreateProofForm /> */}
-      {/*     </Suspense> */}
-      {/*   </div> */}
-      {/* </DefaultBody> */}
-      {/* <DefaultFooter> */}
-      {/*   <GlobalFooter /> */}
-      {/* </DefaultFooter> */}
     </IdLayout>
   );
 };
