@@ -22,6 +22,9 @@ import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import { paths } from "@/paths";
 import { IdForm, idFormEmpty, validateIdForm } from "@/functions/validate_id";
 
+import * as ethers from "ethers";
+import * as secp from "@noble/secp256k1";
+
 const CreateID: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
@@ -33,6 +36,18 @@ const CreateID: React.FC = () => {
 
   React.useEffect(() => {
     const step = searchParams.get("step");
+
+    let b = ethers.utils.toUtf8Bytes("as");
+    let a = ethers.utils.keccak256(b);
+    let ccc = a.substring(2);
+    // let a2 = ethers.utils.toUtf8Bytes(a);
+    console.log(111, b, a, ccc);
+
+    let c = secp.getPublicKey(ccc);
+    console.log(22, c);
+
+    // let c2 = ethers.utils.toUtf8String(c);
+    // let bb = secp.utils.randomPrivateKey();
 
     if (step === null) {
       const search = `?${searchParams.toString()}&step=1`;
@@ -193,7 +208,7 @@ const CreateID: React.FC = () => {
                 <span>{password_1_mask}</span>
                 <span>{password_2_mask}</span>
               </div>
-              <div>234</div>
+              <div></div>
             </SignInModuleInputArea>
             <SignInModuleBtnRow>
               <div />
