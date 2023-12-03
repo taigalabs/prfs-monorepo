@@ -5,7 +5,7 @@ import {
   VerifyProofEvent,
 } from "@taigalabs/prfs-driver-interface";
 
-export interface ProofGenElementState {
+export interface UtilsElementState {
   iframe: HTMLIFrameElement | undefined;
   circuitDriverId: string | undefined;
   artifactCount: number | undefined;

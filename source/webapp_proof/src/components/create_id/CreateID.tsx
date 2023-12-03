@@ -18,17 +18,21 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
+import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
+//
+import * as ethers from "ethers";
+import * as secp from "@noble/secp256k1";
 
 import { paths } from "@/paths";
 import { IdForm, idFormEmpty, validateIdForm } from "@/functions/validate_id";
 
-import * as ethers from "ethers";
-import * as secp from "@noble/secp256k1";
+const prfsSDK = new PrfsSDK("prfs-proof");
 
 const CreateID: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const searchParams = useSearchParams();
+  const isSDKInitiated = React.useRef(false);
 
   const [formData, setFormData] = React.useState<IdForm>(idFormEmpty);
   const [formErrors, setFormErrors] = React.useState<IdForm>(idFormEmpty);
@@ -69,6 +73,74 @@ const CreateID: React.FC = () => {
       setStep(step);
     }
   }, [router, searchParams, setStep, formData]);
+
+  React.useEffect(() => {
+    async function fn() {
+      if (isSDKInitiated.current) {
+        return;
+      }
+      isSDKInitiated.current = true;
+
+      const { circuit_driver_id, driver_properties } = proofType;
+      // setLoadDriverStatus(LoadDriverStatus.InProgress);
+      // setDriverMsg(<span>Loading driver {proofType.circuit_driver_id}...</span>);
+
+      // const since = dayjs();
+      try {
+        const elem = await prfsSDK.create("proof-gen", {
+          proofTypeId: proofType.proof_type_id,
+          circuit_driver_id,
+          driver_properties,
+          sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
+        });
+
+        // elem.subscribe(ev => {
+        //   const { type, payload } = ev;
+
+        //   if (type === "LOAD_DRIVER_EVENT") {
+        //     if (payload.asset_label && payload.progress) {
+        //       setLoadDriverProgress(oldVal => ({
+        //         ...oldVal,
+        //         [payload.asset_label!]: payload.progress,
+        //       }));
+        //     }
+        //   }
+
+        //   if (type === "LOAD_DRIVER_SUCCESS") {
+        //     const now = dayjs();
+        //     const diff = now.diff(since, "seconds", true);
+        //     const { artifactCount } = payload;
+
+        //     setDriverMsg(
+        //       <>
+        //         <span>Circuit driver </span>
+        //         <a
+        //           href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${circuit_driver_id}`}
+        //         >
+        //           {proofType.circuit_driver_id} <BiLinkExternal />
+        //         </a>
+        //         <span>
+        //           ({diff} seconds, {artifactCount} artifacts)
+        //         </span>
+        //       </>,
+        //     );
+        //     setLoadDriverStatus(LoadDriverStatus.StandBy);
+        //   }
+
+        //   if (type === "CREATE_PROOF_EVENT") {
+        //     setSystemMsg(payload.payload);
+        //   }
+        // });
+
+        // setProofGenElement(elem);
+        return elem;
+      } catch (err) {
+        // setDriverMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
+      }
+    }
+
+    fn().then();
+  }, []);
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {

@@ -1,20 +1,20 @@
 import { ProveReceipt, Proof, VerifyReceipt } from "@taigalabs/prfs-driver-interface";
 
-import { MsgEventListener, handleChildMessage } from "./handle_child_msg";
-import { sendMsgToChild } from "../msg";
-import { ProofGenOptions } from "../sdk/element_options";
-import { Msg } from "../msg";
-import { ProofGenElementState, ProofGenElementSubscriber, ProofGenEvent } from "./types";
-import emit from "./emit";
+// import { MsgEventListener, handleChildMessage } from "./handle_child_msg";
+import { sendMsgToChild, Msg } from "../../msg";
+import { ProofGenOptions } from "../../sdk/element_options";
+import { UtilsElementState, UtilsEvent } from "./types";
+// import { ProofGenElementState, ProofGenElementSubscriber, ProofGenEvent } from "./types";
+import emit, { EventSubscriber } from "../../msg/emit";
 
 export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
 export const PORTAL_ID = "prfs-sdk-portal";
 const CONTAINER_ID = "prfs-sdk-container";
 
-class ProofGenElement {
+class UtilsElement {
   options: ProofGenOptions;
-  state: ProofGenElementState;
-  subscribers: ProofGenElementSubscriber[];
+  state: UtilsElementState;
+  subscribers: EventSubscriber<UtilsEvent>[];
 
   constructor(options: ProofGenOptions) {
     this.options = options;
@@ -71,7 +71,7 @@ class ProofGenElement {
     }
     document.body.appendChild(container);
 
-    await handleChildMessage(this.subscribers);
+    // await handleChildMessage(this.subscribers);
 
     const { circuit_driver_id, driver_properties } = options;
     sendMsgToChild(
@@ -155,11 +155,11 @@ class ProofGenElement {
     }
   }
 
-  subscribe(subscriber: (ev: ProofGenEvent) => void): ProofGenElement {
+  subscribe(subscriber: (ev: UtilsEvent) => void): UtilsElement {
     this.subscribers.push(subscriber);
 
     return this;
   }
 }
 
-export default ProofGenElement;
+export default UtilsElement;

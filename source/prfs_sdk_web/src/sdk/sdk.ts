@@ -1,5 +1,5 @@
 import { ProofGenOptions, ZAuthSignInOptions } from "../sdk/element_options";
-import ProofGenElement from "../proof_gen_element/proof_gen_element";
+import ProofGenElement from "../elems/proof_gen_element/proof_gen_element";
 
 export class PrfsSDK {
   token: string;
@@ -10,7 +10,7 @@ export class PrfsSDK {
 
   async create<K extends keyof ElementOptions, V extends ElementOptions[K]>(
     elementType: ElementType,
-    options: V
+    options: V,
   ): Promise<ProofGenElement> {
     try {
       switch (elementType) {
@@ -20,6 +20,8 @@ export class PrfsSDK {
 
           return elem;
         }
+        // case "utils": {
+        // }
         // case "zauth-sign-in": {
         //   return new ProofGenElement({
         //     proofTypeId: "ZAUTH_SIGN_IN_1",
@@ -51,5 +53,6 @@ export type ElementType = "proof-gen" | "zauth-sign-in" | "zauth-sign-up";
 
 export interface ElementOptions {
   "proof-gen": ProofGenOptions;
+  utils: ProofGenOptions;
   "zauth-sign-in": ZAuthSignInOptions;
 }
