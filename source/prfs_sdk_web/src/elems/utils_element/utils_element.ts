@@ -2,7 +2,7 @@ import { ProveReceipt, Proof, VerifyReceipt } from "@taigalabs/prfs-driver-inter
 
 // import { MsgEventListener, handleChildMessage } from "./handle_child_msg";
 import { sendMsgToChild, Msg } from "../../msg";
-import { ProofGenOptions } from "../../sdk/element_options";
+import { ProofGenOptions, UtilsOptions } from "../../sdk/element_options";
 import { UtilsElementState, UtilsEvent } from "./types";
 // import { ProofGenElementState, ProofGenElementSubscriber, ProofGenEvent } from "./types";
 import emit, { EventSubscriber } from "../../msg/emit";
@@ -12,11 +12,11 @@ export const PORTAL_ID = "prfs-sdk-portal";
 const CONTAINER_ID = "prfs-sdk-container";
 
 class UtilsElement {
-  options: ProofGenOptions;
+  options: UtilsOptions;
   state: UtilsElementState;
   subscribers: EventSubscriber<UtilsEvent>[];
 
-  constructor(options: ProofGenOptions) {
+  constructor(options: UtilsOptions) {
     this.options = options;
     this.subscribers = [];
     this.state = {
@@ -55,7 +55,7 @@ class UtilsElement {
 
     const iframe = document.createElement("iframe");
     iframe.id = PROOF_GEN_IFRAME_ID;
-    iframe.src = `${sdkEndpoint}/proof_gen?proofTypeId=${options.proofTypeId}`;
+    iframe.src = `${sdkEndpoint}/utils`;
     iframe.allow = "cross-origin-isolated";
     iframe.style.border = "none";
     iframe.style.display = "none";
@@ -73,68 +73,48 @@ class UtilsElement {
 
     // await handleChildMessage(this.subscribers);
 
-    const { circuit_driver_id, driver_properties } = options;
-    sendMsgToChild(
-      new Msg("LOAD_DRIVER", {
-        circuit_driver_id,
-        driver_properties,
-      }),
-      iframe,
-    ).then(({ circuitDriverId, artifactCount }) => {
-      this.state.circuitDriverId = circuitDriverId;
-      this.state.artifactCount = artifactCount;
-
-      emit(this.subscribers, {
-        type: "LOAD_DRIVER_SUCCESS",
-        payload: {
-          circuitDriverId,
-          artifactCount,
-        },
-      });
-    });
-
     return this.state.iframe;
   }
 
-  async createProof(inputs: any, circuitTypeId: string): Promise<ProveReceipt> {
-    if (!this.state.iframe) {
-      throw new Error("iframe is not created");
-    }
+  // async createProof(inputs: any, circuitTypeId: string): Promise<ProveReceipt> {
+  //   if (!this.state.iframe) {
+  //     throw new Error("iframe is not created");
+  //   }
 
-    try {
-      const proveReceipt = await sendMsgToChild(
-        new Msg("CREATE_PROOF", {
-          inputs,
-          circuitTypeId,
-        }),
-        this.state.iframe,
-      );
+  //   try {
+  //     const proveReceipt = await sendMsgToChild(
+  //       new Msg("CREATE_PROOF", {
+  //         inputs,
+  //         circuitTypeId,
+  //       }),
+  //       this.state.iframe,
+  //     );
 
-      return proveReceipt;
-    } catch (err) {
-      throw new Error(`Error creating proof: ${err}`);
-    }
-  }
+  //     return proveReceipt;
+  //   } catch (err) {
+  //     throw new Error(`Error creating proof: ${err}`);
+  //   }
+  // }
 
-  async verifyProof(proof: Proof, circuitTypeId: string): Promise<VerifyReceipt> {
-    if (!this.state.iframe) {
-      throw new Error("iframe is not created");
-    }
+  // async verifyProof(proof: Proof, circuitTypeId: string): Promise<VerifyReceipt> {
+  //   if (!this.state.iframe) {
+  //     throw new Error("iframe is not created");
+  //   }
 
-    try {
-      const verifyReceipt = await sendMsgToChild(
-        new Msg("VERIFY_PROOF", {
-          proof,
-          circuitTypeId,
-        }),
-        this.state.iframe,
-      );
+  //   try {
+  //     const verifyReceipt = await sendMsgToChild(
+  //       new Msg("VERIFY_PROOF", {
+  //         proof,
+  //         circuitTypeId,
+  //       }),
+  //       this.state.iframe,
+  //     );
 
-      return verifyReceipt;
-    } catch (err) {
-      throw new Error(`Error creating proof: ${err}`);
-    }
-  }
+  //     return verifyReceipt;
+  //   } catch (err) {
+  //     throw new Error(`Error creating proof: ${err}`);
+  //   }
+  // }
 
   async hash(args: bigint[]): Promise<bigint> {
     if (!this.state.iframe) {
