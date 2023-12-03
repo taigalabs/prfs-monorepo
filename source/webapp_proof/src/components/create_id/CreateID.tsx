@@ -25,6 +25,8 @@ import * as secp from "@noble/secp256k1";
 
 import { paths } from "@/paths";
 import { IdForm, idFormEmpty, validateIdForm } from "@/functions/validate_id";
+import ProofGenElement from "@taigalabs/prfs-sdk-web/src/elems/proof_gen_element/proof_gen_element";
+import UtilsElement from "@taigalabs/prfs-sdk-web/src/elems/utils_element/utils_element";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -81,18 +83,17 @@ const CreateID: React.FC = () => {
       }
       isSDKInitiated.current = true;
 
-      const { circuit_driver_id, driver_properties } = proofType;
+      // const { circuit_driver_id, driver_properties } = proofType;
       // setLoadDriverStatus(LoadDriverStatus.InProgress);
       // setDriverMsg(<span>Loading driver {proofType.circuit_driver_id}...</span>);
 
       // const since = dayjs();
       try {
-        const elem = await prfsSDK.create("proof-gen", {
-          proofTypeId: proofType.proof_type_id,
-          circuit_driver_id,
-          driver_properties,
+        const elem: UtilsElement = await prfsSDK.create("utils", {
           sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
         });
+
+        console.log(11, elem);
 
         // elem.subscribe(ev => {
         //   const { type, payload } = ev;

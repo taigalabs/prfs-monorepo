@@ -2,14 +2,20 @@ import { ProveReceipt, Proof, VerifyReceipt } from "@taigalabs/prfs-driver-inter
 
 import { handleChildMessage } from "./handle_child_msg";
 import { sendMsgToChild } from "../../msg";
-import { ProofGenOptions } from "../../sdk/element_options";
 import { Msg } from "../../msg";
 import { ProofGenElementState, ProofGenEvent } from "./types";
 import emit, { EventSubscriber } from "../../msg/emit";
 
-export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
-export const PORTAL_ID = "prfs-sdk-portal";
+export const PROOF_GEN_IFRAME_ID = "prfs-sdk-proof-gen-iframe";
+// export const PROOF_GEN_PORTAL_ID = "prfs-sdk-proof-gen-portal";
 const CONTAINER_ID = "prfs-sdk-container";
+
+export interface ProofGenOptions {
+  proofTypeId: string;
+  circuit_driver_id: string;
+  driver_properties: Record<string, any>;
+  sdkEndpoint: string;
+}
 
 class ProofGenElement {
   options: ProofGenOptions;
@@ -37,7 +43,7 @@ class ProofGenElement {
     }
 
     try {
-      await fetch(`${sdkEndpoint}/api`, {
+      await fetch(`${sdkEndpoint}/proof_gen`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

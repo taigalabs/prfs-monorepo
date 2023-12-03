@@ -1,15 +1,17 @@
-import { ProveReceipt, Proof, VerifyReceipt } from "@taigalabs/prfs-driver-interface";
-
-// import { MsgEventListener, handleChildMessage } from "./handle_child_msg";
 import { sendMsgToChild, Msg } from "../../msg";
-import { ProofGenOptions, UtilsOptions } from "../../sdk/element_options";
 import { UtilsElementState, UtilsEvent } from "./types";
-// import { ProofGenElementState, ProofGenElementSubscriber, ProofGenEvent } from "./types";
 import emit, { EventSubscriber } from "../../msg/emit";
 
-export const PROOF_GEN_IFRAME_ID = "prfs-sdk-iframe";
-export const PORTAL_ID = "prfs-sdk-portal";
+export const UTILS_IFRAME_ID = "prfs-sdk-utils-iframe";
+// export const UTILS_PORTAL_ID = "prfs-sdk-utils-portal";
 const CONTAINER_ID = "prfs-sdk-container";
+
+export interface UtilsOptions {
+  // proofTypeId: string;
+  // circuit_driver_id: string;
+  // driver_properties: Record<string, any>;
+  sdkEndpoint: string;
+}
 
 class UtilsElement {
   options: UtilsOptions;
@@ -37,7 +39,7 @@ class UtilsElement {
     }
 
     try {
-      await fetch(`${sdkEndpoint}/api`, {
+      await fetch(`${sdkEndpoint}/utils`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -54,7 +56,7 @@ class UtilsElement {
     container.style.height = "0px";
 
     const iframe = document.createElement("iframe");
-    iframe.id = PROOF_GEN_IFRAME_ID;
+    iframe.id = UTILS_IFRAME_ID;
     iframe.src = `${sdkEndpoint}/utils`;
     iframe.allow = "cross-origin-isolated";
     iframe.style.border = "none";

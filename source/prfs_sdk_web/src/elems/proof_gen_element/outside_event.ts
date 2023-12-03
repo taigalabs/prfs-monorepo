@@ -8,7 +8,7 @@ export function listenClickOutsideIFrame(element: HTMLIFrameElement) {
         {
           type: PRFS_SDK_CLICK_OUTSIDE_EVENT_TYPE,
         },
-        "*"
+        "*",
       );
     }
   }

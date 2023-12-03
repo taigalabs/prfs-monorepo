@@ -1,6 +1,5 @@
-import { ProofGenOptions, UtilsOptions, ZAuthSignInOptions } from "../sdk/element_options";
-import ProofGenElement from "../elems/proof_gen_element/proof_gen_element";
-import UtilsElement from "@/elems/utils_element/utils_element";
+import ProofGenElement, { ProofGenOptions } from "../elems/proof_gen_element/proof_gen_element";
+import UtilsElement, { UtilsOptions } from "../elems/utils_element/utils_element";
 
 export class PrfsSDK {
   token: string;
@@ -12,10 +11,10 @@ export class PrfsSDK {
   async create<K extends keyof ElementOptions, V extends ElementOptions[K]>(
     elementType: ElementType,
     options: V,
-  ): Promise<any> {
+  ): Promise<SDKElement<ElementType>> {
     try {
       switch (elementType) {
-        case "proof-gen": {
+        case "proof_gen": {
           const elem = new ProofGenElement(options as ProofGenOptions);
           await elem.mount();
 
@@ -52,10 +51,13 @@ export class PrfsSDK {
   }
 }
 
-export type ElementType = "proof-gen" | "zauth-sign-in" | "zauth-sign-up" | "utils";
+export type ElementType = "proof_gen" | "zauth_sign_in" | "zauth_sign_up" | "utils";
+
+export type SDKElement<T> = //
+  T extends "proof_gen" ? ProofGenElement : T extends "utils" ? UtilsElement : never;
 
 export interface ElementOptions {
-  "proof-gen": ProofGenOptions;
+  proof_gen: ProofGenOptions;
   utils: UtilsOptions;
-  "zauth-sign-in": ZAuthSignInOptions;
+  // zauth_sign_in: ZAuthSignInOptions;
 }

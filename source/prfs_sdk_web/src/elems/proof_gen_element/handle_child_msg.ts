@@ -1,4 +1,3 @@
-// import { MsgType } from "../msg/payload";
 import { Msg, MsgType } from "../../msg";
 import { ProofGenEvent } from "./types";
 import emit, { EventSubscriber } from "../../msg/emit";
