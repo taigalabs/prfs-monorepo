@@ -5,9 +5,10 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useRouter, useSearchParams } from "next/navigation";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
+import cn from "classnames";
 import UtilsElement from "@taigalabs/prfs-sdk-web/src/elems/utils_element/utils_element";
 
-import styles from "./CreateID.module.scss";
+import styles from "./Step2.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import SignInModule, {
   SignInInputGuide,
@@ -43,8 +44,6 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
     CreateIdModuleStatus.StandBy,
   );
 
-  // const [formData, setFormData] = React.useState<IdForm>(idFormEmpty);
-  // const [formErrors, setFormErrors] = React.useState<IdForm>(idFormEmpty);
   const [step, setStep] = React.useState("1");
 
   React.useEffect(() => {
@@ -158,32 +157,38 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
   }, [formData]);
 
   return (
-    <Fade>
-      <SignInModuleHeader>
-        <SignInModuleTitle>{i18n.create_zauth_identity}</SignInModuleTitle>
-        <SignInModuleSubtitle>{i18n.created_an_identity}</SignInModuleSubtitle>
-      </SignInModuleHeader>
-      <SignInModuleInputArea>
-        <div className={styles.inputCollected}>
-          <span>{formData.email}</span>
-          <span>{password_1_mask}</span>
-          <span>{password_2_mask}</span>
-        </div>
-        <div></div>
-      </SignInModuleInputArea>
-      <SignInModuleBtnRow>
-        <div />
-        <Button
-          variant="blue_2"
-          className={styles.nextBtn}
-          noTransition
-          handleClick={handleClickNext}
-          noShadow
-        >
-          {i18n.next}
-        </Button>
-      </SignInModuleBtnRow>
-    </Fade>
+    <div
+      className={cn(styles.wrapper, {
+        [styles.inProgress]: createIdModuleStatus === CreateIdModuleStatus.ElementLoadInProgress,
+      })}
+    >
+      <Fade>
+        <SignInModuleHeader>
+          <SignInModuleTitle>{i18n.create_zauth_identity}</SignInModuleTitle>
+          <SignInModuleSubtitle>{i18n.created_an_identity}</SignInModuleSubtitle>
+        </SignInModuleHeader>
+        <SignInModuleInputArea>
+          <div className={styles.inputCollected}>
+            <span>{formData.email}</span>
+            <span>{password_1_mask}</span>
+            <span>{password_2_mask}</span>
+          </div>
+          <div></div>
+        </SignInModuleInputArea>
+        <SignInModuleBtnRow>
+          <div />
+          <Button
+            variant="blue_2"
+            className={styles.nextBtn}
+            noTransition
+            handleClick={handleClickNext}
+            noShadow
+          >
+            {i18n.next}
+          </Button>
+        </SignInModuleBtnRow>
+      </Fade>
+    </div>
   );
 };
 

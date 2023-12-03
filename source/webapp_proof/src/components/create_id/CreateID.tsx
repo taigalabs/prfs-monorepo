@@ -29,120 +29,25 @@ import ProofGenElement from "@taigalabs/prfs-sdk-web/src/elems/proof_gen_element
 import UtilsElement from "@taigalabs/prfs-sdk-web/src/elems/utils_element/utils_element";
 import Step2 from "./Step2";
 
-const prfsSDK = new PrfsSDK("prfs-proof");
-
 const CreateID: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const isSDKInitiated = React.useRef(false);
 
   const [formData, setFormData] = React.useState<IdForm>(idFormEmpty);
   const [formErrors, setFormErrors] = React.useState<IdForm>(idFormEmpty);
   const [step, setStep] = React.useState("1");
 
-  // React.useEffect(() => {
-  //   const step = searchParams.get("step");
+  React.useEffect(() => {
+    const step = searchParams.get("step");
 
-  //   let b = ethers.utils.toUtf8Bytes("as");
-  //   let a = ethers.utils.keccak256(b);
-  //   let ccc = a.substring(2);
-  //   // let a2 = ethers.utils.toUtf8Bytes(a);
-  //   // console.log(111, b, a, ccc);
-
-  //   // let c = secp.getPublicKey(ccc);
-  //   // console.log(22, c);
-
-  //   // let c2 = ethers.utils.toUtf8String(c);
-  //   // let bb = secp.utils.randomPrivateKey();
-
-  //   if (step === null) {
-  //     const search = `?${searchParams.toString()}&step=1`;
-  //     router.push(search);
-  //   } else {
-  //     if (step !== "1") {
-  //       if (
-  //         formData.password_1.length === 0 ||
-  //         formData.password_2.length === 0 ||
-  //         formData.email.length === 0
-  //       ) {
-  //         const params = new URLSearchParams(searchParams?.toString());
-  //         params.set("step", "1");
-  //         const url = `?${params.toString()}`;
-  //         router.push(url);
-  //       }
-  //     }
-
-  //     setStep(step);
-  //   }
-  // }, [router, searchParams, setStep, formData]);
-
-  // React.useEffect(() => {
-  //   async function fn() {
-  //     if (isSDKInitiated.current) {
-  //       return;
-  //     }
-  //     isSDKInitiated.current = true;
-
-  //     // const { circuit_driver_id, driver_properties } = proofType;
-  //     // setLoadDriverStatus(LoadDriverStatus.InProgress);
-  //     // setDriverMsg(<span>Loading driver {proofType.circuit_driver_id}...</span>);
-
-  //     // const since = dayjs();
-  //     try {
-  //       const elem: UtilsElement = await prfsSDK.create("utils", {
-  //         sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
-  //       });
-
-  //       console.log(11, elem);
-
-  //       // elem.subscribe(ev => {
-  //       //   const { type, payload } = ev;
-
-  //       //   if (type === "LOAD_DRIVER_EVENT") {
-  //       //     if (payload.asset_label && payload.progress) {
-  //       //       setLoadDriverProgress(oldVal => ({
-  //       //         ...oldVal,
-  //       //         [payload.asset_label!]: payload.progress,
-  //       //       }));
-  //       //     }
-  //       //   }
-
-  //       //   if (type === "LOAD_DRIVER_SUCCESS") {
-  //       //     const now = dayjs();
-  //       //     const diff = now.diff(since, "seconds", true);
-  //       //     const { artifactCount } = payload;
-
-  //       //     setDriverMsg(
-  //       //       <>
-  //       //         <span>Circuit driver </span>
-  //       //         <a
-  //       //           href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${circuit_driver_id}`}
-  //       //         >
-  //       //           {proofType.circuit_driver_id} <BiLinkExternal />
-  //       //         </a>
-  //       //         <span>
-  //       //           ({diff} seconds, {artifactCount} artifacts)
-  //       //         </span>
-  //       //       </>,
-  //       //     );
-  //       //     setLoadDriverStatus(LoadDriverStatus.StandBy);
-  //       //   }
-
-  //       //   if (type === "CREATE_PROOF_EVENT") {
-  //       //     setSystemMsg(payload.payload);
-  //       //   }
-  //       // });
-
-  //       // setProofGenElement(elem);
-  //       return elem;
-  //     } catch (err) {
-  //       // setDriverMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
-  //     }
-  //   }
-
-  //   fn().then();
-  // }, []);
+    if (step === null) {
+      const search = `?${searchParams.toString()}&step=1`;
+      router.push(search);
+    } else {
+      setStep(step);
+    }
+  }, [router, searchParams, setStep, formData]);
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
