@@ -6,11 +6,11 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import LoaderBar from "@taigalabs/prfs-react-components/src/loader_bar/LoaderBar";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
-import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 import dayjs from "dayjs";
 import cn from "classnames";
 import { useSearchParams } from "next/navigation";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
+import ProofGenElement from "@taigalabs/prfs-sdk-web/src/elems/proof_gen_element/proof_gen_element";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -129,12 +129,12 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
 
       const since = dayjs();
       try {
-        const elem = await prfsSDK.create("proof-gen", {
+        const elem = (await prfsSDK.create("proof_gen", {
           proofTypeId: proofType.proof_type_id,
           circuit_driver_id,
           driver_properties,
           sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
-        });
+        })) as ProofGenElement;
 
         elem.subscribe(ev => {
           const { type, payload } = ev;

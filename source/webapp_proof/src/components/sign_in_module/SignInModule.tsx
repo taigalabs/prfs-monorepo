@@ -34,6 +34,7 @@ export const SignInModuleBtnRow: React.FC<SignInModuleInputAreaProps> = ({ child
 
 export const SignInInputItem: React.FC<SignInModuleInputProps> = ({
   name,
+  value,
   error,
   type,
   placeholder,
@@ -47,6 +48,7 @@ export const SignInInputItem: React.FC<SignInModuleInputProps> = ({
     >
       <input
         name={name}
+        value={value}
         className={styles.input}
         placeholder={placeholder}
         type={type}
@@ -77,6 +79,7 @@ export interface SignInModuleInputAreaProps {
 
 export interface SignInModuleInputProps {
   name?: string;
+  value: string;
   handleChangeValue: React.ChangeEventHandler;
   error: string | undefined;
   placeholder?: string;

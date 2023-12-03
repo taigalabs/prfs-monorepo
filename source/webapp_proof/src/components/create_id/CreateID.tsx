@@ -27,6 +27,7 @@ import { paths } from "@/paths";
 import { IdForm, idFormEmpty, validateIdForm } from "@/functions/validate_id";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/elems/proof_gen_element/proof_gen_element";
 import UtilsElement from "@taigalabs/prfs-sdk-web/src/elems/utils_element/utils_element";
+import Step2 from "./Step2";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -47,10 +48,10 @@ const CreateID: React.FC = () => {
     let a = ethers.utils.keccak256(b);
     let ccc = a.substring(2);
     // let a2 = ethers.utils.toUtf8Bytes(a);
-    console.log(111, b, a, ccc);
+    // console.log(111, b, a, ccc);
 
-    let c = secp.getPublicKey(ccc);
-    console.log(22, c);
+    // let c = secp.getPublicKey(ccc);
+    // console.log(22, c);
 
     // let c2 = ethers.utils.toUtf8String(c);
     // let bb = secp.utils.randomPrivateKey();
@@ -76,72 +77,72 @@ const CreateID: React.FC = () => {
     }
   }, [router, searchParams, setStep, formData]);
 
-  React.useEffect(() => {
-    async function fn() {
-      if (isSDKInitiated.current) {
-        return;
-      }
-      isSDKInitiated.current = true;
+  // React.useEffect(() => {
+  //   async function fn() {
+  //     if (isSDKInitiated.current) {
+  //       return;
+  //     }
+  //     isSDKInitiated.current = true;
 
-      // const { circuit_driver_id, driver_properties } = proofType;
-      // setLoadDriverStatus(LoadDriverStatus.InProgress);
-      // setDriverMsg(<span>Loading driver {proofType.circuit_driver_id}...</span>);
+  //     // const { circuit_driver_id, driver_properties } = proofType;
+  //     // setLoadDriverStatus(LoadDriverStatus.InProgress);
+  //     // setDriverMsg(<span>Loading driver {proofType.circuit_driver_id}...</span>);
 
-      // const since = dayjs();
-      try {
-        const elem: UtilsElement = await prfsSDK.create("utils", {
-          sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
-        });
+  //     // const since = dayjs();
+  //     try {
+  //       const elem: UtilsElement = await prfsSDK.create("utils", {
+  //         sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
+  //       });
 
-        console.log(11, elem);
+  //       console.log(11, elem);
 
-        // elem.subscribe(ev => {
-        //   const { type, payload } = ev;
+  //       // elem.subscribe(ev => {
+  //       //   const { type, payload } = ev;
 
-        //   if (type === "LOAD_DRIVER_EVENT") {
-        //     if (payload.asset_label && payload.progress) {
-        //       setLoadDriverProgress(oldVal => ({
-        //         ...oldVal,
-        //         [payload.asset_label!]: payload.progress,
-        //       }));
-        //     }
-        //   }
+  //       //   if (type === "LOAD_DRIVER_EVENT") {
+  //       //     if (payload.asset_label && payload.progress) {
+  //       //       setLoadDriverProgress(oldVal => ({
+  //       //         ...oldVal,
+  //       //         [payload.asset_label!]: payload.progress,
+  //       //       }));
+  //       //     }
+  //       //   }
 
-        //   if (type === "LOAD_DRIVER_SUCCESS") {
-        //     const now = dayjs();
-        //     const diff = now.diff(since, "seconds", true);
-        //     const { artifactCount } = payload;
+  //       //   if (type === "LOAD_DRIVER_SUCCESS") {
+  //       //     const now = dayjs();
+  //       //     const diff = now.diff(since, "seconds", true);
+  //       //     const { artifactCount } = payload;
 
-        //     setDriverMsg(
-        //       <>
-        //         <span>Circuit driver </span>
-        //         <a
-        //           href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${circuit_driver_id}`}
-        //         >
-        //           {proofType.circuit_driver_id} <BiLinkExternal />
-        //         </a>
-        //         <span>
-        //           ({diff} seconds, {artifactCount} artifacts)
-        //         </span>
-        //       </>,
-        //     );
-        //     setLoadDriverStatus(LoadDriverStatus.StandBy);
-        //   }
+  //       //     setDriverMsg(
+  //       //       <>
+  //       //         <span>Circuit driver </span>
+  //       //         <a
+  //       //           href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${circuit_driver_id}`}
+  //       //         >
+  //       //           {proofType.circuit_driver_id} <BiLinkExternal />
+  //       //         </a>
+  //       //         <span>
+  //       //           ({diff} seconds, {artifactCount} artifacts)
+  //       //         </span>
+  //       //       </>,
+  //       //     );
+  //       //     setLoadDriverStatus(LoadDriverStatus.StandBy);
+  //       //   }
 
-        //   if (type === "CREATE_PROOF_EVENT") {
-        //     setSystemMsg(payload.payload);
-        //   }
-        // });
+  //       //   if (type === "CREATE_PROOF_EVENT") {
+  //       //     setSystemMsg(payload.payload);
+  //       //   }
+  //       // });
 
-        // setProofGenElement(elem);
-        return elem;
-      } catch (err) {
-        // setDriverMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
-      }
-    }
+  //       // setProofGenElement(elem);
+  //       return elem;
+  //     } catch (err) {
+  //       // setDriverMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
+  //     }
+  //   }
 
-    fn().then();
-  }, []);
+  //   fn().then();
+  // }, []);
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -191,12 +192,14 @@ const CreateID: React.FC = () => {
               <div className={styles.inputGroup}>
                 <SignInInputItem
                   name="email"
+                  value={formData.email}
                   placeholder={i18n.email}
                   error={formErrors.email}
                   handleChangeValue={handleChangeValue}
                 />
                 <SignInInputItem
                   name="email_confirm"
+                  value={formData.email_confirm}
                   placeholder={i18n.confirm}
                   error={formErrors.email_confirm}
                   handleChangeValue={handleChangeValue}
@@ -210,6 +213,7 @@ const CreateID: React.FC = () => {
               <div className={styles.inputGroup}>
                 <SignInInputItem
                   name="password_1"
+                  value={formData.password_1}
                   placeholder={i18n.password_1}
                   error={formErrors.password_1}
                   handleChangeValue={handleChangeValue}
@@ -217,6 +221,7 @@ const CreateID: React.FC = () => {
                 />
                 <SignInInputItem
                   name="password_1_confirm"
+                  value={formData.password_1_confirm}
                   placeholder={i18n.confirm}
                   error={formErrors.password_1_confirm}
                   handleChangeValue={handleChangeValue}
@@ -226,6 +231,7 @@ const CreateID: React.FC = () => {
               <div className={styles.inputGroup}>
                 <SignInInputItem
                   name="password_2"
+                  value={formData.password_2}
                   placeholder={i18n.password_2}
                   error={formErrors.password_2}
                   handleChangeValue={handleChangeValue}
@@ -233,6 +239,7 @@ const CreateID: React.FC = () => {
                 />
                 <SignInInputItem
                   name="password_2_confirm"
+                  value={formData.password_2_confirm}
                   placeholder={i18n.confirm}
                   error={formErrors.password_2_confirm}
                   handleChangeValue={handleChangeValue}
@@ -265,38 +272,11 @@ const CreateID: React.FC = () => {
         );
       }
       case "2": {
-        const password_1_mask = "*".repeat(formData.password_1.length);
-        const password_2_mask = "*".repeat(formData.password_2.length);
-        console.log(111, password_1_mask, formData);
+        // const password_1_mask = "*".repeat(formData.password_1.length);
+        // const password_2_mask = "*".repeat(formData.password_2.length);
+        // console.log(111, password_1_mask, formData);
 
-        return (
-          <Fade>
-            <SignInModuleHeader>
-              <SignInModuleTitle>{i18n.create_zauth_identity}</SignInModuleTitle>
-              <SignInModuleSubtitle>{i18n.created_an_identity}</SignInModuleSubtitle>
-            </SignInModuleHeader>
-            <SignInModuleInputArea>
-              <div className={styles.inputCollected}>
-                <span>{formData.email}</span>
-                <span>{password_1_mask}</span>
-                <span>{password_2_mask}</span>
-              </div>
-              <div></div>
-            </SignInModuleInputArea>
-            <SignInModuleBtnRow>
-              <div />
-              <Button
-                variant="blue_2"
-                className={styles.nextBtn}
-                noTransition
-                handleClick={handleClickNext}
-                noShadow
-              >
-                {i18n.next}
-              </Button>
-            </SignInModuleBtnRow>
-          </Fade>
-        );
+        return <Step2 formData={formData} />;
       }
       default:
         <div>Invalid step</div>;
