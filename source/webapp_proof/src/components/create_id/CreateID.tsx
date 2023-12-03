@@ -25,8 +25,6 @@ import * as secp from "@noble/secp256k1";
 
 import { paths } from "@/paths";
 import { IdForm, idFormEmpty, validateIdForm } from "@/functions/validate_id";
-import ProofGenElement from "@taigalabs/prfs-sdk-web/src/elems/proof_gen_element/proof_gen_element";
-import UtilsElement from "@taigalabs/prfs-sdk-web/src/elems/utils_element/utils_element";
 import Step2 from "./Step2";
 
 const CreateID: React.FC = () => {
