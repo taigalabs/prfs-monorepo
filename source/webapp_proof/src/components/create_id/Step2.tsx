@@ -1,6 +1,11 @@
 "use client";
 
 import React from "react";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import { useRouter, useSearchParams } from "next/navigation";
+import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
+import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
+import UtilsElement from "@taigalabs/prfs-sdk-web/src/elems/utils_element/utils_element";
 
 import styles from "./CreateID.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -14,19 +19,18 @@ import SignInModule, {
   SignInModuleSubtitle,
   SignInModuleTitle,
 } from "@/components/sign_in_module/SignInModule";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
-import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
+
 //
 import * as ethers from "ethers";
 import * as secp from "@noble/secp256k1";
-
-import { paths } from "@/paths";
 import { IdForm, idFormEmpty, validateIdForm } from "@/functions/validate_id";
-import ProofGenElement from "@taigalabs/prfs-sdk-web/src/elems/proof_gen_element/proof_gen_element";
-import UtilsElement from "@taigalabs/prfs-sdk-web/src/elems/utils_element/utils_element";
+
+enum CreateIdModuleStatus {
+  StandBy,
+  ElementLoadInProgress,
+  ElementIsLoaded,
+  Error,
+}
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -35,31 +39,31 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const isSDKInitiated = React.useRef(false);
+  const [createIdModuleStatus, setCreateIdModuleStatus] = React.useState(
+    CreateIdModuleStatus.StandBy,
+  );
 
   // const [formData, setFormData] = React.useState<IdForm>(idFormEmpty);
   // const [formErrors, setFormErrors] = React.useState<IdForm>(idFormEmpty);
   const [step, setStep] = React.useState("1");
 
   React.useEffect(() => {
-    const step = searchParams.get("step");
+    async function fn() {
+      const step = searchParams.get("step");
 
-    let b = ethers.utils.toUtf8Bytes("as");
-    let a = ethers.utils.keccak256(b);
-    let ccc = a.substring(2);
-    // let a2 = ethers.utils.toUtf8Bytes(a);
-    // console.log(111, b, a, ccc);
+      let b = ethers.utils.toUtf8Bytes("as");
+      let a = ethers.utils.keccak256(b);
+      let ccc = a.substring(2);
+      // let a2 = ethers.utils.toUtf8Bytes(a);
+      // console.log(111, b, a, ccc);
 
-    // let c = secp.getPublicKey(ccc);
-    // console.log(22, c);
+      // let c = secp.getPublicKey(ccc);
+      // console.log(22, c);
 
-    // let c2 = ethers.utils.toUtf8String(c);
-    // let bb = secp.utils.randomPrivateKey();
+      // let c2 = ethers.utils.toUtf8String(c);
+      // let bb = secp.utils.randomPrivateKey();
 
-    if (step === null) {
-      const search = `?${searchParams.toString()}&step=1`;
-      router.push(search);
-    } else {
-      if (step !== "1") {
+      if (step === "2") {
         if (
           formData.password_1.length === 0 ||
           formData.password_2.length === 0 ||
@@ -70,30 +74,28 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
           const url = `?${params.toString()}`;
           router.push(url);
         }
+
+        setStep(step);
+      } else {
+        const search = `?${searchParams.toString()}&step=1`;
+        router.push(search);
       }
 
-      setStep(step);
-    }
-  }, [router, searchParams, setStep, formData]);
-
-  React.useEffect(() => {
-    async function fn() {
       if (isSDKInitiated.current) {
         return;
       }
       isSDKInitiated.current = true;
 
-      // const { circuit_driver_id, driver_properties } = proofType;
-      // setLoadDriverStatus(LoadDriverStatus.InProgress);
-      // setDriverMsg(<span>Loading driver {proofType.circuit_driver_id}...</span>);
-
-      // const since = dayjs();
       try {
+        setCreateIdModuleStatus(CreateIdModuleStatus.ElementLoadInProgress);
+
         const elem: UtilsElement = await prfsSDK.create("utils", {
           sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
         });
 
         console.log(11, elem);
+
+        setCreateIdModuleStatus(CreateIdModuleStatus.ElementIsLoaded);
 
         // elem.subscribe(ev => {
         //   const { type, payload } = ev;
@@ -141,175 +143,19 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
     }
 
     fn().then();
-  }, []);
+  }, [router, searchParams, setStep, formData]);
 
-  // const handleChangeValue = React.useCallback(
-  //   (ev: React.ChangeEvent<HTMLInputElement>) => {
-  //     const name = ev.target.name;
-  //     const val = ev.target.value;
+  const handleClickNext = React.useCallback(() => {}, [formData, router, searchParams]);
 
-  //     if (name) {
-  //       setFormData(oldVal => {
-  //         return {
-  //           ...oldVal,
-  //           [name]: val,
-  //         };
-  //       });
-  //     }
-  //   },
-  //   [formData, setFormData],
-  // );
+  const { password_1_mask, password_2_mask } = React.useMemo(() => {
+    const password_1_mask = "*".repeat(formData.password_1.length);
+    const password_2_mask = "*".repeat(formData.password_2.length);
 
-  const handleClickNext = React.useCallback(() => {
-    // const res = validateIdForm(formData, setFormErrors);
-    // if (res) {
-    //   const params = new URLSearchParams(searchParams?.toString());
-    //   params.set("step", "2");
-    //   const url = `?${params.toString()}`;
-    //   router.push(url);
-    // }
-  }, [formData, router, searchParams]);
-
-  const emailGuideURL = React.useMemo(() => {
-    const url = `${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`;
-
-    return url;
-  }, []);
-
-  // const content = React.useMemo(() => {
-  //   switch (step) {
-  //     case "1": {
-  //       return (
-  //         <Fade>
-  //           <SignInModuleHeader>
-  //             <SignInModuleTitle>{i18n.create_zauth_identity}</SignInModuleTitle>
-  //             <SignInModuleSubtitle>{i18n.type_information}</SignInModuleSubtitle>
-  //           </SignInModuleHeader>
-  //           <SignInModuleInputArea>
-  //             <div className={styles.inputGroup}>
-  //               <SignInInputItem
-  //                 name="email"
-  //                 value={formData.email}
-  //                 placeholder={i18n.email}
-  //                 error={formErrors.email}
-  //                 handleChangeValue={handleChangeValue}
-  //               />
-  //               <SignInInputItem
-  //                 name="email_confirm"
-  //                 value={formData.email_confirm}
-  //                 placeholder={i18n.confirm}
-  //                 error={formErrors.email_confirm}
-  //                 handleChangeValue={handleChangeValue}
-  //               />
-  //             </div>
-  //             <SignInInputGuide>
-  //               <Link href={emailGuideURL} target="_blank">
-  //                 {i18n.why_we_ask_for_email}
-  //               </Link>
-  //             </SignInInputGuide>
-  //             <div className={styles.inputGroup}>
-  //               <SignInInputItem
-  //                 name="password_1"
-  //                 value={formData.password_1}
-  //                 placeholder={i18n.password_1}
-  //                 error={formErrors.password_1}
-  //                 handleChangeValue={handleChangeValue}
-  //                 type="password"
-  //               />
-  //               <SignInInputItem
-  //                 name="password_1_confirm"
-  //                 value={formData.password_1_confirm}
-  //                 placeholder={i18n.confirm}
-  //                 error={formErrors.password_1_confirm}
-  //                 handleChangeValue={handleChangeValue}
-  //                 type="password"
-  //               />
-  //             </div>
-  //             <div className={styles.inputGroup}>
-  //               <SignInInputItem
-  //                 name="password_2"
-  //                 value={formData.password_2}
-  //                 placeholder={i18n.password_2}
-  //                 error={formErrors.password_2}
-  //                 handleChangeValue={handleChangeValue}
-  //                 type="password"
-  //               />
-  //               <SignInInputItem
-  //                 name="password_2_confirm"
-  //                 value={formData.password_2_confirm}
-  //                 placeholder={i18n.confirm}
-  //                 error={formErrors.password_2_confirm}
-  //                 handleChangeValue={handleChangeValue}
-  //                 type="password"
-  //               />
-  //             </div>
-  //             <SignInInputGuide>
-  //               <Link href={emailGuideURL} target="_blank">
-  //                 {i18n.why_we_ask_for_two_passwords}
-  //               </Link>
-  //             </SignInInputGuide>
-  //           </SignInModuleInputArea>
-  //           <SignInModuleBtnRow>
-  //             <Link href={paths.id}>
-  //               <Button variant="transparent_blue_2" noTransition>
-  //                 {i18n.already_have_id}
-  //               </Button>
-  //             </Link>
-  //             <Button
-  //               variant="blue_2"
-  //               className={styles.nextBtn}
-  //               noTransition
-  //               handleClick={handleClickNext}
-  //               noShadow
-  //             >
-  //               {i18n.next}
-  //             </Button>
-  //           </SignInModuleBtnRow>
-  //         </Fade>
-  //       );
-  //     }
-  //     case "2": {
-  //       const password_1_mask = "*".repeat(formData.password_1.length);
-  //       const password_2_mask = "*".repeat(formData.password_2.length);
-  //       // console.log(111, password_1_mask, formData);
-
-  //       return (
-  //         <Step2 formData={formData} />
-  //         // <Fade>
-  //         //   <SignInModuleHeader>
-  //         //     <SignInModuleTitle>{i18n.create_zauth_identity}</SignInModuleTitle>
-  //         //     <SignInModuleSubtitle>{i18n.created_an_identity}</SignInModuleSubtitle>
-  //         //   </SignInModuleHeader>
-  //         //   <SignInModuleInputArea>
-  //         //     <div className={styles.inputCollected}>
-  //         //       <span>{formData.email}</span>
-  //         //       <span>{password_1_mask}</span>
-  //         //       <span>{password_2_mask}</span>
-  //         //     </div>
-  //         //     <div></div>
-  //         //   </SignInModuleInputArea>
-  //         //   <SignInModuleBtnRow>
-  //         //     <div />
-  //         //     <Button
-  //         //       variant="blue_2"
-  //         //       className={styles.nextBtn}
-  //         //       noTransition
-  //         //       handleClick={handleClickNext}
-  //         //       noShadow
-  //         //     >
-  //         //       {i18n.next}
-  //         //     </Button>
-  //         //   </SignInModuleBtnRow>
-  //         // </Fade>
-  //       );
-  //     }
-  //     default:
-  //       <div>Invalid step</div>;
-  //   }
-  // }, [step, handleClickNext, handleChangeValue, formErrors]);
-
-  const password_1_mask = "*".repeat(formData.password_1.length);
-  const password_2_mask = "*".repeat(formData.password_2.length);
+    return {
+      password_1_mask,
+      password_2_mask,
+    };
+  }, [formData]);
 
   return (
     <Fade>

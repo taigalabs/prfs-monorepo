@@ -41,41 +41,41 @@ const CreateID: React.FC = () => {
   const [formErrors, setFormErrors] = React.useState<IdForm>(idFormEmpty);
   const [step, setStep] = React.useState("1");
 
-  React.useEffect(() => {
-    const step = searchParams.get("step");
+  // React.useEffect(() => {
+  //   const step = searchParams.get("step");
 
-    let b = ethers.utils.toUtf8Bytes("as");
-    let a = ethers.utils.keccak256(b);
-    let ccc = a.substring(2);
-    // let a2 = ethers.utils.toUtf8Bytes(a);
-    // console.log(111, b, a, ccc);
+  //   let b = ethers.utils.toUtf8Bytes("as");
+  //   let a = ethers.utils.keccak256(b);
+  //   let ccc = a.substring(2);
+  //   // let a2 = ethers.utils.toUtf8Bytes(a);
+  //   // console.log(111, b, a, ccc);
 
-    // let c = secp.getPublicKey(ccc);
-    // console.log(22, c);
+  //   // let c = secp.getPublicKey(ccc);
+  //   // console.log(22, c);
 
-    // let c2 = ethers.utils.toUtf8String(c);
-    // let bb = secp.utils.randomPrivateKey();
+  //   // let c2 = ethers.utils.toUtf8String(c);
+  //   // let bb = secp.utils.randomPrivateKey();
 
-    if (step === null) {
-      const search = `?${searchParams.toString()}&step=1`;
-      router.push(search);
-    } else {
-      if (step !== "1") {
-        if (
-          formData.password_1.length === 0 ||
-          formData.password_2.length === 0 ||
-          formData.email.length === 0
-        ) {
-          const params = new URLSearchParams(searchParams?.toString());
-          params.set("step", "1");
-          const url = `?${params.toString()}`;
-          router.push(url);
-        }
-      }
+  //   if (step === null) {
+  //     const search = `?${searchParams.toString()}&step=1`;
+  //     router.push(search);
+  //   } else {
+  //     if (step !== "1") {
+  //       if (
+  //         formData.password_1.length === 0 ||
+  //         formData.password_2.length === 0 ||
+  //         formData.email.length === 0
+  //       ) {
+  //         const params = new URLSearchParams(searchParams?.toString());
+  //         params.set("step", "1");
+  //         const url = `?${params.toString()}`;
+  //         router.push(url);
+  //       }
+  //     }
 
-      setStep(step);
-    }
-  }, [router, searchParams, setStep, formData]);
+  //     setStep(step);
+  //   }
+  // }, [router, searchParams, setStep, formData]);
 
   // React.useEffect(() => {
   //   async function fn() {
@@ -272,10 +272,6 @@ const CreateID: React.FC = () => {
         );
       }
       case "2": {
-        // const password_1_mask = "*".repeat(formData.password_1.length);
-        // const password_2_mask = "*".repeat(formData.password_2.length);
-        // console.log(111, password_1_mask, formData);
-
         return <Step2 formData={formData} />;
       }
       default:
