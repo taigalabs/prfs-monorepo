@@ -11,9 +11,9 @@ export interface UtilsElementState {
   artifactCount: number | undefined;
 }
 
-export type ProofGenElementSubscriber = (msg: ProofGenEvent) => void;
+export type UtilsElementSubscriber = (msg: UtilsEvent) => void;
 
-export type ProofGenEvent =
+export type UtilsEvent =
   | CreateProofEvent
   | LoadDriverEvent
   | LoadDriverSuccessEvent
