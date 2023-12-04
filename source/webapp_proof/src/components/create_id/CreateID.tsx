@@ -22,6 +22,11 @@ import { paths } from "@/paths";
 import { IdForm, idFormEmpty, validateIdForm } from "@/functions/validate_id";
 import Step2 from "./Step2";
 
+enum CreateIDStep {
+  InputCredential,
+  CreateIdSuccess,
+}
+
 const CreateID: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
@@ -29,18 +34,7 @@ const CreateID: React.FC = () => {
 
   const [formData, setFormData] = React.useState<IdForm>(idFormEmpty);
   const [formErrors, setFormErrors] = React.useState<IdForm>(idFormEmpty);
-  const [step, setStep] = React.useState("1");
-
-  React.useEffect(() => {
-    const step = searchParams.get("step");
-
-    if (step === null) {
-      const search = `?${searchParams.toString()}&step=1`;
-      router.replace(search);
-    } else {
-      setStep(step);
-    }
-  }, [router, searchParams, setStep, formData]);
+  const [step, setStep] = React.useState(CreateIDStep.InputCredential);
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,16 +54,10 @@ const CreateID: React.FC = () => {
   );
 
   const handleClickNext = React.useCallback(() => {
-    // const res = validateIdForm(formData, setFormErrors);
-    const res = true;
+    const res = validateIdForm(formData, setFormErrors);
 
     if (res) {
-      const params = new URLSearchParams(searchParams?.toString());
-      params.set("step", "2");
-      const url = `?${params.toString()}`;
-      console.log(23, res, params, url);
-
-      router.replace(url);
+      setStep(CreateIDStep.CreateIdSuccess);
     }
   }, [formData, setFormErrors, router, searchParams]);
 
@@ -81,7 +69,7 @@ const CreateID: React.FC = () => {
 
   const content = React.useMemo(() => {
     switch (step) {
-      case "1": {
+      case CreateIDStep.InputCredential: {
         return (
           <Fade>
             <SignInModuleHeader>
@@ -170,7 +158,7 @@ const CreateID: React.FC = () => {
           </Fade>
         );
       }
-      case "2": {
+      case CreateIDStep.CreateIdSuccess: {
         return <Step2 formData={formData} />;
       }
       default:

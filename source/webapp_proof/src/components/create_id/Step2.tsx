@@ -44,11 +44,8 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
     CreateIdModuleStatus.StandBy,
   );
 
-  const [step, setStep] = React.useState("1");
-
   React.useEffect(() => {
     async function fn() {
-      const step = searchParams.get("step");
       console.log(11, formData);
 
       let b = ethers.utils.toUtf8Bytes("as");
@@ -63,24 +60,6 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
       // let c2 = ethers.utils.toUtf8String(c);
       // let bb = secp.utils.randomPrivateKey();
 
-      if (step === "2") {
-        // if (
-        //   formData.password_1.length === 0 ||
-        //   formData.password_2.length === 0 ||
-        //   formData.email.length === 0
-        // ) {
-        //   const params = new URLSearchParams(searchParams?.toString());
-        //   params.set("step", "1");
-        //   const url = `?${params.toString()}`;
-        //   router.push(url);
-        // }
-
-        setStep(step);
-      } else {
-        const search = `?${searchParams.toString()}&step=1`;
-        router.push(search);
-      }
-
       if (isSDKInitiated.current) {
         return;
       }
@@ -93,9 +72,9 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
           sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
         });
 
-        // console.log(11, elem);
-
         setCreateIdModuleStatus(CreateIdModuleStatus.ElementIsLoaded);
+
+        // console.log(11, elem);
 
         // elem.subscribe(ev => {
         //   const { type, payload } = ev;
@@ -143,7 +122,7 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
     }
 
     fn().then();
-  }, [router, searchParams, setStep, formData]);
+  }, [router, searchParams, formData]);
 
   const handleClickNext = React.useCallback(() => {}, [formData, router, searchParams]);
 
