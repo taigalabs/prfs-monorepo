@@ -1,20 +1,20 @@
-export const idFormEmpty: IdForm = {
+export const makeEmptyIdForm: () => IdForm = () => ({
   email: "abcabc@gmail.com",
   email_confirm: "abc@gmail.com",
   password_1: "Powerpowerpowerpower0000!",
   password_1_confirm: "Powerpowerpowerpower0000!",
   password_2: "!@#Showmethemoney0000",
   password_2_confirm: "!@#Showmethemoney0000",
-};
+});
 
-export const idErrorEmpty: IdForm = {
+export const makeEmptyIDFormErrors: () => IdForm = () => ({
   email: "",
   email_confirm: "",
   password_1: "",
   password_1_confirm: "",
   password_2: "",
   password_2_confirm: "",
-};
+});
 
 export interface IdForm {
   email: string;
@@ -25,15 +25,6 @@ export interface IdForm {
   password_2_confirm: string;
 }
 
-// export interface IdFormErrors {
-//   email: string;
-//   email_confirm: string;
-//   password_1: string;
-//   password_1_confirm: string;
-//   password_2: string;
-//   password_2_confirm: string;
-// }
-
 function validateEmail(email: any) {
   return String(email)
     .toLowerCase()
@@ -42,16 +33,31 @@ function validateEmail(email: any) {
     );
 }
 
-function checkPassword(str: string) {
-  var re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{15,}$/;
-  return re.test(str);
+function checkPassword(str: string): [boolean, string] {
+  if (str.length < 15) {
+    return [false, "too short"];
+  } else if (str.search(/\d/) === -1) {
+    return [false, "no digit"];
+  } else if (str.search(/[a-z]/) === -1) {
+    return [false, "no_lower_letter"];
+  } else if (str.search(/[A-Z]/)) {
+    return [false, "no_upper_letter"];
+  } else if (str.search(/[^-!@._*#%]/)) {
+    return [false, "no symbol"];
+  } else {
+    return [true, ""];
+  }
+
+  // var re =
+  //   /^(?=\D\d)(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=[^-!@._*#%]*[-!@._*#%])[-A-Za-z0-9=!@._*#%]*$/;
+  // return re.test(str || "");
 }
 
 export function validateIdForm(
   formValues: IdForm,
   setFormErrors: React.Dispatch<React.SetStateAction<IdForm>>,
 ): boolean {
-  setFormErrors(() => idFormEmpty);
+  setFormErrors(() => makeEmptyIDFormErrors());
 
   console.log(22, formValues);
 

@@ -54,7 +54,7 @@ export const SignInInputItem: React.FC<SignInModuleInputProps> = ({
         type={type}
         onChange={handleChangeValue}
       />
-      <p className={styles.error}>{error}</p>
+      {error && error.length && <p className={styles.error}>{error}</p>}
     </div>
   );
 };

@@ -25,7 +25,7 @@ import SignInModule, {
 //
 import * as ethers from "ethers";
 import * as secp from "@noble/secp256k1";
-import { IdForm, idFormEmpty, validateIdForm } from "@/functions/validate_id";
+import { IdForm, validateIdForm } from "@/functions/validate_id";
 
 enum CreateIdModuleStatus {
   StandBy,
@@ -148,7 +148,7 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
       <div className={styles.wrapper}>
         <Fade>
           <SignInModuleHeader>
-            <SignInModuleTitle>{i18n.create_zauth_identity}</SignInModuleTitle>
+            <SignInModuleTitle>{i18n.create_an_identity}</SignInModuleTitle>
             <SignInModuleSubtitle>{i18n.created_an_identity}</SignInModuleSubtitle>
           </SignInModuleHeader>
           <SignInModuleInputArea>

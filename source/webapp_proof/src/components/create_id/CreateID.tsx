@@ -19,7 +19,12 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import { paths } from "@/paths";
-import { IdForm, idErrorEmpty, idFormEmpty, validateIdForm } from "@/functions/validate_id";
+import {
+  IdForm,
+  makeEmptyIDFormErrors,
+  makeEmptyIdForm,
+  validateIdForm,
+} from "@/functions/validate_id";
 import Step2 from "./Step2";
 
 enum CreateIDStep {
@@ -32,8 +37,8 @@ const CreateID: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [formData, setFormData] = React.useState<IdForm>(idFormEmpty);
-  const [formErrors, setFormErrors] = React.useState<IdForm>(idErrorEmpty);
+  const [formData, setFormData] = React.useState<IdForm>(makeEmptyIdForm());
+  const [formErrors, setFormErrors] = React.useState<IdForm>(makeEmptyIDFormErrors());
   const [step, setStep] = React.useState(CreateIDStep.InputCredential);
 
   const handleChangeValue = React.useCallback(
@@ -54,6 +59,7 @@ const CreateID: React.FC = () => {
   );
 
   const handleClickNext = React.useCallback(() => {
+    console.log(123123);
     const res = validateIdForm(formData, setFormErrors);
 
     if (res) {
@@ -75,8 +81,8 @@ const CreateID: React.FC = () => {
             <SignInModuleLogoArea />
             <Fade>
               <SignInModuleHeader>
-                <SignInModuleTitle>{i18n.create_zauth_identity}</SignInModuleTitle>
-                <SignInModuleSubtitle>{i18n.type_information}</SignInModuleSubtitle>
+                <SignInModuleTitle>{i18n.create_an_identity}</SignInModuleTitle>
+                <SignInModuleSubtitle>{i18n.create_a_strong_password}</SignInModuleSubtitle>
               </SignInModuleHeader>
               <SignInModuleInputArea>
                 <div className={styles.inputGroup}>
@@ -171,10 +177,7 @@ const CreateID: React.FC = () => {
 
   return (
     <div className={styles.wrapper}>
-      <SignInModule>
-        {/* <SignInModuleLogoArea /> */}
-        {content}
-      </SignInModule>
+      <SignInModule>{content}</SignInModule>
     </div>
   );
 };
