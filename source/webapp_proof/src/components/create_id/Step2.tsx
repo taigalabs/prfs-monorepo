@@ -71,8 +71,9 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
         const pw = `${email}${password_1}${password_2}`;
 
         let pwBytes = ethers.utils.toUtf8Bytes(pw);
-        const p = Array.from(pwBytes);
-        utilsElem.hash(p as bigint[]);
+        // ethers.utils.toBig
+        // const p = Array.from(pwBytes);
+        // utilsElem.hash(p as bigint[]);
 
         // let a = ethers.utils.keccak256(pwBytes);
         // let ccc = a.substring(2);

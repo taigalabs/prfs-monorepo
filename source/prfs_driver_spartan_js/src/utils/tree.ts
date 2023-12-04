@@ -1,8 +1,8 @@
 import { AsyncIncrementalMerkleTree } from "@taigalabs/async-incremental-merkle-tree";
 import { SpartanMerkleProof } from "@taigalabs/prfs-driver-interface";
+import { bytesToBigInt } from "@taigalabs/prfs-crypto-js";
 
 import { AsyncHashFn } from "@/types";
-import { bytesToBigInt } from "./utils";
 
 export class Tree {
   depth: number;

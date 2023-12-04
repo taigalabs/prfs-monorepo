@@ -1,5 +1,5 @@
-import { bigIntToLeBytes, bytesLeToBigInt } from "./utils";
-// import { PrfsWasmType } from "../wasm_wrapper/types";
+import { bigIntToLeBytes, bytesLeToBigInt } from "@taigalabs/prfs-crypto-js";
+
 import { PrfsHandlers } from "@/types";
 
 export class Poseidon {

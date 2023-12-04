@@ -3,8 +3,8 @@ import BN from "bn.js";
 import JSONBig from "json-bigint";
 import { bufferToHex, toBuffer } from "@ethereumjs/util";
 import { BufferHex } from "@taigalabs/prfs-driver-interface";
+import { bigIntToBytes, bytesToBigInt } from "@taigalabs/prfs-crypto-js";
 
-import { bytesToBigInt, bigIntToBytes } from "@/utils/utils";
 import { EffECDSAPubInput } from "@/types";
 import { SECP256K1_N } from "@/math/secp256k1";
 

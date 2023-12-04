@@ -1,25 +1,26 @@
 {
   "name": "@taigalabs/prfs-driver-spartan-js",
   "version": "0.0.1",
+  "license": "MIT",
   "main": "./build_cjs/index.js",
   "module": "./build/index.js",
   "types": "./build/index.d.ts",
-  "license": "MIT",
   "files": [
     "build/**/*"
   ],
   "scripts": {
+    "build": "rm -rf ./dist && webpack --config webpack.config.js",
+    "build-cjs": "pnpm run clean-build-cjs && tsc --project tsconfig.cjs.json",
+    "build-pkg": "pnpm run clean-build && tsc && tsc-alias -p tsconfig.json",
     "clean-build": "rm -rf ./build",
     "clean-build-cjs": "rm -rf ./build_cjs",
-    "build": "rm -rf ./dist && webpack --config webpack.config.js",
-    "build-pkg": "pnpm run clean-build && tsc && tsc-alias -p tsconfig.json",
-    "build-cjs": "pnpm run clean-build-cjs && tsc --project tsconfig.cjs.json",
     "prepublishOnly": "pnpm run build-pkg",
     "test": "jest"
   },
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
     "@taigalabs/async-incremental-merkle-tree": "*",
+    "@taigalabs/prfs-crypto-js": "*",
     "@taigalabs/prfs-driver-interface": "*",
     "bn.js": "^5.2.1",
     "comlink": "^4.3.1",
