@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from "react";
+import React, { ButtonHTMLAttributes, MouseEventHandler } from "react";
 import cn from "classnames";
 
 import styles from "./Button.module.scss";
@@ -15,6 +15,7 @@ function isTransparent(variant: Variant) {
 
 const Button: React.FC<ButtonProps> = ({
   children,
+  type,
   className,
   handleClick,
   variant,
@@ -45,6 +46,7 @@ const Button: React.FC<ButtonProps> = ({
       {...(name && { name })}
       onClick={handleClick}
       disabled={!!disabled}
+      type={type}
     >
       <div className={styles.backdrop} />
       <span>{children}</span>
@@ -63,6 +65,7 @@ export interface ButtonProps {
   handleClick?: MouseEventHandler;
   noTransition?: boolean;
   noShadow?: boolean;
+  type?: "submit" | "reset" | "button" | undefined;
 }
 
 export type Variant =

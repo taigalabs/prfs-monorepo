@@ -30,7 +30,7 @@ const Masthead: React.FC<MastheadProps> = () => {
   const handleClickSignIn = React.useCallback(() => {
     const sk = new PrivateKey();
     const pkHex = sk.publicKey.toHex();
-    const redirect_uri = window.location.toString();
+    const redirect_uri = encodeURIComponent(window.location.toString());
 
     router.push(`${paths.id}?pk=${pkHex}&redirect_uri=${redirect_uri}`);
   }, [router]);

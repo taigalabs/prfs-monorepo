@@ -68,7 +68,7 @@ export const SignInInputGuide: React.FC<SignInModuleInputAreaProps> = ({ childre
 // };
 
 const SignInModule: React.FC<SignInModuleInputAreaProps> = ({ children }) => {
-  return <div className={styles.wrapper}>{children}</div>;
+  return <form className={styles.wrapper}>{children}</form>;
 };
 
 export default SignInModule;

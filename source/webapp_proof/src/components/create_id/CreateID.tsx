@@ -18,11 +18,6 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
-import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
-//
-import * as ethers from "ethers";
-import * as secp from "@noble/secp256k1";
-
 import { paths } from "@/paths";
 import { IdForm, idFormEmpty, validateIdForm } from "@/functions/validate_id";
 import Step2 from "./Step2";
@@ -41,7 +36,7 @@ const CreateID: React.FC = () => {
 
     if (step === null) {
       const search = `?${searchParams.toString()}&step=1`;
-      router.push(search);
+      router.replace(search);
     } else {
       setStep(step);
     }
@@ -65,14 +60,16 @@ const CreateID: React.FC = () => {
   );
 
   const handleClickNext = React.useCallback(() => {
-    const res = validateIdForm(formData, setFormErrors);
+    // const res = validateIdForm(formData, setFormErrors);
+    const res = true;
 
     if (res) {
       const params = new URLSearchParams(searchParams?.toString());
       params.set("step", "2");
       const url = `?${params.toString()}`;
+      console.log(23, res, params, url);
 
-      router.push(url);
+      router.replace(url);
     }
   }, [formData, setFormErrors, router, searchParams]);
 
@@ -156,12 +153,11 @@ const CreateID: React.FC = () => {
               </SignInInputGuide>
             </SignInModuleInputArea>
             <SignInModuleBtnRow>
-              <Link href={paths.id}>
-                <Button variant="transparent_blue_2" noTransition>
-                  {i18n.already_have_id}
-                </Button>
+              <Link href={paths.id} className={styles.blueLink}>
+                {i18n.already_have_id}
               </Link>
               <Button
+                type="button"
                 variant="blue_2"
                 className={styles.nextBtn}
                 noTransition
