@@ -1180,6 +1180,9 @@ importers:
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
+      copy-to-clipboard:
+        specifier: ^3.3.3
+        version: 3.3.3
       dayjs:
         specifier: ^1.11.9
         version: 1.11.9

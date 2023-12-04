@@ -21,12 +21,12 @@
 
   .input {
     word-break: break-all;
-    width: 290px;
+    width: 280px;
     font-size: 16px;
     line-height: 24px;
   }
 
-  .seeBtn {
+  .showPasswordBtn {
     display: grid;
     place-items: center;
     width: 30px;
@@ -34,9 +34,14 @@
     border-radius: 15px;
     font-size: 20px;
     cursor: pointer;
+    color: var(--gray-30);
 
     &:hover {
       background-color: var(--bright-gray-32);
     }
+  }
+
+  .btnArea {
+    display: flex;
   }
 }

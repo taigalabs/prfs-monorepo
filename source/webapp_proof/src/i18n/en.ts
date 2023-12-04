@@ -233,6 +233,7 @@ const en = {
   sign_in_desc: "Or <a href='/signup'>create</a> a new Prfs account",
   copyright: "© 2023 Prfs. All rights reserved.",
   copy_url: "Copy URL",
+  copy: "Copy",
   go_to_console: "Go to console",
   wallet_addr: "Wallet address",
   new_to_prfs: "New to Prfs?",

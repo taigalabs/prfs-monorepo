@@ -9,6 +9,8 @@ import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import cn from "classnames";
 import UtilsElement from "@taigalabs/prfs-sdk-web/src/elems/utils_element/utils_element";
 import { IoMdEye } from "@react-icons/all-files/io/IoMdEye";
+import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
+import copy from "copy-to-clipboard";
 
 import styles from "./Step2.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -129,17 +131,34 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
     fn().then();
   }, [router, searchParams, formData]);
 
+  const handleClickShowPassword = React.useCallback(() => {
+    setShowPassword(val => !val);
+  }, [setShowPassword]);
+
+  const handleClickCopyPassword = React.useCallback(() => {
+    const { email, password_1, password_2 } = formData;
+    const pw = `${email}${password_1}${password_2}`;
+    copy(pw);
+  }, [formData]);
+
   const handleClickNext = React.useCallback(() => {}, [formData, router, searchParams]);
 
-  const { password_1_mask, password_2_mask } = React.useMemo(() => {
-    const password_1_mask = "*".repeat(formData.password_1.length);
-    const password_2_mask = "*".repeat(formData.password_2.length);
+  const { password_1_val, password_2_val } = React.useMemo(() => {
+    if (showPassword) {
+      return {
+        password_1_val: formData.password_1,
+        password_2_val: formData.password_2,
+      };
+    } else {
+      const password_1_val = "*".repeat(formData.password_1.length);
+      const password_2_val = "*".repeat(formData.password_2.length);
 
-    return {
-      password_1_mask,
-      password_2_mask,
-    };
-  }, [formData]);
+      return {
+        password_1_val,
+        password_2_val,
+      };
+    }
+  }, [formData, showPassword]);
 
   return (
     <div>
@@ -159,13 +178,18 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
             <div className={styles.inputArea}>
               <div className={styles.input}>
                 <span>{formData.email}</span>
-                <span>{password_1_mask}</span>
-                <span>{password_2_mask}</span>
+                <span>{password_1_val}</span>
+                <span>{password_2_val}</span>
               </div>
-              <div>
-                <div className={styles.seeBtn}>
+              <div className={styles.btnArea}>
+                <div className={styles.showPasswordBtn} onClick={handleClickShowPassword}>
                   <Tooltip label={i18n.show} offset={6}>
                     <IoMdEye />
+                  </Tooltip>
+                </div>
+                <div className={styles.showPasswordBtn} onClick={handleClickCopyPassword}>
+                  <Tooltip label={i18n.copy} offset={6}>
+                    <AiOutlineCopy />
                   </Tooltip>
                 </div>
               </div>
