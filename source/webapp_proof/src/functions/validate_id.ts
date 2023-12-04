@@ -1,4 +1,13 @@
 export const idFormEmpty: IdForm = {
+  email: "abcabc@gmail.com",
+  email_confirm: "abc@gmail.com",
+  password_1: "Powerpowerpowerpower0000!",
+  password_1_confirm: "Powerpowerpowerpower0000!",
+  password_2: "!@#Showmethemoney0000",
+  password_2_confirm: "!@#Showmethemoney0000",
+};
+
+export const idErrorEmpty: IdForm = {
   email: "",
   email_confirm: "",
   password_1: "",

@@ -2,8 +2,19 @@
   position: relative;
 }
 
-.inProgress {
+.loadingOverlay {
   position: absolute;
+  display: grid;
+  place-items: center;
   inset: 0;
-  background-color: blue;
+  margin-top: 3px;
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: 5;
+}
+
+.inputCollected {
+  border: 1px solid var(--bright-gray-32);
+  word-break: break-all;
+
+  padding: 10px 14px;
 }
