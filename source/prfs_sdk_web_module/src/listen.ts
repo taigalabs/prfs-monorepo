@@ -142,7 +142,7 @@ async function eventListener(ev: MessageEvent) {
   }
 }
 
-export async function setupProofGen() {
+export async function setupListener() {
   window.addEventListener("message", eventListener);
   await sendMsgToParent(new Msg("HANDSHAKE", {}));
 

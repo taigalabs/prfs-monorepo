@@ -30,6 +30,7 @@ import * as ethers from "ethers";
 import * as secp from "@noble/secp256k1";
 import { IdForm, validateIdForm } from "@/functions/validate_id";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
+import { bytesToBigInt } from "@taigalabs/prfs-crypto-js";
 
 enum CreateIdModuleStatus {
   StandBy,
@@ -60,6 +61,7 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
 
       try {
         setCreateIdModuleStatus(CreateIdModuleStatus.ElementLoadInProgress);
+        console.log(51);
 
         const utilsElem: UtilsElement = await prfsSDK.create("utils", {
           sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
@@ -70,7 +72,11 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
         const { email, password_1, password_2 } = formData;
         const pw = `${email}${password_1}${password_2}`;
 
-        let pwBytes = ethers.utils.toUtf8Bytes(pw);
+        const pwBytes = ethers.utils.toUtf8Bytes(pw);
+        const pwInt = bytesToBigInt(pwBytes);
+
+        const h = await utilsElem.hash([pwInt]);
+        console.log(22, h);
         // ethers.utils.toBig
         // const p = Array.from(pwBytes);
         // utilsElem.hash(p as bigint[]);
@@ -130,7 +136,7 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
         // });
 
         // setProofGenElement(elem);
-        return elem;
+        // return elem;
       } catch (err) {
         // setDriverMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
       }

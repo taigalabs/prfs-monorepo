@@ -57,7 +57,7 @@ class UtilsElement {
 
     const iframe = document.createElement("iframe");
     iframe.id = UTILS_IFRAME_ID;
-    iframe.src = `${sdkEndpoint}/utils`;
+    iframe.src = `${sdkEndpoint}/sdk?elem=utils`;
     iframe.allow = "cross-origin-isolated";
     iframe.style.border = "none";
     iframe.style.display = "none";

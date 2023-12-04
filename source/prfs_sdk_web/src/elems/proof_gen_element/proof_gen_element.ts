@@ -43,8 +43,8 @@ class ProofGenElement {
     }
 
     try {
-      await fetch(`${sdkEndpoint}/proof_gen`, {
-        method: "POST",
+      await fetch(`${sdkEndpoint}/`, {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
@@ -61,7 +61,7 @@ class ProofGenElement {
 
     const iframe = document.createElement("iframe");
     iframe.id = PROOF_GEN_IFRAME_ID;
-    iframe.src = `${sdkEndpoint}/proof_gen?proofTypeId=${options.proofTypeId}`;
+    iframe.src = `${sdkEndpoint}/sdk?elem=proof_gen&proofTypeId=${options.proofTypeId}`;
     iframe.allow = "cross-origin-isolated";
     iframe.style.border = "none";
     iframe.style.display = "none";

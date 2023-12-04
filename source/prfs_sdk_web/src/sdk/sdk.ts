@@ -21,7 +21,10 @@ export class PrfsSDK {
           return elem;
         }
         case "utils": {
+          console.log(123);
           const elem = new UtilsElement(options as UtilsOptions);
+          await elem.mount();
+
           return elem;
         }
         // case "zauth-sign-in": {
