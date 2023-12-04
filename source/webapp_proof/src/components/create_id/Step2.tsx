@@ -61,7 +61,6 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
 
       try {
         setCreateIdModuleStatus(CreateIdModuleStatus.ElementLoadInProgress);
-        console.log(51);
 
         const utilsElem: UtilsElement = await prfsSDK.create("utils", {
           sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
@@ -69,11 +68,15 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
 
         setUtilsElem(utilsElem);
 
+        setCreateIdModuleStatus(CreateIdModuleStatus.ElementIsLoaded);
+
         const { email, password_1, password_2 } = formData;
         const pw = `${email}${password_1}${password_2}`;
 
         const pwBytes = ethers.utils.toUtf8Bytes(pw);
         const pwInt = bytesToBigInt(pwBytes);
+
+        console.log(12312311);
 
         const h = await utilsElem.hash([pwInt]);
         console.log(22, h);
@@ -92,8 +95,6 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
 
         // let c2 = ethers.utils.toUtf8String(c);
         // let bb = secp.utils.randomPrivateKey();
-
-        setCreateIdModuleStatus(CreateIdModuleStatus.ElementIsLoaded);
 
         // console.log(11, elem);
 

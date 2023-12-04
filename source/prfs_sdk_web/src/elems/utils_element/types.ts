@@ -13,8 +13,8 @@ export interface UtilsElementState {
 
 export type UtilsElementSubscriber = (msg: UtilsEvent) => void;
 
-export type UtilsEvent =
-  | CreateProofEvent
-  | LoadDriverEvent
-  | LoadDriverSuccessEvent
-  | VerifyProofEvent;
+export type UtilsEvent = any;
+// | CreateProofEvent
+// | LoadDriverEvent
+// | LoadDriverSuccessEvent
+// | VerifyProofEvent;

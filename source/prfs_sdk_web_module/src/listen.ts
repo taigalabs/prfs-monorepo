@@ -144,6 +144,7 @@ async function eventListener(ev: MessageEvent) {
 
 export async function setupListener() {
   window.addEventListener("message", eventListener);
+  console.log("send handshake");
   await sendMsgToParent(new Msg("HANDSHAKE", {}));
 
   return () => {

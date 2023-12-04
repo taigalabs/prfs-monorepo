@@ -1,6 +1,7 @@
 import { sendMsgToChild, Msg } from "../../msg";
 import { UtilsElementState, UtilsEvent } from "./types";
 import emit, { EventSubscriber } from "../../msg/emit";
+import { handleChildMessage } from "./handle_child_msg";
 
 export const UTILS_IFRAME_ID = "prfs-sdk-utils-iframe";
 // export const UTILS_PORTAL_ID = "prfs-sdk-utils-portal";
@@ -73,50 +74,10 @@ class UtilsElement {
     }
     document.body.appendChild(container);
 
-    // await handleChildMessage(this.subscribers);
+    await handleChildMessage(this.subscribers);
 
     return this.state.iframe;
   }
-
-  // async createProof(inputs: any, circuitTypeId: string): Promise<ProveReceipt> {
-  //   if (!this.state.iframe) {
-  //     throw new Error("iframe is not created");
-  //   }
-
-  //   try {
-  //     const proveReceipt = await sendMsgToChild(
-  //       new Msg("CREATE_PROOF", {
-  //         inputs,
-  //         circuitTypeId,
-  //       }),
-  //       this.state.iframe,
-  //     );
-
-  //     return proveReceipt;
-  //   } catch (err) {
-  //     throw new Error(`Error creating proof: ${err}`);
-  //   }
-  // }
-
-  // async verifyProof(proof: Proof, circuitTypeId: string): Promise<VerifyReceipt> {
-  //   if (!this.state.iframe) {
-  //     throw new Error("iframe is not created");
-  //   }
-
-  //   try {
-  //     const verifyReceipt = await sendMsgToChild(
-  //       new Msg("VERIFY_PROOF", {
-  //         proof,
-  //         circuitTypeId,
-  //       }),
-  //       this.state.iframe,
-  //     );
-
-  //     return verifyReceipt;
-  //   } catch (err) {
-  //     throw new Error(`Error creating proof: ${err}`);
-  //   }
-  // }
 
   async hash(args: bigint[]): Promise<bigint> {
     if (!this.state.iframe) {
