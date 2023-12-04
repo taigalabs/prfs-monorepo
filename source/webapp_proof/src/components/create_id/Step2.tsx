@@ -8,6 +8,7 @@ import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import cn from "classnames";
 import UtilsElement from "@taigalabs/prfs-sdk-web/src/elems/utils_element/utils_element";
+import { IoMdEye } from "@react-icons/all-files/io/IoMdEye";
 
 import styles from "./Step2.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -26,6 +27,7 @@ import SignInModule, {
 import * as ethers from "ethers";
 import * as secp from "@noble/secp256k1";
 import { IdForm, validateIdForm } from "@/functions/validate_id";
+import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 
 enum CreateIdModuleStatus {
   StandBy,
@@ -44,6 +46,7 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
   const [createIdModuleStatus, setCreateIdModuleStatus] = React.useState(
     CreateIdModuleStatus.StandBy,
   );
+  const [showPassword, setShowPassword] = React.useState(false);
 
   React.useEffect(() => {
     async function fn() {
@@ -158,6 +161,13 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
                 <span>{formData.email}</span>
                 <span>{password_1_mask}</span>
                 <span>{password_2_mask}</span>
+              </div>
+              <div>
+                <div className={styles.seeBtn}>
+                  <Tooltip label={i18n.show} offset={6}>
+                    <IoMdEye />
+                  </Tooltip>
+                </div>
               </div>
             </div>
             <div></div>

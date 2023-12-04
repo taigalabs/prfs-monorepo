@@ -14,12 +14,29 @@
 
 .inputArea {
   border: 1px solid var(--bright-gray-32);
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
   padding: 10px 14px;
 
   .input {
     word-break: break-all;
-    width: 260px;
+    width: 290px;
     font-size: 16px;
     line-height: 24px;
+  }
+
+  .seeBtn {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    font-size: 20px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--bright-gray-32);
+    }
   }
 }

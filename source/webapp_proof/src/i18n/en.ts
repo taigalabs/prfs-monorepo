@@ -55,6 +55,7 @@ const en = {
   meta: "Meta",
   learn: "Learn",
   see_more: "See more",
+  show: "Show",
   search: "Search",
   search_guide: "Search for a proof (type), circuits, sets and others",
   search_proof_guide: "Search for a proof (type)",
@@ -134,7 +135,7 @@ const en = {
   sign_in: "Sign in",
   use_your_zauth_identity: "Use your ZAuth identity",
   create_an_identity: "Create an identity",
-  created_an_identity: "Created an identity",
+  created_an_identity: "Check your credential",
   create_a_strong_password:
     "Create a strong password with a mix of upper/lower case lettters, numbers, and symbols. Your ID will be auto-generated based on your password",
   why_we_ask_for_email: "Why we ask for email address",
