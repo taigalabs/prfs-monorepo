@@ -52,6 +52,7 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
       let b = ethers.utils.toUtf8Bytes("as");
       let a = ethers.utils.keccak256(b);
       let ccc = a.substring(2);
+
       // let a2 = ethers.utils.toUtf8Bytes(a);
       // console.log(111, b, a, ccc);
 
@@ -152,10 +153,12 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
             <SignInModuleSubtitle>{i18n.created_an_identity}</SignInModuleSubtitle>
           </SignInModuleHeader>
           <SignInModuleInputArea>
-            <div className={styles.inputCollected}>
-              <span>{formData.email}</span>
-              <span>{password_1_mask}</span>
-              <span>{password_2_mask}</span>
+            <div className={styles.inputArea}>
+              <div className={styles.input}>
+                <span>{formData.email}</span>
+                <span>{password_1_mask}</span>
+                <span>{password_2_mask}</span>
+              </div>
             </div>
             <div></div>
           </SignInModuleInputArea>
