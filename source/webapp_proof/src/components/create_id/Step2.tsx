@@ -49,24 +49,10 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
     CreateIdModuleStatus.StandBy,
   );
   const [showPassword, setShowPassword] = React.useState(false);
+  const [utilsElem, setUtilsElem] = React.useState<UtilsElement | null>(null);
 
   React.useEffect(() => {
     async function fn() {
-      // console.log(11, formData);
-
-      let b = ethers.utils.toUtf8Bytes("as");
-      let a = ethers.utils.keccak256(b);
-      let ccc = a.substring(2);
-
-      // let a2 = ethers.utils.toUtf8Bytes(a);
-      // console.log(111, b, a, ccc);
-
-      // let c = secp.getPublicKey(ccc);
-      // console.log(22, c);
-
-      // let c2 = ethers.utils.toUtf8String(c);
-      // let bb = secp.utils.randomPrivateKey();
-
       if (isSDKInitiated.current) {
         return;
       }
@@ -75,9 +61,30 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
       try {
         setCreateIdModuleStatus(CreateIdModuleStatus.ElementLoadInProgress);
 
-        const elem: UtilsElement = await prfsSDK.create("utils", {
+        const utilsElem: UtilsElement = await prfsSDK.create("utils", {
           sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
         });
+
+        setUtilsElem(utilsElem);
+
+        const { email, password_1, password_2 } = formData;
+        const pw = `${email}${password_1}${password_2}`;
+
+        let pwBytes = ethers.utils.toUtf8Bytes(pw);
+        const p = Array.from(pwBytes);
+        utilsElem.hash(p as bigint[]);
+
+        // let a = ethers.utils.keccak256(pwBytes);
+        // let ccc = a.substring(2);
+
+        // let a2 = ethers.utils.toUtf8Bytes(a);
+        // console.log(111, b, a, ccc);
+
+        // let c = secp.getPublicKey(ccc);
+        // console.log(22, c);
+
+        // let c2 = ethers.utils.toUtf8String(c);
+        // let bb = secp.utils.randomPrivateKey();
 
         setCreateIdModuleStatus(CreateIdModuleStatus.ElementIsLoaded);
 
@@ -129,7 +136,7 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
     }
 
     fn().then();
-  }, [router, searchParams, formData]);
+  }, [router, searchParams, formData, setUtilsElem]);
 
   const handleClickShowPassword = React.useCallback(() => {
     setShowPassword(val => !val);

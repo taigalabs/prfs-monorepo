@@ -59,7 +59,6 @@ const CreateID: React.FC = () => {
   );
 
   const handleClickNext = React.useCallback(() => {
-    console.log(123123);
     const res = validateIdForm(formData, setFormErrors);
 
     if (res) {
