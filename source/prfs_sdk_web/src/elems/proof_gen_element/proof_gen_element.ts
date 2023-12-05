@@ -7,7 +7,6 @@ import { ProofGenElementState, ProofGenEvent } from "./types";
 import emit, { EventSubscriber } from "../../msg/emit";
 
 export const PROOF_GEN_IFRAME_ID = "prfs-sdk-proof-gen-iframe";
-// export const PROOF_GEN_PORTAL_ID = "prfs-sdk-proof-gen-portal";
 const CONTAINER_ID = "prfs-sdk-container";
 
 export interface ProofGenOptions {

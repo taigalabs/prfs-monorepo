@@ -3,6 +3,6 @@ build_tasks = [
   # "BuildJsDependenciesTask",
   # "CompileCircuitsTask",
   "BuildPrfsDriverSpartanWasmTask",
-  "BuildPrfsDriverUtilsWasmTask",
   "BuildPrfsDriverSpartanJsTask",
+  "BuildPrfsCryptoJsTask",
 ]
