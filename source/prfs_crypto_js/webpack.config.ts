@@ -23,6 +23,7 @@ const config: webpack.Configuration = {
       name: "prfsCrypto",
       type: "umd",
     },
+    publicPath: "",
   },
   module: {
     rules: [
