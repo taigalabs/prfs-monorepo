@@ -70,8 +70,8 @@ fn main() {
         Some(("build_prfs_driver_spartan_js", sub_matches)) => {
             cmds::build_prfs_driver_spartan_js::run(sub_matches, &timestamp);
         }
-        Some(("build_prfs_driver_utils_js", sub_matches)) => {
-            cmds::build_prfs_driver_utils_js::run(sub_matches, &timestamp);
+        Some(("build_prfs_driver_utils_wasm", sub_matches)) => {
+            cmds::build_prfs_driver_utils_wasm::run(sub_matches, &timestamp);
         }
         Some(("build_circuits", sub_matches)) => {
             cmds::build_circuits::run(sub_matches, &timestamp);
