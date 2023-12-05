@@ -3,7 +3,7 @@
 
 // import { PrfsWasmType, PrfsHandlers, PrfsMerkleProof, BuildStatus } from "../types";
 // import { wasmBytes } from "./build/prfs_wasm_bytes";
-import { wasmBytes } from "./build/prfs_driver_utils_wasm_bytes";
+import { wasmBytes } from "./build/prfs_crypto_js_bytes";
 // import wasmPackageJson from "./build/package.json";
 
 // function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {

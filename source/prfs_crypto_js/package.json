@@ -8,9 +8,9 @@
     "build/**/*"
   ],
   "scripts": {
-    "build": "rm -rf ./dist && webpack --config webpack.config.ts",
+    "build": "webpack --config webpack.config.ts",
     "build-pkg": "pnpm run clean-build && tsc && tsc-alias -p tsconfig.json",
-    "clean-build": "rm -rf ./build",
+    "clean-build": "rimraf ./build ./dist",
     "test": "jest"
   },
   "dependencies": {
