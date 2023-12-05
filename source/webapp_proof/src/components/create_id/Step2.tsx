@@ -101,17 +101,20 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
 
   const handleClickNext = React.useCallback(() => {}, [formData, router, searchParams]);
 
-  const { password_1_val, password_2_val } = React.useMemo(() => {
+  const { email_val, password_1_val, password_2_val } = React.useMemo(() => {
     if (showPassword) {
       return {
+        email_val: formData.email,
         password_1_val: formData.password_1,
         password_2_val: formData.password_2,
       };
     } else {
+      const email_val = `${formData.email.substring(0, 2)}${"*".repeat(formData.email.length - 2)}`;
       const password_1_val = "*".repeat(formData.password_1.length);
       const password_2_val = "*".repeat(formData.password_2.length);
 
       return {
+        email_val,
         password_1_val,
         password_2_val,
       };
@@ -130,14 +133,14 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
         <Fade>
           <SignInModuleHeader>
             <SignInModuleTitle>{i18n.create_an_identity}</SignInModuleTitle>
-            <SignInModuleSubtitle>{i18n.created_an_identity}</SignInModuleSubtitle>
+            <SignInModuleSubtitle>{i18n.check_your_credential}</SignInModuleSubtitle>
           </SignInModuleHeader>
           <div className={styles.inputArea}>
             <div className={styles.label}>{i18n.password_secret_key}</div>
             <div className={styles.content}>
               <div className={styles.secretKey}>
                 <div className={styles.value}>
-                  <span>{formData.email}</span>
+                  <span>{email_val}</span>
                   <span>{password_1_val}</span>
                   <span>{password_2_val}</span>
                 </div>
@@ -155,6 +158,12 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
                   </Tooltip>
                 </div>
               </div>
+            </div>
+          </div>
+          <div className={styles.inputArea}>
+            <div className={styles.label}>{i18n.id}</div>
+            <div className={styles.content}>
+              <div className={styles.value}></div>
             </div>
           </div>
           <SignInModuleBtnRow>
