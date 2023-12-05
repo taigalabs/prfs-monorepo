@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [lib]
-name = "prfs_driver_utils_wasm"
+name = "prfs_crypto_wasm"
 path = "src/lib.rs"
 crate-type = ["cdylib", "rlib"]
 

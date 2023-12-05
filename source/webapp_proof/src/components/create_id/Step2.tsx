@@ -12,7 +12,7 @@ import { IoMdEye } from "@react-icons/all-files/io/IoMdEye";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import copy from "copy-to-clipboard";
 
-import { initWasm } from "@taigalabs/prfs-driver-utils-wasm";
+import { initWasm } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./Step2.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -62,19 +62,24 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
       isSDKInitiated.current = true;
 
       try {
+        setCreateIdModuleStatus(CreateIdModuleStatus.ElementLoadInProgress);
         const wasm = await initWasm();
-        console.log(111, wasm);
-        // setCreateIdModuleStatus(CreateIdModuleStatus.ElementLoadInProgress);
+        wasm.poseidon;
+        setCreateIdModuleStatus(CreateIdModuleStatus.ElementIsLoaded);
+
         // const utilsElem: UtilsElement = await prfsSDK.create("utils", {
         //   sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
         // });
         // setUtilsElem(utilsElem);
         // setCreateIdModuleStatus(CreateIdModuleStatus.ElementIsLoaded);
-        // const { email, password_1, password_2 } = formData;
-        // const pw = `${email}${password_1}${password_2}`;
-        // const pwBytes = ethers.utils.toUtf8Bytes(pw);
-        // const pwInt = bytesToBigInt(pwBytes);
-        // console.log(12312311, pwInt);
+
+        const { email, password_1, password_2 } = formData;
+        const pw = `${email}${password_1}${password_2}`;
+        const pwBytes = ethers.utils.toUtf8Bytes(pw);
+        const pwInt = bytesToBigInt(pwBytes);
+        console.log(12312311, pwInt);
+
+        // wasm
         // const h = await utilsElem.hash([pwInt]);
         // console.log(22, h);
         // ethers.utils.toBig

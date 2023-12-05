@@ -39,7 +39,7 @@ fn build_wasm(build_handle: &mut BuildHandle) {
     let wasm_pkg_path = PATHS.prfs_crypto_js.to_str().unwrap();
     println!("wasm_pkg_path: {}", wasm_pkg_path);
 
-    let out_name = format!("{}_{}", WASM_PKG_NAME, build_handle.timestamp);
+    let out_name = format!("{}", WASM_PKG_NAME);
 
     let status = Command::new("rustup")
         .current_dir(wasm_pkg_path)
@@ -64,7 +64,7 @@ fn build_wasm(build_handle: &mut BuildHandle) {
 fn sanity_check(build_handle: &BuildHandle) {
     let wasm_js_path = PATHS
         .prfs_crypto_js__build
-        .join(format!("{}_{}.js", WASM_PKG_NAME, build_handle.timestamp));
+        .join(format!("{}.js", WASM_PKG_NAME));
 
     let js_str = std::fs::read_to_string(wasm_js_path).expect(&format!(
         "{} js needs to have been generated",
@@ -107,10 +107,7 @@ fn embed_wasm(build_handle: &BuildHandle) {
 
     assert!(status.success());
 
-    let wasm_file_path = wasm_embedded_path.join(format!(
-        "{}_{}_bg.wasm",
-        WASM_PKG_NAME, build_handle.timestamp
-    ));
+    let wasm_file_path = wasm_embedded_path.join(format!("{}_bg.wasm", WASM_PKG_NAME,));
     let wasm_bytes = std::fs::read(wasm_file_path).unwrap();
     let wasm_bytes_path = wasm_embedded_path.join(format!("{}_bytes.js", WASM_PKG_NAME));
 

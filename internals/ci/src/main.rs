@@ -20,7 +20,7 @@ fn main() {
         // build
         .subcommand(command!("build"))
         .subcommand(command!("build_prfs_driver_spartan_js"))
-        .subcommand(command!("build_prfs_driver_utils_js"))
+        .subcommand(command!("build_crypto_js"))
         .subcommand(command!("build_circuits"))
         // dev mode
         .subcommand(command!("dev_webapp_console").arg(Arg::new("extra_args")))

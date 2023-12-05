@@ -18,5 +18,12 @@
     }
   },
   "include": ["./js/**/*", "./js/**/*.wasm", "./js/**/package.json"],
-  "exclude": ["./jest.config.js", "./node_modules", "./tests", "./build", "./dist"]
+  "exclude": [
+    "./jest.config.js",
+    "./node_modules",
+    "./tests",
+    "./build",
+    "./dist",
+    "./js/wasm_wrapper/build"
+  ]
 }
