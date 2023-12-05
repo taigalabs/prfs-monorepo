@@ -6,6 +6,11 @@ use wasm_bindgen::{prelude::*, Clamped};
 use web_sys::console;
 
 #[wasm_bindgen]
+extern "C" {
+    fn alert(s: &str);
+}
+
+#[wasm_bindgen]
 pub fn init_panic_hook() {
     console_error_panic_hook::set_once();
 }
@@ -53,11 +58,6 @@ pub fn poseidon(input_bytes: &[u8]) -> Result<Vec<u8>, JsValue> {
         Ok(p) => Ok(p),
         Err(err) => Err(JsValue::from_str(&err.to_string())),
     };
-}
-
-#[wasm_bindgen]
-extern "C" {
-    fn alert(s: &str);
 }
 
 #[wasm_bindgen]
