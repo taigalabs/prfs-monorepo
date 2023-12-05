@@ -2,6 +2,7 @@ use super::task::BuildTask;
 use crate::{
     deps::{self, JS_ENGINE},
     paths::PATHS,
+    utils::copy_dir_all,
     BuildHandle, CiError,
 };
 use colored::Colorize;
@@ -21,6 +22,7 @@ impl BuildTask for BuildPrfsCryptoJsTask {
         build_wasm(build_handle);
         sanity_check(build_handle);
         embed_wasm(build_handle);
+        build_js(build_handle);
 
         Ok(())
     }
@@ -123,10 +125,23 @@ fn embed_wasm(build_handle: &BuildHandle) {
     );
 
     std::fs::write(wasm_bytes_path, contents).unwrap();
+}
+
+fn build_js(build_handle: &BuildHandle) {
+    // let status = Command::new("cp")
+    //     .args([
+    //         "-R",
+    //         PATHS.prfs_crypto_js__build.to_str().unwrap(),
+    //         wasm_embedded_path.to_str().unwrap(),
+    //     ])
+    //     .status()
+    //     .expect("cp command failed to start");
+
+    // assert!(status.success());
 
     let status = Command::new(JS_ENGINE)
         .current_dir(&PATHS.prfs_crypto_js)
-        .args(["run", "build-pkg"])
+        .args(["run", "build"])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));
 

@@ -3,6 +3,7 @@ mod build_handle;
 mod cmds;
 mod deps;
 mod paths;
+mod utils;
 
 use crate::build_handle::BuildHandle;
 use chrono::prelude::*;

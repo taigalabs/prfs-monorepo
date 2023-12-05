@@ -403,61 +403,104 @@ importers:
         version: 5.1.6
 
   source/prfs_crypto_js:
+    dependencies:
+      '@ethereumjs/util':
+        specifier: ^8.0.3
+        version: 8.1.0
+      '@taigalabs/async-incremental-merkle-tree':
+        specifier: '*'
+        version: link:../../externals/incremental-merkle-tree
+      '@taigalabs/prfs-crypto-js':
+        specifier: '*'
+        version: 'link:'
+      '@taigalabs/prfs-driver-interface':
+        specifier: '*'
+        version: link:../prfs_driver_interface
+      '@types/rimraf':
+        specifier: ^3.0.2
+        version: 3.0.2
+      bn.js:
+        specifier: ^5.2.1
+        version: 5.2.1
+      comlink:
+        specifier: ^4.3.1
+        version: 4.4.1
+      elliptic:
+        specifier: ^6.5.4
+        version: 6.5.4
+      json-bigint:
+        specifier: ^1.0.0
+        version: 1.0.0
+      lodash.throttle:
+        specifier: ^4.1.1
+        version: 4.1.1
+      snarkjs:
+        specifier: 0.7.0
+        version: 0.7.0
+      wasm-feature-detect:
+        specifier: ^1.2.11
+        version: 1.5.1
     devDependencies:
-      '@types/node':
-        specifier: 20.3.1
-        version: 20.3.1
+      '@rollup/plugin-node-resolve':
+        specifier: ^15.1.0
+        version: 15.1.0(rollup@3.27.2)
+      '@rollup/plugin-typescript':
+        specifier: ^8.3.3
+        version: 8.3.3(rollup@3.27.2)(typescript@5.1.6)
+      '@types/bn.js':
+        specifier: ^5.1.1
+        version: 5.1.1
+      '@types/elliptic':
+        specifier: ^6.4.14
+        version: 6.4.14
+      '@types/jest':
+        specifier: ^29.2.5
+        version: 29.5.3
+      '@types/json-bigint':
+        specifier: ^1.0.1
+        version: 1.0.1
+      '@types/lodash.throttle':
+        specifier: ^4.1.8
+        version: 4.1.8
       '@types/webpack':
         specifier: ^5.28.3
         version: 5.28.3(webpack-cli@5.1.4)
-      '@wasm-tool/wasm-pack-plugin':
-        specifier: 1.5.0
-        version: 1.5.0
-      browserify-fs:
-        specifier: ^1.0.0
-        version: 1.0.0
-      chalk:
-        specifier: 4.1.0
-        version: 4.1.0
-      crypto-browserify:
-        specifier: ^3.12.0
-        version: 3.12.0
-      dotenv:
-        specifier: ^16.3.1
-        version: 16.3.1
-      eslint:
-        specifier: 8.26.0
-        version: 8.26.0
-      eslint-config-next:
-        specifier: 13.4.6
-        version: 13.4.6(eslint@8.26.0)(typescript@5.1.6)
-      html-webpack-plugin:
-        specifier: ^5.3.2
-        version: 5.5.3(webpack@5.88.2)
+      core-js:
+        specifier: ^3.31.0
+        version: 3.31.1
+      jest:
+        specifier: ^29.3.1
+        version: 29.6.1(@types/node@20.4.9)(ts-node@10.9.1)
       node-polyfill-webpack-plugin:
         specifier: ^2.0.1
         version: 2.0.1(webpack@5.88.2)
-      os-browserify:
-        specifier: ^0.3.0
-        version: 0.3.0
       rimraf:
         specifier: ^3.0.2
         version: 3.0.2
+      rollup:
+        specifier: ^3.26.3
+        version: 3.27.2
+      ts-jest:
+        specifier: ^29.0.3
+        version: 29.1.1(@babel/core@7.23.3)(jest@29.6.1)(typescript@5.1.6)
       ts-loader:
         specifier: ^9.4.4
         version: 9.4.4(typescript@5.1.6)(webpack@5.88.2)
       ts-node:
         specifier: ^10.9.1
-        version: 10.9.1(@types/node@20.3.1)(typescript@5.1.6)
+        version: 10.9.1(@types/node@20.4.9)(typescript@5.1.6)
+      tsc-alias:
+        specifier: ^1.8.8
+        version: 1.8.8
       typescript:
         specifier: 5.1.6
         version: 5.1.6
       webpack:
         specifier: ^5.88.2
         version: 5.88.2(webpack-cli@5.1.4)
-      webpack-node-externals:
-        specifier: ^3.0.0
-        version: 3.0.0
+      webpack-cli:
+        specifier: ^5.1.4
+        version: 5.1.4(webpack@5.88.2)
 
   source/prfs_driver_interface:
     dependencies:
@@ -537,103 +580,6 @@ importers:
       rollup:
         specifier: ^3.26.3
         version: 3.26.3
-      ts-jest:
-        specifier: ^29.0.3
-        version: 29.1.1(@babel/core@7.23.3)(jest@29.6.1)(typescript@5.1.6)
-      ts-loader:
-        specifier: ^9.4.4
-        version: 9.4.4(typescript@5.1.6)(webpack@5.88.2)
-      tsc-alias:
-        specifier: ^1.8.8
-        version: 1.8.8
-      typescript:
-        specifier: 5.1.6
-        version: 5.1.6
-      webpack:
-        specifier: ^5.88.2
-        version: 5.88.2(webpack-cli@5.1.4)
-      webpack-cli:
-        specifier: ^5.1.4
-        version: 5.1.4(webpack@5.88.2)
-
-  source/prfs_driver_utils_wasm:
-    dependencies:
-      '@ethereumjs/util':
-        specifier: ^8.0.3
-        version: 8.1.0
-      '@taigalabs/async-incremental-merkle-tree':
-        specifier: '*'
-        version: link:../../externals/incremental-merkle-tree
-      '@taigalabs/prfs-crypto-js':
-        specifier: '*'
-        version: link:../prfs_crypto_js
-      '@taigalabs/prfs-driver-interface':
-        specifier: '*'
-        version: link:../prfs_driver_interface
-      '@types/rimraf':
-        specifier: ^3.0.2
-        version: 3.0.2
-      bn.js:
-        specifier: ^5.2.1
-        version: 5.2.1
-      comlink:
-        specifier: ^4.3.1
-        version: 4.4.1
-      elliptic:
-        specifier: ^6.5.4
-        version: 6.5.4
-      json-bigint:
-        specifier: ^1.0.0
-        version: 1.0.0
-      lodash.throttle:
-        specifier: ^4.1.1
-        version: 4.1.1
-      snarkjs:
-        specifier: 0.7.0
-        version: 0.7.0
-      wasm-feature-detect:
-        specifier: ^1.2.11
-        version: 1.5.1
-    devDependencies:
-      '@rollup/plugin-node-resolve':
-        specifier: ^15.1.0
-        version: 15.1.0(rollup@3.27.2)
-      '@rollup/plugin-typescript':
-        specifier: ^8.3.3
-        version: 8.3.3(rollup@3.27.2)(typescript@5.1.6)
-      '@types/bn.js':
-        specifier: ^5.1.1
-        version: 5.1.1
-      '@types/elliptic':
-        specifier: ^6.4.14
-        version: 6.4.14
-      '@types/jest':
-        specifier: ^29.2.5
-        version: 29.5.3
-      '@types/json-bigint':
-        specifier: ^1.0.1
-        version: 1.0.1
-      '@types/lodash.throttle':
-        specifier: ^4.1.8
-        version: 4.1.8
-      '@types/webpack':
-        specifier: ^5.28.3
-        version: 5.28.3(webpack-cli@5.1.4)
-      core-js:
-        specifier: ^3.31.0
-        version: 3.31.1
-      jest:
-        specifier: ^29.3.1
-        version: 29.6.1(@types/node@17.0.45)
-      node-polyfill-webpack-plugin:
-        specifier: ^2.0.1
-        version: 2.0.1(webpack@5.88.2)
-      rimraf:
-        specifier: ^3.0.2
-        version: 3.0.2
-      rollup:
-        specifier: ^3.26.3
-        version: 3.27.2
       ts-jest:
         specifier: ^29.0.3
         version: 29.1.1(@babel/core@7.23.3)(jest@29.6.1)(typescript@5.1.6)
@@ -761,9 +707,6 @@ importers:
       '@taigalabs/prfs-driver-spartan-js':
         specifier: '*'
         version: link:../prfs_driver_spartan_js
-      '@taigalabs/prfs-driver-utils-wasm':
-        specifier: '*'
-        version: link:../prfs_driver_utils_wasm
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
@@ -1314,9 +1257,6 @@ importers:
       '@taigalabs/prfs-driver-interface':
         specifier: '*'
         version: link:../prfs_driver_interface
-      '@taigalabs/prfs-driver-utils-wasm':
-        specifier: '*'
-        version: link:../prfs_driver_utils_wasm
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
@@ -12066,10 +12006,6 @@ packages:
       '@types/react': 18.2.12
       hoist-non-react-statics: 3.3.2
 
-  /@types/html-minifier-terser@6.1.0:
-    resolution: {integrity: sha512-oh/6byDPnL1zeNXFrDXFLyZjkr1MsBG667IM792caf1L2UPOOMf65NFzjUH/ltyfwjAGfs1rsX1eftK0jC/KIg==}
-    dev: true
-
   /@types/http-cache-semantics@4.0.1:
     resolution: {integrity: sha512-SZs7ekbP8CN0txVG2xVRH6EgKmEm31BOxA07vkFaETzZz1xh+cbt8BcI0slpymvwhx5dlFnQG2rTlPVQn+iRPQ==}
     dev: true
@@ -13506,15 +13442,6 @@ packages:
       '@walletconnect/window-getters': 1.0.1
       tslib: 1.14.1
     dev: false
-
-  /@wasm-tool/wasm-pack-plugin@1.5.0:
-    resolution: {integrity: sha512-qsGJ953zrXZdXW58cfYOh2nBXp0SYBsFhkxqh9p4JK8cXllEzHeRXoVO+qtgEB31+s1tsL8eda3Uy97W/7yOAg==}
-    dependencies:
-      chalk: 2.4.2
-      command-exists: 1.2.9
-      watchpack: 2.4.0
-      which: 2.0.2
-    dev: true
 
   /@wdio/config@8.23.1:
     resolution: {integrity: sha512-MljMBvMr+QYoy4/FytFHWorFE3CrBdEWuroOaGzC/0gkVOcHRO4nOy2rKahdcPXJAuxFwJNqqHhBPj+4tWiz9w==}
@@ -15342,13 +15269,6 @@ packages:
     resolution: {integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==}
     engines: {node: '>=6'}
 
-  /camel-case@4.1.2:
-    resolution: {integrity: sha512-gxGWBrTT1JuMx6R+o5PTXMmUnhnVzLQ9SNutD4YqKtI6ap897t3tKECYla6gCWEkplXnlNybEkZg9GEGxKFCgw==}
-    dependencies:
-      pascal-case: 3.1.2
-      tslib: 2.6.0
-    dev: true
-
   /camelcase-keys@6.2.2:
     resolution: {integrity: sha512-YrwaA0vEKazPBkn0ipTiMpSajYDSe+KjQfrjhcBMxJt/znbvlHd8Pw/Vamaz5EB4Wfhs3SUR3Z9mwRu/P3s3Yg==}
     engines: {node: '>=8'}
@@ -15832,13 +15752,6 @@ packages:
   /classnames@2.3.2:
     resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
     dev: false
-
-  /clean-css@5.3.3:
-    resolution: {integrity: sha512-D5J+kHaVb/wKSFcyyV75uCn8fiY4sV38XJoe4CUyGQ+mOU/fMVYUdH1hJC+CJQ5uY3EnW27SbJYS4X8BiLrAFg==}
-    engines: {node: '>= 10.0'}
-    dependencies:
-      source-map: 0.6.1
-    dev: true
 
   /clean-stack@2.2.0:
     resolution: {integrity: sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==}
@@ -16500,16 +16413,6 @@ packages:
     resolution: {integrity: sha512-a7Vr4Q/kd/aw96bnJG332W9V9LkJO69JRcaCYDUqjp6/z0w6VcZjgAcTbgFxEPfBgdnAwlh3iwu+hLopa+flJw==}
     dependencies:
       tiny-invariant: 1.3.1
-    dev: true
-
-  /css-select@4.3.0:
-    resolution: {integrity: sha512-wPpOYtnsVontu2mODhA19JrqWxNsfdatRKd64kmpRbQgh1KtItko5sTnEpPdpSaJszTOhEMlF/RPz28qj4HqhQ==}
-    dependencies:
-      boolbase: 1.0.0
-      css-what: 6.1.0
-      domhandler: 4.3.1
-      domutils: 2.8.0
-      nth-check: 2.1.1
     dev: true
 
   /css-select@5.1.0:
@@ -17394,20 +17297,6 @@ packages:
     resolution: {integrity: sha512-X7BJ2yElsnOJ30pZF4uIIDfBEVgF4XEBxL9Bxhy6dnrm5hkzqmsWHGTiHqRiITNhMyFLyAiWndIJP7Z1NTteDg==}
     dev: true
 
-  /dom-converter@0.2.0:
-    resolution: {integrity: sha512-gd3ypIPfOMr9h5jIKq8E3sHOTCjeirnl0WK5ZdS1AW0Odt0b1PaWaHdJ4Qk4klv+YB9aJBS7mESXjFoDQPu6DA==}
-    dependencies:
-      utila: 0.4.0
-    dev: true
-
-  /dom-serializer@1.4.1:
-    resolution: {integrity: sha512-VHwB3KfrcOOkelEG2ZOfxqLZdfkil8PtJi4P8N2MMXucZq2yLp75ClViUlOVwyoHEDjYU433Aq+5zWP61+RGag==}
-    dependencies:
-      domelementtype: 2.3.0
-      domhandler: 4.3.1
-      entities: 2.2.0
-    dev: true
-
   /dom-serializer@2.0.0:
     resolution: {integrity: sha512-wIkAryiqt/nV5EQKqQpo3SToSOV9J0DnbJqwK7Wv/Trc92zIAYZ4FlMu+JPFW1DfGFt81ZTCGgDEabffXeLyJg==}
     dependencies:
@@ -17440,13 +17329,6 @@ packages:
       webidl-conversions: 5.0.0
     dev: true
 
-  /domhandler@4.3.1:
-    resolution: {integrity: sha512-GrwoxYN+uWlzO8uhUXRl0P+kHE4GtVPfYzVLcUxPL7KNdHKj66vvlhiweIHqYYXWlw+T8iLMp42Lm67ghw4WMQ==}
-    engines: {node: '>= 4'}
-    dependencies:
-      domelementtype: 2.3.0
-    dev: true
-
   /domhandler@5.0.3:
     resolution: {integrity: sha512-cgwlv/1iFQiFnU96XXgROh8xTeetsnJiDsTc7TYCLFd9+/WNkIqPTxiM/8pSd8VIrhXGTf1Ny1q1hquVqDJB5w==}
     engines: {node: '>= 4'}
@@ -17457,14 +17339,6 @@ packages:
   /dompurify@3.0.6:
     resolution: {integrity: sha512-ilkD8YEnnGh1zJ240uJsW7AzE+2qpbOUYjacomn3AvJ6J4JhKGSZ2nh4wUIXPZrEPppaCLx5jFe8T89Rk8tQ7w==}
     dev: false
-
-  /domutils@2.8.0:
-    resolution: {integrity: sha512-w96Cjofp72M5IIhpjgobBimYEfoPjx1Vx0BSX9P30WBdZW2WIKU0T1Bd0kz2eNZ9ikjKgHbEyKx8BB6H1L3h3A==}
-    dependencies:
-      dom-serializer: 1.4.1
-      domelementtype: 2.3.0
-      domhandler: 4.3.1
-    dev: true
 
   /domutils@3.1.0:
     resolution: {integrity: sha512-H78uMmQtI2AhgDJjWeQmHwJJ2bLPD3GMmO7Zja/ZZh84wkm+4ut+IUnUdRa8uCGX88DiVx1j6FRe1XfxEgjEZA==}
@@ -17647,10 +17521,6 @@ packages:
     engines: {node: '>=8.6'}
     dependencies:
       ansi-colors: 4.1.3
-    dev: true
-
-  /entities@2.2.0:
-    resolution: {integrity: sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==}
     dev: true
 
   /entities@3.0.1:
@@ -20814,49 +20684,12 @@ packages:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
     dev: true
 
-  /html-minifier-terser@6.1.0:
-    resolution: {integrity: sha512-YXxSlJBZTP7RS3tWnQw74ooKa6L9b9i9QYXY21eUEvhZ3u9XLfv6OnFsQq6RxkhHygsaUMvYsZRV5rU/OVNZxw==}
-    engines: {node: '>=12'}
-    hasBin: true
-    dependencies:
-      camel-case: 4.1.2
-      clean-css: 5.3.3
-      commander: 8.3.0
-      he: 1.2.0
-      param-case: 3.0.4
-      relateurl: 0.2.7
-      terser: 5.19.0
-    dev: true
-
   /html-void-elements@3.0.0:
     resolution: {integrity: sha512-bEqo66MRXsUGxWHV5IP0PUiAWwoEjba4VCzg0LjFJBpchPaTfyfCKTG6bc5F8ucKec3q5y6qOdGyYTSBEvhCrg==}
-
-  /html-webpack-plugin@5.5.3(webpack@5.88.2):
-    resolution: {integrity: sha512-6YrDKTuqaP/TquFH7h4srYWsZx+x6k6+FbsTm0ziCwGHDP78Unr1r9F/H4+sGmMbX08GQcJ+K64x55b+7VM/jg==}
-    engines: {node: '>=10.13.0'}
-    peerDependencies:
-      webpack: ^5.20.0
-    dependencies:
-      '@types/html-minifier-terser': 6.1.0
-      html-minifier-terser: 6.1.0
-      lodash: 4.17.21
-      pretty-error: 4.0.0
-      tapable: 2.2.1
-      webpack: 5.88.2(webpack-cli@5.1.4)
-    dev: true
 
   /htmlescape@1.1.1:
     resolution: {integrity: sha512-eVcrzgbR4tim7c7soKQKtxa/kQM4TzjnlU83rcZ9bHU6t31ehfV7SktN6McWgwPWg+JYMA/O3qpGxBvFq1z2Jg==}
     engines: {node: '>=0.10'}
-    dev: true
-
-  /htmlparser2@6.1.0:
-    resolution: {integrity: sha512-gyyPk6rgonLFEDGoeRgQNaEUvdJ4ktTmmUh/h2t7s+M8oPpIPxgNACWa+6ESR57kXstwqPiCut0V8NRpcwgU7A==}
-    dependencies:
-      domelementtype: 2.3.0
-      domhandler: 4.3.1
-      domutils: 2.8.0
-      entities: 2.2.0
     dev: true
 
   /http-assert@1.5.0:
@@ -26314,13 +26147,6 @@ packages:
     resolution: {integrity: sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==}
     dev: true
 
-  /param-case@3.0.4:
-    resolution: {integrity: sha512-RXlj7zCYokReqWpOPH9oYivUzLYZ5vAPIfEmCTNViosC78F8F0H9y7T7gG2M39ymgutxF5gcFEsyZQSph9Bp3A==}
-    dependencies:
-      dot-case: 3.0.4
-      tslib: 2.6.0
-    dev: true
-
   /parent-module@1.0.1:
     resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==}
     engines: {node: '>=6'}
@@ -26411,13 +26237,6 @@ packages:
   /parseurl@1.3.3:
     resolution: {integrity: sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==}
     engines: {node: '>= 0.8'}
-
-  /pascal-case@3.1.2:
-    resolution: {integrity: sha512-uWlGT3YSnK9x3BQJaOdcZwrnV6hPpd8jFH1/ucpiLRPh/2zCVJKS19E4GvYHvaCcACn3foXZ0cLB9Wrx1KGe5g==}
-    dependencies:
-      no-case: 3.0.4
-      tslib: 2.6.0
-    dev: true
 
   /pascalcase@0.1.1:
     resolution: {integrity: sha512-XHXfu/yOQRy9vYOtUDVMN60OEJjW013GoObG1o+xwQTpB9eYJX/BjXMsdW13ZDPruFhYYn0AG22w0xgQMwl3Nw==}
@@ -26676,13 +26495,6 @@ packages:
     resolution: {integrity: sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==}
     engines: {node: '>=10.13.0'}
     hasBin: true
-    dev: true
-
-  /pretty-error@4.0.0:
-    resolution: {integrity: sha512-AoJ5YMAcXKYxKhuJGdcvse+Voc6v1RgnsR3nWcYU7q4t6z0Q6T86sv5Zq8VIRbOWWFpvdGE83LtdSMNd+6Y0xw==}
-    dependencies:
-      lodash: 4.17.21
-      renderkid: 3.0.0
     dev: true
 
   /pretty-format@26.6.2:
@@ -27873,11 +27685,6 @@ packages:
       unified: 11.0.3
     dev: true
 
-  /relateurl@0.2.7:
-    resolution: {integrity: sha512-G08Dxvm4iDN3MLM0EsP62EDV9IuhXPR6blNz6Utcp7zyV3tr4HVNINt6MpaRWbxoOHT3Q7YN2P+jaHX8vUbgog==}
-    engines: {node: '>= 0.10'}
-    dev: true
-
   /remark-gfm@3.0.1:
     resolution: {integrity: sha512-lEFDoi2PICJyNrACFOfDD3JlLkuSbOa5Wd8EPt06HUdptv8Gn0bxYTdbU/XXQ3swAPkEaGxxPN9cbnMHvVu1Ig==}
     dependencies:
@@ -27973,16 +27780,6 @@ packages:
 
   /remove-trailing-separator@1.1.0:
     resolution: {integrity: sha512-/hS+Y0u3aOfIETiaiirUFwDBDzmXPvO+jAfKTitUngIPzdKc6Z0LoFjM/CK5PL4C+eKwHohlHAb6H0VFfmmUsw==}
-    dev: true
-
-  /renderkid@3.0.0:
-    resolution: {integrity: sha512-q/7VIQA8lmM1hF+jn+sFSPWGlMkSAeNYcPLmDQx2zzuiDfaLrOmumR8iaUKlenFgh0XRPIUeSPlH3A+AW3Z5pg==}
-    dependencies:
-      css-select: 4.3.0
-      dom-converter: 0.2.0
-      htmlparser2: 6.1.0
-      lodash: 4.17.21
-      strip-ansi: 6.0.1
     dev: true
 
   /repeat-element@1.1.4:
@@ -30733,10 +30530,6 @@ packages:
       is-generator-function: 1.0.10
       is-typed-array: 1.1.10
       which-typed-array: 1.1.10
-
-  /utila@0.4.0:
-    resolution: {integrity: sha512-Z0DbgELS9/L/75wZbro8xAnT50pBVFQZ+hUEueGDU5FN51YSCYM+jdxsfCiHjwNP/4LCDD0i/graKpeBnOXKRA==}
-    dev: true
 
   /utils-merge@1.0.1:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
