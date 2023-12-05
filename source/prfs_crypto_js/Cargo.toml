@@ -1,5 +1,5 @@
 [package]
-name = "prfs_driver_utils_wasm"
+name = "prfs_crypto_wasm"
 version = "0.1.0"
 edition = "2021"
 

@@ -1,8 +1,8 @@
 // build
 pub mod build;
 pub mod build_circuits;
+pub mod build_prfs_crypto_js;
 pub mod build_prfs_driver_spartan_js;
-pub mod build_prfs_driver_utils_wasm;
 
 // dev mode
 pub mod dev_api_server;

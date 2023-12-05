@@ -7,13 +7,13 @@ use crate::{
 use colored::Colorize;
 use std::process::Command;
 
-const WASM_PKG_NAME: &str = "prfs_driver_utils_wasm";
+const WASM_PKG_NAME: &str = "prfs_crypto_js";
 
-pub struct BuildPrfsDriverUtilsWasmTask;
+pub struct BuildPrfsCryptoJsTask;
 
-impl BuildTask for BuildPrfsDriverUtilsWasmTask {
+impl BuildTask for BuildPrfsCryptoJsTask {
     fn name(&self) -> &str {
-        "BuildPrfsDriverUtilsWasmTask"
+        "BuildPrfsCryptoJsTask"
     }
 
     fn run(&self, build_handle: &mut BuildHandle) -> Result<(), CiError> {
@@ -27,7 +27,7 @@ impl BuildTask for BuildPrfsDriverUtilsWasmTask {
 }
 
 fn build_wasm(build_handle: &mut BuildHandle) {
-    let wasm_build_path = PATHS.prfs_driver_utils_wasm__build.to_str().unwrap();
+    let wasm_build_path = PATHS.prfs_crypto_js__build.to_str().unwrap();
 
     let status = Command::new("rm")
         .args(["-rf", &wasm_build_path])
@@ -36,7 +36,7 @@ fn build_wasm(build_handle: &mut BuildHandle) {
 
     assert!(status.success());
 
-    let wasm_pkg_path = PATHS.prfs_driver_utils_wasm.to_str().unwrap();
+    let wasm_pkg_path = PATHS.prfs_crypto_js.to_str().unwrap();
     println!("wasm_pkg_path: {}", wasm_pkg_path);
 
     let out_name = format!("{}_{}", WASM_PKG_NAME, build_handle.timestamp);
@@ -63,7 +63,7 @@ fn build_wasm(build_handle: &mut BuildHandle) {
 
 fn sanity_check(build_handle: &BuildHandle) {
     let wasm_js_path = PATHS
-        .prfs_driver_utils_wasm__build
+        .prfs_crypto_js__build
         .join(format!("{}_{}.js", WASM_PKG_NAME, build_handle.timestamp));
 
     let js_str = std::fs::read_to_string(wasm_js_path).expect(&format!(
@@ -84,7 +84,7 @@ fn sanity_check(build_handle: &BuildHandle) {
 }
 
 fn embed_wasm(build_handle: &BuildHandle) {
-    let wasm_embedded_path = PATHS.prfs_driver_utils_wasm.join("js/wasm_wrapper/build");
+    let wasm_embedded_path = PATHS.prfs_crypto_js.join("js/wasm_wrapper/build");
 
     println!(
         "{} a directory, path: {:?}",
@@ -99,7 +99,7 @@ fn embed_wasm(build_handle: &BuildHandle) {
     let status = Command::new("cp")
         .args([
             "-R",
-            PATHS.prfs_driver_utils_wasm__build.to_str().unwrap(),
+            PATHS.prfs_crypto_js__build.to_str().unwrap(),
             wasm_embedded_path.to_str().unwrap(),
         ])
         .status()
@@ -128,7 +128,7 @@ fn embed_wasm(build_handle: &BuildHandle) {
     std::fs::write(wasm_bytes_path, contents).unwrap();
 
     let status = Command::new(JS_ENGINE)
-        .current_dir(&PATHS.prfs_driver_utils_wasm)
+        .current_dir(&PATHS.prfs_crypto_js)
         .args(["run", "build-pkg"])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));

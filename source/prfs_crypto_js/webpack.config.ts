@@ -1,30 +1,26 @@
-import "dotenv/config";
-
 import path from "path";
+import nodePolyfillPlugin from "node-polyfill-webpack-plugin";
 import webpack from "webpack";
-import HtmlWebpackPlugin from "html-webpack-plugin";
-import WasmPackPlugin from "@wasm-tool/wasm-pack-plugin";
 
-const isProd = process.env.NODE_ENV === "production";
-
-const str = JSON.stringify;
-
-const entryPath = path.resolve(__dirname, "./js/");
-const distPath = path.resolve(__dirname, "./dist/");
-console.log("webpack entryPath: %s, distPath: %s", entryPath, distPath);
-
-const config: webpack.Configuration = {
-  entry: entryPath,
-  output: {
-    path: distPath,
-    filename: "index.js",
-    globalObject: "this",
-    library: {
-      name: "prfsCrypto",
-      type: "umd",
-    },
-    publicPath: "",
+const config = {
+  entry: "./src/index.ts",
+  optimization: {
+    concatenateModules: false,
+    providedExports: false,
+    usedExports: false,
   },
+  output: {
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "dist"),
+    library: {
+      name: "prfsDriverUtilsWasm",
+      type: "root",
+    },
+    libraryExport: "default",
+    libraryTarget: "var",
+    publicPath: "/",
+  },
+  mode: "development",
   module: {
     rules: [
       {
@@ -35,18 +31,18 @@ const config: webpack.Configuration = {
     ],
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".jsx"],
+    extensions: [".tsx", ".ts", ".js"],
+    fallback: {
+      fs: false,
+    },
   },
   plugins: [
-    // new HtmlWebpackPlugin(),
-    new WasmPackPlugin({
-      crateDirectory: path.resolve(__dirname, "."),
+    new nodePolyfillPlugin(),
+
+    new webpack.optimize.LimitChunkCountPlugin({
+      maxChunks: 1,
     }),
   ],
-  mode: "development",
-  experiments: {
-    asyncWebAssembly: true,
-  },
 };
 
 export default config;

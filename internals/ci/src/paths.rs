@@ -29,6 +29,7 @@ pub struct Paths {
     pub prfs_api_server: PathBuf,
     pub prfs_auth_op_server: PathBuf,
     pub prfs_crypto_js: PathBuf,
+    pub prfs_crypto_js__build: PathBuf,
 
     // asset_server
     pub prfs_asset_server: PathBuf,
@@ -41,8 +42,6 @@ pub struct Paths {
     pub prfs_driver_spartan_js: PathBuf,
     pub prfs_driver_spartan_wasm: PathBuf,
     pub prfs_driver_spartan_wasm_build: PathBuf,
-    pub prfs_driver_utils_wasm: PathBuf,
-    pub prfs_driver_utils_wasm__build: PathBuf,
 
     // sdk
     pub prfs_sdk_web: PathBuf,
@@ -87,14 +86,13 @@ impl Paths {
         let prfs_api_server = curr_dir.join("source/prfs_api_server");
         let prfs_auth_op_server = curr_dir.join("source/prfs_auth_op_server");
         let prfs_crypto_js = curr_dir.join("source/prfs_crypto_js");
+        let prfs_crypto_js__build = curr_dir.join("source/prfs_crypto_js/build");
 
         let prfs_entities_bindings = curr_dir.join("source/prfs_entities/bindings");
 
         let prfs_driver_spartan_js = curr_dir.join("source/prfs_driver_spartan_js");
         let prfs_driver_spartan_wasm = curr_dir.join("source/prfs_driver_spartan_wasm");
         let prfs_driver_spartan_wasm_build = curr_dir.join("source/prfs_driver_spartan_wasm/build");
-        let prfs_driver_utils_wasm = curr_dir.join("source/prfs_driver_utils_wasm");
-        let prfs_driver_utils_wasm__build = curr_dir.join("source/prfs_driver_utils_wasm/build");
 
         let prfs_sdk_web = curr_dir.join("source/prfs_sdk_web");
         let prfs_sdk_web_module = curr_dir.join("source/prfs_sdk_web_module");
@@ -117,8 +115,6 @@ impl Paths {
             prfs_driver_spartan_js,
             prfs_driver_spartan_wasm,
             prfs_driver_spartan_wasm_build,
-            prfs_driver_utils_wasm,
-            prfs_driver_utils_wasm__build,
 
             prfs_circuits_circom,
             prfs_snap,
@@ -128,6 +124,7 @@ impl Paths {
             prfs_api_server,
             prfs_auth_op_server,
             prfs_crypto_js,
+            prfs_crypto_js__build,
 
             prfs_asset_server,
             prfs_asset_server_assets,
