@@ -54,3 +54,13 @@ pub fn poseidon(input_bytes: &[u8]) -> Result<Vec<u8>, JsValue> {
         Err(err) => Err(JsValue::from_str(&err.to_string())),
     };
 }
+
+#[wasm_bindgen]
+extern "C" {
+    fn alert(s: &str);
+}
+
+#[wasm_bindgen]
+pub fn greet(name: &str) {
+    alert(&format!("Hello, {}!", name));
+}
