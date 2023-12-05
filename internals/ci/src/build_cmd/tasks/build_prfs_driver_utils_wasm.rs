@@ -23,7 +23,7 @@ impl BuildTask for BuildPrfsDriverUtilsWasmTask {
 }
 
 fn build_wasm(build_handle: &mut BuildHandle) {
-    let wasm_build_path = PATHS.prfs_driver_spartan_wasm_build.to_str().unwrap();
+    let wasm_build_path = PATHS.prfs_driver_utils_wasm__build.to_str().unwrap();
 
     let status = Command::new("rm")
         .args(["-rf", &wasm_build_path])
@@ -32,13 +32,13 @@ fn build_wasm(build_handle: &mut BuildHandle) {
 
     assert!(status.success());
 
-    let wasm_path = PATHS.prfs_driver_spartan_wasm.to_str().unwrap();
-    println!("wasm_path: {}", wasm_path);
+    let wasm_pkg_path = PATHS.prfs_driver_utils_wasm.to_str().unwrap();
+    println!("wasm_pkg_path: {}", wasm_pkg_path);
 
     let out_name = format!("{}_{}", WASM_PKG_NAME, build_handle.timestamp);
 
     let status = Command::new("rustup")
-        .current_dir(wasm_path)
+        .current_dir(wasm_pkg_path)
         .args([
             "run",
             deps::RUST_NIGHTLY_TOOLCHAIN,
@@ -59,7 +59,7 @@ fn build_wasm(build_handle: &mut BuildHandle) {
 
 fn sanity_check(build_handle: &BuildHandle) {
     let wasm_js_path = PATHS
-        .prfs_driver_spartan_wasm_build
+        .prfs_driver_utils_wasm__build
         .join(format!("{}_{}.js", WASM_PKG_NAME, build_handle.timestamp));
 
     let js_str = std::fs::read_to_string(wasm_js_path).expect(&format!(
@@ -80,7 +80,7 @@ fn sanity_check(build_handle: &BuildHandle) {
 }
 
 fn embed_wasm(build_handle: &BuildHandle) {
-    let wasm_embedded_path = PATHS.prfs_driver_spartan_js.join("src/wasm_wrapper/build");
+    let wasm_embedded_path = PATHS.prfs_driver_utils_wasm.join("js/wasm_wrapper/build");
 
     println!(
         "{} a directory, path: {:?}",
@@ -95,7 +95,7 @@ fn embed_wasm(build_handle: &BuildHandle) {
     let status = Command::new("cp")
         .args([
             "-R",
-            PATHS.prfs_driver_spartan_wasm_build.to_str().unwrap(),
+            PATHS.prfs_driver_utils_wasm__build.to_str().unwrap(),
             wasm_embedded_path.to_str().unwrap(),
         ])
         .status()

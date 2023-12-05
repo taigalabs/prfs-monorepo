@@ -1,5 +1,5 @@
 {
-  "name": "@taigalabs/prfs-driver-utils-js",
+  "name": "@taigalabs/prfs-driver-utils-wasm",
   "version": "0.0.1",
   "license": "MIT",
   "main": "./build_cjs/index.js",
