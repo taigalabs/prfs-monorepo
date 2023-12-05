@@ -2,7 +2,8 @@ import { threads } from "wasm-feature-detect";
 import * as Comlink from "comlink";
 
 import { PrfsWasmType, PrfsHandlers, PrfsMerkleProof, BuildStatus } from "../types";
-import { wasmBytes } from "./build/prfs_wasm_bytes";
+// import { wasmBytes } from "./build/prfs_wasm_bytes";
+import { wasmBytes } from "./build/prfs_driver_spartan_wasm_bytes";
 import wasmPackageJson from "./build/package.json";
 
 function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
