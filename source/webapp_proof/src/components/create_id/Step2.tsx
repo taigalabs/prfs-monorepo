@@ -12,6 +12,10 @@ import { IoMdEye } from "@react-icons/all-files/io/IoMdEye";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import copy from "copy-to-clipboard";
 import { initWasm } from "@taigalabs/prfs-crypto-js";
+import * as ethers from "ethers";
+import * as secp from "@noble/secp256k1";
+import { bytesToBigInt } from "@taigalabs/prfs-crypto-js";
+import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 
 import styles from "./Step2.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -27,11 +31,8 @@ import SignInModule, {
 } from "@/components/sign_in_module/SignInModule";
 
 //
-import * as ethers from "ethers";
-import * as secp from "@noble/secp256k1";
 import { IdForm, validateIdForm } from "@/functions/validate_id";
-import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
-import { bytesToBigInt } from "@taigalabs/prfs-crypto-js";
+import { hexlify } from "ethers/lib/utils";
 
 enum CreateIdModuleStatus {
   StandBy,
@@ -53,68 +54,18 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
     async function fn() {
       try {
         const wasm = await initWasm();
-        const arr = new Uint8Array([11]);
-        console.log(111, wasm);
-
-        const aa = wasm.poseidon(arr);
-        console.log(222, aa);
-
         const { email, password_1, password_2 } = formData;
         const pw = `${email}${password_1}${password_2}`;
         const pwBytes = ethers.utils.toUtf8Bytes(pw);
-        const pwInt = bytesToBigInt(pwBytes);
-        console.log(12312311, pwInt);
+        const pwHash = wasm.poseidon(pwBytes);
+        const pwInt = bytesToBigInt(pwHash);
 
-        // wasm
-        // const h = await utilsElem.hash([pwInt]);
-        // console.log(22, h);
-        // ethers.utils.toBig
-        // const p = Array.from(pwBytes);
-        // utilsElem.hash(p as bigint[]);
-        // let a = ethers.utils.keccak256(pwBytes);
-        // let ccc = a.substring(2);
-        // let a2 = ethers.utils.toUtf8Bytes(a);
-        // console.log(111, b, a, ccc);
-        // let c = secp.getPublicKey(ccc);
-        // console.log(22, c);
-        // let c2 = ethers.utils.toUtf8String(c);
-        // let bb = secp.utils.randomPrivateKey();
-        // console.log(11, elem);
-        // elem.subscribe(ev => {
-        //   const { type, payload } = ev;
-        //   if (type === "LOAD_DRIVER_EVENT") {
-        //     if (payload.asset_label && payload.progress) {
-        //       setLoadDriverProgress(oldVal => ({
-        //         ...oldVal,
-        //         [payload.asset_label!]: payload.progress,
-        //       }));
-        //     }
-        //   }
-        //   if (type === "LOAD_DRIVER_SUCCESS") {
-        //     const now = dayjs();
-        //     const diff = now.diff(since, "seconds", true);
-        //     const { artifactCount } = payload;
-        //     setDriverMsg(
-        //       <>
-        //         <span>Circuit driver </span>
-        //         <a
-        //           href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${circuit_driver_id}`}
-        //         >
-        //           {proofType.circuit_driver_id} <BiLinkExternal />
-        //         </a>
-        //         <span>
-        //           ({diff} seconds, {artifactCount} artifacts)
-        //         </span>
-        //       </>,
-        //     );
-        //     setLoadDriverStatus(LoadDriverStatus.StandBy);
-        //   }
-        //   if (type === "CREATE_PROOF_EVENT") {
-        //     setSystemMsg(payload.payload);
-        //   }
-        // });
-        // setProofGenElement(elem);
-        // return elem;
+        const pk = secp.getPublicKey(pwInt, false);
+        const s1 = pk.subarray(1);
+        const s2 = wasm.poseidon(s1);
+        const s3 = s2.subarray(0, 20);
+
+        console.log(2233, pwInt, pk, s1, s2, s3);
       } catch (err) {
         // setDriverMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
       }
