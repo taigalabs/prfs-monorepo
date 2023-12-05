@@ -13,6 +13,7 @@ members = [
   "source/prfs_auth_op_server",
   "source/prfs_asset_server",
   "source/prfs_crypto",
+  "source/prfs_crypto_js",
   "source/prfs_entities",
 
   # prfs cicuits
@@ -20,7 +21,6 @@ members = [
 
   # prfs driver
   "source/prfs_driver_spartan_wasm",
-  "source/prfs_crypto_js",
 
   # internals
   "internals/ci",
