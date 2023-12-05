@@ -1,3 +1,9 @@
+// build
+pub mod build;
+pub mod build_circuits;
+pub mod build_prfs_crypto_js;
+pub mod build_prfs_driver_spartan_js;
+
 // dev mode
 pub mod dev_api_server;
 pub mod dev_asset_server;
@@ -19,11 +25,6 @@ pub mod start_webapp_console;
 pub mod start_webapp_poll;
 pub mod start_webapp_proof;
 pub mod start_webapp_social;
-
-// build
-pub mod build;
-pub mod build_circuits;
-pub mod build_prfs_driver_spartan_js;
 
 // docker
 pub mod docker_down_all;

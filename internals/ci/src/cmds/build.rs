@@ -3,12 +3,15 @@ use colored::Colorize;
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    build_cmd::tasks::{
-        build_js_dependencies::BuildJsDependenciesTask,
-        build_prfs_driver_spartan_js::BuildPrfsDriverSpartanJsTask,
-        build_prfs_driver_spartan_wasm::BuildPrfsDriverSpartanWasmTask,
-        build_prfs_entities_ts_binding::BuildPrfsEntitiesTSBindingTask,
-        compile_circuits::CompileCircuitsTask, run_tasks::run_tasks, task::BuildTask,
+    build_cmd::{
+        build_prfs_crypto_js::BuildPrfsCryptoJsTask,
+        tasks::{
+            build_js_dependencies::BuildJsDependenciesTask,
+            build_prfs_driver_spartan_js::BuildPrfsDriverSpartanJsTask,
+            build_prfs_driver_spartan_wasm::BuildPrfsDriverSpartanWasmTask,
+            build_prfs_entities_ts_binding::BuildPrfsEntitiesTSBindingTask,
+            compile_circuits::CompileCircuitsTask, run_tasks::run_tasks, task::BuildTask,
+        },
     },
     build_handle::BuildHandle,
     paths::PATHS,
@@ -26,6 +29,7 @@ enum BuildTaskLabel {
     CompileCircuitsTask,
     BuildPrfsDriverSpartanWasmTask,
     BuildPrfsDriverSpartanJsTask,
+    BuildPrfsCryptoJsTask,
 }
 
 pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
@@ -61,6 +65,9 @@ pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
                     BuildTaskLabel::BuildPrfsDriverSpartanJsTask => {
                         build_tasks.push(Box::new(BuildPrfsDriverSpartanJsTask))
                     }
+                    BuildTaskLabel::BuildPrfsCryptoJsTask => {
+                        build_tasks.push(Box::new(BuildPrfsCryptoJsTask))
+                    }
                 }
             }
 
@@ -75,6 +82,7 @@ pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
         Box::new(CompileCircuitsTask),
         Box::new(BuildPrfsDriverSpartanWasmTask),
         Box::new(BuildPrfsDriverSpartanJsTask),
+        Box::new(BuildPrfsCryptoJsTask),
     ];
 
     run_tasks(sub_matches, build_tasks, build_handle).expect("Ci failed");

@@ -21,6 +21,7 @@ fn main() {
         .subcommand(command!("build"))
         .subcommand(command!("build_prfs_driver_spartan_js"))
         .subcommand(command!("build_circuits"))
+        .subcommand(command!("build_prfs_crypto_js"))
         // dev mode
         .subcommand(command!("dev_webapp_console").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_webapp_proof").arg(Arg::new("extra_args")))
@@ -70,6 +71,9 @@ fn main() {
             cmds::build_prfs_driver_spartan_js::run(sub_matches, &timestamp);
         }
         Some(("build_circuits", sub_matches)) => {
+            cmds::build_circuits::run(sub_matches, &timestamp);
+        }
+        Some(("build_prfs_crypto_js", sub_matches)) => {
             cmds::build_circuits::run(sub_matches, &timestamp);
         }
         // dev mode

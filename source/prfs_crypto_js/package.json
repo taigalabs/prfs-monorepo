@@ -4,7 +4,7 @@
   "description": "",
   "main": "js/index.ts",
   "scripts": {
-    "webpack": "pnpm exec webpack",
+    "build": "pnpm exec webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

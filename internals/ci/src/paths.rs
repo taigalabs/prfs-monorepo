@@ -27,8 +27,9 @@ pub struct Paths {
     pub prfs_snap: PathBuf,
     pub prfs_api_server: PathBuf,
     pub prfs_auth_op_server: PathBuf,
+    pub prfs_crypto_js: PathBuf,
 
-    //
+    // asset_server
     pub prfs_asset_server: PathBuf,
     pub prfs_asset_server_assets: PathBuf,
     pub prfs_asset_server_assets_local: PathBuf,
@@ -81,6 +82,7 @@ impl Paths {
         let e2e_test_web = curr_dir.join("source/e2e_test_web");
         let prfs_api_server = curr_dir.join("source/prfs_api_server");
         let prfs_auth_op_server = curr_dir.join("source/prfs_auth_op_server");
+        let prfs_crypto_js = curr_dir.join("source/prfs_crypto_js");
 
         let prfs_entities_bindings = curr_dir.join("source/prfs_entities/bindings");
 
@@ -117,6 +119,7 @@ impl Paths {
 
             prfs_api_server,
             prfs_auth_op_server,
+            prfs_crypto_js,
 
             prfs_asset_server,
             prfs_asset_server_assets,
