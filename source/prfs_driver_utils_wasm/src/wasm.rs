@@ -13,24 +13,6 @@ pub fn init_panic_hook() {
     console_error_panic_hook::set_once();
 }
 
-#[wasm_bindgen]
-pub fn get_build_status() -> Result<String, JsValue> {
-    return match api::get_build_status() {
-        Ok(s) => Ok(s),
-        Err(err) => Err(JsValue::from_str(&err.to_string())),
-    };
-}
-
-#[wasm_bindgen]
-pub fn prove(circuit: &[u8], vars: &[u8], public_inputs: &[u8]) -> Result<Vec<u8>, JsValue> {
-    // log(&format!("prove() public_inputs: {:?}", public_inputs));
-
-    return match api::prove2(circuit, vars, public_inputs) {
-        Ok(p) => Ok(p),
-        Err(err) => Err(err),
-    };
-}
-
 #[derive(Serialize, Deserialize, Debug)]
 pub struct MakeMerkleProofArgs {
     pub leaves: Vec<String>,
@@ -65,14 +47,6 @@ pub fn make_merkle_proof(make_merkle_proof_args: JsValue) -> Result<JsValue, JsV
     return match serde_wasm_bindgen::to_value(&proof) {
         Ok(p) => Ok(p),
         Err(err) => Err(JsValue::from(&err.to_string())),
-    };
-}
-
-#[wasm_bindgen]
-pub fn verify(circuit: &[u8], proof: &[u8], public_input: &[u8]) -> Result<bool, JsValue> {
-    return match api::verify(circuit, proof, public_input) {
-        Ok(p) => Ok(p),
-        Err(err) => Err(JsValue::from_str(&err.to_string())),
     };
 }
 

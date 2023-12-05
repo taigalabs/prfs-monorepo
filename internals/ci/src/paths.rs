@@ -40,6 +40,7 @@ pub struct Paths {
     pub prfs_driver_spartan_js: PathBuf,
     pub prfs_driver_spartan_wasm: PathBuf,
     pub prfs_driver_spartan_wasm_build: PathBuf,
+    pub prfs_driver_utils_js: PathBuf,
 
     // sdk
     pub prfs_sdk_web: PathBuf,
@@ -89,6 +90,7 @@ impl Paths {
         let prfs_driver_spartan_js = curr_dir.join("source/prfs_driver_spartan_js");
         let prfs_driver_spartan_wasm = curr_dir.join("source/prfs_driver_spartan_wasm");
         let prfs_driver_spartan_wasm_build = curr_dir.join("source/prfs_driver_spartan_wasm/build");
+        let prfs_driver_utils_js = curr_dir.join("source/prfs_driver_utils_js");
 
         let prfs_sdk_web = curr_dir.join("source/prfs_sdk_web");
         let prfs_sdk_web_module = curr_dir.join("source/prfs_sdk_web_module");
@@ -111,6 +113,7 @@ impl Paths {
             prfs_driver_spartan_js,
             prfs_driver_spartan_wasm,
             prfs_driver_spartan_wasm_build,
+            prfs_driver_utils_js,
 
             prfs_circuits_circom,
             prfs_snap,

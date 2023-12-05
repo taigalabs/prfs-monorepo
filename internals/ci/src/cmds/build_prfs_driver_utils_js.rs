@@ -1,7 +1,6 @@
 use crate::{
     build_cmd::{
         build_js_dependencies::BuildJsDependenciesTask,
-        build_prfs_crypto_js::BuildPrfsCryptoJsTask,
         build_prfs_driver_spartan_js::BuildPrfsDriverSpartanJsTask,
         build_prfs_driver_spartan_wasm::BuildPrfsDriverSpartanWasmTask,
         build_prfs_entities_ts_binding::BuildPrfsEntitiesTSBindingTask,
@@ -16,7 +15,10 @@ pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
         timestamp: timestamp.to_string(),
     };
 
-    let tasks: Vec<Box<dyn BuildTask>> = vec![Box::new(BuildPrfsCryptoJsTask)];
+    let tasks: Vec<Box<dyn BuildTask>> = vec![
+        Box::new(BuildPrfsDriverSpartanWasmTask),
+        // Box::new(BuildPrfsDriverSpartanJsTask),
+    ];
 
     run_tasks(sub_matches, tasks, build_handle).expect("Ci failed");
 }

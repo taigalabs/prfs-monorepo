@@ -20,6 +20,7 @@ members = [
 
   # prfs driver
   "source/prfs_driver_spartan_wasm",
+  "source/prfs_driver_utils_wasm",
 
   # internals
   "internals/ci",

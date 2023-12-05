@@ -4,7 +4,8 @@ use serde::{Deserialize, Serialize};
 
 use crate::{
     build_cmd::{
-        build_prfs_crypto_js::BuildPrfsCryptoJsTask,
+        build_prfs_driver_utils_js::BuildPrfsDriverUtilsJsTask,
+        build_prfs_driver_utils_wasm::BuildPrfsDriverUtilsWasmTask,
         tasks::{
             build_js_dependencies::BuildJsDependenciesTask,
             build_prfs_driver_spartan_js::BuildPrfsDriverSpartanJsTask,
@@ -28,8 +29,9 @@ enum BuildTaskLabel {
     BuildJsDependenciesTask,
     CompileCircuitsTask,
     BuildPrfsDriverSpartanWasmTask,
+    BuildPrfsDriverUtilsWasmTask,
     BuildPrfsDriverSpartanJsTask,
-    BuildPrfsCryptoJsTask,
+    BuildPrfsDriverUtilsJsTask,
 }
 
 pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
@@ -65,8 +67,11 @@ pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
                     BuildTaskLabel::BuildPrfsDriverSpartanJsTask => {
                         build_tasks.push(Box::new(BuildPrfsDriverSpartanJsTask))
                     }
-                    BuildTaskLabel::BuildPrfsCryptoJsTask => {
-                        build_tasks.push(Box::new(BuildPrfsCryptoJsTask))
+                    BuildTaskLabel::BuildPrfsDriverUtilsWasmTask => {
+                        build_tasks.push(Box::new(BuildPrfsDriverUtilsWasmTask))
+                    }
+                    BuildTaskLabel::BuildPrfsDriverUtilsJsTask => {
+                        build_tasks.push(Box::new(BuildPrfsDriverUtilsJsTask))
                     }
                 }
             }
@@ -82,7 +87,8 @@ pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
         Box::new(CompileCircuitsTask),
         Box::new(BuildPrfsDriverSpartanWasmTask),
         Box::new(BuildPrfsDriverSpartanJsTask),
-        Box::new(BuildPrfsCryptoJsTask),
+        Box::new(BuildPrfsDriverUtilsWasmTask),
+        Box::new(BuildPrfsDriverUtilsJsTask),
     ];
 
     run_tasks(sub_matches, build_tasks, build_handle).expect("Ci failed");
