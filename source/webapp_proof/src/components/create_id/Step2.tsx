@@ -64,21 +64,21 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
       try {
         // setCreateIdModuleStatus(CreateIdModuleStatus.ElementLoadInProgress);
 
-        // const utilsElem: UtilsElement = await prfsSDK.create("utils", {
-        //   sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
-        // });
+        const utilsElem: UtilsElement = await prfsSDK.create("utils", {
+          sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
+        });
 
         // setUtilsElem(utilsElem);
 
         setCreateIdModuleStatus(CreateIdModuleStatus.ElementIsLoaded);
 
-        const { email, password_1, password_2 } = formData;
-        const pw = `${email}${password_1}${password_2}`;
+        // const { email, password_1, password_2 } = formData;
+        // const pw = `${email}${password_1}${password_2}`;
 
-        const pwBytes = ethers.utils.toUtf8Bytes(pw);
-        const pwInt = bytesToBigInt(pwBytes);
+        // const pwBytes = ethers.utils.toUtf8Bytes(pw);
+        // const pwInt = bytesToBigInt(pwBytes);
 
-        console.log(12312311, pwInt);
+        // console.log(12312311, pwInt);
 
         // const h = await utilsElem.hash([pwInt]);
         // console.log(22, h);

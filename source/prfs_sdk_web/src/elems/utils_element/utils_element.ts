@@ -40,7 +40,7 @@ class UtilsElement {
     }
 
     try {
-      await fetch(`${sdkEndpoint}/utils`, {
+      await fetch(`${sdkEndpoint}/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
