@@ -8,7 +8,7 @@
     "build/**/*"
   ],
   "scripts": {
-    "clean": "rimraf ./build ./dist",
+    "clean": "rimraf ./dist",
     "build": "pnpm run clean && ts-node buildJs.ts && tsc && tsc-alias -p tsconfig.json",
     "test": "jest"
   },

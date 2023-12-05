@@ -11,7 +11,6 @@ import UtilsElement from "@taigalabs/prfs-sdk-web/src/elems/utils_element/utils_
 import { IoMdEye } from "@react-icons/all-files/io/IoMdEye";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import copy from "copy-to-clipboard";
-
 import { initWasm } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./Step2.module.scss";
@@ -41,37 +40,24 @@ enum CreateIdModuleStatus {
   Error,
 }
 
-const prfsSDK = new PrfsSDK("prfs-proof");
-
 const Step2: React.FC<Step2Props> = ({ formData }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const isSDKInitiated = React.useRef(false);
   const [createIdModuleStatus, setCreateIdModuleStatus] = React.useState(
     CreateIdModuleStatus.StandBy,
   );
   const [showPassword, setShowPassword] = React.useState(false);
-  const [utilsElem, setUtilsElem] = React.useState<UtilsElement | null>(null);
 
   React.useEffect(() => {
     async function fn() {
-      if (isSDKInitiated.current) {
-        return;
-      }
-      isSDKInitiated.current = true;
-
       try {
-        setCreateIdModuleStatus(CreateIdModuleStatus.ElementLoadInProgress);
         const wasm = await initWasm();
-        wasm.poseidon;
-        setCreateIdModuleStatus(CreateIdModuleStatus.ElementIsLoaded);
+        const arr = new Uint8Array([11]);
+        console.log(111, wasm);
 
-        // const utilsElem: UtilsElement = await prfsSDK.create("utils", {
-        //   sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
-        // });
-        // setUtilsElem(utilsElem);
-        // setCreateIdModuleStatus(CreateIdModuleStatus.ElementIsLoaded);
+        const aa = wasm.poseidon(arr);
+        console.log(222, aa);
 
         const { email, password_1, password_2 } = formData;
         const pw = `${email}${password_1}${password_2}`;
@@ -135,7 +121,7 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
     }
 
     fn().then();
-  }, [router, searchParams, formData, setUtilsElem]);
+  }, [router, searchParams, formData]);
 
   const handleClickShowPassword = React.useCallback(() => {
     setShowPassword(val => !val);

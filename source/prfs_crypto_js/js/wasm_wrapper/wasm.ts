@@ -1,11 +1,11 @@
 import { wasmBytes } from "./build/prfs_crypto_js_bytes";
-import { InitOutput } from "./build/prfs_crypto_js";
+import { poseidon } from "./build/prfs_crypto_js";
 
-export { InitOutput };
+export declare type WasmTypes = typeof import("./build");
 
-export async function initWasm(): Promise<InitOutput> {
+export async function initWasm() {
   const prfsWasm = await import("./build");
+  prfsWasm.initSync(wasmBytes);
 
-  const wasm = prfsWasm.initSync(wasmBytes);
-  return wasm;
+  return prfsWasm;
 }

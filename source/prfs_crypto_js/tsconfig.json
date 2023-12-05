@@ -4,7 +4,6 @@
     "declaration": true,
     "target": "es2022",
     "module": "esnext",
-    "rootDir": "./js",
     "moduleResolution": "node",
     "allowJs": true,
     "outDir": "./dist",
@@ -25,5 +24,10 @@
     "./build",
     "./dist",
     "./js/wasm_wrapper/build"
-  ]
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
 }
