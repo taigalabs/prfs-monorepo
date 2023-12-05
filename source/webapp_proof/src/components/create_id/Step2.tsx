@@ -12,7 +12,7 @@ import { IoMdEye } from "@react-icons/all-files/io/IoMdEye";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import copy from "copy-to-clipboard";
 
-// import { greet } from "@taigalabs/prfs-crypto-js";
+import { initWasm } from "@taigalabs/prfs-driver-utils-wasm";
 
 import styles from "./Step2.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -62,47 +62,35 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
       isSDKInitiated.current = true;
 
       try {
+        const wasm = await initWasm();
+        console.log(111, wasm);
         // setCreateIdModuleStatus(CreateIdModuleStatus.ElementLoadInProgress);
-
-        const utilsElem: UtilsElement = await prfsSDK.create("utils", {
-          sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
-        });
-
+        // const utilsElem: UtilsElement = await prfsSDK.create("utils", {
+        //   sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
+        // });
         // setUtilsElem(utilsElem);
-
-        setCreateIdModuleStatus(CreateIdModuleStatus.ElementIsLoaded);
-
+        // setCreateIdModuleStatus(CreateIdModuleStatus.ElementIsLoaded);
         // const { email, password_1, password_2 } = formData;
         // const pw = `${email}${password_1}${password_2}`;
-
         // const pwBytes = ethers.utils.toUtf8Bytes(pw);
         // const pwInt = bytesToBigInt(pwBytes);
-
         // console.log(12312311, pwInt);
-
         // const h = await utilsElem.hash([pwInt]);
         // console.log(22, h);
         // ethers.utils.toBig
         // const p = Array.from(pwBytes);
         // utilsElem.hash(p as bigint[]);
-
         // let a = ethers.utils.keccak256(pwBytes);
         // let ccc = a.substring(2);
-
         // let a2 = ethers.utils.toUtf8Bytes(a);
         // console.log(111, b, a, ccc);
-
         // let c = secp.getPublicKey(ccc);
         // console.log(22, c);
-
         // let c2 = ethers.utils.toUtf8String(c);
         // let bb = secp.utils.randomPrivateKey();
-
         // console.log(11, elem);
-
         // elem.subscribe(ev => {
         //   const { type, payload } = ev;
-
         //   if (type === "LOAD_DRIVER_EVENT") {
         //     if (payload.asset_label && payload.progress) {
         //       setLoadDriverProgress(oldVal => ({
@@ -111,12 +99,10 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
         //       }));
         //     }
         //   }
-
         //   if (type === "LOAD_DRIVER_SUCCESS") {
         //     const now = dayjs();
         //     const diff = now.diff(since, "seconds", true);
         //     const { artifactCount } = payload;
-
         //     setDriverMsg(
         //       <>
         //         <span>Circuit driver </span>
@@ -132,12 +118,10 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
         //     );
         //     setLoadDriverStatus(LoadDriverStatus.StandBy);
         //   }
-
         //   if (type === "CREATE_PROOF_EVENT") {
         //     setSystemMsg(payload.payload);
         //   }
         // });
-
         // setProofGenElement(elem);
         // return elem;
       } catch (err) {

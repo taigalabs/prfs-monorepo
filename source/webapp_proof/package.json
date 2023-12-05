@@ -23,6 +23,7 @@
     "@taigalabs/prfs-api-js": "*",
     "@taigalabs/prfs-crypto-js": "*",
     "@taigalabs/prfs-driver-interface": "*",
+    "@taigalabs/prfs-driver-utils-wasm": "*",
     "@taigalabs/prfs-entities": "*",
     "@taigalabs/prfs-react-components": "*",
     "@taigalabs/prfs-sdk-web": "*",

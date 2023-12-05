@@ -4,13 +4,9 @@ import emit, { EventSubscriber } from "../../msg/emit";
 import { handleChildMessage } from "./handle_child_msg";
 
 export const UTILS_IFRAME_ID = "prfs-sdk-utils-iframe";
-// export const UTILS_PORTAL_ID = "prfs-sdk-utils-portal";
 const CONTAINER_ID = "prfs-sdk-container";
 
 export interface UtilsOptions {
-  // proofTypeId: string;
-  // circuit_driver_id: string;
-  // driver_properties: Record<string, any>;
   sdkEndpoint: string;
 }
 
