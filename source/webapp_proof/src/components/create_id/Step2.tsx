@@ -12,7 +12,7 @@ import { IoMdEye } from "@react-icons/all-files/io/IoMdEye";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import copy from "copy-to-clipboard";
 
-// import { greet } from "@taigalabs/prfs-crypto-js";
+// import {  } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./Step2.module.scss";
 import { i18nContext } from "@/contexts/i18n";

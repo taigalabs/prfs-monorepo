@@ -15,16 +15,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./js/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["./js/**/*.ts", "./js/**/*.tsx", "./js/**/package.json"],
   "exclude": ["node_modules"],
   "ts-node": {
     "compilerOptions": {
