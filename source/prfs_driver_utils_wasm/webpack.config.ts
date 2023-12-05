@@ -1,10 +1,8 @@
-// @ts-check
+import path from "path";
+import nodePolyfillPlugin from "node-polyfill-webpack-plugin";
+import webpack from "webpack";
 
-const path = require("path");
-const nodePolyfillPlugin = require("node-polyfill-webpack-plugin");
-const webpack = require("webpack");
-
-module.exports = /** @type { import('webpack').Configuration } */ ({
+const config = {
   entry: "./src/index.ts",
   optimization: {
     concatenateModules: false,
@@ -15,7 +13,7 @@ module.exports = /** @type { import('webpack').Configuration } */ ({
     filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),
     library: {
-      name: "prfsDriverSpartanJs",
+      name: "prfsDriverUtilsWasm",
       type: "root",
     },
     libraryExport: "default",
@@ -45,4 +43,6 @@ module.exports = /** @type { import('webpack').Configuration } */ ({
       maxChunks: 1,
     }),
   ],
-});
+};
+
+export default config;

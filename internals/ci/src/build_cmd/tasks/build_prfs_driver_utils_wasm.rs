@@ -1,5 +1,9 @@
 use super::task::BuildTask;
-use crate::{deps, paths::PATHS, BuildHandle, CiError};
+use crate::{
+    deps::{self, JS_ENGINE},
+    paths::PATHS,
+    BuildHandle, CiError,
+};
 use colored::Colorize;
 use std::process::Command;
 
@@ -122,4 +126,12 @@ fn embed_wasm(build_handle: &BuildHandle) {
     );
 
     std::fs::write(wasm_bytes_path, contents).unwrap();
+
+    let status = Command::new(JS_ENGINE)
+        .current_dir(&PATHS.prfs_driver_utils_wasm)
+        .args(["run", "build-pkg"])
+        .status()
+        .expect(&format!("{} command failed to start", JS_ENGINE));
+
+    assert!(status.success());
 }
