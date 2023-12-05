@@ -9,7 +9,7 @@ const isProd = process.env.NODE_ENV === "production";
 
 const str = JSON.stringify;
 
-const entryPath = path.resolve(__dirname, "./ex.js");
+const entryPath = path.resolve(__dirname, "./js/");
 const distPath = path.resolve(__dirname, "./dist/");
 console.log("webpack entryPath: %s, distPath: %s", entryPath, distPath);
 
@@ -37,7 +37,7 @@ const config: webpack.Configuration = {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
   },
   plugins: [
-    new HtmlWebpackPlugin(),
+    // new HtmlWebpackPlugin(),
     new WasmPackPlugin({
       crateDirectory: path.resolve(__dirname, "."),
     }),
