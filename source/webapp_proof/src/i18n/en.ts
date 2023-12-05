@@ -242,6 +242,7 @@ const en = {
   create_new_prfs_account: "Create a new Prfs account",
   account: "Account",
   passcode: "Passcode",
+  password_secret_key: "Password (Secret key)",
   password_1: "Password 1",
   password_2: "Password 2",
   passcode_confirm: "Confirm passcode",

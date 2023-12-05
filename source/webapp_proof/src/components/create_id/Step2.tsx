@@ -36,8 +36,8 @@ import { hexlify } from "ethers/lib/utils";
 
 enum CreateIdModuleStatus {
   StandBy,
-  ElementLoadInProgress,
-  ElementIsLoaded,
+  ValueInProgress,
+  ValueReady,
   Error,
 }
 
@@ -48,11 +48,18 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
   const [createIdModuleStatus, setCreateIdModuleStatus] = React.useState(
     CreateIdModuleStatus.StandBy,
   );
+  const [alertMsg, setAlertMsg] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
+  const [credential, setCredential] = React.useState({
+    sk: "",
+    pk: "",
+    id: "",
+  });
 
   React.useEffect(() => {
     async function fn() {
       try {
+        setCreateIdModuleStatus(CreateIdModuleStatus.ValueInProgress);
         const wasm = await initWasm();
         const { email, password_1, password_2 } = formData;
         const pw = `${email}${password_1}${password_2}`;
@@ -63,16 +70,24 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
         const pk = secp.getPublicKey(pwInt, false);
         const s1 = pk.subarray(1);
         const s2 = wasm.poseidon(s1);
-        const s3 = s2.subarray(0, 20);
+        const id = s2.subarray(0, 20);
 
-        console.log(2233, pwInt, pk, s1, s2, s3);
+        console.log("credential", pwInt, pk, s1, s2, id);
+
+        setCredential({
+          sk: hexlify(pwInt),
+          pk: hexlify(pk),
+          id: hexlify(id),
+        });
+
+        setCreateIdModuleStatus(CreateIdModuleStatus.ValueReady);
       } catch (err) {
-        // setDriverMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
+        setAlertMsg(`Driver init failed, err: ${err}`);
       }
     }
 
     fn().then();
-  }, [router, searchParams, formData]);
+  }, [router, searchParams, formData, setCredential, setAlertMsg]);
 
   const handleClickShowPassword = React.useCallback(() => {
     setShowPassword(val => !val);
@@ -105,7 +120,7 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
 
   return (
     <div>
-      {createIdModuleStatus === CreateIdModuleStatus.ElementLoadInProgress && (
+      {createIdModuleStatus === CreateIdModuleStatus.ValueInProgress && (
         <div className={styles.loadingOverlay}>
           <Spinner color="#1b62c0" />
         </div>
@@ -117,12 +132,16 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
             <SignInModuleTitle>{i18n.create_an_identity}</SignInModuleTitle>
             <SignInModuleSubtitle>{i18n.created_an_identity}</SignInModuleSubtitle>
           </SignInModuleHeader>
-          <SignInModuleInputArea>
-            <div className={styles.inputArea}>
-              <div className={styles.input}>
-                <span>{formData.email}</span>
-                <span>{password_1_val}</span>
-                <span>{password_2_val}</span>
+          <div className={styles.inputArea}>
+            <div className={styles.label}>{i18n.password_secret_key}</div>
+            <div className={styles.content}>
+              <div className={styles.secretKey}>
+                <div className={styles.value}>
+                  <span>{formData.email}</span>
+                  <span>{password_1_val}</span>
+                  <span>{password_2_val}</span>
+                </div>
+                <div className={cn(styles.value, styles.borderTop)}>{credential.sk}</div>
               </div>
               <div className={styles.btnArea}>
                 <div className={styles.showPasswordBtn} onClick={handleClickShowPassword}>
@@ -137,8 +156,7 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
                 </div>
               </div>
             </div>
-            <div></div>
-          </SignInModuleInputArea>
+          </div>
           <SignInModuleBtnRow>
             <div />
             <Button
