@@ -2,7 +2,8 @@ use crate::{
     responses::ApiResponse,
     server::{request::parse_req, state::ServerState},
 };
-use hyper::{body, Body, Request, Response};
+use hyper::{body::Incoming, Request, Response};
+use hyper_utils::io::BytesBoxBody;
 use prfs_db_interface::db_apis;
 use prfs_entities::{
     apis_entities::{
@@ -11,12 +12,13 @@ use prfs_entities::{
     },
     syn_entities::PrfsCircuitSyn1,
 };
-use routerify::prelude::*;
+// use routerify::prelude::*;
 use std::{convert::Infallible, sync::Arc};
 
-pub async fn get_prfs_circuits(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap().clone();
-
+pub async fn get_prfs_circuits(
+    req: Request<Incoming>,
+    state: Arc<ServerState>,
+) -> Result<Response<BytesBoxBody>, Infallible> {
     let req: GetPrfsCircuitsRequest = parse_req(req).await;
 
     let pool = &state.db2.pool;
@@ -33,14 +35,11 @@ pub async fn get_prfs_circuits(req: Request<Body>) -> Result<Response<Body>, Inf
 }
 
 pub async fn get_prfs_circuit_by_circuit_id(
-    req: Request<Body>,
-) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap().clone();
-
+    req: Request<Incoming>,
+    state: Arc<ServerState>,
+) -> Result<Response<BytesBoxBody>, Infallible> {
     let req: GetPrfsCircuitByCircuitIdRequest = parse_req(req).await;
-
     let pool = &state.db2.pool;
-
     let prfs_circuit_syn1 =
         db_apis::get_prfs_circuit_syn1_by_circuit_id(&pool, &req.circuit_id).await;
 

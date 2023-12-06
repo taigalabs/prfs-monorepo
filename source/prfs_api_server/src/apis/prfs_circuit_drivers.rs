@@ -2,21 +2,28 @@ use crate::{
     responses::ApiResponse,
     server::{request::parse_req, state::ServerState},
 };
-use hyper::{body, Body, Request, Response};
+use hyper::{
+    body::{self, Incoming},
+    Request, Response,
+};
+use hyper_utils::io::BytesBoxBody;
 use prfs_db_interface::db_apis;
 use prfs_entities::apis_entities::{
     GetPrfsCircuitDriverByDriverIdRequest, GetPrfsCircuitDriverByDriverIdResponse,
     GetPrfsCircuitDriversRequest, GetPrfsCircuitDriversResponse,
 };
-use routerify::prelude::*;
+// use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
 
-pub async fn get_prfs_circuit_drivers(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap();
+pub async fn get_prfs_circuit_drivers(
+    req: Request<Incoming>,
+    state: Arc<ServerState>,
+) -> Result<Response<BytesBoxBody>, Infallible> {
+    // let state = req.data::<Arc<ServerState>>().unwrap();
     let pool = &state.clone().db2.pool;
-
     let req: GetPrfsCircuitDriversRequest = parse_req(req).await;
+
     println!("req: {:?}", req);
 
     let prfs_circuit_drivers = db_apis::get_prfs_circuit_drivers(&pool).await;
@@ -30,9 +37,10 @@ pub async fn get_prfs_circuit_drivers(req: Request<Body>) -> Result<Response<Bod
 }
 
 pub async fn get_prfs_circuit_driver_by_driver_id(
-    req: Request<Body>,
-) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap();
+    req: Request<Incoming>,
+    state: Arc<ServerState>,
+) -> Result<Response<BytesBoxBody>, Infallible> {
+    // let state = req.data::<Arc<ServerState>>().unwrap();
     let pool = &state.clone().db2.pool;
 
     let req: GetPrfsCircuitDriverByDriverIdRequest = parse_req(req).await;

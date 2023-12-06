@@ -6,6 +6,9 @@ members = [
   "externals/Spartan-secq",
   "externals/circuit_reader",
 
+  # utils
+  "source/hyper_utils",
+
   # prfs
   "source/prfs_db_interface",
   "source/prfs_tree_maker",

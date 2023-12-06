@@ -2,16 +2,12 @@ use http_body_util::{BodyExt, Full};
 use hyper::body::{Buf, Bytes, Incoming};
 use hyper::{header, Method, Request, Response, StatusCode};
 use hyper_util::rt::TokioIo;
-use routerify::prelude::RequestExt;
-use routerify::{Middleware, Router};
-use routerify_cors::enable_cors_all;
-use std::convert::Infallible;
+use hyper_utils::cors::handle_cors;
+use hyper_utils::io::{full, BytesBoxBody};
 use std::sync::Arc;
 use tokio::net::TcpStream;
 
-use super::io::{full, BoxBody};
 use super::state::ServerState;
-use crate::apis::cors::handle_cors;
 use crate::apis::status::handle_server_status;
 use crate::apis::twitter::{self, RequestContext};
 use crate::AuthOpServerError;
@@ -27,7 +23,7 @@ static NOTFOUND: &[u8] = b"Not Found";
 static POST_DATA: &str = r#"{"original": "data"}"#;
 static URL: &str = "http://127.0.0.1:1337/json_api";
 
-async fn client_request_response() -> Result<Response<BoxBody>, AuthOpServerError> {
+async fn client_request_response() -> Result<Response<BytesBoxBody>, AuthOpServerError> {
     let req = Request::builder()
         .method(Method::POST)
         .uri(URL)
@@ -55,7 +51,9 @@ async fn client_request_response() -> Result<Response<BoxBody>, AuthOpServerErro
     Ok(Response::new(res_body))
 }
 
-async fn api_post_response(req: Request<Incoming>) -> Result<Response<BoxBody>, AuthOpServerError> {
+async fn api_post_response(
+    req: Request<Incoming>,
+) -> Result<Response<BytesBoxBody>, AuthOpServerError> {
     // Aggregate the body...
     let whole_body = req.collect().await?.aggregate();
     // Decode as JSON...
@@ -72,7 +70,7 @@ async fn api_post_response(req: Request<Incoming>) -> Result<Response<BoxBody>, 
     Ok(response)
 }
 
-async fn api_get_response() -> Result<Response<BoxBody>, AuthOpServerError> {
+async fn api_get_response() -> Result<Response<BytesBoxBody>, AuthOpServerError> {
     let data = vec!["foo", "bar"];
     let res = match serde_json::to_string(&data) {
         Ok(json) => Response::builder()
@@ -90,7 +88,7 @@ async fn api_get_response() -> Result<Response<BoxBody>, AuthOpServerError> {
 pub async fn routes(
     req: Request<hyper::body::Incoming>,
     server_state: Arc<ServerState>,
-) -> Result<Response<BoxBody>, AuthOpServerError> {
+) -> Result<Response<BytesBoxBody>, AuthOpServerError> {
     return match (req.method(), req.uri().path()) {
         (&Method::OPTIONS, _) => handle_cors(),
         (&Method::GET, "/") => handle_server_status(req, server_state),

@@ -1,20 +1,26 @@
-use hyper::{body, Body, Request, Response};
+use hyper::body::Incoming;
+use hyper::{Request, Response};
+use hyper_utils::io::BytesBoxBody;
 use prfs_db_interface::db_apis;
 use prfs_entities::{
     apis_entities::{SignInRequest, SignInResponse, SignUpRequest, SignUpResponse},
     entities::PrfsAccount,
     sqlx::types::Json,
 };
-use routerify::prelude::*;
+// use routerify::prelude::*;
 use std::{convert::Infallible, sync::Arc};
 
+use crate::ApiServerError;
 use crate::{
     responses::{ApiResponse, ResponseCode},
     server::{request::parse_req, state::ServerState},
 };
 
-pub async fn sign_up_prfs_account(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+pub async fn sign_up_prfs_account(
+    req: Request<Incoming>,
+    state: Arc<ServerState>,
+) -> Result<Response<BytesBoxBody>, ApiServerError> {
+    // let state = req.data::<Arc<ServerState>>().unwrap().clone();
     let req: SignUpRequest = parse_req(req).await;
 
     let pool = &state.db2.pool;
@@ -39,13 +45,14 @@ pub async fn sign_up_prfs_account(req: Request<Body>) -> Result<Response<Body>, 
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn sign_in_prfs_account(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+pub async fn sign_in_prfs_account(
+    req: Request<Incoming>,
+    state: Arc<ServerState>,
+) -> Result<Response<BytesBoxBody>, Infallible> {
+    // let state = req.data::<Arc<ServerState>>().unwrap().clone();
 
     let req: SignInRequest = parse_req(req).await;
-
     let pool = &state.db2.pool;
-
     let prfs_account = db_apis::get_prfs_account_by_account_id(pool, &req.account_id)
         .await
         .unwrap();

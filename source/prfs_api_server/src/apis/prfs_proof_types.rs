@@ -1,4 +1,5 @@
-use hyper::{body, Body, Request, Response};
+use hyper::{body::Incoming, Request, Response};
+use hyper_utils::io::BytesBoxBody;
 use prfs_db_interface::db_apis;
 use prfs_entities::{
     apis_entities::{
@@ -9,7 +10,7 @@ use prfs_entities::{
     entities::{CircuitInput, PrfsProofType, PrfsSet},
     sqlx::types::Json,
 };
-use routerify::prelude::*;
+// use routerify::prelude::*;
 use std::{convert::Infallible, sync::Arc};
 
 use crate::{
@@ -18,9 +19,10 @@ use crate::{
     ApiServerError,
 };
 
-pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap().clone();
-
+pub async fn get_prfs_proof_types(
+    req: Request<Incoming>,
+    state: Arc<ServerState>,
+) -> Result<Response<BytesBoxBody>, Infallible> {
     let req: GetPrfsProofTypesRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_proof_types = db_apis::get_prfs_proof_types(pool, req.page_idx, req.page_size).await;
@@ -40,14 +42,11 @@ pub async fn get_prfs_proof_types(req: Request<Body>) -> Result<Response<Body>, 
 }
 
 pub async fn get_prfs_proof_type_by_proof_type_id(
-    req: Request<Body>,
-) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap().clone();
-
+    req: Request<Incoming>,
+    state: Arc<ServerState>,
+) -> Result<Response<BytesBoxBody>, Infallible> {
     let req: GetPrfsProofTypeByProofTypeIdRequest = parse_req(req).await;
-
     let pool = &state.db2.pool;
-
     let prfs_proof_type =
         db_apis::get_prfs_proof_type_by_proof_type_id(pool, &req.proof_type_id).await;
 
@@ -56,11 +55,11 @@ pub async fn get_prfs_proof_type_by_proof_type_id(
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn create_prfs_proof_type(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap().clone();
-
+pub async fn create_prfs_proof_type(
+    req: Request<Incoming>,
+    state: Arc<ServerState>,
+) -> Result<Response<BytesBoxBody>, Infallible> {
     let req: CreatePrfsProofTypeRequest = parse_req(req).await;
-
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 

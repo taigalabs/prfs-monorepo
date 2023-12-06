@@ -1,9 +1,8 @@
-use std::sync::Arc;
-
 use http_body_util::Full;
 use hyper::{header, Request, Response, StatusCode};
+use hyper_utils::io::{full, BytesBoxBody};
+use std::sync::Arc;
 
-use crate::server::io::{full, BoxBody};
 use crate::server::state::ServerState;
 use crate::AuthOpServerError;
 
@@ -26,7 +25,7 @@ use crate::AuthOpServerError;
 pub fn handle_server_status(
     _req: Request<hyper::body::Incoming>,
     state: Arc<ServerState>,
-) -> Result<Response<BoxBody>, AuthOpServerError> {
+) -> Result<Response<BytesBoxBody>, AuthOpServerError> {
     let data = serde_json::json!({
         "commit_hash": state.commit_hash.to_string(),
         "launch_time": state.launch_time.to_string(),

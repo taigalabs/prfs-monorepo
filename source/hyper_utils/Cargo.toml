@@ -1,9 +1,9 @@
 [package]
-name = "prfs_auth_op_server"
+name = "hyper_utils"
 version = "0.1.0"
 edition = "2021"
-default-run = "prfs_auth_op_server"
 
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 colored = "2.0"
@@ -11,19 +11,10 @@ ethers-signers = "2.0.10"
 ethers-core = "2.0.10"
 tokio = { version = "1", features = ["full"] }
 tokio-stream = "0.1"
-tokio-postgres = "0.7"
+tokio-postgres = "0.7.7"
 lazy_static = "1.4"
-http-body-util = "0.1"
-hyper_014 = { package = "hyper", version = "0.14" }
-hyper = { version = "1.0", features = ["full"] }
-hyper-tls-05 = { package = "hyper-tls", version = "0.5.0" }
-hyper-tls = "0.6"
-hyper-util = { version = "0.1", features = ["full"] }
-routerify = "3"
-routerify-cors = "3"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-serde_urlencoded = "0.7"
 log = "0.4"
 chrono = "0.4.23"
 hex = "0.4.3"
@@ -38,18 +29,19 @@ uuid = { version = "1.4.1", features = ["v4", "serde"] }
 base62 = "2.0.2"
 csv = "1.2.2"
 git2 = "0.18.1"
-url = "2.5.0"
+# hyper = "0.14"
+# hyper-tls = "0.5.0"
+# routerify = "3"
+# routerify-cors = "3"
 
-google-gmail1 = "5.0"
+http-body-util = "0.1"
+hyper_014 = { package = "hyper", version = "0.14" }
+hyper = { version = "1.0", features = ["full"] }
+hyper-tls-05 = { package = "hyper-tls", version = "0.5.0" }
+hyper-tls = "0.6"
+hyper-util = { version = "0.1", features = ["full"] }
 
-hyper_utils = { path = "../hyper_utils" }
 prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_tree_maker = { path = "../prfs_tree_maker" }
 prfs_circuits_circom = { path = "../prfs_circuits_circom" }
 prfs_entities = { path = "../prfs_entities" }
-
-
-[[bin]]
-name = "prfs_auth_op_server"
-path = "src/bin/server.rs"
-

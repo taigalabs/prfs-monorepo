@@ -8,6 +8,7 @@ use hyper_util::{
     client::legacy::Client,
     rt::{TokioExecutor, TokioIo},
 };
+use hyper_utils::io::{full, BytesBoxBody};
 use prfs_db_interface::db_apis;
 use prfs_entities::{
     apis_entities::{AuthenticateRequest, AuthenticateResponse},
@@ -21,10 +22,7 @@ use tokio::net::TcpStream;
 
 use crate::{
     responses::{ApiResponse, ResponseCode},
-    server::{
-        io::{full, BoxBody},
-        state::ServerState,
-    },
+    server::state::ServerState,
     AuthOpServerError,
 };
 
@@ -124,7 +122,7 @@ pub async fn authenticate_twitter_account(
     req: Request<hyper::body::Incoming>,
     state: Arc<ServerState>,
     request_context: RequestContext,
-) -> Result<Response<BoxBody>, AuthOpServerError> {
+) -> Result<Response<BytesBoxBody>, AuthOpServerError> {
     let q = req.uri().query().unwrap();
     let parse = url::form_urlencoded::parse(q.as_bytes());
     let query_map: HashMap<String, String> = parse.into_owned().collect();
