@@ -35,9 +35,6 @@ git2 = "0.18.1"
 # routerify = "3"
 # routerify-cors = "3"
 
-const_format = "0.2.32"
-tower = { version = "0.4", features = ["make", "util"] }
-matchit = "0.7.3"
 http-body-util = "0.1"
 hyper_014 = { package = "hyper", version = "0.14" }
 hyper = { version = "1.0", features = ["full"] }

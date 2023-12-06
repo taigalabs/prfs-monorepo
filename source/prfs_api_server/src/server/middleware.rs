@@ -1,5 +1,8 @@
 use hyper::{body::Incoming, Request, Response, StatusCode};
-use std::convert::Infallible;
+use hyper_utils::io::full;
+use std::{convert::Infallible, sync::Arc};
+
+use super::{state::ServerState, types::ApiHandlerResult};
 
 #[inline]
 pub fn log(req: &Request<Incoming>) {
@@ -7,16 +10,19 @@ pub fn log(req: &Request<Incoming>) {
     // Ok(req)
 }
 
-// pub async fn not_found_handler(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
-//     println!("Request handler not found, url: {:?}", _req.uri());
+pub async fn handle_not_found(
+    req: Request<Incoming>,
+    _server_state: Arc<ServerState>,
+) -> ApiHandlerResult {
+    println!("Request handler not found, url: {:?}", req.uri());
 
-//     Ok(Response::builder()
-//         .status(StatusCode::NOT_FOUND)
-//         .body(Body::from("Request handler not found"))
-//         .unwrap())
-// }
+    Ok(Response::builder()
+        .status(StatusCode::NOT_FOUND)
+        .body(full("Request handler not found"))
+        .unwrap())
+}
 
-// pub async fn error_handler(err: routerify::RouteError, _: RequestInfo) -> Response<Body> {
+// pub async fn error_handler(err: routerify::RouteError, _: RequestInfo) ApiHandlerResult {
 //     eprintln!("{}", err);
 
 //     Response::builder()
