@@ -16,6 +16,8 @@ import * as ethers from "ethers";
 import * as secp from "@noble/secp256k1";
 import { bytesToBigInt } from "@taigalabs/prfs-crypto-js";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
+import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 
 import styles from "./Step2.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -29,6 +31,7 @@ import SignInModule, {
   SignInModuleSubtitle,
   SignInModuleTitle,
 } from "@/components/sign_in_module/SignInModule";
+import { useMutation } from "@tanstack/react-query";
 
 //
 import { IdForm, validateIdForm } from "@/functions/validate_id";
@@ -49,12 +52,19 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
   const [createIdModuleStatus, setCreateIdModuleStatus] = React.useState(
     CreateIdModuleStatus.StandBy,
   );
+
   const [alertMsg, setAlertMsg] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const [credential, setCredential] = React.useState({
     secret_key: "",
     public_key: "",
     id: "",
+  });
+
+  const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
+    mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
+      return prfsApi2("get_prfs_proof_type_by_proof_type_id", req);
+    },
   });
 
   React.useEffect(() => {

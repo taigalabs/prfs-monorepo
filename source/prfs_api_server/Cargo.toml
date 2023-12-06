@@ -14,10 +14,6 @@ tokio = { version = "1", features = ["full"] }
 tokio-stream = "0.1"
 tokio-postgres = "0.7.7"
 lazy_static = "1.4"
-hyper = "0.14"
-hyper-tls = "0.5.0"
-routerify = "3"
-routerify-cors = "3"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 log = "0.4"
@@ -34,6 +30,17 @@ uuid = { version = "1.4.1", features = ["v4", "serde"] }
 base62 = "2.0.2"
 csv = "1.2.2"
 git2 = "0.18.1"
+hyper = "0.14"
+hyper-tls = "0.5.0"
+routerify = "3"
+routerify-cors = "3"
+
+# http-body-util = "0.1"
+# hyper_014 = { package = "hyper", version = "0.14" }
+# hyper = { version = "1.0", features = ["full"] }
+# hyper-tls-05 = { package = "hyper-tls", version = "0.5.0" }
+# hyper-tls = "0.6"
+# hyper-util = { version = "0.1", features = ["full"] }
 
 prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_tree_maker = { path = "../prfs_tree_maker" }
