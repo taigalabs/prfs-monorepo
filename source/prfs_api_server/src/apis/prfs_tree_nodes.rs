@@ -1,24 +1,23 @@
 use hyper::{body::Incoming, header, Request, Response};
-use hyper_utils::io::BytesBoxBody;
+use hyper_utils::io::{parse_req, BytesBoxBody};
 use prfs_db_interface::db_apis;
 use prfs_entities::apis_entities::{
     GetPrfsTreeLeafIndicesRequest, GetPrfsTreeLeafNodesBySetIdRequest,
     GetPrfsTreeNodesByPosRequest, GetPrfsTreeNodesResponse, UpdatePrfsTreeNodeRequest,
     UpdatePrfsTreeNodeResponse,
 };
-// use routerify::prelude::*;
 use std::{convert::Infallible, sync::Arc};
 use uuid::Uuid;
 
 use crate::{
     responses::ApiResponse,
-    server::{request::parse_req, state::ServerState},
+    server::{state::ServerState, types::ApiHandlerResult},
 };
 
 pub async fn get_prfs_tree_nodes_by_pos(
     req: Request<Incoming>,
     state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, Infallible> {
+) -> ApiHandlerResult {
     let req: GetPrfsTreeNodesByPosRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_tree_nodes = db_apis::get_prfs_tree_nodes_by_pos(pool, &req.set_id, &req.pos)
@@ -33,7 +32,7 @@ pub async fn get_prfs_tree_nodes_by_pos(
 pub async fn get_prfs_tree_leaf_nodes_by_set_id(
     req: Request<Incoming>,
     state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, Infallible> {
+) -> ApiHandlerResult {
     let req: GetPrfsTreeLeafNodesBySetIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_tree_nodes =
@@ -49,7 +48,7 @@ pub async fn get_prfs_tree_leaf_nodes_by_set_id(
 pub async fn get_prfs_tree_leaf_indices(
     req: Request<Incoming>,
     state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, Infallible> {
+) -> ApiHandlerResult {
     let req: GetPrfsTreeLeafIndicesRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_tree_nodes = db_apis::get_prfs_tree_leaf_indices(pool, &req.set_id, &req.leaf_vals)
@@ -64,7 +63,7 @@ pub async fn get_prfs_tree_leaf_indices(
 pub async fn update_prfs_tree_node(
     req: Request<Incoming>,
     state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, Infallible> {
+) -> ApiHandlerResult {
     let req: UpdatePrfsTreeNodeRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();

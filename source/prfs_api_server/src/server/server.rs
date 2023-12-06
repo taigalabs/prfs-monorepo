@@ -19,8 +19,6 @@ pub async fn make_server(server_state: Arc<ServerState>) -> Result<(), Box<dyn s
     loop {
         let (stream, _) = listener.accept().await?;
 
-        // Use an adapter to access something implementing `tokio::io` traits as if they implement
-        // `hyper::rt` IO traits.
         let io = TokioIo::new(stream);
         let server_state = server_state.clone();
 

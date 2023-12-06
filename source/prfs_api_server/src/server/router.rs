@@ -23,10 +23,8 @@ use std::sync::Arc;
 use tokio::sync::Mutex;
 use tower::util::BoxCloneService;
 
-use super::middleware;
+use super::middleware::{self, log};
 use super::state::ServerState;
-
-// const PREFIX: &str = "/api/v0";
 
 macro_rules! v0_path {
     ($path: tt) => {
@@ -65,14 +63,17 @@ pub async fn route(
     req: Request<Incoming>,
     state: Arc<ServerState>,
 ) -> Result<Response<BytesBoxBody>, ApiServerError> {
+    log(&req);
+
     // Inline const is not availble at the moment
     // https://github.com/rodrimati1992/const_format_crates/issues/17
-    // match_route!(req, "/api/v0");
-
     return match (req.method(), req.uri().path()) {
         (&Method::OPTIONS, _) => handle_cors(),
         (&Method::GET, "/") => handle_server_status(req, state).await,
         (&Method::POST, v0_path!("sign_up_prfs_account")) => sign_up_prfs_account(req, state).await,
+        (&Method::POST, v0_path!("get_prfs_account")) => {
+            prfs_circuits::get_prfs_circuits(req, state).await
+        }
         // (&Method::POST, v0_path!("sign_up_prfs_account")) => Ok(Response::new(full(""))),
 
         //             format!("{}/get_prfs_circuits", PREFIX),

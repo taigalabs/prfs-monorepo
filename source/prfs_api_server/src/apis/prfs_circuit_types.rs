@@ -1,10 +1,10 @@
 use crate::{
     responses::ApiResponse,
-    server::{request::parse_req, state::ServerState},
+    server::{state::ServerState, types::ApiHandlerResult},
     ApiServerError,
 };
 use hyper::{body::Incoming, Request, Response};
-use hyper_utils::io::BytesBoxBody;
+use hyper_utils::io::{parse_req, BytesBoxBody};
 use prfs_db_interface::db_apis;
 use prfs_entities::{
     apis_entities::{
@@ -13,17 +13,13 @@ use prfs_entities::{
     },
     entities::{PrfsCircuitDriver, PrfsCircuitType},
 };
-// use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, sync::Arc};
 
 pub async fn get_prfs_circuit_types(
     req: Request<Incoming>,
     state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, ApiServerError> {
-    // let state = req.data::<Arc<ServerState>>().unwrap();
-    // let state = state.clone();
-
+) -> ApiHandlerResult {
     let req: GetPrfsCircuitTypesRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_circuit_types = db_apis::get_prfs_circuit_types(&pool).await;
@@ -39,7 +35,7 @@ pub async fn get_prfs_circuit_types(
 pub async fn get_prfs_circuit_type_by_circuit_type_id(
     req: Request<Incoming>,
     state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, Infallible> {
+) -> ApiHandlerResult {
     let req: GetPrfsCircuitTypeByCircuitTypeIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_circuit_type =

@@ -1,9 +1,10 @@
 use crate::{
     responses::ApiResponse,
-    server::{request::parse_req, state::ServerState},
+    server::{state::ServerState, types::ApiHandlerResult},
+    ApiServerError,
 };
 use hyper::{body::Incoming, Request, Response};
-use hyper_utils::io::BytesBoxBody;
+use hyper_utils::io::{parse_req, BytesBoxBody};
 use prfs_db_interface::db_apis;
 use prfs_entities::{
     apis_entities::{
@@ -12,13 +13,12 @@ use prfs_entities::{
     },
     syn_entities::PrfsCircuitSyn1,
 };
-// use routerify::prelude::*;
 use std::{convert::Infallible, sync::Arc};
 
 pub async fn get_prfs_circuits(
     req: Request<Incoming>,
     state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, Infallible> {
+) -> ApiHandlerResult {
     let req: GetPrfsCircuitsRequest = parse_req(req).await;
 
     let pool = &state.db2.pool;
@@ -37,7 +37,7 @@ pub async fn get_prfs_circuits(
 pub async fn get_prfs_circuit_by_circuit_id(
     req: Request<Incoming>,
     state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, Infallible> {
+) -> ApiHandlerResult {
     let req: GetPrfsCircuitByCircuitIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_circuit_syn1 =

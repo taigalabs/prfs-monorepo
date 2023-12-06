@@ -1,5 +1,5 @@
 use hyper::{body::Incoming, Request, Response};
-use hyper_utils::io::BytesBoxBody;
+use hyper_utils::io::{parse_req, BytesBoxBody};
 use prfs_db_interface::db_apis;
 use prfs_entities::{
     apis_entities::{
@@ -10,19 +10,18 @@ use prfs_entities::{
     entities::{CircuitInput, PrfsProofType, PrfsSet},
     sqlx::types::Json,
 };
-// use routerify::prelude::*;
 use std::{convert::Infallible, sync::Arc};
 
 use crate::{
     responses::ApiResponse,
-    server::{request::parse_req, state::ServerState},
+    server::{state::ServerState, types::ApiHandlerResult},
     ApiServerError,
 };
 
 pub async fn get_prfs_proof_types(
     req: Request<Incoming>,
     state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, Infallible> {
+) -> ApiHandlerResult {
     let req: GetPrfsProofTypesRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_proof_types = db_apis::get_prfs_proof_types(pool, req.page_idx, req.page_size).await;
@@ -44,7 +43,7 @@ pub async fn get_prfs_proof_types(
 pub async fn get_prfs_proof_type_by_proof_type_id(
     req: Request<Incoming>,
     state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, Infallible> {
+) -> ApiHandlerResult {
     let req: GetPrfsProofTypeByProofTypeIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_proof_type =
@@ -58,7 +57,7 @@ pub async fn get_prfs_proof_type_by_proof_type_id(
 pub async fn create_prfs_proof_type(
     req: Request<Incoming>,
     state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, Infallible> {
+) -> ApiHandlerResult {
     let req: CreatePrfsProofTypeRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();

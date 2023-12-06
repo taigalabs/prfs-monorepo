@@ -1,6 +1,6 @@
 use hyper::body::Incoming;
 use hyper::{Request, Response};
-use hyper_utils::io::BytesBoxBody;
+use hyper_utils::io::{parse_req, BytesBoxBody};
 use prfs_db_interface::db_apis;
 use prfs_entities::{
     apis_entities::{SignInRequest, SignInResponse, SignUpRequest, SignUpResponse},
@@ -9,16 +9,17 @@ use prfs_entities::{
 };
 use std::{convert::Infallible, sync::Arc};
 
+use crate::server::types::ApiHandlerResult;
 use crate::ApiServerError;
 use crate::{
     responses::{ApiResponse, ResponseCode},
-    server::{request::parse_req, state::ServerState},
+    server::state::ServerState,
 };
 
 pub async fn sign_up_prfs_account(
     req: Request<Incoming>,
     state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, ApiServerError> {
+) -> ApiHandlerResult {
     let req: SignUpRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
@@ -44,7 +45,7 @@ pub async fn sign_up_prfs_account(
 pub async fn sign_in_prfs_account(
     req: Request<Incoming>,
     state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, Infallible> {
+) -> ApiHandlerResult {
     let req: SignInRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_account = db_apis::get_prfs_account_by_account_id(pool, &req.account_id)

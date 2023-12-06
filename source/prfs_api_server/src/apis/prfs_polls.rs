@@ -1,7 +1,7 @@
 use ethers_signers::Signer;
 use hyper::body::Incoming;
 use hyper::{Request, Response};
-use hyper_utils::io::BytesBoxBody;
+use hyper_utils::io::{parse_req, BytesBoxBody};
 use prfs_db_interface::db_apis;
 use prfs_entities::apis_entities::{
     CreatePrfsPollRequest, CreatePrfsPollResponse, GetPrfsPollByPollIdRequest,
@@ -14,13 +14,10 @@ use std::{convert::Infallible, sync::Arc};
 use uuid::Uuid;
 
 use crate::responses::ApiResponse;
-use crate::server::request::parse_req;
 use crate::server::state::ServerState;
+use crate::server::types::ApiHandlerResult;
 
-pub async fn get_prfs_polls(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, Infallible> {
+pub async fn get_prfs_polls(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
     let req: GetPrfsPollsRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let (prfs_polls, table_row_count) = db_apis::get_prfs_polls(&pool, req.page_idx, req.page_size)
@@ -39,7 +36,7 @@ pub async fn get_prfs_polls(
 pub async fn get_prfs_poll_by_poll_id(
     req: Request<Incoming>,
     state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, Infallible> {
+) -> ApiHandlerResult {
     let req: GetPrfsPollByPollIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_poll = db_apis::get_prfs_poll_by_poll_id(&pool, &req.poll_id)
@@ -54,7 +51,7 @@ pub async fn get_prfs_poll_by_poll_id(
 pub async fn get_prfs_poll_result_by_poll_id(
     req: Request<Incoming>,
     state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, Infallible> {
+) -> ApiHandlerResult {
     let req: GetPrfsPollResultByPollIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_poll_responses = db_apis::get_prfs_poll_responses_by_poll_id(&pool, &req.poll_id)
@@ -68,10 +65,7 @@ pub async fn get_prfs_poll_result_by_poll_id(
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn create_prfs_poll(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, Infallible> {
+pub async fn create_prfs_poll(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
     let req: CreatePrfsPollRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
@@ -87,7 +81,7 @@ pub async fn create_prfs_poll(
 pub async fn submit_prfs_poll_response(
     req: Request<Incoming>,
     state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, Infallible> {
+) -> ApiHandlerResult {
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
     let req: SubmitPrfsPollResponseRequest = parse_req(req).await;

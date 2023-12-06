@@ -1,7 +1,7 @@
 use ethers_signers::Signer;
 use hyper::body::Incoming;
 use hyper::{Request, Response};
-use hyper_utils::io::BytesBoxBody;
+use hyper_utils::io::{parse_req, BytesBoxBody};
 use prfs_db_interface::db_apis;
 use prfs_entities::apis_entities::{
     CreatePrfsProofInstanceRequest, CreatePrfsProofInstanceResponse,
@@ -10,17 +10,16 @@ use prfs_entities::apis_entities::{
     GetPrfsProofInstancesRequest, GetPrfsProofInstancesResponse,
 };
 use prfs_entities::entities::PrfsProofInstance;
-// use routerify::prelude::*;
 use std::{convert::Infallible, sync::Arc};
 
 use crate::responses::ApiResponse;
-use crate::server::request::parse_req;
 use crate::server::state::ServerState;
+use crate::server::types::ApiHandlerResult;
 
 pub async fn get_prfs_proof_instances(
     req: Request<Incoming>,
     state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, Infallible> {
+) -> ApiHandlerResult {
     let req: GetPrfsProofInstancesRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let (prfs_proof_instances_syn1, table_row_count) =
@@ -38,7 +37,7 @@ pub async fn get_prfs_proof_instances(
 pub async fn get_prfs_proof_instance_by_instance_id(
     req: Request<Incoming>,
     state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, Infallible> {
+) -> ApiHandlerResult {
     let req: GetPrfsProofInstanceByInstanceIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_proof_instance_syn1 =
@@ -54,7 +53,7 @@ pub async fn get_prfs_proof_instance_by_instance_id(
 pub async fn get_prfs_proof_instance_by_short_id(
     req: Request<Incoming>,
     state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, Infallible> {
+) -> ApiHandlerResult {
     let req: GetPrfsProofInstanceByShortIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_proof_instance =
@@ -70,7 +69,7 @@ pub async fn get_prfs_proof_instance_by_short_id(
 pub async fn create_prfs_proof_instance(
     req: Request<Incoming>,
     state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, Infallible> {
+) -> ApiHandlerResult {
     let req: CreatePrfsProofInstanceRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();

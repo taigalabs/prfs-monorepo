@@ -1,16 +1,11 @@
-use hyper::{Request, Response, StatusCode};
-// use routerify::{prelude::RequestExt, RequestInfo};
+use hyper::{body::Incoming, Request, Response, StatusCode};
 use std::convert::Infallible;
 
-// pub async fn logger(req: Request<Body>) -> Result<Request<Body>, Infallible> {
-//     println!(
-//         "{} {} {}",
-//         req.remote_addr(),
-//         req.method(),
-//         req.uri().path()
-//     );
-//     Ok(req)
-// }
+#[inline]
+pub fn log(req: &Request<Incoming>) {
+    println!("{} {}", req.method(), req.uri().path());
+    // Ok(req)
+}
 
 // pub async fn not_found_handler(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
 //     println!("Request handler not found, url: {:?}", _req.uri());
