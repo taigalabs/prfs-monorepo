@@ -1,8 +1,7 @@
 [package]
-name = "prfs_auth_op_server"
+name = "prfs_auth_server"
 version = "0.1.0"
 edition = "2021"
-default-run = "prfs_auth_op_server"
 
 
 [dependencies]
@@ -47,9 +46,3 @@ prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_tree_maker = { path = "../prfs_tree_maker" }
 prfs_circuits_circom = { path = "../prfs_circuits_circom" }
 prfs_entities = { path = "../prfs_entities" }
-
-
-[[bin]]
-name = "prfs_auth_op_server"
-path = "src/bin/server.rs"
-

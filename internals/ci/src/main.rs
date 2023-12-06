@@ -33,7 +33,6 @@ fn main() {
         .subcommand(command!("dev_asset_server"))
         .subcommand(command!("dev_snap"))
         .subcommand(command!("dev_api_server"))
-        .subcommand(command!("dev_auth_op_server"))
         // prod mode
         .subcommand(command!("start_api_server").arg(Arg::new("extra_args")))
         .subcommand(command!("start_asset_server").arg(Arg::new("extra_args")))
@@ -98,9 +97,6 @@ fn main() {
         }
         Some(("dev_api_server", sub_matches)) => {
             cmds::dev_api_server::run(sub_matches);
-        }
-        Some(("dev_auth_op_server", sub_matches)) => {
-            cmds::dev_auth_op_server::run(sub_matches);
         }
         Some(("dev_docs_website", sub_matches)) => {
             cmds::dev_docs_website::run(sub_matches);

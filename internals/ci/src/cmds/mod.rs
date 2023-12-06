@@ -7,7 +7,6 @@ pub mod build_prfs_driver_spartan_js;
 // dev mode
 pub mod dev_api_server;
 pub mod dev_asset_server;
-pub mod dev_auth_op_server;
 pub mod dev_docs_website;
 pub mod dev_sdk_web_module;
 pub mod dev_snap;
