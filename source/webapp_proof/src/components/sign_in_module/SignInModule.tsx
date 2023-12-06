@@ -28,8 +28,11 @@ export const SignInModuleInputArea: React.FC<SignInModuleInputAreaProps> = ({ ch
   return <div className={styles.inputArea}>{children}</div>;
 };
 
-export const SignInModuleBtnRow: React.FC<SignInModuleInputAreaProps> = ({ children }) => {
-  return <div className={styles.btnRow}>{children}</div>;
+export const SignInModuleBtnRow: React.FC<SignInModuleInputAreaProps> = ({
+  children,
+  className,
+}) => {
+  return <div className={cn(styles.btnRow, className)}>{children}</div>;
 };
 
 export const SignInInputItem: React.FC<SignInModuleInputProps> = ({
@@ -74,6 +77,7 @@ const SignInModule: React.FC<SignInModuleInputAreaProps> = ({ children }) => {
 export default SignInModule;
 
 export interface SignInModuleInputAreaProps {
+  className?: string;
   children: React.ReactNode;
 }
 

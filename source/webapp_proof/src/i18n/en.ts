@@ -71,6 +71,7 @@ const en = {
   prev: "Prev",
   finish: "Finish",
   next: "Next",
+  create_and_register: "Create and register",
   create_and_share_proofs: "Create and share proofs",
   proof_label: "Proof label",
   short_id: "Short id",
@@ -139,6 +140,7 @@ const en = {
   create_a_strong_password:
     "Create a strong password with a mix of upper/lower case lettters, numbers, and symbols. Your ID will be auto-generated based on your password",
   why_we_ask_for_email: "Why we ask for email address",
+  how_is_the_password_generated: "How is the password generated",
   why_we_ask_for_two_passwords: "Why we ask for two passwords",
   create_id: "Create ID",
   already_have_id: "Already have ID",

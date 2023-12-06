@@ -15,8 +15,35 @@
 .inputArea {
   padding-top: 24px;
 
-  .label {
-    padding: 0 5px 3px;
+  .labelArea {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 0 4px 3px;
+  }
+
+  .btnArea {
+    // padding: 4px 5px;
+    display: flex;
+    align-items: flex-end;
+
+    // border: 1px solid blue;
+
+    .showPasswordBtn {
+      display: grid;
+      place-items: center;
+      // width: 20px;
+      // height: 20px;
+      border-radius: 15px;
+      padding: 3px;
+      font-size: 16px;
+      cursor: pointer;
+      color: var(--gray-20);
+
+      &:hover {
+        background-color: var(--bright-gray-32);
+      }
+    }
   }
 
   .content {
@@ -27,31 +54,11 @@
     justify-content: space-between;
 
     .value {
+      font-size: 12px;
+      font-family: "JetBrains Mono", monospace;
       padding: 10px 14px;
       word-break: break-all;
       line-height: 24px;
-    }
-
-    .showPasswordBtn {
-      display: grid;
-      place-items: center;
-      width: 30px;
-      height: 30px;
-      border-radius: 15px;
-      font-size: 20px;
-      cursor: pointer;
-      color: var(--gray-20);
-
-      &:hover {
-        background-color: var(--bright-gray-32);
-      }
-    }
-
-    .btnArea {
-      padding: 4px 5px;
-      border-left: 1px solid var(--bright-gray-32);
-      display: flex;
-      align-items: center;
     }
   }
 }
@@ -62,4 +69,8 @@
 
 .borderTop {
   border-top: 1px solid var(--bright-gray-32);
+}
+
+.btnRow {
+  margin-bottom: 3px;
 }

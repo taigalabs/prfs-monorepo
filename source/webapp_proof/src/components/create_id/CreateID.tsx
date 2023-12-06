@@ -66,12 +66,6 @@ const CreateID: React.FC = () => {
     }
   }, [formData, setFormErrors, router, searchParams]);
 
-  const emailGuideURL = React.useMemo(() => {
-    const url = `${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`;
-
-    return url;
-  }, []);
-
   const content = React.useMemo(() => {
     switch (step) {
       case CreateIDStep.InputCredential: {
@@ -101,7 +95,10 @@ const CreateID: React.FC = () => {
                   />
                 </div>
                 <SignInInputGuide>
-                  <Link href={emailGuideURL} target="_blank">
+                  <Link
+                    href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`}
+                    target="_blank"
+                  >
                     {i18n.why_we_ask_for_email}
                   </Link>
                 </SignInInputGuide>
@@ -142,7 +139,10 @@ const CreateID: React.FC = () => {
                   />
                 </div>
                 <SignInInputGuide>
-                  <Link href={emailGuideURL} target="_blank">
+                  <Link
+                    href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`}
+                    target="_blank"
+                  >
                     {i18n.why_we_ask_for_two_passwords}
                   </Link>
                 </SignInInputGuide>

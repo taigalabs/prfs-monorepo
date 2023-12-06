@@ -33,6 +33,7 @@ import SignInModule, {
 //
 import { IdForm, validateIdForm } from "@/functions/validate_id";
 import { hexlify } from "ethers/lib/utils";
+import Link from "next/link";
 
 enum CreateIdModuleStatus {
   StandBy,
@@ -51,8 +52,8 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
   const [alertMsg, setAlertMsg] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const [credential, setCredential] = React.useState({
-    sk: "",
-    pk: "",
+    secret_key: "",
+    public_key: "",
     id: "",
   });
 
@@ -75,8 +76,8 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
         console.log("credential", pwInt, pk, s1, s2, id);
 
         setCredential({
-          sk: hexlify(pwInt),
-          pk: hexlify(pk),
+          secret_key: hexlify(pwInt),
+          public_key: hexlify(pk),
           id: hexlify(id),
         });
 
@@ -99,27 +100,30 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
     copy(pw);
   }, [formData]);
 
-  const handleClickNext = React.useCallback(() => {}, [formData, router, searchParams]);
+  const handleClickCreate = React.useCallback(() => {}, [formData, router, searchParams]);
 
-  const { email_val, password_1_val, password_2_val } = React.useMemo(() => {
+  const { email_val, password_1_val, password_2_val, secret_key_val } = React.useMemo(() => {
     if (showPassword) {
       return {
         email_val: formData.email,
         password_1_val: formData.password_1,
         password_2_val: formData.password_2,
+        secret_key_val: credential.secret_key,
       };
     } else {
       const email_val = `${formData.email.substring(0, 2)}${"*".repeat(formData.email.length - 2)}`;
       const password_1_val = "*".repeat(formData.password_1.length);
       const password_2_val = "*".repeat(formData.password_2.length);
+      const secret_key_val = "*".repeat(credential.secret_key.length);
 
       return {
         email_val,
         password_1_val,
         password_2_val,
+        secret_key_val,
       };
     }
-  }, [formData, showPassword]);
+  }, [formData, showPassword, credential.secret_key]);
 
   return (
     <div>
@@ -136,16 +140,8 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
             <SignInModuleSubtitle>{i18n.check_your_credential}</SignInModuleSubtitle>
           </SignInModuleHeader>
           <div className={styles.inputArea}>
-            <div className={styles.label}>{i18n.password_secret_key}</div>
-            <div className={styles.content}>
-              <div className={styles.secretKey}>
-                <div className={styles.value}>
-                  <span>{email_val}</span>
-                  <span>{password_1_val}</span>
-                  <span>{password_2_val}</span>
-                </div>
-                <div className={cn(styles.value, styles.borderTop)}>{credential.sk}</div>
-              </div>
+            <div className={styles.labelArea}>
+              <p>{i18n.password_secret_key}</p>
               <div className={styles.btnArea}>
                 <div className={styles.showPasswordBtn} onClick={handleClickShowPassword}>
                   <Tooltip label={i18n.show} offset={6}>
@@ -159,25 +155,47 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
                 </div>
               </div>
             </div>
-          </div>
-          <div className={styles.inputArea}>
-            <div className={styles.label}>{i18n.id}</div>
             <div className={styles.content}>
-              <div className={styles.value}></div>
+              <div className={styles.secretKey}>
+                <div className={styles.value}>
+                  <span>{email_val}</span>
+                  <span>{password_1_val}</span>
+                  <span>{password_2_val}</span>
+                </div>
+                <div className={cn(styles.value, styles.borderTop)}>{secret_key_val}</div>
+              </div>
             </div>
           </div>
-          <SignInModuleBtnRow>
+          <SignInInputGuide>
+            <Link href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`} target="_blank">
+              {i18n.how_is_the_password_generated}
+            </Link>
+          </SignInInputGuide>
+          <div className={styles.inputArea}>
+            <div className={styles.labelArea}>
+              <p>{i18n.id}</p>
+            </div>
+            <div className={styles.content}>
+              <div className={styles.value}>{credential.id}</div>
+            </div>
+          </div>
+          <SignInModuleBtnRow className={styles.btnRow}>
             <div />
             <Button
               variant="blue_2"
-              className={styles.nextBtn}
+              className={styles.createBtn}
               noTransition
-              handleClick={handleClickNext}
+              handleClick={handleClickCreate}
               noShadow
             >
-              {i18n.next}
+              {i18n.create_and_register}
             </Button>
           </SignInModuleBtnRow>
+          <SignInInputGuide>
+            <Link href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`} target="_blank">
+              {i18n.how_is_the_password_generated}
+            </Link>
+          </SignInInputGuide>
         </Fade>
       </div>
     </div>
