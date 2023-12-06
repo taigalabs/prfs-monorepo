@@ -7,7 +7,6 @@ use prfs_entities::{
     entities::PrfsAccount,
     sqlx::types::Json,
 };
-// use routerify::prelude::*;
 use std::{convert::Infallible, sync::Arc};
 
 use crate::ApiServerError;
@@ -20,12 +19,9 @@ pub async fn sign_up_prfs_account(
     req: Request<Incoming>,
     state: Arc<ServerState>,
 ) -> Result<Response<BytesBoxBody>, ApiServerError> {
-    // let state = req.data::<Arc<ServerState>>().unwrap().clone();
     let req: SignUpRequest = parse_req(req).await;
-
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
-
     let prfs_account = PrfsAccount {
         account_id: req.account_id.to_string(),
         avatar_color: req.avatar_color.to_string(),
@@ -49,8 +45,6 @@ pub async fn sign_in_prfs_account(
     req: Request<Incoming>,
     state: Arc<ServerState>,
 ) -> Result<Response<BytesBoxBody>, Infallible> {
-    // let state = req.data::<Arc<ServerState>>().unwrap().clone();
-
     let req: SignInRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_account = db_apis::get_prfs_account_by_account_id(pool, &req.account_id)
