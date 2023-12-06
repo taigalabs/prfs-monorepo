@@ -70,9 +70,44 @@ pub async fn route(
     return match (req.method(), req.uri().path()) {
         (&Method::OPTIONS, _) => handle_cors(),
         (&Method::GET, "/") => handle_server_status(req, state).await,
-        (&Method::POST, v0_path!("sign_up_prfs_account")) => sign_up_prfs_account(req, state).await,
+        (&Method::POST, v0_path!("sign_up_prfs_account")) => {
+            prfs_accounts::sign_up_prfs_account(req, state).await
+        }
+        (&Method::POST, v0_path!("sign_in_prfs_account")) => {
+            prfs_accounts::sign_in_prfs_account(req, state).await
+        }
         (&Method::POST, v0_path!("get_prfs_account")) => {
             prfs_circuits::get_prfs_circuits(req, state).await
+        }
+        (&Method::POST, v0_path!("get_prfs_circuit_by_circuit_id")) => {
+            prfs_circuits::get_prfs_circuit_by_circuit_id(req, state).await
+        }
+        (&Method::POST, v0_path!("get_prfs_circuit_types")) => {
+            prfs_circuit_types::get_prfs_circuit_types(req, state).await
+        }
+        (&Method::POST, v0_path!("get_prfs_circuit_type_by_circuit_type_id")) => {
+            prfs_circuit_types::get_prfs_circuit_type_by_circuit_type_id(req, state).await
+        }
+        (&Method::POST, v0_path!("get_prfs_circuit_drivers")) => {
+            prfs_circuit_drivers::get_prfs_circuit_drivers(req, state).await
+        }
+        (&Method::POST, v0_path!("get_prfs_circuit_driver_by_driver_id")) => {
+            prfs_circuit_drivers::get_prfs_circuit_driver_by_driver_id(req, state).await
+        }
+        (&Method::POST, v0_path!("create_prfs_proof_instance")) => {
+            prfs_proof_instances::create_prfs_proof_instance(req, state).await
+        }
+        (&Method::POST, v0_path!("get_prfs_proof_instances")) => {
+            prfs_proof_instances::get_prfs_proof_instances(req, state).await
+        }
+        (&Method::POST, v0_path!("get_prfs_proof_instance_by_instance_id")) => {
+            prfs_proof_instances::get_prfs_proof_instance_by_instance_id(req, state).await
+        }
+        (&Method::POST, v0_path!("get_prfs_proof_instance_by_short_id")) => {
+            prfs_proof_instances::get_prfs_proof_instance_by_short_id(req, state).await
+        }
+        (&Method::POST, v0_path!("get_prfs_set_elements")) => {
+            prfs_tree_nodes::get_prfs_tree_nodes_by_pos(req, state).await
         }
         // (&Method::POST, v0_path!("sign_up_prfs_account")) => Ok(Response::new(full(""))),
 
