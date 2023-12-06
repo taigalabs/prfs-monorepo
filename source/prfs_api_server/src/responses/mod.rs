@@ -40,7 +40,13 @@ impl<T: Serialize + DeserializeOwned> ApiResponse<T> {
             let data = serde_json::to_vec(&self).unwrap();
 
             let resp = Response::builder()
+                .status(StatusCode::OK)
                 .header(header::CONTENT_TYPE, "application/json")
+                .header(header::ACCESS_CONTROL_ALLOW_ORIGIN, "*")
+                .header(header::ACCESS_CONTROL_ALLOW_HEADERS, "*")
+                .header(header::ACCESS_CONTROL_ALLOW_METHODS, "*")
+                // .header("Access-Control-Allow-Headers", "*")
+                // .header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
                 .body(full(data))
                 .unwrap();
 

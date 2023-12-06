@@ -1,10 +1,9 @@
 use crate::{
     responses::ApiResponse,
     server::{state::ServerState, types::ApiHandlerResult},
-    ApiServerError,
 };
-use hyper::{body::Incoming, Request, Response};
-use hyper_utils::io::{parse_req, BytesBoxBody};
+use hyper::{body::Incoming, Request};
+use hyper_utils::io::parse_req;
 use prfs_db_interface::db_apis;
 use prfs_entities::{
     apis_entities::{
@@ -13,8 +12,7 @@ use prfs_entities::{
     },
     entities::{PrfsCircuitDriver, PrfsCircuitType},
 };
-use serde::{Deserialize, Serialize};
-use std::{convert::Infallible, sync::Arc};
+use std::sync::Arc;
 
 pub async fn get_prfs_circuit_types(
     req: Request<Incoming>,

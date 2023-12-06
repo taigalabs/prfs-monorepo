@@ -19,15 +19,12 @@ macro_rules! v0_path {
     };
 }
 
-pub async fn route(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, ApiServerError> {
+pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<BytesBoxBody> {
     log(&req);
 
     // Inline const is not availble at the moment
     // https://github.com/rodrimati1992/const_format_crates/issues/17
-    return match (req.method(), req.uri().path()) {
+    let resp = match (req.method(), req.uri().path()) {
         (&Method::OPTIONS, _) => handle_cors(),
         (&Method::GET, "/") => handle_server_status(req, state).await,
         (&Method::POST, v0_path!("sign_up_prfs_account")) => {
@@ -127,4 +124,7 @@ pub async fn route(
         }
         _ => handle_not_found(req, state).await,
     };
+
+    let resp = resp.unwrap();
+    resp
 }

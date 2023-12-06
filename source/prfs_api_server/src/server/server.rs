@@ -10,10 +10,12 @@ use tokio::net::TcpListener;
 use super::state::ServerState;
 use crate::server::router::route;
 
-const PORT: u16 = 4020;
+const PORT: u16 = 4000;
 
 pub async fn make_server(server_state: Arc<ServerState>) -> Result<(), Box<dyn std::error::Error>> {
     let addr = SocketAddr::from(([127, 0, 0, 1], PORT));
+    println!("prfs_api_server launching, addr: {}", addr);
+
     let listener = TcpListener::bind(addr).await?;
 
     loop {
@@ -26,7 +28,7 @@ pub async fn make_server(server_state: Arc<ServerState>) -> Result<(), Box<dyn s
             let s = server_state.clone();
 
             async move {
-                let res = route(req, s).await.unwrap();
+                let res = route(req, s).await;
 
                 Ok::<_, hyper::Error>(res)
             }

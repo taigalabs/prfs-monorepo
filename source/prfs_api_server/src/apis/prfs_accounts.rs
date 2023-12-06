@@ -7,14 +7,10 @@ use prfs_entities::{
     entities::PrfsAccount,
     sqlx::types::Json,
 };
-use std::{convert::Infallible, sync::Arc};
+use std::sync::Arc;
 
 use crate::server::types::ApiHandlerResult;
-use crate::ApiServerError;
-use crate::{
-    responses::{ApiResponse, ResponseCode},
-    server::state::ServerState,
-};
+use crate::{responses::ApiResponse, server::state::ServerState};
 
 pub async fn sign_up_prfs_account(
     req: Request<Incoming>,

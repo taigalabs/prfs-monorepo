@@ -3,12 +3,15 @@ use hyper::{body::Incoming, header, Request, Response, StatusCode};
 use hyper_utils::io::{full, BytesBoxBody};
 use std::sync::Arc;
 
-use crate::{server::state::ServerState, ApiServerError};
+use crate::{
+    server::{state::ServerState, types::ApiHandlerResult},
+    ApiServerError,
+};
 
 pub async fn handle_server_status(
     _req: Request<Incoming>,
     state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, ApiServerError> {
+) -> ApiHandlerResult {
     let data = serde_json::json!({
         "commit_hash": state.commit_hash.to_string(),
         "launch_time": state.launch_time.to_string(),
