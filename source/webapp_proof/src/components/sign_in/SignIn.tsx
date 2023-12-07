@@ -3,7 +3,7 @@
 import React from "react";
 import styles from "./SignIn.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { initWasm } from "@taigalabs/prfs-crypto-js";
+import { initWasm, makeCredential } from "@taigalabs/prfs-crypto-js";
 import SignInModule, {
   SignInInputItem,
   SignInModuleBtnRow,
@@ -32,33 +32,20 @@ const SignIn: React.FC = () => {
   const router = useRouter();
 
   const handleClickSignIn = React.useCallback(async () => {
-    // console.log(555);
-
-    const wasm = await initWasm();
-    const { email, password_1, password_2 } = formData;
-    const pw = `${email}${password_1}${password_2}`;
-    const pwBytes = ethers.utils.toUtf8Bytes(pw);
-    const pwHash = wasm.poseidon(pwBytes);
-    const pwInt = bytesToBigInt(pwHash);
-
-    const pk = secp.getPublicKey(pwInt, false);
-    const s1 = pk.subarray(1);
-    const s2 = wasm.poseidon(s1);
-    const id = s2.subarray(0, 20);
-
-    console.log("credential", pwInt, pk, s1, s2, id);
-
-    // setCredential({
-    //   secret_key: hexlify(pwInt),
-    //   public_key: hexlify(pk),
-    //   id: hexlify(id),
-    // });
-
     if (formData) {
+      const credential = await makeCredential({
+        email: formData.email,
+        password_1: formData.password_1,
+        password_2: formData.password_2,
+      });
+
+      console.log("credential", credential);
+
       const msg: SignInSuccessZAuthMsg = {
         type: "SIGN_IN_SUCCESS",
         payload: {
-          id,
+          id: credential.id,
+          publicKey: credential.public_key,
         },
       };
 

@@ -10,4 +10,5 @@ export interface SignInSuccessZAuthMsg {
 
 export interface SignInSuccessPayload {
   id: string;
+  publicKey: string;
 }
