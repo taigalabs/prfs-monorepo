@@ -2,7 +2,6 @@ use super::task::BuildTask;
 use crate::{
     deps::{self, JS_ENGINE},
     paths::PATHS,
-    utils::copy_dir_all,
     BuildHandle, CiError,
 };
 use colored::Colorize;
@@ -28,7 +27,7 @@ impl BuildTask for BuildPrfsCryptoJsTask {
     }
 }
 
-fn build_wasm(build_handle: &mut BuildHandle) {
+fn build_wasm(_build_handle: &mut BuildHandle) {
     let wasm_build_path = PATHS.prfs_crypto_js__build.to_str().unwrap();
 
     let status = Command::new("rm")
@@ -63,7 +62,7 @@ fn build_wasm(build_handle: &mut BuildHandle) {
     assert!(status.success());
 }
 
-fn sanity_check(build_handle: &BuildHandle) {
+fn sanity_check(_build_handle: &BuildHandle) {
     let wasm_js_path = PATHS
         .prfs_crypto_js__build
         .join(format!("{}.js", WASM_PKG_NAME));
@@ -85,7 +84,7 @@ fn sanity_check(build_handle: &BuildHandle) {
     }
 }
 
-fn embed_wasm(build_handle: &BuildHandle) {
+fn embed_wasm(_build_handle: &BuildHandle) {
     let wasm_embedded_path = PATHS.prfs_crypto_js.join("js/wasm_wrapper/build");
 
     println!(
@@ -127,18 +126,7 @@ fn embed_wasm(build_handle: &BuildHandle) {
     std::fs::write(wasm_bytes_path, contents).unwrap();
 }
 
-fn build_js(build_handle: &BuildHandle) {
-    // let status = Command::new("cp")
-    //     .args([
-    //         "-R",
-    //         PATHS.prfs_crypto_js__build.to_str().unwrap(),
-    //         wasm_embedded_path.to_str().unwrap(),
-    //     ])
-    //     .status()
-    //     .expect("cp command failed to start");
-
-    // assert!(status.success());
-
+fn build_js(_build_handle: &BuildHandle) {
     let status = Command::new(JS_ENGINE)
         .current_dir(&PATHS.prfs_crypto_js)
         .args(["run", "build"])

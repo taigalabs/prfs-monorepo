@@ -14,6 +14,8 @@ import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import { useSearchParams } from "next/navigation";
+import { SignInSuccessPayload } from "@taigalabs/prfs-zauth-interface";
+import { envs } from "@/envs";
 
 const Masthead: React.FC<MastheadProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -25,7 +27,9 @@ const Masthead: React.FC<MastheadProps> = () => {
     const sk = new PrivateKey();
     const pkHex = sk.publicKey.toHex();
     const redirect_uri = encodeURIComponent(window.location.toString());
-    setPrfsSignInEndpoint(`${paths.accounts__signin}?pk=${pkHex}&redirect_uri=${redirect_uri}`);
+    setPrfsSignInEndpoint(
+      `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.accounts__signin}?pk=${pkHex}&redirect_uri=${redirect_uri}`,
+    );
   }, [setPrfsSignInEndpoint]);
 
   const [isTutorial, tutorialUrl] = React.useMemo(() => {
@@ -35,20 +39,12 @@ const Masthead: React.FC<MastheadProps> = () => {
     return [false, `${paths.__}?tutorial_id=simple_hash`];
   }, [searchParams]);
 
-  // const handleClickSignIn = React.useCallback(() => {
-  //   const sk = new PrivateKey();
-  //   const pkHex = sk.publicKey.toHex();
-  //   const redirect_uri = encodeURIComponent(window.location.toString());
-
-  //   // router.push(`${paths.accounts__signin}?pk=${pkHex}&redirect_uri=${redirect_uri}`);
-  //   const w = window.open(
-  //     `${paths.accounts__signin}?pk=${pkHex}&redirect_uri=${redirect_uri}`,
-  //     "_blank",
-  //     "toolbar=0,location=0,menubar=0",
-  //   );
-
-  //   w?.onmessage;
-  // }, [router]);
+  const handleSucceedSignIn = React.useCallback(
+    async (data: SignInSuccessPayload) => {
+      console.log(222, data);
+    },
+    [router],
+  );
 
   return (
     <div className={cn({ [styles.wrapper]: true, [styles.isTutorial]: isTutorial })}>
@@ -78,7 +74,10 @@ const Masthead: React.FC<MastheadProps> = () => {
             />
           </li>
           <li className={styles.menu}>
-            <SignInButton prfsSignInEndpoint={prfsSignInEndpoint} />
+            <SignInButton
+              prfsSignInEndpoint={prfsSignInEndpoint}
+              handleSucceedSignIn={handleSucceedSignIn}
+            />
             {/* <Button */}
             {/*   variant="blue_2" */}
             {/*   className={styles.signInBtn} */}

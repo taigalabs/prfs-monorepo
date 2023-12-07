@@ -1,6 +1,10 @@
 import React from "react";
 import cn from "classnames";
-import type { ZAuthMsg, SignInSuccessPayload } from "@taigalabs/prfs-zauth-interface";
+import type {
+  ZAuthMsg,
+  SignInSuccessPayload,
+  SignInSuccessZAuthMsg,
+} from "@taigalabs/prfs-zauth-interface";
 
 import styles from "./SignInButton.module.scss";
 import Button from "../button/Button";
@@ -10,7 +14,7 @@ const eventListener = {
   object: null,
 };
 
-const SignInButton: React.FC<SignInButtonProps> = ({ prfsSignInEndpoint }) => {
+const SignInButton: React.FC<SignInButtonProps> = ({ prfsSignInEndpoint, handleSucceedSignIn }) => {
   const i18n = React.useContext(i18nContext);
 
   React.useEffect(() => {
@@ -26,18 +30,18 @@ const SignInButton: React.FC<SignInButtonProps> = ({ prfsSignInEndpoint }) => {
       const wd = window.open(prfsSignInEndpoint, "_blank", "toolbar=0,location=0,menubar=0");
 
       if (wd) {
-        if (eventListener.object === null) {
-          const listener = (ev: MessageEvent<any>) => {
-            const { origin } = ev;
-            const data = ev.data as ZAuthMsg<SignInSuccessPayload>;
-            console.log(22, data);
+        const listener = (ev: MessageEvent<any>) => {
+          const { origin } = ev;
 
-            if (prfsSignInEndpoint.startsWith(origin)) {
-              console.log(123123);
+          if (prfsSignInEndpoint.startsWith(origin)) {
+            const data = ev.data as SignInSuccessZAuthMsg;
+            if (data.type === "SIGN_IN_SUCCESS") {
+              handleSucceedSignIn(data.payload);
             }
-          };
-          addEventListener("message", listener, false);
-        }
+          }
+        };
+
+        addEventListener("message", listener, false);
       }
     }
   }, [prfsSignInEndpoint]);
@@ -60,4 +64,5 @@ export default SignInButton;
 
 export interface SignInButtonProps {
   prfsSignInEndpoint: string | null;
+  handleSucceedSignIn: (data: SignInSuccessPayload) => void;
 }
