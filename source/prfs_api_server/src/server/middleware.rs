@@ -1,13 +1,12 @@
 use hyper::{body::Incoming, Request, Response, StatusCode};
 use hyper_utils::io::full;
-use std::{convert::Infallible, sync::Arc};
+use std::sync::Arc;
 
 use super::{state::ServerState, types::ApiHandlerResult};
 
 #[inline]
 pub fn log(req: &Request<Incoming>) {
     println!("{} {}", req.method(), req.uri().path());
-    // Ok(req)
 }
 
 pub async fn handle_not_found(

@@ -1,9 +1,3 @@
-use crate::apis::status::handle_server_status;
-use crate::apis::{
-    prfs_accounts, prfs_circuit_drivers, prfs_circuit_types, prfs_circuits, prfs_polls,
-    prfs_proof_instances, prfs_proof_types, prfs_sets, prfs_tree_nodes, social_posts,
-};
-use crate::ApiServerError;
 use hyper::body::Incoming;
 use hyper::{Method, Request, Response};
 use hyper_utils::cors::handle_cors;
@@ -12,6 +6,11 @@ use std::sync::Arc;
 
 use super::middleware::{handle_not_found, log};
 use super::state::ServerState;
+use crate::apis::status::handle_server_status;
+use crate::apis::{
+    prfs_accounts, prfs_circuit_drivers, prfs_circuit_types, prfs_circuits, prfs_polls,
+    prfs_proof_instances, prfs_proof_types, prfs_sets, prfs_tree_nodes, social_posts,
+};
 
 macro_rules! v0_path {
     ($path: tt) => {
