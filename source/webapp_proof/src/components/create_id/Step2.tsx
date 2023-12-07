@@ -59,19 +59,19 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
     async function fn() {
       try {
         setCreateIdModuleStatus(CreateIdModuleStatus.ValueInProgress);
-        const wasm = await initWasm();
-        const { email, password_1, password_2 } = formData;
-        const pw = `${email}${password_1}${password_2}`;
-        const pwBytes = ethers.utils.toUtf8Bytes(pw);
-        const pwHash = wasm.poseidon(pwBytes);
-        const pwInt = bytesToBigInt(pwHash);
+        // const wasm = await initWasm();
+        // const { email, password_1, password_2 } = formData;
+        // const pw = `${email}${password_1}${password_2}`;
+        // const pwBytes = ethers.utils.toUtf8Bytes(pw);
+        // const pwHash = wasm.poseidon(pwBytes);
+        // const pwInt = bytesToBigInt(pwHash);
 
-        const pk = secp.getPublicKey(pwInt, false);
-        const s1 = pk.subarray(1);
-        const s2 = wasm.poseidon(s1);
-        const id = s2.subarray(0, 20);
+        // const pk = secp.getPublicKey(pwInt, false);
+        // const s1 = pk.subarray(1);
+        // const s2 = wasm.poseidon(s1);
+        // const id = s2.subarray(0, 20);
 
-        console.log("credential", pwInt, pk, s1, s2, id);
+        // console.log("credential", pwInt, pk, s1, s2, id);
 
         setCredential({
           secret_key: hexlify(pwInt),

@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
+    "@noble/secp256k1": "^2.0.0",
     "@taigalabs/async-incremental-merkle-tree": "*",
     "@taigalabs/prfs-crypto-js": "*",
     "@taigalabs/prfs-driver-interface": "*",
@@ -21,6 +22,7 @@
     "bn.js": "^5.2.1",
     "comlink": "^4.3.1",
     "elliptic": "^6.5.4",
+    "ethers": "^5",
     "json-bigint": "^1.0.0",
     "lodash.throttle": "^4.1.1",
     "snarkjs": "0.7.0",

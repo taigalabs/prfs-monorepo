@@ -3,6 +3,7 @@
 import React from "react";
 import styles from "./SignIn.module.scss";
 import { i18nContext } from "@/contexts/i18n";
+import { initWasm } from "@taigalabs/prfs-crypto-js";
 import SignInModule, {
   SignInInputItem,
   SignInModuleBtnRow,
@@ -16,6 +17,7 @@ import SignInModule, {
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import type { SignInSuccessZAuthMsg } from "@taigalabs/prfs-zauth-interface";
 
 import { paths } from "@/paths";
 import { envs } from "@/envs";
@@ -29,9 +31,39 @@ const SignIn: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
 
-  const handleClickSignIn = React.useCallback(() => {
-    console.log(555);
-    window.opener.postMessage("123123");
+  const handleClickSignIn = React.useCallback(async () => {
+    // console.log(555);
+
+    const wasm = await initWasm();
+    const { email, password_1, password_2 } = formData;
+    const pw = `${email}${password_1}${password_2}`;
+    const pwBytes = ethers.utils.toUtf8Bytes(pw);
+    const pwHash = wasm.poseidon(pwBytes);
+    const pwInt = bytesToBigInt(pwHash);
+
+    const pk = secp.getPublicKey(pwInt, false);
+    const s1 = pk.subarray(1);
+    const s2 = wasm.poseidon(s1);
+    const id = s2.subarray(0, 20);
+
+    console.log("credential", pwInt, pk, s1, s2, id);
+
+    // setCredential({
+    //   secret_key: hexlify(pwInt),
+    //   public_key: hexlify(pk),
+    //   id: hexlify(id),
+    // });
+
+    if (formData) {
+      const msg: SignInSuccessZAuthMsg = {
+        type: "SIGN_IN_SUCCESS",
+        payload: {
+          id,
+        },
+      };
+
+      window.opener.postMessage(msg);
+    }
   }, []);
 
   const handleClickCreateID = React.useCallback(() => {

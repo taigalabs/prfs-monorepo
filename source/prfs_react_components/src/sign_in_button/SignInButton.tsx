@@ -1,6 +1,6 @@
 import React from "react";
 import cn from "classnames";
-import { encrypt, decrypt, PrivateKey } from "eciesjs";
+import type { ZAuthMsg, SignInSuccessPayload } from "@taigalabs/prfs-zauth-interface";
 
 import styles from "./SignInButton.module.scss";
 import Button from "../button/Button";
@@ -28,7 +28,8 @@ const SignInButton: React.FC<SignInButtonProps> = ({ prfsSignInEndpoint }) => {
       if (wd) {
         if (eventListener.object === null) {
           const listener = (ev: MessageEvent<any>) => {
-            const { data, origin } = ev;
+            const { origin } = ev;
+            const data = ev.data as ZAuthMsg<SignInSuccessPayload>;
             console.log(22, data);
 
             if (prfsSignInEndpoint.startsWith(origin)) {

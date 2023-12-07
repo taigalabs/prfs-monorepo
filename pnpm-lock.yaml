@@ -370,6 +370,9 @@ importers:
       '@ethereumjs/util':
         specifier: ^8.0.3
         version: 8.1.0
+      '@noble/secp256k1':
+        specifier: ^2.0.0
+        version: 2.0.0
       '@taigalabs/async-incremental-merkle-tree':
         specifier: '*'
         version: link:../../externals/incremental-merkle-tree
@@ -391,6 +394,9 @@ importers:
       elliptic:
         specifier: ^6.5.4
         version: 6.5.4
+      ethers:
+        specifier: ^5
+        version: 5.7.2
       json-bigint:
         specifier: ^1.0.0
         version: 1.0.0
