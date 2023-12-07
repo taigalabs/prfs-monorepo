@@ -7,6 +7,11 @@
   // border: 1px solid red;
 }
 
+.loading {
+  width: 100%;
+  padding: 70px 250px;
+}
+
 .formArea {
   width: 580px;
   display: flex;
@@ -66,6 +71,10 @@
 }
 
 @media screen and (max-width: 1024px) {
+  .loading {
+    padding: 70px 28px;
+  }
+
   .formArea {
     width: 100%;
     padding: 0 10px;

@@ -17,11 +17,17 @@ import { paths } from "@/paths";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import Tutorial from "../tutorial/Tutorial";
 
+enum SearchProofTypeFormStatus {
+  Standby,
+  Loading,
+}
+
 const SearchProofTypeForm: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
-  const [proofType, setProofType] = React.useState<PrfsProofType>();
+  // const [proofType, setProofType] = React.useState<PrfsProofType>();
   const router = useRouter();
+  const [formStatus, setFormStatus] = React.useState(SearchProofTypeFormStatus.Standby);
 
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
@@ -31,40 +37,52 @@ const SearchProofTypeForm: React.FC = () => {
 
   const handleSelectProofType = React.useCallback(
     async (proofType: PrfsProofType) => {
+      setFormStatus(SearchProofTypeFormStatus.Loading);
       const params = searchParams.toString();
       router.push(`${paths.create}?proof_type_id=${proofType.proof_type_id}&${params}`);
     },
-    [getPrfsProofTypeByProofTypeIdRequest, router, searchParams],
+    [getPrfsProofTypeByProofTypeIdRequest, router, searchParams, setFormStatus],
   );
 
   return (
     <>
-      <div className={styles.wrapper}>
-        <LogoContainer proofTypeChosen={false} />
-        <div className={cn({ [styles.formArea]: true, [styles.proofTypeChosen]: !!proofType })}>
-          <div
-            className={cn({
-              [styles.formWrapper]: true,
-              [styles.proofTypeChosen]: !!proofType,
-            })}
-          >
-            <div className={styles.proofTypeRow}>
-              <TutorialStepper steps={[1]} fullWidth mainAxisOffset={20} crossAxisOffset={15}>
-                <SearchProofDialog
-                  proofType={proofType}
-                  handleSelectProofType={handleSelectProofType}
-                  webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
-                />
-              </TutorialStepper>
-            </div>
-            <div className={styles.welcomeRow}>
-              <span>{i18n.create_and_share_proofs}</span>
-              <Link href={`${paths.__}/?tutorial_id=simple_hash`}>How?</Link>
+      {formStatus ? (
+        <div className={styles.loading}>Loading...</div>
+      ) : (
+        <>
+          <div className={styles.wrapper}>
+            <LogoContainer proofTypeChosen={false} />
+            <div
+              className={cn({
+                [styles.formArea]: true,
+                // [styles.proofTypeChosen]: !!proofType
+              })}
+            >
+              <div
+                className={cn({
+                  [styles.formWrapper]: true,
+                  // [styles.proofTypeChosen]: !!proofType,
+                })}
+              >
+                <div className={styles.proofTypeRow}>
+                  <TutorialStepper steps={[1]} fullWidth mainAxisOffset={20} crossAxisOffset={15}>
+                    <SearchProofDialog
+                      proofType={undefined}
+                      handleSelectProofType={handleSelectProofType}
+                      webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
+                    />
+                  </TutorialStepper>
+                </div>
+                <div className={styles.welcomeRow}>
+                  <span>{i18n.create_and_share_proofs}</span>
+                  <Link href={`${paths.__}/?tutorial_id=simple_hash`}>How?</Link>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <Tutorial />
+          <Tutorial />
+        </>
+      )}
     </>
   );
 };
