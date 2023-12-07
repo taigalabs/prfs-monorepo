@@ -2,8 +2,7 @@ packages:
   # Externals
   - "externals/incremental-merkle-tree"
 
-  # Misc
-  - "source/e2e_test_web"
+  # Docs
   - "source/docs_website"
 
   # Circuits
