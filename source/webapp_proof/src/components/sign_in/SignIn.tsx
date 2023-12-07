@@ -30,6 +30,7 @@ const SignIn: React.FC = () => {
   const router = useRouter();
 
   const handleClickSignIn = React.useCallback(() => {
+    console.log(555);
     window.opener.postMessage("123123");
   }, []);
 
@@ -109,6 +110,7 @@ const SignIn: React.FC = () => {
               {i18n.create_id}
             </Button>
             <Button
+              type="button"
               variant="blue_2"
               className={styles.signInBtn}
               noTransition
