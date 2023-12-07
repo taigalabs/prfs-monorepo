@@ -1,5 +1,6 @@
 use crate::{
     build_cmd::{
+        build_prfs_crypto_js::BuildPrfsCryptoJsTask,
         build_prfs_driver_spartan_js::BuildPrfsDriverSpartanJsTask,
         build_prfs_driver_spartan_wasm::BuildPrfsDriverSpartanWasmTask, run_tasks::run_tasks,
         task::BuildTask,
@@ -14,6 +15,7 @@ pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
     };
 
     let tasks: Vec<Box<dyn BuildTask>> = vec![
+        Box::new(BuildPrfsCryptoJsTask),
         Box::new(BuildPrfsDriverSpartanWasmTask),
         Box::new(BuildPrfsDriverSpartanJsTask),
     ];
