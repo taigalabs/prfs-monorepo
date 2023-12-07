@@ -25,7 +25,7 @@ const SignIn: React.FC = () => {
 
   const handleClickCreateID = React.useCallback(() => {
     const { search } = window.location;
-    const url = `${paths.id_create}${search}`;
+    const url = `${paths.accounts__create}${search}`;
 
     router.push(url);
   }, [router]);
@@ -36,7 +36,7 @@ const SignIn: React.FC = () => {
         <SignInModuleLogoArea />
         <SignInModuleHeader>
           <SignInModuleTitle>{i18n.sign_in}</SignInModuleTitle>
-          <SignInModuleSubtitle>{i18n.use_your_zauth_identity}</SignInModuleSubtitle>
+          <SignInModuleSubtitle>{i18n.use_your_prfs_identity}</SignInModuleSubtitle>
         </SignInModuleHeader>
         <SignInModuleInputArea>3</SignInModuleInputArea>
         <SignInModuleBtnRow>

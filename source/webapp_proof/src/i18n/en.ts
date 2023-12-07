@@ -134,7 +134,7 @@ const en = {
   loading: "Loading",
   log_in: "Log in",
   sign_in: "Sign in",
-  use_your_zauth_identity: "Use your ZAuth identity",
+  use_your_prfs_identity: "Use your Prfs identity",
   create_an_identity: "Create an identity",
   check_your_credential: "Check your credential and finish id creation",
   create_a_strong_password:

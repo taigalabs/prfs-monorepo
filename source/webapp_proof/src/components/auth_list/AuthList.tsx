@@ -15,7 +15,7 @@ const AuthList: React.FC = () => {
     <div className={styles.wrapper}>
       <ul className={styles.list}>
         <li className={styles.listItem}>
-          <Link href={paths.auth_twitter}>
+          <Link href={paths.auth__twitter}>
             <img
               src="https://d1w1533jipmvi2.cloudfront.net/x-logo-black.png"
               alt="Twitter"
