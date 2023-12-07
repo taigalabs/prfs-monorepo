@@ -122,6 +122,7 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
         (&Method::POST, v0_path!("get_social_posts")) => {
             social_posts::get_social_posts(req, state).await
         }
+        //
         _ => handle_not_found(req, state).await,
     };
 
