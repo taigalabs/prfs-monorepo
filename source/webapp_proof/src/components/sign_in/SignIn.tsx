@@ -29,7 +29,9 @@ const SignIn: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
 
-  const handleClickSignIn = React.useCallback(() => {}, [router]);
+  const handleClickSignIn = React.useCallback(() => {
+    window.opener.postMessage("123123");
+  }, []);
 
   const handleClickCreateID = React.useCallback(() => {
     const { search } = window.location;

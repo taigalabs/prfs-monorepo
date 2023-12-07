@@ -10,7 +10,6 @@
   ],
   "scripts": {
     "build": "rm -rf ./dist && webpack --config webpack.config.js",
-    "build-cjs": "pnpm run clean-build-cjs && tsc --project tsconfig.cjs.json",
     "build-pkg": "pnpm run clean-build && tsc && tsc-alias -p tsconfig.json",
     "clean-build": "rm -rf ./build",
     "clean-build-cjs": "rm -rf ./build_cjs",

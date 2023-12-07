@@ -33,11 +33,13 @@ const Masthead: React.FC<MastheadProps> = () => {
     const redirect_uri = encodeURIComponent(window.location.toString());
 
     // router.push(`${paths.accounts__signin}?pk=${pkHex}&redirect_uri=${redirect_uri}`);
-    window.open(
+    const w = window.open(
       `${paths.accounts__signin}?pk=${pkHex}&redirect_uri=${redirect_uri}`,
       "_blank",
       "toolbar=0,location=0,menubar=0",
     );
+
+    w?.onmessage;
   }, [router]);
 
   return (

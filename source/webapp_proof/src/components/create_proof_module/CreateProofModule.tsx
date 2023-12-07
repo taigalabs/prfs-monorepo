@@ -103,6 +103,10 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           return;
         }
 
+        if (createProofStatus === CreateProofStatus.InProgress) {
+          return;
+        }
+
         setCreateProofStatus(CreateProofStatus.InProgress);
         const proveReceipt = await proofGenElement.createProof(inputs, proofType.circuit_type_id);
         setCreateProofStatus(CreateProofStatus.Created);
@@ -114,7 +118,14 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         handleCreateProofResult(err, null);
       }
     }
-  }, [formValues, proofType, handleCreateProofResult, proofGenElement, setSystemMsg]);
+  }, [
+    formValues,
+    proofType,
+    handleCreateProofResult,
+    proofGenElement,
+    setSystemMsg,
+    createProofStatus,
+  ]);
 
   React.useEffect(() => {
     async function fn() {
