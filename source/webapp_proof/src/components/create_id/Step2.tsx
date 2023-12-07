@@ -3,29 +3,23 @@
 import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import cn from "classnames";
 import { IoMdEye } from "@react-icons/all-files/io/IoMdEye";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import copy from "copy-to-clipboard";
-import { initWasm } from "@taigalabs/prfs-crypto-js";
-import * as ethers from "ethers";
-import * as secp from "@noble/secp256k1";
-import { bytesToBigInt } from "@taigalabs/prfs-crypto-js";
+import { makeCredential } from "@taigalabs/prfs-crypto-js";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 import { IdCreateForm } from "@/functions/validate_id";
-import { hexlify } from "ethers/lib/utils";
 import Link from "next/link";
 
 import styles from "./Step2.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import SignInModule, {
+import {
   SignInInputGuide,
-  SignInInputItem,
   SignInModuleBtnRow,
   SignInModuleHeader,
-  SignInModuleInputArea,
   SignInModuleLogoArea,
   SignInModuleSubtitle,
   SignInModuleTitle,
@@ -42,7 +36,6 @@ enum CreateIdModuleStatus {
 const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
-  // const searchParams = useSearchParams();
   const [createIdModuleStatus, setCreateIdModuleStatus] = React.useState(
     CreateIdModuleStatus.StandBy,
   );
@@ -59,26 +52,15 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
     async function fn() {
       try {
         setCreateIdModuleStatus(CreateIdModuleStatus.ValueInProgress);
-        // const wasm = await initWasm();
-        // const { email, password_1, password_2 } = formData;
-        // const pw = `${email}${password_1}${password_2}`;
-        // const pwBytes = ethers.utils.toUtf8Bytes(pw);
-        // const pwHash = wasm.poseidon(pwBytes);
-        // const pwInt = bytesToBigInt(pwHash);
-
-        // const pk = secp.getPublicKey(pwInt, false);
-        // const s1 = pk.subarray(1);
-        // const s2 = wasm.poseidon(s1);
-        // const id = s2.subarray(0, 20);
-
-        // console.log("credential", pwInt, pk, s1, s2, id);
-
-        setCredential({
-          secret_key: hexlify(pwInt),
-          public_key: hexlify(pk),
-          id: hexlify(id),
+        const credential = await makeCredential({
+          email: formData.email,
+          password_1: formData.password_1,
+          password_2: formData.password_2,
         });
 
+        console.log("credential", credential);
+
+        setCredential(credential);
         setCreateIdModuleStatus(CreateIdModuleStatus.ValueReady);
       } catch (err) {
         setAlertMsg(`Driver init failed, err: ${err}`);
