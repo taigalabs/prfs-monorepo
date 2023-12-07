@@ -20,17 +20,6 @@
   cursor: pointer;
 }
 
-.footer {
-  margin-top: 11px;
-  font-size: 12px;
-  display: flex;
-  justify-content: flex-end;
-
-  a:not(:first-child) {
-    margin-left: 22px;
-  }
-}
-
 .prfsLink {
   display: flex;
   align-items: center;

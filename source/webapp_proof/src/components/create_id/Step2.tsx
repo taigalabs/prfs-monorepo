@@ -5,9 +5,7 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { useRouter, useSearchParams } from "next/navigation";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
-import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import cn from "classnames";
-import UtilsElement from "@taigalabs/prfs-sdk-web/src/elems/utils_element/utils_element";
 import { IoMdEye } from "@react-icons/all-files/io/IoMdEye";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import copy from "copy-to-clipboard";
@@ -16,8 +14,6 @@ import * as ethers from "ethers";
 import * as secp from "@noble/secp256k1";
 import { bytesToBigInt } from "@taigalabs/prfs-crypto-js";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
-import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
-import { prfsApi2 } from "@taigalabs/prfs-api-js";
 
 import styles from "./Step2.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -31,7 +27,6 @@ import SignInModule, {
   SignInModuleSubtitle,
   SignInModuleTitle,
 } from "@/components/sign_in_module/SignInModule";
-import { useMutation } from "@tanstack/react-query";
 
 //
 import { IdForm, validateIdForm } from "@/functions/validate_id";
@@ -59,12 +54,6 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
     secret_key: "",
     public_key: "",
     id: "",
-  });
-
-  const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
-    mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
-      return prfsApi2("get_prfs_proof_type_by_proof_type_id", req);
-    },
   });
 
   React.useEffect(() => {
@@ -110,7 +99,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
     copy(pw);
   }, [formData]);
 
-  const handleClickCreate = React.useCallback(() => {}, [formData, router, searchParams]);
+  const handleClickSignIn = React.useCallback(() => {}, [formData, router, searchParams]);
 
   const { email_val, password_1_val, password_2_val, secret_key_val } = React.useMemo(() => {
     if (showPassword) {
@@ -210,7 +199,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
               variant="blue_2"
               className={styles.createBtn}
               noTransition
-              handleClick={handleClickCreate}
+              handleClick={handleClickSignIn}
               noShadow
             >
               {i18n.finish_by_signing_in}

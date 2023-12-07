@@ -8,6 +8,7 @@ import SignInModule, {
   SignInInputGuide,
   SignInInputItem,
   SignInModuleBtnRow,
+  SignInModuleFooter,
   SignInModuleHeader,
   SignInModuleInputArea,
   SignInModuleLogoArea,
@@ -17,7 +18,6 @@ import SignInModule, {
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
-import { FaExternalLinkAlt } from "@react-icons/all-files/fa/FaExternalLinkAlt";
 import { paths } from "@/paths";
 import {
   IdForm,
@@ -182,14 +182,14 @@ const CreateID: React.FC = () => {
       <div className={styles.moduleWrapper}>
         <SignInModule>{content}</SignInModule>
       </div>
-      <div className={styles.footer}>
+      <SignInModuleFooter>
         <Link className={styles.prfsLink} href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL}>
           <span>{i18n.code}</span>
         </Link>
         <Link className={styles.prfsLink} href={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
           <span>{i18n.prfs}</span>
         </Link>
-      </div>
+      </SignInModuleFooter>
     </>
   );
 };
