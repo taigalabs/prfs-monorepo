@@ -68,6 +68,7 @@ const Masthead: React.FC<MastheadProps> = () => {
               className={styles.signInBtn}
               noTransition
               handleClick={handleClickSignIn}
+              noShadow
             >
               {i18n.sign_in}
             </Button>

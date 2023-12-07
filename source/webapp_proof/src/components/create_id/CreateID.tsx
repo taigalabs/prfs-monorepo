@@ -183,9 +183,11 @@ const CreateID: React.FC = () => {
         <SignInModule>{content}</SignInModule>
       </div>
       <div className={styles.footer}>
+        <Link className={styles.prfsLink} href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL}>
+          <span>{i18n.code}</span>
+        </Link>
         <Link className={styles.prfsLink} href={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
           <span>{i18n.prfs}</span>
-          <FaExternalLinkAlt />
         </Link>
       </div>
     </>

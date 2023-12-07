@@ -25,6 +25,10 @@
   font-size: 12px;
   display: flex;
   justify-content: flex-end;
+
+  a:not(:first-child) {
+    margin-left: 22px;
+  }
 }
 
 .prfsLink {

@@ -189,6 +189,11 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
               <div className={styles.value}>{credential.id}</div>
             </div>
           </div>
+          <SignInInputGuide>
+            <Link href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`} target="_blank">
+              {i18n.what_is_id}
+            </Link>
+          </SignInInputGuide>
           <SignInModuleBtnRow className={styles.btnRow}>
             <Button
               type="button"
@@ -211,11 +216,6 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
               {i18n.finish_by_signing_in}
             </Button>
           </SignInModuleBtnRow>
-          {/* <SignInInputGuide> */}
-          {/*   <Link href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`} target="_blank"> */}
-          {/*     {i18n.how_is_the_password_generated} */}
-          {/*   </Link> */}
-          {/* </SignInInputGuide> */}
         </Fade>
       </div>
     </div>
