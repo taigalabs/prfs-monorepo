@@ -108,7 +108,6 @@ const CreateProofForm: React.FC = () => {
         )}
         <TutorialPlaceholder variant="h1460" />
       </div>
-      <TutorialPlaceholder variant="v1460" />
       <Tutorial bigTopMargin />
     </>
   );

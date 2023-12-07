@@ -48,23 +48,13 @@ const SearchProofTypeForm: React.FC = () => {
     <>
       <div className={styles.wrapper}>
         <LogoContainer proofTypeChosen={false} />
-        <div
-          className={cn({
-            [styles.formArea]: true,
-            // [styles.proofTypeChosen]: !!proofType
-          })}
-        >
+        <div className={cn(styles.formArea)}>
           {formStatus === SearchProofTypeFormStatus.Loading && (
             <div className={styles.overlay}>
               <Spinner size={32} color="#1b62c0" />
             </div>
           )}
-          <div
-            className={cn({
-              [styles.formWrapper]: true,
-              // [styles.proofTypeChosen]: !!proofType,
-            })}
-          >
+          <div className={cn(styles.formWrapper)}>
             <div className={styles.proofTypeRow}>
               <TutorialStepper steps={[1]} fullWidth mainAxisOffset={20} crossAxisOffset={15}>
                 <SearchProofDialog

@@ -1,15 +1,23 @@
 @mixin smallScreen {
   position: fixed;
   top: auto;
-  right: auto;
-  bottom: 5px;
-  width: calc(100% - 10px);
-  min-width: 348px;
-  max-width: 600px;
+  left: 5px;
+  right: 5px;
+  bottom: 15px;
+  /* width: calc(100% - 10px); */
+  display: flex;
+  justify-content: center;
+  /* width: 100%; */
   margin: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  width: 100%;
+  /* left: 50%; */
+  /* transform: translateX(-50%); */
   border: 1px solid var(--bright-gray-30);
+
+  .inner {
+    min-width: 348px;
+    max-width: 600px;
+  }
 
   .body {
     min-height: 0;
@@ -96,7 +104,7 @@
   }
 }
 
-@media screen and (max-width: 1620px) {
+@media screen and (max-width: 1690px) {
   .wrapper {
     @include smallScreen;
   }
