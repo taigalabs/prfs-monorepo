@@ -14,6 +14,9 @@ import * as ethers from "ethers";
 import * as secp from "@noble/secp256k1";
 import { bytesToBigInt } from "@taigalabs/prfs-crypto-js";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
+import { IdForm } from "@/functions/validate_id";
+import { hexlify } from "ethers/lib/utils";
+import Link from "next/link";
 
 import styles from "./Step2.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -27,11 +30,7 @@ import SignInModule, {
   SignInModuleSubtitle,
   SignInModuleTitle,
 } from "@/components/sign_in_module/SignInModule";
-
-//
-import { IdForm, validateIdForm } from "@/functions/validate_id";
-import { hexlify } from "ethers/lib/utils";
-import Link from "next/link";
+import { paths } from "@/paths";
 
 enum CreateIdModuleStatus {
   StandBy,
@@ -43,7 +42,7 @@ enum CreateIdModuleStatus {
 const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
   const [createIdModuleStatus, setCreateIdModuleStatus] = React.useState(
     CreateIdModuleStatus.StandBy,
   );
@@ -87,7 +86,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
     }
 
     fn().then();
-  }, [router, searchParams, formData, setCredential, setAlertMsg]);
+  }, [router, formData, setCredential, setAlertMsg]);
 
   const handleClickShowPassword = React.useCallback(() => {
     setShowPassword(val => !val);
@@ -99,7 +98,11 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
     copy(pw);
   }, [formData]);
 
-  const handleClickSignIn = React.useCallback(() => {}, [formData, router, searchParams]);
+  const handleClickSignIn = React.useCallback(() => {
+    const { search } = window.location;
+    const url = `${paths.accounts__signin}${search}`;
+    router.push(url);
+  }, [formData, router]);
 
   const { email_val, password_1_val, password_2_val, secret_key_val } = React.useMemo(() => {
     if (showPassword) {

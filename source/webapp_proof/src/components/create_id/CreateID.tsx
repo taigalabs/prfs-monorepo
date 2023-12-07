@@ -1,6 +1,9 @@
 "use client";
 
 import React from "react";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Link from "next/link";
+import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 
 import styles from "./CreateID.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -15,9 +18,6 @@ import SignInModule, {
   SignInModuleSubtitle,
   SignInModuleTitle,
 } from "@/components/sign_in_module/SignInModule";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import Link from "next/link";
-import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import { paths } from "@/paths";
 import {
   IdForm,
@@ -151,7 +151,7 @@ const CreateID: React.FC = () => {
                 </SignInInputGuide>
               </SignInModuleInputArea>
               <SignInModuleBtnRow>
-                <Link href={paths.accounts} className={styles.blueLink}>
+                <Link href={paths.accounts__signin} className={styles.blueLink}>
                   {i18n.already_have_id}
                 </Link>
                 <Button
