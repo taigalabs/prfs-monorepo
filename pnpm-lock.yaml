@@ -883,6 +883,64 @@ importers:
         specifier: ^4.7.4
         version: 4.9.5
 
+  source/prfs_zauth_interface:
+    dependencies:
+      '@ethereumjs/util':
+        specifier: ^8.0.3
+        version: 8.1.0
+      '@taigalabs/prfs-crypto-js':
+        specifier: '*'
+        version: link:../prfs_crypto_js
+      '@taigalabs/prfs-driver-interface':
+        specifier: '*'
+        version: link:../prfs_driver_interface
+      '@taigalabs/prfs-driver-spartan-js':
+        specifier: '*'
+        version: link:../prfs_driver_spartan_js
+      '@taigalabs/prfs-entities':
+        specifier: '*'
+        version: link:../prfs_entities
+      '@thirdweb-dev/react':
+        specifier: ^3.14.13
+        version: 3.14.15(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@thirdweb-dev/sdk@3.10.35)(@types/react-dom@18.2.5)(@types/react@18.2.12)(ethers@5.7.2)(localforage@1.10.0)(react-dom@18.2.0)(react@18.2.0)(typescript@4.9.5)
+      '@thirdweb-dev/sdk':
+        specifier: ^3.10.33
+        version: 3.10.35(ethers@5.7.2)(typescript@4.9.5)
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
+      ethers:
+        specifier: ^5
+        version: 5.7.2
+      json-bigint:
+        specifier: ^1.0.0
+        version: 1.0.0
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: 18.2.0
+        version: 18.2.0(react@18.2.0)
+    devDependencies:
+      '@types/json-bigint':
+        specifier: ^1.0.1
+        version: 1.0.1
+      '@types/node':
+        specifier: ^20.4.9
+        version: 20.4.9
+      '@types/react':
+        specifier: 18.2.12
+        version: 18.2.12
+      '@types/react-dom':
+        specifier: 18.2.5
+        version: 18.2.5
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+      vite:
+        specifier: ^4.3.9
+        version: 4.3.9(@types/node@20.4.9)
+
   source/webapp_console:
     dependencies:
       '@ethereumjs/util':
@@ -10923,7 +10981,7 @@ packages:
     resolution: {integrity: sha512-vO9/3lSLO8smyyH1QVeYravSTzFwV1nf1C/Im1NBDPdH8//YvcbhtETGGiNfHWpyCvSi0vRYwvf+/7FKdwpDGQ==}
     dev: false
 
-  /@thirdweb-dev/react-core@3.14.15(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(ethers@5.7.2)(localforage@1.10.0)(react-dom@18.2.0)(react@18.2.0)(typescript@4.9.5):
+  /@thirdweb-dev/react-core@3.14.15(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.12)(ethers@5.7.2)(localforage@1.10.0)(react-dom@18.2.0)(react@18.2.0)(typescript@4.9.5):
     resolution: {integrity: sha512-9OEZK8CXA9TLNodI0smd8uqdVSCkW7vWaDXTtFoRhXkckKfb1A8Nn332HGdHPRSkpyf/4K3zPzzt87LYi6O3/w==}
     peerDependencies:
       '@solana/wallet-adapter-react': ^0.15.19
@@ -10941,7 +10999,7 @@ packages:
       '@thirdweb-dev/generated-abis': 0.0.1
       '@thirdweb-dev/sdk': 3.10.35(ethers@5.7.2)(typescript@4.9.5)
       '@thirdweb-dev/storage': 1.1.9
-      '@thirdweb-dev/wallets': 1.0.11(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@4.9.5)
+      '@thirdweb-dev/wallets': 1.0.11(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.12)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@4.9.5)
       ethers: 5.7.2
       mime: 3.0.0
       react: 18.2.0
@@ -10958,6 +11016,7 @@ packages:
       - '@project-serum/anchor'
       - '@react-native-async-storage/async-storage'
       - '@solana/spl-token'
+      - '@types/react'
       - bs58
       - bufferutil
       - debug
@@ -10974,7 +11033,7 @@ packages:
       - zksync-web3
     dev: false
 
-  /@thirdweb-dev/react-core@3.14.15(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(ethers@5.7.2)(localforage@1.10.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6):
+  /@thirdweb-dev/react-core@3.14.15(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.12)(ethers@5.7.2)(localforage@1.10.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6):
     resolution: {integrity: sha512-9OEZK8CXA9TLNodI0smd8uqdVSCkW7vWaDXTtFoRhXkckKfb1A8Nn332HGdHPRSkpyf/4K3zPzzt87LYi6O3/w==}
     peerDependencies:
       '@solana/wallet-adapter-react': ^0.15.19
@@ -10992,7 +11051,7 @@ packages:
       '@thirdweb-dev/generated-abis': 0.0.1
       '@thirdweb-dev/sdk': 3.10.35(ethers@5.7.2)(typescript@5.1.6)
       '@thirdweb-dev/storage': 1.1.9
-      '@thirdweb-dev/wallets': 1.0.11(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@5.1.6)
+      '@thirdweb-dev/wallets': 1.0.11(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.12)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@5.1.6)
       ethers: 5.7.2
       mime: 3.0.0
       react: 18.2.0
@@ -11009,6 +11068,7 @@ packages:
       - '@project-serum/anchor'
       - '@react-native-async-storage/async-storage'
       - '@solana/spl-token'
+      - '@types/react'
       - bs58
       - bufferutil
       - debug
@@ -11062,9 +11122,9 @@ packages:
       '@react-icons/all-files': 4.1.0(react@18.2.0)
       '@tanstack/react-query': 4.35.0(react-dom@18.2.0)(react@18.2.0)
       '@thirdweb-dev/chains': 0.1.34
-      '@thirdweb-dev/react-core': 3.14.15(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(ethers@5.7.2)(localforage@1.10.0)(react-dom@18.2.0)(react@18.2.0)(typescript@4.9.5)
+      '@thirdweb-dev/react-core': 3.14.15(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.12)(ethers@5.7.2)(localforage@1.10.0)(react-dom@18.2.0)(react@18.2.0)(typescript@4.9.5)
       '@thirdweb-dev/sdk': 3.10.35(ethers@5.7.2)(typescript@4.9.5)
-      '@thirdweb-dev/wallets': 1.0.11(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@4.9.5)
+      '@thirdweb-dev/wallets': 1.0.11(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.12)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@4.9.5)
       buffer: 6.0.3
       copy-to-clipboard: 3.3.3
       detect-browser: 5.3.0
@@ -11141,9 +11201,9 @@ packages:
       '@react-icons/all-files': 4.1.0(react@18.2.0)
       '@tanstack/react-query': 4.35.0(react-dom@18.2.0)(react@18.2.0)
       '@thirdweb-dev/chains': 0.1.34
-      '@thirdweb-dev/react-core': 3.14.15(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(ethers@5.7.2)(localforage@1.10.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
+      '@thirdweb-dev/react-core': 3.14.15(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.12)(ethers@5.7.2)(localforage@1.10.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
       '@thirdweb-dev/sdk': 3.10.35(ethers@5.7.2)(typescript@5.1.6)
-      '@thirdweb-dev/wallets': 1.0.11(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@5.1.6)
+      '@thirdweb-dev/wallets': 1.0.11(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.12)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@5.1.6)
       buffer: 6.0.3
       copy-to-clipboard: 3.3.3
       detect-browser: 5.3.0
@@ -11217,7 +11277,7 @@ packages:
       '@thirdweb-dev/contracts-js': 1.3.9(ethers@5.7.2)
       '@thirdweb-dev/generated-abis': 0.0.1
       '@thirdweb-dev/storage': 1.1.9
-      abitype: 0.2.5(typescript@4.9.5)(zod@3.21.4)
+      abitype: 0.2.5(typescript@4.9.5)(zod@3.22.4)
       bn.js: 5.2.1
       bs58: 5.0.0
       buffer: 6.0.3
@@ -11230,7 +11290,7 @@ packages:
       tweetnacl: 1.0.3
       uuid: 9.0.0
       yaml: 2.3.1
-      zod: 3.21.4
+      zod: 3.22.4
     transitivePeerDependencies:
       - encoding
       - typescript
@@ -11270,7 +11330,7 @@ packages:
       '@thirdweb-dev/contracts-js': 1.3.9(ethers@5.7.2)
       '@thirdweb-dev/generated-abis': 0.0.1
       '@thirdweb-dev/storage': 1.1.9
-      abitype: 0.2.5(typescript@5.1.6)(zod@3.21.4)
+      abitype: 0.2.5(typescript@5.1.6)(zod@3.22.4)
       bn.js: 5.2.1
       bs58: 5.0.0
       buffer: 6.0.3
@@ -11283,7 +11343,7 @@ packages:
       tweetnacl: 1.0.3
       uuid: 9.0.0
       yaml: 2.3.1
-      zod: 3.21.4
+      zod: 3.22.4
     transitivePeerDependencies:
       - encoding
       - typescript
@@ -11300,7 +11360,7 @@ packages:
       - encoding
     dev: false
 
-  /@thirdweb-dev/wallets@1.0.11(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@4.9.5):
+  /@thirdweb-dev/wallets@1.0.11(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.12)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@4.9.5):
     resolution: {integrity: sha512-6rfLjhlL5c9gElWIBLMlv2MsK7oMwSQg/UIydhU2CU5QZCRYkGIonnIKA6OEFtz3sFLrbnUdonf/KWMZ9S1GHQ==}
     peerDependencies:
       '@aws-sdk/client-secrets-manager': ^3.256.0
@@ -11339,12 +11399,12 @@ packages:
       '@safe-global/safe-ethers-lib': 1.9.4
       '@thirdweb-dev/chains': 0.1.34
       '@thirdweb-dev/sdk': 3.10.35(ethers@5.7.2)(typescript@4.9.5)
-      '@walletconnect/core': 2.9.0
-      '@walletconnect/ethereum-provider': 2.9.0(@walletconnect/modal@2.6.0)
+      '@walletconnect/core': 2.10.1
+      '@walletconnect/ethereum-provider': 2.10.1(@walletconnect/modal@2.6.2)
       '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/modal': 2.6.0(react@18.2.0)
-      '@walletconnect/types': 2.9.0
-      '@walletconnect/utils': 2.9.0
+      '@walletconnect/modal': 2.6.2(@types/react@18.2.12)(react@18.2.0)
+      '@walletconnect/types': 2.10.1
+      '@walletconnect/utils': 2.10.1
       '@walletconnect/web3wallet': 1.8.6
       buffer: 6.0.3
       cross-fetch: 3.1.8
@@ -11364,6 +11424,7 @@ packages:
       - '@project-serum/anchor'
       - '@react-native-async-storage/async-storage'
       - '@solana/spl-token'
+      - '@types/react'
       - bufferutil
       - debug
       - encoding
@@ -11376,7 +11437,7 @@ packages:
       - zksync-web3
     dev: false
 
-  /@thirdweb-dev/wallets@1.0.11(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@5.1.6):
+  /@thirdweb-dev/wallets@1.0.11(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.12)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@5.1.6):
     resolution: {integrity: sha512-6rfLjhlL5c9gElWIBLMlv2MsK7oMwSQg/UIydhU2CU5QZCRYkGIonnIKA6OEFtz3sFLrbnUdonf/KWMZ9S1GHQ==}
     peerDependencies:
       '@aws-sdk/client-secrets-manager': ^3.256.0
@@ -11415,12 +11476,12 @@ packages:
       '@safe-global/safe-ethers-lib': 1.9.4
       '@thirdweb-dev/chains': 0.1.34
       '@thirdweb-dev/sdk': 3.10.35(ethers@5.7.2)(typescript@5.1.6)
-      '@walletconnect/core': 2.9.0
-      '@walletconnect/ethereum-provider': 2.9.0(@walletconnect/modal@2.6.0)
+      '@walletconnect/core': 2.10.1
+      '@walletconnect/ethereum-provider': 2.10.1(@walletconnect/modal@2.6.2)
       '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/modal': 2.6.0(react@18.2.0)
-      '@walletconnect/types': 2.9.0
-      '@walletconnect/utils': 2.9.0
+      '@walletconnect/modal': 2.6.2(@types/react@18.2.12)(react@18.2.0)
+      '@walletconnect/types': 2.10.1
+      '@walletconnect/utils': 2.10.1
       '@walletconnect/web3wallet': 1.8.6
       buffer: 6.0.3
       cross-fetch: 3.1.8
@@ -11440,6 +11501,7 @@ packages:
       - '@project-serum/anchor'
       - '@react-native-async-storage/async-storage'
       - '@solana/spl-token'
+      - '@types/react'
       - bufferutil
       - debug
       - encoding
@@ -12926,32 +12988,6 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@walletconnect/ethereum-provider@2.9.0(@walletconnect/modal@2.6.0):
-    resolution: {integrity: sha512-rSXkC0SXMigJRdIi/M2RMuEuATY1AwtlTWQBnqyxoht7xbO2bQNPCXn0XL4s/GRNrSUtoKSY4aPMHXV4W4yLBA==}
-    peerDependencies:
-      '@walletconnect/modal': '>=2'
-    peerDependenciesMeta:
-      '@walletconnect/modal':
-        optional: true
-    dependencies:
-      '@walletconnect/jsonrpc-http-connection': 1.0.7
-      '@walletconnect/jsonrpc-provider': 1.0.13
-      '@walletconnect/jsonrpc-types': 1.0.3
-      '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/modal': 2.6.0(react@18.2.0)
-      '@walletconnect/sign-client': 2.9.0
-      '@walletconnect/types': 2.9.0
-      '@walletconnect/universal-provider': 2.9.0
-      '@walletconnect/utils': 2.9.0
-      events: 3.3.0
-    transitivePeerDependencies:
-      - '@react-native-async-storage/async-storage'
-      - bufferutil
-      - encoding
-      - lokijs
-      - utf-8-validate
-    dev: false
-
   /@walletconnect/events@1.0.1:
     resolution: {integrity: sha512-NPTqaoi0oPBVNuLv7qPaJazmGHs5JGyO8eEAk5VGKmJzDR7AHzD4k6ilox5kxk1iwiOnFopBOOMLs86Oa76HpQ==}
     dependencies:
@@ -13106,31 +13142,12 @@ packages:
       tslib: 1.14.1
     dev: false
 
-  /@walletconnect/modal-core@2.6.0(react@18.2.0):
-    resolution: {integrity: sha512-95315iaiVlz72W8IWd0gvBGHenS9cbLXwURjbN6wm12KSc6zbQA6u2RO0SRlcwc+dQcNzhwB/ce7TZYLQUVMfw==}
-    dependencies:
-      valtio: 1.10.7(react@18.2.0)
-    transitivePeerDependencies:
-      - react
-    dev: false
-
   /@walletconnect/modal-core@2.6.2(@types/react@18.2.12)(react@18.2.0):
     resolution: {integrity: sha512-cv8ibvdOJQv2B+nyxP9IIFdxvQznMz8OOr/oR/AaUZym4hjXNL/l1a2UlSQBXrVjo3xxbouMxLb3kBsHoYP2CA==}
     dependencies:
       valtio: 1.11.2(@types/react@18.2.12)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
-      - react
-    dev: false
-
-  /@walletconnect/modal-ui@2.6.0(react@18.2.0):
-    resolution: {integrity: sha512-A9Eohricm+VYTiUELVfum7AjyhxquWqy8ZhyVWXfm2ucpHnG0lhiY2mdLrqoE9EEW/ql4tmfYltX2ZD9wzTu9A==}
-    dependencies:
-      '@walletconnect/modal-core': 2.6.0(react@18.2.0)
-      lit: 2.7.6
-      motion: 10.16.2
-      qrcode: 1.5.3
-    transitivePeerDependencies:
       - react
     dev: false
 
@@ -13143,15 +13160,6 @@ packages:
       qrcode: 1.5.3
     transitivePeerDependencies:
       - '@types/react'
-      - react
-    dev: false
-
-  /@walletconnect/modal@2.6.0(react@18.2.0):
-    resolution: {integrity: sha512-hV8pfWvUDjanxfXZ7DouyboM+LOcSsJBX3cMsDyNwe0f19W/yIZTUQz9k4DkuIGjEQSUO9zfEX+BAYAeP27uag==}
-    dependencies:
-      '@walletconnect/modal-core': 2.6.0(react@18.2.0)
-      '@walletconnect/modal-ui': 2.6.0(react@18.2.0)
-    transitivePeerDependencies:
       - react
     dev: false
 
@@ -13281,26 +13289,6 @@ packages:
       '@walletconnect/sign-client': 2.10.1
       '@walletconnect/types': 2.10.1
       '@walletconnect/utils': 2.10.1
-      events: 3.3.0
-    transitivePeerDependencies:
-      - '@react-native-async-storage/async-storage'
-      - bufferutil
-      - encoding
-      - lokijs
-      - utf-8-validate
-    dev: false
-
-  /@walletconnect/universal-provider@2.9.0:
-    resolution: {integrity: sha512-k3nkSBkF69sJJVoe17IVoPtnhp/sgaa2t+x7BvA/BKeMxE0DGdtRJdEXotTc8DBmI7o2tkq6l8+HyFBGjQ/CjQ==}
-    dependencies:
-      '@walletconnect/jsonrpc-http-connection': 1.0.7
-      '@walletconnect/jsonrpc-provider': 1.0.13
-      '@walletconnect/jsonrpc-types': 1.0.3
-      '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/logger': 2.0.1
-      '@walletconnect/sign-client': 2.9.0
-      '@walletconnect/types': 2.9.0
-      '@walletconnect/utils': 2.9.0
       events: 3.3.0
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
@@ -13615,7 +13603,7 @@ packages:
     resolution: {integrity: sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA==}
     dev: true
 
-  /abitype@0.2.5(typescript@4.9.5)(zod@3.21.4):
+  /abitype@0.2.5(typescript@4.9.5)(zod@3.22.4):
     resolution: {integrity: sha512-t1iiokWYpkrziu4WL2Gb6YdGvaP9ZKs7WnA39TI8TsW2E99GVRgDPW/xOKhzoCdyxOYt550CNYEFluCwGaFHaA==}
     engines: {pnpm: '>=7'}
     peerDependencies:
@@ -13626,10 +13614,10 @@ packages:
         optional: true
     dependencies:
       typescript: 4.9.5
-      zod: 3.21.4
+      zod: 3.22.4
     dev: false
 
-  /abitype@0.2.5(typescript@5.1.6)(zod@3.21.4):
+  /abitype@0.2.5(typescript@5.1.6)(zod@3.22.4):
     resolution: {integrity: sha512-t1iiokWYpkrziu4WL2Gb6YdGvaP9ZKs7WnA39TI8TsW2E99GVRgDPW/xOKhzoCdyxOYt550CNYEFluCwGaFHaA==}
     engines: {pnpm: '>=7'}
     peerDependencies:
@@ -13640,7 +13628,7 @@ packages:
         optional: true
     dependencies:
       typescript: 5.1.6
-      zod: 3.21.4
+      zod: 3.22.4
     dev: false
 
   /abitype@0.8.7(typescript@5.1.6):
@@ -30357,20 +30345,6 @@ packages:
     dependencies:
       builtins: 5.0.1
 
-  /valtio@1.10.7(react@18.2.0):
-    resolution: {integrity: sha512-XUwXJ9twXqwfVhXlcbYlCcRUUSOmp8RcJODVAxPrUZc2jh3com13B49MOL/cbgcTOX+5yf7wdMqbFGR7ba2sPg==}
-    engines: {node: '>=12.20.0'}
-    peerDependencies:
-      react: '>=16.8'
-    peerDependenciesMeta:
-      react:
-        optional: true
-    dependencies:
-      proxy-compare: 2.5.1
-      react: 18.2.0
-      use-sync-external-store: 1.2.0(react@18.2.0)
-    dev: false
-
   /valtio@1.11.2(@types/react@18.2.12)(react@18.2.0):
     resolution: {integrity: sha512-1XfIxnUXzyswPAPXo1P3Pdx2mq/pIqZICkWN60Hby0d9Iqb+MEIpqgYVlbflvHdrp2YR/q3jyKWRPJJ100yxaw==}
     engines: {node: '>=12.20.0'}
@@ -31696,10 +31670,6 @@ packages:
       compress-commons: 5.0.1
       readable-stream: 3.6.2
     dev: true
-
-  /zod@3.21.4:
-    resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
-    dev: false
 
   /zod@3.22.4:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}

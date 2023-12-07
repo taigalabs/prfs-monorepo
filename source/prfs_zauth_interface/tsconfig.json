@@ -4,22 +4,23 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": false,
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
+    "outDir": "./build",
     "incremental": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "declaration": true,
     "moduleResolution": "node",
-    "outDir": "./dist",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "plugins": [],
     "paths": {
-      "@/*": ["./js/*"]
-    }
+      "@/*": ["./src/*"]
+    },
+    "types": ["node"]
   },
-  "include": ["./js/**/*.ts", "./js/**/*.tsx", "./js/**/package.json"],
+  "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"],
   "ts-node": {
     "compilerOptions": {
