@@ -1,3 +1,19 @@
+## 2023-12-07
+### Prfs proof
+- Prfs ZAuth "create id", "sign in" functionalities have been implemented. This works similiar to
+OAuth with a notable difference that it does critical operation in the client side.
+- Users will be able to create a Prfs ID which can be utilized in various context for generic 
+purposes. Note that "Sign in" operation is delegated to the hosting application. 
+
+### Prfs auth server
+- Twitter authentication draft is implemented. This will later be used to allow users to attest
+the ownership of their social accounts. (Upcoming changes will include more of these)
+- Prfs auth server will run alongside the Prfs api server. This is to minimize the operational
+overhead of spinning up a new instance. (This project is still in its early phase)
+
+### ZAuth interface
+- ZAuth interface begins to be designed.
+
 ## 2023-11-27
 ### Prfs proof
 - Proof type description view is revamped. Supplemantary information has been added.
