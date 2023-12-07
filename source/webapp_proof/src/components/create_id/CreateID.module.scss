@@ -1,4 +1,4 @@
-.wrapper {
+.moduleWrapper {
   padding: 48px 40px 36px;
   min-height: 500px;
   border: 1px solid var(--bright-gray-32);
@@ -13,14 +13,25 @@
   }
 }
 
-.nextBtn {
-  /* padding-left: 24px; */
-  /* padding-right: 24px; */
-}
-
 .blueLink {
   font-weight: 500;
   color: var(--blue-15);
   padding: 9px 0 3px;
   cursor: pointer;
+}
+
+.footer {
+  margin-top: 11px;
+  font-size: 12px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.prfsLink {
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-left: 3px;
+  }
 }

@@ -16,8 +16,8 @@ import SignInModule, {
 } from "@/components/sign_in_module/SignInModule";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
+import { FaExternalLinkAlt } from "@react-icons/all-files/fa/FaExternalLinkAlt";
 import { paths } from "@/paths";
 import {
   IdForm,
@@ -26,6 +26,7 @@ import {
   validateIdForm,
 } from "@/functions/validate_id";
 import Step2 from "./Step2";
+import { envs } from "@/envs";
 
 enum CreateIDStep {
   InputCredential,
@@ -34,8 +35,6 @@ enum CreateIDStep {
 
 const CreateID: React.FC = () => {
   const i18n = React.useContext(i18nContext);
-  const router = useRouter();
-  const searchParams = useSearchParams();
 
   const [formData, setFormData] = React.useState<IdForm>(makeEmptyIdForm());
   const [formErrors, setFormErrors] = React.useState<IdForm>(makeEmptyIDFormErrors());
@@ -64,7 +63,11 @@ const CreateID: React.FC = () => {
     if (res) {
       setStep(CreateIDStep.CreateIdSuccess);
     }
-  }, [formData, setFormErrors, router, searchParams]);
+  }, [formData, setFormErrors, setStep]);
+
+  const handleClickPrev = React.useCallback(() => {
+    setStep(CreateIDStep.InputCredential);
+  }, [setStep]);
 
   const content = React.useMemo(() => {
     switch (step) {
@@ -167,7 +170,7 @@ const CreateID: React.FC = () => {
         );
       }
       case CreateIDStep.CreateIdSuccess: {
-        return <Step2 formData={formData} />;
+        return <Step2 formData={formData} handleClickPrev={handleClickPrev} />;
       }
       default:
         <div>Invalid step</div>;
@@ -175,9 +178,17 @@ const CreateID: React.FC = () => {
   }, [step, handleClickNext, handleChangeValue, formErrors]);
 
   return (
-    <div className={styles.wrapper}>
-      <SignInModule>{content}</SignInModule>
-    </div>
+    <>
+      <div className={styles.moduleWrapper}>
+        <SignInModule>{content}</SignInModule>
+      </div>
+      <div className={styles.footer}>
+        <Link className={styles.prfsLink} href={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
+          <span>{i18n.prfs}</span>
+          <FaExternalLinkAlt />
+        </Link>
+      </div>
+    </>
   );
 };
 

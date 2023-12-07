@@ -45,7 +45,7 @@ enum CreateIdModuleStatus {
   Error,
 }
 
-const Step2: React.FC<Step2Props> = ({ formData }) => {
+const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -190,22 +190,32 @@ const Step2: React.FC<Step2Props> = ({ formData }) => {
             </div>
           </div>
           <SignInModuleBtnRow className={styles.btnRow}>
-            <div />
             <Button
+              type="button"
+              variant="transparent_blue_2"
+              className={styles.createBtn}
+              noTransition
+              handleClick={handleClickPrev}
+              noShadow
+            >
+              {i18n.go_back}
+            </Button>
+            <Button
+              type="button"
               variant="blue_2"
               className={styles.createBtn}
               noTransition
               handleClick={handleClickCreate}
               noShadow
             >
-              {i18n.create_and_register}
+              {i18n.finish_by_signing_in}
             </Button>
           </SignInModuleBtnRow>
-          <SignInInputGuide>
-            <Link href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`} target="_blank">
-              {i18n.how_is_the_password_generated}
-            </Link>
-          </SignInInputGuide>
+          {/* <SignInInputGuide> */}
+          {/*   <Link href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`} target="_blank"> */}
+          {/*     {i18n.how_is_the_password_generated} */}
+          {/*   </Link> */}
+          {/* </SignInInputGuide> */}
         </Fade>
       </div>
     </div>
@@ -216,4 +226,5 @@ export default Step2;
 
 export interface Step2Props {
   formData: IdForm;
+  handleClickPrev: () => void;
 }
