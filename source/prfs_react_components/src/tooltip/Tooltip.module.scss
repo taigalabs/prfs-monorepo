@@ -1,6 +1,6 @@
-.wrapper {
-  /* display: flex; */
-  /* align-items: center; */
+.base {
+  display: grid;
+  place-items: center;
 }
 
 .tooltip {

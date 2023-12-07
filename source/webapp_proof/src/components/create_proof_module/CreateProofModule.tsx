@@ -6,11 +6,11 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import LoaderBar from "@taigalabs/prfs-react-components/src/loader_bar/LoaderBar";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
-import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 import dayjs from "dayjs";
 import cn from "classnames";
 import { useSearchParams } from "next/navigation";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
+import ProofGenElement from "@taigalabs/prfs-sdk-web/src/elems/proof_gen_element/proof_gen_element";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -18,7 +18,7 @@ import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
 import SigDataInput from "@/components/sig_data_input/SigDataInput";
 import Passcode from "@/components/passcode/Passcode";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
-import { validateInputs } from "@/validate";
+import { validateInputs } from "@/functions/validate_inputs";
 import HashInput from "@/components/hash_input/HashInput";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
@@ -103,6 +103,10 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           return;
         }
 
+        if (createProofStatus === CreateProofStatus.InProgress) {
+          return;
+        }
+
         setCreateProofStatus(CreateProofStatus.InProgress);
         const proveReceipt = await proofGenElement.createProof(inputs, proofType.circuit_type_id);
         setCreateProofStatus(CreateProofStatus.Created);
@@ -114,7 +118,14 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         handleCreateProofResult(err, null);
       }
     }
-  }, [formValues, proofType, handleCreateProofResult, proofGenElement, setSystemMsg]);
+  }, [
+    formValues,
+    proofType,
+    handleCreateProofResult,
+    proofGenElement,
+    setSystemMsg,
+    createProofStatus,
+  ]);
 
   React.useEffect(() => {
     async function fn() {
@@ -129,12 +140,12 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
 
       const since = dayjs();
       try {
-        const elem = await prfsSDK.create("proof-gen", {
+        const elem = (await prfsSDK.create("proof_gen", {
           proofTypeId: proofType.proof_type_id,
           circuit_driver_id,
           driver_properties,
           sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
-        });
+        })) as ProofGenElement;
 
         elem.subscribe(ev => {
           const { type, payload } = ev;

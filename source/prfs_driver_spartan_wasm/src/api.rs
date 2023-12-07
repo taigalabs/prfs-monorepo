@@ -12,94 +12,6 @@ use web_sys::console;
 pub type G1 = secq256k1::AffinePoint;
 pub type F1 = <G1 as Group>::Scalar;
 
-pub fn prove(
-    circuit: &[u8],
-    vars: &[u8],
-    public_inputs: &[u8],
-) -> Result<Vec<u8>, PrfsDriverSpartanWasmError> {
-    // console::log_1(&format!("SPARTAN_WASM").into());
-
-    let witness = load_witness_from_bin_reader::<F1, _>(vars).unwrap();
-
-    let witness_bytes = witness
-        .iter()
-        .map(|w| w.to_repr().into())
-        .collect::<Vec<[u8; 32]>>();
-
-    // console::log_1(&format!("SPARTAN_WASM: retrieved witness bytes").into());
-
-    let assignment = match Assignment::new(&witness_bytes) {
-        Ok(a) => a,
-        Err(err) => {
-            // console::log_1(&format!("Error creating new assignment, err: {:?}", err).into());
-
-            return Err(format!("Error creating new assignment, err: {:?}", err).into());
-        }
-    };
-
-    let circuit: Instance = match bincode::deserialize(&circuit) {
-        Ok(c) => c,
-        Err(err) => {
-            // console::log_1(&format!("Error deserializing circuit, err: {}", err).into());
-
-            return Err(format!("Error deserializing circuit, err: {}", err).into());
-        }
-    };
-
-    let num_cons = circuit.inst.get_num_cons();
-    let num_vars = circuit.inst.get_num_vars();
-    let num_inputs = circuit.inst.get_num_inputs();
-
-    // produce public parameters
-    let gens = NIZKGens::new(num_cons, num_vars, num_inputs);
-
-    // log(&format!("num_inputs: {}", num_inputs));
-
-    let mut input: Vec<[u8; 32]> = Vec::new();
-    for i in 0..num_inputs {
-        input.push(match public_inputs[(i * 32)..((i + 1) * 32)].try_into() {
-            Ok(i) => i,
-            Err(err) => {
-                // console::log_1(&format!("public input nums are not fit, err: {}", err).into());
-
-                return Err(format!("public input nums are not fit, err: {}", err).into());
-            }
-        });
-    }
-
-    let input = match Assignment::new(&input) {
-        Ok(i) => i,
-        Err(err) => {
-            // console::log_1(&format!("Error assigning, err: {:?}", err).into());
-
-            return Err(format!("Error assigning, err: {:?}", err).into());
-        }
-    };
-
-    let mut prover_transcript = Transcript::new(b"spartan_prove");
-
-    // console::log_1(&"SPARTAN_WASM: start NIZK::prove 2".into());
-
-    // produce a proof of satisfiability
-    let proof = match NIZK::prove(
-        &circuit,
-        assignment.clone(),
-        &input,
-        &gens,
-        &mut prover_transcript,
-    ) {
-        Ok(p) => p,
-        Err(err) => {
-            // console::log_1(&format!("Error nizk proving, err: {}", err).into());
-
-            return Err(err.into());
-        }
-    };
-
-    Ok(bincode::serialize(&proof).unwrap())
-}
-
-// #[wasm_bindgen]
 pub fn prove2(circuit: &[u8], vars: &[u8], public_inputs: &[u8]) -> Result<Vec<u8>, JsValue> {
     let witness = load_witness_from_bin_reader::<F1, _>(vars).unwrap();
     let witness_bytes = witness
@@ -271,7 +183,7 @@ pub fn load_witness_from_bin_reader<Fr: PrimeField, R: Read>(
     // println!("sec_size: {:?}", sec_size);
 
     let mut result = Vec::with_capacity(witness_len as usize);
-    for idx in 0..witness_len {
+    for _idx in 0..witness_len {
         let wts = read_field::<&mut R, Fr>(&mut reader)?;
         // println!("witness ({}): {:?}", idx, wts);
 

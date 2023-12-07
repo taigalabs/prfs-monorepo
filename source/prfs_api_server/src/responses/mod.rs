@@ -1,4 +1,5 @@
-use hyper::{header, Body, Response, StatusCode};
+use hyper::{header, Response, StatusCode};
+use hyper_utils::io::{full, BytesBoxBody};
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -25,13 +26,13 @@ impl<T: Serialize + DeserializeOwned> ApiResponse<T> {
         }
     }
 
-    pub fn into_hyper_response(self) -> Response<Body> {
+    pub fn into_hyper_response(self) -> Response<BytesBoxBody> {
         if let Some(_err) = &self.error {
             let data = serde_json::to_vec(&self).unwrap();
 
             let resp = Response::builder()
                 .status(StatusCode::BAD_REQUEST)
-                .body(Body::from(data))
+                .body(full(data))
                 .unwrap();
 
             return resp;
@@ -39,8 +40,14 @@ impl<T: Serialize + DeserializeOwned> ApiResponse<T> {
             let data = serde_json::to_vec(&self).unwrap();
 
             let resp = Response::builder()
+                .status(StatusCode::OK)
                 .header(header::CONTENT_TYPE, "application/json")
-                .body(Body::from(data))
+                .header(header::ACCESS_CONTROL_ALLOW_ORIGIN, "*")
+                .header(header::ACCESS_CONTROL_ALLOW_HEADERS, "*")
+                .header(header::ACCESS_CONTROL_ALLOW_METHODS, "*")
+                // .header("Access-Control-Allow-Headers", "*")
+                // .header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+                .body(full(data))
                 .unwrap();
 
             return resp;

@@ -1,30 +1,30 @@
 {
   "compilerOptions": {
-    "target": "es2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "incremental": true,
-    "esModuleInterop": true,
+    "lib": ["es2020", "DOM"],
+    "declaration": true,
+    "target": "es2022",
     "module": "esnext",
     "moduleResolution": "node",
+    "allowJs": true,
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"],
+  "include": ["./js/**/*", "./js/**/*.wasm", "./js/**/package.json"],
+  "exclude": [
+    "./jest.config.js",
+    "./node_modules",
+    "./tests",
+    "./build",
+    "./dist",
+    "./js/wasm_wrapper/build"
+  ],
   "ts-node": {
     "compilerOptions": {
       "module": "CommonJS"

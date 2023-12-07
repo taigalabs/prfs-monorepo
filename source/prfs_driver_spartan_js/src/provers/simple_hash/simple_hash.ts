@@ -3,8 +3,8 @@ import { BN } from "bn.js";
 
 import { PrfsHandlers } from "@/types";
 import { makePoseidon } from "@/utils/poseidon";
-import { bigIntToBytes, snarkJsWitnessGen } from "@/utils/utils";
 import { SimpleHashCircuitPubInput, SimpleHashPublicInput } from "./public_input";
+import { snarkJsWitnessGen } from "@/utils/utils";
 
 export async function proveSimpleHash(
   args: ProveArgs<SimpleHashProveArgs>,

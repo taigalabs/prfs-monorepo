@@ -5,6 +5,8 @@ import cn from "classnames";
 
 import styles from "./AuthList.module.scss";
 import { i18nContext } from "@/contexts/i18n";
+import Link from "next/link";
+import { paths } from "@/paths";
 
 const AuthList: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -13,14 +15,14 @@ const AuthList: React.FC = () => {
     <div className={styles.wrapper}>
       <ul className={styles.list}>
         <li className={styles.listItem}>
-          <button>
+          <Link href={paths.auth__twitter}>
             <img
               src="https://d1w1533jipmvi2.cloudfront.net/x-logo-black.png"
               alt="Twitter"
               crossOrigin=""
             />
             <p>{i18n.authorize_twitter_account}</p>
-          </button>
+          </Link>
         </li>
       </ul>
     </div>

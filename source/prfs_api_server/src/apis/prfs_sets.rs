@@ -1,4 +1,5 @@
-use hyper::{body, Body, Request, Response};
+use hyper::{body::Incoming, Request, Response};
+use hyper_utils::io::{parse_req, BytesBoxBody};
 use prfs_db_interface::db_apis;
 use prfs_entities::{
     apis_entities::{
@@ -11,18 +12,16 @@ use prfs_entities::{
     entities::PrfsTreeNode,
 };
 use prfs_tree_maker::tree_maker_apis;
-use routerify::prelude::*;
 use rust_decimal::Decimal;
 use std::{convert::Infallible, sync::Arc};
 
 use crate::{
     responses::ApiResponse,
-    server::{request::parse_req, state::ServerState},
+    server::{state::ServerState, types::ApiHandlerResult},
     ApiServerError,
 };
 
-pub async fn get_prfs_sets(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+pub async fn get_prfs_sets(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
     let req: GetPrfsSetsRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_sets = db_apis::get_prfs_sets(pool, req.page_idx, req.page_size)
@@ -38,8 +37,10 @@ pub async fn get_prfs_sets(req: Request<Body>) -> Result<Response<Body>, Infalli
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn get_prfs_sets_by_set_type(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+pub async fn get_prfs_sets_by_set_type(
+    req: Request<Incoming>,
+    state: Arc<ServerState>,
+) -> ApiHandlerResult {
     let req: GetPrfsSetsBySetTypeRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_sets =
@@ -56,8 +57,10 @@ pub async fn get_prfs_sets_by_set_type(req: Request<Body>) -> Result<Response<Bo
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn get_prfs_set_by_set_id(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+pub async fn get_prfs_set_by_set_id(
+    req: Request<Incoming>,
+    state: Arc<ServerState>,
+) -> ApiHandlerResult {
     let req: GetPrfsSetBySetIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_set = db_apis::get_prfs_set_by_set_id(pool, &req.set_id)
@@ -69,12 +72,10 @@ pub async fn get_prfs_set_by_set_id(req: Request<Body>) -> Result<Response<Body>
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn create_prfs_set(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+pub async fn create_prfs_set(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
     let req: CreatePrfsSetRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
-
     let set_id = db_apis::insert_prfs_set_ins1(&mut tx, &req.prfs_set_ins1)
         .await
         .unwrap();
@@ -87,9 +88,9 @@ pub async fn create_prfs_set(req: Request<Body>) -> Result<Response<Body>, Infal
 }
 
 pub async fn create_prfs_dynamic_set_element(
-    req: Request<Body>,
-) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap().clone();
+    req: Request<Incoming>,
+    state: Arc<ServerState>,
+) -> ApiHandlerResult {
     let req: CreatePrfsDynamicSetElementRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
@@ -124,12 +125,10 @@ pub async fn create_prfs_dynamic_set_element(
 }
 
 pub async fn compute_prfs_set_merkle_root(
-    req: Request<Body>,
-) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap().clone();
-
+    req: Request<Incoming>,
+    state: Arc<ServerState>,
+) -> ApiHandlerResult {
     let req: ComputePrfsSetMerkleRootRequest = parse_req(req).await;
-
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 

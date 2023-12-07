@@ -3,7 +3,7 @@ import cn from "classnames";
 import {
   useFloating,
   autoUpdate,
-  offset,
+  offset as offsetFn,
   flip,
   shift,
   useFocus,
@@ -16,7 +16,7 @@ import {
 
 import styles from "./Tooltip.module.scss";
 
-const Tooltip: React.FC<TooltipProps> = ({ label, children }) => {
+const Tooltip: React.FC<TooltipProps> = ({ label, children, offset }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
@@ -24,7 +24,7 @@ const Tooltip: React.FC<TooltipProps> = ({ label, children }) => {
     placement: "bottom",
     whileElementsMounted: autoUpdate,
     middleware: [
-      offset(3),
+      offsetFn(offset || 3),
       flip({
         fallbackAxisSideDirection: "start",
       }),
@@ -40,7 +40,7 @@ const Tooltip: React.FC<TooltipProps> = ({ label, children }) => {
 
   return (
     <>
-      <div className={styles.wrapper} ref={refs.setReference} {...getReferenceProps()}>
+      <div className={styles.base} ref={refs.setReference} {...getReferenceProps()}>
         {children}
       </div>
       <FloatingPortal>
@@ -64,4 +64,5 @@ export default Tooltip;
 export interface TooltipProps {
   label: string;
   children: React.ReactNode;
+  offset?: number;
 }

@@ -11,6 +11,11 @@ export async function createApp(args: CreateAppArgs) {
 
   const app = express();
 
+  app.use((req, _, next) => {
+    console.log(req.method, decodeURI(req.url));
+    next();
+  });
+
   app.use(cors());
 
   app.use((_, res, next) => {
@@ -20,7 +25,7 @@ export async function createApp(args: CreateAppArgs) {
     next();
   });
 
-  app.use("/proof_gen", express.static(paths.dist));
+  app.use("/sdk", express.static(paths.dist));
 
   app.get("/", (_, res) => {
     res.send({
@@ -30,11 +35,11 @@ export async function createApp(args: CreateAppArgs) {
     });
   });
 
-  app.post("/api", (_, res) => {
-    res.send({
-      status: "Ok",
-    });
-  });
+  // app.post("/api", (_, res) => {
+  //   res.send({
+  //     status: "Ok",
+  //   });
+  // });
 
   app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
 

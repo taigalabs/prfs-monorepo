@@ -1,31 +1,31 @@
-use hyper::{Body, Request, Response, StatusCode};
-use routerify::{prelude::RequestExt, RequestInfo};
-use std::convert::Infallible;
+use hyper::{body::Incoming, Request, Response, StatusCode};
+use hyper_utils::io::full;
+use std::sync::Arc;
 
-pub async fn logger(req: Request<Body>) -> Result<Request<Body>, Infallible> {
-    println!(
-        "{} {} {}",
-        req.remote_addr(),
-        req.method(),
-        req.uri().path()
-    );
-    Ok(req)
+use super::{state::ServerState, types::ApiHandlerResult};
+
+#[inline]
+pub fn log(req: &Request<Incoming>) {
+    println!("{} {}", req.method(), req.uri().path());
 }
 
-pub async fn not_found_handler(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    println!("Request handler not found, url: {:?}", _req.uri());
+pub async fn handle_not_found(
+    req: Request<Incoming>,
+    _server_state: Arc<ServerState>,
+) -> ApiHandlerResult {
+    println!("Request handler not found, url: {:?}", req.uri());
 
     Ok(Response::builder()
         .status(StatusCode::NOT_FOUND)
-        .body(Body::from("Request handler not found"))
+        .body(full("Request handler not found"))
         .unwrap())
 }
 
-pub async fn error_handler(err: routerify::RouteError, _: RequestInfo) -> Response<Body> {
-    eprintln!("{}", err);
+// pub async fn error_handler(err: routerify::RouteError, _: RequestInfo) ApiHandlerResult {
+//     eprintln!("{}", err);
 
-    Response::builder()
-        .status(StatusCode::INTERNAL_SERVER_ERROR)
-        .body(Body::from(format!("Something went wrong: {}", err)))
-        .unwrap()
-}
+//     Response::builder()
+//         .status(StatusCode::INTERNAL_SERVER_ERROR)
+//         .body(Body::from(format!("Something went wrong: {}", err)))
+//         .unwrap()
+// }

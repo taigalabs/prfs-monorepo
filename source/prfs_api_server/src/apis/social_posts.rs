@@ -1,5 +1,7 @@
 use ethers_signers::Signer;
-use hyper::{Body, Request, Response};
+use hyper::body::Incoming;
+use hyper::{Request, Response};
+use hyper_utils::io::{parse_req, BytesBoxBody};
 use prfs_db_interface::db_apis;
 use prfs_entities::apis_entities::{
     CreatePrfsPollRequest, CreatePrfsPollResponse, GetPrfsPollByPollIdRequest,
@@ -11,20 +13,19 @@ use prfs_entities::entities::{PrfsPoll, PrfsProofInstance};
 use prfs_entities::social_api_entities::{
     CreateSocialPostRequest, GetSocialPostsRequest, GetSocialPostsResponse,
 };
-use routerify::prelude::*;
 use std::{convert::Infallible, sync::Arc};
 use uuid::Uuid;
 
 use crate::responses::ApiResponse;
-use crate::server::request::parse_req;
 use crate::server::state::ServerState;
+use crate::server::types::ApiHandlerResult;
 
-pub async fn create_social_post(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap();
+pub async fn create_social_post(
+    req: Request<Incoming>,
+    state: Arc<ServerState>,
+) -> ApiHandlerResult {
     let state = state.clone();
-
     let req: CreateSocialPostRequest = parse_req(req).await;
-
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
@@ -37,9 +38,7 @@ pub async fn create_social_post(req: Request<Body>) -> Result<Response<Body>, In
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn get_social_posts(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let state = req.data::<Arc<ServerState>>().unwrap().clone();
-
+pub async fn get_social_posts(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
     let req: GetSocialPostsRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let social_posts = db_apis::get_social_posts(pool, req.page_idx, req.page_size)

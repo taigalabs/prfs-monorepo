@@ -1,0 +1,96 @@
+.wrapper {
+  width: 368px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+
+  /* border: 1px solid red; */
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 16px;
+}
+
+.title {
+  font-size: 1.47em;
+}
+
+.subtitle {
+  padding: 7px 0 1px;
+  font-size: 1.17em;
+  text-align: center;
+}
+
+.logoArea {
+  display: flex;
+  justify-content: center;
+}
+
+.btnRow {
+  display: flex;
+  margin-top: 32px;
+  margin-bottom: 11px;
+  justify-content: space-between;
+
+  > a {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  button {
+    height: 100%;
+  }
+}
+
+.inputArea {
+  padding-top: 24px;
+
+  /* border: 1px solid blue; */
+}
+
+.inputItem {
+  &:not(:first-child) {
+    padding-top: 16px;
+  }
+
+  .input {
+    font-size: 16px;
+    border: 1px solid var(--bright-gray-32);
+    border-radius: 4px;
+    width: 100%;
+    padding: 10px 14px;
+    height: 52px;
+  }
+
+  .error {
+    padding-top: 6px;
+    color: var(--red-50);
+  }
+}
+
+.inputItem.isError {
+  .input {
+    border-color: var(--red-50);
+  }
+}
+
+.inputGuide {
+  font-weight: 500;
+  color: var(--blue-15);
+  padding: 9px 0 3px;
+  cursor: pointer;
+}
+
+.footer {
+  margin-top: 11px;
+  font-size: 12px;
+  display: flex;
+  justify-content: flex-end;
+
+  a:not(:first-child) {
+    margin-left: 22px;
+  }
+}

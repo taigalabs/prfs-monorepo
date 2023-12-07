@@ -1,26 +1,37 @@
 packages:
+  # Externals
   - "externals/incremental-merkle-tree"
 
+  # Misc
   - "source/e2e_test_web"
-  - "source/prfs_snap"
-
   - "source/docs_website"
 
+  # Circuits
   - "source/prfs_circuits_circom"
 
+  # Driver
   - "source/prfs_driver_spartan_js"
   - "source/prfs_driver_interface"
 
+  # Prfs
+  - "source/prfs_snap"
   - "source/prfs_crypto_js"
   - "source/prfs_api_js"
   - "source/prfs_api_server"
-  - "source/prfs_email_auth_server"
+  - "source/prfs_auth_op_server"
   - "source/prfs_entities"
 
+  # Prfs SDK
   - "source/prfs_sdk_web"
   - "source/prfs_sdk_web_module"
+
+  # ZAuth
+  - "source/prfs_zauth_interface"
+
+  # Common ui components
   - "source/prfs_react_components"
 
+  # Webapps
   - "source/webapp_console"
   - "source/webapp_proof"
   - "source/webapp_poll"

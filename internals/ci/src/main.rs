@@ -3,6 +3,7 @@ mod build_handle;
 mod cmds;
 mod deps;
 mod paths;
+mod utils;
 
 use crate::build_handle::BuildHandle;
 use chrono::prelude::*;
@@ -20,6 +21,7 @@ fn main() {
         // build
         .subcommand(command!("build"))
         .subcommand(command!("build_prfs_driver_spartan_js"))
+        .subcommand(command!("build_crypto_js"))
         .subcommand(command!("build_circuits"))
         // dev mode
         .subcommand(command!("dev_webapp_console").arg(Arg::new("extra_args")))
@@ -31,7 +33,6 @@ fn main() {
         .subcommand(command!("dev_asset_server"))
         .subcommand(command!("dev_snap"))
         .subcommand(command!("dev_api_server"))
-        .subcommand(command!("dev_email_auth_server"))
         // prod mode
         .subcommand(command!("start_api_server").arg(Arg::new("extra_args")))
         .subcommand(command!("start_asset_server").arg(Arg::new("extra_args")))
@@ -69,6 +70,9 @@ fn main() {
         Some(("build_prfs_driver_spartan_js", sub_matches)) => {
             cmds::build_prfs_driver_spartan_js::run(sub_matches, &timestamp);
         }
+        Some(("build_prfs_crypto_js", sub_matches)) => {
+            cmds::build_prfs_crypto_js::run(sub_matches, &timestamp);
+        }
         Some(("build_circuits", sub_matches)) => {
             cmds::build_circuits::run(sub_matches, &timestamp);
         }
@@ -93,9 +97,6 @@ fn main() {
         }
         Some(("dev_api_server", sub_matches)) => {
             cmds::dev_api_server::run(sub_matches);
-        }
-        Some(("dev_email_auth_server", sub_matches)) => {
-            cmds::dev_email_auth_server::run(sub_matches);
         }
         Some(("dev_docs_website", sub_matches)) => {
             cmds::dev_docs_website::run(sub_matches);

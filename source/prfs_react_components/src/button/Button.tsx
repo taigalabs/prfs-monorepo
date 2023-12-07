@@ -1,11 +1,12 @@
-import React, { MouseEventHandler } from "react";
-import classnames from "classnames";
+import React, { ButtonHTMLAttributes, MouseEventHandler } from "react";
+import cn from "classnames";
 
 import styles from "./Button.module.scss";
 
 function isTransparent(variant: Variant) {
   return (
     variant === "transparent_blue_1" ||
+    variant === "transparent_blue_2" ||
     variant === "transparent_black_1" ||
     variant === "transparent_aqua_blue_1" ||
     variant === "transparent_aqua_blue_1_light"
@@ -14,32 +15,41 @@ function isTransparent(variant: Variant) {
 
 const Button: React.FC<ButtonProps> = ({
   children,
+  type,
   className,
   handleClick,
   variant,
   disabled,
   name,
+  noTransition,
+  noShadow,
 }) => {
   return (
     <button
-      className={classnames({
+      className={cn({
         [styles.wrapper]: true,
-        [styles.transparentBtn]: isTransparent(variant),
+        [styles.transparent_btn]: isTransparent(variant),
         [styles.aqua_blue_1]: variant === "aqua_blue_1",
         [styles.blue_1]: variant === "blue_1",
+        [styles.blue_2]: variant === "blue_2",
         [styles.transparent_blue_1]: variant === "transparent_blue_1",
+        [styles.transparent_blue_2]: variant === "transparent_blue_2",
         [styles.transparent_black_1]: variant === "transparent_black_1",
         [styles.transparent_aqua_blue_1]: variant === "transparent_aqua_blue_1",
         [styles.transparent_aqua_blue_1_light]: variant === "transparent_aqua_blue_1_light",
         [styles.white_gray_1]: variant === "white_gray_1",
         [styles.white_black_1]: variant === "white_black_1",
+        [styles.no_transition]: noTransition,
+        [styles.no_shadow]: noShadow,
         [className || ""]: !!className,
       })}
       {...(name && { name })}
       onClick={handleClick}
       disabled={!!disabled}
+      type={type}
     >
-      {children}
+      <div className={styles.backdrop} />
+      <span>{children}</span>
     </button>
   );
 };
@@ -53,12 +63,17 @@ export interface ButtonProps {
   children: React.ReactNode;
   disabled?: boolean;
   handleClick?: MouseEventHandler;
+  noTransition?: boolean;
+  noShadow?: boolean;
+  type?: "submit" | "reset" | "button" | undefined;
 }
 
 export type Variant =
   | "aqua_blue_1"
   | "blue_1"
+  | "blue_2"
   | "transparent_blue_1"
+  | "transparent_blue_2"
   | "transparent_black_1"
   | "transparent_aqua_blue_1"
   | "transparent_aqua_blue_1_light"

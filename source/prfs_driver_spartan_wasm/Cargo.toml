@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [lib]
-name = "prfs_wasm"
+name = "prfs_driver_spartan_wasm"
 path = "src/lib.rs"
 crate-type = ["cdylib", "rlib"]
 
