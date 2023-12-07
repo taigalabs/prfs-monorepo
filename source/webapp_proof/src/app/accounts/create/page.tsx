@@ -1,18 +1,18 @@
 import React, { Suspense } from "react";
 
 import styles from "./page.module.scss";
-import IdLayout, { IdBody } from "@/components/layouts/id_layout/IdLayout";
+import SignInLayout, { SignInBody } from "@/components/layouts/sign_in_layout/SignInLayout";
 import CreateID from "@/components/create_id/CreateID";
 
 const IdCreatePage = () => {
   return (
-    <IdLayout>
-      <IdBody>
+    <SignInLayout>
+      <SignInBody>
         <Suspense>
           <CreateID />
         </Suspense>
-      </IdBody>
-    </IdLayout>
+      </SignInBody>
+    </SignInLayout>
   );
 };
 

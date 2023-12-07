@@ -80,7 +80,7 @@ const SignIn: React.FC = () => {
   );
 
   return (
-    <>
+    <div className={styles.wrapper}>
       <div className={styles.moduleWrapper}>
         <SignInModule>
           <SignInModuleLogoArea />
@@ -149,7 +149,7 @@ const SignIn: React.FC = () => {
           <span>{i18n.prfs}</span>
         </Link>
       </SignInModuleFooter>
-    </>
+    </div>
   );
 };
 
