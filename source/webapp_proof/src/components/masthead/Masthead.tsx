@@ -32,7 +32,12 @@ const Masthead: React.FC<MastheadProps> = () => {
     const pkHex = sk.publicKey.toHex();
     const redirect_uri = encodeURIComponent(window.location.toString());
 
-    router.push(`${paths.accounts__signin}?pk=${pkHex}&redirect_uri=${redirect_uri}`);
+    // router.push(`${paths.accounts__signin}?pk=${pkHex}&redirect_uri=${redirect_uri}`);
+    window.open(
+      `${paths.accounts__signin}?pk=${pkHex}&redirect_uri=${redirect_uri}`,
+      "_blank",
+      "toolbar=0,location=0,menubar=0",
+    );
   }, [router]);
 
   return (

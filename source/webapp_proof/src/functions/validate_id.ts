@@ -1,6 +1,6 @@
 export const makeEmptyIdCreateForm: () => IdCreateForm = () => ({
   email: "abcabc@gmail.com",
-  email_confirm: "abc@gmail.com",
+  email_confirm: "abcabc@gmail.com",
   password_1: "Powerpowerpowerpower0000!",
   password_1_confirm: "Powerpowerpowerpower0000!",
   password_2: "!@#Showmethemoney0000",
