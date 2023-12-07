@@ -8,18 +8,26 @@ import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import { BsThreeDots } from "@react-icons/all-files/bs/BsThreeDots";
 import { useRouter } from "next/navigation";
 import { encrypt, decrypt, PrivateKey } from "eciesjs";
+import SignInButton from "@taigalabs/prfs-react-components/src/sign_in_button/SignInButton";
 
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import { useSearchParams } from "next/navigation";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 const Masthead: React.FC<MastheadProps> = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
-
   const searchParams = useSearchParams();
+  const [prfsSignInEndpoint, setPrfsSignInEndpoint] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    const sk = new PrivateKey();
+    const pkHex = sk.publicKey.toHex();
+    const redirect_uri = encodeURIComponent(window.location.toString());
+    setPrfsSignInEndpoint(`${paths.accounts__signin}?pk=${pkHex}&redirect_uri=${redirect_uri}`);
+  }, [setPrfsSignInEndpoint]);
+
   const [isTutorial, tutorialUrl] = React.useMemo(() => {
     if (searchParams.get("tutorial_id")) {
       return [true, paths.__];
@@ -27,20 +35,20 @@ const Masthead: React.FC<MastheadProps> = () => {
     return [false, `${paths.__}?tutorial_id=simple_hash`];
   }, [searchParams]);
 
-  const handleClickSignIn = React.useCallback(() => {
-    const sk = new PrivateKey();
-    const pkHex = sk.publicKey.toHex();
-    const redirect_uri = encodeURIComponent(window.location.toString());
+  // const handleClickSignIn = React.useCallback(() => {
+  //   const sk = new PrivateKey();
+  //   const pkHex = sk.publicKey.toHex();
+  //   const redirect_uri = encodeURIComponent(window.location.toString());
 
-    // router.push(`${paths.accounts__signin}?pk=${pkHex}&redirect_uri=${redirect_uri}`);
-    const w = window.open(
-      `${paths.accounts__signin}?pk=${pkHex}&redirect_uri=${redirect_uri}`,
-      "_blank",
-      "toolbar=0,location=0,menubar=0",
-    );
+  //   // router.push(`${paths.accounts__signin}?pk=${pkHex}&redirect_uri=${redirect_uri}`);
+  //   const w = window.open(
+  //     `${paths.accounts__signin}?pk=${pkHex}&redirect_uri=${redirect_uri}`,
+  //     "_blank",
+  //     "toolbar=0,location=0,menubar=0",
+  //   );
 
-    w?.onmessage;
-  }, [router]);
+  //   w?.onmessage;
+  // }, [router]);
 
   return (
     <div className={cn({ [styles.wrapper]: true, [styles.isTutorial]: isTutorial })}>
@@ -70,15 +78,16 @@ const Masthead: React.FC<MastheadProps> = () => {
             />
           </li>
           <li className={styles.menu}>
-            <Button
-              variant="blue_2"
-              className={styles.signInBtn}
-              noTransition
-              handleClick={handleClickSignIn}
-              noShadow
-            >
-              {i18n.sign_in}
-            </Button>
+            <SignInButton prfsSignInEndpoint={prfsSignInEndpoint} />
+            {/* <Button */}
+            {/*   variant="blue_2" */}
+            {/*   className={styles.signInBtn} */}
+            {/*   noTransition */}
+            {/*   handleClick={handleClickSignIn} */}
+            {/*   noShadow */}
+            {/* > */}
+            {/*   {i18n.sign_in} */}
+            {/* </Button> */}
           </li>
         </ul>
       </div>
