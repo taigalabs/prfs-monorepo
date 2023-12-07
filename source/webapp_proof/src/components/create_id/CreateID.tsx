@@ -20,10 +20,10 @@ import SignInModule, {
 } from "@/components/sign_in_module/SignInModule";
 import { paths } from "@/paths";
 import {
-  IdForm,
-  makeEmptyIDFormErrors,
-  makeEmptyIdForm,
-  validateIdForm,
+  IdCreateForm,
+  makeEmptyIDCreateFormErrors,
+  makeEmptyIdCreateForm,
+  validateIdCreateForm,
 } from "@/functions/validate_id";
 import Step2 from "./Step2";
 import { envs } from "@/envs";
@@ -36,8 +36,8 @@ enum CreateIDStep {
 const CreateID: React.FC = () => {
   const i18n = React.useContext(i18nContext);
 
-  const [formData, setFormData] = React.useState<IdForm>(makeEmptyIdForm());
-  const [formErrors, setFormErrors] = React.useState<IdForm>(makeEmptyIDFormErrors());
+  const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
+  const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
   const [step, setStep] = React.useState(CreateIDStep.InputCredential);
 
   const handleChangeValue = React.useCallback(
@@ -58,7 +58,7 @@ const CreateID: React.FC = () => {
   );
 
   const handleClickNext = React.useCallback(() => {
-    const res = validateIdForm(formData, setFormErrors);
+    const res = validateIdCreateForm(formData, setFormErrors);
 
     if (res) {
       setStep(CreateIDStep.CreateIdSuccess);

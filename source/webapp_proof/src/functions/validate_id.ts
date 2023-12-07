@@ -1,4 +1,4 @@
-export const makeEmptyIdForm: () => IdForm = () => ({
+export const makeEmptyIdCreateForm: () => IdCreateForm = () => ({
   email: "abcabc@gmail.com",
   email_confirm: "abc@gmail.com",
   password_1: "Powerpowerpowerpower0000!",
@@ -7,7 +7,7 @@ export const makeEmptyIdForm: () => IdForm = () => ({
   password_2_confirm: "!@#Showmethemoney0000",
 });
 
-export const makeEmptyIDFormErrors: () => IdForm = () => ({
+export const makeEmptyIDCreateFormErrors: () => IdCreateForm = () => ({
   email: "",
   email_confirm: "",
   password_1: "",
@@ -16,7 +16,7 @@ export const makeEmptyIDFormErrors: () => IdForm = () => ({
   password_2_confirm: "",
 });
 
-export interface IdForm {
+export interface IdCreateForm {
   email: string;
   email_confirm: string;
   password_1: string;
@@ -53,11 +53,11 @@ function checkPassword(str: string): [boolean, string] {
   // return re.test(str || "");
 }
 
-export function validateIdForm(
-  formValues: IdForm,
-  setFormErrors: React.Dispatch<React.SetStateAction<IdForm>>,
+export function validateIdCreateForm(
+  formValues: IdCreateForm,
+  setFormErrors: React.Dispatch<React.SetStateAction<IdCreateForm>>,
 ): boolean {
-  setFormErrors(() => makeEmptyIDFormErrors());
+  setFormErrors(() => makeEmptyIDCreateFormErrors());
 
   console.log(22, formValues);
 

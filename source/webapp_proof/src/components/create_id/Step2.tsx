@@ -14,7 +14,7 @@ import * as ethers from "ethers";
 import * as secp from "@noble/secp256k1";
 import { bytesToBigInt } from "@taigalabs/prfs-crypto-js";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
-import { IdForm } from "@/functions/validate_id";
+import { IdCreateForm } from "@/functions/validate_id";
 import { hexlify } from "ethers/lib/utils";
 import Link from "next/link";
 
@@ -217,6 +217,6 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
 export default Step2;
 
 export interface Step2Props {
-  formData: IdForm;
+  formData: IdCreateForm;
   handleClickPrev: () => void;
 }
