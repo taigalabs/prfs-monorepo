@@ -24,7 +24,7 @@ const VerifyButton: React.FC<VerifyButtonProps> = ({ verifiedStatus, handleClick
   switch (verifiedStatus) {
     case VerifiedStatus.Valid:
       return (
-        <Button variant="transparent_black_1" className={styles.validBtn}>
+        <Button variant="transparent_black_1" className={styles.validBtn} smallPadding>
           <FaCheck />
           <span>{i18n.verified}</span>
         </Button>
@@ -32,7 +32,7 @@ const VerifyButton: React.FC<VerifyButtonProps> = ({ verifiedStatus, handleClick
 
     case VerifiedStatus.Invalid:
       return (
-        <Button variant="transparent_black_1" className={styles.invalidBtn}>
+        <Button variant="transparent_black_1" className={styles.invalidBtn} smallPadding>
           <AiOutlineClose />
           <span>{i18n.invalid}</span>
         </Button>
@@ -40,14 +40,19 @@ const VerifyButton: React.FC<VerifyButtonProps> = ({ verifiedStatus, handleClick
 
     case VerifiedStatus.InProgress:
       return (
-        <Button variant="transparent_black_1" className={styles.progressBtn}>
+        <Button variant="transparent_black_1" className={styles.progressBtn} smallPadding>
           <Spinner color="black" />
         </Button>
       );
 
     default:
       return (
-        <Button variant="transparent_blue_1" className={styles.verifyBtn} handleClick={handleClick}>
+        <Button
+          variant="transparent_blue_1"
+          className={styles.verifyBtn}
+          handleClick={handleClick}
+          smallPadding
+        >
           {i18n.verify}
         </Button>
       );
