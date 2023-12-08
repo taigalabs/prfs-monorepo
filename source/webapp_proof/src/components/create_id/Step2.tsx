@@ -42,7 +42,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
   const [createIdModuleStatus, setCreateIdModuleStatus] = React.useState(
     CreateIdModuleStatus.StandBy,
   );
-  const [alertMsg, setAlertMsg] = React.useState("");
+  const [errorMsg, setErrorMsg] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const [credential, setCredential] = React.useState({
     secret_key: "",
@@ -50,11 +50,17 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
     id: "",
   });
 
-  const { mutateAsync: prfsSignUpRequest } = useMutation({
+  const {
+    mutateAsync: prfsSignUpRequest,
+    isError,
+    error,
+  } = useMutation({
     mutationFn: (req: PrfsSignUpRequest) => {
       return prfsApi2("sign_up_prfs_account", req);
     },
   });
+
+  console.log(222, isError, error);
 
   React.useEffect(() => {
     async function fn() {
@@ -70,12 +76,12 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
         setCredential(credential);
         setCreateIdModuleStatus(CreateIdModuleStatus.StandBy);
       } catch (err) {
-        setAlertMsg(`Driver init failed, err: ${err}`);
+        setErrorMsg(`Driver init failed, err: ${err}`);
       }
     }
 
     fn().then();
-  }, [router, formData, setCredential, setAlertMsg]);
+  }, [router, formData, setCredential, setErrorMsg]);
 
   const handleClickShowPassword = React.useCallback(() => {
     setShowPassword(val => !val);
@@ -95,19 +101,24 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
       try {
         setCreateIdModuleStatus(CreateIdModuleStatus.InProgress);
         const avatar_color = makeAvatarColor();
-        const { payload } = await prfsSignUpRequest({
+        const { payload, error } = await prfsSignUpRequest({
           account_id: id,
           avatar_color,
         });
         setCreateIdModuleStatus(CreateIdModuleStatus.StandBy);
-      } catch (err) {
+
+        if (error) {
+          setErrorMsg(error);
+        }
+      } catch (err: any) {
         console.error(err);
+        setErrorMsg(err);
       }
     }
 
     // const url = `${paths.accounts__signin}${search}`;
     // router.push(url);
-  }, [formData, router, prfsSignUpRequest, credential]);
+  }, [formData, router, prfsSignUpRequest, credential, setErrorMsg]);
 
   const { email_val, password_1_val, password_2_val, secret_key_val } = React.useMemo(() => {
     if (showPassword) {
@@ -191,7 +202,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
               {i18n.what_is_id}
             </Link>
           </SignInInputGuide>
-          <SignInErrorMsg>r</SignInErrorMsg>
+          <SignInErrorMsg>{errorMsg}</SignInErrorMsg>
           <SignInModuleBtnRow className={styles.btnRow}>
             <Button
               type="button"
