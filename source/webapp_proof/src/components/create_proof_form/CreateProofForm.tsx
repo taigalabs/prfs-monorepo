@@ -4,7 +4,7 @@ import React from "react";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import cn from "classnames";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { useMutation } from "@tanstack/react-query";
@@ -17,8 +17,7 @@ import PostCreateMenu from "./PostCreateMenu";
 import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
 import Tutorial from "@/components/tutorial/Tutorial";
-import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
-import LeftPadding from "../left_padding/LeftPadding";
+import LeftPadding from "@/components/left_padding/LeftPadding";
 
 const CreateProofForm: React.FC = () => {
   const [proofType, setProofType] = React.useState<PrfsProofType>();
@@ -107,7 +106,6 @@ const CreateProofForm: React.FC = () => {
           <div className={styles.loading}>Loading module...</div>
         )}
         <Tutorial noTop />
-        {/* <TutorialPlaceholder variant="h1460" /> */}
       </div>
     </>
   );

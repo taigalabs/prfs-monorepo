@@ -4,6 +4,7 @@ export default {
   docs: "Docs",
   documentation: "Documentation",
   tutorial: "Tutorial",
+  start_tutorial: "Start a tutorial",
   console: "Console",
   terminal_scroll_guide: "Scroll to see the inputs",
   find_what_to_prove: "Find what to prove",

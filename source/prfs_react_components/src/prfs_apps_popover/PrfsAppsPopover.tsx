@@ -44,7 +44,7 @@ const Modal: React.FC<MerkleProofModalProps> = ({
         </li>
         <li>
           <a className={styles.appItem} href={tutorialUrl}>
-            <span>{i18n.tutorial}</span>
+            <span>{i18n.start_tutorial}</span>
           </a>
         </li>
       </ul>
