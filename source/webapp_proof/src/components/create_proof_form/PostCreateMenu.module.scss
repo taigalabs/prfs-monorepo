@@ -54,8 +54,8 @@
   line-height: 21px;
 }
 
-.uploadBtn {
-  div + span {
+.uploadBtn.inProgress {
+  span {
     margin-left: 4px;
   }
 }

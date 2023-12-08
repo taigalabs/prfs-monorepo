@@ -51,7 +51,7 @@ const Button: React.FC<ButtonProps> = ({
       type={type}
     >
       <div className={styles.backdrop} />
-      <span>{children}</span>
+      {children}
     </button>
   );
 };

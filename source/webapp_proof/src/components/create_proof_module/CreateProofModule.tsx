@@ -340,9 +340,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
                   className={cn(styles.createBtn, {
                     [styles.inProgress]: createProofStatus === CreateProofStatus.InProgress,
                   })}
-                  smallPadding
                 >
-                  {i18n.create.toUpperCase()}
+                  {i18n.create_proof.toUpperCase()}
                 </Button>
               </div>
               {systemMsg && (
