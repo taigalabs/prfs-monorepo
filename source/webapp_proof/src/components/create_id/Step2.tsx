@@ -60,8 +60,6 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
     },
   });
 
-  console.log(222, isError, error);
-
   React.useEffect(() => {
     async function fn() {
       try {
@@ -108,11 +106,10 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
         setCreateIdModuleStatus(CreateIdModuleStatus.StandBy);
 
         if (error) {
-          setErrorMsg(error);
+          setErrorMsg(error.toString());
         }
       } catch (err: any) {
-        console.error(err);
-        setErrorMsg(err);
+        setErrorMsg(err.toString());
       }
     }
 
@@ -202,7 +199,6 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
               {i18n.what_is_id}
             </Link>
           </SignInInputGuide>
-          <SignInErrorMsg>{errorMsg}</SignInErrorMsg>
           <SignInModuleBtnRow className={styles.btnRow}>
             <Button
               type="button"
@@ -225,6 +221,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
               {i18n.sign_up}
             </Button>
           </SignInModuleBtnRow>
+          <SignInErrorMsg>{errorMsg}</SignInErrorMsg>
           <SignInInputGuide className={styles.rightAlign}>
             <Link href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`} target="_blank">
               {i18n.what_is_signing_up}
