@@ -82,9 +82,7 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <TutorialStepper steps={[3]}>
-        <VerifyButton verifiedStatus={verifiedStatus} handleClick={handleClickVerify} />
-      </TutorialStepper>
+      <VerifyButton verifiedStatus={verifiedStatus} handleClick={handleClickVerify} />
     </div>
   );
 };

@@ -4,15 +4,12 @@ import React from "react";
 import cn from "classnames";
 import Link from "next/link";
 import PrfsAppsPopover from "@taigalabs/prfs-react-components/src/prfs_apps_popover/PrfsAppsPopover";
-import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import { BsBook } from "@react-icons/all-files/bs/BsBook";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import SearchProofDialog from "@taigalabs/prfs-react-components/src/search_proof_dialog/SearchProofDialog";
 import { useSearchParams } from "next/navigation";
 import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
-import { IoMdSchool } from "@react-icons/all-files/io/IoMdSchool";
-import SignInButton from "@taigalabs/prfs-react-components/src/sign_in_button/SignInButton";
 
 import styles from "./ProofTypeMasthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -28,7 +25,7 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
 
-  const { isTutorial, tutorialUrl } = React.useMemo(() => {
+  const { isTutorial } = React.useMemo(() => {
     if (searchParams.get("tutorial_id")) {
       return { isTutorial: true, tutorialUrl: paths.__ };
     }
@@ -61,21 +58,19 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
                 </Link>
               </li>
             </Tooltip>
-            <li className={styles.appPopover}>
-              <PrfsAppsPopover
-                className={styles.popover}
-                isOpenClassName={styles.popoverIsOpen}
-                webappPollEndpoint={process.env.NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT}
-                webappProofEndpoint={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
-                webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
-              />
-            </li>
+            <Tooltip label={i18n.apps}>
+              <li className={cn(styles.menu, styles.appPopover)}>
+                <PrfsAppsPopover
+                  className={styles.popover}
+                  isOpenClassName={styles.popoverIsOpen}
+                  webappPollEndpoint={process.env.NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT}
+                  webappProofEndpoint={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
+                  webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
+                />
+              </li>
+            </Tooltip>
             <li className={(styles.menu, styles.signInBtn)}>
               <SignInBtn />
-              {/* <SignInButton */}
-              {/*   prfsSignInEndpoint={prfsSignInEndpoint} */}
-              {/*   handleSucceedSignIn={handleSucceedSignIn} */}
-              {/* /> */}
             </li>
           </ul>
         </div>

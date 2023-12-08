@@ -155,6 +155,7 @@ const en = {
   talk: "Talk",
   beta: "Beta",
   docs: "Docs",
+  apps: "Apps",
   auth: "Auth",
   authorize_twitter_account: "Authorize X (Twitter) account",
   tutorial: "Tutorial",

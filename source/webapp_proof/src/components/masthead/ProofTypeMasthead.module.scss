@@ -59,7 +59,7 @@
   margin-left: auto;
   margin-right: 0;
   justify-content: flex-end;
-  color: var(--gray-34);
+  color: var(--black-26);
   padding-right: 10px;
   align-items: center;
 
@@ -69,21 +69,17 @@
     display: flex;
   }
 
-  li {
-    display: flex;
-    justify-content: center;
-  }
-
   > * {
     margin: 0 2px;
   }
 
   .menu {
+    display: flex;
+    justify-content: center;
     cursor: pointer;
     align-items: center;
     justify-content: center;
     width: 40px;
-    /* margin-left: 6px; */
     height: 40px;
     border-radius: 20px;
 
