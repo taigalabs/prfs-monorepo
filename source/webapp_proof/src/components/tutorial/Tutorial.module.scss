@@ -54,6 +54,9 @@
   border-bottom: 1px solid var(--bright-gray-32);
 
   .label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     margin: 0 4px;
     flex-grow: 1;
   }

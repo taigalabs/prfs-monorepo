@@ -69,7 +69,7 @@ const CreateProofForm: React.FC = () => {
   );
 
   return (
-    <div>
+    <>
       <ProofTypeMasthead
         proofInstanceId={undefined}
         proofType={proofType}
@@ -109,7 +109,7 @@ const CreateProofForm: React.FC = () => {
         <Tutorial noTop />
         {/* <TutorialPlaceholder variant="h1460" /> */}
       </div>
-    </div>
+    </>
   );
 };
 
