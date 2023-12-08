@@ -95,15 +95,16 @@
 }
 
 .footer {
-  margin-top: 11px;
+  margin-top: 8px;
   font-size: 12px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   color: var(--black-20);
+  height: 48px;
 
   a:not(:first-child) {
-    margin-left: 22px;
+    margin-left: 32px;
   }
 }
 

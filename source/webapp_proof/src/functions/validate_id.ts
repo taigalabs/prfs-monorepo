@@ -58,8 +58,7 @@ export function validateIdCreateForm(
   setFormErrors: React.Dispatch<React.SetStateAction<IdCreateForm>>,
 ): boolean {
   setFormErrors(() => makeEmptyIDCreateFormErrors());
-
-  console.log(22, formValues);
+  // console.log(22, formValues);
 
   if (!formValues.email || formValues.email.length < 1) {
     setFormErrors(oldVals => ({

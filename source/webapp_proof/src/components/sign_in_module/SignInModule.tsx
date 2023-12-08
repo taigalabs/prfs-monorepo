@@ -66,8 +66,8 @@ export const SignInInputItem: React.FC<SignInModuleInputProps> = ({
   );
 };
 
-export const SignInInputGuide: React.FC<SignInModuleInputAreaProps> = ({ children }) => {
-  return <div className={styles.inputGuide}>{children}</div>;
+export const SignInInputGuide: React.FC<SignInModuleInputAreaProps> = ({ children, className }) => {
+  return <div className={cn(styles.inputGuide, className)}>{children}</div>;
 };
 
 export const SignInForm: React.FC<SignInModuleInputAreaProps> = ({ children }) => {

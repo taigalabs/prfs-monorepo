@@ -185,9 +185,14 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
               handleClick={handleClickSignIn}
               noShadow
             >
-              {i18n.finish_by_signing_in}
+              {i18n.sign_up}
             </Button>
           </SignInModuleBtnRow>
+          <SignInInputGuide>
+            <Link href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`} target="_blank">
+              {i18n.how_is_the_password_generated}
+            </Link>
+          </SignInInputGuide>
         </Fade>
       </div>
     </div>
