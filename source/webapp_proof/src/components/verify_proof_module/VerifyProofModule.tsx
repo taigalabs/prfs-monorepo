@@ -8,7 +8,6 @@ import ProofGenElement from "@taigalabs/prfs-sdk-web/src/elems/proof_gen_element
 
 import styles from "./VerifyProofModule.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 
 export enum VerifiedStatus {
@@ -41,7 +40,7 @@ const VerifyButton: React.FC<VerifyButtonProps> = ({ verifiedStatus, handleClick
     case VerifiedStatus.InProgress:
       return (
         <Button variant="transparent_black_1" className={styles.progressBtn} smallPadding>
-          <Spinner color="black" />
+          <Spinner color="#3367d6" size={28} />
         </Button>
       );
 
@@ -64,9 +63,7 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({
   proof,
   circuitTypeId,
 }) => {
-  const i18n = React.useContext(i18nContext);
   const [verifiedStatus, setVerifiedStatus] = React.useState(VerifiedStatus.None);
-
   const handleClickVerify = React.useCallback(async () => {
     if (verifiedStatus === VerifiedStatus.None) {
       try {
