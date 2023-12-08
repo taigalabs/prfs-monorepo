@@ -70,12 +70,12 @@ export const SignInInputGuide: React.FC<SignInModuleInputAreaProps> = ({ childre
   return <div className={styles.inputGuide}>{children}</div>;
 };
 
-// export const SignInInput: React.FC<SignInModuleInputProps> = ({ placeholder }) => {
-//   return <input className={styles.input} placeholder={placeholder} />;
-// };
+export const SignInForm: React.FC<SignInModuleInputAreaProps> = ({ children }) => {
+  return <form className={styles.form}>{children}</form>;
+};
 
 const SignInModule: React.FC<SignInModuleInputAreaProps> = ({ children }) => {
-  return <form className={styles.wrapper}>{children}</form>;
+  return <div className={styles.wrapper}>{children}</div>;
 };
 
 export default SignInModule;

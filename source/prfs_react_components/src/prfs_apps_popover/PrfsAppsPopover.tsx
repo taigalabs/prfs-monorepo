@@ -19,7 +19,6 @@ import {
 } from "@floating-ui/react";
 
 import styles from "./PrfsAppsPopover.module.scss";
-import Popover from "../popover/Popover";
 import { TbMathPi } from "../tabler_icons/TbMathPi";
 import Fade from "../fade/Fade";
 import { i18nContext } from "../contexts/i18nContext";

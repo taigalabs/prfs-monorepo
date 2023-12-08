@@ -5,6 +5,7 @@ import styles from "./SignIn.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { initWasm, makeCredential } from "@taigalabs/prfs-crypto-js";
 import SignInModule, {
+  SignInForm,
   SignInInputItem,
   SignInModuleBtnRow,
   SignInModuleFooter,
@@ -81,8 +82,8 @@ const SignIn: React.FC = () => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.moduleWrapper}>
-        <SignInModule>
+      <SignInModule>
+        <SignInForm>
           <SignInModuleLogoArea />
           <SignInModuleHeader>
             <SignInModuleTitle>{i18n.sign_in}</SignInModuleTitle>
@@ -118,11 +119,6 @@ const SignIn: React.FC = () => {
                 type="password"
               />
             </div>
-            {/* <SignInInputGuide> */}
-            {/*   <Link href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`} target="_blank"> */}
-            {/*     {i18n.why_we_ask_for_two_passwords} */}
-            {/*   </Link> */}
-            {/* </SignInInputGuide> */}
           </SignInModuleInputArea>
           <SignInModuleBtnRow>
             <Button variant="transparent_blue_2" noTransition handleClick={handleClickCreateID}>
@@ -139,8 +135,8 @@ const SignIn: React.FC = () => {
               {i18n.sign_in}
             </Button>
           </SignInModuleBtnRow>
-        </SignInModule>
-      </div>
+        </SignInForm>
+      </SignInModule>
       <SignInModuleFooter>
         <Link href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL}>
           <span>{i18n.code}</span>

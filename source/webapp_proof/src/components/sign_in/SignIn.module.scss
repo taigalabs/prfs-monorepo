@@ -4,15 +4,6 @@
   width: 450px;
 }
 
-.moduleWrapper {
-  padding: 48px 40px 36px;
-  min-height: 400px;
-  border: 1px solid var(--bright-gray-32);
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-}
-
 .inputGroup {
   &:not(:first-child) {
     margin-top: 16px;
