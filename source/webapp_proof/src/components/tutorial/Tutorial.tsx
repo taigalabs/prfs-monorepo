@@ -39,15 +39,13 @@ const Stage: React.FC<StageProps> = ({ step }) => {
   }
 };
 
-const Tutorial: React.FC<TutorialProps> = ({ noTop, variant }) => {
+const Tutorial: React.FC<TutorialProps> = ({ noTop }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
   const i18n = React.useContext(i18nContext);
   const dispatch = useAppDispatch();
-
   const step = useAppSelector(state => state.tutorial.tutorialStep);
-
   const isTutorial = useIsTutorial();
 
   const handleClickPrev = React.useCallback(() => {
@@ -80,7 +78,6 @@ const Tutorial: React.FC<TutorialProps> = ({ noTop, variant }) => {
         <div
           className={cn(styles.wrapper, {
             [styles.noTop]: noTop,
-            [styles.w1502]: variant === "w1502",
           })}
         >
           <div className={styles.inner}>
@@ -139,7 +136,7 @@ export default Tutorial;
 
 export interface TutorialProps {
   noTop?: boolean;
-  variant?: "w1502" | "h1502";
+  // variant?: "w1502" | "h1502";
 }
 
 export interface StageProps {

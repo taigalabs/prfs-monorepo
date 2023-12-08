@@ -1,38 +1,3 @@
-@mixin smallScreen {
-  position: fixed;
-  top: auto;
-  left: 5px;
-  right: 5px;
-  bottom: 15px;
-  display: flex;
-  justify-content: center;
-  margin: 0;
-  width: 100%;
-  border: 1px solid var(--bright-gray-30);
-  height: 280px;
-
-  .inner {
-    min-width: 348px;
-    max-width: 600px;
-  }
-
-  .body {
-    min-height: 0;
-    max-height: none;
-    height: 200px;
-  }
-
-  .placeholder {
-    display: block;
-    height: calc(236px + 40px - 78px);
-  }
-}
-
-.placeholder {
-  width: 310px;
-  border: 1px solid red;
-}
-
 .wrapper {
   margin-left: auto;
   position: absolute;
@@ -41,7 +6,7 @@
   width: 300px;
   height: calc(100% - 56px);
   background-color: var(--white-100);
-  border-left: 1px solid var(--bright-gray-30);
+  border-left: 1px solid var(--bright-gray-32);
   line-height: 1.33;
   z-index: 1;
 
@@ -133,14 +98,33 @@
   height: 100%;
 }
 
-@media screen and (max-width: 1502px) {
-  .wrapper.w1502 {
-    @include smallScreen;
-  }
-}
-
 @media screen and (max-width: 1690px) {
   .wrapper {
-    @include smallScreen;
+    position: fixed;
+    top: auto;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    border: 1px solid var(--bright-gray-30);
+    height: 280px;
+    width: 100%;
+
+    .inner {
+      width: 100%;
+    }
+
+    .body {
+      min-height: 0;
+      max-height: none;
+      height: 200px;
+    }
+
+    .placeholder {
+      display: block;
+      height: calc(236px + 40px - 78px);
+    }
   }
 }

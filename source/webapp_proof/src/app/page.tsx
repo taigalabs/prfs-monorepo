@@ -7,11 +7,10 @@ import DefaultLayout, {
 } from "@/components/layouts/default_layout/DefaultLayout";
 import Masthead from "@/components/masthead/Masthead";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
-import Tutorial from "@/components/tutorial/Tutorial";
 import SearchProofTypeForm from "@/components/search_proof_type_form/SearchProofTypeForm";
-import TutorialFallback from "@/components/tutorial/TutorialFallback";
 import MastheadFallback from "@/components/masthead/MastheadFallback";
 import SearchProofTypeFormFallback from "@/components/search_proof_type_form/SearchProofTypeFormFallback";
+import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
 
 const HomePage = () => {
   return (
@@ -28,6 +27,9 @@ const HomePage = () => {
       </DefaultBody>
       <DefaultFooter>
         <GlobalFooter />
+        <Suspense>
+          <TutorialPlaceholder />
+        </Suspense>
       </DefaultFooter>
     </DefaultLayout>
   );
