@@ -3,7 +3,7 @@ use hyper::{Request, Response};
 use hyper_utils::io::{parse_req, BytesBoxBody};
 use prfs_db_interface::db_apis;
 use prfs_entities::{
-    apis_entities::{SignInRequest, SignInResponse, SignUpRequest, SignUpResponse},
+    apis_entities::{PrfsSignInRequest, PrfsSignInResponse, PrfsSignUpRequest, PrfsSignUpResponse},
     entities::PrfsAccount,
     sqlx::types::Json,
 };
@@ -16,7 +16,7 @@ pub async fn sign_up_prfs_account(
     req: Request<Incoming>,
     state: Arc<ServerState>,
 ) -> ApiHandlerResult {
-    let req: SignUpRequest = parse_req(req).await;
+    let req: PrfsSignUpRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
     let prfs_account = PrfsAccount {
@@ -31,7 +31,7 @@ pub async fn sign_up_prfs_account(
 
     tx.commit().await.unwrap();
 
-    let resp = ApiResponse::new_success(SignUpResponse {
+    let resp = ApiResponse::new_success(PrfsSignUpResponse {
         account_id: account_id.to_string(),
     });
 
@@ -42,13 +42,13 @@ pub async fn sign_in_prfs_account(
     req: Request<Incoming>,
     state: Arc<ServerState>,
 ) -> ApiHandlerResult {
-    let req: SignInRequest = parse_req(req).await;
+    let req: PrfsSignInRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_account = db_apis::get_prfs_account_by_account_id(pool, &req.account_id)
         .await
         .unwrap();
 
-    let resp = ApiResponse::new_success(SignInResponse { prfs_account });
+    let resp = ApiResponse::new_success(PrfsSignInResponse { prfs_account });
 
     return Ok(resp.into_hyper_response());
 }

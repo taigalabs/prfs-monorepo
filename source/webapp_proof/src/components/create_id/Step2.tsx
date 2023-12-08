@@ -2,6 +2,7 @@
 
 import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { useRouter } from "next/navigation";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
@@ -13,6 +14,8 @@ import { makeCredential } from "@taigalabs/prfs-crypto-js";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 import { IdCreateForm } from "@/functions/validate_id";
 import Link from "next/link";
+import { useMutation } from "wagmi";
+import { PrfsSignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignUpRequest";
 
 import styles from "./Step2.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -47,6 +50,12 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
     id: "",
   });
 
+  const { mutateAsync: prfsSignUpRequest } = useMutation({
+    mutationFn: (req: PrfsSignUpRequest) => {
+      return prfsApi2("sign_up_prfs_account", req);
+    },
+  });
+
   React.useEffect(() => {
     async function fn() {
       try {
@@ -78,11 +87,14 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
     copy(pw);
   }, [formData]);
 
-  const handleClickSignIn = React.useCallback(() => {
+  const handleClickSignUp = React.useCallback(async () => {
     const { search } = window.location;
-    const url = `${paths.accounts__signin}${search}`;
-    router.push(url);
-  }, [formData, router]);
+
+    // prfsSignUpRequest();
+
+    // const url = `${paths.accounts__signin}${search}`;
+    // router.push(url);
+  }, [formData, router, prfsSignUpRequest]);
 
   const { email_val, password_1_val, password_2_val, secret_key_val } = React.useMemo(() => {
     if (showPassword) {
@@ -182,7 +194,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
               variant="blue_2"
               className={styles.createBtn}
               noTransition
-              handleClick={handleClickSignIn}
+              handleClick={handleClickSignUp}
               noShadow
             >
               {i18n.sign_up}

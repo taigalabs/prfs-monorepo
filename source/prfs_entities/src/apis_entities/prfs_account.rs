@@ -7,25 +7,25 @@ use crate::entities::PrfsAccount;
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct SignUpRequest {
+pub struct PrfsSignUpRequest {
     pub account_id: String,
     pub avatar_color: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct SignUpResponse {
+pub struct PrfsSignUpResponse {
     pub account_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct SignInRequest {
+pub struct PrfsSignInRequest {
     pub account_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct SignInResponse {
+pub struct PrfsSignInResponse {
     pub prfs_account: PrfsAccount,
 }
