@@ -17,11 +17,6 @@
   }
 }
 
-.isTutorial {
-  .tutorialBtn {
-  }
-}
-
 .inner {
   display: flex;
   align-items: center;
@@ -79,22 +74,6 @@
   display: flex;
   align-items: center;
 }
-
-/* .tutorialBtn.isTutorial { */
-/*   background-color: var(--aqua-blue-40); */
-/*   border-radius: 3px; */
-/*   padding: 9px 15px; */
-/*   font-size: 14px; */
-/*   font-weight: 500; */
-/*   color: var(--white-100); */
-/*   display: flex; */
-/*   align-items: center; */
-
-/*   svg { */
-/*     display: block; */
-/*     margin-left: 4px; */
-/*   } */
-/* } */
 
 .underline:hover {
   text-decoration: underline;

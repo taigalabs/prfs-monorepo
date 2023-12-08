@@ -69,14 +69,14 @@ const CreateProofForm: React.FC = () => {
   );
 
   return (
-    <>
+    <div>
       <ProofTypeMasthead
         proofInstanceId={undefined}
         proofType={proofType}
         handleSelectProofType={handleSelectProofType}
       />
       <div className={styles.topRow}></div>
-      <div className={styles.wrapper}>
+      <div className={styles.main}>
         <LeftPadding />
         {proofType ? (
           <div
@@ -106,10 +106,10 @@ const CreateProofForm: React.FC = () => {
         ) : (
           <div className={styles.loading}>Loading module...</div>
         )}
-        <TutorialPlaceholder variant="h1460" />
+        <Tutorial noTop />
+        {/* <TutorialPlaceholder variant="h1460" /> */}
       </div>
-      <Tutorial bigTopMargin />
-    </>
+    </div>
   );
 };
 

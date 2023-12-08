@@ -54,17 +54,6 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
             />
           </div>
           <ul className={styles.rightArea}>
-            <Tooltip label={i18n.tutorial}>
-              <li
-                className={cn(styles.menu, {
-                  // [styles.tutorialBtn]: isTutorial,
-                })}
-              >
-                <a href={tutorialUrl}>
-                  <IoMdSchool />
-                </a>
-              </li>
-            </Tooltip>
             <Tooltip label={i18n.docs}>
               <li className={cn(styles.menu, styles.bigScreen)}>
                 <Link href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>
@@ -81,7 +70,7 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
                 webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
               />
             </li>
-            <li>
+            <li className={(styles.menu, styles.signInBtn)}>
               <SignInBtn />
               {/* <SignInButton */}
               {/*   prfsSignInEndpoint={prfsSignInEndpoint} */}

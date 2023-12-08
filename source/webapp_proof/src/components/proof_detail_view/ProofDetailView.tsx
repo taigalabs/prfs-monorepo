@@ -156,7 +156,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
           </div>
         </div>
       </div>
-      <Tutorial bigTopMargin variant="w1502" />
+      <Tutorial noTop variant="w1502" />
       <TutorialPlaceholder variant="h1502" />
     </>
   );

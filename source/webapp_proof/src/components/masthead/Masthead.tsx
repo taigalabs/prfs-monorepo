@@ -42,7 +42,7 @@ const Masthead: React.FC<MastheadProps> = () => {
               webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
             />
           </li>
-          <li className={styles.menu}>
+          <li className={cn(styles.menu, styles.signInBtn)}>
             <SignInBtn />
           </li>
         </ul>

@@ -39,7 +39,7 @@ const Stage: React.FC<StageProps> = ({ step }) => {
   }
 };
 
-const Tutorial: React.FC<TutorialProps> = ({ bigTopMargin, variant }) => {
+const Tutorial: React.FC<TutorialProps> = ({ noTop, variant }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -79,7 +79,7 @@ const Tutorial: React.FC<TutorialProps> = ({ bigTopMargin, variant }) => {
       <>
         <div
           className={cn(styles.wrapper, {
-            [styles.bigTopMargin]: bigTopMargin,
+            [styles.noTop]: noTop,
             [styles.w1502]: variant === "w1502",
           })}
         >
@@ -138,7 +138,7 @@ const Tutorial: React.FC<TutorialProps> = ({ bigTopMargin, variant }) => {
 export default Tutorial;
 
 export interface TutorialProps {
-  bigTopMargin?: boolean;
+  noTop?: boolean;
   variant?: "w1502" | "h1502";
 }
 
