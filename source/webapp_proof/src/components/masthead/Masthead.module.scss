@@ -12,14 +12,13 @@
   z-index: 10;
   font-size: 13px;
 
-  /* &.isTutorial { */
-  /* border-bottom: 3px solid var(--aqua-blue-40); */
-  /* } */
+  &.isTutorial {
+    border-bottom: 1px solid var(--bright-gray-32);
+  }
 }
 
 .isTutorial {
   .tutorialBtn {
-    font-weight: 500;
   }
 }
 

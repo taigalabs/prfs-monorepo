@@ -11,6 +11,7 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import { useRouter } from "next/navigation";
 import cn from "classnames";
+import { IoMdSchool } from "@react-icons/all-files/io/IoMdSchool";
 
 import styles from "./Tutorial.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -83,13 +84,22 @@ const Tutorial: React.FC<TutorialProps> = ({ bigTopMargin, variant }) => {
           })}
         >
           <div className={styles.inner}>
-            <div className={styles.header}>
-              <p className={styles.progress}>
-                ({step} / {STEP_COUNT})
-              </p>
-              <button>
+            <div className={styles.titleBar}>
+              <div className={styles.imgBox}>
+                <IoMdSchool />
+              </div>
+              <div className={styles.label}>
+                <p className={styles.smallFont}>{i18n.learn.toUpperCase()}</p>
+                <p>{i18n.tutorial}</p>
+              </div>
+              <button className={styles.imgBox}>
                 <AiOutlineClose onClick={handleClickClose} />
               </button>
+            </div>
+            <div className={styles.header}>
+              <p className={styles.progress}>
+                Step {step} of {STEP_COUNT}
+              </p>
             </div>
             <div className={styles.body}>
               <MarkdownWrapper>
