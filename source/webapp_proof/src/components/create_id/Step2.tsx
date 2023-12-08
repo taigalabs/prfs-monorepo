@@ -2,7 +2,7 @@
 
 import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import { makeAvatarColor, prfsApi2 } from "@taigalabs/prfs-api-js";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { useRouter } from "next/navigation";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
@@ -20,6 +20,7 @@ import { PrfsSignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignUpR
 import styles from "./Step2.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import {
+  SignInErrorMsg,
   SignInInputGuide,
   SignInModuleBtnRow,
   SignInModuleHeader,
@@ -31,8 +32,7 @@ import { paths } from "@/paths";
 
 enum CreateIdModuleStatus {
   StandBy,
-  ValueInProgress,
-  ValueReady,
+  InProgress,
   Error,
 }
 
@@ -59,7 +59,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
   React.useEffect(() => {
     async function fn() {
       try {
-        setCreateIdModuleStatus(CreateIdModuleStatus.ValueInProgress);
+        setCreateIdModuleStatus(CreateIdModuleStatus.InProgress);
         const credential = await makeCredential({
           email: formData.email,
           password_1: formData.password_1,
@@ -68,7 +68,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
 
         console.log("credential", credential);
         setCredential(credential);
-        setCreateIdModuleStatus(CreateIdModuleStatus.ValueReady);
+        setCreateIdModuleStatus(CreateIdModuleStatus.StandBy);
       } catch (err) {
         setAlertMsg(`Driver init failed, err: ${err}`);
       }
@@ -89,12 +89,25 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
 
   const handleClickSignUp = React.useCallback(async () => {
     const { search } = window.location;
+    const { id } = credential;
 
-    // prfsSignUpRequest();
+    if (id) {
+      try {
+        setCreateIdModuleStatus(CreateIdModuleStatus.InProgress);
+        const avatar_color = makeAvatarColor();
+        const { payload } = await prfsSignUpRequest({
+          account_id: id,
+          avatar_color,
+        });
+        setCreateIdModuleStatus(CreateIdModuleStatus.StandBy);
+      } catch (err) {
+        console.error(err);
+      }
+    }
 
     // const url = `${paths.accounts__signin}${search}`;
     // router.push(url);
-  }, [formData, router, prfsSignUpRequest]);
+  }, [formData, router, prfsSignUpRequest, credential]);
 
   const { email_val, password_1_val, password_2_val, secret_key_val } = React.useMemo(() => {
     if (showPassword) {
@@ -121,7 +134,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
 
   return (
     <div>
-      {createIdModuleStatus === CreateIdModuleStatus.ValueInProgress && (
+      {createIdModuleStatus === CreateIdModuleStatus.InProgress && (
         <div className={styles.loadingOverlay}>
           <Spinner color="#1b62c0" />
         </div>
@@ -178,6 +191,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
               {i18n.what_is_id}
             </Link>
           </SignInInputGuide>
+          <SignInErrorMsg>r</SignInErrorMsg>
           <SignInModuleBtnRow className={styles.btnRow}>
             <Button
               type="button"

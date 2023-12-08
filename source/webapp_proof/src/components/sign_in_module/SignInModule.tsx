@@ -32,6 +32,10 @@ export const SignInModuleFooter: React.FC<SignInModuleInputAreaProps> = ({ child
   return <div className={styles.footer}>{children}</div>;
 };
 
+export const SignInErrorMsg: React.FC<SignInModuleInputAreaProps> = ({ children, className }) => {
+  return <div className={cn(styles.error, className)}>{children}</div>;
+};
+
 export const SignInModuleBtnRow: React.FC<SignInModuleInputAreaProps> = ({
   children,
   className,
