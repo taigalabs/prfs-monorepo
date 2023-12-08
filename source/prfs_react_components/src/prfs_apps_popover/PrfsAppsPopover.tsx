@@ -2,14 +2,11 @@
 
 import React, { useId } from "react";
 import cn from "classnames";
-import Link from "next/link";
 import { GrMonitor } from "@react-icons/all-files/gr/GrMonitor";
 import { FaVoteYea } from "@react-icons/all-files/fa/FaVoteYea";
 import { BsThreeDots } from "@react-icons/all-files/bs/BsThreeDots";
 import {
   FloatingFocusManager,
-  FloatingOverlay,
-  FloatingPortal,
   autoUpdate,
   flip,
   offset,
@@ -25,7 +22,6 @@ import styles from "./PrfsAppsPopover.module.scss";
 import Popover from "../popover/Popover";
 import { TbMathPi } from "../tabler_icons/TbMathPi";
 import Fade from "../fade/Fade";
-import IconButton from "../icon_button/IconButton";
 import { i18nContext } from "../contexts/i18nContext";
 
 const Modal: React.FC<MerkleProofModalProps> = ({
@@ -34,6 +30,9 @@ const Modal: React.FC<MerkleProofModalProps> = ({
   webappPollEndpoint,
 }) => {
   const i18n = React.useContext(i18nContext);
+  const tutorialUrl = React.useMemo(() => {
+    return `${webappProofEndpoint}?tutorial_id=simple_hash`;
+  }, [webappProofEndpoint]);
 
   return (
     <div className={styles.modal}>
@@ -41,6 +40,11 @@ const Modal: React.FC<MerkleProofModalProps> = ({
         <li>
           <a className={styles.appItem} href={webappProofEndpoint}>
             <span>{i18n.documentation}</span>
+          </a>
+        </li>
+        <li>
+          <a className={styles.appItem} href={tutorialUrl}>
+            <span>{i18n.tutorial}</span>
           </a>
         </li>
       </ul>

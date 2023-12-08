@@ -35,15 +35,12 @@ const JSONbigNative = JSONBig({
 const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) => {
   const i18n = React.useContext(i18nContext);
   const [proofInstance, setProofInstance] = React.useState<PrfsProofInstanceSyn1>();
-
   const { mutateAsync: getPrfsProofInstanceByInstanceIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofInstanceByInstanceIdRequest) => {
       return prfsApi2("get_prfs_proof_instance_by_instance_id", req);
     },
   });
-
   const handleSelectProofType = useSelectProofType();
-
   const isTutorial = useIsTutorial();
 
   React.useEffect(() => {
@@ -63,7 +60,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
     fn().then();
   }, [setProofInstance, getPrfsProofInstanceByInstanceIdRequest]);
 
-  const ret = React.useMemo(() => {
+  const proofData = React.useMemo(() => {
     if (proofInstance) {
       const consoleUrl = `${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/proof_instances/${proofInstance.proof_instance_id}`;
 
@@ -81,7 +78,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
     return null;
   }, [proofInstance]);
 
-  if (ret === null || !proofInstance) {
+  if (proofData === null || !proofInstance) {
     return (
       <div className={styles.wrapper}>
         <div className={styles.isLoading}>Loading...</div>
@@ -89,7 +86,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
     );
   }
 
-  const { consoleUrl, proof } = ret;
+  const { consoleUrl, proof } = proofData;
 
   return (
     <>
@@ -155,8 +152,8 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
             <ProofDataView proof={proof} />
           </div>
         </div>
+        <Tutorial noTop variant="w1502" />
       </div>
-      <Tutorial noTop variant="w1502" />
       <TutorialPlaceholder variant="h1502" />
     </>
   );

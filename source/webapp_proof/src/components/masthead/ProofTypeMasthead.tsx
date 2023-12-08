@@ -7,14 +7,14 @@ import PrfsAppsPopover from "@taigalabs/prfs-react-components/src/prfs_apps_popo
 import { BsBook } from "@react-icons/all-files/bs/BsBook";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import SearchProofDialog from "@taigalabs/prfs-react-components/src/search_proof_dialog/SearchProofDialog";
-import { useSearchParams } from "next/navigation";
 import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 
 import styles from "./ProofTypeMasthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import SignInBtn from "../sign_in_btn/SignInBtn";
+import SignInBtn from "@/components/sign_in_btn/SignInBtn";
+import { useIsTutorial } from "@/hooks/tutorial";
 
 const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
   isActivated,
@@ -23,14 +23,7 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
   handleSelectProofType,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const searchParams = useSearchParams();
-
-  const { isTutorial } = React.useMemo(() => {
-    if (searchParams.get("tutorial_id")) {
-      return { isTutorial: true, tutorialUrl: paths.__ };
-    }
-    return { isTutorial: false, tutorialUrl: `${paths.__}?tutorial_id=simple_hash` };
-  }, [searchParams]);
+  const isTutorial = useIsTutorial();
 
   return (
     <div className={cn({ [styles.wrapper]: true, [styles.isTutorial]: isTutorial })}>
