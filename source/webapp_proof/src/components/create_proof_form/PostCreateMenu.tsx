@@ -51,6 +51,8 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
     setIsVerifyOpen(s => !s);
   }, [setIsVerifyOpen]);
 
+  console.log(22, isCreatePrfsProofInstanceLoading);
+
   const handleClickUpload = React.useCallback(async () => {
     if (proveReceipt && proofType) {
       const { proof } = proveReceipt;
@@ -129,10 +131,12 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
           </div>
           <div className={cn(styles.verifyProofFormRow, { [styles.isVerifyOpen]: isVerifyOpen })}>
             <div>
-              <button className={cn(styles.verifyBtn)} onClick={handleClickVerify}>
-                <span>{i18n.verify}</span>
-                <IoIosArrowDown />
-              </button>
+              <TutorialStepper steps={[3]}>
+                <button className={cn(styles.verifyBtn)} onClick={handleClickVerify}>
+                  <span>{i18n.verify}</span>
+                  <IoIosArrowDown />
+                </button>
+              </TutorialStepper>
             </div>
             <div className={styles.verifyProofFormWrapper}>
               <ProofDataView proof={proveReceipt.proof} isCard />

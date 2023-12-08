@@ -337,9 +337,10 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
                 <Button
                   variant="blue_1"
                   handleClick={handleClickCreateProof}
-                  className={cn({
+                  className={cn(styles.createBtn, {
                     [styles.inProgress]: createProofStatus === CreateProofStatus.InProgress,
                   })}
+                  smallPadding
                 >
                   {i18n.create.toUpperCase()}
                 </Button>
