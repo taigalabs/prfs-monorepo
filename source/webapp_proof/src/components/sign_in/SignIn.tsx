@@ -81,62 +81,60 @@ const SignIn: React.FC = () => {
   );
 
   return (
-    <div className={styles.wrapper}>
-      <SignInModule>
-        <SignInForm>
-          <SignInModuleLogoArea />
-          <SignInModuleHeader>
-            <SignInModuleTitle>{i18n.sign_in}</SignInModuleTitle>
-            <SignInModuleSubtitle>{i18n.use_your_prfs_identity}</SignInModuleSubtitle>
-          </SignInModuleHeader>
-          <SignInModuleInputArea>
-            <div className={styles.inputGroup}>
-              <SignInInputItem
-                name="email"
-                value={formData.email}
-                placeholder={i18n.email}
-                error={formErrors.email}
-                handleChangeValue={handleChangeValue}
-              />
-            </div>
-            <div className={styles.inputGroup}>
-              <SignInInputItem
-                name="password_1"
-                value={formData.password_1}
-                placeholder={i18n.password_1}
-                error={formErrors.password_1}
-                handleChangeValue={handleChangeValue}
-                type="password"
-              />
-            </div>
-            <div className={styles.inputGroup}>
-              <SignInInputItem
-                name="password_2"
-                value={formData.password_2}
-                placeholder={i18n.password_2}
-                error={formErrors.password_2}
-                handleChangeValue={handleChangeValue}
-                type="password"
-              />
-            </div>
-          </SignInModuleInputArea>
-          <SignInModuleBtnRow>
-            <Button variant="transparent_blue_2" noTransition handleClick={handleClickCreateID}>
-              {i18n.create_id}
-            </Button>
-            <Button
-              type="button"
-              variant="blue_2"
-              className={styles.signInBtn}
-              noTransition
-              handleClick={handleClickSignIn}
-              noShadow
-            >
-              {i18n.sign_in}
-            </Button>
-          </SignInModuleBtnRow>
-        </SignInForm>
-      </SignInModule>
+    <SignInModule>
+      <SignInForm>
+        <SignInModuleLogoArea />
+        <SignInModuleHeader>
+          <SignInModuleTitle>{i18n.sign_in}</SignInModuleTitle>
+          <SignInModuleSubtitle>{i18n.use_your_prfs_identity}</SignInModuleSubtitle>
+        </SignInModuleHeader>
+        <SignInModuleInputArea>
+          <div className={styles.inputGroup}>
+            <SignInInputItem
+              name="email"
+              value={formData.email}
+              placeholder={i18n.email}
+              error={formErrors.email}
+              handleChangeValue={handleChangeValue}
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <SignInInputItem
+              name="password_1"
+              value={formData.password_1}
+              placeholder={i18n.password_1}
+              error={formErrors.password_1}
+              handleChangeValue={handleChangeValue}
+              type="password"
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <SignInInputItem
+              name="password_2"
+              value={formData.password_2}
+              placeholder={i18n.password_2}
+              error={formErrors.password_2}
+              handleChangeValue={handleChangeValue}
+              type="password"
+            />
+          </div>
+        </SignInModuleInputArea>
+        <SignInModuleBtnRow>
+          <Button variant="transparent_blue_2" noTransition handleClick={handleClickCreateID}>
+            {i18n.create_id}
+          </Button>
+          <Button
+            type="button"
+            variant="blue_2"
+            className={styles.signInBtn}
+            noTransition
+            handleClick={handleClickSignIn}
+            noShadow
+          >
+            {i18n.sign_in}
+          </Button>
+        </SignInModuleBtnRow>
+      </SignInForm>
       <SignInModuleFooter>
         <Link href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL}>
           <span>{i18n.code}</span>
@@ -145,7 +143,7 @@ const SignIn: React.FC = () => {
           <span>{i18n.prfs}</span>
         </Link>
       </SignInModuleFooter>
-    </div>
+    </SignInModule>
   );
 };
 

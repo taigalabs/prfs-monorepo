@@ -8,6 +8,7 @@ import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import styles from "./CreateID.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import SignInModule, {
+  SignInForm,
   SignInInputGuide,
   SignInInputItem,
   SignInModuleBtnRow,
@@ -178,10 +179,8 @@ const CreateID: React.FC = () => {
   }, [step, handleClickNext, handleChangeValue, formErrors]);
 
   return (
-    <>
-      <div className={styles.moduleWrapper}>
-        <SignInModule>{content}</SignInModule>
-      </div>
+    <SignInModule>
+      <SignInForm>{content}</SignInForm>
       <SignInModuleFooter>
         <Link className={styles.prfsLink} href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL}>
           <span>{i18n.code}</span>
@@ -190,7 +189,7 @@ const CreateID: React.FC = () => {
           <span>{i18n.prfs}</span>
         </Link>
       </SignInModuleFooter>
-    </>
+    </SignInModule>
   );
 };
 
