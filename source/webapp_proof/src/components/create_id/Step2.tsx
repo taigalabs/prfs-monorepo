@@ -188,9 +188,9 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
               {i18n.sign_up}
             </Button>
           </SignInModuleBtnRow>
-          <SignInInputGuide>
+          <SignInInputGuide className={styles.rightAlign}>
             <Link href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`} target="_blank">
-              {i18n.how_is_the_password_generated}
+              {i18n.what_is_signing_up}
             </Link>
           </SignInInputGuide>
         </Fade>

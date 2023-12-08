@@ -141,6 +141,7 @@ const en = {
     "Create a strong password with a mix of upper/lower case lettters, numbers, and symbols. Your ID will be auto-generated based on your password",
   why_we_ask_for_email: "Why we ask for email address",
   how_is_the_password_generated: "How is the password generated",
+  what_is_signing_up: "What is signing up",
   what_is_id: "What is an ID",
   why_we_ask_for_two_passwords: "Why we ask for two passwords",
   create_id: "Create ID",
