@@ -39,7 +39,6 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
   const [createIdModuleStatus, setCreateIdModuleStatus] = React.useState(
     CreateIdModuleStatus.StandBy,
   );
-
   const [alertMsg, setAlertMsg] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const [credential, setCredential] = React.useState({
@@ -59,7 +58,6 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
         });
 
         console.log("credential", credential);
-
         setCredential(credential);
         setCreateIdModuleStatus(CreateIdModuleStatus.ValueReady);
       } catch (err) {

@@ -25,7 +25,6 @@ const CreateProofForm: React.FC = () => {
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt>();
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
   const searchParams = useSearchParams();
-
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
       return prfsApi2("get_prfs_proof_type_by_proof_type_id", req);
@@ -45,7 +44,6 @@ const CreateProofForm: React.FC = () => {
         const { payload } = await getPrfsProofTypeByProofTypeIdRequest({
           proof_type_id: proofTypeId,
         });
-
         setProofType(payload.prfs_proof_type);
       } else {
       }
