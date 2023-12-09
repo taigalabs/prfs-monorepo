@@ -224,7 +224,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
           <SignInErrorMsg>{errorMsg}</SignInErrorMsg>
           <SignInInputGuide className={styles.rightAlign}>
             <Link href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`} target="_blank">
-              {i18n.what_is_signing_up}
+              {i18n.what_happens_when_signing_up}
             </Link>
           </SignInInputGuide>
         </Fade>
