@@ -36,8 +36,7 @@ pub async fn insert_prfs_account(
         .bind(&prfs_account.avatar_color)
         .bind(&prfs_account.policy_ids)
         .fetch_one(&mut **tx)
-        .await
-        .unwrap();
+        .await?;
 
     let account_id: String = row.get("account_id");
 

@@ -108,6 +108,8 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
         if (error) {
           setErrorMsg(error.toString());
         }
+
+        console.log(111, payload);
       } catch (err: any) {
         setErrorMsg(err.toString());
       }

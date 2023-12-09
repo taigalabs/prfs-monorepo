@@ -25,9 +25,13 @@ pub async fn sign_up_prfs_account(
         policy_ids: Json::from(vec![]),
     };
 
-    let account_id = db_apis::insert_prfs_account(&mut tx, &prfs_account)
-        .await
-        .unwrap();
+    let account_id = match db_apis::insert_prfs_account(&mut tx, &prfs_account).await {
+        Ok(i) => i,
+        Err(_err) => {
+            let resp = ApiResponse::new_error(format!("Account may exist, id: {}", req.account_id));
+            return Ok(resp.into_hyper_response());
+        }
+    };
 
     tx.commit().await.unwrap();
 

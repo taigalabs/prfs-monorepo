@@ -5,7 +5,6 @@ use serde::{de::DeserializeOwned, Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Debug)]
 pub enum ResponseCode {
     SUCCESS,
-
     ERROR,
 }
 
@@ -14,7 +13,7 @@ pub enum ResponseCode {
 pub struct ApiResponse<T> {
     pub code: ResponseCode,
     pub error: Option<String>,
-    pub payload: T,
+    pub payload: Option<T>,
 }
 
 impl<T: Serialize + DeserializeOwned> ApiResponse<T> {
@@ -22,35 +21,28 @@ impl<T: Serialize + DeserializeOwned> ApiResponse<T> {
         ApiResponse {
             code: ResponseCode::SUCCESS,
             error: None,
-            payload,
+            payload: Some(payload),
         }
     }
 
     pub fn into_hyper_response(self) -> Response<BytesBoxBody> {
+        let resp = Response::builder()
+            .header(header::CONTENT_TYPE, "application/json")
+            .header(header::ACCESS_CONTROL_ALLOW_ORIGIN, "*")
+            .header(header::ACCESS_CONTROL_ALLOW_HEADERS, "*")
+            .header(header::ACCESS_CONTROL_ALLOW_METHODS, "*");
+
         if let Some(_err) = &self.error {
             let data = serde_json::to_vec(&self).unwrap();
 
-            let resp = Response::builder()
+            return resp
                 .status(StatusCode::BAD_REQUEST)
                 .body(full(data))
                 .unwrap();
-
-            return resp;
         } else {
             let data = serde_json::to_vec(&self).unwrap();
 
-            let resp = Response::builder()
-                .status(StatusCode::OK)
-                .header(header::CONTENT_TYPE, "application/json")
-                .header(header::ACCESS_CONTROL_ALLOW_ORIGIN, "*")
-                .header(header::ACCESS_CONTROL_ALLOW_HEADERS, "*")
-                .header(header::ACCESS_CONTROL_ALLOW_METHODS, "*")
-                // .header("Access-Control-Allow-Headers", "*")
-                // .header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
-                .body(full(data))
-                .unwrap();
-
-            return resp;
+            return resp.status(StatusCode::OK).body(full(data)).unwrap();
         }
     }
 }
@@ -60,7 +52,7 @@ impl ApiResponse<String> {
         ApiResponse {
             code: ResponseCode::ERROR,
             error: Some(err),
-            payload: String::from(""),
+            payload: None,
         }
     }
 }
