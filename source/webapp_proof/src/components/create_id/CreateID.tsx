@@ -26,9 +26,9 @@ import {
   makeEmptyIdCreateForm,
   validateIdCreateForm,
 } from "@/functions/validate_id";
+import Step1 from "./Step1";
 import Step2 from "./Step2";
 import { envs } from "@/envs";
-import Step1 from "./Step1";
 
 enum CreateIDStep {
   InputCredential,
@@ -39,7 +39,6 @@ const CreateID: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
-  // const [status, setStatus] = React.useState(CreateIdStatus.Loading);
   const [step, setStep] = React.useState(CreateIDStep.InputCredential);
 
   const handleChangeValue = React.useCallback(

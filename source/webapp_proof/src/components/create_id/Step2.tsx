@@ -47,12 +47,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
     public_key: "",
     id: "",
   });
-
-  const {
-    mutateAsync: prfsSignUpRequest,
-    isError,
-    error,
-  } = useMutation({
+  const { mutateAsync: prfsSignUpRequest } = useMutation({
     mutationFn: (req: PrfsSignUpRequest) => {
       return prfsApi2("sign_up_prfs_account", req);
     },

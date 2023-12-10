@@ -5,7 +5,7 @@ import {
   type SignInSuccessPayload,
   type SignInSuccessZAuthMsg,
   newZAuthMsg,
-} from "@taigalabs/prfs-zauth-interface";
+} from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./SignInButton.module.scss";
 import Button from "../button/Button";
@@ -21,8 +21,6 @@ const SignInButton: React.FC<SignInButtonProps> = ({ prfsSignInEndpoint, handleS
       if (prfsSignInEndpoint && prfsSignInEndpoint.startsWith(origin)) {
         const data = ev.data as SignInSuccessZAuthMsg;
         if (data.type === "SIGN_IN_SUCCESS") {
-          console.log(11, data.payload);
-
           const msg = newZAuthMsg("SIGN_IN_SUCCESS_RESPOND", null);
           ev.ports[0].postMessage(msg);
 

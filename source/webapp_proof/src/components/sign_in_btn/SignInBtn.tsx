@@ -5,7 +5,7 @@ import cn from "classnames";
 import { useRouter } from "next/navigation";
 import { encrypt, decrypt, PublicKey, PrivateKey } from "eciesjs";
 import SignInButton from "@taigalabs/prfs-react-components/src/sign_in_button/SignInButton";
-import { SignInSuccessPayload } from "@taigalabs/prfs-zauth-interface";
+import { SignInSuccessPayload } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./SignInBtn.module.scss";
 import { paths } from "@/paths";
@@ -57,4 +57,4 @@ const SignInBtn: React.FC<SignInBtnProps> = () => {
 
 export default SignInBtn;
 
-export interface SignInBtnProps {}
+export interface SignInBtnProps { }
