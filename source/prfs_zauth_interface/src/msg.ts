@@ -17,7 +17,6 @@ export async function sendMsg(msg: ZAuthMsg<any>, sender: Function): Promise<any
     const channel = new MessageChannel();
     channel.port1.onmessage = ({ data }: { data: any }) => {
       channel.port1.close();
-      console.log(11, data);
 
       if (data.error) {
         rej(data.error);

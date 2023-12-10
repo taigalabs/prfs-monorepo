@@ -42,7 +42,7 @@ const SignIn: React.FC = () => {
   const router = useRouter();
   const [status, setStatus] = React.useState(SignInStatus.Loading);
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
-  const [pk, setPk] = React.useState<PublicKey | null>(null);
+  const [publicKey, setPublicKey] = React.useState<string | null>(null);
   const searchParams = useSearchParams();
 
   React.useEffect(() => {
@@ -52,15 +52,14 @@ const SignIn: React.FC = () => {
       setStatus(SignInStatus.Error);
       setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
     } else {
-      const pk = PublicKey.fromHex(publicKey);
-      setPk(pk);
-
+      // const pk = PublicKey.fromHex(publicKey);
+      setPublicKey(publicKey);
       setStatus(SignInStatus.Standby);
     }
-  }, [searchParams, setStatus, setErrorMsg, setPk]);
+  }, [searchParams, setStatus, setErrorMsg, setPublicKey]);
 
   const handleClickSignIn = React.useCallback(async () => {
-    if (formData && pk) {
+    if (formData && publicKey) {
       const credential = await makeCredential({
         email: formData.email,
         password_1: formData.password_1,
@@ -74,17 +73,16 @@ const SignIn: React.FC = () => {
         publicKey: credential.public_key,
       };
 
-      const encrypted = encrypt(pk.toHex(), Buffer.from(JSON.stringify(payload))).toString();
-
+      const encrypted = encrypt(publicKey, Buffer.from(JSON.stringify(payload)));
       const msg: SignInSuccessZAuthMsg = {
         type: "SIGN_IN_SUCCESS",
         payload: encrypted,
       };
 
       await sendMsgToOpener(msg);
-      window.close();
+      // window.close();
     }
-  }, [searchParams, pk]);
+  }, [searchParams, publicKey]);
 
   const handleClickCreateID = React.useCallback(() => {
     const { search } = window.location;

@@ -14,7 +14,7 @@ export interface ZAuthMsg<T> {
 
 export interface SignInSuccessZAuthMsg {
   type: "SIGN_IN_SUCCESS";
-  payload: string; // SignInSuccessPayload;
+  payload: Buffer; // SignInSuccessPayload;
 }
 
 export interface SignInSuccessPayload {

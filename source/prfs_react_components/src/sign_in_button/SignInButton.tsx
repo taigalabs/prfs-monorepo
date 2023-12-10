@@ -11,10 +11,6 @@ import styles from "./SignInButton.module.scss";
 import Button from "../button/Button";
 import { i18nContext } from "../contexts/i18nContext";
 
-// const eventListener = {
-//   object: null,
-// };
-
 const SignInButton: React.FC<SignInButtonProps> = ({ prfsSignInEndpoint, handleSucceedSignIn }) => {
   const i18n = React.useContext(i18nContext);
 
@@ -66,5 +62,5 @@ export default SignInButton;
 
 export interface SignInButtonProps {
   prfsSignInEndpoint: string | null;
-  handleSucceedSignIn: (encrypted: string) => void;
+  handleSucceedSignIn: (encrypted: Buffer) => void;
 }

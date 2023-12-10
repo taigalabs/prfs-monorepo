@@ -21,7 +21,13 @@ const initialState: UserState = {
 export const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    signInPrfs: (state: UserState, _action: PayloadAction<void>) => {
+      return {
+        ...state,
+      };
+    },
+  },
 });
 
 // export const {  } = userSlice.actions;
