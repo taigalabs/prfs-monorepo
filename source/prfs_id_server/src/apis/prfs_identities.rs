@@ -23,12 +23,12 @@ pub async fn sign_up_prfs_identity(
     let req: PrfsIdentitySignUpRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
-    let prfs_account = PrfsIdentity {
+    let prfs_identity = PrfsIdentity {
         identity_id: req.identity_id.to_string(),
         avatar_color: req.avatar_color.to_string(),
     };
 
-    let identity_id = match db_apis::insert_prfs_identity(&mut tx, &prfs_account).await {
+    let identity_id = match db_apis::insert_prfs_identity(&mut tx, &prfs_identity).await {
         Ok(i) => i,
         Err(_err) => {
             let resp =

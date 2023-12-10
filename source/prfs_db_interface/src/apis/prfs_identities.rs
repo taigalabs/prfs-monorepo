@@ -26,7 +26,7 @@ pub async fn insert_prfs_identity(
     tx: &mut Transaction<'_, Postgres>,
     prfs_identity: &PrfsIdentity,
 ) -> Result<String, DbInterfaceError> {
-    let query = "INSERT INTO prfs_identity \
+    let query = "INSERT INTO prfs_identities \
             (identity_id, avatar_color) \
             VALUES ($1, $2) returning identity_id";
 

@@ -6,7 +6,7 @@ import { PrfsIdentitySignInResponse } from "@taigalabs/prfs-entities/bindings/Pr
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
 
-type RequestName = "sign_up_prfs_account" | "sign_in_prfs_account";
+type RequestName = "sign_up_prfs_identity" | "sign_in_prfs_identity";
 
 type Req<T extends RequestName> = //
   T extends "sign_up_prfs_identity"

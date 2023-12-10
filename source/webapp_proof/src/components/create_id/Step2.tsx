@@ -2,7 +2,7 @@
 
 import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import { idApi, makeAvatarColor, prfsApi2 } from "@taigalabs/prfs-api-js";
+import { idApi, makeAvatarColor } from "@taigalabs/prfs-api-js";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { useRouter } from "next/navigation";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
@@ -15,7 +15,7 @@ import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 import { IdCreateForm } from "@/functions/validate_id";
 import Link from "next/link";
 import { useMutation } from "wagmi";
-import { PrfsSignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignUpRequest";
+import { PrfsIdentitySignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignUpRequest";
 
 import styles from "./Step2.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -47,9 +47,9 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
     public_key: "",
     id: "",
   });
-  const { mutateAsync: prfsSignUpRequest } = useMutation({
-    mutationFn: (req: PrfsSignUpRequest) => {
-      return idApi("sign_up_prfs_account", req);
+  const { mutateAsync: prfsIdentitySignUpRequest } = useMutation({
+    mutationFn: (req: PrfsIdentitySignUpRequest) => {
+      return idApi("sign_up_prfs_identity", req);
     },
   });
 
@@ -92,8 +92,8 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
       try {
         setStatus(IdCreationStatus.InProgress);
         const avatar_color = makeAvatarColor();
-        const { payload, error } = await prfsSignUpRequest({
-          account_id: id,
+        const { payload, error } = await prfsIdentitySignUpRequest({
+          identity_id: id,
           avatar_color,
         });
         setStatus(IdCreationStatus.StandBy);
@@ -108,7 +108,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
         setErrorMsg(err.toString());
       }
     }
-  }, [formData, router, prfsSignUpRequest, credential, setErrorMsg]);
+  }, [formData, router, prfsIdentitySignUpRequest, credential, setErrorMsg]);
 
   const { email_val, password_1_val, password_2_val, secret_key_val } = React.useMemo(() => {
     if (showPassword) {
