@@ -84,7 +84,7 @@ const SignIn: React.FC = () => {
 
   const handleClickCreateID = React.useCallback(() => {
     const { search } = window.location;
-    const url = `${paths.accounts__create}${search}`;
+    const url = `${paths.id__create}${search}`;
     router.push(url);
   }, [router]);
 

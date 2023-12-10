@@ -102,14 +102,13 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
           setErrorMsg(error.toString());
         }
 
-        console.log(111, payload);
+        const url = `${paths.id__signin}${search}`;
+        router.push(url);
       } catch (err: any) {
         setErrorMsg(err.toString());
       }
     }
 
-    // const url = `${paths.accounts__signin}${search}`;
-    // router.push(url);
   }, [formData, router, prfsSignUpRequest, credential, setErrorMsg]);
 
   const { email_val, password_1_val, password_2_val, secret_key_val } = React.useMemo(() => {
@@ -202,7 +201,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
               handleClick={handleClickPrev}
               noShadow
             >
-              <Link href={paths.accounts__signin} tabIndex={-1}>
+              <Link href={paths.id__signin} tabIndex={-1}>
                 {i18n.already_have_id}
               </Link>
             </Button>
@@ -225,7 +224,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
               handleClick={handleClickPrev}
               noShadow
             >
-              <Link href={paths.accounts__signin}>{i18n.go_back}</Link>
+              <Link href={paths.id__signin}>{i18n.go_back}</Link>
             </Button>
             <div />
           </SignInModuleBtnRow>

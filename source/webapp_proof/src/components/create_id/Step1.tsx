@@ -26,23 +26,15 @@ import {
   makeEmptyIdCreateForm,
   validateIdCreateForm,
 } from "@/functions/validate_id";
-import { envs } from "@/envs";
-
-// enum CreateIDStep {
-//   InputCredential,
-//   CreateIdSuccess,
-// }
 
 const Step1: React.FC<Step1Props> = ({
   formData,
   setFormData,
-  // formErrors,
+  formErrors,
   handleClickPrev,
   handleClickNext,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
-  // const [step, setStep] = React.useState(CreateIDStep.InputCredential);
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -141,7 +133,7 @@ const Step1: React.FC<Step1Props> = ({
             handleClick={handleClickPrev}
             noShadow
           >
-            <Link href={paths.accounts__signin} tabIndex={-1}>
+            <Link href={paths.id__signin} tabIndex={-1}>
               {i18n.already_have_id}
             </Link>
           </Button>
@@ -166,7 +158,7 @@ export default Step1;
 export interface Step1Props {
   formData: IdCreateForm;
   setFormData: React.Dispatch<React.SetStateAction<IdCreateForm>>;
-  // formErrors: IdCreateForm;
+  formErrors: IdCreateForm;
   handleClickNext: () => void;
   handleClickPrev: () => void;
 }

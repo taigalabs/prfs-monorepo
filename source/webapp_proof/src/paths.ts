@@ -6,6 +6,6 @@ export const paths = {
   proofs: "/proofs",
   updates: "/updates",
   privacy: "/privacy",
-  accounts__create: "/accounts/create",
-  accounts__signin: "/accounts/signin",
+  id__create: "/id/create",
+  id__signin: "/id/signin",
 };

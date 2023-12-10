@@ -4,6 +4,7 @@ import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
+import { useSearchParams } from "next/navigation";
 
 import styles from "./CreateID.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -77,6 +78,7 @@ const CreateID: React.FC = () => {
           <Step1
             formData={formData}
             setFormData={setFormData}
+            formErrors={formErrors}
             handleClickPrev={handleClickPrev}
             handleClickNext={handleClickNext}
           />
