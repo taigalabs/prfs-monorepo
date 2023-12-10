@@ -8,7 +8,7 @@ use prfs_common_server_state::ServerState;
 use std::sync::Arc;
 use tokio::net::TcpStream;
 
-use crate::apis::prfs_ids;
+use crate::apis::prfs_identities;
 use crate::IdServerError;
 
 static NOTFOUND: &[u8] = b"Not Found";
@@ -26,7 +26,9 @@ pub async fn id_server_routes(
 ) -> Result<Response<BytesBoxBody>, IdServerError> {
     return match (req.method(), req.uri().path()) {
         (&Method::OPTIONS, _) => handle_cors(),
-        (&Method::POST, v0_path!("sign_up_prfs_id")) => prfs_ids::sign_up_prfs_id(req, state).await,
+        (&Method::POST, v0_path!("sign_up_prfs_identity")) => {
+            prfs_identities::sign_up_prfs_identity(req, state).await
+        }
         _ => {
             // Return 404 not found response.
             Ok(Response::builder()

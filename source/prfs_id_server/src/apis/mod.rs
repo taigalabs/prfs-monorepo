@@ -1,2 +1,2 @@
-pub mod prfs_ids;
+pub mod prfs_identities;
 
