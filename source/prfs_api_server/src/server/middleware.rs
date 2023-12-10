@@ -1,8 +1,9 @@
 use hyper::{body::Incoming, Request, Response, StatusCode};
 use hyper_utils::io::full;
+use prfs_common_server_state::ServerState;
 use std::sync::Arc;
 
-use super::{state::ServerState, types::ApiHandlerResult};
+use super::types::ApiHandlerResult;
 
 #[inline]
 pub fn log(req: &Request<Incoming>) {

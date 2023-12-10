@@ -9,12 +9,9 @@ use hyper_util::{
     rt::{TokioExecutor, TokioIo},
 };
 use hyper_utils::io::{full, BytesBoxBody};
+use prfs_common_server_state::ServerState;
 use prfs_db_interface::db_apis;
-use prfs_entities::{
-    apis_entities::{AuthenticateRequest, AuthenticateResponse},
-    entities::PrfsAccount,
-    sqlx::types::Json,
-};
+use prfs_entities::{entities::PrfsAccount, sqlx::types::Json};
 use routerify::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, convert::Infallible, io::Write, sync::Arc};
@@ -22,7 +19,6 @@ use tokio::net::TcpStream;
 
 use crate::{
     responses::{ApiResponse, ResponseCode},
-    server::state::ServerState,
     AuthOpServerError,
 };
 

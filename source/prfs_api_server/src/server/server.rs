@@ -2,11 +2,11 @@ use hyper::server::conn::http1;
 use hyper::service::service_fn;
 use hyper::{Request, Response};
 use hyper_util::rt::TokioIo;
+use prfs_common_server_state::ServerState;
 use std::net::SocketAddr;
 use std::sync::Arc;
 use tokio::net::TcpListener;
 
-use super::state::ServerState;
 use crate::server::router::route;
 
 const PORT: u16 = 4000;

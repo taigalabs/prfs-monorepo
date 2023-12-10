@@ -3,8 +3,9 @@ use prfs_api_server::envs::ENVS;
 use prfs_api_server::paths::PATHS;
 use prfs_api_server::server::router;
 use prfs_api_server::server::server::make_server;
-use prfs_api_server::server::state::ServerState;
+use prfs_api_server::server::state::init_server_state;
 use prfs_api_server::ApiServerError;
+use prfs_common_server_state::ServerState;
 use prfs_db_interface::database2::Database2;
 use std::net::SocketAddr;
 use std::sync::Arc;
@@ -22,7 +23,10 @@ async fn main() -> Result<(), ApiServerError> {
 
     ENVS.check();
 
-    let server_state = Arc::new(ServerState::init().await.unwrap());
+    let server_state = {
+        let s = init_server_state().await.unwrap();
+        Arc::new(s)
+    };
     let server = make_server(server_state);
 
     tokio::select! {

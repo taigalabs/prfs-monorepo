@@ -2,10 +2,10 @@ use hyper::body::Incoming;
 use hyper::{Method, Request, Response};
 use hyper_utils::cors::handle_cors;
 use hyper_utils::io::BytesBoxBody;
+use prfs_common_server_state::ServerState;
 use std::sync::Arc;
 
 use super::middleware::{handle_not_found, log};
-use super::state::ServerState;
 use crate::apis::status::handle_server_status;
 use crate::apis::{
     prfs_accounts, prfs_circuit_drivers, prfs_circuit_types, prfs_circuits, prfs_polls,

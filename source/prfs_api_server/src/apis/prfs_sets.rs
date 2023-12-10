@@ -1,5 +1,6 @@
 use hyper::{body::Incoming, Request, Response};
 use hyper_utils::io::{parse_req, BytesBoxBody};
+use prfs_common_server_state::ServerState;
 use prfs_db_interface::db_apis;
 use prfs_entities::{
     apis_entities::{
@@ -15,11 +16,7 @@ use prfs_tree_maker::tree_maker_apis;
 use rust_decimal::Decimal;
 use std::{convert::Infallible, sync::Arc};
 
-use crate::{
-    responses::ApiResponse,
-    server::{state::ServerState, types::ApiHandlerResult},
-    ApiServerError,
-};
+use crate::{responses::ApiResponse, server::types::ApiHandlerResult, ApiServerError};
 
 pub async fn get_prfs_sets(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
     let req: GetPrfsSetsRequest = parse_req(req).await;

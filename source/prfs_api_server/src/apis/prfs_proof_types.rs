@@ -1,5 +1,6 @@
 use hyper::{body::Incoming, Request, Response};
 use hyper_utils::io::{parse_req, BytesBoxBody};
+use prfs_common_server_state::ServerState;
 use prfs_db_interface::db_apis;
 use prfs_entities::{
     apis_entities::{
@@ -12,11 +13,7 @@ use prfs_entities::{
 };
 use std::{convert::Infallible, sync::Arc};
 
-use crate::{
-    responses::ApiResponse,
-    server::{state::ServerState, types::ApiHandlerResult},
-    ApiServerError,
-};
+use crate::{responses::ApiResponse, server::types::ApiHandlerResult, ApiServerError};
 
 pub async fn get_prfs_proof_types(
     req: Request<Incoming>,

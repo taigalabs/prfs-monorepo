@@ -1,9 +1,7 @@
-use crate::{
-    responses::ApiResponse,
-    server::{state::ServerState, types::ApiHandlerResult},
-};
+use crate::{responses::ApiResponse, server::types::ApiHandlerResult};
 use hyper::{body::Incoming, Request};
 use hyper_utils::io::parse_req;
+use prfs_common_server_state::ServerState;
 use prfs_db_interface::db_apis;
 use prfs_entities::apis_entities::{
     GetPrfsCircuitDriverByDriverIdRequest, GetPrfsCircuitDriverByDriverIdResponse,

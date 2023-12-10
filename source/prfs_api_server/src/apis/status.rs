@@ -1,12 +1,10 @@
 use http_body_util::Full;
 use hyper::{body::Incoming, header, Request, Response, StatusCode};
 use hyper_utils::io::{full, BytesBoxBody};
+use prfs_common_server_state::ServerState;
 use std::sync::Arc;
 
-use crate::{
-    server::{state::ServerState, types::ApiHandlerResult},
-    ApiServerError,
-};
+use crate::{server::types::ApiHandlerResult, ApiServerError};
 
 pub async fn handle_server_status(
     _req: Request<Incoming>,

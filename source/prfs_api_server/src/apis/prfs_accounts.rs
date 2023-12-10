@@ -1,6 +1,7 @@
 use hyper::body::Incoming;
 use hyper::{Request, Response};
 use hyper_utils::io::{parse_req, BytesBoxBody};
+use prfs_common_server_state::ServerState;
 use prfs_db_interface::db_apis;
 use prfs_entities::{
     apis_entities::{PrfsSignInRequest, PrfsSignInResponse, PrfsSignUpRequest, PrfsSignUpResponse},
@@ -9,8 +10,8 @@ use prfs_entities::{
 };
 use std::sync::Arc;
 
+use crate::responses::ApiResponse;
 use crate::server::types::ApiHandlerResult;
-use crate::{responses::ApiResponse, server::state::ServerState};
 
 pub async fn sign_up_prfs_account(
     req: Request<Incoming>,

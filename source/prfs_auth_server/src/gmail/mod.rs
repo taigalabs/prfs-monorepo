@@ -5,13 +5,13 @@ use google_gmail1::{chrono, hyper, hyper_rustls, oauth2, FieldMask, Gmail};
 use google_gmail1::{Error, Result as GmailResult};
 use hyper::client::HttpConnector;
 use hyper_tls_05::HttpsConnector;
+use prfs_common_server_state::ServerState;
 use std::fs;
 use std::sync::Arc;
 
 use crate::envs::ENVS;
 use crate::gmail::response::handle_resp;
 use crate::paths::PATHS;
-use crate::server::state::ServerState;
 use crate::vendors::get_vendor;
 
 pub async fn run_gmail_auth(state: Arc<ServerState>) {

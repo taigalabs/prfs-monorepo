@@ -1,3 +1,6 @@
+pub mod state;
+
+pub use state::*;
 // mod hexutils;
 // mod merkletree;
 // mod poseidon;
