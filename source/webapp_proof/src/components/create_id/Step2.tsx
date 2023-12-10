@@ -100,10 +100,10 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
 
         if (error) {
           setErrorMsg(error.toString());
+        } else {
+          const url = `${paths.id__signin}${search}`;
+          router.push(url);
         }
-
-        const url = `${paths.id__signin}${search}`;
-        router.push(url);
       } catch (err: any) {
         setErrorMsg(err.toString());
       }
@@ -201,9 +201,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
               handleClick={handleClickPrev}
               noShadow
             >
-              <Link href={paths.id__signin} tabIndex={-1}>
-                {i18n.already_have_id}
-              </Link>
+              {i18n.already_have_id}
             </Button>
             <Button
               type="button"
@@ -224,7 +222,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
               handleClick={handleClickPrev}
               noShadow
             >
-              <Link href={paths.id__signin}>{i18n.go_back}</Link>
+              {i18n.go_back}
             </Button>
             <div />
           </SignInModuleBtnRow>
