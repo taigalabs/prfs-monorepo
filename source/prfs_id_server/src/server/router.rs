@@ -10,12 +10,10 @@ use tokio::net::TcpStream;
 
 use crate::IdServerError;
 
-static INTERNAL_SERVER_ERROR: &[u8] = b"Internal Server Error";
 static NOTFOUND: &[u8] = b"Not Found";
-static POST_DATA: &str = r#"{"original": "data"}"#;
-static URL: &str = "http://127.0.0.1:1337/json_api";
 
-pub async fn routes(
+// As the project is at its early stage, 'prfs_id_server' runs on top of 'prfs_api_server'.
+pub async fn id_server_routes(
     req: Request<hyper::body::Incoming>,
     server_state: Arc<ServerState>,
 ) -> Result<Response<BytesBoxBody>, IdServerError> {
