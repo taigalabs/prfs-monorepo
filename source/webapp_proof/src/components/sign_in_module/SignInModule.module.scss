@@ -38,6 +38,12 @@
 .logoArea {
   display: flex;
   justify-content: center;
+
+  span {
+    color: var(--gray-30);
+    margin-left: 3px;
+    font-size: 12px;
+  }
 }
 
 .btnRow {

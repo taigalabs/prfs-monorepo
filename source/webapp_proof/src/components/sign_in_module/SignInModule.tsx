@@ -8,6 +8,7 @@ export const SignInModuleLogoArea: React.FC = () => {
   return (
     <div className={styles.logoArea}>
       <ImageLogo width={46} />
+      <span>ID</span>
     </div>
   );
 };
