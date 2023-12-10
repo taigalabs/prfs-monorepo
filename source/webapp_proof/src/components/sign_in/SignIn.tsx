@@ -5,9 +5,9 @@ import { initWasm, makeCredential } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import type { SignInSuccessZAuthMsg } from "@taigalabs/prfs-zauth-interface";
+import { sendMsgToOpener, type SignInSuccessZAuthMsg } from "@taigalabs/prfs-zauth-interface";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
-import { encrypt, decrypt, PrivateKey } from "eciesjs";
+import { encrypt, decrypt, PrivateKey, PublicKey } from "eciesjs";
 
 import styles from "./SignIn.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -42,6 +42,7 @@ const SignIn: React.FC = () => {
   const router = useRouter();
   const [status, setStatus] = React.useState(SignInStatus.Loading);
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
+  const [pk, setPk] = React.useState<PublicKey | null>(null);
   const searchParams = useSearchParams();
 
   React.useEffect(() => {
@@ -51,16 +52,15 @@ const SignIn: React.FC = () => {
       setStatus(SignInStatus.Error);
       setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
     } else {
-      console.log(13, publicKey);
-      // const secretKey = PrivateKey.fromHex(publicKey);
-      // console.log(11, secretKey);
+      const pk = PublicKey.fromHex(publicKey);
+      setPk(pk);
 
       setStatus(SignInStatus.Standby);
     }
-  }, [searchParams, setStatus, setErrorMsg]);
+  }, [searchParams, setStatus, setErrorMsg, setPk]);
 
   const handleClickSignIn = React.useCallback(async () => {
-    if (formData) {
+    if (formData && pk) {
       const credential = await makeCredential({
         email: formData.email,
         password_1: formData.password_1,
@@ -69,17 +69,23 @@ const SignIn: React.FC = () => {
 
       console.log("credential", credential);
 
-      const msg: SignInSuccessZAuthMsg = {
-        type: "SIGN_IN_SUCCESS",
-        payload: {
-          id: credential.id,
-          publicKey: credential.public_key,
-        },
+      const payload = {
+        id: credential.id,
+        publicKey: credential.public_key,
       };
 
-      window.opener.postMessage(msg);
+      const encrypted = encrypt(pk.toHex(), Buffer.from(JSON.stringify(payload))).toString();
+
+      const msg: SignInSuccessZAuthMsg = {
+        type: "SIGN_IN_SUCCESS",
+        payload: encrypted,
+      };
+
+      const resp = await sendMsgToOpener(msg);
+      console.log(111, resp);
+      // const d = window.opener.postMessage(encrypted);
     }
-  }, [searchParams]);
+  }, [searchParams, pk]);
 
   const handleClickCreateID = React.useCallback(() => {
     const { search } = window.location;

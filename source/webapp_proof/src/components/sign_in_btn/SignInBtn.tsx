@@ -14,29 +14,25 @@ import { envs } from "@/envs";
 const SignInBtn: React.FC<SignInBtnProps> = () => {
   const router = useRouter();
   const [prfsSignInEndpoint, setPrfsSignInEndpoint] = React.useState<string | null>(null);
+  const [secretKey, setSecretKey] = React.useState<PrivateKey | null>(null);
 
   React.useEffect(() => {
     const sk = new PrivateKey();
-    const skFromHex = PrivateKey.fromHex(sk.toHex());
-    // const sk = new PrivateKey();
-    // const pkHex = sk.publicKey.toHex();
-    // console.log(12, pkHex);
+    const pkHex = sk.publicKey.toHex();
+    const redirect_uri = encodeURIComponent(window.location.toString());
 
-    // const h = `0x${pkHex}`;
-    // const sk2 = PrivateKey.fromHex(h);
-    // // console.log(23, sk2);
+    setPrfsSignInEndpoint(
+      `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.accounts__signin}?public_key=${pkHex}&redirect_uri=${redirect_uri}`,
+    );
 
-    // const redirect_uri = encodeURIComponent(window.location.toString());
-    // setPrfsSignInEndpoint(
-    //   `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.accounts__signin}?public_key=${pkHex}&redirect_uri=${redirect_uri}`,
-    // );
-  }, [setPrfsSignInEndpoint]);
+    setSecretKey(sk);
+  }, [setPrfsSignInEndpoint, setSecretKey]);
 
   const handleSucceedSignIn = React.useCallback(
-    async (data: SignInSuccessPayload) => {
-      console.log(222, data);
+    async (encrypted: string) => {
+      console.log(222, encrypted);
     },
-    [router],
+    [router, secretKey],
   );
 
   return (

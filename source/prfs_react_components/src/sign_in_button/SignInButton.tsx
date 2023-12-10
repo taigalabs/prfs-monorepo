@@ -24,7 +24,12 @@ const SignInButton: React.FC<SignInButtonProps> = ({ prfsSignInEndpoint, handleS
       if (prfsSignInEndpoint && prfsSignInEndpoint.startsWith(origin)) {
         const data = ev.data as SignInSuccessZAuthMsg;
         if (data.type === "SIGN_IN_SUCCESS") {
-          handleSucceedSignIn(data.payload);
+          console.log(11, data.payload);
+
+          // const res = handleSucceedSignIn(data.payload);
+          //
+          ev.ports[0].postMessage("respond");
+          console.log(33, data.payload);
         }
       }
     };
@@ -60,5 +65,5 @@ export default SignInButton;
 
 export interface SignInButtonProps {
   prfsSignInEndpoint: string | null;
-  handleSucceedSignIn: (data: SignInSuccessPayload) => void;
+  handleSucceedSignIn: (encrypted: string) => void;
 }
