@@ -6,7 +6,6 @@ use prfs_api_server::server::server::make_server;
 use prfs_api_server::server::state::ServerState;
 use prfs_api_server::ApiServerError;
 use prfs_db_interface::database2::Database2;
-// use routerify::RouterService;
 use std::net::SocketAddr;
 use std::sync::Arc;
 
