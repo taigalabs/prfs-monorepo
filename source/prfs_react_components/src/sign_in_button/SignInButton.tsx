@@ -10,39 +10,35 @@ import styles from "./SignInButton.module.scss";
 import Button from "../button/Button";
 import { i18nContext } from "../contexts/i18nContext";
 
-const eventListener = {
-  object: null,
-};
+// const eventListener = {
+//   object: null,
+// };
 
 const SignInButton: React.FC<SignInButtonProps> = ({ prfsSignInEndpoint, handleSucceedSignIn }) => {
   const i18n = React.useContext(i18nContext);
 
   React.useEffect(() => {
-    return () => {
-      if (eventListener.object !== null) {
-        window.removeEventListener("message", eventListener.object);
+    const listener = (ev: MessageEvent<any>) => {
+      const { origin } = ev;
+
+      if (prfsSignInEndpoint && prfsSignInEndpoint.startsWith(origin)) {
+        const data = ev.data as SignInSuccessZAuthMsg;
+        if (data.type === "SIGN_IN_SUCCESS") {
+          handleSucceedSignIn(data.payload);
+        }
       }
     };
-  }, []);
+    addEventListener("message", listener, false);
+
+    return () => {
+      console.log("off render");
+      window.removeEventListener("message", listener);
+    };
+  }, [prfsSignInEndpoint]);
 
   const handleClickSignIn = React.useCallback(() => {
     if (prfsSignInEndpoint) {
-      const wd = window.open(prfsSignInEndpoint, "_blank", "toolbar=0,location=0,menubar=0");
-
-      if (wd) {
-        const listener = (ev: MessageEvent<any>) => {
-          const { origin } = ev;
-
-          if (prfsSignInEndpoint.startsWith(origin)) {
-            const data = ev.data as SignInSuccessZAuthMsg;
-            if (data.type === "SIGN_IN_SUCCESS") {
-              handleSucceedSignIn(data.payload);
-            }
-          }
-        };
-
-        addEventListener("message", listener, false);
-      }
+      window.open(prfsSignInEndpoint, "_blank", "toolbar=0,location=0,menubar=0");
     }
   }, [prfsSignInEndpoint]);
 

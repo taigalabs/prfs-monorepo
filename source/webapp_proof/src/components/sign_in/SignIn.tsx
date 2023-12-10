@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { SignInSuccessZAuthMsg } from "@taigalabs/prfs-zauth-interface";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
+import { encrypt, decrypt, PrivateKey } from "eciesjs";
 
 import styles from "./SignIn.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -50,6 +51,10 @@ const SignIn: React.FC = () => {
       setStatus(SignInStatus.Error);
       setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
     } else {
+      console.log(13, publicKey);
+      // const secretKey = PrivateKey.fromHex(publicKey);
+      // console.log(11, secretKey);
+
       setStatus(SignInStatus.Standby);
     }
   }, [searchParams, setStatus, setErrorMsg]);
@@ -74,7 +79,7 @@ const SignIn: React.FC = () => {
 
       window.opener.postMessage(msg);
     }
-  }, []);
+  }, [searchParams]);
 
   const handleClickCreateID = React.useCallback(() => {
     const { search } = window.location;

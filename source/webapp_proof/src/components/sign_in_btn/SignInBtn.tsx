@@ -17,11 +17,19 @@ const SignInBtn: React.FC<SignInBtnProps> = () => {
 
   React.useEffect(() => {
     const sk = new PrivateKey();
-    const pkHex = sk.publicKey.toHex();
-    const redirect_uri = encodeURIComponent(window.location.toString());
-    setPrfsSignInEndpoint(
-      `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.accounts__signin}?public_key=${pkHex}&redirect_uri=${redirect_uri}`,
-    );
+    const skFromHex = PrivateKey.fromHex(sk.toHex());
+    // const sk = new PrivateKey();
+    // const pkHex = sk.publicKey.toHex();
+    // console.log(12, pkHex);
+
+    // const h = `0x${pkHex}`;
+    // const sk2 = PrivateKey.fromHex(h);
+    // // console.log(23, sk2);
+
+    // const redirect_uri = encodeURIComponent(window.location.toString());
+    // setPrfsSignInEndpoint(
+    //   `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.accounts__signin}?public_key=${pkHex}&redirect_uri=${redirect_uri}`,
+    // );
   }, [setPrfsSignInEndpoint]);
 
   const handleSucceedSignIn = React.useCallback(
