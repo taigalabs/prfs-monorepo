@@ -52,7 +52,6 @@ const SignIn: React.FC = () => {
       setStatus(SignInStatus.Error);
       setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
     } else {
-      // const pk = PublicKey.fromHex(publicKey);
       setPublicKey(publicKey);
       setStatus(SignInStatus.Standby);
     }
@@ -72,7 +71,6 @@ const SignIn: React.FC = () => {
         id: credential.id,
         publicKey: credential.public_key,
       };
-
       const encrypted = encrypt(publicKey, Buffer.from(JSON.stringify(payload)));
       const msg: SignInSuccessZAuthMsg = {
         type: "SIGN_IN_SUCCESS",

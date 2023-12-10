@@ -11,6 +11,7 @@ import styles from "./SignInBtn.module.scss";
 import { paths } from "@/paths";
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
+import { signInPrfs } from "@/state/userReducer";
 
 const SignInBtn: React.FC<SignInBtnProps> = () => {
   const router = useRouter();
@@ -38,6 +39,8 @@ const SignInBtn: React.FC<SignInBtnProps> = () => {
         const sk = secretKeyRef.current;
         const decrypted = decrypt(sk.secret, Buffer.from(encrypted)).toString();
         const msg = JSON.parse(decrypted) as SignInSuccessPayload;
+
+        dispatch(signInPrfs);
         console.log(123, msg);
       }
     },

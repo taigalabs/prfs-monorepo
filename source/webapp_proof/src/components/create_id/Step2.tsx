@@ -30,7 +30,7 @@ import {
 } from "@/components/sign_in_module/SignInModule";
 import { paths } from "@/paths";
 
-enum CreateIdModuleStatus {
+export enum IdCreationStatus {
   StandBy,
   InProgress,
   Error,
@@ -39,9 +39,7 @@ enum CreateIdModuleStatus {
 const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
-  const [createIdModuleStatus, setCreateIdModuleStatus] = React.useState(
-    CreateIdModuleStatus.StandBy,
-  );
+  const [status, setStatus] = React.useState(IdCreationStatus.StandBy);
   const [errorMsg, setErrorMsg] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const [credential, setCredential] = React.useState({
@@ -63,7 +61,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
   React.useEffect(() => {
     async function fn() {
       try {
-        setCreateIdModuleStatus(CreateIdModuleStatus.InProgress);
+        setStatus(IdCreationStatus.InProgress);
         const credential = await makeCredential({
           email: formData.email,
           password_1: formData.password_1,
@@ -72,14 +70,14 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
 
         console.log("credential", credential);
         setCredential(credential);
-        setCreateIdModuleStatus(CreateIdModuleStatus.StandBy);
+        setStatus(IdCreationStatus.StandBy);
       } catch (err) {
         setErrorMsg(`Driver init failed, err: ${err}`);
       }
     }
 
     fn().then();
-  }, [router, formData, setCredential, setErrorMsg]);
+  }, [router, formData, setCredential, setErrorMsg, setStatus]);
 
   const handleClickShowPassword = React.useCallback(() => {
     setShowPassword(val => !val);
@@ -97,13 +95,13 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
 
     if (id) {
       try {
-        setCreateIdModuleStatus(CreateIdModuleStatus.InProgress);
+        setStatus(IdCreationStatus.InProgress);
         const avatar_color = makeAvatarColor();
         const { payload, error } = await prfsSignUpRequest({
           account_id: id,
           avatar_color,
         });
-        setCreateIdModuleStatus(CreateIdModuleStatus.StandBy);
+        setStatus(IdCreationStatus.StandBy);
 
         if (error) {
           setErrorMsg(error.toString());
@@ -144,7 +142,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
 
   return (
     <div>
-      {createIdModuleStatus === CreateIdModuleStatus.InProgress && (
+      {status === IdCreationStatus.InProgress && (
         <div className={styles.loadingOverlay}>
           <Spinner color="#1b62c0" />
         </div>

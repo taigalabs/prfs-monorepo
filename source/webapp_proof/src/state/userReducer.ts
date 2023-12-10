@@ -1,13 +1,11 @@
 import { PrfsAccount } from "@taigalabs/prfs-entities/bindings/PrfsAccount";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-// import { LoadPrfsAccountPayload, SignInPayload, SignOutPayload, SignUpPayload } from "./actions";
 import localStore from "@/storage/localStore";
 import { RootState } from "./store";
 
 export interface LocalPrfsAccount {
-  prfsAccount: PrfsAccount;
-  walletAddr: string;
+  id: string;
 }
 
 export interface UserState {
@@ -30,6 +28,6 @@ export const userSlice = createSlice({
   },
 });
 
-// export const {  } = userSlice.actions;
+export const { signInPrfs } = userSlice.actions;
 
 export default userSlice.reducer;
