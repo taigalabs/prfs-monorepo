@@ -1,6 +1,32 @@
-.wrapper {
-  position: fixed;
-  inset: 0;
+.base {
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  inset: 0px;
   display: grid;
   place-items: center;
+  z-index: 11;
+}
+
+.dialog {
+  background-color: white;
+  border-radius: 5px;
+  overflow: hidden;
+  max-width: 520px;
+  min-width: 320px;
+  padding: 16px 16px;
+}
+
+.btnRow {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.msg {
+  font-size: 16px;
+  letter-spacing: 0.15008px;
+  color: var(--black-20);
 }

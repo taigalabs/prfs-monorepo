@@ -21,56 +21,56 @@ import { i18nContext } from "@/contexts/i18n";
 
 const ErrorDialog: React.FC<ErrorDialogProps> = ({ errorMsg, handleClose }) => {
   const i18n = React.useContext(i18nContext);
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(true);
+  const handleClickClose = React.useCallback(() => {
+    setIsOpen(false);
+    handleClose();
+  }, [setIsOpen, handleClose]);
+
   const { refs, context } = useFloating({
     open: isOpen,
-    onOpenChange: setIsOpen,
+    onOpenChange: handleClickClose,
   });
+  const headingId = useId();
+  const descriptionId = useId();
   const click = useClick(context);
   const role = useRole(context);
   const dismiss = useDismiss(context, { outsidePressEvent: "mousedown" });
   const { getReferenceProps, getFloatingProps } = useInteractions([click, role, dismiss]);
-  const headingId = useId();
-  const descriptionId = useId();
-
-  const handleClickClose = React.useCallback(() => {
-    setIsOpen(false);
-  }, [setIsOpen]);
 
   return (
-    <div className={styles.wrapper}>
-      <div ref={refs.setReference} {...getReferenceProps()}>
-        <button>
-          <AiOutlineQrcode />
-        </button>
-      </div>
+    <>
+      <div ref={refs.setReference} {...getReferenceProps()}></div>
       <FloatingPortal>
         {isOpen && (
-          <FloatingOverlay className={styles.dialogOverlay} lockScroll>
+          <FloatingOverlay className={styles.overlay} lockScroll>
             <Fade>
-              <div className={styles.backdrop}>
-                <FloatingFocusManager context={context}>
-                  <div
-                    className={styles.dialog}
-                    ref={refs.setFloating}
-                    aria-labelledby={headingId}
-                    aria-describedby={descriptionId}
-                    {...getFloatingProps()}
-                  >
-                    <div className={styles.QRContainer}>
-                      <button className={styles.closeBtn} onClick={handleClickClose}>
-                        <AiOutlineClose />
-                      </button>
-                      {/* <QRCodeView data={data} size={210} /> */}
-                    </div>
+              <FloatingFocusManager context={context}>
+                <div
+                  className={styles.dialog}
+                  ref={refs.setFloating}
+                  aria-labelledby={headingId}
+                  aria-describedby={descriptionId}
+                  {...getFloatingProps()}
+                >
+                  <p className={styles.msg}>{errorMsg}</p>
+                  <div className={styles.btnRow}>
+                    <div />
+                    <Button
+                      variant="transparent_blue_2"
+                      className={styles.closeBtn}
+                      handleClick={handleClickClose}
+                    >
+                      {i18n.close_and_return.toUpperCase()}
+                    </Button>
                   </div>
-                </FloatingFocusManager>
-              </div>
+                </div>
+              </FloatingFocusManager>
             </Fade>
           </FloatingOverlay>
         )}
       </FloatingPortal>
-    </div>
+    </>
   );
 };
 

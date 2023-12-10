@@ -44,9 +44,14 @@ const SignIn: React.FC = () => {
   const searchParams = useSearchParams();
 
   React.useEffect(() => {
-    console.log(123123);
-    setStatus(SignInStatus.Error);
-    setErrorMsg("power");
+    const publicKey = searchParams.get("public_key");
+
+    if (!publicKey) {
+      setStatus(SignInStatus.Error);
+      setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
+    } else {
+      setStatus(SignInStatus.Standby);
+    }
   }, [searchParams, setStatus, setErrorMsg]);
 
   const handleClickSignIn = React.useCallback(async () => {
@@ -77,6 +82,10 @@ const SignIn: React.FC = () => {
     router.push(url);
   }, [router]);
 
+  const handleCloseErrorDialog = React.useCallback(() => {
+    window.close();
+  }, []);
+
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
 
@@ -106,7 +115,7 @@ const SignIn: React.FC = () => {
           </div>
         )}
         {status === SignInStatus.Error && (
-          <ErrorDialog errorMsg={errorMsg} handleClose={() => {}} />
+          <ErrorDialog errorMsg={errorMsg} handleClose={handleCloseErrorDialog} />
         )}
         <SignInModuleLogoArea />
         <SignInModuleHeader>
