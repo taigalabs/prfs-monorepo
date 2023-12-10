@@ -23,11 +23,9 @@ const QRDialog: React.FC<QRDialogProps> = ({ data }) => {
     open: isOpen,
     onOpenChange: setIsOpen,
   });
-
   const click = useClick(context);
   const role = useRole(context);
   const dismiss = useDismiss(context, { outsidePressEvent: "mousedown" });
-
   const { getReferenceProps, getFloatingProps } = useInteractions([click, role, dismiss]);
   const headingId = useId();
   const descriptionId = useId();

@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-
 import { initWasm, makeCredential } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
@@ -29,6 +28,7 @@ import {
   makeEmptyIDCreateFormErrors,
   makeEmptyIdCreateForm,
 } from "@/functions/validate_id";
+import ErrorDialog from "./ErrorDialog";
 
 enum SignInStatus {
   Loading,
@@ -43,7 +43,11 @@ const SignIn: React.FC = () => {
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const searchParams = useSearchParams();
 
-  React.useEffect(() => {}, [searchParams, setStatus]);
+  React.useEffect(() => {
+    console.log(123123);
+    setStatus(SignInStatus.Error);
+    setErrorMsg("power");
+  }, [searchParams, setStatus, setErrorMsg]);
 
   const handleClickSignIn = React.useCallback(async () => {
     if (formData) {
@@ -101,7 +105,9 @@ const SignIn: React.FC = () => {
             <Spinner color="#1b62c0" />
           </div>
         )}
-        {status === SignInStatus.Error && <div></div>}
+        {status === SignInStatus.Error && (
+          <ErrorDialog errorMsg={errorMsg} handleClose={() => {}} />
+        )}
         <SignInModuleLogoArea />
         <SignInModuleHeader>
           <SignInModuleTitle>{i18n.sign_in}</SignInModuleTitle>
