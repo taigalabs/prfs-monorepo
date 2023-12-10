@@ -1,7 +1,7 @@
-import { PrfsSignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignUpRequest";
-import { PrfsSignUpResponse } from "@taigalabs/prfs-entities/bindings/PrfsSignUpResponse";
-import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
-import { PrfsSignInResponse } from "@taigalabs/prfs-entities/bindings/PrfsSignInResponse";
+import { PrfsIdentitySignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignUpRequest";
+import { PrfsIdentitySignUpResponse } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignUpResponse";
+import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
+import { PrfsIdentitySignInResponse } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInResponse";
 
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
@@ -9,17 +9,17 @@ import { PrfsApiResponse } from "./types";
 type RequestName = "sign_up_prfs_account" | "sign_in_prfs_account";
 
 type Req<T extends RequestName> = //
-  T extends "sign_up_prfs_account"
-    ? PrfsSignUpRequest
-    : T extends "sign_in_prfs_account"
-    ? PrfsSignInRequest
+  T extends "sign_up_prfs_identity"
+    ? PrfsIdentitySignUpRequest
+    : T extends "sign_in_prfs_identity"
+    ? PrfsIdentitySignInRequest
     : never;
 
 type Resp<T> = //
-  T extends "sign_up_prfs_account"
-    ? PrfsApiResponse<PrfsSignUpResponse>
-    : T extends "sign_in_prfs_account"
-    ? PrfsApiResponse<PrfsSignInResponse>
+  T extends "sign_up_prfs_identity"
+    ? PrfsApiResponse<PrfsIdentitySignUpResponse>
+    : T extends "sign_in_prfs_identity"
+    ? PrfsApiResponse<PrfsIdentitySignInResponse>
     : any;
 
 let PRFS_ID_SERVER_ENDPOINT: string;
