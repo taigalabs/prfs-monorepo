@@ -20,7 +20,7 @@ const SignInBtn: React.FC<SignInBtnProps> = () => {
     const pkHex = sk.publicKey.toHex();
     const redirect_uri = encodeURIComponent(window.location.toString());
     setPrfsSignInEndpoint(
-      `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.accounts__signin}?pk=${pkHex}&redirect_uri=${redirect_uri}`,
+      `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.accounts__signin}?public_key=${pkHex}&redirect_uri=${redirect_uri}`,
     );
   }, [setPrfsSignInEndpoint]);
 

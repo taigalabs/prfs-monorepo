@@ -17,7 +17,7 @@ import SignInModule, {
 } from "@/components/sign_in_module/SignInModule";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import type { SignInSuccessZAuthMsg } from "@taigalabs/prfs-zauth-interface";
 
 import { paths } from "@/paths";
@@ -27,10 +27,22 @@ import {
   makeEmptyIDCreateFormErrors,
   makeEmptyIdCreateForm,
 } from "@/functions/validate_id";
+import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
+
+enum SignInStatus {
+  Loading,
+  Error,
+  Standby,
+}
 
 const SignIn: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
+  const [status, setStatus] = React.useState(SignInStatus.Loading);
+  const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
+  const searchParams = useSearchParams();
+
+  React.useEffect(() => {}, [searchParams, setStatus]);
 
   const handleClickSignIn = React.useCallback(async () => {
     if (formData) {
@@ -83,6 +95,12 @@ const SignIn: React.FC = () => {
   return (
     <SignInModule>
       <SignInForm>
+        {status === SignInStatus.Loading && (
+          <div className={styles.overlay}>
+            <Spinner color="#1b62c0" />
+          </div>
+        )}
+        {status === SignInStatus.Error && <div></div>}
         <SignInModuleLogoArea />
         <SignInModuleHeader>
           <SignInModuleTitle>{i18n.sign_in}</SignInModuleTitle>
