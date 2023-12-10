@@ -1,10 +1,13 @@
 use http_body_util::{BodyExt, Empty, Full};
 use hyper::body::{Buf, Bytes, Incoming};
-use hyper::Request;
+use hyper::{Request, Response};
 use serde::de::DeserializeOwned;
 use std::fmt::Debug;
 
+use crate::HyperUtilsError;
+
 pub type BytesBoxBody = http_body_util::combinators::BoxBody<Bytes, hyper::Error>;
+pub type ApiHandlerResult = Result<Response<BytesBoxBody>, HyperUtilsError>;
 
 pub fn full<T: Into<Bytes>>(chunk: T) -> BytesBoxBody {
     Full::new(chunk.into())

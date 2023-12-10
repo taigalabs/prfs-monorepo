@@ -11,12 +11,7 @@ use prfs_entities::{
 };
 use std::sync::Arc;
 
-// use crate::server::types::ApiHandlerResult;
-
-pub async fn sign_up_prfs_account(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> ApiHandlerResult {
+pub async fn sign_up_prfs_id(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
     let req: PrfsSignUpRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
@@ -43,10 +38,7 @@ pub async fn sign_up_prfs_account(
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn sign_in_prfs_account(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> ApiHandlerResult {
+pub async fn sign_in_prfs_id(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
     let req: PrfsSignInRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_account = db_apis::get_prfs_account_by_account_id(pool, &req.account_id)

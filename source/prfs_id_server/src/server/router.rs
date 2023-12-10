@@ -8,17 +8,25 @@ use prfs_common_server_state::ServerState;
 use std::sync::Arc;
 use tokio::net::TcpStream;
 
+use crate::apis::prfs_ids;
 use crate::IdServerError;
 
 static NOTFOUND: &[u8] = b"Not Found";
 
+macro_rules! v0_path {
+    ($path: tt) => {
+        concat!("/id_api/v0/", $path)
+    };
+}
+
 // As the project is at its early stage, 'prfs_id_server' runs on top of 'prfs_api_server'.
 pub async fn id_server_routes(
     req: Request<hyper::body::Incoming>,
-    server_state: Arc<ServerState>,
+    state: Arc<ServerState>,
 ) -> Result<Response<BytesBoxBody>, IdServerError> {
     return match (req.method(), req.uri().path()) {
         (&Method::OPTIONS, _) => handle_cors(),
+        (&Method::POST, v0_path!("sign_up_prfs_id")) => prfs_ids::sign_up_prfs_id(req, state).await,
         _ => {
             // Return 404 not found response.
             Ok(Response::builder()

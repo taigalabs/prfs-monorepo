@@ -1,6 +1,6 @@
 use hyper::{body::Incoming, Request, Response};
 use hyper_utils::{
-    io::{parse_req, BytesBoxBody},
+    io::{parse_req, ApiHandlerResult, BytesBoxBody},
     resp::ApiResponse,
 };
 use prfs_common_server_state::ServerState;
@@ -15,8 +15,6 @@ use prfs_entities::{
     sqlx::types::Json,
 };
 use std::{convert::Infallible, sync::Arc};
-
-use crate::{server::types::ApiHandlerResult, ApiServerError};
 
 pub async fn get_prfs_proof_types(
     req: Request<Incoming>,
