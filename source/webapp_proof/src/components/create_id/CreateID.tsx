@@ -152,9 +152,17 @@ const CreateID: React.FC = () => {
                 </SignInInputGuide>
               </SignInModuleInputArea>
               <SignInModuleBtnRow>
-                <Link href={paths.accounts__signin} className={styles.blueLink}>
-                  {i18n.already_have_id}
-                </Link>
+                <Button
+                  type="button"
+                  variant="transparent_blue_2"
+                  noTransition
+                  handleClick={handleClickPrev}
+                  noShadow
+                >
+                  <Link href={paths.accounts__signin} tabIndex={-1}>
+                    {i18n.already_have_id}
+                  </Link>
+                </Button>
                 <Button
                   type="button"
                   variant="blue_2"

@@ -205,12 +205,13 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
             <Button
               type="button"
               variant="transparent_blue_2"
-              className={styles.createBtn}
               noTransition
               handleClick={handleClickPrev}
               noShadow
             >
-              {i18n.go_back}
+              <Link href={paths.accounts__signin} tabIndex={-1}>
+                {i18n.already_have_id}
+              </Link>
             </Button>
             <Button
               type="button"
@@ -222,6 +223,18 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
             >
               {i18n.sign_up}
             </Button>
+          </SignInModuleBtnRow>
+          <SignInModuleBtnRow className={styles.secondBtnRow}>
+            <Button
+              type="button"
+              variant="transparent_blue_2"
+              noTransition
+              handleClick={handleClickPrev}
+              noShadow
+            >
+              <Link href={paths.accounts__signin}>{i18n.go_back}</Link>
+            </Button>
+            <div />
           </SignInModuleBtnRow>
           <SignInErrorMsg>{errorMsg}</SignInErrorMsg>
           <SignInInputGuide className={styles.rightAlign}>
