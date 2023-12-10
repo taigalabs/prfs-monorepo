@@ -1,9 +1,10 @@
 import React from "react";
 import cn from "classnames";
-import type {
-  ZAuthMsg,
-  SignInSuccessPayload,
-  SignInSuccessZAuthMsg,
+import {
+  type ZAuthMsg,
+  type SignInSuccessPayload,
+  type SignInSuccessZAuthMsg,
+  newZAuthMsg,
 } from "@taigalabs/prfs-zauth-interface";
 
 import styles from "./SignInButton.module.scss";
@@ -26,10 +27,10 @@ const SignInButton: React.FC<SignInButtonProps> = ({ prfsSignInEndpoint, handleS
         if (data.type === "SIGN_IN_SUCCESS") {
           console.log(11, data.payload);
 
-          // const res = handleSucceedSignIn(data.payload);
-          //
-          ev.ports[0].postMessage("respond");
-          console.log(33, data.payload);
+          const msg = newZAuthMsg("SIGN_IN_SUCCESS_RESPOND", null);
+          ev.ports[0].postMessage(msg);
+
+          handleSucceedSignIn(data.payload);
         }
       }
     };

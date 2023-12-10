@@ -81,9 +81,8 @@ const SignIn: React.FC = () => {
         payload: encrypted,
       };
 
-      const resp = await sendMsgToOpener(msg);
-      console.log(111, resp);
-      // const d = window.opener.postMessage(encrypted);
+      await sendMsgToOpener(msg);
+      window.close();
     }
   }, [searchParams, pk]);
 

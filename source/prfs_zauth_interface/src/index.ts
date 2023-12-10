@@ -1,6 +1,11 @@
 export * from "./msg";
 
-export function newZAuthMsg(type: string, payload: any) {}
+export function newZAuthMsg(type: ZAuthMsgType, payload: any): ZAuthMsg<any> {
+  return {
+    type,
+    payload,
+  };
+}
 
 export interface ZAuthMsg<T> {
   type: string;
@@ -16,3 +21,5 @@ export interface SignInSuccessPayload {
   id: string;
   publicKey: string;
 }
+
+export type ZAuthMsgType = "SIGN_IN_SUCCESS" | "SIGN_IN_SUCCESS_RESPOND";
