@@ -78,7 +78,8 @@ const SignIn: React.FC = () => {
       };
 
       await sendMsgToOpener(msg);
-      // window.close();
+
+      window.close();
     }
   }, [searchParams, publicKey]);
 
