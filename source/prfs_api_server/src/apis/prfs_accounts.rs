@@ -1,6 +1,7 @@
 use hyper::body::Incoming;
 use hyper::{Request, Response};
 use hyper_utils::io::{parse_req, BytesBoxBody};
+use hyper_utils::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::db_apis;
 use prfs_entities::{
@@ -10,7 +11,6 @@ use prfs_entities::{
 };
 use std::sync::Arc;
 
-use crate::responses::ApiResponse;
 use crate::server::types::ApiHandlerResult;
 
 pub async fn sign_up_prfs_account(

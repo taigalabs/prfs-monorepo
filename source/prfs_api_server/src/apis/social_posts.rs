@@ -2,6 +2,7 @@ use ethers_signers::Signer;
 use hyper::body::Incoming;
 use hyper::{Request, Response};
 use hyper_utils::io::{parse_req, BytesBoxBody};
+use hyper_utils::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::db_apis;
 use prfs_entities::apis_entities::{
@@ -17,7 +18,6 @@ use prfs_entities::social_api_entities::{
 use std::{convert::Infallible, sync::Arc};
 use uuid::Uuid;
 
-use crate::responses::ApiResponse;
 use crate::server::types::ApiHandlerResult;
 
 pub async fn create_social_post(
