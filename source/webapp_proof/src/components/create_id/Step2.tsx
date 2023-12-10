@@ -2,7 +2,7 @@
 
 import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import { makeAvatarColor, prfsApi2 } from "@taigalabs/prfs-api-js";
+import { idApi, makeAvatarColor, prfsApi2 } from "@taigalabs/prfs-api-js";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { useRouter } from "next/navigation";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
@@ -49,7 +49,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
   });
   const { mutateAsync: prfsSignUpRequest } = useMutation({
     mutationFn: (req: PrfsSignUpRequest) => {
-      return prfsApi2("sign_up_prfs_account", req);
+      return idApi("sign_up_prfs_account", req);
     },
   });
 
@@ -108,7 +108,6 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
         setErrorMsg(err.toString());
       }
     }
-
   }, [formData, router, prfsSignUpRequest, credential, setErrorMsg]);
 
   const { email_val, password_1_val, password_2_val, secret_key_val } = React.useMemo(() => {
