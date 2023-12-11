@@ -11,14 +11,17 @@ import styles from "./SignInButton.module.scss";
 import Button from "../button/Button";
 import { i18nContext } from "../contexts/i18nContext";
 
-const SignInButton: React.FC<SignInButtonProps> = ({ prfsSignInEndpoint, handleSucceedSignIn }) => {
+const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
+  prfsIdSignInEndpoint,
+  handleSucceedSignIn,
+}) => {
   const i18n = React.useContext(i18nContext);
 
   React.useEffect(() => {
     const listener = (ev: MessageEvent<any>) => {
       const { origin } = ev;
 
-      if (prfsSignInEndpoint && prfsSignInEndpoint.startsWith(origin)) {
+      if (prfsIdSignInEndpoint && prfsIdSignInEndpoint.startsWith(origin)) {
         const data = ev.data as SignInSuccessZAuthMsg;
         if (data.type === "SIGN_IN_SUCCESS") {
           const msg = newZAuthMsg("SIGN_IN_SUCCESS_RESPOND", null);
@@ -34,13 +37,13 @@ const SignInButton: React.FC<SignInButtonProps> = ({ prfsSignInEndpoint, handleS
       console.log("off render");
       window.removeEventListener("message", listener);
     };
-  }, [prfsSignInEndpoint]);
+  }, [prfsIdSignInEndpoint]);
 
   const handleClickSignIn = React.useCallback(() => {
-    if (prfsSignInEndpoint) {
-      window.open(prfsSignInEndpoint, "_blank", "toolbar=0,location=0,menubar=0");
+    if (prfsIdSignInEndpoint) {
+      window.open(prfsIdSignInEndpoint, "_blank", "toolbar=0,location=0,menubar=0");
     }
-  }, [prfsSignInEndpoint]);
+  }, [prfsIdSignInEndpoint]);
 
   return (
     <Button
@@ -49,16 +52,16 @@ const SignInButton: React.FC<SignInButtonProps> = ({ prfsSignInEndpoint, handleS
       noTransition
       handleClick={handleClickSignIn}
       noShadow
-      disabled={!prfsSignInEndpoint}
+      disabled={!prfsIdSignInEndpoint}
     >
       {i18n.sign_in}
     </Button>
   );
 };
 
-export default SignInButton;
+export default PrfsIdSignInButton;
 
-export interface SignInButtonProps {
-  prfsSignInEndpoint: string | null;
+export interface PrfsIdSignInButtonProps {
+  prfsIdSignInEndpoint: string | null;
   handleSucceedSignIn: (encrypted: Buffer) => void;
 }
