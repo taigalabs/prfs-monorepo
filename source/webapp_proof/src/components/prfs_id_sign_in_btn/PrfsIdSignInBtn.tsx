@@ -4,7 +4,7 @@ import React from "react";
 import cn from "classnames";
 import { useRouter } from "next/navigation";
 import { encrypt, decrypt, PublicKey, PrivateKey } from "eciesjs";
-import SignInButton from "@taigalabs/prfs-react-components/src/sign_in_button/SignInButton";
+import PrfsIdSignInButton from "@taigalabs/prfs-react-components/src/prfs_id_sign_in_button/PrfsIdSignInButton";
 import { SignInSuccessPayload, SignInData } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./PrfsIdSignInBtn.module.scss";
@@ -15,7 +15,7 @@ import { signInPrfs } from "@/state/userReducer";
 
 const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   const router = useRouter();
-  const [prfsSignInEndpoint, setPrfsSignInEndpoint] = React.useState<string | null>(null);
+  const [prfsIdSignInEndpoint, setPrfsIdSignInEndpoint] = React.useState<string | null>(null);
   const secretKeyRef = React.useRef<PrivateKey | null>(null);
   const dispatch = useAppDispatch();
 
@@ -27,13 +27,13 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
       const signInData = encodeURIComponent([SignInData.ID_POSEIDON].join(","));
       const queryString = `?public_key=${pkHex}&redirect_uri=${redirectUri}&sign_in_data=${signInData}`;
 
-      setPrfsSignInEndpoint(
+      setPrfsIdSignInEndpoint(
         `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id__signin}${queryString}`,
       );
       console.log("initializing ephemeral secret key", sk);
       secretKeyRef.current = sk;
     }
-  }, [setPrfsSignInEndpoint]);
+  }, [setPrfsIdSignInEndpoint]);
 
   const handleSucceedSignIn = React.useCallback(
     async (encrypted: Buffer) => {
@@ -50,8 +50,8 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   );
 
   return (
-    <SignInButton
-      prfsSignInEndpoint={prfsSignInEndpoint}
+    <PrfsIdSignInButton
+      prfsIdSignInEndpoint={prfsIdSignInEndpoint}
       handleSucceedSignIn={handleSucceedSignIn}
     />
   );

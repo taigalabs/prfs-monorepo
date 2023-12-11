@@ -5,12 +5,12 @@ import cn from "classnames";
 import Link from "next/link";
 import PrfsAppsPopover from "@taigalabs/prfs-react-components/src/prfs_apps_popover/PrfsAppsPopover";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
+import { useSearchParams } from "next/navigation";
 
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import { useSearchParams } from "next/navigation";
-import PrfsIdSignInBtn from "../prfs_id_sign_in_btn/PrfsIdSignInBtn";
+import PrfsSignInBtn from "@/components/prfs_sign_in_btn/PrfsSignInBtn";
 
 const Masthead: React.FC<MastheadProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -43,7 +43,7 @@ const Masthead: React.FC<MastheadProps> = () => {
             />
           </li>
           <li className={cn(styles.menu, styles.signInBtn)}>
-            <PrfsIdSignInBtn />
+            <PrfsSignInBtn />
           </li>
         </ul>
       </div>
