@@ -1,4 +1,5 @@
 export * from "./msg";
+export * from "./query_string";
 
 export function newZAuthMsg(type: ZAuthMsgType, payload: any): ZAuthMsg<any> {
   return {
@@ -8,7 +9,7 @@ export function newZAuthMsg(type: ZAuthMsgType, payload: any): ZAuthMsg<any> {
 }
 
 export interface ZAuthMsg<T> {
-  type: string;
+  type: ZAuthMsgType;
   payload: T;
 }
 

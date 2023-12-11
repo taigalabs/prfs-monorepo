@@ -24,10 +24,11 @@ const SignInBtn: React.FC<SignInBtnProps> = () => {
       const sk = new PrivateKey();
       const pkHex = sk.publicKey.toHex();
       const redirect_uri = encodeURIComponent(window.location.toString());
-      setPrfsSignInEndpoint(
-        `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id__signin}?public_key=${pkHex}&redirect_uri=${redirect_uri}`,
-      );
+      const queryString = `?public_key=${pkHex}&redirect_uri=${redirect_uri}`;
 
+      setPrfsSignInEndpoint(
+        `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id__signin}${queryString}`,
+      );
       console.log("initializing ephemeral secret key", sk);
       secretKeyRef.current = sk;
     }
@@ -57,4 +58,4 @@ const SignInBtn: React.FC<SignInBtnProps> = () => {
 
 export default SignInBtn;
 
-export interface SignInBtnProps { }
+export interface SignInBtnProps {}

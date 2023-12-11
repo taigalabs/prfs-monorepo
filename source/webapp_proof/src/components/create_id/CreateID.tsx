@@ -1,25 +1,14 @@
 "use client";
 
 import React from "react";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
-import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
-import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
 import styles from "./CreateID.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import SignInModule, {
   SignInForm,
-  SignInInputGuide,
-  SignInInputItem,
-  SignInModuleBtnRow,
   SignInModuleFooter,
-  SignInModuleHeader,
-  SignInModuleInputArea,
-  SignInModuleLogoArea,
-  SignInModuleSubtitle,
-  SignInModuleTitle,
 } from "@/components/sign_in_module/SignInModule";
 import { paths } from "@/paths";
 import {
