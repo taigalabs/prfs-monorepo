@@ -5,6 +5,7 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import styles from "./CreateID.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -38,6 +39,7 @@ enum CreateIDStep {
 
 const CreateID: React.FC = () => {
   const i18n = React.useContext(i18nContext);
+  const router = useRouter();
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
   const [step, setStep] = React.useState(CreateIDStep.InputCredential);
@@ -67,6 +69,12 @@ const CreateID: React.FC = () => {
     }
   }, [formData, setFormErrors, setStep]);
 
+  const handleClickSignIn = React.useCallback(() => {
+    const { search } = window.location;
+    const url = `${paths.id__signin}${search}`;
+    router.push(url);
+  }, [router]);
+
   const handleClickPrev = React.useCallback(() => {
     setStep(CreateIDStep.InputCredential);
   }, [setStep]);
@@ -79,13 +87,20 @@ const CreateID: React.FC = () => {
             formData={formData}
             setFormData={setFormData}
             formErrors={formErrors}
+            handleClickSignIn={handleClickSignIn}
             handleClickPrev={handleClickPrev}
             handleClickNext={handleClickNext}
           />
         );
       }
       case CreateIDStep.CreateIdSuccess: {
-        return <Step2 formData={formData} handleClickPrev={handleClickPrev} />;
+        return (
+          <Step2
+            formData={formData}
+            handleClickPrev={handleClickPrev}
+            handleClickSignIn={handleClickSignIn}
+          />
+        );
       }
       default:
         <div>Invalid step</div>;

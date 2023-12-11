@@ -36,7 +36,7 @@ export enum IdCreationStatus {
   Error,
 }
 
-const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
+const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev, handleClickSignIn }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const [status, setStatus] = React.useState(IdCreationStatus.StandBy);
@@ -197,7 +197,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev }) => {
               type="button"
               variant="transparent_blue_2"
               noTransition
-              handleClick={handleClickPrev}
+              handleClick={handleClickSignIn}
               noShadow
             >
               {i18n.already_have_id}
@@ -242,4 +242,5 @@ export default Step2;
 export interface Step2Props {
   formData: IdCreateForm;
   handleClickPrev: () => void;
+  handleClickSignIn: () => void;
 }

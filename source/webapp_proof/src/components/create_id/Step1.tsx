@@ -31,6 +31,7 @@ const Step1: React.FC<Step1Props> = ({
   formData,
   setFormData,
   formErrors,
+  handleClickSignIn,
   handleClickPrev,
   handleClickNext,
 }) => {
@@ -130,12 +131,10 @@ const Step1: React.FC<Step1Props> = ({
             type="button"
             variant="transparent_blue_2"
             noTransition
-            handleClick={handleClickPrev}
+            handleClick={handleClickSignIn}
             noShadow
           >
-            <Link href={paths.id__signin} tabIndex={-1}>
-              {i18n.already_have_id}
-            </Link>
+            {i18n.already_have_id}
           </Button>
           <Button
             type="button"
@@ -161,4 +160,5 @@ export interface Step1Props {
   formErrors: IdCreateForm;
   handleClickNext: () => void;
   handleClickPrev: () => void;
+  handleClickSignIn: () => void;
 }
