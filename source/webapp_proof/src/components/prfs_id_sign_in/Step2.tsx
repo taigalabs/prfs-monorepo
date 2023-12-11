@@ -2,7 +2,11 @@ import React from "react";
 import { initWasm, makeCredential } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useRouter, useSearchParams } from "next/navigation";
-import { sendMsgToOpener, type SignInSuccessZAuthMsg } from "@taigalabs/prfs-id-sdk-web";
+import {
+  sendMsgToOpener,
+  SignInData,
+  type SignInSuccessZAuthMsg,
+} from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt } from "eciesjs";
 
@@ -25,6 +29,24 @@ enum Step2Status {
   Standby,
 }
 
+const SignInInputs: React.FC<SignInInputsProps> = ({ signInData, salt }) => {
+  const elems = React.useMemo(() => {
+    return signInData.map((d, idx) => {
+      if (d === SignInData.ID_POSEIDON) {
+        return (
+          <li key={idx}>
+            <p className={styles.label}>{d}</p>
+            <p>{salt}</p>
+            <p>{salt}</p>
+          </li>
+        );
+      }
+    });
+  }, [signInData]);
+
+  return <ul className={styles.signInData}>{elems}</ul>;
+};
+
 const Step2: React.FC<Step2Props> = ({
   formData,
   formErrors,
@@ -35,18 +57,31 @@ const Step2: React.FC<Step2Props> = ({
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
   const [step2Status, setStep2Status] = React.useState(Step2Status.Loading);
+  const [title, setTitle] = React.useState<React.ReactNode>(null);
+  const [content, setContent] = React.useState<React.ReactNode>(null);
 
   React.useEffect(() => {
     const { hostname } = window.location;
+
+    const title = (
+      <>
+        <span className={styles.blueText}>{hostname}</span> wants you to submit a few additional
+        data to sign in
+      </>
+    );
+    setTitle(title);
 
     const signInData = searchParams.get("sign_in_data");
     setStep2Status(Step2Status.Standby);
 
     if (signInData) {
       const d = decodeURIComponent(signInData);
-      console.log(11, d);
+      const data = d.split(",");
+
+      const content = <SignInInputs signInData={data} salt={hostname} />;
+      setContent(content);
     }
-  }, [setStep2Status, searchParams]);
+  }, [setStep2Status, searchParams, setTitle, setContent]);
 
   const handleClickSignIn = React.useCallback(async () => {
     if (formData && publicKey) {
@@ -101,40 +136,10 @@ const Step2: React.FC<Step2Props> = ({
       <div className={styles.topLabelArea}>{i18n.sign_in_with_prfs_id}</div>
       <PrfsIdSignInInnerPadding>
         <PrfsIdSignInModuleHeader>
-          {/* <PrfsIdSignInModuleTitle>{title}</PrfsIdSignInModuleTitle> */}
+          <PrfsIdSignInModuleTitle>{title}</PrfsIdSignInModuleTitle>
           {/* <PrfsIdSignInModuleSubtitle>{i18n.use_your_prfs_identity}</PrfsIdSignInModuleSubtitle> */}
         </PrfsIdSignInModuleHeader>
-        <PrfsIdSignInModuleInputArea>
-          <div className={styles.inputGroup}>
-            <PrfsIdSignInInputItem
-              name="email"
-              value={formData.email}
-              placeholder={i18n.email}
-              error={formErrors.email}
-              handleChangeValue={handleChangeValue}
-            />
-          </div>
-          <div className={styles.inputGroup}>
-            <PrfsIdSignInInputItem
-              name="password_1"
-              value={formData.password_1}
-              placeholder={i18n.password_1}
-              error={formErrors.password_1}
-              handleChangeValue={handleChangeValue}
-              type="password"
-            />
-          </div>
-          <div className={styles.inputGroup}>
-            <PrfsIdSignInInputItem
-              name="password_2"
-              value={formData.password_2}
-              placeholder={i18n.password_2}
-              error={formErrors.password_2}
-              handleChangeValue={handleChangeValue}
-              type="password"
-            />
-          </div>
-        </PrfsIdSignInModuleInputArea>
+        {content}
         <PrfsIdSignInModuleBtnRow>
           <Button variant="transparent_blue_2" noTransition handleClick={handleClickPrev}>
             {i18n.go_back}
@@ -163,4 +168,9 @@ export interface Step2Props {
   setFormData: React.Dispatch<React.SetStateAction<IdCreateForm>>;
   handleClickPrev: () => void;
   publicKey: string | null;
+}
+
+export interface SignInInputsProps {
+  signInData: string[];
+  salt: string;
 }

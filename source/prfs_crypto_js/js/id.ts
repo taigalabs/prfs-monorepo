@@ -37,6 +37,21 @@ export async function makeCredential(args: MakeCredentialArgs): Promise<Credenti
   };
 }
 
+export async function sign(privKey: bigint, msg: string) {
+  if (wasmSingleton.wasm === null) {
+    const w = await initWasm();
+    wasmSingleton.wasm = w;
+  }
+
+  const { wasm } = wasmSingleton;
+  const msgBytes = ethers.utils.toUtf8Bytes(msg);
+  const msgHash = wasm.poseidon(msgBytes);
+  // const msgHash = bytesToBigInt(hash);
+
+  const pubKey = secp.getPublicKey(privKey);
+  // const signature = await secp.signAsync(msgHash, privKey); // Sync methods below
+}
+
 interface WasmSingleton {
   wasm: typeof import("./wasm_wrapper/build") | null;
 }

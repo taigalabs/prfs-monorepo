@@ -26,6 +26,16 @@
   }
 }
 
+.blueText {
+  color: var(--blue-14);
+}
+
+.signInData {
+  .label {
+    font-weight: 500;
+  }
+}
+
 @media screen and (max-width: 480px) {
   .wrapper {
     width: 100%;

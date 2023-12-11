@@ -98,7 +98,7 @@ export const PrfsIdSignInForm: React.FC<PrfsIdSignInModuleInputAreaProps> = ({ c
 export const PrfsIdSignInInnerPadding: React.FC<PrfsIdSignInModuleInputAreaProps> = ({
   children,
 }) => {
-  return <form className={styles.innerPadding}>{children}</form>;
+  return <div className={styles.innerPadding}>{children}</div>;
 };
 
 const PrfsIdSignInModule: React.FC<PrfsIdSignInModuleInputAreaProps> = ({ children }) => {
