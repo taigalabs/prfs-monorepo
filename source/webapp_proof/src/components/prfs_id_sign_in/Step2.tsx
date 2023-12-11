@@ -1,5 +1,5 @@
 import React from "react";
-import { initWasm, makeCredential } from "@taigalabs/prfs-crypto-js";
+import { initWasm, makeCredential, type Credential } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -9,6 +9,8 @@ import {
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt } from "eciesjs";
+import { prfsSign } from "@taigalabs/prfs-crypto-js";
+import { secp256k1 as secp } from "@noble/curves/secp256k1";
 
 import styles from "./Step2.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -29,20 +31,33 @@ enum Step2Status {
   Standby,
 }
 
-const SignInInputs: React.FC<SignInInputsProps> = ({ signInData, salt }) => {
-  const elems = React.useMemo(() => {
-    return signInData.map((d, idx) => {
-      if (d === SignInData.ID_POSEIDON) {
-        return (
-          <li key={idx}>
-            <p className={styles.label}>{d}</p>
-            <p>{salt}</p>
-            <p>{salt}</p>
-          </li>
-        );
-      }
-    });
-  }, [signInData]);
+const SignInInputs: React.FC<SignInInputsProps> = ({ signInData, salt, credential }) => {
+  const [elems, setElems] = React.useState<React.ReactNode>(null);
+  // React.useEffect(() => {
+  //   async function fn() {
+  //     console.log("fn");
+  //     let el = [];
+  //     for (const d of signInData) {
+  //       console.log("d", d);
+  //       if (d === SignInData.ID_POSEIDON) {
+  //         console.log(123, credential.secret_key, salt);
+  //         const sig = await prfsSign(credential.secret_key, salt);
+  //         console.log(22, sig);
+
+  //         el.push(
+  //           <li key={d}>
+  //             <p className={styles.label}>{d}</p>
+  //             <p>{salt}</p>
+  //             <p>{salt}</p>
+  //           </li>,
+  //         );
+  //       }
+  //     }
+  //     setElems(el);
+  //   }
+
+  //   fn().then();
+  // }, [signInData, setElems]);
 
   return <ul className={styles.signInData}>{elems}</ul>;
 };
@@ -59,40 +74,58 @@ const Step2: React.FC<Step2Props> = ({
   const [step2Status, setStep2Status] = React.useState(Step2Status.Loading);
   const [title, setTitle] = React.useState<React.ReactNode>(null);
   const [content, setContent] = React.useState<React.ReactNode>(null);
+  const [credential, setCredential] = React.useState<Credential | null>(null);
 
   React.useEffect(() => {
-    const { hostname } = window.location;
+    async function fn() {
+      try {
+        const credential = await makeCredential({
+          email: formData.email,
+          password_1: formData.password_1,
+          password_2: formData.password_2,
+        });
+        setCredential(credential);
 
-    const title = (
-      <>
-        <span className={styles.blueText}>{hostname}</span> wants you to submit a few additional
-        data to sign in
-      </>
-    );
-    setTitle(title);
+        console.log(11, credential);
 
-    const signInData = searchParams.get("sign_in_data");
-    setStep2Status(Step2Status.Standby);
+        const MSG = "01".repeat(32);
+        const PRIV_KEY = 0x2n;
+        const sig = secp.sign(MSG, PRIV_KEY as any);
+        console.log(2221, sig);
 
-    if (signInData) {
-      const d = decodeURIComponent(signInData);
-      const data = d.split(",");
+        const sig2 = secp.sign(MSG, BigInt(credential.secret_key));
 
-      const content = <SignInInputs signInData={data} salt={hostname} />;
-      setContent(content);
+        console.log(222, sig2);
+
+        const { hostname } = window.location;
+        const title = (
+          <>
+            <span className={styles.blueText}>{hostname}</span> wants you to submit a few additional
+            data to sign in
+          </>
+        );
+        setTitle(title);
+
+        const signInData = searchParams.get("sign_in_data");
+        if (signInData) {
+          const d = decodeURIComponent(signInData);
+          const data = d.split(",");
+
+          const content = (
+            <SignInInputs signInData={data} salt={hostname} credential={credential} />
+          );
+          setContent(content);
+        }
+        setStep2Status(Step2Status.Standby);
+      } catch (err) {
+        console.error(err);
+      }
     }
-  }, [setStep2Status, searchParams, setTitle, setContent]);
+    fn().then();
+  }, [setStep2Status, searchParams, setTitle, setContent, formData, setCredential]);
 
   const handleClickSignIn = React.useCallback(async () => {
-    if (formData && publicKey) {
-      const credential = await makeCredential({
-        email: formData.email,
-        password_1: formData.password_1,
-        password_2: formData.password_2,
-      });
-
-      console.log("credential", credential);
-
+    if (formData && publicKey && credential) {
       const payload = {
         id: credential.id,
         publicKey: credential.public_key,
@@ -104,27 +137,9 @@ const Step2: React.FC<Step2Props> = ({
       };
 
       await sendMsgToOpener(msg);
-
       window.close();
     }
-  }, [searchParams, publicKey]);
-
-  const handleChangeValue = React.useCallback(
-    (ev: React.ChangeEvent<HTMLInputElement>) => {
-      const name = ev.target.name;
-      const val = ev.target.value;
-
-      if (name) {
-        setFormData(oldVal => {
-          return {
-            ...oldVal,
-            [name]: val,
-          };
-        });
-      }
-    },
-    [formData, setFormData],
-  );
+  }, [searchParams, publicKey, credential]);
 
   return (
     <>
@@ -173,4 +188,5 @@ export interface Step2Props {
 export interface SignInInputsProps {
   signInData: string[];
   salt: string;
+  credential: Credential;
 }

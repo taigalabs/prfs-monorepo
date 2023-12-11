@@ -8,6 +8,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { sendMsgToOpener, type SignInSuccessZAuthMsg } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt, decrypt, PrivateKey, PublicKey } from "eciesjs";
+import { secp256k1 as secp } from "@noble/curves/secp256k1";
 
 import styles from "./PrfsIdSignIn.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -107,7 +108,6 @@ const PrfsIdSignIn: React.FC = () => {
         return (
           <Step2
             publicKey={publicKey}
-            // title={title}
             formData={formData}
             setFormData={setFormData}
             formErrors={formErrors}

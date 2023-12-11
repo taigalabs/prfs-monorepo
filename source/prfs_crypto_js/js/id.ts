@@ -37,7 +37,7 @@ export async function makeCredential(args: MakeCredentialArgs): Promise<Credenti
   };
 }
 
-export async function sign(privKey: bigint, msg: string) {
+export async function prfsSign(skHex: string, msg: string) {
   if (wasmSingleton.wasm === null) {
     const w = await initWasm();
     wasmSingleton.wasm = w;
@@ -46,10 +46,10 @@ export async function sign(privKey: bigint, msg: string) {
   const { wasm } = wasmSingleton;
   const msgBytes = ethers.utils.toUtf8Bytes(msg);
   const msgHash = wasm.poseidon(msgBytes);
-  // const msgHash = bytesToBigInt(hash);
+  console.log(22, msgHash, skHex);
+  const sig = secp.sign(msgHash, skHex);
 
-  const pubKey = secp.getPublicKey(privKey);
-  // const signature = await secp.signAsync(msgHash, privKey); // Sync methods below
+  return sig;
 }
 
 interface WasmSingleton {
