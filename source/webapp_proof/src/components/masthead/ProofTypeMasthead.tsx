@@ -13,7 +13,6 @@ import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 import styles from "./ProofTypeMasthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import SignInBtn from "@/components/sign_in_btn/SignInBtn";
 import { useIsTutorial } from "@/hooks/tutorial";
 
 const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
@@ -62,9 +61,7 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
                 />
               </li>
             </Tooltip>
-            <li className={(styles.menu, styles.signInBtn)}>
-              <SignInBtn />
-            </li>
+            <li className={(styles.menu, styles.signInBtn)}>{/* <SignInBtn /> */}</li>
           </ul>
         </div>
       </div>

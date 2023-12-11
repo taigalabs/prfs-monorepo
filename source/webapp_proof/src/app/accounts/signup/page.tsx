@@ -4,7 +4,7 @@ import styles from "./page.module.scss";
 import SignInLayout, { SignInBody } from "@/components/layouts/sign_in_layout/SignInLayout";
 import CreateID from "@/components/create_id/CreateID";
 
-const IdCreatePage = () => {
+const AccountCreatePage = () => {
   return (
     <SignInLayout>
       <SignInBody>
@@ -16,4 +16,4 @@ const IdCreatePage = () => {
   );
 };
 
-export default IdCreatePage;
+export default AccountCreatePage;

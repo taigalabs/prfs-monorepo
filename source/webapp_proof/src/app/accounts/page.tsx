@@ -3,8 +3,8 @@ import React from "react";
 import { paths } from "@/paths";
 import { redirect } from "next/navigation";
 
-const IdPage = () => {
-  redirect(paths.id__signin);
+const AccountsPage = () => {
+  redirect(paths.accounts__signin);
 };
 
-export default IdPage;
+export default AccountsPage;

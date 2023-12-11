@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import styles from "./CreateID.module.scss";
+import styles from "./PrfsIdCreateID.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import PrfsIdSignInModule, {
   PrfsIdSignInForm,
@@ -26,7 +26,7 @@ enum CreateIDStep {
   CreateIdSuccess,
 }
 
-const CreateID: React.FC = () => {
+const PrfsIdCreateID: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
@@ -111,4 +111,4 @@ const CreateID: React.FC = () => {
   );
 };
 
-export default CreateID;
+export default PrfsIdCreateID;

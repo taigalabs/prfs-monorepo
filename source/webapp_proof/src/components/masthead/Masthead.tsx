@@ -32,9 +32,9 @@ const Masthead: React.FC<MastheadProps> = () => {
               <span>{i18n.tutorial}</span>
             </a>
           </li>
-          <li className={cn(styles.menu, styles.underline)}>
-            <Link href={paths.auth}>{i18n.auth}</Link>
-          </li>
+          {/* <li className={cn(styles.menu, styles.underline)}> */}
+          {/*   <Link href={paths.auth}>{i18n.auth}</Link> */}
+          {/* </li> */}
           <li className={styles.menu}>
             <PrfsAppsPopover
               webappPollEndpoint={process.env.NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT}
