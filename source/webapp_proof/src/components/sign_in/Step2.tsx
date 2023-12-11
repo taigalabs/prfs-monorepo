@@ -22,12 +22,12 @@ import { paths } from "@/paths";
 import { IdCreateForm } from "@/functions/validate_id";
 import ErrorDialog from "./ErrorDialog";
 
-enum Step1Status {
+enum Step2Status {
   Loading,
   Standby,
 }
 
-const Step1: React.FC<Step1Props> = ({
+const Step2: React.FC<Step2Props> = ({
   formData,
   formErrors,
   setFormData,
@@ -39,13 +39,43 @@ const Step1: React.FC<Step1Props> = ({
   const router = useRouter();
   const [publicKey, setPublicKey] = React.useState<string | null>(null);
   const searchParams = useSearchParams();
-  const [step1Status, setStep1Status] = React.useState(Step1Status.Standby);
+  const [step2Status, setStep2Status] = React.useState(Step2Status.Loading);
+
+  const handleClickSignIn = React.useCallback(async () => {
+    if (formData && publicKey) {
+      const credential = await makeCredential({
+        email: formData.email,
+        password_1: formData.password_1,
+        password_2: formData.password_2,
+      });
+
+      console.log("credential", credential);
+
+      const payload = {
+        id: credential.id,
+        publicKey: credential.public_key,
+      };
+      const encrypted = encrypt(publicKey, Buffer.from(JSON.stringify(payload)));
+      const msg: SignInSuccessZAuthMsg = {
+        type: "SIGN_IN_SUCCESS",
+        payload: encrypted,
+      };
+
+      await sendMsgToOpener(msg);
+
+      window.close();
+    }
+  }, [searchParams, publicKey]);
 
   const handleClickCreateID = React.useCallback(() => {
     const { search } = window.location;
     const url = `${paths.id__create}${search}`;
     router.push(url);
   }, [router]);
+
+  const handleCloseErrorDialog = React.useCallback(() => {
+    window.close();
+  }, []);
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,7 +96,7 @@ const Step1: React.FC<Step1Props> = ({
 
   return (
     <>
-      {step1Status === Step1Status.Loading && (
+      {step2Status === Step2Status.Loading && (
         <div className={styles.overlay}>
           <Spinner color="#1b62c0" />
         </div>
@@ -116,19 +146,19 @@ const Step1: React.FC<Step1Props> = ({
           variant="blue_2"
           className={styles.signInBtn}
           noTransition
-          handleClick={handleClickNext}
+          handleClick={handleClickSignIn}
           noShadow
         >
-          {i18n.next}
+          {i18n.sign_in}
         </Button>
       </SignInModuleBtnRow>
     </>
   );
 };
 
-export default Step1;
+export default Step2;
 
-export interface Step1Props {
+export interface Step2Props {
   errorMsg: string | null;
   title: string;
   formData: IdCreateForm;
