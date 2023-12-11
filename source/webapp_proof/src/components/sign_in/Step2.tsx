@@ -1,11 +1,10 @@
 import React from "react";
 import { initWasm, makeCredential } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { sendMsgToOpener, type SignInSuccessZAuthMsg } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
-import { encrypt, decrypt, PrivateKey, PublicKey } from "eciesjs";
+import { encrypt } from "eciesjs";
 
 import styles from "./Step1.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -18,9 +17,7 @@ import {
   SignInModuleSubtitle,
   SignInModuleTitle,
 } from "@/components/sign_in_module/SignInModule";
-import { paths } from "@/paths";
 import { IdCreateForm } from "@/functions/validate_id";
-import ErrorDialog from "./ErrorDialog";
 
 enum Step2Status {
   Loading,
@@ -32,14 +29,16 @@ const Step2: React.FC<Step2Props> = ({
   formErrors,
   setFormData,
   title,
-  errorMsg,
-  handleClickNext,
+  handleClickPrev,
+  publicKey,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const router = useRouter();
-  const [publicKey, setPublicKey] = React.useState<string | null>(null);
   const searchParams = useSearchParams();
-  const [step2Status, setStep2Status] = React.useState(Step2Status.Loading);
+  const [step2Status, setStep2Status] = React.useState(Step2Status.Standby);
+
+  React.useEffect(() => {
+    const signInData = searchParams.get("public_key");
+  }, [setStep2Status, searchParams]);
 
   const handleClickSignIn = React.useCallback(async () => {
     if (formData && publicKey) {
@@ -66,16 +65,6 @@ const Step2: React.FC<Step2Props> = ({
       window.close();
     }
   }, [searchParams, publicKey]);
-
-  const handleClickCreateID = React.useCallback(() => {
-    const { search } = window.location;
-    const url = `${paths.id__create}${search}`;
-    router.push(url);
-  }, [router]);
-
-  const handleCloseErrorDialog = React.useCallback(() => {
-    window.close();
-  }, []);
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -138,8 +127,8 @@ const Step2: React.FC<Step2Props> = ({
         </div>
       </SignInModuleInputArea>
       <SignInModuleBtnRow>
-        <Button variant="transparent_blue_2" noTransition handleClick={handleClickCreateID}>
-          {i18n.create_id}
+        <Button variant="transparent_blue_2" noTransition handleClick={handleClickPrev}>
+          {i18n.go_back}
         </Button>
         <Button
           type="button"
@@ -159,10 +148,10 @@ const Step2: React.FC<Step2Props> = ({
 export default Step2;
 
 export interface Step2Props {
-  errorMsg: string | null;
   title: string;
   formData: IdCreateForm;
   formErrors: IdCreateForm;
   setFormData: React.Dispatch<React.SetStateAction<IdCreateForm>>;
-  handleClickNext: () => void;
+  handleClickPrev: () => void;
+  publicKey: string | null;
 }

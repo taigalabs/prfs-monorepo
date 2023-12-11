@@ -1,11 +1,7 @@
 import React from "react";
-import { initWasm, makeCredential } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { sendMsgToOpener, type SignInSuccessZAuthMsg } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
-import { encrypt, decrypt, PrivateKey, PublicKey } from "eciesjs";
 
 import styles from "./Step1.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -20,7 +16,6 @@ import {
 } from "@/components/sign_in_module/SignInModule";
 import { paths } from "@/paths";
 import { IdCreateForm } from "@/functions/validate_id";
-import ErrorDialog from "./ErrorDialog";
 
 enum Step1Status {
   Loading,
@@ -32,13 +27,10 @@ const Step1: React.FC<Step1Props> = ({
   formErrors,
   setFormData,
   title,
-  errorMsg,
   handleClickNext,
 }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
-  const [publicKey, setPublicKey] = React.useState<string | null>(null);
-  const searchParams = useSearchParams();
   const [step1Status, setStep1Status] = React.useState(Step1Status.Standby);
 
   const handleClickCreateID = React.useCallback(() => {

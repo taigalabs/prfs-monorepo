@@ -49,12 +49,12 @@ const SignIn: React.FC = () => {
   const router = useRouter();
   const [signInStatus, setSignInStatus] = React.useState(SignInStatus.Loading);
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
-  const [publicKey, setPublicKey] = React.useState<string | null>(null);
   const searchParams = useSearchParams();
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
   const [title, setTitle] = React.useState(i18n.sign_in);
   const [step, setStep] = React.useState(SignInStep.PrfsIdCredential);
+  const [publicKey, setPublicKey] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     const publicKey = searchParams.get("public_key");
@@ -92,6 +92,10 @@ const SignIn: React.FC = () => {
     setStep(SignInStep.AppCredential);
   }, [setStep]);
 
+  const handleClickPrev = React.useCallback(() => {
+    setStep(SignInStep.PrfsIdCredential);
+  }, [setStep]);
+
   const content = React.useMemo(() => {
     switch (step) {
       case SignInStep.PrfsIdCredential: {
@@ -109,12 +113,12 @@ const SignIn: React.FC = () => {
       case SignInStep.AppCredential: {
         return (
           <Step2
-            errorMsg={errorMsg}
+            publicKey={publicKey}
             title={title}
             formData={formData}
             setFormData={setFormData}
             formErrors={formErrors}
-            handleClickNext={handleClickNext}
+            handleClickPrev={handleClickPrev}
           />
         );
       }
