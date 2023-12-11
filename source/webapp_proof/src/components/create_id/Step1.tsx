@@ -7,18 +7,18 @@ import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 
 import styles from "./Step1.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import SignInModule, {
-  SignInForm,
-  SignInInputGuide,
-  SignInInputItem,
-  SignInModuleBtnRow,
-  SignInModuleFooter,
-  SignInModuleHeader,
-  SignInModuleInputArea,
-  SignInModuleLogoArea,
-  SignInModuleSubtitle,
-  SignInModuleTitle,
-} from "@/components/sign_in_module/SignInModule";
+import PrfsIdSignInModule, {
+  PrfsIdSignInForm,
+  PrfsIdSignInInputGuide,
+  PrfsIdSignInInputItem,
+  PrfsIdSignInModuleBtnRow,
+  PrfsIdSignInModuleFooter,
+  PrfsIdSignInModuleHeader,
+  PrfsIdSignInModuleInputArea,
+  PrfsIdSignInModuleLogoArea,
+  PrfsIdSignInModuleSubtitle,
+  PrfsIdSignInModuleTitle,
+} from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
 import { paths } from "@/paths";
 import {
   IdCreateForm,
@@ -56,22 +56,22 @@ const Step1: React.FC<Step1Props> = ({
 
   return (
     <div>
-      <SignInModuleLogoArea />
+      <PrfsIdSignInModuleLogoArea />
       <Fade>
-        <SignInModuleHeader>
-          <SignInModuleTitle>{i18n.create_an_identity}</SignInModuleTitle>
-          <SignInModuleSubtitle>{i18n.create_a_strong_password}</SignInModuleSubtitle>
-        </SignInModuleHeader>
-        <SignInModuleInputArea>
+        <PrfsIdSignInModuleHeader>
+          <PrfsIdSignInModuleTitle>{i18n.create_an_identity}</PrfsIdSignInModuleTitle>
+          <PrfsIdSignInModuleSubtitle>{i18n.create_a_strong_password}</PrfsIdSignInModuleSubtitle>
+        </PrfsIdSignInModuleHeader>
+        <PrfsIdSignInModuleInputArea>
           <div className={styles.inputGroup}>
-            <SignInInputItem
+            <PrfsIdSignInInputItem
               name="email"
               value={formData.email}
               placeholder={i18n.email}
               error={formErrors.email}
               handleChangeValue={handleChangeValue}
             />
-            <SignInInputItem
+            <PrfsIdSignInInputItem
               name="email_confirm"
               value={formData.email_confirm}
               placeholder={i18n.confirm}
@@ -79,13 +79,13 @@ const Step1: React.FC<Step1Props> = ({
               handleChangeValue={handleChangeValue}
             />
           </div>
-          <SignInInputGuide>
+          <PrfsIdSignInInputGuide>
             <Link href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`} target="_blank">
               {i18n.why_we_ask_for_email}
             </Link>
-          </SignInInputGuide>
+          </PrfsIdSignInInputGuide>
           <div className={styles.inputGroup}>
-            <SignInInputItem
+            <PrfsIdSignInInputItem
               name="password_1"
               value={formData.password_1}
               placeholder={i18n.password_1}
@@ -93,7 +93,7 @@ const Step1: React.FC<Step1Props> = ({
               handleChangeValue={handleChangeValue}
               type="password"
             />
-            <SignInInputItem
+            <PrfsIdSignInInputItem
               name="password_1_confirm"
               value={formData.password_1_confirm}
               placeholder={i18n.confirm}
@@ -103,7 +103,7 @@ const Step1: React.FC<Step1Props> = ({
             />
           </div>
           <div className={styles.inputGroup}>
-            <SignInInputItem
+            <PrfsIdSignInInputItem
               name="password_2"
               value={formData.password_2}
               placeholder={i18n.password_2}
@@ -111,7 +111,7 @@ const Step1: React.FC<Step1Props> = ({
               handleChangeValue={handleChangeValue}
               type="password"
             />
-            <SignInInputItem
+            <PrfsIdSignInInputItem
               name="password_2_confirm"
               value={formData.password_2_confirm}
               placeholder={i18n.confirm}
@@ -120,13 +120,13 @@ const Step1: React.FC<Step1Props> = ({
               type="password"
             />
           </div>
-          <SignInInputGuide>
+          <PrfsIdSignInInputGuide>
             <Link href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`} target="_blank">
               {i18n.why_we_ask_for_two_passwords}
             </Link>
-          </SignInInputGuide>
-        </SignInModuleInputArea>
-        <SignInModuleBtnRow>
+          </PrfsIdSignInInputGuide>
+        </PrfsIdSignInModuleInputArea>
+        <PrfsIdSignInModuleBtnRow>
           <Button
             type="button"
             variant="transparent_blue_2"
@@ -146,7 +146,7 @@ const Step1: React.FC<Step1Props> = ({
           >
             {i18n.next}
           </Button>
-        </SignInModuleBtnRow>
+        </PrfsIdSignInModuleBtnRow>
       </Fade>
     </div>
   );

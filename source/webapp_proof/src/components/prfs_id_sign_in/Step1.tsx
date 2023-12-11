@@ -6,14 +6,14 @@ import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import styles from "./Step1.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import {
-  SignInInputItem,
-  SignInModuleBtnRow,
-  SignInModuleHeader,
-  SignInModuleInputArea,
-  SignInModuleLogoArea,
-  SignInModuleSubtitle,
-  SignInModuleTitle,
-} from "@/components/sign_in_module/SignInModule";
+  PrfsIdSignInInputItem,
+  PrfsIdSignInModuleBtnRow,
+  PrfsIdSignInModuleHeader,
+  PrfsIdSignInModuleInputArea,
+  PrfsIdSignInModuleLogoArea,
+  PrfsIdSignInModuleSubtitle,
+  PrfsIdSignInModuleTitle,
+} from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
 import { paths } from "@/paths";
 import { IdCreateForm } from "@/functions/validate_id";
 
@@ -63,14 +63,14 @@ const Step1: React.FC<Step1Props> = ({
           <Spinner color="#1b62c0" />
         </div>
       )}
-      <SignInModuleLogoArea />
-      <SignInModuleHeader>
-        <SignInModuleTitle>{title}</SignInModuleTitle>
-        <SignInModuleSubtitle>{i18n.use_your_prfs_identity}</SignInModuleSubtitle>
-      </SignInModuleHeader>
-      <SignInModuleInputArea>
+      <PrfsIdSignInModuleLogoArea />
+      <PrfsIdSignInModuleHeader>
+        <PrfsIdSignInModuleTitle>{title}</PrfsIdSignInModuleTitle>
+        <PrfsIdSignInModuleSubtitle>{i18n.use_your_prfs_identity}</PrfsIdSignInModuleSubtitle>
+      </PrfsIdSignInModuleHeader>
+      <PrfsIdSignInModuleInputArea>
         <div className={styles.inputGroup}>
-          <SignInInputItem
+          <PrfsIdSignInInputItem
             name="email"
             value={formData.email}
             placeholder={i18n.email}
@@ -79,7 +79,7 @@ const Step1: React.FC<Step1Props> = ({
           />
         </div>
         <div className={styles.inputGroup}>
-          <SignInInputItem
+          <PrfsIdSignInInputItem
             name="password_1"
             value={formData.password_1}
             placeholder={i18n.password_1}
@@ -89,7 +89,7 @@ const Step1: React.FC<Step1Props> = ({
           />
         </div>
         <div className={styles.inputGroup}>
-          <SignInInputItem
+          <PrfsIdSignInInputItem
             name="password_2"
             value={formData.password_2}
             placeholder={i18n.password_2}
@@ -98,8 +98,8 @@ const Step1: React.FC<Step1Props> = ({
             type="password"
           />
         </div>
-      </SignInModuleInputArea>
-      <SignInModuleBtnRow>
+      </PrfsIdSignInModuleInputArea>
+      <PrfsIdSignInModuleBtnRow>
         <Button variant="transparent_blue_2" noTransition handleClick={handleClickCreateID}>
           {i18n.create_id}
         </Button>
@@ -113,7 +113,7 @@ const Step1: React.FC<Step1Props> = ({
         >
           {i18n.next}
         </Button>
-      </SignInModuleBtnRow>
+      </PrfsIdSignInModuleBtnRow>
     </>
   );
 };

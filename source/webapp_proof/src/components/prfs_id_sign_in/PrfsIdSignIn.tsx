@@ -11,17 +11,16 @@ import { encrypt, decrypt, PrivateKey, PublicKey } from "eciesjs";
 
 import styles from "./SignIn.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import SignInModule, {
-  SignInForm,
-  SignInInputItem,
-  SignInModuleBtnRow,
-  SignInModuleFooter,
-  SignInModuleHeader,
-  SignInModuleInputArea,
-  SignInModuleLogoArea,
-  SignInModuleSubtitle,
-  SignInModuleTitle,
-} from "@/components/sign_in_module/SignInModule";
+import PrfsIdSignInModule, {
+  PrfsIdSignInForm,
+  PrfsIdSignInModuleBtnRow,
+  PrfsIdSignInModuleFooter,
+  PrfsIdSignInModuleHeader,
+  PrfsIdSignInModuleInputArea,
+  PrfsIdSignInModuleLogoArea,
+  PrfsIdSignInModuleSubtitle,
+  PrfsIdSignInModuleTitle,
+} from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
 import { paths } from "@/paths";
 import { envs } from "@/envs";
 import {
@@ -44,7 +43,7 @@ export enum SignInStatus {
   Standby,
 }
 
-const SignIn: React.FC = () => {
+const PrfsIdSignIn: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const [signInStatus, setSignInStatus] = React.useState(SignInStatus.Loading);
@@ -128,25 +127,25 @@ const SignIn: React.FC = () => {
   }, [step, handleChangeValue, formErrors]);
 
   return (
-    <SignInModule>
-      <SignInForm>
+    <PrfsIdSignInModule>
+      <PrfsIdSignInForm>
         {signInStatus === SignInStatus.Loading && (
           <div className={styles.overlay}>
             <Spinner color="#1b62c0" />
           </div>
         )}
         {content}
-      </SignInForm>
-      <SignInModuleFooter>
+      </PrfsIdSignInForm>
+      <PrfsIdSignInModuleFooter>
         <Link href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL}>
           <span>{i18n.code}</span>
         </Link>
         <Link href={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
           <span>{i18n.prfs}</span>
         </Link>
-      </SignInModuleFooter>
-    </SignInModule>
+      </PrfsIdSignInModuleFooter>
+    </PrfsIdSignInModule>
   );
 };
 
-export default SignIn;
+export default PrfsIdSignIn;

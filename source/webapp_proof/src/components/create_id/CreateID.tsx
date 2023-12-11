@@ -6,10 +6,10 @@ import { useRouter } from "next/navigation";
 
 import styles from "./CreateID.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import SignInModule, {
-  SignInForm,
-  SignInModuleFooter,
-} from "@/components/sign_in_module/SignInModule";
+import PrfsIdSignInModule, {
+  PrfsIdSignInForm,
+  PrfsIdSignInModuleFooter,
+} from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
 import { paths } from "@/paths";
 import {
   IdCreateForm,
@@ -97,17 +97,17 @@ const CreateID: React.FC = () => {
   }, [step, handleClickNext, handleChangeValue, formErrors]);
 
   return (
-    <SignInModule>
-      <SignInForm>{content}</SignInForm>
-      <SignInModuleFooter>
+    <PrfsIdSignInModule>
+      <PrfsIdSignInForm>{content}</PrfsIdSignInForm>
+      <PrfsIdSignInModuleFooter>
         <Link className={styles.prfsLink} href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL}>
           <span>{i18n.code}</span>
         </Link>
         <Link className={styles.prfsLink} href={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
           <span>{i18n.prfs}</span>
         </Link>
-      </SignInModuleFooter>
-    </SignInModule>
+      </PrfsIdSignInModuleFooter>
+    </PrfsIdSignInModule>
   );
 };
 

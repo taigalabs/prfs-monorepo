@@ -5,15 +5,15 @@ import cn from "classnames";
 import { useRouter } from "next/navigation";
 import { encrypt, decrypt, PublicKey, PrivateKey } from "eciesjs";
 import SignInButton from "@taigalabs/prfs-react-components/src/sign_in_button/SignInButton";
-import { SignInSuccessPayload, SignInInputs } from "@taigalabs/prfs-id-sdk-web";
+import { SignInSuccessPayload, SignInData } from "@taigalabs/prfs-id-sdk-web";
 
-import styles from "./SignInBtn.module.scss";
+import styles from "./PrfsIdSignInBtn.module.scss";
 import { paths } from "@/paths";
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
 import { signInPrfs } from "@/state/userReducer";
 
-const SignInBtn: React.FC<SignInBtnProps> = () => {
+const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   const router = useRouter();
   const [prfsSignInEndpoint, setPrfsSignInEndpoint] = React.useState<string | null>(null);
   const secretKeyRef = React.useRef<PrivateKey | null>(null);
@@ -24,7 +24,7 @@ const SignInBtn: React.FC<SignInBtnProps> = () => {
       const sk = new PrivateKey();
       const pkHex = sk.publicKey.toHex();
       const redirectUri = encodeURIComponent(window.location.toString());
-      const signInData = [SignInInputs.ID_POSEIDON];
+      const signInData = encodeURIComponent([SignInData.ID_POSEIDON].join(","));
       const queryString = `?public_key=${pkHex}&redirect_uri=${redirectUri}&sign_in_data=${signInData}`;
 
       setPrfsSignInEndpoint(
@@ -57,6 +57,6 @@ const SignInBtn: React.FC<SignInBtnProps> = () => {
   );
 };
 
-export default SignInBtn;
+export default PrfsIdSignInBtn;
 
-export interface SignInBtnProps {}
+export interface PrfsIdSignInBtnProps {}

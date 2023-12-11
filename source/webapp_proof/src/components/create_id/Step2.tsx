@@ -19,15 +19,19 @@ import { PrfsIdentitySignUpRequest } from "@taigalabs/prfs-entities/bindings/Prf
 
 import styles from "./Step2.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import {
-  SignInErrorMsg,
-  SignInInputGuide,
-  SignInModuleBtnRow,
-  SignInModuleHeader,
-  SignInModuleLogoArea,
-  SignInModuleSubtitle,
-  SignInModuleTitle,
-} from "@/components/sign_in_module/SignInModule";
+import PrfsIdSignInModule, {
+  PrfsIdSignInErrorMsg,
+  PrfsIdSignInForm,
+  PrfsIdSignInInputGuide,
+  PrfsIdSignInInputItem,
+  PrfsIdSignInModuleBtnRow,
+  PrfsIdSignInModuleFooter,
+  PrfsIdSignInModuleHeader,
+  PrfsIdSignInModuleInputArea,
+  PrfsIdSignInModuleLogoArea,
+  PrfsIdSignInModuleSubtitle,
+  PrfsIdSignInModuleTitle,
+} from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
 import { paths } from "@/paths";
 
 export enum IdCreationStatus {
@@ -140,13 +144,13 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev, handleClickSig
           <Spinner color="#1b62c0" />
         </div>
       )}
-      <SignInModuleLogoArea />
+      <PrfsIdSignInModuleLogoArea />
       <div className={styles.wrapper}>
         <Fade>
-          <SignInModuleHeader>
-            <SignInModuleTitle>{i18n.create_an_identity}</SignInModuleTitle>
-            <SignInModuleSubtitle>{i18n.check_your_credential}</SignInModuleSubtitle>
-          </SignInModuleHeader>
+          <PrfsIdSignInModuleHeader>
+            <PrfsIdSignInModuleTitle>{i18n.create_an_identity}</PrfsIdSignInModuleTitle>
+            <PrfsIdSignInModuleSubtitle>{i18n.check_your_credential}</PrfsIdSignInModuleSubtitle>
+          </PrfsIdSignInModuleHeader>
           <div className={styles.inputArea}>
             <div className={styles.labelArea}>
               <p>{i18n.password_secret_key}</p>
@@ -174,11 +178,11 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev, handleClickSig
               </div>
             </div>
           </div>
-          <SignInInputGuide>
+          <PrfsIdSignInInputGuide>
             <Link href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`} target="_blank">
               {i18n.how_is_the_password_generated}
             </Link>
-          </SignInInputGuide>
+          </PrfsIdSignInInputGuide>
           <div className={styles.inputArea}>
             <div className={styles.labelArea}>
               <p>{i18n.id}</p>
@@ -187,12 +191,12 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev, handleClickSig
               <div className={styles.value}>{credential.id}</div>
             </div>
           </div>
-          <SignInInputGuide>
+          <PrfsIdSignInInputGuide>
             <Link href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`} target="_blank">
               {i18n.what_is_id}
             </Link>
-          </SignInInputGuide>
-          <SignInModuleBtnRow className={styles.btnRow}>
+          </PrfsIdSignInInputGuide>
+          <PrfsIdSignInModuleBtnRow className={styles.btnRow}>
             <Button
               type="button"
               variant="transparent_blue_2"
@@ -212,8 +216,8 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev, handleClickSig
             >
               {i18n.sign_up}
             </Button>
-          </SignInModuleBtnRow>
-          <SignInModuleBtnRow className={styles.secondBtnRow}>
+          </PrfsIdSignInModuleBtnRow>
+          <PrfsIdSignInModuleBtnRow className={styles.secondBtnRow}>
             <Button
               type="button"
               variant="transparent_blue_2"
@@ -224,13 +228,13 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev, handleClickSig
               {i18n.go_back}
             </Button>
             <div />
-          </SignInModuleBtnRow>
-          <SignInErrorMsg>{errorMsg}</SignInErrorMsg>
-          <SignInInputGuide className={styles.rightAlign}>
+          </PrfsIdSignInModuleBtnRow>
+          <PrfsIdSignInErrorMsg>{errorMsg}</PrfsIdSignInErrorMsg>
+          <PrfsIdSignInInputGuide className={styles.rightAlign}>
             <Link href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`} target="_blank">
               {i18n.what_happens_when_signing_up}
             </Link>
-          </SignInInputGuide>
+          </PrfsIdSignInInputGuide>
         </Fade>
       </div>
     </div>
