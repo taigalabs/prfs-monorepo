@@ -8,14 +8,13 @@
     "build/**/*"
   ],
   "scripts": {
-    "clean": "rimraf ./dist",
     "build": "pnpm run clean && ts-node buildJs.ts && tsc && tsc-alias -p tsconfig.json",
+    "clean": "rimraf ./dist",
     "test": "jest"
   },
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
     "@noble/curves": "^1.2.0",
-    "@noble/secp256k1": "^2.0.0",
     "@taigalabs/async-incremental-merkle-tree": "*",
     "@taigalabs/prfs-crypto-js": "*",
     "@taigalabs/prfs-driver-interface": "*",

@@ -16,7 +16,6 @@
     "@mdx-js/react": "^2.3.0",
     "@next/mdx": "^13.5.4",
     "@noble/curves": "^1.2.0",
-    "@noble/secp256k1": "^2.0.0",
     "@phosphor-icons/react": "^2.0.10",
     "@react-icons/all-files": "^4.1.0",
     "@reduxjs/toolkit": "^1.9.5",

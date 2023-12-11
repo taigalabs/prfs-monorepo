@@ -1,5 +1,6 @@
 import * as ethers from "ethers";
-import * as secp from "@noble/secp256k1";
+// import * as secp from "@noble/secp256k1";
+import { secp256k1 as secp } from "@noble/curves/secp256k1";
 import { hexlify } from "ethers/lib/utils";
 
 import { initWasm } from "./wasm_wrapper/wasm";

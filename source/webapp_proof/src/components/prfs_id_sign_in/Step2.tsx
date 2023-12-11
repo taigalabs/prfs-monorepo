@@ -33,31 +33,31 @@ enum Step2Status {
 
 const SignInInputs: React.FC<SignInInputsProps> = ({ signInData, salt, credential }) => {
   const [elems, setElems] = React.useState<React.ReactNode>(null);
-  // React.useEffect(() => {
-  //   async function fn() {
-  //     console.log("fn");
-  //     let el = [];
-  //     for (const d of signInData) {
-  //       console.log("d", d);
-  //       if (d === SignInData.ID_POSEIDON) {
-  //         console.log(123, credential.secret_key, salt);
-  //         const sig = await prfsSign(credential.secret_key, salt);
-  //         console.log(22, sig);
+  React.useEffect(() => {
+    async function fn() {
+      console.log("fn");
+      let el = [];
+      for (const d of signInData) {
+        console.log("d", d);
+        if (d === SignInData.ID_POSEIDON) {
+          console.log(123, credential.secret_key, salt);
+          const sig = await prfsSign(credential.secret_key, salt);
+          console.log(22, sig);
 
-  //         el.push(
-  //           <li key={d}>
-  //             <p className={styles.label}>{d}</p>
-  //             <p>{salt}</p>
-  //             <p>{salt}</p>
-  //           </li>,
-  //         );
-  //       }
-  //     }
-  //     setElems(el);
-  //   }
+          el.push(
+            <li key={d}>
+              <p className={styles.label}>{d}</p>
+              <p>{salt}</p>
+              <p>{salt}</p>
+            </li>,
+          );
+        }
+      }
+      setElems(el);
+    }
 
-  //   fn().then();
-  // }, [signInData, setElems]);
+    fn().then();
+  }, [signInData, setElems]);
 
   return <ul className={styles.signInData}>{elems}</ul>;
 };
@@ -86,16 +86,15 @@ const Step2: React.FC<Step2Props> = ({
         });
         setCredential(credential);
 
-        console.log(11, credential);
+        // console.log(11, credential);
 
-        const MSG = "01".repeat(32);
-        const PRIV_KEY = 0x2n;
-        const sig = secp.sign(MSG, PRIV_KEY as any);
-        console.log(2221, sig);
+        // const MSG = "01".repeat(32);
+        // const PRIV_KEY = 0x2n;
+        // const sig = secp.sign(MSG, PRIV_KEY as any);
+        // console.log(2221, sig);
+        // const sig2 = secp.sign(MSG, BigInt(credential.secret_key));
 
-        const sig2 = secp.sign(MSG, BigInt(credential.secret_key));
-
-        console.log(222, sig2);
+        // console.log(222, sig2);
 
         const { hostname } = window.location;
         const title = (
