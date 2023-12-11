@@ -7,7 +7,7 @@ import {
   newZAuthMsg,
 } from "@taigalabs/prfs-id-sdk-web";
 
-import styles from "./SignInButton.module.scss";
+import styles from "./PrfsIdSignInButton.module.scss";
 import Button from "../button/Button";
 import { i18nContext } from "../contexts/i18nContext";
 

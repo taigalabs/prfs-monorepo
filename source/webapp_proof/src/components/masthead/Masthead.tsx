@@ -10,7 +10,7 @@ import { useSearchParams } from "next/navigation";
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import PrfsSignInBtn from "@/components/prfs_sign_in_btn/PrfsSignInBtn";
+import PrfsIdSignInBtn from "@/components/prfs_id_sign_in_btn/PrfsIdSignInBtn";
 
 const Masthead: React.FC<MastheadProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -43,7 +43,7 @@ const Masthead: React.FC<MastheadProps> = () => {
             />
           </li>
           <li className={cn(styles.menu, styles.signInBtn)}>
-            <PrfsSignInBtn />
+            <PrfsIdSignInBtn />
           </li>
         </ul>
       </div>
