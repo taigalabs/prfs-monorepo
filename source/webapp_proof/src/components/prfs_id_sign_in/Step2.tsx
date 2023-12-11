@@ -35,13 +35,11 @@ const SignInInputs: React.FC<SignInInputsProps> = ({ signInData, salt, credentia
   const [elems, setElems] = React.useState<React.ReactNode>(null);
   React.useEffect(() => {
     async function fn() {
-      console.log("fn");
       let el = [];
       for (const d of signInData) {
-        console.log("d", d);
         if (d === SignInData.ID_POSEIDON) {
-          console.log(123, credential.secret_key, salt);
           const sig = await prfsSign(credential.secret_key, salt);
+          const sigHex = sig.toHex();
           console.log(22, sig);
 
           el.push(

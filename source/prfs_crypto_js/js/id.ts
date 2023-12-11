@@ -28,7 +28,6 @@ export async function makeCredential(args: MakeCredentialArgs): Promise<Credenti
   const s1 = pk.subarray(1);
   const s2 = wasm.poseidon(s1);
   const id = s2.subarray(0, 20);
-
   // console.log("credential", pwInt, pk, s1, s2, id);
 
   return {
@@ -48,9 +47,8 @@ export async function prfsSign(skHex: string, msg: string) {
   const msgBytes = ethers.utils.toUtf8Bytes(msg);
   const msgHash = wasm.poseidon(msgBytes);
   console.log(22, msgHash, skHex);
-  const sig = secp.sign(msgHash, skHex);
 
-  return sig;
+  return secp.sign(msgHash, BigInt(skHex));
 }
 
 interface WasmSingleton {
