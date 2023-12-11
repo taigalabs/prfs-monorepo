@@ -29,7 +29,6 @@ const Step2: React.FC<Step2Props> = ({
   formData,
   formErrors,
   setFormData,
-  title,
   handleClickPrev,
   publicKey,
 }) => {
@@ -38,6 +37,8 @@ const Step2: React.FC<Step2Props> = ({
   const [step2Status, setStep2Status] = React.useState(Step2Status.Loading);
 
   React.useEffect(() => {
+    const { hostname } = window.location;
+
     const signInData = searchParams.get("sign_in_data");
     setStep2Status(Step2Status.Standby);
 
@@ -100,8 +101,8 @@ const Step2: React.FC<Step2Props> = ({
       <div className={styles.topLabelArea}>{i18n.sign_in_with_prfs_id}</div>
       <PrfsIdSignInInnerPadding>
         <PrfsIdSignInModuleHeader>
-          <PrfsIdSignInModuleTitle>{title}</PrfsIdSignInModuleTitle>
-          <PrfsIdSignInModuleSubtitle>{i18n.use_your_prfs_identity}</PrfsIdSignInModuleSubtitle>
+          {/* <PrfsIdSignInModuleTitle>{title}</PrfsIdSignInModuleTitle> */}
+          {/* <PrfsIdSignInModuleSubtitle>{i18n.use_your_prfs_identity}</PrfsIdSignInModuleSubtitle> */}
         </PrfsIdSignInModuleHeader>
         <PrfsIdSignInModuleInputArea>
           <div className={styles.inputGroup}>
@@ -157,7 +158,6 @@ const Step2: React.FC<Step2Props> = ({
 export default Step2;
 
 export interface Step2Props {
-  title: string;
   formData: IdCreateForm;
   formErrors: IdCreateForm;
   setFormData: React.Dispatch<React.SetStateAction<IdCreateForm>>;

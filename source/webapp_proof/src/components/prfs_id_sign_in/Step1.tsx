@@ -23,16 +23,16 @@ enum Step1Status {
   Standby,
 }
 
-const Step1: React.FC<Step1Props> = ({
-  formData,
-  formErrors,
-  setFormData,
-  title,
-  handleClickNext,
-}) => {
+const Step1: React.FC<Step1Props> = ({ formData, formErrors, setFormData, handleClickNext }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const [step1Status, setStep1Status] = React.useState(Step1Status.Standby);
+  const [title, setTitle] = React.useState(i18n.sign_in);
+
+  React.useEffect(() => {
+    const { hostname } = window.location;
+    setTitle(`${i18n.sign_in} to ${hostname}`);
+  }, [setTitle]);
 
   const handleClickCreateID = React.useCallback(() => {
     const { search } = window.location;
@@ -125,7 +125,6 @@ export default Step1;
 
 export interface Step1Props {
   errorMsg: string | null;
-  title: string;
   formData: IdCreateForm;
   formErrors: IdCreateForm;
   setFormData: React.Dispatch<React.SetStateAction<IdCreateForm>>;

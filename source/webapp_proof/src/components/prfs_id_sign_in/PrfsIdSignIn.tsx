@@ -51,13 +51,11 @@ const PrfsIdSignIn: React.FC = () => {
   const searchParams = useSearchParams();
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
-  const [title, setTitle] = React.useState(i18n.sign_in);
   const [step, setStep] = React.useState(SignInStep.PrfsIdCredential);
   const [publicKey, setPublicKey] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     const publicKey = searchParams.get("public_key");
-
     if (!publicKey) {
       setSignInStatus(SignInStatus.Error);
       setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
@@ -65,10 +63,7 @@ const PrfsIdSignIn: React.FC = () => {
       setPublicKey(publicKey);
       setSignInStatus(SignInStatus.Standby);
     }
-
-    const { hostname } = window.location;
-    setTitle(`${i18n.sign_in} to ${hostname}`);
-  }, [searchParams, setSignInStatus, setErrorMsg, setPublicKey, setTitle]);
+  }, [searchParams, setSignInStatus, setErrorMsg, setPublicKey]);
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,7 +96,6 @@ const PrfsIdSignIn: React.FC = () => {
         return (
           <Step1
             errorMsg={errorMsg}
-            title={title}
             formData={formData}
             setFormData={setFormData}
             formErrors={formErrors}
@@ -113,7 +107,7 @@ const PrfsIdSignIn: React.FC = () => {
         return (
           <Step2
             publicKey={publicKey}
-            title={title}
+            // title={title}
             formData={formData}
             setFormData={setFormData}
             formErrors={formErrors}
