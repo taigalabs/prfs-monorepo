@@ -37,6 +37,11 @@ enum SignInStatus {
   Standby,
 }
 
+enum SignInStep {
+  PrfsIdCredential,
+  AppCredential,
+}
+
 const SignIn: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
@@ -44,6 +49,10 @@ const SignIn: React.FC = () => {
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const [publicKey, setPublicKey] = React.useState<string | null>(null);
   const searchParams = useSearchParams();
+  const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
+  const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
+  const [title, setTitle] = React.useState(i18n.sign_in);
+  const [step, setStep] = React.useState(SignInStep.PrfsIdCredential);
 
   React.useEffect(() => {
     const publicKey = searchParams.get("public_key");
@@ -55,7 +64,10 @@ const SignIn: React.FC = () => {
       setPublicKey(publicKey);
       setStatus(SignInStatus.Standby);
     }
-  }, [searchParams, setStatus, setErrorMsg, setPublicKey]);
+
+    const { hostname } = window.location;
+    setTitle(`${i18n.sign_in} to ${hostname}`);
+  }, [searchParams, setStatus, setErrorMsg, setPublicKey, setTitle]);
 
   const handleClickSignIn = React.useCallback(async () => {
     if (formData && publicKey) {
@@ -93,9 +105,6 @@ const SignIn: React.FC = () => {
     window.close();
   }, []);
 
-  const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
-  const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
-
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
       const name = ev.target.name;
@@ -113,68 +122,95 @@ const SignIn: React.FC = () => {
     [formData, setFormData],
   );
 
+  const content = React.useMemo(() => {
+    switch (step) {
+      case SignInStep.PrfsIdCredential: {
+        return (
+          <Step1
+            formData={formData}
+            setFormData={setFormData}
+            formErrors={formErrors}
+            handleClickSignIn={handleClickSignIn}
+          />
+        );
+      }
+      // case SignInStep.AppCredential: {
+      //   return (
+      //     <Step2
+      //       formData={formData}
+      //       handleClickPrev={handleClickPrev}
+      //       handleClickSignIn={handleClickSignIn}
+      //     />
+      //   );
+      // }
+      default:
+        <div>Invalid step</div>;
+    }
+  }, [step, handleClickNext, handleChangeValue, formErrors]);
+
   return (
     <SignInModule>
       <SignInForm>
-        {status === SignInStatus.Loading && (
-          <div className={styles.overlay}>
-            <Spinner color="#1b62c0" />
-          </div>
-        )}
-        {status === SignInStatus.Error && (
-          <ErrorDialog errorMsg={errorMsg} handleClose={handleCloseErrorDialog} />
-        )}
-        <SignInModuleLogoArea />
-        <SignInModuleHeader>
-          <SignInModuleTitle>{i18n.sign_in}</SignInModuleTitle>
-          <SignInModuleSubtitle>{i18n.use_your_prfs_identity}</SignInModuleSubtitle>
-        </SignInModuleHeader>
-        <SignInModuleInputArea>
-          <div className={styles.inputGroup}>
-            <SignInInputItem
-              name="email"
-              value={formData.email}
-              placeholder={i18n.email}
-              error={formErrors.email}
-              handleChangeValue={handleChangeValue}
-            />
-          </div>
-          <div className={styles.inputGroup}>
-            <SignInInputItem
-              name="password_1"
-              value={formData.password_1}
-              placeholder={i18n.password_1}
-              error={formErrors.password_1}
-              handleChangeValue={handleChangeValue}
-              type="password"
-            />
-          </div>
-          <div className={styles.inputGroup}>
-            <SignInInputItem
-              name="password_2"
-              value={formData.password_2}
-              placeholder={i18n.password_2}
-              error={formErrors.password_2}
-              handleChangeValue={handleChangeValue}
-              type="password"
-            />
-          </div>
-        </SignInModuleInputArea>
-        <SignInModuleBtnRow>
-          <Button variant="transparent_blue_2" noTransition handleClick={handleClickCreateID}>
-            {i18n.create_id}
-          </Button>
-          <Button
-            type="button"
-            variant="blue_2"
-            className={styles.signInBtn}
-            noTransition
-            handleClick={handleClickSignIn}
-            noShadow
-          >
-            {i18n.sign_in}
-          </Button>
-        </SignInModuleBtnRow>
+        {content}
+        {/* {status === SignInStatus.Loading && ( */}
+        {/*   <div className={styles.overlay}> */}
+        {/*     <Spinner color="#1b62c0" /> */}
+        {/*   </div> */}
+        {/* )} */}
+        {/* {status === SignInStatus.Error && ( */}
+        {/*   <ErrorDialog errorMsg={errorMsg} handleClose={handleCloseErrorDialog} /> */}
+        {/* )} */}
+        {/* <SignInModuleLogoArea /> */}
+        {/* <SignInModuleHeader> */}
+        {/*   <SignInModuleTitle>{title}</SignInModuleTitle> */}
+        {/*   <SignInModuleSubtitle>{i18n.use_your_prfs_identity}</SignInModuleSubtitle> */}
+        {/* </SignInModuleHeader> */}
+        {/* <SignInModuleInputArea> */}
+        {/*   <div className={styles.inputGroup}> */}
+        {/*     <SignInInputItem */}
+        {/*       name="email" */}
+        {/*       value={formData.email} */}
+        {/*       placeholder={i18n.email} */}
+        {/*       error={formErrors.email} */}
+        {/*       handleChangeValue={handleChangeValue} */}
+        {/*     /> */}
+        {/*   </div> */}
+        {/*   <div className={styles.inputGroup}> */}
+        {/*     <SignInInputItem */}
+        {/*       name="password_1" */}
+        {/*       value={formData.password_1} */}
+        {/*       placeholder={i18n.password_1} */}
+        {/*       error={formErrors.password_1} */}
+        {/*       handleChangeValue={handleChangeValue} */}
+        {/*       type="password" */}
+        {/*     /> */}
+        {/*   </div> */}
+        {/*   <div className={styles.inputGroup}> */}
+        {/*     <SignInInputItem */}
+        {/*       name="password_2" */}
+        {/*       value={formData.password_2} */}
+        {/*       placeholder={i18n.password_2} */}
+        {/*       error={formErrors.password_2} */}
+        {/*       handleChangeValue={handleChangeValue} */}
+        {/*       type="password" */}
+        {/*     /> */}
+        {/*   </div> */}
+        {/* </SignInModuleInputArea> */}
+        {/* <SignInModuleBtnRow> */}
+        {/*   <Button variant="transparent_blue_2" noTransition handleClick={handleClickCreateID}> */}
+        {/*     {i18n.create_id} */}
+        {/*   </Button> */}
+        {/*   <Button */}
+        {/*     type="button" */}
+        {/*     variant="blue_2" */}
+        {/*     className={styles.signInBtn} */}
+        {/*     noTransition */}
+        {/*     handleClick={handleClickSignIn} */}
+        {/*     noShadow */}
+        {/*   > */}
+        {/*     {i18n.sign_in} */}
+        {/*   </Button> */}
+        {/* </SignInModuleBtnRow> */}
       </SignInForm>
       <SignInModuleFooter>
         <Link href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL}>

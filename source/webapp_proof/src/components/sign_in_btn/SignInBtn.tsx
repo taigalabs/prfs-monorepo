@@ -5,7 +5,7 @@ import cn from "classnames";
 import { useRouter } from "next/navigation";
 import { encrypt, decrypt, PublicKey, PrivateKey } from "eciesjs";
 import SignInButton from "@taigalabs/prfs-react-components/src/sign_in_button/SignInButton";
-import { SignInSuccessPayload } from "@taigalabs/prfs-id-sdk-web";
+import { SignInSuccessPayload, SignInInputs } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./SignInBtn.module.scss";
 import { paths } from "@/paths";
@@ -23,8 +23,9 @@ const SignInBtn: React.FC<SignInBtnProps> = () => {
     if (!secretKeyRef.current) {
       const sk = new PrivateKey();
       const pkHex = sk.publicKey.toHex();
-      const redirect_uri = encodeURIComponent(window.location.toString());
-      const queryString = `?public_key=${pkHex}&redirect_uri=${redirect_uri}`;
+      const redirectUri = encodeURIComponent(window.location.toString());
+      const signInInputs = [SignInInputs.ID_POSEIDON];
+      const queryString = `?public_key=${pkHex}&redirect_uri=${redirectUri}&sign_in_inputs=${signInInputs}`;
 
       setPrfsSignInEndpoint(
         `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id__signin}${queryString}`,
