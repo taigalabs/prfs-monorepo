@@ -9,6 +9,7 @@ import styles from "./Step1.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import PrfsIdSignInModule, {
   PrfsIdSignInForm,
+  PrfsIdSignInInnerPadding,
   PrfsIdSignInInputGuide,
   PrfsIdSignInInputItem,
   PrfsIdSignInModuleBtnRow,
@@ -20,12 +21,7 @@ import PrfsIdSignInModule, {
   PrfsIdSignInModuleTitle,
 } from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
 import { paths } from "@/paths";
-import {
-  IdCreateForm,
-  makeEmptyIDCreateFormErrors,
-  makeEmptyIdCreateForm,
-  validateIdCreateForm,
-} from "@/functions/validate_id";
+import { IdCreateForm } from "@/functions/validate_id";
 
 const Step1: React.FC<Step1Props> = ({
   formData,
@@ -55,7 +51,7 @@ const Step1: React.FC<Step1Props> = ({
   );
 
   return (
-    <div>
+    <PrfsIdSignInInnerPadding>
       <PrfsIdSignInModuleLogoArea />
       <Fade>
         <PrfsIdSignInModuleHeader>
@@ -148,7 +144,7 @@ const Step1: React.FC<Step1Props> = ({
           </Button>
         </PrfsIdSignInModuleBtnRow>
       </Fade>
-    </div>
+    </PrfsIdSignInInnerPadding>
   );
 };
 

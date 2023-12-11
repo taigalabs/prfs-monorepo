@@ -19,15 +19,12 @@ import { PrfsIdentitySignUpRequest } from "@taigalabs/prfs-entities/bindings/Prf
 
 import styles from "./Step2.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import PrfsIdSignInModule, {
+import {
   PrfsIdSignInErrorMsg,
-  PrfsIdSignInForm,
+  PrfsIdSignInInnerPadding,
   PrfsIdSignInInputGuide,
-  PrfsIdSignInInputItem,
   PrfsIdSignInModuleBtnRow,
-  PrfsIdSignInModuleFooter,
   PrfsIdSignInModuleHeader,
-  PrfsIdSignInModuleInputArea,
   PrfsIdSignInModuleLogoArea,
   PrfsIdSignInModuleSubtitle,
   PrfsIdSignInModuleTitle,
@@ -138,7 +135,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev, handleClickSig
   }, [formData, showPassword, credential.secret_key]);
 
   return (
-    <div>
+    <PrfsIdSignInInnerPadding>
       {status === IdCreationStatus.InProgress && (
         <div className={styles.loadingOverlay}>
           <Spinner color="#1b62c0" />
@@ -237,7 +234,7 @@ const Step2: React.FC<Step2Props> = ({ formData, handleClickPrev, handleClickSig
           </PrfsIdSignInInputGuide>
         </Fade>
       </div>
-    </div>
+    </PrfsIdSignInInnerPadding>
   );
 };
 

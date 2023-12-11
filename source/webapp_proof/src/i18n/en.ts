@@ -23,6 +23,7 @@ const en = {
   address: "Address",
   merkle_proof: "Merkle proof",
   sign: "Sign",
+  sign_in_with_prfs_id: "Sign in with Prfs ID",
   type_merkle_proof: "Type merkle proof",
   feedback: "Feedback",
   id: "Id",

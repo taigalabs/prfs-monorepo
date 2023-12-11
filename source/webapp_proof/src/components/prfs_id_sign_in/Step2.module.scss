@@ -13,6 +13,11 @@
   z-index: 10;
 }
 
+.topLabelArea {
+  color: var(--gray-40);
+  font-size: 13px;
+}
+
 .inputGroup {
   &:not(:first-child) {
     margin-top: 16px;

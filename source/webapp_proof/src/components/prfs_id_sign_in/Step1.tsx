@@ -6,6 +6,7 @@ import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import styles from "./Step1.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import {
+  PrfsIdSignInInnerPadding,
   PrfsIdSignInInputItem,
   PrfsIdSignInModuleBtnRow,
   PrfsIdSignInModuleHeader,
@@ -63,57 +64,59 @@ const Step1: React.FC<Step1Props> = ({
           <Spinner color="#1b62c0" />
         </div>
       )}
-      <PrfsIdSignInModuleLogoArea />
-      <PrfsIdSignInModuleHeader>
-        <PrfsIdSignInModuleTitle>{title}</PrfsIdSignInModuleTitle>
-        <PrfsIdSignInModuleSubtitle>{i18n.use_your_prfs_identity}</PrfsIdSignInModuleSubtitle>
-      </PrfsIdSignInModuleHeader>
-      <PrfsIdSignInModuleInputArea>
-        <div className={styles.inputGroup}>
-          <PrfsIdSignInInputItem
-            name="email"
-            value={formData.email}
-            placeholder={i18n.email}
-            error={formErrors.email}
-            handleChangeValue={handleChangeValue}
-          />
-        </div>
-        <div className={styles.inputGroup}>
-          <PrfsIdSignInInputItem
-            name="password_1"
-            value={formData.password_1}
-            placeholder={i18n.password_1}
-            error={formErrors.password_1}
-            handleChangeValue={handleChangeValue}
-            type="password"
-          />
-        </div>
-        <div className={styles.inputGroup}>
-          <PrfsIdSignInInputItem
-            name="password_2"
-            value={formData.password_2}
-            placeholder={i18n.password_2}
-            error={formErrors.password_2}
-            handleChangeValue={handleChangeValue}
-            type="password"
-          />
-        </div>
-      </PrfsIdSignInModuleInputArea>
-      <PrfsIdSignInModuleBtnRow>
-        <Button variant="transparent_blue_2" noTransition handleClick={handleClickCreateID}>
-          {i18n.create_id}
-        </Button>
-        <Button
-          type="button"
-          variant="blue_2"
-          className={styles.signInBtn}
-          noTransition
-          handleClick={handleClickNext}
-          noShadow
-        >
-          {i18n.next}
-        </Button>
-      </PrfsIdSignInModuleBtnRow>
+      <PrfsIdSignInInnerPadding>
+        <PrfsIdSignInModuleLogoArea />
+        <PrfsIdSignInModuleHeader>
+          <PrfsIdSignInModuleTitle>{title}</PrfsIdSignInModuleTitle>
+          <PrfsIdSignInModuleSubtitle>{i18n.use_your_prfs_identity}</PrfsIdSignInModuleSubtitle>
+        </PrfsIdSignInModuleHeader>
+        <PrfsIdSignInModuleInputArea>
+          <div className={styles.inputGroup}>
+            <PrfsIdSignInInputItem
+              name="email"
+              value={formData.email}
+              placeholder={i18n.email}
+              error={formErrors.email}
+              handleChangeValue={handleChangeValue}
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <PrfsIdSignInInputItem
+              name="password_1"
+              value={formData.password_1}
+              placeholder={i18n.password_1}
+              error={formErrors.password_1}
+              handleChangeValue={handleChangeValue}
+              type="password"
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <PrfsIdSignInInputItem
+              name="password_2"
+              value={formData.password_2}
+              placeholder={i18n.password_2}
+              error={formErrors.password_2}
+              handleChangeValue={handleChangeValue}
+              type="password"
+            />
+          </div>
+        </PrfsIdSignInModuleInputArea>
+        <PrfsIdSignInModuleBtnRow>
+          <Button variant="transparent_blue_2" noTransition handleClick={handleClickCreateID}>
+            {i18n.create_id}
+          </Button>
+          <Button
+            type="button"
+            variant="blue_2"
+            className={styles.signInBtn}
+            noTransition
+            handleClick={handleClickNext}
+            noShadow
+          >
+            {i18n.next}
+          </Button>
+        </PrfsIdSignInModuleBtnRow>
+      </PrfsIdSignInInnerPadding>
     </>
   );
 };
