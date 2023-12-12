@@ -7,7 +7,7 @@ use poseidon::{
 };
 use secq256k1::field::field_secp::FieldElement;
 use secq256k1::field::BaseField;
-use sha2::digest::typenum::U2;
+use sha2::digest::typenum::{U1, U2};
 
 use crate::PrfsCryptoError;
 
@@ -40,17 +40,23 @@ pub fn convert_bytes_to_field_elem_vec(
     Ok(input)
 }
 
-pub fn poseidon_2(arg1: &[u8; 32], arg2: &[u8; 32]) -> [u8; 32] {
-    let fp1 = Fp::from_bytes(arg1).unwrap();
-    let fp2 = Fp::from_bytes(arg2).unwrap();
+pub fn poseidon_32(arg: &[u8; 32]) -> Result<[u8; 32], PrfsCryptoError> {
+    if arg.len() != 32 {}
 
-    let preimage = [fp1, fp2];
+    let fp1 = convert_bytes_to_field_elem(&arg[0..32]);
+
+    let preimage = [fp1];
     let constants = PoseidonConstants::new();
-    let mut h = Poseidon::<Fp, U2>::new_with_preimage(&preimage, &constants);
+    let mut h = Poseidon::<Fp, U1>::new_with_preimage(&preimage, &constants);
     let result = h.hash();
-    return result.to_bytes();
+    return Ok(result.to_bytes());
 }
 
 pub fn poseidon_4() {}
 
 pub fn poseidon_8() {}
+
+fn convert_bytes_to_field_elem(arr: &[u8]) -> Fp {
+    let f: [u8; 32] = arr[0..32].try_into().unwrap();
+    Fp::from_bytes(&f).unwrap()
+}

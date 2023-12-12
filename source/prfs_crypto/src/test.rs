@@ -2,7 +2,7 @@ use halo2curves::{ff::Field, secp256k1::Fp};
 use neptune::{poseidon::PoseidonConstants, Poseidon};
 use sha2::digest::typenum::U2;
 
-use crate::{hash_from_bytes, poseidon_2};
+use crate::{hash_from_bytes, poseidon_32};
 
 #[test]
 pub fn test_poseidon() {
@@ -38,6 +38,6 @@ pub fn test_poseidon() {
 pub fn test_poseidon2() {
     let arg1 = &[0u8; 32];
     let arg2 = &[0u8; 32];
-    let res = poseidon_2(arg1, arg2);
+    let res = poseidon_32(&arg1);
     println!("res: {:?}", res);
 }
