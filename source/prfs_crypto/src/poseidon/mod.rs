@@ -1,9 +1,15 @@
-use crate::PrfsCryptoError;
 use ff::PrimeField;
-use poseidon::{poseidon_k256::hash, Poseidon, PoseidonConstants, PoseidonError};
-
+use halo2curves::{ff::Field, secp256k1::Fp};
+use neptune::{poseidon::PoseidonConstants, Poseidon};
+use poseidon::{
+    poseidon_k256::hash, Poseidon as NeptunePoseidon,
+    PoseidonConstants as NeptunePoseidonConstants, PoseidonError,
+};
 use secq256k1::field::field_secp::FieldElement;
 use secq256k1::field::BaseField;
+use sha2::digest::typenum::U2;
+
+use crate::PrfsCryptoError;
 
 pub fn hash_from_bytes(input_bytes: &[u8]) -> Result<[u8; 32], PrfsCryptoError> {
     let input = convert_bytes_to_field_elem_vec(input_bytes)?;
@@ -33,3 +39,18 @@ pub fn convert_bytes_to_field_elem_vec(
 
     Ok(input)
 }
+
+pub fn poseidon_2(arg1: &[u8; 32], arg2: &[u8; 32]) -> [u8; 32] {
+    let fp1 = Fp::from_bytes(arg1).unwrap();
+    let fp2 = Fp::from_bytes(arg2).unwrap();
+
+    let preimage = [fp1, fp2];
+    let constants = PoseidonConstants::new();
+    let mut h = Poseidon::<Fp, U2>::new_with_preimage(&preimage, &constants);
+    let result = h.hash();
+    return result.to_bytes();
+}
+
+pub fn poseidon_4() {}
+
+pub fn poseidon_8() {}

@@ -24,9 +24,8 @@ pub fn hash(input: Vec<FieldElement>) -> FieldElement {
         k256_consts::NUM_FULL_ROUNDS,
         k256_consts::NUM_PARTIAL_ROUNDS,
     );
+
     let mut poseidon = Poseidon::new(constants);
-
     let result = poseidon.hash(input);
-
     result
 }
