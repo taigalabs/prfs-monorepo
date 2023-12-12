@@ -3,12 +3,8 @@ import * as ethers from "ethers";
 import { secp256k1 as secp } from "@noble/curves/secp256k1";
 import { hexlify } from "ethers/lib/utils";
 
-import { initWasm } from "./wasm_wrapper/wasm";
+import { initWasm, wasmSingleton } from "./wasm_wrapper/wasm";
 import { bytesToBigInt } from "./bigint";
-
-const wasmSingleton: WasmSingleton = {
-  wasm: null,
-};
 
 export async function makeCredential(args: MakeCredentialArgs): Promise<Credential> {
   if (wasmSingleton.wasm === null) {
@@ -49,10 +45,6 @@ export async function prfsSign(skHex: string, msg: string) {
   console.log(22, msgHash, skHex);
 
   return secp.sign(msgHash, BigInt(skHex));
-}
-
-interface WasmSingleton {
-  wasm: typeof import("./wasm_wrapper/build") | null;
 }
 
 export interface MakeCredentialArgs {

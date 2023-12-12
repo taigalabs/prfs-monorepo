@@ -1,5 +1,5 @@
 import React from "react";
-import { initWasm, makeCredential, type Credential } from "@taigalabs/prfs-crypto-js";
+import { prfsSign, initWasm, makeCredential, type Credential } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -9,7 +9,6 @@ import {
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt } from "eciesjs";
-import { prfsSign } from "@taigalabs/prfs-crypto-js";
 import { secp256k1 as secp } from "@noble/curves/secp256k1";
 
 import styles from "./Step2.module.scss";
@@ -35,12 +34,18 @@ const SignInInputs: React.FC<SignInInputsProps> = ({ signInData, salt, credentia
   const [elems, setElems] = React.useState<React.ReactNode>(null);
   React.useEffect(() => {
     async function fn() {
+      console.log("fn");
       let el = [];
       for (const d of signInData) {
+        console.log("d", d);
         if (d === SignInData.ID_POSEIDON) {
-          const sig = await prfsSign(credential.secret_key, salt);
-          const sigHex = sig.toHex();
-          console.log(22, sig);
+          console.log(11, credential);
+
+          // const MSG = "01".repeat(32);
+          const msg = salt.padStart(64, "0");
+          const sig2 = secp.sign(msg, BigInt(credential.secret_key));
+
+          console.log(222, sig2);
 
           el.push(
             <li key={d}>
@@ -83,16 +88,6 @@ const Step2: React.FC<Step2Props> = ({
           password_2: formData.password_2,
         });
         setCredential(credential);
-
-        // console.log(11, credential);
-
-        // const MSG = "01".repeat(32);
-        // const PRIV_KEY = 0x2n;
-        // const sig = secp.sign(MSG, PRIV_KEY as any);
-        // console.log(2221, sig);
-        // const sig2 = secp.sign(MSG, BigInt(credential.secret_key));
-
-        // console.log(222, sig2);
 
         const { hostname } = window.location;
         const title = (
