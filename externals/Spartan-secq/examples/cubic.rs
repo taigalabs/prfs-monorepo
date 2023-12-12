@@ -147,6 +147,7 @@ fn main() {
   // verify the proof of satisfiability
   let mut verifier_transcript = Transcript::new(b"snark_example");
   assert!(proof
+    .unwrap()
     .verify(&comm, &assignment_inputs, &mut verifier_transcript, &gens)
     .is_ok());
   println!("proof verification successful!");

@@ -12,8 +12,9 @@ export async function poseidon(msg: string): Promise<bigint> {
   }
 
   const { wasm } = wasmSingleton;
-  const pwBytes = ethers.utils.toUtf8Bytes(msg);
-  const pwHash = wasm.poseidon(pwBytes);
+  const msgBytes = ethers.utils.toUtf8Bytes(msg);
+  console.log(111, msg, msgBytes.join(","));
+  const pwHash = wasm.poseidon(msgBytes);
   const pwInt = bytesToBigInt(pwHash);
 
   return pwInt;

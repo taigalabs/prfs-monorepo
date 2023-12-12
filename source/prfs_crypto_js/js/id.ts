@@ -17,6 +17,7 @@ export async function makeCredential(args: MakeCredentialArgs): Promise<Credenti
 
   const pw = `${email}${password_1}${password_2}`;
   const pwBytes = ethers.utils.toUtf8Bytes(pw);
+  console.log(12, pw, pwBytes);
   const pwHash = wasm.poseidon(pwBytes);
   const pwInt = bytesToBigInt(pwHash);
 
@@ -42,8 +43,6 @@ export async function prfsSign(skHex: string, msg: string) {
   const { wasm } = wasmSingleton;
   const msgBytes = ethers.utils.toUtf8Bytes(msg);
   const msgHash = wasm.poseidon(msgBytes);
-  console.log(22, msgHash, skHex);
-
   return secp.sign(msgHash, BigInt(skHex));
 }
 

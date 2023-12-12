@@ -1,5 +1,5 @@
 import React from "react";
-import { prfsSign, initWasm, makeCredential, type Credential } from "@taigalabs/prfs-crypto-js";
+import { prfsSign, makeCredential, type Credential, poseidon } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -34,18 +34,16 @@ const SignInInputs: React.FC<SignInInputsProps> = ({ signInData, salt, credentia
   const [elems, setElems] = React.useState<React.ReactNode>(null);
   React.useEffect(() => {
     async function fn() {
-      console.log("fn");
       let el = [];
       for (const d of signInData) {
-        console.log("d", d);
         if (d === SignInData.ID_POSEIDON) {
-          console.log(11, credential);
-
-          // const MSG = "01".repeat(32);
           const msg = salt.padStart(64, "0");
-          const sig2 = secp.sign(msg, BigInt(credential.secret_key));
+          const sig = await prfsSign(credential.secret_key, msg);
+          const sigStr = sig.toCompactHex();
+          console.log(222, sig, sigStr);
+          const r = await poseidon(sigStr);
 
-          console.log(222, sig2);
+          // console.log(3332, r);
 
           el.push(
             <li key={d}>
