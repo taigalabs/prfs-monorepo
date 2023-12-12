@@ -87,7 +87,7 @@ impl<F: PrimeField> Poseidon<F> {
         for val in self.constants.mds_matrix.iter() {
             let mut tmp = F::zero();
             for (j, element) in self.state.iter().enumerate() {
-                tmp += val[j] * element
+                tmp += val[j] * element;
             }
             result.push(tmp)
         }
