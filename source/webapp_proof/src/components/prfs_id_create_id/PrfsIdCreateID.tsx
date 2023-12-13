@@ -20,6 +20,7 @@ import {
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import { envs } from "@/envs";
+import { PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
 
 enum CreateIDStep {
   InputCredential,
@@ -32,6 +33,7 @@ const PrfsIdCreateID: React.FC = () => {
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
   const [step, setStep] = React.useState(CreateIDStep.InputCredential);
+  const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,16 +81,20 @@ const PrfsIdCreateID: React.FC = () => {
             handleClickSignIn={handleClickSignIn}
             handleClickPrev={handleClickPrev}
             handleClickNext={handleClickNext}
+            setCredential={setCredential}
           />
         );
       }
       case CreateIDStep.CreateIdSuccess: {
         return (
-          <Step2
-            formData={formData}
-            handleClickPrev={handleClickPrev}
-            handleClickSignIn={handleClickSignIn}
-          />
+          credential && (
+            <Step2
+              credential={credential}
+              formData={formData}
+              handleClickPrev={handleClickPrev}
+              handleClickSignIn={handleClickSignIn}
+            />
+          )
         );
       }
       default:

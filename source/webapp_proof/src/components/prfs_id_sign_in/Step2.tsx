@@ -81,6 +81,7 @@ const Step2: React.FC<Step2Props> = ({
   handleClickPrev,
   appId,
   publicKey,
+  credential,
 }) => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
@@ -88,7 +89,7 @@ const Step2: React.FC<Step2Props> = ({
   const [title, setTitle] = React.useState<React.ReactNode>(null);
   const [errorMsg, setErrorMsg] = React.useState("");
   const [content, setContent] = React.useState<React.ReactNode>(null);
-  const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
+  // const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
   const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignInRequest) => {
       return idApi("sign_in_prfs_identity", req);
@@ -103,13 +104,13 @@ const Step2: React.FC<Step2Props> = ({
           handleClickPrev();
         }
 
-        const credential = await makeCredential({
-          email: formData.email,
-          password_1: formData.password_1,
-          password_2: formData.password_2,
-        });
-        console.log("email", formData.email);
-        setCredential(credential);
+        // const credential = await makeCredential({
+        //   email: formData.email,
+        //   password_1: formData.password_1,
+        //   password_2: formData.password_2,
+        // });
+        // console.log("email", formData.email);
+        // setCredential(credential);
 
         const title = (
           <>
@@ -132,15 +133,7 @@ const Step2: React.FC<Step2Props> = ({
       }
     }
     fn().then();
-  }, [
-    setStep2Status,
-    searchParams,
-    setTitle,
-    setContent,
-    formData,
-    setCredential,
-    handleClickPrev,
-  ]);
+  }, [setStep2Status, searchParams, setTitle, setContent, formData, credential, handleClickPrev]);
 
   const handleClickSignIn = React.useCallback(async () => {
     if (formData && publicKey && credential) {
@@ -224,6 +217,7 @@ export interface Step2Props {
   handleClickPrev: () => void;
   appId: string;
   publicKey: string;
+  credential: PrfsIdCredential;
 }
 
 export interface SignInInputsProps {

@@ -17,13 +17,20 @@ import {
 } from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
 import { paths } from "@/paths";
 import { IdCreateForm } from "@/functions/validate_id";
+import { PrfsIdCredential, makeCredential } from "@taigalabs/prfs-crypto-js";
 
 enum Step1Status {
   Loading,
   Standby,
 }
 
-const Step1: React.FC<Step1Props> = ({ formData, formErrors, setFormData, handleClickNext }) => {
+const Step1: React.FC<Step1Props> = ({
+  formData,
+  formErrors,
+  setFormData,
+  handleClickNext,
+  setCredential,
+}) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const [step1Status, setStep1Status] = React.useState(Step1Status.Standby);
@@ -56,6 +63,18 @@ const Step1: React.FC<Step1Props> = ({ formData, formErrors, setFormData, handle
     },
     [formData, setFormData],
   );
+
+  const enhancedHandleClickNext = React.useCallback(async () => {
+    const credential = await makeCredential({
+      email: formData.email,
+      password_1: formData.password_1,
+      password_2: formData.password_2,
+    });
+    console.log("credential", credential);
+
+    setCredential(credential);
+    handleClickNext();
+  }, [handleClickNext, setCredential]);
 
   return (
     <>
@@ -115,7 +134,7 @@ const Step1: React.FC<Step1Props> = ({ formData, formErrors, setFormData, handle
             variant="blue_2"
             className={styles.signInBtn}
             noTransition
-            handleClick={handleClickNext}
+            handleClick={enhancedHandleClickNext}
             noShadow
           >
             {i18n.next}
@@ -134,4 +153,5 @@ export interface Step1Props {
   formErrors: IdCreateForm;
   setFormData: React.Dispatch<React.SetStateAction<IdCreateForm>>;
   handleClickNext: () => void;
+  setCredential: React.Dispatch<React.SetStateAction<PrfsIdCredential | null>>;
 }

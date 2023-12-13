@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { initWasm, makeCredential } from "@taigalabs/prfs-crypto-js";
+import { PrfsIdCredential, initWasm, makeCredential } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -63,6 +63,7 @@ const PrfsIdSignIn: React.FC = () => {
   const [publicKey, setPublicKey] = React.useState<string | null>(null);
   const [appId, setAppId] = React.useState<string | null>(null);
   const [storedCredentials, setStoredCredentials] = React.useState<StoredCredential[]>([]);
+  const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
 
   React.useEffect(() => {
     const publicKey = searchParams.get("public_key");
@@ -144,6 +145,7 @@ const PrfsIdSignIn: React.FC = () => {
       case SignInStep.PrfsIdCredential: {
         return (
           <Step1
+            setCredential={setCredential}
             errorMsg={errorMsg}
             formData={formData}
             setFormData={setFormData}
@@ -154,14 +156,17 @@ const PrfsIdSignIn: React.FC = () => {
       }
       case SignInStep.AppCredential: {
         return (
-          <Step2
-            appId={appId}
-            publicKey={publicKey}
-            formData={formData}
-            setFormData={setFormData}
-            formErrors={formErrors}
-            handleClickPrev={handleClickPrev}
-          />
+          credential && (
+            <Step2
+              credential={credential}
+              appId={appId}
+              publicKey={publicKey}
+              formData={formData}
+              setFormData={setFormData}
+              formErrors={formErrors}
+              handleClickPrev={handleClickPrev}
+            />
+          )
         );
       }
       default:
