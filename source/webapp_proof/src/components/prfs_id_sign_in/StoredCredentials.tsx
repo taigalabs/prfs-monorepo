@@ -53,6 +53,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const [selectedCredentialId, setSelectedCredentialId] = React.useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = React.useState("");
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
 
@@ -91,9 +92,15 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
       const pw2Hash = await poseidon_2(password_2);
       let decryptKey = PrivateKey.fromHex(hexlify(pw2Hash));
       let msg = Buffer.from(credential.credential);
-      console.log(11, msg);
+      try {
+        const r = decrypt(decryptKey.secret, msg).toString();
+        console.log(11, msg, r);
+      } catch (err) {
+        console.error(err);
+        // set error msg
+      }
     }
-  }, [handleClickNext, formData, selectedCredentialId]);
+  }, [handleClickNext, formData, selectedCredentialId, setErrorMsg]);
 
   const handleClickForgetAccounts = React.useCallback(() => {
     removeAllPrfsIdCredentials();

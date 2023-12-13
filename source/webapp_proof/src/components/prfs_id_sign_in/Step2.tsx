@@ -19,12 +19,13 @@ import {
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt } from "eciesjs";
 import { useMutation } from "wagmi";
-import { PrfsIdentitySignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignUpRequest";
+import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
 import { idApi } from "@taigalabs/prfs-api-js";
 
 import styles from "./Step2.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import {
+  PrfsIdSignInErrorMsg,
   PrfsIdSignInInnerPadding,
   PrfsIdSignInModuleBtnRow,
   PrfsIdSignInModuleHeader,
@@ -85,12 +86,12 @@ const Step2: React.FC<Step2Props> = ({
   const searchParams = useSearchParams();
   const [step2Status, setStep2Status] = React.useState(Step2Status.Loading);
   const [title, setTitle] = React.useState<React.ReactNode>(null);
+  const [errorMsg, setErrorMsg] = React.useState("");
   const [content, setContent] = React.useState<React.ReactNode>(null);
   const [credential, setCredential] = React.useState<Credential | null>(null);
-
-  const { mutateAsync: prfsIdentitySignUpRequest } = useMutation({
-    mutationFn: (req: PrfsIdentitySignUpRequest) => {
-      return idApi("sign_up_prfs_identity", req);
+  const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
+    mutationFn: (req: PrfsIdentitySignInRequest) => {
+      return idApi("sign_in_prfs_identity", req);
     },
   });
 
@@ -143,6 +144,15 @@ const Step2: React.FC<Step2Props> = ({
 
   const handleClickSignIn = React.useCallback(async () => {
     if (formData && publicKey && credential) {
+      const { payload: signInRequestPayload, error } = await prfsIdentitySignInRequest({
+        identity_id: credential.id,
+      });
+
+      if (error) {
+        setErrorMsg(error);
+        return;
+      }
+
       const payload: PrfsIdSignInSuccessPayload = {
         id: credential.id,
         publicKey: credential.public_key,
@@ -168,7 +178,7 @@ const Step2: React.FC<Step2Props> = ({
       await sendMsgToOpener(msg);
       // window.close();
     }
-  }, [searchParams, publicKey, credential]);
+  }, [searchParams, publicKey, credential, setErrorMsg]);
 
   return (
     <>
@@ -199,6 +209,7 @@ const Step2: React.FC<Step2Props> = ({
             {i18n.sign_in}
           </Button>
         </PrfsIdSignInModuleBtnRow>
+        <PrfsIdSignInErrorMsg>{errorMsg}</PrfsIdSignInErrorMsg>
       </PrfsIdSignInInnerPadding>
     </>
   );
