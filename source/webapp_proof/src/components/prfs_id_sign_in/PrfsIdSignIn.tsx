@@ -135,6 +135,7 @@ const PrfsIdSignIn: React.FC = () => {
       case SignInStep.StoredCredentials: {
         return (
           <StoredCredentials
+            setCredential={setCredential}
             storedCredentials={storedCredentials}
             appId={appId}
             handleClickUseAnotherId={handleClickPrev}

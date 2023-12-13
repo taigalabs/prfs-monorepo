@@ -89,7 +89,6 @@ const Step2: React.FC<Step2Props> = ({
   const [title, setTitle] = React.useState<React.ReactNode>(null);
   const [errorMsg, setErrorMsg] = React.useState("");
   const [content, setContent] = React.useState<React.ReactNode>(null);
-  // const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
   const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignInRequest) => {
       return idApi("sign_in_prfs_identity", req);
@@ -99,19 +98,7 @@ const Step2: React.FC<Step2Props> = ({
   React.useEffect(() => {
     async function fn() {
       try {
-        const { email, password_1, password_2 } = formData;
-        if (email.length < 1 || password_1.length < 1 || password_2.length < 1) {
-          handleClickPrev();
-        }
-
-        // const credential = await makeCredential({
-        //   email: formData.email,
-        //   password_1: formData.password_1,
-        //   password_2: formData.password_2,
-        // });
-        // console.log("email", formData.email);
-        // setCredential(credential);
-
+        console.log("credential", credential);
         const title = (
           <>
             <span className={styles.blueText}>{appId}</span> wants you to submit a few additional

@@ -70,11 +70,11 @@ const Step1: React.FC<Step1Props> = ({
       password_1: formData.password_1,
       password_2: formData.password_2,
     });
-    console.log("credential", credential);
+    // console.log("credential", credential, formData);
 
     setCredential(credential);
     handleClickNext();
-  }, [handleClickNext, setCredential]);
+  }, [handleClickNext, setCredential, formData]);
 
   return (
     <>
