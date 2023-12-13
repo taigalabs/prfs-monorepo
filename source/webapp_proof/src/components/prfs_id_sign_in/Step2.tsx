@@ -1,5 +1,11 @@
 import React from "react";
-import { prfsSign, makeCredential, type Credential, poseidon } from "@taigalabs/prfs-crypto-js";
+import {
+  prfsSign,
+  makeCredential,
+  type Credential,
+  poseidon,
+  poseidon_2,
+} from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -15,7 +21,6 @@ import styles from "./Step2.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import {
   PrfsIdSignInInnerPadding,
-  PrfsIdSignInInputItem,
   PrfsIdSignInModuleBtnRow,
   PrfsIdSignInModuleHeader,
   PrfsIdSignInModuleInputArea,
@@ -24,32 +29,31 @@ import {
   PrfsIdSignInModuleTitle,
 } from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
 import { IdCreateForm } from "@/functions/validate_id";
+import { hexlify } from "ethers/lib/utils";
 
 enum Step2Status {
   Loading,
   Standby,
 }
 
-const SignInInputs: React.FC<SignInInputsProps> = ({ signInData, salt, credential }) => {
+const SignInInputs: React.FC<SignInInputsProps> = ({ signInData, credential, appId }) => {
   const [elems, setElems] = React.useState<React.ReactNode>(null);
   React.useEffect(() => {
     async function fn() {
       let el = [];
       for (const d of signInData) {
         if (d === SignInData.ID_POSEIDON) {
-          const msg = salt.padStart(64, "0");
-          const sig = await prfsSign(credential.secret_key, msg);
-          // const sigStr = sig.toCompactHex();
-          // console.log(222, sig, sigStr);
-          // const r = await poseidon(sigStr);
-
-          // console.log(3332, r);
+          const sig = await prfsSign(credential.secret_key, appId);
+          const sigBytes = sig.toCompactRawBytes();
+          const sigHash = await poseidon_2(sigBytes);
+          const id = sigHash.subarray(0, 20);
+          const idHash = hexlify(id);
 
           el.push(
-            <li key={d}>
+            <li className={styles.item} key={d}>
               <p className={styles.label}>{d}</p>
-              <p>{salt}</p>
-              <p>{salt}</p>
+              <p>{appId}</p>
+              <p>{idHash}</p>
             </li>,
           );
         }
@@ -68,6 +72,7 @@ const Step2: React.FC<Step2Props> = ({
   formErrors,
   setFormData,
   handleClickPrev,
+  appId,
   publicKey,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -100,10 +105,7 @@ const Step2: React.FC<Step2Props> = ({
         if (signInData) {
           const d = decodeURIComponent(signInData);
           const data = d.split(",");
-
-          const content = (
-            <SignInInputs signInData={data} salt={hostname} credential={credential} />
-          );
+          const content = <SignInInputs signInData={data} credential={credential} appId={appId} />;
           setContent(content);
         }
         setStep2Status(Step2Status.Standby);
@@ -140,7 +142,7 @@ const Step2: React.FC<Step2Props> = ({
       )}
       <div className={styles.topLabelArea}>{i18n.sign_in_with_prfs_id}</div>
       <PrfsIdSignInInnerPadding>
-        <PrfsIdSignInModuleHeader>
+        <PrfsIdSignInModuleHeader noTopPadding>
           <PrfsIdSignInModuleTitle>{title}</PrfsIdSignInModuleTitle>
           {/* <PrfsIdSignInModuleSubtitle>{i18n.use_your_prfs_identity}</PrfsIdSignInModuleSubtitle> */}
         </PrfsIdSignInModuleHeader>
@@ -172,11 +174,12 @@ export interface Step2Props {
   formErrors: IdCreateForm;
   setFormData: React.Dispatch<React.SetStateAction<IdCreateForm>>;
   handleClickPrev: () => void;
-  publicKey: string | null;
+  appId: string;
+  publicKey: string;
 }
 
 export interface SignInInputsProps {
   signInData: string[];
-  salt: string;
   credential: Credential;
+  appId: string;
 }

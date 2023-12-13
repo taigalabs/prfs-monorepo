@@ -40,7 +40,6 @@ export async function prfsSign(skHex: string, msg: string) {
   }
 
   const msgHash = await poseidon_2(msg);
-  console.log(11, msgHash);
   return secp.sign(msgHash, BigInt(skHex));
 }
 

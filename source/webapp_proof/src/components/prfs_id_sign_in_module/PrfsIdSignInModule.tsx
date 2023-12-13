@@ -15,8 +15,11 @@ export const PrfsIdSignInModuleLogoArea: React.FC = () => {
 
 export const PrfsIdSignInModuleHeader: React.FC<PrfsIdSignInModuleInputAreaProps> = ({
   children,
+  noTopPadding,
 }) => {
-  return <div className={styles.header}>{children}</div>;
+  return (
+    <div className={cn(styles.header, { [styles.noTopPadding]: noTopPadding })}>{children}</div>
+  );
 };
 
 export const PrfsIdSignInModuleTitle: React.FC<PrfsIdSignInModuleInputAreaProps> = ({
@@ -109,6 +112,7 @@ export default PrfsIdSignInModule;
 
 export interface PrfsIdSignInModuleInputAreaProps {
   className?: string;
+  noTopPadding?: boolean;
   children: React.ReactNode;
 }
 

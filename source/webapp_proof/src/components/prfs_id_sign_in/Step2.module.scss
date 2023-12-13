@@ -31,8 +31,20 @@
 }
 
 .signInData {
+  padding: 18px 0;
   .label {
     font-weight: 500;
+  }
+
+  .item {
+    font-size: 13px;
+    color: var(--black-20);
+    border-top: 1px solid var(--bright-gray-32);
+    padding: 8px 0;
+  }
+
+  .item:last-child {
+    border-bottom: 1px solid var(--bright-gray-32);
   }
 }
 

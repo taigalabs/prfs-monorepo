@@ -54,17 +54,31 @@ const PrfsIdSignIn: React.FC = () => {
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
   const [step, setStep] = React.useState(SignInStep.PrfsIdCredential);
   const [publicKey, setPublicKey] = React.useState<string | null>(null);
+  const [appId, setAppId] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     const publicKey = searchParams.get("public_key");
+    const appId = searchParams.get("app_id");
+
+    console.log(44, appId);
+
     if (!publicKey) {
       setSignInStatus(SignInStatus.Error);
       setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
+    } else if (!appId) {
+      console.log(111);
+      setSignInStatus(SignInStatus.Error);
+      setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
     } else {
       setPublicKey(publicKey);
+      setAppId(appId);
       setSignInStatus(SignInStatus.Standby);
     }
-  }, [searchParams, setSignInStatus, setErrorMsg, setPublicKey]);
+  }, [searchParams, setSignInStatus, setErrorMsg, setPublicKey, setAppId]);
+
+  const handleCloseErrorDialog = React.useCallback(() => {
+    window.close();
+  }, []);
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,19 +120,23 @@ const PrfsIdSignIn: React.FC = () => {
       }
       case SignInStep.AppCredential: {
         return (
-          <Step2
-            publicKey={publicKey}
-            formData={formData}
-            setFormData={setFormData}
-            formErrors={formErrors}
-            handleClickPrev={handleClickPrev}
-          />
+          publicKey &&
+          appId && (
+            <Step2
+              appId={appId}
+              publicKey={publicKey}
+              formData={formData}
+              setFormData={setFormData}
+              formErrors={formErrors}
+              handleClickPrev={handleClickPrev}
+            />
+          )
         );
       }
       default:
         <div>Invalid step</div>;
     }
-  }, [step, handleChangeValue, formErrors]);
+  }, [step, handleChangeValue, formErrors, publicKey, appId]);
 
   return (
     <PrfsIdSignInModule>
@@ -127,6 +145,9 @@ const PrfsIdSignIn: React.FC = () => {
           <div className={styles.overlay}>
             <Spinner color="#1b62c0" />
           </div>
+        )}
+        {signInStatus === SignInStatus.Error && (
+          <ErrorDialog errorMsg={errorMsg} handleClose={handleCloseErrorDialog} />
         )}
         {content}
       </PrfsIdSignInForm>
