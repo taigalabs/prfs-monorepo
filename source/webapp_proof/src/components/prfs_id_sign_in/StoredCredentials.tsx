@@ -1,5 +1,5 @@
 import React from "react";
-import { initWasm, makeCredential, poseidon_2 } from "@taigalabs/prfs-crypto-js";
+import { PrfsIdCredential, makeCredential, poseidon_2 } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -17,6 +17,7 @@ import { secp256k1 as secp } from "@noble/curves/secp256k1";
 import styles from "./StoredCredentials.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import PrfsIdSignInModule, {
+  PrfsIdSignInErrorMsg,
   PrfsIdSignInForm,
   PrfsIdSignInInnerPadding,
   PrfsIdSignInInputItem,
@@ -87,18 +88,34 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
   const handleClickNextWithCredential = React.useCallback(async () => {
     const credential = storedCredentials.find(cred => cred.id === selectedCredentialId);
     const password_2 = formData.password_2;
+    setErrorMsg("");
 
     if (credential && password_2) {
       const pw2Hash = await poseidon_2(password_2);
       let decryptKey = PrivateKey.fromHex(hexlify(pw2Hash));
       let msg = Buffer.from(credential.credential);
+      let credentialStr;
       try {
-        const r = decrypt(decryptKey.secret, msg).toString();
-        console.log(11, msg, r);
+        credentialStr = decrypt(decryptKey.secret, msg).toString();
       } catch (err) {
         console.error(err);
-        // set error msg
+        setErrorMsg("Can't decrypt persisted credential");
+        return;
       }
+
+      let credentialObj;
+      try {
+        credentialObj = JSON.parse(credentialStr);
+      } catch (err) {
+        console.error(err);
+        setErrorMsg("Persisted credential is invalid");
+        return;
+      }
+
+      // setFormData({
+
+      // });
+      credentialObj as PrfsIdCredential;
     }
   }, [handleClickNext, formData, selectedCredentialId, setErrorMsg]);
 
@@ -131,8 +148,9 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
                   noShadow
                   handleClick={handleClickNextWithCredential}
                 >
-                  {i18n.sign_in}
+                  {i18n.next}
                 </Button>
+                <PrfsIdSignInErrorMsg>{errorMsg}</PrfsIdSignInErrorMsg>
               </div>
             )}
           </div>
@@ -154,6 +172,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
     formData,
     handleChangeValue,
     handleClickNextWithCredential,
+    errorMsg,
     handleClickUseAnotherId,
   ]);
 

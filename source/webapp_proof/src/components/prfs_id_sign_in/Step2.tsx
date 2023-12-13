@@ -2,7 +2,7 @@ import React from "react";
 import {
   prfsSign,
   makeCredential,
-  type Credential,
+  type PrfsIdCredential,
   poseidon,
   poseidon_2,
 } from "@taigalabs/prfs-crypto-js";
@@ -88,7 +88,7 @@ const Step2: React.FC<Step2Props> = ({
   const [title, setTitle] = React.useState<React.ReactNode>(null);
   const [errorMsg, setErrorMsg] = React.useState("");
   const [content, setContent] = React.useState<React.ReactNode>(null);
-  const [credential, setCredential] = React.useState<Credential | null>(null);
+  const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
   const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignInRequest) => {
       return idApi("sign_in_prfs_identity", req);
@@ -228,6 +228,6 @@ export interface Step2Props {
 
 export interface SignInInputsProps {
   signInData: string[];
-  credential: Credential;
+  credential: PrfsIdCredential;
   appId: string;
 }

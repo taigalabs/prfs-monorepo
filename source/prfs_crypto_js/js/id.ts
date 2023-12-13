@@ -5,7 +5,7 @@ import { PrivateKey, encrypt } from "eciesjs";
 import { initWasm, wasmSingleton } from "./wasm_wrapper/wasm";
 import { poseidon_2 } from "./poseidon";
 
-export async function makeCredential(args: MakeCredentialArgs): Promise<Credential> {
+export async function makeCredential(args: MakeCredentialArgs): Promise<PrfsIdCredential> {
   if (wasmSingleton.wasm === null) {
     const w = await initWasm();
     wasmSingleton.wasm = w;
@@ -47,7 +47,7 @@ export interface MakeCredentialArgs {
   password_2: string;
 }
 
-export interface Credential {
+export interface PrfsIdCredential {
   secret_key: string;
   public_key: string;
   id: string;

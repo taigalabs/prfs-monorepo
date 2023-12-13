@@ -28,7 +28,6 @@ const Step1: React.FC<Step1Props> = ({
   setFormData,
   formErrors,
   handleClickSignIn,
-  handleClickPrev,
   handleClickNext,
 }) => {
   const i18n = React.useContext(i18nContext);
