@@ -1,9 +1,13 @@
-use crate::{k256_consts, Poseidon, PoseidonConstants};
+use crate::{k256_consts, Poseidon, PoseidonConstants, PoseidonError};
 use ff::PrimeField;
 pub use secq256k1::field::field_secp::FieldElement;
 
 #[allow(dead_code)]
-pub fn hash(input: Vec<FieldElement>) -> FieldElement {
+pub fn hash(input: Vec<FieldElement>) -> Result<FieldElement, PoseidonError> {
+    if input.len() != 2 {
+        return Err(format!("Currently Poseidon supports only arity 2 inputs").into());
+    }
+
     let round_constants: Vec<FieldElement> = k256_consts::ROUND_CONSTANTS
         .iter()
         .map(|x| FieldElement::from_str_vartime(x).unwrap())
@@ -27,5 +31,5 @@ pub fn hash(input: Vec<FieldElement>) -> FieldElement {
 
     let mut poseidon = Poseidon::new(constants);
     let result = poseidon.hash(input);
-    result
+    Ok(result)
 }

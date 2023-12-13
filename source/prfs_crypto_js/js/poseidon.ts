@@ -13,7 +13,20 @@ export async function poseidon(msg: string): Promise<bigint> {
 
   const { wasm } = wasmSingleton;
   const msgBytes = ethers.utils.toUtf8Bytes(msg);
-  console.log(111, msg, msgBytes.join(","));
+  const pwHash = wasm.poseidon(msgBytes);
+  const pwInt = bytesToBigInt(pwHash);
+
+  return pwInt;
+}
+
+export async function poseidon_2(msg: string): Promise<bigint> {
+  if (wasmSingleton.wasm === null) {
+    const w = await initWasm();
+    wasmSingleton.wasm = w;
+  }
+
+  const { wasm } = wasmSingleton;
+  const msgBytes = ethers.utils.toUtf8Bytes(msg);
   const pwHash = wasm.poseidon(msgBytes);
   const pwInt = bytesToBigInt(pwHash);
 

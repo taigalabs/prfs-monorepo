@@ -57,3 +57,31 @@ pub fn poseidon(input_bytes: &[u8]) -> Result<Vec<u8>, JsValue> {
         Err(err) => Err(JsValue::from_str(&err.to_string())),
     };
 }
+
+#[wasm_bindgen]
+pub fn poseidon_2(arg1: &[u8], arg2: &[u8]) -> Result<Vec<u8>, JsValue> {
+    let a1: &[u8; 32] = match arg1.try_into() {
+        Ok(v) => v,
+        Err(err) => {
+            return Err(JsValue::from_str(&format!(
+                "Argument needs to be 32-byte long, err: {}",
+                err,
+            )))
+        }
+    };
+
+    let a2: &[u8; 32] = match arg2.try_into() {
+        Ok(v) => v,
+        Err(err) => {
+            return Err(JsValue::from_str(&format!(
+                "Argument needs to be 32-byte long, err: {}",
+                err,
+            )))
+        }
+    };
+
+    return match api::poseidon_2(a1, a2) {
+        Ok(p) => Ok(p.to_vec()),
+        Err(err) => Err(JsValue::from_str(&err.to_string())),
+    };
+}
