@@ -39,9 +39,9 @@ const SignInInputs: React.FC<SignInInputsProps> = ({ signInData, salt, credentia
         if (d === SignInData.ID_POSEIDON) {
           const msg = salt.padStart(64, "0");
           const sig = await prfsSign(credential.secret_key, msg);
-          const sigStr = sig.toCompactHex();
-          console.log(222, sig, sigStr);
-          const r = await poseidon(sigStr);
+          // const sigStr = sig.toCompactHex();
+          // console.log(222, sig, sigStr);
+          // const r = await poseidon(sigStr);
 
           // console.log(3332, r);
 

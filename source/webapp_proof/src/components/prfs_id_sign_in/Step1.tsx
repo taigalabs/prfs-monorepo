@@ -102,7 +102,12 @@ const Step1: React.FC<Step1Props> = ({ formData, formErrors, setFormData, handle
           </div>
         </PrfsIdSignInModuleInputArea>
         <PrfsIdSignInModuleBtnRow>
-          <Button variant="transparent_blue_2" noTransition handleClick={handleClickCreateID}>
+          <Button
+            variant="transparent_blue_2"
+            noTransition
+            handleClick={handleClickCreateID}
+            type="button"
+          >
             {i18n.create_id}
           </Button>
           <Button
