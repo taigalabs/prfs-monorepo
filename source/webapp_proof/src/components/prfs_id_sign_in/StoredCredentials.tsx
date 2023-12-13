@@ -13,10 +13,11 @@ import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt, decrypt, PrivateKey, PublicKey } from "eciesjs";
 import { secp256k1 as secp } from "@noble/curves/secp256k1";
 
-import styles from "./PrfsIdSignIn.module.scss";
+import styles from "./StoredCredentials.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import PrfsIdSignInModule, {
   PrfsIdSignInForm,
+  PrfsIdSignInInnerPadding,
   PrfsIdSignInModuleBtnRow,
   PrfsIdSignInModuleFooter,
   PrfsIdSignInModuleHeader,
@@ -24,6 +25,7 @@ import PrfsIdSignInModule, {
   PrfsIdSignInModuleLogoArea,
   PrfsIdSignInModuleSubtitle,
   PrfsIdSignInModuleTitle,
+  PrfsIdSignInWithPrfsId,
 } from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
 import { paths } from "@/paths";
 import { envs } from "@/envs";
@@ -40,12 +42,12 @@ export enum SignInStatus {
   Standby,
 }
 
-const StoredCredentials: React.FC<StoredCredentialsProps> = ({ storedCredentials }) => {
+const StoredCredentials: React.FC<StoredCredentialsProps> = ({ storedCredentials, appId }) => {
   const i18n = React.useContext(i18nContext);
   // const router = useRouter();
   // const [signInStatus, setSignInStatus] = React.useState(SignInStatus.Loading);
   // const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
-  // const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
   // const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   // const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
   // const [step, setStep] = React.useState(SignInStep.StoredCredentials);
@@ -53,11 +55,41 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({ storedCredentials
   // const [appId, setAppId] = React.useState<string | null>(null);
   // const [storedCredentials, setStoredCredentials] = React.useState<StoredCredential[]>([]);
 
-  return <div>33</div>;
+  const content = React.useMemo(() => {
+    const elems = storedCredentials.map(cred => {
+      return (
+        <li key={cred.id} className={styles.entry}>
+          <div className={styles.item}>
+            <p>{cred.id}</p>
+          </div>
+        </li>
+      );
+    });
+
+    return <ul className={styles.credList}>{elems}</ul>;
+  }, []);
+
+  const subtitle = React.useMemo(() => {
+    return `${i18n.to_continue_to} ${appId}`;
+  }, [appId]);
+
+  return (
+    <>
+      <PrfsIdSignInWithPrfsId>{i18n.sign_in_with_prfs_id}</PrfsIdSignInWithPrfsId>
+      <PrfsIdSignInInnerPadding noSidePadding>
+        <PrfsIdSignInModuleHeader noTopPadding>
+          <PrfsIdSignInModuleTitle>{i18n.choose_account}</PrfsIdSignInModuleTitle>
+          <PrfsIdSignInModuleSubtitle>{subtitle}</PrfsIdSignInModuleSubtitle>
+        </PrfsIdSignInModuleHeader>
+        {content}
+      </PrfsIdSignInInnerPadding>
+    </>
+  );
 };
 
 export default StoredCredentials;
 
 export interface StoredCredentialsProps {
   storedCredentials: StoredCredential[];
+  appId: string;
 }

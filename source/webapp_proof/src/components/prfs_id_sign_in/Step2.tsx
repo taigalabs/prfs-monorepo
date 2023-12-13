@@ -30,6 +30,7 @@ import {
   PrfsIdSignInModuleLogoArea,
   PrfsIdSignInModuleSubtitle,
   PrfsIdSignInModuleTitle,
+  PrfsIdSignInWithPrfsId,
 } from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
 import { IdCreateForm } from "@/functions/validate_id";
 import { hexlify } from "ethers/lib/utils";
@@ -95,10 +96,9 @@ const Step2: React.FC<Step2Props> = ({
         });
         setCredential(credential);
 
-        const { hostname } = window.location;
         const title = (
           <>
-            <span className={styles.blueText}>{hostname}</span> wants you to submit a few additional
+            <span className={styles.blueText}>{appId}</span> wants you to submit a few additional
             data to sign in
           </>
         );
@@ -125,14 +125,12 @@ const Step2: React.FC<Step2Props> = ({
         id: credential.id,
         publicKey: credential.public_key,
       };
-      console.log(111, publicKey);
       const encrypted = encrypt(publicKey, Buffer.from(JSON.stringify(payload)));
       const msg: PrfsIdSignInSuccessMsg = {
         type: "SIGN_IN_SUCCESS",
         payload: encrypted,
       };
 
-      console.log(222, credential.encrypt_key);
       const encryptedCredential = encrypt(
         credential.encrypt_key,
         Buffer.from(JSON.stringify(credential)),
@@ -155,7 +153,8 @@ const Step2: React.FC<Step2Props> = ({
           <Spinner color="#1b62c0" />
         </div>
       )}
-      <div className={styles.topLabelArea}>{i18n.sign_in_with_prfs_id}</div>
+      {/* <div className={styles.topLabelArea}>{i18n.sign_in_with_prfs_id}</div> */}
+      <PrfsIdSignInWithPrfsId>{i18n.sign_in_with_prfs_id}</PrfsIdSignInWithPrfsId>
       <PrfsIdSignInInnerPadding>
         <PrfsIdSignInModuleHeader noTopPadding>
           <PrfsIdSignInModuleTitle>{title}</PrfsIdSignInModuleTitle>

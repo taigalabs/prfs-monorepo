@@ -12,6 +12,19 @@
   padding-top: 0;
 }
 
+.noSidePadding {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.signInWithPrfsId {
+  color: var(--gray-40);
+  font-size: 16px;
+  font-weight: 500;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--bright-gray-32);
+}
+
 .form {
   min-height: 400px;
   border: 1px solid var(--bright-gray-32);
@@ -22,7 +35,11 @@
 }
 
 .innerPadding {
-  padding: 48px 40px 36px;
+  padding: 48px 0px 36px;
+
+  &:not(.noSidePadding) {
+    padding: 48px 40px 36px;
+  }
 }
 
 .header {

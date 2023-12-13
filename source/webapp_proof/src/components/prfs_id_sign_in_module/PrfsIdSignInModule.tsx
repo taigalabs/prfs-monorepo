@@ -100,8 +100,19 @@ export const PrfsIdSignInForm: React.FC<PrfsIdSignInModuleInputAreaProps> = ({ c
 
 export const PrfsIdSignInInnerPadding: React.FC<PrfsIdSignInModuleInputAreaProps> = ({
   children,
+  noSidePadding,
 }) => {
-  return <div className={styles.innerPadding}>{children}</div>;
+  return (
+    <div className={cn(styles.innerPadding, { [styles.noSidePadding]: noSidePadding })}>
+      {children}
+    </div>
+  );
+};
+
+export const PrfsIdSignInWithPrfsId: React.FC<PrfsIdSignInModuleInputAreaProps> = ({
+  children,
+}) => {
+  return <div className={styles.signInWithPrfsId}>{children}</div>;
 };
 
 const PrfsIdSignInModule: React.FC<PrfsIdSignInModuleInputAreaProps> = ({ children }) => {
@@ -113,6 +124,7 @@ export default PrfsIdSignInModule;
 export interface PrfsIdSignInModuleInputAreaProps {
   className?: string;
   noTopPadding?: boolean;
+  noSidePadding?: boolean;
   children: React.ReactNode;
 }
 

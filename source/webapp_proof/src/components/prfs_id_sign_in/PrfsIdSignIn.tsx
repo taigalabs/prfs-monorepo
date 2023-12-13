@@ -126,9 +126,13 @@ const PrfsIdSignIn: React.FC = () => {
   }, [setStep]);
 
   const content = React.useMemo(() => {
+    if (!appId || !publicKey) {
+      return null;
+    }
+
     switch (step) {
       case SignInStep.StoredCredentials: {
-        return <StoredCredentials storedCredentials={storedCredentials} />;
+        return <StoredCredentials storedCredentials={storedCredentials} appId={appId} />;
       }
       case SignInStep.PrfsIdCredential: {
         return (
@@ -143,17 +147,14 @@ const PrfsIdSignIn: React.FC = () => {
       }
       case SignInStep.AppCredential: {
         return (
-          publicKey &&
-          appId && (
-            <Step2
-              appId={appId}
-              publicKey={publicKey}
-              formData={formData}
-              setFormData={setFormData}
-              formErrors={formErrors}
-              handleClickPrev={handleClickPrev}
-            />
-          )
+          <Step2
+            appId={appId}
+            publicKey={publicKey}
+            formData={formData}
+            setFormData={setFormData}
+            formErrors={formErrors}
+            handleClickPrev={handleClickPrev}
+          />
         );
       }
       default:
