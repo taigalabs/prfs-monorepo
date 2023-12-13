@@ -9,9 +9,10 @@ import {
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
+  PrfsIdSignInSuccessPayload,
   sendMsgToOpener,
   SignInData,
-  type SignInSuccessZAuthMsg,
+  type PrfsIdSignInSuccessMsg,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt } from "eciesjs";
@@ -118,12 +119,12 @@ const Step2: React.FC<Step2Props> = ({
 
   const handleClickSignIn = React.useCallback(async () => {
     if (formData && publicKey && credential) {
-      const payload = {
+      const payload: PrfsIdSignInSuccessPayload = {
         id: credential.id,
         publicKey: credential.public_key,
       };
       const encrypted = encrypt(publicKey, Buffer.from(JSON.stringify(payload)));
-      const msg: SignInSuccessZAuthMsg = {
+      const msg: PrfsIdSignInSuccessMsg = {
         type: "SIGN_IN_SUCCESS",
         payload: encrypted,
       };

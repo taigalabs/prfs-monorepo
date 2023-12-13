@@ -5,7 +5,7 @@ import { initWasm, makeCredential } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { sendMsgToOpener, type SignInSuccessZAuthMsg } from "@taigalabs/prfs-id-sdk-web";
+import { sendMsgToOpener, type PrfsIdSignInSuccessMsg } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt, decrypt, PrivateKey, PublicKey } from "eciesjs";
 import { secp256k1 as secp } from "@noble/curves/secp256k1";
@@ -60,13 +60,10 @@ const PrfsIdSignIn: React.FC = () => {
     const publicKey = searchParams.get("public_key");
     const appId = searchParams.get("app_id");
 
-    console.log(44, appId);
-
     if (!publicKey) {
       setSignInStatus(SignInStatus.Error);
       setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
     } else if (!appId) {
-      console.log(111);
       setSignInStatus(SignInStatus.Error);
       setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
     } else {

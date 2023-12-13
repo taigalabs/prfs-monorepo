@@ -5,7 +5,7 @@ import cn from "classnames";
 import { useRouter } from "next/navigation";
 import { encrypt, decrypt, PublicKey, PrivateKey } from "eciesjs";
 import PrfsIdSignInButton from "@taigalabs/prfs-react-components/src/prfs_id_sign_in_button/PrfsIdSignInButton";
-import { SignInSuccessPayload, SignInData } from "@taigalabs/prfs-id-sdk-web";
+import { PrfsIdSignInSuccessPayload, SignInData } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./PrfsIdSignInBtn.module.scss";
 import { paths } from "@/paths";
@@ -41,7 +41,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
       if (secretKeyRef.current) {
         const sk = secretKeyRef.current;
         const decrypted = decrypt(sk.secret, Buffer.from(encrypted)).toString();
-        const msg = JSON.parse(decrypted) as SignInSuccessPayload;
+        const msg = JSON.parse(decrypted) as PrfsIdSignInSuccessPayload;
 
         dispatch(signInPrfs);
         console.log(123, msg);
