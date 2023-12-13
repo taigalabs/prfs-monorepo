@@ -1,6 +1,6 @@
 import { secp256k1 as secp } from "@noble/curves/secp256k1";
 import { hexlify } from "ethers/lib/utils";
-import { PrivateKey } from "eciesjs";
+import { PrivateKey, encrypt } from "eciesjs";
 
 import { initWasm, wasmSingleton } from "./wasm_wrapper/wasm";
 import { poseidon_2 } from "./poseidon";
@@ -13,21 +13,28 @@ export async function makeCredential(args: MakeCredentialArgs): Promise<Credenti
 
   const { email, password_1, password_2 } = args;
   const pw = `${email}${password_1}${password_2}`;
-  const pwInt = await poseidon_2(pw);
+  const pwHash = await poseidon_2(pw);
 
-  const pk = secp.getPublicKey(pwInt, false);
+  const pk = secp.getPublicKey(pwHash, false);
   const s1 = pk.subarray(1);
   const s2 = await poseidon_2(s1);
   const id = s2.subarray(0, 20);
 
   const pw2Hash = await poseidon_2(password_2);
-  const encryptKey = new PrivateKey(pw2Hash).publicKey.toHex();
+  // const encryptKey = secp.getPublicKey(pw2Hash, false);
+  // const encryptKey = new PrivateKey(pw2Hash).publicKey.toHex();
+  let encryptKey = PrivateKey.fromHex(hexlify(pw2Hash)).publicKey;
+
+  // const sk = new PrivateKey();
+  // const pkHex = sk.publicKey.toHex();
+  // // const h = encrypt(pkHex, Buffer.from("power"));
+  // console.log(22, h, p);
 
   return {
-    secret_key: hexlify(pwInt),
+    secret_key: hexlify(pwHash),
     public_key: hexlify(pk),
     id: hexlify(id),
-    encrypt_key: encryptKey,
+    encrypt_key: encryptKey.toHex(),
   };
 }
 

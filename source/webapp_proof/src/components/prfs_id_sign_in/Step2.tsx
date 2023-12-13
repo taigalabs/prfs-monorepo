@@ -125,20 +125,21 @@ const Step2: React.FC<Step2Props> = ({
         id: credential.id,
         publicKey: credential.public_key,
       };
+      console.log(111, publicKey);
       const encrypted = encrypt(publicKey, Buffer.from(JSON.stringify(payload)));
       const msg: PrfsIdSignInSuccessMsg = {
         type: "SIGN_IN_SUCCESS",
         payload: encrypted,
       };
 
-      console.log(credential.encrypt_key);
+      console.log(222, credential.encrypt_key);
       const encryptedCredential = encrypt(
         credential.encrypt_key,
         Buffer.from(JSON.stringify(credential)),
       );
       const credentialToStore: StoredCredential = {
         id: credential.id,
-        credential: encryptedCredential,
+        credential: encryptedCredential.toString(),
       };
       persistPrfsIdCredential(credentialToStore);
 
