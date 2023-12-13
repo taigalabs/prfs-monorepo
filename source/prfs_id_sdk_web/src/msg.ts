@@ -1,4 +1,4 @@
-import { ZAuthMsg } from ".";
+import { PrfsIdMsg } from ".";
 
 // export async function sendMsgToChild(msg: any, iframe: HTMLIFrameElement): Promise<RespPayload<T>> {
 //   return sendMsg(msg, (msg: Msg<T>, channel: MessageChannel) => {
@@ -6,13 +6,13 @@ import { ZAuthMsg } from ".";
 //   });
 // }
 
-export async function sendMsgToOpener(msg: any): Promise<ZAuthMsg<any>> {
+export async function sendMsgToOpener(msg: any): Promise<PrfsIdMsg<any>> {
   return sendMsg(msg, (msg: any, channel: MessageChannel) => {
     window.opener.postMessage(msg, "*", [channel.port2]);
   });
 }
 
-export async function sendMsg(msg: ZAuthMsg<any>, sender: Function): Promise<any> {
+export async function sendMsg(msg: PrfsIdMsg<any>, sender: Function): Promise<any> {
   return new Promise((res, rej) => {
     const channel = new MessageChannel();
     channel.port1.onmessage = ({ data }: { data: any }) => {

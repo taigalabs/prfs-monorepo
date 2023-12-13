@@ -13,6 +13,8 @@ import {
   sendMsgToOpener,
   SignInData,
   type PrfsIdSignInSuccessMsg,
+  StoredCredential,
+  persistPrfsIdCredential,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt } from "eciesjs";
@@ -129,8 +131,19 @@ const Step2: React.FC<Step2Props> = ({
         payload: encrypted,
       };
 
+      console.log(credential.encrypt_key);
+      const encryptedCredential = encrypt(
+        credential.encrypt_key,
+        Buffer.from(JSON.stringify(credential)),
+      );
+      const credentialToStore: StoredCredential = {
+        id: credential.id,
+        credential: encryptedCredential,
+      };
+      persistPrfsIdCredential(credentialToStore);
+
       await sendMsgToOpener(msg);
-      window.close();
+      // window.close();
     }
   }, [searchParams, publicKey, credential]);
 

@@ -1,5 +1,6 @@
 export * from "./msg";
 export * from "./query_string";
+export * from "./local_storage";
 
 export function newPrfsIdMsg(type: PrfsIdMsgType, payload: any): PrfsIdMsg<any> {
   return {

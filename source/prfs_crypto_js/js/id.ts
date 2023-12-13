@@ -1,11 +1,9 @@
-import * as ethers from "ethers";
 import { secp256k1 as secp } from "@noble/curves/secp256k1";
 import { hexlify } from "ethers/lib/utils";
-import { encrypt, decrypt, PublicKey, PrivateKey } from "eciesjs";
+import { PrivateKey } from "eciesjs";
 
 import { initWasm, wasmSingleton } from "./wasm_wrapper/wasm";
 import { poseidon_2 } from "./poseidon";
-import { bigIntToLeBytes } from "./bigint";
 
 export async function makeCredential(args: MakeCredentialArgs): Promise<Credential> {
   if (wasmSingleton.wasm === null) {
@@ -23,13 +21,13 @@ export async function makeCredential(args: MakeCredentialArgs): Promise<Credenti
   const id = s2.subarray(0, 20);
 
   const pw2Hash = await poseidon_2(password_2);
-  const encryptKey = new PrivateKey(pw2Hash);
+  const encryptKey = new PrivateKey(pw2Hash).publicKey.toHex();
 
   return {
     secret_key: hexlify(pwInt),
     public_key: hexlify(pk),
     id: hexlify(id),
-    encrypt_key: encryptKey.toHex(),
+    encrypt_key: encryptKey,
   };
 }
 
