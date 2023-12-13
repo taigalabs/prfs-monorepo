@@ -4,7 +4,7 @@ const PRFS_ID_STORAGE_KEY = "prfs_id";
 
 export interface StoredCredential {
   id: string;
-  credential: string; // encrpyted
+  credential: number[]; // encrpyted
 }
 
 export function persistPrfsIdCredential(credential: StoredCredential) {

@@ -149,9 +149,11 @@ const Step2: React.FC<Step2Props> = ({
         credential.encrypt_key,
         Buffer.from(JSON.stringify(credential)),
       );
+      let credentialArr = Array.prototype.slice.call(encryptedCredential);
+      console.log(11, credentialArr);
       const credentialToStore: StoredCredential = {
         id: credential.id,
-        credential: encryptedCredential.toString(),
+        credential: credentialArr,
       };
       persistPrfsIdCredential(credentialToStore);
 
@@ -167,7 +169,6 @@ const Step2: React.FC<Step2Props> = ({
           <Spinner color="#1b62c0" />
         </div>
       )}
-      {/* <div className={styles.topLabelArea}>{i18n.sign_in_with_prfs_id}</div> */}
       <PrfsIdSignInWithPrfsId>{i18n.sign_in_with_prfs_id}</PrfsIdSignInWithPrfsId>
       <PrfsIdSignInInnerPadding>
         <PrfsIdSignInModuleHeader noTopPadding>

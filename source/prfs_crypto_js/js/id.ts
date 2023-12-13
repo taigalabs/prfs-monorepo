@@ -21,14 +21,7 @@ export async function makeCredential(args: MakeCredentialArgs): Promise<Credenti
   const id = s2.subarray(0, 20);
 
   const pw2Hash = await poseidon_2(password_2);
-  // const encryptKey = secp.getPublicKey(pw2Hash, false);
-  // const encryptKey = new PrivateKey(pw2Hash).publicKey.toHex();
   let encryptKey = PrivateKey.fromHex(hexlify(pw2Hash)).publicKey;
-
-  // const sk = new PrivateKey();
-  // const pkHex = sk.publicKey.toHex();
-  // // const h = encrypt(pkHex, Buffer.from("power"));
-  // console.log(22, h, p);
 
   return {
     secret_key: hexlify(pwHash),

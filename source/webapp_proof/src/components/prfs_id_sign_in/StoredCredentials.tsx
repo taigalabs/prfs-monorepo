@@ -1,5 +1,5 @@
 import React from "react";
-import { initWasm, makeCredential } from "@taigalabs/prfs-crypto-js";
+import { initWasm, makeCredential, poseidon_2 } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -37,6 +37,7 @@ import {
   makeEmptyIdCreateForm,
 } from "@/functions/validate_id";
 import ErrorDialog from "./ErrorDialog";
+import { hexlify } from "ethers/lib/utils";
 
 export enum SignInStatus {
   Loading,
@@ -82,13 +83,22 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
     [storedCredentials, setSelectedCredentialId],
   );
 
-  const handleClickNextWithCredential = React.useCallback(() => {
-    console.log(11);
-  }, []);
+  const handleClickNextWithCredential = React.useCallback(async () => {
+    const credential = storedCredentials.find(cred => cred.id === selectedCredentialId);
+    const password_2 = formData.password_2;
+
+    if (credential && password_2) {
+      const pw2Hash = await poseidon_2(password_2);
+      let decryptKey = PrivateKey.fromHex(hexlify(pw2Hash));
+      let msg = Buffer.from(credential.credential);
+      console.log(11, msg);
+    }
+  }, [handleClickNext, formData, selectedCredentialId]);
 
   const handleClickForgetAccounts = React.useCallback(() => {
     removeAllPrfsIdCredentials();
-  }, []);
+    handleClickUseAnotherId();
+  }, [handleClickUseAnotherId]);
 
   const content = React.useMemo(() => {
     const elems = storedCredentials.map(cred => {
