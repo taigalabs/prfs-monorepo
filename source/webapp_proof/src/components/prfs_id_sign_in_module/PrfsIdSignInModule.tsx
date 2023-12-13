@@ -61,6 +61,7 @@ export const PrfsIdSignInModuleBtnRow: React.FC<PrfsIdSignInModuleInputAreaProps
 };
 
 export const PrfsIdSignInInputItem: React.FC<PrfsIdSignInModuleInputProps> = ({
+  className,
   name,
   value,
   error,
@@ -70,7 +71,7 @@ export const PrfsIdSignInInputItem: React.FC<PrfsIdSignInModuleInputProps> = ({
 }) => {
   return (
     <div
-      className={cn(styles.inputItem, {
+      className={cn(styles.inputItem, className, {
         [styles.isError]: !!error,
       })}
     >
@@ -129,6 +130,7 @@ export interface PrfsIdSignInModuleInputAreaProps {
 }
 
 export interface PrfsIdSignInModuleInputProps {
+  className?: string;
   name?: string;
   value: string;
   handleChangeValue: React.ChangeEventHandler;

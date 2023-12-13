@@ -28,6 +28,7 @@ const en = {
   feedback: "Feedback",
   id: "Id",
   email: "Email",
+  forget_all_accounts: "Forget all accounts",
   confirm: "Confirm",
   view_in_console: "View in console",
   name: "Name",
@@ -137,6 +138,7 @@ const en = {
   log_in: "Log in",
   sign_in: "Sign in",
   use_your_prfs_identity: "Use your Prfs identity",
+  use_another_id: "Use another ID",
   create_an_identity: "Create an identity",
   check_your_credential: "Check your credential and finish id creation",
   create_a_strong_password:

@@ -117,12 +117,12 @@ const PrfsIdSignIn: React.FC = () => {
     [formData, setFormData],
   );
 
-  const handleClickNext = React.useCallback(() => {
-    setStep(SignInStep.AppCredential);
-  }, [setStep]);
-
   const handleClickPrev = React.useCallback(() => {
     setStep(SignInStep.PrfsIdCredential);
+  }, [setStep]);
+
+  const handleClickNext = React.useCallback(() => {
+    setStep(SignInStep.AppCredential);
   }, [setStep]);
 
   const content = React.useMemo(() => {
@@ -132,7 +132,14 @@ const PrfsIdSignIn: React.FC = () => {
 
     switch (step) {
       case SignInStep.StoredCredentials: {
-        return <StoredCredentials storedCredentials={storedCredentials} appId={appId} />;
+        return (
+          <StoredCredentials
+            storedCredentials={storedCredentials}
+            appId={appId}
+            handleClickUseAnotherId={handleClickPrev}
+            handleClickNext={handleClickNext}
+          />
+        );
       }
       case SignInStep.PrfsIdCredential: {
         return (

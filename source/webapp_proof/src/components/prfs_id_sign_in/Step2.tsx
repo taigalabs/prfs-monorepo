@@ -89,11 +89,17 @@ const Step2: React.FC<Step2Props> = ({
   React.useEffect(() => {
     async function fn() {
       try {
+        const { email, password_1, password_2 } = formData;
+        if (email.length < 1 || password_1.length < 1 || password_2.length < 1) {
+          handleClickPrev();
+        }
+
         const credential = await makeCredential({
           email: formData.email,
           password_1: formData.password_1,
           password_2: formData.password_2,
         });
+        console.log("email", formData.email);
         setCredential(credential);
 
         const title = (
@@ -117,7 +123,15 @@ const Step2: React.FC<Step2Props> = ({
       }
     }
     fn().then();
-  }, [setStep2Status, searchParams, setTitle, setContent, formData, setCredential]);
+  }, [
+    setStep2Status,
+    searchParams,
+    setTitle,
+    setContent,
+    formData,
+    setCredential,
+    handleClickPrev,
+  ]);
 
   const handleClickSignIn = React.useCallback(async () => {
     if (formData && publicKey && credential) {

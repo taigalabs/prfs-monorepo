@@ -8,6 +8,7 @@ import {
   type PrfsIdSignInSuccessMsg,
   loadLocalPrfsIdCredentials,
   StoredCredential,
+  removeAllPrfsIdCredentials,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt, decrypt, PrivateKey, PublicKey } from "eciesjs";
@@ -18,6 +19,7 @@ import { i18nContext } from "@/contexts/i18n";
 import PrfsIdSignInModule, {
   PrfsIdSignInForm,
   PrfsIdSignInInnerPadding,
+  PrfsIdSignInInputItem,
   PrfsIdSignInModuleBtnRow,
   PrfsIdSignInModuleFooter,
   PrfsIdSignInModuleHeader,
@@ -42,32 +44,101 @@ export enum SignInStatus {
   Standby,
 }
 
-const StoredCredentials: React.FC<StoredCredentialsProps> = ({ storedCredentials, appId }) => {
+const StoredCredentials: React.FC<StoredCredentialsProps> = ({
+  storedCredentials,
+  appId,
+  handleClickUseAnotherId,
+  handleClickNext,
+}) => {
   const i18n = React.useContext(i18nContext);
-  // const router = useRouter();
-  // const [signInStatus, setSignInStatus] = React.useState(SignInStatus.Loading);
-  // const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
-  const searchParams = useSearchParams();
-  // const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
-  // const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
-  // const [step, setStep] = React.useState(SignInStep.StoredCredentials);
-  // const [publicKey, setPublicKey] = React.useState<string | null>(null);
-  // const [appId, setAppId] = React.useState<string | null>(null);
-  // const [storedCredentials, setStoredCredentials] = React.useState<StoredCredential[]>([]);
+  const [selectedCredentialId, setSelectedCredentialId] = React.useState<string | null>(null);
+  const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
+  const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
+
+  const handleChangeValue = React.useCallback(
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      const name = ev.target.name;
+      const val = ev.target.value;
+
+      if (name) {
+        setFormData(oldVal => {
+          return {
+            ...oldVal,
+            [name]: val,
+          };
+        });
+      }
+    },
+    [formData, setFormData],
+  );
+
+  const handleClickEntry = React.useCallback(
+    (e: React.MouseEvent<HTMLLIElement>) => {
+      const dataset = e.currentTarget.dataset;
+      if (dataset.id) {
+        setSelectedCredentialId(dataset.id);
+      }
+    },
+    [storedCredentials, setSelectedCredentialId],
+  );
+
+  const handleClickNextWithCredential = React.useCallback(() => {
+    console.log(11);
+  }, []);
+
+  const handleClickForgetAccounts = React.useCallback(() => {
+    removeAllPrfsIdCredentials();
+  }, []);
 
   const content = React.useMemo(() => {
     const elems = storedCredentials.map(cred => {
       return (
-        <li key={cred.id} className={styles.entry}>
+        <li data-id={cred.id} key={cred.id} className={styles.entry} onClick={handleClickEntry}>
           <div className={styles.item}>
             <p>{cred.id}</p>
+            {cred.id === selectedCredentialId && (
+              <div>
+                <PrfsIdSignInInputItem
+                  className={styles.passwordInput}
+                  name="password_2"
+                  value={formData.password_2}
+                  placeholder={i18n.password_2}
+                  error={formErrors.password_2}
+                  handleChangeValue={handleChangeValue}
+                  type="password"
+                />
+                <Button
+                  variant="blue_2"
+                  type="button"
+                  noTransition
+                  noShadow
+                  handleClick={handleClickNextWithCredential}
+                >
+                  {i18n.sign_in}
+                </Button>
+              </div>
+            )}
           </div>
         </li>
       );
     });
 
+    elems.push(
+      <li key="sign_in" className={styles.entry} onClick={handleClickUseAnotherId}>
+        <div className={styles.item}>
+          <p>{i18n.use_another_id}</p>
+        </div>
+      </li>,
+    );
+
     return <ul className={styles.credList}>{elems}</ul>;
-  }, []);
+  }, [
+    selectedCredentialId,
+    formData,
+    handleChangeValue,
+    handleClickNextWithCredential,
+    handleClickUseAnotherId,
+  ]);
 
   const subtitle = React.useMemo(() => {
     return `${i18n.to_continue_to} ${appId}`;
@@ -83,6 +154,17 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({ storedCredentials
         </PrfsIdSignInModuleHeader>
         {content}
       </PrfsIdSignInInnerPadding>
+      <PrfsIdSignInModuleBtnRow className={styles.btnRow}>
+        <Button
+          variant="transparent_blue_2"
+          noTransition
+          handleClick={handleClickForgetAccounts}
+          type="button"
+        >
+          {i18n.forget_all_accounts}
+        </Button>
+        <div />
+      </PrfsIdSignInModuleBtnRow>
     </>
   );
 };
@@ -92,4 +174,6 @@ export default StoredCredentials;
 export interface StoredCredentialsProps {
   storedCredentials: StoredCredential[];
   appId: string;
+  handleClickUseAnotherId: () => void;
+  handleClickNext: () => void;
 }

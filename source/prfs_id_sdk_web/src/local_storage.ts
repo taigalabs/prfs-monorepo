@@ -30,3 +30,7 @@ export function loadLocalPrfsIdCredentials(): StoredCredential[] {
     return [];
   }
 }
+
+export function removeAllPrfsIdCredentials() {
+  window.localStorage.removeItem(PRFS_ID_STORAGE_KEY);
+}
