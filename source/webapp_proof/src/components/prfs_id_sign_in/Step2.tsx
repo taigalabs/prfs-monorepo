@@ -18,7 +18,9 @@ import {
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt } from "eciesjs";
-import { secp256k1 as secp } from "@noble/curves/secp256k1";
+import { useMutation } from "wagmi";
+import { PrfsIdentitySignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignUpRequest";
+import { idApi } from "@taigalabs/prfs-api-js";
 
 import styles from "./Step2.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -85,6 +87,12 @@ const Step2: React.FC<Step2Props> = ({
   const [title, setTitle] = React.useState<React.ReactNode>(null);
   const [content, setContent] = React.useState<React.ReactNode>(null);
   const [credential, setCredential] = React.useState<Credential | null>(null);
+
+  const { mutateAsync: prfsIdentitySignUpRequest } = useMutation({
+    mutationFn: (req: PrfsIdentitySignUpRequest) => {
+      return idApi("sign_up_prfs_identity", req);
+    },
+  });
 
   React.useEffect(() => {
     async function fn() {

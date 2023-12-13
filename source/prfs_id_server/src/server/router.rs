@@ -29,6 +29,9 @@ pub async fn id_server_routes(
         (&Method::POST, v0_path!("sign_up_prfs_identity")) => {
             prfs_identities::sign_up_prfs_identity(req, state).await
         }
+        (&Method::POST, v0_path!("sign_in_prfs_identity")) => {
+            prfs_identities::sign_in_prfs_identity(req, state).await
+        }
         _ => {
             // Return 404 not found response.
             Ok(Response::builder()

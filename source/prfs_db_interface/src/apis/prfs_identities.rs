@@ -11,8 +11,7 @@ pub async fn get_prfs_identity_by_id(
     let row = sqlx::query(query)
         .bind(&identity_id)
         .fetch_one(pool)
-        .await
-        .unwrap();
+        .await?;
 
     let prfs_identity = PrfsIdentity {
         identity_id: row.get("identity_id"),

@@ -52,9 +52,14 @@ pub async fn sign_in_prfs_identity(
 ) -> ApiHandlerResult {
     let req: PrfsIdentitySignInRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let prfs_identity = db_apis::get_prfs_identity_by_id(pool, &req.identity_id)
-        .await
-        .unwrap();
+    let prfs_identity = match db_apis::get_prfs_identity_by_id(pool, &req.identity_id).await {
+        Ok(v) => v,
+        Err(_err) => {
+            let resp =
+                ApiResponse::new_error(format!("Account isn't found, id: {}", req.identity_id));
+            return Ok(resp.into_hyper_response());
+        }
+    };
 
     let resp = ApiResponse::new_success(PrfsIdentitySignInResponse { prfs_identity });
 
