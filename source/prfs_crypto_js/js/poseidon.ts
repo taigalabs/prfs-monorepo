@@ -1,6 +1,4 @@
 import * as ethers from "ethers";
-import * as secp from "@noble/secp256k1";
-import { hexlify } from "ethers/lib/utils";
 
 import { initWasm, wasmSingleton } from "./wasm_wrapper/wasm";
 import { bytesToBigInt } from "./bigint";
@@ -20,7 +18,7 @@ export async function poseidon(msg: string): Promise<bigint> {
   return pwInt;
 }
 
-export async function poseidon_2(msg: string | Uint8Array): Promise<bigint> {
+export async function poseidon_2(msg: string | Uint8Array): Promise<Uint8Array> {
   if (wasmSingleton.wasm === null) {
     const w = await initWasm();
     wasmSingleton.wasm = w;
@@ -46,6 +44,5 @@ export async function poseidon_2(msg: string | Uint8Array): Promise<bigint> {
   }
 
   const pwHash = wasm.poseidon_2(mBytes.subarray(0, 32), mBytes.subarray(32, 64));
-  const pwInt = bytesToBigInt(pwHash);
-  return pwInt;
+  return pwHash;
 }
