@@ -27,6 +27,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
           const msg = newPrfsIdMsg("SIGN_IN_SUCCESS_RESPOND", null);
           ev.ports[0].postMessage(msg);
 
+          console.log(44, data);
           handleSucceedSignIn(data.payload);
         }
       }
@@ -37,7 +38,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       console.log("off render");
       window.removeEventListener("message", listener);
     };
-  }, [prfsIdSignInEndpoint]);
+  }, [prfsIdSignInEndpoint, handleSucceedSignIn]);
 
   const handleClickSignIn = React.useCallback(() => {
     if (prfsIdSignInEndpoint) {

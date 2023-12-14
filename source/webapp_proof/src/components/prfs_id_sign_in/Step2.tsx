@@ -132,7 +132,7 @@ const Step2: React.FC<Step2Props> = ({
       await sendMsgToOpener(msg);
       window.close();
     }
-  }, [searchParams, publicKey, credential, setErrorMsg]);
+  }, [searchParams, publicKey, credential, setErrorMsg, signInData]);
 
   return (
     <>

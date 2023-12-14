@@ -129,7 +129,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
           role="button"
         >
           <div className={styles.item}>
-            <p>{cred.id}</p>
+            <p className={styles.prfsId}>{cred.id}</p>
             {cred.id === selectedCredentialId && (
               <div>
                 <PrfsIdSignInInputItem
