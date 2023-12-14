@@ -1,4 +1,5 @@
 import React from "react";
+import cn from "classnames";
 import {
   prfsSign,
   type PrfsIdCredential,
@@ -39,15 +40,16 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
               </div>
               <div>
                 <div className={styles.label}>{d}</div>
-                <div className={styles.value}>
-                  <span>{appId}</span>
+                <div className={cn(styles.value, styles.msg)}>
+                  <span>Generated using </span>
+                  <span>"{appId}"</span>
                 </div>
                 <div className={styles.value}>
-                  <span>{i18n.id}: </span>
+                  <span className={styles.label}>{i18n.id}: </span>
                   <span>{id}</span>
                 </div>
                 <div className={styles.value}>
-                  <span>{i18n.public_key}: </span>
+                  <span className={styles.label}>{i18n.public_key}: </span>
                   <span>{public_key}</span>
                 </div>
               </div>
