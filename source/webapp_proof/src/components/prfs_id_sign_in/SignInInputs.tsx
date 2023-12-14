@@ -1,5 +1,10 @@
 import React from "react";
-import { prfsSign, type PrfsIdCredential, poseidon_2 } from "@taigalabs/prfs-crypto-js";
+import {
+  prfsSign,
+  type PrfsIdCredential,
+  poseidon_2,
+  makeECCredential,
+} from "@taigalabs/prfs-crypto-js";
 import { SignInData } from "@taigalabs/prfs-id-sdk-web";
 import { FaRegAddressCard } from "@react-icons/all-files/fa/FaRegAddressCard";
 
@@ -24,8 +29,7 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
           const sigBytes = sig.toCompactRawBytes();
           const sigHash = await poseidon_2(sigBytes);
 
-          const id = sigHash.subarray(0, 20);
-          const idHash = hexlify(id);
+          const { id, public_key } = await makeECCredential(sigHash);
 
           el.push(
             <li className={styles.item} key={d}>
@@ -35,7 +39,8 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
               <div>
                 <p className={styles.label}>{d}</p>
                 <p>{appId}</p>
-                <p>{idHash}</p>
+                <p>{id}</p>
+                <p>{public_key}</p>
               </div>
             </li>,
           );
