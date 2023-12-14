@@ -107,7 +107,7 @@ const PrfsIdSignIn: React.FC = () => {
   );
 
   const handleClickPrev = React.useCallback(() => {
-    setStep(SignInStep.PrfsIdCredential);
+    setStep(SignInStep.StoredCredentials);
   }, [setStep]);
 
   const handleClickNext = React.useCallback(() => {

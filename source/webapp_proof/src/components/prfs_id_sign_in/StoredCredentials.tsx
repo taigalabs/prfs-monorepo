@@ -42,6 +42,12 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
 
+  React.useEffect(() => {
+    if (Object.keys(storedCredentials).length < 1) {
+      handleClickUseAnotherId();
+    }
+  }, [storedCredentials, handleClickUseAnotherId]);
+
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
       const name = ev.target.name;

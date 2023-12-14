@@ -1,8 +1,7 @@
-import { PrfsAccount } from "@taigalabs/prfs-entities/bindings/PrfsAccount";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-import { RootState } from "./store";
 import { PrfsIdSignInSuccessPayload } from "@taigalabs/prfs-id-sdk-web";
+import { loadLocalPrfsProofCredential } from "@/storage/local_storage";
 
 export interface LocalPrfsProofAccount {
   id: string;
@@ -10,14 +9,14 @@ export interface LocalPrfsProofAccount {
 }
 
 export interface UserState {
-  localPrfsAccount: LocalPrfsProofAccount | undefined;
+  prfsProofCredential: LocalPrfsProofAccount | null;
 }
 
 const makeInitialState: () => UserState = () => {
-  // loadLocalPrfsProofCredential();
+  const prfsProofCredential = loadLocalPrfsProofCredential();
 
   return {
-    localPrfsAccount: undefined,
+    prfsProofCredential,
   };
 };
 

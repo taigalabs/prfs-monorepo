@@ -2,7 +2,7 @@
 
 import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import { idApi, makeAvatarColor } from "@taigalabs/prfs-api-js";
+import { idApi } from "@taigalabs/prfs-api-js";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { useRouter } from "next/navigation";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
@@ -10,7 +10,7 @@ import cn from "classnames";
 import { IoMdEye } from "@react-icons/all-files/io/IoMdEye";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import copy from "copy-to-clipboard";
-import { PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
+import { PrfsIdCredential, makeColor } from "@taigalabs/prfs-crypto-js";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 import { IdCreateForm } from "@/functions/validate_id";
 import Link from "next/link";
@@ -71,7 +71,7 @@ const Step2: React.FC<Step2Props> = ({
     if (id) {
       try {
         setStatus(IdCreationStatus.InProgress);
-        const avatar_color = makeAvatarColor();
+        const avatar_color = makeColor(id);
         const { payload, error } = await prfsIdentitySignUpRequest({
           identity_id: id,
           avatar_color,

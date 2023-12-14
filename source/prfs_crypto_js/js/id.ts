@@ -14,11 +14,6 @@ export async function makePrfsIdCredential(args: MakeCredentialArgs): Promise<Pr
   const { email, password_1, password_2 } = args;
   const pw = `${email}${password_1}${password_2}`;
   const pwHash = await poseidon_2(pw);
-
-  // const pk = secp.getPublicKey(pwHash, false);
-  // const s1 = pk.subarray(1);
-  // const s2 = await poseidon_2(s1);
-  // const id = s2.subarray(0, 20);
   const { public_key, secret_key, id } = await makeECCredential(pwHash);
 
   const pw2Hash = await poseidon_2(password_2);
@@ -58,6 +53,19 @@ export async function makeECCredential(secret: Uint8Array): Promise<ECCredential
     public_key: hexlify(pk),
     id: hexlify(id),
   };
+}
+
+export function makeColor(str: string) {
+  let hash = 0;
+  str.split("").forEach(char => {
+    hash = char.charCodeAt(0) + ((hash << 5) - hash);
+  });
+  let colour = "#";
+  for (let i = 0; i < 3; i++) {
+    const value = (hash >> (i * 8)) & 0xff;
+    colour += value.toString(16).padStart(2, "0");
+  }
+  return colour;
 }
 
 export interface MakeCredentialArgs {
