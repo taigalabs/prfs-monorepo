@@ -12,6 +12,7 @@ import { paths } from "@/paths";
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
 import { signInPrfs } from "@/state/userReducer";
+import { persistPrfsCredential } from "@/state/side_effects";
 
 const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   const router = useRouter();
@@ -42,7 +43,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
         const sk = secretKeyRef.current;
         console.log("received enc", encrypted);
 
-        let decrypted;
+        let decrypted: string;
         try {
           decrypted = decrypt(sk.secret, encrypted).toString();
         } catch (err) {
@@ -50,7 +51,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
           return;
         }
 
-        let prfsIdSignInSuccessPayload;
+        let prfsIdSignInSuccessPayload: PrfsIdSignInSuccessPayload;
         try {
           prfsIdSignInSuccessPayload = JSON.parse(decrypted) as PrfsIdSignInSuccessPayload;
         } catch (err) {
@@ -58,12 +59,13 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
           return;
         }
 
-        dispatch(
-          signInPrfs({
-            id: prfsIdSignInSuccessPayload.id,
-            publicKey: prfsIdSignInSuccessPayload.publicKey,
-          }),
-        );
+        // dispatch(
+        //   signInPrfs({
+        //     id: prfsIdSignInSuccessPayload.id,
+        //     publicKey: prfsIdSignInSuccessPayload.publicKey,
+        //   }),
+        // );
+        await persistPrfsCredential(dispatch, prfsIdSignInSuccessPayload);
       }
     },
     [router, dispatch],

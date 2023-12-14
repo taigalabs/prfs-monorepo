@@ -1,20 +1,12 @@
 "use client";
 
 import React from "react";
-import { PrfsIdCredential, initWasm, makeCredential } from "@taigalabs/prfs-crypto-js";
+import { PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-  sendMsgToOpener,
-  type PrfsIdSignInSuccessMsg,
-  loadLocalPrfsIdCredentials,
-  StoredCredential,
-  StoredCredentialRecord,
-} from "@taigalabs/prfs-id-sdk-web";
+import { loadLocalPrfsIdCredentials, StoredCredentialRecord } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
-import { encrypt, decrypt, PrivateKey, PublicKey } from "eciesjs";
-import { secp256k1 as secp } from "@noble/curves/secp256k1";
 
 import styles from "./PrfsIdSignIn.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -23,12 +15,7 @@ import PrfsIdSignInModule, {
   PrfsIdSignInModuleBtnRow,
   PrfsIdSignInModuleFooter,
   PrfsIdSignInModuleHeader,
-  PrfsIdSignInModuleInputArea,
-  PrfsIdSignInModuleLogoArea,
-  PrfsIdSignInModuleSubtitle,
-  PrfsIdSignInModuleTitle,
 } from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
-import { paths } from "@/paths";
 import { envs } from "@/envs";
 import {
   IdCreateForm,
