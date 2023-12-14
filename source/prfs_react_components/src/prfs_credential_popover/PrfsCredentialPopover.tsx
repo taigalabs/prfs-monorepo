@@ -22,18 +22,14 @@ const Modal: React.FC<MerkleProofModalProps> = ({ id, handleClickSignOut }) => {
 
   return (
     <div className={styles.modal}>
-      <p>{id}</p>
+      <div className={styles.main}>
+        <p className={styles.appId}>prfs_proof</p>
+        <p className={styles.id}>{id}</p>
+      </div>
       <div className={styles.btnRow}>
-        <div />
-        <Button
-          variant="blue_2"
-          className={styles.wrapper}
-          noTransition
-          handleClick={handleClickSignOut}
-          noShadow
-        >
+        <button className={styles.signOutBtn} onClick={handleClickSignOut}>
           {i18n.sign_in}
-        </Button>
+        </button>
       </div>
     </div>
   );
@@ -99,7 +95,7 @@ const PrfsCredentialPopover: React.FC<PrfsCredentialPopoverProps> = ({
               {...getFloatingProps()}
             >
               <Modal
-                id={printable.label}
+                id={credential.id}
                 setIsOpen={setIsOpen}
                 handleClickSignOut={handleClickSignOut}
               />
