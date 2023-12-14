@@ -88,13 +88,11 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   }, []);
 
   return prfsProofCredential ? (
-    <div className={styles.wrapper}>
-      <PrfsCredentialPopover
-        credential={prfsProofCredential}
-        handleInitFail={handleInitFail}
-        handleClickSignOut={handleClickSignOut}
-      />
-    </div>
+    <PrfsCredentialPopover
+      credential={prfsProofCredential}
+      handleInitFail={handleInitFail}
+      handleClickSignOut={handleClickSignOut}
+    />
   ) : (
     <PrfsIdSignInButton
       prfsIdSignInEndpoint={prfsIdSignInEndpoint}

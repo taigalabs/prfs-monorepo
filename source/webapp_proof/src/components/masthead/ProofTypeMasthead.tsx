@@ -14,6 +14,7 @@ import styles from "./ProofTypeMasthead.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import { useIsTutorial } from "@/hooks/tutorial";
+import PrfsIdSignInBtn from "../prfs_id_sign_in_btn/PrfsIdSignInBtn";
 
 const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
   isActivated,
@@ -50,7 +51,6 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
                 </Link>
               </li>
             </Tooltip>
-            {/* <Tooltip label={i18n.apps}> */}
             <li className={cn(styles.menu, styles.appPopover)}>
               <PrfsAppsPopover
                 className={styles.popover}
@@ -61,8 +61,9 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
                 tooltip={i18n.apps}
               />
             </li>
-            {/* </Tooltip> */}
-            <li className={(styles.menu, styles.signInBtn)}>{/* <SignInBtn /> */}</li>
+            <li className={(styles.menu, styles.signInBtn)}>
+              <PrfsIdSignInBtn />
+            </li>
           </ul>
         </div>
       </div>

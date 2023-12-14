@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useId } from "react";
 import cn from "classnames";
 import { GrMonitor } from "@react-icons/all-files/gr/GrMonitor";
@@ -24,50 +22,58 @@ import { TbMathPi } from "../tabler_icons/TbMathPi";
 import { TbCertificate } from "../tabler_icons/TbCertificate";
 import { i18nContext } from "../i18n/i18nContext";
 import Tooltip from "../tooltip/Tooltip";
+import Modal from "./Modal";
 
-const Modal: React.FC<MerkleProofModalProps> = ({ webappProofEndpoint, webappConsoleEndpoint }) => {
-  const i18n = React.useContext(i18nContext);
-  const tutorialUrl = React.useMemo(() => {
-    return `${webappProofEndpoint}?tutorial_id=simple_hash`;
-  }, [webappProofEndpoint]);
+// const Modal: React.FC<MerkleProofModalProps> = ({
+//   webappProofEndpoint,
+//   webappConsoleEndpoint,
+//   children,
+// }) => {
+//   const i18n = React.useContext(i18nContext);
+//   const { tutorialUrl } = React.useMemo(() => {
+//     return {
+//       tutorialUrl: `${webappProofEndpoint}?tutorial_id=simple_hash`,
+//     };
+//   }, [webappProofEndpoint]);
 
-  return (
-    <div className={styles.modal}>
-      <ul className={styles.auxMenu}>
-        <li>
-          <a className={styles.appItem} href={webappProofEndpoint}>
-            <span>{i18n.documentation}</span>
-          </a>
-        </li>
-        <li>
-          <a className={styles.appItem} href={tutorialUrl}>
-            <span>{i18n.start_tutorial}</span>
-          </a>
-        </li>
-      </ul>
-      <ul className={styles.appMenu}>
-        <li>
-          <a className={styles.appItem} href={webappProofEndpoint}>
-            <TbCertificate />
-            <span>{i18n.account_verification}</span>
-          </a>
-        </li>
-        <li>
-          <a className={styles.appItem} href={webappProofEndpoint}>
-            <TbMathPi />
-            <span>{i18n.proof}</span>
-          </a>
-        </li>
-        <li>
-          <a className={styles.appItem} href={webappConsoleEndpoint}>
-            <GrMonitor />
-            <span>{i18n.console}</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  );
-};
+//   return (
+//     <div className={styles.modal}>
+//       <ul className={styles.auxMenu}>
+//         <li>
+//           <a className={styles.appItem} href={webappProofEndpoint}>
+//             <span>{i18n.documentation}</span>
+//           </a>
+//         </li>
+//         <li>
+//           <a className={styles.appItem} href={tutorialUrl}>
+//             <span>{i18n.start_tutorial}</span>
+//           </a>
+//         </li>
+//       </ul>
+//       <ul className={styles.appMenu}>
+//         {children}
+//         {/* <li> */}
+//         {/*   <a className={styles.appItem} href={webappProofEndpoint}> */}
+//         {/*     <TbCertificate /> */}
+//         {/*     <span>{i18n.account_verification}</span> */}
+//         {/*   </a> */}
+//         {/* </li> */}
+//         {/* <li> */}
+//         {/*   <a className={styles.appItem} href={webappProofEndpoint}> */}
+//         {/*     <TbMathPi /> */}
+//         {/*     <span>{i18n.proof}</span> */}
+//         {/*   </a> */}
+//         {/* </li> */}
+//         {/* <li> */}
+//         {/*   <a className={styles.appItem} href={webappConsoleEndpoint}> */}
+//         {/*     <GrMonitor /> */}
+//         {/*     <span>{i18n.console}</span> */}
+//         {/*   </a> */}
+//         {/* </li> */}
+//       </ul>
+//     </div>
+//   );
+// };
 
 const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
   className,
@@ -105,9 +111,9 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
         {...getReferenceProps()}
       >
         {tooltip ? (
-          <Tooltip label={tooltip}>{children ? children : <BsThreeDots />}</Tooltip>
-        ) : children ? (
-          children
+          <Tooltip label={tooltip}>
+            <BsThreeDots />
+          </Tooltip>
         ) : (
           <BsThreeDots />
         )}
@@ -126,7 +132,9 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
               webappProofEndpoint={webappProofEndpoint}
               webappConsoleEndpoint={webappConsoleEndpoint}
               webappPollEndpoint={webappPollEndpoint}
-            />
+            >
+              {children}
+            </Modal>
           </div>
         </FloatingFocusManager>
       )}
@@ -144,12 +152,13 @@ export interface PrfsAppsPopoverProps {
   webappConsoleEndpoint: string;
   zIndex?: number;
   tooltip?: string;
-  children?: React.ReactNode;
+  children: React.ReactNode;
 }
 
-export interface MerkleProofModalProps {
-  setIsOpen: React.Dispatch<React.SetStateAction<any>>;
-  webappPollEndpoint: string;
-  webappProofEndpoint: string;
-  webappConsoleEndpoint: string;
-}
+// export interface MerkleProofModalProps {
+//   setIsOpen: React.Dispatch<React.SetStateAction<any>>;
+//   children: React.ReactNode;
+//   webappPollEndpoint: string;
+//   webappProofEndpoint: string;
+//   webappConsoleEndpoint: string;
+// }
