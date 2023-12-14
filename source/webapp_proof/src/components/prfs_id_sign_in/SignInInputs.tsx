@@ -1,48 +1,11 @@
 import React from "react";
-import {
-  prfsSign,
-  makeCredential,
-  type PrfsIdCredential,
-  poseidon,
-  poseidon_2,
-} from "@taigalabs/prfs-crypto-js";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import { useRouter, useSearchParams } from "next/navigation";
-import {
-  PrfsIdSignInSuccessPayload,
-  sendMsgToOpener,
-  SignInData,
-  type PrfsIdSignInSuccessMsg,
-  StoredCredential,
-  persistPrfsIdCredential,
-} from "@taigalabs/prfs-id-sdk-web";
-import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
-import { encrypt } from "eciesjs";
-import { useMutation } from "wagmi";
-import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
-import { idApi } from "@taigalabs/prfs-api-js";
+import { prfsSign, type PrfsIdCredential, poseidon_2 } from "@taigalabs/prfs-crypto-js";
+import { SignInData } from "@taigalabs/prfs-id-sdk-web";
 import { FaRegAddressCard } from "@react-icons/all-files/fa/FaRegAddressCard";
 
 import styles from "./SignInInputs.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import {
-  PrfsIdSignInErrorMsg,
-  PrfsIdSignInInnerPadding,
-  PrfsIdSignInModuleBtnRow,
-  PrfsIdSignInModuleHeader,
-  PrfsIdSignInModuleInputArea,
-  PrfsIdSignInModuleLogoArea,
-  PrfsIdSignInModuleSubtitle,
-  PrfsIdSignInModuleTitle,
-  PrfsIdSignInWithPrfsId,
-} from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
-import { IdCreateForm } from "@/functions/validate_id";
 import { hexlify } from "ethers/lib/utils";
-
-enum Step2Status {
-  Loading,
-  Standby,
-}
 
 const SignInInputs: React.FC<SignInInputsProps> = ({
   signInData,
@@ -60,6 +23,7 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
           const sig = await prfsSign(credential.secret_key, appId);
           const sigBytes = sig.toCompactRawBytes();
           const sigHash = await poseidon_2(sigBytes);
+
           const id = sigHash.subarray(0, 20);
           const idHash = hexlify(id);
 

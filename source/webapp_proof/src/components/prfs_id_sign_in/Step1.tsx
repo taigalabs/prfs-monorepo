@@ -17,7 +17,7 @@ import {
 } from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
 import { paths } from "@/paths";
 import { IdCreateForm } from "@/functions/validate_id";
-import { PrfsIdCredential, makeCredential } from "@taigalabs/prfs-crypto-js";
+import { PrfsIdCredential, makePrfsIdCredential } from "@taigalabs/prfs-crypto-js";
 
 enum Step1Status {
   Loading,
@@ -65,7 +65,7 @@ const Step1: React.FC<Step1Props> = ({
   );
 
   const enhancedHandleClickNext = React.useCallback(async () => {
-    const credential = await makeCredential({
+    const credential = await makePrfsIdCredential({
       email: formData.email,
       password_1: formData.password_1,
       password_2: formData.password_2,

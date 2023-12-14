@@ -10,7 +10,7 @@ import cn from "classnames";
 import { IoMdEye } from "@react-icons/all-files/io/IoMdEye";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import copy from "copy-to-clipboard";
-import { PrfsIdCredential, makeCredential } from "@taigalabs/prfs-crypto-js";
+import { PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 import { IdCreateForm } from "@/functions/validate_id";
 import Link from "next/link";
@@ -48,36 +48,11 @@ const Step2: React.FC<Step2Props> = ({
   const [status, setStatus] = React.useState(IdCreationStatus.StandBy);
   const [errorMsg, setErrorMsg] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
-  // const [credential, setCredential] = React.useState({
-  //   secret_key: "",
-  //   public_key: "",
-  //   id: "",
-  // });
   const { mutateAsync: prfsIdentitySignUpRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignUpRequest) => {
       return idApi("sign_up_prfs_identity", req);
     },
   });
-
-  // React.useEffect(() => {
-  //   async function fn() {
-  //     try {
-  //       // const credential = await makeCredential({
-  //       //   email: formData.email,
-  //       //   password_1: formData.password_1,
-  //       //   password_2: formData.password_2,
-  //       // });
-
-  //       // console.log("credential", credential);
-  //       // setCredential(credential);
-  //       setStatus(IdCreationStatus.StandBy);
-  //     } catch (err) {
-  //       setErrorMsg(`Driver init failed, err: ${err}`);
-  //     }
-  //   }
-
-  //   fn().then();
-  // }, [router, formData, credential, setErrorMsg, setStatus]);
 
   const handleClickShowPassword = React.useCallback(() => {
     setShowPassword(val => !val);
