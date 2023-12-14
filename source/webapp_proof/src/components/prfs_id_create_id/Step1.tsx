@@ -4,7 +4,7 @@ import Link from "next/link";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 
 import styles from "./Step1.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import PrfsIdSignInModule, {
   PrfsIdSignInForm,
   PrfsIdSignInInnerPadding,

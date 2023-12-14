@@ -37,7 +37,7 @@ const PollView: React.FC<PollViewProps> = ({ poll }) => {
         return newVal;
       });
     },
-    [setFormData]
+    [setFormData],
   );
 
   React.useEffect(() => {

@@ -14,7 +14,7 @@ import { Proof } from "@taigalabs/prfs-driver-interface";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 
 import styles from "./ProofDetailView.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import ProofDataView from "@/components/proof_data_view/ProofDataView";
 import { envs } from "@/envs";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
@@ -22,7 +22,6 @@ import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
 import Tutorial from "@/components/tutorial/Tutorial";
 import { useIsTutorial } from "@/hooks/tutorial";
-import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
 import LeftPadding from "@/components/left_padding/LeftPadding";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 

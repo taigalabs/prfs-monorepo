@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import styles from "./PrfsIdCreateID.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import PrfsIdSignInModule, {
   PrfsIdSignInForm,
   PrfsIdSignInModuleFooter,

@@ -61,7 +61,7 @@ const PollResultView: React.FC<PollResultViewProps> = ({ poll_responses }) => {
       //   },
       // },
     ],
-    []
+    [],
   );
 
   const table = useReactTable({

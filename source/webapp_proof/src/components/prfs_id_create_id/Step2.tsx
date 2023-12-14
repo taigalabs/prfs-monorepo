@@ -18,7 +18,7 @@ import { useMutation } from "wagmi";
 import { PrfsIdentitySignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignUpRequest";
 
 import styles from "./Step2.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import {
   PrfsIdSignInErrorMsg,
   PrfsIdSignInInnerPadding,
