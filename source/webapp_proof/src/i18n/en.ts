@@ -69,6 +69,7 @@ const en = {
   set_id: "Set id",
   type: "Type",
   public: "Public",
+  public_key: "Public key",
   hash_algorithm: "Hash algorithm",
   proof_instance_id: "Proof instance id",
   url_is_copied: "URL is copied",

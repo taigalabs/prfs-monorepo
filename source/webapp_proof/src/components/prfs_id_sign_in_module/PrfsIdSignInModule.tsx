@@ -68,6 +68,7 @@ export const PrfsIdSignInInputItem: React.FC<PrfsIdSignInModuleInputProps> = ({
   type,
   placeholder,
   handleChangeValue,
+  handleKeyDown,
 }) => {
   return (
     <div
@@ -82,6 +83,7 @@ export const PrfsIdSignInInputItem: React.FC<PrfsIdSignInModuleInputProps> = ({
         placeholder={placeholder}
         type={type}
         onChange={handleChangeValue}
+        onKeyDown={handleKeyDown}
       />
       {error && error.length && <p className={styles.error}>{error}</p>}
     </div>
@@ -134,6 +136,7 @@ export interface PrfsIdSignInModuleInputProps {
   name?: string;
   value: string;
   handleChangeValue: React.ChangeEventHandler;
+  handleKeyDown?: React.KeyboardEventHandler;
   error: string | undefined;
   placeholder?: string;
   type?: HTMLInputTypeAttribute | undefined;

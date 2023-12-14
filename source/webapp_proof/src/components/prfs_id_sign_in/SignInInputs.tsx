@@ -18,6 +18,7 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
   appId,
   setSignInData,
 }) => {
+  const i18n = React.useContext(i18nContext);
   const [elems, setElems] = React.useState<React.ReactNode>(null);
 
   React.useEffect(() => {
@@ -37,10 +38,18 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
                 <FaRegAddressCard />
               </div>
               <div>
-                <p className={styles.label}>{d}</p>
-                <p>{appId}</p>
-                <p>{id}</p>
-                <p>{public_key}</p>
+                <div className={styles.label}>{d}</div>
+                <div className={styles.value}>
+                  <span>{appId}</span>
+                </div>
+                <div className={styles.value}>
+                  <span>{i18n.id}: </span>
+                  <span>{id}</span>
+                </div>
+                <div className={styles.value}>
+                  <span>{i18n.public_key}: </span>
+                  <span>{public_key}</span>
+                </div>
               </div>
             </li>,
           );

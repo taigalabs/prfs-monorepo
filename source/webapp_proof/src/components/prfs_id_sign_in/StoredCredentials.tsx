@@ -1,44 +1,26 @@
 import React from "react";
-import { PrfsIdCredential, makeCredential, poseidon_2 } from "@taigalabs/prfs-crypto-js";
+import { PrfsIdCredential, poseidon_2 } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import {
-  sendMsgToOpener,
-  type PrfsIdSignInSuccessMsg,
-  loadLocalPrfsIdCredentials,
-  StoredCredential,
-  removeAllPrfsIdCredentials,
-  StoredCredentialRecord,
-} from "@taigalabs/prfs-id-sdk-web";
-import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
-import { encrypt, decrypt, PrivateKey, PublicKey } from "eciesjs";
-import { secp256k1 as secp } from "@noble/curves/secp256k1";
+import { removeAllPrfsIdCredentials, StoredCredentialRecord } from "@taigalabs/prfs-id-sdk-web";
+import { decrypt, PrivateKey } from "eciesjs";
 
 import styles from "./StoredCredentials.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import PrfsIdSignInModule, {
+import {
   PrfsIdSignInErrorMsg,
-  PrfsIdSignInForm,
   PrfsIdSignInInnerPadding,
   PrfsIdSignInInputItem,
   PrfsIdSignInModuleBtnRow,
-  PrfsIdSignInModuleFooter,
   PrfsIdSignInModuleHeader,
-  PrfsIdSignInModuleInputArea,
-  PrfsIdSignInModuleLogoArea,
   PrfsIdSignInModuleSubtitle,
   PrfsIdSignInModuleTitle,
   PrfsIdSignInWithPrfsId,
 } from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
-import { paths } from "@/paths";
-import { envs } from "@/envs";
 import {
   IdCreateForm,
   makeEmptyIDCreateFormErrors,
   makeEmptyIdCreateForm,
 } from "@/functions/validate_id";
-import ErrorDialog from "./ErrorDialog";
 import { hexlify } from "ethers/lib/utils";
 
 export enum SignInStatus {
@@ -121,6 +103,16 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
     }
   }, [handleClickNext, formData, selectedCredentialId, setErrorMsg, setCredential]);
 
+  const handleKeyDown = React.useCallback(
+    async (e: React.KeyboardEvent) => {
+      if (e.code === "Enter") {
+        e.preventDefault();
+        await handleClickNextWithCredential();
+      }
+    },
+    [handleClickNextWithCredential],
+  );
+
   const handleClickForgetAccounts = React.useCallback(() => {
     removeAllPrfsIdCredentials();
     handleClickUseAnotherId();
@@ -147,6 +139,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
                   placeholder={i18n.password_2}
                   error={formErrors.password_2}
                   handleChangeValue={handleChangeValue}
+                  handleKeyDown={handleKeyDown}
                   type="password"
                 />
                 <Button
