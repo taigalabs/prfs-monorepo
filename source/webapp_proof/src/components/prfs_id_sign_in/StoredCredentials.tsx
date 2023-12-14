@@ -158,7 +158,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
     });
 
     elems.push(
-      <li key="sign_in" className={styles.entry} onClick={handleClickUseAnotherId}>
+      <li key="sign_in" className={styles.entry} onClick={handleClickUseAnotherId} role="button">
         <div className={styles.item}>
           <p>{i18n.use_another_id}</p>
         </div>

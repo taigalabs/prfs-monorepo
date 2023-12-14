@@ -24,6 +24,8 @@ const en = {
   merkle_proof: "Merkle proof",
   sign: "Sign",
   sign_in_with_prfs_id: "Sign in with Prfs ID",
+  app_data_sharing_guide:
+    "You may be sharing sensitive info with this app or site. You can always check out what the request data is about.",
   type_merkle_proof: "Type merkle proof",
   feedback: "Feedback",
   id: "Id",
@@ -232,6 +234,7 @@ const en = {
   finite_field: "Finite field",
   merkle_root: "Merkle root",
   prfs: "Prfs",
+  prfs_id: "Prfs ID",
   metamask: "Metamask",
   metamask_desc:
     "We currently support Metamask. Check out how you install install it if you haven't already",

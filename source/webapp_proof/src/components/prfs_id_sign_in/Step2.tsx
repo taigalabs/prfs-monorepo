@@ -21,6 +21,7 @@ import { encrypt } from "eciesjs";
 import { useMutation } from "wagmi";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
 import { idApi } from "@taigalabs/prfs-api-js";
+import { FaRegAddressCard } from "@react-icons/all-files/fa/FaRegAddressCard";
 
 import styles from "./Step2.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -45,6 +46,7 @@ enum Step2Status {
 
 const SignInInputs: React.FC<SignInInputsProps> = ({ signInData, credential, appId }) => {
   const [elems, setElems] = React.useState<React.ReactNode>(null);
+
   React.useEffect(() => {
     async function fn() {
       let el = [];
@@ -58,9 +60,14 @@ const SignInInputs: React.FC<SignInInputsProps> = ({ signInData, credential, app
 
           el.push(
             <li className={styles.item} key={d}>
-              <p className={styles.label}>{d}</p>
-              <p>{appId}</p>
-              <p>{idHash}</p>
+              <div className={styles.img}>
+                <FaRegAddressCard />
+              </div>
+              <div>
+                <p className={styles.label}>{d}</p>
+                <p>{appId}</p>
+                <p>{idHash}</p>
+              </div>
             </li>,
           );
         }
@@ -71,7 +78,11 @@ const SignInInputs: React.FC<SignInInputsProps> = ({ signInData, credential, app
     fn().then();
   }, [signInData, setElems]);
 
-  return <ul className={styles.signInData}>{elems}</ul>;
+  return (
+    <>
+      <ul className={styles.signInData}>{elems}</ul>
+    </>
+  );
 };
 
 const Step2: React.FC<Step2Props> = ({
@@ -88,7 +99,7 @@ const Step2: React.FC<Step2Props> = ({
   const [step2Status, setStep2Status] = React.useState(Step2Status.Loading);
   const [title, setTitle] = React.useState<React.ReactNode>(null);
   const [errorMsg, setErrorMsg] = React.useState("");
-  const [content, setContent] = React.useState<React.ReactNode>(null);
+  const [signInData, setSignInData] = React.useState<React.ReactNode>(null);
   const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignInRequest) => {
       return idApi("sign_in_prfs_identity", req);
@@ -112,7 +123,7 @@ const Step2: React.FC<Step2Props> = ({
           const d = decodeURIComponent(signInData);
           const data = d.split(",");
           const content = <SignInInputs signInData={data} credential={credential} appId={appId} />;
-          setContent(content);
+          setSignInData(content);
         }
         setStep2Status(Step2Status.Standby);
       } catch (err) {
@@ -120,7 +131,15 @@ const Step2: React.FC<Step2Props> = ({
       }
     }
     fn().then();
-  }, [setStep2Status, searchParams, setTitle, setContent, formData, credential, handleClickPrev]);
+  }, [
+    setStep2Status,
+    searchParams,
+    setTitle,
+    setSignInData,
+    formData,
+    credential,
+    handleClickPrev,
+  ]);
 
   const handleClickSignIn = React.useCallback(async () => {
     if (formData && publicKey && credential) {
@@ -142,13 +161,11 @@ const Step2: React.FC<Step2Props> = ({
         type: "SIGN_IN_SUCCESS",
         payload: encrypted,
       };
-
       const encryptedCredential = encrypt(
         credential.encrypt_key,
         Buffer.from(JSON.stringify(credential)),
       );
       let credentialArr = Array.prototype.slice.call(encryptedCredential);
-      console.log(11, credentialArr);
       const credentialToStore: StoredCredential = {
         id: credential.id,
         credential: credentialArr,
@@ -171,9 +188,15 @@ const Step2: React.FC<Step2Props> = ({
       <PrfsIdSignInInnerPadding>
         <PrfsIdSignInModuleHeader noTopPadding>
           <PrfsIdSignInModuleTitle>{title}</PrfsIdSignInModuleTitle>
-          {/* <PrfsIdSignInModuleSubtitle>{i18n.use_your_prfs_identity}</PrfsIdSignInModuleSubtitle> */}
         </PrfsIdSignInModuleHeader>
-        {content}
+        <div>
+          <p className={styles.prfsId}>{credential.id}</p>
+        </div>
+        {signInData}
+        <div>
+          <p>Make sure you trust {appId} app</p>
+          <p>{i18n.app_data_sharing_guide}</p>
+        </div>
         <PrfsIdSignInModuleBtnRow>
           <Button variant="transparent_blue_2" noTransition handleClick={handleClickPrev}>
             {i18n.go_back}
