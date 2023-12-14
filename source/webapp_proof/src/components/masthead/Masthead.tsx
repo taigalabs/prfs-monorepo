@@ -35,11 +35,7 @@ const Masthead: React.FC<MastheadProps> = () => {
             </a>
           </li>
           <li className={styles.menu}>
-            <PrfsAppsPopover
-              webappPollEndpoint={process.env.NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT}
-              webappProofEndpoint={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
-              webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
-            >
+            <PrfsAppsPopover>
               <PrfsAppsPopoverUl>
                 <PrfsAppsPopoverLi>
                   <a href={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>

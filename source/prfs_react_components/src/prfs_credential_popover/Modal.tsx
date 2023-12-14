@@ -1,17 +1,5 @@
-import React, { useId } from "react";
+import React from "react";
 import cn from "classnames";
-import {
-  FloatingFocusManager,
-  autoUpdate,
-  flip,
-  offset,
-  shift,
-  useClick,
-  useDismiss,
-  useFloating,
-  useInteractions,
-  useRole,
-} from "@floating-ui/react";
 
 import styles from "./Modal.module.scss";
 import { i18nContext } from "../i18n/i18nContext";
