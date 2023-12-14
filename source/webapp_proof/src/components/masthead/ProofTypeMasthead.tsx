@@ -11,7 +11,7 @@ import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 
 import styles from "./ProofTypeMasthead.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import { useIsTutorial } from "@/hooks/tutorial";
 

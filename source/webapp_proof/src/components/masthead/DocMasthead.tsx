@@ -7,7 +7,7 @@ import ActiveLink from "@taigalabs/prfs-react-components/src/active_link/ActiveL
 import PrfsAppsPopover from "@taigalabs/prfs-react-components/src/prfs_apps_popover/PrfsAppsPopover";
 
 import styles from "./DocMasthead.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
 

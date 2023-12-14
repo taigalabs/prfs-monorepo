@@ -2,7 +2,7 @@ import React from "react";
 import cn from "classnames";
 
 import styles from "./CreateProofForm.module.scss";
-import { getI18N } from "@/i18n/getI18N";
+import { getI18N } from "@/i18n/get_i18n";
 import ProofTypeMastheadFallback from "@/components/masthead/ProofTypeMastheadFallback";
 
 const CreateProofFormFallback: React.FC = async () => {

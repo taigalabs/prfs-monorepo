@@ -14,10 +14,9 @@ import {
   FloatingPortal,
 } from "@floating-ui/react";
 import Link from "next/link";
-import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 
 import styles from "./ErrorDialog.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 
 const ErrorDialog: React.FC<ErrorDialogProps> = ({ errorMsg, handleClose }) => {
   const i18n = React.useContext(i18nContext);

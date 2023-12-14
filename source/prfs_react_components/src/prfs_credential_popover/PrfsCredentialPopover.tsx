@@ -18,7 +18,7 @@ import {
 
 import styles from "./PrfsCredentialPopover.module.scss";
 import { TbMathPi } from "../tabler_icons/TbMathPi";
-import { i18nContext } from "../contexts/i18nContext";
+import { i18nContext } from "../i18n/i18nContext";
 
 const Modal: React.FC<MerkleProofModalProps> = ({}) => {
   const i18n = React.useContext(i18nContext);
