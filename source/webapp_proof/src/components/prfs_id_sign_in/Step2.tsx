@@ -1,17 +1,10 @@
 import React from "react";
-import {
-  prfsSign,
-  makeCredential,
-  type PrfsIdCredential,
-  poseidon,
-  poseidon_2,
-} from "@taigalabs/prfs-crypto-js";
+import { type PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import {
   PrfsIdSignInSuccessPayload,
   sendMsgToOpener,
-  SignInData,
   type PrfsIdSignInSuccessMsg,
   StoredCredential,
   persistPrfsIdCredential,
@@ -21,7 +14,6 @@ import { encrypt } from "eciesjs";
 import { useMutation } from "wagmi";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
 import { idApi } from "@taigalabs/prfs-api-js";
-import { FaRegAddressCard } from "@react-icons/all-files/fa/FaRegAddressCard";
 
 import styles from "./Step2.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -30,60 +22,16 @@ import {
   PrfsIdSignInInnerPadding,
   PrfsIdSignInModuleBtnRow,
   PrfsIdSignInModuleHeader,
-  PrfsIdSignInModuleInputArea,
-  PrfsIdSignInModuleLogoArea,
-  PrfsIdSignInModuleSubtitle,
   PrfsIdSignInModuleTitle,
   PrfsIdSignInWithPrfsId,
 } from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
 import { IdCreateForm } from "@/functions/validate_id";
-import { hexlify } from "ethers/lib/utils";
+import SignInInputs from "./SignInInputs";
 
 enum Step2Status {
   Loading,
   Standby,
 }
-
-const SignInInputs: React.FC<SignInInputsProps> = ({ signInData, credential, appId }) => {
-  const [elems, setElems] = React.useState<React.ReactNode>(null);
-
-  React.useEffect(() => {
-    async function fn() {
-      let el = [];
-      for (const d of signInData) {
-        if (d === SignInData.ID_POSEIDON) {
-          const sig = await prfsSign(credential.secret_key, appId);
-          const sigBytes = sig.toCompactRawBytes();
-          const sigHash = await poseidon_2(sigBytes);
-          const id = sigHash.subarray(0, 20);
-          const idHash = hexlify(id);
-
-          el.push(
-            <li className={styles.item} key={d}>
-              <div className={styles.img}>
-                <FaRegAddressCard />
-              </div>
-              <div>
-                <p className={styles.label}>{d}</p>
-                <p>{appId}</p>
-                <p>{idHash}</p>
-              </div>
-            </li>,
-          );
-        }
-      }
-      setElems(el);
-    }
-
-    fn().then();
-  }, [signInData, setElems]);
-
-  return (
-    <>
-      <ul className={styles.signInData}>{elems}</ul>
-    </>
-  );
-};
 
 const Step2: React.FC<Step2Props> = ({
   formData,
@@ -99,7 +47,8 @@ const Step2: React.FC<Step2Props> = ({
   const [step2Status, setStep2Status] = React.useState(Step2Status.Loading);
   const [title, setTitle] = React.useState<React.ReactNode>(null);
   const [errorMsg, setErrorMsg] = React.useState("");
-  const [signInData, setSignInData] = React.useState<React.ReactNode>(null);
+  const [signInDataElem, setSignInDataElem] = React.useState<React.ReactNode>(null);
+  const [signInData, setSignInData] = React.useState<Record<string, any>>({});
   const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignInRequest) => {
       return idApi("sign_in_prfs_identity", req);
@@ -122,8 +71,15 @@ const Step2: React.FC<Step2Props> = ({
         if (signInData) {
           const d = decodeURIComponent(signInData);
           const data = d.split(",");
-          const content = <SignInInputs signInData={data} credential={credential} appId={appId} />;
-          setSignInData(content);
+          const content = (
+            <SignInInputs
+              signInData={data}
+              credential={credential}
+              appId={appId}
+              setSignInData={setSignInData}
+            />
+          );
+          setSignInDataElem(content);
         }
         setStep2Status(Step2Status.Standby);
       } catch (err) {
@@ -136,6 +92,7 @@ const Step2: React.FC<Step2Props> = ({
     searchParams,
     setTitle,
     setSignInData,
+    setSignInDataElem,
     formData,
     credential,
     handleClickPrev,
@@ -192,7 +149,7 @@ const Step2: React.FC<Step2Props> = ({
         <div>
           <p className={styles.prfsId}>{credential.id}</p>
         </div>
-        {signInData}
+        {signInDataElem}
         <div className={styles.dataWarning}>
           <p className={styles.title}>Make sure you trust {appId} app</p>
           <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
@@ -228,10 +185,4 @@ export interface Step2Props {
   appId: string;
   publicKey: string;
   credential: PrfsIdCredential;
-}
-
-export interface SignInInputsProps {
-  signInData: string[];
-  credential: PrfsIdCredential;
-  appId: string;
 }

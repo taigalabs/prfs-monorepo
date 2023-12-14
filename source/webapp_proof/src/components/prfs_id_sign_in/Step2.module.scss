@@ -30,28 +30,6 @@
   color: var(--gray-30);
 }
 
-.signInData {
-  padding: 18px 0;
-  .label {
-    font-weight: 500;
-  }
-
-  .item {
-    display: flex;
-    font-size: 13px;
-    color: var(--black-20);
-    /* border-top: 1px solid var(--bright-gray-32); */
-    padding: 8px 0;
-  }
-
-  .img {
-    font-size: 20px;
-    padding-top: 3px;
-    padding-right: 14px;
-    color: var(--gray-30);
-  }
-}
-
 .dataWarning {
   .title {
     padding: 8px 0;

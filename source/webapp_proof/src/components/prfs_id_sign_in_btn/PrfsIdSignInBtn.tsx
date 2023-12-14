@@ -40,11 +40,25 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
     async (encrypted: Buffer) => {
       if (secretKeyRef.current) {
         const sk = secretKeyRef.current;
-        const decrypted = decrypt(sk.secret, Buffer.from(encrypted)).toString();
-        const msg = JSON.parse(decrypted) as PrfsIdSignInSuccessPayload;
 
-        dispatch(signInPrfs);
-        console.log(123, msg);
+        let decrypted;
+        try {
+          decrypted = decrypt(sk.secret, Buffer.from(encrypted)).toString();
+        } catch (err) {
+          console.error(err);
+          return;
+        }
+
+        let msg;
+        try {
+          msg = JSON.parse(decrypted) as PrfsIdSignInSuccessPayload;
+          console.log(123, msg);
+        } catch (err) {
+          console.error(err);
+          return;
+        }
+
+        dispatch(signInPrfs());
       }
     },
     [router, dispatch],
