@@ -23,6 +23,7 @@ import styles from "./PrfsAppsPopover.module.scss";
 import { TbMathPi } from "../tabler_icons/TbMathPi";
 import { TbCertificate } from "../tabler_icons/TbCertificate";
 import { i18nContext } from "../i18n/i18nContext";
+import Tooltip from "../tooltip/Tooltip";
 
 const Modal: React.FC<MerkleProofModalProps> = ({ webappProofEndpoint, webappConsoleEndpoint }) => {
   const i18n = React.useContext(i18nContext);
@@ -75,10 +76,10 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
   webappProofEndpoint,
   webappConsoleEndpoint,
   webappPollEndpoint,
+  tooltip,
   zIndex,
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
-
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
@@ -86,13 +87,10 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
     middleware: [offset(10), flip({ fallbackAxisSideDirection: "end" }), shift()],
     whileElementsMounted: autoUpdate,
   });
-
   const click = useClick(context);
   const dismiss = useDismiss(context);
   const role = useRole(context);
-
   const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss, role]);
-
   const headingId = useId();
 
   return (
@@ -106,7 +104,13 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
         ref={refs.setReference}
         {...getReferenceProps()}
       >
-        {children ? children : <BsThreeDots />}
+        {tooltip ? (
+          <Tooltip label={tooltip}>{children ? children : <BsThreeDots />}</Tooltip>
+        ) : children ? (
+          children
+        ) : (
+          <BsThreeDots />
+        )}
       </button>
       {isOpen && (
         <FloatingFocusManager context={context} modal={false}>
@@ -139,6 +143,7 @@ export interface PrfsAppsPopoverProps {
   webappProofEndpoint: string;
   webappConsoleEndpoint: string;
   zIndex?: number;
+  tooltip?: string;
   children?: React.ReactNode;
 }
 

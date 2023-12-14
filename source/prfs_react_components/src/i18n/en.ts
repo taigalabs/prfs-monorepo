@@ -1,5 +1,6 @@
 export default {
   share: "Share",
+  apps: "Apps",
   save: "Save",
   docs: "Docs",
   documentation: "Documentation",

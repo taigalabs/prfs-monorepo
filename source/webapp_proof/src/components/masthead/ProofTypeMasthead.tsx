@@ -50,17 +50,18 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
                 </Link>
               </li>
             </Tooltip>
-            <Tooltip label={i18n.apps}>
-              <li className={cn(styles.menu, styles.appPopover)}>
-                <PrfsAppsPopover
-                  className={styles.popover}
-                  isOpenClassName={styles.popoverIsOpen}
-                  webappPollEndpoint={process.env.NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT}
-                  webappProofEndpoint={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
-                  webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
-                />
-              </li>
-            </Tooltip>
+            {/* <Tooltip label={i18n.apps}> */}
+            <li className={cn(styles.menu, styles.appPopover)}>
+              <PrfsAppsPopover
+                className={styles.popover}
+                isOpenClassName={styles.popoverIsOpen}
+                webappPollEndpoint={process.env.NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT}
+                webappProofEndpoint={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
+                webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
+                tooltip={i18n.apps}
+              />
+            </li>
+            {/* </Tooltip> */}
             <li className={(styles.menu, styles.signInBtn)}>{/* <SignInBtn /> */}</li>
           </ul>
         </div>
