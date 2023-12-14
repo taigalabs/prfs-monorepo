@@ -1,4 +1,4 @@
-import React, { SetStateAction } from "react";
+import React from "react";
 import JSONbig from "json-bigint";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";

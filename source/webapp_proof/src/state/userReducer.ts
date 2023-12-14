@@ -22,9 +22,15 @@ export const userSlice = createSlice({
         prfsProofCredential: action.payload,
       };
     },
+    signOutPrfs: (state: UserState, _action: PayloadAction<void>) => {
+      return {
+        ...state,
+        prfsProofCredential: null,
+      };
+    },
   },
 });
 
-export const { signInPrfs } = userSlice.actions;
+export const { signInPrfs, signOutPrfs } = userSlice.actions;
 
 export default userSlice.reducer;

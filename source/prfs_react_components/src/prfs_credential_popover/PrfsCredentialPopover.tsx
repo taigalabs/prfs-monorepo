@@ -1,8 +1,5 @@
 import React, { useId } from "react";
 import cn from "classnames";
-import { GrMonitor } from "@react-icons/all-files/gr/GrMonitor";
-import { FaVoteYea } from "@react-icons/all-files/fa/FaVoteYea";
-import { BsThreeDots } from "@react-icons/all-files/bs/BsThreeDots";
 import {
   FloatingFocusManager,
   autoUpdate,
@@ -17,19 +14,36 @@ import {
 } from "@floating-ui/react";
 
 import styles from "./PrfsCredentialPopover.module.scss";
-import { TbMathPi } from "../tabler_icons/TbMathPi";
 import { i18nContext } from "../i18n/i18nContext";
+import Button from "../button/Button";
 
-const Modal: React.FC<MerkleProofModalProps> = ({}) => {
+const Modal: React.FC<MerkleProofModalProps> = ({ id, handleClickSignOut }) => {
   const i18n = React.useContext(i18nContext);
 
-  return <div className={styles.modal}>power</div>;
+  return (
+    <div className={styles.modal}>
+      <p>{id}</p>
+      <div className={styles.btnRow}>
+        <div />
+        <Button
+          variant="blue_2"
+          className={styles.wrapper}
+          noTransition
+          handleClick={handleClickSignOut}
+          noShadow
+        >
+          {i18n.sign_in}
+        </Button>
+      </div>
+    </div>
+  );
 };
 
 const PrfsCredentialPopover: React.FC<PrfsCredentialPopoverProps> = ({
   className,
   credential,
   isOpenClassName,
+  handleClickSignOut,
   handleInitFail,
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -45,16 +59,14 @@ const PrfsCredentialPopover: React.FC<PrfsCredentialPopoverProps> = ({
   const role = useRole(context);
   const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss, role]);
   const headingId = useId();
-  const [printable, setPrintable] = React.useState<{ label: string; avatarColor: string }>({
+  const [printable, setPrintable] = React.useState({
     label: "",
     avatarColor: "",
   });
 
-  console.log(11, credential);
-
   React.useEffect(() => {
     if (credential && credential.id.length > 6) {
-      const label = credential.id.substring(2, 6);
+      const label = credential.id.substring(2, 5);
       const { avatarColor } = credential;
       setPrintable({ label, avatarColor });
     } else {
@@ -73,8 +85,9 @@ const PrfsCredentialPopover: React.FC<PrfsCredentialPopoverProps> = ({
           })}
           ref={refs.setReference}
           {...getReferenceProps()}
+          style={{ backgroundColor: printable.avatarColor }}
         >
-          {printable.label}
+          <span>{printable.label}</span>
         </button>
         {isOpen && (
           <FloatingFocusManager context={context} modal={false}>
@@ -85,7 +98,11 @@ const PrfsCredentialPopover: React.FC<PrfsCredentialPopoverProps> = ({
               aria-labelledby={headingId}
               {...getFloatingProps()}
             >
-              <Modal setIsOpen={setIsOpen} />
+              <Modal
+                id={printable.label}
+                setIsOpen={setIsOpen}
+                handleClickSignOut={handleClickSignOut}
+              />
             </div>
           </FloatingFocusManager>
         )}
@@ -105,8 +122,11 @@ export interface PrfsCredentialPopoverProps {
   isOpenClassName?: string;
   zIndex?: number;
   handleInitFail: () => void;
+  handleClickSignOut: () => void;
 }
 
 export interface MerkleProofModalProps {
+  handleClickSignOut: () => void;
   setIsOpen: React.Dispatch<React.SetStateAction<any>>;
+  id: string;
 }

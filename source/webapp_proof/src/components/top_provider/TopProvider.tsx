@@ -41,9 +41,7 @@ const TopProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <WagmiConfig config={wagmiConfig}>
         <PrfsReactComponentsI18NProvider>
           <StateProvider store={store}>
-            <StateInitializer>
-              <I18nProvider>{children}</I18nProvider>
-            </StateInitializer>
+            <I18nProvider>{children}</I18nProvider>
           </StateProvider>
         </PrfsReactComponentsI18NProvider>
       </WagmiConfig>

@@ -12,8 +12,12 @@ import styles from "./PrfsIdSignInBtn.module.scss";
 import { paths } from "@/paths";
 import { envs } from "@/envs";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
-import { signInPrfs } from "@/state/userReducer";
-import { persistPrfsProofCredential } from "@/storage/local_storage";
+import { signInPrfs, signOutPrfs } from "@/state/userReducer";
+import {
+  loadLocalPrfsProofCredential,
+  persistPrfsProofCredential,
+  removeLocalPrfsProofCredential,
+} from "@/storage/local_storage";
 
 const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   const router = useRouter();
@@ -21,6 +25,13 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   const secretKeyRef = React.useRef<PrivateKey | null>(null);
   const dispatch = useAppDispatch();
   const prfsProofCredential = useAppSelector(state => state.user.prfsProofCredential);
+
+  React.useEffect(() => {
+    const credential = loadLocalPrfsProofCredential();
+    if (credential) {
+      dispatch(signInPrfs(credential));
+    }
+  }, []);
 
   React.useEffect(() => {
     if (!secretKeyRef.current) {
@@ -67,13 +78,22 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
     [router, dispatch],
   );
 
+  const handleClickSignOut = React.useCallback(() => {
+    removeLocalPrfsProofCredential();
+    dispatch(signOutPrfs());
+  }, [dispatch]);
+
   const handleInitFail = React.useCallback(() => {
     console.log("Failed init Prfs Proof credential!");
   }, []);
 
   return prfsProofCredential ? (
     <div className={styles.wrapper}>
-      <PrfsCredentialPopover credential={prfsProofCredential} handleInitFail={handleInitFail} />
+      <PrfsCredentialPopover
+        credential={prfsProofCredential}
+        handleInitFail={handleInitFail}
+        handleClickSignOut={handleClickSignOut}
+      />
     </div>
   ) : (
     <PrfsIdSignInButton
