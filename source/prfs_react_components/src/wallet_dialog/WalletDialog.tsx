@@ -14,7 +14,7 @@ import {
 
 import styles from "./WalletDialog.module.scss";
 import Fade from "../fade/Fade";
-import { i18nContext } from "../contexts/i18nContext";
+import { i18nContext } from "../i18n/i18nContext";
 import WalletModal from "./WalletModal";
 
 const WalletDialog: React.FC<WalletDialogProps> = ({ handleChangeAddress, zIndex, children }) => {

@@ -1,12 +1,11 @@
 import React from "react";
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import cn from "classnames";
 import DOMPurify from "dompurify";
 import * as marked from "marked";
 import dayjs from "dayjs";
 
 import styles from "./ProofTypeMeta.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
 import { Markdown } from "../markdown/Markdown";
 

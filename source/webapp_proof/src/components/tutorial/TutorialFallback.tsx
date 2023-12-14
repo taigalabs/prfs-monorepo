@@ -5,7 +5,7 @@ import cn from "classnames";
 
 import styles from "./Tutorial.module.scss";
 import MarkdownWrapper from "./MarkdownWrapper";
-import { getI18N } from "@/i18n/getI18N";
+import { getI18N } from "@/i18n/get_i18n";
 
 const TutorialFallback: React.FC<TutorialProps> = async ({ bigTopMargin }) => {
   const i18n = await getI18N();

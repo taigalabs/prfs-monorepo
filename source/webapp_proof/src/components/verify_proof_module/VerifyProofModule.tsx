@@ -7,7 +7,7 @@ import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/elems/proof_gen_element/proof_gen_element";
 
 import styles from "./VerifyProofModule.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 
 export enum VerifiedStatus {

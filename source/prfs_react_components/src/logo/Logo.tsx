@@ -4,7 +4,7 @@ import React from "react";
 import classNames from "classnames";
 
 import styles from "./Logo.module.scss";
-import { i18nContext } from "../contexts/i18nContext";
+import { i18nContext } from "../i18n/i18nContext";
 
 const Logo: React.FC<LogoProps> = ({ variant, appName, beta }) => {
   const i18n = React.useContext(i18nContext);

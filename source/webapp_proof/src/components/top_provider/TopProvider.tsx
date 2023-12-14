@@ -3,14 +3,15 @@
 import React from "react";
 import { Provider as StateProvider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { PrfsReactComponentsI18NProvider } from "@taigalabs/prfs-react-components/src/contexts/i18nContext";
+import { PrfsReactComponentsI18NProvider } from "@taigalabs/prfs-react-components/src/i18n/i18nContext";
 import { WagmiConfig, configureChains, createConfig, mainnet } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 
-import { I18nProvider } from "@/contexts/i18n";
+import { I18nProvider } from "@/i18n/context";
 import { store } from "@/state/store";
+import { StateInitializer } from "@/state/initializer";
 
 const queryClient = new QueryClient();
 
@@ -40,7 +41,9 @@ const TopProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <WagmiConfig config={wagmiConfig}>
         <PrfsReactComponentsI18NProvider>
           <StateProvider store={store}>
-            <I18nProvider>{children}</I18nProvider>
+            <StateInitializer>
+              <I18nProvider>{children}</I18nProvider>
+            </StateInitializer>
           </StateProvider>
         </PrfsReactComponentsI18NProvider>
       </WagmiConfig>

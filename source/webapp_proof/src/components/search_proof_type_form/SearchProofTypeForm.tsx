@@ -12,7 +12,7 @@ import SearchProofDialog from "@taigalabs/prfs-react-components/src/search_proof
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 
 import styles from "./SearchProofTypeForm.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import LogoContainer from "@/components/logo_container/LogoContainer";
 import { paths } from "@/paths";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";

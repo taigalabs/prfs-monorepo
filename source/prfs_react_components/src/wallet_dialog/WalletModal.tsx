@@ -4,7 +4,7 @@ import cn from "classnames";
 
 import styles from "./WalletModal.module.scss";
 import Button from "../button/Button";
-import { i18nContext } from "../contexts/i18nContext";
+import { i18nContext } from "../i18n/i18nContext";
 
 const ConnectedInfo: React.FC<ConnectedInfoProps> = ({
   ensName,

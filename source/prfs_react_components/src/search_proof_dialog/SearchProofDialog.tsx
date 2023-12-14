@@ -15,7 +15,7 @@ import { IoIosSearch } from "@react-icons/all-files/io/IoIosSearch";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import styles from "./SearchProofDialog.module.scss";
-import { i18nContext } from "../contexts/i18nContext";
+import { i18nContext } from "../i18n/i18nContext";
 import ProofTypeModal2 from "./ProofTypeModal2";
 import CaptionedImg from "../captioned_img/CaptionedImg";
 

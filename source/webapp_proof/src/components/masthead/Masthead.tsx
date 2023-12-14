@@ -8,7 +8,7 @@ import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import { useSearchParams } from "next/navigation";
 
 import styles from "./Masthead.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import PrfsIdSignInBtn from "@/components/prfs_id_sign_in_btn/PrfsIdSignInBtn";
 

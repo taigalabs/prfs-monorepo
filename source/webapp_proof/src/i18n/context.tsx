@@ -1,6 +1,6 @@
 import React from "react";
 
-import en from "@/i18n/en";
+import en from "./en";
 
 export const i18nContext = React.createContext(en);
 

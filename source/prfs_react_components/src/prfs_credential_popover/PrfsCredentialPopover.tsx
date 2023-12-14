@@ -29,8 +29,8 @@ const Modal: React.FC<MerkleProofModalProps> = ({}) => {
 const PrfsCredentialPopover: React.FC<PrfsCredentialPopoverProps> = ({
   className,
   credential,
-  children,
   isOpenClassName,
+  handleInitFail,
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, floatingStyles, context } = useFloating({
@@ -45,34 +45,52 @@ const PrfsCredentialPopover: React.FC<PrfsCredentialPopoverProps> = ({
   const role = useRole(context);
   const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss, role]);
   const headingId = useId();
+  const [printable, setPrintable] = React.useState<{ label: string; avatarColor: string }>({
+    label: "",
+    avatarColor: "",
+  });
+
+  console.log(11, credential);
+
+  React.useEffect(() => {
+    if (credential && credential.id.length > 6) {
+      const label = credential.id.substring(2, 6);
+      const { avatarColor } = credential;
+      setPrintable({ label, avatarColor });
+    } else {
+      handleInitFail();
+    }
+  }, [credential, setPrintable]);
 
   return (
-    <>
-      <button
-        className={cn(styles.base, {
-          [styles.isOpen]: isOpen,
-          [className!]: !!className,
-          [isOpenClassName!]: !!isOpenClassName && isOpen,
-        })}
-        ref={refs.setReference}
-        {...getReferenceProps()}
-      >
-        {children ? children : <BsThreeDots />}
-      </button>
-      {isOpen && (
-        <FloatingFocusManager context={context} modal={false}>
-          <div
-            className={styles.popoverWrapper}
-            ref={refs.setFloating}
-            style={floatingStyles}
-            aria-labelledby={headingId}
-            {...getFloatingProps()}
-          >
-            <Modal setIsOpen={setIsOpen} />
-          </div>
-        </FloatingFocusManager>
-      )}
-    </>
+    printable && (
+      <>
+        <button
+          className={cn(styles.base, {
+            [styles.isOpen]: isOpen,
+            [className!]: !!className,
+            [isOpenClassName!]: !!isOpenClassName && isOpen,
+          })}
+          ref={refs.setReference}
+          {...getReferenceProps()}
+        >
+          {printable.label}
+        </button>
+        {isOpen && (
+          <FloatingFocusManager context={context} modal={false}>
+            <div
+              className={styles.popoverWrapper}
+              ref={refs.setFloating}
+              style={floatingStyles}
+              aria-labelledby={headingId}
+              {...getFloatingProps()}
+            >
+              <Modal setIsOpen={setIsOpen} />
+            </div>
+          </FloatingFocusManager>
+        )}
+      </>
+    )
   );
 };
 
@@ -86,7 +104,7 @@ export interface PrfsCredentialPopoverProps {
   className?: string;
   isOpenClassName?: string;
   zIndex?: number;
-  children?: React.ReactNode;
+  handleInitFail: () => void;
 }
 
 export interface MerkleProofModalProps {

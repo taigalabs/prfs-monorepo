@@ -12,7 +12,7 @@ import {
   isLocalSnap,
   shouldDisplayReconnect,
 } from "../modules/snap/utils";
-import { i18nContext } from "../contexts/i18nContext";
+import { i18nContext } from "../i18n/i18nContext";
 import { defaultSnapOrigin } from "../modules/snap/config";
 import { MetamaskActions, usePrfsSnap } from "../hooks/use_prfs_snap";
 

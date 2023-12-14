@@ -67,9 +67,13 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
     [router, dispatch],
   );
 
+  const handleInitFail = React.useCallback(() => {
+    console.log("Failed init Prfs Proof credential!");
+  }, []);
+
   return prfsProofCredential ? (
     <div className={styles.wrapper}>
-      <PrfsCredentialPopover credential={prfsProofCredential} />
+      <PrfsCredentialPopover credential={prfsProofCredential} handleInitFail={handleInitFail} />
     </div>
   ) : (
     <PrfsIdSignInButton

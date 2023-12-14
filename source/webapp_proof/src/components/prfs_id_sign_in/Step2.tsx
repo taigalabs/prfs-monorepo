@@ -16,7 +16,7 @@ import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/Prf
 import { idApi } from "@taigalabs/prfs-api-js";
 
 import styles from "./Step2.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import {
   PrfsIdSignInErrorMsg,
   PrfsIdSignInInnerPadding,

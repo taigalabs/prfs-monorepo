@@ -14,7 +14,7 @@ import cn from "classnames";
 import { IoMdSchool } from "@react-icons/all-files/io/IoMdSchool";
 
 import styles from "./Tutorial.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { goNextStep, goPrevStep, resetStep } from "@/state/tutorialReducer";
 import MarkdownWrapper from "./MarkdownWrapper";

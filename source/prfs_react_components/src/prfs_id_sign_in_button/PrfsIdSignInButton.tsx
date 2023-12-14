@@ -1,15 +1,10 @@
 import React from "react";
 import cn from "classnames";
-import {
-  type PrfsIdMsg,
-  type PrfsIdSignInSuccessPayload,
-  type PrfsIdSignInSuccessMsg,
-  newPrfsIdMsg,
-} from "@taigalabs/prfs-id-sdk-web";
+import { type PrfsIdSignInSuccessMsg, newPrfsIdMsg } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./PrfsIdSignInButton.module.scss";
 import Button from "../button/Button";
-import { i18nContext } from "../contexts/i18nContext";
+import { i18nContext } from "../i18n/i18nContext";
 
 const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   prfsIdSignInEndpoint,
