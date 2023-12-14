@@ -1,7 +1,7 @@
-import { SignUpRequest } from "@taigalabs/prfs-entities/bindings/SignUpRequest";
-import { SignUpResponse } from "@taigalabs/prfs-entities/bindings/SignUpResponse";
-import { SignInRequest } from "@taigalabs/prfs-entities/bindings/SignInRequest";
-import { SignInResponse } from "@taigalabs/prfs-entities/bindings/SignInResponse";
+import { PrfsSignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignUpRequest";
+import { PrfsSignUpResponse } from "@taigalabs/prfs-entities/bindings/PrfsSignUpResponse";
+import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
+import { PrfsSignInResponse } from "@taigalabs/prfs-entities/bindings/PrfsSignInResponse";
 import { GetPrfsCircuitDriversRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitDriversRequest";
 import { GetPrfsCircuitDriversResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitDriversResponse";
 import { GetPrfsCircuitDriverByDriverIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsCircuitDriverByDriverIdRequest";
@@ -99,9 +99,9 @@ type RequestName =
 
 type Req<T extends RequestName> = //
   T extends "sign_up_prfs_account"
-    ? SignUpRequest
+    ? PrfsSignUpRequest
     : T extends "sign_in_prfs_account"
-    ? SignInRequest
+    ? PrfsSignInRequest
     : T extends "get_prfs_circuit_drivers"
     ? GetPrfsCircuitDriversRequest
     : T extends "get_prfs_circuit_driver_by_driver_id"
@@ -166,9 +166,9 @@ type Req<T extends RequestName> = //
 
 type Resp<T> = //
   T extends "sign_up_prfs_account"
-    ? PrfsApiResponse<SignUpResponse>
+    ? PrfsApiResponse<PrfsSignUpResponse>
     : T extends "sign_in_prfs_account"
-    ? PrfsApiResponse<SignInResponse>
+    ? PrfsApiResponse<PrfsSignInResponse>
     : T extends "get_prfs_circuit_drivers"
     ? PrfsApiResponse<GetPrfsCircuitDriversResponse>
     : T extends "get_prfs_circuit_driver_by_driver_id"

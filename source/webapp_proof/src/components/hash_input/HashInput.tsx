@@ -5,7 +5,7 @@ import ProofGenElement from "@taigalabs/prfs-sdk-web/src/elems/proof_gen_element
 import { bufferToBigInt } from "@ethereumjs/util";
 
 import styles from "./HashInput.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import {
   FormError,
   FormInput,

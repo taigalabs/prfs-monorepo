@@ -1,10 +1,10 @@
 export const makeEmptyIdCreateForm: () => IdCreateForm = () => ({
-  email: "abcabc@gmail.com",
-  email_confirm: "abcabc@gmail.com",
-  password_1: "Powerpowerpowerpower0000!",
-  password_1_confirm: "Powerpowerpowerpower0000!",
-  password_2: "!@#Showmethemoney0000",
-  password_2_confirm: "!@#Showmethemoney0000",
+  email: "",
+  email_confirm: "",
+  password_1: "",
+  password_1_confirm: "",
+  password_2: "",
+  password_2_confirm: "",
 });
 
 export const makeEmptyIDCreateFormErrors: () => IdCreateForm = () => ({
@@ -58,8 +58,7 @@ export function validateIdCreateForm(
   setFormErrors: React.Dispatch<React.SetStateAction<IdCreateForm>>,
 ): boolean {
   setFormErrors(() => makeEmptyIDCreateFormErrors());
-
-  console.log(22, formValues);
+  // console.log(22, formValues);
 
   if (!formValues.email || formValues.email.length < 1) {
     setFormErrors(oldVals => ({

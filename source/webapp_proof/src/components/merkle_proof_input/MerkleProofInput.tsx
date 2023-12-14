@@ -27,7 +27,7 @@ import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/
 
 import styles from "./MerkleProofInput.module.scss";
 import MerkleProofRawModal from "./MerkleProofRawModal";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import {
   FormError,
   FormInput,

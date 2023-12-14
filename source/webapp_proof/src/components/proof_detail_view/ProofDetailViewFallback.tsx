@@ -3,7 +3,7 @@ import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 
 import styles from "./ProofDetailView.module.scss";
 import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
-import { getI18N } from "@/i18n/getI18N";
+import { getI18N } from "@/i18n/get_i18n";
 import ProofTypeMastheadFallback from "../masthead/ProofTypeMastheadFallback";
 
 const ProofDetailView: React.FC<ProofDetailViewProps> = async ({ proofInstanceId }) => {
@@ -15,7 +15,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = async ({ proofInstanceId
         <ProofTypeMasthead
           proofInstanceId={proofInstanceId}
           proofType={undefined}
-          handleSelectProofType={() => { }}
+          handleSelectProofType={() => {}}
         />
       </Suspense>
       <div className={styles.wrapper}>

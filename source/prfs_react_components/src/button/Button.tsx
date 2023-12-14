@@ -23,6 +23,7 @@ const Button: React.FC<ButtonProps> = ({
   name,
   noTransition,
   noShadow,
+  smallPadding,
 }) => {
   return (
     <button
@@ -41,6 +42,7 @@ const Button: React.FC<ButtonProps> = ({
         [styles.white_black_1]: variant === "white_black_1",
         [styles.no_transition]: noTransition,
         [styles.no_shadow]: noShadow,
+        [styles.smallPadding]: smallPadding,
         [className || ""]: !!className,
       })}
       {...(name && { name })}
@@ -49,7 +51,7 @@ const Button: React.FC<ButtonProps> = ({
       type={type}
     >
       <div className={styles.backdrop} />
-      <span>{children}</span>
+      <p>{children}</p>
     </button>
   );
 };
@@ -64,6 +66,7 @@ export interface ButtonProps {
   disabled?: boolean;
   handleClick?: MouseEventHandler;
   noTransition?: boolean;
+  smallPadding?: boolean;
   noShadow?: boolean;
   type?: "submit" | "reset" | "button" | undefined;
 }

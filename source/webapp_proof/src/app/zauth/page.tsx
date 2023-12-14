@@ -8,7 +8,7 @@ import { Msg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 import NoSSR from "@taigalabs/prfs-react-components/src/no_ssr/NoSSR";
 
 import styles from "./ZAuthPage.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import ZAuthLayout from "@/components/layouts/zauth_layout/ZAuthLayout";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";

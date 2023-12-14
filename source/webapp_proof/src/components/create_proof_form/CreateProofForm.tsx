@@ -4,7 +4,7 @@ import React from "react";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import cn from "classnames";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { useMutation } from "@tanstack/react-query";
@@ -17,8 +17,7 @@ import PostCreateMenu from "./PostCreateMenu";
 import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
 import Tutorial from "@/components/tutorial/Tutorial";
-import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
-import LeftPadding from "../left_padding/LeftPadding";
+import LeftPadding from "@/components/left_padding/LeftPadding";
 
 const CreateProofForm: React.FC = () => {
   const [proofType, setProofType] = React.useState<PrfsProofType>();
@@ -26,7 +25,6 @@ const CreateProofForm: React.FC = () => {
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt>();
   const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
   const searchParams = useSearchParams();
-
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
       return prfsApi2("get_prfs_proof_type_by_proof_type_id", req);
@@ -46,7 +44,6 @@ const CreateProofForm: React.FC = () => {
         const { payload } = await getPrfsProofTypeByProofTypeIdRequest({
           proof_type_id: proofTypeId,
         });
-
         setProofType(payload.prfs_proof_type);
       } else {
       }
@@ -76,7 +73,7 @@ const CreateProofForm: React.FC = () => {
         handleSelectProofType={handleSelectProofType}
       />
       <div className={styles.topRow}></div>
-      <div className={styles.wrapper}>
+      <div className={styles.main}>
         <LeftPadding />
         {proofType ? (
           <div
@@ -106,10 +103,8 @@ const CreateProofForm: React.FC = () => {
         ) : (
           <div className={styles.loading}>Loading module...</div>
         )}
-        <TutorialPlaceholder variant="h1460" />
+        <Tutorial noTop />
       </div>
-      <TutorialPlaceholder variant="v1460" />
-      <Tutorial bigTopMargin />
     </>
   );
 };

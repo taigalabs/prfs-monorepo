@@ -13,7 +13,7 @@ import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 
 import styles from "./SaveProofPopover.module.scss";
-import { i18nContext } from "../contexts/i18nContext";
+import { i18nContext } from "../i18n/i18nContext";
 import Snaps from "./Snaps";
 
 function SaveProofPopover({

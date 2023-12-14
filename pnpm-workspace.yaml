@@ -2,8 +2,7 @@ packages:
   # Externals
   - "externals/incremental-merkle-tree"
 
-  # Misc
-  - "source/e2e_test_web"
+  # Docs
   - "source/docs_website"
 
   # Circuits
@@ -24,9 +23,7 @@ packages:
   # Prfs SDK
   - "source/prfs_sdk_web"
   - "source/prfs_sdk_web_module"
-
-  # ZAuth
-  - "source/prfs_zauth_interface"
+  - "source/prfs_id_sdk_web"
 
   # Common ui components
   - "source/prfs_react_components"

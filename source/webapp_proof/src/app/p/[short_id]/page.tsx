@@ -1,13 +1,9 @@
-// "use client";
-
 import React from "react";
 import { redirect } from "next/navigation";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import { useQuery } from "@tanstack/react-query";
 
-import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import { getI18N } from "@/i18n/getI18N";
+import { getI18N } from "@/i18n/get_i18n";
 
 async function getData(shortId: string) {
   const { payload } = await prfsApi2("get_prfs_proof_instance_by_short_id", {
@@ -18,19 +14,7 @@ async function getData(shortId: string) {
 }
 
 const ShortIdPage: React.FC<ShortIdPageProps> = async ({ params }) => {
-  // const i18n = React.useContext(i18nContext);
   const i18n = await getI18N();
-
-  // const { isLoading, data } = useQuery({
-  //   queryKey: ["get_prfs_proof_instance_by_short_id"],
-  //   queryFn: async () => {
-  //     const { payload } = await prfsApi2("get_prfs_proof_instance_by_short_id", {
-  //       short_id: params.short_id,
-  //     });
-  //     return payload;
-  //   },
-  // });
-
   const data = await getData(params.short_id);
 
   if (data) {

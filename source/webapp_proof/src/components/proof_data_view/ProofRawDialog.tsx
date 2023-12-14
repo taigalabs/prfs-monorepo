@@ -13,7 +13,7 @@ import {
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 
 import styles from "./ProofRawDialog.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 
 const ProofRawDialog: React.FC<ProofRawDialogProps> = ({ proofRaw, children }) => {
   const i18n = React.useContext(i18nContext);

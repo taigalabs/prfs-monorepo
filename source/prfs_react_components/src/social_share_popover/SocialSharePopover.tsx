@@ -17,7 +17,7 @@ import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
 import Fade from "../fade/Fade";
 import styles from "./SocialSharePopover.module.scss";
 import Button from "../button/Button";
-import { i18nContext } from "../contexts/i18nContext";
+import { i18nContext } from "../i18n/i18nContext";
 
 function SocialSharePopover({ placement, offset, variant }: SocialSharePopoverProps) {
   const [isOpen, setIsOpen] = React.useState(false);

@@ -15,8 +15,8 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstance }) => {
   return (
     <div className={styles.wrapper}>
       <div>
-        <p className={styles.label}>{proofInstance.proof_label}</p>
-        <p className={styles.desc}>{proofInstance.proof_desc}</p>
+        <p className={styles.label}>{proofInstance.proof_type_label}</p>
+        <p className={styles.desc}>{proofInstance.proof_type_desc}</p>
       </div>
       <div className={styles.link}>
         <Link href={url}>{i18n.see_more}</Link>

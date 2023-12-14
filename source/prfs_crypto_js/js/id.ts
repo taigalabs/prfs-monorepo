@@ -1,44 +1,71 @@
-import * as ethers from "ethers";
-import * as secp from "@noble/secp256k1";
+import { secp256k1 as secp } from "@noble/curves/secp256k1";
 import { hexlify } from "ethers/lib/utils";
+import { PrivateKey, encrypt } from "eciesjs";
 
-import { initWasm } from "./wasm_wrapper/wasm";
-import { bytesToBigInt } from "./bigint";
+import { initWasm, wasmSingleton } from "./wasm_wrapper/wasm";
+import { poseidon_2 } from "./poseidon";
 
-const wasmSingleton: WasmSingleton = {
-  wasm: null,
-};
-
-export async function makeCredential(args: MakeCredentialArgs): Promise<Credential> {
+export async function makePrfsIdCredential(args: MakeCredentialArgs): Promise<PrfsIdCredential> {
   if (wasmSingleton.wasm === null) {
     const w = await initWasm();
     wasmSingleton.wasm = w;
   }
 
-  const { wasm } = wasmSingleton;
   const { email, password_1, password_2 } = args;
-
   const pw = `${email}${password_1}${password_2}`;
-  const pwBytes = ethers.utils.toUtf8Bytes(pw);
-  const pwHash = wasm.poseidon(pwBytes);
-  const pwInt = bytesToBigInt(pwHash);
+  const pwHash = await poseidon_2(pw);
+  const { public_key, secret_key, id } = await makeECCredential(pwHash);
 
-  const pk = secp.getPublicKey(pwInt, false);
-  const s1 = pk.subarray(1);
-  const s2 = wasm.poseidon(s1);
-  const id = s2.subarray(0, 20);
-
-  // console.log("credential", pwInt, pk, s1, s2, id);
+  const pw2Hash = await poseidon_2(password_2);
+  let encryptKey = PrivateKey.fromHex(hexlify(pw2Hash)).publicKey;
 
   return {
-    secret_key: hexlify(pwInt),
+    secret_key,
+    public_key,
+    id,
+    encrypt_key: encryptKey.toHex(),
+  };
+}
+
+export async function prfsSign(skHex: string, msg: string) {
+  if (wasmSingleton.wasm === null) {
+    const w = await initWasm();
+    wasmSingleton.wasm = w;
+  }
+
+  const msgHash = await poseidon_2(msg);
+  return secp.sign(msgHash, BigInt(skHex));
+}
+
+export async function makeECCredential(secret: Uint8Array): Promise<ECCredential> {
+  if (wasmSingleton.wasm === null) {
+    const w = await initWasm();
+    wasmSingleton.wasm = w;
+  }
+
+  const pk = secp.getPublicKey(secret, false);
+  const s1 = pk.subarray(1);
+  const s2 = await poseidon_2(s1);
+  const id = s2.subarray(0, 20);
+
+  return {
+    secret_key: hexlify(secret),
     public_key: hexlify(pk),
     id: hexlify(id),
   };
 }
 
-interface WasmSingleton {
-  wasm: typeof import("./wasm_wrapper/build") | null;
+export function makeColor(str: string) {
+  let hash = 0;
+  str.split("").forEach(char => {
+    hash = char.charCodeAt(0) + ((hash << 5) - hash);
+  });
+  let colour = "#";
+  for (let i = 0; i < 3; i++) {
+    const value = (hash >> (i * 8)) & 0xff;
+    colour += value.toString(16).padStart(2, "0");
+  }
+  return colour;
 }
 
 export interface MakeCredentialArgs {
@@ -47,7 +74,14 @@ export interface MakeCredentialArgs {
   password_2: string;
 }
 
-export interface Credential {
+export interface PrfsIdCredential {
+  secret_key: string;
+  public_key: string;
+  id: string;
+  encrypt_key: string;
+}
+
+export interface ECCredential {
   secret_key: string;
   public_key: string;
   id: string;

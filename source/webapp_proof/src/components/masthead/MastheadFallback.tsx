@@ -5,7 +5,7 @@ import PrfsAppsPopover from "@taigalabs/prfs-react-components/src/prfs_apps_popo
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 
 import styles from "./Masthead.module.scss";
-import { getI18N } from "@/i18n/getI18N";
+import { getI18N } from "@/i18n/get_i18n";
 
 const MastheadFallback: React.FC<MastheadProps> = async () => {
   const i18n = await getI18N();

@@ -16,7 +16,7 @@ export const store = configureStore({
     user: userReducer,
     tutorial: tutorialReducer,
   },
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger),
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger) as any,
 });
 
 export type RootState = ReturnType<typeof store.getState>;

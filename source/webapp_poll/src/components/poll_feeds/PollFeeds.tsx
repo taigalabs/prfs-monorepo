@@ -11,7 +11,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useVirtual } from "react-virtual";
+// import { useVirtual } from "react-virtual";
 import { GetPrfsPollsResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsPollsResponse";
 import dayjs from "dayjs";
 
@@ -52,7 +52,7 @@ const PollFeeds: React.FC = () => {
         header: "Poll Id",
       },
     ],
-    []
+    [],
   );
 
   const { data, fetchNextPage, isFetching, isLoading } = useInfiniteQuery<GetPrfsPollsResponse>(
@@ -70,7 +70,7 @@ const PollFeeds: React.FC = () => {
       getNextPageParam: (_lastGroup, groups) => groups.length,
       keepPreviousData: true,
       refetchOnWindowFocus: false,
-    }
+    },
   );
 
   // we must flatten the array of arrays from the useInfiniteQuery hook
@@ -95,7 +95,7 @@ const PollFeeds: React.FC = () => {
         }
       }
     },
-    [fetchNextPage, isFetching, totalFetched, totalDBRowCount]
+    [fetchNextPage, isFetching, totalFetched, totalDBRowCount],
   );
 
   // a check on mount and after a fetch to see if the table is already
@@ -114,49 +114,51 @@ const PollFeeds: React.FC = () => {
 
   const { rows } = table.getRowModel();
 
-  const rowVirtualizer = useVirtual({
-    parentRef: tableContainerRef,
-    size: rows.length,
-    overscan: 10,
-  });
-  const { virtualItems: virtualRows, totalSize } = rowVirtualizer;
-  const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0;
-  const paddingBottom =
-    virtualRows.length > 0 ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0) : 0;
+  // const rowVirtualizer = useVirtual({
+  //   parentRef: tableContainerRef,
+  //   size: rows.length,
+  //   overscan: 10,
+  // });
+  // const { virtualItems: virtualRows, totalSize } = rowVirtualizer;
+  // const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0;
+  // const paddingBottom =
+  //   virtualRows.length > 0 ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0) : 0;
 
-  return (
-    <div className={styles.wrapper}>
-      {/* <div className={styles.borderBox} /> */}
-      <div
-        className={styles.feedContainer}
-        onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
-        ref={tableContainerRef}
-      >
-        <div className={styles.topPlaceholder} />
-        {isLoading ? (
-          <>Loading...</>
-        ) : (
-          <div>
-            {paddingTop > 0 && (
-              <div>
-                <div style={{ height: `${paddingTop}px` }} />
-              </div>
-            )}
-            {virtualRows.map(virtualRow => {
-              const row = rows[virtualRow.index] as Row<PrfsPoll>;
+  // return (
+  //   <div className={styles.wrapper}>
+  //     {/* <div className={styles.borderBox} /> */}
+  //     <div
+  //       className={styles.feedContainer}
+  //       onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
+  //       ref={tableContainerRef}
+  //     >
+  //       <div className={styles.topPlaceholder} />
+  //       {isLoading ? (
+  //         <>Loading...</>
+  //       ) : (
+  //         <div>
+  //           {paddingTop > 0 && (
+  //             <div>
+  //               <div style={{ height: `${paddingTop}px` }} />
+  //             </div>
+  //           )}
+  //           {virtualRows.map(virtualRow => {
+  //             const row = rows[virtualRow.index] as Row<PrfsPoll>;
 
-              return <RowItem key={row.id} row={row} />;
-            })}
-            {paddingBottom > 0 && (
-              <div>
-                <div style={{ height: `${paddingBottom}px` }} />
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-    </div>
-  );
+  //             return <RowItem key={row.id} row={row} />;
+  //           })}
+  //           {paddingBottom > 0 && (
+  //             <div>
+  //               <div style={{ height: `${paddingBottom}px` }} />
+  //             </div>
+  //           )}
+  //         </div>
+  //       )}
+  //     </div>
+  //   </div>
+  // );
+  //
+  return null;
 };
 
 export default PollFeeds;

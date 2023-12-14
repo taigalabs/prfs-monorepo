@@ -14,7 +14,7 @@ import { Proof } from "@taigalabs/prfs-driver-interface";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 
 import styles from "./ProofDetailView.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import ProofDataView from "@/components/proof_data_view/ProofDataView";
 import { envs } from "@/envs";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
@@ -22,7 +22,6 @@ import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
 import Tutorial from "@/components/tutorial/Tutorial";
 import { useIsTutorial } from "@/hooks/tutorial";
-import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
 import LeftPadding from "@/components/left_padding/LeftPadding";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 
@@ -35,15 +34,12 @@ const JSONbigNative = JSONBig({
 const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) => {
   const i18n = React.useContext(i18nContext);
   const [proofInstance, setProofInstance] = React.useState<PrfsProofInstanceSyn1>();
-
   const { mutateAsync: getPrfsProofInstanceByInstanceIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofInstanceByInstanceIdRequest) => {
       return prfsApi2("get_prfs_proof_instance_by_instance_id", req);
     },
   });
-
   const handleSelectProofType = useSelectProofType();
-
   const isTutorial = useIsTutorial();
 
   React.useEffect(() => {
@@ -63,7 +59,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
     fn().then();
   }, [setProofInstance, getPrfsProofInstanceByInstanceIdRequest]);
 
-  const ret = React.useMemo(() => {
+  const proofData = React.useMemo(() => {
     if (proofInstance) {
       const consoleUrl = `${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/proof_instances/${proofInstance.proof_instance_id}`;
 
@@ -81,7 +77,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
     return null;
   }, [proofInstance]);
 
-  if (ret === null || !proofInstance) {
+  if (proofData === null || !proofInstance) {
     return (
       <div className={styles.wrapper}>
         <div className={styles.isLoading}>Loading...</div>
@@ -89,7 +85,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
     );
   }
 
-  const { consoleUrl, proof } = ret;
+  const { consoleUrl, proof } = proofData;
 
   return (
     <>
@@ -155,9 +151,9 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
             <ProofDataView proof={proof} />
           </div>
         </div>
+        <Tutorial noTop />
       </div>
-      <Tutorial bigTopMargin variant="w1502" />
-      <TutorialPlaceholder variant="h1502" />
+      {/* <TutorialPlaceholder variant="h1502" /> */}
     </>
   );
 };

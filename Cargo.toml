@@ -13,11 +13,13 @@ members = [
   "source/prfs_db_interface",
   "source/prfs_tree_maker",
   "source/prfs_api_server",
+  "source/prfs_id_server",
   "source/prfs_auth_server",
   "source/prfs_asset_server",
   "source/prfs_crypto",
   "source/prfs_crypto_js",
   "source/prfs_entities",
+  "source/prfs_common_server_state",
 
   # prfs cicuits
   "source/prfs_circuits_circom",

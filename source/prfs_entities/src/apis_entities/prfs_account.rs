@@ -3,29 +3,29 @@ use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 use uuid::Uuid;
 
-use crate::entities::PrfsAccount;
+use crate::entities::PrfsIdentity;
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct SignUpRequest {
-    pub account_id: String,
+pub struct PrfsIdentitySignUpRequest {
+    pub identity_id: String,
     pub avatar_color: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct SignUpResponse {
-    pub account_id: String,
+pub struct PrfsIdentitySignUpResponse {
+    pub identity_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct SignInRequest {
-    pub account_id: String,
+pub struct PrfsIdentitySignInRequest {
+    pub identity_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct SignInResponse {
-    pub prfs_account: PrfsAccount,
+pub struct PrfsIdentitySignInResponse {
+    pub prfs_identity: PrfsIdentity,
 }

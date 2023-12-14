@@ -1,47 +1,54 @@
-@mixin smallScreen {
-  position: fixed;
-  top: auto;
-  right: auto;
-  bottom: 5px;
-  width: calc(100% - 10px);
-  min-width: 348px;
-  max-width: 600px;
-  margin: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 1px solid var(--bright-gray-30);
-
-  .body {
-    min-height: 0;
-    max-height: none;
-    height: 200px;
-  }
-
-  .placeholder {
-    display: block;
-    height: calc(236px + 40px - 78px);
-  }
-}
-
-.placeholder {
-  width: 310px;
-  border: 1px solid red;
-}
-
 .wrapper {
   margin-left: auto;
   position: absolute;
-  top: 10px;
-  margin-top: 56px;
-  right: 10px;
+  top: 56px;
+  right: 0px;
   width: 300px;
-  border-radius: 3px;
+  height: calc(100% - 56px);
   background-color: var(--white-100);
+  border-left: 1px solid var(--bright-gray-32);
   line-height: 1.33;
   z-index: 1;
-  border: 1px solid var(--bright-gray-30);
 
   /* border: 1px solid red; */
+}
+
+.titleBar {
+  display: flex;
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--bright-gray-32);
+
+  .label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 4px;
+    flex-grow: 1;
+  }
+
+  .imgBox {
+    display: flex;
+    place-items: center;
+    font-size: 20px;
+    color: var(--gray-40);
+    padding: 8px;
+  }
+
+  .smallFont {
+    font-size: 10px;
+    color: var(--gray-30);
+    font-weight: 500;
+    letter-spacing: 0.025em;
+  }
+
+  button {
+    border-radius: 20px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--bright-gray-50);
+    }
+  }
 }
 
 .header {
@@ -60,7 +67,7 @@
   }
 
   .progress {
-    color: var(--gray-50);
+    color: var(--gray-40);
   }
 }
 
@@ -86,18 +93,38 @@
   border: 1px solid var(--gray-70);
 }
 
-.bigTopMargin {
-  margin-top: 89px;
+.noTop {
+  top: 0;
+  height: 100%;
 }
 
-@media screen and (max-width: 1502px) {
-  .wrapper.w1502 {
-    @include smallScreen;
-  }
-}
-
-@media screen and (max-width: 1620px) {
+@media screen and (max-width: 1690px) {
   .wrapper {
-    @include smallScreen;
+    position: fixed;
+    top: auto;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    border: 1px solid var(--bright-gray-30);
+    height: 280px;
+    width: 100%;
+
+    .inner {
+      width: 100%;
+    }
+
+    .body {
+      min-height: 0;
+      max-height: none;
+      height: 200px;
+    }
+
+    .placeholder {
+      display: block;
+      height: calc(236px + 40px - 78px);
+    }
   }
 }

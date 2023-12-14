@@ -5,7 +5,7 @@ import { utils } from "ethers";
 import JSONBig from "json-bigint";
 
 import styles from "./ProofDataView.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import ProofRawDialog from "./ProofRawDialog";
 
 const JSONbigNative = JSONBig({ useNativeBigInt: true, alwaysParseAsBig: true });

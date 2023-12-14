@@ -13,7 +13,7 @@ import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/elems/proof_gen_element/proof_gen_element";
 
 import styles from "./CreateProofModule.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
 import SigDataInput from "@/components/sig_data_input/SigDataInput";
 import Passcode from "@/components/passcode/Passcode";
@@ -337,11 +337,11 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
                 <Button
                   variant="blue_1"
                   handleClick={handleClickCreateProof}
-                  className={cn({
+                  className={cn(styles.createBtn, {
                     [styles.inProgress]: createProofStatus === CreateProofStatus.InProgress,
                   })}
                 >
-                  {i18n.create.toUpperCase()}
+                  {i18n.create_proof.toUpperCase()}
                 </Button>
               </div>
               {systemMsg && (

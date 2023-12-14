@@ -19,7 +19,7 @@ import {
 } from "@floating-ui/react";
 
 import styles from "./TutorialStepper.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import { useAppSelector } from "@/state/hooks";
 

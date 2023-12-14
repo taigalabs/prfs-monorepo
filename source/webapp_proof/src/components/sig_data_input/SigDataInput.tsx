@@ -6,7 +6,7 @@ import { bufferToHex, hashPersonalMessage, toBuffer } from "@ethereumjs/util";
 import { useSignMessage } from "wagmi";
 
 import styles from "./SigDataInput.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import {
   FormError,
   FormInput,

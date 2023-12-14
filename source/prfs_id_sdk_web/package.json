@@ -1,0 +1,25 @@
+{
+  "name": "@taigalabs/prfs-id-sdk-web",
+  "version": "0.0.1",
+  "main": "./src/index.ts",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rimraf ./build",
+    "build": "pnpm clean && tsc"
+  },
+  "devDependencies": {
+    "@types/json-bigint": "^1.0.1",
+    "@types/node": "^20.4.9",
+    "rimraf": "^3.0.2"
+  },
+  "dependencies": {
+    "@ethereumjs/util": "^8.0.3",
+    "@taigalabs/prfs-crypto-js": "*",
+    "@taigalabs/prfs-driver-interface": "*",
+    "@taigalabs/prfs-driver-spartan-js": "*",
+    "@taigalabs/prfs-entities": "*",
+    "classnames": "^2.3.2",
+    "ethers": "^5",
+    "json-bigint": "^1.0.0"
+  }
+}

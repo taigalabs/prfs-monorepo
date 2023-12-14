@@ -13,8 +13,7 @@
   font-size: 13px;
 
   &.isTutorial {
-    /* border-top: 3px solid var(--aqua-blue-40); */
-    border-bottom: 3px solid var(--aqua-blue-40);
+    border-bottom: 1px solid var(--bright-gray-32);
   }
 }
 
@@ -55,6 +54,15 @@
   .menu {
     display: flex;
     align-items: center;
+
+    a {
+      display: flex;
+      align-items: center;
+    }
+
+    svg {
+      margin-left: 2px;
+    }
   }
 
   > li:not(:first-child) {
@@ -67,35 +75,13 @@
   align-items: center;
 }
 
-.tutorialBtn {
-  svg {
-    display: none;
-  }
-}
-
-.tutorialBtn.isTutorial {
-  background-color: var(--aqua-blue-40);
-  border-radius: 3px;
-  padding: 9px 15px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--white-100);
-  display: flex;
-  align-items: center;
-
-  svg {
-    display: block;
-    margin-left: 4px;
-  }
-}
-
 .underline:hover {
   text-decoration: underline;
 }
 
 @media screen and (max-width: 480px) {
   .wrapper {
-    min-width: 320px;
+    min-width: 360px;
     padding: 14px 10px;
   }
 

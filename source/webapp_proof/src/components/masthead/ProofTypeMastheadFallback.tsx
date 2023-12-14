@@ -8,7 +8,7 @@ import { IoMdSchool } from "@react-icons/all-files/io/IoMdSchool";
 
 import styles from "./ProofTypeMasthead.module.scss";
 import { paths } from "@/paths";
-import { getI18N } from "@/i18n/getI18N";
+import { getI18N } from "@/i18n/get_i18n";
 
 const ProofTypeMastheadFallback: React.FC<ProofTypeMastheadProps> = async () => {
   const i18n = await getI18N();

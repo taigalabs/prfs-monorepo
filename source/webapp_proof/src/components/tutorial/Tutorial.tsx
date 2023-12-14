@@ -11,9 +11,10 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import { useRouter } from "next/navigation";
 import cn from "classnames";
+import { IoMdSchool } from "@react-icons/all-files/io/IoMdSchool";
 
 import styles from "./Tutorial.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { goNextStep, goPrevStep, resetStep } from "@/state/tutorialReducer";
 import MarkdownWrapper from "./MarkdownWrapper";
@@ -38,15 +39,13 @@ const Stage: React.FC<StageProps> = ({ step }) => {
   }
 };
 
-const Tutorial: React.FC<TutorialProps> = ({ bigTopMargin, variant }) => {
+const Tutorial: React.FC<TutorialProps> = ({ noTop }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
   const i18n = React.useContext(i18nContext);
   const dispatch = useAppDispatch();
-
   const step = useAppSelector(state => state.tutorial.tutorialStep);
-
   const isTutorial = useIsTutorial();
 
   const handleClickPrev = React.useCallback(() => {
@@ -78,43 +77,53 @@ const Tutorial: React.FC<TutorialProps> = ({ bigTopMargin, variant }) => {
       <>
         <div
           className={cn(styles.wrapper, {
-            [styles.bigTopMargin]: bigTopMargin,
-            [styles.w1502]: variant === "w1502",
+            [styles.noTop]: noTop,
           })}
         >
-          <div className={styles.header}>
-            <p className={styles.progress}>
-              ({step} / {STEP_COUNT})
-            </p>
-            <button>
-              <AiOutlineClose onClick={handleClickClose} />
-            </button>
-          </div>
-          <div className={styles.body}>
-            <MarkdownWrapper>
-              <Stage step={step} />
-            </MarkdownWrapper>
-            <div className={styles.btnRow}>
-              <Button
-                variant="transparent_aqua_blue_1"
-                handleClick={handleClickPrev}
-                disabled={step === 1}
-              >
-                {i18n.prev}
-              </Button>
-              {isLastStep ? (
+          <div className={styles.inner}>
+            <div className={styles.titleBar}>
+              <div className={styles.imgBox}>
+                <IoMdSchool />
+              </div>
+              <div className={styles.label}>
+                <p className={styles.smallFont}>{i18n.learn.toUpperCase()}</p>
+                <p>{i18n.tutorial}</p>
+              </div>
+              <button className={styles.imgBox}>
+                <AiOutlineClose onClick={handleClickClose} />
+              </button>
+            </div>
+            <div className={styles.header}>
+              <p className={styles.progress}>
+                Step {step} of {STEP_COUNT}
+              </p>
+            </div>
+            <div className={styles.body}>
+              <MarkdownWrapper>
+                <Stage step={step} />
+              </MarkdownWrapper>
+              <div className={styles.btnRow}>
                 <Button
-                  className={styles.finishBtn}
                   variant="transparent_aqua_blue_1"
-                  handleClick={handleClickClose}
+                  handleClick={handleClickPrev}
+                  disabled={step === 1}
                 >
-                  {i18n.finish}
+                  {i18n.prev}
                 </Button>
-              ) : (
-                <Button variant="aqua_blue_1" handleClick={handleClickNext}>
-                  {i18n.next}
-                </Button>
-              )}
+                {isLastStep ? (
+                  <Button
+                    className={styles.finishBtn}
+                    variant="transparent_aqua_blue_1"
+                    handleClick={handleClickClose}
+                  >
+                    {i18n.finish}
+                  </Button>
+                ) : (
+                  <Button variant="aqua_blue_1" handleClick={handleClickNext}>
+                    {i18n.next}
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -126,8 +135,8 @@ const Tutorial: React.FC<TutorialProps> = ({ bigTopMargin, variant }) => {
 export default Tutorial;
 
 export interface TutorialProps {
-  bigTopMargin?: boolean;
-  variant?: "w1502" | "h1502";
+  noTop?: boolean;
+  // variant?: "w1502" | "h1502";
 }
 
 export interface StageProps {

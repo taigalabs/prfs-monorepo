@@ -13,10 +13,6 @@
   font-size: 13px;
 
   /* border-bottom: 1px solid var(--bright-gray-36); */
-
-  &.isTutorial {
-    border-bottom: 3px solid var(--aqua-blue-40);
-  }
 }
 
 .inner {
@@ -37,10 +33,17 @@
   /* border: 1px solid blue; */
 }
 
-.searchArea {
+.main {
+  display: flex;
   flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 1158px;
+  /* flex-direction: column; */
+}
+
+.searchArea {
   min-width: 610px;
-  flex-basis: 1000px;
+  flex-basis: 630px;
   flex-shrink: 1;
 
   /* border: 1px solid red; */
@@ -55,9 +58,10 @@
   display: flex;
   margin-left: auto;
   margin-right: 0;
-  justify-content: flex-start;
-  color: var(--gray-34);
-  padding-right: 10px;
+  justify-content: flex-end;
+  color: var(--black-26);
+  padding-right: 6px;
+  align-items: center;
 
   // border: 1px solid blue;
 
@@ -65,12 +69,17 @@
     display: flex;
   }
 
+  > * {
+    margin: 0 2px;
+  }
+
   .menu {
+    display: flex;
+    justify-content: center;
     cursor: pointer;
     align-items: center;
     justify-content: center;
     width: 40px;
-    margin-left: 6px;
     height: 40px;
     border-radius: 20px;
 
@@ -80,52 +89,20 @@
     }
   }
 
-  .tutorialMenu {
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-
-    .tutorialBtn {
-      display: flex;
-      align-items: center;
-      background-color: var(--aqua-blue-40);
-      border-radius: 3px;
-      padding: 5px;
-      font-weight: 500;
-      color: var(--white-100);
-
-      svg {
-        display: block;
-        margin-left: 4px;
-      }
-    }
-
-    .padding {
-      width: 300px;
-      /* border: 1px solid red; */
-    }
-
-    svg:first-child {
-      font-size: 20px;
-      margin-right: 4px;
-    }
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
   .appPopover {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 6px;
     width: 40px;
     height: 40px;
   }
 
   .menu:hover {
     background-color: var(--bright-gray-40);
+  }
+
+  .signInBtn {
+    padding: 0 8px;
   }
 }
 
@@ -149,7 +126,7 @@
   background-color: var(--bright-gray-30);
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1120px) {
   .wrapper {
     width: 100vw;
     min-width: 360px;
@@ -200,7 +177,6 @@
     top: 0;
     right: 0;
     margin-top: 4px;
-    margin-right: 8px;
     width: auto;
 
     /* border: 1px solid blue; */

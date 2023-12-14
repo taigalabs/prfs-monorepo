@@ -11,7 +11,7 @@ export async function handleChildMessage(subscribers: EventSubscriber<ProofGenEv
     const msgEventListener = (ev: MessageEvent) => {
       if (ev.ports.length > 0) {
         const type: MsgType = ev.data.type;
-        console.log("child says, data: %o, ports: %o", ev.data, ev.ports);
+        // console.log("child says, data: %o, ports: %o", ev.data, ev.ports);
 
         switch (type) {
           case "HANDSHAKE": {

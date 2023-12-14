@@ -4,7 +4,7 @@ import React from "react";
 import cn from "classnames";
 
 import styles from "./AuthList.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import Link from "next/link";
 import { paths } from "@/paths";
 

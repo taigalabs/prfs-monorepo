@@ -3,4 +3,4 @@ use hyper_utils::io::BytesBoxBody;
 
 use crate::ApiServerError;
 
-pub type ApiHandlerResult = Result<Response<BytesBoxBody>, ApiServerError>;
+// pub type ApiHandlerResult = Result<Response<BytesBoxBody>, ApiServerError>;

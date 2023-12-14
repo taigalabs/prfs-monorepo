@@ -1,7 +1,9 @@
 use ethers_signers::Signer;
 use hyper::body::Incoming;
 use hyper::{Request, Response};
-use hyper_utils::io::{parse_req, BytesBoxBody};
+use hyper_utils::io::{parse_req, ApiHandlerResult, BytesBoxBody};
+use hyper_utils::resp::ApiResponse;
+use prfs_common_server_state::ServerState;
 use prfs_db_interface::db_apis;
 use prfs_entities::apis_entities::{
     CreatePrfsProofInstanceRequest, CreatePrfsProofInstanceResponse,
@@ -11,10 +13,6 @@ use prfs_entities::apis_entities::{
 };
 use prfs_entities::entities::PrfsProofInstance;
 use std::{convert::Infallible, sync::Arc};
-
-use crate::responses::ApiResponse;
-use crate::server::state::ServerState;
-use crate::server::types::ApiHandlerResult;
 
 pub async fn get_prfs_proof_instances(
     req: Request<Incoming>,

@@ -2,8 +2,7 @@ import React from "react";
 import dayjs from "dayjs";
 
 import styles from "./LatestTimestamp.module.scss";
-import { getI18N } from "@/i18n/getI18N";
-// import { isRecentlyUpdated } from "";
+import { getI18N } from "@/i18n/get_i18n";
 import { isRecentlyUpdated } from "@/project/timestamp";
 
 // async function getIsRecentlyUpdated() {

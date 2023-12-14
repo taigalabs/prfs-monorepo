@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 import styles from "./DocFooter.module.scss";
-import { getI18N } from "@/i18n/getI18N";
+import { getI18N } from "@/i18n/get_i18n";
 
 const DocFooter: React.FC<DocFooterProps> = async () => {
   const i18n = await getI18N();

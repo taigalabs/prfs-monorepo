@@ -1,15 +1,12 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import cn from "classnames";
-import dayjs from "dayjs";
 
 import styles from "./TwitterAuth.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
-import { Markdown } from "../markdown/Markdown";
 import { envs } from "@/envs";
 
 const TWITTER_CLIENT_ID = "UU9OZ0hNOGVPelVtakgwMlVmeEw6MTpjaQ";

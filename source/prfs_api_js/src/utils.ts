@@ -13,7 +13,10 @@ export async function api({ path, req }: ApiArg, endpoint: string) {
 
     return await res.json();
   } catch (err) {
-    throw err;
+    return {
+      error: err,
+      payload: null,
+    };
   }
 }
 

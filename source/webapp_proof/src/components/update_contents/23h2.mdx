@@ -1,3 +1,19 @@
+## 2023-12-14
+### Prfs identity
+- In-browser wallet module 'Prfs identity' draft is implemented. Prfs identity helps create and
+manage credentials. It uses a local storage to manage stored credentials and can generate signature
+and commitments. It is designed to run without external wallet software (like the browser
+extension) to provide an optimal user experience.
+- Prfs identity communicates with the host application with ECIES (Integrated Encryption Scheme).
+Host app must create an ephemeral key pair to open an encrypted communication channel.
+
+### Prfs proof
+- Prfs proof uses Prfs ID (identity) to enable signing in/out.
+
+### Prfs id server
+- Prfs id server is implemented. Prfs id server handles 'identity'-related requests. To optimize
+computational resources for the time being, this server application runs on top of Prfs api server.
+
 ## 2023-12-07
 ### Prfs proof
 - Prfs ZAuth "create id", "sign in" functionalities have been implemented. This works similiar to

@@ -15,7 +15,7 @@ import JSONBig from "json-bigint";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import styles from "./PostCreateMenu.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import TutorialStepper from "@/components//tutorial/TutorialStepper";
 import VerifyProofModule from "@/components/verify_proof_module/VerifyProofModule";
@@ -50,6 +50,8 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
   const handleClickVerify = React.useCallback(() => {
     setIsVerifyOpen(s => !s);
   }, [setIsVerifyOpen]);
+
+  console.log(22, isCreatePrfsProofInstanceLoading);
 
   const handleClickUpload = React.useCallback(async () => {
     if (proveReceipt && proofType) {
