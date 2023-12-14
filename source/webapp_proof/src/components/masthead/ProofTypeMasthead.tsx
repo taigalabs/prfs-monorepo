@@ -15,6 +15,14 @@ import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import { useIsTutorial } from "@/hooks/tutorial";
 import PrfsIdSignInBtn from "../prfs_id_sign_in_btn/PrfsIdSignInBtn";
+import {
+  PrfsAppsPopoverLi,
+  PrfsAppsPopoverUl,
+} from "@taigalabs/prfs-react-components/src/prfs_apps_popover/Modal";
+import { TbCertificate } from "@taigalabs/prfs-react-components/src/tabler_icons/TbCertificate";
+import { TbMathPi } from "@taigalabs/prfs-react-components/src/tabler_icons/TbMathPi";
+import { GrMonitor } from "@react-icons/all-files/gr/GrMonitor";
+import { useUrls } from "@/hooks/useUrls";
 
 const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
   isActivated,
@@ -24,6 +32,7 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const isTutorial = useIsTutorial();
+  const { tutorialUrl, accVerrificationUrl } = useUrls();
 
   return (
     <div className={cn({ [styles.wrapper]: true, [styles.isTutorial]: isTutorial })}>
@@ -52,14 +61,47 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
               </li>
             </Tooltip>
             <li className={cn(styles.menu, styles.appPopover)}>
-              {/* <PrfsAppsPopover */}
-              {/*   className={styles.popover} */}
-              {/*   isOpenClassName={styles.popoverIsOpen} */}
-              {/*   webappPollEndpoint={process.env.NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT} */}
-              {/*   webappProofEndpoint={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT} */}
-              {/*   webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT} */}
-              {/*   tooltip={i18n.apps} */}
-              {/* /> */}
+              <PrfsAppsPopover
+                className={styles.popover}
+                isOpenClassName={styles.popoverIsOpen}
+                webappPollEndpoint={process.env.NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT}
+                webappProofEndpoint={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
+                webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
+                tooltip={i18n.apps}
+              >
+                <PrfsAppsPopoverUl>
+                  <PrfsAppsPopoverLi>
+                    <a href={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
+                      <span>{i18n.documentation}</span>
+                    </a>
+                  </PrfsAppsPopoverLi>
+                  <li>
+                    <a href={tutorialUrl}>
+                      <span>{i18n.start_tutorial}</span>
+                    </a>
+                  </li>
+                </PrfsAppsPopoverUl>
+                <PrfsAppsPopoverUl>
+                  <PrfsAppsPopoverLi>
+                    <a href={accVerrificationUrl}>
+                      <TbCertificate />
+                      <span>{i18n.account_verification}</span>
+                    </a>
+                  </PrfsAppsPopoverLi>
+                  <PrfsAppsPopoverLi>
+                    <a href={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
+                      <TbMathPi />
+                      <span>{i18n.proof}</span>
+                    </a>
+                  </PrfsAppsPopoverLi>
+                  <PrfsAppsPopoverLi>
+                    <a href={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}>
+                      <GrMonitor />
+                      <span>{i18n.console}</span>
+                    </a>
+                  </PrfsAppsPopoverLi>
+                </PrfsAppsPopoverUl>
+              </PrfsAppsPopover>
             </li>
             <li className={(styles.menu, styles.signInBtn)}>
               <PrfsIdSignInBtn />

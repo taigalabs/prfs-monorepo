@@ -2,6 +2,8 @@ const en = {
   close: "Close",
   close_and_return: "Close and return",
   account_verification: "Account Verification",
+  documentation: "Documentation",
+  start_tutorial: "Start a tutorial",
   steps: "Steps",
   explorer: "Explorer",
   prfs_copyright: "© 2023 Prfs",

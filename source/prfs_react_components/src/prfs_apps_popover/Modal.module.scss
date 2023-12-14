@@ -4,14 +4,17 @@
   flex-direction: column;
 }
 
-.auxMenu {
+.appList {
   padding: 8px 0;
-  border-bottom: 1px solid var(--bright-gray-30);
+
+  &:not(:first-child) {
+    border-bottom: 1px solid var(--bright-gray-30);
+  }
 }
 
-.appMenu {
-  padding: 8px 0;
-}
+/* .appMenu { */
+/*   padding: 8px 0; */
+/* } */
 
 .appItem {
   display: flex;

@@ -23,31 +23,35 @@ import { TbCertificate } from "../tabler_icons/TbCertificate";
 import { i18nContext } from "../i18n/i18nContext";
 import Tooltip from "../tooltip/Tooltip";
 
+export const PrfsAppsPopoverUl: React.FC<PrfsAppsPopoverLiProps> = ({ children }) => {
+  return <ul className={styles.appList}>{children}</ul>;
+};
+
 export const PrfsAppsPopoverLi: React.FC<PrfsAppsPopoverLiProps> = ({ children }) => {
   return <li className={styles.appItem}>{children}</li>;
 };
 
-const Modal: React.FC<ModalProps> = ({ webappProofEndpoint, webappConsoleEndpoint, children }) => {
+const Modal: React.FC<ModalProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
-  const { tutorialUrl } = React.useMemo(() => {
-    return {
-      tutorialUrl: `${webappProofEndpoint}?tutorial_id=simple_hash`,
-    };
-  }, [webappProofEndpoint]);
+  // const { tutorialUrl } = React.useMemo(() => {
+  //   return {
+  //     tutorialUrl: `${webappProofEndpoint}?tutorial_id=simple_hash`,
+  //   };
+  // }, [webappProofEndpoint]);
 
   return (
     <div className={styles.wrapper}>
       <ul className={styles.auxMenu}>
-        <li>
-          <a className={styles.appItem} href={webappProofEndpoint}>
-            <span>{i18n.documentation}</span>
-          </a>
-        </li>
-        <li>
-          <a className={styles.appItem} href={tutorialUrl}>
-            <span>{i18n.start_tutorial}</span>
-          </a>
-        </li>
+        {/* <li> */}
+        {/*   <a className={styles.appItem} href={webappProofEndpoint}> */}
+        {/*     <span>{i18n.documentation}</span> */}
+        {/*   </a> */}
+        {/* </li> */}
+        {/* <li> */}
+        {/*   <a className={styles.appItem} href={tutorialUrl}> */}
+        {/*     <span>{i18n.start_tutorial}</span> */}
+        {/*   </a> */}
+        {/* </li> */}
       </ul>
       <ul className={styles.appMenu}>
         {children}
@@ -79,9 +83,9 @@ export default Modal;
 export interface ModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<any>>;
   children: React.ReactNode;
-  webappPollEndpoint: string;
-  webappProofEndpoint: string;
-  webappConsoleEndpoint: string;
+  // webappPollEndpoint: string;
+  // webappProofEndpoint: string;
+  // webappConsoleEndpoint: string;
 }
 
 export interface PrfsAppsPopoverLiProps {
