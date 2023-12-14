@@ -22,11 +22,7 @@ import styles from "./PrfsAppsPopover.module.scss";
 import { TbMathPi } from "../tabler_icons/TbMathPi";
 import { i18nContext } from "../i18n/i18nContext";
 
-const Modal: React.FC<MerkleProofModalProps> = ({
-  webappProofEndpoint,
-  webappConsoleEndpoint,
-  webappPollEndpoint,
-}) => {
+const Modal: React.FC<MerkleProofModalProps> = ({ webappProofEndpoint, webappConsoleEndpoint }) => {
   const i18n = React.useContext(i18nContext);
   const tutorialUrl = React.useMemo(() => {
     return `${webappProofEndpoint}?tutorial_id=simple_hash`;
@@ -47,6 +43,12 @@ const Modal: React.FC<MerkleProofModalProps> = ({
         </li>
       </ul>
       <ul className={styles.appMenu}>
+        <li>
+          <a className={styles.appItem} href={webappProofEndpoint}>
+            <TbMathPi />
+            <span>{i18n.notary}</span>
+          </a>
+        </li>
         <li>
           <a className={styles.appItem} href={webappProofEndpoint}>
             <TbMathPi />

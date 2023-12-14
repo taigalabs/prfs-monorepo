@@ -12,6 +12,7 @@ export default {
   address_input_placeholder: "Type address, e.g., 0xaaa..., or connect your wallet",
   loading: "Loading...",
   proof: "Proof",
+  notary: "Notary",
   create_proof: "Create proof",
   public_inputs: "Public inputs",
   private_inputs: "Private inputs",
