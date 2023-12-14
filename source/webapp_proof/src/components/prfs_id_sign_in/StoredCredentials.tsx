@@ -126,7 +126,13 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
   const content = React.useMemo(() => {
     const elems = storedCredentials.map(cred => {
       return (
-        <li data-id={cred.id} key={cred.id} className={styles.entry} onClick={handleClickEntry}>
+        <li
+          data-id={cred.id}
+          key={cred.id}
+          className={styles.entry}
+          onClick={handleClickEntry}
+          role="button"
+        >
           <div className={styles.item}>
             <p>{cred.id}</p>
             {cred.id === selectedCredentialId && (

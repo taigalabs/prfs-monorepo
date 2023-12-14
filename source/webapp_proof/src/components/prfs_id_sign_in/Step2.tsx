@@ -193,9 +193,9 @@ const Step2: React.FC<Step2Props> = ({
           <p className={styles.prfsId}>{credential.id}</p>
         </div>
         {signInData}
-        <div>
-          <p>Make sure you trust {appId} app</p>
-          <p>{i18n.app_data_sharing_guide}</p>
+        <div className={styles.dataWarning}>
+          <p className={styles.title}>Make sure you trust {appId} app</p>
+          <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
         </div>
         <PrfsIdSignInModuleBtnRow>
           <Button variant="transparent_blue_2" noTransition handleClick={handleClickPrev}>
