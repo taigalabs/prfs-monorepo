@@ -13,6 +13,7 @@ export default {
   loading: "Loading...",
   proof: "Proof",
   notary: "Notary",
+  account_verification: "Account Verification",
   create_proof: "Create proof",
   public_inputs: "Public inputs",
   private_inputs: "Private inputs",

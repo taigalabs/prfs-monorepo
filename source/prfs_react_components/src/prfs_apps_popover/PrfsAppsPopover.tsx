@@ -5,6 +5,7 @@ import cn from "classnames";
 import { GrMonitor } from "@react-icons/all-files/gr/GrMonitor";
 import { FaVoteYea } from "@react-icons/all-files/fa/FaVoteYea";
 import { BsThreeDots } from "@react-icons/all-files/bs/BsThreeDots";
+
 import {
   FloatingFocusManager,
   autoUpdate,
@@ -20,6 +21,7 @@ import {
 
 import styles from "./PrfsAppsPopover.module.scss";
 import { TbMathPi } from "../tabler_icons/TbMathPi";
+import { TbCertificate } from "../tabler_icons/TbCertificate";
 import { i18nContext } from "../i18n/i18nContext";
 
 const Modal: React.FC<MerkleProofModalProps> = ({ webappProofEndpoint, webappConsoleEndpoint }) => {
@@ -45,8 +47,8 @@ const Modal: React.FC<MerkleProofModalProps> = ({ webappProofEndpoint, webappCon
       <ul className={styles.appMenu}>
         <li>
           <a className={styles.appItem} href={webappProofEndpoint}>
-            <TbMathPi />
-            <span>{i18n.notary}</span>
+            <TbCertificate />
+            <span>{i18n.account_verification}</span>
           </a>
         </li>
         <li>

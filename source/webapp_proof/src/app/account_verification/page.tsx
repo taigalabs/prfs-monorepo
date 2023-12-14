@@ -7,21 +7,14 @@ import DefaultLayout, {
 } from "@/components/layouts/default_layout/DefaultLayout";
 import Masthead from "@/components/masthead/Masthead";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
-import Tutorial from "@/components/tutorial/Tutorial";
-import SearchProofTypeForm from "@/components/search_proof_type_form/SearchProofTypeForm";
-import TutorialFallback from "@/components/tutorial/TutorialFallback";
 import MastheadFallback from "@/components/masthead/MastheadFallback";
-import SearchProofTypeFormFallback from "@/components/search_proof_type_form/SearchProofTypeFormFallback";
 import AuthList from "@/components/auth_list/AuthList";
 
-const AuthPage = () => {
+const AccountVerificationPage = () => {
   return (
     <DefaultLayout>
       <DefaultBody noTopPadding noMinWidth>
         <div className={styles.container}>
-          {/* <Suspense fallback={<TutorialFallback />}> */}
-          {/*   <Tutorial /> */}
-          {/* </Suspense> */}
           <Suspense fallback={<MastheadFallback />}>
             <Masthead />
           </Suspense>
@@ -37,4 +30,4 @@ const AuthPage = () => {
   );
 };
 
-export default AuthPage;
+export default AccountVerificationPage;
