@@ -12,7 +12,7 @@ import { paths } from "@/paths";
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
 import { signInPrfs } from "@/state/userReducer";
-import { persistPrfsCredential } from "@/state/side_effects";
+import { persistPrfsProofCredential } from "@/state/side_effects";
 
 const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   const router = useRouter();
@@ -65,7 +65,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
         //     publicKey: prfsIdSignInSuccessPayload.publicKey,
         //   }),
         // );
-        await persistPrfsCredential(dispatch, prfsIdSignInSuccessPayload);
+        await persistPrfsProofCredential(dispatch, prfsIdSignInSuccessPayload);
       }
     },
     [router, dispatch],

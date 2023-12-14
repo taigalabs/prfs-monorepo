@@ -1,6 +1,6 @@
 import { PrfsIdSignInSuccessPayload } from "@taigalabs/prfs-id-sdk-web";
 
-export async function persistPrfsCredential(
+export async function persistPrfsProofCredential(
   dispatch: any,
   prfsIdSignInSuccessPayload: PrfsIdSignInSuccessPayload,
 ) {
