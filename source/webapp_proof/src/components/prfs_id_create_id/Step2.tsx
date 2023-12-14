@@ -155,7 +155,10 @@ const Step2: React.FC<Step2Props> = ({
             </div>
           </div>
           <PrfsIdSignInInputGuide>
-            <Link href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`} target="_blank">
+            <Link
+              href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/identity`}
+              target="_blank"
+            >
               {i18n.how_is_the_password_generated}
             </Link>
           </PrfsIdSignInInputGuide>
@@ -168,7 +171,10 @@ const Step2: React.FC<Step2Props> = ({
             </div>
           </div>
           <PrfsIdSignInInputGuide>
-            <Link href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`} target="_blank">
+            <Link
+              href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/identity`}
+              target="_blank"
+            >
               {i18n.what_is_id}
             </Link>
           </PrfsIdSignInInputGuide>
@@ -207,7 +213,10 @@ const Step2: React.FC<Step2Props> = ({
           </PrfsIdSignInModuleBtnRow>
           <PrfsIdSignInErrorMsg>{errorMsg}</PrfsIdSignInErrorMsg>
           <PrfsIdSignInInputGuide className={styles.rightAlign}>
-            <Link href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`} target="_blank">
+            <Link
+              href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/identity`}
+              target="_blank"
+            >
               {i18n.what_happens_when_signing_up}
             </Link>
           </PrfsIdSignInInputGuide>

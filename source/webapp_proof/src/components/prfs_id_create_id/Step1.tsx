@@ -87,7 +87,10 @@ const Step1: React.FC<Step1Props> = ({
             />
           </div>
           <PrfsIdSignInInputGuide>
-            <Link href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`} target="_blank">
+            <Link
+              href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/identity`}
+              target="_blank"
+            >
               {i18n.why_we_ask_for_email}
             </Link>
           </PrfsIdSignInInputGuide>
@@ -128,7 +131,10 @@ const Step1: React.FC<Step1Props> = ({
             />
           </div>
           <PrfsIdSignInInputGuide>
-            <Link href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/zauth`} target="_blank">
+            <Link
+              href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/identity`}
+              target="_blank"
+            >
               {i18n.why_we_ask_for_two_passwords}
             </Link>
           </PrfsIdSignInInputGuide>
