@@ -9,6 +9,7 @@ import {
   loadLocalPrfsIdCredentials,
   StoredCredential,
   removeAllPrfsIdCredentials,
+  StoredCredentialRecord,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt, decrypt, PrivateKey, PublicKey } from "eciesjs";
@@ -87,7 +88,9 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
   );
 
   const handleClickNextWithCredential = React.useCallback(async () => {
-    const credential = storedCredentials.find(cred => cred.id === selectedCredentialId);
+    const credential = Object.values(storedCredentials).find(
+      cred => cred.id === selectedCredentialId,
+    );
     const password_2 = formData.password_2;
     setErrorMsg("");
 
@@ -124,7 +127,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
   }, [handleClickUseAnotherId]);
 
   const content = React.useMemo(() => {
-    const elems = storedCredentials.map(cred => {
+    const elems = Object.values(storedCredentials).map(cred => {
       return (
         <li
           data-id={cred.id}
@@ -213,7 +216,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
 export default StoredCredentials;
 
 export interface StoredCredentialsProps {
-  storedCredentials: StoredCredential[];
+  storedCredentials: StoredCredentialRecord;
   appId: string;
   handleClickUseAnotherId: () => void;
   handleClickNext: () => void;

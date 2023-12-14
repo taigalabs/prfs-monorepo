@@ -1,6 +1,9 @@
-import { Credential } from "@taigalabs/prfs-crypto-js";
+import { PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
 
 const PRFS_ID_STORAGE_KEY = "prfs_id";
+
+export type PrfsId = string;
+export type StoredCredentialRecord = Record<PrfsId, StoredCredential>;
 
 export interface StoredCredential {
   id: string;
@@ -9,25 +12,26 @@ export interface StoredCredential {
 
 export function persistPrfsIdCredential(credential: StoredCredential) {
   const credentials = loadLocalPrfsIdCredentials();
-  credentials.push(credential);
+  credentials[credential.id] = credential;
   const str = JSON.stringify(credentials);
+
   window.localStorage.setItem(PRFS_ID_STORAGE_KEY, str);
   console.log("Storing prfs is credential", credential.id, str);
 }
 
-export function loadLocalPrfsIdCredentials(): StoredCredential[] {
+export function loadLocalPrfsIdCredentials(): StoredCredentialRecord {
   const val = window.localStorage.getItem(PRFS_ID_STORAGE_KEY);
 
   try {
     if (val) {
-      const obj: StoredCredential[] = JSON.parse(val);
+      const obj: StoredCredentialRecord = JSON.parse(val);
       return obj;
     } else {
-      return [];
+      return {};
     }
   } catch (err) {
     console.error(err);
-    return [];
+    return {};
   }
 }
 

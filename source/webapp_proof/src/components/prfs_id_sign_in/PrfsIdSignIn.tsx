@@ -10,6 +10,7 @@ import {
   type PrfsIdSignInSuccessMsg,
   loadLocalPrfsIdCredentials,
   StoredCredential,
+  StoredCredentialRecord,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt, decrypt, PrivateKey, PublicKey } from "eciesjs";
@@ -62,7 +63,7 @@ const PrfsIdSignIn: React.FC = () => {
   const [step, setStep] = React.useState(SignInStep.PrfsIdCredential);
   const [publicKey, setPublicKey] = React.useState<string | null>(null);
   const [appId, setAppId] = React.useState<string | null>(null);
-  const [storedCredentials, setStoredCredentials] = React.useState<StoredCredential[]>([]);
+  const [storedCredentials, setStoredCredentials] = React.useState<StoredCredentialRecord>({});
   const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
 
   React.useEffect(() => {
@@ -71,7 +72,7 @@ const PrfsIdSignIn: React.FC = () => {
 
     const storedCredentials = loadLocalPrfsIdCredentials();
     console.log("stored credentials", storedCredentials);
-    if (storedCredentials.length > 0) {
+    if (Object.keys(storedCredentials).length > 0) {
       setStep(SignInStep.StoredCredentials);
       setStoredCredentials(storedCredentials);
     }

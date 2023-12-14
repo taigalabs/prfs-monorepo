@@ -1,10 +1,10 @@
 import React from "react";
 import cn from "classnames";
 import {
-  type ZAuthMsg,
-  type SignInSuccessPayload,
-  type SignInSuccessZAuthMsg,
-  newZAuthMsg,
+  type PrfsIdMsg,
+  type PrfsIdSignInSuccessPayload,
+  type PrfsIdSignInSuccessMsg,
+  newPrfsIdMsg,
 } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./PrfsIdSignInButton.module.scss";
@@ -22,9 +22,9 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       const { origin } = ev;
 
       if (prfsIdSignInEndpoint && prfsIdSignInEndpoint.startsWith(origin)) {
-        const data = ev.data as SignInSuccessZAuthMsg;
+        const data = ev.data as PrfsIdSignInSuccessMsg;
         if (data.type === "SIGN_IN_SUCCESS") {
-          const msg = newZAuthMsg("SIGN_IN_SUCCESS_RESPOND", null);
+          const msg = newPrfsIdMsg("SIGN_IN_SUCCESS_RESPOND", null);
           ev.ports[0].postMessage(msg);
 
           handleSucceedSignIn(data.payload);

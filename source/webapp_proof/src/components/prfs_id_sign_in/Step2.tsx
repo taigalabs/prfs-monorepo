@@ -173,7 +173,7 @@ const Step2: React.FC<Step2Props> = ({
       persistPrfsIdCredential(credentialToStore);
 
       await sendMsgToOpener(msg);
-      // window.close();
+      window.close();
     }
   }, [searchParams, publicKey, credential, setErrorMsg]);
 
