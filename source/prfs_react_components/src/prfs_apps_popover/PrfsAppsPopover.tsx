@@ -23,9 +23,6 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
   className,
   children,
   isOpenClassName,
-  webappProofEndpoint,
-  webappConsoleEndpoint,
-  webappPollEndpoint,
   tooltip,
   zIndex,
 }) => {
@@ -71,14 +68,7 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
             aria-labelledby={headingId}
             {...getFloatingProps()}
           >
-            <Modal
-              setIsOpen={setIsOpen}
-              webappProofEndpoint={webappProofEndpoint}
-              webappConsoleEndpoint={webappConsoleEndpoint}
-              webappPollEndpoint={webappPollEndpoint}
-            >
-              {children}
-            </Modal>
+            <Modal setIsOpen={setIsOpen}>{children}</Modal>
           </div>
         </FloatingFocusManager>
       )}
@@ -91,9 +81,6 @@ export default PrfsAppsPopover;
 export interface PrfsAppsPopoverProps {
   className?: string;
   isOpenClassName?: string;
-  webappPollEndpoint: string;
-  webappProofEndpoint: string;
-  webappConsoleEndpoint: string;
   zIndex?: number;
   tooltip?: string;
   children: React.ReactNode;
