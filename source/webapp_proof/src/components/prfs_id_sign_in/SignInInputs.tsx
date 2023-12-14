@@ -32,6 +32,10 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
           const sigHash = await poseidon_2(sigBytes);
 
           const { id, public_key } = await makeECCredential(sigHash);
+          setSignInData({
+            id,
+            public_key,
+          });
 
           el.push(
             <li className={styles.item} key={d}>
