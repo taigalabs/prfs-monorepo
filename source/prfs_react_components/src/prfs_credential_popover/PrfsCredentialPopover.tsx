@@ -15,25 +15,7 @@ import {
 
 import styles from "./PrfsCredentialPopover.module.scss";
 import { i18nContext } from "../i18n/i18nContext";
-import Button from "../button/Button";
-
-const Modal: React.FC<MerkleProofModalProps> = ({ id, handleClickSignOut }) => {
-  const i18n = React.useContext(i18nContext);
-
-  return (
-    <div className={styles.modal}>
-      <div className={styles.main}>
-        <p className={styles.appId}>prfs_proof</p>
-        <p className={styles.id}>{id}</p>
-      </div>
-      <div className={styles.btnRow}>
-        <button className={styles.signOutBtn} onClick={handleClickSignOut}>
-          {i18n.sign_in}
-        </button>
-      </div>
-    </div>
-  );
-};
+import Modal from "./Modal";
 
 const PrfsCredentialPopover: React.FC<PrfsCredentialPopoverProps> = ({
   className,
@@ -119,10 +101,4 @@ export interface PrfsCredentialPopoverProps {
   zIndex?: number;
   handleInitFail: () => void;
   handleClickSignOut: () => void;
-}
-
-export interface MerkleProofModalProps {
-  handleClickSignOut: () => void;
-  setIsOpen: React.Dispatch<React.SetStateAction<any>>;
-  id: string;
 }
