@@ -1,15 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-import { PrfsIdSignInSuccessPayload } from "@taigalabs/prfs-id-sdk-web";
-import { loadLocalPrfsProofCredential } from "@/storage/local_storage";
-
-export interface LocalPrfsProofAccount {
-  id: string;
-  publicKey: string;
-}
+import { LocalPrfsProofCredential, loadLocalPrfsProofCredential } from "@/storage/local_storage";
 
 export interface UserState {
-  prfsProofCredential: LocalPrfsProofAccount | null;
+  prfsProofCredential: LocalPrfsProofCredential | null;
 }
 
 const makeInitialState: () => UserState = () => {
@@ -24,9 +18,10 @@ export const userSlice = createSlice({
   name: "user",
   initialState: makeInitialState(),
   reducers: {
-    signInPrfs: (state: UserState, _action: PayloadAction<PrfsIdSignInSuccessPayload>) => {
+    signInPrfs: (state: UserState, action: PayloadAction<LocalPrfsProofCredential>) => {
       return {
         ...state,
+        prfsProofCredential: action.payload,
       };
     },
   },

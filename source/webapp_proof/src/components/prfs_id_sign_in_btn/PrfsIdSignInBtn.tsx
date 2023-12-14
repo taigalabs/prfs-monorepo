@@ -5,12 +5,13 @@ import cn from "classnames";
 import { useRouter } from "next/navigation";
 import { encrypt, decrypt, PublicKey, PrivateKey } from "eciesjs";
 import PrfsIdSignInButton from "@taigalabs/prfs-react-components/src/prfs_id_sign_in_button/PrfsIdSignInButton";
+import PrfsCredentialPopover from "@taigalabs/prfs-react-components/src/prfs_credential_popover/PrfsCredentialPopover";
 import { PrfsIdSignInSuccessPayload, SignInData } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./PrfsIdSignInBtn.module.scss";
 import { paths } from "@/paths";
 import { envs } from "@/envs";
-import { useAppDispatch } from "@/state/hooks";
+import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { signInPrfs } from "@/state/userReducer";
 import { persistPrfsProofCredential } from "@/storage/local_storage";
 
@@ -19,6 +20,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   const [prfsIdSignInEndpoint, setPrfsIdSignInEndpoint] = React.useState<string | null>(null);
   const secretKeyRef = React.useRef<PrivateKey | null>(null);
   const dispatch = useAppDispatch();
+  const prfsProofCredential = useAppSelector(state => state.user.prfsProofCredential);
 
   React.useEffect(() => {
     if (!secretKeyRef.current) {
@@ -58,19 +60,18 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
           return;
         }
 
-        persistPrfsProofCredential(prfsIdSignInSuccessPayload);
-        dispatch(
-          signInPrfs({
-            id: prfsIdSignInSuccessPayload.id,
-            publicKey: prfsIdSignInSuccessPayload.publicKey,
-          }),
-        );
+        const credential = persistPrfsProofCredential(prfsIdSignInSuccessPayload);
+        dispatch(signInPrfs(credential));
       }
     },
     [router, dispatch],
   );
 
-  return (
+  return prfsProofCredential ? (
+    <div className={styles.wrapper}>
+      <PrfsCredentialPopover credential={prfsProofCredential} />
+    </div>
+  ) : (
     <PrfsIdSignInButton
       prfsIdSignInEndpoint={prfsIdSignInEndpoint}
       handleSucceedSignIn={handleSucceedSignIn}
