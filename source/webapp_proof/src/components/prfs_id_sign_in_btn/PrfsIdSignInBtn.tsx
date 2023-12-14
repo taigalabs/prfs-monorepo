@@ -12,7 +12,7 @@ import { paths } from "@/paths";
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
 import { signInPrfs } from "@/state/userReducer";
-import { persistPrfsProofCredential } from "@/state/side_effects";
+import { persistPrfsProofCredential } from "@/storage/local_storage";
 
 const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   const router = useRouter();
@@ -41,7 +41,6 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
     async (encrypted: Buffer) => {
       if (secretKeyRef.current) {
         const sk = secretKeyRef.current;
-        console.log("received enc", encrypted);
 
         let decrypted: string;
         try {
@@ -59,13 +58,13 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
           return;
         }
 
-        // dispatch(
-        //   signInPrfs({
-        //     id: prfsIdSignInSuccessPayload.id,
-        //     publicKey: prfsIdSignInSuccessPayload.publicKey,
-        //   }),
-        // );
-        await persistPrfsProofCredential(dispatch, prfsIdSignInSuccessPayload);
+        persistPrfsProofCredential(prfsIdSignInSuccessPayload);
+        dispatch(
+          signInPrfs({
+            id: prfsIdSignInSuccessPayload.id,
+            publicKey: prfsIdSignInSuccessPayload.publicKey,
+          }),
+        );
       }
     },
     [router, dispatch],

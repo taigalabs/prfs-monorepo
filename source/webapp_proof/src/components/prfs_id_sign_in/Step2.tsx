@@ -114,6 +114,7 @@ const Step2: React.FC<Step2Props> = ({
         publicKey: signInData.public_key,
       };
       const encrypted = encrypt(publicKey, Buffer.from(JSON.stringify(payload)));
+      console.log("Encrypted credential", encrypted);
       const msg: PrfsIdSignInSuccessMsg = {
         type: "SIGN_IN_SUCCESS",
         payload: encrypted,
