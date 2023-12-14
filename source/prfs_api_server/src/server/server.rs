@@ -12,7 +12,7 @@ use crate::server::router::route;
 const PORT: u16 = 4000;
 
 pub async fn make_server(server_state: Arc<ServerState>) -> Result<(), Box<dyn std::error::Error>> {
-    let addr = SocketAddr::from(([127, 0, 0, 1], PORT));
+    let addr = SocketAddr::from(([0, 0, 0, 0], PORT));
     println!("prfs_api_server launching, addr: {}", addr);
 
     let listener = TcpListener::bind(addr).await?;
