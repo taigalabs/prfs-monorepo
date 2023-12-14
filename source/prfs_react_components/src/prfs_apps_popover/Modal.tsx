@@ -23,6 +23,10 @@ import { TbCertificate } from "../tabler_icons/TbCertificate";
 import { i18nContext } from "../i18n/i18nContext";
 import Tooltip from "../tooltip/Tooltip";
 
+export const PrfsAppsPopoverLi: React.FC<PrfsAppsPopoverLiProps> = ({ children }) => {
+  return <li className={styles.appItem}>{children}</li>;
+};
+
 const Modal: React.FC<ModalProps> = ({ webappProofEndpoint, webappConsoleEndpoint, children }) => {
   const i18n = React.useContext(i18nContext);
   const { tutorialUrl } = React.useMemo(() => {
@@ -78,4 +82,8 @@ export interface ModalProps {
   webappPollEndpoint: string;
   webappProofEndpoint: string;
   webappConsoleEndpoint: string;
+}
+
+export interface PrfsAppsPopoverLiProps {
+  children: React.ReactNode;
 }
