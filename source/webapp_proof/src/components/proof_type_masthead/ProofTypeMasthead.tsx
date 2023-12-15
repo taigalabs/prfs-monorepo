@@ -15,7 +15,13 @@ import { paths } from "@/paths";
 import { useIsTutorial } from "@/hooks/tutorial";
 import PrfsIdSignInBtn from "@/components/prfs_id_sign_in_btn/PrfsIdSignInBtn";
 import PrfsAppsPopoverDefault from "@/components/prfs_apps_popover_default/PrfsAppsPopoverDefault";
-import { MastheadRightGroup, MastheadRightGroupMenu, MastheadWrapper } from "../masthead/Masthead";
+import {
+  MastheadLogoArea,
+  MastheadMain,
+  MastheadRightGroup,
+  MastheadRightGroupMenu,
+  MastheadWrapper,
+} from "@/components/masthead/Masthead";
 
 const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
   isActivated,
@@ -27,12 +33,12 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
 
   return (
     <MastheadWrapper className={styles.wrapper}>
-      <div className={styles.logoArea}>
+      <MastheadLogoArea>
         <a href={paths.__}>
           <ImageLogo width={50} />
         </a>
-      </div>
-      <div className={styles.main}>
+      </MastheadLogoArea>
+      <MastheadMain>
         <div className={styles.searchArea}>
           <SearchProofDialog
             isActivated={isActivated}
@@ -59,7 +65,7 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
             <PrfsIdSignInBtn />
           </MastheadRightGroupMenu>
         </MastheadRightGroup>
-      </div>
+      </MastheadMain>
     </MastheadWrapper>
   );
 };

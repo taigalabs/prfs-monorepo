@@ -17,7 +17,7 @@ const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = () => {
   const { tutorialUrl, accVerrificationUrl } = useUrls();
 
   return (
-    <PrfsAppsPopover tooltip={i18n.apps}>
+    <PrfsAppsPopover tooltip={i18n.apps} isOpenClassName={styles.popoverIsOpen}>
       <PrfsAppsPopoverUl>
         <PrfsAppsPopoverLi>
           <a href={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>

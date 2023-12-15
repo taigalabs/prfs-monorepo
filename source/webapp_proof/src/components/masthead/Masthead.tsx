@@ -27,6 +27,14 @@ export const MastheadWrapper: React.FC<MastheadWrapperProps> = ({ children, clas
   );
 };
 
+export const MastheadLogoArea: React.FC<MastheadWrapperProps> = ({ children, className }) => {
+  return <div className={cn(styles.logoArea, className)}>{children}</div>;
+};
+
+export const MastheadMain: React.FC<MastheadWrapperProps> = ({ children, className }) => {
+  return <div className={cn(styles.main, className)}>{children}</div>;
+};
+
 export const MastheadRightGroup: React.FC<MastheadWrapperProps> = ({ children, className }) => {
   return <ul className={cn(styles.rightGroup, className)}>{children}</ul>;
 };

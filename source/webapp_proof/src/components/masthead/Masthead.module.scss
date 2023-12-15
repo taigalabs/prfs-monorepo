@@ -18,32 +18,24 @@
   }
 }
 
-.inner {
+.logoArea {
+  padding: 0 30px;
   display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: space-between;
+  justify-content: flex-end;
+  min-width: 110px;
+  max-width: 230px;
+  flex-grow: 1;
+  flex-shrink: 1;
+
+  /* border: 1px solid blue; */
 }
 
-.leftGroup {
+.main {
   display: flex;
-  flex: 1;
-}
-
-.logoContainer {
-  display: flex;
-  align-items: center;
-  font-size: 1.545rem;
-}
-
-.leftMenu {
-  margin-left: 32px;
-  display: flex;
-  align-items: center;
-
-  li:not(:first-child) {
-    margin-left: 24px;
-  }
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 1158px;
+  /* flex-direction: column; */
 }
 
 .rightGroup {
@@ -56,11 +48,6 @@
   .menu {
     display: flex;
     align-items: center;
-
-    /* a { */
-    /*   display: grid; */
-    /*   place-items: center; */
-    /* } */
   }
 }
 
@@ -74,6 +61,22 @@
 }
 
 @media screen and (max-width: 1120px) {
+  .logoArea {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 40px;
+    padding: 0 5px;
+    margin-top: 4px;
+    margin-left: 8px;
+    min-width: 0px;
+    display: flex;
+    align-items: center;
+    width: auto;
+
+    /* border: 1px solid blue; */
+  }
+
   .rightGroup {
     position: absolute;
     top: 6px;
