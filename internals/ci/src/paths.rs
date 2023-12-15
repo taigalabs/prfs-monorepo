@@ -13,6 +13,7 @@ pub struct Paths {
 
     // ci
     pub internals_ci: PathBuf,
+    pub internals__tmux: PathBuf,
 
     // docker
     pub internals_docker: PathBuf,
@@ -70,6 +71,7 @@ impl Paths {
         }
 
         let internals_ci = curr_dir.join("internals/ci");
+        let internals__tmux = curr_dir.join("internals/tmux");
 
         let internals_docker = curr_dir.join("internals/docker");
         let internals_docker_postgres = curr_dir.join("internals/docker_postgres");
@@ -108,6 +110,7 @@ impl Paths {
             docs_website,
 
             internals_ci,
+            internals__tmux,
 
             internals_docker,
             internals_docker_postgres,

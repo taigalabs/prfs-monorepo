@@ -41,3 +41,6 @@ pub mod seed_assets;
 
 // test
 pub mod e2e_test_web;
+
+// tmux
+pub mod tmux;
