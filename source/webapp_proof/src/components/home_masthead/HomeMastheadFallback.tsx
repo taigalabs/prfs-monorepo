@@ -5,26 +5,27 @@ import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 
 import styles from "./HomeMasthead.module.scss";
 import { getI18N } from "@/i18n/get_i18n";
+import {
+  MastheadRightGroup,
+  MastheadRightGroupMenu,
+  MastheadWrapper,
+} from "@/components/masthead/Masthead";
 
-const HomeMastheadFallback: React.FC<MastheadProps> = async () => {
+const HomeMastheadFallback: React.FC = async () => {
   const i18n = await getI18N();
 
   return (
-    <div className={cn(styles.wrapper)}>
-      <div className={styles.inner}>
-        <ul className={styles.rightGroup}>
-          <li className={styles.menu}>
-            <span>{i18n.tutorial}</span>
-            <AiOutlineClose />
-          </li>
-          <li className={cn(styles.bigScreen)}>
-            <Link href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>{i18n.docs}</Link>
-          </li>
-          <li className={styles.menu}></li>
-          {/* <li>{i18n.account}</li> */}
-        </ul>
-      </div>
-    </div>
+    <MastheadWrapper>
+      <MastheadRightGroup>
+        <MastheadRightGroupMenu>
+          <span>{i18n.tutorial}</span>
+          <AiOutlineClose />
+        </MastheadRightGroupMenu>
+        <MastheadRightGroupMenu className={cn(styles.bigScreen)}>
+          <Link href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>{i18n.docs}</Link>
+        </MastheadRightGroupMenu>
+      </MastheadRightGroup>
+    </MastheadWrapper>
   );
 };
 
