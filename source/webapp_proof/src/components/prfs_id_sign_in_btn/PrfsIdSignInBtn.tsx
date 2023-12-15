@@ -19,6 +19,7 @@ import {
   persistPrfsProofCredential,
   removeLocalPrfsProofCredential,
 } from "@/storage/local_storage";
+import { makeColor } from "@taigalabs/prfs-crypto-js";
 
 const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   const router = useRouter();
@@ -92,6 +93,9 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   if (!isCredentialInitialized) {
     return <Spinner size={24} color="#5c5c5c" />;
   }
+
+  const a = parseInt("0xda6870ea13b66dd273c084e0fba28a68de597986", 16);
+  console.log(22, a % 360);
 
   return prfsProofCredential ? (
     <PrfsCredentialPopover
