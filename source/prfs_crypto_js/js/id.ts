@@ -56,16 +56,24 @@ export async function makeECCredential(secret: Uint8Array): Promise<ECCredential
 }
 
 export function makeColor(str: string) {
-  let hash = 0;
-  str.split("").forEach(char => {
-    hash = char.charCodeAt(0) + ((hash << 5) - hash);
-  });
-  let colour = "#";
-  for (let i = 0; i < 3; i++) {
-    const value = (hash >> (i * 8)) & 0xff;
-    colour += value.toString(16).padStart(2, "0");
-  }
-  return colour;
+  const num = parseInt(str, 16);
+  const h = num % 360;
+  const s = (num % 80) + 20;
+  const l = num % 60;
+  return hslToHex(h, s, l);
+}
+
+function hslToHex(h: number, s: number, l: number) {
+  l /= 100;
+  const a = (s * Math.min(l, 1 - l)) / 100;
+  const f = (n: number) => {
+    const k = (n + h / 30) % 12;
+    const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+    return Math.round(255 * color)
+      .toString(16)
+      .padStart(2, "0"); // convert to Hex and prefix "0" if needed
+  };
+  return `#${f(0)}${f(8)}${f(4)}`;
 }
 
 export interface MakeCredentialArgs {

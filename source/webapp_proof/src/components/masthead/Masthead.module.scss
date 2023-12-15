@@ -6,67 +6,51 @@
   display: flex;
   padding: 14px 16px;
   height: 56px;
-  justify-content: center;
   align-items: center;
   background-color: var(--white-100);
   z-index: 10;
   font-size: 13px;
+  justify-content: space-between;
 
   &.isTutorial {
     border-bottom: 1px solid var(--bright-gray-32);
   }
 }
 
-.inner {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: space-between;
+.twoColumn {
+  height: 69px;
 }
 
-.leftGroup {
+.logoArea {
+  padding: 0 30px;
   display: flex;
-  flex: 1;
+  justify-content: flex-end;
+  min-width: 110px;
+  max-width: 230px;
+  flex-grow: 1;
+  flex-shrink: 1;
+
+  /* border: 1px solid blue; */
 }
 
-.logoContainer {
+.main {
   display: flex;
-  align-items: center;
-  font-size: 1.545rem;
-}
-
-.leftMenu {
-  margin-left: 32px;
-  display: flex;
-  align-items: center;
-
-  li:not(:first-child) {
-    margin-left: 24px;
-  }
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 1158px;
+  /* flex-direction: column; */
 }
 
 .rightGroup {
   display: flex;
   flex: 1;
+  align-items: center;
   justify-content: flex-end;
   padding-right: 2px;
 
   .menu {
     display: flex;
     align-items: center;
-
-    a {
-      display: flex;
-      align-items: center;
-    }
-
-    svg {
-      margin-left: 2px;
-    }
-  }
-
-  > li:not(:first-child) {
-    margin-left: 24px;
   }
 }
 
@@ -79,10 +63,48 @@
   text-decoration: underline;
 }
 
+@media screen and (max-width: 1120px) {
+  .logoArea {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 40px;
+    padding: 0 5px;
+    margin-top: 4px;
+    margin-left: 8px;
+    min-width: 0px;
+    display: flex;
+    align-items: center;
+    width: auto;
+    /* border: 1px solid blue; */
+  }
+
+  .twoColumn {
+    width: 100vw;
+    min-width: 360px;
+    height: 90px;
+    margin-right: 0;
+    padding-top: 0px;
+    padding-left: 10px;
+    padding-right: 10px;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .rightGroup {
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    width: auto;
+  }
+}
+
 @media screen and (max-width: 480px) {
   .wrapper {
     min-width: 360px;
-    padding: 14px 10px;
+  }
+
+  .twoColumn {
   }
 
   .rightGroup {

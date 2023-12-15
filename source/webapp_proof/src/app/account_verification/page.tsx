@@ -5,11 +5,8 @@ import DefaultLayout, {
   DefaultBody,
   DefaultFooter,
 } from "@/components/layouts/default_layout/DefaultLayout";
-import Masthead from "@/components/masthead/Masthead";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
-import MastheadFallback from "@/components/masthead/MastheadFallback";
-import AuthList from "@/components/auth_list/AuthList";
-import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
+import AccountVerification from "@/components/account_verfication/AccountVerification";
 
 const AccountVerificationPage = () => {
   return (
@@ -17,14 +14,7 @@ const AccountVerificationPage = () => {
       <DefaultBody noTopPadding noMinWidth>
         <div className={styles.container}>
           <Suspense>
-            <ProofTypeMasthead
-              proofInstanceId={undefined}
-              proofType={undefined}
-              handleSelectProofType={() => {}}
-            />
-          </Suspense>
-          <Suspense>
-            <AuthList />
+            <AccountVerification />
           </Suspense>
         </div>
       </DefaultBody>

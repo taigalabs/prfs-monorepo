@@ -55,7 +55,7 @@ const PrfsCredentialPopover: React.FC<PrfsCredentialPopoverProps> = ({
   return (
     printable && (
       <>
-        <button
+        <div
           className={cn(styles.base, {
             [styles.isOpen]: isOpen,
             [className!]: !!className,
@@ -63,10 +63,11 @@ const PrfsCredentialPopover: React.FC<PrfsCredentialPopoverProps> = ({
           })}
           ref={refs.setReference}
           {...getReferenceProps()}
-          style={{ backgroundColor: printable.avatarColor }}
         >
-          <span>{printable.label}</span>
-        </button>
+          <button style={{ backgroundColor: printable.avatarColor }}>
+            <span>{printable.label}</span>
+          </button>
+        </div>
         {isOpen && (
           <FloatingFocusManager context={context} modal={false}>
             <div

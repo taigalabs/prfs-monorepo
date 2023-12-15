@@ -11,7 +11,6 @@ import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 
 import { I18nProvider } from "@/i18n/context";
 import { store } from "@/state/store";
-import { StateInitializer } from "@/state/initializer";
 
 const queryClient = new QueryClient();
 

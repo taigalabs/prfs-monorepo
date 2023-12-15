@@ -1,0 +1,21 @@
+.bigScreen {
+  display: flex;
+  align-items: center;
+}
+
+.underline:hover {
+  text-decoration: underline;
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    min-width: 360px;
+    padding: 14px 10px;
+  }
+
+  .rightGroup {
+    .bigScreen {
+      display: none;
+    }
+  }
+}

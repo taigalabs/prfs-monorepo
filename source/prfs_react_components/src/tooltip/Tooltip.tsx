@@ -16,7 +16,7 @@ import {
 
 import styles from "./Tooltip.module.scss";
 
-const Tooltip: React.FC<TooltipProps> = ({ label, children, offset }) => {
+const Tooltip: React.FC<TooltipProps> = ({ label, children, offset, className }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
@@ -39,7 +39,7 @@ const Tooltip: React.FC<TooltipProps> = ({ label, children, offset }) => {
 
   return (
     <>
-      <div className={styles.base} ref={refs.setReference} {...getReferenceProps()}>
+      <div className={cn(styles.base, className)} ref={refs.setReference} {...getReferenceProps()}>
         {children}
       </div>
       <FloatingPortal>
@@ -63,5 +63,6 @@ export default Tooltip;
 export interface TooltipProps {
   label: string;
   children: React.ReactNode;
+  className?: string;
   offset?: number;
 }

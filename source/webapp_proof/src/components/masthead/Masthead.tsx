@@ -13,15 +13,47 @@ import { TbMathPi } from "@taigalabs/prfs-react-components/src/tabler_icons/TbMa
 
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { paths } from "@/paths";
 import PrfsIdSignInBtn from "@/components/prfs_id_sign_in_btn/PrfsIdSignInBtn";
 import { GrMonitor } from "@react-icons/all-files/gr/GrMonitor";
 import { useIsTutorial } from "@/hooks/tutorial";
 import { useUrls } from "@/hooks/useUrls";
 
-const Masthead: React.FC<MastheadProps> = () => {
+export const MastheadWrapper: React.FC<MastheadWrapperProps> = ({
+  children,
+  className,
+  twoColumn,
+}) => {
+  const isTutorial = useIsTutorial();
+  return (
+    <div
+      className={cn(styles.wrapper, className, {
+        [styles.isTutorial]: isTutorial,
+        [styles.twoColumn]: twoColumn,
+      })}
+    >
+      {children}
+    </div>
+  );
+};
+
+export const MastheadLogoArea: React.FC<MastheadProps> = ({ children, className }) => {
+  return <div className={cn(styles.logoArea, className)}>{children}</div>;
+};
+
+export const MastheadMain: React.FC<MastheadProps> = ({ children, className }) => {
+  return <div className={cn(styles.main, className)}>{children}</div>;
+};
+
+export const MastheadRightGroup: React.FC<MastheadProps> = ({ children, className }) => {
+  return <ul className={cn(styles.rightGroup, className)}>{children}</ul>;
+};
+
+export const MastheadRightGroupMenu: React.FC<MastheadProps> = ({ children, className }) => {
+  return <li className={cn(styles.menu, className)}>{children}</li>;
+};
+
+const Masthead: React.FC = () => {
   const i18n = React.useContext(i18nContext);
-  const searchParams = useSearchParams();
   const isTutorial = useIsTutorial();
   const { tutorialUrl, accVerrificationUrl } = useUrls();
 
@@ -81,4 +113,13 @@ const Masthead: React.FC<MastheadProps> = () => {
 
 export default Masthead;
 
-export interface MastheadProps {}
+export interface MastheadWrapperProps {
+  children: React.ReactNode;
+  className?: string;
+  twoColumn?: boolean;
+}
+
+export interface MastheadProps {
+  children: React.ReactNode;
+  className?: string;
+}
