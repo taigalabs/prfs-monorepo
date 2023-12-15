@@ -17,11 +17,11 @@ const AccountVerificationPage = () => {
       <DefaultBody noTopPadding noMinWidth>
         <div className={styles.container}>
           <Suspense>
-            <ProofTypeMasthead
-              proofInstanceId={undefined}
-              proofType={undefined}
-              handleSelectProofType={() => {}}
-            />
+            {/* <ProofTypeMasthead */}
+            {/*   proofInstanceId={undefined} */}
+            {/*   proofType={undefined} */}
+            {/*   handleSelectProofType={() => {}} */}
+            {/* /> */}
           </Suspense>
           <Suspense>
             <AuthList />

@@ -7,6 +7,7 @@ import { encrypt, decrypt, PublicKey, PrivateKey } from "eciesjs";
 import PrfsIdSignInButton from "@taigalabs/prfs-react-components/src/prfs_id_sign_in_button/PrfsIdSignInButton";
 import PrfsCredentialPopover from "@taigalabs/prfs-react-components/src/prfs_credential_popover/PrfsCredentialPopover";
 import { PrfsIdSignInSuccessPayload, SignInData } from "@taigalabs/prfs-id-sdk-web";
+import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 
 import styles from "./PrfsIdSignInBtn.module.scss";
 import { paths } from "@/paths";
@@ -24,6 +25,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   const [prfsIdSignInEndpoint, setPrfsIdSignInEndpoint] = React.useState<string | null>(null);
   const secretKeyRef = React.useRef<PrivateKey | null>(null);
   const dispatch = useAppDispatch();
+  const isCredentialInitialized = useAppSelector(state => state.user.isInitialized);
   const prfsProofCredential = useAppSelector(state => state.user.prfsProofCredential);
 
   React.useEffect(() => {
@@ -86,6 +88,10 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   const handleInitFail = React.useCallback(() => {
     console.log("Failed init Prfs Proof credential!");
   }, []);
+
+  if (!isCredentialInitialized) {
+    return <Spinner size={24} color="#5c5c5c" />;
+  }
 
   return prfsProofCredential ? (
     <PrfsCredentialPopover
