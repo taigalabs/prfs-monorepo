@@ -18,7 +18,7 @@ import { i18nContext } from "@/i18n/context";
 import ProofDataView from "@/components/proof_data_view/ProofDataView";
 import { envs } from "@/envs";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
-import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
+import ProofTypeMasthead from "@/components/proof_type_masthead/ProofTypeMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
 import Tutorial from "@/components/tutorial/Tutorial";
 import { useIsTutorial } from "@/hooks/tutorial";

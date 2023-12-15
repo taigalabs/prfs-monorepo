@@ -3,7 +3,7 @@ import cn from "classnames";
 
 import styles from "./CreateProofForm.module.scss";
 import { getI18N } from "@/i18n/get_i18n";
-import ProofTypeMastheadFallback from "@/components/masthead/ProofTypeMastheadFallback";
+import ProofTypeMastheadFallback from "@/components/proof_type_masthead/ProofTypeMastheadFallback";
 
 const CreateProofFormFallback: React.FC = async () => {
   const i18n = await getI18N();
