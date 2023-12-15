@@ -32,7 +32,7 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
   const i18n = React.useContext(i18nContext);
 
   return (
-    <MastheadWrapper className={styles.wrapper}>
+    <MastheadWrapper twoColumn>
       <MastheadLogoArea>
         <a href={paths.__}>
           <ImageLogo width={50} />
