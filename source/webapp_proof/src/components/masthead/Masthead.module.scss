@@ -6,11 +6,12 @@
   display: flex;
   padding: 14px 16px;
   height: 56px;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   background-color: var(--white-100);
   z-index: 10;
   font-size: 13px;
+  justify-content: space-between;
 
   &.isTutorial {
     border-bottom: 1px solid var(--bright-gray-32);

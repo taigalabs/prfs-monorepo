@@ -6,33 +6,34 @@ import cn from "classnames";
 import styles from "./HomeMasthead.module.scss";
 import { i18nContext } from "@/i18n/context";
 import PrfsIdSignInBtn from "@/components/prfs_id_sign_in_btn/PrfsIdSignInBtn";
-import { useIsTutorial } from "@/hooks/tutorial";
 import { useUrls } from "@/hooks/useUrls";
-import PrfsAppsPopoverDefault from "../prfs_apps_popover_default/PrfsAppsPopoverDefault";
+import PrfsAppsPopoverDefault from "@/components/prfs_apps_popover_default/PrfsAppsPopoverDefault";
+import {
+  MastheadRightGroup,
+  MastheadRightGroupMenu,
+  MastheadWrapper,
+} from "@/components/masthead/Masthead";
 
 const HomeMasthead: React.FC<HomeMastheadProps> = () => {
   const i18n = React.useContext(i18nContext);
-  const isTutorial = useIsTutorial();
   const { tutorialUrl } = useUrls();
 
   return (
-    <div className={cn({ [styles.wrapper]: true, [styles.isTutorial]: isTutorial })}>
-      <div className={styles.inner}>
-        <ul className={styles.rightGroup}>
-          <li className={cn(styles.menu, styles.underline, styles.tutorialBtn)}>
-            <a href={tutorialUrl}>
-              <span>{i18n.tutorial}</span>
-            </a>
-          </li>
-          <li className={styles.menu}>
-            <PrfsAppsPopoverDefault />
-          </li>
-          <li className={cn(styles.menu, styles.signInBtn)}>
-            <PrfsIdSignInBtn />
-          </li>
-        </ul>
-      </div>
-    </div>
+    <MastheadWrapper>
+      <MastheadRightGroup>
+        <MastheadRightGroupMenu className={cn(styles.underline, styles.tutorialBtn)}>
+          <a href={tutorialUrl}>
+            <span>{i18n.tutorial}</span>
+          </a>
+        </MastheadRightGroupMenu>
+        <MastheadRightGroupMenu>
+          <PrfsAppsPopoverDefault />
+        </MastheadRightGroupMenu>
+        <MastheadRightGroupMenu className={cn(styles.signInBtn)}>
+          <PrfsIdSignInBtn />
+        </MastheadRightGroupMenu>
+      </MastheadRightGroup>
+    </MastheadWrapper>
   );
 };
 
