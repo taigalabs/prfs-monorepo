@@ -15,7 +15,7 @@ const Modal: React.FC<ModalProps> = ({ id, handleClickSignOut }) => {
       </div>
       <div className={styles.btnRow}>
         <button className={styles.signOutBtn} onClick={handleClickSignOut}>
-          {i18n.sign_in}
+          {i18n.sign_out}
         </button>
       </div>
     </div>

@@ -19,10 +19,10 @@ import { GrMonitor } from "@react-icons/all-files/gr/GrMonitor";
 import { useIsTutorial } from "@/hooks/tutorial";
 import { useUrls } from "@/hooks/useUrls";
 
-export const MastheadWrapper: React.FC<MastheadWrapperProps> = ({ children }) => {
+export const MastheadWrapper: React.FC<MastheadWrapperProps> = ({ children, className }) => {
   const isTutorial = useIsTutorial();
   return (
-    <div className={cn({ [styles.wrapper]: true, [styles.isTutorial]: isTutorial })}>
+    <div className={cn(styles.wrapper, className, { [styles.isTutorial]: isTutorial })}>
       {children}
     </div>
   );
@@ -38,7 +38,6 @@ export const MastheadRightGroupMenu: React.FC<MastheadWrapperProps> = ({ childre
 
 const Masthead: React.FC = () => {
   const i18n = React.useContext(i18nContext);
-  const searchParams = useSearchParams();
   const isTutorial = useIsTutorial();
   const { tutorialUrl, accVerrificationUrl } = useUrls();
 

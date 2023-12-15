@@ -72,6 +72,7 @@ const Step2: React.FC<Step2Props> = ({
       try {
         setStatus(IdCreationStatus.InProgress);
         const avatar_color = makeColor(id);
+        console.log(55, avatar_color);
         const { payload, error } = await prfsIdentitySignUpRequest({
           identity_id: id,
           avatar_color,
