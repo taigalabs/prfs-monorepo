@@ -30,10 +30,9 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   const prfsProofCredential = useAppSelector(state => state.user.prfsProofCredential);
 
   React.useEffect(() => {
+    console.log(555);
     const credential = loadLocalPrfsProofCredential();
-    if (credential) {
-      dispatch(signInPrfs(credential));
-    }
+    dispatch(signInPrfs(credential));
   }, []);
 
   React.useEffect(() => {

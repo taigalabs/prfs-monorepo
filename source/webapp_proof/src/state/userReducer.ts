@@ -18,7 +18,7 @@ export const userSlice = createSlice({
   name: "user",
   initialState: makeInitialState(),
   reducers: {
-    signInPrfs: (state: UserState, action: PayloadAction<LocalPrfsProofCredential>) => {
+    signInPrfs: (state: UserState, action: PayloadAction<LocalPrfsProofCredential | null>) => {
       return {
         ...state,
         isInitialized: true,

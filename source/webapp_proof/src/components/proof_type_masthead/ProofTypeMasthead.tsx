@@ -24,7 +24,6 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
   handleSelectProofType,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const isTutorial = useIsTutorial();
 
   return (
     <MastheadWrapper className={styles.wrapper}>
@@ -55,7 +54,7 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
         <MastheadRightGroupMenu className={cn(styles.menu, styles.appPopover)}>
           <PrfsAppsPopoverDefault />
         </MastheadRightGroupMenu>
-        <MastheadRightGroupMenu className={cn(styles.menu, styles.signInBtn)}>
+        <MastheadRightGroupMenu className={cn(styles.signInBtn)}>
           <PrfsIdSignInBtn />
         </MastheadRightGroupMenu>
       </MastheadRightGroup>
