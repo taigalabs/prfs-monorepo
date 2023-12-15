@@ -13,7 +13,6 @@ import { TbMathPi } from "@taigalabs/prfs-react-components/src/tabler_icons/TbMa
 
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { paths } from "@/paths";
 import PrfsIdSignInBtn from "@/components/prfs_id_sign_in_btn/PrfsIdSignInBtn";
 import { GrMonitor } from "@react-icons/all-files/gr/GrMonitor";
 import { useIsTutorial } from "@/hooks/tutorial";

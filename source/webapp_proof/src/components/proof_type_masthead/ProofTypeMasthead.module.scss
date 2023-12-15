@@ -8,17 +8,8 @@
   justify-content: center;
   min-width: 1024px;
   height: 69px;
-  padding-top: 8px;
   z-index: 10;
   font-size: 13px;
-
-  /* border-bottom: 1px solid var(--bright-gray-36); */
-}
-
-.inner {
-  display: flex;
-  align-items: center;
-  flex-grow: 1;
 }
 
 .logoArea {
@@ -55,73 +46,48 @@
 
 .rightGroup {
   font-size: 24px;
-  color: var(--black-26);
-  /* display: flex; */
-  /* margin-left: auto; */
-  /* margin-right: 0; */
-  /* justify-content: flex-end; */
-  /* padding-right: 6px; */
-  /* align-items: center; */
+}
 
-  // border: 1px solid blue;
+.sideMargin {
+  margin: 0 2px;
+}
 
-  .menu:not(.bigScreen) {
-    display: flex;
+.entry {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  color: var(--gray-34);
+
+  > a {
+    display: grid;
+    place-items: center;
   }
 
-  /* > * { */
-  /*   margin: 0 2px; */
-  /* } */
-
-  .menu {
-    margin: 0 2px;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 20px;
-    color: var(--gray-34);
-
-    > a {
-      display: flex;
-      align-items: center;
-    }
-  }
-
-  .appPopover {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-  }
-
-  .menu:hover {
+  &:hover {
     background-color: var(--bright-gray-40);
   }
+}
 
-  .signInBtn {
-    padding: 0 8px;
+.appPopover {
+  > div:first-child {
+    height: 100%;
+    width: 100%;
   }
+}
+
+.signInBtn {
+  padding: 0;
+  padding-left: 12px;
 }
 
 .bigScreen {
   display: flex;
   align-items: center;
-}
-
-.popover {
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: var(--bright-gray-40);
-  }
 }
 
 .popoverIsOpen {
@@ -164,7 +130,7 @@
 
   .searchArea {
     flex: 1;
-    margin-top: 46px;
+    margin-top: 50px;
     min-width: 0px;
     display: flex;
     justify-content: center;

@@ -10,7 +10,6 @@ import { GrMonitor } from "@react-icons/all-files/gr/GrMonitor";
 
 import styles from "./PrfsAppsPopoverDefault.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { paths } from "@/paths";
 import { useUrls } from "@/hooks/useUrls";
 
 const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = () => {
@@ -18,7 +17,7 @@ const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = () => {
   const { tutorialUrl, accVerrificationUrl } = useUrls();
 
   return (
-    <PrfsAppsPopover>
+    <PrfsAppsPopover tooltip={i18n.apps}>
       <PrfsAppsPopoverUl>
         <PrfsAppsPopoverLi>
           <a href={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>

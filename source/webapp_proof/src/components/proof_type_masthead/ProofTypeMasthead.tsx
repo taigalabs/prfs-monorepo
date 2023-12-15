@@ -42,22 +42,24 @@ const ProofTypeMasthead: React.FC<ProofTypeMastheadProps> = ({
             webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
           />
         </div>
-      </div>
-      <MastheadRightGroup className={styles.rightGroup}>
-        <Tooltip label={i18n.docs}>
-          <MastheadRightGroupMenu className={cn(styles.menu, styles.bigScreen)}>
-            <Link href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>
-              <BsBook />
-            </Link>
+        <MastheadRightGroup className={styles.rightGroup}>
+          <Tooltip label={i18n.docs} className={styles.sideMargin}>
+            <MastheadRightGroupMenu className={cn(styles.entry, styles.bigScreen)}>
+              <Link href={process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}>
+                <BsBook />
+              </Link>
+            </MastheadRightGroupMenu>
+          </Tooltip>
+          <MastheadRightGroupMenu
+            className={cn(styles.entry, styles.appPopover, styles.sideMargin)}
+          >
+            <PrfsAppsPopoverDefault />
           </MastheadRightGroupMenu>
-        </Tooltip>
-        <MastheadRightGroupMenu className={cn(styles.menu, styles.appPopover)}>
-          <PrfsAppsPopoverDefault />
-        </MastheadRightGroupMenu>
-        <MastheadRightGroupMenu className={cn(styles.signInBtn)}>
-          <PrfsIdSignInBtn />
-        </MastheadRightGroupMenu>
-      </MastheadRightGroup>
+          <MastheadRightGroupMenu className={cn(styles.signInBtn)}>
+            <PrfsIdSignInBtn />
+          </MastheadRightGroupMenu>
+        </MastheadRightGroup>
+      </div>
     </MastheadWrapper>
   );
 };

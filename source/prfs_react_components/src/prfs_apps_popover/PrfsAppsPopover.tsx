@@ -39,6 +39,15 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
   const role = useRole(context);
   const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss, role]);
   const headingId = useId();
+  const content = React.useMemo(() => {
+    return tooltip ? (
+      <Tooltip label={tooltip}>
+        <BsThreeDots />
+      </Tooltip>
+    ) : (
+      <BsThreeDots />
+    );
+  }, [tooltip]);
 
   return (
     <>
@@ -51,13 +60,7 @@ const PrfsAppsPopover: React.FC<PrfsAppsPopoverProps> = ({
         ref={refs.setReference}
         {...getReferenceProps()}
       >
-        {tooltip ? (
-          <Tooltip label={tooltip}>
-            <BsThreeDots />
-          </Tooltip>
-        ) : (
-          <BsThreeDots />
-        )}
+        {content}
       </button>
       {isOpen && (
         <FloatingFocusManager context={context} modal={false}>
