@@ -11,16 +11,14 @@ import SearchProofTypeFormFallback from "@/components/search_proof_type_form/Sea
 import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
 import HomeMasthead from "@/components/home_masthead/HomeMasthead";
 import HomeMastheadFallback from "@/components/home_masthead/HomeMastheadFallback";
-import Masthead from "@/components/masthead/Masthead";
 
 const HomePage = () => {
   return (
     <DefaultLayout>
-      <DefaultBody noTopPadding noMinWidth>
+      <DefaultBody noMinWidth>
         <div className={styles.container}>
           <Suspense fallback={<HomeMastheadFallback />}>
             <HomeMasthead />
-            {/* <Masthead /> */}
           </Suspense>
           <Suspense fallback={<SearchProofTypeFormFallback />}>
             <SearchProofTypeForm />

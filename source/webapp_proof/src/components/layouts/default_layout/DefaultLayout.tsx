@@ -9,16 +9,16 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
 
 export const DefaultBody: React.FC<DefaultBodyProps> = ({
   children,
-  bigTopPadding,
-  noTopPadding,
+  // bigTopPadding,
+  // noTopPadding,
   noMinWidth,
 }) => {
   return (
     <div
       className={cn(styles.body, {
         [styles.noMinWidth]: noMinWidth,
-        [styles.bigTopPadding]: bigTopPadding,
-        [styles.noTopPadding]: noTopPadding,
+        // [styles.bigTopPadding]: bigTopPadding,
+        // [styles.noTopPadding]: noTopPadding,
       })}
     >
       {children}
@@ -38,7 +38,7 @@ export interface DefaultLayoutProps {
 
 export interface DefaultBodyProps {
   children: React.ReactNode;
-  bigTopPadding?: boolean;
-  noTopPadding?: boolean;
+  // bigTopPadding?: boolean;
+  // noTopPadding?: boolean;
   noMinWidth?: boolean;
 }

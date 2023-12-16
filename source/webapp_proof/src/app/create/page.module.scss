@@ -3,15 +3,7 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  /* padding-left: 230px; */
-  padding-top: 69px;
-}
-
-@media screen and (max-width: 1300px) {
-  .container {
-    /* padding-top: 90px; */
-    /* padding-left: calc((100% - 1150px) / 2); */
-  }
+  /* padding-top: 69px; */
 }
 
 @media screen and (max-width: 1120px) {

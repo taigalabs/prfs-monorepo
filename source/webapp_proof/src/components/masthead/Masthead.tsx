@@ -3,7 +3,6 @@
 import React from "react";
 import cn from "classnames";
 import PrfsAppsPopover from "@taigalabs/prfs-react-components/src/prfs_apps_popover/PrfsAppsPopover";
-import { useSearchParams } from "next/navigation";
 import {
   PrfsAppsPopoverLi,
   PrfsAppsPopoverUl,
@@ -40,7 +39,11 @@ export const MastheadLogoArea: React.FC<MastheadProps> = ({ children, className 
   return <div className={cn(styles.logoArea, className)}>{children}</div>;
 };
 
-export const MastheadMain: React.FC<MastheadProps> = ({ children, className }) => {
+export const MastheadPlaceholder: React.FC<MastheadPlaceholderProps> = ({ className }) => {
+  return <div className={cn(styles.placeholder, className)} />;
+};
+
+export const MastheadMain: React.FC<MastheadProps> = ({ className, children }) => {
   return <div className={cn(styles.main, className)}>{children}</div>;
 };
 
@@ -121,5 +124,9 @@ export interface MastheadWrapperProps {
 
 export interface MastheadProps {
   children: React.ReactNode;
+  className?: string;
+}
+
+export interface MastheadPlaceholderProps {
   className?: string;
 }

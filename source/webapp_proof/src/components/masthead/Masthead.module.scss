@@ -21,6 +21,10 @@
   height: 69px;
 }
 
+.placeholder {
+  width: 65px;
+}
+
 .logoArea {
   padding: 0 30px;
   display: flex;
@@ -29,8 +33,12 @@
   max-width: 230px;
   flex-grow: 1;
   flex-shrink: 1;
-
   /* border: 1px solid blue; */
+
+  > a {
+    display: flex;
+    align-items: center;
+  }
 }
 
 .main {

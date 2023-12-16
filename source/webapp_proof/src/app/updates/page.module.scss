@@ -1,8 +1,8 @@
 .container {
+  position: relative;
   display: flex;
-  justify-content: center;
-  padding: 35px 0;
-  width: 720px;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 @media screen and (max-width: 1120px) {

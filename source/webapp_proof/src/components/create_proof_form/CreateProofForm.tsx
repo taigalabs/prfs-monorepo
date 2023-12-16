@@ -18,6 +18,7 @@ import ProofTypeMasthead from "@/components/proof_type_masthead/ProofTypeMasthea
 import { useSelectProofType } from "@/hooks/proofType";
 import Tutorial from "@/components/tutorial/Tutorial";
 import LeftPadding from "@/components/left_padding/LeftPadding";
+import { MastheadPlaceholder } from "../masthead/Masthead";
 
 const CreateProofForm: React.FC = () => {
   const [proofType, setProofType] = React.useState<PrfsProofType>();
@@ -72,6 +73,7 @@ const CreateProofForm: React.FC = () => {
         proofType={proofType}
         handleSelectProofType={handleSelectProofType}
       />
+      <MastheadPlaceholder />
       <div className={styles.topRow}></div>
       <div className={styles.main}>
         <LeftPadding />
