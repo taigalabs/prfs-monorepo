@@ -5,6 +5,7 @@ use ts_rs::TS;
 #[ts(export)]
 pub struct PrfsAccount {
     pub account_id: String,
+    pub public_key: String,
     pub avatar_color: String,
 
     #[ts(type = "string[]")]

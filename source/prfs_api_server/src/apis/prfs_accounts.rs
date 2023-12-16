@@ -20,6 +20,7 @@ pub async fn sign_up_prfs_account(
     let mut tx = pool.begin().await.unwrap();
     let prfs_account = PrfsAccount {
         account_id: req.account_id.to_string(),
+        public_key: req.public_key.to_string(),
         avatar_color: req.avatar_color.to_string(),
         policy_ids: Json::from(vec![]),
     };

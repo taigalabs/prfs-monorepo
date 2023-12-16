@@ -2,5 +2,6 @@
 
 export interface PrfsSignUpRequest {
   account_id: string;
+  public_key: string;
   avatar_color: string;
 }
