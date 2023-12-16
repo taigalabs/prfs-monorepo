@@ -35,6 +35,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
   handleClickUseAnotherId,
   handleClickNext,
   setCredential,
+  handleClickForgetAllCredentials,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [selectedCredentialId, setSelectedCredentialId] = React.useState<string | null>(null);
@@ -119,11 +120,6 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
     [handleClickNextWithCredential],
   );
 
-  const handleClickForgetAccounts = React.useCallback(() => {
-    removeAllPrfsIdCredentials();
-    handleClickUseAnotherId();
-  }, [handleClickUseAnotherId]);
-
   const content = React.useMemo(() => {
     const elems = Object.values(storedCredentials).map(cred => {
       return (
@@ -201,7 +197,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
         <Button
           variant="transparent_blue_2"
           noTransition
-          handleClick={handleClickForgetAccounts}
+          handleClick={handleClickForgetAllCredentials}
           type="button"
         >
           {i18n.forget_all_accounts}
@@ -220,4 +216,5 @@ export interface StoredCredentialsProps {
   handleClickUseAnotherId: () => void;
   handleClickNext: () => void;
   setCredential: React.Dispatch<React.SetStateAction<PrfsIdCredential | null>>;
+  handleClickForgetAllCredentials: () => void;
 }

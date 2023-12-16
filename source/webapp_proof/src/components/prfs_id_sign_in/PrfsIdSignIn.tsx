@@ -4,7 +4,11 @@ import React from "react";
 import { PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { loadLocalPrfsIdCredentials, StoredCredentialRecord } from "@taigalabs/prfs-id-sdk-web";
+import {
+  loadLocalPrfsIdCredentials,
+  removeAllPrfsIdCredentials,
+  StoredCredentialRecord,
+} from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 
 import styles from "./PrfsIdSignIn.module.scss";
@@ -102,6 +106,12 @@ const PrfsIdSignIn: React.FC = () => {
     [formData, setFormData],
   );
 
+  const handleClickForgetAllCredentials = React.useCallback(() => {
+    removeAllPrfsIdCredentials();
+    setStoredCredentials({});
+    setStep(SignInStep.PrfsIdCredential);
+  }, [setStep, setStoredCredentials]);
+
   const handleGotoStoredCredential = React.useCallback(() => {
     setStep(SignInStep.StoredCredentials);
   }, [setStep]);
@@ -128,6 +138,7 @@ const PrfsIdSignIn: React.FC = () => {
             appId={appId}
             handleClickUseAnotherId={handleGotoPrfsIdCredential}
             handleClickNext={handleClickNext}
+            handleClickForgetAllCredentials={handleClickForgetAllCredentials}
           />
         );
       }
