@@ -11,6 +11,7 @@ import cn from "classnames";
 import { useSearchParams } from "next/navigation";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/elems/proof_gen_element/proof_gen_element";
+import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -185,6 +186,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     setDriverMsg,
   ]);
 
+  console.log(22, colors);
+
   return (
     proofType && (
       <>
@@ -206,7 +209,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
                   ))}
                 {loadDriverStatus === LoadDriverStatus.InProgress && (
                   <div className={styles.overlay}>
-                    <Spinner size={32} color="#1b62c0" />
+                    <Spinner size={32} color={colors.blue_12} />
                   </div>
                 )}
                 <TutorialStepper steps={[2]}>
@@ -219,7 +222,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
                       formErrors={formErrors}
                       setFormErrors={setFormErrors}
                     />
-                    {/* {circuitInputsElem} */}
                   </div>
                 </TutorialStepper>
                 <div className={styles.btnRow}>

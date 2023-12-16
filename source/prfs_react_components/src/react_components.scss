@@ -1,3 +1,5 @@
+@import "./colors.module.scss";
+
 :root {
   --gray-10: #2b2a2d;
   --gray-20: #373739;
@@ -43,7 +45,7 @@
   --blue-101: #174ea6;
   --blue-11: #1a0dab;
   --blue-120: #1b57a6;
-  --blue-12: #1b62c0;
+  --blue-12: $blue_12;
   --blue-13: #1b63c1;
   --blue-14: #1b66c9;
   --blue-15: #1a73e8;
