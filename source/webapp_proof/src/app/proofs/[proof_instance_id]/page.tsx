@@ -14,11 +14,11 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   return (
     <DefaultLayout>
       <DefaultBody>
-        <div className={styles.container}>
+        {/* <div className={styles.container}> */}
           <Suspense fallback={<TutorialFallback />}>
             <ProofDetailView proofInstanceId={params.proof_instance_id} />
           </Suspense>
-        </div>
+        {/* </div> */}
       </DefaultBody>
       <DefaultFooter>
         <GlobalFooter />
