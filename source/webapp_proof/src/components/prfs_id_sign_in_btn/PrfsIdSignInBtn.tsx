@@ -80,7 +80,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
         }
 
         const credential = persistPrfsProofCredential(prfsIdSignInSuccessPayload);
-        const { payload } = await prfsSignInRequest({ account_id: credential.id });
+        const { payload, error } = await prfsSignInRequest({ account_id: credential.id });
 
         // if (payload.error) {
         // }
