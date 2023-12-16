@@ -2,7 +2,6 @@
 
 import React from "react";
 import { PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { loadLocalPrfsIdCredentials, StoredCredentialRecord } from "@taigalabs/prfs-id-sdk-web";
@@ -12,9 +11,7 @@ import styles from "./PrfsIdSignIn.module.scss";
 import { i18nContext } from "@/i18n/context";
 import PrfsIdSignInModule, {
   PrfsIdSignInForm,
-  PrfsIdSignInModuleBtnRow,
   PrfsIdSignInModuleFooter,
-  PrfsIdSignInModuleHeader,
 } from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
 import { envs } from "@/envs";
 import {
