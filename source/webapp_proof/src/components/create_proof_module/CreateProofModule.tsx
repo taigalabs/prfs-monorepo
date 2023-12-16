@@ -14,15 +14,11 @@ import ProofGenElement from "@taigalabs/prfs-sdk-web/src/elems/proof_gen_element
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
-import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
-import SigDataInput from "@/components/sig_data_input/SigDataInput";
-import Passcode from "@/components/passcode/Passcode";
-import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
 import { validateInputs } from "@/functions/validate_inputs";
-import HashInput from "@/components/hash_input/HashInput";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
+import CircuitInputs from "./CircuitInputs";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -79,20 +75,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     }
     return false;
   }, [searchParams]);
-
-  const handleChangeValue = React.useCallback(
-    (ev: React.ChangeEvent<HTMLInputElement>) => {
-      const { name } = ev.target;
-
-      setFormValues(oldVals => {
-        return {
-          ...oldVals,
-          [name]: ev.target.value,
-        };
-      });
-    },
-    [setFormValues],
-  );
 
   const handleClickCreateProof = React.useCallback(async () => {
     if (proofGenElement) {
@@ -203,175 +185,83 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     setDriverMsg,
   ]);
 
-  const circuitInputsElem = React.useMemo(() => {
-    if (!proofGenElement) {
-      return null;
-    }
-
-    const circuit_inputs = proofType.circuit_inputs as CircuitInput[];
-
-    const entriesElem = [];
-    for (const [idx, input] of circuit_inputs.entries()) {
-      switch (input.type) {
-        case "MERKLE_PROOF_1": {
-          entriesElem.push(
-            <MerkleProofInput
-              key={idx}
-              circuitInput={input}
-              value={formValues[input.name] as any}
-              error={formErrors[input.name]}
-              setFormValues={setFormValues}
-              setFormErrors={setFormErrors}
-            />,
-          );
-          break;
-        }
-        case "SIG_DATA_1": {
-          entriesElem.push(
-            <SigDataInput
-              key={idx}
-              circuitInput={input}
-              value={formValues[input.name] as any}
-              error={formErrors[input.name]}
-              setFormValues={setFormValues}
-              setFormErrors={setFormErrors}
-            />,
-          );
-          break;
-        }
-        case "HASH_DATA_1": {
-          entriesElem.push(
-            <HashInput
-              key={idx}
-              circuitInput={input}
-              value={formValues[input.name] as any}
-              error={formErrors[input.name]}
-              setFormValues={setFormValues}
-              setFormErrors={setFormErrors}
-              proofGenElement={proofGenElement}
-            />,
-          );
-          break;
-        }
-        case "PASSCODE": {
-          entriesElem.push(
-            <Passcode
-              key={idx}
-              circuitInput={input}
-              value={formValues[input.name]}
-              handleChangeValue={handleChangeValue}
-            />,
-          );
-          break;
-        }
-        case "PASSCODE_CONFIRM": {
-          entriesElem.push(
-            <Passcode
-              key={idx}
-              circuitInput={input}
-              value={formValues[input.name]}
-              handleChangeValue={handleChangeValue}
-            />,
-          );
-
-          entriesElem.push(
-            <Passcode
-              key={`${idx}-confirm`}
-              confirm
-              circuitInput={input}
-              value={formValues[input.name]}
-              handleChangeValue={handleChangeValue}
-            />,
-          );
-          break;
-        }
-        default: {
-          console.error(`Cannot handle circuit input of this type`);
-
-          entriesElem.push(
-            <FormInput key={idx}>
-              <FormInputTitleRow>
-                <p>{input.label}</p>
-              </FormInputTitleRow>
-              <input placeholder="Cannot handle circuit input of this type" />
-            </FormInput>,
-          );
-        }
-      }
-    }
-
-    return entriesElem;
-  }, [proofType, formValues, setFormValues, proofGenElement, formErrors]);
-
-  if (!proofType) {
-    return null;
-  }
-
   return (
-    <>
-      <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
-        <div className={styles.driverMsg}>
-          <div className={styles.msg}>{driverMsg}</div>
-          {loadDriverStatus === LoadDriverStatus.InProgress && (
-            <LoadDriverProgress progress={loadDriverProgress} />
-          )}
-        </div>
-        <div className={cn(styles.main, { [styles.isTutorial]: isTutorial })}>
-          <div className={styles.moduleArea}>
-            <div className={styles.moduleWrapper}>
-              {loadDriverStatus === LoadDriverStatus.InProgress ||
-                (createProofStatus === CreateProofStatus.InProgress && (
-                  <div className={styles.loaderBarWrapper}>
-                    <LoaderBar />
+    proofType && (
+      <>
+        <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
+          <div className={styles.driverMsg}>
+            <div className={styles.msg}>{driverMsg}</div>
+            {loadDriverStatus === LoadDriverStatus.InProgress && (
+              <LoadDriverProgress progress={loadDriverProgress} />
+            )}
+          </div>
+          <div className={cn(styles.main, { [styles.isTutorial]: isTutorial })}>
+            <div className={styles.moduleArea}>
+              <div className={styles.moduleWrapper}>
+                {loadDriverStatus === LoadDriverStatus.InProgress ||
+                  (createProofStatus === CreateProofStatus.InProgress && (
+                    <div className={styles.loaderBarWrapper}>
+                      <LoaderBar />
+                    </div>
+                  ))}
+                {loadDriverStatus === LoadDriverStatus.InProgress && (
+                  <div className={styles.overlay}>
+                    <Spinner size={32} color="#1b62c0" />
                   </div>
-                ))}
-              {loadDriverStatus === LoadDriverStatus.InProgress && (
-                <div className={styles.overlay}>
-                  <Spinner size={32} color="#1b62c0" />
-                </div>
-              )}
-              <TutorialStepper steps={[2]}>
-                <div className={styles.form}>{circuitInputsElem}</div>
-              </TutorialStepper>
-              <div className={styles.btnRow}>
-                <Button
-                  variant="blue_1"
-                  handleClick={handleClickCreateProof}
-                  className={cn(styles.createBtn, {
-                    [styles.inProgress]: createProofStatus === CreateProofStatus.InProgress,
-                  })}
-                >
-                  {i18n.create_proof.toUpperCase()}
-                </Button>
-              </div>
-              {systemMsg && (
-                <div className={styles.footer}>
-                  <div
-                    className={cn(styles.msg, {
-                      [styles.errorMsg]: createProofStatus === CreateProofStatus.Error,
+                )}
+                <TutorialStepper steps={[2]}>
+                  <div className={styles.form}>
+                    <CircuitInputs
+                      circuitInputs={proofType.circuit_inputs as CircuitInput[]}
+                      proofGenElement={proofGenElement}
+                      formValues={formValues}
+                      setFormValues={setFormValues}
+                      formErrors={formErrors}
+                      setFormErrors={setFormErrors}
+                    />
+                    {/* {circuitInputsElem} */}
+                  </div>
+                </TutorialStepper>
+                <div className={styles.btnRow}>
+                  <Button
+                    variant="blue_1"
+                    handleClick={handleClickCreateProof}
+                    className={cn(styles.createBtn, {
+                      [styles.inProgress]: createProofStatus === CreateProofStatus.InProgress,
                     })}
                   >
-                    {systemMsg}
-                  </div>
+                    {i18n.create_proof.toUpperCase()}
+                  </Button>
                 </div>
-              )}
+                {systemMsg && (
+                  <div className={styles.footer}>
+                    <div
+                      className={cn(styles.msg, {
+                        [styles.errorMsg]: createProofStatus === CreateProofStatus.Error,
+                      })}
+                    >
+                      {systemMsg}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className={styles.metaArea}>
+              <ProofTypeMeta
+                proofTypeDesc={proofType.desc}
+                proofTypeId={proofType.proof_type_id}
+                imgUrl={proofType.img_url}
+                proofTypeLabel={proofType.label}
+                proofTypeAuthor={proofType.author}
+                circuitTypeId={proofType.circuit_type_id}
+                circuitDriverId={proofType.circuit_driver_id}
+                proofTypeCreatedAt={proofType.created_at}
+              />
             </div>
           </div>
-          <div className={styles.metaArea}>
-            <ProofTypeMeta
-              proofTypeDesc={proofType.desc}
-              proofTypeId={proofType.proof_type_id}
-              imgUrl={proofType.img_url}
-              proofTypeLabel={proofType.label}
-              proofTypeAuthor={proofType.author}
-              circuitTypeId={proofType.circuit_type_id}
-              circuitDriverId={proofType.circuit_driver_id}
-              proofTypeCreatedAt={proofType.created_at}
-            />
-          </div>
         </div>
-      </div>
-    </>
+      </>
+    )
   );
 };
 
