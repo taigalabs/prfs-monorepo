@@ -19,7 +19,7 @@ const DocMasthead: React.FC<DocMastheadProps> = ({ title, titleHref }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
-    <MastheadWrapper>
+    <MastheadWrapper className={styles.wrapper}>
       <MastheadLogoArea>
         <a href={paths.__}>
           <ImageLogo width={50} />

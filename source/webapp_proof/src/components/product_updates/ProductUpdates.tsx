@@ -8,6 +8,7 @@ import { Markdown } from "@/components/markdown/Markdown";
 import DocMasthead from "../doc_masthead/DocMasthead";
 import { paths } from "@/paths";
 import { i18nContext } from "@/i18n/context";
+import { MastheadPlaceholder } from "../masthead/Masthead";
 
 const ProductUpdates = () => {
   const i18n = React.useContext(i18nContext);
@@ -15,9 +16,12 @@ const ProductUpdates = () => {
   return (
     <>
       <DocMasthead title={i18n.updates} titleHref={paths.updates} />
-      <Markdown>
-        <UpdatesMD />
-      </Markdown>
+      <MastheadPlaceholder />
+      <div className={styles.main}>
+        <Markdown>
+          <UpdatesMD />
+        </Markdown>
+      </div>
     </>
   );
 };

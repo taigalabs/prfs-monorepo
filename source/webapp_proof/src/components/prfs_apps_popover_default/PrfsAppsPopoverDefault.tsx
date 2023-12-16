@@ -1,5 +1,6 @@
 import React from "react";
 import PrfsAppsPopover from "@taigalabs/prfs-react-components/src/prfs_apps_popover/PrfsAppsPopover";
+import cn from "classnames";
 import {
   PrfsAppsPopoverLi,
   PrfsAppsPopoverUl,
@@ -12,12 +13,15 @@ import styles from "./PrfsAppsPopoverDefault.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { useUrls } from "@/hooks/useUrls";
 
-const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = () => {
+const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = ({ markIsOpen }) => {
   const i18n = React.useContext(i18nContext);
   const { tutorialUrl, accVerrificationUrl } = useUrls();
 
   return (
-    <PrfsAppsPopover tooltip={i18n.apps} isOpenClassName={styles.popoverIsOpen}>
+    <PrfsAppsPopover
+      tooltip={i18n.apps}
+      isOpenClassName={cn({ [styles.popoverIsOpen]: markIsOpen })}
+    >
       <PrfsAppsPopoverUl>
         <PrfsAppsPopoverLi>
           <a href={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
@@ -56,4 +60,6 @@ const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = () => {
 
 export default PrfsAppsPopoverDefault;
 
-export interface PrfsAppsPopoverDefaultProps {}
+export interface PrfsAppsPopoverDefaultProps {
+  markIsOpen?: boolean;
+}
