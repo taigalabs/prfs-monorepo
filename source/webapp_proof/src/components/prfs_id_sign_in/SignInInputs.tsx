@@ -11,7 +11,6 @@ import { FaRegAddressCard } from "@react-icons/all-files/fa/FaRegAddressCard";
 
 import styles from "./SignInInputs.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { hexlify } from "ethers/lib/utils";
 
 const SignInInputs: React.FC<SignInInputsProps> = ({
   signInData,

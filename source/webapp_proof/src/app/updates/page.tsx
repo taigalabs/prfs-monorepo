@@ -12,11 +12,11 @@ const UpdatesPage = () => {
   return (
     <DefaultLayout>
       <DefaultBody>
-        <div className={styles.container}>
-          <Suspense>
-            <ProductUpdates />
-          </Suspense>
-        </div>
+        {/* <div className={styles.container}> */}
+        <Suspense>
+          <ProductUpdates />
+        </Suspense>
+        {/* </div> */}
       </DefaultBody>
       <DefaultFooter>
         <DocFooter />

@@ -186,8 +186,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     setDriverMsg,
   ]);
 
-  console.log(22, colors);
-
   return (
     proofType && (
       <>

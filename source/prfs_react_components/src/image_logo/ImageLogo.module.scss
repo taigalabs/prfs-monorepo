@@ -1,4 +1,6 @@
 .wrapper {
+  display: grid;
+  place-items: center;
   position: relative;
   width: 150px;
   /* border: 1px solid blue; */

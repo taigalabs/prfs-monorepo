@@ -100,7 +100,7 @@ const Step2: React.FC<Step2Props> = ({
 
   const handleClickSignIn = React.useCallback(async () => {
     if (formData && publicKey && credential) {
-      const { payload: signInRequestPayload, error } = await prfsIdentitySignInRequest({
+      const { payload: _signInRequestPayload, error } = await prfsIdentitySignInRequest({
         identity_id: credential.id,
       });
 

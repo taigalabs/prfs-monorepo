@@ -76,6 +76,16 @@ const Step1: React.FC<Step1Props> = ({
     handleClickNext();
   }, [handleClickNext, setCredential, formData]);
 
+  const handleKeyDown = React.useCallback(
+    async (e: React.KeyboardEvent) => {
+      if (e.code === "Enter") {
+        e.preventDefault();
+        enhancedHandleClickNext();
+      }
+    },
+    [enhancedHandleClickNext],
+  );
+
   return (
     <>
       {step1Status === Step1Status.Loading && (
@@ -97,6 +107,7 @@ const Step1: React.FC<Step1Props> = ({
               placeholder={i18n.email}
               error={formErrors.email}
               handleChangeValue={handleChangeValue}
+              handleKeyDown={handleKeyDown}
             />
           </div>
           <div className={styles.inputGroup}>
@@ -106,6 +117,7 @@ const Step1: React.FC<Step1Props> = ({
               placeholder={i18n.password_1}
               error={formErrors.password_1}
               handleChangeValue={handleChangeValue}
+              handleKeyDown={handleKeyDown}
               type="password"
             />
           </div>
@@ -116,6 +128,7 @@ const Step1: React.FC<Step1Props> = ({
               placeholder={i18n.password_2}
               error={formErrors.password_2}
               handleChangeValue={handleChangeValue}
+              handleKeyDown={handleKeyDown}
               type="password"
             />
           </div>

@@ -11,12 +11,10 @@ import AccountVerification from "@/components/account_verfication/AccountVerific
 const AccountVerificationPage = () => {
   return (
     <DefaultLayout>
-      <DefaultBody noTopPadding noMinWidth>
-        <div className={styles.container}>
-          <Suspense>
-            <AccountVerification />
-          </Suspense>
-        </div>
+      <DefaultBody noMinWidth>
+        <Suspense>
+          <AccountVerification />
+        </Suspense>
       </DefaultBody>
       <DefaultFooter>
         <GlobalFooter />

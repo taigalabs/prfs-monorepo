@@ -8,6 +8,8 @@ import PrfsIdSignInButton from "@taigalabs/prfs-react-components/src/prfs_id_sig
 import PrfsCredentialPopover from "@taigalabs/prfs-react-components/src/prfs_credential_popover/PrfsCredentialPopover";
 import { PrfsIdSignInSuccessPayload, SignInData } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
+import { useMutation } from "wagmi";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 
 import styles from "./PrfsIdSignInBtn.module.scss";
 import { paths } from "@/paths";
@@ -19,6 +21,7 @@ import {
   persistPrfsProofCredential,
   removeLocalPrfsProofCredential,
 } from "@/storage/local_storage";
+import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
 
 const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   const router = useRouter();
@@ -27,6 +30,11 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   const dispatch = useAppDispatch();
   const isCredentialInitialized = useAppSelector(state => state.user.isInitialized);
   const prfsProofCredential = useAppSelector(state => state.user.prfsProofCredential);
+  const { mutateAsync: prfsSignInRequest } = useMutation({
+    mutationFn: (req: PrfsSignInRequest) => {
+      return prfsApi2("sign_in_prfs_account", req);
+    },
+  });
 
   React.useEffect(() => {
     const credential = loadLocalPrfsProofCredential();
@@ -72,12 +80,18 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
         }
 
         const credential = persistPrfsProofCredential(prfsIdSignInSuccessPayload);
+        const { payload } = await prfsSignInRequest({ account_id: credential.id });
+
+        // if (payload.error) {
+        // }
+
+        console.log(44, payload);
 
         // prfs account sign in
         dispatch(signInPrfs(credential));
       }
     },
-    [router, dispatch],
+    [router, dispatch, prfsSignInRequest],
   );
 
   const handleClickSignOut = React.useCallback(() => {
