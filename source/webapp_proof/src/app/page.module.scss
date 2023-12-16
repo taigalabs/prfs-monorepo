@@ -1,8 +1,8 @@
 .container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  /* position: relative; */
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* align-items: center; */
   flex-grow: 1;
   /* padding-top: 56px; */
 
@@ -11,7 +11,7 @@
 
 @media screen and (max-width: 1300px) {
   .container {
-    flex-direction: column;
+    /* flex-direction: column; */
     /* padding-left: calc((100% - 1150px) / 2 + 30px); */
   }
 }

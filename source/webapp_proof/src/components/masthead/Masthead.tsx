@@ -39,8 +39,17 @@ export const MastheadLogoArea: React.FC<MastheadProps> = ({ children, className 
   return <div className={cn(styles.logoArea, className)}>{children}</div>;
 };
 
-export const MastheadPlaceholder: React.FC<MastheadPlaceholderProps> = ({ className }) => {
-  return <div className={cn(styles.placeholder, className)} />;
+export const MastheadPlaceholder: React.FC<MastheadPlaceholderProps> = ({
+  className,
+  twoColumn,
+}) => {
+  return (
+    <div
+      className={cn(styles.placeholder, className, {
+        [styles.twoColumn]: twoColumn,
+      })}
+    />
+  );
 };
 
 export const MastheadMain: React.FC<MastheadProps> = ({ className, children }) => {
@@ -129,4 +138,5 @@ export interface MastheadProps {
 
 export interface MastheadPlaceholderProps {
   className?: string;
+  twoColumn?: boolean;
 }

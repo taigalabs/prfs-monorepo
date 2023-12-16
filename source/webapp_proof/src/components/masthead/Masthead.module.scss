@@ -7,7 +7,7 @@
   position: absolute;
   display: flex;
   padding: 14px 16px;
-  height: 56px;
+  height: $masthead_height_w1920;
   align-items: center;
   background-color: var(--white-100);
   z-index: 10;
@@ -20,11 +20,15 @@
 }
 
 .twoColumn {
-  height: 69px;
+  height: $masthead_two_column_height_w1920;
 }
 
 .placeholder {
-  width: 65px;
+  height: $masthead_height_w1920;
+}
+
+.placeholder.twoColumn {
+  height: $masthead_two_column_height_w1920;
 }
 
 .logoArea {
@@ -74,6 +78,22 @@
 }
 
 @media screen and (max-width: 1120px) {
+  .wrapper.twoColumn {
+    width: 100vw;
+    min-width: 360px;
+    height: $masthead_two_column_height_w1120;
+    margin-right: 0;
+    padding-top: 0px;
+    padding-left: 10px;
+    padding-right: 10px;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .placeholder.twoColumn {
+    height: $masthead_two_column_height_w1120;
+  }
+
   .logoArea {
     position: absolute;
     top: 0;
@@ -87,19 +107,6 @@
     align-items: center;
     width: auto;
     /* border: 1px solid blue; */
-  }
-
-  .twoColumn {
-    width: 100vw;
-    min-width: 360px;
-    /* height: 90px; */
-    height: $masthead_two_column_height_w1120;
-    margin-right: 0;
-    padding-top: 0px;
-    padding-left: 10px;
-    padding-right: 10px;
-    align-items: flex-start;
-    justify-content: center;
   }
 
   .rightGroup {
