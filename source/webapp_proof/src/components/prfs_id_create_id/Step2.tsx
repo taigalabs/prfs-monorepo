@@ -29,7 +29,6 @@ import {
   PrfsIdSignInModuleSubtitle,
   PrfsIdSignInModuleTitle,
 } from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
-import { paths } from "@/paths";
 
 export enum IdCreationStatus {
   StandBy,
@@ -41,6 +40,7 @@ const Step2: React.FC<Step2Props> = ({
   formData,
   handleClickPrev,
   handleClickSignIn,
+  handleGotoPostSignUpSuccess,
   credential,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -65,15 +65,13 @@ const Step2: React.FC<Step2Props> = ({
   }, [formData]);
 
   const handleClickSignUp = React.useCallback(async () => {
-    const { search } = window.location;
     const { id } = credential;
 
     if (id) {
       try {
         setStatus(IdCreationStatus.InProgress);
         const avatar_color = makeColor(id);
-        console.log(55, avatar_color);
-        const { payload, error } = await prfsIdentitySignUpRequest({
+        const { error } = await prfsIdentitySignUpRequest({
           identity_id: id,
           avatar_color,
         });
@@ -82,14 +80,20 @@ const Step2: React.FC<Step2Props> = ({
         if (error) {
           setErrorMsg(error.toString());
         } else {
-          const url = `${paths.id__signin}${search}`;
-          router.push(url);
+          handleGotoPostSignUpSuccess();
         }
       } catch (err: any) {
         setErrorMsg(err.toString());
       }
     }
-  }, [formData, router, prfsIdentitySignUpRequest, credential, setErrorMsg]);
+  }, [
+    formData,
+    router,
+    prfsIdentitySignUpRequest,
+    credential,
+    setErrorMsg,
+    handleGotoPostSignUpSuccess,
+  ]);
 
   const { email_val, password_1_val, password_2_val, secret_key_val } = React.useMemo(() => {
     if (showPassword) {
@@ -233,5 +237,6 @@ export interface Step2Props {
   formData: IdCreateForm;
   handleClickPrev: () => void;
   handleClickSignIn: () => void;
+  handleGotoPostSignUpSuccess: () => void;
   credential: PrfsIdCredential;
 }

@@ -172,7 +172,6 @@ export interface Step1Props {
   setFormData: React.Dispatch<React.SetStateAction<IdCreateForm>>;
   formErrors: IdCreateForm;
   handleClickNext: () => void;
-  handleClickPrev: () => void;
   handleClickSignIn: () => void;
   setCredential: React.Dispatch<React.SetStateAction<PrfsIdCredential | null>>;
 }

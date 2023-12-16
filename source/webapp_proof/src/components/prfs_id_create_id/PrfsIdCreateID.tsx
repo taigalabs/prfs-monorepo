@@ -21,10 +21,12 @@ import Step1 from "./Step1";
 import Step2 from "./Step2";
 import { envs } from "@/envs";
 import { PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
+import Step3 from "./Step3";
 
 enum CreateIDStep {
   InputCredential,
   CreateIdSuccess,
+  PostSignUpSuccess,
 }
 
 const PrfsIdCreateID: React.FC = () => {
@@ -52,7 +54,7 @@ const PrfsIdCreateID: React.FC = () => {
     [formData, setFormData],
   );
 
-  const handleClickNext = React.useCallback(() => {
+  const handleGotoCreateIdSuccess = React.useCallback(() => {
     const res = validateIdCreateForm(formData, setFormErrors);
 
     if (res) {
@@ -60,13 +62,17 @@ const PrfsIdCreateID: React.FC = () => {
     }
   }, [formData, setFormErrors, setStep]);
 
+  const handleGotoPostSignUpSuccess = React.useCallback(() => {
+    setStep(CreateIDStep.PostSignUpSuccess);
+  }, [setStep]);
+
   const handleClickSignIn = React.useCallback(() => {
     const { search } = window.location;
     const url = `${paths.id__signin}${search}`;
     router.push(url);
   }, [router]);
 
-  const handleClickPrev = React.useCallback(() => {
+  const handleGotoInputCredential = React.useCallback(() => {
     setStep(CreateIDStep.InputCredential);
   }, [setStep]);
 
@@ -79,8 +85,7 @@ const PrfsIdCreateID: React.FC = () => {
             setFormData={setFormData}
             formErrors={formErrors}
             handleClickSignIn={handleClickSignIn}
-            handleClickPrev={handleClickPrev}
-            handleClickNext={handleClickNext}
+            handleClickNext={handleGotoCreateIdSuccess}
             setCredential={setCredential}
           />
         );
@@ -91,16 +96,22 @@ const PrfsIdCreateID: React.FC = () => {
             <Step2
               credential={credential}
               formData={formData}
-              handleClickPrev={handleClickPrev}
+              handleClickPrev={handleGotoInputCredential}
               handleClickSignIn={handleClickSignIn}
+              handleGotoPostSignUpSuccess={handleGotoPostSignUpSuccess}
             />
           )
+        );
+      }
+      case CreateIDStep.PostSignUpSuccess: {
+        return (
+          credential && <Step3 credential={credential} handleClickSignIn={handleClickSignIn} />
         );
       }
       default:
         <div>Invalid step</div>;
     }
-  }, [step, handleClickNext, handleChangeValue, formErrors]);
+  }, [step, handleGotoInputCredential, handleGotoCreateIdSuccess, handleChangeValue, formErrors]);
 
   return (
     <PrfsIdSignInModule>
