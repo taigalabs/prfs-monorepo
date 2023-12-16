@@ -16,6 +16,7 @@ pub async fn get_prfs_account_by_account_id(
 
     let prfs_account = PrfsAccount {
         account_id: row.get("account_id"),
+        public_key: row.get("public_key"),
         avatar_color: row.get("avatar_color"),
         policy_ids: row.get("policy_ids"),
     };
