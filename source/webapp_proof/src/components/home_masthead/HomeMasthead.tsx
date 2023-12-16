@@ -21,15 +21,15 @@ const HomeMasthead: React.FC<HomeMastheadProps> = () => {
   return (
     <MastheadWrapper>
       <MastheadRightGroup>
-        <MastheadRightGroupMenu className={cn(styles.underline, styles.tutorialBtn)}>
+        <MastheadRightGroupMenu className={cn(styles.menu, styles.underline, styles.tutorialBtn)}>
           <a href={tutorialUrl}>
             <span>{i18n.tutorial}</span>
           </a>
         </MastheadRightGroupMenu>
-        <MastheadRightGroupMenu>
+        <MastheadRightGroupMenu className={styles.menu}>
           <PrfsAppsPopoverDefault />
         </MastheadRightGroupMenu>
-        <MastheadRightGroupMenu className={cn(styles.signInBtn)}>
+        <MastheadRightGroupMenu className={cn(styles.signInBtn, styles.menu)}>
           <PrfsIdSignInBtn />
         </MastheadRightGroupMenu>
       </MastheadRightGroup>
