@@ -14,11 +14,9 @@ const CreatePage = () => {
   return (
     <DefaultLayout>
       <DefaultBody>
-        {/* <div className={styles.container}> */}
         <Suspense fallback={<CreateProofFormFallback />}>
           <CreateProofForm />
         </Suspense>
-        {/* </div> */}
       </DefaultBody>
       <DefaultFooter>
         <GlobalFooter />

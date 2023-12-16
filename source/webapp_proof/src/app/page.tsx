@@ -16,14 +16,12 @@ const HomePage = () => {
   return (
     <DefaultLayout>
       <DefaultBody noMinWidth>
-        <div className={styles.container}>
-          <Suspense fallback={<HomeMastheadFallback />}>
-            <HomeMasthead />
-          </Suspense>
-          <Suspense fallback={<SearchProofTypeFormFallback />}>
-            <SearchProofTypeForm />
-          </Suspense>
-        </div>
+        <Suspense fallback={<HomeMastheadFallback />}>
+          <HomeMasthead />
+        </Suspense>
+        <Suspense fallback={<SearchProofTypeFormFallback />}>
+          <SearchProofTypeForm />
+        </Suspense>
       </DefaultBody>
       <DefaultFooter>
         <GlobalFooter />
