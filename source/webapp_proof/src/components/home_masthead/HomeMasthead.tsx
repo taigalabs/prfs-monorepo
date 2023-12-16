@@ -27,7 +27,7 @@ const HomeMasthead: React.FC<HomeMastheadProps> = () => {
           </a>
         </MastheadRightGroupMenu>
         <MastheadRightGroupMenu className={styles.menu}>
-          <PrfsAppsPopoverDefault />
+          <PrfsAppsPopoverDefault disableMarkIsOpen />
         </MastheadRightGroupMenu>
         <MastheadRightGroupMenu className={cn(styles.signInBtn, styles.menu)}>
           <PrfsIdSignInBtn />

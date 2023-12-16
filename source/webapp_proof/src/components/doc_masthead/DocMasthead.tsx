@@ -29,7 +29,7 @@ const DocMasthead: React.FC<DocMastheadProps> = ({ title, titleHref }) => {
       <MastheadMain>
         <MastheadRightGroup>
           <MastheadRightGroupMenu>
-            <PrfsAppsPopoverDefault />
+            <PrfsAppsPopoverDefault disableMarkIsOpen />
           </MastheadRightGroupMenu>
         </MastheadRightGroup>
       </MastheadMain>

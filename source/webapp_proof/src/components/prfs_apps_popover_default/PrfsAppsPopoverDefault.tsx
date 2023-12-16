@@ -13,14 +13,14 @@ import styles from "./PrfsAppsPopoverDefault.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { useUrls } from "@/hooks/useUrls";
 
-const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = ({ markIsOpen }) => {
+const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = ({ disableMarkIsOpen }) => {
   const i18n = React.useContext(i18nContext);
   const { tutorialUrl, accVerrificationUrl } = useUrls();
 
   return (
     <PrfsAppsPopover
       tooltip={i18n.apps}
-      isOpenClassName={cn({ [styles.popoverIsOpen]: markIsOpen })}
+      isOpenClassName={cn({ [styles.popoverIsOpen]: !disableMarkIsOpen })}
     >
       <PrfsAppsPopoverUl>
         <PrfsAppsPopoverLi>
@@ -61,5 +61,5 @@ const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = ({ markIsO
 export default PrfsAppsPopoverDefault;
 
 export interface PrfsAppsPopoverDefaultProps {
-  markIsOpen?: boolean;
+  disableMarkIsOpen?: boolean;
 }
