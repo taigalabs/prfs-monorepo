@@ -1,10 +1,5 @@
-"use client";
-
 import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import { idApi } from "@taigalabs/prfs-api-js";
-import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
-import { useRouter } from "next/navigation";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import { PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
 import { TbCertificate } from "@taigalabs/prfs-react-components/src/tabler_icons/TbCertificate";
@@ -12,20 +7,16 @@ import { TbCertificate } from "@taigalabs/prfs-react-components/src/tabler_icons
 import styles from "./Step3.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
-  PrfsIdSignInErrorMsg,
   PrfsIdSignInInnerPadding,
-  PrfsIdSignInInputGuide,
   PrfsIdSignInModuleBtnRow,
   PrfsIdSignInModuleHeader,
   PrfsIdSignInModuleLogoArea,
   PrfsIdSignInModuleSubtitle,
   PrfsIdSignInModuleTitle,
 } from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
-import { paths } from "@/paths";
 
 const Step3: React.FC<Step3Props> = ({ handleClickSignIn, credential }) => {
   const i18n = React.useContext(i18nContext);
-  const router = useRouter();
 
   return (
     <PrfsIdSignInInnerPadding>

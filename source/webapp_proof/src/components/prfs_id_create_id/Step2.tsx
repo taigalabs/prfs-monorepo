@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { idApi } from "@taigalabs/prfs-api-js";
