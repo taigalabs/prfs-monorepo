@@ -3,7 +3,7 @@
 import React from "react";
 import cn from "classnames";
 import { useRouter } from "next/navigation";
-import { encrypt, decrypt, PublicKey, PrivateKey } from "eciesjs";
+import { decrypt, PrivateKey } from "eciesjs";
 import PrfsIdSignInButton from "@taigalabs/prfs-react-components/src/prfs_id_sign_in_button/PrfsIdSignInButton";
 import PrfsCredentialPopover from "@taigalabs/prfs-react-components/src/prfs_credential_popover/PrfsCredentialPopover";
 import { PrfsIdSignInSuccessPayload, SignInData } from "@taigalabs/prfs-id-sdk-web";
@@ -19,7 +19,6 @@ import {
   persistPrfsProofCredential,
   removeLocalPrfsProofCredential,
 } from "@/storage/local_storage";
-import { makeColor } from "@taigalabs/prfs-crypto-js";
 
 const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   const router = useRouter();
@@ -73,6 +72,8 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
         }
 
         const credential = persistPrfsProofCredential(prfsIdSignInSuccessPayload);
+
+        // prfs account sign in
         dispatch(signInPrfs(credential));
       }
     },
@@ -91,9 +92,6 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   if (!isCredentialInitialized) {
     return <Spinner size={24} color="#5c5c5c" />;
   }
-
-  const a = parseInt("0xda6870ea13b66dd273c084e0fba28a68de597986", 16);
-  console.log(22, a % 360);
 
   return prfsProofCredential ? (
     <PrfsCredentialPopover

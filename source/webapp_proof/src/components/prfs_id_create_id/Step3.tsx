@@ -6,7 +6,7 @@ import { idApi } from "@taigalabs/prfs-api-js";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { useRouter } from "next/navigation";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
-import { PrfsIdCredential, makeColor } from "@taigalabs/prfs-crypto-js";
+import { PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
 import { TbCertificate } from "@taigalabs/prfs-react-components/src/tabler_icons/TbCertificate";
 
 import styles from "./Step3.module.scss";

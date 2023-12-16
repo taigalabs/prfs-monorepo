@@ -52,6 +52,8 @@ const PrfsCredentialPopover: React.FC<PrfsCredentialPopoverProps> = ({
     }
   }, [credential, setPrintable]);
 
+  console.log(22, credential);
+
   return (
     printable && (
       <>
