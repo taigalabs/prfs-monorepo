@@ -1,3 +1,5 @@
+@import "styles/layouts.module.scss";
+
 .wrapper {
   top: 0;
   left: 0;
@@ -90,7 +92,8 @@
   .twoColumn {
     width: 100vw;
     min-width: 360px;
-    height: 90px;
+    /* height: 90px; */
+    height: $masthead_two_column_height_w1120;
     margin-right: 0;
     padding-top: 0px;
     padding-left: 10px;
