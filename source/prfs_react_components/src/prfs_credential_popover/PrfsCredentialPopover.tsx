@@ -67,7 +67,7 @@ const PrfsCredentialPopover: React.FC<PrfsCredentialPopoverProps> = ({
           {...getReferenceProps()}
         >
           <button style={{ backgroundColor: printable.avatarColor }}>
-            <span>{printable.label}</span>
+            <span className={styles.id}>{printable.label}</span>
           </button>
         </div>
         {isOpen && (
