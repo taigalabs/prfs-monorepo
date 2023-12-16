@@ -148,7 +148,7 @@ const en = {
   create_an_identity: "Create an identity",
   sign_up_success: "Sign up success",
   check_your_credential: "Check your credential and finish id creation",
-  sign_in_with_your_id: "Try sign in with your new identity",
+  sign_in_with_your_id: "Try signing in with your new identity",
   create_a_strong_password:
     "Create a strong password with a mix of upper/lower case lettters, numbers, and symbols. Each password has to be 15-character or longer. Your ID will be auto-generated based on your password",
   why_we_ask_for_email: "Why we ask for email address",

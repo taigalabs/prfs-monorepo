@@ -6,18 +6,10 @@ import { idApi } from "@taigalabs/prfs-api-js";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { useRouter } from "next/navigation";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
-import cn from "classnames";
-import { IoMdEye } from "@react-icons/all-files/io/IoMdEye";
-import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
-import copy from "copy-to-clipboard";
 import { PrfsIdCredential, makeColor } from "@taigalabs/prfs-crypto-js";
-import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
-import { IdCreateForm } from "@/functions/validate_id";
-import Link from "next/link";
-import { useMutation } from "wagmi";
-import { PrfsIdentitySignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignUpRequest";
+import { TbCertificate } from "@taigalabs/prfs-react-components/src/tabler_icons/TbCertificate";
 
-import styles from "./Step2.module.scss";
+import styles from "./Step3.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   PrfsIdSignInErrorMsg,
@@ -44,17 +36,22 @@ const Step3: React.FC<Step3Props> = ({ handleClickSignIn, credential }) => {
             <PrfsIdSignInModuleTitle>{i18n.sign_up_success}</PrfsIdSignInModuleTitle>
             <PrfsIdSignInModuleSubtitle>{i18n.sign_in_with_your_id}</PrfsIdSignInModuleSubtitle>
           </PrfsIdSignInModuleHeader>
-          <div>123</div>
+          <div className={styles.main}>
+            <div className={styles.img}>
+              <TbCertificate />
+            </div>
+            <div className={styles.prfsId}>{credential.id}</div>
+          </div>
           <PrfsIdSignInModuleBtnRow className={styles.btnRow}>
             <div />
             <Button
               type="button"
-              variant="transparent_blue_2"
+              variant="blue_2"
               noTransition
               handleClick={handleClickSignIn}
               noShadow
             >
-              {i18n.already_have_id}
+              {i18n.sign_in}
             </Button>
           </PrfsIdSignInModuleBtnRow>
         </Fade>
