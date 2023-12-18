@@ -1,5 +1,5 @@
 export type PrfsApiResponse<P> = {
-  code: string;
+  code: number;
   error?: any | FetchError;
   payload: P | null;
 };

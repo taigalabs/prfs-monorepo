@@ -9,7 +9,8 @@ import PrfsCredentialPopover from "@taigalabs/prfs-react-components/src/prfs_cre
 import { PrfsIdSignInSuccessPayload, SignInData } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { useMutation } from "wagmi";
-import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import { prfs_api_error_codes, prfsApi2 } from "@taigalabs/prfs-api-js";
+import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
 
 import styles from "./PrfsIdSignInBtn.module.scss";
 import { paths } from "@/paths";
@@ -18,10 +19,12 @@ import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { signInPrfs, signOutPrfs } from "@/state/userReducer";
 import {
   loadLocalPrfsProofCredential,
+  LocalPrfsProofCredential,
   persistPrfsProofCredential,
   removeLocalPrfsProofCredential,
 } from "@/storage/local_storage";
-import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
+import SignUpModal from "@/components/sign_up_modal/SignUpModal";
+import { makeColor } from "@taigalabs/prfs-crypto-js";
 
 const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   const router = useRouter();
@@ -35,6 +38,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
       return prfsApi2("sign_in_prfs_account", req);
     },
   });
+  const [signUpData, setSignUpData] = React.useState<PrfsIdSignInSuccessPayload | null>(null);
 
   React.useEffect(() => {
     const credential = loadLocalPrfsProofCredential();
@@ -79,19 +83,27 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
           return;
         }
 
-        const credential = persistPrfsProofCredential(prfsIdSignInSuccessPayload);
-        const { payload, error, code } = await prfsSignInRequest({ account_id: credential.id });
+        const { payload, error, code } = await prfsSignInRequest({
+          account_id: prfsIdSignInSuccessPayload.id,
+        });
 
         if (error) {
+          console.error(error);
+
+          if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
+            console.log(11);
+            setSignUpData(prfsIdSignInSuccessPayload);
+          }
+          return;
         }
 
-        console.log(44, payload);
+        const credential = persistPrfsProofCredential(prfsIdSignInSuccessPayload);
 
         // prfs account sign in
         dispatch(signInPrfs(credential));
       }
     },
-    [router, dispatch, prfsSignInRequest],
+    [router, dispatch, prfsSignInRequest, setSignUpData],
   );
 
   const handleClickSignOut = React.useCallback(() => {
@@ -114,10 +126,13 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
       handleClickSignOut={handleClickSignOut}
     />
   ) : (
-    <PrfsIdSignInButton
-      prfsIdSignInEndpoint={prfsIdSignInEndpoint}
-      handleSucceedSignIn={handleSucceedSignIn}
-    />
+    <>
+      {signUpData && <SignUpModal signUpData={signUpData} />}
+      <PrfsIdSignInButton
+        prfsIdSignInEndpoint={prfsIdSignInEndpoint}
+        handleSucceedSignIn={handleSucceedSignIn}
+      />
+    </>
   );
 };
 

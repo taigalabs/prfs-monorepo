@@ -1,3 +1,4 @@
+import prfs_api_error_codes from "@taigalabs/prfs-api-server/data_api/error_codes.json";
 import { PrfsSignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignUpRequest";
 import { PrfsSignUpResponse } from "@taigalabs/prfs-entities/bindings/PrfsSignUpResponse";
 import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
@@ -251,3 +252,5 @@ export async function prfsApi2<T extends RequestName>(
     PRFS_API_SERVER_ENDPOINT,
   );
 }
+
+export { prfs_api_error_codes };

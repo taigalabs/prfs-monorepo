@@ -19,6 +19,7 @@
     "@taigalabs/prfs-driver-interface": "*",
     "@taigalabs/prfs-driver-spartan-js": "*",
     "@taigalabs/prfs-entities": "*",
+    "@taigalabs/prfs-api-server": "*",
     "classnames": "^2.3.2",
     "ethers": "^5",
     "json-bigint": "^1.0.0"
