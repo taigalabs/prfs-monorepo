@@ -33,6 +33,7 @@ import { i18nContext } from "@/i18n/context";
 const SignUpModal: React.FC<SignUpModalProps> = ({ signUpData }) => {
   const router = useRouter();
   const i18n = React.useContext(i18nContext);
+  const dispatch = useAppDispatch();
   const { mutateAsync: prfsSignUpRequest } = useMutation({
     mutationFn: (req: PrfsSignUpRequest) => {
       return prfsApi2("sign_in_prfs_account", req);
@@ -54,13 +55,18 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ signUpData }) => {
     }
 
     persistPrfsProofCredential(credential);
+    dispatch(signInPrfs(credential));
+    router.push(paths.__);
+    // window.location.reload();
   }, [router, signUpData, prfsSignUpRequest]);
 
   return (
     <Modal>
-      <h2>Delete balloon</h2>
-      <p>This action cannot be undone.</p>
-      <button onClick={handleClickSignUp}>{i18n.sign_up}</button>
+      <div className={styles.wrapper}>
+        <h2>Delete balloon</h2>
+        <p>This action cannot be undone.</p>
+        <button onClick={handleClickSignUp}>{i18n.sign_up}</button>
+      </div>
     </Modal>
   );
 };

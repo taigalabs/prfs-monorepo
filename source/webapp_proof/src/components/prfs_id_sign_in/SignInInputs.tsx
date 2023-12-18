@@ -12,8 +12,13 @@ import { FaRegAddressCard } from "@react-icons/all-files/fa/FaRegAddressCard";
 import styles from "./SignInInputs.module.scss";
 import { i18nContext } from "@/i18n/context";
 
+export interface PrfsSignInData {
+  account_id: string;
+  public_key: string;
+}
+
 const SignInInputs: React.FC<SignInInputsProps> = ({
-  signInData,
+  signInDataMeta,
   credential,
   appId,
   setSignInData,
@@ -24,7 +29,7 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
   React.useEffect(() => {
     async function fn() {
       let el = [];
-      for (const d of signInData) {
+      for (const d of signInDataMeta) {
         if (d === SignInData.ID_POSEIDON) {
           const sig = await prfsSign(credential.secret_key, appId);
           const sigBytes = sig.toCompactRawBytes();
@@ -32,7 +37,7 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
 
           const { id, public_key } = await makeECCredential(sigHash);
           setSignInData({
-            id,
+            account_id: id,
             public_key,
           });
 
@@ -64,7 +69,7 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
     }
 
     fn().then();
-  }, [signInData, setElems]);
+  }, [signInDataMeta, setElems]);
 
   return (
     <>
@@ -76,8 +81,8 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
 export default SignInInputs;
 
 export interface SignInInputsProps {
-  signInData: string[];
+  signInDataMeta: string[];
   credential: PrfsIdCredential;
   appId: string;
-  setSignInData: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  setSignInData: React.Dispatch<React.SetStateAction<PrfsSignInData | null>>;
 }
