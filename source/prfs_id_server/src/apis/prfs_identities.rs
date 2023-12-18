@@ -16,6 +16,10 @@ use prfs_entities::{
 };
 use std::sync::Arc;
 
+use crate::response::IdApiHandleError;
+
+// use crate::response::ResponseCode;
+
 pub async fn sign_up_prfs_identity(
     req: Request<Incoming>,
     state: Arc<ServerState>,
@@ -28,14 +32,17 @@ pub async fn sign_up_prfs_identity(
         avatar_color: req.avatar_color.to_string(),
     };
 
-    let identity_id = match db_apis::insert_prfs_identity(&mut tx, &prfs_identity).await {
-        Ok(i) => i,
-        Err(_err) => {
-            let resp =
-                ApiResponse::new_error(format!("Account may exist, id: {}", req.identity_id));
-            return Ok(resp.into_hyper_response());
-        }
-    };
+    let identity_id = db_apis::insert_prfs_identity(&mut tx, &prfs_identity)
+        .await
+        .map_err(|e| IdApiHandleError::ID_ALREADY_EXISTS)?;
+    // {
+    //     Ok(i) => i,
+    //     Err(_err) => {
+    //         let resp =
+    //             ApiResponse::new_error(format!("Account may exist, id: {}", req.identity_id));
+    //         return Ok(resp.into_hyper_response());
+    //     }
+    // };
 
     tx.commit().await.unwrap();
 
@@ -46,22 +53,22 @@ pub async fn sign_up_prfs_identity(
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn sign_in_prfs_identity(
-    req: Request<Incoming>,
-    state: Arc<ServerState>,
-) -> ApiHandlerResult {
-    let req: PrfsIdentitySignInRequest = parse_req(req).await;
-    let pool = &state.db2.pool;
-    let prfs_identity = match db_apis::get_prfs_identity_by_id(pool, &req.identity_id).await {
-        Ok(v) => v,
-        Err(_err) => {
-            let resp =
-                ApiResponse::new_error(format!("Account isn't found, id: {}", req.identity_id));
-            return Ok(resp.into_hyper_response());
-        }
-    };
+// pub async fn sign_in_prfs_identity(
+//     req: Request<Incoming>,
+//     state: Arc<ServerState>,
+// ) -> ApiHandlerResult {
+//     let req: PrfsIdentitySignInRequest = parse_req(req).await;
+//     let pool = &state.db2.pool;
+//     let prfs_identity = match db_apis::get_prfs_identity_by_id(pool, &req.identity_id).await {
+//         Ok(v) => v,
+//         Err(_err) => {
+//             let resp =
+//                 ApiResponse::new_error(format!("Account isn't found, id: {}", req.identity_id));
+//             return Ok(resp.into_hyper_response());
+//         }
+//     };
 
-    let resp = ApiResponse::new_success(PrfsIdentitySignInResponse { prfs_identity });
+//     let resp = ApiResponse::new_success(PrfsIdentitySignInResponse { prfs_identity });
 
-    return Ok(resp.into_hyper_response());
-}
+//     return Ok(resp.into_hyper_response());
+// }

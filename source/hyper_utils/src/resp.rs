@@ -1,27 +1,53 @@
+use std::fmt::Display;
+
 use hyper::{header, Response, StatusCode};
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
 
 use crate::io::{full, BytesBoxBody};
 
-#[derive(Serialize, Deserialize, Debug)]
-pub enum ResponseCode {
-    SUCCESS,
-    ERROR,
+// pub trait ApiError {
+//     fn code(&self) -> u32;
+//     fn msg(&self) -> String;
+// }
+//
+// pub trait ApiErrorParse {
+//     fn code(&self) -> u32;
+//     fn msg(&self) -> String;
+// }
+//
+impl std::error::Error for ApiHandleError {}
+
+impl std::fmt::Display for ApiHandleError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        std::fmt::Debug::fmt(&self.code, f)
+    }
 }
+
+#[derive(Debug)]
+pub struct ApiHandleError {
+    pub code: u32,
+    pub msg: &'static str,
+}
+
+// #[derive(Serialize, Deserialize, Debug)]
+// pub enum ResponseCode {
+//     SUCCESS,
+//     ERROR,
+// }
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
-pub struct ApiResponse<T> {
-    pub code: ResponseCode,
+pub struct ApiResponse<P> {
+    pub code: u32,
     pub error: Option<String>,
-    pub payload: Option<T>,
+    pub payload: Option<P>,
 }
 
-impl<T: Serialize + DeserializeOwned> ApiResponse<T> {
-    pub fn new_success(payload: T) -> ApiResponse<T> {
+impl<P: Serialize + DeserializeOwned> ApiResponse<P> {
+    pub fn new_success(payload: P) -> ApiResponse<P> {
         ApiResponse {
-            code: ResponseCode::SUCCESS,
-            error: None,
+            code: 200000,
+            error: Some("Success".to_string()),
             payload: Some(payload),
         }
     }
@@ -48,11 +74,11 @@ impl<T: Serialize + DeserializeOwned> ApiResponse<T> {
     }
 }
 
-impl ApiResponse<String> {
-    pub fn new_error(err: String) -> ApiResponse<String> {
+impl<P: Serialize + DeserializeOwned> ApiResponse<P> {
+    pub fn new_error(err: ApiHandleError) -> ApiResponse<P> {
         ApiResponse {
-            code: ResponseCode::ERROR,
-            error: Some(err),
+            code: err.code,
+            error: Some(err.msg.to_string()),
             payload: None,
         }
     }

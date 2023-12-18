@@ -1,7 +1,7 @@
 use hyper::body::Incoming;
 use hyper::{Request, Response};
 use hyper_utils::io::{parse_req, ApiHandlerResult, BytesBoxBody};
-use hyper_utils::resp::ApiResponse;
+use hyper_utils::resp::{ApiHandleError, ApiResponse};
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::db_apis;
 use prfs_entities::{
@@ -10,6 +10,8 @@ use prfs_entities::{
     sqlx::types::Json,
 };
 use std::sync::Arc;
+
+use crate::response_code::PrfsApiHandleError;
 
 pub async fn sign_up_prfs_account(
     req: Request<Incoming>,
@@ -25,13 +27,16 @@ pub async fn sign_up_prfs_account(
         policy_ids: Json::from(vec![]),
     };
 
-    let account_id = match db_apis::insert_prfs_account(&mut tx, &prfs_account).await {
-        Ok(i) => i,
-        Err(_err) => {
-            let resp = ApiResponse::new_error(format!("Account may exist, id: {}", req.account_id));
-            return Ok(resp.into_hyper_response());
-        }
-    };
+    let account_id = db_apis::insert_prfs_account(&mut tx, &prfs_account)
+        .await
+        .map_err(|e| PrfsApiHandleError::SUCCESS)?;
+    //     {
+    //     Ok(i) => i,
+    //     Err(_err) => {
+    //         let resp = ApiResponse::new_error(format!("Account may exist, id: {}", req.account_id));
+    //         return Ok(resp.into_hyper_response());
+    //     }
+    // };
 
     tx.commit().await.unwrap();
 
@@ -48,9 +53,13 @@ pub async fn sign_in_prfs_account(
 ) -> ApiHandlerResult {
     let req: PrfsSignInRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let prfs_account = db_apis::get_prfs_account_by_account_id(pool, &req.account_id)
-        .await
-        .unwrap();
+    let prfs_account = match db_apis::get_prfs_account_by_account_id(pool, &req.account_id).await {
+        Ok(v) => v,
+        Err(err) => {
+            let resp = ApiResponse::new_error(format!("Account may exist, id: {}", req.account_id));
+            return Ok(resp.into_hyper_response());
+        }
+    };
 
     let resp = ApiResponse::new_success(PrfsSignInResponse { prfs_account });
 
