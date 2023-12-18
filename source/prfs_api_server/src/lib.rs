@@ -1,7 +1,7 @@
 mod apis;
 pub mod envs;
+pub mod error_codes;
 pub mod paths;
-pub mod response_code;
 pub mod seed;
 pub mod server;
 

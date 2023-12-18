@@ -1,7 +1,7 @@
 use hyper::body::Incoming;
-use hyper::{Request, Response};
-use hyper_utils::io::{parse_req, ApiHandlerResult, BytesBoxBody};
-use hyper_utils::resp::{ApiHandleError, ApiResponse};
+use hyper::Request;
+use hyper_utils::io::{parse_req, ApiHandlerResult};
+use hyper_utils::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::db_apis;
 use prfs_entities::{
@@ -11,7 +11,7 @@ use prfs_entities::{
 };
 use std::sync::Arc;
 
-use crate::response_code::PrfsApiHandleError;
+use crate::error_codes::PrfsApiHandleErrorCode;
 
 pub async fn sign_up_prfs_account(
     req: Request<Incoming>,
@@ -29,7 +29,9 @@ pub async fn sign_up_prfs_account(
 
     let account_id = db_apis::insert_prfs_account(&mut tx, &prfs_account)
         .await
-        .map_err(|e| PrfsApiHandleError::SUCCESS)?;
+        .map_err(|_err| {
+            hyper_utils::ApiHandleError(PrfsApiHandleErrorCode::USER_EXISTS, req.account_id.into())
+        })?;
     //     {
     //     Ok(i) => i,
     //     Err(_err) => {
@@ -53,13 +55,21 @@ pub async fn sign_in_prfs_account(
 ) -> ApiHandlerResult {
     let req: PrfsSignInRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let prfs_account = match db_apis::get_prfs_account_by_account_id(pool, &req.account_id).await {
-        Ok(v) => v,
-        Err(err) => {
-            let resp = ApiResponse::new_error(format!("Account may exist, id: {}", req.account_id));
-            return Ok(resp.into_hyper_response());
-        }
-    };
+    let prfs_account = db_apis::get_prfs_account_by_account_id(pool, &req.account_id)
+        .await
+        .map_err(|_err| {
+            hyper_utils::ApiHandleError(
+                PrfsApiHandleErrorCode::CANNOT_FIND_USER,
+                req.account_id.into(),
+            )
+        })?;
+    // {
+    //     Ok(v) => v,
+    //     Err(err) => {
+    //         let resp = ApiResponse::new_error(format!("Account may exist, id: {}", req.account_id));
+    //         return Ok(resp.into_hyper_response());
+    //     }
+    // };
 
     let resp = ApiResponse::new_success(PrfsSignInResponse { prfs_account });
 

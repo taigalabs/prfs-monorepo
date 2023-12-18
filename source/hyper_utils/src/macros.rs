@@ -1,10 +1,10 @@
 #[macro_export]
-macro_rules! generate_api_error {
+macro_rules! generate_api_error_codes {
     (
         $struct: ident,
         $(
             $(#[$docs:meta])*
-            ($code:expr, $konst:ident, $msg:expr);
+            ($code:expr, $konst:ident, $phrase:expr);
         )+
     ) => {
         pub struct $struct;
@@ -12,9 +12,9 @@ macro_rules! generate_api_error {
         impl $struct {
         $(
             $(#[$docs])*
-            pub const $konst: ApiHandleError = ApiHandleError {
+            pub const $konst: ApiHandleErrorCode = ApiHandleErrorCode {
                 code: $code,
-                msg: $msg,
+                phrase: $phrase,
             };
         )+
         }

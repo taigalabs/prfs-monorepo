@@ -2,6 +2,7 @@ use hyper::{body::Incoming, Request, Response};
 use hyper_utils::{
     io::{parse_req, ApiHandlerResult, BytesBoxBody},
     resp::ApiResponse,
+    ApiHandleError,
 };
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::db_apis;
@@ -18,6 +19,8 @@ use prfs_entities::{
 use prfs_tree_maker::tree_maker_apis;
 use rust_decimal::Decimal;
 use std::{convert::Infallible, sync::Arc};
+
+use crate::error_codes::PrfsApiHandleErrorCode;
 
 pub async fn get_prfs_sets(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
     let req: GetPrfsSetsRequest = parse_req(req).await;
@@ -139,8 +142,12 @@ pub async fn compute_prfs_set_merkle_root(
     println!("prfs_account: {:?}", prfs_account);
 
     if !prfs_account.policy_ids.contains(&required_policy) {
-        let resp = ApiResponse::new_error("no policy attached".to_string());
-        return Ok(resp.into_hyper_response());
+        return Err(ApiHandleError(
+            PrfsApiHandleErrorCode::NO_POLICY_ATTACHED,
+            required_policy.into(),
+        ));
+        // let resp = ApiResponse::new_error("no policy attached".to_string());
+        // return Ok(resp.into_hyper_response());
     }
 
     let mut prfs_set = db_apis::get_prfs_set_by_set_id(pool, &req.set_id)

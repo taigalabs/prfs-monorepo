@@ -1,33 +1,12 @@
-use std::fmt::Display;
-
 use hyper::{header, Response, StatusCode};
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
 
-use crate::io::{full, BytesBoxBody};
+use crate::{
+    error::ApiHandleError,
+    io::{full, BytesBoxBody},
+};
 
-// pub trait ApiError {
-//     fn code(&self) -> u32;
-//     fn msg(&self) -> String;
-// }
-//
-// pub trait ApiErrorParse {
-//     fn code(&self) -> u32;
-//     fn msg(&self) -> String;
-// }
-//
-impl std::error::Error for ApiHandleError {}
-
-impl std::fmt::Display for ApiHandleError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        std::fmt::Debug::fmt(&self.code, f)
-    }
-}
-
-#[derive(Debug)]
-pub struct ApiHandleError {
-    pub code: u32,
-    pub msg: &'static str,
-}
+// impl std::error::Error for ApiHandleErrorCode {}
 
 // #[derive(Serialize, Deserialize, Debug)]
 // pub enum ResponseCode {
@@ -76,9 +55,11 @@ impl<P: Serialize + DeserializeOwned> ApiResponse<P> {
 
 impl<P: Serialize + DeserializeOwned> ApiResponse<P> {
     pub fn new_error(err: ApiHandleError) -> ApiResponse<P> {
+        let error = format!("{}, err: {}", err.0.phrase, err.1);
+
         ApiResponse {
-            code: err.code,
-            error: Some(err.msg.to_string()),
+            code: err.0.code,
+            error: Some(error),
             payload: None,
         }
     }

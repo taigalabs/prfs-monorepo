@@ -4,7 +4,7 @@ use hyper::{Request, Response};
 use serde::de::DeserializeOwned;
 use std::fmt::Debug;
 
-use crate::resp::ApiHandleError;
+use crate::error::ApiHandleError;
 
 pub type BytesBoxBody = http_body_util::combinators::BoxBody<Bytes, hyper::Error>;
 pub type ApiHandlerResult = Result<Response<BytesBoxBody>, ApiHandleError>;

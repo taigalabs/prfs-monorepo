@@ -1,7 +1,9 @@
 use hyper::{Response, StatusCode};
 
-use crate::io::{full, BytesBoxBody};
-use crate::resp::ApiHandleError;
+use crate::{
+    error::ApiHandleError,
+    io::{full, BytesBoxBody},
+};
 
 pub fn handle_cors() -> Result<Response<BytesBoxBody>, ApiHandleError> {
     let resp = Response::builder()
