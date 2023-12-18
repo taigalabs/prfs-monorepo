@@ -1,6 +1,7 @@
 use colored::Colorize;
 use prfs_api_server::envs::ENVS;
 use prfs_api_server::paths::PATHS;
+use prfs_api_server::response_code::a;
 use prfs_api_server::server::router;
 use prfs_api_server::server::server::make_server;
 use prfs_api_server::server::state::init_server_state;
@@ -22,6 +23,8 @@ async fn main() -> Result<(), ApiServerError> {
     );
 
     ENVS.check();
+
+    a();
 
     let server_state = {
         let s = init_server_state().await.unwrap();

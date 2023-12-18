@@ -1,22 +1,34 @@
+use lazy_static::lazy_static;
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
+use std::fmt;
 
-pub fn a() {
-    let mut b = native_json::json! {
-        name: "native json",
-        style: {
-            color: "red",
-            size: 12,
-            bold: true,
-            range: null
-        },
-        array: [5,4,3,2,1],
-        vector: vec![1,2,3,4,5],
-        hashmap: HashMap::from([ ("a", 1), ("b", 2), ("c", 3) ]),
-        students: [
-            {name: "John", age: 18},
-            {name: "Jack", age: 21},
-        ],
-    };
-    println!("json: {:?}", b);
+#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub struct ResponseCode(u32);
+
+impl fmt::Debug for ResponseCode {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        fmt::Debug::fmt(&self.0, f)
+    }
+}
+
+macro_rules! generate_response_codes {
+    (
+        $(
+            $(#[$docs:meta])*
+            ($num:expr, $konst:ident, $phrase:expr);
+        )+
+    ) => {
+        impl ResponseCode {
+        $(
+            $(#[$docs])*
+            pub const $konst: ResponseCode = ResponseCode($num);
+        )+
+
+        }
+    }
+}
+
+generate_response_codes! {
+    (200, SUCCESS, "Success");
+    (4000001, CANNOT_FIND_USER, "Can't find a user");
 }
