@@ -105,7 +105,8 @@ const Step2: React.FC<Step2Props> = ({
       });
 
       if (error) {
-        setErrorMsg(error);
+        console.log(111, error);
+        // setErrorMsg(error);
         return;
       }
 

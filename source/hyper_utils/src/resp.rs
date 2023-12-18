@@ -6,16 +6,9 @@ use crate::{
     io::{full, BytesBoxBody},
 };
 
-// impl std::error::Error for ApiHandleErrorCode {}
-
-// #[derive(Serialize, Deserialize, Debug)]
-// pub enum ResponseCode {
-//     SUCCESS,
-//     ERROR,
-// }
+pub const API_HANDLE_SUCCESS_CODE: u32 = 2_000_000;
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "camelCase")]
 pub struct ApiResponse<P> {
     pub code: u32,
     pub error: Option<String>,
@@ -25,8 +18,8 @@ pub struct ApiResponse<P> {
 impl<P: Serialize + DeserializeOwned> ApiResponse<P> {
     pub fn new_success(payload: P) -> ApiResponse<P> {
         ApiResponse {
-            code: 200000,
-            error: Some("Success".to_string()),
+            code: API_HANDLE_SUCCESS_CODE,
+            error: None,
             payload: Some(payload),
         }
     }
@@ -53,12 +46,12 @@ impl<P: Serialize + DeserializeOwned> ApiResponse<P> {
     }
 }
 
-impl<P: Serialize + DeserializeOwned> ApiResponse<P> {
-    pub fn new_error(err: ApiHandleError) -> ApiResponse<P> {
-        let error = format!("{}, err: {}", err.0.phrase, err.1);
+impl ApiResponse<usize> {
+    pub fn new_error(err: ApiHandleError) -> ApiResponse<usize> {
+        let error = format!("{}, err: {}", err.error_code.phrase, err.err);
 
         ApiResponse {
-            code: err.0.code,
+            code: err.error_code.code,
             error: Some(error),
             payload: None,
         }

@@ -20,7 +20,7 @@ use prfs_tree_maker::tree_maker_apis;
 use rust_decimal::Decimal;
 use std::{convert::Infallible, sync::Arc};
 
-use crate::error_codes::PrfsApiHandleErrorCode;
+use crate::error_codes::API_ERROR_CODES;
 
 pub async fn get_prfs_sets(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
     let req: GetPrfsSetsRequest = parse_req(req).await;
@@ -142,8 +142,8 @@ pub async fn compute_prfs_set_merkle_root(
     println!("prfs_account: {:?}", prfs_account);
 
     if !prfs_account.policy_ids.contains(&required_policy) {
-        return Err(ApiHandleError(
-            PrfsApiHandleErrorCode::NO_POLICY_ATTACHED,
+        return Err(ApiHandleError::from(
+            &API_ERROR_CODES.NO_POLICY_ATTACHED,
             required_policy.into(),
         ));
         // let resp = ApiResponse::new_error("no policy attached".to_string());

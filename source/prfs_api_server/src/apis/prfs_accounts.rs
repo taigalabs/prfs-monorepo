@@ -11,7 +11,7 @@ use prfs_entities::{
 };
 use std::sync::Arc;
 
-use crate::error_codes::PrfsApiHandleErrorCode;
+use crate::error_codes::API_ERROR_CODES;
 
 pub async fn sign_up_prfs_account(
     req: Request<Incoming>,
@@ -30,7 +30,10 @@ pub async fn sign_up_prfs_account(
     let account_id = db_apis::insert_prfs_account(&mut tx, &prfs_account)
         .await
         .map_err(|_err| {
-            hyper_utils::ApiHandleError(PrfsApiHandleErrorCode::USER_EXISTS, req.account_id.into())
+            hyper_utils::ApiHandleError::from(
+                &API_ERROR_CODES.USER_ALREADY_EXISTS,
+                req.account_id.into(),
+            )
         })?;
     //     {
     //     Ok(i) => i,
@@ -58,8 +61,8 @@ pub async fn sign_in_prfs_account(
     let prfs_account = db_apis::get_prfs_account_by_account_id(pool, &req.account_id)
         .await
         .map_err(|_err| {
-            hyper_utils::ApiHandleError(
-                PrfsApiHandleErrorCode::CANNOT_FIND_USER,
+            hyper_utils::ApiHandleError::from(
+                &API_ERROR_CODES.CANNOT_FIND_USER,
                 req.account_id.into(),
             )
         })?;

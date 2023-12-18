@@ -1,0 +1,18 @@
+{
+  "UNKNOWN_ERROR": {
+    "code": 4000000,
+    "phrase": "Unknown error"
+  },
+  "CANNOT_FIND_USER": {
+    "code": 4000001,
+    "phrase": "Can't find a user"
+  },
+  "USER_ALREADY_EXISTS": {
+    "code": 4000002,
+    "phrase": "User already exists"
+  },
+  "NO_POLICY_ATTACHED": {
+    "code": 4000003,
+    "phrase": "User has no policy attached"
+  }
+}
