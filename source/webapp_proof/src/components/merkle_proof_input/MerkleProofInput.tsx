@@ -108,7 +108,9 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
           set_id: circuitInput.ref_value,
         });
 
-        setPrfsSet(payload.prfs_set);
+        if (payload) {
+          setPrfsSet(payload.prfs_set);
+        }
       } else {
         console.error("Prfs set not found");
       }
@@ -154,10 +156,14 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
       const { set_id, merkle_root } = prfsSet;
 
       try {
-        const { payload } = await GetPrfsTreeLeafIndices({
+        const { payload, error } = await GetPrfsTreeLeafIndices({
           set_id,
           leaf_vals: [addr],
         });
+
+        if (payload === null) {
+          throw new Error(error);
+        }
 
         let pos_w = null;
         // console.log("nodes", payload.prfs_tree_nodes);
@@ -186,6 +192,10 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
           set_id,
           pos: siblingPos,
         });
+
+        if (siblingNodesData.payload === null) {
+          throw new Error(siblingNodesData.error);
+        }
 
         let siblings: BigInt[] = [];
         for (const node of siblingNodesData.payload.prfs_tree_nodes) {

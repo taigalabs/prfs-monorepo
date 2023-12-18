@@ -39,7 +39,7 @@ const ProofGen: React.FC<ProofGenProps> = () => {
             proof_type_id: proofTypeId,
           });
 
-          if (payload.prfs_proof_type) {
+          if (payload && payload.prfs_proof_type) {
             const proof_type = payload.prfs_proof_type;
             const docHeight = calcFormHeight(proof_type.circuit_inputs as CircuitInput[]);
 

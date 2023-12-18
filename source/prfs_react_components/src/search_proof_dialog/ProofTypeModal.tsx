@@ -116,6 +116,7 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({
           >
             {items.map(virtualRow => {
               const isLoaderRow = virtualRow.index > allRows.length - 1;
+              const proofType = allRows[virtualRow.index];
 
               return (
                 <div
@@ -131,19 +132,17 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({
                   data-index={virtualRow.index}
                   ref={rowVirtualizer.measureElement}
                 >
-                  {isLoaderRow ? (
-                    hasNextPage ? (
-                      "Loading more..."
-                    ) : (
-                      "Nothing more to load"
-                    )
-                  ) : (
-                    <Row
-                      proofType={allRows[virtualRow.index]}
-                      handleSelectVal={handleSelectVal}
-                      webappConsoleEndpoint={webappConsoleEndpoint}
-                    />
-                  )}
+                  {isLoaderRow
+                    ? hasNextPage
+                      ? "Loading more..."
+                      : "Nothing more to load"
+                    : proofType && (
+                        <Row
+                          proofType={proofType}
+                          handleSelectVal={handleSelectVal}
+                          webappConsoleEndpoint={webappConsoleEndpoint}
+                        />
+                      )}
                 </div>
               );
             })}
