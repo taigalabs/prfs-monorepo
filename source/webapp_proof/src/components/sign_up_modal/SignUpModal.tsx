@@ -1,52 +1,38 @@
 import React from "react";
 import cn from "classnames";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useRouter } from "next/navigation";
-import { decrypt, PrivateKey } from "eciesjs";
-import PrfsIdSignInButton from "@taigalabs/prfs-react-components/src/prfs_id_sign_in_button/PrfsIdSignInButton";
-import PrfsCredentialPopover from "@taigalabs/prfs-react-components/src/prfs_credential_popover/PrfsCredentialPopover";
 import {
   persistPrfsIdCredential,
   PrfsIdSignInSuccessPayload,
   SignInData,
 } from "@taigalabs/prfs-id-sdk-web";
-import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { useMutation } from "wagmi";
-import { prfs_api_error_codes, prfsApi2 } from "@taigalabs/prfs-api-js";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignUpRequest";
-import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
-import { makeColor } from "@taigalabs/prfs-crypto-js";
+import Modal from "@taigalabs/prfs-react-components/src/modal/Modal";
 
-import styles from "./PrfsIdSignInBtn.module.scss";
+import styles from "./SignUpModal.module.scss";
 import { paths } from "@/paths";
-import { envs } from "@/envs";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { signInPrfs, signOutPrfs } from "@/state/userReducer";
-import {
-  loadLocalPrfsProofCredential,
-  LocalPrfsProofCredential,
-  persistPrfsProofCredential,
-  removeLocalPrfsProofCredential,
-} from "@/storage/local_storage";
-import Modal from "@taigalabs/prfs-react-components/src/modal/Modal";
+import { LocalPrfsProofCredential, persistPrfsProofCredential } from "@/storage/local_storage";
 import { i18nContext } from "@/i18n/context";
 
-const SignUpModal: React.FC<SignUpModalProps> = ({ signUpData }) => {
+const SignUpModal: React.FC<SignUpModalProps> = ({ credential }) => {
   const router = useRouter();
   const i18n = React.useContext(i18nContext);
+  const [printable, setPrintable] = React.useState({
+    label: "",
+    avatar_color: "",
+  });
   const dispatch = useAppDispatch();
   const { mutateAsync: prfsSignUpRequest } = useMutation({
     mutationFn: (req: PrfsSignUpRequest) => {
-      return prfsApi2("sign_in_prfs_account", req);
+      return prfsApi2("sign_up_prfs_account", req);
     },
   });
   const handleClickSignUp = React.useCallback(async () => {
-    const avatarColor = makeColor(signUpData.account_id);
-    const credential: LocalPrfsProofCredential = {
-      account_id: signUpData.account_id,
-      public_key: signUpData.public_key,
-      avatar_color: avatarColor,
-    };
-
     const { payload, error } = await prfsSignUpRequest(credential);
 
     if (error) {
@@ -58,14 +44,31 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ signUpData }) => {
     dispatch(signInPrfs(credential));
     router.push(paths.__);
     // window.location.reload();
-  }, [router, signUpData, prfsSignUpRequest]);
+  }, [router, credential, prfsSignUpRequest]);
+
+  React.useEffect(() => {
+    const label = credential.account_id.substring(2, 5);
+    const { avatar_color } = credential;
+    setPrintable({ label, avatar_color });
+  }, [credential, setPrintable]);
 
   return (
     <Modal>
       <div className={styles.wrapper}>
-        <h2>Delete balloon</h2>
-        <p>This action cannot be undone.</p>
-        <button onClick={handleClickSignUp}>{i18n.sign_up}</button>
+        <p className={styles.title}>{i18n.sign_up_at_prfs}</p>
+        <div className={styles.account}>
+          <div className={styles.avatar}>
+            <p className={styles.label} style={{ backgroundColor: printable.avatar_color }}>
+              {printable.label}
+            </p>
+          </div>
+          <div className={styles.account_id}>{credential.account_id}</div>
+        </div>
+        <div className={styles.btnRow}>
+          <Button variant="blue_2" noTransition handleClick={handleClickSignUp} noShadow>
+            {i18n.sign_up}
+          </Button>
+        </div>
       </div>
     </Modal>
   );
@@ -74,5 +77,5 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ signUpData }) => {
 export default SignUpModal;
 
 export interface SignUpModalProps {
-  signUpData: PrfsIdSignInSuccessPayload;
+  credential: LocalPrfsProofCredential;
 }

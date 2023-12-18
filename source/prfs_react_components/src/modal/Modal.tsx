@@ -15,18 +15,14 @@ import styles from "./Modal.module.scss";
 
 const Modal: React.FC<ModalProps> = ({ children }) => {
   const [isOpen, setIsOpen] = useState(true);
-
   const { refs, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
   });
-
   const click = useClick(context);
   const role = useRole(context);
   const dismiss = useDismiss(context, { outsidePressEvent: "mousedown" });
-
   const { getReferenceProps, getFloatingProps } = useInteractions([click, role, dismiss]);
-
   const headingId = useId();
   const descriptionId = useId();
 

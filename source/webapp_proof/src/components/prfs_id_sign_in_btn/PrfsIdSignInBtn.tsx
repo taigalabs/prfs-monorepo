@@ -38,7 +38,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
       return prfsApi2("sign_in_prfs_account", req);
     },
   });
-  const [signUpData, setSignUpData] = React.useState<PrfsIdSignInSuccessPayload | null>(null);
+  const [signUpData, setSignUpData] = React.useState<LocalPrfsProofCredential | null>(null);
 
   React.useEffect(() => {
     const credential = loadLocalPrfsProofCredential();
@@ -83,33 +83,25 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
           return;
         }
 
-        console.log(11, prfsIdSignInSuccessPayload);
-
         const { payload, error, code } = await prfsSignInRequest({
           account_id: prfsIdSignInSuccessPayload.account_id,
         });
-
-        console.log(21, error, code);
-
-        if (error) {
-          console.error(error);
-
-          if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
-            console.log(11);
-            setSignUpData(prfsIdSignInSuccessPayload);
-          }
-          return;
-        }
-
-        console.log(33);
         const avatar_color = makeColor(prfsIdSignInSuccessPayload.account_id);
         const credential: LocalPrfsProofCredential = {
           account_id: prfsIdSignInSuccessPayload.account_id,
           public_key: prfsIdSignInSuccessPayload.public_key,
           avatar_color,
         };
-        persistPrfsProofCredential(credential);
 
+        if (error) {
+          console.error(error);
+          if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
+            setSignUpData(credential);
+          }
+          return;
+        }
+
+        persistPrfsProofCredential(credential);
         // prfs account sign in
         dispatch(signInPrfs(credential));
       }
@@ -138,7 +130,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
     />
   ) : (
     <>
-      {signUpData && <SignUpModal signUpData={signUpData} />}
+      {signUpData && <SignUpModal credential={signUpData} />}
       <PrfsIdSignInButton
         prfsIdSignInEndpoint={prfsIdSignInEndpoint}
         handleSucceedSignIn={handleSucceedSignIn}

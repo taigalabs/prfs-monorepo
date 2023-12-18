@@ -3,4 +3,45 @@
   background-color: white;
   padding: 15px;
   border-radius: 4px;
+  width: 320px;
+}
+
+.account {
+  display: flex;
+  padding: 14px 0;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 4px;
+  border-radius: 50%;
+  line-height: 14px;
+  font-size: 14px;
+
+  p {
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-weight: 500;
+    color: var(--white-100);
+  }
+}
+
+.account_id {
+  padding: 10px 8px;
+  word-break: break-all;
+  font-size: 13px;
+  color: var(--gray-30);
+}
+
+.btnRow {
+  padding-top: 10px;
+  display: flex;
+  justify-content: flex-end;
 }

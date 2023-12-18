@@ -250,6 +250,7 @@ const en = {
     "Sign up for Prfs. To learn more about account registration, visit our upcoming blog",
   sign_out: "Sign out",
   sign_in_desc: "Or <a href='/signup'>create</a> a new Prfs account",
+  sign_up_at_prfs: "Sign up at Prfs",
   copyright: "© 2023 Prfs. All rights reserved.",
   copy_url: "Copy URL",
   copy: "Copy",
