@@ -7,7 +7,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import { prfsApi2, PrfsApiResponse } from "@taigalabs/prfs-api-js";
 import { PrfsPoll } from "@taigalabs/prfs-entities/bindings/PrfsPoll";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
@@ -22,6 +22,7 @@ import styles from "./PollTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import { useQuery } from "@tanstack/react-query";
+import { GetPrfsPollsResponse } from "@taigalabs/prfs-entities/bindings/GetPrfsPollsResponse";
 
 const PollTable: React.FC<PollTableProps> = ({ selectType, selectedVal, handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);

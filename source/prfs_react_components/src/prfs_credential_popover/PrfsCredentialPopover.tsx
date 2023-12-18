@@ -39,14 +39,14 @@ const PrfsCredentialPopover: React.FC<PrfsCredentialPopoverProps> = ({
   const headingId = useId();
   const [printable, setPrintable] = React.useState({
     label: "",
-    avatarColor: "",
+    avatar_color: "",
   });
 
   React.useEffect(() => {
-    if (credential && credential.id.length > 6) {
-      const label = credential.id.substring(2, 5);
-      const { avatarColor } = credential;
-      setPrintable({ label, avatarColor });
+    if (credential && credential.account_id.length > 6) {
+      const label = credential.account_id.substring(2, 5);
+      const { avatar_color } = credential;
+      setPrintable({ label, avatar_color });
     } else {
       handleInitFail();
     }
@@ -66,7 +66,7 @@ const PrfsCredentialPopover: React.FC<PrfsCredentialPopoverProps> = ({
           ref={refs.setReference}
           {...getReferenceProps()}
         >
-          <button style={{ backgroundColor: printable.avatarColor }}>
+          <button style={{ backgroundColor: printable.avatar_color }}>
             <span className={styles.id}>{printable.label}</span>
           </button>
         </div>
@@ -80,7 +80,7 @@ const PrfsCredentialPopover: React.FC<PrfsCredentialPopoverProps> = ({
               {...getFloatingProps()}
             >
               <Modal
-                id={credential.id}
+                id={credential.account_id}
                 setIsOpen={setIsOpen}
                 handleClickSignOut={handleClickSignOut}
               />
@@ -96,8 +96,8 @@ export default PrfsCredentialPopover;
 
 export interface PrfsCredentialPopoverProps {
   credential: {
-    id: string;
-    avatarColor: string;
+    account_id: string;
+    avatar_color: string;
   };
   className?: string;
   isOpenClassName?: string;

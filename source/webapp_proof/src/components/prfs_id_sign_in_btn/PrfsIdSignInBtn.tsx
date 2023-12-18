@@ -84,7 +84,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
         }
 
         const { payload, error, code } = await prfsSignInRequest({
-          account_id: prfsIdSignInSuccessPayload.id,
+          account_id: prfsIdSignInSuccessPayload.account_id,
         });
 
         if (error) {
@@ -97,7 +97,13 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
           return;
         }
 
-        const credential = persistPrfsProofCredential(prfsIdSignInSuccessPayload);
+        const avatar_color = makeColor(prfsIdSignInSuccessPayload.account_id);
+        const credential: LocalPrfsProofCredential = {
+          account_id: prfsIdSignInSuccessPayload.account_id,
+          public_key: prfsIdSignInSuccessPayload.public_key,
+          avatar_color,
+        };
+        persistPrfsProofCredential(credential);
 
         // prfs account sign in
         dispatch(signInPrfs(credential));

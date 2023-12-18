@@ -4,10 +4,17 @@ import { useRouter } from "next/navigation";
 import { decrypt, PrivateKey } from "eciesjs";
 import PrfsIdSignInButton from "@taigalabs/prfs-react-components/src/prfs_id_sign_in_button/PrfsIdSignInButton";
 import PrfsCredentialPopover from "@taigalabs/prfs-react-components/src/prfs_credential_popover/PrfsCredentialPopover";
-import { PrfsIdSignInSuccessPayload, SignInData } from "@taigalabs/prfs-id-sdk-web";
+import {
+  persistPrfsIdCredential,
+  PrfsIdSignInSuccessPayload,
+  SignInData,
+} from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { useMutation } from "wagmi";
 import { prfs_api_error_codes, prfsApi2 } from "@taigalabs/prfs-api-js";
+import { PrfsSignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignUpRequest";
+import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
+import { makeColor } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./PrfsIdSignInBtn.module.scss";
 import { paths } from "@/paths";
@@ -20,15 +27,34 @@ import {
   persistPrfsProofCredential,
   removeLocalPrfsProofCredential,
 } from "@/storage/local_storage";
-import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
 import Modal from "@taigalabs/prfs-react-components/src/modal/Modal";
 import { i18nContext } from "@/i18n/context";
 
 const SignUpModal: React.FC<SignUpModalProps> = ({ signUpData }) => {
   const router = useRouter();
   const i18n = React.useContext(i18nContext);
+  const { mutateAsync: prfsSignUpRequest } = useMutation({
+    mutationFn: (req: PrfsSignUpRequest) => {
+      return prfsApi2("sign_in_prfs_account", req);
+    },
+  });
+  const handleClickSignUp = React.useCallback(async () => {
+    const avatarColor = makeColor(signUpData.account_id);
+    const credential: LocalPrfsProofCredential = {
+      account_id: signUpData.account_id,
+      public_key: signUpData.public_key,
+      avatar_color: avatarColor,
+    };
 
-  const handleClickSignUp = React.useCallback(async () => {}, [router, signUpData, signUpData]);
+    const { payload, error } = await prfsSignUpRequest(credential);
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    persistPrfsProofCredential(credential);
+  }, [router, signUpData, prfsSignUpRequest]);
 
   return (
     <Modal>

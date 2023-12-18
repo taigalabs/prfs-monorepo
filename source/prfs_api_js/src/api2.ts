@@ -240,17 +240,14 @@ if (typeof process !== "undefined") {
   throw new Error("process is undefined");
 }
 
-export async function prfsApi2<T extends RequestName>(
-  name: T,
-  req: Req<T>,
-): Promise<PrfsApiResponse<T>> {
-  return await api<T>(
+export async function prfsApi2<T extends RequestName>(name: T, req: Req<T>): Promise<Resp<T>> {
+  return (await api<T>(
     {
       path: name,
       req,
     },
     PRFS_API_SERVER_ENDPOINT,
-  );
+  )) as Resp<T>;
 }
 
-export { prfs_api_error_codes };
+export { prfs_api_error_codes, type PrfsApiResponse };

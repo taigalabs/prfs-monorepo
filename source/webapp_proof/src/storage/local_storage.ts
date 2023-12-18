@@ -3,25 +3,19 @@ import { PrfsIdSignInSuccessPayload } from "@taigalabs/prfs-id-sdk-web";
 
 export type PrfsProofId = string;
 export interface LocalPrfsProofCredential {
-  id: string;
-  publicKey: string; // encrpyted
-  avatarColor: string;
+  account_id: string;
+  public_key: string; // encrpyted
+  avatar_color: string;
 }
 
 const PRFS_PROOF_KEY = "prfs_proof";
 
 export function persistPrfsProofCredential(
-  prfsIdSignInSuccessPayload: PrfsIdSignInSuccessPayload,
+  credential: LocalPrfsProofCredential,
 ): LocalPrfsProofCredential {
-  const avatarColor = makeColor(prfsIdSignInSuccessPayload.id);
-  const credential: LocalPrfsProofCredential = {
-    id: prfsIdSignInSuccessPayload.id,
-    publicKey: prfsIdSignInSuccessPayload.publicKey,
-    avatarColor,
-  };
   const value = JSON.stringify(credential);
 
-  console.log("Persisting Prfs proof credential", prfsIdSignInSuccessPayload);
+  console.log("Persisting Prfs proof credential", credential);
   window.localStorage.setItem(PRFS_PROOF_KEY, value);
   return credential;
 }

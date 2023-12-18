@@ -15,7 +15,7 @@ export async function api<T>({ path, req }: ApiArg, endpoint: string): Promise<P
     return await res.json();
   } catch (err) {
     return {
-      code: "400000",
+      code: 400000,
       error: err,
       payload: null,
     };
