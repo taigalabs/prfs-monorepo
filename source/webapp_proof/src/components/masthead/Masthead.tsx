@@ -56,8 +56,16 @@ export const MastheadMain: React.FC<MastheadProps> = ({ className, children }) =
   return <div className={cn(styles.main, className)}>{children}</div>;
 };
 
-export const MastheadRightGroup: React.FC<MastheadProps> = ({ children, className }) => {
-  return <ul className={cn(styles.rightGroup, className)}>{children}</ul>;
+export const MastheadRightGroup: React.FC<MastheadProps> = ({
+  children,
+  className,
+  staticPosition,
+}) => {
+  return (
+    <ul className={cn(styles.rightGroup, className, { [styles.staticPosition]: staticPosition })}>
+      {children}
+    </ul>
+  );
 };
 
 export const MastheadRightGroupMenu: React.FC<MastheadProps> = ({ children, className }) => {
@@ -134,6 +142,7 @@ export interface MastheadWrapperProps {
 export interface MastheadProps {
   children: React.ReactNode;
   className?: string;
+  staticPosition?: boolean;
 }
 
 export interface MastheadPlaceholderProps {

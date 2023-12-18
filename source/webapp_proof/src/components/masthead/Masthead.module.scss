@@ -115,6 +115,10 @@
     right: 10px;
     width: auto;
   }
+
+  .staticPosition {
+    position: static;
+  }
 }
 
 @media screen and (max-width: 480px) {

@@ -9,6 +9,7 @@ import DocMasthead from "../doc_masthead/DocMasthead";
 import { paths } from "@/paths";
 import { i18nContext } from "@/i18n/context";
 import { MastheadPlaceholder } from "../masthead/Masthead";
+import DocumentView from "@/components/document_view/DocumentView";
 
 const ProductUpdates = () => {
   const i18n = React.useContext(i18nContext);
@@ -17,11 +18,11 @@ const ProductUpdates = () => {
     <>
       <DocMasthead title={i18n.updates} titleHref={paths.updates} />
       <MastheadPlaceholder />
-      <div className={styles.main}>
+      <DocumentView>
         <Markdown>
           <UpdatesMD />
         </Markdown>
-      </div>
+      </DocumentView>
     </>
   );
 };

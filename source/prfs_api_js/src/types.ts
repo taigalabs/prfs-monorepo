@@ -1,7 +1,7 @@
 export type PrfsApiResponse<P> = {
   code: number;
   error?: any | FetchError;
-  payload: P;
+  payload: P | null;
 };
 
 export interface FetchError {
