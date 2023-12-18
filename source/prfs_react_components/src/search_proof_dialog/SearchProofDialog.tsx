@@ -16,7 +16,7 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import styles from "./SearchProofDialog.module.scss";
 import { i18nContext } from "../i18n/i18nContext";
-import ProofTypeModal2 from "./ProofTypeModal2";
+import ProofTypeModal from "./ProofTypeModal";
 import CaptionedImg from "../captioned_img/CaptionedImg";
 
 const SearchIcon = () => {
@@ -101,7 +101,7 @@ const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
             aria-describedby={descriptionId}
             {...getFloatingProps()}
           >
-            <ProofTypeModal2
+            <ProofTypeModal
               handleSelectVal={extendedProofTypeClickHandler}
               webappConsoleEndpoint={webappConsoleEndpoint}
             />

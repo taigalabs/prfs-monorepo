@@ -9,6 +9,7 @@ use crate::entities::PrfsAccount;
 #[ts(export)]
 pub struct PrfsSignUpRequest {
     pub account_id: String,
+    pub public_key: String,
     pub avatar_color: String,
 }
 

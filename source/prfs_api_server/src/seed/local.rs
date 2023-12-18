@@ -45,7 +45,9 @@ pub fn load_circuits() -> HashMap<String, PrfsCircuit> {
 pub fn load_circuit_drivers() -> HashMap<String, PrfsCircuitDriver> {
     println!("\n{} circuit drivers", "Loading".green());
 
-    let json_path = PATHS.data__json_bindings.join("prfs_circuit_drivers.json");
+    let json_path = PATHS
+        .data_seed__json_bindings
+        .join("prfs_circuit_drivers.json");
     let circuit_drivers: Vec<PrfsCircuitDriver> = utils::read_json(&json_path);
 
     let mut m = HashMap::new();
@@ -59,7 +61,9 @@ pub fn load_circuit_drivers() -> HashMap<String, PrfsCircuitDriver> {
 pub fn load_circuit_types() -> HashMap<String, PrfsCircuitType> {
     println!("\n{} circuit types", "Loading".green());
 
-    let json_path = PATHS.data__json_bindings.join("prfs_circuit_types.json");
+    let json_path = PATHS
+        .data_seed__json_bindings
+        .join("prfs_circuit_types.json");
     let circuit_types: Vec<PrfsCircuitType> = utils::read_json(&json_path);
 
     let mut m = HashMap::new();
@@ -78,7 +82,7 @@ pub fn load_circuit_types() -> HashMap<String, PrfsCircuitType> {
 pub fn load_prfs_accounts() -> HashMap<String, PrfsAccount> {
     println!("\n{} circuit input types", "Loading".green());
 
-    let json_path = PATHS.data__json_bindings.join("prfs_accounts.json");
+    let json_path = PATHS.data_seed__json_bindings.join("prfs_accounts.json");
     let prfs_accounts: Vec<PrfsAccount> = utils::read_json(&json_path);
 
     let mut m = HashMap::new();
@@ -94,7 +98,9 @@ pub fn load_prfs_accounts() -> HashMap<String, PrfsAccount> {
 pub fn load_policy_items() -> HashMap<String, PrfsPolicyItem> {
     println!("\n{} prfs policy items", "Loading".green());
 
-    let json_path = PATHS.data__json_bindings.join("prfs_policy_items.json");
+    let json_path = PATHS
+        .data_seed__json_bindings
+        .join("prfs_policy_items.json");
     let prfs_policy_items: Vec<PrfsPolicyItem> = utils::read_json(&json_path);
 
     let mut m = HashMap::new();
@@ -111,7 +117,7 @@ pub fn load_circuit_input_types() -> HashMap<String, PrfsCircuitInputType> {
     println!("\n{} circuit input types", "Loading".green());
 
     let json_path = PATHS
-        .data__json_bindings
+        .data_seed__json_bindings
         .join("prfs_circuit_input_types.json");
     let circuit_input_types: Vec<PrfsCircuitInputType> = utils::read_json(&json_path);
 
@@ -134,7 +140,7 @@ pub fn load_circuit_input_types() -> HashMap<String, PrfsCircuitInputType> {
 pub fn load_proof_types() -> HashMap<String, PrfsProofType> {
     println!("\n{} proof types", "Loading".green());
 
-    let json_path = PATHS.data__json_bindings.join("prfs_proof_types.json");
+    let json_path = PATHS.data_seed__json_bindings.join("prfs_proof_types.json");
     let proof_types: Vec<PrfsProofType> = utils::read_json(&json_path);
 
     let mut m = HashMap::new();
@@ -150,7 +156,7 @@ pub fn load_proof_types() -> HashMap<String, PrfsProofType> {
 pub fn load_dynamic_sets() -> HashMap<String, DynamicSetJson> {
     println!("\n{} dynamic sets", "Loading".green());
 
-    let json_path = PATHS.data__json_bindings.join("dynamic_sets.json");
+    let json_path = PATHS.data_seed__json_bindings.join("dynamic_sets.json");
     let dynamic_sets: Vec<DynamicSetJson> = utils::read_json(&json_path);
 
     let mut m = HashMap::new();

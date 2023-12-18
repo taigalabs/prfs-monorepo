@@ -2,19 +2,20 @@
 
 import React from "react";
 import { PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { loadLocalPrfsIdCredentials, StoredCredentialRecord } from "@taigalabs/prfs-id-sdk-web";
+import { useSearchParams } from "next/navigation";
+import {
+  loadLocalPrfsIdCredentials,
+  removeAllPrfsIdCredentials,
+  StoredCredentialRecord,
+} from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 
 import styles from "./PrfsIdSignIn.module.scss";
 import { i18nContext } from "@/i18n/context";
 import PrfsIdSignInModule, {
   PrfsIdSignInForm,
-  PrfsIdSignInModuleBtnRow,
   PrfsIdSignInModuleFooter,
-  PrfsIdSignInModuleHeader,
 } from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
 import { envs } from "@/envs";
 import {
@@ -41,7 +42,6 @@ export enum SignInStatus {
 
 const PrfsIdSignIn: React.FC = () => {
   const i18n = React.useContext(i18nContext);
-  const router = useRouter();
   const [signInStatus, setSignInStatus] = React.useState(SignInStatus.Loading);
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const searchParams = useSearchParams();
@@ -106,7 +106,17 @@ const PrfsIdSignIn: React.FC = () => {
     [formData, setFormData],
   );
 
-  const handleClickPrev = React.useCallback(() => {
+  const handleClickForgetAllCredentials = React.useCallback(() => {
+    removeAllPrfsIdCredentials();
+    setStoredCredentials({});
+    setStep(SignInStep.PrfsIdCredential);
+  }, [setStep, setStoredCredentials]);
+
+  const handleGotoStoredCredential = React.useCallback(() => {
+    setStep(SignInStep.StoredCredentials);
+  }, [setStep]);
+
+  const handleGotoPrfsIdCredential = React.useCallback(() => {
     setStep(SignInStep.StoredCredentials);
   }, [setStep]);
 
@@ -126,8 +136,9 @@ const PrfsIdSignIn: React.FC = () => {
             setCredential={setCredential}
             storedCredentials={storedCredentials}
             appId={appId}
-            handleClickUseAnotherId={handleClickPrev}
+            handleClickUseAnotherId={handleGotoPrfsIdCredential}
             handleClickNext={handleClickNext}
+            handleClickForgetAllCredentials={handleClickForgetAllCredentials}
           />
         );
       }
@@ -153,7 +164,7 @@ const PrfsIdSignIn: React.FC = () => {
               formData={formData}
               setFormData={setFormData}
               formErrors={formErrors}
-              handleClickPrev={handleClickPrev}
+              handleClickPrev={handleGotoStoredCredential}
             />
           )
         );

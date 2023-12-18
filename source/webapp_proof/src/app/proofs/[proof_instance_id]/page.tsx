@@ -13,12 +13,10 @@ import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
 const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   return (
     <DefaultLayout>
-      <DefaultBody noTopPadding>
-        <div className={styles.container}>
-          <Suspense fallback={<TutorialFallback />}>
-            <ProofDetailView proofInstanceId={params.proof_instance_id} />
-          </Suspense>
-        </div>
+      <DefaultBody>
+        <Suspense fallback={<TutorialFallback />}>
+          <ProofDetailView proofInstanceId={params.proof_instance_id} />
+        </Suspense>
       </DefaultBody>
       <DefaultFooter>
         <GlobalFooter />

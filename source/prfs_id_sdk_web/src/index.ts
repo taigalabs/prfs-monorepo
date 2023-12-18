@@ -20,8 +20,8 @@ export interface PrfsIdSignInSuccessMsg {
 }
 
 export interface PrfsIdSignInSuccessPayload {
-  id: string;
-  publicKey: string;
+  account_id: string;
+  public_key: string;
 }
 
 export type PrfsIdMsgType = "SIGN_IN_SUCCESS" | "SIGN_IN_SUCCESS_RESPOND";

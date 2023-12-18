@@ -13,6 +13,7 @@ import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
 import ProofGenElement from "@taigalabs/prfs-sdk-web/src/elems/proof_gen_element/proof_gen_element";
 import JSONBig from "json-bigint";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
 
 import styles from "./PostCreateMenu.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -50,8 +51,6 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
   const handleClickVerify = React.useCallback(() => {
     setIsVerifyOpen(s => !s);
   }, [setIsVerifyOpen]);
-
-  console.log(22, isCreatePrfsProofInstanceLoading);
 
   const handleClickUpload = React.useCallback(async () => {
     if (proveReceipt && proofType) {
@@ -122,7 +121,9 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
                     })}
                     disabled={isCreatePrfsProofInstanceLoading}
                   >
-                    {isCreatePrfsProofInstanceLoading && <Spinner color="#dadfdf" size={20} />}
+                    {isCreatePrfsProofInstanceLoading && (
+                      <Spinner color={colors.bright_gray_33} size={20} />
+                    )}
                     <span>{i18n.upload}</span>
                   </Button>
                 </TutorialStepper>

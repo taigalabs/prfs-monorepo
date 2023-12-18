@@ -26,7 +26,7 @@ import {
   PrfsIdSignInWithPrfsId,
 } from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
 import { IdCreateForm } from "@/functions/validate_id";
-import SignInInputs from "./SignInInputs";
+import SignInInputs, { PrfsSignInData } from "./SignInInputs";
 
 enum Step2Status {
   Loading,
@@ -48,7 +48,7 @@ const Step2: React.FC<Step2Props> = ({
   const [title, setTitle] = React.useState<React.ReactNode>(null);
   const [errorMsg, setErrorMsg] = React.useState("");
   const [signInDataElem, setSignInDataElem] = React.useState<React.ReactNode>(null);
-  const [signInData, setSignInData] = React.useState<Record<string, any>>({});
+  const [signInData, setSignInData] = React.useState<PrfsSignInData | null>(null);
   const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignInRequest) => {
       return idApi("sign_in_prfs_identity", req);
@@ -73,7 +73,7 @@ const Step2: React.FC<Step2Props> = ({
           const data = d.split(",");
           const content = (
             <SignInInputs
-              signInData={data}
+              signInDataMeta={data}
               credential={credential}
               appId={appId}
               setSignInData={setSignInData}
@@ -100,7 +100,7 @@ const Step2: React.FC<Step2Props> = ({
 
   const handleClickSignIn = React.useCallback(async () => {
     if (formData && publicKey && credential) {
-      const { payload: signInRequestPayload, error } = await prfsIdentitySignInRequest({
+      const { payload: _signInRequestPayload, error } = await prfsIdentitySignInRequest({
         identity_id: credential.id,
       });
 
@@ -109,9 +109,14 @@ const Step2: React.FC<Step2Props> = ({
         return;
       }
 
+      if (!signInData) {
+        setErrorMsg("no sign in data");
+        return;
+      }
+
       const payload: PrfsIdSignInSuccessPayload = {
-        id: signInData.id,
-        publicKey: signInData.public_key,
+        account_id: signInData.account_id,
+        public_key: signInData.public_key,
       };
       const encrypted = encrypt(publicKey, Buffer.from(JSON.stringify(payload)));
       console.log("Encrypted credential", encrypted);

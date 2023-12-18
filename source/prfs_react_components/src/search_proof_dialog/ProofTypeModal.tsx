@@ -6,7 +6,7 @@ import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
-import styles from "./ProofTypeModal2.module.scss";
+import styles from "./ProofTypeModal.module.scss";
 import CaptionedImg from "../captioned_img/CaptionedImg";
 
 const Row: React.FC<RowProps> = ({ proofType, handleSelectVal, webappConsoleEndpoint }) => {

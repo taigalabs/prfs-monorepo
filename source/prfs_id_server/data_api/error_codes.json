@@ -1,0 +1,14 @@
+{
+  "UNKNOWN_ERROR": {
+    "code": 4000000,
+    "phrase": "Unknown error"
+  },
+  "CANNOT_FIND_ID": {
+    "code": 4000001,
+    "phrase": "Can't find a ID"
+  },
+  "ID_ALREADY_EXISTS": {
+    "code": 4000002,
+    "phrase": "ID already exists"
+  }
+}

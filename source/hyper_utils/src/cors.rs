@@ -1,9 +1,11 @@
 use hyper::{Response, StatusCode};
 
-use crate::io::{full, BytesBoxBody};
-use crate::HyperUtilsError;
+use crate::{
+    error::ApiHandleError,
+    io::{full, BytesBoxBody},
+};
 
-pub fn handle_cors() -> Result<Response<BytesBoxBody>, HyperUtilsError> {
+pub fn handle_cors() -> Result<Response<BytesBoxBody>, ApiHandleError> {
     let resp = Response::builder()
         .status(StatusCode::OK)
         .header("Access-Control-Allow-Origin", "*")

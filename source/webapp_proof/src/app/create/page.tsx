@@ -13,12 +13,10 @@ import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
 const CreatePage = () => {
   return (
     <DefaultLayout>
-      <DefaultBody noTopPadding>
-        <div className={styles.container}>
-          <Suspense fallback={<CreateProofFormFallback />}>
-            <CreateProofForm />
-          </Suspense>
-        </div>
+      <DefaultBody>
+        <Suspense fallback={<CreateProofFormFallback />}>
+          <CreateProofForm />
+        </Suspense>
       </DefaultBody>
       <DefaultFooter>
         <GlobalFooter />

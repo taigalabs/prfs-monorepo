@@ -210,6 +210,9 @@ importers:
       '@ethereumjs/util':
         specifier: ^8.0.3
         version: 8.1.0
+      '@taigalabs/prfs-api-server':
+        specifier: '*'
+        version: link:../prfs_api_server
       '@taigalabs/prfs-crypto-js':
         specifier: '*'
         version: link:../prfs_crypto_js

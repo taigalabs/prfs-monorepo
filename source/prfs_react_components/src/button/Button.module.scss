@@ -24,12 +24,10 @@
     box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 5px -3px, rgba(0, 0, 0, 0.14) 0px 8px 10px 1px,
       rgba(0, 0, 0, 0.12) 0px 3px 14px 2px;
   }
+}
 
-  p {
-    display: flex;
-    align-items: center;
-    z-index: 1;
-  }
+.content {
+  z-index: 1;
 }
 
 .transparent_btn {
@@ -100,14 +98,6 @@
 .transparent_black_1 {
   color: var(--black-00);
 
-  svg {
-    font-size: 1.1em;
-  }
-
-  svg + span {
-    margin-left: 0.2em;
-  }
-
   &:hover {
     background-color: var(--bright-gray-40);
   }
@@ -125,14 +115,6 @@
 .transparent_aqua_blue_1 {
   color: var(--aqua-blue-50);
 
-  svg {
-    font-size: 1.1em;
-  }
-
-  svg + span {
-    margin-left: 0.2em;
-  }
-
   &:hover {
     color: var(--aqua-blue-40);
     background-color: var(--bright-gray-40);
@@ -147,14 +129,6 @@
   color: var(--blue-30);
   display: flex;
   align-items: center;
-
-  svg {
-    font-size: 1.1em;
-  }
-
-  svg + span {
-    margin-left: 0.2em;
-  }
 
   &:hover {
     color: var(--blue-20);
@@ -171,18 +145,6 @@
   display: flex;
   align-items: center;
   padding: 10px 0;
-
-  svg {
-    font-size: 1.1em;
-  }
-
-  svg + span {
-    margin-left: 0.2em;
-  }
-
-  span {
-    z-index: 1;
-  }
 
   .backdrop {
     border-radius: 4px;
@@ -223,14 +185,6 @@
 
 .transparent_aqua_blue_1_light {
   color: var(--aqua-blue-50);
-
-  svg {
-    font-size: 1.2em;
-  }
-
-  svg + span {
-    margin-left: 0.2em;
-  }
 
   &:hover {
     color: var(--aqua-blue-40);

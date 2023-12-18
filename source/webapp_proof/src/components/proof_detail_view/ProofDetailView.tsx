@@ -18,12 +18,13 @@ import { i18nContext } from "@/i18n/context";
 import ProofDataView from "@/components/proof_data_view/ProofDataView";
 import { envs } from "@/envs";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
-import ProofTypeMasthead from "@/components/masthead/ProofTypeMasthead";
+import ProofTypeMasthead from "@/components/proof_type_masthead/ProofTypeMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
 import Tutorial from "@/components/tutorial/Tutorial";
 import { useIsTutorial } from "@/hooks/tutorial";
 import LeftPadding from "@/components/left_padding/LeftPadding";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
+import { MastheadPlaceholder } from "@/components/masthead/Masthead";
 
 const JSONbigNative = JSONBig({
   useNativeBigInt: true,
@@ -95,6 +96,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
         proofType={undefined}
         handleSelectProofType={handleSelectProofType}
       />
+      <MastheadPlaceholder twoColumn />
       <div className={styles.topRow}>
         <LeftPadding />
         <div className={styles.content}>
@@ -153,7 +155,6 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
         </div>
         <Tutorial noTop />
       </div>
-      {/* <TutorialPlaceholder variant="h1502" /> */}
     </>
   );
 };

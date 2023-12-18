@@ -1,5 +1,6 @@
 export default {
   share: "Share",
+  apps: "Apps",
   save: "Save",
   docs: "Docs",
   documentation: "Documentation",
@@ -12,6 +13,8 @@ export default {
   address_input_placeholder: "Type address, e.g., 0xaaa..., or connect your wallet",
   loading: "Loading...",
   proof: "Proof",
+  notary: "Notary",
+  account_verification: "Account Verification",
   create_proof: "Create proof",
   public_inputs: "Public inputs",
   private_inputs: "Private inputs",

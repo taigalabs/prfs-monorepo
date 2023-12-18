@@ -3,11 +3,13 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { LocalPrfsProofCredential } from "@/storage/local_storage";
 
 export interface UserState {
+  isInitialized: boolean;
   prfsProofCredential: LocalPrfsProofCredential | null;
 }
 
 const makeInitialState: () => UserState = () => {
   return {
+    isInitialized: false,
     prfsProofCredential: null,
   };
 };
@@ -16,9 +18,10 @@ export const userSlice = createSlice({
   name: "user",
   initialState: makeInitialState(),
   reducers: {
-    signInPrfs: (state: UserState, action: PayloadAction<LocalPrfsProofCredential>) => {
+    signInPrfs: (state: UserState, action: PayloadAction<LocalPrfsProofCredential | null>) => {
       return {
         ...state,
+        isInitialized: true,
         prfsProofCredential: action.payload,
       };
     },

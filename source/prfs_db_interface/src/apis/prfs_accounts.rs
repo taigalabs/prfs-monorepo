@@ -8,14 +8,11 @@ pub async fn get_prfs_account_by_account_id(
 ) -> Result<PrfsAccount, DbInterfaceError> {
     let query = "SELECT * from prfs_accounts where account_id=$1";
 
-    let row = sqlx::query(query)
-        .bind(&account_id)
-        .fetch_one(pool)
-        .await
-        .unwrap();
+    let row = sqlx::query(query).bind(&account_id).fetch_one(pool).await?;
 
     let prfs_account = PrfsAccount {
         account_id: row.get("account_id"),
+        public_key: row.get("public_key"),
         avatar_color: row.get("avatar_color"),
         policy_ids: row.get("policy_ids"),
     };

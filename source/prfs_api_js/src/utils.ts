@@ -1,6 +1,7 @@
 import JSONbig from "json-bigint";
+import { PrfsApiResponse } from "./types";
 
-export async function api({ path, req }: ApiArg, endpoint: string) {
+export async function api<T>({ path, req }: ApiArg, endpoint: string): Promise<PrfsApiResponse<T>> {
   try {
     let res = await fetch(`${endpoint}/${path}`, {
       method: "POST",
@@ -14,6 +15,7 @@ export async function api({ path, req }: ApiArg, endpoint: string) {
     return await res.json();
   } catch (err) {
     return {
+      code: 400000,
       error: err,
       payload: null,
     };

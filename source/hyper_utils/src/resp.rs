@@ -1,26 +1,24 @@
 use hyper::{header, Response, StatusCode};
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
 
-use crate::io::{full, BytesBoxBody};
+use crate::{
+    error::ApiHandleError,
+    io::{full, BytesBoxBody},
+};
+
+pub const API_HANDLE_SUCCESS_CODE: u32 = 2_000_000;
 
 #[derive(Serialize, Deserialize, Debug)]
-pub enum ResponseCode {
-    SUCCESS,
-    ERROR,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "camelCase")]
-pub struct ApiResponse<T> {
-    pub code: ResponseCode,
+pub struct ApiResponse<P> {
+    pub code: u32,
     pub error: Option<String>,
-    pub payload: Option<T>,
+    pub payload: Option<P>,
 }
 
-impl<T: Serialize + DeserializeOwned> ApiResponse<T> {
-    pub fn new_success(payload: T) -> ApiResponse<T> {
+impl<P: Serialize + DeserializeOwned> ApiResponse<P> {
+    pub fn new_success(payload: P) -> ApiResponse<P> {
         ApiResponse {
-            code: ResponseCode::SUCCESS,
+            code: API_HANDLE_SUCCESS_CODE,
             error: None,
             payload: Some(payload),
         }
@@ -48,11 +46,13 @@ impl<T: Serialize + DeserializeOwned> ApiResponse<T> {
     }
 }
 
-impl ApiResponse<String> {
-    pub fn new_error(err: String) -> ApiResponse<String> {
+impl ApiResponse<usize> {
+    pub fn new_error(err: ApiHandleError) -> ApiResponse<usize> {
+        let error = format!("{}, err: {}", err.error_code.phrase, err.err);
+
         ApiResponse {
-            code: ResponseCode::ERROR,
-            error: Some(err),
+            code: err.error_code.code,
+            error: Some(error),
             payload: None,
         }
     }

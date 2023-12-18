@@ -56,6 +56,8 @@ fn main() {
         .subcommand(command!("seed_assets"))
         // test
         .subcommand(command!("e2e_test_web"))
+        // tmux
+        .subcommand(command!("tmux").arg(Arg::new("extra_args")))
         .get_matches();
 
     let now = Utc::now();
@@ -164,6 +166,10 @@ fn main() {
         // test
         Some(("e2e_test_web", sub_matches)) => {
             cmds::e2e_test_web::run(sub_matches);
+        }
+        // test
+        Some(("tmux", sub_matches)) => {
+            cmds::tmux::run(sub_matches);
         }
         _ => unreachable!("Subcommand not defined"),
     }

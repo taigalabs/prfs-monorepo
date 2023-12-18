@@ -1,0 +1,41 @@
+.modal {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--white-100);
+  width: 280px;
+}
+
+.main {
+  padding: 20px;
+  font-size: 13px;
+
+  .appId {
+    padding: 4px 0;
+    color: var(--gray-30);
+  }
+
+  .id {
+    font-weight: 500;
+    word-break: break-all;
+  }
+}
+
+.btnRow {
+  display: flex;
+  justify-content: flex-end;
+  background-color: var(--bright-gray-521);
+  border-top: 1px solid var(--bright-gray-30);
+  padding: 10px 20px;
+  font-size: 14px;
+
+  .signOutBtn {
+    border: 1px solid var(--bright-gray-30);
+    border-radius: 3px;
+    padding: 6px 12px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--bright-gray-40);
+    }
+  }
+}

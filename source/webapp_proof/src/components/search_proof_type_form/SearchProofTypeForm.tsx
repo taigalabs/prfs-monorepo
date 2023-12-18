@@ -51,7 +51,7 @@ const SearchProofTypeForm: React.FC = () => {
         <div className={cn(styles.formArea)}>
           {formStatus === SearchProofTypeFormStatus.Loading && (
             <div className={styles.overlay}>
-              <Spinner size={32} color="#1b62c0" />
+              <Spinner size={32} color="#8a8c8c" />
             </div>
           )}
           <div className={cn(styles.formWrapper)}>

@@ -1,5 +1,10 @@
 export type PrfsApiResponse<P> = {
-  code: string;
-  error?: any;
-  payload: P;
+  code: number;
+  error?: any | FetchError;
+  payload: P | null;
 };
+
+export interface FetchError {
+  isFetchError: true;
+  err: unknown;
+}

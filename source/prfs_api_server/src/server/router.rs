@@ -2,6 +2,7 @@ use hyper::body::Incoming;
 use hyper::{Method, Request, Response};
 use hyper_utils::cors::handle_cors;
 use hyper_utils::io::BytesBoxBody;
+use hyper_utils::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_id_server::server::router::id_server_routes;
 use std::sync::Arc;
@@ -136,7 +137,8 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
 
     // Inline const is not availble at the moment
     // https://github.com/rodrimati1992/const_format_crates/issues/17
-
-    let resp = resp.unwrap();
-    resp
+    match resp {
+        Ok(r) => return r,
+        Err(err) => return ApiResponse::new_error(err).into_hyper_response(),
+    }
 }

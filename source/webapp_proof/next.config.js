@@ -1,7 +1,11 @@
 const mdx = require("@next/mdx");
+const dotenv = require("dotenv");
+const path = require("path");
+
+const packageJson = require("./package.json");
 
 const withMDX = mdx();
-const dotenv = require("dotenv");
+const currDir = path.resolve(__dirname);
 
 (() => {
   const envObj = {};
@@ -11,6 +15,8 @@ const dotenv = require("dotenv");
 })();
 
 module.exports = (phase, { defaultConfig }) => {
+  console.log("Loading webpack config for %s, currDir: %s", packageJson.name, currDir);
+
   /** @type {import('next').NextConfig} */
   const nextConfig = {
     pageExtensions: ["js", "jsx", "mdx", "md", "ts", "tsx"],
@@ -23,6 +29,10 @@ module.exports = (phase, { defaultConfig }) => {
       "@taigalabs/prfs-api-js",
       "@taigalabs/prfs-react-components",
     ],
+
+    sassOptions: {
+      includePaths: [path.join(currDir, "src")],
+    },
 
     webpack: (config, { isServer, dev }) => {
       config.resolve.fallback = { fs: false };
@@ -42,7 +52,7 @@ module.exports = (phase, { defaultConfig }) => {
           issuer: /\.[jt]sx?$/,
           resourceQuery: { not: /url/ }, // exclude if *.svg?url
           use: ["@svgr/webpack"],
-        }
+        },
       );
 
       // Modify the file loader rule to ignore *.svg, since we have it handled now.

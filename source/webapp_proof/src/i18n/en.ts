@@ -1,6 +1,9 @@
 const en = {
   close: "Close",
   close_and_return: "Close and return",
+  account_verification: "Account Verification",
+  documentation: "Documentation",
+  start_tutorial: "Start a tutorial",
   steps: "Steps",
   explorer: "Explorer",
   prfs_copyright: "© 2023 Prfs",
@@ -143,7 +146,9 @@ const en = {
   use_your_prfs_identity: "Use your Prfs identity",
   use_another_id: "Use another ID",
   create_an_identity: "Create an identity",
+  sign_up_success: "Sign up success",
   check_your_credential: "Check your credential and finish id creation",
+  sign_in_with_your_id: "Try signing in with your new identity",
   create_a_strong_password:
     "Create a strong password with a mix of upper/lower case lettters, numbers, and symbols. Each password has to be 15-character or longer. Your ID will be auto-generated based on your password",
   why_we_ask_for_email: "Why we ask for email address",
@@ -245,6 +250,7 @@ const en = {
     "Sign up for Prfs. To learn more about account registration, visit our upcoming blog",
   sign_out: "Sign out",
   sign_in_desc: "Or <a href='/signup'>create</a> a new Prfs account",
+  sign_up_at_prfs: "Sign up at Prfs",
   copyright: "© 2023 Prfs. All rights reserved.",
   copy_url: "Copy URL",
   copy: "Copy",

@@ -3,10 +3,14 @@
 import React from "react";
 import cn from "classnames";
 import { useRouter } from "next/navigation";
-import { encrypt, decrypt, PublicKey, PrivateKey } from "eciesjs";
+import { decrypt, PrivateKey } from "eciesjs";
 import PrfsIdSignInButton from "@taigalabs/prfs-react-components/src/prfs_id_sign_in_button/PrfsIdSignInButton";
 import PrfsCredentialPopover from "@taigalabs/prfs-react-components/src/prfs_credential_popover/PrfsCredentialPopover";
 import { PrfsIdSignInSuccessPayload, SignInData } from "@taigalabs/prfs-id-sdk-web";
+import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
+import { useMutation } from "wagmi";
+import { prfs_api_error_codes, prfsApi2 } from "@taigalabs/prfs-api-js";
+import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
 
 import styles from "./PrfsIdSignInBtn.module.scss";
 import { paths } from "@/paths";
@@ -15,22 +19,30 @@ import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { signInPrfs, signOutPrfs } from "@/state/userReducer";
 import {
   loadLocalPrfsProofCredential,
+  LocalPrfsProofCredential,
   persistPrfsProofCredential,
   removeLocalPrfsProofCredential,
 } from "@/storage/local_storage";
+import SignUpModal from "@/components/sign_up_modal/SignUpModal";
+import { makeColor } from "@taigalabs/prfs-crypto-js";
 
 const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   const router = useRouter();
   const [prfsIdSignInEndpoint, setPrfsIdSignInEndpoint] = React.useState<string | null>(null);
   const secretKeyRef = React.useRef<PrivateKey | null>(null);
   const dispatch = useAppDispatch();
+  const isCredentialInitialized = useAppSelector(state => state.user.isInitialized);
   const prfsProofCredential = useAppSelector(state => state.user.prfsProofCredential);
+  const { mutateAsync: prfsSignInRequest } = useMutation({
+    mutationFn: (req: PrfsSignInRequest) => {
+      return prfsApi2("sign_in_prfs_account", req);
+    },
+  });
+  const [signUpData, setSignUpData] = React.useState<LocalPrfsProofCredential | null>(null);
 
   React.useEffect(() => {
     const credential = loadLocalPrfsProofCredential();
-    if (credential) {
-      dispatch(signInPrfs(credential));
-    }
+    dispatch(signInPrfs(credential));
   }, []);
 
   React.useEffect(() => {
@@ -71,11 +83,30 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
           return;
         }
 
-        const credential = persistPrfsProofCredential(prfsIdSignInSuccessPayload);
+        const { payload, error, code } = await prfsSignInRequest({
+          account_id: prfsIdSignInSuccessPayload.account_id,
+        });
+        const avatar_color = makeColor(prfsIdSignInSuccessPayload.account_id);
+        const credential: LocalPrfsProofCredential = {
+          account_id: prfsIdSignInSuccessPayload.account_id,
+          public_key: prfsIdSignInSuccessPayload.public_key,
+          avatar_color,
+        };
+
+        if (error) {
+          console.error(error);
+          if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
+            setSignUpData(credential);
+          }
+          return;
+        }
+
+        persistPrfsProofCredential(credential);
+        // prfs account sign in
         dispatch(signInPrfs(credential));
       }
     },
-    [router, dispatch],
+    [router, dispatch, prfsSignInRequest, setSignUpData],
   );
 
   const handleClickSignOut = React.useCallback(() => {
@@ -87,19 +118,24 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
     console.log("Failed init Prfs Proof credential!");
   }, []);
 
+  if (!isCredentialInitialized) {
+    return <Spinner size={24} color="#5c5c5c" />;
+  }
+
   return prfsProofCredential ? (
-    <div className={styles.wrapper}>
-      <PrfsCredentialPopover
-        credential={prfsProofCredential}
-        handleInitFail={handleInitFail}
-        handleClickSignOut={handleClickSignOut}
-      />
-    </div>
-  ) : (
-    <PrfsIdSignInButton
-      prfsIdSignInEndpoint={prfsIdSignInEndpoint}
-      handleSucceedSignIn={handleSucceedSignIn}
+    <PrfsCredentialPopover
+      credential={prfsProofCredential}
+      handleInitFail={handleInitFail}
+      handleClickSignOut={handleClickSignOut}
     />
+  ) : (
+    <>
+      {signUpData && <SignUpModal credential={signUpData} />}
+      <PrfsIdSignInButton
+        prfsIdSignInEndpoint={prfsIdSignInEndpoint}
+        handleSucceedSignIn={handleSucceedSignIn}
+      />
+    </>
   );
 };
 

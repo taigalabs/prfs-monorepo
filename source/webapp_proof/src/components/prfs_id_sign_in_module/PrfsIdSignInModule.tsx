@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, HTMLInputTypeAttribute } from "react";
+import React, { HTMLInputTypeAttribute } from "react";
 import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
 import cn from "classnames";
 

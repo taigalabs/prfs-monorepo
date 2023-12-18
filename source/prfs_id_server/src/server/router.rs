@@ -3,6 +3,7 @@ use hyper::body::{Buf, Bytes, Incoming};
 use hyper::{header, Method, Request, Response, StatusCode};
 use hyper_util::rt::TokioIo;
 use hyper_utils::cors::handle_cors;
+use hyper_utils::error::ApiHandleError;
 use hyper_utils::io::{full, BytesBoxBody};
 use prfs_common_server_state::ServerState;
 use std::sync::Arc;
@@ -23,7 +24,7 @@ macro_rules! v0_path {
 pub async fn id_server_routes(
     req: Request<hyper::body::Incoming>,
     state: Arc<ServerState>,
-) -> Result<Response<BytesBoxBody>, IdServerError> {
+) -> Result<Response<BytesBoxBody>, ApiHandleError> {
     return match (req.method(), req.uri().path()) {
         (&Method::OPTIONS, _) => handle_cors(),
         (&Method::POST, v0_path!("sign_up_prfs_identity")) => {
@@ -33,7 +34,7 @@ pub async fn id_server_routes(
             prfs_identities::sign_in_prfs_identity(req, state).await
         }
         _ => {
-            // Return 404 not found response.
+            println!("Route not found!, {}", req.uri());
             Ok(Response::builder()
                 .status(StatusCode::NOT_FOUND)
                 .body(full(NOTFOUND))

@@ -3,6 +3,7 @@ export const paths = {
   create: "/create",
   auth: "/auth",
   auth__twitter: "/auth/twitter",
+  account_verification: "/account_verification",
   proofs: "/proofs",
   updates: "/updates",
   privacy: "/privacy",

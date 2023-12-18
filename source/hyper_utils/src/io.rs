@@ -4,10 +4,10 @@ use hyper::{Request, Response};
 use serde::de::DeserializeOwned;
 use std::fmt::Debug;
 
-use crate::HyperUtilsError;
+use crate::error::ApiHandleError;
 
 pub type BytesBoxBody = http_body_util::combinators::BoxBody<Bytes, hyper::Error>;
-pub type ApiHandlerResult = Result<Response<BytesBoxBody>, HyperUtilsError>;
+pub type ApiHandlerResult = Result<Response<BytesBoxBody>, ApiHandleError>;
 
 pub fn full<T: Into<Bytes>>(chunk: T) -> BytesBoxBody {
     Full::new(chunk.into())
