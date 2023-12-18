@@ -24,14 +24,17 @@ pub async fn insert_prfs_account(
     tx: &mut Transaction<'_, Postgres>,
     prfs_account: &PrfsAccount,
 ) -> Result<String, DbInterfaceError> {
-    let query = "INSERT INTO prfs_accounts \
-            (account_id, avatar_color, policy_ids) \
-            VALUES ($1, $2, $3) returning account_id";
+    let query = r#"
+INSERT INTO prfs_accounts
+(account_id, avatar_color, policy_ids, public_key)
+VALUES ($1, $2, $3, $4) returning account_id
+"#;
 
     let row = sqlx::query(query)
         .bind(&prfs_account.account_id)
         .bind(&prfs_account.avatar_color)
         .bind(&prfs_account.policy_ids)
+        .bind(&prfs_account.public_key)
         .fetch_one(&mut **tx)
         .await?;
 

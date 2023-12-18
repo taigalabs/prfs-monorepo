@@ -93,6 +93,8 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
           avatar_color,
         };
 
+        console.log(33, credential, error);
+
         if (error) {
           console.error(error);
           if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
@@ -100,6 +102,8 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
           }
           return;
         }
+
+        console.log(44, credential);
 
         persistPrfsProofCredential(credential);
         // prfs account sign in
