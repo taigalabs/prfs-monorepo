@@ -13,7 +13,7 @@ import TwitterAuth from "@/components/twitter_auth/TwitterAuth";
 const TwitterPage = () => {
   return (
     <DefaultLayout>
-      <DefaultBody noTopPadding noMinWidth>
+      <DefaultBody noMinWidth>
         <div className={styles.container}>
           <Suspense fallback={<MastheadFallback />}>
             <Masthead />

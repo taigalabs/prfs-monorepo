@@ -25,20 +25,22 @@ const Row: React.FC<RowProps> = ({ proofType, handleSelectVal, webappConsoleEndp
   }, [handleSelectVal, proofType]);
 
   return (
-    <div className={styles.row} onClick={extendedHandleSelectVal}>
-      <div className={styles.left}>
-        <CaptionedImg img_url={proofType.img_url} size={32} />
-      </div>
-      <div className={styles.right}>
-        <div className={styles.labelRow}>
-          <span>{proofType.label}</span>
-          <div className={styles.icon} onClick={handleClickExternalLink}>
-            <BiLinkExternal />{" "}
-          </div>
+    proofType && (
+      <div className={styles.row} onClick={extendedHandleSelectVal}>
+        <div className={styles.left}>
+          <CaptionedImg img_url={proofType.img_url} size={32} />
         </div>
-        <p className={styles.proofTypeId}>{proofType.proof_type_id}</p>
+        <div className={styles.right}>
+          <div className={styles.labelRow}>
+            <span>{proofType.label}</span>
+            <div className={styles.icon} onClick={handleClickExternalLink}>
+              <BiLinkExternal />{" "}
+            </div>
+          </div>
+          <p className={styles.proofTypeId}>{proofType.proof_type_id}</p>
+        </div>
       </div>
-    </div>
+    )
   );
 };
 
@@ -57,11 +59,12 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({
         return payload;
       },
       {
-        getNextPageParam: lastPage => (lastPage.next_idx > -1 ? lastPage.next_idx : undefined),
+        getNextPageParam: lastPage =>
+          lastPage && lastPage.next_idx > -1 ? lastPage.next_idx : undefined,
       },
     );
 
-  const allRows = data ? data.pages.flatMap(d => d.prfs_proof_types) : [];
+  const allRows = data ? data.pages.flatMap(d => d && d.prfs_proof_types) : [];
   const parentRef = React.useRef<HTMLDivElement | null>(null);
 
   const rowVirtualizer = useVirtualizer({
