@@ -184,7 +184,7 @@ async fn upload_dynamic_sets(db: &Database2) {
 
         println!("Deleted {} prfs tree nodes", rows_updated);
 
-        let elements_path = PATHS.data.join(&dynamic_set.elements_path);
+        let elements_path = PATHS.data_seed.join(&dynamic_set.elements_path);
 
         let mut rdr = csv::Reader::from_path(elements_path)
             .expect(&format!("elements_path: {}", dynamic_set.elements_path));
