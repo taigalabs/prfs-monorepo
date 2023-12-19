@@ -22,7 +22,9 @@ import {
 } from "@/components/masthead/Masthead";
 import VerifiedAccSearch from "../verified_acc_search/VerifiedAccSearch";
 
-const AccVerificationMasthead: React.FC<AccVerificationMastheadProps> = ({}) => {
+const AccVerificationMasthead: React.FC<AccVerificationMastheadProps> = ({
+  handleClickShowLeftBar,
+}) => {
   const i18n = React.useContext(i18nContext);
 
   return (
@@ -65,6 +67,7 @@ const AccVerificationMasthead: React.FC<AccVerificationMastheadProps> = ({}) => 
 export default AccVerificationMasthead;
 
 export interface AccVerificationMastheadProps {
+  handleClickShowLeftBar: () => void;
   // isActivated?: boolean;
   // proofInstanceId: string | undefined;
   // proofType: PrfsProofType | undefined;
