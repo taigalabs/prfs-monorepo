@@ -82,7 +82,9 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
         page_size: pageSize,
       });
 
-      setData(payload.prfs_circuits_syn1);
+      if (payload) {
+        setData(payload.prfs_circuits_syn1);
+      }
     }
 
     fn().then();
