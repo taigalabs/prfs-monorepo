@@ -10,6 +10,7 @@ import { paths } from "@/paths";
 import AccVerificationMasthead from "@/components/acc_verification_masthead/AccVerificationMasthead";
 import { MastheadPlaceholder } from "@/components/masthead/Masthead";
 import LeftBar from "./LeftBar";
+import AccVerifyLogoArea from "../acc_verification_masthead/LogoArea";
 
 const TwitterAccVerification: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -19,12 +20,20 @@ const TwitterAccVerification: React.FC = () => {
     setIsLeftBarVisible(v => !v);
   }, [setIsLeftBarVisible]);
 
+  console.log(55, isLeftBarVisible);
+
   return (
     <>
       <AccVerificationMasthead handleClickShowLeftBar={handleClickShowLeftBar} />
       <MastheadPlaceholder tallHeight />
       <div className={styles.wrapper}>
         <div className={cn(styles.leftBarContainer, { [styles.isVisible]: isLeftBarVisible })}>
+          <LeftBar />
+        </div>
+        <div
+          className={cn(styles.leftBarDrawerContainer, { [styles.isVisible]: !isLeftBarVisible })}
+        >
+          <AccVerifyLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
           <LeftBar />
         </div>
         <div className={styles.main}>main</div>

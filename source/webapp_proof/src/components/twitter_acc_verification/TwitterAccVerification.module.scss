@@ -24,6 +24,27 @@ $leftbar_width: 268px;
   }
 }
 
+.leftBarDrawerContainer {
+  display: none;
+}
+
 .main {
   padding: 0 16px 20px;
+}
+
+@media screen and (max-width: 1120px) {
+  .leftBarContainer {
+    display: none;
+  }
+
+  .leftBarDrawerContainer {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: $leftbar_width;
+    background-color: var(--white-100);
+    z-index: 20;
+    height: 100%;
+  }
 }

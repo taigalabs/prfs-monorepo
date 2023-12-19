@@ -20,7 +20,8 @@ import {
   MastheadRightGroupMenu,
   MastheadWrapper,
 } from "@/components/masthead/Masthead";
-import VerifiedAccSearch from "../verified_acc_search/VerifiedAccSearch";
+import VerifiedAccSearch from "@/components/verified_acc_search/VerifiedAccSearch";
+import AccVerifyLogoArea from "./AccVerifyLogoArea";
 
 const AccVerificationMasthead: React.FC<AccVerificationMastheadProps> = ({
   handleClickShowLeftBar,
@@ -29,15 +30,16 @@ const AccVerificationMasthead: React.FC<AccVerificationMastheadProps> = ({
 
   return (
     <MastheadWrapper smallPadding tallHeight>
-      <div className={styles.leftGroup}>
-        <div className={styles.hamburger} onClick={handleClickShowLeftBar}>
-          <IoIosMenu />
-        </div>
-        <a className={styles.logoArea} href={paths.__}>
-          <ImageLogo width={24} />
-          <span>{i18n.acc_verification}</span>
-        </a>
-      </div>
+      <AccVerifyLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
+      {/* <div className={styles.leftGroup}> */}
+      {/*   <div className={styles.hamburger} onClick={handleClickShowLeftBar}> */}
+      {/*     <IoIosMenu /> */}
+      {/*   </div> */}
+      {/*   <a className={styles.logoArea} href={paths.__}> */}
+      {/*     <ImageLogo width={24} /> */}
+      {/*     <span>{i18n.acc_verification}</span> */}
+      {/*   </a> */}
+      {/* </div> */}
       <MastheadMain>
         <div className={styles.searchArea}>
           <VerifiedAccSearch />
@@ -68,8 +70,4 @@ export default AccVerificationMasthead;
 
 export interface AccVerificationMastheadProps {
   handleClickShowLeftBar: () => void;
-  // isActivated?: boolean;
-  // proofInstanceId: string | undefined;
-  // proofType: PrfsProofType | undefined;
-  // handleSelectProofType: (proofType: PrfsProofType) => void;
 }
