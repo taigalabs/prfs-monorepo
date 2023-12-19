@@ -1,5 +1,6 @@
-import { paths } from "@/paths";
 import React from "react";
+
+import { paths } from "@/paths";
 
 export function useUrls() {
   const ret = React.useMemo(() => {
