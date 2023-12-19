@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 
 import { en } from "@taigalabs/prfs-i18n";

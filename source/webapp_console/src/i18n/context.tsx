@@ -1,6 +1,6 @@
 import React from "react";
 
-import en from "./en";
+import { en } from "@taigalabs/prfs-i18n";
 
 export const i18nContext = React.createContext(en);
 
