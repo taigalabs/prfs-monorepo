@@ -4,6 +4,7 @@ export const paths = {
   auth: "/auth",
   auth__twitter: "/auth/twitter",
   account_verification: "/account_verification",
+  account_verification__twitter: "/account_verification/twitter",
   proofs: "/proofs",
   updates: "/updates",
   privacy: "/privacy",

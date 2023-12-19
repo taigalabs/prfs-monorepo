@@ -5,23 +5,16 @@ import DefaultLayout, {
   DefaultBody,
   DefaultFooter,
 } from "@/components/layouts/default_layout/DefaultLayout";
-import Masthead from "@/components/masthead/Masthead";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
-import MastheadFallback from "@/components/masthead/MastheadFallback";
-import TwitterAuth from "@/components/twitter_auth/TwitterAuth";
+import TwitterAccVerification from "@/components/twitter_acc_verification/TwitterAccVerification";
 
-const TwitterPage = () => {
+const TwitterVerificationPage = () => {
   return (
     <DefaultLayout>
       <DefaultBody noMinWidth>
-        <div className={styles.container}>
-          <Suspense fallback={<MastheadFallback />}>
-            <Masthead />
-          </Suspense>
-          <Suspense>
-            <TwitterAuth />
-          </Suspense>
-        </div>
+        <Suspense>
+          <TwitterAccVerification />
+        </Suspense>
       </DefaultBody>
       <DefaultFooter>
         <GlobalFooter />
@@ -30,4 +23,4 @@ const TwitterPage = () => {
   );
 };
 
-export default TwitterPage;
+export default TwitterVerificationPage;

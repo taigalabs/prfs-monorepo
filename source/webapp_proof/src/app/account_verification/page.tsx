@@ -1,26 +1,10 @@
 import React, { Suspense } from "react";
+import { redirect } from "next/navigation";
 
-import styles from "./page.module.scss";
-import DefaultLayout, {
-  DefaultBody,
-  DefaultFooter,
-} from "@/components/layouts/default_layout/DefaultLayout";
-import GlobalFooter from "@/components/global_footer/GlobalFooter";
-import AccountVerification from "@/components/account_verfication/AccountVerification";
+import { paths } from "@/paths";
 
 const AccountVerificationPage = () => {
-  return (
-    <DefaultLayout>
-      <DefaultBody noMinWidth>
-        <Suspense>
-          <AccountVerification />
-        </Suspense>
-      </DefaultBody>
-      <DefaultFooter>
-        <GlobalFooter />
-      </DefaultFooter>
-    </DefaultLayout>
-  );
+  redirect(paths.account_verification__twitter);
 };
 
 export default AccountVerificationPage;

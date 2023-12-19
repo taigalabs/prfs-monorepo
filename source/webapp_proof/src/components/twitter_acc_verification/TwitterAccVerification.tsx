@@ -3,22 +3,24 @@
 import React from "react";
 import cn from "classnames";
 
-import styles from "./AccountVerification.module.scss";
+import styles from "./TwitterAccVerification.module.scss";
 import { i18nContext } from "@/i18n/context";
 import Link from "next/link";
 import { paths } from "@/paths";
 import ProofTypeMasthead from "@/components/proof_type_masthead/ProofTypeMasthead";
+import AccVerificationMasthead from "../acc_verification_masthead/AccVerificationMasthead";
 
-const AccountVerification: React.FC = () => {
+const TwitterAccVerification: React.FC = () => {
   const i18n = React.useContext(i18nContext);
 
   return (
     <>
-      <ProofTypeMasthead
-        proofInstanceId={undefined}
-        proofType={undefined}
-        handleSelectProofType={() => {}}
-      />
+      <AccVerificationMasthead />
+      {/* <ProofTypeMasthead */}
+      {/*   proofInstanceId={undefined} */}
+      {/*   proofType={undefined} */}
+      {/*   handleSelectProofType={() => {}} */}
+      {/* /> */}
       <div className={styles.wrapper}>
         <ul className={styles.list}>
           <li className={styles.listItem}>
@@ -37,4 +39,4 @@ const AccountVerification: React.FC = () => {
   );
 };
 
-export default AccountVerification;
+export default TwitterAccVerification;
