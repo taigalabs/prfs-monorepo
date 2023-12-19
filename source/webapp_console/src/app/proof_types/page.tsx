@@ -10,7 +10,7 @@ import Link from "next/link";
 import styles from "./ProofTypes.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { WidgetLabel } from "@/components/widget/Widget";
-import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
+import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import ProofTypeTable from "@/components/proof_type_table/ProofTypeTable";
 import CreateProofTypeForm from "@/components/create_proof_type_form/CreateProofTypeForm";

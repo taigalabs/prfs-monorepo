@@ -10,7 +10,7 @@ import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/Arrow
 import styles from "./Set.module.scss";
 import { WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/i18n/context";
-import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
+import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import SetElementTable from "@/components/set_element_table/SetElementTable";
 import SetDetailTable from "@/components/set_detail_table/SetDetailTable";

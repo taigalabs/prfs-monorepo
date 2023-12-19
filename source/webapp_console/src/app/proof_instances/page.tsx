@@ -10,7 +10,7 @@ import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table2/
 import styles from "./Proofs.module.scss";
 import { WidgetLabel } from "@/components/widget/Widget";
 import { i18nContext } from "@/i18n/context";
-import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
+import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import ProofInstanceTable from "@/components/proof_instance_table/ProofInstanceTable";
 import CreateProofInstanceForm from "@/components/create_proof_instance_form/CreateProofInstanceForm";

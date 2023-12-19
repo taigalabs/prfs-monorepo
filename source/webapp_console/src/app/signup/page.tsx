@@ -3,7 +3,7 @@
 import React from "react";
 
 import styles from "./SignUp.module.scss";
-import SignInLayout from "@/layouts/sign_in_layout/SignInLayout";
+import SignInLayout from "@/components/layouts/sign_in_layout/SignInLayout";
 import { i18nContext } from "@/i18n/context";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import SignUpForm from "@/components/sign_up_form/SignUpForm";

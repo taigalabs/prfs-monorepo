@@ -9,8 +9,8 @@ import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/Arrow
 
 import styles from "./CircuitType.module.scss";
 import { WidgetLabel } from "@/components/widget/Widget";
-import { i18nContext } from "@/contexts/i18n";
-import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
+import { i18nContext } from "@/i18n/context";
+import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import CircuitInputsMetaTable from "@/components/circuit_inputs_meta_table/CircuitInputsMetaTable";
 import { paths } from "@/paths";
@@ -33,8 +33,9 @@ const CircuitType: React.FC<CircuitTypeProps> = ({ params }) => {
         circuit_type_id: params.circuit_type_id,
       });
 
-      const { prfs_circuit_type } = payload;
-      setCircuitType(prfs_circuit_type);
+      if (payload) {
+        setCircuitType(payload.prfs_circuit_type);
+      }
     }
 
     fn().then();

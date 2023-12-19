@@ -9,7 +9,7 @@ import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table2/
 import styles from "./CircuitTypes.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { WidgetLabel } from "@/components/widget/Widget";
-import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
+import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import CircuitTypeTable from "@/components/circuit_type_table/CircuitTypeTable";
 import { paths } from "@/paths";

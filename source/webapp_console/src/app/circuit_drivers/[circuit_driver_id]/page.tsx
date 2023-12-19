@@ -9,8 +9,8 @@ import { DriverPropertyMeta } from "@taigalabs/prfs-entities/bindings/DriverProp
 
 import styles from "./Program.module.scss";
 import { WidgetLabel } from "@/components/widget/Widget";
-import { i18nContext } from "@/contexts/i18n";
-import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
+import { i18nContext } from "@/i18n/context";
+import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import DriverPropsMetaTable from "@/components/driver_props_meta_table/DriverPropsMetaTable";
 import { paths } from "@/paths";
@@ -32,7 +32,9 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
         circuit_driver_id: params.circuit_driver_id,
       });
 
-      setDriver(payload.prfs_circuit_driver);
+      if (payload) {
+        setDriver(payload.prfs_circuit_driver);
+      }
     }
 
     fn().then();

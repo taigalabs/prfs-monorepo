@@ -5,7 +5,7 @@ import Link from "next/link";
 import Logo from "@taigalabs/prfs-react-components/src/logo/Logo";
 
 import styles from "./SignInLayout.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 
 const SignInLayout: React.FC<SignInLayoutProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
