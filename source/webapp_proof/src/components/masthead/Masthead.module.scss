@@ -17,6 +17,14 @@
   &.isTutorial {
     border-bottom: 1px solid var(--bright-gray-32);
   }
+
+  &.smallPadding {
+    padding: 10px 8px;
+  }
+
+  &.tallHeight {
+    height: $masthead_tallheight_w1920;
+  }
 }
 
 .twoColumn {
@@ -25,10 +33,14 @@
 
 .placeholder {
   height: $masthead_height_w1920;
-}
 
-.placeholder.twoColumn {
-  height: $masthead_two_column_height_w1920;
+  &.twoColumn {
+    height: $masthead_two_column_height_w1920;
+  }
+
+  &.tallHeight {
+    height: $masthead_tallheight_w1920;
+  }
 }
 
 .logoArea {
@@ -80,20 +92,32 @@
 }
 
 @media screen and (max-width: 1120px) {
-  .wrapper.twoColumn {
-    width: 100vw;
-    min-width: 360px;
-    height: $masthead_two_column_height_w1120;
-    margin-right: 0;
-    padding-top: 0px;
-    padding-left: 10px;
-    padding-right: 10px;
-    align-items: flex-start;
-    justify-content: center;
+  .wrapper {
+    &.twoColumn {
+      width: 100vw;
+      min-width: 360px;
+      height: $masthead_two_column_height_w1120;
+      margin-right: 0;
+      padding-top: 0px;
+      padding-left: 10px;
+      padding-right: 10px;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    &.tallHeight {
+      height: $masthead_tallheight_w1120;
+    }
   }
 
-  .placeholder.twoColumn {
-    height: $masthead_two_column_height_w1120;
+  .placeholder {
+    &.twoColumn {
+      height: $masthead_two_column_height_w1120;
+    }
+
+    &.tallHeight {
+      height: $masthead_tallheight_w1120;
+    }
   }
 
   .logoArea {
@@ -126,9 +150,6 @@
 @media screen and (max-width: 480px) {
   .wrapper {
     min-width: 360px;
-  }
-
-  .twoColumn {
   }
 
   .rightGroup {

@@ -117,6 +117,7 @@ export default {
   circuit_driver: "Circuit driver",
   share: "Share",
   twitter: "Twitter",
+  x_twitter: "X (Twitter)",
   telegram: "Telegram",
   discord: "Discord",
   driver_version: "Driver version",

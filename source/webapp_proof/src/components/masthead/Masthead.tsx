@@ -21,6 +21,8 @@ export const MastheadWrapper: React.FC<MastheadWrapperProps> = ({
   children,
   className,
   twoColumn,
+  tallHeight,
+  smallPadding,
 }) => {
   const isTutorial = useIsTutorial();
   return (
@@ -28,6 +30,8 @@ export const MastheadWrapper: React.FC<MastheadWrapperProps> = ({
       className={cn(styles.wrapper, className, {
         [styles.isTutorial]: isTutorial,
         [styles.twoColumn]: twoColumn,
+        [styles.smallPadding]: smallPadding,
+        [styles.tallHeight]: tallHeight,
       })}
     >
       {children}
@@ -35,26 +39,20 @@ export const MastheadWrapper: React.FC<MastheadWrapperProps> = ({
   );
 };
 
-export const MastheadLogoArea: React.FC<MastheadProps> = ({
-  children,
-  className,
-  staticPosition,
-}) => {
-  return (
-    <div className={cn(styles.logoArea, className, { [styles.staticPosition]: staticPosition })}>
-      {children}
-    </div>
-  );
+export const MastheadLogoArea: React.FC<MastheadProps> = ({ children, className }) => {
+  return <div className={cn(styles.logoArea, className)}>{children}</div>;
 };
 
 export const MastheadPlaceholder: React.FC<MastheadPlaceholderProps> = ({
   className,
   twoColumn,
+  tallHeight,
 }) => {
   return (
     <div
       className={cn(styles.placeholder, className, {
         [styles.twoColumn]: twoColumn,
+        [styles.tallHeight]: tallHeight,
       })}
     />
   );
@@ -145,6 +143,8 @@ export interface MastheadWrapperProps {
   children: React.ReactNode;
   className?: string;
   twoColumn?: boolean;
+  smallPadding?: boolean;
+  tallHeight?: boolean;
 }
 
 export interface MastheadProps {
@@ -156,4 +156,5 @@ export interface MastheadProps {
 export interface MastheadPlaceholderProps {
   className?: string;
   twoColumn?: boolean;
+  tallHeight?: boolean;
 }

@@ -28,7 +28,7 @@ const AccVerificationMasthead: React.FC<AccVerificationMastheadProps> = ({
   const i18n = React.useContext(i18nContext);
 
   return (
-    <MastheadWrapper>
+    <MastheadWrapper smallPadding tallHeight>
       <div className={styles.leftGroup}>
         <div className={styles.hamburger}>
           <IoIosMenu />
