@@ -51,7 +51,7 @@
     "sass": "^1.63.6",
     "snarkjs": "0.7.0",
     "uuid": "^9.0.0",
-    "wagmi": "1.4.11"
+    "wagmi": "1.4.12"
   },
   "devDependencies": {
     "@mdx-js/loader": "^2.3.0",

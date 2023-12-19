@@ -28,8 +28,7 @@
     "next": "14.0.4",
     "qrcode": "^1.5.3",
     "react": "18.2.0",
-    "viem": "^1.12.2",
-    "wagmi": "^1.4.2"
+    "wagmi": "1.4.12"
   },
   "devDependencies": {
     "@types/node": "20.3.1",

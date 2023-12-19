@@ -23,32 +23,32 @@ const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = ({ disable
       isOpenClassName={cn({ [styles.popoverIsOpen]: !disableMarkIsOpen })}
     >
       <PrfsAppsPopoverUl>
-        <PrfsAppsPopoverLi>
-          <a href={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
+        <PrfsAppsPopoverLi noPadding>
+          <a href={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT} className={styles.item}>
             <span>{i18n.documentation}</span>
           </a>
         </PrfsAppsPopoverLi>
-        <PrfsAppsPopoverLi>
-          <a href={tutorialUrl}>
+        <PrfsAppsPopoverLi noPadding>
+          <a href={tutorialUrl} className={styles.item}>
             <span>{i18n.start_tutorial}</span>
           </a>
         </PrfsAppsPopoverLi>
       </PrfsAppsPopoverUl>
       <PrfsAppsPopoverUl>
-        <PrfsAppsPopoverLi>
-          <a href={accVerrificationUrl}>
+        <PrfsAppsPopoverLi noPadding>
+          <a href={accVerrificationUrl} className={styles.item}>
             <TbCertificate />
             <span>{i18n.account_verification}</span>
           </a>
         </PrfsAppsPopoverLi>
-        <PrfsAppsPopoverLi>
-          <a href={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
+        <PrfsAppsPopoverLi noPadding>
+          <a href={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT} className={styles.item}>
             <TbMathPi />
             <span>{i18n.proof}</span>
           </a>
         </PrfsAppsPopoverLi>
-        <PrfsAppsPopoverLi>
-          <a href={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}>
+        <PrfsAppsPopoverLi noPadding>
+          <a href={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT} className={styles.item}>
             <GrMonitor />
             <span>{i18n.console}</span>
           </a>
