@@ -27,9 +27,28 @@
 }
 
 .menuList {
-  padding-top: 6px;
+  padding-top: 12px;
 }
 
 .menu {
   padding-left: 12px;
+
+  a {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid var(--bright-gray-30);
+    border-radius: 20px;
+    padding: 8px 16px;
+
+    &:hover {
+      border: 1px solid var(--gray-60);
+    }
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
 }

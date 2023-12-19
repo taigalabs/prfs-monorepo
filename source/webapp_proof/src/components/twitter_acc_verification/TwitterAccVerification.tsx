@@ -27,18 +27,19 @@ const TwitterAccVerification: React.FC = () => {
         <div className={cn(styles.leftBarContainer, { [styles.isVisible]: isLeftBarVisible })}>
           <LeftBar />
         </div>
-        <ul className={styles.list}>
-          <li className={styles.listItem}>
-            <Link href={paths.account_verification__twitter}>
-              <img
-                src="https://d1w1533jipmvi2.cloudfront.net/x-logo-black.png"
-                alt="Twitter"
-                crossOrigin=""
-              />
-              <p>{i18n.authorize_twitter_account}</p>
-            </Link>
-          </li>
-        </ul>
+        <div className={styles.main}>main</div>
+        {/* <ul className={styles.list}> */}
+        {/*   <li className={styles.listItem}> */}
+        {/*     <Link href={paths.account_verification__twitter}> */}
+        {/*       <img */}
+        {/*         src="https://d1w1533jipmvi2.cloudfront.net/x-logo-black.png" */}
+        {/*         alt="Twitter" */}
+        {/*         crossOrigin="" */}
+        {/*       /> */}
+        {/*       <p>{i18n.authorize_twitter_account}</p> */}
+        {/*     </Link> */}
+        {/*   </li> */}
+        {/* </ul> */}
       </div>
     </>
   );

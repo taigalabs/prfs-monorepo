@@ -31,7 +31,16 @@ const LeftBar: React.FC<LeftBarProps> = () => {
         </li>
       </ul>
       <ul className={styles.menuList}>
-        <li className={styles.menu}>{i18n.x_twitter}</li>
+        <li className={styles.menu}>
+          <Link href={paths.account_verification__twitter}>
+            <img
+              src="https://d1w1533jipmvi2.cloudfront.net/x-logo-black.png"
+              alt="Twitter"
+              crossOrigin=""
+            />
+            <span>{i18n.x_twitter}</span>
+          </Link>
+        </li>
       </ul>
     </div>
   );

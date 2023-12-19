@@ -1,3 +1,5 @@
+$leftbar_width: 268px;
+
 .wrapper {
   display: flex;
 
@@ -10,11 +12,11 @@
 
   > div {
     transition: all 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    transform: translate3d(-300px, 0, 0);
+    transform: translate3d(-$leftbar_width, 0, 0);
   }
 
   &.isVisible {
-    inline-size: 300px;
+    inline-size: $leftbar_width;
 
     > div {
       transform: translate3d(0, 0, 0);
@@ -22,31 +24,6 @@
   }
 }
 
-.list {
-  margin-top: 32px;
-}
-
-.listItem {
-  a {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    border: 1px solid var(--bright-gray-30);
-    border-radius: 20px;
-    padding: 8px 16px;
-
-    &:hover {
-      border: 1px solid var(--gray-60);
-    }
-  }
-
-  img {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-  }
-
-  p {
-    margin-left: 8px;
-  }
+.main {
+  padding: 0 16px 20px;
 }
