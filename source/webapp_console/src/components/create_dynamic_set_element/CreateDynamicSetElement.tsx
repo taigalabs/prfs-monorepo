@@ -6,7 +6,7 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 
 import styles from "./CreateDynamicSetElement.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import Widget, { TopWidgetTitle, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
 import FormTextInput from "@/components/form/FormTextInput";
 import { paths } from "@/paths";
@@ -26,14 +26,14 @@ export const CreateDynamicSetElement: React.FC<CreateDynamicSetElementProps> = (
     (ev: any) => {
       setValue(ev.target.value);
     },
-    [setValue]
+    [setValue],
   );
 
   const handleChangeMeta = React.useCallback(
     (ev: any) => {
       setMeta(ev.target.value);
     },
-    [setMeta]
+    [setMeta],
   );
 
   const handleClickCreateSetElement = React.useCallback(async () => {

@@ -13,7 +13,7 @@ import { FaVoteYea } from "@react-icons/all-files/fa/FaVoteYea";
 import { FaBitbucket } from "@react-icons/all-files/fa/FaBitbucket";
 
 import styles from "./LeftBar.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 
 const Leftbar: React.FC<any> = () => {

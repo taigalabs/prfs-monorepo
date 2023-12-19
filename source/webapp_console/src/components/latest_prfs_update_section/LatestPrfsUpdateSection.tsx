@@ -1,7 +1,7 @@
 import React from "react";
 
 import styles from "./LatestPrfsUpdateSection.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import TransparentWidget, {
   TransparentWidgetData,
   TransparentWidgetHeader,

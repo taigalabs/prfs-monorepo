@@ -3,7 +3,7 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import styles from "./ProofTypeDropdown.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import Dropdown, {
   CreateDropdownListArgs,
   DropdownData,
@@ -59,7 +59,9 @@ const ProofTypeDropdown: React.FC<ProofTypeDropdownProps> = ({ selectedVal, hand
         page_size: 20,
       });
 
-      setData({ page_idx: payload.next_idx, values: payload.prfs_proof_types });
+      if (payload) {
+        setData({ page_idx: payload.next_idx, values: payload.prfs_proof_types });
+      }
     }
 
     fn().then();
@@ -94,7 +96,7 @@ const ProofTypeDropdown: React.FC<ProofTypeDropdownProps> = ({ selectedVal, hand
         entries.push(
           <li className={styles.entryWrapper} key={val.proof_type_id} onClick={handleClickEntry}>
             <ProofTypeEntry val={val} />
-          </li>
+          </li>,
         );
       }
 
@@ -104,7 +106,7 @@ const ProofTypeDropdown: React.FC<ProofTypeDropdownProps> = ({ selectedVal, hand
         </DropdownList>
       );
     },
-    [data, handleSelectVal]
+    [data, handleSelectVal],
   );
 
   return (

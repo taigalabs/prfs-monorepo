@@ -6,7 +6,7 @@ import { Provider as StateProvider } from "react-redux";
 import { PrfsReactComponentsI18NProvider } from "@taigalabs/prfs-react-components/src/i18n/i18nContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import { I18nProvider } from "@/contexts/i18n";
+import { I18nProvider } from "@/i18n/context";
 import { store } from "@/state/store";
 
 const queryClient = new QueryClient();

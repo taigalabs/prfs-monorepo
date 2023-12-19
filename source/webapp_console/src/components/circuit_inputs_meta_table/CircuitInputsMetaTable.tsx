@@ -11,7 +11,7 @@ import {
 import Table2, { Table2Body, Table2Head } from "@taigalabs/prfs-react-components/src/table2/Table2";
 
 import styles from "./CircuitInputsMetaTable.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 
 const CircuitInputsMetaTable: React.FC<CircuitInputsMetaTableProps> = ({
   circuit_inputs_meta,

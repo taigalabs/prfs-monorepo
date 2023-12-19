@@ -3,7 +3,7 @@ import Head from "next/head";
 import TextButton from "@taigalabs/prfs-react-components/src/text_button/TextButton";
 
 import styles from "./ProofView.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 
 const STRIDE = 64;
 

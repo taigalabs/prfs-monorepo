@@ -20,7 +20,7 @@ import Table2, {
 } from "@taigalabs/prfs-react-components/src/table2/Table2";
 
 import styles from "./CircuitTable.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 
 const CircuitTable: React.FC<CircuitTableProps> = ({

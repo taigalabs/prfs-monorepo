@@ -21,7 +21,7 @@ import Table2, {
 import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
 
 import styles from "./ProofTypeTable.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 
 const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
@@ -89,7 +89,9 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
         page_size: pageSize,
       });
 
-      setData(payload.prfs_proof_types);
+      if (payload) {
+        setData(payload.prfs_proof_types);
+      }
     }
 
     fn().then();

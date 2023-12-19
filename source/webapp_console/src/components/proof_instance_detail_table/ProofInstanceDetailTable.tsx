@@ -14,7 +14,7 @@ import Table2, { RecordData, Table2Body } from "@taigalabs/prfs-react-components
 import Link from "next/link";
 
 import styles from "./ProofInstanceDetailTable.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
 import { envs } from "@/envs";
 import { paths } from "@/paths";
@@ -54,7 +54,7 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
     (_: React.Dispatch<React.SetStateAction<any>>) => {
       return <div className={styles.copyBtnTooltip}>{i18n.url_is_copied}</div>;
     },
-    []
+    [],
   );
 
   const data = React.useMemo(() => {
@@ -71,7 +71,7 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
       },
       {
         label: i18n.proof_label,
-        value: proofInstance.proof_label,
+        value: proofInstance.proof_type_label,
       },
       {
         label: i18n.share_url,
@@ -101,7 +101,7 @@ const ProofInstanceDetailTable: React.FC<ProofInstanceDetailTableProps> = ({ pro
       },
       {
         label: i18n.proof_type_description,
-        value: proofInstance.proof_desc,
+        value: proofInstance.proof_type_desc,
       },
       {
         label: i18n.proof_type_id,

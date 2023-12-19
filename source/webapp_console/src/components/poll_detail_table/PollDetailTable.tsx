@@ -12,7 +12,7 @@ import Link from "next/link";
 import { PrfsPoll } from "@taigalabs/prfs-entities/bindings/PrfsPoll";
 
 import styles from "./PollDetailTable.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 
 const columnHelper = createColumnHelper<RecordData>();
 

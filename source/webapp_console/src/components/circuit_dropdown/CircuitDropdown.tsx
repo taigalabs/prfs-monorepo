@@ -12,7 +12,7 @@ import DropdownList from "@taigalabs/prfs-react-components/src/dropdown/Dropdown
 import { PrfsCircuitSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsCircuitSyn1";
 
 import styles from "./CircuitDropdown.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 
 const CircuitEntry: React.FC<CircuitEntryProps> = ({ val }) => {
   const i18n = React.useContext(i18nContext);
@@ -62,7 +62,9 @@ const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSe
         page_size: 0,
       });
 
-      setData({ page_idx: payload.page_idx, values: payload.prfs_circuits_syn1 });
+      if (payload) {
+        setData({ page_idx: payload.page_idx, values: payload.prfs_circuits_syn1 });
+      }
     }
 
     fn().then();
@@ -97,13 +99,13 @@ const CircuitDropdown: React.FC<CircuitDropdownProps> = ({ selectedVal, handleSe
         entries.push(
           <li className={styles.entryWrapper} key={val.circuit_id} onClick={handleClickEntry}>
             <CircuitEntry val={val} />
-          </li>
+          </li>,
         );
       }
 
       return <DropdownList>{entries}</DropdownList>;
     },
-    [data, handleSelectVal]
+    [data, handleSelectVal],
   );
 
   return (

@@ -7,7 +7,7 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 
 import styles from "./CreateSetForm.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import Widget, { TopWidgetTitle, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
 import FormTextInput from "@/components/form/FormTextInput";
 import { paths } from "@/paths";
@@ -30,14 +30,14 @@ const CreateSetForm: React.FC<CreateSetFormProps> = () => {
     (ev: any) => {
       setLabel(ev.target.value);
     },
-    [setLabel]
+    [setLabel],
   );
 
   const handleChangeDesc = React.useCallback(
     (ev: any) => {
       setDesc(ev.target.value);
     },
-    [setDesc]
+    [setDesc],
   );
 
   const handleCreateSet = React.useCallback(async () => {

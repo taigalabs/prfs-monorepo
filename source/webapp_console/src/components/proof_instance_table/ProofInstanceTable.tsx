@@ -22,7 +22,7 @@ import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/Cap
 import { useQuery } from "@tanstack/react-query";
 
 import styles from "./ProofInstanceTable.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 
 const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
@@ -112,14 +112,14 @@ const ProofInstanceTable: React.FC<ProofInstanceTableProps> = ({
 
   React.useEffect(() => {
     async function fn() {
-      //
       const { payload } = await prfsApi2("get_prfs_proof_instances", {
         page_idx: pageIndex,
         page_size: pageSize,
       });
-      const { prfs_proof_instances_syn1 } = payload;
 
-      setData(prfs_proof_instances_syn1);
+      if (payload) {
+        setData(payload.prfs_proof_instances_syn1);
+      }
     }
 
     fn().then();

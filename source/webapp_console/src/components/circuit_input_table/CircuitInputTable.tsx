@@ -6,7 +6,7 @@ import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack
 import Table2, { Table2Body, Table2Head } from "@taigalabs/prfs-react-components/src/table2/Table2";
 
 import styles from "./CircuitInputTable.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 
 const CircuitInputTable: React.FC<CircuitInputTableProps> = ({ circuit_inputs }) => {
   const i18n = React.useContext(i18nContext);

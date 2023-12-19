@@ -9,7 +9,7 @@ import TextButton from "@taigalabs/prfs-react-components/src/text_button/TextBut
 import styles from "./SignUpForm.module.scss";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
 import useLocalWallet from "@/hooks/useLocalWallet";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { FormTitle } from "@/components/form/Form";
 import FormTextInput from "@/components/form/FormTextInput";
 import { paths } from "@/paths";
@@ -36,14 +36,14 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
     (ev: any) => {
       setPasscode(ev.target.value);
     },
-    [setPasscode]
+    [setPasscode],
   );
 
   const handleChangePasscodeConfirm = React.useCallback(
     (ev: any) => {
       setPasscodeConfirm(ev.target.value);
     },
-    [setPasscodeConfirm]
+    [setPasscodeConfirm],
   );
 
   const handleClickHash = React.useCallback(() => {
@@ -87,17 +87,17 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
       const sig = await signer.signMessage(passhash);
       const avatar_color = Math.floor(Math.random() * 16777215).toString(16);
 
-      try {
-        const resp = await prfsApi2("sign_up_prfs_account", { account_id: sig, avatar_color });
+      // try {
+      //   const resp = await prfsApi2("sign_up_prfs_account", { account_id: sig, avatar_color });
 
-        if (resp.error) {
-          throw new Error(resp.error);
-        }
+      //   if (resp.error) {
+      //     throw new Error(resp.error);
+      //   }
 
-        router.push(paths.signin);
-      } catch (err) {
-        setSignUpAlert(`sign up err, err: ${err}`);
-      }
+      //   router.push(paths.signin);
+      // } catch (err) {
+      //   setSignUpAlert(`sign up err, err: ${err}`);
+      // }
     }
 
     fn().then();
@@ -111,7 +111,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
     (addr: string) => {
       setWalletAddr(addr);
     },
-    [setWalletAddr]
+    [setWalletAddr],
   );
 
   return (

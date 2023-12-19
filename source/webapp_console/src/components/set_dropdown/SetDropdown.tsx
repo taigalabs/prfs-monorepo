@@ -10,7 +10,7 @@ import DropdownEntry from "@taigalabs/prfs-react-components/src/dropdown/Dropdow
 import DropdownList from "@taigalabs/prfs-react-components/src/dropdown/DropdownList";
 
 import styles from "./SetDropdown.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 
 const SetEntry: React.FC<SetEntryProps> = ({ val }) => {
   const i18n = React.useContext(i18nContext);
@@ -57,8 +57,10 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
         page_size: 20,
       });
 
-      const { page_idx, prfs_sets } = payload;
-      setData({ page_idx, values: prfs_sets });
+      if (payload) {
+        const { page_idx, prfs_sets } = payload;
+        setData({ page_idx, values: prfs_sets });
+      }
     } catch (err) {
       console.error(err);
     }
@@ -95,13 +97,13 @@ const SetDropdown: React.FC<SetDropdownProps> = ({ selectedVal, handleSelectVal 
         entries.push(
           <li className={styles.entryInList} key={val.set_id} onClick={handleClickEntry}>
             <SetEntry val={val} />
-          </li>
+          </li>,
         );
       }
 
       return <DropdownList>{entries}</DropdownList>;
     },
-    [data, handleSelectVal]
+    [data, handleSelectVal],
   );
 
   return (

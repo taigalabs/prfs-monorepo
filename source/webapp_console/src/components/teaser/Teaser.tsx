@@ -1,7 +1,7 @@
 import React from "react";
 
 import styles from "./Teaser.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 
 const Teaser: React.FC = () => {
   const i18n = React.useContext(i18nContext);

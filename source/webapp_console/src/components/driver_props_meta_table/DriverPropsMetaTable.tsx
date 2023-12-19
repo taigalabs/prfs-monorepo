@@ -16,7 +16,7 @@ import Table2, {
 } from "@taigalabs/prfs-react-components/src/table2/Table2";
 
 import styles from "./DriverPropsMetaTable.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 
 const DriverPropsMetaTable: React.FC<DriverPropsMetaTableProps> = ({ driverPropsMeta }) => {
   const i18n = React.useContext(i18nContext);

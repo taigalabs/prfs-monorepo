@@ -8,9 +8,8 @@ import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 
 import styles from "./Set.module.scss";
-// import { stateContext } from "@/contexts/state";
 import { WidgetLabel } from "@/components/widget/Widget";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import SetElementTable from "@/components/set_element_table/SetElementTable";
@@ -35,7 +34,9 @@ const Set: React.FC<SetProps> = ({ params }) => {
           set_id: params.set_id,
         });
 
-        setPrfsSet(payload.prfs_set);
+        if (payload) {
+          setPrfsSet(payload.prfs_set);
+        }
       } catch (err) {
         console.error(err);
       }

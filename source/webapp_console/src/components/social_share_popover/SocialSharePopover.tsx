@@ -7,7 +7,7 @@ import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
 import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
 
 import styles from "./SocialSharePopover.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 
 const SocialSharePopover: React.FC<SocialSharePopoverProps> = () => {
   let i18n = React.useContext(i18nContext);
@@ -40,7 +40,7 @@ const SocialSharePopover: React.FC<SocialSharePopoverProps> = () => {
         </ul>
       );
     },
-    []
+    [],
   );
 
   return <Popover createBase={createBase} createPopover={createPopover} />;

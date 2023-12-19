@@ -11,7 +11,7 @@ import {
 import Table2, { Table2Body } from "@taigalabs/prfs-react-components/src/table2/Table2";
 
 import styles from "./SupportingCircuitTypeTable.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 
 const SupportingCircuitTypeTable: React.FC<SupportingCircuitTypeTableProps> = ({
   circuit_type_ids,

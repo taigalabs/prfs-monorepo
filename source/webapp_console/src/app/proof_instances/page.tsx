@@ -8,8 +8,8 @@ import Link from "next/link";
 import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table2/Table2";
 
 import styles from "./Proofs.module.scss";
-import { i18nContext } from "@/contexts/i18n";
 import { WidgetLabel } from "@/components/widget/Widget";
+import { i18nContext } from "@/i18n/context";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import ProofInstanceTable from "@/components/proof_instance_table/ProofInstanceTable";

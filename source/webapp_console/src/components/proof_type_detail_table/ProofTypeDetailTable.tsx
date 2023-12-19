@@ -9,7 +9,7 @@ import {
 import Table2, { RecordData, Table2Body } from "@taigalabs/prfs-react-components/src/table2/Table2";
 
 import styles from "./ProofTypeDetailTable.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 const columnHelper = createColumnHelper<RecordData>();

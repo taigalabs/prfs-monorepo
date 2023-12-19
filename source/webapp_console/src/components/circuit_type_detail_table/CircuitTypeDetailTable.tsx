@@ -15,7 +15,7 @@ import Table2, {
 import { PrfsCircuitType } from "@taigalabs/prfs-entities/bindings/PrfsCircuitType";
 
 import styles from "./CircuitTypeDetailTable.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 
 const columnHelper = createColumnHelper<RecordData>();
 

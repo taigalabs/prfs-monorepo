@@ -13,7 +13,7 @@ import { Sigma } from "@phosphor-icons/react";
 
 import styles from "./DynamicSet.module.scss";
 import { WidgetLabel } from "@/components/widget/Widget";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import SetElementTable from "@/components/set_element_table/SetElementTable";
@@ -48,7 +48,9 @@ const DynamicSet: React.FC<SetProps> = ({ params }) => {
           set_id: params.set_id,
         });
 
-        setPrfsSet(payload.prfs_set);
+        if (payload) {
+          setPrfsSet(payload.prfs_set);
+        }
       } catch (err) {
         console.error(err);
       }
