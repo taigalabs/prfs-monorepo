@@ -7,13 +7,9 @@ import { HiPlus } from "@react-icons/all-files/hi/HiPlus";
 import styles from "./LeftBar.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
-import AccVerificationMasthead from "@/components/acc_verification_masthead/AccVerificationMasthead";
-import { MastheadPlaceholder } from "@/components/masthead/Masthead";
 
 const LeftBar: React.FC<LeftBarProps> = () => {
   const i18n = React.useContext(i18nContext);
-
-  const handleClickShowLeftBar = React.useCallback(() => {}, []);
 
   return (
     <div className={styles.wrapper}>
@@ -31,7 +27,7 @@ const LeftBar: React.FC<LeftBarProps> = () => {
         </li>
       </ul>
       <ul className={styles.menuList}>
-        <li className={styles.menu}>
+        <li className={cn(styles.menu, styles.twitterMenu)}>
           <Link href={paths.account_verification__twitter}>
             <img
               src="https://d1w1533jipmvi2.cloudfront.net/x-logo-black.png"

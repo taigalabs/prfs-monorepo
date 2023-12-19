@@ -21,8 +21,8 @@
   }
 
   &:active:not(:disabled) {
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 5px -3px, rgba(0, 0, 0, 0.14) 0px 8px 10px 1px,
-      rgba(0, 0, 0, 0.12) 0px 3px 14px 2px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 4px -3px, rgba(0, 0, 0, 0.14) 0px 3px 4px 1px,
+      rgba(0, 0, 0, 0.12) 0px 3px 6px 1px;
   }
 }
 
@@ -77,12 +77,12 @@
 
 .light_blue_1 {
   background-color: var(--light-blue-50);
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px,
-    rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
   color: var(--black-05);
 
   &:hover {
     background-color: var(--light-blue-40);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px,
+      rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
   }
 
   &:disabled {
