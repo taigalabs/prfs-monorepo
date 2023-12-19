@@ -2,6 +2,7 @@ export default {
   close: "Close",
   close_and_return: "Close and return",
   account_verification: "Account Verification",
+  acc_verification: "Acc Verification",
   documentation: "Documentation",
   start_tutorial: "Start a tutorial",
   steps: "Steps",

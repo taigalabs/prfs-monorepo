@@ -4,6 +4,7 @@ import React from "react";
 import cn from "classnames";
 import Link from "next/link";
 import { BsBook } from "@react-icons/all-files/bs/BsBook";
+import { IoIosMenu } from "@react-icons/all-files/io/IoIosMenu";
 import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 
@@ -26,9 +27,13 @@ const AccVerificationMasthead: React.FC<AccVerificationMastheadProps> = ({}) => 
 
   return (
     <MastheadWrapper>
-      <div>
-        <a href={paths.__}>
-          <ImageLogo width={50} />
+      <div className={styles.leftGroup}>
+        <div className={styles.hamburger}>
+          <IoIosMenu />
+        </div>
+        <a className={styles.logoArea} href={paths.__}>
+          <ImageLogo width={24} />
+          <span>{i18n.acc_verification}</span>
         </a>
       </div>
       <MastheadMain>

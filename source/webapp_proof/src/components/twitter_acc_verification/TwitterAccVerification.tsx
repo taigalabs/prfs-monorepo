@@ -16,15 +16,10 @@ const TwitterAccVerification: React.FC = () => {
   return (
     <>
       <AccVerificationMasthead />
-      {/* <ProofTypeMasthead */}
-      {/*   proofInstanceId={undefined} */}
-      {/*   proofType={undefined} */}
-      {/*   handleSelectProofType={() => {}} */}
-      {/* /> */}
       <div className={styles.wrapper}>
         <ul className={styles.list}>
           <li className={styles.listItem}>
-            <Link href={paths.auth__twitter}>
+            <Link href={paths.account_verification__twitter}>
               <img
                 src="https://d1w1533jipmvi2.cloudfront.net/x-logo-black.png"
                 alt="Twitter"
