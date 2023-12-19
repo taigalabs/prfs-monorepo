@@ -1,0 +1,16 @@
+{
+  "name": "@taigalabs/prfs-i18n",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "./src/index.ts",
+  "scripts": {
+    "build": "pnpm clean && tsc",
+    "clean": "rimraf ./build"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.9",
+    "rimraf": "^3.0.2",
+  }
+}
