@@ -30,7 +30,7 @@ const AccVerificationMasthead: React.FC<AccVerificationMastheadProps> = ({
   return (
     <MastheadWrapper smallPadding tallHeight>
       <div className={styles.leftGroup}>
-        <div className={styles.hamburger}>
+        <div className={styles.hamburger} onClick={handleClickShowLeftBar}>
           <IoIosMenu />
         </div>
         <a className={styles.logoArea} href={paths.__}>

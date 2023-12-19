@@ -3,3 +3,33 @@
 
   border: 1px solid blue;
 }
+
+.topList {
+  padding-top: 16px;
+  padding-bottom: 6px;
+
+  .addBtn {
+    padding-left: 16px;
+    padding-right: 20px;
+    height: 56px;
+    border-radius: 16px;
+
+    svg {
+      margin-right: 12px;
+      font-size: 24px;
+    }
+  }
+
+  .addBtnContent {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.menuList {
+  padding-top: 6px;
+}
+
+.menu {
+  padding-left: 12px;
+}
