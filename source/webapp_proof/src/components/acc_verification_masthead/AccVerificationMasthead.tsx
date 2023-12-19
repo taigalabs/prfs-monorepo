@@ -19,33 +19,21 @@ import {
   MastheadRightGroupMenu,
   MastheadWrapper,
 } from "@/components/masthead/Masthead";
+import VerifiedAccSearch from "../verified_acc_search/VerifiedAccSearch";
 
-const AccVerificationMasthead: React.FC<AccVerificationMastheadProps> = (
-  {
-    // isActivated,
-    // proofInstanceId,
-    // proofType,
-    // handleSelectProofType,
-  },
-) => {
+const AccVerificationMasthead: React.FC<AccVerificationMastheadProps> = ({}) => {
   const i18n = React.useContext(i18nContext);
 
   return (
-    <MastheadWrapper twoColumn>
-      <MastheadLogoArea>
+    <MastheadWrapper>
+      <div>
         <a href={paths.__}>
           <ImageLogo width={50} />
         </a>
-      </MastheadLogoArea>
+      </div>
       <MastheadMain>
         <div className={styles.searchArea}>
-          {/* <SearchProofDialog */}
-          {/*   isActivated={isActivated} */}
-          {/*   proofInstanceId={proofInstanceId} */}
-          {/*   proofType={proofType} */}
-          {/*   handleSelectProofType={handleSelectProofType} */}
-          {/*   webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT} */}
-          {/* /> */}
+          <VerifiedAccSearch />
         </div>
         <MastheadRightGroup className={styles.rightGroup}>
           <Tooltip label={i18n.docs} className={styles.sideMargin}>

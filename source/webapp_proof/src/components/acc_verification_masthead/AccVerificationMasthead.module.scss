@@ -1,13 +1,13 @@
-.searchArea {
-  min-width: 610px;
-  flex-basis: 630px;
-  flex-shrink: 1;
-  /* border: 1px solid red; */
+/* .searchArea { */
+/*   min-width: 610px; */
+/*   flex-basis: 630px; */
+/*   flex-shrink: 1; */
+/*   /* border: 1px solid red; */
 
-  > div {
-    max-width: 648px;
-  }
-}
+/*   > div { */
+/*     max-width: 648px; */
+/*   } */
+/* } */
 
 .rightGroup {
   font-size: 24px;
@@ -61,15 +61,15 @@
     display: none;
   }
 
-  .searchArea {
-    flex: 1;
-    margin-top: 50px;
-    min-width: 0px;
-    display: flex;
-    justify-content: center;
+  /* .searchArea { */
+  /*   flex: 1; */
+  /*   margin-top: 50px; */
+  /*   min-width: 0px; */
+  /*   display: flex; */
+  /*   justify-content: center; */
 
-    > div {
-      max-width: none;
-    }
-  }
+  /*   > div { */
+  /*     max-width: none; */
+  /*   } */
+  /* } */
 }

@@ -35,8 +35,16 @@ export const MastheadWrapper: React.FC<MastheadWrapperProps> = ({
   );
 };
 
-export const MastheadLogoArea: React.FC<MastheadProps> = ({ children, className }) => {
-  return <div className={cn(styles.logoArea, className)}>{children}</div>;
+export const MastheadLogoArea: React.FC<MastheadProps> = ({
+  children,
+  className,
+  staticPosition,
+}) => {
+  return (
+    <div className={cn(styles.logoArea, className, { [styles.staticPosition]: staticPosition })}>
+      {children}
+    </div>
+  );
 };
 
 export const MastheadPlaceholder: React.FC<MastheadPlaceholderProps> = ({
