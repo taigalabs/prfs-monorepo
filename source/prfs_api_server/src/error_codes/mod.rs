@@ -1,6 +1,5 @@
 use hyper_utils::generate_api_error_codes;
 use hyper_utils::ApiHandleErrorCode;
-use native_json::json;
 use serde::{Deserialize, Serialize};
 
 generate_api_error_codes! {

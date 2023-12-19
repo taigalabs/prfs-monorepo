@@ -30,7 +30,6 @@ uuid = { version = "1.4.1", features = ["v4", "serde"] }
 base62 = "2.0.2"
 csv = "1.2.2"
 git2 = "0.18.1"
-native-json = "1.2"
 http-body-util = "0.1"
 hyper_014 = { package = "hyper", version = "0.14" }
 hyper = { version = "1.0", features = ["full"] }
