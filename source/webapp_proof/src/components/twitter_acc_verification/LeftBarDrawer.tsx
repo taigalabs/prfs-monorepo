@@ -9,11 +9,11 @@ import {
   FloatingOverlay,
   FloatingPortal,
 } from "@floating-ui/react";
+import cn from "classnames";
 
 import styles from "./LeftBarDrawer.module.scss";
 
 const LeftBarDrawer: React.FC<LeftBarDrawerProps> = ({ children, isOpen, setIsOpen }) => {
-  // const [isOpen, setIsOpen] = useState(true);
   const { refs, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
@@ -29,11 +29,11 @@ const LeftBarDrawer: React.FC<LeftBarDrawerProps> = ({ children, isOpen, setIsOp
     <>
       {/* <div ref={refs.setReference} {...getReferenceProps()} /> */}
       <FloatingPortal>
-        {isOpen && (
-          <FloatingOverlay className={styles.overlay} lockScroll>
+        {true && (
+          <FloatingOverlay className={cn(styles.overlay, { [styles.isOpen]: isOpen })} lockScroll>
             <FloatingFocusManager context={context}>
               <div
-                className={styles.dialog}
+                className={cn(styles.drawer)}
                 ref={refs.setFloating}
                 aria-labelledby={headingId}
                 aria-describedby={descriptionId}

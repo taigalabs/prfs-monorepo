@@ -36,8 +36,8 @@ const TwitterAccVerification: React.FC = () => {
         {/*   className={cn(styles.leftBarDrawerContainer, { [styles.isVisible]: !isLeftBarVisible })} */}
         {/* > */}
         <LeftBarDrawer isOpen={!isLeftBarVisible} setIsOpen={handleClickShowLeftBar}>
-          123123
-          {/* {/* <AccVerifyLogoArea handleClickShowLeftBar={handleClickShowLeftBar} /> */}
+          <AccVerifyLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
+          <LeftBar />
         </LeftBarDrawer>
         {/* <LeftBar /> */}
         {/* </div> */}

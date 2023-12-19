@@ -1,5 +1,4 @@
 $leftbar_width: 268px;
-$leftbar_drawer_width: 284px;
 
 .wrapper {
   display: flex;
@@ -27,12 +26,12 @@ $leftbar_drawer_width: 284px;
 
 .leftBarDrawerContainer {
   display: none;
-  transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  box-shadow: 0 0 16px rgba(0, 0, 0, 0.28);
+  /* transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; */
+  /* box-shadow: 0 0 16px rgba(0, 0, 0, 0.28); */
 
-  &.isVisible {
-    transform: translate3d(0, 0, 0);
-  }
+  /* &.isVisible { */
+  /*   transform: translate3d(0, 0, 0); */
+  /* } */
 }
 
 .main {
@@ -46,13 +45,14 @@ $leftbar_drawer_width: 284px;
 
   .leftBarDrawerContainer {
     display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: $leftbar_drawer_width;
-    background-color: var(--white-100);
-    z-index: 20;
-    height: 100%;
-    transform: translate3d(-$leftbar_drawer_width, 0, 0);
+    /* display: block; */
+    /* position: fixed; */
+    /* top: 0; */
+    /* left: 0; */
+    /* width: $leftbar_drawer_width; */
+    /* background-color: var(--white-100); */
+    /* z-index: 20; */
+    /* height: 100%; */
+    /* transform: translate3d(-$leftbar_drawer_width, 0, 0); */
   }
 }
