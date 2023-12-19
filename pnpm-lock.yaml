@@ -536,6 +536,15 @@ importers:
 
   source/prfs_entities: {}
 
+  source/prfs_i18n:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.4.9
+        version: 20.4.9
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+
   source/prfs_id_sdk_web:
     dependencies:
       '@ethereumjs/util':
@@ -599,6 +608,9 @@ importers:
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
+      '@taigalabs/prfs-i18n':
+        specifier: '*'
+        version: link:../prfs_i18n
       '@taigalabs/prfs-id-sdk-web':
         specifier: '*'
         version: link:../prfs_id_sdk_web
@@ -1232,6 +1244,9 @@ importers:
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
+      '@taigalabs/prfs-i18n':
+        specifier: '*'
+        version: link:../prfs_i18n
       '@taigalabs/prfs-id-sdk-web':
         specifier: '*'
         version: link:../prfs_id_sdk_web
