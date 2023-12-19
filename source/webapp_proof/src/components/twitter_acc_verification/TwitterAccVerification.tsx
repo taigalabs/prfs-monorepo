@@ -11,12 +11,14 @@ import AccVerificationMasthead from "@/components/acc_verification_masthead/AccV
 import { MastheadPlaceholder } from "@/components/masthead/Masthead";
 import AccVerifyLogoArea from "@/components/acc_verification_masthead/AccVerifyLogoArea";
 import LeftBar from "./LeftBar";
+import LeftBarDrawer from "./LeftBarDrawer";
 
 const TwitterAccVerification: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const [isLeftBarVisible, setIsLeftBarVisible] = React.useState(true);
 
   const handleClickShowLeftBar = React.useCallback(() => {
+    console.log(22);
     setIsLeftBarVisible(v => !v);
   }, [setIsLeftBarVisible]);
 
@@ -30,12 +32,15 @@ const TwitterAccVerification: React.FC = () => {
         <div className={cn(styles.leftBarContainer, { [styles.isVisible]: isLeftBarVisible })}>
           <LeftBar />
         </div>
-        <div
-          className={cn(styles.leftBarDrawerContainer, { [styles.isVisible]: !isLeftBarVisible })}
-        >
-          <AccVerifyLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
-          <LeftBar />
-        </div>
+        {/* <div */}
+        {/*   className={cn(styles.leftBarDrawerContainer, { [styles.isVisible]: !isLeftBarVisible })} */}
+        {/* > */}
+        <LeftBarDrawer isOpen={!isLeftBarVisible} setIsOpen={handleClickShowLeftBar}>
+          123123
+          {/* {/* <AccVerifyLogoArea handleClickShowLeftBar={handleClickShowLeftBar} /> */}
+        </LeftBarDrawer>
+        {/* <LeftBar /> */}
+        {/* </div> */}
         <div className={styles.main}>main</div>
       </div>
     </>
