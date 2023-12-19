@@ -33,24 +33,25 @@
 .menu {
   padding-left: 12px;
 
-  a {
+  .button {
     display: flex;
     align-items: center;
     cursor: pointer;
-    border: 1px solid var(--bright-gray-30);
     border-radius: 20px;
     padding: 8px 16px;
+    width: 100%;
+    height: 44px;
 
-    &:hover {
-      border: 1px solid var(--gray-60);
+    img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      margin-right: 14px;
     }
   }
 
-  img {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-    margin-right: 14px;
+  .isActive {
+    font-weight: 700;
   }
 }
 
