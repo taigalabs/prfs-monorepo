@@ -43,7 +43,11 @@ const Accounts: React.FC<AccountsProps> = ({}) => {
         </div>
         <ul className={styles.signInMenu}>
           <li className={styles.item}>
-            <PrfsIdSignInBtn />
+            <PrfsIdSignInBtn
+              className={styles.prfsIDSignInBtn}
+              label={i18n.sign_in_with_prfs_id}
+              noCredential
+            />
           </li>
         </ul>
       </div>

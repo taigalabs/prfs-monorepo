@@ -169,7 +169,7 @@ export default {
   circuit_driver_search_guide: "Search circuit drivers",
   show_more: "Show more",
   some_functionalities_are_available_only_with_user_signed_in:
-    "Some functionalities are availble only with the user signed in",
+    "Some functionalities are availble only with the user signed in. Join today.",
   url: "URL",
   vote: "Vote",
   enrollment: "Enrollment",

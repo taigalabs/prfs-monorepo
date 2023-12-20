@@ -27,7 +27,7 @@ import {
 import SignUpModal from "@/components/sign_up_modal/SignUpModal";
 import { useSignedInUser } from "@/hooks/user";
 
-const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label }) => {
+const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noCredential }) => {
   const router = useRouter();
   const [prfsIdSignInEndpoint, setPrfsIdSignInEndpoint] = React.useState<string | null>(null);
   const secretKeyRef = React.useRef<PrivateKey | null>(null);
@@ -127,6 +127,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label }) =
     <>
       {signUpData && <SignUpModal credential={signUpData} />}
       <PrfsIdSignInButton
+        className={className}
         label={label}
         prfsIdSignInEndpoint={prfsIdSignInEndpoint}
         handleSucceedSignIn={handleSucceedSignIn}
@@ -140,4 +141,5 @@ export default PrfsIdSignInBtn;
 export interface PrfsIdSignInBtnProps {
   className?: string;
   label?: string;
+  noCredential?: boolean;
 }
