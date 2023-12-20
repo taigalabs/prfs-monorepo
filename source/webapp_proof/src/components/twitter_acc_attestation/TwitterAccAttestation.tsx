@@ -12,26 +12,51 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
   const i18n = React.useContext(i18nContext);
   const [twitterHandle, setTwitterHandle] = React.useState("");
 
-  const handleChangeTwitterHandle = React.useCallback(() => {}, [setTwitterHandle]);
+  const handleChangeTwitterHandle = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { value } = e.target;
+      setTwitterHandle(value);
+    },
+    [setTwitterHandle],
+  );
 
   return (
     <>
       <AttestationsTitle>{i18n.create_twitter_acc_attestation}</AttestationsTitle>
       <div>
-        <div>
-          <Input
-            className={styles.input}
-            error={""}
-            label={i18n.twitter_handle}
-            value={twitterHandle}
-            handleChangeValue={handleChangeTwitterHandle}
-          />
-        </div>
-        <div>generate a claim</div>
-        <div>Make a tweet</div>
-        <div>
-          <input className={styles.input} placeholder={i18n.tweet_url} />
-        </div>
+        <form>
+          <ol>
+            <li>
+              <div>
+                <Input
+                  className={styles.input}
+                  error={""}
+                  label={i18n.twitter_handle}
+                  value={twitterHandle}
+                  handleChangeValue={handleChangeTwitterHandle}
+                />
+              </div>
+            </li>
+            <li>
+              <div>generate a claim</div>
+            </li>
+            <li>
+              <div>Make a tweet</div>
+            </li>
+            <li>
+              <div>
+                <Input
+                  className={styles.input}
+                  error={""}
+                  label={i18n.tweet_url}
+                  value={twitterHandle}
+                  handleChangeValue={handleChangeTwitterHandle}
+                />
+              </div>
+            </li>
+          </ol>
+          <button>{i18n.create}</button>
+        </form>
       </div>
     </>
   );

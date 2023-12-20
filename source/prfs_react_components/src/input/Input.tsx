@@ -26,7 +26,7 @@ export const Input: React.FC<InputProps> = ({
     <div
       className={cn(styles.inputWrapper, className, {
         [styles.isError]: !!error,
-        [styles.isFocused]: isFocused,
+        [styles.isFocused]: isFocused || value.length > 0,
       })}
     >
       <div className={styles.label}>
