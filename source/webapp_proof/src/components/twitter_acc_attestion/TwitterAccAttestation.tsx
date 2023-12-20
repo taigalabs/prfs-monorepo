@@ -19,19 +19,26 @@ const TwitterAccAttestation: React.FC = () => {
   const [isLeftBarDrawerVisible, setIsLeftBarDrawerVisible] = React.useState(false);
 
   const handleClickShowLeftBar = React.useCallback(() => {
+    console.log(232);
     setIsLeftBarVisible(v => !v);
   }, [setIsLeftBarVisible]);
 
-  const handleClickShowLeftBarDrawer = React.useCallback(() => {
-    console.log(11);
-    setIsLeftBarDrawerVisible(v => !v);
-  }, [setIsLeftBarDrawerVisible]);
+  const handleClickShowLeftBarDrawer = React.useCallback(
+    (open?: boolean) => {
+      if (open !== undefined) {
+        setIsLeftBarDrawerVisible(open);
+      } else {
+        setIsLeftBarDrawerVisible(v => !v);
+      }
+    },
+    [setIsLeftBarDrawerVisible],
+  );
 
   return (
     <>
       <AttestationsMasthead
         handleClickShowLeftBar={handleClickShowLeftBar}
-        handleClickShowLeftBarDrawer={handleClickShowLeftBarDrawer}
+        handleClickShowLeftBarDrawer={setIsLeftBarDrawerVisible}
       />
       <MastheadPlaceholder tallHeight />
       <div className={styles.wrapper}>

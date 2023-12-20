@@ -1,6 +1,5 @@
 import React from "react";
 import cn from "classnames";
-import Link from "next/link";
 import { IoIosMenu } from "@react-icons/all-files/io/IoIosMenu";
 import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
 
@@ -18,7 +17,7 @@ const AttestationsLogoArea: React.FC<AttestationsLogoAreaProps> = ({ handleClick
       </div>
       <a className={styles.logoArea} href={paths.__}>
         <ImageLogo width={24} />
-        <span>{i18n.acc_verification}</span>
+        <span>{i18n.attestations}</span>
       </a>
     </div>
   );
@@ -27,5 +26,5 @@ const AttestationsLogoArea: React.FC<AttestationsLogoAreaProps> = ({ handleClick
 export default AttestationsLogoArea;
 
 export interface AttestationsLogoAreaProps {
-  handleClickShowLeftBar: () => void;
+  handleClickShowLeftBar: React.Dispatch<React.SetStateAction<boolean>>;
 }

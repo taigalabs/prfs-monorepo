@@ -17,19 +17,15 @@ import { i18nContext } from "@/i18n/context";
 
 const ProofRawDialog: React.FC<ProofRawDialogProps> = ({ proofRaw, children }) => {
   const i18n = React.useContext(i18nContext);
-
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
   });
-
   const click = useClick(context);
   const role = useRole(context);
   const dismiss = useDismiss(context, { outsidePressEvent: "mousedown" });
-
   const { getReferenceProps, getFloatingProps } = useInteractions([click, role, dismiss]);
-
   const headingId = useId();
   const descriptionId = useId();
 
