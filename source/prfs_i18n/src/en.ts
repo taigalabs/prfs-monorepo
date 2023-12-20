@@ -168,6 +168,8 @@ export default {
   create_dynamic_set_subtitle: "Dynamic sets allow you to build a table and modify it later",
   circuit_driver_search_guide: "Search circuit drivers",
   show_more: "Show more",
+  some_functionalities_are_available_only_with_user_signed_in:
+    "Some functionalities are availble only with the user signed in",
   url: "URL",
   vote: "Vote",
   enrollment: "Enrollment",
@@ -233,6 +235,7 @@ export default {
   reference: "Reference",
   references: "References",
   set: "Set",
+  sign_in_to_prfs: "Sign in to Prfs",
   set_type: "Set type",
   start_over: "Start over",
   sets: "Sets",

@@ -1,3 +1,18 @@
 .wrapper {
   display: flex;
 }
+
+.logoArea {
+}
+
+.main {
+  .title {
+    font-size: 24px;
+    color: var(--gray-23);
+  }
+
+  .subtitle {
+    font-size: 20px;
+    color: var(--gray-23);
+  }
+}

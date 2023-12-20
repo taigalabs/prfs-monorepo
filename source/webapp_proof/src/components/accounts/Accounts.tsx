@@ -36,7 +36,10 @@ const Accounts: React.FC<AccountsProps> = ({}) => {
         </a>
       </div>
       <div className={styles.main}>
-        <div className={styles.title}>title</div>
+        <div className={styles.title}>{i18n.sign_in_to_prfs}</div>
+        <div className={styles.subtitle}>
+          {i18n.some_functionalities_are_available_only_with_user_signed_in}
+        </div>
       </div>
     </div>
   );
