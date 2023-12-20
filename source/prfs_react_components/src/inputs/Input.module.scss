@@ -1,0 +1,25 @@
+.inputWrapper {
+  &:not(:first-child) {
+    padding-top: 16px;
+  }
+
+  .input {
+    font-size: 16px;
+    border: 1px solid var(--bright-gray-32);
+    border-radius: 4px;
+    width: 100%;
+    padding: 10px 14px;
+    height: 52px;
+  }
+
+  .error {
+    padding-top: 6px;
+    color: var(--red-50);
+  }
+}
+
+.inputWrapper.isError {
+  .input {
+    border-color: var(--red-50);
+  }
+}
