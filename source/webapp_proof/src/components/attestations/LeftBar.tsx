@@ -26,15 +26,17 @@ const LeftBar: React.FC<LeftBarProps> = () => {
     <div className={styles.wrapper}>
       <ul className={styles.topMenu}>
         <li className={styles.item}>
-          <Button
-            variant="light_blue_1"
-            handleClick={() => {}}
-            className={styles.addBtn}
-            contentClassName={styles.addBtnContent}
-          >
-            <HiPlus />
-            <span>{i18n.create_attestation}</span>
-          </Button>
+          <Link href={paths.attestations__create}>
+            <Button
+              variant="light_blue_1"
+              handleClick={() => {}}
+              className={styles.addBtn}
+              contentClassName={styles.addBtnContent}
+            >
+              <HiPlus />
+              <span>{i18n.create_attestation}</span>
+            </Button>
+          </Link>
         </li>
       </ul>
       <ul className={styles.menu}>

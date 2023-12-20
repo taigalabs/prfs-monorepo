@@ -13,14 +13,17 @@ import AttestationsLogoArea from "@/components/attestations_masthead/Attestation
 import LeftBar from "./LeftBar";
 import LeftBarDrawer from "./LeftBarDrawer";
 
-const Attestations: React.FC = () => {
+export const AttestationsMain: React.FC<AttestationsProps> = ({ children }) => {
+  return <div className={styles.main}>{children}</div>;
+};
+
+const Attestations: React.FC<AttestationsProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
   const [isLeftBarVisible, setIsLeftBarVisible] = React.useState(true);
   const [isLeftBarDrawerVisible, setIsLeftBarDrawerVisible] = React.useState(false);
 
   const handleClickShowLeftBar = React.useCallback(
     (open?: boolean) => {
-      console.log(111, open);
       if (open !== undefined) {
         setIsLeftBarVisible(open);
       } else {
@@ -56,10 +59,14 @@ const Attestations: React.FC = () => {
           <AttestationsLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
           <LeftBar />
         </LeftBarDrawer>
-        <div className={styles.main}>main</div>
+        {children}
       </div>
     </>
   );
 };
 
 export default Attestations;
+
+export interface AttestationsProps {
+  children: React.ReactNode;
+}

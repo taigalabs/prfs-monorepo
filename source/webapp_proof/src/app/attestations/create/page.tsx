@@ -6,7 +6,8 @@ import DefaultLayout, {
   DefaultFooter,
 } from "@/components/layouts/default_layout/DefaultLayout";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
-import Attestations, { AttestationsMain } from "@/components/attestations/Attestations";
+import Attestations from "@/components/attestations/Attestations";
+import AttestationsCreate from "@/components/attestions_create/AttestationsCreate";
 
 const TwitterAttestionPage = () => {
   return (
@@ -14,7 +15,7 @@ const TwitterAttestionPage = () => {
       <DefaultBody noMinWidth>
         <Suspense>
           <Attestations>
-            <AttestationsMain>Twitter</AttestationsMain>
+            <AttestationsCreate />
           </Attestations>
         </Suspense>
       </DefaultBody>

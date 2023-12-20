@@ -3,6 +3,7 @@ export const paths = {
   create: "/create",
   auth: "/auth",
   attestations: "/attestations",
+  attestations__create: "/attestations/create",
   attestations__twitter: "/attestations/twitter",
   proofs: "/proofs",
   updates: "/updates",
