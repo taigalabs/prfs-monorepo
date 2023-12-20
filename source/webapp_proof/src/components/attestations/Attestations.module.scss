@@ -32,6 +32,11 @@ $leftbar_width: 268px;
   padding: 16px 16px 20px;
 }
 
+.title {
+  font-size: 24px;
+  color: var(--gray-23);
+}
+
 @media screen and (max-width: 1120px) {
   .leftBarContainer {
     display: none;

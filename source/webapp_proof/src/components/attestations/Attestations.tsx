@@ -13,6 +13,10 @@ import AttestationsLogoArea from "@/components/attestations_masthead/Attestation
 import LeftBar from "./LeftBar";
 import LeftBarDrawer from "./LeftBarDrawer";
 
+export const AttestationsTitle: React.FC<AttestationsProps> = ({ children }) => {
+  return <div className={styles.title}>{children}</div>;
+};
+
 export const AttestationsMain: React.FC<AttestationsProps> = ({ children }) => {
   return <div className={styles.main}>{children}</div>;
 };

@@ -120,6 +120,7 @@ export default {
   circuit_driver: "Circuit driver",
   share: "Share",
   twitter: "Twitter",
+  create_twitter_acc_attestation: "Create X (Twitter) account attestation",
   x_twitter: "X (Twitter)",
   telegram: "Telegram",
   discord: "Discord",
