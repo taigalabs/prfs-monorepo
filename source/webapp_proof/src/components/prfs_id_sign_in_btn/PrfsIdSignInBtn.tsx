@@ -118,11 +118,13 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
   }
 
   return prfsProofCredential ? (
-    <PrfsCredentialPopover
-      credential={prfsProofCredential}
-      handleInitFail={handleInitFail}
-      handleClickSignOut={handleClickSignOut}
-    />
+    !noCredential && (
+      <PrfsCredentialPopover
+        credential={prfsProofCredential}
+        handleInitFail={handleInitFail}
+        handleClickSignOut={handleClickSignOut}
+      />
+    )
   ) : (
     <>
       {signUpData && <SignUpModal credential={signUpData} />}

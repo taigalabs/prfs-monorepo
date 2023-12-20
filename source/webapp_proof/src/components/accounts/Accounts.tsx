@@ -32,9 +32,7 @@ const Accounts: React.FC<AccountsProps> = ({}) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.logoArea}>
-        <a href={paths.__}>
-          <ImageLogo width={180} />
-        </a>
+        <ImageLogo width={180} />
       </div>
       <div className={styles.main}>
         <div className={styles.title}>{i18n.sign_in_to_prfs}</div>
