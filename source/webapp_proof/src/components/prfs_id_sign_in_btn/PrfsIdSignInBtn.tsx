@@ -33,7 +33,6 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   const secretKeyRef = React.useRef<PrivateKey | null>(null);
   const dispatch = useAppDispatch();
   const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
-  // const prfsProofCredential = useAppSelector(state => state.user.prfsProofCredential);
   const { mutateAsync: prfsSignInRequest } = useMutation({
     mutationFn: (req: PrfsSignInRequest) => {
       return prfsApi2("sign_in_prfs_account", req);
@@ -89,8 +88,6 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
           avatar_color,
         };
 
-        console.log(33, credential, error);
-
         if (error) {
           console.error(error);
           if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
@@ -98,8 +95,6 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
           }
           return;
         }
-
-        console.log(44, credential);
 
         persistPrfsProofCredential(credential);
         // prfs account sign in

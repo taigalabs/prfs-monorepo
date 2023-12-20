@@ -3,9 +3,13 @@
 }
 
 .logoArea {
+  width: 280px;
 }
 
 .main {
+  width: 340px;
+  /* padding-left: 36px; */
+
   .title {
     font-size: 24px;
     color: var(--gray-23);
@@ -14,5 +18,51 @@
   .subtitle {
     font-size: 20px;
     color: var(--gray-23);
+    padding: 10px 0 12px;
+  }
+}
+
+.signInMenu {
+  padding-top: 14px;
+
+  .item {
+    width: 220px;
+  }
+}
+
+@media screen and (max-width: 1120px) {
+  .wrapper {
+    flex-direction: column;
+  }
+
+  .main {
+    padding-left: 0px;
+
+    .title {
+      padding: 22px 0 12px;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex-direction: column;
+    padding: 14px 14px;
+  }
+
+  .logoArea {
+    width: 340px;
+  }
+
+  .main {
+    padding-left: 0px;
+
+    .title {
+      padding: 22px 0 12px;
+    }
   }
 }
