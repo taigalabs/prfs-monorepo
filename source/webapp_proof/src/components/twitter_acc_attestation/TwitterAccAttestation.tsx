@@ -14,6 +14,7 @@ const TWEET_URL = "tweet_url";
 const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
   const i18n = React.useContext(i18nContext);
   const [formData, setFormData] = React.useState({ [TWITTER_HANDLE]: "", [TWEET_URL]: "" });
+  const claimSecret = React.useMemo(() => {}, [formData[TWITTER_HANDLE]]);
 
   const handleChangeTwitterHandle = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +37,9 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
         <form>
           <ol className={styles.instructions}>
             <li className={styles.item}>
-              <p className={styles.desc}>{i18n.what_is_your_twitter_handle}</p>
+              <p className={styles.desc}>
+                <span>{i18n.what_is_your_twitter_handle}</span>
+              </p>
               <div className={styles.content}>
                 <Input
                   className={styles.input}
@@ -49,7 +52,12 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
               </div>
             </li>
             <li className={styles.item}>
-              <p className={styles.desc}>{i18n.generate_a_cryptographic_claim}</p>
+              <p className={styles.desc}>
+                <span>{i18n.generate_a_cryptographic_claim}. </span>
+                <span>
+                  {i18n.claim_secret}: {123}
+                </span>
+              </p>
               <div className={styles.content}>claim</div>
             </li>
             <li className={styles.item}>

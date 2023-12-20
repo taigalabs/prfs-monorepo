@@ -22,8 +22,6 @@ export const Input: React.FC<InputProps> = ({
     setIsFocused(false);
   }, [setIsFocused]);
 
-  console.log(22, value);
-
   return (
     <div
       className={cn(styles.inputWrapper, className, {
