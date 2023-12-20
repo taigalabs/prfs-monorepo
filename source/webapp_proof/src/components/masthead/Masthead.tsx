@@ -81,7 +81,7 @@ export const MastheadRightGroupMenu: React.FC<MastheadProps> = ({ children, clas
 const Masthead: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const isTutorial = useIsTutorial();
-  const { tutorialUrl, accVerrificationUrl } = useUrls();
+  const { tutorialUrl, attestationsUrl } = useUrls();
 
   return (
     <div className={cn({ [styles.wrapper]: true, [styles.isTutorial]: isTutorial })}>
@@ -108,9 +108,9 @@ const Masthead: React.FC = () => {
               </PrfsAppsPopoverUl>
               <PrfsAppsPopoverUl>
                 <PrfsAppsPopoverLi>
-                  <a href={accVerrificationUrl}>
+                  <a href={attestationsUrl}>
                     <TbCertificate />
-                    <span>{i18n.account_verification}</span>
+                    <span>{i18n.attestations}</span>
                   </a>
                 </PrfsAppsPopoverLi>
                 <PrfsAppsPopoverLi>

@@ -6,14 +6,14 @@ import DefaultLayout, {
   DefaultFooter,
 } from "@/components/layouts/default_layout/DefaultLayout";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
-import TwitterAccVerification from "@/components/twitter_acc_verification/TwitterAccVerification";
+import TwitterAccAttestation from "@/components/twitter_acc_attestion/TwitterAccAttestation";
 
-const TwitterVerificationPage = () => {
+const TwitterAttestionPage = () => {
   return (
     <DefaultLayout>
       <DefaultBody noMinWidth>
         <Suspense>
-          <TwitterAccVerification />
+          <TwitterAccAttestation />
         </Suspense>
       </DefaultBody>
       <DefaultFooter>
@@ -23,4 +23,4 @@ const TwitterVerificationPage = () => {
   );
 };
 
-export default TwitterVerificationPage;
+export default TwitterAttestionPage;

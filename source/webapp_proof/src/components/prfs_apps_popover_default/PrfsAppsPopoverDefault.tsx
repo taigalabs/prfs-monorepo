@@ -15,7 +15,7 @@ import { useUrls } from "@/hooks/useUrls";
 
 const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = ({ disableMarkIsOpen }) => {
   const i18n = React.useContext(i18nContext);
-  const { tutorialUrl, accVerrificationUrl } = useUrls();
+  const { tutorialUrl, attestationsUrl } = useUrls();
 
   return (
     <PrfsAppsPopover
@@ -36,9 +36,9 @@ const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = ({ disable
       </PrfsAppsPopoverUl>
       <PrfsAppsPopoverUl>
         <PrfsAppsPopoverLi noPadding>
-          <a href={accVerrificationUrl} className={styles.item}>
+          <a href={attestationsUrl} className={styles.item}>
             <TbCertificate />
-            <span>{i18n.account_verification}</span>
+            <span>{i18n.attestations}</span>
           </a>
         </PrfsAppsPopoverLi>
         <PrfsAppsPopoverLi noPadding>

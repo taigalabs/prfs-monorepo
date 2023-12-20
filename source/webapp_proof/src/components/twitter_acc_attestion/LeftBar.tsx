@@ -44,7 +44,7 @@ const LeftBar: React.FC<LeftBarProps> = () => {
             className={cn(styles.button, { [styles.isActive]: name === "twitter" })}
             noShadow
           >
-            <Link href={paths.account_verification__twitter}>
+            <Link href={paths.attestations__twitter}>
               <img
                 src="https://d1w1533jipmvi2.cloudfront.net/x-logo-black.png"
                 alt="Twitter"

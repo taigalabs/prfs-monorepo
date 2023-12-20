@@ -4,24 +4,16 @@ import React from "react";
 import cn from "classnames";
 import Link from "next/link";
 
-import styles from "./TwitterAccVerification.module.scss";
+import styles from "./TwitterAccAttestation.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
-import AccVerificationMasthead from "@/components/acc_verification_masthead/AccVerificationMasthead";
+import AttestationsMasthead from "@/components/attestations_masthead/AttestationsMasthead";
 import { MastheadPlaceholder } from "@/components/masthead/Masthead";
-import AccVerifyLogoArea from "@/components/acc_verification_masthead/AccVerifyLogoArea";
+import AttestationsLogoArea from "@/components/attestations_masthead/AttestationsLogoArea";
 import LeftBar from "./LeftBar";
 import LeftBarDrawer from "./LeftBarDrawer";
-// import layouts from "@/styles/layouts.module.scss";
 
-// const bigDisplayWidth = layouts.view_port_min_width_big_display.substring(
-//   0,
-//   layouts.view_port_min_width_big_display.length - 2,
-// );
-
-// console.log(11, Number(bigDisplayWidth));
-
-const TwitterAccVerification: React.FC = () => {
+const TwitterAccAttestation: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const [isLeftBarVisible, setIsLeftBarVisible] = React.useState(true);
   const [isLeftBarDrawerVisible, setIsLeftBarDrawerVisible] = React.useState(false);
@@ -37,7 +29,7 @@ const TwitterAccVerification: React.FC = () => {
 
   return (
     <>
-      <AccVerificationMasthead
+      <AttestationsMasthead
         handleClickShowLeftBar={handleClickShowLeftBar}
         handleClickShowLeftBarDrawer={handleClickShowLeftBarDrawer}
       />
@@ -47,7 +39,7 @@ const TwitterAccVerification: React.FC = () => {
           <LeftBar />
         </div>
         <LeftBarDrawer isOpen={isLeftBarDrawerVisible} setIsOpen={handleClickShowLeftBarDrawer}>
-          <AccVerifyLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
+          <AttestationsLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
           <LeftBar />
         </LeftBarDrawer>
         <div className={styles.main}>main</div>
@@ -56,4 +48,4 @@ const TwitterAccVerification: React.FC = () => {
   );
 };
 
-export default TwitterAccVerification;
+export default TwitterAccAttestation;

@@ -8,7 +8,7 @@ import { IoIosMenu } from "@react-icons/all-files/io/IoIosMenu";
 import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 
-import styles from "./AccVerificationMasthead.module.scss";
+import styles from "./AttestationsMasthead.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import PrfsIdSignInBtn from "@/components/prfs_id_sign_in_btn/PrfsIdSignInBtn";
@@ -21,9 +21,9 @@ import {
   MastheadWrapper,
 } from "@/components/masthead/Masthead";
 import VerifiedAccSearch from "@/components/verified_acc_search/VerifiedAccSearch";
-import AccVerifyLogoArea from "./AccVerifyLogoArea";
+import AttestationsLogoArea from "./AttestationsLogoArea";
 
-const AccVerificationMasthead: React.FC<AccVerificationMastheadProps> = ({
+const AttestationsMasthead: React.FC<AttestationsMastheadProps> = ({
   handleClickShowLeftBar,
   handleClickShowLeftBarDrawer,
 }) => {
@@ -32,10 +32,10 @@ const AccVerificationMasthead: React.FC<AccVerificationMastheadProps> = ({
   return (
     <MastheadWrapper smallPadding tallHeight>
       <div className={styles.leftBarBtn}>
-        <AccVerifyLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
+        <AttestationsLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
       </div>
       <div className={styles.leftBarDrawerBtn}>
-        <AccVerifyLogoArea handleClickShowLeftBar={handleClickShowLeftBarDrawer} />
+        <AttestationsLogoArea handleClickShowLeftBar={handleClickShowLeftBarDrawer} />
       </div>
       <MastheadMain>
         <div className={styles.searchArea}>
@@ -63,9 +63,9 @@ const AccVerificationMasthead: React.FC<AccVerificationMastheadProps> = ({
   );
 };
 
-export default AccVerificationMasthead;
+export default AttestationsMasthead;
 
-export interface AccVerificationMastheadProps {
+export interface AttestationsMastheadProps {
   handleClickShowLeftBar: () => void;
   handleClickShowLeftBarDrawer: () => void;
 }

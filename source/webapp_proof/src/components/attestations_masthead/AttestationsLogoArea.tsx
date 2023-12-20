@@ -4,11 +4,11 @@ import Link from "next/link";
 import { IoIosMenu } from "@react-icons/all-files/io/IoIosMenu";
 import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
 
-import styles from "./AccVerifyLogoArea.module.scss";
+import styles from "./AttestationsLogoArea.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 
-const AccVerifyLogoArea: React.FC<AccVerifyLogoAreaProps> = ({ handleClickShowLeftBar }) => {
+const AttestationsLogoArea: React.FC<AttestationsLogoAreaProps> = ({ handleClickShowLeftBar }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
@@ -24,8 +24,8 @@ const AccVerifyLogoArea: React.FC<AccVerifyLogoAreaProps> = ({ handleClickShowLe
   );
 };
 
-export default AccVerifyLogoArea;
+export default AttestationsLogoArea;
 
-export interface AccVerifyLogoAreaProps {
+export interface AttestationsLogoAreaProps {
   handleClickShowLeftBar: () => void;
 }
