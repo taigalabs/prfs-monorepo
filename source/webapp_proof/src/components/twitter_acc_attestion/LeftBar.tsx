@@ -33,7 +33,7 @@ const LeftBar: React.FC<LeftBarProps> = () => {
             contentClassName={styles.addBtnContent}
           >
             <HiPlus />
-            <span>{i18n.add_attestation}</span>
+            <span>{i18n.create_attestation}</span>
           </Button>
         </li>
       </ul>

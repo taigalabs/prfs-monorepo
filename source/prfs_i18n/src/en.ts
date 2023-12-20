@@ -27,7 +27,7 @@ export default {
   raw: "Raw",
   put_address: "Put address",
   address: "Address",
-  add_attestation: "Add attestation",
+  create_attestation: "Create attestation",
   merkle_proof: "Merkle proof",
   sign: "Sign",
   sign_in_with_prfs_id: "Sign in with Prfs ID",
