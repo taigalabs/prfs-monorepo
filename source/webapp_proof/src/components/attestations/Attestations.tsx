@@ -3,6 +3,7 @@
 import React from "react";
 import cn from "classnames";
 import Link from "next/link";
+import { redirect, useRouter } from "next/navigation";
 
 import styles from "./Attestations.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -12,6 +13,7 @@ import { MastheadPlaceholder } from "@/components/masthead/Masthead";
 import AttestationsLogoArea from "@/components/attestations_masthead/AttestationsLogoArea";
 import LeftBar from "./LeftBar";
 import LeftBarDrawer from "./LeftBarDrawer";
+import { useAppSelector } from "@/state/hooks";
 
 export const AttestationsTitle: React.FC<AttestationsProps> = ({ children }) => {
   return <div className={styles.title}>{children}</div>;
@@ -25,6 +27,17 @@ const Attestations: React.FC<AttestationsProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
   const [isLeftBarVisible, setIsLeftBarVisible] = React.useState(true);
   const [isLeftBarDrawerVisible, setIsLeftBarDrawerVisible] = React.useState(false);
+  const user = useAppSelector(state => state.user);
+  const router = useRouter();
+  // const prfsProofCredential = useAppSelector(state => state.user.prfsProofCredential);
+
+  React.useEffect(() => {
+    if (user.isInitialized) {
+      if (user.prfsProofCredential === null) {
+        router.push(paths.accounts);
+      }
+    }
+  }, [user, router]);
 
   const handleClickShowLeftBar = React.useCallback(
     (open?: boolean) => {
@@ -48,24 +61,30 @@ const Attestations: React.FC<AttestationsProps> = ({ children }) => {
     [setIsLeftBarDrawerVisible],
   );
 
+  if (!user.isInitialized) {
+    <div>Loading...</div>;
+  }
+
   return (
-    <>
-      <AttestationsMasthead
-        handleClickShowLeftBar={handleClickShowLeftBar}
-        handleClickShowLeftBarDrawer={handleClickShowLeftBarDrawer}
-      />
-      <MastheadPlaceholder tallHeight />
-      <div className={styles.wrapper}>
-        <div className={cn(styles.leftBarContainer, { [styles.isVisible]: isLeftBarVisible })}>
-          <LeftBar />
+    user.prfsProofCredential && (
+      <>
+        <AttestationsMasthead
+          handleClickShowLeftBar={handleClickShowLeftBar}
+          handleClickShowLeftBarDrawer={handleClickShowLeftBarDrawer}
+        />
+        <MastheadPlaceholder tallHeight />
+        <div className={styles.wrapper}>
+          <div className={cn(styles.leftBarContainer, { [styles.isVisible]: isLeftBarVisible })}>
+            <LeftBar />
+          </div>
+          <LeftBarDrawer isOpen={isLeftBarDrawerVisible} setIsOpen={handleClickShowLeftBarDrawer}>
+            <AttestationsLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
+            <LeftBar />
+          </LeftBarDrawer>
+          {children}
         </div>
-        <LeftBarDrawer isOpen={isLeftBarDrawerVisible} setIsOpen={handleClickShowLeftBarDrawer}>
-          <AttestationsLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
-          <LeftBar />
-        </LeftBarDrawer>
-        {children}
-      </div>
-    </>
+      </>
+    )
   );
 };
 

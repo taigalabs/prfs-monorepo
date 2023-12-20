@@ -10,6 +10,5 @@ export const paths = {
   privacy: "/privacy",
   id__create: "/id/create",
   id__signin: "/id/signin",
-  accounts__create: "/accounts/create",
-  accounts__signin: "/accounts/signin",
+  accounts: "/accounts",
 };
