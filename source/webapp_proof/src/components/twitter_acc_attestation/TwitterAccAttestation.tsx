@@ -21,9 +21,8 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
         <div>
           <Input
             className={styles.input}
-            placeholder={i18n.twitter_handle}
             error={""}
-            label="po"
+            label={i18n.twitter_handle}
             value={twitterHandle}
             handleChangeValue={handleChangeTwitterHandle}
           />

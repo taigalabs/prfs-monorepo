@@ -16,16 +16,11 @@ export const Input: React.FC<InputProps> = ({
 }) => {
   const [isFocused, setIsFocused] = React.useState(false);
   const handleFocus = React.useCallback(() => {
-    console.log(221);
     setIsFocused(true);
   }, [setIsFocused]);
-
   const handleBlur = React.useCallback(() => {
-    console.log(11);
     setIsFocused(false);
   }, [setIsFocused]);
-
-  console.log(isFocused);
 
   return (
     <div
@@ -34,7 +29,14 @@ export const Input: React.FC<InputProps> = ({
         [styles.isFocused]: isFocused,
       })}
     >
-      <span className={styles.label}>{label}</span>
+      <div className={styles.label}>
+        <label htmlFor={name}>{label}</label>
+      </div>
+      <fieldset className={styles.fieldset}>
+        <legend>
+          <span>{label}</span>
+        </legend>
+      </fieldset>
       <input
         name={name}
         value={value}
@@ -49,10 +51,6 @@ export const Input: React.FC<InputProps> = ({
     </div>
   );
 };
-
-// export interface InputProps {
-//   placeholder?: string;
-// }
 
 export interface InputProps {
   className?: string;

@@ -1,26 +1,61 @@
 .inputWrapper {
   position: relative;
+  height: 100%;
 
   .label {
+    display: flex;
+    align-items: center;
     position: absolute;
     top: 50%;
-    left: 50%;
-    transition: all 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    transform: translate(-50%, -50%);
+    transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+      font-size 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: var(--gray-23);
+    height: 100%;
+    padding: 0 14px;
+    pointer-events: none;
+
+    /* border: 1px solid red; */
   }
 
   .input {
     font-size: 16px;
-    border: 1px solid var(--bright-gray-32);
-    border-radius: 4px;
     width: 100%;
-    padding: 10px 14px;
-    height: 52px;
+    height: 100%;
+    outline: none;
+
+    /* border: 1px solid blue; */
   }
 
   .error {
     padding-top: 6px;
     color: var(--red-50);
+  }
+
+  .fieldset {
+    position: absolute;
+    pointer-events: none;
+    inset: -5px 0 0;
+    /* border: 1px solid var(--bright-gray-32); */
+    border-radius: 4px;
+    padding: 0 5px;
+
+    /* border: 1px solid green; */
+
+    legend {
+      transition: max-width 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+      visibility: hidden;
+      max-width: 0.01px;
+      height: 11px;
+      font-size: 11px;
+      opacity: 0;
+      /* border: 1px solid yellow; */
+
+      span {
+        padding: 0 4px;
+      }
+    }
   }
 
   &.isError {
@@ -31,7 +66,19 @@
 
   &.isFocused {
     .label {
-      transform: translate (0, 0);
+      font-size: 11px;
+      transform: translateY(-105%);
+      padding: 0 8px;
+
+      label {
+        padding: 0px 3px;
+      }
+    }
+
+    .fieldset {
+      legend {
+        max-width: 100%;
+      }
     }
   }
 }
