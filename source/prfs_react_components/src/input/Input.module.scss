@@ -1,0 +1,37 @@
+.inputWrapper {
+  position: relative;
+
+  .label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transition: all 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    transform: translate(-50%, -50%);
+  }
+
+  .input {
+    font-size: 16px;
+    border: 1px solid var(--bright-gray-32);
+    border-radius: 4px;
+    width: 100%;
+    padding: 10px 14px;
+    height: 52px;
+  }
+
+  .error {
+    padding-top: 6px;
+    color: var(--red-50);
+  }
+
+  &.isError {
+    .input {
+      border-color: var(--red-50);
+    }
+  }
+
+  &.isFocused {
+    .label {
+      transform: translate (0, 0);
+    }
+  }
+}

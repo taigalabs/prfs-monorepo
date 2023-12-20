@@ -2,6 +2,7 @@
 
 import React from "react";
 import cn from "classnames";
+import { Input } from "@taigalabs/prfs-react-components/src/input/Input";
 
 import styles from "./TwitterAccAttestation.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -9,13 +10,23 @@ import { AttestationsMain, AttestationsTitle } from "@/components/attestations/A
 
 const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
   const i18n = React.useContext(i18nContext);
+  const [twitterHandle, setTwitterHandle] = React.useState("");
+
+  const handleChangeTwitterHandle = React.useCallback(() => {}, [setTwitterHandle]);
 
   return (
     <>
       <AttestationsTitle>{i18n.create_twitter_acc_attestation}</AttestationsTitle>
       <div>
         <div>
-          <input className={styles.input} placeholder={i18n.twitter_handle} />
+          <Input
+            className={styles.input}
+            placeholder={i18n.twitter_handle}
+            error={""}
+            label="po"
+            value={twitterHandle}
+            handleChangeValue={handleChangeTwitterHandle}
+          />
         </div>
         <div>generate a claim</div>
         <div>Make a tweet</div>

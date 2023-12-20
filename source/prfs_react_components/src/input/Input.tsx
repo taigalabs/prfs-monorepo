@@ -1,18 +1,11 @@
 import React, { HTMLInputTypeAttribute } from "react";
 import cn from "classnames";
 
-import styles from "./ImageLogo.module.scss";
-
-// export const Input: React.FC<InputProps> = ({ placeholder }) => {
-//   return (
-//     <div className={styles.input}>
-//       <input placeholder={placeholder} />
-//     </div>
-//   );
-// };
+import styles from "./Input.module.scss";
 
 export const Input: React.FC<InputProps> = ({
   className,
+  label,
   name,
   value,
   error,
@@ -21,17 +14,33 @@ export const Input: React.FC<InputProps> = ({
   handleChangeValue,
   handleKeyDown,
 }) => {
+  const [isFocused, setIsFocused] = React.useState(false);
+  const handleFocus = React.useCallback(() => {
+    console.log(221);
+    setIsFocused(true);
+  }, [setIsFocused]);
+
+  const handleBlur = React.useCallback(() => {
+    console.log(11);
+    setIsFocused(false);
+  }, [setIsFocused]);
+
+  console.log(isFocused);
+
   return (
     <div
       className={cn(styles.inputWrapper, className, {
         [styles.isError]: !!error,
+        [styles.isFocused]: isFocused,
       })}
     >
+      <span className={styles.label}>{label}</span>
       <input
         name={name}
         value={value}
         className={styles.input}
-        placeholder={placeholder}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         type={type}
         onChange={handleChangeValue}
         onKeyDown={handleKeyDown}
@@ -49,6 +58,7 @@ export interface InputProps {
   className?: string;
   name?: string;
   value: string;
+  label: string;
   handleChangeValue: React.ChangeEventHandler;
   handleKeyDown?: React.KeyboardEventHandler;
   error: string | undefined;
