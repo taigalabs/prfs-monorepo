@@ -24,23 +24,32 @@ console.log(11, Number(bigDisplayWidth));
 const TwitterAccVerification: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const [isLeftBarVisible, setIsLeftBarVisible] = React.useState(true);
+  const [isLeftBarDrawerVisible, setIsLeftBarDrawerVisible] = React.useState(false);
 
   const handleClickShowLeftBar = React.useCallback(() => {
     console.log(22, window.innerWidth, layouts.view_port_min_width_big_display);
     setIsLeftBarVisible(v => !v);
   }, [setIsLeftBarVisible]);
 
-  console.log(55, isLeftBarVisible);
+  const handleClickShowLeftBarDrawer = React.useCallback(() => {
+    console.log(33, window.innerWidth, layouts.view_port_min_width_big_display);
+    setIsLeftBarDrawerVisible(v => !v);
+  }, [setIsLeftBarDrawerVisible]);
+
+  console.log(55, handleClickShowLeftBarDrawer);
 
   return (
     <>
-      <AccVerificationMasthead handleClickShowLeftBar={handleClickShowLeftBar} />
+      <AccVerificationMasthead
+        handleClickShowLeftBar={handleClickShowLeftBar}
+        handleClickShowLeftBarDrawer={handleClickShowLeftBarDrawer}
+      />
       <MastheadPlaceholder tallHeight />
       <div className={styles.wrapper}>
         <div className={cn(styles.leftBarContainer, { [styles.isVisible]: isLeftBarVisible })}>
           <LeftBar />
         </div>
-        <LeftBarDrawer isOpen={isLeftBarVisible} setIsOpen={handleClickShowLeftBar}>
+        <LeftBarDrawer isOpen={isLeftBarDrawerVisible} setIsOpen={handleClickShowLeftBarDrawer}>
           {/* <AccVerifyLogoArea handleClickShowLeftBar={handleClickShowLeftBar} /> */}
           {/* <LeftBar /> */}
         </LeftBarDrawer>

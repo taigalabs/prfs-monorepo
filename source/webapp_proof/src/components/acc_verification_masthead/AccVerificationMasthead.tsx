@@ -25,21 +25,22 @@ import AccVerifyLogoArea from "./AccVerifyLogoArea";
 
 const AccVerificationMasthead: React.FC<AccVerificationMastheadProps> = ({
   handleClickShowLeftBar,
+  handleClickShowLeftBarDrawer,
 }) => {
   const i18n = React.useContext(i18nContext);
 
+  console.log(22, handleClickShowLeftBarDrawer);
+
   return (
     <MastheadWrapper smallPadding tallHeight>
-      <AccVerifyLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
-      {/* <div className={styles.leftGroup}> */}
-      {/*   <div className={styles.hamburger} onClick={handleClickShowLeftBar}> */}
-      {/*     <IoIosMenu /> */}
-      {/*   </div> */}
-      {/*   <a className={styles.logoArea} href={paths.__}> */}
-      {/*     <ImageLogo width={24} /> */}
-      {/*     <span>{i18n.acc_verification}</span> */}
-      {/*   </a> */}
-      {/* </div> */}
+      <div className={styles.leftBarBtn}>
+        <AccVerifyLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
+      </div>
+      <div className={styles.leftBarDrawerBtn}>
+        123
+        <AccVerifyLogoArea handleClickShowLeftBar={handleClickShowLeftBarDrawer} />
+      </div>
+      {/* <AccVerifyLogoArea handleClickShowLeftBar={handleClickShowLeftBar} /> */}
       <MastheadMain>
         <div className={styles.searchArea}>
           <VerifiedAccSearch />
@@ -70,4 +71,5 @@ export default AccVerificationMasthead;
 
 export interface AccVerificationMastheadProps {
   handleClickShowLeftBar: () => void;
+  handleClickShowLeftBarDrawer: () => void;
 }

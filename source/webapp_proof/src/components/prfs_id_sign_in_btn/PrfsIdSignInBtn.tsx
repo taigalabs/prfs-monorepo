@@ -11,6 +11,7 @@ import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { useMutation } from "wagmi";
 import { prfs_api_error_codes, prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
+import { makeColor } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./PrfsIdSignInBtn.module.scss";
 import { paths } from "@/paths";
@@ -24,7 +25,6 @@ import {
   removeLocalPrfsProofCredential,
 } from "@/storage/local_storage";
 import SignUpModal from "@/components/sign_up_modal/SignUpModal";
-import { makeColor } from "@taigalabs/prfs-crypto-js";
 
 const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   const router = useRouter();
