@@ -25,25 +25,21 @@ import {
   removeLocalPrfsProofCredential,
 } from "@/storage/local_storage";
 import SignUpModal from "@/components/sign_up_modal/SignUpModal";
+import { useSignedInUser } from "@/hooks/user";
 
 const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = () => {
   const router = useRouter();
   const [prfsIdSignInEndpoint, setPrfsIdSignInEndpoint] = React.useState<string | null>(null);
   const secretKeyRef = React.useRef<PrivateKey | null>(null);
   const dispatch = useAppDispatch();
-  const isCredentialInitialized = useAppSelector(state => state.user.isInitialized);
-  const prfsProofCredential = useAppSelector(state => state.user.prfsProofCredential);
+  const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
+  // const prfsProofCredential = useAppSelector(state => state.user.prfsProofCredential);
   const { mutateAsync: prfsSignInRequest } = useMutation({
     mutationFn: (req: PrfsSignInRequest) => {
       return prfsApi2("sign_in_prfs_account", req);
     },
   });
   const [signUpData, setSignUpData] = React.useState<LocalPrfsProofCredential | null>(null);
-
-  React.useEffect(() => {
-    const credential = loadLocalPrfsProofCredential();
-    dispatch(signInPrfs(credential));
-  }, []);
 
   React.useEffect(() => {
     if (!secretKeyRef.current) {

@@ -9,15 +9,11 @@ import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import Attestations from "@/components/attestations/Attestations";
 import AttestationsCreate from "@/components/attestions_create/AttestationsCreate";
 
-const TwitterAttestionPage = () => {
+const AccountsPage = () => {
   return (
     <DefaultLayout>
       <DefaultBody noMinWidth>
-        <Suspense>
-          <Attestations>
-            <AttestationsCreate />
-          </Attestations>
-        </Suspense>
+        <Suspense>power</Suspense>
       </DefaultBody>
       <DefaultFooter>
         <GlobalFooter />
@@ -26,4 +22,4 @@ const TwitterAttestionPage = () => {
   );
 };
 
-export default TwitterAttestionPage;
+export default AccountsPage;
