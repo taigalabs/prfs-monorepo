@@ -118,7 +118,9 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
   }
 
   return prfsProofCredential ? (
-    !noCredential && (
+    noCredential ? (
+      <div>Loading...</div>
+    ) : (
       <PrfsCredentialPopover
         credential={prfsProofCredential}
         handleInitFail={handleInitFail}
