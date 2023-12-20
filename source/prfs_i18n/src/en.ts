@@ -28,6 +28,8 @@ export default {
   put_address: "Put address",
   address: "Address",
   create_attestation: "Create attestation",
+  twitter_handle: "Twitter handle",
+  tweet_url: "Tweet URL",
   merkle_proof: "Merkle proof",
   sign: "Sign",
   sign_in_with_prfs_id: "Sign in with Prfs ID",

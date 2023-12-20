@@ -7,16 +7,14 @@ import styles from "./AttestationCreate.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { AttestationsMain, AttestationsTitle } from "@/components/attestations/Attestations";
 
-const AttestationsCreate: React.FC<AttestationsCreateProps> = ({}) => {
+const AttestationsCreate: React.FC<AttestationsCreateProps> = ({ children }) => {
   const i18n = React.useContext(i18nContext);
 
-  return (
-    <AttestationsMain>
-      <AttestationsTitle>{i18n.create_twitter_acc_attestation}</AttestationsTitle>
-    </AttestationsMain>
-  );
+  return <AttestationsMain>{children}</AttestationsMain>;
 };
 
 export default AttestationsCreate;
 
-export interface AttestationsCreateProps {}
+export interface AttestationsCreateProps {
+  children?: React.ReactNode;
+}
