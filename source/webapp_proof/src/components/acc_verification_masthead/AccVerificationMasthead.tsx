@@ -29,18 +29,14 @@ const AccVerificationMasthead: React.FC<AccVerificationMastheadProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
 
-  console.log(22, handleClickShowLeftBarDrawer);
-
   return (
     <MastheadWrapper smallPadding tallHeight>
       <div className={styles.leftBarBtn}>
         <AccVerifyLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
       </div>
       <div className={styles.leftBarDrawerBtn}>
-        123
         <AccVerifyLogoArea handleClickShowLeftBar={handleClickShowLeftBarDrawer} />
       </div>
-      {/* <AccVerifyLogoArea handleClickShowLeftBar={handleClickShowLeftBar} /> */}
       <MastheadMain>
         <div className={styles.searchArea}>
           <VerifiedAccSearch />

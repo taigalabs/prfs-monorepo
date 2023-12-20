@@ -12,14 +12,14 @@ import { MastheadPlaceholder } from "@/components/masthead/Masthead";
 import AccVerifyLogoArea from "@/components/acc_verification_masthead/AccVerifyLogoArea";
 import LeftBar from "./LeftBar";
 import LeftBarDrawer from "./LeftBarDrawer";
-import layouts from "@/styles/layouts.module.scss";
+// import layouts from "@/styles/layouts.module.scss";
 
-const bigDisplayWidth = layouts.view_port_min_width_big_display.substring(
-  0,
-  layouts.view_port_min_width_big_display.length - 2,
-);
+// const bigDisplayWidth = layouts.view_port_min_width_big_display.substring(
+//   0,
+//   layouts.view_port_min_width_big_display.length - 2,
+// );
 
-console.log(11, Number(bigDisplayWidth));
+// console.log(11, Number(bigDisplayWidth));
 
 const TwitterAccVerification: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -27,16 +27,13 @@ const TwitterAccVerification: React.FC = () => {
   const [isLeftBarDrawerVisible, setIsLeftBarDrawerVisible] = React.useState(false);
 
   const handleClickShowLeftBar = React.useCallback(() => {
-    console.log(22, window.innerWidth, layouts.view_port_min_width_big_display);
     setIsLeftBarVisible(v => !v);
   }, [setIsLeftBarVisible]);
 
   const handleClickShowLeftBarDrawer = React.useCallback(() => {
-    console.log(33, window.innerWidth, layouts.view_port_min_width_big_display);
+    console.log(11);
     setIsLeftBarDrawerVisible(v => !v);
   }, [setIsLeftBarDrawerVisible]);
-
-  console.log(55, handleClickShowLeftBarDrawer);
 
   return (
     <>
@@ -50,8 +47,8 @@ const TwitterAccVerification: React.FC = () => {
           <LeftBar />
         </div>
         <LeftBarDrawer isOpen={isLeftBarDrawerVisible} setIsOpen={handleClickShowLeftBarDrawer}>
-          {/* <AccVerifyLogoArea handleClickShowLeftBar={handleClickShowLeftBar} /> */}
-          {/* <LeftBar /> */}
+          <AccVerifyLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
+          <LeftBar />
         </LeftBarDrawer>
         <div className={styles.main}>main</div>
       </div>
