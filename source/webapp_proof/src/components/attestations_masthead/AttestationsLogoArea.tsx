@@ -10,9 +10,13 @@ import { paths } from "@/paths";
 const AttestationsLogoArea: React.FC<AttestationsLogoAreaProps> = ({ handleClickShowLeftBar }) => {
   const i18n = React.useContext(i18nContext);
 
+  const handleClickHamburger = React.useCallback(() => {
+    handleClickShowLeftBar();
+  }, [handleClickShowLeftBar]);
+
   return (
     <div className={styles.wrapper}>
-      <div className={styles.hamburger} onClick={handleClickShowLeftBar}>
+      <div className={styles.hamburger} onClick={handleClickHamburger}>
         <IoIosMenu />
       </div>
       <a className={styles.logoArea} href={paths.__}>
@@ -26,5 +30,5 @@ const AttestationsLogoArea: React.FC<AttestationsLogoAreaProps> = ({ handleClick
 export default AttestationsLogoArea;
 
 export interface AttestationsLogoAreaProps {
-  handleClickShowLeftBar: React.Dispatch<React.SetStateAction<boolean>>;
+  handleClickShowLeftBar: (bool?: boolean) => void;
 }

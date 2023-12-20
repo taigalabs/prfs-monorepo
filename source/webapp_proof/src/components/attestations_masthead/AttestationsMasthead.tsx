@@ -66,6 +66,6 @@ const AttestationsMasthead: React.FC<AttestationsMastheadProps> = ({
 export default AttestationsMasthead;
 
 export interface AttestationsMastheadProps {
-  handleClickShowLeftBar: () => void;
-  handleClickShowLeftBarDrawer: React.Dispatch<React.SetStateAction<boolean>>;
+  handleClickShowLeftBar: (bool?: boolean) => void;
+  handleClickShowLeftBarDrawer: (bool?: boolean) => void;
 }

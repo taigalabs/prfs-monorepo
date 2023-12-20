@@ -4,7 +4,7 @@ import React from "react";
 import cn from "classnames";
 import Link from "next/link";
 
-import styles from "./TwitterAccAttestation.module.scss";
+import styles from "./Attestations.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import AttestationsMasthead from "@/components/attestations_masthead/AttestationsMasthead";
@@ -13,15 +13,22 @@ import AttestationsLogoArea from "@/components/attestations_masthead/Attestation
 import LeftBar from "./LeftBar";
 import LeftBarDrawer from "./LeftBarDrawer";
 
-const TwitterAccAttestation: React.FC = () => {
+const Attestations: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const [isLeftBarVisible, setIsLeftBarVisible] = React.useState(true);
   const [isLeftBarDrawerVisible, setIsLeftBarDrawerVisible] = React.useState(false);
 
-  const handleClickShowLeftBar = React.useCallback(() => {
-    console.log(232);
-    setIsLeftBarVisible(v => !v);
-  }, [setIsLeftBarVisible]);
+  const handleClickShowLeftBar = React.useCallback(
+    (open?: boolean) => {
+      console.log(111, open);
+      if (open !== undefined) {
+        setIsLeftBarVisible(open);
+      } else {
+        setIsLeftBarVisible(v => !v);
+      }
+    },
+    [setIsLeftBarVisible],
+  );
 
   const handleClickShowLeftBarDrawer = React.useCallback(
     (open?: boolean) => {
@@ -38,7 +45,7 @@ const TwitterAccAttestation: React.FC = () => {
     <>
       <AttestationsMasthead
         handleClickShowLeftBar={handleClickShowLeftBar}
-        handleClickShowLeftBarDrawer={setIsLeftBarDrawerVisible}
+        handleClickShowLeftBarDrawer={handleClickShowLeftBarDrawer}
       />
       <MastheadPlaceholder tallHeight />
       <div className={styles.wrapper}>
@@ -55,4 +62,4 @@ const TwitterAccAttestation: React.FC = () => {
   );
 };
 
-export default TwitterAccAttestation;
+export default Attestations;

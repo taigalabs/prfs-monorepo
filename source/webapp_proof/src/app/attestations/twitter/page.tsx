@@ -6,14 +6,14 @@ import DefaultLayout, {
   DefaultFooter,
 } from "@/components/layouts/default_layout/DefaultLayout";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
-import TwitterAccAttestation from "@/components/twitter_acc_attestion/TwitterAccAttestation";
+import Attestations from "@/components/attestations/Attestations";
 
 const TwitterAttestionPage = () => {
   return (
     <DefaultLayout>
       <DefaultBody noMinWidth>
         <Suspense>
-          <TwitterAccAttestation />
+          <Attestations />
         </Suspense>
       </DefaultBody>
       <DefaultFooter>
