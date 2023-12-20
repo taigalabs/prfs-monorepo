@@ -9,7 +9,7 @@ macro_rules! generate_api_error_codes {
         )+
     ) => {
         #[allow(non_snake_case)]
-        #[derive(Serialize, Deserialize)]
+        #[derive(Serialize, Deserialize, Clone)]
         pub struct $struct {
         $(
             pub $name: ApiHandleErrorCode,
@@ -18,8 +18,6 @@ macro_rules! generate_api_error_codes {
 
         lazy_static::lazy_static! {
             pub static ref $object_literal: $struct = {
-                // let error_codes_str = include_str!("../../data_api/error_codes.json");
-
                 let ret: $struct = $struct {
                     $(
                         $name: ApiHandleErrorCode {
@@ -32,15 +30,5 @@ macro_rules! generate_api_error_codes {
                 ret
             };
         }
-
-        // impl $struct {
-        // $(
-        //     $(#[$docs])*
-        //     pub const $name: ApiHandleErrorCode = ApiHandleErrorCode {
-        //         code: $code,
-        //         phrase: String::from($phrase),
-        //     };
-        // )+
-        // }
     }
 }

@@ -1,4 +1,5 @@
 use colored::Colorize;
+use prfs_api_server::bindgen::generate_error_code_json_binding;
 use prfs_api_server::envs::ENVS;
 use prfs_api_server::paths::PATHS;
 use prfs_api_server::server::router;
@@ -22,6 +23,9 @@ async fn main() -> Result<(), ApiServerError> {
     );
 
     ENVS.check();
+
+    // Generate error code json binding file when launching up a server
+    generate_error_code_json_binding().unwrap();
 
     let server_state = {
         let s = init_server_state().await.unwrap();

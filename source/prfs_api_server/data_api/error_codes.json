@@ -1,4 +1,8 @@
 {
+  "SUCCESS": {
+    "code": 2000000,
+    "phrase": "Success"
+  },
   "UNKNOWN_ERROR": {
     "code": 4000000,
     "phrase": "Unknown error"
