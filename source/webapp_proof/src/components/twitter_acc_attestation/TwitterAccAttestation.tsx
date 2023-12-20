@@ -55,7 +55,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
               </div>
             </li>
           </ol>
-          <button>{i18n.create}</button>
+          <button type="button">{i18n.create}</button>
         </form>
       </div>
     </>
