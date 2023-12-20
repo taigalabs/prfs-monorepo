@@ -13,16 +13,15 @@
   }
 
   li:before {
-    margin-right: 10px;
+    width: 40px;
     content: counter(item);
     border-radius: 100%;
-    width: 1.2em;
     text-align: center;
     display: inline-block;
   }
 
   .item {
-    padding-bottom: 16px;
+    padding-bottom: 18px;
 
     .desc {
       display: inline-block;
@@ -30,13 +29,13 @@
     }
 
     .content {
-      padding-left: 28px;
+      padding-left: 40px;
     }
   }
 }
 
 .btnRow {
-  padding-left: 28px;
+  padding-left: 40px;
 }
 
 .input {

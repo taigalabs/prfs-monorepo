@@ -38,6 +38,8 @@ export default {
   type_merkle_proof: "Type merkle proof",
   feedback: "Feedback",
   id: "Id",
+  generate_a_cryptographic_claim: "Generate a cryptographic claim",
+  what_is_your_twitter_handle: "What is your Twitter handle?",
   email: "Email",
   forget_all_accounts: "Forget all accounts",
   confirm: "Confirm",

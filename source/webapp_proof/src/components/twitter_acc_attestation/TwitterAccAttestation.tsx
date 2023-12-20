@@ -8,16 +8,23 @@ import styles from "./TwitterAccAttestation.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { AttestationsMain, AttestationsTitle } from "@/components/attestations/Attestations";
 
+const TWITTER_HANDLE = "twitter_handle";
+const TWEET_URL = "tweet_url";
+
 const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
   const i18n = React.useContext(i18nContext);
-  const [twitterHandle, setTwitterHandle] = React.useState("");
+  const [formData, setFormData] = React.useState({ [TWITTER_HANDLE]: "", [TWEET_URL]: "" });
 
   const handleChangeTwitterHandle = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { value } = e.target;
-      setTwitterHandle(value);
+      const { value, name } = e.target;
+
+      setFormData(oldVal => ({
+        ...oldVal,
+        [name]: value,
+      }));
     },
-    [setTwitterHandle],
+    [setFormData],
   );
 
   return (
@@ -29,19 +36,20 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
         <form>
           <ol className={styles.instructions}>
             <li className={styles.item}>
-              <p className={styles.desc}>label</p>
+              <p className={styles.desc}>{i18n.what_is_your_twitter_handle}</p>
               <div className={styles.content}>
                 <Input
                   className={styles.input}
+                  name={TWITTER_HANDLE}
                   error={""}
                   label={i18n.twitter_handle}
-                  value={twitterHandle}
+                  value={formData.twitter_handle}
                   handleChangeValue={handleChangeTwitterHandle}
                 />
               </div>
             </li>
             <li className={styles.item}>
-              <p className={styles.desc}>generate a claim</p>
+              <p className={styles.desc}>{i18n.generate_a_cryptographic_claim}</p>
               <div className={styles.content}>claim</div>
             </li>
             <li className={styles.item}>
@@ -53,9 +61,10 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
               <div className={styles.content}>
                 <Input
                   className={styles.input}
+                  name={TWEET_URL}
                   error={""}
                   label={i18n.tweet_url}
-                  value={twitterHandle}
+                  value={formData.tweet_url}
                   handleChangeValue={handleChangeTwitterHandle}
                 />
               </div>
