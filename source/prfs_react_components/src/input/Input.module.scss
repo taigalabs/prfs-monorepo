@@ -40,6 +40,7 @@
     inset: -5px 0 0;
     border-radius: 4px;
     padding: 0 5px;
+    border: 1px solid var(--gray-45);
 
     /* border: 1px solid green; */
 
@@ -71,11 +72,14 @@
       padding: 0 8px;
 
       label {
+        color: var(--blue-05);
         padding: 0px 3px;
       }
     }
 
     .fieldset {
+      border: 3px solid var(--blue-05);
+
       legend {
         max-width: 100%;
       }
