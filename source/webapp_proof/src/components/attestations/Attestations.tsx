@@ -77,7 +77,9 @@ const Attestations: React.FC<AttestationsProps> = ({ children }) => {
             <LeftBar />
           </div>
           <LeftBarDrawer isOpen={isLeftBarDrawerVisible} setIsOpen={handleClickShowLeftBarDrawer}>
-            <AttestationsLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
+            <div className={styles.drawerLogoArea}>
+              <AttestationsLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
+            </div>
             <LeftBar />
           </LeftBarDrawer>
           {children}

@@ -7,8 +7,8 @@
     align-items: center;
     position: absolute;
     top: 50%;
-    transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
-      font-size 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    transition: transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+      font-size 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
     transform: translateY(-50%);
     font-size: 16px;
     color: var(--gray-23);
@@ -38,14 +38,13 @@
     position: absolute;
     pointer-events: none;
     inset: -5px 0 0;
-    /* border: 1px solid var(--bright-gray-32); */
     border-radius: 4px;
     padding: 0 5px;
 
     /* border: 1px solid green; */
 
     legend {
-      transition: max-width 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+      transition: max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
       visibility: hidden;
       max-width: 0.01px;
       height: 11px;
