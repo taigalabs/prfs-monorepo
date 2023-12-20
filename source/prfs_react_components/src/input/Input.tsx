@@ -22,11 +22,14 @@ export const Input: React.FC<InputProps> = ({
     setIsFocused(false);
   }, [setIsFocused]);
 
+  console.log(22, value);
+
   return (
     <div
       className={cn(styles.inputWrapper, className, {
         [styles.isError]: !!error,
-        [styles.isFocused]: isFocused || value.length > 0,
+        [styles.isFocused]: isFocused,
+        [styles.hasValue]: value.length > 0,
       })}
     >
       <div className={styles.label}>

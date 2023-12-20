@@ -68,7 +68,7 @@
   &.isFocused {
     .label {
       font-size: 11px;
-      transform: translateY(-105%);
+      transform: translateY(-100%);
       padding: 0 8px;
 
       label {
@@ -79,7 +79,24 @@
 
     .fieldset {
       border: 3px solid var(--blue-05);
+      legend {
+        max-width: 100%;
+      }
+    }
+  }
 
+  &.hasValue {
+    .label {
+      font-size: 11px;
+      transform: translateY(-100%);
+      padding: 0 8px;
+
+      label {
+        padding: 0px 3px;
+      }
+    }
+
+    .fieldset {
       legend {
         max-width: 100%;
       }
