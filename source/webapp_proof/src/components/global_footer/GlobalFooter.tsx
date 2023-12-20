@@ -1,16 +1,17 @@
 import React from "react";
 import Link from "next/link";
+import cn from "classnames";
 
 import styles from "./GlobalFooter.module.scss";
 import { paths } from "@/paths";
 import LatestTimestamp from "@/components/latest_timestamp/LatestTimestamp";
 import { getI18N } from "@/i18n/get_i18n";
 
-const GlobalFooter: React.FC<GlobalFooterProps> = async () => {
+const GlobalFooter: React.FC<GlobalFooterProps> = async ({ transparent }) => {
   const i18n = await getI18N();
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cn(styles.wrapper, { [styles.transparent]: transparent })}>
       <ul className={styles.leftList}>
         <li>{i18n.english}</li>
         <li>
@@ -37,4 +38,6 @@ const GlobalFooter: React.FC<GlobalFooterProps> = async () => {
 
 export default GlobalFooter;
 
-export interface GlobalFooterProps {}
+export interface GlobalFooterProps {
+  transparent?: boolean;
+}
