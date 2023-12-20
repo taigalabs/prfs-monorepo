@@ -15,8 +15,8 @@ import LeftBar from "./LeftBar";
 import LeftBarDrawer from "./LeftBarDrawer";
 import { useSignedInUser } from "@/hooks/user";
 
-export const AttestationsTitle: React.FC<AttestationsProps> = ({ children }) => {
-  return <div className={styles.title}>{children}</div>;
+export const AttestationsTitle: React.FC<AttestationsProps> = ({ children, className }) => {
+  return <div className={cn(styles.title, className)}>{children}</div>;
 };
 
 export const AttestationsMain: React.FC<AttestationsProps> = ({ children }) => {
@@ -93,4 +93,5 @@ export default Attestations;
 
 export interface AttestationsProps {
   children: React.ReactNode;
+  className?: string;
 }

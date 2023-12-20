@@ -22,12 +22,15 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
 
   return (
     <>
-      <AttestationsTitle>{i18n.create_twitter_acc_attestation}</AttestationsTitle>
+      <AttestationsTitle className={styles.title}>
+        {i18n.create_twitter_acc_attestation}
+      </AttestationsTitle>
       <div>
         <form>
-          <ol>
-            <li>
-              <div>
+          <ol className={styles.instructions}>
+            <li className={styles.item}>
+              <p className={styles.desc}>label</p>
+              <div className={styles.content}>
                 <Input
                   className={styles.input}
                   error={""}
@@ -37,14 +40,17 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
                 />
               </div>
             </li>
-            <li>
-              <div>generate a claim</div>
+            <li className={styles.item}>
+              <p className={styles.desc}>generate a claim</p>
+              <div className={styles.content}>claim</div>
             </li>
-            <li>
-              <div>Make a tweet</div>
+            <li className={styles.item}>
+              <p className={styles.desc}>Make a tweet</p>
+              <div className={styles.content}>tweet button</div>
             </li>
-            <li>
-              <div>
+            <li className={styles.item}>
+              <p className={styles.desc}>Make a tweet</p>
+              <div className={styles.content}>
                 <Input
                   className={styles.input}
                   error={""}
@@ -55,7 +61,9 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
               </div>
             </li>
           </ol>
-          <button type="button">{i18n.create}</button>
+          <div className={styles.btnRow}>
+            <button type="button">{i18n.create}</button>
+          </div>
         </form>
       </div>
     </>
