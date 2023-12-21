@@ -126,7 +126,7 @@ const PrfsIdSignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId 
         return (
           <PrfsIdCreateID
             handleClickSignIn={handleClickSignIn}
-            handleSucceedCreateId={handleClickCreateID}
+            handleSucceedCreateId={handleSucceedSignIn}
           />
         );
       }
