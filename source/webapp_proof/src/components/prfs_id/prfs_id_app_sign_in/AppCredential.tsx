@@ -28,7 +28,7 @@ import {
 import { IdCreateForm } from "@/functions/validate_id";
 import SignInInputs, { PrfsSignInData } from "./SignInInputs";
 
-enum Step2Status {
+enum AppCredentialStatus {
   Loading,
   Standby,
 }
@@ -37,14 +37,14 @@ const AppCredential: React.FC<AppCredentialProps> = ({
   formData,
   formErrors,
   setFormData,
-  // handleClickPrev,
+  handleClickPrev,
   appId,
   publicKey,
   credential,
 }) => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
-  const [step2Status, setStep2Status] = React.useState(Step2Status.Loading);
+  const [appCredentialStatus, setAppCredentialStatus] = React.useState(AppCredentialStatus.Loading);
   const [title, setTitle] = React.useState<React.ReactNode>(null);
   const [errorMsg, setErrorMsg] = React.useState("");
   const [signInDataElem, setSignInDataElem] = React.useState<React.ReactNode>(null);
@@ -81,21 +81,20 @@ const AppCredential: React.FC<AppCredentialProps> = ({
           );
           setSignInDataElem(content);
         }
-        setStep2Status(Step2Status.Standby);
+        setAppCredentialStatus(AppCredentialStatus.Standby);
       } catch (err) {
         console.error(err);
       }
     }
     fn().then();
   }, [
-    setStep2Status,
+    setAppCredentialStatus,
     searchParams,
     setTitle,
     setSignInData,
     setSignInDataElem,
     formData,
     credential,
-    // handleClickPrev,
   ]);
 
   const handleClickSignIn = React.useCallback(async () => {
@@ -142,7 +141,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
 
   return (
     <>
-      {step2Status === Step2Status.Loading && (
+      {appCredentialStatus === AppCredentialStatus.Loading && (
         <div className={styles.overlay}>
           <Spinner color="#1b62c0" />
         </div>
@@ -161,11 +160,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
           <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
         </div>
         <PrfsIdSignInModuleBtnRow>
-          <Button
-            variant="transparent_blue_2"
-            noTransition
-            // handleClick={handleClickPrev}
-          >
+          <Button variant="transparent_blue_2" noTransition handleClick={handleClickPrev}>
             {i18n.go_back}
           </Button>
           <Button
@@ -191,7 +186,7 @@ export interface AppCredentialProps {
   formData: IdCreateForm;
   formErrors: IdCreateForm;
   setFormData: React.Dispatch<React.SetStateAction<IdCreateForm>>;
-  // handleClickPrev: () => void;
+  handleClickPrev: () => void;
   appId: string;
   publicKey: string;
   credential: PrfsIdCredential;

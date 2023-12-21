@@ -83,6 +83,10 @@ const PrfsIdAppSignIn: React.FC = () => {
     [formData, setFormData],
   );
 
+  const handleClickPrev = React.useCallback(() => {
+    setStep(SignInStep.PrfsIdCredential);
+  }, [setStep]);
+
   const handleSucceedSignIn = React.useCallback(
     (credential: PrfsIdCredential) => {
       if (credential) {
@@ -112,6 +116,7 @@ const PrfsIdAppSignIn: React.FC = () => {
               formData={formData}
               setFormData={setFormData}
               formErrors={formErrors}
+              handleClickPrev={handleClickPrev}
             />
           )
         );
