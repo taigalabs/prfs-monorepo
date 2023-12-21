@@ -3,7 +3,6 @@
 import React from "react";
 import { PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import {
   loadLocalPrfsIdCredentials,
   removeAllPrfsIdCredentials,
@@ -25,13 +24,13 @@ import {
 } from "@/functions/validate_id";
 import ErrorDialog from "./ErrorDialog";
 import Step1 from "./Step1";
-import Step2 from "./Step2";
+// import Step2 from "./Step2";
 import StoredCredentials from "./StoredCredentials";
 
 enum SignInStep {
   StoredCredentials,
   PrfsIdCredential,
-  AppCredential,
+  // AppCredential,
 }
 
 export enum SignInStatus {
@@ -40,50 +39,25 @@ export enum SignInStatus {
   Standby,
 }
 
-const PrfsIdSignIn: React.FC = () => {
+const PrfsIdSignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => {
   const i18n = React.useContext(i18nContext);
   const [signInStatus, setSignInStatus] = React.useState(SignInStatus.Loading);
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
-  const searchParams = useSearchParams();
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
   const [step, setStep] = React.useState(SignInStep.PrfsIdCredential);
-  const [publicKey, setPublicKey] = React.useState<string | null>(null);
-  const [appId, setAppId] = React.useState<string | null>(null);
   const [storedCredentials, setStoredCredentials] = React.useState<StoredCredentialRecord>({});
   const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
 
   React.useEffect(() => {
-    const publicKey = searchParams.get("public_key");
-    const appId = searchParams.get("app_id");
-
     const storedCredentials = loadLocalPrfsIdCredentials();
     console.log("stored credentials", storedCredentials);
+
     if (Object.keys(storedCredentials).length > 0) {
       setStep(SignInStep.StoredCredentials);
       setStoredCredentials(storedCredentials);
     }
-
-    if (!publicKey) {
-      setSignInStatus(SignInStatus.Error);
-      setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
-    } else if (!appId) {
-      setSignInStatus(SignInStatus.Error);
-      setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
-    } else {
-      setPublicKey(publicKey);
-      setAppId(appId);
-      setSignInStatus(SignInStatus.Standby);
-    }
-  }, [
-    searchParams,
-    setSignInStatus,
-    setErrorMsg,
-    setPublicKey,
-    setAppId,
-    setStep,
-    setStoredCredentials,
-  ]);
+  }, [setSignInStatus, setErrorMsg, setStep, setStoredCredentials]);
 
   const handleCloseErrorDialog = React.useCallback(() => {
     window.close();
@@ -120,15 +94,11 @@ const PrfsIdSignIn: React.FC = () => {
     setStep(SignInStep.PrfsIdCredential);
   }, [setStep]);
 
-  const handleClickNext = React.useCallback(() => {
-    setStep(SignInStep.AppCredential);
-  }, [setStep]);
+  // const handleClickNext = React.useCallback(() => {
+  //   setStep(SignInStep.AppCredential);
+  // }, [setStep]);
 
   const content = React.useMemo(() => {
-    if (!appId || !publicKey) {
-      return null;
-    }
-
     switch (step) {
       case SignInStep.StoredCredentials: {
         return (
@@ -137,7 +107,7 @@ const PrfsIdSignIn: React.FC = () => {
             storedCredentials={storedCredentials}
             appId={appId}
             handleClickUseAnotherId={handleGotoPrfsIdCredential}
-            handleClickNext={handleClickNext}
+            handleSucceedSignIn={handleSucceedSignIn}
             handleClickForgetAllCredentials={handleClickForgetAllCredentials}
           />
         );
@@ -145,58 +115,41 @@ const PrfsIdSignIn: React.FC = () => {
       case SignInStep.PrfsIdCredential: {
         return (
           <Step1
-            setCredential={setCredential}
+            // setCredential={setCredential}
             errorMsg={errorMsg}
             formData={formData}
             setFormData={setFormData}
             formErrors={formErrors}
-            handleClickNext={handleClickNext}
+            handleSucceedSignIn={handleSucceedSignIn}
           />
         );
       }
-      case SignInStep.AppCredential: {
-        return (
-          credential && (
-            <Step2
-              credential={credential}
-              appId={appId}
-              publicKey={publicKey}
-              formData={formData}
-              setFormData={setFormData}
-              formErrors={formErrors}
-              handleClickPrev={handleGotoStoredCredential}
-            />
-          )
-        );
-      }
+      // case SignInStep.AppCredential: {
+      //   return (
+      //     credential && (
+      //       <Step2
+      //         credential={credential}
+      //         appId={appId}
+      //         publicKey={publicKey}
+      //         formData={formData}
+      //         setFormData={setFormData}
+      //         formErrors={formErrors}
+      //         handleClickPrev={handleGotoStoredCredential}
+      //       />
+      //     )
+      //   );
+      // }
       default:
         <div>Invalid step</div>;
     }
-  }, [step, handleChangeValue, formErrors, publicKey, appId]);
+  }, [step, handleChangeValue, formErrors]);
 
-  return (
-    <PrfsIdSignInModule>
-      <PrfsIdSignInForm>
-        {signInStatus === SignInStatus.Loading && (
-          <div className={styles.overlay}>
-            <Spinner color="#1b62c0" />
-          </div>
-        )}
-        {signInStatus === SignInStatus.Error && (
-          <ErrorDialog errorMsg={errorMsg} handleClose={handleCloseErrorDialog} />
-        )}
-        {content}
-      </PrfsIdSignInForm>
-      <PrfsIdSignInModuleFooter>
-        <Link href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL}>
-          <span>{i18n.code}</span>
-        </Link>
-        <Link href={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
-          <span>{i18n.prfs}</span>
-        </Link>
-      </PrfsIdSignInModuleFooter>
-    </PrfsIdSignInModule>
-  );
+  return <>{content}</>;
 };
 
 export default PrfsIdSignIn;
+
+export interface PrfsIdSignInProps {
+  handleSucceedSignIn: (credential: PrfsIdCredential) => void;
+  appId: string;
+}

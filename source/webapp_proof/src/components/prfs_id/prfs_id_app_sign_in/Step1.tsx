@@ -28,9 +28,8 @@ const Step1: React.FC<Step1Props> = ({
   formData,
   formErrors,
   setFormData,
-  // handleClickNext,
-  handleSucceedSignIn,
-  // setCredential,
+  handleClickNext,
+  setCredential,
 }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
@@ -73,9 +72,9 @@ const Step1: React.FC<Step1Props> = ({
     });
     // console.log("credential", credential, formData);
 
-    // setCredential(credential);
-    handleSucceedSignIn(credential);
-  }, [handleSucceedSignIn, formData]);
+    setCredential(credential);
+    handleClickNext();
+  }, [handleClickNext, setCredential, formData]);
 
   const handleKeyDown = React.useCallback(
     async (e: React.KeyboardEvent) => {
@@ -166,7 +165,6 @@ export interface Step1Props {
   formData: IdCreateForm;
   formErrors: IdCreateForm;
   setFormData: React.Dispatch<React.SetStateAction<IdCreateForm>>;
-  // handleClickNext: () => void;
-  // setCredential: React.Dispatch<React.SetStateAction<PrfsIdCredential | null>>;
-  handleSucceedSignIn: (credential: PrfsIdCredential) => void;
+  handleClickNext: () => void;
+  setCredential: React.Dispatch<React.SetStateAction<PrfsIdCredential | null>>;
 }

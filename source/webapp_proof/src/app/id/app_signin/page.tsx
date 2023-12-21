@@ -2,14 +2,14 @@ import React, { Suspense } from "react";
 
 import styles from "./page.module.scss";
 import SignInLayout, { SignInBody } from "@/components/layouts/sign_in_layout/SignInLayout";
-import PrfsIdSignIn from "@/components/prfs_id/prfs_id_sign_in/PrfsIdSignIn";
+import PrfsIdAppSignIn from "@/components/prfs_id/prfs_id_app_sign_in/PrfsIdAppSignIn";
 
 const AppSignInPage = () => {
   return (
     <SignInLayout>
       <SignInBody>
         <Suspense>
-          <PrfsIdSignIn />
+          <PrfsIdAppSignIn />
         </Suspense>
       </SignInBody>
     </SignInLayout>

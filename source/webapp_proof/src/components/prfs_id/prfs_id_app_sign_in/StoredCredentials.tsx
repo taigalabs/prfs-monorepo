@@ -33,8 +33,8 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
   storedCredentials,
   appId,
   handleClickUseAnotherId,
-  handleSucceedSignIn,
-  // setCredential,
+  handleClickNext,
+  setCredential,
   handleClickForgetAllCredentials,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -105,10 +105,10 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
         return;
       }
 
-      // setCredential(credentialObj as PrfsIdCredential);
-      handleSucceedSignIn(credentialObj as PrfsIdCredential);
+      setCredential(credentialObj as PrfsIdCredential);
+      handleClickNext();
     }
-  }, [handleSucceedSignIn, formData, selectedCredentialId, setErrorMsg]);
+  }, [handleClickNext, formData, selectedCredentialId, setErrorMsg, setCredential]);
 
   const handleKeyDown = React.useCallback(
     async (e: React.KeyboardEvent) => {
@@ -214,7 +214,7 @@ export interface StoredCredentialsProps {
   storedCredentials: StoredCredentialRecord;
   appId: string;
   handleClickUseAnotherId: () => void;
-  handleSucceedSignIn: (credential: PrfsIdCredential) => void;
+  handleClickNext: () => void;
   setCredential: React.Dispatch<React.SetStateAction<PrfsIdCredential | null>>;
   handleClickForgetAllCredentials: () => void;
 }
