@@ -9,6 +9,7 @@ import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
 import styles from "./CreateTwitterAccAtst.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { AttestationsMain, AttestationsTitle } from "@/components/attestations/Attestations";
+import { useRandomKeyPair } from "@/hooks/key";
 
 const TWITTER_HANDLE = "twitter_handle";
 const TWEET_URL = "tweet_url";
@@ -28,6 +29,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
     return `PRFS_ATTESTATION_${handle}`;
   }, [formData[TWITTER_HANDLE]]);
   const [step, setStep] = React.useState({ ...attestionStep });
+  const { sk, pkHex } = useRandomKeyPair();
 
   React.useEffect(() => {
     const handle = formData[TWITTER_HANDLE];
@@ -76,7 +78,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
   //   }
   // }, [setPrfsIdSignInEndpoint]);
 
-  const handleClickGenerate = React.useCallback(() => {}, [formData, step, claimSecret]);
+  const handleClickGenerate = React.useCallback(() => {}, [formData, step, claimSecret, sk, pkHex]);
 
   const handleClickStartOver = React.useCallback(() => {}, [formData, step]);
 

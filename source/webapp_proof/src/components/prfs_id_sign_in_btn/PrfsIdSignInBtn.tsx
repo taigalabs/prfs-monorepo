@@ -46,9 +46,9 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
     const redirectUri = encodeURIComponent(window.location.toString());
     const signInData = encodeURIComponent([SignInData.ID_POSEIDON].join(","));
     const queryString = `?public_key=${pkHex}&redirect_uri=${redirectUri}&sign_in_data=${signInData}&app_id=${appId}&nonce=${nonce}`;
-    setPrfsIdSignInEndpoint(
-      `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id__signin}${queryString}`,
-    );
+    const prfsIdEndpoint = `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id__signin}${queryString}`;
+    setPrfsIdSignInEndpoint(prfsIdEndpoint);
+
     console.log("initializing ephemeral secret key", sk);
   }, [setPrfsIdSignInEndpoint, sk, pkHex]);
 
