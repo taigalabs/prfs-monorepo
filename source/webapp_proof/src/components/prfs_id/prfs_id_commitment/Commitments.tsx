@@ -25,6 +25,7 @@ import {
   PrfsIdSignInModuleTitle,
   PrfsIdSignInWithPrfsId,
 } from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
+import CommitmentData from "./CommitmentData";
 // import SignInInputs, { PrfsSignInData } from "./SignInInputs";
 
 enum Status {
@@ -43,8 +44,8 @@ const Commitments: React.FC<CommitmentsProps> = ({
   const [status, setStatus] = React.useState(Status.Loading);
   const [title, setTitle] = React.useState<React.ReactNode>(null);
   const [errorMsg, setErrorMsg] = React.useState("");
-  const [signInDataElem, setSignInDataElem] = React.useState<React.ReactNode>(null);
-  // const [signInData, setSignInData] = React.useState<PrfsSignInData | null>(null);
+  const [content, setContent] = React.useState<React.ReactNode>(null);
+  const [commitmentData, setCommitmentData] = React.useState<any | null>(null);
   const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignInRequest) => {
       return idApi("sign_in_prfs_identity", req);
@@ -65,6 +66,26 @@ const Commitments: React.FC<CommitmentsProps> = ({
         const cms = searchParams.get("cms");
         console.log("cms", cms);
 
+        if (cms) {
+          const d = decodeURIComponent(cms);
+          const data = d.split(",");
+          const content = (
+            <CommitmentData
+              commitmentsMeta={data}
+              credential={credential}
+              appId={appId}
+              // setCommitmentData={setCommitmentData}
+            />
+            // <SignInInputs
+            //   signInDataMeta={data}
+            //   credential={credential}
+            //   appId={appId}
+            //   setSignInData={setSignInData}
+            // />
+          );
+          setContent(content);
+        }
+
         // if (signInData) {
         //   const d = decodeURIComponent(signInData);
         //   const data = d.split(",");
@@ -84,14 +105,7 @@ const Commitments: React.FC<CommitmentsProps> = ({
       }
     }
     fn().then();
-  }, [
-    setStatus,
-    searchParams,
-    setTitle,
-    // setSignInData,
-    setSignInDataElem,
-    credential,
-  ]);
+  }, [setStatus, searchParams, setTitle, setContent, credential]);
 
   const handleClickSignIn = React.useCallback(async () => {
     if (publicKey && credential) {
@@ -150,7 +164,7 @@ const Commitments: React.FC<CommitmentsProps> = ({
         <div>
           <p className={styles.prfsId}>{credential.id}</p>
         </div>
-        {signInDataElem}
+        {content}
         <div className={styles.dataWarning}>
           <p className={styles.title}>Make sure you trust {appId} app</p>
           <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
