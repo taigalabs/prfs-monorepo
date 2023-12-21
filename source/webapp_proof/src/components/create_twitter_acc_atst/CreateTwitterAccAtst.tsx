@@ -40,44 +40,56 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
         <form>
           <ol className={styles.instructions}>
             <li className={styles.item}>
-              <p className={styles.desc}>
-                <span>{i18n.what_is_your_twitter_handle}</span>
-              </p>
-              <div className={styles.content}>
-                <Input
-                  className={styles.input}
-                  name={TWITTER_HANDLE}
-                  error={""}
-                  label={i18n.twitter_handle}
-                  value={formData.twitter_handle}
-                  handleChangeValue={handleChangeTwitterHandle}
-                />
+              <div className={styles.no}>1</div>
+              <div className={styles.right}>
+                <p className={styles.desc}>
+                  <span>{i18n.what_is_your_twitter_handle}</span>
+                </p>
+                <div className={styles.content}>
+                  <Input
+                    className={styles.input}
+                    name={TWITTER_HANDLE}
+                    error={""}
+                    label={i18n.twitter_handle}
+                    value={formData.twitter_handle}
+                    handleChangeValue={handleChangeTwitterHandle}
+                  />
+                </div>
               </div>
             </li>
             <li className={styles.item}>
-              <p className={styles.desc}>
-                <span>{i18n.generate_a_cryptographic_claim}. </span>
-                <span>
-                  {i18n.claim_secret}: {claimSecret}
-                </span>
-              </p>
-              <div className={styles.content}>claim</div>
+              <div className={styles.no}>2</div>
+              <div>
+                <p className={styles.desc}>
+                  <span>{i18n.generate_a_cryptographic_claim}. </span>
+                  <span>
+                    {i18n.claim_secret}: {claimSecret}
+                  </span>
+                </p>
+                <div className={styles.content}>claim</div>
+              </div>
             </li>
             <li className={styles.item}>
-              <p className={styles.desc}>Make a tweet</p>
-              <div className={styles.content}>tweet button</div>
+              <div className={styles.no}>3</div>
+              <div>
+                <p className={styles.desc}>Make a tweet</p>
+                <div className={styles.content}>tweet button</div>
+              </div>
             </li>
             <li className={styles.item}>
-              <p className={styles.desc}>Make a tweet</p>
-              <div className={styles.content}>
-                <Input
-                  className={styles.input}
-                  name={TWEET_URL}
-                  error={""}
-                  label={i18n.tweet_url}
-                  value={formData.tweet_url}
-                  handleChangeValue={handleChangeTwitterHandle}
-                />
+              <div className={styles.no}>4</div>
+              <div>
+                <p className={styles.desc}>Make a tweet</p>
+                <div className={styles.content}>
+                  <Input
+                    className={styles.input}
+                    name={TWEET_URL}
+                    error={""}
+                    label={i18n.tweet_url}
+                    value={formData.tweet_url}
+                    handleChangeValue={handleChangeTwitterHandle}
+                  />
+                </div>
               </div>
             </li>
           </ol>

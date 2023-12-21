@@ -12,25 +12,36 @@
     margin-bottom: 5px;
   }
 
-  li:before {
-    width: 40px;
-    content: counter(item);
-    border-radius: 100%;
-    text-align: center;
-    display: inline-block;
-  }
+  /* li:before { */
+  /*   width: 40px; */
+  /*   content: counter(item); */
+  /*   border-radius: 100%; */
+  /*   text-align: center; */
+  /*   display: inline-block; */
+  /* } */
 
   .item {
+    display: flex;
     padding-bottom: 18px;
+  }
 
-    .desc {
-      display: inline-block;
-      padding-bottom: 12px;
-    }
+  .no {
+    width: 40px;
+    flex-shrink: 0;
+  }
 
-    .content {
-      padding-left: 40px;
-    }
+  .right {
+    word-break: break-all;
+  }
+
+  .desc {
+    display: inline-block;
+    word-break: break-all;
+    padding-bottom: 12px;
+  }
+
+  .content {
+    padding-left: 40px;
   }
 }
 
