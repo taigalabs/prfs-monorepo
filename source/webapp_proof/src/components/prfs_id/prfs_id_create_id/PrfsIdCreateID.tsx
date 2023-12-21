@@ -123,17 +123,18 @@ const PrfsIdCreateID: React.FC<PrfsIdCreateIDProps> = ({
   }, [step, handleGotoInputCredential, handleGotoCreateIdSuccess, handleChangeValue, formErrors]);
 
   return (
-    <PrfsIdSignInModule>
-      <PrfsIdSignInForm>{content}</PrfsIdSignInForm>
-      <PrfsIdSignInModuleFooter>
-        <Link className={styles.prfsLink} href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL}>
-          <span>{i18n.code}</span>
-        </Link>
-        <Link className={styles.prfsLink} href={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
-          <span>{i18n.prfs}</span>
-        </Link>
-      </PrfsIdSignInModuleFooter>
-    </PrfsIdSignInModule>
+    <>{content}</>
+    /* <PrfsIdSignInModule> */
+    //   <PrfsIdSignInForm>{content}</PrfsIdSignInForm>
+    //   <PrfsIdSignInModuleFooter>
+    //     <Link className={styles.prfsLink} href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL}>
+    //       <span>{i18n.code}</span>
+    //     </Link>
+    //     <Link className={styles.prfsLink} href={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
+    //       <span>{i18n.prfs}</span>
+    //     </Link>
+    //   </PrfsIdSignInModuleFooter>
+    // </PrfsIdSignInModule>
   );
 };
 

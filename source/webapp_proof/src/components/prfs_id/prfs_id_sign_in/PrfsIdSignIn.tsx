@@ -101,14 +101,6 @@ const PrfsIdSignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId 
     switch (step) {
       case SignInStep.StoredCredentials: {
         return (
-          <PrfsIdCreateID
-            handleClickSignIn={handleClickSignIn}
-            handleSucceedCreateId={handleClickCreateID}
-          />
-        );
-      }
-      case SignInStep.StoredCredentials: {
-        return (
           <StoredCredentials
             storedCredentials={storedCredentials}
             appId={appId}
@@ -127,6 +119,14 @@ const PrfsIdSignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId 
             formErrors={formErrors}
             handleSucceedSignIn={handleSucceedSignIn}
             handleClickCreateID={handleClickCreateID}
+          />
+        );
+      }
+      case SignInStep.CreateID: {
+        return (
+          <PrfsIdCreateID
+            handleClickSignIn={handleClickSignIn}
+            handleSucceedCreateId={handleClickCreateID}
           />
         );
       }

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { PrfsIdCredential, makePrfsIdCredential } from "@taigalabs/prfs-crypto-js";
 
-import styles from "./Step1.module.scss";
+import styles from "./InputCredential.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   PrfsIdSignInInnerPadding,
