@@ -16,12 +16,14 @@ import {
   makeEmptyIDCreateFormErrors,
   makeEmptyIdCreateForm,
 } from "@/functions/validate_id";
-import Step1 from "./Step1";
+import InputCredential from "./InputCredential";
 import StoredCredentials from "./StoredCredentials";
+import PrfsIdCreateID from "../prfs_id_create_id/PrfsIdCreateID";
 
 enum SignInStep {
+  CreateID,
   StoredCredentials,
-  PrfsIdCredential,
+  InputCredential,
 }
 
 export enum SignInStatus {
@@ -36,7 +38,7 @@ const PrfsIdSignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId 
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
-  const [step, setStep] = React.useState(SignInStep.PrfsIdCredential);
+  const [step, setStep] = React.useState(SignInStep.InputCredential);
   const [storedCredentials, setStoredCredentials] = React.useState<StoredCredentialRecord>({});
 
   React.useEffect(() => {
@@ -49,9 +51,9 @@ const PrfsIdSignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId 
     }
   }, [setSignInStatus, setErrorMsg, setStep, setStoredCredentials]);
 
-  const handleCloseErrorDialog = React.useCallback(() => {
-    window.close();
-  }, []);
+  // const handleCloseErrorDialog = React.useCallback(() => {
+  //   window.close();
+  // }, []);
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,19 +75,38 @@ const PrfsIdSignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId 
   const handleClickForgetAllCredentials = React.useCallback(() => {
     removeAllPrfsIdCredentials();
     setStoredCredentials({});
-    setStep(SignInStep.PrfsIdCredential);
+    setStep(SignInStep.InputCredential);
   }, [setStep, setStoredCredentials]);
 
-  const handleGotoStoredCredential = React.useCallback(() => {
-    setStep(SignInStep.StoredCredentials);
+  const handleClickCreateID = React.useCallback(() => {
+    setStep(SignInStep.CreateID);
+    // const { search } = window.location;
+    // const url = `${paths.id__create_id}${search}`;
+    // router.push(url);
   }, [setStep]);
 
+  // const handleGotoStoredCredential = React.useCallback(() => {
+  //   setStep(SignInStep.StoredCredentials);
+  // }, [setStep]);
+
   const handleGotoPrfsIdCredential = React.useCallback(() => {
-    setStep(SignInStep.PrfsIdCredential);
+    setStep(SignInStep.InputCredential);
+  }, [setStep]);
+
+  const handleClickSignIn = React.useCallback(() => {
+    setStep(SignInStep.InputCredential);
   }, [setStep]);
 
   const content = React.useMemo(() => {
     switch (step) {
+      case SignInStep.StoredCredentials: {
+        return (
+          <PrfsIdCreateID
+            handleClickSignIn={handleClickSignIn}
+            handleSucceedCreateId={handleClickCreateID}
+          />
+        );
+      }
       case SignInStep.StoredCredentials: {
         return (
           <StoredCredentials
@@ -97,14 +118,15 @@ const PrfsIdSignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId 
           />
         );
       }
-      case SignInStep.PrfsIdCredential: {
+      case SignInStep.InputCredential: {
         return (
-          <Step1
+          <InputCredential
             errorMsg={errorMsg}
             formData={formData}
             setFormData={setFormData}
             formErrors={formErrors}
             handleSucceedSignIn={handleSucceedSignIn}
+            handleClickCreateID={handleClickCreateID}
           />
         );
       }

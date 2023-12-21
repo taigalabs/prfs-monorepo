@@ -29,7 +29,10 @@ enum CreateIDStep {
   PostSignUpSuccess,
 }
 
-const PrfsIdCreateID: React.FC = () => {
+const PrfsIdCreateID: React.FC<PrfsIdCreateIDProps> = ({
+  handleClickSignIn,
+  handleSucceedCreateId,
+}) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
@@ -66,11 +69,11 @@ const PrfsIdCreateID: React.FC = () => {
     setStep(CreateIDStep.PostSignUpSuccess);
   }, [setStep]);
 
-  const handleClickSignIn = React.useCallback(() => {
-    const { search } = window.location;
-    const url = `${paths.id__app_signin}${search}`;
-    router.push(url);
-  }, [router]);
+  // const handleClickSignIn = React.useCallback(() => {
+  //   const { search } = window.location;
+  //   const url = `${paths.id__app_signin}${search}`;
+  //   router.push(url);
+  // }, [router]);
 
   const handleGotoInputCredential = React.useCallback(() => {
     setStep(CreateIDStep.InputCredential);
@@ -105,7 +108,13 @@ const PrfsIdCreateID: React.FC = () => {
       }
       case CreateIDStep.PostSignUpSuccess: {
         return (
-          credential && <Step3 credential={credential} handleClickSignIn={handleClickSignIn} />
+          credential && (
+            <Step3
+              credential={credential}
+              handleSucceedCreateId={handleSucceedCreateId}
+              handleClickSignIn={() => {}}
+            />
+          )
         );
       }
       default:
@@ -129,3 +138,8 @@ const PrfsIdCreateID: React.FC = () => {
 };
 
 export default PrfsIdCreateID;
+
+export interface PrfsIdCreateIDProps {
+  handleClickSignIn: () => void;
+  handleSucceedCreateId: (credential: PrfsIdCredential) => void;
+}

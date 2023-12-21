@@ -15,7 +15,7 @@ import {
   PrfsIdSignInModuleTitle,
 } from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
 
-const Step3: React.FC<Step3Props> = ({ handleClickSignIn, credential }) => {
+const Step3: React.FC<Step3Props> = ({ handleSucceedCreateId, credential }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
@@ -39,7 +39,7 @@ const Step3: React.FC<Step3Props> = ({ handleClickSignIn, credential }) => {
               type="button"
               variant="blue_2"
               noTransition
-              handleClick={handleClickSignIn}
+              // handleClick={handleClickSignIn}
               noShadow
             >
               {i18n.sign_in}
@@ -55,5 +55,6 @@ export default Step3;
 
 export interface Step3Props {
   handleClickSignIn: () => void;
+  handleSucceedCreateId: (credential: PrfsIdCredential) => void;
   credential: PrfsIdCredential;
 }
