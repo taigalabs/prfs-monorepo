@@ -20,7 +20,7 @@ import Table2, {
 } from "@taigalabs/prfs-react-components/src/table2/Table2";
 
 import styles from "./CircuitTable.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 
 const CircuitTable: React.FC<CircuitTableProps> = ({
@@ -82,7 +82,9 @@ const CircuitTable: React.FC<CircuitTableProps> = ({
         page_size: pageSize,
       });
 
-      setData(payload.prfs_circuits_syn1);
+      if (payload) {
+        setData(payload.prfs_circuits_syn1);
+      }
     }
 
     fn().then();

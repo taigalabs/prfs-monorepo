@@ -18,7 +18,7 @@ import Table2, {
 } from "@taigalabs/prfs-react-components/src/table2/Table2";
 
 import styles from "./DriverTable.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 
 const DriverTable: React.FC<DriverTableProps> = ({ selectType, selectedVal, handleSelectVal }) => {
@@ -62,9 +62,9 @@ const DriverTable: React.FC<DriverTableProps> = ({ selectType, selectedVal, hand
         page_size: pageSize,
       });
 
-      const { prfs_circuit_drivers } = payload;
-
-      setData(prfs_circuit_drivers);
+      if (payload) {
+        setData(payload.prfs_circuit_drivers);
+      }
     }
 
     fn().then();

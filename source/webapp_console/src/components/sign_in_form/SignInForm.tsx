@@ -7,7 +7,7 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./SignInForm.module.scss";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { FormTitle } from "@/components/form/Form";
 import FormTextInput from "@/components/form/FormTextInput";
 import { paths } from "@/paths";
@@ -31,14 +31,14 @@ const SignInForm: React.FC<SignInFormProps> = () => {
     (ev: any) => {
       setPasscode(ev.target.value);
     },
-    [setPasscode]
+    [setPasscode],
   );
 
   const handleConnect = React.useCallback(
     (addr: string) => {
       setWalletAddr(addr);
     },
-    [setWalletAddr]
+    [setWalletAddr],
   );
 
   const handleClickHash = React.useCallback(() => {
@@ -66,20 +66,18 @@ const SignInForm: React.FC<SignInFormProps> = () => {
       const walletAddr = await wallet.getAddress();
 
       try {
-        let resp = await doSignIn(walletAddr, passhash, signer);
+        let { payload } = await doSignIn(walletAddr, passhash, signer);
 
-        if (!resp.payload.prfs_account) {
-          throw new Error("Invalid response. Does not contain prfs account");
+        if (payload) {
+          dispatch(
+            signIn({
+              prfsAccount: payload.prfs_account,
+              walletAddr,
+            }),
+          );
+
+          router.push(paths.__);
         }
-
-        dispatch(
-          signIn({
-            prfsAccount: resp.payload.prfs_account,
-            walletAddr,
-          })
-        );
-
-        router.push(paths.__);
       } catch (err) {
         console.log(err);
         setSignInAlert((err as string).toString());

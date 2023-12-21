@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "create-bindings": "ts-node ./createBindings.ts"
+    "create-bindings": "ts-node ./create_bindings.ts"
   },
   "dependencies": {
-    "@taigalabs/prfs-entities": "*",
     "@ethereumjs/util": "^8.0.3",
+    "@taigalabs/prfs-entities": "*",
     "bn.js": "^5.2.1",
     "circom_tester": "^0.0.19",
     "circomlib": "^2.0.5",
@@ -15,14 +15,14 @@
     "elliptic": "^6.5.4"
   },
   "devDependencies": {
-    "@types/json-bigint": "^1.0.1",
     "@personaelabs/spartan-ecdsa": "*",
+    "@types/json-bigint": "^1.0.1",
     "@zk-kit/incremental-merkle-tree": "*",
-    "json-bigint": "^1.0.0",
     "chalk": "4.1.0",
     "jest": "^29.3.1",
+    "json-bigint": "^1.0.0",
     "ts-jest": "^29.0.3",
-    "typescript": "5.1.6",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "typescript": "5.1.6"
   }
 }

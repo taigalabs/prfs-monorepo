@@ -8,9 +8,9 @@ import Link from "next/link";
 import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table2/Table2";
 
 import styles from "./PollsPage.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { TopWidgetTitle, WidgetLabel } from "@/components/widget/Widget";
-import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
+import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import { paths } from "@/paths";
 import {

@@ -1,5 +1,6 @@
+import { en } from "@taigalabs/prfs-i18n";
+
 import { envs } from "@/envs";
-import en from "@/i18n/en";
 
 export async function getI18N(): Promise<I18NData> {
   try {

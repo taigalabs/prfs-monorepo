@@ -1,0 +1,67 @@
+.title {
+  padding-bottom: 16px;
+}
+
+.instructions {
+  padding-bottom: 18px;
+
+  .overlay {
+    display: none;
+    background-color: rgba(255, 255, 255, 0.5);
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .item {
+    display: flex;
+    padding-bottom: 20px;
+    position: relative;
+
+    &.isDisabled {
+      .overlay {
+        display: block;
+      }
+    }
+  }
+
+  .no {
+    width: 40px;
+    flex-shrink: 0;
+  }
+
+  .right {
+    word-break: break-all;
+  }
+
+  .desc {
+    display: block;
+    word-break: break-all;
+    padding-bottom: 14px;
+
+    > p:not(:last-child) {
+      padding-bottom: 5px;
+    }
+  }
+
+  .btn {
+    border: 1px solid black;
+    border-radius: 20px;
+    padding: 0 18px;
+    height: 40px;
+  }
+
+  .row {
+    padding: 1px 0 14px;
+  }
+}
+
+.btnRow {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 40px;
+}
+
+.input {
+  height: 40px;
+}

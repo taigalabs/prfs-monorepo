@@ -20,7 +20,7 @@ import Table2, {
 
 import styles from "./SetElementTable.module.scss";
 import { EditableCell } from "./TableCell";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 
 const columnHelper = createColumnHelper<PrfsTreeNode>();
 
@@ -57,7 +57,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
         cell: () => "",
       }),
     ],
-    []
+    [],
   );
 
   const [{ pageIndex, pageSize }, setPagination] = React.useState<PaginationState>({
@@ -73,9 +73,9 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
         set_id: setId,
       });
 
-      const { prfs_tree_nodes } = payload;
-
-      setData(prfs_tree_nodes);
+      if (payload) {
+        setData(payload.prfs_tree_nodes);
+      }
     }
 
     fn().then();
@@ -103,7 +103,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
       updateData: async function <Key extends keyof PrfsTreeNode>(
         rowIndex: number,
         columnId: Key,
-        value: unknown
+        value: unknown,
       ) {
         const node = data[rowIndex];
         if (node) {
@@ -122,7 +122,7 @@ const SetElementTable: React.FC<SetElementTableProps> = ({ setId, prfsSet, edita
                 };
               }
               return row;
-            })
+            }),
           );
         } catch (err) {
           console.error(err);

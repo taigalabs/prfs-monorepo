@@ -5,6 +5,9 @@ packages:
   # Docs
   - "source/docs_website"
 
+  # i18n
+  - "source/prfs_i18n"
+
   # Circuits
   - "source/prfs_circuits_circom"
 

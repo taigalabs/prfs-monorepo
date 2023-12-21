@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 import styles from "./ProjectMeta.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 
 const ProjectMeta: React.FC = () => {
   const i18n = React.useContext(i18nContext);

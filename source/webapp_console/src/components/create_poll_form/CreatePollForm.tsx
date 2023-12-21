@@ -10,7 +10,7 @@ import { CreatePrfsPollRequest } from "@taigalabs/prfs-entities/bindings/CreateP
 import { PollQuestion } from "@taigalabs/prfs-entities/bindings/PollQuestion";
 
 import styles from "./CreatePoll.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import Widget, { WidgetHeader, WidgetPaddedBody } from "@/components/widget/Widget";
 import FormTextInput from "@/components/form/FormTextInput";
 import { paths } from "@/paths";
@@ -127,10 +127,12 @@ const CreatePollForm: React.FC<CreatePollFormProps> = ({ poll }) => {
         proof_type_id: proofType.proof_type_id,
       });
 
-      setProofType(payload.prfs_proof_type);
-      setFormData(oldState => {
-        return { ...oldState, ["proof_type_id"]: proofType.proof_type_id };
-      });
+      if (payload) {
+        setProofType(payload.prfs_proof_type);
+        setFormData(oldState => {
+          return { ...oldState, ["proof_type_id"]: proofType.proof_type_id };
+        });
+      }
     },
     [getPrfsProofTypeByProofTypeIdRequest, setProofType, setFormData],
   );

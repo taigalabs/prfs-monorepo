@@ -9,10 +9,9 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
-import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
 import styles from "./CreateProofInstanceForm.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import Widget, {
   TopWidgetTitle,
   WidgetHeader,
@@ -34,13 +33,13 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
   const [errMsg, setErrMsg] = React.useState("");
   const [formAlert, setFormAlert] = React.useState("");
   const [selectedProofType, setSelectedProofType] = React.useState<PrfsProofType | undefined>();
-  const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
+  // const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
 
   const handleSelectProofType = React.useCallback(
     (val: PrfsProofType) => {
       setSelectedProofType(val);
     },
-    [setSelectedProofType]
+    [setSelectedProofType],
   );
 
   React.useEffect(() => {
@@ -60,7 +59,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     }
 
     fn().then();
-  }, [selectedProofType, setProofGenElement]);
+  }, [selectedProofType]);
 
   const handleClickCreateProofInstance = React.useCallback(async () => {
     setFormAlert("");
@@ -82,10 +81,10 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
       return;
     }
 
-    if (!proofGenElement) {
-      setFormAlert("PRFS sdk is undefined");
-      return;
-    }
+    // if (!proofGenElement) {
+    //   setFormAlert("PRFS sdk is undefined");
+    //   return;
+    // }
 
     // const proveReceipt = await proofGenElement.createProof();
 
@@ -115,7 +114,7 @@ const CreateProofInstanceForm: React.FC<CreateProofInstanceFormProps> = () => {
     //     setErrMsg(err);
     //   }
     // }
-  }, [selectedProofType, setFormAlert, localPrfsAccount, proofGenElement, setErrMsg]);
+  }, [selectedProofType, setFormAlert, localPrfsAccount, setErrMsg]);
 
   return (
     <div className={styles.wrapper}>

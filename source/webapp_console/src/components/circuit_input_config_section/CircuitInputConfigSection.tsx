@@ -5,7 +5,7 @@ import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInput
 import { DropdownSingleSelectedValue } from "@taigalabs/prfs-react-components/src/dropdown/Dropdown";
 
 import styles from "./CircuitInputConfigSection.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import Widget, { WidgetHeader, WidgetLabel, WidgetPaddedBody } from "@/components/widget/Widget";
 import SetDropdown from "@/components/set_dropdown/SetDropdown";
 
@@ -32,7 +32,7 @@ const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
             newVal[idx] = {
               name: input.name,
               label: input.label,
-              type: input.type,
+              type: input.type as any,
               desc: input.desc,
               element_type: null,
               value: "",
@@ -43,7 +43,7 @@ const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
             return newVal;
           });
         },
-        [setSelectedSet, setCircuitInputs]
+        [setSelectedSet, setCircuitInputs],
       );
 
       vals[idx] = selectedSet;
@@ -77,7 +77,7 @@ const CircuitInputConfigSection: React.FC<CircuitInputConfigSectionProps> = ({
             <div className={styles.inputDesc}>{input.desc}</div>
             <div className={styles.inputContainer}>{inputValue}</div>
           </div>
-        </div>
+        </div>,
       );
     }
 

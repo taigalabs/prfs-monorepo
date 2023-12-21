@@ -19,7 +19,7 @@ import Table2, {
 } from "@taigalabs/prfs-react-components/src/table2/Table2";
 
 import styles from "./CircuitTypeTable.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 
 const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({
@@ -76,9 +76,9 @@ const CircuitTypeTable: React.FC<CircuitTypeTableProps> = ({
         page_size: pageSize,
       });
 
-      const { prfs_circuit_types } = payload;
-
-      setData(prfs_circuit_types);
+      if (payload) {
+        setData(payload.prfs_circuit_types);
+      }
     }
 
     fn().then();

@@ -26,6 +26,13 @@ export function loadLocalPrfsProofCredential(): LocalPrfsProofCredential | null 
   try {
     if (val) {
       const obj: LocalPrfsProofCredential = JSON.parse(val);
+
+      if (!checkSanity(obj)) {
+        console.log("Prfs Proof credential is corrupted. Removing...");
+        removeLocalPrfsProofCredential();
+        return null;
+      }
+
       return obj;
     } else {
       return null;
@@ -34,6 +41,22 @@ export function loadLocalPrfsProofCredential(): LocalPrfsProofCredential | null 
     console.error(err);
     return null;
   }
+}
+
+export function checkSanity(obj: LocalPrfsProofCredential): boolean {
+  if (!obj.account_id || obj.account_id.length < 1) {
+    return false;
+  }
+
+  if (!obj.public_key || obj.public_key.length < 1) {
+    return false;
+  }
+
+  if (!obj.avatar_color || obj.avatar_color.length < 1) {
+    return false;
+  }
+
+  return true;
 }
 
 export function removeLocalPrfsProofCredential() {

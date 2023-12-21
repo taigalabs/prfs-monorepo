@@ -4,7 +4,7 @@ import cn from "classnames";
 
 import styles from "./AccountPopover.module.scss";
 import localStore from "@/storage/localStore";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
 import { useAppDispatch } from "@/state/hooks";
@@ -62,14 +62,14 @@ const AccountPopover: React.FC<AccountPopoverProps> = ({ localPrfsAccount }) => 
         </div>
       );
     },
-    [prfsAccount]
+    [prfsAccount],
   );
 
   const createPopover = React.useCallback(
     (setIsOpen: React.Dispatch<React.SetStateAction<any>>) => {
       return <AccountModal setIsOpen={setIsOpen} localPrfsAccount={localPrfsAccount} />;
     },
-    []
+    [],
   );
 
   return (

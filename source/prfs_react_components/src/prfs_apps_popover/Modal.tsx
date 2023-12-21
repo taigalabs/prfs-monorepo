@@ -7,8 +7,8 @@ export const PrfsAppsPopoverUl: React.FC<PrfsAppsPopoverLiProps> = ({ children }
   return <ul className={styles.appList}>{children}</ul>;
 };
 
-export const PrfsAppsPopoverLi: React.FC<PrfsAppsPopoverLiProps> = ({ children }) => {
-  return <li className={styles.appItem}>{children}</li>;
+export const PrfsAppsPopoverLi: React.FC<PrfsAppsPopoverLiProps> = ({ children, noPadding }) => {
+  return <li className={cn(styles.appItem, { [styles.noPadding]: noPadding })}>{children}</li>;
 };
 
 const Modal: React.FC<ModalProps> = ({ children }) => {
@@ -24,4 +24,5 @@ export interface ModalProps {
 
 export interface PrfsAppsPopoverLiProps {
   children: React.ReactNode;
+  noPadding?: boolean;
 }

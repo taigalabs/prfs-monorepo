@@ -23,6 +23,7 @@ const Button: React.FC<ButtonProps> = ({
   name,
   noTransition,
   noShadow,
+  contentClassName,
   smallPadding,
 }) => {
   return (
@@ -33,6 +34,7 @@ const Button: React.FC<ButtonProps> = ({
         [styles.aqua_blue_1]: variant === "aqua_blue_1",
         [styles.blue_1]: variant === "blue_1",
         [styles.blue_2]: variant === "blue_2",
+        [styles.light_blue_1]: variant === "light_blue_1",
         [styles.transparent_blue_1]: variant === "transparent_blue_1",
         [styles.transparent_blue_2]: variant === "transparent_blue_2",
         [styles.transparent_black_1]: variant === "transparent_black_1",
@@ -51,7 +53,7 @@ const Button: React.FC<ButtonProps> = ({
       type={type}
     >
       <div className={styles.backdrop} />
-      <div className={styles.content}>{children}</div>
+      <div className={cn(styles.content, contentClassName)}>{children}</div>
     </button>
   );
 };
@@ -67,6 +69,7 @@ export interface ButtonProps {
   handleClick?: MouseEventHandler;
   noTransition?: boolean;
   smallPadding?: boolean;
+  contentClassName?: string;
   noShadow?: boolean;
   type?: "submit" | "reset" | "button" | undefined;
 }
@@ -75,6 +78,7 @@ export type Variant =
   | "aqua_blue_1"
   | "blue_1"
   | "blue_2"
+  | "light_blue_1"
   | "transparent_blue_1"
   | "transparent_blue_2"
   | "transparent_black_1"

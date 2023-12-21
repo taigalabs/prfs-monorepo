@@ -6,6 +6,8 @@ import DocFooter from "@/components/global_footer/DocFooter";
 import DocMasthead from "@/components/doc_masthead/DocMasthead";
 import { paths } from "@/paths";
 import { getI18N } from "@/i18n/get_i18n";
+import DocumentView from "@/components/document_view/DocumentView";
+import { MastheadPlaceholder } from "../masthead/Masthead";
 
 const PrivacyDoc: React.FC = async () => {
   const i18n = await getI18N();
@@ -13,7 +15,8 @@ const PrivacyDoc: React.FC = async () => {
   return (
     <>
       <DocMasthead title={i18n.privacy} titleHref={paths.privacy} />
-      <div className={styles.wrapper}>
+      <MastheadPlaceholder />
+      <DocumentView>
         <Markdown>
           <h1>Privacy Policy for Taigalabs</h1>
 
@@ -241,7 +244,7 @@ const PrivacyDoc: React.FC = async () => {
             contact us.
           </p>
         </Markdown>
-      </div>
+      </DocumentView>
     </>
   );
 };

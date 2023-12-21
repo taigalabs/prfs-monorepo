@@ -51,7 +51,9 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
           proof_instance_id,
         });
 
-        setProofInstance(payload.prfs_proof_instance_syn1);
+        if (payload) {
+          setProofInstance(payload.prfs_proof_instance_syn1);
+        }
       } catch (err) {
         console.error("Proof instance is not found, invalid access");
       }

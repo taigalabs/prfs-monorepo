@@ -8,9 +8,9 @@ import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/Arrow
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 
 import styles from "./ProofInstancePage.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { WidgetLabel } from "@/components/widget/Widget";
-import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
+import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import ProofInstanceDetailTable from "@/components/proof_instance_detail_table/ProofInstanceDetailTable";
 import { paths } from "@/paths";
@@ -41,7 +41,9 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
           proof_instance_id,
         });
 
-        setProofInstance(payload.prfs_proof_instance_syn1);
+        if (payload) {
+          setProofInstance(payload.prfs_proof_instance_syn1);
+        }
       } catch (err) {
         console.error("Proof instance is not found, invalid access");
       }
@@ -71,7 +73,7 @@ const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
           <div className={styles.singleColRow}>
             <ProofBanner
               proofInstance={proofInstance}
-              webappConsoleEndpoint={envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
+              webappProofEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
             />
           </div>
 

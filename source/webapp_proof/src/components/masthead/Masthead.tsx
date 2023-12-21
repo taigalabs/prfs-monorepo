@@ -21,6 +21,8 @@ export const MastheadWrapper: React.FC<MastheadWrapperProps> = ({
   children,
   className,
   twoColumn,
+  tallHeight,
+  smallPadding,
 }) => {
   const isTutorial = useIsTutorial();
   return (
@@ -28,6 +30,8 @@ export const MastheadWrapper: React.FC<MastheadWrapperProps> = ({
       className={cn(styles.wrapper, className, {
         [styles.isTutorial]: isTutorial,
         [styles.twoColumn]: twoColumn,
+        [styles.smallPadding]: smallPadding,
+        [styles.tallHeight]: tallHeight,
       })}
     >
       {children}
@@ -42,11 +46,13 @@ export const MastheadLogoArea: React.FC<MastheadProps> = ({ children, className 
 export const MastheadPlaceholder: React.FC<MastheadPlaceholderProps> = ({
   className,
   twoColumn,
+  tallHeight,
 }) => {
   return (
     <div
       className={cn(styles.placeholder, className, {
         [styles.twoColumn]: twoColumn,
+        [styles.tallHeight]: tallHeight,
       })}
     />
   );
@@ -56,8 +62,16 @@ export const MastheadMain: React.FC<MastheadProps> = ({ className, children }) =
   return <div className={cn(styles.main, className)}>{children}</div>;
 };
 
-export const MastheadRightGroup: React.FC<MastheadProps> = ({ children, className }) => {
-  return <ul className={cn(styles.rightGroup, className)}>{children}</ul>;
+export const MastheadRightGroup: React.FC<MastheadProps> = ({
+  children,
+  className,
+  staticPosition,
+}) => {
+  return (
+    <ul className={cn(styles.rightGroup, className, { [styles.staticPosition]: staticPosition })}>
+      {children}
+    </ul>
+  );
 };
 
 export const MastheadRightGroupMenu: React.FC<MastheadProps> = ({ children, className }) => {
@@ -67,7 +81,7 @@ export const MastheadRightGroupMenu: React.FC<MastheadProps> = ({ children, clas
 const Masthead: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const isTutorial = useIsTutorial();
-  const { tutorialUrl, accVerrificationUrl } = useUrls();
+  const { tutorialUrl, attestationsUrl } = useUrls();
 
   return (
     <div className={cn({ [styles.wrapper]: true, [styles.isTutorial]: isTutorial })}>
@@ -94,9 +108,9 @@ const Masthead: React.FC = () => {
               </PrfsAppsPopoverUl>
               <PrfsAppsPopoverUl>
                 <PrfsAppsPopoverLi>
-                  <a href={accVerrificationUrl}>
+                  <a href={attestationsUrl}>
                     <TbCertificate />
-                    <span>{i18n.account_verification}</span>
+                    <span>{i18n.attestations}</span>
                   </a>
                 </PrfsAppsPopoverLi>
                 <PrfsAppsPopoverLi>
@@ -129,14 +143,18 @@ export interface MastheadWrapperProps {
   children: React.ReactNode;
   className?: string;
   twoColumn?: boolean;
+  smallPadding?: boolean;
+  tallHeight?: boolean;
 }
 
 export interface MastheadProps {
   children: React.ReactNode;
   className?: string;
+  staticPosition?: boolean;
 }
 
 export interface MastheadPlaceholderProps {
   className?: string;
   twoColumn?: boolean;
+  tallHeight?: boolean;
 }

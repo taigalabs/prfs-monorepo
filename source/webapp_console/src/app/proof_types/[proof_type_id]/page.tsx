@@ -7,8 +7,8 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 import styles from "./ProofType.module.scss";
 import { WidgetLabel } from "@/components/widget/Widget";
-import { i18nContext } from "@/contexts/i18n";
-import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
+import { i18nContext } from "@/i18n/context";
+import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import CircuitInputTable from "@/components/circuit_input_table/CircuitInputTable";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
@@ -31,7 +31,9 @@ const Program: React.FC<ProgramProps> = ({ params }) => {
         proof_type_id: params.proof_type_id,
       });
 
-      setProofType(payload.prfs_proof_type);
+      if (payload) {
+        setProofType(payload.prfs_proof_type);
+      }
     }
 
     fn().then();

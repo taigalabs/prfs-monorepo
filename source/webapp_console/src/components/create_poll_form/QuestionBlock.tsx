@@ -5,7 +5,7 @@ import { IoAddCircleOutline } from "@react-icons/all-files/io5/IoAddCircleOutlin
 import { PollQuestion } from "@taigalabs/prfs-entities/bindings/PollQuestion";
 
 import styles from "./QuestionBlock.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { PollQuestionType } from "@taigalabs/prfs-entities/bindings/PollQuestionType";
 
 const QuestionBlock: React.FC<QuestionBlockProps> = ({
@@ -32,7 +32,7 @@ const QuestionBlock: React.FC<QuestionBlockProps> = ({
         return newVals;
       });
     },
-    [setQuestions]
+    [setQuestions],
   );
 
   const choicesElem = React.useMemo(() => {
@@ -59,14 +59,14 @@ const QuestionBlock: React.FC<QuestionBlockProps> = ({
         return newVals;
       });
     },
-    [idx, setQuestions]
+    [idx, setQuestions],
   );
 
   const handleChangeQuestionsExtended = React.useCallback(
     (ev: React.ChangeEvent) => {
       handleChangeQuestions(idx, ev);
     },
-    [idx, handleChangeQuestions]
+    [idx, handleChangeQuestions],
   );
 
   return (

@@ -7,9 +7,9 @@ import Link from "next/link";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 
 import styles from "./PollPage.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { WidgetLabel } from "@/components/widget/Widget";
-import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
+import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import { paths } from "@/paths";
 import SocialSharePopover from "@/components/social_share_popover/SocialSharePopover";

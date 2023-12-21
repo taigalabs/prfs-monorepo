@@ -3,7 +3,8 @@ import "./globals.scss";
 
 import React from "react";
 import { Metadata } from "next";
-import TopProvider from "./TopProvider";
+
+import TopProvider from "@/components/top_provider/TopProvider";
 
 export const metadata: Metadata = {
   title: "Prfs Console",

@@ -45,7 +45,10 @@ const CreateProofForm: React.FC = () => {
         const { payload } = await getPrfsProofTypeByProofTypeIdRequest({
           proof_type_id: proofTypeId,
         });
-        setProofType(payload.prfs_proof_type);
+
+        if (payload) {
+          setProofType(payload.prfs_proof_type);
+        }
       } else {
       }
     }

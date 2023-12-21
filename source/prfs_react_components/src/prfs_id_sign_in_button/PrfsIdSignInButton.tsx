@@ -7,6 +7,8 @@ import Button from "../button/Button";
 import { i18nContext } from "../i18n/i18nContext";
 
 const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
+  className,
+  label,
   prfsIdSignInEndpoint,
   handleSucceedSignIn,
 }) => {
@@ -41,13 +43,13 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   return (
     <Button
       variant="blue_2"
-      className={styles.wrapper}
+      className={cn(styles.wrapper, className)}
       noTransition
       handleClick={handleClickSignIn}
       noShadow
       disabled={!prfsIdSignInEndpoint}
     >
-      {i18n.sign_in}
+      {label ? label : i18n.sign_in}
     </Button>
   );
 };
@@ -55,6 +57,8 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
 export default PrfsIdSignInButton;
 
 export interface PrfsIdSignInButtonProps {
+  className?: string;
+  label?: string;
   prfsIdSignInEndpoint: string | null;
   handleSucceedSignIn: (encrypted: Buffer) => void;
 }

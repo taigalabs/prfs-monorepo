@@ -8,7 +8,7 @@ import {
 import Table2, { RecordData, Table2Body } from "@taigalabs/prfs-react-components/src/table2/Table2";
 
 import styles from "./SetDetailTable.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 
 const columnHelper = createColumnHelper<RecordData>();

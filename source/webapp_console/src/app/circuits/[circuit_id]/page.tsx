@@ -10,8 +10,8 @@ import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/Arrow
 
 import styles from "./Circuit.module.scss";
 import { WidgetLabel } from "@/components/widget/Widget";
-import { i18nContext } from "@/contexts/i18n";
-import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
+import { i18nContext } from "@/i18n/context";
+import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import { paths } from "@/paths";
 import DriverPropsTable from "@/components/driver_props_table/DriverPropsTable";
@@ -39,7 +39,9 @@ const Circuit: React.FC<CircuitProps> = ({ params }) => {
           circuit_id: params.circuit_id,
         });
 
-        setCircuit(payload.prfs_circuit_syn1);
+        if (payload) {
+          setCircuit(payload.prfs_circuit_syn1);
+        }
       } catch (err) {
         console.error(err);
       }

@@ -3,7 +3,7 @@ import { useConnect, metamaskWallet } from "@thirdweb-dev/react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./ConnectWalletWidget.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import FormTextInput from "@/components/form/FormTextInput";
 
 const metamaskConfig = metamaskWallet();

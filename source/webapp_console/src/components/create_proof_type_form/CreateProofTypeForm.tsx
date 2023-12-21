@@ -10,7 +10,7 @@ import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInput
 import { PrfsCircuitSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsCircuitSyn1";
 
 import styles from "./CreateProofTypeForm.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import Widget, {
   TopWidgetTitle,
   WidgetHeader,
@@ -43,42 +43,42 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
     (val: PrfsCircuitSyn1) => {
       setSelectedCircuit(val);
     },
-    [setSelectedCircuit]
+    [setSelectedCircuit],
   );
 
   const handleChangeName = React.useCallback(
     (ev: any) => {
       setName(ev.target.value);
     },
-    [setName]
+    [setName],
   );
 
   const handleChangeExpression = React.useCallback(
     (ev: any) => {
       setExpression(ev.target.value);
     },
-    [setExpression]
+    [setExpression],
   );
 
   const handleChangeDesc = React.useCallback(
     (ev: any) => {
       setDesc(ev.target.value);
     },
-    [setDesc]
+    [setDesc],
   );
 
   const handleChangeImgUrl = React.useCallback(
     (ev: any) => {
       setImgUrl(ev.target.value);
     },
-    [setImgUrl]
+    [setImgUrl],
   );
 
   const handleChangeImgCaption = React.useCallback(
     (ev: any) => {
       setImgUrl(ev.target.value);
     },
-    [setImgCaption]
+    [setImgCaption],
   );
 
   const handleClickCreateProofType = React.useCallback(async () => {
@@ -133,7 +133,7 @@ const CreateProofTypeForm: React.FC<CreateProofTypeFormProps> = () => {
             units: 1,
             name: input.name,
             label: input.label,
-            type: input.type,
+            type: input.type as any,
             desc: input.desc,
             element_type: null,
             value: "",

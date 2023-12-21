@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import styles from "./HomePage.module.scss";
 import Teaser from "@/components/teaser/Teaser";
 import { paths } from "@/paths";
-import DefaultLayout from "@/layouts/default_layout/DefaultLayout";
+import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import ExploreTechSection from "@/components/explore_tech_section/ExploreTechSection";
 import LatestPrfsUpdateSection from "@/components/latest_prfs_update_section/LatestPrfsUpdateSection";
 import ProjectMeta from "@/components/project_meta/ProjectMeta";

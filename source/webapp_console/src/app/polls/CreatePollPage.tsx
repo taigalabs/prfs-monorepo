@@ -7,7 +7,7 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
 
 import styles from "./CreatePollPage.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import Widget, { TopWidgetTitle, WidgetLabel } from "@/components/widget/Widget";
 import { paths } from "@/paths";
 import { useAppSelector } from "@/state/hooks";

@@ -6,10 +6,11 @@ import Logo from "@taigalabs/prfs-react-components/src/logo/Logo";
 import PrfsAppsPopover from "@taigalabs/prfs-react-components/src/prfs_apps_popover/PrfsAppsPopover";
 
 import styles from "./Masthead.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import AccountPopover from "./AccountPopover";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
+import PrfsAppsPopoverDefault from "../prfs_apps_popover_default/PrfsAppsPopoverDefault";
 
 const ConnectButton = () => {
   const i18n = React.useContext(i18nContext);
@@ -51,11 +52,7 @@ const Masthead: React.FC<any> = () => {
             </a>
           </li>
           <li>
-            <PrfsAppsPopover
-              webappProofEndpoint={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
-              webappConsoleEndpoint={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}
-              webappPollEndpoint={process.env.NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT}
-            />
+            <PrfsAppsPopoverDefault />
           </li>
           {localPrfsAccount ? (
             <AccountPopover localPrfsAccount={localPrfsAccount} />

@@ -5,7 +5,6 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import { RiEqualizerLine } from "@react-icons/all-files/ri/RiEqualizerLine";
 import WalletDialog from "@taigalabs/prfs-react-components/src/wallet_dialog/WalletDialog";
-import { AiOutlineCheck } from "@react-icons/all-files/ai/AiOutlineCheck";
 import { SpartanMerkleProof } from "@taigalabs/prfs-driver-interface";
 import {
   useFloating,
@@ -24,6 +23,7 @@ import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./MerkleProofInput.module.scss";
 import MerkleProofRawModal from "./MerkleProofRawModal";
@@ -35,7 +35,6 @@ import {
   FormInputTitleRow,
   InputWrapper,
 } from "@/components/form_input/FormInput";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -90,9 +89,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   const click = useClick(context);
   const role = useRole(context);
   const dismiss = useDismiss(context, { outsidePressEvent: "mousedown" });
-
   const { getReferenceProps, getFloatingProps } = useInteractions([click, role, dismiss]);
-
   const headingId = useId();
   const descriptionId = useId();
 
@@ -108,7 +105,9 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
           set_id: circuitInput.ref_value,
         });
 
-        setPrfsSet(payload.prfs_set);
+        if (payload) {
+          setPrfsSet(payload.prfs_set);
+        }
       } else {
         console.error("Prfs set not found");
       }
@@ -140,9 +139,6 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         return;
       }
 
-      if (error) {
-      }
-
       setWalletAddr(addr);
       setFormErrors((prevVals: any) => {
         return {
@@ -154,10 +150,14 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
       const { set_id, merkle_root } = prfsSet;
 
       try {
-        const { payload } = await GetPrfsTreeLeafIndices({
+        const { payload, error } = await GetPrfsTreeLeafIndices({
           set_id,
           leaf_vals: [addr],
         });
+
+        if (payload === null) {
+          throw new Error(error);
+        }
 
         let pos_w = null;
         // console.log("nodes", payload.prfs_tree_nodes);
@@ -186,6 +186,10 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
           set_id,
           pos: siblingPos,
         });
+
+        if (siblingNodesData.payload === null) {
+          throw new Error(siblingNodesData.error);
+        }
 
         let siblings: BigInt[] = [];
         for (const node of siblingNodesData.payload.prfs_tree_nodes) {
