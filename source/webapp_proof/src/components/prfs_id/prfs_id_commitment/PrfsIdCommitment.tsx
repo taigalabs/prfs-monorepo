@@ -4,116 +4,115 @@ import React from "react";
 import { PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import {
-  loadLocalPrfsIdCredentials,
-  removeAllPrfsIdCredentials,
-  StoredCredentialRecord,
-} from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 
-import styles from "./PrfsIdSignIn.module.scss";
+import styles from "./PrfsIdCommitment.module.scss";
 import { i18nContext } from "@/i18n/context";
 import PrfsIdSignInModule, {
   PrfsIdSignInForm,
   PrfsIdSignInModuleFooter,
 } from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
 import { envs } from "@/envs";
-import {
-  IdCreateForm,
-  makeEmptyIDCreateFormErrors,
-  makeEmptyIdCreateForm,
-} from "@/functions/validate_id";
-// import ErrorDialog from "./ErrorDialog";
-// import Step1 from "./Step1";
-// import Step2 from "./Step2";
-// import StoredCredentials from "./StoredCredentials";
+import PrfsIdErrorDialog from "@/components/prfs_id/prfs_id_error_dialog/PrfsIdErrorDialog";
+import PrfsIdSignIn from "@/components/prfs_id/prfs_id_sign_in/PrfsIdSignIn";
+// import AppCredential from "./AppCredential";
 
-// enum SignInStep {
-//   StoredCredentials,
-//   PrfsIdCredential,
-//   AppCredential,
-// }
+enum CommitmentStep {
+  PrfsIdCredential,
+  AppCredential,
+}
 
-export enum CommitmentStatus {
+export enum Status {
   Loading,
   Error,
   Standby,
 }
 
-const PrfsCommitment: React.FC = () => {
+const PrfsIdCommitment: React.FC = () => {
   const i18n = React.useContext(i18nContext);
-  const [status, setStatus] = React.useState(CommitmentStatus.Loading);
+  const [status, setStatus] = React.useState(Status.Loading);
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const searchParams = useSearchParams();
-  const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
-  const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
-  // const [step, setStep] = React.useState(SignInStep.PrfsIdCredential);
+  const [step, setStep] = React.useState(CommitmentStep.PrfsIdCredential);
   const [publicKey, setPublicKey] = React.useState<string | null>(null);
   const [appId, setAppId] = React.useState<string | null>(null);
-  const [storedCredentials, setStoredCredentials] = React.useState<StoredCredentialRecord>({});
   const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
 
-  // React.useEffect(() => {
-  //   const publicKey = searchParams.get("public_key");
-  //   const appId = searchParams.get("app_id");
-
-  //   const storedCredentials = loadLocalPrfsIdCredentials();
-  //   console.log("stored credentials", storedCredentials);
-  //   if (Object.keys(storedCredentials).length > 0) {
-  //     setStep(SignInStep.StoredCredentials);
-  //     setStoredCredentials(storedCredentials);
-  //   }
-
-  //   if (!publicKey) {
-  //     setSignInStatus(SignInStatus.Error);
-  //     setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
-  //   } else if (!appId) {
-  //     setSignInStatus(SignInStatus.Error);
-  //     setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
-  //   } else {
-  //     setPublicKey(publicKey);
-  //     setAppId(appId);
-  //     setSignInStatus(SignInStatus.Standby);
-  //   }
-  // }, [
-  //   searchParams,
-  //   setSignInStatus,
-  //   setErrorMsg,
-  //   setPublicKey,
-  //   setAppId,
-  //   setStep,
-  //   setStoredCredentials,
-  // ]);
-  //
   React.useEffect(() => {
-    const redirectUrl = searchParams.get("redirect_url");
-    console.log(123, redirectUrl);
-  }, [searchParams]);
+    const publicKey = searchParams.get("public_key");
+    const appId = searchParams.get("app_id");
+
+    if (!publicKey) {
+      setStatus(Status.Error);
+      setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
+    } else if (!appId) {
+      setStatus(Status.Error);
+      setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
+    } else {
+      setPublicKey(publicKey);
+      setAppId(appId);
+      setStatus(Status.Standby);
+    }
+  }, [searchParams, setStatus, setErrorMsg, setPublicKey, setAppId, setStep]);
 
   const handleCloseErrorDialog = React.useCallback(() => {
     window.close();
   }, []);
 
-  const handleChangeValue = React.useCallback(
-    (ev: React.ChangeEvent<HTMLInputElement>) => {
-      const name = ev.target.name;
-      const val = ev.target.value;
+  const handleClickPrev = React.useCallback(() => {
+    setStep(CommitmentStep.PrfsIdCredential);
+  }, [setStep]);
 
-      if (name) {
-        setFormData(oldVal => {
-          return {
-            ...oldVal,
-            [name]: val,
-          };
-        });
+  const handleSucceedSignIn = React.useCallback(
+    (credential: PrfsIdCredential) => {
+      if (credential) {
+        setCredential(credential);
+        setStep(CommitmentStep.AppCredential);
       }
     },
-    [formData, setFormData],
+    [setCredential, setStep],
   );
+
+  const content = React.useMemo(() => {
+    if (!appId || !publicKey) {
+      return null;
+    }
+
+    switch (step) {
+      case CommitmentStep.PrfsIdCredential: {
+        return <PrfsIdSignIn appId={appId} handleSucceedSignIn={handleSucceedSignIn} />;
+      }
+      case CommitmentStep.AppCredential: {
+        return (
+          credential && (
+            <div>55</div>
+            // <AppCredential
+            //   credential={credential}
+            //   appId={appId}
+            //   publicKey={publicKey}
+            //   handleClickPrev={handleClickPrev}
+            // />
+          )
+        );
+      }
+      default:
+        <div>Invalid step</div>;
+    }
+  }, [step, publicKey, appId]);
 
   return (
     <PrfsIdSignInModule>
-      <PrfsIdSignInForm>power</PrfsIdSignInForm>
+      <PrfsIdSignInForm>
+        {status === Status.Loading && (
+          <div className={styles.overlay}>
+            <Spinner color="#1b62c0" />
+          </div>
+        )}
+        {status === Status.Error && (
+          <PrfsIdErrorDialog errorMsg={errorMsg} handleClose={handleCloseErrorDialog} />
+        )}
+        {content}
+      </PrfsIdSignInForm>
       <PrfsIdSignInModuleFooter>
         <Link href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL}>
           <span>{i18n.code}</span>
@@ -126,4 +125,4 @@ const PrfsCommitment: React.FC = () => {
   );
 };
 
-export default PrfsCommitment;
+export default PrfsIdCommitment;
