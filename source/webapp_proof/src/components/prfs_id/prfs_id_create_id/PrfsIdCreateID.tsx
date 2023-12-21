@@ -1,16 +1,9 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 import styles from "./PrfsIdCreateID.module.scss";
 import { i18nContext } from "@/i18n/context";
-import PrfsIdSignInModule, {
-  PrfsIdSignInForm,
-  PrfsIdSignInModuleFooter,
-} from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
-import { paths } from "@/paths";
 import {
   IdCreateForm,
   makeEmptyIDCreateFormErrors,
@@ -18,15 +11,12 @@ import {
   validateIdCreateForm,
 } from "@/functions/validate_id";
 import SignUp from "./SignUp";
-import { envs } from "@/envs";
 import { PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
-import Step3 from "./Step3";
 import InputCreateIdCredential from "./InputCreateIdCredential";
 
 enum CreateIDStep {
   InputCreateIdCredential,
   SignUp,
-  PostSignUpSuccess,
 }
 
 const PrfsIdCreateID: React.FC<PrfsIdCreateIDProps> = ({
@@ -34,7 +24,6 @@ const PrfsIdCreateID: React.FC<PrfsIdCreateIDProps> = ({
   handleSucceedCreateId,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const router = useRouter();
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
   const [step, setStep] = React.useState(CreateIDStep.InputCreateIdCredential);
@@ -65,16 +54,6 @@ const PrfsIdCreateID: React.FC<PrfsIdCreateIDProps> = ({
     }
   }, [formData, setFormErrors, setStep]);
 
-  const handleGotoPostSignUpSuccess = React.useCallback(() => {
-    setStep(CreateIDStep.PostSignUpSuccess);
-  }, [setStep]);
-
-  // const handleClickSignIn = React.useCallback(() => {
-  //   const { search } = window.location;
-  //   const url = `${paths.id__app_signin}${search}`;
-  //   router.push(url);
-  // }, [router]);
-
   const handleGotoInputCredential = React.useCallback(() => {
     setStep(CreateIDStep.InputCreateIdCredential);
   }, [setStep]);
@@ -102,17 +81,6 @@ const PrfsIdCreateID: React.FC<PrfsIdCreateIDProps> = ({
               handleClickPrev={handleGotoInputCredential}
               handleClickSignIn={handleClickSignIn}
               handleSucceedCreateId={handleSucceedCreateId}
-            />
-          )
-        );
-      }
-      case CreateIDStep.PostSignUpSuccess: {
-        return (
-          credential && (
-            <Step3
-              credential={credential}
-              handleSucceedCreateId={handleSucceedCreateId}
-              handleClickSignIn={() => {}}
             />
           )
         );

@@ -13,11 +13,6 @@ import PrfsIdSignInModule, {
   PrfsIdSignInModuleFooter,
 } from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
 import { envs } from "@/envs";
-import {
-  IdCreateForm,
-  makeEmptyIDCreateFormErrors,
-  makeEmptyIdCreateForm,
-} from "@/functions/validate_id";
 import PrfsIdErrorDialog from "@/components/prfs_id/prfs_id_error_dialog/PrfsIdErrorDialog";
 import PrfsIdSignIn from "@/components/prfs_id/prfs_id_sign_in/PrfsIdSignIn";
 import AppCredential from "./AppCredential";
@@ -38,8 +33,6 @@ const PrfsIdAppSignIn: React.FC = () => {
   const [signInStatus, setSignInStatus] = React.useState(SignInStatus.Loading);
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const searchParams = useSearchParams();
-  const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
-  const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
   const [step, setStep] = React.useState(SignInStep.PrfsIdCredential);
   const [publicKey, setPublicKey] = React.useState<string | null>(null);
   const [appId, setAppId] = React.useState<string | null>(null);
@@ -65,23 +58,6 @@ const PrfsIdAppSignIn: React.FC = () => {
   const handleCloseErrorDialog = React.useCallback(() => {
     window.close();
   }, []);
-
-  const handleChangeValue = React.useCallback(
-    (ev: React.ChangeEvent<HTMLInputElement>) => {
-      const name = ev.target.name;
-      const val = ev.target.value;
-
-      if (name) {
-        setFormData(oldVal => {
-          return {
-            ...oldVal,
-            [name]: val,
-          };
-        });
-      }
-    },
-    [formData, setFormData],
-  );
 
   const handleClickPrev = React.useCallback(() => {
     setStep(SignInStep.PrfsIdCredential);
@@ -115,9 +91,6 @@ const PrfsIdAppSignIn: React.FC = () => {
               credential={credential}
               appId={appId}
               publicKey={publicKey}
-              formData={formData}
-              setFormData={setFormData}
-              formErrors={formErrors}
               handleClickPrev={handleClickPrev}
             />
           )
@@ -126,7 +99,7 @@ const PrfsIdAppSignIn: React.FC = () => {
       default:
         <div>Invalid step</div>;
     }
-  }, [step, handleChangeValue, formErrors, publicKey, appId]);
+  }, [step, publicKey, appId]);
 
   return (
     <PrfsIdSignInModule>

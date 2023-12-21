@@ -25,7 +25,6 @@ import {
   PrfsIdSignInModuleTitle,
   PrfsIdSignInWithPrfsId,
 } from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
-import { IdCreateForm } from "@/functions/validate_id";
 import SignInInputs, { PrfsSignInData } from "./SignInInputs";
 
 enum AppCredentialStatus {
@@ -34,9 +33,6 @@ enum AppCredentialStatus {
 }
 
 const AppCredential: React.FC<AppCredentialProps> = ({
-  formData,
-  formErrors,
-  setFormData,
   handleClickPrev,
   appId,
   publicKey,
@@ -93,12 +89,11 @@ const AppCredential: React.FC<AppCredentialProps> = ({
     setTitle,
     setSignInData,
     setSignInDataElem,
-    formData,
     credential,
   ]);
 
   const handleClickSignIn = React.useCallback(async () => {
-    if (formData && publicKey && credential) {
+    if (publicKey && credential) {
       const { payload: _signInRequestPayload, error } = await prfsIdentitySignInRequest({
         identity_id: credential.id,
       });
@@ -183,9 +178,6 @@ const AppCredential: React.FC<AppCredentialProps> = ({
 export default AppCredential;
 
 export interface AppCredentialProps {
-  formData: IdCreateForm;
-  formErrors: IdCreateForm;
-  setFormData: React.Dispatch<React.SetStateAction<IdCreateForm>>;
   handleClickPrev: () => void;
   appId: string;
   publicKey: string;

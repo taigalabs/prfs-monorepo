@@ -38,7 +38,6 @@ const SignUp: React.FC<SignUpProps> = ({
   formData,
   handleClickPrev,
   handleClickSignIn,
-  // handleGotoPostSignUpSuccess,
   handleSucceedCreateId,
   credential,
 }) => {
@@ -80,21 +79,12 @@ const SignUp: React.FC<SignUpProps> = ({
           setErrorMsg(error.toString());
         } else {
           handleSucceedCreateId(credential);
-          // handleGotoPostSignUpSuccess();
         }
       } catch (err: any) {
         setErrorMsg(err.toString());
       }
     }
-  }, [
-    formData,
-    router,
-    prfsIdentitySignUpRequest,
-    credential,
-    setErrorMsg,
-    handleSucceedCreateId,
-    // handleGotoPostSignUpSuccess,
-  ]);
+  }, [formData, router, prfsIdentitySignUpRequest, credential, setErrorMsg, handleSucceedCreateId]);
 
   const { email_val, password_1_val, password_2_val, secret_key_val } = React.useMemo(() => {
     if (showPassword) {
@@ -238,7 +228,6 @@ export interface SignUpProps {
   formData: IdCreateForm;
   handleClickPrev: () => void;
   handleClickSignIn: () => void;
-  // handleGotoPostSignUpSuccess: () => void;
   credential: PrfsIdCredential;
   handleSucceedCreateId: (credential: PrfsIdCredential) => void;
 }
