@@ -8,6 +8,7 @@ export const paths = {
   proofs: "/proofs",
   updates: "/updates",
   privacy: "/privacy",
+  id: "/id",
   id__create: "/id/create",
   id__signin: "/id/signin",
   accounts: "/accounts",

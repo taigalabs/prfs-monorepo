@@ -12,6 +12,7 @@ import { AttestationsMain, AttestationsTitle } from "@/components/attestations/A
 import { useRandomKeyPair } from "@/hooks/key";
 import { getCommitment } from "@taigalabs/prfs-id-sdk-web";
 import { envs } from "@/envs";
+import { paths } from "@/paths";
 
 const TWITTER_HANDLE = "twitter_handle";
 const TWEET_URL = "tweet_url";
@@ -70,10 +71,9 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
   );
 
   const handleClickGenerate = React.useCallback(() => {
-    const nonce = Math.random() * 1000000;
     const appId = "prfs_proof";
     getCommitment({
-      prfsIdEndpoint: envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT,
+      prfsIdEndpoint: `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id}`,
       appId,
       sk,
       pkHex,

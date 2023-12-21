@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 
 import styles from "./page.module.scss";
 import SignInLayout, { SignInBody } from "@/components/layouts/sign_in_layout/SignInLayout";
-import PrfsIdSignIn from "@/components/prfs_id_sign_in/PrfsIdSignIn";
+import PrfsIdCommitment from "@/components/prfs_id_commitment/PrfsIdCommitment";
 
 const CommitmentPage = () => {
   return (
