@@ -65,5 +65,9 @@
       color: var(--gray-40);
       cursor: auto;
     }
+
+    &:hover:not(:disabled) {
+      background-color: var(--bright-blue-55);
+    }
   }
 }

@@ -4,21 +4,7 @@
 
 .instructions {
   padding-bottom: 18px;
-  list-style: none;
-  counter-reset: item;
 
-  li {
-    counter-increment: item;
-    margin-bottom: 5px;
-  }
-
-  /* li:before { */
-  /*   width: 40px; */
-  /*   content: counter(item); */
-  /*   border-radius: 100%; */
-  /*   text-align: center; */
-  /*   display: inline-block; */
-  /* } */
   .overlay {
     display: none;
     background-color: rgba(255, 255, 255, 0.5);
@@ -29,7 +15,7 @@
 
   .item {
     display: flex;
-    padding-bottom: 18px;
+    padding-bottom: 20px;
     position: relative;
 
     &.isDisabled {
@@ -49,9 +35,13 @@
   }
 
   .desc {
-    display: inline-block;
+    display: block;
     word-break: break-all;
     padding-bottom: 12px;
+
+    > p {
+      padding-bottom: 5px;
+    }
   }
 }
 

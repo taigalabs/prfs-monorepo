@@ -65,9 +65,10 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
             <li className={styles.item}>
               <div className={styles.no}>1</div>
               <div className={styles.right}>
-                <p className={styles.desc}>
-                  <span>{i18n.what_is_your_twitter_handle}</span>
-                </p>
+                <div className={styles.desc}>
+                  <p>{i18n.what_is_your_twitter_handle}</p>
+                  <p>{i18n.twitter_handle_example_given}</p>
+                </div>
                 <div className={styles.content}>
                   <Input
                     className={styles.input}
@@ -109,7 +110,10 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
               <div className={styles.overlay} />
               <div className={styles.no}>4</div>
               <div>
-                <p className={styles.desc}>{i18n.what_is_the_tweet_url}</p>
+                <div className={styles.desc}>
+                  <p>{i18n.what_is_the_tweet_url}</p>
+                  <p>{i18n.tweet_url_example_given}</p>
+                </div>
                 <div className={styles.content}>
                   <Input
                     className={styles.input}
