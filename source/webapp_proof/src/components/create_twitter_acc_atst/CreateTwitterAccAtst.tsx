@@ -106,7 +106,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
                   </p>
                 </div>
                 <div className={styles.content}>
-                  <button>generate</button>
+                  <button className={styles.btn}>generate</button>
                 </div>
               </div>
             </li>
@@ -116,7 +116,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
               <div>
                 <div className={styles.desc}>Make a tweet</div>
                 <div className={styles.content}>
-                  <button>Post a tweet</button>
+                  <button className={styles.btn}>Post a tweet</button>
                 </div>
               </div>
             </li>
@@ -129,16 +129,18 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
                   <p>{i18n.tweet_url_example_given}</p>
                 </div>
                 <div className={styles.content}>
-                  <Input
-                    className={styles.input}
-                    name={TWEET_URL}
-                    error={""}
-                    label={i18n.tweet_url}
-                    value={formData.tweet_url}
-                    handleChangeValue={handleChangeTwitterHandle}
-                  />
+                  <div className={styles.row}>
+                    <Input
+                      className={styles.input}
+                      name={TWEET_URL}
+                      error={""}
+                      label={i18n.tweet_url}
+                      value={formData.tweet_url}
+                      handleChangeValue={handleChangeTwitterHandle}
+                    />
+                  </div>
                   <div>
-                    <button>validate</button>
+                    <button className={styles.btn}>validate</button>
                   </div>
                 </div>
               </div>

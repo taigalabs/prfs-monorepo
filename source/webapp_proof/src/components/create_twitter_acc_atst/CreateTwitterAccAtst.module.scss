@@ -37,11 +37,22 @@
   .desc {
     display: block;
     word-break: break-all;
-    padding-bottom: 12px;
+    padding-bottom: 14px;
 
-    > p {
+    > p:not(:last-child) {
       padding-bottom: 5px;
     }
+  }
+
+  .btn {
+    border: 1px solid black;
+    border-radius: 20px;
+    padding: 0 18px;
+    height: 40px;
+  }
+
+  .row {
+    padding: 1px 0 14px;
   }
 }
 
