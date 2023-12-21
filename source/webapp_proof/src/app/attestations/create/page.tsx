@@ -7,8 +7,8 @@ import DefaultLayout, {
 } from "@/components/layouts/default_layout/DefaultLayout";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import Attestations from "@/components/attestations/Attestations";
-import AttestationsCreate from "@/components/attestions_create/AttestationsCreate";
-import TwitterAccAttestation from "@/components/twitter_acc_attestation/TwitterAccAttestation";
+import CreateAttestation from "@/components/create_attestation/CreateAttestation";
+import CreateTwitterAccAtst from "@/components/create_twitter_acc_atst/CreateTwitterAccAtst";
 
 const TwitterAttestionPage = () => {
   return (
@@ -16,9 +16,9 @@ const TwitterAttestionPage = () => {
       <DefaultBody noMinWidth>
         <Suspense>
           <Attestations>
-            <AttestationsCreate>
-              <TwitterAccAttestation />
-            </AttestationsCreate>
+            <CreateAttestation>
+              <CreateTwitterAccAtst />
+            </CreateAttestation>
           </Attestations>
         </Suspense>
       </DefaultBody>

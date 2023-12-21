@@ -4,7 +4,7 @@ import React from "react";
 import cn from "classnames";
 import { Input } from "@taigalabs/prfs-react-components/src/input/Input";
 
-import styles from "./TwitterAccAttestation.module.scss";
+import styles from "./CreateTwitterAccAtst.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { AttestationsMain, AttestationsTitle } from "@/components/attestations/Attestations";
 
@@ -14,7 +14,10 @@ const TWEET_URL = "tweet_url";
 const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
   const i18n = React.useContext(i18nContext);
   const [formData, setFormData] = React.useState({ [TWITTER_HANDLE]: "", [TWEET_URL]: "" });
-  const claimSecret = React.useMemo(() => {}, [formData[TWITTER_HANDLE]]);
+  const claimSecret = React.useMemo(() => {
+    const handle = formData[TWITTER_HANDLE];
+    return `PRFS_ATTESTATION_${handle}`;
+  }, [formData[TWITTER_HANDLE]]);
 
   const handleChangeTwitterHandle = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,7 +58,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
               <p className={styles.desc}>
                 <span>{i18n.generate_a_cryptographic_claim}. </span>
                 <span>
-                  {i18n.claim_secret}: {123}
+                  {i18n.claim_secret}: {claimSecret}
                 </span>
               </p>
               <div className={styles.content}>claim</div>
