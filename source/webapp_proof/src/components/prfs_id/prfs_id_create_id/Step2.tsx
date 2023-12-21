@@ -26,7 +26,7 @@ import {
   PrfsIdSignInModuleLogoArea,
   PrfsIdSignInModuleSubtitle,
   PrfsIdSignInModuleTitle,
-} from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
+} from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
 
 export enum IdCreationStatus {
   StandBy,

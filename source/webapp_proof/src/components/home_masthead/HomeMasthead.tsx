@@ -5,7 +5,7 @@ import cn from "classnames";
 
 import styles from "./HomeMasthead.module.scss";
 import { i18nContext } from "@/i18n/context";
-import PrfsIdSignInBtn from "@/components/prfs_id_sign_in_btn/PrfsIdSignInBtn";
+import PrfsIdSignInBtn from "@/components/prfs_id/prfs_id_sign_in_btn/PrfsIdSignInBtn";
 import { useUrls } from "@/hooks/useUrls";
 import PrfsAppsPopoverDefault from "@/components/prfs_apps_popover_default/PrfsAppsPopoverDefault";
 import {

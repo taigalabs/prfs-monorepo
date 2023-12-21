@@ -161,6 +161,7 @@ export default {
   use_another_id: "Use another ID",
   create_an_identity: "Create an identity",
   sign_up_success: "Sign up success",
+  create_prfs_id_success: "Create Prfs ID success",
   check_your_credential: "Check your credential and finish id creation",
   sign_in_with_your_id: "Try signing in with your new identity",
   create_a_strong_password:

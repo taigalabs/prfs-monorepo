@@ -10,7 +10,7 @@ import styles from "./Accounts.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import { useSignedInUser } from "@/hooks/user";
-import PrfsIdSignInBtn from "@/components/prfs_id_sign_in_btn/PrfsIdSignInBtn";
+import PrfsIdSignInBtn from "@/components/prfs_id/prfs_id_sign_in_btn/PrfsIdSignInBtn";
 
 const Accounts: React.FC<AccountsProps> = ({}) => {
   const i18n = React.useContext(i18nContext);

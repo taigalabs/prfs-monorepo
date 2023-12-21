@@ -13,7 +13,7 @@ import {
   PrfsIdSignInModuleLogoArea,
   PrfsIdSignInModuleSubtitle,
   PrfsIdSignInModuleTitle,
-} from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
+} from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
 
 const Step3: React.FC<Step3Props> = ({ handleClickSignIn, credential }) => {
   const i18n = React.useContext(i18nContext);
@@ -24,7 +24,7 @@ const Step3: React.FC<Step3Props> = ({ handleClickSignIn, credential }) => {
       <div className={styles.wrapper}>
         <Fade>
           <PrfsIdSignInModuleHeader>
-            <PrfsIdSignInModuleTitle>{i18n.sign_up_success}</PrfsIdSignInModuleTitle>
+            <PrfsIdSignInModuleTitle>{i18n.create_prfs_id_success}</PrfsIdSignInModuleTitle>
             <PrfsIdSignInModuleSubtitle>{i18n.sign_in_with_your_id}</PrfsIdSignInModuleSubtitle>
           </PrfsIdSignInModuleHeader>
           <div className={styles.main}>

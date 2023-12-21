@@ -16,7 +16,7 @@ import { i18nContext } from "@/i18n/context";
 import PrfsIdSignInModule, {
   PrfsIdSignInForm,
   PrfsIdSignInModuleFooter,
-} from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
+} from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
 import { envs } from "@/envs";
 import {
   IdCreateForm,
@@ -117,7 +117,7 @@ const PrfsIdSignIn: React.FC = () => {
   }, [setStep]);
 
   const handleGotoPrfsIdCredential = React.useCallback(() => {
-    setStep(SignInStep.StoredCredentials);
+    setStep(SignInStep.PrfsIdCredential);
   }, [setStep]);
 
   const handleClickNext = React.useCallback(() => {
