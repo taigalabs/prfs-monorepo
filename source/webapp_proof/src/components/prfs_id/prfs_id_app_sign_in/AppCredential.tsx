@@ -15,7 +15,7 @@ import { useMutation } from "wagmi";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
 import { idApi } from "@taigalabs/prfs-api-js";
 
-import styles from "./Step2.module.scss";
+import styles from "./AppCredential.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   PrfsIdSignInErrorMsg,
@@ -33,7 +33,7 @@ enum Step2Status {
   Standby,
 }
 
-const Step2: React.FC<Step2Props> = ({
+const AppCredential: React.FC<AppCredentialProps> = ({
   formData,
   formErrors,
   setFormData,
@@ -185,9 +185,9 @@ const Step2: React.FC<Step2Props> = ({
   );
 };
 
-export default Step2;
+export default AppCredential;
 
-export interface Step2Props {
+export interface AppCredentialProps {
   formData: IdCreateForm;
   formErrors: IdCreateForm;
   setFormData: React.Dispatch<React.SetStateAction<IdCreateForm>>;
