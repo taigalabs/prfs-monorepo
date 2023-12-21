@@ -17,14 +17,14 @@ import {
   makeEmptyIdCreateForm,
   validateIdCreateForm,
 } from "@/functions/validate_id";
-import Step1 from "./Step1";
 import Step2 from "./Step2";
 import { envs } from "@/envs";
 import { PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
 import Step3 from "./Step3";
+import InputCreateIdCredential from "./InputCreateIdCredential";
 
 enum CreateIDStep {
-  InputCredential,
+  InputCreateIdCredential,
   CreateIdSuccess,
   PostSignUpSuccess,
 }
@@ -37,7 +37,7 @@ const PrfsIdCreateID: React.FC<PrfsIdCreateIDProps> = ({
   const router = useRouter();
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
-  const [step, setStep] = React.useState(CreateIDStep.InputCredential);
+  const [step, setStep] = React.useState(CreateIDStep.InputCreateIdCredential);
   const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
 
   const handleChangeValue = React.useCallback(
@@ -76,14 +76,14 @@ const PrfsIdCreateID: React.FC<PrfsIdCreateIDProps> = ({
   // }, [router]);
 
   const handleGotoInputCredential = React.useCallback(() => {
-    setStep(CreateIDStep.InputCredential);
+    setStep(CreateIDStep.InputCreateIdCredential);
   }, [setStep]);
 
   const content = React.useMemo(() => {
     switch (step) {
-      case CreateIDStep.InputCredential: {
+      case CreateIDStep.InputCreateIdCredential: {
         return (
-          <Step1
+          <InputCreateIdCredential
             formData={formData}
             setFormData={setFormData}
             formErrors={formErrors}
