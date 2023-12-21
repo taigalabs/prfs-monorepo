@@ -8,23 +8,15 @@ import {
   removeAllPrfsIdCredentials,
   StoredCredentialRecord,
 } from "@taigalabs/prfs-id-sdk-web";
-import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 
 import styles from "./PrfsIdSignIn.module.scss";
 import { i18nContext } from "@/i18n/context";
-import PrfsIdSignInModule, {
-  PrfsIdSignInForm,
-  PrfsIdSignInModuleFooter,
-} from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
-import { envs } from "@/envs";
 import {
   IdCreateForm,
   makeEmptyIDCreateFormErrors,
   makeEmptyIdCreateForm,
 } from "@/functions/validate_id";
-import ErrorDialog from "./ErrorDialog";
 import Step1 from "./Step1";
-// import Step2 from "./Step2";
 import StoredCredentials from "./StoredCredentials";
 
 enum SignInStep {
@@ -47,7 +39,7 @@ const PrfsIdSignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId 
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
   const [step, setStep] = React.useState(SignInStep.PrfsIdCredential);
   const [storedCredentials, setStoredCredentials] = React.useState<StoredCredentialRecord>({});
-  const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
+  // const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
 
   React.useEffect(() => {
     const storedCredentials = loadLocalPrfsIdCredentials();
@@ -103,7 +95,6 @@ const PrfsIdSignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId 
       case SignInStep.StoredCredentials: {
         return (
           <StoredCredentials
-            setCredential={setCredential}
             storedCredentials={storedCredentials}
             appId={appId}
             handleClickUseAnotherId={handleGotoPrfsIdCredential}
@@ -115,7 +106,6 @@ const PrfsIdSignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId 
       case SignInStep.PrfsIdCredential: {
         return (
           <Step1
-            // setCredential={setCredential}
             errorMsg={errorMsg}
             formData={formData}
             setFormData={setFormData}
@@ -124,21 +114,6 @@ const PrfsIdSignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId 
           />
         );
       }
-      // case SignInStep.AppCredential: {
-      //   return (
-      //     credential && (
-      //       <Step2
-      //         credential={credential}
-      //         appId={appId}
-      //         publicKey={publicKey}
-      //         formData={formData}
-      //         setFormData={setFormData}
-      //         formErrors={formErrors}
-      //         handleClickPrev={handleGotoStoredCredential}
-      //       />
-      //     )
-      //   );
-      // }
       default:
         <div>Invalid step</div>;
     }

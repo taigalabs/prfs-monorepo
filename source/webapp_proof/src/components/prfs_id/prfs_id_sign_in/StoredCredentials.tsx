@@ -3,6 +3,7 @@ import { PrfsIdCredential, poseidon_2 } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { removeAllPrfsIdCredentials, StoredCredentialRecord } from "@taigalabs/prfs-id-sdk-web";
 import { decrypt, PrivateKey } from "eciesjs";
+import { hexlify } from "ethers/lib/utils";
 
 import styles from "./StoredCredentials.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -21,7 +22,6 @@ import {
   makeEmptyIDCreateFormErrors,
   makeEmptyIdCreateForm,
 } from "@/functions/validate_id";
-import { hexlify } from "ethers/lib/utils";
 
 export enum SignInStatus {
   Loading,
@@ -34,7 +34,6 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
   appId,
   handleClickUseAnotherId,
   handleSucceedSignIn,
-  // setCredential,
   handleClickForgetAllCredentials,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -105,7 +104,6 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
         return;
       }
 
-      // setCredential(credentialObj as PrfsIdCredential);
       handleSucceedSignIn(credentialObj as PrfsIdCredential);
     }
   }, [handleSucceedSignIn, formData, selectedCredentialId, setErrorMsg]);
@@ -215,6 +213,5 @@ export interface StoredCredentialsProps {
   appId: string;
   handleClickUseAnotherId: () => void;
   handleSucceedSignIn: (credential: PrfsIdCredential) => void;
-  setCredential: React.Dispatch<React.SetStateAction<PrfsIdCredential | null>>;
   handleClickForgetAllCredentials: () => void;
 }
