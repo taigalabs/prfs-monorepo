@@ -19,10 +19,24 @@
   /*   text-align: center; */
   /*   display: inline-block; */
   /* } */
+  .overlay {
+    display: none;
+    background-color: rgba(255, 255, 255, 0.5);
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
 
   .item {
     display: flex;
     padding-bottom: 18px;
+    position: relative;
+
+    &.isDisabled {
+      .overlay {
+        display: block;
+      }
+    }
   }
 
   .no {
@@ -39,13 +53,11 @@
     word-break: break-all;
     padding-bottom: 12px;
   }
-
-  .content {
-    padding-left: 40px;
-  }
 }
 
 .btnRow {
+  display: flex;
+  justify-content: space-between;
   padding-left: 40px;
 }
 

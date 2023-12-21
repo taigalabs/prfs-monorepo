@@ -3,6 +3,7 @@
 import React from "react";
 import cn from "classnames";
 import { Input } from "@taigalabs/prfs-react-components/src/input/Input";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./CreateTwitterAccAtst.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -11,6 +12,13 @@ import { AttestationsMain, AttestationsTitle } from "@/components/attestations/A
 const TWITTER_HANDLE = "twitter_handle";
 const TWEET_URL = "tweet_url";
 
+const attestionStep = {
+  INPUT_TWITTER_HANDLE: false,
+  GENERATE_CLAIM: false,
+  POST_TWEET: false,
+  VALIDATE_TWEET: false,
+};
+
 const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
   const i18n = React.useContext(i18nContext);
   const [formData, setFormData] = React.useState({ [TWITTER_HANDLE]: "", [TWEET_URL]: "" });
@@ -18,6 +26,17 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
     const handle = formData[TWITTER_HANDLE];
     return `PRFS_ATTESTATION_${handle}`;
   }, [formData[TWITTER_HANDLE]]);
+  const [step, setStep] = React.useState({ ...attestionStep });
+
+  React.useEffect(() => {
+    const handle = formData[TWITTER_HANDLE];
+    if (handle.length > 1) {
+      setStep(oldVal => ({
+        ...oldVal,
+        INPUT_TWITTER_HANDLE: true,
+      }));
+    }
+  }, [setStep, formData[TWITTER_HANDLE]]);
 
   const handleChangeTwitterHandle = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,6 +49,10 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
     },
     [setFormData],
   );
+
+  const handleClickStartOver = React.useCallback(() => {}, [formData, step]);
+
+  const handleClickCreate = React.useCallback(() => {}, [formData, step]);
 
   return (
     <>
@@ -57,29 +80,36 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
                 </div>
               </div>
             </li>
-            <li className={styles.item}>
+            <li className={cn(styles.item, { [styles.isDisabled]: !step.INPUT_TWITTER_HANDLE })}>
+              <div className={styles.overlay} />
               <div className={styles.no}>2</div>
               <div>
-                <p className={styles.desc}>
-                  <span>{i18n.generate_a_cryptographic_claim}. </span>
-                  <span>
+                <div className={styles.desc}>
+                  <p>{i18n.generate_a_cryptographic_claim}</p>
+                  <p>
                     {i18n.claim_secret}: {claimSecret}
-                  </span>
-                </p>
-                <div className={styles.content}>claim</div>
+                  </p>
+                </div>
+                <div className={styles.content}>
+                  <button>generate</button>
+                </div>
               </div>
             </li>
-            <li className={styles.item}>
+            <li className={cn(styles.item, { [styles.isDisabled]: !step.POST_TWEET })}>
+              <div className={styles.overlay} />
               <div className={styles.no}>3</div>
               <div>
-                <p className={styles.desc}>Make a tweet</p>
-                <div className={styles.content}>tweet button</div>
+                <div className={styles.desc}>Make a tweet</div>
+                <div className={styles.content}>
+                  <button>Post a tweet</button>
+                </div>
               </div>
             </li>
-            <li className={styles.item}>
+            <li className={cn(styles.item, { [styles.isDisabled]: !step.VALIDATE_TWEET })}>
+              <div className={styles.overlay} />
               <div className={styles.no}>4</div>
               <div>
-                <p className={styles.desc}>Make a tweet</p>
+                <p className={styles.desc}>{i18n.what_is_the_tweet_url}</p>
                 <div className={styles.content}>
                   <Input
                     className={styles.input}
@@ -89,12 +119,32 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
                     value={formData.tweet_url}
                     handleChangeValue={handleChangeTwitterHandle}
                   />
+                  <div>
+                    <button>validate</button>
+                  </div>
                 </div>
               </div>
             </li>
           </ol>
           <div className={styles.btnRow}>
-            <button type="button">{i18n.create}</button>
+            <Button
+              variant="transparent_blue_2"
+              noTransition
+              handleClick={handleClickStartOver}
+              type="button"
+            >
+              {i18n.start_over}
+            </Button>
+            <Button
+              type="button"
+              variant="blue_2"
+              className={styles.signInBtn}
+              noTransition
+              handleClick={handleClickCreate}
+              noShadow
+            >
+              {i18n.create}
+            </Button>
           </div>
         </form>
       </div>
