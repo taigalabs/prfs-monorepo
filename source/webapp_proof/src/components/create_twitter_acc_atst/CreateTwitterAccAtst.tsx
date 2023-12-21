@@ -65,6 +65,19 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
     [setFormData],
   );
 
+  // React.useEffect(() => {
+  //   if (!secretKeyRef.current) {
+  //     const nonce = Math.random() * 1000000;
+  //     const sk = new PrivateKey();
+  //     const pkHex = sk.publicKey.toHex();
+  //     const appId = "prfs_proof";
+  //     const queryString = `?public_key=${pkHex}&redirect_uri=${redirectUri}&sign_in_data=${signInData}&app_id=${appId}&nonce=${nonce}`;
+  //     secretKeyRef.current = sk;
+  //   }
+  // }, [setPrfsIdSignInEndpoint]);
+
+  const handleClickGenerate = React.useCallback(() => {}, [formData, step, claimSecret]);
+
   const handleClickStartOver = React.useCallback(() => {}, [formData, step]);
 
   const handleClickCreate = React.useCallback(() => {}, [formData, step]);
@@ -102,12 +115,12 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
               <div>
                 <div className={styles.desc}>
                   <p>{i18n.generate_a_cryptographic_claim}</p>
-                  <p>
+                  <p className={styles.claimSecret}>
                     {i18n.claim_secret}: {claimSecret}
                   </p>
                 </div>
                 <div className={styles.content}>
-                  <button className={styles.btn} type="button">
+                  <button className={styles.btn} type="button" onClick={handleClickGenerate}>
                     <MdSecurity />
                     <span>{i18n.generate}</span>
                   </button>
