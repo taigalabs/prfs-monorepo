@@ -22,7 +22,6 @@ import StoredCredentials from "./StoredCredentials";
 enum SignInStep {
   StoredCredentials,
   PrfsIdCredential,
-  // AppCredential,
 }
 
 export enum SignInStatus {
@@ -39,7 +38,6 @@ const PrfsIdSignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId 
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
   const [step, setStep] = React.useState(SignInStep.PrfsIdCredential);
   const [storedCredentials, setStoredCredentials] = React.useState<StoredCredentialRecord>({});
-  // const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
 
   React.useEffect(() => {
     const storedCredentials = loadLocalPrfsIdCredentials();
@@ -85,10 +83,6 @@ const PrfsIdSignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId 
   const handleGotoPrfsIdCredential = React.useCallback(() => {
     setStep(SignInStep.PrfsIdCredential);
   }, [setStep]);
-
-  // const handleClickNext = React.useCallback(() => {
-  //   setStep(SignInStep.AppCredential);
-  // }, [setStep]);
 
   const content = React.useMemo(() => {
     switch (step) {
