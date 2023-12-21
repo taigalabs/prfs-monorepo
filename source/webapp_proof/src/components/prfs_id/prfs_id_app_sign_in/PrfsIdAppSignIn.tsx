@@ -78,8 +78,6 @@ const PrfsIdAppSignIn: React.FC = () => {
       return null;
     }
 
-    console.log("app sig in", step);
-
     switch (step) {
       case SignInStep.PrfsIdCredential: {
         return <PrfsIdSignIn appId={appId} handleSucceedSignIn={handleSucceedSignIn} />;

@@ -15,7 +15,7 @@ import PrfsIdSignInModule, {
 import { envs } from "@/envs";
 import PrfsIdErrorDialog from "@/components/prfs_id/prfs_id_error_dialog/PrfsIdErrorDialog";
 import PrfsIdSignIn from "@/components/prfs_id/prfs_id_sign_in/PrfsIdSignIn";
-// import AppCredential from "./AppCredential";
+import Commitments from "./Commitments";
 
 enum CommitmentStep {
   PrfsIdCredential,
@@ -85,13 +85,12 @@ const PrfsIdCommitment: React.FC = () => {
       case CommitmentStep.AppCredential: {
         return (
           credential && (
-            <div>55</div>
-            // <AppCredential
-            //   credential={credential}
-            //   appId={appId}
-            //   publicKey={publicKey}
-            //   handleClickPrev={handleClickPrev}
-            // />
+            <Commitments
+              credential={credential}
+              appId={appId}
+              publicKey={publicKey}
+              handleClickPrev={handleClickPrev}
+            />
           )
         );
       }
