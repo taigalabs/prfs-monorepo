@@ -18,7 +18,6 @@ export interface CommitmentData {
 }
 
 const CommitmentData: React.FC<CommitmentDataProps> = ({
-  // signInDataMeta,
   commitmentsMeta,
   credential,
   appId,

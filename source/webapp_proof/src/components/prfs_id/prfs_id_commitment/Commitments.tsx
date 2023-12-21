@@ -26,6 +26,7 @@ import {
   PrfsIdSignInWithPrfsId,
 } from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
 import CommitmentData from "./CommitmentData";
+import { useCommitments } from "./commitments";
 // import SignInInputs, { PrfsSignInData } from "./SignInInputs";
 
 enum Status {
@@ -52,62 +53,51 @@ const Commitments: React.FC<CommitmentsProps> = ({
     },
   });
 
-  React.useEffect(() => {
-    async function fn() {
-      try {
-        console.log("credential", credential);
-        const title = (
-          <>
-            <span className={styles.blueText}>{appId}</span> wants you to submit commitment (s)
-          </>
-        );
-        setTitle(title);
+  const commitments = useCommitments();
+  console.log(11, commitments);
 
-        const cms = searchParams.get("cms");
-        console.log("cms", cms);
+  // React.useEffect(() => {
+  //   async function fn() {
+  //     try {
+  //       const cms = searchParams.get("cms");
+  //       console.log("cms", cms);
 
-        if (cms) {
-          const d = decodeURIComponent(cms);
-          const data = d.split(",");
-          const content = (
-            <CommitmentData
-              commitmentsMeta={data}
-              credential={credential}
-              appId={appId}
-              // setCommitmentData={setCommitmentData}
-            />
-            // <SignInInputs
-            //   signInDataMeta={data}
-            //   credential={credential}
-            //   appId={appId}
-            //   setSignInData={setSignInData}
-            // />
-          );
-          setContent(content);
-        }
+  //       if (cms) {
+  //         const d = decodeURIComponent(cms);
+  //         const data = d.split(",");
+  //         // const content = (
+  //         //   <CommitmentData
+  //         //     commitmentsMeta={data}
+  //         //     credential={credential}
+  //         //     appId={appId}
+  //         //     // setCommitmentData={setCommitmentData}
+  //         //   />
+  //         // );
+  //         setContent(content);
+  //       }
 
-        // if (signInData) {
-        //   const d = decodeURIComponent(signInData);
-        //   const data = d.split(",");
-        //   const content = (
-        //     <SignInInputs
-        //       signInDataMeta={data}
-        //       credential={credential}
-        //       appId={appId}
-        //       setSignInData={setSignInData}
-        //     />
-        //   );
-        //   setSignInDataElem(content);
-        // }
-        setStatus(Status.Standby);
-      } catch (err) {
-        console.error(err);
-      }
-    }
-    fn().then();
-  }, [setStatus, searchParams, setTitle, setContent, credential]);
+  //       // if (signInData) {
+  //       //   const d = decodeURIComponent(signInData);
+  //       //   const data = d.split(",");
+  //       //   const content = (
+  //       //     <SignInInputs
+  //       //       signInDataMeta={data}
+  //       //       credential={credential}
+  //       //       appId={appId}
+  //       //       setSignInData={setSignInData}
+  //       //     />
+  //       //   );
+  //       //   setSignInDataElem(content);
+  //       // }
+  //       setStatus(Status.Standby);
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   }
+  //   fn().then();
+  // }, [setStatus, searchParams, setTitle, setContent, credential]);
 
-  const handleClickSignIn = React.useCallback(async () => {
+  const handleClickSubmit = React.useCallback(async () => {
     if (publicKey && credential) {
       const { payload: _signInRequestPayload, error } = await prfsIdentitySignInRequest({
         identity_id: credential.id,
@@ -159,7 +149,9 @@ const Commitments: React.FC<CommitmentsProps> = ({
       <PrfsIdSignInWithPrfsId>{i18n.sign_in_with_prfs_id}</PrfsIdSignInWithPrfsId>
       <PrfsIdSignInInnerPadding>
         <PrfsIdSignInModuleHeader noTopPadding>
-          <PrfsIdSignInModuleTitle>{title}</PrfsIdSignInModuleTitle>
+          <PrfsIdSignInModuleTitle>
+            <span className={styles.blueText}>{appId}</span> wants you to submit commitment (s)
+          </PrfsIdSignInModuleTitle>
         </PrfsIdSignInModuleHeader>
         <div>
           <p className={styles.prfsId}>{credential.id}</p>
@@ -178,10 +170,10 @@ const Commitments: React.FC<CommitmentsProps> = ({
             variant="blue_2"
             className={styles.signInBtn}
             noTransition
-            handleClick={handleClickSignIn}
+            handleClick={handleClickSubmit}
             noShadow
           >
-            {i18n.sign_in}
+            {i18n.submit}
           </Button>
         </PrfsIdSignInModuleBtnRow>
         <PrfsIdSignInErrorMsg>{errorMsg}</PrfsIdSignInErrorMsg>
