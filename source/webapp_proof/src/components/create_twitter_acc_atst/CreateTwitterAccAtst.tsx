@@ -10,6 +10,8 @@ import styles from "./CreateTwitterAccAtst.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { AttestationsMain, AttestationsTitle } from "@/components/attestations/Attestations";
 import { useRandomKeyPair } from "@/hooks/key";
+import { getCommitment } from "@taigalabs/prfs-id-sdk-web";
+import { envs } from "@/envs";
 
 const TWITTER_HANDLE = "twitter_handle";
 const TWEET_URL = "tweet_url";
@@ -67,18 +69,20 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
     [setFormData],
   );
 
-  // React.useEffect(() => {
-  //   if (!secretKeyRef.current) {
-  //     const nonce = Math.random() * 1000000;
-  //     const sk = new PrivateKey();
-  //     const pkHex = sk.publicKey.toHex();
-  //     const appId = "prfs_proof";
-  //     const queryString = `?public_key=${pkHex}&redirect_uri=${redirectUri}&sign_in_data=${signInData}&app_id=${appId}&nonce=${nonce}`;
-  //     secretKeyRef.current = sk;
-  //   }
-  // }, [setPrfsIdSignInEndpoint]);
-
-  const handleClickGenerate = React.useCallback(() => {}, [formData, step, claimSecret, sk, pkHex]);
+  const handleClickGenerate = React.useCallback(() => {
+    const nonce = Math.random() * 1000000;
+    const appId = "prfs_proof";
+    getCommitment({
+      prfsIdEndpoint: envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT,
+      appId,
+      sk,
+      pkHex,
+      preImage: claimSecret,
+    });
+    // const queryString = `?public_key=${pkHex}&redirect_uri=${redirectUri}&sign_in_data=${signInData}&app_id=${appId}&nonce=${nonce}`;
+    // const prfsIdEndpoint = `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id__signin}${queryString}`;
+    // setPrfsIdSignInEndpoint(prfsIdEndpoint);
+  }, [formData, step, claimSecret, sk, pkHex]);
 
   const handleClickStartOver = React.useCallback(() => {}, [formData, step]);
 

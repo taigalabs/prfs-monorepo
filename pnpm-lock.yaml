@@ -565,6 +565,9 @@ importers:
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
+      eciesjs:
+        specifier: ^0.4.5
+        version: 0.4.5
       ethers:
         specifier: ^5
         version: 5.7.2
