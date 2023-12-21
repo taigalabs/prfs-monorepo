@@ -4,6 +4,7 @@ import React from "react";
 import cn from "classnames";
 import { Input } from "@taigalabs/prfs-react-components/src/input/Input";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
 
 import styles from "./CreateTwitterAccAtst.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -106,7 +107,10 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
                   </p>
                 </div>
                 <div className={styles.content}>
-                  <button className={styles.btn}>generate</button>
+                  <button className={styles.btn} type="button">
+                    <MdSecurity />
+                    <span>{i18n.generate}</span>
+                  </button>
                 </div>
               </div>
             </li>
@@ -116,7 +120,9 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
               <div>
                 <div className={styles.desc}>Make a tweet</div>
                 <div className={styles.content}>
-                  <button className={styles.btn}>Post a tweet</button>
+                  <button className={styles.btn} type="button">
+                    Post a tweet
+                  </button>
                 </div>
               </div>
             </li>
@@ -140,7 +146,9 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
                     />
                   </div>
                   <div>
-                    <button className={styles.btn}>validate</button>
+                    <button className={styles.btn} type="button">
+                      <span>validate</span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -156,12 +164,12 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
               {i18n.start_over}
             </Button>
             <Button
-              type="button"
               variant="blue_2"
               className={styles.signInBtn}
               noTransition
               handleClick={handleClickCreate}
               noShadow
+              type="button"
             >
               {i18n.create}
             </Button>
