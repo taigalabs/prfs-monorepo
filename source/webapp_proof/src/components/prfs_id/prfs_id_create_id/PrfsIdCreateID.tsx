@@ -17,7 +17,7 @@ import {
   makeEmptyIdCreateForm,
   validateIdCreateForm,
 } from "@/functions/validate_id";
-import Step2 from "./Step2";
+import SignUp from "./SignUp";
 import { envs } from "@/envs";
 import { PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
 import Step3 from "./Step3";
@@ -25,7 +25,7 @@ import InputCreateIdCredential from "./InputCreateIdCredential";
 
 enum CreateIDStep {
   InputCreateIdCredential,
-  CreateIdSuccess,
+  SignUp,
   PostSignUpSuccess,
 }
 
@@ -61,7 +61,7 @@ const PrfsIdCreateID: React.FC<PrfsIdCreateIDProps> = ({
     const res = validateIdCreateForm(formData, setFormErrors);
 
     if (res) {
-      setStep(CreateIDStep.CreateIdSuccess);
+      setStep(CreateIDStep.SignUp);
     }
   }, [formData, setFormErrors, setStep]);
 
@@ -93,15 +93,15 @@ const PrfsIdCreateID: React.FC<PrfsIdCreateIDProps> = ({
           />
         );
       }
-      case CreateIDStep.CreateIdSuccess: {
+      case CreateIDStep.SignUp: {
         return (
           credential && (
-            <Step2
+            <SignUp
               credential={credential}
               formData={formData}
               handleClickPrev={handleGotoInputCredential}
               handleClickSignIn={handleClickSignIn}
-              handleGotoPostSignUpSuccess={handleGotoPostSignUpSuccess}
+              handleSucceedCreateId={handleSucceedCreateId}
             />
           )
         );
@@ -122,20 +122,7 @@ const PrfsIdCreateID: React.FC<PrfsIdCreateIDProps> = ({
     }
   }, [step, handleGotoInputCredential, handleGotoCreateIdSuccess, handleChangeValue, formErrors]);
 
-  return (
-    <>{content}</>
-    /* <PrfsIdSignInModule> */
-    //   <PrfsIdSignInForm>{content}</PrfsIdSignInForm>
-    //   <PrfsIdSignInModuleFooter>
-    //     <Link className={styles.prfsLink} href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL}>
-    //       <span>{i18n.code}</span>
-    //     </Link>
-    //     <Link className={styles.prfsLink} href={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
-    //       <span>{i18n.prfs}</span>
-    //     </Link>
-    //   </PrfsIdSignInModuleFooter>
-    // </PrfsIdSignInModule>
-  );
+  return <>{content}</>;
 };
 
 export default PrfsIdCreateID;

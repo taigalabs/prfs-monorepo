@@ -15,7 +15,7 @@ import Link from "next/link";
 import { useMutation } from "wagmi";
 import { PrfsIdentitySignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignUpRequest";
 
-import styles from "./Step2.module.scss";
+import styles from "./SignUp.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   PrfsIdSignInErrorMsg,
@@ -34,11 +34,12 @@ export enum IdCreationStatus {
   Error,
 }
 
-const Step2: React.FC<Step2Props> = ({
+const SignUp: React.FC<SignUpProps> = ({
   formData,
   handleClickPrev,
   handleClickSignIn,
-  handleGotoPostSignUpSuccess,
+  // handleGotoPostSignUpSuccess,
+  handleSucceedCreateId,
   credential,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -63,9 +64,9 @@ const Step2: React.FC<Step2Props> = ({
   }, [formData]);
 
   const handleClickSignUp = React.useCallback(async () => {
-    const { id } = credential;
+    if (credential) {
+      const { id } = credential;
 
-    if (id) {
       try {
         setStatus(IdCreationStatus.InProgress);
         const avatar_color = makeColor(id);
@@ -78,7 +79,8 @@ const Step2: React.FC<Step2Props> = ({
         if (error) {
           setErrorMsg(error.toString());
         } else {
-          handleGotoPostSignUpSuccess();
+          handleSucceedCreateId(credential);
+          // handleGotoPostSignUpSuccess();
         }
       } catch (err: any) {
         setErrorMsg(err.toString());
@@ -90,7 +92,8 @@ const Step2: React.FC<Step2Props> = ({
     prfsIdentitySignUpRequest,
     credential,
     setErrorMsg,
-    handleGotoPostSignUpSuccess,
+    handleSucceedCreateId,
+    // handleGotoPostSignUpSuccess,
   ]);
 
   const { email_val, password_1_val, password_2_val, secret_key_val } = React.useMemo(() => {
@@ -229,12 +232,13 @@ const Step2: React.FC<Step2Props> = ({
   );
 };
 
-export default Step2;
+export default SignUp;
 
-export interface Step2Props {
+export interface SignUpProps {
   formData: IdCreateForm;
   handleClickPrev: () => void;
   handleClickSignIn: () => void;
-  handleGotoPostSignUpSuccess: () => void;
+  // handleGotoPostSignUpSuccess: () => void;
   credential: PrfsIdCredential;
+  handleSucceedCreateId: (credential: PrfsIdCredential) => void;
 }
