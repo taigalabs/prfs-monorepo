@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
-import { AiOutlineQrcode } from "@react-icons/all-files/ai/AiOutlineQrcode";
 import {
   useFloating,
   useDismiss,
@@ -13,7 +12,6 @@ import {
   FloatingOverlay,
   FloatingPortal,
 } from "@floating-ui/react";
-import Link from "next/link";
 
 import styles from "./ErrorDialog.module.scss";
 import { i18nContext } from "@/i18n/context";
