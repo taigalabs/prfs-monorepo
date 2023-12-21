@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { paths } from "@/paths";
 
 const IdPage = () => {
-  redirect(paths.id__signin);
+  return <div>wrong url</div>;
 };
 
 export default IdPage;

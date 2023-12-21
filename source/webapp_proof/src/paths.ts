@@ -9,7 +9,7 @@ export const paths = {
   updates: "/updates",
   privacy: "/privacy",
   id: "/id",
-  id__create: "/id/create",
-  id__signin: "/id/signin",
+  id__create_id: "/id/create_id",
+  id__app_signin: "/id/app_signin",
   accounts: "/accounts",
 };

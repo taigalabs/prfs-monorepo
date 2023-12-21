@@ -68,7 +68,7 @@ const PrfsIdCreateID: React.FC = () => {
 
   const handleClickSignIn = React.useCallback(() => {
     const { search } = window.location;
-    const url = `${paths.id__signin}${search}`;
+    const url = `${paths.id__app_signin}${search}`;
     router.push(url);
   }, [router]);
 

@@ -2,18 +2,18 @@ import React, { Suspense } from "react";
 
 import styles from "./page.module.scss";
 import SignInLayout, { SignInBody } from "@/components/layouts/sign_in_layout/SignInLayout";
-import PrfsIdSignIn from "@/components/prfs_id_sign_in/PrfsIdSignIn";
+import PrfsIdCreateID from "@/components/prfs_id_create_id/PrfsIdCreateID";
 
-const IdSignInPage = () => {
+const CreateIdPage = () => {
   return (
     <SignInLayout>
       <SignInBody>
         <Suspense>
-          <PrfsIdSignIn />
+          <PrfsIdCreateID />
         </Suspense>
       </SignInBody>
     </SignInLayout>
   );
 };
 
-export default IdSignInPage;
+export default CreateIdPage;

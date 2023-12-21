@@ -43,7 +43,7 @@ const Step1: React.FC<Step1Props> = ({
 
   const handleClickCreateID = React.useCallback(() => {
     const { search } = window.location;
-    const url = `${paths.id__create}${search}`;
+    const url = `${paths.id__create_id}${search}`;
     router.push(url);
   }, [router]);
 

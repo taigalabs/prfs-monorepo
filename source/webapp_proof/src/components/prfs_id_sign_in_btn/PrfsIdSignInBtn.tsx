@@ -45,7 +45,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
     const appId = "prfs_proof";
     const signInData = encodeURIComponent([SignInData.ID_POSEIDON].join(","));
     const queryString = `?public_key=${pkHex}&sign_in_data=${signInData}&app_id=${appId}&nonce=${nonce}`;
-    const prfsIdEndpoint = `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id__signin}${queryString}`;
+    const prfsIdEndpoint = `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id__app_signin}${queryString}`;
     setPrfsIdSignInEndpoint(prfsIdEndpoint);
 
     console.log("initializing ephemeral secret key", sk);
