@@ -30,10 +30,15 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
 
   React.useEffect(() => {
     const handle = formData[TWITTER_HANDLE];
-    if (handle.length > 1) {
+    if (handle.length > 0) {
       setStep(oldVal => ({
         ...oldVal,
         INPUT_TWITTER_HANDLE: true,
+      }));
+    } else {
+      setStep(oldVal => ({
+        ...oldVal,
+        INPUT_TWITTER_HANDLE: false,
       }));
     }
   }, [setStep, formData[TWITTER_HANDLE]]);
@@ -42,10 +47,19 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const { value, name } = e.target;
 
-      setFormData(oldVal => ({
-        ...oldVal,
-        [name]: value,
-      }));
+      if (name === TWITTER_HANDLE) {
+        if (value.length < 30) {
+          setFormData(oldVal => ({
+            ...oldVal,
+            [name]: value,
+          }));
+        }
+      } else {
+        setFormData(oldVal => ({
+          ...oldVal,
+          [name]: value,
+        }));
+      }
     },
     [setFormData],
   );
