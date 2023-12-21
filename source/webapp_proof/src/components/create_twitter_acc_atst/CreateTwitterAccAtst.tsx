@@ -16,6 +16,7 @@ import { paths } from "@/paths";
 
 const TWITTER_HANDLE = "twitter_handle";
 const TWEET_URL = "tweet_url";
+const CLAIM = "claim";
 
 const attestionStep = {
   INPUT_TWITTER_HANDLE: false,
@@ -78,7 +79,14 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
       sk,
       pkHex,
       preImage: claimSecret,
+      cms: {
+        [CLAIM]: {
+          val: claimSecret,
+          type: "SIG_POSEIDON_1",
+        },
+      },
     });
+
     // const queryString = `?public_key=${pkHex}&redirect_uri=${redirectUri}&sign_in_data=${signInData}&app_id=${appId}&nonce=${nonce}`;
     // const prfsIdEndpoint = `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id__signin}${queryString}`;
     // setPrfsIdSignInEndpoint(prfsIdEndpoint);
