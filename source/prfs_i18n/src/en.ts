@@ -40,7 +40,7 @@ export default {
   feedback: "Feedback",
   id: "Id",
   what_is_the_tweet_url: "What is the tweet URL?",
-  tweet_url_example_given: "e.g. https://twitter.com/0xCygaar/status/1737182085721342418",
+  tweet_url_example_given: "e.g. https://twitter.com/elonmusk/status/1737488430202851389",
   generate_a_cryptographic_claim: "Generate a cryptographic claim",
   what_is_your_twitter_handle: "What is your Twitter handle?",
   twitter_handle_example_given: "e.g. elonmusk",

@@ -103,6 +103,18 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
     };
   }, [setStep, formData[TWITTER_HANDLE], handleSucceedGenerateCms]);
 
+  const tweetContent = React.useMemo(() => {
+    if (claimCm) {
+      const attVersion = "ATST_1";
+      const provenance = "Prfs";
+      const destination = "Twitter";
+      const handle = formData[TWITTER_HANDLE];
+      return `--attestation ${attVersion} ${provenance} ${destination} ${handle} ${claimCm}`;
+    } else {
+      return null;
+    }
+  }, [formData[TWITTER_HANDLE], claimCm]);
+
   const handleChangeTwitterHandle = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const { value, name } = e.target;
@@ -179,7 +191,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
             >
               <div className={styles.overlay} />
               <div className={styles.no}>2</div>
-              <div>
+              <div className={styles.rightCol}>
                 <div className={styles.desc}>
                   <p>{i18n.generate_a_cryptographic_claim}</p>
                   <p className={styles.claimSecret}>
@@ -201,10 +213,10 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
             >
               <div className={styles.overlay} />
               <div className={styles.no}>3</div>
-              <div>
+              <div className={styles.rightCol}>
                 <div className={styles.desc}>{i18n.post_tweet}</div>
-                {claimCm && <div className={styles.claimCm}>{claimCm}</div>}
                 <div className={styles.content}>
+                  {tweetContent && <div className={styles.tweetContent}>{tweetContent}</div>}
                   <button className={styles.btn} type="button">
                     Post a tweet
                   </button>
@@ -218,7 +230,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
             >
               <div className={styles.overlay} />
               <div className={styles.no}>4</div>
-              <div>
+              <div className={styles.rightCol}>
                 <div className={styles.desc}>
                   <p>{i18n.what_is_the_tweet_url}</p>
                   <p>{i18n.tweet_url_example_given}</p>
