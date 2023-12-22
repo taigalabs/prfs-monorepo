@@ -5,8 +5,12 @@ use uuid::Uuid;
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct ScrapeTwitterRequest {}
+pub struct ScrapeTwitterRequest {
+    pub tweet_url: String,
+}
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct ScrapeTwitterResponse {}
+pub struct ScrapeTwitterResponse {
+    pub is_valid: bool,
+}

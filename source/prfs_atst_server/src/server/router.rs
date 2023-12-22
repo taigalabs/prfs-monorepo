@@ -27,9 +27,9 @@ pub async fn atst_server_routes(
 ) -> Result<Response<BytesBoxBody>, ApiHandleError> {
     return match (req.method(), req.uri().path()) {
         (&Method::OPTIONS, _) => handle_cors(),
-        (&Method::POST, v0_path!("scrape")) => twitter::scrape_tweet(req, state).await,
+        (&Method::POST, v0_path!("scrape_tweet")) => twitter::scrape_tweet(req, state).await,
         _ => {
-            println!("Route not found!, {}", req.uri());
+            println!("{} route not found!, {}", ATST_API, req.uri());
             Ok(Response::builder()
                 .status(StatusCode::NOT_FOUND)
                 .body(full(NOTFOUND))

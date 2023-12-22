@@ -35,7 +35,7 @@ pub async fn id_server_routes(
             prfs_identities::sign_in_prfs_identity(req, state).await
         }
         _ => {
-            println!("Route not found!, {}", req.uri());
+            println!("{} Route not found!, {}", ID_API, req.uri());
             Ok(Response::builder()
                 .status(StatusCode::NOT_FOUND)
                 .body(full(NOTFOUND))

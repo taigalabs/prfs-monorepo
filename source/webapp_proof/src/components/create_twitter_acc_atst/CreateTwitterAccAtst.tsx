@@ -6,11 +6,10 @@ import { Input } from "@taigalabs/prfs-react-components/src/input/Input";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
-
-import styles from "./CreateTwitterAccAtst.module.scss";
-import { i18nContext } from "@/i18n/context";
-import { AttestationsMain, AttestationsTitle } from "@/components/attestations/Attestations";
-import { useRandomKeyPair } from "@/hooks/key";
+import { decrypt } from "eciesjs";
+import { atstApi } from "@taigalabs/prfs-api-js";
+import { ScrapeTwitterRequest } from "@taigalabs/prfs-entities/bindings/ScrapeTwitterRequest";
+import { useMutation } from "@tanstack/react-query";
 import {
   CommitmentType,
   PrfsIdCommitmentSuccessPayload,
@@ -18,9 +17,13 @@ import {
   getCommitment,
   newPrfsIdMsg,
 } from "@taigalabs/prfs-id-sdk-web";
+
+import styles from "./CreateTwitterAccAtst.module.scss";
+import { i18nContext } from "@/i18n/context";
+import { AttestationsMain, AttestationsTitle } from "@/components/attestations/Attestations";
+import { useRandomKeyPair } from "@/hooks/key";
 import { envs } from "@/envs";
 import { paths } from "@/paths";
-import { decrypt } from "eciesjs";
 
 const TWITTER_HANDLE = "twitter_handle";
 const TWEET_URL = "tweet_url";
@@ -43,6 +46,11 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
   }, [formData[TWITTER_HANDLE]]);
   const [step, setStep] = React.useState(AttestationStep.INPUT_TWITTER_HANDLE);
   const { sk, pkHex } = useRandomKeyPair();
+  const { mutateAsync: scrapeTweetRequest } = useMutation({
+    mutationFn: (req: ScrapeTwitterRequest) => {
+      return atstApi("scrape_tweet", req);
+    },
+  });
 
   const handleSucceedGenerateCms = React.useCallback(
     (encrypted: Buffer) => {
@@ -152,6 +160,12 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
       },
     });
   }, [formData, step, claimSecret, sk, pkHex]);
+
+  const handleClickValidate = React.useCallback(async () => {
+    const { payload, error } = await scrapeTweetRequest({ tweet_url: "power" });
+
+    console.log(11, payload);
+  }, [scrapeTweetRequest]);
 
   const handleClickStartOver = React.useCallback(() => {
     window.location.reload();
@@ -282,7 +296,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
                     />
                   </div>
                   <div>
-                    <button className={styles.btn} type="button">
+                    <button className={styles.btn} type="button" onClick={handleClickValidate}>
                       <span>{i18n.validate}</span>
                     </button>
                   </div>

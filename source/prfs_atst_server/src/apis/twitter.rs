@@ -30,7 +30,7 @@ pub async fn scrape_tweet(req: Request<Incoming>, state: Arc<ServerState>) -> Ap
 
     // tx.commit().await.unwrap();
 
-    let resp = ApiResponse::new_success(ScrapeTwitterResponse {});
+    let resp = ApiResponse::new_success(ScrapeTwitterResponse { is_valid: false });
 
     return Ok(resp.into_hyper_response());
 }
