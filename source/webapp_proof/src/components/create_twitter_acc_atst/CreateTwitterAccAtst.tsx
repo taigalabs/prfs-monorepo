@@ -220,7 +220,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
                     <div className={styles.tweetContent}>
                       <div className={styles.box}>
                         <p>{tweetContent}</p>
-                        <div>
+                        <div className={styles.btnArea}>
                           <button>copy</button>
                         </div>
                       </div>

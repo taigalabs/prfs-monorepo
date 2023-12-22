@@ -12,7 +12,7 @@ import { PrfsIdCredential, makeColor } from "@taigalabs/prfs-crypto-js";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 import { IdCreateForm } from "@/functions/validate_id";
 import Link from "next/link";
-import { useMutation } from "wagmi";
+import { useMutation } from "@tanstack/react-query";
 import { PrfsIdentitySignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignUpRequest";
 
 import styles from "./SignUp.module.scss";

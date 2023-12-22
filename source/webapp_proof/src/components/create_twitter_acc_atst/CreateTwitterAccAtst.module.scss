@@ -68,6 +68,7 @@
 
   .tweetContent {
     padding-bottom: 14px;
+    width: 480px;
 
     .box {
       display: flex;
@@ -75,6 +76,11 @@
       border-radius: 5px;
       padding: 8px;
       word-break: break-all;
+    }
+
+    .btnArea {
+      width: 60px;
+      padding-left: 12px;
     }
   }
 }
@@ -87,4 +93,12 @@
 
 .input {
   height: 40px;
+}
+
+@media screen and (max-width: 1120px) {
+  .instructions {
+    .tweetContent {
+      width: auto;
+    }
+  }
 }

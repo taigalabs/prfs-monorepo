@@ -8,7 +8,7 @@ import ProofBanner from "@taigalabs/prfs-react-components/src/proof_banner/Proof
 import SocialSharePopover from "@taigalabs/prfs-react-components/src/social_share_popover/SocialSharePopover";
 import SaveProofPopover from "@taigalabs/prfs-react-components/src/save_proof_popover/SaveProofPopover";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import { useMutation } from "wagmi";
+import { useMutation } from "@tanstack/react-query";
 import { GetPrfsProofInstanceByInstanceIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstanceByInstanceIdRequest";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";

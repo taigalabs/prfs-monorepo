@@ -15,7 +15,7 @@ import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
 import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
-import { useMutation } from "wagmi";
+import { useMutation } from "@tanstack/react-query";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { CreateSocialPostRequest } from "@taigalabs/prfs-entities/bindings/CreateSocialPostRequest";
 import { SocialPost } from "@taigalabs/prfs-entities/bindings/SocialPost";
