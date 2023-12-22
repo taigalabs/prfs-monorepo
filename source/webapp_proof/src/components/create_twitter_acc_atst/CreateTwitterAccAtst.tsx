@@ -169,7 +169,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
               <div className={styles.no}>1</div>
               <div className={styles.right}>
                 <div className={styles.desc}>
-                  <p>{i18n.what_is_your_twitter_handle}</p>
+                  <p className={styles.descTitle}>{i18n.what_is_your_twitter_handle}</p>
                   <p>{i18n.twitter_handle_example_given}</p>
                 </div>
                 <div className={styles.content}>
@@ -193,16 +193,17 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
               <div className={styles.no}>2</div>
               <div className={styles.rightCol}>
                 <div className={styles.desc}>
-                  <p>{i18n.generate_a_cryptographic_claim}</p>
+                  <p className={styles.descTitle}>{i18n.generate_a_cryptographic_claim}</p>
                   <p className={styles.claimSecret}>
                     {i18n.claim_secret}: {claimSecret}
                   </p>
                 </div>
-                <div className={styles.content}>
+                <div className={cn(styles.content, styles.claimCm)}>
                   <button className={styles.btn} type="button" onClick={handleClickGenerate}>
                     <MdSecurity />
                     <span>{i18n.generate}</span>
                   </button>
+                  <p className={styles.value}>{claimCm}</p>
                 </div>
               </div>
             </li>
@@ -214,7 +215,9 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
               <div className={styles.overlay} />
               <div className={styles.no}>3</div>
               <div className={styles.rightCol}>
-                <div className={styles.desc}>{i18n.post_tweet}</div>
+                <div className={styles.desc}>
+                  <p className={styles.descTitle}>{i18n.post_tweet_with_content}</p>
+                </div>
                 <div className={styles.content}>
                   {tweetContent && (
                     <div className={styles.tweetContent}>
@@ -228,9 +231,15 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
                       </div>
                     </div>
                   )}
+                </div>
+                <div className={styles.tweetContentBtnRow}>
                   <button className={styles.btn} type="button">
-                    Post a tweet
+                    {i18n.post}
                   </button>
+                  <p>
+                    <span>{i18n.or} </span>
+                    <a href="https://www.twitter.com">{i18n.go_to_twitter}</a>
+                  </p>
                 </div>
               </div>
             </li>
@@ -243,7 +252,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
               <div className={styles.no}>4</div>
               <div className={styles.rightCol}>
                 <div className={styles.desc}>
-                  <p>{i18n.what_is_the_tweet_url}</p>
+                  <p className={styles.descTitle}>{i18n.what_is_the_tweet_url}</p>
                   <p>{i18n.tweet_url_example_given}</p>
                 </div>
                 <div className={styles.content}>
