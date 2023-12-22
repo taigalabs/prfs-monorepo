@@ -139,8 +139,6 @@ const Commitments: React.FC<CommitmentsProps> = ({
         payload: encrypted,
       };
 
-      console.log(111, msg);
-
       await sendMsgToOpener(msg);
       // window.close();
     }

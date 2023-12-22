@@ -1,6 +1,6 @@
 import React from "react";
 import cn from "classnames";
-import { type PrfsIdSignInSuccessMsg, newPrfsIdMsg } from "@taigalabs/prfs-id-sdk-web";
+import { PrfsIdMsg, newPrfsIdMsg } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./PrfsIdSignInButton.module.scss";
 import Button from "../button/Button";
@@ -19,7 +19,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       const { origin } = ev;
 
       if (prfsIdSignInEndpoint && prfsIdSignInEndpoint.startsWith(origin)) {
-        const data = ev.data as PrfsIdSignInSuccessMsg;
+        const data = ev.data as PrfsIdMsg<Buffer>;
         if (data.type === "SIGN_IN_SUCCESS") {
           const msg = newPrfsIdMsg("SIGN_IN_SUCCESS_RESPOND", null);
           ev.ports[0].postMessage(msg);

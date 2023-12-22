@@ -10,7 +10,7 @@ import styles from "./CreateTwitterAccAtst.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { AttestationsMain, AttestationsTitle } from "@/components/attestations/Attestations";
 import { useRandomKeyPair } from "@/hooks/key";
-import { CommitmentType, getCommitment } from "@taigalabs/prfs-id-sdk-web";
+import { CommitmentType, PrfsIdMsg, getCommitment, newPrfsIdMsg } from "@taigalabs/prfs-id-sdk-web";
 import { envs } from "@/envs";
 import { paths } from "@/paths";
 
@@ -48,6 +48,26 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
         INPUT_TWITTER_HANDLE: false,
       }));
     }
+
+    const listener = (ev: MessageEvent<any>) => {
+      const { origin } = ev;
+
+      if (envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT.startsWith(origin)) {
+        const data = ev.data as PrfsIdMsg<Buffer>;
+        if (data.type === "COMMITMENT_SUCCESS") {
+          const msg = newPrfsIdMsg("COMMITMENT_SUCCESS_RESPOND", null);
+          ev.ports[0].postMessage(msg);
+
+          console.log(11, data.payload);
+          // handleSucceedSignIn(data.payload);
+        }
+      }
+    };
+    addEventListener("message", listener, false);
+
+    return () => {
+      window.removeEventListener("message", listener);
+    };
   }, [setStep, formData[TWITTER_HANDLE]]);
 
   const handleChangeTwitterHandle = React.useCallback(

@@ -14,6 +14,7 @@
 
   .rightCol {
     word-break: break-all;
+    color: var(--gray-20);
   }
 
   .name {
@@ -27,7 +28,7 @@
   }
 
   .hashed {
-    color: var(--gray-20);
+    color: var(--black-20);
     font-weight: 500;
   }
 }
