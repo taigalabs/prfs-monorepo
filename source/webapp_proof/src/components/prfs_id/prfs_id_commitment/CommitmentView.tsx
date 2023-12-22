@@ -7,73 +7,30 @@ import {
   makeECCredential,
 } from "@taigalabs/prfs-crypto-js";
 import { FaRegAddressCard } from "@react-icons/all-files/fa/FaRegAddressCard";
+import { CommitmentData } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./CommitmentView.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { CommitmentType } from "@taigalabs/prfs-id-sdk-web";
-
-export interface CommitmentData {
-  account_id: string;
-  public_key: string;
-}
 
 const CommitmentView: React.FC<CommitmentViewProps> = ({
-  commitmentsMeta,
-  credential,
-  appId,
+  commitmentData,
+  commitmentReceipt,
+  // credential,
+  // appId,
   // setSignInData,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const [elems, setElems] = React.useState<React.ReactNode>(null);
 
-  React.useEffect(() => {
-    async function fn() {
-      let el = [null];
-      for (const cm of commitmentsMeta) {
-        if (cm === CommitmentType.SIG_POSEIDON_1) {
-          const sig = await prfsSign(credential.secret_key, appId);
-          const sigBytes = sig.toCompactRawBytes();
-          const sigHash = await poseidon_2(sigBytes);
-
-          const { id, public_key } = await makeECCredential(sigHash);
-          // setSignInData({
-          //   account_id: id,
-          //   public_key,
-          // });
-
-          // el.push(
-          //   <li className={styles.item} key={d}>
-          //     <div className={styles.img}>
-          //       <FaRegAddressCard />
-          //     </div>
-          //     <div>
-          //       <div className={styles.label}>{d}</div>
-          //       <div className={cn(styles.value, styles.msg)}>
-          //         <span>Generated using </span>
-          //         <span>"{appId}"</span>
-          //       </div>
-          //       <div className={styles.value}>
-          //         <span className={styles.label}>{i18n.id}: </span>
-          //         <span>{id}</span>
-          //       </div>
-          //       <div className={styles.value}>
-          //         <span className={styles.label}>{i18n.public_key}: </span>
-          //         <span>{public_key}</span>
-          //       </div>
-          //     </div>
-          //   </li>,
-          // );
-        }
-      }
-      setElems(el);
-    }
-
-    fn().then();
-  }, [commitmentsMeta, setElems]);
+  // const elems = React.useMemo(() => {
+  //   for (const key in commitmentData) {
+  //     const { val, type } =
+  //   }
+  //   return null;
+  // }, [commitmentData, commitmentReceipt]);
 
   return (
     <>
-      <ul className={styles.wrapper}>{elems}</ul>
+      <ul className={styles.wrapper}></ul>
     </>
   );
 };
@@ -81,9 +38,8 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
 export default CommitmentView;
 
 export interface CommitmentViewProps {
-  commitmentsMeta: string[];
-  credential: PrfsIdCredential;
-  appId: string;
-  // setCommitmentData:
-  // setSignInData: React.Dispatch<React.SetStateAction<PrfsSignInData | null>>;
+  commitmentData: CommitmentData;
+  commitmentReceipt: Record<string, string>;
+  // credential: PrfsIdCredential;
+  // appId: string;
 }

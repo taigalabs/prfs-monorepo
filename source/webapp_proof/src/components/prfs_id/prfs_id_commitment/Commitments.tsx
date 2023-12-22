@@ -1,5 +1,5 @@
 import React from "react";
-import { type PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
+import { prfsSign, type PrfsIdCredential, poseidon_2 } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useSearchParams } from "next/navigation";
 import {
@@ -8,12 +8,15 @@ import {
   type PrfsIdSignInSuccessMsg,
   StoredCredential,
   persistPrfsIdCredential,
+  CommitmentData,
+  CommitmentType,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt } from "eciesjs";
 import { useMutation } from "wagmi";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
 import { idApi } from "@taigalabs/prfs-api-js";
+import { hexlify } from "ethers/lib/utils";
 
 import styles from "./Commitments.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -25,8 +28,8 @@ import {
   PrfsIdSignInModuleTitle,
   PrfsIdSignInWithPrfsId,
 } from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
+
 import CommitmentView from "./CommitmentView";
-import { useCommitments } from "./commitments";
 
 enum Status {
   Loading,
@@ -42,19 +45,64 @@ const Commitments: React.FC<CommitmentsProps> = ({
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
   const [status, setStatus] = React.useState(Status.Loading);
-  const [title, setTitle] = React.useState<React.ReactNode>(null);
   const [errorMsg, setErrorMsg] = React.useState("");
-  const [content, setContent] = React.useState<React.ReactNode>(null);
   const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignInRequest) => {
       return idApi("sign_in_prfs_identity", req);
     },
   });
-  const { commitmentData, commitmentReceipt } = useCommitments({
-    credential,
-  });
+  const [commitmentReceipt, setCommitmentReceipt] = React.useState<Record<string, string> | null>(
+    null,
+  );
+  const [commitmentViewElem, setCommitmentViewElem] = React.useState<React.ReactNode>(null);
 
-  console.log(1, commitmentData, commitmentReceipt);
+  React.useEffect(() => {
+    async function fn() {
+      try {
+        const cms = searchParams.get("cms");
+        console.log("cms", cms);
+
+        if (cms) {
+          const d = decodeURIComponent(cms);
+
+          let commitmentData: CommitmentData;
+          try {
+            commitmentData = JSON.parse(d);
+          } catch (err) {
+            console.error("failed to parse cms, obj: %s, err: %s", d, err);
+            return;
+          }
+
+          let receipt: Record<string, string> = {};
+          for (const key in commitmentData) {
+            const { val, type } = commitmentData[key];
+
+            if (type === CommitmentType.SIG_POSEIDON_1) {
+              const sig = await prfsSign(credential.secret_key, val);
+              const sigBytes = sig.toCompactRawBytes();
+              const hashed = await poseidon_2(sigBytes);
+              const hashedHex = hexlify(hashed);
+              receipt[key] = hashedHex;
+            }
+          }
+
+          setCommitmentReceipt(receipt);
+          setCommitmentViewElem(
+            <CommitmentView commitmentData={commitmentData} commitmentReceipt={receipt} />,
+          );
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fn().then();
+  }, [searchParams, setCommitmentReceipt, setCommitmentViewElem]);
+
+  React.useEffect(() => {
+    if (commitmentReceipt) {
+      setStatus(Status.Standby);
+    }
+  }, [setStatus, commitmentReceipt]);
 
   const handleClickSubmit = React.useCallback(async () => {
     if (publicKey && credential) {
@@ -115,7 +163,7 @@ const Commitments: React.FC<CommitmentsProps> = ({
         <div>
           <p className={styles.prfsId}>{credential.id}</p>
         </div>
-        {content}
+        {commitmentViewElem}
         <div className={styles.dataWarning}>
           <p className={styles.title}>Make sure you trust {appId} app</p>
           <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
