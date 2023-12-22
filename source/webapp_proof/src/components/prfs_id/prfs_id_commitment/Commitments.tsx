@@ -27,7 +27,6 @@ import {
 } from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
 import CommitmentView from "./CommitmentView";
 import { useCommitments } from "./commitments";
-// import SignInInputs, { PrfsSignInData } from "./SignInInputs";
 
 enum Status {
   Loading,
@@ -46,56 +45,16 @@ const Commitments: React.FC<CommitmentsProps> = ({
   const [title, setTitle] = React.useState<React.ReactNode>(null);
   const [errorMsg, setErrorMsg] = React.useState("");
   const [content, setContent] = React.useState<React.ReactNode>(null);
-  const [commitmentData, setCommitmentData] = React.useState<any | null>(null);
   const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignInRequest) => {
       return idApi("sign_in_prfs_identity", req);
     },
   });
+  const { commitmentData, commitmentReceipt } = useCommitments({
+    credential,
+  });
 
-  const commitments = useCommitments();
-  console.log(11, commitments);
-
-  // React.useEffect(() => {
-  //   async function fn() {
-  //     try {
-  //       const cms = searchParams.get("cms");
-  //       console.log("cms", cms);
-
-  //       if (cms) {
-  //         const d = decodeURIComponent(cms);
-  //         const data = d.split(",");
-  //         // const content = (
-  //         //   <CommitmentData
-  //         //     commitmentsMeta={data}
-  //         //     credential={credential}
-  //         //     appId={appId}
-  //         //     // setCommitmentData={setCommitmentData}
-  //         //   />
-  //         // );
-  //         setContent(content);
-  //       }
-
-  //       // if (signInData) {
-  //       //   const d = decodeURIComponent(signInData);
-  //       //   const data = d.split(",");
-  //       //   const content = (
-  //       //     <SignInInputs
-  //       //       signInDataMeta={data}
-  //       //       credential={credential}
-  //       //       appId={appId}
-  //       //       setSignInData={setSignInData}
-  //       //     />
-  //       //   );
-  //       //   setSignInDataElem(content);
-  //       // }
-  //       setStatus(Status.Standby);
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   }
-  //   fn().then();
-  // }, [setStatus, searchParams, setTitle, setContent, credential]);
+  console.log(1, commitmentData, commitmentReceipt);
 
   const handleClickSubmit = React.useCallback(async () => {
     if (publicKey && credential) {
