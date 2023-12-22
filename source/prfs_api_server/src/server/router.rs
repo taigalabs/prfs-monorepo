@@ -27,6 +27,8 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
 
     let resp = if p.starts_with("/id_api") {
         id_server_routes(req, state).await
+    } else if p.starts_with("/attestation_api") {
+        auth_server_routes(req, state).await
     } else {
         match (req.method(), req.uri().path()) {
             (&Method::OPTIONS, _) => handle_cors(),
