@@ -15,6 +15,7 @@ import {
   PrfsIdCommitmentSuccessPayload,
   PrfsIdMsg,
   getCommitment,
+  makeAttestation,
   newPrfsIdMsg,
 } from "@taigalabs/prfs-id-sdk-web";
 
@@ -113,11 +114,18 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
 
   const tweetContent = React.useMemo(() => {
     if (claimCm) {
-      const attVersion = "ATST_1";
+      const attType = "ATST_1";
       const provenance = "Prfs";
       const destination = "Twitter";
-      const handle = formData[TWITTER_HANDLE];
-      return `--attestation ${attVersion} ${provenance} ${destination} ${handle} ${claimCm}`;
+      const id = formData[TWITTER_HANDLE];
+
+      return makeAttestation({
+        attType,
+        provenance,
+        destination,
+        id,
+        cm: claimCm,
+      });
     } else {
       return null;
     }

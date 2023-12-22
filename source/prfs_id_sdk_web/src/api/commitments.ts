@@ -1,6 +1,6 @@
 import { decrypt, PrivateKey } from "eciesjs";
 
-import { API_PATH } from "./path";
+import { API_PATH } from "../api_path";
 
 export function getCommitment({
   prfsIdEndpoint,
