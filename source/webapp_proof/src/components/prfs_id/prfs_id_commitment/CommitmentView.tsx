@@ -7,39 +7,46 @@ import {
   makeECCredential,
 } from "@taigalabs/prfs-crypto-js";
 import { FaRegAddressCard } from "@react-icons/all-files/fa/FaRegAddressCard";
-import { CommitmentData } from "@taigalabs/prfs-id-sdk-web";
+import { MdNoteAdd } from "@react-icons/all-files/md/MdNoteAdd";
+import { CommitmentData, CommitmentType } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./CommitmentView.module.scss";
 import { i18nContext } from "@/i18n/context";
 
-const CommitmentView: React.FC<CommitmentViewProps> = ({
-  commitmentData,
-  commitmentReceipt,
-  // credential,
-  // appId,
-  // setSignInData,
+export const CommitmentViewList: React.FC<CommitmentViewListProps> = ({ children }) => {
+  return <ul className={styles.list}>{children}</ul>;
+};
+
+export const CommitmentViewItem: React.FC<CommitmentViewItemProps> = ({
+  name,
+  hashedHex,
+  val,
+  type,
 }) => {
   const i18n = React.useContext(i18nContext);
 
-  // const elems = React.useMemo(() => {
-  //   for (const key in commitmentData) {
-  //     const { val, type } =
-  //   }
-  //   return null;
-  // }, [commitmentData, commitmentReceipt]);
-
   return (
-    <>
-      <ul className={styles.wrapper}></ul>
-    </>
+    <li className={styles.item}>
+      <div className={styles.leftCol}>
+        <MdNoteAdd />
+      </div>
+      <div className={styles.rightCol}>
+        <div className={styles.name}>{name}</div>
+        <div className={styles.val}>Value: {val}</div>
+        <div className={styles.type}>({type})</div>
+        <div className={styles.hashed}>{hashedHex}</div>
+      </div>
+    </li>
   );
 };
 
-export default CommitmentView;
+export interface CommitmentViewListProps {
+  children: React.ReactNode;
+}
 
-export interface CommitmentViewProps {
-  commitmentData: CommitmentData;
-  commitmentReceipt: Record<string, string>;
-  // credential: PrfsIdCredential;
-  // appId: string;
+export interface CommitmentViewItemProps {
+  name: string;
+  hashedHex: string;
+  val: string;
+  type: CommitmentType;
 }

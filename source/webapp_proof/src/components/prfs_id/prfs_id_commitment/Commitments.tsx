@@ -13,10 +13,10 @@ import {
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt } from "eciesjs";
-import { useMutation } from "wagmi";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
 import { idApi } from "@taigalabs/prfs-api-js";
 import { hexlify } from "ethers/lib/utils";
+import { useMutation } from "@tanstack/react-query";
 
 import styles from "./Commitments.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -28,8 +28,7 @@ import {
   PrfsIdSignInModuleTitle,
   PrfsIdSignInWithPrfsId,
 } from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
-
-import CommitmentView from "./CommitmentView";
+import { CommitmentViewItem, CommitmentViewList } from "./CommitmentView";
 
 enum Status {
   Loading,
@@ -73,23 +72,32 @@ const Commitments: React.FC<CommitmentsProps> = ({
             return;
           }
 
+          let elems = [];
           let receipt: Record<string, string> = {};
-          for (const key in commitmentData) {
-            const { val, type } = commitmentData[key];
+          for (const name in commitmentData) {
+            const { val, type } = commitmentData[name];
 
             if (type === CommitmentType.SIG_POSEIDON_1) {
               const sig = await prfsSign(credential.secret_key, val);
               const sigBytes = sig.toCompactRawBytes();
               const hashed = await poseidon_2(sigBytes);
               const hashedHex = hexlify(hashed);
-              receipt[key] = hashedHex;
+              receipt[name] = hashedHex;
+              elems.push(
+                <CommitmentViewItem
+                  key={name}
+                  name={name}
+                  val={val}
+                  type={type}
+                  hashedHex={hashedHex}
+                />,
+              );
             }
           }
 
+          const listElem = <CommitmentViewList>{elems}</CommitmentViewList>;
           setCommitmentReceipt(receipt);
-          setCommitmentViewElem(
-            <CommitmentView commitmentData={commitmentData} commitmentReceipt={receipt} />,
-          );
+          setCommitmentViewElem(listElem);
         }
       } catch (err) {
         console.error(err);
