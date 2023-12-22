@@ -21,7 +21,7 @@ import {
 
 import styles from "./CreateTwitterAccAtst.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { AttestationsMain, AttestationsTitle } from "@/components/attestations/Attestations";
+import { AttestationsTitle } from "@/components/attestations/Attestations";
 import { useRandomKeyPair } from "@/hooks/key";
 import { envs } from "@/envs";
 import { paths } from "@/paths";
