@@ -3,7 +3,7 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 
-import styles from "./Step1.module.scss";
+import styles from "./InputCreateIdCredential.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   PrfsIdSignInInnerPadding,
@@ -15,11 +15,11 @@ import {
   PrfsIdSignInModuleLogoArea,
   PrfsIdSignInModuleSubtitle,
   PrfsIdSignInModuleTitle,
-} from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
+} from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
 import { IdCreateForm } from "@/functions/validate_id";
 import { PrfsIdCredential, makePrfsIdCredential } from "@taigalabs/prfs-crypto-js";
 
-const Step1: React.FC<Step1Props> = ({
+const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
   formData,
   setFormData,
   formErrors,
@@ -162,9 +162,9 @@ const Step1: React.FC<Step1Props> = ({
   );
 };
 
-export default Step1;
+export default InputCreateIdCredential;
 
-export interface Step1Props {
+export interface InputCreateIdCredentialProps {
   formData: IdCreateForm;
   setFormData: React.Dispatch<React.SetStateAction<IdCreateForm>>;
   formErrors: IdCreateForm;

@@ -12,8 +12,7 @@ import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 import styles from "./ProofTypeMasthead.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
-import { useIsTutorial } from "@/hooks/tutorial";
-import PrfsIdSignInBtn from "@/components/prfs_id_sign_in_btn/PrfsIdSignInBtn";
+import PrfsIdSignInBtn from "@/components/prfs_id/prfs_id_sign_in_btn/PrfsIdSignInBtn";
 import PrfsAppsPopoverDefault from "@/components/prfs_apps_popover_default/PrfsAppsPopoverDefault";
 import {
   MastheadLogoArea,

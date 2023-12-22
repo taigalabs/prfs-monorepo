@@ -1,6 +1,6 @@
 export * from "./msg";
-export * from "./query_string";
 export * from "./local_storage";
+export * from "./api";
 
 export function newPrfsIdMsg(type: PrfsIdMsgType, payload: any): PrfsIdMsg<any> {
   return {
@@ -24,4 +24,12 @@ export interface PrfsIdSignInSuccessPayload {
   public_key: string;
 }
 
-export type PrfsIdMsgType = "SIGN_IN_SUCCESS" | "SIGN_IN_SUCCESS_RESPOND";
+export interface PrfsIdCommitmentSuccessPayload {
+  receipt: Record<string, string>;
+}
+
+export type PrfsIdMsgType =
+  | "SIGN_IN_SUCCESS"
+  | "SIGN_IN_SUCCESS_RESPOND"
+  | "COMMITMENT_SUCCESS"
+  | "COMMITMENT_SUCCESS_RESPOND";

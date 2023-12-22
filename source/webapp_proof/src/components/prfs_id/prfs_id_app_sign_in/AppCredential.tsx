@@ -5,17 +5,17 @@ import { useSearchParams } from "next/navigation";
 import {
   PrfsIdSignInSuccessPayload,
   sendMsgToOpener,
-  type PrfsIdSignInSuccessMsg,
   StoredCredential,
   persistPrfsIdCredential,
+  PrfsIdMsg,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt } from "eciesjs";
-import { useMutation } from "wagmi";
+import { useMutation } from "@tanstack/react-query";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
 import { idApi } from "@taigalabs/prfs-api-js";
 
-import styles from "./Step2.module.scss";
+import styles from "./AppCredential.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   PrfsIdSignInErrorMsg,
@@ -24,19 +24,15 @@ import {
   PrfsIdSignInModuleHeader,
   PrfsIdSignInModuleTitle,
   PrfsIdSignInWithPrfsId,
-} from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
-import { IdCreateForm } from "@/functions/validate_id";
+} from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
 import SignInInputs, { PrfsSignInData } from "./SignInInputs";
 
-enum Step2Status {
+enum AppCredentialStatus {
   Loading,
   Standby,
 }
 
-const Step2: React.FC<Step2Props> = ({
-  formData,
-  formErrors,
-  setFormData,
+const AppCredential: React.FC<AppCredentialProps> = ({
   handleClickPrev,
   appId,
   publicKey,
@@ -44,7 +40,7 @@ const Step2: React.FC<Step2Props> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
-  const [step2Status, setStep2Status] = React.useState(Step2Status.Loading);
+  const [appCredentialStatus, setAppCredentialStatus] = React.useState(AppCredentialStatus.Loading);
   const [title, setTitle] = React.useState<React.ReactNode>(null);
   const [errorMsg, setErrorMsg] = React.useState("");
   const [signInDataElem, setSignInDataElem] = React.useState<React.ReactNode>(null);
@@ -81,25 +77,23 @@ const Step2: React.FC<Step2Props> = ({
           );
           setSignInDataElem(content);
         }
-        setStep2Status(Step2Status.Standby);
+        setAppCredentialStatus(AppCredentialStatus.Standby);
       } catch (err) {
         console.error(err);
       }
     }
     fn().then();
   }, [
-    setStep2Status,
+    setAppCredentialStatus,
     searchParams,
     setTitle,
     setSignInData,
     setSignInDataElem,
-    formData,
     credential,
-    handleClickPrev,
   ]);
 
   const handleClickSignIn = React.useCallback(async () => {
-    if (formData && publicKey && credential) {
+    if (publicKey && credential) {
       const { payload: _signInRequestPayload, error } = await prfsIdentitySignInRequest({
         identity_id: credential.id,
       });
@@ -120,7 +114,7 @@ const Step2: React.FC<Step2Props> = ({
       };
       const encrypted = encrypt(publicKey, Buffer.from(JSON.stringify(payload)));
       console.log("Encrypted credential", encrypted);
-      const msg: PrfsIdSignInSuccessMsg = {
+      const msg: PrfsIdMsg<Buffer> = {
         type: "SIGN_IN_SUCCESS",
         payload: encrypted,
       };
@@ -142,7 +136,7 @@ const Step2: React.FC<Step2Props> = ({
 
   return (
     <>
-      {step2Status === Step2Status.Loading && (
+      {appCredentialStatus === AppCredentialStatus.Loading && (
         <div className={styles.overlay}>
           <Spinner color="#1b62c0" />
         </div>
@@ -181,12 +175,9 @@ const Step2: React.FC<Step2Props> = ({
   );
 };
 
-export default Step2;
+export default AppCredential;
 
-export interface Step2Props {
-  formData: IdCreateForm;
-  formErrors: IdCreateForm;
-  setFormData: React.Dispatch<React.SetStateAction<IdCreateForm>>;
+export interface AppCredentialProps {
   handleClickPrev: () => void;
   appId: string;
   publicKey: string;

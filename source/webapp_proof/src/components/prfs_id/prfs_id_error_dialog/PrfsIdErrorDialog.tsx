@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
-import { AiOutlineQrcode } from "@react-icons/all-files/ai/AiOutlineQrcode";
 import {
   useFloating,
   useDismiss,
@@ -13,12 +12,11 @@ import {
   FloatingOverlay,
   FloatingPortal,
 } from "@floating-ui/react";
-import Link from "next/link";
 
-import styles from "./ErrorDialog.module.scss";
+import styles from "./PrfsIdErrorDialog.module.scss";
 import { i18nContext } from "@/i18n/context";
 
-const ErrorDialog: React.FC<ErrorDialogProps> = ({ errorMsg, handleClose }) => {
+const PrfsIdErrorDialog: React.FC<PrfsIdErrorDialogProps> = ({ errorMsg, handleClose }) => {
   const i18n = React.useContext(i18nContext);
   const [isOpen, setIsOpen] = React.useState(true);
   const handleClickClose = React.useCallback(() => {
@@ -73,9 +71,9 @@ const ErrorDialog: React.FC<ErrorDialogProps> = ({ errorMsg, handleClose }) => {
   );
 };
 
-export default ErrorDialog;
+export default PrfsIdErrorDialog;
 
-export interface ErrorDialogProps {
+export interface PrfsIdErrorDialogProps {
   errorMsg: string | null;
   handleClose: () => void;
 }

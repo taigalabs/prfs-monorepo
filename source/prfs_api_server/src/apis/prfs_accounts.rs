@@ -29,19 +29,12 @@ pub async fn sign_up_prfs_account(
 
     let account_id = db_apis::insert_prfs_account(&mut tx, &prfs_account)
         .await
-        .map_err(|_err| {
+        .map_err(|err| {
             hyper_utils::ApiHandleError::from(
                 &API_ERROR_CODES.USER_ALREADY_EXISTS,
-                req.account_id.into(),
+                format!("account_id: {}, err: {}", req.account_id, err).into(),
             )
         })?;
-    //     {
-    //     Ok(i) => i,
-    //     Err(_err) => {
-    //         let resp = ApiResponse::new_error(format!("Account may exist, id: {}", req.account_id));
-    //         return Ok(resp.into_hyper_response());
-    //     }
-    // };
 
     tx.commit().await.unwrap();
 
@@ -66,13 +59,6 @@ pub async fn sign_in_prfs_account(
                 req.account_id.into(),
             )
         })?;
-    // {
-    //     Ok(v) => v,
-    //     Err(err) => {
-    //         let resp = ApiResponse::new_error(format!("Account may exist, id: {}", req.account_id));
-    //         return Ok(resp.into_hyper_response());
-    //     }
-    // };
 
     let resp = ApiResponse::new_success(PrfsSignInResponse { prfs_account });
 

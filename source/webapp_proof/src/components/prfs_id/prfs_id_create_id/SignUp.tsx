@@ -12,10 +12,10 @@ import { PrfsIdCredential, makeColor } from "@taigalabs/prfs-crypto-js";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 import { IdCreateForm } from "@/functions/validate_id";
 import Link from "next/link";
-import { useMutation } from "wagmi";
+import { useMutation } from "@tanstack/react-query";
 import { PrfsIdentitySignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignUpRequest";
 
-import styles from "./Step2.module.scss";
+import styles from "./SignUp.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   PrfsIdSignInErrorMsg,
@@ -26,7 +26,7 @@ import {
   PrfsIdSignInModuleLogoArea,
   PrfsIdSignInModuleSubtitle,
   PrfsIdSignInModuleTitle,
-} from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
+} from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
 
 export enum IdCreationStatus {
   StandBy,
@@ -34,11 +34,11 @@ export enum IdCreationStatus {
   Error,
 }
 
-const Step2: React.FC<Step2Props> = ({
+const SignUp: React.FC<SignUpProps> = ({
   formData,
   handleClickPrev,
   handleClickSignIn,
-  handleGotoPostSignUpSuccess,
+  handleSucceedCreateId,
   credential,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -63,9 +63,9 @@ const Step2: React.FC<Step2Props> = ({
   }, [formData]);
 
   const handleClickSignUp = React.useCallback(async () => {
-    const { id } = credential;
+    if (credential) {
+      const { id } = credential;
 
-    if (id) {
       try {
         setStatus(IdCreationStatus.InProgress);
         const avatar_color = makeColor(id);
@@ -78,20 +78,13 @@ const Step2: React.FC<Step2Props> = ({
         if (error) {
           setErrorMsg(error.toString());
         } else {
-          handleGotoPostSignUpSuccess();
+          handleSucceedCreateId(credential);
         }
       } catch (err: any) {
         setErrorMsg(err.toString());
       }
     }
-  }, [
-    formData,
-    router,
-    prfsIdentitySignUpRequest,
-    credential,
-    setErrorMsg,
-    handleGotoPostSignUpSuccess,
-  ]);
+  }, [formData, router, prfsIdentitySignUpRequest, credential, setErrorMsg, handleSucceedCreateId]);
 
   const { email_val, password_1_val, password_2_val, secret_key_val } = React.useMemo(() => {
     if (showPassword) {
@@ -229,12 +222,12 @@ const Step2: React.FC<Step2Props> = ({
   );
 };
 
-export default Step2;
+export default SignUp;
 
-export interface Step2Props {
+export interface SignUpProps {
   formData: IdCreateForm;
   handleClickPrev: () => void;
   handleClickSignIn: () => void;
-  handleGotoPostSignUpSuccess: () => void;
   credential: PrfsIdCredential;
+  handleSucceedCreateId: (credential: PrfsIdCredential) => void;
 }

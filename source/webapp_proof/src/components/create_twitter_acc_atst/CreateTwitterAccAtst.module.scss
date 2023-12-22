@@ -1,5 +1,5 @@
 .title {
-  padding-bottom: 16px;
+  /* padding-bottom: 16px; */
 }
 
 .instructions {
@@ -15,7 +15,7 @@
 
   .item {
     display: flex;
-    padding-bottom: 20px;
+    padding-bottom: 24px;
     position: relative;
 
     &.isDisabled {
@@ -28,6 +28,7 @@
   .no {
     width: 40px;
     flex-shrink: 0;
+    font-size: 16px;
   }
 
   .right {
@@ -44,15 +45,89 @@
     }
   }
 
+  .descTitle {
+    font-size: 16px;
+  }
+
   .btn {
-    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--gray-50);
     border-radius: 20px;
     padding: 0 18px;
     height: 40px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--bright-blue-55);
+    }
+
+    svg {
+      margin-right: 2px;
+    }
   }
 
   .row {
     padding: 1px 0 14px;
+  }
+
+  .tweetContent {
+    padding-bottom: 14px;
+    width: 480px;
+
+    .box {
+      display: flex;
+      border: 1px solid var(--gray-50);
+      border-radius: 5px;
+      padding: 8px;
+      word-break: break-all;
+
+      .btnArea {
+        display: flex;
+        align-items: center;
+        width: 60px;
+        padding-left: 12px;
+        font-size: 20px;
+
+        button {
+          color: var(--gray-20);
+          width: 40px;
+          height: 40px;
+          border-radius: 20px;
+          cursor: pointer;
+          display: grid;
+          place-items: center;
+
+          &:hover {
+            background-color: var(--bright-gray-32);
+          }
+        }
+      }
+    }
+  }
+
+  .claimCm {
+    display: flex;
+
+    .value {
+      padding-left: 16px;
+      font-size: 13px;
+      width: 300px;
+      word-break: break-all;
+    }
+  }
+
+  .tweetContentBtnRow {
+    display: flex;
+    align-items: center;
+
+    > p {
+      padding-left: 16px;
+    }
+
+    a {
+      color: var(--blue-15);
+    }
   }
 }
 
@@ -64,4 +139,18 @@
 
 .input {
   height: 40px;
+}
+
+@media screen and (max-width: 480px) {
+  .instructions {
+    .tweetContent {
+      width: auto;
+    }
+
+    .claimCm {
+      .value {
+        width: auto;
+      }
+    }
+  }
 }

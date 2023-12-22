@@ -2,8 +2,9 @@ import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useRouter } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
+import { PrfsIdCredential, makePrfsIdCredential } from "@taigalabs/prfs-crypto-js";
 
-import styles from "./Step1.module.scss";
+import styles from "./InputCredential.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   PrfsIdSignInInnerPadding,
@@ -14,38 +15,31 @@ import {
   PrfsIdSignInModuleLogoArea,
   PrfsIdSignInModuleSubtitle,
   PrfsIdSignInModuleTitle,
-} from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
+} from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
 import { paths } from "@/paths";
 import { IdCreateForm } from "@/functions/validate_id";
-import { PrfsIdCredential, makePrfsIdCredential } from "@taigalabs/prfs-crypto-js";
 
-enum Step1Status {
+enum InputCredentialStatus {
   Loading,
   Standby,
 }
 
-const Step1: React.FC<Step1Props> = ({
+const InputCredential: React.FC<InputCredentialProps> = ({
   formData,
   formErrors,
   setFormData,
-  handleClickNext,
-  setCredential,
+  handleClickCreateID,
+  handleSucceedSignIn,
 }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
-  const [step1Status, setStep1Status] = React.useState(Step1Status.Standby);
+  const [status, setStatus] = React.useState(InputCredentialStatus.Standby);
   const [title, setTitle] = React.useState(i18n.sign_in);
 
   React.useEffect(() => {
     const { hostname } = window.location;
     setTitle(`${i18n.sign_in} to ${hostname}`);
   }, [setTitle]);
-
-  const handleClickCreateID = React.useCallback(() => {
-    const { search } = window.location;
-    const url = `${paths.id__create}${search}`;
-    router.push(url);
-  }, [router]);
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,9 +66,9 @@ const Step1: React.FC<Step1Props> = ({
     });
     // console.log("credential", credential, formData);
 
-    setCredential(credential);
-    handleClickNext();
-  }, [handleClickNext, setCredential, formData]);
+    // setCredential(credential);
+    handleSucceedSignIn(credential);
+  }, [handleSucceedSignIn, formData]);
 
   const handleKeyDown = React.useCallback(
     async (e: React.KeyboardEvent) => {
@@ -88,7 +82,7 @@ const Step1: React.FC<Step1Props> = ({
 
   return (
     <>
-      {step1Status === Step1Status.Loading && (
+      {status === InputCredentialStatus.Loading && (
         <div className={styles.overlay}>
           <Spinner color="#1b62c0" />
         </div>
@@ -158,13 +152,13 @@ const Step1: React.FC<Step1Props> = ({
   );
 };
 
-export default Step1;
+export default InputCredential;
 
-export interface Step1Props {
+export interface InputCredentialProps {
   errorMsg: string | null;
   formData: IdCreateForm;
   formErrors: IdCreateForm;
   setFormData: React.Dispatch<React.SetStateAction<IdCreateForm>>;
-  handleClickNext: () => void;
-  setCredential: React.Dispatch<React.SetStateAction<PrfsIdCredential | null>>;
+  handleSucceedSignIn: (credential: PrfsIdCredential) => void;
+  handleClickCreateID: () => void;
 }

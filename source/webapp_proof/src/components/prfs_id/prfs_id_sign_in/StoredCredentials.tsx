@@ -3,6 +3,7 @@ import { PrfsIdCredential, poseidon_2 } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { removeAllPrfsIdCredentials, StoredCredentialRecord } from "@taigalabs/prfs-id-sdk-web";
 import { decrypt, PrivateKey } from "eciesjs";
+import { hexlify } from "ethers/lib/utils";
 
 import styles from "./StoredCredentials.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -15,13 +16,12 @@ import {
   PrfsIdSignInModuleSubtitle,
   PrfsIdSignInModuleTitle,
   PrfsIdSignInWithPrfsId,
-} from "@/components/prfs_id_sign_in_module/PrfsIdSignInModule";
+} from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
 import {
   IdCreateForm,
   makeEmptyIDCreateFormErrors,
   makeEmptyIdCreateForm,
 } from "@/functions/validate_id";
-import { hexlify } from "ethers/lib/utils";
 
 export enum SignInStatus {
   Loading,
@@ -33,8 +33,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
   storedCredentials,
   appId,
   handleClickUseAnotherId,
-  handleClickNext,
-  setCredential,
+  handleSucceedSignIn,
   handleClickForgetAllCredentials,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -105,10 +104,9 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
         return;
       }
 
-      setCredential(credentialObj as PrfsIdCredential);
-      handleClickNext();
+      handleSucceedSignIn(credentialObj as PrfsIdCredential);
     }
-  }, [handleClickNext, formData, selectedCredentialId, setErrorMsg, setCredential]);
+  }, [handleSucceedSignIn, formData, selectedCredentialId, setErrorMsg]);
 
   const handleKeyDown = React.useCallback(
     async (e: React.KeyboardEvent) => {
@@ -214,7 +212,6 @@ export interface StoredCredentialsProps {
   storedCredentials: StoredCredentialRecord;
   appId: string;
   handleClickUseAnotherId: () => void;
-  handleClickNext: () => void;
-  setCredential: React.Dispatch<React.SetStateAction<PrfsIdCredential | null>>;
+  handleSucceedSignIn: (credential: PrfsIdCredential) => void;
   handleClickForgetAllCredentials: () => void;
 }
