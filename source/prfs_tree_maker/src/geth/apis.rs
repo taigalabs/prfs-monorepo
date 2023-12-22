@@ -6,7 +6,7 @@ use crate::envs::ENVS;
 use crate::geth::io_models::{GetBalanceRequest, GetBalanceResponse};
 use crate::make_request_type;
 use colored::Colorize;
-use hyper::{client::HttpConnector, Body, Client as HyperClient, Method, Request};
+use hyper_014::{client::HttpConnector, Body, Client as HyperClient, Method, Request};
 use hyper_tls::HttpsConnector;
 
 pub struct GethClient {
@@ -24,7 +24,7 @@ impl GethClient {
         );
 
         let https = HttpsConnector::new();
-        let hyper_client = HyperClient::builder().build::<_, hyper::Body>(https);
+        let hyper_client = HyperClient::builder().build::<_, hyper_014::Body>(https);
 
         GethClient {
             hyper_client,
@@ -80,7 +80,7 @@ macro_rules! make_request_type {
             };
 
             let resp = self.hyper_client.request(req).await?;
-            let body = hyper::body::to_bytes(resp.into_body()).await?;
+            let body = hyper_014::body::to_bytes(resp.into_body()).await?;
 
             let res: $resp_type = match serde_json::from_slice(&body) {
                 Ok(r) => r,
