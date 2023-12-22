@@ -1,4 +1,3 @@
-use const_format::formatcp;
 use http_body_util::{BodyExt, Full};
 use hyper::body::{Buf, Bytes, Incoming};
 use hyper::{header, Method, Request, Response, StatusCode};
