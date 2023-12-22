@@ -1,6 +1,5 @@
 import React from "react";
-import { decrypt, PrivateKey } from "eciesjs";
-// import { PrfsIdSignInSuccessPayload, SignInData } from "@taigalabs/prfs-id-sdk-web";
+import { PrivateKey } from "eciesjs";
 
 export function useRandomKeyPair(): { sk: PrivateKey; pkHex: string } {
   const secretKeyRef = React.useRef<PrivateKey | null>(null);
