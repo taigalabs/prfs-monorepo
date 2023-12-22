@@ -1,5 +1,4 @@
 export * from "./msg";
-export * from "./query_string";
 export * from "./local_storage";
 export * from "./api";
 

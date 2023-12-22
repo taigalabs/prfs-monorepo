@@ -6,7 +6,7 @@ import {
   poseidon_2,
   makeECCredential,
 } from "@taigalabs/prfs-crypto-js";
-import { SignInData } from "@taigalabs/prfs-id-sdk-web";
+import { AppSignInData } from "@taigalabs/prfs-id-sdk-web";
 import { FaRegAddressCard } from "@react-icons/all-files/fa/FaRegAddressCard";
 
 import styles from "./SignInInputs.module.scss";
@@ -30,7 +30,7 @@ const SignInInputs: React.FC<SignInInputsProps> = ({
     async function fn() {
       let el = [];
       for (const d of signInDataMeta) {
-        if (d === SignInData.ID_POSEIDON) {
+        if (d === AppSignInData.ID_POSEIDON) {
           const sig = await prfsSign(credential.secret_key, appId);
           const sigBytes = sig.toCompactRawBytes();
           const sigHash = await poseidon_2(sigBytes);

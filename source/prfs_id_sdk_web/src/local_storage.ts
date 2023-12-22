@@ -1,5 +1,3 @@
-import { PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
-
 const PRFS_ID_STORAGE_KEY = "prfs_id";
 
 export type PrfsId = string;

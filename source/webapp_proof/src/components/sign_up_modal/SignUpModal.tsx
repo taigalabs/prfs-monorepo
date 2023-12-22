@@ -2,11 +2,6 @@ import React from "react";
 import cn from "classnames";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useRouter } from "next/navigation";
-import {
-  persistPrfsIdCredential,
-  PrfsIdSignInSuccessPayload,
-  SignInData,
-} from "@taigalabs/prfs-id-sdk-web";
 import { useMutation } from "wagmi";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSignUpRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignUpRequest";
@@ -14,8 +9,8 @@ import Modal from "@taigalabs/prfs-react-components/src/modal/Modal";
 
 import styles from "./SignUpModal.module.scss";
 import { paths } from "@/paths";
-import { useAppDispatch, useAppSelector } from "@/state/hooks";
-import { signInPrfs, signOutPrfs } from "@/state/userReducer";
+import { useAppDispatch } from "@/state/hooks";
+import { signInPrfs } from "@/state/userReducer";
 import { LocalPrfsProofCredential, persistPrfsProofCredential } from "@/storage/local_storage";
 import { i18nContext } from "@/i18n/context";
 

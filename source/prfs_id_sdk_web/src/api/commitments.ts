@@ -35,4 +35,6 @@ export interface CommitmentMeta {
   type: CommitmentType;
 }
 
-export type CommitmentType = "SIG_POSEIDON_1";
+export enum CommitmentType {
+  SIG_POSEIDON_1 = "SIG_POSEIDON_1",
+}

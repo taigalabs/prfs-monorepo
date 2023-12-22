@@ -6,11 +6,11 @@ import {
   poseidon_2,
   makeECCredential,
 } from "@taigalabs/prfs-crypto-js";
-import { SignInData } from "@taigalabs/prfs-id-sdk-web";
 import { FaRegAddressCard } from "@react-icons/all-files/fa/FaRegAddressCard";
 
 import styles from "./CommitmentData.module.scss";
 import { i18nContext } from "@/i18n/context";
+import { CommitmentType } from "@taigalabs/prfs-id-sdk-web";
 
 export interface CommitmentData {
   account_id: string;
@@ -30,7 +30,7 @@ const CommitmentData: React.FC<CommitmentDataProps> = ({
     async function fn() {
       let el = [null];
       for (const cm of commitmentsMeta) {
-        if (cm === SignInData.ID_POSEIDON) {
+        if (cm === CommitmentType.SIG_POSEIDON_1) {
           const sig = await prfsSign(credential.secret_key, appId);
           const sigBytes = sig.toCompactRawBytes();
           const sigHash = await poseidon_2(sigBytes);

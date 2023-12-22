@@ -12,9 +12,14 @@ export function useCommitments() {
 
         if (cms) {
           const d = decodeURIComponent(cms);
-          const data = d.split(",");
 
-          console.log(data);
+          let obj;
+          try {
+            obj = JSON.parse(d);
+          } catch (err) {
+            console.error("failed to parse cms, obj: %s, err: %s", d, err);
+            return;
+          }
 
           // const content = (
           //   <CommitmentData
