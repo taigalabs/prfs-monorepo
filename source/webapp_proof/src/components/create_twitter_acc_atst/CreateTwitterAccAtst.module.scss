@@ -47,7 +47,7 @@
   .btn {
     display: flex;
     align-items: center;
-    border: 1px solid var(--black-20);
+    border: 1px solid var(--gray-50);
     border-radius: 20px;
     padding: 0 18px;
     height: 40px;
@@ -79,8 +79,25 @@
     }
 
     .btnArea {
+      display: flex;
+      align-items: center;
       width: 60px;
       padding-left: 12px;
+      font-size: 20px;
+
+      button {
+        color: var(--gray-20);
+        width: 40px;
+        height: 40px;
+        border-radius: 20px;
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+
+        &:hover {
+          background-color: var(--bright-gray-32);
+        }
+      }
     }
   }
 }
@@ -95,7 +112,7 @@
   height: 40px;
 }
 
-@media screen and (max-width: 1120px) {
+@media screen and (max-width: 480px) {
   .instructions {
     .tweetContent {
       width: auto;

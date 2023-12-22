@@ -41,12 +41,6 @@ const InputCredential: React.FC<InputCredentialProps> = ({
     setTitle(`${i18n.sign_in} to ${hostname}`);
   }, [setTitle]);
 
-  // const handleClickCreateID = React.useCallback(() => {
-  //   const { search } = window.location;
-  //   const url = `${paths.id__create_id}${search}`;
-  //   router.push(url);
-  // }, [router]);
-
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
       const name = ev.target.name;

@@ -5,6 +5,7 @@ import cn from "classnames";
 import { Input } from "@taigalabs/prfs-react-components/src/input/Input";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
+import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 
 import styles from "./CreateTwitterAccAtst.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -20,7 +21,6 @@ import {
 import { envs } from "@/envs";
 import { paths } from "@/paths";
 import { decrypt } from "eciesjs";
-import PrfsIdCommitment from "../prfs_id/prfs_id_commitment/PrfsIdCommitment";
 
 const TWITTER_HANDLE = "twitter_handle";
 const TWEET_URL = "tweet_url";
@@ -221,7 +221,9 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
                       <div className={styles.box}>
                         <p>{tweetContent}</p>
                         <div className={styles.btnArea}>
-                          <button>copy</button>
+                          <button type="button">
+                            <AiOutlineCopy />
+                          </button>
                         </div>
                       </div>
                     </div>
