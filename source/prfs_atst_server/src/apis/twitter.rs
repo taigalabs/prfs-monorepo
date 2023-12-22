@@ -9,29 +9,28 @@ use prfs_entities::apis_entities::{
     PrfsIdentitySignInRequest, PrfsIdentitySignInResponse, PrfsIdentitySignUpRequest,
     PrfsIdentitySignUpResponse,
 };
+use prfs_entities::atst_api_entities::{ScrapeTwitterRequest, ScrapeTwitterResponse};
 use prfs_entities::entities::PrfsIdentity;
 use std::sync::Arc;
 
 use crate::error_codes::API_ERROR_CODE;
 
 pub async fn scrape_tweet(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
-    let req: PrfsIdentitySignUpRequest = parse_req(req).await;
+    let req: ScrapeTwitterRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let mut tx = pool.begin().await.unwrap();
-    let prfs_identity = PrfsIdentity {
-        identity_id: req.identity_id.to_string(),
-        avatar_color: req.avatar_color.to_string(),
-    };
+    // let mut tx = pool.begin().await.unwrap();
+    // let prfs_identity = PrfsIdentity {
+    //     identity_id: req.identity_id.to_string(),
+    //     avatar_color: req.avatar_color.to_string(),
+    // };
 
-    let identity_id = db_apis::insert_prfs_identity(&mut tx, &prfs_identity)
-        .await
-        .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.UNKNOWN_ERROR, err))?;
+    // let identity_id = db_apis::insert_prfs_identity(&mut tx, &prfs_identity)
+    //     .await
+    //     .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.UNKNOWN_ERROR, err))?;
 
-    tx.commit().await.unwrap();
+    // tx.commit().await.unwrap();
 
-    let resp = ApiResponse::new_success(PrfsIdentitySignUpResponse {
-        identity_id: identity_id.to_string(),
-    });
+    let resp = ApiResponse::new_success(ScrapeTwitterResponse {});
 
     return Ok(resp.into_hyper_response());
 }
