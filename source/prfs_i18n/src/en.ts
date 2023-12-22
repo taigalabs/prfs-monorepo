@@ -39,7 +39,7 @@ export default {
   type_merkle_proof: "Type merkle proof",
   feedback: "Feedback",
   id: "Id",
-  what_is_the_tweet_url: "What is the tweet URL?",
+  what_is_the_tweet_url: "What is the URL of a tweet you made in the previous step?",
   tweet_url_example_given: "e.g. https://twitter.com/elonmusk/status/1737488430202851389",
   generate_a_cryptographic_claim: "Generate a cryptographic claim",
   what_is_your_twitter_handle: "What is your Twitter handle?",

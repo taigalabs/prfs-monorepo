@@ -260,7 +260,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
             </li>
             <li
               className={cn(styles.item, {
-                [styles.isDisabled]: step < AttestationStep.VALIDATE_TWEET,
+                [styles.isDisabled]: step < AttestationStep.POST_TWEET,
               })}
             >
               <div className={styles.overlay} />
