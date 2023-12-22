@@ -140,7 +140,7 @@ const Commitments: React.FC<CommitmentsProps> = ({
       };
 
       await sendMsgToOpener(msg);
-      // window.close();
+      window.close();
     }
   }, [searchParams, publicKey, credential, setErrorMsg, commitmentReceipt]);
 

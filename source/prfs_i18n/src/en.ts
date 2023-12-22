@@ -299,6 +299,7 @@ export default {
   create_poll_subtitle:
     "Polls are a great way to pick thoughts. Start by choosing proof type that participants should submit",
   questions: "Questions",
+  post_tweet: "Post a tweet",
   add_question: "Add question",
   votes: "Votes",
   poll: "Poll",
