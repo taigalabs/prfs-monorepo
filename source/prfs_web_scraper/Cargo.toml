@@ -1,13 +1,11 @@
 [package]
-name = "prfs_atst_server"
+name = "prfs_web_scraper"
 version = "0.1.0"
 edition = "2021"
 
 
 [dependencies]
 colored = "2.0"
-ethers-signers = "2.0.10"
-ethers-core = "2.0.10"
 tokio = { version = "1", features = ["full"] }
 tokio-stream = "0.1"
 tokio-postgres = "0.7"
@@ -18,8 +16,6 @@ hyper = { version = "1.0", features = ["full"] }
 hyper-tls-05 = { package = "hyper-tls", version = "0.5.0" }
 hyper-tls = "0.6"
 hyper-util = { version = "0.1", features = ["full"] }
-routerify = "3"
-routerify-cors = "3"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 serde_urlencoded = "0.7"
@@ -38,13 +34,11 @@ base62 = "2.0.2"
 csv = "1.2.2"
 git2 = "0.18.1"
 url = "2.5.0"
+scraper = "0.18.1"
 
 google-gmail1 = "5.0"
 
 hyper_utils = { path = "../hyper_utils" }
 prfs_db_interface = { path = "../prfs_db_interface" }
 prfs_tree_maker = { path = "../prfs_tree_maker" }
-prfs_circuits_circom = { path = "../prfs_circuits_circom" }
 prfs_entities = { path = "../prfs_entities" }
-prfs_common_server_state = { path = "../prfs_common_server_state" }
-prfs_web_scraper = { path = "../prfs_web_scraper" }

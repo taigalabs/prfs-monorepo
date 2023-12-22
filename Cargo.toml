@@ -9,17 +9,22 @@ members = [
   # utils
   "source/hyper_utils",
 
-  # prfs
+  # prfs lib
   "source/prfs_db_interface",
   "source/prfs_tree_maker",
-  "source/prfs_api_server",
-  "source/prfs_id_server",
-  "source/prfs_atst_server",
-  "source/prfs_asset_server",
   "source/prfs_crypto",
   "source/prfs_crypto_js",
   "source/prfs_entities",
   "source/prfs_common_server_state",
+
+  # web scraper
+  "source/prfs_web_scraper",
+
+  # prfs servers (standalone or not)
+  "source/prfs_api_server",
+  "source/prfs_id_server",
+  "source/prfs_atst_server",
+  "source/prfs_asset_server",
 
   # prfs cicuits
   "source/prfs_circuits_circom",
