@@ -229,7 +229,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
               <div className={styles.rightCol}>
                 <div className={styles.desc}>
                   <p className={styles.descTitle}>{i18n.post_tweet_with_content}</p>
-                  <p>{i18n.post_tweet_with_content}</p>
+                  <p>{i18n.try_not_to_close_this_window}</p>
                 </div>
                 <div className={styles.content}>
                   {tweetContent && (

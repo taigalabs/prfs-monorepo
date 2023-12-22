@@ -300,7 +300,7 @@ export default {
     "Polls are a great way to pick thoughts. Start by choosing proof type that participants should submit",
   questions: "Questions",
   post_tweet_with_content: "Post a tweet with the following content",
-  try_not_to_close_this_window: "Try not to close this window",
+  try_not_to_close_this_window: "Try not to close this window and comeback after tweeting",
   manually_tweet_at_twitter: "manually tweet at X (Twitter)",
   post: "Post",
   add_question: "Add question",
