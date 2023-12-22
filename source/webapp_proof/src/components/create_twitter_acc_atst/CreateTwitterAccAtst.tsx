@@ -153,7 +153,19 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
     });
   }, [formData, step, claimSecret, sk, pkHex]);
 
-  const handleClickStartOver = React.useCallback(() => {}, [formData, step]);
+  const handleClickStartOver = React.useCallback(() => {
+    window.location.reload();
+  }, [formData, step]);
+
+  const handleClickPostTweet = React.useCallback(() => {
+    if (tweetContent) {
+      const params = encodeURIComponent(tweetContent);
+      const url = `https://twitter.com/intent/tweet?text=${params}`;
+      window.open(url, "_blank");
+    } else {
+      console.error("no tweet content");
+    }
+  }, [tweetContent]);
 
   const handleClickCreate = React.useCallback(() => {}, [formData, step]);
 
@@ -217,6 +229,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
               <div className={styles.rightCol}>
                 <div className={styles.desc}>
                   <p className={styles.descTitle}>{i18n.post_tweet_with_content}</p>
+                  <p>{i18n.post_tweet_with_content}</p>
                 </div>
                 <div className={styles.content}>
                   {tweetContent && (
@@ -233,12 +246,14 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
                   )}
                 </div>
                 <div className={styles.tweetContentBtnRow}>
-                  <button className={styles.btn} type="button">
+                  <button className={styles.btn} type="button" onClick={handleClickPostTweet}>
                     {i18n.post}
                   </button>
                   <p>
                     <span>{i18n.or} </span>
-                    <a href="https://www.twitter.com">{i18n.go_to_twitter}</a>
+                    <a target="_blank" href="https://twitter.com">
+                      {i18n.manually_tweet_at_twitter}
+                    </a>
                   </p>
                 </div>
               </div>
