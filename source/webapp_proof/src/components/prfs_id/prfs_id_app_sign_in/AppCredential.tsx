@@ -5,9 +5,9 @@ import { useSearchParams } from "next/navigation";
 import {
   PrfsIdSignInSuccessPayload,
   sendMsgToOpener,
-  type PrfsIdSignInSuccessMsg,
   StoredCredential,
   persistPrfsIdCredential,
+  PrfsIdMsg,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt } from "eciesjs";
@@ -114,7 +114,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
       };
       const encrypted = encrypt(publicKey, Buffer.from(JSON.stringify(payload)));
       console.log("Encrypted credential", encrypted);
-      const msg: PrfsIdSignInSuccessMsg = {
+      const msg: PrfsIdMsg<Buffer> = {
         type: "SIGN_IN_SUCCESS",
         payload: encrypted,
       };

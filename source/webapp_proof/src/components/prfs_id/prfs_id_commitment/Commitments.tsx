@@ -5,11 +5,12 @@ import { useSearchParams } from "next/navigation";
 import {
   PrfsIdSignInSuccessPayload,
   sendMsgToOpener,
-  type PrfsIdSignInSuccessMsg,
   StoredCredential,
   persistPrfsIdCredential,
   CommitmentData,
   CommitmentType,
+  PrfsIdCommitmentSuccessPayload,
+  PrfsIdMsg,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt } from "eciesjs";
@@ -123,36 +124,27 @@ const Commitments: React.FC<CommitmentsProps> = ({
         return;
       }
 
-      // if (!signInData) {
-      //   setErrorMsg("no sign in data");
-      //   return;
-      // }
+      if (!commitmentReceipt) {
+        setErrorMsg("no commitment receipt");
+        return;
+      }
 
-      // const payload: PrfsIdSignInSuccessPayload = {
-      //   account_id: signInData.account_id,
-      //   public_key: signInData.public_key,
-      // };
-      // const encrypted = encrypt(publicKey, Buffer.from(JSON.stringify(payload)));
-      // console.log("Encrypted credential", encrypted);
-      // const msg: PrfsIdSignInSuccessMsg = {
-      //   type: "SIGN_IN_SUCCESS",
-      //   payload: encrypted,
-      // };
-      // const encryptedCredential = encrypt(
-      //   credential.encrypt_key,
-      //   Buffer.from(JSON.stringify(credential)),
-      // );
-      // let credentialArr = Array.prototype.slice.call(encryptedCredential);
-      // const credentialToStore: StoredCredential = {
-      //   id: credential.id,
-      //   credential: credentialArr,
-      // };
-      // persistPrfsIdCredential(credentialToStore);
+      const payload: PrfsIdCommitmentSuccessPayload = {
+        receipt: commitmentReceipt,
+      };
+      const encrypted = encrypt(publicKey, Buffer.from(JSON.stringify(payload)));
+      console.log("Encrypted credential", encrypted);
+      const msg: PrfsIdMsg<Buffer> = {
+        type: "COMMITMENT_SUCCESS",
+        payload: encrypted,
+      };
 
-      // await sendMsgToOpener(msg);
+      console.log(111, msg);
+
+      await sendMsgToOpener(msg);
       // window.close();
     }
-  }, [searchParams, publicKey, credential, setErrorMsg]);
+  }, [searchParams, publicKey, credential, setErrorMsg, commitmentReceipt]);
 
   return (
     <>

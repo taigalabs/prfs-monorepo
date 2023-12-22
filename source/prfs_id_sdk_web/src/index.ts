@@ -14,7 +14,12 @@ export interface PrfsIdMsg<T> {
   payload: T;
 }
 
-export interface PrfsIdSignInSuccessMsg {
+// export interface PrfsIdSuccessMsg {
+//   type: "SIGN_IN_SUCCESS;
+//   payload: Buffer; // SignInSuccessPayload;
+// }
+
+export interface PrfsIdCommitmentSuccessMsg {
   type: "SIGN_IN_SUCCESS";
   payload: Buffer; // SignInSuccessPayload;
 }
@@ -24,4 +29,8 @@ export interface PrfsIdSignInSuccessPayload {
   public_key: string;
 }
 
-export type PrfsIdMsgType = "SIGN_IN_SUCCESS" | "SIGN_IN_SUCCESS_RESPOND";
+export interface PrfsIdCommitmentSuccessPayload {
+  receipt: Record<string, string>;
+}
+
+export type PrfsIdMsgType = "SIGN_IN_SUCCESS" | "SIGN_IN_SUCCESS_RESPOND" | "COMMITMENT_SUCCESS";
