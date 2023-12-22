@@ -72,6 +72,7 @@ export default {
   desc_3: "c",
   key: "Key",
   value: "Value",
+  validate: "Validate",
   meta: "Meta",
   learn: "Learn",
   see_more: "See more",

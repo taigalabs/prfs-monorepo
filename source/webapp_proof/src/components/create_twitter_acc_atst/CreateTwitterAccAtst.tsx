@@ -283,7 +283,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
                   </div>
                   <div>
                     <button className={styles.btn} type="button">
-                      <span>validate</span>
+                      <span>{i18n.validate}</span>
                     </button>
                   </div>
                 </div>
