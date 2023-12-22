@@ -3,6 +3,7 @@ use hyper::{Method, Request, Response};
 use hyper_utils::cors::handle_cors;
 use hyper_utils::io::BytesBoxBody;
 use hyper_utils::resp::ApiResponse;
+use prfs_auth_server::server::router::auth_server_routes;
 use prfs_common_server_state::ServerState;
 use prfs_id_server::server::router::id_server_routes;
 use std::sync::Arc;

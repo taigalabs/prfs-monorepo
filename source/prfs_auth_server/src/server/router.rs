@@ -9,11 +9,13 @@ use prfs_common_server_state::ServerState;
 use std::sync::Arc;
 use tokio::net::TcpStream;
 
+use crate::apis::twitter;
+
 static NOTFOUND: &[u8] = b"Not Found";
 
 macro_rules! v0_path {
     ($path: tt) => {
-        concat!("/id_api/v0/", $path)
+        concat!("/attetstation_api/v0/", $path)
     };
 }
 
@@ -24,9 +26,7 @@ pub async fn auth_server_routes(
 ) -> Result<Response<BytesBoxBody>, ApiHandleError> {
     return match (req.method(), req.uri().path()) {
         (&Method::OPTIONS, _) => handle_cors(),
-        // (&Method::POST, v0_path!("sign_up_prfs_identity")) => {
-        //     prfs_identities::sign_up_prfs_identity(req, state).await
-        // }
+        (&Method::POST, v0_path!("scrape")) => twitter::scrape_tweet(req, state).await,
         // (&Method::POST, v0_path!("sign_in_prfs_identity")) => {
         //     prfs_identities::sign_in_prfs_identity(req, state).await
         // }
