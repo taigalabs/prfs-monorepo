@@ -25,7 +25,7 @@ import {
   PrfsIdSignInModuleTitle,
   PrfsIdSignInWithPrfsId,
 } from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
-import CommitmentData from "./CommitmentData";
+import CommitmentView from "./CommitmentView";
 import { useCommitments } from "./commitments";
 // import SignInInputs, { PrfsSignInData } from "./SignInInputs";
 

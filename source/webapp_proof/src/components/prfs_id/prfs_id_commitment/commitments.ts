@@ -1,5 +1,6 @@
 import React from "react";
 import { useSearchParams } from "next/navigation";
+import { CommitmentData } from "@taigalabs/prfs-id-sdk-web";
 
 export function useCommitments() {
   const searchParams = useSearchParams();
@@ -13,12 +14,16 @@ export function useCommitments() {
         if (cms) {
           const d = decodeURIComponent(cms);
 
-          let obj;
+          let obj: CommitmentData;
           try {
             obj = JSON.parse(d);
           } catch (err) {
             console.error("failed to parse cms, obj: %s, err: %s", d, err);
             return;
+          }
+
+          for (const key in obj) {
+            const { val, type } = obj[key];
           }
 
           // const content = (

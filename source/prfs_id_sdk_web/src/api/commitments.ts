@@ -27,7 +27,7 @@ export interface GetCommitmentArgs {
   preImage: string;
   sk: PrivateKey;
   pkHex: string;
-  cms: Record<string, CommitmentMeta>;
+  cms: CommitmentData;
 }
 
 export interface CommitmentMeta {
@@ -38,3 +38,5 @@ export interface CommitmentMeta {
 export enum CommitmentType {
   SIG_POSEIDON_1 = "SIG_POSEIDON_1",
 }
+
+export type CommitmentData = Record<string, CommitmentMeta>;

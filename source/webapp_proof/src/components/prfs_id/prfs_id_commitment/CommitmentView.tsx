@@ -8,7 +8,7 @@ import {
 } from "@taigalabs/prfs-crypto-js";
 import { FaRegAddressCard } from "@react-icons/all-files/fa/FaRegAddressCard";
 
-import styles from "./CommitmentData.module.scss";
+import styles from "./CommitmentView.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { CommitmentType } from "@taigalabs/prfs-id-sdk-web";
 
@@ -17,7 +17,7 @@ export interface CommitmentData {
   public_key: string;
 }
 
-const CommitmentData: React.FC<CommitmentDataProps> = ({
+const CommitmentView: React.FC<CommitmentViewProps> = ({
   commitmentsMeta,
   credential,
   appId,
@@ -78,9 +78,9 @@ const CommitmentData: React.FC<CommitmentDataProps> = ({
   );
 };
 
-export default CommitmentData;
+export default CommitmentView;
 
-export interface CommitmentDataProps {
+export interface CommitmentViewProps {
   commitmentsMeta: string[];
   credential: PrfsIdCredential;
   appId: string;
