@@ -216,7 +216,16 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
               <div className={styles.rightCol}>
                 <div className={styles.desc}>{i18n.post_tweet}</div>
                 <div className={styles.content}>
-                  {tweetContent && <div className={styles.tweetContent}>{tweetContent}</div>}
+                  {tweetContent && (
+                    <div className={styles.tweetContent}>
+                      <div className={styles.box}>
+                        <p>{tweetContent}</p>
+                        <div>
+                          <button>copy</button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                   <button className={styles.btn} type="button">
                     Post a tweet
                   </button>

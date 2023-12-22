@@ -65,6 +65,18 @@
   .row {
     padding: 1px 0 14px;
   }
+
+  .tweetContent {
+    padding-bottom: 14px;
+
+    .box {
+      display: flex;
+      border: 1px solid var(--gray-50);
+      border-radius: 5px;
+      padding: 8px;
+      word-break: break-all;
+    }
+  }
 }
 
 .btnRow {
