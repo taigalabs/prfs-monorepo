@@ -1,27 +1,13 @@
-use http_body_util::{BodyExt, Empty};
 use hyper::body::Incoming;
 use hyper::{Request, Response};
-use hyper_tls::HttpsConnector;
-use hyper_util::client::legacy::Client;
-use hyper_util::rt::{TokioExecutor, TokioIo};
 use hyper_utils::io::{empty, parse_req, ApiHandlerResult, BytesBoxBody};
 use hyper_utils::resp::ApiResponse;
 use hyper_utils::ApiHandleError;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::db_apis;
-use prfs_entities::apis_entities::{
-    PrfsIdentitySignInRequest, PrfsIdentitySignInResponse, PrfsIdentitySignUpRequest,
-    PrfsIdentitySignUpResponse,
-};
 use prfs_entities::atst_api_entities::{ScrapeTwitterRequest, ScrapeTwitterResponse};
-use prfs_entities::entities::PrfsIdentity;
-use prfs_web_scraper::vendors::twitter;
+use prfs_web_scraper::destinations::twitter;
 use std::sync::Arc;
-use tokio::io::AsyncWriteExt;
-use tokio::net::TcpStream;
-
-use hyper::body::Buf;
-use serde::Deserialize;
 
 use crate::error_codes::API_ERROR_CODE;
 use crate::AtstServerError;
