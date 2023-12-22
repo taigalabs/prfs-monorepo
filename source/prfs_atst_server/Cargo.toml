@@ -1,5 +1,5 @@
 [package]
-name = "prfs_auth_server"
+name = "prfs_atst_server"
 version = "0.1.0"
 edition = "2021"
 
@@ -38,6 +38,7 @@ base62 = "2.0.2"
 csv = "1.2.2"
 git2 = "0.18.1"
 url = "2.5.0"
+const_format = "0.2.32"
 
 google-gmail1 = "5.0"
 

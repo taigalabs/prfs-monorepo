@@ -14,7 +14,7 @@ members = [
   "source/prfs_tree_maker",
   "source/prfs_api_server",
   "source/prfs_id_server",
-  "source/prfs_auth_server",
+  "source/prfs_atst_server",
   "source/prfs_asset_server",
   "source/prfs_crypto",
   "source/prfs_crypto_js",

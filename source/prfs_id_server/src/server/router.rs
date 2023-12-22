@@ -13,6 +13,7 @@ use crate::apis::prfs_identities;
 use crate::IdServerError;
 
 static NOTFOUND: &[u8] = b"Not Found";
+pub const ID_API: &'static str = "/id_api";
 
 macro_rules! v0_path {
     ($path: tt) => {
