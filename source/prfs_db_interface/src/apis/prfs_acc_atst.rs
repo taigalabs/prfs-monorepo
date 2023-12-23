@@ -1,7 +1,6 @@
 use crate::DbInterfaceError;
 use prfs_entities::entities::{PrfsAccAtst, PrfsIdentity};
 use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
-use uuid::Uuid;
 
 pub async fn get_prfs_acc_atsts(
     pool: &Pool<Postgres>,
@@ -35,7 +34,7 @@ FROM prfs_acc_atsts
 pub async fn insert_prfs_acc_atst(
     tx: &mut Transaction<'_, Postgres>,
     prfs_acc_atst: &PrfsAccAtst,
-) -> Result<Uuid, DbInterfaceError> {
+) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_acc_atsts
 (acc_atst_id, atst_type, dest, account_id, cm, username, avatar_url, document_url)
@@ -53,7 +52,7 @@ VALUES ($1, $2, $3, $4, $5, $6, $7, $8) returning acc_atst_id"#;
         .fetch_one(&mut **tx)
         .await?;
 
-    let acc_atst_id: Uuid = row.get("acc_atst_id");
+    let acc_atst_id: String = row.get("acc_atst_id");
 
     return Ok(acc_atst_id);
 }

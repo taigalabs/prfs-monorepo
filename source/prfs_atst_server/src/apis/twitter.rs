@@ -24,6 +24,7 @@ pub async fn scrape_tweet(req: Request<Incoming>, state: Arc<ServerState>) -> Ap
         .unwrap();
 
     let prfs_acc_atst = PrfsAccAtst {
+        acc_atst_id: req.acc_atst_id,
         atst_type: twitter_scrape.atst_type,
         dest: twitter_scrape.dest,
         account_id: twitter_scrape.account_id,

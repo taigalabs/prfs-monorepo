@@ -5,8 +5,7 @@ use uuid::Uuid;
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]
 #[ts(export)]
 pub struct PrfsAccAtst {
-    #[ts(type = "string")]
-    pub acc_atst_id: Uuid,
+    pub acc_atst_id: String,
     pub atst_type: String,
     pub dest: String,
     pub account_id: String,

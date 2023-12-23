@@ -1,12 +1,12 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
-use uuid::Uuid;
 
 use crate::entities::PrfsAccAtst;
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct AttestTwitterAccRequest {
+    pub acc_atst_id: String,
     pub tweet_url: String,
     pub twitter_handle: String,
 }
@@ -15,8 +15,7 @@ pub struct AttestTwitterAccRequest {
 #[ts(export)]
 pub struct AttestTwitterAccResponse {
     pub is_valid: bool,
-    #[ts(type = "string")]
-    pub acc_atst_id: Uuid,
+    pub acc_atst_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
@@ -40,6 +39,5 @@ pub struct InsertPrfsAccAtstRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct InsertPrfsAccAtstResponse {
-    #[ts(type = "string")]
-    pub acc_atst_id: Uuid,
+    pub acc_atst_id: String,
 }
