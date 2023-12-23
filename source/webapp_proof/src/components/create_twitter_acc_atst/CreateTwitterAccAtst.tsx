@@ -47,7 +47,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
   }, [formData[TWITTER_HANDLE]]);
   const [step, setStep] = React.useState(AttestationStep.INPUT_TWITTER_HANDLE);
   const { sk, pkHex } = useRandomKeyPair();
-  const { mutateAsync: scrapeTweetRequest } = useMutation({
+  const { mutateAsync: attestTwitterAccRequest } = useMutation({
     mutationFn: (req: AttestTwitterAccRequest) => {
       return atstApi("attest_twitter_acc", req);
     },
@@ -168,15 +168,22 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
   }, [formData, step, claimSecret, sk, pkHex]);
 
   const handleClickValidate = React.useCallback(async () => {
+    const tweet_url = formData[TWEET_URL];
+    const twitter_handle = formData[TWITTER_HANDLE];
+
     const req: AttestTwitterAccRequest = {
       acc_atst_id: "1",
-      tweet_url: "",
-      twitter_handle: "",
+      tweet_url,
+      twitter_handle,
     };
-    const { payload, error } = await scrapeTweetRequest(req);
+    const { payload, error } = await attestTwitterAccRequest(req);
+
+    if (error) {
+      console.error(error);
+    }
 
     console.log(11, payload);
-  }, [scrapeTweetRequest]);
+  }, [attestTwitterAccRequest, formData[TWEET_URL], formData[TWITTER_HANDLE]]);
 
   const handleClickStartOver = React.useCallback(() => {
     window.location.reload();
