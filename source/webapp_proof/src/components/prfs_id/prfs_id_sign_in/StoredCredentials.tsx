@@ -1,7 +1,11 @@
 import React from "react";
-import { PrfsIdCredential, poseidon_2 } from "@taigalabs/prfs-crypto-js";
+import { poseidon_2 } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import { removeAllPrfsIdCredentials, StoredCredentialRecord } from "@taigalabs/prfs-id-sdk-web";
+import {
+  PrfsIdCredential,
+  removeAllPrfsIdCredentials,
+  StoredCredentialRecord,
+} from "@taigalabs/prfs-id-sdk-web";
 import { decrypt, PrivateKey } from "eciesjs";
 import { hexlify } from "ethers/lib/utils";
 

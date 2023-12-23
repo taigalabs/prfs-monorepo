@@ -1,5 +1,5 @@
 import React from "react";
-import { type PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
+// import { type PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useSearchParams } from "next/navigation";
 import {
@@ -8,6 +8,7 @@ import {
   StoredCredential,
   persistPrfsIdCredential,
   PrfsIdMsg,
+  PrfsIdCredential,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt } from "eciesjs";

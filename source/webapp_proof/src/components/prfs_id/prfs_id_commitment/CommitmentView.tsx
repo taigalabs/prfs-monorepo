@@ -1,14 +1,7 @@
 import React from "react";
 import cn from "classnames";
-import {
-  prfsSign,
-  type PrfsIdCredential,
-  poseidon_2,
-  makeECCredential,
-} from "@taigalabs/prfs-crypto-js";
-import { FaRegAddressCard } from "@react-icons/all-files/fa/FaRegAddressCard";
 import { MdNoteAdd } from "@react-icons/all-files/md/MdNoteAdd";
-import { CommitmentData, CommitmentType } from "@taigalabs/prfs-id-sdk-web";
+import { CommitmentType } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./CommitmentView.module.scss";
 import { i18nContext } from "@/i18n/context";

@@ -2,6 +2,7 @@ import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Link from "next/link";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
+import { PrfsIdCredential, makePrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./InputCreateIdCredential.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -17,7 +18,6 @@ import {
   PrfsIdSignInModuleTitle,
 } from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
 import { IdCreateForm } from "@/functions/validate_id";
-import { PrfsIdCredential, makePrfsIdCredential } from "@taigalabs/prfs-crypto-js";
 
 const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
   formData,

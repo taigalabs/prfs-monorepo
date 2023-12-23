@@ -2,7 +2,8 @@ import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useRouter } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
-import { PrfsIdCredential, makePrfsIdCredential } from "@taigalabs/prfs-crypto-js";
+// import { PrfsIdCredential, makePrfsIdCredential } from "@taigalabs/prfs-crypto-js";
+import { PrfsIdCredential, makePrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./InputCredential.module.scss";
 import { i18nContext } from "@/i18n/context";

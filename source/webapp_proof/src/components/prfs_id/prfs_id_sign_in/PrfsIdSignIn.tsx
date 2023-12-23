@@ -1,10 +1,9 @@
 "use client";
 
 import React from "react";
-import { PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
-import Link from "next/link";
 import {
   loadLocalPrfsIdCredentials,
+  PrfsIdCredential,
   removeAllPrfsIdCredentials,
   StoredCredentialRecord,
 } from "@taigalabs/prfs-id-sdk-web";
@@ -18,7 +17,7 @@ import {
 } from "@/functions/validate_id";
 import InputCredential from "./InputCredential";
 import StoredCredentials from "./StoredCredentials";
-import PrfsIdCreateID from "../prfs_id_create_id/PrfsIdCreateID";
+import PrfsIdCreateID from "@/components/prfs_id/prfs_id_create_id/PrfsIdCreateID";
 
 enum SignInStep {
   CreateID,
