@@ -114,14 +114,12 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
 
   const tweetContent = React.useMemo(() => {
     if (claimCm) {
-      const attType = "ATST_1";
-      const provenance = "Prfs";
+      const attType = "atst001";
       const destination = "Twitter";
       const id = formData[TWITTER_HANDLE];
 
       return makeAttestation({
         attType,
-        provenance,
         destination,
         id,
         cm: claimCm,

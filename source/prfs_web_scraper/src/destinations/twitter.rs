@@ -5,27 +5,27 @@ use crate::WebScraperError;
 pub async fn scrape_tweet(tweet_url: String) -> Result<(), WebScraperError> {
     println!("scrape tweet, url: {}", tweet_url);
 
-    let url = "https://twitter.com/elonmusk";
-
     let browser = Browser::new(
         LaunchOptions::default_builder()
             .build()
             .expect("Could not find chrome-executable"),
     )?;
     let tab = browser.new_tab()?;
-    tab.navigate_to("https://en.wikipedia.org")
-        .expect("navigate");
+    tab.navigate_to(&tweet_url).expect("navigate");
 
-    println!("naviated");
+    println!("navigated");
 
-    let elem = tab
-        .wait_for_element("input#searchInput")
+    // let content = tab.get_content().unwrap();
+    // println!("content: {}", content);
+
+    let elems = tab
+        .wait_for_elements(r#"[data-testid="tweetText"]"#)
         .expect("wait for search input");
 
-    println!("elem: {:?}", elem);
+    println!("elems: {:?}", elems);
 
-    let str = elem.get_content().unwrap();
-    println!("elem str: {:?}", str);
+    // let str = elem.get_content().unwrap();
+    // println!("elem str: {:?}", str);
 
     // elem.click().expect("clicked");
 
