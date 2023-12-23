@@ -15,8 +15,9 @@ use crate::AtstServerError;
 pub async fn scrape_tweet(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
     let req: ScrapeTwitterRequest = parse_req(req).await;
     let pool = &state.db2.pool;
+    let mut tx = pool.begin().await.unwrap();
 
-    let res = twitter::scrape_tweet(&req.tweet_url, &req.twitter_handle)
+    let twitter_scrape = twitter::scrape_tweet(&req.tweet_url, &req.twitter_handle)
         .await
         .unwrap();
 
@@ -46,43 +47,3 @@ pub async fn scrape_tweet(req: Request<Incoming>, state: Arc<ServerState>) -> Ap
 
     return Ok(resp.into_hyper_response());
 }
-
-// async fn fetch_url(url: hyper::Uri) -> Result<(), AtstServerError> {
-//     let host = url.host().expect("uri has no host");
-//     let port = url.port_u16().unwrap_or(80);
-//     let addr = format!("{}:{}", host, port);
-//     let stream = TcpStream::connect(addr).await?;
-//     let io = TokioIo::new(stream);
-
-//     let (mut sender, conn) = hyper::client::conn::http1::handshake(io).await?;
-//     tokio::task::spawn(async move {
-//         if let Err(err) = conn.await {
-//             println!("Connection failed: {:?}", err);
-//         }
-//     });
-
-//     let authority = url.authority().unwrap().clone();
-
-//     let req = Request::builder()
-//         .uri(url)
-//         .header(hyper::header::HOST, authority.as_str())
-//         .body(empty())?;
-
-//     let mut res = sender.send_request(req).await?;
-
-//     println!("Response: {}", res.status());
-//     println!("Headers: {:#?}\n", res.headers());
-
-//     // Stream the body, writing each chunk to stdout as we get it
-//     // (instead of buffering and printing at the end).
-//     while let Some(next) = res.frame().await {
-//         let frame = next?;
-//         if let Some(chunk) = frame.data_ref() {
-//             tokio::io::stdout().write_all(&chunk).await.unwrap();
-//         }
-//     }
-
-//     println!("\n\nDone!");
-
-//     Ok(())
-// }

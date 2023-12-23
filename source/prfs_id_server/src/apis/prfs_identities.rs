@@ -29,14 +29,6 @@ pub async fn sign_up_prfs_identity(
     let identity_id = db_apis::insert_prfs_identity(&mut tx, &prfs_identity)
         .await
         .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.ID_ALREADY_EXISTS, err))?;
-    // {
-    //     Ok(i) => i,
-    //     Err(_err) => {
-    //         let resp =
-    //             ApiResponse::new_error(format!("Account may exist, id: {}", req.identity_id));
-    //         return Ok(resp.into_hyper_response());
-    //     }
-    // };
 
     tx.commit().await.unwrap();
 
@@ -56,15 +48,6 @@ pub async fn sign_in_prfs_identity(
     let prfs_identity = db_apis::get_prfs_identity_by_id(pool, &req.identity_id)
         .await
         .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.CANNOT_FIND_ID, err))?;
-
-    //     {
-    //     Ok(v) => v,
-    //     Err(_err) => {
-    //         let resp =
-    //             ApiResponse::new_error(format!("Account isn't found, id: {}", req.identity_id));
-    //         return Ok(resp.into_hyper_response());
-    //     }
-    // };
 
     let resp = ApiResponse::new_success(PrfsIdentitySignInResponse { prfs_identity });
 
