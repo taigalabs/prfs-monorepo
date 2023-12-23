@@ -18,6 +18,7 @@ FROM prfs_acc_atsts
     let atsts = rows
         .iter()
         .map(|row| PrfsAccAtst {
+            acc_atst_id: row.get("acc_atst_id"),
             atst_type: row.get("atst_type"),
             dest: row.get("dest"),
             account_id: row.get("account_id"),
@@ -37,10 +38,11 @@ pub async fn insert_prfs_acc_atst(
 ) -> Result<Uuid, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_acc_atsts
-(atst_type, dest, account_id, cm, username, avatar_url, document_url)
-VALUES ($1, $2, $3, $4, $5, $6, $7) returning acc_atst_id"#;
+(acc_atst_id, atst_type, dest, account_id, cm, username, avatar_url, document_url)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8) returning acc_atst_id"#;
 
     let row = sqlx::query(query)
+        .bind(&prfs_acc_atst.acc_atst_id)
         .bind(&prfs_acc_atst.atst_type)
         .bind(&prfs_acc_atst.dest)
         .bind(&prfs_acc_atst.account_id)
