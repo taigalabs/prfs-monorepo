@@ -5,6 +5,4 @@ use std::net::SocketAddr;
 use std::sync::Arc;
 
 #[tokio::main]
-pub async fn main() {
-    twitter::scrape_tweet("123".to_string()).await.unwrap();
-}
+pub async fn main() {}

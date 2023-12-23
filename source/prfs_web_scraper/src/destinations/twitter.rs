@@ -27,9 +27,9 @@ pub async fn scrape_tweet(tweet_url: String) -> Result<(), WebScraperError> {
     let str = elem.get_content().unwrap();
     println!("elem str: {:?}", str);
 
-    elem.click().expect("clicked");
+    // elem.click().expect("clicked");
 
-    println!("clicked");
+    // println!("clicked");
 
     // tab.type_str(input)?.press_key("Enter")?;
 
