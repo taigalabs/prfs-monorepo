@@ -4,13 +4,13 @@ use regex::Regex;
 use crate::WebScraperError;
 
 pub struct TwitterScrapeResult {
-    atst_type: String,
-    dest: String,
-    id: String,
-    cm: String,
-    username: String,
-    avatar_url: String,
-    document_url: String,
+    pub atst_type: String,
+    pub dest: String,
+    pub account_id: String,
+    pub cm: String,
+    pub username: String,
+    pub avatar_url: String,
+    pub document_url: String,
 }
 
 pub async fn scrape_tweet(
@@ -21,7 +21,7 @@ pub async fn scrape_tweet(
     let mut res = TwitterScrapeResult {
         atst_type: String::from(""),
         dest: String::from(""),
-        id: String::from(""),
+        account_id: String::from(""),
         cm: String::from(""),
         username: String::from(""),
         avatar_url: String::from(""),
@@ -45,12 +45,12 @@ pub async fn scrape_tweet(
     {
         // Exract commitments
         let str = tab.get_content().unwrap();
-        let (_, [_, atst_type, dest, id, cm]) = re.captures(&str).unwrap().extract();
+        let (_, [_, atst_type, dest, account_id, cm]) = re.captures(&str).unwrap().extract();
 
         // println!("atst_type: {}, dest: {}, id: {}, cm: {}", atst_type, dest, id, cm);
         res.atst_type = atst_type.to_string();
         res.dest = dest.to_string();
-        res.id = id.to_string();
+        res.account_id = account_id.to_string();
         res.cm = cm.to_string();
     }
 
@@ -64,7 +64,7 @@ pub async fn scrape_tweet(
                 if text.len() > 0 && text.starts_with("@") {
                     println!("t: {}, {}", text, twitter_handle == &text[1..]);
                     if twitter_handle == &text[1..] {
-                        println!("twitter_handle, {}", twitter_handle);
+                        // println!("twitter_handle, {}", twitter_handle);
                     } else {
                         return Err(format!(
                             "Twitter handle does not match attested id, id: {}, handle: {}",
