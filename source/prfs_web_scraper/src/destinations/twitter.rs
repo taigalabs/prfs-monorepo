@@ -23,7 +23,7 @@ pub async fn scrape_tweet(
         dest: String::from(""),
         id: String::from(""),
         cm: String::from(""),
-        twitter_handle: String::from(twitter_handle),
+        twitter_handle: String::from(""),
         username: String::from(""),
         avatar_url: String::from(""),
     };
@@ -61,6 +61,20 @@ pub async fn scrape_tweet(
             let spans = el.find_elements("span").unwrap();
             for span in spans {
                 let text = span.get_inner_text().unwrap();
+                if text.len() > 0 && text.starts_with("@") {
+                    println!("t: {}, {}", text, twitter_handle == &text[1..]);
+                    if twitter_handle == &text[1..] {
+                        println!("twitter_handle, {}", twitter_handle);
+                    } else {
+                        return Err(format!(
+                            "Twitter handle does not match attested id, id: {}, handle: {}",
+                            &text[1..],
+                            twitter_handle,
+                        )
+                        .into());
+                    }
+                }
+
                 if text.len() > 0 && !text.starts_with("@") {
                     // println!("text: {}", text);
                     res.username = text.clone();

@@ -21,6 +21,16 @@ pub async fn scrape_tweet(req: Request<Incoming>, state: Arc<ServerState>) -> Ap
         .await
         .unwrap();
 
+    // let identity_id = db_apis::insert_prfs_identity(&mut tx, &prfs_identity)
+    //     .await
+    //     .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.ID_ALREADY_EXISTS, err))?;
+
+    tx.commit().await.unwrap();
+
+    // let resp = ApiResponse::new_success(PrfsIdentitySignUpResponse {
+    //     identity_id: identity_id.to_string(),
+    // });
+
     // let url = "https://twitter.com/elonmusk";
     // let url = url.parse::<hyper::Uri>().unwrap();
 
