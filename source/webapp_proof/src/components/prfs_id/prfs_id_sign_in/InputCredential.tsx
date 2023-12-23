@@ -2,7 +2,6 @@ import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useRouter } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
-// import { PrfsIdCredential, makePrfsIdCredential } from "@taigalabs/prfs-crypto-js";
 import { PrfsIdCredential, makePrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./InputCredential.module.scss";
@@ -67,7 +66,6 @@ const InputCredential: React.FC<InputCredentialProps> = ({
     });
     // console.log("credential", credential, formData);
 
-    // setCredential(credential);
     handleSucceedSignIn(credential);
   }, [handleSucceedSignIn, formData]);
 

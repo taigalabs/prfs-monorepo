@@ -50,10 +50,6 @@ const PrfsIdSignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId 
     }
   }, [setSignInStatus, setErrorMsg, setStep, setStoredCredentials]);
 
-  // const handleCloseErrorDialog = React.useCallback(() => {
-  //   window.close();
-  // }, []);
-
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
       const name = ev.target.name;
@@ -79,14 +75,7 @@ const PrfsIdSignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId 
 
   const handleClickCreateID = React.useCallback(() => {
     setStep(SignInStep.CreateID);
-    // const { search } = window.location;
-    // const url = `${paths.id__create_id}${search}`;
-    // router.push(url);
   }, [setStep]);
-
-  // const handleGotoStoredCredential = React.useCallback(() => {
-  //   setStep(SignInStep.StoredCredentials);
-  // }, [setStep]);
 
   const handleGotoPrfsIdCredential = React.useCallback(() => {
     setStep(SignInStep.InputCredential);

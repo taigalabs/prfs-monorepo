@@ -20,6 +20,11 @@ export async function makeEncryptKey(secret: string): Promise<PublicKey> {
   return PrivateKey.fromHex(hexlify(hash)).publicKey;
 }
 
+export async function makeDecryptKey(secret: string): Promise<PrivateKey> {
+  const hash = await poseidon_2(secret);
+  return PrivateKey.fromHex(hexlify(hash));
+}
+
 export async function makeECCredential(secret: Uint8Array): Promise<ECCredential> {
   if (wasmSingleton.wasm === null) {
     const w = await initWasm();
