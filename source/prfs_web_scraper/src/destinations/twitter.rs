@@ -8,9 +8,9 @@ pub struct TwitterScrapeResult {
     dest: String,
     id: String,
     cm: String,
-    twitter_handle: String,
     username: String,
     avatar_url: String,
+    document_url: String,
 }
 
 pub async fn scrape_tweet(
@@ -23,9 +23,9 @@ pub async fn scrape_tweet(
         dest: String::from(""),
         id: String::from(""),
         cm: String::from(""),
-        twitter_handle: String::from(""),
         username: String::from(""),
         avatar_url: String::from(""),
+        document_url: String::from(tweet_url),
     };
 
     let re = Regex::new(r"([\w]+)[-]([\w]+)\s([\w]+)\s([\w]+)\s([\w]+)").unwrap();
@@ -47,11 +47,11 @@ pub async fn scrape_tweet(
         let str = tab.get_content().unwrap();
         let (_, [_, atst_type, dest, id, cm]) = re.captures(&str).unwrap().extract();
 
+        // println!("atst_type: {}, dest: {}, id: {}, cm: {}", atst_type, dest, id, cm);
         res.atst_type = atst_type.to_string();
         res.dest = dest.to_string();
         res.id = id.to_string();
         res.cm = cm.to_string();
-        // println!("atstType: {}, id: {}, cm: {}", atst_type, id, cm);
     }
 
     {
