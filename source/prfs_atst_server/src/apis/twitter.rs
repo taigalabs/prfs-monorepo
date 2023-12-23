@@ -16,7 +16,7 @@ pub async fn scrape_tweet(req: Request<Incoming>, state: Arc<ServerState>) -> Ap
     let req: ScrapeTwitterRequest = parse_req(req).await;
     let pool = &state.db2.pool;
 
-    let res = twitter::scrape_tweet(req.tweet_url.to_string())
+    let res = twitter::scrape_tweet(&req.tweet_url, &req.twitter_handle)
         .await
         .unwrap();
 

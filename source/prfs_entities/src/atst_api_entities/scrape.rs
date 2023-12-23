@@ -7,6 +7,7 @@ use uuid::Uuid;
 #[ts(export)]
 pub struct ScrapeTwitterRequest {
     pub tweet_url: String,
+    pub twitter_handle: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
