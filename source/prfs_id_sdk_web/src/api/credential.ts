@@ -1,6 +1,3 @@
-// import { secp256k1 as secp } from "@noble/curves/secp256k1";
-// import { hexlify } from "ethers/lib/utils";
-// import { PrivateKey, encrypt } from "eciesjs";
 import { makeECCredential, poseidon_2 } from "@taigalabs/prfs-crypto-js";
 import { makeEncryptKey } from "@taigalabs/prfs-crypto-js";
 
@@ -9,15 +6,15 @@ export async function makePrfsIdCredential(args: MakeCredentialArgs): Promise<Pr
   const pw = `${email}${password_1}${password_2}`;
   const pwHash = await poseidon_2(pw);
   const { public_key, secret_key, id } = await makeECCredential(pwHash);
-
-  const pw2Hash = await poseidon_2(password_2);
-  const encryptKey = makeEncryptKey(pw2Hash);
+  const encryptKey = await makeEncryptKey(pw);
+  const localEncryptKey = await makeEncryptKey(password_2);
 
   return {
     secret_key,
     public_key,
     id,
     encrypt_key: encryptKey.toHex(),
+    local_encrypt_key: localEncryptKey.toHex(),
   };
 }
 
@@ -53,4 +50,5 @@ export interface PrfsIdCredential {
   public_key: string;
   id: string;
   encrypt_key: string;
+  local_encrypt_key: string;
 }
