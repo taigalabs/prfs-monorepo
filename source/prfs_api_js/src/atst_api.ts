@@ -1,13 +1,16 @@
+import { AttestTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/AttestTwitterAccRequest";
+import { AttestTwitterAccResponse } from "@taigalabs/prfs-entities/bindings/AttestTwitterAccResponse";
+
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
 
-type RequestName = "scrape_tweet";
+type RequestName = "attest_twitter_acc";
 
 type Req<T extends RequestName> = //
-  T extends "scrape_tweet" ? any : never;
+  T extends "attest_twitter_acc" ? AttestTwitterAccRequest : never;
 
-type Resp<T> = //
-  T extends "scrape_tweet" ? PrfsApiResponse<any> : any;
+type Resp<T extends RequestName> = //
+  T extends "attest_twitter_acc" ? PrfsApiResponse<AttestTwitterAccResponse> : any;
 
 let PRFS_ATST_SERVER_ENDPOINT: string;
 

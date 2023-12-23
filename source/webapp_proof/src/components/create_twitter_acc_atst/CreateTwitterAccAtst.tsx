@@ -8,7 +8,6 @@ import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import { decrypt } from "eciesjs";
 import { atstApi } from "@taigalabs/prfs-api-js";
-import { ScrapeTwitterRequest } from "@taigalabs/prfs-entities/bindings/ScrapeTwitterRequest";
 import { useMutation } from "@tanstack/react-query";
 import {
   CommitmentType,
@@ -18,6 +17,7 @@ import {
   makeAttestation,
   newPrfsIdMsg,
 } from "@taigalabs/prfs-id-sdk-web";
+import { AttestTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/AttestTwitterAccRequest";
 
 import styles from "./CreateTwitterAccAtst.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -48,8 +48,8 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
   const [step, setStep] = React.useState(AttestationStep.INPUT_TWITTER_HANDLE);
   const { sk, pkHex } = useRandomKeyPair();
   const { mutateAsync: scrapeTweetRequest } = useMutation({
-    mutationFn: (req: ScrapeTwitterRequest) => {
-      return atstApi("scrape_tweet", req);
+    mutationFn: (req: AttestTwitterAccRequest) => {
+      return atstApi("attest_twitter_acc", req);
     },
   });
 
@@ -168,7 +168,12 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
   }, [formData, step, claimSecret, sk, pkHex]);
 
   const handleClickValidate = React.useCallback(async () => {
-    const { payload, error } = await scrapeTweetRequest({ tweet_url: "power" });
+    const req: AttestTwitterAccRequest = {
+      acc_atst_id: "1",
+      tweet_url: "",
+      twitter_handle: "",
+    };
+    const { payload, error } = await scrapeTweetRequest(req);
 
     console.log(11, payload);
   }, [scrapeTweetRequest]);
