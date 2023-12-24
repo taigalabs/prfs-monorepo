@@ -24,12 +24,12 @@ import CircuitInputs from "./CircuitInputs";
 const prfsSDK = new PrfsSDK("prfs-proof");
 
 enum LoadDriverStatus {
-  StandBy,
+  Standby,
   InProgress,
 }
 
 enum CreateProofStatus {
-  StandBy,
+  Standby,
   InProgress,
   Created,
   Error,
@@ -62,9 +62,9 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const i18n = React.useContext(i18nContext);
   const [driverMsg, setDriverMsg] = React.useState<React.ReactNode>(null);
   const [loadDriverProgress, setLoadDriverProgress] = React.useState<Record<string, any>>({});
-  const [loadDriverStatus, setLoadDriverStatus] = React.useState(LoadDriverStatus.StandBy);
+  const [loadDriverStatus, setLoadDriverStatus] = React.useState(LoadDriverStatus.Standby);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
-  const [createProofStatus, setCreateProofStatus] = React.useState(CreateProofStatus.StandBy);
+  const [createProofStatus, setCreateProofStatus] = React.useState(CreateProofStatus.Standby);
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
   const lastInitProofTypeId = React.useRef<string | null>(null);
@@ -160,7 +160,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
                 </span>
               </>,
             );
-            setLoadDriverStatus(LoadDriverStatus.StandBy);
+            setLoadDriverStatus(LoadDriverStatus.Standby);
           }
 
           if (type === "CREATE_PROOF_EVENT") {

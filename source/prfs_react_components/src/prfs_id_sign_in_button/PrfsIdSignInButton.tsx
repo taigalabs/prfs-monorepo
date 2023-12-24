@@ -3,9 +3,15 @@ import cn from "classnames";
 import { PrfsIdMsg, newPrfsIdMsg } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./PrfsIdSignInButton.module.scss";
+import colors from "../colors.module.scss";
 import Spinner from "../spinner/Spinner";
 import Button from "../button/Button";
 import { i18nContext } from "../i18n/i18nContext";
+
+enum SignInStatus {
+  Standby,
+  InProgress,
+}
 
 const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   className,
@@ -14,6 +20,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   handleSucceedSignIn,
 }) => {
   const i18n = React.useContext(i18nContext);
+  const [status, setStatus] = React.useState(S);
 
   React.useEffect(() => {
     const listener = (ev: MessageEvent<any>) => {
@@ -44,14 +51,16 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   return (
     <Button
       variant="blue_2"
-      className={cn(styles.wrapper, className)}
+      className={cn(styles.btn, className)}
       noTransition
       handleClick={handleClickSignIn}
       noShadow
       disabled={!prfsIdSignInEndpoint}
     >
-      <div></div>
-      <span>{label ? label : i18n.sign_in}</span>
+      <div className={styles.wrapper}>
+        <Spinner size={20} color={colors.white_100} />
+        <span>{label ? label : i18n.sign_in}</span>
+      </div>
     </Button>
   );
 };

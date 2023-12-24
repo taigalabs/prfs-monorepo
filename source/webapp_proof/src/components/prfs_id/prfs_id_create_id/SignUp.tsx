@@ -29,7 +29,7 @@ import {
 } from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
 
 export enum IdCreationStatus {
-  StandBy,
+  Standby,
   InProgress,
   Error,
 }
@@ -43,7 +43,7 @@ const SignUp: React.FC<SignUpProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
-  const [status, setStatus] = React.useState(IdCreationStatus.StandBy);
+  const [status, setStatus] = React.useState(IdCreationStatus.Standby);
   const [errorMsg, setErrorMsg] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const { mutateAsync: prfsIdentitySignUpRequest } = useMutation({
@@ -73,7 +73,7 @@ const SignUp: React.FC<SignUpProps> = ({
           identity_id: id,
           avatar_color,
         });
-        setStatus(IdCreationStatus.StandBy);
+        setStatus(IdCreationStatus.Standby);
 
         if (error) {
           setErrorMsg(error.toString());

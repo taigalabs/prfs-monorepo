@@ -1,5 +1,13 @@
+.btn {
+  padding: 9px 18px;
+}
 .wrapper {
-  padding: 9px 23px;
   font-size: 14px;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+
+  > span {
+    padding-left: 6px;
+  }
 }

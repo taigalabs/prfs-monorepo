@@ -40,7 +40,7 @@ enum AttestationStep {
 }
 
 enum ValidationStatus {
-  StandBy,
+  Standby,
   InProgress,
 }
 
@@ -53,7 +53,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
     return `PRFS_ATTESTATION_${handle}`;
   }, [formData[TWITTER_HANDLE]]);
   const [validationStatus, setValidationStatus] = React.useState<ValidationStatus>(
-    ValidationStatus.StandBy,
+    ValidationStatus.Standby,
   );
   const [validationMsg, setValidationMsg] = React.useState<React.ReactNode>(null);
   const [validation, setValidation] = React.useState<TwitterAccValidation | null>(null);
