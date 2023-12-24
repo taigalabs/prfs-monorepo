@@ -21,6 +21,7 @@ export default {
   updates: "Updates",
   taigalabs: "Taiga labs",
   code: "Code",
+  commitment: "Commitment",
   claim_secret: "Claim secret",
   language: "Language",
   cancel: "Cancel",

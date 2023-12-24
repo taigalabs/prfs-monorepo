@@ -27,7 +27,10 @@ export const CommitmentViewItem: React.FC<CommitmentViewItemProps> = ({
         <div className={styles.name}>{name}</div>
         <div className={styles.val}>Value: {val}</div>
         <div className={styles.type}>({type})</div>
-        <div className={styles.hashed}>{hashedHex}</div>
+        <div className={styles.hashed}>
+          <span className={styles.label}>{i18n.commitment}: </span>
+          <span>{hashedHex}</span>
+        </div>
       </div>
     </li>
   );
