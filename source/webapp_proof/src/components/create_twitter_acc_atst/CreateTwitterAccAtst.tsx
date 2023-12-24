@@ -17,6 +17,8 @@ import {
   makeAttestation,
   newPrfsIdMsg,
 } from "@taigalabs/prfs-id-sdk-web";
+import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
+import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { AttestTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/AttestTwitterAccRequest";
 
 import styles from "./CreateTwitterAccAtst.module.scss";
@@ -190,6 +192,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
 
     setValidationStatus(ValidationStatus.InProgress);
     const { payload, error } = await attestTwitterAccRequest(req);
+    setValidationStatus(ValidationStatus.Standby);
 
     if (error) {
       console.error(error);
@@ -197,6 +200,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
 
     if (payload) {
       setValidation(payload.validation);
+      setValidationMsg(<span>check</span>);
     }
   }, [
     attestTwitterAccRequest,
@@ -335,11 +339,15 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
                       handleChangeValue={handleChangeTwitterHandle}
                     />
                   </div>
+                  <div className={styles.guideRow}>{i18n.acc_atst_validate_guide}</div>
                   <div className={styles.validateBtnRow}>
-                    <button className={styles.btn} type="button" onClick={handleClickValidate}>
+                    <button className={cn(styles.btn)} type="button" onClick={handleClickValidate}>
+                      {validationStatus === ValidationStatus.InProgress && (
+                        <Spinner size={20} color={colors.gray_32} borderWidth={2} />
+                      )}
                       <span>{i18n.validate}</span>
                     </button>
-                    <div className={styles.status}>{validationMsg}</div>
+                    <div className={styles.validationMsg}>{validationMsg}</div>
                   </div>
                 </div>
               </div>

@@ -21,6 +21,8 @@ export default {
   updates: "Updates",
   taigalabs: "Taiga labs",
   code: "Code",
+  acc_atst_validate_guide:
+    "Validation may take 7-30 secs depending on the network traffic. Try not to close the window.",
   commitment: "Commitment",
   claim_secret: "Claim secret",
   language: "Language",

@@ -63,6 +63,10 @@
     svg {
       margin-right: 2px;
     }
+
+    > * + span {
+      margin-left: 2px;
+    }
   }
 
   .row {
@@ -122,6 +126,9 @@
     .status {
       padding-left: 16px;
     }
+
+    .validateBtn {
+    }
   }
 
   .tweetContentBtnRow {
@@ -136,6 +143,12 @@
       color: var(--blue-15);
     }
   }
+}
+
+.guideRow {
+  font-size: 13px;
+  color: var(--gray-30);
+  padding-bottom: 8px;
 }
 
 .btnRow {
