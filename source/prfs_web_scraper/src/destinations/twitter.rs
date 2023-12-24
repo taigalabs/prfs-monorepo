@@ -8,7 +8,7 @@ pub async fn scrape_tweet(
     tweet_url: &str,
     twitter_handle: &str,
 ) -> Result<TwitterAccValidation, WebScraperError> {
-    // println!("scrape tweet, url: {}", tweet_url);
+    println!("scrape tweet, url: {}", tweet_url);
     let mut res = TwitterAccValidation {
         atst_type: String::from(""),
         dest: String::from(""),
@@ -53,7 +53,7 @@ pub async fn scrape_tweet(
             for span in spans {
                 let text = span.get_inner_text().unwrap();
                 if text.len() > 0 && text.starts_with("@") {
-                    println!("t: {}, {}", text, twitter_handle == &text[1..]);
+                    // println!("t: {}, {}", text, twitter_handle == &text[1..]);
                     if twitter_handle == &text[1..] {
                         // println!("twitter_handle, {}", twitter_handle);
                     } else {

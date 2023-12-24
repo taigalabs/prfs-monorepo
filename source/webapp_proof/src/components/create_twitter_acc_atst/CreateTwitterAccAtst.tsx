@@ -5,6 +5,7 @@ import cn from "classnames";
 import { Input } from "@taigalabs/prfs-react-components/src/input/Input";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
+import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import { decrypt } from "eciesjs";
 import { atstApi } from "@taigalabs/prfs-api-js";
@@ -41,7 +42,7 @@ enum AttestationStep {
   VALIDATE_TWEET,
 }
 
-enum ValidationStatus {
+enum Status {
   Standby,
   InProgress,
 }
@@ -54,16 +55,21 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
     const handle = formData[TWITTER_HANDLE];
     return `PRFS_ATTESTATION_${handle}`;
   }, [formData[TWITTER_HANDLE]]);
-  const [validationStatus, setValidationStatus] = React.useState<ValidationStatus>(
-    ValidationStatus.Standby,
-  );
+  const [validationStatus, setValidationStatus] = React.useState<Status>(Status.Standby);
+  const [createStatus, setCreateStatus] = React.useState<Status>(Status.Standby);
   const [validationMsg, setValidationMsg] = React.useState<React.ReactNode>(null);
+  const [createMsg, setCreateMsg] = React.useState<React.ReactNode>(null);
   const [validation, setValidation] = React.useState<TwitterAccValidation | null>(null);
   const [step, setStep] = React.useState(AttestationStep.INPUT_TWITTER_HANDLE);
   const { sk, pkHex } = useRandomKeyPair();
-  const { mutateAsync: attestTwitterAccRequest } = useMutation({
+  const { mutateAsync: validateTwitterAccRequest } = useMutation({
     mutationFn: (req: ValidateTwitterAccRequest) => {
       return atstApi("validate_twitter_acc", req);
+    },
+  });
+  const { mutateAsync: attestTwitterAccRequest } = useMutation({
+    mutationFn: (req: AttestTwitterAccRequest) => {
+      return atstApi("attest_twitter_acc", req);
     },
   });
 
@@ -190,20 +196,25 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
       twitter_handle,
     };
 
-    setValidationStatus(ValidationStatus.InProgress);
-    const { payload, error } = await attestTwitterAccRequest(req);
-    setValidationStatus(ValidationStatus.Standby);
+    setValidationStatus(Status.InProgress);
+    const { payload, error } = await validateTwitterAccRequest(req);
+    setValidationStatus(Status.Standby);
 
     if (error) {
       console.error(error);
+      setValidationMsg(<span className={styles.error}>{error.toString()}</span>);
     }
 
     if (payload) {
       setValidation(payload.validation);
-      setValidationMsg(<span>check</span>);
+      setValidationMsg(
+        <span className={styles.success}>
+          <FaCheck />
+        </span>,
+      );
     }
   }, [
-    attestTwitterAccRequest,
+    validateTwitterAccRequest,
     formData[TWEET_URL],
     formData[TWITTER_HANDLE],
     setValidation,
@@ -225,7 +236,32 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
     }
   }, [tweetContent]);
 
-  const handleClickCreate = React.useCallback(() => {}, [formData, step]);
+  const handleClickCreate = React.useCallback(async () => {
+    if (validation) {
+      // For now, we don't obfuscate attestation id
+      const acc_atst_id = formData[TWITTER_HANDLE];
+
+      if (acc_atst_id) {
+        setCreateStatus(Status.InProgress);
+        const { payload, error } = await attestTwitterAccRequest({
+          acc_atst_id,
+          validation,
+        });
+        setCreateStatus(Status.Standby);
+
+        if (error) {
+          setCreateMsg(<span>{error.toString()}</span>);
+        }
+      }
+    }
+  }, [
+    formData[TWITTER_HANDLE],
+    step,
+    validation,
+    attestTwitterAccRequest,
+    setCreateMsg,
+    setCreateStatus,
+  ]);
 
   return (
     <>
@@ -342,37 +378,43 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
                   <div className={styles.guideRow}>{i18n.acc_atst_validate_guide}</div>
                   <div className={styles.validateBtnRow}>
                     <button className={cn(styles.btn)} type="button" onClick={handleClickValidate}>
-                      {validationStatus === ValidationStatus.InProgress && (
+                      {validationStatus === Status.InProgress && (
                         <Spinner size={20} color={colors.gray_32} borderWidth={2} />
                       )}
                       <span>{i18n.validate}</span>
                     </button>
-                    <div className={styles.validationMsg}>{validationMsg}</div>
+                    <div className={styles.msg}>{validationMsg}</div>
                   </div>
                 </div>
               </div>
             </li>
           </ol>
-          <div className={cn(styles.btnRow, styles.createBtnRow)}>
-            <Button
-              variant="transparent_blue_2"
-              noTransition
-              handleClick={handleClickStartOver}
-              type="button"
-            >
-              {i18n.start_over}
-            </Button>
-            <Button
-              variant="blue_2"
-              className={styles.signInBtn}
-              noTransition
-              handleClick={handleClickCreate}
-              noShadow
-              type="button"
-              disabled={!validation}
-            >
-              {i18n.create}
-            </Button>
+          <div className={cn(styles.btnRow)}>
+            <div className={styles.createBtnRow}>
+              <Button
+                variant="transparent_blue_2"
+                noTransition
+                handleClick={handleClickStartOver}
+                type="button"
+              >
+                {i18n.start_over}
+              </Button>
+              <Button
+                variant="blue_2"
+                className={styles.signInBtn}
+                noTransition
+                handleClick={handleClickCreate}
+                noShadow
+                type="button"
+                disabled={!validation}
+              >
+                <div>
+                  {createStatus === Status.InProgress && <Spinner size={20} />}
+                  <span>{i18n.create}</span>
+                </div>
+              </Button>
+            </div>
+            {createMsg && <div className={cn(styles.createBtnRow, styles.error)}>error</div>}
           </div>
         </form>
       </div>

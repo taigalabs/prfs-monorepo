@@ -143,6 +143,10 @@
       color: var(--blue-15);
     }
   }
+
+  .msg {
+    padding-left: 10px;
+  }
 }
 
 .guideRow {
@@ -163,6 +167,13 @@
 
 .input {
   height: 40px;
+}
+
+.success {
+  color: var(--green-60);
+}
+.error {
+  color: var(--red-50);
 }
 
 @media screen and (max-width: 480px) {
