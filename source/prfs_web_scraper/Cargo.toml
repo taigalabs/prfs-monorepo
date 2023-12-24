@@ -33,8 +33,7 @@ base62 = "2.0.2"
 csv = "1.2.2"
 git2 = "0.18.1"
 url = "2.5.0"
-headless_chrome = { git = "https://github.com/atroche/rust-headless-chrome", features = ["fetch"] }
-
+headless_chrome = "1.0.8"
 regex = "1.10.2"
 
 hyper_utils = { path = "../hyper_utils" }
