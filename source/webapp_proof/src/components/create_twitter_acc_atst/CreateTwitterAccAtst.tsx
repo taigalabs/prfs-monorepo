@@ -401,15 +401,17 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
               </Button>
               <Button
                 variant="blue_2"
-                className={styles.signInBtn}
                 noTransition
+                className={styles.signInBtn}
                 handleClick={handleClickCreate}
                 noShadow
                 type="button"
                 disabled={!validation}
               >
-                <div>
-                  {createStatus === Status.InProgress && <Spinner size={20} borderWidth={2} />}
+                <div className={styles.content}>
+                  {createStatus === Status.InProgress && (
+                    <Spinner size={20} borderWidth={2} color={colors.white_100} />
+                  )}
                   <span>{i18n.create}</span>
                 </div>
               </Button>

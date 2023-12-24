@@ -149,6 +149,19 @@
   }
 }
 
+.signInBtn {
+  padding-left: 16px;
+  padding-right: 16px;
+
+  .content {
+    display: flex;
+    align-items: center;
+    > span {
+      padding-left: 3px;
+    }
+  }
+}
+
 .guideRow {
   font-size: 13px;
   color: var(--gray-30);
