@@ -38,15 +38,31 @@ pub async fn scrape_tweet(
 
     let re = Regex::new(r"([\w]+)[-]([\w]+)\s([\w]+)\s([\w]+)\s([\w]+)").unwrap();
 
-    let tab = crawler
-        .browser
-        .new_tab()
-        .map_err(|_err| TweetScrapeError::NewTabError)?;
+    // let browser = Browser::new(
+    //     LaunchOptions::default_builder()
+    //         .build()
+    //         .expect("Could not find chrome-executable"),
+    // )
+    // .unwrap();
+
+    // let tab = browser.new_tab().unwrap();
+
+    let tab = crawler.browser.new_tab().map_err(|err| {
+        println!("Cannot open new tab, err: {}", err);
+        TweetScrapeError::NewTabError
+    })?;
     tab.navigate_to(&tweet_url).expect("navigate");
 
     let anchor_selector = format!(r#"a[href^="/{}"]"#, twitter_handle);
     tab.wait_for_elements(&anchor_selector)
-        .expect("wait for search input");
+        .or_else(|err| {
+            let str = tab.get_content().unwrap();
+            println!("111: {}", str);
+            return Err("wait for search input");
+        })
+        .unwrap();
+
+    println!("waited element to render, selector: {}", anchor_selector);
 
     {
         // Exract commitments
@@ -97,8 +113,8 @@ pub async fn scrape_tweet(
         }
     }
 
-    tab.close_with_unload()
-        .map_err(|_err| TweetScrapeError::CloseFailed)?;
+    // tab.close_with_unload()
+    //     .map_err(|_err| TweetScrapeError::CloseFailed)?;
 
     Ok(res)
 }
