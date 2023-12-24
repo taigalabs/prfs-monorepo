@@ -3,6 +3,7 @@ import cn from "classnames";
 import { PrfsIdMsg, newPrfsIdMsg } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./PrfsIdSignInButton.module.scss";
+import Spinner from "../spinner/Spinner";
 import Button from "../button/Button";
 import { i18nContext } from "../i18n/i18nContext";
 
@@ -49,7 +50,8 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       noShadow
       disabled={!prfsIdSignInEndpoint}
     >
-      {label ? label : i18n.sign_in}
+      <div></div>
+      <span>{label ? label : i18n.sign_in}</span>
     </Button>
   );
 };

@@ -115,20 +115,11 @@ const AppCredential: React.FC<AppCredentialProps> = ({
       };
       const encrypted = encrypt(publicKey, Buffer.from(JSON.stringify(payload)));
       console.log("Encrypted credential", encrypted);
+
       const msg: PrfsIdMsg<Buffer> = {
         type: "SIGN_IN_SUCCESS",
         payload: encrypted,
       };
-      const encryptedCredential = encrypt(
-        credential.encrypt_key,
-        Buffer.from(JSON.stringify(credential)),
-      );
-      let credentialArr = Array.prototype.slice.call(encryptedCredential);
-      const credentialToStore: StoredCredential = {
-        id: credential.id,
-        credential: credentialArr,
-      };
-      persistPrfsIdCredential(credentialToStore);
 
       await sendMsgToOpener(msg);
       window.close();
