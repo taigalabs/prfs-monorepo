@@ -26,6 +26,9 @@ pub async fn atst_server_routes(
 ) -> Result<Response<BytesBoxBody>, ApiHandleError> {
     return match (req.method(), req.uri().path()) {
         (&Method::OPTIONS, _) => handle_cors(),
+        (&Method::POST, v0_path!("validate_twitter_acc")) => {
+            twitter::validate_twitter_acc(req, state).await
+        }
         (&Method::POST, v0_path!("attest_twitter_acc")) => {
             twitter::attest_twitter_acc(req, state).await
         }

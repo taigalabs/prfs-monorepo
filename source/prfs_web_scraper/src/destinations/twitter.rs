@@ -1,24 +1,15 @@
 use headless_chrome::{Browser, LaunchOptions};
+use prfs_entities::atst_api_entities::TwitterAccValidation;
 use regex::Regex;
 
 use crate::WebScraperError;
 
-pub struct TwitterScrapeResult {
-    pub atst_type: String,
-    pub dest: String,
-    pub account_id: String,
-    pub cm: String,
-    pub username: String,
-    pub avatar_url: String,
-    pub document_url: String,
-}
-
 pub async fn scrape_tweet(
     tweet_url: &str,
     twitter_handle: &str,
-) -> Result<TwitterScrapeResult, WebScraperError> {
+) -> Result<TwitterAccValidation, WebScraperError> {
     // println!("scrape tweet, url: {}", tweet_url);
-    let mut res = TwitterScrapeResult {
+    let mut res = TwitterAccValidation {
         atst_type: String::from(""),
         dest: String::from(""),
         account_id: String::from(""),
