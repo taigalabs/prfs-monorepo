@@ -158,7 +158,8 @@
   .content {
     display: flex;
     align-items: center;
-    > span {
+
+    > * + span {
       padding-left: 3px;
     }
   }
@@ -187,6 +188,7 @@
 .success {
   color: var(--green-60);
 }
+
 .error {
   color: var(--red-50);
   font-size: 13px;

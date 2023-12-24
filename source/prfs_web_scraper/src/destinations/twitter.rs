@@ -1,8 +1,24 @@
 use headless_chrome::{Browser, LaunchOptions};
 use prfs_entities::atst_api_entities::TwitterAccValidation;
 use regex::Regex;
+use thiserror::Error;
 
 use crate::{crawler::Crawler, WebScraperError};
+
+#[derive(Error, Debug)]
+pub enum TweetScrapeError {
+    #[error("cannot open new tab")]
+    NewTabError,
+
+    #[error("attestation is of the wrong form")]
+    AttestationWrongForm,
+
+    #[error("attestation doesn't match with ID")]
+    IDNotMatchAttestation,
+
+    #[error("Close failed")]
+    CloseFailed,
+}
 
 pub async fn scrape_tweet(
     crawler: &Crawler,
@@ -22,7 +38,10 @@ pub async fn scrape_tweet(
 
     let re = Regex::new(r"([\w]+)[-]([\w]+)\s([\w]+)\s([\w]+)\s([\w]+)").unwrap();
 
-    let tab = crawler.browser.new_tab()?;
+    let tab = crawler
+        .browser
+        .new_tab()
+        .map_err(|_err| TweetScrapeError::NewTabError)?;
     tab.navigate_to(&tweet_url).expect("navigate");
 
     let anchor_selector = format!(r#"a[href^="/{}"]"#, twitter_handle);
@@ -32,7 +51,10 @@ pub async fn scrape_tweet(
     {
         // Exract commitments
         let str = tab.get_content().unwrap();
-        let (_, [_, atst_type, dest, account_id, cm]) = re.captures(&str).unwrap().extract();
+        let (_, [_, atst_type, dest, account_id, cm]) = re
+            .captures(&str)
+            .ok_or(TweetScrapeError::AttestationWrongForm)?
+            .extract();
 
         // println!("atst_type: {}, dest: {}, id: {}, cm: {}", atst_type, dest, id, cm);
         res.atst_type = atst_type.to_string();
@@ -54,12 +76,7 @@ pub async fn scrape_tweet(
                     if twitter_handle == &text[1..] {
                         // println!("twitter_handle, {}", twitter_handle);
                     } else {
-                        return Err(format!(
-                            "Twitter handle does not match attested id, id: {}, handle: {}",
-                            &text[1..],
-                            twitter_handle,
-                        )
-                        .into());
+                        return Err(TweetScrapeError::IDNotMatchAttestation.into());
                     }
                 }
 
@@ -80,7 +97,8 @@ pub async fn scrape_tweet(
         }
     }
 
-    tab.close_with_unload().unwrap();
+    tab.close_with_unload()
+        .map_err(|_err| TweetScrapeError::CloseFailed)?;
 
     Ok(res)
 }
