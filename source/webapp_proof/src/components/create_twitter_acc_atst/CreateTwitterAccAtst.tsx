@@ -409,12 +409,14 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
                 disabled={!validation}
               >
                 <div>
-                  {createStatus === Status.InProgress && <Spinner size={20} />}
+                  {createStatus === Status.InProgress && <Spinner size={20} borderWidth={2} />}
                   <span>{i18n.create}</span>
                 </div>
               </Button>
             </div>
-            {createMsg && <div className={cn(styles.createBtnRow, styles.error)}>error</div>}
+            {createMsg && (
+              <div className={cn(styles.createBtnRow, styles.error)}>{createMsg.toString()}</div>
+            )}
           </div>
         </form>
       </div>

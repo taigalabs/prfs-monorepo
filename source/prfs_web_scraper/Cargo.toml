@@ -36,7 +36,4 @@ url = "2.5.0"
 headless_chrome = "1.0.8"
 regex = "1.10.2"
 
-hyper_utils = { path = "../hyper_utils" }
-prfs_db_interface = { path = "../prfs_db_interface" }
-prfs_tree_maker = { path = "../prfs_tree_maker" }
 prfs_entities = { path = "../prfs_entities" }

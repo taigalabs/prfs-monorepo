@@ -6,6 +6,7 @@ use ethers_signers::{LocalWallet, Signer, Wallet};
 use git2::{Oid, Repository};
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::database2::Database2;
+use prfs_web_scraper::crawler::Crawler;
 
 pub async fn init_server_state() -> Result<ServerState, ApiServerError> {
     let repo = match Repository::open(&PATHS.workspace_dir) {
@@ -28,6 +29,8 @@ pub async fn init_server_state() -> Result<ServerState, ApiServerError> {
 
     let launch_time: DateTime<Utc> = Utc::now();
 
+    let crawler = Crawler::init()?;
+
     println!(
         "{} server state, wallet: {:?}, commit_hash: {}, launch_time: {}",
         "Initialized".green(),
@@ -41,5 +44,6 @@ pub async fn init_server_state() -> Result<ServerState, ApiServerError> {
         wallet,
         launch_time,
         commit_hash,
+        crawler,
     })
 }

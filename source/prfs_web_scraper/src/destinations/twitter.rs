@@ -2,9 +2,10 @@ use headless_chrome::{Browser, LaunchOptions};
 use prfs_entities::atst_api_entities::TwitterAccValidation;
 use regex::Regex;
 
-use crate::WebScraperError;
+use crate::{crawler::Crawler, WebScraperError};
 
 pub async fn scrape_tweet(
+    crawler: &Crawler,
     tweet_url: &str,
     twitter_handle: &str,
 ) -> Result<TwitterAccValidation, WebScraperError> {
@@ -21,13 +22,16 @@ pub async fn scrape_tweet(
 
     let re = Regex::new(r"([\w]+)[-]([\w]+)\s([\w]+)\s([\w]+)\s([\w]+)").unwrap();
 
-    let browser = Browser::new(
-        LaunchOptions::default_builder()
-            .build()
-            .expect("Could not find chrome-executable"),
-    )?;
-    let tab = browser.new_tab()?;
+    // let browser = Browser::new(
+    //     LaunchOptions::default_builder()
+    //         .build()
+    //         .expect("Could not find chrome-executable"),
+    // )?;
+
+    let tab = crawler.browser.new_tab()?;
     tab.navigate_to(&tweet_url).expect("navigate");
+
+    println!("11");
 
     let anchor_selector = format!(r#"a[href^="/{}"]"#, twitter_handle);
     tab.wait_for_elements(&anchor_selector)
@@ -45,9 +49,12 @@ pub async fn scrape_tweet(
         res.cm = cm.to_string();
     }
 
+    println!("22");
+
     {
         // Extract a username and an avatar URL
         let elems = tab.find_elements(&anchor_selector).unwrap();
+
         for el in elems {
             let spans = el.find_elements("span").unwrap();
             for span in spans {
@@ -82,6 +89,11 @@ pub async fn scrape_tweet(
             }
         }
     }
+
+    println!("33");
+
+    // tab.stop_loading().unwrap();
+    // tab.close(false).unwrap();
 
     Ok(res)
 }

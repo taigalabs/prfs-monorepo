@@ -1,3 +1,4 @@
+pub mod crawler;
 pub mod destinations;
 
 #[cfg(test)]
