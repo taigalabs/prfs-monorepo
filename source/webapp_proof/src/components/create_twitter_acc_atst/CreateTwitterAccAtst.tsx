@@ -42,8 +42,6 @@ enum AttestationStep {
 enum ValidationStatus {
   StandBy,
   InProgress,
-  Valid,
-  Invalid,
 }
 
 const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
@@ -57,6 +55,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
   const [validationStatus, setValidationStatus] = React.useState<ValidationStatus>(
     ValidationStatus.StandBy,
   );
+  const [validationMsg, setValidationMsg] = React.useState<React.ReactNode>(null);
   const [validation, setValidation] = React.useState<TwitterAccValidation | null>(null);
   const [step, setStep] = React.useState(AttestationStep.INPUT_TWITTER_HANDLE);
   const { sk, pkHex } = useRandomKeyPair();
@@ -189,6 +188,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
       twitter_handle,
     };
 
+    setValidationStatus(ValidationStatus.InProgress);
     const { payload, error } = await attestTwitterAccRequest(req);
 
     if (error) {
@@ -203,6 +203,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
     formData[TWEET_URL],
     formData[TWITTER_HANDLE],
     setValidation,
+    setValidationMsg,
     setValidationStatus,
   ]);
 
@@ -334,10 +335,11 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
                       handleChangeValue={handleChangeTwitterHandle}
                     />
                   </div>
-                  <div>
+                  <div className={styles.validateBtnRow}>
                     <button className={styles.btn} type="button" onClick={handleClickValidate}>
                       <span>{i18n.validate}</span>
                     </button>
+                    <div className={styles.status}>{validationMsg}</div>
                   </div>
                 </div>
               </div>

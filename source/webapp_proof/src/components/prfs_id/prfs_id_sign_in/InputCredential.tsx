@@ -2,7 +2,11 @@ import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useRouter } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
-import { PrfsIdCredential, makePrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
+import {
+  PrfsIdCredential,
+  makePrfsIdCredential,
+  persistPrfsIdCredential,
+} from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./InputCredential.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -18,6 +22,7 @@ import {
 } from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
 import { paths } from "@/paths";
 import { IdCreateForm } from "@/functions/validate_id";
+import { encrypt } from "eciesjs";
 
 enum InputCredentialStatus {
   Loading,
@@ -66,6 +71,8 @@ const InputCredential: React.FC<InputCredentialProps> = ({
     });
     // console.log("credential", credential, formData);
 
+    // encrypt(credential.local_encrypt_key)
+    persistPrfsIdCredential(credential);
     handleSucceedSignIn(credential);
   }, [handleSucceedSignIn, formData]);
 

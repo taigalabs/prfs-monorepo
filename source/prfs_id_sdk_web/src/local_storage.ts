@@ -1,3 +1,6 @@
+import { encrypt } from "eciesjs";
+import { PrfsIdCredential } from "./api";
+
 const PRFS_ID_STORAGE_KEY = "prfs_id";
 
 export type PrfsId = string;
@@ -8,9 +11,15 @@ export interface StoredCredential {
   credential: number[]; // encrpyted
 }
 
-export function persistPrfsIdCredential(credential: StoredCredential) {
+export function persistPrfsIdCredential(credential: PrfsIdCredential) {
+  const encrypted = encrypt(credential.local_encrypt_key, Buffer.from(JSON.stringify(credential)));
+  const storedCredential = {
+    id: credential.id,
+    credential: Array.prototype.slice.call(encrypted), // encrpyted
+  };
+
   const credentials = loadLocalPrfsIdCredentials();
-  credentials[credential.id] = credential;
+  credentials[credential.id] = storedCredential;
   const str = JSON.stringify(credentials);
 
   window.localStorage.setItem(PRFS_ID_STORAGE_KEY, str);

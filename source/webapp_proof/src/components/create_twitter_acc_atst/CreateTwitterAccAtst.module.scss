@@ -115,6 +115,15 @@
     }
   }
 
+  .validateBtnRow {
+    display: flex;
+    align-items: center;
+
+    .status {
+      padding-left: 16px;
+    }
+  }
+
   .tweetContentBtnRow {
     display: flex;
     align-items: center;
