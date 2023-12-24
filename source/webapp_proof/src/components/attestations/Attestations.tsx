@@ -2,8 +2,9 @@
 
 import React from "react";
 import cn from "classnames";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
+import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
 
 import styles from "./Attestations.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -61,31 +62,33 @@ const Attestations: React.FC<AttestationsProps> = ({ children }) => {
   );
 
   if (!isCredentialInitialized) {
-    <div>Loading...</div>;
+    <div className={styles.loading}>Loading...</div>;
   }
 
-  return (
-    prfsProofCredential && (
-      <>
-        <AttestationsMasthead
-          handleClickShowLeftBar={handleClickShowLeftBar}
-          handleClickShowLeftBarDrawer={handleClickShowLeftBarDrawer}
-        />
-        <MastheadPlaceholder tallHeight />
-        <div className={styles.wrapper}>
-          <div className={cn(styles.leftBarContainer, { [styles.isVisible]: isLeftBarVisible })}>
-            <LeftBar />
-          </div>
-          <LeftBarDrawer isOpen={isLeftBarDrawerVisible} setIsOpen={handleClickShowLeftBarDrawer}>
-            <div className={styles.drawerLogoArea}>
-              <AttestationsLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
-            </div>
-            <LeftBar />
-          </LeftBarDrawer>
-          {children}
+  return prfsProofCredential ? (
+    <>
+      <AttestationsMasthead
+        handleClickShowLeftBar={handleClickShowLeftBar}
+        handleClickShowLeftBarDrawer={handleClickShowLeftBarDrawer}
+      />
+      <MastheadPlaceholder tallHeight />
+      <div className={styles.wrapper}>
+        <div className={cn(styles.leftBarContainer, { [styles.isVisible]: isLeftBarVisible })}>
+          <LeftBar />
         </div>
-      </>
-    )
+        <LeftBarDrawer isOpen={isLeftBarDrawerVisible} setIsOpen={handleClickShowLeftBarDrawer}>
+          <div className={styles.drawerLogoArea}>
+            <AttestationsLogoArea handleClickShowLeftBar={handleClickShowLeftBar} />
+          </div>
+          <LeftBar />
+        </LeftBarDrawer>
+        {children}
+      </div>
+    </>
+  ) : (
+    <div className={styles.loading}>
+      <Spinner size={32} color={colors.gray_32} />
+    </div>
   );
 };
 
