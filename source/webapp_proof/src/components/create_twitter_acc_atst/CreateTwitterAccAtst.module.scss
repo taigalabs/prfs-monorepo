@@ -3,8 +3,6 @@
 }
 
 .instructions {
-  padding-bottom: 18px;
-
   .overlay {
     display: none;
     background-color: rgba(255, 255, 255, 0.5);
@@ -38,7 +36,7 @@
   .desc {
     display: block;
     word-break: break-all;
-    padding-bottom: 14px;
+    padding-bottom: 18px;
 
     > p:not(:last-child) {
       padding-bottom: 5px;
@@ -68,7 +66,7 @@
   }
 
   .row {
-    padding: 1px 0 14px;
+    padding: 1px 0 18px;
   }
 
   .tweetContent {
@@ -132,6 +130,10 @@
 }
 
 .btnRow {
+  padding-top: 18px;
+}
+
+.createBtnRow {
   display: flex;
   justify-content: space-between;
   padding-left: 40px;

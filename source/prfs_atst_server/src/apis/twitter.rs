@@ -14,14 +14,17 @@ use std::sync::Arc;
 use crate::error_codes::API_ERROR_CODE;
 use crate::AtstServerError;
 
-pub async fn scrape_tweet(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
+pub async fn attest_twitter_acc(
+    req: Request<Incoming>,
+    state: Arc<ServerState>,
+) -> ApiHandlerResult {
     let req: AttestTwitterAccRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
     let twitter_scrape = twitter::scrape_tweet(&req.tweet_url, &req.twitter_handle)
         .await
-        .unwrap();
+        .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.TWITTER_ACC_VALIDATE_FAIL, err))?;
 
     let prfs_acc_atst = PrfsAccAtst {
         acc_atst_id: req.acc_atst_id,
@@ -36,7 +39,7 @@ pub async fn scrape_tweet(req: Request<Incoming>, state: Arc<ServerState>) -> Ap
 
     let acc_atst_id = db_apis::insert_prfs_acc_atst(&mut tx, &prfs_acc_atst)
         .await
-        .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.UNKNOWN_ERROR, err))?;
+        .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.TWITTER_ACC_ATST_INSERT_FAIL, err))?;
 
     tx.commit().await.unwrap();
 

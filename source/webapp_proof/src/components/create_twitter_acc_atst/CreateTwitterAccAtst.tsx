@@ -172,7 +172,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
     const twitter_handle = formData[TWITTER_HANDLE];
 
     const req: AttestTwitterAccRequest = {
-      acc_atst_id: "1",
+      acc_atst_id: twitter_handle,
       tweet_url,
       twitter_handle,
     };
@@ -277,7 +277,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
                     </div>
                   )}
                 </div>
-                <div className={styles.tweetContentBtnRow}>
+                <div className={cn(styles.tweetContentBtnRow)}>
                   <button className={styles.btn} type="button" onClick={handleClickPostTweet}>
                     {i18n.post}
                   </button>
@@ -322,7 +322,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
               </div>
             </li>
           </ol>
-          <div className={styles.btnRow}>
+          <div className={cn(styles.btnRow, styles.createBtnRow)}>
             <Button
               variant="transparent_blue_2"
               noTransition
