@@ -71,7 +71,6 @@ const InputCredential: React.FC<InputCredentialProps> = ({
     });
     // console.log("credential", credential, formData);
 
-    // encrypt(credential.local_encrypt_key)
     persistPrfsIdCredential(credential);
     handleSucceedSignIn(credential);
   }, [handleSucceedSignIn, formData]);
