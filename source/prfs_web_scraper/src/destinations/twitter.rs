@@ -22,16 +22,8 @@ pub async fn scrape_tweet(
 
     let re = Regex::new(r"([\w]+)[-]([\w]+)\s([\w]+)\s([\w]+)\s([\w]+)").unwrap();
 
-    // let browser = Browser::new(
-    //     LaunchOptions::default_builder()
-    //         .build()
-    //         .expect("Could not find chrome-executable"),
-    // )?;
-
     let tab = crawler.browser.new_tab()?;
     tab.navigate_to(&tweet_url).expect("navigate");
-
-    println!("11");
 
     let anchor_selector = format!(r#"a[href^="/{}"]"#, twitter_handle);
     tab.wait_for_elements(&anchor_selector)
@@ -48,8 +40,6 @@ pub async fn scrape_tweet(
         res.account_id = account_id.to_string();
         res.cm = cm.to_string();
     }
-
-    println!("22");
 
     {
         // Extract a username and an avatar URL
@@ -90,10 +80,7 @@ pub async fn scrape_tweet(
         }
     }
 
-    println!("33");
-
-    // tab.stop_loading().unwrap();
-    // tab.close(false).unwrap();
+    tab.close_with_unload().unwrap();
 
     Ok(res)
 }
