@@ -37,6 +37,7 @@
     display: block;
     word-break: break-all;
     padding-bottom: 18px;
+    color: var(--gray-20);
 
     > p:not(:last-child) {
       padding-bottom: 5px;
@@ -44,6 +45,7 @@
   }
 
   .descTitle {
+    color: var(--black-10);
     font-size: 16px;
   }
 

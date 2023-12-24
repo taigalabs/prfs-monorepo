@@ -10,6 +10,7 @@ import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import { decrypt } from "eciesjs";
 import { atstApi } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import {
   CommitmentType,
   PrfsIdCommitmentSuccessPayload,
@@ -49,6 +50,7 @@ enum Status {
 
 const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
   const i18n = React.useContext(i18nContext);
+  const router = useRouter();
   const [formData, setFormData] = React.useState({ [TWITTER_HANDLE]: "", [TWEET_URL]: "" });
   const [claimCm, setClaimCm] = React.useState<string | null>(null);
   const claimSecret = React.useMemo(() => {
@@ -237,9 +239,10 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
   }, [tweetContent]);
 
   const handleClickCreate = React.useCallback(async () => {
-    if (validation) {
+    if (validation && createStatus === Status.Standby) {
       // For now, we don't obfuscate attestation id
       const acc_atst_id = formData[TWITTER_HANDLE];
+      setCreateMsg(null);
 
       if (acc_atst_id) {
         setCreateStatus(Status.InProgress);
@@ -250,7 +253,13 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
         setCreateStatus(Status.Standby);
 
         if (error) {
+          console.log(11, error);
           setCreateMsg(<span>{error.toString()}</span>);
+          return;
+        }
+
+        if (payload) {
+          router.push(paths.attestations__twitter);
         }
       }
     }
@@ -261,6 +270,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
     attestTwitterAccRequest,
     setCreateMsg,
     setCreateStatus,
+    router,
   ]);
 
   return (
@@ -406,7 +416,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
                 handleClick={handleClickCreate}
                 noShadow
                 type="button"
-                disabled={!validation}
+                disabled={!validation || createStatus === Status.InProgress}
               >
                 <div className={styles.content}>
                   {createStatus === Status.InProgress && (
@@ -416,9 +426,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
                 </div>
               </Button>
             </div>
-            {createMsg && (
-              <div className={cn(styles.createBtnRow, styles.error)}>{createMsg.toString()}</div>
-            )}
+            {createMsg && <div className={cn(styles.createBtnRow, styles.error)}>{createMsg}</div>}
           </div>
         </form>
       </div>

@@ -38,7 +38,14 @@ pub async fn insert_prfs_acc_atst(
     let query = r#"
 INSERT INTO prfs_acc_atsts
 (acc_atst_id, atst_type, dest, account_id, cm, username, avatar_url, document_url)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8) returning acc_atst_id"#;
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8) 
+ON CONFLICT (acc_atst_id) DO UPDATE SET (
+atst_type, dest, account_id, cm, username, avatar_url, document_url, updated_at
+) = (
+excluded.atst_type, excluded.dest, excluded.account_id, excluded.cm, excluded.username, 
+excluded.avatar_url, excluded.document_url, now()
+)
+RETURNING acc_atst_id"#;
 
     let row = sqlx::query(query)
         .bind(&prfs_acc_atst.acc_atst_id)
