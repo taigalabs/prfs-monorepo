@@ -25,6 +25,8 @@ import { AttestationsTitle } from "@/components/attestations/Attestations";
 import { useRandomKeyPair } from "@/hooks/key";
 import { envs } from "@/envs";
 import { paths } from "@/paths";
+import { ValidateTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/ValidateTwitterAccRequest";
+import { TwitterAccValidation } from "@taigalabs/prfs-entities/bindings/TwitterAccValidation";
 
 const TWITTER_HANDLE = "twitter_handle";
 const TWEET_URL = "tweet_url";
@@ -37,6 +39,13 @@ enum AttestationStep {
   VALIDATE_TWEET,
 }
 
+enum ValidationStatus {
+  StandBy,
+  InProgress,
+  Valid,
+  Invalid,
+}
+
 const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
   const i18n = React.useContext(i18nContext);
   const [formData, setFormData] = React.useState({ [TWITTER_HANDLE]: "", [TWEET_URL]: "" });
@@ -45,11 +54,15 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
     const handle = formData[TWITTER_HANDLE];
     return `PRFS_ATTESTATION_${handle}`;
   }, [formData[TWITTER_HANDLE]]);
+  const [validationStatus, setValidationStatus] = React.useState<ValidationStatus>(
+    ValidationStatus.StandBy,
+  );
+  const [validation, setValidation] = React.useState<TwitterAccValidation | null>(null);
   const [step, setStep] = React.useState(AttestationStep.INPUT_TWITTER_HANDLE);
   const { sk, pkHex } = useRandomKeyPair();
   const { mutateAsync: attestTwitterAccRequest } = useMutation({
-    mutationFn: (req: AttestTwitterAccRequest) => {
-      return atstApi("attest_twitter_acc", req);
+    mutationFn: (req: ValidateTwitterAccRequest) => {
+      return atstApi("validate_twitter_acc", req);
     },
   });
 
@@ -171,19 +184,27 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
     const tweet_url = formData[TWEET_URL];
     const twitter_handle = formData[TWITTER_HANDLE];
 
-    const req: AttestTwitterAccRequest = {
-      acc_atst_id: twitter_handle,
+    const req: ValidateTwitterAccRequest = {
       tweet_url,
       twitter_handle,
     };
+
     const { payload, error } = await attestTwitterAccRequest(req);
 
     if (error) {
       console.error(error);
     }
 
-    console.log(11, payload);
-  }, [attestTwitterAccRequest, formData[TWEET_URL], formData[TWITTER_HANDLE]]);
+    if (payload) {
+      setValidation(payload.validation);
+    }
+  }, [
+    attestTwitterAccRequest,
+    formData[TWEET_URL],
+    formData[TWITTER_HANDLE],
+    setValidation,
+    setValidationStatus,
+  ]);
 
   const handleClickStartOver = React.useCallback(() => {
     window.location.reload();
@@ -338,6 +359,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
               handleClick={handleClickCreate}
               noShadow
               type="button"
+              disabled={!validation}
             >
               {i18n.create}
             </Button>
