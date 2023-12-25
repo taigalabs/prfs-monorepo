@@ -12,31 +12,13 @@ import { PrfsAccAtst } from "@taigalabs/prfs-entities/bindings/PrfsAccAtst";
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style }) => {
   return (
     <div className={cn(styles.row)} style={style}>
-      <div className={styles.username}>{atst.username}</div>
-      <div className={styles.accountId}>{atst.account_id}</div>
-      <div className={styles.commitment}>{atst.cm}</div>
-      <div className={styles.url}>{atst.document_url}</div>
+      <div className={cn(styles.username, styles.cell)}>{atst.username}</div>
+      <div className={cn(styles.accountId, styles.cell)}>{atst.account_id}</div>
+      <div className={cn(styles.commitment, styles.cell)}>{atst.cm}</div>
+      <div className={cn(styles.url, styles.cell)}>{atst.document_url}</div>
     </div>
   );
 };
-
-// export async function fetchServerPage2(offset: number, pageSize: number) {
-//   console.log("fetch", offset);
-
-//   const rows = Array(pageSize)
-//     .fill(0)
-//     .map((_, i) => {
-//       // return `Async loaded row #${i + pageSize * crs}`;
-//       return {
-//         name: "Project " + (i + offset) + ` (server time: ${Date.now()})`,
-//         id: i + offset,
-//       };
-//     });
-
-//   const nextId = offset + pageSize;
-//   console.log("fetch nextId", nextId);
-//   return { rows, nextId };
-// }
 
 const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -95,10 +77,10 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
               [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
             })}
           >
-            <div className={styles.username}>{i18n.username}</div>
-            <div className={styles.accountId}>{i18n.account_id}</div>
-            <div className={styles.commitment}>{i18n.commitment}</div>
-            <div className={styles.url}>{i18n.document_url}</div>
+            <div className={cn(styles.username, styles.cell)}>{i18n.username}</div>
+            <div className={cn(styles.accountId, styles.cell)}>{i18n.account_id}</div>
+            <div className={cn(styles.commitment, styles.cell)}>{i18n.commitment}</div>
+            <div className={cn(styles.url, styles.cell)}>{i18n.document_url}</div>
           </div>
           <div className={styles.listContainer} ref={parentRef}>
             <div

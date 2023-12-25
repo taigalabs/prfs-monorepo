@@ -10,11 +10,11 @@
   }
 
   .commitment {
-    width: 250px;
+    width: 260px;
   }
 
   .url {
-    width: 220px;
+    width: 150px;
   }
 }
 
@@ -27,10 +27,10 @@
   &:not(.noData) {
     border-bottom: 1px solid var(--gray-60);
   }
+}
 
-  > div {
-    /* padding: 4px; */
-  }
+.cell {
+  padding: 4px;
 }
 
 .listContainer {
