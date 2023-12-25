@@ -1,21 +1,22 @@
-use headless_chrome::{Browser, LaunchOptions};
+// use headless_chrome::{Browser, LaunchOptions};
 
-use crate::WebScraperError;
+// use crate::WebScraperError;
 
-pub struct Crawler {
-    pub browser: Browser,
-}
+// #[deprecated]
+// pub struct Crawler {
+//     pub browser: Browser,
+// }
 
-impl Crawler {
-    pub fn init() -> Result<Crawler, WebScraperError> {
-        let browser = Browser::new(
-            LaunchOptions::default_builder()
-                .build()
-                .expect("Could not find chrome-executable"),
-        )?;
+// impl Crawler {
+//     pub fn init() -> Result<Crawler, WebScraperError> {
+//         let browser = Browser::new(
+//             LaunchOptions::default_builder()
+//                 .build()
+//                 .expect("Could not find chrome-executable"),
+//         )?;
 
-        let c = Crawler { browser };
+//         let c = Crawler { browser };
 
-        Ok(c)
-    }
-}
+//         Ok(c)
+//     }
+// }

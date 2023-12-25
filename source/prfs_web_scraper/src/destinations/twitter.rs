@@ -3,7 +3,7 @@ use prfs_entities::atst_api_entities::TwitterAccValidation;
 use regex::Regex;
 use thiserror::Error;
 
-use crate::{crawler::Crawler, WebScraperError};
+use crate::WebScraperError;
 
 #[derive(Error, Debug)]
 pub enum TweetScrapeError {
@@ -21,7 +21,6 @@ pub enum TweetScrapeError {
 }
 
 pub async fn scrape_tweet(
-    crawler: &Crawler,
     tweet_url: &str,
     twitter_handle: &str,
 ) -> Result<TwitterAccValidation, WebScraperError> {
@@ -38,29 +37,28 @@ pub async fn scrape_tweet(
 
     let re = Regex::new(r"([\w]+)[-]([\w]+)\s([\w]+)\s([\w]+)\s([\w]+)").unwrap();
 
-    // let browser = Browser::new(
-    //     LaunchOptions::default_builder()
-    //         .build()
-    //         .expect("Could not find chrome-executable"),
-    // )
-    // .unwrap();
+    let browser = Browser::new(
+        LaunchOptions::default_builder()
+            .build()
+            .expect("Could not find chrome-executable"),
+    )?;
 
-    // let tab = browser.new_tab().unwrap();
-
-    let tab = crawler.browser.new_tab().map_err(|err| {
+    let tab = browser.new_tab().map_err(|err| {
         println!("Cannot open new tab, err: {}", err);
         TweetScrapeError::NewTabError
     })?;
     tab.navigate_to(&tweet_url).expect("navigate");
 
     let anchor_selector = format!(r#"a[href^="/{}"]"#, twitter_handle);
-    tab.wait_for_elements(&anchor_selector)
-        .or_else(|err| {
-            let str = tab.get_content().unwrap();
-            println!("111: {}", str);
-            return Err("wait for search input");
-        })
-        .unwrap();
+    match tab.wait_for_elements(&anchor_selector) {
+        Ok(_) => {}
+        Err(_err) => {
+            println!(
+                "{} doesn't seem to load, but let's still try to parse the doc",
+                anchor_selector
+            );
+        }
+    };
 
     println!("waited element to render, selector: {}", anchor_selector);
 

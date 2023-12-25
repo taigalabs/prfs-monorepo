@@ -23,7 +23,7 @@ pub async fn validate_twitter_acc(
 ) -> ApiHandlerResult {
     let req: ValidateTwitterAccRequest = parse_req(req).await;
 
-    let validation = twitter::scrape_tweet(&state.crawler, &req.tweet_url, &req.twitter_handle)
+    let validation = twitter::scrape_tweet(&req.tweet_url, &req.twitter_handle)
         .await
         .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.TWITTER_ACC_VALIDATE_FAIL, err))?;
 
