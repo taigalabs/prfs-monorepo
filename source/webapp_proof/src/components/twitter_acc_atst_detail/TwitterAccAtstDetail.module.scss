@@ -1,0 +1,56 @@
+.wrapper {
+  /* border: 1px solid red; */
+
+  .username {
+    width: 270px;
+  }
+
+  .accountId {
+    width: 180px;
+  }
+
+  .commitment {
+    width: 260px;
+  }
+
+  .url {
+    width: 150px;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  height: 49px;
+  padding: 4px;
+
+  &:not(.noData) {
+    border-bottom: 1px solid var(--gray-60);
+  }
+}
+
+.cell {
+  padding: 4px;
+}
+
+.listContainer {
+  width: 100%;
+  overflow: auto;
+
+  .listInner {
+    width: 100%;
+    position: relative;
+  }
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+
+  > div {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
