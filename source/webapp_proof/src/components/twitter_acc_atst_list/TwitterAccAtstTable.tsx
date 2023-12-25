@@ -3,7 +3,6 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
 
 import styles from "./TwitterAccAtstTable.module.scss";
-import { fetchData, Person } from "./fetchData";
 
 export interface Data {
   rows: Row[];
@@ -15,9 +14,8 @@ export interface Row {
   id: number;
 }
 
-export async function fetchServerPage2(offset: number) {
+export async function fetchServerPage2(offset: number, pageSize: number) {
   console.log("fetch", offset);
-  const pageSize = 5;
 
   const rows = Array(pageSize)
     .fill(0)
@@ -34,7 +32,7 @@ export async function fetchServerPage2(offset: number) {
   return { rows, nextId };
 }
 
-function TwitterAccAtstTable() {
+const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
   const {
     status,
     data,
@@ -50,7 +48,7 @@ function TwitterAccAtstTable() {
     queryKey: ["projects"],
     queryFn: async ({ pageParam }) => {
       console.log("pageParam", pageParam);
-      const res = await fetchServerPage2(pageParam as any);
+      const res = await fetchServerPage2(pageParam as any, 10);
       return res;
     },
     initialPageParam: 0,
@@ -138,6 +136,8 @@ function TwitterAccAtstTable() {
       <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
     </div>
   );
-}
+};
 
 export default TwitterAccAtstTable;
+
+export interface TwitterAccAtstTableProps {}
