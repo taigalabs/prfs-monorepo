@@ -31,11 +31,11 @@ enum Status {
 const TwitterAccAtstList: React.FC<TwitterAccAtstListProps> = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
-  const { mutateAsync: attestTwitterAccRequest } = useMutation({
-    mutationFn: (req: AttestTwitterAccRequest) => {
-      return atstApi("attest_twitter_acc", req);
-    },
-  });
+  // const { mutateAsync: attestTwitterAccRequest } = useMutation({
+  //   mutationFn: (req: AttestTwitterAccRequest) => {
+  //     return atstApi("attest_twitter_acc", req);
+  //   },
+  // });
 
   React.useEffect(() => {}, []);
 

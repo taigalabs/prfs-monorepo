@@ -1,66 +1,61 @@
 import React from "react";
+import cn from "classnames";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
+import { GetTwitterAccAtstsResponse } from "@taigalabs/prfs-entities/bindings/GetTwitterAccAtstsResponse";
+import { PrfsApiResponse, atstApi } from "@taigalabs/prfs-api-js";
 
 import styles from "./TwitterAccAtstTable.module.scss";
+import { PrfsAccAtst } from "@taigalabs/prfs-entities/bindings/PrfsAccAtst";
 
-export interface Data {
-  rows: Row[];
-  nextId: number;
-}
+const AtstRow: React.FC<AtstRowProps> = ({ atst, style }) => {
+  return (
+    <div className={cn(styles.row)} style={style}>
+      {atst.username}
+    </div>
+  );
+};
 
-export interface Row {
-  name: string;
-  id: number;
-}
+// export async function fetchServerPage2(offset: number, pageSize: number) {
+//   console.log("fetch", offset);
 
-export async function fetchServerPage2(offset: number, pageSize: number) {
-  console.log("fetch", offset);
+//   const rows = Array(pageSize)
+//     .fill(0)
+//     .map((_, i) => {
+//       // return `Async loaded row #${i + pageSize * crs}`;
+//       return {
+//         name: "Project " + (i + offset) + ` (server time: ${Date.now()})`,
+//         id: i + offset,
+//       };
+//     });
 
-  const rows = Array(pageSize)
-    .fill(0)
-    .map((_, i) => {
-      // return `Async loaded row #${i + pageSize * crs}`;
-      return {
-        name: "Project " + (i + offset) + ` (server time: ${Date.now()})`,
-        id: i + offset,
-      };
-    });
-
-  const nextId = offset + pageSize;
-  console.log("fetch nextId", nextId);
-  return { rows, nextId };
-}
+//   const nextId = offset + pageSize;
+//   console.log("fetch nextId", nextId);
+//   return { rows, nextId };
+// }
 
 const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
-  const {
-    status,
-    data,
-    error,
-    isFetching,
-    isFetchingNextPage,
-    isFetchingPreviousPage,
-    fetchNextPage,
-    fetchPreviousPage,
-    hasNextPage,
-    hasPreviousPage,
-  } = useInfiniteQuery<Data>({
-    queryKey: ["projects"],
-    queryFn: async ({ pageParam }) => {
-      console.log("pageParam", pageParam);
-      const res = await fetchServerPage2(pageParam as any, 10);
-      return res;
-    },
-    initialPageParam: 0,
-    getNextPageParam: (lastPage: any) => lastPage.nextId ?? undefined,
-  });
+  const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useInfiniteQuery<PrfsApiResponse<GetTwitterAccAtstsResponse>>({
+      queryKey: ["projects"],
+      queryFn: async ({ pageParam }) => {
+        console.log("pageParam", pageParam);
+        return atstApi("get_twitter_acc_atsts", { offset: pageParam as number });
+      },
+      initialPageParam: 0,
+      getNextPageParam: (lastPage: any) => lastPage.nextId ?? undefined,
+    });
 
-  const allRows = data ? data.pages.flatMap(d => d.rows) : [];
+  const allRows = data
+    ? data.pages.flatMap(d => {
+        return d.payload ? d.payload.rows : [];
+      })
+    : [];
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rowVirtualizer = useVirtualizer({
     count: hasNextPage ? allRows.length + 1 : allRows.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 100,
+    estimateSize: () => 56,
     overscan: 5,
   });
 
@@ -89,30 +84,27 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
       ) : status === "error" ? (
         <span>Error: {(error as Error).message}</span>
       ) : (
-        <div
-          ref={parentRef}
-          className="List"
-          style={{
-            height: `500px`,
-            width: `100%`,
-            overflow: "auto",
-          }}
-        >
+        <div className={styles.listContainer} ref={parentRef}>
           <div
+            className={styles.listInner}
             style={{
               height: `${rowVirtualizer.getTotalSize()}px`,
-              width: "100%",
-              position: "relative",
             }}
           >
             {rowVirtualizer.getVirtualItems().map(virtualRow => {
               const isLoaderRow = virtualRow.index > allRows.length - 1;
-              const post = allRows[virtualRow.index];
+              const row = allRows[virtualRow.index];
 
-              return (
-                <div
+              return isLoaderRow ? (
+                hasNextPage ? (
+                  "Loading more..."
+                ) : (
+                  "Nothing more to load"
+                )
+              ) : (
+                <AtstRow
+                  atst={row}
                   key={virtualRow.index}
-                  className={virtualRow.index % 2 ? "ListItemOdd" : "ListItemEven"}
                   style={{
                     position: "absolute",
                     top: 0,
@@ -121,13 +113,7 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
                     height: `${virtualRow.size}px`,
                     transform: `translateY(${virtualRow.start}px)`,
                   }}
-                >
-                  {isLoaderRow
-                    ? hasNextPage
-                      ? "Loading more..."
-                      : "Nothing more to load"
-                    : post.name}
-                </div>
+                />
               );
             })}
           </div>
@@ -141,3 +127,8 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
 export default TwitterAccAtstTable;
 
 export interface TwitterAccAtstTableProps {}
+
+export interface AtstRowProps {
+  atst: PrfsAccAtst;
+  style: React.CSSProperties;
+}

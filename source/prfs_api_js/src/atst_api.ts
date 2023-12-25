@@ -2,17 +2,21 @@ import { AttestTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/Attes
 import { AttestTwitterAccResponse } from "@taigalabs/prfs-entities/bindings/AttestTwitterAccResponse";
 import { ValidateTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/ValidateTwitterAccRequest";
 import { ValidateTwitterAccResponse } from "@taigalabs/prfs-entities/bindings/ValidateTwitterAccResponse";
+import { GetTwitterAccAtstsRequest } from "@taigalabs/prfs-entities/bindings/GetTwitterAccAtstsRequest";
+import { GetTwitterAccAtstsResponse } from "@taigalabs/prfs-entities/bindings/GetTwitterAccAtstsResponse";
 
 import { api } from "./utils";
 import { PrfsApiResponse } from "./types";
 
-type RequestName = "attest_twitter_acc" | "validate_twitter_acc";
+type RequestName = "attest_twitter_acc" | "validate_twitter_acc" | "get_twitter_acc_atsts";
 
 type Req<T extends RequestName> = //
   T extends "attest_twitter_acc"
     ? AttestTwitterAccRequest
     : T extends "validate_twitter_acc"
     ? ValidateTwitterAccRequest
+    : T extends "get_twitter_acc_atsts"
+    ? GetTwitterAccAtstsRequest
     : never;
 
 type Resp<T extends RequestName> = //
@@ -20,6 +24,8 @@ type Resp<T extends RequestName> = //
     ? PrfsApiResponse<AttestTwitterAccResponse>
     : T extends "validate_twitter_acc"
     ? PrfsApiResponse<ValidateTwitterAccResponse>
+    : T extends "get_twitter_acc_atsts"
+    ? PrfsApiResponse<GetTwitterAccAtstsResponse>
     : any;
 
 let PRFS_ATST_SERVER_ENDPOINT: string;
