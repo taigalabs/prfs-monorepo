@@ -7,10 +7,14 @@ import {
   ColumnDef,
   flexRender,
 } from "@tanstack/react-table";
+import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
+import { IoIosArrowForward } from "@react-icons/all-files/io/IoIosArrowForward";
 
 import styles from "./TwitterAccAtstTable.module.scss";
 
 import { fetchData, Person } from "./fetchData";
+
+const defaultData: any[] = [];
 
 const TwitterAccAtstTable: React.FC = () => {
   const columns = React.useMemo<ColumnDef<Person>[]>(
@@ -56,9 +60,10 @@ const TwitterAccAtstTable: React.FC = () => {
     pageSize,
   };
 
-  const dataQuery = useQuery({ queryKey: ["data"], queryFn: () => fetchData(fetchDataOptions) });
-
-  const defaultData = React.useMemo(() => [], []);
+  const dataQuery = useQuery({
+    queryKey: ["data"],
+    queryFn: () => fetchData(fetchDataOptions),
+  });
 
   const pagination = React.useMemo(
     () => ({
@@ -82,42 +87,30 @@ const TwitterAccAtstTable: React.FC = () => {
     debugTable: true,
   });
 
+  const { firstRowIdx, lastRowIdx } = React.useMemo(() => {
+    const firstRowIdx = pageIndex === 0 ? 1 : (pageIndex + 1) * pageSize;
+    const rowCount = table.getRowModel().rows.length;
+
+    return {
+      firstRowIdx,
+      lastRowIdx: firstRowIdx + rowCount - 1,
+    };
+  }, [pageIndex, pageSize, table.getRowModel()]);
+
   return (
     <div className={styles.wrapper}>
-      <div className="flex items-center gap-2">
-        <button
-          className="border rounded p-1"
-          onClick={() => table.setPageIndex(0)}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {"<<"}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {"<"}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          {">"}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-          disabled={!table.getCanNextPage()}
-        >
-          {">>"}
-        </button>
-        <span className="flex items-center gap-1">
-          <strong>
-            {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-          </strong>
-        </span>
+      <div className={styles.navigation}>
+        <div className={styles.location}>
+          {firstRowIdx} - {lastRowIdx}
+        </div>
+        <div className={styles.btnGroup}>
+          <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+            <IoIosArrowBack />
+          </button>
+          <button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+            <IoIosArrowForward />
+          </button>
+        </div>
       </div>
       <table>
         <thead>

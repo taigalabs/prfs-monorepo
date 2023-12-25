@@ -1,2 +1,33 @@
 .wrapper {
 }
+
+.navigation {
+  display: flex;
+  justify-content: flex-end;
+
+  .location {
+    display: flex;
+    align-items: center;
+  }
+
+  .btnGroup {
+    display: flex;
+    align-items: center;
+    padding-left: 14px;
+
+    > button {
+      border-radius: 18px;
+      font-size: 20px;
+      color: var(--gray-30);
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+
+      &:hover {
+        background-color: var(--bright-gray-32);
+      }
+    }
+  }
+}
