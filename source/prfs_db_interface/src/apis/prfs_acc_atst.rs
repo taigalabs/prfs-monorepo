@@ -4,8 +4,8 @@ use prfs_entities::sqlx::{self, Pool, Postgres, Row, Transaction};
 
 pub async fn get_prfs_acc_atsts(
     pool: &Pool<Postgres>,
-    page_idx: i32,
-    page_size: i32,
+    offset: i32,
+    limit: i32,
 ) -> Result<Vec<PrfsAccAtst>, DbInterfaceError> {
     let query = r#"
 SELECT * 

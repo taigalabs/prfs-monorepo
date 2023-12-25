@@ -32,6 +32,9 @@ pub async fn atst_server_routes(
         (&Method::POST, v0_path!("attest_twitter_acc")) => {
             twitter::attest_twitter_acc(req, state).await
         }
+        (&Method::POST, v0_path!("get_twitter_acc_atsts")) => {
+            twitter::get_twitter_acc_atsts(req, state).await
+        }
         _ => {
             println!("{} route not found!, {}", ATST_API, req.uri());
             Ok(Response::builder()
