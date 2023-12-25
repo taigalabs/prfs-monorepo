@@ -25,6 +25,7 @@ FROM prfs_acc_atsts
             username: row.get("username"),
             avatar_url: row.get("avatar_url"),
             document_url: row.get("document_url"),
+            status: row.get("status"),
         })
         .collect();
 
@@ -37,13 +38,13 @@ pub async fn insert_prfs_acc_atst(
 ) -> Result<String, DbInterfaceError> {
     let query = r#"
 INSERT INTO prfs_acc_atsts
-(acc_atst_id, atst_type, dest, account_id, cm, username, avatar_url, document_url)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8) 
+(acc_atst_id, atst_type, dest, account_id, cm, username, avatar_url, document_url, status)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
 ON CONFLICT (acc_atst_id) DO UPDATE SET (
-atst_type, dest, account_id, cm, username, avatar_url, document_url, updated_at
+atst_type, dest, account_id, cm, username, avatar_url, document_url, updated_at, status
 ) = (
 excluded.atst_type, excluded.dest, excluded.account_id, excluded.cm, excluded.username, 
-excluded.avatar_url, excluded.document_url, now()
+excluded.avatar_url, excluded.document_url, now(), excluded.status
 )
 RETURNING acc_atst_id"#;
 
@@ -56,6 +57,7 @@ RETURNING acc_atst_id"#;
         .bind(&prfs_acc_atst.username)
         .bind(&prfs_acc_atst.avatar_url)
         .bind(&prfs_acc_atst.document_url)
+        .bind(&prfs_acc_atst.status)
         .fetch_one(&mut **tx)
         .await?;
 

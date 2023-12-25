@@ -10,7 +10,7 @@ use prfs_entities::atst_api_entities::{
     AttestTwitterAccRequest, AttestTwitterAccResponse, ValidateTwitterAccRequest,
     ValidateTwitterAccResponse,
 };
-use prfs_entities::entities::PrfsAccAtst;
+use prfs_entities::entities::{PrfsAccAtst, PrfsAccAtstStatus};
 use prfs_web_scraper::destinations::twitter;
 use std::sync::Arc;
 
@@ -52,6 +52,7 @@ pub async fn attest_twitter_acc(
         username: req.validation.username,
         avatar_url: req.validation.avatar_url,
         document_url: req.validation.document_url,
+        status: PrfsAccAtstStatus::Valid,
     };
 
     let acc_atst_id = db_apis::insert_prfs_acc_atst(&mut tx, &prfs_acc_atst)
