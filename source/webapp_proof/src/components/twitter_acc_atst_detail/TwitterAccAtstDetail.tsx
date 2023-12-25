@@ -23,49 +23,15 @@ import { PrfsAccAtst } from "@taigalabs/prfs-entities/bindings/PrfsAccAtst";
 
 const TwitterAccAtstDetail: React.FC<TwitterAccAtstDetailProps> = () => {
   const i18n = React.useContext(i18nContext);
-  const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
-    useInfiniteQuery<PrfsApiResponse<GetTwitterAccAtstsResponse>>({
-      queryKey: ["projects"],
-      queryFn: async ({ pageParam }) => {
-        console.log("pageParam", pageParam);
-        return atstApi("get_twitter_acc_atsts", { offset: pageParam as number });
-      },
-      initialPageParam: 0,
-      getNextPageParam: (lastPage: any) => lastPage.nextId ?? undefined,
-    });
 
-  const allRows = data
-    ? data.pages.flatMap(d => {
-        return d.payload ? d.payload.rows : [];
-      })
-    : [];
-  const parentRef = React.useRef<HTMLDivElement | null>(null);
-  const rowVirtualizer = useVirtualizer({
-    count: hasNextPage ? allRows.length + 1 : allRows.length,
-    getScrollElement: () => parentRef.current,
-    estimateSize: () => 56,
-    overscan: 5,
-  });
-
-  React.useEffect(() => {
-    const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse();
-
-    if (!lastItem) {
-      return;
-    }
-
-    if (lastItem.index >= allRows.length - 1 && hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  }, [
-    hasNextPage,
-    fetchNextPage,
-    allRows.length,
-    isFetchingNextPage,
-    rowVirtualizer.getVirtualItems(),
-  ]);
-
-  return <div className={styles.wrapper}>power</div>;
+  return (
+    <div className={styles.wrapper}>
+      {/* <div className={cn(styles.username, styles.cell)}>{atst.username}</div> */}
+      {/* <div className={cn(styles.accountId, styles.cell)}>{atst.account_id}</div> */}
+      {/* <div className={cn(styles.commitment, styles.cell)}>{atst.cm}</div> */}
+      {/* <div className={cn(styles.url, styles.cell)}>{i18n.tweet}</div> */}
+    </div>
+  );
 };
 
 export default TwitterAccAtstDetail;
