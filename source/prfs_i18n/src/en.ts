@@ -2,6 +2,7 @@ export default {
   close: "Close",
   close_and_return: "Close and return",
   account_verification: "Account Verification",
+  account_id: "Account ID",
   attestations: "Attestations",
   attestation: "Attestation",
   acc_verification: "Acc Verification",
@@ -163,6 +164,7 @@ export default {
   loading: "Loading",
   log_in: "Log in",
   sign_in: "Sign in",
+  username: "Username",
   use_your_prfs_identity: "Use your Prfs identity",
   use_another_id: "Use another ID",
   create_an_identity: "Create an identity",
@@ -186,6 +188,7 @@ export default {
   some_functionalities_are_available_only_with_user_signed_in:
     "Some functionalities are availble only with the user signed in. Join today.",
   url: "URL",
+  document_url: "Document URL",
   vote: "Vote",
   enrollment: "Enrollment",
   talk: "Talk",

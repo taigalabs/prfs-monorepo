@@ -1,5 +1,36 @@
 .wrapper {
-  border: 1px solid red;
+  /* border: 1px solid red; */
+
+  .username {
+    width: 270px;
+  }
+
+  .accountId {
+    width: 180px;
+  }
+
+  .commitment {
+    width: 250px;
+  }
+
+  .url {
+    width: 220px;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  height: 49px;
+  padding: 4px;
+
+  &:not(.noData) {
+    border-bottom: 1px solid var(--gray-60);
+  }
+
+  > div {
+    /* padding: 4px; */
+  }
 }
 
 .listContainer {
@@ -13,4 +44,13 @@
 }
 
 .row {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+
+  > div {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 }

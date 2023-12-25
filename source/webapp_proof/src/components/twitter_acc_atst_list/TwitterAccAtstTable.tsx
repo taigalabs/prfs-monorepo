@@ -4,6 +4,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { GetTwitterAccAtstsResponse } from "@taigalabs/prfs-entities/bindings/GetTwitterAccAtstsResponse";
 import { PrfsApiResponse, atstApi } from "@taigalabs/prfs-api-js";
+import { i18nContext } from "@/i18n/context";
 
 import styles from "./TwitterAccAtstTable.module.scss";
 import { PrfsAccAtst } from "@taigalabs/prfs-entities/bindings/PrfsAccAtst";
@@ -11,7 +12,10 @@ import { PrfsAccAtst } from "@taigalabs/prfs-entities/bindings/PrfsAccAtst";
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style }) => {
   return (
     <div className={cn(styles.row)} style={style}>
-      {atst.username}
+      <div className={styles.username}>{atst.username}</div>
+      <div className={styles.accountId}>{atst.account_id}</div>
+      <div className={styles.commitment}>{atst.cm}</div>
+      <div className={styles.url}>{atst.document_url}</div>
     </div>
   );
 };
@@ -35,6 +39,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style }) => {
 // }
 
 const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
+  const i18n = React.useContext(i18nContext);
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery<PrfsApiResponse<GetTwitterAccAtstsResponse>>({
       queryKey: ["projects"],
@@ -84,40 +89,52 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
       ) : status === "error" ? (
         <span>Error: {(error as Error).message}</span>
       ) : (
-        <div className={styles.listContainer} ref={parentRef}>
+        <>
           <div
-            className={styles.listInner}
-            style={{
-              height: `${rowVirtualizer.getTotalSize()}px`,
-            }}
-          >
-            {rowVirtualizer.getVirtualItems().map(virtualRow => {
-              const isLoaderRow = virtualRow.index > allRows.length - 1;
-              const row = allRows[virtualRow.index];
-
-              return isLoaderRow ? (
-                hasNextPage ? (
-                  "Loading more..."
-                ) : (
-                  "Nothing more to load"
-                )
-              ) : (
-                <AtstRow
-                  atst={row}
-                  key={virtualRow.index}
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: `${virtualRow.size}px`,
-                    transform: `translateY(${virtualRow.start}px)`,
-                  }}
-                />
-              );
+            className={cn(styles.header, {
+              [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
             })}
+          >
+            <div className={styles.username}>{i18n.username}</div>
+            <div className={styles.accountId}>{i18n.account_id}</div>
+            <div className={styles.commitment}>{i18n.commitment}</div>
+            <div className={styles.url}>{i18n.document_url}</div>
           </div>
-        </div>
+          <div className={styles.listContainer} ref={parentRef}>
+            <div
+              className={styles.listInner}
+              style={{
+                height: `${rowVirtualizer.getTotalSize()}px`,
+              }}
+            >
+              {rowVirtualizer.getVirtualItems().map(virtualRow => {
+                const isLoaderRow = virtualRow.index > allRows.length - 1;
+                const row = allRows[virtualRow.index];
+
+                return isLoaderRow ? (
+                  hasNextPage ? (
+                    "Loading more..."
+                  ) : (
+                    "Nothing more to load"
+                  )
+                ) : (
+                  <AtstRow
+                    atst={row}
+                    key={virtualRow.index}
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: `${virtualRow.size}px`,
+                      transform: `translateY(${virtualRow.start}px)`,
+                    }}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        </>
       )}
       <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
     </div>
