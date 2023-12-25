@@ -134,6 +134,7 @@ export default {
   share: "Share",
   twitter: "Twitter",
   create_twitter_acc_attestation: "Create X (Twitter) account attestation",
+  twitter_acc_attestations: "X (Twitter) account attestations",
   x_twitter: "X (Twitter)",
   telegram: "Telegram",
   discord: "Discord",

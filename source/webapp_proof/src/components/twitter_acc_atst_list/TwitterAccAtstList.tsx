@@ -1,22 +1,13 @@
+"use client";
+
 import React from "react";
 import cn from "classnames";
-import { Input } from "@taigalabs/prfs-react-components/src/input/Input";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
-import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import { decrypt } from "eciesjs";
 import { atstApi } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import {
-  CommitmentType,
-  PrfsIdCommitmentSuccessPayload,
-  PrfsIdMsg,
-  getCommitment,
-  makeAttestation,
-  newPrfsIdMsg,
-} from "@taigalabs/prfs-id-sdk-web";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
@@ -24,7 +15,7 @@ import { AttestTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/Attes
 import { ValidateTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/ValidateTwitterAccRequest";
 import { TwitterAccValidation } from "@taigalabs/prfs-entities/bindings/TwitterAccValidation";
 
-import styles from "./CreateTwitterAccAtst.module.scss";
+import styles from "./TwitterAccAtstList.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { AttestationsTitle } from "@/components/attestations/Attestations";
 import { useRandomKeyPair } from "@/hooks/key";
@@ -50,7 +41,7 @@ const TwitterAccAtstList: React.FC<TwitterAccAtstListProps> = () => {
   return (
     <>
       <AttestationsTitle className={styles.title}>
-        {i18n.create_twitter_acc_attestation}
+        {i18n.twitter_acc_attestations}
       </AttestationsTitle>
       wer
     </>
