@@ -49,7 +49,7 @@ enum Status {
   InProgress,
 }
 
-const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
+const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const [formData, setFormData] = React.useState({ [TWITTER_HANDLE]: "", [TWEET_URL]: "" });
@@ -448,6 +448,6 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
   );
 };
 
-export default TwitterAccAttestation;
+export default CreateTwitterAccAttestation;
 
-export interface TwitterAccAttestationProps {}
+export interface CreateTwitterAccAttestationProps {}

@@ -56,7 +56,7 @@
       margin-right: 14px;
     }
 
-    &.isActive {
+    &.isHighlighted {
       font-weight: 700;
       background-color: var(--light-blue-50);
     }
@@ -66,8 +66,12 @@
       cursor: auto;
     }
 
-    &:hover:not(:disabled) {
+    &:hover:not(:disabled):not(:active) {
       background-color: var(--bright-blue-55);
+    }
+
+    &:active {
+      background-color: var(--bright-blue-40);
     }
   }
 }

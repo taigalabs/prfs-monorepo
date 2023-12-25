@@ -40,9 +40,9 @@ const LeftBar: React.FC<LeftBarProps> = () => {
         </li>
       </ul>
       <ul className={styles.menu}>
-        <li className={cn(styles.item, { [styles.isActive]: name === "twitter" })}>
+        <li className={cn(styles.item, { [styles.isHighlighted]: name === "twitter" })}>
           <Link href={paths.attestations__twitter}>
-            <button className={cn(styles.button, { [styles.isActive]: name === "twitter" })}>
+            <button className={cn(styles.button, { [styles.isHighlighted]: name === "twitter" })}>
               <img
                 src="https://d1w1533jipmvi2.cloudfront.net/x-logo-black.png"
                 alt="Twitter"
@@ -55,7 +55,7 @@ const LeftBar: React.FC<LeftBarProps> = () => {
         <li className={cn(styles.item)}>
           <Link href="">
             <button
-              className={cn(styles.button, { [styles.isActive]: name === "linkedin" })}
+              className={cn(styles.button, { [styles.isHighlighted]: name === "linkedin" })}
               disabled
             >
               <FaLinkedin />
