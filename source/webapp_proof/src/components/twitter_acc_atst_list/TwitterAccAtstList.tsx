@@ -21,6 +21,7 @@ import { AttestationsTitle } from "@/components/attestations/Attestations";
 import { useRandomKeyPair } from "@/hooks/key";
 import { envs } from "@/envs";
 import { paths } from "@/paths";
+import TwitterAccAtstTable from "./TwitterAccAtstTable";
 
 enum Status {
   Standby,
@@ -43,7 +44,9 @@ const TwitterAccAtstList: React.FC<TwitterAccAtstListProps> = () => {
       <AttestationsTitle className={styles.title}>
         {i18n.twitter_acc_attestations}
       </AttestationsTitle>
-      wer
+      <div>
+        <TwitterAccAtstTable />
+      </div>
     </>
   );
 };
