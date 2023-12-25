@@ -63,7 +63,7 @@ pub async fn scrape_tweet(
     println!("waited element to render, selector: {}", anchor_selector);
 
     {
-        // Exract commitments
+        // Extact commitments
         let str = tab.get_content().unwrap();
         let (_, [_, atst_type, dest, account_id, cm]) = re
             .captures(&str)
@@ -110,9 +110,6 @@ pub async fn scrape_tweet(
             }
         }
     }
-
-    // tab.close_with_unload()
-    //     .map_err(|_err| TweetScrapeError::CloseFailed)?;
 
     Ok(res)
 }
