@@ -19,9 +19,12 @@ import {
   makeAttestation,
   newPrfsIdMsg,
 } from "@taigalabs/prfs-id-sdk-web";
+import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { AttestTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/AttestTwitterAccRequest";
+import { ValidateTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/ValidateTwitterAccRequest";
+import { TwitterAccValidation } from "@taigalabs/prfs-entities/bindings/TwitterAccValidation";
 
 import styles from "./CreateTwitterAccAtst.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -29,8 +32,6 @@ import { AttestationsTitle } from "@/components/attestations/Attestations";
 import { useRandomKeyPair } from "@/hooks/key";
 import { envs } from "@/envs";
 import { paths } from "@/paths";
-import { ValidateTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/ValidateTwitterAccRequest";
-import { TwitterAccValidation } from "@taigalabs/prfs-entities/bindings/TwitterAccValidation";
 
 const TWITTER_HANDLE = "twitter_handle";
 const TWEET_URL = "tweet_url";
@@ -57,6 +58,7 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
     const handle = formData[TWITTER_HANDLE];
     return `PRFS_ATTESTATION_${handle}`;
   }, [formData[TWITTER_HANDLE]]);
+  const [isCopyTooltipVisible, setIsCopyTooltipVisible] = React.useState(false);
   const [validationStatus, setValidationStatus] = React.useState<Status>(Status.Standby);
   const [createStatus, setCreateStatus] = React.useState<Status>(Status.Standby);
   const [validationMsg, setValidationMsg] = React.useState<React.ReactNode>(null);
@@ -228,6 +230,17 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
     window.location.reload();
   }, [formData, step]);
 
+  const handleClickCopy = React.useCallback(() => {
+    if (tweetContent) {
+      navigator.clipboard.writeText(tweetContent);
+      setIsCopyTooltipVisible(true);
+
+      setTimeout(() => {
+        setIsCopyTooltipVisible(false);
+      }, 3000);
+    }
+  }, [tweetContent, setIsCopyTooltipVisible]);
+
   const handleClickPostTweet = React.useCallback(() => {
     if (tweetContent) {
       const params = encodeURIComponent(tweetContent);
@@ -253,7 +266,6 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
         setCreateStatus(Status.Standby);
 
         if (error) {
-          console.log(11, error);
           setCreateMsg(<span>{error.toString()}</span>);
           return;
         }
@@ -341,9 +353,11 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
                       <div className={styles.box}>
                         <p>{tweetContent}</p>
                         <div className={styles.btnArea}>
-                          <button type="button">
-                            <AiOutlineCopy />
-                          </button>
+                          <Tooltip label={i18n.copied} show={isCopyTooltipVisible} placement="top">
+                            <button type="button" onClick={handleClickCopy}>
+                              <AiOutlineCopy />
+                            </button>
+                          </Tooltip>
                         </div>
                       </div>
                     </div>

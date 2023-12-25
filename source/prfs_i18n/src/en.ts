@@ -42,6 +42,7 @@ export default {
   type_merkle_proof: "Type merkle proof",
   feedback: "Feedback",
   id: "Id",
+  copied: "Copied",
   what_is_the_tweet_url: "What is the URL of a tweet you made in the previous step?",
   tweet_url_example_given: "e.g. https://twitter.com/elonmusk/status/1737488430202851389",
   generate_a_cryptographic_claim: "Generate a cryptographic claim",
