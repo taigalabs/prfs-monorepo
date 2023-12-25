@@ -10,12 +10,13 @@ import styles from "./TwitterAccAtstTable.module.scss";
 import { PrfsAccAtst } from "@taigalabs/prfs-entities/bindings/PrfsAccAtst";
 
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style }) => {
+  const i18n = React.useContext(i18nContext);
   return (
     <div className={cn(styles.row)} style={style}>
       <div className={cn(styles.username, styles.cell)}>{atst.username}</div>
       <div className={cn(styles.accountId, styles.cell)}>{atst.account_id}</div>
       <div className={cn(styles.commitment, styles.cell)}>{atst.cm}</div>
-      <div className={cn(styles.url, styles.cell)}>{atst.document_url}</div>
+      <div className={cn(styles.url, styles.cell)}>{i18n.tweet}</div>
     </div>
   );
 };

@@ -334,6 +334,8 @@ export default {
   terminal_scroll_guide: "Scroll to see the inputs",
   log: "Log",
   linkedin: "LinkedIn",
+  link: "Link",
+  tweet: "Tweet",
   address_input_placeholder: "Type address, e.g., 0xaaa..., or connect your wallet",
   notary: "Notary",
   private_inputs: "Private inputs",
