@@ -6,12 +6,12 @@ use hyper_utils::{
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::{
-    apis_entities::{
+    entities::{CircuitInput, PrfsProofType, PrfsSet},
+    prfs_api_entities::{
         CreatePrfsProofTypeRequest, CreatePrfsProofTypeResponse,
         GetPrfsProofTypeByProofTypeIdRequest, GetPrfsProofTypeByProofTypeIdResponse,
         GetPrfsProofTypesRequest, GetPrfsProofTypesResponse,
     },
-    entities::{CircuitInput, PrfsProofType, PrfsSet},
     sqlx::types::Json,
 };
 use std::{convert::Infallible, sync::Arc};

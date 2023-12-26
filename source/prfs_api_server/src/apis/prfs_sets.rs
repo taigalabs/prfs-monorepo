@@ -7,14 +7,14 @@ use hyper_utils::{
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::{
-    apis_entities::{
+    entities::PrfsTreeNode,
+    prfs_api_entities::{
         ComputePrfsSetMerkleRootRequest, ComputePrfsSetMerkleRootResponse,
         CreatePrfsDynamicSetElementRequest, CreatePrfsDynamicSetElementResponse,
         CreatePrfsSetRequest, CreatePrfsSetResponse, GetPrfsSetBySetIdRequest,
         GetPrfsSetBySetIdResponse, GetPrfsSetsBySetTypeRequest, GetPrfsSetsRequest,
         GetPrfsSetsResponse, UpdatePrfsTreeNodeRequest,
     },
-    entities::PrfsTreeNode,
 };
 use prfs_tree_maker::tree_maker_apis;
 use rust_decimal::Decimal;

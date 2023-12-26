@@ -6,11 +6,11 @@ use hyper_utils::{
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
 use prfs_entities::{
-    apis_entities::{
+    entities::{PrfsCircuitDriver, PrfsCircuitType},
+    prfs_api_entities::{
         GetPrfsCircuitTypeByCircuitTypeIdRequest, GetPrfsCircuitTypeByCircuitTypeIdResponse,
         GetPrfsCircuitTypesRequest, GetPrfsCircuitTypesResponse,
     },
-    entities::{PrfsCircuitDriver, PrfsCircuitType},
 };
 use std::sync::Arc;
 

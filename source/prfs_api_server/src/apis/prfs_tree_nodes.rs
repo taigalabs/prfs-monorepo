@@ -5,7 +5,7 @@ use hyper_utils::{
 };
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
-use prfs_entities::apis_entities::{
+use prfs_entities::prfs_api_entities::{
     GetPrfsTreeLeafIndicesRequest, GetPrfsTreeLeafNodesBySetIdRequest,
     GetPrfsTreeNodesByPosRequest, GetPrfsTreeNodesResponse, UpdatePrfsTreeNodeRequest,
     UpdatePrfsTreeNodeResponse,

@@ -131,12 +131,12 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
             (&Method::POST, v0_path!("create_prfs_poll")) => {
                 prfs_polls::create_prfs_poll(req, state).await
             }
-            (&Method::POST, v0_path!("create_social_post")) => {
-                social_posts::create_social_post(req, state).await
-            }
-            (&Method::POST, v0_path!("get_social_posts")) => {
-                social_posts::get_social_posts(req, state).await
-            }
+            // (&Method::POST, v0_path!("create_social_post")) => {
+            //     social_posts::create_social_post(req, state).await
+            // }
+            // (&Method::POST, v0_path!("get_social_posts")) => {
+            //     social_posts::get_social_posts(req, state).await
+            // }
             //
             _ => handle_not_found(req, state).await,
         }

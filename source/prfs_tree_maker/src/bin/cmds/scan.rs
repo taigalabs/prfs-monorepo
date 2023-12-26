@@ -1,8 +1,5 @@
 use clap::ArgMatches;
 use prfs_db_interface::database2::Database2;
-use prfs_db_interface::db_apis;
-use prfs_entities::entities::EthAccount;
-use prfs_entities::sqlx::{Pool, Postgres, Transaction};
 use prfs_tree_maker::envs::ENVS;
 use prfs_tree_maker::geth::GethClient;
 use prfs_tree_maker::tree_maker_apis;

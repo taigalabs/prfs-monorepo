@@ -5,13 +5,13 @@ use hyper_utils::io::{parse_req, ApiHandlerResult, BytesBoxBody};
 use hyper_utils::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
-use prfs_entities::apis_entities::{
+use prfs_entities::entities::PrfsProofInstance;
+use prfs_entities::prfs_api_entities::{
     CreatePrfsProofInstanceRequest, CreatePrfsProofInstanceResponse,
     GetPrfsProofInstanceByInstanceIdRequest, GetPrfsProofInstanceByInstanceIdResponse,
     GetPrfsProofInstanceByShortIdRequest, GetPrfsProofInstanceByShortIdResponse,
     GetPrfsProofInstancesRequest, GetPrfsProofInstancesResponse,
 };
-use prfs_entities::entities::PrfsProofInstance;
 use std::{convert::Infallible, sync::Arc};
 
 pub async fn get_prfs_proof_instances(

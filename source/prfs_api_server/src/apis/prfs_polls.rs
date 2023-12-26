@@ -5,13 +5,13 @@ use hyper_utils::io::{parse_req, ApiHandlerResult, BytesBoxBody};
 use hyper_utils::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::prfs;
-use prfs_entities::apis_entities::{
+use prfs_entities::entities::{PrfsPoll, PrfsProofInstance};
+use prfs_entities::prfs_api_entities::{
     CreatePrfsPollRequest, CreatePrfsPollResponse, GetPrfsPollByPollIdRequest,
     GetPrfsPollByPollIdResponse, GetPrfsPollResultByPollIdRequest,
     GetPrfsPollResultByPollIdResponse, GetPrfsPollsRequest, GetPrfsPollsResponse,
     SubmitPrfsPollResponseRequest, SubmitPrfsPollResponseResponse,
 };
-use prfs_entities::entities::{PrfsPoll, PrfsProofInstance};
 use std::{convert::Infallible, sync::Arc};
 use uuid::Uuid;
 

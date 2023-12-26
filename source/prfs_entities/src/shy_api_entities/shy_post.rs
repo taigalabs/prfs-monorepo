@@ -5,27 +5,27 @@ use uuid::Uuid;
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct CreatePostRequest {
+pub struct CreateShyPostRequest {
     pub post: ShyPost,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct CreatePostResponse {
+pub struct CreateShyPostResponse {
     #[ts(type = "string")]
     pub post_id: Uuid,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetPostsRequest {
+pub struct GetShyPostsRequest {
     pub page_idx: i32,
     pub page_size: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetPostsResponse {
+pub struct GetShyPostsResponse {
     pub next_idx: i32,
     pub social_posts: Vec<ShyPost>,
 }
