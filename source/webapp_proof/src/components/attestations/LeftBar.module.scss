@@ -1,5 +1,5 @@
 .wrapper {
-  width: 270px;
+  width: 284px;
 
   /* border: 1px solid blue; */
 }
@@ -32,6 +32,7 @@
 
 .item {
   padding-left: 12px;
+  padding-right: 14px;
 
   .button {
     display: flex;
@@ -56,7 +57,7 @@
       margin-right: 14px;
     }
 
-    &.isActive {
+    &.isHighlighted {
       font-weight: 700;
       background-color: var(--light-blue-50);
     }
@@ -66,8 +67,12 @@
       cursor: auto;
     }
 
-    &:hover:not(:disabled) {
+    &:hover:not(:disabled):not(:active) {
       background-color: var(--bright-blue-55);
+    }
+
+    &:active {
+      background-color: var(--bright-blue-40);
     }
   }
 }

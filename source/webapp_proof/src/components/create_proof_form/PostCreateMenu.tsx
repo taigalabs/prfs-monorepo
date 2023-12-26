@@ -40,7 +40,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
 
   const {
     mutateAsync: createPrfsProofInstance,
-    isLoading: isCreatePrfsProofInstanceLoading,
+    isPending: isCreatePrfsProofInstancePending,
     isSuccess: isCreatePrfsProofInstanceSuccess,
   } = useMutation({
     mutationFn: (req: CreatePrfsProofInstanceRequest) => {
@@ -119,11 +119,11 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
                     variant="blue_1"
                     handleClick={handleClickUpload}
                     className={cn(styles.uploadBtn, {
-                      [styles.inProgress]: isCreatePrfsProofInstanceLoading,
+                      [styles.inProgress]: isCreatePrfsProofInstancePending,
                     })}
-                    disabled={isCreatePrfsProofInstanceLoading}
+                    disabled={isCreatePrfsProofInstancePending}
                   >
-                    {isCreatePrfsProofInstanceLoading && (
+                    {isCreatePrfsProofInstancePending && (
                       <Spinner color={colors.bright_gray_33} size={20} />
                     )}
                     <span>{i18n.upload}</span>

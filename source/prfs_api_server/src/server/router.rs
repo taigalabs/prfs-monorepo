@@ -3,8 +3,10 @@ use hyper::{Method, Request, Response};
 use hyper_utils::cors::handle_cors;
 use hyper_utils::io::BytesBoxBody;
 use hyper_utils::resp::ApiResponse;
+use prfs_atst_server::server::router::{atst_server_routes, ATST_API};
 use prfs_common_server_state::ServerState;
 use prfs_id_server::server::router::id_server_routes;
+use prfs_id_server::server::ID_API;
 use std::sync::Arc;
 
 use super::middleware::{handle_not_found, log};
@@ -25,8 +27,10 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
 
     let p = req.uri().path();
 
-    let resp = if p.starts_with("/id_api") {
+    let resp = if p.starts_with(ID_API) {
         id_server_routes(req, state).await
+    } else if p.starts_with(ATST_API) {
+        atst_server_routes(req, state).await
     } else {
         match (req.method(), req.uri().path()) {
             (&Method::OPTIONS, _) => handle_cors(),

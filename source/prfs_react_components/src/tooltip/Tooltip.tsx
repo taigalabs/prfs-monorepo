@@ -12,16 +12,24 @@ import {
   useInteractions,
   FloatingPortal,
   useHover,
+  Placement,
 } from "@floating-ui/react";
 
 import styles from "./Tooltip.module.scss";
 
-const Tooltip: React.FC<TooltipProps> = ({ label, children, offset, className }) => {
+const Tooltip: React.FC<TooltipProps> = ({
+  label,
+  children,
+  offset,
+  className,
+  show,
+  placement,
+}) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
-    placement: "bottom",
+    placement: placement || "bottom",
     whileElementsMounted: autoUpdate,
     middleware: [
       offsetFn(offset || 3),
@@ -37,13 +45,23 @@ const Tooltip: React.FC<TooltipProps> = ({ label, children, offset, className })
   const role = useRole(context, { role: "tooltip" });
   const { getReferenceProps, getFloatingProps } = useInteractions([hover, focus, dismiss, role]);
 
+  const shouldOpen = React.useMemo(() => {
+    if (show === true) {
+      return isOpen || show;
+    } else if (show === false) {
+      return false;
+    } else {
+      return isOpen;
+    }
+  }, [isOpen, show]);
+
   return (
     <>
       <div className={cn(styles.base, className)} ref={refs.setReference} {...getReferenceProps()}>
         {children}
       </div>
       <FloatingPortal>
-        {isOpen && (
+        {shouldOpen && (
           <div
             className={styles.tooltip}
             ref={refs.setFloating}
@@ -65,4 +83,6 @@ export interface TooltipProps {
   children: React.ReactNode;
   className?: string;
   offset?: number;
+  show?: boolean;
+  placement?: Placement;
 }

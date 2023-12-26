@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import { PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
+import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./PrfsIdCommitment.module.scss";
 import { i18nContext } from "@/i18n/context";

@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
-    "@faker-js/faker": "^7.6.0",
     "@floating-ui/react": "^0.24.8",
     "@mdx-js/react": "^2.3.0",
     "@next/mdx": "^13.5.4",
@@ -24,12 +23,12 @@
     "@taigalabs/prfs-crypto-js": "*",
     "@taigalabs/prfs-driver-interface": "*",
     "@taigalabs/prfs-entities": "*",
+    "@taigalabs/prfs-i18n": "*",
     "@taigalabs/prfs-id-sdk-web": "*",
     "@taigalabs/prfs-react-components": "*",
     "@taigalabs/prfs-sdk-web": "*",
-    "@tanstack/react-query": "^4.35.0",
-    "@taigalabs/prfs-i18n": "*",
-    "@tanstack/react-table": "^8.9.3",
+    "@tanstack/react-query": "5.14.6",
+    "@tanstack/react-table": "8.11.2",
     "@tanstack/react-virtual": "3.0.1",
     "classnames": "^2.3.2",
     "copy-to-clipboard": "^3.3.3",
@@ -54,6 +53,7 @@
     "wagmi": "1.4.12"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@mdx-js/loader": "^2.3.0",
     "@svgr/webpack": "^8.1.0",
     "@tanstack/eslint-plugin-query": "^4.34.1",

@@ -1,6 +1,3 @@
-import { makeColor } from "@taigalabs/prfs-crypto-js";
-import { PrfsIdSignInSuccessPayload } from "@taigalabs/prfs-id-sdk-web";
-
 export type PrfsProofId = string;
 export interface LocalPrfsProofCredential {
   account_id: string;

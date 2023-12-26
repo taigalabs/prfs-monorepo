@@ -1,10 +1,9 @@
 "use client";
 
 import React from "react";
-import { PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
-import Link from "next/link";
 import {
   loadLocalPrfsIdCredentials,
+  PrfsIdCredential,
   removeAllPrfsIdCredentials,
   StoredCredentialRecord,
 } from "@taigalabs/prfs-id-sdk-web";
@@ -18,7 +17,7 @@ import {
 } from "@/functions/validate_id";
 import InputCredential from "./InputCredential";
 import StoredCredentials from "./StoredCredentials";
-import PrfsIdCreateID from "../prfs_id_create_id/PrfsIdCreateID";
+import PrfsIdCreateID from "@/components/prfs_id/prfs_id_create_id/PrfsIdCreateID";
 
 enum SignInStep {
   CreateID,
@@ -51,10 +50,6 @@ const PrfsIdSignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId 
     }
   }, [setSignInStatus, setErrorMsg, setStep, setStoredCredentials]);
 
-  // const handleCloseErrorDialog = React.useCallback(() => {
-  //   window.close();
-  // }, []);
-
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
       const name = ev.target.name;
@@ -80,14 +75,7 @@ const PrfsIdSignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId 
 
   const handleClickCreateID = React.useCallback(() => {
     setStep(SignInStep.CreateID);
-    // const { search } = window.location;
-    // const url = `${paths.id__create_id}${search}`;
-    // router.push(url);
   }, [setStep]);
-
-  // const handleGotoStoredCredential = React.useCallback(() => {
-  //   setStep(SignInStep.StoredCredentials);
-  // }, [setStep]);
 
   const handleGotoPrfsIdCredential = React.useCallback(() => {
     setStep(SignInStep.InputCredential);

@@ -5,22 +5,33 @@ import cn from "classnames";
 import { Input } from "@taigalabs/prfs-react-components/src/input/Input";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { MdSecurity } from "@react-icons/all-files/md/MdSecurity";
+import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
-
-import styles from "./CreateTwitterAccAtst.module.scss";
-import { i18nContext } from "@/i18n/context";
-import { AttestationsMain, AttestationsTitle } from "@/components/attestations/Attestations";
-import { useRandomKeyPair } from "@/hooks/key";
+import { decrypt } from "eciesjs";
+import { atstApi } from "@taigalabs/prfs-api-js";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import {
   CommitmentType,
   PrfsIdCommitmentSuccessPayload,
   PrfsIdMsg,
   getCommitment,
+  makeAttestation,
   newPrfsIdMsg,
 } from "@taigalabs/prfs-id-sdk-web";
+import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
+import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
+import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
+import { AttestTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/AttestTwitterAccRequest";
+import { ValidateTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/ValidateTwitterAccRequest";
+import { TwitterAccValidation } from "@taigalabs/prfs-entities/bindings/TwitterAccValidation";
+
+import styles from "./CreateTwitterAccAtst.module.scss";
+import { i18nContext } from "@/i18n/context";
+import { AttestationsTitle } from "@/components/attestations/Attestations";
+import { useRandomKeyPair } from "@/hooks/key";
 import { envs } from "@/envs";
 import { paths } from "@/paths";
-import { decrypt } from "eciesjs";
 
 const TWITTER_HANDLE = "twitter_handle";
 const TWEET_URL = "tweet_url";
@@ -33,16 +44,38 @@ enum AttestationStep {
   VALIDATE_TWEET,
 }
 
-const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
+enum Status {
+  Standby,
+  InProgress,
+}
+
+const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = () => {
   const i18n = React.useContext(i18nContext);
+  const router = useRouter();
   const [formData, setFormData] = React.useState({ [TWITTER_HANDLE]: "", [TWEET_URL]: "" });
   const [claimCm, setClaimCm] = React.useState<string | null>(null);
   const claimSecret = React.useMemo(() => {
     const handle = formData[TWITTER_HANDLE];
     return `PRFS_ATTESTATION_${handle}`;
   }, [formData[TWITTER_HANDLE]]);
+  const [isCopyTooltipVisible, setIsCopyTooltipVisible] = React.useState(false);
+  const [validationStatus, setValidationStatus] = React.useState<Status>(Status.Standby);
+  const [createStatus, setCreateStatus] = React.useState<Status>(Status.Standby);
+  const [validationMsg, setValidationMsg] = React.useState<React.ReactNode>(null);
+  const [createMsg, setCreateMsg] = React.useState<React.ReactNode>(null);
+  const [validation, setValidation] = React.useState<TwitterAccValidation | null>(null);
   const [step, setStep] = React.useState(AttestationStep.INPUT_TWITTER_HANDLE);
   const { sk, pkHex } = useRandomKeyPair();
+  const { mutateAsync: validateTwitterAccRequest } = useMutation({
+    mutationFn: (req: ValidateTwitterAccRequest) => {
+      return atstApi("validate_twitter_acc", req);
+    },
+  });
+  const { mutateAsync: attestTwitterAccRequest } = useMutation({
+    mutationFn: (req: AttestTwitterAccRequest) => {
+      return atstApi("attest_twitter_acc", req);
+    },
+  });
 
   const handleSucceedGenerateCms = React.useCallback(
     (encrypted: Buffer) => {
@@ -105,11 +138,16 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
 
   const tweetContent = React.useMemo(() => {
     if (claimCm) {
-      const attVersion = "ATST_1";
-      const provenance = "Prfs";
+      const attType = "atst001";
       const destination = "Twitter";
-      const handle = formData[TWITTER_HANDLE];
-      return `--attestation ${attVersion} ${provenance} ${destination} ${handle} ${claimCm}`;
+      const id = formData[TWITTER_HANDLE];
+
+      return makeAttestation({
+        attType,
+        destination,
+        id,
+        cm: claimCm,
+      });
     } else {
       return null;
     }
@@ -153,9 +191,55 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
     });
   }, [formData, step, claimSecret, sk, pkHex]);
 
+  const handleClickValidate = React.useCallback(async () => {
+    const tweet_url = formData[TWEET_URL];
+    const twitter_handle = formData[TWITTER_HANDLE];
+
+    const req: ValidateTwitterAccRequest = {
+      tweet_url,
+      twitter_handle,
+    };
+
+    setValidationStatus(Status.InProgress);
+    const { payload, error } = await validateTwitterAccRequest(req);
+    setValidationStatus(Status.Standby);
+
+    if (error) {
+      console.error(error);
+      setValidationMsg(<span className={styles.error}>{error.toString()}</span>);
+    }
+
+    if (payload) {
+      setValidation(payload.validation);
+      setValidationMsg(
+        <span className={styles.success}>
+          <FaCheck />
+        </span>,
+      );
+    }
+  }, [
+    validateTwitterAccRequest,
+    formData[TWEET_URL],
+    formData[TWITTER_HANDLE],
+    setValidation,
+    setValidationMsg,
+    setValidationStatus,
+  ]);
+
   const handleClickStartOver = React.useCallback(() => {
     window.location.reload();
   }, [formData, step]);
+
+  const handleClickCopy = React.useCallback(() => {
+    if (tweetContent) {
+      navigator.clipboard.writeText(tweetContent);
+      setIsCopyTooltipVisible(true);
+
+      setTimeout(() => {
+        setIsCopyTooltipVisible(false);
+      }, 3000);
+    }
+  }, [tweetContent, setIsCopyTooltipVisible]);
 
   const handleClickPostTweet = React.useCallback(() => {
     if (tweetContent) {
@@ -167,7 +251,39 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
     }
   }, [tweetContent]);
 
-  const handleClickCreate = React.useCallback(() => {}, [formData, step]);
+  const handleClickCreate = React.useCallback(async () => {
+    if (validation && createStatus === Status.Standby) {
+      // For now, we don't obfuscate attestation id
+      const acc_atst_id = formData[TWITTER_HANDLE];
+      setCreateMsg(null);
+
+      if (acc_atst_id) {
+        setCreateStatus(Status.InProgress);
+        const { payload, error } = await attestTwitterAccRequest({
+          acc_atst_id,
+          validation,
+        });
+        setCreateStatus(Status.Standby);
+
+        if (error) {
+          setCreateMsg(<span>{error.toString()}</span>);
+          return;
+        }
+
+        if (payload) {
+          router.push(paths.attestations__twitter);
+        }
+      }
+    }
+  }, [
+    formData[TWITTER_HANDLE],
+    step,
+    validation,
+    attestTwitterAccRequest,
+    setCreateMsg,
+    setCreateStatus,
+    router,
+  ]);
 
   return (
     <>
@@ -237,15 +353,17 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
                       <div className={styles.box}>
                         <p>{tweetContent}</p>
                         <div className={styles.btnArea}>
-                          <button type="button">
-                            <AiOutlineCopy />
-                          </button>
+                          <Tooltip label={i18n.copied} show={isCopyTooltipVisible} placement="top">
+                            <button type="button" onClick={handleClickCopy}>
+                              <AiOutlineCopy />
+                            </button>
+                          </Tooltip>
                         </div>
                       </div>
                     </div>
                   )}
                 </div>
-                <div className={styles.tweetContentBtnRow}>
+                <div className={cn(styles.tweetContentBtnRow)}>
                   <button className={styles.btn} type="button" onClick={handleClickPostTweet}>
                     {i18n.post}
                   </button>
@@ -281,34 +399,48 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
                       handleChangeValue={handleChangeTwitterHandle}
                     />
                   </div>
-                  <div>
-                    <button className={styles.btn} type="button">
+                  <div className={styles.guideRow}>{i18n.acc_atst_validate_guide}</div>
+                  <div className={styles.validateBtnRow}>
+                    <button className={cn(styles.btn)} type="button" onClick={handleClickValidate}>
+                      {validationStatus === Status.InProgress && (
+                        <Spinner size={20} color={colors.gray_32} borderWidth={2} />
+                      )}
                       <span>{i18n.validate}</span>
                     </button>
+                    <div className={styles.msg}>{validationMsg}</div>
                   </div>
                 </div>
               </div>
             </li>
           </ol>
-          <div className={styles.btnRow}>
-            <Button
-              variant="transparent_blue_2"
-              noTransition
-              handleClick={handleClickStartOver}
-              type="button"
-            >
-              {i18n.start_over}
-            </Button>
-            <Button
-              variant="blue_2"
-              className={styles.signInBtn}
-              noTransition
-              handleClick={handleClickCreate}
-              noShadow
-              type="button"
-            >
-              {i18n.create}
-            </Button>
+          <div className={cn(styles.btnRow)}>
+            <div className={styles.createBtnRow}>
+              <Button
+                variant="transparent_blue_2"
+                noTransition
+                handleClick={handleClickStartOver}
+                type="button"
+              >
+                {i18n.start_over}
+              </Button>
+              <Button
+                variant="blue_2"
+                noTransition
+                className={styles.signInBtn}
+                handleClick={handleClickCreate}
+                noShadow
+                type="button"
+                disabled={!validation || createStatus === Status.InProgress}
+              >
+                <div className={styles.content}>
+                  {createStatus === Status.InProgress && (
+                    <Spinner size={20} borderWidth={2} color={colors.white_100} />
+                  )}
+                  <span>{i18n.create}</span>
+                </div>
+              </Button>
+            </div>
+            {createMsg && <div className={cn(styles.createBtnRow, styles.error)}>{createMsg}</div>}
           </div>
         </form>
       </div>
@@ -316,6 +448,6 @@ const TwitterAccAttestation: React.FC<TwitterAccAttestationProps> = () => {
   );
 };
 
-export default TwitterAccAttestation;
+export default CreateTwitterAccAttestation;
 
-export interface TwitterAccAttestationProps {}
+export interface CreateTwitterAccAttestationProps {}

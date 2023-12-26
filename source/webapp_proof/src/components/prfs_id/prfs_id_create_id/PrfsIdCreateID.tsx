@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./PrfsIdCreateID.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -11,7 +12,6 @@ import {
   validateIdCreateForm,
 } from "@/functions/validate_id";
 import SignUp from "./SignUp";
-import { PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
 import InputCreateIdCredential from "./InputCreateIdCredential";
 
 enum CreateIDStep {

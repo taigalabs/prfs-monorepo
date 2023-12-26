@@ -1,0 +1,18 @@
+.wrapper {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  cursor: pointer;
+  color: var(--gray-23);
+  transition: 0.1s all;
+
+  &:hover {
+    background-color: var(--bright-gray-45);
+  }
+
+  &:active {
+    background-color: var(--bright-gray-30);
+  }
+}

@@ -1,9 +1,7 @@
 import React from "react";
-import { PrfsIdCredential, poseidon_2 } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import { removeAllPrfsIdCredentials, StoredCredentialRecord } from "@taigalabs/prfs-id-sdk-web";
-import { decrypt, PrivateKey } from "eciesjs";
-import { hexlify } from "ethers/lib/utils";
+import { PrfsIdCredential, StoredCredentialRecord } from "@taigalabs/prfs-id-sdk-web";
+import { decrypt } from "eciesjs";
 
 import styles from "./StoredCredentials.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -22,6 +20,7 @@ import {
   makeEmptyIDCreateFormErrors,
   makeEmptyIdCreateForm,
 } from "@/functions/validate_id";
+import { makeDecryptKey } from "@taigalabs/prfs-crypto-js";
 
 export enum SignInStatus {
   Loading,
@@ -83,8 +82,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
     setErrorMsg("");
 
     if (credential && password_2) {
-      const pw2Hash = await poseidon_2(password_2);
-      let decryptKey = PrivateKey.fromHex(hexlify(pw2Hash));
+      let decryptKey = await makeDecryptKey(password_2);
       let msg = Buffer.from(credential.credential);
       let credentialStr;
       try {
@@ -95,7 +93,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
         return;
       }
 
-      let credentialObj;
+      let credentialObj: PrfsIdCredential;
       try {
         credentialObj = JSON.parse(credentialStr);
       } catch (err) {
@@ -104,7 +102,36 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
         return;
       }
 
-      handleSucceedSignIn(credentialObj as PrfsIdCredential);
+      if (!credentialObj.id) {
+        setErrorMsg(`Persisted credential is corrupted, id: ${credentialObj.id}`);
+        return;
+      }
+
+      if (!credentialObj.public_key) {
+        setErrorMsg(`Persisted credential is corrupted, public_key: ${credentialObj.public_key}`);
+        return;
+      }
+
+      if (!credentialObj.secret_key) {
+        setErrorMsg(`Persisted credential is corrupted, secret_key: ${credentialObj.secret_key}`);
+        return;
+      }
+
+      if (!credentialObj.encrypt_key) {
+        setErrorMsg(
+          `Persisted credential is corrupted, encrypted_key: ${credentialObj.encrypt_key}`,
+        );
+        return;
+      }
+
+      if (!credentialObj.local_encrypt_key) {
+        setErrorMsg(
+          `Persisted credential is corrupted, local_encrypt_key: ${credentialObj.local_encrypt_key}`,
+        );
+        return;
+      }
+
+      handleSucceedSignIn(credentialObj);
     }
   }, [handleSucceedSignIn, formData, selectedCredentialId, setErrorMsg]);
 

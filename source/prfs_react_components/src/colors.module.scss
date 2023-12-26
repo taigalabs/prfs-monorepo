@@ -1,7 +1,13 @@
 $blue_12: #1b62c0;
 $bright_gray_33: #dadfdf;
+$black_20: #121313;
+$gray_32: #5a5b5b;
+$white_100: #fff;
 
 :export {
+  black_20: $black_20;
   blue_12: $blue_12;
   bright_gray_33: $bright_gray_33;
+  gray_32: $gray_32;
+  white_100: $white_100;
 }

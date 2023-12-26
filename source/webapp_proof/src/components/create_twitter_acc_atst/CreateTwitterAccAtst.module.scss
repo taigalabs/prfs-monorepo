@@ -3,8 +3,6 @@
 }
 
 .instructions {
-  padding-bottom: 18px;
-
   .overlay {
     display: none;
     background-color: rgba(255, 255, 255, 0.5);
@@ -38,7 +36,8 @@
   .desc {
     display: block;
     word-break: break-all;
-    padding-bottom: 14px;
+    padding-bottom: 18px;
+    color: var(--gray-20);
 
     > p:not(:last-child) {
       padding-bottom: 5px;
@@ -46,6 +45,7 @@
   }
 
   .descTitle {
+    color: var(--black-10);
     font-size: 16px;
   }
 
@@ -65,10 +65,14 @@
     svg {
       margin-right: 2px;
     }
+
+    > * + span {
+      margin-left: 2px;
+    }
   }
 
   .row {
-    padding: 1px 0 14px;
+    padding: 1px 0 18px;
   }
 
   .tweetContent {
@@ -117,6 +121,18 @@
     }
   }
 
+  .validateBtnRow {
+    display: flex;
+    align-items: center;
+
+    .status {
+      padding-left: 16px;
+    }
+
+    .validateBtn {
+    }
+  }
+
   .tweetContentBtnRow {
     display: flex;
     align-items: center;
@@ -129,9 +145,37 @@
       color: var(--blue-15);
     }
   }
+
+  .msg {
+    padding-left: 10px;
+  }
+}
+
+.signInBtn {
+  padding-left: 16px;
+  padding-right: 16px;
+
+  .content {
+    display: flex;
+    align-items: center;
+
+    > * + span {
+      padding-left: 3px;
+    }
+  }
+}
+
+.guideRow {
+  font-size: 13px;
+  color: var(--gray-30);
+  padding-bottom: 8px;
 }
 
 .btnRow {
+  padding-top: 4px;
+}
+
+.createBtnRow {
   display: flex;
   justify-content: space-between;
   padding-left: 40px;
@@ -139,6 +183,15 @@
 
 .input {
   height: 40px;
+}
+
+.success {
+  color: var(--green-60);
+}
+
+.error {
+  color: var(--red-50);
+  font-size: 13px;
 }
 
 @media screen and (max-width: 480px) {

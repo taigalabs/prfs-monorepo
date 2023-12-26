@@ -1,12 +1,7 @@
 import React from "react";
 import cn from "classnames";
-import {
-  prfsSign,
-  type PrfsIdCredential,
-  poseidon_2,
-  makeECCredential,
-} from "@taigalabs/prfs-crypto-js";
-import { AppSignInData } from "@taigalabs/prfs-id-sdk-web";
+import { prfsSign, poseidon_2, makeECCredential } from "@taigalabs/prfs-crypto-js";
+import { AppSignInData, PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 import { FaRegAddressCard } from "@react-icons/all-files/fa/FaRegAddressCard";
 
 import styles from "./SignInInputs.module.scss";

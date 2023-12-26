@@ -10,7 +10,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@faker-js/faker": "^7.6.0",
     "@ethereumjs/util": "^8.0.3",
     "@floating-ui/react": "^0.24.8",
     "@phosphor-icons/react": "^2.0.10",
@@ -45,6 +44,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@svgr/webpack": "^8.1.0",
     "@types/node": "20.3.1",
     "@types/qrcode": "^1.5.1",

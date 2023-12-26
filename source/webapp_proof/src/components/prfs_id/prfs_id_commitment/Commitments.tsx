@@ -1,5 +1,5 @@
 import React from "react";
-import { prfsSign, type PrfsIdCredential, poseidon_2 } from "@taigalabs/prfs-crypto-js";
+import { poseidon_2, prfsSign } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useSearchParams } from "next/navigation";
 import {
@@ -11,6 +11,7 @@ import {
   CommitmentType,
   PrfsIdCommitmentSuccessPayload,
   PrfsIdMsg,
+  PrfsIdCredential,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt } from "eciesjs";
