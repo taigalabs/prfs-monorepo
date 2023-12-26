@@ -8,11 +8,17 @@ pub async fn get_prfs_acc_atsts(
     limit: i32,
 ) -> Result<Vec<PrfsAccAtst>, DbInterfaceError> {
     let query = r#"
-SELECT * 
+SELECT *
 FROM prfs_acc_atsts
+LIMIT $1
+OFFSET $2
 "#;
 
-    let rows = sqlx::query(query).fetch_all(pool).await?;
+    let rows = sqlx::query(query)
+        .bind(limit)
+        .bind(offset)
+        .fetch_all(pool)
+        .await?;
 
     let atsts = rows
         .iter()
@@ -30,6 +36,36 @@ FROM prfs_acc_atsts
         .collect();
 
     Ok(atsts)
+}
+
+pub async fn get_prfs_acc_atst(
+    pool: &Pool<Postgres>,
+    acc_atst_id: &String,
+) -> Result<PrfsAccAtst, DbInterfaceError> {
+    let query = r#"
+SELECT *
+FROM prfs_acc_atsts
+WHERE acc_atst_id=$1
+"#;
+
+    let row = sqlx::query(query)
+        .bind(&acc_atst_id)
+        .fetch_one(pool)
+        .await?;
+
+    let atst = PrfsAccAtst {
+        acc_atst_id: row.get("acc_atst_id"),
+        atst_type: row.get("atst_type"),
+        dest: row.get("dest"),
+        account_id: row.get("account_id"),
+        cm: row.get("cm"),
+        username: row.get("username"),
+        avatar_url: row.get("avatar_url"),
+        document_url: row.get("document_url"),
+        status: row.get("status"),
+    };
+
+    Ok(atst)
 }
 
 pub async fn insert_prfs_acc_atst(

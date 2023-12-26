@@ -6,8 +6,9 @@ use hyper_utils::ApiHandleError;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::db_apis;
 use prfs_entities::atst_api_entities::{
-    AttestTwitterAccRequest, AttestTwitterAccResponse, GetTwitterAccAtstsRequest,
-    GetTwitterAccAtstsResponse, ValidateTwitterAccRequest, ValidateTwitterAccResponse,
+    AttestTwitterAccRequest, AttestTwitterAccResponse, GetTwitterAccAtstRequest,
+    GetTwitterAccAtstResponse, GetTwitterAccAtstsRequest, GetTwitterAccAtstsResponse,
+    ValidateTwitterAccRequest, ValidateTwitterAccResponse,
 };
 use prfs_entities::entities::{PrfsAccAtst, PrfsAccAtstStatus};
 use prfs_web_scraper::destinations::twitter;
@@ -90,5 +91,20 @@ pub async fn get_twitter_acc_atsts(
     };
 
     let resp = ApiResponse::new_success(GetTwitterAccAtstsResponse { rows, next_offset });
+    return Ok(resp.into_hyper_response());
+}
+
+pub async fn get_twitter_acc_atst(
+    req: Request<Incoming>,
+    state: Arc<ServerState>,
+) -> ApiHandlerResult {
+    let req: GetTwitterAccAtstRequest = parse_req(req).await;
+    let pool = &state.db2.pool;
+
+    let prfs_acc_atst = db_apis::get_prfs_acc_atst(&pool, &req.acc_atst_id)
+        .await
+        .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.TWITTER_ACC_ATST_INSERT_FAIL, err))?;
+
+    let resp = ApiResponse::new_success(GetTwitterAccAtstResponse { prfs_acc_atst });
     return Ok(resp.into_hyper_response());
 }

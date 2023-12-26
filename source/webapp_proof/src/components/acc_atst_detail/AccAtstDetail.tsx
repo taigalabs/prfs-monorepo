@@ -2,14 +2,13 @@
 
 import React from "react";
 import cn from "classnames";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useVirtualizer } from "@tanstack/react-virtual";
 import { GetTwitterAccAtstsResponse } from "@taigalabs/prfs-entities/bindings/GetTwitterAccAtstsResponse";
 import { PrfsApiResponse, atstApi } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
+import { useQuery } from "@tanstack/react-query";
+import { PrfsAccAtst } from "@taigalabs/prfs-entities/bindings/PrfsAccAtst";
 
 import styles from "./AccAtstDetail.module.scss";
-import { PrfsAccAtst } from "@taigalabs/prfs-entities/bindings/PrfsAccAtst";
 
 // const AtstRow: React.FC<AtstRowProps> = ({ atst, style }) => {
 //   const i18n = React.useContext(i18nContext);
@@ -23,8 +22,17 @@ import { PrfsAccAtst } from "@taigalabs/prfs-entities/bindings/PrfsAccAtst";
 //   );
 // };
 
-const AccAtstDetail: React.FC<AccAtstDetailProps> = () => {
+const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ acc_atst_id }) => {
   const i18n = React.useContext(i18nContext);
+  const { isLoading, data } = useQuery({
+    queryKey: ["get_prfs_proof_instances"],
+    queryFn: async () => {
+      const { payload } = await atstApi("get_twitter_acc_atst", {
+        acc_atst_id,
+      });
+      return payload;
+    },
+  });
 
   return (
     <div className={styles.wrapper}>
@@ -40,5 +48,5 @@ const AccAtstDetail: React.FC<AccAtstDetailProps> = () => {
 export default AccAtstDetail;
 
 export interface AccAtstDetailProps {
-  accAtstId: string;
+  acc_atst_id: string;
 }

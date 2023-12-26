@@ -45,3 +45,15 @@ pub struct GetTwitterAccAtstsResponse {
     pub rows: Vec<PrfsAccAtst>,
     pub next_offset: Option<i32>,
 }
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetTwitterAccAtstRequest {
+    pub acc_atst_id: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
+pub struct GetTwitterAccAtstResponse {
+    pub prfs_acc_atst: PrfsAccAtst,
+}
