@@ -25,8 +25,10 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style }) => {
       <div className={cn(styles.accountId, styles.cell)}>{atst.account_id}</div>
       <div className={cn(styles.commitment, styles.cell)}>{cm}</div>
       <div className={cn(styles.url, styles.cell)}>
-        <span>{i18n.tweet}</span>
-        <BiLinkExternal />
+        <a href={atst.document_url} target="_blank">
+          <span>{i18n.tweet}</span>
+          <BiLinkExternal />
+        </a>
       </div>
     </div>
   );
