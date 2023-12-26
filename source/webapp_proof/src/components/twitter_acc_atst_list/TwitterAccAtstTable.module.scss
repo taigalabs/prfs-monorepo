@@ -22,14 +22,15 @@
   }
 
   .commitment {
-    width: 270px;
+    width: 230px;
   }
 
   .url {
-    width: 150px;
+    width: 110px;
 
     &.cell {
       color: var(--blue-19);
+
       > a {
         display: flex;
         align-items: center;
@@ -39,6 +40,14 @@
         }
       }
     }
+  }
+
+  .notarized {
+    width: 110px;
+  }
+
+  .onChain {
+    width: 110px;
   }
 }
 

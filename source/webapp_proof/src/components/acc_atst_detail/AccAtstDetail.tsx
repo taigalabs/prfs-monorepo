@@ -90,6 +90,10 @@ const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ acc_atst_id }) => {
               <p className={styles.label}>{i18n.status}</p>
               <div className={cn(styles.status, styles.value)}>{atst.status}</div>
             </div>
+            <div className={styles.row}>
+              <p className={styles.label}>{i18n.notarized}</p>
+              <div className={cn(styles.notarized, styles.value)}>{i18n.not_available}</div>
+            </div>
           </div>
         </div>
       </div>

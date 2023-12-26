@@ -16,7 +16,7 @@ import { paths } from "@/paths";
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
   const i18n = React.useContext(i18nContext);
   const cm = React.useMemo(() => {
-    return `${atst.cm.substring(0, 32)}...`;
+    return `${atst.cm.substring(0, 26)}...`;
   }, [atst.cm]);
   const handleClick = React.useCallback(() => {
     router.push(`${paths.attestations__twitter}/${atst.acc_atst_id}`);
@@ -24,7 +24,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
 
   return (
     <div className={cn(styles.row)} style={style} onClick={handleClick}>
-      <div className={cn(styles.username, styles.cell)}>
+      <div className={cn(styles.username, styles.cell, styles.alwaysShow)}>
         <img src={atst.avatar_url} crossOrigin="" />
         <span>{atst.username}</span>
       </div>
@@ -36,6 +36,8 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
           <BiLinkExternal />
         </a>
       </div>
+      <div className={cn(styles.notarized, styles.cell)}>{i18n.not_available}</div>
+      <div className={cn(styles.onChain, styles.cell)}>{i18n.not_available}</div>
     </div>
   );
 };
@@ -97,10 +99,14 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
               [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
             })}
           >
-            <div className={cn(styles.username, styles.headerCell)}>{i18n.username}</div>
+            <div className={cn(styles.username, styles.headerCell, styles.alwaysShow)}>
+              {i18n.username}
+            </div>
             <div className={cn(styles.accountId, styles.headerCell)}>{i18n.account_id}</div>
             <div className={cn(styles.commitment, styles.headerCell)}>{i18n.commitment}</div>
-            <div className={cn(styles.url, styles.headerCell)}>{i18n.document_url}</div>
+            <div className={cn(styles.url, styles.headerCell)}>{i18n.document}</div>
+            <div className={cn(styles.notarized, styles.headerCell)}>{i18n.notarized}</div>
+            <div className={cn(styles.onChain, styles.headerCell)}>{i18n.on_chain}</div>
           </div>
           <div className={styles.listContainer} ref={parentRef}>
             <div
