@@ -72,7 +72,11 @@ const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ acc_atst_id }) => {
             </div>
             <div className={styles.row}>
               <p className={styles.label}>{i18n.document_url}</p>
-              <div className={cn(styles.url, styles.value)}>{atst.document_url}</div>
+              <div className={cn(styles.url, styles.value)}>
+                <a href={atst.document_url} target="_blank">
+                  {atst.document_url}
+                </a>
+              </div>
             </div>
             <div className={styles.row}>
               <p className={styles.label}>{i18n.destination}</p>

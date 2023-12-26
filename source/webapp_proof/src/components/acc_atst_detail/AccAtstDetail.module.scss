@@ -1,21 +1,5 @@
 .wrapper {
   /* border: 1px solid red; */
-
-  .username {
-    /* width: 270px; */
-  }
-
-  .accountId {
-    /* width: 180px; */
-  }
-
-  .commitment {
-    /* width: 260px; */
-  }
-
-  .url {
-    /* width: 150px; */
-  }
 }
 
 .topMenuRow {
@@ -46,11 +30,19 @@
     font-size: 1.75rem;
     line-height: 2.25rem;
   }
+
+  .accountId {
+    font-size: 1.2rem;
+  }
 }
 
 .metaRow {
   padding-left: 32px;
   padding-top: 32px;
+
+  .url {
+    color: var(--blue-19);
+  }
 
   .box {
     color: var(--black-27);
@@ -75,5 +67,42 @@
 
   .value {
     /* padding-left: 2px; */
+  }
+}
+
+@media screen and (max-width: 1120px) {
+  .topMenuRow {
+    padding-left: 0;
+  }
+
+  .avatarRow {
+    flex-direction: column;
+    padding-left: 0;
+    align-items: center;
+    gap: 18px;
+
+    .avatar {
+      width: 40%;
+      height: 40%;
+      max-width: 162px;
+      max-height: 162px;
+      border-radius: 50%;
+    }
+
+    .username {
+      text-align: center;
+    }
+
+    .accountId {
+      text-align: center;
+    }
+  }
+
+  .metaRow {
+    padding-left: 0;
+
+    .box {
+      max-width: none;
+    }
   }
 }
