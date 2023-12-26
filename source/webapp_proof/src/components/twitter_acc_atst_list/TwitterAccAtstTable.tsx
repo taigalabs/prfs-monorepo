@@ -5,18 +5,29 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import { GetTwitterAccAtstsResponse } from "@taigalabs/prfs-entities/bindings/GetTwitterAccAtstsResponse";
 import { PrfsApiResponse, atstApi } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
+import { PrfsAccAtst } from "@taigalabs/prfs-entities/bindings/PrfsAccAtst";
+import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 
 import styles from "./TwitterAccAtstTable.module.scss";
-import { PrfsAccAtst } from "@taigalabs/prfs-entities/bindings/PrfsAccAtst";
 
 const AtstRow: React.FC<AtstRowProps> = ({ atst, style }) => {
   const i18n = React.useContext(i18nContext);
+  const cm = React.useMemo(() => {
+    return `${atst.cm.substring(0, 32)}...`;
+  }, [atst.cm]);
+
   return (
     <div className={cn(styles.row)} style={style}>
-      <div className={cn(styles.username, styles.cell)}>{atst.username}</div>
+      <div className={cn(styles.username, styles.cell)}>
+        <img src={atst.avatar_url} crossOrigin="" />
+        <span>{atst.username}</span>
+      </div>
       <div className={cn(styles.accountId, styles.cell)}>{atst.account_id}</div>
-      <div className={cn(styles.commitment, styles.cell)}>{atst.cm}</div>
-      <div className={cn(styles.url, styles.cell)}>{i18n.tweet}</div>
+      <div className={cn(styles.commitment, styles.cell)}>{cm}</div>
+      <div className={cn(styles.url, styles.cell)}>
+        <span>{i18n.tweet}</span>
+        <BiLinkExternal />
+      </div>
     </div>
   );
 };
@@ -27,7 +38,6 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
     useInfiniteQuery<PrfsApiResponse<GetTwitterAccAtstsResponse>>({
       queryKey: ["projects"],
       queryFn: async ({ pageParam }) => {
-        console.log("pageParam", pageParam);
         return atstApi("get_twitter_acc_atsts", { offset: pageParam as number });
       },
       initialPageParam: 0,
@@ -78,10 +88,10 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
               [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
             })}
           >
-            <div className={cn(styles.username, styles.cell)}>{i18n.username}</div>
-            <div className={cn(styles.accountId, styles.cell)}>{i18n.account_id}</div>
-            <div className={cn(styles.commitment, styles.cell)}>{i18n.commitment}</div>
-            <div className={cn(styles.url, styles.cell)}>{i18n.document_url}</div>
+            <div className={cn(styles.username, styles.headerCell)}>{i18n.username}</div>
+            <div className={cn(styles.accountId, styles.headerCell)}>{i18n.account_id}</div>
+            <div className={cn(styles.commitment, styles.headerCell)}>{i18n.commitment}</div>
+            <div className={cn(styles.url, styles.headerCell)}>{i18n.document_url}</div>
           </div>
           <div className={styles.listContainer} ref={parentRef}>
             <div
