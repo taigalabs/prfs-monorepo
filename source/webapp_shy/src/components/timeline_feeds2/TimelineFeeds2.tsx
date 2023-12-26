@@ -12,27 +12,10 @@ import {
 } from "@/components/content_area/ContentArea";
 import TimelineHeader from "@/components/timeline_feeds/TimelineHeader";
 import RightBar from "@/components/right_bar/RightBar";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 
 import styles from "./TimelineFeeds2.module.scss";
-import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Row from "./Row";
-
-async function fetchServerPage(
-  limit: number,
-  offset: number = 0,
-): Promise<{ rows: string[]; nextOffset: number | undefined }> {
-  console.log("fetch", limit, offset);
-
-  const rows = new Array(limit).fill(0).map((e, i) => `Async loaded row #${i + offset * limit}`);
-
-  await new Promise(r => setTimeout(r, 500));
-
-  return {
-    rows,
-    // nextOffset: offset + 1
-    nextOffset: undefined,
-  };
-}
 
 const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
@@ -46,11 +29,17 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
         return payload;
       },
       {
-        getNextPageParam: lastPage => (lastPage.next_idx > -1 ? lastPage.next_idx : undefined),
+        getNextPageParam: lastPage => {
+          if (lastPage) {
+            return lastPage.next_idx > -1 ? lastPage.next_idx : null;
+          } else {
+            return null;
+          }
+        },
       },
     );
 
-  const allRows = data ? data.pages.flatMap(d => d.social_posts) : [];
+  const allRows = data ? data.pages.flatMap(d => d && d.social_posts) : [];
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
 
@@ -154,15 +143,11 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
                     data-index={virtualRow.index}
                     ref={rowVirtualizer.measureElement}
                   >
-                    {isLoaderRow ? (
-                      hasNextPage ? (
-                        "Loading more..."
-                      ) : (
-                        "Nothing more to load"
-                      )
-                    ) : (
-                      <Row post={post} />
-                    )}
+                    {isLoaderRow
+                      ? hasNextPage
+                        ? "Loading more..."
+                        : "Nothing more to load"
+                      : post && <Row post={post} />}
                   </div>
                 );
               })}
