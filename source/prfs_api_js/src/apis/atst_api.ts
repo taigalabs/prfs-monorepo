@@ -7,8 +7,8 @@ import { GetTwitterAccAtstsResponse } from "@taigalabs/prfs-entities/bindings/Ge
 import { GetTwitterAccAtstRequest } from "@taigalabs/prfs-entities/bindings/GetTwitterAccAtstRequest";
 import { GetTwitterAccAtstResponse } from "@taigalabs/prfs-entities/bindings/GetTwitterAccAtstResponse";
 
-import { api } from "./utils";
-import { PrfsApiResponse } from "./types";
+import { api } from "../utils";
+import { PrfsApiResponse } from "../types";
 
 type RequestName =
   | "attest_twitter_acc"

@@ -19,22 +19,15 @@ fn run_app(extra_args: Vec<&str>) {
     let extra_args = [vec!["create-envs"], extra_args].concat();
 
     let status = Command::new(JS_ENGINE)
-        .current_dir(&PATHS.webapp_shy)
+        .current_dir(&PATHS.shy_webapp)
         .args(extra_args)
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));
     assert!(status.success());
 
     let status = Command::new(JS_ENGINE)
-        .current_dir(&PATHS.webapp_shy)
-        .args(["run", "build"])
-        .status()
-        .expect(&format!("{} command failed to start", JS_ENGINE));
-    assert!(status.success());
-
-    let status = Command::new(JS_ENGINE)
-        .current_dir(&PATHS.webapp_shy)
-        .args(["run", "start"])
+        .current_dir(&PATHS.shy_webapp)
+        .args(["run", "dev"])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));
 

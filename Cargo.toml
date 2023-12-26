@@ -34,4 +34,7 @@ members = [
 
   # internals
   "internals/ci",
+
+  # Shy
+  "source/shy_api_server"
 ]

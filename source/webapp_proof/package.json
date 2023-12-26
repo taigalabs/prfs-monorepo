@@ -37,7 +37,7 @@
     "eciesjs": "^0.4.5",
     "elliptic": "^6.5.4",
     "ethers": "^5",
-    "ffjavascript": "^0.2.59",
+    "ffjavascript": "0.2.62",
     "json-bigint": "^1.0.0",
     "marked": "^9.1.5",
     "next": "14.0.4",

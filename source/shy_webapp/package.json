@@ -1,5 +1,5 @@
 {
-  "name": "@taigalabs/webapp-shy",
+  "name": "@taigalabs/shy-webapp",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -38,7 +38,7 @@
     "dayjs": "^1.11.9",
     "elliptic": "^6.5.4",
     "ethers": "^5",
-    "ffjavascript": "^0.2.59",
+    "ffjavascript": "0.2.62",
     "next": "14.0.4",
     "qrcode": "^1.5.3",
     "react": "18.2.0",
