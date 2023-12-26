@@ -38,10 +38,9 @@ type Resp<T extends RequestName> = //
     ? PrfsApiResponse<GetTwitterAccAtstResponse>
     : any;
 
-let PRFS_ATST_SERVER_ENDPOINT: string;
-
+let endpoint: string;
 if (typeof process !== "undefined") {
-  PRFS_ATST_SERVER_ENDPOINT = `${process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT}/atst_api/v0`;
+  endpoint = `${process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT}/atst_api/v0`;
 } else {
   throw new Error("process is undefined");
 }
@@ -52,6 +51,6 @@ export async function atstApi<T extends RequestName>(name: T, req: Req<T>): Prom
       path: name,
       req,
     },
-    PRFS_ATST_SERVER_ENDPOINT,
+    endpoint,
   )) as Resp<T>;
 }
