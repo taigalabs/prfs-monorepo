@@ -9,11 +9,10 @@ import {
   ContentMainRight,
 } from "@/components/content_area/ContentArea";
 import TimelineHeader from "@/components/timeline_feeds/TimelineHeader";
+import { ShyPost } from "@taigalabs/prfs-entities/bindings/ShyPost";
 import RightBar from "@/components/right_bar/RightBar";
 
 import styles from "./Row.module.scss";
-import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import { SocialPost } from "@taigalabs/prfs-entities/bindings/SocialPost";
 
 async function fetchServerPage(
   limit: number,
@@ -49,5 +48,5 @@ const Row: React.FC<RowProps> = ({ post }) => {
 export default Row;
 
 export interface RowProps {
-  post: SocialPost;
+  post: ShyPost;
 }
