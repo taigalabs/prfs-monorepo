@@ -1,25 +1,25 @@
-import { CreateSocialPostRequest } from "@taigalabs/prfs-entities/bindings/CreateSocialPostRequest";
-import { CreateSocialPostResponse } from "@taigalabs/prfs-entities/bindings/CreateSocialPostResponse";
-import { GetSocialPostsRequest } from "@taigalabs/prfs-entities/bindings/GetSocialPostsRequest";
-import { GetSocialPostsResponse } from "@taigalabs/prfs-entities/bindings/GetSocialPostsResponse";
+import { CreateShyPostRequest } from "@taigalabs/prfs-entities/bindings/CreateShyPostRequest";
+import { CreateShyPostResponse } from "@taigalabs/prfs-entities/bindings/CreateShyPostResponse";
+import { GetShyPostsRequest } from "@taigalabs/prfs-entities/bindings/GetShyPostsRequest";
+import { GetShyPostsResponse } from "@taigalabs/prfs-entities/bindings/GetShyPostsResponse";
 
 import { api } from "../utils";
 import { PrfsApiResponse } from "../types";
 
-type RequestName = "create_post" | "get_posts";
+type RequestName = "create_shy_post" | "get_shy_posts";
 
 type Req<T extends RequestName> = //
-  T extends "create_post"
-    ? CreateSocialPostRequest
-    : T extends "get_posts"
-    ? GetSocialPostsRequest
+  T extends "create_shy_post"
+    ? CreateShyPostRequest
+    : T extends "get_shy_posts"
+    ? GetShyPostsRequest
     : never;
 
 type Resp<T> = //
-  T extends "create_post"
-    ? PrfsApiResponse<CreateSocialPostResponse>
-    : T extends "get_posts"
-    ? PrfsApiResponse<GetSocialPostsResponse>
+  T extends "create_shy_post"
+    ? PrfsApiResponse<CreateShyPostResponse>
+    : T extends "get_shy_posts"
+    ? PrfsApiResponse<GetShyPostsResponse>
     : any;
 
 let endpoint: string;

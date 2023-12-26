@@ -14,7 +14,7 @@ use super::middleware::{handle_not_found, log};
 use crate::apis::status::handle_server_status;
 use crate::apis::{
     prfs_accounts, prfs_circuit_drivers, prfs_circuit_types, prfs_circuits, prfs_polls,
-    prfs_proof_instances, prfs_proof_types, prfs_sets, prfs_tree_nodes, social_posts,
+    prfs_proof_instances, prfs_proof_types, prfs_sets, prfs_tree_nodes,
 };
 
 macro_rules! v0_path {
