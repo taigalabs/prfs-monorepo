@@ -51,7 +51,7 @@ pub struct Paths {
     // webapps
     pub webapp_console: PathBuf,
     pub webapp_proof: PathBuf,
-    pub webapp_social: PathBuf,
+    pub webapp_shy: PathBuf,
     pub webapp_poll: PathBuf,
 }
 
@@ -102,7 +102,7 @@ impl Paths {
         let webapp_console = curr_dir.join("source/webapp_console");
         let webapp_proof = curr_dir.join("source/webapp_proof");
         let webapp_poll = curr_dir.join("source/webapp_poll");
-        let webapp_social = curr_dir.join("source/webapp_social");
+        let webapp_shy = curr_dir.join("source/webapp_shy");
 
         let p = Paths {
             curr_dir,
@@ -139,7 +139,7 @@ impl Paths {
             webapp_console,
             webapp_proof,
             webapp_poll,
-            webapp_social,
+            webapp_shy,
 
             e2e_test_web,
         };
