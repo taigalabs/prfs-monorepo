@@ -24,20 +24,20 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
 
   return (
     <div className={cn(styles.row)} style={style} onClick={handleClick}>
-      <div className={cn(styles.username, styles.cell, styles.alwaysShow)}>
+      <div className={cn(styles.username, styles.cell)}>
         <img src={atst.avatar_url} crossOrigin="" />
         <span>{atst.username}</span>
       </div>
-      <div className={cn(styles.accountId, styles.cell)}>{atst.account_id}</div>
-      <div className={cn(styles.commitment, styles.cell)}>{cm}</div>
-      <div className={cn(styles.url, styles.cell)}>
+      <div className={cn(styles.accountId, styles.cell, styles.w1120)}>{atst.account_id}</div>
+      <div className={cn(styles.commitment, styles.cell, styles.w1120)}>{cm}</div>
+      <div className={cn(styles.document, styles.cell, styles.w480)}>
         <a href={atst.document_url} target="_blank">
           <span>{i18n.tweet}</span>
           <BiLinkExternal />
         </a>
       </div>
-      <div className={cn(styles.notarized, styles.cell)}>{i18n.not_available}</div>
-      <div className={cn(styles.onChain, styles.cell)}>{i18n.not_available}</div>
+      <div className={cn(styles.notarized, styles.cell, styles.w1320)}>{i18n.not_available}</div>
+      <div className={cn(styles.onChain, styles.cell, styles.w1320)}>{i18n.not_available}</div>
     </div>
   );
 };
@@ -99,14 +99,22 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
               [styles.noData]: rowVirtualizer.getVirtualItems().length === 0,
             })}
           >
-            <div className={cn(styles.username, styles.headerCell, styles.alwaysShow)}>
-              {i18n.username}
+            <div className={cn(styles.username, styles.headerCell)}>{i18n.username}</div>
+            <div className={cn(styles.accountId, styles.headerCell, styles.w1120)}>
+              {i18n.account_id}
             </div>
-            <div className={cn(styles.accountId, styles.headerCell)}>{i18n.account_id}</div>
-            <div className={cn(styles.commitment, styles.headerCell)}>{i18n.commitment}</div>
-            <div className={cn(styles.url, styles.headerCell)}>{i18n.document}</div>
-            <div className={cn(styles.notarized, styles.headerCell)}>{i18n.notarized}</div>
-            <div className={cn(styles.onChain, styles.headerCell)}>{i18n.on_chain}</div>
+            <div className={cn(styles.commitment, styles.headerCell, styles.w1120)}>
+              {i18n.commitment}
+            </div>
+            <div className={cn(styles.document, styles.headerCell, styles.w480)}>
+              {i18n.document}
+            </div>
+            <div className={cn(styles.notarized, styles.headerCell, styles.w1320)}>
+              {i18n.notarized}
+            </div>
+            <div className={cn(styles.onChain, styles.headerCell, styles.w1320)}>
+              {i18n.on_chain}
+            </div>
           </div>
           <div className={styles.listContainer} ref={parentRef}>
             <div

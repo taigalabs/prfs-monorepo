@@ -1,3 +1,5 @@
+@import "styles/layouts.module.scss";
+
 .wrapper {
   /* border: 1px solid red; */
 
@@ -25,7 +27,7 @@
     width: 230px;
   }
 
-  .url {
+  .document {
     width: 110px;
 
     &.cell {
@@ -66,6 +68,8 @@
   padding: 4px;
   display: flex;
   align-items: center;
+  color: var(--gray-23);
+  font-weight: 500;
 }
 
 .cell {
@@ -99,5 +103,23 @@
 
   &:hover {
     background-color: var(--bright-gray-521);
+  }
+}
+
+@media screen and (max-width: 1320px) {
+  .w1320 {
+    display: none;
+  }
+}
+
+@media screen and (max-width: $view_port_min_width_big_display) {
+  .w1120 {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .w480 {
+    display: none;
   }
 }
