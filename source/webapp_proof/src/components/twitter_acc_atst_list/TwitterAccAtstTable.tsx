@@ -52,7 +52,13 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
         return atstApi("get_twitter_acc_atsts", { offset: pageParam as number });
       },
       initialPageParam: 0,
-      getNextPageParam: (lastPage: any) => lastPage.nextId ?? undefined,
+      getNextPageParam: lastPage => {
+        if (lastPage.payload) {
+          return lastPage.payload.next_offset;
+        } else {
+          return null;
+        }
+      },
     });
 
   const allRows = data
@@ -151,7 +157,6 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
           </div>
         </>
       )}
-      <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
     </div>
   );
 };
