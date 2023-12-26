@@ -44,13 +44,37 @@ const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ acc_atst_id }) => {
 
   const atst = data?.prfs_acc_atst;
 
+  const avatarUrl = React.useMemo(() => {
+    if (atst) {
+      return atst.avatar_url.replace("_normal.", ".");
+    } else {
+      return null;
+    }
+  }, [atst]);
+
   return (
     atst && (
       <div className={styles.wrapper}>
-        <div className={cn(styles.username, styles.cell)}>{atst.username}</div>
-        <div className={cn(styles.accountId, styles.cell)}>{atst.account_id}</div>
-        <div className={cn(styles.commitment, styles.cell)}>{atst.cm}</div>
-        <div className={cn(styles.url, styles.cell)}>{i18n.tweet}</div>
+        <div className={styles.avatarRow}>
+          <img
+            className={styles.avatar}
+            src={avatarUrl ?? atst.avatar_url}
+            crossOrigin=""
+            alt={i18n.avatar}
+          />
+          <div>
+            <div className={styles.username}>{atst.username}</div>
+            <div className={styles.accountId}>{atst.account_id}</div>
+          </div>
+        </div>
+        <div className={styles.row}>
+          <p>{i18n.commitment}</p>
+          <div className={styles.commitment}>{atst.cm}</div>
+        </div>
+        <div className={styles.row}>
+          <p>{i18n.document_url}</p>
+          <div className={styles.url}>{i18n.tweet}</div>
+        </div>
       </div>
     )
   );

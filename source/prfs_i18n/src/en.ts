@@ -189,6 +189,7 @@ export default {
     "Some functionalities are availble only with the user signed in. Join today.",
   url: "URL",
   document_url: "Document URL",
+  avatar: "Avatar",
   vote: "Vote",
   enrollment: "Enrollment",
   talk: "Talk",
