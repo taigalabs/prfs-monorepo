@@ -7,6 +7,7 @@ use prfs_atst_server::server::router::{atst_server_routes, ATST_API};
 use prfs_common_server_state::ServerState;
 use prfs_id_server::server::router::id_server_routes;
 use prfs_id_server::server::ID_API;
+use shy_api_server::server::router::{shy_server_routes, SHY_API};
 use std::sync::Arc;
 
 use super::middleware::{handle_not_found, log};
@@ -31,6 +32,8 @@ pub async fn route(req: Request<Incoming>, state: Arc<ServerState>) -> Response<
         id_server_routes(req, state).await
     } else if p.starts_with(ATST_API) {
         atst_server_routes(req, state).await
+    } else if p.starts_with(SHY_API) {
+        shy_server_routes(req, state).await
     } else {
         match (req.method(), req.uri().path()) {
             (&Method::OPTIONS, _) => handle_cors(),
