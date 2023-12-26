@@ -24,8 +24,8 @@ import styles from "./AccAtstDetail.module.scss";
 
 const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ acc_atst_id }) => {
   const i18n = React.useContext(i18nContext);
-  const { isLoading, data } = useQuery({
-    queryKey: ["get_prfs_proof_instances"],
+  const { isLoading, data, error } = useQuery({
+    queryKey: ["get_twitter_acc_atst"],
     queryFn: async () => {
       const { payload } = await atstApi("get_twitter_acc_atst", {
         acc_atst_id,
@@ -34,14 +34,25 @@ const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ acc_atst_id }) => {
     },
   });
 
+  if (isLoading) {
+    <div>Loading...</div>;
+  }
+
+  if (error) {
+    <div>Fetch error: {error.toString()}</div>;
+  }
+
+  const atst = data?.prfs_acc_atst;
+
   return (
-    <div className={styles.wrapper}>
-      power
-      {/* <div className={cn(styles.username, styles.cell)}>{atst.username}</div> */}
-      {/* <div className={cn(styles.accountId, styles.cell)}>{atst.account_id}</div> */}
-      {/* <div className={cn(styles.commitment, styles.cell)}>{atst.cm}</div> */}
-      {/* <div className={cn(styles.url, styles.cell)}>{i18n.tweet}</div> */}
-    </div>
+    atst && (
+      <div className={styles.wrapper}>
+        <div className={cn(styles.username, styles.cell)}>{atst.username}</div>
+        <div className={cn(styles.accountId, styles.cell)}>{atst.account_id}</div>
+        <div className={cn(styles.commitment, styles.cell)}>{atst.cm}</div>
+        <div className={cn(styles.url, styles.cell)}>{i18n.tweet}</div>
+      </div>
+    )
   );
 };
 
