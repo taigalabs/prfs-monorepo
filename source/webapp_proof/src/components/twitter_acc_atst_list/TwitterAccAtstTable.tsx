@@ -7,17 +7,24 @@ import { PrfsApiResponse, atstApi } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
 import { PrfsAccAtst } from "@taigalabs/prfs-entities/bindings/PrfsAccAtst";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
+import { useRouter } from "next/navigation";
 
 import styles from "./TwitterAccAtstTable.module.scss";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { paths } from "@/paths";
 
-const AtstRow: React.FC<AtstRowProps> = ({ atst, style }) => {
+const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
   const i18n = React.useContext(i18nContext);
   const cm = React.useMemo(() => {
     return `${atst.cm.substring(0, 32)}...`;
   }, [atst.cm]);
+  const handleClick = React.useCallback(() => {
+    console.log(11);
+    router.push(`${paths.attestations__twitter}/${atst.acc_atst_id}`);
+  }, [atst.acc_atst_id, router]);
 
   return (
-    <div className={cn(styles.row)} style={style}>
+    <div className={cn(styles.row)} style={style} onClick={handleClick}>
       <div className={cn(styles.username, styles.cell)}>
         <img src={atst.avatar_url} crossOrigin="" />
         <span>{atst.username}</span>
@@ -36,6 +43,7 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style }) => {
 
 const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
   const i18n = React.useContext(i18nContext);
+  const router = useRouter();
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery<PrfsApiResponse<GetTwitterAccAtstsResponse>>({
       queryKey: ["projects"],
@@ -114,8 +122,9 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
                   )
                 ) : (
                   <AtstRow
-                    atst={row}
                     key={virtualRow.index}
+                    atst={row}
+                    router={router}
                     style={{
                       position: "absolute",
                       top: 0,
@@ -143,4 +152,5 @@ export interface TwitterAccAtstTableProps {}
 export interface AtstRowProps {
   atst: PrfsAccAtst;
   style: React.CSSProperties;
+  router: AppRouterInstance;
 }

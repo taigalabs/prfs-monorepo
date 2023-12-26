@@ -8,6 +8,7 @@ import DefaultLayout, {
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import Attestations, { AttestationsMain } from "@/components/attestations/Attestations";
 import TwitterAccAtstList from "@/components/twitter_acc_atst_list/TwitterAccAtstList";
+import AccAtstDetail from "@/components/acc_atst_detail/AccAtstDetail";
 
 const TwitterAttestionDetailPage: React.FC<TwitterAttestionDetailPageProps> = ({ params }) => {
   return (
@@ -16,7 +17,7 @@ const TwitterAttestionDetailPage: React.FC<TwitterAttestionDetailPageProps> = ({
         <Suspense>
           <Attestations>
             <AttestationsMain>
-              <TwitterAccAtstList />
+              <AccAtstDetail accAtstId={params.acc_atst_id} />
             </AttestationsMain>
           </Attestations>
         </Suspense>
@@ -32,6 +33,6 @@ export default TwitterAttestionDetailPage;
 
 interface TwitterAttestionDetailPageProps {
   params: {
-    atst_id: string;
+    acc_atst_id: string;
   };
 }
