@@ -22,7 +22,7 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
     useInfiniteQuery(
       ["get_social_posts"],
       async ({ pageParam = 0 }) => {
-        const { payload } = await shyApi("get_social_posts", {
+        const { payload } = await shyApi("get_shy_posts", {
           page_idx: pageParam,
           page_size: 5,
         });

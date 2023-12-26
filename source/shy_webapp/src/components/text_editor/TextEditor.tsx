@@ -16,9 +16,9 @@ import TextStyle from "@tiptap/extension-text-style";
 import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
 import { useMutation } from "@tanstack/react-query";
-import { prfsApi2, shyApi } from "@taigalabs/prfs-api-js";
-import { CreateSocialPostRequest } from "@taigalabs/prfs-entities/bindings/CreateSocialPostRequest";
-import { SocialPost } from "@taigalabs/prfs-entities/bindings/SocialPost";
+import { shyApi } from "@taigalabs/prfs-api-js";
+import { CreateShyPostRequest } from "@taigalabs/prfs-entities/bindings/CreateShyPostRequest";
+import { ShyPost } from "@taigalabs/prfs-entities/bindings/ShyPost";
 
 import styles from "./TextEditor.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -85,8 +85,8 @@ const EditorFooter = () => {
   const router = useRouter();
 
   const { mutateAsync: createSocialPost, isLoading: isCreateSocialPostLoading } = useMutation({
-    mutationFn: (req: CreateSocialPostRequest) => {
-      return shyApi("create_post", req);
+    mutationFn: (req: CreateShyPostRequest) => {
+      return shyApi("create_shy_post", req);
     },
   });
 
@@ -103,7 +103,7 @@ const EditorFooter = () => {
       // console.log("text", text);
 
       const post_id = uuidv4();
-      const post: SocialPost = {
+      const post: ShyPost = {
         post_id,
         content: html,
         channel_id: "default",

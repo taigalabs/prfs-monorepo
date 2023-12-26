@@ -11,7 +11,7 @@ use prfs_entities::shy_api_entities::{
 use std::{convert::Infallible, sync::Arc};
 use uuid::Uuid;
 
-pub async fn create_post(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
+pub async fn create_shy_post(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
     let state = state.clone();
     let req: CreateShyPostRequest = parse_req(req).await;
     let pool = &state.db2.pool;
@@ -26,7 +26,7 @@ pub async fn create_post(req: Request<Incoming>, state: Arc<ServerState>) -> Api
     return Ok(resp.into_hyper_response());
 }
 
-pub async fn get_posts(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
+pub async fn get_shy_posts(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
     let req: GetShyPostsRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let social_posts = shy::get_shy_posts(pool, req.page_idx, req.page_size)
