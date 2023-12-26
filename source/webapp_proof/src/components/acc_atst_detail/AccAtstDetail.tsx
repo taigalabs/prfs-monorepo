@@ -2,25 +2,13 @@
 
 import React from "react";
 import cn from "classnames";
-import { GetTwitterAccAtstsResponse } from "@taigalabs/prfs-entities/bindings/GetTwitterAccAtstsResponse";
-import { PrfsApiResponse, atstApi } from "@taigalabs/prfs-api-js";
+import { FaArrowLeft } from "@react-icons/all-files/fa/FaArrowLeft";
+import ButtonCircleContainer from "@taigalabs/prfs-react-components/src/button_circle_container/ButtonCircleContainer";
+import { atstApi } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
 import { useQuery } from "@tanstack/react-query";
-import { PrfsAccAtst } from "@taigalabs/prfs-entities/bindings/PrfsAccAtst";
 
 import styles from "./AccAtstDetail.module.scss";
-
-// const AtstRow: React.FC<AtstRowProps> = ({ atst, style }) => {
-//   const i18n = React.useContext(i18nContext);
-//   return (
-//     <div className={cn(styles.row)} style={style}>
-//       <div className={cn(styles.username, styles.cell)}>{atst.username}</div>
-//       <div className={cn(styles.accountId, styles.cell)}>{atst.account_id}</div>
-//       <div className={cn(styles.commitment, styles.cell)}>{atst.cm}</div>
-//       <div className={cn(styles.url, styles.cell)}>{i18n.tweet}</div>
-//     </div>
-//   );
-// };
 
 const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ acc_atst_id }) => {
   const i18n = React.useContext(i18nContext);
@@ -55,6 +43,11 @@ const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ acc_atst_id }) => {
   return (
     atst && (
       <div className={styles.wrapper}>
+        <div className={styles.topMenuRow}>
+          <ButtonCircleContainer>
+            <FaArrowLeft />
+          </ButtonCircleContainer>
+        </div>
         <div className={styles.avatarRow}>
           <img
             className={styles.avatar}
@@ -62,18 +55,34 @@ const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ acc_atst_id }) => {
             crossOrigin=""
             alt={i18n.avatar}
           />
-          <div>
+          <div className={styles.rightCol}>
             <div className={styles.username}>{atst.username}</div>
             <div className={styles.accountId}>{atst.account_id}</div>
           </div>
         </div>
-        <div className={styles.row}>
-          <p>{i18n.commitment}</p>
-          <div className={styles.commitment}>{atst.cm}</div>
-        </div>
-        <div className={styles.row}>
-          <p>{i18n.document_url}</p>
-          <div className={styles.url}>{i18n.tweet}</div>
+        <div className={styles.metaRow}>
+          <div className={styles.box}>
+            <div className={styles.row}>
+              <p className={styles.label}>{i18n.commitment}</p>
+              <div className={cn(styles.commitment, styles.value)}>{atst.cm}</div>
+            </div>
+            <div className={styles.row}>
+              <p className={styles.label}>{i18n.document_url}</p>
+              <div className={cn(styles.url, styles.value)}>{atst.document_url}</div>
+            </div>
+            <div className={styles.row}>
+              <p className={styles.label}>{i18n.destination}</p>
+              <div className={cn(styles.destination, styles.value)}>{atst.dest}</div>
+            </div>
+            <div className={styles.row}>
+              <p className={styles.label}>{i18n.attestation_type}</p>
+              <div className={cn(styles.attestationType, styles.value)}>{atst.atst_type}</div>
+            </div>
+            <div className={styles.row}>
+              <p className={styles.label}>{i18n.status}</p>
+              <div className={cn(styles.status, styles.value)}>{atst.status}</div>
+            </div>
+          </div>
         </div>
       </div>
     )

@@ -18,12 +18,60 @@
   }
 }
 
-.avatarRow {
-  display: flex;
+.topMenuRow {
+  height: 48px;
+  padding-left: 32px;
 }
 
-.avatar {
-  width: 162px;
-  height: 162px;
-  border-radius: 81px;
+.avatarRow {
+  display: flex;
+  padding-left: 48px;
+  gap: 36px;
+
+  .avatar {
+    width: 162px;
+    height: 162px;
+    border-radius: 81px;
+  }
+
+  .rightCol {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .username {
+    font-size: 1.75rem;
+    line-height: 2.25rem;
+  }
+}
+
+.metaRow {
+  padding-left: 32px;
+  padding-top: 32px;
+
+  .box {
+    color: var(--black-27);
+    padding: 16px;
+    border-radius: 16px;
+    background-color: var(--bright-blue-55);
+    word-break: break-all;
+    max-width: 520px;
+
+    /* border: 1px solid red; */
+  }
+
+  .row:not(:last-child) {
+    padding-bottom: 14px;
+  }
+
+  .label {
+    font-size: 15px;
+    font-weight: 500;
+    padding-bottom: 4px;
+  }
+
+  .value {
+    /* padding-left: 2px; */
+  }
 }
