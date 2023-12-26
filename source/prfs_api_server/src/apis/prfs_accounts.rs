@@ -3,7 +3,7 @@ use hyper::Request;
 use hyper_utils::io::{parse_req, ApiHandlerResult};
 use hyper_utils::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
-use prfs_db_interface::db_apis;
+use prfs_db_interface::prfs;
 use prfs_entities::{
     entities::PrfsAccount,
     id_api_entities::{
@@ -29,7 +29,7 @@ pub async fn sign_up_prfs_account(
         policy_ids: Json::from(vec![]),
     };
 
-    let account_id = db_apis::insert_prfs_account(&mut tx, &prfs_account)
+    let account_id = prfs::insert_prfs_account(&mut tx, &prfs_account)
         .await
         .map_err(|err| {
             hyper_utils::ApiHandleError::from(
@@ -53,7 +53,7 @@ pub async fn sign_in_prfs_account(
 ) -> ApiHandlerResult {
     let req: PrfsSignInRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let prfs_account = db_apis::get_prfs_account_by_account_id(pool, &req.account_id)
+    let prfs_account = prfs::get_prfs_account_by_account_id(pool, &req.account_id)
         .await
         .map_err(|_err| {
             hyper_utils::ApiHandleError::from(

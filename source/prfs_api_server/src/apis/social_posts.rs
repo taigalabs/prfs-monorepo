@@ -4,7 +4,7 @@ use hyper::{Request, Response};
 use hyper_utils::io::{parse_req, ApiHandlerResult, BytesBoxBody};
 use hyper_utils::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
-use prfs_db_interface::db_apis;
+use prfs_db_interface::prfs;
 use prfs_entities::apis_entities::{
     CreatePrfsPollRequest, CreatePrfsPollResponse, GetPrfsPollByPollIdRequest,
     GetPrfsPollByPollIdResponse, GetPrfsPollResultByPollIdRequest,
@@ -27,7 +27,7 @@ pub async fn create_social_post(
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    let poll_id = db_apis::insert_social_post(&mut tx, &req.post).await;
+    let poll_id = prfs::insert_social_post(&mut tx, &req.post).await;
 
     tx.commit().await.unwrap();
 
@@ -39,7 +39,7 @@ pub async fn create_social_post(
 pub async fn get_social_posts(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
     let req: GetSocialPostsRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let social_posts = db_apis::get_social_posts(pool, req.page_idx, req.page_size)
+    let social_posts = prfs::get_social_posts(pool, req.page_idx, req.page_size)
         .await
         .unwrap();
 

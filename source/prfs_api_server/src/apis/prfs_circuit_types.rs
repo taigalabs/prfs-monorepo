@@ -4,7 +4,7 @@ use hyper_utils::{
     resp::ApiResponse,
 };
 use prfs_common_server_state::ServerState;
-use prfs_db_interface::db_apis;
+use prfs_db_interface::prfs;
 use prfs_entities::{
     apis_entities::{
         GetPrfsCircuitTypeByCircuitTypeIdRequest, GetPrfsCircuitTypeByCircuitTypeIdResponse,
@@ -20,7 +20,7 @@ pub async fn get_prfs_circuit_types(
 ) -> ApiHandlerResult {
     let req: GetPrfsCircuitTypesRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let prfs_circuit_types = db_apis::get_prfs_circuit_types(&pool).await;
+    let prfs_circuit_types = prfs::get_prfs_circuit_types(&pool).await;
 
     let resp = ApiResponse::new_success(GetPrfsCircuitTypesResponse {
         page_idx: req.page_idx,
@@ -37,7 +37,7 @@ pub async fn get_prfs_circuit_type_by_circuit_type_id(
     let req: GetPrfsCircuitTypeByCircuitTypeIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_circuit_type =
-        db_apis::get_prfs_circuit_type_by_circuit_type_id(&pool, &req.circuit_type_id).await;
+        prfs::get_prfs_circuit_type_by_circuit_type_id(&pool, &req.circuit_type_id).await;
 
     let resp =
         ApiResponse::new_success(GetPrfsCircuitTypeByCircuitTypeIdResponse { prfs_circuit_type });

@@ -4,18 +4,13 @@ use crate::{
 };
 use clap::ArgMatches;
 use prfs_db_interface::database2::Database2;
-use prfs_db_interface::db_apis;
+use prfs_db_interface::prfs;
 use prfs_entities::entities::EthAccount;
 use prfs_entities::sqlx::{Pool, Postgres, Transaction};
 use rust_decimal::Decimal;
 
-pub async fn revisit(
-    // db: &Database2,
-    pool: &Pool<Postgres>,
-    tx: &mut Transaction<'_, Postgres>,
-    geth: &GethClient,
-) {
-    let accs = db_apis::get_eth_accounts(
+pub async fn revisit(pool: &Pool<Postgres>, tx: &mut Transaction<'_, Postgres>, geth: &GethClient) {
+    let accs = prfs::get_eth_accounts(
         pool,
         "where acc.addr = '0xe94f1fa4f27d9d288ffea234bb62e1fbc086ca0c'",
     )

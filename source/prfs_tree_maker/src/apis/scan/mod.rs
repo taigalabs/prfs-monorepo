@@ -186,7 +186,7 @@ pub async fn scan_ledger_accounts(
             end_block
         );
 
-        db_apis::insert_eth_accounts(tx, balances, scan_update_on_conflict).await?;
+        prfs::insert_eth_accounts(tx, balances, scan_update_on_conflict).await?;
     } else {
         tracing::info!(
             "Balances are empty. Closing 'scan', balances_count: {}, end block_no (excl): {}",

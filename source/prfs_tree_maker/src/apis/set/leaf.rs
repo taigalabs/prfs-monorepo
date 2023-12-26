@@ -1,7 +1,7 @@
 use super::json::SetJson;
 use crate::{envs::ENVS, TreeMakerError};
 use colored::Colorize;
-use prfs_db_interface::{database2::Database2, db_apis};
+use prfs_db_interface::{database2::Database2, prfs};
 use prfs_entities::entities::{PrfsSet, PrfsTreeNode};
 use prfs_entities::sqlx::{Pool, Postgres, Transaction};
 use rust_decimal::{prelude::FromPrimitive, Decimal};
@@ -26,7 +26,7 @@ pub async fn create_leaves_without_offset(
         now1,
     );
 
-    let accounts = db_apis::get_eth_accounts(pool, &where_clause).await?;
+    let accounts = prfs::get_eth_accounts(pool, &where_clause).await?;
     let now2 = chrono::Local::now();
     let elapsed = now2 - now1;
 
@@ -68,7 +68,7 @@ pub async fn create_leaves_without_offset(
     let mut total_count = 0;
 
     for chunk in node_chunks {
-        let updated_count = db_apis::insert_prfs_tree_nodes(tx, chunk, false).await?;
+        let updated_count = prfs::insert_prfs_tree_nodes(tx, chunk, false).await?;
         total_count += updated_count;
 
         println!(
@@ -91,7 +91,7 @@ pub async fn create_leaves_without_offset(
     );
 
     prfs_set.cardinality = total_count as i64;
-    db_apis::upsert_prfs_set(tx, &prfs_set).await.unwrap();
+    prfs::upsert_prfs_set(tx, &prfs_set).await.unwrap();
 
     Ok(nodes)
 }

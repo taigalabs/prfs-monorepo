@@ -5,7 +5,7 @@ use hyper_utils::{
     ApiHandleError,
 };
 use prfs_common_server_state::ServerState;
-use prfs_db_interface::db_apis;
+use prfs_db_interface::prfs;
 use prfs_entities::{
     apis_entities::{
         ComputePrfsSetMerkleRootRequest, ComputePrfsSetMerkleRootResponse,
@@ -25,7 +25,7 @@ use crate::error_codes::API_ERROR_CODES;
 pub async fn get_prfs_sets(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
     let req: GetPrfsSetsRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let prfs_sets = db_apis::get_prfs_sets(pool, req.page_idx, req.page_size)
+    let prfs_sets = prfs::get_prfs_sets(pool, req.page_idx, req.page_size)
         .await
         .unwrap();
 
@@ -45,7 +45,7 @@ pub async fn get_prfs_sets_by_set_type(
     let req: GetPrfsSetsBySetTypeRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_sets =
-        db_apis::get_prfs_sets_by_set_type(pool, req.set_type, req.page_idx, req.page_size)
+        prfs::get_prfs_sets_by_set_type(pool, req.set_type, req.page_idx, req.page_size)
             .await
             .unwrap();
 
@@ -64,7 +64,7 @@ pub async fn get_prfs_set_by_set_id(
 ) -> ApiHandlerResult {
     let req: GetPrfsSetBySetIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let prfs_set = db_apis::get_prfs_set_by_set_id(pool, &req.set_id)
+    let prfs_set = prfs::get_prfs_set_by_set_id(pool, &req.set_id)
         .await
         .unwrap();
 
@@ -77,7 +77,7 @@ pub async fn create_prfs_set(req: Request<Incoming>, state: Arc<ServerState>) ->
     let req: CreatePrfsSetRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
-    let set_id = db_apis::insert_prfs_set_ins1(&mut tx, &req.prfs_set_ins1)
+    let set_id = prfs::insert_prfs_set_ins1(&mut tx, &req.prfs_set_ins1)
         .await
         .unwrap();
 
@@ -96,7 +96,7 @@ pub async fn create_prfs_dynamic_set_element(
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
 
-    let largest_pos_w = db_apis::get_largest_pos_w_tree_leaf_node(&pool, &req.set_id)
+    let largest_pos_w = prfs::get_largest_pos_w_tree_leaf_node(&pool, &req.set_id)
         .await
         .unwrap();
 
@@ -114,9 +114,7 @@ pub async fn create_prfs_dynamic_set_element(
         set_id: req.set_id,
     };
 
-    let pos_w = db_apis::insert_prfs_tree_node(&mut tx, &node)
-        .await
-        .unwrap();
+    let pos_w = prfs::insert_prfs_tree_node(&mut tx, &node).await.unwrap();
 
     tx.commit().await.unwrap();
 
@@ -135,7 +133,7 @@ pub async fn compute_prfs_set_merkle_root(
 
     let required_policy = String::from("COMPUTE_MERKLE_ROOT");
 
-    let prfs_account = db_apis::get_prfs_account_by_account_id(pool, &req.account_id)
+    let prfs_account = prfs::get_prfs_account_by_account_id(pool, &req.account_id)
         .await
         .unwrap();
 
@@ -146,15 +144,13 @@ pub async fn compute_prfs_set_merkle_root(
             &API_ERROR_CODES.NO_POLICY_ATTACHED,
             required_policy.into(),
         ));
-        // let resp = ApiResponse::new_error("no policy attached".to_string());
-        // return Ok(resp.into_hyper_response());
     }
 
-    let mut prfs_set = db_apis::get_prfs_set_by_set_id(pool, &req.set_id)
+    let mut prfs_set = prfs::get_prfs_set_by_set_id(pool, &req.set_id)
         .await
         .unwrap();
 
-    let deleted_row_count = db_apis::delete_prfs_non_leaf_nodes_by_set_id(&mut tx, &req.set_id)
+    let deleted_row_count = prfs::delete_prfs_non_leaf_nodes_by_set_id(&mut tx, &req.set_id)
         .await
         .unwrap();
 
@@ -163,7 +159,7 @@ pub async fn compute_prfs_set_merkle_root(
         deleted_row_count, &req.set_id
     );
 
-    let leaf_nodes = db_apis::get_prfs_tree_leaf_nodes_all_by_set_id(pool, &req.set_id)
+    let leaf_nodes = prfs::get_prfs_tree_leaf_nodes_all_by_set_id(pool, &req.set_id)
         .await
         .unwrap();
 

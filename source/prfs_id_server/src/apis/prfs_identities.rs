@@ -4,12 +4,12 @@ use hyper_utils::io::{parse_req, ApiHandlerResult, BytesBoxBody};
 use hyper_utils::resp::ApiResponse;
 use hyper_utils::ApiHandleError;
 use prfs_common_server_state::ServerState;
-use prfs_db_interface::db_apis;
-use prfs_entities::apis_entities::{
+use prfs_db_interface::prfs;
+use prfs_entities::entities::PrfsIdentity;
+use prfs_entities::prfs_api_entities::{
     PrfsIdentitySignInRequest, PrfsIdentitySignInResponse, PrfsIdentitySignUpRequest,
     PrfsIdentitySignUpResponse,
 };
-use prfs_entities::entities::PrfsIdentity;
 use std::sync::Arc;
 
 use crate::error_codes::API_ERROR_CODE;
@@ -26,7 +26,7 @@ pub async fn sign_up_prfs_identity(
         avatar_color: req.avatar_color.to_string(),
     };
 
-    let identity_id = db_apis::insert_prfs_identity(&mut tx, &prfs_identity)
+    let identity_id = prfs::insert_prfs_identity(&mut tx, &prfs_identity)
         .await
         .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.ID_ALREADY_EXISTS, err))?;
 
@@ -45,7 +45,7 @@ pub async fn sign_in_prfs_identity(
 ) -> ApiHandlerResult {
     let req: PrfsIdentitySignInRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let prfs_identity = db_apis::get_prfs_identity_by_id(pool, &req.identity_id)
+    let prfs_identity = prfs::get_prfs_identity_by_id(pool, &req.identity_id)
         .await
         .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.CANNOT_FIND_ID, err))?;
 
