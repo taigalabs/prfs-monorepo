@@ -15,7 +15,6 @@ import styles from "./CreatePostForm.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import RightBar from "@/components/right_bar/RightBar";
-import CreatePostFormHeader from "./CreatePostFormHeader";
 import TextEditor from "@/components/text_editor/TextEditor";
 
 const CreatePostForm: React.FC<CreatePostFormProps> = ({ channelId }) => {

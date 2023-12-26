@@ -16,7 +16,7 @@ import TextStyle from "@tiptap/extension-text-style";
 import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
 import { useMutation } from "@tanstack/react-query";
-import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import { prfsApi2, shyApi } from "@taigalabs/prfs-api-js";
 import { CreateSocialPostRequest } from "@taigalabs/prfs-entities/bindings/CreateSocialPostRequest";
 import { SocialPost } from "@taigalabs/prfs-entities/bindings/SocialPost";
 
@@ -86,7 +86,7 @@ const EditorFooter = () => {
 
   const { mutateAsync: createSocialPost, isLoading: isCreateSocialPostLoading } = useMutation({
     mutationFn: (req: CreateSocialPostRequest) => {
-      return prfsApi2("create_social_post", req);
+      return shyApi("create_social_post", req);
     },
   });
 

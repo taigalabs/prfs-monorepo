@@ -8,17 +8,15 @@ import {
   ContentMainRight,
   ContentMainTitle,
 } from "@/components/content_area/ContentArea";
+import Link from "next/link";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./CreatePostFormHeader.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
-import RightBar from "../right_bar/RightBar";
-import Link from "next/link";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 const CreatePostFormHeader: React.FC<CreatePostFormHeaderProps> = ({ channelId }) => {
   const i18n = React.useContext(i18nContext);
-  const router = useRouter();
 
   return (
     <div className={styles.wrapper}>

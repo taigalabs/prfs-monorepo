@@ -12,7 +12,7 @@ import {
 } from "@/components/content_area/ContentArea";
 import TimelineHeader from "@/components/timeline_feeds/TimelineHeader";
 import RightBar from "@/components/right_bar/RightBar";
-import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import { shyApi } from "@taigalabs/prfs-api-js";
 
 import styles from "./TimelineFeeds2.module.scss";
 import Row from "./Row";
@@ -22,7 +22,7 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
     useInfiniteQuery(
       ["get_social_posts"],
       async ({ pageParam = 0 }) => {
-        const { payload } = await prfsApi2("get_social_posts", {
+        const { payload } = await shyApi("get_social_posts", {
           page_idx: pageParam,
           page_size: 5,
         });
