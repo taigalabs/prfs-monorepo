@@ -4,54 +4,48 @@ use crate::{
     DbInterfaceError,
 };
 use chrono::{DateTime, Utc};
-use prfs_entities::{
-    entities::SocialPost,
-    sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction},
-};
+use prfs_entities::sqlx::{self, Pool, Postgres, QueryBuilder, Row, Transaction};
 use prfs_entities::{
     entities::{PrfsSet, PrfsSetType},
-    syn_entities::PrfsSetIns1,
+    shy_api_entities::ShyPost,
 };
 use uuid::Uuid;
 
-pub async fn get_social_posts(
+pub async fn get_shy_posts(
     pool: &Pool<Postgres>,
     page_idx: i32,
     page_size: i32,
-) -> Result<Vec<SocialPost>, DbInterfaceError> {
+) -> Result<Vec<ShyPost>, DbInterfaceError> {
     let query = r#"
 SELECT * 
-FROM social_posts 
+FROM shy_posts 
 ORDER BY updated_at DESC"#;
 
     let rows = sqlx::query(&query).fetch_all(pool).await.unwrap();
 
-    let social_posts: Vec<SocialPost> = rows
+    let shy_posts: Vec<ShyPost> = rows
         .iter()
-        .map(|row| SocialPost {
+        .map(|row| ShyPost {
             post_id: row.get("post_id"),
             content: row.get("content"),
             channel_id: row.get("channel_id"),
         })
         .collect();
 
-    Ok(social_posts)
+    Ok(shy_posts)
 }
 
-pub async fn insert_social_post(
-    tx: &mut Transaction<'_, Postgres>,
-    social_post: &SocialPost,
-) -> uuid::Uuid {
-    let query = "INSERT INTO social_posts \
+pub async fn insert_shy_post(tx: &mut Transaction<'_, Postgres>, shy_post: &ShyPost) -> uuid::Uuid {
+    let query = "INSERT INTO shy_posts \
             (post_id, content, channel_id)
             VALUES ($1, $2, $3) returning post_id";
 
     // let proof_instance = social_post.get(0).unwrap();
 
     let row = sqlx::query(query)
-        .bind(&social_post.post_id)
-        .bind(&social_post.content)
-        .bind(&social_post.channel_id)
+        .bind(&shy_post.post_id)
+        .bind(&shy_post.content)
+        .bind(&shy_post.channel_id)
         .fetch_one(&mut **tx)
         .await
         .unwrap();

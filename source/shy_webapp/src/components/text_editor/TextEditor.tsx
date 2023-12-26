@@ -86,7 +86,7 @@ const EditorFooter = () => {
 
   const { mutateAsync: createSocialPost, isLoading: isCreateSocialPostLoading } = useMutation({
     mutationFn: (req: CreateSocialPostRequest) => {
-      return shyApi("create_social_post", req);
+      return shyApi("create_post", req);
     },
   });
 

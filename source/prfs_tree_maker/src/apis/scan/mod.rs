@@ -3,7 +3,7 @@ use crate::geth::{
     GetBalanceRequest, GetBlockByNumberRequest, GetTransactionReceiptRequest, GethClient,
 };
 use crate::TreeMakerError;
-use prfs_db_interface::db_apis;
+use prfs_db_interface::prfs;
 use prfs_entities::entities::EthAccount;
 use prfs_entities::sqlx::{Pool, Postgres, Transaction};
 use rust_decimal::Decimal;
@@ -157,7 +157,7 @@ pub async fn scan_ledger_accounts(
         if balances.len() >= balance_bucket_capacity {
             // println!("balances: {:#?}", balances);
 
-            match db_apis::insert_eth_accounts(tx, balances, scan_update_on_conflict).await {
+            match prfs::insert_eth_accounts(tx, balances, scan_update_on_conflict).await {
                 Ok(r) => {
                     tracing::info!(
                         "Writing balances, balances_count: {}, block_no: {}, rows_affected: {}",

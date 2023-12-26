@@ -6,25 +6,29 @@ import { GetSocialPostsResponse } from "@taigalabs/prfs-entities/bindings/GetSoc
 import { api } from "../utils";
 import { PrfsApiResponse } from "../types";
 
-type RequestName = "create_social_post" | "get_social_posts";
+type RequestName = "create_post" | "get_posts";
 
 type Req<T extends RequestName> = //
-  T extends "create_social_post"
+  T extends "create_post"
     ? CreateSocialPostRequest
-    : T extends "get_social_posts"
+    : T extends "get_posts"
     ? GetSocialPostsRequest
     : never;
 
 type Resp<T> = //
-  T extends "create_social_post"
+  T extends "create_post"
     ? PrfsApiResponse<CreateSocialPostResponse>
-    : T extends "get_social_posts"
+    : T extends "get_posts"
     ? PrfsApiResponse<GetSocialPostsResponse>
     : any;
 
 let endpoint: string;
 if (typeof process !== "undefined") {
-  endpoint = `${process.env.NEXT_PUBLIC_SHY_API_SERVER_ENDPOINT}/shy_api/v0`;
+  if (!process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT) {
+    throw new Error("api endpoint not defined");
+  }
+
+  endpoint = `${process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT}/shy_api/v0`;
 } else {
   throw new Error("process is undefined");
 }

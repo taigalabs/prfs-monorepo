@@ -1,34 +1,41 @@
-use rust_decimal::Decimal;
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
 use ts_rs::TS;
 use uuid::Uuid;
 
-use crate::entities::SocialPost;
-
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct CreateSocialPostRequest {
-    pub post: SocialPost,
+pub struct CreatePostRequest {
+    pub post: ShyPost,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct CreateSocialPostResponse {
+pub struct CreatePostResponse {
     #[ts(type = "string")]
     pub post_id: Uuid,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetSocialPostsRequest {
+pub struct GetPostsRequest {
     pub page_idx: i32,
     pub page_size: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
-pub struct GetSocialPostsResponse {
+pub struct GetPostsResponse {
     pub next_idx: i32,
-    pub social_posts: Vec<SocialPost>,
+    pub social_posts: Vec<ShyPost>,
+}
+
+#[derive(TS, Debug, Serialize, Deserialize, Clone)]
+#[ts(export)]
+pub struct ShyPost {
+    #[ts(type = "string")]
+    pub post_id: Uuid,
+
+    pub content: String,
+    pub channel_id: String,
 }

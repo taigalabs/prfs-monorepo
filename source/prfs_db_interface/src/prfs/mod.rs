@@ -13,7 +13,6 @@ mod prfs_proof_instances;
 mod prfs_proof_types;
 mod prfs_sets;
 mod prfs_tree_nodes;
-mod social_posts;
 
 pub use eth_accounts::*;
 pub use prfs_acc_atst::*;
@@ -30,4 +29,3 @@ pub use prfs_proof_instances::*;
 pub use prfs_proof_types::*;
 pub use prfs_sets::*;
 pub use prfs_tree_nodes::*;
-pub use social_posts::*;
