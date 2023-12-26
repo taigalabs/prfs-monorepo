@@ -29,6 +29,8 @@
   gap: 36px;
 
   .avatar {
+    color: transparent;
+    background-color: var(--bright-gray-45);
     width: 162px;
     height: 162px;
     border-radius: 81px;

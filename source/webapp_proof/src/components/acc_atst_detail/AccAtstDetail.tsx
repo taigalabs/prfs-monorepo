@@ -7,8 +7,10 @@ import ButtonCircleContainer from "@taigalabs/prfs-react-components/src/button_c
 import { atstApi } from "@taigalabs/prfs-api-js";
 import { i18nContext } from "@/i18n/context";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 
 import styles from "./AccAtstDetail.module.scss";
+import { paths } from "@/paths";
 
 const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ acc_atst_id }) => {
   const i18n = React.useContext(i18nContext);
@@ -44,9 +46,11 @@ const AccAtstDetail: React.FC<AccAtstDetailProps> = ({ acc_atst_id }) => {
     atst && (
       <div className={styles.wrapper}>
         <div className={styles.topMenuRow}>
-          <ButtonCircleContainer>
-            <FaArrowLeft />
-          </ButtonCircleContainer>
+          <Link href={paths.attestations__twitter}>
+            <ButtonCircleContainer>
+              <FaArrowLeft />
+            </ButtonCircleContainer>
+          </Link>
         </div>
         <div className={styles.avatarRow}>
           <img

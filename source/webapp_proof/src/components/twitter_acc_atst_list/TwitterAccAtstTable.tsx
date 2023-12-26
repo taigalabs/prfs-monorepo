@@ -19,7 +19,6 @@ const AtstRow: React.FC<AtstRowProps> = ({ atst, style, router }) => {
     return `${atst.cm.substring(0, 32)}...`;
   }, [atst.cm]);
   const handleClick = React.useCallback(() => {
-    console.log(11);
     router.push(`${paths.attestations__twitter}/${atst.acc_atst_id}`);
   }, [atst.acc_atst_id, router]);
 
@@ -114,13 +113,11 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
                 const isLoaderRow = virtualRow.index > allRows.length - 1;
                 const row = allRows[virtualRow.index];
 
-                return isLoaderRow ? (
-                  hasNextPage ? (
-                    "Loading more..."
-                  ) : (
-                    "Nothing more to load"
-                  )
-                ) : (
+                if (isLoaderRow) {
+                  return hasNextPage ? <div>Loading more...</div> : null;
+                }
+
+                return (
                   <AtstRow
                     key={virtualRow.index}
                     atst={row}
