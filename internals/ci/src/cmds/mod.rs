@@ -13,7 +13,7 @@ pub mod dev_snap;
 pub mod dev_webapp_console;
 pub mod dev_webapp_poll;
 pub mod dev_webapp_proof;
-pub mod dev_webapp_social;
+pub mod dev_webapp_shy;
 
 // prod mode
 pub mod start_api_server;
@@ -23,7 +23,7 @@ pub mod start_sdk_web_module;
 pub mod start_webapp_console;
 pub mod start_webapp_poll;
 pub mod start_webapp_proof;
-pub mod start_webapp_social;
+pub mod start_webapp_shy;
 
 // docker
 pub mod docker_down_all;
