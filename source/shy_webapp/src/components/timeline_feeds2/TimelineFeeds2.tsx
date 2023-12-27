@@ -91,26 +91,6 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
     }
   }, [isFetching, parentRef.current, rightBarContainerRef.current]);
 
-  React.useEffect(() => {
-    const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse();
-
-    if (!lastItem) {
-      return;
-    }
-
-    if (lastItem.index >= allRows.length - 1 && hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  }, [
-    hasNextPage,
-    fetchNextPage,
-    allRows.length,
-    isFetchingNextPage,
-    rowVirtualizer.getVirtualItems(),
-  ]);
-
-  const items = rowVirtualizer.getVirtualItems();
-
   return (
     <div className={styles.wrapper}>
       <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
@@ -129,7 +109,7 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
                 position: "relative",
               }}
             >
-              {items.map(virtualRow => {
+              {rowVirtualizer.getVirtualItems().map(virtualRow => {
                 const isLoaderRow = virtualRow.index > allRows.length - 1;
                 const post = allRows[virtualRow.index];
 

@@ -6,6 +6,14 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   return <div className={styles.wrapper}>{children}</div>;
 };
 
+export const DefaultHeader: React.FC<DefaultLayoutProps> = ({ children }) => {
+  return <div className={styles.header}>{children}</div>;
+};
+
+export const DefaultMain: React.FC<DefaultLayoutProps> = ({ children }) => {
+  return <div className={styles.main}>{children}</div>;
+};
+
 export default DefaultLayout;
 
 export interface DefaultLayoutProps {

@@ -11,24 +11,18 @@ import useLocalWallet from "@/hooks/useLocalWallet";
 import { useAppSelector } from "@/state/hooks";
 import { ContentLeft, ContentMain } from "@/components/content_area/ContentArea";
 import LeftBar from "@/components/left_bar/LeftBar";
-// import TimelineFeeds from "@/components/timeline_feeds/TimelineFeeds";
 import TimelineFeeds2 from "@/components/timeline_feeds2/TimelineFeeds2";
+import { DefaultHeader, DefaultMain } from "@/components/layouts/default_layout/DefaultLayout";
 
 const Home: React.FC<HomeProps> = () => {
   return (
     <div className={styles.wrapper}>
-      <ContentLeft>
-        <Suspense>
-          <LeftBar />
-        </Suspense>
-      </ContentLeft>
-      <ContentMain>
-        <div className={styles.container}>
-          <Suspense>
-            <TimelineFeeds2 channelId="default" />
-          </Suspense>
-        </div>
-      </ContentMain>
+      <DefaultHeader>
+        <LeftBar />
+      </DefaultHeader>
+      <DefaultMain>
+        <TimelineFeeds2 channelId="default" />
+      </DefaultMain>
     </div>
   );
 };
