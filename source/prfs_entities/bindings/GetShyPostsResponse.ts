@@ -2,6 +2,6 @@
 import type { ShyPost } from "./ShyPost";
 
 export interface GetShyPostsResponse {
-  next_idx: number;
-  social_posts: Array<ShyPost>;
+  shy_posts: Array<ShyPost>;
+  next_offset: number | null;
 }

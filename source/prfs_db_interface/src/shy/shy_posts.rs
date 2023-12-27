@@ -9,19 +9,26 @@ use prfs_entities::{
     entities::{PrfsSet, PrfsSetType},
     shy_api_entities::ShyPost,
 };
-use uuid::Uuid;
 
 pub async fn get_shy_posts(
     pool: &Pool<Postgres>,
-    page_idx: i32,
-    page_size: i32,
+    offset: i32,
+    limit: i32,
 ) -> Result<Vec<ShyPost>, DbInterfaceError> {
     let query = r#"
 SELECT * 
 FROM shy_posts 
-ORDER BY updated_at DESC"#;
+ORDER BY updated_at DESC
+OFFSET $1
+LIMIT $2
+"#;
 
-    let rows = sqlx::query(&query).fetch_all(pool).await.unwrap();
+    let rows = sqlx::query(&query)
+        .bind(offset)
+        .bind(limit)
+        .fetch_all(pool)
+        .await
+        .unwrap();
 
     let shy_posts: Vec<ShyPost> = rows
         .iter()

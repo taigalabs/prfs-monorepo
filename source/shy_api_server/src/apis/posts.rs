@@ -31,19 +31,17 @@ pub async fn create_shy_post(req: Request<Incoming>, state: Arc<ServerState>) ->
 pub async fn get_shy_posts(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
     let req: GetShyPostsRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let rows = shy::get_shy_posts(pool, req.page_idx, req.page_size)
-        .await
-        .unwrap();
+    let shy_posts = shy::get_shy_posts(pool, req.offset, LIMIT).await.unwrap();
 
-    let next_offset = if rows.len() < LIMIT.try_into().unwrap() {
+    let next_offset = if shy_posts.len() < LIMIT.try_into().unwrap() {
         None
     } else {
         Some(req.offset + LIMIT)
     };
 
     let resp = ApiResponse::new_success(GetShyPostsResponse {
+        shy_posts,
         next_offset,
-        social_posts,
     });
 
     return Ok(resp.into_hyper_response());

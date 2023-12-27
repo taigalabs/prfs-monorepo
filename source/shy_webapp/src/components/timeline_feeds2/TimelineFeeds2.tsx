@@ -21,23 +21,29 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
     useInfiniteQuery({
       queryKey: ["get_shy_posts"],
       queryFn: async ({ pageParam = 0 }) => {
-        const { payload } = await shyApi("get_shy_posts", {
-          page_idx: pageParam,
-          page_size: 5,
+        return await shyApi("get_shy_posts", {
+          offset: pageParam,
         });
-        return payload;
       },
       initialPageParam: 0,
       getNextPageParam: lastPage => {
-        if (lastPage) {
-          return lastPage.next_idx > -1 ? lastPage.next_idx : null;
+        if (lastPage.payload) {
+          return lastPage.payload.next_offset;
         } else {
           return null;
         }
       },
     });
 
-  const allRows = data ? data.pages.flatMap(d => d && d.social_posts) : [];
+  const allRows = data
+    ? data.pages.flatMap(d => {
+        if (d.payload) {
+          return d.payload.shy_posts;
+        } else {
+          [];
+        }
+      })
+    : [];
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const rightBarContainerRef = React.useRef<HTMLDivElement | null>(null);
 

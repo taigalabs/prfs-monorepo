@@ -25,8 +25,8 @@ pub struct GetShyPostsRequest {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetShyPostsResponse {
-    pub social_posts: Vec<ShyPost>,
-    pub next_offset: i32,
+    pub shy_posts: Vec<ShyPost>,
+    pub next_offset: Option<i32>,
 }
 
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]
