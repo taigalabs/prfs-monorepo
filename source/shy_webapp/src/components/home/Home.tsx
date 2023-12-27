@@ -5,7 +5,7 @@ import React from "react";
 import styles from "./Home.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import LeftBar from "@/components/left_bar/LeftBar";
-import TimelineFeeds2 from "@/components/timeline_feeds2/TimelineFeeds2";
+import TimelineFeeds from "@/components/timeline_feeds/TimelineFeeds";
 import { DefaultHeader, DefaultMain } from "@/components/layouts/default_layout/DefaultLayout";
 import LeftBarDrawer from "./LeftBarDrawer";
 
@@ -33,7 +33,7 @@ const Home: React.FC<HomeProps> = () => {
         </LeftBarDrawer>
       </DefaultHeader>
       <DefaultMain>
-        <TimelineFeeds2 channelId="default" />
+        <TimelineFeeds channelId="default" />
       </DefaultMain>
     </div>
   );

@@ -3,20 +3,13 @@
 import React from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import {
-  ContentMainBody,
-  ContentMainCenter,
-  ContentMainHeader,
-  ContentMainInfiniteScroll,
-  ContentMainRight,
-} from "@/components/content_area/ContentArea";
-import RightBar from "@/components/right_bar/RightBar";
 import { shyApi } from "@taigalabs/prfs-api-js";
 
-import styles from "./TimelineFeeds2.module.scss";
+import styles from "./TimelineFeeds.module.scss";
 import Row from "./Row";
+import RightBar from "@/components/right_bar/RightBar";
 
-const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
+const TimelineFeeds: React.FC<TimelineFeedsProps> = ({ channelId }) => {
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
       queryKey: ["get_shy_posts"],
@@ -138,15 +131,17 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
               })}
             </div>
           </div>
-          <div className={styles.right}></div>
+          <div className={styles.right}>
+            <RightBar />
+          </div>
         </div>
       )}
     </div>
   );
 };
 
-export default TimelineFeeds2;
+export default TimelineFeeds;
 
-export interface TimelineFeeds2Props {
+export interface TimelineFeedsProps {
   channelId: string;
 }
