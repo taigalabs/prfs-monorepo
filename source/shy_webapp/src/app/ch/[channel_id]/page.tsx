@@ -22,7 +22,7 @@ const ChannelPage: React.FC<ChannelPageProps> = ({ params }) => {
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
 
-  const localPrfsAccount = useAppSelector(state => state.user.localPrfsAccount);
+  const localPrfsAccount = useAppSelector(state => state.user.shyCredential);
   useLocalWallet(dispatch);
 
   React.useEffect(() => {
