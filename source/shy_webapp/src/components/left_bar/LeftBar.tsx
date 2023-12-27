@@ -22,9 +22,7 @@ const LeftBar: React.FC = () => {
     <div className={styles.wrapper}>
       <div className={styles.logoContainer}>
         <Link href={paths.__}>
-          <LogoContainer />
-          {/* <p>{i18n.social}</p> */}
-          {/* <p className={styles.betaTag}>Beta</p> */}
+          <LogoContainer width={70} />
         </Link>
       </div>
       {/* <ul className={styles.mainMenu}> */}

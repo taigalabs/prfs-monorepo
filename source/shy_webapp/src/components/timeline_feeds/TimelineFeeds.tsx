@@ -84,58 +84,62 @@ const TimelineFeeds: React.FC<TimelineFeedsProps> = ({ channelId }) => {
     }
   }, [isFetching, parentRef.current, rightBarContainerRef.current]);
 
+  if (status === "error") {
+    return <span>Error: {(error as Error).message}</span>;
+  }
+
   return (
     <div className={styles.wrapper}>
-      <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
-      {status === "pending" ? (
-        <p>Loading...</p>
-      ) : status === "error" ? (
-        <span>Error: {(error as Error).message}</span>
-      ) : (
-        <div ref={parentRef} className={styles.feedContainer} onScroll={handleScroll}>
-          <div className={styles.left}>
-            <div className={styles.placeholder} />
-            <div
-              className={styles.infiniteScroll}
-              style={{
-                height: `${rowVirtualizer.getTotalSize()}px`,
-                position: "relative",
-              }}
-            >
-              {rowVirtualizer.getVirtualItems().map(virtualRow => {
-                const isLoaderRow = virtualRow.index > allRows.length - 1;
-                const post = allRows[virtualRow.index];
+      <div ref={parentRef} className={styles.feedContainer} onScroll={handleScroll}>
+        <div className={styles.left}>
+          <div className={styles.placeholder} />
+          {status === "pending" ? (
+            <span>Loading...</span>
+          ) : (
+            <>
+              <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
+              <div
+                className={styles.infiniteScroll}
+                style={{
+                  height: `${rowVirtualizer.getTotalSize()}px`,
+                  position: "relative",
+                }}
+              >
+                {rowVirtualizer.getVirtualItems().map(virtualRow => {
+                  const isLoaderRow = virtualRow.index > allRows.length - 1;
+                  const post = allRows[virtualRow.index];
 
-                return (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: `${virtualRow.size}px`,
-                      transform: `translateY(${virtualRow.start}px)`,
-                    }}
-                    className={styles.row}
-                    key={virtualRow.index}
-                    data-index={virtualRow.index}
-                    ref={rowVirtualizer.measureElement}
-                  >
-                    {isLoaderRow
-                      ? hasNextPage
-                        ? "Loading more..."
-                        : "Nothing more to load"
-                      : post && <Row post={post} />}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-          <div className={styles.right}>
-            <RightBar />
-          </div>
+                  return (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: `${virtualRow.size}px`,
+                        transform: `translateY(${virtualRow.start}px)`,
+                      }}
+                      className={styles.row}
+                      key={virtualRow.index}
+                      data-index={virtualRow.index}
+                      ref={rowVirtualizer.measureElement}
+                    >
+                      {isLoaderRow
+                        ? hasNextPage
+                          ? "Loading more..."
+                          : "Nothing more to load"
+                        : post && <Row post={post} />}
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          )}
         </div>
-      )}
+        <div className={styles.right}>
+          <RightBar />
+        </div>
+      </div>
     </div>
   );
 };
