@@ -21,7 +21,7 @@ import { CreateShyPostRequest } from "@taigalabs/prfs-entities/bindings/CreateSh
 import { ShyPost } from "@taigalabs/prfs-entities/bindings/ShyPost";
 
 import styles from "./TextEditor.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 
 const extensions = [
@@ -84,7 +84,7 @@ const EditorFooter = () => {
   const { editor } = useCurrentEditor();
   const router = useRouter();
 
-  const { mutateAsync: createSocialPost, isLoading: isCreateSocialPostLoading } = useMutation({
+  const { mutateAsync: createSocialPost, isPending } = useMutation({
     mutationFn: (req: CreateShyPostRequest) => {
       return shyApi("create_shy_post", req);
     },

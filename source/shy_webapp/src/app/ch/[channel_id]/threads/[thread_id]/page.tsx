@@ -4,11 +4,10 @@ import React from "react";
 import { useRouter } from "next/navigation";
 
 import styles from "./ThreadPage.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import { ContentMain, ContentLeft } from "@/components/content_area/ContentArea";
 import LeftBar from "@/components/left_bar/LeftBar";
-// import TimelineFeeds from "@/components/timeline_feeds/TimelineFeeds";
 import { paths } from "@/paths";
 
 const ThreadPage: React.FC<ThreadPageProps> = () => {

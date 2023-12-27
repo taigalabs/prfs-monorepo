@@ -22,6 +22,7 @@
     "@taigalabs/prfs-driver-spartan-js": "*",
     "@taigalabs/prfs-entities": "*",
     "@taigalabs/prfs-react-components": "*",
+    "@taigalabs/prfs-i18n": "*",
     "@taigalabs/prfs-sdk-web": "*",
     "@tanstack/react-query": "5.14.6",
     "@tanstack/react-table": "^8.9.3",

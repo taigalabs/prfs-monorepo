@@ -4,5 +4,5 @@ export const paths = {
   proofs: "/proofs",
   sign_in: "/sign_in",
   sign_up: "/sign_up",
-  c: "/c",
+  ch: "/ch",
 };

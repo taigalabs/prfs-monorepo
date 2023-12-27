@@ -3,7 +3,7 @@
 import React from "react";
 
 import styles from "./Home.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import LeftBar from "@/components/left_bar/LeftBar";
 import TimelineFeeds from "@/components/timeline_feeds/TimelineFeeds";
 import { DefaultHeader, DefaultMain } from "@/components/layouts/default_layout/DefaultLayout";

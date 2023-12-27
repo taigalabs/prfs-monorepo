@@ -1,7 +1,5 @@
 import React from "react";
 import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
-import TimelineFeeds2 from "@/components/timeline_feeds2/TimelineFeeds2";
 import {
   ContentMainBody,
   ContentMainCenter,
@@ -12,7 +10,7 @@ import {
 } from "@/components/content_area/ContentArea";
 
 import styles from "./CreatePostForm.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import RightBar from "@/components/right_bar/RightBar";
 import TextEditor from "@/components/text_editor/TextEditor";
@@ -27,7 +25,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ channelId }) => {
         <ContentMainCenter>
           <ContentMainHeader style={{ height: 65 }}>
             <ContentMainTitle>
-              {i18n.create_post} for {channelId}
+              {i18n.code} for {channelId}
             </ContentMainTitle>
           </ContentMainHeader>
           <ContentMainBody style={{ paddingTop: 65 }}>
