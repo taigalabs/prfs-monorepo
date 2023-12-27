@@ -10,7 +10,6 @@ import {
   ContentMainInfiniteScroll,
   ContentMainRight,
 } from "@/components/content_area/ContentArea";
-import TimelineHeader from "@/components/timeline_feeds/TimelineHeader";
 import RightBar from "@/components/right_bar/RightBar";
 import { shyApi } from "@taigalabs/prfs-api-js";
 
@@ -19,25 +18,24 @@ import Row from "./Row";
 
 const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
-    useInfiniteQuery(
-      ["get_social_posts"],
-      async ({ pageParam = 0 }) => {
+    useInfiniteQuery({
+      queryKey: ["get_shy_posts"],
+      queryFn: async ({ pageParam = 0 }) => {
         const { payload } = await shyApi("get_shy_posts", {
           page_idx: pageParam,
           page_size: 5,
         });
         return payload;
       },
-      {
-        getNextPageParam: lastPage => {
-          if (lastPage) {
-            return lastPage.next_idx > -1 ? lastPage.next_idx : null;
-          } else {
-            return null;
-          }
-        },
+      initialPageParam: 0,
+      getNextPageParam: lastPage => {
+        if (lastPage) {
+          return lastPage.next_idx > -1 ? lastPage.next_idx : null;
+        } else {
+          return null;
+        }
       },
-    );
+    });
 
   const allRows = data ? data.pages.flatMap(d => d && d.social_posts) : [];
   const parentRef = React.useRef<HTMLDivElement | null>(null);
@@ -109,7 +107,8 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
 
   return (
     <div className={styles.wrapper}>
-      {status === "loading" ? (
+      <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
+      {status === "pending" ? (
         <p>Loading...</p>
       ) : status === "error" ? (
         <span>Error: {(error as Error).message}</span>
@@ -156,7 +155,6 @@ const TimelineFeeds2: React.FC<TimelineFeeds2Props> = ({ channelId }) => {
           <div className={styles.right}></div>
         </div>
       )}
-      {/* <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div> */}
     </div>
   );
 };
