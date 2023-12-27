@@ -13,6 +13,7 @@ import styles from "./LeftBar.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import PostDialog from "../post_dialog/PostDialog";
+import LogoContainer from "../logo_container/LogoContainer";
 
 const LeftBar: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -21,7 +22,8 @@ const LeftBar: React.FC = () => {
     <div className={styles.wrapper}>
       <div className={styles.logoContainer}>
         <Link href={paths.__}>
-          <p>{i18n.social}</p>
+          <LogoContainer />
+          {/* <p>{i18n.social}</p> */}
           {/* <p className={styles.betaTag}>Beta</p> */}
         </Link>
       </div>
