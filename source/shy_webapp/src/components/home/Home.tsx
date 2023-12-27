@@ -1,24 +1,36 @@
 "use client";
 
-import React, { Suspense } from "react";
-import { redirect, useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import React from "react";
 
 import styles from "./Home.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { paths } from "@/paths";
-import useLocalWallet from "@/hooks/useLocalWallet";
-import { useAppSelector } from "@/state/hooks";
-import { ContentLeft, ContentMain } from "@/components/content_area/ContentArea";
 import LeftBar from "@/components/left_bar/LeftBar";
 import TimelineFeeds2 from "@/components/timeline_feeds2/TimelineFeeds2";
 import { DefaultHeader, DefaultMain } from "@/components/layouts/default_layout/DefaultLayout";
+import LeftBarDrawer from "./LeftBarDrawer";
 
 const Home: React.FC<HomeProps> = () => {
+  const [isLeftBarDrawerVisible, setIsLeftBarDrawerVisible] = React.useState(false);
+  const handleClickShowLeftBarDrawer = React.useCallback(
+    (open?: boolean) => {
+      if (open !== undefined) {
+        setIsLeftBarDrawerVisible(open);
+      } else {
+        setIsLeftBarDrawerVisible(v => !v);
+      }
+    },
+    [setIsLeftBarDrawerVisible],
+  );
+
   return (
     <div className={styles.wrapper}>
       <DefaultHeader>
-        <LeftBar />
+        <div className={styles.leftBarContainer}>
+          <LeftBar />
+        </div>
+        <LeftBarDrawer isOpen={isLeftBarDrawerVisible} setIsOpen={handleClickShowLeftBarDrawer}>
+          <LeftBar />
+        </LeftBarDrawer>
       </DefaultHeader>
       <DefaultMain>
         <TimelineFeeds2 channelId="default" />
