@@ -108,6 +108,7 @@
     width: 100%;
     padding: 10px 14px;
     height: 52px;
+    outline: none;
   }
 
   .error {
@@ -137,6 +138,8 @@
   justify-content: flex-end;
   color: var(--black-20);
   height: 48px;
+  background-color: var(--white-100);
+  z-index: 1;
 
   a:not(:first-child) {
     margin-left: 32px;
@@ -151,17 +154,25 @@
 @media screen and (max-width: 480px) {
   .wrapper {
     width: 100%;
-    padding: 0 24px;
+    padding: 0 0px;
     justify-content: center;
   }
 
+  .innerPadding {
+    padding: 48px 0px 48px;
+    &:not(.noSidePadding) {
+      padding: 48px 0px 48px;
+    }
+  }
+
   .form {
-    padding: 48px 0px 36px;
+    padding: 0px 0px 0px;
     border: none;
+    min-height: 100%;
   }
 
   .footer {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     right: 0;

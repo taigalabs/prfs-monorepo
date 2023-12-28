@@ -147,6 +147,13 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
 
   const content = React.useMemo(() => {
     const elems = Object.values(storedCredentials).map(cred => {
+      let id = "";
+      if (cred.id.length > 34) {
+        id = `${cred.id.substring(0, 34)}...`;
+      } else {
+        id = cred.id;
+      }
+
       return (
         <li
           data-id={cred.id}
@@ -156,7 +163,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
           role="button"
         >
           <div className={styles.item}>
-            <p className={styles.prfsId}>{cred.id}</p>
+            <p className={styles.prfsId}>{id}</p>
             {cred.id === selectedCredentialId && (
               <div>
                 <PrfsIdSignInInputItem
