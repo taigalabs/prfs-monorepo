@@ -328,6 +328,154 @@ importers:
         specifier: 5.1.6
         version: 5.1.6
 
+  source/prfs_console_webapp:
+    dependencies:
+      '@ethereumjs/util':
+        specifier: ^8.0.3
+        version: 8.1.0
+      '@floating-ui/react':
+        specifier: ^0.24.8
+        version: 0.24.8(react-dom@18.2.0)(react@18.2.0)
+      '@phosphor-icons/react':
+        specifier: ^2.0.10
+        version: 2.0.10(react-dom@18.2.0)(react@18.2.0)
+      '@react-icons/all-files':
+        specifier: ^4.1.0
+        version: 4.1.0(react@18.2.0)
+      '@reduxjs/toolkit':
+        specifier: ^1.9.5
+        version: 1.9.5(react-redux@8.1.2)(react@18.2.0)
+      '@taigalabs/prfs-api-js':
+        specifier: '*'
+        version: link:../prfs_api_js
+      '@taigalabs/prfs-crypto-js':
+        specifier: '*'
+        version: link:../prfs_crypto_js
+      '@taigalabs/prfs-driver-interface':
+        specifier: '*'
+        version: link:../prfs_driver_interface
+      '@taigalabs/prfs-driver-spartan-js':
+        specifier: '*'
+        version: link:../prfs_driver_spartan_js
+      '@taigalabs/prfs-entities':
+        specifier: '*'
+        version: link:../prfs_entities
+      '@taigalabs/prfs-i18n':
+        specifier: '*'
+        version: link:../prfs_i18n
+      '@taigalabs/prfs-react-components':
+        specifier: '*'
+        version: link:../prfs_react_components
+      '@taigalabs/prfs-sdk-web':
+        specifier: '*'
+        version: link:../prfs_sdk_web
+      '@tanstack/react-query':
+        specifier: 5.14.6
+        version: 5.14.6(react@18.2.0)
+      '@tanstack/react-table':
+        specifier: ^8.9.3
+        version: 8.11.2(react-dom@18.2.0)(react@18.2.0)
+      '@thirdweb-dev/react':
+        specifier: ^3.14.13
+        version: 3.14.15(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@thirdweb-dev/sdk@3.10.35)(@types/react-dom@18.2.17)(@types/react@18.2.25)(ethers@5.7.2)(localforage@1.10.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
+      '@thirdweb-dev/sdk':
+        specifier: ^3.10.33
+        version: 3.10.35(ethers@5.7.2)(typescript@5.1.6)
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
+      dayjs:
+        specifier: ^1.11.9
+        version: 1.11.9
+      elliptic:
+        specifier: ^6.5.4
+        version: 6.5.4
+      ethers:
+        specifier: ^5
+        version: 5.7.2
+      ffjavascript:
+        specifier: 0.2.62
+        version: 0.2.62
+      next:
+        specifier: 14.0.4
+        version: 14.0.4(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0)(sass@1.63.6)
+      qrcode:
+        specifier: ^1.5.3
+        version: 1.5.3
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: 18.2.0
+        version: 18.2.0(react@18.2.0)
+      react-redux:
+        specifier: ^8.1.2
+        version: 8.1.2(@types/react-dom@18.2.17)(@types/react@18.2.25)(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1)
+      readline:
+        specifier: ^1.3.0
+        version: 1.3.0
+      redux-logger:
+        specifier: ^3.0.6
+        version: 3.0.6
+      sass:
+        specifier: ^1.63.6
+        version: 1.63.6
+      snarkjs:
+        specifier: 0.7.0
+        version: 0.7.0
+      uuid:
+        specifier: ^9.0.0
+        version: 9.0.0
+    devDependencies:
+      '@svgr/webpack':
+        specifier: ^8.1.0
+        version: 8.1.0
+      '@tanstack/eslint-plugin-query':
+        specifier: ^4.34.1
+        version: 4.34.1(eslint@8.26.0)
+      '@types/node':
+        specifier: 20.3.1
+        version: 20.3.1
+      '@types/qrcode':
+        specifier: ^1.5.1
+        version: 1.5.1
+      '@types/react':
+        specifier: 18.2.25
+        version: 18.2.25
+      '@types/react-dom':
+        specifier: 18.2.17
+        version: 18.2.17
+      '@types/redux-logger':
+        specifier: ^3.0.9
+        version: 3.0.9
+      '@types/uuid':
+        specifier: ^9.0.2
+        version: 9.0.2
+      chalk:
+        specifier: 4.1.0
+        version: 4.1.0
+      dotenv:
+        specifier: ^16.3.1
+        version: 16.3.1
+      eslint:
+        specifier: 8.26.0
+        version: 8.26.0
+      eslint-config-next:
+        specifier: 13.4.6
+        version: 13.4.6(eslint@8.26.0)(typescript@5.1.6)
+      install:
+        specifier: ^0.13.0
+        version: 0.13.0
+      prettier:
+        specifier: ^2.7.1
+        version: 2.8.8
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.1(@types/node@20.3.1)(typescript@5.1.6)
+      typescript:
+        specifier: 5.1.6
+        version: 5.1.6
+
   source/prfs_crypto_js:
     dependencies:
       '@ethereumjs/util':
@@ -584,6 +732,356 @@ importers:
       rimraf:
         specifier: ^3.0.2
         version: 3.0.2
+
+  source/prfs_poll_webapp:
+    dependencies:
+      '@ethereumjs/util':
+        specifier: ^8.0.3
+        version: 8.1.0
+      '@floating-ui/react':
+        specifier: ^0.24.8
+        version: 0.24.8(react-dom@18.2.0)(react@18.2.0)
+      '@phosphor-icons/react':
+        specifier: ^2.0.10
+        version: 2.0.10(react-dom@18.2.0)(react@18.2.0)
+      '@react-icons/all-files':
+        specifier: ^4.1.0
+        version: 4.1.0(react@18.2.0)
+      '@reduxjs/toolkit':
+        specifier: ^1.9.5
+        version: 1.9.5(react-redux@8.1.2)(react@18.2.0)
+      '@tabler/icons-react':
+        specifier: ^2.32.0
+        version: 2.32.0(react@18.2.0)
+      '@taigalabs/prfs-api-js':
+        specifier: '*'
+        version: link:../prfs_api_js
+      '@taigalabs/prfs-crypto-js':
+        specifier: '*'
+        version: link:../prfs_crypto_js
+      '@taigalabs/prfs-driver-interface':
+        specifier: '*'
+        version: link:../prfs_driver_interface
+      '@taigalabs/prfs-driver-spartan-js':
+        specifier: '*'
+        version: link:../prfs_driver_spartan_js
+      '@taigalabs/prfs-entities':
+        specifier: '*'
+        version: link:../prfs_entities
+      '@taigalabs/prfs-react-components':
+        specifier: '*'
+        version: link:../prfs_react_components
+      '@taigalabs/prfs-sdk-web':
+        specifier: '*'
+        version: link:../prfs_sdk_web
+      '@tanstack/react-query':
+        specifier: 5.14.6
+        version: 5.14.6(react@18.2.0)
+      '@tanstack/react-table':
+        specifier: ^8.9.3
+        version: 8.11.2(react-dom@18.2.0)(react@18.2.0)
+      '@thirdweb-dev/react':
+        specifier: ^3.14.13
+        version: 3.14.15(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@thirdweb-dev/sdk@3.10.35)(@types/react-dom@18.2.17)(@types/react@18.2.25)(ethers@5.7.2)(localforage@1.10.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
+      '@thirdweb-dev/sdk':
+        specifier: ^3.10.33
+        version: 3.10.35(ethers@5.7.2)(typescript@5.1.6)
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
+      dayjs:
+        specifier: ^1.11.9
+        version: 1.11.9
+      elliptic:
+        specifier: ^6.5.4
+        version: 6.5.4
+      ethers:
+        specifier: ^5
+        version: 5.7.2
+      ffjavascript:
+        specifier: 0.2.62
+        version: 0.2.62
+      next:
+        specifier: 14.0.4
+        version: 14.0.4(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0)(sass@1.63.6)
+      qrcode:
+        specifier: ^1.5.3
+        version: 1.5.3
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: 18.2.0
+        version: 18.2.0(react@18.2.0)
+      react-redux:
+        specifier: ^8.1.2
+        version: 8.1.2(@types/react-dom@18.2.17)(@types/react@18.2.25)(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1)
+      redux-logger:
+        specifier: ^3.0.6
+        version: 3.0.6
+      sass:
+        specifier: ^1.63.6
+        version: 1.63.6
+      snarkjs:
+        specifier: 0.7.0
+        version: 0.7.0
+      uuid:
+        specifier: ^9.0.0
+        version: 9.0.0
+    devDependencies:
+      '@faker-js/faker':
+        specifier: ^8.0.2
+        version: 8.0.2
+      '@svgr/webpack':
+        specifier: ^8.1.0
+        version: 8.1.0
+      '@types/node':
+        specifier: 20.3.1
+        version: 20.3.1
+      '@types/qrcode':
+        specifier: ^1.5.1
+        version: 1.5.1
+      '@types/react':
+        specifier: 18.2.25
+        version: 18.2.25
+      '@types/react-dom':
+        specifier: 18.2.17
+        version: 18.2.17
+      '@types/redux-logger':
+        specifier: ^3.0.9
+        version: 3.0.9
+      '@types/uuid':
+        specifier: ^9.0.2
+        version: 9.0.2
+      chalk:
+        specifier: 4.1.0
+        version: 4.1.0
+      dotenv:
+        specifier: ^16.3.1
+        version: 16.3.1
+      eslint:
+        specifier: 8.26.0
+        version: 8.26.0
+      eslint-config-next:
+        specifier: 13.4.6
+        version: 13.4.6(eslint@8.26.0)(typescript@5.1.6)
+      install:
+        specifier: ^0.13.0
+        version: 0.13.0
+      prettier:
+        specifier: ^2.7.1
+        version: 2.8.8
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.1(@types/node@20.3.1)(typescript@5.1.6)
+      typescript:
+        specifier: 5.1.6
+        version: 5.1.6
+
+  source/prfs_proof_webapp:
+    dependencies:
+      '@ethereumjs/util':
+        specifier: ^8.0.3
+        version: 8.1.0
+      '@floating-ui/react':
+        specifier: ^0.24.8
+        version: 0.24.8(react-dom@18.2.0)(react@18.2.0)
+      '@mdx-js/react':
+        specifier: ^2.3.0
+        version: 2.3.0(react@18.2.0)
+      '@next/mdx':
+        specifier: ^13.5.4
+        version: 13.5.4(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
+      '@noble/curves':
+        specifier: ^1.2.0
+        version: 1.2.0
+      '@phosphor-icons/react':
+        specifier: ^2.0.10
+        version: 2.0.10(react-dom@18.2.0)(react@18.2.0)
+      '@react-icons/all-files':
+        specifier: ^4.1.0
+        version: 4.1.0(react@18.2.0)
+      '@reduxjs/toolkit':
+        specifier: 2.0.1
+        version: 2.0.1(react-redux@9.0.4)(react@18.2.0)
+      '@tabler/icons-react':
+        specifier: ^2.32.0
+        version: 2.32.0(react@18.2.0)
+      '@taigalabs/prfs-api-js':
+        specifier: '*'
+        version: link:../prfs_api_js
+      '@taigalabs/prfs-crypto-js':
+        specifier: '*'
+        version: link:../prfs_crypto_js
+      '@taigalabs/prfs-driver-interface':
+        specifier: '*'
+        version: link:../prfs_driver_interface
+      '@taigalabs/prfs-entities':
+        specifier: '*'
+        version: link:../prfs_entities
+      '@taigalabs/prfs-i18n':
+        specifier: '*'
+        version: link:../prfs_i18n
+      '@taigalabs/prfs-id-sdk-web':
+        specifier: '*'
+        version: link:../prfs_id_sdk_web
+      '@taigalabs/prfs-react-components':
+        specifier: '*'
+        version: link:../prfs_react_components
+      '@taigalabs/prfs-sdk-web':
+        specifier: '*'
+        version: link:../prfs_sdk_web
+      '@tanstack/react-query':
+        specifier: 5.14.6
+        version: 5.14.6(react@18.2.0)
+      '@tanstack/react-table':
+        specifier: 8.11.2
+        version: 8.11.2(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/react-virtual':
+        specifier: 3.0.1
+        version: 3.0.1(react-dom@18.2.0)(react@18.2.0)
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
+      copy-to-clipboard:
+        specifier: ^3.3.3
+        version: 3.3.3
+      dayjs:
+        specifier: ^1.11.9
+        version: 1.11.9
+      dompurify:
+        specifier: ^3.0.6
+        version: 3.0.6
+      eciesjs:
+        specifier: ^0.4.5
+        version: 0.4.5
+      elliptic:
+        specifier: ^6.5.4
+        version: 6.5.4
+      ethers:
+        specifier: ^5
+        version: 5.7.2
+      ffjavascript:
+        specifier: 0.2.62
+        version: 0.2.62
+      json-bigint:
+        specifier: ^1.0.0
+        version: 1.0.0
+      marked:
+        specifier: ^9.1.5
+        version: 9.1.5
+      next:
+        specifier: 14.0.4
+        version: 14.0.4(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0)(sass@1.63.6)
+      qrcode:
+        specifier: ^1.5.3
+        version: 1.5.3
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: 18.2.0
+        version: 18.2.0(react@18.2.0)
+      react-redux:
+        specifier: ^9.0.4
+        version: 9.0.4(@types/react@18.2.25)(react@18.2.0)(redux@5.0.0)
+      readline:
+        specifier: ^1.3.0
+        version: 1.3.0
+      redux-logger:
+        specifier: ^3.0.6
+        version: 3.0.6
+      sass:
+        specifier: ^1.63.6
+        version: 1.63.6
+      snarkjs:
+        specifier: 0.7.0
+        version: 0.7.0
+      uuid:
+        specifier: ^9.0.0
+        version: 9.0.0
+      wagmi:
+        specifier: 1.4.12
+        version: 1.4.12(@types/react@18.2.25)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.12.2)
+    devDependencies:
+      '@faker-js/faker':
+        specifier: ^8.0.2
+        version: 8.0.2
+      '@mdx-js/loader':
+        specifier: ^2.3.0
+        version: 2.3.0(webpack@5.88.2)
+      '@svgr/webpack':
+        specifier: ^8.1.0
+        version: 8.1.0
+      '@tanstack/eslint-plugin-query':
+        specifier: ^4.34.1
+        version: 4.34.1(eslint@8.26.0)
+      '@types/dompurify':
+        specifier: ^3.0.4
+        version: 3.0.4
+      '@types/json-bigint':
+        specifier: ^1.0.1
+        version: 1.0.1
+      '@types/mdx':
+        specifier: ^2.0.8
+        version: 2.0.8
+      '@types/node':
+        specifier: 20.3.1
+        version: 20.3.1
+      '@types/qrcode':
+        specifier: ^1.5.1
+        version: 1.5.1
+      '@types/react':
+        specifier: 18.2.25
+        version: 18.2.25
+      '@types/react-dom':
+        specifier: 18.2.17
+        version: 18.2.17
+      '@types/redux-logger':
+        specifier: ^3.0.9
+        version: 3.0.9
+      '@types/uuid':
+        specifier: ^9.0.2
+        version: 9.0.2
+      chalk:
+        specifier: 4.1.0
+        version: 4.1.0
+      dotenv:
+        specifier: ^16.3.1
+        version: 16.3.1
+      eslint:
+        specifier: 8.26.0
+        version: 8.26.0
+      eslint-config-next:
+        specifier: 13.4.6
+        version: 13.4.6(eslint@8.26.0)(typescript@5.1.6)
+      install:
+        specifier: ^0.13.0
+        version: 0.13.0
+      prettier:
+        specifier: ^2.7.1
+        version: 2.8.8
+      rehype-sanitize:
+        specifier: ^6.0.0
+        version: 6.0.0
+      rehype-stringify:
+        specifier: ^10.0.0
+        version: 10.0.0
+      remark-parse:
+        specifier: ^11.0.0
+        version: 11.0.0
+      remark-rehype:
+        specifier: ^11.0.0
+        version: 11.0.0
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.1(@types/node@20.3.1)(typescript@5.1.6)
+      typescript:
+        specifier: 5.1.6
+        version: 5.1.6
+      unified:
+        specifier: ^11.0.3
+        version: 11.0.3
 
   source/prfs_react_components:
     dependencies:
@@ -1103,504 +1601,6 @@ importers:
         specifier: 5.1.6
         version: 5.1.6
 
-  source/webapp_console:
-    dependencies:
-      '@ethereumjs/util':
-        specifier: ^8.0.3
-        version: 8.1.0
-      '@floating-ui/react':
-        specifier: ^0.24.8
-        version: 0.24.8(react-dom@18.2.0)(react@18.2.0)
-      '@phosphor-icons/react':
-        specifier: ^2.0.10
-        version: 2.0.10(react-dom@18.2.0)(react@18.2.0)
-      '@react-icons/all-files':
-        specifier: ^4.1.0
-        version: 4.1.0(react@18.2.0)
-      '@reduxjs/toolkit':
-        specifier: ^1.9.5
-        version: 1.9.5(react-redux@8.1.2)(react@18.2.0)
-      '@taigalabs/prfs-api-js':
-        specifier: '*'
-        version: link:../prfs_api_js
-      '@taigalabs/prfs-crypto-js':
-        specifier: '*'
-        version: link:../prfs_crypto_js
-      '@taigalabs/prfs-driver-interface':
-        specifier: '*'
-        version: link:../prfs_driver_interface
-      '@taigalabs/prfs-driver-spartan-js':
-        specifier: '*'
-        version: link:../prfs_driver_spartan_js
-      '@taigalabs/prfs-entities':
-        specifier: '*'
-        version: link:../prfs_entities
-      '@taigalabs/prfs-i18n':
-        specifier: '*'
-        version: link:../prfs_i18n
-      '@taigalabs/prfs-react-components':
-        specifier: '*'
-        version: link:../prfs_react_components
-      '@taigalabs/prfs-sdk-web':
-        specifier: '*'
-        version: link:../prfs_sdk_web
-      '@tanstack/react-query':
-        specifier: 5.14.6
-        version: 5.14.6(react@18.2.0)
-      '@tanstack/react-table':
-        specifier: ^8.9.3
-        version: 8.9.3(react-dom@18.2.0)(react@18.2.0)
-      '@thirdweb-dev/react':
-        specifier: ^3.14.13
-        version: 3.14.15(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@thirdweb-dev/sdk@3.10.35)(@types/react-dom@18.2.17)(@types/react@18.2.25)(ethers@5.7.2)(localforage@1.10.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
-      '@thirdweb-dev/sdk':
-        specifier: ^3.10.33
-        version: 3.10.35(ethers@5.7.2)(typescript@5.1.6)
-      classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
-      dayjs:
-        specifier: ^1.11.9
-        version: 1.11.9
-      elliptic:
-        specifier: ^6.5.4
-        version: 6.5.4
-      ethers:
-        specifier: ^5
-        version: 5.7.2
-      ffjavascript:
-        specifier: 0.2.62
-        version: 0.2.62
-      next:
-        specifier: 14.0.4
-        version: 14.0.4(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0)(sass@1.63.6)
-      qrcode:
-        specifier: ^1.5.3
-        version: 1.5.3
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
-      react-redux:
-        specifier: ^8.1.2
-        version: 8.1.2(@types/react-dom@18.2.17)(@types/react@18.2.25)(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1)
-      readline:
-        specifier: ^1.3.0
-        version: 1.3.0
-      redux-logger:
-        specifier: ^3.0.6
-        version: 3.0.6
-      sass:
-        specifier: ^1.63.6
-        version: 1.63.6
-      snarkjs:
-        specifier: 0.7.0
-        version: 0.7.0
-      uuid:
-        specifier: ^9.0.0
-        version: 9.0.0
-    devDependencies:
-      '@svgr/webpack':
-        specifier: ^8.1.0
-        version: 8.1.0
-      '@tanstack/eslint-plugin-query':
-        specifier: ^4.34.1
-        version: 4.34.1(eslint@8.26.0)
-      '@types/node':
-        specifier: 20.3.1
-        version: 20.3.1
-      '@types/qrcode':
-        specifier: ^1.5.1
-        version: 1.5.1
-      '@types/react':
-        specifier: 18.2.25
-        version: 18.2.25
-      '@types/react-dom':
-        specifier: 18.2.17
-        version: 18.2.17
-      '@types/redux-logger':
-        specifier: ^3.0.9
-        version: 3.0.9
-      '@types/uuid':
-        specifier: ^9.0.2
-        version: 9.0.2
-      chalk:
-        specifier: 4.1.0
-        version: 4.1.0
-      dotenv:
-        specifier: ^16.3.1
-        version: 16.3.1
-      eslint:
-        specifier: 8.26.0
-        version: 8.26.0
-      eslint-config-next:
-        specifier: 13.4.6
-        version: 13.4.6(eslint@8.26.0)(typescript@5.1.6)
-      install:
-        specifier: ^0.13.0
-        version: 0.13.0
-      prettier:
-        specifier: ^2.7.1
-        version: 2.8.8
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@20.3.1)(typescript@5.1.6)
-      typescript:
-        specifier: 5.1.6
-        version: 5.1.6
-
-  source/webapp_poll:
-    dependencies:
-      '@ethereumjs/util':
-        specifier: ^8.0.3
-        version: 8.1.0
-      '@floating-ui/react':
-        specifier: ^0.24.8
-        version: 0.24.8(react-dom@18.2.0)(react@18.2.0)
-      '@phosphor-icons/react':
-        specifier: ^2.0.10
-        version: 2.0.10(react-dom@18.2.0)(react@18.2.0)
-      '@react-icons/all-files':
-        specifier: ^4.1.0
-        version: 4.1.0(react@18.2.0)
-      '@reduxjs/toolkit':
-        specifier: ^1.9.5
-        version: 1.9.5(react-redux@8.1.2)(react@18.2.0)
-      '@tabler/icons-react':
-        specifier: ^2.32.0
-        version: 2.32.0(react@18.2.0)
-      '@taigalabs/prfs-api-js':
-        specifier: '*'
-        version: link:../prfs_api_js
-      '@taigalabs/prfs-crypto-js':
-        specifier: '*'
-        version: link:../prfs_crypto_js
-      '@taigalabs/prfs-driver-interface':
-        specifier: '*'
-        version: link:../prfs_driver_interface
-      '@taigalabs/prfs-driver-spartan-js':
-        specifier: '*'
-        version: link:../prfs_driver_spartan_js
-      '@taigalabs/prfs-entities':
-        specifier: '*'
-        version: link:../prfs_entities
-      '@taigalabs/prfs-react-components':
-        specifier: '*'
-        version: link:../prfs_react_components
-      '@taigalabs/prfs-sdk-web':
-        specifier: '*'
-        version: link:../prfs_sdk_web
-      '@tanstack/react-query':
-        specifier: 5.14.6
-        version: 5.14.6(react@18.2.0)
-      '@tanstack/react-table':
-        specifier: ^8.9.3
-        version: 8.9.3(react-dom@18.2.0)(react@18.2.0)
-      '@thirdweb-dev/react':
-        specifier: ^3.14.13
-        version: 3.14.15(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@thirdweb-dev/sdk@3.10.35)(@types/react-dom@18.2.17)(@types/react@18.2.25)(ethers@5.7.2)(localforage@1.10.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
-      '@thirdweb-dev/sdk':
-        specifier: ^3.10.33
-        version: 3.10.35(ethers@5.7.2)(typescript@5.1.6)
-      classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
-      dayjs:
-        specifier: ^1.11.9
-        version: 1.11.9
-      elliptic:
-        specifier: ^6.5.4
-        version: 6.5.4
-      ethers:
-        specifier: ^5
-        version: 5.7.2
-      ffjavascript:
-        specifier: 0.2.62
-        version: 0.2.62
-      next:
-        specifier: 14.0.4
-        version: 14.0.4(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0)(sass@1.63.6)
-      qrcode:
-        specifier: ^1.5.3
-        version: 1.5.3
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
-      react-redux:
-        specifier: ^8.1.2
-        version: 8.1.2(@types/react-dom@18.2.17)(@types/react@18.2.25)(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1)
-      redux-logger:
-        specifier: ^3.0.6
-        version: 3.0.6
-      sass:
-        specifier: ^1.63.6
-        version: 1.63.6
-      snarkjs:
-        specifier: 0.7.0
-        version: 0.7.0
-      uuid:
-        specifier: ^9.0.0
-        version: 9.0.0
-    devDependencies:
-      '@faker-js/faker':
-        specifier: ^8.0.2
-        version: 8.0.2
-      '@svgr/webpack':
-        specifier: ^8.1.0
-        version: 8.1.0
-      '@types/node':
-        specifier: 20.3.1
-        version: 20.3.1
-      '@types/qrcode':
-        specifier: ^1.5.1
-        version: 1.5.1
-      '@types/react':
-        specifier: 18.2.25
-        version: 18.2.25
-      '@types/react-dom':
-        specifier: 18.2.17
-        version: 18.2.17
-      '@types/redux-logger':
-        specifier: ^3.0.9
-        version: 3.0.9
-      '@types/uuid':
-        specifier: ^9.0.2
-        version: 9.0.2
-      chalk:
-        specifier: 4.1.0
-        version: 4.1.0
-      dotenv:
-        specifier: ^16.3.1
-        version: 16.3.1
-      eslint:
-        specifier: 8.26.0
-        version: 8.26.0
-      eslint-config-next:
-        specifier: 13.4.6
-        version: 13.4.6(eslint@8.26.0)(typescript@5.1.6)
-      install:
-        specifier: ^0.13.0
-        version: 0.13.0
-      prettier:
-        specifier: ^2.7.1
-        version: 2.8.8
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@20.3.1)(typescript@5.1.6)
-      typescript:
-        specifier: 5.1.6
-        version: 5.1.6
-
-  source/webapp_proof:
-    dependencies:
-      '@ethereumjs/util':
-        specifier: ^8.0.3
-        version: 8.1.0
-      '@floating-ui/react':
-        specifier: ^0.24.8
-        version: 0.24.8(react-dom@18.2.0)(react@18.2.0)
-      '@mdx-js/react':
-        specifier: ^2.3.0
-        version: 2.3.0(react@18.2.0)
-      '@next/mdx':
-        specifier: ^13.5.4
-        version: 13.5.4(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
-      '@noble/curves':
-        specifier: ^1.2.0
-        version: 1.2.0
-      '@phosphor-icons/react':
-        specifier: ^2.0.10
-        version: 2.0.10(react-dom@18.2.0)(react@18.2.0)
-      '@react-icons/all-files':
-        specifier: ^4.1.0
-        version: 4.1.0(react@18.2.0)
-      '@reduxjs/toolkit':
-        specifier: 2.0.1
-        version: 2.0.1(react-redux@9.0.4)(react@18.2.0)
-      '@tabler/icons-react':
-        specifier: ^2.32.0
-        version: 2.32.0(react@18.2.0)
-      '@taigalabs/prfs-api-js':
-        specifier: '*'
-        version: link:../prfs_api_js
-      '@taigalabs/prfs-crypto-js':
-        specifier: '*'
-        version: link:../prfs_crypto_js
-      '@taigalabs/prfs-driver-interface':
-        specifier: '*'
-        version: link:../prfs_driver_interface
-      '@taigalabs/prfs-entities':
-        specifier: '*'
-        version: link:../prfs_entities
-      '@taigalabs/prfs-i18n':
-        specifier: '*'
-        version: link:../prfs_i18n
-      '@taigalabs/prfs-id-sdk-web':
-        specifier: '*'
-        version: link:../prfs_id_sdk_web
-      '@taigalabs/prfs-react-components':
-        specifier: '*'
-        version: link:../prfs_react_components
-      '@taigalabs/prfs-sdk-web':
-        specifier: '*'
-        version: link:../prfs_sdk_web
-      '@tanstack/react-query':
-        specifier: 5.14.6
-        version: 5.14.6(react@18.2.0)
-      '@tanstack/react-table':
-        specifier: 8.11.2
-        version: 8.11.2(react-dom@18.2.0)(react@18.2.0)
-      '@tanstack/react-virtual':
-        specifier: 3.0.1
-        version: 3.0.1(react-dom@18.2.0)(react@18.2.0)
-      classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
-      copy-to-clipboard:
-        specifier: ^3.3.3
-        version: 3.3.3
-      dayjs:
-        specifier: ^1.11.9
-        version: 1.11.9
-      dompurify:
-        specifier: ^3.0.6
-        version: 3.0.6
-      eciesjs:
-        specifier: ^0.4.5
-        version: 0.4.5
-      elliptic:
-        specifier: ^6.5.4
-        version: 6.5.4
-      ethers:
-        specifier: ^5
-        version: 5.7.2
-      ffjavascript:
-        specifier: 0.2.62
-        version: 0.2.62
-      json-bigint:
-        specifier: ^1.0.0
-        version: 1.0.0
-      marked:
-        specifier: ^9.1.5
-        version: 9.1.5
-      next:
-        specifier: 14.0.4
-        version: 14.0.4(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0)(sass@1.63.6)
-      qrcode:
-        specifier: ^1.5.3
-        version: 1.5.3
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
-      react-redux:
-        specifier: ^9.0.4
-        version: 9.0.4(@types/react@18.2.25)(react@18.2.0)(redux@5.0.0)
-      readline:
-        specifier: ^1.3.0
-        version: 1.3.0
-      redux-logger:
-        specifier: ^3.0.6
-        version: 3.0.6
-      sass:
-        specifier: ^1.63.6
-        version: 1.63.6
-      snarkjs:
-        specifier: 0.7.0
-        version: 0.7.0
-      uuid:
-        specifier: ^9.0.0
-        version: 9.0.0
-      wagmi:
-        specifier: 1.4.12
-        version: 1.4.12(@types/react@18.2.25)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.12.2)
-    devDependencies:
-      '@faker-js/faker':
-        specifier: ^8.0.2
-        version: 8.0.2
-      '@mdx-js/loader':
-        specifier: ^2.3.0
-        version: 2.3.0(webpack@5.88.2)
-      '@svgr/webpack':
-        specifier: ^8.1.0
-        version: 8.1.0
-      '@tanstack/eslint-plugin-query':
-        specifier: ^4.34.1
-        version: 4.34.1(eslint@8.26.0)
-      '@types/dompurify':
-        specifier: ^3.0.4
-        version: 3.0.4
-      '@types/json-bigint':
-        specifier: ^1.0.1
-        version: 1.0.1
-      '@types/mdx':
-        specifier: ^2.0.8
-        version: 2.0.8
-      '@types/node':
-        specifier: 20.3.1
-        version: 20.3.1
-      '@types/qrcode':
-        specifier: ^1.5.1
-        version: 1.5.1
-      '@types/react':
-        specifier: 18.2.25
-        version: 18.2.25
-      '@types/react-dom':
-        specifier: 18.2.17
-        version: 18.2.17
-      '@types/redux-logger':
-        specifier: ^3.0.9
-        version: 3.0.9
-      '@types/uuid':
-        specifier: ^9.0.2
-        version: 9.0.2
-      chalk:
-        specifier: 4.1.0
-        version: 4.1.0
-      dotenv:
-        specifier: ^16.3.1
-        version: 16.3.1
-      eslint:
-        specifier: 8.26.0
-        version: 8.26.0
-      eslint-config-next:
-        specifier: 13.4.6
-        version: 13.4.6(eslint@8.26.0)(typescript@5.1.6)
-      install:
-        specifier: ^0.13.0
-        version: 0.13.0
-      prettier:
-        specifier: ^2.7.1
-        version: 2.8.8
-      rehype-sanitize:
-        specifier: ^6.0.0
-        version: 6.0.0
-      rehype-stringify:
-        specifier: ^10.0.0
-        version: 10.0.0
-      remark-parse:
-        specifier: ^11.0.0
-        version: 11.0.0
-      remark-rehype:
-        specifier: ^11.0.0
-        version: 11.0.0
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@20.3.1)(typescript@5.1.6)
-      typescript:
-        specifier: 5.1.6
-        version: 5.1.6
-      unified:
-        specifier: ^11.0.3
-        version: 11.0.3
-
 packages:
 
   /@aashutoshrathi/word-wrap@1.2.6:
@@ -1698,6 +1698,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/highlight': 7.22.5
+    dev: true
 
   /@babel/compat-data@7.22.9:
     resolution: {integrity: sha512-5UamI7xkUcJ3i9qVDS+KFDEK8/7oJ55/sJMB1Ge7IEapr7KfdfV/HErR+koZwOfd+SgtFKOKRhRakdg++DcJpQ==}
@@ -1940,7 +1941,7 @@ packages:
       '@babel/core': ^7.4.0 || ^8.0.0-0 <8.0.0
     dependencies:
       '@babel/core': 7.23.3
-      '@babel/helper-compilation-targets': 7.22.10
+      '@babel/helper-compilation-targets': 7.22.15
       '@babel/helper-plugin-utils': 7.22.5
       debug: 4.3.4(supports-color@9.4.0)
       lodash.debounce: 4.0.8
@@ -2198,6 +2199,7 @@ packages:
       '@babel/helper-validator-identifier': 7.22.5
       chalk: 2.4.2
       js-tokens: 4.0.0
+    dev: true
 
   /@babel/parser@7.22.7:
     resolution: {integrity: sha512-7NF8pOkHP5o2vpmGgNGcfAeCvOYhGLyA3Z4eBQkT1RJlWu47n63bCs93QfJ2hIAFCil7L5P2IWhs1oToVgrL0Q==}
@@ -4059,7 +4061,7 @@ packages:
     dependencies:
       '@babel/core': 7.23.3
       '@babel/helper-plugin-utils': 7.22.5
-      '@babel/types': 7.22.11
+      '@babel/types': 7.23.3
       esutils: 2.0.3
     dev: true
 
@@ -5938,7 +5940,7 @@ packages:
       eslint: ^6.0.0 || ^7.0.0 || >=8.0.0
     dependencies:
       eslint: 8.26.0
-      eslint-visitor-keys: 3.4.1
+      eslint-visitor-keys: 3.4.3
     dev: true
 
   /@eslint-community/eslint-utils@4.4.0(eslint@8.54.0):
@@ -5948,7 +5950,7 @@ packages:
       eslint: ^6.0.0 || ^7.0.0 || >=8.0.0
     dependencies:
       eslint: 8.54.0
-      eslint-visitor-keys: 3.4.1
+      eslint-visitor-keys: 3.4.3
     dev: true
 
   /@eslint-community/regexpp@4.10.0:
@@ -6371,7 +6373,7 @@ packages:
     resolution: {integrity: sha512-5umyLoD5vMxlSVQwtmUXeNCNWs9dzmWykGm1qrHe/pCYrj/1lyJIgJRw+IxoMNodGqtcHEtfDhdNjRDM9yo/TA==}
     engines: {node: '>=6.0.0'}
     dependencies:
-      lit: 2.7.6
+      lit: 2.8.0
       three: 0.146.0
     dev: false
 
@@ -9830,6 +9832,7 @@ packages:
 
   /@safe-global/safe-core-sdk@3.3.4:
     resolution: {integrity: sha512-tgcK7VWo66Z8632xaYDzUHQ8InPOaI10ELk1wCrO/C3QjPwxjIozbMGOMzF4RZPCSJX2YAHowAvOgmEukgSkxA==}
+    deprecated: 'WARNING: This project has been renamed to @safe-global/protocol-kit. Please, follow the migration guide https://docs.safe.global/safe-core-aa-sdk/protocol-kit/reference/v1'
     dependencies:
       '@ethersproject/solidity': 5.7.0
       '@safe-global/safe-core-sdk-types': 1.10.1
@@ -9873,6 +9876,7 @@ packages:
 
   /@safe-global/safe-ethers-lib@1.9.4:
     resolution: {integrity: sha512-WhzcmNun0s0VxeVQKRqaapV0vEpdm76zZBR2Du+S+58u1r57OjZkOSL2Gru0tdwkt3FIZZtE3OhDu09M70pVkA==}
+    deprecated: 'WARNING: This package is now bundled in @safe-global/protocol-kit. Please, follow the migration guide https://docs.safe.global/safe-core-aa-sdk/protocol-kit/reference/v1'
     dependencies:
       '@safe-global/safe-core-sdk-types': 1.10.1
       '@safe-global/safe-core-sdk-utils': 1.7.4
@@ -10693,24 +10697,34 @@ packages:
       tiny-invariant: 1.3.1
     transitivePeerDependencies:
       - '@aws-sdk/client-secrets-manager'
+      - '@azure/app-configuration'
+      - '@azure/cosmos'
+      - '@azure/data-tables'
+      - '@azure/identity'
+      - '@azure/keyvault-secrets'
+      - '@azure/storage-blob'
+      - '@capacitor/preferences'
       - '@ethersproject/abstract-provider'
       - '@ethersproject/abstract-signer'
       - '@ethersproject/bignumber'
       - '@ethersproject/properties'
       - '@metaplex-foundation/js'
       - '@metaplex-foundation/mpl-token-metadata'
+      - '@netlify/blobs'
       - '@noble/ed25519'
+      - '@planetscale/database'
       - '@project-serum/anchor'
       - '@react-native-async-storage/async-storage'
       - '@solana/spl-token'
       - '@types/react'
+      - '@upstash/redis'
+      - '@vercel/kv'
       - bs58
       - bufferutil
       - debug
       - encoding
       - ethers-aws-kms-signer
       - localforage
-      - lokijs
       - react-dom
       - react-native
       - supports-color
@@ -10771,25 +10785,35 @@ packages:
       tiny-invariant: 1.3.1
     transitivePeerDependencies:
       - '@aws-sdk/client-secrets-manager'
+      - '@azure/app-configuration'
+      - '@azure/cosmos'
+      - '@azure/data-tables'
+      - '@azure/identity'
+      - '@azure/keyvault-secrets'
+      - '@azure/storage-blob'
+      - '@capacitor/preferences'
       - '@ethersproject/abstract-provider'
       - '@ethersproject/abstract-signer'
       - '@ethersproject/bignumber'
       - '@ethersproject/properties'
       - '@metaplex-foundation/js'
       - '@metaplex-foundation/mpl-token-metadata'
+      - '@netlify/blobs'
       - '@noble/ed25519'
+      - '@planetscale/database'
       - '@project-serum/anchor'
       - '@react-native-async-storage/async-storage'
       - '@solana/spl-token'
       - '@types/react'
       - '@types/react-dom'
+      - '@upstash/redis'
+      - '@vercel/kv'
       - bs58
       - bufferutil
       - debug
       - encoding
       - ethers-aws-kms-signer
       - localforage
-      - lokijs
       - react-native
       - react-native-svg
       - supports-color
@@ -10902,12 +10926,12 @@ packages:
       '@safe-global/safe-ethers-lib': 1.9.4
       '@thirdweb-dev/chains': 0.1.34
       '@thirdweb-dev/sdk': 3.10.35(ethers@5.7.2)(typescript@5.1.6)
-      '@walletconnect/core': 2.10.1
-      '@walletconnect/ethereum-provider': 2.10.1(@walletconnect/modal@2.6.2)
+      '@walletconnect/core': 2.10.6
+      '@walletconnect/ethereum-provider': 2.10.6(@types/react@18.2.25)(react@18.2.0)
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/modal': 2.6.2(@types/react@18.2.25)(react@18.2.0)
-      '@walletconnect/types': 2.10.1
-      '@walletconnect/utils': 2.10.1
+      '@walletconnect/types': 2.10.6
+      '@walletconnect/utils': 2.10.6
       '@walletconnect/web3wallet': 1.8.6
       buffer: 6.0.3
       cross-fetch: 3.1.8
@@ -10918,21 +10942,31 @@ packages:
       magic-sdk: 13.6.2
       web3-core: 1.5.2
     transitivePeerDependencies:
+      - '@azure/app-configuration'
+      - '@azure/cosmos'
+      - '@azure/data-tables'
+      - '@azure/identity'
+      - '@azure/keyvault-secrets'
+      - '@azure/storage-blob'
+      - '@capacitor/preferences'
       - '@ethersproject/abstract-provider'
       - '@ethersproject/abstract-signer'
       - '@ethersproject/bignumber'
       - '@ethersproject/properties'
       - '@metaplex-foundation/js'
       - '@metaplex-foundation/mpl-token-metadata'
+      - '@netlify/blobs'
+      - '@planetscale/database'
       - '@project-serum/anchor'
       - '@react-native-async-storage/async-storage'
       - '@solana/spl-token'
       - '@types/react'
+      - '@upstash/redis'
+      - '@vercel/kv'
       - bufferutil
       - debug
       - encoding
       - localforage
-      - lokijs
       - react
       - supports-color
       - typescript
@@ -12314,46 +12348,31 @@ packages:
       '@ethersproject/transactions': 5.7.0
       '@stablelib/random': 1.0.2
       '@stablelib/sha256': 1.0.1
-      '@walletconnect/core': 2.9.0
+      '@walletconnect/core': 2.10.6
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.2.1
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/logger': 2.0.1
       '@walletconnect/time': 1.0.2
-      '@walletconnect/utils': 2.9.0
+      '@walletconnect/utils': 2.10.6
       events: 3.3.0
       isomorphic-unfetch: 3.1.0
     transitivePeerDependencies:
+      - '@azure/app-configuration'
+      - '@azure/cosmos'
+      - '@azure/data-tables'
+      - '@azure/identity'
+      - '@azure/keyvault-secrets'
+      - '@azure/storage-blob'
+      - '@capacitor/preferences'
+      - '@netlify/blobs'
+      - '@planetscale/database'
       - '@react-native-async-storage/async-storage'
+      - '@upstash/redis'
+      - '@vercel/kv'
       - bufferutil
       - encoding
-      - lokijs
-      - utf-8-validate
-    dev: false
-
-  /@walletconnect/core@2.10.1:
-    resolution: {integrity: sha512-WAoXfmj+Zy5q48TnrKUjmHXJCBahzKwbul+noepRZf7JDtUAZ9IOWpUjg+UPRbfK5EiWZ0TF42S6SXidf7EHoQ==}
-    dependencies:
-      '@walletconnect/heartbeat': 1.2.1
-      '@walletconnect/jsonrpc-provider': 1.0.13
-      '@walletconnect/jsonrpc-types': 1.0.3
-      '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/jsonrpc-ws-connection': 1.0.13
-      '@walletconnect/keyvaluestorage': 1.0.2
-      '@walletconnect/logger': 2.0.1
-      '@walletconnect/relay-api': 1.0.9
-      '@walletconnect/relay-auth': 1.0.4
-      '@walletconnect/safe-json': 1.0.2
-      '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.10.1
-      '@walletconnect/utils': 2.10.1
-      events: 3.3.0
-      lodash.isequal: 4.5.0
-      uint8arrays: 3.1.1
-    transitivePeerDependencies:
-      - '@react-native-async-storage/async-storage'
-      - bufferutil
-      - lokijs
+      - supports-color
       - utf-8-validate
     dev: false
 
@@ -12402,7 +12421,7 @@ packages:
       '@walletconnect/jsonrpc-types': 1.0.3
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/jsonrpc-ws-connection': 1.0.12
-      '@walletconnect/keyvaluestorage': 1.0.2
+      '@walletconnect/keyvaluestorage': 1.1.1
       '@walletconnect/logger': 2.0.1
       '@walletconnect/relay-api': 1.0.9
       '@walletconnect/relay-auth': 1.0.4
@@ -12414,9 +12433,20 @@ packages:
       lodash.isequal: 4.5.0
       uint8arrays: 3.1.1
     transitivePeerDependencies:
+      - '@azure/app-configuration'
+      - '@azure/cosmos'
+      - '@azure/data-tables'
+      - '@azure/identity'
+      - '@azure/keyvault-secrets'
+      - '@azure/storage-blob'
+      - '@capacitor/preferences'
+      - '@netlify/blobs'
+      - '@planetscale/database'
       - '@react-native-async-storage/async-storage'
+      - '@upstash/redis'
+      - '@vercel/kv'
       - bufferutil
-      - lokijs
+      - supports-color
       - utf-8-validate
     dev: false
 
@@ -12443,32 +12473,6 @@ packages:
     resolution: {integrity: sha512-T426LLZtHj8e8rYnKfzsw1aG6+M0BT1ZxayMdv/p8yM0MU+eJDISqNY3/bccxRr4LrF9csq02Rhqt08Ibl0VRg==}
     dependencies:
       tslib: 1.14.1
-    dev: false
-
-  /@walletconnect/ethereum-provider@2.10.1(@walletconnect/modal@2.6.2):
-    resolution: {integrity: sha512-Yhoz8EXkKzxOlBT6G+elphqCx/gkH6RxD9/ZAiy9lLc8Ng5p1gvKCVVP5zsGNE9FbkKmHd+J9JJRzn2Bw2yqtQ==}
-    peerDependencies:
-      '@walletconnect/modal': '>=2'
-    peerDependenciesMeta:
-      '@walletconnect/modal':
-        optional: true
-    dependencies:
-      '@walletconnect/jsonrpc-http-connection': 1.0.7
-      '@walletconnect/jsonrpc-provider': 1.0.13
-      '@walletconnect/jsonrpc-types': 1.0.3
-      '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/modal': 2.6.2(@types/react@18.2.25)(react@18.2.0)
-      '@walletconnect/sign-client': 2.10.1
-      '@walletconnect/types': 2.10.1
-      '@walletconnect/universal-provider': 2.10.1
-      '@walletconnect/utils': 2.10.1
-      events: 3.3.0
-    transitivePeerDependencies:
-      - '@react-native-async-storage/async-storage'
-      - bufferutil
-      - encoding
-      - lokijs
-      - utf-8-validate
     dev: false
 
   /@walletconnect/ethereum-provider@2.10.6(@types/react@18.2.25)(react@18.2.0):
@@ -12567,19 +12571,6 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@walletconnect/jsonrpc-ws-connection@1.0.13:
-    resolution: {integrity: sha512-mfOM7uFH4lGtQxG+XklYuFBj6dwVvseTt5/ahOkkmpcAEgz2umuzu7fTR+h5EmjQBdrmYyEBOWADbeaFNxdySg==}
-    dependencies:
-      '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/safe-json': 1.0.2
-      events: 3.3.0
-      tslib: 1.14.1
-      ws: 7.5.9
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-    dev: false
-
   /@walletconnect/jsonrpc-ws-connection@1.0.14:
     resolution: {integrity: sha512-Jsl6fC55AYcbkNVkwNM6Jo+ufsuCQRqViOQ8ZBPH9pRREHH9welbBiszuTLqEJiQcO/6XfFDl6bzCJIkrEi8XA==}
     dependencies:
@@ -12590,21 +12581,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
-    dev: false
-
-  /@walletconnect/keyvaluestorage@1.0.2:
-    resolution: {integrity: sha512-U/nNG+VLWoPFdwwKx0oliT4ziKQCEoQ27L5Hhw8YOFGA2Po9A9pULUYNWhDgHkrb0gYDNt//X7wABcEWWBd3FQ==}
-    peerDependencies:
-      '@react-native-async-storage/async-storage': 1.x
-      lokijs: 1.x
-    peerDependenciesMeta:
-      '@react-native-async-storage/async-storage':
-        optional: true
-      lokijs:
-        optional: true
-    dependencies:
-      safe-json-utils: 1.1.1
-      tslib: 1.14.1
     dev: false
 
   /@walletconnect/keyvaluestorage@1.1.1:
@@ -12761,25 +12737,6 @@ packages:
       tslib: 1.14.1
     dev: false
 
-  /@walletconnect/sign-client@2.10.1:
-    resolution: {integrity: sha512-iG3eJGi1yXeG3xGeVSSMf8wDFyx239B0prLQfy1uYDtYFb2ynnH/09oqAZyKn96W5nfQzUgM2Mz157PVdloH3Q==}
-    dependencies:
-      '@walletconnect/core': 2.10.1
-      '@walletconnect/events': 1.0.1
-      '@walletconnect/heartbeat': 1.2.1
-      '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/logger': 2.0.1
-      '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.10.1
-      '@walletconnect/utils': 2.10.1
-      events: 3.3.0
-    transitivePeerDependencies:
-      - '@react-native-async-storage/async-storage'
-      - bufferutil
-      - lokijs
-      - utf-8-validate
-    dev: false
-
   /@walletconnect/sign-client@2.10.6:
     resolution: {integrity: sha512-EvUWjaZBQu2yKnH5/5F2qzbuiIuUN9ZgrNKgvXkw5z1Dq5RJCks0S9/MFlKH/ZSGqXnLl7uAzBXtoX4sMgbCMA==}
     dependencies:
@@ -12823,9 +12780,20 @@ packages:
       '@walletconnect/utils': 2.9.0
       events: 3.3.0
     transitivePeerDependencies:
+      - '@azure/app-configuration'
+      - '@azure/cosmos'
+      - '@azure/data-tables'
+      - '@azure/identity'
+      - '@azure/keyvault-secrets'
+      - '@azure/storage-blob'
+      - '@capacitor/preferences'
+      - '@netlify/blobs'
+      - '@planetscale/database'
       - '@react-native-async-storage/async-storage'
+      - '@upstash/redis'
+      - '@vercel/kv'
       - bufferutil
-      - lokijs
+      - supports-color
       - utf-8-validate
     dev: false
 
@@ -12833,20 +12801,6 @@ packages:
     resolution: {integrity: sha512-uzdd9woDcJ1AaBZRhqy5rNC9laqWGErfc4dxA9a87mPdKOgWMD85mcFo9dIYIts/Jwocfwn07EC6EzclKubk/g==}
     dependencies:
       tslib: 1.14.1
-    dev: false
-
-  /@walletconnect/types@2.10.1:
-    resolution: {integrity: sha512-7pccAhajQdiH2kYywjE1XI64IqRI+4ioyGy0wvz8d0UFQ/DSG3MLKR8jHf5aTOafQQ/HRLz6xvlzN4a7gIVkUQ==}
-    dependencies:
-      '@walletconnect/events': 1.0.1
-      '@walletconnect/heartbeat': 1.2.1
-      '@walletconnect/jsonrpc-types': 1.0.3
-      '@walletconnect/keyvaluestorage': 1.0.2
-      '@walletconnect/logger': 2.0.1
-      events: 3.3.0
-    transitivePeerDependencies:
-      - '@react-native-async-storage/async-storage'
-      - lokijs
     dev: false
 
   /@walletconnect/types@2.10.2:
@@ -12905,32 +12859,23 @@ packages:
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.2.1
       '@walletconnect/jsonrpc-types': 1.0.3
-      '@walletconnect/keyvaluestorage': 1.0.2
+      '@walletconnect/keyvaluestorage': 1.1.1
       '@walletconnect/logger': 2.0.1
       events: 3.3.0
     transitivePeerDependencies:
+      - '@azure/app-configuration'
+      - '@azure/cosmos'
+      - '@azure/data-tables'
+      - '@azure/identity'
+      - '@azure/keyvault-secrets'
+      - '@azure/storage-blob'
+      - '@capacitor/preferences'
+      - '@netlify/blobs'
+      - '@planetscale/database'
       - '@react-native-async-storage/async-storage'
-      - lokijs
-    dev: false
-
-  /@walletconnect/universal-provider@2.10.1:
-    resolution: {integrity: sha512-81QxTH/X4dRoYCz0U9iOrBYOcj7N897ONcB57wsGhEkV7Rc9htmWJq2CzeOuxvVZ+pNZkE+/aw9LrhizO1Ltxg==}
-    dependencies:
-      '@walletconnect/jsonrpc-http-connection': 1.0.7
-      '@walletconnect/jsonrpc-provider': 1.0.13
-      '@walletconnect/jsonrpc-types': 1.0.3
-      '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/logger': 2.0.1
-      '@walletconnect/sign-client': 2.10.1
-      '@walletconnect/types': 2.10.1
-      '@walletconnect/utils': 2.10.1
-      events: 3.3.0
-    transitivePeerDependencies:
-      - '@react-native-async-storage/async-storage'
-      - bufferutil
-      - encoding
-      - lokijs
-      - utf-8-validate
+      - '@upstash/redis'
+      - '@vercel/kv'
+      - supports-color
     dev: false
 
   /@walletconnect/universal-provider@2.10.6:
@@ -12962,28 +12907,6 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
-    dev: false
-
-  /@walletconnect/utils@2.10.1:
-    resolution: {integrity: sha512-DM0dKgm9O58l7VqJEyV2OVv16XRePhDAReI23let6WdW1dSpw/Y/A89Lp99ZJOjLm2FxyblMRF3YRaZtHwBffw==}
-    dependencies:
-      '@stablelib/chacha20poly1305': 1.0.1
-      '@stablelib/hkdf': 1.0.1
-      '@stablelib/random': 1.0.2
-      '@stablelib/sha256': 1.0.1
-      '@stablelib/x25519': 1.0.3
-      '@walletconnect/relay-api': 1.0.9
-      '@walletconnect/safe-json': 1.0.2
-      '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.10.1
-      '@walletconnect/window-getters': 1.0.1
-      '@walletconnect/window-metadata': 1.0.1
-      detect-browser: 5.3.0
-      query-string: 7.1.3
-      uint8arrays: 3.1.1
-    transitivePeerDependencies:
-      - '@react-native-async-storage/async-storage'
-      - lokijs
     dev: false
 
   /@walletconnect/utils@2.10.2:
@@ -13070,8 +12993,19 @@ packages:
       query-string: 7.1.3
       uint8arrays: 3.1.1
     transitivePeerDependencies:
+      - '@azure/app-configuration'
+      - '@azure/cosmos'
+      - '@azure/data-tables'
+      - '@azure/identity'
+      - '@azure/keyvault-secrets'
+      - '@azure/storage-blob'
+      - '@capacitor/preferences'
+      - '@netlify/blobs'
+      - '@planetscale/database'
       - '@react-native-async-storage/async-storage'
-      - lokijs
+      - '@upstash/redis'
+      - '@vercel/kv'
+      - supports-color
     dev: false
 
   /@walletconnect/web3wallet@1.8.6:
@@ -13086,10 +13020,21 @@ packages:
       '@walletconnect/types': 2.9.0
       '@walletconnect/utils': 2.9.0
     transitivePeerDependencies:
+      - '@azure/app-configuration'
+      - '@azure/cosmos'
+      - '@azure/data-tables'
+      - '@azure/identity'
+      - '@azure/keyvault-secrets'
+      - '@azure/storage-blob'
+      - '@capacitor/preferences'
+      - '@netlify/blobs'
+      - '@planetscale/database'
       - '@react-native-async-storage/async-storage'
+      - '@upstash/redis'
+      - '@vercel/kv'
       - bufferutil
       - encoding
-      - lokijs
+      - supports-color
       - utf-8-validate
     dev: false
 
@@ -14063,7 +14008,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.4.0 || ^8.0.0-0 <8.0.0
     dependencies:
-      '@babel/compat-data': 7.22.9
+      '@babel/compat-data': 7.23.3
       '@babel/core': 7.23.3
       '@babel/helper-define-polyfill-provider': 0.4.3(@babel/core@7.23.3)
       semver: 6.3.1
@@ -23262,27 +23207,13 @@ packages:
     dependencies:
       '@lit-labs/ssr-dom-shim': 1.1.1
       '@lit/reactive-element': 1.6.2
-      lit-html: 2.7.5
-    dev: false
-
-  /lit-html@2.7.5:
-    resolution: {integrity: sha512-YqUzpisJodwKIlbMFCtyrp58oLloKGnnPLMJ1t23cbfIJjg/H9pvLWK4XS69YeubK5HUs1UE4ys9w5dP1zg6IA==}
-    dependencies:
-      '@types/trusted-types': 2.0.3
+      lit-html: 2.8.0
     dev: false
 
   /lit-html@2.8.0:
     resolution: {integrity: sha512-o9t+MQM3P4y7M7yNzqAyjp7z+mQGa4NS4CxiyLqFPyFWyc4O+nodLrkrxSaCTrla6M5YOLaT3RpbbqjszB5g3Q==}
     dependencies:
       '@types/trusted-types': 2.0.3
-    dev: false
-
-  /lit@2.7.6:
-    resolution: {integrity: sha512-1amFHA7t4VaaDe+vdQejSVBklwtH9svGoG6/dZi9JhxtJBBlqY5D1RV7iLUYY0trCqQc4NfhYYZilZiVHt7Hxg==}
-    dependencies:
-      '@lit/reactive-element': 1.6.2
-      lit-element: 3.3.2
-      lit-html: 2.7.5
     dev: false
 
   /lit@2.8.0:
@@ -25794,7 +25725,7 @@ packages:
     resolution: {integrity: sha512-ayCKvm/phCGxOkYRSCM82iDwct8/EonSEgCSxWxD7ve6jHggsFl4fZVQBPRNgQoKiuV/odhFrGzQXZwbifC8Rg==}
     engines: {node: '>=8'}
     dependencies:
-      '@babel/code-frame': 7.22.5
+      '@babel/code-frame': 7.22.13
       error-ex: 1.3.2
       json-parse-even-better-errors: 2.3.1
       lines-and-columns: 1.2.4
@@ -27766,10 +27697,6 @@ packages:
 
   /safe-buffer@5.2.1:
     resolution: {integrity: sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==}
-
-  /safe-json-utils@1.1.1:
-    resolution: {integrity: sha512-SAJWGKDs50tAbiDXLf89PDwt9XYkWyANFWVzn4dTXl5QyI8t2o/bW5/OJl3lvc2WVU4MEpTo9Yz5NVFNsp+OJQ==}
-    dev: false
 
   /safe-regex-test@1.0.0:
     resolution: {integrity: sha512-JBUUzyOgEwXQY1NuPtvcj/qcBDbDmEvWufhlnXZIm75DEHp+afM1r1ujJpJsV/gSM4t59tpDyPi1sd6ZaPFfsA==}

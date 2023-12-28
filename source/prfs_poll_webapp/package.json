@@ -1,12 +1,12 @@
 {
-  "name": "@taigalabs/webapp-console",
+  "name": "@taigalabs/prfs-poll-webapp",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "create-envs": "ts-node createEnvs.ts",
-    "dev": "next dev -p 3020",
+    "dev": "next dev -p 3021",
     "build": "next build",
-    "start": "next start -p 3020",
+    "start": "next start -p 3021",
     "lint": "next lint"
   },
   "dependencies": {
@@ -15,11 +15,11 @@
     "@phosphor-icons/react": "^2.0.10",
     "@react-icons/all-files": "^4.1.0",
     "@reduxjs/toolkit": "^1.9.5",
+    "@tabler/icons-react": "^2.32.0",
     "@taigalabs/prfs-api-js": "*",
     "@taigalabs/prfs-crypto-js": "*",
     "@taigalabs/prfs-driver-interface": "*",
     "@taigalabs/prfs-driver-spartan-js": "*",
-    "@taigalabs/prfs-i18n": "*",
     "@taigalabs/prfs-entities": "*",
     "@taigalabs/prfs-react-components": "*",
     "@taigalabs/prfs-sdk-web": "*",
@@ -37,15 +37,14 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-redux": "^8.1.2",
-    "readline": "^1.3.0",
     "redux-logger": "^3.0.6",
     "sass": "^1.63.6",
     "snarkjs": "0.7.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@svgr/webpack": "^8.1.0",
-    "@tanstack/eslint-plugin-query": "^4.34.1",
     "@types/node": "20.3.1",
     "@types/qrcode": "^1.5.1",
     "@types/react": "18.2.25",

@@ -5,6 +5,8 @@ use crate::{
 use clap::ArgMatches;
 use std::process::Command;
 
+pub const CMD_NAME: &str = "docker_run_prfs_console_webapp";
+
 pub fn run(matches: &ArgMatches) {
     let extra_args = match matches.get_many::<String>("extra_args") {
         Some(value_ref) => value_ref.map(|v| v.as_str()).collect::<Vec<_>>(),
@@ -15,9 +17,9 @@ pub fn run(matches: &ArgMatches) {
 }
 
 fn run_docker(_extra_args: Vec<&str>) {
-    let tag = "prfs_webapp_proof";
+    let tag = "prfs_console_console";
 
-    let df_path = PATHS.internals_docker.join("webapp_proof/Dockerfile");
+    let df_path = PATHS.internals_docker.join("webapp_console/Dockerfile");
     println!("tag: {}, df_path: {:?}", tag, df_path);
 
     let status = Command::new(deps::DOCKER)
@@ -28,11 +30,9 @@ fn run_docker(_extra_args: Vec<&str>) {
     assert!(status.success());
 
     let status = Command::new(deps::DOCKER)
-        .args(["run", "-d", "--rm", "-p", "3000:3000", "-t", tag])
+        .args(["run", "-d", "--rm", "-p", "3020:3020", "-t", tag])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));
 
     assert!(status.success());
-
-    println!("Started docker container, webapp_proof");
 }
