@@ -10,7 +10,6 @@ import {
   PrfsIdSignInSuccessPayload,
   AppSignInData,
   makeColor,
-  makeAppSignInSearchParams,
   AppSignInArgs,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
@@ -19,7 +18,6 @@ import { prfs_api_error_codes, prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
 
 import styles from "./PrfsIdSignInBtn.module.scss";
-import { paths } from "@/paths";
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
 import { signInPrfs, signOutPrfs } from "@/state/userReducer";
@@ -31,8 +29,6 @@ import {
 import SignUpModal from "@/components/sign_up_modal/SignUpModal";
 import { useSignedInUser } from "@/hooks/user";
 import { useRandomKeyPair } from "@/hooks/key";
-
-const prfsIdAppSignInEndpoint = `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}`;
 
 const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noCredential }) => {
   const router = useRouter();
