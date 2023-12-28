@@ -1,5 +1,4 @@
 import { Msg, MsgType } from "../../msg";
-// import { ProofGenEvent } from "./types";
 import emit, { EventSubscriber } from "../../msg/emit";
 import { UtilsEvent } from "./types";
 
@@ -23,41 +22,6 @@ export async function handleChildMessage(subscribers: EventSubscriber<UtilsEvent
 
             break;
           }
-
-          // case "CREATE_PROOF_EVENT": {
-          //   const { payload } = ev.data;
-          //   // console.log("proof gen event", payload);
-
-          //   emit(subscribers, {
-          //     type: "CREATE_PROOF_EVENT",
-          //     payload,
-          //   });
-
-          //   break;
-          // }
-
-          // case "LOAD_DRIVER_EVENT": {
-          //   const { payload } = ev.data;
-          //   // console.log("load driver event", payload);
-
-          //   emit(subscribers, {
-          //     type: "LOAD_DRIVER_EVENT",
-          //     payload,
-          //   });
-
-          //   break;
-          // }
-
-          // case "VERIFY_PROOF_EVENT": {
-          //   const { payload } = ev.data;
-
-          //   emit(subscribers, {
-          //     type: "VERIFY_PROOF_EVENT",
-          //     payload,
-          //   });
-
-          //   break;
-          // }
 
           default:
             console.error(`[proof_gen_element] invalid msg type, ${type}`);

@@ -14,6 +14,7 @@ import colors from "../colors.module.scss";
 import Spinner from "../spinner/Spinner";
 import Button from "../button/Button";
 import { i18nContext } from "../i18n/i18nContext";
+import { useSDKElem } from "./sdk";
 
 enum SignInStatus {
   Standby,
@@ -31,6 +32,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   const [status, setStatus] = React.useState(SignInStatus.Standby);
   const msgListenerRef = React.useRef<((ev: MessageEvent) => void) | null>(null);
   const closeTimerRef = React.useRef<NodeJS.Timer | null>(null);
+  useSDKElem();
 
   React.useEffect(() => {
     return () => {

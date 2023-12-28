@@ -5,6 +5,7 @@ import { sendMsgToChild } from "../../msg";
 import { Msg } from "../../msg";
 import { ProofGenElementState, ProofGenEvent } from "./types";
 import emit, { EventSubscriber } from "../../msg/emit";
+import { checkIfLive } from "../../utils/sanity";
 
 export const PROOF_GEN_IFRAME_ID = "prfs-sdk-proof-gen-iframe";
 const CONTAINER_ID = "prfs-sdk-container";
@@ -42,13 +43,7 @@ class ProofGenElement {
     }
 
     try {
-      await fetch(`${sdkEndpoint}/`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        mode: "cors",
-      });
+      await checkIfLive(sdkEndpoint);
     } catch (err) {
       throw new Error("sdk endpoint is not responding");
     }

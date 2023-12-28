@@ -2,6 +2,7 @@ import { sendMsgToChild, Msg } from "../../msg";
 import { UtilsElementState, UtilsEvent } from "./types";
 import emit, { EventSubscriber } from "../../msg/emit";
 import { handleChildMessage } from "./handle_child_msg";
+import { checkIfLive } from "../../utils/sanity";
 
 export const UTILS_IFRAME_ID = "prfs-sdk-utils-iframe";
 const CONTAINER_ID = "prfs-sdk-container";
@@ -28,21 +29,13 @@ class UtilsElement {
   async mount(): Promise<HTMLIFrameElement> {
     const { options } = this;
     console.log("Mounting sdk, options: %o", options);
-
     const { sdkEndpoint } = options;
 
     if (!sdkEndpoint) {
       throw new Error("SDK endpoint is not defined");
     }
-
     try {
-      await fetch(`${sdkEndpoint}/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        mode: "cors",
-      });
+      await checkIfLive(sdkEndpoint);
     } catch (err) {
       throw new Error("sdk endpoint is not responding");
     }
@@ -58,11 +51,8 @@ class UtilsElement {
     iframe.allow = "cross-origin-isolated";
     iframe.style.border = "none";
     iframe.style.display = "none";
-
-    console.log("attaching iframe");
-    this.state.iframe = iframe;
-
     container.appendChild(iframe);
+    this.state.iframe = iframe;
 
     const oldContainer = document.getElementById(CONTAINER_ID);
     if (oldContainer) {

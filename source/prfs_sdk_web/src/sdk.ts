@@ -1,5 +1,5 @@
-import ProofGenElement, { ProofGenOptions } from "../elems/proof_gen_element/proof_gen_element";
-import UtilsElement, { UtilsOptions } from "../elems/utils_element/utils_element";
+import ProofGenElement, { ProofGenOptions } from "./elems/proof_gen_element/proof_gen_element";
+import UtilsElement, { UtilsOptions } from "./elems/utils_element/utils_element";
 
 export class PrfsSDK {
   token: string;
@@ -26,22 +26,6 @@ export class PrfsSDK {
 
           return elem;
         }
-        // case "zauth-sign-in": {
-        //   return new ProofGenElement({
-        //     proofTypeId: "ZAUTH_SIGN_IN_1",
-        //     // provider: options.provider,
-        //     // handleCreateProof: options.handleCreateProof,
-        //     // theme: "dark",
-        //   });
-        // }
-        // case "zauth-sign-up": {
-        //   return new ProofGenElement({
-        //     proofTypeId: "ZAUTH_SIGN_UP_1",
-        //     // provider: options.provider,
-        //     // handleCreateProof: options.handleCreateProof,
-        //     // theme: "dark",
-        //   });
-        // }
         default:
           throw new Error(`Not supported element type, ${elementType}`);
       }
