@@ -951,6 +951,9 @@ importers:
       '@taigalabs/prfs-i18n':
         specifier: '*'
         version: link:../prfs_i18n
+      '@taigalabs/prfs-id-sdk-web':
+        specifier: '*'
+        version: link:../prfs_id_sdk_web
       '@taigalabs/prfs-react-components':
         specifier: '*'
         version: link:../prfs_react_components

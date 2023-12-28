@@ -21,6 +21,7 @@ const SignIn: React.FC<SignInProps> = () => {
         <div className={styles.intro}>
           <ShyLandingIntro />
         </div>
+        <div>button</div>
       </div>
     </div>
   );
