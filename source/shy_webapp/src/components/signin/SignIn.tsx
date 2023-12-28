@@ -13,10 +13,14 @@ const SignIn: React.FC<SignInProps> = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.logoPane}>
-        <LogoContainer />
+        <div className={styles.logoWrapper}>
+          <LogoContainer />
+        </div>
       </div>
       <div className={styles.main}>
-        <ShyLandingIntro />
+        <div className={styles.intro}>
+          <ShyLandingIntro />
+        </div>
       </div>
     </div>
   );

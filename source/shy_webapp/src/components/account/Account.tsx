@@ -37,7 +37,7 @@ const Account: React.FC<AccountProps> = () => {
 
   return (
     <div className={styles.wrapper}>
-      pow
+      account
       {/* <DefaultHeader> */}
       {/*   <div className={styles.leftBarContainer}> */}
       {/*     <LeftBar /> */}

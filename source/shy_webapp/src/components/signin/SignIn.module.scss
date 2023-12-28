@@ -1,0 +1,25 @@
+.wrapper {
+  display: flex;
+}
+
+.logoPane {
+  flex-grow: 1;
+
+  border: 1px solid blue;
+
+  .logoWrapper {
+    display: flex;
+    justify-content: center;
+    width: 500px;
+  }
+}
+
+.main {
+  flex-grow: 1;
+
+  border: 1px solid red;
+
+  .intro {
+    width: 580px;
+  }
+}
