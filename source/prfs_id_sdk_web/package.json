@@ -1,16 +1,12 @@
 {
   "name": "@taigalabs/prfs-id-sdk-web",
   "version": "0.0.1",
-  "main": "./src/index.ts",
   "license": "MIT",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
   "scripts": {
-    "clean": "rimraf ./build",
-    "build": "pnpm clean && tsc"
-  },
-  "devDependencies": {
-    "@types/json-bigint": "^1.0.1",
-    "@types/node": "^20.4.9",
-    "rimraf": "^3.0.2"
+    "build": "pnpm clean && tsc",
+    "clean": "rimraf ./build"
   },
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
@@ -22,5 +18,10 @@
     "eciesjs": "^0.4.5",
     "ethers": "^5",
     "json-bigint": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/json-bigint": "^1.0.1",
+    "@types/node": "^20.4.9",
+    "rimraf": "^3.0.2"
   }
 }

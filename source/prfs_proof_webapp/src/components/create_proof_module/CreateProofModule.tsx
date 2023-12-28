@@ -80,29 +80,26 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   }, [searchParams]);
 
   const handleClickCreateProof = React.useCallback(async () => {
-    if (proofGenElement) {
-      try {
-        const inputs = await validateInputs(formValues, proofType, setFormErrors);
-
-        if (inputs === null) {
-          return;
-        }
-
-        if (createProofStatus === CreateProofStatus.InProgress) {
-          return;
-        }
-
-        setCreateProofStatus(CreateProofStatus.InProgress);
-        const proveReceipt = await proofGenElement.createProof(inputs, proofType.circuit_type_id);
-        setCreateProofStatus(CreateProofStatus.Created);
-        handleCreateProofResult(null, proveReceipt);
-      } catch (error: unknown) {
-        const err = error as Error;
-        setCreateProofStatus(CreateProofStatus.Error);
-        setSystemMsg(err.toString());
-        handleCreateProofResult(err, null);
-      }
-    }
+    // if (proofGenElement) {
+    //   try {
+    //     const inputs = await validateInputs(formValues, proofType, setFormErrors);
+    //     if (inputs === null) {
+    //       return;
+    //     }
+    //     if (createProofStatus === CreateProofStatus.InProgress) {
+    //       return;
+    //     }
+    //     setCreateProofStatus(CreateProofStatus.InProgress);
+    //     const proveReceipt = await proofGenElement.createProof(inputs, proofType.circuit_type_id);
+    //     setCreateProofStatus(CreateProofStatus.Created);
+    //     handleCreateProofResult(null, proveReceipt);
+    //   } catch (error: unknown) {
+    //     const err = error as Error;
+    //     setCreateProofStatus(CreateProofStatus.Error);
+    //     setSystemMsg(err.toString());
+    //     handleCreateProofResult(err, null);
+    //   }
+    // }
   }, [
     formValues,
     proofType,
