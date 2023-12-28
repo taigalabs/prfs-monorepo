@@ -125,13 +125,13 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
   ) : (
     <>
       {signUpData && <SignUpModal credential={signUpData} />}
-      <PrfsIdSignInButton
-        className={className}
-        label={label}
-        // prfsIdSignInEndpoint={prfsIdSignInEndpoint}
-        handleSucceedSignIn={handleSucceedSignIn}
-        prfsIdAppSignInEndpoint={}
-      />
+      {/* <PrfsIdSignInButton */}
+      {/*   className={className} */}
+      {/*   label={label} */}
+      {/*   // prfsIdSignInEndpoint={prfsIdSignInEndpoint} */}
+      {/*   handleSucceedSignIn={handleSucceedSignIn} */}
+      {/*   prfsIdAppSignInEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT} */}
+      {/* /> */}
     </>
   );
 };

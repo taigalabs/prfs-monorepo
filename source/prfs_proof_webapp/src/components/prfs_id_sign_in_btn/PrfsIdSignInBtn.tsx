@@ -32,7 +32,7 @@ import SignUpModal from "@/components/sign_up_modal/SignUpModal";
 import { useSignedInUser } from "@/hooks/user";
 import { useRandomKeyPair } from "@/hooks/key";
 
-const prfsIdAppSignInEndpoint = `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id__app_signin}`;
+const prfsIdAppSignInEndpoint = `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}`;
 
 const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noCredential }) => {
   const router = useRouter();
@@ -131,7 +131,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
         label={label}
         appSignInArgs={appSignInArgs}
         handleSucceedSignIn={handleSucceedSignIn}
-        prfsIdAppSignInEndpoint={prfsIdAppSignInEndpoint}
+        prfsIdAppSignInEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
       />
     </>
   );

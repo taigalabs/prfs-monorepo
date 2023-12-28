@@ -13,7 +13,7 @@ import { GrMonitor } from "@react-icons/all-files/gr/GrMonitor";
 
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/i18n/context";
-import PrfsIdSignInBtn from "@/components/prfs_id/prfs_id_sign_in_btn/PrfsIdSignInBtn";
+import PrfsIdSignInBtn from "@/components/prfs_id_sign_in_btn/PrfsIdSignInBtn";
 import { useIsTutorial } from "@/hooks/tutorial";
 import { useUrls } from "@/hooks/useUrls";
 

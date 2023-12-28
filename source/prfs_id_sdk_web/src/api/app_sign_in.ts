@@ -1,6 +1,4 @@
-export enum AppSignInData {
-  ID_POSEIDON = "ID_POSEIDON",
-}
+export const APP_SIGN_IN_PATH = "/id/app_sign_in";
 
 export function makeAppSignInSearchParams(args: AppSignInArgs): string {
   const { nonce, appId, signInData, publicKey } = args;
@@ -52,4 +50,8 @@ export interface AppSignInArgs {
   signInData: AppSignInData[];
   publicKey: string;
   // prfsAppSignInEndpoint: string;
+}
+
+export enum AppSignInData {
+  ID_POSEIDON = "ID_POSEIDON",
 }
