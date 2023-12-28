@@ -1,0 +1,13 @@
+.wrapper {
+  flex-grow: 1;
+  flex-shrink: 1;
+  max-width: 230px;
+  min-width: 110px;
+  flex-basis: 110px;
+}
+
+@media screen and (max-width: 1120px) {
+  .wrapper {
+    display: none;
+  }
+}

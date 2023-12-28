@@ -1,0 +1,36 @@
+.interactiveArea {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+
+  button {
+    cursor: pointer;
+    color: var(--aqua-blue-50);
+  }
+}
+
+.btnGroup {
+  display: flex;
+  position: absolute;
+  right: 7px;
+  align-items: center;
+
+  .hashBtn {
+    font-size: 13px;
+    padding: 6px 6px;
+  }
+}
+
+.isInputValid {
+  input {
+    color: var(--black-00);
+  }
+}
+
+.computedValue {
+  padding: 3px 7px;
+  border-top: 1px solid var(--bright-gray-30);
+  color: var(--gray-50);
+  font-size: 0.91em;
+}

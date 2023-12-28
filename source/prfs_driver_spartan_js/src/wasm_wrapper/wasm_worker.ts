@@ -58,7 +58,7 @@ function wrapExports(prfsWasm: PrfsWasmType): PrfsHandlers {
 async function initHandlers() {
   if (!(await threads())) {
     console.error("threads no support");
-    return;
+    // return;
   }
 
   const prfsWasm = await import("./build");

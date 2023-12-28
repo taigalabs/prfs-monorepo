@@ -7,14 +7,13 @@ import DefaultLayout, {
 } from "@/components/layouts/default_layout/DefaultLayout";
 import CreateProofForm from "@/components/create_proof_form/CreateProofForm";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
-import CreateProofFormFallback from "@/components/create_proof_form/CreateProofFormFallback";
 import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
 
 const CreatePage = () => {
   return (
     <DefaultLayout>
       <DefaultBody>
-        <Suspense fallback={<CreateProofFormFallback />}>
+        <Suspense>
           <CreateProofForm />
         </Suspense>
       </DefaultBody>

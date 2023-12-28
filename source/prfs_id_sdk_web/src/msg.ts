@@ -1,36 +1,31 @@
-import { PrfsIdMsg } from ".";
-
-// export async function sendMsgToChild(msg: any, iframe: HTMLIFrameElement): Promise<RespPayload<T>> {
-//   return sendMsg(msg, (msg: Msg<T>, channel: MessageChannel) => {
-//     iframe.contentWindow?.postMessage(msg, "*", [channel.port2]);
-//   });
-// }
-
-export async function sendMsgToOpener(msg: any): Promise<PrfsIdMsg<any>> {
-  return sendMsg(msg, (msg: any, channel: MessageChannel) => {
-    if (window.opener) {
-      window.opener.postMessage(msg, "*", [channel.port2]);
-    } else {
-      throw new Error(
-        "Window opener is null. Did you refresh prfs id window? Try again by reopening the module",
-      );
-    }
-  });
+export interface PrfsIdMsg<T> {
+  type: PrfsIdMsgType;
+  payload: T;
 }
 
-export async function sendMsg(msg: PrfsIdMsg<any>, sender: Function): Promise<any> {
-  return new Promise((res, rej) => {
-    const channel = new MessageChannel();
-    channel.port1.onmessage = ({ data }: { data: any }) => {
-      channel.port1.close();
+export interface PrfsIdSignInSuccessMsg {
+  type: "SIGN_IN_SUCCESS";
+  payload: Buffer; // SignInSuccessPayload;
+}
 
-      if (data.error) {
-        rej(data.error);
-      } else {
-        res(data.payload as any);
-      }
-    };
+export interface PrfsIdSignInSuccessPayload {
+  account_id: string;
+  public_key: string;
+}
 
-    sender(msg, channel);
-  });
+export interface PrfsIdCommitmentSuccessPayload {
+  receipt: Record<string, string>;
+}
+
+export type PrfsIdMsgType =
+  | "SIGN_IN_SUCCESS"
+  | "SIGN_IN_SUCCESS_RESPOND"
+  | "COMMITMENT_SUCCESS"
+  | "COMMITMENT_SUCCESS_RESPOND";
+
+export function newPrfsIdMsg(type: PrfsIdMsgType, payload: any): PrfsIdMsg<any> {
+  return {
+    type,
+    payload,
+  };
 }

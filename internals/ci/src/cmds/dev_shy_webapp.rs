@@ -5,6 +5,8 @@ use crate::{
 use clap::ArgMatches;
 use std::process::Command;
 
+pub const CMD_NAME: &str = "dev_shy_webapp";
+
 pub fn run(matches: &ArgMatches) {
     let extra_args = match matches.get_many::<String>("extra_args") {
         Some(value_ref) => value_ref.map(|v| v.as_str()).collect::<Vec<_>>(),

@@ -159,7 +159,7 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = () => {
         </Table2Body>
       </Table2>
 
-      <Table2Pagination table={table} />
+      {/* <Table2Pagination table={table} /> */}
     </div>
   );
 };

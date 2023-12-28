@@ -1,10 +1,12 @@
 import React from "react";
 import cn from "classnames";
 import {
+  APP_SIGN_IN_PATH,
   AppSignInArgs,
   PrfsIdMsg,
   makeAppSignInSearchParams,
   newPrfsIdMsg,
+  sendMsgToPopup,
 } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./PrfsIdSignInButton.module.scss";
@@ -12,6 +14,7 @@ import colors from "../colors.module.scss";
 import Spinner from "../spinner/Spinner";
 import Button from "../button/Button";
 import { i18nContext } from "../i18n/i18nContext";
+// import { useSDKElem } from "./sdk";
 
 enum SignInStatus {
   Standby,
@@ -29,6 +32,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   const [status, setStatus] = React.useState(SignInStatus.Standby);
   const msgListenerRef = React.useRef<((ev: MessageEvent) => void) | null>(null);
   const closeTimerRef = React.useRef<NodeJS.Timer | null>(null);
+  // useSDKElem();
 
   React.useEffect(() => {
     return () => {
@@ -43,7 +47,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
 
   const handleClickSignIn = React.useCallback(() => {
     const searchParams = makeAppSignInSearchParams(appSignInArgs);
-    const endpoint = `${prfsIdAppSignInEndpoint}${searchParams}`;
+    const endpoint = `${prfsIdAppSignInEndpoint}${APP_SIGN_IN_PATH}${searchParams}`;
 
     if (!msgListenerRef.current) {
       const listener = (ev: MessageEvent<any>) => {
@@ -67,8 +71,8 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
 
     // Open the window
     setStatus(SignInStatus.InProgress);
-    console.log("endpoint", endpoint);
     const child = window.open(endpoint, "_blank", "toolbar=0,location=0,menubar=0");
+    // window["ttt"] = child;
 
     if (!closeTimerRef.current) {
       const fn = setInterval(() => {
@@ -80,6 +84,15 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       }, 4000);
 
       closeTimerRef.current = fn;
+    }
+
+    if (child) {
+      console.log("register send");
+      setInterval(() => {
+        console.log("send");
+        child.postMessage("power", "*");
+        // sendMsgToPopup(child, "power" as any);
+      }, 2000);
     }
   }, [appSignInArgs, setStatus, prfsIdAppSignInEndpoint]);
 
@@ -104,7 +117,6 @@ export default PrfsIdSignInButton;
 export interface PrfsIdSignInButtonProps {
   className?: string;
   label?: string;
-  // prfsIdSignInEndpoint: string | null;
   appSignInArgs: AppSignInArgs;
   handleSucceedSignIn: (encrypted: Buffer) => void;
   prfsIdAppSignInEndpoint: string;

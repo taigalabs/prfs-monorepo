@@ -1,0 +1,82 @@
+.wrapper {
+  position: relative;
+}
+
+.loadingOverlay {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  inset: 0;
+  margin-top: 3px;
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: 5;
+}
+
+.inputArea {
+  padding-top: 24px;
+
+  .labelArea {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 0 4px 3px;
+  }
+
+  .btnArea {
+    // padding: 4px 5px;
+    display: flex;
+    align-items: flex-end;
+
+    // border: 1px solid blue;
+
+    .showPasswordBtn {
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+      padding: 3px;
+      font-size: 17px;
+      cursor: pointer;
+      color: var(--gray-20);
+
+      &:hover {
+        background-color: var(--bright-gray-32);
+      }
+    }
+  }
+
+  .content {
+    position: relative;
+    border: 1px solid var(--bright-gray-32);
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+
+    .value {
+      font-size: 12px;
+      font-family: "JetBrains Mono", monospace;
+      padding: 10px 14px;
+      word-break: break-all;
+      line-height: 24px;
+    }
+  }
+}
+
+div.secondBtnRow {
+  margin-top: 0px;
+}
+
+.secretKey {
+  font-size: 13px;
+}
+
+.borderTop {
+  border-top: 1px solid var(--bright-gray-32);
+}
+
+div.btnRow {
+  margin-bottom: 0px;
+}
+
+.rightAlign {
+  text-align: right;
+}

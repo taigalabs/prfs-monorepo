@@ -55,27 +55,25 @@ const PollFeeds: React.FC = () => {
     [],
   );
 
-  const { data, fetchNextPage, isFetching, isLoading } = useInfiniteQuery<GetPrfsPollsResponse>(
-    ["get_prfs_polls"],
-    async ({ pageParam = 0 }) => {
-      const start = pageParam * fetchSize;
-
-      const { payload } = await prfsApi2("get_prfs_polls", {
-        page_idx: start,
+  const { data, fetchNextPage, isFetching } = useInfiniteQuery({
+    queryKey: ["get_prfs_polls"],
+    queryFn: async ({ pageParam }) => {
+      return await prfsApi2("get_prfs_polls", {
+        page_idx: pageParam as any,
         page_size: fetchSize,
       });
-      return payload;
     },
-    {
-      getNextPageParam: (_lastGroup, groups) => groups.length,
-      keepPreviousData: true,
-      refetchOnWindowFocus: false,
-    },
-  );
+    initialPageParam: 0,
+    getNextPageParam: (_lastGroup, groups) => groups.length,
+    refetchOnWindowFocus: false,
+  });
 
   // we must flatten the array of arrays from the useInfiniteQuery hook
-  const flatData = React.useMemo(() => data?.pages?.flatMap(page => page.prfs_polls) ?? [], [data]);
-  const totalDBRowCount = data?.pages?.[0]?.table_row_count ?? 0;
+  const flatData = React.useMemo(
+    () => data?.pages?.flatMap(page => (page.payload ? page.payload.prfs_polls : [])) ?? [],
+    [data],
+  );
+  const totalDBRowCount = data?.pages?.[0]?.payload?.table_row_count ?? 0;
   const totalFetched = flatData.length;
 
   // called on scroll and possibly on mount to fetch more data

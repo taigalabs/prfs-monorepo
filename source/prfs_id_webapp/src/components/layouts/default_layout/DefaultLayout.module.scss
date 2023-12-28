@@ -1,0 +1,28 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-height: 580px;
+  min-width: 1120px;
+}
+
+.body {
+  flex-grow: 1;
+}
+
+.footer {
+  margin-top: auto;
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 1120px) {
+  .wrapper {
+    min-width: 360px;
+  }
+
+  .body {
+    &.noMinWidth {
+      min-width: 0px;
+    }
+  }
+}
