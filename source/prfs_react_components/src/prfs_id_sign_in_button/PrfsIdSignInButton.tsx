@@ -63,7 +63,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   //     }
   //   };
   // }, [appSignInArgs, handleSucceedSignIn]);
-  //
+
   React.useEffect(() => {
     return () => {
       if (msgListenerRef.current) {

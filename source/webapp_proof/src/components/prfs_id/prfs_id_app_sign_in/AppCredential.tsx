@@ -1,5 +1,4 @@
 import React from "react";
-// import { type PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useSearchParams } from "next/navigation";
 import {
@@ -9,6 +8,7 @@ import {
   persistPrfsIdCredential,
   PrfsIdMsg,
   PrfsIdCredential,
+  AppSignInArgs,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt } from "eciesjs";
@@ -35,8 +35,9 @@ enum AppCredentialStatus {
 
 const AppCredential: React.FC<AppCredentialProps> = ({
   handleClickPrev,
-  appId,
-  publicKey,
+  // appId,
+  // publicKey,
+  appSignInArgs,
   credential,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -58,8 +59,8 @@ const AppCredential: React.FC<AppCredentialProps> = ({
         console.log("credential", credential);
         const title = (
           <>
-            <span className={styles.blueText}>{appId}</span> wants you to submit a few additional
-            data to sign in
+            <span className={styles.blueText}>{appSignInArgs.appId}</span> wants you to submit a few
+            additional data to sign in
           </>
         );
         setTitle(title);
@@ -72,7 +73,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
             <SignInInputs
               signInDataMeta={data}
               credential={credential}
-              appId={appId}
+              appId={appSignInArgs.appId}
               setSignInData={setSignInData}
             />
           );
@@ -94,7 +95,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
   ]);
 
   const handleClickSignIn = React.useCallback(async () => {
-    if (publicKey && credential) {
+    if (appSignInArgs.publicKey && credential) {
       const { payload: _signInRequestPayload, error } = await prfsIdentitySignInRequest({
         identity_id: credential.id,
       });
@@ -113,7 +114,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
         account_id: signInData.account_id,
         public_key: signInData.public_key,
       };
-      const encrypted = encrypt(publicKey, Buffer.from(JSON.stringify(payload)));
+      const encrypted = encrypt(appSignInArgs.publicKey, Buffer.from(JSON.stringify(payload)));
       console.log("Encrypted credential", encrypted);
 
       const msg: PrfsIdMsg<Buffer> = {
@@ -124,7 +125,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
       await sendMsgToOpener(msg);
       window.close();
     }
-  }, [searchParams, publicKey, credential, setErrorMsg, signInData]);
+  }, [searchParams, appSignInArgs, credential, setErrorMsg, signInData]);
 
   return (
     <>
@@ -143,7 +144,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
         </div>
         {signInDataElem}
         <div className={styles.dataWarning}>
-          <p className={styles.title}>Make sure you trust {appId} app</p>
+          <p className={styles.title}>Make sure you trust {appSignInArgs.appId} app</p>
           <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
         </div>
         <PrfsIdSignInModuleBtnRow>
@@ -171,7 +172,8 @@ export default AppCredential;
 
 export interface AppCredentialProps {
   handleClickPrev: () => void;
-  appId: string;
-  publicKey: string;
+  // appId: string;
+  // publicKey: string;
   credential: PrfsIdCredential;
+  appSignInArgs: AppSignInArgs;
 }
