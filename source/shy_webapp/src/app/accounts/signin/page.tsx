@@ -4,14 +4,15 @@ import styles from "./HomePage.module.scss";
 import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import Home from "@/components/home/Home";
 
-const HomePage: React.FC = () => {
+const SignInPage: React.FC = () => {
   return (
     <DefaultLayout>
       <Suspense>
-        <Home />
+        sign in
+        {/* <Home /> */}
       </Suspense>
     </DefaultLayout>
   );
 };
 
-export default HomePage;
+export default SignInPage;
