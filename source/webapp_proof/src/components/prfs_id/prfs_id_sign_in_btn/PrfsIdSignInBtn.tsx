@@ -6,7 +6,13 @@ import { useRouter } from "next/navigation";
 import { decrypt } from "eciesjs";
 import PrfsIdSignInButton from "@taigalabs/prfs-react-components/src/prfs_id_sign_in_button/PrfsIdSignInButton";
 import PrfsCredentialPopover from "@taigalabs/prfs-react-components/src/prfs_credential_popover/PrfsCredentialPopover";
-import { PrfsIdSignInSuccessPayload, AppSignInData, makeColor } from "@taigalabs/prfs-id-sdk-web";
+import {
+  PrfsIdSignInSuccessPayload,
+  AppSignInData,
+  makeColor,
+  makeAppSignInSearchParams,
+  AppSignInArgs,
+} from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { useMutation } from "@tanstack/react-query";
 import { prfs_api_error_codes, prfsApi2 } from "@taigalabs/prfs-api-js";
@@ -39,16 +45,22 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
   const [signUpData, setSignUpData] = React.useState<LocalPrfsProofCredential | null>(null);
   const { sk, pkHex } = useRandomKeyPair();
 
-  React.useEffect(() => {
-    const nonce = Math.random() * 1000000;
-    const appId = "prfs_proof";
-    const signInData = encodeURIComponent([AppSignInData.ID_POSEIDON].join(","));
-    const queryString = `?public_key=${pkHex}&sign_in_data=${signInData}&app_id=${appId}&nonce=${nonce}`;
-    const prfsIdEndpoint = `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id__app_signin}${queryString}`;
-    setPrfsIdSignInEndpoint(prfsIdEndpoint);
+  const appSignInArgs = React.useMemo<AppSignInArgs>(() => {
+    // const nonce = Math.random() * 1000000;
+    // const appId = "prfs_proof";
+    // const signInData = encodeURIComponent([AppSignInData.ID_POSEIDON].join(","));
+    // const queryString = `?public_key=${pkHex}&sign_in_data=${signInData}&app_id=${appId}&nonce=${nonce}`;
+    // const prfsIdEndpoint = `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id__app_signin}${queryString}`;
+    // setPrfsIdSignInEndpoint(prfsIdEndpoint);
 
-    console.log("initializing ephemeral secret key", sk);
-  }, [setPrfsIdSignInEndpoint, sk, pkHex]);
+    return {
+      nonce: Math.random() * 1000000,
+      appId: "prfs_proof",
+      signInData: [AppSignInData.ID_POSEIDON],
+      publicKey: pkHex,
+      prfsAppSignInEndpoint: `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id__app_signin}`,
+    };
+  }, [pkHex]);
 
   const handleSucceedSignIn = React.useCallback(
     async (encrypted: Buffer) => {
@@ -124,8 +136,9 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
       <PrfsIdSignInButton
         className={className}
         label={label}
-        prfsIdSignInEndpoint={prfsIdSignInEndpoint}
+        appSignInArgs={appSignInArgs}
         handleSucceedSignIn={handleSucceedSignIn}
+        // prfsIdSignInEndpoint={prfsIdSignInEndpoint}
       />
     </>
   );

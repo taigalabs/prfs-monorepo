@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
 
-  > span {
-    padding-left: 6px;
+  > span + div {
+    padding-left: 4px;
   }
 }
