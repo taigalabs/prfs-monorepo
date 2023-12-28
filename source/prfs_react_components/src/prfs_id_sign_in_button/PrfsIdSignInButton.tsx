@@ -28,6 +28,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   // prfsIdSignInEndpoint,
   appSignInArgs,
   handleSucceedSignIn,
+  prfsIdAppSignInEndpoint,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [status, setStatus] = React.useState(SignInStatus.Standby);
@@ -76,29 +77,34 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   }, []);
 
   const handleClickSignIn = React.useCallback(() => {
-    const prfsIdSignInEndpoint = makeAppSignInSearchParams(appSignInArgs);
+    const searchParams = makeAppSignInSearchParams(appSignInArgs);
+    const endpoint = `${prfsIdAppSignInEndpoint}${searchParams}`;
 
-    const listener = (ev: MessageEvent<any>) => {
-      const { origin } = ev;
-      if (prfsIdSignInEndpoint.startsWith(origin)) {
-        const data = ev.data as PrfsIdMsg<Buffer>;
-        if (data.type === "SIGN_IN_SUCCESS") {
-          if (closeTimerRef.current) {
-            clearInterval(closeTimerRef.current);
+    if (!msgListenerRef.current) {
+      const listener = (ev: MessageEvent<any>) => {
+        console.log(11, ev);
+        const { origin } = ev;
+        if (endpoint.startsWith(origin)) {
+          const data = ev.data as PrfsIdMsg<Buffer>;
+          if (data.type === "SIGN_IN_SUCCESS") {
+            if (closeTimerRef.current) {
+              clearInterval(closeTimerRef.current);
+            }
+
+            const msg = newPrfsIdMsg("SIGN_IN_SUCCESS_RESPOND", null);
+            ev.ports[0].postMessage(msg);
+            handleSucceedSignIn(data.payload);
           }
-
-          const msg = newPrfsIdMsg("SIGN_IN_SUCCESS_RESPOND", null);
-          ev.ports[0].postMessage(msg);
-          handleSucceedSignIn(data.payload);
         }
-      }
-    };
-    addEventListener("message", listener, false);
-    msgListenerRef.current = listener;
+      };
+      addEventListener("message", listener, false);
+      msgListenerRef.current = listener;
+    }
 
     // Open the window
     setStatus(SignInStatus.InProgress);
-    const child = window.open(prfsIdSignInEndpoint, "_blank", "toolbar=0,location=0,menubar=0");
+    console.log("endpoint", endpoint);
+    const child = window.open(endpoint, "_blank", "toolbar=0,location=0,menubar=0");
 
     if (!closeTimerRef.current) {
       const fn = setInterval(() => {
@@ -111,7 +117,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
 
       closeTimerRef.current = fn;
     }
-  }, [appSignInArgs, setStatus]);
+  }, [appSignInArgs, setStatus, prfsIdAppSignInEndpoint]);
 
   return (
     <Button
@@ -137,4 +143,5 @@ export interface PrfsIdSignInButtonProps {
   // prfsIdSignInEndpoint: string | null;
   appSignInArgs: AppSignInArgs;
   handleSucceedSignIn: (encrypted: Buffer) => void;
+  prfsIdAppSignInEndpoint: string;
 }

@@ -122,8 +122,13 @@ const AppCredential: React.FC<AppCredentialProps> = ({
         payload: encrypted,
       };
 
-      await sendMsgToOpener(msg);
-      window.close();
+      try {
+        // await sendMsgToOpener(msg);
+        // await sendMsgToOpener(msg);
+        window.postMessage("power");
+      } catch (err: any) {
+        setErrorMsg(err.toString());
+      }
     }
   }, [searchParams, appSignInArgs, credential, setErrorMsg, signInData]);
 

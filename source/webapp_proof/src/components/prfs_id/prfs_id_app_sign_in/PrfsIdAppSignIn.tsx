@@ -3,7 +3,7 @@
 import React from "react";
 import { PrfsIdCredential, parseAppSignInSearchParams } from "@taigalabs/prfs-id-sdk-web";
 import Link from "next/link";
-import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 
 import styles from "./PrfsIdAppSignIn.module.scss";
@@ -34,8 +34,8 @@ const PrfsIdAppSignIn: React.FC = () => {
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const searchParams = useSearchParams();
   const [step, setStep] = React.useState(SignInStep.PrfsIdCredential);
-  const [publicKey, setPublicKey] = React.useState<string | null>(null);
-  const [appId, setAppId] = React.useState<string | null>(null);
+  // const [publicKey, setPublicKey] = React.useState<string | null>(null);
+  // const [appId, setAppId] = React.useState<string | null>(null);
   const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
   const appSignInArgs = React.useMemo(() => {
     try {
@@ -59,12 +59,12 @@ const PrfsIdAppSignIn: React.FC = () => {
         setSignInStatus(SignInStatus.Error);
         setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
       } else {
-        setPublicKey(publicKey);
-        setAppId(appId);
+        // setPublicKey(publicKey);
+        // setAppId(appId);
         setSignInStatus(SignInStatus.Standby);
       }
     }
-  }, [appSignInArgs, setSignInStatus, setErrorMsg, setPublicKey, setAppId, setStep]);
+  }, [appSignInArgs, setSignInStatus, setErrorMsg, setStep]);
 
   const handleCloseErrorDialog = React.useCallback(() => {
     window.close();
@@ -85,13 +85,15 @@ const PrfsIdAppSignIn: React.FC = () => {
   );
 
   const content = React.useMemo(() => {
-    if (!appId || !publicKey) {
+    if (!appSignInArgs) {
       return null;
     }
 
     switch (step) {
       case SignInStep.PrfsIdCredential: {
-        return <PrfsIdSignIn appId={appId} handleSucceedSignIn={handleSucceedSignIn} />;
+        return (
+          <PrfsIdSignIn appId={appSignInArgs.appId} handleSucceedSignIn={handleSucceedSignIn} />
+        );
       }
       case SignInStep.AppCredential: {
         return (
@@ -110,7 +112,7 @@ const PrfsIdAppSignIn: React.FC = () => {
       default:
         <div>Invalid step</div>;
     }
-  }, [step, publicKey, appId]);
+  }, [step, appSignInArgs]);
 
   return (
     <PrfsIdSignInModule>

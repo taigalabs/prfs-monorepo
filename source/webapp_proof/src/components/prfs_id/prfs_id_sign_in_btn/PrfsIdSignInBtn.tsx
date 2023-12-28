@@ -32,6 +32,8 @@ import SignUpModal from "@/components/sign_up_modal/SignUpModal";
 import { useSignedInUser } from "@/hooks/user";
 import { useRandomKeyPair } from "@/hooks/key";
 
+const prfsIdAppSignInEndpoint = `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id__app_signin}`;
+
 const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noCredential }) => {
   const router = useRouter();
   // const [prfsIdSignInEndpoint, setPrfsIdSignInEndpoint] = React.useState<string | null>(null);
@@ -58,7 +60,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
       appId: "prfs_proof",
       signInData: [AppSignInData.ID_POSEIDON],
       publicKey: pkHex,
-      prfsAppSignInEndpoint: `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id__app_signin}`,
+      // prfsAppSignInEndpoint: `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id__app_signin}`,
     };
   }, [pkHex]);
 
@@ -138,7 +140,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
         label={label}
         appSignInArgs={appSignInArgs}
         handleSucceedSignIn={handleSucceedSignIn}
-        // prfsIdSignInEndpoint={prfsIdSignInEndpoint}
+        prfsIdAppSignInEndpoint={prfsIdAppSignInEndpoint}
       />
     </>
   );
