@@ -10,7 +10,7 @@ import dayjs from "dayjs";
 import cn from "classnames";
 import { useSearchParams } from "next/navigation";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
-import ProofGenElement from "@taigalabs/prfs-sdk-web/src/elems/proof_gen_element/proof_gen_element";
+import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
 import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
 
 import styles from "./CreateProofModule.module.scss";
@@ -20,6 +20,8 @@ import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
 import CircuitInputs from "./CircuitInputs";
+import { ProofGenEvent } from "@taigalabs/prfs-sdk-web/src/elems/proof_gen/types";
+import Temp from "./Temp";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -130,7 +132,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
         })) as ProofGenElement;
 
-        elem.subscribe(ev => {
+        elem.subscribe((ev: ProofGenEvent) => {
           const { type, payload } = ev;
 
           if (type === "LOAD_DRIVER_EVENT") {

@@ -17,7 +17,7 @@ export interface ProofGenOptions {
   sdkEndpoint: string;
 }
 
-class ProofGenElement {
+export class ProofGenElement {
   options: ProofGenOptions;
   state: ProofGenElementState;
   subscribers: EventSubscriber<ProofGenEvent>[];
@@ -161,5 +161,3 @@ class ProofGenElement {
     return this;
   }
 }
-
-export default ProofGenElement;

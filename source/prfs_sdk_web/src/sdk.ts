@@ -1,4 +1,4 @@
-import ProofGenElement, { ProofGenOptions } from "./elems/proof_gen/element";
+import { ProofGenElement, ProofGenOptions } from "./elems/proof_gen/element";
 import DefaultElement, { DefaultOptions } from "./elems/default/element";
 
 export class PrfsSDK {

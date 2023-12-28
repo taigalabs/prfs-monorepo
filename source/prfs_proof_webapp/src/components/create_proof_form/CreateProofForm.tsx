@@ -9,7 +9,7 @@ import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
-import ProofGenElement from "@taigalabs/prfs-sdk-web/src/elems/proof_gen_element/proof_gen_element";
+import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
 
 import styles from "./CreateProofForm.module.scss";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
@@ -19,6 +19,7 @@ import { useSelectProofType } from "@/hooks/proofType";
 import Tutorial from "@/components/tutorial/Tutorial";
 import LeftPadding from "@/components/left_padding/LeftPadding";
 import { MastheadPlaceholder } from "../masthead/Masthead";
+import Temp from "../create_proof_module/Temp";
 
 const CreateProofForm: React.FC = () => {
   const [proofType, setProofType] = React.useState<PrfsProofType>();
@@ -96,12 +97,18 @@ const CreateProofForm: React.FC = () => {
               </Fade>
             ) : (
               <Fade>
-                <CreateProofModule
+                <Temp
                   proofType={proofType}
                   handleCreateProofResult={handleCreateProofResult}
                   proofGenElement={proofGenElement}
                   setProofGenElement={setProofGenElement}
                 />
+                {/* <CreateProofModule */}
+                {/*   proofType={proofType} */}
+                {/*   handleCreateProofResult={handleCreateProofResult} */}
+                {/*   proofGenElement={proofGenElement} */}
+                {/*   setProofGenElement={setProofGenElement} */}
+                {/* /> */}
               </Fade>
             )}
           </div>
