@@ -1,3 +1,4 @@
+const mdx = require("@next/mdx");
 const dotenv = require("dotenv");
 
 (() => {
@@ -7,8 +8,11 @@ const dotenv = require("dotenv");
   console.log(envObj);
 })();
 
+const withMDX = mdx();
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  pageExtensions: ["js", "jsx", "mdx", "md", "ts", "tsx"],
   reactStrictMode: true,
   swcMinify: true,
 
@@ -78,4 +82,5 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+const config = withMDX(nextConfig);
+module.exports = config;

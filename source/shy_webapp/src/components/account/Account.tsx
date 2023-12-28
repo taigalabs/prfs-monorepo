@@ -8,11 +8,11 @@ import { i18nContext } from "@/i18n/context";
 import LeftBar from "@/components/left_bar/LeftBar";
 import TimelineFeeds from "@/components/timeline_feeds/TimelineFeeds";
 import { DefaultHeader, DefaultMain } from "@/components/layouts/default_layout/DefaultLayout";
-import LeftBarDrawer from "./LeftBarDrawer";
+// import LeftBarDrawer from "./LeftBarDrawer";
 import { useSignedInUser } from "@/hooks/user";
 import { paths } from "@/paths";
 
-const Home: React.FC<HomeProps> = () => {
+const Account: React.FC<AccountProps> = () => {
   const router = useRouter();
   const [isLeftBarDrawerVisible, setIsLeftBarDrawerVisible] = React.useState(false);
   const handleClickShowLeftBarDrawer = React.useCallback(
@@ -37,21 +37,22 @@ const Home: React.FC<HomeProps> = () => {
 
   return (
     <div className={styles.wrapper}>
-      <DefaultHeader>
-        <div className={styles.leftBarContainer}>
-          <LeftBar />
-        </div>
-        <LeftBarDrawer isOpen={isLeftBarDrawerVisible} setIsOpen={handleClickShowLeftBarDrawer}>
-          <LeftBar />
-        </LeftBarDrawer>
-      </DefaultHeader>
-      <DefaultMain>
-        <TimelineFeeds channelId="default" />
-      </DefaultMain>
+      pow
+      {/* <DefaultHeader> */}
+      {/*   <div className={styles.leftBarContainer}> */}
+      {/*     <LeftBar /> */}
+      {/*   </div> */}
+      {/*   <LeftBarDrawer isOpen={isLeftBarDrawerVisible} setIsOpen={handleClickShowLeftBarDrawer}> */}
+      {/*     <LeftBar /> */}
+      {/*   </LeftBarDrawer> */}
+      {/* </DefaultHeader> */}
+      {/* <DefaultMain> */}
+      {/*   <TimelineFeeds channelId="default" /> */}
+      {/* </DefaultMain> */}
     </div>
   );
 };
 
-export default Home;
+export default Account;
 
-export interface HomeProps {}
+export interface AccountProps {}

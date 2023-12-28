@@ -915,6 +915,12 @@ importers:
       '@floating-ui/react':
         specifier: ^0.24.8
         version: 0.24.8(react-dom@18.2.0)(react@18.2.0)
+      '@mdx-js/react':
+        specifier: ^2.3.0
+        version: 2.3.0(react@18.2.0)
+      '@next/mdx':
+        specifier: ^13.5.4
+        version: 13.5.4(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
       '@phosphor-icons/react':
         specifier: ^2.0.10
         version: 2.0.10(react-dom@18.2.0)(react@18.2.0)
@@ -1039,12 +1045,18 @@ importers:
       '@faker-js/faker':
         specifier: ^8.0.2
         version: 8.0.2
+      '@mdx-js/loader':
+        specifier: ^2.3.0
+        version: 2.3.0(webpack@5.88.2)
       '@svgr/webpack':
         specifier: ^8.1.0
         version: 8.1.0
       '@tanstack/eslint-plugin-query':
         specifier: ^4.34.1
         version: 4.34.1(eslint@8.26.0)
+      '@types/mdx':
+        specifier: ^2.0.8
+        version: 2.0.8
       '@types/node':
         specifier: 20.3.1
         version: 20.3.1

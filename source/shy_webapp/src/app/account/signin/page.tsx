@@ -1,17 +1,16 @@
 import React, { Suspense } from "react";
 
 import styles from "./HomePage.module.scss";
-import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
-import Home from "@/components/home/Home";
+import SignIn from "@/components/signin/SignIn";
+import SignInLayout from "@/components/layouts/sign_in_layout/SignInLayout";
 
 const SignInPage: React.FC = () => {
   return (
-    <DefaultLayout>
+    <SignInLayout>
       <Suspense>
-        sign in
-        {/* <Home /> */}
+        <SignIn />
       </Suspense>
-    </DefaultLayout>
+    </SignInLayout>
   );
 };
 

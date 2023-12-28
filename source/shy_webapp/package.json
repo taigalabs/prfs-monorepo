@@ -12,6 +12,8 @@
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
     "@floating-ui/react": "^0.24.8",
+    "@mdx-js/react": "^2.3.0",
+    "@next/mdx": "^13.5.4",
     "@phosphor-icons/react": "^2.0.10",
     "@react-icons/all-files": "^4.1.0",
     "@reduxjs/toolkit": "^1.9.5",
@@ -55,8 +57,10 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
+    "@mdx-js/loader": "^2.3.0",
     "@svgr/webpack": "^8.1.0",
     "@tanstack/eslint-plugin-query": "^4.34.1",
+    "@types/mdx": "^2.0.8",
     "@types/node": "20.3.1",
     "@types/qrcode": "^1.5.1",
     "@types/react": "18.2.25",
