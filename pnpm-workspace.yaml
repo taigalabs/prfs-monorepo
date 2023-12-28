@@ -28,13 +28,13 @@ packages:
   - "source/prfs_sdk_web_module"
   - "source/prfs_id_sdk_web"
 
+  # Prfs webapps
+  - "source/prfs_proof_webapp"
+  - "source/prfs_console_webapp"
+  - "source/prfs_poll_webapp"
+
   # Common ui components
   - "source/prfs_react_components"
-
-  # Webapps
-  - "source/webapp_console"
-  - "source/webapp_proof"
-  - "source/webapp_poll"
 
   # Shy
   - "source/shy_webapp"

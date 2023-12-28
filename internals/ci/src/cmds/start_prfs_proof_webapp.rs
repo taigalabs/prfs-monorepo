@@ -3,7 +3,10 @@ use crate::{
     paths::PATHS,
 };
 use clap::ArgMatches;
+use const_format::str_replace;
 use std::process::Command;
+
+pub const CMD_NAME: &str = str_replace!(file!(), ".rs", "");
 
 pub fn run(matches: &ArgMatches) {
     let extra_args = match matches.get_many::<String>("extra_args") {

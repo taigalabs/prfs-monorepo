@@ -5,7 +5,10 @@ mod deps;
 mod paths;
 mod utils;
 
-use crate::build_handle::BuildHandle;
+use crate::{
+    build_handle::BuildHandle,
+    cmds::{dev_prfs_proof_webapp, start_prfs_proof_webapp},
+};
 use chrono::prelude::*;
 use clap::{command, Arg};
 use colored::Colorize;
@@ -14,6 +17,9 @@ use std::env;
 pub type CiError = Box<dyn std::error::Error + Sync + Send>;
 
 fn main() {
+    println!("{}", dev_prfs_proof_webapp::CMD_NAME);
+    return;
+
     let matches = command!()
         .version("v0.1")
         .propagate_version(true)
@@ -24,8 +30,8 @@ fn main() {
         .subcommand(command!("build_crypto_js"))
         .subcommand(command!("build_circuits"))
         // dev mode
-        .subcommand(command!("dev_webapp_console").arg(Arg::new("extra_args")))
-        .subcommand(command!("dev_webapp_proof").arg(Arg::new("extra_args")))
+        .subcommand(command!("dev_prfs_console_webapp").arg(Arg::new("extra_args")))
+        .subcommand(command!(dev_prfs_proof_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!("dev_webapp_poll").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_shy_webapp").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_sdk_web_module").arg(Arg::new("extra_args")))
@@ -83,13 +89,13 @@ fn main() {
             cmds::dev_sdk_web_module::run(sub_matches);
         }
         Some(("dev_webapp_console", sub_matches)) => {
-            cmds::dev_webapp_console::run(sub_matches);
+            cmds::dev_prfs_console_webapp::run(sub_matches);
         }
-        Some(("dev_webapp_proof", sub_matches)) => {
-            cmds::dev_webapp_proof::run(sub_matches);
+        Some((dev_prfs_proof_webapp::CMD_NAME, sub_matches)) => {
+            cmds::dev_prfs_proof_webapp::run(sub_matches);
         }
         Some(("dev_webapp_poll", sub_matches)) => {
-            cmds::dev_webapp_poll::run(sub_matches);
+            cmds::dev_prfs_poll_webapp::run(sub_matches);
         }
         Some(("dev_shy_webapp", sub_matches)) => {
             cmds::dev_shy_webapp::run(sub_matches);
@@ -117,13 +123,13 @@ fn main() {
             cmds::start_sdk_web_module::run(sub_matches);
         }
         Some(("start_webapp_console", sub_matches)) => {
-            cmds::start_webapp_console::run(sub_matches);
+            cmds::start_prfs_console_webapp::run(sub_matches);
         }
-        Some(("start_webapp_proof", sub_matches)) => {
-            cmds::start_webapp_proof::run(sub_matches);
+        Some((start_prfs_proof_webapp::CMD_NAME, sub_matches)) => {
+            cmds::start_prfs_proof_webapp::run(sub_matches);
         }
         Some(("start_webapp_poll", sub_matches)) => {
-            cmds::start_webapp_poll::run(sub_matches);
+            cmds::start_prfs_poll_webapp::run(sub_matches);
         }
         Some(("start_shy_webapp", sub_matches)) => {
             cmds::start_shy_webapp::run(sub_matches);

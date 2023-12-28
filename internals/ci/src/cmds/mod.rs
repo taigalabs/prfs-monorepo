@@ -8,22 +8,22 @@ pub mod build_prfs_driver_spartan_js;
 pub mod dev_api_server;
 pub mod dev_asset_server;
 pub mod dev_docs_website;
+pub mod dev_prfs_console_webapp;
+pub mod dev_prfs_poll_webapp;
+pub mod dev_prfs_proof_webapp;
 pub mod dev_sdk_web_module;
 pub mod dev_shy_webapp;
 pub mod dev_snap;
-pub mod dev_webapp_console;
-pub mod dev_webapp_poll;
-pub mod dev_webapp_proof;
 
 // prod mode
 pub mod start_api_server;
 pub mod start_asset_server;
 pub mod start_docs_website;
+pub mod start_prfs_console_webapp;
+pub mod start_prfs_poll_webapp;
+pub mod start_prfs_proof_webapp;
 pub mod start_sdk_web_module;
 pub mod start_shy_webapp;
-pub mod start_webapp_console;
-pub mod start_webapp_poll;
-pub mod start_webapp_proof;
 
 // docker
 pub mod docker_down_all;
