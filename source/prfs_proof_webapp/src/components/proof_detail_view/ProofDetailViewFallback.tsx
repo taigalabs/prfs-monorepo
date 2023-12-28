@@ -4,14 +4,13 @@ import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import styles from "./ProofDetailView.module.scss";
 import ProofTypeMasthead from "@/components/proof_type_masthead/ProofTypeMasthead";
 import { getI18N } from "@/i18n/get_i18n";
-import ProofTypeMastheadFallback from "@/components/proof_type_masthead/ProofTypeMastheadFallback";
 
 const ProofDetailView: React.FC<ProofDetailViewProps> = async ({ proofInstanceId }) => {
   const i18n = await getI18N();
 
   return (
     <>
-      <Suspense fallback={<ProofTypeMastheadFallback />}>
+      <Suspense>
         <ProofTypeMasthead
           proofInstanceId={proofInstanceId}
           proofType={undefined}

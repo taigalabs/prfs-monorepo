@@ -5,15 +5,15 @@ import {
   VerifyProofEvent,
 } from "@taigalabs/prfs-driver-interface";
 
-export interface UtilsElementState {
+export interface DefaultElementState {
   iframe: HTMLIFrameElement | undefined;
   circuitDriverId: string | undefined;
   artifactCount: number | undefined;
 }
 
-export type UtilsElementSubscriber = (msg: UtilsEvent) => void;
+export type DefaultElementSubscriber = (msg: DefaultEvent) => void;
 
-export type UtilsEvent = any;
+export type DefaultEvent = any;
 // | CreateProofEvent
 // | LoadDriverEvent
 // | LoadDriverSuccessEvent

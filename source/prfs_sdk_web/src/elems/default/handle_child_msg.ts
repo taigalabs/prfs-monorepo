@@ -1,12 +1,12 @@
 import { Msg, MsgType } from "../../msg";
 import emit, { EventSubscriber } from "../../msg/emit";
-import { UtilsEvent } from "./types";
+import { DefaultEvent } from "./types";
 
 const singleton: ProofGenElementSingleton = {
   msgEventListener: undefined,
 };
 
-export async function handleChildMessage(subscribers: EventSubscriber<UtilsEvent>[]) {
+export async function handleChildMessage(subscribers: EventSubscriber<DefaultEvent>[]) {
   const ret = await new Promise(resolve => {
     const msgEventListener = (ev: MessageEvent) => {
       if (ev.ports.length > 0) {

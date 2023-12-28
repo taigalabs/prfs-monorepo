@@ -1,5 +1,5 @@
 import { sendMsgToChild, Msg } from "../../msg";
-import { UtilsElementState, UtilsEvent } from "./types";
+import { DefaultElementState, DefaultEvent } from "./types";
 import emit, { EventSubscriber } from "../../msg/emit";
 import { handleChildMessage } from "./handle_child_msg";
 import { checkIfLive } from "../../utils/sanity";
@@ -7,16 +7,16 @@ import { checkIfLive } from "../../utils/sanity";
 export const UTILS_IFRAME_ID = "prfs-sdk-utils-iframe";
 const CONTAINER_ID = "prfs-sdk-container";
 
-export interface UtilsOptions {
+export interface DefaultOptions {
   sdkEndpoint: string;
 }
 
-class UtilsElement {
-  options: UtilsOptions;
-  state: UtilsElementState;
-  subscribers: EventSubscriber<UtilsEvent>[];
+class DefaultElement {
+  options: DefaultOptions;
+  state: DefaultElementState;
+  subscribers: EventSubscriber<DefaultEvent>[];
 
-  constructor(options: UtilsOptions) {
+  constructor(options: DefaultOptions) {
     this.options = options;
     this.subscribers = [];
     this.state = {
@@ -84,11 +84,11 @@ class UtilsElement {
     }
   }
 
-  subscribe(subscriber: (ev: UtilsEvent) => void): UtilsElement {
+  subscribe(subscriber: (ev: DefaultEvent) => void): DefaultElement {
     this.subscribers.push(subscriber);
 
     return this;
   }
 }
 
-export default UtilsElement;
+export default DefaultElement;

@@ -1,5 +1,5 @@
-import ProofGenElement, { ProofGenOptions } from "./elems/proof_gen_element/proof_gen_element";
-import UtilsElement, { UtilsOptions } from "./elems/utils_element/utils_element";
+import ProofGenElement, { ProofGenOptions } from "./elems/proof_gen/element";
+import DefaultElement, { DefaultOptions } from "./elems/default/element";
 
 export class PrfsSDK {
   token: string;
@@ -20,8 +20,8 @@ export class PrfsSDK {
 
           return elem;
         }
-        case "utils": {
-          const elem = new UtilsElement(options as UtilsOptions);
+        case "default": {
+          const elem = new DefaultElement(options as DefaultOptions);
           await elem.mount();
 
           return elem;
@@ -37,13 +37,12 @@ export class PrfsSDK {
   }
 }
 
-export type ElementType = "proof_gen" | "zauth_sign_in" | "zauth_sign_up" | "utils";
+export type ElementType = "proof_gen" | "default";
 
 export type SDKElement<T> = //
-  T extends "proof_gen" ? ProofGenElement : T extends "utils" ? UtilsElement : never;
+  T extends "proof_gen" ? ProofGenElement : T extends "default" ? DefaultElement : never;
 
 export interface ElementOptions {
   proof_gen: ProofGenOptions;
-  utils: UtilsOptions;
-  // zauth_sign_in: ZAuthSignInOptions;
+  utils: DefaultOptions;
 }
