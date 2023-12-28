@@ -6,6 +6,7 @@ import {
   PrfsIdMsg,
   makeAppSignInSearchParams,
   newPrfsIdMsg,
+  sendMsgToPopup,
 } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./PrfsIdSignInButton.module.scss";
@@ -69,6 +70,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     // Open the window
     setStatus(SignInStatus.InProgress);
     const child = window.open(endpoint, "_blank", "toolbar=0,location=0,menubar=0");
+    // window["ttt"] = child;
 
     if (!closeTimerRef.current) {
       const fn = setInterval(() => {
@@ -80,6 +82,15 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       }, 4000);
 
       closeTimerRef.current = fn;
+    }
+
+    if (child) {
+      console.log("register send");
+      setInterval(() => {
+        console.log("send");
+        child.postMessage("power", "*");
+        // sendMsgToPopup(child, "power" as any);
+      }, 2000);
     }
   }, [appSignInArgs, setStatus, prfsIdAppSignInEndpoint]);
 
