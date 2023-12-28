@@ -68,7 +68,6 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
 
     // Open the window
     setStatus(SignInStatus.InProgress);
-    console.log("endpoint", endpoint);
     const child = window.open(endpoint, "_blank", "toolbar=0,location=0,menubar=0");
 
     if (!closeTimerRef.current) {
@@ -105,7 +104,6 @@ export default PrfsIdSignInButton;
 export interface PrfsIdSignInButtonProps {
   className?: string;
   label?: string;
-  // prfsIdSignInEndpoint: string | null;
   appSignInArgs: AppSignInArgs;
   handleSucceedSignIn: (encrypted: Buffer) => void;
   prfsIdAppSignInEndpoint: string;

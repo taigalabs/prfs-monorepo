@@ -26,14 +26,13 @@ function createEnvs() {
   });
 
   console.log("cli args: %j", values);
-
   const { production, teaser } = values;
 
   const env_dev: Envs = {
     NEXT_PUBLIC_IS_TEASER: teaser ? "yes" : "no",
-    NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT: "http://localhost:3000",
+    NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT: "http://localhost:3020",
     NEXT_PUBLIC_WEBAPP_VACADE_ENDPOINT: "http://localhost:3022",
-    NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT: "http://localhost:3020",
+    NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT: "http://localhost:3000",
     NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT: "http://localhost:3021",
     NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: "http://localhost:4000",
     NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "http://localhost:4010",

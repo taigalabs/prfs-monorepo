@@ -41,7 +41,6 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
   });
   const [signUpData, setSignUpData] = React.useState<LocalPrfsProofCredential | null>(null);
   const { sk, pkHex } = useRandomKeyPair();
-
   const appSignInArgs = React.useMemo<AppSignInArgs>(() => {
     return {
       nonce: Math.random() * 1000000,

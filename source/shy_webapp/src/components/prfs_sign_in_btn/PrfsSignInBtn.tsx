@@ -8,15 +8,16 @@ import PrfsIdSignInButton from "@taigalabs/prfs-react-components/src/prfs_id_sig
 import PrfsCredentialPopover from "@taigalabs/prfs-react-components/src/prfs_credential_popover/PrfsCredentialPopover";
 import {
   PrfsIdSignInSuccessPayload,
-  type AppSignInData,
+  AppSignInData,
   makeColor,
+  AppSignInArgs,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { useMutation } from "@tanstack/react-query";
 import { prfs_api_error_codes, prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
 
-import styles from "./PrfsIdSignInBtn.module.scss";
+import styles from "./PrfsSignInBtn.module.scss";
 import { paths } from "@/paths";
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
@@ -29,10 +30,11 @@ import {
 import SignUpModal from "@/components/sign_up_modal/SignUpModal";
 import { useSignedInUser } from "@/hooks/user";
 import { useRandomKeyPair } from "@/hooks/key";
+import { i18nContext } from "@/i18n/context";
 
 const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noCredential }) => {
+  const i18n = React.useContext(i18nContext);
   const router = useRouter();
-  // const [prfsIdSignInEndpoint, setPrfsIdSignInEndpoint] = React.useState<string | null>(null);
   const dispatch = useAppDispatch();
   const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
   const { mutateAsync: prfsSignInRequest } = useMutation({
@@ -42,6 +44,14 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
   });
   const [signUpData, setSignUpData] = React.useState<LocalShyCredential | null>(null);
   const { sk, pkHex } = useRandomKeyPair();
+  const appSignInArgs = React.useMemo<AppSignInArgs>(() => {
+    return {
+      nonce: Math.random() * 1000000,
+      appId: "shy_webapp",
+      signInData: [AppSignInData.ID_POSEIDON],
+      publicKey: pkHex,
+    };
+  }, [pkHex]);
 
   // React.useEffect(() => {
   //   const nonce = Math.random() * 1000000;
@@ -125,13 +135,13 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
   ) : (
     <>
       {signUpData && <SignUpModal credential={signUpData} />}
-      {/* <PrfsIdSignInButton */}
-      {/*   className={className} */}
-      {/*   label={label} */}
-      {/*   // prfsIdSignInEndpoint={prfsIdSignInEndpoint} */}
-      {/*   handleSucceedSignIn={handleSucceedSignIn} */}
-      {/*   prfsIdAppSignInEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT} */}
-      {/* /> */}
+      <PrfsIdSignInButton
+        className={styles.signInBtn}
+        label={i18n.sign_in_with_prfs_id}
+        appSignInArgs={appSignInArgs}
+        handleSucceedSignIn={handleSucceedSignIn}
+        prfsIdAppSignInEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
+      />
     </>
   );
 };
