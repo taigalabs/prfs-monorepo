@@ -4,7 +4,7 @@ use crate::paths::PATHS;
 use crate::TreeMakerError;
 use clap::ArgMatches;
 use prfs_db_interface::database2::Database2;
-use prfs_db_interface::db_apis;
+use prfs_db_interface::prfs;
 use prfs_entities::entities::EthAccount;
 use prfs_entities::sqlx::{Pool, Postgres, Transaction};
 use rust_decimal::Decimal;
@@ -49,7 +49,7 @@ pub async fn process_genesis_block_accounts(
             balances.insert(addr, acc);
 
             if idx % 200 == 0 {
-                let rows_updated = db_apis::insert_eth_accounts(tx, balances, false).await?;
+                let rows_updated = prfs::insert_eth_accounts(tx, balances, false).await?;
                 println!("idx: {}, rows_updated: {}", idx, rows_updated);
 
                 balances = BTreeMap::new();

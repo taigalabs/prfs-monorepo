@@ -51,8 +51,11 @@ pub struct Paths {
     // webapps
     pub webapp_console: PathBuf,
     pub webapp_proof: PathBuf,
-    pub webapp_shy: PathBuf,
     pub webapp_poll: PathBuf,
+
+    // Shy
+    pub shy_webapp: PathBuf,
+    pub shy_api_server: PathBuf,
 }
 
 #[allow(non_snake_case)]
@@ -102,7 +105,9 @@ impl Paths {
         let webapp_console = curr_dir.join("source/webapp_console");
         let webapp_proof = curr_dir.join("source/webapp_proof");
         let webapp_poll = curr_dir.join("source/webapp_poll");
-        let webapp_shy = curr_dir.join("source/webapp_shy");
+
+        let shy_webapp = curr_dir.join("source/shy_webapp");
+        let shy_api_server = curr_dir.join("source/shy_api_server");
 
         let p = Paths {
             curr_dir,
@@ -139,7 +144,9 @@ impl Paths {
             webapp_console,
             webapp_proof,
             webapp_poll,
-            webapp_shy,
+
+            shy_webapp,
+            shy_api_server,
 
             e2e_test_web,
         };

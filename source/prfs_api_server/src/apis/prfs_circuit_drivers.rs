@@ -4,8 +4,8 @@ use hyper_utils::{
     resp::ApiResponse,
 };
 use prfs_common_server_state::ServerState;
-use prfs_db_interface::db_apis;
-use prfs_entities::apis_entities::{
+use prfs_db_interface::prfs;
+use prfs_entities::prfs_api_entities::{
     GetPrfsCircuitDriverByDriverIdRequest, GetPrfsCircuitDriverByDriverIdResponse,
     GetPrfsCircuitDriversRequest, GetPrfsCircuitDriversResponse,
 };
@@ -17,7 +17,7 @@ pub async fn get_prfs_circuit_drivers(
 ) -> ApiHandlerResult {
     let pool = &state.clone().db2.pool;
     let req: GetPrfsCircuitDriversRequest = parse_req(req).await;
-    let prfs_circuit_drivers = db_apis::get_prfs_circuit_drivers(&pool).await;
+    let prfs_circuit_drivers = prfs::get_prfs_circuit_drivers(&pool).await;
 
     let resp = ApiResponse::new_success(GetPrfsCircuitDriversResponse {
         page_idx: req.page_size,
@@ -35,7 +35,7 @@ pub async fn get_prfs_circuit_driver_by_driver_id(
     let req: GetPrfsCircuitDriverByDriverIdRequest = parse_req(req).await;
 
     let prfs_circuit_driver =
-        db_apis::get_prfs_circuit_driver_by_circuit_driver_id(&pool, &req.circuit_driver_id).await;
+        prfs::get_prfs_circuit_driver_by_circuit_driver_id(&pool, &req.circuit_driver_id).await;
 
     let resp = ApiResponse::new_success(GetPrfsCircuitDriverByDriverIdResponse {
         prfs_circuit_driver,

@@ -8,7 +8,13 @@ import { PrfsIdMsg } from ".";
 
 export async function sendMsgToOpener(msg: any): Promise<PrfsIdMsg<any>> {
   return sendMsg(msg, (msg: any, channel: MessageChannel) => {
-    window.opener.postMessage(msg, "*", [channel.port2]);
+    if (window.opener) {
+      window.opener.postMessage(msg, "*", [channel.port2]);
+    } else {
+      throw new Error(
+        "Window opener is null. Did you refresh prfs id window? Try again by reopening the module",
+      );
+    }
   });
 }
 

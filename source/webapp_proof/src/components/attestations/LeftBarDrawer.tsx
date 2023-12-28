@@ -1,16 +1,6 @@
-import {
-  useFloating,
-  useDismiss,
-  useRole,
-  useClick,
-  useInteractions,
-  useId,
-  FloatingFocusManager,
-  FloatingOverlay,
-  FloatingPortal,
-} from "@floating-ui/react";
-import cn from "classnames";
 import React from "react";
+import cn from "classnames";
+import { FloatingPortal } from "@floating-ui/react";
 
 import styles from "./LeftBarDrawer.module.scss";
 

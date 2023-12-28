@@ -1,14 +1,10 @@
 use clap::ArgMatches;
 use prfs_db_interface::database2::Database2;
-use prfs_db_interface::db_apis;
-use prfs_entities::entities::EthAccount;
-use prfs_entities::sqlx::{Pool, Postgres, Transaction};
 use prfs_tree_maker::tree_maker_apis;
 use prfs_tree_maker::{
     envs::ENVS,
     geth::{GetBalanceRequest, GethClient},
 };
-use rust_decimal::Decimal;
 
 pub async fn run(_sub_matches: &ArgMatches) {
     let geth_endpoint: String = ENVS.geth_endpoint.to_string();

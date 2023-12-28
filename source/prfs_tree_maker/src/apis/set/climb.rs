@@ -1,7 +1,7 @@
 use super::json::SetJson;
 use crate::TreeMakerError;
 use colored::Colorize;
-use prfs_db_interface::db_apis;
+use prfs_db_interface::prfs;
 use prfs_entities::entities::{PrfsSet, PrfsTreeNode};
 use prfs_entities::sqlx::{Pool, Postgres, Transaction};
 use rust_decimal::Decimal;
@@ -86,7 +86,7 @@ pub async fn create_tree_nodes(
 
         let mut total_count = 0;
         for chunk in parent_node_chunks {
-            let updated_count = db_apis::insert_prfs_tree_nodes(tx, chunk, false).await?;
+            let updated_count = prfs::insert_prfs_tree_nodes(tx, chunk, false).await?;
             total_count += updated_count;
 
             println!(
@@ -124,7 +124,7 @@ pub async fn create_tree_nodes(
     );
 
     prfs_set.merkle_root = merkle_root.to_string();
-    db_apis::upsert_prfs_set(tx, &prfs_set).await.unwrap();
+    prfs::upsert_prfs_set(tx, &prfs_set).await.unwrap();
 
     Ok(merkle_root)
 }

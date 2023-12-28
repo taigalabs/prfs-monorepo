@@ -25,6 +25,7 @@ export default {
   updates: "Updates",
   taigalabs: "Taiga labs",
   code: "Code",
+  create_post: "Create post",
   acc_atst_validate_guide:
     "Validation may take 7-30 secs depending on the network traffic. Try not to close the window.",
   commitment: "Commitment",
@@ -269,6 +270,7 @@ export default {
   connect: "Connect",
   connect_wallet: "Connect a wallet of your choice",
   wallet: "Wallet",
+  write_to_shy: "Write to shy",
   element_type: "Element type",
   elliptic_curve: "Elliptic curve",
   elements: "Elements",

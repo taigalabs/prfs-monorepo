@@ -49,22 +49,26 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({
   webappConsoleEndpoint,
 }) => {
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
-    useInfiniteQuery(
-      ["get_prfs_proof_types"],
-      async ({ pageParam = 0 }) => {
-        const { payload } = await prfsApi2("get_prfs_proof_types", {
-          page_idx: pageParam,
+    useInfiniteQuery({
+      queryKey: ["get_prfs_proof_types"],
+      queryFn: async ({ pageParam = 0 }) => {
+        return await prfsApi2("get_prfs_proof_types", {
+          page_idx: pageParam as number,
           page_size: 5,
         });
-        return payload;
+        // return payload;
       },
-      {
-        getNextPageParam: lastPage =>
-          lastPage && lastPage.next_idx > -1 ? lastPage.next_idx : undefined,
+      initialPageParam: 0,
+      getNextPageParam: lastPage => {
+        if (lastPage.payload) {
+          return lastPage.payload.next_idx;
+        } else {
+          return null;
+        }
       },
-    );
+    });
 
-  const allRows = data ? data.pages.flatMap(d => d && d.prfs_proof_types) : [];
+  const allRows = data ? data.pages.flatMap(d => d.payload && d.payload.prfs_proof_types) : [];
   const parentRef = React.useRef<HTMLDivElement | null>(null);
 
   const rowVirtualizer = useVirtualizer({
@@ -96,7 +100,7 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({
 
   return (
     <div className={styles.wrapper}>
-      {status === "loading" ? (
+      {status === "pending" ? (
         <p className={cn(styles.row, styles.loading)}>Loading...</p>
       ) : status === "error" ? (
         <span>Error: {(error as Error).message}</span>

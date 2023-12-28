@@ -4,8 +4,8 @@ use hyper_utils::{
     resp::ApiResponse,
 };
 use prfs_common_server_state::ServerState;
-use prfs_db_interface::db_apis;
-use prfs_entities::apis_entities::{
+use prfs_db_interface::prfs;
+use prfs_entities::prfs_api_entities::{
     GetPrfsTreeLeafIndicesRequest, GetPrfsTreeLeafNodesBySetIdRequest,
     GetPrfsTreeNodesByPosRequest, GetPrfsTreeNodesResponse, UpdatePrfsTreeNodeRequest,
     UpdatePrfsTreeNodeResponse,
@@ -19,7 +19,7 @@ pub async fn get_prfs_tree_nodes_by_pos(
 ) -> ApiHandlerResult {
     let req: GetPrfsTreeNodesByPosRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let prfs_tree_nodes = db_apis::get_prfs_tree_nodes_by_pos(pool, &req.set_id, &req.pos)
+    let prfs_tree_nodes = prfs::get_prfs_tree_nodes_by_pos(pool, &req.set_id, &req.pos)
         .await
         .expect("get nodes fail");
 
@@ -35,7 +35,7 @@ pub async fn get_prfs_tree_leaf_nodes_by_set_id(
     let req: GetPrfsTreeLeafNodesBySetIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_tree_nodes =
-        db_apis::get_prfs_tree_leaf_nodes_by_set_id(pool, &req.set_id, req.page_idx, req.page_size)
+        prfs::get_prfs_tree_leaf_nodes_by_set_id(pool, &req.set_id, req.page_idx, req.page_size)
             .await
             .expect("get nodes fail");
 
@@ -50,7 +50,7 @@ pub async fn get_prfs_tree_leaf_indices(
 ) -> ApiHandlerResult {
     let req: GetPrfsTreeLeafIndicesRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let prfs_tree_nodes = db_apis::get_prfs_tree_leaf_indices(pool, &req.set_id, &req.leaf_vals)
+    let prfs_tree_nodes = prfs::get_prfs_tree_leaf_indices(pool, &req.set_id, &req.leaf_vals)
         .await
         .expect("get nodes fail");
 
@@ -66,7 +66,7 @@ pub async fn update_prfs_tree_node(
     let req: UpdatePrfsTreeNodeRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
-    let pos_w = db_apis::update_prfs_tree_node(&mut tx, &req.prfs_tree_node)
+    let pos_w = prfs::update_prfs_tree_node(&mut tx, &req.prfs_tree_node)
         .await
         .expect("get nodes fail");
 

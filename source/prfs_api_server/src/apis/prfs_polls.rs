@@ -4,21 +4,21 @@ use hyper::{Request, Response};
 use hyper_utils::io::{parse_req, ApiHandlerResult, BytesBoxBody};
 use hyper_utils::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
-use prfs_db_interface::db_apis;
-use prfs_entities::apis_entities::{
+use prfs_db_interface::prfs;
+use prfs_entities::entities::{PrfsPoll, PrfsProofInstance};
+use prfs_entities::prfs_api_entities::{
     CreatePrfsPollRequest, CreatePrfsPollResponse, GetPrfsPollByPollIdRequest,
     GetPrfsPollByPollIdResponse, GetPrfsPollResultByPollIdRequest,
     GetPrfsPollResultByPollIdResponse, GetPrfsPollsRequest, GetPrfsPollsResponse,
     SubmitPrfsPollResponseRequest, SubmitPrfsPollResponseResponse,
 };
-use prfs_entities::entities::{PrfsPoll, PrfsProofInstance};
 use std::{convert::Infallible, sync::Arc};
 use uuid::Uuid;
 
 pub async fn get_prfs_polls(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
     let req: GetPrfsPollsRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let (prfs_polls, table_row_count) = db_apis::get_prfs_polls(&pool, req.page_idx, req.page_size)
+    let (prfs_polls, table_row_count) = prfs::get_prfs_polls(&pool, req.page_idx, req.page_size)
         .await
         .unwrap();
 
@@ -37,7 +37,7 @@ pub async fn get_prfs_poll_by_poll_id(
 ) -> ApiHandlerResult {
     let req: GetPrfsPollByPollIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let prfs_poll = db_apis::get_prfs_poll_by_poll_id(&pool, &req.poll_id)
+    let prfs_poll = prfs::get_prfs_poll_by_poll_id(&pool, &req.poll_id)
         .await
         .unwrap();
 
@@ -52,7 +52,7 @@ pub async fn get_prfs_poll_result_by_poll_id(
 ) -> ApiHandlerResult {
     let req: GetPrfsPollResultByPollIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let prfs_poll_responses = db_apis::get_prfs_poll_responses_by_poll_id(&pool, &req.poll_id)
+    let prfs_poll_responses = prfs::get_prfs_poll_responses_by_poll_id(&pool, &req.poll_id)
         .await
         .unwrap();
 
@@ -67,7 +67,7 @@ pub async fn create_prfs_poll(req: Request<Incoming>, state: Arc<ServerState>) -
     let req: CreatePrfsPollRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let mut tx = pool.begin().await.unwrap();
-    let poll_id = db_apis::insert_prfs_poll(&mut tx, &req).await.unwrap();
+    let poll_id = prfs::insert_prfs_poll(&mut tx, &req).await.unwrap();
 
     tx.commit().await.unwrap();
 
@@ -114,9 +114,9 @@ pub async fn submit_prfs_poll_response(
     };
 
     let _proof_instance_id =
-        db_apis::insert_prfs_proof_instances(&mut tx, &vec![prfs_proof_instance]).await;
+        prfs::insert_prfs_proof_instances(&mut tx, &vec![prfs_proof_instance]).await;
 
-    let poll_id = db_apis::insert_prfs_poll_response(&mut tx, &req)
+    let poll_id = prfs::insert_prfs_poll_response(&mut tx, &req)
         .await
         .unwrap();
 

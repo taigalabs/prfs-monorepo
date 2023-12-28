@@ -1,0 +1,18 @@
+.wrapper {
+  display: flex;
+  flex-grow: 1;
+
+  /* border: 1px solid white; */
+}
+
+.header {
+  flex-grow: 1;
+
+  /* border: 1px solid blue; */
+}
+
+.main {
+  flex-grow: 1;
+
+  /* border: 1px solid green; */
+}

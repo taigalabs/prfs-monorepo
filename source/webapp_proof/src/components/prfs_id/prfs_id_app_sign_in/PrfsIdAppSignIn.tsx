@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-// import { PrfsIdCredential } from "@taigalabs/prfs-crypto-js";
-import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
+import { PrfsIdCredential, parseAppSignInSearchParams } from "@taigalabs/prfs-id-sdk-web";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
@@ -35,26 +34,31 @@ const PrfsIdAppSignIn: React.FC = () => {
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const searchParams = useSearchParams();
   const [step, setStep] = React.useState(SignInStep.PrfsIdCredential);
-  const [publicKey, setPublicKey] = React.useState<string | null>(null);
-  const [appId, setAppId] = React.useState<string | null>(null);
   const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
+  const appSignInArgs = React.useMemo(() => {
+    try {
+      const args = parseAppSignInSearchParams(searchParams as URLSearchParams);
+      return args;
+    } catch (err) {
+      return null;
+    }
+  }, [searchParams]);
 
   React.useEffect(() => {
-    const publicKey = searchParams.get("public_key");
-    const appId = searchParams.get("app_id");
+    if (appSignInArgs) {
+      const { publicKey, appId } = appSignInArgs;
 
-    if (!publicKey) {
-      setSignInStatus(SignInStatus.Error);
-      setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
-    } else if (!appId) {
-      setSignInStatus(SignInStatus.Error);
-      setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
-    } else {
-      setPublicKey(publicKey);
-      setAppId(appId);
-      setSignInStatus(SignInStatus.Standby);
+      if (!publicKey) {
+        setSignInStatus(SignInStatus.Error);
+        setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
+      } else if (!appId) {
+        setSignInStatus(SignInStatus.Error);
+        setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
+      } else {
+        setSignInStatus(SignInStatus.Standby);
+      }
     }
-  }, [searchParams, setSignInStatus, setErrorMsg, setPublicKey, setAppId, setStep]);
+  }, [appSignInArgs, setSignInStatus, setErrorMsg, setStep]);
 
   const handleCloseErrorDialog = React.useCallback(() => {
     window.close();
@@ -75,21 +79,23 @@ const PrfsIdAppSignIn: React.FC = () => {
   );
 
   const content = React.useMemo(() => {
-    if (!appId || !publicKey) {
+    if (!appSignInArgs) {
       return null;
     }
 
     switch (step) {
       case SignInStep.PrfsIdCredential: {
-        return <PrfsIdSignIn appId={appId} handleSucceedSignIn={handleSucceedSignIn} />;
+        return (
+          <PrfsIdSignIn appId={appSignInArgs.appId} handleSucceedSignIn={handleSucceedSignIn} />
+        );
       }
       case SignInStep.AppCredential: {
         return (
-          credential && (
+          credential &&
+          appSignInArgs && (
             <AppCredential
               credential={credential}
-              appId={appId}
-              publicKey={publicKey}
+              appSignInArgs={appSignInArgs}
               handleClickPrev={handleClickPrev}
             />
           )
@@ -98,7 +104,7 @@ const PrfsIdAppSignIn: React.FC = () => {
       default:
         <div>Invalid step</div>;
     }
-  }, [step, publicKey, appId]);
+  }, [step, appSignInArgs]);
 
   return (
     <PrfsIdSignInModule>

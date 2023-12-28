@@ -4,7 +4,7 @@ use hyper_utils::io::{empty, parse_req, ApiHandlerResult};
 use hyper_utils::resp::ApiResponse;
 use hyper_utils::ApiHandleError;
 use prfs_common_server_state::ServerState;
-use prfs_db_interface::db_apis;
+use prfs_db_interface::prfs;
 use prfs_entities::atst_api_entities::{
     AttestTwitterAccRequest, AttestTwitterAccResponse, GetTwitterAccAtstRequest,
     GetTwitterAccAtstResponse, GetTwitterAccAtstsRequest, GetTwitterAccAtstsResponse,
@@ -57,7 +57,7 @@ pub async fn attest_twitter_acc(
         status: PrfsAccAtstStatus::Valid,
     };
 
-    let acc_atst_id = db_apis::insert_prfs_acc_atst(&mut tx, &prfs_acc_atst)
+    let acc_atst_id = prfs::insert_prfs_acc_atst(&mut tx, &prfs_acc_atst)
         .await
         .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.TWITTER_ACC_ATST_INSERT_FAIL, err))?;
 
@@ -80,7 +80,7 @@ pub async fn get_twitter_acc_atsts(
     let req: GetTwitterAccAtstsRequest = parse_req(req).await;
     let pool = &state.db2.pool;
 
-    let rows = db_apis::get_prfs_acc_atsts(&pool, req.offset, LIMIT)
+    let rows = prfs::get_prfs_acc_atsts(&pool, req.offset, LIMIT)
         .await
         .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.TWITTER_ACC_ATST_INSERT_FAIL, err))?;
 
@@ -101,7 +101,7 @@ pub async fn get_twitter_acc_atst(
     let req: GetTwitterAccAtstRequest = parse_req(req).await;
     let pool = &state.db2.pool;
 
-    let prfs_acc_atst = db_apis::get_prfs_acc_atst(&pool, &req.acc_atst_id)
+    let prfs_acc_atst = prfs::get_prfs_acc_atst(&pool, &req.acc_atst_id)
         .await
         .map_err(|err| ApiHandleError::from(&API_ERROR_CODE.TWITTER_ACC_ATST_INSERT_FAIL, err))?;
 

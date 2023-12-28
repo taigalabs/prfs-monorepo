@@ -7,5 +7,5 @@ pub mod prfs_proof_instances;
 pub mod prfs_proof_types;
 pub mod prfs_sets;
 pub mod prfs_tree_nodes;
-pub mod social_posts;
+// pub mod social_posts;
 pub mod status;

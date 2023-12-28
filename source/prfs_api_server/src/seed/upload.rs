@@ -1,6 +1,6 @@
 use chrono::{DateTime, NaiveDateTime, TimeZone, Utc};
 use prfs_db_interface::database2::Database2;
-use prfs_db_interface::db_apis;
+use prfs_db_interface::prfs;
 use prfs_entities::entities::{PrfsProofType, PrfsTreeNode};
 use prfs_entities::sqlx::{self, types::Json};
 use prfs_tree_maker::tree_maker_apis;
@@ -39,7 +39,7 @@ async fn upload_prfs_accounts(db: &Database2) {
         .unwrap();
 
     for prfs_account in prfs_accounts.values() {
-        let sig = db_apis::insert_prfs_account(&mut tx, prfs_account)
+        let sig = prfs::insert_prfs_account(&mut tx, prfs_account)
             .await
             .unwrap();
         println!("Inserted prfs account, sig: {}", sig);
@@ -61,7 +61,7 @@ async fn upload_policy_items(db: &Database2) {
         .unwrap();
 
     for policy in policy_items.values() {
-        let sig = db_apis::insert_prfs_policy_item(&mut tx, policy)
+        let sig = prfs::insert_prfs_policy_item(&mut tx, policy)
             .await
             .unwrap();
         println!("Inserted prfs account, sig: {}", sig);
@@ -83,7 +83,7 @@ async fn upload_circuit_drivers(db: &Database2) {
         .unwrap();
 
     for circuit_driver in circuit_drivers.values() {
-        let circuit_driver_id = db_apis::insert_prfs_circuit_driver(&mut tx, circuit_driver).await;
+        let circuit_driver_id = prfs::insert_prfs_circuit_driver(&mut tx, circuit_driver).await;
         println!("Inserted circuit_driver, id: {}", circuit_driver_id);
     }
 
@@ -103,7 +103,7 @@ async fn upload_circuit_types(db: &Database2) {
         .unwrap();
 
     for circuit_type in circuit_types.values() {
-        db_apis::insert_prfs_circuit_type(&mut tx, circuit_type).await;
+        prfs::insert_prfs_circuit_type(&mut tx, circuit_type).await;
     }
 
     tx.commit().await.unwrap();
@@ -122,7 +122,7 @@ async fn upload_circuit_input_types(db: &Database2) {
         .unwrap();
 
     for circuit_input_type in circuit_input_types.values() {
-        db_apis::insert_prfs_circuit_input_type(&mut tx, circuit_input_type).await;
+        prfs::insert_prfs_circuit_input_type(&mut tx, circuit_input_type).await;
     }
 
     tx.commit().await.unwrap();
@@ -141,7 +141,7 @@ async fn upload_circuits(db: &Database2) {
         .unwrap();
 
     for circuit in circuits.values() {
-        db_apis::insert_prfs_circuit(&mut tx, circuit).await;
+        prfs::insert_prfs_circuit(&mut tx, circuit).await;
     }
 
     tx.commit().await.unwrap();
@@ -160,7 +160,7 @@ async fn upload_proof_types(db: &Database2) {
         .unwrap();
 
     for proof_type in proof_types.values() {
-        db_apis::insert_prfs_proof_type(&mut tx, proof_type).await;
+        prfs::insert_prfs_proof_type(&mut tx, proof_type).await;
     }
 
     tx.commit().await.unwrap();
@@ -174,11 +174,11 @@ async fn upload_dynamic_sets(db: &Database2) {
     println!("sets: {:#?}", dynamic_sets);
 
     for dynamic_set in dynamic_sets.values_mut() {
-        let set_id = db_apis::upsert_prfs_set(&mut tx, &dynamic_set.prfs_set)
+        let set_id = prfs::upsert_prfs_set(&mut tx, &dynamic_set.prfs_set)
             .await
             .unwrap();
 
-        let rows_updated = db_apis::delete_prfs_tree_nodes(&mut tx, &set_id)
+        let rows_updated = prfs::delete_prfs_tree_nodes(&mut tx, &set_id)
             .await
             .unwrap();
 
@@ -211,7 +211,7 @@ async fn upload_dynamic_sets(db: &Database2) {
             .await
             .unwrap();
 
-        let rows_affected = db_apis::insert_prfs_tree_nodes(&mut tx, &nodes, true)
+        let rows_affected = prfs::insert_prfs_tree_nodes(&mut tx, &nodes, true)
             .await
             .unwrap();
 

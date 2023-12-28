@@ -2,7 +2,7 @@ use super::json::SetJson;
 use crate::TreeMakerError;
 use chrono::{DateTime, NaiveDate, Utc};
 use colored::Colorize;
-use prfs_db_interface::db_apis;
+use prfs_db_interface::prfs;
 use prfs_entities::entities::PrfsSet;
 use prfs_entities::sqlx::{Postgres, Transaction};
 
@@ -35,7 +35,7 @@ pub async fn create_set(
         set_json.set.label
     );
 
-    let set_id = db_apis::insert_prfs_set(tx, &prfs_set).await.unwrap();
+    let set_id = prfs::insert_prfs_set(tx, &prfs_set).await.unwrap();
 
     println!("Inserted prfs_set, id: {:?}", set_id);
 

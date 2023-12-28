@@ -4,14 +4,14 @@ use hyper::{Request, Response};
 use hyper_utils::io::{parse_req, ApiHandlerResult, BytesBoxBody};
 use hyper_utils::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
-use prfs_db_interface::db_apis;
-use prfs_entities::apis_entities::{
+use prfs_db_interface::prfs;
+use prfs_entities::entities::PrfsProofInstance;
+use prfs_entities::prfs_api_entities::{
     CreatePrfsProofInstanceRequest, CreatePrfsProofInstanceResponse,
     GetPrfsProofInstanceByInstanceIdRequest, GetPrfsProofInstanceByInstanceIdResponse,
     GetPrfsProofInstanceByShortIdRequest, GetPrfsProofInstanceByShortIdResponse,
     GetPrfsProofInstancesRequest, GetPrfsProofInstancesResponse,
 };
-use prfs_entities::entities::PrfsProofInstance;
 use std::{convert::Infallible, sync::Arc};
 
 pub async fn get_prfs_proof_instances(
@@ -21,7 +21,7 @@ pub async fn get_prfs_proof_instances(
     let req: GetPrfsProofInstancesRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let (prfs_proof_instances_syn1, table_row_count) =
-        db_apis::get_prfs_proof_instances_syn1(pool, req.page_idx, req.page_size).await;
+        prfs::get_prfs_proof_instances_syn1(pool, req.page_idx, req.page_size).await;
 
     let resp = ApiResponse::new_success(GetPrfsProofInstancesResponse {
         page_idx: req.page_idx,
@@ -39,7 +39,7 @@ pub async fn get_prfs_proof_instance_by_instance_id(
     let req: GetPrfsProofInstanceByInstanceIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_proof_instance_syn1 =
-        db_apis::get_prfs_proof_instance_syn1_by_instance_id(pool, &req.proof_instance_id).await;
+        prfs::get_prfs_proof_instance_syn1_by_instance_id(pool, &req.proof_instance_id).await;
 
     let resp = ApiResponse::new_success(GetPrfsProofInstanceByInstanceIdResponse {
         prfs_proof_instance_syn1,
@@ -54,8 +54,7 @@ pub async fn get_prfs_proof_instance_by_short_id(
 ) -> ApiHandlerResult {
     let req: GetPrfsProofInstanceByShortIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let prfs_proof_instance =
-        db_apis::get_prfs_proof_instance_by_short_id(pool, &req.short_id).await;
+    let prfs_proof_instance = prfs::get_prfs_proof_instance_by_short_id(pool, &req.short_id).await;
 
     let resp = ApiResponse::new_success(GetPrfsProofInstanceByShortIdResponse {
         prfs_proof_instance,
@@ -102,7 +101,7 @@ pub async fn create_prfs_proof_instance(
     };
 
     let proof_instance_id =
-        db_apis::insert_prfs_proof_instances(&mut tx, &vec![prfs_proof_instance]).await;
+        prfs::insert_prfs_proof_instances(&mut tx, &vec![prfs_proof_instance]).await;
 
     tx.commit().await.unwrap();
 

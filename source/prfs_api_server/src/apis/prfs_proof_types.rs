@@ -4,14 +4,14 @@ use hyper_utils::{
     resp::ApiResponse,
 };
 use prfs_common_server_state::ServerState;
-use prfs_db_interface::db_apis;
+use prfs_db_interface::prfs;
 use prfs_entities::{
-    apis_entities::{
+    entities::{CircuitInput, PrfsProofType, PrfsSet},
+    prfs_api_entities::{
         CreatePrfsProofTypeRequest, CreatePrfsProofTypeResponse,
         GetPrfsProofTypeByProofTypeIdRequest, GetPrfsProofTypeByProofTypeIdResponse,
         GetPrfsProofTypesRequest, GetPrfsProofTypesResponse,
     },
-    entities::{CircuitInput, PrfsProofType, PrfsSet},
     sqlx::types::Json,
 };
 use std::{convert::Infallible, sync::Arc};
@@ -22,7 +22,7 @@ pub async fn get_prfs_proof_types(
 ) -> ApiHandlerResult {
     let req: GetPrfsProofTypesRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let prfs_proof_types = db_apis::get_prfs_proof_types(pool, req.page_idx, req.page_size).await;
+    let prfs_proof_types = prfs::get_prfs_proof_types(pool, req.page_idx, req.page_size).await;
 
     let next_idx = if (prfs_proof_types.len() as i32) < req.page_size {
         -1
@@ -45,7 +45,7 @@ pub async fn get_prfs_proof_type_by_proof_type_id(
     let req: GetPrfsProofTypeByProofTypeIdRequest = parse_req(req).await;
     let pool = &state.db2.pool;
     let prfs_proof_type =
-        db_apis::get_prfs_proof_type_by_proof_type_id(pool, &req.proof_type_id).await;
+        prfs::get_prfs_proof_type_by_proof_type_id(pool, &req.proof_type_id).await;
 
     let resp = ApiResponse::new_success(GetPrfsProofTypeByProofTypeIdResponse { prfs_proof_type });
 
@@ -77,7 +77,7 @@ pub async fn create_prfs_proof_type(
         created_at: chrono::offset::Utc::now(),
     };
 
-    let id = db_apis::insert_prfs_proof_type(&mut tx, &prfs_proof_type).await;
+    let id = prfs::insert_prfs_proof_type(&mut tx, &prfs_proof_type).await;
 
     tx.commit().await.unwrap();
 
