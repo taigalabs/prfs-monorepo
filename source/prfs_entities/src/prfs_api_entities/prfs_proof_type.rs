@@ -9,14 +9,13 @@ use crate::entities::{CircuitInput, PrfsProofType, PrfsSet};
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetPrfsProofTypesRequest {
-    pub page_idx: i32,
-    pub page_size: i32,
+    pub offset: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetPrfsProofTypesResponse {
-    pub next_idx: i32,
+    pub next_offset: Option<i32>,
     pub prfs_proof_types: Vec<PrfsProofType>,
 }
 

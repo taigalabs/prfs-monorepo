@@ -19,7 +19,7 @@ import { useSelectProofType } from "@/hooks/proofType";
 import Tutorial from "@/components/tutorial/Tutorial";
 import LeftPadding from "@/components/left_padding/LeftPadding";
 import { MastheadPlaceholder } from "../masthead/Masthead";
-import Temp from "../create_proof_module/Temp";
+import CreateProofBtn from "./CreateProofBtn";
 
 const CreateProofForm: React.FC = () => {
   const [proofType, setProofType] = React.useState<PrfsProofType>();
@@ -97,7 +97,7 @@ const CreateProofForm: React.FC = () => {
               </Fade>
             ) : (
               <Fade>
-                <Temp
+                <CreateProofBtn
                   proofType={proofType}
                   handleCreateProofResult={handleCreateProofResult}
                   proofGenElement={proofGenElement}
