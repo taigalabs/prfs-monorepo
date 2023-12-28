@@ -7,7 +7,11 @@ mod utils;
 
 use crate::{
     build_handle::BuildHandle,
-    cmds::{dev_prfs_proof_webapp, start_prfs_proof_webapp},
+    cmds::{
+        dev_prfs_console_webapp, dev_prfs_poll_webapp, dev_prfs_proof_webapp,
+        docker_run_prfs_console_webapp, docker_run_prfs_proof_webapp, start_prfs_console_webapp,
+        start_prfs_poll_webapp, start_prfs_proof_webapp,
+    },
 };
 use chrono::prelude::*;
 use clap::{command, Arg};
@@ -17,9 +21,6 @@ use std::env;
 pub type CiError = Box<dyn std::error::Error + Sync + Send>;
 
 fn main() {
-    println!("{}", dev_prfs_proof_webapp::CMD_NAME);
-    return;
-
     let matches = command!()
         .version("v0.1")
         .propagate_version(true)
@@ -30,9 +31,9 @@ fn main() {
         .subcommand(command!("build_crypto_js"))
         .subcommand(command!("build_circuits"))
         // dev mode
-        .subcommand(command!("dev_prfs_console_webapp").arg(Arg::new("extra_args")))
+        .subcommand(command!(dev_prfs_console_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(dev_prfs_proof_webapp::CMD_NAME).arg(Arg::new("extra_args")))
-        .subcommand(command!("dev_webapp_poll").arg(Arg::new("extra_args")))
+        .subcommand(command!(dev_prfs_poll_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!("dev_shy_webapp").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_sdk_web_module").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_docs_website").arg(Arg::new("extra_args")))
@@ -42,9 +43,9 @@ fn main() {
         // prod mode
         .subcommand(command!("start_api_server").arg(Arg::new("extra_args")))
         .subcommand(command!("start_asset_server").arg(Arg::new("extra_args")))
-        .subcommand(command!("start_webapp_console").arg(Arg::new("extra_args")))
-        .subcommand(command!("start_webapp_proof").arg(Arg::new("extra_args")))
-        .subcommand(command!("start_webapp_poll").arg(Arg::new("extra_args")))
+        .subcommand(command!(start_prfs_console_webapp::CMD_NAME).arg(Arg::new("extra_args")))
+        .subcommand(command!(start_prfs_proof_webapp::CMD_NAME).arg(Arg::new("extra_args")))
+        .subcommand(command!(start_prfs_poll_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!("start_shy_webapp").arg(Arg::new("extra_args")))
         .subcommand(command!("start_sdk_web_module").arg(Arg::new("extra_args")))
         .subcommand(command!("start_docs_website").arg(Arg::new("extra_args")))
@@ -141,11 +142,11 @@ fn main() {
         Some(("docker_run_postgres", sub_matches)) => {
             cmds::docker_run_postgres::run(sub_matches);
         }
-        Some(("docker_run_webapp_console", sub_matches)) => {
-            cmds::docker_run_webapp_console::run(sub_matches);
+        Some((docker_run_prfs_console_webapp::CMD_NAME, sub_matches)) => {
+            cmds::docker_run_prfs_console_webapp::run(sub_matches);
         }
-        Some(("docker_run_webapp_proof", sub_matches)) => {
-            cmds::docker_run_webapp_proof::run(sub_matches);
+        Some((docker_run_prfs_proof_webapp::CMD_NAME, sub_matches)) => {
+            cmds::docker_run_prfs_proof_webapp::run(sub_matches);
         }
         Some(("docker_run_sdk_web_module", sub_matches)) => {
             cmds::docker_run_sdk_web_module::run(sub_matches);

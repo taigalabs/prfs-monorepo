@@ -31,9 +31,9 @@ pub mod docker_run_api_server;
 pub mod docker_run_asset_server;
 pub mod docker_run_default;
 pub mod docker_run_postgres;
+pub mod docker_run_prfs_console_webapp;
+pub mod docker_run_prfs_proof_webapp;
 pub mod docker_run_sdk_web_module;
-pub mod docker_run_webapp_console;
-pub mod docker_run_webapp_proof;
 
 // seed
 pub mod seed_api_data;

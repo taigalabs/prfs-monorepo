@@ -18,4 +18,4 @@ RUN npm install -g pnpm
 
 RUN pnpm install
 
-CMD ["./ci", "start_webapp_proof"]
+CMD ["./ci", "start_prfs_proof_webapp"]

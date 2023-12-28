@@ -48,10 +48,10 @@ pub struct Paths {
     pub prfs_sdk_web: PathBuf,
     pub prfs_sdk_web_module: PathBuf,
 
-    // webapps
-    pub webapp_console: PathBuf,
-    pub webapp_proof: PathBuf,
-    pub webapp_poll: PathBuf,
+    // Prfs webapps
+    pub prfs_console_webapp: PathBuf,
+    pub prfs_proof_webapp: PathBuf,
+    pub prfs_poll_webapp: PathBuf,
 
     // Shy
     pub shy_webapp: PathBuf,
@@ -102,9 +102,9 @@ impl Paths {
         let prfs_sdk_web = curr_dir.join("source/prfs_sdk_web");
         let prfs_sdk_web_module = curr_dir.join("source/prfs_sdk_web_module");
 
-        let webapp_console = curr_dir.join("source/webapp_console");
-        let webapp_proof = curr_dir.join("source/webapp_proof");
-        let webapp_poll = curr_dir.join("source/webapp_poll");
+        let prfs_console_webapp = curr_dir.join("source/prfs_console_webapp");
+        let prfs_proof_webapp = curr_dir.join("source/prfs_proof_webapp");
+        let prfs_poll_webapp = curr_dir.join("source/prfs_poll_webapp");
 
         let shy_webapp = curr_dir.join("source/shy_webapp");
         let shy_api_server = curr_dir.join("source/shy_api_server");
@@ -141,9 +141,9 @@ impl Paths {
             prfs_sdk_web,
             prfs_sdk_web_module,
 
-            webapp_console,
-            webapp_proof,
-            webapp_poll,
+            prfs_console_webapp,
+            prfs_proof_webapp,
+            prfs_poll_webapp,
 
             shy_webapp,
             shy_api_server,

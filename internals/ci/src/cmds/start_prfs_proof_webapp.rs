@@ -3,10 +3,9 @@ use crate::{
     paths::PATHS,
 };
 use clap::ArgMatches;
-use const_format::str_replace;
 use std::process::Command;
 
-pub const CMD_NAME: &str = str_replace!(file!(), ".rs", "");
+pub const CMD_NAME: &str = "start_prfs_proof_webapp";
 
 pub fn run(matches: &ArgMatches) {
     let extra_args = match matches.get_many::<String>("extra_args") {
@@ -22,21 +21,21 @@ fn run_app(extra_args: Vec<&str>) {
     let extra_args = [vec!["create-envs"], extra_args].concat();
 
     let status = Command::new(JS_ENGINE)
-        .current_dir(&PATHS.webapp_proof)
+        .current_dir(&PATHS.prfs_proof_webapp)
         .args(extra_args)
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));
     assert!(status.success());
 
     let status = Command::new(JS_ENGINE)
-        .current_dir(&PATHS.webapp_proof)
+        .current_dir(&PATHS.prfs_proof_webapp)
         .args(["run", "build"])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));
     assert!(status.success());
 
     let status = Command::new(JS_ENGINE)
-        .current_dir(&PATHS.webapp_proof)
+        .current_dir(&PATHS.prfs_proof_webapp)
         .args(["run", "start"])
         .status()
         .expect(&format!("{} command failed to start", JS_ENGINE));
