@@ -8,7 +8,6 @@ import {
   ContentMainInfiniteScroll,
   ContentMainRight,
 } from "@/components/content_area/ContentArea";
-import TimelineHeader from "@/components/timeline_feeds/TimelineHeader";
 import { ShyPost } from "@taigalabs/prfs-entities/bindings/ShyPost";
 import RightBar from "@/components/right_bar/RightBar";
 

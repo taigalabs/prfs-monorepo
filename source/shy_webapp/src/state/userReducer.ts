@@ -1,66 +1,39 @@
-import { PrfsAccount } from "@taigalabs/prfs-entities/bindings/PrfsAccount";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-import { LoadPrfsAccountPayload, SignInPayload, SignOutPayload, SignUpPayload } from "./actions";
-import localStore from "@/storage/localStore";
-
-export interface LocalPrfsAccount {
-  prfsAccount: PrfsAccount;
-  walletAddr: string;
-}
+import { LocalShyCredential } from "@/storage/local_storage";
 
 export interface UserState {
-  localPrfsAccount: LocalPrfsAccount | null | undefined;
+  isInitialized: boolean;
+  shyCredential: LocalShyCredential | null;
 }
 
-const initialState: UserState = {
-  localPrfsAccount: undefined,
+const makeInitialState: () => UserState = () => {
+  return {
+    isInitialized: false,
+    shyCredential: null,
+  };
 };
 
 export const userSlice = createSlice({
   name: "user",
-  initialState,
+  initialState: makeInitialState(),
   reducers: {
-    signIn: (state: UserState, action: PayloadAction<SignInPayload>) => {
-      return handleSignIn(state, action);
+    signInPrfs: (state: UserState, action: PayloadAction<LocalShyCredential | null>) => {
+      return {
+        ...state,
+        isInitialized: true,
+        shyCredential: action.payload,
+      };
     },
-    signUp: (state, action) => {
-      return handleSignUp(state, action);
-    },
-    loadPrfsAccount: (state, action: PayloadAction<LoadPrfsAccountPayload>) => {
-      return handleLoadPrfsAccount(state, action);
-    },
-    signOut: (state, action) => {
-      return handleSignOut(state, action);
+    signOutPrfs: (state: UserState, _action: PayloadAction<void>) => {
+      return {
+        ...state,
+        shyCredential: null,
+      };
     },
   },
 });
 
-export const { signIn, signUp, loadPrfsAccount, signOut } = userSlice.actions;
+export const { signInPrfs, signOutPrfs } = userSlice.actions;
 
 export default userSlice.reducer;
-
-function handleSignIn(state: UserState, action: PayloadAction<SignInPayload>) {
-  localStore.putPrfsAccount(action.payload.prfsAccount, action.payload.walletAddr);
-
-  state = {
-    ...state,
-    localPrfsAccount: {
-      prfsAccount: action.payload.prfsAccount,
-      walletAddr: action.payload.walletAddr,
-    },
-  };
-}
-
-function handleSignUp(state: UserState, action: PayloadAction<SignUpPayload>) {}
-
-function handleLoadPrfsAccount(state: UserState, action: PayloadAction<LoadPrfsAccountPayload>) {
-  return {
-    ...state,
-    localPrfsAccount: action.payload.localPrfsAccount,
-  };
-}
-
-function handleSignOut(state: UserState, _action: PayloadAction<SignOutPayload>) {
-  state.localPrfsAccount = undefined;
-}

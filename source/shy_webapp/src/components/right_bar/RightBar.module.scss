@@ -1,28 +1,5 @@
 .wrapper {
-  width: 320px;
-}
+  width: 340px;
 
-.searchBarContainer {
-  display: flex;
-  justify-content: center;
-}
-
-.searchBar {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  padding: 10px 18px;
-  border-radius: 10px;
-  background-color: var(--gray-10);
-  color: var(--gray-80);
-  font-size: 16px;
-
-  input {
-    color: inherit;
-    font-size: 16px;
-    margin-left: 9px;
-    outline: none;
-    width: 100%;
-    // padding: 5px 6px;
-  }
+  border: 1px solid red;
 }

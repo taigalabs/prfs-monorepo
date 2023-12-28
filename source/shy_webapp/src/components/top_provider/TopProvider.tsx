@@ -8,7 +8,7 @@ import { publicProvider } from "wagmi/providers/public";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 
-import { I18nProvider } from "@/contexts/i18n";
+import { I18nProvider } from "@/i18n/context";
 import { store } from "@/state/store";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(

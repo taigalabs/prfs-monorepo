@@ -46,7 +46,7 @@ const TwitterAccAtstTable: React.FC<TwitterAccAtstTableProps> = () => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
-    useInfiniteQuery<PrfsApiResponse<GetTwitterAccAtstsResponse>>({
+    useInfiniteQuery({
       queryKey: ["projects"],
       queryFn: async ({ pageParam }) => {
         return atstApi("get_twitter_acc_atsts", { offset: pageParam as number });

@@ -18,7 +18,7 @@ import {
 } from "@taigalabs/prfs-react-components/src/hooks/use_prfs_snap";
 
 import styles from "./PostDialog.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import TextEditor from "@/components/text_editor/TextEditor";
 import OpenSnapDialog from "./OpenSnapDialog";
 
@@ -75,7 +75,7 @@ const PostDialog: React.FC<PostDialogProps> = ({ children }) => {
                 >
                   <OpenSnapDialog />
                   <div className={styles.header}>
-                    <div className={styles.title}>{i18n.write_to_social}</div>
+                    <div className={styles.title}>{i18n.write_to_shy}</div>
                     <div className={styles.topBtnRow}>
                       <button onClick={() => setIsOpen(false)}>
                         <AiOutlineClose />

@@ -35,4 +35,6 @@ packages:
   - "source/webapp_console"
   - "source/webapp_proof"
   - "source/webapp_poll"
-  - "source/webapp_shy"
+
+  # Shy
+  - "source/shy_webapp"

@@ -2,17 +2,13 @@
 
 import React from "react";
 import Logo from "@taigalabs/prfs-react-components/src/logo/Logo";
-import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
 import Link from "next/link";
-import ActiveLink from "@taigalabs/prfs-react-components/src/active_link/ActiveLink";
-import { BiBitcoin } from "@react-icons/all-files/bi/BiBitcoin";
-import { AiOutlineStock } from "@react-icons/all-files/ai/AiOutlineStock";
-import { AiFillPicture } from "@react-icons/all-files/ai/AiFillPicture";
 
 import styles from "./LeftBar.module.scss";
-import { i18nContext } from "@/contexts/i18n";
+import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
-import PostDialog from "../post_dialog/PostDialog";
+import PostDialog from "@/components/post_dialog/PostDialog";
+import LogoContainer from "@/components/logo_container/LogoContainer";
 
 const LeftBar: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -21,8 +17,7 @@ const LeftBar: React.FC = () => {
     <div className={styles.wrapper}>
       <div className={styles.logoContainer}>
         <Link href={paths.__}>
-          <p>{i18n.social}</p>
-          {/* <p className={styles.betaTag}>Beta</p> */}
+          <LogoContainer width={70} />
         </Link>
       </div>
       {/* <ul className={styles.mainMenu}> */}

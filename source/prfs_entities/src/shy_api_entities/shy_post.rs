@@ -19,15 +19,14 @@ pub struct CreateShyPostResponse {
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetShyPostsRequest {
-    pub page_idx: i32,
-    pub page_size: i32,
+    pub offset: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug, TS)]
 #[ts(export)]
 pub struct GetShyPostsResponse {
-    pub next_idx: i32,
-    pub social_posts: Vec<ShyPost>,
+    pub shy_posts: Vec<ShyPost>,
+    pub next_offset: Option<i32>,
 }
 
 #[derive(TS, Debug, Serialize, Deserialize, Clone)]

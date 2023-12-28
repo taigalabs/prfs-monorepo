@@ -9,19 +9,26 @@ use prfs_entities::{
     entities::{PrfsSet, PrfsSetType},
     shy_api_entities::ShyPost,
 };
-use uuid::Uuid;
 
 pub async fn get_shy_posts(
     pool: &Pool<Postgres>,
-    page_idx: i32,
-    page_size: i32,
+    offset: i32,
+    limit: i32,
 ) -> Result<Vec<ShyPost>, DbInterfaceError> {
     let query = r#"
 SELECT * 
 FROM shy_posts 
-ORDER BY updated_at DESC"#;
+ORDER BY updated_at DESC
+OFFSET $1
+LIMIT $2
+"#;
 
-    let rows = sqlx::query(&query).fetch_all(pool).await.unwrap();
+    let rows = sqlx::query(&query)
+        .bind(offset)
+        .bind(limit)
+        .fetch_all(pool)
+        .await
+        .unwrap();
 
     let shy_posts: Vec<ShyPost> = rows
         .iter()
@@ -36,11 +43,12 @@ ORDER BY updated_at DESC"#;
 }
 
 pub async fn insert_shy_post(tx: &mut Transaction<'_, Postgres>, shy_post: &ShyPost) -> uuid::Uuid {
-    let query = "INSERT INTO shy_posts \
-            (post_id, content, channel_id)
-            VALUES ($1, $2, $3) returning post_id";
-
-    // let proof_instance = social_post.get(0).unwrap();
+    let query = r#"
+INSERT INTO shy_posts
+(post_id, content, channel_id)
+VALUES ($1, $2, $3)
+RETURNING post_id
+"#;
 
     let row = sqlx::query(query)
         .bind(&shy_post.post_id)

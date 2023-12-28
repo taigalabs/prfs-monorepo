@@ -1,7 +1,7 @@
 .contentLeft {
   display: flex;
-  /* flex-grow: 1; */
-  width: calc(50vw - 625px + 250px);
+  flex-grow: 1;
+  // width: calc(50vw - 625px + 250px);
   justify-content: flex-end;
 
   /* border: 1px solid blue; */
