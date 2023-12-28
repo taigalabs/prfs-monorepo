@@ -12,6 +12,7 @@ import { useSearchParams } from "next/navigation";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
 import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
+import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -21,7 +22,6 @@ import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
 import CircuitInputs from "./CircuitInputs";
 import { ProofGenEvent } from "@taigalabs/prfs-sdk-web/src/elems/proof_gen/types";
-import Temp from "./Temp";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -189,81 +189,77 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   ]);
 
   return (
-    proofType && (
-      <>
-        <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
-          <div className={styles.driverMsg}>
-            <div className={styles.msg}>{driverMsg}</div>
-            {loadDriverStatus === LoadDriverStatus.InProgress && (
-              <LoadDriverProgress progress={loadDriverProgress} />
-            )}
-          </div>
-          <div className={cn(styles.main, { [styles.isTutorial]: isTutorial })}>
-            <div className={styles.moduleArea}>
-              <div className={styles.moduleWrapper}>
-                {loadDriverStatus === LoadDriverStatus.InProgress ||
-                  (createProofStatus === CreateProofStatus.InProgress && (
-                    <div className={styles.loaderBarWrapper}>
-                      <LoaderBar />
-                    </div>
-                  ))}
-                {loadDriverStatus === LoadDriverStatus.InProgress && (
-                  <div className={styles.overlay}>
-                    <Spinner size={32} color={colors.blue_12} />
-                  </div>
-                )}
-                <TutorialStepper steps={[2]}>
-                  <div className={styles.form}>
-                    <CircuitInputs
-                      circuitInputs={proofType.circuit_inputs as CircuitInput[]}
-                      proofGenElement={proofGenElement}
-                      formValues={formValues}
-                      setFormValues={setFormValues}
-                      formErrors={formErrors}
-                      setFormErrors={setFormErrors}
-                    />
-                  </div>
-                </TutorialStepper>
-                <div className={styles.btnRow}>
-                  <Button
-                    variant="blue_1"
-                    handleClick={handleClickCreateProof}
-                    className={cn(styles.createBtn, {
-                      [styles.inProgress]: createProofStatus === CreateProofStatus.InProgress,
-                    })}
-                  >
-                    {i18n.create_proof.toUpperCase()}
-                  </Button>
-                </div>
-                {systemMsg && (
-                  <div className={styles.footer}>
-                    <div
-                      className={cn(styles.msg, {
-                        [styles.errorMsg]: createProofStatus === CreateProofStatus.Error,
-                      })}
-                    >
-                      {systemMsg}
-                    </div>
-                  </div>
-                )}
-              </div>
+    <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
+      <div className={styles.driverMsg}>
+        <div className={styles.msg}>{driverMsg}</div>
+        {loadDriverStatus === LoadDriverStatus.InProgress && (
+          <LoadDriverProgress progress={loadDriverProgress} />
+        )}
+      </div>
+      <div className={cn(styles.main, { [styles.isTutorial]: isTutorial })}>
+        <div className={styles.moduleArea}>
+          <div className={styles.moduleWrapper}>
+            {/* {loadDriverStatus === LoadDriverStatus.InProgress || */}
+            {/*   (createProofStatus === CreateProofStatus.InProgress && ( */}
+            {/*     <div className={styles.loaderBarWrapper}> */}
+            {/*       <LoaderBar /> */}
+            {/*     </div> */}
+            {/*   ))} */}
+            {/* {loadDriverStatus === LoadDriverStatus.InProgress && ( */}
+            {/*   <div className={styles.overlay}> */}
+            {/*     <Spinner size={32} color={colors.blue_12} /> */}
+            {/*   </div> */}
+            {/* )} */}
+            {/* <TutorialStepper steps={[2]}> */}
+            {/*   <div className={styles.form}> */}
+            {/*     <CircuitInputs */}
+            {/*       circuitInputs={proofType.circuit_inputs as CircuitInput[]} */}
+            {/*       proofGenElement={proofGenElement} */}
+            {/*       formValues={formValues} */}
+            {/*       setFormValues={setFormValues} */}
+            {/*       formErrors={formErrors} */}
+            {/*       setFormErrors={setFormErrors} */}
+            {/*     /> */}
+            {/*   </div> */}
+            {/* </TutorialStepper> */}
+            <div className={styles.btnRow}>
+              <button
+                onClick={handleClickCreateProof}
+                className={cn(styles.createBtn, {
+                  [styles.inProgress]: createProofStatus === CreateProofStatus.InProgress,
+                })}
+              >
+                <IoMdAdd />
+                <span>{i18n.create_proof_with_prfs}</span>
+              </button>
             </div>
-            <div className={styles.metaArea}>
-              <ProofTypeMeta
-                proofTypeDesc={proofType.desc}
-                proofTypeId={proofType.proof_type_id}
-                imgUrl={proofType.img_url}
-                proofTypeLabel={proofType.label}
-                proofTypeAuthor={proofType.author}
-                circuitTypeId={proofType.circuit_type_id}
-                circuitDriverId={proofType.circuit_driver_id}
-                proofTypeCreatedAt={proofType.created_at}
-              />
-            </div>
+            {/* {systemMsg && ( */}
+            {/*   <div className={styles.footer}> */}
+            {/*     <div */}
+            {/*       className={cn(styles.msg, { */}
+            {/*         [styles.errorMsg]: createProofStatus === CreateProofStatus.Error, */}
+            {/*       })} */}
+            {/*     > */}
+            {/*       {systemMsg} */}
+            {/*     </div> */}
+            {/*   </div> */}
+            {/* )} */}
           </div>
         </div>
-      </>
-    )
+        <div className={styles.metaArea}>
+          <ProofTypeMeta
+            proofTypeDesc={proofType.desc}
+            proofTypeId={proofType.proof_type_id}
+            imgUrl={proofType.img_url}
+            proofTypeLabel={proofType.label}
+            proofTypeAuthor={proofType.author}
+            circuitTypeId={proofType.circuit_type_id}
+            circuitDriverId={proofType.circuit_driver_id}
+            proofTypeCreatedAt={proofType.created_at}
+          />
+        </div>
+      </div>
+    </div>
   );
 };
 
