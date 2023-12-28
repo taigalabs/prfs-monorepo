@@ -34,8 +34,6 @@ const PrfsIdAppSignIn: React.FC = () => {
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const searchParams = useSearchParams();
   const [step, setStep] = React.useState(SignInStep.PrfsIdCredential);
-  // const [publicKey, setPublicKey] = React.useState<string | null>(null);
-  // const [appId, setAppId] = React.useState<string | null>(null);
   const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
   const appSignInArgs = React.useMemo(() => {
     try {
@@ -47,8 +45,6 @@ const PrfsIdAppSignIn: React.FC = () => {
   }, [searchParams]);
 
   React.useEffect(() => {
-    // const publicKey = searchParams.get("public_key");
-    // const appId = searchParams.get("app_id");
     if (appSignInArgs) {
       const { publicKey, appId } = appSignInArgs;
 
@@ -59,8 +55,6 @@ const PrfsIdAppSignIn: React.FC = () => {
         setSignInStatus(SignInStatus.Error);
         setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
       } else {
-        // setPublicKey(publicKey);
-        // setAppId(appId);
         setSignInStatus(SignInStatus.Standby);
       }
     }
@@ -101,8 +95,6 @@ const PrfsIdAppSignIn: React.FC = () => {
           appSignInArgs && (
             <AppCredential
               credential={credential}
-              // appId={appId}
-              // publicKey={publicKey}
               appSignInArgs={appSignInArgs}
               handleClickPrev={handleClickPrev}
             />
