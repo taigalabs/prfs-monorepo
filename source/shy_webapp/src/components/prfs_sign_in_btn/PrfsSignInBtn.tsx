@@ -3,7 +3,6 @@
 import React from "react";
 import cn from "classnames";
 import { useRouter } from "next/navigation";
-// import { decrypt } from "eciesjs";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
 import PrfsIdSignInButton from "@taigalabs/prfs-react-components/src/prfs_id_sign_in_button/PrfsIdSignInButton";
 import PrfsCredentialPopover from "@taigalabs/prfs-react-components/src/prfs_credential_popover/PrfsCredentialPopover";
@@ -129,8 +128,9 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
       <PrfsIdSignInButton
         className={className}
         label={label}
-        prfsIdSignInEndpoint={prfsIdSignInEndpoint}
+        // prfsIdSignInEndpoint={prfsIdSignInEndpoint}
         handleSucceedSignIn={handleSucceedSignIn}
+        prfsIdAppSignInEndpoint={}
       />
     </>
   );

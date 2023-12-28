@@ -17,13 +17,13 @@ import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import styles from "./SelectProofTypeDialog.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import ProofTypeTable from "./ProofTypeTable";
-import { ProofTypeItem } from "@/components/create_proof_form/CreateProofForm";
+// import { ProofTypeItem } from "@/components/create_proof_form/CreateProofForm";
 import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
 
 const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSelectProofType }) => {
   const i18n = React.useContext(i18nContext);
   const [isOpen, setIsOpen] = React.useState(false);
-  const [selectedProofTypeItem, setSelectedProofTypeItem] = React.useState<ProofTypeItem>();
+  const [selectedProofTypeItem, setSelectedProofTypeItem] = React.useState<any>();
 
   const { refs, context } = useFloating({
     open: isOpen,
@@ -40,7 +40,7 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSel
   const descriptionId = useId();
 
   const extendedProofTypeClickHandler = React.useCallback(
-    (proofTypeItem: ProofTypeItem) => {
+    (proofTypeItem: any) => {
       setIsOpen(false);
       setSelectedProofTypeItem(proofTypeItem);
       handleSelectProofType(proofTypeItem);
@@ -96,5 +96,5 @@ const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSel
 export default SelectProofTypeDialog;
 
 export interface SelectProofTypeDialogProps {
-  handleSelectProofType: (proofTypeItem: ProofTypeItem) => void;
+  handleSelectProofType: (proofTypeItem: any) => void;
 }

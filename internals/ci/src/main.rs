@@ -8,9 +8,9 @@ mod utils;
 use crate::{
     build_handle::BuildHandle,
     cmds::{
-        dev_prfs_console_webapp, dev_prfs_poll_webapp, dev_prfs_proof_webapp,
+        dev_prfs_console_webapp, dev_prfs_poll_webapp, dev_prfs_proof_webapp, dev_shy_webapp,
         docker_run_prfs_console_webapp, docker_run_prfs_proof_webapp, start_prfs_console_webapp,
-        start_prfs_poll_webapp, start_prfs_proof_webapp,
+        start_prfs_poll_webapp, start_prfs_proof_webapp, start_shy_webapp,
     },
 };
 use chrono::prelude::*;
@@ -89,16 +89,16 @@ fn main() {
         Some(("dev_sdk_web_module", sub_matches)) => {
             cmds::dev_sdk_web_module::run(sub_matches);
         }
-        Some(("dev_webapp_console", sub_matches)) => {
+        Some((dev_prfs_console_webapp::CMD_NAME, sub_matches)) => {
             cmds::dev_prfs_console_webapp::run(sub_matches);
         }
         Some((dev_prfs_proof_webapp::CMD_NAME, sub_matches)) => {
             cmds::dev_prfs_proof_webapp::run(sub_matches);
         }
-        Some(("dev_webapp_poll", sub_matches)) => {
+        Some((dev_prfs_poll_webapp::CMD_NAME, sub_matches)) => {
             cmds::dev_prfs_poll_webapp::run(sub_matches);
         }
-        Some(("dev_shy_webapp", sub_matches)) => {
+        Some((dev_shy_webapp::CMD_NAME, sub_matches)) => {
             cmds::dev_shy_webapp::run(sub_matches);
         }
         Some(("dev_asset_server", sub_matches)) => {
@@ -129,10 +129,10 @@ fn main() {
         Some((start_prfs_proof_webapp::CMD_NAME, sub_matches)) => {
             cmds::start_prfs_proof_webapp::run(sub_matches);
         }
-        Some(("start_webapp_poll", sub_matches)) => {
+        Some((start_prfs_poll_webapp::CMD_NAME, sub_matches)) => {
             cmds::start_prfs_poll_webapp::run(sub_matches);
         }
-        Some(("start_shy_webapp", sub_matches)) => {
+        Some((start_shy_webapp::CMD_NAME, sub_matches)) => {
             cmds::start_shy_webapp::run(sub_matches);
         }
         Some(("start_docs_website", sub_matches)) => {

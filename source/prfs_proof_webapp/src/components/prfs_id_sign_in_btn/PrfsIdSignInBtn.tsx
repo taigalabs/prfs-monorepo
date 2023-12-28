@@ -36,7 +36,6 @@ const prfsIdAppSignInEndpoint = `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${path
 
 const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noCredential }) => {
   const router = useRouter();
-  // const [prfsIdSignInEndpoint, setPrfsIdSignInEndpoint] = React.useState<string | null>(null);
   const dispatch = useAppDispatch();
   const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
   const { mutateAsync: prfsSignInRequest } = useMutation({

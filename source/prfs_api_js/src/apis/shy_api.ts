@@ -25,7 +25,7 @@ type Resp<T> = //
 let endpoint: string;
 if (typeof process !== "undefined") {
   if (!process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT) {
-    throw new Error("api endpoint not defined");
+    throw new Error("shy api endpoint not defined");
   }
 
   endpoint = `${process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT}/shy_api/v0`;

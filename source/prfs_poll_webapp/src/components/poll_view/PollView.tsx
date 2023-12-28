@@ -9,7 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import { ethers } from "ethers";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
+// import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
 import styles from "./PollView.module.scss";
 import { i18nContext } from "@/contexts/i18n";
@@ -21,7 +21,7 @@ const prfs = new PrfsSDK("test");
 const PollView: React.FC<PollViewProps> = ({ poll }) => {
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
-  const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
+  // const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement>();
 
   const [formData, setFormData] = React.useState<string[]>([]);
   const handleChangeForm = React.useCallback(
@@ -57,7 +57,7 @@ const PollView: React.FC<PollViewProps> = ({ poll }) => {
     }
 
     fn().then();
-  }, [poll, setProofGenElement]);
+  }, [poll]);
 
   const questionsElem = React.useMemo(() => {
     return poll.questions.map((qst, idx) => {
@@ -80,45 +80,39 @@ const PollView: React.FC<PollViewProps> = ({ poll }) => {
   });
 
   const handleClickSubmit = React.useCallback(async () => {
-    if (proofGenElement) {
-      console.log(formData);
-      const proveReceipt = await proofGenElement.createProof();
-
-      if (proveReceipt === null) {
-        throw new Error("prove is not created");
-      }
-
-      const { proveResult } = proveReceipt;
-      const { proof, publicInputSer } = proveResult;
-      const public_inputs = JSON.parse(publicInputSer);
-
-      const serialNo = public_inputs.circuitPubInput.serialNo;
-      if (!serialNo) {
-        throw new Error("Serial no does not exist");
-      }
-
-      const proof_instance_id = uuidv4();
-
-      console.log("try submiting poll", proveReceipt);
-      try {
-        await mutation.mutateAsync({
-          proof_instance_id,
-          account_id: null,
-          proof_type_id: poll.proof_type_id,
-          proof: Array.from(proof),
-          public_inputs,
-          poll_id: poll.poll_id,
-          serial_no: serialNo,
-          value: formData,
-        });
-
-        window.location.reload();
-      } catch (err: any) {
-        console.error(err);
-        return;
-      }
-    }
-  }, [formData, proofGenElement, mutation, poll]);
+    // if (proofGenElement) {
+    //   console.log(formData);
+    //   const proveReceipt = await proofGenElement.createProof();
+    //   if (proveReceipt === null) {
+    //     throw new Error("prove is not created");
+    //   }
+    //   const { proveResult } = proveReceipt;
+    //   const { proof, publicInputSer } = proveResult;
+    //   const public_inputs = JSON.parse(publicInputSer);
+    //   const serialNo = public_inputs.circuitPubInput.serialNo;
+    //   if (!serialNo) {
+    //     throw new Error("Serial no does not exist");
+    //   }
+    //   const proof_instance_id = uuidv4();
+    //   console.log("try submiting poll", proveReceipt);
+    //   try {
+    //     await mutation.mutateAsync({
+    //       proof_instance_id,
+    //       account_id: null,
+    //       proof_type_id: poll.proof_type_id,
+    //       proof: Array.from(proof),
+    //       public_inputs,
+    //       poll_id: poll.poll_id,
+    //       serial_no: serialNo,
+    //       value: formData,
+    //     });
+    //     window.location.reload();
+    //   } catch (err: any) {
+    //     console.error(err);
+    //     return;
+    //   }
+    // }
+  }, [formData, mutation, poll]);
 
   return (
     <div className={styles.wrapper}>

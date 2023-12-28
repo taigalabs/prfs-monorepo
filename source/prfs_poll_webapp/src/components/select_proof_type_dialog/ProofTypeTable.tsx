@@ -17,7 +17,7 @@ import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 
 import styles from "./ProofTypeTable.module.scss";
 import { i18nContext } from "@/contexts/i18n";
-import { ProofTypeItem } from "../create_proof_form/CreateProofForm";
+// import { ProofTypeItem } from "../create_proof_form/CreateProofForm";
 
 const ProofTypeTable: React.FC<ProofTypeTableProps> = ({ handleSelectVal }) => {
   const i18n = React.useContext(i18nContext);
@@ -94,7 +94,9 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = ({ handleSelectVal }) => {
         page_size: pageSize,
       });
 
-      setData(payload.prfs_proof_types);
+      if (payload) {
+        setData(payload.prfs_proof_types);
+      }
     }
 
     fn().then();
@@ -162,5 +164,5 @@ const ProofTypeTable: React.FC<ProofTypeTableProps> = ({ handleSelectVal }) => {
 export default ProofTypeTable;
 
 export interface ProofTypeTableProps {
-  handleSelectVal: (proofTypeItem: ProofTypeItem) => void;
+  handleSelectVal: (proofTypeItem: any) => void;
 }

@@ -41,7 +41,7 @@ type Resp<T extends RequestName> = //
 let endpoint: string;
 if (typeof process !== "undefined") {
   if (!process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT) {
-    throw new Error("api endpoint not defined");
+    throw new Error("atst api endpoint not defined");
   }
   endpoint = `${process.env.NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT}/atst_api/v0`;
 } else {
