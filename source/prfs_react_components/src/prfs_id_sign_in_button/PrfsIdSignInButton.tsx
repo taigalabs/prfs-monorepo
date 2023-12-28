@@ -18,14 +18,9 @@ enum SignInStatus {
   InProgress,
 }
 
-// const childWindowCloseListener: { ref: NodeJS.Timer | null } = {
-//   ref: null,
-// };
-
 const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   className,
   label,
-  // prfsIdSignInEndpoint,
   appSignInArgs,
   handleSucceedSignIn,
   prfsIdAppSignInEndpoint,
@@ -34,36 +29,6 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   const [status, setStatus] = React.useState(SignInStatus.Standby);
   const msgListenerRef = React.useRef<((ev: MessageEvent) => void) | null>(null);
   const closeTimerRef = React.useRef<NodeJS.Timer | null>(null);
-
-  // React.useEffect(() => {
-  //   const prfsIdSignInEndpoint = makeAppSignInSearchParams(appSignInArgs);
-
-  //   const listener = (ev: MessageEvent<any>) => {
-  //     const { origin } = ev;
-
-  //     if (prfsIdSignInEndpoint && prfsIdSignInEndpoint.startsWith(origin)) {
-  //       const data = ev.data as PrfsIdMsg<Buffer>;
-  //       if (data.type === "SIGN_IN_SUCCESS") {
-  //         if (childWindowCloseListener.ref) {
-  //           clearInterval(childWindowCloseListener.ref);
-  //         }
-
-  //         const msg = newPrfsIdMsg("SIGN_IN_SUCCESS_RESPOND", null);
-  //         ev.ports[0].postMessage(msg);
-  //         handleSucceedSignIn(data.payload);
-  //       }
-  //     }
-  //   };
-  //   addEventListener("message", listener, false);
-
-  //   return () => {
-  //     window.removeEventListener("message", listener);
-
-  //     if (childWindowCloseListener.ref) {
-  //       clearInterval(childWindowCloseListener.ref);
-  //     }
-  //   };
-  // }, [appSignInArgs, handleSucceedSignIn]);
 
   React.useEffect(() => {
     return () => {
@@ -82,7 +47,6 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
 
     if (!msgListenerRef.current) {
       const listener = (ev: MessageEvent<any>) => {
-        console.log(11, ev);
         const { origin } = ev;
         if (endpoint.startsWith(origin)) {
           const data = ev.data as PrfsIdMsg<Buffer>;

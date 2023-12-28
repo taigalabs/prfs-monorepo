@@ -4,8 +4,6 @@ import { useSearchParams } from "next/navigation";
 import {
   PrfsIdSignInSuccessPayload,
   sendMsgToOpener,
-  StoredCredential,
-  persistPrfsIdCredential,
   PrfsIdMsg,
   PrfsIdCredential,
   AppSignInArgs,
@@ -35,8 +33,6 @@ enum AppCredentialStatus {
 
 const AppCredential: React.FC<AppCredentialProps> = ({
   handleClickPrev,
-  // appId,
-  // publicKey,
   appSignInArgs,
   credential,
 }) => {
@@ -123,9 +119,8 @@ const AppCredential: React.FC<AppCredentialProps> = ({
       };
 
       try {
-        // await sendMsgToOpener(msg);
-        // await sendMsgToOpener(msg);
-        window.postMessage("power");
+        await sendMsgToOpener(msg);
+        window.close();
       } catch (err: any) {
         setErrorMsg(err.toString());
       }
@@ -177,8 +172,6 @@ export default AppCredential;
 
 export interface AppCredentialProps {
   handleClickPrev: () => void;
-  // appId: string;
-  // publicKey: string;
   credential: PrfsIdCredential;
   appSignInArgs: AppSignInArgs;
 }
