@@ -56,6 +56,9 @@ pub struct Paths {
     // Shy
     pub shy_webapp: PathBuf,
     pub shy_api_server: PathBuf,
+
+    // Prfs identity
+    pub prfs_id_webapp: PathBuf,
 }
 
 #[allow(non_snake_case)]
@@ -109,6 +112,8 @@ impl Paths {
         let shy_webapp = curr_dir.join("source/shy_webapp");
         let shy_api_server = curr_dir.join("source/shy_api_server");
 
+        let prfs_id_webapp = curr_dir.join("source/prfs_id_webapp");
+
         let p = Paths {
             curr_dir,
 
@@ -147,6 +152,8 @@ impl Paths {
 
             shy_webapp,
             shy_api_server,
+
+            prfs_id_webapp,
 
             e2e_test_web,
         };

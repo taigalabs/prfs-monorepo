@@ -1,0 +1,208 @@
+.topRow {
+  display: flex;
+  height: 47px;
+  border-bottom: 1px solid var(--bright-gray-36);
+
+  /* border: 1px solid blue; */
+
+  .content {
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 1158px;
+
+    /* border: 1px solid green; */
+  }
+
+  .mainMenu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+    min-width: 510px;
+    max-width: 640px;
+
+    /* border: 1px solid gray; */
+  }
+
+  ul {
+    display: flex;
+
+    li:not(:first-child) {
+      margin-left: 18px;
+    }
+  }
+
+  .link {
+    display: flex;
+    align-items: center;
+    color: var(--aqua-blue-50);
+
+    svg {
+      margin-left: 3px;
+    }
+  }
+
+  .rightPadding {
+    width: 370px;
+
+    /* border: 1px solid blue; */
+  }
+}
+
+.main {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-width: 0px;
+  padding-bottom: 32px;
+  overflow-x: auto;
+
+  /* border: 1px solid blue; */
+
+  > .content {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 1158px;
+
+    /* border: 1px solid blue; */
+  }
+}
+
+.upperRow {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  height: 42px;
+}
+
+.meta {
+  margin-top: 40px;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-width: 510px;
+  max-width: 640px;
+
+  /* border: 1px solid red; */
+
+  .bannerContainer {
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 640px;
+  }
+
+  .content {
+    word-break: break-all;
+    word-wrap: break-word;
+
+    .label {
+      font-weight: 500;
+      font-size: 1.5em;
+      margin-bottom: 8px;
+    }
+
+    .desc {
+      line-height: 1.49;
+    }
+  }
+
+  .proofDetailContainer {
+    margin-top: 32px;
+    /* border: 1px solid black; */
+  }
+}
+
+.proofDataContainer {
+  margin-left: 45px;
+  margin-top: 40px;
+  max-width: 370px;
+}
+
+.isTutorial {
+  .proofDetail {
+    margin-left: 32px;
+  }
+
+  .verifyProofFormWrapper {
+    width: 330px;
+  }
+}
+
+.isLoading {
+  padding: 0 30px;
+}
+
+@media screen and (max-width: 1120px) {
+  .topRow {
+    padding: 0 10px;
+    height: 39px;
+
+    .mainMenu {
+      width: 100%;
+      margin-left: 0;
+      min-width: 0;
+      max-width: none;
+    }
+
+    .rightPadding {
+      display: none;
+    }
+  }
+
+  .main {
+    > .content {
+      width: 100%;
+      flex-direction: column;
+    }
+  }
+
+  .headerLabel {
+    font-size: 16px;
+  }
+
+  .meta {
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    margin-left: 0px;
+    align-items: center;
+    max-width: none;
+    min-width: 0px;
+    padding: 0 16px;
+    margin-top: 20px;
+
+    .proofDetailContainer {
+      display: flex;
+      max-width: 630px;
+      width: 100%;
+      margin-top: 20px;
+
+      /* border: 1px solid blue; */
+    }
+  }
+
+  .proofDataContainer {
+    display: flex;
+    justify-content: center;
+    margin-left: 0px;
+    border-left: none;
+    margin-top: 0;
+    max-width: none;
+    padding: 0 16px;
+
+    > div {
+      max-width: 630px;
+    }
+  }
+
+  .isTutorial {
+    .proofDetail {
+      margin-left: 0px;
+    }
+  }
+}

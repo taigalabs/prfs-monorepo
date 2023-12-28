@@ -26,7 +26,6 @@ packages:
   # Prfs SDK
   - "source/prfs_sdk_web"
   - "source/prfs_sdk_web_module"
-  - "source/prfs_id_sdk_web"
 
   # Prfs webapps
   - "source/prfs_proof_webapp"
@@ -38,3 +37,7 @@ packages:
 
   # Shy
   - "source/shy_webapp"
+
+  # Prfs identity
+  - "source/prfs_id_webapp"
+  - "source/prfs_id_sdk_web"

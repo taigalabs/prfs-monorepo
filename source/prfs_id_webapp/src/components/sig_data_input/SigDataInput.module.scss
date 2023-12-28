@@ -1,0 +1,30 @@
+.interactiveArea {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.computedValue {
+  padding: 3px 7px;
+  border-top: 1px solid var(--bright-gray-30);
+  color: var(--gray-50);
+  font-size: 0.91em;
+}
+
+.btnGroup {
+  align-items: center;
+  display: flex;
+  position: absolute;
+  right: 2px;
+
+  button {
+    cursor: pointer;
+    color: var(--blue-30);
+  }
+
+  .signBtn {
+    font-size: 13px;
+    padding: 6px 4px;
+  }
+}

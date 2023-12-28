@@ -733,6 +733,214 @@ importers:
         specifier: ^3.0.2
         version: 3.0.2
 
+  source/prfs_id_webapp:
+    dependencies:
+      '@ethereumjs/util':
+        specifier: ^8.0.3
+        version: 8.1.0
+      '@floating-ui/react':
+        specifier: ^0.24.8
+        version: 0.24.8(react-dom@18.2.0)(react@18.2.0)
+      '@mdx-js/react':
+        specifier: ^2.3.0
+        version: 2.3.0(react@18.2.0)
+      '@next/mdx':
+        specifier: ^13.5.4
+        version: 13.5.4(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
+      '@noble/curves':
+        specifier: ^1.2.0
+        version: 1.2.0
+      '@phosphor-icons/react':
+        specifier: ^2.0.10
+        version: 2.0.10(react-dom@18.2.0)(react@18.2.0)
+      '@react-icons/all-files':
+        specifier: ^4.1.0
+        version: 4.1.0(react@18.2.0)
+      '@reduxjs/toolkit':
+        specifier: 2.0.1
+        version: 2.0.1(react-redux@9.0.4)(react@18.2.0)
+      '@tabler/icons-react':
+        specifier: ^2.32.0
+        version: 2.32.0(react@18.2.0)
+      '@taigalabs/prfs-api-js':
+        specifier: '*'
+        version: link:../prfs_api_js
+      '@taigalabs/prfs-crypto-js':
+        specifier: '*'
+        version: link:../prfs_crypto_js
+      '@taigalabs/prfs-driver-interface':
+        specifier: '*'
+        version: link:../prfs_driver_interface
+      '@taigalabs/prfs-driver-spartan-js':
+        specifier: '*'
+        version: link:../prfs_driver_spartan_js
+      '@taigalabs/prfs-entities':
+        specifier: '*'
+        version: link:../prfs_entities
+      '@taigalabs/prfs-i18n':
+        specifier: '*'
+        version: link:../prfs_i18n
+      '@taigalabs/prfs-id-sdk-web':
+        specifier: '*'
+        version: link:../prfs_id_sdk_web
+      '@taigalabs/prfs-react-components':
+        specifier: '*'
+        version: link:../prfs_react_components
+      '@taigalabs/prfs-sdk-web':
+        specifier: '*'
+        version: link:../prfs_sdk_web
+      '@tanstack/react-query':
+        specifier: 5.14.6
+        version: 5.14.6(react@18.2.0)
+      '@tanstack/react-table':
+        specifier: 8.11.2
+        version: 8.11.2(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/react-virtual':
+        specifier: 3.0.1
+        version: 3.0.1(react-dom@18.2.0)(react@18.2.0)
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
+      copy-to-clipboard:
+        specifier: ^3.3.3
+        version: 3.3.3
+      dayjs:
+        specifier: ^1.11.9
+        version: 1.11.9
+      dompurify:
+        specifier: ^3.0.6
+        version: 3.0.6
+      eciesjs:
+        specifier: ^0.4.5
+        version: 0.4.5
+      elliptic:
+        specifier: ^6.5.4
+        version: 6.5.4
+      ethers:
+        specifier: ^5
+        version: 5.7.2
+      ffjavascript:
+        specifier: 0.2.62
+        version: 0.2.62
+      json-bigint:
+        specifier: ^1.0.0
+        version: 1.0.0
+      marked:
+        specifier: ^9.1.5
+        version: 9.1.5
+      next:
+        specifier: 14.0.4
+        version: 14.0.4(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0)(sass@1.63.6)
+      qrcode:
+        specifier: ^1.5.3
+        version: 1.5.3
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: 18.2.0
+        version: 18.2.0(react@18.2.0)
+      react-redux:
+        specifier: ^9.0.4
+        version: 9.0.4(@types/react@18.2.25)(react@18.2.0)(redux@5.0.0)
+      readline:
+        specifier: ^1.3.0
+        version: 1.3.0
+      redux-logger:
+        specifier: ^3.0.6
+        version: 3.0.6
+      sass:
+        specifier: ^1.63.6
+        version: 1.63.6
+      snarkjs:
+        specifier: 0.7.0
+        version: 0.7.0
+      uuid:
+        specifier: ^9.0.0
+        version: 9.0.0
+      wagmi:
+        specifier: 1.4.12
+        version: 1.4.12(@types/react@18.2.25)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.12.2)
+    devDependencies:
+      '@faker-js/faker':
+        specifier: ^8.0.2
+        version: 8.0.2
+      '@mdx-js/loader':
+        specifier: ^2.3.0
+        version: 2.3.0(webpack@5.88.2)
+      '@svgr/webpack':
+        specifier: ^8.1.0
+        version: 8.1.0
+      '@tanstack/eslint-plugin-query':
+        specifier: ^4.34.1
+        version: 4.34.1(eslint@8.26.0)
+      '@types/dompurify':
+        specifier: ^3.0.4
+        version: 3.0.4
+      '@types/json-bigint':
+        specifier: ^1.0.1
+        version: 1.0.1
+      '@types/mdx':
+        specifier: ^2.0.8
+        version: 2.0.8
+      '@types/node':
+        specifier: 20.3.1
+        version: 20.3.1
+      '@types/qrcode':
+        specifier: ^1.5.1
+        version: 1.5.1
+      '@types/react':
+        specifier: 18.2.25
+        version: 18.2.25
+      '@types/react-dom':
+        specifier: 18.2.17
+        version: 18.2.17
+      '@types/redux-logger':
+        specifier: ^3.0.9
+        version: 3.0.9
+      '@types/uuid':
+        specifier: ^9.0.2
+        version: 9.0.2
+      chalk:
+        specifier: 4.1.0
+        version: 4.1.0
+      dotenv:
+        specifier: ^16.3.1
+        version: 16.3.1
+      eslint:
+        specifier: 8.26.0
+        version: 8.26.0
+      eslint-config-next:
+        specifier: 13.4.6
+        version: 13.4.6(eslint@8.26.0)(typescript@5.1.6)
+      install:
+        specifier: ^0.13.0
+        version: 0.13.0
+      prettier:
+        specifier: ^2.7.1
+        version: 2.8.8
+      rehype-sanitize:
+        specifier: ^6.0.0
+        version: 6.0.0
+      rehype-stringify:
+        specifier: ^10.0.0
+        version: 10.0.0
+      remark-parse:
+        specifier: ^11.0.0
+        version: 11.0.0
+      remark-rehype:
+        specifier: ^11.0.0
+        version: 11.0.0
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.1(@types/node@20.3.1)(typescript@5.1.6)
+      typescript:
+        specifier: 5.1.6
+        version: 5.1.6
+      unified:
+        specifier: ^11.0.3
+        version: 11.0.3
+
   source/prfs_poll_webapp:
     dependencies:
       '@ethereumjs/util':
