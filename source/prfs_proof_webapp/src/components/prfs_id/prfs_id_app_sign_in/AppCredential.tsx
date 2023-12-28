@@ -136,33 +136,35 @@ const AppCredential: React.FC<AppCredentialProps> = ({
       )}
       <PrfsIdSignInWithPrfsId>{i18n.sign_in_with_prfs_id}</PrfsIdSignInWithPrfsId>
       <PrfsIdSignInInnerPadding>
-        <PrfsIdSignInModuleHeader noTopPadding>
-          <PrfsIdSignInModuleTitle>{title}</PrfsIdSignInModuleTitle>
-        </PrfsIdSignInModuleHeader>
-        <div>
-          <p className={styles.prfsId}>{credential.id}</p>
+        <div className={styles.main}>
+          <PrfsIdSignInModuleHeader noTopPadding>
+            <PrfsIdSignInModuleTitle>{title}</PrfsIdSignInModuleTitle>
+          </PrfsIdSignInModuleHeader>
+          <div>
+            <p className={styles.prfsId}>{credential.id}</p>
+          </div>
+          {signInDataElem}
+          <div className={styles.dataWarning}>
+            <p className={styles.title}>Make sure you trust {appSignInArgs.appId} app</p>
+            <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
+          </div>
+          <PrfsIdSignInModuleBtnRow>
+            <Button variant="transparent_blue_2" noTransition handleClick={handleClickPrev}>
+              {i18n.go_back}
+            </Button>
+            <Button
+              type="button"
+              variant="blue_2"
+              className={styles.signInBtn}
+              noTransition
+              handleClick={handleClickSignIn}
+              noShadow
+            >
+              {i18n.sign_in}
+            </Button>
+          </PrfsIdSignInModuleBtnRow>
+          <PrfsIdSignInErrorMsg>{errorMsg}</PrfsIdSignInErrorMsg>
         </div>
-        {signInDataElem}
-        <div className={styles.dataWarning}>
-          <p className={styles.title}>Make sure you trust {appSignInArgs.appId} app</p>
-          <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
-        </div>
-        <PrfsIdSignInModuleBtnRow>
-          <Button variant="transparent_blue_2" noTransition handleClick={handleClickPrev}>
-            {i18n.go_back}
-          </Button>
-          <Button
-            type="button"
-            variant="blue_2"
-            className={styles.signInBtn}
-            noTransition
-            handleClick={handleClickSignIn}
-            noShadow
-          >
-            {i18n.sign_in}
-          </Button>
-        </PrfsIdSignInModuleBtnRow>
-        <PrfsIdSignInErrorMsg>{errorMsg}</PrfsIdSignInErrorMsg>
       </PrfsIdSignInInnerPadding>
     </>
   );
