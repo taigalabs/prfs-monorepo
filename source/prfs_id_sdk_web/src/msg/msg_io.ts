@@ -23,14 +23,12 @@ export async function sendMsg(msg: PrfsIdMsg<any>, sender: Function): Promise<an
     const channel = new MessageChannel();
     channel.port1.onmessage = ({ data }: { data: any }) => {
       channel.port1.close();
-
       if (data.error) {
         rej(data.error);
       } else {
         res(data.payload as any);
       }
     };
-
     sender(msg, channel);
   });
 }

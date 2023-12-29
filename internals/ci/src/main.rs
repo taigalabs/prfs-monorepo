@@ -8,10 +8,10 @@ mod utils;
 use crate::{
     build_handle::BuildHandle,
     cmds::{
-        dev_prfs_console_webapp, dev_prfs_id_webapp, dev_prfs_poll_webapp, dev_prfs_proof_webapp,
-        dev_shy_webapp, docker_run_prfs_console_webapp, docker_run_prfs_proof_webapp,
-        start_prfs_console_webapp, start_prfs_id_webapp, start_prfs_poll_webapp,
-        start_prfs_proof_webapp, start_shy_webapp,
+        dev_prfs_console_webapp, dev_prfs_embed_webapp, dev_prfs_id_webapp, dev_prfs_poll_webapp,
+        dev_prfs_proof_webapp, dev_shy_webapp, docker_run_prfs_console_webapp,
+        docker_run_prfs_proof_webapp, start_prfs_console_webapp, start_prfs_embed_webapp,
+        start_prfs_id_webapp, start_prfs_poll_webapp, start_prfs_proof_webapp, start_shy_webapp,
     },
 };
 use chrono::prelude::*;
@@ -36,6 +36,7 @@ fn main() {
         .subcommand(command!(dev_prfs_proof_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(dev_prfs_poll_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(dev_prfs_id_webapp::CMD_NAME).arg(Arg::new("extra_args")))
+        .subcommand(command!(dev_prfs_embed_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!("dev_shy_webapp").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_sdk_web_module").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_docs_website").arg(Arg::new("extra_args")))
@@ -49,6 +50,7 @@ fn main() {
         .subcommand(command!(start_prfs_proof_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(start_prfs_id_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(start_prfs_poll_webapp::CMD_NAME).arg(Arg::new("extra_args")))
+        .subcommand(command!(start_prfs_embed_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!("start_shy_webapp").arg(Arg::new("extra_args")))
         .subcommand(command!("start_sdk_web_module").arg(Arg::new("extra_args")))
         .subcommand(command!("start_docs_website").arg(Arg::new("extra_args")))
@@ -104,6 +106,9 @@ fn main() {
         Some((dev_prfs_id_webapp::CMD_NAME, sub_matches)) => {
             dev_prfs_id_webapp::run(sub_matches);
         }
+        Some((dev_prfs_embed_webapp::CMD_NAME, sub_matches)) => {
+            dev_prfs_embed_webapp::run(sub_matches);
+        }
         Some((dev_shy_webapp::CMD_NAME, sub_matches)) => {
             cmds::dev_shy_webapp::run(sub_matches);
         }
@@ -129,17 +134,20 @@ fn main() {
         Some(("start_sdk_web_module", sub_matches)) => {
             cmds::start_sdk_web_module::run(sub_matches);
         }
-        Some(("start_webapp_console", sub_matches)) => {
-            cmds::start_prfs_console_webapp::run(sub_matches);
+        Some((start_prfs_console_webapp::CMD_NAME, sub_matches)) => {
+            start_prfs_console_webapp::run(sub_matches);
         }
         Some((start_prfs_proof_webapp::CMD_NAME, sub_matches)) => {
-            cmds::start_prfs_proof_webapp::run(sub_matches);
+            start_prfs_proof_webapp::run(sub_matches);
         }
         Some((start_prfs_id_webapp::CMD_NAME, sub_matches)) => {
             start_prfs_id_webapp::run(sub_matches);
         }
         Some((start_prfs_poll_webapp::CMD_NAME, sub_matches)) => {
-            cmds::start_prfs_poll_webapp::run(sub_matches);
+            start_prfs_poll_webapp::run(sub_matches);
+        }
+        Some((start_prfs_embed_webapp::CMD_NAME, sub_matches)) => {
+            start_prfs_embed_webapp::run(sub_matches);
         }
         Some((start_shy_webapp::CMD_NAME, sub_matches)) => {
             cmds::start_shy_webapp::run(sub_matches);

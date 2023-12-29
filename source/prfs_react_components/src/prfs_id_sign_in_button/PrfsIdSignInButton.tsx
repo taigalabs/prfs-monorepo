@@ -4,6 +4,7 @@ import {
   API_PATH,
   AppSignInArgs,
   PrfsIdMsg,
+  initChannel,
   makeAppSignInSearchParams,
   newPrfsIdMsg,
 } from "@taigalabs/prfs-id-sdk-web";
@@ -22,6 +23,7 @@ enum SignInStatus {
 const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   className,
   label,
+  appId,
   appSignInArgs,
   handleSucceedSignIn,
   prfsIdEndpoint,
@@ -45,6 +47,11 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   const handleClickSignIn = React.useCallback(() => {
     const searchParams = makeAppSignInSearchParams(appSignInArgs);
     const endpoint = `${prfsIdEndpoint}${API_PATH.app_sign_in}${searchParams}`;
+
+    const listener = initChannel({
+      appId,
+      prfsIdEndpoint,
+    });
 
     if (!msgListenerRef.current) {
       const listener = (ev: MessageEvent<any>) => {
@@ -103,6 +110,7 @@ export default PrfsIdSignInButton;
 export interface PrfsIdSignInButtonProps {
   className?: string;
   label?: string;
+  appId: string;
   appSignInArgs: AppSignInArgs;
   handleSucceedSignIn: (encrypted: Buffer) => void;
   prfsIdEndpoint: string;

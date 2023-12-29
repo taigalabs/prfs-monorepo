@@ -66,6 +66,7 @@ module.exports = (phase, { defaultConfig }) => {
         {
           source: "/(.*)",
           headers: [
+            // For shared array buffer
             {
               key: "Cross-Origin-Embedder-Policy",
               value: "require-corp",

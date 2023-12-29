@@ -44,3 +44,6 @@ packages:
 
   # Prfs proof gen
   - "source/prfs_proof_gen_js"
+
+  # Prfs embed
+  - "source/prfs_embed_webapp"

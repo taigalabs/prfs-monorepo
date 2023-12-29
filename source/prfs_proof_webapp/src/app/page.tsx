@@ -15,7 +15,7 @@ const HomePage = () => {
   return (
     <DefaultLayout>
       <DefaultBody noMinWidth>
-        <Suspense fallback={<HomeMastheadFallback />}>
+        <Suspense>
           <HomeMasthead />
         </Suspense>
         <Suspense>

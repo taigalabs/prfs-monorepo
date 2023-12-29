@@ -1,5 +1,3 @@
-export const PROOF_GEN_PATH = "/proof_gen";
-
 export function makeProofGenSearchParams(args: ProofGenArgs): string {
   const { nonce, appId, proofTypeId, publicKey } = args;
   const queryString = `?public_key=${publicKey}&proof_type_id=${proofTypeId}&app_id=${appId}&nonce=${nonce}`;
