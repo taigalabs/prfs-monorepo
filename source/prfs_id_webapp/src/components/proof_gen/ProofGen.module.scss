@@ -64,14 +64,14 @@
     border-radius: 7px;
   }
 
-  .loaderBarWrapper {
-    position: absolute;
-    top: 0px;
-    left: 0;
-    right: 0;
+  /* .loaderBarWrapper { */
+  /*   position: absolute; */
+  /*   top: 0px; */
+  /*   left: 0; */
+  /*   right: 0; */
 
-    /* border: 1px solid red; */
-  }
+  /*   /* border: 1px solid red; */
+  /* } */
 
   .overlay {
     position: absolute;
@@ -156,12 +156,6 @@
   background-color: var(--blue-10);
 }
 
-.metaArea {
-  flex-grow: 1;
-  min-width: 530px;
-  max-width: 620px;
-}
-
 @media screen and (max-width: 1120px) {
   .main {
     flex-direction: column;
@@ -198,12 +192,5 @@
 
   .modulePadding {
     display: none;
-  }
-
-  .metaArea {
-    width: 100%;
-    margin-top: 36px;
-    padding: 0 10px;
-    min-width: 0px;
   }
 }

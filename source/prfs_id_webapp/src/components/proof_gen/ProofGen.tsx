@@ -104,12 +104,6 @@ const ProofGen: React.FC<ProofGenProps> = (
     return false;
   }, [searchParams]);
 
-  // const handleDriverEvent = React.useCallback(
-  //   (ev: any) => {
-  //   },
-  //   [data],
-  // );
-
   const handleClickCreateProof = React.useCallback(async () => {
     // if (proofGenElement) {
     //   try {
@@ -303,7 +297,6 @@ const ProofGen: React.FC<ProofGenProps> = (
         <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
           <div className={styles.driverMsg}>
             <div className={styles.msg}>{driverMsg}</div>
-            123123
             {loadDriverStatus === LoadDriverStatus.InProgress && (
               <LoadDriverProgress progress={loadDriverProgress} />
             )}
@@ -358,18 +351,6 @@ const ProofGen: React.FC<ProofGenProps> = (
                 )}
               </div>
             </div>
-            {/* <div className={styles.metaArea}> */}
-            {/*   <ProofTypeMeta */}
-            {/*     proofTypeDesc={proofType.desc} */}
-            {/*     proofTypeId={proofType.proof_type_id} */}
-            {/*     imgUrl={proofType.img_url} */}
-            {/*     proofTypeLabel={proofType.label} */}
-            {/*     proofTypeAuthor={proofType.author} */}
-            {/*     circuitTypeId={proofType.circuit_type_id} */}
-            {/*     circuitDriverId={proofType.circuit_driver_id} */}
-            {/*     proofTypeCreatedAt={proofType.created_at} */}
-            {/*   /> */}
-            {/* </div> */}
           </div>
         </div>
       </>
@@ -379,12 +360,7 @@ const ProofGen: React.FC<ProofGenProps> = (
 
 export default ProofGen;
 
-export interface ProofGenProps {
-  // proofType: PrfsProofType;
-  // handleCreateProofResult: (err: any, proveReceipt: ProveReceipt | null) => void;
-  // proofGenElement: ProofGenElement | null;
-  // setProofGenElement: React.Dispatch<React.SetStateAction<ProofGenElement | null>>;
-}
+export interface ProofGenProps {}
 
 export interface LoadDriverProgressProps {
   progress: Record<string, any>;

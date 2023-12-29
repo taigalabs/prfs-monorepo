@@ -22,7 +22,6 @@ import {
 } from "@/components/sign_in_module/PrfsIdSignInModule";
 import { paths } from "@/paths";
 import { IdCreateForm } from "@/functions/validate_id";
-import { encrypt } from "eciesjs";
 
 enum InputCredentialStatus {
   Loading,
@@ -37,7 +36,6 @@ const InputCredential: React.FC<InputCredentialProps> = ({
   handleSucceedSignIn,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const router = useRouter();
   const [status, setStatus] = React.useState(InputCredentialStatus.Standby);
   const [title, setTitle] = React.useState(i18n.sign_in);
 
@@ -93,65 +91,67 @@ const InputCredential: React.FC<InputCredentialProps> = ({
         </div>
       )}
       <PrfsIdSignInInnerPadding>
-        <PrfsIdSignInModuleLogoArea />
-        <PrfsIdSignInModuleHeader>
-          <PrfsIdSignInModuleTitle>{title}</PrfsIdSignInModuleTitle>
-          <PrfsIdSignInModuleSubtitle>{i18n.use_your_prfs_identity}</PrfsIdSignInModuleSubtitle>
-        </PrfsIdSignInModuleHeader>
-        <PrfsIdSignInModuleInputArea>
-          <div className={styles.inputGroup}>
-            <PrfsIdSignInInputItem
-              name="email"
-              value={formData.email}
-              placeholder={i18n.email}
-              error={formErrors.email}
-              handleChangeValue={handleChangeValue}
-              handleKeyDown={handleKeyDown}
-            />
-          </div>
-          <div className={styles.inputGroup}>
-            <PrfsIdSignInInputItem
-              name="password_1"
-              value={formData.password_1}
-              placeholder={i18n.password_1}
-              error={formErrors.password_1}
-              handleChangeValue={handleChangeValue}
-              handleKeyDown={handleKeyDown}
-              type="password"
-            />
-          </div>
-          <div className={styles.inputGroup}>
-            <PrfsIdSignInInputItem
-              name="password_2"
-              value={formData.password_2}
-              placeholder={i18n.password_2}
-              error={formErrors.password_2}
-              handleChangeValue={handleChangeValue}
-              handleKeyDown={handleKeyDown}
-              type="password"
-            />
-          </div>
-        </PrfsIdSignInModuleInputArea>
-        <PrfsIdSignInModuleBtnRow>
-          <Button
-            variant="transparent_blue_2"
-            noTransition
-            handleClick={handleClickCreateID}
-            type="button"
-          >
-            {i18n.create_id}
-          </Button>
-          <Button
-            type="button"
-            variant="blue_2"
-            className={styles.signInBtn}
-            noTransition
-            handleClick={enhancedHandleClickNext}
-            noShadow
-          >
-            {i18n.next}
-          </Button>
-        </PrfsIdSignInModuleBtnRow>
+        <div className={styles.main}>
+          <PrfsIdSignInModuleLogoArea />
+          <PrfsIdSignInModuleHeader>
+            <PrfsIdSignInModuleTitle>{title}</PrfsIdSignInModuleTitle>
+            <PrfsIdSignInModuleSubtitle>{i18n.use_your_prfs_identity}</PrfsIdSignInModuleSubtitle>
+          </PrfsIdSignInModuleHeader>
+          <PrfsIdSignInModuleInputArea>
+            <div className={styles.inputGroup}>
+              <PrfsIdSignInInputItem
+                name="email"
+                value={formData.email}
+                placeholder={i18n.email}
+                error={formErrors.email}
+                handleChangeValue={handleChangeValue}
+                handleKeyDown={handleKeyDown}
+              />
+            </div>
+            <div className={styles.inputGroup}>
+              <PrfsIdSignInInputItem
+                name="password_1"
+                value={formData.password_1}
+                placeholder={i18n.password_1}
+                error={formErrors.password_1}
+                handleChangeValue={handleChangeValue}
+                handleKeyDown={handleKeyDown}
+                type="password"
+              />
+            </div>
+            <div className={styles.inputGroup}>
+              <PrfsIdSignInInputItem
+                name="password_2"
+                value={formData.password_2}
+                placeholder={i18n.password_2}
+                error={formErrors.password_2}
+                handleChangeValue={handleChangeValue}
+                handleKeyDown={handleKeyDown}
+                type="password"
+              />
+            </div>
+          </PrfsIdSignInModuleInputArea>
+          <PrfsIdSignInModuleBtnRow>
+            <Button
+              variant="transparent_blue_2"
+              noTransition
+              handleClick={handleClickCreateID}
+              type="button"
+            >
+              {i18n.create_id}
+            </Button>
+            <Button
+              type="button"
+              variant="blue_2"
+              className={styles.signInBtn}
+              noTransition
+              handleClick={enhancedHandleClickNext}
+              noShadow
+            >
+              {i18n.next}
+            </Button>
+          </PrfsIdSignInModuleBtnRow>
+        </div>
       </PrfsIdSignInInnerPadding>
     </>
   );

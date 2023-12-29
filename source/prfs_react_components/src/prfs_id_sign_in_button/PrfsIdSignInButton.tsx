@@ -6,7 +6,6 @@ import {
   PrfsIdMsg,
   makeAppSignInSearchParams,
   newPrfsIdMsg,
-  sendMsgToPopup,
 } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./PrfsIdSignInButton.module.scss";
@@ -14,7 +13,6 @@ import colors from "../colors.module.scss";
 import Spinner from "../spinner/Spinner";
 import Button from "../button/Button";
 import { i18nContext } from "../i18n/i18nContext";
-// import { useSDKElem } from "./sdk";
 
 enum SignInStatus {
   Standby,
@@ -26,7 +24,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   label,
   appSignInArgs,
   handleSucceedSignIn,
-  prfsIdAppSignInEndpoint,
+  prfsIdEndpoint,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [status, setStatus] = React.useState(SignInStatus.Standby);
@@ -46,7 +44,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
 
   const handleClickSignIn = React.useCallback(() => {
     const searchParams = makeAppSignInSearchParams(appSignInArgs);
-    const endpoint = `${prfsIdAppSignInEndpoint}${APP_SIGN_IN_PATH}${searchParams}`;
+    const endpoint = `${prfsIdEndpoint}${APP_SIGN_IN_PATH}${searchParams}`;
 
     if (!msgListenerRef.current) {
       const listener = (ev: MessageEvent<any>) => {
@@ -80,19 +78,9 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
           }
         }
       }, 4000);
-
       closeTimerRef.current = fn;
     }
-
-    if (child) {
-      console.log("register send");
-      setInterval(() => {
-        console.log("send");
-        child.postMessage("power", "*");
-        // sendMsgToPopup(child, "power" as any);
-      }, 2000);
-    }
-  }, [appSignInArgs, setStatus, prfsIdAppSignInEndpoint]);
+  }, [appSignInArgs, setStatus, prfsIdEndpoint]);
 
   return (
     <Button
@@ -117,5 +105,5 @@ export interface PrfsIdSignInButtonProps {
   label?: string;
   appSignInArgs: AppSignInArgs;
   handleSucceedSignIn: (encrypted: Buffer) => void;
-  prfsIdAppSignInEndpoint: string;
+  prfsIdEndpoint: string;
 }
