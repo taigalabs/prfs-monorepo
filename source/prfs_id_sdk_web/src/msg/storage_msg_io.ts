@@ -1,26 +1,18 @@
-import { API_PATH } from "..";
-
-const PRFS_CH = "prfs-ch";
+const PRFS_STORAGE = "prfs_storage";
 
 export function initChannel(args: InitChannelArgs) {
-  console.log("init channel");
-  const { appId, prfsIdEndpoint } = args;
+  console.log("init channel", args);
+  const { appId, prfsEmbedEndpoint } = args;
 
   const iframe = document.createElement("iframe");
-  iframe.id = PRFS_CH;
-  iframe.src = `${prfsIdEndpoint}${API_PATH.local}?app_id=${appId}`;
+  iframe.id = PRFS_STORAGE;
+  iframe.src = `${prfsEmbedEndpoint}?app_id=${appId}`;
   iframe.allow = "cross-origin-isolated";
   iframe.style.border = "none";
   iframe.style.display = "none";
 
   console.log("attaching iframe");
   document.body.appendChild(iframe);
-
-  if (iframe.contentWindow) {
-    iframe.contentWindow.onload = () => {
-      console.log(123);
-    };
-  }
 }
 
 export function initStorageListener() {
@@ -32,7 +24,12 @@ export function initStorageListener() {
   return listener;
 }
 
+export function sendStorageMsg(key: string, val: string) {
+  window.localStorage.setItem(key, val);
+  // window.dispatchEvent(new Event("storage"));
+}
+
 export interface InitChannelArgs {
   appId: string;
-  prfsIdEndpoint: string;
+  prfsEmbedEndpoint: string;
 }

@@ -60,7 +60,7 @@ const PrfsIdAppSignIn: React.FC = () => {
     }
 
     const listener = (ev: MessageEvent<any>) => {
-      console.log(11, ev.origin, ev.data);
+      // console.log(11, ev.origin, ev.data);
       // const { origin } = ev;
       // if (endpoint.startsWith(origin)) {
       //   const data = ev.data as PrfsIdMsg<Buffer>;
@@ -68,7 +68,6 @@ const PrfsIdAppSignIn: React.FC = () => {
       //     if (closeTimerRef.current) {
       //       clearInterval(closeTimerRef.current);
       //     }
-
       //     const msg = newPrfsIdMsg("SIGN_IN_SUCCESS_RESPOND", null);
       //     ev.ports[0].postMessage(msg);
       //     handleSucceedSignIn(data.payload);

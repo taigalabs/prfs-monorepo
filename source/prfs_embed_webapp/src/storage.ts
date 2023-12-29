@@ -24,5 +24,7 @@ async function listener(ev: StorageEvent) {
 }
 
 export async function setupStorageListener() {
+  console.log("start storage event listening");
+
   window.addEventListener("storage", listener);
 }

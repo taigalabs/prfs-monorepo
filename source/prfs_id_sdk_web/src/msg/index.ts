@@ -1,3 +1,3 @@
 export * from "./msg";
 export * from "./msg_io";
-export * from "./channel";
+export * from "./storage_msg_io";

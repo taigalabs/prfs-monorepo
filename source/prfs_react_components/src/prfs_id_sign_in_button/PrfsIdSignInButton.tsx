@@ -15,7 +15,6 @@ import colors from "../colors.module.scss";
 import Spinner from "../spinner/Spinner";
 import Button from "../button/Button";
 import { i18nContext } from "../i18n/i18nContext";
-// import { useSDKElem } from "./sdk";
 
 enum SignInStatus {
   Standby,
@@ -29,12 +28,12 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   appSignInArgs,
   handleSucceedSignIn,
   prfsIdEndpoint,
+  prfsEmbedEndpoint,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [status, setStatus] = React.useState(SignInStatus.Standby);
   const msgListenerRef = React.useRef<((ev: MessageEvent) => void) | null>(null);
   const closeTimerRef = React.useRef<NodeJS.Timer | null>(null);
-  // useSDKElem();
 
   React.useEffect(() => {
     return () => {
@@ -53,7 +52,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
 
     const listener = initChannel({
       appId,
-      prfsIdEndpoint,
+      prfsEmbedEndpoint,
     });
 
     if (!msgListenerRef.current) {
@@ -79,7 +78,6 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     // Open the window
     setStatus(SignInStatus.InProgress);
     const child = window.open(endpoint, "_blank", "toolbar=0,location=0,menubar=0");
-    // window["ttt"] = child;
 
     if (!closeTimerRef.current) {
       const fn = setInterval(() => {
@@ -91,7 +89,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       }, 4000);
       closeTimerRef.current = fn;
     }
-  }, [appSignInArgs, setStatus, prfsIdEndpoint]);
+  }, [appSignInArgs, setStatus, prfsIdEndpoint, prfsEmbedEndpoint]);
 
   return (
     <Button
@@ -118,4 +116,5 @@ export interface PrfsIdSignInButtonProps {
   appSignInArgs: AppSignInArgs;
   handleSucceedSignIn: (encrypted: Buffer) => void;
   prfsIdEndpoint: string;
+  prfsEmbedEndpoint: string;
 }
