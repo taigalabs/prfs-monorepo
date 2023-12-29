@@ -16,6 +16,7 @@ import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { useMutation } from "@tanstack/react-query";
 import { prfs_api_error_codes, prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
+// import a from '@taigalabs/prfs-crypto-js'
 
 import styles from "./PrfsIdSignInBtn.module.scss";
 import { envs } from "@/envs";
@@ -123,10 +124,11 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
       {signUpData && <SignUpModal credential={signUpData} />}
       <PrfsIdSignInButton
         className={className}
+        appId="prfs_proof"
         label={label}
         appSignInArgs={appSignInArgs}
         handleSucceedSignIn={handleSucceedSignIn}
-        prfsIdAppSignInEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
+        prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}
       />
     </>
   );

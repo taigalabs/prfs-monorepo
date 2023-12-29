@@ -16,22 +16,29 @@ use prfs_entities::{
 };
 use std::{convert::Infallible, sync::Arc};
 
+const LIMIT: i32 = 5;
+
 pub async fn get_prfs_proof_types(
     req: Request<Incoming>,
     state: Arc<ServerState>,
 ) -> ApiHandlerResult {
     let req: GetPrfsProofTypesRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let prfs_proof_types = prfs::get_prfs_proof_types(pool, req.page_idx, req.page_size).await;
+    let prfs_proof_types = prfs::get_prfs_proof_types(pool, req.offset, LIMIT).await;
 
-    let next_idx = if (prfs_proof_types.len() as i32) < req.page_size {
-        -1
+    // let next_idx = if (prfs_proof_types.len() as i32) < req.page_size {
+    //     -1
+    // } else {
+    //     req.page_idx + 1
+    // };
+    let next_offset = if (prfs_proof_types.len() as i32) < LIMIT {
+        None
     } else {
-        req.page_idx + 1
+        Some(req.offset + LIMIT)
     };
 
     let resp = ApiResponse::new_success(GetPrfsProofTypesResponse {
-        next_idx,
+        next_offset,
         prfs_proof_types,
     });
 

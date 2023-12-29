@@ -27,4 +27,4 @@ tmux send-keys "./ci dev_sdk_web_module" ENTER
 
 # # webapp proof
 tmux select-pane -t prfs_a:1.4
-tmux send-keys "./ci dev_webapp_proof" ENTER
+tmux send-keys "./ci dev_prfs_proof_webapp" ENTER

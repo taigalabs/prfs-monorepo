@@ -1,4 +1,8 @@
-export type DriverEvent = LoadDriverEvent | CreateProofEvent | VerifyProofEvent;
+export type DriverEvent =
+  | LoadDriverEvent
+  | CreateProofEvent
+  | VerifyProofEvent
+  | LoadDriverSuccessEvent;
 
 export type DriverEventListener = (ev: DriverEvent) => void;
 
@@ -24,7 +28,6 @@ export interface LoadDriverSuccessEvent {
 }
 
 export interface LoadDriverSuccessEventPayload {
-  circuitDriverId: string;
   artifactCount: number;
 }
 

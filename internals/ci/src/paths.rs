@@ -59,6 +59,9 @@ pub struct Paths {
 
     // Prfs identity
     pub prfs_id_webapp: PathBuf,
+
+    // Prfs embed
+    pub prfs_embed_webapp: PathBuf,
 }
 
 #[allow(non_snake_case)]
@@ -114,6 +117,8 @@ impl Paths {
 
         let prfs_id_webapp = curr_dir.join("source/prfs_id_webapp");
 
+        let prfs_embed_webapp = curr_dir.join("source/prfs_embed_webapp");
+
         let p = Paths {
             curr_dir,
 
@@ -154,6 +159,8 @@ impl Paths {
             shy_api_server,
 
             prfs_id_webapp,
+
+            prfs_embed_webapp,
 
             e2e_test_web,
         };

@@ -1,0 +1,25 @@
+{
+  "name": "@taigalabs/prfs-proof-gen-js",
+  "version": "0.1.0",
+  "description": "",
+  "main": "./src/index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "rollup -c rollup.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@taigalabs/prfs-driver-interface": "*",
+    "@taigalabs/prfs-driver-spartan-js": "*",
+    "@ethereumjs/util": "^8.0.3",
+    "@taigalabs/prfs-entities": "*",
+    "ethers": "^5"
+  },
+  "devDependencies": {
+    "rollup": "^3.27.2",
+    "typescript": "5.1.6"
+  }
+}

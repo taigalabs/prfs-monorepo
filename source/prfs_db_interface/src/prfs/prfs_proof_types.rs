@@ -37,21 +37,19 @@ pub async fn get_prfs_proof_type_by_proof_type_id(
 
 pub async fn get_prfs_proof_types(
     pool: &Pool<Postgres>,
-    page_idx: i32,
-    page_size: i32,
+    offset: i32,
+    limit: i32,
 ) -> Vec<PrfsProofType> {
-    let offset = page_idx * page_size;
-
     let query = r#"
 SELECT * FROM prfs_proof_types
 ORDER BY updated_at
-LIMIT $1
-OFFSET $2
+OFFSET $1
+LIMIT $2
 "#;
 
     let rows = sqlx::query(query)
-        .bind(&page_size)
         .bind(&offset)
+        .bind(&limit)
         .fetch_all(pool)
         .await
         .unwrap();

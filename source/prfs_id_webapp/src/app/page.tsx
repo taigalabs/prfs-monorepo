@@ -1,6 +1,24 @@
 import React, { Suspense } from "react";
 
 import styles from "./page.module.scss";
+<<<<<<< HEAD
+import { envs } from "@/envs";
+
+const HomePage = () => {
+  return (
+    <div className={styles.wrapper}>
+      <div className={styles.title}>Prfs identity</div>
+      <p>
+        <span>Launch timestamp </span>
+        <span>{envs.NEXT_PUBLIC_LAUNCH_TIMESTAMP}</span>
+      </p>
+      <p>
+        <span>Commit hash </span>
+        <span>{envs.NEXT_PUBLIC_GIT_COMMIT_HASH}</span>
+      </p>
+    </div>
+  );
+=======
 import DefaultLayout, {
   DefaultBody,
   DefaultFooter,
@@ -14,6 +32,7 @@ import HomeMastheadFallback from "@/components/home_masthead/HomeMastheadFallbac
 
 const HomePage = () => {
   return <div>Wrong URL</div>;
+>>>>>>> main
 };
 
 export default HomePage;

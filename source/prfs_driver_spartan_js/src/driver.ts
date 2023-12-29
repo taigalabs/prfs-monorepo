@@ -27,7 +27,7 @@ export default class SpartanDriver implements CircuitDriver {
     driverProps: SpartanCircomDriverProperties,
     eventListener: DriverEventListener,
   ): Promise<CircuitDriver> {
-    console.log("Creating a driver instance, props: %o", driverProps);
+    console.log("Creating a driver instance, props: %o", driverProps, eventListener);
 
     let prfsHandlers;
     try {
@@ -49,6 +49,13 @@ export default class SpartanDriver implements CircuitDriver {
         fetchAsset("circuit", `${circuit_url}?version=${vs}`, eventListener),
         fetchAsset("wtnsGen", `${wtns_gen_url}?version=${vs}`, eventListener),
       ]);
+
+      eventListener({
+        type: "LOAD_DRIVER_SUCCESS",
+        payload: {
+          artifactCount: 2,
+        },
+      });
 
       const args: SpartanDriverCtorArgs = {
         handlers: prfsHandlers,

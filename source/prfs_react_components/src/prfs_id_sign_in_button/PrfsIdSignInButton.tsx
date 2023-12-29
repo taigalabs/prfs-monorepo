@@ -1,9 +1,10 @@
 import React from "react";
 import cn from "classnames";
 import {
-  APP_SIGN_IN_PATH,
+  API_PATH,
   AppSignInArgs,
   PrfsIdMsg,
+  initChannel,
   makeAppSignInSearchParams,
   newPrfsIdMsg,
   sendMsgToPopup,
@@ -24,9 +25,10 @@ enum SignInStatus {
 const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   className,
   label,
+  appId,
   appSignInArgs,
   handleSucceedSignIn,
-  prfsIdAppSignInEndpoint,
+  prfsIdEndpoint,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [status, setStatus] = React.useState(SignInStatus.Standby);
@@ -47,7 +49,12 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
 
   const handleClickSignIn = React.useCallback(() => {
     const searchParams = makeAppSignInSearchParams(appSignInArgs);
-    const endpoint = `${prfsIdAppSignInEndpoint}${APP_SIGN_IN_PATH}${searchParams}`;
+    const endpoint = `${prfsIdEndpoint}${API_PATH.app_sign_in}${searchParams}`;
+
+    const listener = initChannel({
+      appId,
+      prfsIdEndpoint,
+    });
 
     if (!msgListenerRef.current) {
       const listener = (ev: MessageEvent<any>) => {
@@ -82,19 +89,9 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
           }
         }
       }, 4000);
-
       closeTimerRef.current = fn;
     }
-
-    if (child) {
-      console.log("register send");
-      setInterval(() => {
-        console.log("send");
-        child.postMessage("power", "*");
-        // sendMsgToPopup(child, "power" as any);
-      }, 2000);
-    }
-  }, [appSignInArgs, setStatus, prfsIdAppSignInEndpoint]);
+  }, [appSignInArgs, setStatus, prfsIdEndpoint]);
 
   return (
     <Button
@@ -117,7 +114,8 @@ export default PrfsIdSignInButton;
 export interface PrfsIdSignInButtonProps {
   className?: string;
   label?: string;
+  appId: string;
   appSignInArgs: AppSignInArgs;
   handleSucceedSignIn: (encrypted: Buffer) => void;
-  prfsIdAppSignInEndpoint: string;
+  prfsIdEndpoint: string;
 }

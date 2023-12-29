@@ -53,15 +53,13 @@ const ProofTypeModal2: React.FC<ProofTypeModal2Props> = ({
       queryKey: ["get_prfs_proof_types"],
       queryFn: async ({ pageParam = 0 }) => {
         return await prfsApi2("get_prfs_proof_types", {
-          page_idx: pageParam as number,
-          page_size: 5,
+          offset: pageParam as number,
         });
-        // return payload;
       },
       initialPageParam: 0,
       getNextPageParam: lastPage => {
         if (lastPage.payload) {
-          return lastPage.payload.next_idx;
+          return lastPage.payload.next_offset;
         } else {
           return null;
         }

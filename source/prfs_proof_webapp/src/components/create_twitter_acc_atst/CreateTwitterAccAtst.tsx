@@ -16,6 +16,8 @@ import {
   PrfsIdCommitmentSuccessPayload,
   PrfsIdMsg,
   getCommitment,
+  initChannel,
+  initStorageListener,
   makeAttestation,
   newPrfsIdMsg,
 } from "@taigalabs/prfs-id-sdk-web";
@@ -176,19 +178,26 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
 
   const handleClickGenerate = React.useCallback(() => {
     const appId = "prfs_proof";
-    getCommitment({
-      prfsIdEndpoint: `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id}`,
+    const listener = initChannel({
       appId,
-      sk,
-      pkHex,
-      preImage: claimSecret,
-      cms: {
-        [CLAIM]: {
-          val: claimSecret,
-          type: CommitmentType.SIG_POSEIDON_1,
-        },
-      },
+      prfsIdEndpoint: envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT,
     });
+
+    console.log(15);
+    // console.log("listener", listener);
+    // getCommitment({
+    //   prfsIdEndpoint: `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id}`,
+    //   appId,
+    //   sk,
+    //   pkHex,
+    //   preImage: claimSecret,
+    //   cms: {
+    //     [CLAIM]: {
+    //       val: claimSecret,
+    //       type: CommitmentType.SIG_POSEIDON_1,
+    //     },
+    //   },
+    // });
   }, [formData, step, claimSecret, sk, pkHex]);
 
   const handleClickValidate = React.useCallback(async () => {

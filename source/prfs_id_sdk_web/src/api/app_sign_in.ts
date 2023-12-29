@@ -1,5 +1,3 @@
-export const APP_SIGN_IN_PATH = "/id/app_sign_in";
-
 export function makeAppSignInSearchParams(args: AppSignInArgs): string {
   const { nonce, appId, signInData, publicKey } = args;
   const _signInData = encodeURIComponent(signInData.join(","));
@@ -48,5 +46,4 @@ export interface AppSignInArgs {
   appId: string;
   signInData: AppSignInData[];
   publicKey: string;
-  // prfsAppSignInEndpoint: string;
 }

@@ -8,8 +8,6 @@ use std::process::Command;
 pub const CMD_NAME: &str = "dev_prfs_id_webapp";
 
 pub fn run(matches: &ArgMatches) {
-    println!("11, this_file: {}", CMD_NAME);
-
     let extra_args = match matches.get_many::<String>("extra_args") {
         Some(value_ref) => value_ref.map(|v| v.as_str()).collect::<Vec<_>>(),
         None => vec![],

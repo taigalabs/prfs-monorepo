@@ -36,7 +36,6 @@ const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const [isOpen, setIsOpen] = React.useState(false);
-
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
@@ -44,13 +43,10 @@ const SearchProofDialog: React.FC<SearchProofDialogProps> = ({
     middleware: [offset(0)],
     whileElementsMounted: autoUpdate,
   });
-
   const click = useClick(context);
   const dismiss = useDismiss(context);
   const role = useRole(context);
-
   const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss, role]);
-
   const headingId = useId();
   const descriptionId = useId();
 
