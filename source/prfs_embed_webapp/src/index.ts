@@ -5,8 +5,8 @@ import { setupStorageListener } from "./storage";
 async function main() {
   console.log("Start prfs embed webapp");
 
-  const _resp = await sendMsgToParent(newPrfsIdMsg("HANDSHAKE", {}));
   setupStorageListener();
+  const _resp = await sendMsgToParent(newPrfsIdMsg("HANDSHAKE", {}));
 }
 
 main().then();

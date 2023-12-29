@@ -18,6 +18,7 @@
     "@taigalabs/prfs-driver-interface": "*",
     "@taigalabs/prfs-driver-spartan-js": "*",
     "@taigalabs/prfs-entities": "*",
+    "@taigalabs/prfs-env-js": "*",
     "@taigalabs/prfs-id-sdk-web": "*",
     "classnames": "^2.3.2",
     "cors": "^2.8.5",
