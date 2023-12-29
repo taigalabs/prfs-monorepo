@@ -87,7 +87,6 @@ export class ProofGenElement {
       emit(this.subscribers, {
         type: "LOAD_DRIVER_SUCCESS",
         payload: {
-          circuitDriverId,
           artifactCount,
         },
       });

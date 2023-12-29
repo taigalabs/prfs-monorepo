@@ -176,19 +176,19 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
 
   const handleClickGenerate = React.useCallback(() => {
     const appId = "prfs_proof";
-    getCommitment({
-      prfsIdEndpoint: `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id}`,
-      appId,
-      sk,
-      pkHex,
-      preImage: claimSecret,
-      cms: {
-        [CLAIM]: {
-          val: claimSecret,
-          type: CommitmentType.SIG_POSEIDON_1,
-        },
-      },
-    });
+    // getCommitment({
+    //   prfsIdEndpoint: `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id}`,
+    //   appId,
+    //   sk,
+    //   pkHex,
+    //   preImage: claimSecret,
+    //   cms: {
+    //     [CLAIM]: {
+    //       val: claimSecret,
+    //       type: CommitmentType.SIG_POSEIDON_1,
+    //     },
+    //   },
+    // });
   }, [formData, step, claimSecret, sk, pkHex]);
 
   const handleClickValidate = React.useCallback(async () => {

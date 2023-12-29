@@ -1,6 +1,5 @@
 import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import { useRouter } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import {
   PrfsIdCredential,
@@ -20,7 +19,6 @@ import {
   PrfsIdSignInModuleSubtitle,
   PrfsIdSignInModuleTitle,
 } from "@/components/sign_in_module/PrfsIdSignInModule";
-import { paths } from "@/paths";
 import { IdCreateForm } from "@/functions/validate_id";
 
 enum InputCredentialStatus {

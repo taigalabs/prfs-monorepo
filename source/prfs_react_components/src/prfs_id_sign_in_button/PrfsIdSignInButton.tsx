@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import {
-  APP_SIGN_IN_PATH,
+  API_PATH,
   AppSignInArgs,
   PrfsIdMsg,
   makeAppSignInSearchParams,
@@ -44,7 +44,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
 
   const handleClickSignIn = React.useCallback(() => {
     const searchParams = makeAppSignInSearchParams(appSignInArgs);
-    const endpoint = `${prfsIdEndpoint}${APP_SIGN_IN_PATH}${searchParams}`;
+    const endpoint = `${prfsIdEndpoint}${API_PATH.app_sign_in}${searchParams}`;
 
     if (!msgListenerRef.current) {
       const listener = (ev: MessageEvent<any>) => {
