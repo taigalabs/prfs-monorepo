@@ -14,7 +14,7 @@ import {
   sendMsgToParent,
 } from "@taigalabs/prfs-sdk-web";
 
-import { initDriver, interpolateSystemAssetEndpoint } from "./circuitDriver";
+// import { initDriver, interpolateSystemAssetEndpoint } from "./circuitDriver";
 import { createProof, verifyProof } from "./functions/proof";
 import { envs } from "./envs";
 
@@ -55,86 +55,6 @@ async function eventListener(ev: MessageEvent) {
         } catch (err) {
           ev.ports[0].postMessage(new Msg("CREATE_PROOF_RESPONSE", undefined, err));
         }
-
-        break;
-      }
-
-      case "VERIFY_PROOF": {
-        const payload = ev.data.payload as VerifyProofPayload;
-        console.log("verify proof", payload, driver);
-
-        if (!driver) {
-          return;
-        }
-
-        sendMsgToParent(
-          new Msg("VERIFY_PROOF_EVENT", {
-            type: "info",
-            payload: `Start verifying... hardware concurrency: ${window.navigator.hardwareConcurrency}`,
-          }),
-        );
-
-        try {
-          const verifyReceipt = await verifyProof(driver, payload, ev => {
-            sendMsgToParent(new Msg("VERIFY_PROOF_EVENT", ev.payload as LogEventPayload));
-          });
-          ev.ports[0].postMessage(new Msg("VERIFY_PROOF_RESPONSE", verifyReceipt));
-        } catch (err) {
-          ev.ports[0].postMessage(new Msg("VERIFY_PROOF_RESPONSE", undefined, err));
-        }
-
-        break;
-      }
-
-      case "LOAD_DRIVER": {
-        const { payload } = ev.data;
-        const { circuit_driver_id, driver_properties } = payload;
-        // console.log("Loading driver, access_enpdoint: %s", ASSET_ACCESS_ENDPOINT);
-
-        const driverProperties = interpolateSystemAssetEndpoint(
-          driver_properties,
-          `${ASSET_ACCESS_ENDPOINT}/assets/circuits`,
-        );
-
-        try {
-          const driver = await initDriver(
-            circuit_driver_id,
-            driverProperties,
-            (ev: DriverEvent) => {
-              sendMsgToParent(new Msg("LOAD_DRIVER_EVENT", ev.payload as LoadDriverEventPayload));
-            },
-          );
-          state.driver = driver;
-
-          ev.ports[0].postMessage(
-            new Msg("LOAD_DRIVER_RESPONSE", {
-              circuitDriverId: circuit_driver_id,
-              artifactCount: driver.getArtifactCount(),
-            }),
-          );
-        } catch (err) {
-          console.error(err);
-        }
-
-        break;
-      }
-
-      case "HASH": {
-        const { payload } = ev.data;
-        const { msg } = payload as HashPayload;
-
-        if (!driver) {
-          return;
-        }
-
-        const msgHash = await driver.hash(msg);
-        ev.ports[0].postMessage(
-          new Msg("HASH_RESPONSE", {
-            msgHash,
-          }),
-        );
-
-        // driver.hash();
 
         break;
       }
