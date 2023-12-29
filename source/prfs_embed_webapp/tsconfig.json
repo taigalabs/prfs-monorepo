@@ -8,18 +8,17 @@
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
     "esModuleInterop": true,
-    "module": "esnext",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "plugins": [],
-    "paths": {
-      "@/*": ["./src/*"]
-    },
+    "outDir": "./build",
+    "paths": {},
     "noEmit": false
   },
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["./server/**/*"],
   "exclude": ["node_modules"],
   "ts-node": {
     "compilerOptions": {
