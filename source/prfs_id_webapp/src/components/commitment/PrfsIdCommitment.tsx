@@ -11,10 +11,10 @@ import { i18nContext } from "@/i18n/context";
 import PrfsIdSignInModule, {
   PrfsIdSignInForm,
   PrfsIdSignInModuleFooter,
-} from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
+} from "@/components/sign_in_module/PrfsIdSignInModule";
 import { envs } from "@/envs";
-import PrfsIdErrorDialog from "@/components/prfs_id/prfs_id_error_dialog/PrfsIdErrorDialog";
-import PrfsIdSignIn from "@/components/prfs_id/prfs_id_sign_in/PrfsIdSignIn";
+import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
+import PrfsIdSignIn from "@/components/sign_in/PrfsIdSignIn";
 import Commitments from "./Commitments";
 
 enum CommitmentStep {
