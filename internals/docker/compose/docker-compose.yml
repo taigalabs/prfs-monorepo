@@ -4,13 +4,13 @@ services:
       context: ../../../
       dockerfile: ./internals/docker/prfs_sdk_web_module/Dockerfile
     ports:
-      - "3010:3010"
+      - "3012:3012"
   prfs_embed_webapp:
     build:
       context: ../../../
       dockerfile: ./internals/docker/prfs_embed_webapp/Dockerfile
     ports:
-      - "3012:3012"
+      - "3010:3010"
   prfs_api_server:
     build:
       context: ../../../

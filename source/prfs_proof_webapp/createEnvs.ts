@@ -1,8 +1,6 @@
 import { parseArgs } from "node:util";
-import fs from "fs";
 import path from "path";
 import chalk from "chalk";
-import child_process from "child_process";
 import {
   getGitCommitHash,
   getPrfsDevEndpoints,
