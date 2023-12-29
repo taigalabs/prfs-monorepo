@@ -14,7 +14,11 @@ import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
 import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
 import { ProofGenEvent } from "@taigalabs/prfs-sdk-web/src/elems/proof_gen/types";
-import { ProofGenArgs } from "@taigalabs/prfs-id-sdk-web/proof_gen";
+import {
+  PROOF_GEN_PATH,
+  ProofGenArgs,
+  makeProofGenSearchParams,
+} from "@taigalabs/prfs-id-sdk-web/proof_gen";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -23,6 +27,7 @@ import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
 import CircuitInputs from "./CircuitInputs";
+import { useRandomKeyPair } from "@/hooks/key";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -72,6 +77,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
   const lastInitProofTypeId = React.useRef<string | null>(null);
   const searchParams = useSearchParams();
+  const { sk, pkHex } = useRandomKeyPair();
 
   const isTutorial = React.useMemo(() => {
     if (searchParams.get("tutorial_id")) {
@@ -81,7 +87,16 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   }, [searchParams]);
 
   const handleClickCreateProof = React.useCallback(async () => {
-    const args: ProofGenArgs = {};
+    const args: ProofGenArgs = {
+      nonce: Math.random() * 100000000,
+      appId: "prfs_proof",
+      proofTypeId: proofType.proof_type_id,
+      publicKey: pkHex,
+    };
+
+    const searchParams = makeProofGenSearchParams(args);
+    const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${PROOF_GEN_PATH}${searchParams}`;
+    const child = window.open(endpoint, "_blank", "toolbar=0,location=0,menubar=0");
 
     // if (proofGenElement) {
     //   try {

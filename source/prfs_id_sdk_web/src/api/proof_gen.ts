@@ -1,15 +1,15 @@
 export const PROOF_GEN_PATH = "/proof_gen";
 
 export function makeProofGenSearchParams(args: ProofGenArgs): string {
-  const { nonce, appId, proofType, publicKey } = args;
-  const queryString = `?public_key=${publicKey}&proof_type=${proofType}&app_id=${appId}&nonce=${nonce}`;
+  const { nonce, appId, proofTypeId, publicKey } = args;
+  const queryString = `?public_key=${publicKey}&proof_type_id=${proofTypeId}&app_id=${appId}&nonce=${nonce}`;
   return queryString;
 }
 
 export function parseProofGenSearchParams(searchParams: URLSearchParams): ProofGenArgs {
   const publicKey = searchParams.get("public_key");
   const appId = searchParams.get("app_id");
-  const proofType = searchParams.get("proof_type");
+  const proofTypeId = searchParams.get("proof_type_id");
   const nonce = searchParams.get("nonce");
 
   if (!appId) {
@@ -20,7 +20,7 @@ export function parseProofGenSearchParams(searchParams: URLSearchParams): ProofG
     throw new Error("publicKey missing");
   }
 
-  if (!proofType) {
+  if (!proofTypeId) {
     throw new Error("proofType missing");
   }
 
@@ -32,20 +32,15 @@ export function parseProofGenSearchParams(searchParams: URLSearchParams): ProofG
     appId,
     nonce: Number(nonce),
     publicKey,
-    proofType,
-    // signInData: signInData.split(",") as AppSignInData[],
+    proofTypeId,
   };
 
   return args;
 }
 
-export enum AppSignInData {
-  ID_POSEIDON = "ID_POSEIDON",
-}
-
 export interface ProofGenArgs {
   nonce: number;
   appId: string;
-  proofType: string;
+  proofTypeId: string;
   publicKey: string;
 }

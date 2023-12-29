@@ -32,7 +32,6 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   const [status, setStatus] = React.useState(SignInStatus.Standby);
   const msgListenerRef = React.useRef<((ev: MessageEvent) => void) | null>(null);
   const closeTimerRef = React.useRef<NodeJS.Timer | null>(null);
-  // useSDKElem();
 
   React.useEffect(() => {
     return () => {
@@ -72,7 +71,6 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     // Open the window
     setStatus(SignInStatus.InProgress);
     const child = window.open(endpoint, "_blank", "toolbar=0,location=0,menubar=0");
-    // window["ttt"] = child;
 
     if (!closeTimerRef.current) {
       const fn = setInterval(() => {

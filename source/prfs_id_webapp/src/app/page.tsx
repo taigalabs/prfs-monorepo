@@ -11,9 +11,22 @@ import SearchProofTypeFormFallback from "@/components/search_proof_type_form/Sea
 import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
 import HomeMasthead from "@/components/home_masthead/HomeMasthead";
 import HomeMastheadFallback from "@/components/home_masthead/HomeMastheadFallback";
+import { envs } from "@/envs";
 
 const HomePage = () => {
-  return <div>Wrong URL</div>;
+  return (
+    <div className={styles.wrapper}>
+      <div className={styles.title}>Prfs identity</div>
+      <p>
+        <span>Launch timestamp </span>
+        <span>{envs.NEXT_PUBLIC_LAUNCH_TIMESTAMP}</span>
+      </p>
+      <p>
+        <span>Commit hash </span>
+        <span>{envs.NEXT_PUBLIC_GIT_COMMIT_HASH}</span>
+      </p>
+    </div>
+  );
 };
 
 export default HomePage;

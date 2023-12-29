@@ -852,6 +852,9 @@ importers:
       sass:
         specifier: ^1.63.6
         version: 1.63.6
+      simple-git:
+        specifier: ^3.20.0
+        version: 3.20.0
       snarkjs:
         specifier: 0.7.0
         version: 0.7.0

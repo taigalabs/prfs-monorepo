@@ -22,6 +22,7 @@
     "@taigalabs/prfs-api-js": "*",
     "@taigalabs/prfs-crypto-js": "*",
     "@taigalabs/prfs-driver-interface": "*",
+    "@taigalabs/prfs-driver-spartan-js": "*",
     "@taigalabs/prfs-entities": "*",
     "@taigalabs/prfs-i18n": "*",
     "@taigalabs/prfs-id-sdk-web": "*",
@@ -50,9 +51,7 @@
     "sass": "^1.63.6",
     "snarkjs": "0.7.0",
     "uuid": "^9.0.0",
-    "wagmi": "1.4.12",
-    "@taigalabs/prfs-driver-interface": "*",
-    "@taigalabs/prfs-driver-spartan-js": "*"
+    "wagmi": "1.4.12"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
