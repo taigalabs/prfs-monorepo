@@ -7,7 +7,6 @@ import {
   createEmbeddedElem,
   makeAppSignInSearchParams,
   newPrfsIdMsg,
-  sendMsgToPopup,
 } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./PrfsIdSignInButton.module.scss";
@@ -15,6 +14,7 @@ import colors from "../colors.module.scss";
 import Spinner from "../spinner/Spinner";
 import Button from "../button/Button";
 import { i18nContext } from "../i18n/i18nContext";
+import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
 enum SignInStatus {
   Standby,
@@ -34,6 +34,10 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   const [status, setStatus] = React.useState(SignInStatus.Standby);
   const msgListenerRef = React.useRef<((ev: MessageEvent) => void) | null>(null);
   const closeTimerRef = React.useRef<NodeJS.Timer | null>(null);
+  const childRef = usePrfsEmbed({
+    appId,
+    prfsEmbedEndpoint,
+  });
 
   React.useEffect(() => {
     return () => {
@@ -50,29 +54,25 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     const searchParams = makeAppSignInSearchParams(appSignInArgs);
     const endpoint = `${prfsIdEndpoint}${API_PATH.app_sign_in}${searchParams}`;
 
-    // const el = createEmbeddedElem({
-    //   appId,
-    //   prfsEmbedEndpoint,
-    // });
+    const listener = (ev: MessageEvent<any>) => {
+      const { origin } = ev;
+      if (endpoint.startsWith(origin)) {
+        const data = ev.data as PrfsIdMsg<Buffer>;
+        if (data.type === "SIGN_IN_SUCCESS") {
+          if (closeTimerRef.current) {
+            clearInterval(closeTimerRef.current);
+          }
+
+          const msg = newPrfsIdMsg("SIGN_IN_SUCCESS_ACK", null);
+          ev.ports[0].postMessage(msg);
+          handleSucceedSignIn(data.payload);
+        }
+      }
+    };
 
     if (!msgListenerRef.current) {
-      const listener = (ev: MessageEvent<any>) => {
-        const { origin } = ev;
-        if (endpoint.startsWith(origin)) {
-          const data = ev.data as PrfsIdMsg<Buffer>;
-          if (data.type === "SIGN_IN_SUCCESS") {
-            if (closeTimerRef.current) {
-              clearInterval(closeTimerRef.current);
-            }
-
-            const msg = newPrfsIdMsg("SIGN_IN_SUCCESS_RESPOND", null);
-            ev.ports[0].postMessage(msg);
-            handleSucceedSignIn(data.payload);
-          }
-        }
-      };
-      addEventListener("message", listener, false);
       msgListenerRef.current = listener;
+      addEventListener("message", listener, false);
     }
 
     // Open the window

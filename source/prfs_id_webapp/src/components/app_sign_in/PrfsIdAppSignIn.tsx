@@ -44,12 +44,10 @@ const PrfsIdAppSignIn: React.FC = () => {
       return null;
     }
   }, [searchParams]);
-
   const childRef = usePrfsEmbed({
     appId: "prfs_id",
     prfsEmbedEndpoint: envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT,
   });
-  console.log(33, childRef);
 
   React.useEffect(() => {
     if (appSignInArgs) {

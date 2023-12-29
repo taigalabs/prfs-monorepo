@@ -124,9 +124,11 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
       <PrfsIdSignInButton
         className={className}
         label={label}
+        appId="prfs_id"
         appSignInArgs={appSignInArgs}
         handleSucceedSignIn={handleSucceedSignIn}
-        prfsIdAppSignInEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
+        prfsIdEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
+        prfsEmbedEndpoint={envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT}
       />
     </>
   );

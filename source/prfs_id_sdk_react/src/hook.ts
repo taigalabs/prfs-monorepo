@@ -21,13 +21,13 @@ export function usePrfsEmbed({ appId, prfsEmbedEndpoint }: CreateEmbeddedElemArg
           prfsEmbedEndpoint,
         });
 
-        if (!listenerRef.current) {
-          const listener = setupChildMsgHandler();
-          // listenerRef.current = listener;
-        }
-
         childRef.current = el;
         isInProgressRef.current = false;
+
+        if (!listenerRef.current) {
+          const listener = await setupChildMsgHandler();
+          // listenerRef.current = listener;
+        }
       }
     }
     fn().then();
