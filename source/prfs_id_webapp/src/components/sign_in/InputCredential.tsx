@@ -19,7 +19,7 @@ import {
   PrfsIdSignInModuleLogoArea,
   PrfsIdSignInModuleSubtitle,
   PrfsIdSignInModuleTitle,
-} from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
+} from "@/components/sign_in_module/PrfsIdSignInModule";
 import { paths } from "@/paths";
 import { IdCreateForm } from "@/functions/validate_id";
 import { encrypt } from "eciesjs";

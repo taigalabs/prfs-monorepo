@@ -16,7 +16,7 @@ import {
   PrfsIdSignInModuleLogoArea,
   PrfsIdSignInModuleSubtitle,
   PrfsIdSignInModuleTitle,
-} from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
+} from "@/components/sign_in_module/PrfsIdSignInModule";
 import { IdCreateForm } from "@/functions/validate_id";
 
 const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({

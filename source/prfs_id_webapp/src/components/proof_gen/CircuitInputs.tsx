@@ -16,7 +16,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
   formErrors,
   setFormValues,
   setFormErrors,
-  proofGenElement,
+  // proofGenElement,
 }) => {
   const i18n = React.useContext(i18nContext);
 
@@ -35,9 +35,9 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
   );
 
   const circuitInputsElem = React.useMemo(() => {
-    if (!proofGenElement) {
-      return null;
-    }
+    // if (!proofGenElement) {
+    //   return null;
+    // }
 
     const entriesElem = [];
     for (const [idx, input] of circuitInputs.entries()) {
@@ -77,7 +77,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
               error={formErrors[input.name]}
               setFormValues={setFormValues}
               setFormErrors={setFormErrors}
-              proofGenElement={proofGenElement}
+              // proofGenElement={proofGenElement}
             />,
           );
           break;
@@ -130,7 +130,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
     }
 
     return entriesElem;
-  }, [circuitInputs, formValues, setFormValues, proofGenElement, formErrors]);
+  }, [circuitInputs, formValues, setFormValues, formErrors]);
 
   return <>{circuitInputsElem}</>;
 };
@@ -143,5 +143,5 @@ export interface CircuitInputsProps {
   formErrors: Record<string, string>;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
-  proofGenElement: ProofGenElement | null;
+  // proofGenElement: ProofGenElement | null;
 }

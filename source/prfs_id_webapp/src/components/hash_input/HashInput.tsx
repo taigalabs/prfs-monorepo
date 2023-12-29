@@ -1,7 +1,8 @@
 import React from "react";
 import cn from "classnames";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
+import { poseidon_2_bigint } from "@taigalabs/prfs-crypto-js";
+// import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
 import { bufferToBigInt } from "@ethereumjs/util";
 
 import styles from "./HashInput.module.scss";
@@ -36,7 +37,7 @@ const HashInput: React.FC<HashInputProps> = ({
   error,
   setFormErrors,
   setFormValues,
-  proofGenElement,
+  // proofGenElement,
 }) => {
   const i18n = React.useContext(i18nContext);
 
@@ -85,14 +86,14 @@ const HashInput: React.FC<HashInputProps> = ({
   );
 
   const handleClickHash = React.useCallback(async () => {
-    if (!proofGenElement.state.circuitDriverId) {
-      return null;
-    }
+    // if (!proofGenElement.state.circuitDriverId) {
+    //   return null;
+    // }
 
     if (value && value.msgRaw) {
       const msgRaw = value.msgRaw;
       const msgRawInt = bufferToBigInt(Buffer.from(msgRaw));
-      const msgHash = await proofGenElement.hash([msgRawInt, BigInt(0)]);
+      const msgHash = await poseidon_2_bigint([msgRawInt, BigInt(0)]);
 
       setFormValues(oldVals => ({
         ...oldVals,
@@ -153,7 +154,7 @@ export interface HashInputProps {
   error: string | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
-  proofGenElement: ProofGenElement;
+  // proofGenElement: ProofGenElement;
 }
 
 export interface ComputedValueProps {

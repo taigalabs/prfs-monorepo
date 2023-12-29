@@ -17,7 +17,7 @@ import {
 } from "@/functions/validate_id";
 import InputCredential from "./InputCredential";
 import StoredCredentials from "./StoredCredentials";
-import PrfsIdCreateID from "@/components/prfs_id/prfs_id_create_id/PrfsIdCreateID";
+import PrfsIdCreateID from "@/components/create_id/PrfsIdCreateID";
 
 enum SignInStep {
   CreateID,
