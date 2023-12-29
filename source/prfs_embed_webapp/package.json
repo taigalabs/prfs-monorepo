@@ -7,9 +7,8 @@
     "create-envs": "ts-node createEnvs.ts",
     "dev": "pnpm run create-envs && PORT=3012 ts-node ./server/dev.server.ts",
     "webpack": "webpack build --config ./webpack/prod.config.ts && cp index.html dist/",
-    "tsc": "pnpm exec tsc",
-    "build": "pnpm run clean && pnpm run create-envs --production && pnpm run webpack && pnpm run tsc",
-    "start": "PORT=3012 node ./api/server.ts"
+    "build": "pnpm run clean && pnpm run create-envs --production && pnpm run webpack",
+    "start": "PORT=3012 ts-node ./server/index.ts"
   },
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
