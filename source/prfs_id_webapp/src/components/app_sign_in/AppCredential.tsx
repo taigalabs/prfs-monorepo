@@ -23,7 +23,7 @@ import {
   PrfsIdSignInModuleHeader,
   PrfsIdSignInModuleTitle,
   PrfsIdSignInWithPrfsId,
-} from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
+} from "@/components/sign_in_module/PrfsIdSignInModule";
 import SignInInputs, { PrfsSignInData } from "./SignInInputs";
 
 enum AppCredentialStatus {

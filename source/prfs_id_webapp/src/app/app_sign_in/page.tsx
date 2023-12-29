@@ -1,18 +1,18 @@
 import React, { Suspense } from "react";
 
 import styles from "./page.module.scss";
-import SignInLayout, { SignInBody } from "@/components/layouts/sign_in_layout/SignInLayout";
+import { DefaultLayout, DefaultBody } from "@/components/layouts/default_layout/DefaultLayout";
 import PrfsIdAppSignIn from "@/components/app_sign_in/PrfsIdAppSignIn";
 
 const AppSignInPage = () => {
   return (
-    <SignInLayout>
-      <SignInBody>
+    <DefaultLayout>
+      <DefaultBody>
         <Suspense>
           <PrfsIdAppSignIn />
         </Suspense>
-      </SignInBody>
-    </SignInLayout>
+      </DefaultBody>
+    </DefaultLayout>
   );
 };
 

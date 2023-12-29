@@ -13,15 +13,14 @@ import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
 import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
 
-import styles from "./CreateProofModule.module.scss";
+import styles from "./ProofGen.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { validateInputs } from "@/functions/validate_inputs";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
-import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
+// import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
 import CircuitInputs from "./CircuitInputs";
 import { ProofGenEvent } from "@taigalabs/prfs-sdk-web/src/elems/proof_gen/types";
-import Temp from "./Temp";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -248,18 +247,18 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
                 )}
               </div>
             </div>
-            <div className={styles.metaArea}>
-              <ProofTypeMeta
-                proofTypeDesc={proofType.desc}
-                proofTypeId={proofType.proof_type_id}
-                imgUrl={proofType.img_url}
-                proofTypeLabel={proofType.label}
-                proofTypeAuthor={proofType.author}
-                circuitTypeId={proofType.circuit_type_id}
-                circuitDriverId={proofType.circuit_driver_id}
-                proofTypeCreatedAt={proofType.created_at}
-              />
-            </div>
+            {/* <div className={styles.metaArea}> */}
+            {/*   <ProofTypeMeta */}
+            {/*     proofTypeDesc={proofType.desc} */}
+            {/*     proofTypeId={proofType.proof_type_id} */}
+            {/*     imgUrl={proofType.img_url} */}
+            {/*     proofTypeLabel={proofType.label} */}
+            {/*     proofTypeAuthor={proofType.author} */}
+            {/*     circuitTypeId={proofType.circuit_type_id} */}
+            {/*     circuitDriverId={proofType.circuit_driver_id} */}
+            {/*     proofTypeCreatedAt={proofType.created_at} */}
+            {/*   /> */}
+            {/* </div> */}
           </div>
         </div>
       </>

@@ -1,28 +1,25 @@
 .wrapper {
   display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  min-height: 580px;
-  min-width: 1120px;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+  /* border: 1px solid blue; */
 }
 
 .body {
-  flex-grow: 1;
+  display: flex;
+
+  /* border: 1px solid red; */
 }
 
-.footer {
-  margin-top: auto;
-  margin-bottom: 0;
-}
-
-@media screen and (max-width: 1120px) {
+@media screen and (max-width: 480px) {
   .wrapper {
     min-width: 360px;
   }
 
   .body {
-    &.noMinWidth {
-      min-width: 0px;
-    }
+    width: 100%;
+    height: 100%;
   }
 }
