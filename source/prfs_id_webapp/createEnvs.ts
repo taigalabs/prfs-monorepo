@@ -4,7 +4,7 @@ import path from "path";
 import chalk from "chalk";
 import child_process from "child_process";
 import dayjs from "dayjs";
-import { getPrfsDevEndpoints, getPrfsProdEndpoints } from "@taigalabs/prfs-endpoints";
+import { getPrfsDevEndpoints, getPrfsProdEndpoints } from "@taigalabs/prfs-env-js";
 
 import { Envs } from "./src/envs";
 
@@ -12,7 +12,6 @@ const DOT_ENV_PATH = path.resolve(".env");
 
 async function run() {
   console.log("%s createEnvs.ts prfs web launch", chalk.green("Launching"));
-
   const { values } = parseArgs({
     options: {
       production: {
@@ -20,8 +19,8 @@ async function run() {
       },
     },
   });
-  console.log("[create-envs] cli args: %j", values);
 
+  console.log("[create-envs] cli args: %j", values);
   createEnvs(values);
 }
 

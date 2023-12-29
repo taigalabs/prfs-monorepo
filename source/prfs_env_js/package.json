@@ -1,5 +1,5 @@
 {
-  "name": "@taigalabs/prfs-endpoints",
+  "name": "@taigalabs/prfs-env-js",
   "version": "0.0.1",
   "main": "./src/index.ts",
   "module": "./src/index.ts",

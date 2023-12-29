@@ -21,18 +21,14 @@ function createEnvs(ts: string) {
       production: {
         type: "boolean",
       },
-      teaser: {
-        type: "boolean",
-      },
     },
   });
 
   console.log("cli args: %j", values);
 
-  const { production, teaser } = values;
+  const { production } = values;
 
   const env_dev: Envs = {
-    NEXT_PUBLIC_IS_TEASER: teaser ? "yes" : "no",
     NEXT_PUBLIC_UPDATE_TIMESTAMP: ts,
     NEXT_PUBLIC_CODE_REPOSITORY_URL: "https://github.com/taigalabs/prfs-monorepo",
     NEXT_PUBLIC_TAIGALABS_ENDPOINT: "http://localhost:3060",
@@ -41,16 +37,12 @@ function createEnvs(ts: string) {
     NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT: "http://localhost:3021",
     NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT: "http://localhost:3011",
     NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: "http://localhost:4000",
-    NEXT_PUBLIC_TWITTER_OAUTH_REDIRECT_URL: "http://localhost:4020/oauth/twitter/dev",
-    NEXT_PUBLIC_PRFS_AUTH_OP_SERVER_ENDPOINT: "http://127.0.0.1:4020",
     NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "http://localhost:4010",
     NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT: "http://localhost:3010",
-    NEXT_PUBLIC_ZAUTH_VERSION: "0.1.0",
     NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT: "http://localhost:3061",
   };
 
   const env_prod: Envs = {
-    NEXT_PUBLIC_IS_TEASER: teaser ? "yes" : "no",
     NEXT_PUBLIC_UPDATE_TIMESTAMP: ts,
     NEXT_PUBLIC_CODE_REPOSITORY_URL: "https://github.com/taigalabs/prfs-monorepo",
     NEXT_PUBLIC_TAIGALABS_ENDPOINT: "https://www.taigalabs.xyz",
@@ -59,11 +51,8 @@ function createEnvs(ts: string) {
     NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT: "https://poll.prfs.xyz",
     NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT: "http://id.prfs.xyz",
     NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: "https://api.prfs.xyz",
-    NEXT_PUBLIC_TWITTER_OAUTH_REDIRECT_URL: "http://auth.prfs.xyz/oauth/twitter",
     NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "https://asset.prfs.xyz",
-    NEXT_PUBLIC_PRFS_AUTH_OP_SERVER_ENDPOINT: "http://auth.prfs.xyz",
     NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT: "https://sdk.prfs.xyz",
-    NEXT_PUBLIC_ZAUTH_VERSION: "0.1.0",
     NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT: "http://docs.prfs.xyz",
   };
 

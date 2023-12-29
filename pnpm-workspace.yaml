@@ -2,8 +2,8 @@ packages:
   # Externals
   - "externals/incremental-merkle-tree"
 
-  # Prfs endpoints
-  - "source/prfs_endpoints"
+  # Prfs env
+  - "source/prfs_env_js"
 
   # Docs
   - "source/docs_website"
