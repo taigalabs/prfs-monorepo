@@ -5,7 +5,6 @@ import dayjs from "dayjs";
 import devConfig from "../webpack/dev.config";
 import { createApp } from "./app";
 import paths from "./paths";
-import getGitLog from "./git";
 
 (async () => {
   const destPath = `${paths.dist}/index.html`;
@@ -32,8 +31,7 @@ import getGitLog from "./git";
     }
   });
 
-  const commit_hash = await getGitLog();
   const now = dayjs().toJSON();
 
-  createApp({ commit_hash, launch_time: now });
+  createApp({ launch_time: now });
 })();

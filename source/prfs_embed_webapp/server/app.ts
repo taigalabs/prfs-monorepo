@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3012;
 
 export async function createApp(args: CreateAppArgs) {
   console.log("Create express app, args: %o", args);
-  const { commit_hash, launch_time } = args;
+  const { launch_time } = args;
 
   const app = express();
 
@@ -29,8 +29,6 @@ export async function createApp(args: CreateAppArgs) {
 
   app.get("/status", (_, res) => {
     res.send({
-      status: "Ok",
-      commit_hash,
       launch_time,
     });
   });
@@ -41,6 +39,5 @@ export async function createApp(args: CreateAppArgs) {
 }
 
 export interface CreateAppArgs {
-  commit_hash: string | undefined;
   launch_time: string;
 }
