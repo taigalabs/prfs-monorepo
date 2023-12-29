@@ -812,6 +812,15 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
 
+  source/prfs_endpoints:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.4.9
+        version: 20.4.9
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+
   source/prfs_entities: {}
 
   source/prfs_i18n:
@@ -904,6 +913,9 @@ importers:
       '@taigalabs/prfs-driver-spartan-js':
         specifier: '*'
         version: link:../prfs_driver_spartan_js
+      '@taigalabs/prfs-endpoints':
+        specifier: '*'
+        version: link:../prfs_endpoints
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities

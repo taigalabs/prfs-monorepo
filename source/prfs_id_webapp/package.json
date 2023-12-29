@@ -21,6 +21,7 @@
     "@tabler/icons-react": "^2.32.0",
     "@taigalabs/prfs-api-js": "*",
     "@taigalabs/prfs-crypto-js": "*",
+    "@taigalabs/prfs-endpoints": "*",
     "@taigalabs/prfs-driver-interface": "*",
     "@taigalabs/prfs-driver-spartan-js": "*",
     "@taigalabs/prfs-entities": "*",

@@ -45,7 +45,6 @@ async function createEnvs(values: CliArgs) {
     NEXT_PUBLIC_PRFS_AUTH_OP_SERVER_ENDPOINT: "http://127.0.0.1:4020",
     NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "http://localhost:4010",
     NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT: "http://localhost:3010",
-    NEXT_PUBLIC_ZAUTH_VERSION: "0.1.0",
     NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT: "http://localhost:3061",
   };
 
@@ -63,7 +62,6 @@ async function createEnvs(values: CliArgs) {
     NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "https://asset.prfs.xyz",
     NEXT_PUBLIC_PRFS_AUTH_OP_SERVER_ENDPOINT: "http://auth.prfs.xyz",
     NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT: "https://sdk.prfs.xyz",
-    NEXT_PUBLIC_ZAUTH_VERSION: "0.1.0",
     NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT: "http://docs.prfs.xyz",
   };
 
