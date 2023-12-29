@@ -2,6 +2,8 @@ use crate::paths::PATHS;
 use clap::ArgMatches;
 use std::process::Command;
 
+pub const CMD_NAME: &str = "dev_prfs_asset_server";
+
 pub fn run(_matches: &ArgMatches) {
     let bin = "cargo";
     let status = Command::new(bin)

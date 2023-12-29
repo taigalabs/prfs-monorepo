@@ -3,6 +3,8 @@ use clap::ArgMatches;
 use colored::Colorize;
 use std::process::Command;
 
+pub const CMD_NAME: &str = "dev_prfs_api_server";
+
 pub fn run(_matches: &ArgMatches) {
     run_app();
 }
