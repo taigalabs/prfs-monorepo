@@ -26,6 +26,7 @@
     "@taigalabs/prfs-entities": "*",
     "@taigalabs/prfs-i18n": "*",
     "@taigalabs/prfs-id-sdk-web": "*",
+    "@taigalabs/prfs-id-sdk-react": "*",
     "@taigalabs/prfs-react-components": "*",
     "@taigalabs/prfs-proof-gen-js": "*",
     "@taigalabs/prfs-sdk-web": "*",
