@@ -11,23 +11,26 @@ export function usePrfsEmbed({ appId, prfsEmbedEndpoint }: CreateEmbeddedElemArg
   const listenerRef = React.useRef<Function | null>(null);
 
   React.useEffect(() => {
-    if (!childRef.current && isInProgressRef.current === false) {
-      // mutex
-      isInProgressRef.current = true;
+    async function fn() {
+      if (!childRef.current && isInProgressRef.current === false) {
+        // mutex
+        isInProgressRef.current = true;
 
-      const el = createEmbeddedElem({
-        appId,
-        prfsEmbedEndpoint,
-      });
+        const el = createEmbeddedElem({
+          appId,
+          prfsEmbedEndpoint,
+        });
 
-      if (!listenerRef.current) {
-        const listener = setupChildMsgHandler();
-        listenerRef.current = listener;
+        if (!listenerRef.current) {
+          const listener = setupChildMsgHandler();
+          // listenerRef.current = listener;
+        }
+
+        childRef.current = el;
+        isInProgressRef.current = false;
       }
-
-      childRef.current = el;
-      isInProgressRef.current = false;
     }
+    fn().then();
   }, []);
 
   return childRef;

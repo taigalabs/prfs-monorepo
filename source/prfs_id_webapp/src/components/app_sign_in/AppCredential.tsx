@@ -7,6 +7,7 @@ import {
   PrfsIdCredential,
   AppSignInArgs,
   sendMsgToChild,
+  newPrfsIdMsg,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt } from "eciesjs";
@@ -121,13 +122,14 @@ const AppCredential: React.FC<AppCredentialProps> = ({
       };
 
       try {
-        if (childRef.current) {
-          sendMsgToChild();
-        }
-        // await sendMsgToOpener(msg);
         console.log("sending msg");
-        // sendStorageMsg("power", "123");
 
+        if (childRef.current) {
+          sendMsgToChild(newPrfsIdMsg("SIGN_IN_SUCCESS", encrypted), childRef.current);
+        }
+
+        // await sendMsgToOpener(msg);
+        // sendStorageMsg("power", "123");
         // window.close();
       } catch (err: any) {
         setErrorMsg(err.toString());

@@ -32,6 +32,7 @@ import { PrfsIdMsg } from "./msg";
 //     sender(msg, channel);
 //   });
 // }
+
 export async function sendMsgToChild(msg: PrfsIdMsg<any>, iframe: HTMLIFrameElement): Promise<any> {
   return sendMsg(msg, (msg: PrfsIdMsg<any>, channel: MessageChannel) => {
     iframe.contentWindow?.postMessage(msg, "*", [channel.port2]);

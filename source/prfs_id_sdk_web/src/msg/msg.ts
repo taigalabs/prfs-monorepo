@@ -21,11 +21,11 @@ export interface PrfsIdCommitmentSuccessPayload {
 export type PrfsIdMsgType =
   //
   | "HANDSHAKE"
-  | "HANDSHAKE_RESPOND"
+  | "HANDSHAKE_ACK"
   | "SIGN_IN_SUCCESS"
-  | "SIGN_IN_SUCCESS_RESPOND"
+  | "SIGN_IN_SUCCESS_SCK"
   | "COMMITMENT_SUCCESS"
-  | "COMMITMENT_SUCCESS_RESPOND";
+  | "COMMITMENT_SUCCESS_ACK";
 
 export function newPrfsIdMsg(type: PrfsIdMsgType, payload: any): PrfsIdMsg<any> {
   return {

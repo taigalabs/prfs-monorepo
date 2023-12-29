@@ -104,6 +104,7 @@ const PrfsIdAppSignIn: React.FC = () => {
               credential={credential}
               appSignInArgs={appSignInArgs}
               handleClickPrev={handleClickPrev}
+              childRef={childRef}
             />
           )
         );
