@@ -51,7 +51,7 @@ fn main() {
         .subcommand(command!(start_prfs_id_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(start_prfs_poll_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(start_prfs_embed_webapp::CMD_NAME).arg(Arg::new("extra_args")))
-        .subcommand(command!("start_shy_webapp").arg(Arg::new("extra_args")))
+        .subcommand(command!(start_shy_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!("start_sdk_web_module").arg(Arg::new("extra_args")))
         .subcommand(command!("start_docs_website").arg(Arg::new("extra_args")))
         // docker
@@ -148,6 +148,9 @@ fn main() {
         }
         Some((start_prfs_embed_webapp::CMD_NAME, sub_matches)) => {
             start_prfs_embed_webapp::run(sub_matches);
+        }
+        Some((start_prfs_poll_webapp::CMD_NAME, sub_matches)) => {
+            cmds::start_prfs_poll_webapp::run(sub_matches);
         }
         Some((start_shy_webapp::CMD_NAME, sub_matches)) => {
             cmds::start_shy_webapp::run(sub_matches);

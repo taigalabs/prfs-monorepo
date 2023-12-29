@@ -1,0 +1,48 @@
+.list {
+  padding: 12px 0 20px;
+}
+
+.item {
+  display: flex;
+  font-size: 13px;
+
+  .leftCol {
+    font-size: 20px;
+    padding-top: 6px;
+    padding-left: 6px;
+    padding-right: 12px;
+  }
+
+  .rightCol {
+    word-break: break-all;
+    color: var(--black-20);
+
+    > * {
+      padding-left: 6px;
+    }
+  }
+
+  .val {
+    color: var(--gray-40);
+  }
+
+  .name {
+    padding-bottom: 2px;
+  }
+
+  .type {
+    color: var(--gray-40);
+    padding-bottom: 2px;
+  }
+
+  .label {
+    font-weight: 500;
+  }
+
+  .hashed {
+    /* border: 1px solid var(--gray-70); */
+    /* border-radius: 8px; */
+    /* padding: 6px 8px; */
+    /* color: var(--gray-20); */
+  }
+}

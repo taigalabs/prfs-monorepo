@@ -27,8 +27,10 @@ async function run() {
 async function createEnvs(values: CliArgs) {
   const gitCommitHash = await getGitCommitHash();
   const timestamp = getTimestamp();
+  console.log("cli args: %j", values);
 
   const { production } = values;
+
   const env_dev: Envs = {
     NEXT_PUBLIC_LAUNCH_TIMESTAMP: timestamp,
     NEXT_PUBLIC_GIT_COMMIT_HASH: gitCommitHash,
@@ -83,7 +85,6 @@ function writeEnvsToDotEnv(envs: Envs) {
 
 async function getGitCommitHash() {
   const output = child_process.execSync(`git rev-parse HEAD`);
-
   return output.toString();
 }
 

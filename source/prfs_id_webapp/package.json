@@ -28,6 +28,7 @@
     "@taigalabs/prfs-id-sdk-web": "*",
     "@taigalabs/prfs-react-components": "*",
     "@taigalabs/prfs-proof-gen-js": "*",
+    "@taigalabs/prfs-sdk-web": "*",
     "@tanstack/react-query": "5.14.6",
     "@tanstack/react-table": "8.11.2",
     "@tanstack/react-virtual": "3.0.1",

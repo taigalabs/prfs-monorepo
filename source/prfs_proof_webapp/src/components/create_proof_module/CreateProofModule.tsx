@@ -13,12 +13,8 @@ import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
 import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
-import { ProofGenEvent } from "@taigalabs/prfs-sdk-web/src/elems/proof_gen/types";
-import {
-  PROOF_GEN_PATH,
-  ProofGenArgs,
-  makeProofGenSearchParams,
-} from "@taigalabs/prfs-id-sdk-web/proof_gen";
+// import { ProofGenEvent } from "@taigalabs/prfs-sdk-web/src/elems/proof_gen/types";
+import { ProofGenArgs, makeProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web/proof_gen";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -28,6 +24,7 @@ import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
 import CircuitInputs from "./CircuitInputs";
 import { useRandomKeyPair } from "@/hooks/key";
+import { API_PATH } from "@taigalabs/prfs-id-sdk-web";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -95,7 +92,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     };
 
     const searchParams = makeProofGenSearchParams(args);
-    const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${PROOF_GEN_PATH}${searchParams}`;
+    const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
     const child = window.open(endpoint, "_blank", "toolbar=0,location=0,menubar=0");
 
     // if (proofGenElement) {
@@ -139,57 +136,57 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       setDriverMsg(<span>Loading driver {proofType.circuit_driver_id}...</span>);
 
       const since = dayjs();
-      try {
-        const elem = (await prfsSDK.create("proof_gen", {
-          proofTypeId: proofType.proof_type_id,
-          circuit_driver_id,
-          driver_properties,
-          sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
-        })) as ProofGenElement;
+      //   try {
+      //     const elem = (await prfsSDK.create("proof_gen", {
+      //       proofTypeId: proofType.proof_type_id,
+      //       circuit_driver_id,
+      //       driver_properties,
+      //       sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
+      //     })) as ProofGenElement;
 
-        elem.subscribe((ev: ProofGenEvent) => {
-          const { type, payload } = ev;
+      //     elem.subscribe((ev: ProofGenEvent) => {
+      //       const { type, payload } = ev;
 
-          if (type === "LOAD_DRIVER_EVENT") {
-            if (payload.asset_label && payload.progress) {
-              setLoadDriverProgress(oldVal => ({
-                ...oldVal,
-                [payload.asset_label!]: payload.progress,
-              }));
-            }
-          }
+      //       if (type === "LOAD_DRIVER_EVENT") {
+      //         if (payload.asset_label && payload.progress) {
+      //           setLoadDriverProgress(oldVal => ({
+      //             ...oldVal,
+      //             [payload.asset_label!]: payload.progress,
+      //           }));
+      //         }
+      //       }
 
-          if (type === "LOAD_DRIVER_SUCCESS") {
-            const now = dayjs();
-            const diff = now.diff(since, "seconds", true);
-            const { artifactCount } = payload;
+      //       if (type === "LOAD_DRIVER_SUCCESS") {
+      //         const now = dayjs();
+      //         const diff = now.diff(since, "seconds", true);
+      //         const { artifactCount } = payload;
 
-            setDriverMsg(
-              <>
-                <span>Circuit driver </span>
-                <a
-                  href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${circuit_driver_id}`}
-                >
-                  {proofType.circuit_driver_id} <BiLinkExternal />
-                </a>
-                <span>
-                  ({diff} seconds, {artifactCount} artifacts)
-                </span>
-              </>,
-            );
-            setLoadDriverStatus(LoadDriverStatus.Standby);
-          }
+      //         setDriverMsg(
+      //           <>
+      //             <span>Circuit driver </span>
+      //             <a
+      //               href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${circuit_driver_id}`}
+      //             >
+      //               {proofType.circuit_driver_id} <BiLinkExternal />
+      //             </a>
+      //             <span>
+      //               ({diff} seconds, {artifactCount} artifacts)
+      //             </span>
+      //           </>,
+      //         );
+      //         setLoadDriverStatus(LoadDriverStatus.Standby);
+      //       }
 
-          if (type === "CREATE_PROOF_EVENT") {
-            setSystemMsg(payload.payload);
-          }
-        });
+      //       if (type === "CREATE_PROOF_EVENT") {
+      //         setSystemMsg(payload.payload);
+      //       }
+      //     });
 
-        setProofGenElement(elem);
-        return elem;
-      } catch (err) {
-        setDriverMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
-      }
+      //     setProofGenElement(elem);
+      //     return elem;
+      //   } catch (err) {
+      //     setDriverMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
+      //   }
     }
 
     fn().then();

@@ -97,12 +97,18 @@ const CreateProofForm: React.FC = () => {
               </Fade>
             ) : (
               <Fade>
-                <CreateProofModule
-                  proofType={proofType}
-                  handleCreateProofResult={handleCreateProofResult}
-                  proofGenElement={proofGenElement}
-                  setProofGenElement={setProofGenElement}
-                />
+                {/* <Temp */}
+                {/*   proofType={proofType} */}
+                {/*   handleCreateProofResult={handleCreateProofResult} */}
+                {/*   proofGenElement={proofGenElement} */}
+                {/*   setProofGenElement={setProofGenElement} */}
+                {/* /> */}
+                {/* <CreateProofModule */}
+                {/*   proofType={proofType} */}
+                {/*   handleCreateProofResult={handleCreateProofResult} */}
+                {/*   proofGenElement={proofGenElement} */}
+                {/*   setProofGenElement={setProofGenElement} */}
+                {/* /> */}
               </Fade>
             )}
           </div>
