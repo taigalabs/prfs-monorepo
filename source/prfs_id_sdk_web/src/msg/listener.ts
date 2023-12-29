@@ -33,6 +33,8 @@ export function setupChildMsgHandler() {
   });
 }
 
+export function setupParentMsgHandler() {}
+
 export interface ListenerRef {
   current: ((ev: MessageEvent) => void) | null;
 }
