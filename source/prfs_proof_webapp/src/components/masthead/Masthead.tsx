@@ -87,11 +87,11 @@ const Masthead: React.FC = () => {
     <div className={cn({ [styles.wrapper]: true, [styles.isTutorial]: isTutorial })}>
       <div className={styles.inner}>
         <ul className={styles.rightGroup}>
-          <li className={cn(styles.menu, styles.underline, styles.tutorialBtn)}>
-            <a href={tutorialUrl}>
-              <span>{i18n.tutorial}</span>
-            </a>
-          </li>
+          {/* <li className={cn(styles.menu, styles.underline, styles.tutorialBtn)}> */}
+          {/*   <a href={tutorialUrl}> */}
+          {/*     <span>{i18n.tutorial}</span> */}
+          {/*   </a> */}
+          {/* </li> */}
           <li className={styles.menu}>
             <PrfsAppsPopover>
               <PrfsAppsPopoverUl>

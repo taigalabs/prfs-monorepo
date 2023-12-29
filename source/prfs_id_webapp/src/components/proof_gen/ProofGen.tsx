@@ -3,22 +3,23 @@
 import React from "react";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
+import { DriverEvent, ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import LoaderBar from "@taigalabs/prfs-react-components/src/loader_bar/LoaderBar";
-import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
+// import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import dayjs from "dayjs";
 import cn from "classnames";
 import { useSearchParams } from "next/navigation";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
-import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
+// import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
 import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
 import { parseProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web/proof_gen";
 import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
 import { useQuery } from "@tanstack/react-query";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import { ProofGenEvent } from "@taigalabs/prfs-sdk-web/src/elems/proof_gen/types";
+// import { ProofGenEvent } from "@taigalabs/prfs-sdk-web/src/elems/proof_gen/types";
+import { initCircuitDriver, interpolateSystemAssetEndpoint } from "@taigalabs/prfs-proof-gen-js";
 
 import styles from "./ProofGen.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -27,8 +28,6 @@ import TutorialStepper from "@/components/tutorial/TutorialStepper";
 // import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
 import CircuitInputs from "./CircuitInputs";
-
-const prfsSDK = new PrfsSDK("prfs-proof");
 
 enum LoadDriverStatus {
   Standby,
@@ -105,6 +104,12 @@ const ProofGen: React.FC<ProofGenProps> = (
     return false;
   }, [searchParams]);
 
+  // const handleDriverEvent = React.useCallback(
+  //   (ev: any) => {
+  //   },
+  //   [data],
+  // );
+
   const handleClickCreateProof = React.useCallback(async () => {
     // if (proofGenElement) {
     //   try {
@@ -136,7 +141,77 @@ const ProofGen: React.FC<ProofGenProps> = (
     createProofStatus,
   ]);
 
-  React.useEffect(() => {}, [proofGenArgs]);
+  React.useEffect(() => {
+    async function fn() {
+      const proofType = data?.payload?.prfs_proof_type;
+      console.log(11, proofType);
+
+      if (proofType) {
+        const since = dayjs();
+
+        function handleDriverEv(ev: DriverEvent) {
+          console.log("123123", ev);
+          const { type, payload } = ev;
+
+          if (!proofType) {
+            return;
+          }
+
+          if (type === "LOAD_DRIVER_EVENT") {
+            if (payload.asset_label && payload.progress) {
+              console.log(111, payload);
+              setLoadDriverProgress(oldVal => ({
+                ...oldVal,
+                [payload.asset_label!]: payload.progress,
+              }));
+            }
+          }
+
+          if (type === "LOAD_DRIVER_SUCCESS") {
+            console.log("234234");
+            const now = dayjs();
+            const diff = now.diff(since, "seconds", true);
+            const { artifactCount } = payload;
+
+            setDriverMsg(
+              <>
+                <span>Circuit driver </span>
+                <a
+                  href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${proofType.circuit_driver_id}`}
+                >
+                  {proofType.circuit_driver_id} <BiLinkExternal />
+                </a>
+                <span>
+                  ({diff} seconds, {artifactCount} artifacts)
+                </span>
+              </>,
+            );
+            setLoadDriverStatus(LoadDriverStatus.Standby);
+          }
+
+          if (type === "CREATE_PROOF_EVENT") {
+            setSystemMsg(payload.payload);
+          }
+        }
+
+        const driverProperties = interpolateSystemAssetEndpoint(
+          proofType.driver_properties,
+          `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
+        );
+
+        setLoadDriverStatus(LoadDriverStatus.InProgress);
+        await initCircuitDriver(proofType.circuit_driver_id, driverProperties, handleDriverEv);
+      }
+    }
+    fn().then();
+  }, [
+    data?.payload,
+    setCreateProofStatus,
+    setLoadDriverProgress,
+    setLoadDriverStatus,
+    setSystemMsg,
+    setDriverMsg,
+  ]);
 
   // React.useEffect(() => {
   //   async function fn() {
@@ -228,6 +303,7 @@ const ProofGen: React.FC<ProofGenProps> = (
         <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
           <div className={styles.driverMsg}>
             <div className={styles.msg}>{driverMsg}</div>
+            123123
             {loadDriverStatus === LoadDriverStatus.InProgress && (
               <LoadDriverProgress progress={loadDriverProgress} />
             )}

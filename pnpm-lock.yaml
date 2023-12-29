@@ -783,12 +783,12 @@ importers:
       '@taigalabs/prfs-id-sdk-web':
         specifier: '*'
         version: link:../prfs_id_sdk_web
+      '@taigalabs/prfs-proof-gen-js':
+        specifier: '*'
+        version: link:../prfs_proof_gen_js
       '@taigalabs/prfs-react-components':
         specifier: '*'
         version: link:../prfs_react_components
-      '@taigalabs/prfs-sdk-web':
-        specifier: '*'
-        version: link:../prfs_sdk_web
       '@tanstack/react-query':
         specifier: 5.14.6
         version: 5.14.6(react@18.2.0)
@@ -852,9 +852,6 @@ importers:
       sass:
         specifier: ^1.63.6
         version: 1.63.6
-      simple-git:
-        specifier: ^3.20.0
-        version: 3.20.0
       snarkjs:
         specifier: 0.7.0
         version: 0.7.0
@@ -1085,6 +1082,31 @@ importers:
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@20.3.1)(typescript@5.1.6)
+      typescript:
+        specifier: 5.1.6
+        version: 5.1.6
+
+  source/prfs_proof_gen_js:
+    dependencies:
+      '@ethereumjs/util':
+        specifier: ^8.0.3
+        version: 8.1.0
+      '@taigalabs/prfs-driver-interface':
+        specifier: '*'
+        version: link:../prfs_driver_interface
+      '@taigalabs/prfs-driver-spartan-js':
+        specifier: '*'
+        version: link:../prfs_driver_spartan_js
+      '@taigalabs/prfs-entities':
+        specifier: '*'
+        version: link:../prfs_entities
+      ethers:
+        specifier: ^5
+        version: 5.7.2
+    devDependencies:
+      rollup:
+        specifier: ^3.27.2
+        version: 3.27.2
       typescript:
         specifier: 5.1.6
         version: 5.1.6
@@ -1675,9 +1697,6 @@ importers:
       '@taigalabs/prfs-react-components':
         specifier: '*'
         version: link:../prfs_react_components
-      '@taigalabs/prfs-sdk-web':
-        specifier: '*'
-        version: link:../prfs_sdk_web
       '@tanstack/react-query':
         specifier: 5.14.6
         version: 5.14.6(react@18.2.0)

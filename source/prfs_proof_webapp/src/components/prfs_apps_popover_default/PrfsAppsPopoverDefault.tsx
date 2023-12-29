@@ -28,11 +28,11 @@ const PrfsAppsPopoverDefault: React.FC<PrfsAppsPopoverDefaultProps> = ({ disable
             <span>{i18n.documentation}</span>
           </a>
         </PrfsAppsPopoverLi>
-        <PrfsAppsPopoverLi noPadding>
-          <a href={tutorialUrl} className={styles.item}>
-            <span>{i18n.start_tutorial}</span>
-          </a>
-        </PrfsAppsPopoverLi>
+        {/* <PrfsAppsPopoverLi noPadding> */}
+        {/*   <a href={tutorialUrl} className={styles.item}> */}
+        {/*     <span>{i18n.start_tutorial}</span> */}
+        {/*   </a> */}
+        {/* </PrfsAppsPopoverLi> */}
       </PrfsAppsPopoverUl>
       <PrfsAppsPopoverUl>
         <PrfsAppsPopoverLi noPadding>
