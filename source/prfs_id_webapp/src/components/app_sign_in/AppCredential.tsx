@@ -3,11 +3,10 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useSearchParams } from "next/navigation";
 import {
   PrfsIdSignInSuccessPayload,
-  sendMsgToOpener,
   PrfsIdMsg,
   PrfsIdCredential,
   AppSignInArgs,
-  sendStorageMsg,
+  sendMsgToChild,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt } from "eciesjs";
@@ -26,7 +25,6 @@ import {
   PrfsIdSignInWithPrfsId,
 } from "@/components/sign_in_module/PrfsIdSignInModule";
 import SignInInputs, { PrfsSignInData } from "./SignInInputs";
-import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 import { envs } from "@/envs";
 
 enum AppCredentialStatus {
@@ -38,6 +36,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
   handleClickPrev,
   appSignInArgs,
   credential,
+  childRef,
 }) => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
@@ -50,11 +49,6 @@ const AppCredential: React.FC<AppCredentialProps> = ({
     mutationFn: (req: PrfsIdentitySignInRequest) => {
       return idApi("sign_in_prfs_identity", req);
     },
-  });
-
-  const el = usePrfsEmbed({
-    appId: "prfs_id",
-    prfsEmbedEndpoint: envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT,
   });
 
   React.useEffect(() => {
@@ -127,12 +121,11 @@ const AppCredential: React.FC<AppCredentialProps> = ({
       };
 
       try {
+        if (childRef.current) {
+          sendMsgToChild();
+        }
         // await sendMsgToOpener(msg);
         console.log("sending msg");
-        if (el.current) {
-          el.current.contentWindow?.localStorage.setItem("prfs_embed", "power");
-          console.log(111);
-        }
         // sendStorageMsg("power", "123");
 
         // window.close();
@@ -191,4 +184,5 @@ export interface AppCredentialProps {
   handleClickPrev: () => void;
   credential: PrfsIdCredential;
   appSignInArgs: AppSignInArgs;
+  childRef: React.MutableRefObject<HTMLIFrameElement | null>;
 }

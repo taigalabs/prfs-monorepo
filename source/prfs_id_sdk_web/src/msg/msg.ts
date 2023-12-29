@@ -1,5 +1,6 @@
 export interface PrfsIdMsg<T> {
   type: PrfsIdMsgType;
+  error?: any;
   payload: T;
 }
 
@@ -18,6 +19,9 @@ export interface PrfsIdCommitmentSuccessPayload {
 }
 
 export type PrfsIdMsgType =
+  //
+  | "HANDSHAKE"
+  | "HANDSHAKE_RESPOND"
   | "SIGN_IN_SUCCESS"
   | "SIGN_IN_SUCCESS_RESPOND"
   | "COMMITMENT_SUCCESS"

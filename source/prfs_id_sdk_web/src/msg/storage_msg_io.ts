@@ -23,19 +23,19 @@ export function createEmbeddedElem(args: CreateEmbeddedElemArgs) {
   return iframe;
 }
 
-export function initStorageListener() {
-  function listener(ev: StorageEvent) {
-    console.log(11, listener);
-  }
-  window.addEventListener("storage", listener);
+// export function initStorageListener() {
+//   function listener(ev: StorageEvent) {
+//     console.log(11, listener);
+//   }
+//   window.addEventListener("storage", listener);
 
-  return listener;
-}
+//   return listener;
+// }
 
-export function sendStorageMsg(key: string, val: string) {
-  window.localStorage.setItem(key, val);
-  // window.dispatchEvent(new Event("storage"));
-}
+// export function sendStorageMsg(key: string, val: string) {
+//   window.localStorage.setItem(key, val);
+//   // window.dispatchEvent(new Event("storage"));
+// }
 
 export interface CreateEmbeddedElemArgs {
   appId: string;

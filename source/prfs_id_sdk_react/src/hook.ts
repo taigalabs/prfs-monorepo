@@ -1,17 +1,34 @@
 import React from "react";
-import { createEmbeddedElem, CreateEmbeddedElemArgs } from "@taigalabs/prfs-id-sdk-web";
+import {
+  createEmbeddedElem,
+  CreateEmbeddedElemArgs,
+  setupChildMsgHandler,
+} from "@taigalabs/prfs-id-sdk-web";
 
 export function usePrfsEmbed({ appId, prfsEmbedEndpoint }: CreateEmbeddedElemArgs) {
-  const elRef = React.useRef<HTMLIFrameElement | null>(null);
+  const isInProgressRef = React.useRef(false);
+  const childRef = React.useRef<HTMLIFrameElement | null>(null);
+  const listenerRef = React.useRef<Function | null>(null);
 
-  if (!elRef.current) {
-    const el = createEmbeddedElem({
-      appId,
-      prfsEmbedEndpoint,
-    });
+  React.useEffect(() => {
+    if (!childRef.current && isInProgressRef.current === false) {
+      // mutex
+      isInProgressRef.current = true;
 
-    elRef.current = el;
-  }
+      const el = createEmbeddedElem({
+        appId,
+        prfsEmbedEndpoint,
+      });
 
-  return elRef;
+      if (!listenerRef.current) {
+        const listener = setupChildMsgHandler();
+        listenerRef.current = listener;
+      }
+
+      childRef.current = el;
+      isInProgressRef.current = false;
+    }
+  }, []);
+
+  return childRef;
 }

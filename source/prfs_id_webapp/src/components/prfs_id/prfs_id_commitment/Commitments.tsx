@@ -4,7 +4,6 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useSearchParams } from "next/navigation";
 import {
   PrfsIdSignInSuccessPayload,
-  sendMsgToOpener,
   StoredCredential,
   persistPrfsIdCredential,
   CommitmentData,
@@ -140,8 +139,8 @@ const Commitments: React.FC<CommitmentsProps> = ({
         payload: encrypted,
       };
 
-      await sendMsgToOpener(msg);
-      window.close();
+      // await sendMsgToOpener(msg);
+      // window.close();
     }
   }, [searchParams, publicKey, credential, setErrorMsg, commitmentReceipt]);
 

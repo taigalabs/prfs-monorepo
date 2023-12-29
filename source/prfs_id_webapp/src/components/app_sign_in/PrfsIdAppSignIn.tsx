@@ -16,6 +16,7 @@ import { envs } from "@/envs";
 import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import PrfsIdSignIn from "@/components/sign_in/PrfsIdSignIn";
 import AppCredential from "./AppCredential";
+import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
 enum SignInStep {
   PrfsIdCredential,
@@ -44,6 +45,12 @@ const PrfsIdAppSignIn: React.FC = () => {
     }
   }, [searchParams]);
 
+  const childRef = usePrfsEmbed({
+    appId: "prfs_id",
+    prfsEmbedEndpoint: envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT,
+  });
+  console.log(33, childRef);
+
   React.useEffect(() => {
     if (appSignInArgs) {
       const { publicKey, appId } = appSignInArgs;
@@ -58,24 +65,6 @@ const PrfsIdAppSignIn: React.FC = () => {
         setSignInStatus(SignInStatus.Standby);
       }
     }
-
-    const listener = (ev: MessageEvent<any>) => {
-      // console.log(11, ev.origin, ev.data);
-      // const { origin } = ev;
-      // if (endpoint.startsWith(origin)) {
-      //   const data = ev.data as PrfsIdMsg<Buffer>;
-      //   if (data.type === "SIGN_IN_SUCCESS") {
-      //     if (closeTimerRef.current) {
-      //       clearInterval(closeTimerRef.current);
-      //     }
-      //     const msg = newPrfsIdMsg("SIGN_IN_SUCCESS_RESPOND", null);
-      //     ev.ports[0].postMessage(msg);
-      //     handleSucceedSignIn(data.payload);
-      //   }
-      // }
-    };
-    console.log("register");
-    window.addEventListener("message", listener, false);
   }, [appSignInArgs, setSignInStatus, setErrorMsg, setStep]);
 
   const handleCloseErrorDialog = React.useCallback(() => {

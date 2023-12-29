@@ -708,9 +708,9 @@ importers:
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
-      '@taigalabs/prfs-sdk-web':
+      '@taigalabs/prfs-id-sdk-web':
         specifier: '*'
-        version: link:../prfs_sdk_web
+        version: link:../prfs_id_sdk_web
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
