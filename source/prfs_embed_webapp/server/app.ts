@@ -3,7 +3,7 @@ import cors from "cors";
 
 import paths from "./paths";
 
-const PORT = process.env.PORT || 3012;
+const PORT = process.env.PORT || 3010;
 
 export async function createApp(args: CreateAppArgs) {
   console.log("Create express app, args: %o", args);
