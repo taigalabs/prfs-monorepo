@@ -865,6 +865,9 @@ importers:
       json-bigint:
         specifier: ^1.0.0
         version: 1.0.0
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
     devDependencies:
       '@types/json-bigint':
         specifier: ^1.0.1
@@ -872,6 +875,9 @@ importers:
       '@types/node':
         specifier: ^20.4.9
         version: 20.4.9
+      '@types/react':
+        specifier: 18.2.25
+        version: 18.2.25
       rimraf:
         specifier: ^3.0.2
         version: 3.0.2
