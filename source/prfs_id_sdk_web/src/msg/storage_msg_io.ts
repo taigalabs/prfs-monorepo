@@ -1,10 +1,10 @@
 const PRFS_STORAGE = "prfs_storage";
 
-export function initChannel(args: InitChannelArgs) {
+export function createEmbeddedElem(args: CreateEmbeddedElemArgs) {
   console.log("init channel", args);
   const { appId, prfsEmbedEndpoint } = args;
 
-  const el = document.getElementById(PRFS_STORAGE);
+  const el = document.getElementById(PRFS_STORAGE) as HTMLIFrameElement;
   if (el) {
     console.log("Prfs embed element is found. Returning the old one");
     return el;
@@ -37,7 +37,7 @@ export function sendStorageMsg(key: string, val: string) {
   // window.dispatchEvent(new Event("storage"));
 }
 
-export interface InitChannelArgs {
+export interface CreateEmbeddedElemArgs {
   appId: string;
   prfsEmbedEndpoint: string;
 }

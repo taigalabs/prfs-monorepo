@@ -26,6 +26,8 @@ import {
   PrfsIdSignInWithPrfsId,
 } from "@/components/sign_in_module/PrfsIdSignInModule";
 import SignInInputs, { PrfsSignInData } from "./SignInInputs";
+import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
+import { envs } from "@/envs";
 
 enum AppCredentialStatus {
   Loading,
@@ -48,6 +50,11 @@ const AppCredential: React.FC<AppCredentialProps> = ({
     mutationFn: (req: PrfsIdentitySignInRequest) => {
       return idApi("sign_in_prfs_identity", req);
     },
+  });
+
+  const el = usePrfsEmbed({
+    appId: "prfs_id",
+    prfsEmbedEndpoint: envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT,
   });
 
   React.useEffect(() => {

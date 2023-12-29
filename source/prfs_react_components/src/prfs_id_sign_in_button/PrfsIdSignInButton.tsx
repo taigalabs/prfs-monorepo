@@ -4,7 +4,7 @@ import {
   API_PATH,
   AppSignInArgs,
   PrfsIdMsg,
-  initChannel,
+  createEmbeddedElem,
   makeAppSignInSearchParams,
   newPrfsIdMsg,
   sendMsgToPopup,
@@ -50,10 +50,10 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     const searchParams = makeAppSignInSearchParams(appSignInArgs);
     const endpoint = `${prfsIdEndpoint}${API_PATH.app_sign_in}${searchParams}`;
 
-    const listener = initChannel({
-      appId,
-      prfsEmbedEndpoint,
-    });
+    // const el = createEmbeddedElem({
+    //   appId,
+    //   prfsEmbedEndpoint,
+    // });
 
     if (!msgListenerRef.current) {
       const listener = (ev: MessageEvent<any>) => {
