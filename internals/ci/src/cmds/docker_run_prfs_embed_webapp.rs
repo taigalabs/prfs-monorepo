@@ -1,9 +1,11 @@
 use crate::{
-    deps::{self, JS_ENGINE},
+    deps::{self, DOCKER, JS_ENGINE},
     paths::PATHS,
 };
 use clap::ArgMatches;
 use std::process::Command;
+
+pub const CMD_NAME: &str = "docker_run_prfs_embed_webapp";
 
 pub fn run(matches: &ArgMatches) {
     let extra_args = match matches.get_many::<String>("extra_args") {
@@ -26,8 +28,6 @@ fn run_docker(_extra_args: Vec<&str>) {
             "--detach",
             "--build",
             "--no-deps",
-            "prfs_api_server",
-            // "prfs_sdk_web_module",
             "prfs_embed_webapp",
         ])
         .status()
