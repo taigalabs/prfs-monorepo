@@ -13,6 +13,8 @@ import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
 import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
+import { ProofGenEvent } from "@taigalabs/prfs-sdk-web/src/elems/proof_gen/types";
+import { ProofGenArgs } from "@taigalabs/prfs-id-sdk-web/proof_gen";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -21,7 +23,6 @@ import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
 import CircuitInputs from "./CircuitInputs";
-import { ProofGenEvent } from "@taigalabs/prfs-sdk-web/src/elems/proof_gen/types";
 
 const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -80,6 +81,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   }, [searchParams]);
 
   const handleClickCreateProof = React.useCallback(async () => {
+    const args: ProofGenArgs = {};
+
     // if (proofGenElement) {
     //   try {
     //     const inputs = await validateInputs(formValues, proofType, setFormErrors);
