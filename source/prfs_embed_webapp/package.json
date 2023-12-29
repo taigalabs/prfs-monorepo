@@ -5,9 +5,9 @@
   "scripts": {
     "clean": "rimraf dist/",
     "create-envs": "ts-node createEnvs.ts",
-    "dev": "pnpm run create-envs && ts-node ./server/dev.server.ts",
+    "dev": "pnpm run create-envs && PORT=3012 ts-node ./server/dev.server.ts",
     "build": "pnpm run clean && pnpm run create-envs --production && webpack build --config ./webpack/prod.config.ts && cp index.html dist/",
-    "start": "ts-node ./server/server.ts"
+    "start": "PORT=3012 ts-node ./server/server.ts"
   },
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
