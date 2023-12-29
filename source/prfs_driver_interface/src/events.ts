@@ -28,7 +28,6 @@ export interface LoadDriverSuccessEvent {
 }
 
 export interface LoadDriverSuccessEventPayload {
-  // circuitDriverId: string;
   artifactCount: number;
 }
 
