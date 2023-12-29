@@ -129,7 +129,11 @@ const AppCredential: React.FC<AppCredentialProps> = ({
       try {
         // await sendMsgToOpener(msg);
         console.log("sending msg");
-        sendStorageMsg("power", "123");
+        if (el.current) {
+          el.current.contentWindow?.localStorage.setItem("prfs_embed", "power");
+          console.log(111);
+        }
+        // sendStorageMsg("power", "123");
 
         // window.close();
       } catch (err: any) {
