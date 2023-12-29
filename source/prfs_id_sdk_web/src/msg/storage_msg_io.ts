@@ -4,6 +4,12 @@ export function initChannel(args: InitChannelArgs) {
   console.log("init channel", args);
   const { appId, prfsEmbedEndpoint } = args;
 
+  const el = document.getElementById(PRFS_STORAGE);
+  if (el) {
+    console.log("Prfs embed element is found. Returning the old one");
+    return el;
+  }
+
   const iframe = document.createElement("iframe");
   iframe.id = PRFS_STORAGE;
   iframe.src = `${prfsEmbedEndpoint}?app_id=${appId}`;
@@ -13,6 +19,8 @@ export function initChannel(args: InitChannelArgs) {
 
   console.log("attaching iframe");
   document.body.appendChild(iframe);
+
+  return iframe;
 }
 
 export function initStorageListener() {
