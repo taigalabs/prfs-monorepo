@@ -1,3 +1,8 @@
+import fs from "fs";
+import path from "path";
+import child_process from "child_process";
+import dayjs from "dayjs";
+
 export function getPrfsDevEndpoints() {
   const env: Endpoint = {
     prfs_code_repository: "https://github.com/taigalabs/prfs-monorepo",
@@ -46,4 +51,14 @@ export interface Endpoint {
   prfs_docs_website: string;
   prfs_api_server: string;
   prfs_asset_server: string;
+}
+
+export function writeEnvsToDotEnv(envs: Record<string, string>, dotEnvPath: string) {
+  let ws = fs.createWriteStream(dotEnvPath);
+
+  for (const [key, val] of Object.entries(envs)) {
+    ws.write(`${key}=${val}\n`);
+  }
+
+  ws.close();
 }

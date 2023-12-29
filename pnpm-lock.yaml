@@ -815,6 +815,10 @@ importers:
   source/prfs_entities: {}
 
   source/prfs_env_js:
+    dependencies:
+      dayjs:
+        specifier: ^1.11.9
+        version: 1.11.9
     devDependencies:
       '@types/node':
         specifier: ^20.4.9
@@ -916,9 +920,6 @@ importers:
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
-      '@taigalabs/prfs-env-js':
-        specifier: '*'
-        version: link:../prfs_env_js
       '@taigalabs/prfs-i18n':
         specifier: '*'
         version: link:../prfs_i18n
@@ -1016,6 +1017,9 @@ importers:
       '@svgr/webpack':
         specifier: ^8.1.0
         version: 8.1.0
+      '@taigalabs/prfs-env-js':
+        specifier: '*'
+        version: link:../prfs_env_js
       '@tanstack/eslint-plugin-query':
         specifier: ^4.34.1
         version: 4.34.1(eslint@8.26.0)

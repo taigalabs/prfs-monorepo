@@ -1,10 +1,13 @@
 import { parseArgs } from "node:util";
-import fs from "fs";
 import path from "path";
 import chalk from "chalk";
-import child_process from "child_process";
-import dayjs from "dayjs";
-import { getPrfsDevEndpoints, getPrfsProdEndpoints } from "@taigalabs/prfs-env-js";
+import {
+  getGitCommitHash,
+  getPrfsDevEndpoints,
+  getPrfsProdEndpoints,
+  getTimestamp,
+  writeEnvsToDotEnv,
+} from "@taigalabs/prfs-env-js";
 
 import { Envs } from "./src/envs";
 
@@ -34,7 +37,7 @@ async function createEnvs(values: CliArgs) {
     ep = getPrfsProdEndpoints();
   }
 
-  const gitCommitHash = await getGitCommitHash();
+  const gitCommitHash = getGitCommitHash();
   const timestamp = getTimestamp();
   const envs: Envs = {
     NEXT_PUBLIC_LAUNCH_TIMESTAMP: timestamp,
@@ -52,27 +55,7 @@ async function createEnvs(values: CliArgs) {
   };
 
   console.log("Writing envs to %s, envs: %o", DOT_ENV_PATH, envs);
-  writeEnvsToDotEnv(envs);
-}
-
-function writeEnvsToDotEnv(envs: Envs) {
-  let ws = fs.createWriteStream(DOT_ENV_PATH);
-
-  for (const [key, val] of Object.entries(envs)) {
-    ws.write(`${key}=${val}\n`);
-  }
-
-  ws.close();
-}
-
-async function getGitCommitHash() {
-  const output = child_process.execSync(`git rev-parse HEAD`);
-  return output.toString();
-}
-
-function getTimestamp() {
-  const now = dayjs();
-  return now.toISOString();
+  writeEnvsToDotEnv(envs as any, DOT_ENV_PATH);
 }
 
 run().then();
