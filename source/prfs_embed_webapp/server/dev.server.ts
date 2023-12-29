@@ -3,7 +3,7 @@ import webpack from "webpack";
 import dayjs from "dayjs";
 
 import devConfig from "../webpack/dev.config";
-import { createApp } from "./app";
+import { createApp } from "./express";
 import paths from "./paths";
 
 (async () => {

@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-import { createApp } from "./app";
+import { createApp } from "./express";
 
 (async () => {
   const now = dayjs().toJSON();

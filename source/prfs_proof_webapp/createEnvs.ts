@@ -32,9 +32,9 @@ function createEnvs(values: CliArgs) {
   const { production } = values;
   let ep;
   if (production) {
-    ep = getPrfsDevEndpoints();
-  } else {
     ep = getPrfsProdEndpoints();
+  } else {
+    ep = getPrfsDevEndpoints();
   }
 
   const gitCommitHash = getGitCommitHash();
