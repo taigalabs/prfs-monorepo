@@ -38,6 +38,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     appId,
     prfsEmbedEndpoint,
   });
+  console.log(11, childRef);
 
   React.useEffect(() => {
     return () => {

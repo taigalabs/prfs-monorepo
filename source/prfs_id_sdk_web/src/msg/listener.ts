@@ -1,6 +1,10 @@
 import { PrfsIdMsg, newPrfsIdMsg } from "./msg";
 
-const listenerRef: ListenerRef = {
+const parentListenerRef: ListenerRef = {
+  current: null,
+};
+
+const childListenerRef: ListenerRef = {
   current: null,
 };
 
@@ -14,8 +18,9 @@ export function setupChildMsgHandler() {
         if (data.type) {
           switch (data.type) {
             case "HANDSHAKE": {
+              console.log("replying handshake ack");
               ev.ports[0].postMessage(newPrfsIdMsg("HANDSHAKE_ACK", {}));
-              resolve(listenerRef);
+              resolve(childListenerRef);
               break;
             }
             default:
@@ -26,8 +31,8 @@ export function setupChildMsgHandler() {
       }
     }
 
-    if (listenerRef.current === null) {
-      listenerRef.current = listener;
+    if (childListenerRef.current === null) {
+      childListenerRef.current = listener;
       window.addEventListener("message", listener);
     }
   });
@@ -36,28 +41,29 @@ export function setupChildMsgHandler() {
 export function setupParentMsgHandler() {
   function listener(ev: MessageEvent) {
     if (ev.ports.length > 0) {
-      console.log("child msg", ev.data);
+      console.log("parent msg", ev.data);
       const data = ev.data as PrfsIdMsg<any>;
 
       if (data.type) {
         switch (data.type) {
-          case "HANDSHAKE": {
-            ev.ports[0].postMessage(newPrfsIdMsg("HANDSHAKE_ACK", {}));
-            // resolve(listenerRef);
-            break;
-          }
+          // case "HANDSHAKE_ACK": {
+          //   // ev.ports[0].postMessage(newPrfsIdMsg("HANDSHAKE_ACK", {}));
+          //   break;
+          // }
           default:
             console.error(`invalid msg type, ${data.type}`);
-          // reject();
         }
       }
     }
   }
 
-  if (listenerRef.current === null) {
-    listenerRef.current = listener;
+  if (parentListenerRef.current === null) {
+    parentListenerRef.current = listener;
     window.addEventListener("message", listener);
+    console.log("Attaching parent msg listener");
   }
+
+  return parentListenerRef;
 }
 
 export interface ListenerRef {
