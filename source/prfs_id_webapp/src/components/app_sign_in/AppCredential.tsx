@@ -120,7 +120,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
 
       try {
         if (childRef.current) {
-          sendMsgToChild(
+          await sendMsgToChild(
             newPrfsIdMsg("SIGN_IN_SUCCESS", {
               key: appSignInArgs.publicKey,
               value: encrypted,
@@ -128,10 +128,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
             childRef.current,
           );
         }
-
-        // await sendMsgToOpener(msg);
-        // sendStorageMsg("power", "123");
-        // window.close();
+        window.close();
       } catch (err: any) {
         setErrorMsg(err.toString());
       }

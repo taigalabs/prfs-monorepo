@@ -34,7 +34,6 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const [status, setStatus] = React.useState(SignInStatus.Standby);
-  const msgListenerRef = React.useRef<((ev: MessageEvent) => void) | null>(null);
   const closeTimerRef = React.useRef<NodeJS.Timer | null>(null);
   const { childRef, isReady: isPrfsReady } = usePrfsEmbed({
     appId,
@@ -43,9 +42,6 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
 
   React.useEffect(() => {
     return () => {
-      if (msgListenerRef.current) {
-        window.removeEventListener("message", msgListenerRef.current);
-      }
       if (closeTimerRef.current) {
         clearInterval(closeTimerRef.current);
       }
@@ -55,27 +51,6 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   const handleClickSignIn = React.useCallback(async () => {
     const searchParams = makeAppSignInSearchParams(appSignInArgs);
     const endpoint = `${prfsIdEndpoint}${API_PATH.app_sign_in}${searchParams}`;
-
-    const listener = (ev: MessageEvent<any>) => {
-      const { origin } = ev;
-      if (endpoint.startsWith(origin)) {
-        const data = ev.data as PrfsIdMsg<Buffer>;
-        if (data.type === "SIGN_IN_SUCCESS") {
-          if (closeTimerRef.current) {
-            clearInterval(closeTimerRef.current);
-          }
-
-          const msg = newPrfsIdMsg("SIGN_IN_SUCCESS_ACK", null);
-          ev.ports[0].postMessage(msg);
-          handleSucceedSignIn(data.payload);
-        }
-      }
-    };
-
-    if (!msgListenerRef.current) {
-      msgListenerRef.current = listener;
-      addEventListener("message", listener, false);
-    }
 
     if (!isPrfsReady || !childRef.current) {
       return;
@@ -103,15 +78,15 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       newPrfsIdMsg("REQUEST_SIGN_IN", { storageKey: appSignInArgs.publicKey }),
       childRef.current,
     );
-
-    console.log("resp", resp);
     if (resp) {
-      const buf = parseBuffer(resp);
-      if (buf) {
+      try {
+        const buf = parseBuffer(resp);
         handleSucceedSignIn(buf);
+      } catch (err) {
+        console.error(err);
       }
     } else {
-      console.error("Returned val isn't buffer");
+      console.error("Returned val is empty");
     }
   }, [
     appSignInArgs,

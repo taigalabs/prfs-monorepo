@@ -1,14 +1,12 @@
-export function parseBuffer(val: string) {
+export function parseBuffer(val: string): Buffer {
   try {
     const v = JSON.parse(val);
     if (v.data) {
       return Buffer.from(v.data);
     } else {
-      console.error("data is not buffer");
-      return null;
+      throw new Error("data is not buffer");
     }
   } catch (err) {
-    console.error(err);
-    return null;
+    throw err;
   }
 }

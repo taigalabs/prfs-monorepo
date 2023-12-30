@@ -13,7 +13,7 @@ export async function sendMsgToParent(msg: PrfsIdMsg<any>): Promise<any> {
 }
 
 export async function sendMsg(msg: PrfsIdMsg<any>, sender: Function): Promise<PrfsIdMsg<any>> {
-  return new Promise((res, rej) => {
+  return new Promise((res, _) => {
     const channel = new MessageChannel();
     channel.port1.onmessage = ({ data }: { data: any }) => {
       res(data);

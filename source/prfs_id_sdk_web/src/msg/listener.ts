@@ -21,8 +21,8 @@ export function setupChildMsgHandler() {
           switch (data.type) {
             case "HANDSHAKE": {
               console.log("replying handshake ack");
-              ev.ports[0].postMessage(newPrfsIdMsg("HANDSHAKE_ACK", null));
               resolve(childListenerRef);
+              ev.ports[0].postMessage(true);
               break;
             }
             default:
@@ -63,10 +63,11 @@ export function setupParentMsgHandler(queue: MessageQueue) {
           case "SIGN_IN_SUCCESS": {
             if (data.payload) {
               const payload = data.payload as StorageMsg<SignInSuccessPayload>;
-              if (payload) {
-                dispatchStorageMsg(payload);
-              }
+              dispatchStorageMsg(payload);
+            } else {
+              console.error("msg doesn't contain payload");
             }
+            ev.ports[0].postMessage(true);
             break;
           }
           default:
