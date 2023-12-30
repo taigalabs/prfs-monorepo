@@ -15,10 +15,13 @@ import {
   CommitmentType,
   CommitmentSuccessPayload,
   PrfsIdMsg,
-  getCommitment,
+  // getCommitment,
   makeAttestation,
   newPrfsIdMsg,
   makeCommitmentSearchParams,
+  CommitmentArgs,
+  API_PATH,
+  parseBuffer,
 } from "@taigalabs/prfs-id-sdk-web";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
@@ -27,6 +30,7 @@ import { AttestTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/Attes
 import { ValidateTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/ValidateTwitterAccRequest";
 import { TwitterAccValidation } from "@taigalabs/prfs-entities/bindings/TwitterAccValidation";
 import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
+import { sendMsgToChild } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./CreateTwitterAccAtst.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -182,10 +186,67 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
   );
 
   const handleClickGenerate = React.useCallback(() => {
-    // const searchParams = makeCommitmentSearchParams(appSignInArgs);
-    // const endpoint = `${prfsIdEndpoint}${API_PATH.app_sign_in}${searchParams}`;
+    const commitmentArgs: CommitmentArgs = {
+      nonce: Math.random() * 1000000,
+      appId: "prfs_proof",
+      cms: [
+        {
+          name: CLAIM,
+          preImage: claimSecret,
+          type: CommitmentType.SIG_POSEIDON_1,
+        },
+      ],
+      publicKey: pkHex,
+    };
 
-    openPopup(endpoint, async () => {});
+    const searchParams = makeCommitmentSearchParams(commitmentArgs);
+    const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.commitment}${searchParams}`;
+
+    openPopup(endpoint, async () => {
+      if (!childRef.current || !isPrfsReady) {
+        return;
+      }
+
+      const resp = await sendMsgToChild(
+        newPrfsIdMsg("REQUEST_SIGN_IN", { storageKey: commitmentArgs.publicKey }),
+        childRef.current,
+      );
+      if (resp) {
+        try {
+          const buf = parseBuffer(resp);
+          // handleSucceedSignIn(buf);
+          let decrypted: string;
+          try {
+            decrypted = decrypt(sk.secret, buf).toString();
+          } catch (err) {
+            console.error("cannot decrypt payload", err);
+            return;
+          }
+
+          let payload: CommitmentSuccessPayload;
+          try {
+            payload = JSON.parse(decrypted) as CommitmentSuccessPayload;
+          } catch (err) {
+            console.error("cannot parse payload", err);
+            return;
+          }
+
+          const cm = payload.receipt[CLAIM];
+          if (cm) {
+            setClaimCm(cm);
+            setStep(AttestationStep.POST_TWEET);
+          } else {
+            console.error("no commitment delivered");
+            return;
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      } else {
+        console.error("Returned val is empty");
+      }
+    });
+
     // const appId = "prfs_proof";
     // const listener = initChannel({
     //   appId,
@@ -205,7 +266,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
     //     },
     //   },
     // });
-  }, [formData, step, claimSecret, sk, pkHex, openPopup]);
+  }, [formData, step, claimSecret, sk, pkHex, openPopup, setClaimCm, setStep]);
 
   const handleClickValidate = React.useCallback(async () => {
     const tweet_url = formData[TWEET_URL];

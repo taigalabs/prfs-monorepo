@@ -71,7 +71,8 @@ export interface CommitmentArgs {
 }
 
 export interface CommitmentData {
-  val: string;
+  name: string;
+  preImage: string;
   type: CommitmentType;
 }
 
