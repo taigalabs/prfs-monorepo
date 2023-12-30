@@ -1,10 +1,4 @@
-import {
-  PrfsIdMsg,
-  SignInSuccessPayload,
-  StorageMsg,
-  newPrfsIdMsg,
-  RequestSignInPayload,
-} from "./msg";
+import { PrfsIdMsg, SignInSuccessPayload, StorageMsg, RequestSignInPayload } from "./msg";
 import { MessageQueue } from "./queue";
 import { createStorageKey, dispatchStorageMsg } from "./storage";
 

@@ -13,11 +13,9 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import {
   CommitmentType,
-  PrfsIdCommitmentSuccessPayload,
+  CommitmentSuccessPayload,
   PrfsIdMsg,
   getCommitment,
-  initChannel,
-  initStorageListener,
   makeAttestation,
   newPrfsIdMsg,
 } from "@taigalabs/prfs-id-sdk-web";
@@ -27,6 +25,7 @@ import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { AttestTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/AttestTwitterAccRequest";
 import { ValidateTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/ValidateTwitterAccRequest";
 import { TwitterAccValidation } from "@taigalabs/prfs-entities/bindings/TwitterAccValidation";
+import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
 import styles from "./CreateTwitterAccAtst.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -78,6 +77,10 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       return atstApi("attest_twitter_acc", req);
     },
   });
+  const { childRef, isReady: isPrfsReady } = usePrfsEmbed({
+    appId: "prfs_id",
+    prfsEmbedEndpoint: envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT,
+  });
 
   const handleSucceedGenerateCms = React.useCallback(
     (encrypted: Buffer) => {
@@ -89,9 +92,9 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
         return;
       }
 
-      let payload: PrfsIdCommitmentSuccessPayload;
+      let payload: CommitmentSuccessPayload;
       try {
-        payload = JSON.parse(decrypted) as PrfsIdCommitmentSuccessPayload;
+        payload = JSON.parse(decrypted) as CommitmentSuccessPayload;
       } catch (err) {
         console.error("cannot parse payload", err);
         return;
@@ -119,23 +122,23 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       setStep(AttestationStep.INPUT_TWITTER_HANDLE);
     }
 
-    const listener = (ev: MessageEvent<any>) => {
-      const { origin } = ev;
+    // const listener = (ev: MessageEvent<any>) => {
+    //   const { origin } = ev;
 
-      if (envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT.startsWith(origin)) {
-        const data = ev.data as PrfsIdMsg<Buffer>;
-        if (data.type === "COMMITMENT_SUCCESS") {
-          const msg = newPrfsIdMsg("COMMITMENT_SUCCESS_RESPOND", null);
-          ev.ports[0].postMessage(msg);
-          handleSucceedGenerateCms(data.payload);
-        }
-      }
-    };
-    addEventListener("message", listener, false);
+    //   if (envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT.startsWith(origin)) {
+    //     const data = ev.data as PrfsIdMsg<Buffer>;
+    //     if (data.type === "COMMITMENT_SUCCESS") {
+    //       const msg = newPrfsIdMsg("COMMITMENT_SUCCESS_RESPOND", null);
+    //       ev.ports[0].postMessage(msg);
+    //       handleSucceedGenerateCms(data.payload);
+    //     }
+    //   }
+    // };
+    // addEventListener("message", listener, false);
 
-    return () => {
-      window.removeEventListener("message", listener);
-    };
+    // return () => {
+    //   window.removeEventListener("message", listener);
+    // };
   }, [setStep, formData[TWITTER_HANDLE], handleSucceedGenerateCms]);
 
   const tweetContent = React.useMemo(() => {
@@ -178,12 +181,11 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
 
   const handleClickGenerate = React.useCallback(() => {
     const appId = "prfs_proof";
-    const listener = initChannel({
-      appId,
-      prfsIdEndpoint: envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT,
-    });
+    // const listener = initChannel({
+    //   appId,
+    //   prfsIdEndpoint: envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT,
+    // });
 
-    console.log(15);
     // console.log("listener", listener);
     // getCommitment({
     //   prfsIdEndpoint: `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id}`,

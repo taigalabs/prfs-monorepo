@@ -52,14 +52,14 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     const searchParams = makeAppSignInSearchParams(appSignInArgs);
     const endpoint = `${prfsIdEndpoint}${API_PATH.app_sign_in}${searchParams}`;
 
-    if (!isPrfsReady || !childRef.current) {
+    if (!childRef.current || !isPrfsReady) {
       return;
     }
 
     // Open the window
     setStatus(SignInStatus.InProgress);
-    const child = window.open(endpoint, "_blank", "toolbar=0,location=0,menubar=0");
-    if (!child) {
+    const popup = window.open(endpoint, "_blank", "toolbar=0,location=0,menubar=0");
+    if (!popup) {
       console.error("Failed to open window");
       setStatus(SignInStatus.Standby);
       return;
@@ -67,7 +67,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
 
     if (!closeTimerRef.current) {
       const timer = setInterval(() => {
-        if (child.closed) {
+        if (popup.closed) {
           setStatus(SignInStatus.Standby);
         }
       }, 4000);
