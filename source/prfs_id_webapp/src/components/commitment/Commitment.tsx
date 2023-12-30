@@ -29,7 +29,7 @@ export enum Status {
   Standby,
 }
 
-const PrfsIdCommitment: React.FC = () => {
+const Commitment: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const [status, setStatus] = React.useState(Status.Loading);
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
@@ -140,4 +140,4 @@ const PrfsIdCommitment: React.FC = () => {
   );
 };
 
-export default PrfsIdCommitment;
+export default Commitment;
