@@ -16,7 +16,7 @@ import {
 import { envs } from "@/envs";
 import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import PrfsIdSignIn from "@/components/sign_in/PrfsIdSignIn";
-import Commitments from "./Commitments";
+import CommitmentView from "./CommitmentView";
 
 enum CommitmentStep {
   PrfsIdCredential,
@@ -43,27 +43,29 @@ const Commitment: React.FC = () => {
       const args = parseCommitmentSearchParams(searchParams as URLSearchParams);
       return args;
     } catch (err: any) {
-      setErrorMsg(err.toString());
       return null;
     }
   }, [searchParams]);
 
-  // React.useEffect(() => {
-  //   const publicKey = searchParams.get("public_key");
-  //   const appId = searchParams.get("app_id");
+  React.useEffect(() => {
+    // const publicKey = searchParams.get("public_key");
+    // const appId = searchParams.get("app_id");
+    if (commitmentArgs) {
+      const { publicKey, appId } = commitmentArgs;
 
-  //   if (!publicKey) {
-  //     setStatus(Status.Error);
-  //     setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
-  //   } else if (!appId) {
-  //     setStatus(Status.Error);
-  //     setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
-  //   } else {
-  //     setPublicKey(publicKey);
-  //     setAppId(appId);
-  //     setStatus(Status.Standby);
-  //   }
-  // }, [searchParams, setStatus, setErrorMsg, setPublicKey, setAppId, setStep]);
+      if (!publicKey) {
+        setStatus(Status.Error);
+        setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
+      } else if (!appId) {
+        setStatus(Status.Error);
+        setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
+      } else {
+        // setPublicKey(publicKey);
+        // setAppId(appId);
+        setStatus(Status.Standby);
+      }
+    }
+  }, [searchParams, setStatus, setErrorMsg, setStep, commitmentArgs]);
 
   const handleCloseErrorDialog = React.useCallback(() => {
     window.close();
@@ -100,7 +102,7 @@ const Commitment: React.FC = () => {
       case CommitmentStep.AppCredential: {
         return (
           credential && (
-            <Commitments
+            <CommitmentView
               credential={credential}
               commitmentArgs={commitmentArgs}
               // appId={appId}

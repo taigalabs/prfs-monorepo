@@ -1,48 +1,57 @@
-.list {
-  padding: 12px 0 20px;
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 450px;
 }
 
-.item {
-  display: flex;
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.6);
+  z-index: 10;
+}
+
+.inputGroup {
+  &:not(:first-child) {
+    margin-top: 16px;
+  }
+}
+
+.blueText {
+  color: var(--blue-14);
+}
+
+.prfsId {
+  padding: 20px 0 10px;
+  text-align: center;
   font-size: 13px;
+  color: var(--gray-30);
+}
 
-  .leftCol {
-    font-size: 20px;
-    padding-top: 6px;
-    padding-left: 6px;
-    padding-right: 12px;
-  }
-
-  .rightCol {
-    word-break: break-all;
-    color: var(--black-20);
-
-    > * {
-      padding-left: 6px;
-    }
-  }
-
-  .val {
-    color: var(--gray-40);
-  }
-
-  .name {
-    padding-bottom: 2px;
-  }
-
-  .type {
-    color: var(--gray-40);
-    padding-bottom: 2px;
-  }
-
-  .label {
+.dataWarning {
+  .title {
+    padding: 8px 0;
     font-weight: 500;
   }
 
-  .hashed {
-    /* border: 1px solid var(--gray-70); */
-    /* border-radius: 8px; */
-    /* padding: 6px 8px; */
-    /* color: var(--gray-20); */
+  .desc {
+    padding: 10px 0 4px;
+    line-height: 1.5;
+    font-size: 13px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    width: 100%;
+    padding: 0 12px;
+    justify-content: center;
+  }
+
+  .moduleWrapper {
+    /* padding: 0 0; */
+    border: none;
   }
 }
