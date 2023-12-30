@@ -20,6 +20,7 @@ export async function setupStorageListener(messageQueue: MessageQueue) {
       const port = messageQueue.dequeue(ev.key);
       if (port) {
         port.postMessage(ev.newValue);
+        window.localStorage.removeItem(ev.key);
       }
     }
   }
