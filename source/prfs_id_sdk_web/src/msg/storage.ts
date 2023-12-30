@@ -16,14 +16,10 @@ export function dispatchStorageMsg(msg: StorageMsg<any>) {
 
 export async function setupStorageListener(messageQueue: MessageQueue) {
   async function listener(ev: StorageEvent) {
-    console.log(11, ev);
-
     if (ev.key) {
-      const postMsg = messageQueue.dequeue(ev.key);
-      if (postMsg) {
-        console.log("sending new value", ev.newValue);
-        // postMsg(ev.newValue);
-        (postMsg as any).postMessage("powpeor");
+      const port = messageQueue.dequeue(ev.key);
+      if (port) {
+        port.postMessage(ev.newValue);
       }
     }
   }

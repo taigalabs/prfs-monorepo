@@ -52,11 +52,8 @@ export function setupParentMsgHandler(queue: MessageQueue) {
             if (data.payload) {
               const { storageKey } = data.payload;
               if (storageKey) {
-                console.log("reply");
-                ev.ports[0].postMessage("po123");
                 const ky = createStorageKey(storageKey);
-                // queue.push(ky, ev.ports[0].postMessage);
-                queue.push(ky, ev.ports[0] as any);
+                queue.push(ky, ev.ports[0]);
               } else {
                 console.error("msg doesn't have a storage key, type: %s", data.type);
               }

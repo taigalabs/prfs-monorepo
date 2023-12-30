@@ -8,6 +8,7 @@ import {
   makeAppSignInSearchParams,
   newPrfsIdMsg,
   sendMsgToChild,
+  parseBuffer,
 } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./PrfsIdSignInButton.module.scss";
@@ -103,7 +104,11 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       childRef.current,
     );
 
-    console.log(11, resp);
+    console.log("resp", resp);
+    if (resp) {
+      const buf = parseBuffer(resp);
+      console.log("buf", buf);
+    }
   }, [appSignInArgs, setStatus, prfsIdEndpoint, prfsEmbedEndpoint, isPrfsReady]);
 
   return (

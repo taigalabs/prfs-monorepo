@@ -1,24 +1,24 @@
 export class MessageQueue {
-  q: Record<string, PostMessageFn> = {};
+  q: Record<string, MessagePort> = {};
   count = 0;
 
-  push(key: string, postMessage: (msg: any) => void) {
+  push(key: string, port: MessagePort) {
     console.log("queue push, key: %s", key);
-    this.q[key] = postMessage;
+    this.q[key] = port;
     this.count += 1;
   }
 
   dequeue(key: string) {
-    const postMessage = this.q[key];
+    const port = this.q[key];
 
-    if (postMessage) {
+    if (port) {
       delete this.q[key];
       this.count -= 1;
-      return postMessage;
+      return port;
     } else {
       return null;
     }
   }
 }
 
-export type PostMessageFn = (msg: any) => void;
+// export type PostMessageFn = (msg: any) => void;
