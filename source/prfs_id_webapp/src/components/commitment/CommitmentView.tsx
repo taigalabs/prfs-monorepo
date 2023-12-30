@@ -12,6 +12,8 @@ import {
   PrfsIdMsg,
   PrfsIdCredential,
   CommitmentArgs,
+  sendMsgToChild,
+  newPrfsIdMsg,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt } from "eciesjs";
@@ -44,6 +46,7 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
   // publicKey,
   commitmentArgs,
   credential,
+  prfsEmbedRef,
 }) => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
@@ -117,7 +120,7 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
   }, [setStatus, commitmentReceipt]);
 
   const handleClickSubmit = React.useCallback(async () => {
-    if (commitmentArgs && credential) {
+    if (commitmentArgs && credential && prfsEmbedRef.current) {
       const { payload: _signInRequestPayload, error } = await prfsIdentitySignInRequest({
         identity_id: credential.id,
       });
@@ -135,15 +138,22 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
       const payload: CommitmentSuccessPayload = {
         receipt: commitmentReceipt,
       };
-      const encrypted = encrypt(commitmentArgs.publicKey, Buffer.from(JSON.stringify(payload)));
+      const encrypted = JSON.stringify(
+        encrypt(commitmentArgs.publicKey, Buffer.from(JSON.stringify(payload))),
+      );
       console.log("Encrypted credential", encrypted);
-      const msg: PrfsIdMsg<Buffer> = {
-        type: "COMMITMENT_SUCCESS",
-        payload: encrypted,
-      };
 
-      // await sendMsgToOpener(msg);
-      // window.close();
+      try {
+        await sendMsgToChild(
+          newPrfsIdMsg("COMMITMENT_SUCCESS", {
+            key: commitmentArgs.publicKey,
+            value: encrypted,
+          }),
+          prfsEmbedRef.current,
+        );
+        // await sendMsgToOpener(msg);
+        // window.close();
+      } catch (err: any) {}
     }
   }, [searchParams, commitmentArgs, credential, setErrorMsg, commitmentReceipt]);
 
@@ -201,4 +211,5 @@ export interface CommitmentViewProps {
   // publicKey: string;
   credential: PrfsIdCredential;
   commitmentArgs: CommitmentArgs | null;
+  prfsEmbedRef: React.MutableRefObject<HTMLIFrameElement | null>;
 }

@@ -45,7 +45,7 @@ const PrfsIdAppSignIn: React.FC = () => {
       return null;
     }
   }, [searchParams]);
-  const { childRef, isReady: isPrfsReady } = usePrfsEmbed({
+  const { prfsEmbedRef, isReady: isPrfsReady } = usePrfsEmbed({
     appId: "prfs_id",
     prfsEmbedEndpoint: envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT,
   });
@@ -105,7 +105,7 @@ const PrfsIdAppSignIn: React.FC = () => {
               credential={credential}
               appSignInArgs={appSignInArgs}
               handleClickPrev={handleClickPrev}
-              childRef={childRef}
+              prfsEmbedRef={prfsEmbedRef}
             />
           )
         );

@@ -17,10 +17,11 @@ import { envs } from "@/envs";
 import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import PrfsIdSignIn from "@/components/sign_in/PrfsIdSignIn";
 import CommitmentView from "./CommitmentView";
+import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
 enum CommitmentStep {
   PrfsIdCredential,
-  AppCredential,
+  CommitmentView,
 }
 
 export enum Status {
@@ -46,6 +47,10 @@ const Commitment: React.FC = () => {
       return null;
     }
   }, [searchParams]);
+  const { prfsEmbedRef, isReady: isPrfsReady } = usePrfsEmbed({
+    appId: "prfs_id",
+    prfsEmbedEndpoint: envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT,
+  });
 
   React.useEffect(() => {
     // const publicKey = searchParams.get("public_key");
@@ -60,12 +65,14 @@ const Commitment: React.FC = () => {
         setStatus(Status.Error);
         setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
       } else {
+        if (isPrfsReady) {
+          setStatus(Status.Standby);
+        }
         // setPublicKey(publicKey);
         // setAppId(appId);
-        setStatus(Status.Standby);
       }
     }
-  }, [searchParams, setStatus, setErrorMsg, setStep, commitmentArgs]);
+  }, [searchParams, setStatus, setErrorMsg, setStep, commitmentArgs, isPrfsReady]);
 
   const handleCloseErrorDialog = React.useCallback(() => {
     window.close();
@@ -79,7 +86,7 @@ const Commitment: React.FC = () => {
     (credential: PrfsIdCredential) => {
       if (credential) {
         setCredential(credential);
-        setStep(CommitmentStep.AppCredential);
+        setStep(CommitmentStep.CommitmentView);
       }
     },
     [setCredential, setStep],
@@ -99,7 +106,7 @@ const Commitment: React.FC = () => {
           <PrfsIdSignIn appId={commitmentArgs.appId} handleSucceedSignIn={handleSucceedSignIn} />
         );
       }
-      case CommitmentStep.AppCredential: {
+      case CommitmentStep.CommitmentView: {
         return (
           credential && (
             <CommitmentView
@@ -108,6 +115,7 @@ const Commitment: React.FC = () => {
               // appId={appId}
               // publicKey={publicKey}
               handleClickPrev={handleClickPrev}
+              prfsEmbedRef={prfsEmbedRef}
             />
           )
         );

@@ -50,12 +50,12 @@ export function usePopup() {
 
 export function usePrfsEmbed({ appId, prfsEmbedEndpoint }: CreateEmbeddedElemArgs) {
   const isInProgressRef = React.useRef(false);
-  const childRef = React.useRef<HTMLIFrameElement | null>(null);
+  const prfsEmbedRef = React.useRef<HTMLIFrameElement | null>(null);
   const [isReady, setIsReady] = React.useState(false);
 
   React.useEffect(() => {
     async function fn() {
-      if (!childRef.current && isInProgressRef.current === false) {
+      if (!prfsEmbedRef.current && isInProgressRef.current === false) {
         // Lock mutex
         isInProgressRef.current = true;
 
@@ -64,7 +64,7 @@ export function usePrfsEmbed({ appId, prfsEmbedEndpoint }: CreateEmbeddedElemArg
           prfsEmbedEndpoint,
         });
 
-        childRef.current = el;
+        prfsEmbedRef.current = el;
 
         if (!listenerRef.current) {
           const listener = await setupChildMsgHandler();
@@ -79,7 +79,7 @@ export function usePrfsEmbed({ appId, prfsEmbedEndpoint }: CreateEmbeddedElemArg
   }, []);
 
   return {
-    childRef,
+    prfsEmbedRef,
     isReady,
   };
 }

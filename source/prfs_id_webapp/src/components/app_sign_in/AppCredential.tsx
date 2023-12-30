@@ -35,7 +35,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
   handleClickPrev,
   appSignInArgs,
   credential,
-  childRef,
+  prfsEmbedRef,
 }) => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
@@ -117,13 +117,13 @@ const AppCredential: React.FC<AppCredentialProps> = ({
       console.log("Encrypted credential", encrypted);
 
       try {
-        if (childRef.current) {
+        if (prfsEmbedRef.current) {
           await sendMsgToChild(
             newPrfsIdMsg("SIGN_IN_SUCCESS", {
               key: appSignInArgs.publicKey,
               value: encrypted,
             }),
-            childRef.current,
+            prfsEmbedRef.current,
           );
         }
         window.close();
@@ -182,5 +182,5 @@ export interface AppCredentialProps {
   handleClickPrev: () => void;
   credential: PrfsIdCredential;
   appSignInArgs: AppSignInArgs;
-  childRef: React.MutableRefObject<HTMLIFrameElement | null>;
+  prfsEmbedRef: React.MutableRefObject<HTMLIFrameElement | null>;
 }
