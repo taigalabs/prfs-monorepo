@@ -12,7 +12,7 @@ async function main() {
   const messageQueue = new MessageQueue();
   setupStorageListener(messageQueue);
   setupParentMsgHandler(messageQueue);
-  await sendMsgToParent(newPrfsIdMsg("HANDSHAKE", {}));
+  await sendMsgToParent(newPrfsIdMsg("HANDSHAKE", null));
 }
 
 main().then();

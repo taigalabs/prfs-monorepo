@@ -98,7 +98,12 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       closeTimerRef.current = timer;
     }
 
-    await sendMsgToChild(newPrfsIdMsg("REQUEST_SIGN_IN", {}), childRef.current);
+    const resp = await sendMsgToChild(
+      newPrfsIdMsg("REQUEST_SIGN_IN", { storageKey: appSignInArgs.publicKey }),
+      childRef.current,
+    );
+
+    console.log(11, resp);
   }, [appSignInArgs, setStatus, prfsIdEndpoint, prfsEmbedEndpoint, isPrfsReady]);
 
   return (

@@ -4,17 +4,18 @@ export interface PrfsIdMsg<T> {
   payload: T;
 }
 
-// export interface PrfsIdSignInSuccessMsg {
-//   type: "SIGN_IN_SUCCESS";
-//   payload: Buffer; // SignInSuccessPayload;
-// }
+export interface StorageMsg<T> {
+  _phantom?: T;
+  key: string;
+  value: string;
+}
 
-export interface PrfsIdSignInSuccessPayload {
+export interface SignInSuccessPayload {
   account_id: string;
   public_key: string;
 }
 
-export interface PrfsIdCommitmentSuccessPayload {
+export interface CommitmentSuccessPayload {
   receipt: Record<string, string>;
 }
 
@@ -28,9 +29,19 @@ export type PrfsIdMsgType =
   | "COMMITMENT_SUCCESS_ACK"
   | "REQUEST_SIGN_IN";
 
-export function newPrfsIdMsg(type: PrfsIdMsgType, payload: any): PrfsIdMsg<any> {
+export function newPrfsIdMsg<T extends PrfsIdMsgType>(
+  type: PrfsIdMsgType,
+  payload: MsgPayload<T>,
+): PrfsIdMsg<any> {
   return {
     type,
     payload,
   };
 }
+
+type MsgPayload<T extends PrfsIdMsgType> = //
+  T extends "SIGN_IN_SUCCESS"
+    ? StorageMsg<SignInSuccessPayload>
+    : T extends "REQUEST_SIGN_IN"
+    ? { storageKey: string }
+    : null;

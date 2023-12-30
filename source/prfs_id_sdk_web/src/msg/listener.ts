@@ -1,5 +1,6 @@
-import { PrfsIdMsg, PrfsIdSignInSuccessPayload, newPrfsIdMsg } from "./msg";
+import { PrfsIdMsg, SignInSuccessPayload, StorageMsg, newPrfsIdMsg } from "./msg";
 import { MessageQueue } from "./queue";
+import { createStorageKey, dispatchStorageMsg } from "./storage";
 
 const parentListenerRef: ListenerRef = {
   current: null,
@@ -20,7 +21,7 @@ export function setupChildMsgHandler() {
           switch (data.type) {
             case "HANDSHAKE": {
               console.log("replying handshake ack");
-              ev.ports[0].postMessage(newPrfsIdMsg("HANDSHAKE_ACK", {}));
+              ev.ports[0].postMessage(newPrfsIdMsg("HANDSHAKE_ACK", null));
               resolve(childListenerRef);
               break;
             }
@@ -42,28 +43,32 @@ export function setupChildMsgHandler() {
 export function setupParentMsgHandler(queue: MessageQueue) {
   function listener(ev: MessageEvent) {
     if (ev.ports.length > 0) {
-      console.log("parent msg", ev.data);
+      console.log("parent msg", ev.data, ev.ports);
       const data = ev.data as PrfsIdMsg<any>;
 
       if (data.type) {
         switch (data.type) {
           case "REQUEST_SIGN_IN": {
             if (data.payload) {
-              const { publicKey } = data.payload;
-              if (publicKey) {
-                queue.push(publicKey, ev.ports[0].postMessage);
+              const { storageKey } = data.payload;
+              if (storageKey) {
+                console.log("reply");
+                ev.ports[0].postMessage("po123");
+                const ky = createStorageKey(storageKey);
+                // queue.push(ky, ev.ports[0].postMessage);
+                queue.push(ky, ev.ports[0] as any);
+              } else {
+                console.error("msg doesn't have a storage key, type: %s", data.type);
               }
             }
             break;
           }
           case "SIGN_IN_SUCCESS": {
             if (data.payload) {
-              const payload = data.payload;
-              window.localStorage.setItem(payload.publicKey, payload.encrypted);
-              // if (payload.publicKey) {
-              //   const key = `prfs_msg__${payload.publicKey}`;
-              //   window.localStorage.setItem(key, JSON.stringify(payload.encrypted));
-              // }
+              const payload = data.payload as StorageMsg<SignInSuccessPayload>;
+              if (payload) {
+                dispatchStorageMsg(payload);
+              }
             }
             break;
           }

@@ -3,12 +3,12 @@ import { poseidon_2, prfsSign } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useSearchParams } from "next/navigation";
 import {
-  PrfsIdSignInSuccessPayload,
+  SignInSuccessPayload,
   StoredCredential,
   persistPrfsIdCredential,
   CommitmentData,
   CommitmentType,
-  PrfsIdCommitmentSuccessPayload,
+  CommitmentSuccessPayload,
   PrfsIdMsg,
   PrfsIdCredential,
 } from "@taigalabs/prfs-id-sdk-web";
@@ -129,7 +129,7 @@ const Commitments: React.FC<CommitmentsProps> = ({
         return;
       }
 
-      const payload: PrfsIdCommitmentSuccessPayload = {
+      const payload: CommitmentSuccessPayload = {
         receipt: commitmentReceipt,
       };
       const encrypted = encrypt(publicKey, Buffer.from(JSON.stringify(payload)));

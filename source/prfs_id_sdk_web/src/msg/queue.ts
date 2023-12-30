@@ -3,7 +3,7 @@ export class MessageQueue {
   count = 0;
 
   push(key: string, postMessage: (msg: any) => void) {
-    console.log("queue push");
+    console.log("queue push, key: %s", key);
     this.q[key] = postMessage;
     this.count += 1;
   }

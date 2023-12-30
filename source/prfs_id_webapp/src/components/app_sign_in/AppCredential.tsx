@@ -2,7 +2,7 @@ import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useSearchParams } from "next/navigation";
 import {
-  PrfsIdSignInSuccessPayload,
+  SignInSuccessPayload,
   PrfsIdMsg,
   PrfsIdCredential,
   AppSignInArgs,
@@ -109,7 +109,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
         return;
       }
 
-      const payload: PrfsIdSignInSuccessPayload = {
+      const payload: SignInSuccessPayload = {
         account_id: signInData.account_id,
         public_key: signInData.public_key,
       };
@@ -118,19 +118,12 @@ const AppCredential: React.FC<AppCredentialProps> = ({
       );
       console.log("Encrypted credential", encrypted);
 
-      // const msg: PrfsIdMsg<Buffer> = {
-      //   type: "SIGN_IN_SUCCESS",
-      //   payload: encrypted,
-      // };
-
       try {
-        console.log("sending msg");
-
         if (childRef.current) {
           sendMsgToChild(
             newPrfsIdMsg("SIGN_IN_SUCCESS", {
-              encrypted,
-              publicKey: appSignInArgs.publicKey,
+              key: appSignInArgs.publicKey,
+              value: encrypted,
             }),
             childRef.current,
           );

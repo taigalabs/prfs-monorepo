@@ -20,11 +20,7 @@ export async function sendMsg(msg: PrfsIdMsg<any>, sender: Function): Promise<an
       if (data.error) {
         rej(data.error);
       } else {
-        if (data.payload) {
-          res(data.payload as any);
-        } else {
-          rej("Msg doesn't contain payload");
-        }
+        res(data.payload as any);
       }
     };
 
