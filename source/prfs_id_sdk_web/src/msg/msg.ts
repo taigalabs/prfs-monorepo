@@ -10,6 +10,10 @@ export interface StorageMsg<T> {
   value: string;
 }
 
+export interface RequestSignInPayload {
+  storageKey: string;
+}
+
 export interface SignInSuccessPayload {
   account_id: string;
   public_key: string;
@@ -43,5 +47,5 @@ type MsgPayload<T extends PrfsIdMsgType> = //
   T extends "SIGN_IN_SUCCESS"
     ? StorageMsg<SignInSuccessPayload>
     : T extends "REQUEST_SIGN_IN"
-    ? { storageKey: string }
+    ? RequestSignInPayload
     : null;

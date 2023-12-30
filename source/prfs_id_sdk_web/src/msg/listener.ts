@@ -1,4 +1,10 @@
-import { PrfsIdMsg, SignInSuccessPayload, StorageMsg, newPrfsIdMsg } from "./msg";
+import {
+  PrfsIdMsg,
+  SignInSuccessPayload,
+  StorageMsg,
+  newPrfsIdMsg,
+  RequestSignInPayload,
+} from "./msg";
 import { MessageQueue } from "./queue";
 import { createStorageKey, dispatchStorageMsg } from "./storage";
 
@@ -50,7 +56,7 @@ export function setupParentMsgHandler(queue: MessageQueue) {
         switch (data.type) {
           case "REQUEST_SIGN_IN": {
             if (data.payload) {
-              const { storageKey } = data.payload;
+              const { storageKey } = data.payload as RequestSignInPayload;
               if (storageKey) {
                 const ky = createStorageKey(storageKey);
                 queue.push(ky, ev.ports[0]);
