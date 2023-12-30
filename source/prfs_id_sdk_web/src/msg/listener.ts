@@ -59,12 +59,13 @@ export function setupParentMsgHandler(queue: MessageQueue) {
           case "SIGN_IN_SUCCESS": {
             if (data.payload) {
               const payload = data.payload;
-              window.localStorage.push(payload.publicKey, payload.encrypted);
+              window.localStorage.setItem(payload.publicKey, payload.encrypted);
               // if (payload.publicKey) {
               //   const key = `prfs_msg__${payload.publicKey}`;
               //   window.localStorage.setItem(key, JSON.stringify(payload.encrypted));
               // }
             }
+            break;
           }
           default:
             console.error(`invalid msg type, ${data.type}`);
