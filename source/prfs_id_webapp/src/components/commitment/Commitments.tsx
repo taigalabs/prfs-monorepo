@@ -78,19 +78,19 @@ const Commitments: React.FC<CommitmentsProps> = ({
           let elems = [];
           let receipt: Record<string, string> = {};
           for (const cm of commitmentArgs.cms) {
-            const { val, type } = cm;
+            const { name, preImage, type } = cm;
 
             if (type === CommitmentType.SIG_POSEIDON_1) {
-              const sig = await prfsSign(credential.secret_key, val);
+              const sig = await prfsSign(credential.secret_key, preImage);
               const sigBytes = sig.toCompactRawBytes();
               const hashed = await poseidon_2(sigBytes);
               const hashedHex = hexlify(hashed);
               // receipt[name] = hashedHex;
               elems.push(
                 <CommitmentViewItem
-                  key={cm.val}
-                  name={cm.val}
-                  val={val}
+                  key={name}
+                  name={name}
+                  val={preImage}
                   type={type}
                   hashedHex={hashedHex}
                 />,
