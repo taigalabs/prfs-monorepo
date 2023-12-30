@@ -10,6 +10,7 @@ export function usePrfsEmbed({ appId, prfsEmbedEndpoint }: CreateEmbeddedElemArg
   const isInProgressRef = React.useRef(false);
   const childRef = React.useRef<HTMLIFrameElement | null>(null);
   const listenerRef = React.useRef<ListenerRef | null>(null);
+  const [isReady, setIsReady] = React.useState(false);
 
   React.useEffect(() => {
     async function fn() {
@@ -27,6 +28,7 @@ export function usePrfsEmbed({ appId, prfsEmbedEndpoint }: CreateEmbeddedElemArg
         if (!listenerRef.current) {
           const listener = await setupChildMsgHandler();
           listenerRef.current = listener;
+          setIsReady(true);
         }
         // Unlock mutex
         isInProgressRef.current = false;
@@ -35,5 +37,8 @@ export function usePrfsEmbed({ appId, prfsEmbedEndpoint }: CreateEmbeddedElemArg
     fn().then();
   }, []);
 
-  return childRef;
+  return {
+    childRef,
+    isReady,
+  };
 }

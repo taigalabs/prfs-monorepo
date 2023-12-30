@@ -44,7 +44,7 @@ const PrfsIdAppSignIn: React.FC = () => {
       return null;
     }
   }, [searchParams]);
-  const childRef = usePrfsEmbed({
+  const { childRef, isReady: isPrfsReady } = usePrfsEmbed({
     appId: "prfs_id",
     prfsEmbedEndpoint: envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT,
   });
@@ -60,10 +60,12 @@ const PrfsIdAppSignIn: React.FC = () => {
         setSignInStatus(SignInStatus.Error);
         setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
       } else {
-        setSignInStatus(SignInStatus.Standby);
+        if (isPrfsReady) {
+          setSignInStatus(SignInStatus.Standby);
+        }
       }
     }
-  }, [appSignInArgs, setSignInStatus, setErrorMsg, setStep]);
+  }, [appSignInArgs, setSignInStatus, setErrorMsg, setStep, isPrfsReady]);
 
   const handleCloseErrorDialog = React.useCallback(() => {
     window.close();
