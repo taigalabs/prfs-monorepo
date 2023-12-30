@@ -6,7 +6,7 @@ if [ $? -eq 0 ]; then
   tmux kill-session -t prfs_a
 fi
 
-# setting panes
+# Set up panes
 tmux new-session -d -s prfs_a
 tmux split-window -v -t prfs_a
 tmux split-window -v -t prfs_a
@@ -28,3 +28,5 @@ tmux send-keys "./ci dev_prfs_embed_webapp" ENTER
 # Prfs proof webapp
 tmux select-pane -t prfs_a:1.4
 tmux send-keys "./ci dev_prfs_proof_webapp" ENTER
+
+tmux attach -t prfs_a
