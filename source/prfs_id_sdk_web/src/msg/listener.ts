@@ -1,4 +1,4 @@
-import { PrfsIdMsg, newPrfsIdMsg } from "./msg";
+import { PrfsIdMsg, PrfsIdSignInSuccessPayload, newPrfsIdMsg } from "./msg";
 import { MessageQueue } from "./queue";
 
 const parentListenerRef: ListenerRef = {
@@ -55,6 +55,16 @@ export function setupParentMsgHandler(queue: MessageQueue) {
               }
             }
             break;
+          }
+          case "SIGN_IN_SUCCESS": {
+            if (data.payload) {
+              const payload = data.payload;
+              window.localStorage.push(payload.publicKey, payload.encrypted);
+              // if (payload.publicKey) {
+              //   const key = `prfs_msg__${payload.publicKey}`;
+              //   window.localStorage.setItem(key, JSON.stringify(payload.encrypted));
+              // }
+            }
           }
           default:
             console.error(`invalid msg type, ${data.type}`);

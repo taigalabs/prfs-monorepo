@@ -22,13 +22,13 @@ import { useMutation } from "@tanstack/react-query";
 import styles from "./Commitments.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
-  PrfsIdSignInErrorMsg,
-  PrfsIdSignInInnerPadding,
-  PrfsIdSignInModuleBtnRow,
-  PrfsIdSignInModuleHeader,
-  PrfsIdSignInModuleTitle,
-  PrfsIdSignInWithPrfsId,
-} from "@/components/prfs_id/prfs_id_sign_in_module/PrfsIdSignInModule";
+  SignInErrorMsg,
+  SignInInnerPadding,
+  SignInModuleBtnRow,
+  SignInModuleHeader,
+  SignInModuleTitle,
+  SignInWithPrfsId,
+} from "@/components/sign_in_module/SignInModule";
 import { CommitmentViewItem, CommitmentViewList } from "./CommitmentView";
 
 enum Status {
@@ -151,13 +151,13 @@ const Commitments: React.FC<CommitmentsProps> = ({
           <Spinner color="#1b62c0" />
         </div>
       )}
-      <PrfsIdSignInWithPrfsId>{i18n.sign_in_with_prfs_id}</PrfsIdSignInWithPrfsId>
-      <PrfsIdSignInInnerPadding>
-        <PrfsIdSignInModuleHeader noTopPadding>
-          <PrfsIdSignInModuleTitle>
+      <SignInWithPrfsId>{i18n.sign_in_with_prfs_id}</SignInWithPrfsId>
+      <SignInInnerPadding>
+        <SignInModuleHeader noTopPadding>
+          <SignInModuleTitle>
             <span className={styles.blueText}>{appId}</span> wants you to submit commitment (s)
-          </PrfsIdSignInModuleTitle>
-        </PrfsIdSignInModuleHeader>
+          </SignInModuleTitle>
+        </SignInModuleHeader>
         <div>
           <p className={styles.prfsId}>{credential.id}</p>
         </div>
@@ -166,7 +166,7 @@ const Commitments: React.FC<CommitmentsProps> = ({
           <p className={styles.title}>Make sure you trust {appId} app</p>
           <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
         </div>
-        <PrfsIdSignInModuleBtnRow>
+        <SignInModuleBtnRow>
           <Button variant="transparent_blue_2" noTransition handleClick={handleClickPrev}>
             {i18n.go_back}
           </Button>
@@ -180,9 +180,9 @@ const Commitments: React.FC<CommitmentsProps> = ({
           >
             {i18n.submit}
           </Button>
-        </PrfsIdSignInModuleBtnRow>
-        <PrfsIdSignInErrorMsg>{errorMsg}</PrfsIdSignInErrorMsg>
-      </PrfsIdSignInInnerPadding>
+        </SignInModuleBtnRow>
+        <SignInErrorMsg>{errorMsg}</SignInErrorMsg>
+      </SignInInnerPadding>
     </>
   );
 };

@@ -18,13 +18,13 @@ import { idApi } from "@taigalabs/prfs-api-js";
 import styles from "./AppCredential.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
-  PrfsIdSignInErrorMsg,
-  PrfsIdSignInInnerPadding,
-  PrfsIdSignInModuleBtnRow,
-  PrfsIdSignInModuleHeader,
-  PrfsIdSignInModuleTitle,
-  PrfsIdSignInWithPrfsId,
-} from "@/components/sign_in_module/PrfsIdSignInModule";
+  SignInErrorMsg,
+  SignInInnerPadding,
+  SignInModuleBtnRow,
+  SignInModuleHeader,
+  SignInModuleTitle,
+  SignInWithPrfsId,
+} from "@/components/sign_in_module/SignInModule";
 import SignInInputs, { PrfsSignInData } from "./SignInInputs";
 import { envs } from "@/envs";
 
@@ -113,19 +113,27 @@ const AppCredential: React.FC<AppCredentialProps> = ({
         account_id: signInData.account_id,
         public_key: signInData.public_key,
       };
-      const encrypted = encrypt(appSignInArgs.publicKey, Buffer.from(JSON.stringify(payload)));
+      const encrypted = JSON.stringify(
+        encrypt(appSignInArgs.publicKey, Buffer.from(JSON.stringify(payload))),
+      );
       console.log("Encrypted credential", encrypted);
 
-      const msg: PrfsIdMsg<Buffer> = {
-        type: "SIGN_IN_SUCCESS",
-        payload: encrypted,
-      };
+      // const msg: PrfsIdMsg<Buffer> = {
+      //   type: "SIGN_IN_SUCCESS",
+      //   payload: encrypted,
+      // };
 
       try {
         console.log("sending msg");
 
         if (childRef.current) {
-          sendMsgToChild(newPrfsIdMsg("SIGN_IN_SUCCESS", encrypted), childRef.current);
+          sendMsgToChild(
+            newPrfsIdMsg("SIGN_IN_SUCCESS", {
+              encrypted,
+              publicKey: appSignInArgs.publicKey,
+            }),
+            childRef.current,
+          );
         }
 
         // await sendMsgToOpener(msg);
@@ -144,12 +152,12 @@ const AppCredential: React.FC<AppCredentialProps> = ({
           <Spinner color="#1b62c0" />
         </div>
       )}
-      <PrfsIdSignInWithPrfsId>{i18n.sign_in_with_prfs_id}</PrfsIdSignInWithPrfsId>
-      <PrfsIdSignInInnerPadding>
+      <SignInWithPrfsId>{i18n.sign_in_with_prfs_id}</SignInWithPrfsId>
+      <SignInInnerPadding>
         <div className={styles.main}>
-          <PrfsIdSignInModuleHeader noTopPadding>
-            <PrfsIdSignInModuleTitle>{title}</PrfsIdSignInModuleTitle>
-          </PrfsIdSignInModuleHeader>
+          <SignInModuleHeader noTopPadding>
+            <SignInModuleTitle>{title}</SignInModuleTitle>
+          </SignInModuleHeader>
           <div>
             <p className={styles.prfsId}>{credential.id}</p>
           </div>
@@ -158,7 +166,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
             <p className={styles.title}>Make sure you trust {appSignInArgs.appId} app</p>
             <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
           </div>
-          <PrfsIdSignInModuleBtnRow>
+          <SignInModuleBtnRow>
             <Button variant="transparent_blue_2" noTransition handleClick={handleClickPrev}>
               {i18n.go_back}
             </Button>
@@ -172,10 +180,10 @@ const AppCredential: React.FC<AppCredentialProps> = ({
             >
               {i18n.sign_in}
             </Button>
-          </PrfsIdSignInModuleBtnRow>
-          <PrfsIdSignInErrorMsg>{errorMsg}</PrfsIdSignInErrorMsg>
+          </SignInModuleBtnRow>
+          <SignInErrorMsg>{errorMsg}</SignInErrorMsg>
         </div>
-      </PrfsIdSignInInnerPadding>
+      </SignInInnerPadding>
     </>
   );
 };

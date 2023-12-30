@@ -4,10 +4,10 @@ export interface PrfsIdMsg<T> {
   payload: T;
 }
 
-export interface PrfsIdSignInSuccessMsg {
-  type: "SIGN_IN_SUCCESS";
-  payload: Buffer; // SignInSuccessPayload;
-}
+// export interface PrfsIdSignInSuccessMsg {
+//   type: "SIGN_IN_SUCCESS";
+//   payload: Buffer; // SignInSuccessPayload;
+// }
 
 export interface PrfsIdSignInSuccessPayload {
   account_id: string;

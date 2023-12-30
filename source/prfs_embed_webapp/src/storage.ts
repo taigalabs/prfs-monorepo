@@ -5,10 +5,14 @@ export async function setupStorageListener(messageQueue: MessageQueue) {
 
   async function listener(ev: StorageEvent) {
     console.log(11, ev);
-    // if (ev.ports.length > 0) {
-    //   // const type: MsgType = ev.data.type;
-    //   // console.log("Msg, type: %s", type);
-    // }
+
+    if (ev.key) {
+      const postMsg = messageQueue.dequeue(ev.key);
+      if (postMsg) {
+        console.log("sending new value", ev.newValue);
+        postMsg(ev.newValue);
+      }
+    }
   }
 
   window.addEventListener("storage", listener);

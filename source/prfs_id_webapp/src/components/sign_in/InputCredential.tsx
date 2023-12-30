@@ -10,15 +10,15 @@ import {
 import styles from "./InputCredential.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
-  PrfsIdSignInInnerPadding,
-  PrfsIdSignInInputItem,
-  PrfsIdSignInModuleBtnRow,
-  PrfsIdSignInModuleHeader,
-  PrfsIdSignInModuleInputArea,
-  PrfsIdSignInModuleLogoArea,
-  PrfsIdSignInModuleSubtitle,
-  PrfsIdSignInModuleTitle,
-} from "@/components/sign_in_module/PrfsIdSignInModule";
+  SignInInnerPadding,
+  SignInInputItem,
+  SignInModuleBtnRow,
+  SignInModuleHeader,
+  SignInModuleInputArea,
+  SignInModuleLogoArea,
+  SignInModuleSubtitle,
+  SignInModuleTitle,
+} from "@/components/sign_in_module/SignInModule";
 import { IdCreateForm } from "@/functions/validate_id";
 
 enum InputCredentialStatus {
@@ -88,16 +88,16 @@ const InputCredential: React.FC<InputCredentialProps> = ({
           <Spinner color="#1b62c0" />
         </div>
       )}
-      <PrfsIdSignInInnerPadding>
+      <SignInInnerPadding>
         <div className={styles.main}>
-          <PrfsIdSignInModuleLogoArea />
-          <PrfsIdSignInModuleHeader>
-            <PrfsIdSignInModuleTitle>{title}</PrfsIdSignInModuleTitle>
-            <PrfsIdSignInModuleSubtitle>{i18n.use_your_prfs_identity}</PrfsIdSignInModuleSubtitle>
-          </PrfsIdSignInModuleHeader>
-          <PrfsIdSignInModuleInputArea>
+          <SignInModuleLogoArea />
+          <SignInModuleHeader>
+            <SignInModuleTitle>{title}</SignInModuleTitle>
+            <SignInModuleSubtitle>{i18n.use_your_prfs_identity}</SignInModuleSubtitle>
+          </SignInModuleHeader>
+          <SignInModuleInputArea>
             <div className={styles.inputGroup}>
-              <PrfsIdSignInInputItem
+              <SignInInputItem
                 name="email"
                 value={formData.email}
                 placeholder={i18n.email}
@@ -107,7 +107,7 @@ const InputCredential: React.FC<InputCredentialProps> = ({
               />
             </div>
             <div className={styles.inputGroup}>
-              <PrfsIdSignInInputItem
+              <SignInInputItem
                 name="password_1"
                 value={formData.password_1}
                 placeholder={i18n.password_1}
@@ -118,7 +118,7 @@ const InputCredential: React.FC<InputCredentialProps> = ({
               />
             </div>
             <div className={styles.inputGroup}>
-              <PrfsIdSignInInputItem
+              <SignInInputItem
                 name="password_2"
                 value={formData.password_2}
                 placeholder={i18n.password_2}
@@ -128,8 +128,8 @@ const InputCredential: React.FC<InputCredentialProps> = ({
                 type="password"
               />
             </div>
-          </PrfsIdSignInModuleInputArea>
-          <PrfsIdSignInModuleBtnRow>
+          </SignInModuleInputArea>
+          <SignInModuleBtnRow>
             <Button
               variant="transparent_blue_2"
               noTransition
@@ -148,9 +148,9 @@ const InputCredential: React.FC<InputCredentialProps> = ({
             >
               {i18n.next}
             </Button>
-          </PrfsIdSignInModuleBtnRow>
+          </SignInModuleBtnRow>
         </div>
-      </PrfsIdSignInInnerPadding>
+      </SignInInnerPadding>
     </>
   );
 };

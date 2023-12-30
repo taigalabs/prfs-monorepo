@@ -8,10 +8,11 @@ import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./PrfsIdCommitment.module.scss";
 import { i18nContext } from "@/i18n/context";
-import PrfsIdSignInModule, {
-  PrfsIdSignInForm,
-  PrfsIdSignInModuleFooter,
-} from "@/components/sign_in_module/PrfsIdSignInModule";
+import {
+  SignInModule,
+  SignInForm,
+  SignInModuleFooter,
+} from "@/components/sign_in_module/SignInModule";
 import { envs } from "@/envs";
 import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import PrfsIdSignIn from "@/components/sign_in/PrfsIdSignIn";
@@ -100,8 +101,8 @@ const PrfsIdCommitment: React.FC = () => {
   }, [step, publicKey, appId]);
 
   return (
-    <PrfsIdSignInModule>
-      <PrfsIdSignInForm>
+    <SignInModule>
+      <SignInForm>
         {status === Status.Loading && (
           <div className={styles.overlay}>
             <Spinner color="#1b62c0" />
@@ -111,16 +112,16 @@ const PrfsIdCommitment: React.FC = () => {
           <PrfsIdErrorDialog errorMsg={errorMsg} handleClose={handleCloseErrorDialog} />
         )}
         {content}
-      </PrfsIdSignInForm>
-      <PrfsIdSignInModuleFooter>
+      </SignInForm>
+      <SignInModuleFooter>
         <Link href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL}>
           <span>{i18n.code}</span>
         </Link>
         <Link href={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
           <span>{i18n.prfs}</span>
         </Link>
-      </PrfsIdSignInModuleFooter>
-    </PrfsIdSignInModule>
+      </SignInModuleFooter>
+    </SignInModule>
   );
 };
 
