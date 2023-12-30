@@ -7,7 +7,7 @@ import { decrypt } from "eciesjs";
 import PrfsIdSignInButton from "@taigalabs/prfs-react-components/src/prfs_id_sign_in_button/PrfsIdSignInButton";
 import PrfsCredentialPopover from "@taigalabs/prfs-react-components/src/prfs_credential_popover/PrfsCredentialPopover";
 import {
-  PrfsIdSignInSuccessPayload,
+  SignInSuccessPayload,
   AppSignInData,
   makeColor,
   AppSignInArgs,
@@ -61,15 +61,15 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
           return;
         }
 
-        let prfsIdSignInSuccessPayload: PrfsIdSignInSuccessPayload;
+        let prfsIdSignInSuccessPayload: SignInSuccessPayload;
         try {
-          prfsIdSignInSuccessPayload = JSON.parse(decrypted) as PrfsIdSignInSuccessPayload;
+          prfsIdSignInSuccessPayload = JSON.parse(decrypted) as SignInSuccessPayload;
         } catch (err) {
           console.error(err);
           return;
         }
 
-        const { payload, error, code } = await prfsSignInRequest({
+        const { error, code } = await prfsSignInRequest({
           account_id: prfsIdSignInSuccessPayload.account_id,
         });
         const avatar_color = makeColor(prfsIdSignInSuccessPayload.account_id);

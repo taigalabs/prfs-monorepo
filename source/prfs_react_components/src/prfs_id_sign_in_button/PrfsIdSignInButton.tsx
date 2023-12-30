@@ -107,9 +107,20 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     console.log("resp", resp);
     if (resp) {
       const buf = parseBuffer(resp);
-      console.log("buf", buf);
+      if (buf) {
+        handleSucceedSignIn(buf);
+      }
+    } else {
+      console.error("Returned val isn't buffer");
     }
-  }, [appSignInArgs, setStatus, prfsIdEndpoint, prfsEmbedEndpoint, isPrfsReady]);
+  }, [
+    appSignInArgs,
+    setStatus,
+    prfsIdEndpoint,
+    prfsEmbedEndpoint,
+    isPrfsReady,
+    handleSucceedSignIn,
+  ]);
 
   return (
     <Button
