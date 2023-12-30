@@ -1,4 +1,5 @@
 import { PrfsIdMsg, newPrfsIdMsg } from "./msg";
+import { MessageQueue } from "./queue";
 
 const parentListenerRef: ListenerRef = {
   current: null,
@@ -38,7 +39,7 @@ export function setupChildMsgHandler() {
   });
 }
 
-export function setupParentMsgHandler() {
+export function setupParentMsgHandler(queue: MessageQueue) {
   function listener(ev: MessageEvent) {
     if (ev.ports.length > 0) {
       console.log("parent msg", ev.data);
@@ -46,10 +47,15 @@ export function setupParentMsgHandler() {
 
       if (data.type) {
         switch (data.type) {
-          // case "HANDSHAKE_ACK": {
-          //   // ev.ports[0].postMessage(newPrfsIdMsg("HANDSHAKE_ACK", {}));
-          //   break;
-          // }
+          case "REQUEST_SIGN_IN": {
+            if (data.payload) {
+              const { publicKey } = data.payload;
+              if (publicKey) {
+                queue.push(publicKey, ev.ports[0].postMessage);
+              }
+            }
+            break;
+          }
           default:
             console.error(`invalid msg type, ${data.type}`);
         }

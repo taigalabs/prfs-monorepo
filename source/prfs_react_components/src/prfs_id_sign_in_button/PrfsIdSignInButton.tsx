@@ -7,6 +7,7 @@ import {
   createEmbeddedElem,
   makeAppSignInSearchParams,
   newPrfsIdMsg,
+  sendMsgToChild,
 } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./PrfsIdSignInButton.module.scss";
@@ -34,11 +35,10 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   const [status, setStatus] = React.useState(SignInStatus.Standby);
   const msgListenerRef = React.useRef<((ev: MessageEvent) => void) | null>(null);
   const closeTimerRef = React.useRef<NodeJS.Timer | null>(null);
-  const childRef = usePrfsEmbed({
+  const { childRef, isReady: isPrfsReady } = usePrfsEmbed({
     appId,
     prfsEmbedEndpoint,
   });
-  console.log(11, childRef);
 
   React.useEffect(() => {
     return () => {
@@ -51,7 +51,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     };
   }, []);
 
-  const handleClickSignIn = React.useCallback(() => {
+  const handleClickSignIn = React.useCallback(async () => {
     const searchParams = makeAppSignInSearchParams(appSignInArgs);
     const endpoint = `${prfsIdEndpoint}${API_PATH.app_sign_in}${searchParams}`;
 
@@ -76,21 +76,30 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       addEventListener("message", listener, false);
     }
 
+    if (!isPrfsReady || !childRef.current) {
+      return;
+    }
+
     // Open the window
     setStatus(SignInStatus.InProgress);
     const child = window.open(endpoint, "_blank", "toolbar=0,location=0,menubar=0");
+    if (!child) {
+      console.error("Failed to open window");
+      setStatus(SignInStatus.Standby);
+      return;
+    }
 
     if (!closeTimerRef.current) {
-      const fn = setInterval(() => {
-        if (child) {
-          if (child.closed) {
-            setStatus(SignInStatus.Standby);
-          }
+      const timer = setInterval(() => {
+        if (child.closed) {
+          setStatus(SignInStatus.Standby);
         }
       }, 4000);
-      closeTimerRef.current = fn;
+      closeTimerRef.current = timer;
     }
-  }, [appSignInArgs, setStatus, prfsIdEndpoint, prfsEmbedEndpoint]);
+
+    await sendMsgToChild(newPrfsIdMsg("REQUEST_SIGN_IN", {}), childRef.current);
+  }, [appSignInArgs, setStatus, prfsIdEndpoint, prfsEmbedEndpoint, isPrfsReady]);
 
   return (
     <Button
@@ -99,6 +108,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       noTransition
       handleClick={handleClickSignIn}
       noShadow
+      disabled={!isPrfsReady}
     >
       <div className={styles.wrapper}>
         <span>{label ? label : i18n.sign_in}</span>

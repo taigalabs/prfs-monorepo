@@ -25,7 +25,8 @@ export type PrfsIdMsgType =
   | "SIGN_IN_SUCCESS"
   | "SIGN_IN_SUCCESS_ACK"
   | "COMMITMENT_SUCCESS"
-  | "COMMITMENT_SUCCESS_ACK";
+  | "COMMITMENT_SUCCESS_ACK"
+  | "REQUEST_SIGN_IN";
 
 export function newPrfsIdMsg(type: PrfsIdMsgType, payload: any): PrfsIdMsg<any> {
   return {
