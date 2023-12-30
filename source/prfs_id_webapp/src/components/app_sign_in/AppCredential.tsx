@@ -3,7 +3,6 @@ import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useSearchParams } from "next/navigation";
 import {
   SignInSuccessPayload,
-  PrfsIdMsg,
   PrfsIdCredential,
   AppSignInArgs,
   sendMsgToChild,
@@ -26,7 +25,6 @@ import {
   SignInWithPrfsId,
 } from "@/components/sign_in_module/SignInModule";
 import SignInInputs, { PrfsSignInData } from "./SignInInputs";
-import { envs } from "@/envs";
 
 enum AppCredentialStatus {
   Loading,

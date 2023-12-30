@@ -18,6 +18,7 @@ import {
   getCommitment,
   makeAttestation,
   newPrfsIdMsg,
+  makeCommitmentSearchParams,
 } from "@taigalabs/prfs-id-sdk-web";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
@@ -25,7 +26,7 @@ import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { AttestTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/AttestTwitterAccRequest";
 import { ValidateTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/ValidateTwitterAccRequest";
 import { TwitterAccValidation } from "@taigalabs/prfs-entities/bindings/TwitterAccValidation";
-import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
+import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
 import styles from "./CreateTwitterAccAtst.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -78,9 +79,10 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
     },
   });
   const { childRef, isReady: isPrfsReady } = usePrfsEmbed({
-    appId: "prfs_id",
+    appId: "prfs_proof",
     prfsEmbedEndpoint: envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT,
   });
+  const { openPopup, popupStatus } = usePopup();
 
   const handleSucceedGenerateCms = React.useCallback(
     (encrypted: Buffer) => {
@@ -180,12 +182,15 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
   );
 
   const handleClickGenerate = React.useCallback(() => {
-    const appId = "prfs_proof";
+    // const searchParams = makeCommitmentSearchParams(appSignInArgs);
+    // const endpoint = `${prfsIdEndpoint}${API_PATH.app_sign_in}${searchParams}`;
+
+    openPopup(endpoint, async () => {});
+    // const appId = "prfs_proof";
     // const listener = initChannel({
     //   appId,
     //   prfsIdEndpoint: envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT,
     // });
-
     // console.log("listener", listener);
     // getCommitment({
     //   prfsIdEndpoint: `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id}`,
@@ -200,7 +205,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
     //     },
     //   },
     // });
-  }, [formData, step, claimSecret, sk, pkHex]);
+  }, [formData, step, claimSecret, sk, pkHex, openPopup]);
 
   const handleClickValidate = React.useCallback(async () => {
     const tweet_url = formData[TWEET_URL];

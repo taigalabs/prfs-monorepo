@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
-import { PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
+import { PrfsIdCredential, parseCommitmentSearchParams } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./PrfsIdCommitment.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -35,26 +35,35 @@ const PrfsIdCommitment: React.FC = () => {
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const searchParams = useSearchParams();
   const [step, setStep] = React.useState(CommitmentStep.PrfsIdCredential);
-  const [publicKey, setPublicKey] = React.useState<string | null>(null);
-  const [appId, setAppId] = React.useState<string | null>(null);
+  // const [publicKey, setPublicKey] = React.useState<string | null>(null);
+  // const [appId, setAppId] = React.useState<string | null>(null);
   const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
-
-  React.useEffect(() => {
-    const publicKey = searchParams.get("public_key");
-    const appId = searchParams.get("app_id");
-
-    if (!publicKey) {
-      setStatus(Status.Error);
-      setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
-    } else if (!appId) {
-      setStatus(Status.Error);
-      setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
-    } else {
-      setPublicKey(publicKey);
-      setAppId(appId);
-      setStatus(Status.Standby);
+  const commitmentArgs = React.useMemo(() => {
+    try {
+      const args = parseCommitmentSearchParams(searchParams as URLSearchParams);
+      return args;
+    } catch (err: any) {
+      setErrorMsg(err.toString());
+      return null;
     }
-  }, [searchParams, setStatus, setErrorMsg, setPublicKey, setAppId, setStep]);
+  }, [searchParams]);
+
+  // React.useEffect(() => {
+  //   const publicKey = searchParams.get("public_key");
+  //   const appId = searchParams.get("app_id");
+
+  //   if (!publicKey) {
+  //     setStatus(Status.Error);
+  //     setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
+  //   } else if (!appId) {
+  //     setStatus(Status.Error);
+  //     setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
+  //   } else {
+  //     setPublicKey(publicKey);
+  //     setAppId(appId);
+  //     setStatus(Status.Standby);
+  //   }
+  // }, [searchParams, setStatus, setErrorMsg, setPublicKey, setAppId, setStep]);
 
   const handleCloseErrorDialog = React.useCallback(() => {
     window.close();
@@ -75,21 +84,27 @@ const PrfsIdCommitment: React.FC = () => {
   );
 
   const content = React.useMemo(() => {
-    if (!appId || !publicKey) {
+    // if (!appId || !publicKey) {
+    //   return null;
+    // }
+    if (!commitmentArgs) {
       return null;
     }
 
     switch (step) {
       case CommitmentStep.PrfsIdCredential: {
-        return <PrfsIdSignIn appId={appId} handleSucceedSignIn={handleSucceedSignIn} />;
+        return (
+          <PrfsIdSignIn appId={commitmentArgs.appId} handleSucceedSignIn={handleSucceedSignIn} />
+        );
       }
       case CommitmentStep.AppCredential: {
         return (
           credential && (
             <Commitments
               credential={credential}
-              appId={appId}
-              publicKey={publicKey}
+              commitmentArgs={commitmentArgs}
+              // appId={appId}
+              // publicKey={publicKey}
               handleClickPrev={handleClickPrev}
             />
           )
@@ -98,7 +113,7 @@ const PrfsIdCommitment: React.FC = () => {
       default:
         <div>Invalid step</div>;
     }
-  }, [step, publicKey, appId]);
+  }, [step, commitmentArgs]);
 
   return (
     <SignInModule>

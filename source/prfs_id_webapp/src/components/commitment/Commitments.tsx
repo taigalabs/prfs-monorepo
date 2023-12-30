@@ -11,6 +11,7 @@ import {
   CommitmentSuccessPayload,
   PrfsIdMsg,
   PrfsIdCredential,
+  CommitmentArgs,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt } from "eciesjs";
@@ -38,8 +39,9 @@ enum Status {
 
 const Commitments: React.FC<CommitmentsProps> = ({
   handleClickPrev,
-  appId,
-  publicKey,
+  // appId,
+  // publicKey,
+  commitmentArgs,
   credential,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -59,35 +61,35 @@ const Commitments: React.FC<CommitmentsProps> = ({
   React.useEffect(() => {
     async function fn() {
       try {
-        const cms = searchParams.get("cms");
-        console.log("cms", cms);
+        // const cms = searchParams.get("cms");
+        // console.log("cms", cms);
 
-        if (cms) {
-          const d = decodeURIComponent(cms);
+        if (commitmentArgs) {
+          // const d = decodeURIComponent(cms);
 
-          let commitmentData: CommitmentData;
-          try {
-            commitmentData = JSON.parse(d);
-          } catch (err) {
-            console.error("failed to parse cms, obj: %s, err: %s", d, err);
-            return;
-          }
+          // let data: CommitmentData[];
+          // try {
+          //   data = JSON.parse(d);
+          // } catch (err) {
+          //   console.error("failed to parse cms, obj: %s, err: %s", d, err);
+          //   return;
+          // }
 
           let elems = [];
           let receipt: Record<string, string> = {};
-          for (const name in commitmentData) {
-            const { val, type } = commitmentData[name];
+          for (const cm of commitmentArgs.cms) {
+            const { val, type } = cm;
 
             if (type === CommitmentType.SIG_POSEIDON_1) {
               const sig = await prfsSign(credential.secret_key, val);
               const sigBytes = sig.toCompactRawBytes();
               const hashed = await poseidon_2(sigBytes);
               const hashedHex = hexlify(hashed);
-              receipt[name] = hashedHex;
+              // receipt[name] = hashedHex;
               elems.push(
                 <CommitmentViewItem
-                  key={name}
-                  name={name}
+                  key={cm.val}
+                  name={cm.val}
                   val={val}
                   type={type}
                   hashedHex={hashedHex}
@@ -105,7 +107,7 @@ const Commitments: React.FC<CommitmentsProps> = ({
       }
     }
     fn().then();
-  }, [searchParams, setCommitmentReceipt, setCommitmentViewElem]);
+  }, [searchParams, setCommitmentReceipt, setCommitmentViewElem, commitmentArgs]);
 
   React.useEffect(() => {
     if (commitmentReceipt) {
@@ -114,7 +116,7 @@ const Commitments: React.FC<CommitmentsProps> = ({
   }, [setStatus, commitmentReceipt]);
 
   const handleClickSubmit = React.useCallback(async () => {
-    if (publicKey && credential) {
+    if (commitmentArgs && credential) {
       const { payload: _signInRequestPayload, error } = await prfsIdentitySignInRequest({
         identity_id: credential.id,
       });
@@ -132,7 +134,7 @@ const Commitments: React.FC<CommitmentsProps> = ({
       const payload: CommitmentSuccessPayload = {
         receipt: commitmentReceipt,
       };
-      const encrypted = encrypt(publicKey, Buffer.from(JSON.stringify(payload)));
+      const encrypted = encrypt(commitmentArgs.publicKey, Buffer.from(JSON.stringify(payload)));
       console.log("Encrypted credential", encrypted);
       const msg: PrfsIdMsg<Buffer> = {
         type: "COMMITMENT_SUCCESS",
@@ -142,9 +144,9 @@ const Commitments: React.FC<CommitmentsProps> = ({
       // await sendMsgToOpener(msg);
       // window.close();
     }
-  }, [searchParams, publicKey, credential, setErrorMsg, commitmentReceipt]);
+  }, [searchParams, commitmentArgs, credential, setErrorMsg, commitmentReceipt]);
 
-  return (
+  return commitmentArgs ? (
     <>
       {status === Status.Loading && (
         <div className={styles.overlay}>
@@ -155,7 +157,8 @@ const Commitments: React.FC<CommitmentsProps> = ({
       <SignInInnerPadding>
         <SignInModuleHeader noTopPadding>
           <SignInModuleTitle>
-            <span className={styles.blueText}>{appId}</span> wants you to submit commitment (s)
+            <span className={styles.blueText}>{commitmentArgs.appId}</span> wants you to submit
+            commitment (s)
           </SignInModuleTitle>
         </SignInModuleHeader>
         <div>
@@ -163,7 +166,7 @@ const Commitments: React.FC<CommitmentsProps> = ({
         </div>
         {commitmentViewElem}
         <div className={styles.dataWarning}>
-          <p className={styles.title}>Make sure you trust {appId} app</p>
+          <p className={styles.title}>Make sure you trust {commitmentArgs.appId} app</p>
           <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
         </div>
         <SignInModuleBtnRow>
@@ -184,6 +187,8 @@ const Commitments: React.FC<CommitmentsProps> = ({
         <SignInErrorMsg>{errorMsg}</SignInErrorMsg>
       </SignInInnerPadding>
     </>
+  ) : (
+    <div>Loading...</div>
   );
 };
 
@@ -191,7 +196,8 @@ export default Commitments;
 
 export interface CommitmentsProps {
   handleClickPrev: () => void;
-  appId: string;
-  publicKey: string;
+  // appId: string;
+  // publicKey: string;
   credential: PrfsIdCredential;
+  commitmentArgs: CommitmentArgs | null;
 }
