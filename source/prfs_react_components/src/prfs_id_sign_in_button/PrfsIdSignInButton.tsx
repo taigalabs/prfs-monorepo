@@ -3,20 +3,18 @@ import cn from "classnames";
 import {
   API_PATH,
   AppSignInArgs,
-  PrfsIdMsg,
-  createEmbeddedElem,
   makeAppSignInSearchParams,
   newPrfsIdMsg,
   sendMsgToChild,
   parseBuffer,
 } from "@taigalabs/prfs-id-sdk-web";
+import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
 import styles from "./PrfsIdSignInButton.module.scss";
 import colors from "../colors.module.scss";
 import Spinner from "../spinner/Spinner";
 import Button from "../button/Button";
 import { i18nContext } from "../i18n/i18nContext";
-import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
 enum SignInStatus {
   Standby,
@@ -39,55 +37,59 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     appId,
     prfsEmbedEndpoint,
   });
+  const { openPopup, popupStatus } = usePopup();
 
-  React.useEffect(() => {
-    return () => {
-      if (closeTimerRef.current) {
-        clearInterval(closeTimerRef.current);
-      }
-    };
-  }, []);
+  // React.useEffect(() => {
+  //   return () => {
+  //     if (closeTimerRef.current) {
+  //       clearInterval(closeTimerRef.current);
+  //     }
+  //   };
+  // }, []);
 
   const handleClickSignIn = React.useCallback(async () => {
     const searchParams = makeAppSignInSearchParams(appSignInArgs);
     const endpoint = `${prfsIdEndpoint}${API_PATH.app_sign_in}${searchParams}`;
 
-    if (!childRef.current || !isPrfsReady) {
-      return;
-    }
+    // // Open the window
+    // setStatus(SignInStatus.InProgress);
+    // const popup = window.open(endpoint, "_blank", "toolbar=0,location=0,menubar=0");
+    // if (!popup) {
+    //   console.error("Failed to open window");
+    //   setStatus(SignInStatus.Standby);
+    //   return;
+    // }
 
-    // Open the window
-    setStatus(SignInStatus.InProgress);
-    const popup = window.open(endpoint, "_blank", "toolbar=0,location=0,menubar=0");
-    if (!popup) {
-      console.error("Failed to open window");
-      setStatus(SignInStatus.Standby);
-      return;
-    }
+    // if (!closeTimerRef.current) {
+    //   const timer = setInterval(() => {
+    //     if (popup.closed) {
+    //       setStatus(SignInStatus.Standby);
+    //       clearInterval(timer);
+    //     }
+    //   }, 4000);
+    //   closeTimerRef.current = timer;
+    // }
 
-    if (!closeTimerRef.current) {
-      const timer = setInterval(() => {
-        if (popup.closed) {
-          setStatus(SignInStatus.Standby);
-        }
-      }, 4000);
-      closeTimerRef.current = timer;
-    }
-
-    const resp = await sendMsgToChild(
-      newPrfsIdMsg("REQUEST_SIGN_IN", { storageKey: appSignInArgs.publicKey }),
-      childRef.current,
-    );
-    if (resp) {
-      try {
-        const buf = parseBuffer(resp);
-        handleSucceedSignIn(buf);
-      } catch (err) {
-        console.error(err);
+    openPopup(endpoint, async () => {
+      if (!childRef.current || !isPrfsReady) {
+        return;
       }
-    } else {
-      console.error("Returned val is empty");
-    }
+
+      const resp = await sendMsgToChild(
+        newPrfsIdMsg("REQUEST_SIGN_IN", { storageKey: appSignInArgs.publicKey }),
+        childRef.current,
+      );
+      if (resp) {
+        try {
+          const buf = parseBuffer(resp);
+          handleSucceedSignIn(buf);
+        } catch (err) {
+          console.error(err);
+        }
+      } else {
+        console.error("Returned val is empty");
+      }
+    });
   }, [
     appSignInArgs,
     setStatus,
@@ -95,6 +97,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     prfsEmbedEndpoint,
     isPrfsReady,
     handleSucceedSignIn,
+    openPopup,
   ]);
 
   return (
