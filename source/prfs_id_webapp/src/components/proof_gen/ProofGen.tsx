@@ -25,7 +25,6 @@ import styles from "./ProofGen.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { validateInputs } from "@/functions/validate_inputs";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
-// import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
 import CircuitInputs from "./CircuitInputs";
 
@@ -153,7 +152,6 @@ const ProofGen: React.FC<ProofGenProps> = (
 
           if (type === "LOAD_DRIVER_EVENT") {
             if (payload.asset_label && payload.progress) {
-              console.log(111, payload);
               setLoadDriverProgress(oldVal => ({
                 ...oldVal,
                 [payload.asset_label!]: payload.progress,
@@ -162,7 +160,6 @@ const ProofGen: React.FC<ProofGenProps> = (
           }
 
           if (type === "LOAD_DRIVER_SUCCESS") {
-            console.log("234234");
             const now = dayjs();
             const diff = now.diff(since, "seconds", true);
             const { artifactCount } = payload;

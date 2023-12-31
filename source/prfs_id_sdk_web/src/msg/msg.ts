@@ -33,6 +33,7 @@ export type PrfsIdMsgType =
   | "COMMITMENT_SUCCESS"
   | "COMMITMENT_SUCCESS_ACK"
   | "REQUEST_SIGN_IN"
+  | "REQUEST_PROOF_GEN"
   | "ERROR";
 
 export function newPrfsIdMsg<T extends PrfsIdMsgType>(
@@ -62,6 +63,8 @@ type MsgPayload<T extends PrfsIdMsgType> = //
     : T extends "COMMITMENT_SUCCESS"
     ? StorageMsg<CommitmentSuccessPayload>
     : T extends "REQUEST_SIGN_IN"
+    ? RequestPayload
+    : T extends "REQUEST_PROOF_GEN"
     ? RequestPayload
     : T extends "ERROR"
     ? any

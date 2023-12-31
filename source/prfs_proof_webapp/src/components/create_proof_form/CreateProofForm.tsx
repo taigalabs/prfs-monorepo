@@ -19,7 +19,6 @@ import { useSelectProofType } from "@/hooks/proofType";
 import Tutorial from "@/components/tutorial/Tutorial";
 import LeftPadding from "@/components/left_padding/LeftPadding";
 import { MastheadPlaceholder } from "../masthead/Masthead";
-import CreateProofBtn from "./CreateProofBtn";
 
 const CreateProofForm: React.FC = () => {
   const [proofType, setProofType] = React.useState<PrfsProofType>();

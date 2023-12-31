@@ -5,7 +5,7 @@ import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import LoaderBar from "@taigalabs/prfs-react-components/src/loader_bar/LoaderBar";
-import { PrfsSDK, sendMsgToChild } from "@taigalabs/prfs-sdk-web";
+// import { PrfsSDK, sendMsgToChild } from "@taigalabs/prfs-sdk-web";
 import dayjs from "dayjs";
 import cn from "classnames";
 import { useSearchParams } from "next/navigation";
@@ -16,7 +16,7 @@ import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
 // import { ProofGenEvent } from "@taigalabs/prfs-sdk-web/src/elems/proof_gen/types";
 import { ProofGenArgs, makeProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web/proof_gen";
 import { PopupStatus, usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
-import { API_PATH, newPrfsIdMsg, parseBuffer } from "@taigalabs/prfs-id-sdk-web";
+import { API_PATH, newPrfsIdMsg, parseBuffer, sendMsgToChild } from "@taigalabs/prfs-id-sdk-web";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./CreateProofModule.module.scss";
@@ -128,10 +128,10 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         return;
       }
 
-      // const resp = await sendMsgToChild(
-      //   newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: proofGenArgs.appId }),
-      //   prfsEmbedRef.current,
-      // );
+      const resp = await sendMsgToChild(
+        newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: proofGenArgs.appId }),
+        prfsEmbedRef.current,
+      );
 
       // if (resp) {
       //   try {
