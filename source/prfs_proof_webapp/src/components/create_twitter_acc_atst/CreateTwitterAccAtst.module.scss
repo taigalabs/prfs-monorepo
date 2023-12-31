@@ -151,20 +151,6 @@
   }
 }
 
-.createBtn {
-  padding-left: 24px;
-  padding-right: 24px;
-
-  .content {
-    display: flex;
-    align-items: center;
-
-    > * + span {
-      padding-left: 3px;
-    }
-  }
-}
-
 .guideRow {
   font-size: 13px;
   color: var(--gray-30);
@@ -179,10 +165,25 @@
   display: flex;
   justify-content: space-between;
   padding-left: 45px;
-  padding-right: 16px;
+  padding-right: 30px;
 
   > button {
+    border-radius: 20px;
     height: 40px;
+  }
+}
+
+.createBtn {
+  padding-left: 24px;
+  padding-right: 24px;
+
+  .content {
+    display: flex;
+    align-items: center;
+
+    > * + span {
+      padding-left: 3px;
+    }
   }
 }
 
