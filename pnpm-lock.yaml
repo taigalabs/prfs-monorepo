@@ -1002,9 +1002,6 @@ importers:
       dompurify:
         specifier: ^3.0.6
         version: 3.0.6
-      eciesjs:
-        specifier: ^0.4.5
-        version: 0.4.5
       elliptic:
         specifier: ^6.5.4
         version: 6.5.4
@@ -1892,6 +1889,9 @@ importers:
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
+      '@taigalabs/prfs-env-js':
+        specifier: '*'
+        version: link:../prfs_env_js
       '@taigalabs/prfs-i18n':
         specifier: '*'
         version: link:../prfs_i18n
@@ -18766,6 +18766,7 @@ packages:
       is-hex-prefixed: 1.0.0
       strip-hex-prefix: 1.0.0
     dev: true
+    bundledDependencies: false
 
   /event-target-shim@5.0.1:
     resolution: {integrity: sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==}
