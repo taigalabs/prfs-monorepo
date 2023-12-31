@@ -20,8 +20,8 @@ RUN apt-get -qq install nodejs --yes
 # install pnpm
 RUN npm install -g pnpm
 
+# Install dependencies
 RUN pnpm install
-
-# RUN ./ci build_prfs_driver_spartan_js
+RUN ./ci build_prfs_crypto_js
 
 CMD ["./ci", "start_prfs_embed_webapp"]
