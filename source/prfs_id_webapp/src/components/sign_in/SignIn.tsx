@@ -9,7 +9,7 @@ import {
   StoredCredentialRecord,
 } from "@taigalabs/prfs-id-sdk-web";
 
-import styles from "./PrfsIdSignIn.module.scss";
+import styles from "./SignIn.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   IdCreateForm,
@@ -18,7 +18,7 @@ import {
 } from "@/functions/validate_id";
 import InputCredential from "./InputCredential";
 import StoredCredentials from "./StoredCredentials";
-import PrfsIdCreateID from "@/components/create_id/PrfsIdCreateID";
+import CreateID from "@/components/create_id/CreateID";
 
 enum SignInStep {
   CreateID,
@@ -32,7 +32,7 @@ export enum SignInStatus {
   Standby,
 }
 
-const PrfsIdSignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => {
+const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => {
   const i18n = React.useContext(i18nContext);
   const [signInStatus, setSignInStatus] = React.useState(SignInStatus.Loading);
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
@@ -113,7 +113,7 @@ const PrfsIdSignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId 
       }
       case SignInStep.CreateID: {
         return (
-          <PrfsIdCreateID
+          <CreateID
             handleClickSignIn={handleClickSignIn}
             handleSucceedCreateId={handleSucceedSignIn}
           />
@@ -127,7 +127,7 @@ const PrfsIdSignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId 
   return <>{content}</>;
 };
 
-export default PrfsIdSignIn;
+export default SignIn;
 
 export interface PrfsIdSignInProps {
   handleSucceedSignIn: (credential: PrfsIdCredential) => void;

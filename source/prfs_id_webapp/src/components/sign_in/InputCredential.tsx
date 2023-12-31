@@ -10,15 +10,15 @@ import {
 import styles from "./InputCredential.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
-  SignInInnerPadding,
-  SignInInputItem,
-  SignInModuleBtnRow,
-  SignInModuleHeader,
-  SignInModuleInputArea,
-  SignInModuleLogoArea,
-  SignInModuleSubtitle,
-  SignInModuleTitle,
-} from "@/components/sign_in_module/SignInModule";
+  DefaultInnerPadding,
+  DefaultInputItem,
+  DefaultModuleBtnRow,
+  DefaultModuleHeader,
+  DefaultModuleInputArea,
+  DefaultModuleLogoArea,
+  DefaultModuleSubtitle,
+  DefaultModuleTitle,
+} from "@/components/default_module/DefaultModule";
 import { IdCreateForm } from "@/functions/validate_id";
 
 enum InputCredentialStatus {
@@ -88,16 +88,16 @@ const InputCredential: React.FC<InputCredentialProps> = ({
           <Spinner color="#1b62c0" />
         </div>
       )}
-      <SignInInnerPadding>
+      <DefaultInnerPadding>
         <div className={styles.main}>
-          <SignInModuleLogoArea />
-          <SignInModuleHeader>
-            <SignInModuleTitle>{title}</SignInModuleTitle>
-            <SignInModuleSubtitle>{i18n.use_your_prfs_identity}</SignInModuleSubtitle>
-          </SignInModuleHeader>
-          <SignInModuleInputArea>
+          <DefaultModuleLogoArea />
+          <DefaultModuleHeader>
+            <DefaultModuleTitle>{title}</DefaultModuleTitle>
+            <DefaultModuleSubtitle>{i18n.use_your_prfs_identity}</DefaultModuleSubtitle>
+          </DefaultModuleHeader>
+          <DefaultModuleInputArea>
             <div className={styles.inputGroup}>
-              <SignInInputItem
+              <DefaultInputItem
                 name="email"
                 value={formData.email}
                 placeholder={i18n.email}
@@ -107,7 +107,7 @@ const InputCredential: React.FC<InputCredentialProps> = ({
               />
             </div>
             <div className={styles.inputGroup}>
-              <SignInInputItem
+              <DefaultInputItem
                 name="password_1"
                 value={formData.password_1}
                 placeholder={i18n.password_1}
@@ -118,7 +118,7 @@ const InputCredential: React.FC<InputCredentialProps> = ({
               />
             </div>
             <div className={styles.inputGroup}>
-              <SignInInputItem
+              <DefaultInputItem
                 name="password_2"
                 value={formData.password_2}
                 placeholder={i18n.password_2}
@@ -128,8 +128,8 @@ const InputCredential: React.FC<InputCredentialProps> = ({
                 type="password"
               />
             </div>
-          </SignInModuleInputArea>
-          <SignInModuleBtnRow>
+          </DefaultModuleInputArea>
+          <DefaultModuleBtnRow>
             <Button
               variant="transparent_blue_2"
               noTransition
@@ -148,9 +148,9 @@ const InputCredential: React.FC<InputCredentialProps> = ({
             >
               {i18n.next}
             </Button>
-          </SignInModuleBtnRow>
+          </DefaultModuleBtnRow>
         </div>
-      </SignInInnerPadding>
+      </DefaultInnerPadding>
     </>
   );
 };

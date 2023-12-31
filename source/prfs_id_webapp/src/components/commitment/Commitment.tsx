@@ -15,7 +15,7 @@ import {
 } from "@/components/default_module/DefaultModule";
 import { envs } from "@/envs";
 import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
-import PrfsIdSignIn from "@/components/sign_in/PrfsIdSignIn";
+import SignIn from "@/components/sign_in/SignIn";
 import CommitmentView from "./CommitmentView";
 import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
@@ -93,9 +93,7 @@ const Commitment: React.FC = () => {
 
     switch (step) {
       case CommitmentStep.PrfsIdCredential: {
-        return (
-          <PrfsIdSignIn appId={commitmentArgs.appId} handleSucceedSignIn={handleSucceedSignIn} />
-        );
+        return <SignIn appId={commitmentArgs.appId} handleSucceedSignIn={handleSucceedSignIn} />;
       }
       case CommitmentStep.CommitmentView: {
         return (

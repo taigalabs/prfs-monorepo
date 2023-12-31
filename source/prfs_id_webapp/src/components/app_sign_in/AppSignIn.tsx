@@ -15,7 +15,7 @@ import {
 } from "@/components/default_module/DefaultModule";
 import { envs } from "@/envs";
 import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
-import PrfsIdSignIn from "@/components/sign_in/PrfsIdSignIn";
+import SignIn from "@/components/sign_in/SignIn";
 import AppCredential from "./AppCredential";
 import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
@@ -93,9 +93,7 @@ const PrfsIdAppSignIn: React.FC = () => {
 
     switch (step) {
       case SignInStep.PrfsIdCredential: {
-        return (
-          <PrfsIdSignIn appId={appSignInArgs.appId} handleSucceedSignIn={handleSucceedSignIn} />
-        );
+        return <SignIn appId={appSignInArgs.appId} handleSucceedSignIn={handleSucceedSignIn} />;
       }
       case SignInStep.AppCredential: {
         return (

@@ -19,10 +19,7 @@ enum CreateIDStep {
   SignUp,
 }
 
-const PrfsIdCreateID: React.FC<PrfsIdCreateIDProps> = ({
-  handleClickSignIn,
-  handleSucceedCreateId,
-}) => {
+const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedCreateId }) => {
   const i18n = React.useContext(i18nContext);
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
@@ -93,9 +90,9 @@ const PrfsIdCreateID: React.FC<PrfsIdCreateIDProps> = ({
   return <>{content}</>;
 };
 
-export default PrfsIdCreateID;
+export default CreateID;
 
-export interface PrfsIdCreateIDProps {
+export interface CreateIDProps {
   handleClickSignIn: () => void;
   handleSucceedCreateId: (credential: PrfsIdCredential) => void;
 }
