@@ -9,6 +9,13 @@
   align-self: flex-start;
 }
 
+.spinner {
+  div {
+    border-width: 2px;
+    border-top-color: var(--blue-120);
+  }
+}
+
 .driverMsg {
   display: flex;
   flex-direction: column;

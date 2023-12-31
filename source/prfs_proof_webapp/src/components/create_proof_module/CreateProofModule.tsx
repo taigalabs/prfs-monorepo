@@ -15,6 +15,8 @@ import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
 // import { ProofGenEvent } from "@taigalabs/prfs-sdk-web/src/elems/proof_gen/types";
 import { ProofGenArgs, makeProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web/proof_gen";
+import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
+import { API_PATH } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -22,41 +24,33 @@ import { validateInputs } from "@/functions/validate_inputs";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
-import CircuitInputs from "./CircuitInputs";
+// import CircuitInputs from "./CircuitInputs";
 import { useRandomKeyPair } from "@/hooks/key";
-import { API_PATH } from "@taigalabs/prfs-id-sdk-web";
 
-const prfsSDK = new PrfsSDK("prfs-proof");
+// const prfsSDK = new PrfsSDK("prfs-proof");
 
-enum LoadDriverStatus {
+enum Status {
+  Loading,
   Standby,
-  InProgress,
 }
 
-enum CreateProofStatus {
-  Standby,
-  InProgress,
-  Created,
-  Error,
-}
+// const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress }) => {
+//   const el = React.useMemo(() => {
+//     const elems = [];
+//     for (const key in progress) {
+//       elems.push(
+//         <div key={key} className={styles.progressRow}>
+//           <p>{key}</p>
+//           <p>...{progress[key]}%</p>
+//         </div>,
+//       );
+//     }
 
-const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress }) => {
-  const el = React.useMemo(() => {
-    const elems = [];
-    for (const key in progress) {
-      elems.push(
-        <div key={key} className={styles.progressRow}>
-          <p>{key}</p>
-          <p>...{progress[key]}%</p>
-        </div>,
-      );
-    }
+//     return elems;
+//   }, [progress]);
 
-    return elems;
-  }, [progress]);
-
-  return <div className={styles.progressWrapper}>{el}</div>;
-};
+//   return <div className={styles.progressWrapper}>{el}</div>;
+// };
 
 const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   proofType,
@@ -65,36 +59,37 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   setProofGenElement,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const [driverMsg, setDriverMsg] = React.useState<React.ReactNode>(null);
-  const [loadDriverProgress, setLoadDriverProgress] = React.useState<Record<string, any>>({});
-  const [loadDriverStatus, setLoadDriverStatus] = React.useState(LoadDriverStatus.Standby);
+  // const [driverMsg, setDriverMsg] = React.useState<React.ReactNode>(null);
+  // const [loadDriverProgress, setLoadDriverProgress] = React.useState<Record<string, any>>({});
+  // const [loadDriverStatus, setLoadDriverStatus] = React.useState(LoadDriverStatus.Standby);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
-  const [createProofStatus, setCreateProofStatus] = React.useState(CreateProofStatus.Standby);
-  const [formValues, setFormValues] = React.useState<Record<string, any>>({});
-  const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
-  const lastInitProofTypeId = React.useRef<string | null>(null);
+  const [status, setStatus] = React.useState(Status.Loading);
+  // const [formValues, setFormValues] = React.useState<Record<string, any>>({});
+  // const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
+  // const lastInitProofTypeId = React.useRef<string | null>(null);
   const searchParams = useSearchParams();
   const { sk, pkHex } = useRandomKeyPair();
-
   const isTutorial = React.useMemo(() => {
     if (searchParams.get("tutorial_id")) {
       return true;
     }
     return false;
   }, [searchParams]);
+  const { prfsEmbedRef, isReady: isPrfsReady } = usePrfsEmbed({
+    appId: "prfs_proof",
+    prfsEmbedEndpoint: envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT,
+  });
 
   const handleClickCreateProof = React.useCallback(async () => {
-    const args: ProofGenArgs = {
-      nonce: Math.random() * 100000000,
-      appId: "prfs_proof",
-      proofTypeId: proofType.proof_type_id,
-      publicKey: pkHex,
-    };
-
-    const searchParams = makeProofGenSearchParams(args);
-    const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
-    const child = window.open(endpoint, "_blank", "toolbar=0,location=0,menubar=0");
-
+    // const args: ProofGenArgs = {
+    //   nonce: Math.random() * 100000000,
+    //   appId: "prfs_proof",
+    //   proofTypeId: proofType.proof_type_id,
+    //   publicKey: pkHex,
+    // };
+    // const searchParams = makeProofGenSearchParams(args);
+    // const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
+    // const child = window.open(endpoint, "_blank", "toolbar=0,location=0,menubar=0");
     // if (proofGenElement) {
     //   try {
     //     const inputs = await validateInputs(formValues, proofType, setFormErrors);
@@ -115,27 +110,78 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     //     handleCreateProofResult(err, null);
     //   }
     // }
+    //
+    const proofGenArgs: ProofGenArgs = {
+      nonce: Math.random() * 1000000,
+      appId: "prfs_proof",
+      proofTypeId: proofType.proof_type_id,
+      publicKey: pkHex,
+    };
+
+    const searchParams = makeProofGenSearchParams(proofGenArgs);
+    const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.commitment}${searchParams}`;
+
+    // openPopup(endpoint, async () => {
+    //   if (!prfsEmbedRef.current || !isPrfsReady) {
+    //     return;
+    //   }
+
+    //   const resp = await sendMsgToChild(
+    //     newPrfsIdMsg("REQUEST_SIGN_IN", { appId: commitmentArgs.appId }),
+    //     prfsEmbedRef.current,
+    //   );
+    //   if (resp) {
+    //     try {
+    //       const buf = parseBuffer(resp);
+    //       let decrypted: string;
+    //       try {
+    //         decrypted = decrypt(sk.secret, buf).toString();
+    //       } catch (err) {
+    //         console.error("cannot decrypt payload", err);
+    //         return;
+    //       }
+
+    //       let payload: CommitmentSuccessPayload;
+    //       try {
+    //         payload = JSON.parse(decrypted) as CommitmentSuccessPayload;
+    //       } catch (err) {
+    //         console.error("cannot parse payload", err);
+    //         return;
+    //       }
+
+    //       const cm = payload.receipt[CLAIM];
+    //       if (cm) {
+    //         setClaimCm(cm);
+    //         setStep(AttestationStep.POST_TWEET);
+    //       } else {
+    //         console.error("no commitment delivered");
+    //         return;
+    //       }
+    //     } catch (err) {
+    //       console.error(err);
+    //     }
+    //   } else {
+    //     console.error("Returned val is empty");
+    //   }
+    // });
   }, [
-    formValues,
+    // formValues,
     proofType,
     handleCreateProofResult,
     proofGenElement,
     setSystemMsg,
-    createProofStatus,
+    status,
   ]);
 
   React.useEffect(() => {
     async function fn() {
-      if (lastInitProofTypeId.current && lastInitProofTypeId.current === proofType.proof_type_id) {
-        return;
+      if (isPrfsReady) {
+        setStatus(Status.Standby);
       }
-      lastInitProofTypeId.current = proofType.proof_type_id;
-
-      const { circuit_driver_id, driver_properties } = proofType;
-      setLoadDriverStatus(LoadDriverStatus.InProgress);
-      setDriverMsg(<span>Loading driver {proofType.circuit_driver_id}...</span>);
-
-      const since = dayjs();
+      // const { circuit_driver_id, driver_properties } = proofType;
+      // setLoadDriverStatus(LoadDriverStatus.InProgress);
+      // setDriverMsg(<span>Loading driver {proofType.circuit_driver_id}...</span>);
+      // const since = dayjs();
       //   try {
       //     const elem = (await prfsSDK.create("proof_gen", {
       //       proofTypeId: proofType.proof_type_id,
@@ -143,10 +189,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       //       driver_properties,
       //       sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
       //     })) as ProofGenElement;
-
       //     elem.subscribe((ev: ProofGenEvent) => {
       //       const { type, payload } = ev;
-
       //       if (type === "LOAD_DRIVER_EVENT") {
       //         if (payload.asset_label && payload.progress) {
       //           setLoadDriverProgress(oldVal => ({
@@ -155,12 +199,10 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       //           }));
       //         }
       //       }
-
       //       if (type === "LOAD_DRIVER_SUCCESS") {
       //         const now = dayjs();
       //         const diff = now.diff(since, "seconds", true);
       //         const { artifactCount } = payload;
-
       //         setDriverMsg(
       //           <>
       //             <span>Circuit driver </span>
@@ -176,12 +218,10 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       //         );
       //         setLoadDriverStatus(LoadDriverStatus.Standby);
       //       }
-
       //       if (type === "CREATE_PROOF_EVENT") {
       //         setSystemMsg(payload.payload);
       //       }
       //     });
-
       //     setProofGenElement(elem);
       //     return elem;
       //   } catch (err) {
@@ -193,11 +233,12 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   }, [
     proofType,
     setProofGenElement,
-    setCreateProofStatus,
-    setLoadDriverProgress,
-    setLoadDriverStatus,
+    setStatus,
+    isPrfsReady,
+    // setLoadDriverProgress,
+    // setLoadDriverStatus,
     setSystemMsg,
-    setDriverMsg,
+    // setDriverMsg,
   ]);
 
   return (
@@ -235,15 +276,22 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
             {/*   </div> */}
             {/* </TutorialStepper> */}
             <div className={styles.btnRow}>
-              <button
-                onClick={handleClickCreateProof}
-                className={cn(styles.createBtn, {
-                  [styles.inProgress]: createProofStatus === CreateProofStatus.InProgress,
-                })}
-              >
-                <IoMdAdd />
-                <span>{i18n.create_proof_with_prfs}</span>
-              </button>
+              <TutorialStepper steps={[2]}>
+                <button
+                  onClick={handleClickCreateProof}
+                  className={cn(styles.createBtn)}
+                  disabled={status === Status.Loading}
+                >
+                  {status === Status.Standby ? (
+                    <>
+                      <IoMdAdd />
+                      <span>{i18n.create_proof_with_prfs}</span>
+                    </>
+                  ) : (
+                    <Spinner size={20} className={styles.spinner} />
+                  )}
+                </button>
+              </TutorialStepper>
             </div>
             {/* {systemMsg && ( */}
             {/*   <div className={styles.footer}> */}
