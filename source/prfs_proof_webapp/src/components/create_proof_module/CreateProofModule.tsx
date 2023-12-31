@@ -203,10 +203,10 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   return (
     <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
       <div className={styles.driverMsg}>
-        <div className={styles.msg}>{driverMsg}</div>
-        {loadDriverStatus === LoadDriverStatus.InProgress && (
-          <LoadDriverProgress progress={loadDriverProgress} />
-        )}
+        {/* <div className={styles.msg}>{driverMsg}</div> */}
+        {/* {loadDriverStatus === LoadDriverStatus.InProgress && ( */}
+        {/*   <LoadDriverProgress progress={loadDriverProgress} /> */}
+        {/* )} */}
       </div>
       <div className={cn(styles.main, { [styles.isTutorial]: isTutorial })}>
         <div className={styles.moduleArea}>
