@@ -47,6 +47,8 @@ export function newPrfsIdMsg<T extends PrfsIdMsgType>(
 type MsgPayload<T extends PrfsIdMsgType> = //
   T extends "SIGN_IN_SUCCESS"
     ? StorageMsg<SignInSuccessPayload>
+    : T extends "COMMITMENT_SUCCESS"
+    ? StorageMsg<CommitmentSuccessPayload>
     : T extends "REQUEST_SIGN_IN"
     ? RequestSignInPayload
     : null;

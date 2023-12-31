@@ -8,9 +8,11 @@ export function createStorageKey(appId: string) {
 }
 
 export function dispatchStorageMsg(msg: StorageMsg<any>) {
-  if (msg.key && msg.value) {
+  if (msg.appId) {
     const ky = createStorageKey(msg.appId);
     window.localStorage.setItem(ky, msg.value);
+  } else {
+    console.error("Storage msg needs appId");
   }
 }
 

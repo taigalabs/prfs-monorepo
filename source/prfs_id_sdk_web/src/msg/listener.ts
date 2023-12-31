@@ -1,4 +1,10 @@
-import { PrfsIdMsg, SignInSuccessPayload, StorageMsg, RequestSignInPayload } from "./msg";
+import {
+  PrfsIdMsg,
+  SignInSuccessPayload,
+  StorageMsg,
+  RequestSignInPayload,
+  CommitmentSuccessPayload,
+} from "./msg";
 import { MessageQueue } from "./queue";
 import { createStorageKey, dispatchStorageMsg } from "./storage";
 
@@ -63,14 +69,12 @@ export function setupParentMsgHandler(queue: MessageQueue) {
 
           case "COMMITMENT_SUCCESS": {
             if (data.payload) {
-              const { storageKey } = data.payload as RequestSignInPayload;
-              if (storageKey) {
-                const ky = createStorageKey(storageKey);
-                queue.push(ky, ev.ports[0]);
-              } else {
-                console.error("msg doesn't have a storage key, type: %s", data.type);
-              }
+              const payload = data.payload as StorageMsg<CommitmentSuccessPayload>;
+              dispatchStorageMsg(payload);
+            } else {
+              console.error("msg doesn't contain payload");
             }
+            ev.ports[0].postMessage(true);
             break;
           }
 
