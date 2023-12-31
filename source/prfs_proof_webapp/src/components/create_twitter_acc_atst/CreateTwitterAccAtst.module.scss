@@ -128,9 +128,6 @@
     .status {
       padding-left: 16px;
     }
-
-    .validateBtn {
-    }
   }
 
   .tweetContentBtnRow {
@@ -192,6 +189,15 @@
 .error {
   color: var(--red-50);
   font-size: 13px;
+}
+
+.spinner {
+  margin-left: 3px;
+
+  div {
+    border-width: 2px;
+    border-top-color: inherit;
+  }
 }
 
 @media screen and (max-width: 480px) {

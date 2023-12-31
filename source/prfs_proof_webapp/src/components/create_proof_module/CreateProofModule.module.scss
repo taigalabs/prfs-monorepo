@@ -10,6 +10,8 @@
 }
 
 .spinner {
+  margin-left: 3px;
+
   div {
     border-width: 2px;
     border-top-color: var(--blue-120);
@@ -89,6 +91,7 @@
     margin-top: 3px;
     background-color: rgba(255, 255, 255, 0.5);
     z-index: 5;
+    /* pointer-events: none; */
   }
 
   .form {
@@ -136,6 +139,10 @@
 
       &:active {
         background-color: var(--bright-blue-50);
+      }
+
+      &:disabled {
+        /* color: var(--bright-blue-15); */
       }
 
       > svg {

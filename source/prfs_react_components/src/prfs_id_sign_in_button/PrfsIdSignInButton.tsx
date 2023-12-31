@@ -16,11 +16,6 @@ import Spinner from "../spinner/Spinner";
 import Button from "../button/Button";
 import { i18nContext } from "../i18n/i18nContext";
 
-enum SignInStatus {
-  Standby,
-  InProgress,
-}
-
 const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   className,
   label,
@@ -31,13 +26,11 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   prfsEmbedEndpoint,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const [status, setStatus] = React.useState(SignInStatus.Standby);
-  const closeTimerRef = React.useRef<NodeJS.Timer | null>(null);
   const { prfsEmbedRef, isReady: isPrfsReady } = usePrfsEmbed({
     appId,
     prfsEmbedEndpoint,
   });
-  const { openPopup, popupStatus } = usePopup();
+  const { openPopup, isOpen } = usePopup();
 
   const handleClickSignIn = React.useCallback(async () => {
     const searchParams = makeAppSignInSearchParams(appSignInArgs);
@@ -65,7 +58,6 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     });
   }, [
     appSignInArgs,
-    setStatus,
     prfsIdEndpoint,
     prfsEmbedEndpoint,
     isPrfsReady,
@@ -84,7 +76,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     >
       <div className={styles.wrapper}>
         <span>{label ? label : i18n.sign_in}</span>
-        {status === SignInStatus.InProgress && <Spinner size={20} color={colors.white_100} />}
+        {isOpen && <Spinner size={20} color={colors.white_100} borderWidth={2} />}
       </div>
     </Button>
   );

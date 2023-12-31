@@ -15,7 +15,7 @@ import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
 // import { ProofGenEvent } from "@taigalabs/prfs-sdk-web/src/elems/proof_gen/types";
 import { ProofGenArgs, makeProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web/proof_gen";
-import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
+import { PopupStatus, usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 import { API_PATH, newPrfsIdMsg, parseBuffer } from "@taigalabs/prfs-id-sdk-web";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
 
@@ -70,7 +70,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   // const lastInitProofTypeId = React.useRef<string | null>(null);
   const searchParams = useSearchParams();
   const { sk, pkHex } = useRandomKeyPair();
-  const { openPopup, popupStatus } = usePopup();
+  const { openPopup, isOpen } = usePopup();
   const isTutorial = React.useMemo(() => {
     if (searchParams.get("tutorial_id")) {
       return true;
@@ -277,20 +277,12 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
             {/*   </div> */}
             {/* </TutorialStepper> */}
             <div className={styles.btnRow}>
+              {status === Status.Loading && <div className={styles.overlay} />}
               <TutorialStepper steps={[2]}>
-                <button
-                  onClick={handleClickCreateProof}
-                  className={cn(styles.createBtn)}
-                  disabled={status === Status.Loading}
-                >
-                  {status === Status.Standby ? (
-                    <>
-                      <IoMdAdd />
-                      <span>{i18n.create_proof_with_prfs}</span>
-                    </>
-                  ) : (
-                    <Spinner size={20} className={styles.spinner} />
-                  )}
+                <button onClick={handleClickCreateProof} className={cn(styles.createBtn)}>
+                  <IoMdAdd />
+                  <span>{i18n.create_proof_with_prfs}</span>
+                  {isOpen && <Spinner size={20} className={styles.spinner} />}
                 </button>
               </TutorialStepper>
             </div>
