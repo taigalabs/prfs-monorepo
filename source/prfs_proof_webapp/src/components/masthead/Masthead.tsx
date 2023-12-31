@@ -78,66 +78,66 @@ export const MastheadRightGroupMenu: React.FC<MastheadProps> = ({ children, clas
   return <li className={cn(styles.menu, className)}>{children}</li>;
 };
 
-const Masthead: React.FC = () => {
-  const i18n = React.useContext(i18nContext);
-  const isTutorial = useIsTutorial();
-  const { tutorialUrl, attestationsUrl } = useUrls();
+// const Masthead: React.FC = () => {
+//   const i18n = React.useContext(i18nContext);
+//   const isTutorial = useIsTutorial();
+//   const { tutorialUrl, attestationsUrl } = useUrls();
 
-  return (
-    <div className={cn({ [styles.wrapper]: true, [styles.isTutorial]: isTutorial })}>
-      <div className={styles.inner}>
-        <ul className={styles.rightGroup}>
-          {/* <li className={cn(styles.menu, styles.underline, styles.tutorialBtn)}> */}
-          {/*   <a href={tutorialUrl}> */}
-          {/*     <span>{i18n.tutorial}</span> */}
-          {/*   </a> */}
-          {/* </li> */}
-          <li className={styles.menu}>
-            <PrfsAppsPopover>
-              <PrfsAppsPopoverUl>
-                <PrfsAppsPopoverLi>
-                  <a href={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
-                    <span>{i18n.documentation}</span>
-                  </a>
-                </PrfsAppsPopoverLi>
-                <PrfsAppsPopoverLi>
-                  <a href={tutorialUrl}>
-                    <span>{i18n.start_tutorial}</span>
-                  </a>
-                </PrfsAppsPopoverLi>
-              </PrfsAppsPopoverUl>
-              <PrfsAppsPopoverUl>
-                <PrfsAppsPopoverLi>
-                  <a href={attestationsUrl}>
-                    <TbCertificate />
-                    <span>{i18n.attestations}</span>
-                  </a>
-                </PrfsAppsPopoverLi>
-                <PrfsAppsPopoverLi>
-                  <a href={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
-                    <TbMathPi />
-                    <span>{i18n.proof}</span>
-                  </a>
-                </PrfsAppsPopoverLi>
-                <PrfsAppsPopoverLi>
-                  <a href={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}>
-                    <GrMonitor />
-                    <span>{i18n.console}</span>
-                  </a>
-                </PrfsAppsPopoverLi>
-              </PrfsAppsPopoverUl>
-            </PrfsAppsPopover>
-          </li>
-          <li className={cn(styles.menu, styles.signInBtn)}>
-            <PrfsIdSignInBtn />
-          </li>
-        </ul>
-      </div>
-    </div>
-  );
-};
+//   return (
+//     <div className={cn({ [styles.wrapper]: true, [styles.isTutorial]: isTutorial })}>
+//       <div className={styles.inner}>
+//         <ul className={styles.rightGroup}>
+//           {/* <li className={cn(styles.menu, styles.underline, styles.tutorialBtn)}> */}
+//           {/*   <a href={tutorialUrl}> */}
+//           {/*     <span>{i18n.tutorial}</span> */}
+//           {/*   </a> */}
+//           {/* </li> */}
+//           <li className={styles.menu}>
+//             <PrfsAppsPopover>
+//               <PrfsAppsPopoverUl>
+//                 <PrfsAppsPopoverLi>
+//                   <a href={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
+//                     <span>{i18n.documentation}</span>
+//                   </a>
+//                 </PrfsAppsPopoverLi>
+//                 <PrfsAppsPopoverLi>
+//                   <a href={tutorialUrl}>
+//                     <span>{i18n.start_tutorial}</span>
+//                   </a>
+//                 </PrfsAppsPopoverLi>
+//               </PrfsAppsPopoverUl>
+//               <PrfsAppsPopoverUl>
+//                 <PrfsAppsPopoverLi>
+//                   <a href={attestationsUrl}>
+//                     <TbCertificate />
+//                     <span>{i18n.attestations}</span>
+//                   </a>
+//                 </PrfsAppsPopoverLi>
+//                 <PrfsAppsPopoverLi>
+//                   <a href={process.env.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
+//                     <TbMathPi />
+//                     <span>{i18n.proof}</span>
+//                   </a>
+//                 </PrfsAppsPopoverLi>
+//                 <PrfsAppsPopoverLi>
+//                   <a href={process.env.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}>
+//                     <GrMonitor />
+//                     <span>{i18n.console}</span>
+//                   </a>
+//                 </PrfsAppsPopoverLi>
+//               </PrfsAppsPopoverUl>
+//             </PrfsAppsPopover>
+//           </li>
+//           <li className={cn(styles.menu, styles.signInBtn)}>
+//             <PrfsIdSignInBtn />
+//           </li>
+//         </ul>
+//       </div>
+//     </div>
+//   );
+// };
 
-export default Masthead;
+// export default Masthead;
 
 export interface MastheadWrapperProps {
   children: React.ReactNode;

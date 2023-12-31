@@ -17,13 +17,12 @@ import { idApi } from "@taigalabs/prfs-api-js";
 import styles from "./AppCredential.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
-  SignInErrorMsg,
-  SignInInnerPadding,
-  SignInModuleBtnRow,
-  SignInModuleHeader,
-  SignInModuleTitle,
-  SignInWithPrfsId,
-} from "@/components/sign_in_module/SignInModule";
+  DefaultErrorMsg,
+  DefaultInnerPadding,
+  DefaultModuleBtnRow,
+  DefaultModuleHeader,
+  DefaultModuleTitle,
+} from "@/components/default_module/DefaultModule";
 import SignInInputs, { PrfsSignInData } from "./SignInInputs";
 
 enum AppCredentialStatus {
@@ -141,12 +140,12 @@ const AppCredential: React.FC<AppCredentialProps> = ({
           <Spinner color="#1b62c0" />
         </div>
       )}
-      <SignInWithPrfsId>{i18n.sign_in_with_prfs_id}</SignInWithPrfsId>
-      <SignInInnerPadding>
+      <div className={styles.signInWithPrfsId}>{i18n.sign_in_with_prfs_id}</div>
+      <DefaultInnerPadding>
         <div className={styles.main}>
-          <SignInModuleHeader noTopPadding>
-            <SignInModuleTitle>{title}</SignInModuleTitle>
-          </SignInModuleHeader>
+          <DefaultModuleHeader noTopPadding>
+            <DefaultModuleTitle>{title}</DefaultModuleTitle>
+          </DefaultModuleHeader>
           <div>
             <p className={styles.prfsId}>{credential.id}</p>
           </div>
@@ -155,7 +154,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
             <p className={styles.title}>Make sure you trust {appSignInArgs.appId} app</p>
             <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
           </div>
-          <SignInModuleBtnRow>
+          <DefaultModuleBtnRow>
             <Button variant="transparent_blue_2" noTransition handleClick={handleClickPrev}>
               {i18n.go_back}
             </Button>
@@ -169,10 +168,10 @@ const AppCredential: React.FC<AppCredentialProps> = ({
             >
               {i18n.sign_in}
             </Button>
-          </SignInModuleBtnRow>
-          <SignInErrorMsg>{errorMsg}</SignInErrorMsg>
+          </DefaultModuleBtnRow>
+          <DefaultErrorMsg>{errorMsg}</DefaultErrorMsg>
         </div>
-      </SignInInnerPadding>
+      </DefaultInnerPadding>
     </>
   );
 };

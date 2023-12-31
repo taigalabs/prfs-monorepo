@@ -78,9 +78,11 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     return false;
   }, [searchParams]);
   const { prfsEmbedRef, isReady: isPrfsReady } = usePrfsEmbed({
-    appId: "prfs_proof",
+    appId: "prfs_proof11",
     prfsEmbedEndpoint: envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT,
   });
+
+  console.log(33, isPrfsReady);
 
   const handleClickCreateProof = React.useCallback(async () => {
     // const args: ProofGenArgs = {
@@ -174,9 +176,13 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     status,
   ]);
 
+  console.log(44, isPrfsReady);
+
   React.useEffect(() => {
     async function fn() {
+      console.log(11133, isPrfsReady);
       if (isPrfsReady) {
+        console.log(11);
         setStatus(Status.Standby);
       }
       // const { circuit_driver_id, driver_properties } = proofType;
@@ -229,16 +235,15 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       //     setDriverMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
       //   }
     }
-
     fn().then();
   }, [
     proofType,
     setProofGenElement,
     setStatus,
     isPrfsReady,
+    setSystemMsg,
     // setLoadDriverProgress,
     // setLoadDriverStatus,
-    setSystemMsg,
     // setDriverMsg,
   ]);
 
