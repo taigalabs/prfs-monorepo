@@ -14,8 +14,6 @@ import { useRouter } from "next/navigation";
 import {
   CommitmentType,
   CommitmentSuccessPayload,
-  PrfsIdMsg,
-  // getCommitment,
   makeAttestation,
   newPrfsIdMsg,
   makeCommitmentSearchParams,
@@ -88,36 +86,6 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
   });
   const { openPopup, popupStatus } = usePopup();
 
-  const handleSucceedGenerateCms = React.useCallback(
-    (encrypted: Buffer) => {
-      let decrypted: string;
-      try {
-        decrypted = decrypt(sk.secret, encrypted).toString();
-      } catch (err) {
-        console.error("cannot decrypt payload", err);
-        return;
-      }
-
-      let payload: CommitmentSuccessPayload;
-      try {
-        payload = JSON.parse(decrypted) as CommitmentSuccessPayload;
-      } catch (err) {
-        console.error("cannot parse payload", err);
-        return;
-      }
-
-      const cm = payload.receipt[CLAIM];
-      if (cm) {
-        setClaimCm(cm);
-        setStep(AttestationStep.POST_TWEET);
-      } else {
-        console.error("no commitment delivered");
-        return;
-      }
-    },
-    [setStep, setClaimCm],
-  );
-
   React.useEffect(() => {
     const handle = formData[TWITTER_HANDLE];
     if (handle.length > 0) {
@@ -127,25 +95,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
     } else {
       setStep(AttestationStep.INPUT_TWITTER_HANDLE);
     }
-
-    // const listener = (ev: MessageEvent<any>) => {
-    //   const { origin } = ev;
-
-    //   if (envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT.startsWith(origin)) {
-    //     const data = ev.data as PrfsIdMsg<Buffer>;
-    //     if (data.type === "COMMITMENT_SUCCESS") {
-    //       const msg = newPrfsIdMsg("COMMITMENT_SUCCESS_RESPOND", null);
-    //       ev.ports[0].postMessage(msg);
-    //       handleSucceedGenerateCms(data.payload);
-    //     }
-    //   }
-    // };
-    // addEventListener("message", listener, false);
-
-    // return () => {
-    //   window.removeEventListener("message", listener);
-    // };
-  }, [setStep, formData[TWITTER_HANDLE], handleSucceedGenerateCms]);
+  }, [setStep, formData[TWITTER_HANDLE]]);
 
   const tweetContent = React.useMemo(() => {
     if (claimCm) {
@@ -212,7 +162,6 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
         prfsEmbedRef.current,
       );
       if (resp) {
-        console.log(33, resp);
         try {
           const buf = parseBuffer(resp);
           let decrypted: string;
