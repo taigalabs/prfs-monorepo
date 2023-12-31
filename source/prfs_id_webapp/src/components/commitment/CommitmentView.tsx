@@ -140,11 +140,13 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
       try {
         await sendMsgToChild(
           newPrfsIdMsg("COMMITMENT_SUCCESS", {
+            appId: commitmentArgs.appId,
             key: commitmentArgs.publicKey,
             value: encrypted,
           }),
           prfsEmbedRef.current,
         );
+
         // await sendMsgToOpener(msg);
         // window.close();
       } catch (err: any) {}

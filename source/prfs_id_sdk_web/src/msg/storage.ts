@@ -3,13 +3,13 @@ import { MessageQueue } from "./queue";
 
 const KEY = "prfs_msg";
 
-export function createStorageKey(key: string) {
-  return `${KEY}__${key}`;
+export function createStorageKey(appId: string) {
+  return `${KEY}__${appId}`;
 }
 
 export function dispatchStorageMsg(msg: StorageMsg<any>) {
   if (msg.key && msg.value) {
-    const ky = createStorageKey(msg.key);
+    const ky = createStorageKey(msg.appId);
     window.localStorage.setItem(ky, msg.value);
   }
 }

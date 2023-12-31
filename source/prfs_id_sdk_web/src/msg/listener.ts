@@ -60,6 +60,20 @@ export function setupParentMsgHandler(queue: MessageQueue) {
             }
             break;
           }
+
+          case "COMMITMENT_SUCCESS": {
+            if (data.payload) {
+              const { storageKey } = data.payload as RequestSignInPayload;
+              if (storageKey) {
+                const ky = createStorageKey(storageKey);
+                queue.push(ky, ev.ports[0]);
+              } else {
+                console.error("msg doesn't have a storage key, type: %s", data.type);
+              }
+            }
+            break;
+          }
+
           case "SIGN_IN_SUCCESS": {
             if (data.payload) {
               const payload = data.payload as StorageMsg<SignInSuccessPayload>;

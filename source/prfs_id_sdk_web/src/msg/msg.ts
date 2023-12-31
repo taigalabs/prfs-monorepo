@@ -6,6 +6,7 @@ export interface PrfsIdMsg<T> {
 
 export interface StorageMsg<T> {
   _phantom?: T;
+  appId: string;
   key: string;
   value: string;
 }
