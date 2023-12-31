@@ -3,7 +3,7 @@ import cn from "classnames";
 import { MdNoteAdd } from "@react-icons/all-files/md/MdNoteAdd";
 import { CommitmentType } from "@taigalabs/prfs-id-sdk-web";
 
-import styles from "./CommitmentView.module.scss";
+import styles from "./CommitmentItem.module.scss";
 import { i18nContext } from "@/i18n/context";
 
 export const CommitmentItemList: React.FC<CommitmentItemListProps> = ({ children }) => {

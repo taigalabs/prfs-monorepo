@@ -1,5 +1,5 @@
 .list {
-  padding: 12px 0 20px;
+  padding: 12px 0px 20px;
 }
 
 .item {
@@ -8,9 +8,10 @@
 
   .leftCol {
     font-size: 20px;
+    width: 32px;
+    flex-shrink: 0;
     padding-top: 6px;
-    padding-left: 6px;
-    padding-right: 12px;
+    padding-left: 4px;
   }
 
   .rightCol {
@@ -40,9 +41,11 @@
   }
 
   .hashed {
-    /* border: 1px solid var(--gray-70); */
-    /* border-radius: 8px; */
-    /* padding: 6px 8px; */
-    /* color: var(--gray-20); */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .list {
+    padding: 12px 24px 20px;
   }
 }

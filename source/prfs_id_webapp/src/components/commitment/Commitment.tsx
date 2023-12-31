@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { PrfsIdCredential, parseCommitmentSearchParams } from "@taigalabs/prfs-id-sdk-web";
 
-import styles from "./PrfsIdCommitment.module.scss";
+import styles from "./Commitment.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   SignInModule,

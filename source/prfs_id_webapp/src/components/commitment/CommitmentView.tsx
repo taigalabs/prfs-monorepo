@@ -3,13 +3,8 @@ import { poseidon_2, prfsSign } from "@taigalabs/prfs-crypto-js";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { useSearchParams } from "next/navigation";
 import {
-  SignInSuccessPayload,
-  StoredCredential,
-  persistPrfsIdCredential,
-  CommitmentData,
   CommitmentType,
   CommitmentSuccessPayload,
-  PrfsIdMsg,
   PrfsIdCredential,
   CommitmentArgs,
   sendMsgToChild,
@@ -22,7 +17,7 @@ import { idApi } from "@taigalabs/prfs-api-js";
 import { hexlify } from "ethers/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 
-import styles from "./Commitments.module.scss";
+import styles from "./CommitmentView.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   SignInErrorMsg,
@@ -33,7 +28,6 @@ import {
   SignInWithPrfsId,
 } from "@/components/sign_in_module/SignInModule";
 import { CommitmentItem, CommitmentItemList } from "./CommitmentItem";
-// import { CommitmentViewItem, CommitmentViewList } from "./CommitmentView";
 
 enum Status {
   Loading,
@@ -60,7 +54,7 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
   const [commitmentReceipt, setCommitmentReceipt] = React.useState<Record<string, string> | null>(
     null,
   );
-  const [commitmentViewElem, setCommitmentViewElem] = React.useState<React.ReactNode>(null);
+  const [commitmentElems, setCommitmentElems] = React.useState<React.ReactNode>(null);
 
   React.useEffect(() => {
     async function fn() {
@@ -102,16 +96,16 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
             }
           }
 
-          const listElem = <CommitmentItemList>{elems}</CommitmentItemList>;
+          // const listElem = <CommitmentItemList>{elems}</CommitmentItemList>;
           setCommitmentReceipt(receipt);
-          setCommitmentViewElem(listElem);
+          setCommitmentElems(elems);
         }
       } catch (err) {
         console.error(err);
       }
     }
     fn().then();
-  }, [searchParams, setCommitmentReceipt, setCommitmentViewElem, commitmentArgs]);
+  }, [searchParams, setCommitmentReceipt, setCommitmentElems, commitmentArgs]);
 
   React.useEffect(() => {
     if (commitmentReceipt) {
@@ -172,15 +166,15 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
             commitment (s)
           </SignInModuleTitle>
         </SignInModuleHeader>
-        <div>
-          <p className={styles.prfsId}>{credential.id}</p>
+        <div className={styles.prfsId}>
+          <p>{credential.id}</p>
         </div>
-        {commitmentViewElem}
+        <CommitmentItemList>{commitmentElems}</CommitmentItemList>
         <div className={styles.dataWarning}>
           <p className={styles.title}>Make sure you trust {commitmentArgs.appId} app</p>
           <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
         </div>
-        <SignInModuleBtnRow>
+        <SignInModuleBtnRow className={styles.btnRow}>
           <Button variant="transparent_blue_2" noTransition handleClick={handleClickPrev}>
             {i18n.go_back}
           </Button>

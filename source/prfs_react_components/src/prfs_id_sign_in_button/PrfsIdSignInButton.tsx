@@ -33,7 +33,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   const i18n = React.useContext(i18nContext);
   const [status, setStatus] = React.useState(SignInStatus.Standby);
   const closeTimerRef = React.useRef<NodeJS.Timer | null>(null);
-  const { childRef, isReady: isPrfsReady } = usePrfsEmbed({
+  const { prfsEmbedRef, isReady: isPrfsReady } = usePrfsEmbed({
     appId,
     prfsEmbedEndpoint,
   });
@@ -71,13 +71,13 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     // }
 
     openPopup(endpoint, async () => {
-      if (!childRef.current || !isPrfsReady) {
+      if (!prfsEmbedRef.current || !isPrfsReady) {
         return;
       }
 
       const resp = await sendMsgToChild(
         newPrfsIdMsg("REQUEST_SIGN_IN", { storageKey: appSignInArgs.publicKey }),
-        childRef.current,
+        prfsEmbedRef.current,
       );
       if (resp) {
         try {

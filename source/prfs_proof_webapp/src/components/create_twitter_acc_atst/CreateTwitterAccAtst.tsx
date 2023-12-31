@@ -82,7 +82,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       return atstApi("attest_twitter_acc", req);
     },
   });
-  const { childRef, isReady: isPrfsReady } = usePrfsEmbed({
+  const { prfsEmbedRef, isReady: isPrfsReady } = usePrfsEmbed({
     appId: "prfs_proof",
     prfsEmbedEndpoint: envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT,
   });
@@ -203,13 +203,13 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.commitment}${searchParams}`;
 
     openPopup(endpoint, async () => {
-      if (!childRef.current || !isPrfsReady) {
+      if (!prfsEmbedRef.current || !isPrfsReady) {
         return;
       }
 
       const resp = await sendMsgToChild(
         newPrfsIdMsg("REQUEST_SIGN_IN", { storageKey: commitmentArgs.publicKey }),
-        childRef.current,
+        prfsEmbedRef.current,
       );
       if (resp) {
         try {
