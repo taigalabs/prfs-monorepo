@@ -84,8 +84,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     prfsEmbedEndpoint: envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT,
   });
 
-  console.log(33, isPrfsReady);
-
   const handleClickCreateProof = React.useCallback(async () => {
     // const args: ProofGenArgs = {
     //   nonce: Math.random() * 100000000,
@@ -177,8 +175,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     setSystemMsg,
     status,
   ]);
-
-  console.log(44, isPrfsReady);
 
   React.useEffect(() => {
     async function fn() {

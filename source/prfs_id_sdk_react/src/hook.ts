@@ -78,7 +78,7 @@ export function usePrfsEmbed({ appId, prfsEmbedEndpoint }: CreateEmbeddedElemArg
     fn().then();
   }, []);
 
-  console.log(appId, listenerRef.current, prfsEmbedRef.current);
+  // console.log(appId, listenerRef.current, prfsEmbedRef.current);
 
   return {
     prfsEmbedRef,
