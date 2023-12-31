@@ -5,7 +5,7 @@ import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import LoaderBar from "@taigalabs/prfs-react-components/src/loader_bar/LoaderBar";
-import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
+import { PrfsSDK, sendMsgToChild } from "@taigalabs/prfs-sdk-web";
 import dayjs from "dayjs";
 import cn from "classnames";
 import { useSearchParams } from "next/navigation";
@@ -15,8 +15,9 @@ import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
 // import { ProofGenEvent } from "@taigalabs/prfs-sdk-web/src/elems/proof_gen/types";
 import { ProofGenArgs, makeProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web/proof_gen";
-import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
-import { API_PATH } from "@taigalabs/prfs-id-sdk-web";
+import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
+import { API_PATH, newPrfsIdMsg, parseBuffer } from "@taigalabs/prfs-id-sdk-web";
+import { decrypt } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -69,6 +70,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   // const lastInitProofTypeId = React.useRef<string | null>(null);
   const searchParams = useSearchParams();
   const { sk, pkHex } = useRandomKeyPair();
+  const { openPopup, popupStatus } = usePopup();
   const isTutorial = React.useMemo(() => {
     if (searchParams.get("tutorial_id")) {
       return true;
@@ -119,51 +121,50 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     };
 
     const searchParams = makeProofGenSearchParams(proofGenArgs);
-    const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.commitment}${searchParams}`;
+    const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
-    // openPopup(endpoint, async () => {
-    //   if (!prfsEmbedRef.current || !isPrfsReady) {
-    //     return;
-    //   }
+    openPopup(endpoint, async () => {
+      if (!prfsEmbedRef.current || !isPrfsReady) {
+        return;
+      }
 
-    //   const resp = await sendMsgToChild(
-    //     newPrfsIdMsg("REQUEST_SIGN_IN", { appId: commitmentArgs.appId }),
-    //     prfsEmbedRef.current,
-    //   );
-    //   if (resp) {
-    //     try {
-    //       const buf = parseBuffer(resp);
-    //       let decrypted: string;
-    //       try {
-    //         decrypted = decrypt(sk.secret, buf).toString();
-    //       } catch (err) {
-    //         console.error("cannot decrypt payload", err);
-    //         return;
-    //       }
+      // const resp = await sendMsgToChild(
+      //   newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: proofGenArgs.appId }),
+      //   prfsEmbedRef.current,
+      // );
 
-    //       let payload: CommitmentSuccessPayload;
-    //       try {
-    //         payload = JSON.parse(decrypted) as CommitmentSuccessPayload;
-    //       } catch (err) {
-    //         console.error("cannot parse payload", err);
-    //         return;
-    //       }
-
-    //       const cm = payload.receipt[CLAIM];
-    //       if (cm) {
-    //         setClaimCm(cm);
-    //         setStep(AttestationStep.POST_TWEET);
-    //       } else {
-    //         console.error("no commitment delivered");
-    //         return;
-    //       }
-    //     } catch (err) {
-    //       console.error(err);
-    //     }
-    //   } else {
-    //     console.error("Returned val is empty");
-    //   }
-    // });
+      // if (resp) {
+      //   try {
+      //     const buf = parseBuffer(resp);
+      //     let decrypted: string;
+      //     try {
+      //       decrypted = decrypt(sk.secret, buf).toString();
+      //     } catch (err) {
+      //       console.error("cannot decrypt payload", err);
+      //       return;
+      //     }
+      //     let payload: CommitmentSuccessPayload;
+      //     try {
+      //       payload = JSON.parse(decrypted) as CommitmentSuccessPayload;
+      //     } catch (err) {
+      //       console.error("cannot parse payload", err);
+      //       return;
+      //     }
+      //     const cm = payload.receipt[CLAIM];
+      //     if (cm) {
+      //       setClaimCm(cm);
+      //       setStep(AttestationStep.POST_TWEET);
+      //     } else {
+      //       console.error("no commitment delivered");
+      //       return;
+      //     }
+      //   } catch (err) {
+      //     console.error(err);
+      //   }
+      // } else {
+      //   console.error("Returned val is empty");
+      // }
+    });
   }, [
     // formValues,
     proofType,
