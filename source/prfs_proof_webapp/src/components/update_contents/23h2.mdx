@@ -1,3 +1,12 @@
+## 2023-12-31
+### Prfs embed
+- Message passing between windows use 'localStorage' because cross-origin resource sharing is a
+bit tricky to handle.
+- For messaging across cross-origin windows to happen, we implement an embedded web application
+that orchestrates the process.
+- Prfs embed will replace 'prfs-sdk-web-module', and proof generation will happen most likely in
+the prfs id web application.
+
 ## 2023-12-28
 ### Prfs identity
 - `prfs-id-sdk` provides app-sign-in argument `create/parse` functionality to allow apps to more
