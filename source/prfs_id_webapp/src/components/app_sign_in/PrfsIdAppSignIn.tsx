@@ -8,14 +8,16 @@ import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 
 import styles from "./PrfsIdAppSignIn.module.scss";
 import { i18nContext } from "@/i18n/context";
-import PrfsIdSignInModule, {
-  PrfsIdSignInForm,
-  PrfsIdSignInModuleFooter,
-} from "@/components/sign_in_module/PrfsIdSignInModule";
+import {
+  SignInModule,
+  SignInForm,
+  SignInModuleFooter,
+} from "@/components/sign_in_module/SignInModule";
 import { envs } from "@/envs";
 import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import PrfsIdSignIn from "@/components/sign_in/PrfsIdSignIn";
 import AppCredential from "./AppCredential";
+import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
 enum SignInStep {
   PrfsIdCredential,
@@ -43,6 +45,10 @@ const PrfsIdAppSignIn: React.FC = () => {
       return null;
     }
   }, [searchParams]);
+  const { prfsEmbedRef, isReady: isPrfsReady } = usePrfsEmbed({
+    appId: "prfs_id",
+    prfsEmbedEndpoint: envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT,
+  });
 
   React.useEffect(() => {
     if (appSignInArgs) {
@@ -55,29 +61,12 @@ const PrfsIdAppSignIn: React.FC = () => {
         setSignInStatus(SignInStatus.Error);
         setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
       } else {
-        setSignInStatus(SignInStatus.Standby);
+        if (isPrfsReady) {
+          setSignInStatus(SignInStatus.Standby);
+        }
       }
     }
-
-    const listener = (ev: MessageEvent<any>) => {
-      console.log(11, ev.origin, ev.data);
-      // const { origin } = ev;
-      // if (endpoint.startsWith(origin)) {
-      //   const data = ev.data as PrfsIdMsg<Buffer>;
-      //   if (data.type === "SIGN_IN_SUCCESS") {
-      //     if (closeTimerRef.current) {
-      //       clearInterval(closeTimerRef.current);
-      //     }
-
-      //     const msg = newPrfsIdMsg("SIGN_IN_SUCCESS_RESPOND", null);
-      //     ev.ports[0].postMessage(msg);
-      //     handleSucceedSignIn(data.payload);
-      //   }
-      // }
-    };
-    console.log("register");
-    window.addEventListener("message", listener, false);
-  }, [appSignInArgs, setSignInStatus, setErrorMsg, setStep]);
+  }, [appSignInArgs, setSignInStatus, setErrorMsg, setStep, isPrfsReady]);
 
   const handleCloseErrorDialog = React.useCallback(() => {
     window.close();
@@ -116,6 +105,7 @@ const PrfsIdAppSignIn: React.FC = () => {
               credential={credential}
               appSignInArgs={appSignInArgs}
               handleClickPrev={handleClickPrev}
+              prfsEmbedRef={prfsEmbedRef}
             />
           )
         );
@@ -126,8 +116,8 @@ const PrfsIdAppSignIn: React.FC = () => {
   }, [step, appSignInArgs]);
 
   return (
-    <PrfsIdSignInModule>
-      <PrfsIdSignInForm>
+    <SignInModule>
+      <SignInForm>
         {signInStatus === SignInStatus.Loading && (
           <div className={styles.overlay}>
             <Spinner color="#1b62c0" />
@@ -137,16 +127,16 @@ const PrfsIdAppSignIn: React.FC = () => {
           <PrfsIdErrorDialog errorMsg={errorMsg} handleClose={handleCloseErrorDialog} />
         )}
         {content}
-      </PrfsIdSignInForm>
-      <PrfsIdSignInModuleFooter>
+      </SignInForm>
+      <SignInModuleFooter>
         <Link href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL}>
           <span>{i18n.code}</span>
         </Link>
         <Link href={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
           <span>{i18n.prfs}</span>
         </Link>
-      </PrfsIdSignInModuleFooter>
-    </PrfsIdSignInModule>
+      </SignInModuleFooter>
+    </SignInModule>
   );
 };
 

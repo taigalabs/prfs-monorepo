@@ -3,19 +3,18 @@ import cn from "classnames";
 import {
   API_PATH,
   AppSignInArgs,
-  PrfsIdMsg,
-  initChannel,
   makeAppSignInSearchParams,
   newPrfsIdMsg,
-  sendMsgToPopup,
+  sendMsgToChild,
+  parseBuffer,
 } from "@taigalabs/prfs-id-sdk-web";
+import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
 import styles from "./PrfsIdSignInButton.module.scss";
 import colors from "../colors.module.scss";
 import Spinner from "../spinner/Spinner";
 import Button from "../button/Button";
 import { i18nContext } from "../i18n/i18nContext";
-// import { useSDKElem } from "./sdk";
 
 enum SignInStatus {
   Standby,
@@ -29,69 +28,50 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   appSignInArgs,
   handleSucceedSignIn,
   prfsIdEndpoint,
+  prfsEmbedEndpoint,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [status, setStatus] = React.useState(SignInStatus.Standby);
-  const msgListenerRef = React.useRef<((ev: MessageEvent) => void) | null>(null);
   const closeTimerRef = React.useRef<NodeJS.Timer | null>(null);
-  // useSDKElem();
+  const { prfsEmbedRef, isReady: isPrfsReady } = usePrfsEmbed({
+    appId,
+    prfsEmbedEndpoint,
+  });
+  const { openPopup, popupStatus } = usePopup();
 
-  React.useEffect(() => {
-    return () => {
-      if (msgListenerRef.current) {
-        window.removeEventListener("message", msgListenerRef.current);
-      }
-      if (closeTimerRef.current) {
-        clearInterval(closeTimerRef.current);
-      }
-    };
-  }, []);
-
-  const handleClickSignIn = React.useCallback(() => {
+  const handleClickSignIn = React.useCallback(async () => {
     const searchParams = makeAppSignInSearchParams(appSignInArgs);
     const endpoint = `${prfsIdEndpoint}${API_PATH.app_sign_in}${searchParams}`;
 
-    const listener = initChannel({
-      appId,
-      prfsIdEndpoint,
+    openPopup(endpoint, async () => {
+      if (!prfsEmbedRef.current || !isPrfsReady) {
+        return;
+      }
+
+      const resp = await sendMsgToChild(
+        newPrfsIdMsg("REQUEST_SIGN_IN", { appId: appSignInArgs.appId }),
+        prfsEmbedRef.current,
+      );
+      if (resp) {
+        try {
+          const buf = parseBuffer(resp);
+          handleSucceedSignIn(buf);
+        } catch (err) {
+          console.error(err);
+        }
+      } else {
+        console.error("Returned val is empty");
+      }
     });
-
-    if (!msgListenerRef.current) {
-      const listener = (ev: MessageEvent<any>) => {
-        const { origin } = ev;
-        if (endpoint.startsWith(origin)) {
-          const data = ev.data as PrfsIdMsg<Buffer>;
-          if (data.type === "SIGN_IN_SUCCESS") {
-            if (closeTimerRef.current) {
-              clearInterval(closeTimerRef.current);
-            }
-
-            const msg = newPrfsIdMsg("SIGN_IN_SUCCESS_RESPOND", null);
-            ev.ports[0].postMessage(msg);
-            handleSucceedSignIn(data.payload);
-          }
-        }
-      };
-      addEventListener("message", listener, false);
-      msgListenerRef.current = listener;
-    }
-
-    // Open the window
-    setStatus(SignInStatus.InProgress);
-    const child = window.open(endpoint, "_blank", "toolbar=0,location=0,menubar=0");
-    // window["ttt"] = child;
-
-    if (!closeTimerRef.current) {
-      const fn = setInterval(() => {
-        if (child) {
-          if (child.closed) {
-            setStatus(SignInStatus.Standby);
-          }
-        }
-      }, 4000);
-      closeTimerRef.current = fn;
-    }
-  }, [appSignInArgs, setStatus, prfsIdEndpoint]);
+  }, [
+    appSignInArgs,
+    setStatus,
+    prfsIdEndpoint,
+    prfsEmbedEndpoint,
+    isPrfsReady,
+    handleSucceedSignIn,
+    openPopup,
+  ]);
 
   return (
     <Button
@@ -100,6 +80,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       noTransition
       handleClick={handleClickSignIn}
       noShadow
+      disabled={!isPrfsReady}
     >
       <div className={styles.wrapper}>
         <span>{label ? label : i18n.sign_in}</span>
@@ -118,4 +99,5 @@ export interface PrfsIdSignInButtonProps {
   appSignInArgs: AppSignInArgs;
   handleSucceedSignIn: (encrypted: Buffer) => void;
   prfsIdEndpoint: string;
+  prfsEmbedEndpoint: string;
 }

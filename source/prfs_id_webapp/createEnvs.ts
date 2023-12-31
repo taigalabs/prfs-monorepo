@@ -1,9 +1,13 @@
 import { parseArgs } from "node:util";
-import fs from "fs";
 import path from "path";
 import chalk from "chalk";
-import child_process from "child_process";
-import dayjs from "dayjs";
+import {
+  getGitCommitHash,
+  getPrfsDevEndpoints,
+  getPrfsProdEndpoints,
+  getTimestamp,
+  writeEnvsToDotEnv,
+} from "@taigalabs/prfs-env-js";
 
 import { Envs } from "./src/envs";
 
@@ -11,7 +15,6 @@ const DOT_ENV_PATH = path.resolve(".env");
 
 async function run() {
   console.log("%s createEnvs.ts prfs web launch", chalk.green("Launching"));
-
   const { values } = parseArgs({
     options: {
       production: {
@@ -19,78 +22,41 @@ async function run() {
       },
     },
   });
-  console.log("[create-envs] cli args: %j", values);
 
+  console.log("[create-envs] cli args: %j", values);
   createEnvs(values);
 }
 
 async function createEnvs(values: CliArgs) {
-  const gitCommitHash = await getGitCommitHash();
-  const timestamp = getTimestamp();
   console.log("cli args: %j", values);
-
   const { production } = values;
-
-  const env_dev: Envs = {
-    NEXT_PUBLIC_LAUNCH_TIMESTAMP: timestamp,
-    NEXT_PUBLIC_GIT_COMMIT_HASH: gitCommitHash,
-    NEXT_PUBLIC_CODE_REPOSITORY_URL: "https://github.com/taigalabs/prfs-monorepo",
-    NEXT_PUBLIC_TAIGALABS_ENDPOINT: "http://localhost:3060",
-    NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT: "http://localhost:3020",
-    NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT: "http://localhost:3000",
-    NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT: "http://localhost:3011",
-    NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT: "http://localhost:3021",
-    NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: "http://localhost:4000",
-    NEXT_PUBLIC_TWITTER_OAUTH_REDIRECT_URL: "http://localhost:4020/oauth/twitter/dev",
-    NEXT_PUBLIC_PRFS_AUTH_OP_SERVER_ENDPOINT: "http://127.0.0.1:4020",
-    NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "http://localhost:4010",
-    NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT: "http://localhost:3010",
-    NEXT_PUBLIC_ZAUTH_VERSION: "0.1.0",
-    NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT: "http://localhost:3061",
-  };
-
-  const env_prod: Envs = {
-    NEXT_PUBLIC_LAUNCH_TIMESTAMP: timestamp,
-    NEXT_PUBLIC_GIT_COMMIT_HASH: gitCommitHash,
-    NEXT_PUBLIC_CODE_REPOSITORY_URL: "https://github.com/taigalabs/prfs-monorepo",
-    NEXT_PUBLIC_TAIGALABS_ENDPOINT: "https://www.taigalabs.xyz",
-    NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT: "https://console.prfs.xyz",
-    NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT: "https://www.prfs.xyz",
-    NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT: "http://id.prfs.xyz",
-    NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT: "https://poll.prfs.xyz",
-    NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: "https://api.prfs.xyz",
-    NEXT_PUBLIC_TWITTER_OAUTH_REDIRECT_URL: "http://auth.prfs.xyz/oauth/twitter",
-    NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: "https://asset.prfs.xyz",
-    NEXT_PUBLIC_PRFS_AUTH_OP_SERVER_ENDPOINT: "http://auth.prfs.xyz",
-    NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT: "https://sdk.prfs.xyz",
-    NEXT_PUBLIC_ZAUTH_VERSION: "0.1.0",
-    NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT: "http://docs.prfs.xyz",
-  };
-
-  const envs = production ? env_prod : env_dev;
-  console.log("Writing envs to %s, envs: %o", DOT_ENV_PATH, envs);
-
-  writeEnvsToDotEnv(envs);
-}
-
-function writeEnvsToDotEnv(envs: Envs) {
-  let ws = fs.createWriteStream(DOT_ENV_PATH);
-
-  for (const [key, val] of Object.entries(envs)) {
-    ws.write(`${key}=${val}\n`);
+  let ep;
+  if (production) {
+    ep = getPrfsProdEndpoints();
+  } else {
+    ep = getPrfsDevEndpoints();
   }
 
-  ws.close();
-}
+  const gitCommitHash = getGitCommitHash();
+  const timestamp = getTimestamp();
+  const envs: Envs = {
+    NEXT_PUBLIC_LAUNCH_TIMESTAMP: timestamp,
+    NEXT_PUBLIC_GIT_COMMIT_HASH: gitCommitHash,
+    NEXT_PUBLIC_CODE_REPOSITORY_URL: ep.prfs_code_repository,
+    NEXT_PUBLIC_TAIGALABS_ENDPOINT: ep.taigalabs_website,
+    NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT: ep.prfs_console_webapp,
+    NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT: ep.prfs_proof_webapp,
+    NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT: ep.prfs_id_webapp,
+    NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT: ep.prfs_embed_webapp,
+    NEXT_PUBLIC_WEBAPP_POLL_ENDPOINT: ep.prfs_poll_webapp,
+    NEXT_PUBLIC_PRFS_API_SERVER_ENDPOINT: ep.prfs_api_server,
+    NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT: ep.prfs_asset_server,
+    NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT: ep.prfs_sdk_web,
+    NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT: ep.prfs_docs_website,
+  };
 
-async function getGitCommitHash() {
-  const output = child_process.execSync(`git rev-parse HEAD`);
-  return output.toString();
-}
-
-function getTimestamp() {
-  const now = dayjs();
-  return now.toISOString();
+  console.log("Writing envs to %s, envs: %o", DOT_ENV_PATH, envs);
+  writeEnvsToDotEnv(envs as any, DOT_ENV_PATH);
 }
 
 run().then();

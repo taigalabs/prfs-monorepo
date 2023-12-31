@@ -7,16 +7,16 @@ import { PrfsIdCredential, makePrfsIdCredential } from "@taigalabs/prfs-id-sdk-w
 import styles from "./InputCreateIdCredential.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
-  PrfsIdSignInInnerPadding,
-  PrfsIdSignInInputGuide,
-  PrfsIdSignInInputItem,
-  PrfsIdSignInModuleBtnRow,
-  PrfsIdSignInModuleHeader,
-  PrfsIdSignInModuleInputArea,
-  PrfsIdSignInModuleLogoArea,
-  PrfsIdSignInModuleSubtitle,
-  PrfsIdSignInModuleTitle,
-} from "@/components/sign_in_module/PrfsIdSignInModule";
+  SignInInnerPadding,
+  SignInInputGuide,
+  SignInInputItem,
+  SignInModuleBtnRow,
+  SignInModuleHeader,
+  SignInModuleInputArea,
+  SignInModuleLogoArea,
+  SignInModuleSubtitle,
+  SignInModuleTitle,
+} from "@/components/sign_in_module/SignInModule";
 import { IdCreateForm } from "@/functions/validate_id";
 
 const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
@@ -59,23 +59,23 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
   }, [handleClickNext, setCredential]);
 
   return (
-    <PrfsIdSignInInnerPadding>
-      <PrfsIdSignInModuleLogoArea />
+    <SignInInnerPadding>
+      <SignInModuleLogoArea />
       <Fade>
-        <PrfsIdSignInModuleHeader>
-          <PrfsIdSignInModuleTitle>{i18n.create_an_identity}</PrfsIdSignInModuleTitle>
-          <PrfsIdSignInModuleSubtitle>{i18n.create_a_strong_password}</PrfsIdSignInModuleSubtitle>
-        </PrfsIdSignInModuleHeader>
-        <PrfsIdSignInModuleInputArea>
+        <SignInModuleHeader>
+          <SignInModuleTitle>{i18n.create_an_identity}</SignInModuleTitle>
+          <SignInModuleSubtitle>{i18n.create_a_strong_password}</SignInModuleSubtitle>
+        </SignInModuleHeader>
+        <SignInModuleInputArea>
           <div className={styles.inputGroup}>
-            <PrfsIdSignInInputItem
+            <SignInInputItem
               name="email"
               value={formData.email}
               placeholder={i18n.email}
               error={formErrors.email}
               handleChangeValue={handleChangeValue}
             />
-            <PrfsIdSignInInputItem
+            <SignInInputItem
               name="email_confirm"
               value={formData.email_confirm}
               placeholder={i18n.confirm}
@@ -83,16 +83,16 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
               handleChangeValue={handleChangeValue}
             />
           </div>
-          <PrfsIdSignInInputGuide>
+          <SignInInputGuide>
             <Link
               href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/identity`}
               target="_blank"
             >
               {i18n.why_we_ask_for_email}
             </Link>
-          </PrfsIdSignInInputGuide>
+          </SignInInputGuide>
           <div className={styles.inputGroup}>
-            <PrfsIdSignInInputItem
+            <SignInInputItem
               name="password_1"
               value={formData.password_1}
               placeholder={i18n.password_1}
@@ -100,7 +100,7 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
               handleChangeValue={handleChangeValue}
               type="password"
             />
-            <PrfsIdSignInInputItem
+            <SignInInputItem
               name="password_1_confirm"
               value={formData.password_1_confirm}
               placeholder={i18n.confirm}
@@ -110,7 +110,7 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
             />
           </div>
           <div className={styles.inputGroup}>
-            <PrfsIdSignInInputItem
+            <SignInInputItem
               name="password_2"
               value={formData.password_2}
               placeholder={i18n.password_2}
@@ -118,7 +118,7 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
               handleChangeValue={handleChangeValue}
               type="password"
             />
-            <PrfsIdSignInInputItem
+            <SignInInputItem
               name="password_2_confirm"
               value={formData.password_2_confirm}
               placeholder={i18n.confirm}
@@ -127,16 +127,16 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
               type="password"
             />
           </div>
-          <PrfsIdSignInInputGuide>
+          <SignInInputGuide>
             <Link
               href={`${process.env.NEXT_PUBLIC_DOCS_WEBSITE_ENDPOINT}/identity`}
               target="_blank"
             >
               {i18n.why_we_ask_for_two_passwords}
             </Link>
-          </PrfsIdSignInInputGuide>
-        </PrfsIdSignInModuleInputArea>
-        <PrfsIdSignInModuleBtnRow>
+          </SignInInputGuide>
+        </SignInModuleInputArea>
+        <SignInModuleBtnRow>
           <Button
             type="button"
             variant="transparent_blue_2"
@@ -156,9 +156,9 @@ const InputCreateIdCredential: React.FC<InputCreateIdCredentialProps> = ({
           >
             {i18n.next}
           </Button>
-        </PrfsIdSignInModuleBtnRow>
+        </SignInModuleBtnRow>
       </Fade>
-    </PrfsIdSignInInnerPadding>
+    </SignInInnerPadding>
   );
 };
 

@@ -19,4 +19,4 @@ RUN apt install -y chromium
 # Install libssl
 RUN apt install libssl-dev
 
-CMD ["./ci", "start_api_server"]
+CMD ["./ci", "start_prfs_api_server"]

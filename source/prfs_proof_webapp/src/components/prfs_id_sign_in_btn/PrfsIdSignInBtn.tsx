@@ -7,7 +7,7 @@ import { decrypt } from "eciesjs";
 import PrfsIdSignInButton from "@taigalabs/prfs-react-components/src/prfs_id_sign_in_button/PrfsIdSignInButton";
 import PrfsCredentialPopover from "@taigalabs/prfs-react-components/src/prfs_credential_popover/PrfsCredentialPopover";
 import {
-  PrfsIdSignInSuccessPayload,
+  SignInSuccessPayload,
   AppSignInData,
   makeColor,
   AppSignInArgs,
@@ -16,7 +16,6 @@ import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { useMutation } from "@tanstack/react-query";
 import { prfs_api_error_codes, prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsSignInRequest";
-// import a from '@taigalabs/prfs-crypto-js'
 
 import styles from "./PrfsIdSignInBtn.module.scss";
 import { envs } from "@/envs";
@@ -62,15 +61,15 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
           return;
         }
 
-        let prfsIdSignInSuccessPayload: PrfsIdSignInSuccessPayload;
+        let prfsIdSignInSuccessPayload: SignInSuccessPayload;
         try {
-          prfsIdSignInSuccessPayload = JSON.parse(decrypted) as PrfsIdSignInSuccessPayload;
+          prfsIdSignInSuccessPayload = JSON.parse(decrypted) as SignInSuccessPayload;
         } catch (err) {
           console.error(err);
           return;
         }
 
-        const { payload, error, code } = await prfsSignInRequest({
+        const { error, code } = await prfsSignInRequest({
           account_id: prfsIdSignInSuccessPayload.account_id,
         });
         const avatar_color = makeColor(prfsIdSignInSuccessPayload.account_id);
@@ -129,6 +128,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
         appSignInArgs={appSignInArgs}
         handleSucceedSignIn={handleSucceedSignIn}
         prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}
+        prfsEmbedEndpoint={envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT}
       />
     </>
   );

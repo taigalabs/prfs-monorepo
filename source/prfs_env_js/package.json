@@ -1,0 +1,15 @@
+{
+  "name": "@taigalabs/prfs-env-js",
+  "version": "0.0.1",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "license": "MIT",
+  "scripts": {},
+  "devDependencies": {
+    "@types/node": "^20.4.9",
+    "rimraf": "^3.0.2"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.9"
+  }
+}

@@ -13,13 +13,13 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import {
   CommitmentType,
-  PrfsIdCommitmentSuccessPayload,
-  PrfsIdMsg,
-  getCommitment,
-  initChannel,
-  initStorageListener,
+  CommitmentSuccessPayload,
   makeAttestation,
   newPrfsIdMsg,
+  makeCommitmentSearchParams,
+  CommitmentArgs,
+  API_PATH,
+  parseBuffer,
 } from "@taigalabs/prfs-id-sdk-web";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
@@ -27,6 +27,8 @@ import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { AttestTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/AttestTwitterAccRequest";
 import { ValidateTwitterAccRequest } from "@taigalabs/prfs-entities/bindings/ValidateTwitterAccRequest";
 import { TwitterAccValidation } from "@taigalabs/prfs-entities/bindings/TwitterAccValidation";
+import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
+import { sendMsgToChild } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./CreateTwitterAccAtst.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -78,36 +80,11 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       return atstApi("attest_twitter_acc", req);
     },
   });
-
-  const handleSucceedGenerateCms = React.useCallback(
-    (encrypted: Buffer) => {
-      let decrypted: string;
-      try {
-        decrypted = decrypt(sk.secret, encrypted).toString();
-      } catch (err) {
-        console.error("cannot decrypt payload", err);
-        return;
-      }
-
-      let payload: PrfsIdCommitmentSuccessPayload;
-      try {
-        payload = JSON.parse(decrypted) as PrfsIdCommitmentSuccessPayload;
-      } catch (err) {
-        console.error("cannot parse payload", err);
-        return;
-      }
-
-      const cm = payload.receipt[CLAIM];
-      if (cm) {
-        setClaimCm(cm);
-        setStep(AttestationStep.POST_TWEET);
-      } else {
-        console.error("no commitment delivered");
-        return;
-      }
-    },
-    [setStep, setClaimCm],
-  );
+  const { prfsEmbedRef, isReady: isPrfsReady } = usePrfsEmbed({
+    appId: "prfs_proof",
+    prfsEmbedEndpoint: envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT,
+  });
+  const { openPopup, popupStatus } = usePopup();
 
   React.useEffect(() => {
     const handle = formData[TWITTER_HANDLE];
@@ -118,25 +95,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
     } else {
       setStep(AttestationStep.INPUT_TWITTER_HANDLE);
     }
-
-    const listener = (ev: MessageEvent<any>) => {
-      const { origin } = ev;
-
-      if (envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT.startsWith(origin)) {
-        const data = ev.data as PrfsIdMsg<Buffer>;
-        if (data.type === "COMMITMENT_SUCCESS") {
-          const msg = newPrfsIdMsg("COMMITMENT_SUCCESS_RESPOND", null);
-          ev.ports[0].postMessage(msg);
-          handleSucceedGenerateCms(data.payload);
-        }
-      }
-    };
-    addEventListener("message", listener, false);
-
-    return () => {
-      window.removeEventListener("message", listener);
-    };
-  }, [setStep, formData[TWITTER_HANDLE], handleSucceedGenerateCms]);
+  }, [setStep, formData[TWITTER_HANDLE]]);
 
   const tweetContent = React.useMemo(() => {
     if (claimCm) {
@@ -177,28 +136,66 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
   );
 
   const handleClickGenerate = React.useCallback(() => {
-    const appId = "prfs_proof";
-    const listener = initChannel({
-      appId,
-      prfsIdEndpoint: envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT,
-    });
+    const commitmentArgs: CommitmentArgs = {
+      nonce: Math.random() * 1000000,
+      appId: "prfs_proof",
+      cms: [
+        {
+          name: CLAIM,
+          preImage: claimSecret,
+          type: CommitmentType.SIG_POSEIDON_1,
+        },
+      ],
+      publicKey: pkHex,
+    };
 
-    console.log(15);
-    // console.log("listener", listener);
-    // getCommitment({
-    //   prfsIdEndpoint: `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id}`,
-    //   appId,
-    //   sk,
-    //   pkHex,
-    //   preImage: claimSecret,
-    //   cms: {
-    //     [CLAIM]: {
-    //       val: claimSecret,
-    //       type: CommitmentType.SIG_POSEIDON_1,
-    //     },
-    //   },
-    // });
-  }, [formData, step, claimSecret, sk, pkHex]);
+    const searchParams = makeCommitmentSearchParams(commitmentArgs);
+    const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.commitment}${searchParams}`;
+
+    openPopup(endpoint, async () => {
+      if (!prfsEmbedRef.current || !isPrfsReady) {
+        return;
+      }
+
+      const resp = await sendMsgToChild(
+        newPrfsIdMsg("REQUEST_SIGN_IN", { appId: commitmentArgs.appId }),
+        prfsEmbedRef.current,
+      );
+      if (resp) {
+        try {
+          const buf = parseBuffer(resp);
+          let decrypted: string;
+          try {
+            decrypted = decrypt(sk.secret, buf).toString();
+          } catch (err) {
+            console.error("cannot decrypt payload", err);
+            return;
+          }
+
+          let payload: CommitmentSuccessPayload;
+          try {
+            payload = JSON.parse(decrypted) as CommitmentSuccessPayload;
+          } catch (err) {
+            console.error("cannot parse payload", err);
+            return;
+          }
+
+          const cm = payload.receipt[CLAIM];
+          if (cm) {
+            setClaimCm(cm);
+            setStep(AttestationStep.POST_TWEET);
+          } else {
+            console.error("no commitment delivered");
+            return;
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      } else {
+        console.error("Returned val is empty");
+      }
+    });
+  }, [formData, step, claimSecret, sk, pkHex, openPopup, setClaimCm, setStep]);
 
   const handleClickValidate = React.useCallback(async () => {
     const tweet_url = formData[TWEET_URL];

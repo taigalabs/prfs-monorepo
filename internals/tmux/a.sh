@@ -6,25 +6,27 @@ if [ $? -eq 0 ]; then
   tmux kill-session -t prfs_a
 fi
 
-# setting panes
+# Set up panes
 tmux new-session -d -s prfs_a
 tmux split-window -v -t prfs_a
 tmux split-window -v -t prfs_a
 tmux select-pane -t 1
 tmux split-window -v -t prfs_a
 
-# api server
+# Prfs api server
 tmux select-pane -t prfs_a:1.1
-tmux send-keys "./ci dev_api_server" ENTER
+tmux send-keys "./ci dev_prfs_api_server" ENTER
 
-# # asset server
+# Prfs asset server
 tmux select-pane -t prfs_a:1.2
-tmux send-keys "./ci dev_asset_server" ENTER
+tmux send-keys "./ci dev_prfs_asset_server" ENTER
 
-# # asset server
+# Prfs embed webapp
 tmux select-pane -t prfs_a:1.3
-tmux send-keys "./ci dev_sdk_web_module" ENTER
+tmux send-keys "./ci dev_prfs_embed_webapp" ENTER
 
-# # webapp proof
+# Prfs proof webapp
 tmux select-pane -t prfs_a:1.4
 tmux send-keys "./ci dev_prfs_proof_webapp" ENTER
+
+tmux attach -t prfs_a

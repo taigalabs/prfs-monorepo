@@ -2,6 +2,9 @@ packages:
   # Externals
   - "externals/incremental-merkle-tree"
 
+  # Prfs env
+  - "source/prfs_env_js"
+
   # Docs
   - "source/docs_website"
 
@@ -41,6 +44,7 @@ packages:
   # Prfs identity
   - "source/prfs_id_webapp"
   - "source/prfs_id_sdk_web"
+  - "source/prfs_id_sdk_react"
 
   # Prfs proof gen
   - "source/prfs_proof_gen_js"

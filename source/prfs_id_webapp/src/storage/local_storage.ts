@@ -5,7 +5,7 @@ export interface LocalPrfsProofCredential {
   avatar_color: string;
 }
 
-const PRFS_PROOF_KEY = "prfs_proof";
+const KEY = "prfs_id";
 
 export function persistPrfsProofCredential(
   credential: LocalPrfsProofCredential,
@@ -13,12 +13,12 @@ export function persistPrfsProofCredential(
   const value = JSON.stringify(credential);
 
   console.log("Persisting Prfs proof credential", credential);
-  window.localStorage.setItem(PRFS_PROOF_KEY, value);
+  window.localStorage.setItem(KEY, value);
   return credential;
 }
 
 export function loadLocalPrfsProofCredential(): LocalPrfsProofCredential | null {
-  const val = window.localStorage.getItem(PRFS_PROOF_KEY);
+  const val = window.localStorage.getItem(KEY);
 
   try {
     if (val) {
@@ -57,5 +57,5 @@ export function checkSanity(obj: LocalPrfsProofCredential): boolean {
 }
 
 export function removeLocalPrfsProofCredential() {
-  window.localStorage.removeItem(PRFS_PROOF_KEY);
+  window.localStorage.removeItem(KEY);
 }
