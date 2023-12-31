@@ -27,6 +27,8 @@ import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
 // import CircuitInputs from "./CircuitInputs";
 import { useRandomKeyPair } from "@/hooks/key";
+import { TbMathPi } from "@taigalabs/prfs-react-components/src/tabler_icons/TbMathPi";
+import { TbNumbers } from "@taigalabs/prfs-react-components/src/tabler_icons/TbNumbers";
 
 // const prfsSDK = new PrfsSDK("prfs-proof");
 
@@ -236,51 +238,19 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       //   }
     }
     fn().then();
-  }, [
-    proofType,
-    setProofGenElement,
-    setStatus,
-    isPrfsReady,
-    setSystemMsg,
-    // setLoadDriverProgress,
-    // setLoadDriverStatus,
-    // setDriverMsg,
-  ]);
+  }, [proofType, setProofGenElement, setStatus, isPrfsReady, setSystemMsg]);
 
   return (
     <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
-      <div className={styles.driverMsg}>
-        {/* <div className={styles.msg}>{driverMsg}</div> */}
-        {/* {loadDriverStatus === LoadDriverStatus.InProgress && ( */}
-        {/*   <LoadDriverProgress progress={loadDriverProgress} /> */}
-        {/* )} */}
-      </div>
+      <div className={styles.systemMsg}></div>
       <div className={cn(styles.main, { [styles.isTutorial]: isTutorial })}>
         <div className={styles.moduleArea}>
           <div className={styles.moduleWrapper}>
-            {/* {loadDriverStatus === LoadDriverStatus.InProgress || */}
-            {/*   (createProofStatus === CreateProofStatus.InProgress && ( */}
-            {/*     <div className={styles.loaderBarWrapper}> */}
-            {/*       <LoaderBar /> */}
-            {/*     </div> */}
-            {/*   ))} */}
-            {/* {loadDriverStatus === LoadDriverStatus.InProgress && ( */}
-            {/*   <div className={styles.overlay}> */}
-            {/*     <Spinner size={32} color={colors.blue_12} /> */}
-            {/*   </div> */}
-            {/* )} */}
-            {/* <TutorialStepper steps={[2]}> */}
-            {/*   <div className={styles.form}> */}
-            {/*     <CircuitInputs */}
-            {/*       circuitInputs={proofType.circuit_inputs as CircuitInput[]} */}
-            {/*       proofGenElement={proofGenElement} */}
-            {/*       formValues={formValues} */}
-            {/*       setFormValues={setFormValues} */}
-            {/*       formErrors={formErrors} */}
-            {/*       setFormErrors={setFormErrors} */}
-            {/*     /> */}
-            {/*   </div> */}
-            {/* </TutorialStepper> */}
+            <div>
+              <p className={styles.numberIcon}>
+                <TbNumbers />
+              </p>
+            </div>
             <div className={styles.btnRow}>
               {status === Status.Loading && <div className={styles.overlay} />}
               <TutorialStepper steps={[2]}>
@@ -291,17 +261,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
                 </button>
               </TutorialStepper>
             </div>
-            {/* {systemMsg && ( */}
-            {/*   <div className={styles.footer}> */}
-            {/*     <div */}
-            {/*       className={cn(styles.msg, { */}
-            {/*         [styles.errorMsg]: createProofStatus === CreateProofStatus.Error, */}
-            {/*       })} */}
-            {/*     > */}
-            {/*       {systemMsg} */}
-            {/*     </div> */}
-            {/*   </div> */}
-            {/* )} */}
           </div>
         </div>
         <div className={styles.metaArea}>
