@@ -24,13 +24,16 @@
   }
 
   .no {
-    width: 30px;
+    width: 78px;
     flex-shrink: 0;
     font-size: 16px;
+    padding-left: 44px;
   }
 
-  .right {
+  .rightCol {
     word-break: break-all;
+    flex-grow: 1;
+    padding-right: 60px;
   }
 
   .desc {
@@ -148,9 +151,9 @@
   }
 }
 
-.signInBtn {
-  padding-left: 16px;
-  padding-right: 16px;
+.createBtn {
+  padding-left: 24px;
+  padding-right: 24px;
 
   .content {
     display: flex;
@@ -175,7 +178,12 @@
 .createBtnRow {
   display: flex;
   justify-content: space-between;
-  padding-left: 30px;
+  padding-left: 45px;
+  padding-right: 16px;
+
+  > button {
+    height: 40px;
+  }
 }
 
 .input {
@@ -211,5 +219,19 @@
         width: auto;
       }
     }
+
+    .no {
+      width: 32px;
+      padding-left: 4px;
+    }
+
+    .rightCol {
+      padding-right: 0;
+    }
+  }
+
+  .createBtnRow {
+    padding-left: 24px;
+    padding-right: 0px;
   }
 }

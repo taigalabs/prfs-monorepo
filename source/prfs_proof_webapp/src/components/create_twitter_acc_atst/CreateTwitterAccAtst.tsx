@@ -301,7 +301,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
           <ol className={styles.instructions}>
             <li className={styles.item}>
               <div className={styles.no}>1</div>
-              <div className={styles.right}>
+              <div className={styles.rightCol}>
                 <div className={styles.desc}>
                   <p className={styles.descTitle}>{i18n.what_is_your_twitter_handle}</p>
                   <p>{i18n.twitter_handle_example_given}</p>
@@ -433,7 +433,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
               <Button
                 variant="blue_2"
                 noTransition
-                className={styles.signInBtn}
+                className={styles.createBtn}
                 handleClick={handleClickCreate}
                 noShadow
                 type="button"

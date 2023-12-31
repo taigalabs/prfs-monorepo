@@ -44,14 +44,14 @@ $leftbar_width: 284px;
 }
 
 .main {
-  padding: 16px 16px 20px;
+  padding: 16px 8px 20px;
   flex-grow: 1;
 }
 
 .title {
   font-size: 24px;
   padding-bottom: 20px;
-  padding-left: 8px;
+  padding-left: 34px;
   color: var(--gray-23);
 }
 
@@ -62,5 +62,13 @@ $leftbar_width: 284px;
 
   .leftBarDrawerContainer {
     display: block;
+  }
+
+  .main {
+    padding: 16px 16px 20px;
+  }
+
+  .title {
+    padding-left: 8px;
   }
 }
