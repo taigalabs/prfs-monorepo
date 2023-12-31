@@ -29,6 +29,7 @@
   .msg {
     min-width: 520px;
     max-width: 530px;
+    /* display: flex; */
 
     span {
       display: inline-block;
@@ -93,7 +94,30 @@
     /* pointer-events: none; */
   }
 
+  .form {
+    padding: 0px 0px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    word-wrap: break-word;
+    overflow: hidden;
+  }
+
   .btnRow {
+    position: relative;
+    display: flex;
+    /* justify-content: flex-end; */
+    /* margin-top: 28px; */
+
+    .spinnerWrapper {
+      position: absolute;
+      left: 0;
+      right: 0;
+      margin-left: auto;
+      margin-right: auto;
+      width: 40px;
+    }
+
     .createBtn {
       display: flex;
       align-items: center;
@@ -117,6 +141,10 @@
         background-color: var(--bright-blue-50);
       }
 
+      &:disabled {
+        /* color: var(--bright-blue-15); */
+      }
+
       > svg {
         font-size: 16px;
         margin-right: 4px;
@@ -128,6 +156,42 @@
       height: 36px;
     }
   }
+}
+
+.progressWrapper {
+  display: flex;
+
+  .progressRow {
+    display: flex;
+
+    &:not(:last-child)::after {
+      content: ",";
+      margin-right: 5px;
+    }
+  }
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  width: 100%;
+  color: var(--gray-30);
+  font-size: 12px;
+
+  /* border: 1px solid red; */
+
+  .msg {
+    text-align: center;
+  }
+}
+
+.errorMsg {
+  color: var(--red-50);
+}
+
+.inProgress {
+  background-color: var(--blue-10);
 }
 
 .metaArea {
@@ -150,6 +214,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    /* border-bottom: 1px solid var(--bright-gray-32); */
 
     .moduleWrapper {
       border: none;
@@ -165,6 +230,10 @@
     .msg {
       min-width: 0px;
     }
+  }
+
+  .modulePadding {
+    display: none;
   }
 
   .metaArea {
