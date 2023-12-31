@@ -11,8 +11,8 @@ export interface StorageMsg<T> {
   value: string;
 }
 
-export interface RequestSignInPayload {
-  storageKey: string;
+export interface RequestPayload {
+  appId: string;
 }
 
 export interface SignInSuccessPayload {
@@ -50,5 +50,5 @@ type MsgPayload<T extends PrfsIdMsgType> = //
     : T extends "COMMITMENT_SUCCESS"
     ? StorageMsg<CommitmentSuccessPayload>
     : T extends "REQUEST_SIGN_IN"
-    ? RequestSignInPayload
+    ? RequestPayload
     : null;

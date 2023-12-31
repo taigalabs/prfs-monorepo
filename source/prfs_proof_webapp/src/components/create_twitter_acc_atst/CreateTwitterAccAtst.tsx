@@ -208,7 +208,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       }
 
       const resp = await sendMsgToChild(
-        newPrfsIdMsg("REQUEST_SIGN_IN", { storageKey: commitmentArgs.publicKey }),
+        newPrfsIdMsg("REQUEST_SIGN_IN", { appId: commitmentArgs.appId }),
         prfsEmbedRef.current,
       );
       if (resp) {

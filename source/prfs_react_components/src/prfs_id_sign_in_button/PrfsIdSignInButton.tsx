@@ -76,7 +76,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
       }
 
       const resp = await sendMsgToChild(
-        newPrfsIdMsg("REQUEST_SIGN_IN", { storageKey: appSignInArgs.publicKey }),
+        newPrfsIdMsg("REQUEST_SIGN_IN", { appId: appSignInArgs.appId }),
         prfsEmbedRef.current,
       );
       if (resp) {

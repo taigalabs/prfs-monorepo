@@ -63,14 +63,14 @@ export function usePrfsEmbed({ appId, prfsEmbedEndpoint }: CreateEmbeddedElemArg
           appId,
           prfsEmbedEndpoint,
         });
-
         prfsEmbedRef.current = el;
 
         if (!listenerRef.current) {
           const listener = await setupChildMsgHandler();
           listenerRef.current = listener.current;
-          setIsReady(true);
         }
+        setIsReady(true);
+
         // Unlock mutex
         isInProgressRef.current = false;
       }
