@@ -1,6 +1,5 @@
 import React from "react";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
 
 import styles from "./CircuitInputs.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -16,7 +15,6 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
   formErrors,
   setFormValues,
   setFormErrors,
-  // proofGenElement,
 }) => {
   const i18n = React.useContext(i18nContext);
 
@@ -35,10 +33,6 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
   );
 
   const circuitInputsElem = React.useMemo(() => {
-    // if (!proofGenElement) {
-    //   return null;
-    // }
-
     const entriesElem = [];
     for (const [idx, input] of circuitInputs.entries()) {
       switch (input.type) {
@@ -143,5 +137,4 @@ export interface CircuitInputsProps {
   formErrors: Record<string, string>;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
-  // proofGenElement: ProofGenElement | null;
 }

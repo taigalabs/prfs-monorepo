@@ -1,6 +1,5 @@
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { ethers } from "ethers";
-import { Msg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitInputType } from "@taigalabs/prfs-entities/bindings/CircuitInputType";
 import { HashData } from "@/components/hash_input/HashInput";
