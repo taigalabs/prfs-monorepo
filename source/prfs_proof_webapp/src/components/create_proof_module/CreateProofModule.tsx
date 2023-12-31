@@ -246,10 +246,11 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       <div className={cn(styles.main, { [styles.isTutorial]: isTutorial })}>
         <div className={styles.moduleArea}>
           <div className={styles.moduleWrapper}>
-            <div>
+            <div className={styles.desc}>
               <p className={styles.numberIcon}>
                 <TbNumbers />
               </p>
+              <p>{i18n.create_proof_desc}</p>
             </div>
             <div className={styles.btnRow}>
               {status === Status.Loading && <div className={styles.overlay} />}

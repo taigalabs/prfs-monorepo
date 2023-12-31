@@ -62,24 +62,32 @@
   /* border: 1px solid blue; */
 
   .moduleWrapper {
-    /* min-width: 384px; */
-    /* max-width: 448px; */
     width: 360px;
     overflow: hidden;
     position: relative;
     padding: 22px 16px;
-
     border: 1px solid var(--bright-gray-30);
     border-radius: 7px;
   }
 
-  .loaderBarWrapper {
-    position: absolute;
-    top: 0px;
-    left: 0;
-    right: 0;
+  .desc {
+    display: flex;
+    color: var(--gray-34);
+    line-height: 20px;
+    margin-bottom: 8px;
+  }
 
-    /* border: 1px solid red; */
+  .numberIcon {
+    background-color: var(--bright-blue-52);
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 6px;
+    font-size: 24px;
+    color: var(--blue-120);
+    margin-right: 12px;
+    flex-shrink: 0;
   }
 
   .overlay {

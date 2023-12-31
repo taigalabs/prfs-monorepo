@@ -155,6 +155,7 @@ export default {
   select_proof_type: "Select a proof type",
   configuration: "Configuration",
   create_proof_type: "Create proof type",
+  create_proof_desc: "Create an undeniable proof while only selectively disclosing the information",
   create_set_element: "Create set element",
   create_proof_instance_subtitle:
     "Proofs allow you to make an undeniable, anonymous claim. Start by choosing a specific proof type you want to make",
