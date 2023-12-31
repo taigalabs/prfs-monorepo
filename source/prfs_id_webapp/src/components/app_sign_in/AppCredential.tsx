@@ -22,6 +22,7 @@ import {
   DefaultModuleBtnRow,
   DefaultModuleHeader,
   DefaultModuleTitle,
+  DefaultTopLabel,
 } from "@/components/default_module/DefaultModule";
 import SignInInputs, { PrfsSignInData } from "./SignInInputs";
 
@@ -140,7 +141,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
           <Spinner color="#1b62c0" />
         </div>
       )}
-      <div className={styles.signInWithPrfsId}>{i18n.sign_in_with_prfs_id}</div>
+      <DefaultTopLabel>{i18n.sign_in_with_prfs_id}</DefaultTopLabel>
       <DefaultInnerPadding>
         <div className={styles.main}>
           <DefaultModuleHeader noTopPadding>

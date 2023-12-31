@@ -101,9 +101,9 @@ export const DefaultInnerPadding: React.FC<DefaultModuleInputAreaProps> = ({
   );
 };
 
-// export const DefaultWithPrfsId: React.FC<DefaultModuleInputAreaProps> = ({ children }) => {
-//   return <div className={styles.signInWithPrfsId}>{children}</div>;
-// };
+export const DefaultTopLabel: React.FC<DefaultModuleInputAreaProps> = ({ children }) => {
+  return <div className={styles.topLabel}>{children}</div>;
+};
 
 export const DefaultModule: React.FC<DefaultModuleInputAreaProps> = ({ children }) => {
   return <div className={styles.wrapper}>{children}</div>;

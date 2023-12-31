@@ -21,13 +21,13 @@ import { useMutation } from "@tanstack/react-query";
 import styles from "./CommitmentView.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
-  SignInErrorMsg,
-  SignInInnerPadding,
-  SignInModuleBtnRow,
-  SignInModuleHeader,
-  SignInModuleTitle,
-  SignInWithPrfsId,
-} from "@/components/sign_in_module/SignInModule";
+  DefaultErrorMsg,
+  DefaultInnerPadding,
+  DefaultModuleBtnRow,
+  DefaultModuleHeader,
+  DefaultModuleTitle,
+  DefaultTopLabel,
+} from "@/components/default_module/DefaultModule";
 import { CommitmentItem, CommitmentItemList } from "./CommitmentItem";
 
 enum Status {
@@ -146,14 +146,14 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
           <Spinner color="#1b62c0" />
         </div>
       )}
-      <SignInWithPrfsId>{i18n.sign_in_with_prfs_id}</SignInWithPrfsId>
-      <SignInInnerPadding>
-        <SignInModuleHeader noTopPadding>
-          <SignInModuleTitle>
+      <DefaultTopLabel>{i18n.sign_in_with_prfs_id}</DefaultTopLabel>
+      <DefaultInnerPadding>
+        <DefaultModuleHeader noTopPadding>
+          <DefaultModuleTitle>
             <span className={styles.blueText}>{commitmentArgs.appId}</span> wants you to submit
             commitment (s)
-          </SignInModuleTitle>
-        </SignInModuleHeader>
+          </DefaultModuleTitle>
+        </DefaultModuleHeader>
         <div className={styles.prfsId}>
           <p>{credential.id}</p>
         </div>
@@ -162,7 +162,7 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
           <p className={styles.title}>Make sure you trust {commitmentArgs.appId} app</p>
           <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
         </div>
-        <SignInModuleBtnRow className={styles.btnRow}>
+        <DefaultModuleBtnRow className={styles.btnRow}>
           <Button variant="transparent_blue_2" noTransition handleClick={handleClickPrev}>
             {i18n.go_back}
           </Button>
@@ -176,9 +176,9 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
           >
             {i18n.submit}
           </Button>
-        </SignInModuleBtnRow>
-        <SignInErrorMsg>{errorMsg}</SignInErrorMsg>
-      </SignInInnerPadding>
+        </DefaultModuleBtnRow>
+        <DefaultErrorMsg>{errorMsg}</DefaultErrorMsg>
+      </DefaultInnerPadding>
     </>
   ) : (
     <div>Loading...</div>
