@@ -3,15 +3,13 @@ use colored::Colorize;
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    build_cmd::{
+    build_cmd::tasks::{
+        build_js_dependencies::BuildJsDependenciesTask,
         build_prfs_crypto_js::BuildPrfsCryptoJsTask,
-        tasks::{
-            build_js_dependencies::BuildJsDependenciesTask,
-            build_prfs_driver_spartan_js::BuildPrfsDriverSpartanJsTask,
-            build_prfs_driver_spartan_wasm::BuildPrfsDriverSpartanWasmTask,
-            build_prfs_entities_ts_binding::BuildPrfsEntitiesTSBindingTask,
-            compile_circuits::CompileCircuitsTask, run_tasks::run_tasks, task::BuildTask,
-        },
+        build_prfs_driver_spartan_js::BuildPrfsDriverSpartanJsTask,
+        build_prfs_driver_spartan_wasm::BuildPrfsDriverSpartanWasmTask,
+        build_prfs_entities_ts_binding::BuildPrfsEntitiesTSBindingTask,
+        compile_circuits::CompileCircuitsTask, run_tasks::run_tasks, task::BuildTask,
     },
     build_handle::BuildHandle,
     paths::PATHS,

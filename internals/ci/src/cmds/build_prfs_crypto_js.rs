@@ -1,11 +1,13 @@
 use clap::ArgMatches;
 
 use crate::{
-    build_cmd::{
+    build_cmd::tasks::{
         build_prfs_crypto_js::BuildPrfsCryptoJsTask, run_tasks::run_tasks, task::BuildTask,
     },
     build_handle::BuildHandle,
 };
+
+pub const CMD_NAME: &str = "build_prfs_crypto_js";
 
 pub fn run(sub_matches: &ArgMatches, timestamp: &String) {
     let build_handle = BuildHandle {

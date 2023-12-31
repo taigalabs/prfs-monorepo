@@ -1,5 +1,7 @@
 use crate::{
-    build_cmd::{compile_circuits::CompileCircuitsTask, run_tasks::run_tasks, task::BuildTask},
+    build_cmd::tasks::{
+        compile_circuits::CompileCircuitsTask, run_tasks::run_tasks, task::BuildTask,
+    },
     build_handle::BuildHandle,
     CiError,
 };
