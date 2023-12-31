@@ -30,7 +30,7 @@ export enum SignInStatus {
   Standby,
 }
 
-const PrfsIdAppSignIn: React.FC = () => {
+const AppSignIn: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const [signInStatus, setSignInStatus] = React.useState(SignInStatus.Loading);
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
@@ -138,4 +138,4 @@ const PrfsIdAppSignIn: React.FC = () => {
   );
 };
 
-export default PrfsIdAppSignIn;
+export default AppSignIn;
