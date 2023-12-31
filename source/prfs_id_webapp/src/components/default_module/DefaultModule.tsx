@@ -2,9 +2,9 @@ import React, { HTMLInputTypeAttribute } from "react";
 import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
 import cn from "classnames";
 
-import styles from "./SignInModule.module.scss";
+import styles from "./DefaultModule.module.scss";
 
-export const SignInModuleLogoArea: React.FC = () => {
+export const DefaultModuleLogoArea: React.FC = () => {
   return (
     <div className={styles.logoArea}>
       <ImageLogo width={46} />
@@ -13,7 +13,7 @@ export const SignInModuleLogoArea: React.FC = () => {
   );
 };
 
-export const SignInModuleHeader: React.FC<PrfsIdSignInModuleInputAreaProps> = ({
+export const DefaultModuleHeader: React.FC<DefaultModuleInputAreaProps> = ({
   children,
   noTopPadding,
 }) => {
@@ -22,37 +22,34 @@ export const SignInModuleHeader: React.FC<PrfsIdSignInModuleInputAreaProps> = ({
   );
 };
 
-export const SignInModuleTitle: React.FC<PrfsIdSignInModuleInputAreaProps> = ({ children }) => {
+export const DefaultModuleTitle: React.FC<DefaultModuleInputAreaProps> = ({ children }) => {
   return <div className={styles.title}>{children}</div>;
 };
 
-export const SignInModuleSubtitle: React.FC<PrfsIdSignInModuleInputAreaProps> = ({ children }) => {
+export const DefaultModuleSubtitle: React.FC<DefaultModuleInputAreaProps> = ({ children }) => {
   return <div className={styles.subtitle}>{children}</div>;
 };
 
-export const SignInModuleInputArea: React.FC<PrfsIdSignInModuleInputAreaProps> = ({ children }) => {
+export const DefaultModuleInputArea: React.FC<DefaultModuleInputAreaProps> = ({ children }) => {
   return <div className={styles.inputArea}>{children}</div>;
 };
 
-export const SignInModuleFooter: React.FC<PrfsIdSignInModuleInputAreaProps> = ({ children }) => {
+export const DefaultModuleFooter: React.FC<DefaultModuleInputAreaProps> = ({ children }) => {
   return <div className={styles.footer}>{children}</div>;
 };
 
-export const SignInErrorMsg: React.FC<PrfsIdSignInModuleInputAreaProps> = ({
-  children,
-  className,
-}) => {
+export const DefaultErrorMsg: React.FC<DefaultModuleInputAreaProps> = ({ children, className }) => {
   return <div className={cn(styles.error, className)}>{children}</div>;
 };
 
-export const SignInModuleBtnRow: React.FC<PrfsIdSignInModuleInputAreaProps> = ({
+export const DefaultModuleBtnRow: React.FC<DefaultModuleInputAreaProps> = ({
   children,
   className,
 }) => {
   return <div className={cn(styles.btnRow, className)}>{children}</div>;
 };
 
-export const SignInInputItem: React.FC<PrfsIdSignInModuleInputProps> = ({
+export const DefaultInputItem: React.FC<DefaultModuleInputProps> = ({
   className,
   name,
   value,
@@ -82,18 +79,18 @@ export const SignInInputItem: React.FC<PrfsIdSignInModuleInputProps> = ({
   );
 };
 
-export const SignInInputGuide: React.FC<PrfsIdSignInModuleInputAreaProps> = ({
+export const DefaultInputGuide: React.FC<DefaultModuleInputAreaProps> = ({
   children,
   className,
 }) => {
   return <div className={cn(styles.inputGuide, className)}>{children}</div>;
 };
 
-export const SignInForm: React.FC<PrfsIdSignInModuleInputAreaProps> = ({ children }) => {
+export const DefaultForm: React.FC<DefaultModuleInputAreaProps> = ({ children }) => {
   return <form className={styles.form}>{children}</form>;
 };
 
-export const SignInInnerPadding: React.FC<PrfsIdSignInModuleInputAreaProps> = ({
+export const DefaultInnerPadding: React.FC<DefaultModuleInputAreaProps> = ({
   children,
   noSidePadding,
 }) => {
@@ -104,22 +101,22 @@ export const SignInInnerPadding: React.FC<PrfsIdSignInModuleInputAreaProps> = ({
   );
 };
 
-export const SignInWithPrfsId: React.FC<PrfsIdSignInModuleInputAreaProps> = ({ children }) => {
+export const DefaultWithPrfsId: React.FC<DefaultModuleInputAreaProps> = ({ children }) => {
   return <div className={styles.signInWithPrfsId}>{children}</div>;
 };
 
-export const SignInModule: React.FC<PrfsIdSignInModuleInputAreaProps> = ({ children }) => {
+export const DefaultModule: React.FC<DefaultModuleInputAreaProps> = ({ children }) => {
   return <div className={styles.wrapper}>{children}</div>;
 };
 
-export interface PrfsIdSignInModuleInputAreaProps {
+export interface DefaultModuleInputAreaProps {
   className?: string;
   noTopPadding?: boolean;
   noSidePadding?: boolean;
   children: React.ReactNode;
 }
 
-export interface PrfsIdSignInModuleInputProps {
+export interface DefaultModuleInputProps {
   className?: string;
   name?: string;
   value: string;
