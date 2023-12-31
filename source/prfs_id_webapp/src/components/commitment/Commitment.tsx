@@ -36,8 +36,6 @@ const Commitment: React.FC = () => {
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const searchParams = useSearchParams();
   const [step, setStep] = React.useState(CommitmentStep.PrfsIdCredential);
-  // const [publicKey, setPublicKey] = React.useState<string | null>(null);
-  // const [appId, setAppId] = React.useState<string | null>(null);
   const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
   const commitmentArgs = React.useMemo(() => {
     try {
@@ -53,8 +51,6 @@ const Commitment: React.FC = () => {
   });
 
   React.useEffect(() => {
-    // const publicKey = searchParams.get("public_key");
-    // const appId = searchParams.get("app_id");
     if (commitmentArgs) {
       const { publicKey, appId } = commitmentArgs;
 
@@ -68,8 +64,6 @@ const Commitment: React.FC = () => {
         if (isPrfsReady) {
           setStatus(Status.Standby);
         }
-        // setPublicKey(publicKey);
-        // setAppId(appId);
       }
     }
   }, [searchParams, setStatus, setErrorMsg, setStep, commitmentArgs, isPrfsReady]);
@@ -93,9 +87,6 @@ const Commitment: React.FC = () => {
   );
 
   const content = React.useMemo(() => {
-    // if (!appId || !publicKey) {
-    //   return null;
-    // }
     if (!commitmentArgs) {
       return null;
     }
@@ -112,8 +103,6 @@ const Commitment: React.FC = () => {
             <CommitmentView
               credential={credential}
               commitmentArgs={commitmentArgs}
-              // appId={appId}
-              // publicKey={publicKey}
               handleClickPrev={handleClickPrev}
               prfsEmbedRef={prfsEmbedRef}
             />

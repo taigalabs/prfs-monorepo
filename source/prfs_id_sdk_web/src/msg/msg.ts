@@ -32,7 +32,8 @@ export type PrfsIdMsgType =
   | "SIGN_IN_SUCCESS_ACK"
   | "COMMITMENT_SUCCESS"
   | "COMMITMENT_SUCCESS_ACK"
-  | "REQUEST_SIGN_IN";
+  | "REQUEST_SIGN_IN"
+  | "ERROR";
 
 export function newPrfsIdMsg<T extends PrfsIdMsgType>(
   type: PrfsIdMsgType,
@@ -44,6 +45,17 @@ export function newPrfsIdMsg<T extends PrfsIdMsgType>(
   };
 }
 
+export function newPrfsIdErrorMsg<T extends PrfsIdMsgType>(
+  type: PrfsIdMsgType,
+  payload: MsgPayload<T>,
+): PrfsIdMsg<any> {
+  return {
+    type,
+    error: payload,
+    payload: null,
+  };
+}
+
 type MsgPayload<T extends PrfsIdMsgType> = //
   T extends "SIGN_IN_SUCCESS"
     ? StorageMsg<SignInSuccessPayload>
@@ -51,4 +63,6 @@ type MsgPayload<T extends PrfsIdMsgType> = //
     ? StorageMsg<CommitmentSuccessPayload>
     : T extends "REQUEST_SIGN_IN"
     ? RequestPayload
+    : T extends "ERROR"
+    ? any
     : null;

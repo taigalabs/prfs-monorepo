@@ -9,6 +9,7 @@ import {
   CommitmentArgs,
   sendMsgToChild,
   newPrfsIdMsg,
+  newPrfsIdErrorMsg,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt } from "eciesjs";
@@ -36,8 +37,6 @@ enum Status {
 
 const CommitmentView: React.FC<CommitmentViewProps> = ({
   handleClickPrev,
-  // appId,
-  // publicKey,
   commitmentArgs,
   credential,
   prfsEmbedRef,
@@ -59,20 +58,7 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
   React.useEffect(() => {
     async function fn() {
       try {
-        // const cms = searchParams.get("cms");
-        // console.log("cms", cms);
-
         if (commitmentArgs) {
-          // const d = decodeURIComponent(cms);
-
-          // let data: CommitmentData[];
-          // try {
-          //   data = JSON.parse(d);
-          // } catch (err) {
-          //   console.error("failed to parse cms, obj: %s, err: %s", d, err);
-          //   return;
-          // }
-
           let elems = [];
           let receipt: Record<string, string> = {};
           for (const cm of commitmentArgs.cms) {
@@ -83,7 +69,7 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
               const sigBytes = sig.toCompactRawBytes();
               const hashed = await poseidon_2(sigBytes);
               const hashedHex = hexlify(hashed);
-              // receipt[name] = hashedHex;
+              receipt[name] = hashedHex;
               elems.push(
                 <CommitmentItem
                   key={name}
@@ -96,7 +82,6 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
             }
           }
 
-          // const listElem = <CommitmentItemList>{elems}</CommitmentItemList>;
           setCommitmentReceipt(receipt);
           setCommitmentElems(elems);
         }
@@ -135,7 +120,7 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
       const encrypted = JSON.stringify(
         encrypt(commitmentArgs.publicKey, Buffer.from(JSON.stringify(payload))),
       );
-      console.log("Encrypted credential", encrypted);
+      console.log("receipt: %o, encrypted", commitmentReceipt, encrypted);
 
       try {
         await sendMsgToChild(
@@ -146,10 +131,11 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
           }),
           prfsEmbedRef.current,
         );
-
-        // await sendMsgToOpener(msg);
-        // window.close();
-      } catch (err: any) {}
+      } catch (err: any) {
+        await sendMsgToChild(newPrfsIdErrorMsg("ERROR", err.toString()), prfsEmbedRef.current);
+        console.error(err);
+      }
+      window.close();
     }
   }, [searchParams, commitmentArgs, credential, setErrorMsg, commitmentReceipt]);
 
@@ -203,8 +189,6 @@ export default CommitmentView;
 
 export interface CommitmentViewProps {
   handleClickPrev: () => void;
-  // appId: string;
-  // publicKey: string;
   credential: PrfsIdCredential;
   commitmentArgs: CommitmentArgs | null;
   prfsEmbedRef: React.MutableRefObject<HTMLIFrameElement | null>;

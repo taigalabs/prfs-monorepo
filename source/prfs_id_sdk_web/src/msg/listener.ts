@@ -54,6 +54,7 @@ export function setupParentMsgHandler(queue: MessageQueue) {
 
       if (data.type) {
         switch (data.type) {
+          // inbound
           case "REQUEST_SIGN_IN": {
             if (data.payload) {
               const { appId } = data.payload as RequestPayload;
@@ -67,6 +68,7 @@ export function setupParentMsgHandler(queue: MessageQueue) {
             break;
           }
 
+          // outbound
           case "COMMITMENT_SUCCESS": {
             if (data.payload) {
               const payload = data.payload as StorageMsg<CommitmentSuccessPayload>;
@@ -77,6 +79,18 @@ export function setupParentMsgHandler(queue: MessageQueue) {
             ev.ports[0].postMessage(true);
             break;
           }
+
+          // case "ERROR": {
+          //   console.error(data.payload);
+          //   if (data.payload) {
+          //     const payload = data.payload as StorageMsg<CommitmentSuccessPayload>;
+          //     dispatchStorageMsg(payload);
+          //   } else {
+          //     console.error("msg doesn't contain payload");
+          //   }
+          //   ev.ports[0].postMessage(true);
+          //   break;
+          // }
 
           case "SIGN_IN_SUCCESS": {
             if (data.payload) {

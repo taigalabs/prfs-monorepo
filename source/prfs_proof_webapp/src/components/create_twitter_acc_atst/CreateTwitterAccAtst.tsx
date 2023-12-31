@@ -212,9 +212,9 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
         prfsEmbedRef.current,
       );
       if (resp) {
+        console.log(33, resp);
         try {
           const buf = parseBuffer(resp);
-          // handleSucceedSignIn(buf);
           let decrypted: string;
           try {
             decrypted = decrypt(sk.secret, buf).toString();
@@ -246,26 +246,6 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
         console.error("Returned val is empty");
       }
     });
-
-    // const appId = "prfs_proof";
-    // const listener = initChannel({
-    //   appId,
-    //   prfsIdEndpoint: envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT,
-    // });
-    // console.log("listener", listener);
-    // getCommitment({
-    //   prfsIdEndpoint: `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id}`,
-    //   appId,
-    //   sk,
-    //   pkHex,
-    //   preImage: claimSecret,
-    //   cms: {
-    //     [CLAIM]: {
-    //       val: claimSecret,
-    //       type: CommitmentType.SIG_POSEIDON_1,
-    //     },
-    //   },
-    // });
   }, [formData, step, claimSecret, sk, pkHex, openPopup, setClaimCm, setStep]);
 
   const handleClickValidate = React.useCallback(async () => {

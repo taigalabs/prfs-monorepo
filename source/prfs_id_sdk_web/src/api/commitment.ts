@@ -1,26 +1,3 @@
-import { decrypt, PrivateKey } from "eciesjs";
-
-import { API_PATH } from "../api_path";
-
-// export function getCommitment({
-//   prfsIdEndpoint,
-//   appId,
-//   preImage,
-//   sk,
-//   pkHex,
-//   cms,
-// }: GetCommitmentArgs) {
-//   const nonce = Math.random() * 1000000;
-//   const cmsStr = encodeURIComponent(JSON.stringify(cms));
-//   const queryString = `?public_key=${pkHex}&app_id=${appId}&nonce=${nonce}&cms=${cmsStr}`;
-//   const endpoint = `${prfsIdEndpoint}${API_PATH.commitment}${queryString}`;
-//   // setPrfsIdSignInEndpoint(prfsIdEndpoint);
-
-//   if (endpoint) {
-//     window.open(endpoint, "_blank", "toolbar=0,location=0,menubar=0");
-//   }
-// }
-//
 export function makeCommitmentSearchParams(args: CommitmentArgs): string {
   const { nonce, appId, cms, publicKey } = args;
   const _cms = encodeURIComponent(JSON.stringify(cms));

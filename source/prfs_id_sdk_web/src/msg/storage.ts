@@ -18,6 +18,7 @@ export function dispatchStorageMsg(msg: StorageMsg<any>) {
 
 export async function setupStorageListener(messageQueue: MessageQueue) {
   async function listener(ev: StorageEvent) {
+    console.log(11, ev);
     if (ev.key) {
       const port = messageQueue.dequeue(ev.key);
       if (port) {
