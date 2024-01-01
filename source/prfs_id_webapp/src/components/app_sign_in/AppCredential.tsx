@@ -141,7 +141,6 @@ const AppCredential: React.FC<AppCredentialProps> = ({
           <Spinner color="#1b62c0" />
         </div>
       )}
-      {/* <DefaultTopLabel>{i18n.sign_in_with_prfs_id}</DefaultTopLabel> */}
       <DefaultInnerPadding>
         <div className={styles.main}>
           <DefaultModuleHeader noTopPadding>
