@@ -12,7 +12,6 @@
 .driverMsg {
   display: flex;
   flex-direction: column;
-  // margin: 20px 0 34px;
   padding-bottom: 12px;
   width: 100%;
   color: var(--gray-30);
@@ -41,6 +40,10 @@
   }
 }
 
+.item {
+  display: flex;
+}
+
 .main {
   display: flex;
   flex-direction: row-reverse;
@@ -62,7 +65,7 @@
   padding: 22px 20px;
 
   border: 1px solid var(--bright-gray-30);
-  border-radius: 7px;
+  border-radius: 6px;
 }
 
 .loaderBarWrapper {
