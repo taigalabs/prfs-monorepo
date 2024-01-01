@@ -8,12 +8,23 @@
 }
 
 .inputTitleRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 14px;
+  /* display: flex; */
+  /* justify-content: space-between; */
+  /* align-items: center; */
+  /* font-size: 14px; */
   color: var(--black-27);
   padding: 0 2px 3px;
+  font-size: 13px;
+}
+
+.inputTitle {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  font-weight: 500;
+}
+
+.btnRow {
 }
 
 .inputWrapper {
@@ -47,13 +58,6 @@
 
     // border: 1px solid red;
   }
-}
-
-.inputTitle {
-  display: flex;
-  flex-grow: 1;
-  align-items: center;
-  font-size: 14px;
 }
 
 .formError {
