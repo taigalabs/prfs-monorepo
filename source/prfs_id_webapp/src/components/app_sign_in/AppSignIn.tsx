@@ -45,10 +45,7 @@ const AppSignIn: React.FC = () => {
       return null;
     }
   }, [searchParams]);
-  const { prfsEmbedRef, isReady: isPrfsReady } = usePrfsEmbed({
-    appId: "prfs_id",
-    prfsEmbedEndpoint: envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT,
-  });
+  const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
 
   React.useEffect(() => {
     if (appSignInArgs) {
@@ -103,7 +100,7 @@ const AppSignIn: React.FC = () => {
               credential={credential}
               appSignInArgs={appSignInArgs}
               handleClickPrev={handleClickPrev}
-              prfsEmbedRef={prfsEmbedRef}
+              prfsEmbed={prfsEmbed}
             />
           )
         );
