@@ -10,6 +10,7 @@ import {
   sendMsgToChild,
   newPrfsIdMsg,
   newPrfsIdErrorMsg,
+  CommitmentQuery,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt } from "@taigalabs/prfs-crypto-js";
@@ -37,9 +38,9 @@ enum Status {
 
 const CommitmentView: React.FC<CommitmentViewProps> = ({
   handleClickPrev,
-  commitmentArgs,
+  query,
   credential,
-  prfsEmbed,
+  // prfsEmbed,
 }) => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
@@ -53,44 +54,60 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
   const [commitmentReceipt, setCommitmentReceipt] = React.useState<Record<string, string> | null>(
     null,
   );
-  const [commitmentElems, setCommitmentElems] = React.useState<React.ReactNode>(null);
+  const [elem, setElem] = React.useState<React.ReactNode>(null);
 
   React.useEffect(() => {
     async function fn() {
       try {
-        if (commitmentArgs) {
-          let elems = [];
-          let receipt: Record<string, string> = {};
-          for (const cm of commitmentArgs.cms) {
-            const { name, preImage, type } = cm;
+        // let elems = [];
+        let receipt: Record<string, string> = {};
+        // for (const cm of commitmentArgs.cms) {
+        //   const { name, preImage, type } = cm;
 
-            if (type === CommitmentType.SIG_POSEIDON_1) {
-              const sig = await prfsSign(credential.secret_key, preImage);
-              const sigBytes = sig.toCompactRawBytes();
-              const hashed = await poseidon_2(sigBytes);
-              const hashedHex = hexlify(hashed);
-              receipt[name] = hashedHex;
-              elems.push(
-                <CommitmentItem
-                  key={name}
-                  name={name}
-                  val={preImage}
-                  type={type}
-                  hashedHex={hashedHex}
-                />,
-              );
-            }
-          }
+        //   if (type === CommitmentType.SIG_POSEIDON_1) {
+        //     const sig = await prfsSign(credential.secret_key, preImage);
+        //     const sigBytes = sig.toCompactRawBytes();
+        //     const hashed = await poseidon_2(sigBytes);
+        //     const hashedHex = hexlify(hashed);
+        //     receipt[name] = hashedHex;
+        //     elems.push(
+        //       <CommitmentItem
+        //         key={name}
+        //         name={name}
+        //         val={preImage}
+        //         type={type}
+        //         hashedHex={hashedHex}
+        //       />,
+        //     );
+        //   }
+        // }
 
-          setCommitmentReceipt(receipt);
-          setCommitmentElems(elems);
+        const { name, preImage, type } = query;
+        if (type === CommitmentType.SIG_POSEIDON_1) {
+          const sig = await prfsSign(credential.secret_key, preImage);
+          const sigBytes = sig.toCompactRawBytes();
+          const hashed = await poseidon_2(sigBytes);
+          const hashedHex = hexlify(hashed);
+          receipt[name] = hashedHex;
+          setElem(
+            <CommitmentItem
+              key={name}
+              name={name}
+              val={preImage}
+              type={type}
+              hashedHex={hashedHex}
+            />,
+          );
         }
+
+        setCommitmentReceipt(receipt);
+        setElem(elem);
       } catch (err) {
         console.error(err);
       }
     }
     fn().then();
-  }, [searchParams, setCommitmentReceipt, setCommitmentElems, commitmentArgs]);
+  }, [searchParams, setCommitmentReceipt, setElem, query]);
 
   React.useEffect(() => {
     if (commitmentReceipt) {
@@ -98,91 +115,91 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
     }
   }, [setStatus, commitmentReceipt]);
 
-  const handleClickSubmit = React.useCallback(async () => {
-    if (commitmentArgs && credential && prfsEmbed) {
-      const { payload: _signInRequestPayload, error } = await prfsIdentitySignInRequest({
-        identity_id: credential.id,
-      });
+  // const handleClickSubmit = React.useCallback(async () => {
+  //   if (commitmentArgs && credential && prfsEmbed) {
+  //     const { payload: _signInRequestPayload, error } = await prfsIdentitySignInRequest({
+  //       identity_id: credential.id,
+  //     });
 
-      if (error) {
-        setErrorMsg(error);
-        return;
-      }
+  //     if (error) {
+  //       setErrorMsg(error);
+  //       return;
+  //     }
 
-      if (!commitmentReceipt) {
-        setErrorMsg("no commitment receipt");
-        return;
-      }
+  //     if (!commitmentReceipt) {
+  //       setErrorMsg("no commitment receipt");
+  //       return;
+  //     }
 
-      const payload: CommitmentSuccessPayload = {
-        receipt: commitmentReceipt,
-      };
-      const encrypted = JSON.stringify(
-        encrypt(commitmentArgs.publicKey, Buffer.from(JSON.stringify(payload))),
-      );
-      console.log("receipt: %o, encrypted", commitmentReceipt, encrypted);
+  //     const payload: CommitmentSuccessPayload = {
+  //       receipt: commitmentReceipt,
+  //     };
+  //     const encrypted = JSON.stringify(
+  //       encrypt(commitmentArgs.publicKey, Buffer.from(JSON.stringify(payload))),
+  //     );
+  //     console.log("receipt: %o, encrypted", commitmentReceipt, encrypted);
 
-      try {
-        await sendMsgToChild(
-          newPrfsIdMsg("COMMITMENT_SUCCESS", {
-            appId: commitmentArgs.appId,
-            key: commitmentArgs.publicKey,
-            value: encrypted,
-          }),
-          prfsEmbed,
-        );
-      } catch (err: any) {
-        await sendMsgToChild(newPrfsIdErrorMsg("ERROR", err.toString()), prfsEmbed);
-        console.error(err);
-      }
-      window.close();
-    }
-  }, [searchParams, commitmentArgs, credential, setErrorMsg, commitmentReceipt]);
+  //     try {
+  //       await sendMsgToChild(
+  //         newPrfsIdMsg("COMMITMENT_SUCCESS", {
+  //           appId: commitmentArgs.appId,
+  //           key: commitmentArgs.publicKey,
+  //           value: encrypted,
+  //         }),
+  //         prfsEmbed,
+  //       );
+  //     } catch (err: any) {
+  //       await sendMsgToChild(newPrfsIdErrorMsg("ERROR", err.toString()), prfsEmbed);
+  //       console.error(err);
+  //     }
+  //     window.close();
+  //   }
+  // }, [searchParams, commitmentArgs, credential, setErrorMsg, commitmentReceipt]);
 
-  return commitmentArgs ? (
-    <>
-      {status === Status.Loading && (
-        <div className={styles.overlay}>
-          <Spinner color="#1b62c0" />
-        </div>
-      )}
-      <DefaultTopLabel>{i18n.sign_in_with_prfs_id}</DefaultTopLabel>
-      <DefaultInnerPadding>
-        <DefaultModuleHeader noTopPadding>
-          <DefaultModuleTitle>
-            <span className={styles.blueText}>{commitmentArgs.appId}</span> wants you to submit
-            commitment (s)
-          </DefaultModuleTitle>
-        </DefaultModuleHeader>
-        <div className={styles.prfsId}>
-          <p>{credential.id}</p>
-        </div>
-        <CommitmentItemList>{commitmentElems}</CommitmentItemList>
-        <div className={styles.dataWarning}>
-          <p className={styles.title}>Make sure you trust {commitmentArgs.appId} app</p>
-          <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
-        </div>
-        <DefaultModuleBtnRow className={styles.btnRow}>
-          <Button variant="transparent_blue_2" noTransition handleClick={handleClickPrev}>
-            {i18n.go_back}
-          </Button>
-          <Button
-            type="button"
-            variant="blue_2"
-            className={styles.signInBtn}
-            noTransition
-            handleClick={handleClickSubmit}
-            noShadow
-          >
-            {i18n.submit}
-          </Button>
-        </DefaultModuleBtnRow>
-        <DefaultErrorMsg>{errorMsg}</DefaultErrorMsg>
-      </DefaultInnerPadding>
-    </>
-  ) : (
-    <div>Loading...</div>
-  );
+  // return (
+  //   <>
+  //     {status === Status.Loading && (
+  //       <div className={styles.overlay}>
+  //         <Spinner color="#1b62c0" />
+  //       </div>
+  //     )}
+  //     <DefaultTopLabel>{i18n.sign_in_with_prfs_id}</DefaultTopLabel>
+  //     <DefaultInnerPadding>
+  //       <DefaultModuleHeader noTopPadding>
+  //         <DefaultModuleTitle>
+  //           <span className={styles.blueText}>{commitmentArgs.appId}</span> wants you to submit
+  //           commitment (s)
+  //         </DefaultModuleTitle>
+  //       </DefaultModuleHeader>
+  //       <div className={styles.prfsId}>
+  //         <p>{credential.id}</p>
+  //       </div>
+  //       <CommitmentItemList>{commitmentElems}</CommitmentItemList>
+  //       <div className={styles.dataWarning}>
+  //         <p className={styles.title}>Make sure you trust {commitmentArgs.appId} app</p>
+  //         <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
+  //       </div>
+  //       <DefaultModuleBtnRow className={styles.btnRow}>
+  //         <Button variant="transparent_blue_2" noTransition handleClick={handleClickPrev}>
+  //           {i18n.go_back}
+  //         </Button>
+  //         <Button
+  //           type="button"
+  //           variant="blue_2"
+  //           className={styles.signInBtn}
+  //           noTransition
+  //           handleClick={handleClickSubmit}
+  //           noShadow
+  //         >
+  //           {i18n.submit}
+  //         </Button>
+  //       </DefaultModuleBtnRow>
+  //       <DefaultErrorMsg>{errorMsg}</DefaultErrorMsg>
+  //     </DefaultInnerPadding>
+  //   </>
+  // );
+
+  return elem ? elem : <div></div>;
 };
 
 export default CommitmentView;
@@ -190,6 +207,7 @@ export default CommitmentView;
 export interface CommitmentViewProps {
   handleClickPrev: () => void;
   credential: PrfsIdCredential;
-  commitmentArgs: CommitmentArgs | null;
-  prfsEmbed: HTMLIFrameElement | null;
+  // commitmentArgs: CommitmentArgs | null;
+  query: CommitmentQuery;
+  // prfsEmbed: HTMLIFrameElement | null;
 }

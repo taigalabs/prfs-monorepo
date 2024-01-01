@@ -18,6 +18,7 @@ import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import SignIn from "@/components/sign_in/SignIn";
 import CommitmentView from "./CommitmentView";
 import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
+import CommitmentView2 from "./CommitmentView2";
 
 enum CommitmentStep {
   PrfsIdCredential,
@@ -95,7 +96,7 @@ const Commitment: React.FC = () => {
       case CommitmentStep.CommitmentView: {
         return (
           credential && (
-            <CommitmentView
+            <CommitmentView2
               credential={credential}
               commitmentArgs={commitmentArgs}
               handleClickPrev={handleClickPrev}
