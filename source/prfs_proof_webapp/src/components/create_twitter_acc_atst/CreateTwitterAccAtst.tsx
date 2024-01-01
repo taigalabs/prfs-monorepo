@@ -20,6 +20,8 @@ import {
   CommitmentArgs,
   API_PATH,
   parseBuffer,
+  makeProofGenSearchParams,
+  ProofGenArgs,
 } from "@taigalabs/prfs-id-sdk-web";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
@@ -39,7 +41,7 @@ import { paths } from "@/paths";
 
 const TWITTER_HANDLE = "twitter_handle";
 const TWEET_URL = "tweet_url";
-const CLAIM = "claim";
+const CLAIM = "twitter_acc_atst";
 
 enum AttestationStep {
   INPUT_TWITTER_HANDLE = 0,
@@ -133,10 +135,24 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
   );
 
   const handleClickGenerate = React.useCallback(() => {
-    const commitmentArgs: CommitmentArgs = {
+    // const commitmentArgs: CommitmentArgs = {
+    //   nonce: Math.random() * 1000000,
+    //   appId: "prfs_proof",
+    //   cms: [
+    //     {
+    //       name: CLAIM,
+    //       preImage: claimSecret,
+    //       type: CommitmentType.SIG_POSEIDON_1,
+    //       queryType: "cm",
+    //     },
+    //   ],
+    //   publicKey: pkHex,
+    // };
+
+    const proofGenArgs: ProofGenArgs = {
       nonce: Math.random() * 1000000,
       appId: "prfs_proof",
-      cms: [
+      queries: [
         {
           name: CLAIM,
           preImage: claimSecret,
@@ -147,8 +163,10 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       publicKey: pkHex,
     };
 
-    const searchParams = makeCommitmentSearchParams(commitmentArgs);
-    const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.commitment}${searchParams}`;
+    // const searchParams = makeCommitmentSearchParams(commitmentArgs);
+    const searchParams = makeProofGenSearchParams(proofGenArgs);
+    // const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.commitment}${searchParams}`;
+    const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
     openPopup(endpoint, async () => {
       if (!prfsEmbed || !isPrfsReady) {
@@ -156,7 +174,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       }
 
       const resp = await sendMsgToChild(
-        newPrfsIdMsg("REQUEST_SIGN_IN", { appId: commitmentArgs.appId }),
+        newPrfsIdMsg("REQUEST_SIGN_IN", { appId: proofGenArgs.appId }),
         prfsEmbed,
       );
       if (resp) {

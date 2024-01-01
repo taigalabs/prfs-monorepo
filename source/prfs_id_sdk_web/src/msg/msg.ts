@@ -24,6 +24,10 @@ export interface CommitmentSuccessPayload {
   receipt: Record<string, string>;
 }
 
+export interface ProofGenSuccessPayload {
+  result: Record<string, string>;
+}
+
 export type PrfsIdMsgType =
   //
   | "HANDSHAKE"
@@ -32,6 +36,8 @@ export type PrfsIdMsgType =
   | "SIGN_IN_SUCCESS_ACK"
   | "COMMITMENT_SUCCESS"
   | "COMMITMENT_SUCCESS_ACK"
+  | "PROOF_GEN_SUCCESS"
+  | "PROOF_GEN_SUCCESS_ACK"
   | "REQUEST_SIGN_IN"
   | "REQUEST_PROOF_GEN"
   | "ERROR";
@@ -62,6 +68,8 @@ type MsgPayload<T extends PrfsIdMsgType> = //
     ? StorageMsg<SignInSuccessPayload>
     : T extends "COMMITMENT_SUCCESS"
     ? StorageMsg<CommitmentSuccessPayload>
+    : T extends "PROOF_GEN_SUCCESS"
+    ? StorageMsg<ProofGenSuccessPayload>
     : T extends "REQUEST_SIGN_IN"
     ? RequestPayload
     : T extends "REQUEST_PROOF_GEN"

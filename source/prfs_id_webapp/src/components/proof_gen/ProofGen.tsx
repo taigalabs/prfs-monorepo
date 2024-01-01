@@ -17,11 +17,12 @@ import {
 import { envs } from "@/envs";
 import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import SignIn from "@/components/sign_in/SignIn";
+import ProofGenForm from "./ProofGenForm";
 // import CommitmentView from "./CommitmentView";
 
 enum ProofGenStep {
   PrfsIdCredential,
-  CommitmentView,
+  Form,
 }
 
 export enum Status {
@@ -77,7 +78,7 @@ const ProofGen: React.FC = () => {
     (credential: PrfsIdCredential) => {
       if (credential) {
         setCredential(credential);
-        setStep(ProofGenStep.CommitmentView);
+        setStep(ProofGenStep.Form);
       }
     },
     [setCredential, setStep],
@@ -92,18 +93,18 @@ const ProofGen: React.FC = () => {
       case ProofGenStep.PrfsIdCredential: {
         return <SignIn appId={proofGenArgs.appId} handleSucceedSignIn={handleSucceedSignIn} />;
       }
-      // case CommitmentStep.CommitmentView: {
-      //   return (
-      //     credential && (
-      //       <CommitmentView
-      //         credential={credential}
-      //         commitmentArgs={commitmentArgs}
-      //         handleClickPrev={handleClickPrev}
-      //         prfsEmbed={prfsEmbed}
-      //       />
-      //     )
-      //   );
-      // }
+      case ProofGenStep.Form: {
+        return credential ? (
+          <ProofGenForm
+            credential={credential}
+            proofGenArgs={proofGenArgs}
+            handleClickPrev={handleClickPrev}
+            prfsEmbed={prfsEmbed}
+          />
+        ) : (
+          <div>Invalid access. Credential does not exist</div>
+        );
+      }
       default:
         <div>Invalid step</div>;
     }
