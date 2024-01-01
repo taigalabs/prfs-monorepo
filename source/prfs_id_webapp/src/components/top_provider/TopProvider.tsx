@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Provider as StateProvider } from "react-redux";
+import { Provider as ReduxProvider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PrfsReactComponentsI18NProvider } from "@taigalabs/prfs-react-components/src/i18n/i18nContext";
 import { WagmiConfig, configureChains, createConfig, mainnet } from "wagmi";
@@ -39,9 +39,9 @@ const TopProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     <QueryClientProvider client={queryClient}>
       <WagmiConfig config={wagmiConfig}>
         <PrfsReactComponentsI18NProvider>
-          <StateProvider store={store}>
+          <ReduxProvider store={store}>
             <I18nProvider>{children}</I18nProvider>
-          </StateProvider>
+          </ReduxProvider>
         </PrfsReactComponentsI18NProvider>
       </WagmiConfig>
     </QueryClientProvider>
