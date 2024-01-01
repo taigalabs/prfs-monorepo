@@ -217,7 +217,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
 
   return (
     <>
-      <DefaultTopLabel>{i18n.sign_in_with_prfs_id}</DefaultTopLabel>
+      {/* <DefaultTopLabel>{i18n.sign_in_with_prfs_id}</DefaultTopLabel> */}
       <DefaultInnerPadding noSidePadding>
         <DefaultModuleHeader noTopPadding>
           <DefaultModuleTitle>{i18n.choose_account}</DefaultModuleTitle>

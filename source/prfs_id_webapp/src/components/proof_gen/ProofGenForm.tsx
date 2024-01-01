@@ -172,7 +172,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           <Spinner color="#1b62c0" />
         </div>
       )}
-      <DefaultTopLabel>{i18n.sign_in_with_prfs_id}</DefaultTopLabel>
+      {/* <DefaultTopLabel>{i18n.create_data_with_prfs_id}</DefaultTopLabel> */}
       <DefaultInnerPadding>
         <DefaultModuleHeader noTopPadding>
           <DefaultModuleTitle>

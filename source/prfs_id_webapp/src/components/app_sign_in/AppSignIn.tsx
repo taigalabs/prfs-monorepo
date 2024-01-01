@@ -12,6 +12,7 @@ import {
   DefaultModule,
   DefaultForm,
   DefaultModuleFooter,
+  DefaultTopLabel,
 } from "@/components/default_module/DefaultModule";
 import { envs } from "@/envs";
 import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
@@ -121,6 +122,7 @@ const AppSignIn: React.FC = () => {
         {signInStatus === SignInStatus.Error && (
           <PrfsIdErrorDialog errorMsg={errorMsg} handleClose={handleCloseErrorDialog} />
         )}
+        <DefaultTopLabel>{i18n.sign_in_with_prfs_id}</DefaultTopLabel>
         {content}
       </DefaultForm>
       <DefaultModuleFooter>

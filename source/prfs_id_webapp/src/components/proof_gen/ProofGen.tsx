@@ -13,6 +13,7 @@ import {
   DefaultModule,
   DefaultForm,
   DefaultModuleFooter,
+  DefaultTopLabel,
 } from "@/components/default_module/DefaultModule";
 import { envs } from "@/envs";
 import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
@@ -121,6 +122,7 @@ const ProofGen: React.FC = () => {
         {status === Status.Error && (
           <PrfsIdErrorDialog errorMsg={errorMsg} handleClose={handleCloseErrorDialog} />
         )}
+        <DefaultTopLabel>{i18n.create_data_with_prfs_id}</DefaultTopLabel>
         {content}
       </DefaultForm>
       <DefaultModuleFooter>

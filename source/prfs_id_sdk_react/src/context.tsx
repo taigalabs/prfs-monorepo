@@ -41,7 +41,6 @@ export const PrfsEmbedProvider: React.FC<PrfsEmbedProviderProps> = ({
     fn().then();
   }, [setPrfsEmbed, setListener]);
 
-  // return <>{children}</>;
   return (
     <PrfsEmbedContext.Provider value={{ prfsEmbed, isReady: !!listener, appId }}>
       {children}
