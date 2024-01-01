@@ -50,12 +50,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     }
     return false;
   }, [searchParams]);
-  const { prfsEmbedRef, isReady: isPrfsReady } = usePrfsEmbed({
-    appId: "prfs_proof11",
-    prfsEmbedEndpoint: envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT,
-  });
-
-  console.log(11, isPrfsReady);
+  const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
 
   const handleClickCreateProof = React.useCallback(async () => {
     // const args: ProofGenArgs = {
@@ -99,13 +94,13 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
     openPopup(endpoint, async () => {
-      if (!prfsEmbedRef.current || !isPrfsReady) {
+      if (!prfsEmbed || !isPrfsReady) {
         return;
       }
 
       const resp = await sendMsgToChild(
         newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: proofGenArgs.appId }),
-        prfsEmbedRef.current,
+        prfsEmbed,
       );
 
       // if (resp) {
@@ -151,7 +146,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
 
   React.useEffect(() => {
     async function fn() {
-      console.log(11133, isPrfsReady);
       if (isPrfsReady) {
         setStatus(Status.Standby);
       }

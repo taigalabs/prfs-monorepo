@@ -11,6 +11,8 @@ import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 
 import { I18nProvider } from "@/i18n/context";
 import { store } from "@/state/store";
+import { PrfsEmbedProvider } from "@taigalabs/prfs-id-sdk-react/src/context";
+import { envs } from "@/envs";
 
 const queryClient = new QueryClient();
 
@@ -39,9 +41,14 @@ const TopProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     <QueryClientProvider client={queryClient}>
       <WagmiConfig config={wagmiConfig}>
         <PrfsReactComponentsI18NProvider>
-          <StateProvider store={store}>
-            <I18nProvider>{children}</I18nProvider>
-          </StateProvider>
+          <PrfsEmbedProvider
+            appId="prfs_proof"
+            prfsEmbedEndpoint={envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT}
+          >
+            <StateProvider store={store}>
+              <I18nProvider>{children}</I18nProvider>
+            </StateProvider>
+          </PrfsEmbedProvider>
         </PrfsReactComponentsI18NProvider>
       </WagmiConfig>
     </QueryClientProvider>

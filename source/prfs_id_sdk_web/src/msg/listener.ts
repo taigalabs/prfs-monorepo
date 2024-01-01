@@ -33,7 +33,7 @@ export function setupChildMsgHandler() {
             }
             default:
               console.error(`invalid msg type, ${data.type}`);
-              reject();
+              reject(childListenerRef);
           }
         }
       }

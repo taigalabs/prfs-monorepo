@@ -1,26 +1,24 @@
 import React from "react";
-import {
-  createEmbeddedElem,
-  CreateEmbeddedElemArgs,
-  ListenerRef,
-  setupChildMsgHandler,
-} from "@taigalabs/prfs-id-sdk-web";
+import { createEmbeddedElem, ListenerRef, setupChildMsgHandler } from "@taigalabs/prfs-id-sdk-web";
 
-export const PrfsEmbedContext = React.createContext<PrfsEmbedContextType>({ childRef: null });
+export const PrfsEmbedContext = React.createContext<PrfsEmbedContextType>({
+  appId: null,
+  prfsEmbed: null,
+  isReady: false,
+});
 
 export const PrfsEmbedProvider: React.FC<PrfsEmbedProviderProps> = ({
   appId,
-  children,
   prfsEmbedEndpoint,
+  children,
 }) => {
-  // return <i18nContext.Provider value={en}>{children}</i18nContext.Provider>;
-  const [childRef, setChildRef] = React.useState<HTMLIFrameElement | null>(null);
   const isInProgressRef = React.useRef(false);
-  const prfsEmbedRef = React.useRef<HTMLIFrameElement | null>(null);
+  const [prfsEmbed, setPrfsEmbed] = React.useState<HTMLIFrameElement | null>(null);
+  const [listener, setListener] = React.useState<ListenerRef | null>(null);
 
   React.useEffect(() => {
     async function fn() {
-      if (!prfsEmbedRef.current && isInProgressRef.current === false) {
+      if (!prfsEmbed && isInProgressRef.current === false) {
         // Lock mutex
         isInProgressRef.current = true;
 
@@ -28,22 +26,27 @@ export const PrfsEmbedProvider: React.FC<PrfsEmbedProviderProps> = ({
           appId,
           prfsEmbedEndpoint,
         });
-        prfsEmbedRef.current = el;
+        setPrfsEmbed(el);
 
-        // if (!listenerRef.current) {
-        //   const listener = await setupChildMsgHandler();
-        //   listenerRef.current = listener.current;
-        // }
+        if (!listener) {
+          const listener = await setupChildMsgHandler();
+          setListener(listener);
+          console.log("Attached prfs embed listener, appId: %s", appId);
+        }
 
         // Unlock mutex
         isInProgressRef.current = false;
       }
     }
     fn().then();
-  }, []);
+  }, [setPrfsEmbed, setListener]);
 
   // return <>{children}</>;
-  return <PrfsEmbedContext.Provider value={{ childRef }}>{children}</PrfsEmbedContext.Provider>;
+  return (
+    <PrfsEmbedContext.Provider value={{ prfsEmbed, isReady: !!listener, appId }}>
+      {children}
+    </PrfsEmbedContext.Provider>
+  );
 };
 
 export interface PrfsEmbedProviderProps {
@@ -53,5 +56,7 @@ export interface PrfsEmbedProviderProps {
 }
 
 export interface PrfsEmbedContextType {
-  childRef: HTMLIFrameElement | null;
+  prfsEmbed: HTMLIFrameElement | null;
+  isReady: boolean;
+  appId: string | null;
 }

@@ -5,6 +5,7 @@ import {
   ListenerRef,
   setupChildMsgHandler,
 } from "@taigalabs/prfs-id-sdk-web";
+import { PrfsEmbedContext } from "./context";
 
 const listenerRef: ListenerRef = {
   current: null,
@@ -48,7 +49,11 @@ export function usePopup() {
   return { isOpen, openPopup };
 }
 
-export function usePrfsEmbed({ appId, prfsEmbedEndpoint }: CreateEmbeddedElemArgs) {
+export function usePrfsEmbed() {
+  return React.useContext(PrfsEmbedContext);
+}
+
+export function usePrfsEmbed2({ appId, prfsEmbedEndpoint }: CreateEmbeddedElemArgs) {
   const isInProgressRef = React.useRef(false);
   const prfsEmbedRef = React.useRef<HTMLIFrameElement | null>(null);
   const [_, rerender] = React.useReducer(x => x + 1, 0);

@@ -26,26 +26,21 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   prfsEmbedEndpoint,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const { prfsEmbedRef, isReady: isPrfsReady } = usePrfsEmbed({
-    appId,
-    prfsEmbedEndpoint,
-  });
+  const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
   const { openPopup, isOpen } = usePopup();
-
-  console.log(22, isPrfsReady);
 
   const handleClickSignIn = React.useCallback(async () => {
     const searchParams = makeAppSignInSearchParams(appSignInArgs);
     const endpoint = `${prfsIdEndpoint}${API_PATH.app_sign_in}${searchParams}`;
 
     openPopup(endpoint, async () => {
-      if (!prfsEmbedRef.current || !isPrfsReady) {
+      if (!prfsEmbed || !isPrfsReady) {
         return;
       }
 
       const resp = await sendMsgToChild(
         newPrfsIdMsg("REQUEST_SIGN_IN", { appId: appSignInArgs.appId }),
-        prfsEmbedRef.current,
+        prfsEmbed,
       );
       if (resp) {
         try {

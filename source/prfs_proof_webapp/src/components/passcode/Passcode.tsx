@@ -1,7 +1,6 @@
 import React from "react";
 import cn from "classnames";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { Msg, sendMsgToParent } from "@taigalabs/prfs-sdk-web";
 import { FaSignature } from "@react-icons/all-files/fa/FaSignature";
 
 import styles from "./Passcode.module.scss";
