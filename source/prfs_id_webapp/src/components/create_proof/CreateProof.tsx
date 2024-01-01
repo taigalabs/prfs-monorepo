@@ -30,6 +30,7 @@ import CircuitInputs from "@/components/circuit_inputs/CircuitInputs";
 import { DefaultForm, DefaultModule } from "../default_module/DefaultModule";
 import { CreateProofQuery, PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 import { TbNumbers } from "@taigalabs/prfs-react-components/src/tabler_icons/TbNumbers";
+import { QueryItem, QueryItemLeftCol, QueryItemRightCol } from "../default_module/QueryItem";
 
 enum LoadDriverStatus {
   Standby,
@@ -206,12 +207,12 @@ const CreateProof: React.FC<CreateProofProps> = ({
 
   return (
     <>
-      <div className={styles.item}>
-        <div>
+      <QueryItem>
+        <QueryItemLeftCol>
           <TbNumbers />
-        </div>
-        <div className={styles.rightCol}>{query.name}</div>
-      </div>
+        </QueryItemLeftCol>
+        <QueryItemRightCol>{query.name}</QueryItemRightCol>
+      </QueryItem>
       <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
         <div className={cn(styles.main, { [styles.isTutorial]: isTutorial })}>
           <div className={styles.moduleWrapper}>
