@@ -21,24 +21,24 @@ import StoredCredentials from "./StoredCredentials";
 import CreateID from "@/components/create_id/CreateID";
 
 enum SignInStep {
+  Loading,
   CreateID,
   StoredCredentials,
   InputCredential,
 }
 
 export enum SignInStatus {
-  Loading,
-  Error,
+  InProgress,
   Standby,
 }
 
 const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => {
   const i18n = React.useContext(i18nContext);
-  const [signInStatus, setSignInStatus] = React.useState(SignInStatus.Loading);
+  // const [signInStatus, setSignInStatus] = React.useState(SignInStatus.InProgress);
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
-  const [step, setStep] = React.useState(SignInStep.InputCredential);
+  const [step, setStep] = React.useState(SignInStep.Loading);
   const [storedCredentials, setStoredCredentials] = React.useState<StoredCredentialRecord>({});
 
   React.useEffect(() => {
@@ -48,8 +48,10 @@ const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => 
     if (Object.keys(storedCredentials).length > 0) {
       setStep(SignInStep.StoredCredentials);
       setStoredCredentials(storedCredentials);
+    } else {
+      setStep(SignInStep.InputCredential);
     }
-  }, [setSignInStatus, setErrorMsg, setStep, setStoredCredentials]);
+  }, [setErrorMsg, setStep, setStoredCredentials]);
 
   const handleChangeValue = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,6 +90,9 @@ const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => 
 
   const content = React.useMemo(() => {
     switch (step) {
+      case SignInStep.Loading: {
+        return <div className={styles.loading}>Loading...</div>;
+      }
       case SignInStep.StoredCredentials: {
         return (
           <StoredCredentials

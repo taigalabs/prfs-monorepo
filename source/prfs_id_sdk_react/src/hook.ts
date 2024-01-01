@@ -35,6 +35,7 @@ export function usePopup() {
         if (popup.closed) {
           setIsOpen(false);
           clearInterval(timer);
+          closeTimerRef.current = null;
         }
       }, 4000);
       closeTimerRef.current = timer;

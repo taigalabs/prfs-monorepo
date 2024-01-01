@@ -28,7 +28,6 @@ enum ProofGenStep {
 
 export enum Status {
   Loading,
-  Error,
   Standby,
 }
 
@@ -54,10 +53,8 @@ const ProofGen: React.FC = () => {
       const { publicKey, appId } = proofGenArgs;
 
       if (!publicKey) {
-        setStatus(Status.Error);
         setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
       } else if (!appId) {
-        setStatus(Status.Error);
         setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
       } else {
         if (isPrfsReady) {
@@ -114,16 +111,15 @@ const ProofGen: React.FC = () => {
   return (
     <DefaultModule>
       <DefaultForm>
-        {status === Status.Loading && (
+        {errorMsg && <PrfsIdErrorDialog errorMsg={errorMsg} handleClose={handleCloseErrorDialog} />}
+        <DefaultTopLabel>{i18n.create_data_with_prfs_id}</DefaultTopLabel>
+        {status === Status.Loading ? (
           <div className={styles.overlay}>
             <Spinner color="#1b62c0" />
           </div>
+        ) : (
+          content
         )}
-        {status === Status.Error && (
-          <PrfsIdErrorDialog errorMsg={errorMsg} handleClose={handleCloseErrorDialog} />
-        )}
-        <DefaultTopLabel>{i18n.create_data_with_prfs_id}</DefaultTopLabel>
-        {content}
       </DefaultForm>
       <DefaultModuleFooter>
         <Link href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL}>
