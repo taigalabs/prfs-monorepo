@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
-import { PrfsIdCredential, parseCommitmentSearchParams } from "@taigalabs/prfs-id-sdk-web";
+import { PrfsIdCredential, parseProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web";
 import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
 import styles from "./ProofGen.module.scss";
@@ -19,7 +19,7 @@ import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import SignIn from "@/components/sign_in/SignIn";
 // import CommitmentView from "./CommitmentView";
 
-enum CommitmentStep {
+enum ProofGenStep {
   PrfsIdCredential,
   CommitmentView,
 }
@@ -35,11 +35,11 @@ const ProofGen: React.FC = () => {
   const [status, setStatus] = React.useState(Status.Loading);
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const searchParams = useSearchParams();
-  const [step, setStep] = React.useState(CommitmentStep.PrfsIdCredential);
+  const [step, setStep] = React.useState(ProofGenStep.PrfsIdCredential);
   const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
-  const commitmentArgs = React.useMemo(() => {
+  const proofGenArgs = React.useMemo(() => {
     try {
-      const args = parseCommitmentSearchParams(searchParams as URLSearchParams);
+      const args = parseProofGenSearchParams(searchParams as URLSearchParams);
       return args;
     } catch (err: any) {
       return null;
@@ -48,8 +48,8 @@ const ProofGen: React.FC = () => {
   const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
 
   React.useEffect(() => {
-    if (commitmentArgs) {
-      const { publicKey, appId } = commitmentArgs;
+    if (proofGenArgs) {
+      const { publicKey, appId } = proofGenArgs;
 
       if (!publicKey) {
         setStatus(Status.Error);
@@ -63,34 +63,34 @@ const ProofGen: React.FC = () => {
         }
       }
     }
-  }, [searchParams, setStatus, setErrorMsg, setStep, commitmentArgs, isPrfsReady]);
+  }, [searchParams, setStatus, setErrorMsg, setStep, proofGenArgs, isPrfsReady]);
 
   const handleCloseErrorDialog = React.useCallback(() => {
     window.close();
   }, []);
 
   const handleClickPrev = React.useCallback(() => {
-    setStep(CommitmentStep.PrfsIdCredential);
+    setStep(ProofGenStep.PrfsIdCredential);
   }, [setStep]);
 
   const handleSucceedSignIn = React.useCallback(
     (credential: PrfsIdCredential) => {
       if (credential) {
         setCredential(credential);
-        setStep(CommitmentStep.CommitmentView);
+        setStep(ProofGenStep.CommitmentView);
       }
     },
     [setCredential, setStep],
   );
 
   const content = React.useMemo(() => {
-    if (!commitmentArgs) {
+    if (!proofGenArgs) {
       return null;
     }
 
     switch (step) {
-      case CommitmentStep.PrfsIdCredential: {
-        return <SignIn appId={commitmentArgs.appId} handleSucceedSignIn={handleSucceedSignIn} />;
+      case ProofGenStep.PrfsIdCredential: {
+        return <SignIn appId={proofGenArgs.appId} handleSucceedSignIn={handleSucceedSignIn} />;
       }
       // case CommitmentStep.CommitmentView: {
       //   return (
@@ -107,7 +107,7 @@ const ProofGen: React.FC = () => {
       default:
         <div>Invalid step</div>;
     }
-  }, [step, commitmentArgs]);
+  }, [step, proofGenArgs]);
 
   return (
     <DefaultModule>

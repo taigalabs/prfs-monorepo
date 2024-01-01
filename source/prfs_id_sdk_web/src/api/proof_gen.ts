@@ -1,6 +1,9 @@
+import { CommitmentQuery } from "./commitment";
+
 export function makeProofGenSearchParams(args: ProofGenArgs): string {
   const { nonce, appId, queries, publicKey } = args;
-  const queryString = `?public_key=${publicKey}&queries=${queries}&app_id=${appId}&nonce=${nonce}`;
+  const q = encodeURIComponent(JSON.stringify(queries));
+  const queryString = `?public_key=${publicKey}&queries=${q}&app_id=${appId}&nonce=${nonce}`;
   return queryString;
 }
 
@@ -46,4 +49,10 @@ export interface ProofGenArgs {
   publicKey: string;
 }
 
-export interface ProofGenQuery {}
+export type ProofGenQuery = CommitmentQuery | CreateProofQuery;
+
+export interface CreateProofQuery {
+  name: string;
+  proofTypeId: string;
+  queryType: "prf";
+}

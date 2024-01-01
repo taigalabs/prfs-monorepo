@@ -20,7 +20,7 @@ export function usePopup() {
   const [isOpen, setIsOpen] = React.useState(false);
   const closeTimerRef = React.useRef<NodeJS.Timer | null>(null);
 
-  function openPopup(endpoint: string, callback: (...args: any) => Promise<any>) {
+  function openPopup(endpoint: string, callback: (popup: Window) => Promise<any>) {
     // Open the window
     setIsOpen(true);
     const popup = window.open(endpoint, "_blank", "toolbar=0,location=0,menubar=0");
@@ -40,7 +40,7 @@ export function usePopup() {
       closeTimerRef.current = timer;
     }
 
-    callback().then(() => {
+    callback(popup).then(() => {
       popup.close();
       setIsOpen(false);
     });
