@@ -143,7 +143,6 @@ const ProofGen: React.FC<ProofGenProps> = (
         const since = dayjs();
 
         function handleDriverEv(ev: DriverEvent) {
-          console.log("123123", ev);
           const { type, payload } = ev;
 
           if (!proofType) {
