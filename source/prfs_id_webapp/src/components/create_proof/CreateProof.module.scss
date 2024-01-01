@@ -12,7 +12,8 @@
 .driverMsg {
   display: flex;
   flex-direction: column;
-  margin: 20px 0 34px;
+  // margin: 20px 0 34px;
+  padding-bottom: 12px;
   width: 100%;
   color: var(--gray-30);
   font-size: 14px;
@@ -46,80 +47,78 @@
   justify-content: flex-end;
 }
 
-.moduleArea {
-  padding: 0px 20px;
-  flex-grow: 1;
-  margin-left: 48px;
+// .moduleArea {
+//   padding: 0px 20px;
+//   flex-grow: 1;
+//   margin-left: 48px;
 
-  /* border: 1px solid blue; */
+//   /* border: 1px solid blue; */
+// }
 
-  .moduleWrapper {
-    min-width: 384px;
-    max-width: 448px;
-    overflow: hidden;
-    position: relative;
-    padding: 22px 20px;
+.moduleWrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  padding: 22px 20px;
 
-    border: 1px solid var(--bright-gray-30);
-    border-radius: 7px;
-  }
-
-  /* .loaderBarWrapper { */
-  /*   position: absolute; */
-  /*   top: 0px; */
-  /*   left: 0; */
-  /*   right: 0; */
-
-  /*   /* border: 1px solid red; */
-  /* } */
-
-  .overlay {
-    position: absolute;
-    display: grid;
-    place-items: center;
-    inset: 0;
-    margin-top: 3px;
-    background-color: rgba(255, 255, 255, 0.5);
-    z-index: 5;
-  }
-
-  .form {
-    padding: 0px 0px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    word-wrap: break-word;
-    overflow: hidden;
-  }
-
-  .btnRow {
-    position: relative;
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 28px;
-
-    .spinnerWrapper {
-      position: absolute;
-      left: 0;
-      right: 0;
-      margin-left: auto;
-      margin-right: auto;
-      width: 40px;
-    }
-
-    .createBtn {
-      font-size: 13px;
-      padding: 0 12px;
-      height: 34px;
-    }
-
-    button {
-      font-weight: 500;
-      height: 36px;
-    }
-  }
+  border: 1px solid var(--bright-gray-30);
+  border-radius: 7px;
 }
 
+.loaderBarWrapper {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  right: 0;
+
+  /* border: 1px solid red; */
+}
+
+.overlay {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  inset: 0;
+  margin-top: 3px;
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: 5;
+}
+
+.form {
+  padding: 0px 0px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  word-wrap: break-word;
+  overflow: hidden;
+}
+
+.btnRow {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 28px;
+
+  .spinnerWrapper {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40px;
+  }
+
+  .createBtn {
+    font-size: 13px;
+    padding: 0 12px;
+    height: 34px;
+  }
+
+  button {
+    font-weight: 500;
+    height: 36px;
+  }
+}
 .progressWrapper {
   display: flex;
 
@@ -156,7 +155,7 @@
   background-color: var(--blue-10);
 }
 
-@media screen and (max-width: 1120px) {
+@media screen and (max-width: 480px) {
   .main {
     flex-direction: column;
     align-items: center;
@@ -171,19 +170,18 @@
     display: flex;
     justify-content: center;
     border-bottom: 1px solid var(--bright-gray-32);
+  }
 
-    .moduleWrapper {
-      border: none;
-      min-width: 0;
-      padding: 8px 10px;
-      width: 100%;
-    }
+  .moduleWrapper {
+    border: none;
+    min-width: 0;
+    padding: 8px 10px;
+    width: 100%;
   }
 
   .driverMsg {
     margin: 12px 0 12px;
     padding: 0 10px;
-    /* align-items: center; */
 
     .msg {
       min-width: 0px;
