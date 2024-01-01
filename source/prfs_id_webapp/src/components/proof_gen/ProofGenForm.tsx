@@ -177,14 +177,13 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         <DefaultModuleHeader noTopPadding>
           <DefaultModuleTitle>
             <span className={styles.blueText}>{proofGenArgs.appId}</span> wants you to submit
-            commitment (s)
+            information
           </DefaultModuleTitle>
         </DefaultModuleHeader>
         <div className={styles.prfsId}>
           <p>{credential.id}</p>
         </div>
         <div className={styles.queryItemList}>{queryElems}</div>
-        {/* <CommitmentItemList>{commitmentElems}</CommitmentItemList> */}
         <div className={styles.dataWarning}>
           <p className={styles.title}>Make sure you trust {proofGenArgs.appId} app</p>
           <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>

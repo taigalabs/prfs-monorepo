@@ -105,8 +105,6 @@ const CreateProof: React.FC<CreateProofProps> = ({
     return false;
   }, [searchParams]);
 
-  console.log(123);
-
   const handleClickCreateProof = React.useCallback(async () => {
     // if (proofGenElement) {
     //   try {
@@ -140,57 +138,59 @@ const CreateProof: React.FC<CreateProofProps> = ({
 
   React.useEffect(() => {
     async function fn() {
-      // const proofType = data?.payload?.prfs_proof_type;
-      // console.log(11, proofType);
-      // if (proofType) {
-      //   const since = dayjs();
-      //   function handleDriverEv(ev: DriverEvent) {
-      //     const { type, payload } = ev;
-      //     if (!proofType) {
-      //       return;
-      //     }
-      //     if (type === "LOAD_DRIVER_EVENT") {
-      //       if (payload.asset_label && payload.progress) {
-      //         setLoadDriverProgress(oldVal => ({
-      //           ...oldVal,
-      //           [payload.asset_label!]: payload.progress,
-      //         }));
-      //       }
-      //     }
-      //     if (type === "LOAD_DRIVER_SUCCESS") {
-      //       const now = dayjs();
-      //       const diff = now.diff(since, "seconds", true);
-      //       const { artifactCount } = payload;
-      //       setDriverMsg(
-      //         <>
-      //           <span>Circuit driver </span>
-      //           <a
-      //             href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${proofType.circuit_driver_id}`}
-      //           >
-      //             {proofType.circuit_driver_id} <BiLinkExternal />
-      //           </a>
-      //           <span>
-      //             ({diff} seconds, {artifactCount} artifacts)
-      //           </span>
-      //         </>,
-      //       );
-      //       setLoadDriverStatus(LoadDriverStatus.Standby);
-      //     }
-      //     if (type === "CREATE_PROOF_EVENT") {
-      //       setSystemMsg(payload.payload);
-      //     }
-      //   }
-      //   const driverProperties = interpolateSystemAssetEndpoint(
-      //     proofType.driver_properties,
-      //     `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
-      //   );
-      //   setLoadDriverStatus(LoadDriverStatus.InProgress);
-      //   await initCircuitDriver(proofType.circuit_driver_id, driverProperties, handleDriverEv);
-      // }
+      const proofType = data?.payload?.prfs_proof_type;
+      console.log(11, proofType);
+      if (proofType) {
+        const since = dayjs();
+        function handleDriverEv(ev: DriverEvent) {
+          const { type, payload } = ev;
+          console.log(4, ev);
+
+          if (!proofType) {
+            return;
+          }
+          if (type === "LOAD_DRIVER_EVENT") {
+            if (payload.asset_label && payload.progress) {
+              setLoadDriverProgress(oldVal => ({
+                ...oldVal,
+                [payload.asset_label!]: payload.progress,
+              }));
+            }
+          }
+          if (type === "LOAD_DRIVER_SUCCESS") {
+            const now = dayjs();
+            const diff = now.diff(since, "seconds", true);
+            const { artifactCount } = payload;
+            setDriverMsg(
+              <>
+                <span>Circuit driver </span>
+                <a
+                  href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${proofType.circuit_driver_id}`}
+                >
+                  {proofType.circuit_driver_id} <BiLinkExternal />
+                </a>
+                <span>
+                  ({diff} seconds, {artifactCount} artifacts)
+                </span>
+              </>,
+            );
+            setLoadDriverStatus(LoadDriverStatus.Standby);
+          }
+          if (type === "CREATE_PROOF_EVENT") {
+            setSystemMsg(payload.payload);
+          }
+        }
+        const driverProperties = interpolateSystemAssetEndpoint(
+          proofType.driver_properties,
+          `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
+        );
+        setLoadDriverStatus(LoadDriverStatus.InProgress);
+        await initCircuitDriver(proofType.circuit_driver_id, driverProperties, handleDriverEv);
+      }
     }
     fn().then();
   }, [
-    // data?.payload,
+    data,
     setCreateProofStatus,
     setLoadDriverProgress,
     setLoadDriverStatus,
