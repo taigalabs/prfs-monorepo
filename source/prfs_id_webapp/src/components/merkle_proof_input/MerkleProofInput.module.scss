@@ -5,7 +5,7 @@
   width: 100%;
 
   .addressInput {
-    padding-right: 70px;
+    /* padding-right: 70px; */
   }
 }
 
@@ -51,8 +51,10 @@
   font-weight: 500;
   color: var(--aqua-blue-50);
   cursor: pointer;
-  /* font-size: 13px; */
-  /* padding: 6px 4px; */
+
+  &:hover {
+    color: var(--aqua-blue-40);
+  }
 }
 
 @media screen and (max-width: 480px) {

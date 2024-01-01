@@ -242,7 +242,6 @@ const CreateProof: React.FC<CreateProofProps> = ({
             <div className={styles.form}>
               <CircuitInputs
                 circuitInputs={proofType.circuit_inputs as CircuitInput[]}
-                // proofGenElement={proofGenElement} */}
                 formValues={formValues}
                 setFormValues={setFormValues}
                 formErrors={formErrors}

@@ -225,7 +225,6 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
             value={walletAddr}
             readOnly
           />
-          <div className={styles.btnGroup}></div>
         </div>
         {value && <ComputedValue value={value} />}
       </InputWrapper>

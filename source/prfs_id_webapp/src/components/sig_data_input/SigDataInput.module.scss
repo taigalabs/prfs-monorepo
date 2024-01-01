@@ -22,9 +22,14 @@
     cursor: pointer;
     color: var(--blue-30);
   }
+}
 
-  .signBtn {
-    font-size: 13px;
-    padding: 6px 4px;
+.signBtn {
+  color: var(--aqua-blue-50);
+  cursor: pointer;
+  font-weight: 500;
+
+  &:hover {
+    color: var(--aqua-blue-40);
   }
 }
