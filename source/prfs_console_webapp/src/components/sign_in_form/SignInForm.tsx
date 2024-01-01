@@ -1,5 +1,5 @@
 import React from "react";
-import { useConnect, metamaskWallet } from "@thirdweb-dev/react";
+// import { useConnect, metamaskWallet } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
 import { useRouter } from "next/navigation";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
@@ -14,11 +14,11 @@ import { paths } from "@/paths";
 import { useAppDispatch } from "@/state/hooks";
 import { signIn } from "@/state/userReducer";
 
-const metamaskConfig = metamaskWallet();
+// const metamaskConfig = metamaskWallet();
 
 const SignInForm: React.FC<SignInFormProps> = () => {
   const i18n = React.useContext(i18nContext);
-  const connect = useConnect();
+  // const connect = useConnect();
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -61,27 +61,24 @@ const SignInForm: React.FC<SignInFormProps> = () => {
 
   const handleClickSignIn = React.useCallback(() => {
     async function fn() {
-      const wallet = await connect(metamaskConfig);
-      const signer = await wallet.getSigner();
-      const walletAddr = await wallet.getAddress();
-
-      try {
-        let { payload } = await doSignIn(walletAddr, passhash, signer);
-
-        if (payload) {
-          dispatch(
-            signIn({
-              prfsAccount: payload.prfs_account,
-              walletAddr,
-            }),
-          );
-
-          router.push(paths.__);
-        }
-      } catch (err) {
-        console.log(err);
-        setSignInAlert((err as string).toString());
-      }
+      // const wallet = await connect(metamaskConfig);
+      // const signer = await wallet.getSigner();
+      // const walletAddr = await wallet.getAddress();
+      // try {
+      //   let { payload } = await doSignIn(walletAddr, passhash, signer);
+      //   if (payload) {
+      //     dispatch(
+      //       signIn({
+      //         prfsAccount: payload.prfs_account,
+      //         walletAddr,
+      //       }),
+      //     );
+      //     router.push(paths.__);
+      //   }
+      // } catch (err) {
+      //   console.log(err);
+      //   setSignInAlert((err as string).toString());
+      // }
     }
 
     fn().then();

@@ -5,7 +5,6 @@ import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import LoaderBar from "@taigalabs/prfs-react-components/src/loader_bar/LoaderBar";
-// import { PrfsSDK, sendMsgToChild } from "@taigalabs/prfs-sdk-web";
 import dayjs from "dayjs";
 import cn from "classnames";
 import { useSearchParams } from "next/navigation";
@@ -13,7 +12,6 @@ import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
 import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
-// import { ProofGenEvent } from "@taigalabs/prfs-sdk-web/src/elems/proof_gen/types";
 import { ProofGenArgs, makeProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web/proof_gen";
 import { PopupStatus, usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 import { API_PATH, newPrfsIdMsg, parseBuffer, sendMsgToChild } from "@taigalabs/prfs-id-sdk-web";
@@ -25,35 +23,14 @@ import { validateInputs } from "@/functions/validate_inputs";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
-// import CircuitInputs from "./CircuitInputs";
 import { useRandomKeyPair } from "@/hooks/key";
 import { TbMathPi } from "@taigalabs/prfs-react-components/src/tabler_icons/TbMathPi";
 import { TbNumbers } from "@taigalabs/prfs-react-components/src/tabler_icons/TbNumbers";
-
-// const prfsSDK = new PrfsSDK("prfs-proof");
 
 enum Status {
   Loading,
   Standby,
 }
-
-// const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress }) => {
-//   const el = React.useMemo(() => {
-//     const elems = [];
-//     for (const key in progress) {
-//       elems.push(
-//         <div key={key} className={styles.progressRow}>
-//           <p>{key}</p>
-//           <p>...{progress[key]}%</p>
-//         </div>,
-//       );
-//     }
-
-//     return elems;
-//   }, [progress]);
-
-//   return <div className={styles.progressWrapper}>{el}</div>;
-// };
 
 const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   proofType,
@@ -62,14 +39,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   setProofGenElement,
 }) => {
   const i18n = React.useContext(i18nContext);
-  // const [driverMsg, setDriverMsg] = React.useState<React.ReactNode>(null);
-  // const [loadDriverProgress, setLoadDriverProgress] = React.useState<Record<string, any>>({});
-  // const [loadDriverStatus, setLoadDriverStatus] = React.useState(LoadDriverStatus.Standby);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
   const [status, setStatus] = React.useState(Status.Loading);
-  // const [formValues, setFormValues] = React.useState<Record<string, any>>({});
-  // const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
-  // const lastInitProofTypeId = React.useRef<string | null>(null);
   const searchParams = useSearchParams();
   const { sk, pkHex } = useRandomKeyPair();
   const { openPopup, isOpen } = usePopup();
@@ -83,6 +54,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     appId: "prfs_proof11",
     prfsEmbedEndpoint: envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT,
   });
+
+  console.log(11, isPrfsReady);
 
   const handleClickCreateProof = React.useCallback(async () => {
     // const args: ProofGenArgs = {
@@ -180,7 +153,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     async function fn() {
       console.log(11133, isPrfsReady);
       if (isPrfsReady) {
-        console.log(11);
         setStatus(Status.Standby);
       }
       // const { circuit_driver_id, driver_properties } = proofType;

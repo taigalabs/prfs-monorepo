@@ -1,26 +1,26 @@
 import React from "react";
-import { useConnect, metamaskWallet } from "@thirdweb-dev/react";
+// import { useConnect, metamaskWallet } from "@thirdweb-dev/react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./ConnectWalletWidget.module.scss";
 import { i18nContext } from "@/i18n/context";
 import FormTextInput from "@/components/form/FormTextInput";
 
-const metamaskConfig = metamaskWallet();
+// const metamaskConfig = metamaskWallet();
 
 const ConnectWalletWidget: React.FC<ConnectWalletWidgetProps> = ({ handleConnect }) => {
   const i18n = React.useContext(i18nContext);
 
-  const connect = useConnect();
+  // const connect = useConnect();
   const [walletAddr, setWalletAddr] = React.useState<string | undefined>();
 
   let handleClickConnect = React.useCallback(() => {
     async function fn() {
-      const wallet = await connect(metamaskConfig);
-      let signer = await wallet.getSigner();
-      let addr = await signer.getAddress();
-      setWalletAddr(addr);
-      handleConnect(addr);
+      // const wallet = await connect(metamaskConfig);
+      // let signer = await wallet.getSigner();
+      // let addr = await signer.getAddress();
+      // setWalletAddr(addr);
+      // handleConnect(addr);
     }
 
     fn().then();
