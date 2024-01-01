@@ -51,8 +51,13 @@ export interface ProofGenArgs {
 
 export type ProofGenQuery = CommitmentQuery | CreateProofQuery;
 
+export enum QueryType {
+  CREATE_PROOF_TYPE = "create_prf",
+  COMMITMENT_TYPE = "cm",
+}
+
 export interface CreateProofQuery {
   name: string;
   proofTypeId: string;
-  queryType: "prf";
+  queryType: QueryType.CREATE_PROOF_TYPE;
 }

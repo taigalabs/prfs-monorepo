@@ -37,7 +37,7 @@ enum Status {
 }
 
 const CommitmentView: React.FC<CommitmentViewProps> = ({
-  handleClickPrev,
+  // handleClickPrev,
   query,
   credential,
   // prfsEmbed,
@@ -82,6 +82,7 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
         //   }
         // }
 
+        console.log("query", query);
         const { name, preImage, type } = query;
         if (type === CommitmentType.SIG_POSEIDON_1) {
           const sig = await prfsSign(credential.secret_key, preImage);
@@ -114,6 +115,8 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
       setStatus(Status.Standby);
     }
   }, [setStatus, commitmentReceipt]);
+
+  console.log("elem", elem);
 
   // const handleClickSubmit = React.useCallback(async () => {
   //   if (commitmentArgs && credential && prfsEmbed) {
@@ -205,7 +208,7 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
 export default CommitmentView;
 
 export interface CommitmentViewProps {
-  handleClickPrev: () => void;
+  // handleClickPrev: () => void;
   credential: PrfsIdCredential;
   // commitmentArgs: CommitmentArgs | null;
   query: CommitmentQuery;

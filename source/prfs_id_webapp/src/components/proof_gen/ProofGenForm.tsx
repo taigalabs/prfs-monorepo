@@ -11,6 +11,7 @@ import {
   newPrfsIdMsg,
   newPrfsIdErrorMsg,
   ProofGenArgs,
+  QueryType,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt } from "@taigalabs/prfs-crypto-js";
@@ -29,6 +30,7 @@ import {
   DefaultModuleTitle,
   DefaultTopLabel,
 } from "@/components/default_module/DefaultModule";
+import CommitmentView from "../commitment/CommitmentView";
 // import { CommitmentItem, CommitmentItemList } from "./CommitmentItem";
 
 enum Status {
@@ -62,6 +64,27 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         if (proofGenArgs) {
           let elems = [];
           let receipt: Record<string, string> = {};
+          for (const query of proofGenArgs.queries) {
+            switch (query.queryType) {
+              case QueryType.CREATE_PROOF_TYPE: {
+                query;
+                // const elem = <CommitmentView credential={credential} query={query} />;
+                break;
+              }
+              case QueryType.COMMITMENT_TYPE: {
+                console.log("cm type");
+                const elem = (
+                  <CommitmentView key={query.name} credential={credential} query={query} />
+                );
+                elems.push(elem);
+                break;
+              }
+              default:
+                console.error("unsupported query type", query);
+                return;
+            }
+          }
+
           // for (const cm of commitmentArgs.cms) {
           //   const { name, preImage, type } = cm;
 
@@ -85,7 +108,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           // }
 
           setCommitmentReceipt(receipt);
-          // setQueryElems(elems);
+          setQueryElems(elems);
         }
       } catch (err) {
         console.error(err);
@@ -159,6 +182,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         <div className={styles.prfsId}>
           <p>{credential.id}</p>
         </div>
+        <div className={styles.queryItemList}>{queryElems}</div>
         {/* <CommitmentItemList>{commitmentElems}</CommitmentItemList> */}
         <div className={styles.dataWarning}>
           <p className={styles.title}>Make sure you trust {proofGenArgs.appId} app</p>
