@@ -5,9 +5,7 @@ import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { SpartanMerkleProof } from "@taigalabs/prfs-driver-interface";
 import cn from "classnames";
-import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { RiEqualizerLine } from "@react-icons/all-files/ri/RiEqualizerLine";
-import WalletDialog from "@taigalabs/prfs-react-components/src/wallet_dialog/WalletDialog";
 import {
   useFloating,
   useDismiss,
@@ -20,11 +18,6 @@ import {
   FloatingPortal,
 } from "@floating-ui/react";
 import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
-import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
-import { useMutation } from "@tanstack/react-query";
-import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
-import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
-import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
 
 import styles from "./MerkleProofRaw.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -119,8 +112,8 @@ const MerkleProofRaw: React.FC<MerkleProofRawProps> = ({
         ref={refs.setReference}
         {...getReferenceProps()}
       >
-        <RiEqualizerLine />
-        {i18n.raw.toUpperCase()}
+        {/* <RiEqualizerLine /> */}
+        {i18n.raw}
       </button>
       <FloatingPortal>
         {isOpen && (

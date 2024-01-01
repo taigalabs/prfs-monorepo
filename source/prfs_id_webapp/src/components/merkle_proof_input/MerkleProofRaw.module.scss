@@ -16,17 +16,20 @@
 }
 
 .rawBtn {
+  margin-right: 0;
+  margin-left: auto;
   display: flex;
   align-items: center;
   cursor: pointer;
-  color: var(--gray-20);
+  color: var(--gray-30);
+  /* font-weight: 500; */
 
   > svg {
     margin-right: 2px;
   }
 
   &:hover {
-    color: var(--black-10);
+    color: var(--black-20);
   }
 }
 

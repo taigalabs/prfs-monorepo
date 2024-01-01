@@ -12,12 +12,12 @@ import {
   FloatingPortal,
 } from "@floating-ui/react";
 
-import styles from "./WalletDialog.module.scss";
+import styles from "./ConnectWallet.module.scss";
 import Fade from "../fade/Fade";
 import { i18nContext } from "../i18n/i18nContext";
 import WalletModal from "./WalletModal";
 
-const WalletDialog: React.FC<WalletDialogProps> = ({ handleChangeAddress, zIndex, children }) => {
+const ConnectWallet: React.FC<ConnectWalletProps> = ({ handleChangeAddress, zIndex, children }) => {
   const i18n = React.useContext(i18nContext);
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -47,7 +47,7 @@ const WalletDialog: React.FC<WalletDialogProps> = ({ handleChangeAddress, zIndex
 
   return (
     <>
-      <div ref={refs.setReference} {...getReferenceProps()}>
+      <div className={styles.base} ref={refs.setReference} {...getReferenceProps()}>
         {children ? children : <button>{i18n.address}</button>}
       </div>
       <FloatingPortal>
@@ -76,9 +76,9 @@ const WalletDialog: React.FC<WalletDialogProps> = ({ handleChangeAddress, zIndex
   );
 };
 
-export default WalletDialog;
+export default ConnectWallet;
 
-export interface WalletDialogProps {
+export interface ConnectWalletProps {
   handleChangeAddress: (addr: string) => void;
   zIndex?: number;
   children?: React.ReactNode;

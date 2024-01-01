@@ -8,10 +8,6 @@
 }
 
 .inputTitleRow {
-  /* display: flex; */
-  /* justify-content: space-between; */
-  /* align-items: center; */
-  /* font-size: 14px; */
   color: var(--black-27);
   padding: 0 2px 3px;
   font-size: 13px;
@@ -25,6 +21,7 @@
 }
 
 .btnRow {
+  display: flex;
 }
 
 .inputWrapper {

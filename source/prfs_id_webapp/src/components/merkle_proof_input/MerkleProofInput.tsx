@@ -3,27 +3,13 @@ import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import cn from "classnames";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
-import { RiEqualizerLine } from "@react-icons/all-files/ri/RiEqualizerLine";
-import WalletDialog from "@taigalabs/prfs-react-components/src/wallet_dialog/WalletDialog";
+import ConnectWallet from "@taigalabs/prfs-react-components/src/connect_wallet/ConnectWallet";
 import { SpartanMerkleProof } from "@taigalabs/prfs-driver-interface";
-import {
-  useFloating,
-  useDismiss,
-  useRole,
-  useClick,
-  useInteractions,
-  useId,
-  FloatingFocusManager,
-  FloatingOverlay,
-  FloatingPortal,
-} from "@floating-ui/react";
-import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./MerkleProofInput.module.scss";
 import MerkleProofRaw from "./MerkleProofRaw";
@@ -219,13 +205,16 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
           <span className={styles.inputLabel}>{label}</span>
         </FormInputTitle>
         <FormInputBtnRow>
-          <div className={styles.btnRow}>
-            <MerkleProofRaw
-              circuitInput={circuitInput}
-              prfsSet={prfsSet}
-              handleClickRawSubmit={handleClickRawSubmit}
-            />
-          </div>
+          <ConnectWallet handleChangeAddress={handleChangeAddress}>
+            <button className={styles.addressBtn} type="button">
+              {i18n.connect}
+            </button>
+          </ConnectWallet>
+          <MerkleProofRaw
+            circuitInput={circuitInput}
+            prfsSet={prfsSet}
+            handleClickRawSubmit={handleClickRawSubmit}
+          />
         </FormInputBtnRow>
       </FormInputTitleRow>
       <InputWrapper>
@@ -236,13 +225,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
             value={walletAddr}
             readOnly
           />
-          <div className={styles.btnGroup}>
-            <WalletDialog handleChangeAddress={handleChangeAddress}>
-              <Button variant="transparent_aqua_blue_1" className={styles.addressBtn} type="button">
-                {i18n.address.toUpperCase()}
-              </Button>
-            </WalletDialog>
-          </div>
+          <div className={styles.btnGroup}></div>
         </div>
         {value && <ComputedValue value={value} />}
       </InputWrapper>
