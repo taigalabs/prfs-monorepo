@@ -1,9 +1,10 @@
 import React from "react";
 import cn from "classnames";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { FaSignature } from "@react-icons/all-files/fa/FaSignature";
 import { bufferToHex, hashPersonalMessage, toBuffer } from "@ethereumjs/util";
 import { useSignMessage } from "wagmi";
+import { BufferHex, SigData } from "@taigalabs/prfs-driver-interface";
+import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./SigDataInput.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -14,8 +15,6 @@ import {
   FormInputTitleRow,
   InputWrapper,
 } from "@/components/form_input/FormInput";
-import { BufferHex, SigData } from "@taigalabs/prfs-driver-interface";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -113,6 +112,7 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
               variant="transparent_aqua_blue_1"
               className={styles.signBtn}
               handleClick={handleClickSign}
+              type="button"
             >
               {i18n.sign.toUpperCase()}
             </Button>

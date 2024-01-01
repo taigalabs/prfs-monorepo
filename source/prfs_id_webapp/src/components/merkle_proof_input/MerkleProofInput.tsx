@@ -233,7 +233,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         </FormInputTitle>
         <div className={styles.right}>
           <div className={styles.btnRow} ref={refs.setReference} {...getReferenceProps()}>
-            <button>
+            <button type="button">
               <RiEqualizerLine />
               {i18n.raw.toUpperCase()}
             </button>
@@ -274,7 +274,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
           />
           <div className={styles.btnGroup}>
             <WalletDialog handleChangeAddress={handleChangeAddress}>
-              <Button variant="transparent_aqua_blue_1" className={styles.addressBtn}>
+              <Button variant="transparent_aqua_blue_1" className={styles.addressBtn} type="button">
                 {i18n.address.toUpperCase()}
               </Button>
             </WalletDialog>

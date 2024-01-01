@@ -146,16 +146,14 @@ const CreateProof: React.FC<CreateProofProps> = ({
   React.useEffect(() => {
     async function fn() {
       const proofType = data?.payload?.prfs_proof_type;
-      console.log(11, proofType);
       if (proofType) {
         const since = dayjs();
         function handleDriverEv(ev: DriverEvent) {
           const { type, payload } = ev;
-          console.log(4, ev);
-
           if (!proofType) {
             return;
           }
+
           if (type === "LOAD_DRIVER_EVENT") {
             if (payload.asset_label && payload.progress) {
               setLoadDriverProgress(oldVal => ({
