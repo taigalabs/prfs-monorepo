@@ -3,7 +3,7 @@
   flex-direction: column;
 
   &:not(:first-child) {
-    margin-top: 16px;
+    padding-top: 12px;
   }
 }
 
@@ -11,11 +11,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
   font-size: 14px;
   color: var(--black-27);
-  padding-left: 2px;
-  padding-right: 2px;
+  padding: 0 2px 3px;
 }
 
 .inputWrapper {

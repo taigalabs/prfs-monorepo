@@ -30,7 +30,12 @@ import CircuitInputs from "@/components/circuit_inputs/CircuitInputs";
 import { DefaultForm, DefaultModule } from "../default_module/DefaultModule";
 import { CreateProofQuery, PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 import { TbNumbers } from "@taigalabs/prfs-react-components/src/tabler_icons/TbNumbers";
-import { QueryItem, QueryItemLeftCol, QueryItemRightCol } from "../default_module/QueryItem";
+import {
+  QueryItem,
+  QueryItemLeftCol,
+  QueryItemRightCol,
+  QueryName,
+} from "../default_module/QueryItem";
 
 enum LoadDriverStatus {
   Standby,
@@ -59,7 +64,7 @@ const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress }) => 
     return elems;
   }, [progress]);
 
-  return <div className={styles.progressWrapper}>{el}</div>;
+  return <div className={styles.driverProgress}>{el}</div>;
 };
 
 function useProofType(proofTypeId: string | undefined) {
@@ -211,63 +216,53 @@ const CreateProof: React.FC<CreateProofProps> = ({
         <QueryItemLeftCol>
           <TbNumbers />
         </QueryItemLeftCol>
-        <QueryItemRightCol>{query.name}</QueryItemRightCol>
-      </QueryItem>
-      <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
-        <div className={cn(styles.main, { [styles.isTutorial]: isTutorial })}>
-          <div className={styles.moduleWrapper}>
-            {loadDriverStatus === LoadDriverStatus.InProgress ||
-              (createProofStatus === CreateProofStatus.InProgress && (
-                <div className={styles.loaderBarWrapper}>
-                  <LoaderBar />
-                </div>
-              ))}
+        <QueryItemRightCol>
+          <QueryName>{query.name}</QueryName>
+          <div>{proofType.proof_type_id}</div>
+          <div className={styles.driverMsg}>
+            <div className={styles.msg}>{driverMsg}</div>
             {loadDriverStatus === LoadDriverStatus.InProgress && (
-              <div className={styles.overlay}>
-                <Spinner size={32} color={colors.blue_12} />
-              </div>
-            )}
-            <div className={styles.driverMsg}>
-              <div className={styles.msg}>{driverMsg}</div>
-              {loadDriverStatus === LoadDriverStatus.InProgress && (
-                <LoadDriverProgress progress={loadDriverProgress} />
-              )}
-            </div>
-            <TutorialStepper steps={[2]}>
-              <div className={styles.form}>
-                <CircuitInputs
-                  circuitInputs={proofType.circuit_inputs as CircuitInput[]}
-                  // proofGenElement={proofGenElement} */}
-                  formValues={formValues}
-                  setFormValues={setFormValues}
-                  formErrors={formErrors}
-                  setFormErrors={setFormErrors}
-                />
-              </div>
-            </TutorialStepper>
-            {/* <div className={styles.btnRow}> */}
-            {/*   <Button */}
-            {/*     variant="blue_1" */}
-            {/*     handleClick={handleClickCreateProof} */}
-            {/*     className={cn(styles.createBtn, { */}
-            {/*       [styles.inProgress]: createProofStatus === CreateProofStatus.InProgress, */}
-            {/*     })} */}
-            {/*   > */}
-            {/*     {i18n.create_proof.toUpperCase()} */}
-            {/*   </Button> */}
-            {/* </div> */}
-            {systemMsg && (
-              <div className={styles.footer}>
-                <div
-                  className={cn(styles.msg, {
-                    [styles.errorMsg]: createProofStatus === CreateProofStatus.Error,
-                  })}
-                >
-                  {systemMsg}
-                </div>
-              </div>
+              <LoadDriverProgress progress={loadDriverProgress} />
             )}
           </div>
+        </QueryItemRightCol>
+      </QueryItem>
+      <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
+        <div className={styles.moduleWrapper}>
+          {loadDriverStatus === LoadDriverStatus.InProgress ||
+            (createProofStatus === CreateProofStatus.InProgress && (
+              <div className={styles.loaderBarWrapper}>
+                <LoaderBar />
+              </div>
+            ))}
+          {loadDriverStatus === LoadDriverStatus.InProgress && (
+            <div className={styles.overlay}>
+              <Spinner size={32} color={colors.blue_12} />
+            </div>
+          )}
+          <TutorialStepper steps={[2]}>
+            <div className={styles.form}>
+              <CircuitInputs
+                circuitInputs={proofType.circuit_inputs as CircuitInput[]}
+                // proofGenElement={proofGenElement} */}
+                formValues={formValues}
+                setFormValues={setFormValues}
+                formErrors={formErrors}
+                setFormErrors={setFormErrors}
+              />
+            </div>
+          </TutorialStepper>
+          {systemMsg && (
+            <div className={styles.footer}>
+              <div
+                className={cn(styles.msg, {
+                  [styles.errorMsg]: createProofStatus === CreateProofStatus.Error,
+                })}
+              >
+                {systemMsg}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>

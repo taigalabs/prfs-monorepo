@@ -19,6 +19,10 @@ export const QueryItemRightCol: React.FC<QueryItemProps> = ({ children }) => {
   return <div className={styles.rightCol}>{children}</div>;
 };
 
+export const QueryName: React.FC<QueryItemProps> = ({ children }) => {
+  return <div className={styles.name}>{children}</div>;
+};
+
 export interface QueryItemProps {
   className?: string;
   children: React.ReactNode;
