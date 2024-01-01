@@ -113,7 +113,12 @@ const MerkleProofRaw: React.FC<MerkleProofRawProps> = ({
 
   return (
     <>
-      <button type="button" ref={refs.setReference} {...getReferenceProps()}>
+      <button
+        className={styles.rawBtn}
+        type="button"
+        ref={refs.setReference}
+        {...getReferenceProps()}
+      >
         <RiEqualizerLine />
         {i18n.raw.toUpperCase()}
       </button>
