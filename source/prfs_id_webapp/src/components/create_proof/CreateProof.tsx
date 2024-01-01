@@ -317,17 +317,17 @@ const CreateProof: React.FC<CreateProofProps> = ({
                   />
                 </div>
               </TutorialStepper>
-              <div className={styles.btnRow}>
-                <Button
-                  variant="blue_1"
-                  handleClick={handleClickCreateProof}
-                  className={cn(styles.createBtn, {
-                    [styles.inProgress]: createProofStatus === CreateProofStatus.InProgress,
-                  })}
-                >
-                  {i18n.create_proof.toUpperCase()}
-                </Button>
-              </div>
+              {/* <div className={styles.btnRow}> */}
+              {/*   <Button */}
+              {/*     variant="blue_1" */}
+              {/*     handleClick={handleClickCreateProof} */}
+              {/*     className={cn(styles.createBtn, { */}
+              {/*       [styles.inProgress]: createProofStatus === CreateProofStatus.InProgress, */}
+              {/*     })} */}
+              {/*   > */}
+              {/*     {i18n.create_proof.toUpperCase()} */}
+              {/*   </Button> */}
+              {/* </div> */}
               {systemMsg && (
                 <div className={styles.footer}>
                   <div
