@@ -28,7 +28,7 @@ export function parseCommitmentSearchParams(searchParams: URLSearchParams): Comm
   }
 
   const c = decodeURIComponent(cms);
-  const _cms: CommitmentData[] = JSON.parse(c);
+  const _cms: CommitmentQuery[] = JSON.parse(c);
 
   const args: CommitmentArgs = {
     appId,
@@ -44,13 +44,14 @@ export interface CommitmentArgs {
   appId: string;
   nonce: number;
   publicKey: string;
-  cms: CommitmentData[];
+  cms: CommitmentQuery[];
 }
 
-export interface CommitmentData {
+export interface CommitmentQuery {
   name: string;
   preImage: string;
   type: CommitmentType;
+  queryType: "cm";
 }
 
 export enum CommitmentType {
