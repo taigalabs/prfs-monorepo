@@ -12,7 +12,7 @@ import {
   newPrfsIdErrorMsg,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
-import { encrypt } from "eciesjs";
+import { encrypt } from "@taigalabs/prfs-crypto-js";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
 import { idApi } from "@taigalabs/prfs-api-js";
 import { hexlify } from "ethers/lib/utils";
@@ -39,7 +39,7 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
   handleClickPrev,
   commitmentArgs,
   credential,
-  prfsEmbedRef,
+  prfsEmbed,
 }) => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
@@ -99,7 +99,7 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
   }, [setStatus, commitmentReceipt]);
 
   const handleClickSubmit = React.useCallback(async () => {
-    if (commitmentArgs && credential && prfsEmbedRef.current) {
+    if (commitmentArgs && credential && prfsEmbed) {
       const { payload: _signInRequestPayload, error } = await prfsIdentitySignInRequest({
         identity_id: credential.id,
       });
@@ -129,10 +129,10 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
             key: commitmentArgs.publicKey,
             value: encrypted,
           }),
-          prfsEmbedRef.current,
+          prfsEmbed,
         );
       } catch (err: any) {
-        await sendMsgToChild(newPrfsIdErrorMsg("ERROR", err.toString()), prfsEmbedRef.current);
+        await sendMsgToChild(newPrfsIdErrorMsg("ERROR", err.toString()), prfsEmbed);
         console.error(err);
       }
       window.close();
@@ -191,5 +191,5 @@ export interface CommitmentViewProps {
   handleClickPrev: () => void;
   credential: PrfsIdCredential;
   commitmentArgs: CommitmentArgs | null;
-  prfsEmbedRef: React.MutableRefObject<HTMLIFrameElement | null>;
+  prfsEmbed: HTMLIFrameElement | null;
 }

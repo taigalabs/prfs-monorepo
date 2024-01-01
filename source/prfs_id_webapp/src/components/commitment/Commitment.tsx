@@ -45,10 +45,7 @@ const Commitment: React.FC = () => {
       return null;
     }
   }, [searchParams]);
-  const { prfsEmbedRef, isReady: isPrfsReady } = usePrfsEmbed({
-    appId: "prfs_id",
-    prfsEmbedEndpoint: envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT,
-  });
+  const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
 
   React.useEffect(() => {
     if (commitmentArgs) {
@@ -102,7 +99,7 @@ const Commitment: React.FC = () => {
               credential={credential}
               commitmentArgs={commitmentArgs}
               handleClickPrev={handleClickPrev}
-              prfsEmbedRef={prfsEmbedRef}
+              prfsEmbed={prfsEmbed}
             />
           )
         );
