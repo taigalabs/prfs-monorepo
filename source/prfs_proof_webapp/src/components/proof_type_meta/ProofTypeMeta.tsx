@@ -70,20 +70,20 @@ const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({
       </div>
       <div className={cn(styles.section, styles.miscSection)}>
         <div className={styles.entry}>
-          <p className={styles.h2}>{i18n.proof_type_author}</p>
-          <p>{proofTypeAuthor}</p>
+          <p className={styles.label}>{i18n.proof_type_author}</p>
+          <p className={styles.value}>{proofTypeAuthor}</p>
         </div>
         <div className={styles.entry}>
-          <p className={styles.h2}>{i18n.proof_type_created_at}</p>
-          <p>{_proofTypeCreatedAt}</p>
+          <p className={styles.label}>{i18n.proof_type_created_at}</p>
+          <p className={styles.value}>{_proofTypeCreatedAt}</p>
         </div>
         <div className={styles.entry}>
-          <p className={styles.h2}>{i18n.circuit_driver_id}</p>
-          <p>{circuitDriverId}</p>
+          <p className={styles.label}>{i18n.circuit_driver_id}</p>
+          <p className={styles.value}>{circuitDriverId}</p>
         </div>
         <div className={styles.entry}>
-          <p className={styles.h2}>{i18n.circuit_type_id}</p>
-          <p>{circuitTypeId}</p>
+          <p className={styles.label}>{i18n.circuit_type_id}</p>
+          <p className={styles.value}>{circuitTypeId}</p>
         </div>
       </div>
     </div>
