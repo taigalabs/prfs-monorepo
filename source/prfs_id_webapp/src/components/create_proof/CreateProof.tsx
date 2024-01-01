@@ -28,6 +28,7 @@ import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import { envs } from "@/envs";
 import CircuitInputs from "@/components/circuit_inputs/CircuitInputs";
 import { DefaultForm, DefaultModule } from "../default_module/DefaultModule";
+import { CreateProofQuery, PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 
 enum LoadDriverStatus {
   Standby,
@@ -70,14 +71,14 @@ function useProofType(proofTypeId: string | undefined) {
   });
 }
 
-const CreateProof: React.FC<CreateProofProps> = (
-  {
-    // proofType,
-    // handleCreateProofResult,
-    // proofGenElement,
-    // setProofGenElement,
-  },
-) => {
+const CreateProof: React.FC<CreateProofProps> = ({
+  credential,
+  query,
+  // proofType,
+  // handleCreateProofResult,
+  // proofGenElement,
+  // setProofGenElement,
+}) => {
   const i18n = React.useContext(i18nContext);
   const [driverMsg, setDriverMsg] = React.useState<React.ReactNode>(null);
   const [loadDriverProgress, setLoadDriverProgress] = React.useState<Record<string, any>>({});
@@ -96,13 +97,15 @@ const CreateProof: React.FC<CreateProofProps> = (
       return null;
     }
   }, [searchParams]);
-  const { data, isFetching } = useProofType(proofGenArgs?.proofTypeId);
+  const { data, isFetching } = useProofType(query?.proofTypeId);
   const isTutorial = React.useMemo(() => {
     if (searchParams.get("tutorial_id")) {
       return true;
     }
     return false;
   }, [searchParams]);
+
+  console.log(123);
 
   const handleClickCreateProof = React.useCallback(async () => {
     // if (proofGenElement) {
@@ -137,66 +140,57 @@ const CreateProof: React.FC<CreateProofProps> = (
 
   React.useEffect(() => {
     async function fn() {
-      const proofType = data?.payload?.prfs_proof_type;
-      console.log(11, proofType);
-
-      if (proofType) {
-        const since = dayjs();
-
-        function handleDriverEv(ev: DriverEvent) {
-          const { type, payload } = ev;
-
-          if (!proofType) {
-            return;
-          }
-
-          if (type === "LOAD_DRIVER_EVENT") {
-            if (payload.asset_label && payload.progress) {
-              setLoadDriverProgress(oldVal => ({
-                ...oldVal,
-                [payload.asset_label!]: payload.progress,
-              }));
-            }
-          }
-
-          if (type === "LOAD_DRIVER_SUCCESS") {
-            const now = dayjs();
-            const diff = now.diff(since, "seconds", true);
-            const { artifactCount } = payload;
-
-            setDriverMsg(
-              <>
-                <span>Circuit driver </span>
-                <a
-                  href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${proofType.circuit_driver_id}`}
-                >
-                  {proofType.circuit_driver_id} <BiLinkExternal />
-                </a>
-                <span>
-                  ({diff} seconds, {artifactCount} artifacts)
-                </span>
-              </>,
-            );
-            setLoadDriverStatus(LoadDriverStatus.Standby);
-          }
-
-          if (type === "CREATE_PROOF_EVENT") {
-            setSystemMsg(payload.payload);
-          }
-        }
-
-        const driverProperties = interpolateSystemAssetEndpoint(
-          proofType.driver_properties,
-          `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
-        );
-
-        setLoadDriverStatus(LoadDriverStatus.InProgress);
-        await initCircuitDriver(proofType.circuit_driver_id, driverProperties, handleDriverEv);
-      }
+      // const proofType = data?.payload?.prfs_proof_type;
+      // console.log(11, proofType);
+      // if (proofType) {
+      //   const since = dayjs();
+      //   function handleDriverEv(ev: DriverEvent) {
+      //     const { type, payload } = ev;
+      //     if (!proofType) {
+      //       return;
+      //     }
+      //     if (type === "LOAD_DRIVER_EVENT") {
+      //       if (payload.asset_label && payload.progress) {
+      //         setLoadDriverProgress(oldVal => ({
+      //           ...oldVal,
+      //           [payload.asset_label!]: payload.progress,
+      //         }));
+      //       }
+      //     }
+      //     if (type === "LOAD_DRIVER_SUCCESS") {
+      //       const now = dayjs();
+      //       const diff = now.diff(since, "seconds", true);
+      //       const { artifactCount } = payload;
+      //       setDriverMsg(
+      //         <>
+      //           <span>Circuit driver </span>
+      //           <a
+      //             href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${proofType.circuit_driver_id}`}
+      //           >
+      //             {proofType.circuit_driver_id} <BiLinkExternal />
+      //           </a>
+      //           <span>
+      //             ({diff} seconds, {artifactCount} artifacts)
+      //           </span>
+      //         </>,
+      //       );
+      //       setLoadDriverStatus(LoadDriverStatus.Standby);
+      //     }
+      //     if (type === "CREATE_PROOF_EVENT") {
+      //       setSystemMsg(payload.payload);
+      //     }
+      //   }
+      //   const driverProperties = interpolateSystemAssetEndpoint(
+      //     proofType.driver_properties,
+      //     `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
+      //   );
+      //   setLoadDriverStatus(LoadDriverStatus.InProgress);
+      //   await initCircuitDriver(proofType.circuit_driver_id, driverProperties, handleDriverEv);
+      // }
     }
     fn().then();
   }, [
-    data?.payload,
+    // data?.payload,
     setCreateProofStatus,
     setLoadDriverProgress,
     setLoadDriverStatus,
@@ -289,81 +283,77 @@ const CreateProof: React.FC<CreateProofProps> = (
   }
 
   return (
-    <DefaultModule>
-      <DefaultForm>
-        {proofType ? (
-          <>
-            <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
-              <div className={styles.driverMsg}>
-                <div className={styles.msg}>{driverMsg}</div>
-                {loadDriverStatus === LoadDriverStatus.InProgress && (
-                  <LoadDriverProgress progress={loadDriverProgress} />
-                )}
+    <>
+      <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
+        <div className={styles.driverMsg}>
+          <div className={styles.msg}>{driverMsg}</div>
+          {loadDriverStatus === LoadDriverStatus.InProgress && (
+            <LoadDriverProgress progress={loadDriverProgress} />
+          )}
+        </div>
+        <div className={cn(styles.main, { [styles.isTutorial]: isTutorial })}>
+          <div className={styles.moduleArea}>
+            <div className={styles.moduleWrapper}>
+              {loadDriverStatus === LoadDriverStatus.InProgress ||
+                (createProofStatus === CreateProofStatus.InProgress && (
+                  <div className={styles.loaderBarWrapper}>
+                    <LoaderBar />
+                  </div>
+                ))}
+              {loadDriverStatus === LoadDriverStatus.InProgress && (
+                <div className={styles.overlay}>
+                  <Spinner size={32} color={colors.blue_12} />
+                </div>
+              )}
+              <TutorialStepper steps={[2]}>
+                <div className={styles.form}>
+                  <CircuitInputs
+                    circuitInputs={proofType.circuit_inputs as CircuitInput[]}
+                    // proofGenElement={proofGenElement} */}
+                    formValues={formValues}
+                    setFormValues={setFormValues}
+                    formErrors={formErrors}
+                    setFormErrors={setFormErrors}
+                  />
+                </div>
+              </TutorialStepper>
+              <div className={styles.btnRow}>
+                <Button
+                  variant="blue_1"
+                  handleClick={handleClickCreateProof}
+                  className={cn(styles.createBtn, {
+                    [styles.inProgress]: createProofStatus === CreateProofStatus.InProgress,
+                  })}
+                >
+                  {i18n.create_proof.toUpperCase()}
+                </Button>
               </div>
-              <div className={cn(styles.main, { [styles.isTutorial]: isTutorial })}>
-                <div className={styles.moduleArea}>
-                  <div className={styles.moduleWrapper}>
-                    {loadDriverStatus === LoadDriverStatus.InProgress ||
-                      (createProofStatus === CreateProofStatus.InProgress && (
-                        <div className={styles.loaderBarWrapper}>
-                          <LoaderBar />
-                        </div>
-                      ))}
-                    {loadDriverStatus === LoadDriverStatus.InProgress && (
-                      <div className={styles.overlay}>
-                        <Spinner size={32} color={colors.blue_12} />
-                      </div>
-                    )}
-                    <TutorialStepper steps={[2]}>
-                      <div className={styles.form}>
-                        <CircuitInputs
-                          circuitInputs={proofType.circuit_inputs as CircuitInput[]}
-                          // proofGenElement={proofGenElement}
-                          formValues={formValues}
-                          setFormValues={setFormValues}
-                          formErrors={formErrors}
-                          setFormErrors={setFormErrors}
-                        />
-                      </div>
-                    </TutorialStepper>
-                    <div className={styles.btnRow}>
-                      <Button
-                        variant="blue_1"
-                        handleClick={handleClickCreateProof}
-                        className={cn(styles.createBtn, {
-                          [styles.inProgress]: createProofStatus === CreateProofStatus.InProgress,
-                        })}
-                      >
-                        {i18n.create_proof.toUpperCase()}
-                      </Button>
-                    </div>
-                    {systemMsg && (
-                      <div className={styles.footer}>
-                        <div
-                          className={cn(styles.msg, {
-                            [styles.errorMsg]: createProofStatus === CreateProofStatus.Error,
-                          })}
-                        >
-                          {systemMsg}
-                        </div>
-                      </div>
-                    )}
+              {systemMsg && (
+                <div className={styles.footer}>
+                  <div
+                    className={cn(styles.msg, {
+                      [styles.errorMsg]: createProofStatus === CreateProofStatus.Error,
+                    })}
+                  >
+                    {systemMsg}
                   </div>
                 </div>
-              </div>
+              )}
             </div>
-          </>
-        ) : (
-          <div>Loading...</div>
-        )}
-      </DefaultForm>
-    </DefaultModule>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 
 export default CreateProof;
 
-export interface CreateProofProps {}
+export interface CreateProofProps {
+  credential: PrfsIdCredential;
+  // commitmentArgs: CommitmentArgs | null;
+  query: CreateProofQuery;
+}
 
 export interface LoadDriverProgressProps {
   progress: Record<string, any>;

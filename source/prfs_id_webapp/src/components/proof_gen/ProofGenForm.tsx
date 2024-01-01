@@ -31,6 +31,7 @@ import {
   DefaultTopLabel,
 } from "@/components/default_module/DefaultModule";
 import CommitmentView from "../commitment/CommitmentView";
+import CreateProof from "../create_proof/CreateProof";
 // import { CommitmentItem, CommitmentItemList } from "./CommitmentItem";
 
 enum Status {
@@ -67,8 +68,8 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           for (const query of proofGenArgs.queries) {
             switch (query.queryType) {
               case QueryType.CREATE_PROOF_TYPE: {
-                query;
-                // const elem = <CommitmentView credential={credential} query={query} />;
+                const elem = <CreateProof key={query.name} credential={credential} query={query} />;
+                elems.push(elem);
                 break;
               }
               case QueryType.COMMITMENT_TYPE: {

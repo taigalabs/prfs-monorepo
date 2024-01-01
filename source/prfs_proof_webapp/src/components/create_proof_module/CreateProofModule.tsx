@@ -14,7 +14,13 @@ import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
 import { ProofGenArgs, makeProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web/proof_gen";
 import { PopupStatus, usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
-import { API_PATH, newPrfsIdMsg, parseBuffer, sendMsgToChild } from "@taigalabs/prfs-id-sdk-web";
+import {
+  API_PATH,
+  QueryType,
+  newPrfsIdMsg,
+  parseBuffer,
+  sendMsgToChild,
+} from "@taigalabs/prfs-id-sdk-web";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./CreateProofModule.module.scss";
@@ -26,6 +32,8 @@ import { envs } from "@/envs";
 import { useRandomKeyPair } from "@/hooks/key";
 import { TbMathPi } from "@taigalabs/prfs-react-components/src/tabler_icons/TbMathPi";
 import { TbNumbers } from "@taigalabs/prfs-react-components/src/tabler_icons/TbNumbers";
+
+const PROOF = "proof";
 
 enum Status {
   Loading,
@@ -86,8 +94,13 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     const proofGenArgs: ProofGenArgs = {
       nonce: Math.random() * 1000000,
       appId: "prfs_proof",
-      queries: [],
-      // proofTypeId: proofType.proof_type_id,
+      queries: [
+        {
+          name: PROOF,
+          proofTypeId: proofType.proof_type_id,
+          queryType: QueryType.CREATE_PROOF_TYPE,
+        },
+      ],
       publicKey: pkHex,
     };
 
