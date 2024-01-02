@@ -31,7 +31,7 @@ import {
 } from "@/components/default_module/DefaultModule";
 import CommitmentView from "../commitment/CommitmentView";
 import CreateProof from "../create_proof/CreateProof";
-import { QueryItem } from "../default_module/QueryItem";
+import { QueryItem, QueryItemList } from "../default_module/QueryItem";
 
 enum Status {
   Loading,
@@ -168,7 +168,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         <div className={cn(styles.prfsId, styles.sidePadding)}>
           <p>{credential.id}</p>
         </div>
-        <div className={cn(styles.queryItemList, styles.sidePadding)}>{queryElems}</div>
+        <QueryItemList sidePadding>{queryElems}</QueryItemList>
         <div className={cn(styles.dataWarning, styles.sidePadding)}>
           <p className={styles.title}>Make sure you trust {proofGenArgs.appId} app</p>
           <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
