@@ -12,6 +12,7 @@ import {
   newPrfsIdErrorMsg,
   ProofGenArgs,
   QueryType,
+  ProofGenSuccessPayload,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import { encrypt } from "@taigalabs/prfs-crypto-js";
@@ -54,9 +55,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       return idApi("sign_in_prfs_identity", req);
     },
   });
-  const [commitmentReceipt, setCommitmentReceipt] = React.useState<Record<string, string> | null>(
-    null,
-  );
+  const [receipt, setReceipt] = React.useState<Record<string, string> | null>(null);
   const [queryElems, setQueryElems] = React.useState<React.ReactNode>(null);
 
   React.useEffect(() => {
@@ -64,18 +63,29 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       try {
         if (proofGenArgs) {
           let elems = [];
-          let receipt: Record<string, string> = {};
+          const receipt: Record<string, string> = {};
           for (const query of proofGenArgs.queries) {
             switch (query.queryType) {
               case QueryType.CREATE_PROOF_TYPE: {
-                const elem = <CreateProof key={query.name} credential={credential} query={query} />;
+                const elem = (
+                  <CreateProof
+                    key={query.name}
+                    credential={credential}
+                    query={query}
+                    // receipt={receipt}
+                  />
+                );
                 elems.push(elem);
                 break;
               }
               case QueryType.COMMITMENT_TYPE: {
-                console.log("cm type");
                 const elem = (
-                  <CommitmentView key={query.name} credential={credential} query={query} />
+                  <CommitmentView
+                    key={query.name}
+                    credential={credential}
+                    query={query}
+                    receipt={receipt}
+                  />
                 );
                 elems.push(elem);
                 break;
@@ -86,29 +96,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
             }
           }
 
-          // for (const cm of commitmentArgs.cms) {
-          //   const { name, preImage, type } = cm;
-
-          //   if (type === CommitmentType.SIG_POSEIDON_1) {
-          //     const sig = await prfsSign(credential.secret_key, preImage);
-          //     const sigBytes = sig.toCompactRawBytes();
-          //     const hashed = await poseidon_2(sigBytes);
-          //     const hashedHex = hexlify(hashed);
-          //     receipt[name] = hashedHex;
-          //     elems.push(
-          //       null,
-          //       // <CommitmentItem
-          //       //   key={name}
-          //       //   name={name}
-          //       //   val={preImage}
-          //       //   type={type}
-          //       //   hashedHex={hashedHex}
-          //       // />,
-          //     );
-          //   }
-          // }
-
-          setCommitmentReceipt(receipt);
+          setReceipt(receipt);
           setQueryElems(elems);
         }
       } catch (err) {
@@ -116,13 +104,13 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       }
     }
     fn().then();
-  }, [searchParams, setCommitmentReceipt, setQueryElems, proofGenArgs]);
+  }, [searchParams, setReceipt, setQueryElems, proofGenArgs]);
 
   React.useEffect(() => {
-    if (commitmentReceipt) {
+    if (receipt) {
       setStatus(Status.Standby);
     }
-  }, [setStatus, commitmentReceipt]);
+  }, [setStatus, receipt]);
 
   const handleClickSubmit = React.useCallback(async () => {
     if (proofGenArgs && credential && prfsEmbed) {
@@ -135,18 +123,18 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         return;
       }
 
-      if (!commitmentReceipt) {
-        setErrorMsg("no commitment receipt");
+      if (!receipt) {
+        setErrorMsg("no proof gen receipt");
         return;
       }
 
-      const payload: CommitmentSuccessPayload = {
-        receipt: commitmentReceipt,
+      const payload: ProofGenSuccessPayload = {
+        receipt,
       };
       const encrypted = JSON.stringify(
         encrypt(proofGenArgs.publicKey, Buffer.from(JSON.stringify(payload))),
       );
-      console.log("receipt: %o, encrypted", commitmentReceipt, encrypted);
+      console.log("receipt: %o, encrypted", receipt, encrypted);
 
       try {
         await sendMsgToChild(
@@ -163,7 +151,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       }
       window.close();
     }
-  }, [searchParams, proofGenArgs, credential, setErrorMsg, commitmentReceipt]);
+  }, [searchParams, proofGenArgs, credential, setErrorMsg, receipt]);
 
   return proofGenArgs ? (
     <>

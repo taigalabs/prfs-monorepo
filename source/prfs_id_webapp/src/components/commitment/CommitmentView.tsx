@@ -39,6 +39,7 @@ enum Status {
 const CommitmentView: React.FC<CommitmentViewProps> = ({
   query,
   credential,
+  receipt,
   // prfsEmbed,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -57,8 +58,8 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
           const sigBytes = sig.toCompactRawBytes();
           const hashed = await poseidon_2(sigBytes);
           const hashedHex = hexlify(hashed);
-          // receipt[name] = hashedHex;
-          console.log("elem");
+          receipt[name] = hashedHex;
+
           setElem(
             <CommitmentItem
               key={name}
@@ -88,5 +89,6 @@ export interface CommitmentViewProps {
   credential: PrfsIdCredential;
   // commitmentArgs: CommitmentArgs | null;
   query: CommitmentQuery;
+  receipt: Record<string, string>;
   // prfsEmbed: HTMLIFrameElement | null;
 }

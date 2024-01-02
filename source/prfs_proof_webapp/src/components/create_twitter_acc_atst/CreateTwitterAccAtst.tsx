@@ -13,11 +13,8 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import {
   CommitmentType,
-  CommitmentSuccessPayload,
   makeAttestation,
   newPrfsIdMsg,
-  makeCommitmentSearchParams,
-  CommitmentArgs,
   API_PATH,
   parseBuffer,
   makeProofGenSearchParams,
@@ -137,20 +134,6 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
   );
 
   const handleClickGenerate = React.useCallback(() => {
-    // const commitmentArgs: CommitmentArgs = {
-    //   nonce: Math.random() * 1000000,
-    //   appId: "prfs_proof",
-    //   cms: [
-    //     {
-    //       name: CLAIM,
-    //       preImage: claimSecret,
-    //       type: CommitmentType.SIG_POSEIDON_1,
-    //       queryType: "cm",
-    //     },
-    //   ],
-    //   publicKey: pkHex,
-    // };
-
     const proofGenArgs: ProofGenArgs = {
       nonce: Math.random() * 1000000,
       appId: "prfs_proof",
@@ -164,10 +147,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       ],
       publicKey: pkHex,
     };
-
-    // const searchParams = makeCommitmentSearchParams(commitmentArgs);
     const searchParams = makeProofGenSearchParams(proofGenArgs);
-    // const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.commitment}${searchParams}`;
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
     openPopup(endpoint, async () => {
@@ -190,7 +170,6 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
             return;
           }
 
-          // let payload: CommitmentSuccessPayload;
           let payload: ProofGenSuccessPayload;
           try {
             payload = JSON.parse(decrypted);
@@ -199,8 +178,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
             return;
           }
 
-          // const cm = payload.receipt[CLAIM];
-          const cm = payload.result[CLAIM];
+          const cm = payload.receipt[CLAIM];
           if (cm) {
             setClaimCm(cm);
             setStep(AttestationStep.POST_TWEET);

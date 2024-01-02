@@ -25,7 +25,7 @@ export interface CommitmentSuccessPayload {
 }
 
 export interface ProofGenSuccessPayload {
-  result: Record<string, string>;
+  receipt: Record<string, string>;
 }
 
 export type PrfsIdMsgType =
