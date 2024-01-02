@@ -26,7 +26,7 @@ export function usePopup() {
     }
 
     callback(popup).then(() => {
-      popup.close();
+      // popup.close();
     });
   }
 

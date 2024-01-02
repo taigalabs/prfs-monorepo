@@ -30,6 +30,7 @@ import {
   DefaultTopLabel,
 } from "@/components/default_module/DefaultModule";
 import { CommitmentItem, CommitmentItemList } from "./CommitmentItem";
+import { ProofGenReceiptRaw } from "../proof_gen/receipt";
 
 enum Status {
   Loading,
@@ -39,7 +40,7 @@ enum Status {
 const CommitmentView: React.FC<CommitmentViewProps> = ({
   query,
   credential,
-  receipt,
+  setReceipt,
   // prfsEmbed,
 }) => {
   const i18n = React.useContext(i18nContext);
@@ -58,7 +59,11 @@ const CommitmentView: React.FC<CommitmentViewProps> = ({
           const sigBytes = sig.toCompactRawBytes();
           const hashed = await poseidon_2(sigBytes);
           const hashedHex = hexlify(hashed);
-          receipt[name] = hashedHex;
+          setReceipt(oldVal => ({
+            ...oldVal,
+            [name]: hashedHex,
+          }));
+          // receipt[name] = hashedHex;
 
           setElem(
             <CommitmentItem
@@ -89,6 +94,6 @@ export interface CommitmentViewProps {
   credential: PrfsIdCredential;
   // commitmentArgs: CommitmentArgs | null;
   query: CommitmentQuery;
-  receipt: Record<string, string>;
+  setReceipt: React.Dispatch<React.SetStateAction<ProofGenReceiptRaw | null>>;
   // prfsEmbed: HTMLIFrameElement | null;
 }

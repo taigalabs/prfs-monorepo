@@ -71,7 +71,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                     key={query.name}
                     credential={credential}
                     query={query}
-                    receipt={receipt}
+                    setReceipt={setReceipt}
                   />
                 );
                 elems.push(elem);
@@ -83,7 +83,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                     key={query.name}
                     credential={credential}
                     query={query}
-                    receipt={receipt}
+                    setReceipt={setReceipt}
                   />
                 );
                 elems.push(elem);
@@ -149,7 +149,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         await sendMsgToChild(newPrfsIdErrorMsg("ERROR", err.toString()), prfsEmbed);
         console.error(err);
       }
-      window.close();
+      // window.close();
     }
   }, [searchParams, proofGenArgs, credential, setErrorMsg, receipt]);
 
