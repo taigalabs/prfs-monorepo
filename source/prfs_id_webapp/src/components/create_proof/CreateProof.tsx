@@ -117,13 +117,13 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
         if (!driver) {
           return;
         }
+        if (createProofStatus === CreateProofStatus.InProgress) {
+          return;
+        }
         try {
           const inputs = await validateInputs(formValues, proofType, setFormErrors);
           if (inputs === null) {
-            return;
-          }
-          if (createProofStatus === CreateProofStatus.InProgress) {
-            return;
+            console.error("Input validation fail to create a proof");
           }
           setCreateProofStatus(CreateProofStatus.InProgress);
           const proveReceipt = await driver.prove({
@@ -156,39 +156,45 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
             return;
           }
 
-          if (type === "LOAD_DRIVER_EVENT") {
-            if (payload.asset_label && payload.progress) {
-              setLoadDriverProgress(oldVal => ({
-                ...oldVal,
-                [payload.asset_label!]: payload.progress,
-              }));
+          switch (type) {
+            case "LOAD_DRIVER_EVENT": {
+              if (payload.asset_label && payload.progress) {
+                setLoadDriverProgress(oldVal => ({
+                  ...oldVal,
+                  [payload.asset_label!]: payload.progress,
+                }));
+              }
+              break;
+            }
+            case "LOAD_DRIVER_SUCCESS": {
+              const now = dayjs();
+              const diff = now.diff(since, "seconds", true);
+              const { artifactCount } = payload;
+              setDriverMsg(
+                <div>
+                  <p>
+                    <span>Circuit driver </span>
+                    <a
+                      href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${proofType.circuit_driver_id}`}
+                    >
+                      {proofType.circuit_driver_id} <BiLinkExternal />
+                    </a>
+                  </p>
+                  <p>
+                    ({diff} seconds, {artifactCount} artifacts)
+                  </p>
+                </div>,
+              );
+              setLoadDriverStatus(LoadDriverStatus.Standby);
+              break;
+            }
+            default: {
+              console.error("Cannot handle this type of driver msg", ev);
+              break;
             }
           }
-          if (type === "LOAD_DRIVER_SUCCESS") {
-            const now = dayjs();
-            const diff = now.diff(since, "seconds", true);
-            const { artifactCount } = payload;
-            setDriverMsg(
-              <div>
-                <p>
-                  <span>Circuit driver </span>
-                  <a
-                    href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${proofType.circuit_driver_id}`}
-                  >
-                    {proofType.circuit_driver_id} <BiLinkExternal />
-                  </a>
-                </p>
-                <p>
-                  ({diff} seconds, {artifactCount} artifacts)
-                </p>
-              </div>,
-            );
-            setLoadDriverStatus(LoadDriverStatus.Standby);
-          }
-          if (type === "CREATE_PROOF_EVENT") {
-            setSystemMsg(payload.payload);
-          }
         }
+
         const driverProperties = interpolateSystemAssetEndpoint(
           proofType.driver_properties,
           `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
