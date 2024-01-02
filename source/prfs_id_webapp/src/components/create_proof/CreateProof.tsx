@@ -43,12 +43,7 @@ import {
 } from "../default_module/QueryItem";
 import { ProofGenReceiptRaw } from "../proof_gen/receipt";
 
-enum LoadDriverStatus {
-  Standby,
-  InProgress,
-}
-
-enum CreateProofStatus {
+enum Status {
   Standby,
   InProgress,
 }
@@ -86,11 +81,11 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
   const i18n = React.useContext(i18nContext);
   const [driverMsg, setDriverMsg] = React.useState<React.ReactNode>(null);
   const [loadDriverProgress, setLoadDriverProgress] = React.useState<Record<string, any>>({});
-  const [loadDriverStatus, setLoadDriverStatus] = React.useState(LoadDriverStatus.Standby);
+  const [loadDriverStatus, setLoadDriverStatus] = React.useState(Status.Standby);
   const [driver, setDriver] = React.useState<CircuitDriver | null>(null);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
-  const [createProofStatus, setCreateProofStatus] = React.useState(CreateProofStatus.Standby);
+  const [createProofStatus, setCreateProofStatus] = React.useState(Status.Standby);
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
   const searchParams = useSearchParams();
@@ -117,7 +112,7 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
         if (!driver) {
           return;
         }
-        if (createProofStatus === CreateProofStatus.InProgress) {
+        if (createProofStatus === Status.InProgress) {
           return;
         }
         try {
@@ -125,17 +120,16 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
           if (inputs === null) {
             console.error("Input validation fail to create a proof");
           }
-          setCreateProofStatus(CreateProofStatus.InProgress);
+          setCreateProofStatus(Status.InProgress);
           const proveReceipt = await driver.prove({
             inputs,
             circuitTypeId: proofType.circuit_type_id,
             eventListener: handleProofGenEvent,
           });
-          console.log("proveReceipt", proveReceipt);
-          setCreateProofStatus(CreateProofStatus.Standby);
+          setCreateProofStatus(Status.Standby);
           return proveReceipt;
         } catch (err: any) {
-          setCreateProofStatus(CreateProofStatus.Standby);
+          setCreateProofStatus(Status.Standby);
           setSystemMsg(err.toString());
           throw err;
         }
@@ -145,8 +139,6 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
 
   React.useEffect(() => {
     async function fn() {
-      const { name } = query;
-
       const proofType = data?.payload?.prfs_proof_type;
       if (proofType) {
         const since = dayjs();
@@ -185,7 +177,7 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
                   </p>
                 </div>,
               );
-              setLoadDriverStatus(LoadDriverStatus.Standby);
+              setLoadDriverStatus(Status.Standby);
               break;
             }
             default: {
@@ -199,7 +191,7 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
           proofType.driver_properties,
           `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
         );
-        setLoadDriverStatus(LoadDriverStatus.InProgress);
+        setLoadDriverStatus(Status.InProgress);
         const driver = await initCircuitDriver(
           proofType.circuit_driver_id,
           driverProperties,
@@ -231,14 +223,18 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
       <QueryItem sidePadding>
         <QueryItemMeta>
           <QueryItemLeftCol>
-            <TbNumbers />
+            {createProofStatus === Status.InProgress ? (
+              <Spinner size={20} borderWidth={2} />
+            ) : (
+              <TbNumbers />
+            )}
           </QueryItemLeftCol>
           <QueryItemRightCol>
             <QueryName>{query.name}</QueryName>
             <div>{proofType.proof_type_id}</div>
             <div className={styles.driverMsg}>
               {driverMsg}
-              {loadDriverStatus === LoadDriverStatus.InProgress && (
+              {loadDriverStatus === Status.InProgress && (
                 <LoadDriverProgress progress={loadDriverProgress} />
               )}
             </div>
@@ -246,7 +242,7 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
         </QueryItemMeta>
         <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
           <div className={styles.moduleWrapper}>
-            {loadDriverStatus === LoadDriverStatus.InProgress && (
+            {loadDriverStatus === Status.InProgress && (
               <div className={styles.overlay}>
                 <Spinner size={32} color={colors.blue_12} />
               </div>

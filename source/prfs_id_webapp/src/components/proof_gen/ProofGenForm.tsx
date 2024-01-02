@@ -124,14 +124,14 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 
       setStatus(Status.InProgress);
       await delay(500);
-      const processedReceipt = processReceipt(receipt);
+      const processedReceipt = await processReceipt(receipt);
       const payload: ProofGenSuccessPayload = {
         receipt: processedReceipt,
       };
       const encrypted = JSON.stringify(
         encrypt(proofGenArgs.publicKey, Buffer.from(JSON.stringify(payload))),
       );
-      console.log("receipt: %o, encrypted", receipt, encrypted);
+      console.log("receipt: %o, encrypted", processedReceipt, encrypted);
 
       try {
         await sendMsgToChild(
