@@ -18,6 +18,7 @@ import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/Prf
 import { idApi } from "@taigalabs/prfs-api-js";
 import { hexlify } from "ethers/lib/utils";
 import { useMutation } from "@tanstack/react-query";
+import LoaderBar from "@taigalabs/prfs-react-components/src/loader_bar/LoaderBar";
 
 import styles from "./ProofGenForm.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -29,11 +30,11 @@ import {
   DefaultModuleTitle,
   DefaultTopLabel,
 } from "@/components/default_module/DefaultModule";
-import CommitmentView from "../commitment/CommitmentView";
-import CreateProof from "../create_proof/CreateProof";
-import { QueryItem, QueryItemList } from "../default_module/QueryItem";
+import CommitmentView from "@/components/commitment/CommitmentView";
+import CreateProof from "@/components/create_proof/CreateProof";
+import { QueryItem, QueryItemList } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw, processReceipt } from "./receipt";
-import LoaderBar from "@taigalabs/prfs-react-components/src/loader_bar/LoaderBar";
+import { delay } from "@/hooks/interval";
 
 enum Status {
   InProgress,
@@ -49,7 +50,6 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
   const [status, setStatus] = React.useState(Status.InProgress);
-  const [createProofStatus, setCreateProofStatus] = React.useState(Status.Standby);
   const [errorMsg, setErrorMsg] = React.useState("");
   const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignInRequest) => {
@@ -99,36 +99,31 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 
           setReceipt(receipt);
           setQueryElems(elems);
+          setStatus(Status.Standby);
         }
       } catch (err) {
         console.error(err);
       }
     }
     fn().then();
-  }, [searchParams, setReceipt, setQueryElems, proofGenArgs]);
-
-  // React.useEffect(() => {
-  //   if (receipt) {
-  //     setStatus(Status.Standby);
-  //   }
-  // }, [setStatus, receipt]);
+  }, [searchParams, setReceipt, setQueryElems, proofGenArgs, setStatus]);
 
   const handleClickSubmit = React.useCallback(async () => {
-    if (proofGenArgs && credential && prfsEmbed) {
+    if (proofGenArgs && credential && prfsEmbed && status === Status.Standby) {
       const { payload: _signInRequestPayload, error } = await prfsIdentitySignInRequest({
         identity_id: credential.id,
       });
-
       if (error) {
         setErrorMsg(error);
         return;
       }
-
       if (!receipt) {
         setErrorMsg("no proof gen receipt");
         return;
       }
 
+      setStatus(Status.InProgress);
+      await delay(500);
       const processedReceipt = processReceipt(receipt);
       const payload: ProofGenSuccessPayload = {
         receipt: processedReceipt,
@@ -148,16 +143,18 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           prfsEmbed,
         );
       } catch (err: any) {
-        await sendMsgToChild(newPrfsIdErrorMsg("ERROR", err.toString()), prfsEmbed);
+        await sendMsgToChild(newPrfsIdErrorMsg("PROOF_GEN_RESULT", err.toString()), prfsEmbed);
         console.error(err);
       }
+
+      setStatus(Status.Standby);
       // window.close();
     }
-  }, [searchParams, proofGenArgs, credential, setErrorMsg, receipt]);
+  }, [searchParams, proofGenArgs, credential, setErrorMsg, receipt, setStatus]);
 
   return proofGenArgs ? (
     <>
-      {(!receipt || createProofStatus === Status.InProgress) && (
+      {status === Status.InProgress && (
         <div className={styles.overlay}>
           <LoaderBar />
         </div>
