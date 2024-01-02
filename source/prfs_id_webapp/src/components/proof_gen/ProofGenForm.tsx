@@ -33,9 +33,10 @@ import CommitmentView from "../commitment/CommitmentView";
 import CreateProof from "../create_proof/CreateProof";
 import { QueryItem, QueryItemList } from "../default_module/QueryItem";
 import { ProofGenReceiptRaw, processReceipt } from "./receipt";
+import LoaderBar from "@taigalabs/prfs-react-components/src/loader_bar/LoaderBar";
 
 enum Status {
-  Loading,
+  InProgress,
   Standby,
 }
 
@@ -47,7 +48,8 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
-  const [status, setStatus] = React.useState(Status.Loading);
+  const [status, setStatus] = React.useState(Status.InProgress);
+  const [createProofStatus, setCreateProofStatus] = React.useState(Status.Standby);
   const [errorMsg, setErrorMsg] = React.useState("");
   const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignInRequest) => {
@@ -105,11 +107,11 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
     fn().then();
   }, [searchParams, setReceipt, setQueryElems, proofGenArgs]);
 
-  React.useEffect(() => {
-    if (receipt) {
-      setStatus(Status.Standby);
-    }
-  }, [setStatus, receipt]);
+  // React.useEffect(() => {
+  //   if (receipt) {
+  //     setStatus(Status.Standby);
+  //   }
+  // }, [setStatus, receipt]);
 
   const handleClickSubmit = React.useCallback(async () => {
     if (proofGenArgs && credential && prfsEmbed) {
@@ -155,9 +157,9 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 
   return proofGenArgs ? (
     <>
-      {status === Status.Loading && (
+      {(!receipt || createProofStatus === Status.InProgress) && (
         <div className={styles.overlay}>
-          <Spinner color="#1b62c0" />
+          <LoaderBar />
         </div>
       )}
       <DefaultInnerPadding noSidePadding>
