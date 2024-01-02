@@ -1,30 +1,19 @@
 "use client";
 
 import React from "react";
-import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import {
-  CircuitDriver,
-  CreateProofEvent,
-  DriverEvent,
-  ProveReceipt,
-} from "@taigalabs/prfs-driver-interface";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import { CircuitDriver, CreateProofEvent, DriverEvent } from "@taigalabs/prfs-driver-interface";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
-import LoaderBar from "@taigalabs/prfs-react-components/src/loader_bar/LoaderBar";
-// import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import dayjs from "dayjs";
 import cn from "classnames";
 import { useSearchParams } from "next/navigation";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
-// import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
 import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
-import { parseProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web/proof_gen";
-import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
 import { useQuery } from "@tanstack/react-query";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-// import { ProofGenEvent } from "@taigalabs/prfs-sdk-web/src/elems/proof_gen/types";
 import { initCircuitDriver, interpolateSystemAssetEndpoint } from "@taigalabs/prfs-proof-gen-js";
+import { CreateProofQuery, PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
+import { TbNumbers } from "@taigalabs/prfs-react-components/src/tabler_icons/TbNumbers";
 
 import styles from "./CreateProof.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -32,16 +21,14 @@ import { validateInputs } from "@/functions/validate_inputs";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import { envs } from "@/envs";
 import CircuitInputs from "@/components/circuit_inputs/CircuitInputs";
-import { CreateProofQuery, PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
-import { TbNumbers } from "@taigalabs/prfs-react-components/src/tabler_icons/TbNumbers";
 import {
   QueryItem,
   QueryItemLeftCol,
   QueryItemMeta,
   QueryItemRightCol,
   QueryName,
-} from "../default_module/QueryItem";
-import { ProofGenReceiptRaw } from "../proof_gen/receipt";
+} from "@/components/default_module/QueryItem";
+import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
 
 enum Status {
   Standby,

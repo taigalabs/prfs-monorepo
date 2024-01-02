@@ -4,11 +4,11 @@ import cn from "classnames";
 import styles from "./QueryItem.module.scss";
 
 export const QueryItemList: React.FC<QueryItemProps> = ({ children }) => {
-  return <div className={styles.list}>{children}</div>;
+  return <ul className={styles.list}>{children}</ul>;
 };
 
 export const QueryItem: React.FC<QueryItemProps> = ({ children, sidePadding }) => {
-  return <div className={cn(styles.item, { [styles.sidePadding]: sidePadding })}>{children}</div>;
+  return <li className={cn(styles.item, { [styles.sidePadding]: sidePadding })}>{children}</li>;
 };
 
 export const QueryItemMeta: React.FC<QueryItemProps> = ({ children }) => {
