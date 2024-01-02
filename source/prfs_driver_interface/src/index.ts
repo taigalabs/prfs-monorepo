@@ -31,7 +31,7 @@ export interface VerifyArgs {
 }
 
 export interface Proof {
-  proofBytes: Uint8Array;
+  proofBytes: Uint8Array | number[];
   publicInputSer: string;
 }
 
@@ -49,3 +49,5 @@ export interface ProofPublicInput {
   circuitPubInput: Record<string, any>;
   [key: string]: any;
 }
+
+export type Uint8ArrayNative = number[];

@@ -1,7 +1,14 @@
 import React from "react";
 import cn from "classnames";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { poseidon_2_bigint } from "@taigalabs/prfs-crypto-js";
+import {
+  bigIntToLeBytes,
+  bytesLeToBigInt,
+  bytesToBigInt,
+  poseidon,
+  poseidon_2,
+  poseidon_2_bigint,
+} from "@taigalabs/prfs-crypto-js";
 import { bufferToBigInt } from "@ethereumjs/util";
 
 import styles from "./HashInput.module.scss";
@@ -84,14 +91,21 @@ const HashInput: React.FC<HashInputProps> = ({
   );
 
   const handleClickHash = React.useCallback(async () => {
-    // if (!proofGenElement.state.circuitDriverId) {
-    //   return null;
-    // }
-
     if (value && value.msgRaw) {
+      // TODO: fix it
       const msgRaw = value.msgRaw;
+      // await poseidon(msgRaw);
       const msgRawInt = bufferToBigInt(Buffer.from(msgRaw));
-      const msgHash = await poseidon_2_bigint([msgRawInt, BigInt(0)]);
+      // const _msgHash = await poseidon_2_bigint([msgRawInt, BigInt(0)]);
+      // const msgHash = bytesToBigInt(_msgHash);
+      // const msgHash = await poseidon([msgRawInt, BigInt(0)]);
+      const inputs = [msgRawInt, BigInt(0)];
+      const inputsBytes = new Uint8Array(32 * inputs.length);
+      for (let i = 0; i < inputs.length; i++) {
+        inputsBytes.set(bigIntToLeBytes(inputs[i], 32), i * 32);
+      }
+      const hash_bytes = await poseidon_2(inputsBytes);
+      const msgHash = bytesLeToBigInt(hash_bytes);
 
       setFormValues(oldVals => ({
         ...oldVals,

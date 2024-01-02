@@ -107,6 +107,7 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
           if (inputs === null) {
             console.error("Input validation fail to create a proof");
           }
+
           setCreateProofStatus(Status.InProgress);
           const proveReceipt = await driver.prove({
             inputs,
@@ -114,6 +115,7 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
             eventListener: handleProofGenEvent,
           });
           setCreateProofStatus(Status.Standby);
+          proveReceipt.proof.proofBytes = Array.from(proveReceipt.proof.proofBytes);
           return proveReceipt;
         } catch (err: any) {
           setCreateProofStatus(Status.Standby);

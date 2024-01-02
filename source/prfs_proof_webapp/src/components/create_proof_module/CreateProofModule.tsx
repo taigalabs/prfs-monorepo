@@ -125,6 +125,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
             console.error("cannot decrypt payload", err);
             return;
           }
+
           let payload: ProofGenSuccessPayload;
           try {
             payload = JSON.parse(decrypted) as ProofGenSuccessPayload;

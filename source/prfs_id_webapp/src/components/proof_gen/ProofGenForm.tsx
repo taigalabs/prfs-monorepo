@@ -28,7 +28,6 @@ import {
   DefaultModuleBtnRow,
   DefaultModuleHeader,
   DefaultModuleTitle,
-  DefaultTopLabel,
 } from "@/components/default_module/DefaultModule";
 import CommitmentView from "@/components/commitment/CommitmentView";
 import CreateProof from "@/components/create_proof/CreateProof";
@@ -148,7 +147,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       }
 
       setStatus(Status.Standby);
-      // window.close();
+      window.close();
     }
   }, [searchParams, proofGenArgs, credential, setErrorMsg, receipt, setStatus]);
 

@@ -13,7 +13,6 @@ import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 // import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
 import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
-// import { ProofGenEvent } from "@taigalabs/prfs-sdk-web/src/elems/proof_gen/types";
 import { ProofGenArgs, makeProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web/proof_gen";
 import { PopupStatus, usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 import { API_PATH, newPrfsIdMsg, parseBuffer, sendMsgToChild } from "@taigalabs/prfs-id-sdk-web";
@@ -23,37 +22,15 @@ import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { validateInputs } from "@/functions/validate_inputs";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
-// import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
-// import CircuitInputs from "./CircuitInputs";
 import { useRandomKeyPair } from "@/hooks/key";
 import { TbMathPi } from "@taigalabs/prfs-react-components/src/tabler_icons/TbMathPi";
 import { TbNumbers } from "@taigalabs/prfs-react-components/src/tabler_icons/TbNumbers";
-
-// const prfsSDK = new PrfsSDK("prfs-proof");
 
 enum Status {
   Loading,
   Standby,
 }
-
-// const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress }) => {
-//   const el = React.useMemo(() => {
-//     const elems = [];
-//     for (const key in progress) {
-//       elems.push(
-//         <div key={key} className={styles.progressRow}>
-//           <p>{key}</p>
-//           <p>...{progress[key]}%</p>
-//         </div>,
-//       );
-//     }
-
-//     return elems;
-//   }, [progress]);
-
-//   return <div className={styles.progressWrapper}>{el}</div>;
-// };
 
 const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   proofType,
