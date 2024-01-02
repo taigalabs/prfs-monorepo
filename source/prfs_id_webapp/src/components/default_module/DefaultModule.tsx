@@ -14,11 +14,14 @@ export const DefaultModuleLogoArea: React.FC = () => {
 };
 
 export const DefaultModuleHeader: React.FC<DefaultModuleInputAreaProps> = ({
+  className,
   children,
   noTopPadding,
 }) => {
   return (
-    <div className={cn(styles.header, { [styles.noTopPadding]: noTopPadding })}>{children}</div>
+    <div className={cn(styles.header, className, { [styles.noTopPadding]: noTopPadding })}>
+      {children}
+    </div>
   );
 };
 

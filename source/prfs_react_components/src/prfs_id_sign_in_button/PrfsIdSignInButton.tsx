@@ -12,7 +12,6 @@ import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
 import styles from "./PrfsIdSignInButton.module.scss";
 import colors from "../colors.module.scss";
-import Spinner from "../spinner/Spinner";
 import Button from "../button/Button";
 import { i18nContext } from "../i18n/i18nContext";
 
