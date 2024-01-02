@@ -3,7 +3,12 @@
 import React from "react";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { DriverEvent, ProveReceipt } from "@taigalabs/prfs-driver-interface";
+import {
+  CircuitDriver,
+  CreateProofEvent,
+  DriverEvent,
+  ProveReceipt,
+} from "@taigalabs/prfs-driver-interface";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
 import LoaderBar from "@taigalabs/prfs-react-components/src/loader_bar/LoaderBar";
@@ -37,6 +42,7 @@ import {
   QueryItemRightCol,
   QueryName,
 } from "../default_module/QueryItem";
+import { ProofGenReceiptRaw } from "../proof_gen/receipt";
 
 enum LoadDriverStatus {
   Standby,
@@ -92,6 +98,7 @@ const CreateProof: React.FC<CreateProofProps> = ({
   const [driverMsg, setDriverMsg] = React.useState<React.ReactNode>(null);
   const [loadDriverProgress, setLoadDriverProgress] = React.useState<Record<string, any>>({});
   const [loadDriverStatus, setLoadDriverStatus] = React.useState(LoadDriverStatus.Standby);
+  const [driver, setDriver] = React.useState<CircuitDriver | null>(null);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
   const [createProofStatus, setCreateProofStatus] = React.useState(CreateProofStatus.Standby);
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
@@ -113,6 +120,11 @@ const CreateProof: React.FC<CreateProofProps> = ({
     }
     return false;
   }, [searchParams]);
+
+  const handleProofGenEvent = React.useCallback((ev: CreateProofEvent) => {
+    const { payload } = ev;
+    setSystemMsg(payload.payload);
+  }, []);
 
   const handleClickCreateProof = React.useCallback(async () => {
     // if (proofGenElement) {
@@ -147,6 +159,8 @@ const CreateProof: React.FC<CreateProofProps> = ({
 
   React.useEffect(() => {
     async function fn() {
+      const { name } = query;
+
       const proofType = data?.payload?.prfs_proof_type;
       if (proofType) {
         const since = dayjs();
@@ -192,17 +206,58 @@ const CreateProof: React.FC<CreateProofProps> = ({
           `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
         );
         setLoadDriverStatus(LoadDriverStatus.InProgress);
-        await initCircuitDriver(proofType.circuit_driver_id, driverProperties, handleDriverEv);
+        const driver = await initCircuitDriver(
+          proofType.circuit_driver_id,
+          driverProperties,
+          handleDriverEv,
+        );
+        setDriver(driver);
+
+        receipt[name] = async () => {
+          try {
+            const inputs = await validateInputs(formValues, proofType, setFormErrors);
+            if (inputs === null) {
+              return;
+            }
+            if (createProofStatus === CreateProofStatus.InProgress) {
+              return;
+            }
+            setCreateProofStatus(CreateProofStatus.InProgress);
+            // const proveReceipt = await proofGenElement.createProof(
+            //   inputs,
+            //   proofType.circuit_type_id,
+            // );
+            console.log("create proof");
+            const proveReceipt = await driver.prove({
+              inputs,
+              circuitTypeId: proofType.circuit_type_id,
+              eventListener: handleProofGenEvent,
+            });
+            console.log("proveReceipt", proveReceipt);
+            setCreateProofStatus(CreateProofStatus.Created);
+            return proveReceipt;
+            // handleCreateProofResult(null, proveReceipt);
+          } catch (error: unknown) {
+            const err = error as Error;
+            setCreateProofStatus(CreateProofStatus.Error);
+            setSystemMsg(err.toString());
+            // handleCreateProofResult(err, null);
+            throw error;
+          }
+        };
       }
     }
     fn().then();
   }, [
     data,
+    query,
     setCreateProofStatus,
     setLoadDriverProgress,
     setLoadDriverStatus,
     setSystemMsg,
     setDriverMsg,
+    setDriver,
+    receipt,
   ]);
 
   const proofType = data?.payload?.prfs_proof_type;
@@ -276,7 +331,7 @@ export interface CreateProofProps {
   credential: PrfsIdCredential;
   // commitmentArgs: CommitmentArgs | null;
   query: CreateProofQuery;
-  receipt: Record<string, string>;
+  receipt: ProofGenReceiptRaw;
 }
 
 export interface LoadDriverProgressProps {

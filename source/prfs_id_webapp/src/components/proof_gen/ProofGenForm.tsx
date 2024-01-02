@@ -32,6 +32,7 @@ import {
 import CommitmentView from "../commitment/CommitmentView";
 import CreateProof from "../create_proof/CreateProof";
 import { QueryItem, QueryItemList } from "../default_module/QueryItem";
+import { ProofGenReceiptRaw, processReceipt } from "./receipt";
 
 enum Status {
   Loading,
@@ -53,7 +54,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       return idApi("sign_in_prfs_identity", req);
     },
   });
-  const [receipt, setReceipt] = React.useState<Record<string, string> | null>(null);
+  const [receipt, setReceipt] = React.useState<ProofGenReceiptRaw | null>(null);
   const [queryElems, setQueryElems] = React.useState<React.ReactNode>(null);
 
   React.useEffect(() => {
@@ -126,8 +127,9 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         return;
       }
 
+      const processedReceipt = processReceipt(receipt);
       const payload: ProofGenSuccessPayload = {
-        receipt,
+        receipt: processedReceipt,
       };
       const encrypted = JSON.stringify(
         encrypt(proofGenArgs.publicKey, Buffer.from(JSON.stringify(payload))),

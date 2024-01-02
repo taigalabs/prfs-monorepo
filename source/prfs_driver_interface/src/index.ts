@@ -1,4 +1,4 @@
-import { DriverEvent, DriverEventListener } from "./events";
+import { CreateProofEvent, DriverEvent, DriverEventListener } from "./events";
 
 export * from "./types";
 export * from "./events";
@@ -19,7 +19,7 @@ export interface CircuitDriver {
 export interface ProveArgs<T> {
   inputs: T;
   circuitTypeId: string;
-  eventListener: (ev: DriverEvent) => void;
+  eventListener: (ev: CreateProofEvent) => void;
 }
 
 export interface VerifyArgs {
