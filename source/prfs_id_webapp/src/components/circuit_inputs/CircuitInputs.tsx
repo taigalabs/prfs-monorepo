@@ -5,7 +5,6 @@ import styles from "./CircuitInputs.module.scss";
 import { i18nContext } from "@/i18n/context";
 import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
 import SigDataInput from "@/components/sig_data_input/SigDataInput";
-import Passcode from "@/components/passcode/Passcode";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
 import HashInput from "@/components/hash_input/HashInput";
 
@@ -72,38 +71,6 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
               setFormValues={setFormValues}
               setFormErrors={setFormErrors}
               // proofGenElement={proofGenElement}
-            />,
-          );
-          break;
-        }
-        case "PASSCODE": {
-          entriesElem.push(
-            <Passcode
-              key={idx}
-              circuitInput={input}
-              value={formValues[input.name]}
-              handleChangeValue={handleChangeValue}
-            />,
-          );
-          break;
-        }
-        case "PASSCODE_CONFIRM": {
-          entriesElem.push(
-            <Passcode
-              key={idx}
-              circuitInput={input}
-              value={formValues[input.name]}
-              handleChangeValue={handleChangeValue}
-            />,
-          );
-
-          entriesElem.push(
-            <Passcode
-              key={`${idx}-confirm`}
-              confirm
-              circuitInput={input}
-              value={formValues[input.name]}
-              handleChangeValue={handleChangeValue}
             />,
           );
           break;
