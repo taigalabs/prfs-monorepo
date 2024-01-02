@@ -23,8 +23,6 @@ RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 # Install pnpm
 RUN npm install -g pnpm
 
-RUN pnpm --version
-
 # Install dependencies
 RUN pnpm install
 
