@@ -31,6 +31,7 @@ import {
 } from "@/components/default_module/DefaultModule";
 import CommitmentView from "../commitment/CommitmentView";
 import CreateProof from "../create_proof/CreateProof";
+import { QueryItem } from "../default_module/QueryItem";
 
 enum Status {
   Loading,
@@ -69,7 +70,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                     key={query.name}
                     credential={credential}
                     query={query}
-                    // receipt={receipt}
+                    receipt={receipt}
                   />
                 );
                 elems.push(elem);
@@ -164,15 +165,15 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
             information
           </DefaultModuleTitle>
         </DefaultModuleHeader>
-        <div className={cn(styles.prfsId)}>
+        <div className={cn(styles.prfsId, styles.sidePadding)}>
           <p>{credential.id}</p>
         </div>
-        <div className={styles.queryItemList}>{queryElems}</div>
-        <div className={styles.dataWarning}>
+        <div className={cn(styles.queryItemList, styles.sidePadding)}>{queryElems}</div>
+        <div className={cn(styles.dataWarning, styles.sidePadding)}>
           <p className={styles.title}>Make sure you trust {proofGenArgs.appId} app</p>
           <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
         </div>
-        <DefaultModuleBtnRow className={styles.btnRow}>
+        <DefaultModuleBtnRow className={cn(styles.btnRow, styles.sidePadding)}>
           <Button variant="transparent_blue_2" noTransition handleClick={handleClickPrev}>
             {i18n.go_back}
           </Button>
@@ -187,7 +188,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
             {i18n.submit}
           </Button>
         </DefaultModuleBtnRow>
-        <DefaultErrorMsg>{errorMsg}</DefaultErrorMsg>
+        <DefaultErrorMsg className={styles.sidePadding}>{errorMsg}</DefaultErrorMsg>
       </DefaultInnerPadding>
     </>
   ) : (

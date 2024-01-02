@@ -7,8 +7,12 @@ export const QueryItemList: React.FC<QueryItemProps> = ({ children }) => {
   return <div className={styles.list}>{children}</div>;
 };
 
-export const QueryItem: React.FC<QueryItemProps> = ({ children }) => {
-  return <div className={styles.item}>{children}</div>;
+export const QueryItem: React.FC<QueryItemProps> = ({ children, sidePadding }) => {
+  return <div className={cn(styles.item, { [styles.sidePadding]: sidePadding })}>{children}</div>;
+};
+
+export const QueryItemMeta: React.FC<QueryItemProps> = ({ children }) => {
+  return <div className={styles.meta}>{children}</div>;
 };
 
 export const QueryItemLeftCol: React.FC<QueryItemProps> = ({ children }) => {
@@ -25,5 +29,6 @@ export const QueryName: React.FC<QueryItemProps> = ({ children }) => {
 
 export interface QueryItemProps {
   className?: string;
+  sidePadding?: boolean;
   children: React.ReactNode;
 }
