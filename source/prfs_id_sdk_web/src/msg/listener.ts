@@ -70,9 +70,9 @@ export function setupParentMsgHandler(queue: MessageQueue) {
             break;
           }
 
-          // ////////
+          // ////////////
           // outbound
-          // ////////
+          // ////////////
           case "COMMITMENT_RESULT": {
             if (data.payload) {
               const payload = data.payload as StorageMsg<CommitmentSuccessPayload>;

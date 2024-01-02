@@ -133,9 +133,10 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
             return;
           }
 
-          const proof = payload.receipt[PROOF];
+          const proof = payload.receipt[PROOF] as ProveReceipt;
           console.log(13323, proof);
           if (proof) {
+            handleCreateProofResult(proof);
             // setClaimCm(cm);
             // setStep(AttestationStep.POST_TWEET);
           } else {
@@ -211,7 +212,7 @@ export default CreateProofModule;
 
 export interface CreateProofModuleProps {
   proofType: PrfsProofType;
-  handleCreateProofResult: (err: any, proveReceipt: ProveReceipt | null) => void;
+  handleCreateProofResult: (proveReceipt: ProveReceipt) => void;
   proofGenElement: ProofGenElement | null;
   setProofGenElement: React.Dispatch<React.SetStateAction<ProofGenElement | null>>;
 }
