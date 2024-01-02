@@ -42,8 +42,8 @@ enum Status {
 const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   proofType,
   handleCreateProofResult,
-  proofGenElement,
-  setProofGenElement,
+  // proofGenElement,
+  // setProofGenElement,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
@@ -155,7 +155,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     // formValues,
     proofType,
     handleCreateProofResult,
-    proofGenElement,
+    // proofGenElement,
     setSystemMsg,
     status,
   ]);
@@ -167,7 +167,13 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       }
     }
     fn().then();
-  }, [proofType, setProofGenElement, setStatus, isPrfsReady, setSystemMsg]);
+  }, [
+    proofType,
+    // setProofGenElement,
+    setStatus,
+    isPrfsReady,
+    setSystemMsg,
+  ]);
 
   return (
     <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
@@ -214,8 +220,8 @@ export default CreateProofModule;
 export interface CreateProofModuleProps {
   proofType: PrfsProofType;
   handleCreateProofResult: (proveReceipt: ProveReceipt) => void;
-  proofGenElement: ProofGenElement | null;
-  setProofGenElement: React.Dispatch<React.SetStateAction<ProofGenElement | null>>;
+  // proofGenElement: ProofGenElement | null;
+  // setProofGenElement: React.Dispatch<React.SetStateAction<ProofGenElement | null>>;
 }
 
 export interface LoadDriverProgressProps {

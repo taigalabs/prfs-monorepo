@@ -9,7 +9,7 @@ import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
-import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
+// import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
 
 import styles from "./CreateProofForm.module.scss";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
@@ -24,7 +24,7 @@ const CreateProofForm: React.FC = () => {
   const [proofType, setProofType] = React.useState<PrfsProofType>();
   const proofTypeIdRef = React.useRef<string | null>(null);
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt>();
-  const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
+  // const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
   const searchParams = useSearchParams();
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
@@ -86,7 +86,7 @@ const CreateProofForm: React.FC = () => {
                 <PostCreateMenu
                   proveReceipt={proveReceipt}
                   proofType={proofType!}
-                  proofGenElement={proofGenElement!}
+                  // proofGenElement={proofGenElement!}
                 />
               </Fade>
             ) : (
@@ -94,8 +94,8 @@ const CreateProofForm: React.FC = () => {
                 <CreateProofModule
                   proofType={proofType}
                   handleCreateProofResult={handleCreateProofResult}
-                  proofGenElement={proofGenElement}
-                  setProofGenElement={setProofGenElement}
+                  // proofGenElement={proofGenElement}
+                  // setProofGenElement={setProofGenElement}
                 />
               </Fade>
             )}
