@@ -19,7 +19,6 @@ import { envs } from "@/envs";
 import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import SignIn from "@/components/sign_in/SignIn";
 import ProofGenForm from "./ProofGenForm";
-// import CommitmentView from "./CommitmentView";
 
 enum ProofGenStep {
   PrfsIdCredential,
