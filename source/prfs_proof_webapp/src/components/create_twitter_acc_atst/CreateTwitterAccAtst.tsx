@@ -23,6 +23,7 @@ import {
   makeProofGenSearchParams,
   ProofGenArgs,
   QueryType,
+  ProofGenSuccessPayload,
 } from "@taigalabs/prfs-id-sdk-web";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
@@ -189,15 +190,17 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
             return;
           }
 
-          let payload: CommitmentSuccessPayload;
+          // let payload: CommitmentSuccessPayload;
+          let payload: ProofGenSuccessPayload;
           try {
-            payload = JSON.parse(decrypted) as CommitmentSuccessPayload;
+            payload = JSON.parse(decrypted);
           } catch (err) {
             console.error("cannot parse payload", err);
             return;
           }
 
-          const cm = payload.receipt[CLAIM];
+          // const cm = payload.receipt[CLAIM];
+          const cm = payload.result[CLAIM];
           if (cm) {
             setClaimCm(cm);
             setStep(AttestationStep.POST_TWEET);

@@ -4,6 +4,7 @@ import {
   StorageMsg,
   RequestPayload,
   CommitmentSuccessPayload,
+  ProofGenSuccessPayload,
 } from "./msg";
 import { MessageQueue } from "./queue";
 import { createStorageKey, dispatchStorageMsg } from "./storage";
@@ -104,9 +105,9 @@ export function setupParentMsgHandler(queue: MessageQueue) {
             break;
           }
 
-          case "SIGN_IN_RESULT": {
+          case "PROOF_GEN_RESULT": {
             if (data.payload) {
-              const payload = data.payload as StorageMsg<SignInSuccessPayload>;
+              const payload = data.payload as StorageMsg<ProofGenSuccessPayload>;
               dispatchStorageMsg(payload);
             } else {
               console.error("msg doesn't contain payload");
