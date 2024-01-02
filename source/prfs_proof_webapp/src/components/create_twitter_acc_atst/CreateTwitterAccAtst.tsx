@@ -82,7 +82,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
     },
   });
   const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
-  const { openPopup, isOpen } = usePopup();
+  const { openPopup } = usePopup();
 
   React.useEffect(() => {
     const handle = formData[TWITTER_HANDLE];
@@ -334,7 +334,6 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
                   <button className={styles.btn} type="button" onClick={handleClickGenerate}>
                     <MdSecurity />
                     <span>{i18n.generate}</span>
-                    {isOpen && <Spinner className={styles.spinner} size={20} />}
                   </button>
                   <p className={styles.value}>{claimCm}</p>
                 </div>

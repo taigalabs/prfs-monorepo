@@ -17,37 +17,20 @@ export enum PopupStatus {
 }
 
 export function usePopup() {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const closeTimerRef = React.useRef<NodeJS.Timer | null>(null);
-
   function openPopup(endpoint: string, callback: (popup: Window) => Promise<any>) {
     // Open the window
-    setIsOpen(true);
     const popup = window.open(endpoint, "_blank", "toolbar=0,location=0,menubar=0");
     if (!popup) {
       console.error("Failed to open window");
-      setIsOpen(false);
       return;
-    }
-
-    if (!closeTimerRef.current) {
-      const timer = setInterval(() => {
-        if (popup.closed) {
-          setIsOpen(false);
-          clearInterval(timer);
-          closeTimerRef.current = null;
-        }
-      }, 4000);
-      closeTimerRef.current = timer;
     }
 
     callback(popup).then(() => {
       popup.close();
-      setIsOpen(false);
     });
   }
 
-  return { isOpen, openPopup };
+  return { openPopup };
 }
 
 export function usePrfsEmbed() {

@@ -25,12 +25,10 @@ import { decrypt } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { validateInputs } from "@/functions/validate_inputs";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
 import { useRandomKeyPair } from "@/hooks/key";
-import { TbMathPi } from "@taigalabs/prfs-react-components/src/tabler_icons/TbMathPi";
 import { TbNumbers } from "@taigalabs/prfs-react-components/src/tabler_icons/TbNumbers";
 
 const PROOF = "proof";
@@ -51,7 +49,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const [status, setStatus] = React.useState(Status.Loading);
   const searchParams = useSearchParams();
   const { sk, pkHex } = useRandomKeyPair();
-  const { openPopup, isOpen } = usePopup();
+  const { openPopup } = usePopup();
   const isTutorial = React.useMemo(() => {
     if (searchParams.get("tutorial_id")) {
       return true;
@@ -103,7 +101,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       ],
       publicKey: pkHex,
     };
-
     const searchParams = makeProofGenSearchParams(proofGenArgs);
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
@@ -234,7 +231,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
                 <button onClick={handleClickCreateProof} className={cn(styles.createBtn)}>
                   <IoMdAdd />
                   <span>{i18n.create_proof_with_prfs}</span>
-                  {isOpen && <Spinner size={20} className={styles.spinner} />}
                 </button>
               </TutorialStepper>
             </div>

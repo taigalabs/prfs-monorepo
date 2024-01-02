@@ -27,9 +27,7 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
-  const { openPopup, isOpen } = usePopup();
-
-  console.log(11, className);
+  const { openPopup } = usePopup();
 
   const handleClickSignIn = React.useCallback(async () => {
     const searchParams = makeAppSignInSearchParams(appSignInArgs);
@@ -75,7 +73,6 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     >
       <div className={styles.wrapper}>
         <span>{label ? label : i18n.sign_in}</span>
-        {isOpen && <Spinner size={20} color={colors.white_100} borderWidth={2} />}
       </div>
     </Button>
   );
