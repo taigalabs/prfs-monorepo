@@ -16,6 +16,7 @@ import { ProofGenArgs, makeProofGenSearchParams } from "@taigalabs/prfs-id-sdk-w
 import { PopupStatus, usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 import {
   API_PATH,
+  ProofGenSuccessPayload,
   QueryType,
   newPrfsIdMsg,
   parseBuffer,
@@ -31,7 +32,7 @@ import { envs } from "@/envs";
 import { useRandomKeyPair } from "@/hooks/key";
 import { TbNumbers } from "@taigalabs/prfs-react-components/src/tabler_icons/TbNumbers";
 
-const PROOF = "proof";
+const PROOF = "Proof";
 
 enum Status {
   Loading,
@@ -114,37 +115,39 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         prfsEmbed,
       );
 
-      // if (resp) {
-      //   try {
-      //     const buf = parseBuffer(resp);
-      //     let decrypted: string;
-      //     try {
-      //       decrypted = decrypt(sk.secret, buf).toString();
-      //     } catch (err) {
-      //       console.error("cannot decrypt payload", err);
-      //       return;
-      //     }
-      //     let payload: CommitmentSuccessPayload;
-      //     try {
-      //       payload = JSON.parse(decrypted) as CommitmentSuccessPayload;
-      //     } catch (err) {
-      //       console.error("cannot parse payload", err);
-      //       return;
-      //     }
-      //     const cm = payload.receipt[CLAIM];
-      //     if (cm) {
-      //       setClaimCm(cm);
-      //       setStep(AttestationStep.POST_TWEET);
-      //     } else {
-      //       console.error("no commitment delivered");
-      //       return;
-      //     }
-      //   } catch (err) {
-      //     console.error(err);
-      //   }
-      // } else {
-      //   console.error("Returned val is empty");
-      // }
+      if (resp) {
+        try {
+          const buf = parseBuffer(resp);
+          let decrypted: string;
+          try {
+            decrypted = decrypt(sk.secret, buf).toString();
+          } catch (err) {
+            console.error("cannot decrypt payload", err);
+            return;
+          }
+          let payload: ProofGenSuccessPayload;
+          try {
+            payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
+          } catch (err) {
+            console.error("cannot parse payload", err);
+            return;
+          }
+
+          const proof = payload.receipt[PROOF];
+          console.log(13323, proof);
+          if (proof) {
+            // setClaimCm(cm);
+            // setStep(AttestationStep.POST_TWEET);
+          } else {
+            console.error("no commitment delivered");
+            return;
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      } else {
+        console.error("Returned val is empty");
+      }
     });
   }, [
     // formValues,

@@ -56,7 +56,8 @@ export function setupParentMsgHandler(queue: MessageQueue) {
       if (data.type) {
         switch (data.type) {
           // inbound
-          case "REQUEST_SIGN_IN": {
+          case "REQUEST_SIGN_IN":
+          case "REQUEST_PROOF_GEN": {
             if (data.payload) {
               const { appId } = data.payload as RequestPayload;
               if (appId) {
@@ -80,17 +81,6 @@ export function setupParentMsgHandler(queue: MessageQueue) {
               console.error("msg doesn't contain payload");
             }
             ev.ports[0].postMessage(true);
-            break;
-          }
-
-          case "REQUEST_PROOF_GEN": {
-            if (data.payload) {
-              const payload = data.payload as StorageMsg<any>;
-              dispatchStorageMsg(payload);
-            } else {
-              console.error("msg doesn't contain payload");
-            }
-            // ev.ports[0].postMessage(true);
             break;
           }
 
