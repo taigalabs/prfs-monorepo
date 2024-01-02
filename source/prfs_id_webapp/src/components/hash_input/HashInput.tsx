@@ -126,8 +126,9 @@ const HashInput: React.FC<HashInputProps> = ({
               variant="transparent_aqua_blue_1"
               handleClick={handleClickHash}
               className={styles.hashBtn}
+              type="button"
             >
-              {i18n.hash.toUpperCase()}
+              {i18n.hash}
             </Button>
           </div>
         </div>

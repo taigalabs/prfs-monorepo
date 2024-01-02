@@ -148,7 +148,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       }
 
       setStatus(Status.Standby);
-      window.close();
+      // window.close();
     }
   }, [searchParams, proofGenArgs, credential, setErrorMsg, receipt, setStatus]);
 
