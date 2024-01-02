@@ -119,7 +119,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
       try {
         if (prfsEmbed) {
           await sendMsgToChild(
-            newPrfsIdMsg("SIGN_IN_SUCCESS", {
+            newPrfsIdMsg("SIGN_IN_RESULT", {
               appId: appSignInArgs.appId,
               key: appSignInArgs.publicKey,
               value: encrypted,

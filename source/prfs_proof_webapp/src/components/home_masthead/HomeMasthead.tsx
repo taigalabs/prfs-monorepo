@@ -22,9 +22,9 @@ const HomeMasthead: React.FC<HomeMastheadProps> = () => {
     <MastheadWrapper>
       <MastheadRightGroup>
         <MastheadRightGroupMenu className={cn(styles.menu, styles.underline, styles.tutorialBtn)}>
-          {/* <a href={tutorialUrl}> */}
-          {/*   <span>{i18n.tutorial}</span> */}
-          {/* </a> */}
+          <a href={tutorialUrl}>
+            <span>{i18n.tutorial}</span>
+          </a>
         </MastheadRightGroupMenu>
         <MastheadRightGroupMenu className={styles.menu}>
           <PrfsAppsPopoverDefault disableMarkIsOpen />

@@ -79,10 +79,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     }
     return false;
   }, [searchParams]);
-  const { prfsEmbedRef, isReady: isPrfsReady } = usePrfsEmbed({
-    appId: "prfs_proof11",
-    prfsEmbedEndpoint: envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT,
-  });
+  const { prfsEmbedRef, isReady: isPrfsReady } = usePrfsEmbed();
 
   console.log(33, isPrfsReady);
 

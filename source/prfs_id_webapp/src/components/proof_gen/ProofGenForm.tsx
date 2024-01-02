@@ -150,7 +150,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
 
       try {
         await sendMsgToChild(
-          newPrfsIdMsg("PROOF_GEN_SUCCESS", {
+          newPrfsIdMsg("PROOF_GEN_RESULT", {
             appId: proofGenArgs.appId,
             key: proofGenArgs.publicKey,
             value: encrypted,
