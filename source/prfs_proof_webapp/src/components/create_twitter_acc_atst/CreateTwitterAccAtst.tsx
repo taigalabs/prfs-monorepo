@@ -22,6 +22,7 @@ import {
   parseBuffer,
   makeProofGenSearchParams,
   ProofGenArgs,
+  QueryType,
 } from "@taigalabs/prfs-id-sdk-web";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
@@ -157,7 +158,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
           name: CLAIM,
           preImage: claimSecret,
           type: CommitmentType.SIG_POSEIDON_1,
-          queryType: "cm",
+          queryType: QueryType.COMMITMENT_TYPE,
         },
       ],
       publicKey: pkHex,

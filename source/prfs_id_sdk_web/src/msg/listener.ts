@@ -71,7 +71,7 @@ export function setupParentMsgHandler(queue: MessageQueue) {
           // ////////
           // outbound
           // ////////
-          case "COMMITMENT_SUCCESS": {
+          case "COMMITMENT_RESULT": {
             if (data.payload) {
               const payload = data.payload as StorageMsg<CommitmentSuccessPayload>;
               dispatchStorageMsg(payload);
@@ -93,7 +93,7 @@ export function setupParentMsgHandler(queue: MessageQueue) {
             break;
           }
 
-          case "SIGN_IN_SUCCESS": {
+          case "SIGN_IN_RESULT": {
             if (data.payload) {
               const payload = data.payload as StorageMsg<SignInSuccessPayload>;
               dispatchStorageMsg(payload);
@@ -104,17 +104,16 @@ export function setupParentMsgHandler(queue: MessageQueue) {
             break;
           }
 
-          // case "ERROR": {
-          //   console.error(data.payload);
-          //   if (data.payload) {
-          //     const payload = data.payload as StorageMsg<CommitmentSuccessPayload>;
-          //     dispatchStorageMsg(payload);
-          //   } else {
-          //     console.error("msg doesn't contain payload");
-          //   }
-          //   ev.ports[0].postMessage(true);
-          //   break;
-          // }
+          case "SIGN_IN_RESULT": {
+            if (data.payload) {
+              const payload = data.payload as StorageMsg<SignInSuccessPayload>;
+              dispatchStorageMsg(payload);
+            } else {
+              console.error("msg doesn't contain payload");
+            }
+            ev.ports[0].postMessage(true);
+            break;
+          }
 
           default:
             console.error(`invalid msg type, ${data.type}`);
