@@ -32,7 +32,6 @@ import { validateInputs } from "@/functions/validate_inputs";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import { envs } from "@/envs";
 import CircuitInputs from "@/components/circuit_inputs/CircuitInputs";
-import { DefaultForm, DefaultModule } from "../default_module/DefaultModule";
 import { CreateProofQuery, PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 import { TbNumbers } from "@taigalabs/prfs-react-components/src/tabler_icons/TbNumbers";
 import {
@@ -52,8 +51,6 @@ enum LoadDriverStatus {
 enum CreateProofStatus {
   Standby,
   InProgress,
-  Created,
-  Error,
 }
 
 const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress }) => {
@@ -85,34 +82,18 @@ function useProofType(proofTypeId: string | undefined) {
   });
 }
 
-const CreateProof: React.FC<CreateProofProps> = ({
-  credential,
-  query,
-  setReceipt,
-  // proofType,
-  // handleCreateProofResult,
-  // proofGenElement,
-  // setProofGenElement,
-}) => {
+const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt }) => {
   const i18n = React.useContext(i18nContext);
   const [driverMsg, setDriverMsg] = React.useState<React.ReactNode>(null);
   const [loadDriverProgress, setLoadDriverProgress] = React.useState<Record<string, any>>({});
   const [loadDriverStatus, setLoadDriverStatus] = React.useState(LoadDriverStatus.Standby);
   const [driver, setDriver] = React.useState<CircuitDriver | null>(null);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const [createProofStatus, setCreateProofStatus] = React.useState(CreateProofStatus.Standby);
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
-  const lastInitProofTypeId = React.useRef<string | null>(null);
   const searchParams = useSearchParams();
-  const proofGenArgs = React.useMemo(() => {
-    try {
-      const args = parseProofGenSearchParams(searchParams as URLSearchParams);
-      return args;
-    } catch (err) {
-      return null;
-    }
-  }, [searchParams]);
   const { data, isFetching } = useProofType(query?.proofTypeId);
   const isTutorial = React.useMemo(() => {
     if (searchParams.get("tutorial_id")) {
@@ -120,102 +101,43 @@ const CreateProof: React.FC<CreateProofProps> = ({
     }
     return false;
   }, [searchParams]);
-
   const handleProofGenEvent = React.useCallback((ev: CreateProofEvent) => {
     const { payload } = ev;
     setSystemMsg(payload.payload);
   }, []);
-
-  // const doCreateProof = React.useCallback(async () => {
-  //   const proofType = data?.payload?.prfs_proof_type;
-  //   if (!driver) {
-  //     throw new Error("Driver needs to be loaded to create proof");
-  //   }
-
-  //   if (!proofType) {
-  //     throw new Error("proof type is required to create proof");
-  //   }
-
-  //   try {
-  //     console.log(123123, formValues);
-  //     const inputs = await validateInputs(formValues, proofType, setFormErrors);
-  //     if (inputs === null) {
-  //       return;
-  //     }
-  //     if (createProofStatus === CreateProofStatus.InProgress) {
-  //       return;
-  //     }
-  //     setCreateProofStatus(CreateProofStatus.InProgress);
-  //     // const proveReceipt = await proofGenElement.createProof(
-  //     //   inputs,
-  //     //   proofType.circuit_type_id,
-  //     // );
-  //     console.log("create proof");
-  //     const proveReceipt = await driver.prove({
-  //       inputs,
-  //       circuitTypeId: proofType.circuit_type_id,
-  //       eventListener: handleProofGenEvent,
-  //     });
-  //     console.log("proveReceipt", proveReceipt);
-  //     setCreateProofStatus(CreateProofStatus.Created);
-  //     return proveReceipt;
-  //     // handleCreateProofResult(null, proveReceipt);
-  //   } catch (error: unknown) {
-  //     const err = error as Error;
-  //     setCreateProofStatus(CreateProofStatus.Error);
-  //     setSystemMsg(err.toString());
-  //     // handleCreateProofResult(err, null);
-  //     throw error;
-  //   }
-  // }, [
-  //   data,
-  //   formValues,
-  //   proofGenArgs,
-  //   driver,
-  //   // proofType,
-  //   // handleCreateProofResult,
-  //   // proofGenElement,
-  //   setSystemMsg,
-  //   createProofStatus,
-  // ]);
 
   React.useEffect(() => {
     const { name } = query;
     setReceipt(() => ({
       [name]: async () => {
         const proofType = data?.payload?.prfs_proof_type;
-        if (proofType && driver) {
-          try {
-            console.log(123123, formValues);
-            const inputs = await validateInputs(formValues, proofType, setFormErrors);
-            if (inputs === null) {
-              return;
-            }
-            if (createProofStatus === CreateProofStatus.InProgress) {
-              return;
-            }
-            setCreateProofStatus(CreateProofStatus.InProgress);
-            // const proveReceipt = await proofGenElement.createProof(
-            //   inputs,
-            //   proofType.circuit_type_id,
-            // );
-            console.log("create proof");
-            const proveReceipt = await driver.prove({
-              inputs,
-              circuitTypeId: proofType.circuit_type_id,
-              eventListener: handleProofGenEvent,
-            });
-            console.log("proveReceipt", proveReceipt);
-            setCreateProofStatus(CreateProofStatus.Created);
-            return proveReceipt;
-            // handleCreateProofResult(null, proveReceipt);
-          } catch (error: unknown) {
-            const err = error as Error;
-            setCreateProofStatus(CreateProofStatus.Error);
-            setSystemMsg(err.toString());
-            // handleCreateProofResult(err, null);
-            throw error;
+        if (!proofType) {
+          return;
+        }
+        if (!driver) {
+          return;
+        }
+        try {
+          const inputs = await validateInputs(formValues, proofType, setFormErrors);
+          if (inputs === null) {
+            return;
           }
+          if (createProofStatus === CreateProofStatus.InProgress) {
+            return;
+          }
+          setCreateProofStatus(CreateProofStatus.InProgress);
+          const proveReceipt = await driver.prove({
+            inputs,
+            circuitTypeId: proofType.circuit_type_id,
+            eventListener: handleProofGenEvent,
+          });
+          console.log("proveReceipt", proveReceipt);
+          setCreateProofStatus(CreateProofStatus.Standby);
+          return proveReceipt;
+        } catch (err: any) {
+          setCreateProofStatus(CreateProofStatus.Standby);
+          setSystemMsg(err.toString());
+          throw err;
         }
       },
     }));
@@ -276,46 +198,6 @@ const CreateProof: React.FC<CreateProofProps> = ({
           handleDriverEv,
         );
         setDriver(driver);
-
-        // setReceipt(oldVal => ({
-        //   [name]: async () => {
-        //     console.log(111, formValues);
-        //   },
-        // }));
-
-        // receipt[name] = async () => {
-        //   try {
-        //     console.log(123123, formValues);
-        //     const inputs = await validateInputs(formValues, proofType, setFormErrors);
-        //     if (inputs === null) {
-        //       return;
-        //     }
-        //     if (createProofStatus === CreateProofStatus.InProgress) {
-        //       return;
-        //     }
-        //     setCreateProofStatus(CreateProofStatus.InProgress);
-        //     // const proveReceipt = await proofGenElement.createProof(
-        //     //   inputs,
-        //     //   proofType.circuit_type_id,
-        //     // );
-        //     console.log("create proof");
-        //     const proveReceipt = await driver.prove({
-        //       inputs,
-        //       circuitTypeId: proofType.circuit_type_id,
-        //       eventListener: handleProofGenEvent,
-        //     });
-        //     console.log("proveReceipt", proveReceipt);
-        //     setCreateProofStatus(CreateProofStatus.Created);
-        //     return proveReceipt;
-        //     // handleCreateProofResult(null, proveReceipt);
-        //   } catch (error: unknown) {
-        //     const err = error as Error;
-        //     setCreateProofStatus(CreateProofStatus.Error);
-        //     setSystemMsg(err.toString());
-        //     // handleCreateProofResult(err, null);
-        //     throw error;
-        //   }
-        // };
       }
     }
     fn().then();
@@ -378,17 +260,8 @@ const CreateProof: React.FC<CreateProofProps> = ({
                 />
               </div>
             </TutorialStepper>
-            {systemMsg && (
-              <div className={styles.footer}>
-                <div
-                  className={cn(styles.msg, {
-                    [styles.errorMsg]: createProofStatus === CreateProofStatus.Error,
-                  })}
-                >
-                  {systemMsg}
-                </div>
-              </div>
-            )}
+            {systemMsg && <div className={styles.systemMsg}>{systemMsg}</div>}
+            {errorMsg && <div className={cn(styles.systemMsg, styles.red)}>{errorMsg}</div>}
           </div>
         </div>
       </QueryItem>

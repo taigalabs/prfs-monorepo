@@ -86,7 +86,7 @@
   }
 }
 
-.footer {
+.systemMsg {
   display: flex;
   flex-direction: column;
   margin-top: 20px;
@@ -95,13 +95,9 @@
   font-size: 12px;
 
   /* border: 1px solid red; */
-
-  .msg {
-    text-align: center;
-  }
 }
 
-.errorMsg {
+.red {
   color: var(--red-50);
 }
 
