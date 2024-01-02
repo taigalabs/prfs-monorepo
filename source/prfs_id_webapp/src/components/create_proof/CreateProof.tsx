@@ -169,17 +169,19 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
             const diff = now.diff(since, "seconds", true);
             const { artifactCount } = payload;
             setDriverMsg(
-              <>
-                <span>Circuit driver </span>
-                <a
-                  href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${proofType.circuit_driver_id}`}
-                >
-                  {proofType.circuit_driver_id} <BiLinkExternal />
-                </a>
-                <span>
+              <div>
+                <p>
+                  <span>Circuit driver </span>
+                  <a
+                    href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${proofType.circuit_driver_id}`}
+                  >
+                    {proofType.circuit_driver_id} <BiLinkExternal />
+                  </a>
+                </p>
+                <p>
                   ({diff} seconds, {artifactCount} artifacts)
-                </span>
-              </>,
+                </p>
+              </div>,
             );
             setLoadDriverStatus(LoadDriverStatus.Standby);
           }
@@ -229,7 +231,7 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
             <QueryName>{query.name}</QueryName>
             <div>{proofType.proof_type_id}</div>
             <div className={styles.driverMsg}>
-              <div className={styles.msg}>{driverMsg}</div>
+              {driverMsg}
               {loadDriverStatus === LoadDriverStatus.InProgress && (
                 <LoadDriverProgress progress={loadDriverProgress} />
               )}
