@@ -1,16 +1,8 @@
-use crate::{
-    build_cmd::{
-        build_js_dependencies::BuildJsDependenciesTask,
-        build_prfs_driver_spartan_js::BuildPrfsDriverSpartanJsTask,
-        build_prfs_driver_spartan_wasm::BuildPrfsDriverSpartanWasmTask,
-        build_prfs_entities_ts_binding::BuildPrfsEntitiesTSBindingTask,
-        compile_circuits::CompileCircuitsTask, task::BuildTask,
-    },
-    build_handle::BuildHandle,
-    CiError,
-};
 use clap::ArgMatches;
 use colored::Colorize;
+
+use super::task::BuildTask;
+use crate::{build_handle::BuildHandle, CiError};
 
 pub fn run_tasks(
     _matches: &ArgMatches,

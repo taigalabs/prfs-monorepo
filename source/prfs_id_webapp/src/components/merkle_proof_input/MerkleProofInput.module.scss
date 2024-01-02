@@ -1,20 +1,3 @@
-.fadeOverlay {
-  background: rgba(0, 0, 0, 0.4);
-  display: grid;
-  place-items: center;
-  z-index: 300;
-  transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  position: absolute;
-  inset: 0;
-}
-
-.dialog {
-  background-color: white;
-  border-radius: 5px;
-  overflow: hidden;
-  max-width: 520px;
-}
-
 .interactiveArea {
   display: flex;
   align-items: center;
@@ -22,15 +5,14 @@
   width: 100%;
 
   .addressInput {
-    padding-right: 70px;
+    /* padding-right: 70px; */
   }
 }
 
 .computedValue {
-  padding: 3px 7px;
-  border-top: 1px solid var(--bright-gray-30);
-  color: var(--gray-50);
-  font-size: 0.91em;
+  padding: 2px 8px;
+  color: var(--gray-30);
+  font-size: 13px;
 }
 
 .title {
@@ -52,29 +34,6 @@
   text-overflow: ellipsis;
 }
 
-.right {
-  display: flex;
-  align-items: center;
-  .btnRow {
-    font-size: 12px;
-
-    button {
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      color: var(--gray-30);
-
-      &:hover {
-        color: var(--black-00);
-      }
-    }
-
-    svg {
-      margin-right: 3px;
-    }
-  }
-}
-
 .btnGroup {
   align-items: center;
   display: flex;
@@ -88,17 +47,18 @@
 }
 
 .addressBtn {
-  font-size: 13px;
-  padding: 6px 4px;
+  font-weight: 500;
+  color: var(--aqua-blue-50);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--aqua-blue-40);
+  }
 }
 
 @media screen and (max-width: 480px) {
   .title {
     align-items: normal;
     flex-direction: column;
-  }
-
-  .right {
-    align-self: stretch;
   }
 }

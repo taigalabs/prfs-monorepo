@@ -4,6 +4,7 @@ import {
   StorageMsg,
   RequestPayload,
   CommitmentSuccessPayload,
+  ProofGenSuccessPayload,
 } from "./msg";
 import { MessageQueue } from "./queue";
 import { createStorageKey, dispatchStorageMsg } from "./storage";
@@ -33,7 +34,7 @@ export function setupChildMsgHandler() {
             }
             default:
               console.error(`invalid msg type, ${data.type}`);
-              reject();
+              reject(childListenerRef);
           }
         }
       }
@@ -55,7 +56,8 @@ export function setupParentMsgHandler(queue: MessageQueue) {
       if (data.type) {
         switch (data.type) {
           // inbound
-          case "REQUEST_SIGN_IN": {
+          case "REQUEST_SIGN_IN":
+          case "REQUEST_PROOF_GEN": {
             if (data.payload) {
               const { appId } = data.payload as RequestPayload;
               if (appId) {
@@ -68,8 +70,10 @@ export function setupParentMsgHandler(queue: MessageQueue) {
             break;
           }
 
+          // ////////////
           // outbound
-          case "COMMITMENT_SUCCESS": {
+          // ////////////
+          case "COMMITMENT_RESULT": {
             if (data.payload) {
               const payload = data.payload as StorageMsg<CommitmentSuccessPayload>;
               dispatchStorageMsg(payload);
@@ -80,19 +84,7 @@ export function setupParentMsgHandler(queue: MessageQueue) {
             break;
           }
 
-          // case "ERROR": {
-          //   console.error(data.payload);
-          //   if (data.payload) {
-          //     const payload = data.payload as StorageMsg<CommitmentSuccessPayload>;
-          //     dispatchStorageMsg(payload);
-          //   } else {
-          //     console.error("msg doesn't contain payload");
-          //   }
-          //   ev.ports[0].postMessage(true);
-          //   break;
-          // }
-
-          case "SIGN_IN_SUCCESS": {
+          case "SIGN_IN_RESULT": {
             if (data.payload) {
               const payload = data.payload as StorageMsg<SignInSuccessPayload>;
               dispatchStorageMsg(payload);
@@ -102,6 +94,18 @@ export function setupParentMsgHandler(queue: MessageQueue) {
             ev.ports[0].postMessage(true);
             break;
           }
+
+          case "PROOF_GEN_RESULT": {
+            if (data.payload) {
+              const payload = data.payload as StorageMsg<ProofGenSuccessPayload>;
+              dispatchStorageMsg(payload);
+            } else {
+              console.error("msg doesn't contain payload");
+            }
+            ev.ports[0].postMessage(true);
+            break;
+          }
+
           default:
             console.error(`invalid msg type, ${data.type}`);
         }

@@ -1,11 +1,11 @@
 .wrapper {
-  max-width: 580px;
+  width: 680px;
 
   /* border: 1px solid red; */
 }
 
 @media screen and (max-width: 1120px) {
   .wrapper {
-    max-width: auto;
+    width: auto;
   }
 }

@@ -4,87 +4,87 @@ import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
 import React from "react";
 
-const CreateProofBtn: React.FC<CreateProofBtnProps> = ({
-  proofType,
-  handleCreateProofResult,
-  proofGenElement,
-  setProofGenElement,
-}) => {
-  const driverRef = React.useRef(false);
-  React.useEffect(() => {
-    async function fn() {
-      if (!driverRef.current) {
-        driverRef.current = true;
-        const { circuit_driver_id, driver_properties } = proofType;
+// const CreateProofBtn: React.FC<CreateProofBtnProps> = ({
+//   proofType,
+//   handleCreateProofResult,
+//   proofGenElement,
+//   setProofGenElement,
+// }) => {
+//   const driverRef = React.useRef(false);
+//   React.useEffect(() => {
+//     async function fn() {
+//       if (!driverRef.current) {
+//         driverRef.current = true;
+//         const { circuit_driver_id, driver_properties } = proofType;
 
-        const driverProperties = interpolateSystemAssetEndpoint(
-          driver_properties,
-          `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
-        );
+//         const driverProperties = interpolateSystemAssetEndpoint(
+//           driver_properties,
+//           `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
+//         );
 
-        console.log(555, circuit_driver_id, driverProperties);
+//         console.log(555, circuit_driver_id, driverProperties);
 
-        // const elem = (await prfsSDK.create("proof_gen", {
-        //   proofTypeId: proofType.proof_type_id,
-        //   circuit_driver_id,
-        //   driver_properties,
-        //   sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
-        // })) as ProofGenElement;
+//         // const elem = (await prfsSDK.create("proof_gen", {
+//         //   proofTypeId: proofType.proof_type_id,
+//         //   circuit_driver_id,
+//         //   driver_properties,
+//         //   sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
+//         // })) as ProofGenElement;
 
-        const mod = await import("@taigalabs/prfs-driver-spartan-js");
-        const driver = await mod.default.newInstance(driverProperties as any, ev => {
-          console.log("ev", ev);
-        });
+//         const mod = await import("@taigalabs/prfs-driver-spartan-js");
+//         const driver = await mod.default.newInstance(driverProperties as any, ev => {
+//           console.log("ev", ev);
+//         });
 
-        console.log(11, driver);
+//         console.log(11, driver);
 
-        // elem.subscribe((ev: ProofGenEvent) => {
-        //   const { type, payload } = ev;
+//         // elem.subscribe((ev: ProofGenEvent) => {
+//         //   const { type, payload } = ev;
 
-        //   if (type === "LOAD_DRIVER_EVENT") {
-        //     if (payload.asset_label && payload.progress) {
-        //       setLoadDriverProgress(oldVal => ({
-        //         ...oldVal,
-        //         [payload.asset_label!]: payload.progress,
-        //       }));
-        //     }
-        //   }
+//         //   if (type === "LOAD_DRIVER_EVENT") {
+//         //     if (payload.asset_label && payload.progress) {
+//         //       setLoadDriverProgress(oldVal => ({
+//         //         ...oldVal,
+//         //         [payload.asset_label!]: payload.progress,
+//         //       }));
+//         //     }
+//         //   }
 
-        //   if (type === "LOAD_DRIVER_SUCCESS") {
-        //     const now = dayjs();
-        //     const diff = now.diff(since, "seconds", true);
-        //     const { artifactCount } = payload;
+//         //   if (type === "LOAD_DRIVER_SUCCESS") {
+//         //     const now = dayjs();
+//         //     const diff = now.diff(since, "seconds", true);
+//         //     const { artifactCount } = payload;
 
-        //     setDriverMsg(
-        //       <>
-        //         <span>Circuit driver </span>
-        //         <a
-        //           href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${circuit_driver_id}`}
-        //         >
-        //           {proofType.circuit_driver_id} <BiLinkExternal />
-        //         </a>
-        //         <span>
-        //           ({diff} seconds, {artifactCount} artifacts)
-        //         </span>
-        //       </>,
-        //     );
-        //     setLoadDriverStatus(LoadDriverStatus.Standby);
-        //   }
+//         //     setDriverMsg(
+//         //       <>
+//         //         <span>Circuit driver </span>
+//         //         <a
+//         //           href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${circuit_driver_id}`}
+//         //         >
+//         //           {proofType.circuit_driver_id} <BiLinkExternal />
+//         //         </a>
+//         //         <span>
+//         //           ({diff} seconds, {artifactCount} artifacts)
+//         //         </span>
+//         //       </>,
+//         //     );
+//         //     setLoadDriverStatus(LoadDriverStatus.Standby);
+//         //   }
 
-        //   if (type === "CREATE_PROOF_EVENT") {
-        //     setSystemMsg(payload.payload);
-        //   }
-        // });
-      }
-    }
+//         //   if (type === "CREATE_PROOF_EVENT") {
+//         //     setSystemMsg(payload.payload);
+//         //   }
+//         // });
+//       }
+//     }
 
-    fn().then();
-  }, [proofType, setProofGenElement]);
+//     fn().then();
+//   }, [proofType, setProofGenElement]);
 
-  return null;
-};
+//   return null;
+// };
 
-export default CreateProofBtn;
+// export default CreateProofBtn;
 
 export interface CreateProofBtnProps {
   proofType: PrfsProofType;

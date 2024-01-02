@@ -12,6 +12,7 @@ tmux split-window -v -t prfs_a
 tmux split-window -v -t prfs_a
 tmux select-pane -t 1
 tmux split-window -v -t prfs_a
+tmux split-window -v -t prfs_a
 
 # Prfs api server
 tmux select-pane -t prfs_a:1.1
@@ -28,5 +29,9 @@ tmux send-keys "./ci dev_prfs_embed_webapp" ENTER
 # Prfs proof webapp
 tmux select-pane -t prfs_a:1.4
 tmux send-keys "./ci dev_prfs_proof_webapp" ENTER
+
+# Prfs id webapp
+tmux select-pane -t prfs_a:1.4
+tmux send-keys "./ci dev_prfs_id_webapp" ENTER
 
 tmux attach -t prfs_a

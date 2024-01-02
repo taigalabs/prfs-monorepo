@@ -24,16 +24,22 @@ export interface CommitmentSuccessPayload {
   receipt: Record<string, string>;
 }
 
+export interface ProofGenSuccessPayload {
+  receipt: Record<string, any>;
+}
+
 export type PrfsIdMsgType =
   //
   | "HANDSHAKE"
   | "HANDSHAKE_ACK"
-  | "SIGN_IN_SUCCESS"
-  | "SIGN_IN_SUCCESS_ACK"
-  | "COMMITMENT_SUCCESS"
-  | "COMMITMENT_SUCCESS_ACK"
+  | "SIGN_IN_RESULT"
+  | "SIGN_IN_RESULT_ACK"
+  | "COMMITMENT_RESULT"
+  | "COMMITMENT_RESULT_ACK"
+  | "PROOF_GEN_RESULT"
+  | "PROOF_GEN_RESULT_ACK"
   | "REQUEST_SIGN_IN"
-  | "ERROR";
+  | "REQUEST_PROOF_GEN";
 
 export function newPrfsIdMsg<T extends PrfsIdMsgType>(
   type: PrfsIdMsgType,
@@ -57,12 +63,14 @@ export function newPrfsIdErrorMsg<T extends PrfsIdMsgType>(
 }
 
 type MsgPayload<T extends PrfsIdMsgType> = //
-  T extends "SIGN_IN_SUCCESS"
+  T extends "SIGN_IN_RESULT"
     ? StorageMsg<SignInSuccessPayload>
-    : T extends "COMMITMENT_SUCCESS"
+    : T extends "COMMITMENT_RESULT"
     ? StorageMsg<CommitmentSuccessPayload>
+    : T extends "PROOF_GEN_RESULT"
+    ? StorageMsg<ProofGenSuccessPayload>
     : T extends "REQUEST_SIGN_IN"
     ? RequestPayload
-    : T extends "ERROR"
-    ? any
+    : T extends "REQUEST_PROOF_GEN"
+    ? RequestPayload
     : null;

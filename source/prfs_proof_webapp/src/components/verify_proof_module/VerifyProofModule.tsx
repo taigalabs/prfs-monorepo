@@ -59,7 +59,7 @@ const VerifyButton: React.FC<VerifyButtonProps> = ({ verifiedStatus, handleClick
 };
 
 const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({
-  proofGenElement,
+  // proofGenElement,
   proof,
   circuitTypeId,
 }) => {
@@ -68,19 +68,22 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({
     if (verifiedStatus === VerifiedStatus.None) {
       try {
         setVerifiedStatus(VerifiedStatus.InProgress);
+        // const verifyReceipt = await proofGenElement.verifyProof(proof, circuitTypeId);
 
-        const verifyReceipt = await proofGenElement.verifyProof(proof, circuitTypeId);
-
-        if (verifyReceipt.verifyResult) {
-          setVerifiedStatus(VerifiedStatus.Valid);
-        } else {
-          setVerifiedStatus(VerifiedStatus.Invalid);
-        }
+        // if (verifyReceipt.verifyResult) {
+        //   setVerifiedStatus(VerifiedStatus.Valid);
+        // } else {
+        //   setVerifiedStatus(VerifiedStatus.Invalid);
+        // }
       } catch (err) {
         setVerifiedStatus(VerifiedStatus.Invalid);
       }
     }
-  }, [verifiedStatus, setVerifiedStatus, proofGenElement]);
+  }, [
+    verifiedStatus,
+    setVerifiedStatus,
+    // proofGenElement
+  ]);
 
   return (
     <div className={styles.wrapper}>
@@ -92,7 +95,7 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({
 export default VerifyProofModule;
 
 export interface VerifyProofModuleProps {
-  proofGenElement: ProofGenElement;
+  // proofGenElement: ProofGenElement;
   circuitTypeId: string;
   proof: Proof;
 }

@@ -1,51 +1,16 @@
-.list {
-  padding: 12px 0px 20px;
+.val {
+  color: var(--gray-40);
 }
 
-.item {
-  display: flex;
-  font-size: 13px;
-
-  .leftCol {
-    font-size: 20px;
-    width: 32px;
-    flex-shrink: 0;
-    padding-top: 6px;
-    padding-left: 4px;
-  }
-
-  .rightCol {
-    word-break: break-all;
-    color: var(--black-20);
-
-    > * {
-      padding-left: 6px;
-    }
-  }
-
-  .val {
-    color: var(--gray-40);
-  }
-
-  .name {
-    padding-bottom: 2px;
-  }
-
-  .type {
-    color: var(--gray-40);
-    padding-bottom: 2px;
-  }
-
-  .label {
-    font-weight: 500;
-  }
-
-  .hashed {
-  }
+.name {
+  padding-bottom: 2px;
 }
 
-@media screen and (max-width: 480px) {
-  .list {
-    padding: 12px 24px 20px;
-  }
+.type {
+  color: var(--gray-40);
+  padding-bottom: 2px;
+}
+
+.label {
+  font-weight: 500;
 }

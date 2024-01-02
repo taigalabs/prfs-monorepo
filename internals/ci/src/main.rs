@@ -8,12 +8,12 @@ mod utils;
 use crate::{
     build_handle::BuildHandle,
     cmds::{
-        dev_prfs_api_server, dev_prfs_asset_server, dev_prfs_console_webapp, dev_prfs_embed_webapp,
-        dev_prfs_id_webapp, dev_prfs_poll_webapp, dev_prfs_proof_webapp, dev_shy_webapp,
-        docker_run_prfs_console_webapp, docker_run_prfs_embed_webapp, docker_run_prfs_proof_webapp,
-        start_prfs_api_server, start_prfs_asset_server, start_prfs_console_webapp,
-        start_prfs_embed_webapp, start_prfs_id_webapp, start_prfs_poll_webapp,
-        start_prfs_proof_webapp, start_shy_webapp,
+        build_prfs_crypto_js, dev_prfs_api_server, dev_prfs_asset_server, dev_prfs_console_webapp,
+        dev_prfs_embed_webapp, dev_prfs_id_webapp, dev_prfs_poll_webapp, dev_prfs_proof_webapp,
+        dev_shy_webapp, docker_run_prfs_console_webapp, docker_run_prfs_embed_webapp,
+        docker_run_prfs_proof_webapp, start_prfs_api_server, start_prfs_asset_server,
+        start_prfs_console_webapp, start_prfs_embed_webapp, start_prfs_id_webapp,
+        start_prfs_poll_webapp, start_prfs_proof_webapp, start_shy_webapp,
     },
 };
 use chrono::prelude::*;
@@ -31,7 +31,7 @@ fn main() {
         // build
         .subcommand(command!("build"))
         .subcommand(command!("build_prfs_driver_spartan_js"))
-        .subcommand(command!("build_crypto_js"))
+        .subcommand(command!(build_prfs_crypto_js::CMD_NAME))
         .subcommand(command!("build_circuits"))
         // dev mode
         .subcommand(command!(dev_prfs_console_webapp::CMD_NAME).arg(Arg::new("extra_args")))
@@ -87,7 +87,7 @@ fn main() {
         Some(("build_prfs_driver_spartan_js", sub_matches)) => {
             cmds::build_prfs_driver_spartan_js::run(sub_matches, &timestamp);
         }
-        Some(("build_prfs_crypto_js", sub_matches)) => {
+        Some((build_prfs_crypto_js::CMD_NAME, sub_matches)) => {
             cmds::build_prfs_crypto_js::run(sub_matches, &timestamp);
         }
         Some(("build_circuits", sub_matches)) => {
@@ -101,10 +101,10 @@ fn main() {
             cmds::dev_prfs_console_webapp::run(sub_matches);
         }
         Some((dev_prfs_proof_webapp::CMD_NAME, sub_matches)) => {
-            cmds::dev_prfs_proof_webapp::run(sub_matches);
+            dev_prfs_proof_webapp::run(sub_matches);
         }
         Some((dev_prfs_poll_webapp::CMD_NAME, sub_matches)) => {
-            cmds::dev_prfs_poll_webapp::run(sub_matches);
+            dev_prfs_poll_webapp::run(sub_matches);
         }
         Some((dev_prfs_id_webapp::CMD_NAME, sub_matches)) => {
             dev_prfs_id_webapp::run(sub_matches);
@@ -113,7 +113,7 @@ fn main() {
             dev_prfs_embed_webapp::run(sub_matches);
         }
         Some((dev_shy_webapp::CMD_NAME, sub_matches)) => {
-            cmds::dev_shy_webapp::run(sub_matches);
+            dev_shy_webapp::run(sub_matches);
         }
         Some((dev_prfs_asset_server::CMD_NAME, sub_matches)) => {
             dev_prfs_asset_server::run(sub_matches);

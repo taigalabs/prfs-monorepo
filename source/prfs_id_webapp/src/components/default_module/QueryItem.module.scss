@@ -1,0 +1,70 @@
+.list {
+  padding: 14px 0px 14px;
+}
+
+.sidePadding {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.item {
+  padding-top: 12px;
+  padding-bottom: 12px;
+
+  &:hover {
+    background-color: var(--bright-blue-71);
+  }
+}
+
+.meta {
+  display: flex;
+  font-size: 13px;
+}
+
+.leftCol {
+  font-size: 20px;
+  width: 32px;
+  flex-shrink: 0;
+  padding-top: 6px;
+  padding-left: 4px;
+}
+
+.rightCol {
+  word-break: break-all;
+  color: var(--black-20);
+
+  > * {
+    padding-left: 6px;
+  }
+}
+
+.val {
+  color: var(--gray-40);
+}
+
+.name {
+  font-weight: 500;
+}
+
+.type {
+  color: var(--gray-40);
+  padding-bottom: 2px;
+}
+
+.label {
+  font-weight: 500;
+}
+
+.hashed {
+}
+
+@media screen and (max-width: 480px) {
+  .list {
+    padding: 16px 14px 20px;
+  }
+
+  .sidePadding {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+}

@@ -1,20 +1,20 @@
 import React from "react";
 import Button from "@taigalabs/prfs-react-components/src/button/Button";
 import { PrfsIdCredential, StoredCredentialRecord } from "@taigalabs/prfs-id-sdk-web";
-import { decrypt } from "eciesjs";
+import { decrypt } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./StoredCredentials.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
-  SignInErrorMsg,
-  SignInInnerPadding,
-  SignInInputItem,
-  SignInModuleBtnRow,
-  SignInModuleHeader,
-  SignInModuleSubtitle,
-  SignInModuleTitle,
-  SignInWithPrfsId,
-} from "@/components/sign_in_module/SignInModule";
+  DefaultErrorMsg,
+  DefaultInnerPadding,
+  DefaultInputItem,
+  DefaultModuleBtnRow,
+  DefaultModuleHeader,
+  DefaultModuleSubtitle,
+  DefaultModuleTitle,
+  DefaultTopLabel,
+} from "@/components/default_module/DefaultModule";
 import {
   IdCreateForm,
   makeEmptyIDCreateFormErrors,
@@ -166,7 +166,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
             <p className={styles.prfsId}>{id}</p>
             {cred.id === selectedCredentialId && (
               <div>
-                <SignInInputItem
+                <DefaultInputItem
                   className={styles.passwordInput}
                   name="password_2"
                   value={formData.password_2}
@@ -185,7 +185,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
                 >
                   {i18n.next}
                 </Button>
-                <SignInErrorMsg>{errorMsg}</SignInErrorMsg>
+                <DefaultErrorMsg>{errorMsg}</DefaultErrorMsg>
               </div>
             )}
           </div>
@@ -217,15 +217,15 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
 
   return (
     <>
-      <SignInWithPrfsId>{i18n.sign_in_with_prfs_id}</SignInWithPrfsId>
-      <SignInInnerPadding noSidePadding>
-        <SignInModuleHeader noTopPadding>
-          <SignInModuleTitle>{i18n.choose_account}</SignInModuleTitle>
-          <SignInModuleSubtitle>{subtitle}</SignInModuleSubtitle>
-        </SignInModuleHeader>
+      {/* <DefaultTopLabel>{i18n.sign_in_with_prfs_id}</DefaultTopLabel> */}
+      <DefaultInnerPadding noSidePadding>
+        <DefaultModuleHeader noTopPadding>
+          <DefaultModuleTitle>{i18n.choose_account}</DefaultModuleTitle>
+          <DefaultModuleSubtitle>{subtitle}</DefaultModuleSubtitle>
+        </DefaultModuleHeader>
         {content}
-      </SignInInnerPadding>
-      <SignInModuleBtnRow className={styles.btnRow}>
+      </DefaultInnerPadding>
+      <DefaultModuleBtnRow className={styles.btnRow}>
         <Button
           variant="transparent_blue_2"
           noTransition
@@ -235,7 +235,7 @@ const StoredCredentials: React.FC<StoredCredentialsProps> = ({
           {i18n.forget_all_accounts}
         </Button>
         <div />
-      </SignInModuleBtnRow>
+      </DefaultModuleBtnRow>
     </>
   );
 };

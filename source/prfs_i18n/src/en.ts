@@ -42,6 +42,7 @@ export default {
   merkle_proof: "Merkle proof",
   sign: "Sign",
   sign_in_with_prfs_id: "Sign in with Prfs ID",
+  create_data_with_prfs_id: "Create data with Prfs ID",
   app_data_sharing_guide:
     "You may be sharing sensitive info with this app or site. You can always check out what the request data is about.",
   type_merkle_proof: "Type merkle proof",
@@ -155,6 +156,7 @@ export default {
   select_proof_type: "Select a proof type",
   configuration: "Configuration",
   create_proof_type: "Create proof type",
+  create_proof_desc: "Create an undeniable proof while only selectively disclosing the information",
   create_set_element: "Create set element",
   create_proof_instance_subtitle:
     "Proofs allow you to make an undeniable, anonymous claim. Start by choosing a specific proof type you want to make",

@@ -1,3 +1,5 @@
+import { QueryType } from "./proof_gen";
+
 export function makeCommitmentSearchParams(args: CommitmentArgs): string {
   const { nonce, appId, cms, publicKey } = args;
   const _cms = encodeURIComponent(JSON.stringify(cms));
@@ -28,7 +30,7 @@ export function parseCommitmentSearchParams(searchParams: URLSearchParams): Comm
   }
 
   const c = decodeURIComponent(cms);
-  const _cms: CommitmentData[] = JSON.parse(c);
+  const _cms: CommitmentQuery[] = JSON.parse(c);
 
   const args: CommitmentArgs = {
     appId,
@@ -44,13 +46,14 @@ export interface CommitmentArgs {
   appId: string;
   nonce: number;
   publicKey: string;
-  cms: CommitmentData[];
+  cms: CommitmentQuery[];
 }
 
-export interface CommitmentData {
+export interface CommitmentQuery {
   name: string;
   preImage: string;
   type: CommitmentType;
+  queryType: QueryType.COMMITMENT_TYPE;
 }
 
 export enum CommitmentType {

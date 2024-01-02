@@ -31,7 +31,7 @@ const JSONbigNative = JSONBig({
 const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
   proveReceipt,
   proofType,
-  proofGenElement,
+  // proofGenElement,
 }) => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
@@ -143,13 +143,13 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
             </div>
             <div className={styles.verifyProofFormWrapper}>
               <ProofDataView proof={proveReceipt.proof} isCard />
-              <div className={styles.verifyProofModuleWrapper}>
-                <VerifyProofModule
-                  proofGenElement={proofGenElement}
-                  proof={proveReceipt.proof}
-                  circuitTypeId={proofType.circuit_type_id}
-                />
-              </div>
+              {/* <div className={styles.verifyProofModuleWrapper}> */}
+              {/*   <VerifyProofModule */}
+              {/*     // proofGenElement={proofGenElement} */}
+              {/*     proof={proveReceipt.proof} */}
+              {/*     circuitTypeId={proofType.circuit_type_id} */}
+              {/*   /> */}
+              {/* </div> */}
             </div>
           </div>
         </>
@@ -163,5 +163,5 @@ export default PostCreateMenu;
 export interface PostCreateMenuProps {
   proofType: PrfsProofType;
   proveReceipt: ProveReceipt;
-  proofGenElement: ProofGenElement;
+  // proofGenElement: ProofGenElement;
 }

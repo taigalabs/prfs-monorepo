@@ -8,7 +8,9 @@ const ProofGenPage = () => {
   return (
     <DefaultLayout>
       <DefaultBody>
-        <ProofGen />
+        <Suspense>
+          <ProofGen />
+        </Suspense>
       </DefaultBody>
     </DefaultLayout>
   );

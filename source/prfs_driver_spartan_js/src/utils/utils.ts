@@ -53,9 +53,7 @@ export async function fetchAsset(
     if (done) {
       break;
     }
-
     chunks.push(value);
-
     receivedLen += value.length;
 
     if (typeof totalLen === "number") {
@@ -75,7 +73,6 @@ export async function fetchAsset(
     throw new Error(`Fetch asset failed, url: ${url}`);
   }
 
-  // const circuit = await response.arrayBuffer();
   const arr = new Uint8Array(totalLen);
 
   let offset = 0;

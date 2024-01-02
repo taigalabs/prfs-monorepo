@@ -1,14 +1,17 @@
+import { CommitmentQuery } from "./commitment";
+
 export function makeProofGenSearchParams(args: ProofGenArgs): string {
-  const { nonce, appId, proofTypeId, publicKey } = args;
-  const queryString = `?public_key=${publicKey}&proof_type_id=${proofTypeId}&app_id=${appId}&nonce=${nonce}`;
+  const { nonce, appId, queries, publicKey } = args;
+  const q = encodeURIComponent(JSON.stringify(queries));
+  const queryString = `?public_key=${publicKey}&queries=${q}&app_id=${appId}&nonce=${nonce}`;
   return queryString;
 }
 
 export function parseProofGenSearchParams(searchParams: URLSearchParams): ProofGenArgs {
   const publicKey = searchParams.get("public_key");
   const appId = searchParams.get("app_id");
-  const proofTypeId = searchParams.get("proof_type_id");
   const nonce = searchParams.get("nonce");
+  const queries = searchParams.get("queries");
 
   if (!appId) {
     throw new Error("app id missing");
@@ -18,19 +21,22 @@ export function parseProofGenSearchParams(searchParams: URLSearchParams): ProofG
     throw new Error("publicKey missing");
   }
 
-  if (!proofTypeId) {
-    throw new Error("proofType missing");
+  if (!queries) {
+    throw new Error("query missing");
   }
 
   if (!nonce) {
     throw new Error("nonce missing");
   }
 
+  const q = decodeURIComponent(queries);
+  const _q: ProofGenQuery[] = JSON.parse(q);
+
   const args: ProofGenArgs = {
     appId,
     nonce: Number(nonce),
     publicKey,
-    proofTypeId,
+    queries: _q,
   };
 
   return args;
@@ -39,6 +45,19 @@ export function parseProofGenSearchParams(searchParams: URLSearchParams): ProofG
 export interface ProofGenArgs {
   nonce: number;
   appId: string;
-  proofTypeId: string;
+  queries: ProofGenQuery[];
   publicKey: string;
+}
+
+export type ProofGenQuery = CommitmentQuery | CreateProofQuery;
+
+export enum QueryType {
+  CREATE_PROOF_TYPE = "create_prf",
+  COMMITMENT_TYPE = "cm",
+}
+
+export interface CreateProofQuery {
+  name: string;
+  proofTypeId: string;
+  queryType: QueryType.CREATE_PROOF_TYPE;
 }

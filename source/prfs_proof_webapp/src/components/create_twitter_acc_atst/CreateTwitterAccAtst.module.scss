@@ -24,13 +24,16 @@
   }
 
   .no {
-    width: 30px;
+    width: 78px;
     flex-shrink: 0;
     font-size: 16px;
+    padding-left: 44px;
   }
 
-  .right {
+  .rightCol {
     word-break: break-all;
+    flex-grow: 1;
+    padding-right: 60px;
   }
 
   .desc {
@@ -128,9 +131,6 @@
     .status {
       padding-left: 16px;
     }
-
-    .validateBtn {
-    }
   }
 
   .tweetContentBtnRow {
@@ -142,26 +142,12 @@
     }
 
     a {
-      color: var(--blue-15);
+      color: var(--blue-120);
     }
   }
 
   .msg {
     padding-left: 10px;
-  }
-}
-
-.signInBtn {
-  padding-left: 16px;
-  padding-right: 16px;
-
-  .content {
-    display: flex;
-    align-items: center;
-
-    > * + span {
-      padding-left: 3px;
-    }
   }
 }
 
@@ -178,7 +164,27 @@
 .createBtnRow {
   display: flex;
   justify-content: space-between;
-  padding-left: 30px;
+  padding-left: 45px;
+  padding-right: 30px;
+
+  > button {
+    border-radius: 20px;
+    height: 40px;
+  }
+}
+
+.createBtn {
+  padding-left: 24px;
+  padding-right: 24px;
+
+  .content {
+    display: flex;
+    align-items: center;
+
+    > * + span {
+      padding-left: 3px;
+    }
+  }
 }
 
 .input {
@@ -194,6 +200,15 @@
   font-size: 13px;
 }
 
+.spinner {
+  margin-left: 3px;
+
+  div {
+    border-width: 2px;
+    border-top-color: inherit;
+  }
+}
+
 @media screen and (max-width: 480px) {
   .instructions {
     .tweetContent {
@@ -205,5 +220,19 @@
         width: auto;
       }
     }
+
+    .no {
+      width: 32px;
+      padding-left: 4px;
+    }
+
+    .rightCol {
+      padding-right: 0;
+    }
+  }
+
+  .createBtnRow {
+    padding-left: 24px;
+    padding-right: 0px;
   }
 }

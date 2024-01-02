@@ -12,14 +12,8 @@ import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
 import styles from "./PrfsIdSignInButton.module.scss";
 import colors from "../colors.module.scss";
-import Spinner from "../spinner/Spinner";
 import Button from "../button/Button";
 import { i18nContext } from "../i18n/i18nContext";
-
-enum SignInStatus {
-  Standby,
-  InProgress,
-}
 
 const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   className,
@@ -31,26 +25,21 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   prfsEmbedEndpoint,
 }) => {
   const i18n = React.useContext(i18nContext);
-  const [status, setStatus] = React.useState(SignInStatus.Standby);
-  const closeTimerRef = React.useRef<NodeJS.Timer | null>(null);
-  const { prfsEmbedRef, isReady: isPrfsReady } = usePrfsEmbed({
-    appId,
-    prfsEmbedEndpoint,
-  });
-  const { openPopup, popupStatus } = usePopup();
+  const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
+  const { openPopup } = usePopup();
 
   const handleClickSignIn = React.useCallback(async () => {
     const searchParams = makeAppSignInSearchParams(appSignInArgs);
     const endpoint = `${prfsIdEndpoint}${API_PATH.app_sign_in}${searchParams}`;
 
     openPopup(endpoint, async () => {
-      if (!prfsEmbedRef.current || !isPrfsReady) {
+      if (!prfsEmbed || !isPrfsReady) {
         return;
       }
 
       const resp = await sendMsgToChild(
         newPrfsIdMsg("REQUEST_SIGN_IN", { appId: appSignInArgs.appId }),
-        prfsEmbedRef.current,
+        prfsEmbed,
       );
       if (resp) {
         try {
@@ -65,7 +54,6 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     });
   }, [
     appSignInArgs,
-    setStatus,
     prfsIdEndpoint,
     prfsEmbedEndpoint,
     isPrfsReady,
@@ -84,7 +72,6 @@ const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
     >
       <div className={styles.wrapper}>
         <span>{label ? label : i18n.sign_in}</span>
-        {status === SignInStatus.InProgress && <Spinner size={20} color={colors.white_100} />}
       </div>
     </Button>
   );

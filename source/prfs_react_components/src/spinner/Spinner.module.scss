@@ -16,8 +16,9 @@
   width: 80%;
   height: 80%;
   margin: 2px;
-  border: 3px solid var(--black-00);
+  border-width: 3px;
   border-radius: 50%;
+  border-style: solid;
   animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
   border-color: var(--black-00) transparent transparent transparent;
 }

@@ -3,34 +3,21 @@ import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import cn from "classnames";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
-import { RiEqualizerLine } from "@react-icons/all-files/ri/RiEqualizerLine";
-import WalletDialog from "@taigalabs/prfs-react-components/src/wallet_dialog/WalletDialog";
+import ConnectWallet from "@taigalabs/prfs-react-components/src/connect_wallet/ConnectWallet";
 import { SpartanMerkleProof } from "@taigalabs/prfs-driver-interface";
-import {
-  useFloating,
-  useDismiss,
-  useRole,
-  useClick,
-  useInteractions,
-  useId,
-  FloatingFocusManager,
-  FloatingOverlay,
-  FloatingPortal,
-} from "@floating-ui/react";
-import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
 
 import styles from "./MerkleProofInput.module.scss";
-import MerkleProofRawModal from "./MerkleProofRawModal";
+import MerkleProofRaw from "./MerkleProofRaw";
 import { i18nContext } from "@/i18n/context";
 import {
   FormError,
   FormInput,
+  FormInputBtnRow,
   FormInputTitle,
   FormInputTitleRow,
   InputWrapper,
@@ -56,11 +43,9 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
   error,
   setFormErrors,
   setFormValues,
-  zIndex,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [prfsSet, setPrfsSet] = React.useState<PrfsSet>();
-  const [isOpen, setIsOpen] = React.useState(false);
   const [walletAddr, setWalletAddr] = React.useState("");
 
   const { mutateAsync: GetPrfsTreeLeafIndices } = useMutation({
@@ -80,18 +65,6 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
       return prfsApi2("get_prfs_tree_nodes_by_pos", req);
     },
   });
-
-  const { refs, context } = useFloating({
-    open: isOpen,
-    onOpenChange: setIsOpen,
-  });
-
-  const click = useClick(context);
-  const role = useRole(context);
-  const dismiss = useDismiss(context, { outsidePressEvent: "mousedown" });
-  const { getReferenceProps, getFloatingProps } = useInteractions([click, role, dismiss]);
-  const headingId = useId();
-  const descriptionId = useId();
 
   React.useEffect(() => {
     async function fn() {
@@ -124,9 +97,9 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         };
       });
 
-      setIsOpen(false);
+      // setIsOpen(false);
     },
-    [setFormValues, setIsOpen],
+    [setFormValues],
   );
 
   const handleChangeAddress = React.useCallback(
@@ -218,7 +191,7 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         console.error(err);
       }
     },
-    [setWalletAddr, setFormValues, prfsSet, GetPrfsTreeLeafIndices, setFormErrors, setIsOpen],
+    [setWalletAddr, setFormValues, prfsSet, GetPrfsTreeLeafIndices, setFormErrors],
   );
 
   const label = React.useMemo(() => {
@@ -231,38 +204,18 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
         <FormInputTitle>
           <span className={styles.inputLabel}>{label}</span>
         </FormInputTitle>
-        <div className={styles.right}>
-          <div className={styles.btnRow} ref={refs.setReference} {...getReferenceProps()}>
-            <button>
-              <RiEqualizerLine />
-              {i18n.raw.toUpperCase()}
+        <FormInputBtnRow>
+          <ConnectWallet handleChangeAddress={handleChangeAddress}>
+            <button className={styles.addressBtn} type="button">
+              {i18n.connect}
             </button>
-          </div>
-          <FloatingPortal>
-            {isOpen && (
-              <FloatingOverlay style={{ zIndex: zIndex || 200 }}>
-                <Fade className={styles.fadeOverlay}>
-                  <FloatingFocusManager context={context}>
-                    <div
-                      className={styles.dialog}
-                      ref={refs.setFloating}
-                      aria-labelledby={headingId}
-                      aria-describedby={descriptionId}
-                      {...getFloatingProps()}
-                    >
-                      <MerkleProofRawModal
-                        prfsSet={prfsSet}
-                        circuitInput={circuitInput}
-                        handleClickRawSubmit={handleClickRawSubmit}
-                        setIsOpen={setIsOpen}
-                      />
-                    </div>
-                  </FloatingFocusManager>
-                </Fade>
-              </FloatingOverlay>
-            )}
-          </FloatingPortal>
-        </div>
+          </ConnectWallet>
+          <MerkleProofRaw
+            circuitInput={circuitInput}
+            prfsSet={prfsSet}
+            handleClickRawSubmit={handleClickRawSubmit}
+          />
+        </FormInputBtnRow>
       </FormInputTitleRow>
       <InputWrapper>
         <div className={styles.interactiveArea}>
@@ -272,16 +225,9 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
             value={walletAddr}
             readOnly
           />
-          <div className={styles.btnGroup}>
-            <WalletDialog handleChangeAddress={handleChangeAddress}>
-              <Button variant="transparent_aqua_blue_1" className={styles.addressBtn}>
-                {i18n.address.toUpperCase()}
-              </Button>
-            </WalletDialog>
-          </div>
         </div>
-        {value && <ComputedValue value={value} />}
       </InputWrapper>
+      {value && <ComputedValue value={value} />}
       {error && <FormError>{error}</FormError>}
     </FormInput>
   );
@@ -295,7 +241,6 @@ export interface MerkleProofInputProps {
   error: string | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
-  zIndex?: number;
 }
 
 export interface ComputedValueProps {

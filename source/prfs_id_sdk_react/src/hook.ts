@@ -5,6 +5,7 @@ import {
   ListenerRef,
   setupChildMsgHandler,
 } from "@taigalabs/prfs-id-sdk-web";
+import { PrfsEmbedContext } from "./context";
 
 const listenerRef: ListenerRef = {
   current: null,
@@ -16,42 +17,30 @@ export enum PopupStatus {
 }
 
 export function usePopup() {
-  const [status, setStatus] = React.useState(PopupStatus.Closed);
-  const closeTimerRef = React.useRef<NodeJS.Timer | null>(null);
-
-  function openPopup(endpoint: string, callback: (...args: any) => Promise<any>) {
+  function openPopup(endpoint: string, callback: (popup: Window) => Promise<any>) {
     // Open the window
-    setStatus(PopupStatus.Open);
     const popup = window.open(endpoint, "_blank", "toolbar=0,location=0,menubar=0");
     if (!popup) {
       console.error("Failed to open window");
-      setStatus(PopupStatus.Closed);
       return;
     }
 
-    if (!closeTimerRef.current) {
-      const timer = setInterval(() => {
-        if (popup.closed) {
-          setStatus(PopupStatus.Closed);
-          clearInterval(timer);
-        }
-      }, 4000);
-      closeTimerRef.current = timer;
-    }
-
-    callback().then(() => {
-      popup.close();
-      setStatus(PopupStatus.Closed);
+    callback(popup).then(() => {
+      // popup.close();
     });
   }
 
-  return { popupStatus: status, openPopup };
+  return { openPopup };
 }
 
-export function usePrfsEmbed({ appId, prfsEmbedEndpoint }: CreateEmbeddedElemArgs) {
+export function usePrfsEmbed() {
+  return React.useContext(PrfsEmbedContext);
+}
+
+export function usePrfsEmbed2({ appId, prfsEmbedEndpoint }: CreateEmbeddedElemArgs) {
   const isInProgressRef = React.useRef(false);
   const prfsEmbedRef = React.useRef<HTMLIFrameElement | null>(null);
-  const [isReady, setIsReady] = React.useState(false);
+  const [_, rerender] = React.useReducer(x => x + 1, 0);
 
   React.useEffect(() => {
     async function fn() {
@@ -68,8 +57,8 @@ export function usePrfsEmbed({ appId, prfsEmbedEndpoint }: CreateEmbeddedElemArg
         if (!listenerRef.current) {
           const listener = await setupChildMsgHandler();
           listenerRef.current = listener.current;
+          rerender();
         }
-        setIsReady(true);
 
         // Unlock mutex
         isInProgressRef.current = false;
@@ -78,8 +67,10 @@ export function usePrfsEmbed({ appId, prfsEmbedEndpoint }: CreateEmbeddedElemArg
     fn().then();
   }, []);
 
+  // console.log(appId, listenerRef.current, prfsEmbedRef.current);
+
   return {
     prfsEmbedRef,
-    isReady,
+    isReady: !!listenerRef.current && !!prfsEmbedRef.current,
   };
 }

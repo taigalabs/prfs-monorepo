@@ -46,7 +46,7 @@ const ProofDataView: React.FC<ProofDataViewProps> = ({ proof, isCard }) => {
   }, [proof]);
 
   const { proofRaw, size, proofRawMinified } = React.useMemo(() => {
-    const size = proof.proofBytes.byteLength;
+    const size = proof.proofBytes.length;
     const proofRaw = utils.hexlify(proof.proofBytes);
     const proofRawMinified = proofRaw.length > 256 ? proofRaw.substring(0, 256) : proofRaw;
 

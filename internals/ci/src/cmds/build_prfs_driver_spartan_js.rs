@@ -1,5 +1,5 @@
 use crate::{
-    build_cmd::{
+    build_cmd::tasks::{
         build_prfs_crypto_js::BuildPrfsCryptoJsTask,
         build_prfs_driver_spartan_js::BuildPrfsDriverSpartanJsTask,
         build_prfs_driver_spartan_wasm::BuildPrfsDriverSpartanWasmTask, run_tasks::run_tasks,

@@ -13,13 +13,14 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import {
   CommitmentType,
-  CommitmentSuccessPayload,
   makeAttestation,
   newPrfsIdMsg,
-  makeCommitmentSearchParams,
-  CommitmentArgs,
   API_PATH,
   parseBuffer,
+  makeProofGenSearchParams,
+  ProofGenArgs,
+  QueryType,
+  ProofGenSuccessPayload,
 } from "@taigalabs/prfs-id-sdk-web";
 import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
 import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
@@ -39,7 +40,7 @@ import { paths } from "@/paths";
 
 const TWITTER_HANDLE = "twitter_handle";
 const TWEET_URL = "tweet_url";
-const CLAIM = "claim";
+const CLAIM = "twitter_acc_atst";
 
 enum AttestationStep {
   INPUT_TWITTER_HANDLE = 0,
@@ -80,11 +81,8 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       return atstApi("attest_twitter_acc", req);
     },
   });
-  const { prfsEmbedRef, isReady: isPrfsReady } = usePrfsEmbed({
-    appId: "prfs_proof",
-    prfsEmbedEndpoint: envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT,
-  });
-  const { openPopup, popupStatus } = usePopup();
+  const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
+  const { openPopup } = usePopup();
 
   React.useEffect(() => {
     const handle = formData[TWITTER_HANDLE];
@@ -136,30 +134,30 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
   );
 
   const handleClickGenerate = React.useCallback(() => {
-    const commitmentArgs: CommitmentArgs = {
+    const proofGenArgs: ProofGenArgs = {
       nonce: Math.random() * 1000000,
       appId: "prfs_proof",
-      cms: [
+      queries: [
         {
           name: CLAIM,
           preImage: claimSecret,
           type: CommitmentType.SIG_POSEIDON_1,
+          queryType: QueryType.COMMITMENT_TYPE,
         },
       ],
       publicKey: pkHex,
     };
-
-    const searchParams = makeCommitmentSearchParams(commitmentArgs);
-    const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.commitment}${searchParams}`;
+    const searchParams = makeProofGenSearchParams(proofGenArgs);
+    const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
     openPopup(endpoint, async () => {
-      if (!prfsEmbedRef.current || !isPrfsReady) {
+      if (!prfsEmbed || !isPrfsReady) {
         return;
       }
 
       const resp = await sendMsgToChild(
-        newPrfsIdMsg("REQUEST_SIGN_IN", { appId: commitmentArgs.appId }),
-        prfsEmbedRef.current,
+        newPrfsIdMsg("REQUEST_SIGN_IN", { appId: proofGenArgs.appId }),
+        prfsEmbed,
       );
       if (resp) {
         try {
@@ -172,9 +170,9 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
             return;
           }
 
-          let payload: CommitmentSuccessPayload;
+          let payload: ProofGenSuccessPayload;
           try {
-            payload = JSON.parse(decrypted) as CommitmentSuccessPayload;
+            payload = JSON.parse(decrypted);
           } catch (err) {
             console.error("cannot parse payload", err);
             return;
@@ -301,7 +299,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
           <ol className={styles.instructions}>
             <li className={styles.item}>
               <div className={styles.no}>1</div>
-              <div className={styles.right}>
+              <div className={styles.rightCol}>
                 <div className={styles.desc}>
                   <p className={styles.descTitle}>{i18n.what_is_your_twitter_handle}</p>
                   <p>{i18n.twitter_handle_example_given}</p>
@@ -432,7 +430,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
               <Button
                 variant="blue_2"
                 noTransition
-                className={styles.signInBtn}
+                className={styles.createBtn}
                 handleClick={handleClickCreate}
                 noShadow
                 type="button"

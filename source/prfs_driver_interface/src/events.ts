@@ -1,7 +1,7 @@
 export type DriverEvent =
   | LoadDriverEvent
-  | CreateProofEvent
-  | VerifyProofEvent
+  // | CreateProofEvent
+  // | VerifyProofEvent
   | LoadDriverSuccessEvent;
 
 export type DriverEventListener = (ev: DriverEvent) => void;

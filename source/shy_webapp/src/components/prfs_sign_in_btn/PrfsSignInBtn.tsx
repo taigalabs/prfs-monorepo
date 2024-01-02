@@ -7,7 +7,7 @@ import { decrypt } from "@taigalabs/prfs-crypto-js";
 import PrfsIdSignInButton from "@taigalabs/prfs-react-components/src/prfs_id_sign_in_button/PrfsIdSignInButton";
 import PrfsCredentialPopover from "@taigalabs/prfs-react-components/src/prfs_credential_popover/PrfsCredentialPopover";
 import {
-  PrfsIdSignInSuccessPayload,
+  SignInSuccessPayload,
   AppSignInData,
   makeColor,
   AppSignInArgs,
@@ -75,35 +75,35 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
           return;
         }
 
-        let prfsIdSignInSuccessPayload: PrfsIdSignInSuccessPayload;
-        try {
-          prfsIdSignInSuccessPayload = JSON.parse(decrypted) as PrfsIdSignInSuccessPayload;
-        } catch (err) {
-          console.error(err);
-          return;
-        }
+        // let prfsIdSignInSuccessPayload: PrfsIdSignInSuccessPayload;
+        // try {
+        //   prfsIdSignInSuccessPayload = JSON.parse(decrypted) as PrfsIdSignInSuccessPayload;
+        // } catch (err) {
+        //   console.error(err);
+        //   return;
+        // }
 
-        const { payload, error, code } = await prfsSignInRequest({
-          account_id: prfsIdSignInSuccessPayload.account_id,
-        });
-        const avatar_color = makeColor(prfsIdSignInSuccessPayload.account_id);
-        const credential: LocalShyCredential = {
-          account_id: prfsIdSignInSuccessPayload.account_id,
-          public_key: prfsIdSignInSuccessPayload.public_key,
-          avatar_color,
-        };
+        // const { payload, error, code } = await prfsSignInRequest({
+        //   account_id: prfsIdSignInSuccessPayload.account_id,
+        // });
+        // const avatar_color = makeColor(prfsIdSignInSuccessPayload.account_id);
+        // const credential: LocalShyCredential = {
+        //   account_id: prfsIdSignInSuccessPayload.account_id,
+        //   public_key: prfsIdSignInSuccessPayload.public_key,
+        //   avatar_color,
+        // };
 
-        if (error) {
-          console.error(error);
-          if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
-            setSignUpData(credential);
-          }
-          return;
-        }
+        // if (error) {
+        //   console.error(error);
+        //   if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
+        //     setSignUpData(credential);
+        //   }
+        //   return;
+        // }
 
-        persistShyCredential(credential);
+        // persistShyCredential(credential);
         // prfs account sign in
-        dispatch(signInPrfs(credential));
+        // dispatch(signInPrfs(credential));
       }
     },
     [router, dispatch, prfsSignInRequest, setSignUpData],
@@ -136,11 +136,13 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
     <>
       {signUpData && <SignUpModal credential={signUpData} />}
       <PrfsIdSignInButton
+        appId="shy"
         className={styles.signInBtn}
         label={i18n.sign_in_with_prfs_id}
         appSignInArgs={appSignInArgs}
         handleSucceedSignIn={handleSucceedSignIn}
-        prfsIdAppSignInEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
+        prfsIdEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
+        prfsEmbedEndpoint={envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT}
       />
     </>
   );

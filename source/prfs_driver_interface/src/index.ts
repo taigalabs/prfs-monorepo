@@ -1,4 +1,4 @@
-import { DriverEvent, DriverEventListener } from "./events";
+import { CreateProofEvent, DriverEvent, DriverEventListener } from "./events";
 
 export * from "./types";
 export * from "./events";
@@ -19,7 +19,7 @@ export interface CircuitDriver {
 export interface ProveArgs<T> {
   inputs: T;
   circuitTypeId: string;
-  eventListener: (ev: DriverEvent) => void;
+  eventListener: (ev: CreateProofEvent) => void;
 }
 
 export interface VerifyArgs {
@@ -31,7 +31,7 @@ export interface VerifyArgs {
 }
 
 export interface Proof {
-  proofBytes: Uint8Array;
+  proofBytes: Uint8Array | number[];
   publicInputSer: string;
 }
 
@@ -49,3 +49,5 @@ export interface ProofPublicInput {
   circuitPubInput: Record<string, any>;
   [key: string]: any;
 }
+
+export type Uint8ArrayNative = number[];

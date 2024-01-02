@@ -82,9 +82,16 @@
   margin-top: 54px;
   /* font-size: 0.95em; */
 
-  .h2 {
-    font-size: 1.32em;
-    font-weight: 400;
-    margin: 22px 0 10px;
+  .entry {
+    padding-bottom: 12px;
+  }
+
+  .label {
+    font-size: 1.14em;
+    line-height: 1.9em;
+  }
+
+  .value {
+    color: var(--black-25);
   }
 }

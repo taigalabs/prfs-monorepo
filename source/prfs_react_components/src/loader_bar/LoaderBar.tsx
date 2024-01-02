@@ -3,14 +3,12 @@ import cn from "classnames";
 
 import styles from "./LoaderBar.module.scss";
 
-const LoaderBar: React.FC<LoaderBarProps> = () => {
-  return (
-    <div className={styles.wrapper}>
-      <div className={styles.loader}></div>;
-    </div>
-  );
+const LoaderBar: React.FC<LoaderBarProps> = ({ className }) => {
+  return <div className={cn(styles.loader, className)} />;
 };
 
 export default LoaderBar;
 
-export interface LoaderBarProps {}
+export interface LoaderBarProps {
+  className?: string;
+}
