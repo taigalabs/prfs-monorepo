@@ -226,8 +226,8 @@ const MerkleProofInput: React.FC<MerkleProofInputProps> = ({
             readOnly
           />
         </div>
-        {value && <ComputedValue value={value} />}
       </InputWrapper>
+      {value && <ComputedValue value={value} />}
       {error && <FormError>{error}</FormError>}
     </FormInput>
   );
