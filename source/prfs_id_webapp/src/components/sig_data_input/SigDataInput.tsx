@@ -113,19 +113,9 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
             value={value?.msgRaw || ""}
             onChange={handleChangeRaw}
           />
-          {/* <div className={styles.btnGroup}> */}
-          {/*   <Button */}
-          {/*     variant="transparent_aqua_blue_1" */}
-          {/*     className={styles.signBtn} */}
-          {/*     handleClick={handleClickSign} */}
-          {/*     type="button" */}
-          {/*   > */}
-          {/*     {i18n.sign.toUpperCase()} */}
-          {/*   </Button> */}
-          {/* </div> */}
         </div>
-        {value?.sig && <ComputedValue value={value} />}
       </InputWrapper>
+      {value?.sig && <ComputedValue value={value} />}
       {error && <FormError>{error}</FormError>}
     </FormInput>
   );
