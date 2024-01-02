@@ -163,55 +163,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       if (isPrfsReady) {
         setStatus(Status.Standby);
       }
-      // const { circuit_driver_id, driver_properties } = proofType;
-      // setLoadDriverStatus(LoadDriverStatus.InProgress);
-      // setDriverMsg(<span>Loading driver {proofType.circuit_driver_id}...</span>);
-      // const since = dayjs();
-      //   try {
-      //     const elem = (await prfsSDK.create("proof_gen", {
-      //       proofTypeId: proofType.proof_type_id,
-      //       circuit_driver_id,
-      //       driver_properties,
-      //       sdkEndpoint: process.env.NEXT_PUBLIC_PRFS_SDK_WEB_ENDPOINT,
-      //     })) as ProofGenElement;
-      //     elem.subscribe((ev: ProofGenEvent) => {
-      //       const { type, payload } = ev;
-      //       if (type === "LOAD_DRIVER_EVENT") {
-      //         if (payload.asset_label && payload.progress) {
-      //           setLoadDriverProgress(oldVal => ({
-      //             ...oldVal,
-      //             [payload.asset_label!]: payload.progress,
-      //           }));
-      //         }
-      //       }
-      //       if (type === "LOAD_DRIVER_SUCCESS") {
-      //         const now = dayjs();
-      //         const diff = now.diff(since, "seconds", true);
-      //         const { artifactCount } = payload;
-      //         setDriverMsg(
-      //           <>
-      //             <span>Circuit driver </span>
-      //             <a
-      //               href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${circuit_driver_id}`}
-      //             >
-      //               {proofType.circuit_driver_id} <BiLinkExternal />
-      //             </a>
-      //             <span>
-      //               ({diff} seconds, {artifactCount} artifacts)
-      //             </span>
-      //           </>,
-      //         );
-      //         setLoadDriverStatus(LoadDriverStatus.Standby);
-      //       }
-      //       if (type === "CREATE_PROOF_EVENT") {
-      //         setSystemMsg(payload.payload);
-      //       }
-      //     });
-      //     setProofGenElement(elem);
-      //     return elem;
-      //   } catch (err) {
-      //     setDriverMsg(`Driver init failed, id: ${circuit_driver_id}, err: ${err}`);
-      //   }
     }
     fn().then();
   }, [proofType, setProofGenElement, setStatus, isPrfsReady, setSystemMsg]);
