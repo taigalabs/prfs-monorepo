@@ -6,12 +6,9 @@ import {
   getSnap,
   isLocalSnap,
   shouldDisplayReconnect,
-} from "@taigalabs/prfs-react-components/src/modules/snap/utils";
-import {
-  MetamaskActions,
-  usePrfsSnap,
-} from "@taigalabs/prfs-react-components/src/hooks/use_prfs_snap";
-import { defaultSnapOrigin } from "@taigalabs/prfs-react-components/src/modules/snap/config";
+} from "@taigalabs/prfs-react-lib/src/modules/snap/utils";
+import { MetamaskActions, usePrfsSnap } from "@taigalabs/prfs-react-lib/src/hooks/use_prfs_snap";
+import { defaultSnapOrigin } from "@taigalabs/prfs-react-lib/src/modules/snap/config";
 
 import styles from "./OpenSnapDialog.module.scss";
 import { i18nContext } from "@/i18n/context";

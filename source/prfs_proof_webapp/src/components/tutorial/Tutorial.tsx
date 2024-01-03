@@ -7,7 +7,7 @@ import Tutorial2MD from "@/components/tutorial_contents/tutorial_2.mdx";
 import Tutorial3MD from "@/components/tutorial_contents/tutorial_3.mdx";
 import Tutorial4MD from "@/components/tutorial_contents/tutorial_4.mdx";
 import Tutorial5MD from "@/components/tutorial_contents/tutorial_5.mdx";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import { useRouter } from "next/navigation";
 import cn from "classnames";

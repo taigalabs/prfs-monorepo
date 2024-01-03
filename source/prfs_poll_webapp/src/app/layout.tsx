@@ -1,6 +1,6 @@
 "use client";
 
-import "@taigalabs/prfs-react-components/src/react_components.scss";
+import "@taigalabs/prfs-react-lib/src/react_components.scss";
 import "./globals.scss";
 
 import React from "react";

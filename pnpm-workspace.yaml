@@ -35,8 +35,8 @@ packages:
   - "source/prfs_console_webapp"
   - "source/prfs_poll_webapp"
 
-  # Common ui components
-  - "source/prfs_react_components"
+  # Common react lib
+  - "source/prfs_react_lib"
 
   # Shy
   - "source/shy_webapp"

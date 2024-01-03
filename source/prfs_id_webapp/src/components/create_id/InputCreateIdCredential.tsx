@@ -1,7 +1,7 @@
 import React from "react";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import Link from "next/link";
-import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
+import Fade from "@taigalabs/prfs-react-lib/src/fade/Fade";
 import { PrfsIdCredential, makePrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./InputCreateIdCredential.module.scss";

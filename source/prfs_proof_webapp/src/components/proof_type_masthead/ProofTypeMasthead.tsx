@@ -5,9 +5,9 @@ import cn from "classnames";
 import Link from "next/link";
 import { BsBook } from "@react-icons/all-files/bs/BsBook";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import SearchProofDialog from "@taigalabs/prfs-react-components/src/search_proof_dialog/SearchProofDialog";
-import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
-import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
+import SearchProofDialog from "@taigalabs/prfs-react-lib/src/search_proof_dialog/SearchProofDialog";
+import ImageLogo from "@taigalabs/prfs-react-lib/src/image_logo/ImageLogo";
+import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 
 import styles from "./ProofTypeMasthead.module.scss";
 import { i18nContext } from "@/i18n/context";

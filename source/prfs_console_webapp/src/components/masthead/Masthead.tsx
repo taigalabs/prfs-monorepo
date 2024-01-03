@@ -1,9 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import Logo from "@taigalabs/prfs-react-components/src/logo/Logo";
-import PrfsAppsPopover from "@taigalabs/prfs-react-components/src/prfs_apps_popover/PrfsAppsPopover";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
+import Logo from "@taigalabs/prfs-react-lib/src/logo/Logo";
+import PrfsAppsPopover from "@taigalabs/prfs-react-lib/src/prfs_apps_popover/PrfsAppsPopover";
 
 import styles from "./Masthead.module.scss";
 import { i18nContext } from "@/i18n/context";

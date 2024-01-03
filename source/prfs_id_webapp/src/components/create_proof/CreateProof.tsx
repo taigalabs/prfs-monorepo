@@ -3,17 +3,17 @@
 import React from "react";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { CircuitDriver, CreateProofEvent, DriverEvent } from "@taigalabs/prfs-driver-interface";
-import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
+import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import dayjs from "dayjs";
 import cn from "classnames";
 import { useSearchParams } from "next/navigation";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
-import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
+import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import { useQuery } from "@tanstack/react-query";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { initCircuitDriver, interpolateSystemAssetEndpoint } from "@taigalabs/prfs-proof-gen-js";
 import { CreateProofQuery, PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
-import { TbNumbers } from "@taigalabs/prfs-react-components/src/tabler_icons/TbNumbers";
+import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 
 import styles from "./CreateProof.module.scss";
 import { i18nContext } from "@/i18n/context";

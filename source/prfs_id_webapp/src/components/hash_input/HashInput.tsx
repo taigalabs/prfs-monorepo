@@ -20,7 +20,7 @@ import {
   FormInputTitleRow,
   InputWrapper,
 } from "@/components/form_input/FormInput";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { stringToBigInt } from "@taigalabs/prfs-crypto-js";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {

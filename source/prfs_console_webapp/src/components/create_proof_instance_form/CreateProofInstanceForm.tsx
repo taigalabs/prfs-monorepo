@@ -6,9 +6,9 @@ import { useRouter } from "next/navigation";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
-import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
+import Fade from "@taigalabs/prfs-react-lib/src/fade/Fade";
+import ArrowButton from "@taigalabs/prfs-react-lib/src/arrow_button/ArrowButton";
 
 import styles from "./CreateProofInstanceForm.module.scss";
 import { i18nContext } from "@/i18n/context";

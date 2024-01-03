@@ -12,10 +12,7 @@ import {
   FloatingPortal,
 } from "@floating-ui/react";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
-import {
-  MetamaskActions,
-  usePrfsSnap,
-} from "@taigalabs/prfs-react-components/src/hooks/use_prfs_snap";
+import { MetamaskActions, usePrfsSnap } from "@taigalabs/prfs-react-lib/src/hooks/use_prfs_snap";
 
 import styles from "./PostDialog.module.scss";
 import { i18nContext } from "@/i18n/context";

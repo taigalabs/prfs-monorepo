@@ -8,11 +8,8 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import Table2, {
-  Table2Body,
-  TableSearch,
-} from "@taigalabs/prfs-react-components/src/table2/Table2";
-import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
+import Table2, { Table2Body, TableSearch } from "@taigalabs/prfs-react-lib/src/table2/Table2";
+import CaptionedImg from "@taigalabs/prfs-react-lib/src/captioned_img/CaptionedImg";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 
 import styles from "./ProofTypeTable.module.scss";

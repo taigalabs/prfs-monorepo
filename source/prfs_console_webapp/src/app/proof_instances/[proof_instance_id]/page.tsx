@@ -4,7 +4,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Link from "next/link";
-import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import ArrowButton from "@taigalabs/prfs-react-lib/src/arrow_button/ArrowButton";
 import { PrfsProofInstanceSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsProofInstanceSyn1";
 
 import styles from "./ProofInstancePage.module.scss";
@@ -19,7 +19,7 @@ import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/Con
 import PublicInputTable from "@/components/public_input_table/PublicInputTable";
 import { SpacedBetweenArea } from "@/components/area/Area";
 import ProofView from "@/components/proof_view/ProofView";
-import ProofBanner from "@taigalabs/prfs-react-components/src/proof_banner/ProofBanner";
+import ProofBanner from "@taigalabs/prfs-react-lib/src/proof_banner/ProofBanner";
 import { useAppDispatch } from "@/state/hooks";
 import { envs } from "@/envs";
 

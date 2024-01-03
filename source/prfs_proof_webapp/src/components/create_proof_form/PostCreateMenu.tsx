@@ -1,19 +1,19 @@
 import React from "react";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import cn from "classnames";
-import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
+import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { useRouter, useSearchParams } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import { useMutation } from "@tanstack/react-query";
 import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
-import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
+import CaptionedImg from "@taigalabs/prfs-react-lib/src/captioned_img/CaptionedImg";
 import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
 import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
 import JSONBig from "json-bigint";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
+import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 
 import styles from "./PostCreateMenu.module.scss";
 import { i18nContext } from "@/i18n/context";

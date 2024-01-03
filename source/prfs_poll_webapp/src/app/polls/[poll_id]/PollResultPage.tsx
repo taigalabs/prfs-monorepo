@@ -2,11 +2,11 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
+import ArrowButton from "@taigalabs/prfs-react-lib/src/arrow_button/ArrowButton";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import SocialSharePopover from "@taigalabs/prfs-react-components/src/social_share_popover/SocialSharePopover";
+import SocialSharePopover from "@taigalabs/prfs-react-lib/src/social_share_popover/SocialSharePopover";
 
 import styles from "./PollPage.module.scss";
 import { i18nContext } from "@/contexts/i18n";

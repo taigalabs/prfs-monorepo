@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 
 import styles from "./MarkdownWrapper.module.scss";
 import { i18nContext } from "@/i18n/context";

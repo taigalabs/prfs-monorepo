@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
+import Fade from "@taigalabs/prfs-react-lib/src/fade/Fade";
 import cn from "classnames";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { useSearchParams } from "next/navigation";

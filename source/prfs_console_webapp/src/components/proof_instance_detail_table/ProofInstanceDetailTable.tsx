@@ -10,12 +10,12 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import Table2, { RecordData, Table2Body } from "@taigalabs/prfs-react-components/src/table2/Table2";
+import Table2, { RecordData, Table2Body } from "@taigalabs/prfs-react-lib/src/table2/Table2";
 import Link from "next/link";
 
 import styles from "./ProofInstanceDetailTable.module.scss";
 import { i18nContext } from "@/i18n/context";
-import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
+import Popover from "@taigalabs/prfs-react-lib/src/popover/Popover";
 import { envs } from "@/envs";
 import { paths } from "@/paths";
 

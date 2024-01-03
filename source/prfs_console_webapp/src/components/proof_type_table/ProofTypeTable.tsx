@@ -17,8 +17,8 @@ import Table2, {
   Table2Head,
   Table2Pagination,
   TableSearch,
-} from "@taigalabs/prfs-react-components/src/table2/Table2";
-import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
+} from "@taigalabs/prfs-react-lib/src/table2/Table2";
+import CaptionedImg from "@taigalabs/prfs-react-lib/src/captioned_img/CaptionedImg";
 
 import styles from "./ProofTypeTable.module.scss";
 import { i18nContext } from "@/i18n/context";

@@ -2,15 +2,15 @@ import React from "react";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
-import LoaderBar from "@taigalabs/prfs-react-components/src/loader_bar/LoaderBar";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
+import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
+import LoaderBar from "@taigalabs/prfs-react-lib/src/loader_bar/LoaderBar";
 import dayjs from "dayjs";
 import cn from "classnames";
 import { useSearchParams } from "next/navigation";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
-import colors from "@taigalabs/prfs-react-components/src/colors.module.scss";
+import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
 import { ProofGenArgs, makeProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web/proof_gen";
 import { PopupStatus, usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
@@ -30,7 +30,7 @@ import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
 import { useRandomKeyPair } from "@/hooks/key";
-import { TbNumbers } from "@taigalabs/prfs-react-components/src/tabler_icons/TbNumbers";
+import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 
 const PROOF = "Proof";
 

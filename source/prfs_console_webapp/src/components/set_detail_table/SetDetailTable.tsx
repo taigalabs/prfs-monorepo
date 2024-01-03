@@ -5,7 +5,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import Table2, { RecordData, Table2Body } from "@taigalabs/prfs-react-components/src/table2/Table2";
+import Table2, { RecordData, Table2Body } from "@taigalabs/prfs-react-lib/src/table2/Table2";
 
 import styles from "./SetDetailTable.module.scss";
 import { i18nContext } from "@/i18n/context";

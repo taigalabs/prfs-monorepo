@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import Logo from "@taigalabs/prfs-react-components/src/logo/Logo";
+import Logo from "@taigalabs/prfs-react-lib/src/logo/Logo";
 
 import styles from "./SignInLayout.module.scss";
 import { i18nContext } from "@/i18n/context";

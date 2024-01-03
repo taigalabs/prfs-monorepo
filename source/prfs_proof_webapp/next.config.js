@@ -24,11 +24,7 @@ module.exports = (phase, { defaultConfig }) => {
     swcMinify: true,
 
     // till we set up proper build pipeline
-    transpilePackages: [
-      "@taigalabs/prfs-sdk-web",
-      "@taigalabs/prfs-api-js",
-      "@taigalabs/prfs-react-components",
-    ],
+    transpilePackages: ["@taigalabs/prfs-api-js", "@taigalabs/prfs-react-lib"],
 
     sassOptions: {
       includePaths: [path.join(currDir, "src")],

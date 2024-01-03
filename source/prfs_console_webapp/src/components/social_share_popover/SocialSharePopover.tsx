@@ -1,9 +1,9 @@
 import React from "react";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { AiFillTwitterSquare } from "@react-icons/all-files/ai/AiFillTwitterSquare";
 import { FaTelegram } from "@react-icons/all-files/fa/FaTelegram";
 import { FaDiscord } from "@react-icons/all-files/fa/FaDiscord";
-import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
+import Popover from "@taigalabs/prfs-react-lib/src/popover/Popover";
 import { IoMdArrowDropdown } from "@react-icons/all-files/io/IoMdArrowDropdown";
 
 import styles from "./SocialSharePopover.module.scss";

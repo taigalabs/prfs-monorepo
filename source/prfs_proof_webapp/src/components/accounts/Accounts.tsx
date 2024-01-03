@@ -2,7 +2,7 @@
 
 import React from "react";
 import cn from "classnames";
-import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
+import ImageLogo from "@taigalabs/prfs-react-lib/src/image_logo/ImageLogo";
 import { useRouter } from "next/navigation";
 
 import styles from "./Accounts.module.scss";

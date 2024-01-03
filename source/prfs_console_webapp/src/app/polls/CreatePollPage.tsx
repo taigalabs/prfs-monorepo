@@ -3,8 +3,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
+import ArrowButton from "@taigalabs/prfs-react-lib/src/arrow_button/ArrowButton";
 
 import styles from "./CreatePollPage.module.scss";
 import { i18nContext } from "@/i18n/context";

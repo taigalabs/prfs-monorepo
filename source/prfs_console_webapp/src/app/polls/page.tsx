@@ -2,10 +2,10 @@
 
 import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { HiDocumentAdd } from "@react-icons/all-files/hi/HiDocumentAdd";
 import Link from "next/link";
-import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table2/Table2";
+import { PaddedTableWrapper } from "@taigalabs/prfs-react-lib/src/table2/Table2";
 
 import styles from "./PollsPage.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -23,7 +23,7 @@ import { useAppDispatch } from "@/state/hooks";
 import CreatePollForm from "@/components/create_poll_form/CreatePollForm";
 import CreatePollPage from "./CreatePollPage";
 import PollTable from "@/components/poll_table/PollTable";
-import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import ArrowButton from "@taigalabs/prfs-react-lib/src/arrow_button/ArrowButton";
 
 const PollsPage: React.FC = () => {
   let i18n = React.useContext(i18nContext);

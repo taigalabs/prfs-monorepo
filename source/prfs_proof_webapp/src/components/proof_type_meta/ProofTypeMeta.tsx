@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 
 import styles from "./ProofTypeMeta.module.scss";
 import { i18nContext } from "@/i18n/context";
-import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
+import CaptionedImg from "@taigalabs/prfs-react-lib/src/captioned_img/CaptionedImg";
 import { Markdown } from "../markdown/Markdown";
 
 const ProofTypeMeta: React.FC<ProofTypeMetaProps> = ({

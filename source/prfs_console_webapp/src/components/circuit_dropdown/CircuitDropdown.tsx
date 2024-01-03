@@ -6,9 +6,9 @@ import Dropdown, {
   CreateDropdownListArgs,
   DropdownData,
   DropdownSingleSelectedValue,
-} from "@taigalabs/prfs-react-components/src/dropdown/Dropdown";
-import DropdownEntry from "@taigalabs/prfs-react-components/src/dropdown/DropdownEntry";
-import DropdownList from "@taigalabs/prfs-react-components/src/dropdown/DropdownList";
+} from "@taigalabs/prfs-react-lib/src/dropdown/Dropdown";
+import DropdownEntry from "@taigalabs/prfs-react-lib/src/dropdown/DropdownEntry";
+import DropdownList from "@taigalabs/prfs-react-lib/src/dropdown/DropdownList";
 import { PrfsCircuitSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsCircuitSyn1";
 
 import styles from "./CircuitDropdown.module.scss";

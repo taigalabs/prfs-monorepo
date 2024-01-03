@@ -1,14 +1,14 @@
 import React from "react";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { idApi } from "@taigalabs/prfs-api-js";
-import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
+import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { useRouter } from "next/navigation";
-import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
+import Fade from "@taigalabs/prfs-react-lib/src/fade/Fade";
 import cn from "classnames";
 import { IoMdEye } from "@react-icons/all-files/io/IoMdEye";
 import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import copy from "copy-to-clipboard";
-import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
+import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 import { IdCreateForm } from "@/functions/validate_id";
 import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";

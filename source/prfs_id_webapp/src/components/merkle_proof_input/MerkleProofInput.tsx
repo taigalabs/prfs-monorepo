@@ -3,7 +3,7 @@ import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import cn from "classnames";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
-import ConnectWallet from "@taigalabs/prfs-react-components/src/connect_wallet/ConnectWallet";
+import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
 import { SpartanMerkleProof } from "@taigalabs/prfs-driver-interface";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";

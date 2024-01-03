@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-import TextButton from "@taigalabs/prfs-react-components/src/text_button/TextButton";
+import TextButton from "@taigalabs/prfs-react-lib/src/text_button/TextButton";
 
 import styles from "./ProofView.module.scss";
 import { i18nContext } from "@/i18n/context";

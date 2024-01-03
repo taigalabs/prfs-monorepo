@@ -8,7 +8,7 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@tanstack/react-query";
 import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import { ethers } from "ethers";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 // import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
 
 import styles from "./PollView.module.scss";

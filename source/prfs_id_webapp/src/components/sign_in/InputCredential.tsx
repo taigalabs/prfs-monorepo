@@ -1,6 +1,6 @@
 import React from "react";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
+import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import {
   PrfsIdCredential,
   makePrfsIdCredential,

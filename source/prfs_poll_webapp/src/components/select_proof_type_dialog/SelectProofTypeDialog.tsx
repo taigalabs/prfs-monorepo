@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import {
   useFloating,
   useDismiss,
@@ -11,14 +11,14 @@ import {
   FloatingOverlay,
   FloatingPortal,
 } from "@floating-ui/react";
-import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
+import Fade from "@taigalabs/prfs-react-lib/src/fade/Fade";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 
 import styles from "./SelectProofTypeDialog.module.scss";
 import { i18nContext } from "@/contexts/i18n";
 import ProofTypeTable from "./ProofTypeTable";
 // import { ProofTypeItem } from "@/components/create_proof_form/CreateProofForm";
-import CaptionedImg from "@taigalabs/prfs-react-components/src/captioned_img/CaptionedImg";
+import CaptionedImg from "@taigalabs/prfs-react-lib/src/captioned_img/CaptionedImg";
 
 const SelectProofTypeDialog: React.FC<SelectProofTypeDialogProps> = ({ handleSelectProofType }) => {
   const i18n = React.useContext(i18nContext);

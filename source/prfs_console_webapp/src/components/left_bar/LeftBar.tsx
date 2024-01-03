@@ -6,9 +6,9 @@ import { IoDocumentTextOutline } from "@react-icons/all-files/io5/IoDocumentText
 import { IoDocument } from "@react-icons/all-files/io5/IoDocument";
 import { AiTwotoneTool } from "@react-icons/all-files/ai/AiTwotoneTool";
 import { Circuitry } from "@phosphor-icons/react";
-import { TbTable } from "@taigalabs/prfs-react-components/src/tabler_icons/TbTable";
-import { TbTableAlias } from "@taigalabs/prfs-react-components/src/tabler_icons/TbTableAlias";
-import ActiveLink from "@taigalabs/prfs-react-components/src/active_link/ActiveLink";
+import { TbTable } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbTable";
+import { TbTableAlias } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbTableAlias";
+import ActiveLink from "@taigalabs/prfs-react-lib/src/active_link/ActiveLink";
 import { FaVoteYea } from "@react-icons/all-files/fa/FaVoteYea";
 import { FaBitbucket } from "@react-icons/all-files/fa/FaBitbucket";
 

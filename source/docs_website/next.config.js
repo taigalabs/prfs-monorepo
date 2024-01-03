@@ -68,7 +68,7 @@ cfg.swcMinify = true;
 cfg.transpilePackages = [
   "@taigalabs/prfs-sdk-web",
   "@taigalabs/prfs-api-js",
-  "@taigalabs/prfs-react-components",
+  "@taigalabs/prfs-react-lib",
 ];
 
 module.exports = cfg;
