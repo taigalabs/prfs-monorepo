@@ -54,14 +54,14 @@
   justify-content: flex-end;
 }
 
-.moduleArea {
+.controlArea {
   padding: 0px 20px;
   flex-grow: 1;
   margin-left: 48px;
 
   /* border: 1px solid blue; */
 
-  .moduleWrapper {
+  .btnSection {
     width: 360px;
     overflow: hidden;
     position: relative;
@@ -74,7 +74,7 @@
     display: flex;
     color: var(--gray-34);
     line-height: 20px;
-    margin-bottom: 8px;
+    padding-bottom: 8px;
   }
 
   .numberIcon {
@@ -88,6 +88,11 @@
     color: var(--blue-120);
     margin-right: 12px;
     flex-shrink: 0;
+  }
+
+  .label {
+    display: flex;
+    align-items: center;
   }
 
   .overlay {
@@ -150,7 +155,7 @@
     align-items: center;
   }
 
-  .moduleArea {
+  .controlArea {
     padding: 16px 0px 16px;
     margin-left: 0px;
     border: none;
@@ -159,7 +164,7 @@
     display: flex;
     justify-content: center;
 
-    .moduleWrapper {
+    .btnSection {
       border: none;
       min-width: 0;
       padding: 0px 16px;

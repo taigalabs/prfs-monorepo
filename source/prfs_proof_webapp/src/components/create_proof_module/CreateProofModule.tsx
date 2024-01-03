@@ -1,19 +1,11 @@
 import React from "react";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
-import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
-import Button from "@taigalabs/prfs-react-lib/src/button/Button";
-import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import LoaderBar from "@taigalabs/prfs-react-lib/src/loader_bar/LoaderBar";
-import dayjs from "dayjs";
 import cn from "classnames";
 import { useSearchParams } from "next/navigation";
-import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
-import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
-import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
 import { ProofGenArgs, makeProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web/proof_gen";
-import { PopupStatus, usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
+import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 import {
   API_PATH,
   ProofGenSuccessPayload,
@@ -23,6 +15,7 @@ import {
   sendMsgToChild,
 } from "@taigalabs/prfs-id-sdk-web";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
+import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -30,7 +23,6 @@ import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { envs } from "@/envs";
 import { useRandomKeyPair } from "@/hooks/key";
-import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 
 const PROOF = "Proof";
 
@@ -42,8 +34,6 @@ enum Status {
 const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   proofType,
   handleCreateProofResult,
-  // proofGenElement,
-  // setProofGenElement,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
@@ -60,36 +50,6 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
 
   const handleClickCreateProof = React.useCallback(async () => {
-    // const args: ProofGenArgs = {
-    //   nonce: Math.random() * 100000000,
-    //   appId: "prfs_proof",
-    //   proofTypeId: proofType.proof_type_id,
-    //   publicKey: pkHex,
-    // };
-    // const searchParams = makeProofGenSearchParams(args);
-    // const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
-    // const child = window.open(endpoint, "_blank", "toolbar=0,location=0,menubar=0");
-    // if (proofGenElement) {
-    //   try {
-    //     const inputs = await validateInputs(formValues, proofType, setFormErrors);
-    //     if (inputs === null) {
-    //       return;
-    //     }
-    //     if (createProofStatus === CreateProofStatus.InProgress) {
-    //       return;
-    //     }
-    //     setCreateProofStatus(CreateProofStatus.InProgress);
-    //     const proveReceipt = await proofGenElement.createProof(inputs, proofType.circuit_type_id);
-    //     setCreateProofStatus(CreateProofStatus.Created);
-    //     handleCreateProofResult(null, proveReceipt);
-    //   } catch (error: unknown) {
-    //     const err = error as Error;
-    //     setCreateProofStatus(CreateProofStatus.Error);
-    //     setSystemMsg(err.toString());
-    //     handleCreateProofResult(err, null);
-    //   }
-    // }
-    //
     const proofGenArgs: ProofGenArgs = {
       nonce: Math.random() * 1000000,
       appId: "prfs_proof",
@@ -135,13 +95,10 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           }
 
           const proof = payload.receipt[PROOF] as ProveReceipt;
-          console.log(13323, proof);
           if (proof) {
             handleCreateProofResult(proof);
-            // setClaimCm(cm);
-            // setStep(AttestationStep.POST_TWEET);
           } else {
-            console.error("no commitment delivered");
+            console.error("no proof delivered");
             return;
           }
         } catch (err) {
@@ -151,14 +108,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
         console.error("Returned val is empty");
       }
     });
-  }, [
-    // formValues,
-    proofType,
-    handleCreateProofResult,
-    // proofGenElement,
-    setSystemMsg,
-    status,
-  ]);
+  }, [proofType, handleCreateProofResult, setSystemMsg, status]);
 
   React.useEffect(() => {
     async function fn() {
@@ -167,25 +117,19 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       }
     }
     fn().then();
-  }, [
-    proofType,
-    // setProofGenElement,
-    setStatus,
-    isPrfsReady,
-    setSystemMsg,
-  ]);
+  }, [proofType, setStatus, isPrfsReady, setSystemMsg]);
 
   return (
     <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
       <div className={styles.systemMsg}></div>
       <div className={cn(styles.main, { [styles.isTutorial]: isTutorial })}>
-        <div className={styles.moduleArea}>
-          <div className={styles.moduleWrapper}>
+        <div className={styles.controlArea}>
+          <div className={styles.btnSection}>
             <div className={styles.desc}>
               <p className={styles.numberIcon}>
                 <TbNumbers />
               </p>
-              <p>{i18n.create_proof_desc}</p>
+              <p className={styles.label}>{i18n.create_proof_desc}</p>
             </div>
             <div className={styles.btnRow}>
               {status === Status.Loading && <div className={styles.overlay} />}

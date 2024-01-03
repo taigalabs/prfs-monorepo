@@ -11,11 +11,6 @@ const listenerRef: ListenerRef = {
   current: null,
 };
 
-export enum PopupStatus {
-  Closed,
-  Open,
-}
-
 export function usePopup() {
   function openPopup(endpoint: string, callback: (popup: Window) => Promise<any>) {
     // Open the window
