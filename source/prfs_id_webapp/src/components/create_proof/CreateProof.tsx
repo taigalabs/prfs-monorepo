@@ -215,14 +215,13 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
       <QueryItem sidePadding>
         <QueryItemMeta>
           <QueryItemLeftCol>
-            {createProofStatus === Status.InProgress ? (
-              <Spinner size={20} borderWidth={2} />
-            ) : (
-              <TbNumbers />
-            )}
+            <TbNumbers />
           </QueryItemLeftCol>
           <QueryItemRightCol>
-            <QueryName>{query.name}</QueryName>
+            <QueryName>
+              <span>{query.name}</span>
+              {createProofStatus === Status.InProgress && <span> (Creating...)</span>}
+            </QueryName>
             <div>{proofType.proof_type_id}</div>
             <div className={styles.driverMsg}>
               {driverMsg}
