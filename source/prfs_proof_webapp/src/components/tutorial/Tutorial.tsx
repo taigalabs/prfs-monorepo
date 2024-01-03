@@ -18,7 +18,7 @@ import { i18nContext } from "@/i18n/context";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { goNextStep, goPrevStep, resetStep } from "@/state/tutorialReducer";
 import MarkdownWrapper from "./MarkdownWrapper";
-import { useIsTutorial } from "@/hooks/tutorial";
+import { useIsTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 
 const STEP_COUNT = 5;
 

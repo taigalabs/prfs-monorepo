@@ -2,9 +2,9 @@
 
 import React from "react";
 import cn from "classnames";
+import { useIsTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 
 import styles from "./TutorialPlaceholder.module.scss";
-import { useIsTutorial } from "@/hooks/tutorial";
 
 const TutorialPlaceholder: React.FC<TutorialPlaceholderProps> = () => {
   const isTutorial = useIsTutorial();
