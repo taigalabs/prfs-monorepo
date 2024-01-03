@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { AiFillPlusCircle } from "@react-icons/all-files/ai/AiFillPlusCircle";
-import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table2/Table2";
+import { PaddedTableWrapper } from "@taigalabs/prfs-react-lib/src/table2/Table2";
 
 import styles from "./Circuits.module.scss";
 import { i18nContext } from "@/i18n/context";

@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
+import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { PrfsIdCredential, parseProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web";
 import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 

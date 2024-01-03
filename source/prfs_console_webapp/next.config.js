@@ -16,7 +16,7 @@ const nextConfig = {
   transpilePackages: [
     "@taigalabs/prfs-sdk-web",
     "@taigalabs/prfs-api-js",
-    "@taigalabs/prfs-react-components",
+    "@taigalabs/prfs-react-lib",
   ],
 
   webpack: (config, { isServer, dev }) => {
@@ -43,7 +43,7 @@ const nextConfig = {
         issuer: /\.[jt]sx?$/,
         resourceQuery: { not: /url/ }, // exclude if *.svg?url
         use: ["@svgr/webpack"],
-      }
+      },
     );
 
     // Modify the file loader rule to ignore *.svg, since we have it handled now.

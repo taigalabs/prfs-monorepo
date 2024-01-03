@@ -1,6 +1,6 @@
 import React from "react";
 // import { useConnect, metamaskWallet } from "@thirdweb-dev/react";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 
 import styles from "./ConnectWalletWidget.module.scss";
 import { i18nContext } from "@/i18n/context";

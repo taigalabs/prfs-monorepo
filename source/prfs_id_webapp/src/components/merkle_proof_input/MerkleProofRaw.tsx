@@ -2,7 +2,7 @@ import React from "react";
 import JSONbig from "json-bigint";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { SpartanMerkleProof } from "@taigalabs/prfs-driver-interface";
 import cn from "classnames";
 import { RiEqualizerLine } from "@react-icons/all-files/ri/RiEqualizerLine";
@@ -17,7 +17,7 @@ import {
   FloatingOverlay,
   FloatingPortal,
 } from "@floating-ui/react";
-import Fade from "@taigalabs/prfs-react-components/src/fade/Fade";
+import Fade from "@taigalabs/prfs-react-lib/src/fade/Fade";
 
 import styles from "./MerkleProofRaw.module.scss";
 import { i18nContext } from "@/i18n/context";

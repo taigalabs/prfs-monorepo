@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { useConfig, useTheme, type DocsThemeConfig } from "nextra-theme-docs";
-import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
+import ImageLogo from "@taigalabs/prfs-react-lib/src/image_logo/ImageLogo";
 
 import Footer from "@/components/footer/Footer";
 import Navigation from "@/components/navigation/Navigation";

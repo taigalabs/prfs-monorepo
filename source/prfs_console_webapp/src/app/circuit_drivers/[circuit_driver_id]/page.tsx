@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsCircuitDriver } from "@taigalabs/prfs-entities/bindings/PrfsCircuitDriver";
-import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import ArrowButton from "@taigalabs/prfs-react-lib/src/arrow_button/ArrowButton";
 import { DriverPropertyMeta } from "@taigalabs/prfs-entities/bindings/DriverPropertyMeta";
 
 import styles from "./Program.module.scss";

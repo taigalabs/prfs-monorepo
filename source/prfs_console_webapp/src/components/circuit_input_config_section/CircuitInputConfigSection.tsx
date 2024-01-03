@@ -2,7 +2,7 @@ import React from "react";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import { CircuitInputMeta } from "@taigalabs/prfs-entities/bindings/CircuitInputMeta";
-import { DropdownSingleSelectedValue } from "@taigalabs/prfs-react-components/src/dropdown/Dropdown";
+import { DropdownSingleSelectedValue } from "@taigalabs/prfs-react-lib/src/dropdown/Dropdown";
 
 import styles from "./CircuitInputConfigSection.module.scss";
 import { i18nContext } from "@/i18n/context";

@@ -3,7 +3,7 @@
 import React from "react";
 import { Provider as StateProvider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { PrfsReactComponentsI18NProvider } from "@taigalabs/prfs-react-components/src/i18n/i18nContext";
+import { PrfsReactComponentsI18NProvider } from "@taigalabs/prfs-react-lib/src/i18n/i18nContext";
 import { WagmiConfig, configureChains, createConfig, mainnet } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";

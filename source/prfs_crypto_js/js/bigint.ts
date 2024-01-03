@@ -1,3 +1,5 @@
+import { toUtf8Bytes } from "ethers/lib/utils";
+
 export function bnToBuf(bn: bigint) {
   // The handy-dandy `toString(base)` works!!
   var hex = BigInt(bn).toString(16);
@@ -27,11 +29,17 @@ export function bnToBuf(bn: bigint) {
   return u8;
 }
 
+export function stringToBigInt(str: string): bigint {
+  const bytes = toUtf8Bytes(str);
+  return bytesToBigInt(bytes);
+}
+
 export const bytesToBigInt = (bytes: Uint8Array): bigint =>
   BigInt("0x" + Buffer.from(bytes).toString("hex"));
 
 export const bytesLeToBigInt = (bytes: Uint8Array): bigint => {
-  const reversed = bytes.reverse();
+  const b = new Uint8Array(bytes);
+  const reversed = b.reverse();
   return bytesToBigInt(reversed);
 };
 

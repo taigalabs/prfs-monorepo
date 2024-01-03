@@ -4,7 +4,7 @@ import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { bufferToHex, hashPersonalMessage, toBuffer } from "@ethereumjs/util";
 import { useSignMessage } from "wagmi";
 import { BufferHex, SigData } from "@taigalabs/prfs-driver-interface";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 
 import styles from "./SigDataInput.module.scss";
 import { i18nContext } from "@/i18n/context";

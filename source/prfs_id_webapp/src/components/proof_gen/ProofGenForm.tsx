@@ -1,7 +1,7 @@
 import React from "react";
 import { poseidon_2, prfsSign } from "@taigalabs/prfs-crypto-js";
 import cn from "classnames";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { useSearchParams } from "next/navigation";
 import {
   PrfsIdCredential,
@@ -12,13 +12,13 @@ import {
   QueryType,
   ProofGenSuccessPayload,
 } from "@taigalabs/prfs-id-sdk-web";
-import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
+import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { encrypt } from "@taigalabs/prfs-crypto-js";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
 import { idApi } from "@taigalabs/prfs-api-js";
 import { hexlify } from "ethers/lib/utils";
 import { useMutation } from "@tanstack/react-query";
-import LoaderBar from "@taigalabs/prfs-react-components/src/loader_bar/LoaderBar";
+import LoaderBar from "@taigalabs/prfs-react-lib/src/loader_bar/LoaderBar";
 
 import styles from "./ProofGenForm.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -147,17 +147,12 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       }
 
       setStatus(Status.Standby);
-      window.close();
+      // window.close();
     }
   }, [searchParams, proofGenArgs, credential, setErrorMsg, receipt, setStatus]);
 
   return proofGenArgs ? (
     <>
-      {status === Status.InProgress && (
-        <div className={styles.overlay}>
-          <LoaderBar />
-        </div>
-      )}
       <DefaultInnerPadding noSidePadding>
         <DefaultModuleHeader noTopPadding className={styles.sidePadding}>
           <DefaultModuleTitle>
@@ -181,18 +176,20 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
             type="button"
             variant="blue_2"
             className={styles.signInBtn}
+            contentClassName={styles.signInBtnContent}
             noTransition
             handleClick={handleClickSubmit}
             noShadow
           >
-            {i18n.submit}
+            <span>{i18n.submit}</span>
+            {status === Status.InProgress && <Spinner size={16} />}
           </Button>
         </DefaultModuleBtnRow>
         <DefaultErrorMsg className={styles.sidePadding}>{errorMsg}</DefaultErrorMsg>
       </DefaultInnerPadding>
     </>
   ) : (
-    <div>Loading...</div>
+    <div className={styles.loading}>Loading...</div>
   );
 };
 

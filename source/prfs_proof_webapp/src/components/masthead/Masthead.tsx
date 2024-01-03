@@ -2,13 +2,13 @@
 
 import React from "react";
 import cn from "classnames";
-import PrfsAppsPopover from "@taigalabs/prfs-react-components/src/prfs_apps_popover/PrfsAppsPopover";
+import PrfsAppsPopover from "@taigalabs/prfs-react-lib/src/prfs_apps_popover/PrfsAppsPopover";
 import {
   PrfsAppsPopoverLi,
   PrfsAppsPopoverUl,
-} from "@taigalabs/prfs-react-components/src/prfs_apps_popover/Modal";
-import { TbCertificate } from "@taigalabs/prfs-react-components/src/tabler_icons/TbCertificate";
-import { TbMathPi } from "@taigalabs/prfs-react-components/src/tabler_icons/TbMathPi";
+} from "@taigalabs/prfs-react-lib/src/prfs_apps_popover/Modal";
+import { TbCertificate } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbCertificate";
+import { TbMathPi } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbMathPi";
 import { GrMonitor } from "@react-icons/all-files/gr/GrMonitor";
 
 import styles from "./Masthead.module.scss";

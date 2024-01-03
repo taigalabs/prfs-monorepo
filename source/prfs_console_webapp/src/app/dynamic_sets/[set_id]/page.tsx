@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
-import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import ArrowButton from "@taigalabs/prfs-react-lib/src/arrow_button/ArrowButton";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { HiDocumentAdd } from "@react-icons/all-files/hi/HiDocumentAdd";
 import { Sigma } from "@phosphor-icons/react";
 

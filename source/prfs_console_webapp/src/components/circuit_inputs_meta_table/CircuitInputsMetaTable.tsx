@@ -8,7 +8,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import Table2, { Table2Body, Table2Head } from "@taigalabs/prfs-react-components/src/table2/Table2";
+import Table2, { Table2Body, Table2Head } from "@taigalabs/prfs-react-lib/src/table2/Table2";
 
 import styles from "./CircuitInputsMetaTable.module.scss";
 import { i18nContext } from "@/i18n/context";

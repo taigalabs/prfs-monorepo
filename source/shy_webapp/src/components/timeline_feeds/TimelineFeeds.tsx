@@ -4,7 +4,7 @@ import React from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { shyApi } from "@taigalabs/prfs-api-js";
-import Spinner from "@taigalabs/prfs-react-components/src/spinner/Spinner";
+import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./TimelineFeeds.module.scss";
 import Row from "./Row";

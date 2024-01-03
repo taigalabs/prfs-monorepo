@@ -1,6 +1,6 @@
 import React from "react";
 import cn from "classnames";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import Link from "next/link";
 import { HiPlus } from "@react-icons/all-files/hi/HiPlus";
 import { FaLinkedin } from "@react-icons/all-files/fa/FaLinkedin";

@@ -11,7 +11,7 @@ import Table2, {
   RecordData,
   Table2Body,
   Table2Head,
-} from "@taigalabs/prfs-react-components/src/table2/Table2";
+} from "@taigalabs/prfs-react-lib/src/table2/Table2";
 import { PrfsCircuitType } from "@taigalabs/prfs-entities/bindings/PrfsCircuitType";
 
 import styles from "./CircuitTypeDetailTable.module.scss";

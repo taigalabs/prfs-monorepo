@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
+import ImageLogo from "@taigalabs/prfs-react-lib/src/image_logo/ImageLogo";
 
 import styles from "./DocMasthead.module.scss";
 import { i18nContext } from "@/i18n/context";

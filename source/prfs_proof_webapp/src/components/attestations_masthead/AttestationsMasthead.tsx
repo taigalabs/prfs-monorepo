@@ -4,7 +4,7 @@ import React from "react";
 import cn from "classnames";
 import Link from "next/link";
 import { BsBook } from "@react-icons/all-files/bs/BsBook";
-import Tooltip from "@taigalabs/prfs-react-components/src/tooltip/Tooltip";
+import Tooltip from "@taigalabs/prfs-react-lib/src/tooltip/Tooltip";
 
 import styles from "./AttestationsMasthead.module.scss";
 import { i18nContext } from "@/i18n/context";

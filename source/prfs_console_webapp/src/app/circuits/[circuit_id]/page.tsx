@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsCircuitSyn1 } from "@taigalabs/prfs-entities/bindings/PrfsCircuitSyn1";
 import { RawCircuitInputMeta } from "@taigalabs/prfs-entities/bindings/RawCircuitInputMeta";
-import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import ArrowButton from "@taigalabs/prfs-react-lib/src/arrow_button/ArrowButton";
 
 import styles from "./Circuit.module.scss";
 import { WidgetLabel } from "@/components/widget/Widget";

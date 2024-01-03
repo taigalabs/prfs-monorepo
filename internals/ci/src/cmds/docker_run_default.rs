@@ -18,6 +18,7 @@ fn run_docker(_extra_args: Vec<&str>) {
     let docker_compose_yml_path = PATHS.internals_docker.join("compose/docker-compose.yml");
 
     let status = Command::new(deps::DOCKER)
+        .env("BUILDKIT_PROGRESS", "plain")
         .args([
             "compose",
             "-f",
@@ -27,7 +28,6 @@ fn run_docker(_extra_args: Vec<&str>) {
             "--build",
             "--no-deps",
             "prfs_api_server",
-            // "prfs_sdk_web_module",
             "prfs_embed_webapp",
         ])
         .status()

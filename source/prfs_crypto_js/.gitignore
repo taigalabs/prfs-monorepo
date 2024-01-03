@@ -1,5 +1,7 @@
 js/wasm_build/**
 !js/wasm_build/.gitkeep
+!dist/
+dist/build/**/*
 
 example/
 
@@ -262,7 +264,6 @@ out
 
 # Nuxt.js build / generate output
 .nuxt
-dist
 
 # Gatsby files
 .cache/
@@ -323,7 +324,6 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/

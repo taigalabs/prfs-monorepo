@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 
 import styles from "./CreatePostFormHeader.module.scss";
 import { ContentMainTitle } from "@/components/content_area/ContentArea";

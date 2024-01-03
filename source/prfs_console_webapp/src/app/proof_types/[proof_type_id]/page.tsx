@@ -11,7 +11,7 @@ import { i18nContext } from "@/i18n/context";
 import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import CircuitInputTable from "@/components/circuit_input_table/CircuitInputTable";
-import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import ArrowButton from "@taigalabs/prfs-react-lib/src/arrow_button/ArrowButton";
 import { paths } from "@/paths";
 import { ContentAreaHeader, ContentAreaRow } from "@/components/content_area/ContentArea";
 import ProofTypeDetailTable from "@/components/proof_type_detail_table/ProofTypeDetailTable";

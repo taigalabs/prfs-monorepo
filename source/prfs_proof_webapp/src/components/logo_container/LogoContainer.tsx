@@ -1,5 +1,5 @@
 import React from "react";
-import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
+import ImageLogo from "@taigalabs/prfs-react-lib/src/image_logo/ImageLogo";
 import cn from "classnames";
 
 import styles from "./LogoContainer.module.scss";

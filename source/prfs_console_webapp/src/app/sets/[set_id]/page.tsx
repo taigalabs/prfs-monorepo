@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
-import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import ArrowButton from "@taigalabs/prfs-react-lib/src/arrow_button/ArrowButton";
 
 import styles from "./Set.module.scss";
 import { WidgetLabel } from "@/components/widget/Widget";

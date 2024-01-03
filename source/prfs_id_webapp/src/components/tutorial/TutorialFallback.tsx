@@ -1,6 +1,6 @@
 import React from "react";
 import Tutorial1MD from "@/components/tutorial_contents/tutorial_1.mdx";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import cn from "classnames";
 
 import styles from "./Tutorial.module.scss";

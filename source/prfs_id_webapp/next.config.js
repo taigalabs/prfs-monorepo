@@ -27,7 +27,7 @@ module.exports = (phase, { defaultConfig }) => {
     transpilePackages: [
       "@taigalabs/prfs-sdk-web",
       "@taigalabs/prfs-api-js",
-      "@taigalabs/prfs-react-components",
+      "@taigalabs/prfs-react-lib",
     ],
 
     sassOptions: {

@@ -158,9 +158,9 @@ importers:
       '@react-icons/all-files':
         specifier: ^4.1.0
         version: 4.1.0(react@18.2.0)
-      '@taigalabs/prfs-react-components':
+      '@taigalabs/prfs-react-lib':
         specifier: '*'
-        version: link:../prfs_react_components
+        version: link:../prfs_react_lib
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -363,9 +363,9 @@ importers:
       '@taigalabs/prfs-i18n':
         specifier: '*'
         version: link:../prfs_i18n
-      '@taigalabs/prfs-react-components':
+      '@taigalabs/prfs-react-lib':
         specifier: '*'
-        version: link:../prfs_react_components
+        version: link:../prfs_react_lib
       '@taigalabs/prfs-sdk-web':
         specifier: '*'
         version: link:../prfs_sdk_web
@@ -896,9 +896,6 @@ importers:
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
-      eciesjs:
-        specifier: ^0.4.5
-        version: 0.4.5
       ethers:
         specifier: ^5
         version: 5.7.2
@@ -972,9 +969,9 @@ importers:
       '@taigalabs/prfs-proof-gen-js':
         specifier: '*'
         version: link:../prfs_proof_gen_js
-      '@taigalabs/prfs-react-components':
+      '@taigalabs/prfs-react-lib':
         specifier: '*'
-        version: link:../prfs_react_components
+        version: link:../prfs_react_lib
       '@tanstack/react-query':
         specifier: 5.14.6
         version: 5.14.6(react@18.2.0)
@@ -1162,9 +1159,9 @@ importers:
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
-      '@taigalabs/prfs-react-components':
+      '@taigalabs/prfs-react-lib':
         specifier: '*'
-        version: link:../prfs_react_components
+        version: link:../prfs_react_lib
       '@taigalabs/prfs-sdk-web':
         specifier: '*'
         version: link:../prfs_sdk_web
@@ -1344,9 +1341,9 @@ importers:
       '@taigalabs/prfs-id-sdk-web':
         specifier: '*'
         version: link:../prfs_id_sdk_web
-      '@taigalabs/prfs-react-components':
+      '@taigalabs/prfs-react-lib':
         specifier: '*'
-        version: link:../prfs_react_components
+        version: link:../prfs_react_lib
       '@taigalabs/prfs-sdk-web':
         specifier: '*'
         version: link:../prfs_sdk_web
@@ -1371,12 +1368,6 @@ importers:
       dompurify:
         specifier: ^3.0.6
         version: 3.0.6
-      eciesjs:
-        specifier: ^0.4.5
-        version: 0.4.5
-      elliptic:
-        specifier: ^6.5.4
-        version: 6.5.4
       ethers:
         specifier: ^5
         version: 5.7.2
@@ -1505,7 +1496,7 @@ importers:
         specifier: ^11.0.3
         version: 11.0.3
 
-  source/prfs_react_components:
+  source/prfs_react_lib:
     dependencies:
       '@floating-ui/react':
         specifier: ^0.24.8
@@ -1548,7 +1539,7 @@ importers:
         version: 5.14.6(react@18.2.0)
       '@tanstack/react-table':
         specifier: ^8.9.3
-        version: 8.9.3(react-dom@18.2.0)(react@18.2.0)
+        version: 8.11.2(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-virtual':
         specifier: 3.0.1
         version: 3.0.1(react-dom@18.2.0)(react@18.2.0)
@@ -1558,9 +1549,6 @@ importers:
       dayjs:
         specifier: ^1.11.9
         version: 1.11.9
-      eciesjs:
-        specifier: ^0.4.5
-        version: 0.4.5
       next:
         specifier: 14.0.4
         version: 14.0.4(react-dom@18.2.0)(react@18.2.0)(sass@1.63.6)
@@ -1886,9 +1874,9 @@ importers:
       '@taigalabs/prfs-id-sdk-web':
         specifier: '*'
         version: link:../prfs_id_sdk_web
-      '@taigalabs/prfs-react-components':
+      '@taigalabs/prfs-react-lib':
         specifier: '*'
-        version: link:../prfs_react_components
+        version: link:../prfs_react_lib
       '@tanstack/react-query':
         specifier: 5.14.6
         version: 5.14.6(react@18.2.0)
@@ -10212,18 +10200,6 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@tanstack/react-table@8.9.3(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-Ng9rdm3JPoSCi6cVZvANsYnF+UoGVRxflMb270tVj0+LjeT/ZtZ9ckxF6oLPLcKesza6VKBqtdF9mQ+vaz24Aw==}
-    engines: {node: '>=12'}
-    peerDependencies:
-      react: '>=16'
-      react-dom: '>=16'
-    dependencies:
-      '@tanstack/table-core': 8.9.3
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-    dev: false
-
   /@tanstack/react-virtual@3.0.1(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-IFOFuRUTaiM/yibty9qQ9BfycQnYXIDHGP2+cU+0LrFFGNhVxCXSQnaY6wkX8uJVteFEBjUondX0Hmpp7TNcag==}
     peerDependencies:
@@ -10237,11 +10213,6 @@ packages:
 
   /@tanstack/table-core@8.11.2:
     resolution: {integrity: sha512-rR0VEQOtr0ARLvaNLaSQnt2BVwOp0OavOUA0LcZ3N45tLYXc4sXruNv8kJ7R7+5W1CrzGha217tzjBG83CpoMQ==}
-    engines: {node: '>=12'}
-    dev: false
-
-  /@tanstack/table-core@8.9.3:
-    resolution: {integrity: sha512-NpHZBoHTfqyJk0m/s/+CSuAiwtebhYK90mDuf5eylTvgViNOujiaOaxNDxJkQQAsVvHWZftUGAx1EfO1rkKtLg==}
     engines: {node: '>=12'}
     dev: false
 

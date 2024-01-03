@@ -4,7 +4,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import Link from "next/link";
-import ArrowButton from "@taigalabs/prfs-react-components/src/arrow_button/ArrowButton";
+import ArrowButton from "@taigalabs/prfs-react-lib/src/arrow_button/ArrowButton";
 
 import styles from "./PollPage.module.scss";
 import { i18nContext } from "@/i18n/context";

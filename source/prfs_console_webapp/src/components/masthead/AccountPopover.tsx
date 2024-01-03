@@ -6,7 +6,7 @@ import styles from "./AccountPopover.module.scss";
 import localStore from "@/storage/localStore";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
-import Popover from "@taigalabs/prfs-react-components/src/popover/Popover";
+import Popover from "@taigalabs/prfs-react-lib/src/popover/Popover";
 import { useAppDispatch } from "@/state/hooks";
 import { LocalPrfsAccount, signOut } from "@/state/userReducer";
 

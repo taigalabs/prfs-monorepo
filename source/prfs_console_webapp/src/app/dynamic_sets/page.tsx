@@ -3,7 +3,7 @@
 import React from "react";
 import { AiFillPlusCircle } from "@react-icons/all-files/ai/AiFillPlusCircle";
 import { useSearchParams } from "next/navigation";
-import { PaddedTableWrapper } from "@taigalabs/prfs-react-components/src/table2/Table2";
+import { PaddedTableWrapper } from "@taigalabs/prfs-react-lib/src/table2/Table2";
 
 import styles from "./DynamicSets.module.scss";
 import Widget, { TopWidgetTitle, WidgetLabel } from "@/components/widget/Widget";
@@ -11,7 +11,7 @@ import { i18nContext } from "@/i18n/context";
 import DefaultLayout from "@/components/layouts/default_layout/DefaultLayout";
 import useLocalWallet from "@/hooks/useLocalWallet";
 import SetTable from "@/components/set_table/SetTable";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import Link from "next/link";
 import { paths } from "@/paths";
 import {

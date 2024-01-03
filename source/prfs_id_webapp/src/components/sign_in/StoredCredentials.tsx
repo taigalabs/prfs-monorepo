@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { PrfsIdCredential, StoredCredentialRecord } from "@taigalabs/prfs-id-sdk-web";
 import { decrypt } from "@taigalabs/prfs-crypto-js";
 

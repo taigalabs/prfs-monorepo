@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import { IoIosMenu } from "@react-icons/all-files/io/IoIosMenu";
-import ImageLogo from "@taigalabs/prfs-react-components/src/image_logo/ImageLogo";
+import ImageLogo from "@taigalabs/prfs-react-lib/src/image_logo/ImageLogo";
 
 import styles from "./AttestationsLogoArea.module.scss";
 import { i18nContext } from "@/i18n/context";

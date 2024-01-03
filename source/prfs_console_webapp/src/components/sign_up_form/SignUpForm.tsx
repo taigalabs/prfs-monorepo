@@ -3,8 +3,8 @@ import React from "react";
 import { ethers } from "ethers";
 import { useRouter } from "next/navigation";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
-import TextButton from "@taigalabs/prfs-react-components/src/text_button/TextButton";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
+import TextButton from "@taigalabs/prfs-react-lib/src/text_button/TextButton";
 
 import styles from "./SignUpForm.module.scss";
 import ConnectWalletWidget from "@/components/connect_wallet_widget/ConnectWalletWidget";

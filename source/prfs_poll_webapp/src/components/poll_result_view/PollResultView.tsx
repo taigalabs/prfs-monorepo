@@ -2,7 +2,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { PrfsPoll } from "@taigalabs/prfs-entities/bindings/PrfsPoll";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import Button from "@taigalabs/prfs-react-components/src/button/Button";
+import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { PrfsPollResponse } from "@taigalabs/prfs-entities/bindings/PrfsPollResponse";
 import {
   Cell,

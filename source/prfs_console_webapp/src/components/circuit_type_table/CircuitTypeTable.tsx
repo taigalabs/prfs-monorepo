@@ -16,7 +16,7 @@ import Table2, {
   Table2Head,
   Table2Pagination,
   TableSearch,
-} from "@taigalabs/prfs-react-components/src/table2/Table2";
+} from "@taigalabs/prfs-react-lib/src/table2/Table2";
 
 import styles from "./CircuitTypeTable.module.scss";
 import { i18nContext } from "@/i18n/context";
