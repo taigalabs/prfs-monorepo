@@ -18,10 +18,10 @@ import {
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
     if (value && value.msgHash && value.msgRawInt) {
-      const msgRawInt = "Msg: " + value.msgRawInt.toString().substring(0, 6) + "...";
-      const msgHash = "Msg hash: " + value.msgHash.toString().substring(0, 12) + "...";
+      // const msgRawInt = "Msg: " + value.msgRawInt.toString().substring(0, 8) + "...";
+      const msgHash = "Msg hash: " + value.msgHash.toString().substring(0, 20) + "...";
 
-      return `${msgRawInt} / ${msgHash}`;
+      return `${msgHash}`;
     } else {
       return null;
     }
@@ -124,8 +124,8 @@ const HashInput: React.FC<HashInputProps> = ({
             onChange={handleChangeRaw}
           />
         </div>
-        {!!value?.msgHash && <ComputedValue value={value} />}
       </InputWrapper>
+      {value?.msgHash ? <ComputedValue value={value} /> : null}
       {error && <FormError>{error}</FormError>}
     </FormInput>
   );
