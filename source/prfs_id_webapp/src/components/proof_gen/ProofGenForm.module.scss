@@ -64,6 +64,9 @@
 .signInBtnContent {
   display: flex;
   align-items: center;
+  > span {
+    padding-right: 3px;
+  }
 }
 
 .loading {

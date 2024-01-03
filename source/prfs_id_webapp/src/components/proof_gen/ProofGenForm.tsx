@@ -182,8 +182,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
             noShadow
           >
             <span>{i18n.submit}</span>
-            {status === Status.InProgress && <Spinner />}
-            <Spinner size={18} />
+            {status === Status.InProgress && <Spinner size={16} />}
           </Button>
         </DefaultModuleBtnRow>
         <DefaultErrorMsg className={styles.sidePadding}>{errorMsg}</DefaultErrorMsg>

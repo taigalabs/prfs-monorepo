@@ -3,10 +3,10 @@ import cn from "classnames";
 
 import styles from "./Spinner.module.scss";
 
-const Spinner: React.FC<SpinnerProps> = ({ size, color }) => {
+const Spinner: React.FC<SpinnerProps> = ({ size, color, className }) => {
   return (
     <div
-      className={styles.loader}
+      className={cn(styles.loader, className)}
       style={{
         width: size,
         height: size,
@@ -14,9 +14,7 @@ const Spinner: React.FC<SpinnerProps> = ({ size, color }) => {
         borderBottomColor: color,
         borderRightColor: color,
       }}
-    >
-      {/* Loading... */}
-    </div>
+    />
   );
 };
 
