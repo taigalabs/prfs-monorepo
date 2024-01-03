@@ -147,17 +147,12 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       }
 
       setStatus(Status.Standby);
-      window.close();
+      // window.close();
     }
   }, [searchParams, proofGenArgs, credential, setErrorMsg, receipt, setStatus]);
 
   return proofGenArgs ? (
     <>
-      {status === Status.InProgress && (
-        <div className={styles.overlay}>
-          <LoaderBar />
-        </div>
-      )}
       <DefaultInnerPadding noSidePadding>
         <DefaultModuleHeader noTopPadding className={styles.sidePadding}>
           <DefaultModuleTitle>
@@ -181,18 +176,21 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
             type="button"
             variant="blue_2"
             className={styles.signInBtn}
+            contentClassName={styles.signInBtnContent}
             noTransition
             handleClick={handleClickSubmit}
             noShadow
           >
-            {i18n.submit}
+            <span>{i18n.submit}</span>
+            {status === Status.InProgress && <Spinner />}
+            <Spinner size={18} />
           </Button>
         </DefaultModuleBtnRow>
         <DefaultErrorMsg className={styles.sidePadding}>{errorMsg}</DefaultErrorMsg>
       </DefaultInnerPadding>
     </>
   ) : (
-    <div>Loading...</div>
+    <div className={styles.loading}>Loading...</div>
   );
 };
 

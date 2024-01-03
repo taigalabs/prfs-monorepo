@@ -43,8 +43,8 @@ export async function poseidon_2(msg: string | Uint8Array): Promise<Uint8Array> 
     mBytes = arr;
   }
 
-  const pwHash = wasm.poseidon_2(mBytes.subarray(0, 32), mBytes.subarray(32, 64));
-  return pwHash;
+  const hashed = wasm.poseidon_2(mBytes.subarray(0, 32), mBytes.subarray(32, 64));
+  return hashed;
 }
 
 export async function poseidon_2_bigint(msg: bigint[]): Promise<Uint8Array> {
@@ -63,16 +63,6 @@ export async function poseidon_2_bigint(msg: bigint[]): Promise<Uint8Array> {
     mBytes.set(bigIntToLeBytes(msg[i], 32), i * 32);
   }
 
-  // if (mBytes.length > 64) {
-  //   throw new Error("msg has to be shorter than or equal to 64 bytes");
-  // }
-
-  // if (mBytes.length < 64) {
-  //   let arr = new Uint8Array(64);
-  //   arr.set(mBytes, 64 - mBytes.length);
-  //   mBytes = arr;
-  // }
-
-  const pwHash = wasm.poseidon_2(mBytes.subarray(0, 32), mBytes.subarray(32, 64));
-  return pwHash;
+  const hashed = wasm.poseidon_2(mBytes.subarray(0, 32), mBytes.subarray(32, 64));
+  return hashed;
 }

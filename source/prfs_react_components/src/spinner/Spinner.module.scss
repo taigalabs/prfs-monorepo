@@ -1,3 +1,31 @@
+.loader,
+.loader:after {
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
+.loader {
+  /* margin: 60px auto; */
+  font-size: 14px;
+  position: relative;
+  /* text-indent: -9999em; */
+  border-top: 0.25em solid rgba(255, 255, 255, 1);
+  border-right: 0.25em solid rgba(255, 255, 255, 1);
+  border-bottom: 0.25em solid rgba(255, 255, 255, 1);
+  border-left: 0.25em solid transparent;
+  transform: translateZ(0);
+  animation: load8 2s infinite linear;
+}
+
+@keyframes load8 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .ldsRing {
   display: inline-flex;
   align-items: center;
