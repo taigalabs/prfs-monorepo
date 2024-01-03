@@ -218,7 +218,9 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
             <TbNumbers />
           </QueryItemLeftCol>
           <QueryItemRightCol>
-            <QueryName>
+            <QueryName
+              className={cn({ [styles.creating]: createProofStatus === Status.InProgress })}
+            >
               <span>{query.name}</span>
               {createProofStatus === Status.InProgress && <span> (Creating...)</span>}
             </QueryName>

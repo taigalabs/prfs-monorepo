@@ -147,13 +147,14 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
       }
 
       setStatus(Status.Standby);
-      // window.close();
+      window.close();
     }
   }, [searchParams, proofGenArgs, credential, setErrorMsg, receipt, setStatus]);
 
   return proofGenArgs ? (
     <>
       <DefaultInnerPadding noSidePadding>
+        {status === Status.InProgress && <div className={styles.overlay} />}
         <DefaultModuleHeader noTopPadding className={styles.sidePadding}>
           <DefaultModuleTitle>
             <span className={styles.blueText}>{proofGenArgs.appId}</span> wants you to submit
