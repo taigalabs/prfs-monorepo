@@ -10,7 +10,6 @@ import { useMutation } from "@tanstack/react-query";
 import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
 import CaptionedImg from "@taigalabs/prfs-react-lib/src/captioned_img/CaptionedImg";
 import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
-import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
 import JSONBig from "json-bigint";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";

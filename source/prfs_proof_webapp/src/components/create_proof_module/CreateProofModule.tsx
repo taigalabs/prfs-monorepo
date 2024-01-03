@@ -164,8 +164,6 @@ export default CreateProofModule;
 export interface CreateProofModuleProps {
   proofType: PrfsProofType;
   handleCreateProofResult: (proveReceipt: ProveReceipt) => void;
-  // proofGenElement: ProofGenElement | null;
-  // setProofGenElement: React.Dispatch<React.SetStateAction<ProofGenElement | null>>;
 }
 
 export interface LoadDriverProgressProps {

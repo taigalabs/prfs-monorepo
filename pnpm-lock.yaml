@@ -1344,9 +1344,6 @@ importers:
       '@taigalabs/prfs-react-lib':
         specifier: '*'
         version: link:../prfs_react_lib
-      '@taigalabs/prfs-sdk-web':
-        specifier: '*'
-        version: link:../prfs_sdk_web
       '@tanstack/react-query':
         specifier: 5.14.6
         version: 5.14.6(react@18.2.0)
