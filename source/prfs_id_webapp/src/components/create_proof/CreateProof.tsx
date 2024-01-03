@@ -35,6 +35,17 @@ enum Status {
   InProgress,
 }
 
+function useProofType(proofTypeId: string | undefined) {
+  return useQuery({
+    queryKey: ["get_prfs_proof_type_by_proof_type_id", proofTypeId],
+    queryFn: () => {
+      if (proofTypeId) {
+        return prfsApi2("get_prfs_proof_type_by_proof_type_id", { proof_type_id: proofTypeId });
+      }
+    },
+  });
+}
+
 const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress }) => {
   const el = React.useMemo(() => {
     const elems = [];
@@ -53,20 +64,9 @@ const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress }) => 
   return <div className={styles.driverProgress}>{el}</div>;
 };
 
-function useProofType(proofTypeId: string | undefined) {
-  return useQuery({
-    queryKey: ["get_prfs_proof_type_by_proof_type_id", proofTypeId],
-    queryFn: () => {
-      if (proofTypeId) {
-        return prfsApi2("get_prfs_proof_type_by_proof_type_id", { proof_type_id: proofTypeId });
-      }
-    },
-  });
-}
-
 const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt }) => {
   const i18n = React.useContext(i18nContext);
-  const [driverMsg, setDriverMsg] = React.useState<React.ReactNode>(null);
+  const [driverMsg, setDriverMsg] = React.useState<React.ReactNode>(<>Loading...</>);
   const [loadDriverProgress, setLoadDriverProgress] = React.useState<Record<string, any>>({});
   const [loadDriverStatus, setLoadDriverStatus] = React.useState(Status.Standby);
   const [driver, setDriver] = React.useState<CircuitDriver | null>(null);
@@ -149,22 +149,20 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
             }
             case "LOAD_DRIVER_SUCCESS": {
               const now = dayjs();
-              const diff = now.diff(since, "seconds", true);
+              const diff = now.diff(since, "seconds", true).toFixed(2);
               const { artifactCount } = payload;
               setDriverMsg(
-                <div>
-                  <p>
-                    <span>Circuit driver </span>
-                    <a
-                      href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${proofType.circuit_driver_id}`}
-                    >
-                      {proofType.circuit_driver_id} <BiLinkExternal />
-                    </a>
-                  </p>
-                  <p>
-                    ({diff} seconds, {artifactCount} artifacts)
-                  </p>
-                </div>,
+                <>
+                  <a
+                    href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${proofType.circuit_driver_id}`}
+                  >
+                    <span>{proofType.circuit_driver_id}</span>
+                    <BiLinkExternal />
+                  </a>
+                  <span className={styles.result}>
+                    ({diff}s, {artifactCount} files)
+                  </span>
+                </>,
               );
               setLoadDriverStatus(Status.Standby);
               break;
@@ -204,7 +202,7 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
 
   const proofType = data?.payload?.prfs_proof_type;
   if (!proofType) {
-    return <div>Loading...</div>;
+    return <div className={styles.loading}>Loading...</div>;
   }
 
   return (

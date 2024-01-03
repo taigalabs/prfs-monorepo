@@ -9,25 +9,30 @@
   align-self: flex-start;
 }
 
+.loading {
+  padding: 14px;
+}
+
 .driverMsg {
   display: flex;
   font-size: 12px;
   flex-direction: column;
   width: 100%;
   color: var(--gray-30);
+  height: 16px;
 
-  p {
-    a {
-      cursor: pointer;
-      margin-left: 4px;
-      margin-right: 5px;
-      display: inline-flex;
-      align-items: center;
+  a {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
 
-      &:hover {
-        text-decoration: underline;
-      }
+    &:hover {
+      text-decoration: underline;
     }
+  }
+
+  .result {
+    padding-left: 3px;
   }
 }
 
@@ -35,7 +40,7 @@
   width: 100%;
   overflow: hidden;
   position: relative;
-  padding: 16px 22px 10px;
+  padding: 14px 22px 4px;
   border-radius: 6px;
 
   /* border: 1px solid var(--bright-gray-30); */
