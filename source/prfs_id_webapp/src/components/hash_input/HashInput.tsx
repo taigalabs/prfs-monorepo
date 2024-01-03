@@ -1,27 +1,19 @@
 import React from "react";
 import cn from "classnames";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import {
-  bigIntToLeBytes,
-  bytesLeToBigInt,
-  bytesToBigInt,
-  poseidon,
-  poseidon_2,
-  poseidon_2_bigint,
-} from "@taigalabs/prfs-crypto-js";
-// import { bufferToBigInt } from "@ethereumjs/util";
+import { bytesLeToBigInt, poseidon_2_bigint } from "@taigalabs/prfs-crypto-js";
+import { stringToBigInt } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./HashInput.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   FormError,
   FormInput,
+  FormInputBtnRow,
   FormInputTitle,
   FormInputTitleRow,
   InputWrapper,
 } from "@/components/form_input/FormInput";
-import Button from "@taigalabs/prfs-react-lib/src/button/Button";
-import { stringToBigInt } from "@taigalabs/prfs-crypto-js";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -118,6 +110,11 @@ const HashInput: React.FC<HashInputProps> = ({
     <FormInput>
       <FormInputTitleRow>
         <FormInputTitle>{circuitInput.label}</FormInputTitle>
+        <FormInputBtnRow>
+          <button className={styles.hashBtn} onClick={handleClickHash} type="button">
+            {i18n.hash}
+          </button>
+        </FormInputBtnRow>
       </FormInputTitleRow>
       <InputWrapper>
         <div className={styles.interactiveArea}>
@@ -126,16 +123,6 @@ const HashInput: React.FC<HashInputProps> = ({
             value={value?.msgRaw?.toString() || ""}
             onChange={handleChangeRaw}
           />
-          <div className={styles.btnGroup}>
-            <Button
-              variant="transparent_aqua_blue_1"
-              handleClick={handleClickHash}
-              className={styles.hashBtn}
-              type="button"
-            >
-              {i18n.hash}
-            </Button>
-          </div>
         </div>
         {!!value?.msgHash && <ComputedValue value={value} />}
       </InputWrapper>
@@ -158,7 +145,6 @@ export interface HashInputProps {
   error: string | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
-  // proofGenElement: ProofGenElement;
 }
 
 export interface ComputedValueProps {

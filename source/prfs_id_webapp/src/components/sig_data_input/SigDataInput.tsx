@@ -47,7 +47,6 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
       }
 
       const newVal = ev.target.value;
-
       setFormValues(oldVals => {
         const oldVal = oldVals[circuitInput.name] || {};
 
