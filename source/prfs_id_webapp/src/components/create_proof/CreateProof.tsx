@@ -48,17 +48,20 @@ function useProofType(proofTypeId: string | undefined) {
 
 const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress }) => {
   const el = React.useMemo(() => {
-    const elems = [];
-    for (const key in progress) {
-      elems.push(
-        <div key={key} className={styles.progressRow}>
-          <p>{key}</p>
-          <p>...{progress[key]}%</p>
-        </div>,
-      );
+    if (progress) {
+      const elems = [];
+      for (const key in progress) {
+        elems.push(
+          <div key={key} className={styles.progressRow}>
+            <p>{key}</p>
+            <p>...{progress[key]}%</p>
+          </div>,
+        );
+      }
+      return elems;
     }
 
-    return elems;
+    return <span>Loading...</span>;
   }, [progress]);
 
   return <div className={styles.driverProgress}>{el}</div>;
@@ -66,8 +69,10 @@ const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress }) => 
 
 const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt }) => {
   const i18n = React.useContext(i18nContext);
-  const [driverMsg, setDriverMsg] = React.useState<React.ReactNode>(<>Loading...</>);
-  const [loadDriverProgress, setLoadDriverProgress] = React.useState<Record<string, any>>({});
+  const [driverMsg, setDriverMsg] = React.useState<React.ReactNode>(null);
+  const [loadDriverProgress, setLoadDriverProgress] = React.useState<Record<string, any> | null>(
+    null,
+  );
   const [loadDriverStatus, setLoadDriverStatus] = React.useState(Status.Standby);
   const [driver, setDriver] = React.useState<CircuitDriver | null>(null);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
@@ -152,17 +157,17 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
               const diff = now.diff(since, "seconds", true).toFixed(2);
               const { artifactCount } = payload;
               setDriverMsg(
-                <>
+                <p className={styles.result}>
                   <a
                     href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${proofType.circuit_driver_id}`}
                   >
                     <span>{proofType.circuit_driver_id}</span>
                     <BiLinkExternal />
                   </a>
-                  <span className={styles.result}>
+                  <span className={styles.diff}>
                     ({diff}s, {artifactCount} files)
                   </span>
-                </>,
+                </p>,
               );
               setLoadDriverStatus(Status.Standby);
               break;
@@ -263,5 +268,5 @@ export interface CreateProofProps {
 }
 
 export interface LoadDriverProgressProps {
-  progress: Record<string, any>;
+  progress: Record<string, any> | null;
 }

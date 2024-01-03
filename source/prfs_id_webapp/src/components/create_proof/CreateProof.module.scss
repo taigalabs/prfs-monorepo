@@ -14,25 +14,26 @@
 }
 
 .driverMsg {
-  display: flex;
   font-size: 12px;
-  flex-direction: column;
   width: 100%;
   color: var(--gray-30);
   height: 16px;
-
-  a {
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
+  overflow-y: hidden;
 
   .result {
-    padding-left: 3px;
+    a {
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .diff {
+      padding-left: 3px;
+    }
   }
 }
 
