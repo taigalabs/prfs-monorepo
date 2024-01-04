@@ -29,6 +29,7 @@ import {
   QueryName,
 } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
+import { useAppSelector } from "@/state/hooks";
 
 enum Status {
   Standby,
@@ -80,7 +81,7 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
   const [createProofStatus, setCreateProofStatus] = React.useState(Status.Standby);
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
-  const searchParams = useSearchParams();
+  const tutorialStep = useAppSelector(state => state.tutorial.tutorialStep);
   const { data } = useProofType(query?.proofTypeId);
   const handleProofGenEvent = React.useCallback((ev: CreateProofEvent) => {
     const { payload } = ev;
@@ -237,7 +238,7 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
             )}
             <TutorialStepper
               tutorialId={tutorial ? tutorial.tutorialId : null}
-              step={1}
+              step={tutorialStep}
               steps={[2]}
             >
               <div className={styles.form}>
