@@ -31,7 +31,7 @@ import CommitmentView from "@/components/commitment/CommitmentView";
 import CreateProof from "@/components/create_proof/CreateProof";
 import { QueryItemList } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw, processReceipt } from "./receipt";
-import TutorialDefault from "../tutorial_default/TutorialDefault";
+import TutorialDefault from "@/components/tutorial_default/TutorialDefault";
 
 enum Status {
   InProgress,
@@ -71,6 +71,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                     credential={credential}
                     query={query}
                     setReceipt={setReceipt}
+                    tutorial={proofGenArgs.tutorial}
                   />
                 );
                 elems.push(elem);

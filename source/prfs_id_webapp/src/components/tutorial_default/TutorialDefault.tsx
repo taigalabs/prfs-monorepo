@@ -4,7 +4,6 @@ import React from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import TutorialInner from "@taigalabs/prfs-react-lib/src/tutorial/TutorialInner";
 import { useRouter } from "next/navigation";
-import { useIsTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 import cn from "classnames";
 
 import styles from "./TutorialDefault.module.scss";

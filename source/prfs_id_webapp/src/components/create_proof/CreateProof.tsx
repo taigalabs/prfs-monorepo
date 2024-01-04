@@ -12,7 +12,7 @@ import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import { useQuery } from "@tanstack/react-query";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { initCircuitDriver, interpolateSystemAssetEndpoint } from "@taigalabs/prfs-proof-gen-js";
-import { CreateProofQuery, PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
+import { CreateProofQuery, PrfsIdCredential, TutorialArgs } from "@taigalabs/prfs-id-sdk-web";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 
@@ -29,7 +29,6 @@ import {
   QueryName,
 } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
-import { useIsTutorial } from "@/hooks/tutorial";
 
 enum Status {
   Standby,
@@ -68,7 +67,7 @@ const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress }) => 
   return <div className={styles.driverProgress}>{el}</div>;
 };
 
-const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt }) => {
+const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt, tutorial }) => {
   const i18n = React.useContext(i18nContext);
   const [driverMsg, setDriverMsg] = React.useState<React.ReactNode>(null);
   const [loadDriverProgress, setLoadDriverProgress] = React.useState<Record<string, any> | null>(
@@ -83,7 +82,6 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
   const searchParams = useSearchParams();
   const { data } = useProofType(query?.proofTypeId);
-  const isTutorial = useIsTutorial();
   const handleProofGenEvent = React.useCallback((ev: CreateProofEvent) => {
     const { payload } = ev;
     setSystemMsg(payload.payload);
@@ -237,7 +235,11 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
                 <Spinner size={32} color={colors.blue_12} />
               </div>
             )}
-            <TutorialStepper isVisible={isTutorial} step={1} steps={[2]}>
+            <TutorialStepper
+              tutorialId={tutorial ? tutorial.tutorialId : null}
+              step={1}
+              steps={[2]}
+            >
               <div className={styles.form}>
                 <CircuitInputs
                   circuitInputs={proofType.circuit_inputs as CircuitInput[]}
@@ -265,6 +267,7 @@ export interface CreateProofProps {
   credential: PrfsIdCredential;
   query: CreateProofQuery;
   setReceipt: React.Dispatch<React.SetStateAction<ProofGenReceiptRaw | null>>;
+  tutorial: TutorialArgs | undefined;
 }
 
 export interface LoadDriverProgressProps {

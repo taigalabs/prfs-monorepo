@@ -20,7 +20,7 @@ import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import SignIn from "@/components/sign_in/SignIn";
 import ProofGenForm from "./ProofGenForm";
 import { useAppDispatch } from "@/state/hooks";
-import { goNextStep, goToStep } from "@/state/tutorialReducer";
+import { goToStep } from "@/state/tutorialReducer";
 
 enum ProofGenStep {
   PrfsIdCredential,
@@ -52,8 +52,6 @@ const ProofGen: React.FC = () => {
 
   React.useEffect(() => {
     if (proofGenArgs) {
-      console.log(123, proofGenArgs);
-
       const { public_key, app_id, tutorial } = proofGenArgs;
 
       if (!public_key) {
