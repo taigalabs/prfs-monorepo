@@ -85,6 +85,7 @@ const TutorialStepper: React.FC<TutorialStepperProps> = ({
 export default TutorialStepper;
 
 export interface TutorialStepperProps {
+  isVisible: boolean;
   step: number;
   children: React.ReactNode;
   steps: number[];

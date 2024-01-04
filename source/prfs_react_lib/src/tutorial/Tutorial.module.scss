@@ -78,14 +78,15 @@
 }
 
 .btnRow {
-  padding: 12px 10px;
+  padding: 12px 14px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: var(--white-100);
 
   button {
-    height: 28px;
+    height: 32px;
+    padding: 12px 18px;
   }
 }
 

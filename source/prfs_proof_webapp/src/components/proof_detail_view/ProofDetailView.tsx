@@ -13,6 +13,7 @@ import { GetPrfsProofInstanceByInstanceIdRequest } from "@taigalabs/prfs-entitie
 import { Proof } from "@taigalabs/prfs-driver-interface";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { useIsTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
+import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 
 import styles from "./ProofDetailView.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -24,7 +25,6 @@ import TutorialDefault from "@/components/tutorial/TutorialDefault";
 import LeftPadding from "@/components/left_padding/LeftPadding";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { MastheadPlaceholder } from "@/components/masthead/Masthead";
-import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 import { useAppSelector } from "@/state/hooks";
 
 const JSONbigNative = JSONBig({
@@ -133,7 +133,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
         <div className={styles.content}>
           <div className={styles.meta}>
             <div className={styles.bannerContainer}>
-              <TutorialStepper step={step} steps={[5]}>
+              <TutorialStepper isVisible={isTutorial} step={step} steps={[5]}>
                 <ProofBanner
                   proofInstance={proofInstance}
                   webappProofEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}

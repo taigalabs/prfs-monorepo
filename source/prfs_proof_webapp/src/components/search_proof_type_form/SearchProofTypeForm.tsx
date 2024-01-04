@@ -18,6 +18,7 @@ import LogoContainer from "@/components/logo_container/LogoContainer";
 import { paths } from "@/paths";
 import TutorialDefault from "@/components/tutorial/TutorialDefault";
 import { useAppSelector } from "@/state/hooks";
+import { useIsTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 
 enum SearchProofTypeFormStatus {
   Standby,
@@ -30,6 +31,7 @@ const SearchProofTypeForm: React.FC = () => {
   const router = useRouter();
   const [formStatus, setFormStatus] = React.useState(SearchProofTypeFormStatus.Standby);
   const step = useAppSelector(state => state.tutorial.tutorialStep);
+  const isTutorial = useIsTutorial();
 
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
@@ -59,6 +61,7 @@ const SearchProofTypeForm: React.FC = () => {
           <div className={cn(styles.formWrapper)}>
             <div className={styles.proofTypeRow}>
               <TutorialStepper
+                isVisible={isTutorial}
                 step={step}
                 steps={[1]}
                 fullWidth

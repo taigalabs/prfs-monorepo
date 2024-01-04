@@ -17,6 +17,7 @@ import {
 import { decrypt } from "@taigalabs/prfs-crypto-js";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
+import { useIsTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 
 import styles from "./CreateProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -40,15 +41,9 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
   const step = useAppSelector(state => state.tutorial.tutorialStep);
   const [status, setStatus] = React.useState(Status.Loading);
-  const searchParams = useSearchParams();
   const { sk, pkHex } = useRandomKeyPair();
   const { openPopup } = usePopup();
-  const isTutorial = React.useMemo(() => {
-    if (searchParams.get("tutorial_id")) {
-      return true;
-    }
-    return false;
-  }, [searchParams]);
+  const isTutorial = useIsTutorial();
   const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
 
   const handleClickCreateProof = React.useCallback(async () => {
@@ -140,7 +135,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
             </div>
             <div className={styles.btnRow}>
               {status === Status.Loading && <div className={styles.overlay} />}
-              <TutorialStepper step={step} steps={[2]}>
+              <TutorialStepper isVisible={isTutorial} step={step} steps={[2]}>
                 <button onClick={handleClickCreateProof} className={cn(styles.createBtn)}>
                   <IoMdAdd />
                   <span>{i18n.create_proof_with_prfs}</span>

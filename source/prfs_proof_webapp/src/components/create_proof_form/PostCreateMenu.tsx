@@ -14,6 +14,7 @@ import JSONBig from "json-bigint";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
+import { useIsTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 
 import styles from "./PostCreateMenu.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -34,6 +35,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({ proveReceipt, proofType
   const router = useRouter();
   const [isVerifyOpen, setIsVerifyOpen] = React.useState(false);
   const step = useAppSelector(state => state.tutorial.tutorialStep);
+  const isTutorial = useIsTutorial();
 
   const {
     mutateAsync: createPrfsProofInstance,
@@ -111,7 +113,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({ proveReceipt, proofType
             </ul>
             <ul>
               <li>
-                <TutorialStepper step={step} steps={[4]}>
+                <TutorialStepper isVisible={isTutorial} step={step} steps={[4]}>
                   <Button
                     variant="blue_1"
                     handleClick={handleClickUpload}
@@ -131,7 +133,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({ proveReceipt, proofType
           </div>
           <div className={cn(styles.verifyProofFormRow, { [styles.isVerifyOpen]: isVerifyOpen })}>
             <div>
-              <TutorialStepper step={step} steps={[3]}>
+              <TutorialStepper isVisible={isTutorial} step={step} steps={[3]}>
                 <button className={cn(styles.verifyBtn)} onClick={handleClickVerify}>
                   <span>{i18n.verify}</span>
                   <IoIosArrowDown />
