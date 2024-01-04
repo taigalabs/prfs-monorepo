@@ -16,7 +16,6 @@ const TutorialDefault: React.FC<TutorialDefaultProps> = ({ noTop }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
-  // const i18n = React.useContext(i18nContext);
   const dispatch = useAppDispatch();
   const step = useAppSelector(state => state.tutorial.tutorialStep);
   const isTutorial = useIsTutorial();

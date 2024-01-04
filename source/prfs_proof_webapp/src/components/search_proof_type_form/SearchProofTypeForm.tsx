@@ -10,13 +10,14 @@ import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/b
 import Link from "next/link";
 import SearchProofDialog from "@taigalabs/prfs-react-lib/src/search_proof_dialog/SearchProofDialog";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
+import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 
 import styles from "./SearchProofTypeForm.module.scss";
 import { i18nContext } from "@/i18n/context";
 import LogoContainer from "@/components/logo_container/LogoContainer";
 import { paths } from "@/paths";
-import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import TutorialDefault from "@/components/tutorial/TutorialDefault";
+import { useAppSelector } from "@/state/hooks";
 
 enum SearchProofTypeFormStatus {
   Standby,
@@ -28,6 +29,7 @@ const SearchProofTypeForm: React.FC = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [formStatus, setFormStatus] = React.useState(SearchProofTypeFormStatus.Standby);
+  const step = useAppSelector(state => state.tutorial.tutorialStep);
 
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
@@ -56,7 +58,13 @@ const SearchProofTypeForm: React.FC = () => {
           )}
           <div className={cn(styles.formWrapper)}>
             <div className={styles.proofTypeRow}>
-              <TutorialStepper steps={[1]} fullWidth mainAxisOffset={20} crossAxisOffset={15}>
+              <TutorialStepper
+                step={step}
+                steps={[1]}
+                fullWidth
+                mainAxisOffset={20}
+                crossAxisOffset={15}
+              >
                 <SearchProofDialog
                   proofType={undefined}
                   handleSelectProofType={handleSelectProofType}
