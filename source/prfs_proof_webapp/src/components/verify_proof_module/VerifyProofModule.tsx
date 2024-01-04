@@ -4,11 +4,10 @@ import cn from "classnames";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
-// import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
+import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./VerifyProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
-import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 export enum VerifiedStatus {
   None,
@@ -58,11 +57,7 @@ const VerifyButton: React.FC<VerifyButtonProps> = ({ verifiedStatus, handleClick
   }
 };
 
-const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({
-  // proofGenElement,
-  proof,
-  circuitTypeId,
-}) => {
+const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, circuitTypeId }) => {
   const [verifiedStatus, setVerifiedStatus] = React.useState(VerifiedStatus.None);
   const handleClickVerify = React.useCallback(async () => {
     if (verifiedStatus === VerifiedStatus.None) {
@@ -79,11 +74,7 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({
         setVerifiedStatus(VerifiedStatus.Invalid);
       }
     }
-  }, [
-    verifiedStatus,
-    setVerifiedStatus,
-    // proofGenElement
-  ]);
+  }, [verifiedStatus, setVerifiedStatus]);
 
   return (
     <div className={styles.wrapper}>
@@ -95,7 +86,6 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({
 export default VerifyProofModule;
 
 export interface VerifyProofModuleProps {
-  // proofGenElement: ProofGenElement;
   circuitTypeId: string;
   proof: Proof;
 }
