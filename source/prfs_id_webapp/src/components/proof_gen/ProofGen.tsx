@@ -47,6 +47,8 @@ const ProofGen: React.FC = () => {
   }, [searchParams]);
   const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
 
+  console.log(123, proofGenArgs);
+
   React.useEffect(() => {
     if (proofGenArgs) {
       const { public_key, app_id } = proofGenArgs;

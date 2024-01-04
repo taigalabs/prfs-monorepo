@@ -49,6 +49,10 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
     const proofGenArgs: ProofGenArgs = {
       nonce: Math.random() * 1000000,
       app_id: "prfs_proof",
+      tutorial: {
+        tutorialId: "simple_hash",
+        step: 2,
+      },
       queries: [
         {
           name: PROOF,

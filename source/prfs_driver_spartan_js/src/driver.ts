@@ -27,7 +27,7 @@ export default class SpartanDriver implements CircuitDriver {
     driverProps: SpartanCircomDriverProperties,
     eventListener: DriverEventListener,
   ): Promise<CircuitDriver> {
-    console.log("Creating a driver instance, props: %o", driverProps, eventListener);
+    console.log("Creating a driver instance, props: %o", driverProps);
 
     let prfsHandlers;
     try {
@@ -40,7 +40,6 @@ export default class SpartanDriver implements CircuitDriver {
         vs = version;
       } else {
         console.log("Version is not found in driver props, falling back to timestamp");
-
         const ts = Date.now();
         vs = ts.toString();
       }
