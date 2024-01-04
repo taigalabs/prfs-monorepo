@@ -21,6 +21,7 @@ import SignIn from "@/components/sign_in/SignIn";
 import ProofGenForm from "./ProofGenForm";
 import { useAppDispatch } from "@/state/hooks";
 import { goToStep } from "@/state/tutorialReducer";
+import GlobalFooter from "../global_footer/GlobalFooter";
 
 enum ProofGenStep {
   PrfsIdCredential,
@@ -128,12 +129,7 @@ const ProofGen: React.FC = () => {
         )}
       </DefaultForm>
       <DefaultModuleFooter>
-        <Link href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL}>
-          <span>{i18n.code}</span>
-        </Link>
-        <Link href={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
-          <span>{i18n.prfs}</span>
-        </Link>
+        <GlobalFooter />
       </DefaultModuleFooter>
     </DefaultModule>
   );

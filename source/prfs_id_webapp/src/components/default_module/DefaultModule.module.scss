@@ -131,19 +131,7 @@
 }
 
 .footer {
-  margin-top: 8px;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  color: var(--black-20);
-  height: 48px;
-  background-color: var(--white-100);
   z-index: 1;
-
-  a:not(:first-child) {
-    margin-left: 32px;
-  }
 }
 
 .error {

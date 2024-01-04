@@ -19,6 +19,7 @@ import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import SignIn from "@/components/sign_in/SignIn";
 import AppCredential from "./AppCredential";
 import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
+import GlobalFooter from "../global_footer/GlobalFooter";
 
 enum SignInStep {
   PrfsIdCredential,
@@ -47,8 +48,6 @@ const AppSignIn: React.FC = () => {
     }
   }, [searchParams]);
   const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
-
-  console.log(123, appSignInArgs);
 
   React.useEffect(() => {
     if (appSignInArgs) {
@@ -128,12 +127,7 @@ const AppSignIn: React.FC = () => {
         {content}
       </DefaultForm>
       <DefaultModuleFooter>
-        <Link href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL}>
-          <span>{i18n.code}</span>
-        </Link>
-        <Link href={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
-          <span>{i18n.prfs}</span>
-        </Link>
+        <GlobalFooter />
       </DefaultModuleFooter>
     </DefaultModule>
   );
