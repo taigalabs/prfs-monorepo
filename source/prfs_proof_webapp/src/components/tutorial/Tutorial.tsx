@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import Tutorial1MD from "@/components/tutorial_contents/tutorial_1.mdx";
 import Tutorial2MD from "@/components/tutorial_contents/tutorial_2.mdx";
@@ -12,13 +12,13 @@ import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import { useRouter } from "next/navigation";
 import cn from "classnames";
 import { IoMdSchool } from "@react-icons/all-files/io/IoMdSchool";
+import { useIsTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 
 import styles from "./Tutorial.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { goNextStep, goPrevStep, resetStep } from "@/state/tutorialReducer";
 import TutorialMarkdown from "./TutorialMarkdown";
-import { useIsTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 
 const STEP_COUNT = 5;
 
@@ -77,7 +77,7 @@ const Tutorial: React.FC<TutorialProps> = ({ noTop }) => {
       <>
         <div
           className={cn(styles.wrapper, {
-            [styles.noTop]: noTop,
+            [styles.noTop]: !!noTop,
           })}
         >
           <div className={styles.inner}>
@@ -136,7 +136,6 @@ export default Tutorial;
 
 export interface TutorialProps {
   noTop?: boolean;
-  // variant?: "w1502" | "h1502";
 }
 
 export interface StageProps {
