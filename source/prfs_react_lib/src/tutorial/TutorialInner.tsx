@@ -42,6 +42,21 @@ const TutorialInner: React.FC<TutorialInnerProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
   const isLastStep = step === STEP_COUNT;
+  const bodyRef = React.useRef<HTMLDivElement | null>(null);
+
+  const enhancedHandleClickNext = React.useCallback(() => {
+    handleClickNext();
+    if (bodyRef.current) {
+      bodyRef.current.scrollTo(0, 0);
+    }
+  }, [handleClickNext]);
+
+  const enhancedHandleClickPrev = React.useCallback(() => {
+    handleClickPrev();
+    if (bodyRef.current) {
+      bodyRef.current.scrollTo(0, 0);
+    }
+  }, [handleClickPrev]);
 
   return (
     step > 0 && (
@@ -63,7 +78,7 @@ const TutorialInner: React.FC<TutorialInnerProps> = ({
             Step {step} of {STEP_COUNT}
           </p>
         </div>
-        <div className={styles.body}>
+        <div className={styles.body} ref={bodyRef}>
           <TutorialMarkdown>
             <Stage step={step} />
           </TutorialMarkdown>
@@ -71,8 +86,9 @@ const TutorialInner: React.FC<TutorialInnerProps> = ({
             <Button
               className={styles.prevBtn}
               variant="transparent_blue_2"
-              handleClick={handleClickPrev}
+              handleClick={enhancedHandleClickPrev}
               disabled={step === 1}
+              type="button"
             >
               {i18n.prev}
             </Button>
@@ -81,11 +97,17 @@ const TutorialInner: React.FC<TutorialInnerProps> = ({
                 className={styles.finishBtn}
                 variant="transparent_aqua_blue_1"
                 handleClick={handleClickClose}
+                type="button"
               >
                 {i18n.finish}
               </Button>
             ) : (
-              <Button variant="blue_2" handleClick={handleClickNext} className={styles.nextBtn}>
+              <Button
+                variant="blue_2"
+                handleClick={enhancedHandleClickNext}
+                className={styles.nextBtn}
+                type="button"
+              >
                 {i18n.next}
               </Button>
             )}
