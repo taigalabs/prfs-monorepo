@@ -112,7 +112,7 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
           }
 
           const resp = await sendMsgToChild(
-            newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: verifyProofArgs.app_id }),
+            newPrfsIdMsg("REQUEST_VERIFY_PROOF", { appId: verifyProofArgs.app_id }),
             prfsEmbed,
           );
 
