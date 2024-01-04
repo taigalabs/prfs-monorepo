@@ -49,11 +49,11 @@ const ProofGen: React.FC = () => {
 
   React.useEffect(() => {
     if (proofGenArgs) {
-      const { publicKey, appId } = proofGenArgs;
+      const { public_key, app_id } = proofGenArgs;
 
-      if (!publicKey) {
+      if (!public_key) {
         setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
-      } else if (!appId) {
+      } else if (!app_id) {
         setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
       } else {
         if (isPrfsReady) {
@@ -88,7 +88,7 @@ const ProofGen: React.FC = () => {
 
     switch (step) {
       case ProofGenStep.PrfsIdCredential: {
-        return <SignIn appId={proofGenArgs.appId} handleSucceedSignIn={handleSucceedSignIn} />;
+        return <SignIn appId={proofGenArgs.app_id} handleSucceedSignIn={handleSucceedSignIn} />;
       }
       case ProofGenStep.Form: {
         return credential ? (

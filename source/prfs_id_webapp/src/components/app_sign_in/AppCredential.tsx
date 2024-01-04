@@ -56,8 +56,8 @@ const AppCredential: React.FC<AppCredentialProps> = ({
         console.log("credential", credential);
         const title = (
           <>
-            <span className={styles.blueText}>{appSignInArgs.appId}</span> wants you to submit a few
-            additional data to sign in
+            <span className={styles.blueText}>{appSignInArgs.app_id}</span> wants you to submit a
+            few additional data to sign in
           </>
         );
         setTitle(title);
@@ -70,7 +70,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
             <SignInInputs
               signInDataMeta={data}
               credential={credential}
-              appId={appSignInArgs.appId}
+              appId={appSignInArgs.app_id}
               setSignInData={setSignInData}
             />
           );
@@ -92,7 +92,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
   ]);
 
   const handleClickSignIn = React.useCallback(async () => {
-    if (appSignInArgs.publicKey && credential) {
+    if (appSignInArgs.public_key && credential) {
       const { payload: _signInRequestPayload, error } = await prfsIdentitySignInRequest({
         identity_id: credential.id,
       });
@@ -112,7 +112,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
         public_key: signInData.public_key,
       };
       const encrypted = JSON.stringify(
-        encrypt(appSignInArgs.publicKey, Buffer.from(JSON.stringify(payload))),
+        encrypt(appSignInArgs.public_key, Buffer.from(JSON.stringify(payload))),
       );
       console.log("Encrypted credential", encrypted);
 
@@ -120,8 +120,8 @@ const AppCredential: React.FC<AppCredentialProps> = ({
         if (prfsEmbed) {
           await sendMsgToChild(
             newPrfsIdMsg("SIGN_IN_RESULT", {
-              appId: appSignInArgs.appId,
-              key: appSignInArgs.publicKey,
+              appId: appSignInArgs.app_id,
+              key: appSignInArgs.public_key,
               value: encrypted,
             }),
             prfsEmbed,
@@ -151,7 +151,7 @@ const AppCredential: React.FC<AppCredentialProps> = ({
           </div>
           {signInDataElem}
           <div className={styles.dataWarning}>
-            <p className={styles.title}>Make sure you trust {appSignInArgs.appId} app</p>
+            <p className={styles.title}>Make sure you trust {appSignInArgs.app_id} app</p>
             <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
           </div>
           <DefaultModuleBtnRow>

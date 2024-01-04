@@ -1,25 +1,26 @@
+import { createQueryString } from "../search_params";
+import { TutorialArgs } from "../tutorial";
 import { CommitmentQuery } from "../queries/commitment";
 import { CreateProofQuery } from "../queries/create_proof";
 
 export function makeProofGenSearchParams(args: ProofGenArgs): string {
-  const { nonce, appId, queries, publicKey } = args;
-  const q = encodeURIComponent(JSON.stringify(queries));
-  const queryString = `?public_key=${publicKey}&queries=${q}&app_id=${appId}&nonce=${nonce}`;
-  return queryString;
+  const s = "?" + createQueryString(args);
+  return s;
 }
 
 export function parseProofGenSearchParams(searchParams: URLSearchParams): ProofGenArgs {
-  const publicKey = searchParams.get("public_key");
-  const appId = searchParams.get("app_id");
+  const public_key = searchParams.get("public_key");
+  const app_id = searchParams.get("app_id");
   const nonce = searchParams.get("nonce");
   const queries = searchParams.get("queries");
+  const tutorial = searchParams.get("tutorial");
 
-  if (!appId) {
+  if (!app_id) {
     throw new Error("app id missing");
   }
 
-  if (!publicKey) {
-    throw new Error("publicKey missing");
+  if (!public_key) {
+    throw new Error("public key missing");
   }
 
   if (!queries) {
@@ -30,24 +31,25 @@ export function parseProofGenSearchParams(searchParams: URLSearchParams): ProofG
     throw new Error("nonce missing");
   }
 
-  const q = decodeURIComponent(queries);
-  const _q: ProofGenQuery[] = JSON.parse(q);
-
   const args: ProofGenArgs = {
-    appId,
+    app_id,
     nonce: Number(nonce),
-    publicKey,
-    queries: _q,
+    public_key,
+    queries: JSON.parse(decodeURIComponent(queries)),
   };
 
+  if (tutorial) {
+    args.tutorial = JSON.parse(decodeURIComponent(tutorial));
+  }
   return args;
 }
 
 export interface ProofGenArgs {
   nonce: number;
-  appId: string;
+  app_id: string;
   queries: ProofGenQuery[];
-  publicKey: string;
+  public_key: string;
+  tutorial?: TutorialArgs;
 }
 
 export type ProofGenQuery = CommitmentQuery | CreateProofQuery;

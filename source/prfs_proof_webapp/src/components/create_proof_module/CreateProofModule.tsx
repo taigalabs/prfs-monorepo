@@ -2,7 +2,6 @@ import React from "react";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import cn from "classnames";
-import { useSearchParams } from "next/navigation";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
 import { ProofGenArgs, makeProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web/proof_gen";
 import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
@@ -49,7 +48,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const handleClickCreateProof = React.useCallback(async () => {
     const proofGenArgs: ProofGenArgs = {
       nonce: Math.random() * 1000000,
-      appId: "prfs_proof",
+      app_id: "prfs_proof",
       queries: [
         {
           name: PROOF,
@@ -62,7 +61,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           },
         },
       ],
-      publicKey: pkHex,
+      public_key: pkHex,
     };
     const searchParams = makeProofGenSearchParams(proofGenArgs);
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
@@ -73,7 +72,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       }
 
       const resp = await sendMsgToChild(
-        newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: proofGenArgs.appId }),
+        newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: proofGenArgs.app_id }),
         prfsEmbed,
       );
 
@@ -113,13 +112,10 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   }, [proofType, handleCreateProofResult, setSystemMsg, status]);
 
   React.useEffect(() => {
-    async function fn() {
-      if (isPrfsReady) {
-        setStatus(Status.Standby);
-      }
+    if (isPrfsReady) {
+      setStatus(Status.Standby);
     }
-    fn().then();
-  }, [proofType, setStatus, isPrfsReady, setSystemMsg]);
+  }, [setStatus, isPrfsReady]);
 
   return (
     <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>

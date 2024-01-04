@@ -125,15 +125,15 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         receipt: processedReceipt,
       };
       const encrypted = JSON.stringify(
-        encrypt(proofGenArgs.publicKey, Buffer.from(JSON.stringify(payload))),
+        encrypt(proofGenArgs.public_key, Buffer.from(JSON.stringify(payload))),
       );
       console.log("receipt: %o, encrypted", processedReceipt, encrypted);
 
       try {
         await sendMsgToChild(
           newPrfsIdMsg("PROOF_GEN_RESULT", {
-            appId: proofGenArgs.appId,
-            key: proofGenArgs.publicKey,
+            appId: proofGenArgs.app_id,
+            key: proofGenArgs.public_key,
             value: encrypted,
           }),
           prfsEmbed,
@@ -154,7 +154,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         {status === Status.InProgress && <div className={styles.overlay} />}
         <DefaultModuleHeader noTopPadding className={styles.sidePadding}>
           <DefaultModuleTitle>
-            <span className={styles.blueText}>{proofGenArgs.appId}</span> wants you to submit
+            <span className={styles.blueText}>{proofGenArgs.app_id}</span> wants you to submit
             information
           </DefaultModuleTitle>
         </DefaultModuleHeader>
@@ -163,7 +163,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         </div>
         <QueryItemList sidePadding>{queryElems}</QueryItemList>
         <div className={cn(styles.dataWarning, styles.sidePadding)}>
-          <p className={styles.title}>Make sure you trust {proofGenArgs.appId} app</p>
+          <p className={styles.title}>Make sure you trust {proofGenArgs.app_id} app</p>
           <p className={styles.desc}>{i18n.app_data_sharing_guide}</p>
         </div>
         <DefaultModuleBtnRow className={cn(styles.btnRow, styles.sidePadding)}>

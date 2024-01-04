@@ -1,25 +1,25 @@
+import { createQueryString } from "../search_params";
+
 export function makeAppSignInSearchParams(args: AppSignInArgs): string {
-  const { nonce, appId, signInData, publicKey } = args;
-  const _signInData = encodeURIComponent(signInData.join(","));
-  const queryString = `?public_key=${publicKey}&sign_in_data=${_signInData}&app_id=${appId}&nonce=${nonce}`;
-  return queryString;
+  const s = "?" + createQueryString(args);
+  return s;
 }
 
 export function parseAppSignInSearchParams(searchParams: URLSearchParams): AppSignInArgs {
-  const publicKey = searchParams.get("public_key");
-  const appId = searchParams.get("app_id");
-  const signInData = searchParams.get("sign_in_data");
+  const public_key = searchParams.get("public_key");
+  const app_id = searchParams.get("app_id");
+  const sign_in_data = searchParams.get("sign_in_data");
   const nonce = searchParams.get("nonce");
 
-  if (!appId) {
+  if (!app_id) {
     throw new Error("app id missing");
   }
 
-  if (!publicKey) {
+  if (!public_key) {
     throw new Error("publicKey missing");
   }
 
-  if (!signInData) {
+  if (!sign_in_data) {
     throw new Error("signInData missing");
   }
 
@@ -28,11 +28,13 @@ export function parseAppSignInSearchParams(searchParams: URLSearchParams): AppSi
   }
 
   const args: AppSignInArgs = {
-    appId,
+    app_id,
     nonce: Number(nonce),
-    publicKey,
-    signInData: signInData.split(",") as AppSignInData[],
+    public_key,
+    sign_in_data: JSON.parse(decodeURIComponent(sign_in_data)),
   };
+
+  console.log(22, args);
 
   return args;
 }
@@ -43,7 +45,7 @@ export enum AppSignInData {
 
 export interface AppSignInArgs {
   nonce: number;
-  appId: string;
-  signInData: AppSignInData[];
-  publicKey: string;
+  app_id: string;
+  sign_in_data: AppSignInData[];
+  public_key: string;
 }

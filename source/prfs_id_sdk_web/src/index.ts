@@ -5,3 +5,4 @@ export * from "./api_path";
 export * from "./attestation";
 export * from "./credential";
 export * from "./queries";
+export * from "./tutorial";

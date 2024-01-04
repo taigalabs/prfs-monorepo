@@ -136,7 +136,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
   const handleClickGenerate = React.useCallback(() => {
     const proofGenArgs: ProofGenArgs = {
       nonce: Math.random() * 1000000,
-      appId: "prfs_proof",
+      app_id: "prfs_proof",
       queries: [
         {
           name: CLAIM,
@@ -145,7 +145,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
           queryType: QueryType.COMMITMENT,
         },
       ],
-      publicKey: pkHex,
+      public_key: pkHex,
     };
     const searchParams = makeProofGenSearchParams(proofGenArgs);
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
@@ -156,7 +156,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
       }
 
       const resp = await sendMsgToChild(
-        newPrfsIdMsg("REQUEST_SIGN_IN", { appId: proofGenArgs.appId }),
+        newPrfsIdMsg("REQUEST_SIGN_IN", { appId: proofGenArgs.app_id }),
         prfsEmbed,
       );
       if (resp) {

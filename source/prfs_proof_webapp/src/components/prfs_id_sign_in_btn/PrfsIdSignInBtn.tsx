@@ -44,9 +44,9 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
   const appSignInArgs = React.useMemo<AppSignInArgs>(() => {
     return {
       nonce: Math.random() * 1000000,
-      appId: "prfs_proof",
-      signInData: [AppSignInData.ID_POSEIDON],
-      publicKey: pkHex,
+      app_id: "prfs_proof",
+      sign_in_data: [AppSignInData.ID_POSEIDON],
+      public_key: pkHex,
     };
   }, [pkHex]);
 

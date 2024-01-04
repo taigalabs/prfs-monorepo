@@ -48,14 +48,16 @@ const AppSignIn: React.FC = () => {
   }, [searchParams]);
   const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
 
+  console.log(123, appSignInArgs);
+
   React.useEffect(() => {
     if (appSignInArgs) {
-      const { publicKey, appId } = appSignInArgs;
+      const { public_key, app_id } = appSignInArgs;
 
-      if (!publicKey) {
+      if (!public_key) {
         setSignInStatus(SignInStatus.Error);
         setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
-      } else if (!appId) {
+      } else if (!app_id) {
         setSignInStatus(SignInStatus.Error);
         setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
       } else {
@@ -91,7 +93,7 @@ const AppSignIn: React.FC = () => {
 
     switch (step) {
       case SignInStep.PrfsIdCredential: {
-        return <SignIn appId={appSignInArgs.appId} handleSucceedSignIn={handleSucceedSignIn} />;
+        return <SignIn appId={appSignInArgs.app_id} handleSucceedSignIn={handleSucceedSignIn} />;
       }
       case SignInStep.AppCredential: {
         return (
