@@ -2,10 +2,9 @@
 
 import React from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import TutorialInner from "@taigalabs/prfs-react-lib/src/tutorial/TutorialInner";
+import Tutorial from "@taigalabs/prfs-react-lib/src/tutorial/Tutorial";
 import { useRouter } from "next/navigation";
 import { useIsTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
-import cn from "classnames";
 
 import styles from "./TutorialDefault.module.scss";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
@@ -44,18 +43,13 @@ const TutorialDefault: React.FC<TutorialDefaultProps> = ({ noTop }) => {
 
   return (
     isTutorial && (
-      <div
-        className={cn(styles.wrapper, {
-          [styles.noTop]: !!noTop,
-        })}
-      >
-        <TutorialInner
-          step={step}
-          handleClickClose={handleClickClose}
-          handleClickNext={handleClickNext}
-          handleClickPrev={handleClickPrev}
-        />
-      </div>
+      <Tutorial
+        noTop={noTop}
+        step={step}
+        handleClickClose={handleClickClose}
+        handleClickNext={handleClickNext}
+        handleClickPrev={handleClickPrev}
+      />
     )
   );
 };
