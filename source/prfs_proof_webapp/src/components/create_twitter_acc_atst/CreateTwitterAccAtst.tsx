@@ -142,7 +142,7 @@ const CreateTwitterAccAttestation: React.FC<CreateTwitterAccAttestationProps> = 
           name: CLAIM,
           preImage: claimSecret,
           type: CommitmentType.SIG_POSEIDON_1,
-          queryType: QueryType.COMMITMENT_TYPE,
+          queryType: QueryType.COMMITMENT,
         },
       ],
       publicKey: pkHex,

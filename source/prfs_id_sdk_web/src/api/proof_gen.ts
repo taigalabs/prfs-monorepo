@@ -1,4 +1,5 @@
-import { CommitmentQuery } from "./commitment";
+import { CommitmentQuery } from "../queries/commitment";
+import { CreateProofQuery } from "../queries/create_proof";
 
 export function makeProofGenSearchParams(args: ProofGenArgs): string {
   const { nonce, appId, queries, publicKey } = args;
@@ -50,14 +51,3 @@ export interface ProofGenArgs {
 }
 
 export type ProofGenQuery = CommitmentQuery | CreateProofQuery;
-
-export enum QueryType {
-  CREATE_PROOF_TYPE = "create_prf",
-  COMMITMENT_TYPE = "cm",
-}
-
-export interface CreateProofQuery {
-  name: string;
-  proofTypeId: string;
-  queryType: QueryType.CREATE_PROOF_TYPE;
-}
