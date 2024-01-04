@@ -40,6 +40,7 @@ const HashInput: React.FC<HashInputProps> = ({
   setFormValues,
 }) => {
   const i18n = React.useContext(i18nContext);
+  const [isPresetAssigned, setIsPresetAssigned] = React.useState(false);
 
   React.useEffect(() => {
     if (value === undefined) {
@@ -56,7 +57,7 @@ const HashInput: React.FC<HashInputProps> = ({
         };
       });
     }
-  }, [value, setFormValues]);
+  }, [value, setFormValues, isPresetAssigned, setIsPresetAssigned]);
 
   const handleChangeRaw = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {

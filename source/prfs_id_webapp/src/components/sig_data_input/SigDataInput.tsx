@@ -35,9 +35,13 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
   setFormValues,
   error,
   setFormErrors,
+  presetVals,
 }) => {
   const i18n = React.useContext(i18nContext);
+  const [isPresetAssigned, setIsPresetAssigned] = React.useState(false);
   const { signMessageAsync } = useSignMessage();
+
+  React.useEffect(() => {}, [isPresetAssigned, setIsPresetAssigned]);
 
   const handleChangeRaw = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
