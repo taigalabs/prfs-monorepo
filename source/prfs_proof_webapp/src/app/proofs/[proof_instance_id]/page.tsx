@@ -7,14 +7,13 @@ import DefaultLayout, {
   DefaultFooter,
 } from "@/components/layouts/default_layout/DefaultLayout";
 import ProofDetailView from "@/components/proof_detail_view/ProofDetailView";
-import TutorialFallback from "@/components/tutorial/TutorialFallback";
 import TutorialPlaceholder from "@/components/tutorial/TutorialPlaceholder";
 
 const ProofInstancePage: React.FC<ProofInstancePageProps> = ({ params }) => {
   return (
     <DefaultLayout>
       <DefaultBody>
-        <Suspense fallback={<TutorialFallback />}>
+        <Suspense>
           <ProofDetailView proofInstanceId={params.proof_instance_id} />
         </Suspense>
       </DefaultBody>

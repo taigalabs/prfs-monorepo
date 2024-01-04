@@ -1,24 +1,25 @@
 "use client";
 
 import React from "react";
-import { usePathname, useSearchParams } from "next/navigation";
-import Tutorial1MD from "@/components/tutorial_contents/tutorial_1.mdx";
-import Tutorial2MD from "@/components/tutorial_contents/tutorial_2.mdx";
-import Tutorial3MD from "@/components/tutorial_contents/tutorial_3.mdx";
-import Tutorial4MD from "@/components/tutorial_contents/tutorial_4.mdx";
-import Tutorial5MD from "@/components/tutorial_contents/tutorial_5.mdx";
-import Button from "@taigalabs/prfs-react-lib/src/button/Button";
+import Tutorial1MD from "../tutorial_contents/tutorial_1.mdx";
+import Tutorial2MD from "../tutorial_contents/tutorial_2.mdx";
+import Tutorial3MD from "../tutorial_contents/tutorial_3.mdx";
+import Tutorial4MD from "../tutorial_contents/tutorial_4.mdx";
+import Tutorial5MD from "../tutorial_contents/tutorial_5.mdx";
+import Button from "../button/Button";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
-import { useRouter } from "next/navigation";
 import cn from "classnames";
 import { IoMdSchool } from "@react-icons/all-files/io/IoMdSchool";
-import { useIsTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
+// import { useRouter } from "next/navigation";
+// import { usePathname, useSearchParams } from "next/navigation";
 
 import styles from "./Tutorial.module.scss";
-import { i18nContext } from "@/i18n/context";
-import { useAppDispatch, useAppSelector } from "@/state/hooks";
-import { goNextStep, goPrevStep, resetStep } from "@/state/tutorialReducer";
+// import { i18nContext } from "@/i18n/context";
+// import { useAppDispatch, useAppSelector } from "@/state/hooks";
+// import { goNextStep, goPrevStep, resetStep } from "@/state/tutorialReducer";
+// import { useIsTutorial } from "../hooks/tutorial";
 import TutorialMarkdown from "./TutorialMarkdown";
+import { i18nContext } from "../i18n/i18nContext";
 
 const STEP_COUNT = 5;
 
@@ -39,40 +40,46 @@ const Stage: React.FC<StageProps> = ({ step }) => {
   }
 };
 
-const Tutorial: React.FC<TutorialProps> = ({ noTop }) => {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const router = useRouter();
+const Tutorial: React.FC<TutorialProps> = ({
+  noTop,
+  step,
+  handleClickPrev,
+  handleClickNext,
+  handleClickClose,
+}) => {
   const i18n = React.useContext(i18nContext);
-  const dispatch = useAppDispatch();
-  const step = useAppSelector(state => state.tutorial.tutorialStep);
-  const isTutorial = useIsTutorial();
+  // const pathname = usePathname();
+  // const searchParams = useSearchParams();
+  // const router = useRouter();
+  // const i18n = React.useContext(i18nContext);
+  // const dispatch = useAppDispatch();
+  // const step = useAppSelector(state => state.tutorial.tutorialStep);
+  // const isTutorial = useIsTutorial();
 
-  const handleClickPrev = React.useCallback(() => {
-    if (step > 1) {
-      dispatch(goPrevStep());
-    }
-  }, [step, router, dispatch]);
+  // const handleClickPrev = React.useCallback(() => {
+  //   if (step > 1) {
+  //     dispatch(goPrevStep());
+  //   }
+  // }, [step, router, dispatch]);
 
-  const handleClickNext = React.useCallback(() => {
-    if (step < STEP_COUNT) {
-      dispatch(goNextStep());
-    }
-  }, [step, router, dispatch]);
+  // const handleClickNext = React.useCallback(() => {
+  //   if (step < STEP_COUNT) {
+  //     dispatch(goNextStep());
+  //   }
+  // }, [step, router, dispatch]);
 
-  const handleClickClose = React.useCallback(() => {
-    const oldParams = searchParams.toString();
-    const newParams = new URLSearchParams(oldParams);
-    newParams.delete("tutorial_id");
+  // const handleClickClose = React.useCallback(() => {
+  //   const oldParams = searchParams.toString();
+  //   const newParams = new URLSearchParams(oldParams);
+  //   newParams.delete("tutorial_id");
 
-    router.replace(`${pathname}?${newParams.toString()}`);
-    dispatch(resetStep());
-  }, [pathname, router, searchParams, dispatch]);
+  //   router.replace(`${pathname}?${newParams.toString()}`);
+  //   dispatch(resetStep());
+  // }, [pathname, router, searchParams, dispatch]);
 
   const isLastStep = step === STEP_COUNT;
 
   return (
-    isTutorial &&
     step > 0 && (
       <>
         <div
@@ -136,6 +143,10 @@ export default Tutorial;
 
 export interface TutorialProps {
   noTop?: boolean;
+  step: number;
+  handleClickClose: () => void;
+  handleClickPrev: () => void;
+  handleClickNext: () => void;
 }
 
 export interface StageProps {

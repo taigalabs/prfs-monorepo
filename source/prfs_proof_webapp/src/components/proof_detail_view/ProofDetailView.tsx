@@ -21,7 +21,7 @@ import { envs } from "@/envs";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMasthead from "@/components/proof_type_masthead/ProofTypeMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
-import Tutorial from "@/components/tutorial/Tutorial";
+import TutorialDefault from "@/components/tutorial/TutorialDefault";
 import LeftPadding from "@/components/left_padding/LeftPadding";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { MastheadPlaceholder } from "@/components/masthead/Masthead";
@@ -155,7 +155,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
             <ProofDataView proof={proof} />
           </div>
         </div>
-        <Tutorial noTop />
+        <TutorialDefault noTop />
       </div>
     </>
   );

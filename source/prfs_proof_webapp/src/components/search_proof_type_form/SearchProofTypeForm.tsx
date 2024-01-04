@@ -16,7 +16,7 @@ import { i18nContext } from "@/i18n/context";
 import LogoContainer from "@/components/logo_container/LogoContainer";
 import { paths } from "@/paths";
 import TutorialStepper from "@/components/tutorial/TutorialStepper";
-import Tutorial from "@/components/tutorial/Tutorial";
+import TutorialDefault from "@/components/tutorial/TutorialDefault";
 
 enum SearchProofTypeFormStatus {
   Standby,
@@ -71,7 +71,7 @@ const SearchProofTypeForm: React.FC = () => {
           </div>
         </div>
       </div>
-      <Tutorial />
+      <TutorialDefault />
     </>
   );
 };
