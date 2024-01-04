@@ -144,9 +144,8 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({ proveReceipt, proofType
               <ProofDataView proof={proveReceipt.proof} isCard />
               <div className={styles.verifyProofModuleWrapper}>
                 <VerifyProofModule
-                  // proofGenElement={proofGenElement}
                   proof={proveReceipt.proof}
-                  circuitTypeId={proofType.circuit_type_id}
+                  proofTypeId={proofType.proof_type_id}
                 />
               </div>
             </div>

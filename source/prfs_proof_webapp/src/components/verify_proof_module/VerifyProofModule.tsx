@@ -5,9 +5,21 @@ import { Proof } from "@taigalabs/prfs-driver-interface";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
+import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
+import {
+  API_PATH,
+  VerifyProofArgs,
+  makeVerifyProofSearchParams,
+  newPrfsIdMsg,
+  sendMsgToChild,
+} from "@taigalabs/prfs-id-sdk-web";
+import { useRandomKeyPair } from "@/hooks/key";
 
 import styles from "./VerifyProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
+import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
+import { envs } from "@/envs";
+import { useAppSelector } from "@/state/hooks";
 
 export enum VerifiedStatus {
   None,
@@ -57,8 +69,14 @@ const VerifyButton: React.FC<VerifyButtonProps> = ({ verifiedStatus, handleClick
   }
 };
 
-const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, circuitTypeId }) => {
+const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeId }) => {
   const [verifiedStatus, setVerifiedStatus] = React.useState(VerifiedStatus.None);
+  const { openPopup } = usePopup();
+  const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
+  const { tutorialId } = useTutorial();
+  const { sk, pkHex } = useRandomKeyPair();
+  const step = useAppSelector(state => state.tutorial.tutorialStep);
+
   const handleClickVerify = React.useCallback(async () => {
     if (verifiedStatus === VerifiedStatus.None) {
       try {
@@ -70,11 +88,72 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, circuitTyp
         // } else {
         //   setVerifiedStatus(VerifiedStatus.Invalid);
         // }
+
+        const verifyProofArgs: VerifyProofArgs = {
+          nonce: Math.random() * 1000000,
+          app_id: "prfs_proof",
+          public_key: pkHex,
+          proof_type_id: proofTypeId,
+        };
+
+        if (tutorialId) {
+          verifyProofArgs.tutorial = {
+            tutorialId,
+            step,
+          };
+        }
+
+        const searchParams = makeVerifyProofSearchParams(verifyProofArgs);
+        const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.verify_proof}${searchParams}`;
+
+        openPopup(endpoint, async () => {
+          if (!prfsEmbed || !isPrfsReady) {
+            return;
+          }
+
+          const resp = await sendMsgToChild(
+            newPrfsIdMsg("REQUEST_PROOF_GEN", { appId: verifyProofArgs.app_id }),
+            prfsEmbed,
+          );
+
+          // if (resp) {
+          //   try {
+          //     const buf = parseBuffer(resp);
+          //     let decrypted: string;
+          //     try {
+          //       decrypted = decrypt(sk.secret, buf).toString();
+          //     } catch (err) {
+          //       console.error("cannot decrypt payload", err);
+          //       return;
+          //     }
+
+          //     let payload: ProofGenSuccessPayload;
+          //     try {
+          //       payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
+          //     } catch (err) {
+          //       console.error("cannot parse payload", err);
+          //       return;
+          //     }
+
+          //     const proof = payload.receipt[PROOF] as ProveReceipt;
+          //     if (proof) {
+          //       handleCreateProofResult(proof);
+          //     } else {
+          //       console.error("no proof delivered");
+          //       return;
+          //     }
+          //   } catch (err) {
+          //     console.error(err);
+          //   }
+          // } else {
+          //   console.error("Returned val is empty");
+          // }
+        });
       } catch (err) {
         setVerifiedStatus(VerifiedStatus.Invalid);
       }
     }
-  }, [verifiedStatus, setVerifiedStatus]);
+  }, [verifiedStatus, setVerifiedStatus, prfsEmbed, isPrfsReady, tutorialId, openPopup]);
 
   return (
     <div className={styles.wrapper}>
@@ -86,7 +165,7 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, circuitTyp
 export default VerifyProofModule;
 
 export interface VerifyProofModuleProps {
-  circuitTypeId: string;
+  proofTypeId: string;
   proof: Proof;
 }
 
