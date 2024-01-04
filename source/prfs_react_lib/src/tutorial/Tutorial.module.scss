@@ -73,7 +73,6 @@
 
 .body {
   min-height: 300px;
-  max-height: 70vh;
   overflow-y: auto;
 }
 
@@ -86,6 +85,13 @@
 
   button {
     height: 32px;
+  }
+
+  .prevBtn {
+    padding: 12px 10px;
+  }
+
+  .nextBtn {
     padding: 12px 18px;
   }
 }
