@@ -21,6 +21,7 @@ import styles from "./TutorialStepper.module.scss";
 // import { useAppSelector } from "@/state/hooks";
 
 const TutorialStepper: React.FC<TutorialStepperProps> = ({
+  isVisible,
   children,
   step,
   steps,
@@ -59,7 +60,7 @@ const TutorialStepper: React.FC<TutorialStepperProps> = ({
   const role = useRole(context, { role: "tooltip" });
   const { getReferenceProps, getFloatingProps } = useInteractions([focus, dismiss, role]);
 
-  return steps.includes(step) ? (
+  return isVisible && steps.includes(step) ? (
     <>
       <div
         className={cn({ [styles.wrapper]: true, [styles.fullWidth]: fullWidth })}

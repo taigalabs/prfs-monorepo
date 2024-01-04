@@ -2,10 +2,8 @@
 
 import React from "react";
 import cn from "classnames";
-import { useIsTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 
 import styles from "./Masthead.module.scss";
-import { i18nContext } from "@/i18n/context";
 
 export const MastheadWrapper: React.FC<MastheadWrapperProps> = ({
   children,
@@ -14,11 +12,9 @@ export const MastheadWrapper: React.FC<MastheadWrapperProps> = ({
   tallHeight,
   smallPadding,
 }) => {
-  const isTutorial = useIsTutorial();
   return (
     <div
       className={cn(styles.wrapper, className, {
-        [styles.isTutorial]: isTutorial,
         [styles.twoColumn]: twoColumn,
         [styles.smallPadding]: smallPadding,
         [styles.tallHeight]: tallHeight,

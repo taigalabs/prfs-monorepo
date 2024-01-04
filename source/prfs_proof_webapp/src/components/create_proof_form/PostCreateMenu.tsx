@@ -19,7 +19,7 @@ import { useIsTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 import styles from "./PostCreateMenu.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
-import VerifyProofModule from "@/components/verify_proof_module/VerifyProofModule";
+// import VerifyProofModule from "@/components/verify_proof_module/VerifyProofModule";
 import ProofDataView from "@/components/proof_data_view/ProofDataView";
 import { useAppSelector } from "@/state/hooks";
 

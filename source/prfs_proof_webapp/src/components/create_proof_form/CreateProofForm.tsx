@@ -70,7 +70,7 @@ const CreateProofForm: React.FC = () => {
         handleSelectProofType={handleSelectProofType}
       />
       <MastheadPlaceholder twoColumn />
-      <div className={styles.topRow}></div>
+      <div className={cn(styles.topRow)}></div>
       <div className={styles.main}>
         <LeftPadding />
         {proofType ? (
