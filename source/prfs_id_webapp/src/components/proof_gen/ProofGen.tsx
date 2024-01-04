@@ -22,6 +22,7 @@ import ProofGenForm from "./ProofGenForm";
 import { useAppDispatch } from "@/state/hooks";
 import { goToStep } from "@/state/tutorialReducer";
 import GlobalFooter from "../global_footer/GlobalFooter";
+import TutorialDefault from "../tutorial_default/TutorialDefault";
 
 enum ProofGenStep {
   PrfsIdCredential,
@@ -118,6 +119,7 @@ const ProofGen: React.FC = () => {
   return (
     <DefaultModule>
       <DefaultForm>
+        <TutorialDefault tutorial={proofGenArgs?.tutorial ? proofGenArgs.tutorial : null} />
         {errorMsg && <PrfsIdErrorDialog errorMsg={errorMsg} handleClose={handleCloseErrorDialog} />}
         <DefaultTopLabel>{i18n.create_data_with_prfs_id}</DefaultTopLabel>
         {status === Status.Loading ? (

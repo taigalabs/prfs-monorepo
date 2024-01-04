@@ -9,10 +9,11 @@ import cn from "classnames";
 import styles from "./TutorialDefault.module.scss";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { goNextStep, goPrevStep, resetStep } from "@/state/tutorialReducer";
+import { TutorialArgs } from "@taigalabs/prfs-id-sdk-web";
 
 const STEP_COUNT = 5;
 
-const TutorialDefault: React.FC<TutorialDefaultProps> = ({ noTop, isTutorial }) => {
+const TutorialDefault: React.FC<TutorialDefaultProps> = ({ noTop, tutorial }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -41,7 +42,7 @@ const TutorialDefault: React.FC<TutorialDefaultProps> = ({ noTop, isTutorial }) 
   }, [pathname, router, searchParams, dispatch]);
 
   return (
-    isTutorial && (
+    tutorial && (
       <div
         className={cn(styles.wrapper, {
           [styles.noTop]: !!noTop,
@@ -62,7 +63,7 @@ export default TutorialDefault;
 
 export interface TutorialDefaultProps {
   noTop?: boolean;
-  isTutorial: boolean;
+  tutorial: TutorialArgs | null;
 }
 
 export interface StageProps {
