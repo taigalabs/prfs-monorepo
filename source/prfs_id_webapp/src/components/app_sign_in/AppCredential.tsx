@@ -62,13 +62,10 @@ const AppCredential: React.FC<AppCredentialProps> = ({
         );
         setTitle(title);
 
-        const signInData = searchParams.get("sign_in_data");
-        if (signInData) {
-          const d = decodeURIComponent(signInData);
-          const data = d.split(",");
+        if (appSignInArgs.sign_in_data.length > 0) {
           const content = (
             <SignInInputs
-              signInDataMeta={data}
+              signInDataMeta={appSignInArgs.sign_in_data}
               credential={credential}
               appId={appSignInArgs.app_id}
               setSignInData={setSignInData}
