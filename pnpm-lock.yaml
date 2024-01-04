@@ -484,12 +484,6 @@ importers:
       '@taigalabs/async-incremental-merkle-tree':
         specifier: '*'
         version: link:../../externals/incremental-merkle-tree
-      '@taigalabs/prfs-crypto-js':
-        specifier: '*'
-        version: 'link:'
-      '@taigalabs/prfs-driver-interface':
-        specifier: '*'
-        version: link:../prfs_driver_interface
       '@types/rimraf':
         specifier: ^3.0.2
         version: 3.0.2
@@ -972,6 +966,9 @@ importers:
       '@taigalabs/prfs-proof-gen-js':
         specifier: '*'
         version: link:../prfs_proof_gen_js
+      '@taigalabs/prfs-proof-interface':
+        specifier: '*'
+        version: link:../prfs_proof_interface
       '@taigalabs/prfs-react-lib':
         specifier: '*'
         version: link:../prfs_react_lib
@@ -1299,9 +1296,6 @@ importers:
       '@taigalabs/prfs-crypto-js':
         specifier: '*'
         version: link:../prfs_crypto_js
-      '@taigalabs/prfs-entities':
-        specifier: '*'
-        version: link:../prfs_entities
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
