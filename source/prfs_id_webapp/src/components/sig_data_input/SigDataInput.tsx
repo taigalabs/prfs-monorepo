@@ -16,6 +16,7 @@ import {
   FormInputTitleRow,
   InputWrapper,
 } from "@/components/form_input/FormInput";
+import { prfsSign } from "@taigalabs/prfs-crypto-js";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -43,20 +44,27 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
   const { signMessageAsync } = useSignMessage();
 
   React.useEffect(() => {
-    if (!isPresetAssigned && presetVals) {
-      console.log("init");
-      setIsPresetAssigned(true);
-      setFormValues(oldVals => {
-        const oldVal: Record<string, any> = oldVals[circuitInput.name] || {};
-        const newVal = { ...oldVal };
+    async function fn() {
+      if (!isPresetAssigned && presetVals) {
+        console.log("init", presetVals);
+        setIsPresetAssigned(true);
+        setFormValues(async oldVals => {
+          const oldVal: Record<string, any> = oldVals[circuitInput.name] || {};
+          const newVal = { ...oldVal };
+          const presetVal = presetVals[circuitInput.name] || {};
 
-        for (const key in presetVals) {
-          newVal[key] = presetVals[key];
-        }
+          if (presetVal.msgRaw) {
+            newVal.msgRaw = presetVal.msgRaw;
+            console.log(4, credential.secret_key, newVal.msgRaw);
+            const sig = await prfsSign(credential.secret_key, newVal.msgRaw);
+            console.log(11, sig);
+          }
 
-        return newVal;
-      });
+          return newVal;
+        });
+      }
     }
+    fn().then();
   }, [isPresetAssigned, setIsPresetAssigned, setFormValues]);
 
   const handleChangeRaw = React.useCallback(
