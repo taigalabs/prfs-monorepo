@@ -250,6 +250,7 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
                   formErrors={formErrors}
                   setFormErrors={setFormErrors}
                   presetVals={query.presetVals}
+                  credential={credential}
                 />
               </div>
             </TutorialStepper>

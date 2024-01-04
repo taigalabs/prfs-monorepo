@@ -1,5 +1,6 @@
 import React from "react";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
+import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./CircuitInputs.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -7,7 +8,6 @@ import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
 import SigDataInput from "@/components/sig_data_input/SigDataInput";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
 import HashInput from "@/components/hash_input/HashInput";
-import { QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 
 const CircuitInputs: React.FC<CircuitInputsProps> = ({
   circuitInputs,
@@ -16,6 +16,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
   setFormValues,
   setFormErrors,
   presetVals,
+  credential,
 }) => {
   const i18n = React.useContext(i18nContext);
 
@@ -47,6 +48,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
               setFormValues={setFormValues}
               setFormErrors={setFormErrors}
               presetVals={presetVals}
+              credential={credential}
             />,
           );
           break;
@@ -95,4 +97,5 @@ export interface CircuitInputsProps {
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
   presetVals?: QueryPresetVals;
+  credential: PrfsIdCredential;
 }
