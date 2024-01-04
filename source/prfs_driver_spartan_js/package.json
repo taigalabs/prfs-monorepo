@@ -21,6 +21,7 @@
     "@taigalabs/async-incremental-merkle-tree": "*",
     "@taigalabs/prfs-crypto-js": "*",
     "@taigalabs/prfs-driver-interface": "*",
+    "@taigalabs/prfs-proof-interface": "*",
     "bn.js": "^5.2.1",
     "comlink": "^4.3.1",
     "elliptic": "^6.5.4",

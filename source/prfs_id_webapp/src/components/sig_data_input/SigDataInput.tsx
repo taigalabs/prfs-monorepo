@@ -41,7 +41,22 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
   const [isPresetAssigned, setIsPresetAssigned] = React.useState(false);
   const { signMessageAsync } = useSignMessage();
 
-  React.useEffect(() => {}, [isPresetAssigned, setIsPresetAssigned]);
+  React.useEffect(() => {
+    if (!isPresetAssigned && presetVals) {
+      console.log("init");
+      setIsPresetAssigned(true);
+      setFormValues(oldVals => {
+        const oldVal: Record<string, any> = oldVals[circuitInput.name] || {};
+        const newVal = { ...oldVal };
+
+        for (const key in presetVals) {
+          newVal[key] = presetVals[key];
+        }
+
+        return newVal;
+      });
+    }
+  }, [isPresetAssigned, setIsPresetAssigned, setFormValues]);
 
   const handleChangeRaw = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {

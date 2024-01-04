@@ -59,7 +59,7 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           proofTypeId: proofType.proof_type_id,
           queryType: QueryType.CREATE_PROOF,
           presetVals: {
-            hashData: {
+            sigData: {
               msgRaw: "power",
             },
           },

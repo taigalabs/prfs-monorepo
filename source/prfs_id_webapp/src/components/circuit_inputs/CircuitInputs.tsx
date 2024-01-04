@@ -19,20 +19,6 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
 }) => {
   const i18n = React.useContext(i18nContext);
 
-  // const handleChangeValue = React.useCallback(
-  //   (ev: React.ChangeEvent<HTMLInputElement>) => {
-  //     const { name } = ev.target;
-
-  //     setFormValues(oldVals => {
-  //       return {
-  //         ...oldVals,
-  //         [name]: ev.target.value,
-  //       };
-  //     });
-  //   },
-  //   [setFormValues],
-  // );
-
   const circuitInputsElem = React.useMemo(() => {
     const entriesElem = [];
     for (const [idx, input] of circuitInputs.entries()) {
@@ -46,6 +32,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
               error={formErrors[input.name]}
               setFormValues={setFormValues}
               setFormErrors={setFormErrors}
+              presetVals={presetVals}
             />,
           );
           break;
@@ -59,6 +46,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
               error={formErrors[input.name]}
               setFormValues={setFormValues}
               setFormErrors={setFormErrors}
+              presetVals={presetVals}
             />,
           );
           break;

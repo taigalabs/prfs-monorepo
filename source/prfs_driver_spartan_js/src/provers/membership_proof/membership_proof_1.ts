@@ -1,12 +1,7 @@
 import { BN } from "bn.js";
-import {
-  ProveArgs,
-  ProveReceipt,
-  SigData,
-  SpartanMerkleProof,
-  VerifyArgs,
-} from "@taigalabs/prfs-driver-interface";
+import { ProveArgs, ProveReceipt, VerifyArgs } from "@taigalabs/prfs-driver-interface";
 import { toBuffer } from "@ethereumjs/util";
+import { SigData, SpartanMerkleProof } from "@taigalabs/prfs-proof-interface";
 
 import { fromSig, snarkJsWitnessGen } from "@/utils/utils";
 import { makePoseidon } from "@/utils/poseidon";
@@ -26,7 +21,6 @@ export async function proveMembership(
   circuit: Uint8Array,
 ): Promise<ProveReceipt> {
   const { inputs, eventListener } = args;
-
   const { sigData, merkleProof } = inputs;
   const { msgRaw, msgHash, sig } = sigData;
 
