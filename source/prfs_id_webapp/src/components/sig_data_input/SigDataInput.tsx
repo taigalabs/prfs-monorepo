@@ -1,10 +1,9 @@
 import React from "react";
 import cn from "classnames";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { bufferToHex, hashPersonalMessage, toBuffer } from "@ethereumjs/util";
+import { bufferToHex, hashPersonalMessage } from "@ethereumjs/util";
 import { useSignMessage } from "wagmi";
-import { BufferHex, SigData } from "@taigalabs/prfs-driver-interface";
-import Button from "@taigalabs/prfs-react-lib/src/button/Button";
+import { BufferHex, SigData } from "@taigalabs/prfs-proof-interface";
 
 import styles from "./SigDataInput.module.scss";
 import { i18nContext } from "@/i18n/context";

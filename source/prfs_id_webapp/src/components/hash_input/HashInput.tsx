@@ -3,6 +3,7 @@ import cn from "classnames";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { bytesLeToBigInt, poseidon_2_bigint } from "@taigalabs/prfs-crypto-js";
 import { stringToBigInt } from "@taigalabs/prfs-crypto-js";
+import { HashData } from "@taigalabs/prfs-proof-interface";
 
 import styles from "./HashInput.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -132,12 +133,6 @@ const HashInput: React.FC<HashInputProps> = ({
 };
 
 export default HashInput;
-
-// export interface HashData {
-//   msgRaw: string | null;
-//   msgRawInt: bigint | null;
-//   msgHash: bigint | null;
-// }
 
 export interface HashInputProps {
   circuitInput: CircuitInput;
