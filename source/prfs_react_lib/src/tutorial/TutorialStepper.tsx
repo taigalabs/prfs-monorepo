@@ -1,10 +1,7 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import cn from "classnames";
-import { useSearchParams } from "next/navigation";
-import Tutorial1MD from "@/markdown/tutorial/tutorial_1.mdx";
 import {
   useFloating,
   autoUpdate,
@@ -25,11 +22,11 @@ import styles from "./TutorialStepper.module.scss";
 
 const TutorialStepper: React.FC<TutorialStepperProps> = ({
   children,
+  step,
   steps,
   fullWidth,
   mainAxisOffset,
   crossAxisOffset,
-  step,
 }) => {
   // const searchParams = useSearchParams();
 
