@@ -4,12 +4,13 @@ import cn from "classnames";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import ConnectWallet from "@taigalabs/prfs-react-lib/src/connect_wallet/ConnectWallet";
-import { SpartanMerkleProof } from "@taigalabs/prfs-driver-interface";
 import { makePathIndices, makeSiblingPath } from "@taigalabs/prfs-crypto-js";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsTreeLeafIndicesRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeLeafIndicesRequest";
 import { GetPrfsSetBySetIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsSetBySetIdRequest";
 import { GetPrfsTreeNodesByPosRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsTreeNodesByPosRequest";
+import { QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
+import { SpartanMerkleProof } from "@taigalabs/prfs-proof-interface";
 
 import styles from "./MerkleProofInput.module.scss";
 import MerkleProofRaw from "./MerkleProofRaw";
@@ -241,6 +242,7 @@ export interface MerkleProofInputProps {
   error: string | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+  presetVals?: QueryPresetVals;
 }
 
 export interface ComputedValueProps {

@@ -81,7 +81,7 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
   const searchParams = useSearchParams();
-  const { data, isFetching } = useProofType(query?.proofTypeId);
+  const { data } = useProofType(query?.proofTypeId);
   const isTutorial = React.useMemo(() => {
     if (searchParams.get("tutorial_id")) {
       return true;
@@ -95,6 +95,7 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
 
   React.useEffect(() => {
     const { name } = query;
+
     setReceipt(() => ({
       [name]: async () => {
         const proofType = data?.payload?.prfs_proof_type;
@@ -248,6 +249,7 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
                   setFormValues={setFormValues}
                   formErrors={formErrors}
                   setFormErrors={setFormErrors}
+                  presetVals={query.presetVals}
                 />
               </div>
             </TutorialStepper>

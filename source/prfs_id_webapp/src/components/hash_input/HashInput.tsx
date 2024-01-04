@@ -4,6 +4,7 @@ import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { bytesLeToBigInt, poseidon_2_bigint } from "@taigalabs/prfs-crypto-js";
 import { stringToBigInt } from "@taigalabs/prfs-crypto-js";
 import { HashData } from "@taigalabs/prfs-proof-interface";
+import { QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./HashInput.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -140,6 +141,7 @@ export interface HashInputProps {
   error: string | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+  presetVals?: QueryPresetVals;
 }
 
 export interface ComputedValueProps {

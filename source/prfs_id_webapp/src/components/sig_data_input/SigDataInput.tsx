@@ -15,6 +15,7 @@ import {
   FormInputTitleRow,
   InputWrapper,
 } from "@/components/form_input/FormInput";
+import { QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -127,6 +128,7 @@ export interface SigDataInputProps {
   error: string | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+  presetVals?: QueryPresetVals;
 }
 
 export interface ComputedValueProps {

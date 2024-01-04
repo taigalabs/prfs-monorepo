@@ -58,6 +58,11 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
           name: PROOF,
           proofTypeId: proofType.proof_type_id,
           queryType: QueryType.CREATE_PROOF,
+          presetVals: {
+            hashData: {
+              msgRaw: "power",
+            },
+          },
         },
       ],
       publicKey: pkHex,

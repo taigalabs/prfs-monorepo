@@ -7,6 +7,7 @@ import MerkleProofInput from "@/components/merkle_proof_input/MerkleProofInput";
 import SigDataInput from "@/components/sig_data_input/SigDataInput";
 import { FormInput, FormInputTitleRow } from "@/components/form_input/FormInput";
 import HashInput from "@/components/hash_input/HashInput";
+import { QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 
 const CircuitInputs: React.FC<CircuitInputsProps> = ({
   circuitInputs,
@@ -14,22 +15,23 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
   formErrors,
   setFormValues,
   setFormErrors,
+  presetVals,
 }) => {
   const i18n = React.useContext(i18nContext);
 
-  const handleChangeValue = React.useCallback(
-    (ev: React.ChangeEvent<HTMLInputElement>) => {
-      const { name } = ev.target;
+  // const handleChangeValue = React.useCallback(
+  //   (ev: React.ChangeEvent<HTMLInputElement>) => {
+  //     const { name } = ev.target;
 
-      setFormValues(oldVals => {
-        return {
-          ...oldVals,
-          [name]: ev.target.value,
-        };
-      });
-    },
-    [setFormValues],
-  );
+  //     setFormValues(oldVals => {
+  //       return {
+  //         ...oldVals,
+  //         [name]: ev.target.value,
+  //       };
+  //     });
+  //   },
+  //   [setFormValues],
+  // );
 
   const circuitInputsElem = React.useMemo(() => {
     const entriesElem = [];
@@ -70,7 +72,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
               error={formErrors[input.name]}
               setFormValues={setFormValues}
               setFormErrors={setFormErrors}
-              // proofGenElement={proofGenElement}
+              presetVals={presetVals}
             />,
           );
           break;
@@ -104,4 +106,5 @@ export interface CircuitInputsProps {
   formErrors: Record<string, string>;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+  presetVals?: QueryPresetVals;
 }

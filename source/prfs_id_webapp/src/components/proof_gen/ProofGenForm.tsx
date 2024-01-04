@@ -1,5 +1,4 @@
 import React from "react";
-import { poseidon_2, prfsSign } from "@taigalabs/prfs-crypto-js";
 import cn from "classnames";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 import { useSearchParams } from "next/navigation";
@@ -16,9 +15,7 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { encrypt } from "@taigalabs/prfs-crypto-js";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
 import { idApi } from "@taigalabs/prfs-api-js";
-import { hexlify } from "ethers/lib/utils";
 import { useMutation } from "@tanstack/react-query";
-import LoaderBar from "@taigalabs/prfs-react-lib/src/loader_bar/LoaderBar";
 
 import styles from "./ProofGenForm.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -31,7 +28,7 @@ import {
 } from "@/components/default_module/DefaultModule";
 import CommitmentView from "@/components/commitment/CommitmentView";
 import CreateProof from "@/components/create_proof/CreateProof";
-import { QueryItem, QueryItemList } from "@/components/default_module/QueryItem";
+import { QueryItemList } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw, processReceipt } from "./receipt";
 import { delay } from "@/hooks/interval";
 
@@ -66,7 +63,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
           const receipt: Record<string, string> = {};
           for (const query of proofGenArgs.queries) {
             switch (query.queryType) {
-              case QueryType.CREATE_PROOF_TYPE: {
+              case QueryType.CREATE_PROOF: {
                 const elem = (
                   <CreateProof
                     key={query.name}
@@ -78,7 +75,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
                 elems.push(elem);
                 break;
               }
-              case QueryType.COMMITMENT_TYPE: {
+              case QueryType.COMMITMENT: {
                 const elem = (
                   <CommitmentView
                     key={query.name}
