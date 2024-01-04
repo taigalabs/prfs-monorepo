@@ -133,11 +133,11 @@ const HashInput: React.FC<HashInputProps> = ({
 
 export default HashInput;
 
-export interface HashData {
-  msgRaw: string | null;
-  msgRawInt: bigint | null;
-  msgHash: bigint | null;
-}
+// export interface HashData {
+//   msgRaw: string | null;
+//   msgRawInt: bigint | null;
+//   msgHash: bigint | null;
+// }
 
 export interface HashInputProps {
   circuitInput: CircuitInput;
