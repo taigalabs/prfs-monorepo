@@ -12,7 +12,7 @@ import { useMutation } from "@tanstack/react-query";
 import { GetPrfsProofInstanceByInstanceIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstanceByInstanceIdRequest";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
-import { useIsTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
+import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 
 import styles from "./ProofDetailView.module.scss";
@@ -43,7 +43,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
     },
   });
   const handleSelectProofType = useSelectProofType();
-  const isTutorial = useIsTutorial();
+  const { tutorialId } = useTutorial();
 
   React.useEffect(() => {
     async function fn() {
@@ -128,12 +128,12 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
           <div className={styles.rightPadding} />
         </div>
       </div>
-      <div className={cn(styles.main, { [styles.isTutorial]: isTutorial })}>
+      <div className={cn(styles.main, { [styles.isTutorial]: !!tutorialId })}>
         <LeftPadding />
         <div className={styles.content}>
           <div className={styles.meta}>
             <div className={styles.bannerContainer}>
-              <TutorialStepper isVisible={isTutorial} step={step} steps={[5]}>
+              <TutorialStepper tutorialId={tutorialId} step={step} steps={[5]}>
                 <ProofBanner
                   proofInstance={proofInstance}
                   webappProofEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}

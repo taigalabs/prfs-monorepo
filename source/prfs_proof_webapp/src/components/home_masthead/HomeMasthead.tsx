@@ -2,7 +2,7 @@
 
 import React from "react";
 import cn from "classnames";
-import { useIsTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
+import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 
 import styles from "./HomeMasthead.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -18,10 +18,10 @@ import {
 const HomeMasthead: React.FC<HomeMastheadProps> = () => {
   const i18n = React.useContext(i18nContext);
   const { tutorialUrl } = useUrls();
-  const isTutorial = useIsTutorial();
+  const { tutorialId } = useTutorial();
 
   return (
-    <MastheadWrapper className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
+    <MastheadWrapper className={cn(styles.wrapper, { [styles.isTutorial]: !!tutorialId })}>
       <MastheadRightGroup>
         <MastheadRightGroupMenu className={cn(styles.menu, styles.underline, styles.tutorialBtn)}>
           <a href={tutorialUrl}>

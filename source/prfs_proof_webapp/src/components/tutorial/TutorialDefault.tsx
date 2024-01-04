@@ -4,7 +4,7 @@ import React from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import TutorialInner from "@taigalabs/prfs-react-lib/src/tutorial/TutorialInner";
 import { useRouter } from "next/navigation";
-import { useIsTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
+import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 import cn from "classnames";
 
 import styles from "./TutorialDefault.module.scss";
@@ -19,7 +19,7 @@ const TutorialDefault: React.FC<TutorialDefaultProps> = ({ noTop }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const step = useAppSelector(state => state.tutorial.tutorialStep);
-  const isTutorial = useIsTutorial();
+  const { tutorialId } = useTutorial();
 
   const handleClickPrev = React.useCallback(() => {
     if (step > 1) {
@@ -43,7 +43,7 @@ const TutorialDefault: React.FC<TutorialDefaultProps> = ({ noTop }) => {
   }, [pathname, router, searchParams, dispatch]);
 
   return (
-    isTutorial && (
+    tutorialId && (
       <div
         className={cn(styles.wrapper, {
           [styles.noTop]: !!noTop,
