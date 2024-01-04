@@ -33,9 +33,6 @@ export function parseAppSignInSearchParams(searchParams: URLSearchParams): AppSi
     public_key,
     sign_in_data: JSON.parse(decodeURIComponent(sign_in_data)),
   };
-
-  console.log(22, args);
-
   return args;
 }
 
