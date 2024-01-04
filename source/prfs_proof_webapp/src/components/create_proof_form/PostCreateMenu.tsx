@@ -10,17 +10,18 @@ import { useMutation } from "@tanstack/react-query";
 import { CreatePrfsProofInstanceRequest } from "@taigalabs/prfs-entities/bindings/CreatePrfsProofInstanceRequest";
 import CaptionedImg from "@taigalabs/prfs-react-lib/src/captioned_img/CaptionedImg";
 import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
-import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
 import JSONBig from "json-bigint";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
+import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
+import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 
 import styles from "./PostCreateMenu.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
-import TutorialStepper from "@/components//tutorial/TutorialStepper";
-import VerifyProofModule from "@/components/verify_proof_module/VerifyProofModule";
+// import VerifyProofModule from "@/components/verify_proof_module/VerifyProofModule";
 import ProofDataView from "@/components/proof_data_view/ProofDataView";
+import { useAppSelector } from "@/state/hooks";
 
 const JSONbigNative = JSONBig({
   useNativeBigInt: true,
@@ -28,15 +29,13 @@ const JSONbigNative = JSONBig({
   storeAsString: true,
 });
 
-const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
-  proveReceipt,
-  proofType,
-  // proofGenElement,
-}) => {
+const PostCreateMenu: React.FC<PostCreateMenuProps> = ({ proveReceipt, proofType }) => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
   const router = useRouter();
   const [isVerifyOpen, setIsVerifyOpen] = React.useState(false);
+  const step = useAppSelector(state => state.tutorial.tutorialStep);
+  const { tutorialId } = useTutorial();
 
   const {
     mutateAsync: createPrfsProofInstance,
@@ -114,7 +113,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
             </ul>
             <ul>
               <li>
-                <TutorialStepper steps={[4]}>
+                <TutorialStepper tutorialId={tutorialId} step={step} steps={[4]}>
                   <Button
                     variant="blue_1"
                     handleClick={handleClickUpload}
@@ -134,7 +133,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({
           </div>
           <div className={cn(styles.verifyProofFormRow, { [styles.isVerifyOpen]: isVerifyOpen })}>
             <div>
-              <TutorialStepper steps={[3]}>
+              <TutorialStepper tutorialId={tutorialId} step={step} steps={[3]}>
                 <button className={cn(styles.verifyBtn)} onClick={handleClickVerify}>
                   <span>{i18n.verify}</span>
                   <IoIosArrowDown />

@@ -1,0 +1,21 @@
+{
+  "name": "@taigalabs/prfs-proof-interface",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "scripts": {
+    "build": "pnpm clean && tsc",
+    "clean": "rimraf ./build"
+  },
+  "dependencies": {
+    "@ethereumjs/util": "^8.0.3",
+    "@taigalabs/prfs-crypto-js": "*",
+    "classnames": "^2.3.2",
+    "ethers": "^5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.9",
+    "rimraf": "^3.0.2"
+  }
+}

@@ -12,19 +12,20 @@ import { useMutation } from "@tanstack/react-query";
 import { GetPrfsProofInstanceByInstanceIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofInstanceByInstanceIdRequest";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
+import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
+import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 
 import styles from "./ProofDetailView.module.scss";
 import { i18nContext } from "@/i18n/context";
 import ProofDataView from "@/components/proof_data_view/ProofDataView";
 import { envs } from "@/envs";
-import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import ProofTypeMasthead from "@/components/proof_type_masthead/ProofTypeMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
-import Tutorial from "@/components/tutorial/Tutorial";
-import { useIsTutorial } from "@/hooks/tutorial";
+import TutorialDefault from "@/components/tutorial/TutorialDefault";
 import LeftPadding from "@/components/left_padding/LeftPadding";
 import ProofTypeMeta from "@/components/proof_type_meta/ProofTypeMeta";
 import { MastheadPlaceholder } from "@/components/masthead/Masthead";
+import { useAppSelector } from "@/state/hooks";
 
 const JSONbigNative = JSONBig({
   useNativeBigInt: true,
@@ -34,6 +35,7 @@ const JSONbigNative = JSONBig({
 
 const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) => {
   const i18n = React.useContext(i18nContext);
+  const step = useAppSelector(state => state.tutorial.tutorialStep);
   const [proofInstance, setProofInstance] = React.useState<PrfsProofInstanceSyn1>();
   const { mutateAsync: getPrfsProofInstanceByInstanceIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofInstanceByInstanceIdRequest) => {
@@ -41,7 +43,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
     },
   });
   const handleSelectProofType = useSelectProofType();
-  const isTutorial = useIsTutorial();
+  const { tutorialId } = useTutorial();
 
   React.useEffect(() => {
     async function fn() {
@@ -126,12 +128,12 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
           <div className={styles.rightPadding} />
         </div>
       </div>
-      <div className={cn(styles.main, { [styles.isTutorial]: isTutorial })}>
+      <div className={cn(styles.main, { [styles.isTutorial]: !!tutorialId })}>
         <LeftPadding />
         <div className={styles.content}>
           <div className={styles.meta}>
             <div className={styles.bannerContainer}>
-              <TutorialStepper steps={[5]}>
+              <TutorialStepper tutorialId={tutorialId} step={step} steps={[5]}>
                 <ProofBanner
                   proofInstance={proofInstance}
                   webappProofEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
@@ -155,7 +157,7 @@ const ProofDetailView: React.FC<ProofDetailViewProps> = ({ proofInstanceId }) =>
             <ProofDataView proof={proof} />
           </div>
         </div>
-        <Tutorial noTop />
+        <TutorialDefault noTop />
       </div>
     </>
   );

@@ -9,14 +9,13 @@ import { ProveReceipt } from "@taigalabs/prfs-driver-interface";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { useMutation } from "@tanstack/react-query";
 import { GetPrfsProofTypeByProofTypeIdRequest } from "@taigalabs/prfs-entities/bindings/GetPrfsProofTypeByProofTypeIdRequest";
-// import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
 
 import styles from "./CreateProofForm.module.scss";
 import CreateProofModule from "@/components/create_proof_module/CreateProofModule";
 import PostCreateMenu from "./PostCreateMenu";
 import ProofTypeMasthead from "@/components/proof_type_masthead/ProofTypeMasthead";
 import { useSelectProofType } from "@/hooks/proofType";
-import Tutorial from "@/components/tutorial/Tutorial";
+import TutorialDefault from "@/components/tutorial/TutorialDefault";
 import LeftPadding from "@/components/left_padding/LeftPadding";
 import { MastheadPlaceholder } from "@/components/masthead/Masthead";
 
@@ -24,7 +23,6 @@ const CreateProofForm: React.FC = () => {
   const [proofType, setProofType] = React.useState<PrfsProofType>();
   const proofTypeIdRef = React.useRef<string | null>(null);
   const [proveReceipt, setProveReceipt] = React.useState<ProveReceipt>();
-  // const [proofGenElement, setProofGenElement] = React.useState<ProofGenElement | null>(null);
   const searchParams = useSearchParams();
   const { mutateAsync: getPrfsProofTypeByProofTypeIdRequest } = useMutation({
     mutationFn: (req: GetPrfsProofTypeByProofTypeIdRequest) => {
@@ -72,30 +70,20 @@ const CreateProofForm: React.FC = () => {
         handleSelectProofType={handleSelectProofType}
       />
       <MastheadPlaceholder twoColumn />
-      <div className={styles.topRow}></div>
+      <div className={cn(styles.topRow)}></div>
       <div className={styles.main}>
         <LeftPadding />
         {proofType ? (
-          <div
-            className={cn({
-              [styles.formWrapper]: true,
-            })}
-          >
+          <div className={styles.formWrapper}>
             {proveReceipt ? (
               <Fade>
-                <PostCreateMenu
-                  proveReceipt={proveReceipt}
-                  proofType={proofType!}
-                  // proofGenElement={proofGenElement!}
-                />
+                <PostCreateMenu proveReceipt={proveReceipt} proofType={proofType} />
               </Fade>
             ) : (
               <Fade>
                 <CreateProofModule
                   proofType={proofType}
                   handleCreateProofResult={handleCreateProofResult}
-                  // proofGenElement={proofGenElement}
-                  // setProofGenElement={setProofGenElement}
                 />
               </Fade>
             )}
@@ -103,7 +91,7 @@ const CreateProofForm: React.FC = () => {
         ) : (
           <div className={styles.loading}>Loading module...</div>
         )}
-        <Tutorial noTop />
+        <TutorialDefault noTop />
       </div>
     </>
   );

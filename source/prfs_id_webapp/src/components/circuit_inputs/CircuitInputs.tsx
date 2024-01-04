@@ -1,5 +1,6 @@
 import React from "react";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
+import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./CircuitInputs.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -14,22 +15,10 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
   formErrors,
   setFormValues,
   setFormErrors,
+  presetVals,
+  credential,
 }) => {
   const i18n = React.useContext(i18nContext);
-
-  const handleChangeValue = React.useCallback(
-    (ev: React.ChangeEvent<HTMLInputElement>) => {
-      const { name } = ev.target;
-
-      setFormValues(oldVals => {
-        return {
-          ...oldVals,
-          [name]: ev.target.value,
-        };
-      });
-    },
-    [setFormValues],
-  );
 
   const circuitInputsElem = React.useMemo(() => {
     const entriesElem = [];
@@ -44,6 +33,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
               error={formErrors[input.name]}
               setFormValues={setFormValues}
               setFormErrors={setFormErrors}
+              presetVals={presetVals}
             />,
           );
           break;
@@ -57,6 +47,8 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
               error={formErrors[input.name]}
               setFormValues={setFormValues}
               setFormErrors={setFormErrors}
+              presetVals={presetVals}
+              credential={credential}
             />,
           );
           break;
@@ -70,7 +62,7 @@ const CircuitInputs: React.FC<CircuitInputsProps> = ({
               error={formErrors[input.name]}
               setFormValues={setFormValues}
               setFormErrors={setFormErrors}
-              // proofGenElement={proofGenElement}
+              presetVals={presetVals}
             />,
           );
           break;
@@ -104,4 +96,6 @@ export interface CircuitInputsProps {
   formErrors: Record<string, string>;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+  presetVals?: QueryPresetVals;
+  credential: PrfsIdCredential;
 }

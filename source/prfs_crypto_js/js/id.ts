@@ -5,16 +5,6 @@ import { PrivateKey, PublicKey, encrypt } from "eciesjs";
 import { initWasm, wasmSingleton } from "./wasm_wrapper/wasm";
 import { poseidon_2 } from "./poseidon";
 
-export async function prfsSign(skHex: string, msg: string) {
-  if (wasmSingleton.wasm === null) {
-    const w = await initWasm();
-    wasmSingleton.wasm = w;
-  }
-
-  const msgHash = await poseidon_2(msg);
-  return secp.sign(msgHash, BigInt(skHex));
-}
-
 export async function makeEncryptKey(secret: string): Promise<PublicKey> {
   const hash = await poseidon_2(secret);
   return PrivateKey.fromHex(hexlify(hash)).publicKey;

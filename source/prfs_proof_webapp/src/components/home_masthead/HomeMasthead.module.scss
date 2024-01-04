@@ -1,3 +1,9 @@
+.wrapper {
+  &.isTutorial {
+    border-bottom: 1px solid var(--bright-gray-32);
+  }
+}
+
 .bigScreen {
   display: flex;
   align-items: center;

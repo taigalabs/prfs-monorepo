@@ -484,12 +484,6 @@ importers:
       '@taigalabs/async-incremental-merkle-tree':
         specifier: '*'
         version: link:../../externals/incremental-merkle-tree
-      '@taigalabs/prfs-crypto-js':
-        specifier: '*'
-        version: 'link:'
-      '@taigalabs/prfs-driver-interface':
-        specifier: '*'
-        version: link:../prfs_driver_interface
       '@types/rimraf':
         specifier: ^3.0.2
         version: 3.0.2
@@ -587,6 +581,9 @@ importers:
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
+      '@taigalabs/prfs-proof-interface':
+        specifier: '*'
+        version: link:../prfs_proof_interface
 
   source/prfs_driver_spartan_js:
     dependencies:
@@ -602,15 +599,15 @@ importers:
       '@taigalabs/prfs-driver-interface':
         specifier: '*'
         version: link:../prfs_driver_interface
+      '@taigalabs/prfs-proof-interface':
+        specifier: '*'
+        version: link:../prfs_proof_interface
       bn.js:
         specifier: ^5.2.1
         version: 5.2.1
       comlink:
         specifier: ^4.3.1
         version: 4.4.1
-      elliptic:
-        specifier: ^6.5.4
-        version: 6.5.4
       json-bigint:
         specifier: ^1.0.0
         version: 1.0.0
@@ -969,6 +966,9 @@ importers:
       '@taigalabs/prfs-proof-gen-js':
         specifier: '*'
         version: link:../prfs_proof_gen_js
+      '@taigalabs/prfs-proof-interface':
+        specifier: '*'
+        version: link:../prfs_proof_interface
       '@taigalabs/prfs-react-lib':
         specifier: '*'
         version: link:../prfs_react_lib
@@ -1288,6 +1288,28 @@ importers:
         specifier: 5.1.6
         version: 5.1.6
 
+  source/prfs_proof_interface:
+    dependencies:
+      '@ethereumjs/util':
+        specifier: ^8.0.3
+        version: 8.1.0
+      '@taigalabs/prfs-crypto-js':
+        specifier: '*'
+        version: link:../prfs_crypto_js
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
+      ethers:
+        specifier: ^5
+        version: 5.7.2
+    devDependencies:
+      '@types/node':
+        specifier: ^20.4.9
+        version: 20.4.9
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+
   source/prfs_proof_webapp:
     dependencies:
       '@ethereumjs/util':
@@ -1344,9 +1366,6 @@ importers:
       '@taigalabs/prfs-react-lib':
         specifier: '*'
         version: link:../prfs_react_lib
-      '@taigalabs/prfs-sdk-web':
-        specifier: '*'
-        version: link:../prfs_sdk_web
       '@tanstack/react-query':
         specifier: 5.14.6
         version: 5.14.6(react@18.2.0)
@@ -1562,6 +1581,9 @@ importers:
         specifier: 1.4.12
         version: 1.4.12(@types/react@18.2.25)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.12.2)
     devDependencies:
+      '@types/mdx':
+        specifier: ^2.0.8
+        version: 2.0.8
       '@types/node':
         specifier: 20.3.1
         version: 20.3.1

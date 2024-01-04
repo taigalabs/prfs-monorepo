@@ -7,7 +7,7 @@
     "rootDir": "./src",
     "moduleResolution": "node",
     "allowJs": true,
-    "outDir": "./build",
+    "outDir": "./dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -18,5 +18,5 @@
     }
   },
   "include": ["./src/**/*", "./src/**/*.wasm", "./src/**/package.json"],
-  "exclude": ["./jest.config.js", "./node_modules", "./tests", "./build"]
+  "exclude": ["./jest.config.js", "./node_modules", "./tests", "./dist"]
 }

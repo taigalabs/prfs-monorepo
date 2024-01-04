@@ -2,9 +2,9 @@
 
 import React from "react";
 import { PrfsIdCredential, parseAppSignInSearchParams } from "@taigalabs/prfs-id-sdk-web";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
+import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
 import styles from "./AppSignIn.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -18,7 +18,7 @@ import { envs } from "@/envs";
 import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import SignIn from "@/components/sign_in/SignIn";
 import AppCredential from "./AppCredential";
-import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
+import GlobalFooter from "@/components/global_footer/GlobalFooter";
 
 enum SignInStep {
   PrfsIdCredential,
@@ -50,12 +50,12 @@ const AppSignIn: React.FC = () => {
 
   React.useEffect(() => {
     if (appSignInArgs) {
-      const { publicKey, appId } = appSignInArgs;
+      const { public_key, app_id } = appSignInArgs;
 
-      if (!publicKey) {
+      if (!public_key) {
         setSignInStatus(SignInStatus.Error);
         setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
-      } else if (!appId) {
+      } else if (!app_id) {
         setSignInStatus(SignInStatus.Error);
         setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
       } else {
@@ -91,7 +91,7 @@ const AppSignIn: React.FC = () => {
 
     switch (step) {
       case SignInStep.PrfsIdCredential: {
-        return <SignIn appId={appSignInArgs.appId} handleSucceedSignIn={handleSucceedSignIn} />;
+        return <SignIn appId={appSignInArgs.app_id} handleSucceedSignIn={handleSucceedSignIn} />;
       }
       case SignInStep.AppCredential: {
         return (
@@ -126,12 +126,7 @@ const AppSignIn: React.FC = () => {
         {content}
       </DefaultForm>
       <DefaultModuleFooter>
-        <Link href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL}>
-          <span>{i18n.code}</span>
-        </Link>
-        <Link href={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
-          <span>{i18n.prfs}</span>
-        </Link>
+        <GlobalFooter />
       </DefaultModuleFooter>
     </DefaultModule>
   );

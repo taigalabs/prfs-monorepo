@@ -2,14 +2,14 @@
 
 import React from "react";
 import cn from "classnames";
+import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 
 import styles from "./TutorialPlaceholder.module.scss";
-import { useIsTutorial } from "@/hooks/tutorial";
 
 const TutorialPlaceholder: React.FC<TutorialPlaceholderProps> = () => {
-  const isTutorial = useIsTutorial();
+  const { tutorialId } = useTutorial();
 
-  return isTutorial && <div className={cn(styles.wrapper)} />;
+  return tutorialId && <div className={cn(styles.wrapper)} />;
 };
 
 export default TutorialPlaceholder;

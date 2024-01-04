@@ -16,8 +16,6 @@
     "@ethereumjs/util": "^8.0.3",
     "@noble/curves": "^1.2.0",
     "@taigalabs/async-incremental-merkle-tree": "*",
-    "@taigalabs/prfs-crypto-js": "*",
-    "@taigalabs/prfs-driver-interface": "*",
     "@types/rimraf": "^3.0.2",
     "bn.js": "^5.2.1",
     "comlink": "^4.3.1",

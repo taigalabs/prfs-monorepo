@@ -3,15 +3,15 @@
   "version": "0.0.1",
   "license": "MIT",
   "main": "./build_cjs/index.js",
-  "module": "./build/index.js",
-  "types": "./build/index.d.ts",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "build/**/*"
   ],
   "scripts": {
     "build": "rm -rf ./dist && webpack --config webpack.config.js",
-    "build-pkg": "pnpm run clean-build && tsc && tsc-alias -p tsconfig.json",
-    "clean-build": "rm -rf ./build",
+    "build-pkg": "pnpm run clean && tsc && tsc-alias -p tsconfig.json",
+    "clean": "rm -rf ./dist",
     "clean-build-cjs": "rm -rf ./build_cjs",
     "prepublishOnly": "pnpm run build-pkg",
     "test": "jest"
@@ -21,9 +21,9 @@
     "@taigalabs/async-incremental-merkle-tree": "*",
     "@taigalabs/prfs-crypto-js": "*",
     "@taigalabs/prfs-driver-interface": "*",
+    "@taigalabs/prfs-proof-interface": "*",
     "bn.js": "^5.2.1",
     "comlink": "^4.3.1",
-    "elliptic": "^6.5.4",
     "json-bigint": "^1.0.0",
     "lodash.throttle": "^4.1.1",
     "snarkjs": "0.7.0",

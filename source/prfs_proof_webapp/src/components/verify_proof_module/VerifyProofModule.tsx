@@ -4,7 +4,7 @@ import cn from "classnames";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
-import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
+// import { ProofGenElement } from "@taigalabs/prfs-sdk-web";
 
 import styles from "./VerifyProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";

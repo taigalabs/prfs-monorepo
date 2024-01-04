@@ -5,8 +5,8 @@ src/wasm_build/**
 !src/wasm_build/.gitkeep
 
 example/
-
 build_cjs/
+!dist/
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/linux,vim,windows,macos,python,yarn,node,rust,rust-analyzer,intellij
@@ -265,7 +265,7 @@ out
 
 # Nuxt.js build / generate output
 .nuxt
-dist
+# dist
 
 # Gatsby files
 .cache/
@@ -326,7 +326,7 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
+# dist/
 downloads/
 eggs/
 .eggs/

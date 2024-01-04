@@ -1,0 +1,39 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  margin-left: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -320px;
+  width: 300px;
+  background-color: var(--white-100);
+  border: 1px solid var(--bright-gray-32);
+  border-radius: 10px;
+  z-index: 1;
+
+  /* border: 1px solid red; */
+}
+
+.noTop {
+  top: 0;
+  height: 100%;
+}
+
+@media screen and (max-width: $view_port_min_width_big_display) {
+  .wrapper {
+    position: fixed;
+    top: auto;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    border-top: 1px solid var(--bright-gray-30);
+    border-radius: 0px;
+    height: 280px;
+    width: 100%;
+    z-index: 2;
+  }
+}

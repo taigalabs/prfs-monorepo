@@ -19,6 +19,11 @@ import { envs } from "@/envs";
 import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import SignIn from "@/components/sign_in/SignIn";
 import ProofGenForm from "./ProofGenForm";
+import { useAppDispatch } from "@/state/hooks";
+import { goToStep } from "@/state/tutorialReducer";
+import GlobalFooter from "@/components/global_footer/GlobalFooter";
+import TutorialDefault from "@/components/tutorial_default/TutorialDefault";
+import TutorialPlaceholder from "../tutorial_default/TutorialPlaceholder";
 
 enum ProofGenStep {
   PrfsIdCredential,
@@ -35,6 +40,7 @@ const ProofGen: React.FC = () => {
   const [status, setStatus] = React.useState(Status.Loading);
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const searchParams = useSearchParams();
+  const dispatch = useAppDispatch();
   const [step, setStep] = React.useState(ProofGenStep.PrfsIdCredential);
   const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
   const proofGenArgs = React.useMemo(() => {
@@ -49,19 +55,23 @@ const ProofGen: React.FC = () => {
 
   React.useEffect(() => {
     if (proofGenArgs) {
-      const { publicKey, appId } = proofGenArgs;
+      const { public_key, app_id, tutorial } = proofGenArgs;
 
-      if (!publicKey) {
+      if (!public_key) {
         setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
-      } else if (!appId) {
+      } else if (!app_id) {
         setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
       } else {
         if (isPrfsReady) {
           setStatus(Status.Standby);
         }
       }
+
+      if (tutorial) {
+        dispatch(goToStep(tutorial.step));
+      }
     }
-  }, [searchParams, setStatus, setErrorMsg, setStep, proofGenArgs, isPrfsReady]);
+  }, [searchParams, setStatus, setErrorMsg, setStep, proofGenArgs, isPrfsReady, dispatch]);
 
   const handleCloseErrorDialog = React.useCallback(() => {
     window.close();
@@ -88,7 +98,7 @@ const ProofGen: React.FC = () => {
 
     switch (step) {
       case ProofGenStep.PrfsIdCredential: {
-        return <SignIn appId={proofGenArgs.appId} handleSucceedSignIn={handleSucceedSignIn} />;
+        return <SignIn appId={proofGenArgs.app_id} handleSucceedSignIn={handleSucceedSignIn} />;
       }
       case ProofGenStep.Form: {
         return credential ? (
@@ -119,15 +129,12 @@ const ProofGen: React.FC = () => {
         ) : (
           content
         )}
+        <TutorialDefault tutorial={proofGenArgs?.tutorial} />
       </DefaultForm>
       <DefaultModuleFooter>
-        <Link href={envs.NEXT_PUBLIC_CODE_REPOSITORY_URL}>
-          <span>{i18n.code}</span>
-        </Link>
-        <Link href={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}>
-          <span>{i18n.prfs}</span>
-        </Link>
+        <GlobalFooter />
       </DefaultModuleFooter>
+      <TutorialPlaceholder tutorial={proofGenArgs?.tutorial} />
     </DefaultModule>
   );
 };

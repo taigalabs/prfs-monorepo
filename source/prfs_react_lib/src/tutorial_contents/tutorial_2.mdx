@@ -1,0 +1,22 @@
+Proof generation should happen in a safe and isolated environment. We therefore move to a dedicated
+web document space by clicking the **Create proof** button.
+
+## Navigate to Prfs Id
+
+You will have a popup window in your browser. Sign up if you haven't registered already or sign in.
+
+After signing in, **proof generate form** should be ready. You need to configure **inputs** to the 
+proof. These inputs, also called `witness`, are usually known only to you, the prover. They will 
+be **encrypted** while creating a proof and viewers of the proof would have no idea what the 
+inputs would have been. There are, however, inputs that are **revealed** to the public on purpose 
+and we call them **public inputs**.
+
+Complete the following steps.
+
+1. Type anything in `Hash data` field. This value will be encoded to a number and then will be fed
+into a hash function.
+2. Click `Hash` blue button to create a value. `Msg hash` will appear in the bottom as you click 
+the button.
+3. Click `Submit` button to start creating the proof and navigate back to the host (Prfs) page.
+
+Click `next`.

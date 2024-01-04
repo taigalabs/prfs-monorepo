@@ -12,13 +12,13 @@ import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 import { useQuery } from "@tanstack/react-query";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { initCircuitDriver, interpolateSystemAssetEndpoint } from "@taigalabs/prfs-proof-gen-js";
-import { CreateProofQuery, PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
+import { CreateProofQuery, PrfsIdCredential, TutorialArgs } from "@taigalabs/prfs-id-sdk-web";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
+import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 
 import styles from "./CreateProof.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { validateInputs } from "@/functions/validate_inputs";
-import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import { envs } from "@/envs";
 import CircuitInputs from "@/components/circuit_inputs/CircuitInputs";
 import {
@@ -29,29 +29,12 @@ import {
   QueryName,
 } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
+import { useAppSelector } from "@/state/hooks";
 
 enum Status {
   Standby,
   InProgress,
 }
-
-const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress }) => {
-  const el = React.useMemo(() => {
-    const elems = [];
-    for (const key in progress) {
-      elems.push(
-        <div key={key} className={styles.progressRow}>
-          <p>{key}</p>
-          <p>...{progress[key]}%</p>
-        </div>,
-      );
-    }
-
-    return elems;
-  }, [progress]);
-
-  return <div className={styles.driverProgress}>{el}</div>;
-};
 
 function useProofType(proofTypeId: string | undefined) {
   return useQuery({
@@ -64,10 +47,33 @@ function useProofType(proofTypeId: string | undefined) {
   });
 }
 
-const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt }) => {
+const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress }) => {
+  const el = React.useMemo(() => {
+    if (progress) {
+      const elems = [];
+      for (const key in progress) {
+        elems.push(
+          <div key={key} className={styles.progressRow}>
+            <p>{key}</p>
+            <p>...{progress[key]}%</p>
+          </div>,
+        );
+      }
+      return elems;
+    }
+
+    return <span>Loading...</span>;
+  }, [progress]);
+
+  return <div className={styles.driverProgress}>{el}</div>;
+};
+
+const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt, tutorial }) => {
   const i18n = React.useContext(i18nContext);
   const [driverMsg, setDriverMsg] = React.useState<React.ReactNode>(null);
-  const [loadDriverProgress, setLoadDriverProgress] = React.useState<Record<string, any>>({});
+  const [loadDriverProgress, setLoadDriverProgress] = React.useState<Record<string, any> | null>(
+    null,
+  );
   const [loadDriverStatus, setLoadDriverStatus] = React.useState(Status.Standby);
   const [driver, setDriver] = React.useState<CircuitDriver | null>(null);
   const [systemMsg, setSystemMsg] = React.useState<string | null>(null);
@@ -75,14 +81,8 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
   const [createProofStatus, setCreateProofStatus] = React.useState(Status.Standby);
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
-  const searchParams = useSearchParams();
-  const { data, isFetching } = useProofType(query?.proofTypeId);
-  const isTutorial = React.useMemo(() => {
-    if (searchParams.get("tutorial_id")) {
-      return true;
-    }
-    return false;
-  }, [searchParams]);
+  const tutorialStep = useAppSelector(state => state.tutorial.tutorialStep);
+  const { data } = useProofType(query?.proofTypeId);
   const handleProofGenEvent = React.useCallback((ev: CreateProofEvent) => {
     const { payload } = ev;
     setSystemMsg(payload.payload);
@@ -90,6 +90,7 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
 
   React.useEffect(() => {
     const { name } = query;
+
     setReceipt(() => ({
       [name]: async () => {
         const proofType = data?.payload?.prfs_proof_type;
@@ -149,22 +150,20 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
             }
             case "LOAD_DRIVER_SUCCESS": {
               const now = dayjs();
-              const diff = now.diff(since, "seconds", true);
+              const diff = now.diff(since, "seconds", true).toFixed(2);
               const { artifactCount } = payload;
               setDriverMsg(
-                <div>
-                  <p>
-                    <span>Circuit driver </span>
-                    <a
-                      href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${proofType.circuit_driver_id}`}
-                    >
-                      {proofType.circuit_driver_id} <BiLinkExternal />
-                    </a>
-                  </p>
-                  <p>
-                    ({diff} seconds, {artifactCount} artifacts)
-                  </p>
-                </div>,
+                <p className={styles.result}>
+                  <a
+                    href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${proofType.circuit_driver_id}`}
+                  >
+                    <span>{proofType.circuit_driver_id}</span>
+                    <BiLinkExternal />
+                  </a>
+                  <span className={styles.diff}>
+                    ({diff}s, {artifactCount} files)
+                  </span>
+                </p>,
               );
               setLoadDriverStatus(Status.Standby);
               break;
@@ -204,7 +203,7 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
 
   const proofType = data?.payload?.prfs_proof_type;
   if (!proofType) {
-    return <div>Loading...</div>;
+    return <div className={styles.loading}>Loading...</div>;
   }
 
   return (
@@ -212,14 +211,15 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
       <QueryItem sidePadding>
         <QueryItemMeta>
           <QueryItemLeftCol>
-            {createProofStatus === Status.InProgress ? (
-              <Spinner size={20} borderWidth={2} />
-            ) : (
-              <TbNumbers />
-            )}
+            <TbNumbers />
           </QueryItemLeftCol>
           <QueryItemRightCol>
-            <QueryName>{query.name}</QueryName>
+            <QueryName
+              className={cn({ [styles.creating]: createProofStatus === Status.InProgress })}
+            >
+              <span>{query.name}</span>
+              {createProofStatus === Status.InProgress && <span> (Creating...)</span>}
+            </QueryName>
             <div>{proofType.proof_type_id}</div>
             <div className={styles.driverMsg}>
               {driverMsg}
@@ -229,14 +229,18 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
             </div>
           </QueryItemRightCol>
         </QueryItemMeta>
-        <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
+        <div className={styles.wrapper}>
           <div className={styles.moduleWrapper}>
             {loadDriverStatus === Status.InProgress && (
               <div className={styles.overlay}>
                 <Spinner size={32} color={colors.blue_12} />
               </div>
             )}
-            <TutorialStepper steps={[2]}>
+            <TutorialStepper
+              tutorialId={tutorial ? tutorial.tutorialId : null}
+              step={tutorialStep}
+              steps={[2]}
+            >
               <div className={styles.form}>
                 <CircuitInputs
                   circuitInputs={proofType.circuit_inputs as CircuitInput[]}
@@ -244,6 +248,8 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
                   setFormValues={setFormValues}
                   formErrors={formErrors}
                   setFormErrors={setFormErrors}
+                  presetVals={query.presetVals}
+                  credential={credential}
                 />
               </div>
             </TutorialStepper>
@@ -262,8 +268,9 @@ export interface CreateProofProps {
   credential: PrfsIdCredential;
   query: CreateProofQuery;
   setReceipt: React.Dispatch<React.SetStateAction<ProofGenReceiptRaw | null>>;
+  tutorial: TutorialArgs | undefined;
 }
 
 export interface LoadDriverProgressProps {
-  progress: Record<string, any>;
+  progress: Record<string, any> | null;
 }

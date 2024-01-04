@@ -1,6 +1,5 @@
 import { CreateProofEvent, DriverEvent, DriverEventListener } from "./events";
 
-export * from "./types";
 export * from "./events";
 
 export interface CircuitDriverGen {

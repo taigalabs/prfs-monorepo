@@ -1,5 +1,4 @@
 import React from "react";
-import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import {
   useFloating,
   useDismiss,

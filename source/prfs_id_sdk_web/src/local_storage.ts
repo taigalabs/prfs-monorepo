@@ -1,5 +1,6 @@
 import { encrypt } from "@taigalabs/prfs-crypto-js";
-import { PrfsIdCredential } from "./api";
+
+import { PrfsIdCredential } from "./credential";
 
 const PRFS_ID_STORAGE_KEY = "prfs_id";
 

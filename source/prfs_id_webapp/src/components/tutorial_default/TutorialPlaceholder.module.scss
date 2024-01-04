@@ -1,0 +1,15 @@
+@import "@/styles/layouts.module.scss";
+
+.wrapper {
+  /* height: auto; */
+
+  /* border: 1px solid red; */
+}
+
+@media screen and (max-width: $view_port_min_width_big_display) {
+  .wrapper {
+    height: 280px;
+
+    /* border: 1px solid red; */
+  }
+}

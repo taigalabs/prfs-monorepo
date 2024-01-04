@@ -10,15 +10,13 @@
   }
 }
 
-.btnGroup {
-  display: flex;
-  position: absolute;
-  right: 7px;
-  align-items: center;
+.hashBtn {
+  color: var(--aqua-blue-50);
+  cursor: pointer;
+  font-weight: 500;
 
-  .hashBtn {
-    font-size: 13px;
-    padding: 6px 6px;
+  &:hover {
+    color: var(--aqua-blue-40);
   }
 }
 
@@ -29,8 +27,7 @@
 }
 
 .computedValue {
-  padding: 3px 7px;
-  border-top: 1px solid var(--bright-gray-30);
-  color: var(--gray-50);
-  font-size: 0.91em;
+  padding: 3px 8px;
+  font-size: 13px;
+  color: var(--gray-30);
 }

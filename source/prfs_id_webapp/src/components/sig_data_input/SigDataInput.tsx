@@ -1,10 +1,10 @@
 import React from "react";
 import cn from "classnames";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { bufferToHex, hashPersonalMessage, toBuffer } from "@ethereumjs/util";
+import { bufferToHex, hashPersonalMessage } from "@ethereumjs/util";
 import { useSignMessage } from "wagmi";
-import { BufferHex, SigData } from "@taigalabs/prfs-driver-interface";
-import Button from "@taigalabs/prfs-react-lib/src/button/Button";
+import { BufferHex, SigData } from "@taigalabs/prfs-proof-interface";
+import { PrfsIdCredential, QueryPresetVals } from "@taigalabs/prfs-id-sdk-web";
 
 import styles from "./SigDataInput.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -16,6 +16,7 @@ import {
   FormInputTitleRow,
   InputWrapper,
 } from "@/components/form_input/FormInput";
+import { prfsSign } from "@taigalabs/prfs-crypto-js";
 
 const ComputedValue: React.FC<ComputedValueProps> = ({ value }) => {
   const val = React.useMemo(() => {
@@ -35,9 +36,36 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
   setFormValues,
   error,
   setFormErrors,
+  presetVals,
+  credential,
 }) => {
   const i18n = React.useContext(i18nContext);
+  const [isPresetAssigned, setIsPresetAssigned] = React.useState(false);
   const { signMessageAsync } = useSignMessage();
+
+  React.useEffect(() => {
+    async function fn() {
+      if (!isPresetAssigned && presetVals) {
+        console.log("init", presetVals);
+        setIsPresetAssigned(true);
+        setFormValues(async oldVals => {
+          const oldVal: Record<string, any> = oldVals[circuitInput.name] || {};
+          const newVal = { ...oldVal };
+          const presetVal = presetVals[circuitInput.name] || {};
+
+          if (presetVal.msgRaw) {
+            newVal.msgRaw = presetVal.msgRaw;
+            console.log(4, credential.secret_key, newVal.msgRaw);
+            const sig = await prfsSign(credential.secret_key, newVal.msgRaw);
+            console.log(11, sig);
+          }
+
+          return newVal;
+        });
+      }
+    }
+    fn().then();
+  }, [isPresetAssigned, setIsPresetAssigned, setFormValues]);
 
   const handleChangeRaw = React.useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +75,6 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
       }
 
       const newVal = ev.target.value;
-
       setFormValues(oldVals => {
         const oldVal = oldVals[circuitInput.name] || {};
 
@@ -81,7 +108,6 @@ const SigDataInput: React.FC<SigDataInputProps> = ({
         msgHash: bufferToHex(msgHash) as BufferHex,
         sig,
       };
-
       setFormValues(oldVals => ({
         ...oldVals,
         [circuitInput.name]: newValue,
@@ -129,6 +155,8 @@ export interface SigDataInputProps {
   error: string | undefined;
   setFormValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   setFormErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+  presetVals?: QueryPresetVals;
+  credential: PrfsIdCredential;
 }
 
 export interface ComputedValueProps {
