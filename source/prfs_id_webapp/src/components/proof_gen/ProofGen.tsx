@@ -119,7 +119,6 @@ const ProofGen: React.FC = () => {
   return (
     <DefaultModule>
       <DefaultForm>
-        <TutorialDefault tutorial={proofGenArgs?.tutorial ? proofGenArgs.tutorial : null} />
         {errorMsg && <PrfsIdErrorDialog errorMsg={errorMsg} handleClose={handleCloseErrorDialog} />}
         <DefaultTopLabel>{i18n.create_data_with_prfs_id}</DefaultTopLabel>
         {status === Status.Loading ? (
@@ -129,6 +128,7 @@ const ProofGen: React.FC = () => {
         ) : (
           content
         )}
+        <TutorialDefault tutorial={proofGenArgs?.tutorial} />
       </DefaultForm>
       <DefaultModuleFooter>
         <GlobalFooter />

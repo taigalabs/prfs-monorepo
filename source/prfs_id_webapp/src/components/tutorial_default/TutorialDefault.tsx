@@ -63,7 +63,7 @@ export default TutorialDefault;
 
 export interface TutorialDefaultProps {
   noTop?: boolean;
-  tutorial: TutorialArgs | null;
+  tutorial: TutorialArgs | undefined;
 }
 
 export interface StageProps {

@@ -1,13 +1,16 @@
+@import "@/styles/layouts.module.scss";
+
 .wrapper {
   margin-left: auto;
   position: absolute;
-  top: 56px;
-  right: 0px;
+  top: 0;
+  bottom: 0;
+  right: -320px;
   width: 300px;
-  height: calc(100% - 56px);
+  /* height: calc(100% - 56px); */
   background-color: var(--white-100);
-  border-left: 1px solid var(--bright-gray-32);
-  line-height: 1.33;
+  border: 1px solid var(--bright-gray-32);
+  border-radius: 10px;
   z-index: 1;
 
   /* border: 1px solid red; */
@@ -18,7 +21,7 @@
   height: 100%;
 }
 
-@media screen and (max-width: 1690px) {
+@media screen and (max-width: $view_port_min_width_big_display) {
   .wrapper {
     position: fixed;
     top: auto;
@@ -28,8 +31,9 @@
     display: flex;
     justify-content: center;
     margin: 0;
-    border: 1px solid var(--bright-gray-30);
+    border-top: 1px solid var(--bright-gray-30);
     height: 280px;
     width: 100%;
+    z-index: 2;
   }
 }

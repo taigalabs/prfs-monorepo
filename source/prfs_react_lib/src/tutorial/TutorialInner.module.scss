@@ -1,3 +1,10 @@
+.inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-bottom: 6px;
+}
+
 .titleBar {
   display: flex;
   padding: 4px 8px;
@@ -37,6 +44,7 @@
 }
 
 .header {
+  flex-shrink: 0;
   height: 34px;
   padding: 0 10px;
   display: flex;
@@ -57,9 +65,10 @@
 }
 
 .body {
-  padding: 8px 0 4px;
+  padding-top: 4px;
   min-height: 300px;
   overflow-y: auto;
+  flex-grow: 1;
 }
 
 .btnRow {
@@ -94,7 +103,7 @@
   .body {
     min-height: 0;
     max-height: none;
-    height: 200px;
+    /* height: 200px; */
   }
 
   .placeholder {
