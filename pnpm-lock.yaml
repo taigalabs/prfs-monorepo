@@ -587,6 +587,9 @@ importers:
       '@taigalabs/prfs-entities':
         specifier: '*'
         version: link:../prfs_entities
+      '@taigalabs/prfs-proof-interface':
+        specifier: '*'
+        version: link:../prfs_proof_interface
 
   source/prfs_driver_spartan_js:
     dependencies:
