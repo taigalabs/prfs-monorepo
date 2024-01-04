@@ -14,10 +14,10 @@ import {
   sendMsgToChild,
 } from "@taigalabs/prfs-id-sdk-web";
 import { useRandomKeyPair } from "@/hooks/key";
+import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 
 import styles from "./VerifyProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
-import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 import { envs } from "@/envs";
 import { useAppSelector } from "@/state/hooks";
 
