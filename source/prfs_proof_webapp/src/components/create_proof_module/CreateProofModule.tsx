@@ -59,6 +59,13 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
       public_key: pkHex,
     };
 
+    if (tutorialId) {
+      proofGenArgs.tutorial = {
+        tutorialId,
+        step,
+      };
+    }
+
     const searchParams = makeProofGenSearchParams(proofGenArgs);
     const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.proof_gen}${searchParams}`;
 
