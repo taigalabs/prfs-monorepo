@@ -19,6 +19,8 @@ import { envs } from "@/envs";
 import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import SignIn from "@/components/sign_in/SignIn";
 import ProofGenForm from "./ProofGenForm";
+import { useAppDispatch } from "@/state/hooks";
+import { goNextStep, goToStep } from "@/state/tutorialReducer";
 
 enum ProofGenStep {
   PrfsIdCredential,
@@ -35,6 +37,7 @@ const ProofGen: React.FC = () => {
   const [status, setStatus] = React.useState(Status.Loading);
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const searchParams = useSearchParams();
+  const dispatch = useAppDispatch();
   const [step, setStep] = React.useState(ProofGenStep.PrfsIdCredential);
   const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
   const proofGenArgs = React.useMemo(() => {
@@ -47,11 +50,11 @@ const ProofGen: React.FC = () => {
   }, [searchParams]);
   const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
 
-  console.log(123, proofGenArgs);
-
   React.useEffect(() => {
     if (proofGenArgs) {
-      const { public_key, app_id } = proofGenArgs;
+      console.log(123, proofGenArgs);
+
+      const { public_key, app_id, tutorial } = proofGenArgs;
 
       if (!public_key) {
         setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
@@ -62,8 +65,12 @@ const ProofGen: React.FC = () => {
           setStatus(Status.Standby);
         }
       }
+
+      if (tutorial) {
+        dispatch(goToStep(tutorial.step));
+      }
     }
-  }, [searchParams, setStatus, setErrorMsg, setStep, proofGenArgs, isPrfsReady]);
+  }, [searchParams, setStatus, setErrorMsg, setStep, proofGenArgs, isPrfsReady, dispatch]);
 
   const handleCloseErrorDialog = React.useCallback(() => {
     window.close();

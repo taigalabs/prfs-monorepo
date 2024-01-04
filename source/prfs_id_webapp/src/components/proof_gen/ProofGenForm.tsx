@@ -16,6 +16,7 @@ import { encrypt } from "@taigalabs/prfs-crypto-js";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
 import { idApi } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@tanstack/react-query";
+import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
 
 import styles from "./ProofGenForm.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -30,7 +31,7 @@ import CommitmentView from "@/components/commitment/CommitmentView";
 import CreateProof from "@/components/create_proof/CreateProof";
 import { QueryItemList } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw, processReceipt } from "./receipt";
-import { delay } from "@/hooks/interval";
+import TutorialDefault from "../tutorial_default/TutorialDefault";
 
 enum Status {
   InProgress,
@@ -185,6 +186,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         </DefaultModuleBtnRow>
         <DefaultErrorMsg className={styles.sidePadding}>{errorMsg}</DefaultErrorMsg>
       </DefaultInnerPadding>
+      <TutorialDefault isTutorial={!!proofGenArgs.tutorial} />
     </>
   ) : (
     <div className={styles.loading}>Loading...</div>

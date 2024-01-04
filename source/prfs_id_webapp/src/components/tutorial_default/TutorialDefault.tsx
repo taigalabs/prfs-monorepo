@@ -2,9 +2,10 @@
 
 import React from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import Tutorial from "@taigalabs/prfs-react-lib/src/tutorial/Tutorial";
+import TutorialInner from "@taigalabs/prfs-react-lib/src/tutorial/TutorialInner";
 import { useRouter } from "next/navigation";
 import { useIsTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
+import cn from "classnames";
 
 import styles from "./TutorialDefault.module.scss";
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
@@ -12,13 +13,12 @@ import { goNextStep, goPrevStep, resetStep } from "@/state/tutorialReducer";
 
 const STEP_COUNT = 5;
 
-const TutorialDefault: React.FC<TutorialDefaultProps> = ({ noTop }) => {
+const TutorialDefault: React.FC<TutorialDefaultProps> = ({ noTop, isTutorial }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
   const dispatch = useAppDispatch();
   const step = useAppSelector(state => state.tutorial.tutorialStep);
-  const isTutorial = useIsTutorial();
 
   const handleClickPrev = React.useCallback(() => {
     if (step > 1) {
@@ -43,13 +43,18 @@ const TutorialDefault: React.FC<TutorialDefaultProps> = ({ noTop }) => {
 
   return (
     isTutorial && (
-      <Tutorial
-        noTop={noTop}
-        step={step}
-        handleClickClose={handleClickClose}
-        handleClickNext={handleClickNext}
-        handleClickPrev={handleClickPrev}
-      />
+      <div
+        className={cn(styles.wrapper, {
+          [styles.noTop]: !!noTop,
+        })}
+      >
+        <TutorialInner
+          step={step}
+          handleClickClose={handleClickClose}
+          handleClickNext={handleClickNext}
+          handleClickPrev={handleClickPrev}
+        />
+      </div>
     )
   );
 };
@@ -58,6 +63,7 @@ export default TutorialDefault;
 
 export interface TutorialDefaultProps {
   noTop?: boolean;
+  isTutorial: boolean;
 }
 
 export interface StageProps {

@@ -16,12 +16,9 @@ import {
 } from "@floating-ui/react";
 
 import styles from "./TutorialStepper.module.scss";
-// import { i18nContext } from "../i18n/context";
-// import { paths } from "@/paths";
-// import { useAppSelector } from "@/state/hooks";
 
 const TutorialStepper: React.FC<TutorialStepperProps> = ({
-  isVisible,
+  tutorialId,
   children,
   step,
   steps,
@@ -29,18 +26,6 @@ const TutorialStepper: React.FC<TutorialStepperProps> = ({
   mainAxisOffset,
   crossAxisOffset,
 }) => {
-  // const searchParams = useSearchParams();
-
-  // const isTutorial = React.useMemo(() => {
-  //   if (searchParams.get("tutorial_id")) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }, [searchParams]);
-
-  // const step = useAppSelector(state => state.tutorial.tutorialStep);
-
   const { refs, floatingStyles, context } = useFloating({
     placement: "top-start",
     whileElementsMounted: autoUpdate,
@@ -60,7 +45,7 @@ const TutorialStepper: React.FC<TutorialStepperProps> = ({
   const role = useRole(context, { role: "tooltip" });
   const { getReferenceProps, getFloatingProps } = useInteractions([focus, dismiss, role]);
 
-  return isVisible && steps.includes(step) ? (
+  return tutorialId && steps.includes(step) ? (
     <>
       <div
         className={cn({ [styles.wrapper]: true, [styles.fullWidth]: fullWidth })}
@@ -86,7 +71,7 @@ const TutorialStepper: React.FC<TutorialStepperProps> = ({
 export default TutorialStepper;
 
 export interface TutorialStepperProps {
-  isVisible: boolean;
+  tutorialId: string | null;
   step: number;
   children: React.ReactNode;
   steps: number[];

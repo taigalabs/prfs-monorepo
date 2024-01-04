@@ -14,11 +14,11 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { initCircuitDriver, interpolateSystemAssetEndpoint } from "@taigalabs/prfs-proof-gen-js";
 import { CreateProofQuery, PrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
+import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 
 import styles from "./CreateProof.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { validateInputs } from "@/functions/validate_inputs";
-import TutorialStepper from "@/components/tutorial/TutorialStepper";
 import { envs } from "@/envs";
 import CircuitInputs from "@/components/circuit_inputs/CircuitInputs";
 import {
@@ -29,6 +29,7 @@ import {
   QueryName,
 } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
+import { useIsTutorial } from "@/hooks/tutorial";
 
 enum Status {
   Standby,
@@ -82,12 +83,7 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
   const searchParams = useSearchParams();
   const { data } = useProofType(query?.proofTypeId);
-  const isTutorial = React.useMemo(() => {
-    if (searchParams.get("tutorial_id")) {
-      return true;
-    }
-    return false;
-  }, [searchParams]);
+  const isTutorial = useIsTutorial();
   const handleProofGenEvent = React.useCallback((ev: CreateProofEvent) => {
     const { payload } = ev;
     setSystemMsg(payload.payload);
@@ -234,14 +230,14 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
             </div>
           </QueryItemRightCol>
         </QueryItemMeta>
-        <div className={cn(styles.wrapper, { [styles.isTutorial]: isTutorial })}>
+        <div className={styles.wrapper}>
           <div className={styles.moduleWrapper}>
             {loadDriverStatus === Status.InProgress && (
               <div className={styles.overlay}>
                 <Spinner size={32} color={colors.blue_12} />
               </div>
             )}
-            <TutorialStepper steps={[2]}>
+            <TutorialStepper isVisible={isTutorial} step={1} steps={[2]}>
               <div className={styles.form}>
                 <CircuitInputs
                   circuitInputs={proofType.circuit_inputs as CircuitInput[]}

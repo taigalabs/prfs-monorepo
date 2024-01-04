@@ -35,7 +35,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({ proveReceipt, proofType
   const router = useRouter();
   const [isVerifyOpen, setIsVerifyOpen] = React.useState(false);
   const step = useAppSelector(state => state.tutorial.tutorialStep);
-  const isTutorial = useIsTutorial();
+  const { tutorialId } = useIsTutorial();
 
   const {
     mutateAsync: createPrfsProofInstance,
@@ -133,7 +133,7 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({ proveReceipt, proofType
           </div>
           <div className={cn(styles.verifyProofFormRow, { [styles.isVerifyOpen]: isVerifyOpen })}>
             <div>
-              <TutorialStepper isVisible={isTutorial} step={step} steps={[3]}>
+              <TutorialStepper isVisible={tutorialId} step={step} steps={[3]}>
                 <button className={cn(styles.verifyBtn)} onClick={handleClickVerify}>
                   <span>{i18n.verify}</span>
                   <IoIosArrowDown />
