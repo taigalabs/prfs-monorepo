@@ -21,8 +21,9 @@ import SignIn from "@/components/sign_in/SignIn";
 import ProofGenForm from "./ProofGenForm";
 import { useAppDispatch } from "@/state/hooks";
 import { goToStep } from "@/state/tutorialReducer";
-import GlobalFooter from "../global_footer/GlobalFooter";
-import TutorialDefault from "../tutorial_default/TutorialDefault";
+import GlobalFooter from "@/components/global_footer/GlobalFooter";
+import TutorialDefault from "@/components/tutorial_default/TutorialDefault";
+import TutorialPlaceholder from "../tutorial_default/TutorialPlaceholder";
 
 enum ProofGenStep {
   PrfsIdCredential,
@@ -133,6 +134,7 @@ const ProofGen: React.FC = () => {
       <DefaultModuleFooter>
         <GlobalFooter />
       </DefaultModuleFooter>
+      <TutorialPlaceholder tutorial={proofGenArgs?.tutorial} />
     </DefaultModule>
   );
 };

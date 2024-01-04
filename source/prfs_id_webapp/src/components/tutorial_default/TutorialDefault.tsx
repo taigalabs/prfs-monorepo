@@ -35,7 +35,7 @@ const TutorialDefault: React.FC<TutorialDefaultProps> = ({ noTop, tutorial }) =>
   const handleClickClose = React.useCallback(() => {
     const oldParams = searchParams.toString();
     const newParams = new URLSearchParams(oldParams);
-    newParams.delete("tutorial_id");
+    newParams.delete("tutorial");
 
     router.replace(`${pathname}?${newParams.toString()}`);
     dispatch(resetStep());

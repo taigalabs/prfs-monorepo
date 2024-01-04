@@ -2,9 +2,9 @@
 
 import React from "react";
 import { PrfsIdCredential, parseAppSignInSearchParams } from "@taigalabs/prfs-id-sdk-web";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
+import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
 import styles from "./AppSignIn.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -18,8 +18,7 @@ import { envs } from "@/envs";
 import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import SignIn from "@/components/sign_in/SignIn";
 import AppCredential from "./AppCredential";
-import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
-import GlobalFooter from "../global_footer/GlobalFooter";
+import GlobalFooter from "@/components/global_footer/GlobalFooter";
 
 enum SignInStep {
   PrfsIdCredential,
