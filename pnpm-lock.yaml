@@ -1288,6 +1288,31 @@ importers:
         specifier: 5.1.6
         version: 5.1.6
 
+  source/prfs_proof_interface:
+    dependencies:
+      '@ethereumjs/util':
+        specifier: ^8.0.3
+        version: 8.1.0
+      '@taigalabs/prfs-crypto-js':
+        specifier: '*'
+        version: link:../prfs_crypto_js
+      '@taigalabs/prfs-entities':
+        specifier: '*'
+        version: link:../prfs_entities
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
+      ethers:
+        specifier: ^5
+        version: 5.7.2
+    devDependencies:
+      '@types/node':
+        specifier: ^20.4.9
+        version: 20.4.9
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+
   source/prfs_proof_webapp:
     dependencies:
       '@ethereumjs/util':

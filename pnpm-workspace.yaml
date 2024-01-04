@@ -2,31 +2,31 @@ packages:
   # Externals
   - "externals/incremental-merkle-tree"
 
-  # Prfs env
-  - "source/prfs_env_js"
-
-  # Docs
+  # Prfs docs website
   - "source/docs_website"
 
-  # i18n
-  - "source/prfs_i18n"
-
-  # Circuits
+  # Prfs circuits
   - "source/prfs_circuits_circom"
 
-  # Driver
+  # Prfs driver
   - "source/prfs_driver_spartan_js"
   - "source/prfs_driver_interface"
 
   # Prfs
-  - "source/prfs_snap"
   - "source/prfs_crypto_js"
+  - "source/prfs_entities"
+  - "source/prfs_i18n"
+  - "source/prfs_env_js"
+  - "source/prfs_react_lib"
+  - "source/prfs_id_sdk_web"
+  - "source/prfs_id_sdk_react"
+  - "source/prfs_proof_gen_js"
   - "source/prfs_api_js"
   - "source/prfs_api_server"
-  - "source/prfs_auth_op_server"
-  - "source/prfs_entities"
+  - "source/prfs_snap"
+  - "source/prfs_proof_interface"
 
-  # Prfs SDK
+  # Prfs SDK (deprecated)
   - "source/prfs_sdk_web"
   - "source/prfs_sdk_web_module"
 
@@ -34,20 +34,8 @@ packages:
   - "source/prfs_proof_webapp"
   - "source/prfs_console_webapp"
   - "source/prfs_poll_webapp"
-
-  # Common react lib
-  - "source/prfs_react_lib"
+  - "source/prfs_id_webapp"
+  - "source/prfs_embed_webapp"
 
   # Shy
   - "source/shy_webapp"
-
-  # Prfs identity
-  - "source/prfs_id_webapp"
-  - "source/prfs_id_sdk_web"
-  - "source/prfs_id_sdk_react"
-
-  # Prfs proof gen
-  - "source/prfs_proof_gen_js"
-
-  # Prfs embed
-  - "source/prfs_embed_webapp"
