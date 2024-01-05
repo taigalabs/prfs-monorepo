@@ -23,7 +23,6 @@ import {
 import { envs } from "@/envs";
 import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
 import SignIn from "@/components/sign_in/SignIn";
-// import ProofGenForm from "./ProofGenForm";
 import { useAppDispatch } from "@/state/hooks";
 import { goToStep } from "@/state/tutorialReducer";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
@@ -82,46 +81,6 @@ const VerifyProof: React.FC = () => {
   const handleCloseErrorDialog = React.useCallback(() => {
     window.close();
   }, []);
-
-  // const handleClickPrev = React.useCallback(() => {
-  //   setStep(ProofGenStep.PrfsIdCredential);
-  // }, [setStep]);
-
-  // const handleSucceedSignIn = React.useCallback(
-  //   (credential: PrfsIdCredential) => {
-  //     if (credential) {
-  //       setCredential(credential);
-  //       setStep(ProofGenStep.Form);
-  //     }
-  //   },
-  //   [setCredential, setStep],
-  // );
-
-  // const content = React.useMemo(() => {
-  //   if (!proofGenArgs) {
-  //     return null;
-  //   }
-
-  //   switch (step) {
-  //     case ProofGenStep.PrfsIdCredential: {
-  //       return <SignIn appId={proofGenArgs.app_id} handleSucceedSignIn={handleSucceedSignIn} />;
-  //     }
-  //     case ProofGenStep.Form: {
-  //       return credential ? (
-  //         <ProofGenForm
-  //           credential={credential}
-  //           proofGenArgs={proofGenArgs}
-  //           handleClickPrev={handleClickPrev}
-  //           prfsEmbed={prfsEmbed}
-  //         />
-  //       ) : (
-  //         <div>Invalid access. Credential does not exist</div>
-  //       );
-  //     }
-  //     default:
-  //       <div>Invalid step</div>;
-  //   }
-  // }, [step, proofGenArgs]);
 
   return (
     <DefaultModule>

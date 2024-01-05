@@ -45,7 +45,7 @@ const TutorialStepper: React.FC<TutorialStepperProps> = ({
   const role = useRole(context, { role: "tooltip" });
   const { getReferenceProps, getFloatingProps } = useInteractions([focus, dismiss, role]);
 
-  return tutorialId && steps.includes(step) ? (
+  return tutorialId && step && steps.includes(step) ? (
     <>
       <div
         className={cn({ [styles.wrapper]: true, [styles.fullWidth]: fullWidth })}
@@ -72,7 +72,7 @@ export default TutorialStepper;
 
 export interface TutorialStepperProps {
   tutorialId: string | null;
-  step: number;
+  step: number | null;
   children: React.ReactNode;
   steps: number[];
   fullWidth?: boolean;

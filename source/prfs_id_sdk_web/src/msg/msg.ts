@@ -7,12 +7,13 @@ export interface PrfsIdMsg<T> {
 export interface StorageMsg<T> {
   _phantom?: T;
   appId: string;
-  key: string;
+  // key: string;
   value: string;
 }
 
 export interface RequestPayload {
   appId: string;
+  data?: any;
 }
 
 export interface SignInSuccessPayload {

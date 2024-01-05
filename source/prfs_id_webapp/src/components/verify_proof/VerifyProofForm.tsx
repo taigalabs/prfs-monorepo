@@ -19,6 +19,8 @@ import { useQuery } from "@tanstack/react-query";
 import { idApi, prfsApi2 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@tanstack/react-query";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
+import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
+import { initCircuitDriver, interpolateSystemAssetEndpoint } from "@taigalabs/prfs-proof-gen-js";
 
 import styles from "./VerifyProofForm.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -31,11 +33,19 @@ import {
 } from "@/components/default_module/DefaultModule";
 import CommitmentView from "@/components/commitment/CommitmentView";
 import CreateProof from "@/components/create_proof/CreateProof";
-import { QueryItemList } from "@/components/default_module/QueryItem";
-import { initCircuitDriver, interpolateSystemAssetEndpoint } from "@taigalabs/prfs-proof-gen-js";
+import {
+  QueryItem,
+  QueryItemLeftCol,
+  QueryItemList,
+  QueryItemMeta,
+  QueryItemRightCol,
+  QueryName,
+} from "@/components/default_module/QueryItem";
 import ProofView from "./ProofView";
 import { envs } from "@/envs";
-import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
+import { LoadDriverStatus, useLoadDriver } from "@/components/load_driver/useLoadDriver";
+import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
+import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 // import { ProofGenReceiptRaw, processReceipt } from "./receipt";
 
 enum Status {
@@ -59,35 +69,11 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
   const searchParams = useSearchParams();
   const [status, setStatus] = React.useState(Status.InProgress);
   const [verifyProofStatus, setVerifyProofStatus] = React.useState(Status.Standby);
-  const [driver, setDriver] = React.useState<CircuitDriver | null>(null);
   const [errorMsg, setErrorMsg] = React.useState("");
   const { data } = useProofType(verifyProofArgs?.proof_type_id);
-
-  React.useEffect(() => {
-    async function fn() {
-      if (data) {
-        const { payload, error } = data;
-        if (payload) {
-          const proofType = payload.prfs_proof_type;
-
-          const driverProps = interpolateSystemAssetEndpoint(
-            proofType.driver_properties,
-            `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
-          );
-          // setLoadDriverStatus(Status.InProgress);
-          const driver = await initCircuitDriver(
-            proofType.circuit_driver_id,
-            driverProps,
-            () => {},
-          );
-          setDriver(driver);
-        } else {
-          console.error("payload doesn't exist", error);
-        }
-      }
-    }
-    fn().then();
-  }, []);
+  const { driver, driverArtifacts, loadDriverStatus, loadDriverProgress } = useLoadDriver(
+    data?.payload?.prfs_proof_type,
+  );
 
   const handleClickSubmit = React.useCallback(async () => {
     if (verifyProofArgs && prfsEmbed && status === Status.Standby && data) {
@@ -124,6 +110,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
   }, [searchParams, verifyProofArgs, setErrorMsg, setStatus, data]);
 
   const proofType = data?.payload?.prfs_proof_type;
+  const tutorial = verifyProofArgs?.tutorial;
 
   return verifyProofArgs ? (
     <>
@@ -140,14 +127,56 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
         {/*   <p>{credential.id}</p> */}
         {/* </div> */}
         <QueryItemList sidePadding>
-          {proofType && <ProofView tutorial={verifyProofArgs.tutorial} proofType={proofType} />}
-          {/* <CreateProof */}
-          {/*   key={query.name} */}
-          {/*   credential={credential} */}
-          {/*   query={query} */}
-          {/*   setReceipt={setReceipt} */}
-          {/*   tutorial={proofGenArgs.tutorial} */}
-          {/* /> */}
+          {proofType && (
+            <QueryItem sidePadding>
+              <QueryItemMeta>
+                <QueryItemLeftCol>
+                  <TbNumbers />
+                </QueryItemLeftCol>
+                <QueryItemRightCol>
+                  <QueryName
+                    className={cn({ [styles.creating]: verifyProofStatus === Status.InProgress })}
+                  >
+                    {/* <span>{query.name}</span> */}
+                    {verifyProofStatus === Status.InProgress && <span> (Creating...)</span>}
+                  </QueryName>
+                  <div>{proofType.proof_type_id}</div>
+                  <div className={styles.driverMsg}>
+                    {/* {driverMsg} */}
+                    {/* {loadDriverStatus === Status.InProgress && ( */}
+                    {/*   <LoadDriverProgress progress={loadDriverProgress} /> */}
+                    {/* )} */}
+                  </div>
+                </QueryItemRightCol>
+              </QueryItemMeta>
+              <div className={styles.wrapper}>
+                <div className={styles.moduleWrapper}>
+                  {loadDriverStatus === LoadDriverStatus.InProgress && (
+                    <div className={styles.overlay}>
+                      <Spinner size={24} />
+                    </div>
+                  )}
+                  <TutorialStepper
+                    tutorialId={tutorial ? tutorial.tutorialId : null}
+                    step={tutorial ? tutorial.step : null}
+                    steps={[2]}
+                  >
+                    <div className={styles.form}>
+                      {/* <CircuitInputs */}
+                      {/*   circuitInputs={proofType.circuit_inputs as CircuitInput[]} */}
+                      {/*   formValues={formValues} */}
+                      {/*   setFormValues={setFormValues} */}
+                      {/*   formErrors={formErrors} */}
+                      {/*   setFormErrors={setFormErrors} */}
+                      {/*   presetVals={query.presetVals} */}
+                      {/*   credential={credential} */}
+                      {/* /> */}
+                    </div>
+                  </TutorialStepper>
+                </div>
+              </div>
+            </QueryItem>
+          )}
         </QueryItemList>
         {/* <div className={cn(styles.dataWarning, styles.sidePadding)}> */}
         {/*   <p className={styles.title}>Make sure you trust {verifyProofArgs.app_id} app</p> */}

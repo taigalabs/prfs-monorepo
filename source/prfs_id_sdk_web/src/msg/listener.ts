@@ -57,12 +57,17 @@ export function setupParentMsgHandler(queue: MessageQueue) {
         switch (data.type) {
           // inbound
           case "REQUEST_SIGN_IN":
+          case "REQUEST_VERIFY_PROOF":
           case "REQUEST_PROOF_GEN": {
             if (data.payload) {
-              const { appId } = data.payload as RequestPayload;
+              const { appId, data: d } = data.payload as RequestPayload;
               if (appId) {
                 const ky = createStorageKey(appId);
                 queue.push(ky, ev.ports[0]);
+
+                if (d) {
+                  dispatchStorageMsg({ appId, value: d });
+                }
               } else {
                 console.error("msg doesn't have a storage key, type: %s", data.type);
               }

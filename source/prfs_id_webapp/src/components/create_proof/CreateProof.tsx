@@ -131,7 +131,7 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
             <div className={styles.moduleWrapper}>
               {loadDriverStatus === LoadDriverStatus.InProgress && (
                 <div className={styles.overlay}>
-                  <Spinner size={32} color={colors.blue_12} />
+                  <Spinner size={28} color={colors.blue_12} />
                 </div>
               )}
               <TutorialStepper

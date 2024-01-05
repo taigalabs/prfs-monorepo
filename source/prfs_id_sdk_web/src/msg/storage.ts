@@ -7,6 +7,11 @@ export function createStorageKey(appId: string) {
   return `${KEY}__${appId}`;
 }
 
+// export function dispatchStorageRequest(msg: StorageMsg<any>) {
+//   const ky = createStorageKey(msg.appId);
+//   window.localStorage.setItem(ky, msg.value);
+// }
+
 export function dispatchStorageMsg(msg: StorageMsg<any>) {
   if (msg.appId) {
     const ky = createStorageKey(msg.appId);
