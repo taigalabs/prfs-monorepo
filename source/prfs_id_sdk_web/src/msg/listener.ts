@@ -91,17 +91,6 @@ export function setupParentMsgHandler(queue: MessageQueue) {
           }
 
           // outbound (id => host)
-          // case "COMMITMENT_RESULT": {
-          //   if (data.payload) {
-          //     const payload = data.payload as StorageMsg<CommitmentSuccessPayload>;
-          //     dispatchStorageMsg(payload);
-          //   } else {
-          //     console.error("msg doesn't contain payload");
-          //   }
-          //   ev.ports[0].postMessage(true);
-          //   break;
-          // }
-
           case "VERIFY_PROOF_RESULT":
           case "PROOF_GEN_RESULT":
           case "SIGN_IN_RESULT": {
