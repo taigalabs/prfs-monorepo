@@ -1,27 +1,20 @@
 import React from "react";
 import cn from "classnames";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
-import { useSearchParams } from "next/navigation";
 import {
-  PrfsIdCredential,
   sendMsgToChild,
   newPrfsIdMsg,
   newPrfsIdErrorMsg,
-  ProofGenArgs,
-  QueryType,
-  ProofGenSuccessPayload,
   VerifyProofArgs,
   VerifyProofResultPayload,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { encrypt } from "@taigalabs/prfs-crypto-js";
-import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
 import { useQuery } from "@tanstack/react-query";
-import { idApi, prfsApi2 } from "@taigalabs/prfs-api-js";
-import { useMutation } from "@tanstack/react-query";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
-import { CircuitDriver, Proof } from "@taigalabs/prfs-driver-interface";
-import { initCircuitDriver, interpolateSystemAssetEndpoint } from "@taigalabs/prfs-proof-gen-js";
+import { Proof } from "@taigalabs/prfs-driver-interface";
+import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 
 import styles from "./VerifyProofForm.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -32,8 +25,6 @@ import {
   DefaultModuleHeader,
   DefaultModuleTitle,
 } from "@/components/default_module/DefaultModule";
-import CommitmentView from "@/components/commitment/CommitmentView";
-import CreateProof from "@/components/create_proof/CreateProof";
 import {
   QueryItem,
   QueryItemLeftCol,
@@ -42,13 +33,8 @@ import {
   QueryItemRightCol,
   QueryName,
 } from "@/components/default_module/QueryItem";
-import ProofView from "./ProofView";
-import { envs } from "@/envs";
-import { LoadDriverStatus, useLoadDriver } from "@/components/load_driver/useLoadDriver";
-import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
-import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
-import LoadDriver from "../load_driver/LoadDriver";
-// import { ProofGenReceiptRaw, processReceipt } from "./receipt";
+import { useLoadDriver } from "@/components/load_driver/useLoadDriver";
+import LoadDriver from "@/components/load_driver/LoadDriver";
 
 enum Status {
   InProgress,
@@ -68,8 +54,6 @@ function useProofType(proofTypeId: string | undefined) {
 
 const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfsEmbed }) => {
   const i18n = React.useContext(i18nContext);
-  const searchParams = useSearchParams();
-  // const [status, setStatus] = React.useState(Status.InProgress);
   const [verifyProofStatus, setVerifyProofStatus] = React.useState(Status.Standby);
   const [proof, setProof] = React.useState<Proof | null>(null);
   const [errorMsg, setErrorMsg] = React.useState("");
@@ -92,7 +76,6 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
           const payload: Proof = JSON.parse(resp);
           payload.proofBytes = new Uint8Array(payload.proofBytes);
           setProof(payload);
-          console.log(11, payload);
         } catch (err) {
           console.error(err);
         }
@@ -133,10 +116,9 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
       setVerifyProofStatus(Status.Standby);
       // window.close();
     }
-  }, [searchParams, verifyProofArgs, setErrorMsg, data, setVerifyProofStatus, driver]);
+  }, [verifyProofArgs, setErrorMsg, data, setVerifyProofStatus, driver]);
 
   const proofType = data?.payload?.prfs_proof_type;
-  const tutorial = verifyProofArgs?.tutorial;
 
   return verifyProofArgs ? (
     <>
@@ -175,28 +157,17 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
               </QueryItemMeta>
               <div className={styles.wrapper}>
                 <div className={styles.moduleWrapper}>
-                  {loadDriverStatus === LoadDriverStatus.InProgress && (
-                    <div className={styles.overlay}>
-                      <Spinner size={24} />
-                    </div>
-                  )}
-                  <TutorialStepper
-                    tutorialId={tutorial ? tutorial.tutorialId : null}
-                    step={tutorial ? tutorial.step : null}
-                    steps={[2]}
-                  >
-                    <div className={styles.form}>
-                      {/* <CircuitInputs */}
-                      {/*   circuitInputs={proofType.circuit_inputs as CircuitInput[]} */}
-                      {/*   formValues={formValues} */}
-                      {/*   setFormValues={setFormValues} */}
-                      {/*   formErrors={formErrors} */}
-                      {/*   setFormErrors={setFormErrors} */}
-                      {/*   presetVals={query.presetVals} */}
-                      {/*   credential={credential} */}
-                      {/* /> */}
-                    </div>
-                  </TutorialStepper>
+                  <div className={styles.form}>
+                    {/* <CircuitInputs */}
+                    {/*   circuitInputs={proofType.circuit_inputs as CircuitInput[]} */}
+                    {/*   formValues={formValues} */}
+                    {/*   setFormValues={setFormValues} */}
+                    {/*   formErrors={formErrors} */}
+                    {/*   setFormErrors={setFormErrors} */}
+                    {/*   presetVals={query.presetVals} */}
+                    {/*   credential={credential} */}
+                    {/* /> */}
+                  </div>
                 </div>
               </div>
             </QueryItem>
@@ -234,7 +205,6 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
 export default VerifyProofForm;
 
 export interface VerifyProofFormProps {
-  // credential: PrfsIdCredential;
   verifyProofArgs: VerifyProofArgs | null;
   prfsEmbed: HTMLIFrameElement | null;
 }

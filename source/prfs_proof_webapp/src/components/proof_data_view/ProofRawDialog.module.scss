@@ -10,11 +10,12 @@
 }
 
 .dialog {
-  margin: 15px;
+  margin: 24px 12px;
   background-color: white;
   padding: 18px 20px;
   border-radius: 4px;
-  width: 520px;
+  max-width: 520px;
+  /* width: 100%; */
 }
 
 .header {
@@ -32,5 +33,6 @@
 }
 
 .data {
+  font-size: 13px;
   word-break: break-word;
 }
