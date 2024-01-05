@@ -102,20 +102,11 @@ export function setupParentMsgHandler(queue: MessageQueue) {
           //   break;
           // }
 
+          case "VERIFY_PROOF_RESULT":
+          case "PROOF_GEN_RESULT":
           case "SIGN_IN_RESULT": {
             if (data.payload) {
-              const payload = data.payload as StorageMsg<SignInSuccessPayload>;
-              dispatchStorageMsg(payload);
-            } else {
-              console.error("msg doesn't contain payload");
-            }
-            ev.ports[0].postMessage(true);
-            break;
-          }
-
-          case "PROOF_GEN_RESULT": {
-            if (data.payload) {
-              const payload = data.payload as StorageMsg<ProofGenSuccessPayload>;
+              const payload = data.payload as StorageMsg<any>;
               dispatchStorageMsg(payload);
             } else {
               console.error("msg doesn't contain payload");

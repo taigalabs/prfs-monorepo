@@ -11,6 +11,7 @@ import {
   QueryType,
   ProofGenSuccessPayload,
   VerifyProofArgs,
+  VerifyProofResultPayload,
 } from "@taigalabs/prfs-id-sdk-web";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { encrypt } from "@taigalabs/prfs-crypto-js";
@@ -101,37 +102,35 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
   }, [prfsEmbed, setProof]);
 
   const handleClickSubmit = React.useCallback(async () => {
-    if (verifyProofArgs && prfsEmbed && proof && data && proofType) {
+    if (verifyProofArgs && prfsEmbed && proof && data && proofType && driver) {
       setVerifyProofStatus(Status.InProgress);
       await delay(500);
-      // const payload: ProofGenSuccessPayload = {
-      //   receipt: processedReceipt,
-      // };
-      const res = await driver?.verify({
+      const res = await driver.verify({
         proof,
         circuitTypeId: proofType?.circuit_type_id,
       });
+      const payload: VerifyProofResultPayload = {
+        result: res,
+      };
+      const encrypted = JSON.stringify(
+        encrypt(verifyProofArgs.public_key, Buffer.from(JSON.stringify(payload))),
+      );
+      console.log("payload: %o, encrypted", payload, encrypted);
 
-      console.log(11, res);
-
-      // const encrypted = JSON.stringify(
-      //   encrypt(proofGenArgs.public_key, Buffer.from(JSON.stringify(payload))),
-      // );
-      // console.log("receipt: %o, encrypted", processedReceipt, encrypted);
-      // try {
-      //   await sendMsgToChild(
-      //     newPrfsIdMsg("PROOF_GEN_RESULT", {
-      //       appId: proofGenArgs.app_id,
-      //       key: proofGenArgs.public_key,
-      //       value: encrypted,
-      //     }),
-      //     prfsEmbed,
-      //   );
-      // } catch (err: any) {
-      //   await sendMsgToChild(newPrfsIdErrorMsg("PROOF_GEN_RESULT", err.toString()), prfsEmbed);
-      //   console.error(err);
-      // }
-      // setVerifyProofStatus(Status.Standby);
+      try {
+        await sendMsgToChild(
+          newPrfsIdMsg("VERIFY_PROOF_RESULT", {
+            appId: verifyProofArgs.app_id,
+            // key: proofGenArgs.public_key,
+            value: encrypted,
+          }),
+          prfsEmbed,
+        );
+      } catch (err: any) {
+        await sendMsgToChild(newPrfsIdErrorMsg("VERIFY_PROOF_RESULT", err.toString()), prfsEmbed);
+        console.error(err);
+      }
+      setVerifyProofStatus(Status.Standby);
       // window.close();
     }
   }, [searchParams, verifyProofArgs, setErrorMsg, data, setVerifyProofStatus, driver]);
