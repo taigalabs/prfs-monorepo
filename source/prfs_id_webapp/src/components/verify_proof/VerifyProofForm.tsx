@@ -68,8 +68,9 @@ function useProofType(proofTypeId: string | undefined) {
 const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfsEmbed }) => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
-  const [status, setStatus] = React.useState(Status.InProgress);
+  // const [status, setStatus] = React.useState(Status.InProgress);
   const [verifyProofStatus, setVerifyProofStatus] = React.useState(Status.Standby);
+  const [proof, setProof] = React.useState<Proof | null>(null);
   const [errorMsg, setErrorMsg] = React.useState("");
   const { data } = useProofType(verifyProofArgs?.proof_type_id);
   const { driver, driverArtifacts, loadDriverStatus, loadDriverProgress } = useLoadDriver(
@@ -89,6 +90,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
         try {
           const payload: Proof = JSON.parse(resp);
           payload.proofBytes = new Uint8Array(payload.proofBytes);
+          setProof(payload);
           console.log(11, payload);
         } catch (err) {
           console.error(err);
@@ -96,20 +98,22 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
       }
     }
     fn().then();
-  }, [prfsEmbed, setStatus]);
+  }, [prfsEmbed, setProof]);
 
   const handleClickSubmit = React.useCallback(async () => {
-    if (verifyProofArgs && prfsEmbed && status === Status.Standby && data) {
-      // if (!receipt) {
-      //   setErrorMsg("no proof gen receipt");
-      //   return;
-      // }
-      // setStatus(Status.InProgress);
-      // await delay(500);
-      // const processedReceipt = await processReceipt(receipt);
+    if (verifyProofArgs && prfsEmbed && proof && data && proofType) {
+      setVerifyProofStatus(Status.InProgress);
+      await delay(500);
       // const payload: ProofGenSuccessPayload = {
       //   receipt: processedReceipt,
       // };
+      const res = await driver?.verify({
+        proof,
+        circuitTypeId: proofType?.circuit_type_id,
+      });
+
+      console.log(11, res);
+
       // const encrypted = JSON.stringify(
       //   encrypt(proofGenArgs.public_key, Buffer.from(JSON.stringify(payload))),
       // );
@@ -127,10 +131,10 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
       //   await sendMsgToChild(newPrfsIdErrorMsg("PROOF_GEN_RESULT", err.toString()), prfsEmbed);
       //   console.error(err);
       // }
-      // setStatus(Status.Standby);
+      // setVerifyProofStatus(Status.Standby);
       // window.close();
     }
-  }, [searchParams, verifyProofArgs, setErrorMsg, setStatus, data]);
+  }, [searchParams, verifyProofArgs, setErrorMsg, data, setVerifyProofStatus, driver]);
 
   const proofType = data?.payload?.prfs_proof_type;
   const tutorial = verifyProofArgs?.tutorial;
@@ -138,18 +142,13 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
   return verifyProofArgs ? (
     <>
       <DefaultInnerPadding noSidePadding>
-        {(status === Status.InProgress || verifyProofStatus === Status.InProgress) && (
-          <div className={styles.overlay} />
-        )}
+        {(!proof || verifyProofStatus === Status.InProgress) && <div className={styles.overlay} />}
         <DefaultModuleHeader noTopPadding className={styles.sidePadding}>
           <DefaultModuleTitle>
             You want to verify a proof at{" "}
             <span className={styles.blueText}>{verifyProofArgs.app_id}</span>
           </DefaultModuleTitle>
         </DefaultModuleHeader>
-        {/* <div className={cn(styles.prfsId, styles.sidePadding)}> */}
-        {/*   <p>{credential.id}</p> */}
-        {/* </div> */}
         <QueryItemList sidePadding>
           {proofType && (
             <QueryItem sidePadding>
@@ -161,8 +160,8 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
                   <QueryName
                     className={cn({ [styles.creating]: verifyProofStatus === Status.InProgress })}
                   >
-                    {/* <span>{query.name}</span> */}
-                    {verifyProofStatus === Status.InProgress && <span> (Creating...)</span>}
+                    <span>{i18n.proof}</span>
+                    {verifyProofStatus === Status.InProgress && <span> (Verifying...)</span>}
                   </QueryName>
                   <div>{proofType.proof_type_id}</div>
                   <div className={styles.driverMsg}>

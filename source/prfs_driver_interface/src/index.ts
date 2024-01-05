@@ -22,10 +22,7 @@ export interface ProveArgs<T> {
 }
 
 export interface VerifyArgs {
-  proof: {
-    proofBytes: Uint8Array;
-    publicInputSer: string;
-  };
+  proof: Proof;
   circuitTypeId: string;
 }
 
