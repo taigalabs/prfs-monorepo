@@ -41,7 +41,8 @@ export type PrfsIdMsgType =
   | "PROOF_GEN_RESULT_ACK"
   | "REQUEST_SIGN_IN"
   | "REQUEST_PROOF_GEN"
-  | "REQUEST_VERIFY_PROOF";
+  | "REQUEST_VERIFY_PROOF"
+  | "GET_MSG";
 
 export function newPrfsIdMsg<T extends PrfsIdMsgType>(
   type: PrfsIdMsgType,

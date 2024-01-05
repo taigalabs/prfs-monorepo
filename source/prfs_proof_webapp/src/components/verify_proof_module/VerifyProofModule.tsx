@@ -111,10 +111,17 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
             return;
           }
 
+          console.log(123);
+          const prf = { ...proof };
+          prf.proofBytes = Array.from(prf.proofBytes);
+          const data = JSON.stringify(prf);
+          console.log("sending you message", data);
           const resp = await sendMsgToChild(
-            newPrfsIdMsg("REQUEST_VERIFY_PROOF", { appId: verifyProofArgs.app_id }),
+            newPrfsIdMsg("REQUEST_VERIFY_PROOF", { appId: verifyProofArgs.app_id, data }),
             prfsEmbed,
           );
+
+          console.log(22, resp);
 
           // if (resp) {
           //   try {

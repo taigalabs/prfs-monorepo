@@ -50,7 +50,7 @@ export function setupChildMsgHandler() {
 export function setupParentMsgHandler(queue: MessageQueue) {
   function listener(ev: MessageEvent) {
     if (ev.ports.length > 0) {
-      console.log("parent msg", ev.data, ev.ports);
+      console.log("parent msg11 ", ev.data, ev.ports);
       const data = ev.data as PrfsIdMsg<any>;
 
       if (data.type) {
@@ -65,7 +65,9 @@ export function setupParentMsgHandler(queue: MessageQueue) {
                 const ky = createStorageKey(appId);
                 queue.push(ky, ev.ports[0]);
 
+                console.log(123, d);
                 if (d) {
+                  console.log("dispatching msg w/ data", d);
                   dispatchStorageMsg({ appId, value: d });
                 }
               } else {

@@ -75,6 +75,15 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
     data?.payload?.prfs_proof_type,
   );
 
+  React.useEffect(() => {
+    async function fn() {
+      if (prfsEmbed) {
+        await sendMsgToChild(newPrfsIdMsg("GET_MSG", null), prfsEmbed);
+      }
+    }
+    fn().then();
+  }, [prfsEmbed]);
+
   const handleClickSubmit = React.useCallback(async () => {
     if (verifyProofArgs && prfsEmbed && status === Status.Standby && data) {
       // if (!receipt) {

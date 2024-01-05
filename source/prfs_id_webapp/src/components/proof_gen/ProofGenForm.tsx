@@ -135,7 +135,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         await sendMsgToChild(
           newPrfsIdMsg("PROOF_GEN_RESULT", {
             appId: proofGenArgs.app_id,
-            key: proofGenArgs.public_key,
+            // key: proofGenArgs.public_key,
             value: encrypted,
           }),
           prfsEmbed,

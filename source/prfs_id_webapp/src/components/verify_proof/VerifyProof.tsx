@@ -76,7 +76,7 @@ const VerifyProof: React.FC = () => {
         dispatch(goToStep(tutorial.step));
       }
     }
-  }, [searchParams, setStatus, setErrorMsg, verifyProofArgs, isPrfsReady, dispatch]);
+  }, [setStatus, setErrorMsg, verifyProofArgs, isPrfsReady, dispatch]);
 
   const handleCloseErrorDialog = React.useCallback(() => {
     window.close();
