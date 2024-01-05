@@ -15,7 +15,8 @@ import {
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { encrypt } from "@taigalabs/prfs-crypto-js";
 import { PrfsIdentitySignInRequest } from "@taigalabs/prfs-entities/bindings/PrfsIdentitySignInRequest";
-import { idApi } from "@taigalabs/prfs-api-js";
+import { useQuery } from "@tanstack/react-query";
+import { idApi, prfsApi2 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@tanstack/react-query";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
 
@@ -31,6 +32,7 @@ import {
 import CommitmentView from "@/components/commitment/CommitmentView";
 import CreateProof from "@/components/create_proof/CreateProof";
 import { QueryItemList } from "@/components/default_module/QueryItem";
+import { interpolateSystemAssetEndpoint } from "@taigalabs/prfs-proof-gen-js";
 // import { ProofGenReceiptRaw, processReceipt } from "./receipt";
 
 enum Status {
@@ -38,83 +40,48 @@ enum Status {
   Standby,
 }
 
-const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
-  verifyProofArgs,
-  // credential,
-  prfsEmbed,
-}) => {
+function useProofType(proofTypeId: string | undefined) {
+  return useQuery({
+    queryKey: ["get_prfs_proof_type_by_proof_type_id", proofTypeId],
+    queryFn: () => {
+      if (proofTypeId) {
+        return prfsApi2("get_prfs_proof_type_by_proof_type_id", { proof_type_id: proofTypeId });
+      }
+    },
+  });
+}
+
+const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfsEmbed }) => {
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
   const [status, setStatus] = React.useState(Status.InProgress);
   const [verifyProofStatus, setVerifyProofStatus] = React.useState(Status.Standby);
   const [errorMsg, setErrorMsg] = React.useState("");
-  const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
-    mutationFn: (req: PrfsIdentitySignInRequest) => {
-      return idApi("sign_in_prfs_identity", req);
-    },
-  });
-  // const [receipt, setReceipt] = React.useState<ProofGenReceiptRaw | null>(null);
-  // const [queryElems, setQueryElems] = React.useState<React.ReactNode>(null);
+  const { data } = useProofType(verifyProofArgs?.proof_type_id);
 
-  // React.useEffect(() => {
-  //   async function fn() {
-  //     try {
-  //       if (proofGenArgs) {
-  //         let elems = [];
-  //         const receipt: Record<string, string> = {};
-  //         for (const query of proofGenArgs.queries) {
-  //           switch (query.queryType) {
-  //             case QueryType.CREATE_PROOF: {
-  //               const elem = (
-  //                 <CreateProof
-  //                   key={query.name}
-  //                   credential={credential}
-  //                   query={query}
-  //                   setReceipt={setReceipt}
-  //                   tutorial={proofGenArgs.tutorial}
-  //                 />
-  //               );
-  //               elems.push(elem);
-  //               break;
-  //             }
-  //             case QueryType.COMMITMENT: {
-  //               const elem = (
-  //                 <CommitmentView
-  //                   key={query.name}
-  //                   credential={credential}
-  //                   query={query}
-  //                   setReceipt={setReceipt}
-  //                 />
-  //               );
-  //               elems.push(elem);
-  //               break;
-  //             }
-  //             default:
-  //               console.error("unsupported query type", query);
-  //               return;
-  //           }
-  //         }
-
-  //         setReceipt(receipt);
-  //         setQueryElems(elems);
-  //         setStatus(Status.Standby);
-  //       }
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   }
-  //   fn().then();
-  // }, [searchParams, setReceipt, setQueryElems, proofGenArgs, setStatus]);
+  React.useEffect(() => {
+    if (data) {
+      const { payload, error } = data;
+      if (payload) {
+        const driverProps = interpolateSystemAssetEndpoint(
+          proofType.driver_properties,
+          `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
+        );
+        setLoadDriverStatus(Status.InProgress);
+        const driver = await initCircuitDriver(
+          proofType.circuit_driver_id,
+          driverProps,
+          handleDriverEv,
+        );
+        setDriver(driver);
+      } else {
+        console.error("payload doesn't exist", error);
+      }
+    }
+  }, []);
 
   const handleClickSubmit = React.useCallback(async () => {
-    if (verifyProofArgs && prfsEmbed && status === Status.Standby) {
-      // const { payload: _signInRequestPayload, error } = await prfsIdentitySignInRequest({
-      //   identity_id: credential.id,
-      // });
-      // if (error) {
-      // setErrorMsg(error);
-      //   return;
-      // }
+    if (verifyProofArgs && prfsEmbed && status === Status.Standby && data) {
       // if (!receipt) {
       //   setErrorMsg("no proof gen receipt");
       //   return;
@@ -145,7 +112,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({
       // setStatus(Status.Standby);
       // window.close();
     }
-  }, [searchParams, verifyProofArgs, setErrorMsg, setStatus]);
+  }, [searchParams, verifyProofArgs, setErrorMsg, setStatus, data]);
 
   return verifyProofArgs ? (
     <>

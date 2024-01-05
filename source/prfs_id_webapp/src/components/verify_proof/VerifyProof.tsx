@@ -10,6 +10,7 @@ import {
   parseVerifyProofSearchParams,
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
+import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 
 import styles from "./VerifyProof.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -28,7 +29,7 @@ import { goToStep } from "@/state/tutorialReducer";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import TutorialDefault from "@/components/tutorial_default/TutorialDefault";
 import TutorialPlaceholder from "../tutorial_default/TutorialPlaceholder";
-import VerifyProofForm from "./VerifyProofInfo";
+import VerifyProofForm from "./VerifyProofForm";
 
 enum ProofGenStep {
   PrfsIdCredential,
@@ -44,6 +45,7 @@ const VerifyProof: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const [status, setStatus] = React.useState(Status.Loading);
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
+  const [driver, setDriver] = React.useState<CircuitDriver | null>(null);
   const searchParams = useSearchParams();
   const dispatch = useAppDispatch();
   const [step, setStep] = React.useState(ProofGenStep.PrfsIdCredential);

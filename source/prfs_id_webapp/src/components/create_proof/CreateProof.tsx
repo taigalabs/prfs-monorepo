@@ -174,14 +174,14 @@ const CreateProof: React.FC<CreateProofProps> = ({ credential, query, setReceipt
           }
         }
 
-        const driverProperties = interpolateSystemAssetEndpoint(
+        const driverProps = interpolateSystemAssetEndpoint(
           proofType.driver_properties,
           `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
         );
         setLoadDriverStatus(Status.InProgress);
         const driver = await initCircuitDriver(
           proofType.circuit_driver_id,
-          driverProperties,
+          driverProps,
           handleDriverEv,
         );
         setDriver(driver);
