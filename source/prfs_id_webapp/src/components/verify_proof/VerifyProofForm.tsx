@@ -32,7 +32,10 @@ import {
 import CommitmentView from "@/components/commitment/CommitmentView";
 import CreateProof from "@/components/create_proof/CreateProof";
 import { QueryItemList } from "@/components/default_module/QueryItem";
-import { interpolateSystemAssetEndpoint } from "@taigalabs/prfs-proof-gen-js";
+import { initCircuitDriver, interpolateSystemAssetEndpoint } from "@taigalabs/prfs-proof-gen-js";
+import ProofView from "./ProofView";
+import { envs } from "@/envs";
+import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 // import { ProofGenReceiptRaw, processReceipt } from "./receipt";
 
 enum Status {
@@ -56,28 +59,34 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
   const searchParams = useSearchParams();
   const [status, setStatus] = React.useState(Status.InProgress);
   const [verifyProofStatus, setVerifyProofStatus] = React.useState(Status.Standby);
+  const [driver, setDriver] = React.useState<CircuitDriver | null>(null);
   const [errorMsg, setErrorMsg] = React.useState("");
   const { data } = useProofType(verifyProofArgs?.proof_type_id);
 
   React.useEffect(() => {
-    if (data) {
-      const { payload, error } = data;
-      if (payload) {
-        const driverProps = interpolateSystemAssetEndpoint(
-          proofType.driver_properties,
-          `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
-        );
-        setLoadDriverStatus(Status.InProgress);
-        const driver = await initCircuitDriver(
-          proofType.circuit_driver_id,
-          driverProps,
-          handleDriverEv,
-        );
-        setDriver(driver);
-      } else {
-        console.error("payload doesn't exist", error);
+    async function fn() {
+      if (data) {
+        const { payload, error } = data;
+        if (payload) {
+          const proofType = payload.prfs_proof_type;
+
+          const driverProps = interpolateSystemAssetEndpoint(
+            proofType.driver_properties,
+            `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
+          );
+          // setLoadDriverStatus(Status.InProgress);
+          const driver = await initCircuitDriver(
+            proofType.circuit_driver_id,
+            driverProps,
+            handleDriverEv,
+          );
+          setDriver(driver);
+        } else {
+          console.error("payload doesn't exist", error);
+        }
       }
     }
+    fn().then();
   }, []);
 
   const handleClickSubmit = React.useCallback(async () => {
@@ -129,6 +138,10 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
         {/*   <p>{credential.id}</p> */}
         {/* </div> */}
         <QueryItemList sidePadding>
+          <ProofView
+            tutorial={verifyProofArgs.tutorial}
+            proofType={data?.payload?.prfs_proof_type}
+          />
           {/* <CreateProof */}
           {/*   key={query.name} */}
           {/*   credential={credential} */}

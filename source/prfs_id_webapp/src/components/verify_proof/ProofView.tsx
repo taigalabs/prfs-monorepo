@@ -29,6 +29,7 @@ import {
 } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
 import { useAppSelector } from "@/state/hooks";
+import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
 enum Status {
   Standby,
@@ -67,7 +68,7 @@ const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress }) => 
   return <div className={styles.driverProgress}>{el}</div>;
 };
 
-const ProofView: React.FC<ProofViewProps> = ({ credential, query, setReceipt, tutorial }) => {
+const ProofView: React.FC<ProofViewProps> = ({ tutorial, proofType }) => {
   const i18n = React.useContext(i18nContext);
   const [driverMsg, setDriverMsg] = React.useState<React.ReactNode>(null);
   const [loadDriverProgress, setLoadDriverProgress] = React.useState<Record<string, any> | null>(
@@ -81,126 +82,122 @@ const ProofView: React.FC<ProofViewProps> = ({ credential, query, setReceipt, tu
   const [formValues, setFormValues] = React.useState<Record<string, any>>({});
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>({});
   const tutorialStep = useAppSelector(state => state.tutorial.tutorialStep);
-  const { data } = useProofType(query?.proofTypeId);
+  // const { data } = useProofType(query?.proofTypeId);
   const handleProofGenEvent = React.useCallback((ev: CreateProofEvent) => {
     const { payload } = ev;
     setSystemMsg(payload.payload);
   }, []);
 
   React.useEffect(() => {
-    const { name } = query;
-
-    setReceipt(() => ({
-      [name]: async () => {
-        const proofType = data?.payload?.prfs_proof_type;
-        if (!proofType) {
-          return;
-        }
-        if (!driver) {
-          return;
-        }
-        if (createProofStatus === Status.InProgress) {
-          return;
-        }
-        try {
-          const inputs = await validateInputs(formValues, proofType, setFormErrors);
-          if (inputs === null) {
-            console.error("Input validation fail to create a proof");
-          }
-
-          setCreateProofStatus(Status.InProgress);
-          const proveReceipt = await driver.prove({
-            inputs,
-            circuitTypeId: proofType.circuit_type_id,
-            eventListener: handleProofGenEvent,
-          });
-          setCreateProofStatus(Status.Standby);
-          proveReceipt.proof.proofBytes = Array.from(proveReceipt.proof.proofBytes);
-          return proveReceipt;
-        } catch (err: any) {
-          setCreateProofStatus(Status.Standby);
-          setSystemMsg(err.toString());
-          throw err;
-        }
-      },
-    }));
-  }, [formValues, setReceipt, query, driver]);
+    // const { name } = query;
+    // setReceipt(() => ({
+    //   [name]: async () => {
+    //     const proofType = data?.payload?.prfs_proof_type;
+    //     if (!proofType) {
+    //       return;
+    //     }
+    //     if (!driver) {
+    //       return;
+    //     }
+    //     if (createProofStatus === Status.InProgress) {
+    //       return;
+    //     }
+    //     try {
+    //       const inputs = await validateInputs(formValues, proofType, setFormErrors);
+    //       if (inputs === null) {
+    //         console.error("Input validation fail to create a proof");
+    //       }
+    //       setCreateProofStatus(Status.InProgress);
+    //       const proveReceipt = await driver.prove({
+    //         inputs,
+    //         circuitTypeId: proofType.circuit_type_id,
+    //         eventListener: handleProofGenEvent,
+    //       });
+    //       setCreateProofStatus(Status.Standby);
+    //       proveReceipt.proof.proofBytes = Array.from(proveReceipt.proof.proofBytes);
+    //       return proveReceipt;
+    //     } catch (err: any) {
+    //       setCreateProofStatus(Status.Standby);
+    //       setSystemMsg(err.toString());
+    //       throw err;
+    //     }
+    //   },
+    // }));
+  }, [formValues, driver]);
 
   React.useEffect(() => {
     async function fn() {
-      const proofType = data?.payload?.prfs_proof_type;
-      if (proofType) {
-        const since = dayjs();
-        function handleDriverEv(ev: DriverEvent) {
-          const { type, payload } = ev;
-          if (!proofType) {
-            return;
-          }
-
-          switch (type) {
-            case "LOAD_DRIVER_EVENT": {
-              if (payload.asset_label && payload.progress) {
-                setLoadDriverProgress(oldVal => ({
-                  ...oldVal,
-                  [payload.asset_label!]: payload.progress,
-                }));
-              }
-              break;
-            }
-            case "LOAD_DRIVER_SUCCESS": {
-              const now = dayjs();
-              const diff = now.diff(since, "seconds", true).toFixed(2);
-              const { artifactCount } = payload;
-              setDriverMsg(
-                <p className={styles.result}>
-                  <a
-                    href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${proofType.circuit_driver_id}`}
-                  >
-                    <span>{proofType.circuit_driver_id}</span>
-                    <BiLinkExternal />
-                  </a>
-                  <span className={styles.diff}>
-                    ({diff}s, {artifactCount} files)
-                  </span>
-                </p>,
-              );
-              setLoadDriverStatus(Status.Standby);
-              break;
-            }
-            default: {
-              console.error("Cannot handle this type of driver msg", ev);
-              break;
-            }
-          }
-        }
-
-        const driverProperties = interpolateSystemAssetEndpoint(
-          proofType.driver_properties,
-          `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
-        );
-        setLoadDriverStatus(Status.InProgress);
-        const driver = await initCircuitDriver(
-          proofType.circuit_driver_id,
-          driverProperties,
-          handleDriverEv,
-        );
-        setDriver(driver);
-      }
+      // const proofType = data?.payload?.prfs_proof_type;
+      // if (proofType) {
+      //   const since = dayjs();
+      //   function handleDriverEv(ev: DriverEvent) {
+      //     const { type, payload } = ev;
+      //     if (!proofType) {
+      //       return;
+      //     }
+      //     switch (type) {
+      //       case "LOAD_DRIVER_EVENT": {
+      //         if (payload.asset_label && payload.progress) {
+      //           setLoadDriverProgress(oldVal => ({
+      //             ...oldVal,
+      //             [payload.asset_label!]: payload.progress,
+      //           }));
+      //         }
+      //         break;
+      //       }
+      //       case "LOAD_DRIVER_SUCCESS": {
+      //         const now = dayjs();
+      //         const diff = now.diff(since, "seconds", true).toFixed(2);
+      //         const { artifactCount } = payload;
+      //         setDriverMsg(
+      //           <p className={styles.result}>
+      //             <a
+      //               href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${proofType.circuit_driver_id}`}
+      //             >
+      //               <span>{proofType.circuit_driver_id}</span>
+      //               <BiLinkExternal />
+      //             </a>
+      //             <span className={styles.diff}>
+      //               ({diff}s, {artifactCount} files)
+      //             </span>
+      //           </p>,
+      //         );
+      //         setLoadDriverStatus(Status.Standby);
+      //         break;
+      //       }
+      //       default: {
+      //         console.error("Cannot handle this type of driver msg", ev);
+      //         break;
+      //       }
+      //     }
+      //   }
+      //   const driverProperties = interpolateSystemAssetEndpoint(
+      //     proofType.driver_properties,
+      //     `${envs.NEXT_PUBLIC_PRFS_ASSET_SERVER_ENDPOINT}/assets/circuits`,
+      //   );
+      //   setLoadDriverStatus(Status.InProgress);
+      //   const driver = await initCircuitDriver(
+      //     proofType.circuit_driver_id,
+      //     driverProperties,
+      //     handleDriverEv,
+      //   );
+      //   setDriver(driver);
+      // }
     }
     fn().then();
   }, [
-    data,
-    query,
+    // data,
+    // query,
     setCreateProofStatus,
     setLoadDriverProgress,
     setLoadDriverStatus,
     setSystemMsg,
     setDriverMsg,
     setDriver,
-    setReceipt,
+    // setReceipt,
   ]);
 
-  const proofType = data?.payload?.prfs_proof_type;
+  // const proofType = data?.payload?.prfs_proof_type;
   return (
     proofType && (
       <>
@@ -213,7 +210,7 @@ const ProofView: React.FC<ProofViewProps> = ({ credential, query, setReceipt, tu
               <QueryName
                 className={cn({ [styles.creating]: createProofStatus === Status.InProgress })}
               >
-                <span>{query.name}</span>
+                {/* <span>{query.name}</span> */}
                 {createProofStatus === Status.InProgress && <span> (Creating...)</span>}
               </QueryName>
               <div>{proofType.proof_type_id}</div>
@@ -238,15 +235,15 @@ const ProofView: React.FC<ProofViewProps> = ({ credential, query, setReceipt, tu
                 steps={[2]}
               >
                 <div className={styles.form}>
-                  <CircuitInputs
-                    circuitInputs={proofType.circuit_inputs as CircuitInput[]}
-                    formValues={formValues}
-                    setFormValues={setFormValues}
-                    formErrors={formErrors}
-                    setFormErrors={setFormErrors}
-                    presetVals={query.presetVals}
-                    credential={credential}
-                  />
+                  {/* <CircuitInputs */}
+                  {/*   circuitInputs={proofType.circuit_inputs as CircuitInput[]} */}
+                  {/*   formValues={formValues} */}
+                  {/*   setFormValues={setFormValues} */}
+                  {/*   formErrors={formErrors} */}
+                  {/*   setFormErrors={setFormErrors} */}
+                  {/*   presetVals={query.presetVals} */}
+                  {/*   credential={credential} */}
+                  {/* /> */}
                 </div>
               </TutorialStepper>
               {systemMsg && <div className={styles.systemMsg}>{systemMsg}</div>}
@@ -262,10 +259,11 @@ const ProofView: React.FC<ProofViewProps> = ({ credential, query, setReceipt, tu
 export default ProofView;
 
 export interface ProofViewProps {
-  credential: PrfsIdCredential;
-  query: CreateProofQuery;
-  setReceipt: React.Dispatch<React.SetStateAction<ProofGenReceiptRaw | null>>;
+  // credential: PrfsIdCredential;
+  // query: CreateProofQuery;
+  // setReceipt: React.Dispatch<React.SetStateAction<ProofGenReceiptRaw | null>>;
   tutorial: TutorialArgs | undefined;
+  proofType: PrfsProofType;
 }
 
 export interface LoadDriverProgressProps {

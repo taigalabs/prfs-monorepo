@@ -45,11 +45,8 @@ const VerifyProof: React.FC = () => {
   const i18n = React.useContext(i18nContext);
   const [status, setStatus] = React.useState(Status.Loading);
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
-  const [driver, setDriver] = React.useState<CircuitDriver | null>(null);
   const searchParams = useSearchParams();
   const dispatch = useAppDispatch();
-  const [step, setStep] = React.useState(ProofGenStep.PrfsIdCredential);
-  const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
   const verifyProofArgs = React.useMemo(() => {
     try {
       const args = parseVerifyProofSearchParams(searchParams as URLSearchParams);
@@ -80,7 +77,7 @@ const VerifyProof: React.FC = () => {
         dispatch(goToStep(tutorial.step));
       }
     }
-  }, [searchParams, setStatus, setErrorMsg, setStep, verifyProofArgs, isPrfsReady, dispatch]);
+  }, [searchParams, setStatus, setErrorMsg, verifyProofArgs, isPrfsReady, dispatch]);
 
   const handleCloseErrorDialog = React.useCallback(() => {
     window.close();
