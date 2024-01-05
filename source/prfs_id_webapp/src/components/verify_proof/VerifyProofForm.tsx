@@ -78,7 +78,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
           const driver = await initCircuitDriver(
             proofType.circuit_driver_id,
             driverProps,
-            handleDriverEv,
+            () => {},
           );
           setDriver(driver);
         } else {
@@ -123,6 +123,8 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
     }
   }, [searchParams, verifyProofArgs, setErrorMsg, setStatus, data]);
 
+  const proofType = data?.payload?.prfs_proof_type;
+
   return verifyProofArgs ? (
     <>
       <DefaultInnerPadding noSidePadding>
@@ -138,10 +140,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
         {/*   <p>{credential.id}</p> */}
         {/* </div> */}
         <QueryItemList sidePadding>
-          <ProofView
-            tutorial={verifyProofArgs.tutorial}
-            proofType={data?.payload?.prfs_proof_type}
-          />
+          {proofType && <ProofView tutorial={verifyProofArgs.tutorial} proofType={proofType} />}
           {/* <CreateProof */}
           {/*   key={query.name} */}
           {/*   credential={credential} */}
