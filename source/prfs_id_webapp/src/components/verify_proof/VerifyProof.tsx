@@ -4,7 +4,11 @@ import React from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import { PrfsIdCredential, parseProofGenSearchParams } from "@taigalabs/prfs-id-sdk-web";
+import {
+  PrfsIdCredential,
+  parseProofGenSearchParams,
+  parseVerifyProofSearchParams,
+} from "@taigalabs/prfs-id-sdk-web";
 import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
 import styles from "./ProofGen.module.scss";
@@ -43,9 +47,9 @@ const VerifyProof: React.FC = () => {
   const dispatch = useAppDispatch();
   const [step, setStep] = React.useState(ProofGenStep.PrfsIdCredential);
   const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
-  const proofGenArgs = React.useMemo(() => {
+  const verifyProofArgs = React.useMemo(() => {
     try {
-      const args = parseProofGenSearchParams(searchParams as URLSearchParams);
+      const args = parseVerifyProofSearchParams(searchParams as URLSearchParams);
       return args;
     } catch (err: any) {
       return null;
@@ -54,13 +58,15 @@ const VerifyProof: React.FC = () => {
   const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
 
   React.useEffect(() => {
-    if (proofGenArgs) {
-      const { public_key, app_id, tutorial } = proofGenArgs;
+    if (verifyProofArgs) {
+      const { public_key, app_id, tutorial, proof_type_id } = verifyProofArgs;
 
       if (!public_key) {
         setErrorMsg("Invalid URL. 'public_key' is missing. Closing the window");
       } else if (!app_id) {
         setErrorMsg("Invalid URL. 'app_id' is missing. Closing the window");
+      } else if (!proof_type_id) {
+        setErrorMsg("Invalid URL. 'proof_type_id' is missing. Closing the window");
       } else {
         if (isPrfsReady) {
           setStatus(Status.Standby);
@@ -71,7 +77,7 @@ const VerifyProof: React.FC = () => {
         dispatch(goToStep(tutorial.step));
       }
     }
-  }, [searchParams, setStatus, setErrorMsg, setStep, proofGenArgs, isPrfsReady, dispatch]);
+  }, [searchParams, setStatus, setErrorMsg, setStep, verifyProofArgs, isPrfsReady, dispatch]);
 
   const handleCloseErrorDialog = React.useCallback(() => {
     window.close();
@@ -122,6 +128,7 @@ const VerifyProof: React.FC = () => {
       <DefaultForm>
         {errorMsg && <PrfsIdErrorDialog errorMsg={errorMsg} handleClose={handleCloseErrorDialog} />}
         <DefaultTopLabel>{i18n.create_data_with_prfs_id}</DefaultTopLabel>
+        123123
         {/* {status === Status.Loading ? ( */}
         {/*   <div className={styles.overlay}> */}
         {/*     <Spinner color="#1b62c0" /> */}
@@ -129,12 +136,12 @@ const VerifyProof: React.FC = () => {
         {/* ) : ( */}
         {/*   content */}
         {/* )} */}
-        <TutorialDefault tutorial={proofGenArgs?.tutorial} />
+        <TutorialDefault tutorial={verifyProofArgs?.tutorial} />
       </DefaultForm>
       <DefaultModuleFooter>
         <GlobalFooter />
       </DefaultModuleFooter>
-      <TutorialPlaceholder tutorial={proofGenArgs?.tutorial} />
+      <TutorialPlaceholder tutorial={verifyProofArgs?.tutorial} />
     </DefaultModule>
   );
 };
