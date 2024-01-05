@@ -78,4 +78,6 @@ type MsgPayload<T extends PrfsIdMsgType> = //
     ? RequestPayload
     : T extends "REQUEST_VERIFY_PROOF"
     ? RequestPayload
+    : T extends "GET_MSG"
+    ? RequestPayload
     : null;

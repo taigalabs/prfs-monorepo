@@ -153,8 +153,9 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   return proofGenArgs ? (
     <>
       <DefaultInnerPadding noSidePadding>
-        {status === Status.InProgress ||
-          (createProofStatus === Status.InProgress && <div className={styles.overlay} />)}
+        {(status === Status.InProgress || createProofStatus === Status.InProgress) && (
+          <div className={styles.overlay} />
+        )}
         <DefaultModuleHeader noTopPadding className={styles.sidePadding}>
           <DefaultModuleTitle>
             <span className={styles.blueText}>{proofGenArgs.app_id}</span> wants you to submit

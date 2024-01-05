@@ -19,7 +19,7 @@ import { useQuery } from "@tanstack/react-query";
 import { idApi, prfsApi2 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@tanstack/react-query";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
-import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
+import { CircuitDriver, Proof } from "@taigalabs/prfs-driver-interface";
 import { initCircuitDriver, interpolateSystemAssetEndpoint } from "@taigalabs/prfs-proof-gen-js";
 
 import styles from "./VerifyProofForm.module.scss";
@@ -46,6 +46,7 @@ import { envs } from "@/envs";
 import { LoadDriverStatus, useLoadDriver } from "@/components/load_driver/useLoadDriver";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
+import LoadDriver from "../load_driver/LoadDriver";
 // import { ProofGenReceiptRaw, processReceipt } from "./receipt";
 
 enum Status {
@@ -77,12 +78,25 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
 
   React.useEffect(() => {
     async function fn() {
-      if (prfsEmbed) {
-        await sendMsgToChild(newPrfsIdMsg("GET_MSG", null), prfsEmbed);
+      if (prfsEmbed && verifyProofArgs) {
+        const resp = await sendMsgToChild(
+          newPrfsIdMsg("GET_MSG", {
+            appId: verifyProofArgs?.app_id,
+          }),
+          prfsEmbed,
+        );
+
+        try {
+          const payload: Proof = JSON.parse(resp);
+          payload.proofBytes = new Uint8Array(payload.proofBytes);
+          console.log(11, payload);
+        } catch (err) {
+          console.error(err);
+        }
       }
     }
     fn().then();
-  }, [prfsEmbed]);
+  }, [prfsEmbed, setStatus]);
 
   const handleClickSubmit = React.useCallback(async () => {
     if (verifyProofArgs && prfsEmbed && status === Status.Standby && data) {
@@ -124,8 +138,9 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
   return verifyProofArgs ? (
     <>
       <DefaultInnerPadding noSidePadding>
-        {status === Status.InProgress ||
-          (verifyProofStatus === Status.InProgress && <div className={styles.overlay} />)}
+        {(status === Status.InProgress || verifyProofStatus === Status.InProgress) && (
+          <div className={styles.overlay} />
+        )}
         <DefaultModuleHeader noTopPadding className={styles.sidePadding}>
           <DefaultModuleTitle>
             You want to verify a proof at{" "}
@@ -151,10 +166,12 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
                   </QueryName>
                   <div>{proofType.proof_type_id}</div>
                   <div className={styles.driverMsg}>
-                    {/* {driverMsg} */}
-                    {/* {loadDriverStatus === Status.InProgress && ( */}
-                    {/*   <LoadDriverProgress progress={loadDriverProgress} /> */}
-                    {/* )} */}
+                    <LoadDriver
+                      proofType={proofType}
+                      loadDriverStatus={loadDriverStatus}
+                      progress={loadDriverProgress}
+                      driverArtifacts={driverArtifacts}
+                    />
                   </div>
                 </QueryItemRightCol>
               </QueryItemMeta>

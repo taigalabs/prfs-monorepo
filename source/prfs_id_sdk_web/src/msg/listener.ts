@@ -50,12 +50,27 @@ export function setupChildMsgHandler() {
 export function setupParentMsgHandler(queue: MessageQueue) {
   function listener(ev: MessageEvent) {
     if (ev.ports.length > 0) {
-      console.log("parent msg11 ", ev.data, ev.ports);
+      console.log("parent msg ", ev.data, ev.ports);
       const data = ev.data as PrfsIdMsg<any>;
 
       if (data.type) {
         switch (data.type) {
-          // inbound
+          // inner communication
+          case "GET_MSG": {
+            if (data.payload) {
+              const { appId } = data.payload as RequestPayload;
+              if (appId) {
+                const ky = createStorageKey(appId);
+                const val = window.localStorage.getItem(ky);
+                ev.ports[0].postMessage(val);
+              } else {
+                console.error("msg doesn't have a storage key, type: %s", data.type);
+              }
+            }
+            break;
+          }
+
+          // inbound (host => id)
           case "REQUEST_SIGN_IN":
           case "REQUEST_VERIFY_PROOF":
           case "REQUEST_PROOF_GEN": {
@@ -77,9 +92,7 @@ export function setupParentMsgHandler(queue: MessageQueue) {
             break;
           }
 
-          // ////////////
-          // outbound
-          // ////////////
+          // outbound (id => host)
           case "COMMITMENT_RESULT": {
             if (data.payload) {
               const payload = data.payload as StorageMsg<CommitmentSuccessPayload>;
