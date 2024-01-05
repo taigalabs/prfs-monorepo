@@ -4,7 +4,7 @@ import Link from "next/link";
 import Fade from "@taigalabs/prfs-react-lib/src/fade/Fade";
 import { PrfsIdCredential, makePrfsIdCredential } from "@taigalabs/prfs-id-sdk-web";
 
-import styles from "./InputCreateIdCredential.module.scss";
+import styles from "./SignUpForm.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   DefaultInnerPadding,

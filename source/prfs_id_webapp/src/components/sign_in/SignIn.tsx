@@ -16,15 +16,15 @@ import {
   makeEmptyIDCreateFormErrors,
   makeEmptyIdCreateForm,
 } from "@/functions/validate_id";
-import InputCredential from "./InputCredential";
-import StoredCredentials from "./StoredCredentials";
 import CreateID from "@/components/create_id/CreateID";
+import StoredCredentials from "./StoredCredentials";
+import SignInForm from "./SignInForm";
 
 enum SignInStep {
   Loading,
   CreateID,
   StoredCredentials,
-  InputCredential,
+  SignInForm,
 }
 
 export enum SignInStatus {
@@ -34,7 +34,6 @@ export enum SignInStatus {
 
 const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => {
   const i18n = React.useContext(i18nContext);
-  // const [signInStatus, setSignInStatus] = React.useState(SignInStatus.InProgress);
   const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
@@ -49,7 +48,7 @@ const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => 
       setStep(SignInStep.StoredCredentials);
       setStoredCredentials(storedCredentials);
     } else {
-      setStep(SignInStep.InputCredential);
+      setStep(SignInStep.SignInForm);
     }
   }, [setErrorMsg, setStep, setStoredCredentials]);
 
@@ -73,7 +72,7 @@ const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => 
   const handleClickForgetAllCredentials = React.useCallback(() => {
     removeAllPrfsIdCredentials();
     setStoredCredentials({});
-    setStep(SignInStep.InputCredential);
+    setStep(SignInStep.SignInForm);
   }, [setStep, setStoredCredentials]);
 
   const handleClickCreateID = React.useCallback(() => {
@@ -81,11 +80,11 @@ const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => 
   }, [setStep]);
 
   const handleGotoPrfsIdCredential = React.useCallback(() => {
-    setStep(SignInStep.InputCredential);
+    setStep(SignInStep.SignInForm);
   }, [setStep]);
 
   const handleClickSignIn = React.useCallback(() => {
-    setStep(SignInStep.InputCredential);
+    setStep(SignInStep.SignInForm);
   }, [setStep]);
 
   const content = React.useMemo(() => {
@@ -104,9 +103,9 @@ const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => 
           />
         );
       }
-      case SignInStep.InputCredential: {
+      case SignInStep.SignInForm: {
         return (
-          <InputCredential
+          <SignInForm
             errorMsg={errorMsg}
             formData={formData}
             setFormData={setFormData}

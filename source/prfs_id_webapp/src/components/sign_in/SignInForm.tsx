@@ -7,7 +7,7 @@ import {
   persistPrfsIdCredential,
 } from "@taigalabs/prfs-id-sdk-web";
 
-import styles from "./InputCredential.module.scss";
+import styles from "./SignInForm.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   DefaultInnerPadding,
@@ -26,7 +26,7 @@ enum InputCredentialStatus {
   Standby,
 }
 
-const InputCredential: React.FC<InputCredentialProps> = ({
+const SignInForm: React.FC<InputCredentialProps> = ({
   formData,
   formErrors,
   setFormData,
@@ -155,7 +155,7 @@ const InputCredential: React.FC<InputCredentialProps> = ({
   );
 };
 
-export default InputCredential;
+export default SignInForm;
 
 export interface InputCredentialProps {
   errorMsg: string | null;
