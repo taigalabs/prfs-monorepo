@@ -1,36 +1,15 @@
-"use client";
-
 import React from "react";
-import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { CircuitDriver, CreateProofEvent, DriverEvent } from "@taigalabs/prfs-driver-interface";
-import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
+import { CircuitDriver, DriverEvent } from "@taigalabs/prfs-driver-interface";
 import dayjs from "dayjs";
 import cn from "classnames";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
-import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
-import { useQuery } from "@tanstack/react-query";
-import { prfsApi2 } from "@taigalabs/prfs-api-js";
-import { initCircuitDriver, interpolateSystemAssetEndpoint } from "@taigalabs/prfs-proof-gen-js";
-import { CreateProofQuery, PrfsIdCredential, TutorialArgs } from "@taigalabs/prfs-id-sdk-web";
-import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
-import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
+import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 
-import styles from "./CreateProof.module.scss";
-import { i18nContext } from "@/i18n/context";
-import { validateInputs } from "@/functions/validate_inputs";
+import styles from "./LoadDriver.module.scss";
 import { envs } from "@/envs";
-import CircuitInputs from "@/components/circuit_inputs/CircuitInputs";
-import {
-  QueryItem,
-  QueryItemLeftCol,
-  QueryItemMeta,
-  QueryItemRightCol,
-  QueryName,
-} from "@/components/default_module/QueryItem";
-import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
-import { useAppSelector } from "@/state/hooks";
+import { DriverArtifacts, LoadDriverStatus } from "./useLoadDriver";
 
-export const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress }) => {
+const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress }) => {
   const el = React.useMemo(() => {
     if (progress) {
       const elems = [];
@@ -50,6 +29,55 @@ export const LoadDriverProgress: React.FC<LoadDriverProgressProps> = ({ progress
 
   return <div className={styles.driverProgress}>{el}</div>;
 };
+
+const LoadDriverResult: React.FC<LoadDriverResultProps> = ({ proofType, driverArtifacts }) => {
+  const { diff, artifactCount } = driverArtifacts;
+  return (
+    <p className={styles.result}>
+      <a
+        href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${proofType.circuit_driver_id}`}
+      >
+        <span>{proofType.circuit_driver_id}</span>
+        <BiLinkExternal />
+      </a>
+      <span className={styles.diff}>
+        ({diff}s, {artifactCount} files)
+      </span>
+    </p>
+  );
+};
+
+const LoadDriver: React.FC<LoadDriverProps> = ({
+  proofType,
+  loadDriverStatus,
+  progress,
+  driverArtifacts,
+}) => {
+  return (
+    <div>
+      {driverArtifacts && (
+        <LoadDriverResult proofType={proofType} driverArtifacts={driverArtifacts} />
+      )}
+      {loadDriverStatus === LoadDriverStatus.InProgress && (
+        <LoadDriverProgress progress={progress} />
+      )}
+    </div>
+  );
+};
+
+export default LoadDriver;
+
+export interface LoadDriverProps {
+  proofType: PrfsProofType;
+  loadDriverStatus: LoadDriverStatus;
+  progress: Record<string, any> | null;
+  driverArtifacts: DriverArtifacts | null;
+}
+
+interface LoadDriverResultProps {
+  proofType: PrfsProofType;
+  driverArtifacts: DriverArtifacts;
+}
 
 export interface LoadDriverProgressProps {
   progress: Record<string, any> | null;
