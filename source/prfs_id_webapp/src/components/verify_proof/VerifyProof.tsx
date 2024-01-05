@@ -4,13 +4,8 @@ import React from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
-import {
-  PrfsIdCredential,
-  parseProofGenSearchParams,
-  parseVerifyProofSearchParams,
-} from "@taigalabs/prfs-id-sdk-web";
+import { parseVerifyProofSearchParams } from "@taigalabs/prfs-id-sdk-web";
 import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
-import { CircuitDriver } from "@taigalabs/prfs-driver-interface";
 
 import styles from "./VerifyProof.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -22,18 +17,12 @@ import {
 } from "@/components/default_module/DefaultModule";
 import { envs } from "@/envs";
 import PrfsIdErrorDialog from "@/components/error_dialog/PrfsIdErrorDialog";
-import SignIn from "@/components/sign_in/SignIn";
 import { useAppDispatch } from "@/state/hooks";
 import { goToStep } from "@/state/tutorialReducer";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import TutorialDefault from "@/components/tutorial_default/TutorialDefault";
-import TutorialPlaceholder from "../tutorial_default/TutorialPlaceholder";
+import TutorialPlaceholder from "@/components/tutorial_default/TutorialPlaceholder";
 import VerifyProofForm from "./VerifyProofForm";
-
-enum ProofGenStep {
-  PrfsIdCredential,
-  Form,
-}
 
 export enum Status {
   Loading,

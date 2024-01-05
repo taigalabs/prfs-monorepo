@@ -52,6 +52,39 @@ function useProofType(proofTypeId: string | undefined) {
   });
 }
 
+const ProofData: React.FC<ProofDataProps> = ({ proof }) => {
+  const i18n = React.useContext(i18nContext);
+  const res = React.useMemo(() => {
+    if (proof) {
+      const { proofBytes, publicInputSer } = proof;
+      const arr = proofBytes.slice(0, 16);
+      const raw = `${arr.join(",")}...`;
+      return {
+        raw,
+        publicInput: publicInputSer,
+      };
+    } else {
+      return null;
+    }
+  }, [proof]);
+
+  if (!res) {
+    return <div>Loading...</div>;
+  }
+  return (
+    <div className={styles.proofData}>
+      <div className={styles.raw}>
+        <p>{i18n.proof_raw}</p>
+        <p>{res.raw}</p>
+      </div>
+      <div className={styles.publicInput}>
+        <p>{i18n.public_inputs}</p>
+        <p>{res.publicInput}</p>
+      </div>
+    </div>
+  );
+};
+
 const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfsEmbed }) => {
   const i18n = React.useContext(i18nContext);
   const [verifyProofStatus, setVerifyProofStatus] = React.useState(Status.Standby);
@@ -153,8 +186,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
                       driverArtifacts={driverArtifacts}
                     />
                   </div>
-                  <div className={styles.rawData}>Raw data</div>
-                  <div className={styles.publicInputs}>public inputs</div>
+                  <ProofData proof={proof} />
                 </QueryItemRightCol>
               </QueryItemMeta>
             </QueryItem>
@@ -188,4 +220,8 @@ export default VerifyProofForm;
 export interface VerifyProofFormProps {
   verifyProofArgs: VerifyProofArgs | null;
   prfsEmbed: HTMLIFrameElement | null;
+}
+
+export interface ProofDataProps {
+  proof: Proof | null;
 }

@@ -60,6 +60,17 @@
   color: var(--red-50);
 }
 
+.proofData {
+  padding-top: 10px;
+
+  .raw {
+  }
+
+  .publicInput {
+    padding-top: 8px;
+  }
+}
+
 @media screen and (max-width: 480px) {
   .sidePadding {
     padding-left: 14px;
