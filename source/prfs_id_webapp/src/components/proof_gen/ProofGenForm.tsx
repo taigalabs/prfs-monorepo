@@ -187,7 +187,6 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         </DefaultModuleBtnRow>
         <DefaultErrorMsg className={styles.sidePadding}>{errorMsg}</DefaultErrorMsg>
       </DefaultInnerPadding>
-      {/* <TutorialDefault isTutorial={!!proofGenArgs.tutorial} /> */}
     </>
   ) : (
     <div className={styles.loading}>Loading...</div>

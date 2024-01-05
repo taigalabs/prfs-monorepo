@@ -127,7 +127,7 @@ const VerifyProof: React.FC = () => {
     <DefaultModule>
       <DefaultForm>
         {errorMsg && <PrfsIdErrorDialog errorMsg={errorMsg} handleClose={handleCloseErrorDialog} />}
-        <DefaultTopLabel>{i18n.create_data_with_prfs_id}</DefaultTopLabel>
+        <DefaultTopLabel>{i18n.verify_proof_with_prfs}</DefaultTopLabel>
         123123
         {/* {status === Status.Loading ? ( */}
         {/*   <div className={styles.overlay}> */}
