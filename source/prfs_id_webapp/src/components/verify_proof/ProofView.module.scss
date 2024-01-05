@@ -1,0 +1,132 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  flex-grow: 1;
+  align-self: flex-start;
+}
+
+.loading {
+  padding: 14px;
+}
+
+.driverMsg {
+  font-size: 12px;
+  width: 100%;
+  color: var(--gray-30);
+  height: 16px;
+  overflow-y: hidden;
+
+  .result {
+    a {
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .diff {
+      padding-left: 3px;
+    }
+  }
+}
+
+.moduleWrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  padding: 14px 22px 4px;
+  border-radius: 6px;
+
+  /* border: 1px solid var(--bright-gray-30); */
+}
+
+.loaderBarWrapper {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  right: 0;
+
+  /* border: 1px solid red; */
+}
+
+.overlay {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  inset: 0;
+  margin-top: 3px;
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: 5;
+}
+
+.form {
+  padding: 0px 0px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  word-wrap: break-word;
+  overflow: hidden;
+}
+
+.driverProgress {
+  display: flex;
+
+  .progressRow {
+    display: flex;
+
+    &:not(:last-child)::after {
+      content: ",";
+      margin-right: 5px;
+    }
+  }
+}
+
+.systemMsg {
+  display: flex;
+  flex-direction: column;
+  padding-top: 6px;
+  width: 100%;
+  color: var(--gray-30);
+  font-size: 12px;
+
+  /* border: 1px solid red; */
+}
+
+.creating {
+  color: var(--blue-14);
+}
+
+.red {
+  color: var(--red-50);
+}
+
+.inProgress {
+  background-color: var(--blue-10);
+}
+
+@media screen and (max-width: 480px) {
+  .moduleArea {
+    padding: 24px 0px 24px;
+    margin-left: 0px;
+    border: none;
+    border-radius: 0px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid var(--bright-gray-32);
+  }
+
+  .moduleWrapper {
+    border: none;
+    min-width: 0;
+    padding: 12px 12px;
+    width: 100%;
+  }
+}

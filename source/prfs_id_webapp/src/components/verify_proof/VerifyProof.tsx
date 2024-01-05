@@ -11,7 +11,7 @@ import {
 } from "@taigalabs/prfs-id-sdk-web";
 import { usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 
-import styles from "./ProofGen.module.scss";
+import styles from "./VerifyProof.module.scss";
 import { i18nContext } from "@/i18n/context";
 import {
   DefaultModule,
@@ -28,6 +28,7 @@ import { goToStep } from "@/state/tutorialReducer";
 import GlobalFooter from "@/components/global_footer/GlobalFooter";
 import TutorialDefault from "@/components/tutorial_default/TutorialDefault";
 import TutorialPlaceholder from "../tutorial_default/TutorialPlaceholder";
+import VerifyProofForm from "./VerifyProofInfo";
 
 enum ProofGenStep {
   PrfsIdCredential,
@@ -83,19 +84,19 @@ const VerifyProof: React.FC = () => {
     window.close();
   }, []);
 
-  const handleClickPrev = React.useCallback(() => {
-    setStep(ProofGenStep.PrfsIdCredential);
-  }, [setStep]);
+  // const handleClickPrev = React.useCallback(() => {
+  //   setStep(ProofGenStep.PrfsIdCredential);
+  // }, [setStep]);
 
-  const handleSucceedSignIn = React.useCallback(
-    (credential: PrfsIdCredential) => {
-      if (credential) {
-        setCredential(credential);
-        setStep(ProofGenStep.Form);
-      }
-    },
-    [setCredential, setStep],
-  );
+  // const handleSucceedSignIn = React.useCallback(
+  //   (credential: PrfsIdCredential) => {
+  //     if (credential) {
+  //       setCredential(credential);
+  //       setStep(ProofGenStep.Form);
+  //     }
+  //   },
+  //   [setCredential, setStep],
+  // );
 
   // const content = React.useMemo(() => {
   //   if (!proofGenArgs) {
@@ -128,14 +129,13 @@ const VerifyProof: React.FC = () => {
       <DefaultForm>
         {errorMsg && <PrfsIdErrorDialog errorMsg={errorMsg} handleClose={handleCloseErrorDialog} />}
         <DefaultTopLabel>{i18n.verify_proof_with_prfs}</DefaultTopLabel>
-        123123
-        {/* {status === Status.Loading ? ( */}
-        {/*   <div className={styles.overlay}> */}
-        {/*     <Spinner color="#1b62c0" /> */}
-        {/*   </div> */}
-        {/* ) : ( */}
-        {/*   content */}
-        {/* )} */}
+        {status === Status.Loading ? (
+          <div className={styles.overlay}>
+            <Spinner color="#1b62c0" />
+          </div>
+        ) : (
+          <VerifyProofForm verifyProofArgs={verifyProofArgs} prfsEmbed={prfsEmbed} />
+        )}
         <TutorialDefault tutorial={verifyProofArgs?.tutorial} />
       </DefaultForm>
       <DefaultModuleFooter>

@@ -1,0 +1,85 @@
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.3);
+  z-index: 10;
+  border-radius: 10px;
+  overflow: hidden;
+
+  > div {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+.signInWithPrfsId {
+  color: var(--gray-40);
+  font-size: 16px;
+  font-weight: 500;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--bright-gray-32);
+}
+
+.blueText {
+  color: var(--blue-14);
+}
+
+.sidePadding {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.prfsId {
+  padding: 20px 0 10px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--gray-30);
+}
+
+.dataWarning {
+  .title {
+    padding: 8px 0;
+    font-weight: 500;
+  }
+
+  .desc {
+    padding: 10px 0 4px;
+    line-height: 1.5;
+    font-size: 13px;
+  }
+}
+
+.btnRow {
+  height: 36px;
+}
+
+.signInBtn {
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
+.signInBtnContent {
+  display: flex;
+  align-items: center;
+  > span {
+    padding-right: 3px;
+  }
+}
+
+.loading {
+  padding: 14px;
+}
+
+@media screen and (max-width: 480px) {
+  .main {
+    padding: 0 20px;
+  }
+
+  .sidePadding {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+}

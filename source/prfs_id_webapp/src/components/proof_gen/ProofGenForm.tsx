@@ -31,7 +31,6 @@ import CommitmentView from "@/components/commitment/CommitmentView";
 import CreateProof from "@/components/create_proof/CreateProof";
 import { QueryItemList } from "@/components/default_module/QueryItem";
 import { ProofGenReceiptRaw, processReceipt } from "./receipt";
-import TutorialDefault from "@/components/tutorial_default/TutorialDefault";
 
 enum Status {
   InProgress,
@@ -47,6 +46,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
   const i18n = React.useContext(i18nContext);
   const searchParams = useSearchParams();
   const [status, setStatus] = React.useState(Status.InProgress);
+  const [createProofStatus, setCreateProofStatus] = React.useState(Status.Standby);
   const [errorMsg, setErrorMsg] = React.useState("");
   const { mutateAsync: prfsIdentitySignInRequest } = useMutation({
     mutationFn: (req: PrfsIdentitySignInRequest) => {
@@ -120,7 +120,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         return;
       }
 
-      setStatus(Status.InProgress);
+      setCreateProofStatus(Status.InProgress);
       await delay(500);
       const processedReceipt = await processReceipt(receipt);
       const payload: ProofGenSuccessPayload = {
@@ -145,15 +145,16 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
         console.error(err);
       }
 
-      setStatus(Status.Standby);
+      setCreateProofStatus(Status.Standby);
       window.close();
     }
-  }, [searchParams, proofGenArgs, credential, setErrorMsg, receipt, setStatus]);
+  }, [searchParams, proofGenArgs, credential, setErrorMsg, receipt, setCreateProofStatus]);
 
   return proofGenArgs ? (
     <>
       <DefaultInnerPadding noSidePadding>
-        {status === Status.InProgress && <div className={styles.overlay} />}
+        {status === Status.InProgress ||
+          (createProofStatus === Status.InProgress && <div className={styles.overlay} />)}
         <DefaultModuleHeader noTopPadding className={styles.sidePadding}>
           <DefaultModuleTitle>
             <span className={styles.blueText}>{proofGenArgs.app_id}</span> wants you to submit
@@ -182,7 +183,7 @@ const ProofGenForm: React.FC<ProofGenFormProps> = ({
             noShadow
           >
             <span>{i18n.submit}</span>
-            {status === Status.InProgress && <Spinner size={16} />}
+            {createProofStatus === Status.InProgress && <Spinner size={16} />}
           </Button>
         </DefaultModuleBtnRow>
         <DefaultErrorMsg className={styles.sidePadding}>{errorMsg}</DefaultErrorMsg>
