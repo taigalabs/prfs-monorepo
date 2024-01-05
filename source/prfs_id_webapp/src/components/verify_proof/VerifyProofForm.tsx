@@ -153,39 +153,20 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
                       driverArtifacts={driverArtifacts}
                     />
                   </div>
+                  <div className={styles.rawData}>Raw data</div>
+                  <div className={styles.publicInputs}>public inputs</div>
                 </QueryItemRightCol>
               </QueryItemMeta>
-              <div className={styles.wrapper}>
-                <div className={styles.moduleWrapper}>
-                  <div className={styles.form}>
-                    {/* <CircuitInputs */}
-                    {/*   circuitInputs={proofType.circuit_inputs as CircuitInput[]} */}
-                    {/*   formValues={formValues} */}
-                    {/*   setFormValues={setFormValues} */}
-                    {/*   formErrors={formErrors} */}
-                    {/*   setFormErrors={setFormErrors} */}
-                    {/*   presetVals={query.presetVals} */}
-                    {/*   credential={credential} */}
-                    {/* /> */}
-                  </div>
-                </div>
-              </div>
             </QueryItem>
           )}
         </QueryItemList>
-        {/* <div className={cn(styles.dataWarning, styles.sidePadding)}> */}
-        {/*   <p className={styles.title}>Make sure you trust {verifyProofArgs.app_id} app</p> */}
-        {/*   <p className={styles.desc}>{i18n.app_data_sharing_guide}</p> */}
-        {/* </div> */}
         <DefaultModuleBtnRow className={cn(styles.btnRow, styles.sidePadding)}>
-          {/* <Button variant="transparent_blue_2" noTransition handleClick={handleClickPrev}> */}
-          {/*   {i18n.go_back} */}
-          {/* </Button> */}
+          <div />
           <Button
             type="button"
             variant="blue_2"
-            className={styles.signInBtn}
-            contentClassName={styles.signInBtnContent}
+            className={styles.submitBtn}
+            contentClassName={styles.submitContent}
             noTransition
             handleClick={handleClickSubmit}
             noShadow

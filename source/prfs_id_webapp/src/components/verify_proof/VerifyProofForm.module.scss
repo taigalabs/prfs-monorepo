@@ -15,14 +15,6 @@
   }
 }
 
-.signInWithPrfsId {
-  color: var(--gray-40);
-  font-size: 16px;
-  font-weight: 500;
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--bright-gray-32);
-}
-
 .blueText {
   color: var(--blue-14);
 }
@@ -39,29 +31,16 @@
   color: var(--gray-30);
 }
 
-.dataWarning {
-  .title {
-    padding: 8px 0;
-    font-weight: 500;
-  }
-
-  .desc {
-    padding: 10px 0 4px;
-    line-height: 1.5;
-    font-size: 13px;
-  }
-}
-
 .btnRow {
   height: 36px;
 }
 
-.signInBtn {
+.submitBtn {
   padding-left: 18px;
   padding-right: 18px;
 }
 
-.signInBtnContent {
+.submitBtnContent {
   display: flex;
   align-items: center;
   > span {
@@ -81,15 +60,7 @@
   color: var(--red-50);
 }
 
-.inProgress {
-  background-color: var(--blue-10);
-}
-
 @media screen and (max-width: 480px) {
-  .main {
-    padding: 0 20px;
-  }
-
   .sidePadding {
     padding-left: 14px;
     padding-right: 14px;
