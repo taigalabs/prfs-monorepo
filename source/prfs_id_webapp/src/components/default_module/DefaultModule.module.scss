@@ -76,8 +76,8 @@
 
 .btnRow {
   display: flex;
-  margin-top: 32px;
-  margin-bottom: 11px;
+  padding-top: 28px;
+  padding-bottom: 4px;
   justify-content: space-between;
 
   > a {
@@ -126,7 +126,7 @@
 .inputGuide {
   font-weight: 500;
   color: var(--blue-120);
-  padding: 9px 0 3px;
+  padding: 11px 3px 3px;
   cursor: pointer;
 }
 
