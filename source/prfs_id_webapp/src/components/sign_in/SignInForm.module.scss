@@ -16,6 +16,17 @@
   }
 }
 
+.guide {
+  padding: 36px 0 6px;
+  color: var(--gray-34);
+}
+
+.blue {
+  color: var(--blue-120);
+  font-weight: 500;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 480px) {
   .main {
     padding: 0 20px;

@@ -83,6 +83,10 @@ const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => 
     setStep(SignInStep.SignInForm);
   }, [setStep]);
 
+  const handleClickStoredCredential = React.useCallback(() => {
+    setStep(SignInStep.StoredCredentials);
+  }, [setStep]);
+
   const handleClickSignIn = React.useCallback(() => {
     setStep(SignInStep.SignInForm);
   }, [setStep]);
@@ -112,6 +116,7 @@ const SignIn: React.FC<PrfsIdSignInProps> = ({ handleSucceedSignIn, appId }) => 
             formErrors={formErrors}
             handleSucceedSignIn={handleSucceedSignIn}
             handleClickCreateID={handleClickCreateID}
+            handleClickStoredCredential={handleClickStoredCredential}
           />
         );
       }

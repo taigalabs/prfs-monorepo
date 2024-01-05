@@ -32,6 +32,7 @@ const SignInForm: React.FC<InputCredentialProps> = ({
   setFormData,
   handleClickCreateID,
   handleSucceedSignIn,
+  handleClickStoredCredential,
 }) => {
   const i18n = React.useContext(i18nContext);
   const [status, setStatus] = React.useState(InputCredentialStatus.Standby);
@@ -129,6 +130,12 @@ const SignInForm: React.FC<InputCredentialProps> = ({
               />
             </div>
           </DefaultModuleInputArea>
+          <p className={styles.guide}>
+            Sign in before? Check out{" "}
+            <span className={styles.blue} onClick={handleClickStoredCredential}>
+              stored credentials
+            </span>
+          </p>
           <DefaultModuleBtnRow>
             <Button
               variant="transparent_blue_2"
@@ -164,4 +171,5 @@ export interface InputCredentialProps {
   setFormData: React.Dispatch<React.SetStateAction<IdCreateForm>>;
   handleSucceedSignIn: (credential: PrfsIdCredential) => void;
   handleClickCreateID: () => void;
+  handleClickStoredCredential: () => void;
 }
