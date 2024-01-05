@@ -131,7 +131,7 @@ const SignInForm: React.FC<InputCredentialProps> = ({
             </div>
           </DefaultModuleInputArea>
           <p className={styles.guide}>
-            Sign in before? Check out{" "}
+            Signed in before? Check out{" "}
             <span className={styles.blue} onClick={handleClickStoredCredential}>
               stored credentials
             </span>
