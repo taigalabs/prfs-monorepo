@@ -61,13 +61,16 @@
 }
 
 .proofData {
-  padding-top: 10px;
+  padding-top: 12px;
+  color: var(--gray-30);
 
-  .raw {
+  .label {
+    color: var(--black-10);
+    /* font-weight: 500; */
   }
 
   .publicInput {
-    padding-top: 8px;
+    padding-top: 12px;
   }
 }
 

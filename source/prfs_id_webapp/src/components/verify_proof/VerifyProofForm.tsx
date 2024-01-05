@@ -57,7 +57,7 @@ const ProofData: React.FC<ProofDataProps> = ({ proof }) => {
   const res = React.useMemo(() => {
     if (proof) {
       const { proofBytes, publicInputSer } = proof;
-      const arr = proofBytes.slice(0, 16);
+      const arr = proofBytes.slice(0, 64);
       const raw = `${arr.join(",")}...`;
       return {
         raw,
@@ -74,11 +74,11 @@ const ProofData: React.FC<ProofDataProps> = ({ proof }) => {
   return (
     <div className={styles.proofData}>
       <div className={styles.raw}>
-        <p>{i18n.proof_raw}</p>
+        <p className={styles.label}>{i18n.proof_raw}</p>
         <p>{res.raw}</p>
       </div>
       <div className={styles.publicInput}>
-        <p>{i18n.public_inputs}</p>
+        <p className={styles.label}>{i18n.public_inputs}</p>
         <p>{res.publicInput}</p>
       </div>
     </div>
