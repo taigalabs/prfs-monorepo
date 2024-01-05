@@ -1,6 +1,4 @@
 import React from "react";
-import { CircuitDriver, DriverEvent } from "@taigalabs/prfs-driver-interface";
-import dayjs from "dayjs";
 import cn from "classnames";
 import { BiLinkExternal } from "@react-icons/all-files/bi/BiLinkExternal";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";

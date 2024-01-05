@@ -10,3 +10,19 @@
     }
   }
 }
+
+.result {
+  a {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .diff {
+    padding-left: 3px;
+  }
+}

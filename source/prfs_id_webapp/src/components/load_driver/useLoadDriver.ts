@@ -1,12 +1,10 @@
 import React from "react";
 import { CircuitDriver, DriverEvent } from "@taigalabs/prfs-driver-interface";
 import dayjs from "dayjs";
-import cn from "classnames";
 import { initCircuitDriver, interpolateSystemAssetEndpoint } from "@taigalabs/prfs-proof-gen-js";
-
-import styles from "./LoadDriver.module.scss";
-import { envs } from "@/envs";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
+
+import { envs } from "@/envs";
 
 export enum LoadDriverStatus {
   Standby,
@@ -32,9 +30,6 @@ export function useLoadDriver(proofType: PrfsProofType | undefined) {
         const since = dayjs();
         function handleDriverEv(ev: DriverEvent) {
           const { type, payload } = ev;
-          if (!proofType) {
-            return;
-          }
 
           switch (type) {
             case "LOAD_DRIVER_EVENT": {
@@ -50,19 +45,6 @@ export function useLoadDriver(proofType: PrfsProofType | undefined) {
               const now = dayjs();
               const diff = now.diff(since, "seconds", true).toFixed(2);
               const { artifactCount } = payload;
-              // setDriverMsg(
-              //   <p className={styles.result}>
-              //     <a
-              //       href={`${envs.NEXT_PUBLIC_WEBAPP_CONSOLE_ENDPOINT}/circuit_drivers/${proofType.circuit_driver_id}`}
-              //     >
-              //       <span>{proofType.circuit_driver_id}</span>
-              //       <BiLinkExternal />
-              //     </a>
-              //     <span className={styles.diff}>
-              //       ({diff}s, {artifactCount} files)
-              //     </span>
-              //   </p>,
-              // );
               setLoadDriverStatus(LoadDriverStatus.Standby);
               setDriverArtifacts({
                 diff,
@@ -92,7 +74,7 @@ export function useLoadDriver(proofType: PrfsProofType | undefined) {
       }
     }
     fn().then();
-  }, [setLoadDriverProgress, setDriverArtifacts]);
+  }, [setLoadDriverProgress, setDriverArtifacts, proofType]);
 
   return {
     driver,
