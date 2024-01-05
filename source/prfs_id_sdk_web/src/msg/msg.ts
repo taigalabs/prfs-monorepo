@@ -21,8 +21,12 @@ export interface SignInSuccessPayload {
   public_key: string;
 }
 
-export interface CommitmentSuccessPayload {
-  receipt: Record<string, string>;
+// export interface CommitmentSuccessPayload {
+//   receipt: Record<string, string>;
+// }
+
+export interface ProofGenSuccessPayload {
+  receipt: Record<string, any>;
 }
 
 export interface ProofGenSuccessPayload {
@@ -68,9 +72,9 @@ export function newPrfsIdErrorMsg<T extends PrfsIdMsgType>(
 type MsgPayload<T extends PrfsIdMsgType> = //
   T extends "SIGN_IN_RESULT"
     ? StorageMsg<SignInSuccessPayload>
-    : T extends "COMMITMENT_RESULT"
-    ? StorageMsg<CommitmentSuccessPayload>
-    : T extends "PROOF_GEN_RESULT"
+    : // : T extends "COMMITMENT_RESULT"
+    // ? StorageMsg<CommitmentSuccessPayload>
+    T extends "PROOF_GEN_RESULT"
     ? StorageMsg<ProofGenSuccessPayload>
     : T extends "REQUEST_SIGN_IN"
     ? RequestPayload
