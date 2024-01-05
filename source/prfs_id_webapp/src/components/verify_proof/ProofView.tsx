@@ -15,7 +15,7 @@ import { CreateProofQuery, PrfsIdCredential, TutorialArgs } from "@taigalabs/prf
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
 import TutorialStepper from "@taigalabs/prfs-react-lib/src/tutorial/TutorialStepper";
 
-import styles from "./CreateProof.module.scss";
+import styles from "./ProofView.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { validateInputs } from "@/functions/validate_inputs";
 import { envs } from "@/envs";
