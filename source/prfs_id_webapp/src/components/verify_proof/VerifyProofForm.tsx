@@ -171,7 +171,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
             handleClick={handleClickSubmit}
             noShadow
           >
-            <span>{i18n.submit}</span>
+            <span>{i18n.verify}</span>
             {verifyProofStatus === Status.InProgress && <Spinner size={16} />}
           </Button>
         </DefaultModuleBtnRow>
