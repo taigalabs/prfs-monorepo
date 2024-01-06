@@ -12,10 +12,10 @@ import {
   validateIdCreateForm,
 } from "@/functions/validate_id";
 import SignUp from "./SignUp";
-import InputCreateIdCredential from "./InputCreateIdCredential";
+import SignUpForm from "./SignUpForm";
 
 enum CreateIDStep {
-  InputCreateIdCredential,
+  SignUpForm,
   SignUp,
 }
 
@@ -23,7 +23,7 @@ const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedCre
   const i18n = React.useContext(i18nContext);
   const [formData, setFormData] = React.useState<IdCreateForm>(makeEmptyIdCreateForm());
   const [formErrors, setFormErrors] = React.useState<IdCreateForm>(makeEmptyIDCreateFormErrors());
-  const [step, setStep] = React.useState(CreateIDStep.InputCreateIdCredential);
+  const [step, setStep] = React.useState(CreateIDStep.SignUpForm);
   const [credential, setCredential] = React.useState<PrfsIdCredential | null>(null);
 
   const handleChangeValue = React.useCallback(
@@ -52,14 +52,14 @@ const CreateID: React.FC<CreateIDProps> = ({ handleClickSignIn, handleSucceedCre
   }, [formData, setFormErrors, setStep]);
 
   const handleGotoInputCredential = React.useCallback(() => {
-    setStep(CreateIDStep.InputCreateIdCredential);
+    setStep(CreateIDStep.SignUpForm);
   }, [setStep]);
 
   const content = React.useMemo(() => {
     switch (step) {
-      case CreateIDStep.InputCreateIdCredential: {
+      case CreateIDStep.SignUpForm: {
         return (
-          <InputCreateIdCredential
+          <SignUpForm
             formData={formData}
             setFormData={setFormData}
             formErrors={formErrors}

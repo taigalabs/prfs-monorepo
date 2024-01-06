@@ -3,9 +3,8 @@ import JSONbig from "json-bigint";
 import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
 import { PrfsSet } from "@taigalabs/prfs-entities/bindings/PrfsSet";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
-import { SpartanMerkleProof } from "@taigalabs/prfs-driver-interface";
+import { SpartanMerkleProof } from "@taigalabs/prfs-proof-interface";
 import cn from "classnames";
-import { RiEqualizerLine } from "@react-icons/all-files/ri/RiEqualizerLine";
 import {
   useFloating,
   useDismiss,
@@ -112,7 +111,6 @@ const MerkleProofRaw: React.FC<MerkleProofRawProps> = ({
         ref={refs.setReference}
         {...getReferenceProps()}
       >
-        {/* <RiEqualizerLine /> */}
         {i18n.raw}
       </button>
       <FloatingPortal>
@@ -149,7 +147,6 @@ export interface MerkleProofRawProps {
   prfsSet: PrfsSet | undefined;
   circuitInput: CircuitInput;
   handleClickRawSubmit: (merkleProof: SpartanMerkleProof) => void;
-  // setIsOpen: (b: boolean) => void;
 }
 
 export interface MerkleProofRawModalProps {

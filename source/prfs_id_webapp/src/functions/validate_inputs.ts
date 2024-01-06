@@ -1,9 +1,6 @@
-import { CircuitInput } from "@taigalabs/prfs-entities/bindings/CircuitInput";
-import { ethers } from "ethers";
 import { PrfsProofType } from "@taigalabs/prfs-entities/bindings/PrfsProofType";
 import { CircuitInputType } from "@taigalabs/prfs-entities/bindings/CircuitInputType";
-import { HashData } from "@/components/hash_input/HashInput";
-import { SigData, SpartanMerkleProof } from "@taigalabs/prfs-driver-interface";
+import { HashData, SigData, SpartanMerkleProof } from "@taigalabs/prfs-proof-interface";
 
 export async function validateInputs(
   formValues: Record<string, any>,

@@ -19,7 +19,7 @@ import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
 import styles from "./PostCreateMenu.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
-// import VerifyProofModule from "@/components/verify_proof_module/VerifyProofModule";
+import VerifyProofModule from "@/components/verify_proof_module/VerifyProofModule";
 import ProofDataView from "@/components/proof_data_view/ProofDataView";
 import { useAppSelector } from "@/state/hooks";
 
@@ -142,13 +142,12 @@ const PostCreateMenu: React.FC<PostCreateMenuProps> = ({ proveReceipt, proofType
             </div>
             <div className={styles.verifyProofFormWrapper}>
               <ProofDataView proof={proveReceipt.proof} isCard />
-              {/* <div className={styles.verifyProofModuleWrapper}> */}
-              {/*   <VerifyProofModule */}
-              {/*     // proofGenElement={proofGenElement} */}
-              {/*     proof={proveReceipt.proof} */}
-              {/*     circuitTypeId={proofType.circuit_type_id} */}
-              {/*   /> */}
-              {/* </div> */}
+              <div className={styles.verifyProofModuleWrapper}>
+                <VerifyProofModule
+                  proof={proveReceipt.proof}
+                  proofTypeId={proofType.proof_type_id}
+                />
+              </div>
             </div>
           </div>
         </>

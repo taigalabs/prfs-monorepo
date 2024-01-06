@@ -1,0 +1,21 @@
+.inputGroup {
+  &:not(:first-child) {
+    padding-top: 32px;
+  }
+}
+
+.blueLink {
+  font-weight: 500;
+  color: var(--blue-120);
+  padding: 9px 0 3px;
+  cursor: pointer;
+}
+
+.prfsLink {
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-left: 3px;
+  }
+}

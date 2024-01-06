@@ -65,10 +65,6 @@ const cfg = withNextra(nextConfig);
 // withNextra() removes some properties, thus adding after
 cfg.reactStrictMode = true;
 cfg.swcMinify = true;
-cfg.transpilePackages = [
-  "@taigalabs/prfs-sdk-web",
-  "@taigalabs/prfs-api-js",
-  "@taigalabs/prfs-react-lib",
-];
+cfg.transpilePackages = ["@taigalabs/prfs-api-js", "@taigalabs/prfs-react-lib"];
 
 module.exports = cfg;

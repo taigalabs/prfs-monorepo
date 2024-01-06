@@ -1,0 +1,28 @@
+.driverProgress {
+  display: flex;
+
+  .progressRow {
+    display: flex;
+
+    &:not(:last-child)::after {
+      content: ",";
+      margin-right: 5px;
+    }
+  }
+}
+
+.result {
+  a {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .diff {
+    padding-left: 3px;
+  }
+}

@@ -1,0 +1,33 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 450px;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.6);
+  z-index: 10;
+  border-radius: 10px;
+}
+
+.inputGroup {
+  &:not(:first-child) {
+    margin-top: 16px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    width: 100%;
+    padding: 0 12px;
+    justify-content: center;
+  }
+
+  .moduleWrapper {
+    border: none;
+  }
+}

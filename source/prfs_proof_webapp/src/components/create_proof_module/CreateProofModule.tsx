@@ -41,8 +41,8 @@ const CreateProofModule: React.FC<CreateProofModuleProps> = ({
   const step = useAppSelector(state => state.tutorial.tutorialStep);
   const [status, setStatus] = React.useState(Status.Loading);
   const { sk, pkHex } = useRandomKeyPair();
-  const { openPopup } = usePopup();
   const { tutorialId } = useTutorial();
+  const { openPopup } = usePopup();
   const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
 
   const handleClickCreateProof = React.useCallback(async () => {

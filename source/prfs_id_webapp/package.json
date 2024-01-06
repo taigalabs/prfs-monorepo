@@ -39,7 +39,6 @@
     "dompurify": "^3.0.6",
     "elliptic": "^6.5.4",
     "ethers": "^5",
-    "ffjavascript": "0.2.62",
     "json-bigint": "^1.0.0",
     "marked": "^9.1.5",
     "next": "14.0.4",

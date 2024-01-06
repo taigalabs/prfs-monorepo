@@ -3,7 +3,7 @@ import {
   SignInSuccessPayload,
   StorageMsg,
   RequestPayload,
-  CommitmentSuccessPayload,
+  // CommitmentSuccessPayload,
   ProofGenSuccessPayload,
 } from "./msg";
 import { MessageQueue } from "./queue";
@@ -50,19 +50,19 @@ export function setupChildMsgHandler() {
 export function setupParentMsgHandler(queue: MessageQueue) {
   function listener(ev: MessageEvent) {
     if (ev.ports.length > 0) {
-      console.log("parent msg", ev.data, ev.ports);
+      console.log("parent msg ", ev.data, ev.ports);
       const data = ev.data as PrfsIdMsg<any>;
 
       if (data.type) {
         switch (data.type) {
-          // inbound
-          case "REQUEST_SIGN_IN":
-          case "REQUEST_PROOF_GEN": {
+          // inner communication
+          case "GET_MSG": {
             if (data.payload) {
               const { appId } = data.payload as RequestPayload;
               if (appId) {
                 const ky = createStorageKey(appId);
-                queue.push(ky, ev.ports[0]);
+                const val = window.localStorage.getItem(ky);
+                ev.ports[0].postMessage(val);
               } else {
                 console.error("msg doesn't have a storage key, type: %s", data.type);
               }
@@ -70,34 +70,32 @@ export function setupParentMsgHandler(queue: MessageQueue) {
             break;
           }
 
-          // ////////////
-          // outbound
-          // ////////////
-          case "COMMITMENT_RESULT": {
+          // inbound (host => id)
+          case "REQUEST_SIGN_IN":
+          case "REQUEST_VERIFY_PROOF":
+          case "REQUEST_PROOF_GEN": {
             if (data.payload) {
-              const payload = data.payload as StorageMsg<CommitmentSuccessPayload>;
-              dispatchStorageMsg(payload);
-            } else {
-              console.error("msg doesn't contain payload");
+              const { appId, data: d } = data.payload as RequestPayload;
+              if (appId) {
+                const ky = createStorageKey(appId);
+                queue.push(ky, ev.ports[0]);
+
+                if (d) {
+                  dispatchStorageMsg({ appId, value: d });
+                }
+              } else {
+                console.error("msg doesn't have a storage key, type: %s", data.type);
+              }
             }
-            ev.ports[0].postMessage(true);
             break;
           }
 
+          // outbound (id => host)
+          case "VERIFY_PROOF_RESULT":
+          case "PROOF_GEN_RESULT":
           case "SIGN_IN_RESULT": {
             if (data.payload) {
-              const payload = data.payload as StorageMsg<SignInSuccessPayload>;
-              dispatchStorageMsg(payload);
-            } else {
-              console.error("msg doesn't contain payload");
-            }
-            ev.ports[0].postMessage(true);
-            break;
-          }
-
-          case "PROOF_GEN_RESULT": {
-            if (data.payload) {
-              const payload = data.payload as StorageMsg<ProofGenSuccessPayload>;
+              const payload = data.payload as StorageMsg<any>;
               dispatchStorageMsg(payload);
             } else {
               console.error("msg doesn't contain payload");

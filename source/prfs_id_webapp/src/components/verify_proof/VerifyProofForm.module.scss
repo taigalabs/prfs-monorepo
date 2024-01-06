@@ -1,0 +1,86 @@
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.3);
+  z-index: 10;
+  border-radius: 10px;
+  overflow: hidden;
+
+  > div {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+.blueText {
+  color: var(--blue-14);
+}
+
+.driverMsg {
+  color: var(--gray-30);
+}
+
+.sidePadding {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.prfsId {
+  padding: 20px 0 10px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--gray-30);
+}
+
+.btnRow {
+  height: 36px;
+}
+
+.submitBtn {
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
+.submitBtnContent {
+  display: flex;
+  align-items: center;
+  > span {
+    padding-right: 3px;
+  }
+}
+
+.loading {
+  padding: 14px;
+}
+
+.creating {
+  color: var(--blue-14);
+}
+
+.red {
+  color: var(--red-50);
+}
+
+.proofData {
+  padding-top: 12px;
+  color: var(--gray-30);
+
+  .label {
+    color: var(--black-10);
+    /* font-weight: 500; */
+  }
+
+  .publicInput {
+    padding-top: 12px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .sidePadding {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+}

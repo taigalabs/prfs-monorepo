@@ -40,7 +40,6 @@ fn main() {
         .subcommand(command!(dev_prfs_id_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(dev_prfs_embed_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!("dev_shy_webapp").arg(Arg::new("extra_args")))
-        .subcommand(command!("dev_sdk_web_module").arg(Arg::new("extra_args")))
         .subcommand(command!("dev_docs_website").arg(Arg::new("extra_args")))
         .subcommand(command!(dev_prfs_asset_server::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(dev_prfs_api_server::CMD_NAME).arg(Arg::new("extra_args")))
@@ -54,13 +53,11 @@ fn main() {
         .subcommand(command!(start_prfs_poll_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(start_prfs_embed_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(start_shy_webapp::CMD_NAME).arg(Arg::new("extra_args")))
-        .subcommand(command!("start_sdk_web_module").arg(Arg::new("extra_args")))
         .subcommand(command!("start_docs_website").arg(Arg::new("extra_args")))
         // docker
         .subcommand(command!("docker_run_postgres").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_run_webapp_console").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_run_webapp_proof").arg(Arg::new("extra_args")))
-        .subcommand(command!("docker_run_sdk_web_module").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_run_api_server").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_run_asset_server").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_run_default").arg(Arg::new("extra_args")))
@@ -94,9 +91,6 @@ fn main() {
             cmds::build_circuits::run(sub_matches, &timestamp);
         }
         // dev mode
-        Some(("dev_sdk_web_module", sub_matches)) => {
-            cmds::dev_sdk_web_module::run(sub_matches);
-        }
         Some((dev_prfs_console_webapp::CMD_NAME, sub_matches)) => {
             cmds::dev_prfs_console_webapp::run(sub_matches);
         }
@@ -134,9 +128,6 @@ fn main() {
         Some((start_prfs_asset_server::CMD_NAME, sub_matches)) => {
             start_prfs_asset_server::run(sub_matches);
         }
-        Some(("start_sdk_web_module", sub_matches)) => {
-            cmds::start_sdk_web_module::run(sub_matches);
-        }
         Some((start_prfs_console_webapp::CMD_NAME, sub_matches)) => {
             start_prfs_console_webapp::run(sub_matches);
         }
@@ -170,9 +161,6 @@ fn main() {
         }
         Some((docker_run_prfs_embed_webapp::CMD_NAME, sub_matches)) => {
             docker_run_prfs_embed_webapp::run(sub_matches);
-        }
-        Some(("docker_run_sdk_web_module", sub_matches)) => {
-            cmds::docker_run_sdk_web_module::run(sub_matches);
         }
         Some(("docker_run_api_server", sub_matches)) => {
             cmds::docker_run_api_server::run(sub_matches);
