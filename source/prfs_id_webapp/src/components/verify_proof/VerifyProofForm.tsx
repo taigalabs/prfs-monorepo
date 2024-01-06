@@ -1,6 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
+import Overlay from "@taigalabs/prfs-react-lib/src/overlay/Overlay";
 import {
   sendMsgToChild,
   newPrfsIdMsg,
@@ -15,6 +16,7 @@ import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { delay } from "@taigalabs/prfs-react-lib/src/hooks/interval";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 import { TbNumbers } from "@taigalabs/prfs-react-lib/src/tabler_icons/TbNumbers";
+import colors from "@taigalabs/prfs-react-lib/src/colors.module.scss";
 
 import styles from "./VerifyProofForm.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -33,7 +35,7 @@ import {
   QueryItemRightCol,
   QueryName,
 } from "@/components/default_module/QueryItem";
-import { useLoadDriver } from "@/components/load_driver/useLoadDriver";
+import { LoadDriverStatus, useLoadDriver } from "@/components/load_driver/useLoadDriver";
 import LoadDriver from "@/components/load_driver/LoadDriver";
 
 enum Status {
@@ -74,7 +76,9 @@ const ProofData: React.FC<ProofDataProps> = ({ proof }) => {
   return (
     <div className={styles.proofData}>
       <div className={styles.raw}>
-        <p className={styles.label}>{i18n.proof_raw}</p>
+        <p className={styles.label}>
+          {i18n.proof_raw} <span>({res.raw.length} bytes)</span>
+        </p>
         <p>{res.raw}</p>
       </div>
       <div className={styles.publicInput}>
@@ -164,6 +168,11 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
           </DefaultModuleTitle>
         </DefaultModuleHeader>
         <QueryItemList sidePadding>
+          {loadDriverStatus === LoadDriverStatus.InProgress && (
+            <Overlay>
+              <Spinner size={28} color={colors.blue_12} />
+            </Overlay>
+          )}
           {proofType && (
             <QueryItem sidePadding>
               <QueryItemMeta>
