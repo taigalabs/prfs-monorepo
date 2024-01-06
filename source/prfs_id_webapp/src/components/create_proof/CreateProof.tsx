@@ -26,7 +26,7 @@ import {
 import { ProofGenReceiptRaw } from "@/components/proof_gen/receipt";
 import { useAppSelector } from "@/state/hooks";
 import { LoadDriverStatus, useLoadDriver } from "@/components/load_driver/useLoadDriver";
-import LoadDriver from "../load_driver/LoadDriver";
+import LoadDriver from "@/components/load_driver/LoadDriver";
 
 enum Status {
   Standby,
