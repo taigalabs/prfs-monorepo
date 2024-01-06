@@ -9,162 +9,171 @@ import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 import {
   API_PATH,
   VerifyProofArgs,
+  VerifyProofResultPayload,
   makeVerifyProofSearchParams,
   newPrfsIdMsg,
+  parseBuffer,
   sendMsgToChild,
 } from "@taigalabs/prfs-id-sdk-web";
 import { useRandomKeyPair } from "@/hooks/key";
 import { useTutorial } from "@taigalabs/prfs-react-lib/src/hooks/tutorial";
+import { decrypt } from "@taigalabs/prfs-crypto-js";
 
 import styles from "./VerifyProofModule.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { envs } from "@/envs";
 import { useAppSelector } from "@/state/hooks";
 
-export enum VerifiedStatus {
-  None,
-  InProgress,
+export enum VerifyProofStatus {
+  Standby,
   Valid,
   Invalid,
 }
 
-const VerifyButton: React.FC<VerifyButtonProps> = ({ verifiedStatus, handleClick }) => {
-  const i18n = React.useContext(i18nContext);
+// const VerifyButton: React.FC<VerifyButtonProps> = ({ verifiedStatus, handleClick }) => {
+//   const i18n = React.useContext(i18nContext);
 
-  switch (verifiedStatus) {
-    case VerifiedStatus.Valid:
-      return (
-        <Button variant="transparent_black_1" className={styles.validBtn} smallPadding>
-          <FaCheck />
-          <span>{i18n.verified}</span>
-        </Button>
-      );
+//   switch (verifiedStatus) {
+//     case VerifyProofStatus.Valid:
+//       return (
+//         <Button variant="transparent_black_1" className={styles.validBtn} smallPadding>
+//           <FaCheck />
+//           <span>{i18n.verified}</span>
+//         </Button>
+//       );
 
-    case VerifiedStatus.Invalid:
-      return (
-        <Button variant="transparent_black_1" className={styles.invalidBtn} smallPadding>
-          <AiOutlineClose />
-          <span>{i18n.invalid}</span>
-        </Button>
-      );
+//     case VerifyProofStatus.Invalid:
+//       return (
+//         <Button variant="transparent_black_1" className={styles.invalidBtn} smallPadding>
+//           <AiOutlineClose />
+//           <span>{i18n.invalid}</span>
+//         </Button>
+//       );
 
-    case VerifiedStatus.InProgress:
-      return (
-        <Button variant="transparent_black_1" className={styles.progressBtn} smallPadding>
-          <Spinner color="#3367d6" size={28} />
-        </Button>
-      );
-
-    default:
-      return (
-        <Button
-          variant="transparent_blue_1"
-          className={styles.verifyBtn}
-          handleClick={handleClick}
-          smallPadding
-        >
-          {i18n.verify}
-        </Button>
-      );
-  }
-};
+//     default:
+//       return (
+//         <Button
+//           variant="transparent_blue_1"
+//           className={styles.verifyBtn}
+//           handleClick={handleClick}
+//           smallPadding
+//         >
+//           {i18n.verify}
+//         </Button>
+//       );
+//   }
+// };
 
 const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeId }) => {
-  const [verifiedStatus, setVerifiedStatus] = React.useState(VerifiedStatus.None);
+  const [verifyProofStatus, setVerifyProofStatus] = React.useState(VerifyProofStatus.Standby);
   const { openPopup } = usePopup();
   const { prfsEmbed, isReady: isPrfsReady } = usePrfsEmbed();
   const { tutorialId } = useTutorial();
   const { sk, pkHex } = useRandomKeyPair();
+  const i18n = React.useContext(i18nContext);
   const step = useAppSelector(state => state.tutorial.tutorialStep);
 
   const handleClickVerify = React.useCallback(async () => {
-    if (verifiedStatus === VerifiedStatus.None) {
-      try {
-        setVerifiedStatus(VerifiedStatus.InProgress);
-        // const verifyReceipt = await proofGenElement.verifyProof(proof, circuitTypeId);
+    try {
+      const verifyProofArgs: VerifyProofArgs = {
+        nonce: Math.random() * 1000000,
+        app_id: "prfs_proof",
+        public_key: pkHex,
+        proof_type_id: proofTypeId,
+      };
 
-        // if (verifyReceipt.verifyResult) {
-        //   setVerifiedStatus(VerifiedStatus.Valid);
-        // } else {
-        //   setVerifiedStatus(VerifiedStatus.Invalid);
-        // }
-
-        const verifyProofArgs: VerifyProofArgs = {
-          nonce: Math.random() * 1000000,
-          app_id: "prfs_proof",
-          public_key: pkHex,
-          proof_type_id: proofTypeId,
+      if (tutorialId) {
+        verifyProofArgs.tutorial = {
+          tutorialId,
+          step,
         };
+      }
+      const searchParams = makeVerifyProofSearchParams(verifyProofArgs);
+      const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.verify_proof}${searchParams}`;
 
-        if (tutorialId) {
-          verifyProofArgs.tutorial = {
-            tutorialId,
-            step,
-          };
+      openPopup(endpoint, async () => {
+        if (!prfsEmbed || !isPrfsReady) {
+          return;
         }
 
-        const searchParams = makeVerifyProofSearchParams(verifyProofArgs);
-        const endpoint = `${envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}${API_PATH.verify_proof}${searchParams}`;
+        const prf = {
+          ...proof,
+          proofBytes: Array.from(proof.proofBytes),
+        };
+        const data = JSON.stringify(prf);
+        const resp = await sendMsgToChild(
+          newPrfsIdMsg("REQUEST_VERIFY_PROOF", { appId: verifyProofArgs.app_id, data }),
+          prfsEmbed,
+        );
 
-        openPopup(endpoint, async () => {
-          if (!prfsEmbed || !isPrfsReady) {
-            return;
+        if (resp) {
+          try {
+            const buf = parseBuffer(resp);
+            let decrypted: string;
+            try {
+              decrypted = decrypt(sk.secret, buf).toString();
+            } catch (err) {
+              console.error("cannot decrypt payload", err);
+              return;
+            }
+
+            let payload: VerifyProofResultPayload;
+            try {
+              payload = JSON.parse(decrypted) as VerifyProofResultPayload;
+            } catch (err) {
+              console.error("cannot parse payload", err);
+              return;
+            }
+
+            if (payload.result) {
+              setVerifyProofStatus(VerifyProofStatus.Valid);
+            } else {
+              setVerifyProofStatus(VerifyProofStatus.Invalid);
+            }
+          } catch (err) {
+            console.error(err);
           }
+        } else {
+          console.error("Returned val is empty");
+        }
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }, [setVerifyProofStatus, prfsEmbed, isPrfsReady, tutorialId, openPopup]);
 
-          console.log(123);
-          const prf = { ...proof };
-          prf.proofBytes = Array.from(prf.proofBytes);
-          const data = JSON.stringify(prf);
-          console.log("sending you message", data);
-          const resp = await sendMsgToChild(
-            newPrfsIdMsg("REQUEST_VERIFY_PROOF", { appId: verifyProofArgs.app_id, data }),
-            prfsEmbed,
-          );
-
-          console.log(22, resp);
-
-          // if (resp) {
-          //   try {
-          //     const buf = parseBuffer(resp);
-          //     let decrypted: string;
-          //     try {
-          //       decrypted = decrypt(sk.secret, buf).toString();
-          //     } catch (err) {
-          //       console.error("cannot decrypt payload", err);
-          //       return;
-          //     }
-
-          //     let payload: ProofGenSuccessPayload;
-          //     try {
-          //       payload = JSON.parse(decrypted) as ProofGenSuccessPayload;
-          //     } catch (err) {
-          //       console.error("cannot parse payload", err);
-          //       return;
-          //     }
-
-          //     const proof = payload.receipt[PROOF] as ProveReceipt;
-          //     if (proof) {
-          //       handleCreateProofResult(proof);
-          //     } else {
-          //       console.error("no proof delivered");
-          //       return;
-          //     }
-          //   } catch (err) {
-          //     console.error(err);
-          //   }
-          // } else {
-          //   console.error("Returned val is empty");
-          // }
-        });
-      } catch (err) {
-        setVerifiedStatus(VerifiedStatus.Invalid);
+  const btnContent = React.useMemo(() => {
+    switch (verifyProofStatus) {
+      case VerifyProofStatus.Valid:
+        return (
+          <>
+            <span>{i18n.valid}</span>
+          </>
+        );
+      case VerifyProofStatus.Invalid:
+        return (
+          <>
+            <span>{i18n.invalid}</span>
+          </>
+        );
+      case VerifyProofStatus.Standby:
+      default: {
+        return <span>{i18n.verify}</span>;
       }
     }
-  }, [verifiedStatus, setVerifiedStatus, prfsEmbed, isPrfsReady, tutorialId, openPopup]);
+  }, []);
 
   return (
     <div className={styles.wrapper}>
-      <VerifyButton verifiedStatus={verifiedStatus} handleClick={handleClickVerify} />
+      <Button
+        variant="transparent_blue_1"
+        className={styles.verifyBtn}
+        handleClick={handleClickVerify}
+        smallPadding
+      >
+        {btnContent}
+        {/* {i18n.verify} */}
+      </Button>
     </div>
   );
 };
@@ -176,7 +185,7 @@ export interface VerifyProofModuleProps {
   proof: Proof;
 }
 
-export interface VerifyButtonProps {
-  verifiedStatus: VerifiedStatus;
-  handleClick: () => Promise<void>;
-}
+// export interface VerifyButtonProps {
+//   verifyP: VerifiedStatus;
+//   handleClick: () => Promise<void>;
+// }

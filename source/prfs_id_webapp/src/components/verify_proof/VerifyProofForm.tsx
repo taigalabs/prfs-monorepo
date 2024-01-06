@@ -151,7 +151,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
         console.error(err);
       }
       setVerifyProofStatus(Status.Standby);
-      // window.close();
+      window.close();
     }
   }, [verifyProofArgs, setErrorMsg, data, setVerifyProofStatus, driver]);
 
@@ -173,33 +173,35 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
               <Spinner size={28} color={colors.blue_12} />
             </Overlay>
           )}
-          {proofType && (
-            <QueryItem sidePadding>
-              <QueryItemMeta>
-                <QueryItemLeftCol>
-                  <TbNumbers />
-                </QueryItemLeftCol>
-                <QueryItemRightCol>
-                  <QueryName
-                    className={cn({ [styles.creating]: verifyProofStatus === Status.InProgress })}
-                  >
-                    <span>{i18n.proof}</span>
-                    {verifyProofStatus === Status.InProgress && <span> (Verifying...)</span>}
-                  </QueryName>
-                  <div>{proofType.proof_type_id}</div>
-                  <div className={styles.driverMsg}>
-                    <LoadDriver
-                      proofType={proofType}
-                      loadDriverStatus={loadDriverStatus}
-                      progress={loadDriverProgress}
-                      driverArtifacts={driverArtifacts}
-                    />
-                  </div>
-                  <ProofData proof={proof} />
-                </QueryItemRightCol>
-              </QueryItemMeta>
-            </QueryItem>
-          )}
+          <QueryItem sidePadding>
+            <QueryItemMeta>
+              <QueryItemLeftCol>
+                <TbNumbers />
+              </QueryItemLeftCol>
+              <QueryItemRightCol>
+                <QueryName
+                  className={cn({ [styles.creating]: verifyProofStatus === Status.InProgress })}
+                >
+                  <span>{i18n.proof}</span>
+                  {verifyProofStatus === Status.InProgress && <span> (Verifying...)</span>}
+                </QueryName>
+                {proofType && (
+                  <>
+                    <div>{proofType.proof_type_id}</div>
+                    <div className={styles.driverMsg}>
+                      <LoadDriver
+                        proofType={proofType}
+                        loadDriverStatus={loadDriverStatus}
+                        progress={loadDriverProgress}
+                        driverArtifacts={driverArtifacts}
+                      />
+                    </div>
+                  </>
+                )}
+                <ProofData proof={proof} />
+              </QueryItemRightCol>
+            </QueryItemMeta>
+          </QueryItem>
         </QueryItemList>
         <DefaultModuleBtnRow className={cn(styles.btnRow, styles.sidePadding)}>
           <div />
@@ -207,7 +209,7 @@ const VerifyProofForm: React.FC<VerifyProofFormProps> = ({ verifyProofArgs, prfs
             type="button"
             variant="blue_2"
             className={styles.submitBtn}
-            contentClassName={styles.submitContent}
+            contentClassName={styles.submitBtnContent}
             noTransition
             handleClick={handleClickSubmit}
             noShadow

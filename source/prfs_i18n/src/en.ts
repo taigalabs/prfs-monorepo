@@ -114,6 +114,7 @@ export default {
   verify: "Verify",
   verify_proof_form: "Verify proof form",
   verified: "Verified",
+  valid: "Valid",
   invalid: "Invalid",
   proof_type_search_guide: "Search proof types",
   proof_instance_search_guide: "Search proof instances",
