@@ -13,7 +13,6 @@ pub mod dev_prfs_embed_webapp;
 pub mod dev_prfs_id_webapp;
 pub mod dev_prfs_poll_webapp;
 pub mod dev_prfs_proof_webapp;
-pub mod dev_sdk_web_module;
 pub mod dev_shy_webapp;
 pub mod dev_snap;
 
@@ -26,7 +25,6 @@ pub mod start_prfs_embed_webapp;
 pub mod start_prfs_id_webapp;
 pub mod start_prfs_poll_webapp;
 pub mod start_prfs_proof_webapp;
-pub mod start_sdk_web_module;
 pub mod start_shy_webapp;
 
 // docker
@@ -38,7 +36,6 @@ pub mod docker_run_postgres;
 pub mod docker_run_prfs_console_webapp;
 pub mod docker_run_prfs_embed_webapp;
 pub mod docker_run_prfs_proof_webapp;
-pub mod docker_run_sdk_web_module;
 
 // seed
 pub mod seed_api_data;
