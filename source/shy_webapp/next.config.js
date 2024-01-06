@@ -17,11 +17,7 @@ const nextConfig = {
   swcMinify: true,
 
   // till we set up proper build pipeline
-  transpilePackages: [
-    "@taigalabs/prfs-sdk-web",
-    "@taigalabs/prfs-api-js",
-    "@taigalabs/prfs-react-lib",
-  ],
+  transpilePackages: ["@taigalabs/prfs-api-js", "@taigalabs/prfs-react-lib"],
 
   webpack: (config, { isServer, dev }) => {
     config.resolve.fallback = { fs: false };

@@ -6,7 +6,7 @@ import { PollQuestion } from "@taigalabs/prfs-entities/bindings/PollQuestion";
 import { SubmitPrfsPollResponseRequest } from "@taigalabs/prfs-entities/bindings/SubmitPrfsPollResponseRequest";
 import { prfsApi2 } from "@taigalabs/prfs-api-js";
 import { useMutation } from "@tanstack/react-query";
-import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
+// import { PrfsSDK } from "@taigalabs/prfs-sdk-web";
 import { ethers } from "ethers";
 import Button from "@taigalabs/prfs-react-lib/src/button/Button";
 // import ProofGenElement from "@taigalabs/prfs-sdk-web/src/proof_gen_element/proof_gen_element";
@@ -16,7 +16,7 @@ import { i18nContext } from "@/contexts/i18n";
 import { paths } from "@/paths";
 import Question from "./Question";
 
-const prfs = new PrfsSDK("test");
+// const prfs = new PrfsSDK("test");
 
 const PollView: React.FC<PollViewProps> = ({ poll }) => {
   const i18n = React.useContext(i18nContext);
