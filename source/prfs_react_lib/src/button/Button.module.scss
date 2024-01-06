@@ -155,6 +155,11 @@
     background-color: var(--bright-gray-40);
   }
 
+  &:active {
+    color: var(--blue-20);
+    background-color: var(--bright-gray-35);
+  }
+
   &:disabled {
     color: var(--aqua-blue-90);
   }

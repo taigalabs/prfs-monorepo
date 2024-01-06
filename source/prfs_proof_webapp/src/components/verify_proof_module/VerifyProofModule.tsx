@@ -4,7 +4,6 @@ import cn from "classnames";
 import { Proof } from "@taigalabs/prfs-driver-interface";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
-import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import { usePopup, usePrfsEmbed } from "@taigalabs/prfs-id-sdk-react";
 import {
   API_PATH,
@@ -29,40 +28,6 @@ export enum VerifyProofStatus {
   Valid,
   Invalid,
 }
-
-// const VerifyButton: React.FC<VerifyButtonProps> = ({ verifiedStatus, handleClick }) => {
-//   const i18n = React.useContext(i18nContext);
-
-//   switch (verifiedStatus) {
-//     case VerifyProofStatus.Valid:
-//       return (
-//         <Button variant="transparent_black_1" className={styles.validBtn} smallPadding>
-//           <FaCheck />
-//           <span>{i18n.verified}</span>
-//         </Button>
-//       );
-
-//     case VerifyProofStatus.Invalid:
-//       return (
-//         <Button variant="transparent_black_1" className={styles.invalidBtn} smallPadding>
-//           <AiOutlineClose />
-//           <span>{i18n.invalid}</span>
-//         </Button>
-//       );
-
-//     default:
-//       return (
-//         <Button
-//           variant="transparent_blue_1"
-//           className={styles.verifyBtn}
-//           handleClick={handleClick}
-//           smallPadding
-//         >
-//           {i18n.verify}
-//         </Button>
-//       );
-//   }
-// };
 
 const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeId }) => {
   const [verifyProofStatus, setVerifyProofStatus] = React.useState(VerifyProofStatus.Standby);
@@ -147,12 +112,14 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
       case VerifyProofStatus.Valid:
         return (
           <>
+            <FaCheck className={styles.green} />
             <span>{i18n.valid}</span>
           </>
         );
       case VerifyProofStatus.Invalid:
         return (
           <>
+            <AiOutlineClose className={styles.red} />
             <span>{i18n.invalid}</span>
           </>
         );
@@ -161,18 +128,18 @@ const VerifyProofModule: React.FC<VerifyProofModuleProps> = ({ proof, proofTypeI
         return <span>{i18n.verify}</span>;
       }
     }
-  }, []);
+  }, [verifyProofStatus]);
 
   return (
     <div className={styles.wrapper}>
       <Button
         variant="transparent_blue_1"
         className={styles.verifyBtn}
+        contentClassName={styles.verifyBtnContent}
         handleClick={handleClickVerify}
         smallPadding
       >
         {btnContent}
-        {/* {i18n.verify} */}
       </Button>
     </div>
   );
@@ -184,8 +151,3 @@ export interface VerifyProofModuleProps {
   proofTypeId: string;
   proof: Proof;
 }
-
-// export interface VerifyButtonProps {
-//   verifyP: VerifiedStatus;
-//   handleClick: () => Promise<void>;
-// }
