@@ -1,4 +1,4 @@
-import "@taigalabs/prfs-react-lib/src/react_components.scss";
+import "@taigalabs/prfs-react-lib/src/global.scss";
 import "./globals.scss";
 
 import React from "react";
