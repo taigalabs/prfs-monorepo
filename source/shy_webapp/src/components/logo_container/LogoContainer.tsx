@@ -3,9 +3,9 @@ import cn from "classnames";
 
 import styles from "./LogoContainer.module.scss";
 
-const LogoContainer: React.FC<LogoContainerProps> = ({ width }) => {
+const LogoContainer: React.FC<LogoContainerProps> = ({ width, className }) => {
   return (
-    <div className={cn(styles.wrapper)} style={{ width }}>
+    <div className={cn(styles.wrapper, className)} style={{ width }}>
       <img src="https://d1w1533jipmvi2.cloudfront.net/shy_logo_388.png" alt="logo" crossOrigin="" />
     </div>
   );
@@ -14,5 +14,6 @@ const LogoContainer: React.FC<LogoContainerProps> = ({ width }) => {
 export default LogoContainer;
 
 export interface LogoContainerProps {
+  className?: string;
   width?: number | "auto";
 }

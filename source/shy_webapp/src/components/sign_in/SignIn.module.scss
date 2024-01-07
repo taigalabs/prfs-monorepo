@@ -1,25 +1,29 @@
 .wrapper {
   display: flex;
+  width: 100%;
+
+  /* border: 1px solid black; */
 }
 
 .logoPane {
   flex-grow: 1;
   display: flex;
   align-items: center;
+  justify-content: center;
+  min-width: 45vw;
 
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
 
   .logoWrapper {
     display: flex;
     justify-content: center;
-    width: 500px;
   }
 }
 
 .main {
   flex-grow: 1;
 
-  border: 1px solid red;
+  /* border: 1px solid red; */
 
   .intro {
     font-size: 18px;
@@ -41,5 +45,11 @@
       width: 300px;
       border: 1px solid var(--bright-gray-32);
     }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .wrapper {
+    flex-direction: column;
   }
 }
