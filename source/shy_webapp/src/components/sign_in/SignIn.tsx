@@ -6,9 +6,9 @@ import styles from "./SignIn.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { ContentLeft, ContentMain } from "@/components/content_area/ContentArea";
 import LeftBar from "@/components/left_bar/LeftBar";
-import LogoContainer from "../logo_container/LogoContainer";
+import LogoContainer from "@/components/logo_container/LogoContainer";
 import ShyLandingIntro from "./ShyLandingIntro.mdx";
-import PrfsIdSignInBtn from "../prfs_sign_in_btn/PrfsSignInBtn";
+import PrfsIdSignInBtn from "@/components/prfs_sign_in_btn/PrfsSignInBtn";
 
 const SignIn: React.FC<SignInProps> = () => {
   const i18n = React.useContext(i18nContext);

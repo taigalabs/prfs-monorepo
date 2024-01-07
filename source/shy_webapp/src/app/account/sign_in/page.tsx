@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 
 import styles from "./HomePage.module.scss";
-import SignIn from "@/components/signin/SignIn";
+import SignIn from "@/components/sign_in/SignIn";
 import SignInLayout from "@/components/layouts/sign_in_layout/SignInLayout";
 
 const SignInPage: React.FC = () => {
