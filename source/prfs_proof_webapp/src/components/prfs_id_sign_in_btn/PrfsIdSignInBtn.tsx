@@ -123,7 +123,6 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
       {signUpData && <SignUpModal credential={signUpData} />}
       <PrfsIdSignInButton
         className={cn(styles.signInBtn, className)}
-        appId="prfs_proof"
         label={label}
         appSignInArgs={appSignInArgs}
         handleSucceedSignIn={handleSucceedSignIn}

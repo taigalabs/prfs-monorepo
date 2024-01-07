@@ -7,9 +7,11 @@ import { WagmiConfig, configureChains, createConfig, mainnet } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
+import { PrfsEmbedProvider } from "@taigalabs/prfs-id-sdk-react/src/context";
 
 import { I18nProvider } from "@/i18n/context";
 import { store } from "@/state/store";
+import { envs } from "@/envs";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [mainnet],
@@ -37,11 +39,16 @@ const TopProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <WagmiConfig config={wagmiConfig}>
-        <PrfsReactComponentsI18NProvider>
-          <StateProvider store={store}>
-            <I18nProvider>{children}</I18nProvider>
-          </StateProvider>
-        </PrfsReactComponentsI18NProvider>
+        <PrfsEmbedProvider
+          appId="shy"
+          prfsEmbedEndpoint={envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT}
+        >
+          <PrfsReactComponentsI18NProvider>
+            <StateProvider store={store}>
+              <I18nProvider>{children}</I18nProvider>
+            </StateProvider>
+          </PrfsReactComponentsI18NProvider>
+        </PrfsEmbedProvider>
       </WagmiConfig>
     </QueryClientProvider>
   );

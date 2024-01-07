@@ -36,7 +36,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
+  const { isInitialized, shyCredential } = useSignedInUser();
   const { mutateAsync: prfsSignInRequest } = useMutation({
     mutationFn: (req: PrfsSignInRequest) => {
       return prfsApi2("sign_in_prfs_account", req);
@@ -47,9 +47,9 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
   const appSignInArgs = React.useMemo<AppSignInArgs>(() => {
     return {
       nonce: Math.random() * 1000000,
-      appId: "shy_webapp",
-      signInData: [AppSignInData.ID_POSEIDON],
-      publicKey: pkHex,
+      app_id: "shy_webapp",
+      sign_in_data: [AppSignInData.ID_POSEIDON],
+      public_key: pkHex,
     };
   }, [pkHex]);
 
@@ -118,16 +118,16 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
     console.log("Failed init Prfs Proof credential!");
   }, []);
 
-  if (!isCredentialInitialized) {
+  if (!isInitialized) {
     return <Spinner size={24} color="#5c5c5c" />;
   }
 
-  return prfsProofCredential ? (
+  return shyCredential ? (
     noCredential ? (
       <div>Loading...</div>
     ) : (
       <PrfsCredentialPopover
-        credential={prfsProofCredential}
+        credential={shyCredential}
         handleInitFail={handleInitFail}
         handleClickSignOut={handleClickSignOut}
       />
@@ -136,7 +136,6 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
     <>
       {signUpData && <SignUpModal credential={signUpData} />}
       <PrfsIdSignInButton
-        appId="shy"
         className={styles.signInBtn}
         label={i18n.sign_in_with_prfs_id}
         appSignInArgs={appSignInArgs}
