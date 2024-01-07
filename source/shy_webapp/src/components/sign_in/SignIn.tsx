@@ -1,6 +1,7 @@
 "use client";
 
 import React, { Suspense } from "react";
+import { useRouter } from "next/navigation";
 
 import styles from "./SignIn.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -9,9 +10,17 @@ import LeftBar from "@/components/left_bar/LeftBar";
 import LogoContainer from "@/components/logo_container/LogoContainer";
 import ShyLandingIntro from "./ShyLandingIntro.mdx";
 import PrfsIdSignInBtn from "@/components/prfs_sign_in_btn/PrfsSignInBtn";
+import { useSignedInUser } from "@/hooks/user";
+import { paths } from "@/paths";
 
 const SignIn: React.FC<SignInProps> = () => {
   const i18n = React.useContext(i18nContext);
+  const { shyCredential } = useSignedInUser();
+  const router = useRouter();
+
+  if (shyCredential) {
+    router.push(paths.__);
+  }
 
   return (
     <div className={styles.wrapper}>

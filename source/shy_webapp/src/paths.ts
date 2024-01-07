@@ -2,6 +2,6 @@ export const paths = {
   __: "/",
   generate: "/",
   account: "/account",
-  account__signin: "/account/signin",
+  account__sign_in: "/account/sign_in",
   ch: "/ch",
 };

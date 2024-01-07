@@ -1,8 +1,9 @@
 import { PrfsAccount } from "@taigalabs/prfs-entities/bindings/PrfsAccount";
-import { LocalPrfsAccount } from "./userReducer";
 
-export type LoadPrfsAccountPayload = {
-  localPrfsAccount: LocalPrfsAccount | null;
+import { LocalShyCredential } from "@/storage/local_storage";
+
+export type LoadShyAccountPayload = {
+  localPrfsAccount: LocalShyCredential | null;
 };
 
 export type SignInPayload = {

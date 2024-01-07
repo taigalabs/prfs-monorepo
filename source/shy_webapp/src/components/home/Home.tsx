@@ -11,6 +11,7 @@ import { DefaultHeader, DefaultMain } from "@/components/layouts/default_layout/
 import LeftBarDrawer from "./LeftBarDrawer";
 import { useSignedInUser } from "@/hooks/user";
 import { paths } from "@/paths";
+import Loading from "../loading/Loading";
 
 const Home: React.FC<HomeProps> = () => {
   const router = useRouter();
@@ -26,16 +27,16 @@ const Home: React.FC<HomeProps> = () => {
     [setIsLeftBarDrawerVisible],
   );
 
-  const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
+  const { isInitialized, shyCredential } = useSignedInUser();
   React.useEffect(() => {
-    if (isCredentialInitialized) {
-      if (prfsProofCredential === null) {
-        router.push(paths.account__signin);
+    if (isInitialized) {
+      if (shyCredential === null) {
+        router.push(paths.account__sign_in);
       }
     }
-  }, [isCredentialInitialized, prfsProofCredential, router]);
+  }, [isInitialized, shyCredential, router]);
 
-  return (
+  return isInitialized && shyCredential ? (
     <div className={styles.wrapper}>
       <DefaultHeader>
         <div className={styles.leftBarContainer}>
@@ -49,6 +50,8 @@ const Home: React.FC<HomeProps> = () => {
         <TimelineFeeds channelId="default" />
       </DefaultMain>
     </div>
+  ) : (
+    <Loading />
   );
 };
 
