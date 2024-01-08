@@ -16,3 +16,9 @@
 
   /* border: 1px solid green; */
 }
+
+@media screen and (max-width: 480px) {
+  .header {
+    flex-grow: 0;
+  }
+}

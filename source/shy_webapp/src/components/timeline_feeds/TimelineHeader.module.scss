@@ -1,6 +1,9 @@
+@import "@/styles/layouts.module.scss";
+
 .wrapper {
   position: absolute;
-  height: 53px;
+  height: $timeline_header_height;
+  width: 100%;
 
-  border: 1px solid green;
+  /* border: 1px solid green; */
 }
