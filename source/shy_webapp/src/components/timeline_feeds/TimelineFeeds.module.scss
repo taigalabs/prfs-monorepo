@@ -1,31 +1,25 @@
 @import "@/styles/layouts.module.scss";
 
+/* .wrapper { */
+/*   width: 100%; */
+/*   overflow-y: auto; */
+/* } */
+
 .wrapper {
   width: 100%;
   overflow-y: auto;
-
-  /* border: 1px solid blue; */
-}
-
-.loading {
-  height: 100%;
-  display: grid;
-  place-items: center;
-}
-
-.feedContainer {
   height: 100vh;
   overflow-y: auto;
   display: flex;
 
   border: 1px solid red;
 
-  .left {
+  .main {
     position: relative;
     width: 598px;
   }
 
-  .right {
+  .side {
   }
 
   .infiniteScroll {
@@ -47,13 +41,19 @@
   height: 100px;
 }
 
+.loading {
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
 @media screen and (max-width: 480px) {
-  .feedContainer {
-    .left {
+  .wrapper {
+    .main {
       width: 100%;
     }
 
-    .right {
+    .side {
       display: none;
     }
   }
