@@ -23,24 +23,27 @@ const SignIn: React.FC<SignInProps> = () => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.logoPane}>
-        <div className={styles.logoWrapper}>
-          <LogoContainer className={styles.logo} />
+      <div className={styles.upper}>
+        <div className={styles.logoPane}>
+          <div className={styles.logoWrapper}>
+            <LogoContainer className={styles.logo} />
+          </div>
+        </div>
+        <div className={styles.main}>
+          <div className={styles.intro}>
+            <ShyLandingIntro />
+          </div>
+          <ul className={styles.signInBtnRow}>
+            <li>
+              <PrfsIdSignInBtn />
+            </li>
+          </ul>
+          <div className={styles.guideline}>
+            <SigningInGuideline />
+          </div>
         </div>
       </div>
-      <div className={styles.main}>
-        <div className={styles.intro}>
-          <ShyLandingIntro />
-        </div>
-        <ul className={styles.signInBtnRow}>
-          <li>
-            <PrfsIdSignInBtn />
-          </li>
-        </ul>
-        <div className={styles.guideline}>
-          <SigningInGuideline />
-        </div>
-      </div>
+      <div className={styles.bottom}>footer</div>
     </div>
   );
 };
