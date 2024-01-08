@@ -42,6 +42,7 @@ export default {
   merkle_proof: "Merkle proof",
   sign: "Sign",
   sign_in_with_prfs_id: "Sign in with Prfs ID",
+  sign_in_up_with_prfs_id: "Sign in/up with Prfs ID",
   create_data_with_prfs_id: "Create data with Prfs ID",
   verify_proof_with_prfs: "Verify proof with Prfs ID",
   app_data_sharing_guide:

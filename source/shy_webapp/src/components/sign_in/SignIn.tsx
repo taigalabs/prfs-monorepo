@@ -7,6 +7,7 @@ import styles from "./SignIn.module.scss";
 import { i18nContext } from "@/i18n/context";
 import LogoContainer from "@/components/logo_container/LogoContainer";
 import ShyLandingIntro from "./ShyLandingIntro.mdx";
+import SigningInGuideline from "./SigningInGuideline.mdx";
 import PrfsIdSignInBtn from "@/components/prfs_sign_in_btn/PrfsSignInBtn";
 import { useSignedInUser } from "@/hooks/user";
 import { paths } from "@/paths";
@@ -24,7 +25,7 @@ const SignIn: React.FC<SignInProps> = () => {
     <div className={styles.wrapper}>
       <div className={styles.logoPane}>
         <div className={styles.logoWrapper}>
-          <LogoContainer />
+          <LogoContainer className={styles.logo} />
         </div>
       </div>
       <div className={styles.main}>
@@ -34,9 +35,11 @@ const SignIn: React.FC<SignInProps> = () => {
         <ul className={styles.signInBtnRow}>
           <li>
             <PrfsIdSignInBtn />
-            {/* <button className={styles.btn}>{i18n.sign_in_with_prfs_id}</button> */}
           </li>
         </ul>
+        <div className={styles.guideline}>
+          <SigningInGuideline />
+        </div>
       </div>
     </div>
   );
