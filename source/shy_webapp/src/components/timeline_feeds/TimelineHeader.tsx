@@ -1,18 +1,21 @@
 import React from "react";
-import { ShyPost } from "@taigalabs/prfs-entities/bindings/ShyPost";
 
 import styles from "./TimelineHeader.module.scss";
 import ShyLogo from "@/components/shy_logo/ShyLogo";
+import MyAvatar from "../my_avatar/MyAvatar";
+import { LocalShyCredential } from "@/storage/local_storage";
 
-const TimelineHeader: React.FC<TimelineHeaderProps> = () => {
+const TimelineHeader: React.FC<TimelineHeaderProps> = ({ credential }) => {
   return (
     <div className={styles.wrapper}>
       <ul className={styles.list}>
-        <li>drawer ubtton</li>
         <li>
-          <ShyLogo />
+          <MyAvatar credential={credential} />
         </li>
-        <li>l</li>
+        <li className={styles.logo}>
+          <ShyLogo width={60} />
+        </li>
+        <li />
       </ul>
     </div>
   );
@@ -20,4 +23,6 @@ const TimelineHeader: React.FC<TimelineHeaderProps> = () => {
 
 export default TimelineHeader;
 
-export interface TimelineHeaderProps {}
+export interface TimelineHeaderProps {
+  credential: LocalShyCredential;
+}

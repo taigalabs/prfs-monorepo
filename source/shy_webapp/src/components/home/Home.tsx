@@ -47,7 +47,7 @@ const Home: React.FC<HomeProps> = () => {
         </LeftBarDrawer>
       </DefaultHeader>
       <DefaultMain>
-        <TimelineHeader />
+        <TimelineHeader credential={shyCredential} />
         <TimelineFeeds channelId="default" />
       </DefaultMain>
     </div>
