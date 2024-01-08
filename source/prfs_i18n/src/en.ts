@@ -24,6 +24,7 @@ export default {
   english: "English",
   updates: "Updates",
   taigalabs: "Taiga labs",
+  taigalabs_2024: "2024 Taiga labs",
   code: "Code",
   create_post: "Create post",
   acc_atst_validate_guide:
