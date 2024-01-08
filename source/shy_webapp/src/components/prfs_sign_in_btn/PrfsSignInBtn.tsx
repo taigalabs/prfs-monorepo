@@ -53,17 +53,6 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
     };
   }, [pkHex]);
 
-  // React.useEffect(() => {
-  //   const nonce = Math.random() * 1000000;
-  //   const appId = "prfs_proof";
-  //   const signInData = encodeURIComponent([AppSignInData.ID_POSEIDON].join(","));
-  //   const queryString = `?public_key=${pkHex}&sign_in_data=${signInData}&app_id=${appId}&nonce=${nonce}`;
-  //   const prfsIdEndpoint = `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id__app_signin}${queryString}`;
-  //   setPrfsIdSignInEndpoint(prfsIdEndpoint);
-
-  //   console.log("initializing ephemeral secret key", sk);
-  // }, [setPrfsIdSignInEndpoint, sk, pkHex]);
-
   const handleSucceedSignIn = React.useCallback(
     async (encrypted: Buffer) => {
       if (sk) {
@@ -75,35 +64,34 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
           return;
         }
 
-        // let prfsIdSignInSuccessPayload: PrfsIdSignInSuccessPayload;
-        // try {
-        //   prfsIdSignInSuccessPayload = JSON.parse(decrypted) as PrfsIdSignInSuccessPayload;
-        // } catch (err) {
-        //   console.error(err);
-        //   return;
-        // }
+        let prfsIdSignInSuccessPayload: SignInSuccessPayload;
+        try {
+          prfsIdSignInSuccessPayload = JSON.parse(decrypted) as SignInSuccessPayload;
+        } catch (err) {
+          console.error(err);
+          return;
+        }
 
-        // const { payload, error, code } = await prfsSignInRequest({
-        //   account_id: prfsIdSignInSuccessPayload.account_id,
-        // });
-        // const avatar_color = makeColor(prfsIdSignInSuccessPayload.account_id);
-        // const credential: LocalShyCredential = {
-        //   account_id: prfsIdSignInSuccessPayload.account_id,
-        //   public_key: prfsIdSignInSuccessPayload.public_key,
-        //   avatar_color,
-        // };
+        const { error, code } = await prfsSignInRequest({
+          account_id: prfsIdSignInSuccessPayload.account_id,
+        });
+        const avatar_color = makeColor(prfsIdSignInSuccessPayload.account_id);
+        const credential: LocalShyCredential = {
+          account_id: prfsIdSignInSuccessPayload.account_id,
+          public_key: prfsIdSignInSuccessPayload.public_key,
+          avatar_color,
+        };
 
-        // if (error) {
-        //   console.error(error);
-        //   if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
-        //     setSignUpData(credential);
-        //   }
-        //   return;
-        // }
+        if (error) {
+          console.error(error);
+          if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
+            setSignUpData(credential);
+          }
+          return;
+        }
 
-        // persistShyCredential(credential);
-        // prfs account sign in
-        // dispatch(signInPrfs(credential));
+        persistShyCredential(credential);
+        dispatch(signInPrfs(credential));
       }
     },
     [router, dispatch, prfsSignInRequest, setSignUpData],

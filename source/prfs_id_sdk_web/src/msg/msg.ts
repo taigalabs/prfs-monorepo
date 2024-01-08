@@ -21,10 +21,6 @@ export interface SignInSuccessPayload {
   public_key: string;
 }
 
-// export interface CommitmentSuccessPayload {
-//   receipt: Record<string, string>;
-// }
-
 export interface ProofGenSuccessPayload {
   receipt: Record<string, any>;
 }
