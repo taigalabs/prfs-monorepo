@@ -101,7 +101,7 @@ const ChannelList: React.FC<ChannelListProps> = ({}) => {
           </div>
         ) : (
           <>
-            <div className={styles.placeholder} />
+            <div className={styles.placeholder}>power</div>
             <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
             <div
               className={styles.infiniteScroll}

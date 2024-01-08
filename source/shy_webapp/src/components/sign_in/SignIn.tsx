@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 
 import styles from "./SignIn.module.scss";
@@ -18,11 +18,15 @@ const SignIn: React.FC<SignInProps> = () => {
   const { shyCredential } = useSignedInUser();
   const router = useRouter();
 
-  if (shyCredential) {
-    router.push(paths.__);
-  }
+  React.useEffect(() => {
+    if (shyCredential) {
+      router.push(paths.__);
+    }
+  }, [shyCredential]);
 
-  return (
+  return shyCredential ? (
+    <div>Redirecting...</div>
+  ) : (
     <div className={styles.wrapper}>
       <div className={styles.upper}>
         <div className={styles.logoPane}>
