@@ -6,7 +6,12 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 
 import styles from "./ChannelList.module.scss";
 import Row from "./Row";
-import { TimelineFeedsWrapper } from "../timeline_feeds/TimelineFeeds";
+import {
+  TimelineFeedsMain,
+  TimelineFeedsSide,
+  TimelineFeedsWrapper,
+} from "../timeline_feeds/TimelineFeeds";
+import RightBar from "../right_bar/RightBar";
 
 const ChannelList: React.FC<ChannelListProps> = ({}) => {
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
@@ -89,7 +94,7 @@ const ChannelList: React.FC<ChannelListProps> = ({}) => {
 
   return (
     <TimelineFeedsWrapper innerRef={parentRef} handleScroll={handleScroll}>
-      <div className={styles.main}>
+      <TimelineFeedsMain>
         {status === "pending" ? (
           <div className={styles.loading}>
             <Spinner />
@@ -135,8 +140,10 @@ const ChannelList: React.FC<ChannelListProps> = ({}) => {
             </div>
           </>
         )}
-      </div>
-      <div className={styles.side}>{/* <RightBar /> */}</div>
+      </TimelineFeedsMain>
+      <TimelineFeedsSide>
+        <RightBar />
+      </TimelineFeedsSide>
     </TimelineFeedsWrapper>
   );
 };

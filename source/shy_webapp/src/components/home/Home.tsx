@@ -49,7 +49,6 @@ const Home: React.FC<HomeProps> = () => {
       </DefaultHeader>
       <DefaultMain>
         <TimelineHeader credential={shyCredential} />
-        {/* <TimelineFeeds channelId="default" /> */}
         <ChannelList />
       </DefaultMain>
     </div>

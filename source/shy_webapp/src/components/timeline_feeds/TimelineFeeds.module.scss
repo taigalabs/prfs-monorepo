@@ -13,20 +13,20 @@
   display: flex;
 
   border: 1px solid red;
+}
 
-  .main {
-    position: relative;
-    width: 598px;
-  }
+.main {
+  position: relative;
+  width: 598px;
+}
 
-  .side {
-  }
+.side {
+}
 
-  .infiniteScroll {
-    min-height: calc(100vh - 52px);
-    border-left: 1px solid var(--bright-gray-32);
-    border-right: 1px solid var(--bright-gray-32);
-  }
+.infiniteScroll {
+  min-height: calc(100vh - 52px);
+  border-left: 1px solid var(--bright-gray-32);
+  border-right: 1px solid var(--bright-gray-32);
 }
 
 .placeholder {
@@ -48,13 +48,11 @@
 }
 
 @media screen and (max-width: 480px) {
-  .wrapper {
-    .main {
-      width: 100%;
-    }
+  .main {
+    width: 100%;
+  }
 
-    .side {
-      display: none;
-    }
+  .side {
+    display: none;
   }
 }

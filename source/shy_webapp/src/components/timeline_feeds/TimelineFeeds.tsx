@@ -24,6 +24,14 @@ export const TimelineFeedsWrapper: React.FC<TimelineFeedsWrapperProps> = ({
   );
 };
 
+export const TimelineFeedsMain: React.FC<TimelineFeedsMainProps> = ({ children, className }) => {
+  return <div className={cn(styles.main, className)}>{children}</div>;
+};
+
+export const TimelineFeedsSide: React.FC<TimelineFeedsMainProps> = ({ children, className }) => {
+  return <div className={cn(styles.side, className)}>{children}</div>;
+};
+
 const TimelineFeeds: React.FC<TimelineFeedsProps> = () => {
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
@@ -168,6 +176,11 @@ export interface TimelineFeedsWrapperProps {
   className?: string;
   innerRef: React.MutableRefObject<HTMLDivElement | null>;
   handleScroll?: () => void;
+}
+
+export interface TimelineFeedsMainProps {
+  children: React.ReactNode;
+  className?: string;
 }
 
 export interface TimelineFeedsProps {
