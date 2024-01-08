@@ -12,6 +12,7 @@ import { useSignedInUser } from "@/hooks/user";
 import { paths } from "@/paths";
 import Loading from "@/components/loading/Loading";
 import TimelineHeader from "../timeline_feeds/TimelineHeader";
+import ChannelList from "../channel_list/ChannelList";
 
 const Home: React.FC<HomeProps> = () => {
   const router = useRouter();
@@ -48,7 +49,8 @@ const Home: React.FC<HomeProps> = () => {
       </DefaultHeader>
       <DefaultMain>
         <TimelineHeader credential={shyCredential} />
-        <TimelineFeeds channelId="default" />
+        {/* <TimelineFeeds channelId="default" /> */}
+        <ChannelList />
       </DefaultMain>
     </div>
   ) : (
