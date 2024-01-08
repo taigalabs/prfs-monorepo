@@ -2,8 +2,7 @@ import React from "react";
 import cn from "classnames";
 import { FloatingPortal } from "@floating-ui/react";
 
-import styles from "./Home.module.scss";
-import { i18nContext } from "@/i18n/context";
+import styles from "./LeftBarDrawer.module.scss";
 
 const LeftBarDrawer: React.FC<LeftBarDrawerProps> = ({ children, isOpen, setIsOpen }) => {
   const handleClickOverlay = React.useCallback(() => {

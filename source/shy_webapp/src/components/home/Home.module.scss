@@ -11,3 +11,9 @@
 
   /* border: 1px solid black; */
 }
+
+@media screen and (max-width: 480px) {
+  .leftBarContainer {
+    display: none;
+  }
+}

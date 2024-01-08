@@ -1,9 +1,7 @@
-@import "styles/layouts.module.scss";
-
 $leftbar_drawer_width: 284px;
 
 .overlay {
-  z-index: $drawer_zindex;
+  z-index: 2;
   position: fixed;
   inset: 0;
 
@@ -17,7 +15,7 @@ $leftbar_drawer_width: 284px;
   top: 0;
   height: 100%;
   width: $leftbar_drawer_width;
-  z-index: #{$drawer_zindex + 1};
+  z-index: 2;
   box-shadow: 0 0 16px rgba(0, 0, 0, 0.28);
   transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transform: translate3d(-$leftbar_drawer_width, 0, 0);
