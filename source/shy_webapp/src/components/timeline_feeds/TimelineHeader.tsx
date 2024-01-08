@@ -13,7 +13,7 @@ const TimelineHeader: React.FC<TimelineHeaderProps> = ({ credential }) => {
           <MyAvatar credential={credential} />
         </li>
         <li className={styles.logo}>
-          <ShyLogo width={60} />
+          <ShyLogo width={36} />
         </li>
         <li />
       </ul>
