@@ -12,11 +12,11 @@
 }
 
 .feedContainer {
-  height: 100vh;
+  height: calc(100vh - 60px);
   overflow-y: auto;
   display: flex;
 
-  /* border: 1px solid red; */
+  border: 1px solid red;
 
   .left {
     position: relative;

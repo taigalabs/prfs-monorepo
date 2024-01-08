@@ -11,6 +11,7 @@ import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
 import { useSignedInUser } from "@/hooks/user";
 import { paths } from "@/paths";
 import Loading from "@/components/loading/Loading";
+import TimelineHeader from "../timeline_feeds/TimelineHeader";
 
 const Home: React.FC<HomeProps> = () => {
   const router = useRouter();
@@ -46,6 +47,7 @@ const Home: React.FC<HomeProps> = () => {
         </LeftBarDrawer>
       </DefaultHeader>
       <DefaultMain>
+        <TimelineHeader />
         <TimelineFeeds channelId="default" />
       </DefaultMain>
     </div>
