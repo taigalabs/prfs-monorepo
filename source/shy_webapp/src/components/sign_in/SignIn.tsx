@@ -11,6 +11,7 @@ import SigningInGuideline from "./SigningInGuideline.mdx";
 import PrfsIdSignInBtn from "@/components/prfs_sign_in_btn/PrfsSignInBtn";
 import { useSignedInUser } from "@/hooks/user";
 import { paths } from "@/paths";
+import SignInFooter from "../sign_in_footer/SignInFooter";
 
 const SignIn: React.FC<SignInProps> = () => {
   const i18n = React.useContext(i18nContext);
@@ -43,7 +44,9 @@ const SignIn: React.FC<SignInProps> = () => {
           </div>
         </div>
       </div>
-      <div className={styles.bottom}>footer</div>
+      <div className={styles.bottom}>
+        <SignInFooter />
+      </div>
     </div>
   );
 };

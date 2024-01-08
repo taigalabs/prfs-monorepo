@@ -4,14 +4,14 @@ import React from "react";
 import { useRouter } from "next/navigation";
 
 import styles from "./Home.module.scss";
-import { i18nContext } from "@/i18n/context";
+// import { i18nContext } from "@/i18n/context";
 import LeftBar from "@/components/left_bar/LeftBar";
 import TimelineFeeds from "@/components/timeline_feeds/TimelineFeeds";
 import { DefaultHeader, DefaultMain } from "@/components/layouts/default_layout/DefaultLayout";
 import LeftBarDrawer from "./LeftBarDrawer";
 import { useSignedInUser } from "@/hooks/user";
 import { paths } from "@/paths";
-import Loading from "../loading/Loading";
+import Loading from "@/components/loading/Loading";
 
 const Home: React.FC<HomeProps> = () => {
   const router = useRouter();
