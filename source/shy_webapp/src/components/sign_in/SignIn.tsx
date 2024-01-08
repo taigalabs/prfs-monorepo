@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 import styles from "./SignIn.module.scss";
 import { i18nContext } from "@/i18n/context";
-import LogoContainer from "@/components/logo_container/LogoContainer";
+import ShyLogo from "@/components/shy_logo/ShyLogo";
 import ShyLandingIntro from "./ShyLandingIntro.mdx";
 import SigningInGuideline from "./SigningInGuideline.mdx";
 import PrfsIdSignInBtn from "@/components/prfs_sign_in_btn/PrfsSignInBtn";
@@ -27,7 +27,7 @@ const SignIn: React.FC<SignInProps> = () => {
       <div className={styles.upper}>
         <div className={styles.logoPane}>
           <div className={styles.logoWrapper}>
-            <LogoContainer className={styles.logo} />
+            <ShyLogo className={styles.logo} />
           </div>
         </div>
         <div className={styles.main}>

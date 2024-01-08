@@ -1,14 +1,13 @@
 "use client";
 
 import React from "react";
-import Logo from "@taigalabs/prfs-react-lib/src/logo/Logo";
 import Link from "next/link";
 
 import styles from "./LeftBar.module.scss";
 import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import PostDialog from "@/components/post_dialog/PostDialog";
-import LogoContainer from "@/components/logo_container/LogoContainer";
+import ShyLogo from "@/components/shy_logo/ShyLogo";
 
 const LeftBar: React.FC = () => {
   const i18n = React.useContext(i18nContext);
@@ -17,7 +16,7 @@ const LeftBar: React.FC = () => {
     <div className={styles.wrapper}>
       <div className={styles.logoContainer}>
         <Link href={paths.__}>
-          <LogoContainer width={70} />
+          <ShyLogo width={70} />
         </Link>
       </div>
       {/* <ul className={styles.mainMenu}> */}
