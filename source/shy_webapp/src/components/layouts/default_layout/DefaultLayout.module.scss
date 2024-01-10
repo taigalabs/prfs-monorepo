@@ -1,3 +1,5 @@
+@import "@/styles/layouts.module.scss";
+
 .wrapper {
   display: flex;
   flex-grow: 1;
@@ -15,6 +17,12 @@
   flex-grow: 1;
 
   /* border: 1px solid green; */
+}
+
+@media screen and (max-width: $view_port_min_width_big_display) {
+  .header {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 480px) {

@@ -19,12 +19,27 @@
 .header {
   display: none;
   justify-content: space-between;
+  height: 100%;
   align-items: center;
+  padding: 0 16px;
+
+  > li {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+  }
 
   .drawerBtn {
+    > div {
+      cursor: pointer;
+    }
   }
 
   .logo {
+    display: flex;
+    justify-content: center;
   }
 }
 

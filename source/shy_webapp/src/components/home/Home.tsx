@@ -37,6 +37,8 @@ const Home: React.FC<HomeProps> = () => {
     }
   }, [isInitialized, shyCredential, router]);
 
+  console.log("isDraweropen", isLeftBarDrawerVisible);
+
   return isInitialized && shyCredential ? (
     <div className={styles.wrapper}>
       <DefaultHeader>
@@ -48,8 +50,10 @@ const Home: React.FC<HomeProps> = () => {
         </LeftBarDrawer>
       </DefaultHeader>
       <DefaultMain>
-        {/* <TimelineHeader credential={shyCredential} /> */}
-        <ChannelList />
+        <ChannelList
+          credential={shyCredential}
+          handleClickShowLeftBarDrawer={handleClickShowLeftBarDrawer as any}
+        />
       </DefaultMain>
     </div>
   ) : (

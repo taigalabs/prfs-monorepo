@@ -13,8 +13,11 @@ import {
   TimelineFeedsWrapper,
 } from "../timeline_feeds/TimelineFeeds";
 import RightBar from "../right_bar/RightBar";
+import ShyLogo from "../shy_logo/ShyLogo";
+import MyAvatar from "../my_avatar/MyAvatar";
+import { LocalShyCredential } from "@/storage/local_storage";
 
-const ChannelList: React.FC<ChannelListProps> = ({}) => {
+const ChannelList: React.FC<ChannelListProps> = ({ credential, handleClickShowLeftBarDrawer }) => {
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
       queryKey: ["get_shy_posts"],
@@ -104,9 +107,13 @@ const ChannelList: React.FC<ChannelListProps> = ({}) => {
           <>
             <TimelineFeedsHeader>
               <ul className={styles.header}>
-                <li className={styles.drawerBtn}>power</li>
-                <li>power</li>
-                <li>123</li>
+                <li className={styles.drawerBtn}>
+                  <MyAvatar credential={credential} handleClick={handleClickShowLeftBarDrawer} />
+                </li>
+                <li className={styles.logo}>
+                  <ShyLogo width={46} />
+                </li>
+                <li></li>
               </ul>
             </TimelineFeedsHeader>
             <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
@@ -157,4 +164,7 @@ const ChannelList: React.FC<ChannelListProps> = ({}) => {
 
 export default ChannelList;
 
-export interface ChannelListProps {}
+export interface ChannelListProps {
+  credential: LocalShyCredential;
+  handleClickShowLeftBarDrawer: () => void;
+}
