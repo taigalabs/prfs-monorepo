@@ -16,6 +16,18 @@
   width: $timeline_feeds_main_width;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .drawerBtn {
+  }
+
+  .logo {
+  }
+}
+
 .side {
 }
 
@@ -41,6 +53,12 @@
   height: 100%;
   display: grid;
   place-items: center;
+}
+
+@media screen and (max-width: $view_port_min_width_big_display) {
+  .side {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 480px) {

@@ -24,6 +24,10 @@ export const TimelineFeedsWrapper: React.FC<TimelineFeedsWrapperProps> = ({
   );
 };
 
+export const TimelineFeedsHeader: React.FC<TimelineFeedsMainProps> = ({ children, className }) => {
+  return <div className={cn(styles.header, className)}>{children}</div>;
+};
+
 export const TimelineFeedsMain: React.FC<TimelineFeedsMainProps> = ({ children, className }) => {
   return <div className={cn(styles.main, className)}>{children}</div>;
 };

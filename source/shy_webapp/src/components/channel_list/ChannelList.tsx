@@ -7,6 +7,7 @@ import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
 import styles from "./ChannelList.module.scss";
 import Row from "./Row";
 import {
+  TimelineFeedsHeader,
   TimelineFeedsMain,
   TimelineFeedsSide,
   TimelineFeedsWrapper,
@@ -101,7 +102,13 @@ const ChannelList: React.FC<ChannelListProps> = ({}) => {
           </div>
         ) : (
           <>
-            <div className={styles.placeholder}>power</div>
+            <TimelineFeedsHeader>
+              <ul className={styles.header}>
+                <li className={styles.drawerBtn}>power</li>
+                <li>power</li>
+                <li>123</li>
+              </ul>
+            </TimelineFeedsHeader>
             <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
             <div
               className={styles.infiniteScroll}

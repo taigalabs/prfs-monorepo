@@ -48,7 +48,7 @@ const Home: React.FC<HomeProps> = () => {
         </LeftBarDrawer>
       </DefaultHeader>
       <DefaultMain>
-        <TimelineHeader credential={shyCredential} />
+        {/* <TimelineHeader credential={shyCredential} /> */}
         <ChannelList />
       </DefaultMain>
     </div>

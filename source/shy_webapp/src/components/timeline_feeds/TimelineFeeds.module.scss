@@ -15,6 +15,14 @@
   border: 1px solid red;
 }
 
+.header {
+  height: $timeline_header_height;
+  border-left: 1px solid var(--bright-gray-32);
+  border-right: 1px solid var(--bright-gray-32);
+
+  /* border: 1px solid green; */
+}
+
 .main {
   position: relative;
   width: 598px;
@@ -45,6 +53,12 @@
   height: 100%;
   display: grid;
   place-items: center;
+}
+
+@media screen and (max-width: $view_port_min_width_big_display) {
+  .side {
+    /* display: none; */
+  }
 }
 
 @media screen and (max-width: 480px) {
