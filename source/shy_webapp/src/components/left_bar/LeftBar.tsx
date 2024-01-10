@@ -8,8 +8,10 @@ import { i18nContext } from "@/i18n/context";
 import { paths } from "@/paths";
 import PostDialog from "@/components/post_dialog/PostDialog";
 import ShyLogo from "@/components/shy_logo/ShyLogo";
+import { LocalShyCredential } from "@/storage/local_storage";
+import MyAvatar from "../my_avatar/MyAvatar";
 
-const LeftBar: React.FC = () => {
+const LeftBar: React.FC<LeftBarProps> = ({ credential }) => {
   const i18n = React.useContext(i18nContext);
 
   return (
@@ -19,33 +21,24 @@ const LeftBar: React.FC = () => {
           <ShyLogo width={58} />
         </Link>
       </div>
-      {/* <ul className={styles.mainMenu}> */}
-      {/*   <li> */}
-      {/*     <ActiveLink href={`${paths.c}/crypto`}> */}
-      {/*       <BiBitcoin /> */}
-      {/*       {i18n.crypto} */}
-      {/*     </ActiveLink> */}
-      {/*   </li> */}
-      {/*   <li> */}
-      {/*     <ActiveLink href={`${paths.c}/defi`}> */}
-      {/*       <AiOutlineStock /> */}
-      {/*       {i18n.defi} */}
-      {/*     </ActiveLink> */}
-      {/*   </li> */}
-      {/*   <li> */}
-      {/*     <ActiveLink href={`${paths.c}/nft`}> */}
-      {/*       <AiFillPicture /> */}
-      {/*       {i18n.nft} */}
-      {/*     </ActiveLink> */}
-      {/*   </li> */}
-      {/* </ul> */}
       <div>
-        <PostDialog>
-          <button className={styles.postBtn}>{i18n.post}</button>
-        </PostDialog>
+        <MyAvatar credential={credential} />
+      </div>
+      <ul className={styles.mainMenu}>
+        <li></li>
+        <li></li>
+      </ul>
+      <div>
+        {/* <PostDialog> */}
+        {/*   <button className={styles.postBtn}>{i18n.post}</button> */}
+        {/* </PostDialog> */}
       </div>
     </div>
   );
 };
 
 export default LeftBar;
+
+export interface LeftBarProps {
+  credential: LocalShyCredential;
+}

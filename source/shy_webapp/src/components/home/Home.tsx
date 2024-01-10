@@ -43,10 +43,10 @@ const Home: React.FC<HomeProps> = () => {
     <div className={styles.wrapper}>
       <DefaultHeader>
         <div className={styles.leftBarContainer}>
-          <LeftBar />
+          <LeftBar credential={shyCredential} />
         </div>
         <LeftBarDrawer isOpen={isLeftBarDrawerVisible} setIsOpen={handleClickShowLeftBarDrawer}>
-          <LeftBar />
+          <LeftBar credential={shyCredential} />
         </LeftBarDrawer>
       </DefaultHeader>
       <DefaultMain>
