@@ -16,7 +16,7 @@ const LeftBar: React.FC = () => {
     <div className={styles.wrapper}>
       <div className={styles.logoContainer}>
         <Link href={paths.__}>
-          <ShyLogo width={70} />
+          <ShyLogo width={58} />
         </Link>
       </div>
       {/* <ul className={styles.mainMenu}> */}
