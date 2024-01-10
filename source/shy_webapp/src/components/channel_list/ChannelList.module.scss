@@ -17,7 +17,7 @@
 }
 
 .header {
-  display: flex;
+  display: none;
   justify-content: space-between;
   align-items: center;
 
@@ -58,6 +58,10 @@
 @media screen and (max-width: $view_port_min_width_big_display) {
   .side {
     display: none;
+  }
+
+  .header {
+    display: flex;
   }
 }
 
