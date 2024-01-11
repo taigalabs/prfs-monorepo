@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import cn from "classnames";
 import Link from "next/link";
 import { MdDashboard } from "@react-icons/all-files/md/MdDashboard";
 
@@ -34,17 +35,13 @@ const LeftBar: React.FC<LeftBarProps> = ({ credential }) => {
           <ShyLogo width={58} />
         </Link>
       </div>
-      <div className={styles.section}>
+      <div className={cn(styles.section, styles.mainMenu)}>
         <div className={styles.sectionLabel}>
           <MdDashboard />
           <span>{i18n.channels}</span>
         </div>
-        <ul className={styles.mainMenu}>
-          {/* <li>{i18n}</li> */}
-          <li></li>
-        </ul>
       </div>
-      <div className={styles.credentialBtn}>
+      <div className={styles.credentialSection}>
         <CredentialPopover
           credential={credential}
           handleInitFail={handleInitFail}
