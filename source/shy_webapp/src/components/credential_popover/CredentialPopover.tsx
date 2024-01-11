@@ -15,6 +15,7 @@ import {
 
 import styles from "./CredentialPopover.module.scss";
 import Modal from "./Modal";
+import { LocalShyCredential } from "@/storage/local_storage";
 
 const CredentialPopover: React.FC<CredentialPopoverProps> = ({
   className,
@@ -27,8 +28,8 @@ const CredentialPopover: React.FC<CredentialPopoverProps> = ({
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
-    placement: "bottom-end",
-    middleware: [offset(10), flip({ fallbackAxisSideDirection: "end" }), shift()],
+    placement: "bottom-start",
+    middleware: [offset(-40), flip({ fallbackAxisSideDirection: "end" })],
     whileElementsMounted: autoUpdate,
   });
   const click = useClick(context);
@@ -77,7 +78,7 @@ const CredentialPopover: React.FC<CredentialPopoverProps> = ({
               {...getFloatingProps()}
             >
               <Modal
-                id={credential.account_id}
+                credential={credential}
                 setIsOpen={setIsOpen}
                 handleClickSignOut={handleClickSignOut}
               />
@@ -92,10 +93,7 @@ const CredentialPopover: React.FC<CredentialPopoverProps> = ({
 export default CredentialPopover;
 
 export interface CredentialPopoverProps {
-  credential: {
-    account_id: string;
-    avatar_color: string;
-  };
+  credential: LocalShyCredential;
   className?: string;
   isOpenClassName?: string;
   zIndex?: number;

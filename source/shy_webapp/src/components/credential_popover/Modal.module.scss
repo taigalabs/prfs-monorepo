@@ -5,7 +5,13 @@
   width: 280px;
 }
 
-.main {
+.avatar {
+  display: grid;
+  place-items: center;
+  padding: 20px 0 0;
+}
+
+.meta {
   padding: 20px;
   font-size: 13px;
 

@@ -74,6 +74,11 @@
   }
 }
 
+.credentialBtn {
+  display: flex;
+  justify-content: flex-start;
+}
+
 .postBtn {
   cursor: pointer;
   width: 210px;
