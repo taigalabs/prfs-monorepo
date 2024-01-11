@@ -32,12 +32,14 @@ const LeftBar: React.FC<LeftBarProps> = ({ credential, channels }) => {
 
   const mainMenu = React.useMemo(() => {
     if (channels) {
-      return channels.map(ch => <li key={ch.channel_id}>{ch.label}</li>);
+      return channels.map(ch => (
+        <li className={styles.item} key={ch.channel_id}>
+          {ch.label}
+        </li>
+      ));
     }
     return null;
   }, [channels]);
-
-  console.log(222, mainMenu);
 
   return (
     <div className={styles.wrapper}>

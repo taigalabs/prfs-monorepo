@@ -6,7 +6,7 @@
   padding: 0 8px 14px;
   width: $leftbar_width;
 
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
 }
 
 .logoContainer {
@@ -29,6 +29,11 @@
 
 .mainMenu {
   padding-top: 14px;
+
+  .item {
+    font-size: 18px;
+    padding: 12px;
+  }
 }
 
 .section {
@@ -48,7 +53,7 @@
 .credentialSection {
   display: flex;
   justify-content: flex-start;
-  padding: 12px 10px;
+  padding: 24px 10px 12px;
 }
 
 .postBtn {
