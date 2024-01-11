@@ -12,13 +12,16 @@ import { useSignedInUser } from "@/hooks/user";
 import { paths } from "@/paths";
 import Loading from "@/components/loading/Loading";
 import ChannelList from "@/components/channel_list/ChannelList";
-import { prfsApi2 } from "@taigalabs/prfs-api-js";
+import { shyApi } from "@taigalabs/prfs-api-js";
 
-function useChannelList(postId) {
+function useShyChannels(offset: number) {
   return useQuery({
-    queryKey: ["post", postId],
-    queryFn: () => prfsApi2("", postId),
-    enabled: !!postId,
+    queryKey: ["get_shy_chanells", offset],
+    queryFn: async () => {
+      const data = await shyApi("get_shy_channels", { offset });
+      return data.payload;
+    },
+    enabled: !!offset,
   });
 }
 
@@ -45,14 +48,16 @@ const Home: React.FC<HomeProps> = () => {
     }
   }, [isInitialized, shyCredential, router]);
 
+  const { status, data, error, isFetching } = useShyChannels(0);
+
   return isInitialized && shyCredential ? (
     <div className={styles.wrapper}>
       <DefaultHeader>
         <div className={styles.leftBarContainer}>
-          <LeftBar credential={shyCredential} />
+          <LeftBar credential={shyCredential} channels={data ?? null} />
         </div>
         <LeftBarDrawer isOpen={isLeftBarDrawerVisible} setIsOpen={handleClickShowLeftBarDrawer}>
-          <LeftBar credential={shyCredential} />
+          <LeftBar credential={shyCredential} channels={data ?? null} />
         </LeftBarDrawer>
       </DefaultHeader>
       <DefaultMain>

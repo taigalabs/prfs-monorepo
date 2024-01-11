@@ -14,8 +14,9 @@ import { LocalShyCredential, removeLocalShyCredential } from "@/storage/local_st
 import { useAppDispatch } from "@/state/hooks";
 import { signOutShy } from "@/state/userReducer";
 import CredentialPopover from "@/components/credential_popover/CredentialPopover";
+import { GetShyChannelsResponse } from "@taigalabs/prfs-entities/bindings/GetShyChannelsResponse";
 
-const LeftBar: React.FC<LeftBarProps> = ({ credential }) => {
+const LeftBar: React.FC<LeftBarProps> = ({ credential, channels }) => {
   const i18n = React.useContext(i18nContext);
   const dispatch = useAppDispatch();
 
@@ -61,4 +62,5 @@ export default LeftBar;
 
 export interface LeftBarProps {
   credential: LocalShyCredential;
+  channels: GetShyChannelsResponse | null;
 }
