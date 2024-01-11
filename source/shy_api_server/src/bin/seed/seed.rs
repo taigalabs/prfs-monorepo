@@ -5,10 +5,12 @@ use std::{collections::HashMap, path::PathBuf};
 
 use prfs_entities::shy_api_entities::ShyChannel;
 
+const SHY_CHANNELS_JSON: &str = "shy_channels.json";
+
 pub fn load_shy_channels() -> HashMap<String, ShyChannel> {
     println!("\n{} circuit input types", "Loading".green());
 
-    let json_path = PATHS.data_seed__json_bindings.join("prfs_accounts.json");
+    let json_path = PATHS.data_seed__json_bindings.join(SHY_CHANNELS_JSON);
     let shy_channels: Vec<ShyChannel> = read_json(&json_path);
 
     let mut m = HashMap::new();

@@ -38,6 +38,7 @@ LIMIT $2
         .map(|row| ShyChannel {
             channel_id: row.get("channel_id"),
             label: row.get("label"),
+            public_keys: row.get("public_keys"),
         })
         .collect();
 
@@ -47,22 +48,23 @@ LIMIT $2
 pub async fn insert_shy_channel(
     tx: &mut Transaction<'_, Postgres>,
     shy_channel: &ShyChannel,
-) -> uuid::Uuid {
+) -> String {
     let query = r#"
 INSERT INTO shy_channels
-(post_id, content, channel_id)
+(channel_id, label, public_keys)
 VALUES ($1, $2, $3)
-RETURNING post_id
+RETURNING channel_id
 "#;
 
     let row = sqlx::query(query)
         .bind(&shy_channel.channel_id)
         .bind(&shy_channel.label)
+        .bind(&shy_channel.public_keys)
         .fetch_one(&mut **tx)
         .await
         .unwrap();
 
-    let post_id: uuid::Uuid = row.get("post_id");
+    let channel_id: String = row.get("channel_id");
 
-    post_id
+    channel_id
 }

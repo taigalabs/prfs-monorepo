@@ -34,4 +34,7 @@ pub struct GetShyChannelsResponse {
 pub struct ShyChannel {
     pub channel_id: String,
     pub label: String,
+
+    #[ts(type = "string[]")]
+    pub public_keys: sqlx::types::Json<Vec<String>>,
 }

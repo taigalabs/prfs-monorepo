@@ -2,63 +2,12 @@ import { ShyChannel } from "@taigalabs/prfs-entities/bindings/ShyChannel";
 
 const data: ShyChannel[] = [
   {
-    channel_id: "early_settlers",
+    channel_id: "0xa829b17ce74a36a1ef62fef7be0b02b7e9e5fa5f4a343e2be512ecda009a0f19",
     label: "Early settlers",
+    public_keys: [
+      "0x04a03baf3dc56f1796f97d9634082208a3067ba9d7e0df1ac64f576b343949ee2fb2e2e419a849cc187e9ee110b6a06301aceb9864bb4a2dd1c20887583539f6e0",
+    ],
   },
-  // {
-  //   prfs_set: {
-  //     set_id: "10000000-0000-0000-0000-000000000001",
-  //     set_type: "Dynamic",
-  //     label: "Nonce community members",
-  //     author: "Prfs",
-  //     desc: "Nonce community member addresses",
-  //     hash_algorithm: "Poseidon",
-  //     cardinality: BigInt(0),
-  //     merkle_root: "",
-  //     element_type: "Ethereum address",
-  //     tree_depth: 32,
-  //     finite_field: "Z_(2^256-2^32-977)",
-  //     elliptic_curve: "Secp256k1",
-  //     created_at: "2023-09-12T00:00:00-00:00",
-  //   },
-  //   elements_path: "sets/nonce_community_members_23_09_12.csv",
-  // },
-  // {
-  //   prfs_set: {
-  //     set_id: "10000000-0000-0000-0000-100000000002",
-  //     set_type: "Dynamic",
-  //     label: "Aave biggest liquid stakers (23/09/21)",
-  //     author: "Prfs",
-  //     desc: "Aave liquid staker addresses",
-  //     hash_algorithm: "Poseidon",
-  //     cardinality: BigInt(0),
-  //     merkle_root: "",
-  //     element_type: "Ethereum address",
-  //     tree_depth: 32,
-  //     finite_field: "Z_(2^256-2^32-977)",
-  //     elliptic_curve: "Secp256k1",
-  //     created_at: "2023-08-29T00:00:00-00:00",
-  //   },
-  //   elements_path: "sets/aave_liquid_stakers_23_09_21.csv",
-  // },
-  // {
-  //   prfs_set: {
-  //     set_id: "10000000-0000-0000-0000-100000000003",
-  //     set_type: "Dynamic",
-  //     label: "Consumer crypto hackers (23/10/27)",
-  //     author: "Prfs",
-  //     desc: "Consumer crypto hackers",
-  //     hash_algorithm: "Poseidon",
-  //     cardinality: BigInt(0),
-  //     merkle_root: "",
-  //     element_type: "Ethereum address",
-  //     tree_depth: 32,
-  //     finite_field: "Z_(2^256-2^32-977)",
-  //     elliptic_curve: "Secp256k1",
-  //     created_at: "2023-10-26T00:00:00-00:00",
-  //   },
-  //   elements_path: "sets/consumer_crypto_hackers_231027.csv",
-  // },
 ];
 
 export default data;
