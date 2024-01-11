@@ -21,7 +21,7 @@ import styles from "./PrfsSignInBtn.module.scss";
 import { paths } from "@/paths";
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
-import { signInPrfs, signOutPrfs } from "@/state/userReducer";
+import { signInShy, signOutShy } from "@/state/userReducer";
 import {
   LocalShyCredential,
   persistShyCredential,
@@ -91,7 +91,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
         }
 
         persistShyCredential(credential);
-        dispatch(signInPrfs(credential));
+        dispatch(signInShy(credential));
       }
     },
     [router, dispatch, prfsSignInRequest, setSignUpData],
@@ -99,7 +99,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
 
   const handleClickSignOut = React.useCallback(() => {
     removeLocalShyCredential();
-    dispatch(signOutPrfs());
+    dispatch(signOutShy());
   }, [dispatch]);
 
   const handleInitFail = React.useCallback(() => {
