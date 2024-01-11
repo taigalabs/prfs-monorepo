@@ -5,10 +5,10 @@ pub mod build_prfs_crypto_js;
 pub mod build_prfs_driver_spartan_js;
 
 // dev mode
-pub mod dev_docs_website;
 pub mod dev_prfs_api_server;
 pub mod dev_prfs_asset_server;
 pub mod dev_prfs_console_webapp;
+pub mod dev_prfs_docs_website;
 pub mod dev_prfs_embed_webapp;
 pub mod dev_prfs_id_webapp;
 pub mod dev_prfs_poll_webapp;
@@ -17,10 +17,10 @@ pub mod dev_shy_webapp;
 pub mod dev_snap;
 
 // prod mode
-pub mod start_docs_website;
 pub mod start_prfs_api_server;
 pub mod start_prfs_asset_server;
 pub mod start_prfs_console_webapp;
+pub mod start_prfs_docs_website;
 pub mod start_prfs_embed_webapp;
 pub mod start_prfs_id_webapp;
 pub mod start_prfs_poll_webapp;
@@ -41,9 +41,6 @@ pub mod docker_run_prfs_proof_webapp;
 pub mod seed_assets;
 pub mod seed_prfs_api_data;
 pub mod seed_shy_api_data;
-
-// test
-pub mod e2e_test_web;
 
 // tmux
 pub mod tmux;

@@ -32,7 +32,8 @@
 
   .item {
     font-size: 18px;
-    padding: 12px;
+    padding: 12px 0;
+    padding-left: calc(12px + 28px);
   }
 }
 

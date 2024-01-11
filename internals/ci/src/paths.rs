@@ -19,45 +19,32 @@ pub struct Paths {
     pub internals_docker: PathBuf,
     pub internals_docker_postgres: PathBuf,
 
-    // docs
-    pub docs_website: PathBuf,
-
-    // misc
-    pub e2e_test_web: PathBuf,
     pub prfs_circuits_circom: PathBuf,
-
     pub prfs_snap: PathBuf,
     pub prfs_api_server: PathBuf,
     pub prfs_auth_op_server: PathBuf,
-    pub prfs_crypto_js: PathBuf,
-    pub prfs_crypto_js__build: PathBuf,
-
-    // asset_server
+    pub prfs_docs_website: PathBuf,
+    pub prfs_entities_bindings: PathBuf,
+    pub prfs_console_webapp: PathBuf,
+    pub prfs_proof_webapp: PathBuf,
+    pub prfs_poll_webapp: PathBuf,
+    pub prfs_id_webapp: PathBuf,
+    pub prfs_embed_webapp: PathBuf,
+    // asset server
     pub prfs_asset_server: PathBuf,
     pub prfs_asset_server_assets: PathBuf,
     pub prfs_asset_server_assets_local: PathBuf,
-
-    pub prfs_entities_bindings: PathBuf,
-
-    // driver
+    // crypto
+    pub prfs_crypto_js: PathBuf,
+    pub prfs_crypto_js__build: PathBuf,
+    // drivers
     pub prfs_driver_spartan_js: PathBuf,
     pub prfs_driver_spartan_wasm: PathBuf,
     pub prfs_driver_spartan_wasm_build: PathBuf,
 
-    // Prfs webapps
-    pub prfs_console_webapp: PathBuf,
-    pub prfs_proof_webapp: PathBuf,
-    pub prfs_poll_webapp: PathBuf,
-
     // Shy
     pub shy_webapp: PathBuf,
     pub shy_api_server: PathBuf,
-
-    // Prfs identity
-    pub prfs_id_webapp: PathBuf,
-
-    // Prfs embed
-    pub prfs_embed_webapp: PathBuf,
 }
 
 #[allow(non_snake_case)]
@@ -81,7 +68,7 @@ impl Paths {
         let internals_docker = curr_dir.join("internals/docker");
         let internals_docker_postgres = curr_dir.join("internals/docker_postgres");
 
-        let docs_website = curr_dir.join("source/docs_website");
+        let prfs_docs_website = curr_dir.join("source/prfs_docs_website");
         let prfs_circuits_circom = curr_dir.join("source/prfs_circuits_circom");
         let prfs_snap = curr_dir.join("source/prfs_snap");
 
@@ -115,44 +102,39 @@ impl Paths {
         let p = Paths {
             curr_dir,
 
-            docs_website,
-
+            // internals
             internals_ci,
             internals__tmux,
-
             internals_docker,
             internals_docker_postgres,
 
+            // prfs
+            prfs_api_server,
+            prfs_auth_op_server,
+            prfs_docs_website,
+            prfs_console_webapp,
+            prfs_proof_webapp,
+            prfs_poll_webapp,
+            prfs_id_webapp,
+            prfs_embed_webapp,
+            prfs_circuits_circom,
+            prfs_snap,
+            prfs_entities_bindings,
+            // asset server
+            prfs_asset_server,
+            prfs_asset_server_assets,
+            prfs_asset_server_assets_local,
+            // crypto
+            prfs_crypto_js,
+            prfs_crypto_js__build,
+            // drivers
             prfs_driver_spartan_js,
             prfs_driver_spartan_wasm,
             prfs_driver_spartan_wasm_build,
 
-            prfs_circuits_circom,
-            prfs_snap,
-
-            prfs_entities_bindings,
-
-            prfs_api_server,
-            prfs_auth_op_server,
-            prfs_crypto_js,
-            prfs_crypto_js__build,
-
-            prfs_asset_server,
-            prfs_asset_server_assets,
-            prfs_asset_server_assets_local,
-
-            prfs_console_webapp,
-            prfs_proof_webapp,
-            prfs_poll_webapp,
-
+            // shy
             shy_webapp,
             shy_api_server,
-
-            prfs_id_webapp,
-
-            prfs_embed_webapp,
-
-            e2e_test_web,
         };
 
         println!(
