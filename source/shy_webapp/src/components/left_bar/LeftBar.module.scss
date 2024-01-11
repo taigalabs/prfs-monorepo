@@ -1,8 +1,10 @@
+@import "@/styles/layouts.module.scss";
+
 .wrapper {
   display: flex;
   flex-direction: column;
   padding: 0 8px 14px;
-  width: 275px;
+  width: $leftbar_width;
 
   border: 1px solid blue;
 }
