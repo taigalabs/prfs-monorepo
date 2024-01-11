@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
 import styles from "./Home.module.scss";
@@ -11,6 +12,15 @@ import { useSignedInUser } from "@/hooks/user";
 import { paths } from "@/paths";
 import Loading from "@/components/loading/Loading";
 import ChannelList from "@/components/channel_list/ChannelList";
+import { prfsApi2 } from "@taigalabs/prfs-api-js";
+
+function useChannelList(postId) {
+  return useQuery({
+    queryKey: ["post", postId],
+    queryFn: () => prfsApi2("", postId),
+    enabled: !!postId,
+  });
+}
 
 const Home: React.FC<HomeProps> = () => {
   const router = useRouter();

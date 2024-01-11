@@ -6,12 +6,14 @@ import { GetShyPostsResponse } from "@taigalabs/prfs-entities/bindings/GetShyPos
 import { api } from "../utils";
 import { PrfsApiResponse } from "../types";
 
-type RequestName = "create_shy_post" | "get_shy_posts";
+type RequestName = "create_shy_post" | "get_shy_posts" | "get_shy_channels";
 
 type Req<T extends RequestName> = //
   T extends "create_shy_post"
     ? CreateShyPostRequest
     : T extends "get_shy_posts"
+    ? GetShyPostsRequest
+    : T extends "get_shy_channels"
     ? GetShyPostsRequest
     : never;
 
@@ -19,6 +21,8 @@ type Resp<T> = //
   T extends "create_shy_post"
     ? PrfsApiResponse<CreateShyPostResponse>
     : T extends "get_shy_posts"
+    ? PrfsApiResponse<GetShyPostsResponse>
+    : T extends "get_shy_channels"
     ? PrfsApiResponse<GetShyPostsResponse>
     : any;
 
