@@ -10,7 +10,7 @@ import Modal from "@taigalabs/prfs-react-lib/src/modal/Modal";
 import styles from "./SignUpModal.module.scss";
 import { paths } from "@/paths";
 import { useAppDispatch } from "@/state/hooks";
-import { signInPrfs } from "@/state/userReducer";
+import { signInShy } from "@/state/userReducer";
 import { LocalShyCredential, persistShyCredential } from "@/storage/local_storage";
 import { i18nContext } from "@/i18n/context";
 
@@ -36,7 +36,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ credential }) => {
     }
 
     persistShyCredential(credential);
-    dispatch(signInPrfs(credential));
+    dispatch(signInShy(credential));
     router.push(paths.__);
     // window.location.reload();
   }, [router, credential, prfsSignUpRequest]);

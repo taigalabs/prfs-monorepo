@@ -3,7 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 
-import styles from "./Home.module.scss";
+import styles from "./Account.module.scss";
 import { i18nContext } from "@/i18n/context";
 import LeftBar from "@/components/left_bar/LeftBar";
 import TimelineFeeds from "@/components/timeline_feeds/TimelineFeeds";
@@ -26,14 +26,14 @@ const Account: React.FC<AccountProps> = () => {
     [setIsLeftBarDrawerVisible],
   );
 
-  const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
-  React.useEffect(() => {
-    if (isCredentialInitialized) {
-      if (prfsProofCredential === null) {
-        router.push(paths.account__signin);
-      }
-    }
-  }, [isCredentialInitialized, prfsProofCredential, router]);
+  // const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
+  // React.useEffect(() => {
+  //   if (isCredentialInitialized) {
+  //     if (prfsProofCredential === null) {
+  //       router.push(paths.account__signin);
+  //     }
+  //   }
+  // }, [isCredentialInitialized, prfsProofCredential, router]);
 
   return (
     <div className={styles.wrapper}>

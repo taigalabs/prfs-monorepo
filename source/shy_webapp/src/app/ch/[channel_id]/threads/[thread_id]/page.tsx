@@ -20,9 +20,7 @@ const ThreadPage: React.FC<ThreadPageProps> = () => {
 
   return (
     <DefaultLayout>
-      <ContentLeft>
-        <LeftBar />
-      </ContentLeft>
+      <ContentLeft>{/* <LeftBar /> */}</ContentLeft>
       <ContentMain>
         <div className={styles.container}>{/* <TimelineFeeds /> */}</div>
       </ContentMain>
