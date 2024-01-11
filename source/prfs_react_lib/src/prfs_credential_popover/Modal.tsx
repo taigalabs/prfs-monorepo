@@ -10,7 +10,7 @@ const Modal: React.FC<ModalProps> = ({ id, handleClickSignOut }) => {
   return (
     <div className={styles.modal}>
       <div className={styles.main}>
-        <p className={styles.appId}>prfs_proof</p>
+        <p className={styles.appId}>{i18n.id}</p>
         <p className={styles.id}>{id}</p>
       </div>
       <div className={styles.btnRow}>

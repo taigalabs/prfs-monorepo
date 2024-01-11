@@ -2,7 +2,7 @@ import React from "react";
 
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { loadLocalShyCredential } from "@/storage/local_storage";
-import { signInPrfs } from "@/state/userReducer";
+import { signInShy } from "@/state/userReducer";
 
 export function useSignedInUser() {
   const dispatch = useAppDispatch();
@@ -12,7 +12,7 @@ export function useSignedInUser() {
   React.useEffect(() => {
     if (!isInitialized) {
       const credential = loadLocalShyCredential();
-      dispatch(signInPrfs(credential));
+      dispatch(signInShy(credential));
     }
   }, [isInitialized]);
 

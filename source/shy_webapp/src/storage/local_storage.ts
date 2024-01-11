@@ -1,7 +1,7 @@
 export type ShyId = string;
 export interface LocalShyCredential {
   account_id: string;
-  public_key: string; // encrpyted
+  public_key: string;
   avatar_color: string;
 }
 
