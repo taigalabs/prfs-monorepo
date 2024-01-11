@@ -11,12 +11,18 @@ const Modal: React.FC<ModalProps> = ({ handleClickSignOut, credential }) => {
 
   return (
     <div className={styles.modal}>
-      <div className={styles.avatar}>
-        <MyAvatar credential={credential} size={60} />
+      <div className={styles.avatarSection}>
+        <MyAvatar credential={credential} size={60} className={styles.avatar} />
       </div>
       <div className={styles.meta}>
-        <p className={styles.appId}>{i18n.id}</p>
-        <p className={styles.id}>{credential.account_id}</p>
+        <div className={styles.section}>
+          <p className={styles.label}>{i18n.id}</p>
+          <p className={styles.value}>{credential.account_id}</p>
+        </div>
+        <div className={styles.section}>
+          <p className={styles.label}>{i18n.public_key}</p>
+          <p className={styles.value}>{credential.public_key}</p>
+        </div>
       </div>
       <div className={styles.btnRow}>
         <button className={styles.signOutBtn} onClick={handleClickSignOut}>

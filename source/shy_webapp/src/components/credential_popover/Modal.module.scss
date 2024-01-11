@@ -5,22 +5,30 @@
   width: 280px;
 }
 
-.avatar {
+.avatarSection {
   display: grid;
   place-items: center;
   padding: 20px 0 0;
+
+  .avatar {
+    font-size: 20px;
+  }
 }
 
 .meta {
   padding: 20px;
   font-size: 13px;
 
-  .appId {
+  .section:not(:first-child) {
+    padding-top: 15px;
+  }
+
+  .label {
     padding: 4px 0;
     color: var(--gray-30);
   }
 
-  .id {
+  .value {
     font-weight: 500;
     word-break: break-all;
   }

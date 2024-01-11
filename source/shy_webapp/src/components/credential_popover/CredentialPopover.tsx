@@ -5,7 +5,6 @@ import {
   autoUpdate,
   flip,
   offset,
-  shift,
   useClick,
   useDismiss,
   useFloating,
