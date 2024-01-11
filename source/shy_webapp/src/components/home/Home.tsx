@@ -5,13 +5,11 @@ import { useRouter } from "next/navigation";
 
 import styles from "./Home.module.scss";
 import LeftBar from "@/components/left_bar/LeftBar";
-import TimelineFeeds from "@/components/timeline_feeds/TimelineFeeds";
 import { DefaultHeader, DefaultMain } from "@/components/layouts/default_layout/DefaultLayout";
 import LeftBarDrawer from "@/components/left_bar/LeftBarDrawer";
 import { useSignedInUser } from "@/hooks/user";
 import { paths } from "@/paths";
 import Loading from "@/components/loading/Loading";
-import TimelineHeader from "../timeline_feeds/TimelineHeader";
 import ChannelList from "@/components/channel_list/ChannelList";
 
 const Home: React.FC<HomeProps> = () => {

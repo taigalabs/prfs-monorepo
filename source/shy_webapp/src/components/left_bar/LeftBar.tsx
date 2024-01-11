@@ -22,12 +22,15 @@ const LeftBar: React.FC<LeftBarProps> = ({ credential }) => {
         </Link>
       </div>
       <div>
-        <MyAvatar credential={credential} />
+        <div>{i18n.channels}</div>
       </div>
       <ul className={styles.mainMenu}>
-        <li></li>
+        {/* <li>{i18n}</li> */}
         <li></li>
       </ul>
+      <div>
+        <MyAvatar credential={credential} />
+      </div>
       <div>
         {/* <PostDialog> */}
         {/*   <button className={styles.postBtn}>{i18n.post}</button> */}

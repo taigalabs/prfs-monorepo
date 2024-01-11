@@ -1,9 +1,10 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  padding-bottom: 14px;
+  padding: 0 8px 14px;
+  width: 275px;
 
-  /* border: 1px solid blue; */
+  border: 1px solid blue;
 }
 
 .appName {
@@ -29,7 +30,7 @@
   height: 52px;
 
   a {
-    padding: 0 20px;
+    // padding: 0 20px;
     height: 38px;
     border-radius: 20px;
     display: flex;
