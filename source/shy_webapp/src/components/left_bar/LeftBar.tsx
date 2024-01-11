@@ -15,6 +15,7 @@ import { useAppDispatch } from "@/state/hooks";
 import { signOutShy } from "@/state/userReducer";
 import CredentialPopover from "@/components/credential_popover/CredentialPopover";
 import { GetShyChannelsResponse } from "@taigalabs/prfs-entities/bindings/GetShyChannelsResponse";
+import { ShyChannel } from "@taigalabs/prfs-entities/bindings/ShyChannel";
 
 const LeftBar: React.FC<LeftBarProps> = ({ credential, channels }) => {
   const i18n = React.useContext(i18nContext);
@@ -29,6 +30,15 @@ const LeftBar: React.FC<LeftBarProps> = ({ credential, channels }) => {
     console.log("Failed init Prfs Proof credential!");
   }, []);
 
+  const mainMenu = React.useMemo(() => {
+    if (channels) {
+      return channels.map(ch => <li key={ch.channel_id}>{ch.label}</li>);
+    }
+    return null;
+  }, [channels]);
+
+  console.log(222, mainMenu);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.logoContainer}>
@@ -41,6 +51,7 @@ const LeftBar: React.FC<LeftBarProps> = ({ credential, channels }) => {
           <MdDashboard />
           <span>{i18n.channels}</span>
         </div>
+        <ul>{mainMenu}</ul>
       </div>
       <div className={styles.credentialSection}>
         <CredentialPopover
@@ -62,5 +73,5 @@ export default LeftBar;
 
 export interface LeftBarProps {
   credential: LocalShyCredential;
-  channels: GetShyChannelsResponse | null;
+  channels: ShyChannel[] | null;
 }

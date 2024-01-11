@@ -19,15 +19,16 @@ function useShyChannels(offset: number) {
     queryKey: ["get_shy_chanells", offset],
     queryFn: async () => {
       const data = await shyApi("get_shy_channels", { offset });
-      return data.payload;
+      return data.payload ? data.payload.shy_channels : null;
     },
-    enabled: !!offset,
+    enabled: offset !== undefined,
   });
 }
 
 const Home: React.FC<HomeProps> = () => {
   const router = useRouter();
   const [isLeftBarDrawerVisible, setIsLeftBarDrawerVisible] = React.useState(false);
+  const { status, data, error, isFetching } = useShyChannels(0);
   const handleClickShowLeftBarDrawer = React.useCallback(
     (open?: boolean) => {
       if (open !== undefined) {
@@ -47,8 +48,6 @@ const Home: React.FC<HomeProps> = () => {
       }
     }
   }, [isInitialized, shyCredential, router]);
-
-  const { status, data, error, isFetching } = useShyChannels(0);
 
   return isInitialized && shyCredential ? (
     <div className={styles.wrapper}>
