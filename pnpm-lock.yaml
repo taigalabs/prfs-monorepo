@@ -153,58 +153,6 @@ importers:
         specifier: 5.1.6
         version: 5.1.6
 
-  source/docs_website:
-    dependencies:
-      '@react-icons/all-files':
-        specifier: ^4.1.0
-        version: 4.1.0(react@18.2.0)
-      '@taigalabs/prfs-react-lib':
-        specifier: '*'
-        version: link:../prfs_react_lib
-      classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
-      next:
-        specifier: 14.0.4
-        version: 14.0.4(react-dom@18.2.0)(react@18.2.0)(sass@1.63.6)
-      nextra:
-        specifier: 2.13.2
-        version: 2.13.2(next@14.0.4)(react-dom@18.2.0)(react@18.2.0)
-      nextra-theme-docs:
-        specifier: 2.13.2
-        version: 2.13.2(next@14.0.4)(nextra@2.13.2)(react-dom@18.2.0)(react@18.2.0)
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
-    devDependencies:
-      '@types/node':
-        specifier: 18.11.10
-        version: 18.11.10
-      '@types/react':
-        specifier: 18.2.25
-        version: 18.2.25
-      '@types/react-dom':
-        specifier: 18.2.17
-        version: 18.2.17
-      chalk:
-        specifier: 4.1.0
-        version: 4.1.0
-      dotenv:
-        specifier: ^16.3.1
-        version: 16.3.1
-      sass:
-        specifier: ^1.63.6
-        version: 1.63.6
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.11.10)(typescript@4.9.5)
-      typescript:
-        specifier: ^4.9.3
-        version: 4.9.5
-
   source/prfs_api_js:
     dependencies:
       '@ethereumjs/util':
@@ -569,6 +517,58 @@ importers:
       webpack-cli:
         specifier: 5.1.4
         version: 5.1.4(webpack@5.88.2)
+
+  source/prfs_docs_website:
+    dependencies:
+      '@react-icons/all-files':
+        specifier: ^4.1.0
+        version: 4.1.0(react@18.2.0)
+      '@taigalabs/prfs-react-lib':
+        specifier: '*'
+        version: link:../prfs_react_lib
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
+      next:
+        specifier: 14.0.4
+        version: 14.0.4(react-dom@18.2.0)(react@18.2.0)(sass@1.63.6)
+      nextra:
+        specifier: 2.13.2
+        version: 2.13.2(next@14.0.4)(react-dom@18.2.0)(react@18.2.0)
+      nextra-theme-docs:
+        specifier: 2.13.2
+        version: 2.13.2(next@14.0.4)(nextra@2.13.2)(react-dom@18.2.0)(react@18.2.0)
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: 18.2.0
+        version: 18.2.0(react@18.2.0)
+    devDependencies:
+      '@types/node':
+        specifier: 18.11.10
+        version: 18.11.10
+      '@types/react':
+        specifier: 18.2.25
+        version: 18.2.25
+      '@types/react-dom':
+        specifier: 18.2.17
+        version: 18.2.17
+      chalk:
+        specifier: 4.1.0
+        version: 4.1.0
+      dotenv:
+        specifier: ^16.3.1
+        version: 16.3.1
+      sass:
+        specifier: ^1.63.6
+        version: 1.63.6
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.1(@types/node@18.11.10)(typescript@4.9.5)
+      typescript:
+        specifier: ^4.9.3
+        version: 4.9.5
 
   source/prfs_driver_interface:
     dependencies:
@@ -1700,6 +1700,58 @@ importers:
       typescript:
         specifier: 5.1.6
         version: 5.1.6
+
+  source/shy_docs_website:
+    dependencies:
+      '@react-icons/all-files':
+        specifier: ^4.1.0
+        version: 4.1.0(react@18.2.0)
+      '@taigalabs/prfs-react-lib':
+        specifier: '*'
+        version: link:../prfs_react_lib
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
+      next:
+        specifier: 14.0.4
+        version: 14.0.4(react-dom@18.2.0)(react@18.2.0)(sass@1.63.6)
+      nextra:
+        specifier: 2.13.2
+        version: 2.13.2(next@14.0.4)(react-dom@18.2.0)(react@18.2.0)
+      nextra-theme-docs:
+        specifier: 2.13.2
+        version: 2.13.2(next@14.0.4)(nextra@2.13.2)(react-dom@18.2.0)(react@18.2.0)
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: 18.2.0
+        version: 18.2.0(react@18.2.0)
+    devDependencies:
+      '@types/node':
+        specifier: 18.11.10
+        version: 18.11.10
+      '@types/react':
+        specifier: 18.2.25
+        version: 18.2.25
+      '@types/react-dom':
+        specifier: 18.2.17
+        version: 18.2.17
+      chalk:
+        specifier: 4.1.0
+        version: 4.1.0
+      dotenv:
+        specifier: ^16.3.1
+        version: 16.3.1
+      sass:
+        specifier: ^1.63.6
+        version: 1.63.6
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.1(@types/node@18.11.10)(typescript@4.9.5)
+      typescript:
+        specifier: ^4.9.3
+        version: 4.9.5
 
   source/shy_webapp:
     dependencies:

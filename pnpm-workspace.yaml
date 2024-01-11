@@ -2,17 +2,11 @@ packages:
   # Externals
   - "externals/incremental-merkle-tree"
 
-  # Prfs docs website
-  - "source/docs_website"
-
-  # Prfs circuits
-  - "source/prfs_circuits_circom"
-
-  # Prfs driver
+  # Prfs
+  - "source/prfs_docs_website"
   - "source/prfs_driver_spartan_js"
   - "source/prfs_driver_interface"
-
-  # Prfs
+  - "source/prfs_circuits_circom"
   - "source/prfs_crypto_js"
   - "source/prfs_entities"
   - "source/prfs_i18n"
@@ -25,8 +19,6 @@ packages:
   - "source/prfs_api_server"
   - "source/prfs_snap"
   - "source/prfs_proof_interface"
-
-  # Prfs webapps
   - "source/prfs_proof_webapp"
   - "source/prfs_console_webapp"
   - "source/prfs_poll_webapp"
@@ -36,3 +28,4 @@ packages:
   # Shy
   - "source/shy_webapp"
   - "source/shy_api_server"
+  - "source/shy_docs_website"
