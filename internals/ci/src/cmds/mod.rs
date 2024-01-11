@@ -38,8 +38,9 @@ pub mod docker_run_prfs_embed_webapp;
 pub mod docker_run_prfs_proof_webapp;
 
 // seed
-pub mod seed_api_data;
 pub mod seed_assets;
+pub mod seed_prfs_api_data;
+pub mod seed_shy_api_data;
 
 // test
 pub mod e2e_test_web;

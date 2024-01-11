@@ -2,6 +2,8 @@ use crate::{deps, paths::PATHS};
 use clap::ArgMatches;
 use std::process::Command;
 
+pub const CMD_NAME: &str = "seed_prfs_api_data";
+
 pub fn run(_matches: &ArgMatches) {
     run_app();
 }

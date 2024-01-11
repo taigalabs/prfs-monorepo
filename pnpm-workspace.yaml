@@ -35,3 +35,4 @@ packages:
 
   # Shy
   - "source/shy_webapp"
+  - "source/shy_api_server"
