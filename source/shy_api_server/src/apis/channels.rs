@@ -36,7 +36,7 @@ pub async fn get_shy_channels(req: Request<Incoming>, state: Arc<ServerState>) -
         .await
         .unwrap();
 
-    let next_offset = if shy_posts.len() < LIMIT.try_into().unwrap() {
+    let next_offset = if shy_channels.len() < LIMIT.try_into().unwrap() {
         None
     } else {
         Some(req.offset + LIMIT)
