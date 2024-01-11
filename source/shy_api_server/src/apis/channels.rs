@@ -6,7 +6,8 @@ use hyper_utils::resp::ApiResponse;
 use prfs_common_server_state::ServerState;
 use prfs_db_interface::shy;
 use prfs_entities::shy_api_entities::{
-    CreateShyPostRequest, CreateShyPostResponse, GetShyPostsRequest, GetShyPostsResponse,
+    CreateShyPostRequest, CreateShyPostResponse, GetShyChannelsResponse, GetShyPostsRequest,
+    GetShyPostsResponse,
 };
 use std::{convert::Infallible, sync::Arc};
 use uuid::Uuid;
@@ -31,7 +32,9 @@ pub async fn create_shy_post(req: Request<Incoming>, state: Arc<ServerState>) ->
 pub async fn get_shy_channels(req: Request<Incoming>, state: Arc<ServerState>) -> ApiHandlerResult {
     let req: GetShyPostsRequest = parse_req(req).await;
     let pool = &state.db2.pool;
-    let shy_posts = shy::get_shy_posts(pool, req.offset, LIMIT).await.unwrap();
+    let shy_channels = shy::get_shy_channels(pool, req.offset, LIMIT)
+        .await
+        .unwrap();
 
     let next_offset = if shy_posts.len() < LIMIT.try_into().unwrap() {
         None
@@ -39,8 +42,8 @@ pub async fn get_shy_channels(req: Request<Incoming>, state: Arc<ServerState>) -
         Some(req.offset + LIMIT)
     };
 
-    let resp = ApiResponse::new_success(GetShyPostsResponse {
-        shy_posts,
+    let resp = ApiResponse::new_success(GetShyChannelsResponse {
+        shy_channels,
         next_offset,
     });
 
