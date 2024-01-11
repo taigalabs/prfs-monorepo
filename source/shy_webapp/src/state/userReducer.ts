@@ -18,14 +18,14 @@ export const userSlice = createSlice({
   name: "user",
   initialState: makeInitialState(),
   reducers: {
-    signInPrfs: (state: UserState, action: PayloadAction<LocalShyCredential | null>) => {
+    signInShy: (state: UserState, action: PayloadAction<LocalShyCredential | null>) => {
       return {
         ...state,
         isInitialized: true,
         shyCredential: action.payload,
       };
     },
-    signOutPrfs: (state: UserState, _action: PayloadAction<void>) => {
+    signOutShy: (state: UserState, _action: PayloadAction<void>) => {
       return {
         ...state,
         shyCredential: null,
@@ -34,6 +34,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { signInPrfs, signOutPrfs } = userSlice.actions;
+export const { signInShy, signOutShy } = userSlice.actions;
 
 export default userSlice.reducer;

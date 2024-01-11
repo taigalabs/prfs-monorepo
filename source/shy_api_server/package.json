@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "example": "ts-node references/nodejs_example.ts"
+    "create-bindings": "ts-node create_bindings.ts"
   },
   "dependencies": {
     "@google-cloud/local-auth": "1.0.0",

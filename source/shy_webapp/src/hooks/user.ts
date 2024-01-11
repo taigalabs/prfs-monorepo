@@ -2,19 +2,19 @@ import React from "react";
 
 import { useAppDispatch, useAppSelector } from "@/state/hooks";
 import { loadLocalShyCredential } from "@/storage/local_storage";
-import { signInPrfs } from "@/state/userReducer";
+import { signInShy } from "@/state/userReducer";
 
 export function useSignedInUser() {
   const dispatch = useAppDispatch();
-  const isCredentialInitialized = useAppSelector(state => state.user.isInitialized);
-  const prfsProofCredential = useAppSelector(state => state.user.shyCredential);
+  const isInitialized = useAppSelector(state => state.user.isInitialized);
+  const shyCredential = useAppSelector(state => state.user.shyCredential);
 
   React.useEffect(() => {
-    if (!isCredentialInitialized) {
+    if (!isInitialized) {
       const credential = loadLocalShyCredential();
-      dispatch(signInPrfs(credential));
+      dispatch(signInShy(credential));
     }
-  }, [isCredentialInitialized]);
+  }, [isInitialized]);
 
-  return { isCredentialInitialized, prfsProofCredential };
+  return { isInitialized, shyCredential };
 }

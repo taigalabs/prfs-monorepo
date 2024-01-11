@@ -1,40 +1,41 @@
+@import "@/styles/layouts.module.scss";
+
 .wrapper {
   width: 100%;
   overflow-y: auto;
-
-  /* border: 1px solid blue; */
-}
-
-.loading {
-  height: 100%;
-  display: grid;
-  place-items: center;
-}
-
-.feedContainer {
   height: 100vh;
   overflow-y: auto;
   display: flex;
 
-  /* border: 1px solid red; */
+  border: 1px solid red;
+}
 
-  .left {
-    position: relative;
-    width: 598px;
-  }
+.header {
+  height: $timeline_header_height;
+  border-left: 1px solid var(--bright-gray-32);
+  border-right: 1px solid var(--bright-gray-32);
 
-  .right {
-  }
+  /* border: 1px solid green; */
+}
 
-  .infiniteScroll {
-    min-height: calc(100vh - 52px);
-    border-left: 1px solid var(--bright-gray-32);
-    border-right: 1px solid var(--bright-gray-32);
-  }
+.main {
+  position: relative;
+  width: 598px;
+
+  /* border: 1px solid blue; */
+}
+
+.side {
+}
+
+.infiniteScroll {
+  min-height: calc(100vh - 52px);
+  border-left: 1px solid var(--bright-gray-32);
+  border-right: 1px solid var(--bright-gray-32);
 }
 
 .placeholder {
-  height: 52px;
+  height: $timeline_header_height;
   border-left: 1px solid var(--bright-gray-32);
   border-right: 1px solid var(--bright-gray-32);
 
@@ -43,4 +44,30 @@
 
 .row {
   height: 100px;
+}
+
+.loading {
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+@media screen and (max-width: 1000px) {
+  .side {
+    display: none;
+  }
+
+  .main {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .main {
+    width: 100%;
+  }
+
+  .side {
+    display: none;
+  }
 }

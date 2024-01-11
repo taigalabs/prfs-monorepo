@@ -7,10 +7,9 @@
     "build": "pnpm clean && tsc",
     "clean": "rimraf ./build"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@types/node": "^20.4.9",
+    "@types/node": "20.3.1",
     "rimraf": "^3.0.2"
   }
 }

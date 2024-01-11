@@ -1,5 +1,4 @@
 import React from "react";
-// import { PrivateKey } from "eciesjs";
 import { PrivateKey } from "@taigalabs/prfs-crypto-js";
 
 export function useRandomKeyPair(): { sk: PrivateKey; pkHex: string } {

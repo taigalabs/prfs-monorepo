@@ -1,0 +1,22 @@
+.wrapper {
+  font-size: 13px;
+  color: var(--gray-40);
+
+  li {
+    display: inline-flex;
+  }
+
+  li:not(:first-child) {
+    margin-left: 14px;
+  }
+
+  a {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.commitHash {
+  color: var(--bright-gray-30);
+}

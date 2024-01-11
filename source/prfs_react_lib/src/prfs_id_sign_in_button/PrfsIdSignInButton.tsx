@@ -17,7 +17,6 @@ import { i18nContext } from "../i18n/i18nContext";
 const PrfsIdSignInButton: React.FC<PrfsIdSignInButtonProps> = ({
   className,
   label,
-  appId,
   appSignInArgs,
   handleSucceedSignIn,
   prfsIdEndpoint,
@@ -81,7 +80,6 @@ export default PrfsIdSignInButton;
 export interface PrfsIdSignInButtonProps {
   className?: string;
   label?: string;
-  appId: string;
   appSignInArgs: AppSignInArgs;
   handleSucceedSignIn: (encrypted: Buffer) => void;
   prfsIdEndpoint: string;

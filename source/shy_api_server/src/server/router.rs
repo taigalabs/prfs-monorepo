@@ -9,7 +9,7 @@ use prfs_common_server_state::ServerState;
 use std::sync::Arc;
 use tokio::net::TcpStream;
 
-use crate::apis::posts;
+use crate::apis::{channels, posts};
 
 static NOTFOUND: &[u8] = b"Not Found";
 pub const SHY_API: &'static str = "/shy_api";
@@ -28,6 +28,9 @@ pub async fn shy_server_routes(
         (&Method::OPTIONS, _) => handle_cors(),
         (&Method::POST, v0_path!("create_shy_post")) => posts::create_shy_post(req, state).await,
         (&Method::POST, v0_path!("get_shy_posts")) => posts::get_shy_posts(req, state).await,
+        (&Method::POST, v0_path!("get_shy_channels")) => {
+            channels::get_shy_channels(req, state).await
+        }
         _ => {
             println!("{} route not found!, {}", SHY_API, req.uri());
             Ok(Response::builder()

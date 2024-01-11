@@ -14,7 +14,6 @@ import {
 } from "@floating-ui/react";
 
 import styles from "./PrfsCredentialPopover.module.scss";
-import { i18nContext } from "../i18n/i18nContext";
 import Modal from "./Modal";
 
 const PrfsCredentialPopover: React.FC<PrfsCredentialPopoverProps> = ({

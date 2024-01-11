@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import cn from "classnames";
+import { InfiniteData, UseInfiniteQueryResult, useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { shyApi } from "@taigalabs/prfs-api-js";
 import Spinner from "@taigalabs/prfs-react-lib/src/spinner/Spinner";
@@ -10,7 +11,32 @@ import styles from "./TimelineFeeds.module.scss";
 import Row from "./Row";
 import RightBar from "@/components/right_bar/RightBar";
 
-const TimelineFeeds: React.FC<TimelineFeedsProps> = ({ channelId }) => {
+export const TimelineFeedsWrapper: React.FC<TimelineFeedsWrapperProps> = ({
+  children,
+  innerRef,
+  className,
+  handleScroll,
+}) => {
+  return (
+    <div className={cn(styles.wrapper, className)} ref={innerRef} onScroll={handleScroll}>
+      {children}
+    </div>
+  );
+};
+
+export const TimelineFeedsHeader: React.FC<TimelineFeedsMainProps> = ({ children, className }) => {
+  return <div className={cn(styles.header, className)}>{children}</div>;
+};
+
+export const TimelineFeedsMain: React.FC<TimelineFeedsMainProps> = ({ children, className }) => {
+  return <div className={cn(styles.main, className)}>{children}</div>;
+};
+
+export const TimelineFeedsSide: React.FC<TimelineFeedsMainProps> = ({ children, className }) => {
+  return <div className={cn(styles.side, className)}>{children}</div>;
+};
+
+const TimelineFeeds: React.FC<TimelineFeedsProps> = () => {
   const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
       queryKey: ["get_shy_posts"],
@@ -90,65 +116,77 @@ const TimelineFeeds: React.FC<TimelineFeedsProps> = ({ channelId }) => {
   }
 
   return (
-    <div className={styles.wrapper}>
-      <div ref={parentRef} className={styles.feedContainer} onScroll={handleScroll}>
-        <div className={styles.left}>
-          {status === "pending" ? (
-            <div className={styles.loading}>
-              <Spinner />
-            </div>
-          ) : (
-            <>
-              <div className={styles.placeholder} />
-              <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
-              <div
-                className={styles.infiniteScroll}
-                style={{
-                  height: `${rowVirtualizer.getTotalSize()}px`,
-                  position: "relative",
-                }}
-              >
-                {rowVirtualizer.getVirtualItems().map(virtualRow => {
-                  const isLoaderRow = virtualRow.index > allRows.length - 1;
-                  const post = allRows[virtualRow.index];
+    <div className={styles.wrapper} ref={parentRef} onScroll={handleScroll}>
+      {/* <div ref={parentRef} className={styles.feedContainer} onScroll={handleScroll}> */}
+      <div className={styles.main}>
+        {status === "pending" ? (
+          <div className={styles.loading}>
+            <Spinner />
+          </div>
+        ) : (
+          <>
+            <div className={styles.placeholder} />
+            <div>{isFetching && !isFetchingNextPage ? "Background Updating..." : null}</div>
+            <div
+              className={styles.infiniteScroll}
+              style={{
+                height: `${rowVirtualizer.getTotalSize()}px`,
+                position: "relative",
+              }}
+            >
+              {rowVirtualizer.getVirtualItems().map(virtualRow => {
+                const isLoaderRow = virtualRow.index > allRows.length - 1;
+                const post = allRows[virtualRow.index];
 
-                  return (
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        width: "100%",
-                        height: `${virtualRow.size}px`,
-                        transform: `translateY(${virtualRow.start}px)`,
-                      }}
-                      className={styles.row}
-                      key={virtualRow.index}
-                      data-index={virtualRow.index}
-                      ref={rowVirtualizer.measureElement}
-                    >
-                      {isLoaderRow
-                        ? hasNextPage
-                          ? "Loading more..."
-                          : "Nothing more to load"
-                        : post && <Row post={post} />}
-                    </div>
-                  );
-                })}
-              </div>
-            </>
-          )}
-        </div>
-        <div className={styles.right}>
-          <RightBar />
-        </div>
+                return (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: `${virtualRow.size}px`,
+                      transform: `translateY(${virtualRow.start}px)`,
+                    }}
+                    className={styles.row}
+                    key={virtualRow.index}
+                    data-index={virtualRow.index}
+                    ref={rowVirtualizer.measureElement}
+                  >
+                    {isLoaderRow
+                      ? hasNextPage
+                        ? "Loading more..."
+                        : "Nothing more to load"
+                      : post && <Row post={post} />}
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
       </div>
+      <div className={styles.side}>
+        <RightBar />
+      </div>
+      {/* </div> */}
     </div>
   );
 };
 
 export default TimelineFeeds;
 
+export interface TimelineFeedsWrapperProps {
+  children: React.ReactNode;
+  className?: string;
+  innerRef: React.MutableRefObject<HTMLDivElement | null>;
+  handleScroll?: () => void;
+}
+
+export interface TimelineFeedsMainProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
 export interface TimelineFeedsProps {
-  channelId: string;
+  // infQueryResult: UseInfiniteQueryResult<InfiniteData<any>>;
 }

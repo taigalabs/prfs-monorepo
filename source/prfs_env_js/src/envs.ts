@@ -13,6 +13,8 @@ export function getPrfsDevEndpoints() {
     prfs_asset_server: "http://localhost:4010",
     prfs_sdk_web: "http://localhost:3012",
     prfs_docs_website: "http://localhost:3061",
+    shy_webapp: "http://localhost:3022",
+    shy_docs_website: "http://localhost:3062",
   };
 
   return env;
@@ -30,7 +32,9 @@ export function getPrfsProdEndpoints() {
     prfs_api_server: "https://api.prfs.xyz",
     prfs_asset_server: "https://asset.prfs.xyz",
     prfs_sdk_web: "https://sdk.prfs.xyz",
-    prfs_docs_website: "http://docs.prfs.xyz",
+    prfs_docs_website: "https://docs.prfs.xyz",
+    shy_webapp: "https://www.shy.chat",
+    shy_docs_website: "https://docs.chat.chat",
   };
 
   return env;
@@ -48,6 +52,8 @@ export interface Endpoint {
   prfs_docs_website: string;
   prfs_api_server: string;
   prfs_asset_server: string;
+  shy_webapp: string;
+  shy_docs_website: string;
 }
 
 export function writeEnvsToDotEnv(envs: Record<string, string>, dotEnvPath: string) {

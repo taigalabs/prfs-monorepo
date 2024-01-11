@@ -1,0 +1,28 @@
+@import "@/styles/layouts.module.scss";
+
+.overlay {
+  z-index: 2;
+  position: fixed;
+  inset: 0;
+
+  /* border: 1px solid red; */
+}
+
+.drawer {
+  position: fixed;
+  background-color: var(--white-100);
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: $leftbar_width;
+  z-index: 2;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.28);
+  transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transform: translate3d(-$leftbar_width, 0, 0);
+
+  &.isOpen {
+    transform: translate3d(0, 0, 0);
+  }
+
+  /* border: 1px solid blue; */
+}

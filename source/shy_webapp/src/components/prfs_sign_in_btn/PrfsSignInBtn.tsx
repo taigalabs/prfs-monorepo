@@ -21,7 +21,7 @@ import styles from "./PrfsSignInBtn.module.scss";
 import { paths } from "@/paths";
 import { envs } from "@/envs";
 import { useAppDispatch } from "@/state/hooks";
-import { signInPrfs, signOutPrfs } from "@/state/userReducer";
+import { signInShy, signOutShy } from "@/state/userReducer";
 import {
   LocalShyCredential,
   persistShyCredential,
@@ -36,7 +36,7 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
   const i18n = React.useContext(i18nContext);
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { isCredentialInitialized, prfsProofCredential } = useSignedInUser();
+  const { isInitialized, shyCredential } = useSignedInUser();
   const { mutateAsync: prfsSignInRequest } = useMutation({
     mutationFn: (req: PrfsSignInRequest) => {
       return prfsApi2("sign_in_prfs_account", req);
@@ -47,22 +47,11 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
   const appSignInArgs = React.useMemo<AppSignInArgs>(() => {
     return {
       nonce: Math.random() * 1000000,
-      appId: "shy_webapp",
-      signInData: [AppSignInData.ID_POSEIDON],
-      publicKey: pkHex,
+      app_id: "shy_webapp",
+      sign_in_data: [AppSignInData.ID_POSEIDON],
+      public_key: pkHex,
     };
   }, [pkHex]);
-
-  // React.useEffect(() => {
-  //   const nonce = Math.random() * 1000000;
-  //   const appId = "prfs_proof";
-  //   const signInData = encodeURIComponent([AppSignInData.ID_POSEIDON].join(","));
-  //   const queryString = `?public_key=${pkHex}&sign_in_data=${signInData}&app_id=${appId}&nonce=${nonce}`;
-  //   const prfsIdEndpoint = `${envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}${paths.id__app_signin}${queryString}`;
-  //   setPrfsIdSignInEndpoint(prfsIdEndpoint);
-
-  //   console.log("initializing ephemeral secret key", sk);
-  // }, [setPrfsIdSignInEndpoint, sk, pkHex]);
 
   const handleSucceedSignIn = React.useCallback(
     async (encrypted: Buffer) => {
@@ -75,35 +64,34 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
           return;
         }
 
-        // let prfsIdSignInSuccessPayload: PrfsIdSignInSuccessPayload;
-        // try {
-        //   prfsIdSignInSuccessPayload = JSON.parse(decrypted) as PrfsIdSignInSuccessPayload;
-        // } catch (err) {
-        //   console.error(err);
-        //   return;
-        // }
+        let prfsIdSignInSuccessPayload: SignInSuccessPayload;
+        try {
+          prfsIdSignInSuccessPayload = JSON.parse(decrypted) as SignInSuccessPayload;
+        } catch (err) {
+          console.error(err);
+          return;
+        }
 
-        // const { payload, error, code } = await prfsSignInRequest({
-        //   account_id: prfsIdSignInSuccessPayload.account_id,
-        // });
-        // const avatar_color = makeColor(prfsIdSignInSuccessPayload.account_id);
-        // const credential: LocalShyCredential = {
-        //   account_id: prfsIdSignInSuccessPayload.account_id,
-        //   public_key: prfsIdSignInSuccessPayload.public_key,
-        //   avatar_color,
-        // };
+        const { error, code } = await prfsSignInRequest({
+          account_id: prfsIdSignInSuccessPayload.account_id,
+        });
+        const avatar_color = makeColor(prfsIdSignInSuccessPayload.account_id);
+        const credential: LocalShyCredential = {
+          account_id: prfsIdSignInSuccessPayload.account_id,
+          public_key: prfsIdSignInSuccessPayload.public_key,
+          avatar_color,
+        };
 
-        // if (error) {
-        //   console.error(error);
-        //   if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
-        //     setSignUpData(credential);
-        //   }
-        //   return;
-        // }
+        if (error) {
+          console.error(error);
+          if (code === prfs_api_error_codes.CANNOT_FIND_USER.code) {
+            setSignUpData(credential);
+          }
+          return;
+        }
 
-        // persistShyCredential(credential);
-        // prfs account sign in
-        // dispatch(signInPrfs(credential));
+        persistShyCredential(credential);
+        dispatch(signInShy(credential));
       }
     },
     [router, dispatch, prfsSignInRequest, setSignUpData],
@@ -111,23 +99,23 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
 
   const handleClickSignOut = React.useCallback(() => {
     removeLocalShyCredential();
-    dispatch(signOutPrfs());
+    dispatch(signOutShy());
   }, [dispatch]);
 
   const handleInitFail = React.useCallback(() => {
     console.log("Failed init Prfs Proof credential!");
   }, []);
 
-  if (!isCredentialInitialized) {
+  if (!isInitialized) {
     return <Spinner size={24} color="#5c5c5c" />;
   }
 
-  return prfsProofCredential ? (
+  return shyCredential ? (
     noCredential ? (
       <div>Loading...</div>
     ) : (
       <PrfsCredentialPopover
-        credential={prfsProofCredential}
+        credential={shyCredential}
         handleInitFail={handleInitFail}
         handleClickSignOut={handleClickSignOut}
       />
@@ -136,12 +124,11 @@ const PrfsIdSignInBtn: React.FC<PrfsIdSignInBtnProps> = ({ className, label, noC
     <>
       {signUpData && <SignUpModal credential={signUpData} />}
       <PrfsIdSignInButton
-        appId="shy"
         className={styles.signInBtn}
-        label={i18n.sign_in_with_prfs_id}
+        label={i18n.sign_in_up_with_prfs_id}
         appSignInArgs={appSignInArgs}
         handleSucceedSignIn={handleSucceedSignIn}
-        prfsIdEndpoint={envs.NEXT_PUBLIC_WEBAPP_PROOF_ENDPOINT}
+        prfsIdEndpoint={envs.NEXT_PUBLIC_PRFS_ID_WEBAPP_ENDPOINT}
         prfsEmbedEndpoint={envs.NEXT_PUBLIC_PRFS_EMBED_WEBAPP_ENDPOINT}
       />
     </>

@@ -24,6 +24,7 @@ export default {
   english: "English",
   updates: "Updates",
   taigalabs: "Taiga labs",
+  taigalabs_2024: "2024 Taiga labs",
   code: "Code",
   create_post: "Create post",
   acc_atst_validate_guide:
@@ -42,6 +43,7 @@ export default {
   merkle_proof: "Merkle proof",
   sign: "Sign",
   sign_in_with_prfs_id: "Sign in with Prfs ID",
+  sign_in_up_with_prfs_id: "Sign in/up with Prfs ID",
   create_data_with_prfs_id: "Create data with Prfs ID",
   verify_proof_with_prfs: "Verify proof with Prfs ID",
   app_data_sharing_guide:
@@ -49,6 +51,7 @@ export default {
   type_merkle_proof: "Type merkle proof",
   feedback: "Feedback",
   id: "Id",
+  channels: "Channels",
   copied: "Copied",
   what_is_the_tweet_url: "What is the URL of a tweet you made in the previous step?",
   tweet_url_example_given: "e.g. https://twitter.com/elonmusk/status/1737488430202851389",

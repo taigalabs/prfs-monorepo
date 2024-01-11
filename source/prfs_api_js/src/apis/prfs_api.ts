@@ -159,11 +159,7 @@ type Req<T extends RequestName> = //
     ? SubmitPrfsPollResponseRequest
     : T extends "get_prfs_poll_result_by_poll_id"
     ? GetPrfsPollResultByPollIdRequest
-    : // : T extends "create_social_post"
-      // ? CreateSocialPostRequest
-      // : T extends "get_social_posts"
-      // ? GetSocialPostsRequest
-      never;
+    : never;
 
 type Resp<T> = //
   T extends "sign_up_prfs_account"
@@ -226,11 +222,7 @@ type Resp<T> = //
     ? PrfsApiResponse<SubmitPrfsPollResponseResponse>
     : T extends "get_prfs_poll_result_by_poll_id"
     ? PrfsApiResponse<GetPrfsPollResultByPollIdResponse>
-    : // : T extends "create_social_post"
-      // ? PrfsApiResponse<CreateSocialPostResponse>
-      // : T extends "get_social_posts"
-      // ? PrfsApiResponse<GetSocialPostsResponse>
-      any;
+    : any;
 
 let endpoint: string;
 if (typeof process !== "undefined") {

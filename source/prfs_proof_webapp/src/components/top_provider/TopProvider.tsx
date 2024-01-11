@@ -8,10 +8,10 @@ import { WagmiConfig, configureChains, createConfig, mainnet } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
+import { PrfsEmbedProvider } from "@taigalabs/prfs-id-sdk-react/src/context";
 
 import { I18nProvider } from "@/i18n/context";
 import { store } from "@/state/store";
-import { PrfsEmbedProvider } from "@taigalabs/prfs-id-sdk-react/src/context";
 import { envs } from "@/envs";
 
 const queryClient = new QueryClient();
