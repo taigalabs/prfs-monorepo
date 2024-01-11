@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "create-envs": "ts-node createEnvs.ts",
-    "dev": "next dev -p 3061",
+    "dev": "next dev -p 3062",
     "build": "next build",
     "start": "next start -p 3061"
   },
@@ -11,6 +11,7 @@
   "dependencies": {
     "@react-icons/all-files": "^4.1.0",
     "@taigalabs/prfs-react-lib": "*",
+    "@taigalabs/prfs-env-js": "*",
     "classnames": "^2.3.2",
     "next": "14.0.4",
     "nextra": "2.13.2",
@@ -19,7 +20,7 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@types/node": "18.11.10",
+    "@types/node": "20.3.1",
     "@types/react": "18.2.25",
     "@types/react-dom": "18.2.17",
     "chalk": "4.1.0",

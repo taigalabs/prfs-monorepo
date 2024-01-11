@@ -41,7 +41,7 @@ fn main() {
         .subcommand(command!(dev_prfs_id_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(dev_prfs_embed_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!("dev_shy_webapp").arg(Arg::new("extra_args")))
-        .subcommand(command!("dev_docs_website").arg(Arg::new("extra_args")))
+        .subcommand(command!(dev_prfs_docs_website::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(dev_prfs_asset_server::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(dev_prfs_api_server::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!("dev_snap"))
@@ -54,7 +54,7 @@ fn main() {
         .subcommand(command!(start_prfs_poll_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(start_prfs_embed_webapp::CMD_NAME).arg(Arg::new("extra_args")))
         .subcommand(command!(start_shy_webapp::CMD_NAME).arg(Arg::new("extra_args")))
-        .subcommand(command!("start_docs_website").arg(Arg::new("extra_args")))
+        .subcommand(command!(start_prfs_docs_website::CMD_NAME).arg(Arg::new("extra_args")))
         // docker
         .subcommand(command!("docker_run_postgres").arg(Arg::new("extra_args")))
         .subcommand(command!("docker_run_webapp_console").arg(Arg::new("extra_args")))
