@@ -9,37 +9,34 @@
   border: 1px solid blue;
 }
 
-.appName {
-  display: inline-block;
-  margin-left: 5px;
-  font-size: 1.545rem;
-  color: var(--gray-50);
-  letter-spacing: -0.021em;
-}
-
-.betaTag {
-  padding: 0px 2px;
-  transform: translateY(-7px);
-  font-size: 12px;
-  letter-spacing: -0.01em;
-  color: var(--gray-30);
-}
-
 .logoContainer {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   font-size: 1.645rem;
   height: 52px;
 
+  /* border: 1px solid black; */
+
   a {
-    // padding: 0 20px;
+    padding: 12px;
     height: 38px;
     border-radius: 20px;
     display: flex;
     align-items: center;
+  }
+}
 
-    &:hover {
-      /* background-color: var(--gray-10); */
+.section {
+  .sectionLabel {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    padding: 12px;
+
+    > svg {
+      font-size: 24px;
+      margin-right: 4px;
     }
   }
 }

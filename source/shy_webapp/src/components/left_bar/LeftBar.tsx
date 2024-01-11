@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { MdDashboard } from "@react-icons/all-files/md/MdDashboard";
 
 import styles from "./LeftBar.module.scss";
 import { i18nContext } from "@/i18n/context";
@@ -33,13 +34,16 @@ const LeftBar: React.FC<LeftBarProps> = ({ credential }) => {
           <ShyLogo width={58} />
         </Link>
       </div>
-      <div>
-        <div>{i18n.channels}</div>
+      <div className={styles.section}>
+        <div className={styles.sectionLabel}>
+          <MdDashboard />
+          <span>{i18n.channels}</span>
+        </div>
+        <ul className={styles.mainMenu}>
+          {/* <li>{i18n}</li> */}
+          <li></li>
+        </ul>
       </div>
-      <ul className={styles.mainMenu}>
-        {/* <li>{i18n}</li> */}
-        <li></li>
-      </ul>
       <div className={styles.credentialBtn}>
         <CredentialPopover
           credential={credential}
