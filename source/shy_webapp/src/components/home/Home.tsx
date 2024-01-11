@@ -20,7 +20,7 @@ const Home: React.FC<HomeProps> = () => {
   const handleClickShowLeftBarDrawer = React.useCallback(
     (open?: boolean) => {
       if (open !== undefined) {
-        setIsLeftBarDrawerVisible(open);
+        setIsLeftBarDrawerVisible(!!open);
       } else {
         setIsLeftBarDrawerVisible(v => !v);
       }
@@ -36,8 +36,6 @@ const Home: React.FC<HomeProps> = () => {
       }
     }
   }, [isInitialized, shyCredential, router]);
-
-  console.log("isDraweropen", isLeftBarDrawerVisible);
 
   return isInitialized && shyCredential ? (
     <div className={styles.wrapper}>
