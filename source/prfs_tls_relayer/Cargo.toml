@@ -36,5 +36,6 @@ url = "2.5.0"
 regex = "1.10.2"
 thiserror = "1.0"
 bytes = "1"
+pin-project-lite = "0.2"
 
 prfs_entities = { path = "../prfs_entities" }
