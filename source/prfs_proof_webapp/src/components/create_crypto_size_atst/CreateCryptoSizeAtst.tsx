@@ -190,7 +190,7 @@ const CreateCryptoSizeAttestation: React.FC<CreateCryptoSizeAttestationProps> = 
   }, [formData, step, claimSecret, sk, pkHex, openPopup, setClaimCm, setStep]);
 
   const handleClickFetchAsset = React.useCallback(async () => {
-    // const tweet_url = formData[TWEET_URL];
+    const wallet_addr = formData[WALLET_ADDR];
     // const twitter_handle = formData[TWITTER_HANDLE];
     // const req: ValidateTwitterAccRequest = {
     //   tweet_url,

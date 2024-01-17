@@ -5,4 +5,4 @@ pub mod tokio;
 #[cfg(test)]
 pub mod tests;
 
-pub type TLSRelayError = Box<dyn std::error::Error + Send + Sync>;
+pub type WebFetcherError = Box<dyn std::error::Error + Send + Sync>;

@@ -1,75 +1,63 @@
+use bytes::Buf;
 use bytes::Bytes;
 use http_body_util::BodyExt;
 use http_body_util::Empty;
+use http_body_util::Full;
+use hyper::header::CONTENT_TYPE;
+use hyper::Method;
 use hyper::Request;
 use hyper::Uri;
+// use hyper_014::Uri;
 use hyper_tls::HttpsConnector;
 use hyper_util::rt::TokioIo;
 use hyper_util::{client::legacy::Client, rt::TokioExecutor};
+use hyper_utils::io::full;
+use serde_json::json;
 use tokio::io::{self, AsyncWriteExt as _};
 use tokio::net::{TcpListener, TcpStream};
 
-use crate::TLSRelayError;
+use crate::WebFetcherError;
 
-pub async fn fetch() -> Result<(), TLSRelayError> {
+pub async fn fetch_asset() -> Result<(), WebFetcherError> {
     println!("fetch()");
 
-    // let https = HttpsConnector::new();
+    let https = HttpsConnector::new();
 
-    // let client = Client::builder(TokioExecutor::new()).build::<_, Empty<Bytes>>(https);
+    let client = Client::builder(TokioExecutor::new()).build::<_, Full<Bytes>>(https);
 
-    // let mut res = client.get("https://hyper.rs".parse()?).await?;
-
-    // println!("Status: {}", res.status());
     // println!("Headers:\n{:#?}", res.headers());
+    let url = Uri::from_static("https://mainnet.infura.io/v3/b92e8750d18a4bfa9d748d03807db92d");
 
-    // while let Some(frame) = res.body_mut().frame().await {
-    //     let frame = frame?;
-
-    //     if let Some(d) = frame.data_ref() {
-    //         io::stdout().write_all(d).await?;
-    //     }
+    // let authority = url.authority().unwrap().clone();
     //
-    let url: Uri = "https://hyper.rs".parse().unwrap();
-    let host = url.host().expect("uri has no host");
-
-    let port = url.port_u16().unwrap_or(80);
-    let addr = format!("{}:{}", host, port);
-    let stream = TcpStream::connect(addr).await?;
-
-    // Use an adapter to access something implementing `tokio::io` traits as if they implement
-    // `hyper::rt` IO traits.
-    let io = TokioIo::new(stream);
-
-    let (mut sender, conn) = hyper::client::conn::http1::handshake(io).await?;
-    tokio::task::spawn(async move {
-        if let Err(err) = conn.await {
-            println!("Connection failed: {:?}", err);
-        }
+    let data = json!({
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "eth_blockNumber",
+        "params": [],
     });
-
-    let authority = url.authority().unwrap().clone();
 
     let req = Request::builder()
         .uri(url)
-        .header(hyper::header::HOST, authority.as_str())
-        .body(Empty::<Bytes>::new())?;
+        .method(Method::POST)
+        .header(CONTENT_TYPE, "application/json")
+        .body(Full::from(data.to_string()))?;
 
-    let mut res = sender.send_request(req).await?;
+    let mut res = client.request(req).await.unwrap();
+    println!("Status: {}", res.status());
+    // let whole_body = res.collect().await.unwrap().aggregate();
+    // let data: String = serde_json::from_reader(whole_body.reader()).unwrap();
+    // // println!("d: {}", data);
 
-    println!("Response: {}", res.status());
-    println!("Headers: {:#?}\n", res.headers());
+    // // res.body_mut().with_current_subscriber
 
-    // Stream the body, writing each chunk to stdout as we get it
-    // (instead of buffering and printing at the end).
-    while let Some(next) = res.frame().await {
-        let frame = next?;
-        if let Some(chunk) = frame.data_ref() {
-            io::stdout().write_all(&chunk).await?;
+    while let Some(frame) = res.body_mut().frame().await {
+        let frame = frame?;
+
+        if let Some(d) = frame.data_ref() {
+            io::stdout().write_all(d).await?;
         }
     }
-
-    println!("\n\nDone!");
 
     Ok(())
 }
